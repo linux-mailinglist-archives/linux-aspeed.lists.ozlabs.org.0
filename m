@@ -1,68 +1,132 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17B74EDEFE
-	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Mar 2022 18:42:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A754EE8AF
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Apr 2022 08:59:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KTpxN2vHSz2ynF
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Apr 2022 03:42:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KV9yg3dGhz2ywb
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Apr 2022 17:59:39 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=q0Xzj8+b;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=10zwgEef;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
- (client-ip=198.47.19.141; helo=fllv0015.ext.ti.com;
- envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
- header.s=ti-com-17Q1 header.b=q0Xzj8+b; 
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::71c;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=howard_chiu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
+ header.a=rsa-sha256 header.s=selector1 header.b=10zwgEef; 
  dkim-atps=neutral
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2071c.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feab::71c])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KTpxD34mCz2xTd
- for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Apr 2022 03:42:06 +1100 (AEDT)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 22VGfHbT077632;
- Thu, 31 Mar 2022 11:41:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1648744877;
- bh=q4I8OmbE9lpXlZiTsZ65bC0HGywDTKwPLArPoG/uE2k=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=q0Xzj8+bwKSW6n1SqCu0ajMaUE0JPYpjhHRhw91vS23GJPbmNB2y4KvnSyMwK4b0G
- tICwB/nlIKOZogc7v+AgBb7Nkgi4L+dNaEnoD/OTRXYvqtb41WlnIaWJh/1ja6UlnB
- Z/18XT7txfkmCyGW5GBJXH9G+eMWUZRcGGK66ZrM=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 22VGfHo6024529
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 31 Mar 2022 11:41:17 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 31
- Mar 2022 11:41:17 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Thu, 31 Mar 2022 11:41:17 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 22VGfG1R087297;
- Thu, 31 Mar 2022 11:41:16 -0500
-Date: Thu, 31 Mar 2022 22:11:15 +0530
-From: Pratyush Yadav <p.yadav@ti.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 08/11] spi: aspeed: Calibrate read timings
-Message-ID: <20220331164115.w5q3wxlmwcg3w4ns@ti.com>
-References: <20220325100849.2019209-1-clg@kaod.org>
- <20220325100849.2019209-9-clg@kaod.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KV9yW2SJJz2yQ9
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Apr 2022 17:59:29 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DJYglbPrblvDPa1jONrWUoubt1u7hVaj3/Imi0baLMSdtHy2pkrtBtXDhScpoRHJX+j72keBwL6tCbpW5h14IpA2Rfkd2XS5nJ5dXjuIwkHLEjXdWw27ZpC6gwq9P8Z8C+ctAsVHYi1/INe7lDs+fZ3fz7iVwylBgtPsF22t6VTIbbosfSFCqwhLwls+9pfyjWvFZCm0Phxvxq27MRk8AK4yVEd82Cqa3wR3wEHvQremRnJhVntRQzxHwLNAYu1e1OCRxKvlRAoz9T4H3B2kCplcI3HS0l5lv5l/D0eM4ySzZudSBv1wkRgDZip3JHrftW8ji00GwvbHKshyKivRIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JC7tMFJ/MmxZ/u6S7JZQPeW1PjJnOR+pOhPELMddWZo=;
+ b=auyj7IaqkS9w+1eIOy/8Mc67lMXvURFHLFaT0ADNimVogd9ScekLUgJf4nCUa3H32/GIjct3FOMYGAMrioKvTw5Stl+sRBCBmJHz1pLS3fMGW7HmxJCO0YsU5uzhTXZ22BgEZwoQbrssoHTUZeJtMDphev+emqbMGb8PJyy98j7ZTXOZg89MW4Qm/OSLrQGHUfa3nt6iP/EfT4jZl1fJiySLeUv0gK9dhWS4MD8lpPWyYHne1G0a3dHXXDai+nCf2cNT6JBYsWyEqzfRdJOz/wfxW00KbTyXwgcGfjOKl+nTCKErjJdP4iv22uH2iIYfFJCt1e3uffRgUcrPBf5aCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JC7tMFJ/MmxZ/u6S7JZQPeW1PjJnOR+pOhPELMddWZo=;
+ b=10zwgEef+3Wgc2bxI3KgdND5hwHXf81+VzCr4PdZKzEu6hC/JUgXPMBWjRoCzWY3Fs9au4FYbancyhjytyUrMMMaZEAB/nslrcygiy4EXosVgWDXWjm8ZAykajMftd/v8jLjGjVWK5zWDZ5X4Wzy6R+SVwwzvY5L750JJh1Wlv2J46VZz1YOs4/uDL+w/HeSgqxFcNgbns0muiTZHI+sckIBancb0cL4ejN2w+CDhkbsFDX1Ae6sx93wgOABhFavG74yiQIKHTHDijbzhaWbhYdy/v+asTDUTLavsB+xINjMXror/HB213bn6nTudWzjgzsT7RWgTMnMJQjlnG+T3w==
+Received: from SG2PR06MB2315.apcprd06.prod.outlook.com (2603:1096:4:b::19) by
+ HK0PR06MB3043.apcprd06.prod.outlook.com (2603:1096:203:87::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5123.25; Fri, 1 Apr 2022 06:59:06 +0000
+Received: from SG2PR06MB2315.apcprd06.prod.outlook.com
+ ([fe80::69db:d6a9:d891:e1fc]) by SG2PR06MB2315.apcprd06.prod.outlook.com
+ ([fe80::69db:d6a9:d891:e1fc%7]) with mapi id 15.20.5102.023; Fri, 1 Apr 2022
+ 06:59:06 +0000
+From: Howard Chiu <howard_chiu@aspeedtech.com>
+To: "robh+dt@kernel.org" <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ "andrew@aj.id.au" <andrew@aj.id.au>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] ARM: dts: aspeed: ast2600-evb: Enable RX delay for
+ MAC0/MAC1
+Thread-Topic: [PATCH v2] ARM: dts: aspeed: ast2600-evb: Enable RX delay for
+ MAC0/MAC1
+Thread-Index: Adg6q5SUIZgpr960SrG6YRlAezQpnw==
+Date: Fri, 1 Apr 2022 06:59:06 +0000
+Message-ID: <SG2PR06MB23152A548AAE81140B57DD69E6E09@SG2PR06MB2315.apcprd06.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 47555155-3619-40f8-30ed-08da13ad1d23
+x-ms-traffictypediagnostic: HK0PR06MB3043:EE_
+x-microsoft-antispam-prvs: <HK0PR06MB3043DD62001FF84D5DADE6B1E6E09@HK0PR06MB3043.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ulkJGHn3pDNNfsG3PoNYuTztle24AJQaTTlneUE2L7kDm1egkAs3Tkc/K6BY76KidcqbbxOdyCr3vPRXrQ/jUaX89aT+jnXpOegejO3aD+V0UECqFkhTZ1um9nGpW2kOOZE7vyfg+NQRymn2NWJxVLhLvdIpVwOMpA5To6LgxnDjK3rpBQ+o4jcWlmVndmuB1WTU2SJUuZ5+W1cDrWkplCeJyXMrytSwxRSkeIGViUdgWmSninnP0HrKbzwmAUEXH7xmrbf9Z/gCfKl/08D24Db76zJNfr/clQ5sRmkFNoV0q1CtTX9TrntSzFZ9epNtVNoQtE6q30RBqDuGFCdH9niDnRI8Vr7IiO4QJvqFU41a8PbFSoBWKERRf3N/wDdBSpDu+XLN4Vp4TgtTpQBBiKXoSwR8VpCzBN0+2qqyx9pHPk6rI7L9+gspS4TzaveUEfs+lVfo7o6kdkm98QuGKqyJJmewT/nlM7CK+mFfONckmSqIxHR8e6ht43Dhk+vyfjaPb//ljDuEm5bH9OwJaLSTrWM4iNVpsuXFcOq7o81y15MLPh5T4qAbGaC28gLuHHeSanFRcgl39qbGRkpsKYnE6deSalI7HiBNGzKD1RXfoqqffERCKXJN20Kb6dzj/33uG9SCvjVtlfQoC2/lsz9Iukuw4vu4FT1ifzQJNIkBqVSXI+Nbm9WQep2LwLKa4a3dTfkI2khoUmB9HODra2s0ME0RF5JmIUs/yFPKbY7WMCxeZztOSbAwY6pM3l4WDhR9V5epNO5xtkXW0DhsX5sr4yegE+Bcbf8+oGEacL8=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR06MB2315.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(376002)(366004)(396003)(136003)(346002)(39850400004)(122000001)(508600001)(966005)(9686003)(7696005)(86362001)(66446008)(6506007)(66476007)(2906002)(110136005)(66556008)(316002)(64756008)(38070700005)(66946007)(76116006)(5660300002)(4326008)(8936002)(52536014)(38100700002)(71200400001)(83380400001)(55016003)(8676002)(26005)(107886003)(33656002)(186003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?SJpDP0lfjVwXJf4QPzeUYaWAqTP6rXcIoL4/MOJJsFoDd/JZB0U4ME4ICooV?=
+ =?us-ascii?Q?W/+EG6fCvDYxUguIqkpZevR8B8W47HCjWS1jJh8CJTjYRRpjwDifYk7mim/j?=
+ =?us-ascii?Q?fVO0UBR0GPsJfLOgu8DJhWUxnYfzbVjicVG/Wk1FP7wlMP59qhuNrURkwipf?=
+ =?us-ascii?Q?vw6Pb1IygH6SlAB+lIPDNRPC81KO1zUqJ6N33MdvPh3jDsYWhKzg+dQjvuMs?=
+ =?us-ascii?Q?+Gjlv2A6HmIG8jZ6DChVGeSyKkdb30beUQpN9cH6xc3CTzkQ/lJ3q+LHtf9P?=
+ =?us-ascii?Q?cvUIp13KVwv0ly8WO0WSVE5DK4mNgrKULzKbf1cRIRaswBprwq9jn9+YYPUL?=
+ =?us-ascii?Q?/q4heifZ+3EAdbsKqtT7UNn9a1w5NMZBsjjHzba6RDMAMKl6jpm9H/srgjAq?=
+ =?us-ascii?Q?DiwBpHwt0Vt6TsgHTs3VPz6oHGxDlAXOplGrn85g6XMi8Zjm5+qfsCsUKavC?=
+ =?us-ascii?Q?vDqlyzkaz+oLXz8G1oJ7K/DgowtFDm9g/HjGOIDm/GEiXeNcsrWFQcWOwHln?=
+ =?us-ascii?Q?scaU3rAUhsLnRjIFA6N/UjSw28hMOsf4jlD76kgbuVr54hXtdSq99YgHsvIU?=
+ =?us-ascii?Q?JdnoHHPfEeLYSrMat8boQ7clkEYrZTgSVZ2dawXl2jwlEEoByqEKdfQ6nyjc?=
+ =?us-ascii?Q?/rWlPC08/KQaVwQ4PNmo2yNxiVbM4rK5q0z1dckl1/puYX2TL3e4cY83IPrD?=
+ =?us-ascii?Q?VUOqlcZ45aW4jY1yLP5IsDAAgwKzurDbHadsFZkA4IKkgo8oWyAaUETcsj20?=
+ =?us-ascii?Q?uFRfmptJPqWl88fsBdDk2hNTiXLswJBOtfQ+dC1iXIEDFiKR7emZg/r0xD7o?=
+ =?us-ascii?Q?9Mh8iTJFHk5aSvmCCGkbWElGErbl0fkLfnmpQH5gVYwCKLfgVnnFpFo1dJkv?=
+ =?us-ascii?Q?EVSYaL+HeAEchch/zGzhmqxV/TxL0KFl0D6xfes2nwnCdXxwqlaGurejfb/y?=
+ =?us-ascii?Q?8jkO1ZW7eHAb2FrCvQMwhkGOdgkwSu5CH3aE9LpH5C/kXWS+c27UOAEdUjUC?=
+ =?us-ascii?Q?2fyCaTgVslrLgyDR9L+vjmQLC2RxhxVkLThHE/wKjEbeVsQ7Tfr6PPNETlDT?=
+ =?us-ascii?Q?YEOLvCwG/TOcO4fqtHxvMZ/sp3TU3RzgyApNhqQQg7e5IwBZX+W+uB+yrvc8?=
+ =?us-ascii?Q?l7a8Om7qewMwWQ5+jVNIQ0IcBT4hMSN+iGf8SO3vHGeskWy5KYXWkglygfMk?=
+ =?us-ascii?Q?41uBzDwrF/7IdvotJBg6MEc++o5gn9hfytz22ZP8RY4eSibl/PplfIFtvRJv?=
+ =?us-ascii?Q?K0bl2SEbz+pFdi/bCqaFD1k41X30wTZYPmRE++balpNR9upQqn/P/b6cCd2X?=
+ =?us-ascii?Q?qO/pvicn/fuGcyUTOKjWXj27OZ0kYqoj3eXW3tp8xatTx+mFqV/JJ+BfMCc5?=
+ =?us-ascii?Q?QsXpRJ5EXdLtTHjehLrTzp0MVASVLUmUTWKzQKYFdXUeooWlt3jGnnOJQ3Ei?=
+ =?us-ascii?Q?xO9DfWP2JmQOG4HE2fKIgyAzRgPKlUM73ljROCDO0o610nMezZPm2ez5DU6+?=
+ =?us-ascii?Q?rzDhKkLb1RY7aJeLQi83w/qpQbhBo7b6YkZ2JRlqMcZoiWMcNPACllwN21H0?=
+ =?us-ascii?Q?6RDQu4ijQvc8HRMkj0h7wyR7tugr7XeXsV/xKqCB5eeEi+dETDGcOo+kd+E2?=
+ =?us-ascii?Q?gMw7c0ZFQiSZZHgctaLMCBtBwIpBm9PRjmwI2z/e4taHEiwfMc+fqlEyHKri?=
+ =?us-ascii?Q?0Qu5x0uQWdodXcwG7bdG0T2j6oPg/HDwzZgi2GNVGJrhQdvZ/3AFUI8uusn9?=
+ =?us-ascii?Q?Kv4AW0IMsUJe2cVCL8EVWgeKulEndF4=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220325100849.2019209-9-clg@kaod.org>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB2315.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47555155-3619-40f8-30ed-08da13ad1d23
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2022 06:59:06.1399 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: n4impXghB+Z1100hg6Eiudls4vhvdv533QS8xV6oLoPpf5HZvOSRN/Bmt37uPUcTNZLhsPlO1ohU7nNE6oilaSxd2SMvhP9DnYJhumsbrjM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB3043
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,80 +138,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi,
+Since mac0/1 and mac2/3 are physically located on different die,
+they have different properties by nature, which is mac0/1 has smaller delay=
+ step.
 
-On 25/03/22 11:08AM, Cédric Le Goater wrote:
-> To accommodate the different response time of SPI transfers on different
-> boards and different SPI NOR devices, the Aspeed controllers provide a
-> set of Read Timing Compensation registers to tune the timing delays
-> depending on the frequency being used. The AST2600 SoC has one of these
-> registers per device. On the AST2500 and AST2400 SoCs, the timing
-> register is shared by all devices which is problematic to get good
-> results other than for one device.
-> 
-> The algorithm first reads a golden buffer at low speed and then performs
-> reads with different clocks and delay cycle settings to find a breaking
-> point. This selects a default good frequency for the CEx control register.
-> The current settings are a bit optimistic as we pick the first delay giving
-> good results. A safer approach would be to determine an interval and
-> choose the middle value.
-> 
-> Calibration is performed when the direct mapping for reads is created.
-> Since the underlying spi-nor object needs to be initialized to create
-> the spi_mem operation for direct mapping, we should be fine. Having a
-> specific API would clarify the requirements though.
-> 
-> Cc: Pratyush Yadav <p.yadav@ti.com>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> Tested-by: Joel Stanley <joel@jms.id.au>
-> Tested-by: Tao Ren <rentao.bupt@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  drivers/spi/spi-aspeed-smc.c | 281 +++++++++++++++++++++++++++++++++++
->  1 file changed, 281 insertions(+)
-> 
-[...]
-> @@ -517,6 +527,8 @@ static int aspeed_spi_chip_adjust_window(struct aspeed_spi_chip *chip,
->  	return 0;
->  }
->  
-> +static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip);
-> +
->  static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
->  {
->  	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
-> @@ -565,6 +577,8 @@ static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
->  	chip->ctl_val[ASPEED_SPI_READ] = ctl_val;
->  	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
->  
-> +	ret = aspeed_spi_do_calibration(chip);
-> +
+The property 'phy-mode' on ast2600 mac0 and mac1 is recommended to set to '=
+rgmii-rxid'
+which enables the RX interface delay from the PHY chip.
+Refer page 45 of SDK User Guide v08.00
+https://github.com/AspeedTech-BMC/openbmc/releases/download/v08.00/SDK_User=
+_Guide_v08.00.pdf
 
-I am still not convinced this is a good idea. The API does not say 
-anywhere what dirmap_create must be called after the flash is completely 
-initialized, though that is what is done currently in practice. I think 
-an explicit API to mark flash as "ready for calibration" would be a 
-better idea.
+Signed-off-by: Howard Chiu <howard_chiu@aspeedtech.com>
+---
+Change since v1:
+1. Remove mac*-clk-delay due to lack of driver support
 
-Tudor/Mark/Miquel, what do you think?
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->  	dev_info(aspi->dev, "CE%d read buswidth:%d [0x%08x]\n",
->  		 chip->cs, op->data.buswidth, chip->ctl_val[ASPEED_SPI_READ]);
->  
-[...]
+diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/a=
+speed-ast2600-evb.dts
+index b7eb552640cb..788448cdd6b3 100644
+--- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
++++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+@@ -103,7 +103,7 @@ ethphy3: ethernet-phy@0 {
+ &mac0 {
+ 	status =3D "okay";
+=20
+-	phy-mode =3D "rgmii";
++	phy-mode =3D "rgmii-rxid";
+ 	phy-handle =3D <&ethphy0>;
+=20
+ 	pinctrl-names =3D "default";
+@@ -114,7 +114,7 @@ &mac0 {
+ &mac1 {
+ 	status =3D "okay";
+=20
+-	phy-mode =3D "rgmii";
++	phy-mode =3D "rgmii-rxid";
+ 	phy-handle =3D <&ethphy1>;
+=20
+ 	pinctrl-names =3D "default";
+--=20
+2.25.1
 
--- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
