@@ -2,75 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DDEE4EFCC7
-	for <lists+linux-aspeed@lfdr.de>; Sat,  2 Apr 2022 00:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109FE4F0FF5
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Apr 2022 09:24:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KVZWQ31Ppz301M
-	for <lists+linux-aspeed@lfdr.de>; Sat,  2 Apr 2022 09:25:54 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=thW0HWnl;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KX2NL6Hpbz2yPY
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Apr 2022 17:24:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=199.106.114.39;
- helo=alexa-out-sd-02.qualcomm.com; envelope-from=quic_jaehyoo@quicinc.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=thW0HWnl; dkim-atps=neutral
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=kaod.org (client-ip=178.33.105.233;
+ helo=2.mo552.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+X-Greylist: delayed 1044 seconds by postgrey-1.36 at boromir;
+ Mon, 04 Apr 2022 17:24:43 AEST
+Received: from 2.mo552.mail-out.ovh.net (2.mo552.mail-out.ovh.net
+ [178.33.105.233])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KVZWJ2vsbz2xr9
- for <linux-aspeed@lists.ozlabs.org>; Sat,  2 Apr 2022 09:25:47 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648851948; x=1680387948;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=SS2fkpgV+LcSkDeMbmfYpBpTxpMR1eXiBcNdkSRSlxQ=;
- b=thW0HWnl0zGj/vQL0NhjH7SIMBKsjH2UtM/c14+dh1NQZSUjyHTrXNle
- 9IJ5l2pr8zalsU07iXmPlGG0jRH2xpClPGCor+WNRLyokYLuW8VjIELEn
- Ejrk/YmDLNs+iM8q2Ck2tCJm2YXsEHh3sKXgbK/Rc3HVvwIMvR3uZaR5h 0=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 01 Apr 2022 15:25:44 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 15:25:44 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 1 Apr 2022 15:25:44 -0700
-Received: from [10.110.21.173] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 1 Apr 2022
- 15:25:42 -0700
-Message-ID: <a7902f38-06fc-56e1-c5fb-d224e859eeb6@quicinc.com>
-Date: Fri, 1 Apr 2022 15:25:41 -0700
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KX2NC4NKbz2x9W
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  4 Apr 2022 17:24:41 +1000 (AEST)
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.93])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 74BD722AA4;
+ Mon,  4 Apr 2022 07:07:09 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 4 Apr
+ 2022 09:07:08 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0043f1c04d9-24e1-4a64-8174-b0226c23ff7b,
+ 193BEDB8EED17CFBFC1316EE01F9191BF107EB6B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <3b7ecaa4-1de9-3a4c-b057-805a5e6d2e48@kaod.org>
+Date: Mon, 4 Apr 2022 09:06:51 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v3 0/7] Fix AST2600 quad mode SPI pinmux settings
+Subject: Re: [PATCH v4 03/11] spi: spi-mem: Convert Aspeed SMC driver to
+ spi-mem
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Joel Stanley
- <joel@jms.id.au>
-References: <20220329173932.2588289-1-quic_jaehyoo@quicinc.com>
- <CACPK8Xed5Kh_Y2B3NY41bjgoALvz1gC4zbNfmUaHn_8EbHio4g@mail.gmail.com>
- <ea2ecef9-f47f-2a4e-8dda-ffd0c3691389@quicinc.com>
- <c4bcb633-02d2-1cd5-3485-787ebd4b1e0a@kaod.org>
- <42694139-61d0-fb0d-d4c3-a81cc31488d2@quicinc.com>
- <e362f6dd-785f-87b3-3090-554be0fb860c@quicinc.com>
- <d652e592-29ce-3920-d1f8-66b3a617033f@kaod.org>
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-In-Reply-To: <d652e592-29ce-3920-d1f8-66b3a617033f@kaod.org>
+To: Pratyush Yadav <p.yadav@ti.com>
+References: <20220325100849.2019209-1-clg@kaod.org>
+ <20220325100849.2019209-4-clg@kaod.org>
+ <20220330193343.qg5kcr6twerde6ho@ti.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220330193343.qg5kcr6twerde6ho@ti.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: e382a813-ab73-414e-b3c8-ba9556f6581c
+X-Ovh-Tracer-Id: 11032974666386082631
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejuddguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekleejfeevjeehiefhgeelgeeludduleeuvdffteduieegvdfgteevfeetkeetfeenucffohhmrghinhepsghufhdrihhnnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprhgvnhhtrghordgsuhhpthesghhmrghilhdrtghomh
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,189 +67,253 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- Linus Walleij <linus.walleij@linaro.org>, Jamie Iles <quic_jiles@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Graeme Gregory <quic_ggregory@quicinc.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Cédric,
-
-On 4/1/2022 3:07 PM, Cédric Le Goater wrote:
-> Hello Jae,
+On 3/30/22 21:33, Pratyush Yadav wrote:
+> Hi Cedric,
 > 
-> On 4/1/22 16:10, Jae Hyun Yoo wrote:
->> Hi Cédric,
->>
->> On 3/31/2022 9:06 AM, Jae Hyun Yoo wrote:
->>> Hello Cédric,
->>>
->>> On 3/31/2022 8:56 AM, Cédric Le Goater wrote:
->>>> Hello Jae,
->>>>
->>>> On 3/31/22 17:44, Jae Hyun Yoo wrote:
->>>>> On 3/30/2022 10:50 PM, Joel Stanley wrote:
->>>>>> On Tue, 29 Mar 2022 at 17:40, Jae Hyun Yoo 
->>>>>> <quic_jaehyoo@quicinc.com> wrote:
->>>>>>>
->>>>>>> I’m sending this patch series to fix current issues in AST2600 
->>>>>>> pinmux
->>>>>>> settings while enabling quad mode SPI support.
->>>>>>>
->>>>>>> FWSPI18 pins are basically 1.8v logic pins that are different 
->>>>>>> from the
->>>>>>> dedicated FWSPI pins that provide 3.3v logic level, so FWSPI18 
->>>>>>> pins can’t
->>>>>>> be grouped with FWSPIDQ2 and FWSPIDQ3, so this series fix the issue.
->>>>>>>
->>>>>>> Also, fixes QSPI1 and QSPI2 function settings in AST2600 pinctrl 
->>>>>>> dtsi to
->>>>>>> make it able to enable quad mode on SPI1 and SPI2 interfaces.
->>>>>>>
->>>>>>> With this series, quad mode pinmux can be set like below.
->>>>>>>
->>>>>>> FW SPI:
->>>>>>> &fmc {
->>>>>>>          pinctrl-names = "default";
->>>>>>>          pinctrl-0 = <&pinctrl_fwqspi_default>;
->>>>>>> }
->>>>>>>
->>>>>>> SPI1:
->>>>>>> &spi1 {
->>>>>>>          pinctrl-names = "default";
->>>>>>>          pinctrl-0 = <&pinctrl_qspi1_default>;
->>>>>>> }
->>>>>>>
->>>>>>> SPI2:
->>>>>>> &spi2 {
->>>>>>>          pinctrl-names = "default";
->>>>>>>          pinctrl-0 = <&pinctrl_qspi2_default>;
->>>>>>> }
->>>>>>
->>>>>> Thanks. I hope to see a board from you that uses this soon :)
->>>>>>
->>>>>> I'll send the patches as fixes once -rc1 is out.
->>>>>
->>>>> Thanks Joel!
->>>>>
->>>>> Yes, I would be able to send my BMC board dts soon.
->>>>> Thanks in advance for your review on that too.
->>>>
->>>> Out of curiosity, which driver are you using ? the one from SDK ?
->>>>
->>>> I proposed a new one for upstream supporting all AST2400, AST2500, 
->>>> AST2600
->>>> controllers. I would be glad to have some feedback if you have time.
->>>
->>> Yes, I saw your patch set of the new driver.
->>>
->>> I'm currently using this fix with legacy aspeed-smc driver after
->>> adding some fixes. I'll give it a try with your new driver as well and
->>> will give you some feedback if I find any.
->>
->> I tested this patch series using the new spi-aspeed-smc driver you
->> proposed.
->>
->> https://lore.kernel.org/linux-arm-kernel/20220325100849.2019209-1-clg@kaod.org/ 
->>
->>
->> I modified my BMC's device tree like below to enable quad mode.
->>
->>      &fmc {
->>          status = "okay";
->>          pinctrl-names = "default";
->>          pinctrl-0 = <&pinctrl_fwqspi_default>;
->>
->>          flash@0 {
->>              status = "okay";
->>              m25p,fast-read;
->>              label = "bmc";
->>              spi-rx-bus-width = <4>;
->>              spi-max-frequency = <133000000>;
->>      #include "openbmc-flash-layout-64.dtsi"
->>          };
->>
->>          flash@1 {
->>              status = "okay";
->>              m25p,fast-read;
->>              label = "alt-bmc";
->>              spi-rx-bus-width = <4>;
->>              spi-max-frequency = <133000000>;
->>      #include "openbmc-flash-layout-64-alt.dtsi"
->>          };
->>      };
+> Thanks for doing the conversion.
 > 
-> Ah ! I have an AST2600 A0 EVB without FWQSPI wires and I could not test.
-> I am glad you did. Thanks.
-> 
-> I did test the SPI1/SPI2 controllers with Quad SPI activated and results
-> were OK. I think we could include your changes above in my patchset
-> since A0 boards are pretty rare these days and unsupported.
-
-Yes, you could include above device tree changes in your patch set for
-AST2600 EVB but please test qemu ast2600-evb model first. It would crash
-while booting if we enable quad mode because the machine's fmc spi is
-set to w25q256 which doesn't emulate quad mode properly, so you may need
-to apply below fix on top of the latest qemu tree.
-
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index a17b75f4940a..f7eea27f7656 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -753,7 +753,7 @@ static void 
-aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
-      mc->desc       = "Aspeed AST2500 EVB (ARM1176)";
-      amc->soc_name  = "ast2500-a1";
-      amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
--    amc->fmc_model = "w25q256";
-+    amc->fmc_model = "mx25l25635e";
-      amc->spi_model = "mx25l25635e";
-      amc->num_cs    = 1;
-      amc->i2c_init  = ast2500_evb_i2c_init;
-
->> And I got these kernel boot logs.
+> On 25/03/22 11:08AM, Cédric Le Goater wrote:
+>> This SPI driver adds support for the Aspeed static memory controllers
+>> of the AST2600, AST2500 and AST2400 SoCs using the spi-mem interface.
 >>
->> [    0.720745] spi-nor spi0.0: w25q512nwfm (65536 Kbytes)
->> [    0.837368] spi-aspeed-smc 1e620000.spi: CE0 read buswidth:4 
->> [0x406c0741]
->> [    0.846352] 5 fixed-partitions partitions found on MTD device bmc
->> [    0.853220] Creating 5 MTD partitions on "bmc":
->> [    0.858295] 0x000000000000-0x0000000e0000 : "u-boot"
->> [    0.865014] 0x0000000e0000-0x000000100000 : "u-boot-env"
->> [    0.872229] 0x000000100000-0x000000a00000 : "kernel"
->> [    0.878963] 0x000000a00000-0x000002a00000 : "rofs"
->> [    0.885406] 0x000002a00000-0x000004000000 : "rwfs"
->> [    0.892880] spi-nor spi0.1: w25q512nwfm (65536 Kbytes)
->> [    1.009460] spi-aspeed-smc 1e620000.spi: CE1 read buswidth:4 
->> [0x406c0741]
->> [    1.018334] 5 fixed-partitions partitions found on MTD device alt-bmc
->> [    1.025537] Creating 5 MTD partitions on "alt-bmc":
->> [    1.031027] 0x000000000000-0x0000000e0000 : "u-boot-alt"
->> [    1.038165] 0x0000000e0000-0x000000100000 : "u-boot-env-alt"
->> [    1.045623] 0x000000100000-0x000000a00000 : "kernel-alt"
->> [    1.052807] 0x000000a00000-0x000002a00000 : "rofs-alt"
->> [    1.059800] 0x000002a00000-0x000004000000 : "rwfs-alt"
+>>   * AST2600 Firmware SPI Memory Controller (FMC)
+>>     . BMC firmware
+>>     . 3 chip select pins (CE0 ~ CE2)
+>>     . Only supports SPI type flash memory
+>>     . different segment register interface
+>>     . single, dual and quad mode.
 >>
->> As you can see in the log, FMC10[31:28] and FMC14[31:28] are properly
->> set to 0100b which means 'quad bit read/write, data cycle only'.
-> 
-> yes and Quad Output SPI opcode (0x6c)
-
-Indeed.
-
->> I verified that your new driver supports quad mode properly and it has
->> worked well so far without making any issue.
+>>   * AST2600 SPI Flash Controller (SPI1 and SPI2)
+>>     . host firmware
+>>     . 2 chip select pins (CE0 ~ CE1)
+>>     . different segment register interface
+>>     . single, dual and quad mode.
 >>
->> Thanks for your making the new driver.
->> I left my comment in your patch proposal thread.
+>>   * AST2500 Firmware SPI Memory Controller (FMC)
+>>     . BMC firmware
+>>     . 3 chip select pins (CE0 ~ CE2)
+>>     . supports SPI type flash memory (CE0-CE1)
+>>     . CE2 can be of NOR type flash but this is not supported by the driver
+>>     . single, dual mode.
+>>
+>>   * AST2500 SPI Flash Controller (SPI1 and SPI2)
+>>     . host firmware
+>>     . 2 chip select pins (CE0 ~ CE1)
+>>     . single, dual mode.
+>>
+>>   * AST2400 New Static Memory Controller (also referred as FMC)
+>>     . BMC firmware
+>>     . New register set
+>>     . 5 chip select pins (CE0 ∼ CE4)
+>>     . supports NOR flash, NAND flash and SPI flash memory.
+>>     . single, dual and quad mode.
+>>
+>> Each controller has a memory range on which flash devices contents are
+>> mapped. Each device is assigned a window that can be changed at bootime
+>> with the Segment Address Registers.
+>>
+>> Each SPI flash device can then be accessed in two modes: Command and
+>> User. When in User mode, SPI transfers are initiated with accesses to
+>> the memory segment of a device. When in Command mode, memory
+>> operations on the memory segment of a device generate SPI commands
+>> automatically using a Control Register for the settings.
+>>
+>> This initial patch adds support for User mode. Command mode needs a little
+>> more work to check that the memory window on the AHB bus fits the device
+>> size. It will come later when support for direct mapping is added.
+>>
+>> Single and dual mode RX transfers are supported. Other types than SPI
+>> are not supported.
+>>
+>> Reviewed-by: Joel Stanley <joel@jms.id.au>
+>> Tested-by: Joel Stanley <joel@jms.id.au>
+>> Tested-by: Tao Ren <rentao.bupt@gmail.com>
+>> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   drivers/mtd/spi-nor/controllers/aspeed-smc.c  | 910 ------------------
+>>   drivers/spi/spi-aspeed-smc.c                  | 709 ++++++++++++++
+>>   .../devicetree/bindings/mtd/aspeed-smc.txt    |  51 -
+>>   MAINTAINERS                                   |   1 +
+>>   drivers/mtd/spi-nor/controllers/Kconfig       |  10 -
+>>   drivers/mtd/spi-nor/controllers/Makefile      |   1 -
+>>   drivers/spi/Kconfig                           |  11 +
+>>   drivers/spi/Makefile                          |   1 +
+>>   8 files changed, 722 insertions(+), 972 deletions(-)
+>>   delete mode 100644 drivers/mtd/spi-nor/controllers/aspeed-smc.c
+>>   create mode 100644 drivers/spi/spi-aspeed-smc.c
+>>   delete mode 100644 Documentation/devicetree/bindings/mtd/aspeed-smc.txt
+>>
+> [...]
+>> +static void aspeed_spi_send_cmd_addr(struct aspeed_spi_chip *chip, u8 addr_nbytes,
+>> +				     u64 offset, u32 opcode)
+>> +{
+>> +	struct aspeed_spi *aspi = chip->aspi;
+>> +	__be32 temp;
+>> +	u32 cmdaddr;
+>> +
+>> +	switch (addr_nbytes) {
+>> +	default:
+>> +		dev_warn_once(aspi->dev, "Unexpected address width %u, defaulting to 3",
+>> +			      addr_nbytes);
+>> +		fallthrough;
 > 
-> I will include your 'Tested' tag in v5. I hope to address Pratyush comments
-> next week. Thanks a lot for the support.
+> I think it is better if you reject ops where addr width is not 3 or 4.
+> This you can drop this. Or if you really want to keep it, you can change
+> it to a WARN_ON() and return an error.
 
-Sure. Thanks again for the new driver! :)
+OK. This is a left over from the initial driver.
 
--Jae
+I have added both at WARN_ONCE() and a 'return -EOPNOTSUPP'
+
+>> +	case 3:
+>> +		cmdaddr = offset & 0xFFFFFF;
+>> +		cmdaddr |= opcode << 24;
+>> +
+>> +		temp = cpu_to_be32(cmdaddr);
+>> +		aspeed_spi_write_to_ahb(chip->ahb_base, &temp, 4);
+>> +		break;
+>> +	case 4:
+>> +		temp = cpu_to_be32(offset);
+>> +		aspeed_spi_write_to_ahb(chip->ahb_base, &opcode, 1);
+>> +		aspeed_spi_write_to_ahb(chip->ahb_base, &temp, 4);
+>> +		break;
+>> +	}
+>> +}
+>> +
+> [...]
+>> +/* support for 1-1-1, 1-1-2 or 1-1-4 */
+>> +static bool aspeed_spi_supports_op(struct spi_mem *mem, const struct spi_mem_op *op)
+>> +{
+>> +	if (op->cmd.buswidth > 1)
+>> +		return false;
+>> +
+>> +	if (op->addr.nbytes != 0) {
+>> +		if (op->addr.buswidth > 1 || op->addr.nbytes > 4)
+> 
+> As mentioned above, this should reject ops with addr width 1 and 2.
+
+yes
+
+>> +			return false;
+>> +	}
+>> +
+>> +	if (op->dummy.nbytes != 0) {
+>> +		if (op->dummy.buswidth > 1 || op->dummy.nbytes > 7)
+>> +			return false;
+>> +	}
+>> +
+>> +	if (op->data.nbytes != 0 && op->data.buswidth > 4)
+>> +		return false;
+>> +
+>> +	return spi_mem_default_supports_op(mem, op);
+>> +}
+>> +
+>> +static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
+>> +{
+>> +	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
+>> +	struct aspeed_spi_chip *chip = &aspi->chips[mem->spi->chip_select];
+>> +	u32 addr_mode, addr_mode_backup;
+>> +	u32 ctl_val;
+>> +	int ret = 0;
+>> +
+>> +	dev_dbg(aspi->dev,
+>> +		"CE%d %s OP %#x mode:%d.%d.%d.%d naddr:%#x ndummies:%#x len:%#x",
+>> +		chip->cs, op->data.dir == SPI_MEM_DATA_IN ? "read" : "write",
+>> +		op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
+>> +		op->dummy.buswidth, op->data.buswidth,
+>> +		op->addr.nbytes, op->dummy.nbytes, op->data.nbytes);
+>> +
+>> +	addr_mode = readl(aspi->regs + CE_CTRL_REG);
+>> +	addr_mode_backup = addr_mode;
+>> +
+>> +	ctl_val = chip->ctl_val[ASPEED_SPI_BASE];
+>> +	ctl_val &= ~CTRL_IO_CMD_MASK;
+>> +
+>> +	ctl_val |= op->cmd.opcode << CTRL_COMMAND_SHIFT;
+>> +
+>> +	/* 4BYTE address mode */
+>> +	if (op->addr.nbytes) {
+>> +		if (op->addr.nbytes == 4)
+>> +			addr_mode |= (0x11 << chip->cs);
+>> +		else
+>> +			addr_mode &= ~(0x11 << chip->cs);
+>> +	}
+>> +
+>> +	if (op->dummy.buswidth && op->dummy.nbytes)
+> 
+> Nitpick: op->dummy.nbytes being set should imply op->dummy.buswidth > 0.
+> 
+>> +		ctl_val |= CTRL_IO_DUMMY_SET(op->dummy.nbytes / op->dummy.buswidth);
+>> +
+>> +	if (op->data.nbytes != 0) {
+>> +		if (op->data.buswidth)
+> 
+> Nitpick: op->data.nbytes != 0 should imply op->data.buswidth > 0.
+
+Indeed. Fixed both.
+
+>> +			ctl_val |= aspeed_spi_get_io_mode(op);
+>> +	}
+>> +
+>> +	if (op->data.dir == SPI_MEM_DATA_OUT)
+>> +		ctl_val |= CTRL_IO_MODE_WRITE;
+>> +	else
+>> +		ctl_val |= CTRL_IO_MODE_READ;
+>> +
+>> +	if (addr_mode != addr_mode_backup)
+>> +		writel(addr_mode, aspi->regs + CE_CTRL_REG);
+>> +	writel(ctl_val, chip->ctl);
+>> +
+>> +	if (op->data.dir == SPI_MEM_DATA_IN) {
+>> +		if (!op->addr.nbytes)
+>> +			ret = aspeed_spi_read_reg(chip, op);
+>> +		else
+>> +			ret = aspeed_spi_read_user(chip, op, op->addr.val,
+>> +						   op->data.nbytes, op->data.buf.in);
+>> +	} else {
+>> +		if (!op->addr.nbytes)
+>> +			ret = aspeed_spi_write_reg(chip, op);
+>> +		else
+>> +			ret = aspeed_spi_write_user(chip, op);
+>> +	}
+>> +
+>> +	/* Restore defaults */
+>> +	if (addr_mode != addr_mode_backup)
+>> +		writel(addr_mode_backup, aspi->regs + CE_CTRL_REG);
+>> +	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
+> 
+> Why do you need to restore defaults here? Do you expect some other piece
+> of software to use it as well?
+
+We expect the controller to be correctly set when dirmap_read() is called.
+But it is only required in the next patch.
+
+> 
+> The patch looks good to me apart from these.
+
+
+Thanks,
+
+C.
+
+
+
+> 
+>> +	return ret;
+>> +}
+>> +
+> [...]
+> 
+
