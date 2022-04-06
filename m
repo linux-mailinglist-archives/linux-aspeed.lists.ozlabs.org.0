@@ -2,70 +2,128 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F9A4F3D5A
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Apr 2022 21:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E27F4F4CB8
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Apr 2022 03:20:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KXyQV3FMBz2yjS
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Apr 2022 05:29:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KY6CV0FQTz2yb9
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Apr 2022 11:20:54 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=MrGqygw5;
+	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=WK4nBNTa;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
- (client-ip=198.47.19.141; helo=fllv0015.ext.ti.com;
- envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:feab::71b;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=potin.lai@quantatw.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
- header.s=ti-com-17Q1 header.b=MrGqygw5; 
+ unprotected) header.d=quantacorp.onmicrosoft.com
+ header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-quantacorp-onmicrosoft-com header.b=WK4nBNTa; 
  dkim-atps=neutral
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2071b.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feab::71b])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KXyQQ3dQkz2xnL
- for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Apr 2022 05:29:49 +1000 (AEST)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 235JT7v0086205;
- Tue, 5 Apr 2022 14:29:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1649186947;
- bh=K6V7TPiYW5egh0QkAFamj9lYiWdXR9/TvlKT47ppIq0=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=MrGqygw5Y0qzb98LDu4K9gmmpDA0a3r7eP8I2sJaULvfKVEmp5mo5i2HJflFd5Em4
- dAuFBuxgxLpO9Dn5Ol49nd+6fwzHcUTEtOSoZAv187V8xf3Ycpr2ZJwiHW0oamcn+h
- Em7g2rSjF9eGzsMDf7YqRkqPnpXJjqmoPy+LV8GM=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 235JT7tY028192
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 5 Apr 2022 14:29:07 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 5
- Apr 2022 14:29:06 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 5 Apr 2022 14:29:06 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 235JT5Pr030591;
- Tue, 5 Apr 2022 14:29:05 -0500
-Date: Wed, 6 Apr 2022 00:59:04 +0530
-From: Pratyush Yadav <p.yadav@ti.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 03/11] spi: spi-mem: Convert Aspeed SMC driver to
- spi-mem
-Message-ID: <20220405192904.rwwpwwyepumsdywv@ti.com>
-References: <20220325100849.2019209-1-clg@kaod.org>
- <20220325100849.2019209-4-clg@kaod.org>
- <20220330193343.qg5kcr6twerde6ho@ti.com>
- <3b7ecaa4-1de9-3a4c-b057-805a5e6d2e48@kaod.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KY6CN0h8Qz2xnP
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Apr 2022 11:20:46 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VrG7oOIICXRUDqHoeKEf73TgMGWo0NkRfSP1x8krrCLZZol5sj6wqeeJjNueEW7Fimv0+d5bB3igx6bETy8u5szzf/TMMgIXSqXBQEITQCaWCQq9DOsUt6y769MH1gbnSIc3ICMnqAN1Z1aTUyQ1PwA7QnZulBL+CTK5bniGxC3Howe3Cx4YkFq/lGFu/dTExSmZgarJUWx7ijAiWjW+8ycy6WYXXxQs7ZAX4ms41JbVweG27fO7LrSgyJ/5+wwm98diZFSDqtAhpnt8JpR77Gsh5gVep+Q9b9pfMNvKHYNv5If1Q2GDwZOJ9o5AVf1ySiVimBULteerNhbZXNdlPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AYzr40+X2aVF3Ayj/CulXGvHvmrjzqpfdwE9vWNRAhw=;
+ b=cQgye6poErAu6oGgPYMPZVnbIa9fJWezwNTDhtinupQX0izNWqGDuDCywPyfvRxSdPHCulEfWm8TdHvhBCu47fS5ebajMiKgJDfAE3CZN37kuh9Sz9QPB7xOLhACShO0JiGyfZoNwsxG7uoFTt3BhrBS4B6MZnRZX15zWOPZEbfqLBqrXtACLzPIfew4GTdYBZq1xH62oXDRYPqdwUTV4D92Em0VgSZfRcaYX3e54Ujn9LZ8aqqsOa+aLSe5muZxRG345TSlvRrlbrkfej+ETnjAm8aV68TjsIMBX5fft542UHmUY5HK39EDu9+eE6kUfr+GmUSrkK3SfIsxBtxQMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
+ dkim=pass header.d=quantatw.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AYzr40+X2aVF3Ayj/CulXGvHvmrjzqpfdwE9vWNRAhw=;
+ b=WK4nBNTagsSvlXsjMhKPUl9i6ONiWh+HVP2H98UYIER8Xcb2U2HWnPGzV/9E5UkYVDMJpyOsy4UNPWmmUaUS5Rw8MshEaO/Iox6P4jvDpsc8bLorMSv9JP2EMdF8RoZvZcVfmkmPMMx+U5BwyDqd5rjnAvoeDPKvodfHco+XYtw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quantatw.com;
+Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
+ by TYZPR04MB4446.apcprd04.prod.outlook.com (2603:1096:400:4::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Wed, 6 Apr
+ 2022 01:20:24 +0000
+Received: from HK0PR04MB3282.apcprd04.prod.outlook.com
+ ([fe80::9c61:c8e7:d1ad:c65f]) by HK0PR04MB3282.apcprd04.prod.outlook.com
+ ([fe80::9c61:c8e7:d1ad:c65f%6]) with mapi id 15.20.5123.031; Wed, 6 Apr 2022
+ 01:20:23 +0000
+From: Potin Lai <potin.lai@quantatw.com>
+To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH v2 1/3] net: mdio: aspeed: move reg accessing part into
+ separate functions
+Date: Wed,  6 Apr 2022 09:20:00 +0800
+Message-Id: <20220406012002.15128-2-potin.lai@quantatw.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220406012002.15128-1-potin.lai@quantatw.com>
+References: <20220406012002.15128-1-potin.lai@quantatw.com>
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR02CA0129.apcprd02.prod.outlook.com
+ (2603:1096:202:16::13) To HK0PR04MB3282.apcprd04.prod.outlook.com
+ (2603:1096:203:89::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3b7ecaa4-1de9-3a4c-b057-805a5e6d2e48@kaod.org>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b16e4695-8367-4e77-493d-08da176b9f7f
+X-MS-TrafficTypeDiagnostic: TYZPR04MB4446:EE_
+X-Microsoft-Antispam-PRVS: <TYZPR04MB4446AF013EA56DFF051310BD8EE79@TYZPR04MB4446.apcprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hHzOp0P9RHuHV9k3wf2tYklHanpK2NU4cQ7ESFPuejSS6IQT3naUzOG983XBcvxuMEtejZYIBqV25rIfbSZdLGh1Nj6XssBXiOsqSbtmZE0kT3MapJ0vhmheM0L9peArl1P6NFaqfozuTbUavRxcIDrmDQe2UqtYbsg4B6is4HkhWScognVGLVYwabkNxn9TcR0LZpPdS3Q6hp432g1BQiglRzphC2vZITopYEse/NT+OHJUeNhKEydRjYFBnjw9zqnM2Y0yRZYR1A+fPNHXUw9/e1E2G+CBWoRHTVVeJZSTLgtK64khkw/VSqHccHWIZlicuvBpt2D/FJM1njZdFI25Z+bUnLbIoPx35tVydBLhuOqhUGndqXE4gXQuPrIqxS7e7yl41vMNc2NEovFczDxPzssfDw38waufjP8jQcCtqCQy71MyeJdML8lB6A287o695jwTbbzLlIlpg84j4g1GcSewA2nWnREDt4nh1CScaNcoZU9d95vtf7DKNZPqE+FM2hPBYAAKN8eSYj/5U8vb/RpnL6eiQuqoTeD/qE4Sci5/nBRrOzkpxNarh9Cb+4C1lpvDSlDkno4fyIeOCMIeshx4kztH2ZRRyCncja9GO7rFqgxLh6axcgMGfOaCkG1gRHTSCd/WBbQhu7WKQoPocQ3FOtwHA1kk12VzuO1aDsNB+zy0yxx/1dqypqAh18hOUQ2/7rR49AWS1eEcqw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR04MB3282.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(508600001)(66946007)(5660300002)(52116002)(38350700002)(38100700002)(6506007)(6666004)(8676002)(6512007)(66476007)(66556008)(2616005)(4326008)(110136005)(86362001)(8936002)(186003)(6486002)(26005)(7416002)(36756003)(44832011)(316002)(1076003)(2906002)(54906003)(83380400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dfXRvjpue6bVxxRjf3acT7EcfIL3cwzBRSdn42difrDFjdRKcz1sxvMN6q7F?=
+ =?us-ascii?Q?slBaPaZ0QM/qJ1Cb5ER8IygO2Z8aV1sXjwp+DNObETZIOuFO/eSwJnb1GFLh?=
+ =?us-ascii?Q?zNrDjl64REiSO5BQEJU+HVCzrzlpwKu0IQlB7TA76d8+uHR9z3XU1rJEePop?=
+ =?us-ascii?Q?y1VHbz/KEG/EsYNTZSkJxvOhjb5xDKSGQPSkrGDRRxvrNAMrWhua0HakShko?=
+ =?us-ascii?Q?WMfLg/+RJyevBgda9OPRqMLBjvyltPVUDPDPp5XIy79ND8Kwg4YZzJMw4qL0?=
+ =?us-ascii?Q?XpPgEhgQNaUfZy4sNOBLAwlOQA3jB6FIpv/KuLHdkH3DRfO6vAGyDta0hQpg?=
+ =?us-ascii?Q?XHbTz+8ExXWy2z7SAXZIt70gWmPvfJ4MqxTg8FRDTUvLaVn6lflZNbP8IpBu?=
+ =?us-ascii?Q?jc7h2vV0tV1flZIMUKq+FV6Rxk3en8bjsvKs85WbWrbMVPo1WKFliMHE6Gw1?=
+ =?us-ascii?Q?tt/XnyF9q0gDt4e9n8a6Cx7mAL/QlJVwTkQika6kU9mEXAMEqrg9UQgPKxEp?=
+ =?us-ascii?Q?yq+600eZfQKiQ3W0cpG/8YxDL4UnPaA6Ppc40tvq8IklX4vDkcAdmkf+NsiW?=
+ =?us-ascii?Q?o5zNMQxmNIEwnpbjCUHyyKNqUrqSD0jaButfQpA2KVYFJuwUsblEpgTe8HC5?=
+ =?us-ascii?Q?NrikT5IyXaND0Mrwk7pCrt4OLRj/ABvcxL5cXui5HsqmoYqLXa95S0HkFiPj?=
+ =?us-ascii?Q?QYt6AL62qv73mlnq4WaqeisTJRoMs2kl4viMZ4UGa802JN8kHBmu89H2MGEl?=
+ =?us-ascii?Q?A6HoJEsNbuuBE26+hZtgb+zfynzjmnwuQIP4Fv2P7YvMuTf8KdVsjtyZwYEs?=
+ =?us-ascii?Q?DZAUTGCl4JsM2ZgGf/R6M7kgoyZSgVYuO04lycQtiz8mWQSJl98SlJLMtxpG?=
+ =?us-ascii?Q?lUBj31finNBY1zgmaPjWAqFrEotj9Ai9btVGKVnw4flggSjXpLYi+kCgcsIk?=
+ =?us-ascii?Q?YK5OuBrZcYVkBVOs606coQy/OmOs/e/haEeAro23rNQtm7UvbTnUS0RRm8ML?=
+ =?us-ascii?Q?FFg03u2MX1PL1Z2nCbcRhTNgjApwvUgcJJ0a9CUt9EsNHF0gXOC6TdQwt9HC?=
+ =?us-ascii?Q?KJV9nSUCnuZwe91Z2nn2uNtSZrOsLbyEm0x+Q+cGnhfdUomvTyqZkq9ev10N?=
+ =?us-ascii?Q?mJrlM8dao3dp+ebYMJ3MWTMhAduSHUZHTRifiY7exDLqaJKmynEIACG22KEj?=
+ =?us-ascii?Q?sFr+FiMIvBCKCxMaquhtnhLKAvqvPe1iuoozwO7Qe2TCwkeHkpzcPaieLxvf?=
+ =?us-ascii?Q?n15Bj/5ZsT9+Oehb7k/uA6NtAJCON37hea2/igsshlg++MFwMGMU4ps0ccKG?=
+ =?us-ascii?Q?WyfDyZQLEwzf2yEyuSBt+6wNywZks6/UDMeS2pPkHhX+jeaPE0/f1HtsYjZt?=
+ =?us-ascii?Q?XNB9c4b2lkUQnvSmhdpTN+rg8CB125udcYRGmrBINgA0q5c0ABYEOoalaZyZ?=
+ =?us-ascii?Q?psUvbyA7uP7jK+ERGG5RwOsnPiy1pcjvoTAI9I8E2GemZFUPNND79XxBIkGM?=
+ =?us-ascii?Q?hMsZkLxlxoaLMsrWn8EDC+cHUUHW7j0p8SYukTsVPiL5gPE1DHke4JG1ld0L?=
+ =?us-ascii?Q?UwvwFHckGokLfJ1OQdYUmRz8DiA2oHWBrcaQehfMgmaEzAt1yqzwRJM3LOtH?=
+ =?us-ascii?Q?Q+VTioRNx1qTuXJA3Y6z0WyJrXqOL88qKWzJjSJmE1I6+UkXMqnaTXniqqI8?=
+ =?us-ascii?Q?9FPAHnw2+iug2rRbxnMw4NUL+zGWROTbmEpxpBTNC7MPaa4BPl026c7xbZup?=
+ =?us-ascii?Q?ynvayVfyCxyHvgg+24lo3ATWP2NWySU=3D?=
+X-OriginatorOrg: quantatw.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b16e4695-8367-4e77-493d-08da176b9f7f
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3282.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 01:20:23.7923 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bIbPlE6gPCBbyYTFnHcF8VBfOgMhNPdpkFaUQmFoV07uH4Ixk5ZmSMPXpey7k+q01JsB8w5mXLcOeBjXxzEELg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR04MB4446
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,244 +135,135 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
+ Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org,
+ Patrick Williams <patrick@stwcx.xyz>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 04/04/22 09:06AM, Cédric Le Goater wrote:
-> On 3/30/22 21:33, Pratyush Yadav wrote:
-> > Hi Cedric,
-> > 
-> > Thanks for doing the conversion.
-> > 
-> > On 25/03/22 11:08AM, Cédric Le Goater wrote:
-> > > This SPI driver adds support for the Aspeed static memory controllers
-> > > of the AST2600, AST2500 and AST2400 SoCs using the spi-mem interface.
-> > > 
-> > >   * AST2600 Firmware SPI Memory Controller (FMC)
-> > >     . BMC firmware
-> > >     . 3 chip select pins (CE0 ~ CE2)
-> > >     . Only supports SPI type flash memory
-> > >     . different segment register interface
-> > >     . single, dual and quad mode.
-> > > 
-> > >   * AST2600 SPI Flash Controller (SPI1 and SPI2)
-> > >     . host firmware
-> > >     . 2 chip select pins (CE0 ~ CE1)
-> > >     . different segment register interface
-> > >     . single, dual and quad mode.
-> > > 
-> > >   * AST2500 Firmware SPI Memory Controller (FMC)
-> > >     . BMC firmware
-> > >     . 3 chip select pins (CE0 ~ CE2)
-> > >     . supports SPI type flash memory (CE0-CE1)
-> > >     . CE2 can be of NOR type flash but this is not supported by the driver
-> > >     . single, dual mode.
-> > > 
-> > >   * AST2500 SPI Flash Controller (SPI1 and SPI2)
-> > >     . host firmware
-> > >     . 2 chip select pins (CE0 ~ CE1)
-> > >     . single, dual mode.
-> > > 
-> > >   * AST2400 New Static Memory Controller (also referred as FMC)
-> > >     . BMC firmware
-> > >     . New register set
-> > >     . 5 chip select pins (CE0 ∼ CE4)
-> > >     . supports NOR flash, NAND flash and SPI flash memory.
-> > >     . single, dual and quad mode.
-> > > 
-> > > Each controller has a memory range on which flash devices contents are
-> > > mapped. Each device is assigned a window that can be changed at bootime
-> > > with the Segment Address Registers.
-> > > 
-> > > Each SPI flash device can then be accessed in two modes: Command and
-> > > User. When in User mode, SPI transfers are initiated with accesses to
-> > > the memory segment of a device. When in Command mode, memory
-> > > operations on the memory segment of a device generate SPI commands
-> > > automatically using a Control Register for the settings.
-> > > 
-> > > This initial patch adds support for User mode. Command mode needs a little
-> > > more work to check that the memory window on the AHB bus fits the device
-> > > size. It will come later when support for direct mapping is added.
-> > > 
-> > > Single and dual mode RX transfers are supported. Other types than SPI
-> > > are not supported.
-> > > 
-> > > Reviewed-by: Joel Stanley <joel@jms.id.au>
-> > > Tested-by: Joel Stanley <joel@jms.id.au>
-> > > Tested-by: Tao Ren <rentao.bupt@gmail.com>
-> > > Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> > > Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> > > ---
-> > >   drivers/mtd/spi-nor/controllers/aspeed-smc.c  | 910 ------------------
-> > >   drivers/spi/spi-aspeed-smc.c                  | 709 ++++++++++++++
-> > >   .../devicetree/bindings/mtd/aspeed-smc.txt    |  51 -
-> > >   MAINTAINERS                                   |   1 +
-> > >   drivers/mtd/spi-nor/controllers/Kconfig       |  10 -
-> > >   drivers/mtd/spi-nor/controllers/Makefile      |   1 -
-> > >   drivers/spi/Kconfig                           |  11 +
-> > >   drivers/spi/Makefile                          |   1 +
-> > >   8 files changed, 722 insertions(+), 972 deletions(-)
-> > >   delete mode 100644 drivers/mtd/spi-nor/controllers/aspeed-smc.c
-> > >   create mode 100644 drivers/spi/spi-aspeed-smc.c
-> > >   delete mode 100644 Documentation/devicetree/bindings/mtd/aspeed-smc.txt
-> > > 
-> > [...]
-> > > +static void aspeed_spi_send_cmd_addr(struct aspeed_spi_chip *chip, u8 addr_nbytes,
-> > > +				     u64 offset, u32 opcode)
-> > > +{
-> > > +	struct aspeed_spi *aspi = chip->aspi;
-> > > +	__be32 temp;
-> > > +	u32 cmdaddr;
-> > > +
-> > > +	switch (addr_nbytes) {
-> > > +	default:
-> > > +		dev_warn_once(aspi->dev, "Unexpected address width %u, defaulting to 3",
-> > > +			      addr_nbytes);
-> > > +		fallthrough;
-> > 
-> > I think it is better if you reject ops where addr width is not 3 or 4.
-> > This you can drop this. Or if you really want to keep it, you can change
-> > it to a WARN_ON() and return an error.
-> 
-> OK. This is a left over from the initial driver.
-> 
-> I have added both at WARN_ONCE() and a 'return -EOPNOTSUPP'
-> 
-> > > +	case 3:
-> > > +		cmdaddr = offset & 0xFFFFFF;
-> > > +		cmdaddr |= opcode << 24;
-> > > +
-> > > +		temp = cpu_to_be32(cmdaddr);
-> > > +		aspeed_spi_write_to_ahb(chip->ahb_base, &temp, 4);
-> > > +		break;
-> > > +	case 4:
-> > > +		temp = cpu_to_be32(offset);
-> > > +		aspeed_spi_write_to_ahb(chip->ahb_base, &opcode, 1);
-> > > +		aspeed_spi_write_to_ahb(chip->ahb_base, &temp, 4);
-> > > +		break;
-> > > +	}
-> > > +}
-> > > +
-> > [...]
-> > > +/* support for 1-1-1, 1-1-2 or 1-1-4 */
-> > > +static bool aspeed_spi_supports_op(struct spi_mem *mem, const struct spi_mem_op *op)
-> > > +{
-> > > +	if (op->cmd.buswidth > 1)
-> > > +		return false;
-> > > +
-> > > +	if (op->addr.nbytes != 0) {
-> > > +		if (op->addr.buswidth > 1 || op->addr.nbytes > 4)
-> > 
-> > As mentioned above, this should reject ops with addr width 1 and 2.
-> 
-> yes
-> 
-> > > +			return false;
-> > > +	}
-> > > +
-> > > +	if (op->dummy.nbytes != 0) {
-> > > +		if (op->dummy.buswidth > 1 || op->dummy.nbytes > 7)
-> > > +			return false;
-> > > +	}
-> > > +
-> > > +	if (op->data.nbytes != 0 && op->data.buswidth > 4)
-> > > +		return false;
-> > > +
-> > > +	return spi_mem_default_supports_op(mem, op);
-> > > +}
-> > > +
-> > > +static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
-> > > +{
-> > > +	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
-> > > +	struct aspeed_spi_chip *chip = &aspi->chips[mem->spi->chip_select];
-> > > +	u32 addr_mode, addr_mode_backup;
-> > > +	u32 ctl_val;
-> > > +	int ret = 0;
-> > > +
-> > > +	dev_dbg(aspi->dev,
-> > > +		"CE%d %s OP %#x mode:%d.%d.%d.%d naddr:%#x ndummies:%#x len:%#x",
-> > > +		chip->cs, op->data.dir == SPI_MEM_DATA_IN ? "read" : "write",
-> > > +		op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
-> > > +		op->dummy.buswidth, op->data.buswidth,
-> > > +		op->addr.nbytes, op->dummy.nbytes, op->data.nbytes);
-> > > +
-> > > +	addr_mode = readl(aspi->regs + CE_CTRL_REG);
-> > > +	addr_mode_backup = addr_mode;
-> > > +
-> > > +	ctl_val = chip->ctl_val[ASPEED_SPI_BASE];
-> > > +	ctl_val &= ~CTRL_IO_CMD_MASK;
-> > > +
-> > > +	ctl_val |= op->cmd.opcode << CTRL_COMMAND_SHIFT;
-> > > +
-> > > +	/* 4BYTE address mode */
-> > > +	if (op->addr.nbytes) {
-> > > +		if (op->addr.nbytes == 4)
-> > > +			addr_mode |= (0x11 << chip->cs);
-> > > +		else
-> > > +			addr_mode &= ~(0x11 << chip->cs);
-> > > +	}
-> > > +
-> > > +	if (op->dummy.buswidth && op->dummy.nbytes)
-> > 
-> > Nitpick: op->dummy.nbytes being set should imply op->dummy.buswidth > 0.
-> > 
-> > > +		ctl_val |= CTRL_IO_DUMMY_SET(op->dummy.nbytes / op->dummy.buswidth);
-> > > +
-> > > +	if (op->data.nbytes != 0) {
-> > > +		if (op->data.buswidth)
-> > 
-> > Nitpick: op->data.nbytes != 0 should imply op->data.buswidth > 0.
-> 
-> Indeed. Fixed both.
-> 
-> > > +			ctl_val |= aspeed_spi_get_io_mode(op);
-> > > +	}
-> > > +
-> > > +	if (op->data.dir == SPI_MEM_DATA_OUT)
-> > > +		ctl_val |= CTRL_IO_MODE_WRITE;
-> > > +	else
-> > > +		ctl_val |= CTRL_IO_MODE_READ;
-> > > +
-> > > +	if (addr_mode != addr_mode_backup)
-> > > +		writel(addr_mode, aspi->regs + CE_CTRL_REG);
-> > > +	writel(ctl_val, chip->ctl);
-> > > +
-> > > +	if (op->data.dir == SPI_MEM_DATA_IN) {
-> > > +		if (!op->addr.nbytes)
-> > > +			ret = aspeed_spi_read_reg(chip, op);
-> > > +		else
-> > > +			ret = aspeed_spi_read_user(chip, op, op->addr.val,
-> > > +						   op->data.nbytes, op->data.buf.in);
-> > > +	} else {
-> > > +		if (!op->addr.nbytes)
-> > > +			ret = aspeed_spi_write_reg(chip, op);
-> > > +		else
-> > > +			ret = aspeed_spi_write_user(chip, op);
-> > > +	}
-> > > +
-> > > +	/* Restore defaults */
-> > > +	if (addr_mode != addr_mode_backup)
-> > > +		writel(addr_mode_backup, aspi->regs + CE_CTRL_REG);
-> > > +	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
-> > 
-> > Why do you need to restore defaults here? Do you expect some other piece
-> > of software to use it as well?
-> 
-> We expect the controller to be correctly set when dirmap_read() is called.
-> But it is only required in the next patch.
+Add aspeed_mdio_op() and aseed_mdio_get_data() for register accessing.
 
-Okay. This should be fine then.
+aspeed_mdio_op() handles operations, write command to control register,
+then check and wait operations is finished (bit 31 is cleared).
 
+aseed_mdio_get_data() fetchs the result value of operation from data
+register.
 
+Signed-off-by: Potin Lai <potin.lai@quantatw.com>
+---
+ drivers/net/mdio/mdio-aspeed.c | 70 ++++++++++++++++++----------------
+ 1 file changed, 38 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-aspeed.c
+index e2273588c75b..f22be2f069e9 100644
+--- a/drivers/net/mdio/mdio-aspeed.c
++++ b/drivers/net/mdio/mdio-aspeed.c
+@@ -39,34 +39,35 @@ struct aspeed_mdio {
+ 	void __iomem *base;
+ };
+ 
+-static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
++static int aspeed_mdio_op(struct mii_bus *bus, u8 st, u8 op, u8 phyad, u8 regad,
++			  u16 data)
+ {
+ 	struct aspeed_mdio *ctx = bus->priv;
+ 	u32 ctrl;
+-	u32 data;
+-	int rc;
+ 
+-	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d\n", __func__, addr,
+-		regnum);
+-
+-	/* Just clause 22 for the moment */
+-	if (regnum & MII_ADDR_C45)
+-		return -EOPNOTSUPP;
++	dev_dbg(&bus->dev, "%s: st: %u op: %u, phyad: %u, regad: %u, data: %u\n",
++		__func__, st, op, phyad, regad, data);
+ 
+ 	ctrl = ASPEED_MDIO_CTRL_FIRE
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_ST, ASPEED_MDIO_CTRL_ST_C22)
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_OP, MDIO_C22_OP_READ)
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_PHYAD, addr)
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_REGAD, regnum);
++		| FIELD_PREP(ASPEED_MDIO_CTRL_ST, st)
++		| FIELD_PREP(ASPEED_MDIO_CTRL_OP, op)
++		| FIELD_PREP(ASPEED_MDIO_CTRL_PHYAD, phyad)
++		| FIELD_PREP(ASPEED_MDIO_CTRL_REGAD, regad)
++		| FIELD_PREP(ASPEED_MDIO_DATA_MIIRDATA, data);
+ 
+ 	iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
+ 
+-	rc = readl_poll_timeout(ctx->base + ASPEED_MDIO_CTRL, ctrl,
++	return readl_poll_timeout(ctx->base + ASPEED_MDIO_CTRL, ctrl,
+ 				!(ctrl & ASPEED_MDIO_CTRL_FIRE),
+ 				ASPEED_MDIO_INTERVAL_US,
+ 				ASPEED_MDIO_TIMEOUT_US);
+-	if (rc < 0)
+-		return rc;
++}
++
++static int aspeed_mdio_get_data(struct mii_bus *bus)
++{
++	struct aspeed_mdio *ctx = bus->priv;
++	int rc;
++	u32 data;
+ 
+ 	rc = readl_poll_timeout(ctx->base + ASPEED_MDIO_DATA, data,
+ 				data & ASPEED_MDIO_DATA_IDLE,
+@@ -78,31 +79,36 @@ static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
+ 	return FIELD_GET(ASPEED_MDIO_DATA_MIIRDATA, data);
+ }
+ 
+-static int aspeed_mdio_write(struct mii_bus *bus, int addr, int regnum, u16 val)
++static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
+ {
+-	struct aspeed_mdio *ctx = bus->priv;
+-	u32 ctrl;
++	int rc;
+ 
+-	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d, val: 0x%x\n",
+-		__func__, addr, regnum, val);
++	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d\n", __func__, addr,
++		regnum);
+ 
+ 	/* Just clause 22 for the moment */
+ 	if (regnum & MII_ADDR_C45)
+ 		return -EOPNOTSUPP;
+ 
+-	ctrl = ASPEED_MDIO_CTRL_FIRE
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_ST, ASPEED_MDIO_CTRL_ST_C22)
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_OP, MDIO_C22_OP_WRITE)
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_PHYAD, addr)
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_REGAD, regnum)
+-		| FIELD_PREP(ASPEED_MDIO_CTRL_MIIWDATA, val);
++	rc = aspeed_mdio_op(bus, ASPEED_MDIO_CTRL_ST_C22, MDIO_C22_OP_READ,
++			    addr, regnum, 0);
++	if (rc < 0)
++		return rc;
+ 
+-	iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
++	return aspeed_mdio_get_data(bus);
++}
+ 
+-	return readl_poll_timeout(ctx->base + ASPEED_MDIO_CTRL, ctrl,
+-				  !(ctrl & ASPEED_MDIO_CTRL_FIRE),
+-				  ASPEED_MDIO_INTERVAL_US,
+-				  ASPEED_MDIO_TIMEOUT_US);
++static int aspeed_mdio_write(struct mii_bus *bus, int addr, int regnum, u16 val)
++{
++	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d, val: 0x%x\n",
++		__func__, addr, regnum, val);
++
++	/* Just clause 22 for the moment */
++	if (regnum & MII_ADDR_C45)
++		return -EOPNOTSUPP;
++
++	return aspeed_mdio_op(bus, ASPEED_MDIO_CTRL_ST_C22, MDIO_C22_OP_WRITE,
++			      addr, regnum, val);
+ }
+ 
+ static int aspeed_mdio_probe(struct platform_device *pdev)
 -- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+2.17.1
+
