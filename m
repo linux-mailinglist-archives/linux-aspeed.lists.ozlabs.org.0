@@ -1,14 +1,14 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E27F4F4CB8
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Apr 2022 03:20:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6F04F4CBB
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Apr 2022 03:21:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KY6CV0FQTz2yb9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Apr 2022 11:20:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KY6CY533nz2yY1
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Apr 2022 11:20:57 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=WK4nBNTa;
+	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=0ovV/7CG;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -19,30 +19,30 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=quantacorp.onmicrosoft.com
  header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-quantacorp-onmicrosoft-com header.b=WK4nBNTa; 
+ header.s=selector2-quantacorp-onmicrosoft-com header.b=0ovV/7CG; 
  dkim-atps=neutral
 Received: from APC01-SG2-obe.outbound.protection.outlook.com
  (mail-sgaapc01on2071b.outbound.protection.outlook.com
  [IPv6:2a01:111:f400:feab::71b])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KY6CN0h8Qz2xnP
- for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Apr 2022 11:20:46 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KY6CP2LDyz2xnP
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Apr 2022 11:20:48 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VrG7oOIICXRUDqHoeKEf73TgMGWo0NkRfSP1x8krrCLZZol5sj6wqeeJjNueEW7Fimv0+d5bB3igx6bETy8u5szzf/TMMgIXSqXBQEITQCaWCQq9DOsUt6y769MH1gbnSIc3ICMnqAN1Z1aTUyQ1PwA7QnZulBL+CTK5bniGxC3Howe3Cx4YkFq/lGFu/dTExSmZgarJUWx7ijAiWjW+8ycy6WYXXxQs7ZAX4ms41JbVweG27fO7LrSgyJ/5+wwm98diZFSDqtAhpnt8JpR77Gsh5gVep+Q9b9pfMNvKHYNv5If1Q2GDwZOJ9o5AVf1ySiVimBULteerNhbZXNdlPw==
+ b=ltcvV+C7kil5CYjCysURQLuzPIKMQweHN21HRD3MalEfYvafa48qgPYvjt7ACzfHSkDe31Vx0/cczFb2vblADHryq6rt/zXmMCbnLJHuFlQ8Nui78dqIixWRbtqeNe0etrdFd2shFCIaMYz1M2q6omRu6iV9cfbC0y9gbHj4XBXiH5Q30bd4VZTLtVMvEAfYh03cbg9uKWE2INwvVpppsMvjkTBvPn4NZJ8O9Auc65VN5BSqiqEsKwj1a2mE/tgvPIh4Z9py0jy6hsWI2G1C9Yxtbf8Si+gl1UjfD1InNciVQ3HJ/FgY50oe2L8J9VgFTiip4f6pZ/auSZM0WyN3mQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AYzr40+X2aVF3Ayj/CulXGvHvmrjzqpfdwE9vWNRAhw=;
- b=cQgye6poErAu6oGgPYMPZVnbIa9fJWezwNTDhtinupQX0izNWqGDuDCywPyfvRxSdPHCulEfWm8TdHvhBCu47fS5ebajMiKgJDfAE3CZN37kuh9Sz9QPB7xOLhACShO0JiGyfZoNwsxG7uoFTt3BhrBS4B6MZnRZX15zWOPZEbfqLBqrXtACLzPIfew4GTdYBZq1xH62oXDRYPqdwUTV4D92Em0VgSZfRcaYX3e54Ujn9LZ8aqqsOa+aLSe5muZxRG345TSlvRrlbrkfej+ETnjAm8aV68TjsIMBX5fft542UHmUY5HK39EDu9+eE6kUfr+GmUSrkK3SfIsxBtxQMg==
+ bh=VXb9X5yBGCE/Yv1MuBWWaiCSAPduSoTpjKKur/aLeSI=;
+ b=gPZKvqdTH67ShqIF/CkqzGendt5v1HzepLECXXwnAQSOnWXJ31RtPGcEK6t0nBg3JKktTBiSqd0/cJBv14kq9DNETVmo55pHO/3nNLmjZh4X8eokMiQkXHkWiXzjGO1OIAExHYSSC2E3lk96Cvi5jpMYlm8KQKq7VA+eUg2sJsf+COQRo2UHmmcddVOblcl2m/RkEUOzFH96KhWE0ZNpvnvtXTPmN1QBFLejFhREC1eAcLqIVYals3aGWHkynhaJXOmYWDn6FKg6EJv+dYw6Onc3VvAXrzRkcbbXV3RpCzxcxzcaFY6dHhA0XCNIRiJD0YdT40ExWA1Cjkp0+r+7Qw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
  dkim=pass header.d=quantatw.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AYzr40+X2aVF3Ayj/CulXGvHvmrjzqpfdwE9vWNRAhw=;
- b=WK4nBNTagsSvlXsjMhKPUl9i6ONiWh+HVP2H98UYIER8Xcb2U2HWnPGzV/9E5UkYVDMJpyOsy4UNPWmmUaUS5Rw8MshEaO/Iox6P4jvDpsc8bLorMSv9JP2EMdF8RoZvZcVfmkmPMMx+U5BwyDqd5rjnAvoeDPKvodfHco+XYtw=
+ bh=VXb9X5yBGCE/Yv1MuBWWaiCSAPduSoTpjKKur/aLeSI=;
+ b=0ovV/7CGM0iqTZYCadk41YcZ3qRazwVf1NubxR84oqX5Ow//fZVokL2fBUosF2+m+NKuzgWE+4psExRbjtWdIJDkaW+3Iy+rOosSbBzV/8NLEe4OM8vvRvIkrNE6RYWKKVKmPlMhg1/j4x7Asqv+RwYFHTR3kjH4s2I5h+uCndQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=quantatw.com;
 Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
@@ -53,16 +53,16 @@ Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
 Received: from HK0PR04MB3282.apcprd04.prod.outlook.com
  ([fe80::9c61:c8e7:d1ad:c65f]) by HK0PR04MB3282.apcprd04.prod.outlook.com
  ([fe80::9c61:c8e7:d1ad:c65f%6]) with mapi id 15.20.5123.031; Wed, 6 Apr 2022
- 01:20:23 +0000
+ 01:20:24 +0000
 From: Potin Lai <potin.lai@quantatw.com>
 To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
  Russell King <linux@armlinux.org.uk>,
  "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH v2 1/3] net: mdio: aspeed: move reg accessing part into
- separate functions
-Date: Wed,  6 Apr 2022 09:20:00 +0800
-Message-Id: <20220406012002.15128-2-potin.lai@quantatw.com>
+Subject: [PATCH v2 2/3] net: mdio: aspeed: Introduce read write function for
+ c22 and c45
+Date: Wed,  6 Apr 2022 09:20:01 +0800
+Message-Id: <20220406012002.15128-3-potin.lai@quantatw.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220406012002.15128-1-potin.lai@quantatw.com>
 References: <20220406012002.15128-1-potin.lai@quantatw.com>
@@ -72,57 +72,57 @@ X-ClientProxiedBy: HK2PR02CA0129.apcprd02.prod.outlook.com
  (2603:1096:203:89::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b16e4695-8367-4e77-493d-08da176b9f7f
+X-MS-Office365-Filtering-Correlation-Id: de17ab40-fbf0-45f6-3bb9-08da176ba058
 X-MS-TrafficTypeDiagnostic: TYZPR04MB4446:EE_
-X-Microsoft-Antispam-PRVS: <TYZPR04MB4446AF013EA56DFF051310BD8EE79@TYZPR04MB4446.apcprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <TYZPR04MB4446412794F9BB3729BC27A78EE79@TYZPR04MB4446.apcprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hHzOp0P9RHuHV9k3wf2tYklHanpK2NU4cQ7ESFPuejSS6IQT3naUzOG983XBcvxuMEtejZYIBqV25rIfbSZdLGh1Nj6XssBXiOsqSbtmZE0kT3MapJ0vhmheM0L9peArl1P6NFaqfozuTbUavRxcIDrmDQe2UqtYbsg4B6is4HkhWScognVGLVYwabkNxn9TcR0LZpPdS3Q6hp432g1BQiglRzphC2vZITopYEse/NT+OHJUeNhKEydRjYFBnjw9zqnM2Y0yRZYR1A+fPNHXUw9/e1E2G+CBWoRHTVVeJZSTLgtK64khkw/VSqHccHWIZlicuvBpt2D/FJM1njZdFI25Z+bUnLbIoPx35tVydBLhuOqhUGndqXE4gXQuPrIqxS7e7yl41vMNc2NEovFczDxPzssfDw38waufjP8jQcCtqCQy71MyeJdML8lB6A287o695jwTbbzLlIlpg84j4g1GcSewA2nWnREDt4nh1CScaNcoZU9d95vtf7DKNZPqE+FM2hPBYAAKN8eSYj/5U8vb/RpnL6eiQuqoTeD/qE4Sci5/nBRrOzkpxNarh9Cb+4C1lpvDSlDkno4fyIeOCMIeshx4kztH2ZRRyCncja9GO7rFqgxLh6axcgMGfOaCkG1gRHTSCd/WBbQhu7WKQoPocQ3FOtwHA1kk12VzuO1aDsNB+zy0yxx/1dqypqAh18hOUQ2/7rR49AWS1eEcqw==
+X-Microsoft-Antispam-Message-Info: VRmOV9V+9IflT4yWaIQRAE/tnJeWfA/t3YpAFbTgNj/YGer5SujYEpYPLyMLofnC7W+iukcWO6cpM1Judu/1DE4nXd2SEjXaImOOwh4F13qhlO992+uVBIRFS+rrHbS0zs6RB8bGtGvTPa9SZhNCm23fbQC28AFi4EdB/AH0ZaqKoZrX6Guzq+nUKEoV7aOJm5SHzV74+cdYNIadRuV9Th7mVaFOnr98i7utYMTZO9XD0QcEr+y8Zn/Q7Tk/PMZP/89ToX2OfsP8ETFVPYgcDVi915vFNuGFY3Jgw5o8WTfodfofzMFyk6Vi2qZquki4MpcwVngyQEGne/YfkFnpG1BwoCgKKMlgvzl8WJlC1ZuLIjNYuPcqNmFP0SfYbzEYp+bfIRnXFXQG/Wx8VSeVMHJ4Ij3bTBwSkXAVIWUWdkRa5emdciLauA3KYtbvJ1Qfee9DoOQFKieplrPN6Pjyqjo9acILSF77kUhgPL+eiPqbBSy7T/PzAPJu3jBrFKsviSfYB2/uaHWXyEuTZeRA4OlmWzNEikpQ2NWMvxga6skQhMPGq83xnffsBQeXNKRBgm9aT3fEM0EOfNxXDQPcvhiiGaFWiiSK/2SJ19oObUojATD8NFjWV7Nv3LERie91tLVC/bM2SVVHdMNhEIthBWIf+uE5ulE6t2Hi/1l+Yb/JOaDk67Ob3FS53bG6z1FrWLxMNv2DDVBqSDSsDCjyUg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:HK0PR04MB3282.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(4636009)(366004)(508600001)(66946007)(5660300002)(52116002)(38350700002)(38100700002)(6506007)(6666004)(8676002)(6512007)(66476007)(66556008)(2616005)(4326008)(110136005)(86362001)(8936002)(186003)(6486002)(26005)(7416002)(36756003)(44832011)(316002)(1076003)(2906002)(54906003)(83380400001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dfXRvjpue6bVxxRjf3acT7EcfIL3cwzBRSdn42difrDFjdRKcz1sxvMN6q7F?=
- =?us-ascii?Q?slBaPaZ0QM/qJ1Cb5ER8IygO2Z8aV1sXjwp+DNObETZIOuFO/eSwJnb1GFLh?=
- =?us-ascii?Q?zNrDjl64REiSO5BQEJU+HVCzrzlpwKu0IQlB7TA76d8+uHR9z3XU1rJEePop?=
- =?us-ascii?Q?y1VHbz/KEG/EsYNTZSkJxvOhjb5xDKSGQPSkrGDRRxvrNAMrWhua0HakShko?=
- =?us-ascii?Q?WMfLg/+RJyevBgda9OPRqMLBjvyltPVUDPDPp5XIy79ND8Kwg4YZzJMw4qL0?=
- =?us-ascii?Q?XpPgEhgQNaUfZy4sNOBLAwlOQA3jB6FIpv/KuLHdkH3DRfO6vAGyDta0hQpg?=
- =?us-ascii?Q?XHbTz+8ExXWy2z7SAXZIt70gWmPvfJ4MqxTg8FRDTUvLaVn6lflZNbP8IpBu?=
- =?us-ascii?Q?jc7h2vV0tV1flZIMUKq+FV6Rxk3en8bjsvKs85WbWrbMVPo1WKFliMHE6Gw1?=
- =?us-ascii?Q?tt/XnyF9q0gDt4e9n8a6Cx7mAL/QlJVwTkQika6kU9mEXAMEqrg9UQgPKxEp?=
- =?us-ascii?Q?yq+600eZfQKiQ3W0cpG/8YxDL4UnPaA6Ppc40tvq8IklX4vDkcAdmkf+NsiW?=
- =?us-ascii?Q?o5zNMQxmNIEwnpbjCUHyyKNqUrqSD0jaButfQpA2KVYFJuwUsblEpgTe8HC5?=
- =?us-ascii?Q?NrikT5IyXaND0Mrwk7pCrt4OLRj/ABvcxL5cXui5HsqmoYqLXa95S0HkFiPj?=
- =?us-ascii?Q?QYt6AL62qv73mlnq4WaqeisTJRoMs2kl4viMZ4UGa802JN8kHBmu89H2MGEl?=
- =?us-ascii?Q?A6HoJEsNbuuBE26+hZtgb+zfynzjmnwuQIP4Fv2P7YvMuTf8KdVsjtyZwYEs?=
- =?us-ascii?Q?DZAUTGCl4JsM2ZgGf/R6M7kgoyZSgVYuO04lycQtiz8mWQSJl98SlJLMtxpG?=
- =?us-ascii?Q?lUBj31finNBY1zgmaPjWAqFrEotj9Ai9btVGKVnw4flggSjXpLYi+kCgcsIk?=
- =?us-ascii?Q?YK5OuBrZcYVkBVOs606coQy/OmOs/e/haEeAro23rNQtm7UvbTnUS0RRm8ML?=
- =?us-ascii?Q?FFg03u2MX1PL1Z2nCbcRhTNgjApwvUgcJJ0a9CUt9EsNHF0gXOC6TdQwt9HC?=
- =?us-ascii?Q?KJV9nSUCnuZwe91Z2nn2uNtSZrOsLbyEm0x+Q+cGnhfdUomvTyqZkq9ev10N?=
- =?us-ascii?Q?mJrlM8dao3dp+ebYMJ3MWTMhAduSHUZHTRifiY7exDLqaJKmynEIACG22KEj?=
- =?us-ascii?Q?sFr+FiMIvBCKCxMaquhtnhLKAvqvPe1iuoozwO7Qe2TCwkeHkpzcPaieLxvf?=
- =?us-ascii?Q?n15Bj/5ZsT9+Oehb7k/uA6NtAJCON37hea2/igsshlg++MFwMGMU4ps0ccKG?=
- =?us-ascii?Q?WyfDyZQLEwzf2yEyuSBt+6wNywZks6/UDMeS2pPkHhX+jeaPE0/f1HtsYjZt?=
- =?us-ascii?Q?XNB9c4b2lkUQnvSmhdpTN+rg8CB125udcYRGmrBINgA0q5c0ABYEOoalaZyZ?=
- =?us-ascii?Q?psUvbyA7uP7jK+ERGG5RwOsnPiy1pcjvoTAI9I8E2GemZFUPNND79XxBIkGM?=
- =?us-ascii?Q?hMsZkLxlxoaLMsrWn8EDC+cHUUHW7j0p8SYukTsVPiL5gPE1DHke4JG1ld0L?=
- =?us-ascii?Q?UwvwFHckGokLfJ1OQdYUmRz8DiA2oHWBrcaQehfMgmaEzAt1yqzwRJM3LOtH?=
- =?us-ascii?Q?Q+VTioRNx1qTuXJA3Y6z0WyJrXqOL88qKWzJjSJmE1I6+UkXMqnaTXniqqI8?=
- =?us-ascii?Q?9FPAHnw2+iug2rRbxnMw4NUL+zGWROTbmEpxpBTNC7MPaa4BPl026c7xbZup?=
- =?us-ascii?Q?ynvayVfyCxyHvgg+24lo3ATWP2NWySU=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?W8xK0ze5vRSxxIuIZcccbufg7lpFySRS/QY3xGx4lgj69zFi8aE4bLCP0Ivy?=
+ =?us-ascii?Q?mfHUr0/44AI479+7ItMswTwKA7Rt1aPuwPzDn3qFFr8Ytau4YXjQy/nSKgiD?=
+ =?us-ascii?Q?OMTmXGVaiUStfyeO0g68LCNj00ZqXkY3XJCdaE/TMI5scQJPhdwakl7bsSt3?=
+ =?us-ascii?Q?KDBNVtBXT9LkYW7as6H6/zOlAb9ZvxqV4YxgnLxn3NdMjjNU9hosJLfwZL/1?=
+ =?us-ascii?Q?Y8FIXZbccwjU1ygjLfBTTbZbmY4lw9p+rBvvJb/6nR04Zy7tMmPWbcWum8VT?=
+ =?us-ascii?Q?TedxmzCiH8PRnq4RKh339+Vg75O3e8P3P1Cn+s7wELYCNx62knBQKYw8n/Q+?=
+ =?us-ascii?Q?pK4E1F+S4eAqpS55EHQT2weL2z/wn4bXxhnIfqt6Kw1z8gIMPCyh/Th9o5L6?=
+ =?us-ascii?Q?I0OLKFM7HXopxMnkPSfa0lTA6PsbK72rsujWmUewazoPwml3dMNbR0QFmOEq?=
+ =?us-ascii?Q?2ApeGvSzkY0CY/LuTbxUJWANYj6tTJP2V6gHgSGhKm6nrhNL8fxnJjMHNwYv?=
+ =?us-ascii?Q?87SorH811Hu1sujNnqifybkpFfgsF785WlFLcE1HoMgKqoJaN6LKcTftvddj?=
+ =?us-ascii?Q?OPGPSCyXvb/8OwE7IeKvTnN6lkiQXQgyQGIO2O+J3hvVUFHedJXad6LnUzPH?=
+ =?us-ascii?Q?s1b4JW6NSsm0JhFW1ppKbtDtkccS0W8o/TY+gfGviHLb2GaSD6bya0Xmjng2?=
+ =?us-ascii?Q?ftFu1MZDWVXgkUQmDkp/1V31F+TJjJXyfcf53M9JmF9c8T2QEz3fWwLNhJ+H?=
+ =?us-ascii?Q?llgS7W1R773JOpKan0g/JURl1cKrqky0Dazo6zTtDQWk8BUsaCe4NVDYwhYv?=
+ =?us-ascii?Q?z+NyNaXQ4LiNG6Nq+Y3Bg+X8naAa78UvkxGRu4lAOXYXvmLu+4GSGOayxCtV?=
+ =?us-ascii?Q?pJxCEKBlglVr6mipq++cIQGXmcxc2NpiLfgjUkE0fLkObtGhlvLENBBJ4ONw?=
+ =?us-ascii?Q?rDp7f0GdFqqp/7kvTyigVS5WBTr96inWl4l8M8VF0zeiZhXQyAy6lR/CJ1la?=
+ =?us-ascii?Q?8wBQhxtEJItPq+AclLWLxHFsOyAzKEXeXVwweoCDGFw/Qy2utPmewgz9N42w?=
+ =?us-ascii?Q?Z3LO1Qz6mbbB85mF7ZGVp+cWMQbQT7Zq1gmsZ79vrRsizSke1hYM/6aT/VPb?=
+ =?us-ascii?Q?lza2hfZECcmihJ9zruWjuvLyNcKS+yVZf68920WoYso504vV9NZ6/lFDkjBw?=
+ =?us-ascii?Q?5CnRjHQqtfZ72g0E5YAmcJJBP5JlkyulbWKb977Lawh7gUpPNGwni1cROZQw?=
+ =?us-ascii?Q?hyXBeQ3yDYC7QiYrZvWG5vzKABL09BXDDfMQWD1mvdqE8o1p3zKsc+/QHWus?=
+ =?us-ascii?Q?5iwhSVGeJcQ2HeN+N9CpgsXu779fmF9wcX1jDMSNS1ieOgAkSyKqDyuClAyx?=
+ =?us-ascii?Q?W7eb1jzAiuHp73PcinGxYEpdt+baHKt12G+6dg4c/GO/Tx6LPCHebwdtacQC?=
+ =?us-ascii?Q?p7r+MVUN0hz03eIiKwXg551cVARxTB377GEB64KWlYlYkRiVqXIJEBj0eTCz?=
+ =?us-ascii?Q?UGQI/SSL79YxRaNcZMuY0e2zKiWYlUSy3/aY74VylnQmczqbabQRaVaFhhC/?=
+ =?us-ascii?Q?iZ777KIM7oLq3+NGi5EVZtZvhMa+KX1WM6Xja4b8pYJGu+suB9yAwTWu0iz5?=
+ =?us-ascii?Q?E6jlp2lRkVNzXfMxZYwq0EwX/894myWlu69f1OMlnWpIqRCFoYwFcZ3SzI6+?=
+ =?us-ascii?Q?QGMS8tUo2fO1yoT++gK2Pt6m93STz/Rqz9LOyOC3xp109u+b4WUzaht8vq9l?=
+ =?us-ascii?Q?GCoWG9xhaHuZInt4+IgaiTZLfPdDwPI=3D?=
 X-OriginatorOrg: quantatw.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b16e4695-8367-4e77-493d-08da176b9f7f
+X-MS-Exchange-CrossTenant-Network-Message-Id: de17ab40-fbf0-45f6-3bb9-08da176ba058
 X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3282.apcprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 01:20:23.7923 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 01:20:24.6360 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bIbPlE6gPCBbyYTFnHcF8VBfOgMhNPdpkFaUQmFoV07uH4Ixk5ZmSMPXpey7k+q01JsB8w5mXLcOeBjXxzEELg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: x9GYlawlNqdzFjLvB3oOkYTee1LAYs7nbk8Zu+h3u9lW5c5UesEtakpAwzS5e03t0KLeVX4HV63f6Le/seQFpA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR04MB4446
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -142,35 +142,34 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add aspeed_mdio_op() and aseed_mdio_get_data() for register accessing.
+Add following additional functions to move out the implementation from
+aspeed_mdio_read() and aspeed_mdio_write().
 
-aspeed_mdio_op() handles operations, write command to control register,
-then check and wait operations is finished (bit 31 is cleared).
+c22:
+ - aspeed_mdio_read_c22()
+ - aspeed_mdio_write_c22()
 
-aseed_mdio_get_data() fetchs the result value of operation from data
-register.
+c45:
+ - aspeed_mdio_read_c45()
+ - aspeed_mdio_write_c45()
 
 Signed-off-by: Potin Lai <potin.lai@quantatw.com>
 ---
- drivers/net/mdio/mdio-aspeed.c | 70 ++++++++++++++++++----------------
- 1 file changed, 38 insertions(+), 32 deletions(-)
+ drivers/net/mdio/mdio-aspeed.c | 46 +++++++++++++++++++++++++---------
+ 1 file changed, 34 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-aspeed.c
-index e2273588c75b..f22be2f069e9 100644
+index f22be2f069e9..5becddb56117 100644
 --- a/drivers/net/mdio/mdio-aspeed.c
 +++ b/drivers/net/mdio/mdio-aspeed.c
-@@ -39,34 +39,35 @@ struct aspeed_mdio {
- 	void __iomem *base;
- };
+@@ -79,17 +79,10 @@ static int aspeed_mdio_get_data(struct mii_bus *bus)
+ 	return FIELD_GET(ASPEED_MDIO_DATA_MIIRDATA, data);
+ }
  
 -static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
-+static int aspeed_mdio_op(struct mii_bus *bus, u8 st, u8 op, u8 phyad, u8 regad,
-+			  u16 data)
++static int aspeed_mdio_read_c22(struct mii_bus *bus, int addr, int regnum)
  {
- 	struct aspeed_mdio *ctx = bus->priv;
- 	u32 ctrl;
--	u32 data;
--	int rc;
+ 	int rc;
  
 -	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d\n", __func__, addr,
 -		regnum);
@@ -178,89 +177,58 @@ index e2273588c75b..f22be2f069e9 100644
 -	/* Just clause 22 for the moment */
 -	if (regnum & MII_ADDR_C45)
 -		return -EOPNOTSUPP;
-+	dev_dbg(&bus->dev, "%s: st: %u op: %u, phyad: %u, regad: %u, data: %u\n",
-+		__func__, st, op, phyad, regad, data);
- 
- 	ctrl = ASPEED_MDIO_CTRL_FIRE
--		| FIELD_PREP(ASPEED_MDIO_CTRL_ST, ASPEED_MDIO_CTRL_ST_C22)
--		| FIELD_PREP(ASPEED_MDIO_CTRL_OP, MDIO_C22_OP_READ)
--		| FIELD_PREP(ASPEED_MDIO_CTRL_PHYAD, addr)
--		| FIELD_PREP(ASPEED_MDIO_CTRL_REGAD, regnum);
-+		| FIELD_PREP(ASPEED_MDIO_CTRL_ST, st)
-+		| FIELD_PREP(ASPEED_MDIO_CTRL_OP, op)
-+		| FIELD_PREP(ASPEED_MDIO_CTRL_PHYAD, phyad)
-+		| FIELD_PREP(ASPEED_MDIO_CTRL_REGAD, regad)
-+		| FIELD_PREP(ASPEED_MDIO_DATA_MIIRDATA, data);
- 
- 	iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
- 
--	rc = readl_poll_timeout(ctx->base + ASPEED_MDIO_CTRL, ctrl,
-+	return readl_poll_timeout(ctx->base + ASPEED_MDIO_CTRL, ctrl,
- 				!(ctrl & ASPEED_MDIO_CTRL_FIRE),
- 				ASPEED_MDIO_INTERVAL_US,
- 				ASPEED_MDIO_TIMEOUT_US);
--	if (rc < 0)
--		return rc;
-+}
-+
-+static int aspeed_mdio_get_data(struct mii_bus *bus)
-+{
-+	struct aspeed_mdio *ctx = bus->priv;
-+	int rc;
-+	u32 data;
- 
- 	rc = readl_poll_timeout(ctx->base + ASPEED_MDIO_DATA, data,
- 				data & ASPEED_MDIO_DATA_IDLE,
-@@ -78,31 +79,36 @@ static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
- 	return FIELD_GET(ASPEED_MDIO_DATA_MIIRDATA, data);
+-
+ 	rc = aspeed_mdio_op(bus, ASPEED_MDIO_CTRL_ST_C22, MDIO_C22_OP_READ,
+ 			    addr, regnum, 0);
+ 	if (rc < 0)
+@@ -98,17 +91,46 @@ static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
+ 	return aspeed_mdio_get_data(bus);
  }
  
--static int aspeed_mdio_write(struct mii_bus *bus, int addr, int regnum, u16 val)
-+static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
- {
--	struct aspeed_mdio *ctx = bus->priv;
--	u32 ctrl;
-+	int rc;
- 
--	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d, val: 0x%x\n",
--		__func__, addr, regnum, val);
-+	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d\n", __func__, addr,
-+		regnum);
- 
- 	/* Just clause 22 for the moment */
- 	if (regnum & MII_ADDR_C45)
- 		return -EOPNOTSUPP;
- 
--	ctrl = ASPEED_MDIO_CTRL_FIRE
--		| FIELD_PREP(ASPEED_MDIO_CTRL_ST, ASPEED_MDIO_CTRL_ST_C22)
--		| FIELD_PREP(ASPEED_MDIO_CTRL_OP, MDIO_C22_OP_WRITE)
--		| FIELD_PREP(ASPEED_MDIO_CTRL_PHYAD, addr)
--		| FIELD_PREP(ASPEED_MDIO_CTRL_REGAD, regnum)
--		| FIELD_PREP(ASPEED_MDIO_CTRL_MIIWDATA, val);
-+	rc = aspeed_mdio_op(bus, ASPEED_MDIO_CTRL_ST_C22, MDIO_C22_OP_READ,
-+			    addr, regnum, 0);
-+	if (rc < 0)
-+		return rc;
- 
--	iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
-+	return aspeed_mdio_get_data(bus);
-+}
- 
--	return readl_poll_timeout(ctx->base + ASPEED_MDIO_CTRL, ctrl,
--				  !(ctrl & ASPEED_MDIO_CTRL_FIRE),
--				  ASPEED_MDIO_INTERVAL_US,
--				  ASPEED_MDIO_TIMEOUT_US);
-+static int aspeed_mdio_write(struct mii_bus *bus, int addr, int regnum, u16 val)
++static int aspeed_mdio_write_c22(struct mii_bus *bus, int addr, int regnum,
++				 u16 val)
 +{
-+	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d, val: 0x%x\n",
-+		__func__, addr, regnum, val);
-+
-+	/* Just clause 22 for the moment */
-+	if (regnum & MII_ADDR_C45)
-+		return -EOPNOTSUPP;
-+
 +	return aspeed_mdio_op(bus, ASPEED_MDIO_CTRL_ST_C22, MDIO_C22_OP_WRITE,
 +			      addr, regnum, val);
++}
++
++static int aspeed_mdio_read_c45(struct mii_bus *bus, int addr, int regnum)
++{
++	/* TODO: add c45 support */
++	return -EOPNOTSUPP;
++}
++
++static int aspeed_mdio_write_c45(struct mii_bus *bus, int addr, int regnum,
++				 u16 val)
++{
++	/* TODO: add c45 support */
++	return -EOPNOTSUPP;
++}
++
++static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
++{
++	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d\n", __func__, addr,
++		regnum);
++
++	if (regnum & MII_ADDR_C45)
++		return aspeed_mdio_read_c45(bus, addr, regnum);
++
++	return aspeed_mdio_read_c22(bus, addr, regnum);
++}
++
+ static int aspeed_mdio_write(struct mii_bus *bus, int addr, int regnum, u16 val)
+ {
+ 	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d, val: 0x%x\n",
+ 		__func__, addr, regnum, val);
+ 
+-	/* Just clause 22 for the moment */
+ 	if (regnum & MII_ADDR_C45)
+-		return -EOPNOTSUPP;
++		return aspeed_mdio_write_c45(bus, addr, regnum, val);
+ 
+-	return aspeed_mdio_op(bus, ASPEED_MDIO_CTRL_ST_C22, MDIO_C22_OP_WRITE,
+-			      addr, regnum, val);
++	return aspeed_mdio_write_c22(bus, addr, regnum, val);
  }
  
  static int aspeed_mdio_probe(struct platform_device *pdev)
