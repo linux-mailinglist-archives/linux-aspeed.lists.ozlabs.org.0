@@ -1,52 +1,126 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1052B4F697C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Apr 2022 21:00:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E464F7026
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Apr 2022 03:18:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KYYjz6q11z3bY8
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Apr 2022 05:00:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KYk6M5XScz3bXB
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Apr 2022 11:18:35 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=q7DawJNk;
+	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=L1JNKHjT;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch
- (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch;
- receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:feab::700;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=potin.lai@quantatw.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256
- header.s=20171124 header.b=q7DawJNk; dkim-atps=neutral
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KYYjw2RVzz2yMP
- for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Apr 2022 05:00:20 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
- s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
- Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
- bh=ORv4dJXN80Th/q40FVaI67o8XfB5vIQ9EZXpu4hyhXg=; b=q7DawJNk/HZkkATayfSOPv1TC5
- DoH1XABIMXvnea3Ws49UeUNkAfsud61fPnjlT4mduqcgQI08UXUJkrfsPnQa/RpVNrzvxVt5t7yfE
- HKJVB9CHB8xr2BuaxatOQ8E60ZSj9Lw9UBzZX1z7beFtuSGtPnSJxev0a6K3nQrthW2Y=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
- (envelope-from <andrew@lunn.ch>)
- id 1ncAsu-00EVVe-Rz; Wed, 06 Apr 2022 21:00:04 +0200
-Date: Wed, 6 Apr 2022 21:00:04 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Potin Lai <potin.lai@quantatw.com>
-Subject: Re: [PATCH net-next RESEND v2 3/3] net: mdio: aspeed: Add c45 support
-Message-ID: <Yk3jNJMjMPj7NM8r@lunn.ch>
-References: <20220406170055.28516-1-potin.lai@quantatw.com>
- <20220406170055.28516-4-potin.lai@quantatw.com>
+ unprotected) header.d=quantacorp.onmicrosoft.com
+ header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-quantacorp-onmicrosoft-com header.b=L1JNKHjT; 
+ dkim-atps=neutral
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on20700.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feab::700])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KYk682r5Qz2xX8
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Apr 2022 11:18:22 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TY64cCU3gG+BO3KL7s2oiHFoT9o+0UI7MpBZ/zUWPAqr5S6QCBZXN6rTjE0pA2znRzoU2uwjc887LRmvln015d4SLj3QkYegATENcPr8zuKdRhla4ngQwM3Lm2h2u+3fHnyIbuHvfSjW87ueQz8KA/xcFUoz53zulth9pSMa3X3EHhOc1ED3cQ2wYPbAQviaCQYS1FqEJJcdPdHIsortHqieueg7Xij/HfFXT4npOi2+mCqRCSp/HRPVzhR568jtCNhboboFLweUoshJqsXVyDoWbTQQn+fc3hFuUwYI7y77FM9zpnHW1A3S6q2teo/Cevpy/+ID6V/WP4O8dTQ6qQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6NUM/fNtLxUyxz3cofw86ZeeamCeINycOnOx/+8olOg=;
+ b=FoIq8T1pAaQCa1Jh9NL96D/dOL4ktkwTa9n8n0f41BnYKXQPH7QDO5HLB18hOiucJdoDASmZesQ8KKLY650dK5T+KMRbCp0c6yUof+7mTgsowV2zaIyBde0Rfo+TtjROGHKEasMKEjjsI3f+3bJVOPbuwHFmsUmggOg+FrRLZ+/xV3gJ6vEjvV4oBpoxBAXNyPgb+wiorkfq/1C9xwlfg0RNNtiT6xTMYkOdZumlsAPp6xXKdgXdMC3OIfvS4i+4ogGEpPSIurNT43QFhx4iyCGtV/1XTTSyFJhSt5wEybO2nU+PENhCBF6FCqC1Z5u/aUc40/XyyVLlS+3qtN1MqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
+ dkim=pass header.d=quantatw.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6NUM/fNtLxUyxz3cofw86ZeeamCeINycOnOx/+8olOg=;
+ b=L1JNKHjT7/AYLmtAO9eyAGFP6npUHordWTbmUmw1zmIcmuy+jdLANd71RwpPmpyYXzb62ku6Klz4JzVPSjyZBQKulhNY26eEbHRz1kF2ImPDSBa14EcjAF886u3cCHrH+vm3AmZHb7t4tKoXfiy+15p2FsZsBemY+k9LCrq2JkY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quantatw.com;
+Received: from SG2PR04MB3285.apcprd04.prod.outlook.com (2603:1096:4:6d::18) by
+ SI2PR04MB5412.apcprd04.prod.outlook.com (2603:1096:4:141::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5144.22; Thu, 7 Apr 2022 01:18:00 +0000
+Received: from SG2PR04MB3285.apcprd04.prod.outlook.com
+ ([fe80::e94c:1300:a35a:4a1c]) by SG2PR04MB3285.apcprd04.prod.outlook.com
+ ([fe80::e94c:1300:a35a:4a1c%2]) with mapi id 15.20.5102.035; Thu, 7 Apr 2022
+ 01:18:00 +0000
+From: Potin Lai <potin.lai@quantatw.com>
+To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, davem@davemloft.net,
+ Jakub Kicinski <kuba@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH net-next v3 0/3] Add Clause 45 support for Aspeed MDIO
+Date: Thu,  7 Apr 2022 09:17:35 +0800
+Message-Id: <20220407011738.7189-1-potin.lai@quantatw.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR02CA0143.apcprd02.prod.outlook.com
+ (2603:1096:202:16::27) To SG2PR04MB3285.apcprd04.prod.outlook.com
+ (2603:1096:4:6d::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220406170055.28516-4-potin.lai@quantatw.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d7e6371e-8d75-44e7-c798-08da1834748a
+X-MS-TrafficTypeDiagnostic: SI2PR04MB5412:EE_
+X-Microsoft-Antispam-PRVS: <SI2PR04MB5412B1ECFC9E0A1C7A14AF2F8EE69@SI2PR04MB5412.apcprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UgLYPQFdbPRw4e3Jqcfs24YaxFyznQcVvcDasn9H+pkd4xvU8EX6xlehOvqOJlK+Jbdr5JHXDzLE6pLtDtoFS6f14CtzW5VJXKp0RxiAfNIY4pKQ3R4KWx9NkhCRlDUSi7L/5Exdd2URHUOiOgZlk+kPCcgk9Nq6hA+hR3Kgkj1EfdqxmxkG93lQhCVhFk9qRImkkEroBp9F72VDwXF8wqFH6W+3a2n/iEy6QPcNP4/i+Iqe9+bb775uY0V+oFRpYDVgNdINmUweJdMSk8bh/2CelTz/VTt/Zsyp5FOn1VDy6vi+gpZygfOBralSiOl2Uu6q5gdsTqq9i/+43VadeYmo2QYgPEtT+evOW/bJvPDxFSeHvz5dxsp9LmcUvAfhIREIOCw3HVUpAxCQeg7L9H2+z3XazO+yQMhslaka/lFWHSwpsdNHTXrbxnXpmo5IpGuq4OnDUlfEgx4HRqCcBds0VM+UYMJ26WEv3LhvgN6s/AWny0a1Ra3fUid+F9JaIdDxdGvJ/KmxgtXzcc57wR5rQ1UXlnPo8717su51qdVm2AoSSZTxcrQ5MrrX24OkMNEuM+DIflen4BVM8+7RiFleeac1TNxAtx64BcXioV0ZwjmUy5sD3aRP8KkfWlFS5Fb157lJ4V1zPliVlsyCgMcSGe1hj2/83MqkPskPqCE/FQtOqIsF9rKmU/2vP5Yf8I4fOpR00Mek7RVBwnvfVJ/a/6ulW/Y8ivV3mTSqwuW4I09oJuejUt2r1Myg+ebNsu1J1dFhKNqB1TkvuWHlHS/urtxCbO5F3RqPitwOqbZhYb/eLNoIzWLMo6VjwgX7
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR04MB3285.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8676002)(186003)(107886003)(2616005)(26005)(52116002)(4744005)(7416002)(8936002)(2906002)(4326008)(5660300002)(44832011)(1076003)(36756003)(316002)(66946007)(66476007)(66556008)(54906003)(110136005)(38100700002)(38350700002)(6512007)(6506007)(6666004)(83380400001)(966005)(86362001)(508600001)(6486002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HTKCQWSgHCM2Md/DWKdevWSf11c8Z5yojT/+rV4eoWs0CuQ28cZxTwUdOmWQ?=
+ =?us-ascii?Q?hiyHIzjDdqrnIHUCzsSzo1GNH7GjW6nqq+DCxtHmkc9a4pV8iySrAkYsfWCn?=
+ =?us-ascii?Q?fSfVJ7oUrKgZiXw1wX6297sT5m6pHJRPQ9s4J4pGP3aBK0Fg3kqrjmXbCaLL?=
+ =?us-ascii?Q?K4g1A4+1WQJJfE1w7vs1KApBvA1KQoc414rybdryCMZMgOKf7gS5NQuTiIrJ?=
+ =?us-ascii?Q?TBo70SXK7eadroGUpblPB8HxFrkEsiC7DoKvhlqaPzzgL05ti9t4gFix2aiO?=
+ =?us-ascii?Q?LrYTqR9J9chTbcqAx0XXEy7Pt2E+3H5Q4A2ok8eQECuBFKmttMDOY9nZ1VYT?=
+ =?us-ascii?Q?079JcT4hzG1A1wEZCUtwBSvdRYOQZh0PwIZyph2BL/zuNxQcQgVAA+QRNqgT?=
+ =?us-ascii?Q?LnXo8W8k+GC+kyr8z9/O33KiJEEnOxAXukiFxPzegsk7jEoUxvKuEJaHgcn7?=
+ =?us-ascii?Q?YIq6D+77H+aaVwZMyS811krDtkFKldgbzLH8FHw+4FqzGBH8YYXK7o0qpMGM?=
+ =?us-ascii?Q?9TF8452YyyIk4WDDVmZ8e8Nkrah8LkXPRg//PJh0kn20R1ZFcbmCU3ASI4LA?=
+ =?us-ascii?Q?S4jRO/H54T3EfTt7vYphqSTmBean+9WDSM5Rl5nKjpz8fizl5VKesfPxakR2?=
+ =?us-ascii?Q?fBZY3RXPNne4qnRM+KJuYcP2uti087Qi1YNMnXgWK7Cs8Uz8ccHNun0Uj80I?=
+ =?us-ascii?Q?K6xsItdeg18uu8J0OaZiNBIzCQa1M8giXA+JTbDp7vQdC9+os05tWwYHBbU5?=
+ =?us-ascii?Q?ByU8PJe04ubSTTmggPHm4GdxD/D74IrQWRCFvFLS+8bjAadk0YjJwlidVHRj?=
+ =?us-ascii?Q?twRx4TPLhoudEGPp8G6joCWrcZ3TF6iA/pWgwPuMxsY0X3UcfnJX9VNGVNtr?=
+ =?us-ascii?Q?VgmPv1WdOdQo3xO9f7bN/MrahTDjuYKCeBiRQJmwlbMQce9oDkNbNH3j1BkR?=
+ =?us-ascii?Q?8H3NVMsxTMqxJZZ3aJ/Jh9Acp3IpwSpeA2QvWUbBETRlG8VyI/1OGPjjJpDN?=
+ =?us-ascii?Q?fpE4yA7Dz9SZYYLGaqeX5/gHJoHMLZvy1e1nZTIEWqoS38rhQu21skUaX+t5?=
+ =?us-ascii?Q?9laoxH4j4/K9X+KSxaxyBhwBoEsge4uVVz5X1kr1reg9swOXbp3rlAC1duJD?=
+ =?us-ascii?Q?SefDt3XZWKVX+IeIrP1FVe0CXG5457joeUfDpDcJcXr0zrDq0aMmijHSMsE2?=
+ =?us-ascii?Q?Fd29HdXj20MpyJTkTYdSb7tPqo2QvnW5bqFU7EbhFpxWwUZI4gWuvsSyr3Gf?=
+ =?us-ascii?Q?ieN4CDKnzzc4oy8WRf0Pcfwf+UMFE6ACIPEmqBmsMfv2MB1z3XFgNfabYiV6?=
+ =?us-ascii?Q?YBaq34f61ckaIINF6mhpGUpeWA9z1YFZ2oe35zkwrco7jWKBZKiQlyBIPYT8?=
+ =?us-ascii?Q?MCHI3+Wu37veYQQL5dpuc5aXhSvPlT49vaM2fQFc9uezNOlM/GOlV3zH4x0h?=
+ =?us-ascii?Q?DSZ0MiqknvKfYYgllM54bFLrXkGS2TreuoRJbtppl9BFV/uddwF7eLZJNexm?=
+ =?us-ascii?Q?GCUFkBAkirhKusM0QtLioid/ykE3+yk1JhC3Cct4St7rT6Eoyh6xaoZL71ro?=
+ =?us-ascii?Q?PhlNaMGQSv8SWjkxp8dJbwy4ovjHiwBqMa0iPqfdZrDIa3e/JuDSoa2JSee4?=
+ =?us-ascii?Q?voSpDigb7S4E64lWqaGFRazZjCMZaQcquuca4qW03AlCGLanwXer0IyeQ6RZ?=
+ =?us-ascii?Q?YQiDnOWfF+KBg2LhtkQ07SHuxZ6owgK10vJAZ7RqSnv1dRTevA5EEYqFu8v/?=
+ =?us-ascii?Q?CeV0xJCmfEhkwbYV0e1AzNU9+KOgJTc=3D?=
+X-OriginatorOrg: quantatw.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7e6371e-8d75-44e7-c798-08da1834748a
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR04MB3285.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2022 01:18:00.1933 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uy2YRF9oQZmingLsDrl93MMZeyqJDsXldzVUJLilkKHNZAzG6XWIyHzYLp/Bek2yTzWBKfZyONVszdoYH7z0dA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR04MB5412
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,59 +133,34 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
- Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- Patrick Williams <patrick@stwcx.xyz>, Jakub Kicinski <kuba@kernel.org>,
- davem@davemloft.net, linux-arm-kernel@lists.infradead.org,
- Heiner Kallweit <hkallweit1@gmail.com>
+ Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org,
+ Patrick Williams <patrick@stwcx.xyz>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Apr 07, 2022 at 01:00:55AM +0800, Potin Lai wrote:
-> Add Clause 45 support for Aspeed mdio driver.
-> 
-> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
-> ---
->  drivers/net/mdio/mdio-aspeed.c | 35 ++++++++++++++++++++++++++++++----
->  1 file changed, 31 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-aspeed.c
-> index 5becddb56117..4236ba78aa65 100644
-> --- a/drivers/net/mdio/mdio-aspeed.c
-> +++ b/drivers/net/mdio/mdio-aspeed.c
-> @@ -21,6 +21,10 @@
->  #define   ASPEED_MDIO_CTRL_OP		GENMASK(27, 26)
->  #define     MDIO_C22_OP_WRITE		0b01
->  #define     MDIO_C22_OP_READ		0b10
-> +#define     MDIO_C45_OP_ADDR		0b00
-> +#define     MDIO_C45_OP_WRITE		0b01
-> +#define     MDIO_C45_OP_PREAD		0b10
-> +#define     MDIO_C45_OP_READ		0b11
->  #define   ASPEED_MDIO_CTRL_PHYAD	GENMASK(25, 21)
->  #define   ASPEED_MDIO_CTRL_REGAD	GENMASK(20, 16)
->  #define   ASPEED_MDIO_CTRL_MIIWDATA	GENMASK(15, 0)
-> @@ -100,15 +104,37 @@ static int aspeed_mdio_write_c22(struct mii_bus *bus, int addr, int regnum,
->  
->  static int aspeed_mdio_read_c45(struct mii_bus *bus, int addr, int regnum)
->  {
-> -	/* TODO: add c45 support */
-> -	return -EOPNOTSUPP;
-> +	int rc;
-> +	u8 c45_dev = (regnum >> 16) & 0x1F;
-> +	u16 c45_addr = regnum & 0xFFFF;
+This patch series add Clause 45 support for Aspeed MDIO driver, and
+separate c22 and c45 implementation into different functions.
 
-Sorry, missed it the first time. You should use reverse christmass
-tree here. Just move rc to last.
 
->  static int aspeed_mdio_write_c45(struct mii_bus *bus, int addr, int regnum,
->  				 u16 val)
->  {
-> -	/* TODO: add c45 support */
-> -	return -EOPNOTSUPP;
-> +	int rc;
-> +	u8 c45_dev = (regnum >> 16) & 0x1F;
-> +	u16 c45_addr = regnum & 0xFFFF;
+LINK: [v1] https://lore.kernel.org/all/20220329161949.19762-1-potin.lai@quantatw.com/
+LINK: [v2] https://lore.kernel.org/all/20220406170055.28516-1-potin.lai@quantatw.com/
 
-Same here.
+Changes v2 --> v3:
+ - sort local variable sequence in reverse Christmas tree format.
 
-     Andrew
+Changes v1 --> v2:
+ - add C45 to probe_capabilities
+ - break one patch into 3 small patches
+
+Potin Lai (3):
+  net: mdio: aspeed: move reg accessing part into separate functions
+  net: mdio: aspeed: Introduce read write function for c22 and c45
+  net: mdio: aspeed: Add c45 support
+
+ drivers/net/mdio/mdio-aspeed.c | 123 ++++++++++++++++++++++++---------
+ 1 file changed, 89 insertions(+), 34 deletions(-)
+
+-- 
+2.17.1
+
