@@ -2,98 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4628E4FB100
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Apr 2022 02:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212E44FB73A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Apr 2022 11:20:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Kc8fB2Nltz3bXR
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Apr 2022 10:21:06 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=Qj22oIyb;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=DMxk6SQ5;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KcNcG1BzGz2ypn
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Apr 2022 19:20:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
- helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=Qj22oIyb; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=DMxk6SQ5; 
- dkim-atps=neutral
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Kc8f70xyGz2xfC
- for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Apr 2022 10:21:03 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 3D5BC5C010D;
- Sun, 10 Apr 2022 20:21:01 -0400 (EDT)
-Received: from imap49 ([10.202.2.99])
- by compute3.internal (MEProxy); Sun, 10 Apr 2022 20:21:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=dMiEdTDSrBn764E4EBfHcFKsyyPbkvpBbf7iT6
- mocbM=; b=Qj22oIybPUrwAFnFriLPsiQfeupXLdVNO77nwZWuyZ1Wjg33LY69AV
- Lej2CuXr6igKXL0FpVAiqX/VF5qfrZiAMlQSYm3AL/U3VB8Cshvfks74o0a3hXot
- VtoXk7YqnueY8UTNycDketQBjby9Cnl3mwurvVHLqq0jA9/XIeIzELfJ1jv4e68f
- Phq4KjuicVBcm/0yPoRBnbQhHLJ1cvVxikGYiVaJNDnHjhgSkcx4arRx73tlSUqZ
- 4k22tKkNk1a3dIXoN7uUmwgMcO01AqaD6zqvoJJQ0TkogHrDYnV+aiO5m5U7LKHu
- LYdVIXMa0EmMzhLDDqBxeBXnHx6OQjAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=dMiEdTDSrBn764E4E
- BfHcFKsyyPbkvpBbf7iT6mocbM=; b=DMxk6SQ5zuql0Bxdkf2P/jpU5LeF7WZx9
- LTEXa5woboWQVHbyIx/TXQe1xPlqU3NdMi4ZsKsL0/9jVjooWPjd59M0+wSSIxaV
- w0UjIqIiVyQQEND47KCpzDp3w/tDojHTez1u9rCFThAO728t2CfI3IirW0bZfqtN
- aTrn9DhzRJKpXY4+ScdK+tvGL8P8l1It4adIohucrHQesz21d7CcN3iBCTvfUUFy
- DOCMiFsMwXZlJdqfr7Lnvu8VM4KQ9+ghSfGeeHWF+EIuG/Klxt0mvFO1EbTyLGed
- lrmPlwCNZbjKYqyIKu9DhDxpDn/MEU52YKDrTjHtNx2UVZJM5VkvQ==
-X-ME-Sender: <xms:bXRTYuVaLsV-BTDJ_d1mITagVf0jOn8t6niaNtrAZCfzGtIVaXlEoQ>
- <xme:bXRTYqmNeEORfhqHywDWUabsea_XoBxhHxc_MnZ_WXpxPbR9HhCncXkxLQ3CpshW7
- EqfQZ03bTEvdI-AIw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgvdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
- hfevueffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:bXRTYiZ_xiYmt15aQkzVTs8b28JHzx8GgOjJW2bYI9minAEWRvcYQA>
- <xmx:bXRTYlWzq0juFtj85oyVCCLB_7cwkfdOkglBKh_W9OgEA7U4ZsyDgw>
- <xmx:bXRTYol92Xg5BZbvN9ZeD_mqywS4PUPtAiJPBJ2ikx6j8SPktLpRvg>
- <xmx:bXRTYmnmAFUscrorQ-IqWhd5oU9OvVX2QV6tqoCu60jmQEqSuBl1Kg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 114ED15A005F; Sun, 10 Apr 2022 20:21:00 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-386-g4174665229-fm-20220406.001-g41746652
-Mime-Version: 1.0
-Message-Id: <1b708e26-264c-4b68-b6c8-c31a8d34a873@www.fastmail.com>
-In-Reply-To: <20220407075734.19644-4-dylan_hung@aspeedtech.com>
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KcNc84KQrz2xX6
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Apr 2022 19:20:06 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ndqD4-0003hy-BW; Mon, 11 Apr 2022 11:19:46 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ndqCz-002MLK-V5; Mon, 11 Apr 2022 11:19:40 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ndqCx-00040Q-Qs; Mon, 11 Apr 2022 11:19:39 +0200
+Message-ID: <8470f6029703a29bd7c384f489da0c7936c44cc7.camel@pengutronix.de>
+Subject: Re: [PATCH RESEND v3 2/3] net: mdio: add reset control for Aspeed MDIO
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Andrew Jeffery <andrew@aj.id.au>, Dylan Hung
+ <dylan_hung@aspeedtech.com>,  Rob Herring <robh+dt@kernel.org>, Joel
+ Stanley <joel@jms.id.au>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, David Miller
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, pabeni@redhat.com,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, netdev
+ <netdev@vger.kernel.org>
+Date: Mon, 11 Apr 2022 11:19:39 +0200
+In-Reply-To: <667280e7-526d-4002-9dff-389f6b35ac2f@www.fastmail.com>
 References: <20220407075734.19644-1-dylan_hung@aspeedtech.com>
- <20220407075734.19644-4-dylan_hung@aspeedtech.com>
-Date: Mon, 11 Apr 2022 09:50:40 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Dylan Hung" <dylan_hung@aspeedtech.com>,
- "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>,
- "Andrew Lunn" <andrew@lunn.ch>, "Heiner Kallweit" <hkallweit1@gmail.com>,
- "Russell King" <linux@armlinux.org.uk>, "David Miller" <davem@davemloft.net>, 
- "Jakub Kicinski" <kuba@kernel.org>, pabeni@redhat.com,
- "Philipp Zabel" <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH RESEND v3 3/3] ARM: dts: aspeed: add reset properties into
- MDIO nodes
-Content-Type: text/plain
+ <20220407075734.19644-3-dylan_hung@aspeedtech.com>
+ <667280e7-526d-4002-9dff-389f6b35ac2f@www.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.38.3-1 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,12 +73,87 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Mo, 2022-04-11 at 09:50 +0930, Andrew Jeffery wrote:
+>=20
+> On Thu, 7 Apr 2022, at 17:27, Dylan Hung wrote:
+> > Add reset assertion/deassertion for Aspeed MDIO.  There are 4 MDIO
+> > controllers embedded in Aspeed AST2600 SOC and share one reset control
+> > register SCU50[3].  To work with old DT blobs which don't have the rese=
+t
+> > property, devm_reset_control_get_optional_shared is used in this change=
+.
+> >=20
+> > Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > ---
+> > =C2=A0drivers/net/mdio/mdio-aspeed.c | 15 ++++++++++++++-
+> > =C2=A01 file changed, 14 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-asp=
+eed.c
+> > index e2273588c75b..1afb58ccc524 100644
+> > --- a/drivers/net/mdio/mdio-aspeed.c
+> > +++ b/drivers/net/mdio/mdio-aspeed.c
+> > @@ -3,6 +3,7 @@
+> >=20
+> > =C2=A0#include <linux/bitfield.h>
+> > =C2=A0#include <linux/delay.h>
+> > +#include <linux/reset.h>
+> > =C2=A0#include <linux/iopoll.h>
+> > =C2=A0#include <linux/mdio.h>
+> > =C2=A0#include <linux/module.h>
+> > @@ -37,6 +38,7 @@
+> >=20
+> > =C2=A0struct aspeed_mdio {
+> > =C2=A0	void __iomem *base;
+> > +	struct reset_control *reset;
+> > =C2=A0};
+> >=20
+> > =C2=A0static int aspeed_mdio_read(struct mii_bus *bus, int addr, int re=
+gnum)
+> > @@ -120,6 +122,12 @@ static int aspeed_mdio_probe(struct platform_devic=
+e *pdev)
+> > =C2=A0	if (IS_ERR(ctx->base))
+> > =C2=A0		return PTR_ERR(ctx->base);
+> >=20
+> > +	ctx->reset =3D devm_reset_control_get_optional_shared(&pdev->dev, NUL=
+L);
+> > +	if (IS_ERR(ctx->reset))
+> > +		return PTR_ERR(ctx->reset);
+> > +
+> > +	reset_control_deassert(ctx->reset);
+> > +
+> > =C2=A0	bus->name =3D DRV_NAME;
+> > =C2=A0	snprintf(bus->id, MII_BUS_ID_SIZE, "%s%d", pdev->name, pdev->id)=
+;
+> > =C2=A0	bus->parent =3D &pdev->dev;
+> > @@ -129,6 +137,7 @@ static int aspeed_mdio_probe(struct platform_device=
+ *pdev)
+> > =C2=A0	rc =3D of_mdiobus_register(bus, pdev->dev.of_node);
+> > =C2=A0	if (rc) {
+> > =C2=A0		dev_err(&pdev->dev, "Cannot register MDIO bus!\n");
+> > +		reset_control_assert(ctx->reset);
+> > =C2=A0		return rc;
+> > =C2=A0	}
+> >=20
+> > @@ -139,7 +148,11 @@ static int aspeed_mdio_probe(struct platform_devic=
+e *pdev)
+> >=20
+> > =C2=A0static int aspeed_mdio_remove(struct platform_device *pdev)
+> > =C2=A0{
+> > -	mdiobus_unregister(platform_get_drvdata(pdev));
+> > +	struct mii_bus *bus =3D (struct mii_bus *)platform_get_drvdata(pdev);
+> > +	struct aspeed_mdio *ctx =3D bus->priv;
+> > +
+> > +	reset_control_assert(ctx->reset);
+>=20
+> Isn't this unnecessary because you've used the devm_ variant to acquire=
+=20
+> the reset?
 
+No, this is correct. deassert/assert needs to be balanced, and the
+reset_control_deassert() call in aspeed_mdio_probe() is not devres
+managed.
 
-On Thu, 7 Apr 2022, at 17:27, Dylan Hung wrote:
-> Add reset control properties into MDIO nodes.  The 4 MDIO controllers in
-> AST2600 SOC share one reset control bit SCU50[3].
->
-> Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
-
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+regards
+Philipp
