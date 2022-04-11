@@ -1,62 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212E44FB73A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Apr 2022 11:20:16 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E26C64FB98F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Apr 2022 12:27:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KcNcG1BzGz2ypn
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Apr 2022 19:20:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KcQ6L5SxPz2yyG
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Apr 2022 20:27:54 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VDjHnVaR;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
- receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KcNc84KQrz2xX6
- for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Apr 2022 19:20:06 +1000 (AEST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ndqD4-0003hy-BW; Mon, 11 Apr 2022 11:19:46 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ndqCz-002MLK-V5; Mon, 11 Apr 2022 11:19:40 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ndqCx-00040Q-Qs; Mon, 11 Apr 2022 11:19:39 +0200
-Message-ID: <8470f6029703a29bd7c384f489da0c7936c44cc7.camel@pengutronix.de>
-Subject: Re: [PATCH RESEND v3 2/3] net: mdio: add reset control for Aspeed MDIO
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Andrew Jeffery <andrew@aj.id.au>, Dylan Hung
- <dylan_hung@aspeedtech.com>,  Rob Herring <robh+dt@kernel.org>, Joel
- Stanley <joel@jms.id.au>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, David Miller
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, pabeni@redhat.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, netdev
- <netdev@vger.kernel.org>
-Date: Mon, 11 Apr 2022 11:19:39 +0200
-In-Reply-To: <667280e7-526d-4002-9dff-389f6b35ac2f@www.fastmail.com>
-References: <20220407075734.19644-1-dylan_hung@aspeedtech.com>
- <20220407075734.19644-3-dylan_hung@aspeedtech.com>
- <667280e7-526d-4002-9dff-389f6b35ac2f@www.fastmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.20; helo=mga02.intel.com;
+ envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256
+ header.s=Intel header.b=VDjHnVaR; dkim-atps=neutral
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KcQ6G2rYCz2x9M
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Apr 2022 20:27:49 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649672870; x=1681208870;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=w/B9OC3B9ubhCDDuz61ASu2Hiu/rM8Lrj6qHHNYq32U=;
+ b=VDjHnVaRlJtlzvn1V+mHThBKBnueyAAj5x5m5WpKeko1pyEAEErhe8ye
+ 0zeKCplSTnnQl6R7vL/j4cORhDIYNg1wjBjnbLIyy/hJbJd05Zhw2wR5f
+ jX/rEmxpdUx02dhW1EL0m0y9HSgUpnHzyzRc5eLigTwGj6Mn2r97OR6A4
+ USftLlRrzD1EuJDAS7Y3VUmlgp8lGwB2XbBS+Ve1NKyTQmqBSfze1vRj7
+ CqNTW7Qv3J7QXwMML7T7Se9cgUvVkWBJ+G1ntU7xxbMwTSHhs+akZirz6
+ Y/5gQ4zT3xAUbsggU79cakye9aiPgT3Tl1uoh0LGmpK2+NJ3fD9+5th1w Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="249365450"
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="249365450"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 03:26:47 -0700
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="644032222"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 03:26:40 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1ndrCE-001BAf-W7; Mon, 11 Apr 2022 13:22:58 +0300
+Date: Mon, 11 Apr 2022 13:22:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Tom Rix <trix@redhat.com>
+Subject: Re: [PATCH] usb: gadget: udc: clean up comments
+Message-ID: <YlQBgnjpkSurf9PZ@smile.fi.intel.com>
+References: <20220410150828.1891123-1-trix@redhat.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220410150828.1891123-1-trix@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,92 +70,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: alexandre.belloni@bootlin.com, linux-usb@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, alcooperx@gmail.com,
+ linux-kernel@vger.kernel.org, macpaul.lin@mediatek.com, yashsri421@gmail.com,
+ balamanikandan.gunasundar@microchip.com, stern@rowland.harvard.edu,
+ bcm-kernel-feedback-list@broadcom.com, linux-geode@lists.infradead.org,
+ christophe.jaillet@wanadoo.fr, jakobkoschel@gmail.com,
+ linux-arm-kernel@lists.infradead.org, balbi@kernel.org, s.shtylyov@omp.ru,
+ neal_liu@aspeedtech.com, rdunlap@infradead.org, nicolas.ferre@microchip.com,
+ quic_wcheng@quicinc.com, miles.chen@mediatek.com, gregkh@linuxfoundation.org,
+ cai.huoqing@linux.dev, claudiu.beznea@microchip.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mo, 2022-04-11 at 09:50 +0930, Andrew Jeffery wrote:
->=20
-> On Thu, 7 Apr 2022, at 17:27, Dylan Hung wrote:
-> > Add reset assertion/deassertion for Aspeed MDIO.  There are 4 MDIO
-> > controllers embedded in Aspeed AST2600 SOC and share one reset control
-> > register SCU50[3].  To work with old DT blobs which don't have the rese=
-t
-> > property, devm_reset_control_get_optional_shared is used in this change=
-.
-> >=20
-> > Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
-> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > ---
-> > =C2=A0drivers/net/mdio/mdio-aspeed.c | 15 ++++++++++++++-
-> > =C2=A01 file changed, 14 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-asp=
-eed.c
-> > index e2273588c75b..1afb58ccc524 100644
-> > --- a/drivers/net/mdio/mdio-aspeed.c
-> > +++ b/drivers/net/mdio/mdio-aspeed.c
-> > @@ -3,6 +3,7 @@
-> >=20
-> > =C2=A0#include <linux/bitfield.h>
-> > =C2=A0#include <linux/delay.h>
-> > +#include <linux/reset.h>
-> > =C2=A0#include <linux/iopoll.h>
-> > =C2=A0#include <linux/mdio.h>
-> > =C2=A0#include <linux/module.h>
-> > @@ -37,6 +38,7 @@
-> >=20
-> > =C2=A0struct aspeed_mdio {
-> > =C2=A0	void __iomem *base;
-> > +	struct reset_control *reset;
-> > =C2=A0};
-> >=20
-> > =C2=A0static int aspeed_mdio_read(struct mii_bus *bus, int addr, int re=
-gnum)
-> > @@ -120,6 +122,12 @@ static int aspeed_mdio_probe(struct platform_devic=
-e *pdev)
-> > =C2=A0	if (IS_ERR(ctx->base))
-> > =C2=A0		return PTR_ERR(ctx->base);
-> >=20
-> > +	ctx->reset =3D devm_reset_control_get_optional_shared(&pdev->dev, NUL=
-L);
-> > +	if (IS_ERR(ctx->reset))
-> > +		return PTR_ERR(ctx->reset);
-> > +
-> > +	reset_control_deassert(ctx->reset);
-> > +
-> > =C2=A0	bus->name =3D DRV_NAME;
-> > =C2=A0	snprintf(bus->id, MII_BUS_ID_SIZE, "%s%d", pdev->name, pdev->id)=
-;
-> > =C2=A0	bus->parent =3D &pdev->dev;
-> > @@ -129,6 +137,7 @@ static int aspeed_mdio_probe(struct platform_device=
- *pdev)
-> > =C2=A0	rc =3D of_mdiobus_register(bus, pdev->dev.of_node);
-> > =C2=A0	if (rc) {
-> > =C2=A0		dev_err(&pdev->dev, "Cannot register MDIO bus!\n");
-> > +		reset_control_assert(ctx->reset);
-> > =C2=A0		return rc;
-> > =C2=A0	}
-> >=20
-> > @@ -139,7 +148,11 @@ static int aspeed_mdio_probe(struct platform_devic=
-e *pdev)
-> >=20
-> > =C2=A0static int aspeed_mdio_remove(struct platform_device *pdev)
-> > =C2=A0{
-> > -	mdiobus_unregister(platform_get_drvdata(pdev));
-> > +	struct mii_bus *bus =3D (struct mii_bus *)platform_get_drvdata(pdev);
-> > +	struct aspeed_mdio *ctx =3D bus->priv;
-> > +
-> > +	reset_control_assert(ctx->reset);
->=20
-> Isn't this unnecessary because you've used the devm_ variant to acquire=
-=20
-> the reset?
+On Sun, Apr 10, 2022 at 11:08:28AM -0400, Tom Rix wrote:
+> SPDX
+> *.h use /* */ style comments
+> 
+> For double words, remove
+> with, also
+> 
+> Spelling replacements
+> wayt to way
+> wakup to wakeup
+> Contrl to Control
+> cheks to checks
+> initiaization to initialization
+> dyanmic to dynamic
 
-No, this is correct. deassert/assert needs to be balanced, and the
-reset_control_deassert() call in aspeed_mdio_probe() is not devres
-managed.
+Something really wrong with indentation above.
 
-regards
-Philipp
+...
+
+>  drivers/usb/gadget/udc/amd5536udc.h       | 2 +-
+>  drivers/usb/gadget/udc/aspeed-vhub/core.c | 2 +-
+>  drivers/usb/gadget/udc/aspeed-vhub/ep0.c  | 2 +-
+>  drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 2 +-
+>  drivers/usb/gadget/udc/aspeed-vhub/vhub.h | 4 ++--
+>  drivers/usb/gadget/udc/at91_udc.c         | 2 +-
+>  drivers/usb/gadget/udc/bdc/bdc_core.c     | 4 ++--
+>  drivers/usb/gadget/udc/core.c             | 4 ++--
+>  drivers/usb/gadget/udc/trace.h            | 2 +-
+
+I believe that Greg's bot asks to split on per-driver basis.
+OTOH I don't see anything that can be problematic if in one
+change. So, it's up to maintainers then.
+
+...
+
+> --- a/drivers/usb/gadget/udc/amd5536udc.h
+> +++ b/drivers/usb/gadget/udc/amd5536udc.h
+
+>   * amd5536.h -- header for AMD 5536 UDC high/full speed USB device controller
+
+At the same time you may drop the filename(s) from the file(s) as this very
+one shows why it's good not to have a filename inside file.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
