@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039D44FF66E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Apr 2022 14:09:58 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 867404FF671
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Apr 2022 14:10:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KdhH75nCqz3bZ4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Apr 2022 22:09:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KdhHF3PC6z3bYy
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Apr 2022 22:10:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,10 +17,10 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KdhH35GpQz2yw9
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KdhH35y2bz305j
  for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Apr 2022 22:09:49 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 23DBusIX017388;
+ by twspam01.aspeedtech.com with ESMTP id 23DBusoL017389;
  Wed, 13 Apr 2022 19:56:54 +0800 (GMT-8)
  (envelope-from dylan_hung@aspeedtech.com)
 Received: from DylanHung-PC.aspeed.com (192.168.2.216) by TWMBX02.aspeed.com
@@ -34,10 +34,13 @@ To: <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
  <linux-arm-kernel@lists.infradead.org>,
  <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
  <netdev@vger.kernel.org>, <krzk+dt@kernel.org>
-Subject: [PATCH v5 0/3] Add reset deassertion for Aspeed MDIO
-Date: Wed, 13 Apr 2022 20:10:34 +0800
-Message-ID: <20220413121037.23748-1-dylan_hung@aspeedtech.com>
+Subject: [PATCH v5 1/3] dt-bindings: net: add reset property for aspeed,
+ ast2600-mdio binding
+Date: Wed, 13 Apr 2022 20:10:35 +0800
+Message-ID: <20220413121037.23748-2-dylan_hung@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220413121037.23748-1-dylan_hung@aspeedtech.com>
+References: <20220413121037.23748-1-dylan_hung@aspeedtech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -45,7 +48,7 @@ X-Originating-IP: [192.168.2.216]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 23DBusIX017388
+X-MAIL: twspam01.aspeedtech.com 23DBusoL017389
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,43 +60,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: BMC-SW@aspeedtech.com, Krzysztof Kozlowski <krzk@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add missing reset deassertion for Aspeed MDIO bus controller. The reset
-is asserted by the hardware when power-on so the driver only needs to
-deassert it. To be able to work with the old DT blobs, the reset is
-optional since it may be deasserted by the bootloader or the previous
-kernel.
+The AST2600 MDIO bus controller has a reset control bit and must be
+deasserted before manipulating the MDIO controller. By default, the
+hardware asserts the reset so the driver only need to deassert it.
 
-V5:
-- fix error of dt_binding_check
+Regarding to the old DT blobs which don't have reset property in them,
+the reset deassertion is usually done by the bootloader so the reset
+property is optional to work with them.
 
-V4:
-- use ASPEED_RESET_MII instead of hardcoding in dt-binding example
+Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ .../devicetree/bindings/net/aspeed,ast2600-mdio.yaml        | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-V3:
-- remove reset property from the required list of the device tree
-  bindings
-- remove "Cc: stable@vger.kernel.org" from the commit messages
-- add more description in the commit message of the dt-binding
-
-V2:
-- add reset property in the device tree bindings
-- add reset assertion in the error path and driver remove
-
-Dylan Hung (3):
-  dt-bindings: net: add reset property for aspeed, ast2600-mdio binding
-  net: mdio: add reset control for Aspeed MDIO
-  ARM: dts: aspeed: add reset properties into MDIO nodes
-
- .../bindings/net/aspeed,ast2600-mdio.yaml         |  6 ++++++
- arch/arm/boot/dts/aspeed-g6.dtsi                  |  4 ++++
- drivers/net/mdio/mdio-aspeed.c                    | 15 ++++++++++++++-
- 3 files changed, 24 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+index 1c88820cbcdf..f81eda8cb0a5 100644
+--- a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
++++ b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+@@ -20,10 +20,14 @@ allOf:
+ properties:
+   compatible:
+     const: aspeed,ast2600-mdio
++
+   reg:
+     maxItems: 1
+     description: The register range of the MDIO controller instance
+ 
++  resets:
++    maxItems: 1
++
+ required:
+   - compatible
+   - reg
+@@ -34,11 +38,13 @@ unevaluatedProperties: false
+ 
+ examples:
+   - |
++    #include <dt-bindings/clock/ast2600-clock.h>
+     mdio0: mdio@1e650000 {
+             compatible = "aspeed,ast2600-mdio";
+             reg = <0x1e650000 0x8>;
+             #address-cells = <1>;
+             #size-cells = <0>;
++            resets = <&syscon ASPEED_RESET_MII>;
+ 
+             ethphy0: ethernet-phy@0 {
+                     compatible = "ethernet-phy-ieee802.3-c22";
 -- 
 2.25.1
 
