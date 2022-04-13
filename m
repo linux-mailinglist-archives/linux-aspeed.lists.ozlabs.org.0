@@ -1,77 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155754FEC08
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Apr 2022 03:04:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 001054FED01
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Apr 2022 04:34:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KdPWY1KmVz3bWM
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Apr 2022 11:04:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KdRWF2h3Bz3bVc
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Apr 2022 12:34:33 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=pfAmzAgd;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=MiGg6bcA;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42b;
- helo=mail-pf1-x42b.google.com; envelope-from=cgel.zte@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::735;
+ helo=mail-qk1-x735.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=pfAmzAgd; dkim-atps=neutral
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=MiGg6bcA; dkim-atps=neutral
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
+ [IPv6:2607:f8b0:4864:20::735])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KdPWS2qnzz2xnW;
- Wed, 13 Apr 2022 11:04:35 +1000 (AEST)
-Received: by mail-pf1-x42b.google.com with SMTP id a21so573737pfv.10;
- Tue, 12 Apr 2022 18:04:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nY/di/ysNrXys5hLZLAzfqtetv16NHy5HD+OIKSD450=;
- b=pfAmzAgd+3XvYXMaijTNmoTdKLKheabhIAus+/1HOCL9K/aGGRWf0wIqFioAi75BsT
- 03EegT91x09xqKjy+NphmLlDhLtcT9fqKPcmucw3I4hUbrCKwckux01A/LIntSY4do7R
- hVp/6fdoa3DfedqIR5+4FtFVZuAeJcs/xSBDQgT5Gm0fav19AHvD4/LSX5tkdVl0L07t
- QDK+gddHbdRjcclAJb5QzvveGx9bwYh4h1QS2NtaENHYmsR/IBqhpnD7MMmgrKfw1cr7
- /IgFOIB6QsNwWXRBbbatKWXAbVdhihw9PvV+8NpYcmWTFP5dnHaCKS1IWKAoxTKBodYM
- SBnw==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KdRW56QXmz2xfT
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Apr 2022 12:34:23 +1000 (AEST)
+Received: by mail-qk1-x735.google.com with SMTP id g11so434307qke.1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Apr 2022 19:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MqB+e2xT6Yv8MpPTnOJ+2E7n6YyjIMzpIJ4iHfGOxzQ=;
+ b=MiGg6bcAs91xkbp2RAUHsNccXGOyhvPuMSn82Wa1gSKILPMKoQG5P3Nl6kIPR+N5J+
+ zVXOLkNpjaDHn+waq32rztY1uH6Ltt+sjAJ0nV2d/w1hp6PgqHrypZf+6wnGN6+VoZhA
+ Gqm9ac5gX/HqIda6RlWEEWZA5aB3xxReNhoT8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nY/di/ysNrXys5hLZLAzfqtetv16NHy5HD+OIKSD450=;
- b=K9f90DS0fA0qAjuldf+FK4FtsygtW6dv8Y2cIxZ8I2EhH23b5BJRLSLZsaFkykJg/1
- 0RF50xO1Liou2q1od0argtfbgKjdIb5amysuh2E6hlXvzO0VQ7aQeq1bzdrAtQ2liInG
- S3113kBjHCaoJ1e+fb128xxV6Et41Nt7ya1sDH5wlwiB+/jOkbIumoiUrh31YH0/vVb1
- 0DlxMgkVkw8Fr8XFIziHOnTNLvXNFdc1BU+all0MUM0jYcuXlxzoypC1vc7xJvJlp5PZ
- T/n3BY5SJEtGMY3+lgasHTyLs4fteHtBdeakbr+a9cIIRiQRgAd5OB+0MqvDg1MJ8IXf
- w0Jw==
-X-Gm-Message-State: AOAM533+de3LL9GjwOK9QDEBCLULnkr/ud8BQ0T3AxNz1RHVP5gNznBx
- rdJ9o3QVj0SoRFz+KtxbpFM=
-X-Google-Smtp-Source: ABdhPJzO2HhOlpHu6E6g/YKT6WPznRIK8MTuigx0kAa2cPRadPTgCsRINF7fdUU8ekY6oAQzyooYSg==
-X-Received: by 2002:a63:5219:0:b0:39d:7212:4b3f with SMTP id
- g25-20020a635219000000b0039d72124b3fmr7907489pgb.255.1649811870927; 
- Tue, 12 Apr 2022 18:04:30 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id
- i15-20020a17090a058f00b001cd50a6ec5csm251107pji.16.2022.04.12.18.04.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 18:04:30 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To: iwona.winiarska@intel.com
-Subject: [PATCH v2] peci: aspeed: fix error check return value of
- platform_get_irq()
-Date: Wed, 13 Apr 2022 01:04:25 +0000
-Message-Id: <20220413010425.2534887-1-lv.ruyi@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <d09484f7cda13de3f156bd1bcba8c2671495dcd1.camel@intel.com>
-References: <d09484f7cda13de3f156bd1bcba8c2671495dcd1.camel@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MqB+e2xT6Yv8MpPTnOJ+2E7n6YyjIMzpIJ4iHfGOxzQ=;
+ b=csBu2JlA7/pS0PwKY58uUyBmfsPvSiDwRrkGh5kvIUQXZ43KT0S4jLA4V7R1GYIBY0
+ YvjhFYw3fX4bKpFUvv6Ao6fxd6zHpTzsdegcToJhqFeWs+EMwnaXZwYU8LXAyMYyRQJC
+ cDFv6bpOKxndOTOuaivJEnIMnE0IjFOcdH62PWQoUc9ywqtxutxokV7RfbsenbgVdZGx
+ KWHAQihr5Mpaa5y4cJg3Vjey0OGqGTnRTsgnzEi0+wvdNsxVuVai9YPMwbN/AFNXwIyR
+ EE11KsoEnJfv4c5igyuvaO4kYSmvcqfJwciDIxejlK2olqV6StOLg8G7WsJQtmp/w8F6
+ jwIA==
+X-Gm-Message-State: AOAM53182sij6yqBA/A8MYebH1YBL2DLMwcMS3GHVkmqMEWtERHMTJ/Z
+ jM0e0y5tMfRU2ZNNv3gGZyA+eblMrx7nhS075pQ=
+X-Google-Smtp-Source: ABdhPJywZYFb5Kxa0f4hpEMdUjYMwcNEQCHYq0m2mmEOdorMP1FM/4Q5J9SAQdd/0fyvytzb+Axet0s98+c5ArMZPco=
+X-Received: by 2002:a37:f903:0:b0:648:ca74:b7dc with SMTP id
+ l3-20020a37f903000000b00648ca74b7dcmr5261283qkj.666.1649817259877; Tue, 12
+ Apr 2022 19:34:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220412065611.8930-1-dylan_hung@aspeedtech.com>
+ <20220412065611.8930-2-dylan_hung@aspeedtech.com>
+In-Reply-To: <20220412065611.8930-2-dylan_hung@aspeedtech.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 13 Apr 2022 02:34:08 +0000
+Message-ID: <CACPK8Xd0gh5pDafP3ysu7odhnP=YPNSYPV9u36CEoMPDtQxEJw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: net: add reset property for aspeed,
+ ast2600-mdio binding
+To: Dylan Hung <dylan_hung@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,41 +73,79 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: jae.hyun.yoo@linux.intel.com, linux-aspeed@lists.ozlabs.org,
- cgel.zte@gmail.com, lv.ruyi@zte.com.cn, Zeal Robot <zealci@zte.com.cn>,
- linux-kernel@vger.kernel.org, pierre-louis.bossart@linux.intel.com,
- openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ devicetree <devicetree@vger.kernel.org>, Networking <netdev@vger.kernel.org>,
+ Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ BMC-SW <BMC-SW@aspeedtech.com>, Jakub Kicinski <kuba@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, pabeni@redhat.com,
+ "David S . Miller" <davem@davemloft.net>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, hkallweit1@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
+On Tue, 12 Apr 2022 at 06:55, Dylan Hung <dylan_hung@aspeedtech.com> wrote:
+>
+> The AST2600 MDIO bus controller has a reset control bit and must be
+> deasserted before manipulating the MDIO controller. By default, the
+> hardware asserts the reset so the driver only need to deassert it.
+>
+> Regarding to the old DT blobs which don't have reset property in them,
+> the reset deassertion is usually done by the bootloader so the reset
+> property is optional to work with them.
+>
+> Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  .../devicetree/bindings/net/aspeed,ast2600-mdio.yaml         | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+> index 1c88820cbcdf..1174c14898e1 100644
+> --- a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+> +++ b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+> @@ -20,10 +20,14 @@ allOf:
+>  properties:
+>    compatible:
+>      const: aspeed,ast2600-mdio
+> +
+>    reg:
+>      maxItems: 1
+>      description: The register range of the MDIO controller instance
+>
+> +  resets:
+> +    maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -39,6 +43,7 @@ examples:
+>              reg = <0x1e650000 0x8>;
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+> +            resets = <&syscon ASPEED_RESET_MII>;
 
-platform_get_irq() return negative value on failure, so null check of
-priv->irq is incorrect. Fix it by comparing whether it is less than zero.
+You will need to include the definition for ASPEED_RESET_MII at the
+start of the example:
 
-Fixes: a85e4c52086c ("peci: Add peci-aspeed controller driver")
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
----
-v2: prefix the subject with "peci: aspeed:"
----
- drivers/peci/controller/peci-aspeed.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+#include <dt-bindings/clock/ast2600-clock.h>
 
-diff --git a/drivers/peci/controller/peci-aspeed.c b/drivers/peci/controller/peci-aspeed.c
-index 1925ddc13f00..731c5d8f75c6 100644
---- a/drivers/peci/controller/peci-aspeed.c
-+++ b/drivers/peci/controller/peci-aspeed.c
-@@ -523,7 +523,7 @@ static int aspeed_peci_probe(struct platform_device *pdev)
- 		return PTR_ERR(priv->base);
- 
- 	priv->irq = platform_get_irq(pdev, 0);
--	if (!priv->irq)
-+	if (priv->irq < 0)
- 		return priv->irq;
- 
- 	ret = devm_request_irq(&pdev->dev, priv->irq, aspeed_peci_irq_handler,
--- 
-2.25.1
+You can test the bindings example by doing this:
 
+pip install dtschema
+
+make dt_binding_check
+DT_SCHEMA_FILES=Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+
+Cheers,
+
+Joel
+
+>
+>              ethphy0: ethernet-phy@0 {
+>                      compatible = "ethernet-phy-ieee802.3-c22";
+> --
+> 2.25.1
+>
