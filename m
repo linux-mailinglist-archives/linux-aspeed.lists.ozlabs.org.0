@@ -2,57 +2,100 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65F4505EF3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Apr 2022 22:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB7D506134
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Apr 2022 02:51:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KhzPV65ygz3bVH
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Apr 2022 06:41:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Kj4y15t9nz2yhD
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Apr 2022 10:51:53 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=VpVfcbED;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=BjiYQvdc;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kaod.org (client-ip=46.105.54.81;
- helo=smtpout3.mo529.mail-out.ovh.net; envelope-from=clg@kaod.org;
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.20;
+ helo=wout4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Received: from smtpout3.mo529.mail-out.ovh.net
- (smtpout3.mo529.mail-out.ovh.net [46.105.54.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=VpVfcbED; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=BjiYQvdc; 
+ dkim-atps=neutral
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KhzPM2WX7z2xnB
- for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Apr 2022 06:41:40 +1000 (AEST)
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.235])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 151C9F7E8095;
- Mon, 18 Apr 2022 22:41:35 +0200 (CEST)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 18 Apr
- 2022 22:41:35 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006b621f0ab-1e50-4feb-b1d9-500e9b452f45,
- 3C3EC69A9BBCF5E3F551F02F0EFEFD6AB1600A8C) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e1138a33-a935-7edf-8038-f4ab61754865@kaod.org>
-Date: Mon, 18 Apr 2022 22:41:34 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/1] spi: aspeed: Update SPI clock frequency configuration
-Content-Language: en-US
-To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
- <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>
-References: <20220414102829.3892843-1-chin-ting_kuo@aspeedtech.com>
- <20220414102829.3892843-2-chin-ting_kuo@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220414102829.3892843-2-chin-ting_kuo@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: d145de27-1fc0-4dc2-b384-47b39b597e1f
-X-Ovh-Tracer-Id: 14771525305511283677
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtuddgudehvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohhpvghnsghmtgeslhhishhtshdrohiilhgrsghsrdhorhhg
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Kj4xs11M5z2xF8
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Apr 2022 10:51:44 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 182C63201805;
+ Mon, 18 Apr 2022 20:51:38 -0400 (EDT)
+Received: from imap49 ([10.202.2.99])
+ by compute3.internal (MEProxy); Mon, 18 Apr 2022 20:51:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1650329497; x=1650415897; bh=YTGif1yY4d
+ anJ4Q3Gd9k/F0/kwwvgJN1GNs1zSfH8R8=; b=VpVfcbEDFSmB+t6AoUjHi8OKvN
+ bNhUU/dOaprPoSE6NMhU1uD5j/dkMfWUDWMXp8OkmqAuy/F6aY5xnQUmGylj7o5b
+ jpUeTV5oiqSobPRN6XhlxI03dDpzhMZf8RJmKoEEYPEHNkye0dMs0vFZ4pBZhUXJ
+ mQuVNLklH2yNglFQveQ43g6WEpKowPeJZhkzfcS7T6GmqaB8kQnREPe+8AJdbrCk
+ EalrFKT8Wzkl5Gzi94gH8muOt8A+S+BEGQ7BzEIRrPA+oxYmBOkdM+0t5gMoGWQS
+ zX4F90o4xgn4W0vPArVEAMVE2Qo2Fvr8Xap2UC29eGYtTCYf0BOH1xq1HaQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650329497; x=
+ 1650415897; bh=YTGif1yY4danJ4Q3Gd9k/F0/kwwvgJN1GNs1zSfH8R8=; b=B
+ jiYQvdcMtJv2qtGGnxv05bWLoKmqM61S7z2lUvBcjss/vHhOtSJD/5zuxb9hemWk
+ AeXbSu6pGgWy9lBVen1I8nxRi//b7T+K6OBo2M7IRy4Fek3bUpq1Nyfb9HInSJYW
+ oqCX3h1mptBPBg4GA2Du7Ez1UGfNfYmvxFNtu8eaX1cuGBMltqtbidO/odpFscSB
+ bXBMl09aIoltT3zsy8ux3t/cJkOd1TT3Uf//ZsRBh3E8JNUPuL2Mc08wr0Sw4axN
+ bugaNjd0wciJHT0yRT9fioie0BXPvySS/8IxbRb4mCgKwipfB4McMkXfCwWTKV5l
+ X7Sd9riFsgadOSYvxrSYg==
+X-ME-Sender: <xms:mAdeYuMIvrVmTGDzbJMp3YzbyRZJNMzDLVKVw0-VhK7BNO_wQNNO8g>
+ <xme:mAdeYs_WH3Gd0jLPFBFzN0oVIRU3BzHp-oRC5DNXrQdHUfmKPrQ6wZU-qsJynDlqo
+ QBsl28NvE1oYE3QWA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtvddggedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
+ hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:mAdeYlTIwEXjdfj0U_cQUKb1pijIKwU6Km1lDvF_R3J6gBbe39w1JA>
+ <xmx:mAdeYusvZLEnJ2VACloteuhlqW0qbkUjrypjKD9EadfZBdLqh6-mFg>
+ <xmx:mAdeYmdNnb1QaJeSKH675c-m6cERHjKXDdlXsx-LsvbHvqsGGPHLGg>
+ <xmx:mQdeYi8tUGvmPrK9LY73NzLIzVfLPiibEefluSwp96gXaN0D-B1I3A>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 5B51215A0069; Mon, 18 Apr 2022 20:51:36 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-387-g7ea99c4045-fm-20220413.002-g7ea99c40
+Mime-Version: 1.0
+Message-Id: <c4d4d135-7d52-455a-9623-4c7badb46f9d@www.fastmail.com>
+In-Reply-To: <20220418014059.3054-2-dylan_hung@aspeedtech.com>
+References: <20220418014059.3054-1-dylan_hung@aspeedtech.com>
+ <20220418014059.3054-2-dylan_hung@aspeedtech.com>
+Date: Tue, 19 Apr 2022 10:21:15 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Dylan Hung" <dylan_hung@aspeedtech.com>,
+ "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>,
+ "Andrew Lunn" <andrew@lunn.ch>, "Heiner Kallweit" <hkallweit1@gmail.com>,
+ "Russell King" <linux@armlinux.org.uk>, "David Miller" <davem@davemloft.net>, 
+ "Jakub Kicinski" <kuba@kernel.org>, pabeni@redhat.com,
+ "Philipp Zabel" <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, netdev <netdev@vger.kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>
+Subject: Re: [PATCH net-next RESEND v5 1/3] dt-bindings: net: add reset
+ property for aspeed, ast2600-mdio binding
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,316 +107,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: BMC-SW@aspeedtech.com, Krzysztof Kozlowski <krzk@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Chin-Ting,
-
-On 4/14/22 12:28, Chin-Ting Kuo wrote:
-> Instead of using the slowest one, the maximum clock
-> frequency configured in the device tree should be kept
-> when no timing calibration process is executed.
-> Besides, an extra callback function is added in order
-> to calculate clock frequency configuration for
-> different ASPEED platforms.
-> 
-> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-
-I gave this patch a try on an AST2600 A3 EVB and an AST2500 EVB and it
-behaved as expected. The default setting from the DT is chosen when the
-flash contents are too uniform.
 
 
-> ---
->   drivers/spi/spi-aspeed-smc.c | 166 +++++++++++++++++++++++++++++++----
->   1 file changed, 149 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-> index 227797e13997..728163d0045d 100644
-> --- a/drivers/spi/spi-aspeed-smc.c
-> +++ b/drivers/spi/spi-aspeed-smc.c
-> @@ -3,7 +3,7 @@
->    * ASPEED FMC/SPI Memory Controller Driver
->    *
->    * Copyright (c) 2015-2022, IBM Corporation.
-> - * Copyright (c) 2020, ASPEED Corporation.
-> + * Copyright (c) 2020-2022, ASPEED Corporation.
->    */
->   #include <linux/clk.h>
-> @@ -84,6 +84,7 @@ struct aspeed_spi_data {
->   	u32 (*segment_reg)(struct aspeed_spi *aspi, u32 start, u32 end);
->   	int (*calibrate)(struct aspeed_spi_chip *chip, u32 hdiv,
->   			 const u8 *golden_buf, u8 *test_buf);
-> +	u32 (*clk_config)(struct aspeed_spi_chip *chip, u32 max_hz);
->   };
->   
->   #define ASPEED_SPI_MAX_NUM_CS	5
-> @@ -959,7 +960,10 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
->   	u32 ctl_val;
->   	u8 *golden_buf = NULL;
->   	u8 *test_buf = NULL;
-> -	int i, rc, best_div = -1;
-> +	int i, rc;
-> +	u32 best_freq = 0;
-> +	u32 freq;
-> +	u32 clk_conf;
->   
->   	dev_dbg(aspi->dev, "calculate timing compensation - AHB freq: %d MHz",
->   		ahb_freq / 1000000);
-> @@ -980,7 +984,7 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
->   	memcpy_fromio(golden_buf, chip->ahb_base, CALIBRATE_BUF_SIZE);
->   	if (!aspeed_spi_check_calib_data(golden_buf, CALIBRATE_BUF_SIZE)) {
->   		dev_info(aspi->dev, "Calibration area too uniform, using low speed");
+On Mon, 18 Apr 2022, at 11:10, Dylan Hung wrote:
+> The AST2600 MDIO bus controller has a reset control bit and must be
+> deasserted before manipulating the MDIO controller. By default, the
+> hardware asserts the reset so the driver only need to deassert it.
+>
+> Regarding to the old DT blobs which don't have reset property in them,
+> the reset deassertion is usually done by the bootloader so the reset
+> property is optional to work with them.
+>
+> Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-may be change dev_info() to "..., using default freq"
-
-> -		goto no_calib;
-> +		goto end_calib;
->   	}
->   
->   #if defined(VERBOSE_DEBUG)
-> @@ -990,7 +994,7 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
->   
->   	/* Now we iterate the HCLK dividers until we find our breaking point */
->   	for (i = ARRAY_SIZE(aspeed_spi_hclk_divs); i > data->hdiv_max - 1; i--) {
-> -		u32 tv, freq;
-> +		u32 tv;
->   
->   		freq = ahb_freq / i;
->   		if (freq > max_freq)
-> @@ -1002,27 +1006,149 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
->   		dev_dbg(aspi->dev, "Trying HCLK/%d [%08x] ...", i, tv);
->   		rc = data->calibrate(chip, i, golden_buf, test_buf);
->   		if (rc == 0)
-> -			best_div = i;
-> +			best_freq = freq;
->   	}
->   
->   	/* Nothing found ? */
-> -	if (best_div < 0) {
-> -		dev_warn(aspi->dev, "No good frequency, using dumb slow");
-> -	} else {
-> -		dev_dbg(aspi->dev, "Found good read timings at HCLK/%d", best_div);
-> +	if (best_freq == 0)
-> +		dev_warn(aspi->dev, "Use the default timing setting");
-> +	else
-> +		dev_dbg(aspi->dev, "Found good read timings at HCLK/%d", i);
->   
-> -		/* Record the freq */
-> -		for (i = 0; i < ASPEED_SPI_MAX; i++)
-> -			chip->ctl_val[i] = (chip->ctl_val[i] & data->hclk_mask) |
-> -				ASPEED_SPI_HCLK_DIV(best_div);
-> -	}
->   
-> -no_calib:
-> +end_calib:
-> +	if (best_freq == 0)
-> +		best_freq = max_freq;
-> +
-> +	clk_conf = data->clk_config(chip, best_freq);
-> +	/* Record the freq */
-> +	for (i = 0; i < ASPEED_SPI_MAX; i++)
-> +		chip->ctl_val[i] = (chip->ctl_val[i] & data->hclk_mask) | clk_conf;
-> +
->   	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
->   	kfree(test_buf);
->   	return 0;
->   }
->   
-> +/* HCLK/1 ..	HCLK/16 */
-> +static const u32 aspeed_spi_hclk_masks[] = {
-> +	15, 7, 14, 6, 13, 5, 12, 4,
-> +	11, 3, 10, 2, 9,  1, 8,  0
-> +};
-
-This new array is a bit redundant with aspeed_spi_hclk_divs[]
-
-> +
-> +static u32 aspeed_spi_ast2400_clk_config(struct aspeed_spi_chip *chip,
-> +					 u32 max_hz)
-> +{
-> +	struct aspeed_spi *aspi = chip->aspi;
-> +	u32 ahb_freq = aspi->clk_freq;
-> +	u32 hclk_div = 0; /* default value */
-> +	u32 i;
-> +	bool found = false;
-> +
-> +	/* FMC/SPIR10[11:8] */
-> +	for (i = 0; i < ARRAY_SIZE(aspeed_spi_hclk_masks); i++) {
-> +		if (ahb_freq / (i + 1) <= max_hz) {
-> +			found = true;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (found)
-> +		hclk_div = aspeed_spi_hclk_masks[i] << 8;
-> +
-> +	dev_dbg(aspi->dev, "found: %s, hclk: %d, max_clk: %d\n",
-> +		found ? "yes" : "no", ahb_freq, max_hz);
-> +
-> +	if (found) {
-> +		dev_dbg(aspi->dev, "h_div: %d (mask %x)\n",
-> +			i + 1, aspeed_spi_hclk_masks[i]);
-> +	}
-> +
-> +	return hclk_div;
-> +}
-> +
-> +static u32 aspeed_spi_ast2500_clk_config(struct aspeed_spi_chip *chip,
-> +					 u32 max_hz)
-> +{
-> +	struct aspeed_spi *aspi = chip->aspi;
-> +	u32 ahb_freq = aspi->clk_freq;
-> +	u32 hclk_div = 0; /* default value */
-> +	u32 i;
-> +	bool found = false;
-> +
-> +	/* FMC/SPIR10[11:8] */
-> +	for (i = 0; i < ARRAY_SIZE(aspeed_spi_hclk_masks); i++) {
-> +		if (ahb_freq / (i + 1) <= max_hz) {
-> +			found = true;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (found) {
-> +		hclk_div = aspeed_spi_hclk_masks[i] << 8;
-> +	} else {
-> +		/* If FMC10[13] is set, an extra div_4 can be introduced. */
-> +		for (i = 0; i < ARRAY_SIZE(aspeed_spi_hclk_masks); i++) {
-> +			if (ahb_freq / ((i + 1) * 4) <= max_hz) {
-> +				found = true;
-> +				break;
-> +			}
-> +		}
-> +
-> +		if (found)
-> +			hclk_div = BIT(13) | (aspeed_spi_hclk_masks[i] << 8);
-> +	}
-> +
-> +	dev_dbg(aspi->dev, "found: %s, hclk: %d, max_clk: %d\n",
-> +		found ? "yes" : "no", ahb_freq, max_hz);
-> +
-> +	if (found) {
-> +		dev_dbg(aspi->dev, "h_div: %d (mask %x)\n",
-> +			i + 1, aspeed_spi_hclk_masks[i]);
-> +	}
-> +
-> +	return hclk_div;
-> +}
-> +
-> +static u32 aspeed_spi_ast2600_clk_config(struct aspeed_spi_chip *chip,
-> +					 u32 max_hz)
-> +{
-> +	struct aspeed_spi *aspi = chip->aspi;
-> +	u32 ahb_freq = aspi->clk_freq;
-> +	u32 hclk_div = 0x400; /* default value */
-> +	u32 i, j;
-> +	bool found = false;
-> +
-> +	/* FMC/SPIR10[27:24] */
-> +	for (j = 0; j < 0xf; j++) {
-> +		/* FMC/SPIR10[11:8] */
-> +		for (i = 0; i < ARRAY_SIZE(aspeed_spi_hclk_masks); i++) {
-> +			if (i == 0 && j == 0)
-> +				continue;
-> +
-> +			if (ahb_freq / (i + 1 + (j * 16)) <= max_hz) {
-> +				found = true;
-> +				break;
-> +			}
-> +		}
-> +
-> +		if (found) {
-> +			hclk_div = ((j << 24) | aspeed_spi_hclk_masks[i] << 8);
-> +			break;
-> +		}
-> +	}
-> +
-> +	dev_dbg(aspi->dev, "found: %s, hclk: %d, max_clk: %d\n",
-> +		found ? "yes" : "no", ahb_freq, max_hz);
-> +
-> +	if (found) {
-> +		dev_dbg(aspi->dev, "base_clk: %d, h_div: %d (mask %x)\n",
-> +			j, i + 1, aspeed_spi_hclk_masks[i]);
-> +	}
-> +
-> +	return hclk_div;
-> +}
-> +
->   #define TIMING_DELAY_DI		BIT(3)
->   #define TIMING_DELAY_HCYCLE_MAX	5
->   #define TIMING_REG_AST2600(chip)				\
-> @@ -1097,6 +1223,7 @@ static const struct aspeed_spi_data ast2400_fmc_data = {
->   	.segment_start = aspeed_spi_segment_start,
->   	.segment_end   = aspeed_spi_segment_end,
->   	.segment_reg   = aspeed_spi_segment_reg,
-> +	.clk_config    = aspeed_spi_ast2400_clk_config,
->   };
->   
->   static const struct aspeed_spi_data ast2400_spi_data = {
-> @@ -1109,6 +1236,7 @@ static const struct aspeed_spi_data ast2400_spi_data = {
->   	.hdiv_max      = 1,
->   	.calibrate     = aspeed_spi_calibrate,
->   	/* No segment registers */
-> +	.clk_config    = aspeed_spi_ast2400_clk_config,
->   };
->   
->   static const struct aspeed_spi_data ast2500_fmc_data = {
-> @@ -1117,12 +1245,13 @@ static const struct aspeed_spi_data ast2500_fmc_data = {
->   	.we0	       = 16,
->   	.ctl0	       = CE0_CTRL_REG,
->   	.timing	       = CE0_TIMING_COMPENSATION_REG,
-> -	.hclk_mask     = 0xfffff0ff,
-> +	.hclk_mask     = 0xffffd0ff,
-
-I think this change of. hclk_mask and the one below should be included
-in the initial patchset. I will when I publish v5.
-
-Thanks,
-
-C.
-
->   	.hdiv_max      = 1,
->   	.calibrate     = aspeed_spi_calibrate,
->   	.segment_start = aspeed_spi_segment_start,
->   	.segment_end   = aspeed_spi_segment_end,
->   	.segment_reg   = aspeed_spi_segment_reg,
-> +	.clk_config    = aspeed_spi_ast2500_clk_config,
->   };
->   
->   static const struct aspeed_spi_data ast2500_spi_data = {
-> @@ -1131,12 +1260,13 @@ static const struct aspeed_spi_data ast2500_spi_data = {
->   	.we0	       = 16,
->   	.ctl0	       = CE0_CTRL_REG,
->   	.timing	       = CE0_TIMING_COMPENSATION_REG,
-> -	.hclk_mask     = 0xfffff0ff,
-> +	.hclk_mask     = 0xffffd0ff,
->   	.hdiv_max      = 1,
->   	.calibrate     = aspeed_spi_calibrate,
->   	.segment_start = aspeed_spi_segment_start,
->   	.segment_end   = aspeed_spi_segment_end,
->   	.segment_reg   = aspeed_spi_segment_reg,
-> +	.clk_config    = aspeed_spi_ast2500_clk_config,
->   };
->   
->   static const struct aspeed_spi_data ast2600_fmc_data = {
-> @@ -1152,6 +1282,7 @@ static const struct aspeed_spi_data ast2600_fmc_data = {
->   	.segment_start = aspeed_spi_segment_ast2600_start,
->   	.segment_end   = aspeed_spi_segment_ast2600_end,
->   	.segment_reg   = aspeed_spi_segment_ast2600_reg,
-> +	.clk_config    = aspeed_spi_ast2600_clk_config,
->   };
->   
->   static const struct aspeed_spi_data ast2600_spi_data = {
-> @@ -1167,6 +1298,7 @@ static const struct aspeed_spi_data ast2600_spi_data = {
->   	.segment_start = aspeed_spi_segment_ast2600_start,
->   	.segment_end   = aspeed_spi_segment_ast2600_end,
->   	.segment_reg   = aspeed_spi_segment_ast2600_reg,
-> +	.clk_config    = aspeed_spi_ast2600_clk_config,
->   };
->   
->   static const struct of_device_id aspeed_spi_matches[] = {
-
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
