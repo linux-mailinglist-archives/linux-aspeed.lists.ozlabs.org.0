@@ -1,91 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1C650EE8F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Apr 2022 04:12:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4863250EE90
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Apr 2022 04:12:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KnQPR1HYxz2xCB
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Apr 2022 12:12:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KnQPV13d9z2yPj
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Apr 2022 12:12:14 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=dFaXJiaZ;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=e5/VJ4uw;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::635;
- helo=mail-ej1-x635.google.com; envelope-from=krzysztof.kozlowski@linaro.org;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::636;
+ helo=mail-ej1-x636.google.com; envelope-from=krzysztof.kozlowski@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=dFaXJiaZ; dkim-atps=neutral
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
+ header.s=google header.b=e5/VJ4uw; dkim-atps=neutral
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Kl5SH2K0wz2y8P
- for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Apr 2022 17:21:32 +1000 (AEST)
-Received: by mail-ej1-x635.google.com with SMTP id y10so14572934ejw.8
- for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Apr 2022 00:21:32 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Kl9zz1RLkz2yn9
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Apr 2022 20:45:49 +1000 (AEST)
+Received: by mail-ej1-x636.google.com with SMTP id l7so15627923ejn.2
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Apr 2022 03:45:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=mozxGpVNThVpDxU3FVNcRd3/bjSVUfsXgVBZGesYHcQ=;
- b=dFaXJiaZInJnghQJtlvgdh4lXAnWTxUSVihj7RkPF/++bL8fVbLlZ/pLUAlKoZh/x8
- /iRlc0YIE88TB85pKs95phIGUI/VkIX6cRyEPwLOu+jObgbS6pxqnNXgPu7s+7vukl5h
- lcuad8p9vJHqQyAzwldWPyxExC36yVWvnDVof7Vbm9EN2N0axmsvQY9kU2I1T1X4XSgE
- FGiihVPBg//1Jg5T7zeEPibKuZVkjKFrMhSaB2QQBt/HGD5BAFODvxz7MQYEk95yZU1g
- +1OKDbmG2bGMtaCmlNZ68Qfq7vVUr4uQVSSjEb6KQJn9j16zS2FsiU9Xige6DKLdCv4d
- wYDw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HE//HcQTXFALh6mE2wSN/v3f/KXxXJCpEOZ5pIZr4hY=;
+ b=e5/VJ4uwjeEhiUDjL6Ro+kDSkXiKb18cIXdxJsgc9MfJ3kSMHDqpOjVws7MfyYMItP
+ l7dfyU48/9yznSA611fHOqCN5jmwFasrttXsMVnHGH3Go2SPSw/NDk38rF6BJJE3PA98
+ Q9aXDR+2Dy0BKEwHsrvGGCCXzDYQutoeQj13k43CJwL4OUox7D+BpQpErL2bzO4Y3RFa
+ VbZlXOY0AGWAMIjskiP3aUih8nWm8F7mJu1CsC7IHTDBAn4O0X+jyEd2jPugwxq0LhSv
+ 5XKQp9Ra8YQYIYnfrM5xSjVJ1p60b8uZvw/Lr8Ix0MjhKdOudMEt9tVV1c/zgzLaPBSv
+ 5Wdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mozxGpVNThVpDxU3FVNcRd3/bjSVUfsXgVBZGesYHcQ=;
- b=7LKrHDDBaw0v9PUCexJVWFEI5V16pBnQXDKEjhAhuWNuYNllABFgDrwjvgZkGhEw12
- CIfLTCkpoQW1Zma95rGxJ+55mdk99RvMrxYcyweS4OIQORZ009sWCHnZllPzz8z5VxgW
- H5Na6I7pi2sygHyqoGLZOHCqEsWoKpO0tEs56znUi74VXmU2wxHGdTehYrhbz7Ldb2Rm
- kNDiKXgV+VBtBv9bEdA6gilKV4zHM8X/LKzKtSX79mX0oce71Z30CYlC+M29l3AEc4b3
- zGMUv3euC1ZJXJ+S6U6N/IERS+R+UELJiJTGQ7HJOqDs3qaIsYW8Tq5YdFXI+heItu52
- Pp4A==
-X-Gm-Message-State: AOAM531fPaJiJdr+M50Bu8wh4SpOgh3PF5eLs5/w5bEtyhQ9kYGtjQbT
- cvPc/aQiLqgTPIrn3rrWQd+KJA==
-X-Google-Smtp-Source: ABdhPJwijLHu2gqRX7mBCn8elSy2a/cyiAkiWa5IL9L5CDIleQFKOvKyFF0yVvaYGr/UJ2+gL0DWmg==
-X-Received: by 2002:a17:906:7f02:b0:6cf:86d8:c31c with SMTP id
- d2-20020a1709067f0200b006cf86d8c31cmr3012426ejr.518.1650612085191; 
- Fri, 22 Apr 2022 00:21:25 -0700 (PDT)
-Received: from [192.168.0.230] (xdsl-188-155-176-92.adslplus.ch.
+ bh=HE//HcQTXFALh6mE2wSN/v3f/KXxXJCpEOZ5pIZr4hY=;
+ b=RwennYIObZqXfGmw0VTXTIKBRBL4D51uFOWlTuMQiyZVR7Llude0lmHsgDPHXlG5xM
+ 6jlJnQW/MAOAKgrbyDVW7PuNKAM3J9YLV3JwOmoPhCKcQaIotS2azYw1oJHi1Of+T8hm
+ nRZHHMVPadVwRxHW25mhqZq0cX8C6PDh/wtm88O8xibJsGqlDWBMRzDecs2VL0JRjcf6
+ ojutKadzYaDKEzJWAN4KIJRMfUB9HMsSQjre5UWFqOOJw4MYf9SM+eTqKXNq4PCtWFNe
+ bZNKu/TnYpz/cQExqITjBfW4c6ixB7O6zenHcT566XmNt6fK2QOLIxypPdMxDU32Iazj
+ T6tA==
+X-Gm-Message-State: AOAM532JY1HFD824QC0iQ7MKIk4nXrTNVBuDuWuOiT30ftFGoyUssFMY
+ aMDWK3l2XKafkQvcaIDY84dacA==
+X-Google-Smtp-Source: ABdhPJx39u9MWyPfP66DFZ7RmPDZDn+dQyvSAT/UY9njPtByzeZizvvoyz2vh1Iv+uTdK1xL8PcpXA==
+X-Received: by 2002:a17:906:2bd4:b0:6e8:7e5:39b6 with SMTP id
+ n20-20020a1709062bd400b006e807e539b6mr3516862ejg.25.1650624340194; 
+ Fri, 22 Apr 2022 03:45:40 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch.
  [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- f5-20020a1709067f8500b006da68bfdfc7sm471328ejr.12.2022.04.22.00.21.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Apr 2022 00:21:24 -0700 (PDT)
-Message-ID: <55cbbc16-5769-ecd2-e65e-c3b39a34dfbb@linaro.org>
-Date: Fri, 22 Apr 2022 09:21:23 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v7 2/3] bindings: ipmi: Add binding for SSIF BMC driver
-Content-Language: en-US
-To: Quan Nguyen <quan@os.amperecomputing.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Wolfram Sang <wsa@kernel.org>, openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org
-References: <20220422040803.2524940-1-quan@os.amperecomputing.com>
- <20220422040803.2524940-3-quan@os.amperecomputing.com>
- <153da61e-dc9d-467e-221c-b48d6f54c6c2@os.amperecomputing.com>
+ cn27-20020a0564020cbb00b00418b0c7fbbfsm744502edb.32.2022.04.22.03.45.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 03:45:39 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <153da61e-dc9d-467e-221c-b48d6f54c6c2@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Joel Stanley <joel@jms.id.au>, Thomas Gleixner <tglx@linutronix.de>,
+ Marc Zyngier <maz@kernel.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Eddie James <eajames@linux.ibm.com>, linux-i2c@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: [PATCH 1/2] irqchip/aspeed-i2c-ic: Fix irq_of_parse_and_map() return
+ value
+Date: Fri, 22 Apr 2022 12:45:35 +0200
+Message-Id: <20220422104536.61451-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 26 Apr 2022 12:05:21 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -98,21 +87,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Open Source Submission <patches@amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 22/04/2022 06:16, Quan Nguyen wrote:
-> Added Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> as I'm not aware of the email change
+The irq_of_parse_and_map() returns 0 on failure, not a negative ERRNO.
 
-The email change from @canonical.com was 1.5 months ago, so it would be
-better if rebase your changes on more recent Linux kernel. You get all
-proper .mailmap entries.
+Fixes: f48e699ddf70 ("irqchip/aspeed-i2c-ic: Add I2C IRQ controller for Aspeed")
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/irqchip/irq-aspeed-i2c-ic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/irqchip/irq-aspeed-i2c-ic.c b/drivers/irqchip/irq-aspeed-i2c-ic.c
+index a47db16ff960..cef1291ae783 100644
+--- a/drivers/irqchip/irq-aspeed-i2c-ic.c
++++ b/drivers/irqchip/irq-aspeed-i2c-ic.c
+@@ -77,7 +77,7 @@ static int __init aspeed_i2c_ic_of_init(struct device_node *node,
+ 	}
+ 
+ 	i2c_ic->parent_irq = irq_of_parse_and_map(node, 0);
+-	if (i2c_ic->parent_irq < 0) {
++	if (!i2c_ic->parent_irq) {
+ 		ret = i2c_ic->parent_irq;
+ 		goto err_iounmap;
+ 	}
+-- 
+2.32.0
 
-Best regards,
-Krzysztof
