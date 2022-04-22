@@ -2,78 +2,131 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FE450AAD8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Apr 2022 23:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B8150AEBA
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Apr 2022 06:09:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KkrTx6zFzz3bZY
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Apr 2022 07:37:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Kl1B20YVLz3bbL
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Apr 2022 14:08:58 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=IovDd6Zh;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=DXSi+Bi7;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::230;
- helo=mail-oi1-x230.google.com; envelope-from=bjwyman@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=IovDd6Zh; dkim-atps=neutral
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:7e88::712;
+ helo=nam10-dm6-obe.outbound.protection.outlook.com;
+ envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
+ header.a=rsa-sha256 header.s=selector2 header.b=DXSi+Bi7; 
+ dkim-atps=neutral
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on20712.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e88::712])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KkrTp5zqHz2yb6;
- Fri, 22 Apr 2022 07:37:01 +1000 (AEST)
-Received: by mail-oi1-x230.google.com with SMTP id r85so7010359oie.7;
- Thu, 21 Apr 2022 14:37:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cUgxKgMIon74FgS8ThsTztXtidaROyVyoTKM0lJdMBY=;
- b=IovDd6Zh7okx91S098LpEDbfV6osBUmc1Ups40tC7h4CV5p3aM5KTusoEj8Ua0RueS
- NfY3lavbNz6esYDw1RY48nAFFogBFVDKzhpjktv/dioK7sZjpqvFd5jhD9nVGl8ns65t
- l4VHCNfb/4yuUBzqTvB8Gt8NNx0pXZBogEZQtUWTDFC7yvFqqTfHwQiadZ1te0+u/6m1
- pj2LhB/Cm5WW/UaeYEKYuHqy6T5XuLtTPPp+0jmiozT2tmmtiEUbcpMzEykbtDWsE3WE
- 7a4nL5ZO2FsVkZDEb5nHxCZtM4v6ngZbNKCUEWKwQ6tpg/dsAjx/zXwHbMwuTt/mf3pY
- TRKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cUgxKgMIon74FgS8ThsTztXtidaROyVyoTKM0lJdMBY=;
- b=nRLUzWgKQ8jv+xBEIj6QAHP3SbJqni93Iq/6ra1FRSmmjncTHRd1l/jTF3NVq9ZI5b
- Z01zJ/fBFPsI00muF8penaJ7g0nF8VZsMpG4mGr1Hdaq4yEuoWPYz4lKg2b3Ay814VDq
- lSAygb/SoA9pwmOy6dLycSTIt17laqutAgy31HHGnxY45ZRqLni9ie7UcGuAMRCh+19b
- fRepPJAgTwu6Skez3dPmJnluwoQQ/tTa+k3vzpq6P09Q0xZKjbKh5BbTAgWkcvhvvjq8
- A0pFdHJcYx8B6ycSHGqV8lab3xq1KIq0vLhc+l9k9KgALLafiRTf1JgPqQcFvNNaEbBN
- KAxQ==
-X-Gm-Message-State: AOAM531XYhg8zUlxIDamt1EqmSoCe/k6/MMaPcX3PrYXZpXKxpig6zBn
- EWXBuaw95WTPH7rVQZmk3lE=
-X-Google-Smtp-Source: ABdhPJwL3mC33NuySTThTtMCGd0apoCnU6B//AN7X5pzrxPCBrNbgGaGZM/UCOe9BiFvtr9noplFiw==
-X-Received: by 2002:aca:b505:0:b0:322:a524:8859 with SMTP id
- e5-20020acab505000000b00322a5248859mr4963479oif.2.1650577017387; 
- Thu, 21 Apr 2022 14:36:57 -0700 (PDT)
-Received: from fstone04p1.aus.stglabs.ibm.com ([129.41.86.7])
- by smtp.gmail.com with ESMTPSA id
- s14-20020a0568302a8e00b006054e841915sm51010otu.73.2022.04.21.14.36.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 14:36:56 -0700 (PDT)
-From: Brandon Wyman <bjwyman@gmail.com>
-To: Joel Stanley <joel@jms.id.au>, openbmc@lists.ozlabs.org,
- Eddie James <eajames@linux.ibm.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] ARM: dts: aspeed: Everest and Rainier: Add
- power-ffs-sync-history GPIO
-Date: Thu, 21 Apr 2022 21:36:38 +0000
-Message-Id: <20220421213638.1151193-1-bjwyman@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Kl19w4swfz2yHp;
+ Fri, 22 Apr 2022 14:08:51 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gz0CYriW93Ue3N015i06ThebS+dOha+wpgdkB4h+BIv1n8p1WGV+u6vhixbUIoCjQuyB2kR0kc4HElVIyn5/xIVLtu1kR3AUNqWk6KVGA+kh9dDiugjDI1IHA0om1zNLV3DkJ2IwJeEp/U2A36TMiCfbs4x96vPi/WmXFDQ1IQRwvjFl2Mzdtrj+PTZkmeUADp0srsr1RJGi087/QK3SX3vVlCwkuIaniOmjcrx6K3kF/Fxe5NSsyHZA6s/G8mxFc8zX8Rauw7bkJYNuNe0AnKw0SAZcDIxsBASY2fSutg1uAEj7iRS9yLVc9nTFCFBK1Uv492kJt+wYPrhWybduMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=57XlQW3r5Ws5SYh1U+nJdq86xcDgkdo9lwML0jQEA98=;
+ b=aPgD1Q8IuKXnBgV0HJnYCaVdbHqkrCBB3Ch8hTd3nM3ck8rIpqnGcTb7FBWwwayXZXUHpU1pRQvA/G2hNazb1PnmGw+wpmAEZgBIS90/jAAtyozBKe+PuMtLvE7d/ssHqWytnv6/Dov/9mMT2R7+aFx/OaFTl2Lw8Y9VEpnzoRgDIRpwIez06xom3GifsgvmGLqlqMY8mYf9qQKnyTS3lDWwo2dQBbbx0uf38fCZXGy8otOndkk92WV92YkabWp1azwWlyDZbF5xB8aFWXKXdFE+ORl4/bZSaqEZXOsYOg0e8P+efNsAiK22Lk70vjUVHGuRXDISyPLQwBxy6YrkUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=57XlQW3r5Ws5SYh1U+nJdq86xcDgkdo9lwML0jQEA98=;
+ b=DXSi+Bi7vjtCVxVOysaaikLQCHXtADfFhwl2eWNbB6pOcDeMATZUvCJm2lUr4niJbd1YYx6hkOOO8FbkvUGXIWXz05RfluqYqtNEWKoPPzEatmKbFzDEoJw6k4Pp3jWhID5UD357CJxf4WIcQQshBIodB68J5E231IW5sb0wwOM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
+ BL0PR0102MB3587.prod.exchangelabs.com (2603:10b6:207:38::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5164.25; Fri, 22 Apr 2022 04:08:25 +0000
+Received: from SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::319b:4612:e6f4:f22c]) by SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::319b:4612:e6f4:f22c%3]) with mapi id 15.20.5186.015; Fri, 22 Apr 2022
+ 04:08:25 +0000
+From: Quan Nguyen <quan@os.amperecomputing.com>
+To: Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Wolfram Sang <wsa@kernel.org>, openipmi-developer@lists.sourceforge.net,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org
+Subject: [PATCH v7 0/3] Add SSIF BMC driver
+Date: Fri, 22 Apr 2022 11:08:00 +0700
+Message-Id: <20220422040803.2524940-1-quan@os.amperecomputing.com>
+X-Mailer: git-send-email 2.35.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR04CA0005.apcprd04.prod.outlook.com
+ (2603:1096:4:197::16) To SJ0PR01MB7282.prod.exchangelabs.com
+ (2603:10b6:a03:3f2::24)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9ee23ee7-1b09-4240-0e50-08da2415bfa3
+X-MS-TrafficTypeDiagnostic: BL0PR0102MB3587:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR0102MB35876EF8ACE87185C5FDA092F2F79@BL0PR0102MB3587.prod.exchangelabs.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lrHlCjn75tlLonMQyhawkssGUqfd/4RB4R7QO1dxjxkPh6ZBrKTrsfBpVSovjqPogOvcmmARlBNASoO9jP0CHu5FVVkIX8WADbWS3RNo81GWKEtVf6Qix9gsMdJD6JqOpGZAEgGxPRBmNllVpm/MiWSrG5J7xB0dLpVy38zdvIe2TigbPlB1T+oPa+qjlztgwcjOYrNotQ/bco4QEzTGP6k7hQDALG5gZXk2XuOpK9ce2qa8uU04bJ53VfYWq8FlXfKC7dCjCrfLlcj7dFZC3SMJPbwj/nCCt/BRKhcs/gsNACw2qhkLQCvFEntQjjnX0aTYGb9QRKOt/7pc5IbP8t8hVJ5Qt5btqWxwHxXe0Odh4qn0Eds61o43z8tWqXlmrtJPfAvETb2RP6AXJgTOjfcNS3IMGnt0B1oqSfuN5KHrpehkXPHLVWl+lBNVqoZRuDn9yMtJy4bo3Lp8g6q4XEJxLl40F5mYk1zbYX8FopK4iVUgbdyBrJVqYfPMCaT+Np83eueEDfEyZ81GBQga6FPMlavhdy2i6X5wSTmTuiNQel/ASuZwXGGzQOHFNNIJrc+4G0I0OD01qqTR+B3HdoczpQbDIphLyzDEHEoKT3P3dAl978RnX5HP3i+h+avbWhr1+sCWJMR5cxB8Uy8ghJ38Dq5oZJlcs2qBI7uWnOHaaI1lGk7EVEOQA31EnzKw0kHYbwWhOaUYo737b9x2StM9IpVAKYlGrwNvG1k1twTKnGyYFltcg3JcUcUPExXBAe0ssmZk0/AjwFWy9um/kDPcKgh6XTMqqszuWC2nDAYhNAmN4b/aut3h70CqDa/+
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR01MB7282.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(316002)(186003)(4326008)(921005)(38100700002)(54906003)(66946007)(7416002)(86362001)(110136005)(8676002)(6486002)(38350700002)(8936002)(966005)(83380400001)(52116002)(2906002)(66476007)(66556008)(5660300002)(508600001)(1076003)(6512007)(6506007)(2616005)(26005)(6666004)(107886003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jVsDEcxFy89PSbahCmJSW0FE/k8fJFOQV8CHgt7JsScKZV1Rj91eSbJZfwwE?=
+ =?us-ascii?Q?5cgrU0S8t25Bmyg6v4awzjvxrx8gef4TNvsghbqtJm9jaltc8NXPYNWSN+ra?=
+ =?us-ascii?Q?GUpXZdINSkhqV7J5Fwu8UigFpHfABTVClUAzC8VavZfh4RNt2jboKh5L91eW?=
+ =?us-ascii?Q?tBMUl6NnsDToTZtf3OpOc0lc5GqzAs09sRzxstf0cQ6lQED9lFxFiWGMoBB2?=
+ =?us-ascii?Q?oBJi/syu4Uevluzm776PBdlKvs8eI+EcvH+qbWoqbL9yvSo6KFdH4+zCDoBW?=
+ =?us-ascii?Q?r09w3h6OWEG1aUlzOkOqM6zim9g3tIGxwKCPJVB3dO75qLxFHsvOYIGXBZ8q?=
+ =?us-ascii?Q?0vzPitkqKD+lZ1fabgeL6FlzvYwHN6mb8/Nalw5drlhrUUwWTH9Y6mD/fONz?=
+ =?us-ascii?Q?RZQJi2GCTrtJ0KiL/6G7ZBjGUbx6hixYX3ucW3VHc1+xUzghWb0Jk175prcP?=
+ =?us-ascii?Q?+RQyE2unBqz3cF+bnaHz1bKBtaItOihBmt/yKsJU/y8+pT/awxTk7FEtKxlm?=
+ =?us-ascii?Q?dIqS4ovDRxrS5R4AzdhL2t3dPOo3IRlUsLgKlDgH3z9U4pcfytMQutVmUd70?=
+ =?us-ascii?Q?kCuXgEGJEt0yBWymQbgjdBhgggQ2O/jGU4HgMFtPyir2PUEJ6DsgaYs44Ceu?=
+ =?us-ascii?Q?SdSNUbkKHFBPc4B6FASPiRw005POH0uKPVm5wPaUsY3uv2ACRA/dTL6y4uOl?=
+ =?us-ascii?Q?DAxcranu5B0g1vWMfFRK6x6O4B4Pa8IG17e0fstsvTQAcuyFk3r2u6JIEoRO?=
+ =?us-ascii?Q?t+3p5/BHCUVVxYxXWSPNfq0Dhs4TYbxFkvMyyEKNjxGdR4m2diXtnV/R5fpb?=
+ =?us-ascii?Q?rZGjrUh/ICHNDmIK9XWYdLrm33t+Ws0UuTHokDurX4w3M/GWCBle2Vqq8c15?=
+ =?us-ascii?Q?cVjok1SEslKtU3/HKctzfjWaatlYAs48V2lmNLTDfU7Tkw11O01xFytTOlmu?=
+ =?us-ascii?Q?l6QN4EOz3gLxPYCRZ3IDCKT4vfgyQPZFN+iBXsw4j1ZDv+A4fzDAM2ONF874?=
+ =?us-ascii?Q?bcpu8oS09qbsTWxp3DaixeBZUfyEuMYO9vNlw+fFbCKo5vXsr0ZJOczfSZuk?=
+ =?us-ascii?Q?InL+tUJk4xmHcBpHmH+BVZ15m9Zc3Lm5JbpIrbhM6KA9DN9FpFxN/0/N+FdM?=
+ =?us-ascii?Q?k5Q+/xTr7G1O+kyZKqxzRXAPIlsdTv5KMHhRNjXft8AVUYHm8cdRRU02JGaL?=
+ =?us-ascii?Q?AMQCk1I2lcsxofFgu+bWpdToYF22BxrmSQhUNcFHKR6nV52j1Zdd18bYAr8Z?=
+ =?us-ascii?Q?K83UVwYcJBoV/20wwb4g4ci+hGlRLExUSQjlG7X1NSdmxB+u2FjMEc7z+rGe?=
+ =?us-ascii?Q?GOxc+rJPQtnNLzQSoOXzf/VaeLbAh0tzhba7xGr3RVVpGBR9OcXW7tMdix64?=
+ =?us-ascii?Q?ia9HnJ4VVbFv4SQXZWoICH+2ec4nyxh+YGfYpkcor/58JZ1L2iJvyWUU2xJI?=
+ =?us-ascii?Q?YdQSqm4BJlF0M2uB7jbe+2kS9kDj/3vepJ9WzcxvF497PSc+LBfKP7PbAUco?=
+ =?us-ascii?Q?NlGX+QP8xnAuflamkfoodznbG/WHkEfRfClX42d6CCnBJfUnjZpvdH1SFt5a?=
+ =?us-ascii?Q?FdLILJV9bloON/FGiq7AnCucAMWKOn4UbtiyoqDFF1t8YWZw3IKhDbQtEZ9E?=
+ =?us-ascii?Q?/5QLw6W41WroSiTFra1eltzxNwPEuXMP0jIKGz43U/wXuBidT/+TYj9pKBIv?=
+ =?us-ascii?Q?On8rJXbvxUb+e8tEAoUMKs0ECS1JHDKp/V+MSxM8nmLq1nzWOxpnd7aONRYa?=
+ =?us-ascii?Q?sLAFSnwMSSXtYX+pbuxB3bv7ToZPKI0S2k4EQUm6+QVQokvHaohG?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ee23ee7-1b09-4240-0e50-08da2415bfa3
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 04:08:25.6893 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9LsjpFsLA/GQTD9yiDl3Q6p5oFHgXzFJf4OQnzJ7ytzHJnc0NhaNw1IS7D5+SaZD7Hfih1VCIdWhPiXS1/N3ZzNxYjX3oN8mXfmdUamPBdI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR0102MB3587
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,46 +138,127 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Open Source Submission <patches@amperecomputing.com>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The IBM Everest and Rainier systems have a GPIO line that goes to the
-power supplies. It has a dual function: 1) Fans Full Speed, and 2) Sync
-input history.
+This series add support the SSIF BMC driver which is to perform in-band
+IPMI communication with their host in management (BMC) side.
 
-Signed-off-by: Brandon Wyman <bjwyman@gmail.com>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 2 +-
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+SSIF BMC driver in this series is tested with Aspeed AST2500.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-index 578f9e2fc7ed..382da7934eaa 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-@@ -283,7 +283,7 @@ &gpio0 {
- 	/*P0-P7*/	"","","","","led-pcieslot-power","","","",
- 	/*Q0-Q7*/	"","","regulator-standby-faulted","","","","","",
- 	/*R0-R7*/	"bmc-tpm-reset","power-chassis-control","power-chassis-good","","","I2C_FLASH_MICRO_N","","",
--	/*S0-S7*/	"","","","","","","","",
-+	/*S0-S7*/	"","","","","power-ffs-sync-history","","","",
- 	/*T0-T7*/	"","","","","","","","",
- 	/*U0-U7*/	"","","","","","","","",
- 	/*V0-V7*/	"","BMC_3RESTART_ATTEMPT_P","","","","","","",
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index 528b49e2c0f8..7213434695bf 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -265,7 +265,7 @@ &gpio0 {
- 	/*Q0-Q7*/	"cfam-reset","","regulator-standby-faulted","","","","","",
- 	/*R0-R7*/	"bmc-tpm-reset","power-chassis-control","power-chassis-good","","","","","",
- 	/*S0-S7*/	"presence-ps0","presence-ps1","presence-ps2","presence-ps3",
--				"","","","",
-+	"power-ffs-sync-history","","","",
- 	/*T0-T7*/	"","","","","","","","",
- 	/*U0-U7*/	"","","","","","","","",
- 	/*V0-V7*/	"","","","","","","","",
+Discussion for v6: https://lkml.org/lkml/2022/3/10/340
+
+v7:
+  + Remove unnecessary del_timer() in response_timeout()        [Corey]
+  + Change compatible string from "ampere,ssif-bmc" to "ssif-bmc"  [Jae]
+  + Dropped the use of ssif_msg_len() macro, use the len directly [Quan]
+  + Solve possible issue if both response timer and ssif_bmc_write()
+  occurred at the same time                                      [Corey]
+  + Fix wrong return type of ssif_bmc_poll()         [kernel robot test]
+  + Refactor and introduce ssif_part_buffer struct to replace the
+  response_buf to manage each send/receive part of ssif           [Quan]
+  + Change SSIF_BAD_SMBUS state to SSIF_ABORTING state           [Corey]
+  + Support abort feature to skip the current bad request/response and
+  wait until next new request                                    [Corey]
+  + Refactor the PEC calculation to avoid the re-calculate the PEC on
+  each I2C_SLAVE_WRITE_RECEIVED event                             [Quan]
+  + Fix the use of error-proned idx                              [Corey]
+  + Defer the test for valid SMBus command until the read/write part
+  is determined                                                   [Quan]
+  + Change/split unsupported_smbus_cmd() to
+  supported_[write|read]_cmd()                                   [Corey]
+  + Abort the request if somehow its size exceeded 255 bytes      [Quan]
+
+v6:
+  + Drop the use of slave_enable()                             [Wolfram]
+  + Make i2c-aspeed to issue RxCmdLast command on all
+  I2C_SLAVE_WRITE_REQUESTED event to assert NAK when slave busy   [Quan]
+  + Make i2c slave to return -EBUSY when it's busy                [Quan]
+  + Drop the aborting feature as return Completion Code 0xFF may stop
+  host to retry and make ipmi_ssif.so fails to load               [Quan]
+  + Add timer to recover slave from busy state when no response   [Quan]
+  + Clean request/response buffer appropriately                   [Quan]
+  + Add some minor change on error and warning messages           [Quan]
+
+v5:
+  + Correct the patches order to fix the bisect issue found by
+  kernel build robot
+
+v4:
+  + Fix recursive spinlock                                      [Graeme]
+  + Send response with Completion code 0xFF when aborting         [Quan]
+  + Fix warning with dt_binding_check                              [Rob]
+  + Change aspeed-ssif-bmc.yaml to ssif-bmc.yaml                  [Quan]
+  + Added bounding check on SMBus writes and the whole request     [Dan]
+  + Moved buffer to end of struct ssif_bmc_ctx to avoid context
+    corruption if somehow buffer is written past the end           [Dan]
+  + Return -EINVAL if userspace buffer too small, don't
+    silence truncate                                       [Corey, Joel]
+  + Not necessary to check NONBLOCK in lock                      [Corey]
+  + Enforce one user at a time                                    [Joel]
+  + Reject write with invalid response length from userspace     [Corey]
+  + Add state machines for better ssif bmc state handling         [Quan]
+  + Drop ssif_bmc_aspeed.c and make ssif_bmc.c is generic
+    SSIF BMC driver                                               [Quan]
+  + Change compatible string "aspeed,ast2500-ssif-bmc" to
+    "ampere,ssif-bmc"                                             [Quan]
+  + Toggle Slave enable in i2c-aspeed to turn on/off slave mode   [Ryan]
+  + Added slave_enable() to struct i2c_algorithm to control
+    slave mode and to address the recursive spinlock      [Graeme, Ryan]
+  + Abort current request with invalid SMBus write or
+    invalid command                                               [Quan]
+  + Abort all request if there is pending response                [Quan]
+  + Changed validate_pec() to validate_request()                  [Quan]
+  + Add unsupported_smbus_cmd() to handle unknown SMBus command   [Quan]
+  + Print internal state string for ease investigating issue      [Quan]
+  + Move to READY state on SLAVE_STOP event                       [Quan]
+  + Change initilize_transfer() to process_smbus_cmd()            [Quan]
+  + Introduce functions for each slave event                      [Quan]
+
+v3:
+  + Switched binding doc to use DT schema format                   [Rob]
+  + Splited into generic ssif_bmc and aspeed-specific      [Corey, Joel]
+  + Removed redundant license info                                [Joel]
+  + Switched to use traditional if-else                           [Joel]
+  + Removed unused ssif_bmc_ioctl()                               [Joel]
+  + Made handle_request()/complete_response() to return void      [Joel]
+  + Refactored send_ssif_bmc_response() and
+  receive_ssif_bmc_request()                                     [Corey]
+  + Remove mutex                                                 [Corey]
+  + Use spin_lock/unlock_irqsave/restore in callback             [Corey]
+  + Removed the unnecessary memset                               [Corey]
+  + Switch to use dev_err()                                      [Corey]
+  + Combine mask/unmask two interrupts together                  [Corey]
+  + Fixed unhandled Tx done with NAK                              [Quan]
+  + Late ack'ed Tx done w/wo Ack irq                              [Quan]
+  + Use aspeed-specific exported aspeed_set_slave_busy() when
+  slave busy to fix the deadlock                 [Graeme, Philipp, Quan]
+  + Clean buffer for last multipart read                          [Quan]
+  + Handle unknown incoming command                               [Quan]
+
+v2:
+  + Fixed compiling error with COMPILE_TEST for arc
+
+Quan Nguyen (3):
+  ipmi: ssif_bmc: Add SSIF BMC driver
+  bindings: ipmi: Add binding for SSIF BMC driver
+  i2c: aspeed: Assert NAK when slave is busy
+
+ .../devicetree/bindings/ipmi/ssif-bmc.yaml    |  38 +
+ drivers/char/ipmi/Kconfig                     |  11 +
+ drivers/char/ipmi/Makefile                    |   1 +
+ drivers/char/ipmi/ssif_bmc.c                  | 780 ++++++++++++++++++
+ drivers/char/ipmi/ssif_bmc.h                  | 107 +++
+ drivers/i2c/busses/i2c-aspeed.c               |   5 +-
+ 6 files changed, 941 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/ipmi/ssif-bmc.yaml
+ create mode 100644 drivers/char/ipmi/ssif_bmc.c
+ create mode 100644 drivers/char/ipmi/ssif_bmc.h
+
 -- 
-2.25.1
+2.35.1
 
