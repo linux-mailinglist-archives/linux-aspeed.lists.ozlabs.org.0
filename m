@@ -1,151 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB3350B212
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Apr 2022 09:57:25 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA2950B3A2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Apr 2022 11:11:27 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Kl6Fb30dHz3bbB
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Apr 2022 17:57:23 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=WBxuwn41;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Kl7v13q7Pz3bb0
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Apr 2022 19:11:25 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:7e8d::719;
- helo=nam04-bn8-obe.outbound.protection.outlook.com;
- envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
- header.a=rsa-sha256 header.s=selector2 header.b=WBxuwn41; 
- dkim-atps=neutral
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam08on20719.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e8d::719])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Kl6FP30Ctz3bWx;
- Fri, 22 Apr 2022 17:57:11 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F8Wed9wpOiGmGtqE9MEAJjio8qb4Bit7xzHIgP174AjgjAXW61Lwg1ckc2FQpCCtAFlWp0gPeoLAKVfzC1tF2Uc29XWQ+IefNQNt4jTP0E1bPOJR3Aj9bLC6bNI8JeRClxsLJI2LkLyBXeIMTZ/eybxNHkgIJ+6WrPSazkfFfaGydUxFmJM/cmvFHId+W3waYAjbC+S0QDM/+PF0e53CH3FGCQ/Jls0CzqdG3qfqz1b9ZX+4Z7dG1Cm0zbZQP8egoRiXS2dvMuxNwLb0dxWKCayfsJgsYxJ+k7XadnTmynDqemko8g9sgfMwExe+APCpG0g8ViSr5j4CR9z0ZrgORQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sSdpXd107G+76ZcOMCNQlJdCAB2/rS9PPGx2LAPowz0=;
- b=n5PD9yIPKkTTZ7aBu98OyxljBxFvQ6b0opO8Uwqy1aCtC/vSQVLzkLWQ7AO9F++zBqAek6nfajlIO6qE2mJkYAKxF7kISgWE3fGK7Dz082HhylDEZj3M3AM9/grVOExXHhTYLmKhAxAgfoSRXF1eQICtEf8N8aB08UPwgKwYsbRV2L0EmVW8rH2Pm6TwjXHRMKCEvzBXl9caOOTMgxt7JCKW3eZWwznhUW7ITQ9yoMAek7OXwQDhYcWPdgNhykaULLqf6C3TldMmvZyLq1vQ2+Q+ACcZXsY7qDLzHHslZb+ogR6gL9F6/BfP5lmVNj60E4XA6C78Usty29KWLD4IJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sSdpXd107G+76ZcOMCNQlJdCAB2/rS9PPGx2LAPowz0=;
- b=WBxuwn41C0xELpL9gHihOJN7x2x1tO5Go286ufpI40IP1qLvwVyMxVNH5hsBQbQ/AwnxvfWuc11rCqKvE0Vlnktw1wjZbNSBhk/Vnn1zPlYHmZ1fFnjf6x/mUjOByzduiczYp8iGzp9H/QqutBVakBJwO2CPhHtyaPnYZFZukZ8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
- SA1PR01MB6800.prod.exchangelabs.com (2603:10b6:806:185::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5186.13; Fri, 22 Apr 2022 07:56:47 +0000
-Received: from SJ0PR01MB7282.prod.exchangelabs.com
- ([fe80::319b:4612:e6f4:f22c]) by SJ0PR01MB7282.prod.exchangelabs.com
- ([fe80::319b:4612:e6f4:f22c%3]) with mapi id 15.20.5186.015; Fri, 22 Apr 2022
- 07:56:47 +0000
-Message-ID: <0e719834-5745-4a82-20e8-541f3bc6b6eb@os.amperecomputing.com>
-Date: Fri, 22 Apr 2022 14:56:33 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [PATCH v7 2/3] bindings: ipmi: Add binding for SSIF BMC driver
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Wolfram Sang <wsa@kernel.org>, openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org
-References: <20220422040803.2524940-1-quan@os.amperecomputing.com>
- <20220422040803.2524940-3-quan@os.amperecomputing.com>
- <153da61e-dc9d-467e-221c-b48d6f54c6c2@os.amperecomputing.com>
- <55cbbc16-5769-ecd2-e65e-c3b39a34dfbb@linaro.org>
-From: Quan Nguyen <quan@os.amperecomputing.com>
-In-Reply-To: <55cbbc16-5769-ecd2-e65e-c3b39a34dfbb@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2P153CA0028.APCP153.PROD.OUTLOOK.COM (2603:1096:4:190::9)
- To SJ0PR01MB7282.prod.exchangelabs.com
- (2603:10b6:a03:3f2::24)
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=arndb.de
+ (client-ip=212.227.126.134; helo=mout.kundenserver.de;
+ envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
+X-Greylist: delayed 308 seconds by postgrey-1.36 at boromir;
+ Fri, 22 Apr 2022 19:11:18 AEST
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Kl7tt1PXTz2yp5
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Apr 2022 19:11:17 +1000 (AEST)
+Received: from mail-wm1-f51.google.com ([209.85.128.51]) by
+ mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1M6lYs-1noydZ07na-008Kwu for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Apr
+ 2022 11:06:03 +0200
+Received: by mail-wm1-f51.google.com with SMTP id
+ r4-20020a05600c35c400b0039295dc1fc3so5002332wmq.3
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Apr 2022 02:06:02 -0700 (PDT)
+X-Gm-Message-State: AOAM530OOMYH6NpitVa83Afvy+A+csz7kicsXFuE8/vQRE0oYzG6xin7
+ tSYsCP7/gDdU0jLrj0UimmI/6JzVr0xrIdUjGAo=
+X-Google-Smtp-Source: ABdhPJyBJy68LeWxoCtkZpxUNMy01/6v++E4fqe+8tuCDM/CbPdYU7ohbVixofosAP/W+Pe5EImxDo7fKgPauiW5gWg=
+X-Received: by 2002:a7b:ce15:0:b0:38e:b7b0:79be with SMTP id
+ m21-20020a7bce15000000b0038eb7b079bemr3153470wmc.71.1650618361979; Fri, 22
+ Apr 2022 02:06:01 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 680f0aeb-51b2-4171-573b-08da2435a684
-X-MS-TrafficTypeDiagnostic: SA1PR01MB6800:EE_
-X-Microsoft-Antispam-PRVS: <SA1PR01MB68009B51D8623CE59F7520E2F2F79@SA1PR01MB6800.prod.exchangelabs.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7pvWP8+OFWJpaCCVu8V0AxhONnzei5TGGTQLvTlItXs8HmDNL6nqrjvpLHy/AqinpPAteJHQ+h13yC0QEpMDrVNRaB3f9ljYBpuuaJUsLlOoUTtwraM0MFmi8ZU7gYgHF8MhMfXtb9hJ9U3g0JgICQywJviBsru7mByfOIqke8TruxYG5VNzP+jVwrxoUooLo6lqR/Gi96LglCapkwyAIJZuCWgjAiTQe8+DVIrKgOkPMJwJE2YSALT9EnkojoU6UXOyIbzzCuDQ8//URqF57Sul8qqQlLwRmTEVebHokq1b3qjokFsjn0ndgXtZIdgnVoKdee37F2bTnFEvmD7lrmtHYo0nCOPUppEZbhRgN+ytayKinDISyam1M382zzbJQ7/WueUQrK2tCBpP64ux6fmdaT/QHDok1owlH2GR/z3lYpMmITSUW+YAqVtccrdoFXoKwO0zgQB7GHIOHkcZT3GcLjlLOODboyHJ0iU+3vcPfMO+Ga9Q5ZM/v1DkCbyiwU3BJM7UG5296k03nPzcSue9+KHxRYSjnRThziHyn5tM+EvCfkEXHNn/QO4p3/sNDl7iLCMm4zliUT0n7ZuITWi39ncG9J1aVHPMqsvYYGRBcghamnMIYX01Z+PyOGL0aF9q9JdPgmxPUzBDnjfVNs58CXpcBAIN4hLMrnPhyCRx3w+XoSbz8gyLn1Cbwc+SizOOa3HG3I8fRXn9unviF7h57QjnHY0tEcH4ysdpvwKcB/daopvGf1zLnPEHIVDn
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR01MB7282.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(31696002)(38100700002)(8936002)(54906003)(38350700002)(921005)(2906002)(7416002)(53546011)(6512007)(4744005)(107886003)(26005)(110136005)(186003)(6506007)(2616005)(6486002)(508600001)(6666004)(52116002)(66556008)(66476007)(4326008)(66946007)(8676002)(316002)(86362001)(31686004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGdqaEJEOEgrdi9RVVVlSG1VOFRkOUdpNkdmSURMaW1ZdmJhWnBDeUNQcERB?=
- =?utf-8?B?VGRxUkZmOVdveHBxZG4veFQyNnU5Ujg1cGdtUzNTc2pmaS8vMUMvYS9PU0NX?=
- =?utf-8?B?YkZocEl4ZFk1QWZVMnNvNTJaNFVxem5qeFgxQzByeG9XaWhEMVhDYmJ0NE9y?=
- =?utf-8?B?K0lWL1Y5Nm9HbzRRNHhSV01UZ1REc2d5Z3VrZHE0SFBJTWNjdTVXS1N5bjEx?=
- =?utf-8?B?MHRWNHBDcHBBRXc4UkpCSHRlVU1UaGdxRmV0anJOZWRwNTgxTDZBQnhROWw1?=
- =?utf-8?B?Wnc4VWUyVEQ0THI5N3FWWUI2cVBYMlh1bzluWk1UMjJxL0t2ZDloNzZkbzM1?=
- =?utf-8?B?dnVGenFhSkdtQUZ5cWFYcjFHU2JPWXZ5alVHQmxraWxzMVRzZUxEcHpiQ21O?=
- =?utf-8?B?S2tFMXB3Q29EUzhsZnovbGl0ZWdleFE2NEtPU1VYN3ZqQXNVSmlsNmxVaytW?=
- =?utf-8?B?S1k5ZmZHSjFYZ2N6MC9uM0NScUFwc0Y5MitRemNyblc0cGhpNm9Pak5ZbU9m?=
- =?utf-8?B?Z01zK2k3Tld5Wk1jalEyQURQdWNESTZtUFFMY1EwTElGZkpTbDhaczByVnd2?=
- =?utf-8?B?SnZjM0xvNjR5TUhCa2E0b1N6M1BCbEJFZFdsU2tzN01lcXh1bEVYS0lBUVV6?=
- =?utf-8?B?c2RnZm8vTC9Hc0J6aHhOSjN4WHlSZkt3L1FzeU1QaXVtdTdkV1F3WGdpamJv?=
- =?utf-8?B?aU9vdG9IREdBVmFjclRhU0UzazdKWmhLcGpsb2oxeElzcVFNVEJiM1VyeFdW?=
- =?utf-8?B?ZnN6YTNCQ1dWZXRYU3BFOGswRSs4ZTNLODYrQUJ0NnhrVjU1SFlOcjlBTWg4?=
- =?utf-8?B?TlR4VmVpQ3VmYXJwZ2grYkhnNWhMMityRUtWWTVDT1NFMDNVbEVBSVkzeVFB?=
- =?utf-8?B?Si8wL3dLYTlNSGF0UzdDanJXTGgzNGdJQlNSNXRrV0VCQTV0UmgxOENSZzA4?=
- =?utf-8?B?QU4yQlZvTVhmT3BvaVNjQUZxWG90REt4ZWJLaUtNYXNsUXFrNHl1SC9FTVdk?=
- =?utf-8?B?VkpzcjdVS2VnMkd3ZThBTDMyWml5R0U5RkFYL1MxYi94ekZ4Q3c5eHEwWWVE?=
- =?utf-8?B?QSsya3VaVkhlaFVxVUVoZ2lBemkxZkZTSEVlRVBZZDRPZndsYjV5dkNIeHRD?=
- =?utf-8?B?bFdBSHJSdlRVd3VpVnZQTGlkL282MjhkNzdaTFcwWUNRdHJabGJXb3Y2bUcv?=
- =?utf-8?B?Q2wzTE9DckYxTVFYM0JhVUtqMEp0azZpTkhsSVdhU2J6OHJwWHpqWlpZUnBr?=
- =?utf-8?B?L29uN1Flc0NDOVlFMUNwcE1JUEpGakszWVN0VU1ONXZjSEhNMnd4QUE4alJV?=
- =?utf-8?B?dStZT203QkpKNTBXcFhodGx5Tm02N2RIazJzeGFKa2VRQ0Vibm50K05aSDYw?=
- =?utf-8?B?anc2M21lMXVaUXFwbThjRTQwaXhwTVl4aSsrenB5ZjJCYVdMVWRzejhXQ0dN?=
- =?utf-8?B?OG1XR2NsSlE4MndVTU1hR2crdTY5T2RpakU3VjA4aTRsUzJHMU53cVBJUmdT?=
- =?utf-8?B?N3JyNzRyVVFBbGF1U1BzbUl6V0R3VHRVdWk0YUlXeU5CNnI4NG1kK09HcEM3?=
- =?utf-8?B?azV0L3ZMNzhQTGV5SnZXZ3ZsUEdkVm5oeUp2WVZNd1UrYWx4L1g0L2tQVlQ1?=
- =?utf-8?B?dW12eWdGeFQwTzIxRnFPRXZ1dGgvU09iWjI1U2JMeHdlZnZONHd4VUZ5YVFq?=
- =?utf-8?B?VGF0THhZckhkc1R4bXBDUngvS3FSOWJ2dXVzeHJYdGN5V0QyeWhOcVY5ZEUv?=
- =?utf-8?B?UGsycTlia01tNDFpUCt4cG1KTnhwYnlLYkp4Q0lOYi9yN3hscStxZWJVZkxs?=
- =?utf-8?B?LzJ6dEdlZWRtOG1tTktQRExKNnZNT082Zi9PamhBMTJtdUc2ck1mSjRTNk40?=
- =?utf-8?B?WlFja1FVdEVtV3lFL0V3bUdSZkZRYmpacVF4S1E2WENpcTJjNUI2bE1xOVJs?=
- =?utf-8?B?UytwMWN3VUx2VjlFWGdzWWdsOS9wL1JkRHV2em51QVEwVzJ2RFRXUzZHMHNr?=
- =?utf-8?B?aXcyR3Nvc2tycFphNXpTVEIrdW9KSkwzdjJHTEJXSjM1ZDlpSDlrWlV4cUt6?=
- =?utf-8?B?TU9TakZoMmF6RFdUTnZhY000WVFjd0hBblNhRGZqNkpoOXhBam9NOXVlS2pp?=
- =?utf-8?B?MjVUVG1OdFdwVDUxZmlVUjlnS2ZvR1RDV2UvV0piOXZvcWN0ZE1IeldlVXdv?=
- =?utf-8?B?M0dNRnk0NTk5UWkyZWRhYStzYlNIc3Z2ZC9oa0FtQ2t1N0w1ZCtrcmFFL0t6?=
- =?utf-8?B?UGJGQVQyM2dWcW9vVU4vTmw0Z2g4ei8vVFVJR0tSaHdqbDJzbDVhdzlsWnhs?=
- =?utf-8?B?OTBmOHkxU3RxR2lkbHVWRUNEdVI1WTZVQzA2UURkNkVHQnBMSldmWW4vd0ov?=
- =?utf-8?Q?FYYaLbM198a5oaqV2xTUGqEYvzWUpqNrnms5I?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 680f0aeb-51b2-4171-573b-08da2435a684
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 07:56:47.6290 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O48cexixpxuQzkXVcpXtVAurL5Eh4OrfVd5aaZPpfKf1HjX1+VYlJ4Y+l19nJ5xGgbTkML/vlROZcg2MUfyWkRNATrNwyuX1xf5046vwzsY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR01MB6800
+References: <20220204072234.304543-1-joel@jms.id.au>
+ <20220204072234.304543-2-joel@jms.id.au>
+ <YmJPRPhfA4Cki85S@kroah.com>
+In-Reply-To: <YmJPRPhfA4Cki85S@kroah.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 22 Apr 2022 11:05:46 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0G_xNQ6b2e71VXPVi+-j5L--SU37gFErwGYuh1QPrr1A@mail.gmail.com>
+Message-ID: <CAK8P3a0G_xNQ6b2e71VXPVi+-j5L--SU37gFErwGYuh1QPrr1A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] firmware: Add boot information to sysfs
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:MWw/rnW8ybvWGWE0G97/k6m7SV551h1ghQPUhR6UbKZg4VOlN11
+ ENpdGZum9ALQV4YPZ1BJnCscmJKmBqVofHjLGz9JvALhaVr8/JOHKHRAg/P0dD+4UpI/82X
+ x38l0SRghR0za1sNyY79t6oTuy1OgCaocewQrRDORsOuPNDNUw1Izno+JQz6QLLTZs/70Tx
+ cDqAl45pjwEOs4m80EDlg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:k+pNTSHTTmE=:PMB7ealG6Tg47FZqH92WzD
+ pcNrsCrdefHJCgJElH46nRgRxDbmXd3bm2uK0nf5rK0eSryl6Dsajg8WL9lGeL+HDYYhcI0X0
+ XfRgqE5EnV1fSmVeltt+5+hGh7m1wObVkS/lwvAoDQl+FimF/P8tJHGzY7lp5bK+997jKPV4E
+ 3ocQINR+PXV4+rr/hLtAk7mE4hE95HeD2DygViJeQw3L9V1z9ryyITmfSdg9lkXCNigrxEMVB
+ /p8wZSKb/hlsG1uIJZ9wpMcpRQqDAjkIcLEbc2dZ2IyPlMptVOUUByFG7QZz4X+gCL81l8q7S
+ KoP4hDDCNT3Km3pIBcn9SZfwfb58UzTN2XNiuGeGqlBXXqmg2ZfBixdlREowt3E/G+tNHqk6z
+ 5ya4yG1tCO/1IelX07xCT2YHw7ukQ7eAbPQL0HExHSA+25R5HB2glKFGZPlqwNNhqh0a74sZ4
+ UIz9BgCWQG/3Ipjv3Oakd28nQCDMvWBuVkmRPo/p87slnccVyFFx/il7+DeivgfID9ciK6T/5
+ DDMt/yuLATpLtWBY03OL7jAxf1zfVDkYunEy75z0RqxSHvafELSssXkSUn1KDikMpUTfNL0bT
+ +JH9UqUsXpKLLqT1mvU58qNsqbKwpKbY87v/DrpV5Sz4M/o2Ix2iH1c7j83ZJxQ6IMaUYhoj5
+ bheklP6nCvJW633n2YHOsjTPipNWOxWFRpnQc6v2CgOSQiOzhDm5npChRzID8+UTa+oYfzdt8
+ Ea0QNSP1vuxN4bUqe1AN0Mvc0+o7lG32nfACpiPvmHrGiu16wdMltO4Fv/p+oLCUyVvgkrk7N
+ Q4nMhTsdbM6/6io+3TEz6xBX1kqpUtxTsYxK/xmH9dUElrk0cc=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,37 +75,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Open Source Submission <patches@amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-My apology, Krzysztof.
+On Fri, Apr 22, 2022 at 8:46 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Fri, Feb 04, 2022 at 05:52:32PM +1030, Joel Stanley wrote:
+> > +What:                /sys/firmware/bootinfo/*
+> > +Date:                Jan 2022
+>
+> It isn't January anymore :)
 
-This patchset was rebased with the tag next-20220421.
+The patch was sent on Feb 4, I would expect that to be close enough. Does this
+need to be the month of the kernel release it is merged into instead?
 
-And it was my fault actually.
+> > +Description:
+> > +             A system can expose information about how it was started in
+> > +             this directory.
+>
+> I do not understand what you mean by "how it was started".
+>
+> > +             This information is agnostic as to the firmware implementation.
+>
+> How?  This should be very firmware specific.
 
-I was using last revision's recipient list after compare recipient names 
-with the output of get_maintainer.pl to make sure everyone included. But 
-I missed that your email @canonical.com was changed.
+The original patch was specific to a particular SoC vendor. Since the
+information provided here is fairly generic in the end, I asked for
+the interface
+to be generalized to the point that it can be reused across multiple
+vendors and architectures.
 
-Will be more carefully next time.
-Best regards,
-- Quan
-
-On 22/04/2022 14:21, Krzysztof Kozlowski wrote:
-> On 22/04/2022 06:16, Quan Nguyen wrote:
->> Added Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
->> as I'm not aware of the email change
-> 
-> The email change from @canonical.com was 1.5 months ago, so it would be
-> better if rebase your changes on more recent Linux kernel. You get all
-> proper .mailmap entries.
-> 
-> 
-> Best regards,
-> Krzysztof
-
+      Arnd
