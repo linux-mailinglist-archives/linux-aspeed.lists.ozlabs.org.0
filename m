@@ -2,62 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EA3512179
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Apr 2022 20:45:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBC1512D9A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Apr 2022 10:00:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KpSNb0fsdz3bd5
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Apr 2022 04:45:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Kpp2M4P8hz3bbl
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Apr 2022 18:00:27 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oWYnxOyh;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.167.177;
- helo=mail-oi1-f177.google.com; envelope-from=robherring2@gmail.com;
+ smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1;
+ helo=ams.source.kernel.org; envelope-from=patchwork-bot+netdevbpf@kernel.org;
  receiver=<UNKNOWN>)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=oWYnxOyh; 
+ dkim-atps=neutral
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KpSNS49dQz2x9W;
- Thu, 28 Apr 2022 04:44:55 +1000 (AEST)
-Received: by mail-oi1-f177.google.com with SMTP id e189so2924868oia.8;
- Wed, 27 Apr 2022 11:44:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/sIxYWvFlMoHReoMPfX2NBRTuxsiKhz/pal5GhylPqg=;
- b=58AQ4PoYwAKv+EpB1asqlygstMrwwI1sbparJHTk2hdFEJNbCrK22ySHrAlrJOBcNl
- xLnl3R7sBuJ4DFwZv9GNVfOHw0MJdRNf+LwTBmw2UwrwaV/l/SzWIElheGEod8bFHipB
- o+JWqXARzXF4Qf8othUuEkAlAURUVBSH/oq/EDvMb7oRYWswEXN65Uvpe/OBfbd0kBDp
- fm8VptoN2vWm8BM1nDeWiR/FLiunEBhveF0cmUwfFLC0ioAg6pklWK34DBULknmg22Sf
- GnMiLEqfZxn612uPkFzpqU+30J1IibqENhsJ+L1SsA1H+FVTR3OoztK2VpTOjsK8WKp3
- EItg==
-X-Gm-Message-State: AOAM533t7XYm0D8Ol9FQHffzI7tvCcDdzj0QQ+X2Fg0/+lYN2Ujalw6W
- Sq13UC6b29rBXWzWzWB9pw==
-X-Google-Smtp-Source: ABdhPJz6nKdb0AwwSKP/n1AYikKnnui7VO1eKjkTuDHiUj8S52Lm4O++NP3zOk3jiqIIDRQN/19pQA==
-X-Received: by 2002:aca:1a09:0:b0:325:90ab:a812 with SMTP id
- a9-20020aca1a09000000b0032590aba812mr1384519oia.131.1651085093218; 
- Wed, 27 Apr 2022 11:44:53 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- m4-20020a056870030400b000e686d13890sm963611oaf.42.2022.04.27.11.44.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 11:44:52 -0700 (PDT)
-Received: (nullmailer pid 436853 invoked by uid 1000);
- Wed, 27 Apr 2022 18:44:52 -0000
-Date: Wed, 27 Apr 2022 13:44:52 -0500
-From: Rob Herring <robh@kernel.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH] dt-bindings: pinctrl: aspeed: Drop referenced nodes in
- examples
-Message-ID: <YmmPJLcI7PnsBtXn@robh.at.kernel.org>
-References: <20220422192139.2592632-1-robh@kernel.org>
- <CACPK8XcQNJNyzqdjMQuCP+z-L-A9mcMqs-HJJrh9MscasV+D=A@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Kpp2C6z4cz2x9M
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Apr 2022 18:00:19 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 44918B82B46;
+ Thu, 28 Apr 2022 08:00:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E8E82C385AF;
+ Thu, 28 Apr 2022 08:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1651132814;
+ bh=NhzxeaiPtX29P/RQ1EZRDWoQ85Ud+xmKkVGCgk4axRo=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=oWYnxOyhqwu9+DDI3nBKx2MYv9VAjqFHY9gZOLYQ7YbVsFEJJ2BlN+VLth0CqxAyY
+ D0RIbVuZISIqam72WMojOrEbtuuJdeLTxWIr43XBLUrTSMM2wU/0RzZackNVo+znSv
+ R6xYwOZN1ILqAXOmQIokF4HdL9m9mlh+R8axr5NmhzBn9QeibT6HhjaCGKK1akD++I
+ NBTcWhpdT+1XK/N7PyiRmtUfZa7W7KdR4uGcZqGvrhrpcSrRk59ctb4UQJCVcsumFV
+ 19vY9gHiNU+PyLvznLounOc8CRMJIXkVSL5tZc5i52KP24cLttIjQg4U8PR/1U/Rq6
+ L4srSq1YfbLYg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ CC6A6F03848; Thu, 28 Apr 2022 08:00:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8XcQNJNyzqdjMQuCP+z-L-A9mcMqs-HJJrh9MscasV+D=A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v6 0/3] Add reset deassertion for Aspeed MDIO
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165113281383.18320.4392733597031620759.git-patchwork-notify@kernel.org>
+Date: Thu, 28 Apr 2022 08:00:13 +0000
+References: <20220427035501.17500-1-dylan_hung@aspeedtech.com>
+In-Reply-To: <20220427035501.17500-1-dylan_hung@aspeedtech.com>
+To: Dylan Hung <dylan_hung@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,46 +68,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: andrew@lunn.ch, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+ netdev@vger.kernel.org, linux@armlinux.org.uk, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, p.zabel@pengutronix.de, BMC-SW@aspeedtech.com,
+ kuba@kernel.org, krzk+dt@kernel.org, pabeni@redhat.com, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org, hkallweit1@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Apr 27, 2022 at 08:40:31AM +0000, Joel Stanley wrote:
-> On Fri, 22 Apr 2022 at 19:21, Rob Herring <robh@kernel.org> wrote:
-> >
-> > The additional nodes in the example referenced from the pinctrl node
-> > 'aspeed,external-nodes' properties are either incorrect (aspeed,ast2500-lpc)
-> > or not documented with a schema (aspeed,ast2500-gfx). There's no need to
-> > show these nodes as part of the pinctrl example, so just remove them.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
+Hello:
+
+This series was applied to netdev/net-next.git (master)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Wed, 27 Apr 2022 11:54:58 +0800 you wrote:
+> Add missing reset deassertion for Aspeed MDIO bus controller. The reset
+> is asserted by the hardware when power-on so the driver only needs to
+> deassert it. To be able to work with the old DT blobs, the reset is
+> optional since it may be deasserted by the bootloader or the previous
+> kernel.
 > 
-> Nak.
+> V6:
+> - fix merge conflict for net-next
+> 
+> [...]
 
-I welcome patches that add schemas for the undocumented compatibles 
-instead. Otherwise, I will be turning on this check by default and 
-nagging people to fix them.
+Here is the summary with links:
+  - [net-next,v6,1/3] dt-bindings: net: add reset property for aspeed, ast2600-mdio binding
+    https://git.kernel.org/netdev/net-next/c/65e42ad98e22
+  - [net-next,v6,2/3] net: mdio: add reset control for Aspeed MDIO
+    https://git.kernel.org/netdev/net-next/c/1585362250fe
+  - [net-next,v6,3/3] ARM: dts: aspeed: add reset properties into MDIO nodes
+    https://git.kernel.org/netdev/net-next/c/a8db203db05c
 
-> This removes the information on how to use the bindings. Surely we
-> prefer to over document rather than under document?
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-How is what the 'gfx' and 'lpc' nodes contain relevant to how the 
-pinctrl binding works? If a user wants to know, then they should go look 
-at the aspeed,ast2500-lpc/aspeed,ast2500-gfx bindings and their 
-examples. Which brings up my secondary issue which is having the same 
-example multiple times. It is multiple chances for errors (that I end 
-up fixing).
 
-How do we know the example is even correct without any schema checks? 
-The 'framebuffer' node is not in a valid location is the most obvious 
-thing I see.
-
-Rob
