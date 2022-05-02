@@ -1,36 +1,37 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D289516BC6
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 May 2022 10:14:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD546516BCF
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 May 2022 10:14:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KsG8f6V6Wz3bYy
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 May 2022 18:14:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KsG8l5CcMz3bZB
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 May 2022 18:14:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KsG8b3sQkz2xKW
- for <linux-aspeed@lists.ozlabs.org>; Mon,  2 May 2022 18:14:23 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KsG8j2qLvz2yPY
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  2 May 2022 18:14:29 +1000 (AEST)
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsG8b3cFbz4ySt;
- Mon,  2 May 2022 18:14:23 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsG8j2ZGYz4xXk;
+ Mon,  2 May 2022 18:14:29 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsG8V1DMPz4x7Y;
- Mon,  2 May 2022 18:14:17 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsG8c0FS5z4x7Y;
+ Mon,  2 May 2022 18:14:23 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: linux-spi@vger.kernel.org,
 	linux-mtd@lists.infradead.org
-Subject: [PATCH v5 05/11] spi: aspeed: Adjust direct mapping to device size
-Date: Mon,  2 May 2022 10:13:35 +0200
-Message-Id: <20220502081341.203369-6-clg@kaod.org>
+Subject: [PATCH v5 06/11] spi: aspeed: Workaround AST2500 limitations
+Date: Mon,  2 May 2022 10:13:36 +0200
+Message-Id: <20220502081341.203369-7-clg@kaod.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220502081341.203369-1-clg@kaod.org>
 References: <20220502081341.203369-1-clg@kaod.org>
@@ -59,15 +60,9 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The segment registers of the FMC/SPI controllers provide a way to
-configure the mapping window of the flash device contents on the AHB
-bus. Adjust this window to the size of the spi-mem mapping.
-
-Things get more complex with multiple devices. The driver needs to
-also adjust the window of the next device to make sure that there is
-no overlap, even if there is no available device. The proposal below
-is not perfect but it is covering all the cases we have seen on
-different boards with one and two devices on the same bus.
+It is not possible to configure a full 128MB window for a chip of the
+same size on the AST2500 SPI controller. For this case, the maximum
+window size is restricted to 120MB for CE0.
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Tested-by: Joel Stanley <joel@jms.id.au>
@@ -75,115 +70,39 @@ Tested-by: Tao Ren <rentao.bupt@gmail.com>
 Tested-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- drivers/spi/spi-aspeed-smc.c | 88 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
+ drivers/spi/spi-aspeed-smc.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-index 50cc7bd7ba3e..0aff42e20b8d 100644
+index 0aff42e20b8d..d2b3342c133e 100644
 --- a/drivers/spi/spi-aspeed-smc.c
 +++ b/drivers/spi/spi-aspeed-smc.c
-@@ -411,6 +411,92 @@ static int aspeed_spi_chip_set_default_window(struct aspeed_spi_chip *chip)
- 	return chip->ahb_window_size ? 0 : -1;
- }
- 
-+static int aspeed_spi_set_window(struct aspeed_spi *aspi,
-+				 const struct aspeed_spi_window *win)
-+{
-+	u32 start = aspi->ahb_base_phy + win->offset;
-+	u32 end = start + win->size;
-+	void __iomem *seg_reg = aspi->regs + CE0_SEGMENT_ADDR_REG + win->cs * 4;
-+	u32 seg_val_backup = readl(seg_reg);
-+	u32 seg_val = aspi->data->segment_reg(aspi, start, end);
+@@ -451,6 +451,8 @@ static int aspeed_spi_set_window(struct aspeed_spi *aspi,
+  * - ioremap each window, not strictly necessary since the overall window
+  *   is correct.
+  */
++static const struct aspeed_spi_data ast2500_spi_data;
 +
-+	if (seg_val == seg_val_backup)
-+		return 0;
-+
-+	writel(seg_val, seg_reg);
-+
-+	/*
-+	 * Restore initial value if something goes wrong else we could
-+	 * loose access to the chip.
-+	 */
-+	if (seg_val != readl(seg_reg)) {
-+		dev_err(aspi->dev, "CE%d invalid window [ 0x%.8x - 0x%.8x ] %dMB",
-+			win->cs, start, end - 1, win->size >> 20);
-+		writel(seg_val_backup, seg_reg);
-+		return -EIO;
-+	}
-+
-+	if (win->size)
-+		dev_dbg(aspi->dev, "CE%d new window [ 0x%.8x - 0x%.8x ] %dMB",
-+			win->cs, start, end - 1,  win->size >> 20);
-+	else
-+		dev_dbg(aspi->dev, "CE%d window closed", win->cs);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Yet to be done when possible :
-+ * - Align mappings on flash size (we don't have the info)
-+ * - ioremap each window, not strictly necessary since the overall window
-+ *   is correct.
-+ */
-+static int aspeed_spi_chip_adjust_window(struct aspeed_spi_chip *chip,
-+					 u32 local_offset, u32 size)
-+{
-+	struct aspeed_spi *aspi = chip->aspi;
-+	struct aspeed_spi_window windows[ASPEED_SPI_MAX_NUM_CS] = { 0 };
-+	struct aspeed_spi_window *win = &windows[chip->cs];
-+	int ret;
-+
-+	aspeed_spi_get_windows(aspi, windows);
-+
-+	/* Adjust this chip window */
-+	win->offset += local_offset;
-+	win->size = size;
-+
-+	if (win->offset + win->size > aspi->ahb_window_size) {
-+		win->size = aspi->ahb_window_size - win->offset;
-+		dev_warn(aspi->dev, "CE%d window resized to %dMB", chip->cs, win->size >> 20);
-+	}
-+
-+	ret = aspeed_spi_set_window(aspi, win);
-+	if (ret)
-+		return ret;
-+
-+	/* Update chip mapping info */
-+	chip->ahb_base = aspi->ahb_base + win->offset;
-+	chip->ahb_window_size = win->size;
-+
-+	/*
-+	 * Also adjust next chip window to make sure that it does not
-+	 * overlap with the current window.
-+	 */
-+	if (chip->cs < aspi->data->max_cs - 1) {
-+		struct aspeed_spi_window *next = &windows[chip->cs + 1];
-+
-+		/* Change offset and size to keep the same end address */
-+		if ((next->offset + next->size) > (win->offset + win->size))
-+			next->size = (next->offset + next->size) - (win->offset + win->size);
-+		else
-+			next->size = 0;
-+		next->offset = win->offset + win->size;
-+
-+		aspeed_spi_set_window(aspi, next);
-+	}
-+	return 0;
-+}
-+
- static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
+ static int aspeed_spi_chip_adjust_window(struct aspeed_spi_chip *chip,
+ 					 u32 local_offset, u32 size)
  {
- 	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
-@@ -425,6 +511,8 @@ static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
- 	if (op->data.dir != SPI_MEM_DATA_IN)
- 		return -EOPNOTSUPP;
+@@ -459,6 +461,16 @@ static int aspeed_spi_chip_adjust_window(struct aspeed_spi_chip *chip,
+ 	struct aspeed_spi_window *win = &windows[chip->cs];
+ 	int ret;
  
-+	aspeed_spi_chip_adjust_window(chip, desc->info.offset, desc->info.length);
++	/*
++	 * Due to an HW issue on the AST2500 SPI controller, the CE0
++	 * window size should be smaller than the maximum 128MB.
++	 */
++	if (aspi->data == &ast2500_spi_data && chip->cs == 0 && size == SZ_128M) {
++		size = 120 << 20;
++		dev_info(aspi->dev, "CE%d window resized to %dMB (AST2500 HW quirk)",
++			 chip->cs, size >> 20);
++	}
 +
- 	if (desc->info.length > chip->ahb_window_size)
- 		dev_warn(aspi->dev, "CE%d window (%dMB) too small for mapping",
- 			 chip->cs, chip->ahb_window_size >> 20);
+ 	aspeed_spi_get_windows(aspi, windows);
+ 
+ 	/* Adjust this chip window */
 -- 
 2.35.1
 
