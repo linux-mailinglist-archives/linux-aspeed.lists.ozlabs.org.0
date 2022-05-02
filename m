@@ -2,61 +2,39 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31689516AEE
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 May 2022 08:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E83516BBB
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 May 2022 10:14:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KsD6W6jdyz3bYn
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 May 2022 16:42:27 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=USojnC1K;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KsG875P5wz3bYZ
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 May 2022 18:13:59 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82a;
- helo=mail-qt1-x82a.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=USojnC1K; dkim-atps=neutral
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KsD6N6Cr3z2yPY
- for <linux-aspeed@lists.ozlabs.org>; Mon,  2 May 2022 16:42:18 +1000 (AEST)
-Received: by mail-qt1-x82a.google.com with SMTP id y3so10503907qtn.8
- for <linux-aspeed@lists.ozlabs.org>; Sun, 01 May 2022 23:42:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=QbcbEFU0Z1L9p+CYAY5GhkPGx/m4T8Xb0TJTTP3V3oQ=;
- b=USojnC1K9L0pp14wEIarZla7/3QV76DGVneAUU8o20QwD1wKMU6FS3fbhbBRYN2Fqc
- KCzhGbLFdiJ13M60ojMSAbFfjqjy8f5zMiXGGvtFz8ERDcApifvrUWdro0DWyU8LCnGu
- DpgY0E0H3x3BNHUcMqTjgSJBDL5oZsK1vbfsU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=QbcbEFU0Z1L9p+CYAY5GhkPGx/m4T8Xb0TJTTP3V3oQ=;
- b=46nVM/jE6DtNbGwBCoZlVFsc3tRx08qPriHTB0jQWpYwnrPFp0RZON2fUY8DkCdwAj
- NlqAE1CgMpJKMZg8rlVo/UKQvLnd51q3lxiMtDMnIK3+E0S4fxMXYF86bTkXxn2kjzuV
- X+XypRkOqzOGW4/q9nn7ds4jLuaA+pfU4C53EwUHXF+waij9dGOjNriSMFCTkjfrx5LI
- MzvseJnNcYPx6kAC8WhYh8vCa22Crm1kzQwXprQ1qyhnL4wPufI4K9M44o4AnzLqiFKT
- vP/Xx777GMTzjUIKqpmzFQ830DKb+W3AQX6zhiqMltURdlTcTk2fzIPUER2C80EYHLLO
- ThtA==
-X-Gm-Message-State: AOAM5323nLU+iwYB1cg8KOrzXAwpHm+VoTHhdqGjUIw7/+lZ79OAwQSf
- geRMDJ7F0NKzbvuewXznFZKL1FVH+MJ87L6xxlA=
-X-Google-Smtp-Source: ABdhPJw2d5haWCp22JGGOYyeFjezanqHtJZ1iJOvgBzXFfYeog3X69H7zQkWjOw7hm5u0g7nX1WnCShesYLo+VXQhR4=
-X-Received: by 2002:a05:622a:c4:b0:2e1:cb5b:9b5c with SMTP id
- p4-20020a05622a00c400b002e1cb5b9b5cmr9197254qtw.69.1651473734785; Sun, 01 May
- 2022 23:42:14 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KsG816xRSz2yHp
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  2 May 2022 18:13:53 +1000 (AEST)
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsG8070Qdz4xXk;
+ Mon,  2 May 2022 18:13:52 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsG7s6K8Kz4x7Y;
+ Mon,  2 May 2022 18:13:45 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: linux-spi@vger.kernel.org,
+	linux-mtd@lists.infradead.org
+Subject: [PATCH v5 00/11] spi: spi-mem: Convert Aspeed SMC driver to spi-mem
+Date: Mon,  2 May 2022 10:13:30 +0200
+Message-Id: <20220502081341.203369-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 2 May 2022 06:42:03 +0000
-Message-ID: <CACPK8XdhLfafOfqvR0r7p6V6AhtNXD4uZGaz7Y+Y4P-rc9p0tQ@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: Fixes for v5.18
-To: SoC Team <soc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,63 +46,147 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Pratyush Yadav <p.yadav@ti.com>,
+ linux-arm-kernel@lists.infradead.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Soc maintainers,
+Hi,
 
-Here are some device tree fixes that I have for v5.18. They have been
-ready since the merge window closed but I've not been available to
-send the pull earlier. If you'd prefer not to take them now then I
-understand.
+This series adds a new SPI driver using the spi-mem interface for the
+Aspeed static memory controllers of the AST2600, AST2500 and AST2400
+SoCs.
 
-The following changes since commit ce522ba9ef7e2d9fb22a39eb3371c0c64e2a433e:
+ * AST2600 Firmware SPI Memory Controller (FMC)
+ * AST2600 SPI Flash Controller (SPI1 and SPI2)
+ * AST2500 Firmware SPI Memory Controller (FMC)
+ * AST2500 SPI Flash Controller (SPI1 and SPI2)
+ * AST2400 New Static Memory Controller (also referred as FMC)
+ * AST2400 SPI Flash Controller (SPI)
 
-  Linux 5.18-rc2 (2022-04-10 14:21:36 -1000)
+It is based on the current OpenBMC kernel driver [1], using directly
+the MTD SPI-NOR interface and on a patchset [2] previously proposed
+adding support for the AST2600 only. This driver takes a slightly
+different approach to cover all 6 controllers.
 
-are available in the Git repository at:
+It does not make use of the controller register disabling Address and
+Data byte lanes because is not available on the AST2400 SoC. We could
+introduce a specific handler for new features available on recent SoCs
+if needed. As there is not much difference on performance, the driver
+chooses the common denominator: "User mode" which has been heavily
+tested in [1]. "User mode" is also used as a fall back method when
+flash device mapping window is too small.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-v5.18-fixes
+Problems to address with spi-mem were the configuration of the mapping
+windows and the calibration of the read timings. The driver handles
+them in the direct mapping handler when some knowledge on the size of
+the flash device is know. It is not perfect but not incorrect either.
+The algorithm is one from [1] because it doesn't require the DMA
+registers which are not available on all controllers.
 
-for you to fetch changes up to 32e62d1beab70d485980013312e747a25c4e13f7:
+Direct mapping for writes is not supported (yet). I have seen some
+corruption with writes and I preferred to use the safer and proven
+method of the initial driver [1]. We can improve that later.
 
-  ARM: dts: aspeed: Add video engine to g6 (2022-04-13 11:53:53 +0930)
+The driver supports Quad SPI RX transfers on the AST2600 SoC but it
+didn't have the expected results. Therefore it is not activated yet.
+There are some issues on the pinctrl to investigate first. 
 
-----------------------------------------------------------------
-ASPEED device tree fixes for v5.18
+Tested on:
+ 
+ * OpenPOWER Palmetto (AST2400)
+ * Facebook Wedge 100 BMC (AST2400) by Tao Ren <rentao.bupt@gmail.com>
+ * Evaluation board (AST2500) 
+ * Inspur FP5280G2 BMC (AST2500) by John Wang <wangzq.jn@gmail.com>
+ * Facebook Backpack CMM BMC (AST2500) by Tao Ren <rentao.bupt@gmail.com>
+ * OpenPOWER Witherspoon (AST2500)
+ * Evaluation board (AST2600 A0 and A3)
+ * Rainier board (AST2600)
+ 
+[1] https://github.com/openbmc/linux/blob/dev-5.15/drivers/mtd/spi-nor/controllers/aspeed-smc.c
+[2] https://patchwork.ozlabs.org/project/linux-aspeed/list/?series=212394
 
- - Quad SPI device tree corrections
+Thanks,
 
- - Reinstate GFX node that was removed
+C. 
 
- - romed8hm3 machine fixes
+Changes in v5:
 
-----------------------------------------------------------------
-Howard Chiu (1):
-      ARM: dts: aspeed: Add video engine to g6
+  - Rebased on 5.18-rc5
+  - More AST2600 tests from Jae Hyun Yoo
+  - Cleanups of aspeed,ast2600-fmc.yaml
+  - Modified aspeed_spi_send_cmd_addr() routine to return an error  
+  - Simplified conditions in exec_op() handler when computing
+    the controller setting
+  - Dropped the use of memcpy_fromio for the SFDP address space
 
-Jae Hyun Yoo (5):
-      ARM: dts: aspeed-g6: remove FWQSPID group in pinctrl dtsi
-      pinctrl: pinctrl-aspeed-g6: remove FWQSPID group in pinctrl
-      dt-bindings: pinctrl: aspeed-g6: remove FWQSPID group
-      dt-bindings: pinctrl: aspeed-g6: add FWQSPI function/group
-      ARM: dts: aspeed-g6: fix SPI1/SPI2 quad pin group
+Changes in v4:
 
-Johnny Huang (2):
-      pinctrl: pinctrl-aspeed-g6: add FWQSPI function-group
-      ARM: dts: aspeed-g6: add FWQSPI group in pinctrl dtsi
+  - Rebased on 5.18 
+  - Removal of the SPI-NOR base driver (we had enough tests)
+  - Fix for small size flash devices on AST2600 (Potin)
 
-Zev Weiss (2):
-      ARM: dts: aspeed: romed8hm3: Add lm25066 sense resistor values
-      ARM: dts: aspeed: romed8hm3: Fix GPIOB0 name
+Changes in v3:
 
- drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c              | 17 ++++++++---------
- .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml        |  4 ++--
- arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts       |  4 +++-
- arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi                | 10 +++++-----
- arch/arm/boot/dts/aspeed-g6.dtsi                        | 10 ++++++++++
- 5 files changed, 28 insertions(+), 17 deletions(-)
+ - Fixed compile warning on aspeed_spi_dirmap_read() prototype reported
+   by kernel test robot 
+ - Removed unnecessary entry in ast2600-fmc.yaml
+ - New patch from Tao to set spi-max-frequency on all FMC devices
+
+Changes in v2:
+
+ - Fixed dt_binding_check warnings (Rob)
+ - New entry in MAINTAINERS 
+ - Addressed Lukas comments regarding the SPI controller registration
+   and device removal. Checked with driver bind/unbind   
+ - Introduced setup and cleanup handlers and removed routine looping
+   on the DT children properties (Pratyush)
+ - Clarified in commit log requirements for training.
+ - Removed defconfig changes of patch 1 since they were reverted in
+   the last patch (Joel)
+
+Cédric Le Goater (9):
+  ARM: dts: aspeed: Adjust "reg" property of FMC/SPI controllers
+  dt-bindings: spi: Add Aspeed SMC controllers device tree binding
+  spi: spi-mem: Convert Aspeed SMC driver to spi-mem
+  spi: aspeed: Add support for direct mapping
+  spi: aspeed: Adjust direct mapping to device size
+  spi: aspeed: Workaround AST2500 limitations
+  spi: aspeed: Add support for the AST2400 SPI controller
+  spi: aspeed: Calibrate read timings
+  ARM: dts: aspeed: Enable Dual SPI RX transfers
+
+Potin Lai (1):
+  mtd: spi-nor: aspeed: set the decoding size to at least 2MB for
+    AST2600
+
+Tao Ren (1):
+  ARM: dts: aspeed-g4: Set spi-max-frequency for all flashes
+
+ drivers/mtd/spi-nor/controllers/aspeed-smc.c  |  921 -------------
+ drivers/spi/spi-aspeed-smc.c                  | 1210 +++++++++++++++++
+ .../devicetree/bindings/mtd/aspeed-smc.txt    |   51 -
+ .../bindings/spi/aspeed,ast2600-fmc.yaml      |   82 ++
+ MAINTAINERS                                   |   10 +
+ arch/arm/boot/dts/aspeed-g4.dtsi              |   16 +-
+ arch/arm/boot/dts/aspeed-g5.dtsi              |   16 +-
+ arch/arm/boot/dts/aspeed-g6.dtsi              |   17 +-
+ drivers/mtd/spi-nor/controllers/Kconfig       |   10 -
+ drivers/mtd/spi-nor/controllers/Makefile      |    1 -
+ drivers/spi/Kconfig                           |   11 +
+ drivers/spi/Makefile                          |    1 +
+ 12 files changed, 1347 insertions(+), 999 deletions(-)
+ delete mode 100644 drivers/mtd/spi-nor/controllers/aspeed-smc.c
+ create mode 100644 drivers/spi/spi-aspeed-smc.c
+ delete mode 100644 Documentation/devicetree/bindings/mtd/aspeed-smc.txt
+ create mode 100644 Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
+
+-- 
+2.35.1
+
