@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5843C517D1C
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 May 2022 08:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21103517D1D
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 May 2022 08:07:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KsqJ01TJMz3bdq
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 May 2022 16:07:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KsqJ672NCz3bdg
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 May 2022 16:07:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
@@ -14,23 +14,25 @@ Received: from gandalf.ozlabs.org (mail.ozlabs.org
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KsqHx30Hwz2yNn
- for <linux-aspeed@lists.ozlabs.org>; Tue,  3 May 2022 16:07:41 +1000 (AEST)
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsqHx2n1pz4xbw;
- Tue,  3 May 2022 16:07:41 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KsqJ32H8yz3bZC
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  3 May 2022 16:07:47 +1000 (AEST)
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4KsqJ324jYz4yST;
+ Tue,  3 May 2022 16:07:47 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsqHr0Skvz4ySs;
- Tue,  3 May 2022 16:07:35 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KsqHx6WDkz4ySc;
+ Tue,  3 May 2022 16:07:41 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: linux-spi@vger.kernel.org,
 	linux-mtd@lists.infradead.org
-Subject: [PATCH v6 09/11] ARM: dts: aspeed: Enable Dual SPI RX transfers
-Date: Tue,  3 May 2022 08:06:32 +0200
-Message-Id: <20220503060634.122722-10-clg@kaod.org>
+Subject: [PATCH v6 10/11] ARM: dts: aspeed-g4: Set spi-max-frequency for all
+ flashes
+Date: Tue,  3 May 2022 08:06:33 +0200
+Message-Id: <20220503060634.122722-11-clg@kaod.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220503060634.122722-1-clg@kaod.org>
 References: <20220503060634.122722-1-clg@kaod.org>
@@ -59,180 +61,49 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-All these controllers support at least Dual SPI. Update the DTs.
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Tested-by: Joel Stanley <joel@jms.id.au>
-Tested-by: Tao Ren <rentao.bupt@gmail.com>
+Set "spi-max-frequency" to 50 MHz for all the flashes under the FMC
+controller to ensure the clock frequency is calculated correctly.
+
+Suggested-by: Cédric Le Goater <clg@kaod.org>
 Tested-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- arch/arm/boot/dts/aspeed-g4.dtsi | 6 ++++++
- arch/arm/boot/dts/aspeed-g5.dtsi | 7 +++++++
- arch/arm/boot/dts/aspeed-g6.dtsi | 8 ++++++++
- 3 files changed, 21 insertions(+)
+ arch/arm/boot/dts/aspeed-g4.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-g4.dtsi
-index 3b7b98e787e7..1c6354cec9f2 100644
+index 1c6354cec9f2..530491ae5eb2 100644
 --- a/arch/arm/boot/dts/aspeed-g4.dtsi
 +++ b/arch/arm/boot/dts/aspeed-g4.dtsi
-@@ -64,27 +64,32 @@ fmc: spi@1e620000 {
- 			flash@0 {
- 				reg = < 0 >;
- 				compatible = "jedec,spi-nor";
-+				spi-rx-bus-width = <2>;
- 				spi-max-frequency = <50000000>;
- 				status = "disabled";
- 			};
- 			flash@1 {
+@@ -72,24 +72,28 @@ flash@1 {
  				reg = < 1 >;
  				compatible = "jedec,spi-nor";
-+				spi-rx-bus-width = <2>;
+ 				spi-rx-bus-width = <2>;
++				spi-max-frequency = <50000000>;
  				status = "disabled";
  			};
  			flash@2 {
  				reg = < 2 >;
  				compatible = "jedec,spi-nor";
-+				spi-rx-bus-width = <2>;
+ 				spi-rx-bus-width = <2>;
++				spi-max-frequency = <50000000>;
  				status = "disabled";
  			};
  			flash@3 {
  				reg = < 3 >;
  				compatible = "jedec,spi-nor";
-+				spi-rx-bus-width = <2>;
+ 				spi-rx-bus-width = <2>;
++				spi-max-frequency = <50000000>;
  				status = "disabled";
  			};
  			flash@4 {
  				reg = < 4 >;
  				compatible = "jedec,spi-nor";
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 		};
-@@ -100,6 +105,7 @@ flash@0 {
- 				reg = < 0 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 		};
-diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-index 1e727cbaab14..c89092c3905b 100644
---- a/arch/arm/boot/dts/aspeed-g5.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-@@ -66,18 +66,21 @@ flash@0 {
- 				reg = < 0 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@1 {
- 				reg = < 1 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@2 {
- 				reg = < 2 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 		};
-@@ -93,12 +96,14 @@ flash@0 {
- 				reg = < 0 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@1 {
- 				reg = < 1 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 		};
-@@ -114,12 +119,14 @@ flash@0 {
- 				reg = < 0 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@1 {
- 				reg = < 1 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 		};
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 6ae5dfecbdf1..4264fc0a7c3f 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -106,18 +106,21 @@ flash@0 {
- 				reg = < 0 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@1 {
- 				reg = < 1 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@2 {
- 				reg = < 2 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 		};
-@@ -133,12 +136,14 @@ flash@0 {
- 				reg = < 0 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@1 {
- 				reg = < 1 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 		};
-@@ -154,18 +159,21 @@ flash@0 {
- 				reg = < 0 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@1 {
- 				reg = < 1 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
- 				status = "disabled";
- 			};
- 			flash@2 {
- 				reg = < 2 >;
- 				compatible = "jedec,spi-nor";
- 				spi-max-frequency = <50000000>;
-+				spi-rx-bus-width = <2>;
+ 				spi-rx-bus-width = <2>;
++				spi-max-frequency = <50000000>;
  				status = "disabled";
  			};
  		};
