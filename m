@@ -2,46 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF37520C6F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 May 2022 05:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12925522C17
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 May 2022 08:09:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Ky3w72xZxz3cck
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 May 2022 13:50:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Kykyn5znFz3c7K
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 May 2022 16:09:53 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=eRq98BEN;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=chin-ting_kuo@aspeedtech.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::435;
+ helo=mail-wr1-x435.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=eRq98BEN; dkim-atps=neutral
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Ky3vZ0skRz2yJF;
- Tue, 10 May 2022 13:49:44 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 24A3a11u015463;
- Tue, 10 May 2022 11:36:01 +0800 (GMT-8)
- (envelope-from chin-ting_kuo@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 10 May
- 2022 11:49:14 +0800
-From: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-To: <openbmc@lists.ozlabs.org>, <linux-aspeed@lists.ozlabs.org>, <clg@kaod.org>
-Subject: [PATCH v2 1/1] spi: aspeed: Update SPI clock frequency config rule
-Date: Tue, 10 May 2022 11:49:08 +0800
-Message-ID: <20220510034908.1855049-2-chin-ting_kuo@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220510034908.1855049-1-chin-ting_kuo@aspeedtech.com>
-References: <20220510034908.1855049-1-chin-ting_kuo@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Kykyk0sv8z3bbB
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 11 May 2022 16:09:49 +1000 (AEST)
+Received: by mail-wr1-x435.google.com with SMTP id q23so1437266wra.1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 10 May 2022 23:09:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8VHraj8d06YM+De4Pnpm/ftVhB4j15aURh4OR3XtQQs=;
+ b=eRq98BENscelG1cmv/7KdEfz37qy++0ZvRiGwjts7OYmQnJYTfoyhT12xutzugvRIb
+ xA91PdIdQlQlYtyXshVyKPlGA29Ly68zQbYZW9BypgLRH6rgbm8Uq8OwhtQpGViAuWx+
+ ir9yaQ3hCoV7+0wSmnwSP/4RSjOH4RY146Xmw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8VHraj8d06YM+De4Pnpm/ftVhB4j15aURh4OR3XtQQs=;
+ b=jWHmIvIBHQTsdjRAxkKK2OgOsrYZXaAGi8VXVOCXmIUDBNdL5TFjrqO+w56yy17GsI
+ 45cuoSLZzNkc8ZcZ7sh5cXNMjnQSr6qzKUSCNu5Bj5XIGdUPjzAhT6YD8d6TOG3hGil9
+ XBN6zTIei+X7jj3mKartJBnX4d4OECFtkJ5GsWXKDQn3J6Vpfmqz0uaEZIAAvdCeSPF+
+ P7WWKUH/9TQAlsEUB35UFzm1OQRDGvcAVTDZG2PbLDz0wa/5bJuXTMuWcqmY2Ma8NMOP
+ k5xJmxUWwDOgnloEWgwguGlQmPccm7Ih59YeRKcxHuzfi/cvNwI5+oJRQuMJUzqIqo21
+ z13g==
+X-Gm-Message-State: AOAM531swrbO953msbKysH8G+zdxpjyGm7pheAY8+VLlLkLoVtjls6D3
+ n7vm7BXFJa1LWrG6iMd47cYJwpRP2emQW06RH44=
+X-Google-Smtp-Source: ABdhPJyjDLNrgyQtYLmk0GuQSBajTH2voVldGLT2eHhEtoR8SqbzkHxfdWJfAsyGl8t5S9qpn5RGgyG9B1Gia/zSL8U=
+X-Received: by 2002:a5d:6d04:0:b0:20c:52de:9ce4 with SMTP id
+ e4-20020a5d6d04000000b0020c52de9ce4mr22646590wrq.572.1652249384925; Tue, 10
+ May 2022 23:09:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 24A3a11u015463
+References: <20220509151118.4899-1-potin.lai.pt@gmail.com>
+In-Reply-To: <20220509151118.4899-1-potin.lai.pt@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 11 May 2022 06:09:33 +0000
+Message-ID: <CACPK8XfXbay7u5kMDgMoyDTO_Le2i4okNUG8sb8_NDepbPRjxA@mail.gmail.com>
+Subject: Re: [PATCH 0/6] ARM: dts: aspeed: bletchley: update dts file base on
+ DVT schematic
+To: Potin Lai <potin.lai.pt@gmail.com>, Patrick Williams <patrick@stwcx.xyz>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,296 +72,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Instead of using the slowest one, the maximum clock frequency
-configured in the device tree should be kept when no timing
-calibration process is executed.
-Besides, an extra callback function is added in order to calculate
-clock frequency configuration for different ASPEED platforms.
+On Mon, 9 May 2022 at 15:14, Potin Lai <potin.lai.pt@gmail.com> wrote:
+>
+> This patch series update Facebook Bletchley BMC devicetree base on DVT
+> schematic.
+>
+> - EHCI: enable ehci0 for detecting and accessing usb device on sled
+> - MDIO Bus: enable mdio0 for accessing switch registers
+> - SPI2 Flash: switch spi driver back to aspeed-smc to improve performance
+> - EEPROM: add eeprom node on each sled
+> - GPIO:
+>   - add PCA9536 IOEPX node on each sled
+>   - update gpio line names
 
-Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
----
-v2: Merge aspeed_spi_hclk_masks[] into aspeed_spi_hclk_divs[].
+These look fine to me.
 
- drivers/spi/spi-aspeed-smc.c | 167 ++++++++++++++++++++++++++++++-----
- 1 file changed, 145 insertions(+), 22 deletions(-)
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-index 496f3e1e9079..23e7a6ac53b4 100644
---- a/drivers/spi/spi-aspeed-smc.c
-+++ b/drivers/spi/spi-aspeed-smc.c
-@@ -3,7 +3,7 @@
-  * ASPEED FMC/SPI Memory Controller Driver
-  *
-  * Copyright (c) 2015-2022, IBM Corporation.
-- * Copyright (c) 2020, ASPEED Corporation.
-+ * Copyright (c) 2020-2022, ASPEED Corporation.
-  */
- 
- #include <linux/clk.h>
-@@ -84,6 +84,7 @@ struct aspeed_spi_data {
- 	u32 (*segment_reg)(struct aspeed_spi *aspi, u32 start, u32 end);
- 	int (*calibrate)(struct aspeed_spi_chip *chip, u32 hdiv,
- 			 const u8 *golden_buf, u8 *test_buf);
-+	u32 (*clk_config)(struct aspeed_spi_chip *chip, u32 max_hz);
- };
- 
- #define ASPEED_SPI_MAX_NUM_CS	5
-@@ -952,12 +953,10 @@ static bool aspeed_spi_check_calib_data(const u8 *test_buf, u32 size)
- 	return cnt >= 64;
- }
- 
-+/* HCLK/1 ..	HCLK/16 */
- static const u32 aspeed_spi_hclk_divs[] = {
--	0xf, /* HCLK */
--	0x7, /* HCLK/2 */
--	0xe, /* HCLK/3 */
--	0x6, /* HCLK/4 */
--	0xd, /* HCLK/5 */
-+	15, 7, 14, 6, 13, 5, 12, 4,
-+	11, 3, 10, 2, 9,  1, 8,  0
- };
- 
- #define ASPEED_SPI_HCLK_DIV(i) \
-@@ -972,7 +971,10 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
- 	u32 ctl_val;
- 	u8 *golden_buf = NULL;
- 	u8 *test_buf = NULL;
--	int i, rc, best_div = -1;
-+	int i, rc;
-+	u32 best_freq = 0;
-+	u32 freq;
-+	u32 clk_conf;
- 
- 	dev_dbg(aspi->dev, "calculate timing compensation - AHB freq: %d MHz",
- 		ahb_freq / 1000000);
-@@ -992,8 +994,8 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
- 
- 	memcpy_fromio(golden_buf, chip->ahb_base, CALIBRATE_BUF_SIZE);
- 	if (!aspeed_spi_check_calib_data(golden_buf, CALIBRATE_BUF_SIZE)) {
--		dev_info(aspi->dev, "Calibration area too uniform, using low speed");
--		goto no_calib;
-+		dev_info(aspi->dev, "Calibration area too uniform, using default freq");
-+		goto end_calib;
- 	}
- 
- #if defined(VERBOSE_DEBUG)
-@@ -1002,8 +1004,8 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
- #endif
- 
- 	/* Now we iterate the HCLK dividers until we find our breaking point */
--	for (i = ARRAY_SIZE(aspeed_spi_hclk_divs); i > data->hdiv_max - 1; i--) {
--		u32 tv, freq;
-+	for (i = 5; i > data->hdiv_max - 1; i--) {
-+		u32 tv;
- 
- 		freq = ahb_freq / i;
- 		if (freq > max_freq)
-@@ -1015,27 +1017,142 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
- 		dev_dbg(aspi->dev, "Trying HCLK/%d [%08x] ...", i, tv);
- 		rc = data->calibrate(chip, i, golden_buf, test_buf);
- 		if (rc == 0)
--			best_div = i;
-+			best_freq = freq;
- 	}
- 
- 	/* Nothing found ? */
--	if (best_div < 0) {
--		dev_warn(aspi->dev, "No good frequency, using dumb slow");
--	} else {
--		dev_dbg(aspi->dev, "Found good read timings at HCLK/%d", best_div);
-+	if (best_freq == 0)
-+		dev_warn(aspi->dev, "Use the default timing setting");
-+	else
-+		dev_dbg(aspi->dev, "Found good read timings at HCLK/%d", i);
- 
--		/* Record the freq */
--		for (i = 0; i < ASPEED_SPI_MAX; i++)
--			chip->ctl_val[i] = (chip->ctl_val[i] & data->hclk_mask) |
--				ASPEED_SPI_HCLK_DIV(best_div);
--	}
-+end_calib:
-+	if (best_freq == 0)
-+		best_freq = max_freq;
-+
-+	clk_conf = data->clk_config(chip, best_freq);
-+	/* Record the freq */
-+	for (i = 0; i < ASPEED_SPI_MAX; i++)
-+		chip->ctl_val[i] = (chip->ctl_val[i] & data->hclk_mask) | clk_conf;
- 
--no_calib:
- 	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
- 	kfree(test_buf);
- 	return 0;
- }
- 
-+static u32 aspeed_spi_ast2400_clk_config(struct aspeed_spi_chip *chip,
-+					 u32 max_hz)
-+{
-+	struct aspeed_spi *aspi = chip->aspi;
-+	u32 ahb_freq = aspi->clk_freq;
-+	u32 hclk_div = 0; /* default value */
-+	u32 i;
-+	bool found = false;
-+
-+	/* FMC/SPIR10[11:8] */
-+	for (i = 0; i < ARRAY_SIZE(aspeed_spi_hclk_divs); i++) {
-+		if (ahb_freq / (i + 1) <= max_hz) {
-+			found = true;
-+			break;
-+		}
-+	}
-+
-+	if (found)
-+		hclk_div = aspeed_spi_hclk_divs[i] << 8;
-+
-+	dev_dbg(aspi->dev, "found: %s, hclk: %d, max_clk: %d\n",
-+		found ? "yes" : "no", ahb_freq, max_hz);
-+
-+	if (found) {
-+		dev_dbg(aspi->dev, "h_div: %d (mask %x)\n",
-+			i + 1, aspeed_spi_hclk_divs[i]);
-+	}
-+
-+	return hclk_div;
-+}
-+
-+static u32 aspeed_spi_ast2500_clk_config(struct aspeed_spi_chip *chip,
-+					 u32 max_hz)
-+{
-+	struct aspeed_spi *aspi = chip->aspi;
-+	u32 ahb_freq = aspi->clk_freq;
-+	u32 hclk_div = 0; /* default value */
-+	u32 i;
-+	bool found = false;
-+
-+	/* FMC/SPIR10[11:8] */
-+	for (i = 0; i < ARRAY_SIZE(aspeed_spi_hclk_divs); i++) {
-+		if (ahb_freq / (i + 1) <= max_hz) {
-+			found = true;
-+			break;
-+		}
-+	}
-+
-+	if (found) {
-+		hclk_div = aspeed_spi_hclk_divs[i] << 8;
-+	} else {
-+		/* If FMC10[13] is set, an extra div_4 can be introduced. */
-+		for (i = 0; i < ARRAY_SIZE(aspeed_spi_hclk_divs); i++) {
-+			if (ahb_freq / ((i + 1) * 4) <= max_hz) {
-+				found = true;
-+				break;
-+			}
-+		}
-+
-+		if (found)
-+			hclk_div = BIT(13) | (aspeed_spi_hclk_divs[i] << 8);
-+	}
-+
-+	dev_dbg(aspi->dev, "found: %s, hclk: %d, max_clk: %d\n",
-+		found ? "yes" : "no", ahb_freq, max_hz);
-+
-+	if (found) {
-+		dev_dbg(aspi->dev, "h_div: %d (mask %x)\n",
-+			i + 1, aspeed_spi_hclk_divs[i]);
-+	}
-+
-+	return hclk_div;
-+}
-+
-+static u32 aspeed_spi_ast2600_clk_config(struct aspeed_spi_chip *chip,
-+					 u32 max_hz)
-+{
-+	struct aspeed_spi *aspi = chip->aspi;
-+	u32 ahb_freq = aspi->clk_freq;
-+	u32 hclk_div = 0x400; /* default value */
-+	u32 i, j;
-+	bool found = false;
-+
-+	/* FMC/SPIR10[27:24] */
-+	for (j = 0; j < 0xf; j++) {
-+		/* FMC/SPIR10[11:8] */
-+		for (i = 0; i < ARRAY_SIZE(aspeed_spi_hclk_divs); i++) {
-+			if (i == 0 && j == 0)
-+				continue;
-+
-+			if (ahb_freq / (i + 1 + (j * 16)) <= max_hz) {
-+				found = true;
-+				break;
-+			}
-+		}
-+
-+		if (found) {
-+			hclk_div = ((j << 24) | aspeed_spi_hclk_divs[i] << 8);
-+			break;
-+		}
-+	}
-+
-+	dev_dbg(aspi->dev, "found: %s, hclk: %d, max_clk: %d\n",
-+		found ? "yes" : "no", ahb_freq, max_hz);
-+
-+	if (found) {
-+		dev_dbg(aspi->dev, "base_clk: %d, h_div: %d (mask %x)\n",
-+			j, i + 1, aspeed_spi_hclk_divs[i]);
-+	}
-+
-+	return hclk_div;
-+}
-+
- #define TIMING_DELAY_DI		BIT(3)
- #define TIMING_DELAY_HCYCLE_MAX	5
- #define TIMING_REG_AST2600(chip)				\
-@@ -1110,6 +1227,7 @@ static const struct aspeed_spi_data ast2400_fmc_data = {
- 	.segment_start = aspeed_spi_segment_start,
- 	.segment_end   = aspeed_spi_segment_end,
- 	.segment_reg   = aspeed_spi_segment_reg,
-+	.clk_config    = aspeed_spi_ast2400_clk_config,
- };
- 
- static const struct aspeed_spi_data ast2400_spi_data = {
-@@ -1122,6 +1240,7 @@ static const struct aspeed_spi_data ast2400_spi_data = {
- 	.hdiv_max      = 1,
- 	.calibrate     = aspeed_spi_calibrate,
- 	/* No segment registers */
-+	.clk_config    = aspeed_spi_ast2400_clk_config,
- };
- 
- static const struct aspeed_spi_data ast2500_fmc_data = {
-@@ -1136,6 +1255,7 @@ static const struct aspeed_spi_data ast2500_fmc_data = {
- 	.segment_start = aspeed_spi_segment_start,
- 	.segment_end   = aspeed_spi_segment_end,
- 	.segment_reg   = aspeed_spi_segment_reg,
-+	.clk_config    = aspeed_spi_ast2500_clk_config,
- };
- 
- static const struct aspeed_spi_data ast2500_spi_data = {
-@@ -1150,6 +1270,7 @@ static const struct aspeed_spi_data ast2500_spi_data = {
- 	.segment_start = aspeed_spi_segment_start,
- 	.segment_end   = aspeed_spi_segment_end,
- 	.segment_reg   = aspeed_spi_segment_reg,
-+	.clk_config    = aspeed_spi_ast2500_clk_config,
- };
- 
- static const struct aspeed_spi_data ast2600_fmc_data = {
-@@ -1165,6 +1286,7 @@ static const struct aspeed_spi_data ast2600_fmc_data = {
- 	.segment_start = aspeed_spi_segment_ast2600_start,
- 	.segment_end   = aspeed_spi_segment_ast2600_end,
- 	.segment_reg   = aspeed_spi_segment_ast2600_reg,
-+	.clk_config    = aspeed_spi_ast2600_clk_config,
- };
- 
- static const struct aspeed_spi_data ast2600_spi_data = {
-@@ -1180,6 +1302,7 @@ static const struct aspeed_spi_data ast2600_spi_data = {
- 	.segment_start = aspeed_spi_segment_ast2600_start,
- 	.segment_end   = aspeed_spi_segment_ast2600_end,
- 	.segment_reg   = aspeed_spi_segment_ast2600_reg,
-+	.clk_config    = aspeed_spi_ast2600_clk_config,
- };
- 
- static const struct of_device_id aspeed_spi_matches[] = {
--- 
-2.25.1
+Patrick, did you want to review them before I merge?
 
+>
+> Potin Lai (6):
+>   ARM: dts: aspeed: bletchley: enable ehci0 device node
+>   ARM: dts: aspeed: bletchley: switch spi2 driver to aspeed-smc
+>   ARM: dts: aspeed: bletchley: Enable mdio0 bus
+>   ARM: dts: aspeed: bletchley: update gpio0 line names
+>   ARM: dts: aspeed: bletchley: add pca9536 node on each sled
+>   ARM: dts: aspeed: bletchley: add eeprom node on each sled
+>
+>  .../dts/aspeed-bmc-facebook-bletchley.dts     | 180 ++++++++++++++----
+>  1 file changed, 145 insertions(+), 35 deletions(-)
+>
+> --
+> 2.17.1
+>
