@@ -2,71 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4360527202
-	for <lists+linux-aspeed@lfdr.de>; Sat, 14 May 2022 16:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657B1527B37
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 May 2022 02:55:58 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L0nyT4GJxz3c9K
-	for <lists+linux-aspeed@lfdr.de>; Sun, 15 May 2022 00:31:45 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=sbzioa5h;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L1gmD241jz3c9P
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 May 2022 10:55:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org;
- envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=sbzioa5h; 
- dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=chiawei_wang@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L0nyK73RXz3byG;
- Sun, 15 May 2022 00:31:37 +1000 (AEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A3338B808D0;
- Sat, 14 May 2022 14:31:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9849FC340EE;
- Sat, 14 May 2022 14:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1652538692;
- bh=KLDGJ+XUhBPXixy1Zg7PlcK9TVzkkUVTXCexNedRPdw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sbzioa5hOPlt9gboLS22zB5omo907tZtRH6IInLQ1CrfnwkK2NfOpZOJ1gEhi6Fmz
- wJ889Mle+VD6igOIw2INvZpDAuHTEx9HKZdwk3ubcTh4BQLZq4OK+6Bv+FOUWtkAce
- OP2GafNWUcvJeVMModmVglfT7SsB1J/BwC2DR5vUxADkW4qDlDdXQseDx66NhqUybk
- sjRD7kqKoUxNbKI5Ll1jiuVmWjkX9OaAGWSdbfhlkOD5TYPKXSSJ6OzxdOP2VOjQvp
- q51Wk+roELj09l29LBs1MdWGOaWS9AHtfMKaEaj9GLEWTXV5dUnvfPmumqCI7qHjh4
- KpqruflA0jFgQ==
-Date: Sat, 14 May 2022 16:31:28 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v7 3/3] i2c: aspeed: Assert NAK when slave is busy
-Message-ID: <Yn+9QBoPdH8fMm/m@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Quan Nguyen <quan@os.amperecomputing.com>,
- Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
- Open Source Submission <patches@amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20220422040803.2524940-1-quan@os.amperecomputing.com>
- <20220422040803.2524940-4-quan@os.amperecomputing.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L1glF2JjGz3bkv;
+ Mon, 16 May 2022 10:55:02 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 24G0eWlr022581;
+ Mon, 16 May 2022 08:40:32 +0800 (GMT-8)
+ (envelope-from chiawei_wang@aspeedtech.com)
+Received: from Chiawei-PC03.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 16 May
+ 2022 08:54:04 +0800
+From: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+To: <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+ <jk@codeconstruct.com.au>, <a.kartashev@yadro.com>,
+ <patrick.rudolph@9elements.com>, <dphadke@linux.microsoft.com>,
+ <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 0/4] arm: aspeed: Add eSPI support
+Date: Mon, 16 May 2022 08:54:08 +0800
+Message-ID: <20220516005412.4844-1-chiawei_wang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="/Jcb04ZVbWq3W2FY"
-Content-Disposition: inline
-In-Reply-To: <20220422040803.2524940-4-quan@os.amperecomputing.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.66]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 24G0eWlr022581
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,51 +56,70 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Corey Minyard <minyard@acm.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
- Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
- openipmi-developer@lists.sourceforge.net,
- Open Source Submission <patches@amperecomputing.com>,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+This patch series add the driver support for the eSPI controller of Aspeed 5/6th generation SoCs. This controller is a slave device communicating with a master over Enhanced Serial Peripheral Interface (eSPI).
+It supports all of the 4 eSPI channels, namely peripheral, virtual wire, out-of-band, and flash, and operates at max frequency of 66MHz.
 
---/Jcb04ZVbWq3W2FY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+v5:
+ - unconditionally set VW GPIO to software mode as suggested by Jeremy
+ - add missing DTS node for Aspeed G5 SoCs
 
-On Fri, Apr 22, 2022 at 11:08:03AM +0700, Quan Nguyen wrote:
-> When processing I2C_SLAVE_WRITE_REQUESTED event, if slave returns
-> -EBUSY, i2c controller should issue RxCmdLast command to assert NAK
-> on the bus.
+v4:
+ - fix dt-bindgins error with patternProperties
+ - fix data type warning for ARM64 compilation
+ - replace header based implementation with .c files
+ - add more description for the ioctl interface
 
-That should be I2C_SLAVE_WRITE_RECEIVED and it should be NAKed on all
-errnos. Have you tested it?
+v3:
+ - remove the redundant patch "clk: aspeed: Add eSPI reset bit"
+ - fix missing header inclusion reported by test bot
+ - fix dt-bindings error reported by yamllint
 
+v2:
+ - remove irqchip implementation
+ - merge per-channel drivers into single one to avoid the racing issue
+   among eSPI handshake process and driver probing.
 
---/Jcb04ZVbWq3W2FY
-Content-Type: application/pgp-signature; name="signature.asc"
+Chia-Wei Wang (4):
+  dt-bindings: aspeed: Add eSPI controller
+  MAINTAINER: Add ASPEED eSPI driver entry
+  soc: aspeed: Add eSPI driver
+  ARM: dts: aspeed: Add eSPI node
 
------BEGIN PGP SIGNATURE-----
+ .../devicetree/bindings/soc/aspeed/espi.yaml  | 162 +++++
+ MAINTAINERS                                   |   9 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |  17 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |  17 +
+ drivers/soc/aspeed/Kconfig                    |  11 +
+ drivers/soc/aspeed/Makefile                   |   5 +
+ drivers/soc/aspeed/aspeed-espi-ctrl.c         | 214 +++++++
+ drivers/soc/aspeed/aspeed-espi-ctrl.h         | 309 ++++++++++
+ drivers/soc/aspeed/aspeed-espi-flash.c        | 352 +++++++++++
+ drivers/soc/aspeed/aspeed-espi-flash.h        |  45 ++
+ drivers/soc/aspeed/aspeed-espi-ioc.h          | 195 ++++++
+ drivers/soc/aspeed/aspeed-espi-oob.c          | 558 ++++++++++++++++++
+ drivers/soc/aspeed/aspeed-espi-oob.h          |  70 +++
+ drivers/soc/aspeed/aspeed-espi-perif.c        | 511 ++++++++++++++++
+ drivers/soc/aspeed/aspeed-espi-perif.h        |  45 ++
+ drivers/soc/aspeed/aspeed-espi-vw.c           | 142 +++++
+ drivers/soc/aspeed/aspeed-espi-vw.h           |  21 +
+ 17 files changed, 2683 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/aspeed/espi.yaml
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-ctrl.c
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-ctrl.h
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-flash.c
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-flash.h
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-ioc.h
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-oob.c
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-oob.h
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-perif.c
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-perif.h
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-vw.c
+ create mode 100644 drivers/soc/aspeed/aspeed-espi-vw.h
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmJ/vT8ACgkQFA3kzBSg
-KbYtRxAAnwySTv44cgVvd57fhPZJ4l4tcBSK97yFdMtZ2UNRFfyFclUiH9skwsuO
-KOmHb1UatGOYAoMyxrPIkiOXkeIeL/vlIkgI0d4CjL0pWKNrNIqqSncRdnpsDO8u
-4efBzlk9D2iNkA7y9OAuBxHwONT41qUX5fgOymGpF56b/X/4sHJjV20pcFewfb/0
-3ykk9Y5QJDq+h5va+IXp0O2ED6u8nZxn+/RAy+JiJFX+ynFzf6MYMrsFEJ4uVB20
-T8/0HKkL0I+TMOMwdu62Blkbo324e3mxvilD6D9buGzpclYxAQb5pw1TRKxkiBxu
-hGrjg3J66VECV7Segwb9gO/JoV1u+jinAXD2xWmQoR29jfb4n9IW/WGy1/meEe43
-GJ9tVo9DGxPUT+nwnpV14oZFQxmrRdZaHzwf4cFpnuVbZZspgSBMM2mjJzpHv3Qq
-9pABXmjzY8LdzVQAAnCpk2062gS2r0hnVnCs7WdgAsAHqzZ/ioYBFyD7Qo5RChe5
-ilimRgUz2brUuVf7K9VxR3JBCBMJ+C7O5Hc1Ii33pIw09mzI1395q6FbzfPz8oWJ
-yXiOivGAf0xBdw8N3J2rQ6e/7lEBWH88KO/bttKAr1CJChuotX3enJH5gvDakGNb
-7gPDMh7sDqcTC5a6vBSuhWF76dZlfgYFA6NYuCn2iNTL8LyBATs=
-=xB1Q
------END PGP SIGNATURE-----
+-- 
+2.25.1
 
---/Jcb04ZVbWq3W2FY--
