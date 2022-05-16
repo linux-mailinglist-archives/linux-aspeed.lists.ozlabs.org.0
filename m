@@ -1,79 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AE3527EDF
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 May 2022 09:52:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0698A5281CC
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 May 2022 12:22:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L1s0p243bz3bxh
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 May 2022 17:52:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L1wL65vM4z3bxH
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 May 2022 20:22:38 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=nGIjLzNo;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PmAsM9KL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::631;
- helo=mail-pl1-x631.google.com; envelope-from=linmq006@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=intel.com (client-ip=134.134.136.31; helo=mga06.intel.com;
+ envelope-from=lkp@intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=nGIjLzNo; dkim-atps=neutral
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256
+ header.s=Intel header.b=PmAsM9KL; dkim-atps=neutral
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L1s0g3kWzz2ypD
- for <linux-aspeed@lists.ozlabs.org>; Mon, 16 May 2022 17:52:18 +1000 (AEST)
-Received: by mail-pl1-x631.google.com with SMTP id d22so13668672plr.9
- for <linux-aspeed@lists.ozlabs.org>; Mon, 16 May 2022 00:52:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VHwMpClyQynjA2cM8OcoohBNhLjDi14SgAXOvOdZEbo=;
- b=nGIjLzNobp+vqVe56g2rvlpS7/7o46TAxZoO0J80VdDyZ0eI8m534CnQp0WOqzc4yl
- 141mrcvH/BsjZoB0P0n5vSQU9+C7ZxD3kOZlObtSFqfXAd7HcXMioy/WoVP2eQIwTOuE
- X2N5wDDCqpQJWnKOCB40o88MBMmnshdzaX4dhV8DD22pj7Dx4ToH2q8ARFG2kHlif4/U
- 0H2/mE+n5ncdNPXE4y1+c8N2NnrFZgrM7zEUP+hJ//vB3wl5eniAmItPwmwYwFOwdX3r
- wlfrqHSNk0/J/m3CIoH9R+GdS82N2ELf7Zg0NEEwKEK2zHj2ZW1N/Xuoa+2G+MQD+B0t
- iXSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VHwMpClyQynjA2cM8OcoohBNhLjDi14SgAXOvOdZEbo=;
- b=bk5rESUp9BmONnYUfOoQoVWS5H/0Y7fAFjBjdZ2+r7CKecK1NHakBTmVEIHZ3k2WU4
- C6iGcp9UC5tvHIvm3Pm8aSCpMYX4PNlL4Y271V5cdRNnuNlWpnCywdZxH9ldGKSCKg/n
- RCT55T1tnj5JKnJ/hvgf6NhNldFTRvDyuVRQcePPXheJ6EqX6MUhegdeH+I5oVaU2rGy
- clav9t0eNTMlH8lpDF9uBujXRckRR1YZ4clHnxTvOMuNAA2ulpm06jn8FgZRKk217F4H
- KClm/wQoJYs8vvBk6ZLVWJuDTZtbJ7N2AFDkNYGtWz8PAUwi4W1mtRtwFrlV043ly6S7
- I/fw==
-X-Gm-Message-State: AOAM533U38JyYYXnwkh+DQHgq77Q19g1PSZT2k1DxC34QDyJdSvDYazf
- LUY8fhKoIEfALl4wZ1jLvtc=
-X-Google-Smtp-Source: ABdhPJz276ABAIAuW896KA5vz0XXu814EgBO3IQUcxDqw00HuNKFl6XPbstTD15t/E9qCoX4qIZKFw==
-X-Received: by 2002:a17:90b:1e03:b0:1dc:5a7d:bba8 with SMTP id
- pg3-20020a17090b1e0300b001dc5a7dbba8mr17849338pjb.156.1652687535848; 
- Mon, 16 May 2022 00:52:15 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
- by smtp.googlemail.com with ESMTPSA id
- hv19-20020a17090ae41300b001cd630f301fsm7809297pjb.36.2022.05.16.00.52.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 May 2022 00:52:15 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L1wL068vsz3byC
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 16 May 2022 20:22:30 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1652696553; x=1684232553;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=rQd2aZJvrRMvYuDZkI9jNLzYYyg/Ub/0/Ce4xmZSbro=;
+ b=PmAsM9KL3KxdVwfqpFLkyD5nqfytr+BELGcgZgQvwEGMQeCXYCpUKkam
+ ojvwAZLWwzV+CP4R0IHxjcJ8H5FThGN5Ue0Hxb2MSR6CvuNGEwKQO66bV
+ NCfdjXgKif7OkVajULXfA5V8TchK0k5pGrhGDNBXlwuFWutKMWYMXCMu/
+ FEaYst7u8+d2/pKPSsI+I2YtTiq6FIt6pZZ8oWEbvNYg1Dv9g6kp93SWR
+ 80U7jj0npFp9TG4EgTxdgmVeSdzw9VeaFFYtC7iEu2S/P0G8WWneW5QW4
+ HDtkmlM7hdfCnCait4FxZ/K78VQ3Rlzj35kfRTMP5FBEaCvqxqFPk9uem w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10348"; a="331415904"
+X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; d="scan'208";a="331415904"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 May 2022 03:22:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,229,1647327600"; d="scan'208";a="660043145"
+Received: from lkp-server01.sh.intel.com (HELO d1462bc4b09b) ([10.239.97.150])
+ by FMSMGA003.fm.intel.com with ESMTP; 16 May 2022 03:22:13 -0700
+Received: from kbuild by d1462bc4b09b with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nqXrh-0002KB-0L;
+ Mon, 16 May 2022 10:22:13 +0000
+Date: Mon, 16 May 2022 18:21:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Neal Liu <neal_liu@aspeedtech.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Billy Tsai <billy_tsai@aspeedtech.com>, Miaoqian Lin <linmq006@gmail.com>,
- Colin Ian King <colin.king@intel.com>, linux-iio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] iio: adc: aspeed: Fix refcount leak in
- aspeed_adc_set_trim_data
-Date: Mon, 16 May 2022 11:52:02 +0400
-Message-Id: <20220516075206.34580-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Felipe Balbi <balbi@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Li Yang <leoyang.li@nxp.com>
+Subject: Re: [PATCH 1/3] usb: gadget: add Aspeed ast2600 udc driver
+Message-ID: <202205161801.OB6kCtEa-lkp@intel.com>
+References: <20220513065728.857722-2-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220513065728.857722-2-neal_liu@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,32 +74,154 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
+ linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com,
+ Neal Liu <neal_liu@aspeedtech.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-of_find_node_by_name() returns a node pointer with refcount
-incremented, we should use of_node_put() on it when done.
-Add missing of_node_put() to avoid refcount leak.
+Hi Neal,
 
-Fixes: d0a4c17b4073 ("iio: adc: aspeed: Get and set trimming data.")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/iio/adc/aspeed_adc.c | 1 +
- 1 file changed, 1 insertion(+)
+I love your patch! Perhaps something to improve:
 
-diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index 0793d2474cdc..9341e0e0eb55 100644
---- a/drivers/iio/adc/aspeed_adc.c
-+++ b/drivers/iio/adc/aspeed_adc.c
-@@ -186,6 +186,7 @@ static int aspeed_adc_set_trim_data(struct iio_dev *indio_dev)
- 		return -EOPNOTSUPP;
- 	}
- 	scu = syscon_node_to_regmap(syscon);
-+	of_node_put(syscon);
- 	if (IS_ERR(scu)) {
- 		dev_warn(data->dev, "Failed to get syscon regmap\n");
- 		return -EOPNOTSUPP;
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on robh/for-next v5.18-rc7 next-20220513]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+config: openrisc-randconfig-s031-20220516 (https://download.01.org/0day-ci/archive/20220516/202205161801.OB6kCtEa-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/272ae26f9fe89f60d584cf445431d0fa566eb24b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Neal-Liu/add-Aspeed-udc-driver-for-ast2600/20220513-150314
+        git checkout 272ae26f9fe89f60d584cf445431d0fa566eb24b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/usb/gadget/udc/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/usb/gadget/udc/aspeed_udc.c:1009:34: sparse: sparse: restricted __le16 degrades to integer
+>> drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got struct usb_ctrlrequest *creq @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/usb/gadget/udc/aspeed_udc.c:1037:32: sparse:     got struct usb_ctrlrequest *creq
+   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le16 [addressable] [usertype] wValue @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     expected unsigned int [usertype] value
+   drivers/usb/gadget/udc/aspeed_udc.c:1066:25: sparse:     got restricted __le16 [addressable] [usertype] wValue
+   drivers/usb/gadget/udc/aspeed_udc.c:1070:37: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/aspeed_udc.c:1075:37: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct usb_ctrlrequest *creq @@     got void [noderef] __iomem * @@
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     expected struct usb_ctrlrequest *creq
+   drivers/usb/gadget/udc/aspeed_udc.c:1518:19: sparse:     got void [noderef] __iomem *
+   drivers/usb/gadget/udc/aspeed_udc.c:619:38: sparse: sparse: cast truncates bits from constant value (80 becomes 0)
+   drivers/usb/gadget/udc/aspeed_udc.c:625:12: sparse: sparse: context imbalance in 'ast_udc_ep_queue' - different lock contexts for basic block
+
+vim +1037 drivers/usb/gadget/udc/aspeed_udc.c
+
+  1027	
+  1028	static void ast_udc_ep0_handle_setup(struct ast_udc_dev *udc)
+  1029	{
+  1030		struct ast_udc_ep *ep = &udc->ep[0];
+  1031		struct ast_udc_request *req;
+  1032		struct usb_ctrlrequest crq;
+  1033		int req_num = 0;
+  1034		u16 ep_num = 0;
+  1035		int rc;
+  1036	
+> 1037		memcpy_fromio(&crq, udc->creq, sizeof(crq));
+  1038	
+  1039		SETUP_DBG(udc, "SETEUP packet: %02x/%02x/%04x/%04x/%04x\n",
+  1040			  crq.bRequestType, crq.bRequest, le16_to_cpu(crq.wValue),
+  1041			  le16_to_cpu(crq.wIndex), le16_to_cpu(crq.wLength));
+  1042	
+  1043		/*
+  1044		 * Cleanup ep0 request(s) in queue because
+  1045		 * there is a new control setup comes.
+  1046		 */
+  1047		list_for_each_entry(req, &udc->ep[0].queue, queue) {
+  1048			req_num++;
+  1049			EP_DBG(ep, "there is req %p in ep0 queue !\n", req);
+  1050		}
+  1051	
+  1052		if (req_num)
+  1053			ast_udc_nuke(&udc->ep[0], -ETIMEDOUT);
+  1054	
+  1055		udc->ep[0].dir_in = crq.bRequestType & USB_DIR_IN;
+  1056	
+  1057		if ((crq.bRequestType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
+  1058			switch (crq.bRequest) {
+  1059			case USB_REQ_SET_ADDRESS:
+  1060				if (ast_udc_read(udc, AST_UDC_STS) & UDC_STS_HIGHSPEED)
+  1061					udc->gadget.speed = USB_SPEED_HIGH;
+  1062				else
+  1063					udc->gadget.speed = USB_SPEED_FULL;
+  1064	
+  1065				SETUP_DBG(udc, "set addr: 0x%x\n", crq.wValue);
+  1066				ast_udc_write(udc, crq.wValue, AST_UDC_CONFIG);
+  1067				goto req_complete;
+  1068	
+  1069			case USB_REQ_CLEAR_FEATURE:
+  1070				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
+  1071				SETUP_DBG(udc, "ep%d: CLEAR FEATURE\n", ep_num);
+  1072				goto req_driver;
+  1073	
+  1074			case USB_REQ_SET_FEATURE:
+  1075				ep_num = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
+  1076				SETUP_DBG(udc, "ep%d: SET FEATURE\n", ep_num);
+  1077				goto req_driver;
+  1078	
+  1079			case USB_REQ_GET_STATUS:
+  1080				ast_udc_getstatus(udc);
+  1081				return;
+  1082	
+  1083			default:
+  1084				goto req_driver;
+  1085			}
+  1086	
+  1087		}
+  1088	
+  1089	req_driver:
+  1090		if (udc->driver) {
+  1091			SETUP_DBG(udc, "Forwarding %s to gadget...\n",
+  1092				  udc->gadget.name);
+  1093	
+  1094			spin_unlock(&udc->lock);
+  1095			rc = udc->driver->setup(&udc->gadget, &crq);
+  1096			spin_lock(&udc->lock);
+  1097	
+  1098		} else
+  1099			SETUP_DBG(udc, "No gadget for request !\n");
+  1100	
+  1101		if (rc >= 0)
+  1102			return;
+  1103	
+  1104		/* Stall if gadget failed */
+  1105		SETUP_DBG(udc, "Stalling, rc:0x%x\n", rc);
+  1106		ast_udc_write(udc, ast_udc_read(udc, AST_UDC_EP0_CTRL) | EP0_STALL,
+  1107			      AST_UDC_EP0_CTRL);
+  1108		return;
+  1109	
+  1110	req_complete:
+  1111		SETUP_DBG(udc, "ep%d: Sending IN status without data\n", ep_num);
+  1112		ast_udc_write(udc, EP0_TX_BUFF_RDY, AST_UDC_EP0_CTRL);
+  1113	}
+  1114	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
