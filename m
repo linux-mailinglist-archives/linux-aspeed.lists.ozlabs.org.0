@@ -2,148 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A2A52A6A5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 May 2022 17:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCD852AAD8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 May 2022 20:32:15 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L2g9T3cGkz3bxH
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 01:32:45 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=DS/Sx2QF;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L2l8R1jwyz3c7v
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 04:32:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::726;
- helo=apc01-psa-obe.outbound.protection.outlook.com;
- envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=DS/Sx2QF; 
- dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on20726.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:feae::726])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=209.85.160.54; helo=mail-oa1-f54.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
+ [209.85.160.54])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L2g9P0Rt0z3bbB
- for <linux-aspeed@lists.ozlabs.org>; Wed, 18 May 2022 01:32:40 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U1L4kbLeGTowPwYboCzbBPJJH4tnHvY4o/iZKMmwHGGJ86QAHeMQkZd5QisYea3V+eZqk5NBoOsZe2sSOZ1BWgJafjT1jR6AE3yRSOhk8RwBYtUOKVvzGZ4AOJhZF66MpG7ZQNDUHs6698oTt6lpANz8G1trRVtJK6OZ9z7Pjl7kHI2tpXevgfb7LJGmwwF2C960mEvZnSxE2+fAVQYdAm9eZ7URiAfUMLbxLiYuhxr1XsmP50lgB4QJwVA0LnT18/3qgaXCGK78BsJDa9rP96AwfdbQkaO80r+7RoQt5TzI0kHAEwt06gJv7XV9Kh5QFRSKz7RsUEVNOhsHLSDnHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZWeK5mpdxZSkAOt4Mh8IzCQ7SPu85zh2Q0gO8v6XyEE=;
- b=fH73jgXtTeVWYhEpbp3udyNthHGGbM3xuLLFC48fLmL0UlFr9UBYfR5FUJ5Qd7paJmcWJ9ZUQKWE8/Res6v5MMHlhitoWmRMKvRvL2QzGI9c+v3FBPZkom4rcdxIx2c/Y74jDI/5zqeN5JNsI5N5IPB5tKGRUDejDVkUasP0uUbe3KIRUPjFykyacYM9XaPkoEnXSrMTyDjQZSXneDBTVLQUjk85dJJSYeeo3FQ8QL5v4BE0ODKpSqPW5n/ju1DqOeyeL70mpaquy3ArQljyVKwaZlBhGzEVB/lv2Vj8nOXQyV5XPby21VCHuSr+DzshfFYzjCw/1o7NOglak+fBdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZWeK5mpdxZSkAOt4Mh8IzCQ7SPu85zh2Q0gO8v6XyEE=;
- b=DS/Sx2QFyNx1pXNY3RC+4z1+TLIGjWWGcLAkU1GAzpMhWa7wLtO8iQZxKpk2C8qNBmub64nQaQYPsvWkrxQFRUAwxmUbmtNBvsYOVPPtAxvSmS53rJ+9CeyeFUlMf/ub+fI4GG0Y3/grJxEA5mQ6MZTakB56PbJGJCR/2kqwYMmjjJNyKzXESbyMk6On0MTKNRvYWbYgBYWsm0Sar7s7JF3ED8As8wnwA/e1GYnA87lysUqReJNxsxcrfVsjQyRxk/DYfTZXp7U3bhHhhfO+Qyowlq+bMCfx/jpWEyI/b8TmsycDtc5d3tzA9dyDh7yNSwDKcZNKK9CdgArv3k/ecg==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by SI2PR06MB4779.apcprd06.prod.outlook.com (2603:1096:4:14c::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Tue, 17 May
- 2022 15:32:15 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::3d31:8c42:b7f1:ece8]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::3d31:8c42:b7f1:ece8%7]) with mapi id 15.20.5250.018; Tue, 17 May 2022
- 15:32:15 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@aj.id.au>, Felipe Balbi <balbi@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?=
- <christian.koenig@amd.com>, Geert Uytterhoeven <geert@linux-m68k.org>, Li
- Yang <leoyang.li@nxp.com>
-Subject: RE: [PATCH v2 2/3] ARM: dts: aspeed: Add USB2.0 device controller node
-Thread-Topic: [PATCH v2 2/3] ARM: dts: aspeed: Add USB2.0 device controller
- node
-Thread-Index: AQHYacfDGaMXzDQN90y+BFiyb1NEtq0i95eAgAAutxCAAAHkgIAAB2YAgAABpgCAAAGSEA==
-Date: Tue, 17 May 2022 15:32:15 +0000
-Message-ID: <HK0PR06MB32023F7AFBFA243CA715DF7F80CE9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20220517082558.3534161-1-neal_liu@aspeedtech.com>
- <20220517082558.3534161-3-neal_liu@aspeedtech.com>
- <96973d1d-c52c-d190-6989-3f7996dae70b@linaro.org>
- <HK0PR06MB32027CAC4BEE443F426F587380CE9@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <0bc5ba24-5bfb-593e-cbd0-828ef44aabc5@linaro.org>
- <HK0PR06MB320295DB0748CEFC68B73CCF80CE9@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <1327ec95-f6b4-838d-f3f2-a115c2ab632b@linaro.org>
-In-Reply-To: <1327ec95-f6b4-838d-f3f2-a115c2ab632b@linaro.org>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a314532e-54b7-44e2-1c5b-08da381a6b8a
-x-ms-traffictypediagnostic: SI2PR06MB4779:EE_
-x-microsoft-antispam-prvs: <SI2PR06MB4779344D6F795B5FB328A31080CE9@SI2PR06MB4779.apcprd06.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ++w2l6jRsheb5M8BFXnEulTmarUg5Dj85f4cRdSE7Q5002Ebx4kkRlZep9qDpc0DDpp5pTHV3BObKJUZsjWoZjlYdxWV/RjdqnGcrByEJcwkBIE84trZ69rlXyVs6KeEaIf+jZLSvfDNsnsQ1duB8PlJwAB1c2Sw30k+Vsadvz22Eft/6decAtDDjAZ6n0jI6FtEbfq40I8AGV4mgm1Wd1EEV58ATFgDfOd7VT8fLgZy50dEK0zJ3hz09cj6itjqUg8QHsfbLObQ9dKTHryHSBZCEPIVzpQpq951vqNEn612LWHJGcM1Wibp+N3WHW6lAlWaTGpzGdRBMzl96dNhnSdazbFui6g/bjrXWL3z4V+1YytAwhbDsXPB2CDAywHZ6cSLOf11RTkktM3cKwATt13c489SKakUPg7At1AkqKmorMgVfHTzeVaOcZwSGz1Qc+IPOPGStHiLo4oADbO4ubpP26c0OdUCt9xgL0BqouFtYaAZ74R6CRxt4XbcS4Chb+OH7nhCPPwDyEhi6ufHfLFECR6yEi1WRpwNbTucNagV8CWTZMPrniX6mvajbH2OvJgbSY5mM9qA3Cj4FY1EtTe5MXyz5S+wY6gpqTRH2T6ZoDslb5LR9bLJw2mFMyy8/RBzyGgn/rBhHOgbvCEUitthiYcMsK8Eus13ePfxBX3LgBBH4uybKrRkfgFAz5U+LYKsn2PsvD225PO9e4m/jfaFrkflU//fX4kF1k0uleI=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3202.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(39850400004)(346002)(376002)(136003)(396003)(366004)(110136005)(316002)(41300700001)(54906003)(122000001)(83380400001)(2906002)(38100700002)(186003)(64756008)(66446008)(66476007)(66574015)(66946007)(76116006)(8676002)(4326008)(66556008)(33656002)(71200400001)(52536014)(7416002)(86362001)(7696005)(5660300002)(8936002)(55016003)(921005)(38070700005)(508600001)(6506007)(53546011)(26005)(9686003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?c0RFZHRyejh3dlRGbzBKTEtsVmdaT25ycG9rN2NWbFlrNUhmLzVXajFTT3po?=
- =?utf-8?B?cURXOStJNEdTb21vL1dpQS9DM2tiek9LL3JwUXBRKzNmRU5jb0Foc2pFUHNW?=
- =?utf-8?B?cTk3blRLekNmbHJ3ODgwVGJqTndGYnZIZVRiQmpjN3NOYUJnWTIya2ROMHZO?=
- =?utf-8?B?WUNsbzJlOUdUMlBXdVQrUDU3WTNSb1h0a0tleUs3MUlkMkJxTU5CMjVYNU9u?=
- =?utf-8?B?NXNyMmZreERZZW5IcE5ZZkxxc2NRMnNRdjhTbTVoNFMwa2dzWG0rNW45U3o0?=
- =?utf-8?B?MDh6MmdwUTVBdS9nWTRTRGRMeFJTV2YzVnp6czJhT0Z5OUsrNU9wdyswZkdT?=
- =?utf-8?B?QjZrdk1hNWM2b0M4T3ZicGR2S2cvZWxMV21zdGQrOExSeGNncjFjQ09zbU9S?=
- =?utf-8?B?NE16aUZNSnhhV0laV1lVOTNjcnMxREZ2d2djVU1XYVBMWkFWREtISmg1Umhm?=
- =?utf-8?B?ZVhkeDFkakNEU1ZwSHdaWnFHeS80STMyY3ZHTC83VGplaUZ2YlU2dUNmcXRa?=
- =?utf-8?B?blBGSkhTZzl1VTJjdXBLamJVcis5cmgyTW1HeUNlZW1McEl5aDFxVzJBdFFi?=
- =?utf-8?B?S2JFQ3FoOTFsbitwaXA0cFFjcENJQXY1Sk95T0U1NjJySTU1L3RPRXlpWWtn?=
- =?utf-8?B?UjJuLytpTDhlWVhTZnA3eW9iUTZtSVNoUjJnV29FMk8zSm5JTzJwU2trZWtX?=
- =?utf-8?B?SXV4NDZUY0xLekFqZll5Rm1qM29tSzdBQUtTb3hqTnVTaHQ2WjJJak4zZ25T?=
- =?utf-8?B?dGlONklxYUpBVG1qS25sbThtRFJLQkNBWm9tUzIyUFduUk1qcms0aDZXRXRP?=
- =?utf-8?B?dEFPa01jOWdmTGJaNDZ1cGtnbFRzUytOQlh1Z3R0MnArTTcxVXg2TCtSbmNz?=
- =?utf-8?B?NlVGZmJnRU1TUkFSaWxCRCtwdEJ0eWVwTE5jcEdoc1FvN3MvY1h3dzNHN1hz?=
- =?utf-8?B?WGdwcis3M0ZmMzRaOVh3QnpBeTdtcUtxSmZ6VTNnYjFDek82bWlGWFVURXJ6?=
- =?utf-8?B?RCtSRTFRQksrZHZPdjVwb2ZRTUpLY2pJdTdXN0FFYTNxM0U1aEF6eUlFQm8r?=
- =?utf-8?B?cU9hOWxhOW9CdXp1S1dIS0xwamZjVDlTOFdiUUVHbG85Szk5YktPOWdBZllL?=
- =?utf-8?B?cnVCUGZzOW9rYlFzTlI5QmZhU0lQSlJ3Mkg5Mm80K2dESEhZVUgrZzlMUmVU?=
- =?utf-8?B?Y3VYTDEzL2FCajJZdU1EdVdOZTVXNFBoRWsyUHJiU1VpczFoVHVta1lEcFE5?=
- =?utf-8?B?bGJobWRpRnlJUEJBNVJORHc2TXp4K1NnUzdUandkb09DN2ZtR2hWR0JPMlRU?=
- =?utf-8?B?K1paQWpKZzh1QUFNWHlwZ0IxdUdoZ0pBYzdmbC92c1pmem0xaHhjdjZQK2ZN?=
- =?utf-8?B?OVhVWk9ySmpjMy9ERlJPUUVoSWE2WElNRllNZ1ZLRVNnbTU3YTBYZ1V1QTgw?=
- =?utf-8?B?Z1p1eUVIZGsyMHFKVHdZTCtrK0d3ZXY0eXgyRnZ6NWgwTFlwNmtjdjU3MjBK?=
- =?utf-8?B?Vjg3bVNvL0plWUY3QmtVcHFLYytWRkUyNXh4Vmdrdzd2WEZWUm94ejN0STFi?=
- =?utf-8?B?ZXVVYUZoL3czOFM4QlNpblIyeG9oSjI5RXNZKzYxT1RUOFpzc0pHVFQvcGdU?=
- =?utf-8?B?MzV1TmV1RDBWSjFSTjQ3VzUzTDlhSjlRTWNRUVRDdDBPUkt2cTA5U0JkdW1Y?=
- =?utf-8?B?M09YSVdtYjJjd1lUb1VWZDh2VkducDFCaVQ5ZlFRaTltbmNCR09PNjBXcEFk?=
- =?utf-8?B?azRWWjUzRWZ4dk1JanNudmpPYWJCNGVaaHVWWG5xUUZZK20wNHFMY2RnaExh?=
- =?utf-8?B?TnhEd1ZIMnVLdkJOa05sTktFSFpSRjZNQVgxQTRFbGw3T0wrZjZsbEQ4VXhO?=
- =?utf-8?B?U1JXY1hobWFFYmNQd1d6dUd5NndLMDVLRCttMFlqZngyTHkyT1dLNGVPVjdk?=
- =?utf-8?B?ZWNiekNSTTl4ejluY0MxTjRlYkFvU3I3MTFaZCtDUjFOQmNyMnJneUczd0hO?=
- =?utf-8?B?eVlLR21Ra1VVTnZEWUJUVy9uYk1MZGl0bVpXbk5nTkJ2TXQ3ekZoMllmVU03?=
- =?utf-8?B?c1o5UVpENlBPWXdCa0RMSzI3Smh0TG82ZjlUZTNRL2cxNmlGWTM2Vkx4QTdB?=
- =?utf-8?B?YmpndWpQTHRZVXdiODUvUFlkbEJqWmVHTlFDNUFIY0NvVCsxRXJ4OGRiYklI?=
- =?utf-8?B?ZWNaMGVxWlBvQTQ0d0N5SXpzVkppQmU2a2FZUnErZngwWWloK0gzcWlKekhR?=
- =?utf-8?B?L1dCbmJYUzczWWl0aDFDWjMwV2pXVFZRanFxZUY0QUNSQmpDbjZ6NzllYmlo?=
- =?utf-8?B?RnJzeEdlallrOHZvR08wWkgzVVh6bkM5Nkh1clFRSWMvQ0p3M05EQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L2l8J74MBz3bwT;
+ Wed, 18 May 2022 04:32:00 +1000 (AEST)
+Received: by mail-oa1-f54.google.com with SMTP id
+ 586e51a60fabf-f17f1acffeso12726472fac.4; 
+ Tue, 17 May 2022 11:31:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=k5ekI0SUMEbjvhRvYFn0WR26fElTtJozA2WdyYQD8mE=;
+ b=5T1d/R2IVujQTN5yQYs12+e3KCF812Q/GeiSDYgOk5d3rgKoRqUOkcq1Z8x+hYWmZs
+ zBJ07UUeCIGmo956i5bQBB7IQR86h5lVCAVzJthABbgkwiCTEuatd/fjS8+koIZrsQw2
+ KS3ICVqy9JoC2DSD8TrNIaNja6eSxSHSa2uZXPH8Ye1r8lHApOY2hHffwdCxT/i5n0BG
+ tn2Gu2sezSXjVkZGXzzuFbceRvcQ2ZW85z9gjcXSf6Cy3ClZzRE4/cvbz37xIl7/8EIV
+ mSYa3hb8ea9+3mu13zwD79nlrOUo9DHoFCVJFvFaGYtBLGZ8dKdcT57u4CxzW7wHMz7E
+ sIRg==
+X-Gm-Message-State: AOAM533d8CCVbpW/he+0bmr06eCvukt+ksrtACW9lEAM+ViaP9a8dQz9
+ jZM9VcqNzJEMvLpOhOUXbw==
+X-Google-Smtp-Source: ABdhPJwlFVHSTOpsFUR3oYyExBQ4sTjybZz+beRK6fDB+RvLhx4z04dCBrWtf3+UlBVQPkXEmmlakw==
+X-Received: by 2002:a05:6871:7a1:b0:f1:b33d:7875 with SMTP id
+ o33-20020a05687107a100b000f1b33d7875mr4625677oap.272.1652812316349; 
+ Tue, 17 May 2022 11:31:56 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ g24-20020a9d6198000000b0060603221255sm39371otk.37.2022.05.17.11.31.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 May 2022 11:31:55 -0700 (PDT)
+Received: (nullmailer pid 1380610 invoked by uid 1000);
+ Tue, 17 May 2022 18:31:54 -0000
+Date: Tue, 17 May 2022 13:31:54 -0500
+From: Rob Herring <robh@kernel.org>
+To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+Subject: Re: [PATCH v5 1/4] dt-bindings: aspeed: Add eSPI controller
+Message-ID: <20220517183154.GA1352926-robh@kernel.org>
+References: <20220516005412.4844-1-chiawei_wang@aspeedtech.com>
+ <20220516005412.4844-2-chiawei_wang@aspeedtech.com>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a314532e-54b7-44e2-1c5b-08da381a6b8a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2022 15:32:15.0552 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yrF3DwXSAWoDxC684Fe7FoY4k+hFUdhoVGwvt/jvqVzol5jt5RzoGE34bBdg6A5P5+USGFUa+trPhSWjiQuMxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4779
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220516005412.4844-2-chiawei_wang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,44 +68,211 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ a.kartashev@yadro.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, jk@codeconstruct.com.au,
+ patrick.rudolph@9elements.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLcnp5c3p0b2YgS296bG93c2tp
-IDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+DQo+IFNlbnQ6IFR1ZXNkYXksIE1heSAx
-NywgMjAyMiAxMToyNiBQTQ0KPiBUbzogTmVhbCBMaXUgPG5lYWxfbGl1QGFzcGVlZHRlY2guY29t
-PjsgR3JlZyBLcm9haC1IYXJ0bWFuDQo+IDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz47IFJv
-YiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YNCj4gS296bG93c2tpIDxr
-cnp5c3p0b2Yua296bG93c2tpK2R0QGxpbmFyby5vcmc+OyBKb2VsIFN0YW5sZXkgPGpvZWxAam1z
-LmlkLmF1PjsNCj4gQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5hdT47IEZlbGlwZSBCYWxi
-aSA8YmFsYmlAa2VybmVsLm9yZz47IFN1bWl0DQo+IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFy
-by5vcmc+OyBDaHJpc3RpYW4gS8O2bmlnDQo+IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+OyBH
-ZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPjsNCj4gTGkgWWFuZyA8bGVv
-eWFuZy5saUBueHAuY29tPg0KPiBDYzogbGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmc7IGxp
-bnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc7DQo+IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnOyBs
-aW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7DQo+IGxpbnV4LWtlcm5lbEB2Z2Vy
-Lmtlcm5lbC5vcmc7IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsNCj4gZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZzsgbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnDQo+IFN1
-YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMi8zXSBBUk06IGR0czogYXNwZWVkOiBBZGQgVVNCMi4wIGRl
-dmljZSBjb250cm9sbGVyDQo+IG5vZGUNCj4gDQo+IE9uIDE3LzA1LzIwMjIgMTc6MjEsIE5lYWwg
-TGl1IHdyb3RlOg0KPiA+Pj4+Pg0KPiA+Pj4+PiArCQl1ZGM6IHVkY0AxZTZhMjAwMCB7DQo+ID4+
-Pj4NCj4gPj4+PiBUaGUgc2FtZSBhcyBEVFMgaW4gYmluZGluZ3MgLSBnZW5lcmljIG5vZGUgbmFt
-ZSwgcGxlYXNlLg0KPiA+Pj4+DQo+ID4+Pg0KPiA+Pj4gSXMgaXQgcG9zc2libGUgdG8gdXNlICJ1
-ZGM6IHVzYi11ZGNAMWU2YTIwMDAiIHRvIGRpc3Rpbmd1aXNoIGl0IGJldHdlZW4NCj4gInZodWI6
-DQo+ID4+IHVzYi12aHViQDFlNmEwMDAwIj8NCj4gPj4NCj4gPj4gUG9zc2libGUgeWVzIDopLCBi
-dXQgbm90IHJlY29tbWVuZGVkIGFuZCBub3Qgd2FudGVkLiBOb2RlcyBzaG91bGQgYmUNCj4gPj4g
-Z2VuZXJpYyBhbmQgcHJlZml4ZXMgYXJlIGFkZGVkIG9ubHkgaWYgdGhlcmUgaXMgbm8gdW5pdCBh
-ZGRyZXNzLiBZb3UNCj4gPj4gY2FuIHRob3VnaCB1c2Ugc29tZSBtb3JlIGRlc2NyaXB0aXZlIGxh
-YmVsLg0KPiA+Pg0KPiA+ICJ1ZGM6IHVzYkAxZTZhMjAwMCIgaXMgb2theSBmb3IgeW91Pw0KPiAN
-Cj4gWWVzLCBpdCdzIHBlcmZlY3QuDQoNCkdyZWF0ICEgSSdsbCB1cGRhdGUgaXQgZm9yIG5leHQg
-cGF0Y2guDQpUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4NCj4gDQo+IA0KPiBCZXN0IHJlZ2Fy
-ZHMsDQo+IEtyenlzenRvZg0K
+On Mon, May 16, 2022 at 08:54:09AM +0800, Chia-Wei Wang wrote:
+> Add dt-bindings for Aspeed eSPI controller
+> 
+> Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> ---
+>  .../devicetree/bindings/soc/aspeed/espi.yaml  | 162 ++++++++++++++++++
+
+bindings/spi/ includes SPI slaves. Is there a reason this doesn't fit 
+there?
+
+>  1 file changed, 162 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/espi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/aspeed/espi.yaml b/Documentation/devicetree/bindings/soc/aspeed/espi.yaml
+> new file mode 100644
+> index 000000000000..aa91ec8caf6a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/soc/aspeed/espi.yaml
+> @@ -0,0 +1,162 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# # Copyright (c) 2021 Aspeed Technology Inc.
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/soc/aspeed/espi.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Aspeed eSPI Controller
+> +
+> +maintainers:
+> +  - Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> +  - Ryan Chen <ryan_chen@aspeedtech.com>
+> +
+> +description:
+> +  Aspeed eSPI controller implements a slave side eSPI endpoint device
+> +  supporting the four eSPI channels, namely peripheral, virtual wire,
+> +  out-of-band, and flash.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - aspeed,ast2500-espi
+> +          - aspeed,ast2600-espi
+> +      - const: simple-mfd
+> +      - const: syscon
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 1
+> +
+> +  ranges: true
+> +
+> +patternProperties:
+> +  "^espi-ctrl@[0-9a-f]+$":
+> +    type: object
+> +
+> +    description: Control of the four basic eSPI channels
+> +
+> +    properties:
+> +      compatible:
+> +        items:
+> +          - enum:
+> +              - aspeed,ast2500-espi-ctrl
+> +              - aspeed,ast2600-espi-ctrl
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      clocks:
+> +        maxItems: 1
+> +
+> +      perif,memcyc-enable:
+
+What vendor is 'perif'?
+
+> +        type: boolean
+> +        description: Enable memory cycle over eSPI peripheral channel
+> +
+> +      perif,memcyc-src-addr:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: The Host side address to be decoded into the memory cycle over eSPI peripheral channel
+> +
+> +      perif,memcyc-size:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: The size of the memory region allocated for the memory cycle over eSPI peripheral channel
+> +        minimum: 65536
+
+This region is defined by the h/w or just some carveout of system 
+memory? In the former, perhaps this should be part of 'reg'. In the 
+latter case, use a /reserved-memory node and memory-region here.
+
+> +
+> +      perif,dma-mode:
+> +        type: boolean
+> +        description: Enable DMA support for eSPI peripheral channel
+> +
+> +      oob,dma-mode:
+
+What vendor is 'oob'?
+
+> +        type: boolean
+> +        description: Enable DMA support for eSPI out-of-band channel
+> +
+> +      oob,dma-tx-desc-num:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 2
+> +        maximum: 1023
+> +        description: The number of TX descriptors available for eSPI OOB DMA engine
+> +
+> +      oob,dma-rx-desc-num:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        minimum: 2
+> +        maximum: 1023
+> +        description: The number of RX descriptors available for eSPI OOB DMA engine
+> +
+> +      flash,dma-mode:
+> +        type: boolean
+> +        description: Enable DMA support for eSPI flash channel
+
+Why does this need to be in DT. It's configuration.
+
+> +
+> +      flash,safs-mode:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [ 0, 1, 2 ]
+> +        default: 0
+> +        description: Slave-Attached-Sharing-Flash mode, 0->Mix, 1->SW, 2->HW
+> +
+> +    dependencies:
+> +      perif,memcyc-src-addr: [ "perif,memcyc-enable" ]
+> +      perif,memcyc-size: [ "perif,memcyc-enable" ]
+> +      oob,dma-tx-desc-num: [ "oob,dma-mode" ]
+> +      oob,dma-rx-desc-num: [ "oob,dma-mode" ]
+> +
+> +    required:
+> +      - compatible
+> +      - interrupts
+> +      - clocks
+> +
+> +  "^espi-mmbi@[0-9a-f]+$":
+> +    type: object
+> +
+> +    description: Control of the PCH-BMC data exchange over eSPI peripheral memory cycle
+> +
+> +    properties:
+> +      compatible:
+> +        const: aspeed,ast2600-espi-mmbi
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - interrupts
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/ast2600-clock.h>
+> +
+> +    espi: espi@1e6ee000 {
+> +        compatible = "aspeed,ast2600-espi", "simple-mfd", "syscon";
+> +        reg = <0x1e6ee000 0x1000>;
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges = <0x0 0x1e6ee000 0x1000>;
+> +
+> +        espi_ctrl: espi-ctrl@0 {
+> +            compatible = "aspeed,ast2600-espi-ctrl";
+> +            reg = <0x0 0x800>;
+> +            interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&syscon ASPEED_CLK_GATE_ESPICLK>;
+> +        };
+> +
+> +        espi_mmbi: espi-mmbi@800 {
+> +            compatible = "aspeed,ast2600-espi-mmbi";
+> +            reg = <0x800 0x50>;
+> +            interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+> +        };
+
+Why do you need these child nodes? Are the subblocks somehow useful on 
+their own or reuseable in another configuration? If not, looks like this 
+could all be 1 node.
+
+Rob
