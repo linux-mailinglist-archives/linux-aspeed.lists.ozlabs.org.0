@@ -1,74 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FF7529DE0
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 May 2022 11:22:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEF852A012
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 May 2022 13:09:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L2VyR0pLPz3bwH
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 May 2022 19:22:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L2YL74P0Tz3bym
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 May 2022 21:09:51 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jjmyQQop;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=C+/lmMp4;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633;
- helo=mail-pl1-x633.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=jjmyQQop; dkim-atps=neutral
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
+ (client-ip=198.47.23.248; helo=lelv0143.ext.ti.com;
+ envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
+ header.s=ti-com-17Q1 header.b=C+/lmMp4; 
+ dkim-atps=neutral
+X-Greylist: delayed 238 seconds by postgrey-1.36 at boromir;
+ Tue, 17 May 2022 21:09:43 AEST
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L2VyL4pRBz3bhK
- for <linux-aspeed@lists.ozlabs.org>; Tue, 17 May 2022 19:22:34 +1000 (AEST)
-Received: by mail-pl1-x633.google.com with SMTP id i1so16810961plg.7
- for <linux-aspeed@lists.ozlabs.org>; Tue, 17 May 2022 02:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UQ4351L2HP//X/dnhx6DfmVwSjUQ2XvoIaRBFsv4r48=;
- b=jjmyQQopKP9lxVSgB5jDFBCm2lbrlH+y3b27rxayr/FHdo48UbYhhJpOCJu6Uduo92
- qMGSGMriHZyFgy0F8tOw3/JrNHTh3beU6CCmZp8ENYpj8g+fQTUjxGtkHV6C45XPzF/M
- phiZkapYWHvoKhi1T4lA19x9wslMtWk6e2ulGy2aqe9vTzx2GqLvVqCf4R+R2d8qC60F
- P1s9j2J1SDcppY1CVLyFDJyD3PCKD6UY4uIqYrMAxA6pfaBb2kMG9LkRyH91uBoTg1hX
- VGO5Gjxg+57q+msYJwdvre+J2Ik8/UQY07e8M0d2FXVb/W6R6AmwTubMY9C4tWwsR3F6
- gtmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=UQ4351L2HP//X/dnhx6DfmVwSjUQ2XvoIaRBFsv4r48=;
- b=tpaRAj61jbUvC9UYI/kjONuvWdMV7nOFKcT9HpKUN0yLie4H3XKQ/8uW9qATbLUO0n
- JNpSxgSK0II3bdXl1BGiK1JVnRNj5Fw+Zay6AG2i0T3ky84wu9+VCTHseF+oWgPihSdy
- 9PxanPY6Ygex5eiU332xs5/1Xzd2kL4by+bRxsshrk3p/9i2lrqC5bG6GRgDUNWGtN9p
- /FWlQc7UJhpSDWBhFmcF6Tu8jMcKs6AUxDQCmNBu0K9PllLXGaTLUM1bd9kL/xuTlJwN
- nqGDUXCqKlScYPYc/u5BSKvUen2Iyr/chVDEhZ1C8ziz13KnF6fAgVvhEyVF72zNf8rY
- /vHw==
-X-Gm-Message-State: AOAM530Rq9ovZ+w87QndaEY4SKeFl1c3RilFgtg+cYKaV1N8irTBGDcm
- Ud8xU9DYRaiI+DlVQ0kOzXQ=
-X-Google-Smtp-Source: ABdhPJwcxmgYmbg3wS9+Q4qoyAqYE3D9gBE1s/TGq/piaGQbe7hiCkSLMCsOAK1T/26S1IuDLQ+Qtg==
-X-Received: by 2002:a17:903:124a:b0:154:c7a4:9374 with SMTP id
- u10-20020a170903124a00b00154c7a49374mr21443077plh.68.1652779351458; 
- Tue, 17 May 2022 02:22:31 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.18])
- by smtp.gmail.com with ESMTPSA id
- 26-20020aa7915a000000b00512ee2f2363sm6964176pfi.99.2022.05.17.02.22.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 May 2022 02:22:30 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: Andrew Lunn <andrew@lunn.ch>, "David S . Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH net v3] net: ftgmac100: Disable hardware checksum on AST2600
-Date: Tue, 17 May 2022 18:52:17 +0930
-Message-Id: <20220517092217.323060-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.35.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L2YKz4Vsgz2ymf
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 17 May 2022 21:09:43 +1000 (AEST)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 24HB5B9Y067885;
+ Tue, 17 May 2022 06:05:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1652785511;
+ bh=hDsJq/b0VuKRFUYgX46+pCCeUUg4Uzz56vD30lAdDWc=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=C+/lmMp4a8s3j9ztwdKfi7X1KsqIIY1E5422WCsWEqlsAcsrl0AdPawNsRP35HaPH
+ P2WrLbLq1j3T6P2cYbplwX1Y6xPVhdgFY+ffLq6IfmaUZbNSMlNpb1Io98yAIR5Czv
+ 1/WsUufFlJhznkoSNZkcQLWY5SxOiHUWJqH0l7TY=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 24HB5BGR079369
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 17 May 2022 06:05:11 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 17
+ May 2022 06:05:10 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Tue, 17 May 2022 06:05:10 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 24HB5Ahl014403;
+ Tue, 17 May 2022 06:05:10 -0500
+Date: Tue, 17 May 2022 16:35:09 +0530
+From: Pratyush Yadav <p.yadav@ti.com>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: (subset) [PATCH v7 00/11] spi: spi-mem: Convert Aspeed SMC
+ driver to spi-mem
+Message-ID: <20220517110509.2e6xbwot63yl6a3c@ti.com>
+References: <20220509175616.1089346-1-clg@kaod.org>
+ <165272636363.750911.14933122170662994904.b4-ty@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <165272636363.750911.14933122170662994904.b4-ty@kernel.org>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,95 +77,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: netdev@vger.kernel.org, David Wilder <wilder@us.ibm.com>,
- linux-aspeed@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, vigneshr@ti.com, linux-aspeed@lists.ozlabs.org,
+ tudor.ambarus@microchip.com, richard@nod.at, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, robh+dt@kernel.org, linux-mtd@lists.infradead.org,
+ clg@kaod.org, miquel.raynal@bootlin.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The AST2600 when using the i210 NIC over NC-SI has been observed to
-produce incorrect checksum results with specific MTU values. This was
-first observed when sending data across a long distance set of networks.
+Hi Cedric,
 
-On a local network, the following test was performed using a 1MB file of
-random data.
+On 16/05/22 07:39PM, Mark Brown wrote:
+> On Mon, 9 May 2022 19:56:05 +0200, Cédric Le Goater wrote:
+> > This series adds a new SPI driver using the spi-mem interface for the
+> > Aspeed static memory controllers of the AST2600, AST2500 and AST2400
+> > SoCs.
+> > 
+> >  * AST2600 Firmware SPI Memory Controller (FMC)
+> >  * AST2600 SPI Flash Controller (SPI1 and SPI2)
+> >  * AST2500 Firmware SPI Memory Controller (FMC)
+> >  * AST2500 SPI Flash Controller (SPI1 and SPI2)
+> >  * AST2400 New Static Memory Controller (also referred as FMC)
+> >  * AST2400 SPI Flash Controller (SPI)
+> > 
+> > [...]
+> 
+> Applied to
+> 
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> 
+> Thanks!
+> 
+> [02/11] dt-bindings: spi: Convert the Aspeed SMC controllers device tree binding
+>         commit: ce9858ea499da025684a7a5f19823c2c3f14bdce
+> [03/11] spi: spi-mem: Convert Aspeed SMC driver to spi-mem
+>         commit: 9c63b846e6df43e5b3d31263f7db545f32deeda3
+> [04/11] spi: aspeed: Add support for direct mapping
+>         commit: 9da06d7bdec7dad8018c23b180e410ef2e7a4367
+> [05/11] spi: aspeed: Adjust direct mapping to device size
+>         commit: bb084f94e1bca4a5c4f689d7aa9b410220c1ed71
+> [06/11] spi: aspeed: Workaround AST2500 limitations
+>         commit: 5785eedee42c34cfec496199a80fa8ec9ddcf7fe
+> [07/11] spi: aspeed: Add support for the AST2400 SPI controller
+>         commit: 53526ab27d9c256504f267713aea60db7af18fb0
+> [08/11] spi: aspeed: Calibrate read timings
+>         commit: eeaec1ea05c0e0f08e04c6844f20cc24a2fcc0f4
 
-On the receiver run this script:
+I have repeatedly objected to this patch [0][1][2] and you have 
+repeatedly decided to not address my objections. I won't spend any more 
+time fighting it. But I will say that you should not expect any 
+guarantees that SPI NOR or SPI NAND will not break your calibration in 
+the future if they decide to move the dirmap_create() call around.
 
- #!/bin/bash
- while [ 1 ]; do
-        # Zero the stats
-        nstat -r  > /dev/null
-        nc -l 9899 > test-file
-        # Check for checksum errors
-        TcpInCsumErrors=$(nstat | grep TcpInCsumErrors)
-        if [ -z "$TcpInCsumErrors" ]; then
-                echo No TcpInCsumErrors
-        else
-                echo TcpInCsumErrors = $TcpInCsumErrors
-        fi
- done
+> [11/11] mtd: spi-nor: aspeed: set the decoding size to at least 2MB for AST2600
+>         commit: 73ae97e3cabb580639f02f12a192324a53c4bebb
+> 
 
-On an AST2600 system:
+[0] https://patchwork.kernel.org/project/spi-devel-general/patch/20220325100849.2019209-9-clg@kaod.org/
+[1] https://patchwork.kernel.org/project/spi-devel-general/patch/20220214094231.3753686-9-clg@kaod.org/
+[2] https://lore.kernel.org/all/20220208190636.h6dubktkmuosvdxo@ti.com/
 
- # nc <IP of  receiver host> 9899 < test-file
-
-The test was repeated with various MTU values:
-
- # ip link set mtu 1410 dev eth0
-
-The observed results:
-
- 1500 - good
- 1434 - bad
- 1400 - good
- 1410 - bad
- 1420 - good
-
-The test was repeated after disabling tx checksumming:
-
- # ethtool -K eth0 tx-checksumming off
-
-And all MTU values tested resulted in transfers without error.
-
-An issue with the driver cannot be ruled out, however there has been no
-bug discovered so far.
-
-David has done the work to take the original bug report of slow data
-transfer between long distance connections and triaged it down to this
-test case.
-
-The vendor suspects this this is a hardware issue when using NC-SI. The
-fixes line refers to the patch that introduced AST2600 support.
-
-Reported-by: David Wilder <wilder@us.ibm.com>
-Reviewed-by: Dylan Hung <dylan_hung@aspeedtech.com>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
-v3 modifies the wrapping of the commit message.
-
-v2 updates the commit message with confirmation from the vendor that
-this is a hardware issue, and clarifies why the commit used in the fixes
-
- drivers/net/ethernet/faraday/ftgmac100.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
-index caf48023f8ea..5231818943c6 100644
---- a/drivers/net/ethernet/faraday/ftgmac100.c
-+++ b/drivers/net/ethernet/faraday/ftgmac100.c
-@@ -1928,6 +1928,11 @@ static int ftgmac100_probe(struct platform_device *pdev)
- 	/* AST2400  doesn't have working HW checksum generation */
- 	if (np && (of_device_is_compatible(np, "aspeed,ast2400-mac")))
- 		netdev->hw_features &= ~NETIF_F_HW_CSUM;
-+
-+	/* AST2600 tx checksum with NCSI is broken */
-+	if (priv->use_ncsi && of_device_is_compatible(np, "aspeed,ast2600-mac"))
-+		netdev->hw_features &= ~NETIF_F_HW_CSUM;
-+
- 	if (np && of_get_property(np, "no-hw-checksum", NULL))
- 		netdev->hw_features &= ~(NETIF_F_HW_CSUM | NETIF_F_RXCSUM);
- 	netdev->features |= netdev->hw_features;
 -- 
-2.35.1
-
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
