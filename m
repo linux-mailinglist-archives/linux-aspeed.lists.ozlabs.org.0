@@ -2,52 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B3C52B22E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 08:21:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3F252BB5C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 15:10:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L32vT4Vv6z3c7S
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 16:21:57 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L3Cyl4b11z3c8K
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 23:10:23 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=C9MQIFjy;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+ smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
+ envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=C9MQIFjy; 
+ dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L3Cyd0Vkhz3by0
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 18 May 2022 23:10:17 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L32vQ1ZLfz3bdP
- for <linux-aspeed@lists.ozlabs.org>; Wed, 18 May 2022 16:21:52 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 24I6790g080863;
- Wed, 18 May 2022 14:07:10 +0800 (GMT-8)
- (envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 18 May
- 2022 14:20:51 +0800
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>, Felipe Balbi <balbi@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, Geert Uytterhoeven <geert@linux-m68k.org>, "Li
- Yang" <leoyang.li@nxp.com>
-Subject: [PATCH v3 3/3] dt-bindings: usb: add documentation for aspeed udc
-Date: Wed, 18 May 2022 14:20:43 +0800
-Message-ID: <20220518062043.1075360-4-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
-References: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D9EF661792;
+ Wed, 18 May 2022 13:10:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B615FC34100;
+ Wed, 18 May 2022 13:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1652879412;
+ bh=EIH9yiKDnL+UTvZPE7qnh67OC6VGMvnpFNOvsGUkcdY=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=C9MQIFjyZ0fHKSf7AGceMpzecm9Gr9EVoHqwjMJU5eWo654xBsL4Uy7AKlFcsG1rq
+ jJRGXviszOPCrWvayWcqSTGCuM04tCmJJG9s33O/ZO/CLgtTBXypJQNwnQeaYs4GEe
+ UZbDCP5zHaIzU0nLzveNZHoMN03j3qC+Fp/rLMni0X3u+0lmuceAvddtctnCeLWFfG
+ tyGF6UW/mjrakiLdIVR+QdBqkUereH6WU6rFr3YiGDEHezgyt24PZO3ABua4TBivIs
+ 2oyjbMBjBbBkuPFbDN3WRsqh5l02vwTtDmf+PSQHk7hHGurdaYgl5Jr6xD/KzXFD4y
+ Vd/PPP/jY35Cw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 97140F0393B; Wed, 18 May 2022 13:10:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 24I6790g080863
+Subject: Re: [PATCH net v3] net: ftgmac100: Disable hardware checksum on
+ AST2600
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165287941261.26952.17675675280998772661.git-patchwork-notify@kernel.org>
+Date: Wed, 18 May 2022 13:10:12 +0000
+References: <20220517092217.323060-1-joel@jms.id.au>
+In-Reply-To: <20220517092217.323060-1-joel@jms.id.au>
+To: Joel Stanley <joel@jms.id.au>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,84 +67,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Neal Liu <neal_liu@aspeedtech.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: andrew@lunn.ch, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
+ wilder@us.ibm.com, kuba@kernel.org, davem@davemloft.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add device tree binding documentation for the Aspeed USB2.0 Device
-Controller.
+Hello:
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/usb/aspeed,ast2600-udc.yaml      | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-diff --git a/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml b/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
-new file mode 100644
-index 000000000000..c3b6be3d8002
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (c) 2020 Facebook Inc.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/aspeed,ast2600-udc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ASPEED USB 2.0 Device Controller
-+
-+maintainers:
-+  - Neal Liu <neal_liu@aspeedtech.com>
-+
-+description: |+
-+  The ASPEED USB 2.0 Device Controller implements 1 control endpoint and
-+  4 generic endpoints for AST260x.
-+
-+  Supports independent DMA channel for each generic endpoint.
-+  Supports 32/256 stages descriptor mode for all generic endpoints.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2600-udc
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/aspeed-clock.h>
-+    udc: usb@1e6a2000 {
-+        compatible = "aspeed,ast2600-udc";
-+        reg = <0x1e6a2000 0x300>;
-+        interrupts = <9>;
-+        clocks = <&syscon ASPEED_CLK_GATE_USBPORT2CLK>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&pinctrl_usb2bd_default>;
-+    };
+On Tue, 17 May 2022 18:52:17 +0930 you wrote:
+> The AST2600 when using the i210 NIC over NC-SI has been observed to
+> produce incorrect checksum results with specific MTU values. This was
+> first observed when sending data across a long distance set of networks.
+> 
+> On a local network, the following test was performed using a 1MB file of
+> random data.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net,v3] net: ftgmac100: Disable hardware checksum on AST2600
+    https://git.kernel.org/netdev/net/c/6fd45e79e8b9
+
+You are awesome, thank you!
 -- 
-2.25.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
