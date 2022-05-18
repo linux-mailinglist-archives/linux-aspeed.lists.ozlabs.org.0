@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7DA52B22F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 08:22:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA3A52B230
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 08:22:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L32vW24ywz3bsG
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 16:21:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L32vY22Wfz3c9F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 May 2022 16:22:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,15 +17,15 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L32vQ1cYpz3bdg
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L32vQ2b0yz3bgh
  for <linux-aspeed@lists.ozlabs.org>; Wed, 18 May 2022 16:21:52 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 24I679GJ080860;
- Wed, 18 May 2022 14:07:09 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 24I6790f080863;
+ Wed, 18 May 2022 14:07:10 +0800 (GMT-8)
  (envelope-from neal_liu@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 18 May
- 2022 14:20:50 +0800
+ 2022 14:20:51 +0800
 From: Neal Liu <neal_liu@aspeedtech.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
  <robh+dt@kernel.org>, Krzysztof Kozlowski
@@ -34,10 +34,12 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
  <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>, Geert Uytterhoeven <geert@linux-m68k.org>, "Li
  Yang" <leoyang.li@nxp.com>
-Subject: [PATCH v3 0/3] add Aspeed udc driver for ast2600
-Date: Wed, 18 May 2022 14:20:40 +0800
-Message-ID: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
+Subject: [PATCH v3 2/3] ARM: dts: aspeed: Add USB2.0 device controller node
+Date: Wed, 18 May 2022 14:20:42 +0800
+Message-ID: <20220518062043.1075360-3-neal_liu@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
+References: <20220518062043.1075360-1-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -45,7 +47,7 @@ X-Originating-IP: [192.168.10.10]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 24I679GJ080860
+X-MAIL: twspam01.aspeedtech.com 24I6790f080863
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,34 +68,35 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch series aim to add Aspeed USB 2.0 Device Controller (udc)
-driver, including driver itself, device tree node and documentation.
+Add USB2.0 device controller(udc) node to device tree
+for AST2600.
 
-Change since v2:
-- Rename device tree nodes.
-- Fix unusual indentation.
+Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+---
+ arch/arm/boot/dts/aspeed-g6.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Change since v1:
-- Fix build test warning reported by kernel test robot.
-- Rename proper name for dt-bindings document.
-
-*** BLURB HERE ***
-
-Neal Liu (3):
-  usb: gadget: add Aspeed ast2600 udc driver
-  ARM: dts: aspeed: Add USB2.0 device controller node
-  dt-bindings: usb: add documentation for aspeed udc
-
- .../bindings/usb/aspeed,ast2600-udc.yaml      |   52 +
- MAINTAINERS                                   |    7 +
- arch/arm/boot/dts/aspeed-g6.dtsi              |   10 +
- drivers/usb/gadget/udc/Kconfig                |   13 +
- drivers/usb/gadget/udc/Makefile               |    1 +
- drivers/usb/gadget/udc/aspeed_udc.c           | 1601 +++++++++++++++++
- 6 files changed, 1684 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
- create mode 100644 drivers/usb/gadget/udc/aspeed_udc.c
-
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index 3d5ce9da42c3..822f4fd854f5 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -298,6 +298,16 @@ vhub: usb-vhub@1e6a0000 {
+ 			status = "disabled";
+ 		};
+ 
++		udc: usb@1e6a2000 {
++			compatible = "aspeed,ast2600-udc";
++			reg = <0x1e6a2000 0x300>;
++			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&syscon ASPEED_CLK_GATE_USBPORT2CLK>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pinctrl_usb2bd_default>;
++			status = "disabled";
++		};
++
+ 		apb {
+ 			compatible = "simple-bus";
+ 			#address-cells = <1>;
 -- 
 2.25.1
 
