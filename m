@@ -2,66 +2,140 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E5752C9EA
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 May 2022 04:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854E452CA14
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 May 2022 05:11:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L3Z5J3Wl7z3c92
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 May 2022 12:47:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L3Zcy3ZCNz3c8k
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 May 2022 13:11:14 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Rc5Bgemf;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=dBy3Sgxs;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::42d;
- helo=mail-wr1-x42d.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=Rc5Bgemf; dkim-atps=neutral
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::72e;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
+ header.a=rsa-sha256 header.s=selector1 header.b=dBy3Sgxs; 
+ dkim-atps=neutral
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2072e.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feab::72e])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L3Z586XPPz3bc4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 19 May 2022 12:47:07 +1000 (AEST)
-Received: by mail-wr1-x42d.google.com with SMTP id j25so5154420wrc.9
- for <linux-aspeed@lists.ozlabs.org>; Wed, 18 May 2022 19:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=b5WoynnEkpmfVKPAMQT2SIG+yXCnRbhJzhHw3zXHINw=;
- b=Rc5Bgemfqh3xkPy3svo9NDpdZMvSe1OBUZHDtP91reKE8Zw1mQd/uVaN4z5MKamiy3
- j2DhDUdnNui86mUUSWd8mJecxXZLGqkiZEyxXJUd1D9AWJhnjiAduqBnoFXN8UwOHUnm
- 6Ark7UMuSnrXFum4m2Ev8mmlmTNGkF2xKNJI0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=b5WoynnEkpmfVKPAMQT2SIG+yXCnRbhJzhHw3zXHINw=;
- b=68rfWFhAbCYIKdu6FvtkvIIcLgHIpSzE8ifreeSeRkHKI/yoD33ES5vQDsiBBd3H1M
- toYjkjZjekjWdVCTQ3IpR8U81h0oiew/eUg9e7Jm0MEY+60vM2QVyJHqAzfqnVI9vs/9
- fS5xQMLWifQBBSvuObseKMXr2bXt5KitNZppNnq81zUHKeLuz/oIYE2qiBdTq795cQlZ
- 3O4FubhSXEQ/RrUpbYVYZQ6o/fS/wtsCakvE5cmFO9wT5DjzHSyA5tGkGDIRUw7WHnyb
- 0ylDJdYIRe8gDINdoDmo7jZ21jKGwDplB1N7oBAiXbD5NEKzgJZp3TNCzLV8YMw+nXZI
- aADg==
-X-Gm-Message-State: AOAM533OzJlBdV61fsNJ4e+umt26pqU67CWPn1y4PB5Zh2yBxO8A8hNT
- IkL6WXDA26xg+WYwBaPAuNOAmgB2Kyt4T8EGxVc=
-X-Google-Smtp-Source: ABdhPJxwzp+vrdXKPaVG4LnTffcMdsRYZJnuO6GOULX6kb3Xct+J2xvUptgc7a04iq3lCKt7IrZ7yXIeTZ7MXlPH85A=
-X-Received: by 2002:a05:6000:1f17:b0:20e:6626:5ac7 with SMTP id
- bv23-20020a0560001f1700b0020e66265ac7mr1932758wrb.489.1652928420954; Wed, 18
- May 2022 19:47:00 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L3Zcm38Lrz2yPY;
+ Thu, 19 May 2022 13:11:02 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b+U02yPLZEeyVVKDvcnGUjfLhYkf9Cql6ig9w/EeSMnQoxnXkA2GOuuAnZ/WUSJOqxnBY2xuIZ2HZL3L4cZX754rfAquvxxM7dfs5mym3JnutDTGGxyQUXNeOK5dhDSufBtRcpHWgbodcw5lOcpnkigNrbJppXs3YpxDcZl7LNqB0DkpZghJGsOqLn8Uzgy/rNUSHUoU3K/yrhMuHxXlB0m+dbapfZ39aIC/zIGq6Bzo0pTxxspRq1tV/PXJRaAc1176SySAZ7Y/MGQ8/BPD8B+tRFeLrQMTKNpktYsMGdhWOV3g9vRWC5H5LLhhSjvqoaRjA2pfw5VSGaaFn8aKDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CcP2NDETDlsxuNqd+Px4wkwsu4TJIaFUSL0J9cFOMEI=;
+ b=f9SSA876+0i8NGLHKeTH6vKTD6c2Utb/NgmqzF1MQgl1xIvMhNVyLWpXeWcLcL03SB2F2o8pxqX4UcVgzYOcaFEvpGypbdLVN3O/6pn/BkkAO5CivbSGpSRHKb8w568u7v0bDQkMSQ1DM6ZjZLv4QBmUP16mxmcylf6HpUWTsBLxjdIYWCQZSLppm8zweN6qNkiCC+iIsop+dqwY6LLhECifzrGM3f67Cn0XysqpXXVwAij7U68WcTiezNH3ZxtECM/LFRbaptivindT9XA1Kl2sxmWcMkBM5/l/pPT1/ardi4CV65MfFoFOdJ9J0suqnrq4gfbm0AGCvVqJpMzDlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CcP2NDETDlsxuNqd+Px4wkwsu4TJIaFUSL0J9cFOMEI=;
+ b=dBy3SgxsZJ1XBOe8htFfFYSo/G+UJUJfIA/Zjf8N6TSfGfGei0hS+qwrUQpIHt1QNBv7y1944KXGmCfpQZwCU1gUD4VekwDUT5kjqmkj29A5aKMzLUu8MKkr/OFqRKjeJQ3l3f/RvuVskrv0YE+UaU7+ydBUIQO0fgxcNtHyhaNAWRg/FFWZ0WIMSCtVASVNy4c/UKFEuk7DTBsBSq7iAkFDg8OhyalMESL0Z1aJUnqF8tFQXImUjVwJA4PuyCqQwMVEzuFfflAmEThPp8w5YeLPhvBABN2AMroujoqOAerq2ciN7beevrtXtXlHwAifFARWg/K8T9xu0bg+IqBXZw==
+Received: from HK0PR06MB3779.apcprd06.prod.outlook.com (2603:1096:203:b8::10)
+ by PSAPR06MB4277.apcprd06.prod.outlook.com (2603:1096:301:88::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14; Thu, 19 May
+ 2022 03:10:40 +0000
+Received: from HK0PR06MB3779.apcprd06.prod.outlook.com
+ ([fe80::5058:cb66:c181:f869]) by HK0PR06MB3779.apcprd06.prod.outlook.com
+ ([fe80::5058:cb66:c181:f869%5]) with mapi id 15.20.5273.014; Thu, 19 May 2022
+ 03:10:40 +0000
+From: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+To: Rob Herring <robh@kernel.org>
+Subject: RE: [PATCH v5 1/4] dt-bindings: aspeed: Add eSPI controller
+Thread-Topic: [PATCH v5 1/4] dt-bindings: aspeed: Add eSPI controller
+Thread-Index: AQHYaL+o2abcbGYCoEGML2AKszBqEq0jZ0QAgABb0hCAATTpAIAAjtSw
+Date: Thu, 19 May 2022 03:10:39 +0000
+Message-ID: <HK0PR06MB37798462D17443C697433D7191D09@HK0PR06MB3779.apcprd06.prod.outlook.com>
+References: <20220516005412.4844-1-chiawei_wang@aspeedtech.com>
+ <20220516005412.4844-2-chiawei_wang@aspeedtech.com>
+ <20220517183154.GA1352926-robh@kernel.org>
+ <HK0PR06MB3779B567DE70F859E28F66C991D19@HK0PR06MB3779.apcprd06.prod.outlook.com>
+ <20220518182610.GI3302100-robh@kernel.org>
+In-Reply-To: <20220518182610.GI3302100-robh@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5786fa3c-9162-4c43-bf82-08da3945272b
+x-ms-traffictypediagnostic: PSAPR06MB4277:EE_
+x-microsoft-antispam-prvs: <PSAPR06MB42772780A01DF730868A91BC91D09@PSAPR06MB4277.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /ys0jIw7bCuIalMWc8l/P6vASULhD21ohcU2d/8/xuYnPXGKlfm2DZVZ6zEqbVffWckdNLEAar6AYruLjlDW7ZgEqMnzW5oQmk3w0R1htDektEuy4yKTmKR6Lqn06IRp3Sps4Id0ZpPuUG/UrTz2WQRj2MUO86ZrN7VlaE2xfdSZ5CN/2d8dvMpNLPoQ47gMDu341nrVhrN/0BeJcXuHhAEfnm0vDYdD1eYvO+mmPZpnO+HwFAygdaaO/w+dRb3HwK0FrK2A0ZYNaM/+JPTbwVWNF6mS2B7FnMMZoxJnAcpC3Y8hI6LOAd5u22tAUyLn7X+Lp8DzzhpMERbnUGy0reUdK5055SeQ/u756FaNVDOhsepeusBj56/imUsv3p8icDsUdz0je182RUHwrhccpsfW17SgoSkG0mcObgMFRL4M9dbVSANM06fFK1A/lAMVWirObS2fsNhAAu/zPfi4qHA53bBCmfXNOtF1f58rQwTmWWfzq0KyqN2IvFGZbC9pmv5m9PBJAzTPQBwcOQXWGHIpRfEzMCRFfi3dSnqxVrAck2pfPDRrh5KeJF+r2uRptmArahdf6VWcGR2oebYPfnPmqP0EYjFfvlLWAS7WgPfQjZd+9kW/evVPrjhsNMoqMvVgTZEsI4VusbfN9LHo03USHBcUYf1dCsNj6k5rouzjRJAw86/96aFHxatswgSCqaIjhCivKWytpYcCosNCRn4FtbZtPBHu+EwmVgZhQDbQViAwACZz9R00rJI23NpZARpTOQHBkIGYdxINiqF9B+z2igGcvsmOV4VurfsWLXFS4n0YtStYJUxXQ7aMUeWJ
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3779.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(346002)(136003)(39850400004)(376002)(366004)(396003)(76116006)(4326008)(6506007)(66476007)(64756008)(66556008)(66946007)(7696005)(8676002)(66446008)(71200400001)(5660300002)(7416002)(52536014)(38070700005)(38100700002)(122000001)(8936002)(33656002)(83380400001)(508600001)(41300700001)(2906002)(186003)(6916009)(107886003)(86362001)(55016003)(316002)(26005)(9686003)(54906003)(21314003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Zmg0ZVpjdHR6NDRqWVNYcVI3R1orbVdyMXpJY29RMlpEMmZ3VmgvZzNTZWJ0?=
+ =?utf-8?B?cys5Q0xLMHFPa3RaOUhQb1ZPeTkyNU11cFdiSzBMbWs1U3Y2OGFBYkRGMjht?=
+ =?utf-8?B?Qit4d3RlMS9mU2R2VFhoUHl3SjU4MHg1UXljNStsRXE0RVErdHA2S2lQWTRO?=
+ =?utf-8?B?K3VrUDAveFZ4YXZ0NHZheDk2VlBpSEJvK1psSEdISWhUU21mUzVzbVJkQ3pV?=
+ =?utf-8?B?c0pWUDgzWHNRRmtoVkRHc3ZSRzN3ZjdoV2l2eFc4ZTlVTTdBUVlpT3BqYXJz?=
+ =?utf-8?B?UG5ra0pyUDN4T0JEeEJUODI0YkZMdFFaYkR5NEswR3V6SklUdHRGT2dSZnZ5?=
+ =?utf-8?B?RUpKb1VoMmlXVW9tWm43MCttR0ZqQk1sdHMyWVdRL2U3ZTJIdWlsLy9JUDl6?=
+ =?utf-8?B?QlFMTm9HOUtHSENoOElSaFY0dG9GNzVUbDVYbzQvNnpYWExFSGRpRFRjNlB2?=
+ =?utf-8?B?TG13aG1FbzhYTTJrZ2NxTE5NTVRpZXp6d3lOZ2drOUFkNUJzNGZXcU9mSGJB?=
+ =?utf-8?B?a05oZDFJVUVtdkF0RG00M3BEVzBpSkM2dHE2dXRRTnlHdk84ZERnY1BEeDh2?=
+ =?utf-8?B?M0w1ZjdPUklGNUNkbzVCU1lRSVlYdE5YQlY0RWJlYU52MUtTL0crNm5lYmFK?=
+ =?utf-8?B?Y0cwamZGQkZwWXhaSE5OdXpQRHNJWGJHOUdkYnhMaXEwMkwrK3ExTzJUUG1x?=
+ =?utf-8?B?Z0crUlBERjFPQnBtSE1ZQm91VWsxYjZvbWZ5K0pOdWhTblZnQ09ySlpiUFJX?=
+ =?utf-8?B?aVJ3ZXdZbHJ0aWVza2hrRmp4eTMxQndsdUxUbU80NGJaL1Jxb0NvZmJ3T1p0?=
+ =?utf-8?B?U0NRVkRxSmQrakw4M3RNT09sdE9OOEgyQy9RaEJlZWljUWxBd1VDOCtleVNh?=
+ =?utf-8?B?c09vOHhWOEV4bHg2TXcvQjZKdVp1cFdaelJRV2dVRjRpZEphSWdqVWRMekZ6?=
+ =?utf-8?B?K1RlUm9BbWZCL2RNcFFXbFNBeXZXS3RsemxKZ3FPakRGajZmaVpyS2xTV24v?=
+ =?utf-8?B?ampsSDUrZEZSUSttKzhWS29vZUtxNlFQUUQrUkJuWlhIbVJlN2E2Wko3dEd5?=
+ =?utf-8?B?bDd4WUVEcGhtN3hZZkVnVW5UblhYdFpvYnBUUTVaZERlYXIvR0ZOMUtqNVVJ?=
+ =?utf-8?B?NVI5Nk1NTVJOWTdkc2orZ0NaRXIrV25ldFdncFB1T1RSY0VYVGNMbWtMbXhL?=
+ =?utf-8?B?bTA0N3ZpbGlIMHIrbFAxZVcvTTZLVVRKL1BKaklNbnJWT3JhTHo3a0xCWnhI?=
+ =?utf-8?B?MGN5RjVXR3l1SlhmZktjRm11cTlqV0xpTmpMRmQ2S3BkS0xQYTltNFVBeTQ3?=
+ =?utf-8?B?d2VWS3dVemsyNkxEdkw3UGt3Vy96bElDcVhqVlg3SUxkK0JPMjZQWDRVZWQ0?=
+ =?utf-8?B?UGY4M3cyTEwzYnQ0Z0EyS3BTTFB6dG1DYlVrZU5WZm0waVhzdy9kU2t3MzRH?=
+ =?utf-8?B?dlhoR1I5R2dPQTlndzhyUEdheFdnQnNGekU5UXhPdkpTbkdleURFM0ZNT3ZI?=
+ =?utf-8?B?U2c5eHlNajIvSlEzR1J3MDhRZjRIdmk2WVdsYzFwNzdmRnZuNjhHQjc5cmhj?=
+ =?utf-8?B?SldOOHVxNTRGUXJUaUgzaitPT0pZbGZRVmljZE9ZTHVlVUxwSUJ0NDJkUWVh?=
+ =?utf-8?B?aFBSeW5PcTlhc1RleTVLZDJ6Q3lBbnRHaFlaL3MxZEh4SmZicmU2WGtiOE1t?=
+ =?utf-8?B?NThINlBWVlNScFREVnZPMEhzbVNjQ3VuVFNFSXNzd1NTdWJ6TjlFRGpIRmhI?=
+ =?utf-8?B?R3BmN1ZNNWkrRURnZUFDRnlyS3FOL3RDUzlyVlloMGRkblJnOTkxdm9vcXQr?=
+ =?utf-8?B?N1hlbkdUd3hoNkFSclA5ZHN2RFlTVFpOeUlrSlk1akplSHhOUVlhdzl1bEpo?=
+ =?utf-8?B?RWZxeWpvMi9uY1Y3UHBjckRqY2ZlUThuNVV5WUlOTmRiOWI5alF6bER5dUlt?=
+ =?utf-8?B?YkJjT2k1TGxYV3ZTNkY2NWZTU1VJa09pUVNOMzVvbGN0TkhvR3kyblFvQU1G?=
+ =?utf-8?B?MTZGOG9PYlphT0hTY0luTE05ek9Ecm5PVmczajRud0RBVk5tTzVvQWpHSERq?=
+ =?utf-8?B?aUc1cEJQMmxBMlJoaGpvcExselJlNXZJSnNKaXphTnorb3pPdGtJL2JVcS80?=
+ =?utf-8?B?WnpxL1FxV0ViRnNudlY0YVVzWW14YnJrRzd4MlF5eXNKaTNnM2JVNVREUlpG?=
+ =?utf-8?B?MTd5SnpvTUZxYjlId0hWRWp3WHBZKzA1L0RVc0lKeUhNcW9RbUxhRFNvWVYr?=
+ =?utf-8?B?UEdGT2pjWENIcDREMWVXR2xRWXE0Vk0vSFlQaXdyam1DemppNExlSHRkSXd2?=
+ =?utf-8?B?ck9pTkxxUzFYL3pjK0RJRTNFNnQ2OUppeDBkRVFOVjRINEhLM0RqR2Y0ZVFF?=
+ =?utf-8?Q?RIORcs+m3APPMB0A=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220420065538.4070503-1-David_Wang6097@jabil.com>
-In-Reply-To: <20220420065538.4070503-1-David_Wang6097@jabil.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 19 May 2022 02:46:43 +0000
-Message-ID: <CACPK8XdXHsvzAgnX5VjqtznakEmRhcokb66yOYkhr8v+vWKXJg@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: Adding Jabil Rubypass BMC
-To: David Wang <David_Wang6097@jabil.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3779.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5786fa3c-9162-4c43-bf82-08da3945272b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2022 03:10:39.8426 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gDA/EGBPRPlXxXdM6SEsSoHi4h0/TKlf79eiRg49fZx4JYHbUNZ0HHYFWDnldl6K02eXgjo3Mc/ugkM2PF4xdE4W23VyGqOFCLoEmqKQnzg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4277
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,494 +147,186 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "a.kartashev@yadro.com" <a.kartashev@yadro.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "jk@codeconstruct.com.au" <jk@codeconstruct.com.au>,
+ "patrick.rudolph@9elements.com" <patrick.rudolph@9elements.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 20 Apr 2022 at 06:55, David Wang <David_Wang6097@jabil.com> wrote:
->
-> The initial introduction of the jabil server with AST2600 BMC SoC.
->
-> Signed-off-by: David Wang <David_Wang6097@jabil.com>
-> ---
->  .../boot/dts/aspeed-bmc-jabil-rubypass.dts    | 383 ++++++++++++++++++
->  1 file changed, 383 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed-bmc-jabil-rubypass.dts
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-jabil-rubypass.dts b/arch/arm/b=
-oot/dts/aspeed-bmc-jabil-rubypass.dts
-> new file mode 100644
-> index 000000000000..80763ff48b2a
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed-bmc-jabil-rubypass.dts
-> @@ -0,0 +1,383 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +/dts-v1/;
-> +
-> +#include "aspeed-g6.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +
-> +/ {
-> +       model =3D "Jabil Boy";
-> +       compatible =3D "aspeed,ast2600";
-
-add a string for your machine. Something like this:
-
-compatible =3D "jabil,boy",  "aspeed,ast2600";
-
-> +
-> +       aliases {
-> +               serial4 =3D &uart5;
-
-This is in the dsti, so it's not required.
-
-> +       };
-> +
-> +       chosen {
-> +               bootargs =3D "console=3DttyS4,115200n8";
-> +       };
-> +
-> +       memory@80000000 {
-> +               device_type =3D "memory";
-> +               reg =3D <0x80000000 0x80000000>;
-> +       };
-> +
-> +       leds {
-> +               compatible =3D "gpio-leds";
-> +
-> +               identify {
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio0 ASPEED_GPIO(B, 7) GPIO_ACTIVE_L=
-OW>;
-> +               };
-> +
-> +               status_amber {
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio0 ASPEED_GPIO(G, 3) GPIO_ACTIVE_L=
-OW>;
-> +               };
-> +
-> +               status_green {
-> +                       default-state =3D "keep";
-> +                       gpios =3D <&gpio0 ASPEED_GPIO(G, 2) GPIO_ACTIVE_L=
-OW>;
-> +               };
-> +
-> +               status_susack {
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio0 ASPEED_GPIO(V, 6) GPIO_ACTIVE_L=
-OW>;
-> +               };
-> +
-> +               fan1_fault{
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio3_71 0 GPIO_ACTIVE_HIGH>;
-> +               };
-> +               fan2_fault{
-> +                       default-state =3D "off"
-> +               };
-> +               fan3_fault{
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio3_71 2 GPIO_ACTIVE_HIGH>;
-> +               };
-> +               fan4_fault{
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio3_71 3 GPIO_ACTIVE_HIGH>;
-> +               };
-> +               fan5_fault{
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio3_71 4 GPIO_ACTIVE_HIGH>;
-> +               };
-> +               fan6_fault{
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio3_71 5 GPIO_ACTIVE_HIGH>;
-> +               };
-> +
-> +               power_amber {
-> +                       default-state =3D "off";
-> +                       gpios =3D <&gpio0 ASPEED_GPIO(Y, 0) GPIO_ACTIVE_L=
-OW>;
-> +               };
-> +       };
-> +};
-> +
-> +&mdio0 {
-> +       status =3D "okay";
-> +
-> +       ethphy0: ethernet-phy@0 {
-> +               compatible =3D "ethernet-phy-ieee802.3-c22";
-> +               reg =3D <0>;
-> +       };
-> +};
-> +
-> +&mdio1 {
-> +       status =3D "okay";
-> +
-> +       ethphy1: ethernet-phy@0 {
-> +               compatible =3D "ethernet-phy-ieee802.3-c22";
-> +               reg =3D <0>;
-> +       };
-> +};
-> +
-> +&mdio2 {
-> +       status =3D "okay";
-> +
-> +       ethphy2: ethernet-phy@0 {
-> +               compatible =3D "ethernet-phy-ieee802.3-c22";
-> +               reg =3D <0>;
-> +       };
-> +};
-> +
-> +&mdio3 {
-> +       status =3D "okay";
-> +
-> +       ethphy3: ethernet-phy@0 {
-> +               compatible =3D "ethernet-phy-ieee802.3-c22";
-> +               reg =3D <0>;
-> +       };
-> +};
-> +
-> +&mac0 {
-> +       status =3D "okay";
-> +
-> +       phy-mode =3D "rgmii-rxid";
-> +       phy-handle =3D <&ethphy0>;
-> +
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&pinctrl_rgmii1_default>;
-> +};
-> +
-> +
-> +&mac1 {
-> +       status =3D "okay";
-> +
-> +       phy-mode =3D "rgmii-rxid";
-> +       phy-handle =3D <&ethphy1>;
-> +
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&pinctrl_rgmii2_default>;
-> +};
-> +
-> +&mac2 {
-> +       status =3D "okay";
-> +
-> +       phy-mode =3D "rgmii";
-> +       phy-handle =3D <&ethphy2>;
-> +
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&pinctrl_rgmii3_default>;
-> +};
-> +
-> +&mac3 {
-> +       status =3D "okay";
-> +
-> +       phy-mode =3D "rgmii";
-> +       phy-handle =3D <&ethphy3>;
-> +
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&pinctrl_rgmii4_default>;
-> +};
-> +
-> +&emmc_controller {
-> +       status =3D "okay";
-> +};
-> +
-> +&emmc {
-> +       non-removable;
-> +       bus-width =3D <4>;
-> +       max-frequency =3D <100000000>;
-> +       clk-phase-mmc-hs200 =3D <9>, <225>;
-> +};
-> +
-> +&rtc {
-> +       status =3D "okay";
-> +};
-> +
-> +&fmc {
-> +       status =3D "okay";
-> +       flash@0 {
-> +               status =3D "okay";
-> +               m25p,fast-read;
-> +               label =3D "bmc";
-> +               spi-max-frequency =3D <50000000>;
-> +#include "openbmc-flash-layout-128.dtsi"
-> +       };
-> +};
-> +
-> +&spi1 {
-> +       status =3D "okay";
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&pinctrl_spi1_default>;
-> +
-> +       flash@0 {
-> +               status =3D "okay";
-> +               m25p,fast-read;
-> +               label =3D "pnor";
-> +               spi-max-frequency =3D <100000000>;
-> +       };
-> +};
-> +
-> +&uart1 {
-> +       status =3D "okay";
-> +       pinctrl-0 =3D <&pinctrl_txd1_default
-> +               &pinctrl_rxd1_default
-> +               &pinctrl_nrts1_default
-> +               &pinctrl_ndtr1_default
-> +               &pinctrl_ndsr1_default
-> +               &pinctrl_ncts1_default
-> +               &pinctrl_ndcd1_default
-> +               &pinctrl_nri1_default>;
-> +};
-> +
-> +&uart2 {
-> +       status =3D "okay";
-> +       pinctrl-0 =3D <&pinctrl_txd2_default
-> +               &pinctrl_rxd2_default
-> +               &pinctrl_nrts2_default
-> +               &pinctrl_ndtr2_default
-> +               &pinctrl_ndsr2_default
-> +               &pinctrl_ncts2_default
-> +               &pinctrl_ndcd2_default
-> +               &pinctrl_nri2_default>;
-> +};
-> +
-> +&uart3 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart4 {
-> +       status =3D "okay";
-> +};
-> +
-> +
-> +&uart5 {
-> +       // Workaround for A0
-> +       compatible =3D "snps,dw-apb-uart";
-
-Are you really on an A0? If not, this can be dropped.
-
-> +};
-> +
-> +&i2c0 {
-> +       status =3D "okay";
-> +
-> +       temp@2e {
-> +               compatible =3D "adi,adt7490";
-> +               reg =3D <0x2e>;
-> +       };
-> +};
-> +
-> +&i2c1 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c2 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c3 {
-> +       multi-master;
-> +       status =3D "okay";
-> +
-> +       gpio@70 {
-> +               compatible =3D "nxp,pca9538";
-> +               reg =3D <0x70>;
-> +               interrupt-parent =3D <&gpio0>;
-> +               interrupts =3D <ASPEED_GPIO(O, 7) IRQ_TYPE_EDGE_FALLING>;
-> +               gpio-controller;
-> +               #gpio-cells =3D <2>;
-> +               gpio-line-names =3D
-> +                       "FAN1_PRSNT_N", "FAN2_PRSNT_N", "FAN3_PRSNT_N", "=
-FAN4_PRSNT_N",
-> +                       "FAN5_PRSNT_N", "FAN6_PRSNT_N", "FANCTRL1_FANFAIL=
-_N", "FANCTRL2_FANFAIL_N";
-> +       };
-> +
-> +       gpio3_71:gpio@71 {
-> +               compatible =3D "nxp,pca9538";
-> +               reg =3D <0x71>;
-> +               gpio-controller;
-> +               #gpio-cells =3D <2>;
-> +               gpio-line-names =3D
-> +                       "LED_FAN1_FAULT", "LED_FAN2_FAULT", "LED_FAN3_FAU=
-LT", "LED_FAN4_FAULT",
-> +                       "LED_FAN5_FAULT", "LED_FAN6_FAULT", "PU_U12_IO6",=
- "PU_U12_IO7";
-> +       };
-> +};
-> +
-> +&i2c4 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c5 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c6 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c7 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c8 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c9 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c12 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c13 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c14 {
-> +       status =3D "okay";
-> +};
-> +
-> +&i2c15 {
-> +       status =3D "okay";
-> +};
-> +
-> +&fsim0 {
-> +       status =3D "okay";
-> +};
-> +
-> +&ehci1 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uhci {
-> +       status =3D "okay";
-> +};
-> +
-> +&sdc {
-> +       status =3D "okay";
-> +};
-> +
-> +&gpio0 {
-> +       status =3D "okay";
-> +       /* Enable GPIOP0 and GPIOP2 pass-through by default */
-> +       /* pinctrl-names =3D "pass-through";                  */
-> +       /* pinctrl-0 =3D <&pinctrl_thru0_default              */
-> +       /*              &pinctrl_thru1_default>;            */
-
-Commented out? Unless you have a good reason to keep these like this,
-please un-comment or remove them.
-
-> +
-> +       gpio-line-names =3D
-> +       /*A0-A7*/       "SMB_DCSCM_I2C2_R_SCL","SMB_DCSCM_I2C2_R_SDA","TP=
-_GPIOA2","TP_GPIOA3","SMB_CPU_PIROM_R_SCL","SMB_CPU_PIROM_R_SDA","SMB_IPMB_=
-STBY_LVC3_R_SCL","SMB_IPMB_STBY_LVC3_R_SDA",
-> +       /*B0-B7*/       "NCSI_BMC_I210_NCSI_PRSNT_N","NMI_OUT","IRQ_SMB3_=
-M2_ALERT_N","FM_SPD_SWITCH_CTRL_N","RGMII_BMC_RMM4_LVC3_R_MDC","RGMII_BMC_R=
-MM4_LVC3_R_MDIO","FM_BMC_BMCINIT_R","FP_ID_LED_N",
-> +       /*C0-C7*/       "","RMII_BMC_I210_TXEN_R","RMII_BMC_I210_TXD0_R",=
-"RMII_BMC_I210_TXD1_R","","","CLK_50M_BMC_MAC3_NCSI","",
-> +       /*D0-D7*/       "RMII_BMC_I210_RXD0","RMII_BMC_I210_RXD1","RMII_B=
-MC_I210_CRSDV","RMII_BMC_I210_RXER","","RMII_BMC_OCP3_A_TXEN_R","RMII_BMC_O=
-CP3_A_TXD0_R","RMII_BMC_OCP3_A_TXD1_R",
-> +       /*E0-E7*/       "","","CLK_50M_BMC_MAC4_NCSI","","RMII_BMC_OCP3_A=
-_RXD0","RMII_BMC_OCP3_A_RXD1","RMII_BMC_OCP3_A_CRSDV","RMII_BMC_OCP3_A_RXER=
-",
-> +       /*F0-F7*/       "","","","","","","ID_BUTTON","PS_PWROK",
-> +       /*G0-G7*/       "FM_SMB_BMC_NVME_LVC3_ALERT_N","RST_BMC_I2C_M2_R_=
-N","FP_LED_STATUS_GREEN_N","FP_LED_STATUS_AMBER_N","FM_FORCE_BMC_UPDATE_N",=
-"FM_BMC_CRASHLOG_TRIG_N","FM_BMC_CPU_FBRK_OUT_R_N","DBP_PRESENT_IN_R2_N",
-> +       /*H0-H7*/       "SGPIO_BMC_FPGA_CLK_R","SGPIO_BMC_FPGA_LD_R_N","S=
-GPIO_BMC_FPGA_DOUT_R","SGPIO_BMC_FPGA_DIN","PLTRST_N","CPU_CATERR","PCH_BMC=
-_THERMTRIP","FM_CPU1_CATERR_N",
-> +       /*I0-I7*/       "JTAG_ASD_NTRST_R_N","JTAG_ASD_TDI_R","JTAG_ASD_T=
-CK_R","JTAG_ASD_TMS_R","JTAG_ASD_TDO","FM_BMC_PWRBTN_OUT_R_N","FM_BMC_PWR_B=
-TN_PTHRU_N","TP_FM_BMC_PCH_SCI_R_N",
-> +       /*J0-J7*/       "SMB_CHASSENSOR_STBY_LVC3_SCL","SMB_CHASSENSOR_ST=
-BY_LVC3_SDA","SMB_FPGA_REG_R_SCL","SMB_FPGA_REG_R_SDA","SMB_DCSCM_I2C12_R_S=
-CL","SMB_DCSCM_I2C12_R_SDA","SMB_BMC_FAN_STBY_LVC3_R_SCL","SMB_BMC_FAN_STBY=
-_LVC3_R_SDA",
-> +       /*K0-K7*/       "SMB_HSBP_STBY_LVC3_R_SCL","SMB_HSBP_STBY_LVC3_R_=
-SDA","SMB_SMLINK0_STBY_LVC3_R2_SCL","SMB_SMLINK0_STBY_LVC3_R2_SDA","SMB_TEM=
-PSENSOR_STBY_LVC3_R_SCL","SMB_TEMPSENSOR_STBY_LVC3_R_SDA","SMB_PMBUS_SML1_S=
-TBY_LVC3_R_SCL","SMB_PMBUS_SML1_STBY_LVC3_R_SDA",
-> +       /*L0-L7*/       "SMB_PCIE_STBY_LVC3_R_SCL","SMB_PCIE_STBY_LVC3_R_=
-SDA","SMB_HOST_STBY_BMC_LVC3_R_SCL","SMB_HOST_STBY_BMC_LVC3_R_SDA","PREQ_N"=
-,"TCK_MUX_SEL","","",
-> +       /*M0-M7*/       "TP_SPA_CTS_N","TP_SPA_DCD_N","TP_SPA_DSR_N","PU_=
-SPA_RI_N","TP_SPA_DTR_N","TP_SPA_RTS_N","SPA_SOUT","SPA_SIN",
-> +       /*N0-N7*/       "TP_SPB_CTS_N","TP_SPB_DCD_N","TP_SPB_DSR_N","PU_=
-SPB_RI_N","TP_SPB_DTR_N","TP_SPB_RTS_N","UART_BMC_TXD2","UART_BMC_RXD2",
-> +       /*O0-O7*/       "BMC_FPGA_GPIO_0","BMC_FPGA_GPIO_1","BMC_FPGA_GPI=
-O_2","BMC_FPGA_GPIO_3","FM_BMC_PCH_SPARE_R","FM_CPU1_DISABLE_COD_N","NMI_BU=
-TTON","PDB_PCA9538_INT_N",
-> +       /*P0-P7*/       "RESET_BUTTON","RESET_OUT","POWER_BUTTON","POWER_=
-OUT","","","DISPLAYPORT_MUX_AUX_R_SEL","BMC_HBLED_N",
-> +       /*Q0-Q7*/       "TP_BMC_FAN1_A_TACH","TP_BMC_FAN1_B_TACH","TP_BMC=
-_FAN2_A_TACH","TP_BMC_FAN2_B_TACH","TP_BMC_FAN3_A_TACH","TP_BMC_FAN3_B_TACH=
-","TP_BMC_FAN4_A_TACH","TP_BMC_FAN4_B_TACH",
-> +       /*R0-R7*/       "","","","","","FPGA_JTAG_MUX_SEL","DISPLAYPORT_M=
-UX_R_OE","DISPLAYPORT_MUX_DX_R_SEL",
-> +       /*S0-S7*/       "RST_BMC_PCIE_MUX_N","BMC_RST_RTCRST_R","PRDY_N",=
-"FM_FLASH_SECURITY_STRAP","RST_IPMB_SWITCH_R_N","A_P3V_BAT_SCALED_EN","REMO=
-TE_DEBUG_ENABLE","FM_PCHHOT_N",
-> +       /*T0-T7*/       "GND","GND","GND","GND","GND","GND","GND","GND",
-> +       /*U0-U7*/       "GND","GND","GND","GND","GND","GND","GND","GND",
-> +       /*V0-V7*/       "SIO_S3","SIO_S5","TP_BMC_SIO_PWREQ_N","SIO_ONCON=
-TROL","SIO_POWER_GOOD","LED_BMC_FW_CONFIG_DONE_N","FM_BMC_SUSACK_N","TP_IRQ=
-_BMC_PCH_SMI_LPC_N_R",
-> +       /*W0-W7*/       "ESPI_IO0_LPC_LAD0_R","ESPI_IO1_LPC_LAD1_R","ESPI=
-_IO2_LPC_LAD2_R","ESPI_IO3_LPC_LAD3_R","CLK_24M_66M_LPC0_ESPI_BMC","ESPI_CS=
-0_N_LFRAME_N_BMC","IRQ_LPC_SERIRQ_ESPI_ALERT_N","RST_LPC_LRST_ESPI_RST_BMC_=
-R_N",
-> +       /*X0-X7*/       "CPU_ERR2","SMI","POST_COMPLETE","TP_SPI_BMC_SAFS=
-_R_CLK","TP_SPI_BMC_SAFS_R_MOSI","TP_SPI_BMC_SAFS_R_MISO","TP_SPI_BMC_SAFS_=
-R_IO2","TP_SPI_BMC_SAFS_R_IO3",
-> +       /*Y0-Y7*/       "BMC_PWR_AMB_LED_R_N","IRQ_SML0_ALERT_BMC_R2_N","=
-JTAG_CPLD_BMC_MUX_R_SEL","IRQ_SML1_PMBUS_BMC_ALERT_N","SPI_BMC_BOOT_R_IO2",=
-"SPI_BMC_BOOT_R_IO3","PU_SPI_BMC_BOOT_ABR","PU_SPI_BMC_BOOT_WP_N",
-> +       /*Z0-Z7*/       "CPU_ERR0","CPU_ERR1","PU_TP_PWRGD_P3V3_RISER2","=
-PU_GPIOZ3","PU_GPIOZ4","PU_GPIOZ5","PU_GPIOZ6","PU_GPIOZ7";
-
-I see you've not used any of the OpenBMC naming conventions for your
-GPIOs. Can you explain why?
-
-> +};
-> +
-> +&gpio1 {
-> +       status =3D "okay";
-> +       gpio-line-names =3D /* GPIO18 A-E */
-> +       /*A0-A7*/       "TP_GPIO18B5","TP_GPIO18B4","RST_EMMC_BMC_R_N",""=
-,"","","","",
-> +       /*B0-B7*/       "","","PD_GPIOB2","","RGMII_BMC_RMM4_TX_R_CLK","R=
-GMII_BMC_RMM4_TX_R_CTRL","RGMII_BMC_RMM4_R_TXD0","RGMII_BMC_RMM4_R_TXD1",
-> +       /*C0-C7*/       "RGMII_BMC_RMM4_R_TXD2","RGMII_BMC_RMM4_R_TXD3","=
-RGMII_BMC_RMM4_RX_CLK","RGMII_BMC_RMM4_RX_CTRL","RGMII_BMC_RMM4_RXD0","RGMI=
-I_BMC_RMM4_RXD1","RGMII_BMC_RMM4_RXD2","RGMII_BMC_RMM4_RXD3",
-> +       /*D0-D7*/       "EMMC_BMC_R_CLK","EMMC_BMC_R_CMD","EMMC_BMC_R_DAT=
-A0","EMMC_BMC_R_DATA1","EMMC_BMC_R_DATA2","EMMC_BMC_R_DATA3","EMMC_BMC_CD_N=
-","EMMC_BMC_WP_N",
-> +       /*E0-E3*/       "EMMC_BMC_R_DATA4","EMMC_BMC_R_DATA5","EMMC_BMC_R=
-_DATA6","EMMC_BMC_R_DATA7";
-> +};
-> +
-> +&lpc_snoop {
-> +       snoop-ports =3D <0x80>;
-> +       status =3D "okay";
-> +};
-> +
-> --
-> 2.30.2
->
+PiBGcm9tOiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPg0KPiBTZW50OiBUaHVyc2RheSwg
+TWF5IDE5LCAyMDIyIDI6MjYgQU0NCj4gDQo+IE9uIFdlZCwgTWF5IDE4LCAyMDIyIGF0IDEyOjE1
+OjEwQU0gKzAwMDAsIENoaWFXZWkgV2FuZyB3cm90ZToNCj4gPiBIaSBSb2IsDQo+ID4NCj4gPiA+
+IEZyb206IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+DQo+ID4gPiBTZW50OiBXZWRuZXNk
+YXksIE1heSAxOCwgMjAyMiAyOjMyIEFNDQo+ID4gPg0KPiA+ID4gT24gTW9uLCBNYXkgMTYsIDIw
+MjIgYXQgMDg6NTQ6MDlBTSArMDgwMCwgQ2hpYS1XZWkgV2FuZyB3cm90ZToNCj4gPiA+ID4gQWRk
+IGR0LWJpbmRpbmdzIGZvciBBc3BlZWQgZVNQSSBjb250cm9sbGVyDQo+ID4gPiA+DQo+ID4gPiA+
+IFNpZ25lZC1vZmYtYnk6IENoaWEtV2VpIFdhbmcgPGNoaWF3ZWlfd2FuZ0Bhc3BlZWR0ZWNoLmNv
+bT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9zb2MvYXNw
+ZWVkL2VzcGkueWFtbCAgfCAxNjINCj4gPiA+ID4gKysrKysrKysrKysrKysrKysrDQo+ID4gPg0K
+PiA+ID4gYmluZGluZ3Mvc3BpLyBpbmNsdWRlcyBTUEkgc2xhdmVzLiBJcyB0aGVyZSBhIHJlYXNv
+biB0aGlzIGRvZXNuJ3QgZml0IHRoZXJlPw0KPiA+DQo+ID4gZVNQSSByZXN1ZXMgdGhlIHRpbWlu
+ZyBhbmQgZWxlY3RyaWNhbCBzcGVjaWZpY2F0aW9uIG9mIFNQSSBidXQgcnVucyBjb21wbGV0ZWx5
+DQo+IGRpZmZlcmVudCBwcm90b2NvbC4NCj4gPiBPbmx5IHRoZSBmbGFzaCBjaGFubmVsIGlzIHJl
+bGF0ZWQgdG8gU1BJIGFuZCB0aGUgb3RoZXIgMyBjaGFubmVscyBhcmUgZm9yDQo+IEVDL0JNQy9T
+SU8uDQo+ID4gVGhlcmVmb3JlLCBhbiBlU1BJIGRyaXZlciBkb2VzIG5vdCBmaXQgaW50byB0aGUg
+U1BJIG1vZGVsLg0KPiA+DQo+ID4gPg0KPiA+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDE2MiBpbnNl
+cnRpb25zKCspICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4gRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL3NvYy9hc3BlZWQvZXNwaS55YW1sDQo+ID4gPiA+DQo+ID4gPiA+IGRp
+ZmYgLS1naXQNCj4gPiA+ID4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mvc29j
+L2FzcGVlZC9lc3BpLnlhbWwNCj4gPiA+ID4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3Mvc29jL2FzcGVlZC9lc3BpLnlhbWwNCj4gPiA+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQN
+Cj4gPiA+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi5hYTkxZWM4Y2FmNmENCj4gPiA+ID4gLS0tIC9k
+ZXYvbnVsbA0KPiA+ID4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+c29jL2FzcGVlZC9lc3BpLnlhbWwNCj4gPiA+ID4gQEAgLTAsMCArMSwxNjIgQEANCj4gPiA+ID4g
+KyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNELTItQ2xhdXNl
+KSAjICMNCj4gPiA+ID4gK0NvcHlyaWdodCAoYykgMjAyMSBBc3BlZWQgVGVjaG5vbG9neSBJbmMu
+DQo+ID4gPiA+ICslWUFNTCAxLjINCj4gPiA+ID4gKy0tLQ0KPiA+ID4gPiArJGlkOiAiaHR0cDov
+L2RldmljZXRyZWUub3JnL3NjaGVtYXMvc29jL2FzcGVlZC9lc3BpLnlhbWwjIg0KPiA+ID4gPiAr
+JHNjaGVtYTogImh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIyIN
+Cj4gPiA+ID4gKw0KPiA+ID4gPiArdGl0bGU6IEFzcGVlZCBlU1BJIENvbnRyb2xsZXINCj4gPiA+
+ID4gKw0KPiA+ID4gPiArbWFpbnRhaW5lcnM6DQo+ID4gPiA+ICsgIC0gQ2hpYS1XZWkgV2FuZyA8
+Y2hpYXdlaV93YW5nQGFzcGVlZHRlY2guY29tPg0KPiA+ID4gPiArICAtIFJ5YW4gQ2hlbiA8cnlh
+bl9jaGVuQGFzcGVlZHRlY2guY29tPg0KPiA+ID4gPiArDQo+ID4gPiA+ICtkZXNjcmlwdGlvbjoN
+Cj4gPiA+ID4gKyAgQXNwZWVkIGVTUEkgY29udHJvbGxlciBpbXBsZW1lbnRzIGEgc2xhdmUgc2lk
+ZSBlU1BJIGVuZHBvaW50DQo+ID4gPiA+ICtkZXZpY2UNCj4gPiA+ID4gKyAgc3VwcG9ydGluZyB0
+aGUgZm91ciBlU1BJIGNoYW5uZWxzLCBuYW1lbHkgcGVyaXBoZXJhbCwgdmlydHVhbA0KPiA+ID4g
+PiArd2lyZSwNCj4gPiA+ID4gKyAgb3V0LW9mLWJhbmQsIGFuZCBmbGFzaC4NCj4gPiA+ID4gKw0K
+PiA+ID4gPiArcHJvcGVydGllczoNCj4gPiA+ID4gKyAgY29tcGF0aWJsZToNCj4gPiA+ID4gKyAg
+ICBpdGVtczoNCj4gPiA+ID4gKyAgICAgIC0gZW51bToNCj4gPiA+ID4gKyAgICAgICAgICAtIGFz
+cGVlZCxhc3QyNTAwLWVzcGkNCj4gPiA+ID4gKyAgICAgICAgICAtIGFzcGVlZCxhc3QyNjAwLWVz
+cGkNCj4gPiA+ID4gKyAgICAgIC0gY29uc3Q6IHNpbXBsZS1tZmQNCj4gPiA+ID4gKyAgICAgIC0g
+Y29uc3Q6IHN5c2Nvbg0KPiA+ID4gPiArDQo+ID4gPiA+ICsgIHJlZzoNCj4gPiA+ID4gKyAgICBt
+YXhJdGVtczogMQ0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICIjYWRkcmVzcy1jZWxscyI6DQo+ID4g
+PiA+ICsgICAgY29uc3Q6IDENCj4gPiA+ID4gKw0KPiA+ID4gPiArICAiI3NpemUtY2VsbHMiOg0K
+PiA+ID4gPiArICAgIGNvbnN0OiAxDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgcmFuZ2VzOiB0cnVl
+DQo+ID4gPiA+ICsNCj4gPiA+ID4gK3BhdHRlcm5Qcm9wZXJ0aWVzOg0KPiA+ID4gPiArICAiXmVz
+cGktY3RybEBbMC05YS1mXSskIjoNCj4gPiA+ID4gKyAgICB0eXBlOiBvYmplY3QNCj4gPiA+ID4g
+Kw0KPiA+ID4gPiArICAgIGRlc2NyaXB0aW9uOiBDb250cm9sIG9mIHRoZSBmb3VyIGJhc2ljIGVT
+UEkgY2hhbm5lbHMNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgIHByb3BlcnRpZXM6DQo+ID4gPiA+
+ICsgICAgICBjb21wYXRpYmxlOg0KPiA+ID4gPiArICAgICAgICBpdGVtczoNCj4gPiA+ID4gKyAg
+ICAgICAgICAtIGVudW06DQo+ID4gPiA+ICsgICAgICAgICAgICAgIC0gYXNwZWVkLGFzdDI1MDAt
+ZXNwaS1jdHJsDQo+ID4gPiA+ICsgICAgICAgICAgICAgIC0gYXNwZWVkLGFzdDI2MDAtZXNwaS1j
+dHJsDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgIGludGVycnVwdHM6DQo+ID4gPiA+ICsgICAg
+ICAgIG1heEl0ZW1zOiAxDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgIGNsb2NrczoNCj4gPiA+
+ID4gKyAgICAgICAgbWF4SXRlbXM6IDENCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICAgcGVyaWYs
+bWVtY3ljLWVuYWJsZToNCj4gPiA+DQo+ID4gPiBXaGF0IHZlbmRvciBpcyAncGVyaWYnPw0KPiA+
+DQo+ID4gSXQgcmVmZXJzIHRvIHRoZSBlU1BJIHBlcmlwaGVyYWwgY2hhbm5lbC4NCj4gDQo+IFRo
+ZSBjb252ZW50aW9uIGZvciBwcm9wZXJ0aWVzIGlzIDx2ZW5kb3ItcHJlZml4Piw8cHJvcGVydHkt
+bmFtZT4uIEZpeCB5b3VyDQo+IHByb3BlcnR5IG5hbWVzIHRvIGZvbGxvdyB0aGlzLg0KDQpXaWxs
+IHJldmlzZSBhcyBzdWdnZXN0ZWQuDQoNCj4gDQo+ID4NCj4gPiA+DQo+ID4gPiA+ICsgICAgICAg
+IHR5cGU6IGJvb2xlYW4NCj4gPiA+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IEVuYWJsZSBtZW1v
+cnkgY3ljbGUgb3ZlciBlU1BJIHBlcmlwaGVyYWwNCj4gPiA+ID4gKyBjaGFubmVsDQo+ID4gPiA+
+ICsNCj4gPiA+ID4gKyAgICAgIHBlcmlmLG1lbWN5Yy1zcmMtYWRkcjoNCj4gPiA+ID4gKyAgICAg
+ICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyDQo+ID4gPiA+
+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBUaGUgSG9zdCBzaWRlIGFkZHJlc3MgdG8gYmUgZGVjb2Rl
+ZCBpbnRvIHRoZQ0KPiA+ID4gPiArIG1lbW9yeSBjeWNsZSBvdmVyIGVTUEkgcGVyaXBoZXJhbCBj
+aGFubmVsDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgIHBlcmlmLG1lbWN5Yy1zaXplOg0KPiA+
+ID4gPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50
+MzINCj4gPiA+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IFRoZSBzaXplIG9mIHRoZSBtZW1vcnkg
+cmVnaW9uIGFsbG9jYXRlZCBmb3INCj4gPiA+ID4gKyB0aGUNCj4gPiA+IG1lbW9yeSBjeWNsZSBv
+dmVyIGVTUEkgcGVyaXBoZXJhbCBjaGFubmVsDQo+ID4gPiA+ICsgICAgICAgIG1pbmltdW06IDY1
+NTM2DQo+ID4gPg0KPiA+ID4gVGhpcyByZWdpb24gaXMgZGVmaW5lZCBieSB0aGUgaC93IG9yIGp1
+c3Qgc29tZSBjYXJ2ZW91dCBvZiBzeXN0ZW0NCj4gPiA+IG1lbW9yeT8gSW4gdGhlIGZvcm1lciwg
+cGVyaGFwcyB0aGlzIHNob3VsZCBiZSBwYXJ0IG9mICdyZWcnLiBJbiB0aGUNCj4gPiA+IGxhdHRl
+ciBjYXNlLCB1c2UgYSAvcmVzZXJ2ZWQtbWVtb3J5IG5vZGUgYW5kIG1lbW9yeS1yZWdpb24gaGVy
+ZS4NCj4gPg0KPiA+IFRoZSByZWdpb24gaXMgZ29pbmcgdG8gYmUgYWxsb2NhdGVkIGF0IHJ1bnRp
+bWUgcGhhc2UuDQo+ID4gSXQgaXMgYSBraW5kIG9mIHNoYXJlZCBtZW1vcnkgYmV0d2VlbiBIb3N0
+IGFuZCBCTUMuDQo+IA0KPiBVc2UgL3Jlc2VydmVkLW1lbW9yeS4NCg0KV2lsbCByZXZpc2UgYXMg
+c3VnZ2VzdGVkLg0KDQo+IA0KPiA+DQo+ID4gPg0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICBw
+ZXJpZixkbWEtbW9kZToNCj4gPiA+ID4gKyAgICAgICAgdHlwZTogYm9vbGVhbg0KPiA+ID4gPiAr
+ICAgICAgICBkZXNjcmlwdGlvbjogRW5hYmxlIERNQSBzdXBwb3J0IGZvciBlU1BJIHBlcmlwaGVy
+YWwNCj4gPiA+ID4gKyBjaGFubmVsDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgIG9vYixkbWEt
+bW9kZToNCj4gPiA+DQo+ID4gPiBXaGF0IHZlbmRvciBpcyAnb29iJz8NCj4gPg0KPiA+IEl0IHJl
+ZmVycyB0byB0aGUgZVNQSSBvdXQtb2YtYmFuZCBjaGFubmVsLg0KPiA+DQo+ID4gPg0KPiA+ID4g
+PiArICAgICAgICB0eXBlOiBib29sZWFuDQo+ID4gPiA+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBF
+bmFibGUgRE1BIHN1cHBvcnQgZm9yIGVTUEkgb3V0LW9mLWJhbmQNCj4gPiA+ID4gKyBjaGFubmVs
+DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgIG9vYixkbWEtdHgtZGVzYy1udW06DQo+ID4gPiA+
+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMg0K
+PiA+ID4gPiArICAgICAgICBtaW5pbXVtOiAyDQo+ID4gPiA+ICsgICAgICAgIG1heGltdW06IDEw
+MjMNCj4gPiA+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IFRoZSBudW1iZXIgb2YgVFggZGVzY3Jp
+cHRvcnMgYXZhaWxhYmxlIGZvcg0KPiA+ID4gPiArIGVTUEkgT09CIERNQSBlbmdpbmUNCj4gPiA+
+ID4gKw0KPiA+ID4gPiArICAgICAgb29iLGRtYS1yeC1kZXNjLW51bToNCj4gPiA+ID4gKyAgICAg
+ICAgJHJlZjogL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyDQo+ID4gPiA+
+ICsgICAgICAgIG1pbmltdW06IDINCj4gPiA+ID4gKyAgICAgICAgbWF4aW11bTogMTAyMw0KPiA+
+ID4gPiArICAgICAgICBkZXNjcmlwdGlvbjogVGhlIG51bWJlciBvZiBSWCBkZXNjcmlwdG9ycyBh
+dmFpbGFibGUgZm9yDQo+ID4gPiA+ICsgZVNQSSBPT0IgRE1BIGVuZ2luZQ0KPiA+ID4gPiArDQo+
+ID4gPiA+ICsgICAgICBmbGFzaCxkbWEtbW9kZToNCj4gPiA+ID4gKyAgICAgICAgdHlwZTogYm9v
+bGVhbg0KPiA+ID4gPiArICAgICAgICBkZXNjcmlwdGlvbjogRW5hYmxlIERNQSBzdXBwb3J0IGZv
+ciBlU1BJIGZsYXNoIGNoYW5uZWwNCj4gPiA+DQo+ID4gPiBXaHkgZG9lcyB0aGlzIG5lZWQgdG8g
+YmUgaW4gRFQuIEl0J3MgY29uZmlndXJhdGlvbi4NCj4gPg0KPiA+IFRoZSBwcm9wZXJ0eSBpcyB1
+c2VkIHRvIGRlY2lkZSB0aGUgb3BlcmF0aW9uIG1vZGUgKGkuZS4gRklGTyBvciBETUEpIG9mIHRo
+ZQ0KPiBlU1BJIGZsYXNoIGNoYW5uZWwuDQo+ID4gSXMgaXQgYSB3cm9uZyBpZGVhIHRvIHVzZSB0
+aGUgRFRTIHByb3BlcnR5IGZvcj8NCj4gPg0KPiA+ID4NCj4gPiA+ID4gKw0KPiA+ID4gPiArICAg
+ICAgZmxhc2gsc2Fmcy1tb2RlOg0KPiA+ID4gPiArICAgICAgICAkcmVmOiAvc2NoZW1hcy90eXBl
+cy55YW1sIy9kZWZpbml0aW9ucy91aW50MzINCj4gPiA+ID4gKyAgICAgICAgZW51bTogWyAwLCAx
+LCAyIF0NCj4gPiA+ID4gKyAgICAgICAgZGVmYXVsdDogMA0KPiA+ID4gPiArICAgICAgICBkZXNj
+cmlwdGlvbjogU2xhdmUtQXR0YWNoZWQtU2hhcmluZy1GbGFzaCBtb2RlLCAwLT5NaXgsDQo+ID4g
+PiA+ICsgMS0+U1csIDItPkhXDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICBkZXBlbmRlbmNpZXM6
+DQo+ID4gPiA+ICsgICAgICBwZXJpZixtZW1jeWMtc3JjLWFkZHI6IFsgInBlcmlmLG1lbWN5Yy1l
+bmFibGUiIF0NCj4gPiA+ID4gKyAgICAgIHBlcmlmLG1lbWN5Yy1zaXplOiBbICJwZXJpZixtZW1j
+eWMtZW5hYmxlIiBdDQo+ID4gPiA+ICsgICAgICBvb2IsZG1hLXR4LWRlc2MtbnVtOiBbICJvb2Is
+ZG1hLW1vZGUiIF0NCj4gPiA+ID4gKyAgICAgIG9vYixkbWEtcngtZGVzYy1udW06IFsgIm9vYixk
+bWEtbW9kZSIgXQ0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgcmVxdWlyZWQ6DQo+ID4gPiA+ICsg
+ICAgICAtIGNvbXBhdGlibGUNCj4gPiA+ID4gKyAgICAgIC0gaW50ZXJydXB0cw0KPiA+ID4gPiAr
+ICAgICAgLSBjbG9ja3MNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAiXmVzcGktbW1iaUBbMC05YS1m
+XSskIjoNCj4gPiA+ID4gKyAgICB0eXBlOiBvYmplY3QNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAg
+IGRlc2NyaXB0aW9uOiBDb250cm9sIG9mIHRoZSBQQ0gtQk1DIGRhdGEgZXhjaGFuZ2Ugb3ZlciBl
+U1BJDQo+ID4gPiA+ICsgcGVyaXBoZXJhbCBtZW1vcnkgY3ljbGUNCj4gPiA+ID4gKw0KPiA+ID4g
+PiArICAgIHByb3BlcnRpZXM6DQo+ID4gPiA+ICsgICAgICBjb21wYXRpYmxlOg0KPiA+ID4gPiAr
+ICAgICAgICBjb25zdDogYXNwZWVkLGFzdDI2MDAtZXNwaS1tbWJpDQo+ID4gPiA+ICsNCj4gPiA+
+ID4gKyAgICAgIGludGVycnVwdHM6DQo+ID4gPiA+ICsgICAgICAgIG1heEl0ZW1zOiAxDQo+ID4g
+PiA+ICsNCj4gPiA+ID4gKyAgICByZXF1aXJlZDoNCj4gPiA+ID4gKyAgICAgIC0gY29tcGF0aWJs
+ZQ0KPiA+ID4gPiArICAgICAgLSBpbnRlcnJ1cHRzDQo+ID4gPiA+ICsNCj4gPiA+ID4gK3JlcXVp
+cmVkOg0KPiA+ID4gPiArICAtIGNvbXBhdGlibGUNCj4gPiA+ID4gKyAgLSByZWcNCj4gPiA+ID4g
+KyAgLSAiI2FkZHJlc3MtY2VsbHMiDQo+ID4gPiA+ICsgIC0gIiNzaXplLWNlbGxzIg0KPiA+ID4g
+PiArICAtIHJhbmdlcw0KPiA+ID4gPiArDQo+ID4gPiA+ICthZGRpdGlvbmFsUHJvcGVydGllczog
+ZmFsc2UNCj4gPiA+ID4gKw0KPiA+ID4gPiArZXhhbXBsZXM6DQo+ID4gPiA+ICsgIC0gfA0KPiA+
+ID4gPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9pbnRlcnJ1cHQtY29udHJvbGxlci9hcm0t
+Z2ljLmg+DQo+ID4gPiA+ICsgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2Nsb2NrL2FzdDI2MDAt
+Y2xvY2suaD4NCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgIGVzcGk6IGVzcGlAMWU2ZWUwMDAgew0K
+PiA+ID4gPiArICAgICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNjAwLWVzcGkiLCAic2lt
+cGxlLW1mZCIsICJzeXNjb24iOw0KPiA+ID4gPiArICAgICAgICByZWcgPSA8MHgxZTZlZTAwMCAw
+eDEwMDA+Ow0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+
+Ow0KPiA+ID4gPiArICAgICAgICAjc2l6ZS1jZWxscyA9IDwxPjsNCj4gPiA+ID4gKyAgICAgICAg
+cmFuZ2VzID0gPDB4MCAweDFlNmVlMDAwIDB4MTAwMD47DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAg
+ICAgICAgZXNwaV9jdHJsOiBlc3BpLWN0cmxAMCB7DQo+ID4gPiA+ICsgICAgICAgICAgICBjb21w
+YXRpYmxlID0gImFzcGVlZCxhc3QyNjAwLWVzcGktY3RybCI7DQo+ID4gPiA+ICsgICAgICAgICAg
+ICByZWcgPSA8MHgwIDB4ODAwPjsNCj4gPiA+ID4gKyAgICAgICAgICAgIGludGVycnVwdHMgPSA8
+R0lDX1NQSSA0MiBJUlFfVFlQRV9MRVZFTF9ISUdIPjsNCj4gPiA+ID4gKyAgICAgICAgICAgIGNs
+b2NrcyA9IDwmc3lzY29uIEFTUEVFRF9DTEtfR0FURV9FU1BJQ0xLPjsNCj4gPiA+ID4gKyAgICAg
+ICAgfTsNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICAgICBlc3BpX21tYmk6IGVzcGktbW1iaUA4
+MDAgew0KPiA+ID4gPiArICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjYwMC1l
+c3BpLW1tYmkiOw0KPiA+ID4gPiArICAgICAgICAgICAgcmVnID0gPDB4ODAwIDB4NTA+Ow0KPiA+
+ID4gPiArICAgICAgICAgICAgaW50ZXJydXB0cyA9IDxHSUNfU1BJIDEwOCBJUlFfVFlQRV9MRVZF
+TF9ISUdIPjsNCj4gPiA+ID4gKyAgICAgICAgfTsNCj4gPiA+DQo+ID4gPiBXaHkgZG8geW91IG5l
+ZWQgdGhlc2UgY2hpbGQgbm9kZXM/IEFyZSB0aGUgc3ViYmxvY2tzIHNvbWVob3cgdXNlZnVsDQo+
+ID4gPiBvbiB0aGVpciBvd24gb3IgcmV1c2VhYmxlIGluIGFub3RoZXIgY29uZmlndXJhdGlvbj8g
+SWYgbm90LCBsb29rcw0KPiA+ID4gbGlrZSB0aGlzIGNvdWxkIGFsbCBiZSAxIG5vZGUuDQo+ID4N
+Cj4gPiBlc3BpLW1tYmkgaGFzIGluZGl2aWR1YWwgZnVuY3Rpb24gYW5kIGNvbnRyb2wgcmVnaXN0
+ZXJzLg0KPiA+IEhvd2V2ZXIsIGVzcGktbW1iaSBpcyBhbHNvIGEgZmVhdHVyZSBleHRlbmRlZCBi
+YXNlZCBvbiB0aGUgbWVtb3J5IGN5Y2xlDQo+IG9mIGVTUEkgcGVyaXBoZXJhbCBjaGFubmVsLg0K
+PiA+IFRoZXJlYnksIGl0IGhhcyBkZXBlbmRlbmN5IG9uIHRoZSBlU1BJIGNoYW5uZWwgaW5pdGlh
+bGl6YXRpb24gY29uZHVjdGVkIGJ5DQo+IGVzcGktY3RybC4NCj4gPiBUaGUgc2NlbmFyaW8gaXMg
+c2ltaWxhciB0byB0aGUgbHBjLWN0cmwgYW5kIG90aGVyIGxwYy14eHggZHJpdmVycyBvZiBBc3Bl
+ZWQNCj4gU29Dcy4NCj4gDQo+IERvZXNuJ3QgTFBDIGhhdmUgaW5kZXBlbmRlbnQgZG93bnN0cmVh
+bSBkZXZpY2VzIGxpa2UgYSBidXM/DQoNCk5vLiBXZSB1c2UgTUZEIHNpbXBseSBiZWNhdXNlIHRo
+ZSBIVyBkZXNpZ24gcGxhY2VzIG11bHRpcGxlIGRldmljZXMgaW4gdGhlIHNhbWUgSFcgYmxvY2su
+DQpBbmQgdGhleSBkbyBzaGFyZSBjZXJ0YWluIHJlZ2lzdGVycyBhcyB0aGUgY29udHJvbCBiaXRz
+IGFyZSBtaXhlZC4NCg0KPiBJcyB0aGlzIGEgYnVzIHdoZXJlIHRoZSBFU1BJIGNvbnRyb2xzIGFj
+Y2VzcyB0byBNTUJJIGFuZCBlc3BpLWN0cmwgZGV2aWNlcz8gSWYgc28sIHRoZW4gdGhlDQo+IGRl
+dmljZXMgbmVlZCB0aGVpciBvd24gYmluZGluZyBhbmQgZGVzY3JpcHRpb25zLiBCdXQgaXQgZG9l
+c24ndCByZWFsbHkgbG9vayBsaWtlDQo+IHRoYXQgdG8gbWUgZ2l2ZW4gdGhlIGxpbWl0ZWQgZGVz
+Y3JpcHRpb24uDQoNCk5vLg0KVGhlIGVTUEkgSFcgYmxvY2sgY29udGFpbnMgZVNQSSBtYWluIGRl
+dmljZSAodGhlIDQgY2hhbm5lbCkgYW5kIGVTUEkgTU1CSSBkZXZpY2VzLg0KU28gSSB1c2UgTUZE
+IGJhc2VkIG9uIHRoZSBzYW1lIHJlYXNvbiBhcyBMUEMgYmxvY2suDQpBbmQgTU1CSSB3aWxsIGhh
+dmUgaW5kaXZpZHVhbCBiaW5kaW5nIGFuZCBkZXNjcmlwdGlvbiBpbiB0aGUgbGF0ZXIgc3VibWlz
+c2lvbi4NCg0KSWYgaXQgaXMgbm90IGFwcHJvcHJpYXRlIHdheSB0byB1c2UgTUZELCBJIHdpbGwg
+cmV2aXNlIHRoZSBpbXBsZW1lbnRhdGlvbiBpbnRvIG9uZSBkcml2ZXIuDQpUaGFua3MgZm9yIHlv
+dXIgZmVlZGJhY2sgYW5kIHN1Z2dlc3Rpb25zLg0KDQpDaGlhd2VpDQo=
