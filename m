@@ -1,72 +1,130 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C83B52E38D
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 May 2022 06:17:39 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C080052E462
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 May 2022 07:37:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L4D350bwhz3bkX
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 May 2022 14:17:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L4Fps4cSpz3bkh
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 May 2022 15:37:09 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=Lb2y3VGF;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=EQlcBdtV;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=129.46.98.28; helo=alexa-out.qualcomm.com;
- envelope-from=quic_jaehyoo@quicinc.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=Lb2y3VGF; dkim-atps=neutral
-X-Greylist: delayed 183 seconds by postgrey-1.36 at boromir;
- Fri, 20 May 2022 14:17:32 AEST
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L4D305Bnpz3bY6
- for <linux-aspeed@lists.ozlabs.org>; Fri, 20 May 2022 14:17:32 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1653020253; x=1684556253;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=mpK+5Hx8E5EzX5BcYE3G40gav/RFA+oMVosjHmtoQhQ=;
- b=Lb2y3VGFQGp7uFJtMb5CCxsOJlRj6J8Odhq/W2KJOqfB1XeOD117Z8Ae
- lsJATrAKZTQFhivxFXi365HNX4FtOhZ/3Nvy0pjXSpnAGRn8THNK881Ly
- 2BtupuEAorehaMlZvp7ZrOT7WhnjBvY84p1AuHGMglQDbA5BZON6LFVHu w=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 19 May 2022 21:13:26 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2022 21:13:26 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 19 May 2022 21:13:25 -0700
-Received: from [10.110.38.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 19 May
- 2022 21:13:23 -0700
-Message-ID: <b4fccd87-e579-05e6-c06c-209f2d4a3b15@quicinc.com>
-Date: Thu, 19 May 2022 21:13:22 -0700
+ smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::731;
+ helo=apc01-psa-obe.outbound.protection.outlook.com;
+ envelope-from=howard_chiu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
+ header.a=rsa-sha256 header.s=selector1 header.b=EQlcBdtV; 
+ dkim-atps=neutral
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on20731.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feae::731])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L4Fph6cwVz3bVR
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 20 May 2022 15:36:56 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JqoetcDrqaA8DcOCobYBjMFRzUwfzJorYaRzNR0BjpareTEHTq+qERx1w0By1/ickzhoBLEazY0+vxrllHGpCyMrfqCtHj/Td7keHPpEjx1WpDm3nQmBpKJQ52QruGhPajQCWttyds/VW9j22ng1yUIprs9NELuENvVMhAzjSZM2OHF9iU1HEL9m6p2EuFXtHQFXRw3IEfGxCvgA7yisNjPaJMCMdHBFlfg0IVKeAOmZhKWAwmhZfyLRYPQvcF+qWg4OPhDduy69cHp+CeCfvotZg/FEQqGhFWoMmwj1ambFIceElU3MMHG/JqhN0roN0X0a9iUFPdCUCdIJW6r2Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W7xve3vwPG+RJ2LaVQo0BDoiUS9js2ylHo9V6y7E66g=;
+ b=HO4a4MhVG76kBImM4rTzfNbCs5f9AUVAHQLGI6MgKBskmzEltFUEraM1b/yyzSzHBzudflDRpLwOtqvS4P2H28sqQU5F+ooLZnOwPbqzBQ9/z0qmZprdXB6uKIwQTpueg4ZU/TqmszB/qCBbU5qbg27W8lRSjn8F3/7Ayl/vtl/VDqiLdMntnKHJ77w9G21MOvwO4/N+wNxoW/HAoih3Dpzuczz27YRC5erXcVyd04aJ7u1do63XcHkK/3cOpy9ZhGhqDSTRIzBRYVVCfdH2lyg6NQulcFW7WHigsgmiPyeJw6vwkGo6zaZcBYWmz05Ja0mwxx/OFz6rKJZUYkn6BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W7xve3vwPG+RJ2LaVQo0BDoiUS9js2ylHo9V6y7E66g=;
+ b=EQlcBdtVL5/iDTFpxsF/DdjZsYAn6cLSG+UYNZuPsz1vFIKMbdBtRgJhRgRxQBsyOwOo1rzUIsuHaMOp2vr7qO7G03td20/CYQd8dBi84BV/aIy0M9C7GH14I8EOG3RcEa4waFTJsxOBlIZf3SZWqf1LMYH88evxycS73H6xo3OJSMZIRvwL7zWc1OSkzgcwsd7Z0YqZALcjIkyBZ4xeB0CgUOAnCgD5tQgKD7ksDV2JM7LJiIJhfqEPhsBJRYssvKaZ10AeU0qsVkZUmmboeZeQNocRcpct970sWuoR1fCQZYos3xdMhDJpQKfSl7Db09zIWfWoehzqPHyJXfZdRw==
+Received: from SG2PR06MB2315.apcprd06.prod.outlook.com (2603:1096:4:b::19) by
+ PU1PR06MB2102.apcprd06.prod.outlook.com (2603:1096:803:2e::15) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5250.16; Fri, 20 May 2022 05:36:34 +0000
+Received: from SG2PR06MB2315.apcprd06.prod.outlook.com
+ ([fe80::c5c2:d3e1:f0af:4a19]) by SG2PR06MB2315.apcprd06.prod.outlook.com
+ ([fe80::c5c2:d3e1:f0af:4a19%3]) with mapi id 15.20.5273.017; Fri, 20 May 2022
+ 05:36:34 +0000
+From: Howard Chiu <howard_chiu@aspeedtech.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Rob
+ Herring <robh+dt@kernel.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 3/3] ARM: dts: aspeed: ast2600-evb: Enable virtual hub
+Thread-Topic: [PATCH v5 3/3] ARM: dts: aspeed: ast2600-evb: Enable virtual hub
+Thread-Index: AdhsCy3aguiSF6kNReuM+C+wxWgLLQ==
+Date: Fri, 20 May 2022 05:36:34 +0000
+Message-ID: <SG2PR06MB23150BC7CBC564E04385C6D8E6D39@SG2PR06MB2315.apcprd06.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 718c41b0-9cda-4b5f-7a89-08da3a22b37e
+x-ms-traffictypediagnostic: PU1PR06MB2102:EE_
+x-microsoft-antispam-prvs: <PU1PR06MB21021284524DDD5A4144C47BE6D39@PU1PR06MB2102.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: d4uTO9a+/2ljWX/+lIRPQaNKp5k68IpTnTJnnvPbX+7v+JFlcl3DJd019Jtc/A7XUmQzU9WQRRYU+lsHv1tNK4s6ag8RlemHB2Y+zmvkol5C/AWztqYeG7wqVLTLaRoEOpblPm7Gj8uCjLf41sz+MoAQaPnSmR8gTsm7oPXs424KxXW069lp0or1q09hueJWx+xgn8PGtduvs1VOjxMzLegaNL3wKk9g3eEA01PV6sCxzyO7pVOeW4PQVl+aE+WaoYhnyN1j3x7L7NUTGpiW9KhAS0MhiHDuIY514BwNEN2eZuzcjBxFZx1ADBwkWOErmbmVhi0TTKe/h+Ifu9hdOFkYEXVn1IXBtZcbunROY5941cxcE2v48HiqB8jenfI+YOHb8nY7XVUK8pmAWOSf0LCVFfzqIQzOyxDRikall8iuIjwVu0rEoS0IAaigWrV15fu4mpwFH0PNDRg3COJEEwZWGscEFW1CAol29IRssdABjnNboEsDccof3WSdvoc+gZqq2H3HsJ1oAD84696ycnILKmDppX/NlnS7+c3WDNsQJzbLmV0JInYXGjHwbZpydGpSd3Qz11UkLSu0G/wpF/ASnwKo/Ts1v7p/uo1SujypN2lmcjOPwUSDv6BbXvPirIZJPCJft2YOILC24Xo6Iop2wocCpXTUkiMg1Gv4Uyz4mXk6emmva6tPB5cKgKFl+kblrqUGipHc46DIfwFD+Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR06MB2315.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(376002)(346002)(136003)(39850400004)(366004)(396003)(7696005)(76116006)(186003)(66556008)(26005)(83380400001)(9686003)(4744005)(71200400001)(38100700002)(66446008)(6506007)(316002)(107886003)(41300700001)(122000001)(8936002)(508600001)(4326008)(5660300002)(110136005)(55016003)(38070700005)(33656002)(2906002)(66476007)(66946007)(52536014)(64756008)(86362001)(8676002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?N4TBLceLkwC/y5w21ANqsmoN5bcCp54uOXoAjgDxG2hUy/MAxkv+J2L7ltwu?=
+ =?us-ascii?Q?T600Kl812gz41M5z6g/eEZRtlTkDlnQAiME+ax8w+ueiqJH1r7nxxiI66EG2?=
+ =?us-ascii?Q?HOFf/KbEBut3PQCrq7vlnDtOVaMDCwMiJ5TE/ec+t7kbJ1P2yuSJfL7yAVvs?=
+ =?us-ascii?Q?s69OhG+M8srr6C4QFs6OJxRmko7yrw+OzVPmMRMzKEGr+255+LSK/Y0fqqMz?=
+ =?us-ascii?Q?HOFuNafeOsrxYeWZap4Hc3CoRZtwVmzuNY8pk77hitQn+QdeamIEswjyH+zL?=
+ =?us-ascii?Q?aZKRPQ6Rb7DQap3o7C/nQ6ni2AdjfQ4S8E5qAai6p7D0uC/TmMrswNQ8yGhk?=
+ =?us-ascii?Q?mRCBQ9F79lgiMP5vOnk4R7dottBcfLte3GSDJYjJMmpreALhRtDCNgd6Vjib?=
+ =?us-ascii?Q?g2dxq9myyH28QsWFFqB/V3wQR/zF4dz3Q/gqBzSJ8ffOtvSi/s51a+1VIbXT?=
+ =?us-ascii?Q?PU9vgVQ7dVM8jdkQSxors6fyJTeL2JPaEbrJ834sNTgkEsTQKe+DJUGdMqwY?=
+ =?us-ascii?Q?EC0zAfCa8nWCvJ/snA6vD5PAaJZh98xpZcXFAewi58vPdprCOkwwgaEdaRmW?=
+ =?us-ascii?Q?+P0yA0ZmSoSf2WOjpgmLFqxYmuZfrf9Xk+EcAlMUp3NNe8PcBMlzx8k44Wf3?=
+ =?us-ascii?Q?mArSFWC2JQPb2bUwH0TdkpZcSj3LaybTmgHUsoOABYLMBYecSCYUsKeNBSWf?=
+ =?us-ascii?Q?dxSTrQskWFRjRThw/Nc21FIi2NVjHF8dMPbJZD/fnJsOO6OHNvoN8WJcUhlF?=
+ =?us-ascii?Q?cA7TtEZHOgg0fTxvGvlBem440p1f490IU/hfz/ri5kHKjRidhmwVrP6BEqIG?=
+ =?us-ascii?Q?jwNoQI47ZhKb+c3F89ap1JMGfselI1Hv+6H7d1+7/03Ei/in7PuAUV7tC9dj?=
+ =?us-ascii?Q?5OTxemRzs9J3190CLNOMmJYI4z+k/pldmSUgv2g1aX5mmaP7sQFJ6P3JdACB?=
+ =?us-ascii?Q?DH4zavY2pBwzhMTmzlZYaoshLzvp2WslZxIO61rsYgH5BM46W2Z37JdibRnS?=
+ =?us-ascii?Q?L9CtOXOAZRI8E8g4m+4eBeEMeCujOvvW2twQ78IXHx6Fe+7ClyF915mFrlje?=
+ =?us-ascii?Q?xHqBpENA4L7vrOUStRUr9TgWWkf3cqiEahWu/w9JubcZcYIgkXHf/9l2+g3U?=
+ =?us-ascii?Q?+tArT56egFVvnwYKHOU4O6cC6oiUfJClsJSyITlu0ymrtMFxDaT3j91tH8KQ?=
+ =?us-ascii?Q?P5vNxDHuGrWVhbMEUn6xOzG73r/nKgw70m7aY0A9rueKMJvmD+mjeR/caNVO?=
+ =?us-ascii?Q?2Re9ZZlJn4EwU/f8kl7lSzISDzQ1YYHDnrOx8cyiue4cosmyOR652EHK2KRs?=
+ =?us-ascii?Q?wojj/FGNDTrxVNjlIvXkdCUhcJ7Z55U+22mIwhcJyRaBysis9K5TjtCFvSPt?=
+ =?us-ascii?Q?yJTVzEOjJve2Fp7b5ajzRM7+nEnTGyhvKzOPddqrWjv5ekOpd9+qeSM5wuq2?=
+ =?us-ascii?Q?YsA3PulyKN+bgklNgpYPYN9J5t93lTd9/VRgCpQkwdjz79iYAlFbXHXLI+k9?=
+ =?us-ascii?Q?AHKl5Xy9M8/IjGexfIjzJ1eunjbV9dG74JUsIHflgitcqf0NpcT/R5pab3uo?=
+ =?us-ascii?Q?0w6QX6gfhcxdaROX7peMaIvCrWrlMv9IuhZYUy7/0G2omSuEItKV9wtjV4Xs?=
+ =?us-ascii?Q?DfR5k6IcjGLOBPrf/uNRlohhfr34ooz8K9SBa9PcKX9wz4S/9rpV2d33Xl5Y?=
+ =?us-ascii?Q?CuyR7IDtv9oRx4w+UUghpgQpRnCiqXPoXfOZmEFtUCP4Q6N/XSsgjNZdr6W3?=
+ =?us-ascii?Q?jXI1bVSSe+5ldaxbXox/ocNC2Pzi/tY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v4] ARM: dts: aspeed: add Qualcomm DC-SCM V1 BMC
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, "Rob
- Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Andrew Lunn <andrew@lunn.ch>, "Joel
- Stanley" <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-References: <20220519172838.61270-1-quic_jaehyoo@quicinc.com>
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-In-Reply-To: <20220519172838.61270-1-quic_jaehyoo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB2315.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 718c41b0-9cda-4b5f-7a89-08da3a22b37e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2022 05:36:34.0899 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NAvb/UI1vlXoEHOE8VDIuX1/ZQcEJyuGpwlvyplKH6Y0aQYsTbo8G0Fr6ybo+A7fB2+N3iM0acGqD3tDjfvyPRylsiZCZ/KBblAUdUhGuD8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1PR06MB2102
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,31 +136,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Graeme Gregory <quic_ggregory@quicinc.com>,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- Jamie Iles <quic_jiles@quicinc.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 5/19/2022 10:28 AM, Jae Hyun Yoo wrote:
-> From: Graeme Gregory <quic_ggregory@quicinc.com>
-> 
-> Add initial version of device tree for Qualcomm DC-SCM V1 BMC which is
-> equipped with Aspeed AST2600 BMC SoC.
-> 
-> Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
-> Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-> ---
-> Changes in v4:
-> * Changed vendor name from Nuvia to Qualcomm.
-> * Removed 'bootargs'. (Krzysztof Kozlowski)
+1. Disable EHCI0
+2. Enable Aspeed vHub for HID emulation
+3. Remove duplicated EHCI1
 
-Please ignore this v4 since v3 has been already merged via
+Tested with AST2600
+Signed-off-by: Howard Chiu <howard_chiu@aspeedtech.com>
+---
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-https://lore.kernel.org/all/CACPK8XfUmFxU8Y6C+aZ2+=dT7=fCfs2=2_aYqyRjoXCoeQaUWQ@mail.gmail.com/
+diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/a=
+speed-ast2600-evb.dts
+index 1db7aa0beea9..4452b6953c23 100644
+--- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
++++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+@@ -321,11 +321,7 @@ &sdhci1 {
+ 	clk-phase-sd-hs =3D <7>, <200>;
+ };
+=20
+-&ehci0 {
+-	status =3D "okay";
+-};
+-
+-&ehci1 {
++&vhub {
+ 	status =3D "okay";
+ };
+=20
+--=20
+2.25.1
 
-I'll send a follow up patch on top of that.
-
-Thanks,
-Jae
