@@ -1,37 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F323252F7C1
-	for <lists+linux-aspeed@lfdr.de>; Sat, 21 May 2022 04:54:52 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6485302B2
+	for <lists+linux-aspeed@lfdr.de>; Sun, 22 May 2022 13:39:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L4p965Hvbz3bly
-	for <lists+linux-aspeed@lfdr.de>; Sat, 21 May 2022 12:54:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L5dm323fMz2y7V
+	for <lists+linux-aspeed@lfdr.de>; Sun, 22 May 2022 21:39:31 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gRd6cnkR;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.crashing.org (client-ip=63.228.1.57;
- helo=gate.crashing.org; envelope-from=benh@kernel.crashing.org;
- receiver=<UNKNOWN>)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by lists.ozlabs.org (Postfix) with ESMTP id 4L4p904Kmgz2ywr
- for <linux-aspeed@lists.ozlabs.org>; Sat, 21 May 2022 12:54:43 +1000 (AEST)
-Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
- by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 24L2pLgB004438;
- Fri, 20 May 2022 21:51:22 -0500
-Message-ID: <5630dd68ca5f31dafce3f92489761294ea589b16.camel@kernel.crashing.org>
-Subject: Re: [PATCH net v3] net: ftgmac100: Disable hardware checksum on
- AST2600
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Joel Stanley <joel@jms.id.au>, Andrew Lunn <andrew@lunn.ch>, "David S .
- Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Andrew
- Jeffery <andrew@aj.id.au>
-Date: Sat, 21 May 2022 12:51:21 +1000
-In-Reply-To: <20220517092217.323060-1-joel@jms.id.au>
-References: <20220517092217.323060-1-joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org;
+ envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=gRd6cnkR; 
+ dkim-atps=neutral
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L5dly1gF1z301P
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 22 May 2022 21:39:26 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id EA424B80AFD;
+ Sun, 22 May 2022 11:39:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4A55C385AA;
+ Sun, 22 May 2022 11:39:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1653219560;
+ bh=R3cMWESMPtbduNLMaekRkB5cyJb+GEmehK1+zJSrB58=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=gRd6cnkRR7RnvyvMbZcf9kDtRG4wQIFgPK7fUE8YMQUW3nh7OKk/o5jwdlRonmbkd
+ f16WOfqGqxgpic5zeIAeDtVEnED8jIBwcccLrmCI91zrJlCZuh/BgMLFTXDpxQ4ueH
+ IkUbwDnUWsy3SPKpIMswF0nEv2iLJUfH68SlfFTy5pwdcMO0twrmDgLUuVoRerOuaL
+ 1T1H0H6weqBAGw4Vd0YQaVsmxMxsdD1WPUNKHRhgi5zQfVKkHzORlhY7OWpjkLhzF9
+ pS4WZGdyTutITsw3euRcqmKpkmEZBJffE7MMx3xWoD5cC8gRjEgDZYmBDIfca0nz8i
+ r9XeecNQrdxiw==
+Date: Sun, 22 May 2022 12:48:04 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Miaoqian Lin <linmq006@gmail.com>
+Subject: Re: [PATCH] iio: adc: aspeed: Fix refcount leak in
+ aspeed_adc_set_trim_data
+Message-ID: <20220522124804.7ec5940a@jic23-huawei>
+In-Reply-To: <20220516075206.34580-1-linmq006@gmail.com>
+References: <20220516075206.34580-1-linmq006@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -44,113 +64,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: netdev@vger.kernel.org, David Wilder <wilder@us.ibm.com>,
- linux-aspeed@lists.ozlabs.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ Colin Ian King <colin.king@intel.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 2022-05-17 at 18:52 +0930, Joel Stanley wrote:
-> The AST2600 when using the i210 NIC over NC-SI has been observed to
-> produce incorrect checksum results with specific MTU values. This was
-> first observed when sending data across a long distance set of
-> networks.
-> 
-> On a local network, the following test was performed using a 1MB file
-> of random data.
+On Mon, 16 May 2022 11:52:02 +0400
+Miaoqian Lin <linmq006@gmail.com> wrote:
 
-Can you double check with Aspeed what's going on there and whether
-there's a way to instead, identify the bad case in the TX path and do
-on-demand SW checksuming only in those cases ?
+> of_find_node_by_name() returns a node pointer with refcount
+> incremented, we should use of_node_put() on it when done.
+> Add missing of_node_put() to avoid refcount leak.
+> 
+> Fixes: d0a4c17b4073 ("iio: adc: aspeed: Get and set trimming data.")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 
-Because disabling HW checksum will kill performances afaik... (doesn't
-it also end up disabling zero-copy and SG ?)
+In the 'hopefully obviously correct' category so applied to the fixes
+togreg branch of iio.git and marked for stable.
 
-Cheers,
-Ben.
+Thanks,
 
-> On the receiver run this script:
-> 
->  #!/bin/bash
->  while [ 1 ]; do
->         # Zero the stats
->         nstat -r  > /dev/null
->         nc -l 9899 > test-file
->         # Check for checksum errors
->         TcpInCsumErrors=$(nstat | grep TcpInCsumErrors)
->         if [ -z "$TcpInCsumErrors" ]; then
->                 echo No TcpInCsumErrors
->         else
->                 echo TcpInCsumErrors = $TcpInCsumErrors
->         fi
->  done
-> 
-> On an AST2600 system:
-> 
->  # nc <IP of  receiver host> 9899 < test-file
-> 
-> The test was repeated with various MTU values:
-> 
->  # ip link set mtu 1410 dev eth0
-> 
-> The observed results:
-> 
->  1500 - good
->  1434 - bad
->  1400 - good
->  1410 - bad
->  1420 - good
-> 
-> The test was repeated after disabling tx checksumming:
-> 
->  # ethtool -K eth0 tx-checksumming off
-> 
-> And all MTU values tested resulted in transfers without error.
-> 
-> An issue with the driver cannot be ruled out, however there has been
-> no
-> bug discovered so far.
-> 
-> David has done the work to take the original bug report of slow data
-> transfer between long distance connections and triaged it down to
-> this
-> test case.
-> 
-> The vendor suspects this this is a hardware issue when using NC-SI.
-> The
-> fixes line refers to the patch that introduced AST2600 support.
-> 
-> Reported-by: David Wilder <wilder@us.ibm.com>
-> Reviewed-by: Dylan Hung <dylan_hung@aspeedtech.com>
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+Jonathan
+
 > ---
-> v3 modifies the wrapping of the commit message.
+>  drivers/iio/adc/aspeed_adc.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> v2 updates the commit message with confirmation from the vendor that
-> this is a hardware issue, and clarifies why the commit used in the
-> fixes
-> 
->  drivers/net/ethernet/faraday/ftgmac100.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
-> b/drivers/net/ethernet/faraday/ftgmac100.c
-> index caf48023f8ea..5231818943c6 100644
-> --- a/drivers/net/ethernet/faraday/ftgmac100.c
-> +++ b/drivers/net/ethernet/faraday/ftgmac100.c
-> @@ -1928,6 +1928,11 @@ static int ftgmac100_probe(struct
-> platform_device *pdev)
->  	/* AST2400  doesn't have working HW checksum generation */
->  	if (np && (of_device_is_compatible(np, "aspeed,ast2400-mac")))
->  		netdev->hw_features &= ~NETIF_F_HW_CSUM;
-> +
-> +	/* AST2600 tx checksum with NCSI is broken */
-> +	if (priv->use_ncsi && of_device_is_compatible(np,
-> "aspeed,ast2600-mac"))
-> +		netdev->hw_features &= ~NETIF_F_HW_CSUM;
-> +
->  	if (np && of_get_property(np, "no-hw-checksum", NULL))
->  		netdev->hw_features &= ~(NETIF_F_HW_CSUM |
-> NETIF_F_RXCSUM);
->  	netdev->features |= netdev->hw_features;
+> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
+> index 0793d2474cdc..9341e0e0eb55 100644
+> --- a/drivers/iio/adc/aspeed_adc.c
+> +++ b/drivers/iio/adc/aspeed_adc.c
+> @@ -186,6 +186,7 @@ static int aspeed_adc_set_trim_data(struct iio_dev *indio_dev)
+>  		return -EOPNOTSUPP;
+>  	}
+>  	scu = syscon_node_to_regmap(syscon);
+> +	of_node_put(syscon);
+>  	if (IS_ERR(scu)) {
+>  		dev_warn(data->dev, "Failed to get syscon regmap\n");
+>  		return -EOPNOTSUPP;
 
