@@ -1,68 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8376531562
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 May 2022 19:59:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9CC531E92
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 May 2022 00:26:23 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4L6Q8P3nlbz3dqj
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 May 2022 03:59:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4L6X3x1Cgnz3blK
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 May 2022 08:26:21 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=RwUi3UrC;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Z7yEJy/N;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=199.106.114.39;
- helo=alexa-out-sd-02.qualcomm.com; envelope-from=quic_jaehyoo@quicinc.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::434;
+ helo=mail-wr1-x434.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=RwUi3UrC; dkim-atps=neutral
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=Z7yEJy/N; dkim-atps=neutral
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4L6Q566njbz3bsg
- for <linux-aspeed@lists.ozlabs.org>; Tue, 24 May 2022 03:56:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1653328619; x=1684864619;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=mXVbIgERAy3ndTKUp7On5d88E3AS71EIW+x0hE4wKn8=;
- b=RwUi3UrCa354CnIJ8P3OlErm7gSTgaP6ypSQjhg2c5JAl/CTNvhbh2dU
- O7YNAhNzvy9FxO+KUjeewTjgJJxbx5aFYrZOR4YEGKBJSzQOYMa6cETBd
- TbDEUEY817VJeoCxtDj9YKM+lIZTR/o4i5RpIoqwOIbPMGYZi4e6tvuk0 k=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 23 May 2022 10:56:55 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 May 2022 10:56:54 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 23 May 2022 10:56:54 -0700
-Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 23 May
- 2022 10:56:52 -0700
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-To: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, "Rob
- Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>
-Subject: [PATCH -next] ARM: dts: aspeed: nuvia: rename vendor nuvia to qcom
-Date: Mon, 23 May 2022 10:56:40 -0700
-Message-ID: <20220523175640.60155-1-quic_jaehyoo@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4L6X3p0RYpz2ynL
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 24 May 2022 08:26:13 +1000 (AEST)
+Received: by mail-wr1-x434.google.com with SMTP id r23so23276290wrr.2
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 23 May 2022 15:26:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ueCq5+dTj6j2yPNYsasO+cBMPLIwNOMj1I6QU8gFRMg=;
+ b=Z7yEJy/N2gTlEQbAr5k2NwteV8l9KIjimZtAhoasUEzB9ppgypbhMkY0jGSmdKBT3I
+ z2Vlj49NHB7YcTKJmv1M0xCsZoMxHbKqZu4cjWF+24ZoXoRjTb8+j6RiD39XEegUfGA8
+ 9cY3W9Tdyv3UUwjkXeMpl1eCndMk/AKSldBsE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ueCq5+dTj6j2yPNYsasO+cBMPLIwNOMj1I6QU8gFRMg=;
+ b=hTaX9zujH0QGJjQH3BTh59We/KdW0iyTpAgmSPTU3vDceqHHm9sZOff7tT9D5iw9Lv
+ 8xWt3NGEkkq1tccgyG9IIDjGHMu5ZX9pMskAMAwH5KaQ27jv4ju6oCHf18pYuvKC3v6x
+ 2nkx1orkpasJG2SHXiyKtq0dbhuGAZel0Mcyv0kOxqWwNPU51+e3hq49urvKtVKiCJnk
+ ToxDteou/ja7n3tpNo2oLBvw71jn8ThOOTY561Mg4IO42U9HAUL5bDExTnA9xa4e4Qdf
+ 1ldKADggEwCqte6yqnzUBzSkLZsJDlydZUzxhKNELbd6iB/1leZPrGPwomJfNjXKZJMa
+ bCtg==
+X-Gm-Message-State: AOAM530GrvbjjVrsqcG8XNZegKB7cd2YxhfVhB318pEpaJUDq9HwSxjA
+ FjqlHQfg6CXaC1kYkTBrOvbX4O/xbGXZX0eJUvU=
+X-Google-Smtp-Source: ABdhPJzXPWHSihtrD6rjhJLffk6Kg48cDC7kXb+c+GvCBO+Gaz2Ij5Q+JUiK+Kcp4D36G0x093aCzEiTrPrYohUjiM8=
+X-Received: by 2002:adf:e18f:0:b0:20e:6352:211d with SMTP id
+ az15-20020adfe18f000000b0020e6352211dmr20641190wrb.606.1653344765206; Mon, 23
+ May 2022 15:26:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220517092217.323060-1-joel@jms.id.au>
+ <5630dd68ca5f31dafce3f92489761294ea589b16.camel@kernel.crashing.org>
+In-Reply-To: <5630dd68ca5f31dafce3f92489761294ea589b16.camel@kernel.crashing.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 23 May 2022 22:25:52 +0000
+Message-ID: <CACPK8Xd5BLiz1ePwzirtxLvSL8V8EGmJuxB0GmxyyqBRK9mSdQ@mail.gmail.com>
+Subject: Re: [PATCH net v3] net: ftgmac100: Disable hardware checksum on
+ AST2600
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,64 +73,132 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Jamie Iles <quic_jiles@quicinc.com>,
- Graeme Gregory <quic_ggregory@quicinc.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Networking <netdev@vger.kernel.org>, David Wilder <wilder@us.ibm.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Nuvia has been acquired by Qualcomm and the vendor name 'nuvia' will
-not be used anymore so rename aspeed-bmc-nuvia-dc-scm.dts to
-aspeed-bmc-qcom-dc-scm-v1.dts and change 'nuvia' to 'qcom' as its vendor
-name in the file.
+On Sat, 21 May 2022 at 02:53, Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
+>
+> On Tue, 2022-05-17 at 18:52 +0930, Joel Stanley wrote:
+> > The AST2600 when using the i210 NIC over NC-SI has been observed to
+> > produce incorrect checksum results with specific MTU values. This was
+> > first observed when sending data across a long distance set of
+> > networks.
+> >
+> > On a local network, the following test was performed using a 1MB file
+> > of random data.
+>
+> Can you double check with Aspeed what's going on there and whether
+> there's a way to instead, identify the bad case in the TX path and do
+> on-demand SW checksuming only in those cases ?
 
-Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
----
- arch/arm/boot/dts/Makefile                                    | 2 +-
- ...eed-bmc-nuvia-dc-scm.dts => aspeed-bmc-qcom-dc-scm-v1.dts} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename arch/arm/boot/dts/{aspeed-bmc-nuvia-dc-scm.dts => aspeed-bmc-qcom-dc-scm-v1.dts} (97%)
+Keep in mind this is only for the NC-SI case, where the link is
+limited to 100Mbit anyway.
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 03f5b3a15415..2a3c95387613 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1584,7 +1584,6 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-lenovo-hr630.dtb \
- 	aspeed-bmc-lenovo-hr855xg2.dtb \
- 	aspeed-bmc-microsoft-olympus.dtb \
--	aspeed-bmc-nuvia-dc-scm.dtb \
- 	aspeed-bmc-opp-lanyang.dtb \
- 	aspeed-bmc-opp-mihawk.dtb \
- 	aspeed-bmc-opp-mowgli.dtb \
-@@ -1597,6 +1596,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-opp-witherspoon.dtb \
- 	aspeed-bmc-opp-zaius.dtb \
- 	aspeed-bmc-portwell-neptune.dtb \
-+	aspeed-bmc-qcom-dc-scm-v1.dtb \
- 	aspeed-bmc-quanta-q71l.dtb \
- 	aspeed-bmc-quanta-s6q.dtb \
- 	aspeed-bmc-supermicro-x11spi.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts b/arch/arm/boot/dts/aspeed-bmc-qcom-dc-scm-v1.dts
-similarity index 97%
-rename from arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
-rename to arch/arm/boot/dts/aspeed-bmc-qcom-dc-scm-v1.dts
-index f4a97cfb0f23..259ef3f54c5c 100644
---- a/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-qcom-dc-scm-v1.dts
-@@ -6,8 +6,8 @@
- #include "aspeed-g6.dtsi"
- 
- / {
--	model = "Nuvia DC-SCM BMC";
--	compatible = "nuvia,dc-scm-bmc", "aspeed,ast2600";
-+	model = "Qualcomm DC-SCM V1 BMC";
-+	compatible = "qcom,dc-scm-v1-bmc", "aspeed,ast2600";
- 
- 	aliases {
- 		serial4 = &uart5;
--- 
-2.25.1
+I did some tests with the openbmc kernel; a v5.15 tree with whatever
+options we have enabled there.
 
+Averaging a few iperf3 runs I see about 92Mbit/s with hardware
+checksumming enabled, and 90Mbit/s with it disabled. So we can see the
+difference, and it would be good if Aspeed could find the root cause
+so this only needs to be disabled when hitting the problematic path as
+you say.
+
+> Because disabling HW checksum will kill performances afaik... (doesn't
+> it also end up disabling zero-copy and SG ?)
+
+Not sure?
+
+>
+> Cheers,
+> Ben.
+>
+> > On the receiver run this script:
+> >
+> >  #!/bin/bash
+> >  while [ 1 ]; do
+> >         # Zero the stats
+> >         nstat -r  > /dev/null
+> >         nc -l 9899 > test-file
+> >         # Check for checksum errors
+> >         TcpInCsumErrors=$(nstat | grep TcpInCsumErrors)
+> >         if [ -z "$TcpInCsumErrors" ]; then
+> >                 echo No TcpInCsumErrors
+> >         else
+> >                 echo TcpInCsumErrors = $TcpInCsumErrors
+> >         fi
+> >  done
+> >
+> > On an AST2600 system:
+> >
+> >  # nc <IP of  receiver host> 9899 < test-file
+> >
+> > The test was repeated with various MTU values:
+> >
+> >  # ip link set mtu 1410 dev eth0
+> >
+> > The observed results:
+> >
+> >  1500 - good
+> >  1434 - bad
+> >  1400 - good
+> >  1410 - bad
+> >  1420 - good
+> >
+> > The test was repeated after disabling tx checksumming:
+> >
+> >  # ethtool -K eth0 tx-checksumming off
+> >
+> > And all MTU values tested resulted in transfers without error.
+> >
+> > An issue with the driver cannot be ruled out, however there has been
+> > no
+> > bug discovered so far.
+> >
+> > David has done the work to take the original bug report of slow data
+> > transfer between long distance connections and triaged it down to
+> > this
+> > test case.
+> >
+> > The vendor suspects this this is a hardware issue when using NC-SI.
+> > The
+> > fixes line refers to the patch that introduced AST2600 support.
+> >
+> > Reported-by: David Wilder <wilder@us.ibm.com>
+> > Reviewed-by: Dylan Hung <dylan_hung@aspeedtech.com>
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> > v3 modifies the wrapping of the commit message.
+> >
+> > v2 updates the commit message with confirmation from the vendor that
+> > this is a hardware issue, and clarifies why the commit used in the
+> > fixes
+> >
+> >  drivers/net/ethernet/faraday/ftgmac100.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
+> > b/drivers/net/ethernet/faraday/ftgmac100.c
+> > index caf48023f8ea..5231818943c6 100644
+> > --- a/drivers/net/ethernet/faraday/ftgmac100.c
+> > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
+> > @@ -1928,6 +1928,11 @@ static int ftgmac100_probe(struct
+> > platform_device *pdev)
+> >       /* AST2400  doesn't have working HW checksum generation */
+> >       if (np && (of_device_is_compatible(np, "aspeed,ast2400-mac")))
+> >               netdev->hw_features &= ~NETIF_F_HW_CSUM;
+> > +
+> > +     /* AST2600 tx checksum with NCSI is broken */
+> > +     if (priv->use_ncsi && of_device_is_compatible(np,
+> > "aspeed,ast2600-mac"))
+> > +             netdev->hw_features &= ~NETIF_F_HW_CSUM;
+> > +
+> >       if (np && of_get_property(np, "no-hw-checksum", NULL))
+> >               netdev->hw_features &= ~(NETIF_F_HW_CSUM |
+> > NETIF_F_RXCSUM);
+> >       netdev->features |= netdev->hw_features;
+>
