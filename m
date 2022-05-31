@@ -1,67 +1,102 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960EF537A1F
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 May 2022 13:43:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 354AE53E126
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Jun 2022 08:52:06 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LBYTN4hYVz3blK
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 May 2022 21:43:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LGkgS003Hz3blF
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Jun 2022 16:52:03 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=AKkizI5v;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=HIzsttLL;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=HIzsttLL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102c; helo=mail-pj1-x102c.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=pabeni@redhat.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=AKkizI5v;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=HIzsttLL;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=HIzsttLL;
 	dkim-atps=neutral
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LBYTF1yP5z30DC;
-	Mon, 30 May 2022 21:43:43 +1000 (AEST)
-Received: by mail-pj1-x102c.google.com with SMTP id qe11-20020a17090b4f8b00b001e3239b681bso308731pjb.0;
-        Mon, 30 May 2022 04:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=1BvAlV75hXlmEW6H7NZj8m2+emc7pNPWivCpEN7QdQQ=;
-        b=AKkizI5vxdL5uQcfmsXWVkWdXI8Pq9JhYnyFP0MGpMimsx6reIaVisnHQEXGR52xZY
-         wxcGjJUMBWEq9eU3gQCY9ZNIey6s8Xd+jt09aZwkWby8RrmpXEC3olVVASmhX7omnVVq
-         f9OXP5KNAL5TxNuAhyUwDs12Cr+pMSULGKNyEe/pvJoAeLqw2rbAVFV5b8IIBNaoaX8q
-         yHlK9CB/JoHkSgMvc0+BF9zg2QRbGlDIqm2qGYVo4DmMDHAE8XLGNzvQFBeab+ux4gxo
-         X7OcuLR3x+woErt+qDtGgD+/CG2m3vkFsd8jc9O9WMvm/qzqtlGr2UYZr9a84t5CAyPl
-         xn/w==
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LC4xT06JRz2ynh
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 31 May 2022 18:21:31 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1653985288;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I2fPIOlCOM3E2ayUp2iBt+EP7fcwTmAstFfusjqDQsU=;
+	b=HIzsttLL1cqIPRTOYpfyEj7Tair5lPfy2WDn2+PpWZ9GfPDNsgJOp2mhpQJXSab5UNi3kG
+	K/jDbNLhp29hJ3V3JSEh9xjrJgtWJQddhzcfYBlbZS+yS6seLSlD0TVQqnYcFDqqdnd2cL
+	E1cT2giCdviURuPxpohz5nvLRmQy8G8=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1653985288;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I2fPIOlCOM3E2ayUp2iBt+EP7fcwTmAstFfusjqDQsU=;
+	b=HIzsttLL1cqIPRTOYpfyEj7Tair5lPfy2WDn2+PpWZ9GfPDNsgJOp2mhpQJXSab5UNi3kG
+	K/jDbNLhp29hJ3V3JSEh9xjrJgtWJQddhzcfYBlbZS+yS6seLSlD0TVQqnYcFDqqdnd2cL
+	E1cT2giCdviURuPxpohz5nvLRmQy8G8=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-562-8vePQYEmMH2m8SW3yThXPw-1; Tue, 31 May 2022 04:21:26 -0400
+X-MC-Unique: 8vePQYEmMH2m8SW3yThXPw-1
+Received: by mail-qv1-f72.google.com with SMTP id eb5-20020ad44e45000000b0046447caa7a0so3923722qvb.16
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 31 May 2022 01:21:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=1BvAlV75hXlmEW6H7NZj8m2+emc7pNPWivCpEN7QdQQ=;
-        b=rrP4uZPySccynQJO/lyE4mNlvWWRqv65tEsohAW8tY0KJ5+lMJ8pt3hTiUi+pj/TiT
-         Lh8zdZ/CglIl2FIYdsvRah24LpwvV7SYuIB/vApYV95829HMGMpmojlYxl60y90SVt9o
-         E44H08ke3YaJJByLNCaaHh/+qM8fpeQaGrNK+82zQFDYR3geQBC/ZL50Fim5SrJULwtQ
-         dKxxdvdJJ42dJs0ibW1lC+5cBgKXqDW978uOx6TtfMznWQix+UwD1sQ5x1VhwusJbajT
-         iJjdIumFoUj7xlT6Fm8J5as0DniFcBQue1Gtqbe6uGupOA3pqZhKu1Z/GOhP7kWsCfSr
-         Tp5A==
-X-Gm-Message-State: AOAM532v1T090c+vX4T+nxg6OK24NhhYaTeowkbPO0O75NtH2wZIX2QS
-	RCwFz9pvia51QvbdDv5k3js=
-X-Google-Smtp-Source: ABdhPJyBjD7ZjB9mqxCcZxSrR5aW0PfM7hAyksDSD984OOLHfR+h/OvSF/fOXgX4vDfty6M+7PqF0A==
-X-Received: by 2002:a17:902:8ecc:b0:15e:f63f:233f with SMTP id x12-20020a1709028ecc00b0015ef63f233fmr55548885plo.86.1653911020277;
-        Mon, 30 May 2022 04:43:40 -0700 (PDT)
-Received: from potin-quanta.dhcpserver.local (125-228-123-29.hinet-ip.hinet.net. [125.228.123.29])
-        by smtp.gmail.com with ESMTPSA id c10-20020a170902c2ca00b0015e8d4eb207sm8865069pla.81.2022.05.30.04.43.36
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=I2fPIOlCOM3E2ayUp2iBt+EP7fcwTmAstFfusjqDQsU=;
+        b=f3dcSMu4MU2oxhzEk2NFRNRIRg55gIHmX8EyAW1DDFD9uL8PtvNHmQky+KWOvKLaoN
+         IDfufWlRrCyfJNhoHnB9xdbcrv1kDq6isTE7MQy8H0fOIq6zn4KTrmAdgDHp6TjZYvIv
+         Ar361PR6k3ZIglt9v8ruqcrn6OzlXxX3hYdmcYnGHDdFa5FpagWGl3Np0+8ER7i+nO8L
+         wRKWEpkcUkVNoUeTGZ7AvCCQtVeakvtrC9YK3eSuWq7zymbYtLDfSqmtTK8uGAcghvXL
+         cGj/7UrNs/KuUc1D4PKPSfl81mpfHmTa/KFI20B62O525W/G9fR+AZXeu4/6rW2q6/V+
+         pXPw==
+X-Gm-Message-State: AOAM5312wj/QOgi9NxNydq76ChwFWon4tbx+jO+TOYZbcQBRyn9UqqI7
+	7WVk/od8O4J3KiWYuysGGqQVO1mLrF2wvl99GNvK7e/U1M5ys3ZMuB5C8gTJLcCKbbCwOwD6G60
+	7sq0i6jvyQIWNDE3i1iErjzU3aA==
+X-Received: by 2002:a05:620a:48:b0:6a3:5595:9d1c with SMTP id t8-20020a05620a004800b006a355959d1cmr34608322qkt.246.1653985286349;
+        Tue, 31 May 2022 01:21:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy5Elviq8wkR7QEM12lazPriRbiYCkorY6f8q5VZxEiIzIY4yeGkiflwejzp+2iiEkHKHnqCQ==
+X-Received: by 2002:a05:620a:48:b0:6a3:5595:9d1c with SMTP id t8-20020a05620a004800b006a355959d1cmr34608311qkt.246.1653985286083;
+        Tue, 31 May 2022 01:21:26 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-112-184.dyn.eolo.it. [146.241.112.184])
+        by smtp.gmail.com with ESMTPSA id p20-20020ac84614000000b00301729af618sm4758636qtn.97.2022.05.31.01.21.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 May 2022 04:43:39 -0700 (PDT)
-From: Potin Lai <potin.lai.pt@gmail.com>
-To: Brendan Higgins <brendanhiggins@google.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH 1/1] aspeed: i2c: add manual clock setup feature
-Date: Mon, 30 May 2022 19:40:56 +0800
-Message-Id: <20220530114056.8722-1-potin.lai.pt@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 31 May 2022 01:21:25 -0700 (PDT)
+Message-ID: <48cb78ebd38dfe4ac05e337d5fb38623b7ee0e8f.camel@redhat.com>
+Subject: Re: [PATCH 1/2] net/ncsi: use proper "mellanox" DT vendor prefix
+From: Paolo Abeni <pabeni@redhat.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Joel Stanley <joel@jms.id.au>, Andrew
+ Jeffery <andrew@aj.id.au>, Samuel Mendoza-Jonas <sam@mendozajonas.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org
+Date: Tue, 31 May 2022 10:21:19 +0200
+In-Reply-To: <20220529111017.181766-1-krzysztof.kozlowski@linaro.org>
+References: <20220529111017.181766-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pabeni@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 06 Jun 2022 16:52:00 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,97 +108,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Porin Lai <potin.lai.pt@gmail.com>, Patrick Williams <patrick@stwcx.xyz>, linux-i2c@vger.kernel.org, Porin Lai <potin.lai@quantatw.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Porin Lai <potin.lai.pt@gmail.com>
+Hello,
 
-Add properties for manual tuning i2c clock timing register.
+On Sun, 2022-05-29 at 13:10 +0200, Krzysztof Kozlowski wrote:
+> "mlx" Devicetree vendor prefix is not documented and instead "mellanox"
+> should be used.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  net/ncsi/ncsi-manage.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/net/ncsi/ncsi-manage.c b/net/ncsi/ncsi-manage.c
+> index 78814417d753..80713febfac6 100644
+> --- a/net/ncsi/ncsi-manage.c
+> +++ b/net/ncsi/ncsi-manage.c
+> @@ -1803,7 +1803,8 @@ struct ncsi_dev *ncsi_register_dev(struct net_device *dev,
+>  	pdev = to_platform_device(dev->dev.parent);
+>  	if (pdev) {
+>  		np = pdev->dev.of_node;
+> -		if (np && of_get_property(np, "mlx,multi-host", NULL))
+> +		if (np && (of_get_property(np, "mellanox,multi-host", NULL) ||
+> +			   of_get_property(np, "mlx,multi-host", NULL)))
+>  			ndp->mlx_multi_host = true;
+>  	}
+> 
 
-* aspeed,i2c-manual-clk: Enable aspeed i2c clock manual setup
-* aspeed,i2c-base-clk-div: Base Clock divisor (tBaseClk)
-* aspeed,i2c-clk-high-cycle: Cycles of clock-high pulse (tClkHigh)
-* aspeed,i2c-clk-low-cycle: Cycles of clock-low pulse (tClkLow)
+I can't guess which tree are you targeting, devicetree? net-next? could
+you please specify?
 
-Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
----
- drivers/i2c/busses/i2c-aspeed.c | 55 ++++++++++++++++++++++++++++++++-
- 1 file changed, 54 insertions(+), 1 deletion(-)
+thanks!
 
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 67e8b97c0c95..1f4b5c4b5bf4 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -898,6 +898,56 @@ static int aspeed_i2c_init_clk(struct aspeed_i2c_bus *bus)
- 	return 0;
- }
- 
-+/* precondition: bus.lock has been acquired. */
-+static int aspeed_i2c_manual_clk_setup(struct aspeed_i2c_bus *bus)
-+{
-+	u32 divisor, clk_high, clk_low, clk_reg_val;
-+
-+	if (device_property_read_u32(bus->dev, "aspeed,i2c-base-clk-div",
-+				     &divisor) != 0) {
-+		dev_err(bus->dev, "Could not read aspeed,i2c-base-clk-div\n");
-+		return -EINVAL;
-+	} else if (divisor > ASPEED_I2CD_TIME_BASE_DIVISOR_MASK) {
-+		dev_err(bus->dev, "Invalid aspeed,i2c-base-clk-div: %u\n",
-+			divisor);
-+		return -EINVAL;
-+	}
-+
-+	if (device_property_read_u32(bus->dev, "aspeed,i2c-clk-high-cycle",
-+				     &clk_high) != 0) {
-+		dev_err(bus->dev, "Could not read aspeed,i2c-clk-high-cycle\n");
-+		return -EINVAL;
-+	} else if (clk_high > ASPEED_I2CD_TIME_SCL_REG_MAX) {
-+		dev_err(bus->dev, "Invalid aspeed,i2c-clk-high-cycle: %u\n",
-+			clk_high);
-+		return -EINVAL;
-+	}
-+
-+	if (device_property_read_u32(bus->dev, "aspeed,i2c-clk-low-cycle",
-+				     &clk_low) != 0) {
-+		dev_err(bus->dev, "Could not read aspeed,i2c-clk-low-cycle\n");
-+		return -EINVAL;
-+	} else if (clk_low > ASPEED_I2CD_TIME_SCL_REG_MAX) {
-+		dev_err(bus->dev, "Invalid aspeed,i2c-clk-low-cycle: %u\n",
-+			clk_low);
-+		return -EINVAL;
-+	}
-+
-+	clk_reg_val = readl(bus->base + ASPEED_I2C_AC_TIMING_REG1);
-+	clk_reg_val &= (ASPEED_I2CD_TIME_TBUF_MASK |
-+			ASPEED_I2CD_TIME_THDSTA_MASK |
-+			ASPEED_I2CD_TIME_TACST_MASK);
-+	clk_reg_val |= (divisor & ASPEED_I2CD_TIME_BASE_DIVISOR_MASK)
-+			| ((clk_high << ASPEED_I2CD_TIME_SCL_HIGH_SHIFT)
-+			   & ASPEED_I2CD_TIME_SCL_HIGH_MASK)
-+			| ((clk_low << ASPEED_I2CD_TIME_SCL_LOW_SHIFT)
-+			   & ASPEED_I2CD_TIME_SCL_LOW_MASK);
-+	writel(clk_reg_val, bus->base + ASPEED_I2C_AC_TIMING_REG1);
-+	writel(ASPEED_NO_TIMEOUT_CTRL, bus->base + ASPEED_I2C_AC_TIMING_REG2);
-+
-+	return 0;
-+}
-+
- /* precondition: bus.lock has been acquired. */
- static int aspeed_i2c_init(struct aspeed_i2c_bus *bus,
- 			     struct platform_device *pdev)
-@@ -908,7 +958,10 @@ static int aspeed_i2c_init(struct aspeed_i2c_bus *bus,
- 	/* Disable everything. */
- 	writel(0, bus->base + ASPEED_I2C_FUN_CTRL_REG);
- 
--	ret = aspeed_i2c_init_clk(bus);
-+	if (of_property_read_bool(pdev->dev.of_node, "aspeed,i2c-manual-clk"))
-+		ret = aspeed_i2c_manual_clk_setup(bus);
-+	else
-+		ret = aspeed_i2c_init_clk(bus);
- 	if (ret < 0)
- 		return ret;
- 
--- 
-2.17.1
+Paolo
 
