@@ -1,70 +1,86 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A8F538DD5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 31 May 2022 11:36:49 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D79BB5391FB
+	for <lists+linux-aspeed@lfdr.de>; Tue, 31 May 2022 15:47:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LC6cH0vVZz3bkD
-	for <lists+linux-aspeed@lfdr.de>; Tue, 31 May 2022 19:36:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LCD9X4vxNz3blg
+	for <lists+linux-aspeed@lfdr.de>; Tue, 31 May 2022 23:47:28 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=bUd/ibq+;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm2 header.b=N52hijfp;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=y0LexLUk;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::229; helo=mail-oi1-x229.google.com; envelope-from=yulei.sh@bytedance.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=stwcx.xyz (client-ip=64.147.123.24; helo=wout1-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=bUd/ibq+;
+	dkim=pass (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm2 header.b=N52hijfp;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=y0LexLUk;
 	dkim-atps=neutral
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LC6bQ413Pz30QW
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 31 May 2022 19:36:01 +1000 (AEST)
-Received: by mail-oi1-x229.google.com with SMTP id s188so16771849oie.4
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 31 May 2022 02:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rNIUiIBXyDGvzHE+zEymfz2BuuwWa1afkL1Ck+gh5so=;
-        b=bUd/ibq+bmZUSmRa/qTzHSW6UPiz5wLoLGk3kS74svogQoGRP9EnEwUMFZQQx2Dtr4
-         6xZ/PXALBWBE7Wq3nYGo/doZcb2ASNxDtz1uDwfoYA0moFl/6d0BEl7f8UFyYp82szmJ
-         tzjFCMtOy9B3Rt6P+xaaL/FOThNkMjon01ZTazOeHw1qZv53Wq6+te8b84bErXZZXuCP
-         Z44t7iicNlvEnxEMmAuizTvVk4+Wkwx7V/CxgXq4JcoPrvb9VZqiz4m4A8ZMA8StTTQU
-         mgF5dVb7OTGEY6sHO00KEz99z7YFaEajC0N+NvcrIAa1KJsnXTA7wRU4bvzj08sYVcMQ
-         JibA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rNIUiIBXyDGvzHE+zEymfz2BuuwWa1afkL1Ck+gh5so=;
-        b=vyo5D5nbkzFZ6NXRDZozhuU7DeZLSj9gK8erI45vrqnQx4QZFIn9xCKd2Fno4zgMeA
-         4cbadkOLHcUESiYe21nVw4vHrpJfiJwuLH7jIn6tuQfoydIffBHuFcdxy7pcQEvxyJs9
-         29LMvYBpsPzNCOluYA6Y/LRg71Y8VGTQ8g9SGhHf0R61Zo1iPCgjFrYl987kB4n/j86u
-         BWR/FY2vBmuOdfO7DofxCulkpUOkdt0xfpOe+evDtKwCVOgKd1e9HbLYr5MC61KwCD3/
-         2KXNIqmlmmNOhRa3IXrdGqbzy19MM7T/4GUFZYc5AIxVoTMhSTTfkNDY96VUYkrpK72y
-         5skA==
-X-Gm-Message-State: AOAM5320wpdy/5xlqrBRjtTmzEXEU27EiHEzTTogn9UEngWk2KYBpTXH
-	EQSJZ54fWimNIW1ElWuVZQ9lk8HN7q9fZtpweNyDbQ==
-X-Google-Smtp-Source: ABdhPJxBNxkVY3rd7hL5fhkw0+H4Wgohxf2NOuEGwfG7qs2dWKUzMdr6nRKwgndZs0sFXNaAopWhP5rfACegYpbKokM=
-X-Received: by 2002:aca:ac93:0:b0:32a:e3b6:7c52 with SMTP id
- v141-20020acaac93000000b0032ae3b67c52mr11585107oie.294.1653989757860; Tue, 31
- May 2022 02:35:57 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LCD9R4sxdz2yj3;
+	Tue, 31 May 2022 23:47:23 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id DEBE03200035;
+	Tue, 31 May 2022 09:47:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 31 May 2022 09:47:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1654004840; x=1654091240; bh=s8b8COO5Yb
+	Ga8xG5/i9yEEf+vE3uG78vIzviBYnAo1M=; b=N52hijfpV1UMRrhHBEsjZlBlof
+	doLJ+cEEVuVC54JKFV3kw7tnE9v3C8cO1Wt+0t7wRVY1tYWZpyfKd8Caxr5vd6ec
+	JpFTyqF8PYyiHrFnfJvcHYDB/Arzr9AFkaYy7gQsyrRi/0JT0GgCnlWydd9IagYJ
+	qrwoFtG4Rm43CY2v6G39mNz/KfRzpFnhSKDPu9GSp2Cu54I8M/+3Pi14pUmePLi2
+	wqN1CQuVTcplyDzrlS+tHZSS+oLdcpeOf6ABVntZE4MIA3WaQsJ75bJ58qlJT6Gw
+	nHLBBoPweRyZA1ZCMiTq/jQJKl5v3vIGAQfAKW6U1wfCaNzGW/BAp3v8QEKw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1654004840; x=1654091240; bh=s8b8COO5YbGa8xG5/i9yEEf+vE3u
+	G78vIzviBYnAo1M=; b=y0LexLUkBrU37DxqXCaEEErb5ht+9N5MV5M4VfIMEV1b
+	I+fn/jYy1h8qDjqRVfLUtTwm0pdnggWsfDmoww8Z5iU8+a+zPxlWdoNF/qTr6Y4w
+	kYTr9b9GRJPJJfUuGeZ2FXDYhVPDsjtk9EY/Sa2YW+rjxcxON/PCMWkzcfTBK0zv
+	NEyh4SKPZ3HWFlXmOu27SQdsIq/8HbZj8s3WkrcFf4O5K9PrjhczF9uSRtNlNfeQ
+	u9A09CvdAO23kFYDtwDpZ0JxhfUn/f5GHGXa2O7+UT2JivzRGYakabBIo6XdMZPZ
+	WBm1R0x2d2dAyQhnAy0KMueo7qoqdj9/ElTDgQJK6g==
+X-ME-Sender: <xms:ZxyWYmY8Qh1VZxpOy26rSI2cJxMVFaaxDaDlTTfCq6BxWkJJ0jukZA>
+    <xme:ZxyWYpZ3dWFBaiLd2xZBIXKgecGLJ-H5cSyk7vEcGcWABmRRgCxF6AXjkvhGBVkLr
+    2zUgcJB1vuYGzdX4Dc>
+X-ME-Received: <xmr:ZxyWYg8HHVL_n7RN5p0Vsi9JIzojqpAiBWubSVwHfH5RtKdv_H_zv7zsXOL_B7kcmJL5I4rdliXbvw8y6ffqftWqpFBUkVOz0Kg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeekgdeijecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculddvfedmnecujfgurhepfffhvfevuffkfhggtggujgesghdtreertddt
+    vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
+    htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepheefjeehfedtjeeivdefkeffheel
+    udekudelleffkefgtdeludelvddtgedtheeknecuvehluhhsthgvrhfuihiivgepudenuc
+    frrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
+X-ME-Proxy: <xmx:ZxyWYornatPqLkQdmOBuIYSOEMpvBA4BGe1zPcfwo3qlrNwfG1Y39Q>
+    <xmx:ZxyWYhpWBmzgnbEuaJZPfpxWtYftXt53l8cIHN-o0kau3LP1fT7vHw>
+    <xmx:ZxyWYmSh7ByBNWghoeSCPk78S7TKf4VbwA9KxFTJkl3sN6BegI1D6g>
+    <xmx:aByWYs3-kEv5BUqz_2o6XvkhLxXOEw6c1y-I_r7zMBTjXMGt6UyHbQ>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 31 May 2022 09:47:19 -0400 (EDT)
+Date: Tue, 31 May 2022 08:47:18 -0500
+From: Patrick Williams <patrick@stwcx.xyz>
+To: Potin Lai <potin.lai.pt@gmail.com>
+Subject: Re: [PATCH 1/1] aspeed: i2c: add manual clock setup feature
+Message-ID: <YpYcZn+Zsz3g7xl+@heinlein.stwcx.org.github.beta.tailscale.net>
+References: <20220530114056.8722-1-potin.lai.pt@gmail.com>
 MIME-Version: 1.0
-References: <20220109132613.122912-1-guoheyi@linux.alibaba.com>
- <ad5e5438-4a3f-2447-4af3-7caa91e7252a@linux.alibaba.com> <CACPK8XcYp9iAD3fjBQCax41C-1UpA+1AQW3epyEooYzNLt7R5g@mail.gmail.com>
- <e62fba0b-ebb9-934a-d7cf-6da33ecc4335@linux.alibaba.com> <CACPK8Xc+v132vM-ytdAUFhywFXGpPF+uPSBWi68ROf_PLD4VQQ@mail.gmail.com>
- <0f5cd773-2d0a-b782-b967-ecbcec3de7b1@linux.alibaba.com>
-In-Reply-To: <0f5cd773-2d0a-b782-b967-ecbcec3de7b1@linux.alibaba.com>
-From: Lei Yu <yulei.sh@bytedance.com>
-Date: Tue, 31 May 2022 17:35:47 +0800
-Message-ID: <CAGm54UFUxNpwKjQyQnqtbys_nfgx2KcEEJt3-0nJWYjyjM9pvw@mail.gmail.com>
-Subject: Re: [PATCH] drivers/i2c-aspeed: avoid invalid memory reference after timeout
-To: Heyi Guo <guoheyi@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="K2Ju2BjYugMc6h9r"
+Content-Disposition: inline
+In-Reply-To: <20220530114056.8722-1-potin.lai.pt@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,170 +92,136 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Brendan Higgins <brendanhiggins@google.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Linux ARM <linux-arm-kernel@lists.infradead.org>, "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, Porin Lai <potin.lai@quantatw.com>, Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-I hit a similar problem that has a slightly different backtrace on a
-malfunctioning device.
-https://pastebin.com/TiWdkdrG
 
-With this patch, the kernel panic is gone and it gets below logs instead:
+--K2Ju2BjYugMc6h9r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- aspeed-i2c-bus 1e78a180.i2c-bus: bus in unknown state. irq_status: 0x1
- aspeed-i2c-bus 1e78a180.i2c-bus: irq handled !=3D irq. expected
-0x00000001, but was 0x00000000
- aspeed-i2c-bus 1e78a180.i2c-bus: bus in unknown state. irq_status: 0x10
- aspeed-i2c-bus 1e78a180.i2c-bus: irq handled !=3D irq. expected
-0x00000010, but was 0x00000000
+On Mon, May 30, 2022 at 07:40:56PM +0800, Potin Lai wrote:
+> From: Porin Lai <potin.lai.pt@gmail.com>
+>=20
+> Add properties for manual tuning i2c clock timing register.
+>=20
+> * aspeed,i2c-manual-clk: Enable aspeed i2c clock manual setup
+> * aspeed,i2c-base-clk-div: Base Clock divisor (tBaseClk)
+> * aspeed,i2c-clk-high-cycle: Cycles of clock-high pulse (tClkHigh)
+> * aspeed,i2c-clk-low-cycle: Cycles of clock-low pulse (tClkLow)
 
-So I think this patch is good in that it prevents the kernel panic.
+Do we need to add these to
+Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml ?
 
-On Wed, Jan 19, 2022 at 11:00 AM Heyi Guo <guoheyi@linux.alibaba.com> wrote=
-:
->
->
-> =E5=9C=A8 2022/1/17 =E4=B8=8B=E5=8D=882:38, Joel Stanley =E5=86=99=E9=81=
-=93:
-> > On Fri, 14 Jan 2022 at 14:01, Heyi Guo <guoheyi@linux.alibaba.com> wrot=
-e:
-> >> Hi Joel,
-> >>
-> >>
-> >> =E5=9C=A8 2022/1/11 =E4=B8=8B=E5=8D=886:51, Joel Stanley =E5=86=99=E9=
-=81=93:
-> >>> On Tue, 11 Jan 2022 at 07:52, Heyi Guo <guoheyi@linux.alibaba.com> wr=
-ote:
-> >>>> Hi all,
-> >>>>
-> >>>> Any comments?
-> >>>>
-> >>>> Thanks,
-> >>>>
-> >>>> Heyi
-> >>>>
-> >>>> =E5=9C=A8 2022/1/9 =E4=B8=8B=E5=8D=889:26, Heyi Guo =E5=86=99=E9=81=
-=93:
-> >>>>> The memory will be freed by the caller if transfer timeout occurs,
-> >>>>> then it would trigger kernel panic if the peer device responds with
-> >>>>> something after timeout and triggers the interrupt handler of aspee=
-d
-> >>>>> i2c driver.
-> >>>>>
-> >>>>> Set the msgs pointer to NULL to avoid invalid memory reference afte=
-r
-> >>>>> timeout to fix this potential kernel panic.
-> >>> Thanks for the patch. How did you discover this issue? Do you have a
-> >>> test I can run to reproduce the crash?
-> >> We are using one i2c channel to communicate with another MCU by
-> >> implementing user space SSIF protocol, and the MCU may not respond in
-> >> time if it is busy. If it responds after timeout occurs, it will trigg=
-er
-> >> below kernel panic:
-> >>
-> > Thanks for the details. It looks like you've done some testing of
-> > this, which is good.
-> >
-> >> After applying this patch, we'll get below warning instead:
-> >>
-> >> "bus in unknown state. irq_status: 0x%x\n"
-> > Given we get to here in the irq handler, we've done these two tests:
-> >
-> >   - aspeed_i2c_is_irq_error()
-> >   - the state is not INACTIVE or PENDING
-> >
-> > but there's no buffer ready for us to use. So what has triggered the
-> > IRQ in this case? Do you have a record of the irq status bits?
-> >
-> > I am wondering if the driver should know that the transaction has
-> > timed out, instead of detecting this unknown state.
->
-> Yes, some drivers will try to abort the transaction before returning to
-> the caller, if timeout happens.
->
-> The irq status bits are not always the same; searching from the history
-> logs, I found some messages like below:
->
-> [  495.289499] aspeed-i2c-bus 1e78a680.i2c-bus: bus in unknown state.
-> irq_status: 0x2
-> [  495.298003] aspeed-i2c-bus 1e78a680.i2c-bus: bus in unknown state.
-> irq_status: 0x10
->
-> [   65.176761] aspeed-i2c-bus 1e78a680.i2c-bus: bus in unknown state.
-> irq_status: 0x15
->
-> Thanks,
->
-> Heyi
->
-> >
-> >
-> >>> Can you provide a Fixes tag?
-> >> I think the bug was introduced by the first commit of this file :(
-> >>
-> >> f327c686d3ba44eda79a2d9e02a6a242e0b75787
-> >>
-> >>
-> >>> Do other i2c master drivers do this? I took a quick look at the meson
-> >>> driver and it doesn't appear to clear it's pointer to msgs.
-> >> It is hard to say. It seems other drivers have some recover scheme lik=
-e
-> >> aborting the transfer, or loop each messages in process context and
-> >> don't do much in IRQ handler, which may disable interrupts or not reta=
-in
-> >> the buffer pointer before returning timeout.
-> > I think your change is okay to go in as it fixes the crash, but first
-> > I want to work out if there's some missing handling of a timeout
-> > condition that we should add as well.
-> >
-> >
-> >> Thanks,
-> >>
-> >> Heyi
-> >>
-> >>
-> >>>>> Signed-off-by: Heyi Guo <guoheyi@linux.alibaba.com>
-> >>>>>
-> >>>>> -------
-> >>>>>
-> >>>>> Cc: Brendan Higgins <brendanhiggins@google.com>
-> >>>>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> >>>>> Cc: Joel Stanley <joel@jms.id.au>
-> >>>>> Cc: Andrew Jeffery <andrew@aj.id.au>
-> >>>>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> >>>>> Cc: linux-i2c@vger.kernel.org
-> >>>>> Cc: openbmc@lists.ozlabs.org
-> >>>>> Cc: linux-arm-kernel@lists.infradead.org
-> >>>>> Cc: linux-aspeed@lists.ozlabs.org
-> >>>>> ---
-> >>>>>     drivers/i2c/busses/i2c-aspeed.c | 5 +++++
-> >>>>>     1 file changed, 5 insertions(+)
-> >>>>>
-> >>>>> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i=
-2c-aspeed.c
-> >>>>> index 67e8b97c0c950..3ab0396168680 100644
-> >>>>> --- a/drivers/i2c/busses/i2c-aspeed.c
-> >>>>> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> >>>>> @@ -708,6 +708,11 @@ static int aspeed_i2c_master_xfer(struct i2c_a=
-dapter *adap,
-> >>>>>                 spin_lock_irqsave(&bus->lock, flags);
-> >>>>>                 if (bus->master_state =3D=3D ASPEED_I2C_MASTER_PEND=
-ING)
-> >>>>>                         bus->master_state =3D ASPEED_I2C_MASTER_INA=
-CTIVE;
-> >>>>> +             /*
-> >>>>> +              * All the buffers may be freed after returning to ca=
-ller, so
-> >>>>> +              * set msgs to NULL to avoid memory reference after f=
-reeing.
-> >>>>> +              */
-> >>>>> +             bus->msgs =3D NULL;
-> >>>>>                 spin_unlock_irqrestore(&bus->lock, flags);
-> >>>>>
-> >>>>>                 return -ETIMEDOUT;
-
-
+>=20
+> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+> ---
+>  drivers/i2c/busses/i2c-aspeed.c | 55 ++++++++++++++++++++++++++++++++-
+>  1 file changed, 54 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-asp=
+eed.c
+> index 67e8b97c0c95..1f4b5c4b5bf4 100644
+> --- a/drivers/i2c/busses/i2c-aspeed.c
+> +++ b/drivers/i2c/busses/i2c-aspeed.c
+> @@ -898,6 +898,56 @@ static int aspeed_i2c_init_clk(struct aspeed_i2c_bus=
+ *bus)
+>  	return 0;
+>  }
+> =20
+> +/* precondition: bus.lock has been acquired. */
+> +static int aspeed_i2c_manual_clk_setup(struct aspeed_i2c_bus *bus)
+> +{
+> +	u32 divisor, clk_high, clk_low, clk_reg_val;
+> +
+> +	if (device_property_read_u32(bus->dev, "aspeed,i2c-base-clk-div",
+> +				     &divisor) !=3D 0) {
+> +		dev_err(bus->dev, "Could not read aspeed,i2c-base-clk-div\n");
+> +		return -EINVAL;
+> +	} else if (divisor > ASPEED_I2CD_TIME_BASE_DIVISOR_MASK) {
+> +		dev_err(bus->dev, "Invalid aspeed,i2c-base-clk-div: %u\n",
+> +			divisor);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (device_property_read_u32(bus->dev, "aspeed,i2c-clk-high-cycle",
+> +				     &clk_high) !=3D 0) {
+> +		dev_err(bus->dev, "Could not read aspeed,i2c-clk-high-cycle\n");
+> +		return -EINVAL;
+> +	} else if (clk_high > ASPEED_I2CD_TIME_SCL_REG_MAX) {
+> +		dev_err(bus->dev, "Invalid aspeed,i2c-clk-high-cycle: %u\n",
+> +			clk_high);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (device_property_read_u32(bus->dev, "aspeed,i2c-clk-low-cycle",
+> +				     &clk_low) !=3D 0) {
+> +		dev_err(bus->dev, "Could not read aspeed,i2c-clk-low-cycle\n");
+> +		return -EINVAL;
+> +	} else if (clk_low > ASPEED_I2CD_TIME_SCL_REG_MAX) {
+> +		dev_err(bus->dev, "Invalid aspeed,i2c-clk-low-cycle: %u\n",
+> +			clk_low);
+> +		return -EINVAL;
+> +	}
+> +
+> +	clk_reg_val =3D readl(bus->base + ASPEED_I2C_AC_TIMING_REG1);
+> +	clk_reg_val &=3D (ASPEED_I2CD_TIME_TBUF_MASK |
+> +			ASPEED_I2CD_TIME_THDSTA_MASK |
+> +			ASPEED_I2CD_TIME_TACST_MASK);
+> +	clk_reg_val |=3D (divisor & ASPEED_I2CD_TIME_BASE_DIVISOR_MASK)
+> +			| ((clk_high << ASPEED_I2CD_TIME_SCL_HIGH_SHIFT)
+> +			   & ASPEED_I2CD_TIME_SCL_HIGH_MASK)
+> +			| ((clk_low << ASPEED_I2CD_TIME_SCL_LOW_SHIFT)
+> +			   & ASPEED_I2CD_TIME_SCL_LOW_MASK);
+> +	writel(clk_reg_val, bus->base + ASPEED_I2C_AC_TIMING_REG1);
+> +	writel(ASPEED_NO_TIMEOUT_CTRL, bus->base + ASPEED_I2C_AC_TIMING_REG2);
+> +
+> +	return 0;
+> +}
+> +
+>  /* precondition: bus.lock has been acquired. */
+>  static int aspeed_i2c_init(struct aspeed_i2c_bus *bus,
+>  			     struct platform_device *pdev)
+> @@ -908,7 +958,10 @@ static int aspeed_i2c_init(struct aspeed_i2c_bus *bu=
+s,
+>  	/* Disable everything. */
+>  	writel(0, bus->base + ASPEED_I2C_FUN_CTRL_REG);
+> =20
+> -	ret =3D aspeed_i2c_init_clk(bus);
+> +	if (of_property_read_bool(pdev->dev.of_node, "aspeed,i2c-manual-clk"))
+> +		ret =3D aspeed_i2c_manual_clk_setup(bus);
+> +	else
+> +		ret =3D aspeed_i2c_init_clk(bus);
+>  	if (ret < 0)
+>  		return ret;
+> =20
+> --=20
+> 2.17.1
+>=20
 
 --=20
-BRs,
-Lei YU
+Patrick Williams
+
+--K2Ju2BjYugMc6h9r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmKWHGYACgkQqwNHzC0A
+wRmniw//ReljGNV+Q4CIui/96gQHz615me2pPG7mqsYlvAJHQDt4GDYYEcJzl0l4
+KqYKK03DW5c7UGsk2MddvPOdHGLFt9Qxb8aqh+cTelPjzrezByNBYtuQC6zs+3Si
+VLYNjz1cXsrRPuVnsKhgEgCMpALC+6Js3luUMDBpW1FpZ83FIwQFlLk7oit9oHN2
+eZSQiQYlnsUx9ZV5BrI8VALrhNtbyfyC4sAMIeuIEtjCbgOv6LUIQl1PCFZOWM9O
+fsaLJhuaulKfHHYPrumt6VlFgXT4M7Bn+KvOoHGK36HmByKZVjy7K9mFmhsxrUXq
+6TeQzn0vixKO4myXxO/SbkVdRxquKCnFXicNT1BFt/P2M6HJ4GxjVaTbAptWNRHy
+QXSmI8py77yctldXfk2mPGGfhQ+KkuiNCtHJVCARMY93CQA0nYhLLrDNRhWx9wjp
+GGvCk/VZhmfr1TVeH15Lqxh1h+xVE3NItVumVYnu0xSccOwIRf5NOtDJc9MLXB1H
+Q5F4bSJNd5wgb3V/ULVqaxpys62jo7p+Ks0TSULVE8hJ7FfC8YMqJP7z8oPvmLoU
+u97WB7urZpQGjjTKZlPzFpPlSp1VjM3GV154FexUGKNMnASZZU8sdC5brXAotMsa
+BtSeHG788WBtHi6PWqSuSaqy9tyqUCSm/Je90yJ5PvX4ULfhAh0=
+=Z5+f
+-----END PGP SIGNATURE-----
+
+--K2Ju2BjYugMc6h9r--
