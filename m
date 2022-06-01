@@ -2,137 +2,45 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DE253A084
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jun 2022 11:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F300853AD9E
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jun 2022 22:22:10 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LCkWK51g6z3bkK
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jun 2022 19:34:37 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=N9iN2lRT;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LD0tP30dsz3bmQ
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Jun 2022 06:22:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:704b::72a; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=N9iN2lRT;
-	dkim-atps=neutral
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2072a.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::72a])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wanadoo.fr (client-ip=80.12.242.125; helo=smtp.smtpout.orange.fr; envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN>)
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LCkVZ0FzVz3bYG
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Jun 2022 19:33:56 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fDLihKblQxBe+dOw5tSt5hWYFrh5sSTWoX0Uxb40JJSLsolBJImDapfyY4AHW/pm/jtQr4Sf6NR9KokrMzZoeWRyBWtVOuIkUAlSYw4Izm6pE+LLOYJONbbePhz4S3Dl0TZah8qnLRGM4l4o/nELlGDrgHm/8Qvnj/ftp8swmIMeg+ReNJQ331+W/mIDfSZjj02zycY9W3DxelEV6sPjV0B5guS/pZkeYA0UxNyYpFqjUKNrEunTm80MiS5XZysl8G0Wf/3vIU7WMJGP6kfex+HvfzGp9VlgA3yOd41B8DE987FvQ7K2nk8ceRwyWsD4RNUJ9CxGzglDsSQrohm5dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W78C9PTxdlJqBpq536MDL3ASYZDdGLCiFHQwzSeQ+gE=;
- b=gLdEmqueS/50EpLTvDSd+Pz71x9F1yKJBa8xouYsDUtmVj267YgYXHfPrE7qoZUM1GF+ep+6cOaAcv5bEx02vHt1PpCU28BxskPHD/CaFCTL0sM39l0BiSmeKcBDpFSFn3YhSUJ0lbwD469Z1ilmC5XeIZBBHw02oggFxh/fWTnL1pMES0rOhqRtHm10OyxBwT8oh1rAfPrOlYskfN55ajR8Z6pe9cvghZ8/w4briD3YIZCRmvihXR0sGL4G13o7WpSItNQ72G4v6g1M9Rz/eBSSydxoqwsu23Di+xYu3yPb7RdS5XNiv5+XodGoQZu1nAMi1IA+r6lrW+GwCk1w6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W78C9PTxdlJqBpq536MDL3ASYZDdGLCiFHQwzSeQ+gE=;
- b=N9iN2lRTnD65kXXTltt34BsMjOlUfUijNDl1s5IkM50lEAXt5rCaBQr9hSilOqtji7JU/OSFIDD/dRDDPFt6qr+i9LB1I/d+r+BE2Wrk6T28ukwahdFrqIkd1fiOneQS6VtG1wzSEoEOoIBLDRfrrnQgscTn7J1sVXvKYDzb2qpxZjcDAXrIg/wA9LAl2lUmaAy+jNYR3n2DlZU5xvMoeRkV0aXm1wYgg/taCE+1tJ/hRkKfsO0VJFT0Gy3UM52ML6pKj7ua0B/2kEI6+FXRDwV00XBbCv1J9galZByMaaNs/X8FSa+/6CdY4m1zBVzlw54JWABlrLdT9FQw85LKaQ==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by SG2PR06MB3775.apcprd06.prod.outlook.com (2603:1096:4:dd::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.17; Wed, 1 Jun
- 2022 09:33:31 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::7c42:9783:92c9:f237]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::7c42:9783:92c9:f237%7]) with mapi id 15.20.5293.019; Wed, 1 Jun 2022
- 09:33:31 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Herbert Xu
-	<herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, Andrew
- Jeffery <andrew@aj.id.au>, Johnny Huang <johnny_huang@aspeedtech.com>
-Subject: RE: [PATCH 4/5] dt-bindings: crypto: add documentation for aspeed
- hace
-Thread-Topic: [PATCH 4/5] dt-bindings: crypto: add documentation for aspeed
- hace
-Thread-Index: AQHYdXph6uXYRV5fyEGJ347eBg/o6K06K/0AgAADx6CAABaRgIAAAtqA
-Date: Wed, 1 Jun 2022 09:33:30 +0000
-Message-ID:  <HK0PR06MB3202B752ADB99468D8DC4ADE80DF9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20220601054204.1522976-1-neal_liu@aspeedtech.com>
- <20220601054204.1522976-5-neal_liu@aspeedtech.com>
- <dca283db-0b2e-1fc1-bc76-811c4c918fb5@linaro.org>
- <HK0PR06MB3202D6A6C66480BF60ED829080DF9@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <d1ffbc04-0c80-369e-a1dc-e47e50f52340@linaro.org>
-In-Reply-To: <d1ffbc04-0c80-369e-a1dc-e47e50f52340@linaro.org>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b670ed9d-f6db-41f5-0b6e-08da43b1ca61
-x-ms-traffictypediagnostic: SG2PR06MB3775:EE_
-x-microsoft-antispam-prvs:  <SG2PR06MB3775E06D17724AFD8488096280DF9@SG2PR06MB3775.apcprd06.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  PUd3Awz6rmUIY9KLn/Yg/5CvGpLLEV0pvstaHmA74pey8ov9i3GZlz52zOwYKZ5GNfOn9d0FYXW8H1hC4Il690f7EHxQOQzu7Pgje9O0RzckXnOhrTX4UwHDORzhBdhsl4CPToAyM3RXuSqZsPcdf0dVbA3x0zKn9OLZBNRrWLtxMgFePOjvxPfETkfiRlWiXAs3Hu3EWPtpnsFX6lxPd2nVthdGI1JB9NNGCOOYnh+uGrWReKuBEamCga0XI09/3/UuxLmbc6s+bk2ieUqNmq+eFnQ/OjVYzKzhXGly7Frm3EngDfZBuuVHopEITcddItvHVAna0tKqn+VECjfy4RFWTT96MA2q7ZiXipstn+bT63y3WUty6/heX/4Gmnx6f0NF4n3ymjJKlRQCo6y1+7/hqBWKfwFhT8FFb0JaRVMg23UYLm4Lvupgr2rcwKQ1gCaEaY77RgCQvCyBCV11HuD1Nu37uQqId4k8U65tTPXiuimJcR6p0cPsSiOk1Zjpem8m3iVrrZt9RS9FWofyz2t7SY+Ix5hcQDgqX4LTINvObC1eJpb3H/1zyGyK3aeUakY+xUcbjxyVoDWK0gN/e7nLA8Un0gtT++WPn/dlUXMas9BfOtN7qFb15eYoVRQ6ljP70Ch8Et/7+AgWwqCUE2a71NrdEn3CnxcWTXxYO2aTddufZq1FsxOiBj3dw3Nj+rNxHOMJ7XGNojgWs21k2g==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(7416002)(4326008)(6506007)(83380400001)(5660300002)(9686003)(76116006)(26005)(4744005)(8936002)(8676002)(55016003)(2906002)(52536014)(66476007)(66946007)(7696005)(53546011)(66556008)(38070700005)(66446008)(64756008)(508600001)(6636002)(316002)(71200400001)(110136005)(54906003)(122000001)(86362001)(186003)(33656002)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?SkJMTWJnYVh3dGV0andBaXovRWxWSUcxcHJqNVVQY3RJZDRRODBFTzZzKzhz?=
- =?utf-8?B?amRsamxJd0p6UzMvTnJiNTlQWDdsTWxqZVE3N1FMbXdqdWlxQ3FodkhZNHNi?=
- =?utf-8?B?ckg4VGg5MFBRVXRxYW85UHNnL1M4SDRTeWhKMm5Mc2owbXNKZmJpR2Q1ZUlI?=
- =?utf-8?B?UkR3Nm1UYlluSXFZc1RiZ0VlTDZaQlR0K0o2eU1yZlkxMTQyN0h1d0NSclp1?=
- =?utf-8?B?cXNxeEkydGV5UnNKdk1JSDVGNW1rb0VvdlIwNTBtL2draVZvRmMweDhrQWoz?=
- =?utf-8?B?WFkrS3orbVNoQXkwOWxaT2NUZ3BKYUU0aEtDMEduT3c1ZjZsckk0R3NtcG03?=
- =?utf-8?B?NkdqTFlGL0VSSVhrQXgxMHMvRVoreFdGMVlrSXd2YlhkdUVuRkJLWEx2d25P?=
- =?utf-8?B?MnZYNEh0M3JIbXY3MzdFdmQyMGh1bWNDQ0NrUUVnampVcTZLT1R3YWJaK2Fu?=
- =?utf-8?B?bVZIcWNWSWRQSWhtZXJsMXJBMEQ0NlZzVXdoLzBSRGhMQmdrK0cySGNGamx6?=
- =?utf-8?B?REE5K1NYWCtLTE1YQXdKTEc1aFBZUXVqc3NEVVNaUGI3UjhmRU5iRWsvTmhO?=
- =?utf-8?B?R1h5cXdNcktMMDVHNU5qWGpzcWRkTjhGTmlkYkdERFlId1pGUGpsS0pqUDZo?=
- =?utf-8?B?WityYkxnODBYNXl3SVcxWVlYMWwvVHErekQ3ZERvbTVGcS9abUJ5cFdpY255?=
- =?utf-8?B?L2JwblBWVjFlRnY3ZlFWSHd3YnNYTWtIM3R1S1pTQUNEWGpTMkxrb0V0OWFK?=
- =?utf-8?B?LzE3akw4aFpQakYrSTFOSHFkV0YyakMwamc0WnZqT0NZWnhrZTg3aGJYbExC?=
- =?utf-8?B?dEtmTytOQ0tOSHR5V2dTNDN6SjA4NUJabWNraDl2emtHeHVRbTFSRFF5MTcz?=
- =?utf-8?B?dmRNaWo1YzZvUzFMc2hRSmFJZUdFSHlJL0ZLSlFnS1BiNGlJRGQxeUJ5Lys2?=
- =?utf-8?B?eFJLQm56M0Fsd01PVUp4OTFQcDI4Rm1nYi9ZRnVYTnlibGcwRndheEluc3kx?=
- =?utf-8?B?clcra0R6c24rbkJSQ3ZCSzJEWW4zNzFTSFlGSEdLTEhaMmZUMjlGQXJ1akdI?=
- =?utf-8?B?bXJiTmNOVnN0UGp4bExnOU1wejZsZWZWZFBkcHlyQVJzdGZXN0cyTUNLQ2t2?=
- =?utf-8?B?ZnlSSGtZclN1cDNOQlV4MGhtMmlWbnZicWlndldMZDJLZ1crNXNZQzViM1d6?=
- =?utf-8?B?VmovaVRJSGptK3R3Z3BpanMzOWhrVVRBRkFXeUxXNjlSZ3dMU1ZiYzVvcVJ6?=
- =?utf-8?B?VEZSQmtOUXo2UWFnSGJFN056R1ZycGdpbHFPT1h1TFdYSk1ZWFF6ZUl5bElJ?=
- =?utf-8?B?djdFRXFXSnZlYVVVZFRLcTAwdGJtNFJubFVhZEJ0b25QMEFTRjIwY01JRkdK?=
- =?utf-8?B?U0FGVm5IT0k3dFJkbnMwY1V3aFh6ckRZYWU4Mk80YzFxTE4wVVlheHVYQ1JW?=
- =?utf-8?B?QUpwMXFqU0hVRW03ZnJsWjk5cWNxRHNqMWhlR2R0eEpTRm0zaDNCc1Byb2g4?=
- =?utf-8?B?K2VhS0crTlYzN0krVEU1MzY0NVBDMWV2SHhqYTFuaDB1dk1WYmpIUmJHTTli?=
- =?utf-8?B?d2hULzUyTHVZWXc1VGFwV0hQbFJzaTNDVkViazkrU21DdWoxMmF0amt6bmZ3?=
- =?utf-8?B?aEFjQVZwcTRLUG9KQWd5bEdWbzhEa0xMTzJqUEYyTW9CS1VUT0x5NldYK0Q3?=
- =?utf-8?B?dlArVk9HMXd5UDArSXMyRlFhZmNuUm9TaTNEWFJJV0FvK3lXWjVXWG5Kc2lk?=
- =?utf-8?B?d0FhWHhEWDBSNk1nRzhkVGNYYzducDVJU3ArRGRLK3BsYmFGVTVHRllnQk5H?=
- =?utf-8?B?aDVIYXhmRThQVVA4QXZ4UnNsUDNZUEp4eERDNnB6SlhEclBFTW9pZ3NJQVc5?=
- =?utf-8?B?MWp2blhCcm91QmFXVHAvL0dxWksvQ05CQUNJbGdiRUV1K0dKbFhvdUhGTk1P?=
- =?utf-8?B?a0xyQ0RlSEM1cEdwRnVGcjhRQTJZQmREODJSV2dnUG9PZW9nR0FOaHgwYmNT?=
- =?utf-8?B?bFZOcklURXQxT0Z1ZGJGN3pYenY1SE41SHo3NU5wTWdzQ0xVRWZCUkhIUkMx?=
- =?utf-8?B?S1RpUzVic0hYWHZueWxLT05ZL2Y5UVNKNnZud3pVcnFIWjlaanozREZzb0VF?=
- =?utf-8?B?N211UXJYb0g3RDJZV3VLSTVGb2p4VFB1TWk5Uk80QnF4NXY3MGFTc0Vub2Fi?=
- =?utf-8?B?bmtGOG1NU0hlcThRKzJaeGtZall4UXYxKzZTYm91UHMxeUNCREhzR3g0d05n?=
- =?utf-8?B?TmhMakNuYldkSnBVaDV5QlFqakMzY1pYdHArWTJ1RGhqTEo0K2ZCVWJkbFdT?=
- =?utf-8?B?amxISGhVTVNHUk5CbnVDSVAzQ3c1U0ZNZXJob2c0U0g4a1QzVmVlQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LD0tH6WVWz3035
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Jun 2022 06:21:57 +1000 (AEST)
+Received: from [192.168.1.18] ([90.11.190.129])
+	by smtp.orange.fr with ESMTPA
+	id wUjOnikly26JCwUjOn5OWJ; Wed, 01 Jun 2022 22:14:22 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Wed, 01 Jun 2022 22:14:22 +0200
+X-ME-IP: 90.11.190.129
+Message-ID: <dd525d8b-3cb3-e843-4a79-64f50c0fe8a7@wanadoo.fr>
+Date: Wed, 1 Jun 2022 22:14:14 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b670ed9d-f6db-41f5-0b6e-08da43b1ca61
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2022 09:33:30.9663
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: neq8GIaPDEDgUK3Ndv2/Bg/ykMh826q2OMkAiz8IxXwOOMU3iEHBGBY/l7uuAazQrwHkvY+z9fkDWKaDZqom1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB3775
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/5] crypto: aspeed: Add HACE hash driver
+Content-Language: en-US
+To: Neal Liu <neal_liu@aspeedtech.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Johnny Huang <johnny_huang@aspeedtech.com>
+References: <20220601054204.1522976-1-neal_liu@aspeedtech.com>
+ <20220601054204.1522976-2-neal_liu@aspeedtech.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20220601054204.1522976-2-neal_liu@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,21 +52,197 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiBTdWJqZWN0OiBSZTogW1BBVENIIDQvNV0gZHQtYmluZGluZ3M6IGNyeXB0bzogYWRkIGRvY3Vt
-ZW50YXRpb24gZm9yIGFzcGVlZA0KPiBoYWNlDQo+IA0KPiBPbiAwMS8wNi8yMDIyIDEwOjAxLCBO
-ZWFsIExpdSB3cm90ZToNCj4gPj4+ICsgIGNsb2NrczoNCj4gPj4+ICsgICAgbWF4SXRlbXM6IDEN
-Cj4gPj4+ICsNCj4gPj4+ICsgIGNsb2NrLW5hbWVzOg0KPiA+Pj4gKyAgICBtYXhJdGVtczogMQ0K
-PiA+Pg0KPiA+PiBZb3UgbmVlZCB0byBsaXN0IGNsb2NrIG5hbWVzLCBob3dldmVyIHVzdWFsbHkg
-aXQgZG9lcyBub3QgbWFrZSBzZW5zZQ0KPiA+PiB0byBoYXZlIG5hbWVzIGZvciBqdXN0IG9uZSBt
-YWluIGRldmljZSBjbG9jay4NCj4gPj4NCj4gPiBJIHRoaW5rIGxpc3QgY2xvY2stbmFtZXMgaXMg
-b3B0aW9uYWwsIEknbGwgcmVtb3ZlIGl0IGZyb20gcmVxdWlyZWQgbGlzdC4NCj4gDQo+IEkgYWN0
-dWFsbHkgc3VnZ2VzdCB0byByZW1vdmUgdGhlIGNsb2NrLW5hbWVzIHByb3BlcnR5IGVudGlyZWx5
-LCBpZiBpcyBoYXMgb25lDQo+IGdlbmVyaWMgZW50cnkgY2FsbGVkICJjbGsiIChvciAidmNsayIg
-LSB0aGUgc2FtZSkuIERvIHlvdSBhbHJlYWR5IGV4cGVjdCBhZGRpbmcNCj4gaGVyZSBtb3JlIGNs
-b2Nrcz8NCj4gDQoNCllvdSBhcmUgcmlnaHQuIEN1cnJlbnRseSwgaXQgaGFzIG9ubHkgb25lIGNs
-b2NrLiBJJ2xsIHJlbW92ZSBib3RoIG9mIHRoZW0uDQpUaGFua3MNCg0KPiANCj4gQmVzdCByZWdh
-cmRzLA0KPiBLcnp5c3p0b2YNCg==
+Hi,
+
+Le 01/06/2022 à 07:42, Neal Liu a écrit :
+> Hash and Crypto Engine (HACE) is designed to accelerate the
+> throughput of hash data digest, encryption, and decryption.
+> 
+> Basically, HACE can be divided into two independently engines
+> - Hash Engine and Crypto Engine. This patch aims to add HACE
+> hash engine driver for hash accelerator.
+> 
+> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+> Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
+> ---
+>   MAINTAINERS                              |    7 +
+>   drivers/crypto/Kconfig                   |    1 +
+>   drivers/crypto/Makefile                  |    1 +
+>   drivers/crypto/aspeed/Kconfig            |   22 +
+>   drivers/crypto/aspeed/Makefile           |    6 +
+>   drivers/crypto/aspeed/aspeed-hace-hash.c | 1335 ++++++++++++++++++++++
+>   drivers/crypto/aspeed/aspeed-hace.c      |  210 ++++
+>   drivers/crypto/aspeed/aspeed-hace.h      |  179 +++
+>   8 files changed, 1761 insertions(+)
+>   create mode 100644 drivers/crypto/aspeed/Kconfig
+>   create mode 100644 drivers/crypto/aspeed/Makefile
+>   create mode 100644 drivers/crypto/aspeed/aspeed-hace-hash.c
+>   create mode 100644 drivers/crypto/aspeed/aspeed-hace.c
+>   create mode 100644 drivers/crypto/aspeed/aspeed-hace.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e8c52d0192a6..c020e0893eed 100644
+
+[...]
+
+> +int aspeed_register_hace_hash_algs(struct aspeed_hace_dev *hace_dev)
+> +{
+> +	int rc, i;
+> +
+> +	AHASH_DBG(hace_dev, "\n");
+> +
+> +	for (i = 0; i < ARRAY_SIZE(aspeed_ahash_algs); i++) {
+> +		aspeed_ahash_algs[i].hace_dev = hace_dev;
+> +		rc = crypto_register_ahash(&aspeed_ahash_algs[i].alg.ahash);
+> +		if (rc)
+> +			return rc;
+> +	}
+> +
+> +	if (hace_dev->version != AST2600_VERSION)
+> +		return 0;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(aspeed_ahash_algs_g6); i++) {
+> +		aspeed_ahash_algs_g6[i].hace_dev = hace_dev;
+> +		rc = crypto_register_ahash(&aspeed_ahash_algs_g6[i].alg.ahash);
+> +		if (rc)
+> +			return rc;
+> +	}
+> +
+> +	return 0;
+
+Should there be some kind of error handling here, in order to undo 
+things already done if an error occures?
+
+
+> +}
+> diff --git a/drivers/crypto/aspeed/aspeed-hace.c b/drivers/crypto/aspeed/aspeed-hace.c
+> new file mode 100644
+> index 000000000000..f25b13d120e8
+> --- /dev/null
+> +++ b/drivers/crypto/aspeed/aspeed-hace.c
+
+[...]
+
+> +static int aspeed_hace_probe(struct platform_device *pdev)
+> +{
+> +	const struct of_device_id *hace_dev_id;
+> +	struct aspeed_engine_hash *hash_engine;
+> +	struct aspeed_hace_dev *hace_dev;
+> +	struct resource *res;
+> +	int rc;
+> +
+> +	hace_dev = devm_kzalloc(&pdev->dev, sizeof(struct aspeed_hace_dev),
+> +				GFP_KERNEL);
+> +	if (!hace_dev)
+> +		return -ENOMEM;
+> +
+> +	hace_dev_id = of_match_device(aspeed_hace_of_matches, &pdev->dev);
+> +	if (!hace_dev_id) {
+> +		dev_err(&pdev->dev, "Failed to match hace dev id\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	hace_dev->dev = &pdev->dev;
+> +	hace_dev->version = (unsigned long)hace_dev_id->data;
+> +	hash_engine = &hace_dev->hash_engine;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +
+> +	platform_set_drvdata(pdev, hace_dev);
+> +
+> +	spin_lock_init(&hash_engine->lock);
+> +	tasklet_init(&hash_engine->done_task, aspeed_hace_hash_done_task,
+> +		     (unsigned long)hace_dev);
+> +	tasklet_init(&hash_engine->queue_task, aspeed_hace_hash_queue_task,
+> +		     (unsigned long)hace_dev);
+> +	crypto_init_queue(&hash_engine->queue, ASPEED_HASH_QUEUE_LENGTH);
+> +
+> +	hace_dev->regs = devm_ioremap_resource(&pdev->dev, res);
+> +	if (!hace_dev->regs) {
+> +		dev_err(&pdev->dev, "Failed to map resources\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	hace_dev->irq = platform_get_irq(pdev, 0);
+> +	if (!hace_dev->irq) {
+> +		dev_err(&pdev->dev, "Failed to get interrupt\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	rc = devm_request_irq(&pdev->dev, hace_dev->irq, aspeed_hace_irq, 0,
+> +			      dev_name(&pdev->dev), hace_dev);
+> +	if (rc) {
+> +		dev_err(&pdev->dev, "Failed to request interrupt\n");
+> +		return rc;
+> +	}
+> +
+> +	hace_dev->yclk = devm_clk_get(&pdev->dev, "yclk");
+> +	if (IS_ERR(hace_dev->yclk)) {
+> +		dev_err(&pdev->dev, "Failed to get yclk\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	rc = clk_prepare_enable(hace_dev->yclk);
+> +	if (rc) {
+> +		dev_err(&pdev->dev, "Failed to enable clock 0x%x\n", rc);
+> +		return rc;
+
+This is not undone, neither if an error occures after it, nor in the 
+.remove function.
+
+> +	}
+> +
+> +	hash_engine->ahash_src_addr =
+> +		dma_alloc_coherent(&pdev->dev,
+> +				   ASPEED_HASH_SRC_DMA_BUF_LEN,
+> +				   &hash_engine->ahash_src_dma_addr,
+> +				   GFP_KERNEL);
+> +	if (!hash_engine->ahash_src_addr) {
+> +		dev_err(&pdev->dev, "Failed to allocate dma buffer\n");
+> +		return -ENOMEM;
+> +	}
+
+Same here, this si not undone in the .remove function.
+
+> +
+> +	rc = aspeed_hace_register(hace_dev);
+> +	if (rc) {
+> +		dev_err(&pdev->dev, "Failed to register hash alg, rc:0x%x\n", rc);
+
+Is this really an error if finaly we continue and return 0 (success) at 
+the end?
+
+> +		rc = 0;
+> +	}
+> +
+> +	dev_info(&pdev->dev, "ASPEED Crypto Accelerator successfully registered\n");
+> +
+> +	return rc;
+> +}
+> +
+> +static int aspeed_hace_remove(struct platform_device *pdev)
+> +{
+> +	struct aspeed_hace_dev *hace_dev = platform_get_drvdata(pdev);
+> +	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
+> +
+> +	aspeed_hace_unregister(hace_dev);
+
+Should this be done even if aspeed_hace_register() failed in the probe?
+
+Just my 2c,
+CJ
+
+
+> +
+> +	tasklet_kill(&hash_engine->done_task);
+> +	tasklet_kill(&hash_engine->queue_task);
+> +
+> +	return 0;
+> +}
+> +
+
+[...]
