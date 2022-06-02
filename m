@@ -2,45 +2,78 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C19A53ADAF
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jun 2022 22:37:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C5753B070
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Jun 2022 02:33:02 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LD1DX3DV0z3bmR
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Jun 2022 06:37:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LD6Rv3Mblz3blB
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Jun 2022 10:32:59 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=QPOHKu2J;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wanadoo.fr (client-ip=80.12.242.128; helo=smtp.smtpout.orange.fr; envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN>)
-Received: from smtp.smtpout.orange.fr (smtp06.smtpout.orange.fr [80.12.242.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::231; helo=mail-oi1-x231.google.com; envelope-from=tcminyard@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=QPOHKu2J;
+	dkim-atps=neutral
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LD1DS3Qdnz3bkr
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Jun 2022 06:37:43 +1000 (AEST)
-Received: from [192.168.1.18] ([90.11.190.129])
-	by smtp.orange.fr with ESMTPA
-	id wUyenfSGZP8ApwUyeno3EU; Wed, 01 Jun 2022 22:30:10 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Wed, 01 Jun 2022 22:30:10 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <56f0c3cb-c17f-6bc1-f621-09e0c2e5e62f@wanadoo.fr>
-Date: Wed, 1 Jun 2022 22:30:00 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LD6Rm2rWzz3bYS;
+	Thu,  2 Jun 2022 10:32:50 +1000 (AEST)
+Received: by mail-oi1-x231.google.com with SMTP id k11so4709091oia.12;
+        Wed, 01 Jun 2022 17:32:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=sh16xGe/echtR67o8EYAV8ZtQjoNwgsJwYaCJqxIORY=;
+        b=QPOHKu2JZdnGBtC7fmTtjOSE9oopRqCnfZOiDgt6Xq8NaeFj5LEpiNC4MBvSny6XAZ
+         tP23yYoSibaO17BC+tN/4ndFzeu3y9sAlpFxVrvR46zGNkrmktR82tsnRYao912mVlgu
+         sFnMmIo/6tg4Mf1sU3/boIWlqZvWGKl6F7TtFJWoKmbeKgyEm9YDB5EQd+wNDBuGyvTX
+         E9bkmD/dKERVdm2JsF9okxmr6y9B2DO2czXcmSta8JmSRNupjJh1aMt94eWuHQdZiOYP
+         kpQk2+ruD30huk1PRYNfV17WxAzjzkzOE8Zn/WugahtBCADPO8Sj5PlPfroNmHZkNiyY
+         469Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to;
+        bh=sh16xGe/echtR67o8EYAV8ZtQjoNwgsJwYaCJqxIORY=;
+        b=NnOeMnmC7/hBSXSZZv8YpctLUk7NfheLPMzgH5MPOApEo596FPYWJbfGD5UfWKxBwf
+         0UXYtTYRQq6mur8gYQUa5MSflM9NjjrdlA3GvYXRgUYnKmVPTO/9ry8gc+xztMRGlSBV
+         sOcx1Tq9RGe22hUrpS8EHuJLLFxM5zwxgbrxyVcFQIOwXc6rQqF+k90jdIcUaeP3b5B7
+         3e3JqbjHA1JWlveHVtpdo2E6VwoJZs3+/Vg44xtdQFXjRsusCe+wFuR7+OFcj6CAsbgW
+         C7SZxNodoNoTyvBTWkjE+0l3upyYfq2VBAi7uCvIJgP4Lontj5sorIJdZNHk2s7wKfwO
+         Ib0A==
+X-Gm-Message-State: AOAM531dBhMxKaXTvfAeBY/LDaKMCsWX9kXIV3qvfGtQRkbBr5qUsE/R
+	thTjZqUnkXwB8NeGGRIutw==
+X-Google-Smtp-Source: ABdhPJzvSVAppomg02HmNv/mcRsuQs1poeKeWSDg8cjkuwsPJmAtobRPluwWod2pXyfwLfpU1Gm0fQ==
+X-Received: by 2002:a05:6808:2196:b0:32b:492a:3b4d with SMTP id be22-20020a056808219600b0032b492a3b4dmr1200787oib.255.1654129966739;
+        Wed, 01 Jun 2022 17:32:46 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+        by smtp.gmail.com with ESMTPSA id 12-20020aca120c000000b00325cda1ffa5sm1542462ois.36.2022.06.01.17.32.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 17:32:46 -0700 (PDT)
+Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:cca5:4cab:9a61:6930])
+	by serve.minyard.net (Postfix) with ESMTPSA id 423751800BB;
+	Thu,  2 Jun 2022 00:32:45 +0000 (UTC)
+Date: Wed, 1 Jun 2022 19:32:44 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [Openipmi-developer] [PATCH v7 1/3] ipmi: ssif_bmc: Add SSIF BMC
+ driver
+Message-ID: <20220602003244.GK3767252@minyard.net>
+References: <20220422040803.2524940-1-quan@os.amperecomputing.com>
+ <20220422040803.2524940-2-quan@os.amperecomputing.com>
+ <20220423015119.GE426325@minyard.net>
+ <ec7b86ec-827f-da64-8fd2-eae09f802694@os.amperecomputing.com>
+ <20220504120631.GE3767252@minyard.net>
+ <ba084735-0781-7ca2-4d04-a70a4115729a@os.amperecomputing.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 5/5] crypto: aspeed: add HACE crypto driver
-Content-Language: fr
-To: Neal Liu <neal_liu@aspeedtech.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Johnny Huang <johnny_huang@aspeedtech.com>
-References: <20220601054204.1522976-1-neal_liu@aspeedtech.com>
- <20220601054204.1522976-6-neal_liu@aspeedtech.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20220601054204.1522976-6-neal_liu@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ba084735-0781-7ca2-4d04-a70a4115729a@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,247 +85,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Reply-To: minyard@acm.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Wolfram Sang <wsa@kernel.org>, Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org, openipmi-developer@lists.sourceforge.net, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Le 01/06/2022 à 07:42, Neal Liu a écrit :
- > Add HACE crypto driver to support symmetric-key
- > encryption and decryption with multiple modes of
- > operation.
- >
- > Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
- > Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
- > ---
- >   drivers/crypto/aspeed/Kconfig              |   16 +
- >   drivers/crypto/aspeed/Makefile             |    2 +
- >   drivers/crypto/aspeed/aspeed-hace-crypto.c | 1019 ++++++++++++++++++++
- >   drivers/crypto/aspeed/aspeed-hace.c        |  101 +-
- >   drivers/crypto/aspeed/aspeed-hace.h        |  107 ++
- >   5 files changed, 1242 insertions(+), 3 deletions(-)
- >   create mode 100644 drivers/crypto/aspeed/aspeed-hace-crypto.c
- >
- > diff --git a/drivers/crypto/aspeed/Kconfig 
-b/drivers/crypto/aspeed/Kconfig
- > index 17b800286a51..5e4d18288bf1 100644
-[...]
+On Wed, Jun 01, 2022 at 03:23:11PM +0700, Quan Nguyen wrote:
+> On 04/05/2022 19:06, Corey Minyard wrote:
+> > On Wed, May 04, 2022 at 01:45:03PM +0700, Quan Nguyen via Openipmi-developer wrote:
+> > > > 
+> > > > I seem to remember mentioning this before, but there is no reason to
+> > > > pack the structures below.
+> > > > 
+> > > 
+> > > The packed structure is because we want to pick the len directly from user
+> > > space without worry about the padding byte.
+> > > 
+> > > As we plan not to use the .h file in next version, I still would like to use
+> > > packed structure internally inside ssif_bmc.c file.
+> > 
+> > Packed doesn't matter for the userspace API.  If you look at other
+> > structures in the userspace API, they are not packed, either.  The
+> > compiler will do the right thing on both ends.
+> > 
+> > > 
+> > > > And second, the following is a userspace API structures, so it needs to
+> > > > be in its own file in include/uapi/linux, along with any supporting
+> > > > things that users will need to use.  And your userspace code should be
+> > > > using that file.
+> > > > 
+> > > 
+> > > Meantime, I'd like not to use .h as I see there is no demand for sharing the
+> > > data structure between kernel and user space yet. But we may do it in the
+> > > future.
+> > 
+> > If you have a userspace API, it needs to be in include/uapi/linux.
+> > You may not be the only user of this code.  In fact, you probably won't
+> > be.  You need to have a .h with the structures in it, you don't want the
+> > same structure in two places if you can help it.
+> > 
+> 
+> Dear Corey,
+> 
+> Is it OK to push the structure definition into the
+> include/uapi/linux/ipmi_bmc.h ?
+> 
+> Or should it need to be in separate new header file in uapi/linux ?
 
- > +int aspeed_register_hace_crypto_algs(struct aspeed_hace_dev *hace_dev)
- > +{
- > +	int rc, i;
- > +
- > +	for (i = 0; i < ARRAY_SIZE(aspeed_crypto_algs); i++) {
- > +		aspeed_crypto_algs[i].hace_dev = hace_dev;
- > +		rc = crypto_register_skcipher(&aspeed_crypto_algs[i].alg.skcipher);
- > +		if (rc)
- > +			return rc;
- > +	}
- > +
- > +	if (hace_dev->version == AST2600_VERSION) {
- > +		for (i = 0; i < ARRAY_SIZE(aspeed_crypto_algs_g6); i++) {
- > +			aspeed_crypto_algs_g6[i].hace_dev = hace_dev;
- > +			rc = crypto_register_skcipher(
- > +				&aspeed_crypto_algs_g6[i].alg.skcipher);
- > +			if (rc)
- > +				return rc;
- > +		}
- > +	}
-Should there be some kind of error handling here, in order to undo 
-things already done if an error occures?
+I think a different file, like ipmi_ssif_bmc, to match the file and
+operation.  Unless you need the things in ipmi_bmc.h, which I don't
+think is the case.
 
- > +
- > +	return 0;
- > +}
- > diff --git a/drivers/crypto/aspeed/aspeed-hace.c 
-b/drivers/crypto/aspeed/aspeed-hace.c
- > index f25b13d120e8..f7f90c230843 100644
- > --- a/drivers/crypto/aspeed/aspeed-hace.c
- > +++ b/drivers/crypto/aspeed/aspeed-hace.c
- > @@ -40,10 +40,30 @@ void __weak 
-aspeed_unregister_hace_hash_algs(struct aspeed_hace_dev *hace_dev)
- >   	pr_warn("%s: Not supported yet\n", __func__);
- >   }
- >
- > +/* Weak function for HACE crypto */
- > +int __weak aspeed_hace_crypto_handle_queue(struct aspeed_hace_dev 
-*hace_dev,
- > +					   struct crypto_async_request *new_areq)
- > +{
- > +	pr_warn("%s: Not supported yet\n", __func__);
- > +	return -EINVAL;
- > +}
- > +
- > +int __weak aspeed_register_hace_crypto_algs(struct aspeed_hace_dev 
-*hace_dev)
- > +{
- > +	pr_warn("%s: Not supported yet\n", __func__);
- > +	return -EINVAL;
- > +}
- > +
- > +void __weak aspeed_unregister_hace_crypto_algs(struct 
-aspeed_hace_dev *hace_dev)
- > +{
- > +	pr_warn("%s: Not supported yet\n", __func__);
- > +}
- > +
- >   /* HACE interrupt service routine */
- >   static irqreturn_t aspeed_hace_irq(int irq, void *dev)
- >   {
- >   	struct aspeed_hace_dev *hace_dev = (struct aspeed_hace_dev *)dev;
- > +	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
- >   	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
- >   	u32 sts;
- >
- > @@ -56,12 +76,36 @@ static irqreturn_t aspeed_hace_irq(int irq, void 
-*dev)
- >   		if (hash_engine->flags & CRYPTO_FLAGS_BUSY)
- >   			tasklet_schedule(&hash_engine->done_task);
- >   		else
- > -			dev_warn(hace_dev->dev, "no active requests.\n");
- > +			dev_warn(hace_dev->dev, "HASH no active requests.\n");
-To reduce diff, maybe this could already be part of patch 1/5?
+-corey
 
- > +	}
- > +
- > +	if (sts & HACE_CRYPTO_ISR) {
- > +		if (crypto_engine->flags & CRYPTO_FLAGS_BUSY)
- > +			tasklet_schedule(&crypto_engine->done_task);
- > +		else
- > +			dev_warn(hace_dev->dev, "CRYPTO no active requests.\n");
- >   	}
- >
- >   	return IRQ_HANDLED;
- >   }
- >
- > +static void aspeed_hace_cryptro_done_task(unsigned long data)
- > +{
- > +	struct aspeed_hace_dev *hace_dev = (struct aspeed_hace_dev *)data;
- > +	struct aspeed_engine_crypto *crypto_engine;
- > +
- > +	crypto_engine = &hace_dev->crypto_engine;
- > +	crypto_engine->is_async = true;
- > +	crypto_engine->resume(hace_dev);
- > +}
- > +
- > +static void aspeed_hace_crypto_queue_task(unsigned long data)
- > +{
- > +	struct aspeed_hace_dev *hace_dev = (struct aspeed_hace_dev *)data;
- > +
- > +	aspeed_hace_crypto_handle_queue(hace_dev, NULL);
- > +}
- > +
- >   static void aspeed_hace_hash_done_task(unsigned long data)
- >   {
- >   	struct aspeed_hace_dev *hace_dev = (struct aspeed_hace_dev *)data;
- > @@ -79,12 +123,27 @@ static void aspeed_hace_hash_queue_task(unsigned 
-long data)
- >
- >   static int aspeed_hace_register(struct aspeed_hace_dev *hace_dev)
- >   {
- > -	return aspeed_register_hace_hash_algs(hace_dev);
- > +	int rc1, rc2;
- > +
- > +	rc1 = aspeed_register_hace_hash_algs(hace_dev);
- > +	if (rc1) {
- > +		HACE_DBG(hace_dev, "Failed to register hash alg, rc:0x%x\n",
- > +			 rc1);
- > +	}
- > +
- > +	rc2 = aspeed_register_hace_crypto_algs(hace_dev);
- > +	if (rc2) {
- > +		HACE_DBG(hace_dev, "Failed to register crypto alg, rc:0x%x\n",
- > +			 rc2);
- > +	}
- > +
- > +	return rc1 + rc2;
-This looks odd. The error returned could finally be pointless if both 
-rc1 and rc2 are not 0.
-
- >   }
- >
- >   static void aspeed_hace_unregister(struct aspeed_hace_dev *hace_dev)
- >   {
- >   	aspeed_unregister_hace_hash_algs(hace_dev);
- > +	aspeed_unregister_hace_crypto_algs(hace_dev);
- >   }
- >
- >   static const struct of_device_id aspeed_hace_of_matches[] = {
- > @@ -95,6 +154,7 @@ static const struct of_device_id 
-aspeed_hace_of_matches[] = {
- >
- >   static int aspeed_hace_probe(struct platform_device *pdev)
- >   {
- > +	struct aspeed_engine_crypto *crypto_engine;
- >   	const struct of_device_id *hace_dev_id;
- >   	struct aspeed_engine_hash *hash_engine;
- >   	struct aspeed_hace_dev *hace_dev;
- > @@ -115,6 +175,7 @@ static int aspeed_hace_probe(struct 
-platform_device *pdev)
- >   	hace_dev->dev = &pdev->dev;
- >   	hace_dev->version = (unsigned long)hace_dev_id->data;
- >   	hash_engine = &hace_dev->hash_engine;
- > +	crypto_engine = &hace_dev->crypto_engine;
- >
- >   	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- >
- > @@ -127,6 +188,13 @@ static int aspeed_hace_probe(struct 
-platform_device *pdev)
- >   		     (unsigned long)hace_dev);
- >   	crypto_init_queue(&hash_engine->queue, ASPEED_HASH_QUEUE_LENGTH);
- >
- > +	spin_lock_init(&crypto_engine->lock);
- > +	tasklet_init(&crypto_engine->done_task, aspeed_hace_cryptro_done_task,
- > +		     (unsigned long)hace_dev);
- > +	tasklet_init(&crypto_engine->queue_task, aspeed_hace_crypto_queue_task,
- > +		     (unsigned long)hace_dev);
- > +	crypto_init_queue(&crypto_engine->queue, ASPEED_HASH_QUEUE_LENGTH);
- > +
- >   	hace_dev->regs = devm_ioremap_resource(&pdev->dev, res);
- >   	if (!hace_dev->regs) {
- >   		dev_err(&pdev->dev, "Failed to map resources\n");
- > @@ -168,9 +236,36 @@ static int aspeed_hace_probe(struct 
-platform_device *pdev)
- >   		return -ENOMEM;
- >   	}
- >
- > +	crypto_engine->cipher_ctx =
- > +		dma_alloc_coherent(&pdev->dev,
- > +				   PAGE_SIZE,
- > +				   &crypto_engine->cipher_ctx_dma,
- > +				   GFP_KERNEL);
-Should all these dma_alloc_coherent() be undone in the error handling 
-path of the probe and in the .rmove function?
-If applicable, maybe dmam_alloc_coherent() would ease? realeasing of 
-resources?
-
- > +	crypto_engine->cipher_addr =
- > +		dma_alloc_coherent(&pdev->dev,
- > +				   ASPEED_CRYPTO_SRC_DMA_BUF_LEN,
- > +				   &crypto_engine->cipher_dma_addr,
- > +				   GFP_KERNEL);
- > +	if (!crypto_engine->cipher_ctx || !crypto_engine->cipher_addr) {
- > +		dev_err(&pdev->dev, "Failed to allocate cipher dma\n");
- > +		return -ENOMEM;
- > +	}
- > +
- > +	if (hace_dev->version == AST2600_VERSION) {
- > +		crypto_engine->dst_sg_addr =
- > +			dma_alloc_coherent(&pdev->dev,
- > +					   ASPEED_CRYPTO_DST_DMA_BUF_LEN,
- > +					   &crypto_engine->dst_sg_dma_addr,
- > +					   GFP_KERNEL);
- > +		if (!crypto_engine->dst_sg_addr) {
- > +			dev_err(&pdev->dev, "Failed to allocate dst_sg dma\n");
- > +			return -ENOMEM;
- > +		}
- > +	}
- > +
- >   	rc = aspeed_hace_register(hace_dev);
- >   	if (rc) {
- > -		dev_err(&pdev->dev, "Failed to register hash alg, rc:0x%x\n", rc);
- > +		dev_err(&pdev->dev, "Failed to register algs, rc:0x%x\n", rc);
-To reduce diff, maybe this could already be part of patch 1/5?
-
- >   		rc = 0;
- >   	}
- >   [...]
+> 
+> Thank you,
+> - Quan
+> 
+> 
