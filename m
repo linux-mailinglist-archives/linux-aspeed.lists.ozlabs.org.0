@@ -2,78 +2,84 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C5753B070
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Jun 2022 02:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D7C53E12A
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Jun 2022 08:52:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LD6Rv3Mblz3blB
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Jun 2022 10:32:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LGkgf6y1gz3blM
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Jun 2022 16:52:14 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=QPOHKu2J;
+	dkim=permerror header.d=irrelevant.dk header.i=@irrelevant.dk header.a=rsa-sha1 header.s=fm3 header.b=aa+qR82W;
+	dkim=permerror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha1 header.s=fm1 header.b=op4rbspC;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::231; helo=mail-oi1-x231.google.com; envelope-from=tcminyard@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=irrelevant.dk (client-ip=66.111.4.28; helo=out4-smtp.messagingengine.com; envelope-from=its@irrelevant.dk; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=QPOHKu2J;
+	dkim=pass (2048-bit key; unprotected) header.d=irrelevant.dk header.i=@irrelevant.dk header.a=rsa-sha256 header.s=fm3 header.b=aa+qR82W;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=op4rbspC;
 	dkim-atps=neutral
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+X-Greylist: delayed 414 seconds by postgrey-1.36 at boromir; Thu, 02 Jun 2022 15:55:48 AEST
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LD6Rm2rWzz3bYS;
-	Thu,  2 Jun 2022 10:32:50 +1000 (AEST)
-Received: by mail-oi1-x231.google.com with SMTP id k11so4709091oia.12;
-        Wed, 01 Jun 2022 17:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:reply-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=sh16xGe/echtR67o8EYAV8ZtQjoNwgsJwYaCJqxIORY=;
-        b=QPOHKu2JZdnGBtC7fmTtjOSE9oopRqCnfZOiDgt6Xq8NaeFj5LEpiNC4MBvSny6XAZ
-         tP23yYoSibaO17BC+tN/4ndFzeu3y9sAlpFxVrvR46zGNkrmktR82tsnRYao912mVlgu
-         sFnMmIo/6tg4Mf1sU3/boIWlqZvWGKl6F7TtFJWoKmbeKgyEm9YDB5EQd+wNDBuGyvTX
-         E9bkmD/dKERVdm2JsF9okxmr6y9B2DO2czXcmSta8JmSRNupjJh1aMt94eWuHQdZiOYP
-         kpQk2+ruD30huk1PRYNfV17WxAzjzkzOE8Zn/WugahtBCADPO8Sj5PlPfroNmHZkNiyY
-         469Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :reply-to:references:mime-version:content-disposition:in-reply-to;
-        bh=sh16xGe/echtR67o8EYAV8ZtQjoNwgsJwYaCJqxIORY=;
-        b=NnOeMnmC7/hBSXSZZv8YpctLUk7NfheLPMzgH5MPOApEo596FPYWJbfGD5UfWKxBwf
-         0UXYtTYRQq6mur8gYQUa5MSflM9NjjrdlA3GvYXRgUYnKmVPTO/9ry8gc+xztMRGlSBV
-         sOcx1Tq9RGe22hUrpS8EHuJLLFxM5zwxgbrxyVcFQIOwXc6rQqF+k90jdIcUaeP3b5B7
-         3e3JqbjHA1JWlveHVtpdo2E6VwoJZs3+/Vg44xtdQFXjRsusCe+wFuR7+OFcj6CAsbgW
-         C7SZxNodoNoTyvBTWkjE+0l3upyYfq2VBAi7uCvIJgP4Lontj5sorIJdZNHk2s7wKfwO
-         Ib0A==
-X-Gm-Message-State: AOAM531dBhMxKaXTvfAeBY/LDaKMCsWX9kXIV3qvfGtQRkbBr5qUsE/R
-	thTjZqUnkXwB8NeGGRIutw==
-X-Google-Smtp-Source: ABdhPJzvSVAppomg02HmNv/mcRsuQs1poeKeWSDg8cjkuwsPJmAtobRPluwWod2pXyfwLfpU1Gm0fQ==
-X-Received: by 2002:a05:6808:2196:b0:32b:492a:3b4d with SMTP id be22-20020a056808219600b0032b492a3b4dmr1200787oib.255.1654129966739;
-        Wed, 01 Jun 2022 17:32:46 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
-        by smtp.gmail.com with ESMTPSA id 12-20020aca120c000000b00325cda1ffa5sm1542462ois.36.2022.06.01.17.32.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 17:32:46 -0700 (PDT)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:cca5:4cab:9a61:6930])
-	by serve.minyard.net (Postfix) with ESMTPSA id 423751800BB;
-	Thu,  2 Jun 2022 00:32:45 +0000 (UTC)
-Date: Wed, 1 Jun 2022 19:32:44 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [Openipmi-developer] [PATCH v7 1/3] ipmi: ssif_bmc: Add SSIF BMC
- driver
-Message-ID: <20220602003244.GK3767252@minyard.net>
-References: <20220422040803.2524940-1-quan@os.amperecomputing.com>
- <20220422040803.2524940-2-quan@os.amperecomputing.com>
- <20220423015119.GE426325@minyard.net>
- <ec7b86ec-827f-da64-8fd2-eae09f802694@os.amperecomputing.com>
- <20220504120631.GE3767252@minyard.net>
- <ba084735-0781-7ca2-4d04-a70a4115729a@os.amperecomputing.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LDFcN0CYwz3bcW;
+	Thu,  2 Jun 2022 15:55:47 +1000 (AEST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id A28D95C018C;
+	Thu,  2 Jun 2022 01:48:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 02 Jun 2022 01:48:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+	 h=cc:cc:content-transfer-encoding:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1654148927; x=1654235327; bh=ZkWyiuMGaq
+	hYzjNzOrV/RtlVeW8kwzCl9Ncn1BIGaC8=; b=aa+qR82WJa1/b7eBx0E27Gq0nQ
+	mhW1I88Jx3jHQuA/NgaG3e0+It9i0mNXJnvIYdOBkH1jfsM1ZDGlh0HvYh4Lr/oY
+	y9oFauoMrmB3wOcDKSZYnaMHHZX9hkLvQRRAG9BiqrCx/qwe5wH+CJYyVml6pHgg
+	rqPGhZ7JwYLkh2lEHAsPGxqkVc2ekMqeKQLrR9IZfX3B4JXdRpoHZeaRbAd+Urxp
+	y4dsenCXNg80jMulda4pu7d+MSRhdm1R19BlyZp8WleJoOa6lyb9Mb9ohGbUb6dw
+	V2/zPW9c1DOaB/xrI4uHqiKQ35+4YRAr3T8YIyqxdym0tBOJPFFmlFb5bn8A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1654148927; x=1654235327; bh=ZkWyiuMGaqhYzjNzOrV/RtlVeW8kwzCl9Nc
+	n1BIGaC8=; b=op4rbspCGhxXAGklNZ+NAoUzZ8fJhc0zp7Y17aNbOTnHEuWHDwJ
+	MgMsmR9Zf+biBtHOScoc7X2gvZ+wM1dUnSVZasNJLJZ0V/oYuRSA2uCur596VGnJ
+	LwLXo5xFm/uxioGSi7wB5HW00Bq1H2tasrtWEiV7mSgFL3EgpDy8YaWKiPmnu+tP
+	wfhvZ46FNNzHgwV6eXXg8xS+1vodDhrIZM8eD+jK56ZUe2fG9R75sxkBCDNJoKGe
+	jCE95JGdKb9AVQdtOV67eN6srP0UZSHq1Tm3hwe+l4g9KSxiA4BdxE5ZNBLPY+iX
+	a6PsWyEUHsAFQnSsQIrcYD8NT5SxHnMLtwQ==
+X-ME-Sender: <xms:Pk-YYoEx-IwVmjlXsMOVtprieeO2TuziQUrP5zSiart8wSgeD442jQ>
+    <xme:Pk-YYhUWCctqIECKG1yQBnncHD2RQt6qFug2AYUzfu02QvMLOT611bIyVW6c4796a
+    wB5i10drcT-Bz2bRZU>
+X-ME-Received: <xmr:Pk-YYiKdcSXF3_X14_BUQjy0Y1NYiniN66fUpGSCnYY6SuU9JnEH2g9SyhTespBISx2A91CaMggJoGhKJ-z3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrledugdelhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucfl
+    vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+    hnpedtleduhfegleehleeltdejffefjedtleeuvdfgteevffegtedvveekheeiieekteen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
+    hirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:Pk-YYqHfx6DImBe0zMCShFo1uLiaaGs2mE6j_V1FYwqOVUxIYPN1Rg>
+    <xmx:Pk-YYuWhtAq3v55W-v3Nt-G_SL3v0x-E0hmSoAWuyesSG6VlKK2b6w>
+    <xmx:Pk-YYtNIXy5nCtdYo-KPk2Js84B-eDYSYwjipv0ROkztQdKjGMJpWA>
+    <xmx:P0-YYnN3S-3FgQyPeZPx06hAacFFbzy9naLt4BeLQJ_h2mK_A8bhUA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 2 Jun 2022 01:48:44 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] i2c: aspeed: do not mask SLAVE_MATCH
+Date: Thu,  2 Jun 2022 07:48:42 +0200
+Message-Id: <20220602054842.122271-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba084735-0781-7ca2-4d04-a70a4115729a@os.amperecomputing.com>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 06 Jun 2022 16:52:00 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,61 +91,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Wolfram Sang <wsa@kernel.org>, Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org, openipmi-developer@lists.sourceforge.net, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, Brendan Higgins <brendanhiggins@google.com>, Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org, Klaus Jensen <k.jensen@samsung.com>, Klaus Jensen <its@irrelevant.dk>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jun 01, 2022 at 03:23:11PM +0700, Quan Nguyen wrote:
-> On 04/05/2022 19:06, Corey Minyard wrote:
-> > On Wed, May 04, 2022 at 01:45:03PM +0700, Quan Nguyen via Openipmi-developer wrote:
-> > > > 
-> > > > I seem to remember mentioning this before, but there is no reason to
-> > > > pack the structures below.
-> > > > 
-> > > 
-> > > The packed structure is because we want to pick the len directly from user
-> > > space without worry about the padding byte.
-> > > 
-> > > As we plan not to use the .h file in next version, I still would like to use
-> > > packed structure internally inside ssif_bmc.c file.
-> > 
-> > Packed doesn't matter for the userspace API.  If you look at other
-> > structures in the userspace API, they are not packed, either.  The
-> > compiler will do the right thing on both ends.
-> > 
-> > > 
-> > > > And second, the following is a userspace API structures, so it needs to
-> > > > be in its own file in include/uapi/linux, along with any supporting
-> > > > things that users will need to use.  And your userspace code should be
-> > > > using that file.
-> > > > 
-> > > 
-> > > Meantime, I'd like not to use .h as I see there is no demand for sharing the
-> > > data structure between kernel and user space yet. But we may do it in the
-> > > future.
-> > 
-> > If you have a userspace API, it needs to be in include/uapi/linux.
-> > You may not be the only user of this code.  In fact, you probably won't
-> > be.  You need to have a .h with the structures in it, you don't want the
-> > same structure in two places if you can help it.
-> > 
-> 
-> Dear Corey,
-> 
-> Is it OK to push the structure definition into the
-> include/uapi/linux/ipmi_bmc.h ?
-> 
-> Or should it need to be in separate new header file in uapi/linux ?
+From: Klaus Jensen <k.jensen@samsung.com>
 
-I think a different file, like ipmi_ssif_bmc, to match the file and
-operation.  Unless you need the things in ipmi_bmc.h, which I don't
-think is the case.
+When commit f9eb91350bb2 ("i2c: aspeed: added slave support for Aspeed
+I2C driver") added slave mode support, the SLAVE_MATCH interrupt bit
+(bit 7) was not added to INTR_ALL and so will never be set by the Aspeed
+I2C controller.
 
--corey
+Fixes: f9eb91350bb2 ("i2c: aspeed: added slave support for Aspeed I2C driver")
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+I am working on slave mode in QEMU and noticed that the device would not
+generate the SLAVE_ADDR_RX_MATCH interrupt. This patch fixes it, but I
+do not have a spec sheet on the Aspeed, so I am not sure if this is the
+intended behavior?
 
-> 
-> Thank you,
-> - Quan
-> 
-> 
+ drivers/i2c/busses/i2c-aspeed.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index 771e53d3d197..7f432babcd72 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -86,6 +86,7 @@
+ #define ASPEED_I2CD_INTR_ALL						       \
+ 		(ASPEED_I2CD_INTR_SDA_DL_TIMEOUT |			       \
+ 		 ASPEED_I2CD_INTR_BUS_RECOVER_DONE |			       \
++		 ASPEED_I2CD_INTR_SLAVE_MATCH |				       \
+ 		 ASPEED_I2CD_INTR_SCL_TIMEOUT |				       \
+ 		 ASPEED_I2CD_INTR_ABNORMAL |				       \
+ 		 ASPEED_I2CD_INTR_NORMAL_STOP |				       \
+-- 
+2.36.1
+
