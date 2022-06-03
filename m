@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA1E53D31C
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jun 2022 23:09:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2249F53D319
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jun 2022 23:08:46 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LFFqk3gBcz3cDh
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Jun 2022 07:09:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LFFqH1Kqdz3bdj
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Jun 2022 07:08:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
@@ -14,45 +14,36 @@ Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LFFqB29Zwz2xm1
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Jun 2022 07:08:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LFFqB25bPz2xBk
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Jun 2022 07:08:35 +1000 (AEST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1nxEWg-0003ql-Rk; Fri, 03 Jun 2022 23:08:10 +0200
+	id 1nxEWf-0003qn-EN; Fri, 03 Jun 2022 23:08:09 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1nxEWb-006Hpk-CA; Fri, 03 Jun 2022 23:08:04 +0200
+	id 1nxEWb-006Hps-RF; Fri, 03 Jun 2022 23:08:04 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1nxEWZ-00E1H5-6s; Fri, 03 Jun 2022 23:08:03 +0200
+	id 1nxEWZ-00E1HB-In; Fri, 03 Jun 2022 23:08:03 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Vignesh Raghavendra <vigneshr@ti.com>,
+To: Tudor Ambarus <tudor.ambarus@microchip.com>,
+	Pratyush Yadav <p.yadav@ti.com>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Richard Weinberger <richard@nod.at>,
-	Tudor Ambarus <tudor.ambarus@microchip.com>,
-	Pratyush Yadav <p.yadav@ti.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Stefan Agner <stefan@agner.ch>,
-	Lucas Stach <dev@lynxeye.de>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Liang Yang <liang.yang@amlogic.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>
-Subject: [PATCH 00/14] mtd: Fix platform remove callbacks to always return 0
-Date: Fri,  3 Jun 2022 23:07:44 +0200
-Message-Id: <20220603210758.148493-1-u.kleine-koenig@pengutronix.de>
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Joel Stanley <joel@jms.id.au>
+Subject: [PATCH 02/14] mtd: spi-nor: aspeed-smc: Make aspeed_smc_unregister() return void
+Date: Fri,  3 Jun 2022 23:07:46 +0200
+Message-Id: <20220603210758.148493-3-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220603210758.148493-1-u.kleine-koenig@pengutronix.de>
+References: <20220603210758.148493-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2310; i=uwe@kleine-koenig.org; h=from:subject; bh=q2ycDgelp/nO6ViqBZJgFoKvH7fVSGWxa2BGxqpYD+s=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBimnfE5fVVOvpqL4Xqzddai1jCcQBM7b5jo5W1QZw8 iIwB8NmJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYpp3xAAKCRDB/BR4rcrsCXt2B/ 4qWz6olnMyidYhZ7g/qZaoPMgkHVnZRaB+OnSUr+L4Jm1IodQP4MrwiltmKlSyqmdwnvxJzxtnT0zb s0TX8Y6bInlnxd/SRRBKvGKHvHFYpztNxRZkvHHz9U4M6YMqj5zZeMjx9xgdm7bQ2o3UTQTFks2VAw kS3U2+mKRRm/1zgoPawD0hqmCMMbidTgGK/2vZHrF/V1JRMy5bcK1ByBNeXwoSXt72M2W72LAdU5XA mI7wUQR/g3qkW0tGS11qyaC5ZAS76ZpOBS5GaLlS2NwqdsSmKlZ+rWdlrNH0aBd3XjiWq8HeT31nQx srBqXHcGBUJS922WV6Z9YIm/CKnDXI
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1403; i=uwe@kleine-koenig.org; h=from:subject; bh=eWtWx/epQpLlsoTlHHCWvKtyg2OjpSVS7ZvDdS6QM84=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBimnfLxu7k0eweeB8bzbAH+71WvKfW1QPZQ8Z1ONZ2 fKNE8veJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYpp3ywAKCRDB/BR4rcrsCRl5CA CR6wsaStLWrD1HN5wBjAgJ4orKtfVKq/JMqleHRmO5CwekrODLEi7LLqyUuDLTXqc/pfwOu6mp4a0H 2z4hW0+UDSiJsQFrasKIBTfS6ObBt4Pm6vcUnwyMsTJJ0qDmBazUzsO1k2eSEpoDv1L7Qpp7TbCKqx kNL97YVzqcoJyDJcSzUH72DEPcL6huEQyLW8tepFf0AzAc/VgFrvwj9oKczL9QeCvN84LCkQYO/PjF Pk4UZJKlttaHaCgjUPTC286I7DTmyFNrT/E08O/Z77L9t8orRkRkOEZ13veOxp9Uwcz77Wnj0y5aWQ UcZ9qUZT8TIsYoxgyOUeVWolF5F1Y9
 X-Developer-Key: i=uwe@kleine-koenig.org; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -70,57 +61,50 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Michael Walle <michael@walle.cc>, linux-mtd@lists.infradead.org, kernel@pengutronix.de, linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org, Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: linux-aspeed@lists.ozlabs.org, Michael Walle <michael@walle.cc>, linux-mtd@lists.infradead.org, kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello,
+The function returns zero unconditionally, so simplify to make it
+obvious there is no error to handle in the callers.
 
-this series prepares to make platform remove callbacks return void.
-Therefor first update them to always return 0. The rationale is that the
-Linux device model doesn't handle failures on remove and if a remove
-callback returns an error, it just emits a quite generic error message
-and still removes the device.
+This is a preparation for making platform remove callbacks return void.
 
-Best regards
-Uwe
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/mtd/spi-nor/controllers/aspeed-smc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Uwe Kleine-König (14):
-  mtd: hyperbus: Make hyperbus_unregister_device() return void
-  mtd: spi-nor: aspeed-smc: Make aspeed_smc_unregister() return void
-  mtd: powernv_flash: Warn about failure to unregister mtd device
-  mtd: st-spi_fsm: Warn about failure to unregister mtd device
-  mtd: lpddr2_nvm: Warn about failure to unregister mtd device
-  mtd: spear_smi: Don't skip cleanup after mtd_device_unregister()
-    failed
-  mtd: spear_smi: Drop if with an always false condition
-  mtd: rawnand: atmel: Warn about failure to unregister mtd device
-  mtd: rawnand: omap2: Suppress error message after WARN in .remove()
-  mtd: rawnand: tegra: Don't skip cleanup after mtd_device_unregister()
-    failed
-  mtd: rawnand: meson: Don't skip cleanup after mtd_device_unregister()
-    failed
-  mtd: rawnand: meson: Drop cleaning platform data in .remove()
-  mtd: physmap: Don't skip cleanup after mtd_device_unregister() failed
-  mtd: physmap: Drop if with an always false condition
-
- drivers/mtd/devices/powernv_flash.c          |  4 +++-
- drivers/mtd/devices/spear_smi.c              | 10 ++--------
- drivers/mtd/devices/st_spi_fsm.c             |  4 +++-
- drivers/mtd/hyperbus/hbmc-am654.c            |  6 +++---
- drivers/mtd/hyperbus/hyperbus-core.c         |  8 ++------
- drivers/mtd/hyperbus/rpc-if.c                |  5 +++--
- drivers/mtd/lpddr/lpddr2_nvm.c               |  4 +++-
- drivers/mtd/maps/physmap-core.c              | 13 +++----------
- drivers/mtd/nand/raw/atmel/nand-controller.c |  5 ++++-
- drivers/mtd/nand/raw/meson_nand.c            | 16 +++-------------
- drivers/mtd/nand/raw/omap2.c                 |  6 ++----
- drivers/mtd/nand/raw/tegra_nand.c            |  5 +----
- drivers/mtd/spi-nor/controllers/aspeed-smc.c |  8 ++++----
- include/linux/mtd/hyperbus.h                 |  4 +---
- 14 files changed, 37 insertions(+), 61 deletions(-)
-
-base-commit: 4b0986a3613c92f4ec1bdc7f60ec66fea135991f
+diff --git a/drivers/mtd/spi-nor/controllers/aspeed-smc.c b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
+index acfe010f9dd7..bd149104533a 100644
+--- a/drivers/mtd/spi-nor/controllers/aspeed-smc.c
++++ b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
+@@ -399,7 +399,7 @@ static ssize_t aspeed_smc_write_user(struct spi_nor *nor, loff_t to,
+ 	return len;
+ }
+ 
+-static int aspeed_smc_unregister(struct aspeed_smc_controller *controller)
++static void aspeed_smc_unregister(struct aspeed_smc_controller *controller)
+ {
+ 	struct aspeed_smc_chip *chip;
+ 	int n;
+@@ -409,13 +409,13 @@ static int aspeed_smc_unregister(struct aspeed_smc_controller *controller)
+ 		if (chip)
+ 			mtd_device_unregister(&chip->nor.mtd);
+ 	}
+-
+-	return 0;
+ }
+ 
+ static int aspeed_smc_remove(struct platform_device *dev)
+ {
+-	return aspeed_smc_unregister(platform_get_drvdata(dev));
++	aspeed_smc_unregister(platform_get_drvdata(dev));
++
++	return 0;
+ }
+ 
+ static const struct of_device_id aspeed_smc_matches[] = {
 -- 
 2.36.1
 
