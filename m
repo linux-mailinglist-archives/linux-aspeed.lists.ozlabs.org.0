@@ -1,77 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAE453CA19
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jun 2022 14:39:24 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA1E53D31C
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jun 2022 23:09:08 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LF2WZ06Rtz3bnd
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jun 2022 22:39:22 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Y007TVDT;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LFFqk3gBcz3cDh
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Jun 2022 07:09:06 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102c; helo=mail-pj1-x102c.google.com; envelope-from=linmq006@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Y007TVDT;
-	dkim-atps=neutral
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LF2WV1wFsz2xBF
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Jun 2022 22:39:17 +1000 (AEST)
-Received: by mail-pj1-x102c.google.com with SMTP id l20-20020a17090a409400b001dd2a9d555bso7132824pjg.0
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 03 Jun 2022 05:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WZeh6dPlumSxGZHW+VabBQeUNOylTh9kH627gkvPD+A=;
-        b=Y007TVDTsVw2lMEBXkR/FDRNRV6iyelZ51Ogy3OHkyUxu5lyWsKT5NvAJWTmGx+5ku
-         7SPyy8Q9FvgqXHsRr3cqUCSu8P0sEmUphieQGMnAL4rwzKq1/T4o8SShk7nGIIuVIJ7s
-         sAJk9SBu059Jsf3aZBF3WgzYewGjI/izch7jta9PIaaDYRVT6UjFIg59Z+5UdKL1n4Z3
-         o1RAhsDEs+moKuck8+3NPVgX1ag1oBcCxuxJU62Q+r8JbVAjV/qtCkNu2gSTr33n+QDj
-         5y8ZvVS/3Msue9oUKSevHa0iFV31Zdkhk/sAaYrGGFtJL/RWndHjEkXEn0sSba712JPq
-         t08g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WZeh6dPlumSxGZHW+VabBQeUNOylTh9kH627gkvPD+A=;
-        b=2DtSryjpuSaZgAa3/dG4st0wIDLxgRPcFS5+Qwqh88NhLbTL7vgGQQ3Hhsh/d/+V6K
-         aTOx9ht0zBTEhEVt8cvNl30d42inbRln9t4UYQJjCOlr3g7c1SClaQJy/LCKH0nnoPkg
-         cX0fqtu7TfVS8dVcypRuvVtRwbAwvciIDZP/ZRfEihYwwTVdLhxohRjPz/qhY0zwdUmv
-         Bqjib9PJz1XMd6IPf2wTh6g5cI4HWaW1maOl82Vy/05Y11rxsMovYKh3wnXVy9tdARCL
-         ZVuni9uu5mBI/pfa4UGPK3kxgLebdNZ3vjEczecIK8ItRoIh/REq2W3Ei6eOaSotae4I
-         1IqA==
-X-Gm-Message-State: AOAM533gp9pnhPB0z9hUhwFYw2Ici/SaApgELCTb93t2xIFpYvByVBv/
-	j7ik+vkq+NmNQCH2dXYIbfw=
-X-Google-Smtp-Source: ABdhPJxTwFTdmtpYkEYSdKalAhQdMMJ2P6PK6DiB3tuvARtFEmIIk6ddSDvYnFSLZ94zcHu1HAEyVQ==
-X-Received: by 2002:a17:902:d592:b0:161:3bf4:9047 with SMTP id k18-20020a170902d59200b001613bf49047mr3355736plh.137.1654259954469;
-        Fri, 03 Jun 2022 05:39:14 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
-        by smtp.googlemail.com with ESMTPSA id ju10-20020a17090b20ca00b001df264610c4sm5483212pjb.0.2022.06.03.05.39.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jun 2022 05:39:13 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	Chia-Wei Wang <chiawei_wang@aspeedtech.com>,
-	Miaoqian Lin <linmq006@gmail.com>,
-	Patrick Venture <venture@google.com>,
-	Robert Lippert <roblip@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] soc: aspeed: Fix IRQ check in aspeed_lpc_snoop_config_irq
-Date: Fri,  3 Jun 2022 16:39:02 +0400
-Message-Id: <20220603123904.30714-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LFFqB29Zwz2xm1
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Jun 2022 07:08:37 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nxEWg-0003ql-Rk; Fri, 03 Jun 2022 23:08:10 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nxEWb-006Hpk-CA; Fri, 03 Jun 2022 23:08:04 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nxEWZ-00E1H5-6s; Fri, 03 Jun 2022 23:08:03 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Vignesh Raghavendra <vigneshr@ti.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	Pratyush Yadav <p.yadav@ti.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Lucas Stach <dev@lynxeye.de>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Liang Yang <liang.yang@amlogic.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>
+Subject: [PATCH 00/14] mtd: Fix platform remove callbacks to always return 0
+Date: Fri,  3 Jun 2022 23:07:44 +0200
+Message-Id: <20220603210758.148493-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2310; i=uwe@kleine-koenig.org; h=from:subject; bh=q2ycDgelp/nO6ViqBZJgFoKvH7fVSGWxa2BGxqpYD+s=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBimnfE5fVVOvpqL4Xqzddai1jCcQBM7b5jo5W1QZw8 iIwB8NmJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYpp3xAAKCRDB/BR4rcrsCXt2B/ 4qWz6olnMyidYhZ7g/qZaoPMgkHVnZRaB+OnSUr+L4Jm1IodQP4MrwiltmKlSyqmdwnvxJzxtnT0zb s0TX8Y6bInlnxd/SRRBKvGKHvHFYpztNxRZkvHHz9U4M6YMqj5zZeMjx9xgdm7bQ2o3UTQTFks2VAw kS3U2+mKRRm/1zgoPawD0hqmCMMbidTgGK/2vZHrF/V1JRMy5bcK1ByBNeXwoSXt72M2W72LAdU5XA mI7wUQR/g3qkW0tGS11qyaC5ZAS76ZpOBS5GaLlS2NwqdsSmKlZ+rWdlrNH0aBd3XjiWq8HeT31nQx srBqXHcGBUJS922WV6Z9YIm/CKnDXI
+X-Developer-Key: i=uwe@kleine-koenig.org; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,46 +70,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-aspeed@lists.ozlabs.org, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Michael Walle <michael@walle.cc>, linux-mtd@lists.infradead.org, kernel@pengutronix.de, linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org, Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-platform_get_irq() returns negative error number instead 0 on failure.
-And the doc of platform_get_irq() provides a usage example:
+Hello,
 
-    int irq = platform_get_irq(pdev, 0);
-    if (irq < 0)
-        return irq;
+this series prepares to make platform remove callbacks return void.
+Therefor first update them to always return 0. The rationale is that the
+Linux device model doesn't handle failures on remove and if a remove
+callback returns an error, it just emits a quite generic error message
+and still removes the device.
 
-Fix the check of return value to catch errors correctly.
+Best regards
+Uwe
 
-Fixes: 9f4f9ae81d0a ("drivers/misc: add Aspeed LPC snoop driver")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
-v1 Link: https://lore.kernel.org/r/20220114064357.18562-1-linmq006@gmail.com
-In previous v1 thread:
-Reviewed-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-Signed-off-by: Patrick Venture <venture@google.com>
+Uwe Kleine-König (14):
+  mtd: hyperbus: Make hyperbus_unregister_device() return void
+  mtd: spi-nor: aspeed-smc: Make aspeed_smc_unregister() return void
+  mtd: powernv_flash: Warn about failure to unregister mtd device
+  mtd: st-spi_fsm: Warn about failure to unregister mtd device
+  mtd: lpddr2_nvm: Warn about failure to unregister mtd device
+  mtd: spear_smi: Don't skip cleanup after mtd_device_unregister()
+    failed
+  mtd: spear_smi: Drop if with an always false condition
+  mtd: rawnand: atmel: Warn about failure to unregister mtd device
+  mtd: rawnand: omap2: Suppress error message after WARN in .remove()
+  mtd: rawnand: tegra: Don't skip cleanup after mtd_device_unregister()
+    failed
+  mtd: rawnand: meson: Don't skip cleanup after mtd_device_unregister()
+    failed
+  mtd: rawnand: meson: Drop cleaning platform data in .remove()
+  mtd: physmap: Don't skip cleanup after mtd_device_unregister() failed
+  mtd: physmap: Drop if with an always false condition
 
-v2 Link: https://lore.kernel.org/r/20220603082336.3867-1-linmq006@gmail.com
----
- drivers/soc/aspeed/aspeed-lpc-snoop.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/mtd/devices/powernv_flash.c          |  4 +++-
+ drivers/mtd/devices/spear_smi.c              | 10 ++--------
+ drivers/mtd/devices/st_spi_fsm.c             |  4 +++-
+ drivers/mtd/hyperbus/hbmc-am654.c            |  6 +++---
+ drivers/mtd/hyperbus/hyperbus-core.c         |  8 ++------
+ drivers/mtd/hyperbus/rpc-if.c                |  5 +++--
+ drivers/mtd/lpddr/lpddr2_nvm.c               |  4 +++-
+ drivers/mtd/maps/physmap-core.c              | 13 +++----------
+ drivers/mtd/nand/raw/atmel/nand-controller.c |  5 ++++-
+ drivers/mtd/nand/raw/meson_nand.c            | 16 +++-------------
+ drivers/mtd/nand/raw/omap2.c                 |  6 ++----
+ drivers/mtd/nand/raw/tegra_nand.c            |  5 +----
+ drivers/mtd/spi-nor/controllers/aspeed-smc.c |  8 ++++----
+ include/linux/mtd/hyperbus.h                 |  4 +---
+ 14 files changed, 37 insertions(+), 61 deletions(-)
 
-diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-index eceeaf8dfbeb..c4a03b3a5cf8 100644
---- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-+++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-@@ -167,8 +167,8 @@ static int aspeed_lpc_snoop_config_irq(struct aspeed_lpc_snoop *lpc_snoop,
- 	int rc;
- 
- 	lpc_snoop->irq = platform_get_irq(pdev, 0);
--	if (!lpc_snoop->irq)
--		return -ENODEV;
-+	if (lpc_snoop->irq < 0)
-+		return lpc_snoop->irq;
- 
- 	rc = devm_request_irq(dev, lpc_snoop->irq,
- 			      aspeed_lpc_snoop_irq, IRQF_SHARED,
+base-commit: 4b0986a3613c92f4ec1bdc7f60ec66fea135991f
 -- 
-2.25.1
+2.36.1
 
