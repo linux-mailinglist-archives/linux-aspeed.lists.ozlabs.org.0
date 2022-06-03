@@ -2,87 +2,37 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2302B53E12B
-	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Jun 2022 08:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE04D53C65C
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jun 2022 09:37:22 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LGkgk0b5yz3bkq
-	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Jun 2022 16:52:18 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=permerror header.d=irrelevant.dk header.i=@irrelevant.dk header.a=rsa-sha1 header.s=fm3 header.b=nYy0O1P4;
-	dkim=permerror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha1 header.s=fm1 header.b=DWYLET/+;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LDvq44P7jz3bnJ
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jun 2022 17:37:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=irrelevant.dk (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com; envelope-from=its@irrelevant.dk; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=irrelevant.dk header.i=@irrelevant.dk header.a=rsa-sha256 header.s=fm3 header.b=nYy0O1P4;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=DWYLET/+;
-	dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LDsQL1X7dz302D;
-	Fri,  3 Jun 2022 15:49:12 +1000 (AEST)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4D2485C013C;
-	Fri,  3 Jun 2022 01:49:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 03 Jun 2022 01:49:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1654235347; x=1654321747; bh=lI
-	jU4LaO1rApVvOShyS8GsBVRsoSsVXvjryTJrZtKjg=; b=nYy0O1P4Jg3wrrSfTQ
-	i1ZV2JXrHfgfVbbmBZe862UKfJaGUqdX3KZuUZnKHPsAiNp7fsYkCyJj395RHnna
-	NX8ziLucahVzPWgc3eV+EIBy6f5XnqRrdY3QY6OZyY8jLiVSlSptBu1NYNTKKlUg
-	wzli+cpj+QudXBh4uJqCBvKA8Kdd+N5BfJnEwBwTdvNIaO49gwdMfhQ/LOzpDEXM
-	Uyy65GIQqWBls0aVqyiU4Oz4DjMvfp35igT54Es2ef5MtYoq03nPd87EoOb4yDuh
-	5nLMDaYkvI9HvS6QOFV8eyvpPpAoWvjm0cFflfrgdqlikGx+4jgxIgGXyBfIEIvp
-	Vrtw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1654235347; x=1654321747; bh=lIjU4LaO1rApVvOShyS8GsBVRsoS
-	sVXvjryTJrZtKjg=; b=DWYLET/+XU0wgIpSjFaGJqNfUWigRsswi65wQSs1vnYS
-	zBmqyej4l+7Eyh3eOfJargM2gMrF8Ty9hUZBmIEnAUzfIdKCme9rQoN6z9H6HQxt
-	p5RuAQHXZNlZBNaIwCEJlDz8ldxjqbt+SsZtsxAVdEE2qsAWHyHwj4nrUVHNYlHg
-	qIMAOtpMEaFMyWBSx4uyv2BecJrpOfIeAMML3R8ek7N3IP8/I/D8BPEO8UzmOpAK
-	G1qq8FxEd3OMW6spsu3yk2apr/YJlX5eaUVM0jvBwT0QvAG9lTCs39jaBgrgZbsb
-	y3yqLw+f6f9IAfAQvwYjZWGztIR6IQYZGw+8e8qZcQ==
-X-ME-Sender: <xms:0qCZYmx_z6_DqH4Me6LAylQuyrsjgqyeTNi3FqNR3vhNCsw-k0JHNw>
-    <xme:0qCZYiRlWq-4IJNRYwf44fjmlXXzDHu2V5SRmkfEnLEmQDWaIGGV3EPyzwe-RpiVI
-    TfxtTbDYdtKKbyIsTY>
-X-ME-Received: <xmr:0qCZYoXA60zcQ31LtSBRgkprWwnkI8RgQGCwXCpxWCNjGoZXWuUjXvWSxGCLg1P1Hmkt7L2vvUE3yUj2iA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleehgdellecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
-    ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
-    gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
-    veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
-    hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:0qCZYsji16QNHoWnUZyivblJITBw7cfdpqBySyBx8Jpi-QPp7BQL0Q>
-    <xmx:0qCZYoADT-KyZuTywC0LYuIq19GkQ721risq-V9BStA_XTJqMUyCiQ>
-    <xmx:0qCZYtIZsBNGuASds4zG95lJRcHQN-rZRliBCaIHcLtsjKlsS_M_Mg>
-    <xmx:06CZYs51fTr8av9ucwhbWcQ0ev30R5OcwABGfGFsbxrxmG32wTT8uw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 01:49:04 -0400 (EDT)
-Date: Fri, 3 Jun 2022 07:49:02 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] i2c: aspeed: do not mask SLAVE_MATCH
-Message-ID: <YpmgzroKbMO3TIsY@apples>
-References: <20220602054842.122271-1-its@irrelevant.dk>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LDvq106Q9z3bkY
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Jun 2022 17:37:17 +1000 (AEST)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	by gandalf.ozlabs.org (Postfix) with ESMTP id 4LDvpy6wf4z4xZD;
+	Fri,  3 Jun 2022 17:37:14 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4LDvpt5Mscz4xDK;
+	Fri,  3 Jun 2022 17:37:10 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH] ARM: dts: aspeed: ast2600-evb: Enable Quad SPI RX tranfers
+Date: Fri,  3 Jun 2022 09:37:05 +0200
+Message-Id: <20220603073705.1624351-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="H0uRup5aAnlYFzFn"
-Content-Disposition: inline
-In-Reply-To: <20220602054842.122271-1-its@irrelevant.dk>
-X-Mailman-Approved-At: Mon, 06 Jun 2022 16:52:00 +1000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,69 +44,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, Brendan Higgins <brendanhiggins@google.com>, Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org, Klaus Jensen <k.jensen@samsung.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Now that the pinctrl definitions of the ast2600 SoC have been fixed,
+see commit 925fbe1f7eb6 ("dt-bindings: pinctrl: aspeed-g6: add FWQSPI
+function/group"), it is safe to activate QSPI on the ast2600 evb.
 
---H0uRup5aAnlYFzFn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+Tested-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Jun  2 07:48, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> When commit f9eb91350bb2 ("i2c: aspeed: added slave support for Aspeed
-> I2C driver") added slave mode support, the SLAVE_MATCH interrupt bit
-> (bit 7) was not added to INTR_ALL and so will never be set by the Aspeed
-> I2C controller.
->=20
-> Fixes: f9eb91350bb2 ("i2c: aspeed: added slave support for Aspeed I2C dri=
-ver")
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
-> I am working on slave mode in QEMU and noticed that the device would not
-> generate the SLAVE_ADDR_RX_MATCH interrupt. This patch fixes it, but I
-> do not have a spec sheet on the Aspeed, so I am not sure if this is the
-> intended behavior?
->=20
->  drivers/i2c/busses/i2c-aspeed.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-asp=
-eed.c
-> index 771e53d3d197..7f432babcd72 100644
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -86,6 +86,7 @@
->  #define ASPEED_I2CD_INTR_ALL						       \
->  		(ASPEED_I2CD_INTR_SDA_DL_TIMEOUT |			       \
->  		 ASPEED_I2CD_INTR_BUS_RECOVER_DONE |			       \
-> +		 ASPEED_I2CD_INTR_SLAVE_MATCH |				       \
->  		 ASPEED_I2CD_INTR_SCL_TIMEOUT |				       \
->  		 ASPEED_I2CD_INTR_ABNORMAL |				       \
->  		 ASPEED_I2CD_INTR_NORMAL_STOP |				       \
-> --=20
-> 2.36.1
->=20
+diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+index 5a6063bd4508..87a79922ff78 100644
+--- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
++++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+@@ -182,6 +182,7 @@ flash@0 {
+ 		status = "okay";
+ 		m25p,fast-read;
+ 		label = "bmc";
++		spi-rx-bus-width = <4>;
+ 		spi-max-frequency = <50000000>;
+ #include "openbmc-flash-layout-64.dtsi"
+ 	};
+@@ -196,6 +197,7 @@ flash@0 {
+ 		status = "okay";
+ 		m25p,fast-read;
+ 		label = "pnor";
++		spi-rx-bus-width = <4>;
+ 		spi-max-frequency = <100000000>;
+ 	};
+ };
+-- 
+2.35.3
 
-I've been informed that SLAVE_MATCH should always be generated,
-regardless of INTR_CTRL, so please ignore this patch.
-
---H0uRup5aAnlYFzFn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmKZoMwACgkQTeGvMW1P
-DemGlAf/aII/yHlSNHBjG7id0U5uz2uhWKpOBXclCdnrJdDhxNxlXN1R0rGlpUP4
-1PX6c9dlVwPdyO3xiu6egzUsvwJdQ8i28xjZZldVIYtNKC4ruvEaR/PCjCQGBRzh
-p5QaZAseo1PoAj1M5JJupcgrs20SSoVWs9Sr0X2qNEaCsCgQ3+E1NXS0qhf+0tp7
-DXfw6ICyofMrm8Qmjz6WX6f0+SedpmIKBnzxAgyG5W9a/6jC2tWxNEam/W3bozA9
-x412Op9vT2UtrN3jHy6gnJQR+mJfMUTk24kLTk1htmBWyY0HP0lRtFex65EVxozO
-uuQMHDRxT54gNlrroIl9Rx1qmS3LvQ==
-=6I9B
------END PGP SIGNATURE-----
-
---H0uRup5aAnlYFzFn--
