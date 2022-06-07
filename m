@@ -2,42 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B2B53F577
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jun 2022 07:08:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83DE53F9C5
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jun 2022 11:29:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LHJKJ48dRz3bkG
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jun 2022 15:08:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LHQ6k5hpRz3bm6
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jun 2022 19:29:34 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=Vpt6++21;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wanadoo.fr (client-ip=80.12.242.129; helo=smtp.smtpout.orange.fr; envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN>)
-Received: from smtp.smtpout.orange.fr (smtp07.smtpout.orange.fr [80.12.242.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ti.com (client-ip=198.47.23.248; helo=lelv0143.ext.ti.com; envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=Vpt6++21;
+	dkim-atps=neutral
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LHJKD2bGdz307B
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Jun 2022 15:08:13 +1000 (AEST)
-Received: from [192.168.1.18] ([90.11.190.129])
-	by smtp.orange.fr with ESMTPA
-	id yRKRntRriL5fDyRKSnPDgo; Tue, 07 Jun 2022 07:00:39 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Tue, 07 Jun 2022 07:00:39 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <a85c4f87-c87f-784f-7db3-0b83570f82da@wanadoo.fr>
-Date: Tue, 7 Jun 2022 07:00:31 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LHQ6c36Shz307F
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Jun 2022 19:29:26 +1000 (AEST)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2579SvHT126954;
+	Tue, 7 Jun 2022 04:28:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1654594137;
+	bh=Nyq1TKZIJGCjqSBfilV1ispV0YrXu83a8Dkd9vgWxVQ=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=Vpt6++216SyMW8110zf+/0xnsrVnAN1wv/+pjnDzkKWxJzLYzazUaoyvO7NLf4nb9
+	 PaJI2XU3SRsSeKDDPvl4u6wd+PIwbCHOHiTsywvksnD4HY8AZW7LGzBbex7Tdh01FQ
+	 Ij9mbtl57BCvsfQvDvSfY086nI26vhfv/dIt1PpU=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2579Svuq007627
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 7 Jun 2022 04:28:57 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 7
+ Jun 2022 04:28:57 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Tue, 7 Jun 2022 04:28:57 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2579Sufl051892;
+	Tue, 7 Jun 2022 04:28:57 -0500
+Date: Tue, 7 Jun 2022 14:58:56 +0530
+From: Pratyush Yadav <p.yadav@ti.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 02/14] mtd: spi-nor: aspeed-smc: Make
+ aspeed_smc_unregister() return void
+Message-ID: <20220607092856.jh7jj4snlobx2kae@ti.com>
+References: <20220603210758.148493-1-u.kleine-koenig@pengutronix.de>
+ <20220603210758.148493-3-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 5/5] crypto: aspeed: add HACE crypto driver
-Content-Language: fr
-To: Neal Liu <neal_liu@aspeedtech.com>
-References: <20220606064935.1458903-1-neal_liu@aspeedtech.com>
- <20220606064935.1458903-6-neal_liu@aspeedtech.com>
- <ef2fc6ab-e487-1f95-dceb-fd190f064ac2@wanadoo.fr>
- <HK0PR06MB3202DFD70F7BA5090A14ACB780A59@HK0PR06MB3202.apcprd06.prod.outlook.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <HK0PR06MB3202DFD70F7BA5090A14ACB780A59@HK0PR06MB3202.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220603210758.148493-3-u.kleine-koenig@pengutronix.de>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,302 +71,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Johnny Huang <johnny_huang@aspeedtech.com>, Herbert Xu <herbert@gondor.apana.org.au>, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-crypto@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>, Richard Weinberger <richard@nod.at>, Michael Walle <michael@walle.cc>, linux-mtd@lists.infradead.org, kernel@pengutronix.de, Miquel Raynal <miquel.raynal@bootlin.com>, linux-arm-kernel@lists.infradead.org, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Le 07/06/2022 à 05:53, Neal Liu a écrit :
->> Le 06/06/2022 à 08:49, Neal Liu a écrit :
->>> Add HACE crypto driver to support symmetric-key encryption and
->>> decryption with multiple modes of operation.
->>>
->>> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
->>> Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
->>> ---
->>
->> [...]
->>
->>> +static int aspeed_sk_transfer_sg(struct aspeed_hace_dev *hace_dev) {
->>> +	struct aspeed_engine_crypto *crypto_engine =
->> &hace_dev->crypto_engine;
->>> +	struct device *dev = hace_dev->dev;
->>> +	struct aspeed_cipher_reqctx *rctx;
->>> +	struct skcipher_request *req;
->>> +
->>> +	CIPHER_DBG(hace_dev, "\n");
->>> +
->>> +	req = skcipher_request_cast(crypto_engine->areq);
->>> +	rctx = skcipher_request_ctx(req);
->>> +
->>> +	if (req->src == req->dst) {
->>> +		dma_unmap_sg(dev, req->src, rctx->src_nents,
->> DMA_BIDIRECTIONAL);
->>> +
->>
->> Unneeded empty line.
-> 
-> Okay !
-> 
->>
->>> +	} else {
->>> +		dma_unmap_sg(dev, req->src, rctx->src_nents, DMA_TO_DEVICE);
->>> +		dma_unmap_sg(dev, req->dst, rctx->dst_nents,
->> DMA_FROM_DEVICE);
->>> +	}
->>> +
->>> +	return aspeed_sk_complete(hace_dev, 0); }
->>> +
->>
->> [...]
->>
->>> +static int aspeed_sk_start_sg(struct aspeed_hace_dev *hace_dev) {
->>> +	struct aspeed_engine_crypto *crypto_engine =
->> &hace_dev->crypto_engine;
->>> +	struct aspeed_sg_list *src_list, *dst_list;
->>> +	dma_addr_t src_dma_addr, dst_dma_addr;
->>> +	struct aspeed_cipher_reqctx *rctx;
->>> +	struct skcipher_request *req;
->>> +	struct scatterlist *s;
->>> +	int src_sg_len;
->>> +	int dst_sg_len;
->>> +	int total, i;
->>> +	int rc;
->>> +
->>> +	CIPHER_DBG(hace_dev, "\n");
->>> +
->>> +	req = skcipher_request_cast(crypto_engine->areq);
->>> +	rctx = skcipher_request_ctx(req);
->>> +
->>> +	rctx->enc_cmd |= HACE_CMD_DES_SG_CTRL |
->> HACE_CMD_SRC_SG_CTRL |
->>> +			 HACE_CMD_AES_KEY_HW_EXP |
->> HACE_CMD_MBUS_REQ_SYNC_EN;
->>> +
->>> +	/* BIDIRECTIONAL */
->>> +	if (req->dst == req->src) {
->>> +		src_sg_len = dma_map_sg(hace_dev->dev, req->src,
->>> +					rctx->src_nents, DMA_BIDIRECTIONAL);
->>> +		dst_sg_len = src_sg_len;
->>> +		if (!src_sg_len) {
->>> +			dev_warn(hace_dev->dev, "dma_map_sg() src error\n");
->>> +			return -EINVAL;
->>> +		}
->>> +
->>> +	} else {
->>> +		src_sg_len = dma_map_sg(hace_dev->dev, req->src,
->>> +					rctx->src_nents, DMA_TO_DEVICE);
->>> +		if (!src_sg_len) {
->>> +			dev_warn(hace_dev->dev, "dma_map_sg() src error\n");
->>> +			return -EINVAL;
->>> +		}
->>> +
->>> +		dst_sg_len = dma_map_sg(hace_dev->dev, req->dst,
->>> +					rctx->dst_nents, DMA_FROM_DEVICE);
->>> +		if (!dst_sg_len) {
->>> +			dev_warn(hace_dev->dev, "dma_map_sg() dst error\n");
->>> +			rc = -EINVAL;
->>> +			goto free_req_src;
->>
->> Should we realy call dma_unmap_sg() if dma_map_sg() fails?
-> 
-> This error handling is unmap() the above buffer (req->src), not really this buffer (req->dst).
-> I think it should.
+Hi Uwe,
 
-You are right, I missread it. Sorry for the noise.
+On 03/06/22 11:07PM, Uwe Kleine-K�nig wrote:
+> The function returns zero unconditionally, so simplify to make it
+> obvious there is no error to handle in the callers.
+> 
+> This is a preparation for making platform remove callbacks return void.
+
+Cedric recently ported the driver to SPI MEM and it has now hit the 
+linux-next tree [0]. This driver is planned to be removed. Can you 
+please check if the new driver has this issue, and fix it there?
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit?id=9c63b846e6df43e5b3d31263f7db545f32deeda3
 
 > 
->>
->>> +		}
->>> +	}
->>> +
->>> +	src_list = (struct aspeed_sg_list *)crypto_engine->cipher_addr;
->>> +	src_dma_addr = crypto_engine->cipher_dma_addr;
->>> +	total = req->cryptlen;
->>> +
->>> +	for_each_sg(req->src, s, src_sg_len, i) {
->>> +		src_list[i].phy_addr = sg_dma_address(s);
->>> +
->>> +		/* last sg list */
->>> +		if (sg_dma_len(s) >= total) {
->>> +			src_list[i].len = total;
->>> +			src_list[i].len |= BIT(31);
->>> +			total = 0;
->>> +			break;
->>> +		}
->>> +
->>> +		src_list[i].len = sg_dma_len(s);
->>> +		total -= src_list[i].len;
->>> +	}
->>> +
->>> +	if (total != 0)
->>> +		return -EINVAL;
->>
->> goto free_req_src; ?
+> Signed-off-by: Uwe Kleine-K�nig <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/mtd/spi-nor/controllers/aspeed-smc.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> Yes, I miss this part. I'll revise it in next patch, thanks.
+> diff --git a/drivers/mtd/spi-nor/controllers/aspeed-smc.c b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
+> index acfe010f9dd7..bd149104533a 100644
+> --- a/drivers/mtd/spi-nor/controllers/aspeed-smc.c
+> +++ b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
+> @@ -399,7 +399,7 @@ static ssize_t aspeed_smc_write_user(struct spi_nor *nor, loff_t to,
+>  	return len;
+>  }
+>  
+> -static int aspeed_smc_unregister(struct aspeed_smc_controller *controller)
+> +static void aspeed_smc_unregister(struct aspeed_smc_controller *controller)
+>  {
+>  	struct aspeed_smc_chip *chip;
+>  	int n;
+> @@ -409,13 +409,13 @@ static int aspeed_smc_unregister(struct aspeed_smc_controller *controller)
+>  		if (chip)
+>  			mtd_device_unregister(&chip->nor.mtd);
+>  	}
+> -
+> -	return 0;
+>  }
+>  
+>  static int aspeed_smc_remove(struct platform_device *dev)
+>  {
+> -	return aspeed_smc_unregister(platform_get_drvdata(dev));
+> +	aspeed_smc_unregister(platform_get_drvdata(dev));
+> +
+> +	return 0;
+>  }
+>  
+>  static const struct of_device_id aspeed_smc_matches[] = {
+> -- 
+> 2.36.1
+> 
 
-There is another one below...
-
-> 
->>
->>> +
->>> +	if (req->dst == req->src) {
->>> +		dst_list = src_list;
->>> +		dst_dma_addr = src_dma_addr;
->>> +
->>> +	} else {
->>> +		dst_list = (struct aspeed_sg_list *)crypto_engine->dst_sg_addr;
->>> +		dst_dma_addr = crypto_engine->dst_sg_dma_addr;
->>> +		total = req->cryptlen;
->>> +
->>> +		for_each_sg(req->dst, s, dst_sg_len, i) {
->>> +			dst_list[i].phy_addr = sg_dma_address(s);
->>> +
->>> +			/* last sg list */
->>> +			if (sg_dma_len(s) >= total) {
->>> +				dst_list[i].len = total;
->>> +				dst_list[i].len |= BIT(31);
->>> +				total = 0;
->>> +				break;
->>> +			}
->>> +
->>> +			dst_list[i].len = sg_dma_len(s);
->>> +			total -= dst_list[i].len;
->>> +		}
->>> +
->>> +		dst_list[dst_sg_len].phy_addr = 0;
->>> +		dst_list[dst_sg_len].len = 0;
->>> +	}
->>> +
->>> +	if (total != 0)
->>> +		return -EINVAL;
-
-... here.
-
->>> +
->>> +	crypto_engine->resume = aspeed_sk_transfer_sg;
->>> +
->>> +	/* Dummy read for barriers */
->>> +	readl(src_list);
->>> +	readl(dst_list);
->>> +
->>> +	/* Trigger engines */
->>> +	ast_hace_write(hace_dev, src_dma_addr, ASPEED_HACE_SRC);
->>> +	ast_hace_write(hace_dev, dst_dma_addr, ASPEED_HACE_DEST);
->>> +	ast_hace_write(hace_dev, req->cryptlen, ASPEED_HACE_DATA_LEN);
->>> +	ast_hace_write(hace_dev, rctx->enc_cmd, ASPEED_HACE_CMD);
->>> +
->>> +	return -EINPROGRESS;
->>> +
->>> +free_req_src:
->>> +	dma_unmap_sg(hace_dev->dev, req->src, rctx->src_nents,
->>> +DMA_TO_DEVICE);
->>> +
->>> +	return rc;
->>> +}
->>> +
->>
->> [...]
->>
->>> +static int aspeed_aes_setkey(struct crypto_skcipher *cipher, const u8 *key,
->>> +			     unsigned int keylen)
->>> +{
->>> +	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(cipher);
->>> +	struct aspeed_hace_dev *hace_dev = ctx->hace_dev;
->>> +	struct crypto_aes_ctx gen_aes_key;
->>> +
->>> +	CIPHER_DBG(hace_dev, "keylen: %d bits\n", (keylen * 8));
->>> +
->>> +	if (keylen != AES_KEYSIZE_128 && keylen != AES_KEYSIZE_192 &&
->>> +	    keylen != AES_KEYSIZE_256)
->>> +		return -EINVAL;
->>> +
->>> +	if (ctx->hace_dev->version == AST2500_VERSION) {
->>> +		aes_expandkey(&gen_aes_key, key, keylen);
->>> +		memcpy(ctx->key, gen_aes_key.key_enc, AES_MAX_KEYLENGTH);
->>> +
->>
->> Unneeded empty line
-> 
-> Okay !
-> 
->>
->>> +	} else {
->>> +		memcpy(ctx->key, key, keylen);
->>> +	}
->>> +
->>> +	ctx->key_len = keylen;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>
->> [...]
->>
->>> +	crypto_engine->cipher_ctx =
->>> +		dma_alloc_coherent(&pdev->dev,
->>> +				   PAGE_SIZE,
->>> +				   &crypto_engine->cipher_ctx_dma,
->>> +				   GFP_KERNEL);
->>> +	if (!crypto_engine->cipher_ctx) {
->>> +		dev_err(&pdev->dev, "Failed to allocate cipher ctx dma\n");
->>> +		rc = -ENOMEM;
->>> +		goto free_hash_src;
->>> +	}
->>> +
->>> +	crypto_engine->cipher_addr =
->>> +		dma_alloc_coherent(&pdev->dev,
->>> +				   ASPEED_CRYPTO_SRC_DMA_BUF_LEN,
->>> +				   &crypto_engine->cipher_dma_addr,
->>> +				   GFP_KERNEL);
->>> +	if (!crypto_engine->cipher_addr) {
->>> +		dev_err(&pdev->dev, "Failed to allocate cipher addr dma\n");
->>> +		rc = -ENOMEM;
->>> +		goto free_cipher_ctx;
->>> +	}
->>> +
->>> +	if (hace_dev->version == AST2600_VERSION) {
->>> +		crypto_engine->dst_sg_addr =
->>> +			dma_alloc_coherent(&pdev->dev,
->>> +					   ASPEED_CRYPTO_DST_DMA_BUF_LEN,
->>> +					   &crypto_engine->dst_sg_dma_addr,
->>> +					   GFP_KERNEL);
->>> +		if (!crypto_engine->dst_sg_addr) {
->>> +			dev_err(&pdev->dev, "Failed to allocate dst_sg dma\n");
->>> +			rc = -ENOMEM;
->>> +			goto free_cipher_addr;
->>> +		}
->>> +	}
->>> +
->>>    	rc = aspeed_hace_register(hace_dev);
->>>    	if (rc) {
->>>    		dev_err(&pdev->dev, "Failed to register algs, rc:0x%x\n", rc);
->>
->> I guess that the new dma_alloc_coherent() just a few lines above should also
->> be undone in error hanfling path if aspeed_hace_register() fails?
-> 
-> I'll remove the return value (rc) since it's useless here. So no need error handling on this part.
-> I'll revise it in next patch, thanks.
-> 
->>
->>> @@ -179,6 +282,18 @@ static int aspeed_hace_probe(struct
->>> platform_device *pdev)
->>>
->>>    	return 0;
->>>
->>> +free_cipher_addr:
->>> +	dma_free_coherent(&pdev->dev, ASPEED_CRYPTO_SRC_DMA_BUF_LEN,
->>> +			  crypto_engine->cipher_addr,
->>> +			  crypto_engine->cipher_dma_addr);
->>> +free_cipher_ctx:
->>> +	dma_free_coherent(&pdev->dev, PAGE_SIZE,
->>> +			  crypto_engine->cipher_ctx,
->>> +			  crypto_engine->cipher_ctx_dma);
->>> +free_hash_src:
->>> +	dma_free_coherent(&pdev->dev, ASPEED_HASH_SRC_DMA_BUF_LEN,
->>> +			  hash_engine->ahash_src_addr,
->>> +			  hash_engine->ahash_src_dma_addr);
->>>    end:
->>>    	clk_disable_unprepare(hace_dev->clk);
->>>    	return rc;
-
+-- 
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
