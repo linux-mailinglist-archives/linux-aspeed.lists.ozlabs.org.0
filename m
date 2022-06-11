@@ -2,65 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF47E54737E
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Jun 2022 11:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0F754737F
+	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Jun 2022 11:59:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LKtb65ckcz3c4h
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Jun 2022 19:59:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LKtb94WM2z3cdN
+	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Jun 2022 19:59:17 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=b+UduNbJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=TC/HfOrV;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::231; helo=mail-lj1-x231.google.com; envelope-from=aladyshev22@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::12a; helo=mail-lf1-x12a.google.com; envelope-from=aladyshev22@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=b+UduNbJ;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=TC/HfOrV;
 	dkim-atps=neutral
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LKtZm029Pz3cFN
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LKtZl6PRyz3cFB
 	for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Jun 2022 19:58:54 +1000 (AEST)
-Received: by mail-lj1-x231.google.com with SMTP id c30so1458671ljr.9
+Received: by mail-lf1-x12a.google.com with SMTP id a2so1955193lfg.5
         for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Jun 2022 02:58:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V8fgBWB6Fwlc80DQzKSjfadMQq9+v7sFm69/tgJcyx8=;
-        b=b+UduNbJq6kwMAPQgOSuaelsP440nPLKh4mZNI3OJpp2oPfpLd8jEkPyeaqxDaKLJu
-         g2to7UoslpP80cXn6z2d3qsl+M/hHOAvRJNxZpCs24LeofPfHiZO5kHpvvjZIGxkidUt
-         1depfTDbzezsOVlDTMpTQ5C0hPJXeIA5R5ddm522GuKkCuuweAHHWKKnTWzz1hMK3iUb
-         4fatkiOpOUAXZLb1MLbF8mYVW6Bf7KtMWmyEzdGU0yfP+aqpDPVUWDs9bScFm+qRwCSI
-         zrspBZcGZteC4lgw0N1VXd5yhxOfzhGrcnHTEKm31qag+MEqbBH4aYVq5EHw2vATzIGs
-         07hw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=C93TNgs3tEMkjRGIc4zQyQSLHKj4wajnsAJdSQ715T4=;
+        b=TC/HfOrVTyr9dht911B6WyEVEETgffYiwjSdsWhhNbTnqcUq/GmMnj85tfMJpHKJ54
+         8lTzTeJR1UQqQbJHSYxhunhJ1eaaS7dnT1NbiiMzzsgRDBKSjyvDJyCX6OwXzmmhHmh7
+         OcdG1D00tvereTAB6g317kOi36zTyygl1wiNErlzuIMhO3Dj8DapgNDRihg/tNuI3ds2
+         GrQ00+6wMB5J3loW4lWEVflR1QmKYbb627zhLEwgST10z2U5Q2wGWPYmNUAoCZZUWUi2
+         9y+Up1t5iqr8N0GanPfJiV2q/pHD8+I2JKuuecwTYih4E2G0N2YBuALQMclz2s05+H4d
+         c2+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V8fgBWB6Fwlc80DQzKSjfadMQq9+v7sFm69/tgJcyx8=;
-        b=vi4Yoy1BJ31fj4m2z4zezhEaHx5Rwsw1UBjtOXnpZLq9jzw1owqfj24oH/UsD6B8RM
-         pYRIsQJwoYGHHpke7C+T6D3gXjJLABv/HGYfYd9g9NuylPgSIowQFXj8pTQG9IaiU6Y7
-         TbV6XH/xZAdQKROU8tOOm/yuCn6mCKqSZgqc2ELDz4ny/WMFgBvN0RLhqoWzSTNHKeu9
-         eAIuLN2y5JBAsLXOY48PBOX5iH1Oo/Cf0jZuKbZZEa8RVQ0mucnNM6apMXVnxL9b6Q2v
-         J1YOfNjr8HzJZ49TCIhhM037B74kpm20N9W9IhHvmqZkxC0mmh+vkUm2S58fRR8mULY3
-         AaLg==
-X-Gm-Message-State: AOAM533xpAklMR1hJXedewrmxFYvjb0h3h+ZqvnGMZdZLcZG6DJYsyui
-	GrNtkypAuI57SXwHXMPJ1Bo=
-X-Google-Smtp-Source: ABdhPJwzkJ9Xi37kvu4X5cJKh8Gn6rL6I+HOKpwZclM9Wm2twJohgXGGrRlhPOPl63T2tv3oattPFg==
-X-Received: by 2002:a2e:8686:0:b0:255:8474:f3af with SMTP id l6-20020a2e8686000000b002558474f3afmr20805147lji.402.1654941526941;
-        Sat, 11 Jun 2022 02:58:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=C93TNgs3tEMkjRGIc4zQyQSLHKj4wajnsAJdSQ715T4=;
+        b=ZaNfYHpkz1JcE4dQdNHcOQjE7HR6Lji+VZhBeravCn0t2sXeytwrX2vDW9yrOi7BFr
+         ZxHpK9+5i2l/a3eIywkRhbGtw/HwQPcDsokm8SKwIBWxXoC/sohVncENmRftltwQq6+G
+         x6784iM1sOvE8p9xzyheNHDATpPzWiDZJhN8e+jn7tq8P+8NjK+uPVgBRi/qdxnPTmhQ
+         vCssHHhXQ7GsL2q/4/c0QS87YrY37cQ1zLhD5Atu9HsN4j0KPm6bnQLDLWIM6FMHkgNG
+         lVv6LRMS5Qc/ffMU21hgeD6MjpacXVmZ5RcoPTCPGAkHgg+izx7o2UP0t3N2MvVB/B/j
+         6blg==
+X-Gm-Message-State: AOAM5327oRTFYreSdCXo7nnf5iUobp8vVd02T2ZWoWjmrU3onBGcCVgF
+	MMz+xvfp76DbHBFhHZHMhn0=
+X-Google-Smtp-Source: ABdhPJyW9Vpw8JSAMpHkEpi5Oft1TkEZC/FsxY6pbNdui2qL9dmT/mecCiJCFx6hLubZ/sI+6Y9bFg==
+X-Received: by 2002:ac2:4bd3:0:b0:479:3cfb:72e5 with SMTP id o19-20020ac24bd3000000b004793cfb72e5mr19651571lfq.516.1654941528155;
+        Sat, 11 Jun 2022 02:58:48 -0700 (PDT)
 Received: from DESKTOP-GSFPEC9.localdomain (broadband-90-154-71-254.ip.moscow.rt.ru. [90.154.71.254])
-        by smtp.gmail.com with ESMTPSA id h18-20020a056512055200b004785060bad6sm200634lfl.201.2022.06.11.02.58.46
+        by smtp.gmail.com with ESMTPSA id h18-20020a056512055200b004785060bad6sm200634lfl.201.2022.06.11.02.58.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jun 2022 02:58:46 -0700 (PDT)
+        Sat, 11 Jun 2022 02:58:47 -0700 (PDT)
 From: Konstantin Aladyshev <aladyshev22@gmail.com>
 To: 
-Subject: [PATCH 0/4] DTS changes for the AMD EthanolX CRB BMC
-Date: Sat, 11 Jun 2022 12:58:24 +0300
-Message-Id: <20220611095828.1090-1-aladyshev22@gmail.com>
+Subject: [PATCH 1/4] ARM: dts: aspeed: ethanolx: Add correct label to flash device
+Date: Sat, 11 Jun 2022 12:58:25 +0300
+Message-Id: <20220611095828.1090-2-aladyshev22@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220611095828.1090-1-aladyshev22@gmail.com>
+References: <20220611095828.1090-1-aladyshev22@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -78,17 +80,26 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, aladyshev22@gmail
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Several patches for the DTS of the BMC on the AMD EthanolX CRB.
+The OpenBMC code update infrastructure requires BMC firmware flash
+drive to have a label "bmc".
 
-Konstantin Aladyshev (4):
-  ARM: dts: aspeed: ethanolx: Add correct label to flash device
-  ARM: dts: aspeed: ethanolx: Configure RTS/CTS for UART1
-  ARM: dts: aspeed: ethanolx: Use correct driver for the FRU EEPROM
-  ARM: dts: aspeed: ethanolx: Enable VUART
+Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
- arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
-
+diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+index 6406a0f080ee..889b2fdd19cf 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+@@ -58,6 +58,7 @@ &fmc {
+ 	flash@0 {
+ 		status = "okay";
+ 		m25p,fast-read;
++		label = "bmc";
+ 		#include "openbmc-flash-layout.dtsi"
+ 	};
+ };
 -- 
 2.25.1
 
