@@ -1,134 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10575547D7A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jun 2022 03:49:16 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 230F75481F5
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jun 2022 10:41:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LLvcn6sZTz3c8W
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jun 2022 11:49:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LM4lv6X0jz3c85
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jun 2022 18:40:59 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=fehad8pz;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=r32laorB;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::706; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ti.com (client-ip=198.47.19.142; helo=fllv0016.ext.ti.com; envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=fehad8pz;
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=r32laorB;
 	dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20706.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::706])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LLvcc277rz303D
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Jun 2022 11:49:03 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BPgYzLsSXCFEGJBpHYdv52ccaT4ikW/7nKVfY+6r0zypS8CW4lCei1JeSh+JvqQbPrdRzva3fA0u+NbBAIL39IVeodk9Ktnsp3qeTvYSgfXgnuxubZ6tdWKEzeudRWcz5wPKHAjQ4uqlygzgeHggKoUnuOjNTBnvlBa1FkEYQd/0HZrxmfTaAPS4L+3d2ZlIMIgE3W+3Lp3gsiMEv063NRt4m8uDK+AyWTklUc1LP1We5u6MZ8kDRIH4SqoG9nuvP9v7tSAwwbeYVdtONDVd0WgR/Kw6yd6IuBgj0JOX124mOpc/j2GR6wc7uZsaX+f/ZHBL1XaeFPAwodRs1dHAZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Llaoh9lET4S/OhAnOsW7ujDL8Mp+iVabaCQrrDpp6RU=;
- b=B9CLZ4klGD9HC/C8IHy79Mo4ce212g1ByaPmjjV9WsF1Ilyu19eU3ICWeX4dEc2aGTYpXrkPHGpB2IaZbEFOauc1lwK97thS5DJfMMwcXEJwzb9KLuUKgqXK4EfAFA3QQwYeP5ClPThN1MM9triFiSjjnwpqtlhsRCJGnT3foyXlcwsjYreZb2Um87RFTGumTCYTSsHdYE3BlliLWVzWq7iw7JRTkv8ioAjZlB2pOYXY2yJeOVe2umT480sbmxGxhIJtlN+4ytfdmoTbG74q78EFvBSguJVVgA0HWxROG4p8v/L0BSQSIrIVbmRoGgWlo/uFSzmJucY4kg7mDsEyWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Llaoh9lET4S/OhAnOsW7ujDL8Mp+iVabaCQrrDpp6RU=;
- b=fehad8pzkLHpN+l10OjHMr56LXHlhUQkfZQt0q1qAirJCmUf8pobFcuq0Ucn9K0EXoiJXk9MBhjt++0vvtTNj0QZY2pcfYawnSHgZVu0skLuzKfg2QBjL/6vnBAoD/TuvugcAxl+ZZOcl0oCAjVxrsFjt8ajowzvbvZ4HsVSljHGEy2F0QRdF1/5j+xT+sToJAOx58n6La8Z1zyOGCFEjBmbXtybIdOjy0l2lq8kOUJrRvFxUHHZ/PspS3XaCv8oaBMc+bDr+5w7kZoEEqPvX4ksUYJeNNgu29XsWwc5HdD9s55WRTw+NnHo7eceLkxoI0mwNmv4pVRaUHR/URrQEQ==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by TYAPR06MB2350.apcprd06.prod.outlook.com (2603:1096:404:20::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Mon, 13 Jun
- 2022 01:48:40 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::7c42:9783:92c9:f237]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::7c42:9783:92c9:f237%7]) with mapi id 15.20.5332.020; Mon, 13 Jun 2022
- 01:48:40 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Dhananjay Phadke <dphadke@linux.microsoft.com>, Herbert Xu
-	<herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, Andrew
- Jeffery <andrew@aj.id.au>, Johnny Huang <johnny_huang@aspeedtech.com>
-Subject: RE: [PATCH 5/5] crypto: aspeed: add HACE crypto driver
-Thread-Topic: [PATCH 5/5] crypto: aspeed: add HACE crypto driver
-Thread-Index: AQHYdXplWC114bhAXUSzdjTWoGD8KK1F8lyAgAaw5zA=
-Date: Mon, 13 Jun 2022 01:48:40 +0000
-Message-ID:  <HK0PR06MB32022ABEDDDFD9FB24B8103D80AB9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20220601054204.1522976-1-neal_liu@aspeedtech.com>
- <20220601054204.1522976-6-neal_liu@aspeedtech.com>
- <6f9e1481-db9c-cd5f-c38d-bdcd3040315f@linux.microsoft.com>
-In-Reply-To: <6f9e1481-db9c-cd5f-c38d-bdcd3040315f@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b91685ad-be78-4042-8188-08da4cded716
-x-ms-traffictypediagnostic: TYAPR06MB2350:EE_
-x-microsoft-antispam-prvs:  <TYAPR06MB2350727C054A3F577E17A80380AB9@TYAPR06MB2350.apcprd06.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  qOpG5giejNQZwdqpXn+2Y4qAWb+x0ccp5bWI+YSPUCyWXXWzT7xddmpgJAZtESYvCJj01xepRTpYIUPSUMAf3xnLI80S+mPhEeObYjBge0asS4MxRVuE3cvtnVS+/4ipeZAdqaZXHgWyy5ayUbU/q2BGhHkP0jVC9rz+Gi5fEs/FGqUwrwoX2/gl8bmaJzy4zvYSRONmQPTWzmq85rkYDb0xyCVVZqCaNCOHQNMcSA3iWWXfBnA2FwgkmiYmmCD3678p3d7yk4t1EQ232IaTnYdVi9f8KLOfeQTEeSX2ad9eyd7Khcqjc4ztaXZowKc31dOarUO7K1evI+CCA2i4DgTyJKqoqUnXixx+Z5sxoBF3t5gRo01Q7G3cOSras5Ygt6kMVs1FdUoNSVCWwih6vIq3YHMst3tFL1QO3e28lRr2QrcSqr5e/tBWmOfE/qR/eAkBhyPgdugAngrUatyLrHrK2ulp2xAy55aRrpIcGCS3uYpKyEdEF4DBLvgTIXzy40ZY/k0SXXMPRHje2MOWTFIFsxAFLx0unakMtS22atTr+K+M8O0OWRWeGk+qibVYvqPiGkbktHiDZztPkQrxqMT3FvX45VHD2cD37kSofigpvpf8OKmQYYlrVRcmkXPYmuF88New7S9F+sDuyt6nQJss8UUv32dd7YflsQvCLbpAz6YYvjycC3rXTAI/x+QG+PJvuajaELTevpW1e3elyQ==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(366004)(346002)(396003)(39840400004)(41300700001)(26005)(53546011)(9686003)(7696005)(6506007)(54906003)(6636002)(66446008)(110136005)(76116006)(66946007)(66556008)(66476007)(316002)(64756008)(508600001)(71200400001)(86362001)(186003)(38100700002)(122000001)(38070700005)(52536014)(8676002)(2906002)(4326008)(33656002)(5660300002)(55016003)(8936002)(7416002)(4744005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?eVRKNk1IU3g2M2dXVGlFdVJJcitocGx5TUNmVHMrSjFEZ0phRE1ubVRZQzAw?=
- =?utf-8?B?VWxxeGhnTHoreU5XU0FIbGJyU3dyazNMdTM0OFg0NVNkeHFSK3JjRTlyK2dS?=
- =?utf-8?B?TjZhaWFNb2h6WWNUeUVFNDNGUTc2VlBBeTFNZkQ4NjlYVHdzS3M0dlNueEJK?=
- =?utf-8?B?Tkk5U1JpQ1hYcXk4RGVVRFZNK1YzcGdoM01MbG44Tm5sQUpHY0VDL0ZGOS9a?=
- =?utf-8?B?RzVGOGVyalpua0xBbU1UdWQxREtjZnRPbk9uZU04WDkzc3JwTlZYMkFMK3JB?=
- =?utf-8?B?Uk1DQURiZDM1SDA5U2ZqalZWcks4TjVOdlRPT2Q2RWIzc3REYnBmVDYwaCt1?=
- =?utf-8?B?bGpiTnJpeS8rYmxoSU1WQ1NXb0cvV2R6bzF4RCtYdlhROHMzM2NBV1ZzVi95?=
- =?utf-8?B?bTlaaGtKVkVaWTkvcjdtd0o3ZTVCcFhoQW00ZXlRUU5uT3pCcnBJcTd5cWxp?=
- =?utf-8?B?RVBtNnBvQy95b0xpWlJYSm56YlJyWkN5YTdKZzlsUHdqbWFsK3V6dHkxVFFD?=
- =?utf-8?B?Q05VdGN3QXFucUVobGhsWElOYTExY2UzQVFPalk1SWJ3dTY4OTZpbDVxY0Iy?=
- =?utf-8?B?eUc3Sy9vSGxTQlVtbzVUeGZCRmxsK0FJekRmN1pEamJldEowTkhZdk9LZnNt?=
- =?utf-8?B?ZTFYZnoyR1dxSGE5T2MxYlBXWlJlYXYweFpNaUM2cTdzTTJDMFU4MFE0QlBH?=
- =?utf-8?B?R1JUWHNGc1UxTjNRczF2NFpPRURTR1JZUElrYjRVTzV6L2N2NE5YM1lETUU5?=
- =?utf-8?B?RE92UVQzN0RMai9sSXo0cTZmbHAwandlQXFDNjRYUlVaV21pcDdlWE9UYjRX?=
- =?utf-8?B?azk1UzFVRC82WDdzVmRrNWQzWWpXQTZEdGdEeEw2RXhSNVFib0VFK1huMURo?=
- =?utf-8?B?a0VSOGRjRmpwWnVWbVhSNDdaNkVUQVVvY0Z6MXpFeGZ3ZTJnbUNjVU1ZTEZJ?=
- =?utf-8?B?TG94MktpdDZuMFQrRmRUM1Nyd2todkxtbXZnQ1FqZkFnaCtsNkM0L1F6OEx0?=
- =?utf-8?B?ZTBTOWdhUElCbFFVZDZmY0xFMEE0UDZKcU1BYlYvT0ZKSU1PMEVPamd1SlFM?=
- =?utf-8?B?enlHRlpaU1B2NGo1d1FIYzFOV1FBZ013MTUvM29hdWJFMU9vOXdWOUZoNm1E?=
- =?utf-8?B?R2xQUWxxc1pPL3BFbVA4SG5TVUFsNTczN0ZzUmRBM2VnZSs2blFXR2VWV3VY?=
- =?utf-8?B?ZmQvN2RVcnhydHdEb3QzSkUyVmtJd1oxdkRJSHBZRzN4K29LTXBURGxUQzhp?=
- =?utf-8?B?cHpVc0VFWUQ4eFpjK3FiZjR4R3lTTUpKSUVUU0RUcm83RjQrS2t2ZjR5U3Fo?=
- =?utf-8?B?Vmw0eDZoWHpoZUliblB4Z2dqQnVvcTdPb1RMK1BSTmlhd0tvTTFxR1dKaEhP?=
- =?utf-8?B?bVhWOTNuUlZJVlRvSlNraFhRSTZvUDI3SUNkYmtSRHRIZWpla1RxQmRFMGVN?=
- =?utf-8?B?SytSNlZYeVpqN0x2SDJaRkZWK1AxTndtUDR1aUsxdjFWTENCeVVlQU1oYlht?=
- =?utf-8?B?QjI2eDU4aWp3aFhiZEF6UUFFNjM0d1lDWVJHT09IVlVEOXU5cXY3a0U0RXpJ?=
- =?utf-8?B?c3YrSzRjZ1p1bSs5WTFGeE5SQWtLRFhRL2pHa3hEQ3JaZXk3SzkvVDZKK3Zy?=
- =?utf-8?B?dzV2bGNad3lLNFNVaDVPN1o5ck81RGl0K0NQbWV1SXhmV1JXL2FXcnEvanVB?=
- =?utf-8?B?NUErdWRNREd1WWtETlZmRjJ1UG4vaTd2S21Oc0p6TDZnVkpRU2xLMmQvaTFR?=
- =?utf-8?B?Q2Uzakx2c1JLSE1FU0U4WU56WjdZRHVIaUpERTlnVTFwZUVUKzVqQ0I1c1pD?=
- =?utf-8?B?TXFxVEhFcE9TQWRFTXlrUExCWndiNE1RUHNtYWxGcDR2ZGl3RHdEbmF6VWRk?=
- =?utf-8?B?TUxKQ1FxK0FTcFI0UzgrZ20zYmh3eFRUSHJ5K0pTZEZUaWpGaCtuUHRlS0tT?=
- =?utf-8?B?NWJ3WmhVUGxIcTJwUW94NnlFT1lRT3FrcXdTbEhHVDdXWk5DRHdHbUdsZVA3?=
- =?utf-8?B?R043SEQrd3NaUXNObklBU3hld3JWaXMxMks5d3pQbmpqUkhJcWVHM2FrQTlp?=
- =?utf-8?B?N3huNFFqSE5pZ08xRCtmRGNNTG16L2RwbzBWTzcvOUZHSGkzYSs1bFBBMEhw?=
- =?utf-8?B?UVFUcmkvNGwreW5Pa1IxcXVHaGFyemFNMHpoQkNYdTBCT3lJSUFEZmRkN2xC?=
- =?utf-8?B?MmNUV1FPblZ4a0wwdjZmbVc2RGxoam9xT0xIK3R2d2RwYXo2ZVRtZWpuZnFT?=
- =?utf-8?B?NnBWTFpEUEVGYjN4RGkwc25sa0dPaHg1RjlwT3FCdnAvWlEvRDYxbFhlaTM4?=
- =?utf-8?B?WnI0OERFeWVRZlRSbmt6dHNoWXlRRnljR2pGSWpaajlJWUltU08ydz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LM4lm201Cz3blF
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Jun 2022 18:40:50 +1000 (AEST)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 25D8dsm8023311;
+	Mon, 13 Jun 2022 03:39:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1655109594;
+	bh=yB0N/eBApvLnHywfzpr1P7uAOtpx4mXByhrRq/pwrSI=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=r32laorBRMVlvdy0ax40q4DP6j/2CQmAmWwKpkUT8bKhCTa07hrnV3DzxEc9tC479
+	 qjtZETPbST8hNv+TKlmuR/liNNVDgztetrL0w5/gRqmS6R0gvGiOsqMgGsZALo9A7r
+	 F/nfgiTA0n6/4bXreBfqsdsNev9MQ73rH6YS7mP4=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 25D8dstI034912
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 13 Jun 2022 03:39:54 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Mon, 13
+ Jun 2022 03:39:53 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Mon, 13 Jun 2022 03:39:53 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 25D8drpX037114;
+	Mon, 13 Jun 2022 03:39:53 -0500
+Date: Mon, 13 Jun 2022 14:09:52 +0530
+From: Pratyush Yadav <p.yadav@ti.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] spi: aspeed: Fix division by zero
+Message-ID: <20220613083952.4z45ulaxdy2okbho@ti.com>
+References: <20220611103929.1484062-1-clg@kaod.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b91685ad-be78-4042-8188-08da4cded716
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2022 01:48:40.0904
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JSZGZhqdm+kBFuGDfphxrzoK11mvbZGgYUT97z5OAYofrtOsOJZxkp0y98H+yLpi6HVdRyn4/aYQXVG0hlTovg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR06MB2350
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220611103929.1484062-1-clg@kaod.org>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,21 +69,71 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>, Ian Woloschin <ian.woloschin@akamai.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiBPbiA2LzYvMjAyMiA4OjQzIFBNLCBOZWFsIExpdSB3cm90ZToNCj4gPj4+ICtzdHJ1Y3QgYXNw
-ZWVkX2hhY2VfYWxnIHsNCj4gPj4+ICsJc3RydWN0IGFzcGVlZF9oYWNlX2RldgkJKmhhY2VfZGV2
-Ow0KPiA+Pj4gKwl1bmlvbiB7DQo+ID4+PiArCQlzdHJ1Y3Qgc2tjaXBoZXJfYWxnCXNrY2lwaGVy
-Ow0KPiA+Pj4gKwkJc3RydWN0IGFlYWRfYWxnCQlhZWFkOw0KPiA+Pj4gKwkJc3RydWN0IGFoYXNo
-X2FsZwlhaGFzaDsNCj4gPj4+ICsJCXN0cnVjdCBrcHBfYWxnCQlrcHA7DQo+ID4+PiArCQlzdHJ1
-Y3QgYWtjaXBoZXJfYWxnCWFrY2lwaGVyOw0KPiA+Pg0KPiA+PiBZb3VyIHBhdGNoIGRvbnQgZG8g
-YW55IGtwcCBvciBha2NpcGhlciAoYW5kIGFlYWQvc2tjaXBoZXIgYWxzbykuDQo+ID4+IFBsZWFz
-ZSBkcm9wIHRoaXMuDQo+ID4NCj4gPiBJIG1pc3MgdGhpcyBwYXJ0LCBJJ2xsIHJldmlzZSBpdCBp
-biBuZXh0IHBhdGNoLCB0aGFua3MuDQo+IA0KPiBIaSBOZWFsLA0KPiANCj4gQXJlIHlvdSBwbGFu
-bmluZyB0byBzdWJtaXQgYWVhZCBzZXBhcmF0ZWx5PyBIVyBwcm9ncmFtbWluZyBpbnRlcmZhY2Ug
-Zm9yDQo+IGFlcy1nY20gaXMgYWxtb3N0IHNhbWUgYXMgb3RoZXIgYWVzIG1vZGVzIGV4Y2VwdCBl
-eHRyYSByZWdzL2ZpZWxkcyBmb3IgdGFnDQo+IGV0Yy4NCj4gDQo+IA0KPiBUaGFua3MsDQo+IERo
-YW5hbmpheQ0KPiANClRoaXMgZW5naW5lIGRvIG5vdCBzdXBwb3J0IGFlYWQgY3VycmVudGx5LCBz
-byBpdCBuZWVkcyB0byBiZSByZW1vdmVkLg0KVGhhbmtzDQoNCi1OZWFsDQoNCg0K
+On 11/06/22 12:39PM, Cédric Le Goater wrote:
+> When using the normal read operation for data transfers, the dummy bus
+> width is zero. In that case, they are no dummy bytes to transfer and
+> setting the dummy field in the controller register becomes useless.
+> 
+> Issue was found on a custom "Bifrost" board with a AST2500 SoC and
+> using a MX25L51245GMI-08G SPI Flash.
+> 
+> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> Reported-by: Ian Woloschin <ian.woloschin@akamai.com>
+> Fixes: 54613fc6659b ("spi: aspeed: Add support for direct mapping")
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>  drivers/spi/spi-aspeed-smc.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+> index 496f3e1e9079..3e891bf22470 100644
+> --- a/drivers/spi/spi-aspeed-smc.c
+> +++ b/drivers/spi/spi-aspeed-smc.c
+> @@ -558,6 +558,14 @@ static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
+>  	u32 ctl_val;
+>  	int ret = 0;
+>  
+> +	dev_dbg(aspi->dev,
+> +		"CE%d %s dirmap [ 0x%.8llx - 0x%.8llx ] OP %#x mode:%d.%d.%d.%d naddr:%#x ndummies:%#x\n",
+> +		chip->cs, op->data.dir == SPI_MEM_DATA_IN ? "read" : "write",
+> +		desc->info.offset, desc->info.offset + desc->info.length,
+> +		op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
+> +		op->dummy.buswidth, op->data.buswidth,
+> +		op->addr.nbytes, op->dummy.nbytes);
+> +
+
+Unrelated change. Please send as a separate patch.
+
+>  	chip->clk_freq = desc->mem->spi->max_speed_hz;
+>  
+>  	/* Only for reads */
+> @@ -574,9 +582,11 @@ static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
+>  	ctl_val = readl(chip->ctl) & ~CTRL_IO_CMD_MASK;
+>  	ctl_val |= aspeed_spi_get_io_mode(op) |
+>  		op->cmd.opcode << CTRL_COMMAND_SHIFT |
+> -		CTRL_IO_DUMMY_SET(op->dummy.nbytes / op->dummy.buswidth) |
+>  		CTRL_IO_MODE_READ;
+>  
+> +	if (op->dummy.nbytes)
+> +		ctl_val |= CTRL_IO_DUMMY_SET(op->dummy.nbytes / op->dummy.buswidth);
+> +
+
+LGTM. With the above fixed,
+
+Reviewed-by: Pratyush Yadav <p.yadav@ti.com>
+
+>  	/* Tune 4BYTE address mode */
+>  	if (op->addr.nbytes) {
+>  		u32 addr_mode = readl(aspi->regs + CE_CTRL_REG);
+> -- 
+> 2.35.3
+> 
+
+-- 
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
