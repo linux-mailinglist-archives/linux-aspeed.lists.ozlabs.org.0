@@ -1,122 +1,100 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4C354D6D8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 03:17:35 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C43E354D7C5
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 04:04:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LNkms40V9z3bxS
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 11:17:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LNlqY4yWQz3ds5
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 12:04:57 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=mtsMMkKz;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=akamai.com header.i=@akamai.com header.a=rsa-sha256 header.s=jan2016.eng header.b=EJ1pHYJA;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:704b::701; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=akamai.com (client-ip=2620:100:9005:57f::1; helo=mx0b-00190b01.pphosted.com; envelope-from=iwolosch@akamai.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=mtsMMkKz;
+	dkim=pass (2048-bit key; secure) header.d=akamai.com header.i=@akamai.com header.a=rsa-sha256 header.s=jan2016.eng header.b=EJ1pHYJA;
 	dkim-atps=neutral
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20701.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::701])
+X-Greylist: delayed 2223 seconds by postgrey-1.36 at boromir; Tue, 14 Jun 2022 02:56:19 AEST
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [IPv6:2620:100:9005:57f::1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNkmh0fT1z3bdF
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jun 2022 11:17:22 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DPOQCKIkxMKdQZEUv+IU8wrrK4z0qa2gf+U/GWZqb+zwQ9iWENveBQUxnIaBq2mTwqZQMqfZlmunU3zil6Eb4sDDYlDAMhRPGDdQT6MldvG4DJcgT+cK5s/tCrx7UwGryBJ4ruTuZ8RpGpt3bSrzAAkr9tIgBOzi77JcRJLGClNDs0/fGmQOrntipvq5Hlm68FJX6GKj7rw2yefUIg56HKbF+K4lvIGwdCQawg1VOEzAq2gdONFAgJiVeRr/WfrKifMmUuF3r1lQChxl4S2kPfsR7yq3Q7y9qBn5AezxK3V/OQN8g5Hn0mxSNZmILPUp88V2ZRYwOm7Ph/cQFnHVnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ef8zPmJLS6z47GZMPpgaxyOba4r6Z2E4bCExiDwtCA=;
- b=OzQXuN8Q1qMUCghferkYXnRIZMIo65B8NN4p5qgUclELhoj1hLYNymgV5ONQ97tQyh19fx2apXRH8y7XUY1uCPx3sHPv050/z/2074q4TfWEG2uMaPJzdjZ2wEwUP9Yxu44gZxwGS2Bgv5iNj65D/fLQQncflghtBo5MX0ZsEHsky/x3+aPIh6UUKN5kRFkkN/9Sd2b6ay1BAqdwZnc7CX5SPicZV6HFLDsjxxKUuHp2vKusNnJZd8AuAxkn8kAOvcmT8BmU37so20EhiSKKAG3f13xoDRCiBH45AP4wgjiOncc4BPbuZ0XrcIY549IqAucKwkAFgYgioxeA+qv1pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ef8zPmJLS6z47GZMPpgaxyOba4r6Z2E4bCExiDwtCA=;
- b=mtsMMkKzPbPBy6EeLatRraU6Ce5ZB1DvAu+XzMa4ruuJfNyr6T0skupVoSr31dHYOWxzBZXTNzaxE583lNroDhfo3dhn81ap7fWD7pTxSHMQyTSpAMs918Bwnr1TYE0AbHmwl5SjV94NeA2AiPjkXrAe9V2/l3OvSu7HcKjFsnmynQX7XvbcCMZ9AAp/OZToaFIcF/9IKyIxDDtBHVTRKvFV8EWSIwrliecoAWB5e4DPInJt3vZm+rRwOrNsdweysy56bLu1S4psR2bg7+fE0yN/7s0cK/h3fO4A/OAjOCy8wXo49SoOce+oRFx1OHLabqqAFWQGjiNyyPw8h6c65Q==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by TYZPR06MB4511.apcprd06.prod.outlook.com (2603:1096:400:66::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Thu, 16 Jun
- 2022 01:16:56 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::7c42:9783:92c9:f237]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::7c42:9783:92c9:f237%7]) with mapi id 15.20.5332.022; Thu, 16 Jun 2022
- 01:16:55 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>
-Subject: RE: [PATCH] MAINTAINERS: Repair file entry in ASPEED USB UDC DRIVER
-Thread-Topic: [PATCH] MAINTAINERS: Repair file entry in ASPEED USB UDC DRIVER
-Thread-Index: AQHYgPBgwNpldfk97k2qy8dp1n25lq1RO3Fg
-Date: Thu, 16 Jun 2022 01:16:55 +0000
-Message-ID:  <HK0PR06MB3202DE01EB506DC97EBBD60E80AC9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20220615194409.11875-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20220615194409.11875-1-lukas.bulwahn@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LMHlR6p3Qz3086;
+	Tue, 14 Jun 2022 02:56:17 +1000 (AEST)
+Received: from pps.filterd (m0122331.ppops.net [127.0.0.1])
+	by mx0b-00190b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DEsslR032114;
+	Mon, 13 Jun 2022 17:18:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=jan2016.eng;
+ bh=9y8X2rLVllcv7n1uyVHv4446S0A8aVUbl0gK5IV3hw8=;
+ b=EJ1pHYJADgjQv/UT37V4iJGcMgNGqzhPkNpCHC05d/QQvrywQnUFLX2KIrZHyw0aBGwO
+ h3Cn3iBYzMzPWojaWEqHj/3jMEfN6YueTHr0R0gWj46sjIuKAgQT6exh5gH9G5OIpM9k
+ nxz9/v88VYOAnMAXDa3t7Pm3sUJa4qa/UId/Eh7hoFYWfWT1BIl/HAPiHJDCFCONurjh
+ Gn61dyELWOnd3fjbds2mkgg9UrPzUJZ+RvBvHICDz4PMWBrBbsWNlSrktQAoaEXnSYYi
+ WbaQ7IZOA/XSGFvqC8HIZ10y6pLeAt0sYyJVj/ueC5r43TGtEwlLPoX5yikWb9PPVZVx 2g== 
+Received: from prod-mail-ppoint5 (prod-mail-ppoint5.akamai.com [184.51.33.60] (may be forged))
+	by mx0b-00190b01.pphosted.com (PPS) with ESMTPS id 3gmfwyuhmf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jun 2022 17:18:28 +0100
+Received: from pps.filterd (prod-mail-ppoint5.akamai.com [127.0.0.1])
+	by prod-mail-ppoint5.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 25DFo6gU006113;
+	Mon, 13 Jun 2022 09:18:27 -0700
+Received: from email.msg.corp.akamai.com ([172.27.91.23])
+	by prod-mail-ppoint5.akamai.com with ESMTP id 3gms1bp0jw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jun 2022 09:18:27 -0700
+Received: from USTX2EX-DAG3MB2.msg.corp.akamai.com (172.27.165.126) by
+ usma1ex-dag4mb7.msg.corp.akamai.com (172.27.91.26) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.986.26; Mon, 13 Jun 2022 12:18:26 -0400
+Received: from ustx2ex-dag3mb5.msg.corp.akamai.com (172.27.165.129) by
+ USTX2EX-DAG3MB2.msg.corp.akamai.com (172.27.165.126) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Mon, 13 Jun 2022 11:18:26 -0500
+Received: from ustx2ex-dag3mb5.msg.corp.akamai.com ([172.27.165.129]) by
+ ustx2ex-dag3mb5.msg.corp.akamai.com ([172.27.165.129]) with mapi id
+ 15.00.1497.036; Mon, 13 Jun 2022 11:18:26 -0500
+From: "Woloschin, Ian" <iwolosch@akamai.com>
+To: =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>
+Subject: Re: [PATCH] spi: aspeed: Fix division by zero
+Thread-Topic: [PATCH] spi: aspeed: Fix division by zero
+Thread-Index: AQHYfX+YOUROQjZHAUuLnzma/6JGFK1NWx4AgAAFDwCAAHsOAA==
+Date: Mon, 13 Jun 2022 16:18:25 +0000
+Message-ID: <9EDBE426-7AC1-4351-8225-5DFE15C4F8D2@akamai.com>
+References: <20220611103929.1484062-1-clg@kaod.org>
+ <20220613083952.4z45ulaxdy2okbho@ti.com>
+ <367135b2-e5c0-3ebb-9ad2-2a78b2c6af2f@kaod.org>
+In-Reply-To: <367135b2-e5c0-3ebb-9ad2-2a78b2c6af2f@kaod.org>
 Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
+Content-Language: en-US
+X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bcfa84af-bc07-4440-aee8-08da4f35e734
-x-ms-traffictypediagnostic: TYZPR06MB4511:EE_
-x-microsoft-antispam-prvs:  <TYZPR06MB451162A7D0D100BB5BB5ADD280AC9@TYZPR06MB4511.apcprd06.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  1rxw+k72nnFKkSD6Yve37dgaQAvLuqBEaCI9oaKDAdSOKTxOVkPJKcvZIQOEMjIRGR9dlw2uSRQKzuEmvvnVRo0wIMoFYq/lrxsoFFazXVGdaoL3FAQA3a2SbmdPAzi0+L1bsYqhXkFzA4B5uCFWPoodjDqhMuNSdZCG8RAeNgLkIrW3xqNZhEnn+V9euXzpInWt+L0ShrpOqtsilCN3s47OQ1lkTNXzV5vT9HqlmycbLgRugkQZE8AUTRmczKBXb3AJpU7HZUzyTy7bIC/n13f+7xxJ+QlwrOvwjXr7MiO4Li9u1vlyNsNgi0BpSVuHAwJlSaAK7hzA+qOwkRDzBADNao2B5Sv8/poTSIWT5KluVJH1QlGkP5M4ZWEMLo0rD+ECLAqxywcyajEXDoRDkKQn2aY+i1LQi57euzT1vKq/sIK2Fin1eOKDcVFLUy9rbp8v9kRbJTWhFn7gSra31wCJk/zQBD4hSBbuePL+xduiwHWFBlukqge4hxe535ccTLMx/bR4s4ZHkpnmtQ8dCZqsTCLLHdcqJOzgJ3XPH4rClrNokxypA72MeJK/G9lVpDV+ZdAOdpFPMqyYMf5ypXoeGbl6ocTVHcOz8DJEaFwilkdMFMvTGtfM2M8aF6OB7Ui3tQRCDuTKg3WqHxryQATwNAmigpsoaPk3LMh0yCQqTdj7rTLvjCadiuwLg+lGoBLyyYaG5YMb0l3BTkaryA==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(366004)(396003)(39840400004)(346002)(110136005)(2906002)(55016003)(316002)(4326008)(6506007)(76116006)(33656002)(86362001)(26005)(54906003)(71200400001)(9686003)(7696005)(508600001)(41300700001)(83380400001)(38100700002)(64756008)(38070700005)(122000001)(186003)(8936002)(8676002)(66446008)(66946007)(66476007)(66556008)(52536014)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?mebm6Lm95ZJE3GrEwTLnkjH9E4uAmdlW3FATth5AviQC26lWkVv8+0nG6LEW?=
- =?us-ascii?Q?BX2erlGJouQaelpKh7/kJCpDPHeSLbFnFKxmPbWgmXmdy+4+1jwzeCr0DOLc?=
- =?us-ascii?Q?1sAHctuwR/swo+VYlc6bSK9BXCgsAj4g3xX1CKdHTIcKs5wrDPnW1LhQLImt?=
- =?us-ascii?Q?ltHd5jmZ7UL2AYFcuUYM0hiOehLEoYgrioBI2wryeyYOS3UMgX4F/pSgf5T2?=
- =?us-ascii?Q?MJvEOmnw2wTCvPi+Gg5NfffMA4KHSacyBTR5VmEtbbZrMuhoJawlLs4qF6yT?=
- =?us-ascii?Q?cWbzWFgHwOfIZFYIiyH/K9avfJsgbcFDjNAsmxzcghcLSX+7/a4JwguJ0Oq/?=
- =?us-ascii?Q?LRAqoMcS8Rm4AuX1osSpgmyNZV1Yry2SIBql5wEShI//2vvis8o9MtnpynaF?=
- =?us-ascii?Q?mFTdP9yQVZzVhc8Y985pe284cl1yucgeQ1MyGDJL22RIOcidR1K1r5rrC7ax?=
- =?us-ascii?Q?z7htIACNvTVwDS0mU7nQ4Vp5zAI7q7juGLrlKY+zHfmcNimLU8zCGnFsz0dh?=
- =?us-ascii?Q?fnVHoDSFsAJ5TVNgpLRKWtT9zeYdA2orlsczIVUa7r6/SG6W9ANl3JU/9CJ5?=
- =?us-ascii?Q?HREp/Zdy/6uF9ZAYzZpjkg1W9287PP1X7U8zaMWaBV27J1A7OUj+kz0YS5fx?=
- =?us-ascii?Q?TZJ9fe68RDDvDnoPROkdl6Xhyg9CAVuxU5xLA9oFka6q2tjRO15aQW4qrPNB?=
- =?us-ascii?Q?McM3iDIkQFbcXJNNmlhTdcDdLbK5crp7gcc3cq4CH0Z/UIpDZgluRfSFEFBq?=
- =?us-ascii?Q?opxyC2d9gAUyEt3VuZYCP5d6ylVndX/K57y3YteHFQCh54+kFUctpEhrZQkF?=
- =?us-ascii?Q?68R7It9JZm+o0ASmlN+Nq9O6lu3HvWH2Le9yV5hXpXF0vGS9gSRT4cVYQdIj?=
- =?us-ascii?Q?WQTlz1pDTn9sWLZAuvbgaOWE4xV8JkkEPYmC20HuIP5SDTtWaLjjg3agrLje?=
- =?us-ascii?Q?X62nzZ6aq3kyVxd1N0Us8QWDnr4YYPufQ8OLGXJE1D60C7yoLEnqxyfLqx9S?=
- =?us-ascii?Q?CD7i/AUjLpaN0SRdh/S1WeM/DsDv/N+sE6jYWQIHHMjN2SHT1xwg4oRtxKj8?=
- =?us-ascii?Q?5P0yI1+TjHE8IwPJTXRnOt93lbWF+QW0NY+NGZz/Yb613xeR6Su7Bxp563iW?=
- =?us-ascii?Q?e5xA8e0WAcHHeGyuHSlsYdntyV/NJVw8ebO5FbkQkR7qWjAjxtIHBaGRtYPm?=
- =?us-ascii?Q?a/lwk1JnBTJt2zMZJx5C/y/5M5ahGE4LucrPb87KRK7+IKK2UtHEZQVzttcf?=
- =?us-ascii?Q?rWuvwZMA2PwD+0S6uRz+vg5Z4wmPkOx62EGjuR3g81EsKLh51lcI67DoSVxv?=
- =?us-ascii?Q?9ngi+ZBTSGXIUQTMKxZ9J4OvyJ2wAWKfFnUz5gFpfNfcDkDHJa0uCx2qBhAw?=
- =?us-ascii?Q?tRgmXClzXP0C6vaKtDrWqKIeCaXkgPDwy6kkotjd7N6Es+9I12XEk5Of1HxN?=
- =?us-ascii?Q?ncSyi0bwN1lnNiDenX/XaM0wcnaoqDdGvRllNWx+Z9gKpg2YhUC4BzZvqbRr?=
- =?us-ascii?Q?cfEXPZXbwCu/z1nlfr6df+GyRMgunyWkl6GDYgAbv30KlpA+Aek3eN9pdB2R?=
- =?us-ascii?Q?qCqMbDzG1ta1lJSRPzKKgqi0nC0Gsg/cv1SRTNbDyG/h36J33eQbsxs4zjby?=
- =?us-ascii?Q?4MClJQ2Xr+4D/J/fioJEwSUS8vrFoMffT8XVvEhU8YL1ny9kwZnRxT4gGMt+?=
- =?us-ascii?Q?0sI4kL7SyHM9ucuB0RnoTknL68Jy+RGrrYqxjPMNwYiBNrFze2S4SqWYYSZc?=
- =?us-ascii?Q?cMS+A/9RPg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-mailer: Apple Mail (2.3696.100.31)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [172.27.164.43]
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_5B5B54CF-09FD-4BC5-9DCF-62752A49CD87";
+	protocol="application/pkcs7-signature"; micalg=sha-256
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcfa84af-bc07-4440-aee8-08da4f35e734
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2022 01:16:55.6728
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Y5t9tAPO3+K9kXnAL9rz3976HBbewoKs7ZQCclWL366CVsY5B2QoiEcYtFL/KLYKooRUsSMeTsvMZBM7a/lUKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4511
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-06-13_07:2022-06-13,2022-06-13 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
+ phishscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206130070
+X-Proofpoint-GUID: dcwig-r8m2FidLDoUB1jH6bf7tZBgJLa
+X-Proofpoint-ORIG-GUID: dcwig-r8m2FidLDoUB1jH6bf7tZBgJLa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-13_07,2022-06-13_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 clxscore=1011
+ priorityscore=1501 malwarescore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206130071
+X-Mailman-Approved-At: Thu, 16 Jun 2022 12:04:43 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,50 +106,360 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>, Mark Brown <broonie@kernel.org>, "Woloschin, Ian" <iwolosch@akamai.com>, Pratyush Yadav <p.yadav@ti.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> Commit 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver") adds
-> the section ASPEED USB UDC DRIVER with a file entry to aspeed,udc.yaml, b=
-ut
-> then, commit 0dde9a46a2cf ("dt-bindings: usb: add documentation for aspee=
-d
-> udc") actually adds a device tree binding aspeed,ast2600-udc.yaml.
->=20
-> Hence, ./scripts/get_maintainer.pl --self-test=3Dpatterns complains about=
- a
-> broken reference.
->=20
-> Repair the reference to the actually added file in ASPEED USB UDC DRIVER.
->=20
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+--Apple-Mail=_5B5B54CF-09FD-4BC5-9DCF-62752A49CD87
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_708190A5-FF2C-4ABB-9034-7BDBC2516FB1"
 
-Thanks for the fix.
 
-Acked-by: Neal Liu <neal_liu@aspeedtech.com>
+--Apple-Mail=_708190A5-FF2C-4ABB-9034-7BDBC2516FB1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-> ---
-> Neal, please ack.
-> Greg, please pick this minor non-urgent clean-up patch in your usb-next t=
-ree.
->=20
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d9c3576b082f..8830d1adb23b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3144,7 +3144,7 @@ ASPEED USB UDC DRIVER
->  M:	Neal Liu <neal_liu@aspeedtech.com>
->  L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
->  S:	Maintained
-> -F:	Documentation/devicetree/bindings/usb/aspeed,udc.yaml
-> +F:	Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
->  F:	drivers/usb/gadget/udc/aspeed_udc.c
->=20
->  ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
-> --
-> 2.17.1
 
+
+> On Jun 13, 2022, at 4:57 AM, C=C3=A9dric Le Goater <clg@kaod.org> =
+wrote:
+>=20
+> On 6/13/22 10:39, Pratyush Yadav wrote:
+>> On 11/06/22 12:39PM, C=C3=A9dric Le Goater wrote:
+>>> When using the normal read operation for data transfers, the dummy =
+bus
+>>> width is zero. In that case, they are no dummy bytes to transfer and
+>>> setting the dummy field in the controller register becomes useless.
+>>>=20
+>>> Issue was found on a custom "Bifrost" board with a AST2500 SoC and
+>>> using a MX25L51245GMI-08G SPI Flash.
+>>>=20
+>>> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+>>> Reported-by: Ian Woloschin <ian.woloschin@akamai.com>
+>>> Fixes: 54613fc6659b ("spi: aspeed: Add support for direct mapping")
+>>> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>>> ---
+>>> drivers/spi/spi-aspeed-smc.c | 12 +++++++++++-
+>>> 1 file changed, 11 insertions(+), 1 deletion(-)
+>>>=20
+>>> diff --git a/drivers/spi/spi-aspeed-smc.c =
+b/drivers/spi/spi-aspeed-smc.c
+>>> index 496f3e1e9079..3e891bf22470 100644
+>>> --- a/drivers/spi/spi-aspeed-smc.c
+>>> +++ b/drivers/spi/spi-aspeed-smc.c
+>>> @@ -558,6 +558,14 @@ static int aspeed_spi_dirmap_create(struct =
+spi_mem_dirmap_desc *desc)
+>>> 	u32 ctl_val;
+>>> 	int ret =3D 0;
+>>> +	dev_dbg(aspi->dev,
+>>> +		"CE%d %s dirmap [ 0x%.8llx - 0x%.8llx ] OP %#x =
+mode:%d.%d.%d.%d naddr:%#x ndummies:%#x\n",
+>>> +		chip->cs, op->data.dir =3D=3D SPI_MEM_DATA_IN ? "read" : =
+"write",
+>>> +		desc->info.offset, desc->info.offset + =
+desc->info.length,
+>>> +		op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
+>>> +		op->dummy.buswidth, op->data.buswidth,
+>>> +		op->addr.nbytes, op->dummy.nbytes);
+>>> +
+>> Unrelated change. Please send as a separate patch.
+>=20
+> OK.
+>=20
+>>> 	chip->clk_freq =3D desc->mem->spi->max_speed_hz;
+>>> 	/* Only for reads */
+>>> @@ -574,9 +582,11 @@ static int aspeed_spi_dirmap_create(struct =
+spi_mem_dirmap_desc *desc)
+>>> 	ctl_val =3D readl(chip->ctl) & ~CTRL_IO_CMD_MASK;
+>>> 	ctl_val |=3D aspeed_spi_get_io_mode(op) |
+>>> 		op->cmd.opcode << CTRL_COMMAND_SHIFT |
+>>> -		CTRL_IO_DUMMY_SET(op->dummy.nbytes / op->dummy.buswidth) =
+|
+>>> 		CTRL_IO_MODE_READ;
+>>> +	if (op->dummy.nbytes)
+>>> +		ctl_val |=3D CTRL_IO_DUMMY_SET(op->dummy.nbytes / =
+op->dummy.buswidth);
+>>> +
+>> LGTM. With the above fixed,
+>>=20
+>> Reviewed-by: Pratyush Yadav <p.yadav@ti.com>
+>=20
+> Thanks,
+>=20
+> C.
+
+I tested just the relevant change and it fixed my problem, allowing my =
+board to boot.
+
+Tested-by: Ian Woloschin <iwolosch@akamai.com =
+<mailto:iwolosch@akamai.com>>
+
+Thanks!
+
+>=20
+>>> 	/* Tune 4BYTE address mode */
+>>> 	if (op->addr.nbytes) {
+>>> 		u32 addr_mode =3D readl(aspi->regs + CE_CTRL_REG);
+>>> --=20
+>>> 2.35.3
+
+
+--Apple-Mail=_708190A5-FF2C-4ABB-9034-7BDBC2516FB1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><br =
+class=3D""><div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Jun 13, 2022, at 4:57 AM, C=C3=A9dric Le Goater &lt;<a =
+href=3D"mailto:clg@kaod.org" class=3D"">clg@kaod.org</a>&gt; =
+wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><meta =
+charset=3D"UTF-8" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); =
+font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">On 6/13/22 10:39, Pratyush Yadav wrote:</span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: RecMonoDuotone-Regular; =
+font-size: 11px; font-style: normal; font-variant-caps: normal; =
+font-weight: 400; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none;" class=3D""><blockquote type=3D"cite" style=3D"font-family: =
+RecMonoDuotone-Regular; font-size: 11px; font-style: normal; =
+font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D"">On 11/06/22 12:39PM, C=C3=A9dric Le =
+Goater wrote:<br class=3D""><blockquote type=3D"cite" class=3D"">When =
+using the normal read operation for data transfers, the dummy bus<br =
+class=3D"">width is zero. In that case, they are no dummy bytes to =
+transfer and<br class=3D"">setting the dummy field in the controller =
+register becomes useless.<br class=3D""><br class=3D"">Issue was found =
+on a custom "Bifrost" board with a AST2500 SoC and<br class=3D"">using a =
+MX25L51245GMI-08G SPI Flash.<br class=3D""><br class=3D"">Cc: Chin-Ting =
+Kuo &lt;<a href=3D"mailto:chin-ting_kuo@aspeedtech.com" =
+class=3D"">chin-ting_kuo@aspeedtech.com</a>&gt;<br class=3D"">Reported-by:=
+ Ian Woloschin &lt;<a href=3D"mailto:ian.woloschin@akamai.com" =
+class=3D"">ian.woloschin@akamai.com</a>&gt;<br class=3D"">Fixes: =
+54613fc6659b ("spi: aspeed: Add support for direct mapping")<br =
+class=3D"">Signed-off-by: C=C3=A9dric Le Goater &lt;<a =
+href=3D"mailto:clg@kaod.org" class=3D"">clg@kaod.org</a>&gt;<br =
+class=3D"">---<br class=3D"">drivers/spi/spi-aspeed-smc.c | 12 =
++++++++++++-<br class=3D"">1 file changed, 11 insertions(+), 1 =
+deletion(-)<br class=3D""><br class=3D"">diff --git =
+a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c<br =
+class=3D"">index 496f3e1e9079..3e891bf22470 100644<br class=3D"">--- =
+a/drivers/spi/spi-aspeed-smc.c<br class=3D"">+++ =
+b/drivers/spi/spi-aspeed-smc.c<br class=3D"">@@ -558,6 +558,14 @@ static =
+int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)<br =
+class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>u32 ctl_val;<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>int ret =3D 0;<br class=3D"">+<span=
+ class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>dev_dbg(aspi-&gt;dev,<br class=3D"">+<span class=3D"Apple-tab-span"=
+ style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>"CE%d %s dirmap [ 0x%.8llx - =
+0x%.8llx ] OP %#x mode:%d.%d.%d.%d naddr:%#x ndummies:%#x\n",<br =
+class=3D"">+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>chip-&gt;cs, op-&gt;data.dir =3D=3D SPI_MEM_DATA_IN ? "read" : =
+"write",<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>desc-&gt;info.offset, =
+desc-&gt;info.offset + desc-&gt;info.length,<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>op-&gt;cmd.opcode, op-&gt;cmd.buswidth, op-&gt;addr.buswidth,<br =
+class=3D"">+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>op-&gt;dummy.buswidth, op-&gt;data.buswidth,<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>op-&gt;addr.nbytes, op-&gt;dummy.nbytes);<br class=3D"">+<br =
+class=3D""></blockquote>Unrelated change. Please send as a separate =
+patch.<br class=3D""></blockquote><br style=3D"caret-color: rgb(0, 0, =
+0); font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">OK.</span><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
+0); font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><blockquote type=3D"cite" =
+style=3D"font-family: RecMonoDuotone-Regular; font-size: 11px; =
+font-style: normal; font-variant-caps: normal; font-weight: 400; =
+letter-spacing: normal; orphans: auto; text-align: start; text-indent: =
+0px; text-transform: none; white-space: normal; widows: auto; =
+word-spacing: 0px; -webkit-text-size-adjust: auto; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" =
+class=3D""><blockquote type=3D"cite" class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>chip-&gt;clk_freq =3D desc-&gt;mem-&gt;spi-&gt;max_speed_hz;<br =
+class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>/* Only for reads */<br class=3D"">@@ -574,9 +582,11 @@ static =
+int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)<br =
+class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>ctl_val =3D readl(chip-&gt;ctl) &amp; ~CTRL_IO_CMD_MASK;<br =
+class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>ctl_val |=3D aspeed_spi_get_io_mode(op) |<br class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>op-&gt;cmd.opcode &lt;&lt; CTRL_COMMAND_SHIFT |<br =
+class=3D"">-<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>CTRL_IO_DUMMY_SET(op-&gt;dummy.nbytes / op-&gt;dummy.buswidth) =
+|<br class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span>CTRL_IO_MODE_READ;<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if =
+(op-&gt;dummy.nbytes)<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>ctl_val |=3D =
+CTRL_IO_DUMMY_SET(op-&gt;dummy.nbytes / op-&gt;dummy.buswidth);<br =
+class=3D"">+<br class=3D""></blockquote>LGTM. With the above fixed,<br =
+class=3D""><br class=3D"">Reviewed-by: Pratyush Yadav &lt;<a =
+href=3D"mailto:p.yadav@ti.com" class=3D"">p.yadav@ti.com</a>&gt;<br =
+class=3D""></blockquote><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">Thanks,</span><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
+0); font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: RecMonoDuotone-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">C.</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
+RecMonoDuotone-Regular; font-size: 11px; font-style: normal; =
+font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""></div></blockquote><div><br =
+class=3D""></div><div>I tested just the relevant change and it fixed my =
+problem, allowing my board to boot.</div><div><br =
+class=3D""></div><div>Tested-by: Ian Woloschin &lt;<a =
+href=3D"mailto:iwolosch@akamai.com" =
+class=3D"">iwolosch@akamai.com</a>&gt;</div><div><br =
+class=3D""></div><div>Thanks!</div><br class=3D""><blockquote =
+type=3D"cite" class=3D""><div class=3D""><br style=3D"caret-color: =
+rgb(0, 0, 0); font-family: RecMonoDuotone-Regular; font-size: 11px; =
+font-style: normal; font-variant-caps: normal; font-weight: 400; =
+letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" =
+class=3D""><blockquote type=3D"cite" style=3D"font-family: =
+RecMonoDuotone-Regular; font-size: 11px; font-style: normal; =
+font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><blockquote type=3D"cite" =
+class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>/* Tune 4BYTE address mode */<br class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if =
+(op-&gt;addr.nbytes) {<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>u32 addr_mode =3D =
+readl(aspi-&gt;regs + CE_CTRL_REG);<br class=3D"">--<span =
+class=3D"Apple-converted-space">&nbsp;</span><br =
+class=3D"">2.35.3</blockquote></blockquote></div></blockquote></div><br =
+class=3D""></body></html>=
+
+--Apple-Mail=_708190A5-FF2C-4ABB-9034-7BDBC2516FB1--
+
+--Apple-Mail=_5B5B54CF-09FD-4BC5-9DCF-62752A49CD87
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCCYsw
+ggRmMIIEC6ADAgECAhM+AAAACuqzGxBold1TAAAAAAAKMAoGCCqGSM49BAMCMD8xITAfBgNVBAoT
+GEFrYW1haSBUZWNobm9sb2dpZXMgSW5jLjEaMBgGA1UEAxMRQWthbWFpQ29ycFJvb3QtRzEwHhcN
+MTUwNjA0MTQ0NjA3WhcNMjUwNjA0MTQ1NjA3WjA8MSEwHwYDVQQKExhBa2FtYWkgVGVjaG5vbG9n
+aWVzIEluYy4xFzAVBgNVBAMTDkFrYW1haUNsaWVudENBMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcD
+QgAEpuPNNA/ZEjWEkhjgWrKAipOQ72FwxtH8l6tvtbIFC5IfpXFiAN5YB//ydeR3aM1Xk9l/JOQl
+bwOuOtNP7UgZoqOCAucwggLjMBAGCSsGAQQBgjcVAQQDAgEAMB0GA1UdDgQWBBSTh6sxZpDayk0W
+A4zkww+95g0sDDCBsAYDVR0gBIGoMIGlMIGiBgsqAwSPTgEJCQgBATCBkjBYBggrBgEFBQcCAjBM
+HkoAQQBrAGEAbQBhAGkAIABDAGUAcgB0AGkAZgBpAGMAYQB0AGUAIABQAHIAYQBjAHQAaQBjAGUA
+IABTAHQAYQB0AGUAbQBlAG4AdDA2BggrBgEFBQcCARYqaHR0cDovL2FrYW1haWNybC5ha2FtYWku
+Y29tL0FrYW1haUNQUy5wZGYAMFUGA1UdJQROMEwGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGC
+NxQCAgYKKwYBBAGCNwoDBAYKKwYBBAGCNwoDDAYIKwYBBQUHAwcGCCsGAQUFBwMJMBkGCSsGAQQB
+gjcUAgQMHgoAUwB1AGIAQwBBMAsGA1UdDwQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB8GA1UdIwQY
+MBaAFK0Bh+rcWa6xEzmVTQ9XoCSGi3u9MIGABgNVHR8EeTB3MHWgc6BxhjFodHRwOi8vYWthbWFp
+Y3JsLmFrYW1haS5jb20vQWthbWFpQ29ycFJvb3QtRzEuY3JshjxodHRwOi8vYWthbWFpY3JsLmRm
+dzAxLmNvcnAuYWthbWFpLmNvbS9Ba2FtYWlDb3JwUm9vdC1HMS5jcmwwgcgGCCsGAQUFBwEBBIG7
+MIG4MC0GCCsGAQUFBzABhiFodHRwOi8vYWthbWFpb2NzcC5ha2FtYWkuY29tL29jc3AwPQYIKwYB
+BQUHMAKGMWh0dHA6Ly9ha2FtYWljcmwuYWthbWFpLmNvbS9Ba2FtYWlDb3JwUm9vdC1HMS5jcnQw
+SAYIKwYBBQUHMAKGPGh0dHA6Ly9ha2FtYWljcmwuZGZ3MDEuY29ycC5ha2FtYWkuY29tL0FrYW1h
+aUNvcnBSb290LUcxLmNydDAKBggqhkjOPQQDAgNJADBGAiEAxb2BDEI5u7VpG4TgR0KbsktKaQOi
+FL6T6KtkAx7D8xACIQDJXMn85cVLMHcRe3wdfR/6Nr0ofAejZ6IaKj34qkK5KzCCBR0wggTDoAMC
+AQICExcAB5Lsa5l6F73+L6gAAAAHkuwwCgYIKoZIzj0EAwIwPDEhMB8GA1UEChMYQWthbWFpIFRl
+Y2hub2xvZ2llcyBJbmMuMRcwFQYDVQQDEw5Ba2FtYWlDbGllbnRDQTAeFw0yMTEwMjEyMzQ5Mzda
+Fw0yMzEwMjEyMzQ5MzdaMFIxGTAXBgNVBAsTEE1hY0Jvb2sgUHJvLU1ENlAxETAPBgNVBAMTCGl3
+b2xvc2NoMSIwIAYJKoZIhvcNAQkBFhNpd29sb3NjaEBha2FtYWkuY29tMIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAno/wydCf0yJn2Ta3gF0zHAkhMYkqm30B10wiUUvvnEwLdnXnCKoL
+xOIxtCSXz/ZIF3Rt6piNJdFnPfSX0b/BjH7xFnWNMf+gv8ywUU6GKaDKnv6HTp1uaP2fsTPuEXDm
+45sSAilpXbmIK1RddA+vBk/d5VdIMF3SaTVAyw8kCE4cisWHcCb7AjMU2fX3HfK4MDUclcx6+4Zd
+uY9mR5a1Z9cpWrQaw4AX/dAHJzzH5gZUwMItGlOPJ5dRxRwB4qvkBrJ9r9XS5u+f6yNrieXv6U1v
+bs0ZFtJ7/HC1152fyNnMVME4Ioq4cmxFa0KVzu8lL3BLJHOBrKNAHBv0QDKM2QIDAQABo4ICwTCC
+Ar0wCwYDVR0PBAQDAgeAMCkGA1UdJQQiMCAGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGCNwoD
+BDAdBgNVHQ4EFgQUmsrwBgVr0RBCbc1U/YwowReYTlUwSAYDVR0RBEEwP6AoBgorBgEEAYI3FAID
+oBoMGGl3b2xvc2NoQGNvcnAuYWthbWFpLmNvbYETaXdvbG9zY2hAYWthbWFpLmNvbTAfBgNVHSME
+GDAWgBSTh6sxZpDayk0WA4zkww+95g0sDDB6BgNVHR8EczBxMG+gbaBrhi5odHRwOi8vYWthbWFp
+Y3JsLmFrYW1haS5jb20vQWthbWFpQ2xpZW50Q0EuY3JshjlodHRwOi8vYWthbWFpY3JsLmRmdzAx
+LmNvcnAuYWthbWFpLmNvbS9Ba2FtYWlDbGllbnRDQS5jcmwwgcIGCCsGAQUFBwEBBIG1MIGyMDoG
+CCsGAQUFBzAChi5odHRwOi8vYWthbWFpY3JsLmFrYW1haS5jb20vQWthbWFpQ2xpZW50Q0EuY3J0
+MEUGCCsGAQUFBzAChjlodHRwOi8vYWthbWFpY3JsLmRmdzAxLmNvcnAuYWthbWFpLmNvbS9Ba2Ft
+YWlDbGllbnRDQS5jcnQwLQYIKwYBBQUHMAGGIWh0dHA6Ly9ha2FtYWlvY3NwLmFrYW1haS5jb20v
+b2NzcDA7BgkrBgEEAYI3FQcELjAsBiQrBgEEAYI3FQiCzuU6h7jULYGFiwei4yGG0g+BSYWlwxCa
+1X8CAWQCAVMwNQYJKwYBBAGCNxUKBCgwJjAKBggrBgEFBQcDAjAKBggrBgEFBQcDBDAMBgorBgEE
+AYI3CgMEMEQGCSqGSIb3DQEJDwQ3MDUwDgYIKoZIhvcNAwICAgCAMA4GCCqGSIb3DQMEAgIAgDAH
+BgUrDgMCBzAKBggqhkiG9w0DBzAKBggqhkjOPQQDAgNIADBFAiEAgI3ieHss2kOdtMYHeJu+ioNN
+Uq/HB5OeS5N3Eg/LKDoCID4x/ujQmTaKi76vn/jwkJB/2o9SqWjejVw5mKMsmZoZMYIB6TCCAeUC
+AQEwUzA8MSEwHwYDVQQKExhBa2FtYWkgVGVjaG5vbG9naWVzIEluYy4xFzAVBgNVBAMTDkFrYW1h
+aUNsaWVudENBAhMXAAeS7GuZehe9/i+oAAAAB5LsMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcN
+AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIwNjEzMTYxODI0WjAvBgkqhkiG9w0B
+CQQxIgQgc5FM2NLXJ+55YvO39afKsamS9vDiyV9zWHrMoHDI2e8wDQYJKoZIhvcNAQELBQAEggEA
+V1HOazAojPuLI+VJctg9sZh5YHRaohdU7lamIRoYJnVwBArZkdZ3jO6kc4h+ZB1NZMTyEjyZ58xF
+LHEe5HixzncmeU0hdmuqWc4UYsXjCJ+GgO9Nr6Nu2vCvrRYSWUjGDKJpsPAMI3spSCspXfjn7erg
+FZXncRMgGgCNEa4a7wMxGdyp6+mydWJOnQvtiekPONy2224klHMdIl0r9vPysjW/HheImom/cRSo
+aUbhMVp5CYNbAn3N3w5punwq3OF6ig2KxYqgHbM5Sq6Ry3/BGHSC5m3lLLU8CrNdIwyE6sbKDQuC
+3VmZH+adbuDho/EHL6qKLTl21cSADOOWmFFOawAAAAAAAA==
+
+--Apple-Mail=_5B5B54CF-09FD-4BC5-9DCF-62752A49CD87--
