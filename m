@@ -2,85 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2069549954
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jun 2022 18:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6EC554BCE7
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jun 2022 23:41:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LMHk04kHyz3blT
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jun 2022 02:55:04 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm3 header.b=DP7oGg4f;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=CkYUOV+/;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LN2276pbpz3c5C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jun 2022 07:41:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=stwcx.xyz (client-ip=64.147.123.20; helo=wout4-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm3 header.b=DP7oGg4f;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=CkYUOV+/;
-	dkim-atps=neutral
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.166.174; helo=mail-il1-f174.google.com; envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LMHjr1k3pz3086
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Jun 2022 02:54:54 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id F1BF8320093C;
-	Mon, 13 Jun 2022 12:54:48 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 13 Jun 2022 12:54:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1655139288; x=1655225688; bh=w4n02oQUKx
-	7H8B+PgNZX4OsXP8VxI6IGI7qQhWHj9MQ=; b=DP7oGg4f3ap5vbyQo/0Q5Cc2si
-	shVZ3tES4aiVNsrWKF2hb6E8Vl1geVzYIpQuTFH2GGqYirAWR+A2WOsWf9sxWwuB
-	uhnaHNdrwynDY2mgJnLaLsQHonSUKlErQvXPlw+Opds3eI7lovBVj26l5flOkCmw
-	hCmfEfmCRVEGY0jLMV6GHxx1xo2sFGxbFX84+K40ScYrLgzgW6mvLUus/sd2JRBh
-	wCoitm0kyg67rkv0IclLqptAmJHiplmf8we9u18X9Nbkq7p0mnivDYh2eG9Bcmty
-	kapiZkOXuryA5Obw/qnyeob0Ianj3z4iEJ2ROWr+iOaRs1UR7JcOdi5zRKoQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1655139288; x=1655225688; bh=w4n02oQUKx7H8B+PgNZX4OsXP8Vx
-	I6IGI7qQhWHj9MQ=; b=CkYUOV+/p8bFjMbeiAMq5LMV0fB6Fl24I/rEAw2nPd1e
-	RTYv2dEyQ49BT2/0Y/u2pgt8KfPuILT89TOsC1qxUbVcAKuK9WvbB8witdDdBccu
-	K1dFxKqg/5s28HAP20erWAlueeEZ1RYhKuvRbRLJM1bZbhW7K4bRwAjz8oP8R0HT
-	AkPGBZcrdj7HPtJVtYE5dxZ81NTxSs4yCE6bbDMU/fjVOAWVm58XYjEWhYn5rI94
-	SfLX8kWyjdM53KhaAUUuZWXVGLdfH2uTVjYqWYNGvQSjR9II8vkSRD/hQeghu+cy
-	fr6UGQDQgbhFBbL65c2aNSLoVl2lMQJISeTxvNPLVg==
-X-ME-Sender: <xms:12unYsxuDyY8MGT0OxK9k2SkJhF_lUo05DHgTvFUmPHi3-Fp6_AUMg>
-    <xme:12unYgSRI2b1_rYkEYvCWHbydjOEYNo1BIqbS14i4d1RvCyD7BrY6Fjwf9two0kz6
-    zCpe1LXjhdp49dWc8I>
-X-ME-Received: <xmr:12unYuWufpDwBBSBdjYzx487Yhb9BiN7XjckAv9CAJGGXvvwEai6FeSW2vcC7ilk7xpoMAjZMbrWX1zuWSNBkAn9OjgUoP1ziyU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedguddtgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enfghrlhcuvffnffculdefhedmnecujfgurhepfffhvfevuffkfhggtggujgesghdtreer
-    tddtvdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkh
-    esshhtfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepheefjeehfedtjeeivdefkeff
-    heeludekudelleffkefgtdeludelvddtgedtheeknecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:12unYqihEW2t3u6yx2veW8CGzdu0EW7ut8a8blqTotcHS4UcWccQDA>
-    <xmx:12unYuCI4jodqEMYBik5Apr9KjhHkZbOBJ1hzB5hDKipE_2guM0T7g>
-    <xmx:12unYrIj1IiuecCDGPtOYug_Sv28UsVXPd15U1PyXmp5VtpKJXb5wg>
-    <xmx:2GunYkBkY16DcueyNZ2bKU7S-zKy-2E_IFuSkx7mC9mFazUhMZ0AEQ>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 12:54:46 -0400 (EDT)
-Date: Mon, 13 Jun 2022 11:54:45 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LN2212Ymsz3brk
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jun 2022 07:41:27 +1000 (AEST)
+Received: by mail-il1-f174.google.com with SMTP id a15so7531580ilq.12
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Jun 2022 14:41:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=P/snQ/WMRmumIJEZaYOGe+qZw9rf1ibk1Zx2Cluh3eE=;
+        b=LjT0NpL12syOigiwDw3yhlgRP+m17P3ry8sU/3oFFpFXxwzz+OKJpRHwo5jy6o6f/R
+         9Am0zjPDs/1U1vikZc3eglQGYW6nBVS0p3W+WNkbT2p6cr//HRelhs0MliaxCDw5Nex1
+         UpYwyu5ISn5mbMb09lIzqimFNRo02S+w4lt+x/wS2T9moybdO1OSP3c3xKNv/HwMtUiM
+         3QetFSrNkwHlwyd2pV/EDuwfgu4Fzjk3Rc0SNNwYM3YG0Q6OJcaP/DVO1lI0Fj8IzUzU
+         Po/f7LhgzonHAxtR4OQ4Xz+OkQ5BNYcqIMiBefdQag3hHP0pedQAsNLACH2BWqB632v3
+         BxNQ==
+X-Gm-Message-State: AJIora++IvxKiU1AXGijsYEwhVFqqBaLk3tsxte1ulaT1H+6M/JSOQ1v
+	Vjfq4YiL9BYIUp1JwRdbtQ==
+X-Google-Smtp-Source: AGRyM1snG5pU4M/G6iIKIUmFJVbwBn2Ae094R8NI4RwTUrqihx5I7ujinRYO6C0+lzgFNAsFXyGYhA==
+X-Received: by 2002:a92:c568:0:b0:2d3:da8d:76cc with SMTP id b8-20020a92c568000000b002d3da8d76ccmr4134740ilj.161.1655242883879;
+        Tue, 14 Jun 2022 14:41:23 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id b3-20020a029a03000000b0032ead96ee5csm5316779jal.165.2022.06.14.14.41.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 14:41:23 -0700 (PDT)
+Received: (nullmailer pid 2706027 invoked by uid 1000);
+	Tue, 14 Jun 2022 21:41:21 -0000
+Date: Tue, 14 Jun 2022 15:41:21 -0600
+From: Rob Herring <robh@kernel.org>
 To: Potin Lai <potin.lai.pt@gmail.com>
-Subject: Re: [PATCH 0/4] Update Facebook Bletchley BMC DTS
-Message-ID: <Yqdr1ZS6d71QeACd@heinlein.stwcx.org.github.beta.tailscale.net>
-References: <20220613095150.21917-1-potin.lai.pt@gmail.com>
+Subject: Re: [PATCH v4 2/2] dt-bindings: aspeed-i2c: add properties for
+ setting i2c clock duty cycle
+Message-ID: <20220614214121.GA2705772-robh@kernel.org>
+References: <20220610054722.32229-1-potin.lai.pt@gmail.com>
+ <20220610054722.32229-3-potin.lai.pt@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6jmKncZVUj7hG/F1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220613095150.21917-1-potin.lai.pt@gmail.com>
+In-Reply-To: <20220610054722.32229-3-potin.lai.pt@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,54 +63,19 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>, Rob Herring <robh+dt@kernel.org>, Rayn Chen <rayn_chen@aspeedtech.com>, linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Fri, 10 Jun 2022 13:47:22 +0800, Potin Lai wrote:
+> Introduce a new property for setting a minimum duty cycle for clock high.
+> 
+> * i2c-clk-high-min-percent: a minimum percentage of clock high
+> 
+> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
 
---6jmKncZVUj7hG/F1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 13, 2022 at 05:51:46PM +0800, Potin Lai wrote:
-> Update below items for Facebook Bletchley BMC devicetree.
->=20
-> Potin Lai (4):
->   ARM: dts: aspeed: bletchley: change LED sys_log_id to active low
->   ARM: dts: aspeed: bletchley: disable GPIOV2 pull-down
->   ARM: dts: aspeed: bletchley: bind presence-sledX pins via gpio-keys
->   ARM: dts: aspeed: bletchley: update fusb302 nodes
->=20
->  .../dts/aspeed-bmc-facebook-bletchley.dts     | 197 +++++++++++++-----
->  1 file changed, 148 insertions(+), 49 deletions(-)
-
-The whole patch set looks good to me as the closest domain expert to the
-Bletchley system after Potin.
-
-Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
-
---=20
-Patrick Williams
-
---6jmKncZVUj7hG/F1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmKna9MACgkQqwNHzC0A
-wRkCuA/+Lk/UCnb9WJxnAo+6ujKnM/SuKjGbG23OoaNN+BNsTEja0/9Y7V3DoIjF
-xm71jwxoDsR25X3rt8EUyNq6XNXEKe6y8JR51sdAMegwPCK7tfUuRzXpd5y4zfUd
-hEQOFcauV0oi0aLX5GGSTX80Ka3BDOQx0Fz2RiLQXZaKR/4h+eLnHO3yfAx0GItp
-DlRGxqD3fHWNoK9vji/0ylMIquHvkl8mlKUyrU3cTJj6pT6nSD6EzkSwvYNhuTZA
-hrZKrst3W6NmyrLJRpj/CZCY0A0GGGDSSPv2jpm362tERCX7oEoh3HwtYw/Y2XEj
-kTvw0IjHvqcaovhCHCkYOtuA6yAqenwjYERb8M9sNL4qzjeoinC4YuKdMYxi3tnk
-Q72JUwPC/R2gvth7ysAvlbCs45ioZoS9ZSd2MxI4i9QH3Pri9yg7X1IuG6I4NmG5
-K3NHP8EHgyfsYk+zreVnkWBCl07/VXcTfFHq74m0Qsfqb3IAWzjOjII3S4rdDSPp
-hNqXLGoHvEexruS6K/cDB1wHU2oxCHfPD7lTc2jc+g7b0WLyMbc5KRAhfrG75ljZ
-Of/LUShe9F40XcroLHHnwTmOFLFOFVo2oong9rvdK8Rw7oVmXrufOjr+khgBDYkk
-QbEFpGChKCNKLSaialAnyt+vgD5l8/U2RvnFuWr38uMcFY0xyG0=
-=Ou4S
------END PGP SIGNATURE-----
-
---6jmKncZVUj7hG/F1--
+Reviewed-by: Rob Herring <robh@kernel.org>
