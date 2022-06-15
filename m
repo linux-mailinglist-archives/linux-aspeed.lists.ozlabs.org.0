@@ -1,67 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85C254D1E0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jun 2022 21:45:06 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B090C54D29C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jun 2022 22:33:05 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LNbP95mNzz3bx3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 05:45:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LNcSb3y3Kz3bxS
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 06:33:03 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jFT/VeSc;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=TaEB3qqt;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62f; helo=mail-ej1-x62f.google.com; envelope-from=lukas.bulwahn@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jFT/VeSc;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=TaEB3qqt;
 	dkim-atps=neutral
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNbP14RZKz3bmc
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jun 2022 05:44:52 +1000 (AEST)
-Received: by mail-ej1-x62f.google.com with SMTP id gl15so25259975ejb.4
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jun 2022 12:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=767OJrCK8HUadii808hVEy3GxcnvixklGPCO6V3YD5M=;
-        b=jFT/VeSc63iFgMPMb2xRcBbUCqXUnEZl1E1MVx1Yd2xAmk3ax4Uy65On/y29eZkoe2
-         EPvPLMkZIFEBJbO/DrmTsslXpsOfH14CWV/xGigqff7/K3B/BKmC5+61MIvtfT+WZpjS
-         RMqvC0cMMqe3uUD7OFBaas6cXGWaO+EzMk6KMymXcRzGsE2Ww5xjysjW4+PrZDjsV9tO
-         FyodoLXWhR4ioUoNG6krEdVinHpphmZO+IZVKrD8eX7Le1gfbzgMifUy58g6drBSSZ2S
-         x61qQcs/hRho1FhiO1lqm+d0Zm+1hEgLk1/ro/pRLJUSHwdfNL+b8dGXulEQO0kLlMeF
-         JTgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=767OJrCK8HUadii808hVEy3GxcnvixklGPCO6V3YD5M=;
-        b=bCl58gGVB3maDBIZfcfxmPXnE6LDtldH9Covp+IHd0kwkJUTOQxGSP0O8jrbU8ftu5
-         6JYkQ+LpU2Kw5j2zBEHklh8GY9TTXJVJQkCxaV6XEQm36MymncLrE6nfWKOushB3qTTf
-         f1L78BD/NtuDAn1U1UkxtSpMs4fwpcHZ7zLpyFxY3rdizcH9w9thwDBRIXS2R2K+13/J
-         pcsTazz7VYzySWjyId9EBAiQ7GpKEYoxCsIcCXsijKuQtbRmOQpKWB8BoHX8gdy0ab0c
-         PdDUZnJwOHxAzuJTewXUqQtgY4Un7yHT0PFu5q79JuLXKldTam38FYZBthmh2BBdphzI
-         uuTQ==
-X-Gm-Message-State: AJIora/nIu9xxC37SDX/bmWPi7heFeHs8N3r9qBfwiKN0KQ2no2BmSU7
-	/3vSOcHGMTzqdyzUnbnDqKs=
-X-Google-Smtp-Source: AGRyM1sgGqJHUeVw3u3W7rE3sqf5Kp8zpWdfvFHOMgDNOhP8CojDYKciFvgC5O7XXJFBkGcWqg0OLw==
-X-Received: by 2002:a17:907:c71b:b0:718:d0a2:a447 with SMTP id ty27-20020a170907c71b00b00718d0a2a447mr1266043ejc.157.1655322284933;
-        Wed, 15 Jun 2022 12:44:44 -0700 (PDT)
-Received: from felia.fritz.box (200116b826878200b4eabc3163d51ca4.dip.versatel-1u1.de. [2001:16b8:2687:8200:b4ea:bc31:63d5:1ca4])
-        by smtp.gmail.com with ESMTPSA id i24-20020a05640200d800b0042dcac2afc6sm29565edu.72.2022.06.15.12.44.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 12:44:44 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Neal Liu <neal_liu@aspeedtech.com>,
-	linux-aspeed@lists.ozlabs.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: Repair file entry in ASPEED USB UDC DRIVER
-Date: Wed, 15 Jun 2022 21:44:09 +0200
-Message-Id: <20220615194409.11875-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNcSW4GGcz3bm5;
+	Thu, 16 Jun 2022 06:32:59 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 46FF8616BE;
+	Wed, 15 Jun 2022 20:32:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8E81C3411A;
+	Wed, 15 Jun 2022 20:32:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655325175;
+	bh=xweyU4/oqSOwHkI/hoomOugSz3ECvQLAuoo5JQYmEfo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TaEB3qqtKQ7sFL15nSzdXBJU4cC65s35LLseLFBizPWZY6R0fkh1UNU118TVUYK1o
+	 +RgR2Kb7+JUTTRc6tXQLDV5Yr04FvNjjexnZN+hnW90VBWcBBSmrbQ/DXQNlArTmrO
+	 88eeDrMzneYDF4mE5yZwMpYmHLHbGZJzvBkYY1WhFONh3L/S7j8pbx+i3oaleJ/16y
+	 srDQGXS6Uj5dnKWP+vtWmZ2wEE+3fMfy6S0WYzEs60VGbb09bKpzasdEvB9av9Kcsp
+	 1a9AufleimVC0Yf7ajnDauhN/ir1rOjEJDExZ/LCrCN22uG968pCcUBS8atRmknu0U
+	 syD3CL+ZAGM4Q==
+Date: Wed, 15 Jun 2022 22:32:48 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v7 3/3] i2c: aspeed: Assert NAK when slave is busy
+Message-ID: <YqpB8A2uBi+4epHM@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+	Brendan Higgins <brendanhiggins@google.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	openipmi-developer@lists.sourceforge.net,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
+	Open Source Submission <patches@amperecomputing.com>,
+	Phong Vo <phong@os.amperecomputing.com>,
+	"Thang Q . Nguyen" <thang@os.amperecomputing.com>
+References: <20220422040803.2524940-1-quan@os.amperecomputing.com>
+ <20220422040803.2524940-4-quan@os.amperecomputing.com>
+ <Yn+9QBoPdH8fMm/m@shikoro>
+ <fc422a06-c035-f6e5-231b-74ea6afe8467@os.amperecomputing.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ic1hM2GHeE5Hfcvc"
+Content-Disposition: inline
+In-Reply-To: <fc422a06-c035-f6e5-231b-74ea6afe8467@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,41 +77,81 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Corey Minyard <minyard@acm.org>, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>, openipmi-developer@lists.sourceforge.net, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Commit 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver") adds
-the section ASPEED USB UDC DRIVER with a file entry to aspeed,udc.yaml,
-but then, commit 0dde9a46a2cf ("dt-bindings: usb: add documentation for
-aspeed udc") actually adds a device tree binding aspeed,ast2600-udc.yaml.
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-broken reference.
+--ic1hM2GHeE5Hfcvc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Repair the reference to the actually added file in ASPEED USB UDC DRIVER.
+Hi Quan,
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Neal, please ack.
-Greg, please pick this minor non-urgent clean-up patch in your usb-next tree.
+> When tested with ast2500, it is observed that there's always a
+> I2C_SLAVE_WRITE_REQUESTED comes first then other I2C_SLAVE_WRITE_RECEIVED=
+'s
+> follow for all transactions.
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yes, that's the design of the interface :)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d9c3576b082f..8830d1adb23b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3144,7 +3144,7 @@ ASPEED USB UDC DRIVER
- M:	Neal Liu <neal_liu@aspeedtech.com>
- L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/usb/aspeed,udc.yaml
-+F:	Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
- F:	drivers/usb/gadget/udc/aspeed_udc.c
- 
- ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
--- 
-2.17.1
+> In case slave is busy, the NAK will be asserted on the first occurrence of
+> I2C_SLAVE_WRITE_REQUESTED make host to stop the current transaction (host
+> later will retry with other transaction) until slave ready.
+>=20
+> This behavior is expected as we want host to drop all transactions while
+> slave is busy on working on the response. That is why we choose to assert
+> NAK on the first I2C_SLAVE_WRITE_REQUESTED of the transaction instead of
+> I2C_SLAVE_WRITE_RECEIVED.
 
+=46rom Documentation/i2c/slave-interface.rst:
+
+=3D=3D=3D
+
+About ACK/NACK
+--------------
+
+It is good behaviour to always ACK the address phase, so the master knows i=
+f a
+device is basically present or if it mysteriously disappeared. Using NACK to
+state being busy is troublesome. SMBus demands to always ACK the address ph=
+ase,
+while the I2C specification is more loose on that. Most I2C controllers also
+automatically ACK when detecting their slave addresses, so there is no opti=
+on
+to NACK them. For those reasons, this API does not support NACK in the addr=
+ess
+phase.
+
+=3D=3D=3D
+
+So, the proper design is to NACK on the first received byte. All EEPROMs
+do it this way when they are busy because of erasing a page.
+
+All the best,
+
+   Wolfram
+
+
+--ic1hM2GHeE5Hfcvc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKqQewACgkQFA3kzBSg
+KbaRvBAAhGHBikwxwBVjvxYQ3WkD53anNZCb8H7DLS+EBHUqZUhE3sB1E0xjhLw9
+/D56GGMOC0z26eO0epBcCjharkSDE5kolGFghi/5ymiKkHoS/wGCHuTr6nJVt0xO
+CXf1YVkIb4I3bHHxgiAPrOc+N6jw5e+Ujao7nOXjpaTuJ84RNT4hHPNKUcJIqZNR
+ciM/xRqC0CslNEW4RH2fapeCw97/HksITYb/1Ix3DabxRnLj6obVmAtuokUr7Tmd
+Aro8RsCKMzkJmknyhX4A/cbVuRKXGiWLthW3srmUKPCgu9dndoBsIoTty+E3vJXY
+QZO0uNLBRydxJOBXT/+skne0wB3xo4RNuAzYXov/RMVkTGO2r3n3Q99wjSyHv7Zh
+BWIy/QnYni2FguU4NtjgBXurWfvqguvLr37+5QMcruMLFsRKkeifb1zfOlVV9RVU
+whpoeJrrFrxE3wI/L4Ol3eBokDneI4Ldo4dUvFv+CQ2GNQgj1qLfZcUnqE/SKNKj
+JhcvsMNszDV7QXk8jIbzdkWbL5zxijQ4y+q+vOou/b3BZTVJ+d+wXXH72LeIxxPY
+JqQD9F2vzrULR55rbXw+ZBU0jESxcBrx3aC54ksz1vIPM7gsuOldNICk00eBI8tD
+HmatAjq9W/yS0VpX7XlTsBwk8w8MXJc2/VXzlJaO4M8yLddwLW0=
+=SfIi
+-----END PGP SIGNATURE-----
+
+--ic1hM2GHeE5Hfcvc--
