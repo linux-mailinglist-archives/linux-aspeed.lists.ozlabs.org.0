@@ -1,34 +1,116 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979F354DDE5
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 11:09:47 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5836F54DEC8
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 12:17:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LNxFh5CCdz3blM
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 19:09:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LNylN1KsBz3blB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 20:17:04 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=p8BH0ylX;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.alibaba.com (client-ip=115.124.30.45; helo=out30-45.freemail.mail.aliyun.com; envelope-from=jiapeng.chong@linux.alibaba.com; receiver=<UNKNOWN>)
-X-Greylist: delayed 305 seconds by postgrey-1.36 at boromir; Thu, 16 Jun 2022 19:09:37 AEST
-Received: from out30-45.freemail.mail.aliyun.com (out30-45.freemail.mail.aliyun.com [115.124.30.45])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::721; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20721.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::721])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNxFY39NTz3bY8
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jun 2022 19:09:36 +1000 (AEST)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R851e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=15;SR=0;TI=SMTPD_---0VGZs4Mm_1655370252;
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VGZs4Mm_1655370252)
-          by smtp.aliyun-inc.com;
-          Thu, 16 Jun 2022 17:04:20 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: neal_liu@aspeedtech.com
-Subject: [PATCH] usb: gadget: Remove unnecessary print function dev_err()
-Date: Thu, 16 Jun 2022 17:04:10 +0800
-Message-Id: <20220616090410.128483-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNyl41ZF5z2ypn
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jun 2022 20:16:29 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UUYV04sTr+hfEZWT/P8r41nuCRaR7WbdxygoJa/B0ujBKP81SDS5cqa3yfDwGA3XB4o9+Y0brBqH9S37epwwSoW7hpyodZeu3Ecg3Al2WyTglPVd5nK1xZinYN6gf+rvSdUQGhur38evweeylYD83Tvz7NLuvxEpc6iAUTWPuEG6Be+pEIAYJeu5zjnUi81k+KgSSzWHTT+9OJX+QoEcu5RiT8UHRKqC6iA02nVEM7rDI2W98kym8FiFsA/2bG6DorGiMYUOrugXR+sQS+JVbZ9/9g0WHMSDycrusSlbKtF5qJ1XAKjo5ScS+asGSZ0Y1a7+Ek0/tojjzLuvIuEMIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SWtoDcUCX5zzVwG/ipCoPQOc323RqHXTrsUn62oILt8=;
+ b=XxL4dtghhw7pxv5jUZQ4KgB1ie1Mr8kVmtGVT52qWXGIrELAdGphbzS9FDFUGwKs3LOz3s1oFcAvMTjgdDDHw/Qm0GAQXzTgpqiyOOQkRDu+yRfo73eqKEQClvbP7mUIl+UgkrejPQgRjtLoe9cALgbLoyENzvf4ql89JwAFyFJPkihM/cr3bgjkP0VGJyXKY5CcQG482ZBNinkWhpG10g7uU21oyzKRAbW0yyo90FkFGK6X95+tJ/pl0vlZ43DpUN/Y9WJIVXdreIJC8Yx4zGXX78ZeqAleXKnudyO3MyEAUfq02mMQwzIK0FGdfz4IT7DDcBKGzFz+saCrSm+SPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SWtoDcUCX5zzVwG/ipCoPQOc323RqHXTrsUn62oILt8=;
+ b=p8BH0ylXvxVSb5miotC27SB04HBR2pDx6YJ66McfxyY+BCUHdai67VjrIiu91JQTclOXSye3O39/5GQadVU3IN6PFtiasc8eUw7ldGtHXwRThNidr0lvptAoFpg84X+LCz3K7QBalm9YR6+8dfnSgBXcTOxxDQKRERwbHeek9MTUG2arrrurL9BostzizlNAntweAaM5ChGnTi8TbNXLeB+RQDh6/TbLJi7gqhOix0c/mmcwpwetw8AHEBoK//rQdI6nBRl1A5AwRMJuQTp9/VNcWrrvObCqB/B1/ZrXGX/kFzGoDOKVj3fG07mrT8xezmyUW+XVjj8bKFSaYiD2pw==
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
+ by SG2PR06MB2764.apcprd06.prod.outlook.com (2603:1096:4:23::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Thu, 16 Jun
+ 2022 10:16:06 +0000
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::7c42:9783:92c9:f237]) by HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::7c42:9783:92c9:f237%7]) with mapi id 15.20.5332.022; Thu, 16 Jun 2022
+ 10:16:06 +0000
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: RE: [PATCH] usb: gadget: Remove unnecessary print function dev_err()
+Thread-Topic: [PATCH] usb: gadget: Remove unnecessary print function dev_err()
+Thread-Index: AQHYgWATtppy2IZglE2yH02xMWGTe61R0ViQ
+Date: Thu, 16 Jun 2022 10:16:05 +0000
+Message-ID:  <HK0PR06MB320275CCAE8E424810C8907F80AC9@HK0PR06MB3202.apcprd06.prod.outlook.com>
+References: <20220616090410.128483-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20220616090410.128483-1-jiapeng.chong@linux.alibaba.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e2e87e38-09bf-4375-9397-08da4f81397c
+x-ms-traffictypediagnostic: SG2PR06MB2764:EE_
+x-microsoft-antispam-prvs:  <SG2PR06MB276475A37EE9ADE8EA8CCFB280AC9@SG2PR06MB2764.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  wEG0D9mb2ByLwYRQS++geUu3JulF13vKfAPkmP5tSuZgyKJ/7L/KF0dT9c7ztZqyProP10fLIN3v9pdtpWI4VNHq+7zN8KFhKNUEBFP3O+X0UiPmZSlsG/3ZMrPZrwunwHPAzjzAFFpabuRSkeMnwfEFguzy88vZXkdg1By5bQQq0S3kEl3Fxtx+wvSRYgWRRiIIRbQaNm/klvVvhuEB/I34/x+Va7RO15hmx471ljefVv+AhAauIqcf+sVrNivPIEkzBZ1bXXRsjeJ+Iza4Ur0sfGvHjuBDdFLnONIfG3bgR+uvpX+jgJJq71nWYYxyO/LK4duXyFQghZZe5ba6Ng2ruUNn2s9Xt2iEVB77yyUsLfXkKsRARLtQDV0wKFE3EMCratfZVng0Bl+6YwrdlR66cPcd8iTH7+ri05hPBqWscq0qgSzXsw6XdLxSmoAuCNgAjQTgwdFGmILqvqICYiidrpSN0f4LIXlFH++z3CKOhu608WXzHexBz/n0i2UXTxWFSAqhprMZqNyLm8o+3ZypDC5AtqUF0E+0jxyf2lG+shwV2SEW1C8F5/NQrWqsTCpvIjdd0TXRvl3N+FEZRQTSAHUwjtkPAB+Gpy4T3eB31yZT1znqgybUUlnjjLJF2LUZzBH5AZid+ID+egfAwMhFPi1hSQ3epUQdR0iwyTdPlLiKgdmYNi694Mo8xo8Nz1LL9lD3+L1JklyfQxkJ4g==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(346002)(39850400004)(366004)(136003)(396003)(186003)(41300700001)(9686003)(83380400001)(316002)(26005)(54906003)(6916009)(33656002)(7696005)(86362001)(55016003)(6506007)(66556008)(66446008)(76116006)(64756008)(66476007)(8676002)(4326008)(66946007)(71200400001)(7416002)(38100700002)(8936002)(5660300002)(2906002)(122000001)(52536014)(508600001)(38070700005)(4744005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?hRoow4H3k7kMuIKUf3yIpFUSQVN51K+JKiUDbXoaQsa8zOREUeeKF/nSPVIf?=
+ =?us-ascii?Q?25jJtUNUJMYPzkGAEdTAZfNz4URv/s6APABcxClopOA91se7rS4j3G+ESU8Y?=
+ =?us-ascii?Q?+rCdg+kGyXQ4nq8WIJcJTIMXQoZQY+Hi+VeUIibc1rmFWrcbGSc+mGzMcAxi?=
+ =?us-ascii?Q?EkQV0ygt2JnyOlullhaGNwHJL+1z7+QBOW2ZpAwp4pd/6zjajt9gjK5vo9FM?=
+ =?us-ascii?Q?UB4feRsBdxRMpSrpbrEf2yuAJ91SNIQEGUmSVRn5fqq82kTn38/xe1KlwF9i?=
+ =?us-ascii?Q?E+7XUq9LQuK8PD4yg+kLEAFO7uFCcJ2gpADZ3ZbngBL+88VJpR1cUbrHxZ9S?=
+ =?us-ascii?Q?AJl0h1zkceirv5QNP8DG5qZy7HORXfXQbJTJxDFlHYmK/SdGyqjN+t+FV3uM?=
+ =?us-ascii?Q?+6CC5y8ZhJa5I2m+I5FVqm78lTj42nTMDydStoonvBXcsuuz2IcRiJawSyaF?=
+ =?us-ascii?Q?ZIsMaP9NBvOnK2gwphpNc6JkS/tPdG4+DbCzbNUKE0KDehnxMXicWxQyO4Tp?=
+ =?us-ascii?Q?3S2SzBrbZj5U0/SMV0kQrwco/PUc9jOMPSAgUznerGYXE1xJSvKT4ZOTJn6y?=
+ =?us-ascii?Q?8spTn0MSimg0i/E68J4mUZ3reWcpx4bV5LqbWfr4prQV9FilSwNfcKBJF4An?=
+ =?us-ascii?Q?d/0IXdkPByG1/j51DakICYHqXf+1SniK9kifK9s8B2EnIVBckVNVusZdbfm/?=
+ =?us-ascii?Q?fykTMxA/rPWaoxT7quXlIXZVHe7L2wHEhOHJNJpgnY86vKJ8vkjh9AHi3wvs?=
+ =?us-ascii?Q?pnOmKzVuw/IaV+9B3aamtVdoXFd7/5QY7SneT0oLD/6qSHuV5pbSQff8N4Co?=
+ =?us-ascii?Q?Mrcm3KfU5baOIaTUANeGE6yF47Jg21cZ6iDBaVXAdXBPXbKTHVmffvlcyxTL?=
+ =?us-ascii?Q?M3FFjPzwR8aoBakgpur5PaPHG28UVbWvsSJPYQRDxNtr5PBDMg1Agk4DTqGB?=
+ =?us-ascii?Q?7l4w3K5kzR6djGqmkEO2obCUWEkFJqTCq8Kv2qr3JA6cErSAchktPzt7pN//?=
+ =?us-ascii?Q?24+AtmQg+T2fnOUclClJfsXdNU3Zj6InDDzKH2wZ7BPkX2gU/3fofTIHpiGi?=
+ =?us-ascii?Q?7L7cXRJnZxkB1J/mlez6TQiaURIXVxELySFxIvPRjNEs98lTFuFifO/Oshz/?=
+ =?us-ascii?Q?6q58t/7C8Q/yzVb216zDD7j85Nf1zcGy+uWzSFnqTCYD4bYMFpyBfCJIspqk?=
+ =?us-ascii?Q?JAIljlmmmOrO4ro1hM/V+1hx2bAOOXr3QLNylsApQEzSfPRr90hjhKJxBiF1?=
+ =?us-ascii?Q?oBXb72XP+yEK3RvUMeXiY2V+qG4d0WyZgwIDtcMyP86Sw3Pjh0eXdnve76FF?=
+ =?us-ascii?Q?DatZmlydGGPDiGzNYJWw2h7rCJkgLxEmJULnlNA5Gc7Z7WU4rpI6hZJdGjXN?=
+ =?us-ascii?Q?fkTXEx3NxRh10A8BZgI5Fjc/OdE42me1Sba0p3CJzVcvaxXjtxjG2Ov2qUcb?=
+ =?us-ascii?Q?0f+3HnMnz4SIVEBlwuMZsl3OCntGXAM8XYKGS+p35L83EwJ1LY5M5y8rh7Bg?=
+ =?us-ascii?Q?uEgeumLO55Xetk84cB3g3UPsRqJi3g84rFLuAhYmrjonYYj9CfRZo3GRoRO2?=
+ =?us-ascii?Q?XXOB5fEXoA5XXkHsDjd+SSOBejQNrf3jMHMKgJGwSG3ejPuHKkP9VicQgjFb?=
+ =?us-ascii?Q?64XOVqULPSVndHzs2JTE94waornqaKrsHJEbBBDg5YoM9N/YsRziYJFRonco?=
+ =?us-ascii?Q?qjDbChoocL4Gom7Qs+TUB/URTw6gbjYf/vEkZ3/l1bkMUrl19J7UOzr93inm?=
+ =?us-ascii?Q?j3Sz6z+clw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2e87e38-09bf-4375-9397-08da4f81397c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2022 10:16:06.0031
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: udPFDQJgl1IULP9pVKz2uQDHjlp7uFavP9NUZ8dHHwhQTtPs3zm2ZFM2BBe31pCObHltjYu1SHzmT61PLKwnjg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB2764
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,34 +122,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: balbi@kernel.org, linux-aspeed@lists.ozlabs.org, Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org, christian.koenig@amd.com, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: "balbi@kernel.org" <balbi@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "christian.koenig@amd.com" <christian.koenig@amd.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The print function dev_err() is redundant because platform_get_irq()
-already prints an error.
+> The print function dev_err() is redundant because platform_get_irq() alre=
+ady
+> prints an error.
+>=20
+> This was found by coccicheck:
+>=20
+> ./drivers/usb/gadget/udc/aspeed_udc.c:1546:2-9: line 1546 is redundant
+> because platform_get_irq() already prints an error.
+>=20
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-This was found by coccicheck:
+Acked-by: Neal Liu <neal_liu@aspeedtech.com>
 
-./drivers/usb/gadget/udc/aspeed_udc.c:1546:2-9: line 1546 is redundant because platform_get_irq() already prints an error.
-
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/usb/gadget/udc/aspeed_udc.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 1fc15228ff15..2c3dc80d6b8c 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1543,7 +1543,6 @@ static int ast_udc_probe(struct platform_device *pdev)
- 	/* Find interrupt and install handler */
- 	udc->irq = platform_get_irq(pdev, 0);
- 	if (udc->irq < 0) {
--		dev_err(&pdev->dev, "Failed to get interrupt\n");
- 		rc = udc->irq;
- 		goto err;
- 	}
--- 
-2.20.1.7.g153144c
+> ---
+>  drivers/usb/gadget/udc/aspeed_udc.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c
+> b/drivers/usb/gadget/udc/aspeed_udc.c
+> index 1fc15228ff15..2c3dc80d6b8c 100644
+> --- a/drivers/usb/gadget/udc/aspeed_udc.c
+> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
+> @@ -1543,7 +1543,6 @@ static int ast_udc_probe(struct platform_device
+> *pdev)
+>  	/* Find interrupt and install handler */
+>  	udc->irq =3D platform_get_irq(pdev, 0);
+>  	if (udc->irq < 0) {
+> -		dev_err(&pdev->dev, "Failed to get interrupt\n");
+>  		rc =3D udc->irq;
+>  		goto err;
+>  	}
+> --
+> 2.20.1.7.g153144c
 
