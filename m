@@ -2,80 +2,121 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EA454D652
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 02:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4C354D6D8
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 03:17:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LNkGq1xjVz3cBR
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 10:54:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LNkms40V9z3bxS
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 11:17:33 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fAHr1q19;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=mtsMMkKz;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::531; helo=mail-pg1-x531.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:704b::701; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fAHr1q19;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=mtsMMkKz;
 	dkim-atps=neutral
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20701.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::701])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNkGf3FBYz3bmX
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jun 2022 10:54:50 +1000 (AEST)
-Received: by mail-pg1-x531.google.com with SMTP id s135so12891061pgs.10
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jun 2022 17:54:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QPYY8cZvI30w8ER/fK+cOf14ZzGBA9BCHkD+gscMWkQ=;
-        b=fAHr1q19jOvEfXjfJCwZZ4/weAqlt59BmiKJ21gmjZpttPLpDWSBub46saR0/kU8p2
-         mordBF/8pL175BqG1XfItzcvqQK8qJhrtftqdrawzBwS4vfrhkHozzDKgXpFaF6kRmKQ
-         OISl6nq60X09yYuuHrNOBKsysg16jauFtiXRhmVNJNu96t+Pj2MHbQT++qUeIPfB0DPD
-         7ZG8jIcQ/hdJBLKqE/3QentP50DVxY6KmGTbr8KEQ6DHspUra4SwuMi/efIglpbIvUem
-         DWgrMzn2e+JnFsCnvL/KqO5oQ9g77F4tHIj//uueN8PPALYxV5D1aKPzfLey0pWS43ny
-         7o6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QPYY8cZvI30w8ER/fK+cOf14ZzGBA9BCHkD+gscMWkQ=;
-        b=hZpXqy8lyN7R87Ulw4rCHoSB640FgNBkqpUJ6yD20cm5XyuSKcwilLNNK2gsG+QuX0
-         mOcT5+8Da+6rVnwDLZM/8Zye8EWSORqq6uU9UodI2uf1Xr3h8JU/ASesMxoMZsWFUnXN
-         rvDeBsDQSPycoDmxDiifDnv5rjkwTFMH9ccWx6vN5KtqLwcQt2f3ZVxfcFLPmaQ1aXqF
-         g67ua5SdG+t/ze3Sxy3nUYx81HVFIjrAoSI3z+O/5xZaqGhZyJySy5WwKRi6zOeixOfC
-         YyibAV9ESQXNVrz9759e2PHobxXnNJ1v1DsIpz+a+NqFgF78SpAG4zLvVQUMxrz3kjGA
-         tDGw==
-X-Gm-Message-State: AJIora96wJrQX/aQDU61kF2Yk84+Ny8K8ru1zYXMj38Hnsww1qwC6n0l
-	fYDoCvFCvPkHMI/ZDIEKXklxXg==
-X-Google-Smtp-Source: AGRyM1uvnLQUsVDSNQItG0K+yTguO+3RwCf4ArljnhzBEJnGMwmVLMrD7RgOmrRUPYMg1g+HCG89zw==
-X-Received: by 2002:a05:6a00:4515:b0:522:cc82:79d2 with SMTP id cw21-20020a056a00451500b00522cc8279d2mr2118618pfb.61.1655340888304;
-        Wed, 15 Jun 2022 17:54:48 -0700 (PDT)
-Received: from krzk-bin.. ([192.77.111.2])
-        by smtp.gmail.com with ESMTPSA id p4-20020a170902780400b0016760c06b76sm233660pll.194.2022.06.15.17.54.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 17:54:47 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: arm@kernel.org,
-	soc@kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 37/40] ARM: dts: aspeed: correct gpio-keys properties
-Date: Wed, 15 Jun 2022 17:53:30 -0700
-Message-Id: <20220616005333.18491-37-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
-References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNkmh0fT1z3bdF
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jun 2022 11:17:22 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DPOQCKIkxMKdQZEUv+IU8wrrK4z0qa2gf+U/GWZqb+zwQ9iWENveBQUxnIaBq2mTwqZQMqfZlmunU3zil6Eb4sDDYlDAMhRPGDdQT6MldvG4DJcgT+cK5s/tCrx7UwGryBJ4ruTuZ8RpGpt3bSrzAAkr9tIgBOzi77JcRJLGClNDs0/fGmQOrntipvq5Hlm68FJX6GKj7rw2yefUIg56HKbF+K4lvIGwdCQawg1VOEzAq2gdONFAgJiVeRr/WfrKifMmUuF3r1lQChxl4S2kPfsR7yq3Q7y9qBn5AezxK3V/OQN8g5Hn0mxSNZmILPUp88V2ZRYwOm7Ph/cQFnHVnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0ef8zPmJLS6z47GZMPpgaxyOba4r6Z2E4bCExiDwtCA=;
+ b=OzQXuN8Q1qMUCghferkYXnRIZMIo65B8NN4p5qgUclELhoj1hLYNymgV5ONQ97tQyh19fx2apXRH8y7XUY1uCPx3sHPv050/z/2074q4TfWEG2uMaPJzdjZ2wEwUP9Yxu44gZxwGS2Bgv5iNj65D/fLQQncflghtBo5MX0ZsEHsky/x3+aPIh6UUKN5kRFkkN/9Sd2b6ay1BAqdwZnc7CX5SPicZV6HFLDsjxxKUuHp2vKusNnJZd8AuAxkn8kAOvcmT8BmU37so20EhiSKKAG3f13xoDRCiBH45AP4wgjiOncc4BPbuZ0XrcIY549IqAucKwkAFgYgioxeA+qv1pA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0ef8zPmJLS6z47GZMPpgaxyOba4r6Z2E4bCExiDwtCA=;
+ b=mtsMMkKzPbPBy6EeLatRraU6Ce5ZB1DvAu+XzMa4ruuJfNyr6T0skupVoSr31dHYOWxzBZXTNzaxE583lNroDhfo3dhn81ap7fWD7pTxSHMQyTSpAMs918Bwnr1TYE0AbHmwl5SjV94NeA2AiPjkXrAe9V2/l3OvSu7HcKjFsnmynQX7XvbcCMZ9AAp/OZToaFIcF/9IKyIxDDtBHVTRKvFV8EWSIwrliecoAWB5e4DPInJt3vZm+rRwOrNsdweysy56bLu1S4psR2bg7+fE0yN/7s0cK/h3fO4A/OAjOCy8wXo49SoOce+oRFx1OHLabqqAFWQGjiNyyPw8h6c65Q==
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
+ by TYZPR06MB4511.apcprd06.prod.outlook.com (2603:1096:400:66::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Thu, 16 Jun
+ 2022 01:16:56 +0000
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::7c42:9783:92c9:f237]) by HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::7c42:9783:92c9:f237%7]) with mapi id 15.20.5332.022; Thu, 16 Jun 2022
+ 01:16:55 +0000
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>
+Subject: RE: [PATCH] MAINTAINERS: Repair file entry in ASPEED USB UDC DRIVER
+Thread-Topic: [PATCH] MAINTAINERS: Repair file entry in ASPEED USB UDC DRIVER
+Thread-Index: AQHYgPBgwNpldfk97k2qy8dp1n25lq1RO3Fg
+Date: Thu, 16 Jun 2022 01:16:55 +0000
+Message-ID:  <HK0PR06MB3202DE01EB506DC97EBBD60E80AC9@HK0PR06MB3202.apcprd06.prod.outlook.com>
+References: <20220615194409.11875-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20220615194409.11875-1-lukas.bulwahn@gmail.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bcfa84af-bc07-4440-aee8-08da4f35e734
+x-ms-traffictypediagnostic: TYZPR06MB4511:EE_
+x-microsoft-antispam-prvs:  <TYZPR06MB451162A7D0D100BB5BB5ADD280AC9@TYZPR06MB4511.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  1rxw+k72nnFKkSD6Yve37dgaQAvLuqBEaCI9oaKDAdSOKTxOVkPJKcvZIQOEMjIRGR9dlw2uSRQKzuEmvvnVRo0wIMoFYq/lrxsoFFazXVGdaoL3FAQA3a2SbmdPAzi0+L1bsYqhXkFzA4B5uCFWPoodjDqhMuNSdZCG8RAeNgLkIrW3xqNZhEnn+V9euXzpInWt+L0ShrpOqtsilCN3s47OQ1lkTNXzV5vT9HqlmycbLgRugkQZE8AUTRmczKBXb3AJpU7HZUzyTy7bIC/n13f+7xxJ+QlwrOvwjXr7MiO4Li9u1vlyNsNgi0BpSVuHAwJlSaAK7hzA+qOwkRDzBADNao2B5Sv8/poTSIWT5KluVJH1QlGkP5M4ZWEMLo0rD+ECLAqxywcyajEXDoRDkKQn2aY+i1LQi57euzT1vKq/sIK2Fin1eOKDcVFLUy9rbp8v9kRbJTWhFn7gSra31wCJk/zQBD4hSBbuePL+xduiwHWFBlukqge4hxe535ccTLMx/bR4s4ZHkpnmtQ8dCZqsTCLLHdcqJOzgJ3XPH4rClrNokxypA72MeJK/G9lVpDV+ZdAOdpFPMqyYMf5ypXoeGbl6ocTVHcOz8DJEaFwilkdMFMvTGtfM2M8aF6OB7Ui3tQRCDuTKg3WqHxryQATwNAmigpsoaPk3LMh0yCQqTdj7rTLvjCadiuwLg+lGoBLyyYaG5YMb0l3BTkaryA==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(366004)(396003)(39840400004)(346002)(110136005)(2906002)(55016003)(316002)(4326008)(6506007)(76116006)(33656002)(86362001)(26005)(54906003)(71200400001)(9686003)(7696005)(508600001)(41300700001)(83380400001)(38100700002)(64756008)(38070700005)(122000001)(186003)(8936002)(8676002)(66446008)(66946007)(66476007)(66556008)(52536014)(5660300002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?mebm6Lm95ZJE3GrEwTLnkjH9E4uAmdlW3FATth5AviQC26lWkVv8+0nG6LEW?=
+ =?us-ascii?Q?BX2erlGJouQaelpKh7/kJCpDPHeSLbFnFKxmPbWgmXmdy+4+1jwzeCr0DOLc?=
+ =?us-ascii?Q?1sAHctuwR/swo+VYlc6bSK9BXCgsAj4g3xX1CKdHTIcKs5wrDPnW1LhQLImt?=
+ =?us-ascii?Q?ltHd5jmZ7UL2AYFcuUYM0hiOehLEoYgrioBI2wryeyYOS3UMgX4F/pSgf5T2?=
+ =?us-ascii?Q?MJvEOmnw2wTCvPi+Gg5NfffMA4KHSacyBTR5VmEtbbZrMuhoJawlLs4qF6yT?=
+ =?us-ascii?Q?cWbzWFgHwOfIZFYIiyH/K9avfJsgbcFDjNAsmxzcghcLSX+7/a4JwguJ0Oq/?=
+ =?us-ascii?Q?LRAqoMcS8Rm4AuX1osSpgmyNZV1Yry2SIBql5wEShI//2vvis8o9MtnpynaF?=
+ =?us-ascii?Q?mFTdP9yQVZzVhc8Y985pe284cl1yucgeQ1MyGDJL22RIOcidR1K1r5rrC7ax?=
+ =?us-ascii?Q?z7htIACNvTVwDS0mU7nQ4Vp5zAI7q7juGLrlKY+zHfmcNimLU8zCGnFsz0dh?=
+ =?us-ascii?Q?fnVHoDSFsAJ5TVNgpLRKWtT9zeYdA2orlsczIVUa7r6/SG6W9ANl3JU/9CJ5?=
+ =?us-ascii?Q?HREp/Zdy/6uF9ZAYzZpjkg1W9287PP1X7U8zaMWaBV27J1A7OUj+kz0YS5fx?=
+ =?us-ascii?Q?TZJ9fe68RDDvDnoPROkdl6Xhyg9CAVuxU5xLA9oFka6q2tjRO15aQW4qrPNB?=
+ =?us-ascii?Q?McM3iDIkQFbcXJNNmlhTdcDdLbK5crp7gcc3cq4CH0Z/UIpDZgluRfSFEFBq?=
+ =?us-ascii?Q?opxyC2d9gAUyEt3VuZYCP5d6ylVndX/K57y3YteHFQCh54+kFUctpEhrZQkF?=
+ =?us-ascii?Q?68R7It9JZm+o0ASmlN+Nq9O6lu3HvWH2Le9yV5hXpXF0vGS9gSRT4cVYQdIj?=
+ =?us-ascii?Q?WQTlz1pDTn9sWLZAuvbgaOWE4xV8JkkEPYmC20HuIP5SDTtWaLjjg3agrLje?=
+ =?us-ascii?Q?X62nzZ6aq3kyVxd1N0Us8QWDnr4YYPufQ8OLGXJE1D60C7yoLEnqxyfLqx9S?=
+ =?us-ascii?Q?CD7i/AUjLpaN0SRdh/S1WeM/DsDv/N+sE6jYWQIHHMjN2SHT1xwg4oRtxKj8?=
+ =?us-ascii?Q?5P0yI1+TjHE8IwPJTXRnOt93lbWF+QW0NY+NGZz/Yb613xeR6Su7Bxp563iW?=
+ =?us-ascii?Q?e5xA8e0WAcHHeGyuHSlsYdntyV/NJVw8ebO5FbkQkR7qWjAjxtIHBaGRtYPm?=
+ =?us-ascii?Q?a/lwk1JnBTJt2zMZJx5C/y/5M5ahGE4LucrPb87KRK7+IKK2UtHEZQVzttcf?=
+ =?us-ascii?Q?rWuvwZMA2PwD+0S6uRz+vg5Z4wmPkOx62EGjuR3g81EsKLh51lcI67DoSVxv?=
+ =?us-ascii?Q?9ngi+ZBTSGXIUQTMKxZ9J4OvyJ2wAWKfFnUz5gFpfNfcDkDHJa0uCx2qBhAw?=
+ =?us-ascii?Q?tRgmXClzXP0C6vaKtDrWqKIeCaXkgPDwy6kkotjd7N6Es+9I12XEk5Of1HxN?=
+ =?us-ascii?Q?ncSyi0bwN1lnNiDenX/XaM0wcnaoqDdGvRllNWx+Z9gKpg2YhUC4BzZvqbRr?=
+ =?us-ascii?Q?cfEXPZXbwCu/z1nlfr6df+GyRMgunyWkl6GDYgAbv30KlpA+Aek3eN9pdB2R?=
+ =?us-ascii?Q?qCqMbDzG1ta1lJSRPzKKgqi0nC0Gsg/cv1SRTNbDyG/h36J33eQbsxs4zjby?=
+ =?us-ascii?Q?4MClJQ2Xr+4D/J/fioJEwSUS8vrFoMffT8XVvEhU8YL1ny9kwZnRxT4gGMt+?=
+ =?us-ascii?Q?0sI4kL7SyHM9ucuB0RnoTknL68Jy+RGrrYqxjPMNwYiBNrFze2S4SqWYYSZc?=
+ =?us-ascii?Q?cMS+A/9RPg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcfa84af-bc07-4440-aee8-08da4f35e734
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2022 01:16:55.6728
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Y5t9tAPO3+K9kXnAL9rz3976HBbewoKs7ZQCclWL366CVsY5B2QoiEcYtFL/KLYKooRUsSMeTsvMZBM7a/lUKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4511
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,58 +128,50 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-gpio-keys children do not use unit addresses.
+> Commit 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver") adds
+> the section ASPEED USB UDC DRIVER with a file entry to aspeed,udc.yaml, b=
+ut
+> then, commit 0dde9a46a2cf ("dt-bindings: usb: add documentation for aspee=
+d
+> udc") actually adds a device tree binding aspeed,ast2600-udc.yaml.
+>=20
+> Hence, ./scripts/get_maintainer.pl --self-test=3Dpatterns complains about=
+ a
+> broken reference.
+>=20
+> Repair the reference to the actually added file in ASPEED USB UDC DRIVER.
+>=20
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 2 --
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 2 --
- arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts  | 2 --
- 3 files changed, 6 deletions(-)
+Thanks for the fix.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-index afad8d732cc3..a6a2bc3b855c 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-@@ -189,8 +189,6 @@ vga_memory: region@bf000000 {
- 
- 	gpio-keys-polled {
- 		compatible = "gpio-keys-polled";
--		#address-cells = <1>;
--		#size-cells = <0>;
- 		poll-interval = <1000>;
- 
- 		event-fan0-presence {
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index fc8222ea2dd0..bf59a9962379 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -179,8 +179,6 @@ pcieslot-power {
- 
- 	gpio-keys-polled {
- 		compatible = "gpio-keys-polled";
--		#address-cells = <1>;
--		#size-cells = <0>;
- 		poll-interval = <1000>;
- 
- 		event-fan0-presence {
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-index 6f6a35fe2caf..3f6010ef2b86 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-@@ -65,8 +65,6 @@ event-ps1-presence {
- 
- 	gpio-keys-polled {
- 		compatible = "gpio-keys-polled";
--		#address-cells = <1>;
--		#size-cells = <0>;
- 		poll-interval = <1000>;
- 
- 		event-fan0-presence {
--- 
-2.34.1
+Acked-by: Neal Liu <neal_liu@aspeedtech.com>
+
+> ---
+> Neal, please ack.
+> Greg, please pick this minor non-urgent clean-up patch in your usb-next t=
+ree.
+>=20
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d9c3576b082f..8830d1adb23b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3144,7 +3144,7 @@ ASPEED USB UDC DRIVER
+>  M:	Neal Liu <neal_liu@aspeedtech.com>
+>  L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/usb/aspeed,udc.yaml
+> +F:	Documentation/devicetree/bindings/usb/aspeed,ast2600-udc.yaml
+>  F:	drivers/usb/gadget/udc/aspeed_udc.c
+>=20
+>  ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
+> --
+> 2.17.1
 
