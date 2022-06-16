@@ -2,72 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8C454EA80
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 22:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED6554EB85
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 22:48:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LPCpQ2BWsz3bm2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jun 2022 06:05:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LPDlY3W58z3bnF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jun 2022 06:48:09 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FzvzAth0;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pWd2gWMc;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.115; helo=mga14.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::62c; helo=mail-pl1-x62c.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FzvzAth0;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pWd2gWMc;
 	dkim-atps=neutral
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LPCpJ30ccz3bYS;
-	Fri, 17 Jun 2022 06:05:20 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655409928; x=1686945928;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v8nKn3u5HYJV1okOhvCdZ6oJQPkGSyi/IKm0G/s0MXY=;
-  b=FzvzAth0Rq7xpvySjoboTAKjHxAY8HN+8z8vnTR6cBdu275p0JZsK7fo
-   seN4VOgKMU/UPW0IG8HMSd6E4ZKnU/1P2hYXKbS4goCdm4pDBb3uI/7J2
-   hDLs8KbJbRysGDhTEmQOiwFHkD7LOWe93UMK4lrchLUv93lo4+jRu+63k
-   hVx/M4oShENFgMUVhA54yRjIvU5urexJpEuwZITXfBZKZxUItn1TJ/cgT
-   AaEA4qm6tHD4IR0XvvRHdtno03ZHfrnIGKc9EfIbZfDaWshDc9YAe0xXB
-   YOmdU5goCYpu0numu/2xETIsw+9dij1gHQ995MmAAmhi64ARFhR7Rd+bi
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="279398620"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="279398620"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2022 13:05:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; 
-   d="scan'208";a="589791945"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 16 Jun 2022 13:05:13 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1o1vjs-000Oj3-Vy;
-	Thu, 16 Jun 2022 20:05:12 +0000
-Date: Fri, 17 Jun 2022 04:04:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Quan Nguyen <quan@os.amperecomputing.com>,
-	Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Brendan Higgins <brendanhiggins@google.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	openipmi-developer@lists.sourceforge.net,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH v8 1/3] ipmi: ssif_bmc: Add SSIF BMC driver
-Message-ID: <202206170337.0kCTfR63-lkp@intel.com>
-References: <20220615090259.1121405-2-quan@os.amperecomputing.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LPDlP4XHSz3bkt
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Jun 2022 06:47:59 +1000 (AEST)
+Received: by mail-pl1-x62c.google.com with SMTP id k7so2189770plg.7
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jun 2022 13:47:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=jnD99uencGMjTPpflykxZNYOUgUN3LUgOaJGkyuBq30=;
+        b=pWd2gWMcVtb2dxWnVHPatHbAB2Xdpt96Ys9iB5jXphQh5KSnWbOKCf7wGVj3VIPjeL
+         4gRZHPFC43xJmqWfyQHjLHWCncnzd5JqZ+Au/+PUJOh8jxcULCy/+l7wVIuK5r6KppnM
+         yNwaGMX/YFZ8/+98md5wb9xZCHdN/v8z7ZSmjcCbQDzV+SQyE4BsrPVbzKT4G4pWxsGN
+         2IrP1t5qdpac6hKOV/VtQ/S9l4yvVOTdMlDmPBRCoPnOuVOG1eWxMPgKMfRwfYYX6VOQ
+         ZThqHRYkagUArmWKYbdvTb2tYuFUfzUjsBbFGIerC/l1G4wywVX5ew22gst8QM2wQ4mv
+         CfNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jnD99uencGMjTPpflykxZNYOUgUN3LUgOaJGkyuBq30=;
+        b=1m4IBvR44mM3wY/N3HDzNx5ghdGWjb0Q3JCnVaKhdLvbp0rrUtMEfmJyp72rjwtc3J
+         8Hxqav3LtwF7ngmtmxbSefmYe3nAfTX2SudkAdgg0XYHco6308dkmY2Cav7LD57KzUTi
+         Cq+JMHqbREXMSXN8J+0ZdIRsMDhblC/5hR4SlhBFtwpxpScCCtEtuP77RHGf9QnMjkWW
+         JP8A46mRhSgzTWuB4jSA/Ds3ebL482qLHbZ5s7hKKM8XgLhLJS+PRhNorXhjEi+McDDC
+         uurFTJev7VzCPd3DflMh9C6ip9pELPfI9ocW3195XWnT1Mestn5Pz6xev38jskXBhEdk
+         4MuQ==
+X-Gm-Message-State: AJIora9Kfcwvk3vHFOgiZtLg0+T4WSX+VdONMF5w6JDSjtX8Nzs0ByJ9
+	SzZgL3eTqUStGJ8jIsUmx5R4wgCkYocyNg==
+X-Google-Smtp-Source: AGRyM1srUf92ldxiVI8QIWyED6HakwtuZcKqfwr84IMozkgc4DIwT4ycq14eV6FtmSctJTFDsTwcog==
+X-Received: by 2002:a17:902:ebcb:b0:168:e3ba:4b5a with SMTP id p11-20020a170902ebcb00b00168e3ba4b5amr6308144plg.11.1655412475720;
+        Thu, 16 Jun 2022 13:47:55 -0700 (PDT)
+Received: from krzk-bin.. ([192.77.111.2])
+        by smtp.gmail.com with ESMTPSA id 203-20020a6218d4000000b0051ba0ee30cbsm2165453pfy.128.2022.06.16.13.47.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jun 2022 13:47:55 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: linux-aspeed@lists.ozlabs.org,
+	soc@kernel.org,
+	Olof Johansson <olof@lixom.net>,
+	arm@kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Andrew Jeffery <andrew@aj.id.au>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH] ARM: dts: aspeed: adjust whitespace around '='
+Date: Thu, 16 Jun 2022 13:47:16 -0700
+Message-Id: <165541242280.9040.12820468454884340112.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220526204127.831853-1-krzysztof.kozlowski@linaro.org>
+References: <20220526204127.831853-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220615090259.1121405-2-quan@os.amperecomputing.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,46 +89,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Open Source Submission <patches@amperecomputing.com>, llvm@lists.linux.dev, kbuild-all@lists.01.org, Phong Vo <phong@os.amperecomputing.com>, "Thang Q . Nguyen" <thang@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Quan,
+On Thu, 26 May 2022 22:41:27 +0200, Krzysztof Kozlowski wrote:
+> Fix whitespace coding style: use single space instead of tabs or
+> multiple spaces around '=' sign in property assignment.  No functional
+> changes (same DTB).
+> 
+> 
 
-I love your patch! Yet something to improve:
+Applied, thanks!
 
-[auto build test ERROR on cminyard-ipmi/for-next]
-[also build test ERROR on wsa/i2c/for-next v5.19-rc2 next-20220616]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+[1/1] ARM: dts: aspeed: adjust whitespace around '='
+      https://git.kernel.org/krzk/linux/c/94d0a03297615cad2d40b0f02ceab902a7339062
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Quan-Nguyen/Add-SSIF-BMC-driver/20220615-170539
-base:   https://github.com/cminyard/linux-ipmi for-next
-config: i386-randconfig-a006 (https://download.01.org/0day-ci/archive/20220617/202206170337.0kCTfR63-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f0e608de27b3d568000046eebf3712ab542979d6)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0feb5f0351d090633e7522dbec22de419a04b85f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Quan-Nguyen/Add-SSIF-BMC-driver/20220615-170539
-        git checkout 0feb5f0351d090633e7522dbec22de419a04b85f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from <built-in>:1:
->> ./usr/include/linux/ipmi_ssif_bmc.h:13:2: error: unknown type name '__u8'
-           __u8    payload[IPMI_SSIF_PAYLOAD_MAX];
-           ^
-   1 error generated.
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
