@@ -2,70 +2,80 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B090C54D29C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jun 2022 22:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5473354D651
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 02:54:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LNcSb3y3Kz3bxS
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 06:33:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LNkGl5j2Zz3c1d
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 10:54:55 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=TaEB3qqt;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=DOiN6UX7;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::1035; helo=mail-pj1-x1035.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=TaEB3qqt;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=DOiN6UX7;
 	dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNcSW4GGcz3bm5;
-	Thu, 16 Jun 2022 06:32:59 +1000 (AEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 46FF8616BE;
-	Wed, 15 Jun 2022 20:32:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8E81C3411A;
-	Wed, 15 Jun 2022 20:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655325175;
-	bh=xweyU4/oqSOwHkI/hoomOugSz3ECvQLAuoo5JQYmEfo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TaEB3qqtKQ7sFL15nSzdXBJU4cC65s35LLseLFBizPWZY6R0fkh1UNU118TVUYK1o
-	 +RgR2Kb7+JUTTRc6tXQLDV5Yr04FvNjjexnZN+hnW90VBWcBBSmrbQ/DXQNlArTmrO
-	 88eeDrMzneYDF4mE5yZwMpYmHLHbGZJzvBkYY1WhFONh3L/S7j8pbx+i3oaleJ/16y
-	 srDQGXS6Uj5dnKWP+vtWmZ2wEE+3fMfy6S0WYzEs60VGbb09bKpzasdEvB9av9Kcsp
-	 1a9AufleimVC0Yf7ajnDauhN/ir1rOjEJDExZ/LCrCN22uG968pCcUBS8atRmknu0U
-	 syD3CL+ZAGM4Q==
-Date: Wed, 15 Jun 2022 22:32:48 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v7 3/3] i2c: aspeed: Assert NAK when slave is busy
-Message-ID: <YqpB8A2uBi+4epHM@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Quan Nguyen <quan@os.amperecomputing.com>,
-	Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-	Brendan Higgins <brendanhiggins@google.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	openipmi-developer@lists.sourceforge.net,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
-	Open Source Submission <patches@amperecomputing.com>,
-	Phong Vo <phong@os.amperecomputing.com>,
-	"Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20220422040803.2524940-1-quan@os.amperecomputing.com>
- <20220422040803.2524940-4-quan@os.amperecomputing.com>
- <Yn+9QBoPdH8fMm/m@shikoro>
- <fc422a06-c035-f6e5-231b-74ea6afe8467@os.amperecomputing.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LNkGd36TNz3bmX
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jun 2022 10:54:49 +1000 (AEST)
+Received: by mail-pj1-x1035.google.com with SMTP id 3-20020a17090a174300b001e426a02ac5so371234pjm.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jun 2022 17:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=41oDl2jkYIAe+UpezywZKxtSXaIGEAoKjC6bZyfTtEs=;
+        b=DOiN6UX76c42v/jgl2qUiV53buDgk5YWZeo8dByu1FQ2aq4/5otgHCcyODA4MdnimL
+         ZU7Xd/dqFSTp26HeKQSx7Mkzcd7m/8+IrkgqLSTAjteQKu+jBMV1IN7pyqj61H5eVgVi
+         +7KzNjBo9NEUurkHL2VFIPxFdjUDOV+rsg1RGKXlSbjXbuPv9z00oD+2EnJqK1pWHMhG
+         c02yYlcZo3Gs+hJJY09wD2RzonSXn6BlhUiAct9m2smdrTEmaKf07cT2bCmRvAhg7LjX
+         lHaZlb+7zjfnuksVNo6Ae7HMLOIf0ZxyxEGQcnTo1JPaOtOWxTNfNmcGc3iU4dEEJSJm
+         RCEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=41oDl2jkYIAe+UpezywZKxtSXaIGEAoKjC6bZyfTtEs=;
+        b=xQnAkECKQxT+0dDVFYrNWx6GHEdwFwboxI32vTzqf77sN8HTHXvxT1SMfp8ig+DvYu
+         ucHy+zAJEEtpt8ZeKG1iOPy/1XbGk11W36DmF2I4lFfJSsMzCE+7JNH4KvvT+7HTt5e9
+         Kg9j6uXnFHuLkNx+4vg/KbrcrU3rZq1XNNjGbaMwiDBXwkXny23cWOMk8rONj03U4Uyr
+         yjLIbzv1mO5j+iwDpbsnRPOPG8WSbOqEc/caMAY1D+NFXhXdddT0aZnWJ2cB4Opdjotc
+         foHECt/fIsLO3wNxs1YMtQbifOfnhMeGOWrhV7Zfjf5cKbl2iBuSHSSe0v/wBufPkQsj
+         neRw==
+X-Gm-Message-State: AJIora+f/Un44l+OyyzjvFtE8bhi287zWPd992/gHO6f2rS8nU1uQT2j
+	q8Ur73TLXh2CfGUCpgSGBYWQCw==
+X-Google-Smtp-Source: AGRyM1tOHVXuNMucM3NzgAd6pRchdP6AcXNoi1quZmWnXVjrGfedyI7oE9F3AcaC1S1Y5q399i0kww==
+X-Received: by 2002:a17:902:d583:b0:167:6e70:7953 with SMTP id k3-20020a170902d58300b001676e707953mr2353473plh.168.1655340886951;
+        Wed, 15 Jun 2022 17:54:46 -0700 (PDT)
+Received: from krzk-bin.. ([192.77.111.2])
+        by smtp.gmail.com with ESMTPSA id p4-20020a170902780400b0016760c06b76sm233660pll.194.2022.06.15.17.54.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 17:54:46 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: arm@kernel.org,
+	soc@kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 36/40] ARM: dts: aspeed: align gpio-key node names with dtschema
+Date: Wed, 15 Jun 2022 17:53:29 -0700
+Message-Id: <20220616005333.18491-36-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
+References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ic1hM2GHeE5Hfcvc"
-Content-Disposition: inline
-In-Reply-To: <fc422a06-c035-f6e5-231b-74ea6afe8467@os.amperecomputing.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,81 +87,955 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Corey Minyard <minyard@acm.org>, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>, openipmi-developer@lists.sourceforge.net, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+The node names should be generic and DT schema expects certain pattern
+(e.g. with key/button/switch).
 
---ic1hM2GHeE5Hfcvc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../arm/boot/dts/aspeed-bmc-ampere-mtjade.dts | 30 ++++++------
+ .../boot/dts/aspeed-bmc-bytedance-g220a.dts   | 48 +++++++++----------
+ arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts  |  8 ++--
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts  | 12 ++---
+ .../boot/dts/aspeed-bmc-inspur-fp5280g2.dts   | 22 ++++-----
+ arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts   | 23 ++++-----
+ arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts   | 20 ++++----
+ arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts   |  2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts |  2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts  |  2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-swift.dts    | 30 ++++++------
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts   | 12 ++---
+ arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts   |  4 +-
+ .../boot/dts/aspeed-bmc-opp-witherspoon.dts   | 16 +++----
+ arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts    |  4 +-
+ 15 files changed, 118 insertions(+), 117 deletions(-)
 
-Hi Quan,
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+index 1b2e7ad37566..82a6f14a45f0 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+@@ -100,91 +100,91 @@ identify {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		shutdown_ack {
++		event-shutdown-ack {
+ 			label = "SHUTDOWN_ACK";
+ 			gpios = <&gpio ASPEED_GPIO(G, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(G, 2)>;
+ 		};
+ 
+-		reboot_ack {
++		event-reboot-ack {
+ 			label = "REBOOT_ACK";
+ 			gpios = <&gpio ASPEED_GPIO(J, 3) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 3)>;
+ 		};
+ 
+-		S0_overtemp {
++		event-s0-overtemp {
+ 			label = "S0_OVERTEMP";
+ 			gpios = <&gpio ASPEED_GPIO(G, 3) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(G, 3)>;
+ 		};
+ 
+-		S0_hightemp {
++		event-s0-hightemp {
+ 			label = "S0_HIGHTEMP";
+ 			gpios = <&gpio ASPEED_GPIO(J, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 0)>;
+ 		};
+ 
+-		S0_cpu_fault {
++		event-s0-cpu-fault {
+ 			label = "S0_CPU_FAULT";
+ 			gpios = <&gpio ASPEED_GPIO(J, 1) GPIO_ACTIVE_HIGH>;
+ 			linux,code = <ASPEED_GPIO(J, 1)>;
+ 		};
+ 
+-		S0_scp_auth_fail {
++		event-s0-scp-auth-fail {
+ 			label = "S0_SCP_AUTH_FAIL";
+ 			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 2)>;
+ 		};
+ 
+-		S1_scp_auth_fail {
++		event-s1-scp-auth-fail {
+ 			label = "S1_SCP_AUTH_FAIL";
+ 			gpios = <&gpio ASPEED_GPIO(Z, 5) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(Z, 5)>;
+ 		};
+ 
+-		S1_overtemp {
++		event-s1-overtemp {
+ 			label = "S1_OVERTEMP";
+ 			gpios = <&gpio ASPEED_GPIO(Z, 6) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(Z, 6)>;
+ 		};
+ 
+-		S1_hightemp {
++		event-s1-hightemp {
+ 			label = "S1_HIGHTEMP";
+ 			gpios = <&gpio ASPEED_GPIO(AB, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(AB, 0)>;
+ 		};
+ 
+-		S1_cpu_fault {
++		event-s1-cpu-fault {
+ 			label = "S1_CPU_FAULT";
+ 			gpios = <&gpio ASPEED_GPIO(Z, 1) GPIO_ACTIVE_HIGH>;
+ 			linux,code = <ASPEED_GPIO(Z, 1)>;
+ 		};
+ 
+-		id_button {
++		event-id {
+ 			label = "ID_BUTTON";
+ 			gpios = <&gpio ASPEED_GPIO(Q, 5) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(Q, 5)>;
+ 		};
+ 
+-		psu1_vin_good {
++		event-psu1-vin-good {
+ 			label = "PSU1_VIN_GOOD";
+ 			gpios = <&gpio ASPEED_GPIO(H, 4) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(H, 4)>;
+ 		};
+ 
+-		psu2_vin_good {
++		event-psu2-vin-good {
+ 			label = "PSU2_VIN_GOOD";
+ 			gpios = <&gpio ASPEED_GPIO(H, 5) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(H, 5)>;
+ 		};
+ 
+-		psu1_present {
++		event-psu1-present {
+ 			label = "PSU1_PRESENT";
+ 			gpios = <&gpio ASPEED_GPIO(I, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(I, 0)>;
+ 		};
+ 
+-		psu2_present {
++		event-psu2-present {
+ 			label = "PSU2_PRESENT";
+ 			gpios = <&gpio ASPEED_GPIO(I, 1) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(I, 1)>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts b/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
+index 0d1fb5ccfd36..f75cad41ae6f 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
+@@ -100,7 +100,7 @@ bmc_alive {
+ 
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+-		burn-in-signal {
++		event-burn-in-signal {
+ 			label = "burn-in";
+ 			gpios = <&gpio ASPEED_GPIO(R, 5) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(R, 5)>;
+@@ -111,139 +111,139 @@ gpio-keys-polled {
+ 		compatible = "gpio-keys-polled";
+ 		poll-interval = <1000>;
+ 
+-		rear-riser1-presence {
++		event-rear-riser1-presence {
+ 			label = "rear-riser1-presence";
+ 			gpios = <&pca0 1 GPIO_ACTIVE_LOW>;
+ 			linux,code = <1>;
+ 		};
+ 
+-		alrt-pvddq-cpu0 {
++		event-alrt-pvddq-cpu0 {
+ 			label = "alrt-pvddq-cpu0";
+ 			gpios = <&pca0 8 GPIO_ACTIVE_LOW>;
+ 			linux,code = <2>;
+ 		};
+ 
+-		rear-riser0-presence {
++		event-rear-riser0-presence {
+ 			label = "rear-riser0-presence";
+ 			gpios = <&pca0 9 GPIO_ACTIVE_LOW>;
+ 			linux,code = <3>;
+ 		};
+ 
+-		fault-pvddq-cpu0 {
++		event-fault-pvddq-cpu0 {
+ 			label = "fault-pvddq-cpu0";
+ 			gpios = <&pca0 10 GPIO_ACTIVE_LOW>;
+ 			linux,code = <4>;
+ 		};
+ 
+-		alrt-pvddq-cpu1 {
++		event-alrt-pvddq-cpu1 {
+ 			label = "alrt-pvddq-cpu1";
+ 			gpios = <&pca0 11 GPIO_ACTIVE_LOW>;
+ 			linux,code = <5>;
+ 		};
+ 
+-		fault-pvddq-cpu1 {
++		event-fault-pvddq-cpu1 {
+ 			label = "alrt-pvddq-cpu1";
+ 			gpios = <&pca0 12 GPIO_ACTIVE_LOW>;
+ 			linux,code = <6>;
+ 		};
+ 
+-		fault-pvccin-cpu1 {
++		event-fault-pvccin-cpu1 {
+ 			label = "fault-pvccin-cpuq";
+ 			gpios = <&pca0 13 GPIO_ACTIVE_LOW>;
+ 			linux,code = <7>;
+ 		};
+ 
+-		bmc-rom0-wp {
++		event-bmc-rom0-wp {
+ 			label = "bmc-rom0-wp";
+ 			gpios = <&pca1 0 GPIO_ACTIVE_LOW>;
+ 			linux,code = <8>;
+ 		};
+ 
+-		bmc-rom1-wp {
++		event-bmc-rom1-wp {
+ 			label = "bmc-rom1-wp";
+ 			gpios = <&pca1 1 GPIO_ACTIVE_LOW>;
+ 			linux,code = <9>;
+ 		};
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca1 2 GPIO_ACTIVE_LOW>;
+ 			linux,code = <10>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca1 3 GPIO_ACTIVE_LOW>;
+ 			linux,code = <11>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca1 4 GPIO_ACTIVE_LOW>;
+ 			linux,code = <12>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca1 5 GPIO_ACTIVE_LOW>;
+ 			linux,code = <13>;
+ 		};
+ 
+-		fan4-presence {
++		event-fan4-presence {
+ 			label = "fan4-presence";
+ 			gpios = <&pca1 6 GPIO_ACTIVE_LOW>;
+ 			linux,code = <14>;
+ 		};
+ 
+-		fan5-presence {
++		event-fan5-presence {
+ 			label = "fan5-presence";
+ 			gpios = <&pca1 7 GPIO_ACTIVE_LOW>;
+ 			linux,code = <15>;
+ 		};
+ 
+-		front-bp1-presence {
++		event-front-bp1-presence {
+ 			label = "front-bp1-presence";
+ 			gpios = <&pca1 8 GPIO_ACTIVE_LOW>;
+ 			linux,code = <16>;
+ 		};
+ 
+-		rear-bp-presence {
++		event-rear-bp-presence {
+ 			label = "rear-bp-presence";
+ 			gpios = <&pca1 9 GPIO_ACTIVE_LOW>;
+ 			linux,code = <17>;
+ 		};
+ 
+-		fault-pvccin-cpu0 {
++		event-fault-pvccin-cpu0 {
+ 			label = "fault-pvccin-cpu0";
+ 			gpios = <&pca1 10 GPIO_ACTIVE_LOW>;
+ 			linux,code = <18>;
+ 		};
+ 
+-		alrt-p1v05-pvcc {
++		event-alrt-p1v05-pvcc {
+ 			label = "alrt-p1v05-pvcc1";
+ 			gpios = <&pca1 11 GPIO_ACTIVE_LOW>;
+ 			linux,code = <19>;
+ 		};
+ 
+-		fault-p1v05-pvccio {
++		event-fault-p1v05-pvccio {
+ 			label = "alrt-p1v05-pvcc1";
+ 			gpios = <&pca1 12 GPIO_ACTIVE_LOW>;
+ 			linux,code = <20>;
+ 		};
+ 
+-		alrt-p1v8-pvccio {
++		event-alrt-p1v8-pvccio {
+ 			label = "alrt-p1v8-pvccio";
+ 			gpios = <&pca1 13 GPIO_ACTIVE_LOW>;
+ 			linux,code = <21>;
+ 		};
+ 
+-		fault-p1v8-pvccio {
++		event-fault-p1v8-pvccio {
+ 			label = "fault-p1v8-pvccio";
+ 			gpios = <&pca1 14 GPIO_ACTIVE_LOW>;
+ 			linux,code = <22>;
+ 		};
+ 
+-		front-bp0-presence {
++		event-front-bp0-presence {
+ 			label = "front-bp0-presence";
+ 			gpios = <&pca1 15 GPIO_ACTIVE_LOW>;
+ 			linux,code = <23>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+index 382da7934eaa..afad8d732cc3 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+@@ -193,25 +193,25 @@ gpio-keys-polled {
+ 		#size-cells = <0>;
+ 		poll-interval = <1000>;
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca0 15 GPIO_ACTIVE_LOW>;
+ 			linux,code = <15>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca0 14 GPIO_ACTIVE_LOW>;
+ 			linux,code = <14>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca0 13 GPIO_ACTIVE_LOW>;
+ 			linux,code = <13>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca0 12 GPIO_ACTIVE_LOW>;
+ 			linux,code = <12>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+index 7213434695bf..fc8222ea2dd0 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+@@ -183,37 +183,37 @@ gpio-keys-polled {
+ 		#size-cells = <0>;
+ 		poll-interval = <1000>;
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca0 6 GPIO_ACTIVE_LOW>;
+ 			linux,code = <6>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca0 7 GPIO_ACTIVE_LOW>;
+ 			linux,code = <7>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca0 8 GPIO_ACTIVE_LOW>;
+ 			linux,code = <8>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca0 9 GPIO_ACTIVE_LOW>;
+ 			linux,code = <9>;
+ 		};
+ 
+-		fan4-presence {
++		event-fan4-presence {
+ 			label = "fan4-presence";
+ 			gpios = <&pca0 10 GPIO_ACTIVE_LOW>;
+ 			linux,code = <10>;
+ 		};
+ 
+-		fan5-presence {
++		event-fan5-presence {
+ 			label = "fan5-presence";
+ 			gpios = <&pca0 11 GPIO_ACTIVE_LOW>;
+ 			linux,code = <11>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+index 60a39ea10ab1..208b0f094ed9 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+@@ -73,19 +73,19 @@ fsi: gpio-fsi {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(B, 3) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(B, 3)>;
+ 		};
+ 
+-		ps0-presence {
++		event-ps0-presence {
+ 			label = "ps0-presence";
+ 			gpios = <&gpio ASPEED_GPIO(F, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(F, 0)>;
+ 		};
+ 
+-		ps1-presence {
++		event-ps1-presence {
+ 			label = "ps1-presence";
+ 			gpios = <&gpio ASPEED_GPIO(F, 1) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(F, 1)>;
+@@ -97,49 +97,49 @@ gpio-keys-polled {
+ 		compatible = "gpio-keys-polled";
+ 		poll-interval = <1000>;
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca1 0 GPIO_ACTIVE_LOW>;
+ 			linux,code = <1>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca1 1 GPIO_ACTIVE_LOW>;
+ 			linux,code = <2>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca1 2 GPIO_ACTIVE_LOW>;
+ 			linux,code = <3>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca1 3 GPIO_ACTIVE_LOW>;
+ 			linux,code = <4>;
+ 		};
+ 
+-		fan4-presence {
++		event-fan4-presence {
+ 			label = "fan4-presence";
+ 			gpios = <&pca1 4 GPIO_ACTIVE_LOW>;
+ 			linux,code = <5>;
+ 		};
+ 
+-		fan5-presence {
++		event-fan5-presence {
+ 			label = "fan5-presence";
+ 			gpios = <&pca1 5 GPIO_ACTIVE_LOW>;
+ 			linux,code = <6>;
+ 		};
+ 
+-		fan6-presence {
++		event-fan6-presence {
+ 			label = "fan6-presence";
+ 			gpios = <&pca1 6 GPIO_ACTIVE_LOW>;
+ 			linux,code = <7>;
+ 		};
+ 
+-		fan7-presence {
++		event-fan7-presence {
+ 			label = "fan7-presence";
+ 			gpios = <&pca1 7 GPIO_ACTIVE_LOW>;
+ 			linux,code = <8>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+index a52a289cee85..48776fb663fb 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+@@ -92,30 +92,31 @@ video_engine_memory: jpegbuffer {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		air-water {
++		event-air-water {
+ 			label = "air-water";
+ 			gpios = <&gpio ASPEED_GPIO(F, 6) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(F, 6)>;
+ 		};
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 2)>;
+ 		};
+ 
+-		ps0-presence {
++		event-ps0-presence {
+ 			label = "ps0-presence";
+ 			gpios = <&gpio ASPEED_GPIO(Z, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(Z, 2)>;
+ 		};
+ 
+-		ps1-presence {
++		event-ps1-presence {
+ 			label = "ps1-presence";
+ 			gpios = <&gpio ASPEED_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(Z, 0)>;
+ 		};
+-		id-button {
++
++		button-id {
+ 			label = "id-button";
+ 			gpios = <&gpio ASPEED_GPIO(F, 1) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(F, 1)>;
+@@ -126,37 +127,37 @@ gpio-keys-polled {
+ 		compatible = "gpio-keys-polled";
+ 		poll-interval = <1000>;
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca9552 9 GPIO_ACTIVE_LOW>;
+ 			linux,code = <9>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca9552 10 GPIO_ACTIVE_LOW>;
+ 			linux,code = <10>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca9552 11 GPIO_ACTIVE_LOW>;
+ 			linux,code = <11>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca9552 12 GPIO_ACTIVE_LOW>;
+ 			linux,code = <12>;
+ 		};
+ 
+-		fan4-presence {
++		event-fan4-presence {
+ 			label = "fan4-presence";
+ 			gpios = <&pca9552 13 GPIO_ACTIVE_LOW>;
+ 			linux,code = <13>;
+ 		};
+ 
+-		fan5-presence {
++		event-fan5-presence {
+ 			label = "fan5-presence";
+ 			gpios = <&pca9552 14 GPIO_ACTIVE_LOW>;
+ 			linux,code = <14>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts
+index 7d38d121ec6d..31ff19ef87a0 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts
+@@ -46,31 +46,31 @@ video_engine_memory: jpegbuffer {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		air-water {
++		event-air-water {
+ 			label = "air-water";
+ 			gpios = <&gpio ASPEED_GPIO(F, 6) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(F, 6)>;
+ 		};
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 2)>;
+ 		};
+ 
+-		ps0-presence {
++		event-ps0-presence {
+ 			label = "ps0-presence";
+ 			gpios = <&gpio ASPEED_GPIO(Z, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(Z, 2)>;
+ 		};
+ 
+-		ps1-presence {
++		event-ps1-presence {
+ 			label = "ps1-presence";
+ 			gpios = <&gpio ASPEED_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(Z, 0)>;
+ 		};
+ 
+-		id-button {
++		button-id {
+ 			label = "id-button";
+ 			gpios = <&gpio ASPEED_GPIO(F, 1) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(F, 1)>;
+@@ -81,31 +81,31 @@ gpio-keys-polled {
+ 		compatible = "gpio-keys-polled";
+ 		poll-interval = <1000>;
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca9552 9 GPIO_ACTIVE_LOW>;
+ 			linux,code = <9>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca9552 10 GPIO_ACTIVE_LOW>;
+ 			linux,code = <10>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca9552 11 GPIO_ACTIVE_LOW>;
+ 			linux,code = <11>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca9552 12 GPIO_ACTIVE_LOW>;
+ 			linux,code = <12>;
+ 		};
+ 
+-		fan4-presence {
++		event-fan4-presence {
+ 			label = "fan4-presence";
+ 			gpios = <&pca9552 13 GPIO_ACTIVE_LOW>;
+ 			linux,code = <13>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
+index 3d4bdad27c2d..ac0d666ca10e 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
+@@ -96,7 +96,7 @@ fsi: gpio-fsi {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 2)>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts b/arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts
+index cd660c1ff3f5..45631b47a7b3 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts
+@@ -73,7 +73,7 @@ fsi: gpio-fsi {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(P, 5) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(P, 5)>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts b/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
+index 084f54866f38..893e621ecab1 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
+@@ -87,7 +87,7 @@ fsi: gpio-fsi {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 2)>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+index 4816486c0c9e..bbf864f84d37 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+@@ -38,37 +38,37 @@ gfx_memory: framebuffer {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		air-water {
++		event-air-water {
+ 			label = "air-water";
+ 			gpios = <&gpio ASPEED_GPIO(B, 5) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(B, 5)>;
+ 		};
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 2)>;
+ 		};
+ 
+-		ps0-presence {
++		event-ps0-presence {
+ 			label = "ps0-presence";
+ 			gpios = <&gpio ASPEED_GPIO(R, 7) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(R, 7)>;
+ 		};
+ 
+-		ps1-presence {
++		event-ps1-presence {
+ 			label = "ps1-presence";
+ 			gpios = <&gpio ASPEED_GPIO(N, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(N, 0)>;
+ 		};
+ 
+-		oppanel-presence {
++		event-oppanel-presence {
+ 			label = "oppanel-presence";
+ 			gpios = <&gpio ASPEED_GPIO(A, 7) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(A, 7)>;
+ 		};
+ 
+-		opencapi-riser-presence {
++		event-opencapi-riser-presence {
+ 			label = "opencapi-riser-presence";
+ 			gpios = <&gpio ASPEED_GPIO(I, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(I, 0)>;
+@@ -84,55 +84,55 @@ gpio-keys-polled {
+ 		compatible = "gpio-keys-polled";
+ 		poll-interval = <1000>;
+ 
+-		scm0-presence {
++		event-scm0-presence {
+ 			label = "scm0-presence";
+ 			gpios = <&pca9552 6 GPIO_ACTIVE_LOW>;
+ 			linux,code = <6>;
+ 		};
+ 
+-		scm1-presence {
++		event-scm1-presence {
+ 			label = "scm1-presence";
+ 			gpios = <&pca9552 7 GPIO_ACTIVE_LOW>;
+ 			linux,code = <7>;
+ 		};
+ 
+-		cpu0vrm-presence {
++		event-cpu0vrm-presence {
+ 			label = "cpu0vrm-presence";
+ 			gpios = <&pca9552 12 GPIO_ACTIVE_LOW>;
+ 			linux,code = <12>;
+ 		};
+ 
+-		cpu1vrm-presence {
++		event-cpu1vrm-presence {
+ 			label = "cpu1vrm-presence";
+ 			gpios = <&pca9552 13 GPIO_ACTIVE_LOW>;
+ 			linux,code = <13>;
+ 		};
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca0 5 GPIO_ACTIVE_LOW>;
+ 			linux,code = <5>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca0 6 GPIO_ACTIVE_LOW>;
+ 			linux,code = <6>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca0 7 GPIO_ACTIVE_LOW>;
+ 			linux,code = <7>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca0 8 GPIO_ACTIVE_LOW>;
+ 			linux,code = <8>;
+ 		};
+ 
+-		fanboost-presence {
++		event-fanboost-presence {
+ 			label = "fanboost-presence";
+ 			gpios = <&pca0 9 GPIO_ACTIVE_LOW>;
+ 			linux,code = <9>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+index 72b7a6639ed9..6f6a35fe2caf 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+@@ -50,13 +50,13 @@ vga_memory: region@bf000000 {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		ps0-presence {
++		event-ps0-presence {
+ 			label = "ps0-presence";
+ 			gpios = <&gpio0 ASPEED_GPIO(H, 3) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(H, 3)>;
+ 		};
+ 
+-		ps1-presence {
++		event-ps1-presence {
+ 			label = "ps1-presence";
+ 			gpios = <&gpio0 ASPEED_GPIO(E, 5) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(E, 5)>;
+@@ -69,25 +69,25 @@ gpio-keys-polled {
+ 		#size-cells = <0>;
+ 		poll-interval = <1000>;
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca0 4 GPIO_ACTIVE_LOW>;
+ 			linux,code = <4>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca0 5 GPIO_ACTIVE_LOW>;
+ 			linux,code = <5>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca0 6 GPIO_ACTIVE_LOW>;
+ 			linux,code = <6>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca0 7 GPIO_ACTIVE_LOW>;
+ 			linux,code = <7>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+index 328ef472c479..8a7fb55ab489 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+@@ -63,13 +63,13 @@ alarm_yel {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		button_checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			linux,code = <74>;
+ 			gpios = <&gpio ASPEED_GPIO(P, 5) GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		button_identify {
++		event-identify {
+ 			label = "identify";
+ 			linux,code = <152>;
+ 			gpios = <&gpio ASPEED_GPIO(O, 7) GPIO_ACTIVE_LOW>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+index 230f3584bcab..a20a532fc280 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+@@ -51,25 +51,25 @@ video_engine_memory: jpegbuffer {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		air-water {
++		event-air-water {
+ 			label = "air-water";
+ 			gpios = <&gpio ASPEED_GPIO(B, 5) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(B, 5)>;
+ 		};
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(J, 2)>;
+ 		};
+ 
+-		ps0-presence {
++		event-ps0-presence {
+ 			label = "ps0-presence";
+ 			gpios = <&gpio ASPEED_GPIO(P, 7) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(P, 7)>;
+ 		};
+ 
+-		ps1-presence {
++		event-ps1-presence {
+ 			label = "ps1-presence";
+ 			gpios = <&gpio ASPEED_GPIO(N, 0) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(N, 0)>;
+@@ -85,25 +85,25 @@ gpio-keys-polled {
+ 		compatible = "gpio-keys-polled";
+ 		poll-interval = <1000>;
+ 
+-		fan0-presence {
++		event-fan0-presence {
+ 			label = "fan0-presence";
+ 			gpios = <&pca0 4 GPIO_ACTIVE_LOW>;
+ 			linux,code = <4>;
+ 		};
+ 
+-		fan1-presence {
++		event-fan1-presence {
+ 			label = "fan1-presence";
+ 			gpios = <&pca0 5 GPIO_ACTIVE_LOW>;
+ 			linux,code = <5>;
+ 		};
+ 
+-		fan2-presence {
++		event-fan2-presence {
+ 			label = "fan2-presence";
+ 			gpios = <&pca0 6 GPIO_ACTIVE_LOW>;
+ 			linux,code = <6>;
+ 		};
+ 
+-		fan3-presence {
++		event-fan3-presence {
+ 			label = "fan3-presence";
+ 			gpios = <&pca0 7 GPIO_ACTIVE_LOW>;
+ 			linux,code = <7>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts b/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+index 7ae4ea0d2931..0cb7b20ff3ab 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+@@ -58,13 +58,13 @@ onewire3 {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 
+-		checkstop {
++		event-checkstop {
+ 			label = "checkstop";
+ 			gpios = <&gpio ASPEED_GPIO(F, 7) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(F, 7)>;
+ 		};
+ 
+-		pcie-e2b-present{
++		event-pcie-e2b-present{
+ 			label = "pcie-e2b-present";
+ 			gpios = <&gpio ASPEED_GPIO(E, 7) GPIO_ACTIVE_LOW>;
+ 			linux,code = <ASPEED_GPIO(E, 7)>;
+-- 
+2.34.1
 
-> When tested with ast2500, it is observed that there's always a
-> I2C_SLAVE_WRITE_REQUESTED comes first then other I2C_SLAVE_WRITE_RECEIVED=
-'s
-> follow for all transactions.
-
-Yes, that's the design of the interface :)
-
-> In case slave is busy, the NAK will be asserted on the first occurrence of
-> I2C_SLAVE_WRITE_REQUESTED make host to stop the current transaction (host
-> later will retry with other transaction) until slave ready.
->=20
-> This behavior is expected as we want host to drop all transactions while
-> slave is busy on working on the response. That is why we choose to assert
-> NAK on the first I2C_SLAVE_WRITE_REQUESTED of the transaction instead of
-> I2C_SLAVE_WRITE_RECEIVED.
-
-=46rom Documentation/i2c/slave-interface.rst:
-
-=3D=3D=3D
-
-About ACK/NACK
---------------
-
-It is good behaviour to always ACK the address phase, so the master knows i=
-f a
-device is basically present or if it mysteriously disappeared. Using NACK to
-state being busy is troublesome. SMBus demands to always ACK the address ph=
-ase,
-while the I2C specification is more loose on that. Most I2C controllers also
-automatically ACK when detecting their slave addresses, so there is no opti=
-on
-to NACK them. For those reasons, this API does not support NACK in the addr=
-ess
-phase.
-
-=3D=3D=3D
-
-So, the proper design is to NACK on the first received byte. All EEPROMs
-do it this way when they are busy because of erasing a page.
-
-All the best,
-
-   Wolfram
-
-
---ic1hM2GHeE5Hfcvc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmKqQewACgkQFA3kzBSg
-KbaRvBAAhGHBikwxwBVjvxYQ3WkD53anNZCb8H7DLS+EBHUqZUhE3sB1E0xjhLw9
-/D56GGMOC0z26eO0epBcCjharkSDE5kolGFghi/5ymiKkHoS/wGCHuTr6nJVt0xO
-CXf1YVkIb4I3bHHxgiAPrOc+N6jw5e+Ujao7nOXjpaTuJ84RNT4hHPNKUcJIqZNR
-ciM/xRqC0CslNEW4RH2fapeCw97/HksITYb/1Ix3DabxRnLj6obVmAtuokUr7Tmd
-Aro8RsCKMzkJmknyhX4A/cbVuRKXGiWLthW3srmUKPCgu9dndoBsIoTty+E3vJXY
-QZO0uNLBRydxJOBXT/+skne0wB3xo4RNuAzYXov/RMVkTGO2r3n3Q99wjSyHv7Zh
-BWIy/QnYni2FguU4NtjgBXurWfvqguvLr37+5QMcruMLFsRKkeifb1zfOlVV9RVU
-whpoeJrrFrxE3wI/L4Ol3eBokDneI4Ldo4dUvFv+CQ2GNQgj1qLfZcUnqE/SKNKj
-JhcvsMNszDV7QXk8jIbzdkWbL5zxijQ4y+q+vOou/b3BZTVJ+d+wXXH72LeIxxPY
-JqQD9F2vzrULR55rbXw+ZBU0jESxcBrx3aC54ksz1vIPM7gsuOldNICk00eBI8tD
-HmatAjq9W/yS0VpX7XlTsBwk8w8MXJc2/VXzlJaO4M8yLddwLW0=
-=SfIi
------END PGP SIGNATURE-----
-
---ic1hM2GHeE5Hfcvc--
