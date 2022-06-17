@@ -1,41 +1,128 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B5D54EBA8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jun 2022 22:55:53 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0A554EF37
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jun 2022 04:21:23 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LPDwR2LLPz3c7p
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jun 2022 06:55:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LPN81380Wz3cKB
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jun 2022 12:21:21 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=rvYDBQb3;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wanadoo.fr (client-ip=80.12.242.126; helo=smtp.smtpout.orange.fr; envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN>)
-Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr [80.12.242.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::70b; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=rvYDBQb3;
+	dkim-atps=neutral
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2070b.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::70b])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LPDvs44SSz302N
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Jun 2022 06:55:18 +1000 (AEST)
-Received: from [192.168.1.18] ([90.11.190.129])
-	by smtp.orange.fr with ESMTPA
-	id 1wOxofIO0IaWO1wOxo5r6G; Thu, 16 Jun 2022 22:47:44 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Thu, 16 Jun 2022 22:47:44 +0200
-X-ME-IP: 90.11.190.129
-Message-ID: <7b9923c0-50f0-556a-657c-9cf0ef9af5aa@wanadoo.fr>
-Date: Thu, 16 Jun 2022 22:47:39 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LPN7n4nN6z3byP
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Jun 2022 12:21:08 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lCOGe50n1MC+wo35QwadVZXvYFiET+xqkp2Ba/AY+tzYAM8arpKTBRrLNNE3cV2vlC4ZJjqZ8Kn1gr0M4m4UASaDTucUgoMPig7Xt74z/CU23Oz2HL9urMwVJCyLULJOGtB9kTt77E58GE7ppZ/sWlFEh94stePnia4q3i185Q7JJl4Ob7dVLQkiQtJ2OFN0QAvKytkXgetN5b/eWWRDcCBSJG/M/BV8C8NZweFX2YXCOruh9Duquclb2VT4tSLt9f4lHafTgY/SNbUJ9W5BR67EAuAcaSgMQwiLeJODsSo7xzfVNYTVZBU5nIZQfDz/9Goth0MvFU7v8Jv+3HC+GQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=foNXHRy/Q+mMhXtE+2H3C8vpLthVM8mmLJKBgfz6pAk=;
+ b=JQVFprHnrqzfFPGDhOuqaISr2vNXQK6ECFgfuCj9ZgV/JMNMOo9LzLoyGqZ72KG1AjW6RT/VPjTkuVc7aqVC5wSIATZVHcUyuEOtTbJcoB7UxaBBqikee5eLi+8gcUA9ggYHAWUEsOKVl/6zDZ9vXl4ifvn+ZUwM2N4H82x7hUiGoKH484gVKtWq10lXfQTlTEg4Uahi5vptx6vBEPGqTcaVZIBvERWcFhbddx1z/4wtDGGIHB5EZgSlRIYKIw73c8GlxsjvOXKk2PgCZv3Ddd3HjgIfcvDfSlA7Jh8VBLvC3R65tR47biKWQHY86lxLpkYZrqcPfaYVPbsCpqyK9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=foNXHRy/Q+mMhXtE+2H3C8vpLthVM8mmLJKBgfz6pAk=;
+ b=rvYDBQb31BbxZ0Mpbt6HH7XQpnJrScmwyUpxHf7hvv31efVepODFZLnlMmtpi644YCtucWgGi8VOvMOVsZPjUskL+PeZ6I2DzoD5Zqh8tGolSphzXd0kZasnlDp0RF2jbZDFrgL7Hm1yTJursLjwnYL5POMuRj9AMLt9yxgBQ9EYkFOPU4bvepAmWeL+kk9wEXEN0x9Nxhfqeti7Jpdhaq7PBgD49ey3w8nsAOe8DN6BQ5uaWFC4veXYQx5quUG5FPGBEkXXRc+IHKuqo396QGMfFdw46v3ZupyZlLqOBjtVQzb7kvth/1LokHvw8+pmeX/pDEV0TCQ1RsDSdMEVYg==
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
+ by HK0PR06MB3764.apcprd06.prod.outlook.com (2603:1096:203:ae::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15; Fri, 17 Jun
+ 2022 02:20:44 +0000
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::7c42:9783:92c9:f237]) by HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::7c42:9783:92c9:f237%7]) with mapi id 15.20.5332.022; Fri, 17 Jun 2022
+ 02:20:44 +0000
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Zheng Bin <zhengbin13@huawei.com>, "balbi@kernel.org" <balbi@kernel.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "joel@jms.id.au"
+	<joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH -next] usb: gadget: aspeed_udc: fix missing
+ spin_unlock_irqrestore in ast_udc_ep_queue
+Thread-Topic: [PATCH -next] usb: gadget: aspeed_udc: fix missing
+ spin_unlock_irqrestore in ast_udc_ep_queue
+Thread-Index: AQHYgYQVw74ia/ux5UGHL+s/JxFveq1S3kQg
+Date: Fri, 17 Jun 2022 02:20:44 +0000
+Message-ID:  <HK0PR06MB3202958ED74CD706458B85CE80AF9@HK0PR06MB3202.apcprd06.prod.outlook.com>
+References: <20220616133508.3655864-1-zhengbin13@huawei.com>
+In-Reply-To: <20220616133508.3655864-1-zhengbin13@huawei.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 09d90649-6636-42e8-3162-08da5007fb8e
+x-ms-traffictypediagnostic: HK0PR06MB3764:EE_
+x-microsoft-antispam-prvs:  <HK0PR06MB3764FD4ECE0855A91F784E5C80AF9@HK0PR06MB3764.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  rl3IBuL+QfWQ4IQPOTkOrWbNN9YpkLT6Kp1i4BpDwR9aQFThkVVJUIQ/LNOnQ6Z+i4SVt0jTxBZDB1k0Dc9pWrfVylURnQQ5ZADM9DqX/V+YePsJ/29rthwZIK18XIgDV6JcmHCz1vZnyTdqlyNBhZiLvsvR4Dl1qEAztDMdiO4hRJQ6zJypOFq0IvDBXjo08A4gPDOT9eqhw1M5QdY7N2PZh6033nTuwc2E/5/HoVi4UjlJ+FlJABcldKEBl6D2OBhzgusSD2d5q8a+kgNyTqp9iEb53GrsKc1gJcxx1H5gkpTCWYda221evlONsqpR/h139QlT8iLON+Wuh8mhxussRDhS40wfLLBO8I94vvXOBcHMIt+Lia797O0vwLNBr+4nsPbHtMd7atHfwR1R0gW1toGfzTZkv3zQdzBzxPZsSaqm3U8yYEPymelHCIOYji62fNyICBLBDVJ3LHkx2KR6356fS0sl0bdW1s2e4QlKp64IUsW+kdW0O8vl1UDz1WeVjQZRq6of2zjYfLv6m1flpquTOGI7QWFxMeUqDq5G9UjZ6CEiqlhH9ShPhNKllCcm1D3OUrtJZUiMMqhzEL6rcO7nMNjwfcy+cnl4Hfv91oIhvpgEW2Lkp7DkyWiI1tOwd465VjpF89B4xzP5QwFbTEVE7KnkC0UiKIeuIs7hQpGxXoyBmq8/WuFPKcCdIABvtM5lExdmNr1iAx9stg==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(346002)(136003)(396003)(39850400004)(366004)(38100700002)(316002)(186003)(110136005)(5660300002)(55016003)(33656002)(122000001)(41300700001)(2906002)(6506007)(7696005)(66446008)(66946007)(66476007)(64756008)(66556008)(8676002)(4326008)(38070700005)(4744005)(76116006)(71200400001)(26005)(9686003)(7416002)(83380400001)(508600001)(86362001)(52536014)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?jhZZ0BplSBMuGDl1ApCXPyaAMiBaGLWZFyvis6Jzf3D3JbeD0UDAtDh2QDDM?=
+ =?us-ascii?Q?XTyCV6P4oeIbpp35JeKgpVFy/jBUDxxTs1eNDWrqkei8HGAHn5X/fQU1p2K2?=
+ =?us-ascii?Q?Wy12P9NQIiWBaVkal6x6wLwi2wLMXFr5Kya1+Ikj8rus6iEL12kWeIhOnoyu?=
+ =?us-ascii?Q?UbdiB9V7IgLs9moXWDjhD9krkGcT6wCVZoOFf0Ln1jAX+Q5naVf0asAvO95s?=
+ =?us-ascii?Q?jh+wjUF05k0oZkOZKqZctq6/9ZnuM3zmC44VkOXmHjCOkNNOp+bDhOu00kdM?=
+ =?us-ascii?Q?JYi+8Gh9AkfZNkznmeBz1KN73Wlm65xzWlXAqwH+IUGJHGLmNvnNd3lqQH69?=
+ =?us-ascii?Q?hveuRxZd46zNeeD3UPoEt9foySPTGhwsn/4pWPDN6OFAAvzoZYqLolhwEnQ6?=
+ =?us-ascii?Q?rCOc5U7Vs4FuUHhA2O2ZuySmzoRiYGENioHNuQcF1ujeMhpirAMaldlNQAR3?=
+ =?us-ascii?Q?33A2zo3Dm14uA9uLDiMZlVksDn5+Stf+8GlpuTT3nUrA9+AJvACyLvUOC7cC?=
+ =?us-ascii?Q?VbvEjwBL2aqJuHc7UtM0xRiA9V6q0hVKjEr2p21b9RKrl4oicfd/xnuoiQbm?=
+ =?us-ascii?Q?21xZG9edAEjcKw7d7yJ/D1vLJpW47Hw+aQbgHvxgavYFKDeqgsgxjPTayAG5?=
+ =?us-ascii?Q?ywKr9qGJIw/ULXA2/RVnJRImswqKKIae2X8LjTXThCRwSHxf6DbPNi47LjSC?=
+ =?us-ascii?Q?7P951tXnuBHwzjbZhzbcasCD00B0do1I3ISDyHKdKMrIMJryIe5/4pfu4Jti?=
+ =?us-ascii?Q?9YNtCYPxH/tBMFkpzW0jUn+DqTqx2FsXPzn6vp0erN3PYrX/CssiMmzuRR56?=
+ =?us-ascii?Q?ssQlE04x1QxBqDoLJOloJcJ01cqbJpfKB/kCDM0zD6cHWLvadRJnYCvVOXkp?=
+ =?us-ascii?Q?17jWK1o+xO62un3gKx4pwA4urWhDUvilmJYgyYB6MgPsZTVlzJwBv3jRgwi3?=
+ =?us-ascii?Q?NADwbq5KUEpdczgdbN6QlCPUBgjtMF73uzH93q6mKYKan1Ecyx3VsZ0YoMca?=
+ =?us-ascii?Q?JkPsNYXGZQcCNf2uk64bG7CrfS70wcR0LnsnNmb2Vz6kobrv8A5zIkwdrjIl?=
+ =?us-ascii?Q?QodD5idHMvzeZfG9Anc3uioQe2iCC+rc1tu90Ws1Cb2pm8x17dAt9jmdFxwX?=
+ =?us-ascii?Q?KIlh8dOJqXjyWQObLz7SiqM3rodSh+Ms8SJUONkIWXKkiKYqz4Jt5IQLX9La?=
+ =?us-ascii?Q?rw0pMq3hTPbL4SPtQtVv8gSxcU5tep1jEnJi4aiowX/2EVOyuAH/PCFB2oYD?=
+ =?us-ascii?Q?yVSaSwR6W6RqjwPP0S2CtXM2OtIDZ1T2MtamqNuynehXwgFkDQJoo5fev1jx?=
+ =?us-ascii?Q?uNm1SlDbZI2lfVuoeOQ4L3J5fkO+nYBoQ8ow+MXaqR11VHf3tDhrTTiBDnbd?=
+ =?us-ascii?Q?p+n/mrtjG3Xk42zjVLFYO/eG7KUF0iU5n+8C3FhUKenQ+FLe7TOIqFMkxdH4?=
+ =?us-ascii?Q?ICNGIt/8VX2Tx9a0fNgCVyWbX21f6Vf2yvrMEw5LEfp3YuYXU+5AsnqcAKgE?=
+ =?us-ascii?Q?LsNI6Gw2Tja0Gh/ur/VbxUcV7lf0gwuZX1csThClRrXeMv5jJa1zaBJLeuM5?=
+ =?us-ascii?Q?RXoWOML3ipuUS6imx15gA47u/98+Jyw1Jf+wTKD6JoGuZhUYG10TG0etgRcu?=
+ =?us-ascii?Q?yzyIJ1IZG6VSyPWs4VSKL2BRKM8JLnIPbQStr3uwGq0WATns4g2t5K9TJDRn?=
+ =?us-ascii?Q?qBqg7ueevEbmM67IXg7WGCdz+myZPbFQnUpSvGAeotNAM0R6iY4DHz1i9PgW?=
+ =?us-ascii?Q?5HxzuItQjA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v8 1/3] ipmi: ssif_bmc: Add SSIF BMC driver
-Content-Language: fr
-To: quan@os.amperecomputing.com
-References: <20220615090259.1121405-1-quan@os.amperecomputing.com>
- <20220615090259.1121405-2-quan@os.amperecomputing.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20220615090259.1121405-2-quan@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09d90649-6636-42e8-3162-08da5007fb8e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2022 02:20:44.1427
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GLs6E/yG9QxAIOYMjayPAKd4WXH0q+AbGeTJqZyc29xTPVgDh+xCWgIXc3tj9YlRd8XGRqpocaMPJUdPeoyzCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB3764
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,166 +134,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, minyard@acm.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, thang@os.amperecomputing.com, brendanhiggins@google.com, linux-kernel@vger.kernel.org, phong@os.amperecomputing.com, wsa@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, openipmi-developer@lists.sourceforge.net, patches@amperecomputing.com, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: "gaochao49@huawei.com" <gaochao49@huawei.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Le 15/06/2022 à 11:02, Quan Nguyen a écrit :
-> The SMBus system interface (SSIF) IPMI BMC driver can be used to perform
-> in-band IPMI communication with their host in management (BMC) side.
-> 
-> Thanks Dan for the copy_from_user() fix in the link below.
-> 
-> Link: https://lore.kernel.org/linux-arm-kernel/20220310114119.13736-4-quan-shex6MNQR2J/SfDzf78azzKzEDxYleXD@public.gmane.org/
-> Signed-off-by: Quan Nguyen <quan-shex6MNQR2J/SfDzf78azzKzEDxYleXD@public.gmane.org>
+> ast_udc_ep_queue misses spin_unlock_irqrestore in an error path, this pat=
+ch
+> fixes that.
+>=20
+> Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
+> Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
 > ---
+>  drivers/usb/gadget/udc/aspeed_udc.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c
+> b/drivers/usb/gadget/udc/aspeed_udc.c
+> index 1fc15228ff15..6c91f7f288a2 100644
+> --- a/drivers/usb/gadget/udc/aspeed_udc.c
+> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
+> @@ -665,7 +665,8 @@ static int ast_udc_ep_queue(struct usb_ep *_ep, struc=
+t
+> usb_request *_req,
+>  	if (ep->ep.desc =3D=3D NULL) {
+>  		if ((req->req.dma % 4) !=3D 0) {
+>  			dev_warn(dev, "EP0 req dma alignment error\n");
+> -			return -ESHUTDOWN;
+> +			rc =3D -ESHUTDOWN;
+> +			goto end;
+>  		}
+>=20
+>  		ast_udc_ep0_queue(ep, req);
+> --
+> 2.31.1
 
-Hi,
+Thanks for the fix.
 
-a few nitpick below
-
-[...]
-
-> diff --git a/drivers/char/ipmi/ssif_bmc.c b/drivers/char/ipmi/ssif_bmc.c
-> new file mode 100644
-> index 000000000000..0bfd4b9bbaf1
-> --- /dev/null
-> +++ b/drivers/char/ipmi/ssif_bmc.c
-> @@ -0,0 +1,880 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * The driver for BMC side of SSIF interface
-> + *
-> + * Copyright (c) 2022, Ampere Computing LLC
-> + *
-> + */
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/poll.h>
-> +#include <linux/sched.h>
-> +#include <linux/mutex.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/timer.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/ipmi_ssif_bmc.h>
-> +
-> +#define DEVICE_NAME                             "ipmi-ssif-host"
-> +
-> +#define GET_8BIT_ADDR(addr_7bit)                (((addr_7bit) << 1) & 0xff)
-> +
-> +/* A standard SMBus Transaction is limited to 32 data bytes */
-> +#define MAX_PAYLOAD_PER_TRANSACTION             32
-> +/* Transaction includes the address, the command, the length and the PEC byte */
-> +#define MAX_TRANSACTION                         (MAX_PAYLOAD_PER_TRANSACTION + 4)
-> +
-> +#define MAX_IPMI_DATA_PER_START_TRANSACTION     30
-> +#define MAX_IPMI_DATA_PER_MIDDLE_TRANSACTION    31
-> +
-> +#define SSIF_IPMI_SINGLEPART_WRITE              0x2
-> +#define SSIF_IPMI_SINGLEPART_READ               0x3
-> +#define SSIF_IPMI_MULTIPART_WRITE_START         0x6
-> +#define SSIF_IPMI_MULTIPART_WRITE_MIDDLE        0x7
-> +#define SSIF_IPMI_MULTIPART_WRITE_END           0x8
-> +#define SSIF_IPMI_MULTIPART_READ_START          0x3
-> +#define SSIF_IPMI_MULTIPART_READ_MIDDLE         0x9
-> +
-> +/*
-> + * IPMI 2.0 Spec, section 12.7 SSIF Timing,
-> + * Request-to-Response Time is T6max(250ms) - T1max(20ms) - 3ms = 227ms
-> + * Recover ssif_bmc from busy state if it takes up to 500ms
-> + */
-> +#define RESPONSE_TIMEOUT                        500 /* ms */
-> +
-> +struct ssif_part_buffer {
-> +	u8 address;
-> +	u8 smbus_cmd;
-> +	u8 length;
-> +	u8 payload[MAX_PAYLOAD_PER_TRANSACTION];
-> +	u8 pec;
-> +	u8 index;
-> +};
-> +
-> +/*
-> + * SSIF internal states:
-> + *   SSIF_READY         0x00 : Ready state
-> + *   SSIF_START         0x01 : Start smbus transaction
-> + *   SSIF_SMBUS_CMD     0x02 : Received SMBus command
-> + *   SSIF_REQ_RECVING   0x03 : Receiving request
-> + *   SSIF_RES_SENDING   0x04 : Sending response
-> + *   SSIF_BAD_SMBUS     0x05 : Bad SMbus transaction
-
-If these states are related to the enum just below, 
-s/SSIF_BAD_SMBUS/SSIF_ABORTING/ + description update?
-
-> + */
-> +enum ssif_state {
-> +	SSIF_READY,
-> +	SSIF_START,
-> +	SSIF_SMBUS_CMD,
-> +	SSIF_REQ_RECVING,
-> +	SSIF_RES_SENDING,
-> +	SSIF_ABORTING,
-> +	SSIF_STATE_MAX
-> +};
-> +
-
-[...]
-
-> +static int ssif_bmc_probe(struct i2c_client *client, const struct i2c_device_id *id)
-> +{
-> +	struct ssif_bmc_ctx *ssif_bmc;
-> +	int ret;
-> +
-> +	ssif_bmc = devm_kzalloc(&client->dev, sizeof(*ssif_bmc), GFP_KERNEL);
-> +	if (!ssif_bmc)
-> +		return -ENOMEM;
-> +
-> +	spin_lock_init(&ssif_bmc->lock);
-> +
-> +	init_waitqueue_head(&ssif_bmc->wait_queue);
-> +	ssif_bmc->request_available = false;
-> +	ssif_bmc->response_in_progress = false;
-> +	ssif_bmc->busy = false;
-> +	ssif_bmc->response_timer_inited = false;
-> +
-> +	/* Register misc device interface */
-> +	ssif_bmc->miscdev.minor = MISC_DYNAMIC_MINOR;
-> +	ssif_bmc->miscdev.name = DEVICE_NAME;
-> +	ssif_bmc->miscdev.fops = &ssif_bmc_fops;
-> +	ssif_bmc->miscdev.parent = &client->dev;
-> +	ret = misc_register(&ssif_bmc->miscdev);
-> +	if (ret)
-> +		goto out;
-
-Could be "return ret;"
-(see below)
-
-> +
-> +	ssif_bmc->client = client;
-> +	ssif_bmc->client->flags |= I2C_CLIENT_SLAVE;
-> +
-> +	/* Register I2C slave */
-> +	i2c_set_clientdata(client, ssif_bmc);
-> +	ret = i2c_slave_register(client, ssif_bmc_cb);
-> +	if (ret) {
-> +		misc_deregister(&ssif_bmc->miscdev);
-> +		goto out;
-> +	}
-> +
-> +	return 0;
-> +out:
-> +	devm_kfree(&client->dev, ssif_bmc);
-
-This looks useless to me. The whole error handling path could be 
-removed, or updated to only have the "misc_deregister()" above.
-
-CJ
-
-> +	return ret;
-> +}
-
+Reviewed-by: Neal Liu <neal_liu@aspeedtech.com>
 
