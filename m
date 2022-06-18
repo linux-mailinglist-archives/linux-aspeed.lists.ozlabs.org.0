@@ -1,57 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95A9551232
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jun 2022 10:10:36 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BFC551233
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jun 2022 10:10:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LRMlZ44hlz3blt
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jun 2022 18:10:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LRMld4hdnz3blW
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jun 2022 18:10:37 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=YUbWt5fw;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=ubm9+IAh;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=126.com (client-ip=220.181.15.114; helo=m15114.mail.126.com; envelope-from=windhl@126.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ti.com (client-ip=198.47.19.142; helo=fllv0016.ext.ti.com; envelope-from=nm@ti.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=YUbWt5fw;
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=ubm9+IAh;
 	dkim-atps=neutral
-X-Greylist: delayed 1895 seconds by postgrey-1.36 at boromir; Sat, 18 Jun 2022 01:14:47 AEST
-Received: from m15114.mail.126.com (m15114.mail.126.com [220.181.15.114])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LPjJR2Yvwz3bsK
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Jun 2022 01:14:39 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=oqTFS
-	HQR0LyoKRjMr2/vnSyFVI269+kRaqPVQCinquA=; b=YUbWt5fwnt/qeuRUmA3ks
-	eVCpZ2psR0iXF1+SWD6egNuCcjodxyAm8GSiCgo5o0xD45yq6mZpxNt31gJUPPWs
-	4Zu2nyVGceNZd+r9Q4L5CpPrlk6Q1FOH/wELEeUK5ApmuVtgj2z/Y/aZJBdZbCFY
-	jMmJxz4160rAY0fqjpIZ7A=
-Received: from localhost.localdomain (unknown [124.16.139.61])
-	by smtp7 (Coremail) with SMTP id DsmowACHJv+Ckqxin0VlDg--.21214S2;
-	Fri, 17 Jun 2022 22:41:07 +0800 (CST)
-From: Liang He <windhl@126.com>
-To: jic23@kernel.org,
-	lars@metafoo.de,
-	joel@jms.id.au,
-	andrew@aj.id.au,
-	p.zabel@pengutronix.de,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	billy_tsai@aspeedtech.com,
-	colin.king@intel.com
-Subject: [PATCH] iio: adc: Fix refcount leak bug in aspeed_adc
-Date: Fri, 17 Jun 2022 22:41:06 +0800
-Message-Id: <20220617144106.4050677-1-windhl@126.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 9801 seconds by postgrey-1.36 at boromir; Sat, 18 Jun 2022 15:46:40 AEST
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LQ4fS5xxcz3bm2;
+	Sat, 18 Jun 2022 15:46:39 +1000 (AEST)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 25I32Nt4004650;
+	Fri, 17 Jun 2022 22:02:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1655521343;
+	bh=v9iLe16OQzDjus8PgEyzt81ju785zygpn75Qb7cPKDk=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=ubm9+IAhGGTk3kdTt5x7vdcv21zn8SduavN1QPsDFtatpMEQLnnpq14kmxzjhSdoM
+	 EhSYzwprF+3qoaWgxqEa7tkCA7AfNzT0CIUyyPN2V1vMiSYZKDtU+T7Pvq2yIkEfs4
+	 7jCtmDUFYShPMx+ispwTz24Ou/91SMS8cN3blxkI=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 25I32NTI008896
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 17 Jun 2022 22:02:23 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 17
+ Jun 2022 22:02:22 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Fri, 17 Jun 2022 22:02:22 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 25I32MBg024730;
+	Fri, 17 Jun 2022 22:02:22 -0500
+From: Nishanth Menon <nm@ti.com>
+To: <krzysztof.kozlowski@linaro.org>, <olof@lixom.net>, <soc@kernel.org>,
+        Arnd
+ Bergmann <arnd@arndb.de>, <arm@kernel.org>
+Subject: Re: (subset) [PATCH v3 00/40] dt-bindings: input: gpio-keys: rework matching children
+Date: Fri, 17 Jun 2022 22:02:21 -0500
+Message-ID: <165552126299.28422.3856100388848453087.b4-ty@ti.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
+References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DsmowACHJv+Ckqxin0VlDg--.21214S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZF4fWry3Gry7Cr4UZr15XFb_yoW3CrcEgw
-	s7WwsxXrnrAFZ0vrWqvw1fXr909Fy8WFWkuF10v34fWa4UArZ7AryDWF4YvrWUZrs2va45
-	ZF4DX34xJrnxGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjn2-3UUUUU==
-X-Originating-IP: [124.16.139.61]
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbiuA0jF2JVj6h7ygABsh
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Mon, 20 Jun 2022 18:06:19 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -64,31 +73,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-iio@vger.kernel.org, windhl@126.com, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: Nishanth Menon <nm@ti.com>, andrew@lunn.ch, alexandre.belloni@bootlin.com, heiko@sntech.de, linux-aspeed@lists.ozlabs.org, tony@atomide.com, linus.walleij@linaro.org, bjorn.andersson@linaro.org, linux-tegra@vger.kernel.org, thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org, linux@armlinux.org.uk, leoyang.li@nxp.com, festevam@gmail.com, vigneshr@ti.com, khuong@os.amperecomputing.com, peda@axentia.se, openbmc@lists.ozlabs.org, michal.simek@xilinx.com, xuwei5@hisilicon.com, jonathanh@nvidia.com, linux-rockchip@lists.infradead.org, agross@kernel.org, linux-input@vger.kernel.org, sebastian.hesselbarth@gmail.com, devicetree@vger.kernel.org, kernel@pengutronix.de, gregory.clement@bootlin.com, linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, j.neuschaefer@gmx.net, linux-gpio@vger.kernel.org, robh+dt@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, linux-imx@nxp.com, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kri
+ sto@kernel.org, dmitry.torokhov@gmail.com, nicolas.ferre@microchip.com, linux-kernel@vger.kernel.org, bcousson@baylibre.com, shawnguo@kernel.org, claudiu.beznea@microchip.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-In aspeed_adc_set_trim_data(), of_find_node_by_name() will return
-a node pointer with refcount incremented. We should use of_node_put()
-when it is not used anymore.
+Hi Krzysztof Kozlowski,
 
-Signed-off-by: Liang He <windhl@126.com>
----
- drivers/iio/adc/aspeed_adc.c | 1 +
- 1 file changed, 1 insertion(+)
+On Wed, 15 Jun 2022 17:52:24 -0700, Krzysztof Kozlowski wrote:
+> Merging
+> =======
+> 1. dt-bindings: rebased on top of Rob's:
+>    https://lore.kernel.org/all/20220608211207.2058487-1-robh@kernel.org/
+> 
+> 2. DTS patches are independent. They can be picked up directly by sub-arch
+>    maintainers, by Arnd or Olof, or eventually by me (if you wish).
+> 
+> [...]
 
-diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index 0793d2474cdc..9341e0e0eb55 100644
---- a/drivers/iio/adc/aspeed_adc.c
-+++ b/drivers/iio/adc/aspeed_adc.c
-@@ -186,6 +186,7 @@ static int aspeed_adc_set_trim_data(struct iio_dev *indio_dev)
- 		return -EOPNOTSUPP;
- 	}
- 	scu = syscon_node_to_regmap(syscon);
-+	of_node_put(syscon);
- 	if (IS_ERR(scu)) {
- 		dev_warn(data->dev, "Failed to get syscon regmap\n");
- 		return -EOPNOTSUPP;
+I have applied the following to branch ti-k3-dts-next on [1].
+Thank you!
+
+[29/40] arm64: dts: ti: align gpio-key node names with dtschema
+        commit: 85423386c9763fb20159892631eccc481a2d9b71
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent up the chain during
+the next merge window (or sooner if it is a relevant bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+[1] git://git.kernel.org/pub/scm/linux/kernel/git/ti/linux.git
 -- 
-2.25.1
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
 
