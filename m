@@ -1,147 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D910E550392
-	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Jun 2022 10:55:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5BD550394
+	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Jun 2022 11:04:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LQ8rD5BkWz3bsp
-	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Jun 2022 18:55:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LQ92L6h3Nz3bqv
+	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Jun 2022 19:04:10 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=0ylNDQRT;
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=HWdipSxk;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=UIxQ5FEc;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=oracle.com (client-ip=205.220.165.32; helo=mx0a-00069f02.pphosted.com; envelope-from=dan.carpenter@oracle.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=flex--davidgow.bounces.google.com (client-ip=2607:f8b0:4864:20::104a; helo=mail-pj1-x104a.google.com; envelope-from=34pstyggkdn0c9uhcfnvfnnfkd.bnlkhmtw-9roddckhrsr.nyk9ar.nqf@flex--davidgow.bounces.google.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=0ylNDQRT;
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=HWdipSxk;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=UIxQ5FEc;
 	dkim-atps=neutral
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LQ8r72m2Qz3bls
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Jun 2022 18:55:19 +1000 (AEST)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25I3C7WH031991;
-	Sat, 18 Jun 2022 08:55:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : in-reply-to : mime-version;
- s=corp-2021-07-09; bh=GD+tWWqnU1zVXp0FMOj2A2txmstuPwclj8VA3CLsrJw=;
- b=0ylNDQRT+e6YAtYJ/vUC1p1GjLtdQA46adGTnMnr2o13r08PWCSdOSLxCKw1fT0DqlSx
- gC7vw/HWQoBpz9YT1xed7mOunqsZfumgCj3Ddagg05jssZ9OcrWEDEqfzlQlrOC2wQlB
- DpI5aLSI+RuZffHjuggF6CAhTRs+PiblivrcsRzEy7Ml592CGhe+Wp8BnJ+XhDJ9jCCU
- pTQF6iNNV5DYweP5rH2V0JjYHpIKuu3zcvjoMakQT++xLKFFSUWnIhLWENl/9sZi0mcs
- 0wbs5u2NhS44B7FkomnxQ/WIijMd0MKLxUeFUV1KPx81zcX4DjKuUfVuPw9GNU1S92gA CA== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs6kf08nv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 18 Jun 2022 08:55:07 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25I8qES0033707;
-	Sat, 18 Jun 2022 08:55:06 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2174.outbound.protection.outlook.com [104.47.73.174])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gs550jgn5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 18 Jun 2022 08:55:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f+wxcn+NwAr2KBZcIpgIRlpYH9GN8KYuG9PyVaEprNRtvzCeKsOrgW+Ab5ehs0XXZlPzIyoi8+561la15cmCHhhlb4Ntf/VHmG39KMX81MZ2FuuWD0D2AxaKKfIKMezA+B6B+3rqgxnZJbCPGMvh9kFdM4+utxw/yGnVKQTCnsOQe+eXfWpYFwp6pgjvj+pXzh+9ECPvxsWEI8CSCZZSrFY7A5fgo0uwjXX/3pkz1t+jbc4X1mIFrYD33aHSW/yXy0CHLajjq0bPeNMD+zIOrdeIKW3ALBmpsfTuzE6T2uB7xHL5JRlnoyhBAzAtNYDWgQu7waC3AIMysinCzdbdGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GD+tWWqnU1zVXp0FMOj2A2txmstuPwclj8VA3CLsrJw=;
- b=AVfmXfw27tzv3tgLpKI/CuGDrEqpKVsn6vYmxDXdJzj7GVcAv3+fuRXuqBkgv2jNFfP1y4VYs/7brub89sZH212d2kdKoQ+rI3/XdBKAVa5iQZ69gjpRB2NPFdE+NOJeXUaXlnK2lRg71NEb60XPsWFhILTiuUh1YZPuCtl3aU0gRLca8pVOfNJC3njWFWoSJpgTC9dCpWr8f54ByaYSLadQz1q9hu06EMTzYp1T1EnLLM4r4ljzNKjxxCE+UeUzrxO1PYzCvDh1ZMo/wRvFPTBn4mDp4ES50gKEeS1t0n9hN8zQAWuK5gpaSTUDAt1bJXTvzid5kt2ZxuJCfKTNVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LQ91h6ggwz3bYk
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Jun 2022 19:03:35 +1000 (AEST)
+Received: by mail-pj1-x104a.google.com with SMTP id mh12-20020a17090b4acc00b001e32eb45751so4183247pjb.9
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Jun 2022 02:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GD+tWWqnU1zVXp0FMOj2A2txmstuPwclj8VA3CLsrJw=;
- b=HWdipSxkwa/J/rhcZpMRdUYx+slbAZ7P450iBl7FE9VuGdacYC+xFc5PNriJNyLVQeJQdVl4orUVO68p9lZiWXM/sXD6OPYH0297D/Jz8JPqYXjxJ0kQ3kBT+x8UMQ1iqclWxxDA0sysxuTxWE/kN9HIPtbMoVbepr+1EaESCKQ=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BYAPR10MB3589.namprd10.prod.outlook.com
- (2603:10b6:a03:129::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.17; Sat, 18 Jun
- 2022 08:55:05 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5332.024; Sat, 18 Jun 2022
- 08:55:05 +0000
-Date: Sat, 18 Jun 2022 11:54:53 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: [PATCH 2/2] usb: gadget: aspeed_udc: unlock on error in
- ast_udc_ep_queue()
-Message-ID: <Yq2S3aF0MPChLD/e@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yq2SvM2bbrtSd1H9@kili>
-X-Mailer: git-send-email haha only kidding
-X-ClientProxiedBy: ZR0P278CA0151.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:41::12) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1f745b19-0b25-4b58-8f8d-08da51083cd9
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3589:EE_
-X-Microsoft-Antispam-PRVS: 	<BYAPR10MB3589D4E08D56D488A06F43408EAE9@BYAPR10MB3589.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	XnzKoGzUWi1BDzAuaLywSZL+sj2+O19HShOxfMuBtm4UYSVmsUJVsd1u0bJXW96DTRAjwXZpZTVEUlHyyBbYk2kS+PRXnmEsgJWuHhrSkBoMMH8b8EC1Y3pRzj/bKHtaHU3ha/uT454uNpd3o2cvLX6vo2FdPK1QAeonhl9JJCPj0BA/pGRDfgiOM5C7fmMQ5FBDFIf+FhzyaB00qPhhLhommVjiDDq1Rjqhvkbkz+Xfh7BgmCrNwcR3Y7wamHtqyOvmGpd9bS0fwBMgmLHEYa/cbaxUgDN42jVkC9Gdl00m7LJqw2+ftEv7mccfok4PkpHHTYvRz/12Ka0jqOQjMmj+j//zIX6zQyptn54yuQ2cqsgQ7lux5B8urS2iCCxA0iEiQ37B6MxlXrJ8yTKvndAUsUtWfEBmgtmZz+qLenU94TtsEPFYGB5udxBFVBPvcXf90wWZX4/w1C8V9Mr9b93Bg25M3CWdTlqVpucCYd/lFe5EGNGhIotooNaQEtXqqbcx3flpv2Pg8bfc138dkZ3ZVKKvCN7p2qf6IhuEpanQa+rJLJpLAWkZFctmCyqx9U+arEAtqxy7wgXUHO1jmeqAclXMZ+vOXa1lMNMAUuUG2pXTI8cfAqj/36QF1Gs0zFgEdEADhVITMYnnycRyDaLmeXgQtEQTRQMaaDY19JGG4O43hIxKRq/IJbVmrFIgq/TtXA6RV5PY8tWJ7r2tCQ==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(5660300002)(186003)(44832011)(2906002)(66476007)(83380400001)(4744005)(38100700002)(8676002)(6666004)(6512007)(33716001)(38350700002)(86362001)(6916009)(6486002)(54906003)(498600001)(9686003)(316002)(8936002)(26005)(66946007)(52116002)(66556008)(4326008)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?sWy/OEuq0W9gw2VohHG4EOazBgf8VH6D4BTtfIIvp/OD9nX88cerhv4sOjzU?=
- =?us-ascii?Q?L7f7IYSNfCs0NJbkoA2nxQvQhQLUck1en7zrsim+2mzxpSn3d+9XeTJtPHdB?=
- =?us-ascii?Q?9nkYfw1SdyU7z3xgWmMxjUh7KGNuzTHlIp02zaE85bLj1FNjJGQz859hc1Kn?=
- =?us-ascii?Q?gMR2TBIr/oYJRD+tCwfVeC+XHLZMOenZUmXhDQsbWslK5wJ/6Dbd2VJUEEya?=
- =?us-ascii?Q?9Z14o14Ij6FtuOlQJmAzWG5WvQMbWxQpEWNat2JEgTdro6yL1MB8Al7ItWYJ?=
- =?us-ascii?Q?qHUO0VioQJjXaQK3L589w/hq9XKwhZNYsCqPKsuTktjCd9/aWIyfDut2o0Uu?=
- =?us-ascii?Q?P+COkW3JagAhI3WFULUljztYydvSKMXNnllmsibttVfxvbUXCNty9ecBeHzm?=
- =?us-ascii?Q?xZWobS2KwnakgibUDX1aCQ0Te4pfmKPkBi/zTqDwj1HZUKb2F37VxUpZEvrB?=
- =?us-ascii?Q?mGuhBaetOGoECOcq3VKkej8zMBmFUkQxT1a4YByO2zcpa0FHiq1mNdXhB3cO?=
- =?us-ascii?Q?/MBKbqiBsL/bQj6s9pccTIvwaKm9dzbY/oLzFPYimdLyWNZLwNl9l6AV6jzW?=
- =?us-ascii?Q?LITWZSiy1d9nWCjR+r18UHlq3EJzAHZPvMo2hdye0X2m+35CiziFWcKJdx3G?=
- =?us-ascii?Q?OsQN5tkp2locdvXp7VkrJ9gtV5AdxHCqxif6wxuVnyKz3Xjj1UJDUelAcYI+?=
- =?us-ascii?Q?ZDobPNitE0B7+lKuRu50sUZosHGOIxaiuT11kS7/Y3JtMSBE8F88VjnL3ahn?=
- =?us-ascii?Q?8LQcwAU8v05VdexxlRGw5+g2NsMxUww5QOGRcqw/j/oHNh9YxEPDcaxa8Uo6?=
- =?us-ascii?Q?/IFXngPHasNGnMyng9uoi7E0ges/fHIIHbAp+eEzf9/BR5c2j9E8QEQNDflx?=
- =?us-ascii?Q?JrLjb5PGmLHxecMj7ayPTMQtuXE2P0Ym2nl50mOgdbQ0fekfWHtmR+kIudb4?=
- =?us-ascii?Q?FDqxH9nzU4hy1BXhnpve8D7q7jzxXxaoWCafRnbWbihCrHPAWvyfcX3G81gF?=
- =?us-ascii?Q?VtHEbvp5dXxeJE6nUVruql264vB0jYa+jO70buDXn/5i9dqo8jGKBagLBTBU?=
- =?us-ascii?Q?gUSUEDLxWX068cPajqNPK0LGyvXwhxvE4BNOjDvCTi9niWtH79NXLG7OCD9T?=
- =?us-ascii?Q?tInFb5Hc7fDSbNEzaixLuS1DWFdYJ8N2MYSYL1YqzQyvvdUi+Hejoi51/Ru9?=
- =?us-ascii?Q?MZ1WhluFvwxqnW08FZvJ7KbEYUu0d0zHsz/aaAj7jINWyf3xVHLwwU1IeqDg?=
- =?us-ascii?Q?vgEqHa/KOmuT7jaJW9E3USkyHIIKNd1jpIGE+XyCKV1gQXAMb4Mvpvmv36za?=
- =?us-ascii?Q?9pzTL/m1+w0NsknuoNoaamleHXh1RMUWgrQpLViRRYif0F/635Q6kqgdb1Cc?=
- =?us-ascii?Q?A9Koq4RsoLghe7mPNztaTc/nPsRyPAQYWjb26J5u8KWPT/rfj9PRRbG+5HG7?=
- =?us-ascii?Q?PenXtEWQikvrzc02dkg29nyutXV2LhJYh/22wyYu/cMRNxiR6CiJjOMhrKOf?=
- =?us-ascii?Q?HUb93KE+cmm0C0HC9LUT2xztcPXWh+w/4JlGVtKKkTXqZsRvMKnlrik0po+c?=
- =?us-ascii?Q?Yyygkc6HVGkzMUpK2isAPtPzlEwAgwWhEk2sBQNJ30sEWXEedVlsdKoAXFwQ?=
- =?us-ascii?Q?RW5qOIHsAmqjx1ribjvFA7GsOJdFqPSRfZMNsUpSnWl4mxJ4Zaam+3zVK968?=
- =?us-ascii?Q?2p9rgVvugiEeFGDwhVLIIvign1zM8e4kdGPZbAwrM3JFz2LfZrIKjdrt2eJN?=
- =?us-ascii?Q?G8PeG2KpUT3egYzFEm6TVGsaT818H9o=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f745b19-0b25-4b58-8f8d-08da51083cd9
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2022 08:55:04.9919
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rEOyfx9zskyO5EALz6q5aTrvhHzmwf/0FBM8Fm/B5GS7S77/Kl7OCDdI180hwE5pamwpm9Rfe3uAzrLEC+ZTA0O5SBU4r9eFusoBt9Pq0+g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3589
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-18_06:2022-06-17,2022-06-18 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 mlxscore=0
- spamscore=0 malwarescore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206180043
-X-Proofpoint-ORIG-GUID: eHKG4IQLX2hdCNzlXitouqAxAinJn-JQ
-X-Proofpoint-GUID: eHKG4IQLX2hdCNzlXitouqAxAinJn-JQ
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=ptVKPuGcbB2+la+8ZiODjieQiW7k/oxo/Oz/EdgWumA=;
+        b=UIxQ5FEc5KUGjUFI0jmR+pzVeOpPYkxsewDr7QpplKnl9i8FqbhtassrfzcyyW/VG4
+         q4zTZ1jlJegFa1PmQn4JCa7rgZpA9GXdHeGc7DZThZ3KQpZ5ijja2/D22gi939kN75as
+         w19ZMHfgy7cHjfLdCoqYjwhPvt3gyoPZQIRTlpXEuBVi1hRUi93DrwXHyRyr6uPntB+C
+         f5qLDoDNzx+/aL9DTUn2OsNZ3Fo0QayufVMnNZ/CwjjPTMgirdUroVvDRqUjhR2FhpvJ
+         nwHs/ieBLMWCoE89Zwm+PIiFZpaoTHinYCTLH2LFGLCAwEinnlsS9UG+rWKeGDt9sn12
+         wlLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=ptVKPuGcbB2+la+8ZiODjieQiW7k/oxo/Oz/EdgWumA=;
+        b=AqSTef3Ga3rGcU0A3c7rav1mhypado+zKGP8yvx+MohcXmGu0KzOKh13hfxs9X533+
+         cAr1Yo9A/E8KrKjDnE2gOY68r/RNh2FLJgEIgyWad3qUoe3d1DSWI8s9bw0qlUrXRXX9
+         dGHExJjdPwDWW71TmTr71YpVzOd5fEBLCtb+CrEVUp01fPG0tyQXcKkfN9hkrvWvACSH
+         nPhNguY11R8x61ki7AXeUL1yzzBobtWRGg6HquIQ6JGO8gct7aLTVDr92m+Xy3qmqTBg
+         2OHR2Q0AeYmbhyLCeXrNEbOJYKTO24geMNef8H7HP6HZrqDv+gVnwZXOUR8vIoB7PFPS
+         53ug==
+X-Gm-Message-State: AJIora+Yw1ykuL+5arOvG/5mAEbm6BJk5mrlzCD3cGJSIrehvgrdPerL
+	xYPxkFfHT1lRTrR9nEJtzHGptefUc//DOg==
+X-Google-Smtp-Source: AGRyM1sH2PfcGj8ViDV0lllmFpU71ukSxzCtMA3vIatOWbHB6KvOeV6QomY8XXQV6nt0d4lCuh4I6QRng8JeMg==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a17:903:11cc:b0:168:eae:da4a with SMTP id
+ q12-20020a17090311cc00b001680eaeda4amr13290211plh.21.1655543010775; Sat, 18
+ Jun 2022 02:03:30 -0700 (PDT)
+Date: Sat, 18 Jun 2022 17:03:05 +0800
+Message-Id: <20220618090310.1174932-1-davidgow@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
+Subject: [PATCH 0/5] Rework KUnit test execution in modules
+From: David Gow <davidgow@google.com>
+To: Brendan Higgins <brendanhiggins@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Jeremy Kerr <jk@codeconstruct.com.au>, Daniel Latypov <dlatypov@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Andrew Jeffery <andrew@aj.id.au>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Andra Paraschiv <andraprs@amazon.com>, 
+	Longpeng <longpeng2@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,33 +74,72 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
+Cc: David Gow <davidgow@google.com>, linux-aspeed@lists.ozlabs.org, =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>, openbmc@lists.ozlabs.org, linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, Matt Johnston <matt@codeconstruct.com.au>, linux-modules@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Call spin_unlock_irqrestore(&udc->lock, flags); before returning an
-error code.
+This patch series makes two changes to how KUnit test suites are stored
+and executed:
+- The .kunit_test_suites section is now used for tests in modules (in
+  lieu of a module_init funciton), as well as for built-in tests. The
+  module loader will now trigger test execution. This frees up the
+  module_init function for other uses.
+- Instead of storing an array of arrays of suites, have the
+  kunit_test_suite() and kunit_test_suites() macros append to one global
+  (or per-module) list of test suites. This removes a needless layer of
+  indirection.
 
-Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/usb/gadget/udc/aspeed_udc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The upshot of this is that it should now be possible to use the
+kunit_test_suite() and kunit_test_suites() macros to register test
+suites even from within modules which otherwise had module_init
+functions. This was proving to be quite a common issue, resulting in
+several modules calling into KUnit's private suite execution functions
+to run their tests (often introducing incompatibilities with the KUnit
+tooling).
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 77376ae04224..4dead40895dd 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -663,7 +663,8 @@ static int ast_udc_ep_queue(struct usb_ep *_ep, struct usb_request *_req,
- 	if (ep->ep.desc == NULL) {
- 		if ((req->req.dma % 4) != 0) {
- 			dev_warn(dev, "EP0 req dma alignment error\n");
--			return -ESHUTDOWN;
-+			rc = -ESHUTDOWN;
-+			goto end;
- 		}
- 
- 		ast_udc_ep0_queue(ep, req);
+This series also fixes the thunderbolt, nitro_enclaves, and
+sdhci-of-aspeed tests to use kunit_test_suite() now that it works.
+
+Huge thanks to Jeremy Kerr, who designed and implemented the module
+loader changes, and to Daniel Latypov for pushing the simplification of
+the nested arrays in .kunit_test_suites.
+
+I've tested this series both with builtin tests, and with modules on
+x86_64, but there's always the possibility that there's something subtle
+and nasty on another architecture, so please test!
+
+Cheers,
+-- David
+
+Daniel Latypov (1):
+  kunit: flatten kunit_suite*** to kunit_suite** in .kunit_test_suites
+
+David Gow (3):
+  thunderbolt: test: Use kunit_test_suite() macro
+  nitro_enclaves: test: Use kunit_test_suite() macro
+  mmc: sdhci-of-aspeed: test: Use kunit_test_suite() macro
+
+Jeremy Kerr (1):
+  kunit: unify module and builtin suite definitions
+
+ drivers/mmc/host/Kconfig                      |   5 +-
+ drivers/mmc/host/sdhci-of-aspeed-test.c       |   8 +-
+ drivers/mmc/host/sdhci-of-aspeed.c            |  27 ----
+ drivers/thunderbolt/Kconfig                   |   5 +-
+ drivers/thunderbolt/domain.c                  |   3 -
+ drivers/thunderbolt/tb.h                      |   8 -
+ drivers/thunderbolt/test.c                    |  12 +-
+ drivers/virt/nitro_enclaves/Kconfig           |   5 +-
+ drivers/virt/nitro_enclaves/ne_misc_dev.c     |  27 ----
+ .../virt/nitro_enclaves/ne_misc_dev_test.c    |   5 +-
+ include/kunit/test.h                          |  60 ++------
+ include/linux/module.h                        |   5 +
+ kernel/module/main.c                          |   6 +
+ lib/kunit/executor.c                          | 117 ++++-----------
+ lib/kunit/executor_test.c                     | 139 +++++-------------
+ lib/kunit/test.c                              |  54 ++++++-
+ 16 files changed, 152 insertions(+), 334 deletions(-)
+
 -- 
-2.35.1
+2.36.1.476.g0c4daa206d-goog
 
