@@ -2,65 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3722C551459
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jun 2022 11:29:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09F6551692
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jun 2022 13:06:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LRPVg0r9Dz3bs0
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jun 2022 19:29:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LRRg26T0kz3bvH
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jun 2022 21:06:54 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=DJ+WMLVy;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=u4+Znx6d;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::336; helo=mail-ot1-x336.google.com; envelope-from=yulei.sh@bytedance.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::62a; helo=mail-ej1-x62a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=DJ+WMLVy;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=u4+Znx6d;
 	dkim-atps=neutral
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LRPTt4zVdz302N
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Jun 2022 19:28:49 +1000 (AEST)
-Received: by mail-ot1-x336.google.com with SMTP id q1-20020a056830018100b0060c2bfb668eso7935040ota.8
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Jun 2022 02:28:49 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LRRfv6Mb3z3bmc
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Jun 2022 21:06:45 +1000 (AEST)
+Received: by mail-ej1-x62a.google.com with SMTP id u12so20343624eja.8
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Jun 2022 04:06:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+E3s3QkzcGFpv21zvwpnb65PL/N10eRE8HHqyGPUlDc=;
-        b=DJ+WMLVyMwk8maVS9kj+U87ierbJivmOILpqH3I4hGvoc2Z9YfIw2VmzeT+Uuheqxv
-         nPvWVaQSB3YN4TTTiQWhxCQuuYcir5Ex60T9T7HKonhAYy41SC93O31KDnNVe31cciL4
-         AAxR6NsWDL6VfIlvS1pVm9ii3WUK3k4wRcVRjtokGdyVty9/xnQip4De6UptgBNIBp07
-         3VvCIrKKP5X4gV5gW2SwoXawpX5TzEBTLQtmtbIZhaekKODLM/mMoMessleLAVEg1V33
-         rHbkx+ZruDcbZGT06xaIMQuIMrszKhbGykUyEIUhEgEQaTjHd4ckIY4GJpuDdYeA3Mw2
-         6oeQ==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=so8sDrLioUFy7cOL3aS8tAl9RK2+NGzjPv7D1JAQDqc=;
+        b=u4+Znx6db0I1JIgKEtGzH7OPNIWp0RlAyfziZK61G7HLQXtKDmi0Zxo+Bi+wfiR/KD
+         FEIbLQ2dQ5i/LOnmBPY+8bWjgkGzi81qd+XxzZGYBnmCHPfK2tQfln5FUbnvER/7fYnz
+         Xf0z5hPHp3btaGed1cWbHZet8ft74tE+V/rzl+xxTSoKECBQzYh3vechswvdCqEtIyC1
+         lWd4r5c5ka8n4ivrhcvum5+oEW8M4gcVlqIuHs2aoXL5DHkoRKobgS1+b0+pfyejVNs0
+         IJAO81M44MsKVFwolQJsC6a0OWl/kZcXA+yPgrZnb3k2Phn+Miiyo25DoxyzYL3RRu/R
+         j/0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+E3s3QkzcGFpv21zvwpnb65PL/N10eRE8HHqyGPUlDc=;
-        b=iFFvG4wzKBWuhu/73bKTZTxlajFRR0W+H6GFnZhfRvry1W/fMf7CJFL7vFfsCour/5
-         RasT74+YpPaXxGaeRkX9CHowQ22khJv6zDcM/omkEWmnmUtO3QbFHbENLVbd9E+tX3W+
-         wDjBnCyGP/zRjwTSW69dX5QsW8x1wynRpPOMpsXf2bAdEimlDrdvtizz6kAqrKeddBMO
-         PmdvmNdCbSxVj7kO8R0ZnTc0iL7AkjYp45B2WMj0ljObghfkBvYv9hSmtr2Ss+MOyeoI
-         CG0db5QyoyNyrmR64Pb1z6RTKW8Jxmo55rP/SLi/okqJGNjsr6GfqLT1jxyB3DT6CHBt
-         tpgg==
-X-Gm-Message-State: AJIora//b3xn6TUz6+PJIHPZbVqX26/RFnbIBZ8akRnYV/G+376IB5JP
-	HwIwVrAhZM19ifzxiKJ1+ixcVyp5/J8gdN4IaPtcXg==
-X-Google-Smtp-Source: AGRyM1u7wtq73sNYXuB85ckFWHp/sUaPQojdzAh+InCrMmV7DdteUrkzZjnIv3HX4ij2uk7XcCZ6MyDeHlvDKFC0AzA=
-X-Received: by 2002:a05:6830:2b23:b0:60e:3067:e496 with SMTP id
- l35-20020a0568302b2300b0060e3067e496mr8585268otv.16.1655717325999; Mon, 20
- Jun 2022 02:28:45 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=so8sDrLioUFy7cOL3aS8tAl9RK2+NGzjPv7D1JAQDqc=;
+        b=TFR4eGndGaaAbJ6budOIt22nN7ep2gcTxt2fchwSNAGmTMBZMe9Xx0MD/vGykWTZy8
+         bDBI7MZR2rzVcq4DGzW79eijmO+qW7QbE/bajFUc34hbMN+Uc+S4puTMOw6e/sr5CB14
+         7kNlHSrnCLPlj11U7sTTpdivKnqAD/SH7os5r0FKpCBoTEs5szHkm3Jgz3yNxH0zo+RW
+         w51w44RgEWfRJ3W+0QOdheARfWcZMKJhhxn4N8jlUQF2dpDDkLGnkD3Wc4EXm73I8bYX
+         MdzohRxKaQLVhbXN3HOHxNFjLJw/jlpYbAJXpo2AogzYKctFQ/+euYBcZqiXKgZ8s9T5
+         Pe5Q==
+X-Gm-Message-State: AJIora++NDWmp1fbom3pSgZdrRRQWi9UPsWZY8KrPtH0IRS2RZZh6UQC
+	cqQbEF4Pjh06CaN4SXjbh7oofA==
+X-Google-Smtp-Source: AGRyM1utaO1T4vO2p3+cLvVRr/p5V5NSZLwsZ5AVyieVsZkGXMqZnNV4gEgHvCEdu8Bh1P9TQOyRnQ==
+X-Received: by 2002:a17:906:58cf:b0:711:7acb:821f with SMTP id e15-20020a17090658cf00b007117acb821fmr20292050ejs.588.1655723199682;
+        Mon, 20 Jun 2022 04:06:39 -0700 (PDT)
+Received: from [192.168.0.209] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id b6-20020a17090630c600b006fef51aa566sm5797606ejb.2.2022.06.20.04.06.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jun 2022 04:06:39 -0700 (PDT)
+Message-ID: <0207c2fe-7c01-7852-3cd1-74297cd4857d@linaro.org>
+Date: Mon, 20 Jun 2022 13:06:38 +0200
 MIME-Version: 1.0
-References: <20220126014725.1511-1-jammy_huang@aspeedtech.com> <20220126014725.1511-3-jammy_huang@aspeedtech.com>
-In-Reply-To: <20220126014725.1511-3-jammy_huang@aspeedtech.com>
-From: Lei Yu <yulei.sh@bytedance.com>
-Date: Mon, 20 Jun 2022 17:28:34 +0800
-Message-ID: <CAGm54UHobZ7f9q7vB5F8fJDeyr_PSbRxJPg45etscxxSvRtFVA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] media: aspeed: Fix unstable timing detection
-To: Jammy Huang <jammy_huang@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/7] dt-bindings: arm: aspeed: document board compatibles
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+References: <20220529104928.79636-1-krzysztof.kozlowski@linaro.org>
+ <20220529104928.79636-2-krzysztof.kozlowski@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220529104928.79636-2-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,75 +81,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, openbmc <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org, Ken Chen <chen.kenyy@inventec.com>, David Wang <David_Wang6097@jabil.com>, Steven Lee <steven_lee@aspeedtech.com>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-We hit an issue where the resolution is not detected correctly.
-The issue could be fixed by this patch.
-
-Tested-by: Lei YU <yulei.sh@bytedance.com>
-
-On Wed, Jan 26, 2022 at 9:49 AM Jammy Huang <jammy_huang@aspeedtech.com> wrote:
->
-> Using stable-signal in resolution detection, and try detection again
-> if unstable.
->
-> VE_MODE_DETECT_EXTSRC_ADC: 1 if video source is from ADC output.
-> VE_MODE_DETECT_H_STABLE: 1 if horizontal signal detection is stable.
-> VE_MODE_DETECT_V_STABLE: 1 if vertical signal detection is stable.
->
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+On 29/05/2022 12:49, Krzysztof Kozlowski wrote:
+> Document all compatibles used in existing upstreamed Aspeed AST2400,
+> AST2500 and AST2600 based boards.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  drivers/media/platform/aspeed-video.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index 5d1ec3de50ad..eb9c17ac0e14 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -153,9 +153,14 @@
->
->  #define VE_MODE_DETECT_STATUS          0x098
->  #define  VE_MODE_DETECT_H_PERIOD       GENMASK(11, 0)
-> +#define  VE_MODE_DETECT_EXTSRC_ADC     BIT(12)
-> +#define  VE_MODE_DETECT_H_STABLE       BIT(13)
-> +#define  VE_MODE_DETECT_V_STABLE       BIT(14)
->  #define  VE_MODE_DETECT_V_LINES                GENMASK(27, 16)
->  #define  VE_MODE_DETECT_STATUS_VSYNC   BIT(28)
->  #define  VE_MODE_DETECT_STATUS_HSYNC   BIT(29)
-> +#define  VE_MODE_DETECT_VSYNC_RDY      BIT(30)
-> +#define  VE_MODE_DETECT_HSYNC_RDY      BIT(31)
->
->  #define VE_SYNC_STATUS                 0x09c
->  #define  VE_SYNC_STATUS_HSYNC          GENMASK(11, 0)
-> @@ -909,6 +914,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->         bool invalid_resolution = true;
->         int rc;
->         int tries = 0;
-> +       u32 mds;
->         u32 src_lr_edge;
->         u32 src_tb_edge;
->         struct v4l2_bt_timings *det = &video->detected_timings;
-> @@ -939,6 +945,13 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->                         return;
->                 }
->
-> +               mds = aspeed_video_read(video, VE_MODE_DETECT_STATUS);
-> +               // try detection again if current signal isn't stable
-> +               if (!(mds & VE_MODE_DETECT_H_STABLE) ||
-> +                   !(mds & VE_MODE_DETECT_V_STABLE) ||
-> +                   (mds & VE_MODE_DETECT_EXTSRC_ADC))
-> +                       continue;
-> +
->                 aspeed_video_check_and_set_polarity(video);
->
->                 aspeed_video_enable_mode_detect(video);
-> --
-> 2.25.1
->
+>  .../bindings/arm/aspeed/aspeed.yaml           | 83 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 84 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
 
+Joel, Andrew,
 
--- 
-BRs,
-Lei YU
+Any comments on the series? Rob applied only patch 1, so the rest is
+supposed through Aspeed tree. Shall I pick them up and send to arm-soc?
+
+Best regards,
+Krzysztof
