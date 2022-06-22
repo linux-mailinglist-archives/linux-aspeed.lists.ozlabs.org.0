@@ -1,42 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335AC55454D
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 12:34:31 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE153554D86
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 16:37:09 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LSfrd5x0Dz3bqY
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 20:34:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LSmDf55cYz3brm
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 00:37:06 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=hfCoQxsS;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=molgen.mpg.de (client-ip=141.14.17.11; helo=mx1.molgen.mpg.de; envelope-from=pmenzel@molgen.mpg.de; receiver=<UNKNOWN>)
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102d; helo=mail-pj1-x102d.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=hfCoQxsS;
+	dkim-atps=neutral
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LSfrW371yz30LC;
-	Wed, 22 Jun 2022 20:34:18 +1000 (AEST)
-Received: from [141.14.220.45] (g45.guest.molgen.mpg.de [141.14.220.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id AF7B461EA1928;
-	Wed, 22 Jun 2022 12:34:13 +0200 (CEST)
-Message-ID: <babc9b4e-7f6c-6ca2-1132-b4571f524eb8@molgen.mpg.de>
-Date: Wed, 22 Jun 2022 12:34:12 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LSmDV2rZcz3bnY
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 00:36:56 +1000 (AEST)
+Received: by mail-pj1-x102d.google.com with SMTP id 73-20020a17090a0fcf00b001eaee69f600so17003952pjz.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jun 2022 07:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=QPTQnnGMAlX9DR/Wnzz/rHtvgybIf6uKNn+Efoudg+A=;
+        b=hfCoQxsSr1AiUPED+rApz5o3D8pO/hGhEKqz4/3wZPQix+70o879IgeDEGHilYZGL6
+         HWj1U9BXuM0FK3F/sYqVWRloIUHVtXKz1DdaEaM1rATOLyK0uFm7qEi/C56CZiQoZf8j
+         jWG3lft0SgAJuAM4sqOQIBEVsj8A2HEokzEWTLARyhki2+zb/w3ccxPGPBwv+OeFHbDI
+         A8XkpMuMz2cJpWJdNxTzZfbI+1gG6vqpS5lTh6Ur4kuznKKm8pMpUoB2YjH30Aa193Zo
+         MiRrndHiDJz/C29k6Q/pt/pJrS3J2rGFNbg+jsKPQc/y1Hp98+iCv2psxMTWsQvBboCF
+         d/qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=QPTQnnGMAlX9DR/Wnzz/rHtvgybIf6uKNn+Efoudg+A=;
+        b=1bvw6wq79mdLrvM1cYnm4exdmTfdfVig4Z95MeCKvczDBhlXXFZmKfHjhkR8TscZ2W
+         tVfuHzIAXnXI8pH50746MUNjlM5YOyjBwpDmPhysI1TJj9Js/+XlpO+qmlnOHT5c9Duq
+         jl8M6o7A/DSRSYpb17H/ziaUxIzXNrn9KU35jHPgRWE0jDOarES7vqNlSZOiiIPjUgbs
+         5fku+vSuJaVr+4xzp0/TPSUCMU6QPa7b0bgLq2BfVrEZDPPcB1yHlqjj4uNZFLCnUZBY
+         IVieEbxFFdfhfp0O8JgsmtVWAQ6ReifmYoXB3+osq+kLm3TqJNpSpEmmZ1ke/57kI2Zt
+         JttA==
+X-Gm-Message-State: AJIora83C2M9i8HQUiWst1RtfXxsi/1RmqM37Is5vW02vEWbdRa81zZe
+	/jDqYcORRNAlX/pkZ4kxn70=
+X-Google-Smtp-Source: AGRyM1uLC611EYbwN9PQLKue9M+LWR2/yK9A7/CK60EWV+8yg7Fw2xjQsRI0T++TJXXz0BWWXwB1EQ==
+X-Received: by 2002:a17:90b:33c8:b0:1ea:c199:9794 with SMTP id lk8-20020a17090b33c800b001eac1999794mr4104778pjb.224.1655908613363;
+        Wed, 22 Jun 2022 07:36:53 -0700 (PDT)
+Received: from [192.168.1.24] (1-162-200-193.dynamic-ip.hinet.net. [1.162.200.193])
+        by smtp.gmail.com with ESMTPSA id x15-20020a63b34f000000b0040d027e1f0fsm3232444pgt.25.2022.06.22.07.36.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jun 2022 07:36:52 -0700 (PDT)
+Message-ID: <eda3f331-6df4-c4d3-33e5-a872fecd6024@gmail.com>
+Date: Wed, 22 Jun 2022 22:36:50 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/2] spi: aspeed: Add pr_debug in
- aspeed_spi_dirmap_create()
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 0/4] Update Facebook Bletchley BMC DTS
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220622094233.3681843-1-clg@kaod.org>
- <20220622094233.3681843-2-clg@kaod.org>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20220622094233.3681843-2-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Joel Stanley <joel@jms.id.au>, Patrick Williams <patrick@stwcx.xyz>
+References: <20220613095150.21917-1-potin.lai.pt@gmail.com>
+ <Yqdr1ZS6d71QeACd@heinlein.stwcx.org.github.beta.tailscale.net>
+From: Potin Lai <potin.lai.pt@gmail.com>
+In-Reply-To: <Yqdr1ZS6d71QeACd@heinlein.stwcx.org.github.beta.tailscale.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -49,49 +81,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>, Pratyush Yadav <p.yadav@ti.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Cédric,
 
+Patrick Williams 於 6/14/2022 12:54 AM 寫道:
+> On Mon, Jun 13, 2022 at 05:51:46PM +0800, Potin Lai wrote:
+>> Update below items for Facebook Bletchley BMC devicetree.
+>>
+>> Potin Lai (4):
+>>   ARM: dts: aspeed: bletchley: change LED sys_log_id to active low
+>>   ARM: dts: aspeed: bletchley: disable GPIOV2 pull-down
+>>   ARM: dts: aspeed: bletchley: bind presence-sledX pins via gpio-keys
+>>   ARM: dts: aspeed: bletchley: update fusb302 nodes
+>>
+>>  .../dts/aspeed-bmc-facebook-bletchley.dts     | 197 +++++++++++++-----
+>>  1 file changed, 148 insertions(+), 49 deletions(-)
+Hi Joel,
+Could you help me review this patch series?
+Could you also backport this to linux-aspeed 5.15 if everything looks good to you?
+Thank you.
 
-Am 22.06.22 um 11:42 schrieb Cédric Le Goater:
-> It helps to analyze the default setting of the control register.
-
-Maybe paste the new log line to the commit message.
-
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   drivers/spi/spi-aspeed-smc.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-> index 496f3e1e9079..ac64be289e59 100644
-> --- a/drivers/spi/spi-aspeed-smc.c
-> +++ b/drivers/spi/spi-aspeed-smc.c
-> @@ -558,6 +558,14 @@ static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
->   	u32 ctl_val;
->   	int ret = 0;
->   
-> +	dev_dbg(aspi->dev,
-
-The commit message summary says `pr_debug()`.
-
-> +		"CE%d %s dirmap [ 0x%.8llx - 0x%.8llx ] OP %#x mode:%d.%d.%d.%d naddr:%#x ndummies:%#x\n",
-> +		chip->cs, op->data.dir == SPI_MEM_DATA_IN ? "read" : "write",
-> +		desc->info.offset, desc->info.offset + desc->info.length,
-> +		op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
-> +		op->dummy.buswidth, op->data.buswidth,
-> +		op->addr.nbytes, op->dummy.nbytes);
-> +
->   	chip->clk_freq = desc->mem->spi->max_speed_hz;
->   
->   	/* Only for reads */
-
-Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
-
-
-Kind regards,
-
-Paul
+Potin
+> The whole patch set looks good to me as the closest domain expert to the
+> Bletchley system after Potin.
+>
+> Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+>
