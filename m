@@ -1,67 +1,121 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D1155400D
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 03:27:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B67D555423F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 07:26:02 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LSQjP2rgTz3bkm
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 11:27:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LSX0h07wlz3bqd
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 15:25:56 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=D4OeYr5D;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=zg43mMJY;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::62d; helo=mail-ej1-x62d.google.com; envelope-from=dlatypov@google.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.255.132; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=D4OeYr5D;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=zg43mMJY;
 	dkim-atps=neutral
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2132.outbound.protection.outlook.com [40.107.255.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LSLXZ728cz3bkW
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jun 2022 08:19:25 +1000 (AEST)
-Received: by mail-ej1-x62d.google.com with SMTP id pk21so7254632ejb.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Jun 2022 15:19:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5TxB5mhSxXbS5+BgbfWYorbl1xw2wo/iBLR21P4z7SQ=;
-        b=D4OeYr5DObfkZ5SxU78+21kychVQSbaYxc23HIiBZL/HdobOEgoPwRKlVkqu1qxzwz
-         OMerWfBiqhPqNfus9CMllIQSBRuu8B0VSmqLAsRaVcsaJrJJuGEgFuQc3DonJ/KE+aLR
-         iLQdIyL/eb6AaFyiD53AvNC7yxOApi+ZRt5U2foiWaMwt0nuJZ+L81yHFaWh5xPh5n/0
-         aiU025tdZv1lG2fC0/5QfmsBWN+BZ2R4Q2xd7tyXdDCxKX4vUnvB8uLqyFudoI0U0u6C
-         25Mz9INEgtxhNkLP8DYKCeIzC0BrjXWVVeo3stEgIF35rQhqOLf6uwKpnMAvnoEaMeQs
-         h+JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5TxB5mhSxXbS5+BgbfWYorbl1xw2wo/iBLR21P4z7SQ=;
-        b=IJXAPzj2LI6UV0YGcWUdmyqBzF/Z6FzkHYglM3v/hMaU7ANyj5RYxnQ0PSQk3q9mbe
-         eTtz/o5LPTfQSF/1EXZx8iWg9BUj6juxHnzspqxCfbuOi2w/SXjlc8HNZn9mrZTEUY6V
-         YUOKYR4RuCGTELw9va7wMCRITLfw5v+hTX2Yj4P5UDyCjs25Ml7jvvjGxu9ZpNVnjKVO
-         Zmp3cGjC5RJlU+oqL88AaqYAeIc9jr/9ytPVGg0DJPrPB1va0MnbNpTAYFrzdXzo9mvD
-         Xp8+6DS1b7IMAcWqddy/reWdQD6/gcPS2jj2qR9Bj8qzFw+8ER1JO51TkAYeJaLt/clF
-         hh7g==
-X-Gm-Message-State: AJIora/LiCBuVlywVDadUSBoTw0fMFQt2aE8mM7CjIPPcuv0gQS1XMzs
-	ETuCzjqUAQa2vkFWS/4RoQElMyk45T3m34lq7GZc5A==
-X-Google-Smtp-Source: AGRyM1vVeJpl5YmahMIBRWKENGAY/5q7qFCUrgPBVWAl++5JmH2yrju9aDpjPk6EPGCreQdfMELmoUi+rubgGYVlS7Q=
-X-Received: by 2002:a17:906:728a:b0:715:2fb5:19f9 with SMTP id
- b10-20020a170906728a00b007152fb519f9mr270868ejl.170.1655849962024; Tue, 21
- Jun 2022 15:19:22 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LSX0T0X71z302W
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jun 2022 15:25:43 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LrzXci8PKU7/mSUVEJIBu+rPX0Ij2x/V9T7KaaUGhBuFSNiM7HQKXIqFFKmZLB2KsFxsXY65LPlNVuqO5zal43sM/PJm4Q4eIqfek8498XuMNq/t/X9HXHIvH80SZb+4PRvUw85zbeGYqlJ6YKRZmli00/iTjj+zIJzqmwTuzP2+ilGJAVizAj1zPuQwO/XHkdsq/mI0cvJEsVw2Aros2dGiwamcIWgqPUpk5MKKTmlKP2cDirxMwrsJufhwxwoGZtW20zrB2hgAGMIKi9RMwVPlO9rcmigV7knM9vVlnR0zWy/oxAfTRF4kSJmLxaXyy5tap9KgW2ZOYX5r+qxqhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=co0dOGtNGwuO8p6wuHQk/yddvvAIwS6eEpOWNXNQ7hs=;
+ b=Rj2U0sTK+XPsAOBD2Evz0D06EpETQnASr0inJSRnS3Kd2PXliyAfY/d3r9meFE/3EGebHZ3kGBcwkkhkVOOpvFclMfjmsrTCfbGCxtyDF6mPL6a7KdUIZTS56GR3RRemHLxqx18ze10YMa9hk4/TYmAPFsNamFqpUt9fPpUxeMC0YG8gZqitXbuj26o53YgShzWTapIxNqbzD2I6aAhx5jxZOoZoKEzw66mCu7sR0Bv48S6hgomox8nAcC9tvz/ay5R2Q5tk+o/CmFn6Mn/p0Uj94YWR7WA9Gn3/cn1ibGxjkgCX91reZcsMADSYJ3uLTuOjhrGbvL1ztYfl6EEWVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=co0dOGtNGwuO8p6wuHQk/yddvvAIwS6eEpOWNXNQ7hs=;
+ b=zg43mMJYsYN+PTRjacdWpmKauQeJsCQNke99E+ujePr9KA/dspp4Ei/EqUolpM/YV/33I0L4smxervQ8wx4+45PrGw3iuaMWCz1BUxPLE8KYr4O786VDiIQiRPSKj+ZOSmdgQjMDFXQvJEq7T8li2zMd54VckagJ29GVT2T5Y14kz8bYa+TvgCb/ATwKZPGfRsn7MoGZu+G16EdzLl/5GF/qqROkH7bYJwSyIE4YDlvRB6PkbZt6lvFOQd/GTIDwBBwAkf833IUQQcSPFPQota1BL2+uK8vTeNOHjkqA0tdmU0XLOkr4dm58D+/FCyhn62Hq7PdFeiFicIckrVViLA==
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
+ by SG2PR06MB2968.apcprd06.prod.outlook.com (2603:1096:4:77::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.18; Wed, 22 Jun
+ 2022 05:25:21 +0000
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::46d:a7a:f047:e9bf]) by HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::46d:a7a:f047:e9bf%5]) with mapi id 15.20.5353.022; Wed, 22 Jun 2022
+ 05:25:20 +0000
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: RE: [PATCH 1/2] usb: gadget: aspeed_udc: cleanup loop in
+ ast_dma_descriptor_setup()
+Thread-Topic: [PATCH 1/2] usb: gadget: aspeed_udc: cleanup loop in
+ ast_dma_descriptor_setup()
+Thread-Index: AQHYgvEPzKxWRM9gzUqjPBsYNjc+I61a6mpQ
+Date: Wed, 22 Jun 2022 05:25:20 +0000
+Message-ID:  <HK0PR06MB3202376E1119C0CF1658656580B29@HK0PR06MB3202.apcprd06.prod.outlook.com>
+References: <Yq2SvM2bbrtSd1H9@kili>
+In-Reply-To: <Yq2SvM2bbrtSd1H9@kili>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5b670ff3-7c7e-4ab0-fe75-08da540f99ba
+x-ms-traffictypediagnostic: SG2PR06MB2968:EE_
+x-microsoft-antispam-prvs:  <SG2PR06MB2968D3562D4D41860299EE8680B29@SG2PR06MB2968.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  RSpVSEdCscW6r8HxGhkbzMidKH++b3zp6/IJvViemEOsw88UcG2sn9iQzYN7XYXNchBG42OTPFY9RhPbh4Ztcf0G16OEeYUNR9V2xelTAKWTnSJCj7SMBG1IhIVwrHdDZ3CoWQvqkLjmcUXkpWKzlfuAHhcBgV7Q5qQUe/RGXr8iyceb5oya/3zjq7QQJFJnXFyGV8B0eIop7Nd6C0wAol1cUOz0nI9zc5AnPnpnbqPDfCUpuWSkQgzz5kr2yH7AqNH7tQUiQn3hXLNMoY0BdJ3SNB9MnmClxVUi3o/uO/hNpvHuBbAF+OkoPlzJf+3zpTzlHA/q/wfeE87zzRfj4lck8p2AuLG6BI0y3ZGsrJ87U4mAEONOiAmtF8TslFumLMPKW74Tf8XkgVUSl00UBx8Ga8YZHbTzJL4cGKTCFjuRq/fMVwINAj1/InVOhsDpmavgUCLXURhLTd1hk8z5eey+HEU8MdgrUisXiLqYFU3BIFHL2KYpjA+n6bwAgarRQEvtdfBZBRGaagGGUcgqpd2htm3QXH0L+xqHEufFwr9DZT+CxSA3Kwu/MLjKsiUF2g77AWXPrDWwf+2gPAq3+M+nZKXhXFvRNBIL2dUYmYTT4G5yxhQSK8p9lPOQe7JSxfOPM/rFJWHqIKBBHKtFsssqN6xnZElcyZCm7KFpIvzdIFNlyYN5szkZZbCZkHDr43cB0BJOATtXEj5nzmzzCQ==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(39850400004)(376002)(136003)(396003)(346002)(8676002)(7696005)(64756008)(54906003)(33656002)(41300700001)(186003)(26005)(66476007)(6916009)(71200400001)(38100700002)(316002)(478600001)(52536014)(122000001)(83380400001)(38070700005)(8936002)(66946007)(86362001)(76116006)(55016003)(5660300002)(6506007)(66446008)(4326008)(9686003)(66556008)(2906002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?KqviFEuWYu4u+4uQuie19T0eTfox0fw/oybCWKOYndUcj/yWPah08uaIdWyB?=
+ =?us-ascii?Q?8yjscKKGcfQSSEJ8ff9GUCtCkiysuJQGxo3o3++D42IfRaIWXjHafpI2NVXO?=
+ =?us-ascii?Q?RXRXNDmHOgFxcDmYZtNWpNOY95JmE7WMN26G2/G9wvKJSs/AGfPgncQejU3H?=
+ =?us-ascii?Q?HEmUidVRjo4IoPsHQ8WmIvbJ3tcphoC4Qb/auu2RSZn16RpBM1Fr2jIAiENh?=
+ =?us-ascii?Q?8GtqyKetZWN56AQ1eyHUjQkoWd6XpLZGzkSIP8gRfOjUeYYdecMhABrXpybk?=
+ =?us-ascii?Q?7HPCXResuqs/Pb8a+8XUbAyVGkayLnNwYhs2RTytJZoTeYbjlmK1REll8mFn?=
+ =?us-ascii?Q?K7eVU62PXvNfNfLWD1lwFb/VyEV8QhgamdVZ6jb7aHcfvHmyexDiOtdj9rJE?=
+ =?us-ascii?Q?SWCDuTZAAxNVNhF5ILUPgvKH6WIn9Sm6otyTnAdGJh3EoLAExIl726tCPuqC?=
+ =?us-ascii?Q?iTqK19Yw4s8W37jYUtc7pgUUHs+UE5tQSHGKlpD+24tLMLmu/uyQxMw8jKo7?=
+ =?us-ascii?Q?7Utt2em/CP4d+jgbH+Wx5Wk5P/k9xsri0DUpqfAb0Edue8ay7W+bMu47qnr/?=
+ =?us-ascii?Q?fJVrH/LqN4rMxe+ek88shbtt4KAj9L98BQYk7BEKUvn8H9HKGCU4/9TNedOX?=
+ =?us-ascii?Q?+OxeT0DcJKElCcRnP2CTZ2/cqQW5YXU0JVysGTqRsn2gsQjrNCAcjcfUWqat?=
+ =?us-ascii?Q?9Gs3mc/o8x/itjeuW1Lb1oUBj8qLsaULYanTojXS6QVuY584ZeInLQUL2n57?=
+ =?us-ascii?Q?J038IovdlTUXtvn44LrJFlMAq/Hywi0qfcLOqw/tJsZlFtKABe/5TR0wn3E+?=
+ =?us-ascii?Q?R/G2Qa7XR4kayQ705kqBxxATzWqbJd+XVb8rvjyBbgv6Wrp63570JmyGK8E0?=
+ =?us-ascii?Q?4a5Au++0w+D42eVh60n8w70alsFguw7KZ7F/Y2wCLCPz89kMA+kob7IU0Wzd?=
+ =?us-ascii?Q?X0OKqPx0o+fqhCnib7iFY7LBED1+41a7y1q+VpU5DbQqXkVsKMFlI2kI/48F?=
+ =?us-ascii?Q?nOJHyvPTfh+MRiFIsCah9dnCnPsrmIY8KUUYYZ1PjD+L3qmHALEhqRsQ+CEd?=
+ =?us-ascii?Q?Ev+rm+xDsqnh9wbRUmbSC6y+HUtchE3soCZx/COCmuDJTuTfY36sRddespth?=
+ =?us-ascii?Q?ALXRL2sKtTwsB11A6qNE1p4Uz9QNWJowf/ffB5esO8/rSeCTvc1eKzfHT3Qb?=
+ =?us-ascii?Q?NcaELn8ahoNj7v1Uxd9n3nPME6nyZtYXGP3FaEnjW9AK9Ss0n/FCuh7CdM90?=
+ =?us-ascii?Q?OtPOMXOE+GyzN7D+26Au3/ym1OXMqLaU0w1XufpsuaFdkBb6Kv0ukOoMEfOP?=
+ =?us-ascii?Q?KKabbcK8Z6DTxKs6NVSjhMlgKbMzR/G1wWTux+Z9gTfJHwy1VYoMXDsFoXPN?=
+ =?us-ascii?Q?ysPAxoqnto9s+JmF2+j+msxZpA75sfkJBklrrJkwZpsHv+mqZNyE9g4oa57i?=
+ =?us-ascii?Q?Dn/p6t4xmT1MuZr9REW4Bl0ug763/kpmfl3PZjbdixgQIJHIcz7pbs23wnAt?=
+ =?us-ascii?Q?NRLQL63DOSLIHKJ1isHM8wLMQF1YqXB5Tm7IQGt6Dvkc7kQcpx3QXZVF9R2O?=
+ =?us-ascii?Q?0mLAm2sf1GKsQu3ibV3bs0QKLoyio4v4UByLT5dYUu07dpbYHO24paCuUg4v?=
+ =?us-ascii?Q?7IYMfU0U/tNACwQFhqs5T1WY6NVN1L4d+cGlG2I1xDoCEtsWEEZ+zGrUaOoQ?=
+ =?us-ascii?Q?RS4YHwn8Wi5n3GmQ+ZeFyLlwJpEMVqGKYregtLKKKaIlxQidP7f4IO/XcatB?=
+ =?us-ascii?Q?gTwsOnfCsQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220621085345.603820-1-davidgow@google.com> <20220621085345.603820-6-davidgow@google.com>
-In-Reply-To: <20220621085345.603820-6-davidgow@google.com>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Tue, 21 Jun 2022 15:19:10 -0700
-Message-ID: <CAGS_qxp6ZK9K0Sy1JcuU-SGqChOyr6-+5HDxgesOpxjxvDkiXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] mmc: sdhci-of-aspeed: test: Use kunit_test_suite() macro
-To: David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 22 Jun 2022 11:24:23 +1000
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b670ff3-7c7e-4ab0-fe75-08da540f99ba
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2022 05:25:20.6133
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iPnjxnpycQtg52U5S+Qg+MlXM77rrZSSM1FYmTPewtWKdZLFv56rWP88nQgS8qtnA9XKupqMxe9syuZHegrLng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB2968
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,59 +127,84 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Matt Johnston <matt@codeconstruct.com.au>, Andra Paraschiv <andraprs@amazon.com>, linux-aspeed@lists.ozlabs.org, =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>, linux-mmc@vger.kernel.org, linux-usb@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>, Luis Chamberlain <mcgrof@kernel.org>, linux-kselftest@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Jeremy Kerr <jk@codeconstruct.com.au>, Longpeng <longpeng2@huawei.com>, kunit-dev@googlegroups.com, Mika Westerberg <mika.westerberg@linux.intel.com>, openbmc@lists.ozlabs.org, linux-modules@vger.kernel.org, Paraschiv@google.com
+Cc: Felipe Balbi <balbi@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
- On Tue, Jun 21, 2022 at 1:54 AM David Gow <davidgow@google.com> wrote:
->
-> The kunit_test_suite() macro is no-longer incompatible with module_add,
-> so its use can be reinstated.
->
-> Since this fixes parsing with builtins and kunit_tool, also enable the
-> test by default when KUNIT_ALL_TESTS is enabled.
->
-> The test can now be run via kunit_tool with:
->         ./tools/testing/kunit/kunit.py run --arch=x86_64 \
->         --kconfig_add CONFIG_OF=y --kconfig_add CONFIG_OF_ADDRESS=y \
->         --kconfig_add CONFIG_MMC=y --kconfig_add CONFIG_MMC_SDHCI=y \
->         --kconfig_add CONFIG_MMC_SDHCI_PLTFM=y \
->         --kconfig_add CONFIG_MMC_SDHCI_OF_ASPEED=y \
->         'sdhci-of-aspeed'
->
-> (It may be worth adding a .kunitconfig at some point, as there are
-> enough dependencies to make that command scarily long.)
->
-> Signed-off-by: David Gow <davidgow@google.com>
+> The "chunk >=3D 0" condition does not work because count is a u32.
+> Also, really we shouldn't enter the loop when "chunk" is zero.
+>=20
+> Once that condition is fixed then there is no need for the "last"
+> variable.  I reversed the "if (chunk <=3D ep->chunk_max)" as well.
+> The new loop is much simpler.
+>=20
+> Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+>  drivers/usb/gadget/udc/aspeed_udc.c | 24 +++++++++++-------------
+>  1 file changed, 11 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c
+> b/drivers/usb/gadget/udc/aspeed_udc.c
+> index 1fc15228ff15..77376ae04224 100644
+> --- a/drivers/usb/gadget/udc/aspeed_udc.c
+> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
+> @@ -476,8 +476,8 @@ static int ast_dma_descriptor_setup(struct ast_udc_ep
+> *ep, u32 dma_buf,  {
+>  	struct ast_udc_dev *udc =3D ep->udc;
+>  	struct device *dev =3D &udc->pdev->dev;
+> -	u32 offset, chunk;
+> -	int count, last;
+> +	int chunk, count;
+> +	u32 offset;
+>=20
+>  	if (!ep->descs) {
+>  		dev_warn(dev, "%s: Empty DMA descs list failure\n", @@ -486,30
+> +486,28 @@ static int ast_dma_descriptor_setup(struct ast_udc_ep *ep, u32
+> dma_buf,
+>  	}
+>=20
+>  	chunk =3D tx_len;
+> -	offset =3D count =3D last =3D 0;
+> +	offset =3D count =3D 0;
+>=20
+>  	EP_DBG(ep, "req @%p, %s:%d, %s:0x%x, %s:0x%x\n", req,
+>  	       "wptr", ep->descs_wptr, "dma_buf", dma_buf,
+>  	       "tx_len", tx_len);
+>=20
+>  	/* Create Descriptor Lists */
+> -	while (chunk >=3D 0 && !last && count < AST_UDC_DESCS_COUNT) {
+> +	while (chunk > 0 && count < AST_UDC_DESCS_COUNT) {
+>=20
 
-Acked-by: Daniel Latypov <dlatypov@google.com>
+Simpler loop looks good to me. But short packet need to be considered also.=
+ (chunk =3D=3D 0)
 
-Minor, optional suggestion below.
+>  		ep->descs[ep->descs_wptr].des_0 =3D dma_buf + offset;
+>=20
+> -		if (chunk <=3D ep->chunk_max) {
+> -			ep->descs[ep->descs_wptr].des_1 =3D chunk;
+> -			last =3D 1;
+> -		} else {
+> +		if (chunk > ep->chunk_max)
+>  			ep->descs[ep->descs_wptr].des_1 =3D ep->chunk_max;
+> -			chunk -=3D ep->chunk_max;
+> -		}
+> +		else
+> +			ep->descs[ep->descs_wptr].des_1 =3D chunk;
+> +
+> +		chunk -=3D ep->chunk_max;
+>=20
+> -		EP_DBG(ep, "descs[%d]: 0x%x 0x%x, last:%d\n",
+> +		EP_DBG(ep, "descs[%d]: 0x%x 0x%x\n",
+>  		       ep->descs_wptr,
+>  		       ep->descs[ep->descs_wptr].des_0,
+> -		       ep->descs[ep->descs_wptr].des_1,
+> -		       last);
+> +		       ep->descs[ep->descs_wptr].des_1);
+>=20
+>  		if (count =3D=3D 0)
+>  			req->saved_dma_wptr =3D ep->descs_wptr;
+> --
+> 2.35.1
 
->  static int __init aspeed_sdc_init(void)
-> @@ -639,12 +620,6 @@ static int __init aspeed_sdc_init(void)
->         if (rc < 0)
->                 goto cleanup_sdhci;
->
-> -       rc = aspeed_sdc_tests_init();
-> -       if (rc < 0) {
-> -               platform_driver_unregister(&aspeed_sdc_driver);
-> -               goto cleanup_sdhci;
-> -       }
-> -
->         return 0;
->
->  cleanup_sdhci:
-
-This goto was added in 4af307f57426 ("mmc: sdhci-of-aspeed: Fix
-kunit-related build error") to allow for this extra call to
-aspeed_sdc_tests_init().
-
-This could now be reverted back to what is
-        rc = platform_driver_register(&aspeed_sdc_driver);
-        if (rc < 0)
-               platform_driver_unregister(&aspeed_sdhci_driver);
-
-        return rc;
-
-but let's see what the maintainers think.
