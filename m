@@ -1,78 +1,145 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B8E554DDC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 16:51:11 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C52C3554DE8
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jun 2022 16:51:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LSmXr2glYz3brj
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 00:51:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LSmYQ4Fzjz3brm
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 00:51:38 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=K7eZU5oc;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=YQONIzJO;
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=Fyd0AqEI;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::536; helo=mail-pg1-x536.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=oracle.com (client-ip=205.220.165.32; helo=mx0a-00069f02.pphosted.com; envelope-from=dan.carpenter@oracle.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=K7eZU5oc;
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=YQONIzJO;
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=Fyd0AqEI;
 	dkim-atps=neutral
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LSmXh37CDz2yn5
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 00:50:59 +1000 (AEST)
-Received: by mail-pg1-x536.google.com with SMTP id e63so14807331pgc.5
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jun 2022 07:50:59 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LSmYK1FY4z2yn5
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 00:51:31 +1000 (AEST)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25MCY758017780;
+	Wed, 22 Jun 2022 14:51:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=W300qo1yKQyXxi89CQsYAcBpDMKDYwRXjkV2y+RBW8k=;
+ b=YQONIzJOJs+WP09qdM0bzYaSyVtFL6XKZzEG45VyaP1pKqnpLOyBjsZyPf0CXNgtalIs
+ C7Ipfq6qVASWPakOTq69HuP7prW5l9zOl0mMbpIu8++MMcRtxekos4NttggFVNlCVb7I
+ AywMYilu3Q7o8Z3Zq3eGVQ9bsa7n3xvtxfcNneV+X65MoI7JW3lcL6We9iJng8A66+47
+ GTSoDZNJIiPV09v+lGOtPWVfHyc2ytIIbrGAbX4AwVsSj5xYBVZ7POYl4MbbIejgW0+j
+ VuKJo03PD2I5AbUs04/OQV0GGTb61zvX85NpQQmWWYkSaNvufr8RAT+vOz1wsW1SXei9 Cw== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs5a0gqub-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 Jun 2022 14:51:15 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25MEUFqG011093;
+	Wed, 22 Jun 2022 14:51:13 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtkfvq45c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 Jun 2022 14:51:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JqCVhb93pfKyGGkGTiQnJ7Lo7YB74iQHoQLgMZSxmsyJNiG5EhXkk9Y2VjXuqJ1FxI5MHn/eJM9W9WZow0K0woHRl1WHxAm8qGV0KwTM69i4uP6mCJZOF8izOCAkdUxLcie6gbO7AmbH8z70Glcmwm1en48O8xJ3L3lGb9XyZ70ditAjqFXMibyCthJ9WzGdlProDaMysjZcsckMyDV1zPEHnRura5N/PR6G8q07Aswg1gU5hADJeg8NGLudBHvptsu3SRAeT4rYdfDQqTnnoQK+/oFAgwdsMrh2EJRqHBUNIXRBdIrd0/0t8eTZB/aZDC63ULvzwmecRCNFVQNG4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W300qo1yKQyXxi89CQsYAcBpDMKDYwRXjkV2y+RBW8k=;
+ b=dCReuPF9hzfKE4vMUpO/P/GXRx+GYusiphKSiB6SxTQ4pNXEUZwjqycMPit4FryNGTndkLnGlJ8hGOcodH3iEdChUHYPDLTsmE43v9M9p7q+9hfQqsF/yhcTHzq5YkMu6uBkYHfA4O2HIQMTeFIv52Bl1jVItF7Q5534jEItGEI36tWyFDj+Pfp5yH6sbsZhBDyUvrN52yfc55ylnuM1wWRKgzZFcwURamIiI3iGfj7+I/7lKNVBxXn0bgDRzj/yLczMYeqCaVsqF2AbRplYVxr8WfqJif2M+cetroGE4rzvYoxQE2nkui/8WB5j5rbNBbfy3sOwSqvD2r6jrQgMBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=HwGgXv57vIH+vNvmwOGexPPvL9K+C+WCJj+G6bet3ZE=;
-        b=K7eZU5ocjviFrvddUIWA8/SYtQoAHHvL/J4hg4OHdkvpE5b9PKZgdLvNBHGKscYUeX
-         lqmRg+lHOqLL70Py4esnQtMmo/IMRD10svIwiywrM1/7tTshKZFQoX+27l/SUzpIbKJq
-         q3ix5miUFGAM/J1OUQc8cIYTsgukNlWhXpIOqrMoCamxkhwo/QBnPKDA6im+da6hjBdv
-         fTf+K/vIi9XKv2v1jOQu/2bnInOws3OGGRB9sgfpLjt4JgT6pE6sIb0b6WcyzfauxEJm
-         sLf70ZNGxi2hDCziaATozP7nfkB1CAvFeY+imykxdGg+yl7L9mjdjz2V6oj8HUTji9tg
-         6W3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=HwGgXv57vIH+vNvmwOGexPPvL9K+C+WCJj+G6bet3ZE=;
-        b=ZQOl+4Ibc2QDno5fpS1umoCzDfi1Qa+RwQ0Q9k2F7gSBMiRJMuP+6lbq1HT3O3Bx6A
-         4NM182V9CJ/tb/8oKfxJDgl3v3ZLAZzM3xV8F8jZge+hSYwAkMgkC12uxBDn9xhfD4pp
-         X8mEXBAgr3mE6eSghyRK1DfB29Ksd3pdKaCZOoS8U7iV0jZlRnC1/Od5/L5nf3kYkWaM
-         cp2Py43dLXV1KiE8vRrUs1E0bv7lSS6l6+A28oiXVbzgrKd62WBZHLCTOVJVHWcU4g65
-         J4W9dxq2qclS7w6l2FJNPjUq7lLgjWuP8akNqsGkNrJ7eJbbsaZY/8dLHuQ5Gf+Y5TE7
-         YSVw==
-X-Gm-Message-State: AJIora9FKRNClnDjSZeQCuKGrdat+XRTz7JRrRr+M1dGJ2wRZ9/IBySc
-	p+ruazGeYhIfBQuoQ99PXdY=
-X-Google-Smtp-Source: AGRyM1vETBSZjozRlOirypbBkscRSt7sV+KO4H1vgtPEU6hGtgwIhm92CaQOU49KL79G7Xf6SbWG7w==
-X-Received: by 2002:a63:b34d:0:b0:40c:76b2:b725 with SMTP id x13-20020a63b34d000000b0040c76b2b725mr3271773pgt.440.1655909455367;
-        Wed, 22 Jun 2022 07:50:55 -0700 (PDT)
-Received: from [192.168.1.24] (1-162-200-193.dynamic-ip.hinet.net. [1.162.200.193])
-        by smtp.gmail.com with ESMTPSA id h2-20020a170902f70200b0015e8d4eb231sm12863122plo.123.2022.06.22.07.50.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jun 2022 07:50:54 -0700 (PDT)
-Message-ID: <47e7eb15-e38d-ead3-de84-b7454e2c6eb8@gmail.com>
-Date: Wed, 22 Jun 2022 22:50:51 +0800
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W300qo1yKQyXxi89CQsYAcBpDMKDYwRXjkV2y+RBW8k=;
+ b=Fyd0AqEII3jPdAOVI8UbvBogkB6RktvTkFVQ1wv1Rki3xN4Ta8Q9n4RVbvnbLNu1vnQLwbi69YsxkCOMQ+LhYTpNPR3Ic09yEqIlklIddHPTywjyNgmSD0jy3htxD9VzlIrQaCmM7l1diLiIJEUgrqFWPq8rX9HalV9dqDRM6Yc=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BLAPR10MB5140.namprd10.prod.outlook.com
+ (2603:10b6:208:320::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Wed, 22 Jun
+ 2022 14:51:12 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5373.015; Wed, 22 Jun 2022
+ 14:51:11 +0000
+Date: Wed, 22 Jun 2022 17:50:59 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Neal Liu <neal_liu@aspeedtech.com>
+Subject: [PATCH] usb: gadget: aspeed_udc: fix handling of tx_len == 0
+Message-ID: <YrMsU9HvdBm5YrRH@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-ClientProxiedBy: ZR0P278CA0095.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:23::10) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v4 1/2] aspeed: i2c: add clock duty cycle property
-Content-Language: en-US
-To: Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Rob Herring <robh+dt@kernel.org>, Rayn Chen <rayn_chen@aspeedtech.com>
-References: <20220610054722.32229-1-potin.lai.pt@gmail.com>
- <20220610054722.32229-2-potin.lai.pt@gmail.com>
-From: Potin Lai <potin.lai.pt@gmail.com>
-In-Reply-To: <20220610054722.32229-2-potin.lai.pt@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 80a4735c-ce19-4be7-5ab7-08da545ea59e
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5140:EE_
+X-Microsoft-Antispam-PRVS: 	<BLAPR10MB5140B6F5557D26EF625454208EB29@BLAPR10MB5140.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	YbhWATs2SaWFO6bs8qMZSisRyLmF1VF5rW+MVzTBmP+TE/szP516YFJrKDh4hXHxhF1f0HQlAKg78h4eAE6BIOfnhT9qh/KGYaBkWAgJnsi2vI/Tf1fV8LZEEoL9ivQT9c95UUMOm4eC8msVYGzXnmQ8hT67ALQGsxVjUip0EmhcipsWdV5ygALkIwpE3qbNFiQyF36TKWWH/WzrNfVWLIQCgg+6l4qVIepE7iOERTtnj3mL4XWy62y3dLGxJhcQHGjDNYwb+TWZlpMOVaTJ6UBo51cklw2SPcq1J3tVrbwhMuTdEWJItIeFww07qW5uGcKwhWRs/eEwNnNlwg5it1XUSjywofvdHb4u5UjfgCDjOJZn9NTRSRjaYCPqO2n8FOa42FjxfNUXaxh82KNzsaw9dDdTkOne9W4fcM7zKkI5ddAcDRld51s+md7czdZhbNlrWkmdBPI06IQbqC+WAZyuoJJU12jwB3r4X1JrEf3uQxL5A8WHR4S4+F4Y84L+qsjPah1n0uQn4MkooE3aZ9s0H41QvTNc4sp2aEY0w6nmnlHts5o2YnX1xcXxv2vzArZWGu7Qbv9q3/1ExsFunF/FsDyvt6WVOWDXOaho1zenr6X9XDXt4suaVWVrLFJ/ZtPSKzPzbEsWzrCOmj+pdWBhVVysalAWprwHXmGpA80a/j9fLmP1pXpwUAwwO69Eh+YbDXJQP1ubDr1pq6xbyjPAb7dUBLTHic8sYXTt8qhr8H3JmJXXU2NjCqob35kop/pIZtXwmdZSXIwiEVsiQw==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(346002)(396003)(39860400002)(136003)(376002)(366004)(186003)(38350700002)(66946007)(33716001)(86362001)(38100700002)(66476007)(4326008)(66556008)(8676002)(316002)(6916009)(54906003)(52116002)(6486002)(9686003)(8936002)(5660300002)(41300700001)(6666004)(478600001)(44832011)(6506007)(26005)(6512007)(83380400001)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?UxgUPYol8+bNqRpAdmK6QAlvdfecLJ2UJZnnzqKe2I0nuk/ckusIjpt6a24n?=
+ =?us-ascii?Q?jnKnIUbtJud4IZqUTuIwiBs+cXnZ8x9zMlriZLkMdhMQQwwU3cpGrStdrzWx?=
+ =?us-ascii?Q?JovzYTVQKgAugvhSREfV/yZAjMPsLi8myGMbIBkLkHbEZcA4GBluWnstD4It?=
+ =?us-ascii?Q?mJ5CVvS1+5aA1i4CljJiZZwRcggshn0TmoYW1YQQfnnGgK0DkHF9aiptnSs0?=
+ =?us-ascii?Q?aShO9ql4B5mZFKkS06eLtBx+KzOLRv6pOkDAhZZXQQXmNNvE0XsAxVhGJzgl?=
+ =?us-ascii?Q?WxyZWcLeFL3WAYCKKuPpS4HUHKV0S8iJg6tg5AVCE489/sAByDzCIjiOENJ2?=
+ =?us-ascii?Q?We8rAvmtrFsO2Jw4ZKd007NIjEg5l4URglIEcDDZTCCc7aAlEw8Og6/h6+gF?=
+ =?us-ascii?Q?+yPl+o1vyM4BaxNVA9PCPmbVmtXhcXdfBtb2dZP4+4Jll1Th/K8LVBPjW+X7?=
+ =?us-ascii?Q?Ugry/WjxZ4vBOhbn2KJRzd+h+bZArDSVmnx10civ+U1XnFqmyGZpuuZPXhV+?=
+ =?us-ascii?Q?NEoK2cPSeTiyIhpFFqFv9z5ulzYAw05OqWG4FAwdG1O3hIPyyFyRCx+BEXjy?=
+ =?us-ascii?Q?ytJWr3tWuMmYTdnAttMQ6+XCTSfuDW38gYg7SuSDrPNwekS87UP4ANTAB2Kp?=
+ =?us-ascii?Q?RbnH8r5fqY4d1n2WKYLvTMQIPgmR4syjPRyzdOmitmVmdl8yR97p4MHFpwn8?=
+ =?us-ascii?Q?71I5s6jh8Ra95L6sNd7w4G2khdUVlq8DaOGLb8Rlv0qYZJdtR+ATkW7pj9xY?=
+ =?us-ascii?Q?clp69aFF6PFhxON623XqSIGJ569SlLOA2dGdY24J61Sr6/crytIlaiqAFeYs?=
+ =?us-ascii?Q?jlIuxOZU0eiWn1gkuTBdkbBJy5J5Mo3lRx1w/GOnSaWJJVFwWun3KHxbQuED?=
+ =?us-ascii?Q?g43Q4ymR/N9gAQiPwsF799oYjSwOAgf/oKPfEAbEdXBp/er5vqCiX30bQRar?=
+ =?us-ascii?Q?9zEDylVboIClRRZh9gjglQ9MBhiD3WjO3NXL66a5C7W0b+BFl87SP3eO1r4t?=
+ =?us-ascii?Q?AQFvD5lMm0cO0C/GHsTNHOnG62pPHfQmsyNgZfktEp4B6Fh6gM4/3vTVRNlr?=
+ =?us-ascii?Q?FM7AdVoUG23AC2aTD6s7oFT0Hm6+yCRykIBupgjB33AB4++29rkKpQ+c6SLy?=
+ =?us-ascii?Q?CWwoLpQ4hE1qShsszRL1mb+d85L7iVzHEu/IimXvCF+27dEvcHInnIZQ4DYt?=
+ =?us-ascii?Q?mPiSMEbaXk7IZx7pKnwovL/3ApwCTv/X/WwOu2joRQbW8LIxEraJ5l/FXtNI?=
+ =?us-ascii?Q?sM/2bkGp7Ut7OXok80Y67zVm1dBlOPSg/MQ9Ekf6+MyUZ95dAzMJRyt9+AbA?=
+ =?us-ascii?Q?kN4WRx8QwjGoYPDG0ltX0zJ7qta/HOJFlYcwg9W5upxn6x8lQQRw6vO6BuVr?=
+ =?us-ascii?Q?fhlg0vVG4Duejzau1OaqsmvDRUnngaiBZg7s6MtPKg0bpQgAvwesdajh2C5z?=
+ =?us-ascii?Q?KoWSXk6CfZZwznR7ZHaEshc1SI+Lq9apcD/8lKa0FufuDSG4mhQ44cikPPz3?=
+ =?us-ascii?Q?sYQis15KjYqOXX3KMhJNJvTvLJrEj7K2X+jSMQ4YWaB2L96rZf3Td9Rq/S2R?=
+ =?us-ascii?Q?TCeZHMl6bjBXmjkpb7NcgUrdO2f9UYc7H1J5AqYl7g/3OsktTetFaXDrwctB?=
+ =?us-ascii?Q?T+7ROqsB5CRV3YVLIbLIyUpTe0uYzVx2g9bWh8RZ724MYTHtBMMcIm7jma2k?=
+ =?us-ascii?Q?pnhETpVm3AYRNEq/PiC9QT8G2P9OfIfex7AZQIpGr+NZmyab0hWmHuJPaU39?=
+ =?us-ascii?Q?IwMRcnY+loQSh3JAkKUd4S9T3VFI7HA=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80a4735c-ce19-4be7-5ab7-08da545ea59e
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2022 14:51:11.0655
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zY4F/vQA46GI2crAo0OflWEFm9GMYlqtesdtPQZO5I7kBE8fSF7bkYD5zxRfH8+Tqot7EXP6YGv5SkEJXlsySqwciH/KJj7FQ3vQKPsrw8A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5140
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
+ definitions=2022-06-22_04:2022-06-22,2022-06-22 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
+ mlxlogscore=939 suspectscore=0 adultscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206220074
+X-Proofpoint-ORIG-GUID: gAck4vBtr4e3o1eYAHiOO4TPyM9WblTv
+X-Proofpoint-GUID: gAck4vBtr4e3o1eYAHiOO4TPyM9WblTv
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,162 +151,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>, linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Potin Lai 於 6/10/2022 1:47 PM 寫道:
-> Introduce i2c-clk-high-min-percent property for setting a minimum clock
-> high percentage.
->
-> This driver calculate clk_high and clk_low with giving duty cycle. If it
-> could not find a suit clk_high and clk_low, it apply default duty cycle
-> 50%.
->
-> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
-> ---
->  drivers/i2c/busses/i2c-aspeed.c | 56 ++++++++++++++++++++++++++-------
->  1 file changed, 45 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-> index 67e8b97c0c95..9715dc4f933f 100644
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -19,6 +19,7 @@
->  #include <linux/irqchip/chained_irq.h>
->  #include <linux/irqdomain.h>
->  #include <linux/kernel.h>
-> +#include <linux/math.h>
->  #include <linux/module.h>
->  #include <linux/of_address.h>
->  #include <linux/of_irq.h>
-> @@ -27,6 +28,8 @@
->  #include <linux/reset.h>
->  #include <linux/slab.h>
->  
-> +#define DEFAULT_I2C_CLK_DUTY_CYCLE			50
-> +
->  /* I2C Register */
->  #define ASPEED_I2C_FUN_CTRL_REG				0x00
->  #define ASPEED_I2C_AC_TIMING_REG1			0x04
-> @@ -149,9 +152,11 @@ struct aspeed_i2c_bus {
->  	spinlock_t			lock;
->  	struct completion		cmd_complete;
->  	u32				(*get_clk_reg_val)(struct device *dev,
-> -							   u32 divisor);
-> +							   u32 divisor,
-> +							   u32 duty_cycle);
->  	unsigned long			parent_clk_frequency;
->  	u32				bus_frequency;
-> +	u32				duty_cycle;
->  	/* Transaction state. */
->  	enum aspeed_i2c_master_state	master_state;
->  	struct i2c_msg			*msgs;
-> @@ -798,9 +803,11 @@ static const struct i2c_algorithm aspeed_i2c_algo = {
->  
->  static u32 aspeed_i2c_get_clk_reg_val(struct device *dev,
->  				      u32 clk_high_low_mask,
-> -				      u32 divisor)
-> +				      u32 divisor,
-> +				      u32 duty_cycle)
->  {
->  	u32 base_clk_divisor, clk_high_low_max, clk_high, clk_low, tmp;
-> +	u32 tmp_base_clk_divisor;
->  
->  	/*
->  	 * SCL_high and SCL_low represent a value 1 greater than what is stored
-> @@ -842,10 +849,32 @@ static u32 aspeed_i2c_get_clk_reg_val(struct device *dev,
->  			"clamping clock divider: divider requested, %u, is greater than largest possible divider, %u.\n",
->  			divisor, (1 << base_clk_divisor) * clk_high_low_max);
->  	} else {
-> -		tmp = (divisor + (1 << base_clk_divisor) - 1)
-> +		for (tmp_base_clk_divisor = base_clk_divisor;
-> +		    tmp_base_clk_divisor <= ASPEED_I2CD_TIME_BASE_DIVISOR_MASK;
-> +		    tmp_base_clk_divisor++) {
-> +			/* calculate clk_high and clk_low with duty cycle */
-> +			tmp = (divisor + (1 << tmp_base_clk_divisor) - 1)
-> +				>> tmp_base_clk_divisor;
-> +
-> +			clk_high = DIV_ROUND_UP(tmp * duty_cycle, 100);
-> +			clk_low = tmp - clk_high;
-> +
-> +			if (max(clk_high, clk_low) <= (clk_high_low_mask + 1))
-> +				break;
-> +		}
-> +
-> +		if (tmp_base_clk_divisor <= ASPEED_I2CD_TIME_BASE_DIVISOR_MASK)
-> +			base_clk_divisor = tmp_base_clk_divisor;
-> +		else {
-> +			dev_err(dev,
-> +				"could not find clk_high and clk_low with duty cycle %u%%\n, recalculate with base_clk_divisor %u and duty_cycle 50%%",
-> +				duty_cycle, base_clk_divisor);
-> +			duty_cycle = 50;
-> +			tmp = (divisor + (1 << base_clk_divisor) - 1)
->  				>> base_clk_divisor;
-> -		clk_low = tmp / 2;
-> -		clk_high = tmp - clk_low;
-> +			clk_high = DIV_ROUND_UP(tmp * duty_cycle, 100);
-> +			clk_low = tmp - clk_high;
-> +		}
->  
->  		if (clk_high)
->  			clk_high--;
-> @@ -863,22 +892,22 @@ static u32 aspeed_i2c_get_clk_reg_val(struct device *dev,
->  			   & ASPEED_I2CD_TIME_BASE_DIVISOR_MASK);
->  }
->  
-> -static u32 aspeed_i2c_24xx_get_clk_reg_val(struct device *dev, u32 divisor)
-> +static u32 aspeed_i2c_24xx_get_clk_reg_val(struct device *dev, u32 divisor, u32 duty_cycle)
->  {
->  	/*
->  	 * clk_high and clk_low are each 3 bits wide, so each can hold a max
->  	 * value of 8 giving a clk_high_low_max of 16.
->  	 */
-> -	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(2, 0), divisor);
-> +	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(2, 0), divisor, duty_cycle);
->  }
->  
-> -static u32 aspeed_i2c_25xx_get_clk_reg_val(struct device *dev, u32 divisor)
-> +static u32 aspeed_i2c_25xx_get_clk_reg_val(struct device *dev, u32 divisor, u32 duty_cycle)
->  {
->  	/*
->  	 * clk_high and clk_low are each 4 bits wide, so each can hold a max
->  	 * value of 16 giving a clk_high_low_max of 32.
->  	 */
-> -	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(3, 0), divisor);
-> +	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(3, 0), divisor, duty_cycle);
->  }
->  
->  /* precondition: bus.lock has been acquired. */
-> @@ -891,7 +920,7 @@ static int aspeed_i2c_init_clk(struct aspeed_i2c_bus *bus)
->  	clk_reg_val &= (ASPEED_I2CD_TIME_TBUF_MASK |
->  			ASPEED_I2CD_TIME_THDSTA_MASK |
->  			ASPEED_I2CD_TIME_TACST_MASK);
-> -	clk_reg_val |= bus->get_clk_reg_val(bus->dev, divisor);
-> +	clk_reg_val |= bus->get_clk_reg_val(bus->dev, divisor, bus->duty_cycle);
->  	writel(clk_reg_val, bus->base + ASPEED_I2C_AC_TIMING_REG1);
->  	writel(ASPEED_NO_TIMEOUT_CTRL, bus->base + ASPEED_I2C_AC_TIMING_REG2);
->  
-> @@ -1009,11 +1038,16 @@ static int aspeed_i2c_probe_bus(struct platform_device *pdev)
->  		bus->bus_frequency = I2C_MAX_STANDARD_MODE_FREQ;
->  	}
->  
-> +	ret = of_property_read_u32(pdev->dev.of_node,
-> +				   "i2c-clk-high-min-percent", &bus->duty_cycle);
-> +	if (ret < 0 || !bus->duty_cycle || bus->duty_cycle > 100)
-> +		bus->duty_cycle = DEFAULT_I2C_CLK_DUTY_CYCLE;
-> +
->  	match = of_match_node(aspeed_i2c_bus_of_table, pdev->dev.of_node);
->  	if (!match)
->  		bus->get_clk_reg_val = aspeed_i2c_24xx_get_clk_reg_val;
->  	else
-> -		bus->get_clk_reg_val = (u32 (*)(struct device *, u32))
-> +		bus->get_clk_reg_val = (u32 (*)(struct device *, u32, u32))
->  				match->data;
->  
->  	/* Initialize the I2C adapter */
-Hi Maintainers,
-Could someone please help me review this patch and give me some advice?
-Thanks!
+The bug is that we should still enter this loop if "tx_len" is zero.
 
-Potin
+After adding the "last" variable, then the "chunk >= 0" condition is no
+longer required but I left it for readability.
+
+Reported-by: Neal Liu <neal_liu@aspeedtech.com>
+Fixes: c09b1f372e74 ("usb: gadget: aspeed_udc: cleanup loop in ast_dma_descriptor_setup()")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/usb/gadget/udc/aspeed_udc.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+index d75a4e070bf7..01968e2167f9 100644
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -476,6 +476,7 @@ static int ast_dma_descriptor_setup(struct ast_udc_ep *ep, u32 dma_buf,
+ {
+ 	struct ast_udc_dev *udc = ep->udc;
+ 	struct device *dev = &udc->pdev->dev;
++	bool last = false;
+ 	int chunk, count;
+ 	u32 offset;
+ 
+@@ -493,14 +494,16 @@ static int ast_dma_descriptor_setup(struct ast_udc_ep *ep, u32 dma_buf,
+ 	       "tx_len", tx_len);
+ 
+ 	/* Create Descriptor Lists */
+-	while (chunk > 0 && count < AST_UDC_DESCS_COUNT) {
++	while (chunk >= 0 && !last && count < AST_UDC_DESCS_COUNT) {
+ 
+ 		ep->descs[ep->descs_wptr].des_0 = dma_buf + offset;
+ 
+-		if (chunk > ep->chunk_max)
++		if (chunk > ep->chunk_max) {
+ 			ep->descs[ep->descs_wptr].des_1 = ep->chunk_max;
+-		else
++		} else {
+ 			ep->descs[ep->descs_wptr].des_1 = chunk;
++			last = true;
++		}
+ 
+ 		chunk -= ep->chunk_max;
+ 
+-- 
+2.35.1
+
