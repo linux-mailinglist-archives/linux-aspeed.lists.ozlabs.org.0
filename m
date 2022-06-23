@@ -1,65 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC73557286
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 07:15:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF42557296
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 07:34:50 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LT7kF54BNz3btl
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 15:15:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LT88S3DmFz3bth
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 15:34:48 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=PPC5vEfO;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=nMxRlStS;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::32d; helo=mail-wm1-x32d.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::32a; helo=mail-wm1-x32a.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=PPC5vEfO;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=nMxRlStS;
 	dkim-atps=neutral
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LT7k90X9Sz3bnM;
-	Thu, 23 Jun 2022 15:15:28 +1000 (AEST)
-Received: by mail-wm1-x32d.google.com with SMTP id h125-20020a1c2183000000b003a02cc49774so96090wmh.1;
-        Wed, 22 Jun 2022 22:15:27 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LT88M4vJwz3bln
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 15:34:42 +1000 (AEST)
+Received: by mail-wm1-x32a.google.com with SMTP id z9so10351134wmf.3
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jun 2022 22:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=jms.id.au; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=oPeA0hoICoghXxDRi6yeZio4UQ/8IEJ0AJS1aepLCoY=;
-        b=PPC5vEfOOiUED1jMF7smhAcCdLoazsLATSan19A9GSR0SJ+lwhPotJnKxyDlgbgSP1
-         sohoypREZdPDd8p1hqHZxKnBKBEz+CGwt5yha1CLMxLhgRVPf404tOIHhO/b++WVZVEa
-         LnWH7my/aosu7ZcJWBM6/zJXTkRQ40bp/Qq9E=
+         :cc;
+        bh=B8cxDTttGuvM5WfX5frYexXa0T6hUzSm4PgtcOxFD6s=;
+        b=nMxRlStSEh8OiHmbIP+I1FAfjgkYRbF158GwowQoYBAgp1Ry5ceVQzXvYyhPfQsW8w
+         BmPMo13r28aDqxZZT+jWMnoG5WGNuauGXl/TvnXVkCr381COm6zJO2b4PijkUFBJrDow
+         WN66EZCBeYlgzROXe2+KQjtXqKnUO892AETRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=oPeA0hoICoghXxDRi6yeZio4UQ/8IEJ0AJS1aepLCoY=;
-        b=N4l5zHOiCUqY9unMa9+3w0n0zab2O65YB5Db/2aT4A6azbNklfuI52z+ZwCi0lsnVp
-         Q9sskE4LhRfPa+hjcGYYwXmltCMn27ZffRXHEFI+YuGs81qXzgTBF4Dv2JjXCHxiQQj2
-         PZ34pfTegFw0d+JL7GjiwqSHUu2ArepbadLJrR1F17EbJlFFPjVRAclUJQMRl5iSVKFW
-         oqbRDVutprUD5BgIpc7Hd9i3nWmXbMkGolVRWznHIhx2HR3XhFY7esgp7Wm6AtG8beyn
-         tsKIbFrK/VxIgHhCzc9mkpvx6GrNjWmUPJ5dWWt4rII+91EPen0UT4WpFG+M8R6VgG21
-         p8ng==
-X-Gm-Message-State: AJIora9fbno5a/vTKaP0pm21agPgTKUpgjR70YQztzZo7o+S+7sXxN/x
-	Mbzp55rYltcJadEKSfvy9Re+diS8XxcTebQOGgU=
-X-Google-Smtp-Source: AGRyM1u4Z/YtN0xWZHHdwVAqbHPAHfcCY3NJ3W9gw5ET54aG8ykNlJ5ZA86+dwL1I9imO6luKzAx//VpSKtT7snEWkQ=
+         :message-id:subject:to:cc;
+        bh=B8cxDTttGuvM5WfX5frYexXa0T6hUzSm4PgtcOxFD6s=;
+        b=7iOExwcKZ2LLSCJrAT7tHtLfGdTv1uZRlrm6VIWz85gsAFTtHn+1VG4ODz/THMRvps
+         zpw6+w8KuqHe/G84pocbzqF6WMYA/PNWbTvumSkfmths667WIsufsKDjylbufOSgK1p4
+         CviihQQ+uTJOfedd1eOJ3A4xgPYUOPjGLVUZfgNEf7ouSlS6UYLsu5E9cIo1K0JLm9fq
+         1zTRuhZ4mwAv95iK1MYUBbld9qQqEY795Z8Ozmj/TBfUq5aeOyQmuiYKRKB48OMjRTK3
+         y9/luTee+WYlhtBozO39h8hzBvv9cF/QgVMN3sYj/uaijJYEyxIDdK1pJY5NHAQVtE+U
+         Gesg==
+X-Gm-Message-State: AJIora/qAgxCwX3pOwbKcMXI9ZlgL/nRpoWPDdH5dWA769ouhMbsdxEG
+	DycaqWdTRqZ1cdi6lXNvUI2FauqpZgHlJR4CnT8=
+X-Google-Smtp-Source: AGRyM1tXegIUiy0sBBYZdYNPa6XJdexkZiJZp4a8S0xAChirQ3IDFRLYnIeC5JTovAQeot2wwJ3SQBXgnb4ABFJefv0=
 X-Received: by 2002:a05:600c:1990:b0:39c:81f0:a882 with SMTP id
- t16-20020a05600c199000b0039c81f0a882mr1879834wmq.72.1655961320646; Wed, 22
- Jun 2022 22:15:20 -0700 (PDT)
+ t16-20020a05600c199000b0039c81f0a882mr1950976wmq.72.1655962478517; Wed, 22
+ Jun 2022 22:34:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220622161617.3719096-1-clg@kaod.org> <20220622161617.3719096-2-clg@kaod.org>
-In-Reply-To: <20220622161617.3719096-2-clg@kaod.org>
+References: <20220529104928.79636-1-krzysztof.kozlowski@linaro.org>
+ <20220529104928.79636-7-krzysztof.kozlowski@linaro.org> <165589305701.29629.10216921074802952879.b4-ty@linaro.org>
+In-Reply-To: <165589305701.29629.10216921074802952879.b4-ty@linaro.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 23 Jun 2022 05:15:07 +0000
-Message-ID: <CACPK8XdeEmv7exWngQkEYs+oj5vV6YjqSvvfuq+5fn8MotxpsA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] spi: aspeed: Add dev_dbg() to dump the spi-mem
- direct mapping descriptor
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Date: Thu, 23 Jun 2022 05:34:26 +0000
+Message-ID: <CACPK8XfxXi8kQr+vxta8rD6SBgxLf_oBjAH0UkPBacQta552YQ@mail.gmail.com>
+Subject: Re: (subset) [PATCH 7/7] ARM: dts: aspeed: centriq2400: use qcom compatible
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,56 +70,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>, Pratyush Yadav <p.yadav@ti.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Wang <David_Wang6097@jabil.com>, Steven Lee <steven_lee@aspeedtech.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Ken Chen <chen.kenyy@inventec.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 22 Jun 2022 at 16:16, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Wed, 22 Jun 2022 at 10:17, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 >
-> The default value of the control register is set using the direct
-> mapping information passed to the ->dirmap_create() handler. Dump the
-> mapping range and the SPI memory operation characteristics to analyze
-> how the register value has been computed.
+> On Sun, 29 May 2022 12:49:28 +0200, Krzysztof Kozlowski wrote:
+> > "qualcomm" is not a documented compatible and instead "qcom" should be
+> > used.
+> >
+> >
 >
->   spi-aspeed-smc 1e630000.spi: CE0 read dirmap [ 0x00000000 - 0x04000000 =
-] OP 0x6c mode:1.1.1.4 naddr:0x4 ndummies:0x1
->   ...
->   spi-aspeed-smc 1e630000.spi: CE0 write dirmap [ 0x00000000 - 0x04000000=
- ] OP 0x12 mode:1.1.0.1 naddr:0x4 ndummies:0x0
->
-> Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Applied, thanks!
 
-Very handy! Thanks C=C3=A9dric.
+What tree did you apply this to? Did you get review from the maintainer?
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+This board is unmaintained and unused. I would prefer it removed
+rather than meaningless fixes be applied.
 
-> ---
->  drivers/spi/spi-aspeed-smc.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
 >
-> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-> index 496f3e1e9079..ac64be289e59 100644
-> --- a/drivers/spi/spi-aspeed-smc.c
-> +++ b/drivers/spi/spi-aspeed-smc.c
-> @@ -558,6 +558,14 @@ static int aspeed_spi_dirmap_create(struct spi_mem_d=
-irmap_desc *desc)
->         u32 ctl_val;
->         int ret =3D 0;
+> [7/7] ARM: dts: aspeed: centriq2400: use qcom compatible
+>       https://git.kernel.org/krzk/linux/c/6202c6063145cf9ec22b40aac219122dd702a10f
 >
-> +       dev_dbg(aspi->dev,
-> +               "CE%d %s dirmap [ 0x%.8llx - 0x%.8llx ] OP %#x mode:%d.%d=
-.%d.%d naddr:%#x ndummies:%#x\n",
-> +               chip->cs, op->data.dir =3D=3D SPI_MEM_DATA_IN ? "read" : =
-"write",
-> +               desc->info.offset, desc->info.offset + desc->info.length,
-> +               op->cmd.opcode, op->cmd.buswidth, op->addr.buswidth,
-> +               op->dummy.buswidth, op->data.buswidth,
-> +               op->addr.nbytes, op->dummy.nbytes);
-> +
->         chip->clk_freq =3D desc->mem->spi->max_speed_hz;
->
->         /* Only for reads */
+> Best regards,
 > --
-> 2.35.3
->
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
