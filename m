@@ -1,147 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53D55573D6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 09:23:03 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBF75573DB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 09:24:45 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LTBYK5W5hz3bnn
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 17:23:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LTBbG6F6Gz3btt
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 17:24:42 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=aInaTu5v;
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=OcK8jHcE;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LxxG2HwI;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=oracle.com (client-ip=205.220.177.32; helo=mx0b-00069f02.pphosted.com; envelope-from=dan.carpenter@oracle.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::631; helo=mail-ej1-x631.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=aInaTu5v;
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=OcK8jHcE;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LxxG2HwI;
 	dkim-atps=neutral
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LTBYB0WRdz3bnn
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 17:22:51 +1000 (AEST)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6fvcJ009498;
-	Thu, 23 Jun 2022 07:22:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=uLE4SEmvVnCI9NpwFv2JIULw0NVO5i3oDjVK4hOf9D4=;
- b=aInaTu5vu0uMwoWGQOA9c9REHfkJq/1ToSj9d20evMyfTZ3D7khIbRyPZER8kUCIBuhY
- VjFTfOQfSa0+ubIv7eJS7PK3Yx23HhBfdgUogSPQm5PMDlUCCQt6e7oOgIJ4Nlo6FiSR
- rj7ue41jut+KszDXq+sf29TLv8ldUfYxMeGRt+P4s9XLE3qA6h80yMiiMgKFaQ1VxnfP
- bff4yaCmW8Dr92fH9YzUWNocjfU0nE9O6v4vxBAmk9o9jNl4Sd46bUVtVeuqhhWABgoJ
- ugybzRhRaVKBmblfPPRcldYHI8Y97lIcGpVt0NRdHkMhmkvKDaa3DnzD1Q58CjRJiB37 9Q== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs5g22efu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Jun 2022 07:22:38 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25N7G2jv017371;
-	Thu, 23 Jun 2022 07:22:38 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2173.outbound.protection.outlook.com [104.47.55.173])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtkfwcmhr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Jun 2022 07:22:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XsghGjFfnfrrcIDQHpDtPapmpINzHTT1UxhR5wjSrlPgNNSQAMt2Gt4OT7KZCMUJftQpsVDCx6EpCxa8Nhfdvgn/UiAMkh86DwRsWLzxoD3GaSaE76N9/WZn62ZILou9NgeWm9uMlKTyIuBBEHc7Tm/CQ1a/hoPiyNNJTIgFmr3cvU38VLSbnaSJc1TNjlrG4J1IgdIX3Tc6oOGj+6+6K8fCmPidua9jXMsbx3mFXhv/URtJOzK/D+2Z4Yug7B7nCWLwZBjsfL1ViYAJlL+GbKnVAxRU+V4IevuN1k6y64F8RDB7wzlYRTNHCpqz0QDYSSXrhiAUREHHvT2hO/h5Aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uLE4SEmvVnCI9NpwFv2JIULw0NVO5i3oDjVK4hOf9D4=;
- b=U7zXc0hydGXYmnBnHOywMv6VVizu9IY6PTsR++wayI34b8XtC2G3sjfyJNeEouIyRQYZK1i0Jt/s6wcmQQjoiwmduH1V+3a8dyLzUh+n2i26mNUtG5ENNwHNyHrt/8a1he0Rpv1v3ffVole2ADnfUQcbAq3MqCxhosSIWzLj0WlI+3zZz9MDLNvdGB8xMYGFwQ8UoR3gioWvVXyLwioIYOc25oHyrsG0/7yP9mwGdUVOqsVJPuIoSAPerf3HnTaycVUET9skYupNd0h7KIZ5a6gDPPd4A/F28Ac8rWbNN1TD7BBhr5Gl3k20A+Sk8f0smhSo/YyENW9tqKOqOPQ/oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LTBb83vC8z3bnn
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 17:24:35 +1000 (AEST)
+Received: by mail-ej1-x631.google.com with SMTP id q6so2157544eji.13
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 00:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uLE4SEmvVnCI9NpwFv2JIULw0NVO5i3oDjVK4hOf9D4=;
- b=OcK8jHcECeWc2fJCp2MCBoN1wEEfDQWv7kYQ5OPBpnv4T/Eb7v8+QYoINLBrqQf1XkuxMVT5GRjxGIa71XmR/jvlJKVTaMQFu5bmSjEJBQj8IAdYgn1126IXDHlZyl39gpqzJvEfBXTxvRy21lat+KrCsVlD3KWmvha/FXRT+C0=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CH2PR10MB3911.namprd10.prod.outlook.com
- (2603:10b6:610:10::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Thu, 23 Jun
- 2022 07:22:36 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
- 07:22:36 +0000
-Date: Thu, 23 Jun 2022 10:22:16 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH] usb: gadget: aspeed_udc: fix handling of tx_len == 0
-Message-ID: <20220623072216.GQ16517@kadam>
-References: <YrMsU9HvdBm5YrRH@kili>
- <HK0PR06MB32023259EBD6B4C649C62E8280B59@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <20220623064320.GN16517@kadam>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220623064320.GN16517@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0066.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::10)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UndQkFV094yCZSTZ0g3V8yTNtRHE1sSLI8lJ0Whr5OQ=;
+        b=LxxG2HwInE1hIpau8xuu6LTWIsR2ZFXStCwPPsC3E5dWajeJikaGzSqn+YZmgPW4sx
+         gAbKhUs8pvI75j9bYMzlXp8zzZLB1gNEOrD06pYYzVbz8njnJ0rFA3ipRIXBeJUqjwyQ
+         2OkH8zdS243eKNw16oqWzWkJ4k+ohKxi+t15VnbGw+iCqkmnoCDlwFHDwE7o7/NODy3U
+         f3WPG2nfnv8RRUiR7gtdU5pOCcQow69Gw+rEcRBoNPdZCS99Fd0aQ0RVUqFAyRz9hZ9w
+         iidcNhejdHzWcqbGQ1mYSJ52znMWT28hkCuDQYjT4QxHcD/Ee7Qza3u1VQgfjfUdOsiG
+         lHZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UndQkFV094yCZSTZ0g3V8yTNtRHE1sSLI8lJ0Whr5OQ=;
+        b=Rt/MZ6Uw0FGPJSqDqBkCgqu+BOtdFwDlARrjms6qwyDRp68uw5n/m5R3rdJtmihye3
+         kiN4dSV2g/jxTvWJDBKx0C421AzFf6nKL8/LoyHmZslFi0b9dWOaGXNsd1VDDVYG2XV0
+         XUw2sxhO6cgExCMPJQ3EQO3h7Q+klkO7+h85ukjNGjDMRhcMpU+IFs8N7hcgyuDDkPlh
+         R/CUSnmQk1HFVKJIWONe9vBgU3BArD0K8DM9SI0TuKE4tmLldDvLaqhHIsaA47CorYsN
+         C6hvtcj88vtZSIrV27g0rvTFxendp/sgd+f7i4Zcj3Ao7CNJRyMIOqJ4f3OrI4twpIgB
+         /keQ==
+X-Gm-Message-State: AJIora+954bIl6Ipnch4gBNGZejreC6WtZC8SMiQhHCwq4Que1i4DsoD
+	dBLGZyk32dbZRUSpZU6T1U620Q==
+X-Google-Smtp-Source: AGRyM1t1t95hm8IimzvVPEAlRlVe3PW6IigWDmSWchyuqd6ky2gYS/fF209B7CQraROMk8HyI89kjw==
+X-Received: by 2002:a17:907:2d29:b0:70e:8b1c:c3f0 with SMTP id gs41-20020a1709072d2900b0070e8b1cc3f0mr6709673ejc.37.1655969071889;
+        Thu, 23 Jun 2022 00:24:31 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id qf6-20020a1709077f0600b006fec4ee28d0sm10305248ejc.189.2022.06.23.00.24.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jun 2022 00:24:31 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>,
+	soc@kernel.org,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] ARM: dts: aspeed: centriq2400: drop the board
+Date: Thu, 23 Jun 2022 09:24:28 +0200
+Message-Id: <20220623072428.33697-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6e8176e3-30f3-4fc0-70a7-08da54e925ac
-X-MS-TrafficTypeDiagnostic: CH2PR10MB3911:EE_
-X-Microsoft-Antispam-PRVS: 	<CH2PR10MB3911C30F2AC4942EC119FB098EB59@CH2PR10MB3911.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	CAKxCfILnTgSG9lb3Tr7cYMXMPYEkJCaLsSaNq7Q1Wj6MuMO8NhamzHExnhDg3oZ+AR2/Vy+UR2bi3NuTpl3Gm5F0HMNzCiQenLZAynbOLtR/9dWh7e81GWY5UJI5Uq8OtptqDr88NwTNgTTB7tb27CnQiDnK0nuRRi6+9AOLIpTs91ODURp2j0Dh6S/a0VfmME3deuu9w13+CVYYVJtU9sLVe/OrYSlc8c5kPIfx7DEIsIhTBM2XHRCg82XG3nbN6TNY1fHCLmLrUn+TdMtbGDdkbqd38zDQ5vOeEUKMQgkDRZLIcGQ2dwX5+usH92AqFZ1fO06oc845BYVll4dbj6oniCSToHpa04wtxT+tDdUbWRix0gsWHXJ3ry8OG2LCXS9Mu52XcHoBHxDkhWhPgUdox6p9TP8wgYCYEv3C2gMgf60vzBUIVvPk3UbLEBsalhUiAVmYO9yeUjMQXd93X+HSinr86fOdsBV4Ysx/y0sPfwgSTHDp/bQf2Z6/tyVQmLt+860I0RCmre/3mIbK+LskNxXsB7CiI6pXzqWumzoP4LETlSzo6M/CdDSxZUeUONIn5CvYoyQmh/kc+0bxYaNto1ApBmaqsTqOAcRddiabNKB9BX9am/y4AGSXr1h5fXBU+g5V8/0d45HVBlvsk3dtWDS5QkipRHPaGxNh5sdF1P5v6rl51K+XZh6T9MbqwdG9NB2CgIUvx296a6Jv3aXWEhFzOL/5Kp/D6+qTgeGm16mBX4bevNipJh5s+4R
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(396003)(376002)(39860400002)(366004)(136003)(346002)(6486002)(9686003)(6512007)(6666004)(26005)(5660300002)(33656002)(6506007)(8936002)(2906002)(4744005)(478600001)(44832011)(83380400001)(52116002)(41300700001)(33716001)(38100700002)(1076003)(316002)(186003)(4326008)(8676002)(54906003)(38350700002)(66476007)(66556008)(6916009)(66946007)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?XN/he0lmKHJI5Tak9sxQ3zxdafuomOhrYcG7CvSflX6nH0b0AR7szhMhuEnL?=
- =?us-ascii?Q?Dj5aKGnNw1V7qw7ztGWpPUc1dPa74zxt+j0bDWTGDuF7COPBSiIsmRNp6014?=
- =?us-ascii?Q?Gz57gT4V5vyv/uOxegeklvxKldy4N7D9jE3X5tOmJBSFz37TM/y7QtppAJg9?=
- =?us-ascii?Q?o52cHI4z9oIcdVq54mxpexNv0z7Wx2Jf6hNz+rYRw4GQJJz8gtAEsOe+zB6R?=
- =?us-ascii?Q?xdTqbkx1Xtbxw71bSD4KZ2GCvpLZWpTSjGgsgQxiiJYyWeUu2dIrrowO4bRq?=
- =?us-ascii?Q?Egvij/8bos+noHhv1EgVgMh9qRVvY+mTTCGI9Q3OyjXv0V5XikSrCYo6QJrr?=
- =?us-ascii?Q?efmHTIl8c4Fc6p0UFySppZP4b9K8y8LH4SKGeBYm2aZsfGJWxNPSmauB2lUP?=
- =?us-ascii?Q?wEgQZMNPu2719qVmwLSUwQKsJouGYM5exbB2qiqL3fkPNCQXAtTF+9xAC48E?=
- =?us-ascii?Q?x73AGjXIwWErAh3NRRI0nkACsWBLnfUMBSO8lE0wGkrw+z+DDnH9GAn4ziQe?=
- =?us-ascii?Q?57K32fiMk6eUfclwS2cWO4v0rLiNndDCu9ctIFeUadX/mPjJdtZa6oA7zp8C?=
- =?us-ascii?Q?ATS2gH2gwcZJLHbzMByL5dWzDNmGZJN59D+vFPUd+AnDEFOxOSYPtMRTjsQt?=
- =?us-ascii?Q?0AiRh+foveexgf3BY5dCsM4c0iwHUnsHNTeBmhO89zXRfuN050FQpNcE1qMD?=
- =?us-ascii?Q?G+wagFXyQHdal4QNFj0A0wNcGMnUKElvX45aVUr9GR5XXeRzc/lrot6KbycE?=
- =?us-ascii?Q?/hd/pGs5OtQhRfVcniEPCimnj2RjBm246Sf3jj74zOe4tJmCVGERjIuhiWq4?=
- =?us-ascii?Q?FY5qaOk/PbmXMOR0UixB0rFvs4bgbTdDjxvboIgtPy528Fm94VvfLvjsdTYb?=
- =?us-ascii?Q?QVekbvtHwIYZ8oDxqyIYr2+nLpRBOdY0qmQjL8OCvVJsXeUcF1mlYljyUeAh?=
- =?us-ascii?Q?Y97ZCGWFcYI+2sejiGn6a1O9PDpvCPRV/X8g1a+EYWmwP0jk/82sWqTy6eza?=
- =?us-ascii?Q?kj8dyruFNq4NblDnElPM0h4IsJtUFP//3++8CnyWLi/+d9DLgnUC2fNZ4ze9?=
- =?us-ascii?Q?e1CNlGvE3JZi2MNCwFnGaxvknsQTGrmwkfX3vH76eR0OZs/9Az2UQwQ7kuiR?=
- =?us-ascii?Q?VSjZtpAguBxiXsCcdNVroxTkL0ycgAAGZrJK5jDwsniBHXOX40dFAeWNjOoY?=
- =?us-ascii?Q?gby51J9ApZhy2WnIAEs1KqjRAGy6p8XDk481tYhPrEdN/QPhKtFFyd84SDH0?=
- =?us-ascii?Q?awockiUPTcYrovxyLJ2j7Y2JmOnzjrU9QdGygAYD21uhnPAgJZXOzxzCzWgH?=
- =?us-ascii?Q?sx7uYC+kL7pMhMItH2mY5//pr+BwBW+vxzskKinqiH6JP6UWI4fNVydIvqcY?=
- =?us-ascii?Q?QNDK7ytoZ34zQHfNIc3pDyGJrejnwCa+AOgjqAORsZiYZYRu5gj9LbFtySrc?=
- =?us-ascii?Q?vhT8K4wEJYyX5nX/S8+mC38JPuX1KssWw2qE+gIIknyAscT7ZVFzYOGfU1hY?=
- =?us-ascii?Q?qC6GadaQzuF/csBCXCljylxExaF9xnXWrRlfLxI//lVSAeKw3+/UY2b+E3w3?=
- =?us-ascii?Q?VaNoHIDntJPQpa4wCuxo1HqxA2vIcyrfnggrtVfNCdF14qLRNIDXZNkKzvXe?=
- =?us-ascii?Q?CQ=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e8176e3-30f3-4fc0-70a7-08da54e925ac
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 07:22:36.4548
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kueVZSt7HCEwIICEzOUiemkqkAZ6FgwdZSKhUABJMQ+08hnOP+hxVExlsUQNJ5oFMOUnurw920Z7mkvULnHpvH0zeT68DDf1+LGwgk4KYDU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB3911
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-23_03:2022-06-22,2022-06-23 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
- mlxlogscore=652 suspectscore=0 adultscore=0 phishscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206230028
-X-Proofpoint-GUID: ShAFBx_4wIreuP03jYIZLEJlc1777xS4
-X-Proofpoint-ORIG-GUID: ShAFBx_4wIreuP03jYIZLEJlc1777xS4
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,28 +84,264 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jun 23, 2022 at 09:43:20AM +0300, Dan Carpenter wrote:
-> On Thu, Jun 23, 2022 at 01:41:49AM +0000, Neal Liu wrote:
-> > > The bug is that we should still enter this loop if "tx_len" is zero.
-> > > 
-> > > After adding the "last" variable, then the "chunk >= 0" condition is no longer
-> > > required but I left it for readability.
-> > > 
-> > 
-> > Use either "chunk >=0" or "last".
-> > I think the former is more simpler.
-> 
-> chunk >= 0 doesn't work.  last works but I think this way is more
-> readable.
+The board is unmaintained and unused, according to Joel, so simply let's
+remove it.
 
-Fine, I can remove the chunk >= 0.  But you can see why your idea of
-removing the "last" doesn't work, right?  I mean maybe it does work and
-there was a bug in the original code?  Could you please look at that so
-we're for sure writing correct code?
+Link: https://lore.kernel.org/all/CACPK8XfxXi8kQr+vxta8rD6SBgxLf_oBjAH0UkPBacQta552YQ@mail.gmail.com/
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ arch/arm/boot/dts/Makefile                    |   1 -
+ .../dts/aspeed-bmc-arm-centriq2400-rep.dts    | 225 ------------------
+ 2 files changed, 226 deletions(-)
+ delete mode 100644 arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
 
-regards,
-dan carpenter
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 03f5b3a15415..6c36b7610c57 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1556,7 +1556,6 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-ast2600-evb.dtb \
+ 	aspeed-bmc-amd-ethanolx.dtb \
+ 	aspeed-bmc-ampere-mtjade.dtb \
+-	aspeed-bmc-arm-centriq2400-rep.dtb \
+ 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
+ 	aspeed-bmc-asrock-e3c246d4i.dtb \
+ 	aspeed-bmc-asrock-romed8hm3.dtb \
+diff --git a/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts b/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
+deleted file mode 100644
+index 3395de96ee11..000000000000
+--- a/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
++++ /dev/null
+@@ -1,225 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0+
+-/dts-v1/;
+-
+-#include "aspeed-g5.dtsi"
+-#include <dt-bindings/gpio/aspeed-gpio.h>
+-
+-/ {
+-	model = "Qualcomm Centriq 2400  REP AST2520";
+-	compatible = "qualcomm,centriq2400-rep-bmc", "aspeed,ast2500";
+-
+-	chosen {
+-		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlycon";
+-	};
+-
+-	memory@80000000 {
+-		reg = <0x80000000 0x40000000>;
+-	};
+-
+-	iio-hwmon {
+-		compatible = "iio-hwmon";
+-		io-channels = <&adc 0>, <&adc 1>, <&adc 2>, <&adc 3>,
+-                        <&adc 4>, <&adc 5>, <&adc 6>, <&adc 8>;
+-	};
+-
+-	iio-hwmon-battery {
+-		compatible = "iio-hwmon";
+-		io-channels = <&adc 7>;
+-	};
+-
+-	leds {
+-		compatible = "gpio-leds";
+-
+-		uid_led {
+-			label = "UID_LED";
+-			gpios = <&gpio ASPEED_GPIO(Q, 5) GPIO_ACTIVE_LOW>;
+-		};
+-
+-		ras_error_led {
+-			label = "RAS_ERROR_LED";
+-			gpios = <&gpio ASPEED_GPIO(F, 6) GPIO_ACTIVE_LOW>;
+-		};
+-
+-		system_fault {
+-			label = "System_fault";
+-			gpios = <&gpio ASPEED_GPIO(A, 1) GPIO_ACTIVE_LOW>;
+-		};
+-	};
+-};
+-
+-&fmc {
+-	status = "okay";
+-	flash@0 {
+-		status = "okay";
+-		m25p,fast-read;
+-		label = "bmc";
+-#include "openbmc-flash-layout.dtsi"
+-	};
+-};
+-
+-&spi1 {
+-	status = "okay";
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&pinctrl_spi1_default>;
+-	flash@0 {
+-		status = "okay";
+-	};
+-};
+-
+-&spi2 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&pinctrl_spi2ck_default
+-			&pinctrl_spi2miso_default
+-			&pinctrl_spi2mosi_default
+-			&pinctrl_spi2cs0_default>;
+-};
+-
+-&uart3 {
+-	status = "okay";
+-
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&pinctrl_txd3_default &pinctrl_rxd3_default>;
+-	current-speed = <115200>;
+-};
+-
+-&uart5 {
+-	status = "okay";
+-};
+-
+-&mac0 {
+-	status = "okay";
+-
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&pinctrl_rgmii1_default &pinctrl_mdio1_default>;
+-};
+-
+-&i2c0 {
+-	status = "okay";
+-};
+-
+-&i2c1 {
+-	status = "okay";
+-
+-	tmp421@1e {
+-		compatible = "ti,tmp421";
+-		reg = <0x1e>;
+-	};
+-	tmp421@2a {
+-		compatible = "ti,tmp421";
+-		reg = <0x2a>;
+-	};
+-	tmp421@4e {
+-		compatible = "ti,tmp421";
+-		reg = <0x4e>;
+-	};
+-	tmp421@1c {
+-		compatible = "ti,tmp421";
+-		reg = <0x1c>;
+-	};
+-};
+-
+-&i2c2 {
+-	status = "okay";
+-};
+-
+-&i2c3 {
+-	status = "okay";
+-};
+-
+-&i2c4 {
+-	status = "okay";
+-};
+-
+-&i2c5 {
+-	status = "okay";
+-};
+-
+-&i2c6 {
+-	status = "okay";
+-
+-	tmp421@1d {
+-		compatible = "ti,tmp421";
+-		reg = <0x1d>;
+-	};
+-	tmp421@1f {
+-		compatible = "ti,tmp421";
+-		reg = <0x1f>;
+-	};
+-	tmp421@4d {
+-		compatible = "ti,tmp421";
+-		reg = <0x4d>;
+-	};
+-	tmp421@4f {
+-		compatible = "ti,tmp421";
+-		reg = <0x4f>;
+-	};
+-	nvt210@4c {
+-		compatible = "nvt210";
+-		reg = <0x4c>;
+-	};
+-	eeprom@50 {
+-		compatible = "atmel,24c128";
+-		reg = <0x50>;
+-		pagesize = <128>;
+-	};
+-};
+-
+-&i2c7 {
+-	status = "okay";
+-};
+-
+-&i2c8 {
+-	status = "okay";
+-
+-	pca9641@70 {
+-		compatible = "nxp,pca9641";
+-		reg = <0x70>;
+-		i2c-arb {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-			tmp421@1d {
+-				compatible = "tmp421";
+-				reg = <0x1d>;
+-			};
+-			adm1278@12 {
+-				compatible = "adi,adm1278";
+-				reg = <0x12>;
+-				Rsense = <500>;
+-			};
+-			eeprom@50 {
+-				compatible = "atmel,24c02";
+-				reg = <0x50>;
+-			};
+-			ds1100@58 {
+-				compatible = "ds1100";
+-				reg = <0x58>;
+-			};
+-		};
+-	};
+-};
+-
+-&i2c9 {
+-	status = "okay";
+-};
+-
+-&vuart {
+-	status = "okay";
+-};
+-
+-&gfx {
+-	status = "okay";
+-};
+-
+-&pinctrl {
+-	aspeed,external-nodes = <&gfx &lhc>;
+-};
+-
+-&gpio {
+-	pin_gpio_c7 {
+-		gpio-hog;
+-		gpios = <ASPEED_GPIO(C, 7) GPIO_ACTIVE_HIGH>;
+-		output;
+-		line-name = "BIOS_SPI_MUX_S";
+-	};
+-};
+-- 
+2.34.1
+
