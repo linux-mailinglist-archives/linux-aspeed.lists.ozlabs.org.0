@@ -1,77 +1,41 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF40557398
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 09:10:52 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF115573D1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 09:21:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LTBHD5KKnz3bts
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 17:10:48 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=k4Adahid;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LTBWb5C7bz3bts
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 17:21:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::62a; helo=mail-ej1-x62a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=k4Adahid;
-	dkim-atps=neutral
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wanadoo.fr (client-ip=80.12.242.128; helo=smtp.smtpout.orange.fr; envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN>)
+Received: from smtp.smtpout.orange.fr (smtp06.smtpout.orange.fr [80.12.242.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LTBH61Qb0z3blf
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 17:10:39 +1000 (AEST)
-Received: by mail-ej1-x62a.google.com with SMTP id ge10so7543874ejb.7
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 00:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=tuAsDh6ucKESxsdiSZcdIthCGQnzlk9mmfrcHG2iA/A=;
-        b=k4AdahiduJwbRRrlLYnDkTBxnXPULU8EsSsKDgjM192KdUz1q79NbQlx67tncTv9WR
-         dJyAIlhWCepdwRz4igjrMh35uNeXgRCAWwiyWmth/8hLfwb3ZTBSsqfgy5r04qDRK9CH
-         Gh6g0JM+Fyv59eDifA6RFPsoMfkoI+f/4Sx7HgiPQDZVafOtyu0uzVXTw5XDaVrgY8A/
-         H0YdGhDxorkrMyTmpVTOquKodh24xUvWNKggOKObQK1UyZd/Idl/6S51Oz8TIni/SYdm
-         iimCazHC2XGt0gxuQ7IHrDKEayFCNL7oqSaQe5TllniqP/31FG6V0/8ijYtS06KH3JzT
-         gj8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=tuAsDh6ucKESxsdiSZcdIthCGQnzlk9mmfrcHG2iA/A=;
-        b=xF3lH6EPtcwd2LjnzaR9yQzm4N7GV1lP9E35r+PtC0osTwVjABF6PyLyQ9YYbdxID5
-         XVqtvbU/4lZAn/d71KYT4wf9+MrN88KR61hFd/y57P8vcKabez925brfRzyM6A3qRtRD
-         TH3GTKa+dX9mvCjDVWohdxwlHv2gY4SEyWko6MmUS53TopGe2xa/waKTqgTHBpjdsNqx
-         dBQmoTqDjK3gjgNydvSDsxiR08Qeb1Xjko/mNSk4UMArwopPd/lePIbxCPrGviMZtUWa
-         c1RAx0F70nGjaCXcCGI8CXxqdtuoE+YFBYBigmZ6FNY/VogvabZ1V5jc46xS7Cp6w12s
-         bEfg==
-X-Gm-Message-State: AJIora+WWuqm2IbJmqPnL2qfTcinm/5F26Mjyx5N+gQNh/vnWLoHzGVo
-	V5TN2gUc3uktzjiuvtgndwTanA==
-X-Google-Smtp-Source: AGRyM1u7ecil3twaUG0Avny7RVyJxwjRhiEYGdWWNHrbEmPYuywGZuvfO1PXd4QE2NXFsLZ9uc0qrQ==
-X-Received: by 2002:a17:907:c26:b0:711:ca03:ab3c with SMTP id ga38-20020a1709070c2600b00711ca03ab3cmr6967550ejc.654.1655968235516;
-        Thu, 23 Jun 2022 00:10:35 -0700 (PDT)
-Received: from [192.168.0.226] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id g18-20020a17090604d200b006fec8e8eff6sm2286606eja.176.2022.06.23.00.10.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Jun 2022 00:10:35 -0700 (PDT)
-Message-ID: <bd070c5d-4765-092d-8f10-fefd0361f65e@linaro.org>
-Date: Thu, 23 Jun 2022 09:10:34 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LTBWT1GF6z3bnn
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 17:21:22 +1000 (AEST)
+Received: from [192.168.1.18] ([90.11.190.129])
+	by smtp.orange.fr with ESMTPA
+	id 4H24ogdVvP8Ap4H24ojZfO; Thu, 23 Jun 2022 09:13:48 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Thu, 23 Jun 2022 09:13:48 +0200
+X-ME-IP: 90.11.190.129
+Message-ID: <21679090-7a89-865b-becf-d5552e8cedea@wanadoo.fr>
+Date: Thu, 23 Jun 2022 09:13:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 2/7] dt-bindings: arm: aspeed: document board compatibles
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 1/5] crypto: aspeed: Add HACE hash driver
 Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>
-References: <20220529104928.79636-1-krzysztof.kozlowski@linaro.org>
- <20220529104928.79636-2-krzysztof.kozlowski@linaro.org>
- <0207c2fe-7c01-7852-3cd1-74297cd4857d@linaro.org>
- <CACPK8Xc=dmaJtLXGsQa8bBdWDnSbwyW3f_yaQr4HqT0WvyScRg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CACPK8Xc=dmaJtLXGsQa8bBdWDnSbwyW3f_yaQr4HqT0WvyScRg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Neal Liu <neal_liu@aspeedtech.com>
+References: <20220621063752.1005781-1-neal_liu@aspeedtech.com>
+ <20220621063752.1005781-2-neal_liu@aspeedtech.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20220621063752.1005781-2-neal_liu@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,53 +47,188 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Wang <David_Wang6097@jabil.com>, Steven Lee <steven_lee@aspeedtech.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Ken Chen <chen.kenyy@inventec.com>, Rob Herring <robh+dt@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: BMC-SW@aspeedtech.com, johnny_huang@aspeedtech.com, herbert@gondor.apana.org.au, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, rdunlap@infradead.org, dhphadke@microsoft.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org, clabbe.montjoie@gmail.com, krzysztof.kozlowski+dt@linaro.org, christophe.jaillet@wanadoo.fr, davem@davemloft.net, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 23/06/2022 07:36, Joel Stanley wrote:
-> On Mon, 20 Jun 2022 at 11:06, Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> On 29/05/2022 12:49, Krzysztof Kozlowski wrote:
->>> Document all compatibles used in existing upstreamed Aspeed AST2400,
->>> AST2500 and AST2600 based boards.
->>>
->>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>> ---
->>>  .../bindings/arm/aspeed/aspeed.yaml           | 83 +++++++++++++++++++
->>>  MAINTAINERS                                   |  1 +
->>>  2 files changed, 84 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
->>
->> Joel, Andrew,
->>
->> Any comments on the series? Rob applied only patch 1, so the rest is
->> supposed through Aspeed tree. Shall I pick them up and send to arm-soc?
+Le 21/06/2022 à 08:37, Neal Liu a écrit :
+> Hash and Crypto Engine (HACE) is designed to accelerate the
+> throughput of hash data digest, encryption, and decryption.
 > 
-> I will take a look at them when it's time to send patches for the next
-> kernel release.
-
-But that's not how the next development works. Patches, if proper/good,
-should be applied in some reasonable amount of time and then sit in
-maintainers tree. This way the patches will be in linux-next, assuming
-that maintainer correctly added it to linux-next. All other people can
-then easily base their work on linux-next or maintainer's tree and
-continue their development.
-
-Waiting with the patches till time to intreract with arm-soc (usually
-some late in the cycle, like rc5-rc6), not providing review, does not
-allow other people to see accepted contributions and base the work on them.
-
-Really, there is no single reason to hold on patches till there is time
-to send them to arm-soc. It's the first time I hear something like this
-about SoC or any other tree.
-
+> Basically, HACE can be divided into two independently engines
+> - Hash Engine and Crypto Engine. This patch aims to add HACE
+> hash engine driver for hash accelerator.
 > 
-> They should go through the aspeed tree like the rest of the aspeed
-> device tree patches.
+> Signed-off-by: Neal Liu <neal_liu-SAlXDmAnmOAqDJ6do+/SaQ@public.gmane.org>
+> Signed-off-by: Johnny Huang <johnny_huang-SAlXDmAnmOAqDJ6do+/SaQ@public.gmane.org>
+> ---
 
-Of course, but somehow they were not going...
+[...]
 
-Best regards,
-Krzysztof
+> +++ b/drivers/crypto/aspeed/Kconfig
+> @@ -0,0 +1,23 @@
+> +config CRYPTO_DEV_ASPEED
+> +	tristate "Support for Aspeed cryptographic engine driver"
+> +	depends on ARCH_ASPEED
+> +	help
+> +	  Hash and Crypto Engine (HACE) is designed to accelerate the
+> +	  throughput of hash data digest, encryption and decryption.
+> +
+> +	  Select y here to have support for the cryptographic driver
+> +	  available on Aspeed SoC.
+> +
+> +config CRYPTO_DEV_ASPEED_HACE_HASH
+> +	bool "Enable ASPEED Hash & Crypto Engine (HACE) hash"
+
+Nit: Sometimes you have ASPEED, sometimes you have Aspeed. (see a few 
+lines above)
+
+[...]
+
+> +static int aspeed_ahash_req_update(struct aspeed_hace_dev *hace_dev)
+> +{
+> +	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
+> +	struct ahash_request *req = hash_engine->req;
+> +	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
+> +	aspeed_hace_fn_t resume;
+> +
+> +	AHASH_DBG(hace_dev, "\n");
+> +
+> +	if (hace_dev->version == AST2600_VERSION) {
+> +		rctx->cmd |= HASH_CMD_HASH_SRC_SG_CTRL;
+> +		resume = aspeed_ahash_update_resume_sg;
+> +
+> +	} else {
+> +		resume = aspeed_ahash_update_resume;
+> +	}
+> +
+> +	hash_engine->dma_prepare(hace_dev);
+
+Apparently dma_prepare() can fail. Should there be some error handling here?
+
+> +
+> +	return aspeed_hace_ahash_trigger(hace_dev, resume);
+> +}
+> +
+
+[...]
+
+> +static int aspeed_hace_probe(struct platform_device *pdev)
+> +{
+> +	const struct of_device_id *hace_dev_id;
+> +	struct aspeed_engine_hash *hash_engine;
+> +	struct aspeed_hace_dev *hace_dev;
+> +	struct resource *res;
+> +	int rc;
+> +
+> +	hace_dev = devm_kzalloc(&pdev->dev, sizeof(struct aspeed_hace_dev),
+> +				GFP_KERNEL);
+> +	if (!hace_dev)
+> +		return -ENOMEM;
+> +
+> +	hace_dev_id = of_match_device(aspeed_hace_of_matches, &pdev->dev);
+> +	if (!hace_dev_id) {
+> +		dev_err(&pdev->dev, "Failed to match hace dev id\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	hace_dev->dev = &pdev->dev;
+> +	hace_dev->version = (unsigned long)hace_dev_id->data;
+> +	hash_engine = &hace_dev->hash_engine;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +
+> +	platform_set_drvdata(pdev, hace_dev);
+> +
+> +	/* Initialize crypto hardware engine structure for hash */
+> +	hace_dev->crypt_engine_hash = crypto_engine_alloc_init(hace_dev->dev,
+> +							       true);
+
+This returns NULL on error and crypto_engine_start() will crash in such 
+a case.
+
+> +
+> +	rc = crypto_engine_start(hace_dev->crypt_engine_hash);
+> +	if (rc)
+> +		goto err_engine_hash_start;
+> +
+> +	tasklet_init(&hash_engine->done_task, aspeed_hace_hash_done_task,
+> +		     (unsigned long)hace_dev);
+> +
+> +	hace_dev->regs = devm_ioremap_resource(&pdev->dev, res);
+> +	if (!hace_dev->regs) {
+> +		dev_err(&pdev->dev, "Failed to map resources\n");
+> +		return -ENOMEM;
+
+I think that all direct returns from here to the end of the function 
+should be "goto err_engine_hash_start;".
+
+> +	}
+> +
+> +	/* Get irq number and register it */
+> +	hace_dev->irq = platform_get_irq(pdev, 0);
+> +	if (!hace_dev->irq) {
+> +		dev_err(&pdev->dev, "Failed to get interrupt\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	rc = devm_request_irq(&pdev->dev, hace_dev->irq, aspeed_hace_irq, 0,
+> +			      dev_name(&pdev->dev), hace_dev);
+> +	if (rc) {
+> +		dev_err(&pdev->dev, "Failed to request interrupt\n");
+> +		return rc;
+> +	}
+> +
+> +	/* Get clk and enable it */
+> +	hace_dev->clk = devm_clk_get(&pdev->dev, NULL);
+> +	if (IS_ERR(hace_dev->clk)) {
+> +		dev_err(&pdev->dev, "Failed to get clk\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	rc = clk_prepare_enable(hace_dev->clk);
+> +	if (rc) {
+> +		dev_err(&pdev->dev, "Failed to enable clock 0x%x\n", rc);
+> +		return rc;
+> +	}
+> +
+> +	/* Allocate DMA buffer for hash engine input used */
+> +	hash_engine->ahash_src_addr =
+> +		dma_alloc_coherent(&pdev->dev,
+> +				   ASPEED_HASH_SRC_DMA_BUF_LEN,
+> +				   &hash_engine->ahash_src_dma_addr,
+> +				   GFP_KERNEL);
+
+Most of the resources are devm_'ed. Does it make sense to use 
+dmam_alloc_coherent() here to simplify the .remove function?
+
+> +	if (!hash_engine->ahash_src_addr) {
+> +		dev_err(&pdev->dev, "Failed to allocate dma buffer\n");
+> +		rc = -ENOMEM;
+> +		goto clk_exit;
+> +	}
+> +
+> +	aspeed_hace_register(hace_dev);
+> +
+> +	dev_info(&pdev->dev, "ASPEED Crypto Accelerator successfully registered\n");
+> +
+Nit: Sometimes you have ASPEED, sometimes you have Aspeed.
+
+> +	return rc;
+> +
+> +clk_exit:
+> +	clk_disable_unprepare(hace_dev->clk);
+> +err_engine_hash_start:
+> +	crypto_engine_exit(hace_dev->crypt_engine_hash);
+> +
+> +	return rc;
+> +}
+> +
+
+[...]
+
+> +MODULE_AUTHOR("Neal Liu <neal_liu-SAlXDmAnmOAqDJ6do+/SaQ@public.gmane.org>");
+> +MODULE_DESCRIPTION("ASPEED HACE driver Crypto Accelerator");
+
+Nit: Sometimes you have ASPEED, sometimes you have Aspeed.
+
