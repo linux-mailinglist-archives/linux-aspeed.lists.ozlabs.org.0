@@ -2,61 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF42557296
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 07:34:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D6255729A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 07:37:21 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LT88S3DmFz3bth
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 15:34:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LT8CM54ZSz3btY
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 15:37:19 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=nMxRlStS;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=HM5idz5i;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::32a; helo=mail-wm1-x32a.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::42a; helo=mail-wr1-x42a.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=nMxRlStS;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=HM5idz5i;
 	dkim-atps=neutral
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LT88M4vJwz3bln
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 15:34:42 +1000 (AEST)
-Received: by mail-wm1-x32a.google.com with SMTP id z9so10351134wmf.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jun 2022 22:34:42 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LT8CF3p9Wz3bln
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 15:37:13 +1000 (AEST)
+Received: by mail-wr1-x42a.google.com with SMTP id g18so484492wrb.10
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jun 2022 22:37:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=jms.id.au; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=B8cxDTttGuvM5WfX5frYexXa0T6hUzSm4PgtcOxFD6s=;
-        b=nMxRlStSEh8OiHmbIP+I1FAfjgkYRbF158GwowQoYBAgp1Ry5ceVQzXvYyhPfQsW8w
-         BmPMo13r28aDqxZZT+jWMnoG5WGNuauGXl/TvnXVkCr381COm6zJO2b4PijkUFBJrDow
-         WN66EZCBeYlgzROXe2+KQjtXqKnUO892AETRs=
+        bh=RGXOI1F+46h8g4CYNp3aLfgU6JLkNEaQBiU6ibgVVCA=;
+        b=HM5idz5iSxToDddeGwp7+NN6Al4VcX+R7jrtS/k2TsBRWhI/QGJtgwP3onufqCCc3z
+         +GcrPimFXvXtyXANf9Lw3XZQRt0ZX6p7MAQVn7u4LCbF8eeX34rVz5Lr4uwPjo0FGVmV
+         +Pla3kF2YJWL9MdBWcbvFCwJV+EDL5FhwWick=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=B8cxDTttGuvM5WfX5frYexXa0T6hUzSm4PgtcOxFD6s=;
-        b=7iOExwcKZ2LLSCJrAT7tHtLfGdTv1uZRlrm6VIWz85gsAFTtHn+1VG4ODz/THMRvps
-         zpw6+w8KuqHe/G84pocbzqF6WMYA/PNWbTvumSkfmths667WIsufsKDjylbufOSgK1p4
-         CviihQQ+uTJOfedd1eOJ3A4xgPYUOPjGLVUZfgNEf7ouSlS6UYLsu5E9cIo1K0JLm9fq
-         1zTRuhZ4mwAv95iK1MYUBbld9qQqEY795Z8Ozmj/TBfUq5aeOyQmuiYKRKB48OMjRTK3
-         y9/luTee+WYlhtBozO39h8hzBvv9cF/QgVMN3sYj/uaijJYEyxIDdK1pJY5NHAQVtE+U
-         Gesg==
-X-Gm-Message-State: AJIora/qAgxCwX3pOwbKcMXI9ZlgL/nRpoWPDdH5dWA769ouhMbsdxEG
-	DycaqWdTRqZ1cdi6lXNvUI2FauqpZgHlJR4CnT8=
-X-Google-Smtp-Source: AGRyM1tXegIUiy0sBBYZdYNPa6XJdexkZiJZp4a8S0xAChirQ3IDFRLYnIeC5JTovAQeot2wwJ3SQBXgnb4ABFJefv0=
-X-Received: by 2002:a05:600c:1990:b0:39c:81f0:a882 with SMTP id
- t16-20020a05600c199000b0039c81f0a882mr1950976wmq.72.1655962478517; Wed, 22
- Jun 2022 22:34:38 -0700 (PDT)
+        bh=RGXOI1F+46h8g4CYNp3aLfgU6JLkNEaQBiU6ibgVVCA=;
+        b=fQ5JmXrTLGup9R9jfDzy+sdv2C7Z74QeR2sFbDvG6hI42TcSoA27vg+OfQWWlbe5bC
+         BExZxMZOSpkdPB3Bz9zR19QFjECi291cJwNu8jfiKzqNJ+Lqcss0B6iqhS5kR0/Wcdnt
+         z7NVWDyV/wQ5iNjgn5xiqpm4y0C6p6QP+vL4BOdiszfh5dw+n8eEKks6JeXksJD1wC/B
+         REP8mVUEQ57a23v4BiBp1q5RtC/4ivT7iITlb6HhuzzUwFbKa517vS9cSK9Ri+MRuLSS
+         JXvCsqc8uuXEgiQm9LkU/awuOk2qVsMvaEjuRCquoZI4iDu0NYVebECONaAphtEjVfUA
+         k3ZA==
+X-Gm-Message-State: AJIora9Y1+sZVn2w17Z8SHcSGuhHRcy1nGNtGyr85u6MlmMhbnRtywEG
+	C+ahBtBwuzsHUFuY0mlYnRAO2n4WHbl/Hn7ylfo=
+X-Google-Smtp-Source: AGRyM1sxEHbUFDJd4uwqidyTn0y1zcbD7hXpM+WdCWUtTWrFlvDF18O6m2kSbaO+FuzsJc1bY0QH35P06L8HfegXYfw=
+X-Received: by 2002:adf:e502:0:b0:21b:8de6:7f14 with SMTP id
+ j2-20020adfe502000000b0021b8de67f14mr6224129wrm.3.1655962630277; Wed, 22 Jun
+ 2022 22:37:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220529104928.79636-1-krzysztof.kozlowski@linaro.org>
- <20220529104928.79636-7-krzysztof.kozlowski@linaro.org> <165589305701.29629.10216921074802952879.b4-ty@linaro.org>
-In-Reply-To: <165589305701.29629.10216921074802952879.b4-ty@linaro.org>
+ <20220529104928.79636-2-krzysztof.kozlowski@linaro.org> <0207c2fe-7c01-7852-3cd1-74297cd4857d@linaro.org>
+In-Reply-To: <0207c2fe-7c01-7852-3cd1-74297cd4857d@linaro.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 23 Jun 2022 05:34:26 +0000
-Message-ID: <CACPK8XfxXi8kQr+vxta8rD6SBgxLf_oBjAH0UkPBacQta552YQ@mail.gmail.com>
-Subject: Re: (subset) [PATCH 7/7] ARM: dts: aspeed: centriq2400: use qcom compatible
+Date: Thu, 23 Jun 2022 05:36:58 +0000
+Message-ID: <CACPK8Xc=dmaJtLXGsQa8bBdWDnSbwyW3f_yaQr4HqT0WvyScRg@mail.gmail.com>
+Subject: Re: [PATCH 2/7] dt-bindings: arm: aspeed: document board compatibles
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -70,30 +70,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Wang <David_Wang6097@jabil.com>, Steven Lee <steven_lee@aspeedtech.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Ken Chen <chen.kenyy@inventec.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Wang <David_Wang6097@jabil.com>, Steven Lee <steven_lee@aspeedtech.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Ken Chen <chen.kenyy@inventec.com>, Rob Herring <robh+dt@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 22 Jun 2022 at 10:17, Krzysztof Kozlowski
+On Mon, 20 Jun 2022 at 11:06, Krzysztof Kozlowski
 <krzysztof.kozlowski@linaro.org> wrote:
 >
-> On Sun, 29 May 2022 12:49:28 +0200, Krzysztof Kozlowski wrote:
-> > "qualcomm" is not a documented compatible and instead "qcom" should be
-> > used.
+> On 29/05/2022 12:49, Krzysztof Kozlowski wrote:
+> > Document all compatibles used in existing upstreamed Aspeed AST2400,
+> > AST2500 and AST2600 based boards.
 > >
-> >
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > ---
+> >  .../bindings/arm/aspeed/aspeed.yaml           | 83 +++++++++++++++++++
+> >  MAINTAINERS                                   |  1 +
+> >  2 files changed, 84 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
 >
-> Applied, thanks!
-
-What tree did you apply this to? Did you get review from the maintainer?
-
-This board is unmaintained and unused. I would prefer it removed
-rather than meaningless fixes be applied.
-
+> Joel, Andrew,
 >
-> [7/7] ARM: dts: aspeed: centriq2400: use qcom compatible
->       https://git.kernel.org/krzk/linux/c/6202c6063145cf9ec22b40aac219122dd702a10f
+> Any comments on the series? Rob applied only patch 1, so the rest is
+> supposed through Aspeed tree. Shall I pick them up and send to arm-soc?
+
+I will take a look at them when it's time to send patches for the next
+kernel release.
+
+They should go through the aspeed tree like the rest of the aspeed
+device tree patches.
+
+Thanks,
+
+Joel
+
 >
 > Best regards,
-> --
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Krzysztof
