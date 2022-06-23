@@ -2,118 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D318557345
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 08:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7916F557381
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 09:05:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LT9hY2PlHz3bts
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 16:44:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LTB9Y27fKz3bts
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jun 2022 17:05:53 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=IGrLPQYw;
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=OfxQhbUL;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Z3kQtFfl;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=oracle.com (client-ip=205.220.177.32; helo=mx0b-00069f02.pphosted.com; envelope-from=dan.carpenter@oracle.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::633; helo=mail-ej1-x633.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=IGrLPQYw;
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=OfxQhbUL;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Z3kQtFfl;
 	dkim-atps=neutral
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LT9hM5lPBz303k
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 16:43:58 +1000 (AEST)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N0Vt50004659;
-	Thu, 23 Jun 2022 06:43:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=KcdxISQoBxmfrCeaL2Z8yDI5f7kGbuPVoIoQ17g+zY4=;
- b=IGrLPQYwjm0BLoIpaAZOQbSriUHEIToQnOfRo8i4cfjkKevO2LQw9MjruUrmCpgVoV86
- cgVkhbVw8yW/+WutSjSCFTUEiCyhlJvEABIwAIv0S4qIa9WWSg5MVyFFk7q9pbg+SLb9
- TPI0himi8iG5bzJAjFvUjcLD9db15ppWW+AsbSbcwY13vWNJvZPAnbba9AvFez3E4D6y
- pEJApdCR608rgXSfTeTZOAyQICdd8nNm5SNWm4bcN7CbMfVKVYVmkwfnXvpOFfrpi1em
- NAA4zGOMqSfy+7c+4cfQJZfsDOh+MrEWG3IZxdg18ahH/c08uOWbb3ewWF5XPAlNDdK8 iw== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gs54ct7a3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Jun 2022 06:43:44 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25N6QtXg035691;
-	Thu, 23 Jun 2022 06:43:43 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gtg5w7hq1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Jun 2022 06:43:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oRYtJ4t7v1wckwgKwmxvyS97E+374WDHCcNs+lvqq6H6bmqCHIyD4Q6FTjs3fdzUeHvDRzTcpdDeBZpAguMQrWPi03y8MVD1oX4W7XpRMqC+zIkDVfiq4G3jXjWMi/hVNpfl6FA2WajFc/hWB68JhZ3sp8jOElP1xy/SmX9BZcYPqWKXt5e21RkW2qzVmThV1yzCAdm3JuFO2BhrLOc62gRkTQpljzQ2RMo3Bt451GF8q8vg/Em5ox4GcShSOkDAMcFCoBnCC1GVsWP0CVyXlQ5mIklKiehNY5HnBojlDU2krG5U7xROMSFJkMn8plWImTnYV4MoXimETWvM6TBNmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KcdxISQoBxmfrCeaL2Z8yDI5f7kGbuPVoIoQ17g+zY4=;
- b=P2WKOieYADRKAtqb+pd6fh9MxhBwLCcEJKiwe8sUJaDJZTU7CHfT4MuJaGCODUkum5IBxQ5PN3kBWerLGTlZMxKyBtRC1lSpZSOZypytOjRi4oRZHLAdsnmMxrByGBsF6XNchwkpBK0ffqvkx3WxLHvqtLrQZ50aJ/RLPgmwJnijJGXQvGA0vUJ3o2fJAFqK00WjsZEQYQIih/Ds806suvc1+rm0OQDLKUGe0y45OJbbuxXO1FwG2kvDO3NsLPgQLxEXd4x2roTA+O9Ci9zI+p2kgcTB00+XiTE8G1sMyolbO9FTfFY1C0PRkIgkyEUgMCMZ/zuX+vu4VuzqwCVAGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LTB9Q0dztz3blf
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 17:05:45 +1000 (AEST)
+Received: by mail-ej1-x633.google.com with SMTP id lw20so16693586ejb.4
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jun 2022 00:05:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KcdxISQoBxmfrCeaL2Z8yDI5f7kGbuPVoIoQ17g+zY4=;
- b=OfxQhbULmOP6jKjk2QHTp+Z4vLUhfmtUts/fdWQCSRDBgRBW7p8EPcKLi3fuD96vdwHWQQMp8bqUPBCHQdyFxdi2joXXt67HnfrJWHA04u6ftGK6NUTu1tza7ObrZUSM01ec59YPycfVnda4HXlxpeT15TTbT4nmw6+OMq71ytg=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DM6PR10MB3724.namprd10.prod.outlook.com
- (2603:10b6:5:157::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Thu, 23 Jun
- 2022 06:43:42 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
- 06:43:42 +0000
-Date: Thu, 23 Jun 2022 09:43:20 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH] usb: gadget: aspeed_udc: fix handling of tx_len == 0
-Message-ID: <20220623064320.GN16517@kadam>
-References: <YrMsU9HvdBm5YrRH@kili>
- <HK0PR06MB32023259EBD6B4C649C62E8280B59@HK0PR06MB3202.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <HK0PR06MB32023259EBD6B4C649C62E8280B59@HK0PR06MB3202.apcprd06.prod.outlook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0069.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::15)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FUqOVP3OH7BWYjo6vdlKJOAexlQHETbAKu5icdi+qLI=;
+        b=Z3kQtFflp9ce1ZM08KTXQjN3/rys8fUPdg6bFciqs7HRkuvSLYCXT30XIGG74Whnbo
+         2w2TMEoeFr/jQ7RQNYBZX3WPP5GrFk6oOSuyDI9iPU2/AHQZ6C3F6D69i7TAYI3AQQtz
+         03JTE7KKCSegXy9fyXaKRjsfYlgjaEyvipR/xWN811r3xokYYx+HFE3F5ZdyalC7aENR
+         vA1meuxYwHmUkmw/DxdH3xTNO2C67JIpX/1FtHHpbjEWfLwrWMaDNk579g3X2kiFsKrt
+         e7ADgDiACVsdABiMnm2fv7466/IE4PddktbRMemlBGqZsK+KKh5QmuNkv2XKCq9hHXvk
+         aKGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=FUqOVP3OH7BWYjo6vdlKJOAexlQHETbAKu5icdi+qLI=;
+        b=GI7eO7c51H8kgqhXYSOriixoEii1VuSOqPpYz0GJMYRq8t0WTHftSaqVQO06Speaqu
+         3PXt9i59IBu2N0UXhs2SR9PvmP+aAUjN96YQvRQigJCmV6lKZElXu/E1W00065TL2nbO
+         dHycz7pyg1VVLkQ9kbdyJE3t/I1sihsWasBZQ9SO5NsHE06CYRq21dkJ5O6aAnFCRQ3M
+         IL+pARSTX9A8gtDgNj08FqsujzzfTrLYni0JWSXZHiwout0XP/pA5ez+yp44OvzDgvIR
+         x1/I8toe/37eEvZYcGe9jm3BHA4uRTeLJawHb54RvjEPcvwYjtcS2PVHpTDYKbleM/Fc
+         Aajg==
+X-Gm-Message-State: AJIora9SElxEGQCP6W48j0H9cwGI7DBV+wQxhQG4Tv/dTnLqtn8oyBz6
+	49co148hw7/uLD8bvZHC9LYNQw==
+X-Google-Smtp-Source: AGRyM1sSWLw+uz9Wo/Vqcc2Qzmpm0rtmfs9IKZ6vHicf79GE/X5RwZggFtUqWDuVFpql/v0tm0c+Uw==
+X-Received: by 2002:a17:906:9c82:b0:6df:c5f0:d456 with SMTP id fj2-20020a1709069c8200b006dfc5f0d456mr6845907ejc.287.1655967938872;
+        Thu, 23 Jun 2022 00:05:38 -0700 (PDT)
+Received: from [192.168.0.226] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id a24-20020aa7cf18000000b004356c18b2b9sm12227191edy.44.2022.06.23.00.05.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jun 2022 00:05:38 -0700 (PDT)
+Message-ID: <84cba0c8-fb31-3314-5e2c-7a0c13030b9a@linaro.org>
+Date: Thu, 23 Jun 2022 09:05:37 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 21d84fcf-63be-4895-3c90-08da54e3b646
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3724:EE_
-X-Microsoft-Antispam-PRVS: 	<DM6PR10MB3724917DDAF7BBF861B292438EB59@DM6PR10MB3724.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	kjMkGwQwuSMxg/FLMp6rWwWe0ruyaa50XZZ/vGIuhyA1Z+3NL9AmAs3Gqr4gFoGjJ+/m/wqzJrlMkdLgtHuXLZXO6fa12+TKZqoYjeh4RTL/ekq7e5/j8dc8SwOCW+UnJctdaNe9LRI1wQX2sXir0ZZ3WuAfas5VufXfWyZwPQnPy5ztD9KaAZ6txbYXEpzAlMlRoLnx9ZicIeuBHy76LXL97likeoYfJiWd0o64fsmcyjenNeHrTFviAjOJTkqB+yt0SN9EeGjLy2GP7Xx0NOqpPVOCdHm1Bk1YRPBDrOimspiPWYyVCK1NvIzFaIuxZN+Ge25fJ4YvpX4PrsQGMAb8HhQLNLk9KQdUCWjHs+uCbonc57M85z8rxtU28RlvyZYmFEjXqQjA7W+qj9NCKLYKkQo7SD10qT7kdTiprvZGw29Z7/nolnKeay/O1QIc7IMmi9jwBe8JkGiV+n4SHDvpRbipzyx/1OnYumn0JBSNa/r3rDvRk9WNyliglTtwxPyEA3ylN3Ua7MN7GISOtx6KBw7M50QcA3o0DwDk3Zys6M8lyoWvqeFdkxofu3UHr9mI4qJ6x86CF7+ZXMqzdc2twGmHnxX11DiUgBCaCsMMPeh347Rf0aAFSkf8WieQiNV1wo73iZQMQJIOvNEyz15H6gBfad2mHOFiSGlD1f0IhOz/lmgTf/zedjKGTHl/b1s2kuDR5PZaLJqB3VwYCPALUdRnOTPKcwEINZHE0x2ulL9LNCQdxkV3jXXX3MLb
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(346002)(376002)(396003)(366004)(39860400002)(136003)(316002)(6666004)(54906003)(9686003)(6916009)(2906002)(6512007)(41300700001)(26005)(52116002)(86362001)(6506007)(66946007)(8936002)(38350700002)(66556008)(6486002)(44832011)(33656002)(38100700002)(478600001)(186003)(33716001)(4326008)(4744005)(8676002)(5660300002)(66476007)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	3DAORu2ZIQze8+a0ooLXyGrzvmdwZp1yLCHDMNpComvWFUWVocTXvOdVLNLFtc4/xGC5vMlazrVHSYszFhg6oW+vJT8uDDh0arQ9tnVPHTplSqDuMCj5AD+gGpMKHF7igW69IQ8a7C0cCvLoDwi3CkmuLT7Vd/02Z4E344WdqXbN5qcoHGLU5ioXtVGEwYO78vv8VPCPAIVcCcuYOpRz5zY3aJ4/zX4tMCNIUBtXGXGbG3x08C9kP9h9JdRmvMzbniLRFtn4p31Y0LnlK9Wsh/SB6ZYFWIVlVIQRFh62+ojMsyJNwTTngmi+4c1n/Jf6FJplkbSBnYq8RxkNnhnUPweQtdZVEJYMS6MPXrqHzSP2msWE7hVha9jp4vgQXYanc3UzpkVpEsHGqzCcbVsRoXnwRjbaPrDN+HcLUsGCPX+MRlnOE/JQRX2msc1P5GLxDWbhcUuZv9Jr/avu6xD0Z+LkTCPycP2rjFERL2Am47Z0uQr815/76A1h34SM3v3flfpnSUYl2nUCeE+mvZw/ERqOD0z9U0gSba3Vx5vJ+QvmFVsF2OAsyTqSFESAYhzbM4JiGCzjOW5Haur9zv4Iy3z/LT4tOg9/uLr70zO2WPwz8lu2bpFKnIM0V2yk1gTZX3H/4Zuwx8XOwe5CKvkcoFuZgGeLrwiCSRnBqN42tYYgxaWE7VJfhIFslBf/BGEhgv40CVL9O1D0DwhomlzMRKy1bs0JezEyiDBUg4bEsSwDFRUeG7itA/MbDXYdfdGl
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21d84fcf-63be-4895-3c90-08da54e3b646
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 06:43:42.1212
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pvikaR8vwn9xnf8oL1QbtWZl1mDE32XNBev+BKIEZgs3HCQ6xv/nGocHf8iV32YRGdTxCMdNsmVQIGxcyW9oVNW7WHqoWbN07WBtbxD+lxw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3724
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-23_03:2022-06-22,2022-06-23 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- mlxlogscore=536 bulkscore=0 phishscore=0 suspectscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206230024
-X-Proofpoint-GUID: dzZtp9W8zDZ4X0RRUnC32OHlcZvhhNuY
-X-Proofpoint-ORIG-GUID: dzZtp9W8zDZ4X0RRUnC32OHlcZvhhNuY
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: (subset) [PATCH 7/7] ARM: dts: aspeed: centriq2400: use qcom
+ compatible
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>
+References: <20220529104928.79636-1-krzysztof.kozlowski@linaro.org>
+ <20220529104928.79636-7-krzysztof.kozlowski@linaro.org>
+ <165589305701.29629.10216921074802952879.b4-ty@linaro.org>
+ <CACPK8XfxXi8kQr+vxta8rD6SBgxLf_oBjAH0UkPBacQta552YQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CACPK8XfxXi8kQr+vxta8rD6SBgxLf_oBjAH0UkPBacQta552YQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,23 +84,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
+Cc: devicetree <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Wang <David_Wang6097@jabil.com>, Steven Lee <steven_lee@aspeedtech.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Ken Chen <chen.kenyy@inventec.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jun 23, 2022 at 01:41:49AM +0000, Neal Liu wrote:
-> > The bug is that we should still enter this loop if "tx_len" is zero.
-> > 
-> > After adding the "last" variable, then the "chunk >= 0" condition is no longer
-> > required but I left it for readability.
-> > 
+On 23/06/2022 07:34, Joel Stanley wrote:
+> On Wed, 22 Jun 2022 at 10:17, Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On Sun, 29 May 2022 12:49:28 +0200, Krzysztof Kozlowski wrote:
+>>> "qualcomm" is not a documented compatible and instead "qcom" should be
+>>> used.
+>>>
+>>>
+>>
+>> Applied, thanks!
 > 
-> Use either "chunk >=0" or "last".
-> I think the former is more simpler.
+> What tree did you apply this to? Did you get review from the maintainer?
 
-chunk >= 0 doesn't work.  last works but I think this way is more
-readable.
+Tree was mentioned below.
 
-regards,
-dan carpenter
+> 
+> This board is unmaintained and unused. I would prefer it removed
+> rather than meaningless fixes be applied.
 
+I can drop the patch. I'll send the patch to remove the board.
+
+> 
+>>
+>> [7/7] ARM: dts: aspeed: centriq2400: use qcom compatible
+>>       https://git.kernel.org/krzk/linux/c/6202c6063145cf9ec22b40aac219122dd702a10f
+>>
+>> Best regards,
+>> --
+>> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
