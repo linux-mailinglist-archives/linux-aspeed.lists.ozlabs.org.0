@@ -1,66 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE7755C0F5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Jun 2022 14:31:06 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4930F55F3F6
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 05:22:21 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LXP8P52pzz3c8Z
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Jun 2022 22:31:01 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GgR5U+cp;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LXmwq1bmDz3cgS
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 13:22:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b32; helo=mail-yb1-xb32.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GgR5U+cp;
-	dkim-atps=neutral
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LXP8H2Kl7z3bsW
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Jun 2022 22:30:52 +1000 (AEST)
-Received: by mail-yb1-xb32.google.com with SMTP id x184so19192293ybg.12
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Jun 2022 05:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eBKXak+Ob3Ei97kT4QVvvk8BCgAkzxz//k5i3YHr7AQ=;
-        b=GgR5U+cpKuP+beC5qwn6CiR0EOEH6XzBLb0i+6n7DhIVMPsRTVguBuX0GIFAwxtHyh
-         VOlzkQLFjsTz54u8QZEbUukqSXXjKYLOVIBuqZ3j1btODAdIlrA9u1a5VdWDSsmZEmmt
-         8HzOgNn9XwKr39VlXaWUXbCXnfhLuQ2pIouO3gSqelhRlHTaBJG2ZJb+VzuU0TyMB2Xy
-         Z/MBdiVRKz/qu7DF8dDxgw2opyLIs9KHEig8sEDnhzt37j5kzjlQHYZtOorhWUzsHAah
-         HzUDVeCnzEqccpNVKFVujHPC/JsZe9FKezhZa5GXwVtxF+kOJpeAyebhqmWlELdqmzu6
-         wGFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eBKXak+Ob3Ei97kT4QVvvk8BCgAkzxz//k5i3YHr7AQ=;
-        b=TquNfxGN7Hfa5hZwwPcxCwYeCckBLSO/ovnaKuikFAK8SfQWPsQyi+3RTDjidaJKXm
-         sG1nFS2RGR80m9uR71JvDXwll9PuklX2D9x6EtpYfMt60qIYprb9f1OOTfLW5nEeeb3U
-         CV6xfj1Co+fbuZSa9LTwJIrVnOAdC0p0OB6BbWhXnhFB6P4WC3XYs4jyqWdt/n6LaSq0
-         q0L63562jFKV69UnIqVHzEs5Awa/lKBYbEO3Ni+dDVLIxbBWvOfLJ6e3aQJQeAruoN4A
-         luDMZTTCNMYeASposukVgDEu/hQkVX2OwY+37MtGOvQjH4eZVmfLfAoXY+kRAM+HTRL3
-         CJdg==
-X-Gm-Message-State: AJIora/6JnVId8/acEehJZ+AVPqfHdyC2H9V+JzmNj8IP45OZcPjsczC
-	NBVWDbjitghXc09X9FzoANPsmj0hqlL6RYnwk3S7sw==
-X-Google-Smtp-Source: AGRyM1uqJ5PwmFL/fd47hWxyC8kjLJIIiZ/wXBwR5XK7rYnGkAQfZxlfGFpBUXdqrwfZF2uAIE39CgbX1jpXs0bF+JY=
-X-Received: by 2002:a25:d88d:0:b0:66c:999d:919c with SMTP id
- p135-20020a25d88d000000b0066c999d919cmr16080159ybg.514.1656419449622; Tue, 28
- Jun 2022 05:30:49 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LXmwb3mlGz2yJ5
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jun 2022 13:22:04 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 25T34APP013034;
+	Wed, 29 Jun 2022 11:04:10 +0800 (GMT-8)
+	(envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 29 Jun
+ 2022 11:20:13 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+        Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller"
+	<davem@davemloft.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@aj.id.au>,
+        Dhananjay Phadke <dhphadke@microsoft.com>,
+        "Johnny Huang" <johnny_huang@aspeedtech.com>
+Subject: [PATCH v5 0/5] Add Aspeed crypto driver for hardware acceleration
+Date: Wed, 29 Jun 2022 11:20:03 +0800
+Message-ID: <20220629032008.1579899-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220618130854.12321-1-wangxiang@cdjrlc.com>
-In-Reply-To: <20220618130854.12321-1-wangxiang@cdjrlc.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 28 Jun 2022 14:30:38 +0200
-Message-ID: <CACRpkdYqNNAN=-=zfNo4FCVZhQuNju=fGA8ykSQdndd8NfQ86g@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: Fix typo in comment
-To: Xiang wangx <wangxiang@cdjrlc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 25T34APP013034
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,17 +60,80 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Jun 18, 2022 at 3:09 PM Xiang wangx <wangxiang@cdjrlc.com> wrote:
+Aspeed Hash and Crypto Engine (HACE) is designed to accelerate the
+throughput of hash data digest, encryption and decryption.
 
-> Delete the redundant word 'and'.
->
-> Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
+These patches aim to add Aspeed hash & crypto driver support.
+The hash & crypto driver also pass the run-time self tests that
+take place at algorithm registration.
 
-Patch applied.
+The patch series are tested on both AST2500 & AST2600 evaluation boards.
 
-Yours,
-Linus Walleij
+Tested-by below configs:
+- CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
+- CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=y
+- CONFIG_DMA_API_DEBUG=y
+- CONFIG_DMA_API_DEBUG_SG=y
+- CONFIG_CPU_BIG_ENDIAN=y
+
+Change since v4:
+- Add AST2500 clock definition & dts node.
+- Add software fallback for handling corner cases.
+- Fix copy wrong key length.
+
+Change since v3:
+- Use dmam_alloc_coherent() instead to manage dma_alloc_coherent().
+- Add more error handler of dma_prepare() & crypto_engine_start().
+
+Change since v2:
+- Fix endianness issue. Tested on both little endian & big endian
+  system.
+- Use common crypto hardware engine for enqueue & dequeue requests.
+- Use pre-defined IVs for SHA-family.
+- Revise error handler flow.
+- Fix sorts of coding style problems.
+
+Change since v1:
+- Add more error handlers, including DMA memory allocate/free, DMA
+  map/unmap, clock enable/disable, etc.
+- Fix check dma_map error for config DMA_API_DEBUG.
+- Fix dt-binding doc & dts node naming.
+
+
+Neal Liu (5):
+  crypto: aspeed: Add HACE hash driver
+  dt-bindings: clock: Add AST2500/AST2600 HACE reset definition
+  ARM: dts: aspeed: Add HACE device controller node
+  dt-bindings: crypto: add documentation for aspeed hace
+  crypto: aspeed: add HACE crypto driver
+
+ .../bindings/crypto/aspeed,ast2500-hace.yaml  |   53 +
+ MAINTAINERS                                   |    7 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |    8 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |    8 +
+ drivers/crypto/Kconfig                        |    1 +
+ drivers/crypto/Makefile                       |    1 +
+ drivers/crypto/aspeed/Kconfig                 |   40 +
+ drivers/crypto/aspeed/Makefile                |    8 +
+ drivers/crypto/aspeed/aspeed-hace-crypto.c    | 1122 +++++++++++++
+ drivers/crypto/aspeed/aspeed-hace-hash.c      | 1428 +++++++++++++++++
+ drivers/crypto/aspeed/aspeed-hace.c           |  301 ++++
+ drivers/crypto/aspeed/aspeed-hace.h           |  293 ++++
+ include/dt-bindings/clock/aspeed-clock.h      |    3 +-
+ include/dt-bindings/clock/ast2600-clock.h     |    1 +
+ 14 files changed, 3273 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
+ create mode 100644 drivers/crypto/aspeed/Kconfig
+ create mode 100644 drivers/crypto/aspeed/Makefile
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace-crypto.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace-hash.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace.h
+
+-- 
+2.25.1
+
