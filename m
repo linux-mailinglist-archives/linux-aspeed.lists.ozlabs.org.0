@@ -2,26 +2,26 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D482955FC5C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 11:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753CB55FC5E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 11:45:48 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LXxQz4xDRz3dQX
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 19:45:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LXxRG2LG6z3cfC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 19:45:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LXxQt3tzRz3c8q
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jun 2022 19:45:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LXxRC72tBz2ypf
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jun 2022 19:45:43 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 25T9SSik051155;
+	by twspam01.aspeedtech.com with ESMTP id 25T9SSil051155;
 	Wed, 29 Jun 2022 17:28:28 +0800 (GMT-8)
 	(envelope-from neal_liu@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 29 Jun
- 2022 17:44:31 +0800
+ 2022 17:44:32 +0800
 From: Neal Liu <neal_liu@aspeedtech.com>
 To: Corentin Labbe <clabbe.montjoie@gmail.com>,
         Christophe JAILLET
@@ -37,9 +37,9 @@ To: Corentin Labbe <clabbe.montjoie@gmail.com>,
  Jeffery" <andrew@aj.id.au>,
         Dhananjay Phadke <dhphadke@microsoft.com>,
         "Johnny Huang" <johnny_huang@aspeedtech.com>
-Subject: [PATCH v6 2/5] dt-bindings: clock: Add AST2500/AST2600 HACE reset definition
-Date: Wed, 29 Jun 2022 17:44:23 +0800
-Message-ID: <20220629094426.1930589-3-neal_liu@aspeedtech.com>
+Subject: [PATCH v6 3/5] ARM: dts: aspeed: Add HACE device controller node
+Date: Wed, 29 Jun 2022 17:44:24 +0800
+Message-ID: <20220629094426.1930589-4-neal_liu@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220629094426.1930589-1-neal_liu@aspeedtech.com>
 References: <20220629094426.1930589-1-neal_liu@aspeedtech.com>
@@ -50,7 +50,7 @@ X-Originating-IP: [192.168.10.10]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 25T9SSik051155
+X-MAIL: twspam01.aspeedtech.com 25T9SSil051155
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,38 +66,53 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add HACE reset bit definition for AST2500/AST2600.
+Add hace node to device tree for AST2500/AST2600.
 
 Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
 Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
 ---
- include/dt-bindings/clock/aspeed-clock.h  | 1 +
- include/dt-bindings/clock/ast2600-clock.h | 1 +
- 2 files changed, 2 insertions(+)
+ arch/arm/boot/dts/aspeed-g5.dtsi | 8 ++++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi | 8 ++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/include/dt-bindings/clock/aspeed-clock.h b/include/dt-bindings/clock/aspeed-clock.h
-index 9ff4f6e4558c..06d568382c77 100644
---- a/include/dt-bindings/clock/aspeed-clock.h
-+++ b/include/dt-bindings/clock/aspeed-clock.h
-@@ -52,5 +52,6 @@
- #define ASPEED_RESET_I2C		7
- #define ASPEED_RESET_AHB		8
- #define ASPEED_RESET_CRT1		9
-+#define ASPEED_RESET_HACE		10
+diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+index c89092c3905b..04f98d1dbb97 100644
+--- a/arch/arm/boot/dts/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+@@ -262,6 +262,14 @@ rng: hwrng@1e6e2078 {
+ 				quality = <100>;
+ 			};
  
- #endif
-diff --git a/include/dt-bindings/clock/ast2600-clock.h b/include/dt-bindings/clock/ast2600-clock.h
-index 62b9520a00fd..d8b0db2f7a7d 100644
---- a/include/dt-bindings/clock/ast2600-clock.h
-+++ b/include/dt-bindings/clock/ast2600-clock.h
-@@ -111,6 +111,7 @@
- #define ASPEED_RESET_PCIE_RC_O		19
- #define ASPEED_RESET_PCIE_RC_OEN	18
- #define ASPEED_RESET_PCI_DP		5
-+#define ASPEED_RESET_HACE		4
- #define ASPEED_RESET_AHB		1
- #define ASPEED_RESET_SDRAM		0
++			hace: crypto@1e6e3000 {
++				compatible = "aspeed,ast2500-hace";
++				reg = <0x1e6e3000 0x100>;
++				interrupts = <4>;
++				clocks = <&syscon ASPEED_CLK_GATE_YCLK>;
++				resets = <&syscon ASPEED_RESET_HACE>;
++			};
++
+ 			gfx: display@1e6e6000 {
+ 				compatible = "aspeed,ast2500-gfx", "syscon";
+ 				reg = <0x1e6e6000 0x1000>;
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index 6660564855ff..095cf8d03616 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -323,6 +323,14 @@ apb {
+ 			#size-cells = <1>;
+ 			ranges;
  
++			hace: crypto@1e6d0000 {
++				compatible = "aspeed,ast2600-hace";
++				reg = <0x1e6d0000 0x200>;
++				interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&syscon ASPEED_CLK_GATE_YCLK>;
++				resets = <&syscon ASPEED_RESET_HACE>;
++			};
++
+ 			syscon: syscon@1e6e2000 {
+ 				compatible = "aspeed,ast2600-scu", "syscon", "simple-mfd";
+ 				reg = <0x1e6e2000 0x1000>;
 -- 
 2.25.1
 
