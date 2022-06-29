@@ -1,56 +1,36 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6962F55F3F4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 05:22:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A54155F5D3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 07:51:21 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LXmwm2XLSz3dR5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 13:22:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LXrDj6pX3z3bvb
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jun 2022 15:51:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.alibaba.com (client-ip=115.124.30.42; helo=out30-42.freemail.mail.aliyun.com; envelope-from=jiapeng.chong@linux.alibaba.com; receiver=<UNKNOWN>)
+Received: from out30-42.freemail.mail.aliyun.com (out30-42.freemail.mail.aliyun.com [115.124.30.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LXmwb3JvPz2xbW
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jun 2022 13:22:04 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 25T34APT013034;
-	Wed, 29 Jun 2022 11:04:12 +0800 (GMT-8)
-	(envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 29 Jun
- 2022 11:20:13 +0800
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>,
-        Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller"
-	<davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>,
-        Dhananjay Phadke <dhphadke@microsoft.com>,
-        "Johnny Huang" <johnny_huang@aspeedtech.com>
-Subject: [PATCH v5 4/5] dt-bindings: crypto: add documentation for aspeed hace
-Date: Wed, 29 Jun 2022 11:20:07 +0800
-Message-ID: <20220629032008.1579899-5-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220629032008.1579899-1-neal_liu@aspeedtech.com>
-References: <20220629032008.1579899-1-neal_liu@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LXrDb2qksz3bkC
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jun 2022 15:51:09 +1000 (AEST)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R301e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DW;RN=14;SR=0;TI=W4_0.1.30_DEFAULT_212D5AFB_1656481861118_o7001c2104;
+Received: from WS-web (jiapeng.chong@linux.alibaba.com[W4_0.1.30_DEFAULT_212D5AFB_1656481861118_o7001c2104]) at Wed, 29 Jun 2022 13:51:01 +0800
+Date: Wed, 29 Jun 2022 13:51:01 +0800
+From: "Jiapeng.Chong" <jiapeng.chong@linux.alibaba.com>
+To: "Greg KH" <gregkh@linuxfoundation.org>
+Message-ID: <19ba5da7-3e9d-49e1-aa7f-b0834737fbfe.jiapeng.chong@linux.alibaba.com>
+Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIXSB1c2I6IGdhZGdldDogRml4IHVuc2lnbmVkIGNvbXBhcmlzb24g?=
+  =?UTF-8?B?d2l0aCBsZXNzIHRoYW4gemVybw==?=
+X-Mailer: [Alimail-Mailagent revision 5][W4_0.1.30][DEFAULT][Chrome]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 25T34APT013034
+References: <20220623084347.38207-1-jiapeng.chong@linux.alibaba.com>,<YrWjCnNJohij691b@kroah.com>
+x-aliyun-mail-creator: W4_0.1.30_DEFAULT_wgbTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwMS4wLjQ5NTEuNDEgU2FmYXJpLzUzNy4zNiBFZGcvMTAxLjAuMTIxMC4zMg==NT
+In-Reply-To: <YrWjCnNJohij691b@kroah.com>
+Content-Type: multipart/alternative;
+  boundary="----=ALIBOUNDARY_85668_7f61c030d700_62bbe845_9783"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,80 +42,117 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Reply-To: "Jiapeng.Chong" <jiapeng.chong@linux.alibaba.com>
+Cc: balbi <balbi@kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, neal_liu <neal_liu@aspeedtech.com>, linux-usb <linux-usb@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, "sumit.semwal" <sumit.semwal@linaro.org>, linaro-mm-sig <linaro-mm-sig@lists.linaro.org>, "christian.koenig" <christian.koenig@amd.com>, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-media <linux-media@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add device tree binding documentation for the Aspeed Hash
-and Crypto Engines (HACE) Controller.
+------=ALIBOUNDARY_85668_7f61c030d700_62bbe845_9783
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../bindings/crypto/aspeed,ast2500-hace.yaml  | 53 +++++++++++++++++++
- 1 file changed, 53 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
+U29ycnksIHdlIGRpZG4ndCBzZWUgdGhpcyBwYXRjaC4KY29tbWl0IGMwOWIxZjM3MmU3NDZhZWVi
+NjFlZjhmZmUwZmVhMzk3MGZkOTI3M2UKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQrlj5Hku7bkurrvvJpHcmVnIEtIIDxn
+cmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4K5Y+R6YCB5pe26Ze077yaMjAyMuW5tDbmnIgyNOaX
+pSjmmJ/mnJ/kupQpIDE5OjQ1CuaUtuS7tuS6uu+8mkppYXBlbmcgQ2hvbmcgPGppYXBlbmcuY2hv
+bmdAbGludXguYWxpYmFiYS5jb20+CuaKhOOAgOmAge+8mm5lYWxfbGl1IDxuZWFsX2xpdUBhc3Bl
+ZWR0ZWNoLmNvbT47IGJhbGJpIDxiYWxiaUBrZXJuZWwub3JnPjsgam9lbCA8am9lbEBqbXMuaWQu
+YXU+OyBhbmRyZXcgPGFuZHJld0Bhai5pZC5hdT47IHN1bWl0LnNlbXdhbCA8c3VtaXQuc2Vtd2Fs
+QGxpbmFyby5vcmc+OyBjaHJpc3RpYW4ua29lbmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+OyBsaW51eC1hc3BlZWQgPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPjsgbGludXgtdXNi
+IDxsaW51eC11c2JAdmdlci5rZXJuZWwub3JnPjsgbGludXgtYXJtLWtlcm5lbCA8bGludXgtYXJt
+LWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsgbGludXgta2VybmVsIDxsaW51eC1rZXJuZWxA
+dmdlci5rZXJuZWwub3JnPjsgbGludXgtbWVkaWEgPGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
+Zz47IGRyaS1kZXZlbCA8ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz47IGxpbmFyby1t
+bS1zaWcgPGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZz4K5Li744CA6aKY77yaUmU6IFtQ
+QVRDSF0gdXNiOiBnYWRnZXQ6IEZpeCB1bnNpZ25lZCBjb21wYXJpc29uIHdpdGggbGVzcyB0aGFu
+IHplcm8KCk9uIFRodSwgSnVuIDIzLCAyMDIyIGF0IDA0OjQzOjQ3UE0gKzA4MDAsIEppYXBlbmcg
+Q2hvbmcgd3JvdGU6Cj4gVGhpcyB3YXMgZm91bmQgYnkgY29jY2ljaGVjazoKPiAKPiAuL2RyaXZl
+cnMvdXNiL2dhZGdldC91ZGMvYXNwZWVkX3VkYy5jOjQ5Njo4LTEzOiBXQVJOSU5HOiBVbnNpZ25l
+ZCBleHByZXNzaW9uIGNvbXBhcmVkIHdpdGggemVybzogY2h1bmsgPj0gMC4KCldoYXQgZG9lcyB0
+aGlzIG1lYW4/ICBXaGVyZSBpcyB0aGUgZXJyb3I/CgpQbGVhc2UgZXhwbGFpbiB0aGUgcmVhc29u
+IGZvciBjaGFuZ2VzLCBub3QganVzdCB0aGUgb3V0cHV0IG9mIGEgcmFuZG9tCnRvb2wgdGhhdCB5
+b3UgcmFuIG9uIHRoZSBjb2RlLgoKPiBTaWduZWQtb2ZmLWJ5OiBKaWFwZW5nIENob25nIDxqaWFw
+ZW5nLmNob25nQGxpbnV4LmFsaWJhYmEuY29tPgoKV2hhdCBjb21taXQgZG9lcyB0aGlzIGZpeD8K
+CnRoYW5rcywKCmdyZWcgay1oCgo=
+------=ALIBOUNDARY_85668_7f61c030d700_62bbe845_9783
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml b/Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
-new file mode 100644
-index 000000000000..a772d232de09
---- /dev/null
-+++ b/Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
-@@ -0,0 +1,53 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/crypto/aspeed,ast2500-hace.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ASPEED HACE hash and crypto Hardware Accelerator Engines
-+
-+maintainers:
-+  - Neal Liu <neal_liu@aspeedtech.com>
-+
-+description: |
-+  The Hash and Crypto Engine (HACE) is designed to accelerate the throughput
-+  of hash data digest, encryption, and decryption. Basically, HACE can be
-+  divided into two independently engines - Hash Engine and Crypto Engine.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2500-hace
-+      - aspeed,ast2600-hace
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - interrupts
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/ast2600-clock.h>
-+    hace: crypto@1e6d0000 {
-+        compatible = "aspeed,ast2600-hace";
-+        reg = <0x1e6d0000 0x200>;
-+        interrupts = <4>;
-+        clocks = <&syscon ASPEED_CLK_GATE_YCLK>;
-+        resets = <&syscon ASPEED_RESET_HACE>;
-+    };
--- 
-2.25.1
+PGRpdiBjbGFzcz0iX19hbGl5dW5fZW1haWxfYm9keV9ibG9jayI+PGRpdiAgc3R5bGU9ImNsZWFy
+OmJvdGg7Ij48ZGl2ICBzdHlsZT0ibWFyZ2luOi4wcHg7cGFkZGluZzouMHB4O2JvcmRlcjouMHB4
+O291dGxpbmU6LjBweDtjb2xvcjojMDAwMDAwO2ZvbnQtZmFtaWx5OlRhaG9tYSxBcmlhbDtmb250
+LXNpemU6MTQuMHB4O2ZvbnQtc3R5bGU6bm9ybWFsO2ZvbnQtdmFyaWFudC1saWdhdHVyZXM6bm9y
+bWFsO2ZvbnQtdmFyaWFudC1jYXBzOm5vcm1hbDtmb250LXdlaWdodDo0MDA7dGV4dC1hbGlnbjpz
+dGFydDt0ZXh0LWluZGVudDouMHB4O3RleHQtdHJhbnNmb3JtOm5vbmU7d2lkb3dzOjI7dGV4dC1k
+ZWNvcmF0aW9uLXRoaWNrbmVzczppbml0aWFsO3RleHQtZGVjb3JhdGlvbi1zdHlsZTppbml0aWFs
+O3RleHQtZGVjb3JhdGlvbi1jb2xvcjppbml0aWFsO2NsZWFyOmJvdGg7Ij48c3BhbiAgY2xhc3M9
+IiBfX2FsaXl1bl9ub2RlX2hhc19jb2xvciIgc3R5bGU9Im1hcmdpbjouMHB4O3BhZGRpbmc6LjBw
+eDtib3JkZXI6LjBweDtvdXRsaW5lOi4wcHg7Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLFNUSGVp
+dGksU2ltU3VuO2ZvbnQtc2l6ZToxNC4wcHg7Y29sb3I6IzAwMDAwMDsiPlNvcnJ5LCZuYnNwO3dl
+Jm5ic3A7ZGlkbid0Jm5ic3A7c2VlJm5ic3A7dGhpcyZuYnNwO3BhdGNoLjwvc3Bhbj48L2Rpdj48
+ZGl2ICBzdHlsZT0ibWFyZ2luOi4wcHg7cGFkZGluZzouMHB4O2JvcmRlcjouMHB4O291dGxpbmU6
+LjBweDtjb2xvcjojMDAwMDAwO2ZvbnQtZmFtaWx5OlRhaG9tYSxBcmlhbDtmb250LXNpemU6MTQu
+MHB4O2ZvbnQtc3R5bGU6bm9ybWFsO2ZvbnQtdmFyaWFudC1saWdhdHVyZXM6bm9ybWFsO2ZvbnQt
+dmFyaWFudC1jYXBzOm5vcm1hbDtmb250LXdlaWdodDo0MDA7dGV4dC1hbGlnbjpzdGFydDt0ZXh0
+LWluZGVudDouMHB4O3RleHQtdHJhbnNmb3JtOm5vbmU7d2lkb3dzOjI7dGV4dC1kZWNvcmF0aW9u
+LXRoaWNrbmVzczppbml0aWFsO3RleHQtZGVjb3JhdGlvbi1zdHlsZTppbml0aWFsO3RleHQtZGVj
+b3JhdGlvbi1jb2xvcjppbml0aWFsO2NsZWFyOmJvdGg7Ij48c3BhbiAgY2xhc3M9IiBfX2FsaXl1
+bl9ub2RlX2hhc19jb2xvciIgc3R5bGU9Im1hcmdpbjouMHB4O3BhZGRpbmc6LjBweDtib3JkZXI6
+LjBweDtvdXRsaW5lOi4wcHg7Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLFNUSGVpdGksU2ltU3Vu
+O2ZvbnQtc2l6ZToxNC4wcHg7Y29sb3I6IzAwMDAwMDsiPmNvbW1pdCZuYnNwO2MwOWIxZjM3MmU3
+NDZhZWViNjFlZjhmZmUwZmVhMzk3MGZkOTI3M2U8L3NwYW4+PC9kaXY+PHNwYW4gIHN0eWxlPSJm
+b250LWZhbWlseTpUYWhvbWEsQXJpYWwsU1RIZWl0aSxTaW1TdW47Zm9udC1zaXplOjE0LjBweDtj
+b2xvcjojMDAwMDAwOyI+PGJyID48L3NwYW4+PC9kaXY+PGJsb2NrcXVvdGUgIHN0eWxlPSJtYXJn
+aW4tcmlnaHQ6LjBweDttYXJnaW4tdG9wOi4wcHg7bWFyZ2luLWJvdHRvbTouMHB4OyI+PGRpdiAg
+c3R5bGU9ImNsZWFyOmJvdGg7Ij48c3BhbiAgc3R5bGU9ImZvbnQtZmFtaWx5OlRhaG9tYSxBcmlh
+bCxTVEhlaXRpLFNpbVN1bjtmb250LXNpemU6MTQuMHB4O2NvbG9yOiMwMDAwMDA7Ij4tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS08L3NwYW4+PC9kaXY+PGRpdiAgc3R5bGU9ImNsZWFyOmJvdGg7Ij48c3BhbiAgc3R5bGU9ImZv
+bnQtZmFtaWx5OlRhaG9tYSxBcmlhbCxTVEhlaXRpLFNpbVN1bjtmb250LXNpemU6MTQuMHB4O2Nv
+bG9yOiMwMDAwMDA7Ij7lj5Hku7bkurrvvJpHcmVnIEtIICZsdDtncmVna2hAbGludXhmb3VuZGF0
+aW9uLm9yZyZndDs8L3NwYW4+PC9kaXY+PGRpdiAgc3R5bGU9ImNsZWFyOmJvdGg7Ij48c3BhbiAg
+c3R5bGU9ImZvbnQtZmFtaWx5OlRhaG9tYSxBcmlhbCxTVEhlaXRpLFNpbVN1bjtmb250LXNpemU6
+MTQuMHB4O2NvbG9yOiMwMDAwMDA7Ij7lj5HpgIHml7bpl7TvvJoyMDIy5bm0NuaciDI05pelKOaY
+n+acn+S6lCkgMTk6NDU8L3NwYW4+PC9kaXY+PGRpdiAgc3R5bGU9ImNsZWFyOmJvdGg7Ij48c3Bh
+biAgc3R5bGU9ImZvbnQtZmFtaWx5OlRhaG9tYSxBcmlhbCxTVEhlaXRpLFNpbVN1bjtmb250LXNp
+emU6MTQuMHB4O2NvbG9yOiMwMDAwMDA7Ij7mlLbku7bkurrvvJpKaWFwZW5nIENob25nICZsdDtq
+aWFwZW5nLmNob25nQGxpbnV4LmFsaWJhYmEuY29tJmd0Ozwvc3Bhbj48L2Rpdj48ZGl2ICBzdHls
+ZT0iY2xlYXI6Ym90aDsiPjxzcGFuICBzdHlsZT0iZm9udC1mYW1pbHk6VGFob21hLEFyaWFsLFNU
+SGVpdGksU2ltU3VuO2ZvbnQtc2l6ZToxNC4wcHg7Y29sb3I6IzAwMDAwMDsiPuaKhOOAgOmAge+8
+mm5lYWxfbGl1ICZsdDtuZWFsX2xpdUBhc3BlZWR0ZWNoLmNvbSZndDs7IGJhbGJpICZsdDtiYWxi
+aUBrZXJuZWwub3JnJmd0Ozsgam9lbCAmbHQ7am9lbEBqbXMuaWQuYXUmZ3Q7OyBhbmRyZXcgJmx0
+O2FuZHJld0Bhai5pZC5hdSZndDs7IHN1bWl0LnNlbXdhbCAmbHQ7c3VtaXQuc2Vtd2FsQGxpbmFy
+by5vcmcmZ3Q7OyBjaHJpc3RpYW4ua29lbmlnICZsdDtjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20m
+Z3Q7OyBsaW51eC1hc3BlZWQgJmx0O2xpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnJmd0Ozsg
+bGludXgtdXNiICZsdDtsaW51eC11c2JAdmdlci5rZXJuZWwub3JnJmd0OzsgbGludXgtYXJtLWtl
+cm5lbCAmbHQ7bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnJmd0OzsgbGludXgt
+a2VybmVsICZsdDtsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnJmd0OzsgbGludXgtbWVkaWEg
+Jmx0O2xpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZyZndDs7IGRyaS1kZXZlbCAmbHQ7ZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyZndDs7IGxpbmFyby1tbS1zaWcgJmx0O2xpbmFyby1t
+bS1zaWdAbGlzdHMubGluYXJvLm9yZyZndDs8L3NwYW4+PC9kaXY+PGRpdiAgc3R5bGU9ImNsZWFy
+OmJvdGg7Ij48c3BhbiAgc3R5bGU9ImZvbnQtZmFtaWx5OlRhaG9tYSxBcmlhbCxTVEhlaXRpLFNp
+bVN1bjtmb250LXNpemU6MTQuMHB4O2NvbG9yOiMwMDAwMDA7Ij7kuLvjgIDpopjvvJpSZTogW1BB
+VENIXSB1c2I6IGdhZGdldDogRml4IHVuc2lnbmVkIGNvbXBhcmlzb24gd2l0aCBsZXNzIHRoYW4g
+emVybzwvc3Bhbj48L2Rpdj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPjxzcGFuICBzdHlsZT0i
+Zm9udC1mYW1pbHk6VGFob21hLEFyaWFsLFNUSGVpdGksU2ltU3VuO2ZvbnQtc2l6ZToxNC4wcHg7
+Y29sb3I6IzAwMDAwMDsiPjxiciA+PC9zcGFuPjwvZGl2Pk9uJm5ic3A7VGh1LCZuYnNwO0p1biZu
+YnNwOzIzLCZuYnNwOzIwMjImbmJzcDthdCZuYnNwOzA0OjQzOjQ3UE0mbmJzcDsrMDgwMCwmbmJz
+cDtKaWFwZW5nJm5ic3A7Q2hvbmcmbmJzcDt3cm90ZTo8YnIgPiZndDsmbmJzcDtUaGlzJm5ic3A7
+d2FzJm5ic3A7Zm91bmQmbmJzcDtieSZuYnNwO2NvY2NpY2hlY2s6PGJyID4mZ3Q7Jm5ic3A7PGJy
+ID4mZ3Q7Jm5ic3A7Li9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2FzcGVlZF91ZGMuYzo0OTY6OC0x
+MzombmJzcDtXQVJOSU5HOiZuYnNwO1Vuc2lnbmVkJm5ic3A7ZXhwcmVzc2lvbiZuYnNwO2NvbXBh
+cmVkJm5ic3A7d2l0aCZuYnNwO3plcm86Jm5ic3A7Y2h1bmsmbmJzcDsmZ3Q7PSZuYnNwOzAuPGJy
+ID48YnIgPldoYXQmbmJzcDtkb2VzJm5ic3A7dGhpcyZuYnNwO21lYW4/Jm5ic3A7Jm5ic3A7V2hl
+cmUmbmJzcDtpcyZuYnNwO3RoZSZuYnNwO2Vycm9yPzxiciA+PGJyID5QbGVhc2UmbmJzcDtleHBs
+YWluJm5ic3A7dGhlJm5ic3A7cmVhc29uJm5ic3A7Zm9yJm5ic3A7Y2hhbmdlcywmbmJzcDtub3Qm
+bmJzcDtqdXN0Jm5ic3A7dGhlJm5ic3A7b3V0cHV0Jm5ic3A7b2YmbmJzcDthJm5ic3A7cmFuZG9t
+PGJyID50b29sJm5ic3A7dGhhdCZuYnNwO3lvdSZuYnNwO3JhbiZuYnNwO29uJm5ic3A7dGhlJm5i
+c3A7Y29kZS48YnIgPjxiciA+Jmd0OyZuYnNwO1NpZ25lZC1vZmYtYnk6Jm5ic3A7SmlhcGVuZyZu
+YnNwO0Nob25nJm5ic3A7Jmx0O2ppYXBlbmcuY2hvbmdAbGludXguYWxpYmFiYS5jb20mZ3Q7PGJy
+ID48YnIgPldoYXQmbmJzcDtjb21taXQmbmJzcDtkb2VzJm5ic3A7dGhpcyZuYnNwO2ZpeD88YnIg
+PjxiciA+dGhhbmtzLDxiciA+PGJyID5ncmVnJm5ic3A7ay1oPC9ibG9ja3F1b3RlPjxkaXYgPjxi
+ciA+PC9kaXY+PC9kaXY+
+------=ALIBOUNDARY_85668_7f61c030d700_62bbe845_9783--
 
