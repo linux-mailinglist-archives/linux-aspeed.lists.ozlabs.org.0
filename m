@@ -2,64 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F1E579327
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 08:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49792579328
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 08:28:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Ln86t0tRLz3dqr
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 16:28:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ln86x0x4wz2xkR
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 16:28:57 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=QK/5e2zQ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=LD2k1fnO;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62b; helo=mail-pl1-x62b.google.com; envelope-from=mailmesebin00@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::631; helo=mail-pl1-x631.google.com; envelope-from=mailmesebin00@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=QK/5e2zQ;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=LD2k1fnO;
 	dkim-atps=neutral
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LXrLf6Tdkz30LC
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jun 2022 15:56:25 +1000 (AEST)
-Received: by mail-pl1-x62b.google.com with SMTP id m2so13123280plx.3
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Jun 2022 22:56:25 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LXvGR0k5bz2xXS
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jun 2022 18:07:58 +1000 (AEST)
+Received: by mail-pl1-x631.google.com with SMTP id jb13so13377142plb.9
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jun 2022 01:07:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zysuHUP/InQT5Fi1lB0z6tjNnC0mTo16xnyZM6YuAJw=;
-        b=QK/5e2zQieB6A4dmexNIProsq3M79RKCnmora4GTRtVMPjkkvv3D4aT204RFEfBWx4
-         nId2C5ed5MHevimldiWc6Cjde/EbequTigTeiNKdBodzJkUX9bD3ohxdMQnuIO16C92c
-         cp955TzJcSZV4gQvc+gd9U7cL8BLf4+2kKrf4Hte3bACe8eIPTlrlIg7Ph1vWkIcuXDl
-         fIr+vIWPAyjVLyKVR71SZZjibIWSUNaAIDtHoXjlHTCVYvRZ/udaUv5cKICLS4WUOmEz
-         Y+mN1BV0/tn9BU7nWku0MgYLRIP8nEaeWD2bIzk+D5O6mxgA5I1AkhOhyH6BrtTW/hZb
-         a6bA==
+        bh=26ZIBRUEZIPtCeugGBeQrsgT3aaPi/jFrSW3XtqmO4E=;
+        b=LD2k1fnO3PEvw5iSj+odGBaj3uUJ/1bZXafHiHJr8dwAQMh7HAro80QefSH/JLvsY/
+         9sVfjCsCTwTv1NgQt+NxnMlz9HWC6fsejYqt30mAbe9+ExgjCwO4Kmmak2r5UC6RsJCL
+         8KKLQeTQjogfO0ePGfWqS0wNbZHCQq3mmG1tZQTkntPEPx2ch1LPrxVCROG63Rv0w/Xf
+         56VD/0HfdhM9EPbPE2o0Qjsrjh4U6qLgIYafgkpLjc5IWUESAZS4q5EPhmJhUoR7Af1I
+         5UrMChIu5XMEHhzVLRVqnYjj24lrm6dtT1PU81wYmPPhJ09bYSI1o61PDN2VphUf/6lI
+         EQWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zysuHUP/InQT5Fi1lB0z6tjNnC0mTo16xnyZM6YuAJw=;
-        b=ThDquJlVQYpyxuRUq0MXRnthXmw9fC2Lh6QF5LEL9tmcIhzriQU3e9W0eYJddkXR8S
-         Wd8srKCwTkcFkqSO05xXBEkCvIwGE55W+nLyku9tdo8qWBE1RlYO7sPfe385yfMyFYoK
-         m1YvfvuLtr1UMF8aDXqT3+GOPpKCEkC2eLrRccubi2i8U6aiZYh6Gsg156fk6nho917z
-         P6RCRU+a0ltIcJK1SjsrVZbDYjJ7QD4dmVQQ++NkvQ+gey2djT8tGA1ArpJvoKd5xRSP
-         mGydetZVXtz8qkaEatH9XWUFNb3iA/WwGraCOz/2OeM9Ylx0sLhz0h8P55v0cosAPVeK
-         uNSg==
-X-Gm-Message-State: AJIora9FeQ6jJIyJxbij33gwxSEWMEluBsMRzb9dzn2KiPSvMFqyLEGM
-	Qj9AtBMf3z5zXNr5X7kEpLc=
-X-Google-Smtp-Source: AGRyM1tXAC4bhW6xMpfXOnI72qyaFcpjuVyN0Ilx++e7/GU7Zz0+Z6//cTeok3vV2AY7ITsad9MSHg==
-X-Received: by 2002:a17:90b:4ac7:b0:1ed:21e8:ddb2 with SMTP id mh7-20020a17090b4ac700b001ed21e8ddb2mr1929375pjb.93.1656482181452;
-        Tue, 28 Jun 2022 22:56:21 -0700 (PDT)
-Received: from sebin-inspiron.bbrouter ([103.160.194.58])
-        by smtp.gmail.com with ESMTPSA id p12-20020aa79e8c000000b0050dc7628162sm10587451pfq.60.2022.06.28.22.56.17
+        bh=26ZIBRUEZIPtCeugGBeQrsgT3aaPi/jFrSW3XtqmO4E=;
+        b=ol4zhnR2/fw8VK2Juhb3CJo1q53FDJVAdNr4Hv6KH0dvO/qnghjxX6DgLVOrqosLQz
+         F0YDJ36rIhaqdfMaHOZnjiQMF9NED96651zKUusn9THp7TAhah6k7SRTc+QADXKvEcQQ
+         eajvYDEUS4yxeUr3zBFsw6uYQqEs5y5pxCyMFjgdsJJykKo1hNhWWzZnc8ES06WXwTV5
+         7RlUEXKFTSTsMUk97HBkffQz+tiCcC+92g7XAwumDMGqaE8/DhfiAgUt2hU3UXXjbQGY
+         MxLv3REBZYb9UlQ4R+O1rxIMGerlUJr2DogMo/PbIbGC5DXWxrqykZinKZH7Bpnb7Oa/
+         905Q==
+X-Gm-Message-State: AJIora9audj6ZtTrlsinT4K5RN8TpowWcrrC2AY9sLNWOu5DNTMtjs/V
+	4VdOFzxkbVfUdXlbty8MdGU=
+X-Google-Smtp-Source: AGRyM1tilyHqgJTXrJU1LG7dIY6Y7oBwOtiPbyUrYr/8vnrGlc6jHnz2pPhlEKAouHlMINKMc7UTTw==
+X-Received: by 2002:a17:90b:4b8c:b0:1ec:c7b8:7cb9 with SMTP id lr12-20020a17090b4b8c00b001ecc7b87cb9mr4345566pjb.86.1656490075939;
+        Wed, 29 Jun 2022 01:07:55 -0700 (PDT)
+Received: from sebin-inspiron.bbrouter ([103.160.233.84])
+        by smtp.gmail.com with ESMTPSA id kk2-20020a17090b4a0200b001cd4989febcsm1398292pjb.8.2022.06.29.01.07.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 22:56:20 -0700 (PDT)
+        Wed, 29 Jun 2022 01:07:55 -0700 (PDT)
 From: SebinSebastian <mailmesebin00@gmail.com>
 To: 
-Subject: [PATCH-next] usb: gadget: dereference before null check
-Date: Wed, 29 Jun 2022 11:26:05 +0530
-Message-Id: <20220629055605.102425-1-mailmesebin00@gmail.com>
+Subject: [PATCH -next] usb: gadget: dereference before null check
+Date: Wed, 29 Jun 2022 13:37:25 +0530
+Message-Id: <20220629080726.107297-1-mailmesebin00@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -79,20 +79,18 @@ Cc: Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org, linux-aspeed@lis
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Sebin Sebastian <mailmesebin00@gmail.com>
-
 Fix coverity warning dereferencing before null check. _ep and desc is
-deferenced on all paths until the check for null. Move the
-initilizations after the check for null.
+dereferenced on all paths until the check for null. Move the
+initializations after the check for null.
 Coverity issue: 1518209
 
-Signed-off-by: Sebin Sebastian <mailmesebin00@gmail.com>
+Signed-off-by: SebinSebastian <mailmesebin00@gmail.com>
 ---
- drivers/usb/gadget/udc/aspeed_udc.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/usb/gadget/udc/aspeed_udc.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index d75a4e070bf7..4f158030e2cc 100644
+index d75a4e070bf7..96f8193fca15 100644
 --- a/drivers/usb/gadget/udc/aspeed_udc.c
 +++ b/drivers/usb/gadget/udc/aspeed_udc.c
 @@ -341,10 +341,6 @@ static void ast_udc_stop_activity(struct ast_udc_dev *udc)
@@ -106,19 +104,18 @@ index d75a4e070bf7..4f158030e2cc 100644
  	unsigned long flags;
  	u32 ep_conf = 0;
  	u8 dir_in;
-@@ -355,6 +351,12 @@ static int ast_udc_ep_enable(struct usb_ep *_ep,
- 		EP_DBG(ep, "Failed, invalid EP enable param\n");
+@@ -356,6 +352,11 @@ static int ast_udc_ep_enable(struct usb_ep *_ep,
  		return -EINVAL;
  	}
-+
+
 +	u16 maxpacket = usb_endpoint_maxp(desc);
 +	struct ast_udc_ep *ep = to_ast_ep(_ep);
 +	struct ast_udc_dev *udc = ep->udc;
 +	u8 epnum = usb_endpoint_num(desc);
 +
- 
  	if (!udc->driver) {
  		EP_DBG(ep, "bogus device state\n");
--- 
+ 		return -ESHUTDOWN;
+--
 2.34.1
 
