@@ -1,117 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F329560FC2
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Jun 2022 05:42:21 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FB55612C4
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Jun 2022 08:54:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LYPKR2bmcz3cFD
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Jun 2022 13:42:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LYTZv3j0Dz3cL8
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Jun 2022 16:54:15 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=TyE/twKK;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=JdCXLXAF;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.215.120; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linuxfoundation.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=TyE/twKK;
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=JdCXLXAF;
 	dkim-atps=neutral
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2120.outbound.protection.outlook.com [40.107.215.120])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LYPKK5j8nz3bkM
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Jun 2022 13:42:12 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AUJUhDCl8rai0W5w+gGPvLmEC5EHsUdWxrkAPD2acB9SqGOtF7di2KXFmC3CKv+OY3kfbaco7Sno7+xxqnnmT5hzX1qwGUPGEVlSY4tX/wB9eOxXD6LrsxTa9FvHE/w4VxCI5hRqmPHl04aCww4pKdkMZ9uU5iKdF8c7H/21cT7hxVX2bK/0Zk3bmy2YiZJS3vc0AlphjDf7Fwdiyb9ecbEmXHDyFjlK8C5yhWBV1Q+az3TRw3zJ4tu5IjREYfX0AkP4UpCo343/NbOhWFsX8D6GQNI6o62UIpLPPlS8jjDvw8dLIDJGijla4CrSdjEOEp3Oow6/1BsYj9ZacJyrgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pYbz24zNXymM/92xBJSvZDm00omWxHA5DIbQVHCmkCA=;
- b=ZFGZ5gK7Zm8MwWGG7xFy3EQGMa5XUXcLX9bw2h4d2v2zhJOf4V2tajAw6aWBuQN4gjy9axdXs/Z6UYOTGb1UO/5t52vduSk0b0nZ23jEJOvBuFEp5bZvJV1oqQ9kT5bOCwz9XDi6usBa4AHkT2NXvRL76nifKQF7jwVr0buaJxBFuiH58xmsZcj3LIpvvlLE0bCt0kt8UkJOdZx8EjZVvnNTl3elu3qVfXn5W7FSOjhoK2WGqsgd6Sn5xO8cf6f+upNSYYGQuoMpFyBHNfofJdMEAvFZ6jsmgtF24azH37TjFgfMHsolE0LMKs4U4IHAQmfb71HzpyMyan091UM6lA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pYbz24zNXymM/92xBJSvZDm00omWxHA5DIbQVHCmkCA=;
- b=TyE/twKKqRmEvZK2Mv3kcFpGeS8ZMJRPg0xIAaWaTz+1WdDwQZ8uW2/VaQzUCfC4t3/OXjrTrbD/rDpHhmpjgp1Fpvzseh6iE2LT/RVXtX6yu3hl60TOieTo4X2OTdKnmfsNv+G8OgHulevr4boqEUI8EXhBlQB2qMuRTysp3ICZAxnID8XpP7RLiRHBKQyrmY7dxItnjZRnkjNJgxmSOnrLpOGilbVB43qJoDl//cHLFpuBTcTlTzf6Vb+WEC6nnHnGAtaeCTCLAHoWbQrPuMtMPTf4ta3iYHI3EjuKr4FERHbYQSxID5BnzWSNIt+ul1AomX7B1J99iAmsSOc4lw==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by PS2PR06MB3480.apcprd06.prod.outlook.com (2603:1096:300:5f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14; Thu, 30 Jun
- 2022 03:41:52 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::46d:a7a:f047:e9bf]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::46d:a7a:f047:e9bf%5]) with mapi id 15.20.5373.018; Thu, 30 Jun 2022
- 03:41:52 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>
-Subject: RE: [PATCH v6 1/5] crypto: aspeed: Add HACE hash driver
-Thread-Topic: [PATCH v6 1/5] crypto: aspeed: Add HACE hash driver
-Thread-Index: AQHYi5zYXJWayYu9tEOgJTXDveSSAa1mUnEAgAD7PSA=
-Date: Thu, 30 Jun 2022 03:41:52 +0000
-Message-ID:  <HK0PR06MB320233EB0554D930CBFED3CC80BA9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20220629094426.1930589-1-neal_liu@aspeedtech.com>
- <20220629094426.1930589-2-neal_liu@aspeedtech.com> <YrxHRMoMYW+QDSnd@Red>
-In-Reply-To: <YrxHRMoMYW+QDSnd@Red>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e52e0802-4509-4c59-c346-08da5a4a78d0
-x-ms-traffictypediagnostic: PS2PR06MB3480:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  i0AfZFUXG1DhuQU6KI3gn5fv000bqYWNK5QtZ01W/57JjhsrZyaQNObPmz3EE0oR8gwTUUuB8qWxL1+/n+4jDjP8eYdCL1JU6Blj5AUo4I1zNMVuSXN4ASSwrqTgZnWVPhatyMRDm8IGZ7UIQc9DhNK+mdviz+8dWrKMP+qbs/GqmvVL0aMtp+xq/2ByzVgBE/O7HRvLnRb4jW+5rRCIzqVzqTTrb1GN/0r4aDY6wD3vxdIGnTI4DOJXaJBKzje+Z4R3M3f1gM4woOGIrcgWtsFFx+Nloze1b23IovNchsW0++byKuuoD0mJizwceQ96CdyumJpvq8JNoKEdCg/rTKCi8dfIy4paTzz+UJGGc++OORUDx2Rlaz5JJ/cA0+ZtOFwBFIEdImUal84g4PyP1ZlrTJjUUCz3QKpDSxRzhoPqrLAiFq9x8vRNmQ9oomfYXTgA/sWaf0+QubiX0zLvkwOmOzfzkkjHWhL3t/YFxoalreHkK6lwYO6oHWZfed7dbs2wc23A08vWtYM/VKxJ0WQbSw0iWwtIikmX0JUHHu19ZXFxrc/cS39/fsN3iGffBsOOfQ90WQJX3edWOGChjxFJoUbRrg97632a8pITluqjoOjp83DyrOauvRneYnTFvzp53SQY2xZZkXCgFd4bOdU42e1nKeXHQo714DVsBFXgy5Le5BmvvRAbDpxiSiAVV34L7AHC8nm4YRyz3fRCloobwegwJU9oSm9Gxx1t0FLfnZx5sXXmja19BmABd3EyPQ0sJWV5+404Nwsv9qce0wf1zU78Niw+n9Gw8+efTfocMT8f58sD5tNRC6SVC6fV
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(39840400004)(346002)(366004)(136003)(396003)(376002)(66446008)(186003)(71200400001)(8676002)(4326008)(41300700001)(66574015)(64756008)(66556008)(66946007)(9686003)(76116006)(107886003)(66476007)(26005)(6916009)(54906003)(7416002)(38100700002)(5660300002)(83380400001)(478600001)(33656002)(53546011)(86362001)(6506007)(55016003)(316002)(122000001)(7696005)(2906002)(38070700005)(52536014)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?iG6ID0hiH2y87Bg/tFX1Afgn9gv1s2zU38z+5kndrXoaQHxgdRB5PhAisd?=
- =?iso-8859-1?Q?YUG/ANHurhgfiCy430fG5YIduq1KKk35IJ7x2lOHo+2sKNcbHW3tOtb64y?=
- =?iso-8859-1?Q?9/sCmoOM3Rw7qNYTVP4/UyYd18RrLOOwlUpCvCrymh5AxNWLvARfmjKn3Y?=
- =?iso-8859-1?Q?w5orWiJrnCSQxFR5kiUEmjVe60W5Y9ROuZsU7JNuiyySDQFRZ2Wa/oeuIx?=
- =?iso-8859-1?Q?UG8Hmy0Dgn8aeTg3l7jW7eg3pWynaBGtXibYdTrRmPpzv460QBw3TLzgv2?=
- =?iso-8859-1?Q?8/CAUzIUOB7pNjVppJj1YC5iinmCTwIYvdxWBo/YOHh9I9nSdPBCuE+7YB?=
- =?iso-8859-1?Q?7X+wnKfiJ+hSklrFx16h4lSwN0m9Ql67h8OQqtZlUvFruYRlRK7XyfpciC?=
- =?iso-8859-1?Q?L9ayRLdoA2HaKe8M6LLREMEF+xYl9QuTeaw3XLT2AVxVlq/jAKGh+CHD1E?=
- =?iso-8859-1?Q?Fr4ZZMbx1hlPMxct+zHfWpJd0e1DptKOE4JZNuhHuAwpyM70HtPqCCm7FK?=
- =?iso-8859-1?Q?8MqOZZVKpXJ5IBneFSPPubiOD7qReBgWW6PcqU89Gp/Eh7dmVJOYoZ3rd7?=
- =?iso-8859-1?Q?vVDez/8rj6ysB4T2rGFRRJDuMNHC98Tb6YNL+J5BlfEfb4vrwC6fAIZySq?=
- =?iso-8859-1?Q?ztX9WJflWbVFAhfFOyV09ylBenrdMECjdC6wOwLPd+D76kZRijCWNPgHsR?=
- =?iso-8859-1?Q?Yt5zNqUyFq/GgsX8WfqzRUH1ryxfJiDEFOu1/9FRaEFhLrDGyHRNy0Nds+?=
- =?iso-8859-1?Q?a1BXf9R1h3DW+m+Xd30Nw6qv9/nnFefBGXSpK736MvSK6TkAxL9BNCh/LY?=
- =?iso-8859-1?Q?rt1WLYZf/RmKG2vwPWjkkirxuWx4yEaAjGaL06Oy0U98+n6ZSypvKzpT2D?=
- =?iso-8859-1?Q?gkRYMrfq5V92TWIlwNeAlPoYomqu6nSTT0baxoiHgC972c0P2RxQ08fv3/?=
- =?iso-8859-1?Q?XeR77H9hSCO87YgRZNYh2JrfnmSppxbfPOkLIIc8ZttzkPVIz+Rkgk81/o?=
- =?iso-8859-1?Q?5nJEpN1+0xnYsZahAv1t0W+pKZwtaCRIne2KPBabPcdAUtf0bwZk5i6kgT?=
- =?iso-8859-1?Q?Cck2NJmaKfvFRZj5DKQ7lT+Rj+y34wPAWpV9cgWMujaCgZnTSI2LldBkCA?=
- =?iso-8859-1?Q?ISRF+V9itHZ9tFrbSxau7iEPhaSKjUTfvvpvVGLvluAJntkLyHxwv4QMsG?=
- =?iso-8859-1?Q?0ay7wV5gYv7jxrIpjkTTzPPpRo9kWpI67XpKMuUuuiL6qJXTeNOtyoctge?=
- =?iso-8859-1?Q?2fS3+38DUk6I725VWGPm3RHl8ut4SFIhIUcNSe/SgW6QgAevmU7K+UyPrw?=
- =?iso-8859-1?Q?bgYZ62JO0DCB3dvej5uXdFQYZMmpYiBx+Zf1rJ+VEeok4L/HxdXYS+e6sp?=
- =?iso-8859-1?Q?evGA3vArQDh0SbEsAMF2VXVFCgLTCMNTusTM9uRJxnJCdDcFC4YMsaESjI?=
- =?iso-8859-1?Q?Ju88n3aMyMc2Ms8j3adGddKFcL/avo6cX6NXXmF7bAE7RfGLgSzgNxHwDg?=
- =?iso-8859-1?Q?7qrnvxPJfChXhuwgQsu6Hh9fAfiMz/ymwZNnJmntUsvku0mISzzQh/hxKp?=
- =?iso-8859-1?Q?tvTCANyNccJAlU4Z+OSmRf5Vj/GrhHUalVB3zfez3bBEjdc1HWlQ1Lz9uZ?=
- =?iso-8859-1?Q?pzGXPAgE72IesNS5tVD3i6ZxT3GK8h5OlN?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LYTZq1KLsz3c7l
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Jun 2022 16:54:11 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 788E662211;
+	Thu, 30 Jun 2022 06:54:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D5F2C34115;
+	Thu, 30 Jun 2022 06:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1656572047;
+	bh=AoZZBIOZ6lxp4R1mhcbQkpMM8z6raWKSubTBxc3uKjQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JdCXLXAFdIVNttvrE3zYW5gc495EVxTjSxKY3PzJbtg3xdpmjqtTQH9IioyspcVZZ
+	 +Ur+l2PNgwu/YRulMcltk2W2KqOP8/zvvDM3bif4NooRhihc2IzocSGAbvFKOjjE/9
+	 pqK9K2B7S2w/DbcFADGiZMhG1fjVZEzAxxzOlhdE=
+Date: Thu, 30 Jun 2022 08:54:04 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sebin Sebastian <mailmesebin00@gmail.com>
+Subject: Re: [PATCH v2 -next] usb: gadget: dereference before null check
+Message-ID: <Yr1IjFBe6JjrDq8n@kroah.com>
+References: <20220630044706.10772-1-mailmesebin00@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e52e0802-4509-4c59-c346-08da5a4a78d0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2022 03:41:52.6748
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I3i3GcsxSrbtOKNqvgB1U556vdbOvW60EfVtFkL7DkqsBZtu7lKI8/+7f2IxcNUuP9e6ghArqbN2dknaowpYtg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS2PR06MB3480
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220630044706.10772-1-mailmesebin00@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,124 +56,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Johnny Huang <johnny_huang@aspeedtech.com>, Herbert Xu <herbert@gondor.apana.org.au>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, BMC-SW <BMC-SW@aspeedtech.com>, Randy Dunlap <rdunlap@infradead.org>, Dhananjay Phadke <dhphadke@microsoft.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S .
- Miller" <davem@davemloft.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>
+Cc: Felipe Balbi <balbi@kernel.org>, kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org, Neal Liu <neal_liu@aspeedtech.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> -----Original Message-----
-> From: Corentin Labbe <clabbe.montjoie@gmail.com>
-> Sent: Wednesday, June 29, 2022 8:36 PM
-> To: Neal Liu <neal_liu@aspeedtech.com>
-> Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>; Randy Dunlap
-> <rdunlap@infradead.org>; Herbert Xu <herbert@gondor.apana.org.au>; David
-> S . Miller <davem@davemloft.net>; Rob Herring <robh+dt@kernel.org>;
-> Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley
-> <joel@jms.id.au>; Andrew Jeffery <andrew@aj.id.au>; Dhananjay Phadke
-> <dhphadke@microsoft.com>; Johnny Huang
-> <johnny_huang@aspeedtech.com>; linux-aspeed@lists.ozlabs.org;
-> linux-crypto@vger.kernel.org; devicetree@vger.kernel.org;
-> linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org; BMC-S=
-W
-> <BMC-SW@aspeedtech.com>
-> Subject: Re: [PATCH v6 1/5] crypto: aspeed: Add HACE hash driver
->=20
-> Le Wed, Jun 29, 2022 at 05:44:22PM +0800, Neal Liu a =E9crit :
-> > Hash and Crypto Engine (HACE) is designed to accelerate the throughput
-> > of hash data digest, encryption, and decryption.
-> >
-> > Basically, HACE can be divided into two independently engines
-> > - Hash Engine and Crypto Engine. This patch aims to add HACE hash
-> > engine driver for hash accelerator.
-> >
-> > Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-> > Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
-> > ---
->=20
-> Hello
->=20
-> I have some minor comments below.
->=20
-> > +++ b/drivers/crypto/aspeed/aspeed-hace-hash.c
-> > @@ -0,0 +1,1428 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Copyright (c) 2021 Aspeed Technology Inc.
-> > + */
-> > +
-> > +#include "aspeed-hace.h"
-> > +
-> > +#ifdef ASPEED_AHASH_DEBUG
-> > +#define AHASH_DBG(h, fmt, ...)	\
-> > +	dev_dbg((h)->dev, "%s() " fmt, __func__, ##__VA_ARGS__) #else
-> > +#define AHASH_DBG(h, fmt, ...)	\
-> > +	((void)(h))
-> > +#endif
->=20
-> Hello why not direclty use dev_dbg ?
-> You will still need something to do to enable dev_dbg, so why force to ad=
-d the
-> need to re-compile it with ASPEED_AHASH_DEBUG ?
+On Thu, Jun 30, 2022 at 10:17:06AM +0530, Sebin Sebastian wrote:
+> Fix coverity warning dereferencing before null check. _ep and desc is
+> dereferenced on all paths until the check for null. Move the
+> initializations after the check for null.
 
-My purpose is to control its own debug logs independently.
-Maybe below define is more reasonable.
+How can those values ever be NULL?
 
-#ifdef ASPEED_AHASH_DEBUG
-#define AHASH_DBG dev_info()...
-#else
-#define AHASH_DBG dev_dbg()...
-#endif
+> Coverity issue: 1518209
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Do you agree with this?
+kernel test robot did not find this issue.
 
->=20
->=20
-> [...]
->=20
-> > +	if (dma_mapping_error(hace_dev->dev, rctx->digest_dma_addr)) {
-> > +		dev_warn(hace_dev->dev, "dma_map() rctx digest error\n");
-> > +		return -ENOMEM;
-> > +	}
->=20
-> An error displayed as warning.
->=20
-> [...]
-> > +	if (!sg_len) {
-> > +		dev_warn(hace_dev->dev, "dma_map_sg() src error\n");
->=20
-> Same here. In fact you have lot of error displayed as warning in the driv=
-er.
+> Signed-off-by: Sebin Sebastian <mailmesebin00@gmail.com>
 
-I think both of them are fine. Would you prefer dev_err() instead?
+What commit id does this change fix?
 
->=20
-> [...]
-> > +/* Weak function for HACE hash */
-> > +void __weak aspeed_register_hace_hash_algs(struct aspeed_hace_dev
-> > +*hace_dev) {
-> > +	pr_warn("%s: Not supported yet\n", __func__); }
-> > +
-> > +void __weak aspeed_unregister_hace_hash_algs(struct aspeed_hace_dev
-> > +*hace_dev) {
-> > +	pr_warn("%s: Not supported yet\n", __func__); }
->=20
-> Why not use dev_warn ?
+> ---
+>  Changes since v1: Fix the build errors and warnings due to first patch.
+>  Fix the undeclared 'ep' and 'maxpacket' error. Fix the ISO C90 warning.
+> 
+>  drivers/usb/gadget/udc/aspeed_udc.c | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+> index d75a4e070bf7..a43cf8dde2a8 100644
+> --- a/drivers/usb/gadget/udc/aspeed_udc.c
+> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
+> @@ -341,26 +341,33 @@ static void ast_udc_stop_activity(struct ast_udc_dev *udc)
+>  static int ast_udc_ep_enable(struct usb_ep *_ep,
+>  			     const struct usb_endpoint_descriptor *desc)
+>  {
+> -	u16 maxpacket = usb_endpoint_maxp(desc);
+> -	struct ast_udc_ep *ep = to_ast_ep(_ep);
 
-dev_warn() is better, I'll revise it in next patch.
+checking that ep is NULL here is an impossible thing on its own.  You
+did change this so that you didn't check this anymore, which is odd as
+you did not mention that in the changelog text :(
 
->=20
->=20
-> [...]
->=20
-> > +struct aspeed_sg_list {
-> > +	u32 len;
-> > +	u32 phy_addr;
-> > +};
->=20
-> Since it is a descriptor where all member are written with cpu_to_le32(),=
- it
-> should be __le32.
+> -	struct ast_udc_dev *udc = ep->udc;
+> -	u8 epnum = usb_endpoint_num(desc);
+>  	unsigned long flags;
+>  	u32 ep_conf = 0;
+>  	u8 dir_in;
+>  	u8 type;
+> +	u16 maxpacket;
+> +	struct ast_udc_ep *ep;
+> +	struct ast_udc_dev *udc;
+> +	u8 epnum;
 
-Sure! I'll revise it in next patch.
-Thanks.
+Why did you reorder these?
 
+>  
+> -	if (!_ep || !ep || !desc || desc->bDescriptorType != USB_DT_ENDPOINT ||
+> -	    maxpacket == 0 || maxpacket > ep->ep.maxpacket) {
+> +	if (!_ep || !desc || desc->bDescriptorType != USB_DT_ENDPOINT) {
+>  		EP_DBG(ep, "Failed, invalid EP enable param\n");
+>  		return -EINVAL;
+>  	}
+> -
+
+Why did you remove this line?
+
+Also, your To: line is messed up somehow, please fix your email
+client...
+
+thanks,
+
+gre gk-h
