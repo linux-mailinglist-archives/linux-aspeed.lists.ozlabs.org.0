@@ -2,72 +2,99 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07665579331
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 08:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56856579332
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 08:29:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Ln87M6Bx9z3dqw
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 16:29:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ln87R1W56z3bYy
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 16:29:23 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=PvO6+OEE;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=ZGHrQo8o;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=mailmesebin00@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=flex--saravanak.bounces.google.com (client-ip=2607:f8b0:4864:20::114a; helo=mail-yw1-x114a.google.com; envelope-from=3w02-ygkkdaw4m3m7mzmws00sxq.o0yxuz69-m41qqpxu454.0bxmn4.03s@flex--saravanak.bounces.google.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=PvO6+OEE;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=ZGHrQo8o;
 	dkim-atps=neutral
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LYcxj4KXPz3bkk
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Jun 2022 22:26:01 +1000 (AEST)
-Received: by mail-pl1-x62a.google.com with SMTP id jh14so16907587plb.1
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Jun 2022 05:26:01 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LYyGm2KbSz3c7r
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Jul 2022 11:26:56 +1000 (AEST)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-31c339f73c3so8400857b3.8
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Jun 2022 18:26:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qkHYOhJM2c9y390Fvehg2as/eHGMXd+hD7+AN1EM9Hk=;
-        b=PvO6+OEEu12TpdotNoiaVC3Y2k+hqoXKxzm/fust/MXyJGVsgJTQxopZTfpbouCTzm
-         Z8bEBHZ1hE6ajbL85cIfM66xRco/8AGGpmLM/kRiDNeLSe7kWEkWTlxnfz+14XsmkGeZ
-         pMnfyxqD18pAi+orXakcTAhOckimSL7bRyrBr/eKqIxW4QedsWhqkJ482SV06mK6ITxl
-         uIzbI7B5vOzdXx2k8gouUGvkMoYgcM2KYH+kWMNd8qEZfeM1xMqt8Ff7WhFcFYn4Sk4s
-         pC5iNDxGt7Fmeud71ORT9T7vSDe6zHX+f3449MY+oDsbJxx6XOYz3DMGsBzPwODEm9rX
-         FHcQ==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=enThZq3GNhnkWKPd/daPanpJOP+0ijq4hNHtFP2b8Uo=;
+        b=ZGHrQo8oKcs/1MxqUV66WuroIOiuRhyDQTe/h9dNu56quZHoJH2GUaDbRl2ttRwgEe
+         SWqVcY/Veo5jphceJDpwMYzMdOJ0QXdCPktWf948t9BiLW5nmwSSwTlpJciNH3VIewIt
+         3ASh6A26F+KmkZttZjFaUnZEb4Vdr+50D/q0gexLqMMmpJA7NpBHgj2jcBkr1ZyXcHXM
+         U6Xnoa3WH+ep5XzMHbrLnEz24W5g5SeejVYD0NuN3ckqaoVAfjVlh+5k/BsS4sAB5hq6
+         ohdGwKO24kRPaNPr4udjwZ2k4/3lgZFaY78w+9+WaY8oo3hWqIQJ8JqaHbOBVz/YVY0e
+         BS/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qkHYOhJM2c9y390Fvehg2as/eHGMXd+hD7+AN1EM9Hk=;
-        b=Sr0UcqyW/YBFwgsSJj0H4xMRxx5YiUllJwdFCDk7vfOdsxoztyz1VDTt2ag09xl+qn
-         b965Gune2PWBYmmupIeb//T/pftPQ9bZdC1YaWNAVzt5fJZNaw8C5xmARGOiVoU4oiR5
-         TS+ewdtTj3azgJiURh9l5nqOc/8DxkMpZSaIEmCt8EqjDVCKxTWj9uN+85/eQESu5IGz
-         sgQTZXgVuETJBLqmW16j4b/5iz0Fh3lyXAYzJhDwG67U/C47BC7Klzo5SAhj95FJDbBj
-         G2c8p5RnGX7O5HNOrpmcG1dUlFHjptwWX5lKg3PwDZuKdoDzG+htJQkvf0SzNeMJeClp
-         YvGw==
-X-Gm-Message-State: AJIora8EoFfdklapK4yZPiBHqtM3YQSEb7ZJVUFXj8mE67jnCyRWONnh
-	pibiZ4tgHrXJNurK0cPERKA=
-X-Google-Smtp-Source: AGRyM1umtmOk5qnLsnGcbL/ju4/z5YSUD/snffNJOlMAgvcpnx1K0zsBt6y3p4RhdDd6bvBdw20SMQ==
-X-Received: by 2002:a17:903:1207:b0:16a:7e87:dad3 with SMTP id l7-20020a170903120700b0016a7e87dad3mr14402077plh.99.1656591958042;
-        Thu, 30 Jun 2022 05:25:58 -0700 (PDT)
-Received: from sebin-inspiron ([103.160.233.84])
-        by smtp.gmail.com with ESMTPSA id x20-20020a17090300d400b0016a1252976fsm13244844plc.107.2022.06.30.05.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 05:25:57 -0700 (PDT)
-Date: Thu, 30 Jun 2022 17:55:50 +0530
-From: Sebin Sebastian <mailmesebin00@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 -next] usb: gadget: dereference before null check
-Message-ID: <Yr2WTqafL1X565dE@sebin-inspiron>
-References: <20220630044706.10772-1-mailmesebin00@gmail.com>
- <Yr1IjFBe6JjrDq8n@kroah.com>
- <Yr2DDkdFdt/A7pmL@sebin-inspiron>
- <Yr2EaEqEbYC7LViw@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yr2EaEqEbYC7LViw@kroah.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=enThZq3GNhnkWKPd/daPanpJOP+0ijq4hNHtFP2b8Uo=;
+        b=FDxh28RwDeaaZ5nqvDnIXRrxAp2DapG9s2YS5xITX8d2qcDqQvtZ4LgGDP4YQFBfJV
+         UjnA/XV18odHAZkd4s4upiV/P1mIdgpe1pb9WVpA6RfoMhAD6dn/njyR0SDWGYkN5qlx
+         pkpkOoz9gHpXYHbjHSRBO6BXwScoeQGCQSWS8hcQDVOSDAV0908s9IjgMQFuxQK6jixG
+         GjXLlxj8uuiTQSiM1eoWicrri9HnSuqJst/enr2dM6S0QF1y2z3KMmhh1HcoQ1F43oYF
+         /C7Y04o9ttsBDaG+tSETeNkM8mXSc1dDQdyrcqH8YcrcmpB4+G7mdGqVW+dnl5DZgkeT
+         7dYA==
+X-Gm-Message-State: AJIora/Cw7oSDmxk7kPv8+9EfKlj/rp6JFfyjAZ3gHGaX/z00R+VLbO4
+	BwLCn+rwzMzB5CG+RzMQs0GZ4XC/1F4e/ow=
+X-Google-Smtp-Source: AGRyM1uVtkICZeFb41qzlKfYUlr23L197fZnFh7B1zLJMqch7Nth1saNWtsGGUH9YN1+Q9+ZxuB5n3WOpcD3GoA=
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:3973:d0f0:34a8:bf61])
+ (user=saravanak job=sendgmr) by 2002:a25:4b02:0:b0:66c:8709:44d1 with SMTP id
+ y2-20020a254b02000000b0066c870944d1mr12352911yba.602.1656638811027; Thu, 30
+ Jun 2022 18:26:51 -0700 (PDT)
+Date: Thu, 30 Jun 2022 18:26:38 -0700
+Message-Id: <20220701012647.2007122-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Subject: [PATCH v2 0/2] Fix console probe delay when stdout-path isn't set
+From: Saravana Kannan <saravanak@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
+	Paul Mackerras <paulus@samba.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
+	Nicolas Saenz Julienne <nsaenz@kernel.org>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Al Cooper <alcooperx@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Tobias Klauser <tklauser@distanz.ch>, Russell King <linux@armlinux.org.uk>, 
+	Vineet Gupta <vgupta@kernel.org>, Richard Genoud <richard.genoud@gmail.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Alexander Shiyan <shc_work@mail.ru>, 
+	Baruch Siach <baruch@tkos.co.il>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Karol Gugala <kgugala@antmicro.com>, Mateusz Holenko <mholenko@antmicro.com>, 
+	Gabriel Somlo <gsomlo@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Taichi Sugaya <sugaya.taichi@socionext.com>, Takao Orito <orito.takao@socionext.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <bjorn.andersson@linaro.org>, Pali Rohar <pali@kernel.org>, 
+	Andreas Farber <afaerber@suse.de>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang7@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, "David S. Miller" <davem@davemloft.net>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Peter Korsgaard <jacmet@sunsite.dk>, Timur Tabi <timur@kernel.org>, 
+	Michal Simek <michal.simek@xilinx.com>, Saravana Kannan <saravanak@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Tue, 19 Jul 2022 16:26:55 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -80,139 +107,129 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org, Neal Liu <neal_liu@aspeedtech.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: andrew lunn <andrew@lunn.ch>, peng fan <peng.fan@nxp.com>, linux-aspeed@lists.ozlabs.org, linus walleij <linus.walleij@linaro.org>, ulf hansson <ulf.hansson@linaro.org>, linux-mips@vger.kernel.org, eric dumazet <edumazet@google.com>, pavel machek <pavel@ucw.cz>, sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org, will deacon <will@kernel.org>, linux-stm32@st-md-mailman.stormreply.com, sascha hauer <sha@pengutronix.de>, Rob Herring <robh@kernel.org>, linux-samsung-soc@vger.kernel.org, kevin hilman <khilman@kernel.org>, joerg roedel <joro@8bytes.org>, linux-serial@vger.kernel.org, jakub kicinski <kuba@kernel.org>, paolo abeni <pabeni@redhat.com>, kernel-team@android.com, len brown <len.brown@intel.com>, linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-arm-kernel
+ @lists.infradead.org, linux-snps-arc@lists.infradead.org, linux-unisoc@lists.infradead.org, hideaki yoshifuji <yoshfuji@linux-ipv6.org>, netdev@vger.kernel.org, david ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org, heiner kallweit <hkallweit1@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jun 30, 2022 at 01:09:28PM +0200, Greg Kroah-Hartman wrote:
-> On Thu, Jun 30, 2022 at 04:33:42PM +0530, Sebin Sebastian wrote:
-> > On Thu, Jun 30, 2022 at 08:54:04AM +0200, Greg Kroah-Hartman wrote:
-> > > On Thu, Jun 30, 2022 at 10:17:06AM +0530, Sebin Sebastian wrote:
-> > > > Fix coverity warning dereferencing before null check. _ep and desc is
-> > > > dereferenced on all paths until the check for null. Move the
-> > > > initializations after the check for null.
-> > > 
-> > > How can those values ever be NULL?
-> > > 
-> > > > Coverity issue: 1518209
-> > > > 
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > 
-> > > kernel test robot did not find this issue.
-> > > 
-> >  After I submitted the PATCH v1, kernel test robot ran some tests and
-> >  produced a report of the things that I broke while creating the patch.
-> >  That's why I kept this tag.
-> 
-> Yes, but the kernel test robot reported your first patch was broken, not
-> that this commit itself was reported by that.  Please drop that, it's
-> confusing I know, and trips lots of people up, but is not needed here.
-> 
-> > 
-> > > > Signed-off-by: Sebin Sebastian <mailmesebin00@gmail.com>
-> > > 
-> > > What commit id does this change fix?
-> > > 
-> >  So should I provide the commit ID of the patch v1 that kernel
-> >  test robot referred to?
-> 
-> No, report the commit id that this commit you are creating fixes.  It
-> had to be added to the tree sometime in the past, right?
-> 
-> > 
-> > > > ---
-> > > >  Changes since v1: Fix the build errors and warnings due to first patch.
-> > > >  Fix the undeclared 'ep' and 'maxpacket' error. Fix the ISO C90 warning.
-> > > > 
-> > > >  drivers/usb/gadget/udc/aspeed_udc.c | 21 ++++++++++++++-------
-> > > >  1 file changed, 14 insertions(+), 7 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-> > > > index d75a4e070bf7..a43cf8dde2a8 100644
-> > > > --- a/drivers/usb/gadget/udc/aspeed_udc.c
-> > > > +++ b/drivers/usb/gadget/udc/aspeed_udc.c
-> > > > @@ -341,26 +341,33 @@ static void ast_udc_stop_activity(struct ast_udc_dev *udc)
-> > > >  static int ast_udc_ep_enable(struct usb_ep *_ep,
-> > > >  			     const struct usb_endpoint_descriptor *desc)
-> > > >  {
-> > > > -	u16 maxpacket = usb_endpoint_maxp(desc);
-> > > > -	struct ast_udc_ep *ep = to_ast_ep(_ep);
-> > > 
-> > > checking that ep is NULL here is an impossible thing on its own.  You
-> > > did change this so that you didn't check this anymore, which is odd as
-> > > you did not mention that in the changelog text :(
-> > > 
-> >  Yes, I missed the checking for ep. I thought of checking it after
-> >  initilizing ep.
-> > 
-> > > > -	struct ast_udc_dev *udc = ep->udc;
-> > > > -	u8 epnum = usb_endpoint_num(desc);
-> > > >  	unsigned long flags;
-> > > >  	u32 ep_conf = 0;
-> > > >  	u8 dir_in;
-> > > >  	u8 type;
-> > > > +	u16 maxpacket;
-> > > > +	struct ast_udc_ep *ep;
-> > > > +	struct ast_udc_dev *udc;
-> > > > +	u8 epnum;
-> > > 
-> > > Why did you reorder these?
-> > > 
-> > This is actually the original order that these were in. I reordered it
-> > while creating the first patch, then I changed it back to the original
-> > order they were in the source tree for this patch.
-> 
-> So this patch does not apply cleanly on linux-next?  We did not apply
-> your intermediate, broken, patch for obvious reasons, so you can not
-> send a change on top of that, right?
-> 
-> > > >  
-> > > > -	if (!_ep || !ep || !desc || desc->bDescriptorType != USB_DT_ENDPOINT ||
-> > > > -	    maxpacket == 0 || maxpacket > ep->ep.maxpacket) {
-> > > > +	if (!_ep || !desc || desc->bDescriptorType != USB_DT_ENDPOINT) {
-> > > >  		EP_DBG(ep, "Failed, invalid EP enable param\n");
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > > -
-> > > 
-> > > Why did you remove this line?
-> > >
-> > I removed the check for maxpacket because it is not initialized in this
-> > part, the check for the same thing comes after initialization.
-> > This is the check for that, this is also included in the patch.
-> > +	if (maxpacket == 0 || maxpacket > ep->ep.maxpacket) {
-> > +               EP_DBG(ep, "Failed, invalid EP enable param\n");
-> > +               return -EINVAL;
-> > +       }
-> > Should I add the check for 'ep' in this part?
-> > 
-> > > Also, your To: line is messed up somehow, please fix your email
-> > > client...
-> > > 
-> > Ok, I will surely do it.
-> > 
-> > > thanks,
-> > > 
-> > > gre gk-h
-> > 
-> > I did many mistakes in the patch v1, so I had to bring this patch to the
-> > original state things were. I left all the declarations in the same
-> > order (which made it seem like reordering) and moved the initialization
-> > part after the check for _ep and desc. 
-> 
-> 
-> Perhaps you might want to start out doing coding style cleanups in
-> drivers/staging/* to get the process of how to submit patches properly
-> and test your changes before sending them out, before going out into the
-> real part of the kernel.
-> 
-> thanks,
-> 
-> greg k-h
-I am sorry to mess things up like this. I understand the entire process
-of sending out patches and to not waste maintainer's time on these kind
-of things.
-This patch does apply cleanly on linux-next. There are no warnings or
-errors while building and no checkpatch errors. Can I just send one
-final patch including proper commit ID and the missing check for ep.
-Thanks for pointing out all these mistakes.
+These patches are on top of driver-core-next.
+
+Even if stdout-path isn't set in DT, this patch should take console
+probe times back to how they were before the deferred_probe_timeout
+clean up series[1].
+
+v1->v2:
+- Fixed the accidental change that Tobias pointed out.
+- Added Tested-by tag
+
+[1] - https://lore.kernel.org/lkml/20220601070707.3946847-1-saravanak@google.com/
+
+-Saravana
+
+cc: Rob Herring <robh@kernel.org>
+cc: sascha hauer <sha@pengutronix.de>
+cc: peng fan <peng.fan@nxp.com>
+cc: kevin hilman <khilman@kernel.org>
+cc: ulf hansson <ulf.hansson@linaro.org>
+cc: len brown <len.brown@intel.com>
+cc: pavel machek <pavel@ucw.cz>
+cc: joerg roedel <joro@8bytes.org>
+cc: will deacon <will@kernel.org>
+cc: andrew lunn <andrew@lunn.ch>
+cc: heiner kallweit <hkallweit1@gmail.com>
+cc: russell king <linux@armlinux.org.uk>
+cc: "david s. miller" <davem@davemloft.net>
+cc: eric dumazet <edumazet@google.com>
+cc: jakub kicinski <kuba@kernel.org>
+cc: paolo abeni <pabeni@redhat.com>
+cc: linus walleij <linus.walleij@linaro.org>
+cc: hideaki yoshifuji <yoshfuji@linux-ipv6.org>
+cc: david ahern <dsahern@kernel.org>
+cc: kernel-team@android.com
+cc: linux-kernel@vger.kernel.org
+cc: linux-pm@vger.kernel.org
+cc: iommu@lists.linux-foundation.org
+cc: netdev@vger.kernel.org
+cc: linux-gpio@vger.kernel.org
+Cc: kernel@pengutronix.de
+
+Saravana Kannan (2):
+  driver core: Add probe_no_timeout flag for drivers
+  serial: Set probe_no_timeout for all DT based drivers
+
+ drivers/base/base.h                         |  1 +
+ drivers/base/core.c                         |  7 +++++++
+ drivers/base/dd.c                           |  3 +++
+ drivers/tty/ehv_bytechan.c                  |  1 +
+ drivers/tty/goldfish.c                      |  1 +
+ drivers/tty/hvc/hvc_opal.c                  |  1 +
+ drivers/tty/serial/8250/8250_aspeed_vuart.c |  1 +
+ drivers/tty/serial/8250/8250_bcm2835aux.c   |  1 +
+ drivers/tty/serial/8250/8250_bcm7271.c      |  1 +
+ drivers/tty/serial/8250/8250_dw.c           |  1 +
+ drivers/tty/serial/8250/8250_em.c           |  1 +
+ drivers/tty/serial/8250/8250_ingenic.c      |  1 +
+ drivers/tty/serial/8250/8250_lpc18xx.c      |  1 +
+ drivers/tty/serial/8250/8250_mtk.c          |  1 +
+ drivers/tty/serial/8250/8250_of.c           |  1 +
+ drivers/tty/serial/8250/8250_omap.c         |  1 +
+ drivers/tty/serial/8250/8250_pxa.c          |  1 +
+ drivers/tty/serial/8250/8250_tegra.c        |  1 +
+ drivers/tty/serial/8250/8250_uniphier.c     |  1 +
+ drivers/tty/serial/altera_jtaguart.c        |  1 +
+ drivers/tty/serial/altera_uart.c            |  1 +
+ drivers/tty/serial/amba-pl011.c             |  1 +
+ drivers/tty/serial/apbuart.c                |  1 +
+ drivers/tty/serial/ar933x_uart.c            |  1 +
+ drivers/tty/serial/arc_uart.c               |  1 +
+ drivers/tty/serial/atmel_serial.c           |  1 +
+ drivers/tty/serial/bcm63xx_uart.c           |  1 +
+ drivers/tty/serial/clps711x.c               |  1 +
+ drivers/tty/serial/cpm_uart/cpm_uart_core.c |  1 +
+ drivers/tty/serial/digicolor-usart.c        |  1 +
+ drivers/tty/serial/fsl_linflexuart.c        |  1 +
+ drivers/tty/serial/fsl_lpuart.c             |  1 +
+ drivers/tty/serial/imx.c                    |  1 +
+ drivers/tty/serial/lantiq.c                 |  1 +
+ drivers/tty/serial/liteuart.c               |  1 +
+ drivers/tty/serial/lpc32xx_hs.c             |  1 +
+ drivers/tty/serial/max310x.c                |  1 +
+ drivers/tty/serial/meson_uart.c             |  1 +
+ drivers/tty/serial/milbeaut_usio.c          |  1 +
+ drivers/tty/serial/mpc52xx_uart.c           |  1 +
+ drivers/tty/serial/mps2-uart.c              |  1 +
+ drivers/tty/serial/msm_serial.c             |  1 +
+ drivers/tty/serial/mvebu-uart.c             |  1 +
+ drivers/tty/serial/mxs-auart.c              |  1 +
+ drivers/tty/serial/omap-serial.c            |  1 +
+ drivers/tty/serial/owl-uart.c               |  1 +
+ drivers/tty/serial/pic32_uart.c             |  1 +
+ drivers/tty/serial/pmac_zilog.c             |  1 +
+ drivers/tty/serial/pxa.c                    |  1 +
+ drivers/tty/serial/qcom_geni_serial.c       |  1 +
+ drivers/tty/serial/rda-uart.c               |  1 +
+ drivers/tty/serial/samsung_tty.c            |  1 +
+ drivers/tty/serial/sc16is7xx.c              |  1 +
+ drivers/tty/serial/serial-tegra.c           |  1 +
+ drivers/tty/serial/sh-sci.c                 |  1 +
+ drivers/tty/serial/sifive.c                 |  1 +
+ drivers/tty/serial/sprd_serial.c            |  1 +
+ drivers/tty/serial/st-asc.c                 |  1 +
+ drivers/tty/serial/stm32-usart.c            |  1 +
+ drivers/tty/serial/sunhv.c                  |  1 +
+ drivers/tty/serial/sunplus-uart.c           |  1 +
+ drivers/tty/serial/sunsab.c                 |  1 +
+ drivers/tty/serial/sunsu.c                  |  1 +
+ drivers/tty/serial/sunzilog.c               |  1 +
+ drivers/tty/serial/tegra-tcu.c              |  1 +
+ drivers/tty/serial/uartlite.c               |  1 +
+ drivers/tty/serial/ucc_uart.c               |  1 +
+ drivers/tty/serial/vt8500_serial.c          |  1 +
+ drivers/tty/serial/xilinx_uartps.c          |  1 +
+ include/linux/device.h                      |  7 +++++++
+ include/linux/device/driver.h               | 11 +++++++++++
+ 71 files changed, 95 insertions(+)
+
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
+
