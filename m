@@ -2,71 +2,71 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13AB579337
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 08:29:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B6E579338
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 08:29:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Ln87f4s5sz3dsx
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 16:29:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ln87j63Brz3cfj
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jul 2022 16:29:37 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LcxkuQlc;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tZaTCT5a;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::233; helo=mail-oi1-x233.google.com; envelope-from=bjorn.andersson@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::334; helo=mail-ot1-x334.google.com; envelope-from=bjorn.andersson@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LcxkuQlc;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tZaTCT5a;
 	dkim-atps=neutral
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LbFWj2n7cz3051
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LbFWj36W3z3053
 	for <linux-aspeed@lists.ozlabs.org>; Sun,  3 Jul 2022 13:57:35 +1000 (AEST)
-Received: by mail-oi1-x233.google.com with SMTP id be10so8929076oib.7
+Received: by mail-ot1-x334.google.com with SMTP id s13-20020a0568301e0d00b00616ad12fee7so5072994otr.10
         for <linux-aspeed@lists.ozlabs.org>; Sat, 02 Jul 2022 20:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=S2PQt3HxkBxUYjC+VtlXEq4NoCpstcc7waq7Ie+ZSSw=;
-        b=LcxkuQlcBom6K7cYz2cObFcKqvmFziGvIewxr5CVdQDXpiVs4Qe1p9/ma3MjpEBl0m
-         LdiaLTeEwxUPT1iylGK2uBRwa96fvGW0y6QRWq5F+NZCFL6N1e6TXJlkAQCGEx5XaKBZ
-         bMXT/f+ogoq6vs4TCzgBdramsCAz0nmWRD4br2nzTC8FHRTsVjgo15di4+fdqYbsWQIV
-         4/vga7HK3myEs7r2HcBsoYeS5QL/sXXpo879hazt2tPiyyJMP+yzm9vvBM9i2od8IqAh
-         LSpFzHsWhZD+5n1ToMnLkj0S4zSlSFpghH27+UmeVqnGiX+vxJHJBYAk1fLnQfBbxsFF
-         J2sg==
+        bh=dQGA0bu3AQWCuC1GbwRKa+75S+e6lFO1n+xYI6b2Lfw=;
+        b=tZaTCT5agJ/W5MTY4ChPtc1XDLJKp4CctBpnrCUIhKNgpN1H67etzBdwWcVgqTh3p5
+         Rpws6+KCerTtj8KDgj208++uOAUUNYbZwIshCcigdKA1eDiRz/QItFe1rMw5+GiscOar
+         FrzEPYhzQinS0Z91zyAbjw85CcRTp2ENtnixsfT6WRN+TNRS0m0FM6MNH1rMOOCyJxsC
+         5P51RWagk0utaomYGvqdFoITuFnEhDzq2tWG4Glt2KJgrHX/T3lrPdg/lUIzBClJzInl
+         r208u28GA8/rpcp88qsLSJJlP4Ui0QQT6y6QxDAa5Nnm0OjV33BJKsy7H06YpCqUhiI8
+         y4EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=S2PQt3HxkBxUYjC+VtlXEq4NoCpstcc7waq7Ie+ZSSw=;
-        b=jta2UI7K5451Vv16xIN89QOBpb2GVXlh/a/chKmkFjo3XxFkqf1fvXYBMldaLH5amw
-         LKNHRqSSIxKTHEEhs0rZJAzbv/BMrGeh4MYfFbbWiqiIVb1etvGRAN5zS8P1aFVOhuwP
-         FTgr4w6/b9dj6aB06hVW0kZbrWE7QzvsGpEugs1pvl25EMOLlZbU/SKfoZ4BcxYGt4RI
-         y6N3ZY8YEuDMMSYinqINCNRhJ9Vee7Xdf6JNLeG3IBJjiRVUWp05r8+wRaPrH8sVu/Sl
-         qzyKEvePDzHZOM065QvEcBuaT3iFf+BKOlAnd2RuTIJf1eoojXFdyASjQA8lwYwi62cu
-         ScQA==
-X-Gm-Message-State: AJIora+7o5Y6VI9JXWw61aHI2NDHU4XxTH7NA+2Uy3Xd4Wyze8gerlme
-	5aer8FkBtF+AyQSjeVmmS0Y+nQ==
-X-Google-Smtp-Source: AGRyM1vPsLVLSd2YTyZeBHDlHn82rVPH0GlTr+Bdo5oMuTiVoQgn60DY/3PL3sh3O2ct5ts3e02W/w==
-X-Received: by 2002:a05:6808:1b25:b0:32e:e59c:3901 with SMTP id bx37-20020a0568081b2500b0032ee59c3901mr13881725oib.186.1656820650648;
-        Sat, 02 Jul 2022 20:57:30 -0700 (PDT)
+        bh=dQGA0bu3AQWCuC1GbwRKa+75S+e6lFO1n+xYI6b2Lfw=;
+        b=FqJ1SGTxHMOgdzfFq4H5qiVdcm985Upg3Eoqs7Xw2OIJNNiAaOQ2UBa+XorZaFo1X2
+         kAjCZL5AHxYub9EtIOvdOGLSOG9EygYv9EucjsZi7Q2skMh1PIitDx7gHs0HJK1gBntT
+         rIpYijFnxMYW3eOJVPoPMcD/OfIkLZqnt4HUxYdW8oWCcJeTCpts9S8nNcUZbetkWv73
+         /PR1ohN0KZKsHmS+WQfcOZzvdwXRcs/ZQBim++gbQnVGD3w3dkGm1Ji04UgVhXAeM6ld
+         Eku9ypHxOeNeXUOQIM0AKQ7VDC9CllfvofseOWTOYHJq1GhdIW1wqoYVnoiTjd9N4PF9
+         eA9w==
+X-Gm-Message-State: AJIora/4dEUOGvGOuaeUfY5lCuBVGTKDcU7pi7NXG4tX4JXq+D05iP9R
+	VNxTlJNVTqRxoCQyBK2Qr2K1Iw==
+X-Google-Smtp-Source: AGRyM1unb+4uUOF604hLcm6sxUx99v9VtXWGjmIJ3dnzzgB49ZjQEqsHZ3kaRUHP0jg6yWxEYqFcqQ==
+X-Received: by 2002:a05:6830:1b79:b0:616:af56:2fe7 with SMTP id d25-20020a0568301b7900b00616af562fe7mr9513926ote.262.1656820653608;
+        Sat, 02 Jul 2022 20:57:33 -0700 (PDT)
 Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id 25-20020aca0f19000000b0032e5d0b5d5fsm12965910oip.58.2022.07.02.20.57.28
+        by smtp.gmail.com with ESMTPSA id 25-20020aca0f19000000b0032e5d0b5d5fsm12965910oip.58.2022.07.02.20.57.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jul 2022 20:57:29 -0700 (PDT)
+        Sat, 02 Jul 2022 20:57:33 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Olof Johansson <olof@lixom.net>,
 	soc@kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	arm@kernel.org
-Subject: Re: (subset) [PATCH v2 00/48] dt-bindings: input: gpio-keys: rework matching children
-Date: Sat,  2 Jul 2022 22:56:25 -0500
-Message-Id: <165682055971.445910.5189932421143220440.b4-ty@linaro.org>
+	arm@kernel.org,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: Re: (subset) [PATCH v3 00/40] dt-bindings: input: gpio-keys: rework matching children
+Date: Sat,  2 Jul 2022 22:56:27 -0500
+Message-Id: <165682055968.445910.13332143476289618470.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
-References: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
+References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -82,13 +82,12 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org, Neil Armstrong <narmstrong@baylibre.com>, Tony Lindgren <tony@atomide.com>, Linus Walleij <linus.walleij@linaro.org>, Michal Simek <michal.simek@xilinx.com>, linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, Wei Xu <xuwei5@hisilicon.com>, Alim Akhtar <alim.akhtar@samsung.com>, Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Khuong Dinh <khuong@os.amperecomputing.com>, Florian Fainelli <f.fainelli@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>, openbmc@lists.ozlabs.org, =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>, Russell King <linux@armlinux.org.uk>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.i
- nfradead.org, Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-arm-msm@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, linux-sunxi@lists.linux.dev, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, devicetree@vger.kernel.org, =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>, Gregory Clement <gregory.clement@bootlin.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Hauke Mehrtens <hauke@hauke-m.de>, Sascha Hauer <s.hauer@pengutronix.de>, Nicolas Ferre <nicolas.ferre@microchip.com>, =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org, linux-input@vger.kernel.org, linux-samsung-soc@vger.kernel.org
- , linux-arm-kernel@lists.infradead.org, Tero Kristo <kristo@kernel.org>, Scott Branden <sbranden@broadcom.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org, Ray Jui <rjui@broadcom.com>, Li Yang <leoyang.li@nxp.com>, NXP Linux Team <linux-imx@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Peter Rosin <peda@axentia.se>
+Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org, Tony Lindgren <tony@atomide.com>, Linus Walleij <linus.walleij@linaro.org>, Michal Simek <michal.simek@xilinx.com>, Matthias Brugger <matthias.bgg@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Fabio Estevam <festevam@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Khuong Dinh <khuong@os.amperecomputing.com>, openbmc@lists.ozlabs.org, Russell King <linux@armlinux.org.uk>, Wei Xu <xuwei5@hisilicon.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>, linux-input@vger.kernel.org, Claudiu Beznea <claudiu.beznea@microchip.com>, NXP Linux Team <linux-imx@nxp.com>, devicetree@vger.kernel.org, =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>, Gregory Clement <gregory.clement@bootli
+ n.com>, linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, Nicolas Ferre <nicolas.ferre@microchip.com>, =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Tero Kristo <kristo@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org, Li Yang <leoyang.li@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Peter Rosin <peda@axentia.se>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 9 Jun 2022 13:37:21 +0200, Krzysztof Kozlowski wrote:
+On Wed, 15 Jun 2022 17:52:24 -0700, Krzysztof Kozlowski wrote:
 > Merging
 > =======
 > 1. dt-bindings: rebased on top of Rob's:
@@ -101,14 +100,8 @@ On Thu, 9 Jun 2022 13:37:21 +0200, Krzysztof Kozlowski wrote:
 
 Applied, thanks!
 
-[27/48] arm64: dts: qcom: align gpio-key node names with dtschema
-        commit: b08f5cbd69dcd25f5ab2a0798fe3836a97a9d7c6
-[28/48] arm64: dts: qcom: correct gpio-keys properties
-        commit: 5a4b0b853a2914403746b0a1decab695202ff242
-[29/48] arm64: dts: qcom: sdm630-sony-xperia-nile: drop unneeded status from gpio-keys
-        commit: 9d8840f6ee426b6dfcb65bdf39e2898652e2b1e5
-[30/48] arm64: dts: qcom: align led node names with dtschema
-        commit: 3cfe94d660a8ebc19e78ea0a4781d7e9a1054c65
+[25/40] ARM: dts: qcom: align gpio-key node names with dtschema
+        commit: 9c17baaa97c89379cbd89e36115b7fb6aba43518
 
 Best regards,
 -- 
