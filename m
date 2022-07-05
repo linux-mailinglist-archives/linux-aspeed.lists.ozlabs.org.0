@@ -2,59 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD68566A16
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Jul 2022 13:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAA7566A17
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Jul 2022 13:46:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Lcgq825Kjz3bwr
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Jul 2022 21:45:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LcgqC2jKpz3bwg
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Jul 2022 21:45:59 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=URNJuoOp;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Cim0tg3i;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12c; helo=mail-lf1-x12c.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::129; helo=mail-lf1-x129.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=URNJuoOp;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Cim0tg3i;
 	dkim-atps=neutral
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Lcgq2026mz3blh
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  5 Jul 2022 21:45:49 +1000 (AEST)
-Received: by mail-lf1-x12c.google.com with SMTP id m18so1625770lfg.10
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Jul 2022 04:45:49 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Lcgq25gsBz3blh
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  5 Jul 2022 21:45:50 +1000 (AEST)
+Received: by mail-lf1-x129.google.com with SMTP id t25so20078858lfg.7
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Jul 2022 04:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=r/4T324lD8keVZQ5PYxI+TWmPc+ll7mlIbj/tyFipEg=;
-        b=URNJuoOpk11cwvlncuWTNnZWX81XgDdSq2sk4ggVSqyshGUOyttDiBZMAMrUZ53cdS
-         UxEdb5yao8x82Cg67KkBx3UBW2EOZZwnfULw31Cb5x1mfD0LiE8DszQYOLDpI0djx6gx
-         qGb+FfCvIeu17sB4bz3twfxNlnsuI0jkWr24PA38Lmyyb3Y2lszeV+ZVOekbRZRYxOYA
-         /g5VVucsOKKGkttArP7gS0ROtvWAtTC3UghlCgsVbvNB8BXEaihcyZ6KEHR6dZa0OhmX
-         w3uCjaYyUcDT71MZbTYAxiDn4Jux2e1iVVgp+ZOl35ENoD8WBqUOZPoj64XKEL5apYgs
-         zy3A==
+        bh=saFvUNutIkwJIKsbwz8el/rLQChL+0J42iD0Z120Xzc=;
+        b=Cim0tg3iFz2KhUJTKw3IyP80HUNfdvp5Agu8fvMVkk1HcwZhott9laYab/fNuaBCGa
+         903nQG8cEHoV61S2FQ2hdCw6aLoD4ClzIk3+FOLWZKt6FuySDmVlpjhhVKQO38SMB/2H
+         fJduhDoF7T41KrGkj8kbaEOTPlWpiI69h3frLX1MD18LbaTZ129W1ymX5aVSyWa4OtI2
+         IhhES0TJq23BuA9ipFDUTCcZddCU6oF5SHPIsXsv/MaYTouo64/JwVKGiGG9k4FA0hrj
+         b643syRu+XZjy/ilRtfXetpxM/pKbvMLoCmLolYDI4v54wbwXUn1x2/848H6XbPwdxzT
+         7W8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=r/4T324lD8keVZQ5PYxI+TWmPc+ll7mlIbj/tyFipEg=;
-        b=wVzt7Bbh07zOiw4luSTGHAP5HTqq8iT6/+AEPj6DOfp3ZKNWTD9IhlM4K73LVUktaF
-         VtZr/aRas4aj66HpG6E40CTphO+/YAvNAXklU8hD2mXnHpQYwVLbJ1222KQiVsRv2pTb
-         pAd2ksE1O7BDvHfsYB0ykwJGKjwop11SHfDVb5KLB0yhZSXFn5NCRo0xJHysEYFn5pzs
-         BuThwBW+eHdEDh1vbF8gxXyIsrZUw0kGJn/fZY5tq0dtpxOMQSjXsyOUh9DOVTUb55VS
-         NB5qO/jBYUNgnXZKobDgci6k193zWbqEvb1rPTlxiqjh4lJKTiWzWNbZ1ExMk9VFsCqF
-         PwgQ==
-X-Gm-Message-State: AJIora98euP8IyDGvjzHs8plUBUSt1S3XuKh66hR0h/6WXdLI6q1PWwc
-	5AxCrV/5fcAsh+gXl02ZxsZy8w==
-X-Google-Smtp-Source: AGRyM1t2xrKflh6+ZDUqgZrUw23+6BNtmn1uXO9uRraUJ8CvQFIBVL3fJqJJsi41XYxhjs43M9wogw==
-X-Received: by 2002:ac2:4c56:0:b0:481:16b8:637c with SMTP id o22-20020ac24c56000000b0048116b8637cmr22631447lfk.87.1657021545341;
-        Tue, 05 Jul 2022 04:45:45 -0700 (PDT)
+        bh=saFvUNutIkwJIKsbwz8el/rLQChL+0J42iD0Z120Xzc=;
+        b=VhZV9esX+5ezB6GWZFL+HZZPpBrmaSqw6h5tDggp6N/Lb7NOhiuDqqIjxP6ht9ZJz8
+         zUfTGbckmVQoNJ3zN/FcFpeSgE3N2F88iT0XYl5G0RqXziCiCYHi7naCe8tUPVcECMTW
+         AB2xjrjhJr0p8HwvhrKhbC9S2obGNCdEs73N8QqIry1FT0X1XhdMcAFR3nfbvVoWngDY
+         rgXs37pApBO6/+XrqInzax4jQ+64kXrZ9UYvUnv2W9bMViQgfTBzxA+ohkZ0f9Kt9OC0
+         puZ38G/HtWUQWISMAJfTrZcrOZT3xhc7yrtIUw9yefd3v/DHi3G7OH5dIRwE9Dk5KyGi
+         pFfg==
+X-Gm-Message-State: AJIora90BfIm/URdpwzObjw1lpGYhe6ObkvgMnKyPzr2vOVWHZm95GEl
+	W0Jk+v/DTI6CmY4xLNv+bz/o9A==
+X-Google-Smtp-Source: AGRyM1tuXKUJiOGHda53Ozd2LS6VSQPa3uTR2aZkiqj9hvpwiZLHrKaLXbCvgJN5f2K1LhTPfr9Dhg==
+X-Received: by 2002:ac2:4a63:0:b0:47f:9e6d:603b with SMTP id q3-20020ac24a63000000b0047f9e6d603bmr21856388lfp.404.1657021547120;
+        Tue, 05 Jul 2022 04:45:47 -0700 (PDT)
 Received: from krzk-bin.home ([84.20.121.239])
-        by smtp.gmail.com with ESMTPSA id a12-20020a056512374c00b0048137a6486bsm3543694lfs.228.2022.07.05.04.45.44
+        by smtp.gmail.com with ESMTPSA id a12-20020a056512374c00b0048137a6486bsm3543694lfs.228.2022.07.05.04.45.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 04:45:44 -0700 (PDT)
+        Tue, 05 Jul 2022 04:45:46 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: olof@lixom.net,
 	krzysztof.kozlowski@linaro.org,
@@ -69,12 +69,12 @@ To: olof@lixom.net,
 	linux-aspeed@lists.ozlabs.org,
 	krzysztof.kozlowski+dt@linaro.org,
 	devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 36/40] ARM: dts: aspeed: align gpio-key node names with dtschema
-Date: Tue,  5 Jul 2022 13:45:42 +0200
-Message-Id: <165702154046.92998.7201310803196878513.b4-ty@linaro.org>
+Subject: Re: (subset) [PATCH v3 37/40] ARM: dts: aspeed: correct gpio-keys properties
+Date: Tue,  5 Jul 2022 13:45:43 +0200
+Message-Id: <165702154046.92998.13819034081421883351.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220616005333.18491-36-krzysztof.kozlowski@linaro.org>
-References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org> <20220616005333.18491-36-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220616005333.18491-37-krzysztof.kozlowski@linaro.org>
+References: <20220616005224.18391-1-krzysztof.kozlowski@linaro.org> <20220616005333.18491-37-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -92,16 +92,15 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 15 Jun 2022 17:53:29 -0700, Krzysztof Kozlowski wrote:
-> The node names should be generic and DT schema expects certain pattern
-> (e.g. with key/button/switch).
+On Wed, 15 Jun 2022 17:53:30 -0700, Krzysztof Kozlowski wrote:
+> gpio-keys children do not use unit addresses.
 > 
 > 
 
 Applied, thanks!
 
-[36/40] ARM: dts: aspeed: align gpio-key node names with dtschema
-        https://git.kernel.org/krzk/linux/c/7bd809eee4290ae7277f4fb20f270fcedd74737b
+[37/40] ARM: dts: aspeed: correct gpio-keys properties
+        https://git.kernel.org/krzk/linux/c/bafd5bb5ea496c8fc443e6b9de70af840bec0b9c
 
 Best regards,
 -- 
