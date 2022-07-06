@@ -2,63 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A73569436
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jul 2022 23:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8990569440
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jul 2022 23:22:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LdXX31Vfsz3btr
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jul 2022 07:20:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LdXZ34tF8z3c29
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jul 2022 07:22:35 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=sVFcjcHg;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=I6DkDmx2;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=brendanhiggins@google.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::630; helo=mail-ej1-x630.google.com; envelope-from=brendanhiggins@google.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=sVFcjcHg;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=I6DkDmx2;
 	dkim-atps=neutral
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LdXWF4b57z3btr
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Jul 2022 07:20:09 +1000 (AEST)
-Received: by mail-ej1-x636.google.com with SMTP id sb34so29131094ejc.11
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Jul 2022 14:20:09 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LdXYF2hWNz3bl7
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Jul 2022 07:21:52 +1000 (AEST)
+Received: by mail-ej1-x630.google.com with SMTP id o25so29209405ejm.3
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Jul 2022 14:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=g2UCDhMKypb3YzjSBsPeyBiF2PeTe0+wdsZ8OfsVOrY=;
-        b=sVFcjcHg2LfnGZPa5eF4aYhrF8RBJQ8TTDW3HHOvEbkPNvYtsAnwKb0K9pOEDOHtGr
-         5MLLVwfPiM5Ww6QytB5EQA6Nv4l7GlTpEl6BHslrWSxudyACtyeDn+/ZFJZbD1bb3K9g
-         TZc7d/Zj9PZ7ZFUq4pHASajIqU2e8MJPeQkohIwy1iMQWIy/F/DvYF5Pg7FC73nJd9sj
-         zfOlEUGVa9h3Ia4yQ4Di7y12ZyeK4KqxzVmiemdXbK61C1koJczt92TGDpDqfG5fy06O
-         a4NUSg/QnJ0l5x1VskRXEKu8EID1WZo1+FI60c+NpXidysJLk+EWwBPd3Ybclut9mea0
-         NJaQ==
+        bh=b+jNR09nevXwyZD3QcB2efT/aRwjkNE4wZb+r0B6XwE=;
+        b=I6DkDmx26h+CaG/uyqSSoQf0Kpgi3UibjsyI7hR3HtcwlbuXqjSaN373PhsoVA8c/q
+         dP48qLIWwvOkDivqhfCZ9qhqTvobqYE1RdzdhZgsY9X6p1WRrO8y8vZlwC4mJguHh3J2
+         QVHtybfrf6REnR+cLGEVSkcYhTZoN+EAZzqyp91YnDE2h0AB5urwdz4ZAbag8iGXPhdf
+         +G7Qe/WEhy5mYP3bU+JrpZquZQ5DIQOI4BCF/cQ1ezg8Awhq0CRvK74F06s5exP/dLGW
+         dhns8DWwOEGwfzBkdzyAULDjp5+Hd43di+1wckPzbttZOsctcdW6qtLlSLhGgc2hRwlB
+         lU9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=g2UCDhMKypb3YzjSBsPeyBiF2PeTe0+wdsZ8OfsVOrY=;
-        b=eZbyo6h8HtDiT9dZBw5ZoBUaA+Rn/dgrrLV0mKNz0b8E3iU3QvR0bR4QI3Plp1erM4
-         K1N2oG6BcEheNyRhC7prwUgB+pPC/kl/ZlT5894SvCYID8T4O7RNlzh6RyeNxyJHCKef
-         mS0yf6F/oaPz8/N7lCZzDRJLBcVTV3Jy8kSFPom21kRY/eyirOObSTt+xPEzinBpwR5m
-         WndQBKaecjY11XARc9Pv9hm/x5ON6zQiVCkn0IEXippT1i8h4gzlYrdAb1PbueIWG6Pm
-         v+IIC/8BOuNveOYC3qJmrHARfNtPyWOdJinQHafdVMRBbu0Y5EZMuyRHgYh3t5U3m31C
-         8B5w==
-X-Gm-Message-State: AJIora9RIVw6WL3bPrCP7pJjEW2Gx7jvl//n5LLp5rRl4J1PaaAMB7hn
-	ii4dzHJU/1qaDcAmCSbBF6kjR8FW4i1qscfiORyI3g==
-X-Google-Smtp-Source: AGRyM1susXO3wYeoDf0WuEIfBGex3/UVxBp2DE1XLABw70yWDUei6RgD/KNu5S+8rGhboeMpSh2JSE05/UMRGugtit0=
-X-Received: by 2002:a17:907:3f81:b0:6ff:1a3d:9092 with SMTP id
- hr1-20020a1709073f8100b006ff1a3d9092mr41342820ejc.319.1657142405356; Wed, 06
- Jul 2022 14:20:05 -0700 (PDT)
+        bh=b+jNR09nevXwyZD3QcB2efT/aRwjkNE4wZb+r0B6XwE=;
+        b=qat9tacszRVxWX26CqQAO7YfwzcsxtxALFTjVABSfm5FpKoA4jDC1j3J5zvbWmKTtV
+         kNuKmigDlekjAGwghuBBk4qnPbDPnM8lukfbc7KpTKiwXXcuKgdGSjb7HveRQS2Wtt0j
+         Qiva8b72yBRGhM76duGgS5+WagE4YfN5O6h/2iY0BVkJHcHykDG5lRPy2ZnS5t/p+MGN
+         pc9mQQ3FRfQy4YV1yX+UgPDqSmPBuWiszKayZUow7Xh6bnxDw9pJBvwfA0u5mEDt75pI
+         UaFfeVSSliOslTESuhJYpJsoN9VDTjedqZ/bEvnqOoJT+fGperorh9GNenjjCO4c3PTP
+         e7pg==
+X-Gm-Message-State: AJIora9tY6NHQZDD6z7arVZ5SQOvDKdsmeMYSvkfM6qjL8/nC5FQIlnp
+	dtrnzqK391UlNW7I+zdRecOFUYV/2sj7JEB4RUi+KA==
+X-Google-Smtp-Source: AGRyM1unmOCSqJ1JoDSIrmquHUHd+3hyWJM/lpJegqaohJgOcShxHgQq8EC+4/uCGtnOiBPC//jVBWUzROPdZlv/7Ms=
+X-Received: by 2002:a17:906:cc96:b0:728:baf0:ba03 with SMTP id
+ oq22-20020a170906cc9600b00728baf0ba03mr40471193ejb.52.1657142508217; Wed, 06
+ Jul 2022 14:21:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220625050838.1618469-1-davidgow@google.com> <20220625050838.1618469-4-davidgow@google.com>
-In-Reply-To: <20220625050838.1618469-4-davidgow@google.com>
+References: <20220625050838.1618469-1-davidgow@google.com> <20220625050838.1618469-5-davidgow@google.com>
+In-Reply-To: <20220625050838.1618469-5-davidgow@google.com>
 From: Brendan Higgins <brendanhiggins@google.com>
-Date: Wed, 6 Jul 2022 17:19:54 -0400
-Message-ID: <CAFd5g471_it8CQmBJnrhS=T3AgdfQF2tr4A9n=sYuWayovXmLw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] thunderbolt: test: Use kunit_test_suite() macro
+Date: Wed, 6 Jul 2022 17:21:37 -0400
+Message-ID: <CAFd5g45www4FZ0BoXN+mbqAJEkub07mM-nfzMtjm4p3q_VSCXw@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] nitro_enclaves: test: Use kunit_test_suite() macro
 To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -78,20 +78,27 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 
 On Sat, Jun 25, 2022 at 1:10 AM David Gow <davidgow@google.com> wrote:
 >
-> The new implementation of kunit_test_suite() for modules no longer
-> conflicts with module_init, so can now be used by the thunderbolt tests.
+> The kunit_test_suite() macro previously conflicted with module_init,
+> making it unsuitable for use in the nitro_enclaves test. Now that it's
+> fixed, we can use it instead of a custom call into internal KUnit
+> functions to run the test.
 >
-> Also update the Kconfig entry to enable the test when KUNIT_ALL_TESTS is
-> enabled.
+> As a side-effect, this means that the test results are properly included
+> with other suites when built-in. To celebrate, enable the test by
+> default when KUNIT_ALL_TESTS is set (and NITRO_ENCLAVES enabled).
 >
-> This means that kunit_tool can now successfully run and parse the test
-> results with, for example:
+> The nitro_enclave tests can now be run via kunit_tool with:
 >         ./tools/testing/kunit/kunit.py run --arch=x86_64 \
->         --kconfig_add CONFIG_PCI=y --kconfig_add CONFIG_USB4=y \
->         'thunderbolt'
+>         --kconfig_add CONFIG_PCI=y --kconfig_add CONFIG_SMP=y \
+>         --kconfig_add CONFIG_HOTPLUG_CPU=y \
+>         --kconfig_add CONFIG_VIRT_DRIVERS=y \
+>         --kconfig_add CONFIG_NITRO_ENCLAVES=y \
+>         'ne_misc_dev_test'
 >
-> Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Acked-by: Daniel Latypov <dlatypov@google.com>
+> (This is a pretty long command, so it may be worth adding a .kunitconfig
+> file at some point, instead.)
+>
+> Reviewed-by: Andra Paraschiv <andraprs@amazon.com>
 > Signed-off-by: David Gow <davidgow@google.com>
 
 Acked-by: Brendan Higgins <brendanhiggins@google.com>
