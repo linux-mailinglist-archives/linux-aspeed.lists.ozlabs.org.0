@@ -2,63 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0ADF5693DC
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jul 2022 23:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA053569418
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jul 2022 23:16:51 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LdXCr4Dlvz3c1P
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jul 2022 07:06:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LdXRP5b0sz3c2l
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jul 2022 07:16:49 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=sZqocmz/;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=qxZxOVue;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::62a; helo=mail-ej1-x62a.google.com; envelope-from=brendanhiggins@google.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::536; helo=mail-ed1-x536.google.com; envelope-from=brendanhiggins@google.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=sZqocmz/;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=qxZxOVue;
 	dkim-atps=neutral
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LdXC33N2jz3brc
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Jul 2022 07:06:06 +1000 (AEST)
-Received: by mail-ej1-x62a.google.com with SMTP id n4so9862290ejz.10
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Jul 2022 14:06:05 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LdXQd59bKz3bl7
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Jul 2022 07:16:08 +1000 (AEST)
+Received: by mail-ed1-x536.google.com with SMTP id y8so15057921eda.3
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Jul 2022 14:16:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=3covsTOEQGoLyVnwY5XV95mNRZOh4Tyvakfc5xsujkQ=;
-        b=sZqocmz/4Y6K3wsDgmovwFwithWhO/dCbYzuKxivdgc0XQYQdnRdM+AleiWifaYGgT
-         hJLwE8XQPN5iuUIPEwm6EfX9vdptcvXJqMqu3iXvNGGQ4jwu+aDh/QV/JNT42IU+BPlQ
-         q/IGOXSQOqrfYmN0cOxx06bi8zpmRiUslSCEX6xpoyoXq4jDy49hk3Di8m28bq+56IDc
-         dIDtPF2RymL4nU++R7LvJ7LQEj7KWzPzmZgw9bPK8GPKu531YDYJryJO712s/mORW1FT
-         Qzg6cTUTJOBSXiu5R27vO112u/mnJpxE9UiYlxl+eMqz9jZMkgbblmttxIEWtB3poDPM
-         BtEQ==
+        bh=hThyagx/3gO75R3ByObu2jcXCn9gsg8eLIOZEOFTgW0=;
+        b=qxZxOVueXL4xlVup4HqnHuiID4ylYROtcIuMl/Z9Mo0Y57haMDDPOImjOILx8fPqt1
+         k6leDDEur87IiyUGE53yyulvaw0GG6VKKGKtC5TW74SIRBupHfYMrbhWton1G/KnqORy
+         Vo8KeFFXMqVBr7tP8UiplZ9ls+YJYM5Y24fTkbZVIxZ5SybAUUJGxNmObIIV8U8HW/Gd
+         IYIUjRvth7RP3GtrWLzmNsMl1vQPCgBoGHad5roS56vxNwWFlt94iAMdufbaKZZP73Xs
+         /lgqaSE/9c+5UqZmchyK7DTRYBZunag3dRo3yGYzMSfRvdmxdC1DDlGqGsMXCpIL4MNU
+         HVjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3covsTOEQGoLyVnwY5XV95mNRZOh4Tyvakfc5xsujkQ=;
-        b=gbNJMTDQYM0S82EK8D88sCMBETZsoKYNmG4V+I8RYm3sZnT7ZSPnm5AYoskB8lAvhU
-         bPiRdHI6yy/LRsG//UWoPQtRiafA9wb0yhqiex2aCTtvTVlMSik5AzM7Ep2Mt5iCgsfI
-         rdBa3eMPut5QcA1wJlUdSKRp7O5eNTQE+UkXk6Xd596MQ0GNvwfkpZEEhCqCujh8RXQN
-         capcr4Ibg9zzMDzDgF4BifdsvT7FgzA5CyTDzlo7nq/tHTXYZwnKrtaqn0nPZQc7llmT
-         a4pg/HAPKFz13ZXSuWwG6NEVQq5xL7U/Bwh6x7g3OHB1EOiALlaY5ouajVyLrs3Hj8V/
-         P/CA==
-X-Gm-Message-State: AJIora+vpaWOH4eKqOZ4T/pWal6t8Njk2qjqtcl5Y4Z24lsjA4Cnb2bp
-	FcC18t44uqkuWJkWsIwKHz7c86BLlkeWcwoglBaxOw==
-X-Google-Smtp-Source: AGRyM1uWI/PvLqWhv5jXHuhpc/hX5L1uVg66QNyDvRE3wDI2b9gqE97i1K3GG/FkfgwtLBSS6hsAfp1U0XizVDZkO+g=
-X-Received: by 2002:a17:907:e8e:b0:72a:ad07:8357 with SMTP id
- ho14-20020a1709070e8e00b0072aad078357mr23742385ejc.338.1657141557573; Wed, 06
- Jul 2022 14:05:57 -0700 (PDT)
+        bh=hThyagx/3gO75R3ByObu2jcXCn9gsg8eLIOZEOFTgW0=;
+        b=sgPSQaHpQw65T79iCUBqWaw497p5x7hxCRH9baRZs8FG0xlgCRmRxZWaSEss5r8syC
+         I3L+330EizwAnZvMZjz3F/U2aIh9v2sseg3ikutddsiuThINVF+qaRzSzywux5lVR/d3
+         es6MAjNf6wva8NDd6KgEF5SDnCw49empv9BZ0ipunfSP6wwoTNbW4JbfEYXXVvRjBXex
+         g0qf+hI1pkiQROJvbHTcFryWZQBzbIJBp3TsADKf0haP59KqleOkAgji3D5IK+W2gqBY
+         8SklikPTW9/w61eoz4uw+pSIhim+lG9CjZ+KWRN1UOUKT/bA/CG78aOLIGpb4BPCCW06
+         +krw==
+X-Gm-Message-State: AJIora9a7giKaqyMP8ktQnl2i38oFBDA6qPGva6yV6XUIxtA7jGj4ByD
+	NCeFfSj+91tIaOH8vihen5Zt/YfutzvzMctDZIY4iQ==
+X-Google-Smtp-Source: AGRyM1sPbJFOfgds1z44L+2x0LeSz+WDXIcXmrmRGKcnUJOHvArk6m1Yo9JIVaHoclX4irKL2BmvvO9xvoY4Zp4J2ko=
+X-Received: by 2002:a05:6402:90a:b0:439:c144:24cd with SMTP id
+ g10-20020a056402090a00b00439c14424cdmr33905014edz.209.1657142164310; Wed, 06
+ Jul 2022 14:16:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220625050838.1618469-1-davidgow@google.com> <20220625050838.1618469-2-davidgow@google.com>
-In-Reply-To: <20220625050838.1618469-2-davidgow@google.com>
+References: <20220625050838.1618469-1-davidgow@google.com> <20220625050838.1618469-3-davidgow@google.com>
+In-Reply-To: <20220625050838.1618469-3-davidgow@google.com>
 From: Brendan Higgins <brendanhiggins@google.com>
-Date: Wed, 6 Jul 2022 17:05:46 -0400
-Message-ID: <CAFd5g44w0h-EFfw-1wY=bBu_BbO1xi3Ys6gPoDogthCxrF14Qg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] kunit: unify module and builtin suite definitions
+Date: Wed, 6 Jul 2022 17:15:53 -0400
+Message-ID: <CAFd5g46ftDZwaPDdr8p2tRsd86uEQhFGfv+y6S3EVDtHCEa4zg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] kunit: flatten kunit_suite*** to kunit_suite** in .kunit_test_suites
 To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -77,29 +77,27 @@ Cc: Matt Johnston <matt@codeconstruct.com.au>, Andra Paraschiv <andraprs@amazon.
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Jun 25, 2022 at 1:10 AM David Gow <davidgow@google.com> wrote:
+On Sat, Jun 25, 2022 at 1:10 AM 'David Gow' via KUnit Development
+<kunit-dev@googlegroups.com> wrote:
 >
-> From: Jeremy Kerr <jk@codeconstruct.com.au>
+> From: Daniel Latypov <dlatypov@google.com>
 >
-> Currently, KUnit runs built-in tests and tests loaded from modules
-> differently. For built-in tests, the kunit_test_suite{,s}() macro adds a
-> list of suites in the .kunit_test_suites linker section. However, for
-> kernel modules, a module_init() function is used to run the test suites.
+> We currently store kunit suites in the .kunit_test_suites ELF section as
+> a `struct kunit_suite***` (modulo some `const`s).
+> For every test file, we store a struct kunit_suite** NULL-terminated arra=
+y.
 >
-> This causes problems if tests are included in a module which already
-> defines module_init/exit_module functions, as they'll conflict with the
-> kunit-provided ones.
+> This adds quite a bit of complexity to the test filtering code in the
+> executor.
 >
-> This change removes the kunit-defined module inits, and instead parses
-> the kunit tests from their own section in the module. After module init,
-> we call __kunit_test_suites_init() on the contents of that section,
-> which prepares and runs the suite.
->
-> This essentially unifies the module- and non-module kunit init formats.
+> Instead, let's just make the .kunit_test_suites section contain a single
+> giant array of struct kunit_suite pointers, which can then be directly
+> manipulated. This array is not NULL-terminated, and so none of the test
+> filtering code needs to NULL-terminate anything.
 >
 > Tested-by: Ma=C3=ADra Canal <maira.canal@usp.br>
-> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
 > Signed-off-by: Daniel Latypov <dlatypov@google.com>
+> Co-developed-by: David Gow <davidgow@google.com>
 > Signed-off-by: David Gow <davidgow@google.com>
 
 Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
