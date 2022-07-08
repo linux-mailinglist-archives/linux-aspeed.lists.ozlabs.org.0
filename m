@@ -2,63 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8269E56A408
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jul 2022 15:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BBC56BEBA
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Jul 2022 20:23:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LdyQB3TFnz3c3v
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jul 2022 23:47:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LfhVX6DJMz3c2c
+	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Jul 2022 04:23:32 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=dm7gPCV+;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=arndb.de (client-ip=212.227.17.13; helo=mout.kundenserver.de; envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
-X-Greylist: delayed 464 seconds by postgrey-1.36 at boromir; Thu, 07 Jul 2022 23:47:07 AEST
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::d2c; helo=mail-io1-xd2c.google.com; envelope-from=dlatypov@google.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=dm7gPCV+;
+	dkim-atps=neutral
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LdyQ357Ckz3bt4
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Jul 2022 23:47:06 +1000 (AEST)
-Received: from mail-yb1-f170.google.com ([209.85.219.170]) by
- mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MNLVU-1nxr2j2QSw-00OrJL; Thu, 07 Jul 2022 15:34:07 +0200
-Received: by mail-yb1-f170.google.com with SMTP id f73so1707578yba.10;
-        Thu, 07 Jul 2022 06:34:06 -0700 (PDT)
-X-Gm-Message-State: AJIora97oLtu+BhODQUmSXQJllIWPh7xtVBLGxdT9z1jK0RmeDUpkhff
-	Hmpw/wcwQF3ChFtYJYtg9johJrQ2Zs6DrOeS2cA=
-X-Google-Smtp-Source: AGRyM1uVpCRoROO6rAh+vA5ak8N4SGshcVRH0JW9GvyB4UqceUAu6tZ1eCC16Bwe+GMTjR8QSqM1egSeZk3ZR5FMhlQ=
-X-Received: by 2002:a25:7c41:0:b0:66d:766a:4815 with SMTP id
- x62-20020a257c41000000b0066d766a4815mr46624953ybc.480.1657200845543; Thu, 07
- Jul 2022 06:34:05 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LfhVQ6vNMz3byt
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Jul 2022 04:23:25 +1000 (AEST)
+Received: by mail-io1-xd2c.google.com with SMTP id p128so20452866iof.1
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 08 Jul 2022 11:23:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=97VK5iQW+OLAMctb3bRhnVJI2Dk4NFeFeJbQXMmdP9g=;
+        b=dm7gPCV+4gyiVAxSxrFBQejGH77CCYpAJBElNtgCngEA5WBI7Yc2n3yywfIFlpcCQd
+         78g5turygqj6DdxWi3846rwYQBQlX8o9NVT3W8VVAhJUOgBlNd71vpPAVU7MkPRWnoyV
+         mxwci8zjQG/h2zn69Vyv0HFfD7p0oOaFdBVmG/CeXp4vKGkaOR8ntd+QkwJKIvtSKtA3
+         iDWXSAT7vQ0X1EGvbKQyqsp55ZEhSbF8lpjPQDRJ7aqB5JL0JpaM/9HcziOkPjuENTsi
+         +vuwgM7BUKnDpoiNFCqHK6QcJ8qeVKH6wEXSEvf67S6wPwYcKKbL7mxAZlb01woQqmE6
+         XTyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=97VK5iQW+OLAMctb3bRhnVJI2Dk4NFeFeJbQXMmdP9g=;
+        b=FKniZKG7Ajo+9129oPADJcjOwoCSGxddxA7vcSF0xZx1FxwDCgFLxWFvhy6pw2gsX3
+         l4XhJwS46Vs4/aQYEo28pDISnr1DdpbHBKRJDRqS8wAHw80QtrjVFWpGUqFN2rLWtwnn
+         BhQhGd2VpxiaWJe+yIKXtJ5DV5UX8C0lYkIGqDSqWWQ4YrolZ5/xWVT4LtL6JcdRra4g
+         Es2l35cbTIXqSO3Vq7BNfWYICVXNgpwFmtUrZrv7GCn2BzdipF112Y38f9rerVKTuHfJ
+         Q25cnELRhN+YpTwsC4dJq5ykD39noatSEQlxbFLqPZwwZ9R3yUdtX1w2J6g0RXn01UZS
+         LkhQ==
+X-Gm-Message-State: AJIora+4o1C7AFuVi5E313QvFfZaXuIC3MKgkLKuBdr3czVeVdOfzvAn
+	+LwKtm6luIm9oPbTR2nZwYs46hLXz6tcPtWcGKgo6Q==
+X-Google-Smtp-Source: AGRyM1v951IbthTm0LElBbaQF/7RITAtzDe990vOEfJILkJ06LZs6GkFPaKHhzsiSy2JTGmWeVbLwI83+m4nwKm1Q7M=
+X-Received: by 2002:a02:a105:0:b0:33f:1909:6c82 with SMTP id
+ f5-20020a02a105000000b0033f19096c82mr2997602jag.278.1657304599260; Fri, 08
+ Jul 2022 11:23:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220707132054.GA10610@logan-ThinkPad-T14-Gen-1>
-In-Reply-To: <20220707132054.GA10610@logan-ThinkPad-T14-Gen-1>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 7 Jul 2022 15:33:48 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0P2u+LdXcU7As=dfNbg_J2eWfhgB9TT1-xVyH0v6OM5Q@mail.gmail.com>
-Message-ID: <CAK8P3a0P2u+LdXcU7As=dfNbg_J2eWfhgB9TT1-xVyH0v6OM5Q@mail.gmail.com>
-Subject: Re: [PATCH v3] The Yosemite V3.5 is a facebook multi-node server
- platform that host four OCP server. The BMC in the Yosemite V3.5 platform
- based on AST2600 SoC.
-To: Logananth Sundararaj <logananth13.hcl@gmail.com>
+References: <20220625050838.1618469-1-davidgow@google.com> <20220625050838.1618469-2-davidgow@google.com>
+In-Reply-To: <20220625050838.1618469-2-davidgow@google.com>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Fri, 8 Jul 2022 11:23:08 -0700
+Message-ID: <CAGS_qxrGwVL37AOUWCxwx=qg6YvXCDSSu4p_PSt7_87N3RxJZw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] kunit: unify module and builtin suite definitions
+To: David Gow <davidgow@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:v3XaDAoBenKL3EZ585ieMupm1QG6Ixd5rPluq2JIsrgCul1vblt
- rn0AGjKhGz6G5vWie3MPmDTUmtB/0fFyyqQvBnPBHLQu3pd9QaZP+O2zEhAWotbDiouRuIm
- 16DQBdW0GnX/t4PyXgaC47fyO8mUWe6Kqfe9jjG5wPW1lbcZkKj1W6ZY9NAdn127FO/jqB4
- vvxdrXNwxFip6+bMmkm2A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3LHSipNNr90=:k9n/vb4rYQ1/hwNQ2GmO+5
- VpEKMutp/wfJlTQ0glZ+odZySYKtVRBT+hPcyYqSON/sOwRLjGTUUwYtXtyH3ImANvdJlLo1j
- 5XsSbnnBHT8f13cVEmrzBDZujYpIyneqjowpJCqcttbJa38+xz2M/7zRkhkZqqDOEA8NqYI6h
- VKBZtH4ES1q+I7lsukntetJUgJLFLWLg6OzFNiIq1uFMFpzBHBOoRXYYo1vOS3i/nAGLYH1TZ
- wSA5OPXPee1PEPNK/O1lowIWqVWjTvhuiGKLZWmpFhv72hO5dwq+jvU7ihuNehIDHOOVQvYRV
- pNvnpAHsvJMieWLNy0h7ArIo4f0f7zy6QZ0bOtUUYEn9FS0DkpLVUxiV//qSnt5jUK2gNapgu
- 7pbUY7xR//8p3TBPv9lIEegxrDWmRs3N+LAanuNV70VRs78pbJKktOW6MhXt48GIf2ZSi5Jhk
- LSg0+UntB5wr81mBfqTqsmXmfTWARe2q7iraLuA5IpiKs9t0eZNJir95iXpz5Cu/vKf11xQaU
- sRzh7RRwWjzUEuJk7BbWYM4/p/+ZSkpaIDzRcfGm9kKbp1OhKDQ+LwBUCpOWJdvKiIXsdqTuL
- SDELNVmWEqWNlWNNvMlyora0AVD2EpbIcOFIMdxz2qOMHqlhmr3djEiLENKX8V3Ruzpz7dcZ9
- U0VytypU8z6+7P2sJVFkOgscXZD4fqjY8LPmRYiW7vlkAKm6FcKYGqd02FQouN4QkXf7rFLAG
- hPsZFoQLkFL3gbsVw3xTTc3FcMKuJqSCFR4UW+6X5sjF01mXLmq5WaujEi9CGR8CBC8VKAqqz
- YQoOVYGZ59MKfFF6lOecnSOHSQMhKgAehoeff7v1Ny2/dqBZbL0yFGOSVOb5Lg2ujQsnO2IVq
- Pkr9Ff8r5N2jPrPHPB/U9EEn0rdNu/25e162hO3io=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +72,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, naveen.mosess@hcl.com, thangavel.k@hcl.com, patrick@stwcx.xyz, SoC Team <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>, garnermic@gmail.com, velumanit@hcl.com, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Matt Johnston <matt@codeconstruct.com.au>, Andra Paraschiv <andraprs@amazon.com>, linux-aspeed@lists.ozlabs.org, Greg KH <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org, linux-usb@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org, =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>, Luis Chamberlain <mcgrof@kernel.org>, linux-kselftest@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, Jeremy Kerr <jk@codeconstruct.com.au>, Longpeng <longpeng2@huawei.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, openbmc@lists.ozlabs.org, linux-modules@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jul 7, 2022 at 3:20 PM Logananth Sundararaj
-<logananth13.hcl@gmail.com> wrote:
+On Fri, Jun 24, 2022 at 10:10 PM David Gow <davidgow@google.com> wrote:
+> diff --git a/include/kunit/test.h b/include/kunit/test.h
+> index 8ffcd7de9607..54306271cfbf 100644
+> --- a/include/kunit/test.h
+> +++ b/include/kunit/test.h
+> @@ -250,41 +250,8 @@ static inline int kunit_run_all_tests(void)
+>  }
+>  #endif /* IS_BUILTIN(CONFIG_KUNIT) */
 >
-> This patch adds linux device tree entry related to
-> Yosemite V3.5 specific devices connected to BMC SoC.
+> -#ifdef MODULE
+> -/**
+> - * kunit_test_suites_for_module() - used to register one or more
+> - *                      &struct kunit_suite with KUnit.
+> - *
+> - * @__suites: a statically allocated list of &struct kunit_suite.
+> - *
+> - * Registers @__suites with the test framework. See &struct kunit_suite for
+> - * more information.
+> - *
+> - * If a test suite is built-in, module_init() gets translated into
+> - * an initcall which we don't want as the idea is that for builtins
+> - * the executor will manage execution.  So ensure we do not define
+> - * module_{init|exit} functions for the builtin case when registering
+> - * suites via kunit_test_suites() below.
+> - */
+> -#define kunit_test_suites_for_module(__suites)                         \
+
+Deleting this bit now causes merge conflicts with Shuah's kunit
+branch, due to https://patchwork.kernel.org/project/linux-kselftest/patch/20220702040959.3232874-3-davidgow@google.com/
+I.e. We added in a MODULE_INFO(test, "Y") in this to-be-deleted section.
+
+Perhaps something like this would be a fix?
+
+  #ifdef MODULE
+  #define _kunit_mark_test_module MODULE_INFO(test, "Y")
+  #else
+  #define _kunit_mark_test_module
+  #endif /* MODULE */
+
+  #define __kunit_test_suites(unique_array, unique_suites, ...)
+          \
+          _kunit_mark_test_module;
+          \
+          static struct kunit_suite *unique_array[] = { __VA_ARGS__,
+NULL };     \
+          static struct kunit_suite **unique_suites
+          \
+          __used __section(".kunit_test_suites") = unique_array
+
+
+> -       static int __init kunit_test_suites_init(void)                  \
+> -       {                                                               \
+> -               return __kunit_test_suites_init(__suites);              \
+> -       }                                                               \
+> -       module_init(kunit_test_suites_init);                            \
+> -                                                                       \
+> -       static void __exit kunit_test_suites_exit(void)                 \
+> -       {                                                               \
+> -               return __kunit_test_suites_exit(__suites);              \
+> -       }                                                               \
+> -       module_exit(kunit_test_suites_exit)
+> -#else
+> -#define kunit_test_suites_for_module(__suites)
+> -#endif /* MODULE */
+> -
+>  #define __kunit_test_suites(unique_array, unique_suites, ...)                 \
+>         static struct kunit_suite *unique_array[] = { __VA_ARGS__, NULL };     \
+> -       kunit_test_suites_for_module(unique_array);                            \
+>         static struct kunit_suite **unique_suites                              \
+>         __used __section(".kunit_test_suites") = unique_array
 >
-> Signed-off-by: Logananth Sundararaj <logananth_s@hcl.com>
-
-
-Something went wrong with the patch description, it looks like you dropped
-the subject and sent the first paragraph as the subject instead.
-
-> +/ {
-> +       model = "Facebook fby35";
-> +       compatible = "facebook,fby35", "aspeed,ast2600";
-> +
-> +       aliases {
-> +               serial4 = &uart5;
-> +       };
-
-Why not start at serial0 here?
-
-> +       chosen {
-> +               stdout-path = &uart5;
-> +               bootargs = "console=ttyS4,57600n8 root=/dev/ram rw vmalloc=384M";
-> +       };
-
-The bootargs should really come from the boot loader.
-
-Why do you need the vmalloc=384M? That seems excessive.
-
-> +
-> +       memory@80000000 {
-> +               device_type = "memory";
-> +               reg = <0x80000000 0x80000000>;
-> +       };
-
-The memory location and size is usually also set by the boot loader
-
-        Arnd
