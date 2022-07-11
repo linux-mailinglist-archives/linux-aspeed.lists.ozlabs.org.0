@@ -2,67 +2,121 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12EF56C660
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Jul 2022 05:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C00656D357
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Jul 2022 05:23:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LfwWx5LDWz3c6b
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Jul 2022 13:25:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Lh8Nr47GTz3c1J
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Jul 2022 13:23:40 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=r62Alh7u;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=CPKFqknp;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::335; helo=mail-wm1-x335.google.com; envelope-from=davidgow@google.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.255.123; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=r62Alh7u;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=CPKFqknp;
 	dkim-atps=neutral
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2123.outbound.protection.outlook.com [40.107.255.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LfwWp3ykVz2xKh
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Jul 2022 13:25:25 +1000 (AEST)
-Received: by mail-wm1-x335.google.com with SMTP id l22-20020a05600c4f1600b003a2e10c8cdeso67206wmq.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 08 Jul 2022 20:25:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mBpq2E1SBOr4ZJXdG67yWpCyIYMBZlVSQzIZJj1Syv0=;
-        b=r62Alh7uEJrdoIXTyzQm0v+GlHgJb74nBLvDniEypdB20brNL5yJrZaNM5IYqazZpf
-         e/Utg/P54fISNFE0xOZECiIr9+/AZOgG+oZmZyT9yZLve6spxh1lW5pbrEvG7yLCx2I3
-         TKcSGWiRXRZ65c8Nu3UbO2UfjbDUQcXAH/QXhRRsdbG7M4kkl06T0lVXtwMpS68wyO1k
-         +nQVeIbMtc8yyacpChNT79T7xN2TB7VlpAJbc7C+ZOMOXtqc6g4N/JThiZSM6Xg708EA
-         Kql9KlYqAM1ass+ekU2C7hNOHTdHvmMw0wmeiLUOGkxe06L9qjdfJ6S77+OmtXzPrR+h
-         HiOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mBpq2E1SBOr4ZJXdG67yWpCyIYMBZlVSQzIZJj1Syv0=;
-        b=fUCoyoOfqcpI9Ol+TsU3gqCz9qqVVx+nt6PKqP8REDGHsm5uVdwhy/RUNA0+vGX9hK
-         wd6JgfODS49M26ki2Llc70tpRFw+WUltBfC6Rh1SLGlpVB38f+3sAZ5yK6U0nCqCwySP
-         RyF0jgaGlh8lB7qS8zGaia59yyH676Jc3Al9YIzaT/0lFCMdxD6AbMV0qfWI18qgYMTZ
-         NcCO+HITd7Rs8s46I+uqC+7RoB4Kgq6EitdbgdLL45f/WdEkt84VPQylUBVuelA7nSOs
-         vswPBmpElizYmHWNwvh6T4+w1u4t0/7SQFNrFllfj7NUAv+nBfeFUrkAy27oLRwSR7mB
-         f6Mg==
-X-Gm-Message-State: AJIora8gg4IY12EjPvYqszjz3rAO4L80faHqtm9S/eo/81TTqzBmfent
-	Ude/lmGxqkvV6EhhsgGj2H9fMQNO4ktH2vT74sbhZA==
-X-Google-Smtp-Source: AGRyM1swXGC1sfaXQRy1Xn69Dt8GxfoLuFYMy74dgllMBgXsH8MqmBm3CWHwxaQO0WXjO23yCp57TBd/Ze4MIb/YpdM=
-X-Received: by 2002:a05:600c:4fc8:b0:3a1:99cf:800 with SMTP id
- o8-20020a05600c4fc800b003a199cf0800mr3054967wmq.60.1657337117577; Fri, 08 Jul
- 2022 20:25:17 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Lh8Nc2Pg0z2xmH
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Jul 2022 13:23:21 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d3lCjLvjpWiMSIBaryvWgghx2tj1HuH9RY+rbJvvnfO6frp/q93pfr1A/7SAnFQeYwUExPu4FDWRBqqSAIJdKDV53ZA9XXdXstYSn36OBD0RQ2J3tuZHIV6xudMk7ThPC9qz1W54BocRcRhNdF9maw7tPF0929/X3/TZyRbc7cW/J8ME5kVY6JkAD4vZXM03ybf1LXFP3Bm92lVCf/DoVuU/9Xyrw7/W0FcQK2H/FkAuc6Q0A4jZ95Cc8u/uds2EvsdL7AqZ5ESJHVMZcn9IcsXXNMIVbpz9p1WSlFEC7vCBcqZnaLKan5JrXhWOPnMowMBVDWLqGfBrroyLGyu5Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TA4ubcna6smt7qEbxeV3Y7IjisRktuN0oVKdVg9fkkY=;
+ b=gdv2kTv5IufilUVkavnw3yZnrQRM59VgGz76a6rEdFjH0e8Dm2PmLug8fYB1pBHd9O8cxZv8YnAaEbxvUdWEWdm0wk/ELcLGDvQyYKFCJekBnXIGdF0Fa+oR4LEWm1e/GZ3KJo7SuCHZD4YhlB/skSTQ2W+959TihHF3lWRL3OD8qYqveLpRYiZloGmsID1s98DwA8jHhsrM4MUeL1lyRWFQl0NNLbayaNfV8zTpkFjHpu8bO1EtV6/xMxcYS9AuKLcxYa1oohF82sGZk7w8zWyXonMmd83PchB6K2RXvUVBT+xNpHG+Nw7uOa6bcAa+0MGw2rLMdhMxQxWhupCwHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TA4ubcna6smt7qEbxeV3Y7IjisRktuN0oVKdVg9fkkY=;
+ b=CPKFqknpv4fQRpOdooaCBc1RnLrpLgeEI0wImPKLvdPNmYkF19SS3U3egez1RJjL+GQWZofbtVmBn2kLfWBQV33USWkWhs9VHsNZqLZEjWBm6ruMktMrR4NIUxPJ6qzm2gFg/kkKpt/VOoL+JDnb8CHHiSeIF81YUtwBqW2KT5wGJIX+AJ/iqlnUutlUNdKxqtysygGg6dh36R4JIGvC5NUj7kOxwiAWifxXeROWHxuoCshuxk5yikfKC0r2MHJRyJ07rd4V5Lnhu+gPgVD9lUx3gcjznHKO1+2V7yD1jszv6zbS+Wownvtn0E1iinjfpQgRKzfIQvQ/MnYshWjr6g==
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
+ by SG2PR06MB3465.apcprd06.prod.outlook.com (2603:1096:4:a1::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.25; Mon, 11 Jul
+ 2022 03:23:00 +0000
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::a08a:1668:efef:3a91]) by HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::a08a:1668:efef:3a91%5]) with mapi id 15.20.5417.021; Mon, 11 Jul 2022
+ 03:23:00 +0000
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>, Randy Dunlap <rdunlap@infradead.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
+	<davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, Andrew
+ Jeffery <andrew@aj.id.au>, Dhananjay Phadke <dhphadke@microsoft.com>, Johnny
+ Huang <johnny_huang@aspeedtech.com>
+Subject: RE: [PATCH v7 0/5] Add Aspeed crypto driver for hardware acceleration
+Thread-Topic: [PATCH v7 0/5] Add Aspeed crypto driver for hardware
+ acceleration
+Thread-Index: AQHYkBRM0+h651cfXkudxQ7A8WKvvK14iqRg
+Date: Mon, 11 Jul 2022 03:23:00 +0000
+Message-ID:  <HK0PR06MB3202AE39EF5F43E62F19337880879@HK0PR06MB3202.apcprd06.prod.outlook.com>
+References: <20220705020936.1751771-1-neal_liu@aspeedtech.com>
+In-Reply-To: <20220705020936.1751771-1-neal_liu@aspeedtech.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 53365ce3-ec64-4c7a-80a3-08da62eca8b2
+x-ms-traffictypediagnostic: SG2PR06MB3465:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  SztYBndbxhqY+/yKT8GtAKomb6vcLqSmSbxpcjhPaE8AWwZvy+8kzvI+VrPe3tzRwUMADO3OG0Lb6eTRlxskBhZhlwJJcUmBxM7H/2D4VuwneZFxCFF5kLN9z+ioCanU8Gr53yEHQB+i+0fdnVujPgLFzyYIEIWqdRUvuVdQaQUW1pVVk4FDF6R7tlnQSkdNeryAOJs2v0fstmwKI1V7uJOz81m8TQfx4MzdLgLASzWSO2Z6lMgNsvuOkZI3Z473qRLBjlTxtgxEe0JVaoomPtzhaRoeNM8dq6xUgsd9lnpoOp051gKZcZ/dJc1S75xWRDzR7iVsQszCiprPx9XjPk3+7b2ol7SraFRHWxguuNgmAVXqU38Hj33N8kfhyDMIb9ShiWUxZEuxfPq/zDG9E737Q2vz+y6N3UGE9FkMTUJJ23TS29Y82q5ZNmV1F4HEYGAq13enBtQN3lazm0Wx178Za1/1dBPspL5keUEvvGnFS0HyE7a6/5afXjlU6aD1MOPvEPlZoo+4ocfHG2eGsOWslKQb6DO4iCgidQa8MHMOsBlANwLjwS2XEZJHYp9d9hlwNdApAPblzkl8lzjKqXuKlL0L+WTTkFx1CKn4PMOGJ6R1QmhIVawrB8nFOXW974Rf9ptKqildp4W7862lEtoyw/Mwu5bQCUj5qKfuWVvKihJM/YgSGKe/NbcGfU6g91CWufHl1X7gsZwdPiEdgmGi8DRSYfP0zM0eIkdtnZcwBsjNvGF1Yrjg5h93KzT0LcyEPPahRomVlTdnJU5aHL94DehgeBCnf+trT7I45vpXkhEuuB8oxdQHx/VLd30lZhnNORFznxyUASRSWvBMXQ==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(346002)(376002)(366004)(136003)(39840400004)(396003)(9686003)(4326008)(8676002)(64756008)(66476007)(66556008)(66446008)(7696005)(2906002)(26005)(316002)(186003)(38070700005)(76116006)(83380400001)(66946007)(921005)(86362001)(7416002)(5660300002)(53546011)(122000001)(478600001)(55016003)(8936002)(52536014)(33656002)(38100700002)(41300700001)(54906003)(71200400001)(6636002)(110136005)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?QZM0P3QhxfwDCcSlEoslW4OwsCYE5ztcwagm/au4dqtsH6PAEvNQ3JOajJ8A?=
+ =?us-ascii?Q?QSqM3C2ZwpN+FFHy+1A5saAlQ3a24z7UVRX0ltGeaAgvucJi2ZQyQKrFWDkV?=
+ =?us-ascii?Q?ddS/0GZdaKLEKXdRXpjJzZ64jUPJP1GGYnh8PvTHZXt3bq9bO6/e0abiuPBx?=
+ =?us-ascii?Q?Og5INP3wXTX7tmdRQ0QSTtutr9oeY8YI/AZ4f/59P637blOi/PU2qHaz64U6?=
+ =?us-ascii?Q?GBnDBr5xGWg/FX+9DHVvuxRn9Xo4xPsN8YJtTod+0a74LCjgeTpl3FcoLvJB?=
+ =?us-ascii?Q?IuDH9MC+Fwi4ANRow8IXx8mTXhr09KMxjBceNVoJQ0qzuhCC45ZQODnT1uvx?=
+ =?us-ascii?Q?58gf605upEXBlg334zYXIz90NlUevI4LphUkMrhw5F/4Mvd1BFJfH8ijltla?=
+ =?us-ascii?Q?4YZXuMF3m1BzGhHFbfTWQ4ac2X+DA4f2hLDn+wNRNg70SHHcOUXOcKJ6kAsC?=
+ =?us-ascii?Q?nThdv1jitnB8ARMLyPiy2hJtts/p8UwpRn4RDDuSl69KMCGEDXgzKC+iIWya?=
+ =?us-ascii?Q?7119TIZNL7GP9PjEaawWp/a/yOkD3bezCbz4FKhN9nfztvj3iqSw7YY3AStQ?=
+ =?us-ascii?Q?qF8PaaTVwscO336F+6Di6J9d3iftyR80/nCKFfFR4EpsaESLFHdInb215Usl?=
+ =?us-ascii?Q?3oGozlEo2S3X6gdVYcrG4z/PikJJK1dev+vAkF0p5VThiHbnsw4VvgXpjnU7?=
+ =?us-ascii?Q?9vdp2RDXgr3kb+8oPvbgqm01Lqt934vSme1Ak9EM4dsYqbG2XeRp+L8TtVXD?=
+ =?us-ascii?Q?b54w+A6IkT9GNGBeXUPQsBXdAnBPT4PL46g4l+0KW5QPYIYi4DpogP/tjDri?=
+ =?us-ascii?Q?10mTFznFd8wtW16nFsryCBkg8GRyRYfkeo0j2pmq9EsFRvki5RCsYzFDRzDx?=
+ =?us-ascii?Q?NHq7HWStwko/essIsJ0ckRTb5SIQ/YZIz7J3YgFEyFRiBv66HkiLO1BCeMbN?=
+ =?us-ascii?Q?EjRzgZRiU4Kz14EEdZ7LXBNwUE1X7ZssLU6xPRYcDJTWd1YngTCctlB6UAEQ?=
+ =?us-ascii?Q?JeU+QWJkAShSubbZBIaUDqmNcSgtniHbmimJXwaeC5OOQIz4Wyup4hQtosHm?=
+ =?us-ascii?Q?1aSH3BfdFH2HZMF+7190zv4NJsQ3nM4sV1XziuXWe0ZZ1cOf2OtJiSrLd9ve?=
+ =?us-ascii?Q?DOxzMiZQhLTfbXySWPddoRAVhXJHmIHKdZa7Hmmjy5bezIRHddtHV+B4sd+M?=
+ =?us-ascii?Q?QnD+PqprfixGYp5Jfk1m/UNnpuFarQyL5EFWsVDozhoxG5OHlnyIQIYEujXm?=
+ =?us-ascii?Q?7hklDokMLlD2iHIDDoKLgnJwWEoHXVH3fvzOSklSD1E4A4KL08B1loXLPVH6?=
+ =?us-ascii?Q?9Nwy3sox/4z+2fZk8S3GYnDQduppeCaPWnsUUgP2OZksGrdL2WY+OStkPVvr?=
+ =?us-ascii?Q?TkzsjeRGqqDlF1+jUYG4XYYJeE7ZXyBO7l6KqscQgYizY9rkWuaGpIYwefRi?=
+ =?us-ascii?Q?dbWKGgVHGLKWrr3vU1Mx803Z3X5zgiE/Ilr412lhVBybq0GqzftLEivHQEEO?=
+ =?us-ascii?Q?OaTKNMa93ZjQ1E8xYSP2Px3Dkn5YnxQHqt7Lt5PJgESKl7/MO/Yz5wKiHY7x?=
+ =?us-ascii?Q?MmJhU8NWtC0X/jVAUI2sjpMBzGGMYOSdpSnHSPHF?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220625050838.1618469-1-davidgow@google.com> <20220625050838.1618469-2-davidgow@google.com>
- <CAGS_qxrGwVL37AOUWCxwx=qg6YvXCDSSu4p_PSt7_87N3RxJZw@mail.gmail.com>
-In-Reply-To: <CAGS_qxrGwVL37AOUWCxwx=qg6YvXCDSSu4p_PSt7_87N3RxJZw@mail.gmail.com>
-From: David Gow <davidgow@google.com>
-Date: Sat, 9 Jul 2022 11:25:06 +0800
-Message-ID: <CABVgOS=AfJ7X5xqEKvXCzQ=UzOWrmR9KBO_TnkQw4Ti3fmKHBw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] kunit: unify module and builtin suite definitions
-To: Daniel Latypov <dlatypov@google.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000002f822b05e356de82"
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53365ce3-ec64-4c7a-80a3-08da62eca8b2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2022 03:23:00.8108
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YIUVZXA0QRl1Oe7x2RRiaXylcerlqaVA9TidPG0oBCuP8hgIcPAC+zxNyRzY+dj/bc1XuLDgSQYF+XEL+uHgww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB3465
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,169 +128,110 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Matt Johnston <matt@codeconstruct.com.au>, Andra Paraschiv <andraprs@amazon.com>, linux-aspeed <linux-aspeed@lists.ozlabs.org>, Greg KH <gregkh@linuxfoundation.org>, linux-mmc <linux-mmc@vger.kernel.org>, linux-usb@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>, Luis Chamberlain <mcgrof@kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Jeremy Kerr <jk@codeconstruct.com.au>, Longpeng <longpeng2@huawei.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-modules@vger.kernel.org, KUnit Development <kunit-dev@googlegroups.com>
+Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---0000000000002f822b05e356de82
-Content-Type: text/plain; charset="UTF-8"
+> -----Original Message-----
+> From: Neal Liu <neal_liu@aspeedtech.com>
+> Sent: Tuesday, July 5, 2022 10:10 AM
+> To: Corentin Labbe <clabbe.montjoie@gmail.com>; Christophe JAILLET
+> <christophe.jaillet@wanadoo.fr>; Randy Dunlap <rdunlap@infradead.org>;
+> Herbert Xu <herbert@gondor.apana.org.au>; David S . Miller
+> <davem@davemloft.net>; Rob Herring <robh+dt@kernel.org>; Krzysztof
+> Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.=
+au>;
+> Andrew Jeffery <andrew@aj.id.au>; Dhananjay Phadke
+> <dhphadke@microsoft.com>; Johnny Huang
+> <johnny_huang@aspeedtech.com>
+> Cc: linux-aspeed@lists.ozlabs.org; linux-crypto@vger.kernel.org;
+> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
+> linux-kernel@vger.kernel.org; BMC-SW <BMC-SW@aspeedtech.com>
+> Subject: [PATCH v7 0/5] Add Aspeed crypto driver for hardware acceleratio=
+n
 
-On Sat, Jul 9, 2022 at 2:23 AM Daniel Latypov <dlatypov@google.com> wrote:
->
-> On Fri, Jun 24, 2022 at 10:10 PM David Gow <davidgow@google.com> wrote:
-> > diff --git a/include/kunit/test.h b/include/kunit/test.h
-> > index 8ffcd7de9607..54306271cfbf 100644
-> > --- a/include/kunit/test.h
-> > +++ b/include/kunit/test.h
-> > @@ -250,41 +250,8 @@ static inline int kunit_run_all_tests(void)
-> >  }
-> >  #endif /* IS_BUILTIN(CONFIG_KUNIT) */
-> >
-> > -#ifdef MODULE
-> > -/**
-> > - * kunit_test_suites_for_module() - used to register one or more
-> > - *                      &struct kunit_suite with KUnit.
-> > - *
-> > - * @__suites: a statically allocated list of &struct kunit_suite.
-> > - *
-> > - * Registers @__suites with the test framework. See &struct kunit_suite for
-> > - * more information.
-> > - *
-> > - * If a test suite is built-in, module_init() gets translated into
-> > - * an initcall which we don't want as the idea is that for builtins
-> > - * the executor will manage execution.  So ensure we do not define
-> > - * module_{init|exit} functions for the builtin case when registering
-> > - * suites via kunit_test_suites() below.
-> > - */
-> > -#define kunit_test_suites_for_module(__suites)                         \
->
-> Deleting this bit now causes merge conflicts with Shuah's kunit
-> branch, due to https://patchwork.kernel.org/project/linux-kselftest/patch/20220702040959.3232874-3-davidgow@google.com/
-> I.e. We added in a MODULE_INFO(test, "Y") in this to-be-deleted section.
+Gentle ping on these patch series, thanks.
 
-Nice catch. I've rebased this series on top of the taint stuff:
-https://lore.kernel.org/linux-kselftest/20220709032001.819487-2-davidgow@google.com/T/#u
+> Aspeed Hash and Crypto Engine (HACE) is designed to accelerate the
+> throughput of hash data digest, encryption and decryption.
+>=20
+> These patches aim to add Aspeed hash & crypto driver support.
+> The hash & crypto driver also pass the run-time self tests that take plac=
+e at
+> algorithm registration.
+>=20
+> The patch series are tested on both AST2500 & AST2600 evaluation boards.
+>=20
+> Tested-by below configs:
+> - CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
+> - CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=3Dy
+> - CONFIG_DMA_API_DEBUG=3Dy
+> - CONFIG_DMA_API_DEBUG_SG=3Dy
+> - CONFIG_CPU_BIG_ENDIAN=3Dy
+>=20
+> Change since v6:
+> - Refine debug print.
+> - Change aspeed_sg_list struct memeber's type to __le32.
+>=20
+> Change since v5:
+> - Re-define HACE clock define to fix breaking ABI.
+>=20
+> Change since v4:
+> - Add AST2500 clock definition & dts node.
+> - Add software fallback for handling corner cases.
+> - Fix copy wrong key length.
+>=20
+> Change since v3:
+> - Use dmam_alloc_coherent() instead to manage dma_alloc_coherent().
+> - Add more error handler of dma_prepare() & crypto_engine_start().
+>=20
+> Change since v2:
+> - Fix endianness issue. Tested on both little endian & big endian
+>   system.
+> - Use common crypto hardware engine for enqueue & dequeue requests.
+> - Use pre-defined IVs for SHA-family.
+> - Revise error handler flow.
+> - Fix sorts of coding style problems.
+>=20
+> Change since v1:
+> - Add more error handlers, including DMA memory allocate/free, DMA
+>   map/unmap, clock enable/disable, etc.
+> - Fix check dma_map error for config DMA_API_DEBUG.
+> - Fix dt-binding doc & dts node naming.
+>=20
+>=20
+> Neal Liu (5):
+>   crypto: aspeed: Add HACE hash driver
+>   dt-bindings: clock: Add AST2500/AST2600 HACE reset definition
+>   ARM: dts: aspeed: Add HACE device controller node
+>   dt-bindings: crypto: add documentation for aspeed hace
+>   crypto: aspeed: add HACE crypto driver
+>=20
+>  .../bindings/crypto/aspeed,ast2500-hace.yaml  |   53 +
+>  MAINTAINERS                                   |    7 +
+>  arch/arm/boot/dts/aspeed-g5.dtsi              |    8 +
+>  arch/arm/boot/dts/aspeed-g6.dtsi              |    8 +
+>  drivers/crypto/Kconfig                        |    1 +
+>  drivers/crypto/Makefile                       |    1 +
+>  drivers/crypto/aspeed/Kconfig                 |   40 +
+>  drivers/crypto/aspeed/Makefile                |    9 +
+>  drivers/crypto/aspeed/aspeed-hace-crypto.c    | 1121 +++++++++++++
+>  drivers/crypto/aspeed/aspeed-hace-hash.c      | 1428
+> +++++++++++++++++
+>  drivers/crypto/aspeed/aspeed-hace.c           |  302 ++++
+>  drivers/crypto/aspeed/aspeed-hace.h           |  293 ++++
+>  include/dt-bindings/clock/aspeed-clock.h      |    1 +
+>  include/dt-bindings/clock/ast2600-clock.h     |    1 +
+>  14 files changed, 3273 insertions(+)
+>  create mode 100644
+> Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
+>  create mode 100644 drivers/crypto/aspeed/Kconfig  create mode 100644
+> drivers/crypto/aspeed/Makefile  create mode 100644
+> drivers/crypto/aspeed/aspeed-hace-crypto.c
+>  create mode 100644 drivers/crypto/aspeed/aspeed-hace-hash.c
+>  create mode 100644 drivers/crypto/aspeed/aspeed-hace.c
+>  create mode 100644 drivers/crypto/aspeed/aspeed-hace.h
+>=20
+> --
+> 2.25.1
 
-> Perhaps something like this would be a fix?
-
-Thanks.The rebased version is basically this, but without the #ifdef
-MODULE indirection, as MODULE_INFO() will decay to nothing if MODULE
-is not defined, anyway.
-
->   #ifdef MODULE
->   #define _kunit_mark_test_module MODULE_INFO(test, "Y")
->   #else
->   #define _kunit_mark_test_module
->   #endif /* MODULE */
->
->   #define __kunit_test_suites(unique_array, unique_suites, ...)
->           \
->           _kunit_mark_test_module;
->           \
->           static struct kunit_suite *unique_array[] = { __VA_ARGS__,
-> NULL };     \
->           static struct kunit_suite **unique_suites
->           \
->           __used __section(".kunit_test_suites") = unique_array
->
->
-> > -       static int __init kunit_test_suites_init(void)                  \
-> > -       {                                                               \
-> > -               return __kunit_test_suites_init(__suites);              \
-> > -       }                                                               \
-> > -       module_init(kunit_test_suites_init);                            \
-> > -                                                                       \
-> > -       static void __exit kunit_test_suites_exit(void)                 \
-> > -       {                                                               \
-> > -               return __kunit_test_suites_exit(__suites);              \
-> > -       }                                                               \
-> > -       module_exit(kunit_test_suites_exit)
-> > -#else
-> > -#define kunit_test_suites_for_module(__suites)
-> > -#endif /* MODULE */
-> > -
-> >  #define __kunit_test_suites(unique_array, unique_suites, ...)                 \
-> >         static struct kunit_suite *unique_array[] = { __VA_ARGS__, NULL };     \
-> > -       kunit_test_suites_for_module(unique_array);                            \
-> >         static struct kunit_suite **unique_suites                              \
-> >         __used __section(".kunit_test_suites") = unique_array
-> >
-
---0000000000002f822b05e356de82
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBl
-JmrHJzQ0vK1xYKaDEDYwR3rzNd2KyrVjy2GQK6mVbzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA3MDkwMzI1MTdaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAlhD8Y9l2qJpJSHbsezKz
-AoI+Xv+FHHBzuTK2N9hJyGjtt7jFiiPYYf4bGpzIFX/sSTpd0Z7xOXtE5UpyA1lArMmWvWnFshJk
-JaaeTfJqrFEnPBv2QLVKFb+oBSjSFF6SbymFOnqs3v83Wu4ICwP+iZNYqaMSPsv4V4qEbIoUtKm7
-gl8ecAoPtoZRoek0wE49XtF1yCBLS3gKvrcCfpKw0L8ZSKPLssfO4gUakft6tLpi9PG+96CTGK1Z
-wXl8h+QlaYFi/oP83EPkJbc08GIegicX/2Y2q0T7h2v2v6QV7/Xz/jRYTrz1+rbFZ8hjWpZydZRy
-vZ8yWuqbB0qhxbm59Q==
---0000000000002f822b05e356de82--
