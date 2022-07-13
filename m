@@ -2,42 +2,41 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37EE572F29
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Jul 2022 09:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712C7572F8E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Jul 2022 09:48:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LjTfs6RdWz3c3p
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Jul 2022 17:25:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LjV9h74VTz3c3t
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Jul 2022 17:48:40 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=XcZ097Xe;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=P6+Zhlbq;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.microsoft.com (client-ip=13.77.154.182; helo=linux.microsoft.com; envelope-from=dphadke@linux.microsoft.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=XcZ097Xe;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=P6+Zhlbq;
 	dkim-atps=neutral
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LjTfk01xgz2ywJ
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Jul 2022 17:25:17 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LjV9c2s1Vz30Lb
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Jul 2022 17:48:36 +1000 (AEST)
 Received: from [192.168.87.140] (unknown [50.47.106.71])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0F8E2204DE8D;
-	Wed, 13 Jul 2022 00:24:46 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0F8E2204DE8D
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9B42E204DE8E;
+	Wed, 13 Jul 2022 00:48:04 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9B42E204DE8E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1657697086;
-	bh=xyfcr3sQR84Ly/nvTJHG4HPfK1atahpyAidjxl2yWkE=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=XcZ097XeO7xeC7v5XUwwOFRNJp/3SfBdVsO4i5/EqL5rXYOykkBQcQFZrH5eUk+fH
-	 GdHfinkZgeYf9WzJKRJWvBSVXhqwf+/+rj3ay/Dezbp07FtUsA2j0v1iYW0PJpX9OH
-	 A6X9pNBzG17b2c4tBFt454w2F+v173E39Qb6miLI=
-Message-ID: <7041bf01-d91f-3149-e8ba-5db4ba59f9bb@linux.microsoft.com>
-Date: Wed, 13 Jul 2022 00:24:45 -0700
+	s=default; t=1657698485;
+	bh=KZ3W7Lm0ppPu0mxu7WcxzkIS3QqQzFKigKl1JQiFt2Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=P6+Zhlbq0DMsnVL+ep7Gw05EZe/vUerKqkJmmAvdzE0pSRyQXm6vhKjOFnTdc84dI
+	 Wr5o/o68+rQ16YtPQgftXDkZ3oY7JvtHA9SjKygZ+43CrDgiRDmcJS/qnvQ8OjqHRv
+	 Hs3mxf8ksl5o7PzzC4HWh10dRPhLpoAdGUpHVLUs=
+Message-ID: <e5c47d13-bbb9-e607-47cb-6bf4cf6bebd9@linux.microsoft.com>
+Date: Wed, 13 Jul 2022 00:48:04 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v7 1/5] crypto: aspeed: Add HACE hash driver
+Subject: Re: [PATCH v7 3/5] ARM: dts: aspeed: Add HACE device controller node
 Content-Language: en-US
-From: Dhananjay Phadke <dphadke@linux.microsoft.com>
 To: Neal Liu <neal_liu@aspeedtech.com>,
  Corentin Labbe <clabbe.montjoie@gmail.com>,
  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
@@ -49,11 +48,11 @@ To: Neal Liu <neal_liu@aspeedtech.com>,
  Dhananjay Phadke <dhphadke@microsoft.com>,
  Johnny Huang <johnny_huang@aspeedtech.com>
 References: <20220705020936.1751771-1-neal_liu@aspeedtech.com>
- <20220705020936.1751771-2-neal_liu@aspeedtech.com>
- <45058512-0661-5d34-7faf-ddf3eb6142ec@linux.microsoft.com>
-In-Reply-To: <45058512-0661-5d34-7faf-ddf3eb6142ec@linux.microsoft.com>
+ <20220705020936.1751771-4-neal_liu@aspeedtech.com>
+From: Dhananjay Phadke <dphadke@linux.microsoft.com>
+In-Reply-To: <20220705020936.1751771-4-neal_liu@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,30 +68,53 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 7/12/2022 10:32 PM, Dhananjay Phadke wrote:
->> +static void aspeed_ahash_iV(struct aspeed_sham_reqctx *rctx)
->> +{
->> +    if (rctx->flags & SHA_FLAGS_SHA1)
->> +        memcpy(rctx->digest, sha1_iv, 32);
->> +    else if (rctx->flags & SHA_FLAGS_SHA224)
->> +        memcpy(rctx->digest, sha224_iv, 32);
->> +    else if (rctx->flags & SHA_FLAGS_SHA256)
->> +        memcpy(rctx->digest, sha256_iv, 32);
->> +    else if (rctx->flags & SHA_FLAGS_SHA384)
->> +        memcpy(rctx->digest, sha384_iv, 64);
->> +    else if (rctx->flags & SHA_FLAGS_SHA512)
->> +        memcpy(rctx->digest, sha512_iv, 64);
->> +    else if (rctx->flags & SHA_FLAGS_SHA512_224)
->> +        memcpy(rctx->digest, sha512_224_iv, 64);
->> +    else if (rctx->flags & SHA_FLAGS_SHA512_256)
->> +        memcpy(rctx->digest, sha512_256_iv, 64);
->> +}
+On 7/4/2022 7:09 PM, Neal Liu wrote:
+> Add hace node to device tree for AST2500/AST2600.
 > 
-> Can use the "digsize" from reqctx to memcpy() instead lots of if..else
-> conditionals for every request?
+> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+> Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
+> ---
+>   arch/arm/boot/dts/aspeed-g5.dtsi | 8 ++++++++
+>   arch/arm/boot/dts/aspeed-g6.dtsi | 8 ++++++++
+>   2 files changed, 16 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+> index c89092c3905b..04f98d1dbb97 100644
+> --- a/arch/arm/boot/dts/aspeed-g5.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+> @@ -262,6 +262,14 @@ rng: hwrng@1e6e2078 {
+>   				quality = <100>;
+>   			};
+>   
+> +			hace: crypto@1e6e3000 {
+> +				compatible = "aspeed,ast2500-hace";
+> +				reg = <0x1e6e3000 0x100>;
+> +				interrupts = <4>;
+> +				clocks = <&syscon ASPEED_CLK_GATE_YCLK>;
+> +				resets = <&syscon ASPEED_RESET_HACE>;
+> +			};
+> +
+>   			gfx: display@1e6e6000 {
+>   				compatible = "aspeed,ast2500-gfx", "syscon";
+>   				reg = <0x1e6e6000 0x1000>;
+> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+> index 6660564855ff..095cf8d03616 100644
+> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+> @@ -323,6 +323,14 @@ apb {
+>   			#size-cells = <1>;
+>   			ranges;
+>   
+> +			hace: crypto@1e6d0000 {
+> +				compatible = "aspeed,ast2600-hace";
+> +				reg = <0x1e6d0000 0x200>;
+> +				interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
+> +				clocks = <&syscon ASPEED_CLK_GATE_YCLK>;
+> +				resets = <&syscon ASPEED_RESET_HACE>;
+> +			};
+> +
 
-Sorry, meant pre-initialized ivsize not digsize, which could be
-in alg wrapper structure (aspeed_hace_alg).
 
-Thanks,
-Dhananjay
+Thank you for addressing ast2500, for this patch -
+
+Reviewed-by: Dhananjay Phadke <dphadke@linux.microsoft.com>
