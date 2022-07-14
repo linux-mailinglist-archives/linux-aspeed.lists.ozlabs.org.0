@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E165857423D
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jul 2022 06:22:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC69857426A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jul 2022 06:24:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Lk1YY5qy5z3c4H
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jul 2022 14:22:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Lk1bt3xv5z3c3t
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jul 2022 14:24:42 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Xak1LbDz;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=X8P3M3uE;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Xak1LbDz;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=X8P3M3uE;
 	dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Lk1YN2zByz2yJL;
-	Thu, 14 Jul 2022 14:22:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Lk1bp1xDXz2x9d;
+	Thu, 14 Jul 2022 14:24:38 +1000 (AEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id C0286B82373;
-	Thu, 14 Jul 2022 04:22:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28190C3411C;
-	Thu, 14 Jul 2022 04:22:24 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 49AE661E51;
+	Thu, 14 Jul 2022 04:24:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE9FC341C8;
+	Thu, 14 Jul 2022 04:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657772546;
+	s=k20201202; t=1657772673;
 	bh=I/S6MXKj+pJExOorvIiThOlDOL37GW0RHtgnBej/vcs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xak1LbDzW3KzB6ZkyWWdNZqxOvwpxZEXDQUjVyY5087A3iQGVEJAAWOvBgbb6tWtV
-	 HOCoANuj7eCiK+ac3/PDc+FSVNHyUcQO70EdkhMjezDBFsO2f4qPa8JeFluIswrdtU
-	 N1bYAq2hD4Ze7ch4iSUjMG5fBu/gem/EpRNIypc0vgYYGeuuD8HE5IZVKwG9nVEEFF
-	 ia4j7vaORdqiegJQcm5e9g9xaIQgNy/RLMUur5sltIigwQ8BN/Q8OGEVbD7fqSBlYQ
-	 1ojg/t2ZIvsQMBMUmetDN4LZZkDoJggvc0+U64JGmSAlMaDes+RpVrnMFKE7PSYgSz
-	 Nu0M3TWUBZsJA==
+	b=X8P3M3uEnLgnWojff1dqZv95K4Lvj0sabfbXK0e21g/yt3sZTKz1ZKJv1G5n3Uq4Z
+	 qC0otvc3t3h+gfNATeG1zUh1IRjZvkWDEirtR6/y87KMfuSYMcMU36pvFZCHoM3qaL
+	 0fEBAmJmvoPRFQT1yx1WrXMdCEygKLFQCrsJuDTRWK8xh4YJ3pQKb4GCEUbwFaiYZM
+	 gW4//YvRhlukpXNoMNY0eSvG8qu+Dkz7NOjCBYhFN4bclmd6nds+dSzMuTTs5CNI9t
+	 Wj4vZ38cvkgzRiujy0FEGj2OQKt+t77rfN1obatupTAC9zmHGJb0yXJfMmrzXDPkP3
+	 WIZoDjLYVSvsQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 02/41] pinctrl: aspeed: Fix potential NULL dereference in aspeed_pinmux_set_mux()
-Date: Thu, 14 Jul 2022 00:21:42 -0400
-Message-Id: <20220714042221.281187-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 02/28] pinctrl: aspeed: Fix potential NULL dereference in aspeed_pinmux_set_mux()
+Date: Thu, 14 Jul 2022 00:24:03 -0400
+Message-Id: <20220714042429.281816-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220714042221.281187-1-sashal@kernel.org>
-References: <20220714042221.281187-1-sashal@kernel.org>
+In-Reply-To: <20220714042429.281816-1-sashal@kernel.org>
+References: <20220714042429.281816-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
