@@ -1,83 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDD857B496
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Jul 2022 12:36:50 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C3057B4DC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Jul 2022 12:53:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LnsZS685rz3bmG
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Jul 2022 20:36:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Lnsy70FzXz3bmK
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Jul 2022 20:53:51 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fkB0BJqf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Vx3ArBaj;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::236; helo=mail-lj1-x236.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=logananth13.hcl@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fkB0BJqf;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Vx3ArBaj;
 	dkim-atps=neutral
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LnsZN3CBcz3053
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Jul 2022 20:36:42 +1000 (AEST)
-Received: by mail-lj1-x236.google.com with SMTP id m9so17973316ljp.9
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Jul 2022 03:36:42 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Lnsy02QPnz3053;
+	Wed, 20 Jul 2022 20:53:43 +1000 (AEST)
+Received: by mail-pl1-x62a.google.com with SMTP id f11so14630582plr.4;
+        Wed, 20 Jul 2022 03:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=eOQs/h3TvmwMGsHYWl9U3/WtYoMV9gdMa1dgDXwlbSQ=;
-        b=fkB0BJqfPCtZaMfiYdGb3bdOxfiLSBeYykX2v5HfeUI0qT9RCYWjYKZwN2H2/Lcklg
-         5AtcySUHDocU/gfgqQ6VWa5vXLUeoBByLaXwcyqmEMHN/lC6o1LBfrPHatb2VG1Eheoj
-         uLEPyQzCB8wzzWwIqTO9fAzIK81bYmX8sZuKQn2O6Eqk08vYjGUGX0zg1BDxszd2cGwH
-         BJHeSB3ql3PnNoCjParSAlqbboMcvdkkApwZgirbZGwvTV8dh4aky4QdjnMkgpQ2pCFD
-         mUH0PJziq/T1HRPDay71Oiw5Rxu6yMU2spGr7/T+3+rh0cKImMnmNv8XOtmuAJk5lfk4
-         QQBw==
+        d=gmail.com; s=20210112;
+        h=from:date:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=Mhscre5ApuF2HLF9SvgHNFOW7TSIpt1lI87XGb9QgEk=;
+        b=Vx3ArBaj06YNGRzw3bIkp29i3TbvBW7AhKEroeY0bdYRJCS5ylMDCFwYOF6t0w4/+5
+         J4aNvyjFyvoHsd3J4jg3wWRU6cpdAzSKPMYmlbpZ5qNnrrKwpfPs5ls3GHT56+B76qlX
+         rsUFutlvRiYpP1gStiI9isgWRPkf3Asowi/rHFO8hWCZX0OkyotILnidhK16RdCRvMvv
+         KPr1eDl4quaXmk7fFAL5dx/6o+vblbAVM6QPVQ4jk0qUhfT6uGl7RnPOpDmNIKzbALBw
+         9ZC9F9sqSsqtgHD7xS86eXssorW8nnNUGBNYMamNxQNBjGtt7R805dr4qLjkGOGOQD2N
+         D+JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=eOQs/h3TvmwMGsHYWl9U3/WtYoMV9gdMa1dgDXwlbSQ=;
-        b=RB2S3rcvv0IqHB81Mq4C83Atgy1nw47Opcd66B02iIEbbe8ecfEKnQP2o8LYWCzIMm
-         Bmv1c6M9oF0610+c2OrNnmOiA95B9Ptrq6p5FX9ynogxObPyLn89aet+W20yYuigvjB8
-         ggT48u9U+Ows4XIXWxo1Ulfluu0gJXdN+JtmoFspl2bsItu6FQGzAksSs/dMoZyEGbSu
-         vvn4ztNtAUPfRnpp73YuVDZgfx5gmDZwcKzPaQP+sTn+pdkyjZItg+2EtSfYl9uN7PWm
-         d4KL5V1ZODefy7UKUJQVhFAAYrfG50pxQ4xB/jjuo+ep7IqnyNlGutXFrGltgWP/ZAPF
-         WqcQ==
-X-Gm-Message-State: AJIora/Wg/UxJMFwJZH5Is0R4sUBxwjxTlOjxyjESKxrJoQl16yS+Ktx
-	t8ROleQaloImfrMrkvx3YHXwkg==
-X-Google-Smtp-Source: AGRyM1shKllIGiUnXHGiJLH6+O6rAfySNJxSL+EK7w+lV4RU9sESPdtwOwhOZz2Yrya3DaMVYGje0w==
-X-Received: by 2002:a2e:a788:0:b0:25d:94fd:1a84 with SMTP id c8-20020a2ea788000000b0025d94fd1a84mr14986884ljf.177.1658313398531;
-        Wed, 20 Jul 2022 03:36:38 -0700 (PDT)
-Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
-        by smtp.gmail.com with ESMTPSA id d29-20020a0565123d1d00b0047255d21124sm3752136lfv.83.2022.07.20.03.36.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jul 2022 03:36:38 -0700 (PDT)
-Message-ID: <ab78f85c-dd0a-9176-103f-8e4abe01b8f9@linaro.org>
-Date: Wed, 20 Jul 2022 12:36:36 +0200
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=Mhscre5ApuF2HLF9SvgHNFOW7TSIpt1lI87XGb9QgEk=;
+        b=dXLRCvczb2qoZ8doZX9dRPsZmkjmePQqUJhgslxkuM8vFrsivLGnkcMHifx8KB+snO
+         xdp2dDHdQbUfjqUbXaJmncQVzNVz5/SU6erwvVZSOQkVmUcLYgTXiTa+PUfp+rUYOWzY
+         mJ+6RfLCj0tl4VrqUpGx2dne3gmLidWG82eOF6gchMrnVhy6cLs3xY/rwDs0SdYHVS0h
+         TA6/rq3v7G9KSW++e9wyr4y3wcslHiB+wckSSBpMtI1fxwMrbbIULzGV1D+czTqgaeFF
+         NOx9mrSIlLMKLUTnaG9DEXGqPtf5xBDWbS2eW+UTFAmBzgqjSL8RiOkHrcJQB0YQXXtF
+         r5cQ==
+X-Gm-Message-State: AJIora8C1mSgZTgP3M1B7mmAjd9BSNMtFp8VSnH12ENGlgNFatu/WnP9
+	m/nfLLfgU+OgzdZbeN24Hyk=
+X-Google-Smtp-Source: AGRyM1umoS76A2PCTrBwJuvfac+pH1JwJoVe1Fzduqb2TLUkr2jdunjgEYihu2f1l0JRsXX0ThtPLQ==
+X-Received: by 2002:a17:90a:6e46:b0:1f2:f04:a173 with SMTP id s6-20020a17090a6e4600b001f20f04a173mr4639203pjm.23.1658314419816;
+        Wed, 20 Jul 2022 03:53:39 -0700 (PDT)
+Received: from logan-ThinkPad-T14-Gen-1 ([59.93.6.68])
+        by smtp.gmail.com with ESMTPSA id t186-20020a625fc3000000b00528c3ad8e09sm13328684pfb.66.2022.07.20.03.53.34
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 20 Jul 2022 03:53:39 -0700 (PDT)
+From: Logananth Sundararaj <logananth13.hcl@gmail.com>
+X-Google-Original-From: Logananth Sundararaj <logananth_s@hcl.com>
+Date: Wed, 20 Jul 2022 16:23:31 +0530
+To: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+	soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	openbmc@lists.ozlabs.org
+Subject: [PATCH v4] ARM: dts: aspeed: Adding Facebook Yosemite V3.5 BMC
+Message-ID: <20220720105331.GA23472@logan-ThinkPad-T14-Gen-1>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: Add device tree for Ampere's Mt.
- Mitchell BMC
-Content-Language: en-US
-To: Quan Nguyen <quan@os.amperecomputing.com>, openbmc@lists.ozlabs.org,
- Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
- soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Open Source Submission <patches@amperecomputing.com>
-References: <20220720085230.3801945-1-quan@os.amperecomputing.com>
- <20220720085230.3801945-3-quan@os.amperecomputing.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220720085230.3801945-3-quan@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,80 +81,309 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: thang@os.amperecomputing.com, Phong Vo <phong@os.amperecomputing.com>
+Cc: thangavel.k@hcl.com, patrick@stwcx.xyz, garnermic@gmail.com, velumanit@hcl.com, naveen.mosess@hcl.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 20/07/2022 10:52, Quan Nguyen wrote:
-> The Mt. Mitchell BMC is an ASPEED AST2600-based BMC for the Mt. Mitchell
-> hardware reference platform with AmpereOne(TM) processor.
-> 
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> Signed-off-by: Phong Vo <phong@os.amperecomputing.com>
-> Signed-off-by: Thang Q. Nguyen <thang@os.amperecomputing.com>
-> ---
-> v2 :
->   + Remove bootargs                                       [Krzysztof]
->   + Fix gpio-keys nodes name to conform with device tree binding
->   documents                                               [Krzysztof]
->   + Fix some nodes to use generic name                    [Krzysztof]
->   + Remove unnecessary blank line                         [Krzysztof]
->   + Fix typo "LTC" to "LLC" in license info and corrected license
->   info to GPL-2.0-only
-> 
->  arch/arm/boot/dts/Makefile                    |   1 +
->  .../boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 577 ++++++++++++++++++
->  2 files changed, 578 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-> 
+The Yosemite V3.5 is a facebook multi-node server
+platform that host four OCP server. The BMC
+in the Yosemite V3.5 platform based on AST2600 SoC.
 
-(...)
+This patch adds linux device tree entry related to
+Yosemite V3.5 specific devices connected to BMC SoC.
 
-> +
-> +&i2c3 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c4 {
-> +	status = "okay";
-> +
-> +	adc_i2c: adc-i2c@16 {
+Signed-off-by: Logananth Sundararaj <logananth_s@hcl.com>
 
-Node name: just "adc"
+---
+--- v4 - Bootagrs and memory removed.
+--- v3 - Addressed v2 patch comments.
+--- v2 - Enabled i2c drivers.
+--- v1 - Initial draft.
+---
+---
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../boot/dts/aspeed-bmc-facebook-fby35.dts    | 260 ++++++++++++++++++
+ 2 files changed, 261 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-fby35.dts
 
-> +		compatible = "lltc,ltc2497";
-> +		reg = <0x16>;
-> +		vref-supply = <&voltage_mon_reg>;
-> +		#io-channel-cells = <1>;
-> +		status = "okay";
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 7e0934180724..58add093e5fb 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1465,6 +1465,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-facebook-cloudripper.dtb \
+ 	aspeed-bmc-facebook-cmm.dtb \
+ 	aspeed-bmc-facebook-elbert.dtb \
++	aspeed-bmc-facebook-fby35.dtb \
+ 	aspeed-bmc-facebook-fuji.dtb \
+ 	aspeed-bmc-facebook-galaxy100.dtb \
+ 	aspeed-bmc-facebook-minipack.dtb \
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-fby35.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-fby35.dts
+new file mode 100644
+index 000000000000..05efba7117a8
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-fby35.dts
+@@ -0,0 +1,260 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++// Copyright (c) 2020 Facebook Inc.
++
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++#include <dt-bindings/i2c/i2c.h>
++
++/ {
++	model = "Facebook fby35";
++	compatible = "facebook,fby35", "aspeed,ast2600";
++
++	aliases {
++		serial4 = &uart5;
++	};
++
++	chosen {
++		stdout-path = &uart5;
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
++			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
++			<&adc1 0>, <&adc1 1>, <&adc1 2>, <&adc1 3>,
++			<&adc1 4>, <&adc1 5>, <&adc1 6>;
++	};
++	spi_gpio: spi-gpio {
++		status = "okay";
++		compatible = "spi-gpio";
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		gpio-sck = <&gpio0 ASPEED_GPIO(X, 3) GPIO_ACTIVE_HIGH>;
++		gpio-mosi = <&gpio0 ASPEED_GPIO(X, 4) GPIO_ACTIVE_HIGH>;
++		gpio-miso = <&gpio0 ASPEED_GPIO(X, 5) GPIO_ACTIVE_HIGH>;
++		num-chipselects = <1>;
++		cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
++
++		tpmdev@0 {
++			compatible = "tcg,tpm_tis-spi";
++			spi-max-frequency = <33000000>;
++			reg = <0>;
++		};
++	};
++
++};
++
++&mac3 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii4_default>;
++	no-hw-checksum;
++	use-ncsi;
++	mlx,multi-host;
++	ncsi-ctrl,start-redo-probe;
++	ncsi-ctrl,no-channel-monitor;
++	ncsi-package = <1>;
++	ncsi-channel = <1>;
++	ncsi-rexmit = <1>;
++	ncsi-timeout = <2>;
++};
++
++&uart1 {
++	status = "okay";
++};
++
++&uart2 {
++	status = "okay";
++};
++
++&uart3 {
++	status = "okay";
++};
++
++&uart4 {
++	status = "okay";
++};
++
++&uart5 {
++	status = "okay";
++	compatible = "snps,dw-apb-uart";
++};
++
++&wdt1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_wdtrst1_default>;
++	aspeed,reset-type = "soc";
++	aspeed,external-signal;
++	aspeed,ext-push-pull;
++	aspeed,ext-active-high;
++	aspeed,ext-pulse-duration = <256>;
++};
++
++&rtc {
++	status = "okay";
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "spi0.1";
++		spi-max-frequency = <50000000>;
++		#include "openbmc-flash-layout-128.dtsi"
++	};
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "spi0.0";
++		spi-max-frequency = <50000000>;
++		#include "openbmc-flash-layout.dtsi"
++	};
++};
++
++&i2c0 {
++	//Host1 IPMB bus
++	status = "okay";
++	multi-master;
++	ipmb0@10 {
++		compatible = "ipmb-dev";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
++	};
++};
++
++&i2c1 {
++	//Host2 IPMB bus
++	status = "okay";
++	multi-master;
++	ipmb1@10 {
++		compatible = "ipmb-dev";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
++	};
++};
++
++&i2c2 {
++	//Host3 IPMB bus
++	status = "okay";
++	multi-master;
++	ipmb2@10 {
++		compatible = "ipmb-dev";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
++	};
++};
++
++&i2c3 {
++	//Host1 IPMB bus
++	status = "okay";
++	multi-master;
++	ipmb3@10 {
++		compatible = "ipmb-dev";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
++	};
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++};
++
++&i2c8 {
++	//NIC SENSOR TEMP
++	status = "okay";
++	tmp421@1f {
++		compatible = "ti,tmp421";
++		reg = <0x1f>;
++	};
++};
++
++&i2c9 {
++	// Debug-Card IPMB bus
++	status = "okay";
++	multi-master;
++	ipmb9@30 {
++		compatible = "ipmb-dev";
++		reg = <(0x30 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
++	};
++};
++
++&i2c10 {
++	status = "okay";
++};
++
++&i2c11 {
++	status = "okay";
++	//FRU EEPROM
++	eeprom@51 {
++		compatible = "atmel,24c64";
++		reg = <0x51>;
++		pagesize = <32>;
++	};
++};
++
++&i2c12 {
++	status = "okay";
++	//INLET TEMP
++	tmp75@4e {
++		compatible = "ti,tmp75";
++		reg = <0x4e>;
++	};
++	//OUTLET TEMP
++	tmp75@4f {
++		compatible = "ti,tmp75";
++		reg = <0x4f>;
++	};
++};
++
++&i2c13 {
++	status = "okay";
++};
++
++&adc0 {
++	ref_voltage = <2500>;
++	status = "okay";
++
++	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
++		&pinctrl_adc2_default &pinctrl_adc3_default
++		&pinctrl_adc4_default &pinctrl_adc5_default
++		&pinctrl_adc6_default &pinctrl_adc7_default>;
++};
++
++&adc1 {
++	ref_voltage = <2500>;
++	status = "okay";
++
++	pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default
++		&pinctrl_adc10_default &pinctrl_adc11_default
++		&pinctrl_adc12_default &pinctrl_adc13_default>;
++};
++&ehci0 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&uhci {
++	status = "okay";
++};
+-- 
+2.17.1
 
-Isn't this new node? Why do you need status here?
-
-> +	 };
-> +
-> +	eeprom@50 {
-> +		compatible = "atmel,24c64";
-> +		reg = <0x50>;
-> +		pagesize = <32>;
-> +	};
-> +
-
-(...)
-
-> +
-> +&gpio1 {
-> +	gpio-line-names =
-> +	/*18A0-18A7*/	"","","","","","","","",
-> +	/*18B0-18B7*/	"","","","","emmc-rst-n","","s0-soc-pgood","",
-> +	/*18C0-18C7*/	"uart1-mode0","uart1-mode1","uart2-mode0","uart2-mode1",
-> +			"uart3-mode0","uart3-mode1","uart4-mode0","uart4-mode1",
-> +	/*18D0-18D7*/	"","","","","","","","",
-> +	/*18E0-18E3*/	"","","","";
-> +};
-> +
-
-You have a trailing line error.
-
-
-Best regards,
-Krzysztof
