@@ -1,73 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44F657C2F6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Jul 2022 05:50:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B52EE57C476
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Jul 2022 08:30:46 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LpJVb42x7z3c46
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Jul 2022 13:49:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LpN4107Qbz3c5D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Jul 2022 16:30:41 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ASmnKm3T;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=xkdjRXXS;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42f; helo=mail-pf1-x42f.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12f; helo=mail-lf1-x12f.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ASmnKm3T;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=xkdjRXXS;
 	dkim-atps=neutral
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LpJVV1swxz2yQj
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Jul 2022 13:49:53 +1000 (AEST)
-Received: by mail-pf1-x42f.google.com with SMTP id g12so623699pfb.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Jul 2022 20:49:53 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LpN3v4pslz3bXy
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Jul 2022 16:30:33 +1000 (AEST)
+Received: by mail-lf1-x12f.google.com with SMTP id u19so1315409lfs.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Jul 2022 23:30:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=IhGndbcR3r1FDnhh3JNd9RckhpCoqpWOwPcG1TQZ3SY=;
-        b=ASmnKm3TxcgaKpbrSK1DdfQza5i2zhoec+W2MZa/oEmT7NEJjMv5+zox8VZv19ocwh
-         bMGiC1ENawk1x3aKc0pvKC86ERo1oiKo7//5F3qaoL/KBBXPeT+hDDTEbY9eiPSzrFWX
-         LEZRpK9ncIUKcBu1RYXeswpKHZlHz2SG1PJwKOsKkNXEc/rE5AQ1NwasUbWt+IqPlSDe
-         f5ueqqA+m2lZlLrw6eNw0X4iEX3ISYNW2bQ3FMYuYSdhjF851sKWFitT0z9U+3WLQa55
-         8bPFMfow7d8ObPSYSKiYbEMrysp/Vkq25sGnyR49Rdr6vfQNatDWW6pAdqOJ9CyXXw1w
-         VPAQ==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=xcSHceWIQnF46q/aNVeBbb+LJ3IAPo1mZRJeq73EWJs=;
+        b=xkdjRXXSKPFngXKEevyXaU6z0Y4JPA+fQd9I+gp/Lw7u8+x3nQosofoJWDqHP5v7fL
+         cMqHLlHUgmhIDEw8zlaeWcjljCrryhNz5czqOb1RIqBkL2A7BTnV4szadOf6lPfxyxgh
+         f194VDrtFYHEi9uNROPbahBnY4H6507IaiVlMUsOkNojLaxTT9d1Kmi++zHFLCeBqhZC
+         eIyLpQ3qbDLhS39KdK+gZ/Q0y4POeXAS3V2i6L2IvUqz5IQGAmglGpEukT4jp1lGSop8
+         rDUmAJ+tPX/v479s07umER1RNq+c1kbuOdw1qnUJySCkgjXwuRAzMLnzSMWsra+QLDaO
+         umvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=IhGndbcR3r1FDnhh3JNd9RckhpCoqpWOwPcG1TQZ3SY=;
-        b=qrdlTKofhOuJ/yWcM5O5RYXwPLx7BV5Ge8l601OzYDOD+SC/9w640MSR8fARpFYMPf
-         e74q6+uukg7qOr+j/3cYQRF7qQ+Pu4GnQFp5/4TDgDnZalpeCPn3/VFBySQvMTSZ/pGd
-         PnLoqVq+M6eZftrf4fO8ZDx9sc3u6NDDnD6DwTdF/IsO4mFT8hfNCPjIPyogvHwDxzFq
-         MN5Ju7Ny+VzwZcjXSLo3SXWsHmZ+SUrpvCPl3EkKjjUZSDO6rbuMA8nTmRJtIi43c7BB
-         W9ulnxBpShcUZsTAGxdgdtJgQpWRfqaSjafa65zq8GoUo5Hp3YdUfYQaU1xc4FrFGewz
-         wevQ==
-X-Gm-Message-State: AJIora9kPUAi/BBjYWFux59bUrUboyL7O7AQFu7544u7mGNOlOJouYu8
-	6zoMkOpK/cb+qU0vprxZGN8=
-X-Google-Smtp-Source: AGRyM1tMSWVSmGatmv43AyRP8GID+Ov9Iki8PppurPj99s0mjpw22LjyH13wodRtIj9/V9FJF7o57Q==
-X-Received: by 2002:aa7:8811:0:b0:52a:b0a4:a324 with SMTP id c17-20020aa78811000000b0052ab0a4a324mr42543906pfo.63.1658375387861;
-        Wed, 20 Jul 2022 20:49:47 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b18-20020a170903229200b0016be96e07d1sm361930plh.121.2022.07.20.20.49.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 20:49:47 -0700 (PDT)
-Date: Wed, 20 Jul 2022 20:49:46 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Paul Fertser <fercerpav@gmail.com>
-Subject: Re: [PATCH] hwmon: (aspeed-pwm-tacho) increase fan tach period
- (again)
-Message-ID: <20220721034946.GA1644072@roeck-us.net>
-References: <20220714142344.27071-1-fercerpav@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=xcSHceWIQnF46q/aNVeBbb+LJ3IAPo1mZRJeq73EWJs=;
+        b=vnbJOShkR2E3tiWKDlwyuLZocMXPIMQI5vMhx9oim2xxqS2oWwuyGIydvpvCVIAkuw
+         RC2xYINzYlin6xSmxG3VCfWHTyaGir4sEbwxjfYAyDVXjnShnoj5ejgWHlTvvjD6Sa+m
+         f7LW5mj+4ZxHWic0yQ92rkDGQmdAfTyfVwFX7DVQWwSISuzDS+eLOXecX4AMhfJMTngq
+         UmkqBRS5OqqGbzAr7TY8fcS39Wd5bSJwwQohV4SDGmqE38PObEyar4/8dgNZC/FoQroB
+         CiuePR9AqEcNSU7QOMtWjMgJ0loALru+2+SmfYI7D+nE/BNkKD+NNirZo/DsIP612b8n
+         yLPg==
+X-Gm-Message-State: AJIora/fHEViN4CcvUwuooaC3wPIxb0NbGUzrXFuKMclDIEt3SWWohGM
+	b688IuXMIKdbSY1gcDU3VWZPFg==
+X-Google-Smtp-Source: AGRyM1shdQ1GO2vnK0GUcjpj/QQkvO+5wEzFWMbgSm9Shki8ovwWtZ4Z1Qxwdi2ud9QCMxp1+vVxpg==
+X-Received: by 2002:a05:6512:1043:b0:48a:4996:a62c with SMTP id c3-20020a056512104300b0048a4996a62cmr7863341lfb.416.1658385025242;
+        Wed, 20 Jul 2022 23:30:25 -0700 (PDT)
+Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
+        by smtp.gmail.com with ESMTPSA id w2-20020a05651234c200b0048a6cb721ecsm240496lfr.26.2022.07.20.23.30.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Jul 2022 23:30:24 -0700 (PDT)
+Message-ID: <fb1b5eed-41ed-2c4b-c984-235ec4b3b0f6@linaro.org>
+Date: Thu, 21 Jul 2022 08:30:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220714142344.27071-1-fercerpav@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/7] dt-bindings: vendor-prefixes: document several
+ vendors for Aspeed BMC boards
+Content-Language: en-US
+To: Andrew Jeffery <andrew@aj.id.au>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Arnd Bergmann <arnd@arndb.de>,
+ Steven Lee <steven_lee@aspeedtech.com>, Ken Chen <chen.kenyy@inventec.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+References: <20220529104928.79636-1-krzysztof.kozlowski@linaro.org>
+ <c86be8e0-8350-5d73-8055-e04a4e88f3b6@linaro.org>
+ <42fb4884-e2c3-4d7f-9049-f14c19701b20@www.fastmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <42fb4884-e2c3-4d7f-9049-f14c19701b20@www.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,53 +88,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org, Patrick Venture <venture@google.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: David Wang <David_Wang6097@jabil.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jul 14, 2022 at 05:23:44PM +0300, Paul Fertser wrote:
-> The old value allows measuring fan speeds down to about 970 RPM and
-> gives timeout for anything less than that. It is problematic because it
-> can also be used as an indicator for fan failure or absence.
+On 21/07/2022 04:34, Andrew Jeffery wrote:
+>> Any comments on this patchset? Are you going to pick it up? If you
+>> prefer me taking it, I can, but new boards depend on the bindings, so
+>> this should rather go via your tree.
 > 
-> Despite having read the relevant section of "ASPEED AST2500/AST2520 A2
-> Datasheet – V1.7" multiple times I wasn't able to figure out what
-> exactly "fan tach period" and "fan tach falling point of period" mean
-> (both are set by the driver from the constant this patch is amending).
-> 
-> Experimentation with a Tioga Pass OCP board (AST2500 BMC) showed that
-> value of 0x0108 gives time outs for speeds below 1500 RPM and the value
-> offered by the patch is good for at least 750 RPM (the fans can't spin
-> any slower so the lower bound is unknown). Measuring with the fans
-> spinning takes about 30 ms, sometimes down to 18 ms, so about the same
-> as with the previous value.
-> 
-> This constant was last changed in
-> 762b1e88801357770889d013c5d20fe110d1f456.
-> 
-> Signed-off-by: Paul Fertser <fercerpav@gmail.com>
+> Apologies for not getting to this earlier, but I see Rob's applied it.
 
-I did not get any further feedback, so:
+Rob took only the first patch - vendor-prefix. The DTS patches I sent to
+arm-soc.
 
-Applied to linux-next.
+However the second bindings patch [1] will miss merge window as I did
+not send it to arm-soc. I have it in my tree but I am not planning to
+push it out before merge window.
 
-Thanks,
-Guenter
+[1]
+https://lore.kernel.org/all/165589284658.28441.1588047978357747292.b4-ty@linaro.org/
 
-> ---
->  drivers/hwmon/aspeed-pwm-tacho.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
-> index 3cb88d6fbec0..d11f674e3dc3 100644
-> --- a/drivers/hwmon/aspeed-pwm-tacho.c
-> +++ b/drivers/hwmon/aspeed-pwm-tacho.c
-> @@ -159,7 +159,7 @@
->   * 11: reserved.
->   */
->  #define M_TACH_MODE 0x02 /* 10b */
-> -#define M_TACH_UNIT 0x0210
-> +#define M_TACH_UNIT 0x0420
->  #define INIT_FAN_CTRL 0xFF
->  
->  /* How long we sleep in us while waiting for an RPM result. */
+
+Best regards,
+Krzysztof
