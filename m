@@ -2,88 +2,91 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240A357D85B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Jul 2022 04:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332DA57D8B4
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Jul 2022 04:43:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LptLj0jGjz3cFL
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Jul 2022 12:15:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LptzV0K1dz3cF8
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Jul 2022 12:43:34 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=XMr/vzsq;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=29tyYDOZ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=gcHZ2I9R;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=1qtwXbaf;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=64.147.123.25; helo=wout2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=XMr/vzsq;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=29tyYDOZ;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=gcHZ2I9R;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=1qtwXbaf;
 	dkim-atps=neutral
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LptLX5hJqz305W
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Jul 2022 12:14:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LptzQ1cCQz30Bm
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Jul 2022 12:43:30 +1000 (AEST)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id D03033200A0F;
-	Thu, 21 Jul 2022 22:14:53 -0400 (EDT)
+	by mailout.west.internal (Postfix) with ESMTP id 3812932009C7;
+	Thu, 21 Jul 2022 22:43:27 -0400 (EDT)
 Received: from imap50 ([10.202.2.100])
-  by compute3.internal (MEProxy); Thu, 21 Jul 2022 22:14:54 -0400
+  by compute3.internal (MEProxy); Thu, 21 Jul 2022 22:43:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1658456093; x=1658542493; bh=H0tl7PYIst
-	6EluLo0kFgVp0YPK66a1VCVK0YVnBYtdQ=; b=XMr/vzsqtjUhx4qJ6nIKZoOgwx
-	Il101nyVf4Qawew0CVXD+BdBg004WJPtgMwIrK/iT6+dp35c30ma9CifwhqMqdc3
-	G/D3kl8lONv4B28QYi/poVspfW7QqNRDHKLDYQNPM8nEHAbcUlrMYlIYpbZOLTnk
-	sZRp6J9418yZYy7bOQ1c2ULYUBWE5IJDg/WMInq3JPfZefZ7+kMcGQCk/VXzyVNw
-	YhansR1LXwbbZqAxXZkcToqpUv+3YP6mh099TfJS/LM9dajL/cPFqjXmQ0DBXJAj
-	gR62K+7BloTkG+MeKNbXiM7NrAMnNIcKEn3JAqFQxDlRbafrMTAmg8KG/e6A==
+	:subject:to:to; s=fm2; t=1658457806; x=1658544206; bh=nXICDDfsvk
+	9tEKtACojymXPSAf/uavSaU0rgUGSdSIU=; b=gcHZ2I9RD9S5XMXF1EDDlqFpM+
+	WZ5eA0X/qEVCkXbd9ciJyyC7pSbncocTfCTEnIkJQar6LTS2JhvYuSJkezM3enUm
+	So82HwXQ0C5Y6Vb4CrwPqCA2SD9Vjl2cnZj0bPzIO3xQYROwOIZlKareIOQEpShm
+	+buKWu6Of2N9XOUUM5Cb1RGM0ptOqO08UjepSQWUxbxAwzpICM79FPSIw21hvLSr
+	kEiMytDmxebpb14pyar8SEiSlJp+mfGpI7KfQbgoJEdwJBaBMGejf7PSjTgaU3bV
+	ezjUbPNp7njE/c+C/r9LkRNfHyWi3+m6QLjY2pJS+RgoillNq47qDEFzPcmg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:date:feedback-id
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1658456093; x=1658542493; bh=H0tl7PYIst6EluLo0kFgVp0YPK66
-	a1VCVK0YVnBYtdQ=; b=29tyYDOZyrky5oAbH/mdbhoNzxgmajpnmN4F2I1bsfZE
-	bos/mYrXPSTtP3HD629aitLHz4HxnIHNsDU9T5dO2ta469bAOOqxcH5Y7UzStPjx
-	wcK53Qy7Ter9VBb+PinjLGVqlRXfWIUJPnU8mBTrKyn7dhJkYhZvj7sRKGIqME8z
-	PaGYEIuQN8EELkcFQcAqDPIw+KkgWlzZ7k8uqDI8J7jQEnk7/LdkCeWl6IaiDZws
-	6O7oMILMhG8EcIGcjCtHIKpdn+d/xKMyQK0z8UUtwePKS4ailyQlVykqiRLDAByD
-	mcRGcEvriesLdJHcAbOKDd2tHJJ/PmpTaJHytxRoww==
-X-ME-Sender: <xms:GwjaYicYlejJwx799R_14Wvpol1rns_pOpQZ1xi3Ef7WX9TCnA_cyA>
-    <xme:GwjaYsNuGFmGkRBraQ50Z5p_fj1M5PG3iGEN_nsjdmR8t3k3wO1UyZCFZGcoKSU8a
-    TWUUpGH8KNFF5odWQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtuddgheekucetufdoteggodetrfdotf
+	fm3; t=1658457806; x=1658544206; bh=nXICDDfsvk9tEKtACojymXPSAf/u
+	avSaU0rgUGSdSIU=; b=1qtwXbafvYWaxr6XhhAsnWo7Xf7T6cTNaiHk7p/VMGIj
+	opeg4RTT4/Y3zC0+rc+JCbzkHzz2fCfHvu+lqZl9UBZEHgjbxgQawn0KC8z9l4uv
+	RixkJ9X6Z1Rvcn+xFMMDDom/t49Q2ES/WV/2S7Fd/RdZtpXhKYRMSB8lSF8n88c+
+	5WltiNA2y6/B/3sKZVPnGERIPwFfDFSD4FM+wZ2QCQoPH3s6Dm4cQJtQNetWyycH
+	GcnERMxmiKpN7H+ScWFn5Rz7Rx7QZzMe2HeQWgvbXsUJ7qTpyjgv8af8g2xXsWjD
+	9y2zhpSgsud3MDxy6BSqIvawTyeovqSZCjrJgveCrA==
+X-ME-Sender: <xms:zg7aYrCvJq1n4vgEEv1QL_5YadX2ZR0X5g-llj5hwHJRWog-HecM1Q>
+    <xme:zg7aYhgKh1k13kDKW85l76bwKuMxBUj5aHn8lq_H2MOXXvKZN8dF0ggfIoLSlOOS7
+    z3nnM56HWO5VHE2Nw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtuddgieegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
-    rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
-    grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
-    hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:GwjaYjizDhAVIdpkkVpWfm54-tDyei5hQuTDjmaD1EP5C6Kq5-T1eg>
-    <xmx:GwjaYv8Kyhf-GyJIiErN0oYjYV-9nzzxD_yzRpj41HLchsAZ8nV-wA>
-    <xmx:GwjaYuuMPyiW2-Ohp796VPmZFuVD4UJNGyATHMr7HokYZvUKJvMTOQ>
-    <xmx:HQjaYijVJHWT_PaZ2jlGAtYQIjoCb74kL9xJS2QOG1aXtbAaRnBzDw>
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
+    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:zg7aYmk0EYd9yywBwm48Rw-Wg1b9hcungIoB9dioiDdVBbJC7550-g>
+    <xmx:zg7aYtwSGZtyB5GdCPZf2lNQuzjoyFJaDZcGN-tbMAe7e31CIDzHgQ>
+    <xmx:zg7aYgR0svc-IcjvEU7C6_IdjdrnnPZlaKRSeAgYFOhVqyJcPGsN-g>
+    <xmx:zg7aYp-iSLwQS2Q_HzxnjLuABo-Zm8MPgz0RxVsDlDg7Cnc9GXmacg>
 Feedback-ID: idfb84289:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 7007E1700082; Thu, 21 Jul 2022 22:14:51 -0400 (EDT)
+	id 1CE3E170007E; Thu, 21 Jul 2022 22:43:26 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.7.0-alpha0-755-g3e1da8b93f-fm-20220708.002-g3e1da8b9
 Mime-Version: 1.0
-Message-Id: <0503175d-944d-4ffa-ba39-ff99797e78a1@www.fastmail.com>
-In-Reply-To: <20220603123904.30714-1-linmq006@gmail.com>
-References: <20220603123904.30714-1-linmq006@gmail.com>
-Date: Fri, 22 Jul 2022 11:44:31 +0930
+Message-Id: <05cb7e99-3f57-4375-b1fc-0b880a17dcc8@www.fastmail.com>
+In-Reply-To: <20220529104928.79636-4-krzysztof.kozlowski@linaro.org>
+References: <20220529104928.79636-1-krzysztof.kozlowski@linaro.org>
+ <20220529104928.79636-4-krzysztof.kozlowski@linaro.org>
+Date: Fri, 22 Jul 2022 12:13:05 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Miaoqian Lin" <linmq006@gmail.com>, "Joel Stanley" <joel@jms.id.au>,
- "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>,
- "Patrick Venture" <venture@google.com>, "Robert Lippert" <roblip@gmail.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Joel Stanley" <joel@jms.id.au>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Steven Lee" <steven_lee@aspeedtech.com>,
+ "Ken Chen" <chen.kenyy@inventec.com>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] soc: aspeed: Fix IRQ check in aspeed_lpc_snoop_config_irq
+Subject: Re: [PATCH 4/7] ARM: dts: ast2500-evb: fix board compatible
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -96,22 +99,16 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: David Wang <David_Wang6097@jabil.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Fri, 3 Jun 2022, at 22:09, Miaoqian Lin wrote:
-> platform_get_irq() returns negative error number instead 0 on failure.
-> And the doc of platform_get_irq() provides a usage example:
+On Sun, 29 May 2022, at 20:19, Krzysztof Kozlowski wrote:
+> The AST2500 EVB board should have dedicated compatible.
 >
->     int irq = platform_get_irq(pdev, 0);
->     if (irq < 0)
->         return irq;
->
-> Fix the check of return value to catch errors correctly.
->
-> Fixes: 9f4f9ae81d0a ("drivers/misc: add Aspeed LPC snoop driver")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> Fixes: 02440622656d ("arm/dst: Add Aspeed ast2500 device tree")
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
