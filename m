@@ -2,86 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F0F57F83F
-	for <lists+linux-aspeed@lfdr.de>; Mon, 25 Jul 2022 04:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81707581211
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Jul 2022 13:36:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LrkdT0qtvz3bnM
-	for <lists+linux-aspeed@lfdr.de>; Mon, 25 Jul 2022 12:34:21 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=iY2Py46q;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=dzmZj9BC;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LsZcC3QVQz3c74
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Jul 2022 21:36:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.26; helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=iY2Py46q;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=dzmZj9BC;
-	dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LrkdJ3Ykrz3bVt
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 25 Jul 2022 12:34:11 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id C53845C00DB;
-	Sun, 24 Jul 2022 22:34:06 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
-  by compute3.internal (MEProxy); Sun, 24 Jul 2022 22:34:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1658716446; x=1658802846; bh=hPE2N2f6Pz
-	RN1KjeuYB8e5WQn1u843l61OiuDowxp18=; b=iY2Py46qg8sbwdYqokq6cMY+d2
-	fyNQOeGrsmERkRH90qWIx7Iwd6iqcx63+VYuoW98G4TuSUfwbBGSVIeytPuJ8R0M
-	RG0Qyy76OzdGa9yLojUoMxT/1sf0NOhK495Lgm9L+sLRWAZ220a1BIrRQ0upB53i
-	qLNstWmQorapTAn7pgVv104WeMzCLc47zXwePKhQtlPdtFslGBsG5YT8Mvd85ZNl
-	llYwTcq1h+fYVvS/z1NnrCAM9eUt3KkuZPwTyxWS6UhFA0qdi+CC7ngyzXicU5PE
-	o4hTvKvKbwVLnpPUoDjo6soGV7y9FhthPpilm6sT2et5r+Z9fytTCM9TeBzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1658716446; x=1658802846; bh=hPE2N2f6PzRN1KjeuYB8e5WQn1u8
-	43l61OiuDowxp18=; b=dzmZj9BCm9/igoh6IzycbTnlHBTst5+b0xfDat/0kBNi
-	1cRIg1eQ0BqrKnj6UVwX8FmDjsZJNfSRTeBvyQPzCOGXvTq4IlVkKUO4QZr8v7ex
-	Nzud/jc9BMLKyOfC+xd5QFTsGUOilQYf9j0clSnaTb3Z1UUmS5X0Rp+BGzKyH4lS
-	72vHQkyLFDAqNtvZQUOCESyb68rGg6g/GLxwpKD9tRmbGkivymmUo1cnmLUVDCkJ
-	MSLcbIgRVWK82fToXLdGfVUnmEoOu6Bgle46ujlNRGUMdXPBnSW0KiXtvtZWzy3J
-	0cYP2eYMZOrRfaDrKzCJuT1OCywKcXEiHE2yfguahA==
-X-ME-Sender: <xms:HgHeYvVL7FUgX1qa1cl8kA6KU8GKDDzRc4ZnOQCN5qUgYxl8M0IhhQ>
-    <xme:HgHeYnmRrKXbLZ2u2gub9JKc5aBx9SV32fP_PyW19GLb4sJZZ5EOtXNXvdAHB4lFQ
-    1NOVPDKjHASWrP5LA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtjedgiedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
-    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
-    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:HgHeYrb-GJYiMFY3t5CvfR0ugI7_t2YP08kOL-t6sibybbmKRCZQTQ>
-    <xmx:HgHeYqVjJ0ZiWNmGcfwGML7yrVe0iKzkOeScbaRMaFlbPngFThpt0g>
-    <xmx:HgHeYplvq3AAoRiwITQEzgfv7sL2c49pBtQCU7CwvyqHaDfUtZbviA>
-    <xmx:HgHeYiAQj2l70JevPPryjRNkz_K8gSYy-5rKgM-C9Ez_Hsp8-0ps1g>
-Feedback-ID: idfb84289:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 7B538170007E; Sun, 24 Jul 2022 22:34:06 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
-Mime-Version: 1.0
-Message-Id: <9e0ed5ce-c542-4c2a-93d1-8c7a551921b1@www.fastmail.com>
-In-Reply-To: <20220523060532.7864-1-juergh@canonical.com>
-References: <20220523060532.7864-1-juergh@canonical.com>
-Date: Mon, 25 Jul 2022 12:03:45 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Juerg Haefliger" <juerg.haefliger@canonical.com>,
- "Russell King" <linux@armlinux.org.uk>, "Joel Stanley" <joel@jms.id.au>,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH] ARM: aspeed: Kconfig: Fix indentation
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LsZc56pBsz3c1b
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Jul 2022 21:36:05 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 26QBHH6j076911;
+	Tue, 26 Jul 2022 19:17:17 +0800 (GMT-8)
+	(envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 26 Jul
+ 2022 19:34:52 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+        Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller"
+	<davem@davemloft.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@aj.id.au>,
+        Dhananjay Phadke <dhphadke@microsoft.com>,
+        "Johnny Huang" <johnny_huang@aspeedtech.com>
+Subject: [PATCH v8 0/5] Add Aspeed crypto driver for hardware acceleration
+Date: Tue, 26 Jul 2022 19:34:43 +0800
+Message-ID: <20220726113448.2964968-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 26QBHH6j076911
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,17 +60,91 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Juerg Haefliger <juergh@canonical.com>, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Aspeed Hash and Crypto Engine (HACE) is designed to accelerate the
+throughput of hash data digest, encryption and decryption.
 
+These patches aim to add Aspeed hash & crypto driver support.
+The hash & crypto driver also pass the run-time self tests that
+take place at algorithm registration.
 
-On Mon, 23 May 2022, at 15:35, Juerg Haefliger wrote:
-> The convention for indentation seems to be a single tab. Help text is
-> further indented by an additional two whitespaces. Fix the lines that
-> violate these rules.
->
-> Signed-off-by: Juerg Haefliger <juergh@canonical.com>
+The patch series are tested on both AST2500 & AST2600 evaluation boards.
 
-Acked-by: Andrew Jeffery <andrew@aj.id.au>
+Tested-by below configs:
+- CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
+- CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=y
+- CONFIG_DMA_API_DEBUG=y
+- CONFIG_DMA_API_DEBUG_SG=y
+- CONFIG_CPU_BIG_ENDIAN=y
+
+Change since v7:
+- Define debug Kconfigs.
+- Simplify assign iv/ivsize.
+- Simplify cra_init() for hmac related init.
+
+Change since v6:
+- Refine debug print.
+- Change aspeed_sg_list struct memeber's type to __le32.
+
+Change since v5:
+- Re-define HACE clock define to fix breaking ABI.
+
+Change since v4:
+- Add AST2500 clock definition & dts node.
+- Add software fallback for handling corner cases.
+- Fix copy wrong key length.
+
+Change since v3:
+- Use dmam_alloc_coherent() instead to manage dma_alloc_coherent().
+- Add more error handler of dma_prepare() & crypto_engine_start().
+
+Change since v2:
+- Fix endianness issue. Tested on both little endian & big endian
+  system.
+- Use common crypto hardware engine for enqueue & dequeue requests.
+- Use pre-defined IVs for SHA-family.
+- Revise error handler flow.
+- Fix sorts of coding style problems.
+
+Change since v1:
+- Add more error handlers, including DMA memory allocate/free, DMA
+  map/unmap, clock enable/disable, etc.
+- Fix check dma_map error for config DMA_API_DEBUG.
+- Fix dt-binding doc & dts node naming.
+
+Neal Liu (5):
+  crypto: aspeed: Add HACE hash driver
+  dt-bindings: clock: Add AST2500/AST2600 HACE reset definition
+  ARM: dts: aspeed: Add HACE device controller node
+  dt-bindings: crypto: add documentation for aspeed hace
+  crypto: aspeed: add HACE crypto driver
+
+ .../bindings/crypto/aspeed,ast2500-hace.yaml  |   53 +
+ MAINTAINERS                                   |    7 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |    8 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |    8 +
+ drivers/crypto/Kconfig                        |    1 +
+ drivers/crypto/Makefile                       |    1 +
+ drivers/crypto/aspeed/Kconfig                 |   58 +
+ drivers/crypto/aspeed/Makefile                |    9 +
+ drivers/crypto/aspeed/aspeed-hace-crypto.c    | 1121 +++++++++++++
+ drivers/crypto/aspeed/aspeed-hace-hash.c      | 1389 +++++++++++++++++
+ drivers/crypto/aspeed/aspeed-hace.c           |  302 ++++
+ drivers/crypto/aspeed/aspeed-hace.h           |  298 ++++
+ include/dt-bindings/clock/aspeed-clock.h      |    1 +
+ include/dt-bindings/clock/ast2600-clock.h     |    1 +
+ 14 files changed, 3257 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
+ create mode 100644 drivers/crypto/aspeed/Kconfig
+ create mode 100644 drivers/crypto/aspeed/Makefile
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace-crypto.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace-hash.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace.h
+
+-- 
+2.25.1
+
