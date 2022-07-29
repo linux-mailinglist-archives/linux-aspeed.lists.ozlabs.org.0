@@ -1,91 +1,87 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF9958637D
-	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Aug 2022 06:26:15 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB66587400
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Aug 2022 00:35:24 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Lx4nC1x6Fz2yxF
-	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Aug 2022 14:26:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LxXxr0MhXz304x
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Aug 2022 08:35:12 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=N/J8PpnH;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=O2FbwGbA;
+	dkim=permerror header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha1 header.s=fm2 header.b=Prja2fJy;
+	dkim=permerror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha1 header.s=fm3 header.b=rk1BZHZ1;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.224; helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=N/J8PpnH;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=O2FbwGbA;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=Prja2fJy;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=rk1BZHZ1;
 	dkim-atps=neutral
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Lx4my6w35z2xGm
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  1 Aug 2022 14:25:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Lv7Lg4nSTz2xHL
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 29 Jul 2022 10:14:51 +1000 (AEST)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 190C35C004E;
-	Mon,  1 Aug 2022 00:25:47 -0400 (EDT)
+	by mailnew.nyi.internal (Postfix) with ESMTP id 77CB758099B;
+	Thu, 28 Jul 2022 20:14:48 -0400 (EDT)
 Received: from imap50 ([10.202.2.100])
-  by compute3.internal (MEProxy); Mon, 01 Aug 2022 00:25:47 -0400
+  by compute3.internal (MEProxy); Thu, 28 Jul 2022 20:14:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1659327947; x=1659414347; bh=RKciRP35yI
-	n6t8imsaoMGR1crRpllRfUmQuYjRCYauQ=; b=N/J8PpnHpUxXkO47YcF6hKnUY1
-	FfbwtG+Tc4ySe548tEoGVFLjvihJt8J9/G9k6FRx1QnWIH5WaBvq0RlHhmxYQZk1
-	pzIKFY2gjatHM+YbPQtwVz3bNIhlj4uWFtt1Bc3Ar8hUMLLBlHRgPPxRkyWjV08C
-	8ohUxh4xOge4lXh4V/6RkdEitNe6l2tjiZtV7pmHqLebkjSJfl4OIFjjx3jHLZ+t
-	ZDD6TqUNE68pedRER5rXa7J79USVaitpnLQWKiZW17uTGkqaSGMV1QhbYplvt65W
-	TLQ+C5WJvfv6pOiuBQmPNmXmu1rnWmTZnSz8cNzNltIZtS40RnAjkFIBCScg==
+	:subject:to:to; s=fm2; t=1659053688; x=1659060888; bh=1CqIgEzBLY
+	47OHaV4sSf/xZhANJWym0dF7Lbe51Gho8=; b=Prja2fJywNoccXxpjpow3zGOJ2
+	xOO4vfXVawIaKmJc0bhYtRFydLKuH0fHCgcVLRM1lUuLNu9BBN//3X9ouCnjhWE/
+	h6CzOrA/fHh2fcolx+w5V5tq6TCq2bQIPsf3ZACWLAKEpf25e8ZY9XU3KFQic2se
+	Jtce8nCqDD9jE+OjT6DxHmtBE41TY8DYxcrHiNxcyS8kN3p2GQxDzYsllntF8mJS
+	FS2T7PKKNAKPR8aJRiKi728rbnqI8yzpnLur/gXgoHLFMmia3zmPWCK9KTleynRy
+	jOxuw5ngIWElnzlSjMqsH07YSliZTA7wCA1cjU76B4SvQw24/jF2rPXTu1qg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:date:feedback-id
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1659327947; x=1659414347; bh=RKciRP35yIn6t8imsaoMGR1crRpl
-	lRfUmQuYjRCYauQ=; b=O2FbwGbACESzpPcc9+F0syVT3a30H3V/ZldbdRHWHXy3
-	2GVdWWr5iJowAcWC62t3S0UrSD8yIYRqO8nYr9MHgiS9bEiyUYcCe9J+Y3w0K+VN
-	57BFWt3I5/m/hf8eqDYPYp8do7woqpLcMwPW+II/IESQ3TYa3792qTpysOKDQSI9
-	TXXG4NkUJquPIxYDRRZzugiuJal0u5PhZEowAjsVSUhZS2EvVhRwfxjiGc23FzoH
-	3sv0OPKX3vr0KhUUWJQ8qe/8pveBCAgNrDHJDcpUV9gTHTLc9N/cj/SNXEs06XNU
-	gli6C+glGQelqgJQS9NuNezYAtp7KLe/U4Sz2RKp3Q==
-X-ME-Sender: <xms:ylXnYuV6-0EPyMkHupedsj3xIOiv--OzCHQCJHOvVNqktOB68iVfnQ>
-    <xme:ylXnYqktjzEMUeX0H-0GHmWyqzRLcsEutBPZiMQtIyl9lwtr_7q9xLm5THA5szEoX
-    Y3R8bK5p4LXTR6PKA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvvddgjeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsehttd
-    ertderredtnecuhfhrohhmpedftehnughrvgifucflvghffhgvrhihfdcuoegrnhgurhgv
-    fiesrghjrdhiugdrrghuqeenucggtffrrghtthgvrhhnpedvueeuheefhefggeejtdeffe
-    egvedvieefjefgieffvedufeeftdehveejvdelkeenucffohhmrghinhepuggvvhhitggv
-    rdguvghvpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:ylXnYiafKFp7sQr_bsox-ElmZccktPtKrRgE2wedKkD3YHvpQlSBFQ>
-    <xmx:ylXnYlVTM9JKIBzwm8hY6uwLlDofiRqJzKj1Ai8j_gAkhz7vTPm66A>
-    <xmx:ylXnYomdWGEsDr9FrtxJY8A7uXJk7LmiW_gxZ3sgyBpbSPq-XaEPDw>
-    <xmx:y1XnYkuU_-rEwznTL6kyUNtyaD5y2_QReVaS1ZtVX60XsCSwkl-IUw>
+	fm3; t=1659053688; x=1659060888; bh=1CqIgEzBLY47OHaV4sSf/xZhANJW
+	ym0dF7Lbe51Gho8=; b=rk1BZHZ1UaKHog5lKRuUrUckMq4BFSl4BtoMl4GVeEqA
+	uP8Q/U4l30FCDS6Lcw3xoSku/ZK/qU0Ppk3IwCHStdpczFzStmnmO+vC8fgdqtMF
+	L/9J11RH73L9sx+hzEM7Eu5L2OQZDiRt+J4fkyFq50/7oqrhR+fyh3f2zJfKWvbX
+	G5oB1PIDRUU4HJ25E1M0KtG9dyqUyrQTA3jbvGkorG2/yaqJAjlBAAjd5Q2fWxl8
+	Itq4r/XIBs9hQu2qdc6/UCMqpnavTMvAaMxWwoxGtCPMptiR3o/ZgbZKMSuVjAu9
+	GxafBtrfUIcHJLVFoN5Y5kI4k3zq1mPqBv0rN8j4eQ==
+X-ME-Sender: <xms:dibjYq61WULSSvHAb-Fw6g_a4fXhuLh8dvOAfkntuhZvcfdlvl7Pww>
+    <xme:dibjYj7LyoGVphHU_BmO-2rYwgaulvBbRFulbawl0I52oSGsa9-e4LnjM3ZcB2utm
+    iqBTBR4VqJXRHgcMw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduhedgudefiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    nhgurhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecugg
+    ftrfgrthhtvghrnhepkedvkeejkefgjeduffetteegjeekteetudevtdfftdeluddthfeh
+    veefteekieetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:dibjYpeVeo5Y5h9hpZreusiUaYr9cd-GNjqdKKjoELpg2MwQwS2j_g>
+    <xmx:dibjYnLHruoskZDhofIBZdqd2L6PUeOuHZh_12EOvd8nk4fKXELcKA>
+    <xmx:dibjYuIb9-it4epXA9PpIvUcVGm0Og35TN2M0qLz4e-5zACCQcRfjQ>
+    <xmx:eCbjYsQMVZNaGfoD93vj0O0QSde7ARYF5pisHwVHhhgcCI35mR2OAg>
 Feedback-ID: idfb84289:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id C8CBE170007E; Mon,  1 Aug 2022 00:25:46 -0400 (EDT)
+	id 183BA1700083; Thu, 28 Jul 2022 20:14:45 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-758-ge0d20a54e1-fm-20220729.001-ge0d20a54
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
 Mime-Version: 1.0
-Message-Id: <e94ec2a3-cb7e-4e8b-bb73-fe6b7a6c618d@www.fastmail.com>
-In-Reply-To:  <CABoTLcSj0Py37E9tjC=0snep71Hg2bvTG8oGm_+wmiUHpTZL5w@mail.gmail.com>
-References:  <CAFPZpNbNc5Fx1tBtmM1x0n-qEB_qp+wSSrR2+_0bxPrPyh1xMw@mail.gmail.com>
- <c29de2ea-0f60-4e7f-8308-11849a7de8e8@www.fastmail.com>
- <CAFPZpNZ1+UDVcEs_gp1zCzxXfP6PqZ8kx+UGhb73BusiScRk+g@mail.gmail.com>
- <a509d7a3-2551-4eea-b965-9499ada39b16@www.fastmail.com>
- <CAFPZpNb4fNF-QgQrWLeSkN9TjYsWZvH1YrbQj66rBW6jn8rCug@mail.gmail.com>
- <CABoTLcSj0Py37E9tjC=0snep71Hg2bvTG8oGm_+wmiUHpTZL5w@mail.gmail.com>
-Date: Mon, 01 Aug 2022 13:55:26 +0930
+Message-Id: <833e10d7-ceb1-4859-8028-e724d41421f1@www.fastmail.com>
+In-Reply-To: <20220721141325.2413920-2-arnd@kernel.org>
+References: <20220721141325.2413920-1-arnd@kernel.org>
+ <20220721141325.2413920-2-arnd@kernel.org>
+Date: Fri, 29 Jul 2022 09:44:25 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Oskar Senft" <osk@google.com>, "Ali El-Haj-Mahmoud" <aaelhaj@google.com>,
- linux-aspeed@lists.ozlabs.org, "Zev Weiss" <zev@bewilderbeest.net>
-Subject: Re: aspeed2500 SPI1 control at run-time with OpenBMC
+To: "Arnd Bergmann" <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/6] ARM: refresh defconfig files
 Content-Type: text/plain
+X-Mailman-Approved-At: Tue, 02 Aug 2022 08:35:08 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,41 +93,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Neil Armstrong <narmstrong@baylibre.com>, Tony Lindgren <tony@atomide.com>, Catalin Marinas <catalin.marinas@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Will Deacon <will@kernel.org>, linux-stm32@st-md-mailman.stormreply.com, Florian Fainelli <f.fainelli@gmail.com>, Alexander Shiyan <shc_work@mail.ru>, Aaro Koskinen <aaro.koskinen@iki.fi>, Fabio Estevam <festevam@gmail.com>, Gregory Clement <gregory.clement@bootlin.com>, linux-sh@vger.kernel.org, Janusz Krzysztofik <jmkrzyszt@gmail.com>, Russell King <linux@armlinux.org.uk>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>, bcm-kernel-feedbac
+ k-list@broadcom.com, NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Arnd Bergmann <arnd@arndb.de>, Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Sudeep Holla <sudeep.holla@arm.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-samsung-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, Scott Branden <sbranden@broadcom.com>, Taichi Sugaya <sugaya.taichi@socionext.com>, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Takao Orito <orito.takao@socionext.com>, linux-oxnas@groups.io, Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Thu, 31 Mar 2022, at 07:40, Oskar Senft wrote:
->> I can
->> switch SPI1 control to master through pinmux-select:
->> [...]
->>
->> However, I cannot access the device. '/dev/mtd6' doesn't exist, and I
->> cannot bind it:
->> $  echo 1e630000.spi >/sys/bus/platform/drivers/aspeed-smc/bind
->> -sh: echo: write error: No such file or directory
+On Thu, 21 Jul 2022, at 23:43, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Is there an existing interaction (in the code) between the Aspeed SPI
-> driver and pinmux? I guess ideally we'd want the SPI driver to talk
-> with pinmux to tell it "I'd like to bind the device, can you please
-> configure the pins properly" as well as "I just unbound the device.
-> pinmux, please release the pins".
+> A lot of Kconfig options have changed over the years, and we tend
+> to not do a blind 'make defconfig' to refresh the files, to ensure
+> we catch options that should not have gone away.
 >
-> With that, I wonder if we somewhat have that already and "pinctrl-0 =
-> <&pinctrl_spi1passthru_default>" ends up "confusing" the link between
-> the pinmux and the spi driver (since it's actually the opposite of
-> what we want)? How is that _supposed_ to work? Maybe there's just a
-> bug?
-
-Possibly, getting a driver going for the Aspeed pinmux is hard work :)
-
+> I used some a bit of scripting to only rework the bits where an
+> option moved around in any of the defconfig files, without also
+> dropping any of the other lines, to make it clearer which options
+> we no longer have.
 >
-> Also, I'm wondering: Is it possible to have "&spi1" defined, but not
-> bound initially? I guess that's what we want by default?
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  arch/arm/configs/am200epdkit_defconfig    |  26 ++---
+>  arch/arm/configs/aspeed_g4_defconfig      |  16 +--
+>  arch/arm/configs/aspeed_g5_defconfig      |  16 +--
 
-Zev tried this and got a lot of push-back.
+For the Aspeed bits:
 
-https://lore.kernel.org/all/20211022020032.26980-1-zev@bewilderbeest.net/
-
-Andrew
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
