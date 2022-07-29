@@ -2,55 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F912584CBC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Jul 2022 09:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176CF584F85
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Jul 2022 13:24:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4LvKCt3SRJz2xn8
-	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Jul 2022 17:39:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4LvQCn08jKz2xGr
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Jul 2022 21:24:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kaod.org (client-ip=46.105.77.235; helo=10.mo548.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
-Received: from 10.mo548.mail-out.ovh.net (10.mo548.mail-out.ovh.net [46.105.77.235])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4LvKCm5n9Gz2xGy
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 29 Jul 2022 17:39:29 +1000 (AEST)
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.183])
-	by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 69E68227C8;
-	Fri, 29 Jul 2022 07:39:23 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 29 Jul
- 2022 09:39:21 +0200
-Authentication-Results: garm.ovh; auth=pass (GARM-102R0041218b063-a24c-41c6-87ed-1d34e970e8a6,
-                    FAFF5065920E43DA0D2CF6C40E58A39B80E28978) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.72.120
-Message-ID: <32c4045d-7fce-5954-9710-4f6b0c6b0d2a@kaod.org>
-Date: Fri, 29 Jul 2022 09:39:19 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4LvQCb6PCMz2xHT
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 29 Jul 2022 21:24:43 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 26TB5WpT050856;
+	Fri, 29 Jul 2022 19:05:32 +0800 (GMT-8)
+	(envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 29 Jul
+ 2022 19:23:16 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+        Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller"
+	<davem@davemloft.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@aj.id.au>,
+        Dhananjay Phadke <dhphadke@microsoft.com>,
+        "Johnny Huang" <johnny_huang@aspeedtech.com>
+Subject: [PATCH v9 0/5] Add Aspeed crypto driver for hardware acceleration
+Date: Fri, 29 Jul 2022 19:23:08 +0800
+Message-ID: <20220729112313.86169-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH linux dev-5.15] soc: aspeed: abr: Add sysfs attrs for
- flash toggle
-Content-Language: en-US
-To: Andrew Jeffery <andrew@aj.id.au>, Jian Zhang
-	<zhangjian.3032@bytedance.com>, <openbmc@lists.ozlabs.org>, Joel Stanley
-	<joel@jms.id.au>
-References: <20220501105644.355062-1-zhangjian.3032@bytedance.com>
- <62143648-8a90-4ff4-bfe1-f311b40cd50c@www.fastmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <62143648-8a90-4ff4-bfe1-f311b40cd50c@www.fastmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: a6453bd3-2138-4703-b325-6e2aced1d2b3
-X-Ovh-Tracer-Id: 10280310576058174386
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduiedgieegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdgrshhpvggvugeslhhishhtshdrohiilhgrsghsrdhorhhgpdfovfetjfhoshhtpehmohehgeek
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 26TB5WpT050856
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +60,96 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: zhangjian_linux@163.com, "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-aspeed@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>, Mark Brown <broonie@kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello,
+Aspeed Hash and Crypto Engine (HACE) is designed to accelerate the
+throughput of hash data digest, encryption and decryption.
 
-On 7/29/22 04:37, Andrew Jeffery wrote:
-> Hi Jian Zhang,
-> 
-> On Sun, 1 May 2022, at 20:26, Jian Zhang wrote:
->> Implement the flash toggle function in soc ast2600.
->> Add two sysfs attrs named "access_primary" and "access_backup"
-> 
-> If you're proposing this patch for upstream then it needs to be based on
-> an upstream kernel tree, not the OpenBMC kernel tree. You also should
-> not use e.g. `linux dev-5.15` in the patch subject prefix, as that would
-> be inappropriate for an upstream patch.
-> 
-> As you're adding sysfs attributes you'll also need to add the
-> corresponding ABI documentation.
+These patches aim to add Aspeed hash & crypto driver support.
+The hash & crypto driver also pass the run-time self tests that
+take place at algorithm registration.
 
-Yes. I think we need to discuss the ABI/sysfs files a bit. I am not
-sure we should toggle the sysfs files depending on the boot mode :
-primary vs. alternate. We could have the same files always and return
-EIO if some conditions are not met. Something like :
+The patch series are tested on both AST2500 & AST2600 evaluation boards.
 
-* boot mode : primary/alternate. Write changes the next boot.
-* watchdog management
+Tested-by below configs:
+- CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
+- CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=y
+- CONFIG_DMA_API_DEBUG=y
+- CONFIG_DMA_API_DEBUG_SG=y
+- CONFIG_CPU_BIG_ENDIAN=y
 
-Also, there is no need to introduce a new include file with large
-inline functions.
+Change since v8:
+- Remove __weak functions for register/unregister crypto algos.
+- Add missing functions of unregister crypto algos.
+- Use single debug config to control debug messages.
 
-Thanks,
+Change since v7:
+- Define debug Kconfigs.
+- Simplify assign iv/ivsize.
+- Simplify cra_init() for hmac related init.
 
-C.
+Change since v6:
+- Refine debug print.
+- Change aspeed_sg_list struct memeber's type to __le32.
+
+Change since v5:
+- Re-define HACE clock define to fix breaking ABI.
+
+Change since v4:
+- Add AST2500 clock definition & dts node.
+- Add software fallback for handling corner cases.
+- Fix copy wrong key length.
+
+Change since v3:
+- Use dmam_alloc_coherent() instead to manage dma_alloc_coherent().
+- Add more error handler of dma_prepare() & crypto_engine_start().
+
+Change since v2:
+- Fix endianness issue. Tested on both little endian & big endian
+  system.
+- Use common crypto hardware engine for enqueue & dequeue requests.
+- Use pre-defined IVs for SHA-family.
+- Revise error handler flow.
+- Fix sorts of coding style problems.
+
+Change since v1:
+- Add more error handlers, including DMA memory allocate/free, DMA
+  map/unmap, clock enable/disable, etc.
+- Fix check dma_map error for config DMA_API_DEBUG.
+- Fix dt-binding doc & dts node naming.
+
+Neal Liu (5):
+  crypto: aspeed: Add HACE hash driver
+  dt-bindings: clock: Add AST2500/AST2600 HACE reset definition
+  ARM: dts: aspeed: Add HACE device controller node
+  dt-bindings: crypto: add documentation for aspeed hace
+  crypto: aspeed: add HACE crypto driver
+
+ .../bindings/crypto/aspeed,ast2500-hace.yaml  |   53 +
+ MAINTAINERS                                   |    7 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |    8 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |    8 +
+ drivers/crypto/Kconfig                        |    1 +
+ drivers/crypto/Makefile                       |    1 +
+ drivers/crypto/aspeed/Kconfig                 |   49 +
+ drivers/crypto/aspeed/Makefile                |    9 +
+ drivers/crypto/aspeed/aspeed-hace-crypto.c    | 1135 ++++++++++++++
+ drivers/crypto/aspeed/aspeed-hace-hash.c      | 1389 +++++++++++++++++
+ drivers/crypto/aspeed/aspeed-hace.c           |  288 ++++
+ drivers/crypto/aspeed/aspeed-hace.h           |  298 ++++
+ include/dt-bindings/clock/aspeed-clock.h      |    1 +
+ include/dt-bindings/clock/ast2600-clock.h     |    1 +
+ 14 files changed, 3248 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
+ create mode 100644 drivers/crypto/aspeed/Kconfig
+ create mode 100644 drivers/crypto/aspeed/Makefile
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace-crypto.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace-hash.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace.c
+ create mode 100644 drivers/crypto/aspeed/aspeed-hace.h
+
+-- 
+2.25.1
+
