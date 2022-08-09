@@ -1,57 +1,96 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE4D58C7D6
-	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Aug 2022 13:49:39 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F1358D169
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Aug 2022 02:36:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4M1ZHj63nHz304j
-	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Aug 2022 21:49:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4M1vJk3f2Zz306m
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Aug 2022 10:36:38 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=kHmVmqK+;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=SllE8aS4;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=liulongfang@huawei.com; receiver=<UNKNOWN>)
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.26; helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=kHmVmqK+;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=SllE8aS4;
+	dkim-atps=neutral
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4M1ZHY6b9Dz2xGF
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  8 Aug 2022 21:49:26 +1000 (AEST)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4M1ZCl4FX7z1M8YJ;
-	Mon,  8 Aug 2022 19:46:11 +0800 (CST)
-Received: from kwepemm600005.china.huawei.com (7.193.23.191) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 8 Aug 2022 19:49:20 +0800
-Received: from [10.67.102.118] (10.67.102.118) by
- kwepemm600005.china.huawei.com (7.193.23.191) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 8 Aug 2022 19:49:19 +0800
-Subject: Re: [PATCH v8 1/5] crypto: aspeed: Add HACE hash driver
-To: Neal Liu <neal_liu@aspeedtech.com>, Corentin Labbe
-	<clabbe.montjoie@gmail.com>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>, Randy Dunlap <rdunlap@infradead.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller"
-	<davem@davemloft.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>, Dhananjay Phadke <dhphadke@microsoft.com>,
-	"Johnny Huang" <johnny_huang@aspeedtech.com>
-References: <20220726113448.2964968-1-neal_liu@aspeedtech.com>
- <20220726113448.2964968-2-neal_liu@aspeedtech.com>
- <5ca081b1-9a96-5b58-7a27-75c94af119d2@huawei.com>
- <HK0PR06MB32026709F521B1D2F6A1B95C80639@HK0PR06MB3202.apcprd06.prod.outlook.com>
-From: liulongfang <liulongfang@huawei.com>
-Message-ID: <256d64d6-0a27-7714-60ac-580b371c2502@huawei.com>
-Date: Mon, 8 Aug 2022 19:49:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <HK0PR06MB32026709F521B1D2F6A1B95C80639@HK0PR06MB3202.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.118]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemm600005.china.huawei.com (7.193.23.191)
-X-CFilter-Loop: Reflected
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4M1vJY0tJ0z2xGx;
+	Tue,  9 Aug 2022 10:36:28 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 086515C0003;
+	Mon,  8 Aug 2022 20:36:25 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute3.internal (MEProxy); Mon, 08 Aug 2022 20:36:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1660005385; x=1660091785; bh=zg8D05det1
+	7wHTcb1SQBJ3QqJGHDqgu5vFpaar6HYxg=; b=kHmVmqK+mbKwLRwLUD31etUwad
+	7t7bdNYlFth+90f6jokU/Dwkk8d2OpXixJ0L4T07exT2bBuRjb5eNl/PF1N0mbsb
+	F0wz7850K2Xp4+tMd8XxUYK5itbs//3OI1qObAP8MUwcPe5trKVKS5tILE2iI8Om
+	Mmmg6nClEuJBHPCddo7XUg/Sf1U77SCyD94HtGe+wOAIFvM7j5uJHONzqyU5CLNB
+	yUSImXIKeiYOzd54ow9iuLkEfB3W4cxdYMrXZsd79CmdOg9OhT43MWUVzfDYltLk
+	aPmynAktSYaFoFfbzPH9yltZr0urmV29G+EOzfXwG9h8Ojuj/1ynwfWiUzhQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1660005385; x=1660091785; bh=zg8D05det17wHTcb1SQBJ3QqJGHD
+	qgu5vFpaar6HYxg=; b=SllE8aS4h2z9MxtoeAolX2GrOP8mOJu9k3Joa0F0axa4
+	E9dIyZSiMJI6DZVOHZuOkqTF5ADybN6kxMMcF4sXne7sNg5MnHdx822jX2ny+LSY
+	YgegNddAskWa3SlD/STYB51J3MzuVtKqoHjPburHAfnc8XoqO8ddaXCDOCU4YPt9
+	zkjKsfJ0sBp9f4QBj6D5xltsxCQhDTQYeyzjQl1FraeDIC/68x54KTzxRwIFvsvm
+	hE3klqEfsWRDxRjLGwp2E5vJqbP4G6T5KW7vsJOUOcn12zPuom1xz/dVvWkppoEx
+	rdMU7FIZow7f2UK2K/yk8nvuYJ4BrQov4XappP5GDA==
+X-ME-Sender: <xms:B6zxYuA27BcCXmQTkSEuf2mrsoI0NPBiOJud8u5LHS4t__jK8kWwiA>
+    <xme:B6zxYoi5VofS3XlBN4-F_8vBU05Yg3cVWhd7V7ddUvMg9IA0oPotMq3uSA2cauvxd
+    k95GqRJSQjNn5TgJQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdefledgfeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
+    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:B6zxYhmHXXuBsboX2cRurVAuaiOkb_HBam5SVfx0Tblsv6akdQvagw>
+    <xmx:B6zxYsxnIgwSXFqx0aLFgK1aO-RQrlS-oEvRn188GuFTB8MPJmxtkg>
+    <xmx:B6zxYjQ-O-iio_KERf8Ul5otTiwh9xSv1nJvflduAn3OjIkDYGEMQg>
+    <xmx:CazxYkIPI5XJ1Yl36JGA7ZG6m-RedNAn8CEXNM0rN-Dg-7Z-B1gi7w>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id D26901700082; Mon,  8 Aug 2022 20:36:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-758-ge0d20a54e1-fm-20220729.001-ge0d20a54
+Mime-Version: 1.0
+Message-Id: <cd11b517-ae6c-4a67-9f43-74825812b00b@www.fastmail.com>
+In-Reply-To:  <SEZPR06MB52695BDBE90ECE00DB2D9684F29D9@SEZPR06MB5269.apcprd06.prod.outlook.com>
+References: <20220516064900.30517-1-ryan_chen@aspeedtech.com>
+ <20220516064900.30517-3-ryan_chen@aspeedtech.com>
+ <5d863bc1-4f27-48b6-89ab-c3f02bc09057@www.fastmail.com>
+ <SEZPR06MB5269DFE2CF762B62846D315EF2999@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <4c4462a6-e950-48cb-b9ba-822909a86867@www.fastmail.com>
+ <SEZPR06MB52695BDBE90ECE00DB2D9684F29D9@SEZPR06MB5269.apcprd06.prod.outlook.com>
+Date: Tue, 09 Aug 2022 10:04:37 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Ryan Chen" <ryan_chen@aspeedtech.com>, "Joel Stanley" <joel@jms.id.au>,
+ "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: i2c-ast2600: Add bindings for AST2600 i2C
+ driver
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,541 +102,90 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, BMC-SW <BMC-SW@aspeedtech.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: BMC-SW <BMC-SW@aspeedtech.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 2022/8/8 17:30, Neal Liu wrote:
->> -----Original Message-----
->> From: liulongfang <liulongfang@huawei.com>
->> Sent: Monday, August 8, 2022 10:53 AM
->> To: Neal Liu <neal_liu@aspeedtech.com>; Corentin Labbe
->> <clabbe.montjoie@gmail.com>; Christophe JAILLET
->> <christophe.jaillet@wanadoo.fr>; Randy Dunlap <rdunlap@infradead.org>;
->> Herbert Xu <herbert@gondor.apana.org.au>; David S . Miller
->> <davem@davemloft.net>; Rob Herring <robh+dt@kernel.org>; Krzysztof
->> Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>;
->> Andrew Jeffery <andrew@aj.id.au>; Dhananjay Phadke
->> <dhphadke@microsoft.com>; Johnny Huang
->> <johnny_huang@aspeedtech.com>
->> Cc: linux-aspeed@lists.ozlabs.org; linux-crypto@vger.kernel.org;
->> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
->> linux-kernel@vger.kernel.org; BMC-SW <BMC-SW@aspeedtech.com>
->> Subject: Re: [PATCH v8 1/5] crypto: aspeed: Add HACE hash driver
->>
->>
->> On 2022/7/26 19:34, Neal Liu wrote:
->>> Hash and Crypto Engine (HACE) is designed to accelerate the
->>> throughput of hash data digest, encryption, and decryption.
->>>
->>> Basically, HACE can be divided into two independently engines
->>> - Hash Engine and Crypto Engine. This patch aims to add HACE
->>> hash engine driver for hash accelerator.
->>>
->>> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
->>> Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
->>> ---
->>>  MAINTAINERS                              |    7 +
->>>  drivers/crypto/Kconfig                   |    1 +
->>>  drivers/crypto/Makefile                  |    1 +
->>>  drivers/crypto/aspeed/Kconfig            |   32 +
->>>  drivers/crypto/aspeed/Makefile           |    6 +
->>>  drivers/crypto/aspeed/aspeed-hace-hash.c | 1389
->> ++++++++++++++++++++++
->>>  drivers/crypto/aspeed/aspeed-hace.c      |  213 ++++
->>>  drivers/crypto/aspeed/aspeed-hace.h      |  186 +++
->>>  8 files changed, 1835 insertions(+)
->>>  create mode 100644 drivers/crypto/aspeed/Kconfig
->>>  create mode 100644 drivers/crypto/aspeed/Makefile
->>>  create mode 100644 drivers/crypto/aspeed/aspeed-hace-hash.c
->>>  create mode 100644 drivers/crypto/aspeed/aspeed-hace.c
->>>  create mode 100644 drivers/crypto/aspeed/aspeed-hace.h
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index f55aea311af5..23a0215b7e42 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -3140,6 +3140,13 @@ S:	Maintained
->>>  F:	Documentation/devicetree/bindings/media/aspeed-video.txt
->>>  F:	drivers/media/platform/aspeed/
->>>
->>> +ASPEED CRYPTO DRIVER
->>> +M:	Neal Liu <neal_liu@aspeedtech.com>
->>> +L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
->>> +S:	Maintained
->>> +F:
->> 	Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
->>> +F:	drivers/crypto/aspeed/
->>> +
->>>  ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
->>>  M:	Corentin Chary <corentin.chary@gmail.com>
->>>  L:	acpi4asus-user@lists.sourceforge.net
->>> diff --git a/drivers/crypto/Kconfig b/drivers/crypto/Kconfig
->>> index ee99c02c84e8..b9f5ee126881 100644
->>> --- a/drivers/crypto/Kconfig
->>> +++ b/drivers/crypto/Kconfig
->>> @@ -933,5 +933,6 @@ config CRYPTO_DEV_SA2UL
->>>  	  acceleration for cryptographic algorithms on these devices.
->>>
->>>  source "drivers/crypto/keembay/Kconfig"
->>> +source "drivers/crypto/aspeed/Kconfig"
->>>
->>>  endif # CRYPTO_HW
->>> diff --git a/drivers/crypto/Makefile b/drivers/crypto/Makefile
->>> index f81703a86b98..116de173a66c 100644
->>> --- a/drivers/crypto/Makefile
->>> +++ b/drivers/crypto/Makefile
->>> @@ -1,5 +1,6 @@
->>>  # SPDX-License-Identifier: GPL-2.0
->>>  obj-$(CONFIG_CRYPTO_DEV_ALLWINNER) += allwinner/
->>> +obj-$(CONFIG_CRYPTO_DEV_ASPEED) += aspeed/
->>>  obj-$(CONFIG_CRYPTO_DEV_ATMEL_AES) += atmel-aes.o
->>>  obj-$(CONFIG_CRYPTO_DEV_ATMEL_SHA) += atmel-sha.o
->>>  obj-$(CONFIG_CRYPTO_DEV_ATMEL_TDES) += atmel-tdes.o
->>> diff --git a/drivers/crypto/aspeed/Kconfig b/drivers/crypto/aspeed/Kconfig
->>> new file mode 100644
->>> index 000000000000..059e627efef8
->>> --- /dev/null
->>> +++ b/drivers/crypto/aspeed/Kconfig
->>> @@ -0,0 +1,32 @@
->>> +config CRYPTO_DEV_ASPEED
->>> +	tristate "Support for Aspeed cryptographic engine driver"
->>> +	depends on ARCH_ASPEED
->>> +	help
->>> +	  Hash and Crypto Engine (HACE) is designed to accelerate the
->>> +	  throughput of hash data digest, encryption and decryption.
->>> +
->>> +	  Select y here to have support for the cryptographic driver
->>> +	  available on Aspeed SoC.
->>> +
->>> +config CRYPTO_DEV_ASPEED_HACE_HASH
->>> +	bool "Enable Aspeed Hash & Crypto Engine (HACE) hash"
->>> +	depends on CRYPTO_DEV_ASPEED
->>> +	select CRYPTO_ENGINE
->>> +	select CRYPTO_SHA1
->>> +	select CRYPTO_SHA256
->>> +	select CRYPTO_SHA512
->>> +	select CRYPTO_HMAC
->>> +	help
->>> +	  Select here to enable Aspeed Hash & Crypto Engine (HACE)
->>> +	  hash driver.
->>> +	  Supports multiple message digest standards, including
->>> +	  SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, and so on.
->>> +
->>> +config CRYPTO_DEV_ASPEED_HACE_HASH_DEBUG
->>> +	bool "Enable HACE hash debug messages"
->>> +	depends on CRYPTO_DEV_ASPEED_HACE_HASH
->>> +	help
->>> +	  Print HACE hash debugging messages if you use this option
->>> +	  to ask for those messages.
->>> +	  Avoid enabling this option for production build to
->>> +	  minimize driver timing.
->>> diff --git a/drivers/crypto/aspeed/Makefile
->> b/drivers/crypto/aspeed/Makefile
->>> new file mode 100644
->>> index 000000000000..8bc8d4fed5a9
->>> --- /dev/null
->>> +++ b/drivers/crypto/aspeed/Makefile
->>> @@ -0,0 +1,6 @@
->>> +obj-$(CONFIG_CRYPTO_DEV_ASPEED) += aspeed_crypto.o
->>> +aspeed_crypto-objs := aspeed-hace.o \
->>> +		      $(hace-hash-y)
->>> +
->>> +obj-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) += aspeed-hace-hash.o
->>> +hace-hash-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) :=
->> aspeed-hace-hash.o
->>> diff --git a/drivers/crypto/aspeed/aspeed-hace-hash.c
->> b/drivers/crypto/aspeed/aspeed-hace-hash.c
->>> new file mode 100644
->>> index 000000000000..63a8ad694996
->>> --- /dev/null
->>> +++ b/drivers/crypto/aspeed/aspeed-hace-hash.c
->>> @@ -0,0 +1,1389 @@
->>> +// SPDX-License-Identifier: GPL-2.0+
->>> +/*
->>> + * Copyright (c) 2021 Aspeed Technology Inc.
->>> + */
->>> +
->>> +#include "aspeed-hace.h"
->>> +
->>> +#ifdef CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH_DEBUG
->>> +#define AHASH_DBG(h, fmt, ...)	\
->>> +	dev_info((h)->dev, "%s() " fmt, __func__, ##__VA_ARGS__)
->>> +#else
->>> +#define AHASH_DBG(h, fmt, ...)	\
->>> +	dev_dbg((h)->dev, "%s() " fmt, __func__, ##__VA_ARGS__)
->>> +#endif
->>> +
->>> +/* Initialization Vectors for SHA-family */
->>> +static const __be32 sha1_iv[8] = {
->>> +	cpu_to_be32(SHA1_H0), cpu_to_be32(SHA1_H1),
->>> +	cpu_to_be32(SHA1_H2), cpu_to_be32(SHA1_H3),
->>> +	cpu_to_be32(SHA1_H4), 0, 0, 0
->>> +};
->>> +
->>> +static const __be32 sha224_iv[8] = {
->>> +	cpu_to_be32(SHA224_H0), cpu_to_be32(SHA224_H1),
->>> +	cpu_to_be32(SHA224_H2), cpu_to_be32(SHA224_H3),
->>> +	cpu_to_be32(SHA224_H4), cpu_to_be32(SHA224_H5),
->>> +	cpu_to_be32(SHA224_H6), cpu_to_be32(SHA224_H7),
->>> +};
->>> +
->>> +static const __be32 sha256_iv[8] = {
->>> +	cpu_to_be32(SHA256_H0), cpu_to_be32(SHA256_H1),
->>> +	cpu_to_be32(SHA256_H2), cpu_to_be32(SHA256_H3),
->>> +	cpu_to_be32(SHA256_H4), cpu_to_be32(SHA256_H5),
->>> +	cpu_to_be32(SHA256_H6), cpu_to_be32(SHA256_H7),
->>> +};
->>> +
->>> +static const __be64 sha384_iv[8] = {
->>> +	cpu_to_be64(SHA384_H0), cpu_to_be64(SHA384_H1),
->>> +	cpu_to_be64(SHA384_H2), cpu_to_be64(SHA384_H3),
->>> +	cpu_to_be64(SHA384_H4), cpu_to_be64(SHA384_H5),
->>> +	cpu_to_be64(SHA384_H6), cpu_to_be64(SHA384_H7)
->>> +};
->>> +
->>> +static const __be64 sha512_iv[8] = {
->>> +	cpu_to_be64(SHA512_H0), cpu_to_be64(SHA512_H1),
->>> +	cpu_to_be64(SHA512_H2), cpu_to_be64(SHA512_H3),
->>> +	cpu_to_be64(SHA512_H4), cpu_to_be64(SHA512_H5),
->>> +	cpu_to_be64(SHA512_H6), cpu_to_be64(SHA512_H7)
->>> +};
->>> +
->>> +static const __be32 sha512_224_iv[16] = {
->>> +	cpu_to_be32(0xC8373D8CUL), cpu_to_be32(0xA24D5419UL),
->>> +	cpu_to_be32(0x6699E173UL), cpu_to_be32(0xD6D4DC89UL),
->>> +	cpu_to_be32(0xAEB7FA1DUL), cpu_to_be32(0x829CFF32UL),
->>> +	cpu_to_be32(0x14D59D67UL), cpu_to_be32(0xCF9F2F58UL),
->>> +	cpu_to_be32(0x692B6D0FUL), cpu_to_be32(0xA84DD47BUL),
->>> +	cpu_to_be32(0x736FE377UL), cpu_to_be32(0x4289C404UL),
->>> +	cpu_to_be32(0xA8859D3FUL), cpu_to_be32(0xC8361D6AUL),
->>> +	cpu_to_be32(0xADE61211UL), cpu_to_be32(0xA192D691UL)
->>> +};
->>> +
->>> +static const __be32 sha512_256_iv[16] = {
->>> +	cpu_to_be32(0x94213122UL), cpu_to_be32(0x2CF72BFCUL),
->>> +	cpu_to_be32(0xA35F559FUL), cpu_to_be32(0xC2644CC8UL),
->>> +	cpu_to_be32(0x6BB89323UL), cpu_to_be32(0x51B1536FUL),
->>> +	cpu_to_be32(0x19773896UL), cpu_to_be32(0xBDEA4059UL),
->>> +	cpu_to_be32(0xE23E2896UL), cpu_to_be32(0xE3FF8EA8UL),
->>> +	cpu_to_be32(0x251E5EBEUL), cpu_to_be32(0x92398653UL),
->>> +	cpu_to_be32(0xFC99012BUL), cpu_to_be32(0xAAB8852CUL),
->>> +	cpu_to_be32(0xDC2DB70EUL), cpu_to_be32(0xA22CC581UL)
->>> +};
->>> +
->>> +/* The purpose of this padding is to ensure that the padded message is a
->>> + * multiple of 512 bits (SHA1/SHA224/SHA256) or 1024 bits
->> (SHA384/SHA512).
->>> + * The bit "1" is appended at the end of the message followed by
->>> + * "padlen-1" zero bits. Then a 64 bits block (SHA1/SHA224/SHA256) or
->>> + * 128 bits block (SHA384/SHA512) equals to the message length in bits
->>> + * is appended.
->>> + *
->>> + * For SHA1/SHA224/SHA256, padlen is calculated as followed:
->>> + *  - if message length < 56 bytes then padlen = 56 - message length
->>> + *  - else padlen = 64 + 56 - message length
->>> + *
->>> + * For SHA384/SHA512, padlen is calculated as followed:
->>> + *  - if message length < 112 bytes then padlen = 112 - message length
->>> + *  - else padlen = 128 + 112 - message length
->>> + */
->>> +static void aspeed_ahash_fill_padding(struct aspeed_hace_dev *hace_dev,
->>> +				      struct aspeed_sham_reqctx *rctx)
->>> +{
->>> +	unsigned int index, padlen;
->>> +	__be64 bits[2];
->>> +
->>> +	AHASH_DBG(hace_dev, "rctx flags:0x%x\n", (u32)rctx->flags);
->>> +
->>> +	switch (rctx->flags & SHA_FLAGS_MASK) {
->>> +	case SHA_FLAGS_SHA1:
->>> +	case SHA_FLAGS_SHA224:
->>> +	case SHA_FLAGS_SHA256:
->>> +		bits[0] = cpu_to_be64(rctx->digcnt[0] << 3);
->>> +		index = rctx->bufcnt & 0x3f;
->>> +		padlen = (index < 56) ? (56 - index) : ((64 + 56) - index);
->>> +		*(rctx->buffer + rctx->bufcnt) = 0x80;
->>> +		memset(rctx->buffer + rctx->bufcnt + 1, 0, padlen - 1);
->>> +		memcpy(rctx->buffer + rctx->bufcnt + padlen, bits, 8);
->>> +		rctx->bufcnt += padlen + 8;
->>> +		break;
->>> +	default:
->>> +		bits[1] = cpu_to_be64(rctx->digcnt[0] << 3);
->>> +		bits[0] = cpu_to_be64(rctx->digcnt[1] << 3 |
->>> +				      rctx->digcnt[0] >> 61);
->>> +		index = rctx->bufcnt & 0x7f;
->>> +		padlen = (index < 112) ? (112 - index) : ((128 + 112) - index);
->>> +		*(rctx->buffer + rctx->bufcnt) = 0x80;
->>> +		memset(rctx->buffer + rctx->bufcnt + 1, 0, padlen - 1);
->>> +		memcpy(rctx->buffer + rctx->bufcnt + padlen, bits, 16);
->>> +		rctx->bufcnt += padlen + 16;
->>> +		break;
->>> +	}
->>> +}
->>> +
->>> +/*
->>> + * Prepare DMA buffer before hardware engine
->>> + * processing.
->>> + */
->>> +static int aspeed_ahash_dma_prepare(struct aspeed_hace_dev *hace_dev)
->>> +{
->>> +	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
->>> +	struct ahash_request *req = hash_engine->req;
->>> +	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
->>> +	int length, remain;
->>> +
->>> +	length = rctx->total + rctx->bufcnt;
->>> +	remain = length % rctx->block_size;
->>> +
->>> +	AHASH_DBG(hace_dev, "length:0x%x, remain:0x%x\n", length, remain);
->>> +
->>> +	if (rctx->bufcnt)
->>> +		memcpy(hash_engine->ahash_src_addr, rctx->buffer, rctx->bufcnt);
->>> +
->>> +	if (rctx->total + rctx->bufcnt < ASPEED_CRYPTO_SRC_DMA_BUF_LEN) {
->>> +		scatterwalk_map_and_copy(hash_engine->ahash_src_addr +
->>> +					 rctx->bufcnt, rctx->src_sg,
->>> +					 rctx->offset, rctx->total - remain, 0);
->>> +		rctx->offset += rctx->total - remain;
->>> +
->>> +	} else {
->>> +		dev_warn(hace_dev->dev, "Hash data length is too large\n");
->>> +		return -EINVAL;
->>> +	}
->>> +
->>> +	scatterwalk_map_and_copy(rctx->buffer, rctx->src_sg,
->>> +				 rctx->offset, remain, 0);
->>> +
->>> +	rctx->bufcnt = remain;
->>> +	rctx->digest_dma_addr = dma_map_single(hace_dev->dev, rctx->digest,
->>> +					       SHA512_DIGEST_SIZE,
->>> +					       DMA_BIDIRECTIONAL);
->>> +	if (dma_mapping_error(hace_dev->dev, rctx->digest_dma_addr)) {
->>> +		dev_warn(hace_dev->dev, "dma_map() rctx digest error\n");
->>> +		return -ENOMEM;
->>> +	}
->>> +
->>> +	hash_engine->src_length = length - remain;
->>> +	hash_engine->src_dma = hash_engine->ahash_src_dma_addr;
->>> +	hash_engine->digest_dma = rctx->digest_dma_addr;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +/*
->>> + * Prepare DMA buffer as SG list buffer before
->>> + * hardware engine processing.
->>> + */
->>> +static int aspeed_ahash_dma_prepare_sg(struct aspeed_hace_dev
->> *hace_dev)
->>> +{
->>> +	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
->>> +	struct ahash_request *req = hash_engine->req;
->>> +	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
->>> +	struct aspeed_sg_list *src_list;
->>> +	struct scatterlist *s;
->>> +	int length, remain, sg_len, i;
->>> +	int rc = 0;
->>> +
->>> +	remain = (rctx->total + rctx->bufcnt) % rctx->block_size;
->>> +	length = rctx->total + rctx->bufcnt - remain;
->>> +
->>> +	AHASH_DBG(hace_dev, "%s:0x%x, %s:0x%x, %s:0x%x, %s:0x%x\n",
->>> +		  "rctx total", rctx->total, "bufcnt", rctx->bufcnt,
->>> +		  "length", length, "remain", remain);
->>> +
->>> +	sg_len = dma_map_sg(hace_dev->dev, rctx->src_sg, rctx->src_nents,
->>> +			    DMA_TO_DEVICE);
->>> +	if (!sg_len) {
->>> +		dev_warn(hace_dev->dev, "dma_map_sg() src error\n");
->>> +		rc = -ENOMEM;
->>> +		goto end;
->>> +	}
->>> +
->>> +	src_list = (struct aspeed_sg_list *)hash_engine->ahash_src_addr;
->>> +	rctx->digest_dma_addr = dma_map_single(hace_dev->dev, rctx->digest,
->>> +					       SHA512_DIGEST_SIZE,
->>> +					       DMA_BIDIRECTIONAL);
->>> +	if (dma_mapping_error(hace_dev->dev, rctx->digest_dma_addr)) {
->>> +		dev_warn(hace_dev->dev, "dma_map() rctx digest error\n");
->>> +		rc = -ENOMEM;
->>> +		goto free_src_sg;
->>> +	}
->>> +
->>> +	if (rctx->bufcnt != 0) {
->>> +		rctx->buffer_dma_addr = dma_map_single(hace_dev->dev,
->>> +						       rctx->buffer,
->>> +						       rctx->block_size * 2,
->>> +						       DMA_TO_DEVICE);
->>> +		if (dma_mapping_error(hace_dev->dev, rctx->buffer_dma_addr)) {
->>> +			dev_warn(hace_dev->dev, "dma_map() rctx buffer error\n");
->>> +			rc = -ENOMEM;
->>> +			goto free_rctx_digest;
->>> +		}
->>> +
->>> +		src_list[0].phy_addr = rctx->buffer_dma_addr;
->>> +		src_list[0].len = rctx->bufcnt;
->>> +		length -= src_list[0].len;
->>> +
->>> +		/* Last sg list */
->>> +		if (length == 0)
->>> +			src_list[0].len |= HASH_SG_LAST_LIST;
->>> +
->>> +		src_list[0].phy_addr = cpu_to_le32(src_list[0].phy_addr);
->>> +		src_list[0].len = cpu_to_le32(src_list[0].len);
->>> +		src_list++;
->>> +	}
->>> +
->>> +	if (length != 0) {
->>> +		for_each_sg(rctx->src_sg, s, sg_len, i) {
->>> +			src_list[i].phy_addr = sg_dma_address(s);
->>> +
->>> +			if (length > sg_dma_len(s)) {
->>> +				src_list[i].len = sg_dma_len(s);
->>> +				length -= sg_dma_len(s);
->>> +
->>> +			} else {
->>> +				/* Last sg list */
->>> +				src_list[i].len = length;
->>> +				src_list[i].len |= HASH_SG_LAST_LIST;
->>> +				length = 0;
->>> +			}
->>> +
->>> +			src_list[i].phy_addr = cpu_to_le32(src_list[i].phy_addr);
->>> +			src_list[i].len = cpu_to_le32(src_list[i].len);
->>> +		}
->>> +	}
->>> +
->>> +	if (length != 0) {
->>> +		rc = -EINVAL;
->>> +		goto free_rctx_buffer;
->>> +	}
->>> +
->>> +	rctx->offset = rctx->total - remain;
->>> +	hash_engine->src_length = rctx->total + rctx->bufcnt - remain;
->>> +	hash_engine->src_dma = hash_engine->ahash_src_dma_addr;
->>> +	hash_engine->digest_dma = rctx->digest_dma_addr;
->>> +
->>> +	goto end;
->> Exiting via "goto xx" is not recommended in normal code logic (this requires
->> two jumps),
->> exiting via "return 0" is more efficient.
->> This code method has many times in your entire driver, it is recommended to
->> modify it.
-> 
-> If not exiting via "goto xx", how to release related resources without any problem?
-> Is there any proper way to do this?
-maybe I didn't describe it clearly enough.
-"in normal code logic"  means rc=0
-In this scenario (rc=0), "goto xx" is no longer required,
-it can be replaced with "return 0"
-> 
->>> +
->>> +free_rctx_buffer:
->>> +	if (rctx->bufcnt != 0)
->>> +		dma_unmap_single(hace_dev->dev, rctx->buffer_dma_addr,
->>> +				 rctx->block_size * 2, DMA_TO_DEVICE);
->>> +free_rctx_digest:
->>> +	dma_unmap_single(hace_dev->dev, rctx->digest_dma_addr,
->>> +			 SHA512_DIGEST_SIZE, DMA_BIDIRECTIONAL);
->>> +free_src_sg:
->>> +	dma_unmap_sg(hace_dev->dev, rctx->src_sg, rctx->src_nents,
->>> +		     DMA_TO_DEVICE);
->>> +end:
->>> +	return rc;
->>> +}
->>> +
->>> +static int aspeed_ahash_complete(struct aspeed_hace_dev *hace_dev)
->>> +{
->>> +	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
->>> +	struct ahash_request *req = hash_engine->req;
->>> +
->>> +	AHASH_DBG(hace_dev, "\n");
->>> +
->>> +	hash_engine->flags &= ~CRYPTO_FLAGS_BUSY;
->>> +
->>> +	crypto_finalize_hash_request(hace_dev->crypt_engine_hash, req, 0);
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +/*
->>> + * Copy digest to the corresponding request result.
->>> + * This function will be called at final() stage.
->>> + */
->>> +static int aspeed_ahash_transfer(struct aspeed_hace_dev *hace_dev)
->>> +{
->>> +	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
->>> +	struct ahash_request *req = hash_engine->req;
->>> +	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
->>> +
->>> +	AHASH_DBG(hace_dev, "\n");
->>> +
->>> +	dma_unmap_single(hace_dev->dev, rctx->digest_dma_addr,
->>> +			 SHA512_DIGEST_SIZE, DMA_BIDIRECTIONAL);
->>> +
->>> +	dma_unmap_single(hace_dev->dev, rctx->buffer_dma_addr,
->>> +			 rctx->block_size * 2, DMA_TO_DEVICE);
->>> +
->>> +	memcpy(req->result, rctx->digest, rctx->digsize);
->>> +
->>> +	return aspeed_ahash_complete(hace_dev);
->>> +}
->>> +
->>> +/*
->>> + * Trigger hardware engines to do the math.
->>> + */
->>> +static int aspeed_hace_ahash_trigger(struct aspeed_hace_dev *hace_dev,
->>> +				     aspeed_hace_fn_t resume)
->>> +{
->>> +	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
->>> +	struct ahash_request *req = hash_engine->req;
->>> +	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
->>> +
->>> +	AHASH_DBG(hace_dev, "src_dma:0x%x, digest_dma:0x%x,
->> length:0x%x\n",
->>> +		  hash_engine->src_dma, hash_engine->digest_dma,
->>> +		  hash_engine->src_length);
->>> +
->>> +	rctx->cmd |= HASH_CMD_INT_ENABLE;
->>> +	hash_engine->resume = resume;
->>> +
->>> +	ast_hace_write(hace_dev, hash_engine->src_dma,
->> ASPEED_HACE_HASH_SRC);
->>> +	ast_hace_write(hace_dev, hash_engine->digest_dma,
->>> +		       ASPEED_HACE_HASH_DIGEST_BUFF);
->>> +	ast_hace_write(hace_dev, hash_engine->digest_dma,
->>> +		       ASPEED_HACE_HASH_KEY_BUFF);
->>> +	ast_hace_write(hace_dev, hash_engine->src_length,
->>> +		       ASPEED_HACE_HASH_DATA_LEN);
->>> +
->>> +	/* Memory barrier to ensure all data setup before engine starts */
->>> +	mb();
->>> +
->>> +	ast_hace_write(hace_dev, rctx->cmd, ASPEED_HACE_HASH_CMD);
->> A hardware service sending requires 5 hardware commands to complete.
->> In a multi-concurrency scenario, how to ensure the order of commands?
->> (If two processes send hardware task at the same time,
->> How to ensure that the hardware recognizes which task the current
->> command belongs to?)
-> 
-> Linux crypto engine would guarantee that only one request at each time to be dequeued from engine queue to process.
-> And there has lock mechanism inside Linux crypto engine to prevent the scenario you mentioned.
-> So only 1 aspeed_hace_ahash_trigger() hardware service would go through at a time.
-> 
-> [...]
-> .
-> 
-You may not understand what I mean, the command flow in a normal scenario:
-request_A: Acmd1-->Acmd2-->Acmd3-->Acmd4-->Acmd5
-request_B: Bcmd1-->Bcmd2-->Bcmd3-->Bcmd4-->Bcmd5
-In a multi-process concurrent scenario, multiple crypto engines can be enabled,
-and each crypto engine sends a request. If multiple requests here enter
-aspeed_hace_ahash_trigger() at the same time, the command flow will be
-intertwined like this:
-request_A, request_B: Acmd1-->Bcmd1-->Acmd2-->Acmd3-->Bcmd2-->Acmd4-->Bcmd3-->Bcmd4-->Acmd5-->Bcmd5
 
-In this command flow, how does your hardware identify whether these commands
-belong to request_A or request_B?
-Thanks.
-Longfang.
+
+On Tue, 2 Aug 2022, at 18:34, Ryan Chen wrote:
+> Hello,
+>
+>> -----Original Message-----
+>> From: Andrew Jeffery <andrew@aj.id.au>
+>> Sent: Friday, July 29, 2022 11:13 AM
+>> To: Ryan Chen <ryan_chen@aspeedtech.com>; Joel Stanley <joel@jms.id.au>;
+>> Philipp Zabel <p.zabel@pengutronix.de>; linux-arm-kernel@lists.infradead.org;
+>> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org;
+>> openbmc@lists.ozlabs.org
+>> Cc: BMC-SW <BMC-SW@aspeedtech.com>
+>> Subject: Re: [PATCH v3 2/3] dt-bindings: i2c-ast2600: Add bindings for AST2600
+>> i2C driver
+>> 
+>> 
+>> 
+>> On Fri, 29 Jul 2022, at 12:33, Ryan Chen wrote:
+>> > Hello Andrew,
+>> >
+>> >> -----Original Message-----
+>> >> From: Andrew Jeffery <andrew@aj.id.au>
+>> >> Sent: Friday, July 29, 2022 10:29 AM
+>> >> To: Ryan Chen <ryan_chen@aspeedtech.com>; Joel Stanley
+>> >> <joel@jms.id.au>; Philipp Zabel <p.zabel@pengutronix.de>;
+>> >> linux-arm-kernel@lists.infradead.org;
+>> >> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org;
+>> >> openbmc@lists.ozlabs.org
+>> >> Cc: BMC-SW <BMC-SW@aspeedtech.com>
+>> >> Subject: Re: [PATCH v3 2/3] dt-bindings: i2c-ast2600: Add bindings
+>> >> for AST2600 i2C driver
+>> >>
+>> >> Hi Ryan,
+>> >>
+>> >> On Mon, 16 May 2022, at 16:18, ryan_chen wrote:
+>> >> > +    i2c0: i2c-bus@80 {
+>> >> > +      #address-cells = <1>;
+>> >> > +      #size-cells = <0>;
+>> >> > +      #interrupt-cells = <1>;
+>> >> > +      compatible = "aspeed,ast2600-i2c-bus";
+>> >>
+>> >> This isn't quite right with respect to your binding description above
+>> >> :)
+>> > Yes, the compatible need to be " aspeed,ast2600-i2c" is that your point ?
+>> 
+>> Yes, but only if we agree that we should have different compatibles for the
+>> different drivers. I'm not convinced about that yet.
+>> 
+>> I think it's enough to have different Kconfig symbols, and select the old driver
+>> in aspeed_g4_defconfig, and the new driver in aspeed_g5_defconfig. Won't
+>> that gives us the right outcome without requiring a new set of compatibles?
+>> 
+> The new driver in aspeed_g5_defconfig.
+
+Right, behind a new Kconfig option.
+
+> And different compatible string 
+> claim will
+> Load the new or legacy driver,
+
+I don't think we need this. It's enough to enable the new driver in the 
+defconfig (and possibly disable the config option for the old driver).
+
+> it should ok like the different 
+> generation SOC. Have 
+> different design.
+> Am I right?
+
+We have SoC-specific compatibles already, so the new driver can just 
+bind on the compatibles for the SoC revisions that have the new 
+register interface. The old driver just binds to the device in the SoCs 
+that have the old register interface.
+
+There's an overlap in support between the two drivers, but for people 
+who care about which implementation they use they can choose to exclude 
+that driver from their kernel config.
+
+None of this requires more compatibles be added.
+
+Does that help?
+
+Andrew
