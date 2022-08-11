@@ -1,75 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2826F58F7A6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Aug 2022 08:30:27 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE8B58F7DB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Aug 2022 08:46:15 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4M3H3p0g6gz3bYk
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Aug 2022 16:30:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4M3HQ31GQLz3bYy
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Aug 2022 16:46:03 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mNSc65BD;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=dDnnH39F;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::131; helo=mail-lf1-x131.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::136; helo=mail-lf1-x136.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mNSc65BD;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=dDnnH39F;
 	dkim-atps=neutral
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4M3H3h5znpz2xrj
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Aug 2022 16:30:06 +1000 (AEST)
-Received: by mail-lf1-x131.google.com with SMTP id bq11so24299802lfb.5
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Aug 2022 23:30:06 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4M3HPr3lBjz2xkV
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Aug 2022 16:45:50 +1000 (AEST)
+Received: by mail-lf1-x136.google.com with SMTP id u1so24317132lfq.4
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Aug 2022 23:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=BS7WiKUMDJtqRQ5dZPQX1Kag33dxq6eXqVD8Yq69pIc=;
-        b=mNSc65BD+CAL1tml5NGK8iucFPEi60lqoQn2TO+egP+A5rAvtsix6Ma3sY4kp9C/4j
-         NI/FtIyoBq111krvojdySC3e4cd3/xINNR6UH9tlc/gsz+YMm/IRD/zzJrglYirRrOIg
-         BYTaOXe8zczKYkdZIiJmUqU1SXIBJWGSX/UCJjNC0MyErlZWn2E5ms/dD5zEKhxv4Y+o
-         H4SHWxi/AmpK4jS1IaAIVwQyVXxRifEnGHtLfE0Fp7vT/EZOgGMBMHhl0eHEPku7/pps
-         01jaJ5XbK98MiAvN0HhT01ho0yIhy0pZYgSEILiWlelgOOwf5rJo7rggcGzUwKI8Iwq4
-         fTWg==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=cmNxqUYbbLfZmfbn6Tid3MyIwHPmuvZvxKQRIASpPb0=;
+        b=dDnnH39FkUvUgy0l6nKARiVgk7yt7GxvCQ6gp2l7ZNV/h5N3T1OrSku0vdzSSS0LhS
+         qV8u9NkJZ1hS5eZF9Gu3txLeik9IAFaBrUepEQMsEr/i+eXBHjHwkFrWZWECFy2TkDKU
+         mvkbAR8Z8GmphEE8R6BnH50FPNGYDbkTRWIQozJZ9mj4Fbajnh7Z+CJL5S91w9YFxvm7
+         Xtes6KDd+K/P3I0oBYdhns0EfBVbrp6x0piw/Eq97I6mAEHAljGtFbNPy7crmxOs3jJS
+         jydkGpAZH2IOT3fu7apq/6OAjD26mnlfwOJbzzYtnRRiIoe/QzzdhV45+iYeUk8rfzgG
+         qNRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=BS7WiKUMDJtqRQ5dZPQX1Kag33dxq6eXqVD8Yq69pIc=;
-        b=DJ97fjzaotBF9HsDrNramulNIa6pj6F8g5OKn1ByZxrXZUymh48cpcKGPpngErIgtI
-         7EJgBqr1+OYA6LQtWxLtksnpbN8qbYOumJ8otf6aQ5nxwXpjRbGg6KWyhRQn6zmNoc38
-         BV5g/rhGSpge4DDNrrAAEtza3vLuUsq398UMBs0oJBggWDkjVHVNNxcEHCNw7BdsDn4M
-         qsDwIYaPIUmgCiwKSul6idhpSqKAcfL0kC8NctJvEgh9Ea3MVGT25GRuWuhRme+yhjiw
-         7vFh/BpAFPRKMs1P/v2YWhM9mgcbFfAuCtzFmnRd0hAJsWhDXwTnQp1kVnxSwO+gzDNW
-         yfBg==
-X-Gm-Message-State: ACgBeo0x7GPt8ib7gEOryq7CgyYtgNFlmrDY6A/LTqJDgpvrfGzAiEQu
-	sCkZjrmTjfSWkgqjefte50kRJw==
-X-Google-Smtp-Source: AA6agR5xl0KEW5jJiLilbSsgZqiE8poyvn0jS2roavqo2h1yQCCZo5MRUqcvXFQk6AslMlti5PVJmA==
-X-Received: by 2002:a05:6512:3b11:b0:48b:a9c:c442 with SMTP id f17-20020a0565123b1100b0048b0a9cc442mr10652863lfv.86.1660199396729;
-        Wed, 10 Aug 2022 23:29:56 -0700 (PDT)
-Received: from localhost.localdomain ([83.146.140.105])
-        by smtp.gmail.com with ESMTPSA id v3-20020a056512096300b0048afe95d4d4sm597752lft.17.2022.08.10.23.29.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 23:29:55 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] dt-bindings: arm: aspeed: adjust qcom,dc-scm-v1-bmc compatible after rename
-Date: Thu, 11 Aug 2022 09:29:53 +0300
-Message-Id: <20220811062953.5976-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=cmNxqUYbbLfZmfbn6Tid3MyIwHPmuvZvxKQRIASpPb0=;
+        b=Wosnyz9Qi/Z6eb+v81vvEtqoqd3tcHdeXrDNUr9tgHyLS5QdsxTyJHrsVPW/flIqD0
+         K8z1z8UUhmlfSkuVf/rZ3av/eOJbv8hwvFJ76MVFy052qo/rnQEBXsO4Hwaz5HdtFWBD
+         pvoUPEirGPlHVlqB/IeXz+cWd9iY6bGEK4DFdfGYo+vQ1Jkxd+LSeZEFDJAg4x4Pyxln
+         DKxF5NeyH3ti3BsAbW9vjcjCoe86fwLSbmnfjr0cA291QUqIjrbHbCqKRh97XvJETZzI
+         QtETz7xlxBSJLJ65/a12rjIHXWSjM9cFXDUWK0ZJjRvgtZjmN41/JbI80jRXq81yQzZ3
+         ypzg==
+X-Gm-Message-State: ACgBeo2LqyBZvgmcA5iLai8+G6e2ud6SQcCLemqdGHtC5JDjMyIK6a/m
+	kwzor1tqWBe7cpEfL88V3fGjLw==
+X-Google-Smtp-Source: AA6agR7Re+Czo+MNniiu+JD9ZUTBya6sa260iSUdEFmdkGrWeY1rL7zbQ/JbU2jcq9T5znrXaW/AqQ==
+X-Received: by 2002:a19:ca43:0:b0:48b:288a:632f with SMTP id h3-20020a19ca43000000b0048b288a632fmr11465484lfj.155.1660200346091;
+        Wed, 10 Aug 2022 23:45:46 -0700 (PDT)
+Received: from [192.168.1.39] ([83.146.140.105])
+        by smtp.gmail.com with ESMTPSA id i63-20020a2e2242000000b0025e2c6b15e6sm688796lji.72.2022.08.10.23.45.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Aug 2022 23:45:45 -0700 (PDT)
+Message-ID: <2bc9f4e3-51af-b58e-dc85-5623df799250@linaro.org>
+Date: Thu, 11 Aug 2022 09:45:44 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 2/2] dt-bindings: mfd: aspeed,ast2x00-scu: Convert to DT
+ schema format
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, Lee Jones <lee@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+References: <20220810161635.73936-1-robh@kernel.org>
+ <20220810161635.73936-3-robh@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220810161635.73936-3-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +86,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The Nuvia DC-SCM BMC board compatible was renamed in commit
-7f058112873e ("ARM: dts: aspeed: nuvia: rename vendor nuvia to qcom"),
-so adjust the bindings as well.
+On 10/08/2022 19:16, Rob Herring wrote:
+> Convert the aspeed,ast2[456]00-scu binding to DT schema format.
+> 
+> The original binding was missing '#address-cells', '#size-cells',
+> 'ranges', and child nodes, so add them.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Fixes: f77024c80147 ("dt-bindings: arm: aspeed: document board compatibles")
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-Acked-by: Rob Herring <robh@kernel.org>
 
----
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Changes since v2:
-1. Fix typo in commit msg.
-2. Add Acks.
 
-Changes since v1:
-1. Use proper qcom compatible.
----
- Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-index 1895ce9de461..4f0b308e9f0f 100644
---- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-+++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-@@ -80,7 +80,7 @@ properties:
-               - ibm,tacoma-bmc
-               - inventec,transformer-bmc
-               - jabil,rbp-bmc
--              - nuvia,dc-scm-bmc
-+              - qcom,dc-scm-v1-bmc
-               - quanta,s6q-bmc
-           - const: aspeed,ast2600
- 
--- 
-2.34.1
-
+Best regards,
+Krzysztof
