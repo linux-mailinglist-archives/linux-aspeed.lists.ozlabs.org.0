@@ -2,79 +2,142 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE8B58F7DB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Aug 2022 08:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A79B58FAEC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Aug 2022 12:51:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4M3HQ31GQLz3bYy
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Aug 2022 16:46:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4M3Ns03mNgz2xHH
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Aug 2022 20:51:16 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=dDnnH39F;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2022-7-12 header.b=L0pMJkd5;
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=wFguyhA2;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::136; helo=mail-lf1-x136.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=oracle.com (client-ip=205.220.177.32; helo=mx0b-00069f02.pphosted.com; envelope-from=dan.carpenter@oracle.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=dDnnH39F;
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2022-7-12 header.b=L0pMJkd5;
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=wFguyhA2;
 	dkim-atps=neutral
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4M3HPr3lBjz2xkV
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Aug 2022 16:45:50 +1000 (AEST)
-Received: by mail-lf1-x136.google.com with SMTP id u1so24317132lfq.4
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Aug 2022 23:45:50 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4M3Nrq0RP2z2yn3;
+	Thu, 11 Aug 2022 20:50:57 +1000 (AEST)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27B94plP032381;
+	Thu, 11 Aug 2022 10:49:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2022-7-12;
+ bh=F6XB1W6sj+PhVKPImaOE3t8J09DtuXfzxpuF9muXAm8=;
+ b=L0pMJkd5W2URbXY2FgTt0Rgr8dROQbgoVHcE03RC+o8eI0jGdLLszCKRx5ImWu27rZom
+ 5o2LNmvShphMl20cNRTw9Arq91RZ8XpTVh7Nj3a7nYzJLFPPgmYCSQ0CrDTy79xcUyru
+ x/9h7PjB1YnnTVQlQ7SSW/ydg80hvKEgTGfNxgr98hcs6X4p5HkDzGKuqSsJrEKdq0h8
+ ivdjO0EDGZBUyelgWkpoLL/xN46K5vTcSZyK92TeZb+gZuLgNY3IGkKJPMnwC3MV3J9+
+ rmVwL8cdpkKarWmYhxXfkfIsP/X8tEEp6WklYYd7D9pwOnLFzztMyfcihPME23Bjrtl2 2A== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3huwq9maa6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 11 Aug 2022 10:49:47 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 27B950MV035254;
+	Thu, 11 Aug 2022 10:49:46 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2171.outbound.protection.outlook.com [104.47.73.171])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3huwqk0tsq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 11 Aug 2022 10:49:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fPXI+mwOYAo4K5auXUYWVqwkoaLx2iDoC4A1fJffemgXYdYPfkOik3fQEPTjuJZR8NiPse42IAe2/rQVR7UkMWKljY3epIcf+naoa2c7cl1EuDmCqJ8krOuZR/TKzu2GJ2MtrwWus7hGXYe9f7o3iiYN5fn/ZU3opFe9J7EwUnujORZ+hDCUmXPf74gYDb2YaRSeCSnNw1ZCV9eJkmagDnc/QkQ6u+gyEXaQtq1AlZAR59A3yH93gi0Zzw+1Il6hiZa0YI/JHJgdodQl1FBbx2I6kN9Qxe/NgAzvxvS+wrq0Iv8CShRpeWzdBfgecJSPwzTnhHPSfRlxVan5CrSZ4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F6XB1W6sj+PhVKPImaOE3t8J09DtuXfzxpuF9muXAm8=;
+ b=Rfozv90OaN6kft9x/KAvyBKQi4gRWCg27UFHsQHf9QW4NL2s3c1Zql0ZKJbnalH84D2ubiSkcomfeBi1LXdL8Tbl4DiB29eZogBDPDnkiMtrS8WmwmAbFsRa0sLuiSQiM8WnJgL7/N8nAfY9fr50HAGDYu9kivN2jdpS8U3HQsdmDwlVNigMAx2X0pZvhiGrVkDRm+lxy79NfYJCKm3pWTNImk2g/uSpds5nmLGFCWTmg+IlliW9jHzzYctsclU5WnHTXhDpcq13X4d85EDnaiwnXV8Y/gdMoUCKXMMkiuDm+6nJ5kJ8jwSWgQogh5QTMufUlaLxP27kGm23QHxwPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=cmNxqUYbbLfZmfbn6Tid3MyIwHPmuvZvxKQRIASpPb0=;
-        b=dDnnH39FkUvUgy0l6nKARiVgk7yt7GxvCQ6gp2l7ZNV/h5N3T1OrSku0vdzSSS0LhS
-         qV8u9NkJZ1hS5eZF9Gu3txLeik9IAFaBrUepEQMsEr/i+eXBHjHwkFrWZWECFy2TkDKU
-         mvkbAR8Z8GmphEE8R6BnH50FPNGYDbkTRWIQozJZ9mj4Fbajnh7Z+CJL5S91w9YFxvm7
-         Xtes6KDd+K/P3I0oBYdhns0EfBVbrp6x0piw/Eq97I6mAEHAljGtFbNPy7crmxOs3jJS
-         jydkGpAZH2IOT3fu7apq/6OAjD26mnlfwOJbzzYtnRRiIoe/QzzdhV45+iYeUk8rfzgG
-         qNRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=cmNxqUYbbLfZmfbn6Tid3MyIwHPmuvZvxKQRIASpPb0=;
-        b=Wosnyz9Qi/Z6eb+v81vvEtqoqd3tcHdeXrDNUr9tgHyLS5QdsxTyJHrsVPW/flIqD0
-         K8z1z8UUhmlfSkuVf/rZ3av/eOJbv8hwvFJ76MVFy052qo/rnQEBXsO4Hwaz5HdtFWBD
-         pvoUPEirGPlHVlqB/IeXz+cWd9iY6bGEK4DFdfGYo+vQ1Jkxd+LSeZEFDJAg4x4Pyxln
-         DKxF5NeyH3ti3BsAbW9vjcjCoe86fwLSbmnfjr0cA291QUqIjrbHbCqKRh97XvJETZzI
-         QtETz7xlxBSJLJ65/a12rjIHXWSjM9cFXDUWK0ZJjRvgtZjmN41/JbI80jRXq81yQzZ3
-         ypzg==
-X-Gm-Message-State: ACgBeo2LqyBZvgmcA5iLai8+G6e2ud6SQcCLemqdGHtC5JDjMyIK6a/m
-	kwzor1tqWBe7cpEfL88V3fGjLw==
-X-Google-Smtp-Source: AA6agR7Re+Czo+MNniiu+JD9ZUTBya6sa260iSUdEFmdkGrWeY1rL7zbQ/JbU2jcq9T5znrXaW/AqQ==
-X-Received: by 2002:a19:ca43:0:b0:48b:288a:632f with SMTP id h3-20020a19ca43000000b0048b288a632fmr11465484lfj.155.1660200346091;
-        Wed, 10 Aug 2022 23:45:46 -0700 (PDT)
-Received: from [192.168.1.39] ([83.146.140.105])
-        by smtp.gmail.com with ESMTPSA id i63-20020a2e2242000000b0025e2c6b15e6sm688796lji.72.2022.08.10.23.45.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Aug 2022 23:45:45 -0700 (PDT)
-Message-ID: <2bc9f4e3-51af-b58e-dc85-5623df799250@linaro.org>
-Date: Thu, 11 Aug 2022 09:45:44 +0300
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F6XB1W6sj+PhVKPImaOE3t8J09DtuXfzxpuF9muXAm8=;
+ b=wFguyhA2Hiu6BBKSM/NhNXx/5lCSZBS4SEA6WYfzRNfBxErKKGT2C1r4r8yObmuJB3YdvfZ52k25jkwxsh4NBadn+/AN58wLYC8kZU44DVZjXMdFIXEE2e4F7fNhJtHOZqMOqEzzG/a12y0f0TMUC9I0kaRW/1kaEScvgBoAg28=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CY5PR10MB6012.namprd10.prod.outlook.com
+ (2603:10b6:930:27::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.15; Thu, 11 Aug
+ 2022 10:49:44 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::209e:de4d:68ea:c026]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::209e:de4d:68ea:c026%3]) with mapi id 15.20.5504.024; Thu, 11 Aug 2022
+ 10:49:44 +0000
+Date: Thu, 11 Aug 2022 13:49:26 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Iwona Winiarska <iwona.winiarska@intel.com>
+Subject: [PATCH] peci: Fix platform_get_irq() error checking
+Message-ID: <YvTettdmRKZw46mb@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-ClientProxiedBy: ZRAP278CA0010.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::20) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 2/2] dt-bindings: mfd: aspeed,ast2x00-scu: Convert to DT
- schema format
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-References: <20220810161635.73936-1-robh@kernel.org>
- <20220810161635.73936-3-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220810161635.73936-3-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 378a85d0-41c2-4b48-5706-08da7b8732ef
+X-MS-TrafficTypeDiagnostic: CY5PR10MB6012:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	PSEh9OgeRrenFonYKI9PN2n5lTr2Kc1vJpLMUMYN1e8V7ENebf1mcOJY7qNBU07zJJUU7ov8CGXRHuMb3ISqM+mfHaYs/+OxPPMqQcT+HNEYYX/vtoYithOMmYmTGEIAzwsVCdFpBjZqjD5ezKHFPop7qJCTYQmTSgdiYsXXddxfxOryeMrGqYlPapq8OUqA2ILR2R10lGV/xW6++FZTCjMgtONXTgzK/48lWBSwGcqeDNDoZyBnmwyFH7k2iWzVNst6euRMhpJ36Dtq2GnI2Fs1W92a4/YLU93Q0Ixm2RkIsahyjqE/4U2E9P1kYiV89dDbxjS8S5vKHqt4PG9lK1k3xvhe5CvFdBgOOGkx9tDJQ+duiZkUYOfHQzETcTSXeuMf1P1ZBLxXbOa6zlOtEYbC5dDPqWnPj9qb9AHUXBPKrJ2I5n+l7FKFwgMbsj8ID1yrNtDwcrxQggy6nA7PRLZV+2nivkNggGRmUoJpKCpQkmCZVt43X3N9fJSNv84HqCEN4prFPYnCtI7NDijTbVkRVyctStH8QGZ5Uj5QaDmeTm21+5e3C30tliYigwRsFJNvgdTt5afHXiMdrNCZPJ+3vbqE5SkKAbeYyhzBxtKjuw45Hm4XhMFeAbCvxY6pqAJwTG6sYlpZUBjzMlmccZRszNUZLJE/vZwYKY3is16OscUZhvjYwr4UZOs1Xd4SHXPtxysBiTaq995gYuIaiKXdb7kEJWhOKWV8IF6LZQfwSyHo25l3/rFbvpSxY4weEMTTkZtglU3AKmQ5ltroxe/H+af2TsP9oyCHfhjCosM=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(396003)(39860400002)(376002)(366004)(136003)(346002)(8936002)(54906003)(6916009)(316002)(6486002)(83380400001)(478600001)(86362001)(5660300002)(38100700002)(6666004)(4744005)(52116002)(186003)(6512007)(26005)(2906002)(33716001)(6506007)(41300700001)(4326008)(66556008)(66476007)(66946007)(8676002)(44832011)(9686003)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?uZhOzUnMonnUMuhAbglrektgHZkedd2kgCQsCmAK2APZ0MpxiKZjr3AxnQI4?=
+ =?us-ascii?Q?iXyIPOkm/OBWQ/3oOimeyqzqqopJwXRgQl4gWFoyOJi5nI+mXG07Z83RvyW7?=
+ =?us-ascii?Q?wQybctieRa+2tzm9BOqL6iZJ6TW64MRRMSXdtgl+kd3G3EJYOs5msLSoRAMD?=
+ =?us-ascii?Q?G85vqgVxCDGeO2hbts9mbZhfM42dM0qbS4cwnDCN0KqJgO3wEeraZDsaD6I6?=
+ =?us-ascii?Q?q+qvys0LbIVK7iF2kLZ2I5D7ZNjE064+7GWP5MJI8uESS3btiiVStxQ+r+Tr?=
+ =?us-ascii?Q?YRc0NKSug0HNBc8IVjTsQ3kYZs0vQKovpdsMEWEuNZwrrQmPYaLsbUi/tZr8?=
+ =?us-ascii?Q?d/GY507kZpEvOlRqgmMP3EbjC0OkYEX+ScxHztKisDaRtCuQcV2w6E6QUJG9?=
+ =?us-ascii?Q?mcg7Gjejv8vKKb650LZDx6+kVzmee4AKjFFxE8MMj+5si5Cjpd/A9joRQWR8?=
+ =?us-ascii?Q?luzsZwO1oyzpYBzLwqfNIxI8tC80OUjV2wzrglkwAIbAXPXFe5rHJpUskTvI?=
+ =?us-ascii?Q?iNWcBPQO68ag8JbTNaVRUCcGkVh3CUcwrxIw2Q2SqaefqXjvbI/XIszO5CUF?=
+ =?us-ascii?Q?+DiORf0fZ9VM39aJTMSrRyttjJn/nrrabzyde7dXy4Q2+fAxTO/wTxbBaq+C?=
+ =?us-ascii?Q?6+PQNCrDaCiUf8oIeOi1QrBQfLHLYnBPGy25tolIMdH08w7xGRYkQ470yAE7?=
+ =?us-ascii?Q?qSyPNXI/nw5MBclVRSb4zttTcwRO0c/vqFC3f+P9jlPAlht+1S2hAxl8YJEo?=
+ =?us-ascii?Q?Q4BzFVmllufivLetR754wSvDHYlyzHjGaDi6tNdOB58KbodfHoc1QyLY3Y1k?=
+ =?us-ascii?Q?TnR0GGuj+YwpSvp39Mtw+WPLfayZGjG0hKMfzwNcExRYJIH7kTvEKG9ih7mX?=
+ =?us-ascii?Q?SojkbH7TazLLztYk2FjSysodhi40pWmZbyXGfkk31cXMyw+yP8dc9V91DZ/3?=
+ =?us-ascii?Q?r9k7qgpxWw18ISp2YKqw5h6RX86WbXZ+I4SUm0yyXKzRB0EM5ax5/EXnAjS8?=
+ =?us-ascii?Q?V2k9jz2FVzDptuT6aOHYIR3EPhwfWDFnm6CUYPN/nY7RD/nCMgIhUhn68hdu?=
+ =?us-ascii?Q?oyIUbXYYOfb2eR1XzfMl45otjTD/byZRpvlhAfY1Ut7UJmaVlhqzYwm5L5a4?=
+ =?us-ascii?Q?761TsKKBrU73mSNxOf59nX+hW15mAdUVVu6kCfBGniauHmiuIa2MzPwqAYYA?=
+ =?us-ascii?Q?sOliGN9/WfeolLjVQjGwy5WSWA40KJIB8blO5TmFmaD3iibN+1Bh3LxLz0JG?=
+ =?us-ascii?Q?Di+ekIJgHEVrqySAHiFoAvyUMb0c69RJhgPwgWPSKuRnUlk9SKGUfM36QGKn?=
+ =?us-ascii?Q?xfVSnMxXx/Z+qsWd41XqiKim1Pb7xmVAXBUYIwgb2xelJo8Y/j9ymPJaQ4Rc?=
+ =?us-ascii?Q?kMRcEs39Phggq2FHUKc4axXTxm23Q7xjFHa6VWlpl7DKD2gqkTuSxWAfptEY?=
+ =?us-ascii?Q?/evNZ6C2aOlUQjG1OgK60qvz6Y/ypXIoPYnpGLASmiXCeArs5SsVJRNwsmeG?=
+ =?us-ascii?Q?PSRCuJMbfShK7nz2KZn7Dx6LJm/FvSugyebFLDscM8qzndbemgscuyMwtfqu?=
+ =?us-ascii?Q?dRdIONf2jU17Hd5xOEm8xLruj82+pX4T68OvzWMrm6xQ/UprhFQuycd0FWHT?=
+ =?us-ascii?Q?Sw=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 378a85d0-41c2-4b48-5706-08da7b8732ef
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2022 10:49:44.1224
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iAmQ6OlgG5iJb4uDTcG40p/kZHAFKu/YGabbLHd7xFpsVbDoNYRUXpGhpoDvEs99puTgqaVVejykfpmkyq7BPUXWwUvBQYuMO8GgDTdTAgU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6012
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-11_05,2022-08-11_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 mlxscore=0
+ adultscore=0 bulkscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2208110031
+X-Proofpoint-ORIG-GUID: JsOzqCNfVdaZRGIO3z2-T-SEWQAfEjYk
+X-Proofpoint-GUID: JsOzqCNfVdaZRGIO3z2-T-SEWQAfEjYk
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,21 +149,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, linux-aspeed@lists.ozlabs.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org, kernel-janitors@vger.kernel.org, Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/08/2022 19:16, Rob Herring wrote:
-> Convert the aspeed,ast2[456]00-scu binding to DT schema format.
-> 
-> The original binding was missing '#address-cells', '#size-cells',
-> 'ranges', and child nodes, so add them.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+The platform_get_irq() function returns success or negative error codes
+on failure.
 
+Fixes: a85e4c52086c ("peci: Add peci-aspeed controller driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/peci/controller/peci-aspeed.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+diff --git a/drivers/peci/controller/peci-aspeed.c b/drivers/peci/controller/peci-aspeed.c
+index 1925ddc13f00..731c5d8f75c6 100644
+--- a/drivers/peci/controller/peci-aspeed.c
++++ b/drivers/peci/controller/peci-aspeed.c
+@@ -523,7 +523,7 @@ static int aspeed_peci_probe(struct platform_device *pdev)
+ 		return PTR_ERR(priv->base);
+ 
+ 	priv->irq = platform_get_irq(pdev, 0);
+-	if (!priv->irq)
++	if (priv->irq < 0)
+ 		return priv->irq;
+ 
+ 	ret = devm_request_irq(&pdev->dev, priv->irq, aspeed_peci_irq_handler,
+-- 
+2.35.1
 
-
-Best regards,
-Krzysztof
