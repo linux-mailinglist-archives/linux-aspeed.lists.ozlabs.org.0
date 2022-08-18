@@ -2,56 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87A4597CBF
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Aug 2022 06:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACAC597F42
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Aug 2022 09:34:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4M7WmL4gQVz3c4B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Aug 2022 14:16:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4M7c8Z6QL2z3c52
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Aug 2022 17:34:22 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=BdIwV4Gw;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::429; helo=mail-wr1-x429.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=BdIwV4Gw;
+	dkim-atps=neutral
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4M7WQg57hCz3bcv
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Aug 2022 14:01:15 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 27I3f86x089912;
-	Thu, 18 Aug 2022 11:41:09 +0800 (GMT-8)
-	(envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 18 Aug
- 2022 12:00:00 +0800
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>,
-        Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller"
-	<davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>,
-        Dhananjay Phadke <dhphadke@microsoft.com>,
-        "Johnny Huang" <johnny_huang@aspeedtech.com>
-Subject: [PATCH v10 5/5] crypto: aspeed: add HACE crypto driver
-Date: Thu, 18 Aug 2022 11:59:56 +0800
-Message-ID: <20220818035956.1160585-6-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220818035956.1160585-1-neal_liu@aspeedtech.com>
-References: <20220818035956.1160585-1-neal_liu@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4M7c7p0jm8z3c6Q;
+	Thu, 18 Aug 2022 17:33:41 +1000 (AEST)
+Received: by mail-wr1-x429.google.com with SMTP id r16so713348wrm.6;
+        Thu, 18 Aug 2022 00:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=oIgYqdGNkUA5Gx3TykaijVXwkHT5fLjGYVPrwst8fQ4=;
+        b=BdIwV4Gwv7xMuL7nJhQ19IO17Z4uQBDk4fNHv/fy0kprWDV54FP5dblPBmhiJktcsZ
+         LyqUgJ5pxha6Fe6EIVlLsrcE5OURTJEbSYV7l2fUOuzmc919WXJ9VTB+G14H4D7Bp01X
+         vty7ILZAQ7aQXqfHyCFwEhiVewXAM5H/yHHYQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=oIgYqdGNkUA5Gx3TykaijVXwkHT5fLjGYVPrwst8fQ4=;
+        b=LIWKFIZXAzJFAMMh/N8aui7owLgsx4X/nJGHX5zJ7L0I2pirRImbWPTkxavsgRS/WP
+         UFh4W7JW7XLg4uDnbOJHzOs1W5LLGVS2xJdeOcnXMpUU3MKlb2qof12KiJ5LO4HP7UIg
+         HF814owQ4bP+WeqznMDqOmTtyn+mUZK1PxeJytlz6z2cSafLI4zp/9eWxtajUdmRym9b
+         732dQNIJQfzBgUMQ2pOgPfBLNJP8VbJYZeB9HtkNOLSNWe3FScXn+Nh6ac6V43/PphiQ
+         xZia8Q4KKbth0J/BW11t73j2qvtzKymqAzMqcM/ri7KsfrhoBP8DvFwUWrIHXn2IKJ4Q
+         29Ug==
+X-Gm-Message-State: ACgBeo1dwoga/AzOUqwWvLWE9aGsj1Dlb1pS+M/+QpM+VFGtrYLkKhfu
+	8eg9OUiViw5XZs+37wbgY2p+qRo/hsL/KFw/Zhg=
+X-Google-Smtp-Source: AA6agR5vHsJrsW7GaPRw6kaL1Gh4Sk9kyC9svt+gr56MxZe0Bqob4lEc+/mTIX0viHSgeqH/7+t/o+Dl6/4/1QVfQZ8=
+X-Received: by 2002:a5d:47ab:0:b0:223:60ee:6c12 with SMTP id
+ 11-20020a5d47ab000000b0022360ee6c12mr806586wrb.315.1660808013622; Thu, 18 Aug
+ 2022 00:33:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 27I3f86x089912
-X-Mailman-Approved-At: Thu, 18 Aug 2022 14:16:32 +1000
+References: <20220817071539.176110-1-quan@os.amperecomputing.com> <20220817071539.176110-3-quan@os.amperecomputing.com>
+In-Reply-To: <20220817071539.176110-3-quan@os.amperecomputing.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 18 Aug 2022 07:33:20 +0000
+Message-ID: <CACPK8XdDpG3ONM1=-E6qvHL1FgMNWSMPoL_sVGJK6BmmnT3w_w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] ARM: dts: aspeed: Add device tree for Ampere's Mt.
+ Mitchell BMC
+To: Quan Nguyen <quan@os.amperecomputing.com>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,1547 +70,637 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, thang@os.amperecomputing.com, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, soc@kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add HACE crypto driver to support symmetric-key
-encryption and decryption with multiple modes of
-operation.
+On Wed, 17 Aug 2022 at 07:17, Quan Nguyen <quan@os.amperecomputing.com> wrote:
+>
+> The Mt. Mitchell BMC is an ASPEED AST2600-based BMC for the Mt. Mitchell
+> hardware reference platform with AmpereOne(TM) processor.
+>
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> Signed-off-by: Phong Vo <phong@os.amperecomputing.com>
+> Signed-off-by: Thang Q. Nguyen <thang@os.amperecomputing.com>
+> ---
+> v3 :
+>   + Fix adc-i2c node to generic "adc" node                [Krzysztof]
+>   + Remove unused status property in adc node             [Krzysztof]
+>   + Remove trailing blank line at the end of file         [Krzysztof]
+>   + Remove the wrong comment on vga_memory nodes             [Andrew]
+>   + Remove gpio-keys                                         [Andrew]
+>   + Remove the line-name for bmc-debug-mode, eth-phy-rst-n,
+>     eth-phy-int-n, bmc-salt12-s0-ssif-n, fpga-program-b,
+>     bmc-uart-cts1, bmc-spi-fm-boot-abr-pd, emmc-rst-n gpios  [Andrew]
+>   + Update line-name for hs-csout-prochot, s1-spi-auth-fail-n  [Quan]
+>   + Add line-name [s0|s1]-heartbeat                            [Quan]
+>
+> v2 :
+>   + Remove bootargs                                       [Krzysztof]
+>   + Fix gpio-keys nodes name to conform with device tree binding
+>   documents                                               [Krzysztof]
+>   + Fix some nodes to use generic name                    [Krzysztof]
+>   + Remove unnecessary blank line                         [Krzysztof]
+>   + Fix typo "LTC" to "LLC" in license info and corrected license
+>   info to GPL-2.0-only
+>
+>  arch/arm/boot/dts/Makefile                    |   1 +
+>  .../boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 546 ++++++++++++++++++
+>  2 files changed, 547 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+>
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index 05d8aef6e5d2..5d8c6ce49af9 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -1576,6 +1576,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>         aspeed-ast2600-evb.dtb \
+>         aspeed-bmc-amd-ethanolx.dtb \
+>         aspeed-bmc-ampere-mtjade.dtb \
+> +       aspeed-bmc-ampere-mtmitchell.dtb \
+>         aspeed-bmc-arm-stardragon4800-rep2.dtb \
+>         aspeed-bmc-asrock-e3c246d4i.dtb \
+>         aspeed-bmc-asrock-romed8hm3.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> new file mode 100644
+> index 000000000000..606cd4be245a
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> @@ -0,0 +1,546 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) 2022, Ampere Computing LLC
+> +
+> +/dts-v1/;
+> +
+> +#include "aspeed-g6.dtsi"
+> +#include <dt-bindings/gpio/aspeed-gpio.h>
+> +
+> +/ {
+> +       model = "Ampere Mt.Mitchell BMC";
+> +       compatible = "ampere,mtmitchell-bmc", "aspeed,ast2600";
+> +
+> +       chosen {
+> +               stdout-path = &uart5;
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-Signed-off-by: Johnny Huang <johnny_huang@aspeedtech.com>
-Reviewed-by: Dhananjay Phadke <dphadke@linux.microsoft.com>
----
- drivers/crypto/aspeed/Kconfig              |   17 +
- drivers/crypto/aspeed/Makefile             |    7 +-
- drivers/crypto/aspeed/aspeed-hace-crypto.c | 1135 ++++++++++++++++++++
- drivers/crypto/aspeed/aspeed-hace.c        |   84 +-
- drivers/crypto/aspeed/aspeed-hace.h        |  112 ++
- 5 files changed, 1352 insertions(+), 3 deletions(-)
- create mode 100644 drivers/crypto/aspeed/aspeed-hace-crypto.c
+I know you've been told by Arnd and others to remove the default
+command line here, but without it your device tree fails to produce
+any output in my tests:
 
-diff --git a/drivers/crypto/aspeed/Kconfig b/drivers/crypto/aspeed/Kconfig
-index 03e3fc61498e..001bf2e09a72 100644
---- a/drivers/crypto/aspeed/Kconfig
-+++ b/drivers/crypto/aspeed/Kconfig
-@@ -30,3 +30,20 @@ config CRYPTO_DEV_ASPEED_HACE_HASH
- 	  hash driver.
- 	  Supports multiple message digest standards, including
- 	  SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, and so on.
-+
-+config CRYPTO_DEV_ASPEED_HACE_CRYPTO
-+	bool "Enable Aspeed Hash & Crypto Engine (HACE) crypto"
-+	depends on CRYPTO_DEV_ASPEED
-+	select CRYPTO_ENGINE
-+	select CRYPTO_AES
-+	select CRYPTO_DES
-+	select CRYPTO_ECB
-+	select CRYPTO_CBC
-+	select CRYPTO_CFB
-+	select CRYPTO_OFB
-+	select CRYPTO_CTR
-+	help
-+	  Select here to enable Aspeed Hash & Crypto Engine (HACE)
-+	  crypto driver.
-+	  Supports AES/DES symmetric-key encryption and decryption
-+	  with ECB/CBC/CFB/OFB/CTR options.
-diff --git a/drivers/crypto/aspeed/Makefile b/drivers/crypto/aspeed/Makefile
-index 8bc8d4fed5a9..421e2ca9c53e 100644
---- a/drivers/crypto/aspeed/Makefile
-+++ b/drivers/crypto/aspeed/Makefile
-@@ -1,6 +1,9 @@
- obj-$(CONFIG_CRYPTO_DEV_ASPEED) += aspeed_crypto.o
--aspeed_crypto-objs := aspeed-hace.o \
--		      $(hace-hash-y)
-+aspeed_crypto-objs := aspeed-hace.o	\
-+		      $(hace-hash-y)	\
-+		      $(hace-crypto-y)
- 
- obj-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) += aspeed-hace-hash.o
- hace-hash-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) := aspeed-hace-hash.o
-+obj-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO) += aspeed-hace-crypto.o
-+hace-crypto-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO) := aspeed-hace-crypto.o
-diff --git a/drivers/crypto/aspeed/aspeed-hace-crypto.c b/drivers/crypto/aspeed/aspeed-hace-crypto.c
-new file mode 100644
-index 000000000000..ba6158f5cf18
---- /dev/null
-+++ b/drivers/crypto/aspeed/aspeed-hace-crypto.c
-@@ -0,0 +1,1135 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (c) 2021 Aspeed Technology Inc.
-+ */
-+
-+#include "aspeed-hace.h"
-+
-+#ifdef CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO_DEBUG
-+#define CIPHER_DBG(h, fmt, ...)	\
-+	dev_info((h)->dev, "%s() " fmt, __func__, ##__VA_ARGS__)
-+#else
-+#define CIPHER_DBG(h, fmt, ...)	\
-+	dev_dbg((h)->dev, "%s() " fmt, __func__, ##__VA_ARGS__)
-+#endif
-+
-+static int aspeed_crypto_do_fallback(struct skcipher_request *areq)
-+{
-+	struct aspeed_cipher_reqctx *rctx = skcipher_request_ctx(areq);
-+	struct crypto_skcipher *tfm = crypto_skcipher_reqtfm(areq);
-+	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(tfm);
-+	int err;
-+
-+	skcipher_request_set_tfm(&rctx->fallback_req, ctx->fallback_tfm);
-+	skcipher_request_set_callback(&rctx->fallback_req, areq->base.flags,
-+				      areq->base.complete, areq->base.data);
-+	skcipher_request_set_crypt(&rctx->fallback_req, areq->src, areq->dst,
-+				   areq->cryptlen, areq->iv);
-+
-+	if (rctx->enc_cmd & HACE_CMD_ENCRYPT)
-+		err = crypto_skcipher_encrypt(&rctx->fallback_req);
-+	else
-+		err = crypto_skcipher_decrypt(&rctx->fallback_req);
-+
-+	return err;
-+}
-+
-+static bool aspeed_crypto_need_fallback(struct skcipher_request *areq)
-+{
-+	struct aspeed_cipher_reqctx *rctx = skcipher_request_ctx(areq);
-+
-+	if (areq->cryptlen == 0)
-+		return true;
-+
-+	if ((rctx->enc_cmd & HACE_CMD_DES_SELECT) &&
-+	    !IS_ALIGNED(areq->cryptlen, DES_BLOCK_SIZE))
-+		return true;
-+
-+	if ((!(rctx->enc_cmd & HACE_CMD_DES_SELECT)) &&
-+	    !IS_ALIGNED(areq->cryptlen, AES_BLOCK_SIZE))
-+		return true;
-+
-+	return false;
-+}
-+
-+static int aspeed_hace_crypto_handle_queue(struct aspeed_hace_dev *hace_dev,
-+					   struct skcipher_request *req)
-+{
-+	if (hace_dev->version == AST2500_VERSION &&
-+	    aspeed_crypto_need_fallback(req)) {
-+		CIPHER_DBG(hace_dev, "SW fallback\n");
-+		return aspeed_crypto_do_fallback(req);
-+	}
-+
-+	return crypto_transfer_skcipher_request_to_engine(
-+			hace_dev->crypt_engine_crypto, req);
-+}
-+
-+static int aspeed_crypto_do_request(struct crypto_engine *engine, void *areq)
-+{
-+	struct skcipher_request *req = skcipher_request_cast(areq);
-+	struct crypto_skcipher *cipher = crypto_skcipher_reqtfm(req);
-+	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(cipher);
-+	struct aspeed_hace_dev *hace_dev = ctx->hace_dev;
-+	struct aspeed_engine_crypto *crypto_engine;
-+	int rc;
-+
-+	crypto_engine = &hace_dev->crypto_engine;
-+	crypto_engine->req = req;
-+	crypto_engine->flags |= CRYPTO_FLAGS_BUSY;
-+
-+	rc = ctx->start(hace_dev);
-+
-+	if (rc != -EINPROGRESS)
-+		return -EIO;
-+
-+	return 0;
-+}
-+
-+static int aspeed_sk_complete(struct aspeed_hace_dev *hace_dev, int err)
-+{
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
-+	struct aspeed_cipher_reqctx *rctx;
-+	struct skcipher_request *req;
-+
-+	CIPHER_DBG(hace_dev, "\n");
-+
-+	req = crypto_engine->req;
-+	rctx = skcipher_request_ctx(req);
-+
-+	if (rctx->enc_cmd & HACE_CMD_IV_REQUIRE) {
-+		if (rctx->enc_cmd & HACE_CMD_DES_SELECT)
-+			memcpy(req->iv, crypto_engine->cipher_ctx +
-+			       DES_KEY_SIZE, DES_KEY_SIZE);
-+		else
-+			memcpy(req->iv, crypto_engine->cipher_ctx,
-+			       AES_BLOCK_SIZE);
-+	}
-+
-+	crypto_engine->flags &= ~CRYPTO_FLAGS_BUSY;
-+
-+	crypto_finalize_skcipher_request(hace_dev->crypt_engine_crypto, req,
-+					 err);
-+
-+	return err;
-+}
-+
-+static int aspeed_sk_transfer_sg(struct aspeed_hace_dev *hace_dev)
-+{
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
-+	struct device *dev = hace_dev->dev;
-+	struct aspeed_cipher_reqctx *rctx;
-+	struct skcipher_request *req;
-+
-+	CIPHER_DBG(hace_dev, "\n");
-+
-+	req = crypto_engine->req;
-+	rctx = skcipher_request_ctx(req);
-+
-+	if (req->src == req->dst) {
-+		dma_unmap_sg(dev, req->src, rctx->src_nents, DMA_BIDIRECTIONAL);
-+	} else {
-+		dma_unmap_sg(dev, req->src, rctx->src_nents, DMA_TO_DEVICE);
-+		dma_unmap_sg(dev, req->dst, rctx->dst_nents, DMA_FROM_DEVICE);
-+	}
-+
-+	return aspeed_sk_complete(hace_dev, 0);
-+}
-+
-+static int aspeed_sk_transfer(struct aspeed_hace_dev *hace_dev)
-+{
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
-+	struct aspeed_cipher_reqctx *rctx;
-+	struct skcipher_request *req;
-+	struct scatterlist *out_sg;
-+	int nbytes = 0;
-+	int rc = 0;
-+
-+	req = crypto_engine->req;
-+	rctx = skcipher_request_ctx(req);
-+	out_sg = req->dst;
-+
-+	/* Copy output buffer to dst scatter-gather lists */
-+	nbytes = sg_copy_from_buffer(out_sg, rctx->dst_nents,
-+				     crypto_engine->cipher_addr, req->cryptlen);
-+	if (!nbytes) {
-+		dev_warn(hace_dev->dev, "invalid sg copy, %s:0x%x, %s:0x%x\n",
-+			 "nbytes", nbytes, "cryptlen", req->cryptlen);
-+		rc = -EINVAL;
-+	}
-+
-+	CIPHER_DBG(hace_dev, "%s:%d, %s:%d, %s:%d, %s:%p\n",
-+		   "nbytes", nbytes, "req->cryptlen", req->cryptlen,
-+		   "nb_out_sg", rctx->dst_nents,
-+		   "cipher addr", crypto_engine->cipher_addr);
-+
-+	return aspeed_sk_complete(hace_dev, rc);
-+}
-+
-+static int aspeed_sk_start(struct aspeed_hace_dev *hace_dev)
-+{
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
-+	struct aspeed_cipher_reqctx *rctx;
-+	struct skcipher_request *req;
-+	struct scatterlist *in_sg;
-+	int nbytes;
-+
-+	req = crypto_engine->req;
-+	rctx = skcipher_request_ctx(req);
-+	in_sg = req->src;
-+
-+	nbytes = sg_copy_to_buffer(in_sg, rctx->src_nents,
-+				   crypto_engine->cipher_addr, req->cryptlen);
-+
-+	CIPHER_DBG(hace_dev, "%s:%d, %s:%d, %s:%d, %s:%p\n",
-+		   "nbytes", nbytes, "req->cryptlen", req->cryptlen,
-+		   "nb_in_sg", rctx->src_nents,
-+		   "cipher addr", crypto_engine->cipher_addr);
-+
-+	if (!nbytes) {
-+		dev_warn(hace_dev->dev, "invalid sg copy, %s:0x%x, %s:0x%x\n",
-+			 "nbytes", nbytes, "cryptlen", req->cryptlen);
-+		return -EINVAL;
-+	}
-+
-+	crypto_engine->resume = aspeed_sk_transfer;
-+
-+	/* Trigger engines */
-+	ast_hace_write(hace_dev, crypto_engine->cipher_dma_addr,
-+		       ASPEED_HACE_SRC);
-+	ast_hace_write(hace_dev, crypto_engine->cipher_dma_addr,
-+		       ASPEED_HACE_DEST);
-+	ast_hace_write(hace_dev, req->cryptlen, ASPEED_HACE_DATA_LEN);
-+	ast_hace_write(hace_dev, rctx->enc_cmd, ASPEED_HACE_CMD);
-+
-+	return -EINPROGRESS;
-+}
-+
-+static int aspeed_sk_start_sg(struct aspeed_hace_dev *hace_dev)
-+{
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
-+	struct aspeed_sg_list *src_list, *dst_list;
-+	dma_addr_t src_dma_addr, dst_dma_addr;
-+	struct aspeed_cipher_reqctx *rctx;
-+	struct skcipher_request *req;
-+	struct scatterlist *s;
-+	int src_sg_len;
-+	int dst_sg_len;
-+	int total, i;
-+	int rc;
-+
-+	CIPHER_DBG(hace_dev, "\n");
-+
-+	req = crypto_engine->req;
-+	rctx = skcipher_request_ctx(req);
-+
-+	rctx->enc_cmd |= HACE_CMD_DES_SG_CTRL | HACE_CMD_SRC_SG_CTRL |
-+			 HACE_CMD_AES_KEY_HW_EXP | HACE_CMD_MBUS_REQ_SYNC_EN;
-+
-+	/* BIDIRECTIONAL */
-+	if (req->dst == req->src) {
-+		src_sg_len = dma_map_sg(hace_dev->dev, req->src,
-+					rctx->src_nents, DMA_BIDIRECTIONAL);
-+		dst_sg_len = src_sg_len;
-+		if (!src_sg_len) {
-+			dev_warn(hace_dev->dev, "dma_map_sg() src error\n");
-+			return -EINVAL;
-+		}
-+
-+	} else {
-+		src_sg_len = dma_map_sg(hace_dev->dev, req->src,
-+					rctx->src_nents, DMA_TO_DEVICE);
-+		if (!src_sg_len) {
-+			dev_warn(hace_dev->dev, "dma_map_sg() src error\n");
-+			return -EINVAL;
-+		}
-+
-+		dst_sg_len = dma_map_sg(hace_dev->dev, req->dst,
-+					rctx->dst_nents, DMA_FROM_DEVICE);
-+		if (!dst_sg_len) {
-+			dev_warn(hace_dev->dev, "dma_map_sg() dst error\n");
-+			rc = -EINVAL;
-+			goto free_req_src;
-+		}
-+	}
-+
-+	src_list = (struct aspeed_sg_list *)crypto_engine->cipher_addr;
-+	src_dma_addr = crypto_engine->cipher_dma_addr;
-+	total = req->cryptlen;
-+
-+	for_each_sg(req->src, s, src_sg_len, i) {
-+		src_list[i].phy_addr = sg_dma_address(s);
-+
-+		if (total > sg_dma_len(s)) {
-+			src_list[i].len = sg_dma_len(s);
-+			total -= src_list[i].len;
-+
-+		} else {
-+			/* last sg list */
-+			src_list[i].len = total;
-+			src_list[i].len |= BIT(31);
-+			total = 0;
-+		}
-+
-+		src_list[i].phy_addr = cpu_to_le32(src_list[i].phy_addr);
-+		src_list[i].len = cpu_to_le32(src_list[i].len);
-+	}
-+
-+	if (total != 0) {
-+		rc = -EINVAL;
-+		goto free_req;
-+	}
-+
-+	if (req->dst == req->src) {
-+		dst_list = src_list;
-+		dst_dma_addr = src_dma_addr;
-+
-+	} else {
-+		dst_list = (struct aspeed_sg_list *)crypto_engine->dst_sg_addr;
-+		dst_dma_addr = crypto_engine->dst_sg_dma_addr;
-+		total = req->cryptlen;
-+
-+		for_each_sg(req->dst, s, dst_sg_len, i) {
-+			dst_list[i].phy_addr = sg_dma_address(s);
-+
-+			if (total > sg_dma_len(s)) {
-+				dst_list[i].len = sg_dma_len(s);
-+				total -= dst_list[i].len;
-+
-+			} else {
-+				/* last sg list */
-+				dst_list[i].len = total;
-+				dst_list[i].len |= BIT(31);
-+				total = 0;
-+			}
-+
-+			dst_list[i].phy_addr = cpu_to_le32(dst_list[i].phy_addr);
-+			dst_list[i].len = cpu_to_le32(dst_list[i].len);
-+
-+		}
-+
-+		dst_list[dst_sg_len].phy_addr = 0;
-+		dst_list[dst_sg_len].len = 0;
-+	}
-+
-+	if (total != 0) {
-+		rc = -EINVAL;
-+		goto free_req;
-+	}
-+
-+	crypto_engine->resume = aspeed_sk_transfer_sg;
-+
-+	/* Memory barrier to ensure all data setup before engine starts */
-+	mb();
-+
-+	/* Trigger engines */
-+	ast_hace_write(hace_dev, src_dma_addr, ASPEED_HACE_SRC);
-+	ast_hace_write(hace_dev, dst_dma_addr, ASPEED_HACE_DEST);
-+	ast_hace_write(hace_dev, req->cryptlen, ASPEED_HACE_DATA_LEN);
-+	ast_hace_write(hace_dev, rctx->enc_cmd, ASPEED_HACE_CMD);
-+
-+	return -EINPROGRESS;
-+
-+free_req:
-+	if (req->dst == req->src) {
-+		dma_unmap_sg(hace_dev->dev, req->src, rctx->src_nents,
-+			     DMA_BIDIRECTIONAL);
-+
-+	} else {
-+		dma_unmap_sg(hace_dev->dev, req->dst, rctx->dst_nents,
-+			     DMA_TO_DEVICE);
-+		dma_unmap_sg(hace_dev->dev, req->src, rctx->src_nents,
-+			     DMA_TO_DEVICE);
-+	}
-+
-+	return rc;
-+
-+free_req_src:
-+	dma_unmap_sg(hace_dev->dev, req->src, rctx->src_nents, DMA_TO_DEVICE);
-+
-+	return rc;
-+}
-+
-+static int aspeed_hace_skcipher_trigger(struct aspeed_hace_dev *hace_dev)
-+{
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
-+	struct aspeed_cipher_reqctx *rctx;
-+	struct crypto_skcipher *cipher;
-+	struct aspeed_cipher_ctx *ctx;
-+	struct skcipher_request *req;
-+
-+	CIPHER_DBG(hace_dev, "\n");
-+
-+	req = crypto_engine->req;
-+	rctx = skcipher_request_ctx(req);
-+	cipher = crypto_skcipher_reqtfm(req);
-+	ctx = crypto_skcipher_ctx(cipher);
-+
-+	/* enable interrupt */
-+	rctx->enc_cmd |= HACE_CMD_ISR_EN;
-+
-+	rctx->dst_nents = sg_nents(req->dst);
-+	rctx->src_nents = sg_nents(req->src);
-+
-+	ast_hace_write(hace_dev, crypto_engine->cipher_ctx_dma,
-+		       ASPEED_HACE_CONTEXT);
-+
-+	if (rctx->enc_cmd & HACE_CMD_IV_REQUIRE) {
-+		if (rctx->enc_cmd & HACE_CMD_DES_SELECT)
-+			memcpy(crypto_engine->cipher_ctx + DES_BLOCK_SIZE,
-+			       req->iv, DES_BLOCK_SIZE);
-+		else
-+			memcpy(crypto_engine->cipher_ctx, req->iv,
-+			       AES_BLOCK_SIZE);
-+	}
-+
-+	if (hace_dev->version == AST2600_VERSION) {
-+		memcpy(crypto_engine->cipher_ctx + 16, ctx->key, ctx->key_len);
-+
-+		return aspeed_sk_start_sg(hace_dev);
-+	}
-+
-+	memcpy(crypto_engine->cipher_ctx + 16, ctx->key, AES_MAX_KEYLENGTH);
-+
-+	return aspeed_sk_start(hace_dev);
-+}
-+
-+static int aspeed_des_crypt(struct skcipher_request *req, u32 cmd)
-+{
-+	struct aspeed_cipher_reqctx *rctx = skcipher_request_ctx(req);
-+	struct crypto_skcipher *cipher = crypto_skcipher_reqtfm(req);
-+	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(cipher);
-+	struct aspeed_hace_dev *hace_dev = ctx->hace_dev;
-+	u32 crypto_alg = cmd & HACE_CMD_OP_MODE_MASK;
-+
-+	CIPHER_DBG(hace_dev, "\n");
-+
-+	if (crypto_alg == HACE_CMD_CBC || crypto_alg == HACE_CMD_ECB) {
-+		if (!IS_ALIGNED(req->cryptlen, DES_BLOCK_SIZE))
-+			return -EINVAL;
-+	}
-+
-+	rctx->enc_cmd = cmd | HACE_CMD_DES_SELECT | HACE_CMD_RI_WO_DATA_ENABLE |
-+			HACE_CMD_DES | HACE_CMD_CONTEXT_LOAD_ENABLE |
-+			HACE_CMD_CONTEXT_SAVE_ENABLE;
-+
-+	return aspeed_hace_crypto_handle_queue(hace_dev, req);
-+}
-+
-+static int aspeed_des_setkey(struct crypto_skcipher *cipher, const u8 *key,
-+			     unsigned int keylen)
-+{
-+	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(cipher);
-+	struct crypto_tfm *tfm = crypto_skcipher_tfm(cipher);
-+	struct aspeed_hace_dev *hace_dev = ctx->hace_dev;
-+	int rc;
-+
-+	CIPHER_DBG(hace_dev, "keylen: %d bits\n", keylen);
-+
-+	if (keylen != DES_KEY_SIZE && keylen != DES3_EDE_KEY_SIZE) {
-+		dev_warn(hace_dev->dev, "invalid keylen: %d bits\n", keylen);
-+		return -EINVAL;
-+	}
-+
-+	if (keylen == DES_KEY_SIZE) {
-+		rc = crypto_des_verify_key(tfm, key);
-+		if (rc)
-+			return rc;
-+
-+	} else if (keylen == DES3_EDE_KEY_SIZE) {
-+		rc = crypto_des3_ede_verify_key(tfm, key);
-+		if (rc)
-+			return rc;
-+	}
-+
-+	memcpy(ctx->key, key, keylen);
-+	ctx->key_len = keylen;
-+
-+	crypto_skcipher_clear_flags(ctx->fallback_tfm, CRYPTO_TFM_REQ_MASK);
-+	crypto_skcipher_set_flags(ctx->fallback_tfm, cipher->base.crt_flags &
-+				  CRYPTO_TFM_REQ_MASK);
-+
-+	return crypto_skcipher_setkey(ctx->fallback_tfm, key, keylen);
-+}
-+
-+static int aspeed_tdes_ctr_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CTR |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_ctr_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CTR |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_ofb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_OFB |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_ofb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_OFB |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_cfb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CFB |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_cfb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CFB |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_cbc_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CBC |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_cbc_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CBC |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_ecb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_ECB |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_tdes_ecb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_ECB |
-+				HACE_CMD_TRIPLE_DES);
-+}
-+
-+static int aspeed_des_ctr_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CTR |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_ctr_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CTR |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_ofb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_OFB |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_ofb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_OFB |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_cfb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CFB |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_cfb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CFB |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_cbc_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CBC |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_cbc_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CBC |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_ecb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_ECB |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_des_ecb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_des_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_ECB |
-+				HACE_CMD_SINGLE_DES);
-+}
-+
-+static int aspeed_aes_crypt(struct skcipher_request *req, u32 cmd)
-+{
-+	struct aspeed_cipher_reqctx *rctx = skcipher_request_ctx(req);
-+	struct crypto_skcipher *cipher = crypto_skcipher_reqtfm(req);
-+	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(cipher);
-+	struct aspeed_hace_dev *hace_dev = ctx->hace_dev;
-+	u32 crypto_alg = cmd & HACE_CMD_OP_MODE_MASK;
-+
-+	if (crypto_alg == HACE_CMD_CBC || crypto_alg == HACE_CMD_ECB) {
-+		if (!IS_ALIGNED(req->cryptlen, AES_BLOCK_SIZE))
-+			return -EINVAL;
-+	}
-+
-+	CIPHER_DBG(hace_dev, "%s\n",
-+		   (cmd & HACE_CMD_ENCRYPT) ? "encrypt" : "decrypt");
-+
-+	cmd |= HACE_CMD_AES_SELECT | HACE_CMD_RI_WO_DATA_ENABLE |
-+	       HACE_CMD_CONTEXT_LOAD_ENABLE | HACE_CMD_CONTEXT_SAVE_ENABLE;
-+
-+	switch (ctx->key_len) {
-+	case AES_KEYSIZE_128:
-+		cmd |= HACE_CMD_AES128;
-+		break;
-+	case AES_KEYSIZE_192:
-+		cmd |= HACE_CMD_AES192;
-+		break;
-+	case AES_KEYSIZE_256:
-+		cmd |= HACE_CMD_AES256;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	rctx->enc_cmd = cmd;
-+
-+	return aspeed_hace_crypto_handle_queue(hace_dev, req);
-+}
-+
-+static int aspeed_aes_setkey(struct crypto_skcipher *cipher, const u8 *key,
-+			     unsigned int keylen)
-+{
-+	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(cipher);
-+	struct aspeed_hace_dev *hace_dev = ctx->hace_dev;
-+	struct crypto_aes_ctx gen_aes_key;
-+
-+	CIPHER_DBG(hace_dev, "keylen: %d bits\n", (keylen * 8));
-+
-+	if (keylen != AES_KEYSIZE_128 && keylen != AES_KEYSIZE_192 &&
-+	    keylen != AES_KEYSIZE_256)
-+		return -EINVAL;
-+
-+	if (ctx->hace_dev->version == AST2500_VERSION) {
-+		aes_expandkey(&gen_aes_key, key, keylen);
-+		memcpy(ctx->key, gen_aes_key.key_enc, AES_MAX_KEYLENGTH);
-+
-+	} else {
-+		memcpy(ctx->key, key, keylen);
-+	}
-+
-+	ctx->key_len = keylen;
-+
-+	crypto_skcipher_clear_flags(ctx->fallback_tfm, CRYPTO_TFM_REQ_MASK);
-+	crypto_skcipher_set_flags(ctx->fallback_tfm, cipher->base.crt_flags &
-+				  CRYPTO_TFM_REQ_MASK);
-+
-+	return crypto_skcipher_setkey(ctx->fallback_tfm, key, keylen);
-+}
-+
-+static int aspeed_aes_ctr_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CTR);
-+}
-+
-+static int aspeed_aes_ctr_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CTR);
-+}
-+
-+static int aspeed_aes_ofb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_OFB);
-+}
-+
-+static int aspeed_aes_ofb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_OFB);
-+}
-+
-+static int aspeed_aes_cfb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CFB);
-+}
-+
-+static int aspeed_aes_cfb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CFB);
-+}
-+
-+static int aspeed_aes_cbc_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_CBC);
-+}
-+
-+static int aspeed_aes_cbc_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_CBC);
-+}
-+
-+static int aspeed_aes_ecb_decrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_DECRYPT | HACE_CMD_ECB);
-+}
-+
-+static int aspeed_aes_ecb_encrypt(struct skcipher_request *req)
-+{
-+	return aspeed_aes_crypt(req, HACE_CMD_ENCRYPT | HACE_CMD_ECB);
-+}
-+
-+static int aspeed_crypto_cra_init(struct crypto_skcipher *tfm)
-+{
-+	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(tfm);
-+	struct skcipher_alg *alg = crypto_skcipher_alg(tfm);
-+	const char *name = crypto_tfm_alg_name(&tfm->base);
-+	struct aspeed_hace_alg *crypto_alg;
-+
-+
-+	crypto_alg = container_of(alg, struct aspeed_hace_alg, alg.skcipher);
-+	ctx->hace_dev = crypto_alg->hace_dev;
-+	ctx->start = aspeed_hace_skcipher_trigger;
-+
-+	CIPHER_DBG(ctx->hace_dev, "%s\n", name);
-+
-+	ctx->fallback_tfm = crypto_alloc_skcipher(name, 0, CRYPTO_ALG_ASYNC |
-+						  CRYPTO_ALG_NEED_FALLBACK);
-+	if (IS_ERR(ctx->fallback_tfm)) {
-+		dev_err(ctx->hace_dev->dev, "ERROR: Cannot allocate fallback for %s %ld\n",
-+			name, PTR_ERR(ctx->fallback_tfm));
-+		return PTR_ERR(ctx->fallback_tfm);
-+	}
-+
-+	crypto_skcipher_set_reqsize(tfm, sizeof(struct aspeed_cipher_reqctx) +
-+			 crypto_skcipher_reqsize(ctx->fallback_tfm));
-+
-+	ctx->enginectx.op.do_one_request = aspeed_crypto_do_request;
-+	ctx->enginectx.op.prepare_request = NULL;
-+	ctx->enginectx.op.unprepare_request = NULL;
-+
-+	return 0;
-+}
-+
-+static void aspeed_crypto_cra_exit(struct crypto_skcipher *tfm)
-+{
-+	struct aspeed_cipher_ctx *ctx = crypto_skcipher_ctx(tfm);
-+	struct aspeed_hace_dev *hace_dev = ctx->hace_dev;
-+
-+	CIPHER_DBG(hace_dev, "%s\n", crypto_tfm_alg_name(&tfm->base));
-+	crypto_free_skcipher(ctx->fallback_tfm);
-+}
-+
-+struct aspeed_hace_alg aspeed_crypto_algs[] = {
-+	{
-+		.alg.skcipher = {
-+			.min_keysize	= AES_MIN_KEY_SIZE,
-+			.max_keysize	= AES_MAX_KEY_SIZE,
-+			.setkey		= aspeed_aes_setkey,
-+			.encrypt	= aspeed_aes_ecb_encrypt,
-+			.decrypt	= aspeed_aes_ecb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ecb(aes)",
-+				.cra_driver_name	= "aspeed-ecb-aes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= AES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= AES_BLOCK_SIZE,
-+			.min_keysize	= AES_MIN_KEY_SIZE,
-+			.max_keysize	= AES_MAX_KEY_SIZE,
-+			.setkey		= aspeed_aes_setkey,
-+			.encrypt	= aspeed_aes_cbc_encrypt,
-+			.decrypt	= aspeed_aes_cbc_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "cbc(aes)",
-+				.cra_driver_name	= "aspeed-cbc-aes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= AES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= AES_BLOCK_SIZE,
-+			.min_keysize	= AES_MIN_KEY_SIZE,
-+			.max_keysize	= AES_MAX_KEY_SIZE,
-+			.setkey		= aspeed_aes_setkey,
-+			.encrypt	= aspeed_aes_cfb_encrypt,
-+			.decrypt	= aspeed_aes_cfb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "cfb(aes)",
-+				.cra_driver_name	= "aspeed-cfb-aes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= 1,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= AES_BLOCK_SIZE,
-+			.min_keysize	= AES_MIN_KEY_SIZE,
-+			.max_keysize	= AES_MAX_KEY_SIZE,
-+			.setkey		= aspeed_aes_setkey,
-+			.encrypt	= aspeed_aes_ofb_encrypt,
-+			.decrypt	= aspeed_aes_ofb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ofb(aes)",
-+				.cra_driver_name	= "aspeed-ofb-aes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= 1,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.min_keysize	= DES_KEY_SIZE,
-+			.max_keysize	= DES_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_des_ecb_encrypt,
-+			.decrypt	= aspeed_des_ecb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ecb(des)",
-+				.cra_driver_name	= "aspeed-ecb-des",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= DES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= DES_BLOCK_SIZE,
-+			.min_keysize	= DES_KEY_SIZE,
-+			.max_keysize	= DES_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_des_cbc_encrypt,
-+			.decrypt	= aspeed_des_cbc_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "cbc(des)",
-+				.cra_driver_name	= "aspeed-cbc-des",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= DES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= DES_BLOCK_SIZE,
-+			.min_keysize	= DES_KEY_SIZE,
-+			.max_keysize	= DES_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_des_cfb_encrypt,
-+			.decrypt	= aspeed_des_cfb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "cfb(des)",
-+				.cra_driver_name	= "aspeed-cfb-des",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= DES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= DES_BLOCK_SIZE,
-+			.min_keysize	= DES_KEY_SIZE,
-+			.max_keysize	= DES_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_des_ofb_encrypt,
-+			.decrypt	= aspeed_des_ofb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ofb(des)",
-+				.cra_driver_name	= "aspeed-ofb-des",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= DES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.min_keysize	= DES3_EDE_KEY_SIZE,
-+			.max_keysize	= DES3_EDE_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_tdes_ecb_encrypt,
-+			.decrypt	= aspeed_tdes_ecb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ecb(des3_ede)",
-+				.cra_driver_name	= "aspeed-ecb-tdes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= DES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= DES_BLOCK_SIZE,
-+			.min_keysize	= DES3_EDE_KEY_SIZE,
-+			.max_keysize	= DES3_EDE_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_tdes_cbc_encrypt,
-+			.decrypt	= aspeed_tdes_cbc_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "cbc(des3_ede)",
-+				.cra_driver_name	= "aspeed-cbc-tdes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= DES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= DES_BLOCK_SIZE,
-+			.min_keysize	= DES3_EDE_KEY_SIZE,
-+			.max_keysize	= DES3_EDE_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_tdes_cfb_encrypt,
-+			.decrypt	= aspeed_tdes_cfb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "cfb(des3_ede)",
-+				.cra_driver_name	= "aspeed-cfb-tdes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= DES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= DES_BLOCK_SIZE,
-+			.min_keysize	= DES3_EDE_KEY_SIZE,
-+			.max_keysize	= DES3_EDE_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_tdes_ofb_encrypt,
-+			.decrypt	= aspeed_tdes_ofb_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ofb(des3_ede)",
-+				.cra_driver_name	= "aspeed-ofb-tdes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC |
-+							  CRYPTO_ALG_NEED_FALLBACK,
-+				.cra_blocksize		= DES_BLOCK_SIZE,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+};
-+
-+struct aspeed_hace_alg aspeed_crypto_algs_g6[] = {
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= AES_BLOCK_SIZE,
-+			.min_keysize	= AES_MIN_KEY_SIZE,
-+			.max_keysize	= AES_MAX_KEY_SIZE,
-+			.setkey		= aspeed_aes_setkey,
-+			.encrypt	= aspeed_aes_ctr_encrypt,
-+			.decrypt	= aspeed_aes_ctr_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ctr(aes)",
-+				.cra_driver_name	= "aspeed-ctr-aes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC,
-+				.cra_blocksize		= 1,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= DES_BLOCK_SIZE,
-+			.min_keysize	= DES_KEY_SIZE,
-+			.max_keysize	= DES_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_des_ctr_encrypt,
-+			.decrypt	= aspeed_des_ctr_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ctr(des)",
-+				.cra_driver_name	= "aspeed-ctr-des",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC,
-+				.cra_blocksize		= 1,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+	{
-+		.alg.skcipher = {
-+			.ivsize		= DES_BLOCK_SIZE,
-+			.min_keysize	= DES3_EDE_KEY_SIZE,
-+			.max_keysize	= DES3_EDE_KEY_SIZE,
-+			.setkey		= aspeed_des_setkey,
-+			.encrypt	= aspeed_tdes_ctr_encrypt,
-+			.decrypt	= aspeed_tdes_ctr_decrypt,
-+			.init		= aspeed_crypto_cra_init,
-+			.exit		= aspeed_crypto_cra_exit,
-+			.base = {
-+				.cra_name		= "ctr(des3_ede)",
-+				.cra_driver_name	= "aspeed-ctr-tdes",
-+				.cra_priority		= 300,
-+				.cra_flags		= CRYPTO_ALG_KERN_DRIVER_ONLY |
-+							  CRYPTO_ALG_ASYNC,
-+				.cra_blocksize		= 1,
-+				.cra_ctxsize		= sizeof(struct aspeed_cipher_ctx),
-+				.cra_alignmask		= 0x0f,
-+				.cra_module		= THIS_MODULE,
-+			}
-+		}
-+	},
-+
-+};
-+
-+void aspeed_unregister_hace_crypto_algs(struct aspeed_hace_dev *hace_dev)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(aspeed_crypto_algs); i++)
-+		crypto_unregister_skcipher(&aspeed_crypto_algs[i].alg.skcipher);
-+
-+	if (hace_dev->version != AST2600_VERSION)
-+		return;
-+
-+	for (i = 0; i < ARRAY_SIZE(aspeed_crypto_algs_g6); i++)
-+		crypto_unregister_skcipher(&aspeed_crypto_algs_g6[i].alg.skcipher);
-+}
-+
-+void aspeed_register_hace_crypto_algs(struct aspeed_hace_dev *hace_dev)
-+{
-+	int rc, i;
-+
-+	CIPHER_DBG(hace_dev, "\n");
-+
-+	for (i = 0; i < ARRAY_SIZE(aspeed_crypto_algs); i++) {
-+		aspeed_crypto_algs[i].hace_dev = hace_dev;
-+		rc = crypto_register_skcipher(&aspeed_crypto_algs[i].alg.skcipher);
-+		if (rc) {
-+			CIPHER_DBG(hace_dev, "Failed to register %s\n",
-+				   aspeed_crypto_algs[i].alg.skcipher.base.cra_name);
-+		}
-+	}
-+
-+	if (hace_dev->version != AST2600_VERSION)
-+		return;
-+
-+	for (i = 0; i < ARRAY_SIZE(aspeed_crypto_algs_g6); i++) {
-+		aspeed_crypto_algs_g6[i].hace_dev = hace_dev;
-+		rc = crypto_register_skcipher(&aspeed_crypto_algs_g6[i].alg.skcipher);
-+		if (rc) {
-+			CIPHER_DBG(hace_dev, "Failed to register %s\n",
-+				   aspeed_crypto_algs_g6[i].alg.skcipher.base.cra_name);
-+		}
-+	}
-+}
-diff --git a/drivers/crypto/aspeed/aspeed-hace.c b/drivers/crypto/aspeed/aspeed-hace.c
-index 23a66f481b62..4fefc9e69d72 100644
---- a/drivers/crypto/aspeed/aspeed-hace.c
-+++ b/drivers/crypto/aspeed/aspeed-hace.c
-@@ -25,6 +25,7 @@
- static irqreturn_t aspeed_hace_irq(int irq, void *dev)
- {
- 	struct aspeed_hace_dev *hace_dev = (struct aspeed_hace_dev *)dev;
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
- 	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
- 	u32 sts;
- 
-@@ -40,9 +41,24 @@ static irqreturn_t aspeed_hace_irq(int irq, void *dev)
- 			dev_warn(hace_dev->dev, "HASH no active requests.\n");
- 	}
- 
-+	if (sts & HACE_CRYPTO_ISR) {
-+		if (crypto_engine->flags & CRYPTO_FLAGS_BUSY)
-+			tasklet_schedule(&crypto_engine->done_task);
-+		else
-+			dev_warn(hace_dev->dev, "CRYPTO no active requests.\n");
-+	}
-+
- 	return IRQ_HANDLED;
- }
- 
-+static void aspeed_hace_crypto_done_task(unsigned long data)
-+{
-+	struct aspeed_hace_dev *hace_dev = (struct aspeed_hace_dev *)data;
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
-+
-+	crypto_engine->resume(hace_dev);
-+}
-+
- static void aspeed_hace_hash_done_task(unsigned long data)
- {
- 	struct aspeed_hace_dev *hace_dev = (struct aspeed_hace_dev *)data;
-@@ -56,6 +72,9 @@ static void aspeed_hace_register(struct aspeed_hace_dev *hace_dev)
- #ifdef CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH
- 	aspeed_register_hace_hash_algs(hace_dev);
- #endif
-+#ifdef CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO
-+	aspeed_register_hace_crypto_algs(hace_dev);
-+#endif
- }
- 
- static void aspeed_hace_unregister(struct aspeed_hace_dev *hace_dev)
-@@ -63,6 +82,9 @@ static void aspeed_hace_unregister(struct aspeed_hace_dev *hace_dev)
- #ifdef CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH
- 	aspeed_unregister_hace_hash_algs(hace_dev);
- #endif
-+#ifdef CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO
-+	aspeed_unregister_hace_crypto_algs(hace_dev);
-+#endif
- }
- 
- static const struct of_device_id aspeed_hace_of_matches[] = {
-@@ -73,6 +95,7 @@ static const struct of_device_id aspeed_hace_of_matches[] = {
- 
- static int aspeed_hace_probe(struct platform_device *pdev)
- {
-+	struct aspeed_engine_crypto *crypto_engine;
- 	const struct of_device_id *hace_dev_id;
- 	struct aspeed_engine_hash *hash_engine;
- 	struct aspeed_hace_dev *hace_dev;
-@@ -93,6 +116,7 @@ static int aspeed_hace_probe(struct platform_device *pdev)
- 	hace_dev->dev = &pdev->dev;
- 	hace_dev->version = (unsigned long)hace_dev_id->data;
- 	hash_engine = &hace_dev->hash_engine;
-+	crypto_engine = &hace_dev->crypto_engine;
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 
-@@ -146,6 +170,21 @@ static int aspeed_hace_probe(struct platform_device *pdev)
- 	tasklet_init(&hash_engine->done_task, aspeed_hace_hash_done_task,
- 		     (unsigned long)hace_dev);
- 
-+	/* Initialize crypto hardware engine structure for crypto */
-+	hace_dev->crypt_engine_crypto = crypto_engine_alloc_init(hace_dev->dev,
-+								 true);
-+	if (!hace_dev->crypt_engine_crypto) {
-+		rc = -ENOMEM;
-+		goto err_engine_hash_start;
-+	}
-+
-+	rc = crypto_engine_start(hace_dev->crypt_engine_crypto);
-+	if (rc)
-+		goto err_engine_crypto_start;
-+
-+	tasklet_init(&crypto_engine->done_task, aspeed_hace_crypto_done_task,
-+		     (unsigned long)hace_dev);
-+
- 	/* Allocate DMA buffer for hash engine input used */
- 	hash_engine->ahash_src_addr =
- 		dmam_alloc_coherent(&pdev->dev,
-@@ -155,7 +194,45 @@ static int aspeed_hace_probe(struct platform_device *pdev)
- 	if (!hash_engine->ahash_src_addr) {
- 		dev_err(&pdev->dev, "Failed to allocate dma buffer\n");
- 		rc = -ENOMEM;
--		goto err_engine_hash_start;
-+		goto err_engine_crypto_start;
-+	}
-+
-+	/* Allocate DMA buffer for crypto engine context used */
-+	crypto_engine->cipher_ctx =
-+		dmam_alloc_coherent(&pdev->dev,
-+				    PAGE_SIZE,
-+				    &crypto_engine->cipher_ctx_dma,
-+				    GFP_KERNEL);
-+	if (!crypto_engine->cipher_ctx) {
-+		dev_err(&pdev->dev, "Failed to allocate cipher ctx dma\n");
-+		rc = -ENOMEM;
-+		goto err_engine_crypto_start;
-+	}
-+
-+	/* Allocate DMA buffer for crypto engine input used */
-+	crypto_engine->cipher_addr =
-+		dmam_alloc_coherent(&pdev->dev,
-+				    ASPEED_CRYPTO_SRC_DMA_BUF_LEN,
-+				    &crypto_engine->cipher_dma_addr,
-+				    GFP_KERNEL);
-+	if (!crypto_engine->cipher_addr) {
-+		dev_err(&pdev->dev, "Failed to allocate cipher addr dma\n");
-+		rc = -ENOMEM;
-+		goto err_engine_crypto_start;
-+	}
-+
-+	/* Allocate DMA buffer for crypto engine output used */
-+	if (hace_dev->version == AST2600_VERSION) {
-+		crypto_engine->dst_sg_addr =
-+			dmam_alloc_coherent(&pdev->dev,
-+					    ASPEED_CRYPTO_DST_DMA_BUF_LEN,
-+					    &crypto_engine->dst_sg_dma_addr,
-+					    GFP_KERNEL);
-+		if (!crypto_engine->dst_sg_addr) {
-+			dev_err(&pdev->dev, "Failed to allocate dst_sg dma\n");
-+			rc = -ENOMEM;
-+			goto err_engine_crypto_start;
-+		}
- 	}
- 
- 	aspeed_hace_register(hace_dev);
-@@ -164,6 +241,8 @@ static int aspeed_hace_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
-+err_engine_crypto_start:
-+	crypto_engine_exit(hace_dev->crypt_engine_crypto);
- err_engine_hash_start:
- 	crypto_engine_exit(hace_dev->crypt_engine_hash);
- clk_exit:
-@@ -175,13 +254,16 @@ static int aspeed_hace_probe(struct platform_device *pdev)
- static int aspeed_hace_remove(struct platform_device *pdev)
- {
- 	struct aspeed_hace_dev *hace_dev = platform_get_drvdata(pdev);
-+	struct aspeed_engine_crypto *crypto_engine = &hace_dev->crypto_engine;
- 	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
- 
- 	aspeed_hace_unregister(hace_dev);
- 
- 	crypto_engine_exit(hace_dev->crypt_engine_hash);
-+	crypto_engine_exit(hace_dev->crypt_engine_crypto);
- 
- 	tasklet_kill(&hash_engine->done_task);
-+	tasklet_kill(&crypto_engine->done_task);
- 
- 	clk_disable_unprepare(hace_dev->clk);
- 
-diff --git a/drivers/crypto/aspeed/aspeed-hace.h b/drivers/crypto/aspeed/aspeed-hace.h
-index 3494ff22f69d..f2cde23b56ae 100644
---- a/drivers/crypto/aspeed/aspeed-hace.h
-+++ b/drivers/crypto/aspeed/aspeed-hace.h
-@@ -7,9 +7,12 @@
- #include <linux/err.h>
- #include <linux/fips.h>
- #include <linux/dma-mapping.h>
-+#include <crypto/aes.h>
-+#include <crypto/des.h>
- #include <crypto/scatterwalk.h>
- #include <crypto/internal/aead.h>
- #include <crypto/internal/akcipher.h>
-+#include <crypto/internal/des.h>
- #include <crypto/internal/hash.h>
- #include <crypto/internal/kpp.h>
- #include <crypto/internal/skcipher.h>
-@@ -24,15 +27,75 @@
-  * HACE register definitions *
-  *                           *
-  * ***************************/
-+#define ASPEED_HACE_SRC			0x00	/* Crypto Data Source Base Address Register */
-+#define ASPEED_HACE_DEST		0x04	/* Crypto Data Destination Base Address Register */
-+#define ASPEED_HACE_CONTEXT		0x08	/* Crypto Context Buffer Base Address Register */
-+#define ASPEED_HACE_DATA_LEN		0x0C	/* Crypto Data Length Register */
-+#define ASPEED_HACE_CMD			0x10	/* Crypto Engine Command Register */
-+
-+/* G5 */
-+#define ASPEED_HACE_TAG			0x18	/* HACE Tag Register */
-+/* G6 */
-+#define ASPEED_HACE_GCM_ADD_LEN		0x14	/* Crypto AES-GCM Additional Data Length Register */
-+#define ASPEED_HACE_GCM_TAG_BASE_ADDR	0x18	/* Crypto AES-GCM Tag Write Buff Base Address Reg */
- 
- #define ASPEED_HACE_STS			0x1C	/* HACE Status Register */
-+
- #define ASPEED_HACE_HASH_SRC		0x20	/* Hash Data Source Base Address Register */
- #define ASPEED_HACE_HASH_DIGEST_BUFF	0x24	/* Hash Digest Write Buffer Base Address Register */
- #define ASPEED_HACE_HASH_KEY_BUFF	0x28	/* Hash HMAC Key Buffer Base Address Register */
- #define ASPEED_HACE_HASH_DATA_LEN	0x2C	/* Hash Data Length Register */
- #define ASPEED_HACE_HASH_CMD		0x30	/* Hash Engine Command Register */
- 
-+/* crypto cmd */
-+#define  HACE_CMD_SINGLE_DES		0
-+#define  HACE_CMD_TRIPLE_DES		BIT(17)
-+#define  HACE_CMD_AES_SELECT		0
-+#define  HACE_CMD_DES_SELECT		BIT(16)
-+#define  HACE_CMD_ISR_EN		BIT(12)
-+#define  HACE_CMD_CONTEXT_SAVE_ENABLE	(0)
-+#define  HACE_CMD_CONTEXT_SAVE_DISABLE	BIT(9)
-+#define  HACE_CMD_AES			(0)
-+#define  HACE_CMD_DES			(0)
-+#define  HACE_CMD_RC4			BIT(8)
-+#define  HACE_CMD_DECRYPT		(0)
-+#define  HACE_CMD_ENCRYPT		BIT(7)
-+
-+#define  HACE_CMD_ECB			(0x0 << 4)
-+#define  HACE_CMD_CBC			(0x1 << 4)
-+#define  HACE_CMD_CFB			(0x2 << 4)
-+#define  HACE_CMD_OFB			(0x3 << 4)
-+#define  HACE_CMD_CTR			(0x4 << 4)
-+#define  HACE_CMD_OP_MODE_MASK		(0x7 << 4)
-+
-+#define  HACE_CMD_AES128		(0x0 << 2)
-+#define  HACE_CMD_AES192		(0x1 << 2)
-+#define  HACE_CMD_AES256		(0x2 << 2)
-+#define  HACE_CMD_OP_CASCADE		(0x3)
-+#define  HACE_CMD_OP_INDEPENDENT	(0x1)
-+
-+/* G5 */
-+#define  HACE_CMD_RI_WO_DATA_ENABLE	(0)
-+#define  HACE_CMD_RI_WO_DATA_DISABLE	BIT(11)
-+#define  HACE_CMD_CONTEXT_LOAD_ENABLE	(0)
-+#define  HACE_CMD_CONTEXT_LOAD_DISABLE	BIT(10)
-+/* G6 */
-+#define  HACE_CMD_AES_KEY_FROM_OTP	BIT(24)
-+#define  HACE_CMD_GHASH_TAG_XOR_EN	BIT(23)
-+#define  HACE_CMD_GHASH_PAD_LEN_INV	BIT(22)
-+#define  HACE_CMD_GCM_TAG_ADDR_SEL	BIT(21)
-+#define  HACE_CMD_MBUS_REQ_SYNC_EN	BIT(20)
-+#define  HACE_CMD_DES_SG_CTRL		BIT(19)
-+#define  HACE_CMD_SRC_SG_CTRL		BIT(18)
-+#define  HACE_CMD_CTR_IV_AES_96		(0x1 << 14)
-+#define  HACE_CMD_CTR_IV_DES_32		(0x1 << 14)
-+#define  HACE_CMD_CTR_IV_AES_64		(0x2 << 14)
-+#define  HACE_CMD_CTR_IV_AES_32		(0x3 << 14)
-+#define  HACE_CMD_AES_KEY_HW_EXP	BIT(13)
-+#define  HACE_CMD_GCM			(0x5 << 4)
-+
- /* interrupt status reg */
-+#define  HACE_CRYPTO_ISR		BIT(12)
- #define  HACE_HASH_ISR			BIT(9)
- #define  HACE_HASH_BUSY			BIT(0)
- 
-@@ -77,6 +140,9 @@
- #define ASPEED_HASH_SRC_DMA_BUF_LEN	0xa000
- #define ASPEED_HASH_QUEUE_LENGTH	50
- 
-+#define HACE_CMD_IV_REQUIRE		(HACE_CMD_CBC | HACE_CMD_CFB | \
-+					 HACE_CMD_OFB | HACE_CMD_CTR)
-+
- struct aspeed_hace_dev;
- 
- typedef int (*aspeed_hace_fn_t)(struct aspeed_hace_dev *);
-@@ -147,6 +213,48 @@ struct aspeed_sham_reqctx {
- 	u64			digcnt[2];
- };
- 
-+struct aspeed_engine_crypto {
-+	struct tasklet_struct		done_task;
-+	unsigned long			flags;
-+	struct skcipher_request		*req;
-+
-+	/* context buffer */
-+	void				*cipher_ctx;
-+	dma_addr_t			cipher_ctx_dma;
-+
-+	/* input buffer, could be single/scatter-gather lists */
-+	void				*cipher_addr;
-+	dma_addr_t			cipher_dma_addr;
-+
-+	/* output buffer, only used in scatter-gather lists */
-+	void				*dst_sg_addr;
-+	dma_addr_t			dst_sg_dma_addr;
-+
-+	/* callback func */
-+	aspeed_hace_fn_t		resume;
-+};
-+
-+struct aspeed_cipher_ctx {
-+	struct crypto_engine_ctx	enginectx;
-+
-+	struct aspeed_hace_dev		*hace_dev;
-+	int				key_len;
-+	u8				key[AES_MAX_KEYLENGTH];
-+
-+	/* callback func */
-+	aspeed_hace_fn_t		start;
-+
-+	struct crypto_skcipher          *fallback_tfm;
-+};
-+
-+struct aspeed_cipher_reqctx {
-+	int enc_cmd;
-+	int src_nents;
-+	int dst_nents;
-+
-+	struct skcipher_request         fallback_req;   /* keep at the end */
-+};
-+
- struct aspeed_hace_dev {
- 	void __iomem			*regs;
- 	struct device			*dev;
-@@ -155,8 +263,10 @@ struct aspeed_hace_dev {
- 	unsigned long			version;
- 
- 	struct crypto_engine		*crypt_engine_hash;
-+	struct crypto_engine		*crypt_engine_crypto;
- 
- 	struct aspeed_engine_hash	hash_engine;
-+	struct aspeed_engine_crypto	crypto_engine;
- };
- 
- struct aspeed_hace_alg {
-@@ -182,5 +292,7 @@ enum aspeed_version {
- 
- void aspeed_register_hace_hash_algs(struct aspeed_hace_dev *hace_dev);
- void aspeed_unregister_hace_hash_algs(struct aspeed_hace_dev *hace_dev);
-+void aspeed_register_hace_crypto_algs(struct aspeed_hace_dev *hace_dev);
-+void aspeed_unregister_hace_crypto_algs(struct aspeed_hace_dev *hace_dev);
- 
- #endif
--- 
-2.25.1
+qemu-system-arm -M ast2600-evb -nographic -dtb
+arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dtb -kernel
+arch/arm/boot/zImage
 
+Without a working test, I can't tell the difference between a broken
+device tree and one that omits the serial device on the command line.
+Can you work with Arnd to come to a solution here?
+
+I would prefer to retain the status quo of having the command line in
+the device tree. It's served us well for the past five years. It's
+overridden by u-boot in all openbmc systems, so
+I don't see the harm in having something to ensure it keeps working.
+
+Aside from that your patch looks ready to merge:
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+Cheers,
+
+Joel
+
+
+
+> +       };
+> +
+> +       memory@80000000 {
+> +               device_type = "memory";
+> +               reg = <0x80000000 0x80000000>;
+> +       };
+> +
+> +       reserved-memory {
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+> +               ranges;
+> +
+> +               gfx_memory: framebuffer {
+> +                       size = <0x01000000>;
+> +                       alignment = <0x01000000>;
+> +                       compatible = "shared-dma-pool";
+> +                       reusable;
+> +               };
+> +
+> +               video_engine_memory: video {
+> +                       size = <0x04000000>;
+> +                       alignment = <0x01000000>;
+> +                       compatible = "shared-dma-pool";
+> +                       reusable;
+> +               };
+> +
+> +               vga_memory: region@bf000000 {
+> +                       no-map;
+> +                       compatible = "shared-dma-pool";
+> +                       reg = <0xbf000000 0x01000000>;  /* 16M */
+> +               };
+> +       };
+> +
+> +       voltage_mon_reg: voltage-mon-regulator {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "ltc2497_reg";
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       gpioI5mux: mux-controller {
+> +               compatible = "gpio-mux";
+> +               #mux-control-cells = <0>;
+> +               mux-gpios = <&gpio0 ASPEED_GPIO(I, 5) GPIO_ACTIVE_HIGH>;
+> +       };
+> +
+> +       adc0mux: adc0mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc0 0>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc1mux: adc1mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc0 1>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc2mux: adc2mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc0 2>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc3mux: adc3mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc0 3>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc4mux: adc4mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc0 4>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc5mux: adc5mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc0 5>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc6mux: adc6mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc0 6>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc7mux: adc7mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc0 7>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc8mux: adc8mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc1 0>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc9mux: adc9mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc1 1>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc10mux: adc10mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc1 2>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc11mux: adc11mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc1 3>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc12mux: adc12mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc1 4>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc13mux: adc13mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc1 5>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc14mux: adc14mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc1 6>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       adc15mux: adc15mux {
+> +               compatible = "io-channel-mux";
+> +               io-channels = <&adc1 7>;
+> +               #io-channel-cells = <1>;
+> +               io-channel-names = "parent";
+> +               mux-controls = <&gpioI5mux>;
+> +               channels = "s0", "s1";
+> +       };
+> +
+> +       iio-hwmon {
+> +               compatible = "iio-hwmon";
+> +               io-channels = <&adc0mux 0>, <&adc0mux 1>,
+> +                       <&adc1mux 0>, <&adc1mux 1>,
+> +                       <&adc2mux 0>, <&adc2mux 1>,
+> +                       <&adc3mux 0>, <&adc3mux 1>,
+> +                       <&adc4mux 0>, <&adc4mux 1>,
+> +                       <&adc5mux 0>, <&adc5mux 1>,
+> +                       <&adc6mux 0>, <&adc6mux 1>,
+> +                       <&adc7mux 0>, <&adc7mux 1>,
+> +                       <&adc8mux 0>, <&adc8mux 1>,
+> +                       <&adc9mux 0>, <&adc9mux 1>,
+> +                       <&adc10mux 0>, <&adc10mux 1>,
+> +                       <&adc11mux 0>, <&adc11mux 1>,
+> +                       <&adc12mux 0>, <&adc12mux 1>,
+> +                       <&adc13mux 0>, <&adc13mux 1>,
+> +                       <&adc14mux 0>, <&adc14mux 1>,
+> +                       <&adc15mux 0>, <&adc15mux 1>,
+> +                       <&adc_i2c 0>, <&adc_i2c 1>,
+> +                       <&adc_i2c 2>, <&adc_i2c 3>,
+> +                       <&adc_i2c 4>, <&adc_i2c 5>,
+> +                       <&adc_i2c 6>, <&adc_i2c 7>,
+> +                       <&adc_i2c 8>, <&adc_i2c 9>,
+> +                       <&adc_i2c 10>, <&adc_i2c 11>,
+> +                       <&adc_i2c 12>, <&adc_i2c 13>,
+> +                       <&adc_i2c 14>, <&adc_i2c 15>;
+> +       };
+> +};
+> +
+> +&mdio0 {
+> +       status = "okay";
+> +
+> +       ethphy0: ethernet-phy@0 {
+> +               compatible = "ethernet-phy-ieee802.3-c22";
+> +               reg = <0>;
+> +       };
+> +};
+> +
+> +&mac0 {
+> +       status = "okay";
+> +
+> +       phy-mode = "rgmii";
+> +       phy-handle = <&ethphy0>;
+> +
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_rgmii1_default>;
+> +};
+> +
+> +&fmc {
+> +       status = "okay";
+> +       flash@0 {
+> +               status = "okay";
+> +               m25p,fast-read;
+> +               label = "bmc";
+> +               spi-max-frequency = <50000000>;
+> +#include "openbmc-flash-layout-64.dtsi"
+> +       };
+> +
+> +       flash@1 {
+> +               status = "okay";
+> +               m25p,fast-read;
+> +               label = "alt-bmc";
+> +               spi-max-frequency = <50000000>;
+> +#include "openbmc-flash-layout-64-alt.dtsi"
+> +       };
+> +};
+> +
+> +&spi1 {
+> +       status = "okay";
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_spi1_default>;
+> +
+> +       flash@0 {
+> +               status = "okay";
+> +               m25p,fast-read;
+> +               label = "pnor";
+> +               spi-max-frequency = <20000000>;
+> +       };
+> +};
+> +
+> +&uart1 {
+> +       status = "okay";
+> +};
+> +
+> +&uart2 {
+> +       status = "okay";
+> +};
+> +
+> +&uart3 {
+> +       status = "okay";
+> +};
+> +
+> +&uart4 {
+> +       status = "okay";
+> +};
+> +
+> +&i2c0 {
+> +       status = "okay";
+> +
+> +       temperature-sensor@2e {
+> +               compatible = "adi,adt7490";
+> +               reg = <0x2e>;
+> +       };
+> +};
+> +
+> +&i2c1 {
+> +       status = "okay";
+> +};
+> +
+> +&i2c2 {
+> +       status = "okay";
+> +
+> +       psu@58 {
+> +               compatible = "pmbus";
+> +               reg = <0x58>;
+> +       };
+> +
+> +       psu@59 {
+> +               compatible = "pmbus";
+> +               reg = <0x59>;
+> +       };
+> +};
+> +
+> +&i2c3 {
+> +       status = "okay";
+> +};
+> +
+> +&i2c4 {
+> +       status = "okay";
+> +
+> +       adc_i2c: adc@16 {
+> +               compatible = "lltc,ltc2497";
+> +               reg = <0x16>;
+> +               vref-supply = <&voltage_mon_reg>;
+> +               #io-channel-cells = <1>;
+> +        };
+> +
+> +       eeprom@50 {
+> +               compatible = "atmel,24c64";
+> +               reg = <0x50>;
+> +               pagesize = <32>;
+> +       };
+> +
+> +       i2c-mux@70 {
+> +               compatible = "nxp,pca9545";
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               reg = <0x70>;
+> +               i2c-mux-idle-disconnect;
+> +
+> +               i2c4_bus70_chn0: i2c@0 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <0x0>;
+> +
+> +                       outlet_temp1: temperature-sensor@48 {
+> +                               compatible = "ti,tmp75";
+> +                               reg = <0x48>;
+> +                       };
+> +                       psu1_inlet_temp2: temperature-sensor@49 {
+> +                               compatible = "ti,tmp75";
+> +                               reg = <0x49>;
+> +                       };
+> +               };
+> +
+> +               i2c4_bus70_chn1: i2c@1 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <0x1>;
+> +
+> +                       pcie_zone_temp1: temperature-sensor@48 {
+> +                               compatible = "ti,tmp75";
+> +                               reg = <0x48>;
+> +                       };
+> +                       psu0_inlet_temp2: temperature-sensor@49 {
+> +                               compatible = "ti,tmp75";
+> +                               reg = <0x49>;
+> +                       };
+> +               };
+> +
+> +               i2c4_bus70_chn2: i2c@2 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <0x2>;
+> +
+> +                       pcie_zone_temp2: temperature-sensor@48 {
+> +                               compatible = "ti,tmp75";
+> +                               reg = <0x48>;
+> +                       };
+> +                       outlet_temp2: temperature-sensor@49 {
+> +                               compatible = "ti,tmp75";
+> +                               reg = <0x49>;
+> +                       };
+> +               };
+> +
+> +               i2c4_bus70_chn3: i2c@3 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <0x3>;
+> +
+> +                       mb_inlet_temp1: temperature-sensor@7c {
+> +                               compatible = "microchip,emc1413";
+> +                               reg = <0x7c>;
+> +                       };
+> +                       mb_inlet_temp2: temperature-sensor@4c {
+> +                               compatible = "microchip,emc1413";
+> +                               reg = <0x4c>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&i2c5 {
+> +       status = "okay";
+> +
+> +       i2c-mux@70 {
+> +               compatible = "nxp,pca9548";
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               reg = <0x70>;
+> +               i2c-mux-idle-disconnect;
+> +       };
+> +};
+> +
+> +&i2c6 {
+> +       status = "okay";
+> +       rtc@51 {
+> +               compatible = "nxp,pcf85063a";
+> +               reg = <0x51>;
+> +       };
+> +};
+> +
+> +&i2c7 {
+> +       status = "okay";
+> +};
+> +
+> +&i2c9 {
+> +       status = "okay";
+> +};
+> +
+> +&i2c11 {
+> +       status = "okay";
+> +};
+> +
+> +&i2c14 {
+> +       status = "okay";
+> +       eeprom@50 {
+> +               compatible = "atmel,24c64";
+> +               reg = <0x50>;
+> +               pagesize = <32>;
+> +       };
+> +
+> +       bmc_ast2600_cpu: temperature-sensor@35 {
+> +               compatible = "ti,tmp175";
+> +               reg = <0x35>;
+> +       };
+> +};
+> +
+> +&adc0 {
+> +       ref_voltage = <2500>;
+> +       status = "okay";
+> +
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
+> +               &pinctrl_adc2_default &pinctrl_adc3_default
+> +               &pinctrl_adc4_default &pinctrl_adc5_default
+> +               &pinctrl_adc6_default &pinctrl_adc7_default>;
+> +};
+> +
+> +&adc1 {
+> +       ref_voltage = <2500>;
+> +       status = "okay";
+> +
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default
+> +               &pinctrl_adc10_default &pinctrl_adc11_default
+> +               &pinctrl_adc12_default &pinctrl_adc13_default
+> +               &pinctrl_adc14_default &pinctrl_adc15_default>;
+> +};
+> +
+> +&vhub {
+> +       status = "okay";
+> +};
+> +
+> +&video {
+> +       status = "okay";
+> +       memory-region = <&video_engine_memory>;
+> +};
+> +
+> +&gpio0 {
+> +       gpio-line-names =
+> +       /*A0-A7*/       "","","","","","i2c2-reset-n","i2c6-reset-n","i2c4-reset-n",
+> +       /*B0-B7*/       "","","","","host0-sysreset-n","host0-pmin-n","","",
+> +       /*C0-C7*/       "s0-vrd-fault-n","s1-vrd-fault-n","","",
+> +                       "irq-n","","vrd-sel","spd-sel",
+> +       /*D0-D7*/       "presence-ps0","presence-ps1","hsc-12vmain-alt2-n","ext-high-temp-n",
+> +                       "","bmc-ncsi-txen","","",
+> +       /*E0-E7*/       "","","clk50m-bmc-ncsi","","","","","",
+> +       /*F0-F7*/       "s0-pcp-oc-warn-n","s1-pcp-oc-warn-n","power-chassis-control",
+> +                       "cpu-bios-recover","s0-heartbeat","hs-csout-prochot",
+> +                       "s0-vr-hot-n","s1-vr-hot-n",
+> +       /*G0-G7*/       "","","hsc-12vmain-alt1-n","","","","","",
+> +       /*H0-H7*/       "","","wd-disable-n","power-chassis-good","","","","",
+> +       /*I0-I7*/       "","","","","","adc-sw","power-button","rtc-battery-voltage-read-enable",
+> +       /*J0-J7*/       "","","","","","","","",
+> +       /*K0-K7*/       "","","","","","","","",
+> +       /*L0-L7*/       "","","","","","","","",
+> +       /*M0-M7*/       "","s0-ddr-save","soc-spi-nor-access","presence-cpu0",
+> +                       "s0-rtc-lock","","","",
+> +       /*N0-N7*/       "hpm-fw-recovery","hpm-stby-rst-n","jtag-sel-s0","led-sw-hb",
+> +                       "jtag-dbgr-prsnt-n","s1-heartbeat","","",
+> +       /*O0-O7*/       "","","","","","","","",
+> +       /*P0-P7*/       "ps0-ac-loss-n","ps1-ac-loss-n","","",
+> +                       "led-fault","cpld-user-mode","jtag-srst-n","led-bmc-hb",
+> +       /*Q0-Q7*/       "","","","","","","","",
+> +       /*R0-R7*/       "","","","","","","","",
+> +       /*S0-S7*/       "","","identify-button","led-identify",
+> +                       "s1-ddr-save","spi-nor-access","sys-pgood","presence-cpu1",
+> +       /*T0-T7*/       "","","","","","","","",
+> +       /*U0-U7*/       "","","","","","","","",
+> +       /*V0-V7*/       "s0-hightemp-n","s0-fault-alert","s0-sys-auth-failure-n",
+> +                       "host0-reboot-ack-n","host0-ready","host0-shd-req-n",
+> +                       "host0-shd-ack-n","s0-overtemp-n",
+> +       /*W0-W7*/       "ocp-aux-pwren","ocp-main-pwren","ocp-pgood","",
+> +                       "bmc-ok","bmc-ready","spi0-program-sel","spi0-backup-sel",
+> +       /*X0-X7*/       "i2c-backup-sel","s1-fault-alert","s1-fw-boot-ok",
+> +                       "s1-hightemp-n","s0-spi-auth-fail-n","s1-sys-auth-failure-n",
+> +                       "s1-overtemp-n","s1-spi-auth-fail-n",
+> +       /*Y0-Y7*/       "","","","","","","","host0-special-boot",
+> +       /*Z0-Z7*/       "reset-button","ps0-pgood","ps1-pgood","","","","","";
+> +};
+> +
+> +&gpio1 {
+> +       gpio-line-names =
+> +       /*18A0-18A7*/   "","","","","","","","",
+> +       /*18B0-18B7*/   "","","","","","","s0-soc-pgood","",
+> +       /*18C0-18C7*/   "uart1-mode0","uart1-mode1","uart2-mode0","uart2-mode1",
+> +                       "uart3-mode0","uart3-mode1","uart4-mode0","uart4-mode1",
+> +       /*18D0-18D7*/   "","","","","","","","",
+> +       /*18E0-18E3*/   "","","","";
+> +};
+> --
+> 2.35.1
+>
