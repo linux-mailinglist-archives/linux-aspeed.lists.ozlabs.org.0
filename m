@@ -2,69 +2,71 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327CF59CC6E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Aug 2022 01:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CBF59CC6F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Aug 2022 01:46:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MBTX40lggz3bjX
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Aug 2022 09:46:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MBTX719Wwz3bpW
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Aug 2022 09:46:15 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-01 header.b=YbI+l9rX;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Bh9C60Ti;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com; envelope-from=i.kononenko@yadro.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=pkarthikeyan1509@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-01 header.b=YbI+l9rX;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Bh9C60Ti;
 	dkim-atps=neutral
-Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MB2gn262jz2xHW;
-	Mon, 22 Aug 2022 16:36:21 +1000 (AEST)
-Received: from localhost (unknown [127.0.0.1])
-	by mta-01.yadro.com (Postfix) with ESMTP id EB188412DF;
-	Mon, 22 Aug 2022 06:36:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
-	content-type:content-type:content-transfer-encoding:mime-version
-	:references:in-reply-to:x-mailer:message-id:date:date:subject
-	:subject:from:from:received:received:received:received; s=
-	mta-01; t=1661150176; x=1662964577; bh=whFlBZP+yR9KhM+S8ZHayWSEL
-	7ddcPPVJQw/8yS0LJI=; b=YbI+l9rX9Po/xOaXVC9iyJEYlSZgC/aGmRBuJuqPB
-	Z2bw7cakcrEEGhoJBSQBgBlFs+j67Km5QodOqneIhhE7AiNsxRPG+GnNIr6WPk6E
-	Btxg9Il+Ynt2lg/tTbICV7lHjcWn9mCwU6ljo1oLUimNRH0HYnvYN5KWFqjd18zt
-	1c=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
-	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NcYq-AMldSeq; Mon, 22 Aug 2022 09:36:16 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com [172.17.10.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-01.yadro.com (Postfix) with ESMTPS id 1F9A9412DB;
-	Mon, 22 Aug 2022 09:36:15 +0300 (MSK)
-Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
- T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Mon, 22 Aug 2022 09:36:15 +0300
-Received: from ik-yadro.yadro.com (10.178.113.33) by T-EXCH-08.corp.yadro.com
- (172.17.11.58) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Mon, 22 Aug
- 2022 09:36:10 +0300
-From: Igor Kononenko <i.kononenko@yadro.com>
-To: Corey Minyard <minyard@acm.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>
-Subject: [PATCH v2 1/3] ipmi:kcs_bmc: Add cleanup regmap(interrupt-regs) on a shutdown.
-Date: Mon, 22 Aug 2022 09:35:57 +0300
-Message-ID: <ad3cd046c4dcb9169aaff6c0b739b23d0a06014d.1661149313.git.i.kononenko@yadro.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <fb81dda34f9db0b9f743b247a2464576dcccd7c9.1661094034.git.i.kononenko@yadro.com>
-References: <fb81dda34f9db0b9f743b247a2464576dcccd7c9.1661094034.git.i.kononenko@yadro.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MB3Ff4lZMz305d;
+	Mon, 22 Aug 2022 17:02:12 +1000 (AEST)
+Received: by mail-pf1-x42c.google.com with SMTP id w29so3904872pfj.3;
+        Mon, 22 Aug 2022 00:02:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:to
+         :from:date:from:to:cc;
+        bh=9hTAXsgJD7aCEY0rX6FQ88fQXTYtB+TZMr3M3hDpDQs=;
+        b=Bh9C60Tipnjy4vQntS579AMJ7qus7uhE7WRdika4d6MXyFhZsyhzIMsO4lkmHxDzQN
+         0EkhLYKwgtviqmo57z6FZv2v2Gip37RKn5hu+S3cDn1D+ZLDBjBs0hHjab9cKCE7WbNI
+         txbd5VNcZdAIbJU9ZaOOwlPJ89Gt2H0Yuy4jYm8F8IDvWn9PHEvI7+/zcAFXRPhCZqGL
+         B4C7WWtJwVPVnkHVMTnWcDGsk9SVTODBniCD0XknithZjZfCf9RCIJ2CdAioGR2EEQsB
+         1cUgkFFSZLRLDiTayq1eoQlDZpGfzSbSlR31bfo6w4KOk+rzypufZFF4f01IX12PB94v
+         fSvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:to
+         :from:date:x-gm-message-state:from:to:cc;
+        bh=9hTAXsgJD7aCEY0rX6FQ88fQXTYtB+TZMr3M3hDpDQs=;
+        b=pE/oZctq9WRTT0DM+e8KwKvmGGYqK4BnIMKcHv3vXdYXxZYcL60vPLbOPxS35pZ9UW
+         h88ADaMhP5qVOrM4tHY0/+sFs/hta0Nrq+axlrpyYPaEXrv8Jg4QXppli2ELZ9wvpuLk
+         Eo62VuNcKN5nQLbuXFvfpLka1Fu6bsMMASPuqdWfsRT6UB42oeMnmiPXs3fA4HsMygFt
+         0gO/UhFhOfNF21TVT1e4hCtiAoLCmL2RU3+sXs8aIk2VeKDa/MPI3Gp+fR621iLPiRYD
+         sE0tijq3QLWPOGztdk5920f7yK7C5uGVNmlcnx8lIzhhCXPLT7fW4OZvUP0l0RENtDjC
+         ymTA==
+X-Gm-Message-State: ACgBeo2QvqTPKKp/rwzvQICAJ6RqEbF03/ZRQ92bxDGnEif0jPoiUeZK
+	nM9msAUA0tpTEHXGeeQtGJ8=
+X-Google-Smtp-Source: AA6agR7U3qFwf7orYVDL/jYnFH1t9Vxflu/2FRsdQF9Y1so78REeNwwZ0D5NjlnvNiAYID8EU666iw==
+X-Received: by 2002:a63:5f49:0:b0:41d:85a1:c4da with SMTP id t70-20020a635f49000000b0041d85a1c4damr15897132pgb.366.1661151729430;
+        Mon, 22 Aug 2022 00:02:09 -0700 (PDT)
+Received: from hcl-ThinkPad-T495 ([2401:4900:1ce3:34a6:18fb:c516:b109:2b8d])
+        by smtp.gmail.com with ESMTPSA id x128-20020a626386000000b00535ffd27552sm6098788pfb.51.2022.08.22.00.02.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 22 Aug 2022 00:02:09 -0700 (PDT)
+Date: Mon, 22 Aug 2022 12:32:04 +0530
+From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org
+Subject: [PATCH v1] ARM: dts: aspeed: Update for Facebook Yosemite V2 BMC
+Message-ID: <20220822070204.GA6110@hcl-ThinkPad-T495>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.178.113.33]
-X-ClientProxiedBy: T-EXCH-02.corp.yadro.com (172.17.10.102) To
- T-EXCH-08.corp.yadro.com (172.17.11.58)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Tue, 23 Aug 2022 09:40:20 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -77,47 +79,89 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Igor Kononenko <i.kononenko@yadro.com>, kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The previos v1 [PATCH 1/3] have error of getting `struct kcs_bmc_device` 
-pointer from `struct platform_device *`. Replaced to retriveing pointer by 
-`platform_get_drvdata()`
+This patch includes the following updates for Yosemite V2
+BMC.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Igor Kononenko <i.kononenko@yadro.com>
+1) Updated GPIO configuration for power control.
+2) Added IPMB-13 channel for Debug Card communication.
+3) Removed EEPROM driver IPMB-12 channel and keeping it as
+   "status ok".
+
+Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
 ---
- drivers/char/ipmi/kcs_bmc_aspeed.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../dts/aspeed-bmc-facebook-yosemitev2.dts    | 49 +++++++++++++++++--
+ 1 file changed, 44 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
-index cdc88cde1e9a..8437f3cfe3f4 100644
---- a/drivers/char/ipmi/kcs_bmc_aspeed.c
-+++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
-@@ -636,6 +636,14 @@ static int aspeed_kcs_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static void aspeed_kcs_shutdown(struct platform_device *pdev)
-+{
-+	struct aspeed_kcs_bmc *priv = platform_get_drvdata(pdev);
-+	struct kcs_bmc_device *kcs_bmc = &priv->kcs_bmc;
-+
-+	aspeed_kcs_irq_mask_update(kcs_bmc, (KCS_BMC_EVENT_TYPE_IBF), 0);
-+}
-+
- static const struct of_device_id ast_kcs_bmc_match[] = {
- 	{ .compatible = "aspeed,ast2400-kcs-bmc-v2" },
- 	{ .compatible = "aspeed,ast2500-kcs-bmc-v2" },
-@@ -651,6 +659,7 @@ static struct platform_driver ast_kcs_bmc_driver = {
- 	},
- 	.probe  = aspeed_kcs_probe,
- 	.remove = aspeed_kcs_remove,
-+	.shutdown = aspeed_kcs_shutdown,
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+index 8864e9c312a8..4d2ff7eb6740 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+@@ -119,6 +119,40 @@
+ 			&pinctrl_adc15_default>;
  };
- module_platform_driver(ast_kcs_bmc_driver);
+ 
++&gpio {
++	status = "okay";
++	gpio-line-names =
++	/*A0-A7*/   "","","","","","","","",
++	/*B0-B7*/   "","","","","","","","",
++	/*C0-C7*/   "","","","","","","","",
++	/*D0-D7*/   "POWER_BUTTON","POWER_OUT1","","POWER_OUT2","","POWER_OUT3","","POWER_OUT4",
++	/*E0-E7*/   "DEBUG_UART_SEL0","DEBUG_UART_SEL1","DEBUG_UART_SEL2","DEBUG_UART_RX_SEL_N","","","","",
++	/*F0-F7*/   "","","","","","","","",
++	/*G0-G7*/   "LED_POST_CODE_0","LED_POST_CODE_1","LED_POST_CODE_2","LED_POST_CODE_3","","","","",
++	/*H0-H7*/   "","","","","","","","",
++	/*I0-I7*/   "SLOT1_POWER_OK","SLOT2_POWER_OK","SLOT3_POWER_OK","SLOT4_POWER_OK","","","","",
++	/*J0-J7*/   "","","","","","","","",
++	/*K0-K7*/   "","","","","","","","",
++	/*L0-L7*/   "","","","","","","","",
++	/*M0-M7*/   "","","","","","","","",
++	/*N0-N7*/   "","","I2C_SLOT1","I2C_SLOT2","I2C_SLOT3","I2C_SLOT4","","",
++	/*O0-O7*/   "","","","SELECTOR_BUTTON","SLOT1_POWER","SLOT2_POWER","SLOT3_POWER","SLOT4_POWER",
++	/*P0-P7*/   "","","","","LED_POST_CODE_4","LED_POST_CODE_5","LED_POST_CODE_6","LED_POST_CODE_7",
++	/*Q0-Q7*/   "","","","","","","","",
++	/*R0-R7*/   "","","","GPIO_DBG_CARD_PRSNT","","","","",
++	/*S0-S7*/   "RESET_OUT1","RESET_OUT2","RESET_OUT3","RESET_OUT4","","","","",
++	/*T0-T7*/   "","","","","","","","",
++	/*U0-U7*/   "","","","","","","","",
++	/*V0-V7*/   "","","","","","","","",
++	/*W0-W7*/   "","","","","","","","",
++	/*X0-X7*/   "","","","","","","","",
++	/*Y0-Y7*/   "","","","","","","","",
++	/*Z0-Z7*/   "POST_COMPLETE","POST_COMPLETE2","POST_COMPLETE3","POST_COMPLETE4","","","","",
++	/*AA0-AA7*/ "","","","","HAND_SW1","HAND_SW2","HAND_SW3","HAND_SW4",
++	/*AB0-AB7*/ "RESET_BUTTON","","","","","","","",
++		/*AC0-AC7*/ "","","","","","","","";
++};
++
+ &i2c1 {
+ 	//Host1 IPMB bus
+ 	status = "okay";
+@@ -207,11 +241,16 @@
+ 
+ &i2c12 {
+ 	status = "okay";
+-	//MEZZ_FRU
+-	eeprom@51 {
+-		compatible = "atmel,24c64";
+-		reg = <0x51>;
+-		pagesize = <32>;
++};
++
++&i2c13 {
++	status = "okay";
++	// Debug Card
++	multi-master;
++	ipmb13@10 {
++		compatible = "ipmb-dev";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
+ 	};
+ };
  
 -- 
-2.25.1
+2.17.1
 
