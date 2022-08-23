@@ -2,65 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B13959D052
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Aug 2022 07:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E4F59D189
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Aug 2022 08:54:24 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MBcmH0b9cz3c1M
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Aug 2022 15:12:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MBg262Fv2z3c1Q
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Aug 2022 16:54:22 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=I2zMr1Fh;
+	dkim=pass (1024-bit key; unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-01 header.b=XKlk3hoa;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::a2c; helo=mail-vk1-xa2c.google.com; envelope-from=pkarthikeyan1509@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com; envelope-from=i.kononenko@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=I2zMr1Fh;
+	dkim=pass (1024-bit key; unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-01 header.b=XKlk3hoa;
 	dkim-atps=neutral
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MBcmC2G0lz2xrW;
-	Tue, 23 Aug 2022 15:12:09 +1000 (AEST)
-Received: by mail-vk1-xa2c.google.com with SMTP id w129so6609800vkg.10;
-        Mon, 22 Aug 2022 22:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=YdQGrWklXeVFiPKeSRXmiOvfeb1DgAPxXiyb46c4u8s=;
-        b=I2zMr1FhhdmIxBlEAjJ4ekgFxXSdSA1iBngCg8mVx80HpomyAqpEzJbs1xt660rJc9
-         X+qe/Wk+kWxzwChnvAYHc5f3JKXjso5cIYHopn2aUSE3AZmok1ACQ2VpKfABPmDYygtm
-         wNmSNqAkFYDJRYpFK87FDFZPQhMj/Wy2TerRrEM2FBkymPWfYrsuNAqFKGDXS5ry7hq5
-         QnwoBUa8NljlMRV6nS5exx78oYEJKCo60ND5lj1sNbqNraI2AzLB2prM7gHL/2ig16EN
-         HbXdiG1bub1TGtJYQhYv+kONGTLc5w/ZeBjIpYt/QJrtDBUg+KjVFKJY2Eb7Wg2FrgFo
-         fUdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=YdQGrWklXeVFiPKeSRXmiOvfeb1DgAPxXiyb46c4u8s=;
-        b=dyxE7JUSQ4586vDIGmi/x6DjYzMX/fkMWZrGdIPIKuwe/wNfRuTvjNGcdayJn2c+Ys
-         axGBThH0Zq8RPuUHeQATzZD12kjz+u2R4d4Ge9l9zrYs72uKDEzvtqfLVyS1d7dsubBY
-         PSzrNnKzNzOQLWvbMJ1Z6JCcRoE3YJNd4xLrmyNd9rmriim7DAoDgW8VwjXTdcmlnAu7
-         +wusTUf7GCOQA0aYV6KUXMmMhhT8n1N1WTbpsoQoxbeNakMC1mTmsWQpMJyL1r865PLp
-         vFMu8JLKkOvmzpJJAVxAUex8n01ESHfv4RsBWxPaupIao3YMEUQdXrfZ2updgNhg8nNG
-         PonQ==
-X-Gm-Message-State: ACgBeo3vgrUwngHlRpzeg2yCLlylerX9GFf8drLB1kOPLliHNTUSCQoj
-	dGVyyFdjf6AOwz0WllbKM9AKPkjTd4xz2VGT0SI=
-X-Google-Smtp-Source: AA6agR6QHq3PkZHIOacwq4gw06AgTKbuQEctDnd1xbKmiTEczR0By1wozDzk3LalUpUxvHriK4FnIqLKPscU4b4EvBs=
-X-Received: by 2002:ac5:cfe5:0:b0:38a:d2f5:55df with SMTP id
- m37-20020ac5cfe5000000b0038ad2f555dfmr5691669vkf.24.1661231523132; Mon, 22
- Aug 2022 22:12:03 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MBg1z0nySz2yn3;
+	Tue, 23 Aug 2022 16:54:14 +1000 (AEST)
+Received: from localhost (unknown [127.0.0.1])
+	by mta-01.yadro.com (Postfix) with ESMTP id E732242CB4;
+	Tue, 23 Aug 2022 06:54:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:references:content-language:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received
+	:received:received; s=mta-01; t=1661237647; x=1663052048; bh=H/K
+	SNmU1gDJ1bmxbU4cTWx1pQlXHm5JLGeYtsagr+sQ=; b=XKlk3hoaIcPlMKOxsso
+	D1fcqOHsYhMj6cf/iVFIjPZIefBSBUukHee33ulpY5Jl1aPn+httdmtkTtprsyCc
+	0C3SXbu4zfJcZBlsPvahLYxPvOcq4FnYR8EMYsvZtc1KKppkRHqI7P99h99QuzyF
+	BPncnYobFutCLsIykHBLUQzs=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TlkT9Z5kyEBb; Tue, 23 Aug 2022 09:54:07 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com [172.17.10.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-01.yadro.com (Postfix) with ESMTPS id C9C06429F7;
+	Tue, 23 Aug 2022 09:54:06 +0300 (MSK)
+Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Tue, 23 Aug 2022 09:54:06 +0300
+Received: from [10.178.113.33] (10.178.113.33) by T-EXCH-08.corp.yadro.com
+ (172.17.11.58) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Tue, 23 Aug
+ 2022 09:54:04 +0300
+Message-ID: <97ba69b1-1568-f749-1342-72f238fbd33b@yadro.com>
+Date: Tue, 23 Aug 2022 09:54:02 +0300
 MIME-Version: 1.0
-References: <20220822070204.GA6110@hcl-ThinkPad-T495> <CACPK8XfgYma8=qV0kKOKSSpXprC1sBZgKuaGsAhD1ifYG4KgTw@mail.gmail.com>
-In-Reply-To: <CACPK8XfgYma8=qV0kKOKSSpXprC1sBZgKuaGsAhD1ifYG4KgTw@mail.gmail.com>
-From: karthikeyan P <pkarthikeyan1509@gmail.com>
-Date: Tue, 23 Aug 2022 10:41:51 +0530
-Message-ID: <CA+ezb7hkFc9DYUT8JbK7aEOb31NmXfhQzL=3xg6YtjKhr98Edg@mail.gmail.com>
-Subject: Re: [PATCH v1] ARM: dts: aspeed: Update for Facebook Yosemite V2 BMC
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: multipart/alternative; boundary="000000000000d3788105e6e19a3a"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/3] ipmi:kcs_bmc: Add cleanup regmap(interrupt-regs)
+ on a shutdown.
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+References: <fb81dda34f9db0b9f743b247a2464576dcccd7c9.1661094034.git.i.kononenko@yadro.com>
+ <ad3cd046c4dcb9169aaff6c0b739b23d0a06014d.1661149313.git.i.kononenko@yadro.com>
+ <CACPK8Xfe+hPLXcgwWxZtb5H_WG8GRJ7pLfRXG3jupk8ANc7wgQ@mail.gmail.com>
+From: i.kononenko <i.kononenko@yadro.com>
+In-Reply-To: <CACPK8Xfe+hPLXcgwWxZtb5H_WG8GRJ7pLfRXG3jupk8ANc7wgQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.178.113.33]
+X-ClientProxiedBy: T-EXCH-02.corp.yadro.com (172.17.10.102) To
+ T-EXCH-08.corp.yadro.com (172.17.11.58)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,304 +80,97 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Corey Minyard <minyard@acm.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org, kernel test robot <lkp@intel.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---000000000000d3788105e6e19a3a
-Content-Type: text/plain; charset="UTF-8"
 
-Noted.
 
-On Tue, Aug 23, 2022 at 5:31 AM Joel Stanley <joel@jms.id.au> wrote:
+On 23.08.2022 03:22, Joel Stanley wrote:
+> «Внимание! Данное письмо от внешнего адресата!»
+> 
+> On Mon, 22 Aug 2022 at 06:36, Igor Kononenko <i.kononenko@yadro.com> wrote:
+>>
+>> The previos v1 [PATCH 1/3] have error of getting `struct kcs_bmc_device`
+>> pointer from `struct platform_device *`. Replaced to retriveing pointer by
+>> `platform_get_drvdata()`
+> 
+> Can we get a v3 with your original commit message added? You had a
+> good write up in v1 but it was dropped in v2.
+> 
 
-> On Mon, 22 Aug 2022 at 07:02, Karthikeyan Pasupathi
-> <pkarthikeyan1509@gmail.com> wrote:
-> >
-> > This patch includes the following updates for Yosemite V2
-> > BMC.
-> >
-> > 1) Updated GPIO configuration for power control.
->
-> Please take a look the openbmc naming conventions for the GPIOs. If
-> you are not going to follow them, please explain why in your commit
-> message.
->
->
-> > 2) Added IPMB-13 channel for Debug Card communication.
-> > 3) Removed EEPROM driver IPMB-12 channel and keeping it as
-> >    "status ok".
->
-> If you find yourself writing a commit log that contains 1), 2), 3)
-> then there's a fair chance you could have sent three separate patches.
-> Consider this for next time.
->
-> >
-> > Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-> > ---
-> >  .../dts/aspeed-bmc-facebook-yosemitev2.dts    | 49 +++++++++++++++++--
-> >  1 file changed, 44 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> > index 8864e9c312a8..4d2ff7eb6740 100644
-> > --- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> > +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> > @@ -119,6 +119,40 @@
-> >                         &pinctrl_adc15_default>;
-> >  };
-> >
-> > +&gpio {
-> > +       status = "okay";
-> > +       gpio-line-names =
-> > +       /*A0-A7*/   "","","","","","","","",
-> > +       /*B0-B7*/   "","","","","","","","",
-> > +       /*C0-C7*/   "","","","","","","","",
-> > +       /*D0-D7*/
->  "POWER_BUTTON","POWER_OUT1","","POWER_OUT2","","POWER_OUT3","","POWER_OUT4",
-> > +       /*E0-E7*/
->  "DEBUG_UART_SEL0","DEBUG_UART_SEL1","DEBUG_UART_SEL2","DEBUG_UART_RX_SEL_N","","","","",
-> > +       /*F0-F7*/   "","","","","","","","",
-> > +       /*G0-G7*/
->  "LED_POST_CODE_0","LED_POST_CODE_1","LED_POST_CODE_2","LED_POST_CODE_3","","","","",
-> > +       /*H0-H7*/   "","","","","","","","",
-> > +       /*I0-I7*/
->  "SLOT1_POWER_OK","SLOT2_POWER_OK","SLOT3_POWER_OK","SLOT4_POWER_OK","","","","",
-> > +       /*J0-J7*/   "","","","","","","","",
-> > +       /*K0-K7*/   "","","","","","","","",
-> > +       /*L0-L7*/   "","","","","","","","",
-> > +       /*M0-M7*/   "","","","","","","","",
-> > +       /*N0-N7*/
->  "","","I2C_SLOT1","I2C_SLOT2","I2C_SLOT3","I2C_SLOT4","","",
-> > +       /*O0-O7*/
->  "","","","SELECTOR_BUTTON","SLOT1_POWER","SLOT2_POWER","SLOT3_POWER","SLOT4_POWER",
-> > +       /*P0-P7*/
->  "","","","","LED_POST_CODE_4","LED_POST_CODE_5","LED_POST_CODE_6","LED_POST_CODE_7",
-> > +       /*Q0-Q7*/   "","","","","","","","",
-> > +       /*R0-R7*/   "","","","GPIO_DBG_CARD_PRSNT","","","","",
-> > +       /*S0-S7*/
->  "RESET_OUT1","RESET_OUT2","RESET_OUT3","RESET_OUT4","","","","",
-> > +       /*T0-T7*/   "","","","","","","","",
-> > +       /*U0-U7*/   "","","","","","","","",
-> > +       /*V0-V7*/   "","","","","","","","",
-> > +       /*W0-W7*/   "","","","","","","","",
-> > +       /*X0-X7*/   "","","","","","","","",
-> > +       /*Y0-Y7*/   "","","","","","","","",
-> > +       /*Z0-Z7*/
->  "POST_COMPLETE","POST_COMPLETE2","POST_COMPLETE3","POST_COMPLETE4","","","","",
-> > +       /*AA0-AA7*/
-> "","","","","HAND_SW1","HAND_SW2","HAND_SW3","HAND_SW4",
-> > +       /*AB0-AB7*/ "RESET_BUTTON","","","","","","","",
-> > +               /*AC0-AC7*/ "","","","","","","","";
-> > +};
-> > +
-> >  &i2c1 {
-> >         //Host1 IPMB bus
-> >         status = "okay";
-> > @@ -207,11 +241,16 @@
-> >
-> >  &i2c12 {
-> >         status = "okay";
-> > -       //MEZZ_FRU
-> > -       eeprom@51 {
-> > -               compatible = "atmel,24c64";
-> > -               reg = <0x51>;
-> > -               pagesize = <32>;
-> > +};
-> > +
-> > +&i2c13 {
-> > +       status = "okay";
-> > +       // Debug Card
-> > +       multi-master;
-> > +       ipmb13@10 {
-> > +               compatible = "ipmb-dev";
-> > +               reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> > +               i2c-protocol;
-> >         };
-> >  };
-> >
-> > --
-> > 2.17.1
-> >
->
+Thanks for the review.
+Ok, I'll include the origin commit message to a v3. 
 
---000000000000d3788105e6e19a3a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> This change looks like the right thing to do. We should get Andrew to
+> review too, as he spends more time with the KCS controllers.
+> 
+> The missed irq issue was seen with the other LPC sub drivers because
+> the clock wasn't enabled. We ended up with this patch:
+> 
+> https://lore.kernel.org/all/20201208091748.1920-1-wangzhiqiang.bj@bytedance.com/
+>> Do we need to do something similar for KCS?
 
-<div dir=3D"ltr">Noted. <br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, Aug 23, 2022 at 5:31 AM Joel Stanley =
-&lt;<a href=3D"mailto:joel@jms.id.au">joel@jms.id.au</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, 22 Aug 2022 at =
-07:02, Karthikeyan Pasupathi<br>
-&lt;<a href=3D"mailto:pkarthikeyan1509@gmail.com" target=3D"_blank">pkarthi=
-keyan1509@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This patch includes the following updates for Yosemite V2<br>
-&gt; BMC.<br>
-&gt;<br>
-&gt; 1) Updated GPIO configuration for power control.<br>
-<br>
-Please take a look the openbmc naming conventions for the GPIOs. If<br>
-you are not going to follow them, please explain why in your commit<br>
-message.<br>
-<br>
-<br>
-&gt; 2) Added IPMB-13 channel for Debug Card communication.<br>
-&gt; 3) Removed EEPROM driver IPMB-12 channel and keeping it as<br>
-&gt;=C2=A0 =C2=A0 &quot;status ok&quot;.<br>
-<br>
-If you find yourself writing a commit log that contains 1), 2), 3)<br>
-then there&#39;s a fair chance you could have sent three separate patches.<=
-br>
-Consider this for next time.<br>
-<br>
-&gt;<br>
-&gt; Signed-off-by: Karthikeyan Pasupathi &lt;<a href=3D"mailto:pkarthikeya=
-n1509@gmail.com" target=3D"_blank">pkarthikeyan1509@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../dts/aspeed-bmc-facebook-yosemitev2.dts=C2=A0 =C2=A0 | 49 +++=
-++++++++++++++--<br>
-&gt;=C2=A0 1 file changed, 44 insertions(+), 5 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/ar=
-ch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts<br>
-&gt; index 8864e9c312a8..4d2ff7eb6740 100644<br>
-&gt; --- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts<br>
-&gt; +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts<br>
-&gt; @@ -119,6 +119,40 @@<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0&amp;pinctrl_adc15_default&gt;;<br>
-&gt;=C2=A0 };<br>
-&gt;<br>
-&gt; +&amp;gpio {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0gpio-line-names =3D<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*A0-A7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*B0-B7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*C0-C7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*D0-D7*/=C2=A0 =C2=A0&quot;POWER_BUTTON&q=
-uot;,&quot;POWER_OUT1&quot;,&quot;&quot;,&quot;POWER_OUT2&quot;,&quot;&quot=
-;,&quot;POWER_OUT3&quot;,&quot;&quot;,&quot;POWER_OUT4&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*E0-E7*/=C2=A0 =C2=A0&quot;DEBUG_UART_SEL=
-0&quot;,&quot;DEBUG_UART_SEL1&quot;,&quot;DEBUG_UART_SEL2&quot;,&quot;DEBUG=
-_UART_RX_SEL_N&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*F0-F7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*G0-G7*/=C2=A0 =C2=A0&quot;LED_POST_CODE_=
-0&quot;,&quot;LED_POST_CODE_1&quot;,&quot;LED_POST_CODE_2&quot;,&quot;LED_P=
-OST_CODE_3&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*H0-H7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*I0-I7*/=C2=A0 =C2=A0&quot;SLOT1_POWER_OK=
-&quot;,&quot;SLOT2_POWER_OK&quot;,&quot;SLOT3_POWER_OK&quot;,&quot;SLOT4_PO=
-WER_OK&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*J0-J7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*K0-K7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*L0-L7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*M0-M7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*N0-N7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;I2C_SLOT1&quot;,&quot;I2C_SLOT2&quot;,&quot;I2C_SLOT3&quot;,&qu=
-ot;I2C_SLOT4&quot;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*O0-O7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;SELECTOR_BUTTON&quot;,&quot;SLOT1_POWER&quot;,&quo=
-t;SLOT2_POWER&quot;,&quot;SLOT3_POWER&quot;,&quot;SLOT4_POWER&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*P0-P7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;LED_POST_CODE_4&quot;,&quot;LED_POST_=
-CODE_5&quot;,&quot;LED_POST_CODE_6&quot;,&quot;LED_POST_CODE_7&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*Q0-Q7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*R0-R7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;GPIO_DBG_CARD_PRSNT&quot;,&quot;&quot;,&quot;&quot=
-;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*S0-S7*/=C2=A0 =C2=A0&quot;RESET_OUT1&quo=
-t;,&quot;RESET_OUT2&quot;,&quot;RESET_OUT3&quot;,&quot;RESET_OUT4&quot;,&qu=
-ot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*T0-T7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*U0-U7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*V0-V7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*W0-W7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*X0-X7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*Y0-Y7*/=C2=A0 =C2=A0&quot;&quot;,&quot;&=
-quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*Z0-Z7*/=C2=A0 =C2=A0&quot;POST_COMPLETE&=
-quot;,&quot;POST_COMPLETE2&quot;,&quot;POST_COMPLETE3&quot;,&quot;POST_COMP=
-LETE4&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*AA0-AA7*/ &quot;&quot;,&quot;&quot;,&quo=
-t;&quot;,&quot;&quot;,&quot;HAND_SW1&quot;,&quot;HAND_SW2&quot;,&quot;HAND_=
-SW3&quot;,&quot;HAND_SW4&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*AB0-AB7*/ &quot;RESET_BUTTON&quot;,&quot=
-;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&q=
-uot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*AC0-AC7*/ &q=
-uot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;=
-,&quot;&quot;,&quot;&quot;;<br>
-&gt; +};<br>
-&gt; +<br>
-&gt;=C2=A0 &amp;i2c1 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0//Host1 IPMB bus<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
-&gt; @@ -207,11 +241,16 @@<br>
-&gt;<br>
-&gt;=C2=A0 &amp;i2c12 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0//MEZZ_FRU<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0eeprom@51 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0compatible =3D=
- &quot;atmel,24c64&quot;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reg =3D &lt;0x=
-51&gt;;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pagesize =3D &=
-lt;32&gt;;<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +&amp;i2c13 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// Debug Card<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0multi-master;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0ipmb13@10 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0compatible =3D=
- &quot;ipmb-dev&quot;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reg =3D &lt;(0=
-x10 | I2C_OWN_SLAVE_ADDRESS)&gt;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i2c-protocol;<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0};<br>
-&gt;=C2=A0 };<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.17.1<br>
-&gt;<br>
-</blockquote></div>
+As far as I see by the LPC 'nobody cared irq' issue there had the feature of 
+enabling LCLK individually earlier, there is patch about:
 
---000000000000d3788105e6e19a3a--
+https://lore.kernel.org/all/20211101233751.49222-5-jae.hyun.yoo@intel.com/
+
+Originally I found the bug on the linux-dev.v5.4 that includes the 'LCLK individually
+enabling' feature.
+
+It seems to me the issue is that lpc-snoop and the lpc-kcs has same IRQ#35 that is used
+in separated drivers(by the IRQF_SHARED flag).
+The IRQ handler determinate request purpose(for kcs or snoop) by LPC interrupt registers
+state, and if such interrupt is not for any one of them, the irq-handler passthrough 
+request to a next handler by returning `IRQ_NONE`.
+
+So, even if lpc-kcs will be having adjusted own individual LCLK, that is doesn't solve 
+issue, because when lpc-snoop will had configured irq-handler the irq-manager will know 
+that for IRQ#35 already registered a good handler, but such handler will skip all requests
+by `IRQ_NONE` because such irqs are intended for lpc-kcs. I guess that is the point of bug.
+
+
+> 
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Igor Kononenko <i.kononenko@yadro.com>
+>> ---
+>>  drivers/char/ipmi/kcs_bmc_aspeed.c | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
+>> index cdc88cde1e9a..8437f3cfe3f4 100644
+>> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
+>> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
+>> @@ -636,6 +636,14 @@ static int aspeed_kcs_remove(struct platform_device *pdev)
+>>         return 0;
+>>  }
+>>
+>> +static void aspeed_kcs_shutdown(struct platform_device *pdev)
+>> +{
+>> +       struct aspeed_kcs_bmc *priv = platform_get_drvdata(pdev);
+>> +       struct kcs_bmc_device *kcs_bmc = &priv->kcs_bmc;
+>> +
+>> +       aspeed_kcs_irq_mask_update(kcs_bmc, (KCS_BMC_EVENT_TYPE_IBF), 0);
+>> +}
+>> +
+>>  static const struct of_device_id ast_kcs_bmc_match[] = {
+>>         { .compatible = "aspeed,ast2400-kcs-bmc-v2" },
+>>         { .compatible = "aspeed,ast2500-kcs-bmc-v2" },
+>> @@ -651,6 +659,7 @@ static struct platform_driver ast_kcs_bmc_driver = {
+>>         },
+>>         .probe  = aspeed_kcs_probe,
+>>         .remove = aspeed_kcs_remove,
+>> +       .shutdown = aspeed_kcs_shutdown,
+>>  };
+>>  module_platform_driver(ast_kcs_bmc_driver);
+>>
+>> --
+>> 2.25.1
+>>
+
+-- 
+Best regards,
+
+Igor Kononenko
