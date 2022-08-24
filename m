@@ -1,119 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9405A058B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Aug 2022 03:12:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 229355A058C
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Aug 2022 03:12:50 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MClLy1ncbz3bmc
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Aug 2022 11:12:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MClM20DrTz3bf5
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Aug 2022 11:12:46 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=0WZpqwUh;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=ammrl+ff;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=40.107.255.42; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=bonnie_lo@wiwynn.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::112b; helo=mail-yw1-x112b.google.com; envelope-from=saravanak@google.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=0WZpqwUh;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=ammrl+ff;
 	dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2042.outbound.protection.outlook.com [40.107.255.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MC6hj5khPz3035;
-	Wed, 24 Aug 2022 10:40:52 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F3HhlGOcX5qLBCciKnnlasPOiUr1jwCr18DFvcOrs5TzGCYQEN2Y4eBVrNksSSYRr9KeTUah8eI5IAD7Eloranr09ZXL0PS8x76Ys82VXxhpRjVBe+irbqvgzxsMQbgQliEQnuz1v6XRM9D6G+2ZPlIqRqcHIEBee1diVuL6+5Rz1gkQ5SgNMzdO8EwDZl6kXAbvr6IdfZLKkrt3mPWz1Jnrbisf/e2D6fWCA0HE7nlYqY2nuwAGRI2eUIQdDNHHY7F9ub2FsjpGVSyhELkSO4BcLIPxN0UBaxwh8po0QMNBZv3v60mJM/JiXGhtZDvQ2GWR/+Nb3pr4xAnS+ighIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FrPgOC5iILR8HfePoQYsiofgFo2vc7oXlvh1k69H3CA=;
- b=G9YSYy7+7saXRsUh140n89l9Fa49UszQdh7AOYRCMHtznJUoksSJ/CaFlwCpjEf/hrOMP5aGCjDu7VUgk31iiP9j0LqHTL6zCiYTwuarZ6bN1xGssqcOVtSBIeBAdbXoQYo4+ltbPkCcwBrdi1V1SezLIcHI61Mfmk9bP1oj023qwd4WVSAdP6nc1HEx+SAmRfL+wjPCiVlqCIL2G4+oQmAaK3+2+0GoubsS/zX5zeTk2LWXoWdVYgpqBzMAiYV6BIcgg7u9V2j5nIjtNi5rXqrA/1P0Oid8/TZ73QTeJUl3fhgNfw6Wz1xCc3zMd1X9MmJLA1X9asVCnTUSFwWJQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wiwynn.com; dmarc=pass action=none header.from=wiwynn.com;
- dkim=pass header.d=wiwynn.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FrPgOC5iILR8HfePoQYsiofgFo2vc7oXlvh1k69H3CA=;
- b=0WZpqwUhHHyx1cwNi74PRfSpAoFpAHa5aiWPS6O9SbQ1fOb49kSbVoykw2aAcyq5MeA7vjXRl7FZEpsfAiC4kFDhJUZb+u1/wFLAKVL1Y9AIOZbDgsGcUFMwokqQXfZawmbmHDWhPRh1cI4E3Naa4PlbtuotJLgGIbZQAdD7+ovlFQ2BPsLxU+aAvEh7U/WFyh7Y4izVxuQpS7+KepgXdEu1yH5FObwIot+08ikqH6S8RR8C53MuOwvhJsj9L+ntK6OOBvQYbAXFVY1rtMjVJP5yNU1eavAGjYciBnikvpsBkp8nuy9iFRF2nM/9kjH0cgNs5WlXjX5k/9syzaO17g==
-Received: from HK0PR04MB3105.apcprd04.prod.outlook.com (2603:1096:203:8e::20)
- by PUZPR04MB6464.apcprd04.prod.outlook.com (2603:1096:301:f8::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Wed, 24 Aug
- 2022 00:40:32 +0000
-Received: from HK0PR04MB3105.apcprd04.prod.outlook.com
- ([fe80::d87:1955:b41f:4b13]) by HK0PR04MB3105.apcprd04.prod.outlook.com
- ([fe80::d87:1955:b41f:4b13%4]) with mapi id 15.20.5546.024; Wed, 24 Aug 2022
- 00:40:32 +0000
-From: Bonnie Lo/WYHQ/Wiwynn <Bonnie_Lo@wiwynn.com>
-To: Guenter Roeck <linux@roeck-us.net>, Chin-Ting Kuo
-	<chin-ting_kuo@aspeedtech.com>
-Subject: RE: [PATCH] watchdog: aspeed_wdt: Reorder output signal register
- configuration
-Thread-Topic: [PATCH] watchdog: aspeed_wdt: Reorder output signal register
- configuration
-Thread-Index: AQHYs7D0uN4boim1rEaXFKnwiugQQq22GsqAgAcg3zA=
-Date: Wed, 24 Aug 2022 00:40:32 +0000
-Message-ID:  <HK0PR04MB310516FD4FE71B22690F4224F8739@HK0PR04MB3105.apcprd04.prod.outlook.com>
-References: <20220819094905.1962513-1-chin-ting_kuo@aspeedtech.com>
- <20220819114449.GF3106213@roeck-us.net>
-In-Reply-To: <20220819114449.GF3106213@roeck-us.net>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wiwynn.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 24b995a1-80ea-4460-7ce5-08da85694094
-x-ms-traffictypediagnostic: PUZPR04MB6464:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  TrX5uUOC5o7JmDN0/hhEj48zEQhOLP/vx6pdCi4G6esnQqZjYkqjGJ4prnoyqrDmPYiF267uQhYWuMaPCmDmwYwBPu06Rlssg6lB/XNM4MbgP2suKeS4RCqhu8BJmMu7UkF5OhAg4NKI1iHcTIuKHVKV6bb2NWrM5wF2MgOWBdrFD/g8B1MJ3lSLqyEXZD7oSsyP2rYoHo66Ust0M/RLi+HLTFyHzGZH/PWl7IdN8XK2EZrxE2yPlO8XQNloxvz3yJ/p9ht46d39OmUc54itLbkwrUkyTvXzbIWtmoXK8W9sqMGtz7HVcoGiCz6f5N5b2WfBwUN9NKJ6DYxN6GaPOzeJSUjGwtkJSvebcM0HRAouE15comdm8IOqHBT+wxuN3m0C4+J7HUqHFSjBQQY78ULtgq1LSfgjWPAZfH00O2X4SGgFCDqyqugVmFfURWaHCwdrmRh3T3Izn/5pYH7fsBAWIGBWq4/hfsUSlSbZZ2StQXw7jfQ19+UGiPMRRj/lJ/vRnTUd7673MAcnEI/uvNPEc1B1jnGPkxqQegwE4LuwkzJAV4+1RIrYj6lNyRGRge4rxaANBnJnxBGazltIadxY6ELAU9wTfMRF2rKFP+ffHnLUNKH9OXSpOHDaqexl0aYHcAuZgo9X7fsCoN0ptGH/XqSQ+yM0RpFIacW99+pEtSF3QIajfoQJaE6KUAuZRP2Y789sOOS2oIwT1swvKc0u1VH/XfSzjk17uKUWUZ13Ws6iBoyP76B/vqno6TS2jn/9oQe6utJ53mKqeQFZCw==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR04MB3105.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(396003)(376002)(366004)(39860400002)(136003)(64756008)(66556008)(66476007)(66446008)(76116006)(66946007)(122000001)(110136005)(8676002)(4326008)(86362001)(38100700002)(33656002)(38070700005)(26005)(186003)(9686003)(83380400001)(53546011)(71200400001)(7696005)(6506007)(478600001)(41300700001)(5660300002)(316002)(54906003)(55016003)(7416002)(2906002)(52536014)(8936002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?Arv4Osxds0YZpYIdgFs4LHckhRheCd7qTSa1L5ws4MDxvpWnhWZy/TkYyj2A?=
- =?us-ascii?Q?e/QGkffT5M4sybINUWBRDgOXjKfAq2kFGvsW91RnVv9TwVvviYbS1jjDbdxn?=
- =?us-ascii?Q?YeKbGnvSitaHsF+tTeMYFsgU1IFB1tHOcOvuvaqiu4xU4LtTydKWonuc+qLK?=
- =?us-ascii?Q?ORmTf4xV4I7fQ4XLnckxTmboXkki4rdL91y/igXttA8XgG0IUJ9agd1wtSp9?=
- =?us-ascii?Q?3LzGK98Ga/yuTMlzdmtoHpYEEdF8SSN0Lzsv4LlMcKHUT69erGb+I7A+arwX?=
- =?us-ascii?Q?arbnspxoH5W8KZgWzMG2UB6kycUeY5Vzq0lzcXhSF+bYusEHTzZIys/rAKNG?=
- =?us-ascii?Q?5waxEn6vgFUKIdnfR9EGjK0S0tKWYfVt09BlIxvOrWVyc/dwjaWS5Txisnqt?=
- =?us-ascii?Q?cI+nzatD168J8mp4JLyRtqaTYi9WW6BPk8m2Jevu3/boTkvOIyijJQn+eKyy?=
- =?us-ascii?Q?Jq3O+MxpGfZzlCBeS722TjJXlMDisbEp17ysKNhIavb5uynUMDABEc/VLwzB?=
- =?us-ascii?Q?C9kcQcrik4Q4l8aJZbqn5t9Sv6bS65vYK5giCkAdq6egfucJatd3gWN5fHrN?=
- =?us-ascii?Q?9IbsiOIXu6kNohj9OXOvoViQTZTHKhh0zWvhhPWibYbcl4o9baPRafh5j4O7?=
- =?us-ascii?Q?zaBAF8z75R1U6erVudonnrKEKl/QSCiK1DTX8AikcN6stJrSXKZJzo38kMDT?=
- =?us-ascii?Q?Hpx+Xd+xA1Fj9+HSle0szU+VPz/InX7mFgEd4G5RS/pS6C+HJ5QgjEjtOcgy?=
- =?us-ascii?Q?WFrst7WdAhOOKAprgPFqZX1+9rd5LYPBJIpBp8CNNVs3vjhkP1xhnoA3ql8j?=
- =?us-ascii?Q?GJFNPrWvVlRdTZVe+1RhAbSSXl4aIj9tVvgM/YhpOoZp5ZdHZ+r3AyNH1zLu?=
- =?us-ascii?Q?21OBtcBiZUMNwzMhapk5nmBu3LrUrxTKGQI97KssQ0ySD+iVmApTIR5xSb93?=
- =?us-ascii?Q?6HtE2EFL1p6xpvgwH7OzGSzPhfz/3dZtvnS+2tUNacAAUPteUYN4zMJ7/9er?=
- =?us-ascii?Q?Vyco+xt8lUo9nfZt6m4GqEqgVxJ7SsXBDkA/3b0DWREXjpAMK2XzNSX52B4b?=
- =?us-ascii?Q?nv7v8gIAgHRZBX/Ubzu+lBpCybE9ZSN1ATH51CjPkxXuVvdXg7o6E/xi2jzB?=
- =?us-ascii?Q?QquM7OOifDeBpY7+AFuVtfYI8+HtoWY7SANvIWV2+jWYM20+ciyYq7nNtSCf?=
- =?us-ascii?Q?0jk7o/8Ls23XSxAB2448cqEKnahN2Lx8IFbcGoh6ms+0O3D19WDssRSQ1OvS?=
- =?us-ascii?Q?m+GSR5E1076lmlTgFvivqYoaN/Wd/AX2avYwPD652KvkAlY+eBicaR4C5qwN?=
- =?us-ascii?Q?/j1fExhO4BgAa+WnFgjPtIAwvdrMzsPSksJyK/pxYc1JNkzcH9V/MdZ/iSlE?=
- =?us-ascii?Q?TIsnCnvmBPHPZmGFIXhLq0QjRBVSn6Tx2xnyPUAR2/70M0qRX3dhfQDd/ys1?=
- =?us-ascii?Q?X2s1Cu4F3b0SoAQXQFzNihxkw0Rtoga/hZ0NSJNsAtUq119owQ3ysItxL4vN?=
- =?us-ascii?Q?Bwz7VN/y4HLN3u11EY6L8RsWtglOxFyzJU+7ZYnHlInOtgD4pv2HlYubR0gS?=
- =?us-ascii?Q?CwneqaezpFJid4zFoO5XvvQvLAN4KKHW0OZSGS6i?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MC7sn6Bvrz2yHc
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Aug 2022 11:33:48 +1000 (AEST)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-31f445bd486so424065447b3.13
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 23 Aug 2022 18:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=15+zFGICN73u7PZkuVftuGFAaRqO2hNiuUPbcuB/iDw=;
+        b=ammrl+ffQIbxpXELKnFxaurs3Fbe2bx9R/IRI2+J5pQAM/wfjFh1aSFzyWG/E1RD5I
+         rshOZlmvK+Bt4a2MNbUFbSpkCeSrrxRT3zaVTQqLRUMz4elzDZb4CyvIvtQzq4jGwi+1
+         HBILJXTenmBL8ezDV/XzSltMyRVW8N5pGLVc6ZMhlIDEvl+mrwxpUc5n+db5z5Pfve4k
+         jWbqAzYB3Hyg5oa2ZHgXfW73ElDNxOwcp7mMt28pojnFNBEyD2+0HttoLOb68bdPn3gz
+         h+F5uqyOw5Q9oI+0N52Nr3XEpZ0TzyQMzlW05rWkdP3Hj3nW89n+8r+x6EjcJTcjYaCu
+         dSgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=15+zFGICN73u7PZkuVftuGFAaRqO2hNiuUPbcuB/iDw=;
+        b=CSSb/YrKxVxsqhmT0jTzV3hvnIIfxCLS57ls4cWqKZP0+LaXBdCiCZfxFkcMsBNZ7K
+         CvsKZZvegQ1lj13raII+feAYYwHO9k5GbBwfAALg4hZM6Zgpax7kJCJV1jwffrBcF9s8
+         5o+i/HuAEM2rwWreUPVjuQYodOz9Ou/C0H1Zk3Ycxfudti6JbhWa+hSk654Jbg1mxMd2
+         XNDEEUmYnLuGFCH6yZ+zDYhKyRAZ91+6ZWzKnSA2lmUeh1tUuqtmV7TIIZjLcJVFoyoQ
+         wYktK3b2pLPsQ3j6SjxJmQzs1L6c8l26t+iKItEgBgDDFZrqL0W+PBkklGjjJGVhblAU
+         iYWA==
+X-Gm-Message-State: ACgBeo2lwETJvl4847Su8i//PzKtuRUR0J1XbChs5j5beFYvCty+b/xq
+	gWP2vHCSB/QERjlGBq+Gzn3UlMwyPFb3ZZqEMD2NaA==
+X-Google-Smtp-Source: AA6agR5VUVZnLczkpHKFOKrnd+Tscg/SlOlcCZoOHfOkTvdY9LhPO1gaSJJ+tW/v5A56NSwT8mnZVrMApq5J4jdaQcY=
+X-Received: by 2002:a25:1546:0:b0:68f:8758:7348 with SMTP id
+ 67-20020a251546000000b0068f87587348mr24825887ybv.563.1661304824786; Tue, 23
+ Aug 2022 18:33:44 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3105.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24b995a1-80ea-4460-7ce5-08da85694094
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2022 00:40:32.7723
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: toiqR3hFecHK0I020c9RC62Y8uee858TGxUTKkX3Wy7gBA7bVp8M8pLUpCSX17PCRXHFBBBHWk12PCId67E7rQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR04MB6464
+References: <20220701012647.2007122-1-saravanak@google.com> <YwS5J3effuHQJRZ5@kroah.com>
+In-Reply-To: <YwS5J3effuHQJRZ5@kroah.com>
+From: Saravana Kannan <saravanak@google.com>
+Date: Tue, 23 Aug 2022 18:33:07 -0700
+Message-ID: <CAGETcx8C_Hw588J_DsDELp2rS-UNnezpqqqvUixqGR7m2wDKaA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Fix console probe delay when stdout-path isn't set
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Thu, 25 Aug 2022 11:11:47 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -126,79 +73,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "BMC-SW@aspeedtech.com" <BMC-SW@aspeedtech.com>, "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "wim@linux-watchdog.org" <wim@linux-watchdog.org>
+Cc: andrew lunn <andrew@lunn.ch>, peng fan <peng.fan@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>, linus walleij <linus.walleij@linaro.org>, Paul Mackerras <paulus@samba.org>, Alim Akhtar <alim.akhtar@samsung.com>, Peter Korsgaard <jacmet@sunsite.dk>, linux-stm32@st-md-mailman.stormreply.com, Karol Gugala <kgugala@antmicro.com>, Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <michal.simek@xilinx.com>, Hammer Hsieh <hammerh0314@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Vineet Gupta <vgupta@kernel.org>, len brown <len.brown@intel.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, linux-pm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, linux-unisoc@lists.infradead.org, Scott Branden <sbranden@broadcom.com>, linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Claudiu Beznea <claudiu.b
+ eznea@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, pavel machek <pavel@ucw.cz>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, eric dumazet <edumazet@google.com>, Thierry Reding <thierry.reding@gmail.com>, sascha hauer <sha@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Gabriel Somlo <gsomlo@gmail.com>, Tobias Klauser <tklauser@distanz.ch>, linux-mips@vger.kernel.org, kernel-team@android.com, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, Andreas Farber <afaerber@suse.de>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Pali Rohar <pali@kernel.org>, heiner kallweit <hkallweit1@gmail.com>, ulf hansson <ulf.hansson@linaro.org>, Neil Armstrong <narmstrong@baylibre.com
+ >, Lorenzo Pieralisi <lpieralisi@kernel.org>, Al Cooper <alcooperx@gmail.com>, linux-tegra@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>, Mateusz Holenko <mholenko@antmicro.com>, Alexander Shiyan <shc_work@mail.ru>, kevin hilman <khilman@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Orson Zhai <orsonzhai@gmail.com>, paolo abeni <pabeni@redhat.com>, Patrice Chotard <patrice.chotard@foss.st.com>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-snps-arc@lists.infradead.org, Timur Tabi <timur@kernel.org>, hideaki yoshifuji <yoshfuji@linux-ipv6.org>, iommu@lists.linux-foundation.org, Laxman Dewangan <ldewangan@nvidia.com>, Sudeep Holla <sudeep.holla@arm.com>, Baolin Wang <baolin.wang7@gmail.com>, Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>, Baruch Siach <baruch@tkos.co.il>, Liviu Dudau <
+ liviu.dudau@arm.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Paul Cercueil <paul@crapouillou.net>, sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org, joerg roedel <joro@8bytes.org>, Russell King <linux@armlinux.org.uk>, Andy Gross <agross@kernel.org>, linux-serial@vger.kernel.org, jakub kicinski <kuba@kernel.org>, will deacon <will@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, linux-mediatek@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>, Taichi Sugaya <sugaya.taichi@socionext.com>, netdev@vger.kernel.org, david ahern <dsahern@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, Takao Orito <orito.takao@socionext.com>, linuxppc-d
+ ev@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> -----Original Message-----
-> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
-> Sent: Friday, August 19, 2022 7:45 PM
-> To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> Cc: wim@linux-watchdog.org; joel@jms.id.au; andrew@aj.id.au;
-> BMC-SW@aspeedtech.com; linux-watchdog@vger.kernel.org;
-> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org;
-> openbmc@lists.ozlabs.org; Bonnie Lo/WYHQ/Wiwynn
-> <Bonnie_Lo@wiwynn.com>
-> Subject: Re: [PATCH] watchdog: aspeed_wdt: Reorder output signal register
-> configuration
+On Tue, Aug 23, 2022 at 4:25 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
->   Security Reminder: Please be aware that this email was sent by an
-> external sender.
->
-> On Fri, Aug 19, 2022 at 05:49:05PM +0800, Chin-Ting Kuo wrote:
-> > If the output driving type is push-pull mode, the output polarity
-> > should be selected in advance. Otherwise, an unexpected value will be
-> > output at the moment of changing to push-pull mode.
-> > Thus, output polarity, WDT18[31], must be configured before changing
-> > driving type, WDT18[30].
+> On Thu, Jun 30, 2022 at 06:26:38PM -0700, Saravana Kannan wrote:
+> > These patches are on top of driver-core-next.
 > >
-> > Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> > Even if stdout-path isn't set in DT, this patch should take console
+> > probe times back to how they were before the deferred_probe_timeout
+> > clean up series[1].
 >
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
->
+> Now dropped from my queue due to lack of a response to other reviewer's
+> questions.
 
-Tested-by: Bonnie Lo <Bonnie_Lo@wiwynn.com>
+Sorry, I somehow missed those emails. I'll respond later today/tomorrow.
 
-> > ---
-> >  drivers/watchdog/aspeed_wdt.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/watchdog/aspeed_wdt.c
-> > b/drivers/watchdog/aspeed_wdt.c index 436571b6fc79..a03e4ff812a2
-> > 100644
-> > --- a/drivers/watchdog/aspeed_wdt.c
-> > +++ b/drivers/watchdog/aspeed_wdt.c
-> > @@ -325,18 +325,18 @@ static int aspeed_wdt_probe(struct
-> platform_device *pdev)
-> >               u32 reg =3D readl(wdt->base + WDT_RESET_WIDTH);
-> >
-> >               reg &=3D config->ext_pulse_width_mask;
-> > -             if (of_property_read_bool(np, "aspeed,ext-push-pull"))
-> > -                     reg |=3D WDT_PUSH_PULL_MAGIC;
-> > +             if (of_property_read_bool(np, "aspeed,ext-active-high"))
-> > +                     reg |=3D WDT_ACTIVE_HIGH_MAGIC;
-> >               else
-> > -                     reg |=3D WDT_OPEN_DRAIN_MAGIC;
-> > +                     reg |=3D WDT_ACTIVE_LOW_MAGIC;
-> >
-> >               writel(reg, wdt->base + WDT_RESET_WIDTH);
-> >
-> >               reg &=3D config->ext_pulse_width_mask;
-> > -             if (of_property_read_bool(np, "aspeed,ext-active-high"))
-> > -                     reg |=3D WDT_ACTIVE_HIGH_MAGIC;
-> > +             if (of_property_read_bool(np, "aspeed,ext-push-pull"))
-> > +                     reg |=3D WDT_PUSH_PULL_MAGIC;
-> >               else
-> > -                     reg |=3D WDT_ACTIVE_LOW_MAGIC;
-> > +                     reg |=3D WDT_OPEN_DRAIN_MAGIC;
-> >
-> >               writel(reg, wdt->base + WDT_RESET_WIDTH);
-> >       }
-> > --
-> > 2.25.1
-> >
-WIWYNN PROPRIETARY This email (and any attachments) contains proprietary or=
- confidential information and is for the sole use of its intended recipient=
-. Any unauthorized review, use, copying or distribution of this email or th=
-e content of this email is strictly prohibited. If you are not the intended=
- recipient, please notify the sender and delete this email immediately.
+-Saravana
