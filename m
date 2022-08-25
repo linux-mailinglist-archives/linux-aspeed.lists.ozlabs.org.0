@@ -2,82 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3EE5A0FD8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Aug 2022 14:03:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA69B5A10A6
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Aug 2022 14:36:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MD1nv569sz3bhQ
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Aug 2022 22:03:31 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=WdUenM7V;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MD2WP54LVz3bkk
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Aug 2022 22:36:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::129; helo=mail-lf1-x129.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=WdUenM7V;
-	dkim-atps=neutral
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=arndb.de (client-ip=212.227.17.10; helo=mout.kundenserver.de; envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MD1np06T5z3bYd
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Aug 2022 22:03:23 +1000 (AEST)
-Received: by mail-lf1-x129.google.com with SMTP id s6so16693450lfo.11
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Aug 2022 05:03:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=/aAGWIDmltGqXOS1ncXoIYBBvj6+VUj5xGoOzvsU0MA=;
-        b=WdUenM7VDQ0dUtNevmd85i9vmMaUSqNHQU4niT4Ub0JHAgEIrUdbwe9jod52jKPcLZ
-         gu67LhhSXPaScJLsv3RoowAZksCBs3zCpf9jcGgkIFT5oBgyN25F/NlOaBRkgnNyVGNR
-         +iyjhGFeReL/ofScX74LsFDV+4RKeyjpgIv+YXaWm1WI82ZNivhiU2PNYA/bPV1PxfmI
-         igK7n+OJAPtUNlUDmZmG4JOSVXTOC11Wf+QNEodulOeyJbqfTydeuuvC+7eBjzdo7Ajy
-         OZpwemzf8gfGavcsUHOo9THEM1Q6PrkRSIISVE8QtpaujETvyFl39yR6DA0aPRX4sBcq
-         ddBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=/aAGWIDmltGqXOS1ncXoIYBBvj6+VUj5xGoOzvsU0MA=;
-        b=sMJ0jl772qNHx9qqMLn4QY4NLIcfxpaYwmxcgg8Eyoj1Vn8mu6alIWzIsPd7btrbwe
-         VSHRWs6ETHo/qWl7CAHxK4fs+0yTGaWLpZCdMZrwjJeU65cgc/dollmjFExAfkrYAkvn
-         MMxuP0AdwXWCj/JHn40YFikGR0GUKL6VxSigVP687R8SZcjvUOrIiBMB6t0yQDnik9V1
-         9ej4qasrUb/NRHKFnduX3T/E6xOdR7E5GKsYVtHBPf4quP63dEAYJ+FLbm6ymsoFF5Ta
-         /0y6C/D2yNA43iFkF+nVY+U5EGCEfTLD5LZAnxelIyLr2oottiKICjZ6QFPDh6AoQt7A
-         3Tzg==
-X-Gm-Message-State: ACgBeo0fTzFtIRDKqlXbI9ODyTw80jlO8hxYyIUaYNU4j7Lw7GxGi+/J
-	OVGh+ZL8CiLxi3DFjNkR9OxMnA==
-X-Google-Smtp-Source: AA6agR7l941MLJuNHsUITWiNqmNN3tuVDbhPikxJIUstI7F8Dic+VWnl0D5cWHe0KuARV/pswRivug==
-X-Received: by 2002:a05:6512:3983:b0:492:dcac:331 with SMTP id j3-20020a056512398300b00492dcac0331mr1004792lfu.385.1661428995616;
-        Thu, 25 Aug 2022 05:03:15 -0700 (PDT)
-Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
-        by smtp.gmail.com with ESMTPSA id x10-20020a056512078a00b0048a757d1303sm455979lfr.217.2022.08.25.05.03.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Aug 2022 05:03:14 -0700 (PDT)
-Message-ID: <cb6c855c-2931-b957-8cab-5df33de4792e@linaro.org>
-Date: Thu, 25 Aug 2022 15:03:12 +0300
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MD2WF2S0Gz2xbC;
+	Thu, 25 Aug 2022 22:35:52 +1000 (AEST)
+Received: from mail-ej1-f52.google.com ([209.85.218.52]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MTigN-1osIoL2FHZ-00Tzxx; Thu, 25 Aug 2022 14:35:48 +0200
+Received: by mail-ej1-f52.google.com with SMTP id h22so28996969ejk.4;
+        Thu, 25 Aug 2022 05:35:48 -0700 (PDT)
+X-Gm-Message-State: ACgBeo0EoxdEfNamhEHAON2b9hKSTZN83T/rQNmqlSUs4XSB/6zc976k
+	rakgdbjXVJls77YC4oemHWfRc7iJjJzA0kkETnc=
+X-Google-Smtp-Source: AA6agR7fgaLb9s7H5/Li4IutxFIzar492nAzVxOsAVeMPK8zWfEAvRnEz1Shj5SNAoM6ETiorM4CGcoYPkDi98xLJSQ=
+X-Received: by 2002:a17:906:8458:b0:73d:d0e9:4b27 with SMTP id
+ e24-20020a170906845800b0073dd0e94b27mr1897590ejy.766.1661430947749; Thu, 25
+ Aug 2022 05:35:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] dt-bindings: usb: Add missing
- (unevaluated|additional)Properties on child nodes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Xin Ji <xji@analogixsemi.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Amelie Delaunay <amelie.delaunay@foss.st.com>,
- Samuel Holland <samuel@sholland.org>
-References: <20220823145649.3118479-9-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220823145649.3118479-9-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220817071539.176110-1-quan@os.amperecomputing.com>
+ <20220817071539.176110-3-quan@os.amperecomputing.com> <CACPK8XdDpG3ONM1=-E6qvHL1FgMNWSMPoL_sVGJK6BmmnT3w_w@mail.gmail.com>
+ <CAK8P3a2LZKfZpdTQ-R4o9mJ6dk52VRF+Bxj=PJEx-1MA4yH8+w@mail.gmail.com> <673e200f-f458-7866-f956-3d5bd7160a49@os.amperecomputing.com>
+In-Reply-To: <673e200f-f458-7866-f956-3d5bd7160a49@os.amperecomputing.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Thu, 25 Aug 2022 14:35:31 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3MU7shuBpcpRNC5L6xxQmSy8FXCX1jvYXhv-NT3PMYOw@mail.gmail.com>
+Message-ID: <CAK8P3a3MU7shuBpcpRNC5L6xxQmSy8FXCX1jvYXhv-NT3PMYOw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] ARM: dts: aspeed: Add device tree for Ampere's Mt.
+ Mitchell BMC
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Lo4Y21aND9Iy927vCDx17hd6zDC03xZTM+U+OsQyJShqWGeyEpx
+ DXYDQ+kw13drUOHzu+0IVXxfF0KNEoFFq2PzJE6CNhbNZVz1MdHQafLVHsN0GGOtQ/6c40D
+ FSmgFy1X2pje1A/FD3vL4Oc7YEhQ3jVXzgXJ/UIcMAn7kv2u43/57AtT1D/ZuzwqwXpwR/r
+ qzZtu4J9dS7JVZ7iSDw6g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s28lCLKVFzI=:B9JvWNRTksWxC+oDor2dab
+ 0JErvnlW67ZALyfApJuFUjbgEsstzZhyKMr/hHTI5dvebXMpUiF5YfY7EzAQ7yGXUzYSAScEZ
+ v8UaC0MciwkB5mr9WAlLoyS11sXjRp5WvY5QbX6dW6KWCzhR3+hT3qhWt0hTUptMkz4EhKf43
+ ryRvq01lsMct5H0GUC0ZM5FWB85VIBOyx2w9LBKE+J7r3OlrWJKU4Rvp4GmaLn7G/oi21UqZ8
+ 1AjLkknGkkVVutCWnkhRySohaH6nd3ah9R65t5/OjojCoRNoYwW5xhAF1EDJ5aUb/CKr8BjzM
+ TpCW4IkXVM3rAJCe+WLOElzLBu492RMqdw56S92ElswWnlMGxmx3Ou0cnuRGg72j85ifETSYx
+ 2mKwt4+z/JSYjs+FWkwYeEjDawLpSkMC6akEAFYj37/XGzmycoV3qtlzHnBK5MzNIOHW51v28
+ EsZsfPRH/Eoaje/53paB+hpHnRbt+fOFRqg1kRDpBf/aSRD9aBn8In3gYi88VIxBZRRU9Cu2W
+ iicGkcJdgCH88msch8coQC7s8ItZoA3N8V88JCzdEjv3umBXd/VMJK4H6JLhlqdYbpZR7Zrc2
+ rwl5eT0Yb3YVoIpRc8mSer5tLCWyKQyz0mOhQ60KNznKohkO7EqmD9VMQ95wDZmQrloEhRqO/
+ kpsIM5t9dNwx4QHvKy78b3p1KSD6VH+NFEYEMHAGsRVw0Z2uWC3INBHwlW/74pQuIUZHsKEBF
+ ZGNcmEijR9JLQ7Ncg4CU/j5spgbOxn5FmL4ikomLA+me6/nA5vXuICqWK4wIqO4LWkSz2Arke
+ k3nu6xtXwEXg73cORgzlevchGOph28yf7USE1ggcW1/bM4FHASMe/WNvgCw3aTnIxmTB6v+Xe
+ 1yldnUGJ92lg+T4HbDHg==
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,19 +70,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, thang@os.amperecomputing.com, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, soc@kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 23/08/2022 17:56, Rob Herring wrote:
-> In order to ensure only documented properties are present, node schemas
-> must have unevaluatedProperties or additionalProperties set to false
-> (typically).
-> 
+On Tue, Aug 23, 2022 at 10:27 AM Quan Nguyen
+<quan@os.amperecomputing.com> wrote:
+> On 18/08/2022 19:06, Arnd Bergmann wrote:
+>
+> Thanks Arnd for the comment.
+>
+> I think adding -append could solve the issue.
+>
+> But as the bootargs still exist in all other
+> arch/arm/boot/dts/aspeed-bmc-*.dts should we still keep bootargs for
+> this dts?
 
+I think it should still be removed. Only 238 of 2547 set the console using
+bootargs, so that would make it more consistent with the other files.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Changing the files that have the same issue is a separate matter.
 
-
-Best regards,
-Krzysztof
+      Arnd
