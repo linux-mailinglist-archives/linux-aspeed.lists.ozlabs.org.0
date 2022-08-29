@@ -2,74 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D975A6BA8
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Aug 2022 20:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D458B5A7354
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Aug 2022 03:27:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MHFYV5Mgmz3bvd
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Aug 2022 04:03:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MHRPD5KJGz3bqn
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Aug 2022 11:27:28 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=a5a22/m+;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Vxenx/x3;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12b; helo=mail-lf1-x12b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::436; helo=mail-wr1-x436.google.com; envelope-from=sudipm.mukherjee@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=a5a22/m+;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Vxenx/x3;
 	dkim-atps=neutral
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MHFYM70XNz3bZB
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Aug 2022 04:03:50 +1000 (AEST)
-Received: by mail-lf1-x12b.google.com with SMTP id p7so5480306lfu.3
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Aug 2022 11:03:50 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MGQtT3WRFz3bZ2
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Aug 2022 20:00:47 +1000 (AEST)
+Received: by mail-wr1-x436.google.com with SMTP id bs25so9504934wrb.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Aug 2022 03:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=Ch7MLzjtjxDAnl8q0BHET3tRA6bodCqHcVbiwE3Oe4g=;
-        b=a5a22/m+UPenjdNvSoivou/95cRPjfTAPUYrIwBXwARzbxJLoro/WeeY8LDQd6q54C
-         qa/4rKjYPpFmKABxLFYD6+GqbRSw239JMtGCCpENJee6kxgwleR9bFASo8vbocoaKvZo
-         NxPtfOMJhglebUZD60i7VcvHhIoQrXcPRnEgHCIcCJq4RAJZjdKXx2XqkJV1NtjdCusZ
-         vGMoGhF4M9o1qrBsplW3YgNaF3TfVW4Cn52w1iUK9YyqfvaaEyaEj6gRF54UnmKDtE1k
-         vN3ZqnRcRV9O7K+dLttZh6PS8W1l4k6FdylGCVeXDhuGXAQgGODepmMOmjQritmJ1iPq
-         Ku4w==
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc;
+        bh=l0dd8ecbpZnuzsCu5JGEpd3FIwlZH2NjRr90vsXjRJU=;
+        b=Vxenx/x3aciurxig2M6JStt1bFKy9byWFgerDbAaMMmGHP5hv1Zv4mhoRvPo+RU0rj
+         3xUO7ahTZi2vegvvvjlSv+HbTYM4nUGlWqK1jJD/n00UYVtxad9hsM3DtjjLw+gV8HII
+         2c1EFG3PGwSwVukbr1Ma3AGbzLEh+dAhUN6XeLsfBhp7ce/2WFobApiKPQsXw12wBh7e
+         2vaHtkJYxTMzCIvoK4I9rwI6A+2hGzMpYu3mv6UC28SvgrhGOIcnr4EU3Aelhl6yoEXK
+         jwfMbaYzS54AfqgtbevJedt76ZY24iaACODyX/I0ysJIUBzqf0ws+wRJL1xp4MDHMwjp
+         DcUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=Ch7MLzjtjxDAnl8q0BHET3tRA6bodCqHcVbiwE3Oe4g=;
-        b=Xl5rOpkm63OcC8ysXo1JS19Cq/yxcAdeqvOyirOsAWVy/QVOk3YYUpboAiTv1cFOYp
-         1Mh3HtKoRablTm9aLwaFw6Hzg6iwpaTjm80fpiYcreH5ZwpWBDRPtAlP6J12ztGRjTYU
-         qwyEw5XtdSWWfjKzu5HiRdxHick5qZ/f53OmjA8W3hPxeo0p0OfJTjyL9d+/w9TZFnip
-         dlB3ESiOlzOVCtZIgGHaoT108Oj8cRKx4E2FNOL7XWX5Tz8c6WFKVsrFP162YQPJTqN4
-         sBIsZw+wCfxpiL2gwHAt/CCAtU7aNfGIUo/xRYIgvZPRsPL/fGgAKGCBlqqxjXyBwZcJ
-         nuIQ==
-X-Gm-Message-State: ACgBeo3SbVDrpb+Q0Sw71swnY2LBsTOOUXHCLCL5UWrQBJzRawqPWZj1
-	a1vm64N0VfNWJCRdqdOXLWjbpA==
-X-Google-Smtp-Source: AA6agR4B6RPmmBpqIqWQK+WQ/FHVm/qy/0Kjy1i5/ymIBnlMsgywlvPmZo+HlEf7Ejw2wE9vzxYgQA==
-X-Received: by 2002:ac2:4c4f:0:b0:48b:1358:67e3 with SMTP id o15-20020ac24c4f000000b0048b135867e3mr7689493lfk.441.1661882626425;
-        Tue, 30 Aug 2022 11:03:46 -0700 (PDT)
-Received: from krzk-bin.. (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id c14-20020a056512324e00b0047255d211b2sm505298lfr.225.2022.08.30.11.03.45
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=l0dd8ecbpZnuzsCu5JGEpd3FIwlZH2NjRr90vsXjRJU=;
+        b=3SltdR1x5cMZewDbUht2UoFM0Ehng8sZtDOkbX0byfHpvHAsElTZ92+iPO3UrA3jcO
+         J96fQI3c71HLvg+4tGASAWrqdKyRmTCHFTp/+i3Hr3XEdePJQ8MiCtdlry8JgiDuCKlm
+         MhFvl+8dkdG/vfkZVeL3gLwGp1fmGK4xey/IDAmikmWzjY1UjxvX1dKba2MazHQGx6ac
+         S2X0exclPfxc+a9+8rGGetikTVZNyJq42FXqq53jLiQWY/frxbT9aR7NftKeuWOoCdsz
+         o9gAjR4uA+QkbznxYwkIXZ5r+ix/qSB1tUEtAsppN5fvceqWEa8zSxSoPn4xWDkuV8ys
+         Krbg==
+X-Gm-Message-State: ACgBeo2QWLdw19scRlhvC5IlhugO4DHk9xWb1D1fIzoETLZqRYHN/jTm
+	xYVeU1LST6le284xRy5s1iY=
+X-Google-Smtp-Source: AA6agR7p1BSAyfx0TInY5Ker3Q46WxaH2F9v+jEvrWs9zSmBL9VOugQdt15Cdyt5riIsyGP3mdmBrA==
+X-Received: by 2002:a5d:4082:0:b0:226:d019:c91e with SMTP id o2-20020a5d4082000000b00226d019c91emr5941444wrp.557.1661767241168;
+        Mon, 29 Aug 2022 03:00:41 -0700 (PDT)
+Received: from debian (host-78-150-37-98.as13285.net. [78.150.37.98])
+        by smtp.gmail.com with ESMTPSA id c21-20020a7bc015000000b003a5c999cd1asm8881424wmb.14.2022.08.29.03.00.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Aug 2022 11:03:45 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH] ARM: dts: aspeed: align SPI node name with dtschema
-Date: Tue, 30 Aug 2022 21:03:44 +0300
-Message-Id: <20220830180344.15657-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        Mon, 29 Aug 2022 03:00:40 -0700 (PDT)
+Date: Mon, 29 Aug 2022 11:00:38 +0100
+From: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>
+To: Neal Liu <neal_liu@aspeedtech.com>,
+	Johnny Huang <johnny_huang@aspeedtech.com>,
+	Dhananjay Phadke <dphadke@linux.microsoft.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: build failure of next-20220829 due to 108713a713c7 ("crypto: aspeed
+ - Add HACE hash driver")
+Message-ID: <YwyORp72cuDrVYdA@debian>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailman-Approved-At: Wed, 31 Aug 2022 11:27:25 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,86 +79,26 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, linux-crypto@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The node names should be generic and DT schema expects certain pattern.
+Hi All,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm/boot/dts/aspeed-bmc-facebook-cloudripper.dts | 2 +-
- arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dts      | 2 +-
- arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts        | 2 +-
- arch/arm/boot/dts/aspeed-bmc-facebook-wedge400.dts    | 2 +-
- arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+The builds of arm allmodconfig have failed to build next-20220829 with
+the error:
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-cloudripper.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-cloudripper.dts
-index 9c6271a17ae8..5cd060029ea9 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-cloudripper.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-cloudripper.dts
-@@ -77,7 +77,7 @@ aliases {
- 		i2c55 = &imux55;
- 	};
- 
--	spi_gpio: spi-gpio {
-+	spi_gpio: spi {
- 		num-chipselects = <2>;
- 		cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>,
- 			   <&gpio0 ASPEED_GPIO(X, 1) GPIO_ACTIVE_HIGH>;
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dts
-index 27b43fe099f1..4b520d7ce3e1 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dts
-@@ -44,7 +44,7 @@ chosen {
- 		stdout-path = &uart5;
- 	};
- 
--	spi_gpio: spi-gpio {
-+	spi_gpio: spi {
- 		num-chipselects = <1>;
- 		cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
- 	};
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
-index af58a73bbc49..6b319f34a9b9 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
-@@ -207,7 +207,7 @@ aliases {
- 		i2c143 = &imux143;
- 	};
- 
--	spi_gpio: spi-gpio {
-+	spi_gpio: spi {
- 		num-chipselects = <3>;
- 		cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>,
- 			   <0>,	/* device reg=<1> does not exist */
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge400.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge400.dts
-index a901c8be49b9..ed305948386f 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge400.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge400.dts
-@@ -67,7 +67,7 @@ ast-adc-hwmon {
- 	 * full-duplex SPI transactions are not supported by ASPEED SPI
- 	 * Controllers.
- 	 */
--	spi_gpio: spi-gpio {
-+	spi_gpio: spi {
- 		status = "okay";
- 		compatible = "spi-gpio";
- 		#address-cells = <1>;
-diff --git a/arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi b/arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi
-index 051de5bec345..31590d3186a2 100644
---- a/arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi
-+++ b/arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi
-@@ -25,7 +25,7 @@ memory@80000000 {
- 	 * full-duplex SPI transactions are not supported by ASPEED SPI
- 	 * Controllers.
- 	 */
--	spi_gpio: spi-gpio {
-+	spi_gpio: spi {
- 		status = "okay";
- 		compatible = "spi-gpio";
- 		#address-cells = <1>;
--- 
-2.34.1
+ERROR: modpost: "aspeed_register_hace_hash_algs" [drivers/crypto/aspeed/aspeed_crypto.ko] undefined!
+ERROR: modpost: "aspeed_unregister_hace_crypto_algs" [drivers/crypto/aspeed/aspeed_crypto.ko] undefined!
+ERROR: modpost: "aspeed_register_hace_crypto_algs" [drivers/crypto/aspeed/aspeed_crypto.ko] undefined!
+ERROR: modpost: "aspeed_unregister_hace_hash_algs" [drivers/crypto/aspeed/aspeed_crypto.ko] undefined!
 
+
+git bisect pointed to 108713a713c7 ("crypto: aspeed - Add HACE hash driver")
+
+I will be happy to test any patch or provide any extra log if needed.
+
+
+--
+Regards
+Sudip
