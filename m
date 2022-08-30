@@ -2,62 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6A55A46C4
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Aug 2022 12:05:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1C35A5A83
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Aug 2022 06:02:06 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MGQzY6cq5z3bmP
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Aug 2022 20:05:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MGtt13JRvz3bmC
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Aug 2022 14:02:01 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=g2SA/b1j;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=J+UlC0gN;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.215.125; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.117.98; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=g2SA/b1j;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=J+UlC0gN;
 	dkim-atps=neutral
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2125.outbound.protection.outlook.com [40.107.215.125])
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2098.outbound.protection.outlook.com [40.107.117.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MGQzM47Zvz2xGK
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Aug 2022 20:04:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MGtsn2GyRz2xbC
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Aug 2022 14:01:45 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dZJUcekNh3FSwmxbO1aMoUYNCiStcoDvfwERsUHxLJx9DpcEoSfHVk2z2E6QEHIMgUBS8Uz29vay9YIdE7Ja6U63UQSXn9jaWoR89LIb9Td+mOfA4i1LRKWyTQNGCV4uOwCxh/KzzzzU0zL4oML6Tngt+GWCy3NlFjOeRoHw+znu+NYyGtn82qCwG7g5mbwy6MddtP2RBHwidcrlEyn23BTI/RzP/IFr9egJMC6yFLFsZMujTgYkCq69tGiKeGC3B0zDdYDess+GpYyIbg0Y4w1d9NdE7Vy9P9tuYz2SlZ+kMFG08R5InTibESbikOJlgUIIHCFS6XGfcich17n5lQ==
+ b=iJKwwurHpJ8xWdhlqbMZdLNdjkMaKRz1AHYwhHVEE4haVFdDaUdopVuFTjuW6kGh14vTzqhkZGlpsBdT6Fzs4szxDBlQmysTh4KLpoBXKD1WulgtuW9QilOs3SMPTaoYH8UCOrs6ECAv9TOADYIgt/er0aU9hqCpejJFZ4FXofObfVOG6QbbIeyuGFwiYCKCSTXch9t2cvErOBHqudcFy+hLJ1dCO5R0hKOlqtMS+4/CPoGg2z+aFfvXmSTTTSkeJbgDhK9Fw85S12XkTUfCa1ygA8OdVVomKoMdIWkLjM78tc6molF6s+PgkYLKfEIsO9UneXMBMa2ntPm50iQdKg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/MruPH35v+ZEFQY+FcgVuPIR1IjOkqydZysmM9Oa8po=;
- b=dMoMj89v3WEm7gEeMMI5zPnPm3LfHW8AV1y+nO9ungNEzwMNmuv28egCqBfvIySP06AI6tMZ7ezLaQoAN6ColdqwAl1n7vI0WsKreqARAkTx4mBKeZKAZ8IdimqcRNO63JRqn9DOwJFqOqT1d1dvbXkJuGpg3IQStHpj0hduGJr9vG4ypbYowKOjz6+ZmwN8Vka9/aTUpjm+vB9Kzn8OV4EeiJyKzmRhWneWSvaqa4N3//Ez09Kb/o9OJsUWnmZ6dEeyZ6f7MZUUse2A2E9OrZoJjrr8tnIywUKZNKcO5rh5UaAjNsZm3mn4bc0PNJEzDnZvx9M0mVr5s44iTbJ4xg==
+ bh=j6xs6l1YkjZoIWPuWHqcntw9YMtun9edaBVzkGIdsmA=;
+ b=W0UWnP2y1rpESVMxOvwK7mK9BhyIcULMlxjwA8QPlkJIsrnZOA2/ThnC8hNNRI51qdQYbruBnr4OxRIUJoU78eKoV9SXmWywYCe4cEMJrKN9yxdLgpIj3oGAX1F8WwWUdizi4YtuN8pRc3NAgkridmY/IrI/ZQzkvV+iAYbaYKinG4dC3L5FqJqwbxDCFGLV0YMTWFkVYVdk1N75M/dsIiDKJeblcb1imqQSw2kh4Y2hREc9Ih63V1YQa98NTayspkPeabGt+3xhjDWvbyxk+EL+FZgbAZiobjJcELPmQIa+HEuaboswCBbxQlI17FKrZi1MGeAFsS7JilL10Ph8Yg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
  header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/MruPH35v+ZEFQY+FcgVuPIR1IjOkqydZysmM9Oa8po=;
- b=g2SA/b1jydeQmR1xIpMl4Enzlkcvht4YsyBeSgnIZ5PgpbQLoK4rqKvaTerRu7WC7rj4PRCOmuubD3B+UI6S3ALfCP7up7+qhE65FYWKsFlZ7ztwqgLqHunIKkvck+KPS6zDx0AbKAQngMtDD/9OZSW7qBqMi/9HQ29fKy9p1tfTS/0C8xZVZMNUeUSzC60hXLW8ggKOItA++8l1T26tr/Bm8nPJJa7mqOb1mMVAFkhAyFwao+HuG57GjNaK1mZ38Ta28WI3GOnW6cY5LArmNKdm6R+GetnjKAIj4czdfQuBCy3IgfOTCdfcPAOL617DCu5JT51JqrQdTIDArkTB2w==
+ bh=j6xs6l1YkjZoIWPuWHqcntw9YMtun9edaBVzkGIdsmA=;
+ b=J+UlC0gNYWj5Xpefu4IK/6QH3sr3hhizgMkwvQAOf7fXTBajyLbzO8nB1jtSjHxuwm4B8x+oguE6atj27Iypv4fvEXthA7Fsj6/xELk3ukaZuDm/OsB3K1kC8cjyukeP2O1fRvTLFwZTViExyRncR9W4aV85SFX7HFwu4OpLbwoz0bXu2hNNSTFhrVMppKU+x/sR2ba/i9nkHxYuNBzdrJPxi2EfCqkoTeDJjDEI7Lc4ii1NCwlQP4Evkf9iGkadXUpkxw7JDy4h6yQ3L64xa7+7C/UOkym64mRk5E2mQ2moiAwPX05+moP73r7VnurC3z72910MOWzIr3oWA01ErA==
 Received: from TY2PR06MB3213.apcprd06.prod.outlook.com (2603:1096:404:97::16)
- by SG2PR06MB2683.apcprd06.prod.outlook.com (2603:1096:4:21::11) with
+ by KL1PR0601MB4355.apcprd06.prod.outlook.com (2603:1096:820:67::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.14; Mon, 29 Aug
- 2022 10:04:33 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Tue, 30 Aug
+ 2022 04:01:23 +0000
 Received: from TY2PR06MB3213.apcprd06.prod.outlook.com
  ([fe80::8dbe:4d03:e911:5a4]) by TY2PR06MB3213.apcprd06.prod.outlook.com
- ([fe80::8dbe:4d03:e911:5a4%5]) with mapi id 15.20.5566.015; Mon, 29 Aug 2022
- 10:04:33 +0000
+ ([fe80::8dbe:4d03:e911:5a4%5]) with mapi id 15.20.5566.015; Tue, 30 Aug 2022
+ 04:01:23 +0000
 From: Neal Liu <neal_liu@aspeedtech.com>
-To: "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>, Johnny Huang
-	<johnny_huang@aspeedtech.com>, Dhananjay Phadke
-	<dphadke@linux.microsoft.com>, Herbert Xu <herbert@gondor.apana.org.au>
-Subject: RE: build failure of next-20220829 due to 108713a713c7 ("crypto:
- aspeed - Add HACE hash driver")
-Thread-Topic: build failure of next-20220829 due to 108713a713c7 ("crypto:
- aspeed - Add HACE hash driver")
-Thread-Index: AQHYu443cJFtTT5gb0mr18Wb5C2Sb63FphZg
-Date: Mon, 29 Aug 2022 10:04:32 +0000
-Message-ID:  <TY2PR06MB321356F6EB09D3D59D37B53F80769@TY2PR06MB3213.apcprd06.prod.outlook.com>
-References: <YwyORp72cuDrVYdA@debian>
-In-Reply-To: <YwyORp72cuDrVYdA@debian>
+To: Sun Ke <sunke32@huawei.com>, "herbert@gondor.apana.org.au"
+	<herbert@gondor.apana.org.au>, "davem@davemloft.net" <davem@davemloft.net>,
+	"joel@jms.id.au" <joel@jms.id.au>
+Subject: RE: [PATCH] crypto: aspeed: fix return value check in
+ aspeed_hace_probe()
+Thread-Topic: [PATCH] crypto: aspeed: fix return value check in
+ aspeed_hace_probe()
+Thread-Index: AQHYvBzz+s4SK0W+PkG7juKv7paqKK3G0b0w
+Date: Tue, 30 Aug 2022 04:01:22 +0000
+Message-ID:  <TY2PR06MB3213B139F88D72C3EEED7A0780799@TY2PR06MB3213.apcprd06.prod.outlook.com>
+References: <20220830031347.810217-1-sunke32@huawei.com>
+In-Reply-To: <20220830031347.810217-1-sunke32@huawei.com>
 Accept-Language: en-US
 Content-Language: zh-TW
 X-MS-Has-Attach: 
@@ -65,55 +65,55 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=aspeedtech.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1cff054c-4153-4d63-1190-08da89a5def7
-x-ms-traffictypediagnostic: SG2PR06MB2683:EE_
+x-ms-office365-filtering-correlation-id: 62b67c13-bdca-4d32-43bc-08da8a3c4d7c
+x-ms-traffictypediagnostic: KL1PR0601MB4355:EE_
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  AsaSrL3kzOWSeqQ1FJLRwADhvz+e4MESFp5zwFG+A6Zw4VCHL7j7ytxibLfZJCYR4oJarwRdiJbcGJGYcYlSh3e2gpGUGVDb9Ua3pjKY7OZomGXYN3pG0SY/adfpjZfXvikd3FomKmic6xSN7xw40tcZMcAQ6OShThiMTx+LF4U2Xgi1cm1/wo6Y7i7CWV018FyDfkKtDfyh7U2GUDxBAlF3cSMEzmaiEkAcdaUIw818rjfOcWHDzTJ5z6k4YaEwNUYSRty6IJwWodUQx3IlxM83Cea6/Vkyl7gd34Imj9XvSZCdaCI6PQIXbclsAnnqD8YLivye213dSc5NZLZG57nnXYTrhuBN3zpKPH798zt6azjn3YF/hAuJsuCSUCYkKmSfr8bIQUzTxpRkLBanf9+eVkAzLJgZyL/sFhVPHNTk+hfJ+j8e6BVQ93eV+uzaGOrgzMS0tD0Gigifd1W0r3USb3vPLclO4z6aQQO02AgNeJ9Dl+dHBfT5WPKUuID5mvsvoPMex9V3MGV0K4+pT7WiqEDOVxANi38VYxb6xfaNx2LK4UomNIWjzXB0iBjq/WNH/UeCHDBVqt13T/etSlTAoGjjKMgsOjamIEdlpHLg+y8c0EvdOh2OvMi3EBVdJABRbb7IIzeb1RAPqSyQ/cl4NLR7mN6O99I/fYLuRia8LMHEk11QAZj4j3gYPWS3RAsTyxV/GsNaS22k9wwRUwd5WqvT6z4lHb0+FNZKb0SquAml/eK6a5zhcO45tcuKk5iXPDB8Cwnzqq+tBqZIfmVZoj6h0zwSf6xXVMKvN1U=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR06MB3213.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(346002)(39850400004)(396003)(366004)(136003)(376002)(38070700005)(110136005)(316002)(71200400001)(186003)(38100700002)(86362001)(54906003)(122000001)(66476007)(64756008)(83380400001)(2906002)(53546011)(478600001)(41300700001)(76116006)(66946007)(66556008)(8676002)(4326008)(66446008)(966005)(52536014)(7416002)(9686003)(55016003)(6506007)(7696005)(33656002)(8936002)(5660300002)(26005);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info:  XWJsXbVbQyvK3LdKWMnkKMI7Kvn6lZ5y7Rcbex4LAjBpp5ZAJlvvIZfyji+RmhdJ6k1JjpvQrKmV2Ul8ISWLqpn1/VjI+SN6O8/f62pA9UpziGKCRz5x/MVpQ0JZT9PP3bUpTBWFwXJbf8KuqvU0XcWuq7ywUghr7jus6RQ0g4P40fdPJyMY53BqVkfWp5bKNyEaxk9NWbVPOUq4JgZBpMiePorC0mc/qon2YDknq3euIJSb3exafuAabnVogqjarc2DXRklyc4tpZE7opnshCwl5KyotAcFQqsm+sdgIBKByjZmy/rPa2nJrPM2iDZkmmm73fHx2/5TvNrTpX59suAquao2nC/Vfcba5GNvZG84W6BZFLXjilpR8Dw1Qe9/+Cg4cd4Ie/jQaHGWd52/VRzLDwA8JvRCJHSPEuL0CkRJYK7cZa4y/fOmL5PzmES3wHm1gHdxdN2arBjIKf0rNTRXago1zHsxozdi39QsYg76BKc9/VOerzSVigN41majrSXeYWWoCDts6DoE1Z3iO2iPzI9i/mUs3SdxASkiFRu0bIJxzLX4FU6NlYDVgLjCvmjgQOuYYYGvhGiE+5+iyHyUKIlXrGitCngBzei46c6QOTRa9tRoEBMRynDtqj1StpiIakS3EVJWT4uhro7/dFj9UdiJ58ik9wDaLs8rtvWxE1na54kCwL+9JvQQDxKAZt9MY0GL9frHDzUYXLBJr4GpnAktpHOCDWY9MUgkQsf0BTIF+7akPTFWUCyyf9XYQ7QUdFywuMa3K4iucnKUgQ==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR06MB3213.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(376002)(346002)(396003)(136003)(39850400004)(76116006)(5660300002)(478600001)(55016003)(7696005)(33656002)(52536014)(41300700001)(8936002)(53546011)(83380400001)(186003)(26005)(6506007)(9686003)(2906002)(86362001)(66556008)(122000001)(66476007)(316002)(110136005)(54906003)(38100700002)(38070700005)(4326008)(8676002)(66446008)(71200400001)(66946007)(64756008);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?hNJjIZA/suADs25EFAcNCJswPtj13g1UYYOkK/WDn0pOpxw4SuPhEY60W0ks?=
- =?us-ascii?Q?jcg/KvTd5a7oixsgKRp3X0Z4sznqzc8U7H3eWd9wLS3aKZNxqgrsKX5IR6/A?=
- =?us-ascii?Q?rwdpa1kOjvO1LqiHNKZZl1FP97ovkwEjfxvuYkw01TLPq8fgVb8qgvTVoiHJ?=
- =?us-ascii?Q?Mze0985KkOefleVcWASK65kq4mrOUGBLbaPz6Hd6uFzZ1sfYxkKLWQCs/QWo?=
- =?us-ascii?Q?AUA2IwC4LgzmOslTEmoxIRIeJOzDzlyBQYAETZZ9TdlN+hnJN40gHCMuejNJ?=
- =?us-ascii?Q?I3UKUMFkfUpKKKG02Nb2v+FYBxv828LhAjMb3WS5dEZdx7pFtjsp0wjkA/js?=
- =?us-ascii?Q?d7MQnksZWlD9rbpQ8MA3nKIXllVIqeYw0qtBhOqNjFGbNH0LPKcU+x3iIyeO?=
- =?us-ascii?Q?gIIXcHqaQlU203eV3ZoNvCOBq4LfzECyWy8OdxIdn1Q8JIU12Hkz9kMeUJRT?=
- =?us-ascii?Q?/4ZW153n3Vhxr9uNiudBzEFRDfJnS7Y0JmbwTy2vmWIX/RRZ6gNRlx0iF1MP?=
- =?us-ascii?Q?m6OY4JkcH3MgmYejNgvs76EQknH5CrtctsDQvbhvokSC0nskoGDPUBVdHM1U?=
- =?us-ascii?Q?H7KAhFED55Y11I31NNRmnXEAlV56i/dFDmqwqn/jhSSHKc5gCuVUluj6ZDBe?=
- =?us-ascii?Q?59FF+FY6Xb9QzNnAyzRZP8cRAD6sB3/tjAUpQEppHJmjiL0GpUbCBb1cNGmK?=
- =?us-ascii?Q?1gmzWzIF+CpeKIQJQnqWgPQAC0XogNx+gkG7cnUjcYjmQTo5xfjhct75i08d?=
- =?us-ascii?Q?FAABo5PBKPEURGSLOTahLw3w8IuUzf+x3oxcrW45yuAc5KDmycZwnJOppMDI?=
- =?us-ascii?Q?JLHVcQBeBnBTlNKKN+jWUY95tT5BDuWmpAgDVaXcDBcHYBqKJQaUHufnY9vJ?=
- =?us-ascii?Q?gZuWgbliOBv/z7x8zC91lPcsopTHzf5QO+sj3ytCeWYPWxivB8GNCbyoDQpA?=
- =?us-ascii?Q?8fx/BUm1zCLIr03OcJGLFmg3hllhwEA/y154k+5XRq8fClh2v/6DphrOV0ba?=
- =?us-ascii?Q?l+tn0aWOdkemHAC1CHFHXbMx5blqnVoZe6fuIt1Fc5V0ST1GYcRtV7vhPgef?=
- =?us-ascii?Q?H78EZ8XfgoHh3IXMUlC3zGD7LM8RZxfCDTR/ANjuA33sjJ5HqwTKgGVhg2xk?=
- =?us-ascii?Q?S4wqfm9YAHcdXWkJVsxg9dLNLn6L5w1T9I9c/UUzEbM9/AtN48NKUGoYP8gP?=
- =?us-ascii?Q?/CNMrqcwsPhDmAYJmr06KsVgRsgzHKMzWB7kStVW9wSbPpfXi2SBxUxtJRNk?=
- =?us-ascii?Q?qu130w+4eYtGSeQApjYK01kgAiHPDmxifAtq6f4H/Be+ZWSL+EiuCp2MWvvV?=
- =?us-ascii?Q?cG+3uyrInW44lppgldJ4BiPJ72Csw+XvvZ7K2qv24zxE9tOC9P3Oz57qiPkW?=
- =?us-ascii?Q?+d81xHjVcB73CsKmbF3yxc+loBorKJO/DP64fH9xr2k8QxDDMbnybmtksLU0?=
- =?us-ascii?Q?mP6Lz/jK58ew1pyvEmZxVS0iti+dlQWiT5beDg5BYxXVWgbuxKC9TQhXioDw?=
- =?us-ascii?Q?YyfTMSDG5CwlcKKkXYxYpRWQA7qUtMXs3pDbJSGGO9XCffzXLijLjKYU7/ZB?=
- =?us-ascii?Q?J+jXoerBHespoGGtvrJG4MXSHb9Eonl521peOziI?=
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?rCb5mQA9B3A9l1P0FK0zIwRnloVWk9Zmn1ik7Z3QvEJwP10RRj/Ir7cvcMIp?=
+ =?us-ascii?Q?Q9nTe02uu6+rUNQlVdrpnlPf+5SnfMnnp+WNYWJpr/PgugMnU+u2mw3GnLQa?=
+ =?us-ascii?Q?eZxsn9SR2nKF+QNW0U9KEw6XLJeB0BkR/p0tuv+dYCqWUyCtizzyFPAWFSZ2?=
+ =?us-ascii?Q?r/Ij7WEEGO1hKqyuKq0UGTsmC9blCt2rgg0accTtp78EABh5MmO/vbtHL9Hx?=
+ =?us-ascii?Q?9l71jNUXmV2HWNJPG1ep+KlCdpIaNSCQ2OnrzSsrJhW2bUuq2WvE0jSOV/jv?=
+ =?us-ascii?Q?8gA2f9u770s1JCKVORbShNfyRsMsvAY+ycVD74EV57SwJ+blt5yJemQp4/zM?=
+ =?us-ascii?Q?Jrb0eNC+lZHV18IOs/3slt92/pd/NOapJ5H8hJ6/3Y73M1r+wbHxMjaG+Hrs?=
+ =?us-ascii?Q?74XLHz+JFpYzHeBSk/0ZobuYB0N8PaFLUqx0eZjxvyeBOkoRGcHid+7HahOj?=
+ =?us-ascii?Q?0pkvingFCeKoUFzNXJTFrm6mSEZijFSXR9wnygb3su4bpFSxZeMkP8hVCwoU?=
+ =?us-ascii?Q?fTwC7ejWqUCD6p6ehU6RPznq+I+ib7+/nHbkV7VTkSHmrUCiYGY2iyJ5Tt4I?=
+ =?us-ascii?Q?Ex3gQhxBbGj4HlzPwiZX7XwTwuEkgQOwTNvEUrhZIZS1RUJ4pC+2upNWWPN8?=
+ =?us-ascii?Q?3ITLODD/RStwx4KiOJVZyeMP2lVUOTnDUUTIWAJekGZdsng7ucaEsvEydJ4N?=
+ =?us-ascii?Q?hHHUDTKbqjbU2/7So7Y2BcqA+s0A/L0lypJaVBxU8Q3RzEMIOK2626LqENZP?=
+ =?us-ascii?Q?BbTfZEq6iFYUp7YkEcn7TtagsEmWM/kV/abhAzQCXvvRun7biVtOBDnERBaC?=
+ =?us-ascii?Q?cJ88jYQ1PTKb/QO3r9tiXydS+lvARFjkrNSZn+N9spjawmSnOTsP44dr4RVg?=
+ =?us-ascii?Q?Wz3nqq0MOHKHRE3bInhieHkxHVjq2C5CzMGtwOrs0TBmjxfcW0QYM5msW/4F?=
+ =?us-ascii?Q?OOP97uCA3LJfCM7TrCe7DhMvHvp3E3FkHAFVKFhqAfFiyccuRCZ03PECrbLI?=
+ =?us-ascii?Q?joVLnG/L6wHTKWIQOf2LMTk0JRWEb8zsFho1PQK8vX1LpocTXxy4GaaeHI/l?=
+ =?us-ascii?Q?FtNyNvtU9GKXJ+dXQeYM20KAgqRXxqjDkZxo9bodeMxrfIjHlWQDjNEwWX1R?=
+ =?us-ascii?Q?zKkRuvS7d853U1Wopk8u+VGCumKYAlJMydugQ29GEiTE3w25/rejC3NkRsv9?=
+ =?us-ascii?Q?8WN8NW/c7l2xtQ7UdVp9Sa7p3z30908ZhNIU+cWipa6Vz9R2Phd1JvjiLL7t?=
+ =?us-ascii?Q?qJfCdQ/msvhmE/B4NOLSijkMcZGFYPVWCz207UmGYgDXOzE3ihbxTt4u25hW?=
+ =?us-ascii?Q?CVnQCdq1vrOvOVXza1d0Umh4Md/TP9tla/kZJ4vViA2kYAL2EIZZXdbvt7MD?=
+ =?us-ascii?Q?QOhc2RlljzHG8hlfCokCfBn6sBwhPDQ1r5b4H6d6L0rdxLhYXkypXlii667+?=
+ =?us-ascii?Q?PNNcNEqNtu778G5282Xp40ovzdgj7Z+RZqsPWc9vcUrtSdLkhOrxDptMj+CU?=
+ =?us-ascii?Q?Ax/2kNKVPxkr3hn6WIXMp4Ww7sXgLTS250ikYfMQn0jb9VJs1POut5sZal9N?=
+ =?us-ascii?Q?LgdGGd0zl/GB+l2rqmW7aaSK+nJ1yb3o7OymcPW1?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TY2PR06MB3213.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cff054c-4153-4d63-1190-08da89a5def7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2022 10:04:32.9064
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62b67c13-bdca-4d32-43bc-08da8a3c4d7c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2022 04:01:22.8381
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NPl12fVdwsvzGZZyOp4FwnNYJer22L0ewHRRUbiPXol1iz/w6Q5G7WbnlYqxsupJElknnaBLUWyP43oXhlUJ7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB2683
+X-MS-Exchange-CrossTenant-userprincipalname: Lifj2HHsEEdg3iJdObD9+Q8YDeU54lve2fwvtyrcFKxtMyrn4i8zu7E0T4GfwI/rrZmZc0gUZSTu0OInHDmHYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB4355
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,56 +125,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 > -----Original Message-----
-> From: Sudip Mukherjee (Codethink) <sudipm.mukherjee@gmail.com>
-> Sent: Monday, August 29, 2022 6:01 PM
-> To: Neal Liu <neal_liu@aspeedtech.com>; Johnny Huang
-> <johnny_huang@aspeedtech.com>; Dhananjay Phadke
-> <dphadke@linux.microsoft.com>; Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: David S. Miller <davem@davemloft.net>; Joel Stanley <joel@jms.id.au>;
-> Andrew Jeffery <andrew@aj.id.au>; linux-aspeed@lists.ozlabs.org;
-> linux-crypto@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
-> linux-kernel@vger.kernel.org; linux-next@vger.kernel.org
-> Subject: build failure of next-20220829 due to 108713a713c7 ("crypto: asp=
-eed
-> - Add HACE hash driver")
+> From: Sun Ke <sunke32@huawei.com>
+> Sent: Tuesday, August 30, 2022 11:14 AM
+> To: Neal Liu <neal_liu@aspeedtech.com>; herbert@gondor.apana.org.au;
+> davem@davemloft.net; joel@jms.id.au
+> Cc: linux-aspeed@lists.ozlabs.org; linux-crypto@vger.kernel.org;
+> linux-arm-kernel@lists.infradead.org; kernel-janitors@vger.kernel.org;
+> sunke32@huawei.com
+> Subject: [PATCH] crypto: aspeed: fix return value check in aspeed_hace_pr=
+obe()
 >=20
-> Hi All,
+> In case of error, the function devm_ioremap_resource() returns
+> ERR_PTR() not NULL. The NULL test in the return value check must be repla=
+ced
+> with IS_ERR().
 >=20
-> The builds of arm allmodconfig have failed to build next-20220829 with th=
-e
-> error:
+> Fixes: 108713a713c7 ("crypto: aspeed - Add HACE hash driver")
+> Signed-off-by: Sun Ke <sunke32@huawei.com>
+
+Thanks for the fix.
+Reviewed-by: Neal Liu<neal_liu@aspeedtech.com>
+
+> ---
+>  drivers/crypto/aspeed/aspeed-hace.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> ERROR: modpost: "aspeed_register_hace_hash_algs"
-> [drivers/crypto/aspeed/aspeed_crypto.ko] undefined!
-> ERROR: modpost: "aspeed_unregister_hace_crypto_algs"
-> [drivers/crypto/aspeed/aspeed_crypto.ko] undefined!
-> ERROR: modpost: "aspeed_register_hace_crypto_algs"
-> [drivers/crypto/aspeed/aspeed_crypto.ko] undefined!
-> ERROR: modpost: "aspeed_unregister_hace_hash_algs"
-> [drivers/crypto/aspeed/aspeed_crypto.ko] undefined!
+> diff --git a/drivers/crypto/aspeed/aspeed-hace.c
+> b/drivers/crypto/aspeed/aspeed-hace.c
+> index 4fefc9e69d72..3f880aafb6a2 100644
+> --- a/drivers/crypto/aspeed/aspeed-hace.c
+> +++ b/drivers/crypto/aspeed/aspeed-hace.c
+> @@ -123,9 +123,9 @@ static int aspeed_hace_probe(struct platform_device
+> *pdev)
+>  	platform_set_drvdata(pdev, hace_dev);
 >=20
+>  	hace_dev->regs =3D devm_ioremap_resource(&pdev->dev, res);
+> -	if (!hace_dev->regs) {
+> +	if (IS_ERR(hace_dev->regs)) {
+>  		dev_err(&pdev->dev, "Failed to map resources\n");
+> -		return -ENOMEM;
+> +		return PTR_ERR(hace_dev->regs);
+>  	}
 >=20
-> git bisect pointed to 108713a713c7 ("crypto: aspeed - Add HACE hash drive=
-r")
->=20
-> I will be happy to test any patch or provide any extra log if needed.
->=20
->=20
+>  	/* Get irq number and register it */
 > --
-> Regards
-> Sudip
+> 2.31.1
 
-Hi Sudip,
-
-I already sent another patch to fix this build error, could you give it a t=
-ry?
-https://lkml.org/lkml/2022/8/29/131
-Thanks
-
-Best Regards,
--Neal
