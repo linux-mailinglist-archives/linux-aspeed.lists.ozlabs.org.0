@@ -2,65 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7D25A7D13
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Aug 2022 14:16:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045855AA77C
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Sep 2022 08:01:49 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MHjnd2HB5z3bln
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Aug 2022 22:16:05 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=AqpsGQxz;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MJnNp2zStz3023
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Sep 2022 16:01:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::629; helo=mail-ej1-x629.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=AqpsGQxz;
-	dkim-atps=neutral
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MHjmn2yWvz3bcF
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Aug 2022 22:15:19 +1000 (AEST)
-Received: by mail-ej1-x629.google.com with SMTP id kk26so27917612ejc.11
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Aug 2022 05:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=kWB6H8/eRT0uvs+7dpZN0LfgkIKsMbM/vLGI21NZpGM=;
-        b=AqpsGQxz0Z5xEtEA2iTVL+MHr93DKFmuEVs5lC21yVoP8sAEtUttoNxOg16xoO8FWT
-         iz5fcIJSylAWLoJdbt/iB1BSAvpsnm6J5BdtLWRy18zlaYp9FFyUFHSPby+PN6ZittFK
-         Rv78F+ZJ/VU4Z3YIxyXQvP6F7TFAm8EhqeMstDp+b6d40NuB3kvomcK1QKE0tMSHOSTE
-         hrVsRkdiXae/rFdkub4hNciY8Xp22pq6x/XBmKVzhIkk5lDO2Cx5w+9jdRem5Ue/3hnO
-         Lxjeb5a6QfoyPwnSyew3K3/QEEs4sGEB4j4ypct9IJsNhKWIkE6V3pu2e0sM+WGqFYO/
-         XsBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=kWB6H8/eRT0uvs+7dpZN0LfgkIKsMbM/vLGI21NZpGM=;
-        b=uh8cwHAy+ufemGuWr3mzS3/FuGetlb1yt0Zn43Rd6JcWAfQdKqq9OkAktwV9VYGIsp
-         mV+qPsargLAuj/s7LFIBkmH58dBsV/uipPXNGEd/syBrOaBuxzkNQyIuP6A3jDCXTtQ4
-         uYHldStHln/n5ZURj95q65mk9/9w5rwJrKbSkj44R0cMg3R7q3Yq8qjen9LJFXVaZy7Y
-         nksIFjZr16suggTrK2j+UZxF2V8xHOr4dqmjOBX1fJ5A1CHaI7xmX2VAtCi6MXhflvG+
-         z3E1ZRtL09Y+rmUWOX41OI9rL8FwsL+J3vkrYAWQqE0jVgsH0mwK2WzTod04veFbNI30
-         i9aQ==
-X-Gm-Message-State: ACgBeo0znrZXycByWH8zRQUtOGKxITHrg356Jv1RlVQ0WGfqKiu+Qeqn
-	IZfAq8q+OjgjLi6LjSmqvWu/5uxBgNS0bLh4jYlkfQ==
-X-Google-Smtp-Source: AA6agR431HKmf0TUg6YlMD0uxoGOijdkT6OeZopqLPwbMGaOIN9VRF8Kz4zNCsyebmooon1v1jTmK62J5TvWsl8ex3g=
-X-Received: by 2002:a17:906:cc5a:b0:741:5240:d91a with SMTP id
- mm26-20020a170906cc5a00b007415240d91amr13306282ejb.500.1661948115397; Wed, 31
- Aug 2022 05:15:15 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MJnNf1TZ1z2yZc
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Sep 2022 16:01:37 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 2825eWPB091012;
+	Fri, 2 Sep 2022 13:40:32 +0800 (GMT-8)
+	(envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 2 Sep
+ 2022 14:00:15 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Dhananjay Phadke <dphadke@linux.microsoft.com>,
+        Herbert Xu
+	<herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Joel Stanley" <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Rob
+ Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        "Chia-Wei Wang --cc=linux-kernel @ vger
+ . kernel . org" <chiawei_wang@aspeedtech.com>
+Subject: [PATCH v1 0/4] Add Aspeed ACRY driver for hardware acceleration
+Date: Fri, 2 Sep 2022 14:00:08 +0800
+Message-ID: <20220902060012.3758637-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220818101839.28860-1-billy_tsai@aspeedtech.com>
-In-Reply-To: <20220818101839.28860-1-billy_tsai@aspeedtech.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 31 Aug 2022 14:15:04 +0200
-Message-ID: <CACRpkdZSw9Nn8hp+C3SPw4_EkXn0mkLh8tSO5zhGR8xdv=Jk8g@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: Force to disable the function's signal
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2825eWPB091012
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +57,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Aug 18, 2022 at 12:18 PM Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+Aspeed ACRY engine is designed to accelerate the throughput of
+ECDSA/RSA signature and verification.
 
-> When the driver want to disable the signal of the function, it doesn't
-> need to query the state of the mux function's signal on a pin. The
-> condition below will miss the disable of the signal:
-> Ball | Default | P0 Signal | P0 Expression               | Other
-> -----+---------+-----------+-----------------------------+----------
->  E21   GPIOG0    SD2CLK      SCU4B4[16]=1 & SCU450[1]=1    GPIOG0
-> -----+---------+-----------+-----------------------------+----------
->  B22   GPIOG1    SD2CMD      SCU4B4[17]=1 & SCU450[1]=1    GPIOG1
-> -----+---------+-----------+-----------------------------+----------
-> Assume the register status like below:
-> SCU4B4[16] == 1 & SCU4B4[17] == 1 & SCU450[1]==1
-> After the driver set the Ball E21 to the GPIOG0:
-> SCU4B4[16] == 0 & SCU4B4[17] == 1 & SCU450[1]==0
-> When the driver want to set the Ball B22 to the GPIOG1, the condition of
-> the SD2CMD will be false causing SCU4B4[17] not to be cleared.
->
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+These patches aim to add Aspeed ACRY RSA driver support.
+This driver also pass the run-time self tests that take place at
+algorithm registration on both big-endian/little-endian system
+in AST2600 evaluation board .
 
-Patch applied!
+Tested-by below configs:
+- CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
+- CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=y
+- CONFIG_DMA_API_DEBUG=y
+- CONFIG_DMA_API_DEBUG_SG=y
+- CONFIG_CPU_BIG_ENDIAN=y
 
-Yours,
-Linus Walleij
+Neal Liu (4):
+  crypto: aspeed: Add ACRY RSA driver
+  ARM: dts: aspeed: Add ACRY/AHBC device controller node
+  dt-bindings: crypto: add documentation for Aspeed ACRY
+  dt-bindings: bus: add documentation for Aspeed AHBC
+
+ .../bindings/bus/aspeed,ast2600-ahbc.yaml     |  39 +
+ .../bindings/crypto/aspeed,ast2600-acry.yaml  |  49 +
+ MAINTAINERS                                   |   2 +-
+ arch/arm/boot/dts/aspeed-g6.dtsi              |  13 +
+ drivers/crypto/aspeed/Kconfig                 |  11 +
+ drivers/crypto/aspeed/Makefile                |   5 +-
+ drivers/crypto/aspeed/aspeed-acry.c           | 848 ++++++++++++++++++
+ 7 files changed, 965 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
+ create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2600-acry.yaml
+ create mode 100644 drivers/crypto/aspeed/aspeed-acry.c
+
+-- 
+2.25.1
+
