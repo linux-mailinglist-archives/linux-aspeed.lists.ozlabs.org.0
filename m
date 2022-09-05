@@ -2,34 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AD55AD0F0
-	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Sep 2022 13:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9ACC5AD4AA
+	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Sep 2022 16:22:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MLlzL6XDtz30L5
-	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Sep 2022 21:05:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MLrML4RQ9z304J
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Sep 2022 00:22:38 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aof6Eyb7;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=216.24.177.18; helo=fornost.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=<UNKNOWN>)
-Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=infradead.org (client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=aof6Eyb7;
+	dkim-atps=neutral
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MLlz804wvz3cFm
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  5 Sep 2022 21:04:50 +1000 (AEST)
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1oV9tz-001AdR-4B; Mon, 05 Sep 2022 21:04:28 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Mon, 05 Sep 2022 19:04:27 +0800
-Date: Mon, 5 Sep 2022 19:04:27 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH v2] crypto: aspeed: fix build module error
-Message-ID: <YxXXuyNrQIcMZBLI@gondor.apana.org.au>
-References: <20220905025433.1610696-1-neal_liu@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MLrMC2ty0z2xG6
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  6 Sep 2022 00:22:30 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=N7pFEpgeBITd5OyNwVUMI6CTbDxc2SQpld2QOauPWdU=; b=aof6Eyb7jjCXNwHwOoNzI7JX5Q
+	XfDCkDcFFfP3QOsO5n0j9PbnMzE99XZesQ0FP+ytaZKGolBb4Ozmgw5pInJje5pDV9FT/sNhFkJFX
+	qcAFjaEsHxtDxqT3L5LH30QD9UVehlEOIltBORXyGQndGAAKTkPDys1Y5DPgDdcbv4DiS7uMeTVKT
+	LE7NjptLVxKe7IL3JBQsjkM2PgFE0dbAhhczhr1VwmrmF8zHvP7e60CMjlg+PTGBQAwFSvzFpU80S
+	EKwXsGuKauhQBXgGUXTTaf6ZAgYiFC79ak2It1J/rRPQvMdV4o9WrluTJwDYQVPAFtNowdIJA0fIU
+	FaPhRx8A==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oVCzT-004M2O-6j; Mon, 05 Sep 2022 14:22:19 +0000
+Message-ID: <c6335594-88f2-3769-234f-1135e3bb09b9@infradead.org>
+Date: Mon, 5 Sep 2022 07:22:17 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220905025433.1610696-1-neal_liu@aspeedtech.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v2] crypto: aspeed: fix format unexpected build warning
+Content-Language: en-US
+To: Neal Liu <neal_liu@aspeedtech.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>
+References: <20220905052449.1830669-1-neal_liu@aspeedtech.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220905052449.1830669-1-neal_liu@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,40 +62,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, linux-crypto@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
+Cc: BMC-SW@aspeedtech.com, kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Sep 05, 2022 at 10:54:33AM +0800, Neal Liu wrote:
->
-> diff --git a/drivers/crypto/aspeed/Makefile b/drivers/crypto/aspeed/Makefile
-> index 421e2ca9c53e..3be78cec0ecb 100644
-> --- a/drivers/crypto/aspeed/Makefile
-> +++ b/drivers/crypto/aspeed/Makefile
-> @@ -1,9 +1,6 @@
-> +hace-hash-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) := aspeed-hace.o aspeed-hace-hash.o
-> +hace-crypto-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO) := aspeed-hace.o aspeed-hace-crypto.o
-> +
->  obj-$(CONFIG_CRYPTO_DEV_ASPEED) += aspeed_crypto.o
-> -aspeed_crypto-objs := aspeed-hace.o	\
-> -		      $(hace-hash-y)	\
-> +aspeed_crypto-objs := $(hace-hash-y)	\
->  		      $(hace-crypto-y)
 
-Does this still build if both HASH and CRYPTO are off?
 
-I think this it's best if you do:
+On 9/4/22 22:24, Neal Liu wrote:
+> This fixes the following similar build warning when
+> enabling compile test:
+> 
+> aspeed-hace-hash.c:188:9: warning: format '%x' expects argument of type
+> 'unsigned int', but argument 7 has type 'size_t' {aka 'long unsigned int'}
+> [-Wformat=]
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
 
-hace-hash-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) := aspeed-hace-hash.o
-hace-crypto-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO) := aspeed-hace-crypto.o
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-obj-$(CONFIG_CRYPTO_DEV_ASPEED) += aspeed_crypto.o
-aspeed_crypto-objs := aspeed-hace.o	\
-		      $(hace-hash-y)	\
-		      $(hace-crypto-y)
+Thanks.
 
-Thanks,
+> ---
+> v2: Use "%zu" format to print size_t.
+> 
+>  drivers/crypto/aspeed/aspeed-hace-hash.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/crypto/aspeed/aspeed-hace-hash.c b/drivers/crypto/aspeed/aspeed-hace-hash.c
+> index 0a44ffc0e13b..6e833d238253 100644
+> --- a/drivers/crypto/aspeed/aspeed-hace-hash.c
+> +++ b/drivers/crypto/aspeed/aspeed-hace-hash.c
+> @@ -185,7 +185,7 @@ static int aspeed_ahash_dma_prepare_sg(struct aspeed_hace_dev *hace_dev)
+>  	remain = (rctx->total + rctx->bufcnt) % rctx->block_size;
+>  	length = rctx->total + rctx->bufcnt - remain;
+>  
+> -	AHASH_DBG(hace_dev, "%s:0x%x, %s:0x%x, %s:0x%x, %s:0x%x\n",
+> +	AHASH_DBG(hace_dev, "%s:0x%x, %s:%zu, %s:0x%x, %s:0x%x\n",
+>  		  "rctx total", rctx->total, "bufcnt", rctx->bufcnt,
+>  		  "length", length, "remain", remain);
+>  
+> @@ -324,7 +324,7 @@ static int aspeed_hace_ahash_trigger(struct aspeed_hace_dev *hace_dev,
+>  	struct ahash_request *req = hash_engine->req;
+>  	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
+>  
+> -	AHASH_DBG(hace_dev, "src_dma:0x%x, digest_dma:0x%x, length:0x%x\n",
+> +	AHASH_DBG(hace_dev, "src_dma:%zu, digest_dma:%zu, length:%zu\n",
+>  		  hash_engine->src_dma, hash_engine->digest_dma,
+>  		  hash_engine->src_length);
+>  
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+~Randy
