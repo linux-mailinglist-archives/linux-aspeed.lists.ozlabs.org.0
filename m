@@ -2,69 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77355ADFC0
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Sep 2022 08:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADBC5AE120
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Sep 2022 09:31:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MMFnH58wkz3bWM
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Sep 2022 16:28:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MMHBv16NJz30M8
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Sep 2022 17:31:51 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=q5hGWkzH;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=QzGJ4K2u;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=rentao.bupt@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::a36; helo=mail-vk1-xa36.google.com; envelope-from=pkarthikeyan1509@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=q5hGWkzH;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=QzGJ4K2u;
 	dkim-atps=neutral
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com [IPv6:2607:f8b0:4864:20::a36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MMFn80M14z2xZ4;
-	Tue,  6 Sep 2022 16:27:55 +1000 (AEST)
-Received: by mail-pl1-x629.google.com with SMTP id jm11so10286403plb.13;
-        Mon, 05 Sep 2022 23:27:54 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MMHBp1QYtz2xD3;
+	Tue,  6 Sep 2022 17:31:44 +1000 (AEST)
+Received: by mail-vk1-xa36.google.com with SMTP id s11so904928vkb.5;
+        Tue, 06 Sep 2022 00:31:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=tZGkVWfVwu3VMSzAGROw7vkLVEx9FkktQXY75aiAv1g=;
-        b=q5hGWkzHC+IcxG4HYOa7ijNSm1gIy0xI5yvRIJoJ4rgtFb2yeGg7eV0Lgc8rAzwEyh
-         /QWrx4UiRJbjR2JAimM/PiPuId0VOld9GL6aNQX60m10yKQ3PY4GXU4P0J5Qfj+tgw/D
-         6Hhqvib3H9O+nL22TPeHRfO/axMjJNt23nIm9cgDFLQrD32clHnaShP4nWQe5Gj3lIp/
-         owHKctlCy1/sheAOOwGmfruXxWvuJi7QF+kUQOZVB5KwuStkhy8x4nUJZbOrG/W7gZEW
-         Q3HfIxUSPIf3wLI/8Z6m8zljULEgzTDuyImYCzcxsooqpotxIO4mGp2rrvhmSXoveut/
-         g/ug==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=v8jjPnQbyQhdmUR0CkT9JoQA+mxLTEDlQbLuNU3+6c8=;
+        b=QzGJ4K2ud0goqEVb8quHuKLgWdOTP0uxW7ygcirJMQtA5k1idxR3v/8Te8j6V1xGNz
+         A2bq6vGjjScXthDNt8OfOQSgwkgeveOIaJYI0K45xDsvMvk9Tt3nGmeqkupNUG8vj256
+         5YsfAwt9XzGtn7RdqhnPoICwkka9V/ZdNmdQTjADBs03c0ogtjDAUXhx8oltjYSmCXlB
+         jHzkV2f2h8TP+Cbzr0yz19d3NnCQ+0N2StTNzS7BF7ozefHWJ7vPUqiNiUg0qfaEQj34
+         bnpV41fWYB8YgRJIV4OeiVDOJsloSEa5bVtbtYMJLCC/PpdLEVgMs674no9DrbUV1+cX
+         A1PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=tZGkVWfVwu3VMSzAGROw7vkLVEx9FkktQXY75aiAv1g=;
-        b=IDTntESJIdi3LGKO/Dm+M4cIri8lBhriAxCRvPf2kFAyvpEfuH74fr7WUE4+LNPqbA
-         HCdPSfgKtbHoZQdQ9hhJPHC8AYFxYn8wCYFqfDE5s7BmV00zOwBCaFZzwkDUc5V5RopU
-         f6o9EXnXZ523wZ8hZxGihPgUYAgN8Z1zvUdoC8EO3dxZtuth9Q5Cp23XZ4Z7kVlD+Rei
-         S3hEbbavRAR1ReV/LGOu3a7FdnJtEQL4NpAI4PnGBIEBacuEGMRYaFmaff4XZNPxhmP0
-         +8EN3mBEBpIKYRBOe8lf12II9ssKvce6bxSY3doP5oW5mMfp7az8JX2hXj2iw9Wf1qb3
-         rgJA==
-X-Gm-Message-State: ACgBeo0ClSQcJUJhVT7nkKumJEKC7/dJTh8zSFOKLD5rJGcYB3HG0vz8
-	CMi+7QJlLW0qJCx42qKyk7g=
-X-Google-Smtp-Source: AA6agR6bqQvVPxZDdNU9/IYUxuqxClwUpHLhvoX7Ki3t2GJAr6RH4b3PG2Cl6yU8oos1upmBqsa86w==
-X-Received: by 2002:a17:90a:5988:b0:1fd:6a33:abf with SMTP id l8-20020a17090a598800b001fd6a330abfmr23105126pji.69.1662445672225;
-        Mon, 05 Sep 2022 23:27:52 -0700 (PDT)
-Received: from taoren-fedora-PC23YAB4 ([76.132.249.1])
-        by smtp.gmail.com with ESMTPSA id 5-20020a170902c24500b0016dc78d0153sm842426plg.296.2022.09.05.23.27.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 23:27:51 -0700 (PDT)
-Date: Mon, 5 Sep 2022 23:27:42 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-Subject: Re: [PATCH v1] Update for Facebook yosemite V2 BMC.
-Message-ID: <YxboXspF+0Y/+spD@taoren-fedora-PC23YAB4>
-References: <20220906050702.GA10565@hcl-ThinkPad-T495>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=v8jjPnQbyQhdmUR0CkT9JoQA+mxLTEDlQbLuNU3+6c8=;
+        b=uygNe0W9bAnsyknIahZaYa3PfGNQYfsRjTvCv0MqOmBtxHfcd5pN8m1WFB1tkI/JwU
+         C1kWLWJPLejy490AZKAavBEQImtuIAT2WBf/mDDBsB03AES35o6dEi3ffOy3pkV8SMNs
+         VigER9HrKMsBy0/IQDSBiPKzxrUJ+0KYiZuUVqoioZX82+tt4HhN2slVAINAv0Mj+iSO
+         G45CsAheHtBh/XdYhWomwHn6vFOYfobS4b4trzWredKm7JxrNBcgzkoZDyXug7MssuZ4
+         QbWh1Gk8mDyfAxfaNrgz/SNlg9X2OzrukTx/TAoKyBXeQ3xQopYl1ZUyp/4SLCfhlGIy
+         CudQ==
+X-Gm-Message-State: ACgBeo0gTeL04Oj4vR8aRwrLsK14DSzqu9b070mJQbYdfRo5M2quXWO5
+	nppEfaywCcAzCrbAX6gm/FqGaNJ99kpZYaqTRVM=
+X-Google-Smtp-Source: AA6agR6a16gEwVM4J3Vll7qXITKtRkUS8hjt8L/dHfUHtjOuoJ/nFQEu7XU3cpZuYKckCs4VswCfeZDNL8xIxYbxDYY=
+X-Received: by 2002:a1f:d7c5:0:b0:38b:77e8:8efa with SMTP id
+ o188-20020a1fd7c5000000b0038b77e88efamr14660577vkg.7.1662449500526; Tue, 06
+ Sep 2022 00:31:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220906050702.GA10565@hcl-ThinkPad-T495>
+References: <20220906050702.GA10565@hcl-ThinkPad-T495> <YxboXspF+0Y/+spD@taoren-fedora-PC23YAB4>
+In-Reply-To: <YxboXspF+0Y/+spD@taoren-fedora-PC23YAB4>
+From: karthikeyan P <pkarthikeyan1509@gmail.com>
+Date: Tue, 6 Sep 2022 13:01:28 +0530
+Message-ID: <CA+ezb7hdon3duH_oOLdGJGv_6HxCqa=HB6Tu0stbSuj2tMaSeQ@mail.gmail.com>
+Subject: Re: [PATCH v1] Update for Facebook yosemite V2 BMC.
+To: Tao Ren <rentao.bupt@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000ef9c6805e7fd2f38"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,52 +76,129 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozl
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Karthikeyan,
+--000000000000ef9c6805e7fd2f38
+Content-Type: text/plain; charset="UTF-8"
 
-I don't have much experience with ipmb-dev, but I'd suggest updating the
-patch tile so it's consistent with other dts patches. For example:
+Noted.
 
-"ARM: dts: aspeed: yosemitev2: Enable i2c13 controller"
+On Tue, Sep 6, 2022 at 11:57 AM Tao Ren <rentao.bupt@gmail.com> wrote:
 
+> Hi Karthikeyan,
+>
+> I don't have much experience with ipmb-dev, but I'd suggest updating the
+> patch tile so it's consistent with other dts patches. For example:
+>
+> "ARM: dts: aspeed: yosemitev2: Enable i2c13 controller"
+>
+>
+> Cheers,
+>
+> - Tao
+>
+> On Tue, Sep 06, 2022 at 10:37:02AM +0530, Karthikeyan Pasupathi wrote:
+> > Added IPMB-13 channel for Debug Card communication.
+> >
+> > ---
+> > --- v1 - Initial draft.
+> > ---
+> >
+> > Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+> > ---
+> >  arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> > index 8864e9c312a8..84236df522dc 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> > @@ -215,6 +215,17 @@
+> >       };
+> >  };
+> >
+> > +&i2c13 {
+> > +     status = "okay";
+> > +     // Debug Card
+> > +     multi-master;
+> > +     ipmb13@10 {
+> > +             compatible = "ipmb-dev";
+> > +             reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
+> > +             i2c-protocol;
+> > +     };
+> > +};
+> > +
+> >  &pwm_tacho {
+> >       status = "okay";
+> >       //FSC
+> > --
+> > 2.17.1
+> >
+>
 
-Cheers,
+--000000000000ef9c6805e7fd2f38
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- Tao
+<div dir=3D"ltr">Noted. <br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, Sep 6, 2022 at 11:57 AM Tao Ren &lt;<=
+a href=3D"mailto:rentao.bupt@gmail.com">rentao.bupt@gmail.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Karthikeyan=
+,<br>
+<br>
+I don&#39;t have much experience with ipmb-dev, but I&#39;d suggest updatin=
+g the<br>
+patch tile so it&#39;s consistent with other dts patches. For example:<br>
+<br>
+&quot;ARM: dts: aspeed: yosemitev2: Enable i2c13 controller&quot;<br>
+<br>
+<br>
+Cheers,<br>
+<br>
+- Tao<br>
+<br>
+On Tue, Sep 06, 2022 at 10:37:02AM +0530, Karthikeyan Pasupathi wrote:<br>
+&gt; Added IPMB-13 channel for Debug Card communication.<br>
+&gt; <br>
+&gt; ---<br>
+&gt; --- v1 - Initial draft.<br>
+&gt; ---<br>
+&gt; <br>
+&gt; Signed-off-by: Karthikeyan Pasupathi &lt;<a href=3D"mailto:pkarthikeya=
+n1509@gmail.com" target=3D"_blank">pkarthikeyan1509@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts | 11 ++++++=
++++++<br>
+&gt;=C2=A0 1 file changed, 11 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/ar=
+ch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts<br>
+&gt; index 8864e9c312a8..84236df522dc 100644<br>
+&gt; --- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts<br>
+&gt; +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts<br>
+&gt; @@ -215,6 +215,17 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0};<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt; +&amp;i2c13 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0// Debug Card<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0multi-master;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0ipmb13@10 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0compatible =3D &quot;=
+ipmb-dev&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reg =3D &lt;(0x10 | I=
+2C_OWN_SLAVE_ADDRESS)&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i2c-protocol;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0};<br>
+&gt; +};<br>
+&gt; +<br>
+&gt;=C2=A0 &amp;pwm_tacho {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0//FSC<br>
+&gt; -- <br>
+&gt; 2.17.1<br>
+&gt; <br>
+</blockquote></div>
 
-On Tue, Sep 06, 2022 at 10:37:02AM +0530, Karthikeyan Pasupathi wrote:
-> Added IPMB-13 channel for Debug Card communication.
-> 
-> ---
-> --- v1 - Initial draft.
-> ---
-> 
-> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-> ---
->  arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> index 8864e9c312a8..84236df522dc 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> @@ -215,6 +215,17 @@
->  	};
->  };
->  
-> +&i2c13 {
-> +	status = "okay";
-> +	// Debug Card
-> +	multi-master;
-> +	ipmb13@10 {
-> +		compatible = "ipmb-dev";
-> +		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +		i2c-protocol;
-> +	};
-> +};
-> +
->  &pwm_tacho {
->  	status = "okay";
->  	//FSC
-> -- 
-> 2.17.1
-> 
+--000000000000ef9c6805e7fd2f38--
