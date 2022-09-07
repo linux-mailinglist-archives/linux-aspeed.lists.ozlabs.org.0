@@ -2,72 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E94F5B043C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Sep 2022 14:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B705B0C85
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Sep 2022 20:32:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MN2DZ2t86z3bk8
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Sep 2022 22:50:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MN9pk5vFFz3bbP
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Sep 2022 04:32:30 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ZAMD8mIt;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=LoZZiEPH;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42b; helo=mail-pf1-x42b.google.com; envelope-from=pkarthikeyan1509@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ZAMD8mIt;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=LoZZiEPH;
 	dkim-atps=neutral
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MN2DQ56cvz3bSS;
-	Wed,  7 Sep 2022 22:50:44 +1000 (AEST)
-Received: by mail-pf1-x42b.google.com with SMTP id j12so2081710pfi.11;
-        Wed, 07 Sep 2022 05:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:to
-         :from:date:from:to:cc:subject:date;
-        bh=jPyKiHK9Z1f/mDgcNl32AxqjgUc4Ptqqz+HyhxKfYq4=;
-        b=ZAMD8mItqJ7YqDQ3bHcwDY/4B6fkAILhnL2e+pz66KKPOOfXtKhThy+IvJrsL+fV0D
-         8Iffyu6DNtCG9aFafbX7HOsZnYXYDY2W2B2A/5eBzzKxZNJXa1kK73Uv1GLSiTb8SLn3
-         gn3PIIYfJd5/ubD7E3EGesaQaCBk9EJbqpgwnK2VqaCRzFNWB0U0A0YttBLYdUIf475C
-         DsVWovp/Gv+xDYy9R86dagC4WH8FBlBg86mYLdLJYaUU52bzC90dN3sCSyesAL+toXYN
-         sJaSz7l+Kz0N5yOiLI/5a6JzydcSFLzclETpmVHhjDMkvYj1UNNsRJKbOMWAATqjAji5
-         Oxyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=jPyKiHK9Z1f/mDgcNl32AxqjgUc4Ptqqz+HyhxKfYq4=;
-        b=WtiylSomprFcGK/3duUIRe970q37Yf9PbJ4xTTL5GgV9G53+fN/YA57wSn86xIriuj
-         qlqbkVW0exciBXUbnHcfWuaWi3x6QPaZHAYUJOX+gIceeD9B1x8n5apjvnychseq9szO
-         TvReQHMa/pXlHNUIpzgxvOHWXseMRevtzD5yDmifFNz5PL+G3AzWxn9naRalHSURtXQ4
-         a8r44JzS1YWFyLhjXTbNHUXCZyh2S0PhOp5KggfkJpTG9JEr23DQUlQH2yc3sCtRG689
-         gwmkLcyv1S7qqqcyFNmuhJMC8YozRTaKoOnPenKH8urluSCLLmmm9W7XMfNgmL6sMIFq
-         mMmw==
-X-Gm-Message-State: ACgBeo1AyJOcdRLL2VrUVR+5Zl0A76/bQN06/QBHG7mUxTNNa+4VxRk1
-	PIOg1uyV+emr3sslgqLfDoA=
-X-Google-Smtp-Source: AA6agR6wqTSiC4quRaCw4iH7eVY9qz1KHmrlAlH7dE8ysQ1Msha5l8j12ZXgbQ5wEWXPGl9od6MaGg==
-X-Received: by 2002:a05:6a00:e85:b0:52b:5db8:f3df with SMTP id bo5-20020a056a000e8500b0052b5db8f3dfmr3966989pfb.14.1662555041806;
-        Wed, 07 Sep 2022 05:50:41 -0700 (PDT)
-Received: from hcl-ThinkPad-T495 ([2401:4900:1ce1:13f0:48c4:2ac5:ccad:657d])
-        by smtp.gmail.com with ESMTPSA id bj9-20020a056a02018900b0041bcd8f3958sm10450967pgb.44.2022.09.07.05.50.38
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 07 Sep 2022 05:50:41 -0700 (PDT)
-Date: Wed, 7 Sep 2022 18:20:35 +0530
-From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org
-Subject: [PATCH v2] ARM: dts: aspeed: yosemit V2: Update for Facebook
- Yosemite V2 BMC
-Message-ID: <20220907125035.GA28461@hcl-ThinkPad-T495>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MN9pY6rZbz2xZT
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Sep 2022 04:32:21 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=G/FypflG4NfFCRm8J3G/bpPvpL9rxSGmFg2np10DoFw=; b=LoZZiEPHG/S1jeSOeSyx3AuN+J
+	ghUe1VTbm5NTJovWJM+NFKnQ/4Ix/K0BI/Wd8VOD6jPxPzGFbKWuDm4G7GPhuMhS5ESUydvgVn8Mj
+	bJxGYz8QDHo8X0eRGRpY8eg5JEd7fr1ovAUcXum/7mmJq3QVgV7ccBnwPE6uKuihquqY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1oVzpc-00FtGW-2P; Wed, 07 Sep 2022 20:31:24 +0200
+Date: Wed, 7 Sep 2022 20:31:24 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: rentao.bupt@gmail.com
+Subject: Re: [PATCH net-next v3 2/2] ARM: dts: aspeed: elbert: Enable mac3
+ controller
+Message-ID: <YxjjfELmf7XIVH7k@lunn.ch>
+References: <20220907054453.20016-1-rentao.bupt@gmail.com>
+ <20220907054453.20016-3-rentao.bupt@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20220907054453.20016-3-rentao.bupt@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,42 +56,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Guangbin Huang <huangguangbin2@huawei.com>, Eric Dumazet <edumazet@google.com>, Rob Herring <robh+dt@kernel.org>, Hao Chen <chenhao288@hisilicon.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, Liang He <windhl@126.com>, "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Removed NIC EEPROM driver IPMB-12 channel and keeping it as
-"status ok".
+On Tue, Sep 06, 2022 at 10:44:53PM -0700, rentao.bupt@gmail.com wrote:
+> From: Tao Ren <rentao.bupt@gmail.com>
+> 
+> Enable mac3 controller in Elbert dts: Elbert MAC3 is connected to the
+> BCM53134P onboard switch's IMP_RGMII port directly (fixed link, no PHY
+> between BMC MAC and BCM53134P).
+> 
+> Note: BMC's mdio0 controller is connected to BCM53134P's MDIO interface,
+> and the MDIO channel will be enabled later, when BCM53134 is added to
+> "bcm53xx" DSA driver.
+> 
+> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
 
----
---- v2- Updated the title
----
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
----
---- v1- Initial draft
----
-
-Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
----
- arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-index 8864e9c312a8..2293f10e94d6 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-@@ -207,12 +207,6 @@
- 
- &i2c12 {
- 	status = "okay";
--	//MEZZ_FRU
--	eeprom@51 {
--		compatible = "atmel,24c64";
--		reg = <0x51>;
--		pagesize = <32>;
--	};
- };
- 
- &pwm_tacho {
--- 
-2.17.1
-
+    Andrew
