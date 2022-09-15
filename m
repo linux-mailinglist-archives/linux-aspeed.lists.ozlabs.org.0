@@ -2,66 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765595B9664
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Sep 2022 10:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1AB5B993A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Sep 2022 13:00:31 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MSr6B5LmCz3bkx
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Sep 2022 18:32:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MSvPS0F4wz3bkl
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Sep 2022 21:00:28 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QY6OH70P;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gmgro/xC;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.136; helo=mga12.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QY6OH70P;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gmgro/xC;
 	dkim-atps=neutral
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MSr632xHzz30Dp;
-	Thu, 15 Sep 2022 18:31:50 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663230715; x=1694766715;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4QDYhv01XhBj9H19T7cifgoQYgyC7r+UJfLax276tBI=;
-  b=QY6OH70PfumjhGRz1ck/KOQ9WiaBmOZ97RIfWGEJgbZM5J48u2nlS5Bk
-   uRDUKVSyXcrLD2BIRCSoNqALnesgZWdAOhYsmjInQSbqzWnbDiD2xW6+s
-   KSb7dplzQbyzZuLk3JRQgVpMj2dLy68WGqBcYdyMMWatjBfGTKkGiAdM0
-   JFjhkCKbJLwftL5Cto98yABKw2HoWIzmPT15Jk9santH5l21NbuD7zY20
-   oLwS2lIFePisXP7ATaJpaPzQQ4JCpa2zwaq9avGDL4ViyZABdieQ4Pxa+
-   sc57Y1+yr74ca3NKLnR/Q361S+cs8TrDqtyfS5KxPazkkU9nKuB5kfIqc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="278381476"
-X-IronPort-AV: E=Sophos;i="5.93,317,1654585200"; 
-   d="scan'208";a="278381476"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2022 01:31:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,317,1654585200"; 
-   d="scan'208";a="650396990"
-Received: from lkp-server02.sh.intel.com (HELO 41300c7200ea) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 15 Sep 2022 01:31:44 -0700
-Received: from kbuild by 41300c7200ea with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oYkHf-0000Dj-1p;
-	Thu, 15 Sep 2022 08:31:43 +0000
-Date: Thu, 15 Sep 2022 16:30:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org
-Subject: Re: [PATCH v3] ARM: dts: aspeed: yosemit V2: Enable OCP debug card
-Message-ID: <202209151642.BiM4LmOZ-lkp@intel.com>
-References: <20220914095207.GA24690@hcl-ThinkPad-T495>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MSvPN0MCgz2yRS
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Sep 2022 21:00:23 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 07BFAB81FAC;
+	Thu, 15 Sep 2022 11:00:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 981FAC433C1;
+	Thu, 15 Sep 2022 11:00:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1663239617;
+	bh=acLkAUMk8BizKu7cs/NDP4722gLa3JtenovpxYO3Tr8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=gmgro/xCWfp0Ze/EGnC+VKSQMF6UT+HP8vRhQUthN2sRBWRbOqsBoQpALOJGiJ/10
+	 cUwOVAMciz0g0KcBweDX2hfDVvb+hIGPGdJgXG3P0rcXtkpRPyodGlXfN9iefDrCpY
+	 aNs+hiXkrgySSxOm7bL8H+BQMw8vmcs9u1omb+criFevg9Sm4arCrtBNm9tcu6+slD
+	 DvcdT3mzYo8UJpcBLcdFz7HDk2eCI46Ux2Ze/mBS9ZW85U/3Da2X5qxyxhAN3mEagX
+	 U+kjBGC0sf47cgTi4PtAbDI4CmsRt1WxBbYue8Vc5Y115JdCxcZyLB2CqYsv0MoxPq
+	 sJXDx1FtsgnKQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 73AF2C73FFC;
+	Thu, 15 Sep 2022 11:00:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220914095207.GA24690@hcl-ThinkPad-T495>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 0/2] net: ftgmac100: support fixed link
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id:  <166323961746.5581.16008979446604456337.git-patchwork-notify@kernel.org>
+Date: Thu, 15 Sep 2022 11:00:17 +0000
+References: <20220907054453.20016-1-rentao.bupt@gmail.com>
+In-Reply-To: <20220907054453.20016-1-rentao.bupt@gmail.com>
+To: Tao Ren <rentao.bupt@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,43 +62,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org
+Cc: andrew@lunn.ch, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, huangguangbin2@huawei.com, edumazet@google.com, robh+dt@kernel.org, chenhao288@hisilicon.com, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, windhl@126.com, davem@davemloft.net, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Karthikeyan,
+Hello:
 
-Thank you for the patch! Yet something to improve:
+This series was applied to netdev/net-next.git (master)
+by Paolo Abeni <pabeni@redhat.com>:
 
-[auto build test ERROR on arm/for-next]
-[also build test ERROR on arm64/for-next/core clk/clk-next rockchip/for-next shawnguo/for-next soc/for-next xilinx-xlnx/master linus/master v6.0-rc5 next-20220914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue,  6 Sep 2022 22:44:51 -0700 you wrote:
+> From: Tao Ren <rentao.bupt@gmail.com>
+> 
+> The patch series adds fixed link support to ftgmac100 driver.
+> 
+> Patch #1 adds fixed link logic into ftgmac100 driver.
+> 
+> Patch #2 enables mac3 controller in Elbert dts: Elbert mac3 is connected
+> to the onboard switch BCM53134P's IMP_RGMII port directly (no PHY
+> between BMC MAC and BCM53134P).
+> 
+> [...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karthikeyan-Pasupathi/ARM-dts-aspeed-yosemit-V2-Enable-OCP-debug-card/20220914-175427
-base:   git://git.armlinux.org.uk/~rmk/linux-arm.git for-next
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20220915/202209151642.BiM4LmOZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f4ff107abc0f057d0a55ced8a8db831db6f7d59e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Karthikeyan-Pasupathi/ARM-dts-aspeed-yosemit-V2-Enable-OCP-debug-card/20220914-175427
-        git checkout f4ff107abc0f057d0a55ced8a8db831db6f7d59e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+Here is the summary with links:
+  - [net-next,v3,1/2] net: ftgmac100: support fixed link
+    https://git.kernel.org/netdev/net-next/c/38561ded50d0
+  - [net-next,v3,2/2] ARM: dts: aspeed: elbert: Enable mac3 controller
+    https://git.kernel.org/netdev/net-next/c/ce6ce9176975
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts:222.9-10 syntax error
-   FATAL ERROR: Unable to parse input tree
-
+You are awesome, thank you!
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
