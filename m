@@ -1,37 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929C95BAB6B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Sep 2022 12:42:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E282A5BB192
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Sep 2022 19:21:51 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MTVyL4vl0z3bnH
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Sep 2022 20:42:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MTgpw4H4Tz3bsS
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Sep 2022 03:21:44 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=KYZtP4gv;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=216.24.177.18; helo=fornost.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=<UNKNOWN>)
-Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MTVyG70N5z301Z
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Sep 2022 20:42:28 +1000 (AEST)
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1oZ8nP-005H03-50; Fri, 16 Sep 2022 20:42:08 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 16 Sep 2022 18:42:07 +0800
-Date: Fri, 16 Sep 2022 18:42:07 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Neal Liu <neal_liu@aspeedtech.com>
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.microsoft.com (client-ip=13.77.154.182; helo=linux.microsoft.com; envelope-from=dphadke@linux.microsoft.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=KYZtP4gv;
+	dkim-atps=neutral
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MTgpm3x9Lz3bkl
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Sep 2022 03:21:36 +1000 (AEST)
+Received: from [192.168.87.140] (unknown [50.35.69.86])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 995F62057C51;
+	Fri, 16 Sep 2022 10:21:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 995F62057C51
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1663348863;
+	bh=A2ida2JImgsK4UkeYzeFjOJ0tiwuK8bnCdPdCjm9pt0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KYZtP4gviHGMnnV8Py6fBB0q97vzSmjwM0mh0A7YEkX6r+JJsTtmevZef37AZRmrW
+	 jqQM+pwWFUeuhEKC9mTKJ+TK4VSrZFZ91mjysl8Qm6arIDSV1SL6V3hUB1w7rfjvlu
+	 gUHI28DL+rg7ANZdVzP84ROKc+m3UX6rbX0lh3XQ=
+Message-ID: <4dc8b1a8-d7ef-844d-b48e-76fb8b91d96a@linux.microsoft.com>
+Date: Fri, 16 Sep 2022 10:21:03 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Subject: Re: [PATCH v2] crypto: aspeed: fix build module error
-Message-ID: <YyRS/71B4veWJgyl@gondor.apana.org.au>
+Content-Language: en-US
+To: Herbert Xu <herbert@gondor.apana.org.au>,
+ Neal Liu <neal_liu@aspeedtech.com>
 References: <20220905025433.1610696-1-neal_liu@aspeedtech.com>
  <YxXXuyNrQIcMZBLI@gondor.apana.org.au>
  <HK0PR06MB3202F47019416BA40859C7D4807E9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <HK0PR06MB3202F47019416BA40859C7D4807E9@HK0PR06MB3202.apcprd06.prod.outlook.com>
+ <YyRS/71B4veWJgyl@gondor.apana.org.au>
+From: Dhananjay Phadke <dphadke@linux.microsoft.com>
+In-Reply-To: <YyRS/71B4veWJgyl@gondor.apana.org.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,38 +58,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>, kernel test robot <lkp@intel.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, "David S . Miller" <davem@davemloft.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: BMC-SW <BMC-SW@aspeedtech.com>, kernel test robot <lkp@intel.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "David S . Miller" <davem@davemloft.net>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Sep 06, 2022 at 02:21:20AM +0000, Neal Liu wrote:
->
-> > Does this still build if both HASH and CRYPTO are off?
-> > 
-> > I think this it's best if you do:
-> > 
-> > hace-hash-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) :=
-> > aspeed-hace-hash.o
-> > hace-crypto-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO) :=
-> > aspeed-hace-crypto.o
-> > 
-> > obj-$(CONFIG_CRYPTO_DEV_ASPEED) += aspeed_crypto.o
-> > aspeed_crypto-objs := aspeed-hace.o	\
-> > 		      $(hace-hash-y)	\
-> > 		      $(hace-crypto-y)
-> > 
+On 9/16/2022 3:42 AM, Herbert Xu wrote:
+>>> Does this still build if both HASH and CRYPTO are off?
+>>>
+>>> I think this it's best if you do:
+>>>
+>>> hace-hash-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) :=
+>>> aspeed-hace-hash.o
+>>> hace-crypto-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO) :=
+>>> aspeed-hace-crypto.o
+>>>
+>>> obj-$(CONFIG_CRYPTO_DEV_ASPEED) += aspeed_crypto.o
+>>> aspeed_crypto-objs := aspeed-hace.o	\
+>>> 		      $(hace-hash-y)	\
+>>> 		      $(hace-crypto-y)
+>>>
+>> aspeed-hace.o effects only if either hace-hash-y or hace-crypto-y.
+>> If we put aspeed-hace.o in aspeed_crypto-objs, but hace-hash-y and hace-crypto-y are empty, apseed-hace.o is just an useless driver which might still occupy system resources.
+> Apparently it doesn't build after all, at least not on m68k.
 > 
-> aspeed-hace.o effects only if either hace-hash-y or hace-crypto-y.
-> If we put aspeed-hace.o in aspeed_crypto-objs, but hace-hash-y and hace-crypto-y are empty, apseed-hace.o is just an useless driver which might still occupy system resources.
+> So please either adopt my suggestion above, or come up with another
+> way of preventing the build failure on m68k with both HASH and CRYPTO
+> disabled.
 
-Apparently it doesn't build after all, at least not on m68k.
+Curious why compiled on m68k? It's embedded controller in ARM based
+Aspeed SoCs. And there's "depends on ARCH_ASPEED" in Kconfig, need
+some additional dependencies?
 
-So please either adopt my suggestion above, or come up with another
-way of preventing the build failure on m68k with both HASH and CRYPTO
-disabled.
-
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Regards,
+Dhananjay
