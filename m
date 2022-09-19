@@ -2,40 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7F15BC2F3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 08:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC90E5BCCAF
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 15:13:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MWFQZ6Qpxz30MT
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 16:39:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MWQ8r6ZGMz3bd3
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 23:13:16 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jMG8Rgx8;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jMG8Rgx8;
+	dkim-atps=neutral
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MWFQT2HGQz2xrr
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Sep 2022 16:39:27 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 28J6GVap079123;
-	Mon, 19 Sep 2022 14:16:32 +0800 (GMT-8)
-	(envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 19 Sep
- 2022 14:37:13 +0800
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [PATCH] crypto: aspeed: fix build error when only CRYPTO_DEV_ASPEED is enabled
-Date: Mon, 19 Sep 2022 14:37:05 +0800
-Message-ID: <20220919063705.358225-1-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MWQ8k0rHGz2xJ8;
+	Mon, 19 Sep 2022 23:13:09 +1000 (AEST)
+Received: by mail-pl1-x632.google.com with SMTP id b21so27871075plz.7;
+        Mon, 19 Sep 2022 06:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
+        bh=0SWMd1/dw8viGWJFir8vLYI252YhXo7+413gv8lkrKM=;
+        b=jMG8Rgx8ILPtFbAjdCC4Oe0jdG8QNs3SVz0BOWN+HAc9kuR5OgpDh0ltIcULvcKhLu
+         w4l9YzHCmEeKMToMayC2GPlTy2by5Lhq+5Rvj30ROI2IQV4tO0767bceYwZcV5Aq4WaZ
+         Y4O8qSnweUBXAqrq1/CVjLfsjoHJJNstfTQ9sPJ5/cUMlQ1toH743LwszvLC4X/oLA3T
+         2Mv+4flaRZYOgxQPetntXpf7kmTvLA9cRr2Zj/pANw0SGna44AwiXrmOAuptz1onbSJ5
+         R6DNI3+DTFI7iZ8ZyE4Hb9brVJDZ1OfWvFCEowHFgHd5TeTkoTwC+VzhDQSvRPmpOO3J
+         Dlrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=0SWMd1/dw8viGWJFir8vLYI252YhXo7+413gv8lkrKM=;
+        b=UfTpTyCLe4b3dmtolAJG4LRqVbPHNMxa1qxf/OQ8vrt38DD2XsDGh8wlT6GUZqqsgQ
+         phVXYgrB6H7aUbu23zjijhAW/gHOah1xNcpm9eL3WYGOXCWeJlEk32qgIGZLDqzPBiYq
+         VqtbnSf2LajcXlmHJuROCzu9hfTuauNDJu3zf5+XKBRR33W5UabdBNrrejo5faO3gnUW
+         wH/0njaNOHcoSkeqXxZ2KL0teoHi2dP/b4HEoRW0JXAttofLw/L+M1+Wg/QYC5447Js2
+         AiwWL7XeAJXyFjYVp6uQRRknJCqSni1tyoOEELucm6G5pR8N7uY/vbJoNyJfQym5kvFL
+         nNDw==
+X-Gm-Message-State: ACrzQf13XybW66thcbHlWT80xNjLTJZoyqPDLRGdmAcQPidBJ2zs4vpz
+	MjWA0mIFCpjGAKAJceIjBGg=
+X-Google-Smtp-Source: AMsMyM5KLPsJwaIa/7tRyTleFbZdQl88/wKqOzR2JZQawM2ZKcrErncGQOcA/vlHqwiyYs+Qzw5CDw==
+X-Received: by 2002:a17:902:e550:b0:177:f115:1646 with SMTP id n16-20020a170902e55000b00177f1151646mr13183688plf.112.1663593186365;
+        Mon, 19 Sep 2022 06:13:06 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id e2-20020a170902784200b001754cfb5e21sm20625912pln.96.2022.09.19.06.13.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Sep 2022 06:13:05 -0700 (PDT)
+Date: Mon, 19 Sep 2022 06:13:05 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Peter Robinson <pbrobinson@gmail.com>
+Subject: Re: [PATCH] hwmon: (aspeed-pwm-tacho): Add dependency on ARCH_ASPEED
+Message-ID: <20220919131305.GA3545921@roeck-us.net>
+References: <20220916120936.372591-1-pbrobinson@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 28J6GVap079123
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220916120936.372591-1-pbrobinson@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,70 +77,17 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org, Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org, Jaghathiswari Rankappagounder Natarajan <jaghu@google.com>, openbmc@lists.ozlabs.org, Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Fix build error within the following configs setting:
-- CONFIG_CRYPTO_DEV_ASPEED=y
-- CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH is not set
-- CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO is not set
+On Fri, Sep 16, 2022 at 01:09:36PM +0100, Peter Robinson wrote:
+> The SENSORS_ASPEED is part of the Aspeed silicon so it makes
+> sense to depend on ARCH_ASPEED and for compile testing.
+> 
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 
-Error messages:
-make[4]: *** No rule to make target 'drivers/crypto/aspeed/aspeed_crypto.o'
-, needed by 'drivers/crypto/aspeed/built-in.a'.
-make[4]: Target '__build' not remade because of errors.
+Applied.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
----
- drivers/crypto/aspeed/Kconfig  | 3 +--
- drivers/crypto/aspeed/Makefile | 7 ++++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/crypto/aspeed/Kconfig b/drivers/crypto/aspeed/Kconfig
-index ae3eb0eb57f6..ae2710ae8d8f 100644
---- a/drivers/crypto/aspeed/Kconfig
-+++ b/drivers/crypto/aspeed/Kconfig
-@@ -1,6 +1,7 @@
- config CRYPTO_DEV_ASPEED
- 	tristate "Support for Aspeed cryptographic engine driver"
- 	depends on ARCH_ASPEED || COMPILE_TEST
-+	select CRYPTO_ENGINE
- 	help
- 	  Hash and Crypto Engine (HACE) is designed to accelerate the
- 	  throughput of hash data digest, encryption and decryption.
-@@ -20,7 +21,6 @@ config CRYPTO_DEV_ASPEED_DEBUG
- config CRYPTO_DEV_ASPEED_HACE_HASH
- 	bool "Enable Aspeed Hash & Crypto Engine (HACE) hash"
- 	depends on CRYPTO_DEV_ASPEED
--	select CRYPTO_ENGINE
- 	select CRYPTO_SHA1
- 	select CRYPTO_SHA256
- 	select CRYPTO_SHA512
-@@ -34,7 +34,6 @@ config CRYPTO_DEV_ASPEED_HACE_HASH
- config CRYPTO_DEV_ASPEED_HACE_CRYPTO
- 	bool "Enable Aspeed Hash & Crypto Engine (HACE) crypto"
- 	depends on CRYPTO_DEV_ASPEED
--	select CRYPTO_ENGINE
- 	select CRYPTO_AES
- 	select CRYPTO_DES
- 	select CRYPTO_ECB
-diff --git a/drivers/crypto/aspeed/Makefile b/drivers/crypto/aspeed/Makefile
-index 3be78cec0ecb..a0ed40ddaad1 100644
---- a/drivers/crypto/aspeed/Makefile
-+++ b/drivers/crypto/aspeed/Makefile
-@@ -1,6 +1,7 @@
--hace-hash-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) := aspeed-hace.o aspeed-hace-hash.o
--hace-crypto-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO) := aspeed-hace.o aspeed-hace-crypto.o
-+hace-hash-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_HASH) := aspeed-hace-hash.o
-+hace-crypto-$(CONFIG_CRYPTO_DEV_ASPEED_HACE_CRYPTO) := aspeed-hace-crypto.o
- 
- obj-$(CONFIG_CRYPTO_DEV_ASPEED) += aspeed_crypto.o
--aspeed_crypto-objs := $(hace-hash-y)	\
-+aspeed_crypto-objs := aspeed-hace.o	\
-+		      $(hace-hash-y)	\
- 		      $(hace-crypto-y)
--- 
-2.25.1
-
+Thanks,
+Guenter
