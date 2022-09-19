@@ -2,72 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08FB5BC3B1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 09:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C59F5BC3B2
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 09:49:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MWGzF3Rgwz30F7
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 17:49:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MWGzK0YDpz2yxX
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 17:49:33 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=DdF20jXf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=lixom-net.20210112.gappssmtp.com header.i=@lixom-net.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=EuFCJAks;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62f; helo=mail-ej1-x62f.google.com; envelope-from=pbrobinson@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=lixom.net (client-ip=2a00:1450:4864:20::532; helo=mail-ed1-x532.google.com; envelope-from=olof@lixom.net; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=DdF20jXf;
+	dkim=pass (2048-bit key; unprotected) header.d=lixom-net.20210112.gappssmtp.com header.i=@lixom-net.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=EuFCJAks;
 	dkim-atps=neutral
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MTXtv3rfMz3bYM;
-	Fri, 16 Sep 2022 22:09:43 +1000 (AEST)
-Received: by mail-ej1-x62f.google.com with SMTP id 13so19986939ejn.3;
-        Fri, 16 Sep 2022 05:09:43 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MW9Xx1MPhz2ywN
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Sep 2022 13:44:47 +1000 (AEST)
+Received: by mail-ed1-x532.google.com with SMTP id z13so25457960edb.13
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 18 Sep 2022 20:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=odQlfFAggBoep0bulEhsQiWvf71yxfezg5yPb2FCPJE=;
-        b=DdF20jXfX3RHny4PKdPH07To/UOXczoytVNCt5KtBkNTTiUFXThhjo3SS46w3f5Mq4
-         KL+io10y+YRDU94+wtU2ZxQnXOzQ62ud6qAEK0Jt9Rnmti9DYJGdBt2hf7Crp2mHzLdl
-         eIn3IPAk3ZV8c/uB+yg0HDcSb0V42TPEfPEfguHa0rw509aivIiwlCpDaKPJ1J9TTxSg
-         EA5/+YfHku5DCHCP0PI5sOmpmoJ6zuUr4z1paaldAhm8yx37QHNGAMKpGy25aPMjMoyX
-         ckl1JW+I5P1Bfr0J7EvPkDP9cB0cl7HpOMxbLppagpPKhjerWQvA3V7fa0DbpHj3HVr/
-         /bzQ==
+        d=lixom-net.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=8wzd/IsQMAz4yliZb1FsJ3OfMRVNZc5tTLnz3lR7QHQ=;
+        b=EuFCJAkszMPKPtxQSyMQ0NoboaeVB7t96eFw9rPXwH9oSHUro5o77bxEeYAtANDzyR
+         I9BMOm4HMiosCb0pcsiSHEAZo2qSCtvZawUq0/zPNIdwAvDvQAPS+8+0uFrWbUJgoTtd
+         ExLo8MeQP7GyQ+rW2rlFvIPPT75kqxCAKPhOGjeDjYZZFhuAOfywggSn5a+jZu6mJGBr
+         cWVHHoToy9UWA6nPxBqZcAZLzmJoxjkbRc1yLhwZYNZgNQEBRnr86m6GI/e/+J8MoRAT
+         suDLw8ILYZpcoPAOh+pvz4Lu/zfiYh6RXQKy+jZAxuRvjXsVxLmt63JqorCueNp9TEEJ
+         9kQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=odQlfFAggBoep0bulEhsQiWvf71yxfezg5yPb2FCPJE=;
-        b=dvhs9N6nr17sWUJrsignMhWF1fQd2zzGszRt+wYH3abw+uOsESAh1pH31AzRYSoMFe
-         HQMvVia4sVlQoWiXGw+UYpK6WkljaeIwZrhBKRiBRjmVP5gEFzO6Nb/Fal3/KZEGolGl
-         aiL4YdxP3eivQBxn/tCEhwinkMri1S75SNUh456298GeaQuopCImQJkx8Set9ZGkKaYH
-         KiblZUaJNvD6qpRCZrGFKEcqxjrGAxt4cMgUyqUOF+SIKg7LEEMbCSscIO8Ef/cAsm8f
-         bQqO+xYuHzY9osQ4ZolotlcfAqgscIkgzFOOyn2k42HbCeLlhs1tfStTydwEJYPUJofH
-         SdKw==
-X-Gm-Message-State: ACrzQf1hsdFCEmNI/3ttW8sSuZLe8TrkRLYmoncFDSuJ34mqUnPFShVV
-	4S+hCm4izH1vmlr/3gCdRSA=
-X-Google-Smtp-Source: AMsMyM7HoCgpsovcuex1n/Zf/gq9x/QGD+G0XV+PHdh+YEuwGenD2Jg5KWnLhp3guOi7jrpi1Pqa9w==
-X-Received: by 2002:a17:907:70a:b0:750:bf91:caa3 with SMTP id xb10-20020a170907070a00b00750bf91caa3mr3399319ejb.711.1663330179239;
-        Fri, 16 Sep 2022 05:09:39 -0700 (PDT)
-Received: from morpheus.home.roving-it.com (3.e.2.0.0.0.0.0.0.0.0.0.0.0.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681::2e3])
-        by smtp.googlemail.com with ESMTPSA id 9-20020a170906310900b00779cde476e4sm10305590ejx.62.2022.09.16.05.09.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 05:09:38 -0700 (PDT)
-From: Peter Robinson <pbrobinson@gmail.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org,
-	Jaghathiswari Rankappagounder Natarajan <jaghu@google.com>
-Subject: [PATCH] hwmon: (aspeed-pwm-tacho): Add dependency on ARCH_ASPEED
-Date: Fri, 16 Sep 2022 13:09:36 +0100
-Message-Id: <20220916120936.372591-1-pbrobinson@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=8wzd/IsQMAz4yliZb1FsJ3OfMRVNZc5tTLnz3lR7QHQ=;
+        b=fwQLBu5d2EmknedGfqStwF/V6Q9IlmKJt19zZTd6RrrQALVVPNkl+7h6HEn0pJcLAJ
+         IRBd8+4BlFOtelkgoTiV/xtava2BFh+Wh2ZoQDqpoX9UzWzk9cHpEeEtCpfTFnoUHCUK
+         wwMvZpBFRLzUBkwjj9D7Q90uOeYVz1PaPvsJu41p8JFmEeo9lfUvNPAdP4/pj9EBKPHt
+         NxBaSlI1q2pA6Sqvt85StwqilTlctsxikXH7VNdWictDoYJ/kx5WGZInyvUf1Gedx8Od
+         fGwiXucxoabpu8elNjwiHLVjYGnsyj0atvXiUBzqryUOk7DNyx6zsBmGP0xllYuF9Xsm
+         wsxA==
+X-Gm-Message-State: ACrzQf3DuHLJPT+3ks27g2E9pvAHg002WYQsSBDHICAa23yna/XsFhyy
+	1MErzdvglUP2HHJ8HLfWzBAecFPg1UPHwx+PiLnS1Q==
+X-Google-Smtp-Source: AMsMyM67X4fHgNHGRzRNZ0AalOVh8oZlYNRkDoycvf7zBAcHx4qOwSpxEraLAwYUCmYCoDnGs0xLR1B5pb/N312tK3I=
+X-Received: by 2002:aa7:cc8a:0:b0:446:7668:2969 with SMTP id
+ p10-20020aa7cc8a000000b0044676682969mr13821510edt.206.1663559079248; Sun, 18
+ Sep 2022 20:44:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220701012647.2007122-1-saravanak@google.com> <YwS5J3effuHQJRZ5@kroah.com>
+In-Reply-To: <YwS5J3effuHQJRZ5@kroah.com>
+From: Olof Johansson <olof@lixom.net>
+Date: Sun, 18 Sep 2022 20:44:27 -0700
+Message-ID: <CAOesGMivJ5Q-jdeGKw32yhjmNiYctHjpEAnoMMRghYqWD2m2tw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Fix console probe delay when stdout-path isn't set
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Mon, 19 Sep 2022 17:46:06 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -80,30 +73,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Peter Robinson <pbrobinson@gmail.com>
+Cc: andrew lunn <andrew@lunn.ch>, peng fan <peng.fan@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>, linus walleij <linus.walleij@linaro.org>, Paul Mackerras <paulus@samba.org>, Alim Akhtar <alim.akhtar@samsung.com>, Peter Korsgaard <jacmet@sunsite.dk>, linux-stm32@st-md-mailman.stormreply.com, Karol Gugala <kgugala@antmicro.com>, Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <michal.simek@xilinx.com>, Hammer Hsieh <hammerh0314@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Vineet Gupta <vgupta@kernel.org>, len brown <len.brown@intel.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, linux-pm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, linux-unisoc@lists.infradead.org, Scott Branden <sbranden@broadcom.com>, linux-kernel@vger.kernel.org, Richard Genoud <richard.genoud@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Claudiu Beznea <claudiu.b
+ eznea@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, pavel machek <pavel@ucw.cz>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, eric dumazet <edumazet@google.com>, Thierry Reding <thierry.reding@gmail.com>, sascha hauer <sha@pengutronix.de>, Saravana Kannan <saravanak@google.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Gabriel Somlo <gsomlo@gmail.com>, Tobias Klauser <tklauser@distanz.ch>, linux-mips@vger.kernel.org, kernel-team@android.com, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, Andreas Farber <afaerber@suse.de>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Pali Rohar <pali@kernel.org>, heiner kallweit <hkallweit1@gmail.com>, ulf hansson <ulf.hansson@linaro.org>,
+  Neil Armstrong <narmstrong@baylibre.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Al Cooper <alcooperx@gmail.com>, linux-tegra@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>, Mateusz Holenko <mholenko@antmicro.com>, Alexander Shiyan <shc_work@mail.ru>, kevin hilman <khilman@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Orson Zhai <orsonzhai@gmail.com>, paolo abeni <pabeni@redhat.com>, Patrice Chotard <patrice.chotard@foss.st.com>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-snps-arc@lists.infradead.org, Timur Tabi <timur@kernel.org>, hideaki yoshifuji <yoshfuji@linux-ipv6.org>, iommu@lists.linux-foundation.org, Laxman Dewangan <ldewangan@nvidia.com>, Sudeep Holla <sudeep.holla@arm.com>, Baolin Wang <baolin.wang7@gmail.com>, Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>, Baruch 
+ Siach <baruch@tkos.co.il>, Liviu Dudau <liviu.dudau@arm.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Paul Cercueil <paul@crapouillou.net>, sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org, joerg roedel <joro@8bytes.org>, Russell King <linux@armlinux.org.uk>, Andy Gross <agross@kernel.org>, linux-serial@vger.kernel.org, jakub kicinski <kuba@kernel.org>, will deacon <will@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, linux-mediatek@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>, Taichi Sugaya <sugaya.taichi@socionext.com>, netdev@vger.kernel.org, david ahern <dsahern@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, Takao Orito
+  <orito.takao@socionext.com>, linuxppc-dev@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The SENSORS_ASPEED is part of the Aspeed silicon so it makes
-sense to depend on ARCH_ASPEED and for compile testing.
+On Tue, Aug 23, 2022 at 8:37 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Jun 30, 2022 at 06:26:38PM -0700, Saravana Kannan wrote:
+> > These patches are on top of driver-core-next.
+> >
+> > Even if stdout-path isn't set in DT, this patch should take console
+> > probe times back to how they were before the deferred_probe_timeout
+> > clean up series[1].
+>
+> Now dropped from my queue due to lack of a response to other reviewer's
+> questions.
 
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
----
- drivers/hwmon/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+What happened to this patch? I have a 10 second timeout on console
+probe on my SiFive Unmatched, and I don't see this flag being set for
+the serial driver. In fact, I don't see it anywhere in-tree. I can't
+seem to locate another patchset from Saravana around this though, so
+I'm not sure where to look for a missing piece for the sifive serial
+driver.
 
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index e70d9614bec2..006af099955f 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -393,6 +393,7 @@ config SENSORS_ASB100
- 
- config SENSORS_ASPEED
- 	tristate "ASPEED AST2400/AST2500 PWM and Fan tach driver"
-+	depends on ARCH_ASPEED || COMPILE_TEST
- 	depends on THERMAL || THERMAL=n
- 	select REGMAP
- 	help
--- 
-2.37.3
+This is the second boot time regression (this one not fatal, unlike
+the Layerscape PCIe one) from the fw_devlink patchset.
 
+Greg, can you revert the whole set for 6.0, please? It's obviously
+nowhere near tested enough to go in and I expect we'll see a bunch of
+-stable fixups due to this if we let it remain in.
+
+This seems to be one of the worst releases I've encountered in recent
+years on my hardware here due to this patchset. :-(
+
+
+-Olof
