@@ -1,71 +1,45 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC90E5BCCAF
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 15:13:19 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0478F5BD9CF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Sep 2022 04:04:34 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MWQ8r6ZGMz3bd3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Sep 2022 23:13:16 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jMG8Rgx8;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MWlGl6Yskz3bbQ
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Sep 2022 12:04:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jMG8Rgx8;
-	dkim-atps=neutral
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MWQ8k0rHGz2xJ8;
-	Mon, 19 Sep 2022 23:13:09 +1000 (AEST)
-Received: by mail-pl1-x632.google.com with SMTP id b21so27871075plz.7;
-        Mon, 19 Sep 2022 06:13:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
-        bh=0SWMd1/dw8viGWJFir8vLYI252YhXo7+413gv8lkrKM=;
-        b=jMG8Rgx8ILPtFbAjdCC4Oe0jdG8QNs3SVz0BOWN+HAc9kuR5OgpDh0ltIcULvcKhLu
-         w4l9YzHCmEeKMToMayC2GPlTy2by5Lhq+5Rvj30ROI2IQV4tO0767bceYwZcV5Aq4WaZ
-         Y4O8qSnweUBXAqrq1/CVjLfsjoHJJNstfTQ9sPJ5/cUMlQ1toH743LwszvLC4X/oLA3T
-         2Mv+4flaRZYOgxQPetntXpf7kmTvLA9cRr2Zj/pANw0SGna44AwiXrmOAuptz1onbSJ5
-         R6DNI3+DTFI7iZ8ZyE4Hb9brVJDZ1OfWvFCEowHFgHd5TeTkoTwC+VzhDQSvRPmpOO3J
-         Dlrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=0SWMd1/dw8viGWJFir8vLYI252YhXo7+413gv8lkrKM=;
-        b=UfTpTyCLe4b3dmtolAJG4LRqVbPHNMxa1qxf/OQ8vrt38DD2XsDGh8wlT6GUZqqsgQ
-         phVXYgrB6H7aUbu23zjijhAW/gHOah1xNcpm9eL3WYGOXCWeJlEk32qgIGZLDqzPBiYq
-         VqtbnSf2LajcXlmHJuROCzu9hfTuauNDJu3zf5+XKBRR33W5UabdBNrrejo5faO3gnUW
-         wH/0njaNOHcoSkeqXxZ2KL0teoHi2dP/b4HEoRW0JXAttofLw/L+M1+Wg/QYC5447Js2
-         AiwWL7XeAJXyFjYVp6uQRRknJCqSni1tyoOEELucm6G5pR8N7uY/vbJoNyJfQym5kvFL
-         nNDw==
-X-Gm-Message-State: ACrzQf13XybW66thcbHlWT80xNjLTJZoyqPDLRGdmAcQPidBJ2zs4vpz
-	MjWA0mIFCpjGAKAJceIjBGg=
-X-Google-Smtp-Source: AMsMyM5KLPsJwaIa/7tRyTleFbZdQl88/wKqOzR2JZQawM2ZKcrErncGQOcA/vlHqwiyYs+Qzw5CDw==
-X-Received: by 2002:a17:902:e550:b0:177:f115:1646 with SMTP id n16-20020a170902e55000b00177f1151646mr13183688plf.112.1663593186365;
-        Mon, 19 Sep 2022 06:13:06 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id e2-20020a170902784200b001754cfb5e21sm20625912pln.96.2022.09.19.06.13.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 06:13:05 -0700 (PDT)
-Date: Mon, 19 Sep 2022 06:13:05 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Robinson <pbrobinson@gmail.com>
-Subject: Re: [PATCH] hwmon: (aspeed-pwm-tacho): Add dependency on ARCH_ASPEED
-Message-ID: <20220919131305.GA3545921@roeck-us.net>
-References: <20220916120936.372591-1-pbrobinson@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MWlGd1Mkbz2xgN;
+	Tue, 20 Sep 2022 12:04:23 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 28K1gpFj087853;
+	Tue, 20 Sep 2022 09:42:51 +0800 (GMT-8)
+	(envelope-from chiawei_wang@aspeedtech.com)
+Received: from Chiawei-PC03.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 20 Sep
+ 2022 10:03:36 +0800
+From: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+To: <minyard@acm.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+        <openipmi-developer@lists.sourceforge.net>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>
+Subject: [PATCH] ipmi: kcs: aspeed: Update port address comments
+Date: Tue, 20 Sep 2022 10:03:33 +0800
+Message-ID: <20220920020333.601-1-chiawei_wang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220916120936.372591-1-pbrobinson@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.66]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 28K1gpFj087853
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,17 +51,60 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, Jaghathiswari Rankappagounder Natarajan <jaghu@google.com>, openbmc@lists.ozlabs.org, Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Sep 16, 2022 at 01:09:36PM +0100, Peter Robinson wrote:
-> The SENSORS_ASPEED is part of the Aspeed silicon so it makes
-> sense to depend on ARCH_ASPEED and for compile testing.
-> 
-> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+Remove AST_usrGuide_KCS.pdf as it is no longer maintained.
 
-Applied.
+Add more descriptions as the driver now supports the I/O
+address configurations for both the KCS Data and Cmd/Status
+interface registers.
 
-Thanks,
-Guenter
+Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+---
+ drivers/char/ipmi/kcs_bmc_aspeed.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
+index cdc88cde1e9a..19c32bf50e0e 100644
+--- a/drivers/char/ipmi/kcs_bmc_aspeed.c
++++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
+@@ -207,17 +207,24 @@ static void aspeed_kcs_updateb(struct kcs_bmc_device *kcs_bmc, u32 reg, u8 mask,
+ }
+ 
+ /*
+- * AST_usrGuide_KCS.pdf
+- * 2. Background:
+- *   we note D for Data, and C for Cmd/Status, default rules are
+- *     A. KCS1 / KCS2 ( D / C:X / X+4 )
+- *        D / C : CA0h / CA4h
+- *        D / C : CA8h / CACh
+- *     B. KCS3 ( D / C:XX2h / XX3h )
+- *        D / C : CA2h / CA3h
+- *        D / C : CB2h / CB3h
+- *     C. KCS4
+- *        D / C : CA4h / CA5h
++ * We note D for Data, and C for Cmd/Status, default rules are
++ *
++ * 1. Only the D address is given:
++ *   A. KCS1/KCS2 (D/C: X/X+4)
++ *      D/C: CA0h/CA4h
++ *      D/C: CA8h/CACh
++ *   B. KCS3 (D/C: XX2/XX3h)
++ *      D/C: CA2h/CA3h
++ *   C. KCS4 (D/C: X/X+1)
++ *      D/C: CA4h/CA5h
++ *
++ * 2. Both the D/C addresses are given:
++ *   A. KCS1/KCS2/KCS4 (D/C: X/Y)
++ *      D/C: CA0h/CA1h
++ *      D/C: CA8h/CA9h
++ *      D/C: CA4h/CA5h
++ *   B. KCS3 (D/C: XX2/XX3h)
++ *      D/C: CA2h/CA3h
+  */
+ static int aspeed_kcs_set_address(struct kcs_bmc_device *kcs_bmc, u32 addrs[2], int nr_addrs)
+ {
+-- 
+2.25.1
+
