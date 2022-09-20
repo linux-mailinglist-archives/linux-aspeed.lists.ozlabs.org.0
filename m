@@ -2,44 +2,40 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0478F5BD9CF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Sep 2022 04:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6965BDAD0
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Sep 2022 05:22:08 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MWlGl6Yskz3bbQ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Sep 2022 12:04:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MWn0G1fr7z309f
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Sep 2022 13:22:06 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.187; helo=szxga01-in.huawei.com; envelope-from=yuehaibing@huawei.com; receiver=<UNKNOWN>)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MWlGd1Mkbz2xgN;
-	Tue, 20 Sep 2022 12:04:23 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 28K1gpFj087853;
-	Tue, 20 Sep 2022 09:42:51 +0800 (GMT-8)
-	(envelope-from chiawei_wang@aspeedtech.com)
-Received: from Chiawei-PC03.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 20 Sep
- 2022 10:03:36 +0800
-From: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-To: <minyard@acm.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
-        <openipmi-developer@lists.sourceforge.net>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>
-Subject: [PATCH] ipmi: kcs: aspeed: Update port address comments
-Date: Tue, 20 Sep 2022 10:03:33 +0800
-Message-ID: <20220920020333.601-1-chiawei_wang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MWn0B4gVqz2yX3
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Sep 2022 13:21:59 +1000 (AEST)
+Received: from canpemm500007.china.huawei.com (unknown [172.30.72.57])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MWmth1N0gzlW4N;
+	Tue, 20 Sep 2022 11:17:16 +0800 (CST)
+Received: from localhost (10.174.179.215) by canpemm500007.china.huawei.com
+ (7.192.104.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 20 Sep
+ 2022 11:21:21 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <neal_liu@aspeedtech.com>, <herbert@gondor.apana.org.au>,
+	<davem@davemloft.net>, <joel@jms.id.au>, <andrew@aj.id.au>,
+	<johnny_huang@aspeedtech.com>, <dphadke@linux.microsoft.com>
+Subject: [PATCH -next] crypto: aspeed - Fix check for platform_get_irq() errors
+Date: Tue, 20 Sep 2022 11:21:18 +0800
+Message-ID: <20220920032118.6440-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [192.168.2.66]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 28K1gpFj087853
+X-Originating-IP: [10.174.179.215]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ canpemm500007.china.huawei.com (7.192.104.62)
+X-CFilter-Loop: Reflected
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,60 +47,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, YueHaibing <yuehaibing@huawei.com>, linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Remove AST_usrGuide_KCS.pdf as it is no longer maintained.
+The platform_get_irq() function returns negative on error and
+positive non-zero values on success. It never returns zero, but if it
+did then treat that as a success.
 
-Add more descriptions as the driver now supports the I/O
-address configurations for both the KCS Data and Cmd/Status
-interface registers.
+Also remove redundant dev_err() print as platform_get_irq() already
+prints an error.
 
-Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+Fixes: 108713a713c7 ("crypto: aspeed - Add HACE hash driver")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/char/ipmi/kcs_bmc_aspeed.c | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ drivers/crypto/aspeed/aspeed-hace.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
-index cdc88cde1e9a..19c32bf50e0e 100644
---- a/drivers/char/ipmi/kcs_bmc_aspeed.c
-+++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
-@@ -207,17 +207,24 @@ static void aspeed_kcs_updateb(struct kcs_bmc_device *kcs_bmc, u32 reg, u8 mask,
- }
+diff --git a/drivers/crypto/aspeed/aspeed-hace.c b/drivers/crypto/aspeed/aspeed-hace.c
+index 3f880aafb6a2..f7f1d33defb1 100644
+--- a/drivers/crypto/aspeed/aspeed-hace.c
++++ b/drivers/crypto/aspeed/aspeed-hace.c
+@@ -130,10 +130,8 @@ static int aspeed_hace_probe(struct platform_device *pdev)
  
- /*
-- * AST_usrGuide_KCS.pdf
-- * 2. Background:
-- *   we note D for Data, and C for Cmd/Status, default rules are
-- *     A. KCS1 / KCS2 ( D / C:X / X+4 )
-- *        D / C : CA0h / CA4h
-- *        D / C : CA8h / CACh
-- *     B. KCS3 ( D / C:XX2h / XX3h )
-- *        D / C : CA2h / CA3h
-- *        D / C : CB2h / CB3h
-- *     C. KCS4
-- *        D / C : CA4h / CA5h
-+ * We note D for Data, and C for Cmd/Status, default rules are
-+ *
-+ * 1. Only the D address is given:
-+ *   A. KCS1/KCS2 (D/C: X/X+4)
-+ *      D/C: CA0h/CA4h
-+ *      D/C: CA8h/CACh
-+ *   B. KCS3 (D/C: XX2/XX3h)
-+ *      D/C: CA2h/CA3h
-+ *   C. KCS4 (D/C: X/X+1)
-+ *      D/C: CA4h/CA5h
-+ *
-+ * 2. Both the D/C addresses are given:
-+ *   A. KCS1/KCS2/KCS4 (D/C: X/Y)
-+ *      D/C: CA0h/CA1h
-+ *      D/C: CA8h/CA9h
-+ *      D/C: CA4h/CA5h
-+ *   B. KCS3 (D/C: XX2/XX3h)
-+ *      D/C: CA2h/CA3h
-  */
- static int aspeed_kcs_set_address(struct kcs_bmc_device *kcs_bmc, u32 addrs[2], int nr_addrs)
- {
+ 	/* Get irq number and register it */
+ 	hace_dev->irq = platform_get_irq(pdev, 0);
+-	if (!hace_dev->irq) {
+-		dev_err(&pdev->dev, "Failed to get interrupt\n");
++	if (hace_dev->irq < 0)
+ 		return -ENXIO;
+-	}
+ 
+ 	rc = devm_request_irq(&pdev->dev, hace_dev->irq, aspeed_hace_irq, 0,
+ 			      dev_name(&pdev->dev), hace_dev);
 -- 
-2.25.1
+2.17.1
 
