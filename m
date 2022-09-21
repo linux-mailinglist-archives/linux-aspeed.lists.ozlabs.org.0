@@ -1,71 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314D75BFBA5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Sep 2022 11:49:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3567D5BFE59
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Sep 2022 14:50:04 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MXYXt4dpvz3bl0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Sep 2022 19:49:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MXdY60PBMz3c1N
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Sep 2022 22:50:02 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FYTjeEIe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kQLHGhz6;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=134.134.136.20; helo=mga02.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::430; helo=mail-wr1-x430.google.com; envelope-from=ulf.hansson@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FYTjeEIe;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kQLHGhz6;
 	dkim-atps=neutral
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MXYXn2KYGz2yxw;
-	Wed, 21 Sep 2022 19:49:27 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663753769; x=1695289769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g+ycbsDZhHfXkdCOof/o/4T49/1Rwk3h7cJgpX3bUcY=;
-  b=FYTjeEIeOtuuJCsrQ2412aIbf4vVV6Z3nSRKdm0pDY9KG9RmNYAQxpC8
-   I+pOL80Brkyz97cQm1a2Awfki76tBba8pnpXsToSASXi2mgWDuZB9MSUs
-   gpnJLC985GNBh/IWfj1UH4rFm+8meZEHvnRp1ys1RQJwF7um0xaIodisV
-   mHO73xdBvMFQ+GIk7Nv8WdyRR4ENRolVyf2VFDzqzzUF/4MRVnCg9XyhG
-   MWhRsKsTRe4P+Pf4zRGiQt8firi1TKUSYlBvjxVoWL67iUFWUITIBRkbp
-   qSSQeu0n3c8IN7x4LkqCvaowSS6BHPOFZ+znwU5So5NUaZcX1ypk3sT5x
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10476"; a="287027612"
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; 
-   d="scan'208";a="287027612"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2022 02:49:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,333,1654585200"; 
-   d="scan'208";a="744890039"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Sep 2022 02:49:20 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1oawLz-0003UN-0V;
-	Wed, 21 Sep 2022 09:49:15 +0000
-Date: Wed, 21 Sep 2022 17:48:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
-	mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
-	linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-	ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
-	stanimir.varbanov@linaro.org, laurent.pinchart@ideasonboard.com,
-	sakari.ailus@linux.intel.com, ribalda@chromium.org
-Subject: Re: [PATCH v9 3/4] media: aspeed: Support aspeed mode to reduce
- compressed data
-Message-ID: <202209211741.XHu8zd6f-lkp@intel.com>
-References: <20220921025112.13150-4-jammy_huang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MXdXG6kgcz3bcF
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Sep 2022 22:49:18 +1000 (AEST)
+Received: by mail-wr1-x430.google.com with SMTP id bq9so9734386wrb.4
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Sep 2022 05:49:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=F5Aj6UsKXonhXjaCbwszX18YbRfjkPa5U1IrmdLJ2uo=;
+        b=kQLHGhz6TByVsMUoQtSqGzC9Gc6weBfXxZgUqnPeF6B+9iyhqtsMtlKJLp01S4SWjQ
+         CpoLlS1cA1v9dVJPgWykPwFQz1rCczudnjTMoc+s9EJ0ztBwUv3a6xJhIUKUHKgbZQRQ
+         17JnKX7bU0kICHqYMUYT18XiXr1cjdwvmXTeM8HicMtVhkcFh1mOLyQopKe97FYaNAgT
+         KB4g+8RaGaw+76p1fD2+L9aNL6xbSUNNieZDO1+hdHowrtxnN38u5SlvA4HQQfMhulyl
+         BbeQLNbCqDmgCBbF74WxUWWDccehDfsn1PGvwZOIvjTqjpri5eDxLHUspeUsG5Yg8yFP
+         9EXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=F5Aj6UsKXonhXjaCbwszX18YbRfjkPa5U1IrmdLJ2uo=;
+        b=wYFYeNvMHHIQg1NU2jafhHcxck3atnpb/t7T0zQwNwd7IkSZDCXLkHoluSMxUZy7xO
+         j8fvz86yC5VsMGpu0I3RAqEY8f4oKBoUHe30dSgOQSds7hz/dMSOowOuDwjsga4R8aih
+         cxsDWocHL6C9WrqonXFAGYO0SJx95VbqjZlahjYBYWNka6zGVz1l6MyxTVc/HLDnH43a
+         7UJ+6MYWcC7TtgFUjL708M1+t3EFy2HYgLmfgdS7UpOXtEaR5bKOgfoGZzzPaD+BOhFc
+         2CVRs/6/tSxxXhgSIasIQ79LHPLC++o9TdRN3c9zY6yIu/Z5nTd6Jb6yp6Ms0LGyuqo+
+         h+7g==
+X-Gm-Message-State: ACrzQf2ni1pJS/jNqXHRTwwxJJppnLSN63QoGXqrVs77dG0iTlKGx2Ai
+	axvTDigiyVXxIz5q5giiW5oBrEgjAmIEFQJZ9NXnNg==
+X-Google-Smtp-Source: AMsMyM5FKzTNmyylU3xPPxJYhH/SCtTxGMS0wL4PqMMujFXMXANNrm34bY1b+dRJoKk9gq76vmB+V1SFcep8mi+/4tI=
+X-Received: by 2002:a5d:588f:0:b0:22b:5cc:e1d3 with SMTP id
+ n15-20020a5d588f000000b0022b05cce1d3mr7784825wrf.142.1663764553759; Wed, 21
+ Sep 2022 05:49:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220921025112.13150-4-jammy_huang@aspeedtech.com>
+References: <20220916115602.370003-1-pbrobinson@gmail.com>
+In-Reply-To: <20220916115602.370003-1-pbrobinson@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 21 Sep 2022 14:48:37 +0200
+Message-ID: <CAPDyKFr8Y+ChTK2-AdioYr5zYuxx_d-gwUBppGJcR5X7M2+SSQ@mail.gmail.com>
+Subject: Re: [PATCH] mmc: sdhci-of-aspeed: Add dependency on ARCH_ASPEED
+To: Peter Robinson <pbrobinson@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +72,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org
+Cc: openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Jammy,
+On Fri, 16 Sept 2022 at 13:56, Peter Robinson <pbrobinson@gmail.com> wrote:
+>
+> The MMC_SDHCI_OF_ASPEED is part of the Aspeed silicon so it makes
+> sense to depend on ARCH_ASPEED and for compile testing.
+>
+> Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
 
-Thank you for the patch! Perhaps something to improve:
+Applied for next, thanks!
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on next-20220920]
-[cannot apply to linus/master v6.0-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jammy-Huang/add-aspeed-jpeg-support-for-aspeed-video/20220921-105350
-base:   git://linuxtv.org/media_tree.git master
-config: arm-multi_v5_defconfig (https://download.01.org/0day-ci/archive/20220921/202209211741.XHu8zd6f-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 791a7ae1ba3efd6bca96338e10ffde557ba83920)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/99c2bf6f1dccc310cb9b2d9916292766f00ffb4f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jammy-Huang/add-aspeed-jpeg-support-for-aspeed-video/20220921-105350
-        git checkout 99c2bf6f1dccc310cb9b2d9916292766f00ffb4f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/platform/aspeed/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/aspeed/aspeed-video.c:487:27: warning: unused variable 'compress_scheme_str' [-Wunused-const-variable]
-   static const char * const compress_scheme_str[] = {"DCT Only",
-                             ^
-   In file included from drivers/media/platform/aspeed/aspeed-video.c:24:
-   In file included from include/linux/videodev2.h:61:
-   include/uapi/linux/videodev2.h:1776:2: warning: field  within 'struct v4l2_ext_control' is less aligned than 'union v4l2_ext_control::(anonymous at include/uapi/linux/videodev2.h:1776:2)' and is usually due to 'struct v4l2_ext_control' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-           union {
-           ^
-   2 warnings generated.
+Kind regards
+Uffe
 
 
-vim +/compress_scheme_str +487 drivers/media/platform/aspeed/aspeed-video.c
-
-   486	
- > 487	static const char * const compress_scheme_str[] = {"DCT Only",
-   488		"DCT VQ mix 2-color", "DCT VQ mix 4-color"};
-   489	static const char * const format_str[] = {"Standard JPEG",
-   490		"Aspeed JPEG"};
-   491	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> ---
+>  drivers/mmc/host/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
+> index e63608834411..f324daadaf70 100644
+> --- a/drivers/mmc/host/Kconfig
+> +++ b/drivers/mmc/host/Kconfig
+> @@ -157,6 +157,7 @@ config MMC_SDHCI_OF_ARASAN
+>
+>  config MMC_SDHCI_OF_ASPEED
+>         tristate "SDHCI OF support for the ASPEED SDHCI controller"
+> +       depends on ARCH_ASPEED || COMPILE_TEST
+>         depends on MMC_SDHCI_PLTFM
+>         depends on OF && OF_ADDRESS
+>         select MMC_SDHCI_IO_ACCESSORS
+> --
+> 2.37.3
+>
