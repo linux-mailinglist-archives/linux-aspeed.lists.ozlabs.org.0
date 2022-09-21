@@ -2,49 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC755BF3F1
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Sep 2022 04:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEEE5BF68E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Sep 2022 08:43:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MXNJl36dLz3cBV
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Sep 2022 12:53:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MXTQ32gvTz3bqn
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Sep 2022 16:43:23 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Cdlu9ugb;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52b; helo=mail-pg1-x52b.google.com; envelope-from=pkarthikeyan1509@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Cdlu9ugb;
+	dkim-atps=neutral
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MXNHk5b0Bz30M8;
-	Wed, 21 Sep 2022 12:52:33 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 28L2U5Vv024711;
-	Wed, 21 Sep 2022 10:30:07 +0800 (GMT-8)
-	(envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 21 Sep
- 2022 10:50:55 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <ezequiel@vanguardiasur.com.ar>,
-        <nicolas.dufresne@collabora.com>, <stanimir.varbanov@linaro.org>,
-        <laurent.pinchart@ideasonboard.com>, <sakari.ailus@linux.intel.com>,
-        <ribalda@chromium.org>
-Subject: [PATCH v9 4/4] media: aspeed: Extend debug message
-Date: Wed, 21 Sep 2022 10:51:12 +0800
-Message-ID: <20220921025112.13150-5-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220921025112.13150-1-jammy_huang@aspeedtech.com>
-References: <20220921025112.13150-1-jammy_huang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MXTPz2kWPz3bdg;
+	Wed, 21 Sep 2022 16:43:18 +1000 (AEST)
+Received: by mail-pg1-x52b.google.com with SMTP id t190so4976169pgd.9;
+        Tue, 20 Sep 2022 23:43:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:to
+         :from:date:from:to:cc:subject:date;
+        bh=4OoemoqY03kwE/AES+O6nYI9GibmetWZKgTywgqbXVk=;
+        b=Cdlu9ugblpLjxtMTv8T1E0QgdC92dLmJ9eALZY+V+j70X7VvVQ0h59gr7+k976fRmM
+         t5HMxJbhR5kxqW9SYL0EQQrQjBMOuM/wFvm9WmQ5H0NSrGKQJNZY889998ILbRcdnR5U
+         SsMqJAB8JPaE23G7J7uHcOeruUH5JdOzZQuRG+o2vgmPVJUJ4v1KvXLasPdtZVDlNPtE
+         wjfGhEKc43K7nZajqD6AsyrLLxm3tw5XZBK5em/qj4e0zJLYPoZka2vVWlSut2UWO2mR
+         RNHkBHmzwNJt+4nm2QM5SdFmDz2PGUesIE2f5NahLaDQr/NMSFkyc+JqV9q6feZlHup+
+         qYRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=4OoemoqY03kwE/AES+O6nYI9GibmetWZKgTywgqbXVk=;
+        b=LZbbsB5Sd0qi7OtnY//TmEz5dutgzb7rFkTjytbFTB6r9JO8PJKCsb+k/QiRBGyWno
+         PbHVVjJ+VgTLDDVjVRWKfBZdoHakhoHYy6KR1Bxt1tFjba8rJzMcAeBdsSk58pSSm2vF
+         Q/GBN6yJA586jg2f+g2BtaeTsmVFNSNtQMz0QJm5MGLMbVtGA/UlEV2YjFWMm1/CHozo
+         4Tcdpp/6982UHcTDByW5jDCZc7ee5rRWMS0M9Cgpu87vT0yrUozEa0ocY8fflA4T+Ebm
+         GVgCbUZe7eneULQTLbcPXwTlCJO7ZagrMwL28qnxFrgiRc8kS01H4pySDz6mXGqguaUX
+         mr/A==
+X-Gm-Message-State: ACrzQf3tusYgB6/LM3JpwvjnYFGfhSHhR2W83r4TKbDiw9JLxYID5VUd
+	FeWxtLYRBG4oELAyCMZ1pbM=
+X-Google-Smtp-Source: AMsMyM5GoiNadp9pZlmdf85gfN7sInYz4kz0i/l9s9SSP9mUaVvqWWPpOlwENy6IRXcjPmMG8qpYhQ==
+X-Received: by 2002:a63:8a4a:0:b0:438:6a17:f0bb with SMTP id y71-20020a638a4a000000b004386a17f0bbmr22722052pgd.267.1663742595348;
+        Tue, 20 Sep 2022 23:43:15 -0700 (PDT)
+Received: from hcl-ThinkPad-T495 ([2401:4900:1ce2:b8f9:48c4:2ac5:ccad:657d])
+        by smtp.gmail.com with ESMTPSA id jg11-20020a17090326cb00b001769ee307d8sm1117799plb.59.2022.09.20.23.43.12
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 20 Sep 2022 23:43:14 -0700 (PDT)
+Date: Wed, 21 Sep 2022 12:13:09 +0530
+From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v4] ARM: dts: aspeed: yosemit V2: Enable OCP debug card
+Message-ID: <20220921064309.GA18932@hcl-ThinkPad-T495>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 28L2U5Vv024711
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,99 +82,46 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-updated as below:
+Added IPMB-13 channel for Debug Card communication.
+which improve the readability of the machine and makes
+easier to debug the server.  and it will display the some
+informations about the server like "system info",
+"Critical sensors" and "critical sel".
 
-Capture:
-  Mode                : Direct fetch
-  VGA bpp mode        : 32
-  Signal              : lock
-  Width               : 1920
-  Height              : 1080
-  FRC                 : 0
-
-Compression:
-  Format              : JPEG
-  Subsampling         : 444
-  Quality             : 4
-
-Performance:
-  Frame#              : 4
-  Frame Duration(ms)  :
-    Now               : 22
-    Min               : 21
-    Max               : 22
-  FPS                 : 45
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 ---
- drivers/media/platform/aspeed/aspeed-video.c | 38 +++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+--- v4- Resolved syntax error
+--- v3- Updated the title and commit
+--- v2- Updated the title
+--- v1- Initial draft
+---
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 739288026418..dc61dfa4228b 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1907,9 +1907,29 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
- static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- {
- 	struct aspeed_video *v = s->private;
-+	u32 val08;
+Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+index 8864e9c312a8..84236df522dc 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+@@ -215,6 +215,17 @@
+ 	};
+ };
  
- 	seq_puts(s, "\n");
- 
-+	seq_puts(s, "Capture:\n");
-+	val08 = aspeed_video_read(v, VE_CTRL);
-+	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
-+		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
-+	} else {
-+		seq_printf(s, "  %-20s:\tSync\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "Video source",
-+			   FIELD_GET(VE_CTRL_SOURCE, val08) ?
-+			   "external" : "internal");
-+		seq_printf(s, "  %-20s:\t%s\n", "DE source",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ?
-+			   "internal" : "external");
-+		seq_printf(s, "  %-20s:\t%s\n", "Cursor overlay",
-+			   FIELD_GET(VE_CTRL_AUTO_OR_CURSOR, val08) ?
-+			   "Without" : "With");
-+	}
++&i2c13 {
++	status = "okay";
++	// Debug Card
++	multi-master;
++	ipmb13@10 {
++		compatible = "ipmb-dev";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
++	};
++};
 +
- 	seq_printf(s, "  %-20s:\t%s\n", "Signal",
- 		   v->v4l2_input_status ? "Unlock" : "Lock");
- 	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
-@@ -1918,13 +1938,29 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- 
- 	seq_puts(s, "\n");
- 
-+	seq_puts(s, "Compression:\n");
-+	seq_printf(s, "  %-20s:\t%s\n", "Format", format_str[v->format]);
-+	seq_printf(s, "  %-20s:\t%s\n", "Subsampling",
-+		   v->yuv420 ? "420" : "444");
-+	seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
-+	if (v->format == VIDEO_FMT_ASPEED) {
-+		seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
-+			   v->hq_mode ? "on" : "off");
-+		seq_printf(s, "  %-20s:\t%d\n", "HQ Quality",
-+			   v->hq_mode ? v->jpeg_hq_quality : 0);
-+	}
-+
-+	seq_puts(s, "\n");
-+
- 	seq_puts(s, "Performance:\n");
- 	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
- 	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
- 	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
- 	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
- 	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
--	seq_printf(s, "  %-20s:\t%d\n", "FPS", 1000 / (v->perf.totaltime / v->sequence));
-+	seq_printf(s, "  %-20s:\t%d\n", "FPS",
-+		   (v->perf.totaltime && v->sequence) ?
-+		   1000/(v->perf.totaltime/v->sequence) : 0);
- 
- 	return 0;
- }
+ &pwm_tacho {
+ 	status = "okay";
+ 	//FSC
 -- 
-2.25.1
+2.17.1
 
