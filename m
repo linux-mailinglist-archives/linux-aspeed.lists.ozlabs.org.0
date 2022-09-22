@@ -1,77 +1,47 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F168A5E5BAC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Sep 2022 08:52:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9875E64E7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Sep 2022 16:15:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MY5ZL08nqz3c2q
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Sep 2022 16:52:42 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=NKMnWZgS;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MYHPH2tsrz3c2j
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 00:15:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::22d; helo=mail-lj1-x22d.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=NKMnWZgS;
-	dkim-atps=neutral
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=liushixin2@huawei.com; receiver=<UNKNOWN>)
+X-Greylist: delayed 1103 seconds by postgrey-1.36 at boromir; Fri, 23 Sep 2022 00:15:27 AEST
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MY5ZG3T7pz307C
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Sep 2022 16:52:38 +1000 (AEST)
-Received: by mail-lj1-x22d.google.com with SMTP id h3so9839196lja.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Sep 2022 23:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=HpPp0BHUrPNweVTZtr7NErbLRKsWdneVoqjGlBiJPh8=;
-        b=NKMnWZgS5BSvCK945ZAajPqZeW1VEAPF/K92kxSO4ojFqEyhY8uY9CH+GHuAXdXtOd
-         SfSN5wRHjrXBzsEv2ctbxRIk+0qiV8ELcEryUMxTeLdWAxOYJhtm4pVh4nX611N262zw
-         btTtSVEQlc5bzd8yrbHKYbpE+5XChRGCVaGtbwozWlmXAF70qot5gRQS8AhJ+KwdGUtV
-         BAv7WxehOAK1Go0BWI1ZwmbfAD66AxqIxc5g/1txVRCAqFK/Ar1RKkdYZig5/oV8jbjz
-         S0NAZ5x8Uk5mvit51bkHuua9/6uHPIy150GK6No/16fjALgvzhVK1961Gf4rf4YawyYC
-         SiZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=HpPp0BHUrPNweVTZtr7NErbLRKsWdneVoqjGlBiJPh8=;
-        b=30mTkYEtTo7iGmI9OLEjY2Aula7JD0kK3cYr6rdWXZfHGoVe/mBA1wq6UcSDCSPN/m
-         kVEcfZSRfYTrMoWQ8/n5X42pHSGbz+wofT/qjjC42Kre2iblRu86905ioDW469motFDm
-         QKQo0xFcAucp2msqYGvwMFmGbzZkl2oZDesm0pAMz3KcFqZEUhWnAVP7cyv4+N8ppFVK
-         5MLYKzT/iiiOD4MWQ9lkzSLvyUrqhWg5oT4XmPLOfpicJqsvxE142+AkmlEq3Zi1QHc8
-         jYoaHoC1tTbXrvCfVfLH0pTCzdpwetvjA9JgmfXVy39KRPIyPU++lTqXsqIIfzW+NLru
-         j7Wg==
-X-Gm-Message-State: ACrzQf2TGZ3rWYSvMyzAbtkEYgi4wXJsPzw16nZZ4czMj14SaHhpFyHe
-	njs/hix6yO5Tru8n8+5iZFa53w==
-X-Google-Smtp-Source: AMsMyM78If/cBNQ1SnC+v6xychOd6uY7sVFoQMHHASjrPCwbCyMRcKsSoHMRnkbuxCvoylYmkrHGyw==
-X-Received: by 2002:a2e:7309:0:b0:26c:3db7:8fe2 with SMTP id o9-20020a2e7309000000b0026c3db78fe2mr525386ljc.387.1663829554770;
-        Wed, 21 Sep 2022 23:52:34 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id a7-20020ac25e67000000b00499b57032c1sm784269lfr.144.2022.09.21.23.52.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 23:52:34 -0700 (PDT)
-Message-ID: <f84250e7-39fe-80d9-9e50-700f9752367a@linaro.org>
-Date: Thu, 22 Sep 2022 08:52:33 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MYHPC5QMsz30hw;
+	Fri, 23 Sep 2022 00:15:27 +1000 (AEST)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MYGv23Dhwz14QgY;
+	Thu, 22 Sep 2022 21:52:46 +0800 (CST)
+Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 21:56:54 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
+ (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
+ 2022 21:56:54 +0800
+From: Liu Shixin <liushixin2@huawei.com>
+To: Eddie James <eajames@linux.ibm.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@aj.id.au>
+Subject: [PATCH] media: aspeed: use DEFINE_SHOW_ATTRIBUTE to simplify code
+Date: Thu, 22 Sep 2022 22:30:38 +0800
+Message-ID: <20220922143038.3251456-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v4 2/2] ARM: dts: aspeed: Add AMD DaytonaX BMC
-Content-Language: en-US
-To: Konstantin Aladyshev <aladyshev22@gmail.com>
-References: <20220920165404.14099-1-aladyshev22@gmail.com>
- <20220921210950.10568-1-aladyshev22@gmail.com>
- <20220921210950.10568-3-aladyshev22@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220921210950.10568-3-aladyshev22@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm100009.china.huawei.com (7.185.36.113)
+X-CFilter-Loop: Reflected
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,26 +53,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: Liu
+ Shixin <liushixin2@huawei.com>, openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 21/09/2022 23:09, Konstantin Aladyshev wrote:
-> Add initial version of device tree for the BMC in the AMD DaytonaX
-> platform.
-> 
-> AMD DaytonaX platform is a customer reference board (CRB) with an
-> Aspeed ast2500 BMC manufactured by AMD.
-> 
-> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
-> ---
->  arch/arm/boot/dts/Makefile                    |   1 +
->  arch/arm/boot/dts/aspeed-bmc-amd-daytonax.dts | 319 ++++++++++++++++++
->  2 files changed, 320 insertions(+)
+Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
+No functional change.
 
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+---
+ drivers/media/platform/aspeed/aspeed-video.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+index 20f795ccc11b..26f067c77217 100644
+--- a/drivers/media/platform/aspeed/aspeed-video.c
++++ b/drivers/media/platform/aspeed/aspeed-video.c
+@@ -1753,19 +1753,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
+ 
+ 	return 0;
+ }
+-
+-static int aspeed_video_proc_open(struct inode *inode, struct file *file)
+-{
+-	return single_open(file, aspeed_video_debugfs_show, inode->i_private);
+-}
+-
+-static const struct file_operations aspeed_video_debugfs_ops = {
+-	.owner   = THIS_MODULE,
+-	.open    = aspeed_video_proc_open,
+-	.read    = seq_read,
+-	.llseek  = seq_lseek,
+-	.release = single_release,
+-};
++DEFINE_SHOW_ATTRIBUTE(aspeed_video_debugfs);
+ 
+ static struct dentry *debugfs_entry;
+ 
+@@ -1779,7 +1767,7 @@ static int aspeed_video_debugfs_create(struct aspeed_video *video)
+ {
+ 	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
+ 					    video,
+-					    &aspeed_video_debugfs_ops);
++					    &aspeed_video_debugfs_fops);
+ 	if (!debugfs_entry)
+ 		aspeed_video_debugfs_remove(video);
+ 
+-- 
+2.25.1
 
