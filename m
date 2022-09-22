@@ -2,46 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9875E64E7
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Sep 2022 16:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA475E6B59
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Sep 2022 20:58:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MYHPH2tsrz3c2j
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 00:15:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MYPgl33GQz3c1x
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 04:58:27 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=axhceb0o;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=liushixin2@huawei.com; receiver=<UNKNOWN>)
-X-Greylist: delayed 1103 seconds by postgrey-1.36 at boromir; Fri, 23 Sep 2022 00:15:27 AEST
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72e; helo=mail-qk1-x72e.google.com; envelope-from=tcminyard@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=axhceb0o;
+	dkim-atps=neutral
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MYHPC5QMsz30hw;
-	Fri, 23 Sep 2022 00:15:27 +1000 (AEST)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MYGv23Dhwz14QgY;
-	Thu, 22 Sep 2022 21:52:46 +0800 (CST)
-Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 22 Sep 2022 21:56:54 +0800
-Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
- (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
- 2022 21:56:54 +0800
-From: Liu Shixin <liushixin2@huawei.com>
-To: Eddie James <eajames@linux.ibm.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
-	<andrew@aj.id.au>
-Subject: [PATCH] media: aspeed: use DEFINE_SHOW_ATTRIBUTE to simplify code
-Date: Thu, 22 Sep 2022 22:30:38 +0800
-Message-ID: <20220922143038.3251456-1-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MYPfz581Yz3bpn;
+	Fri, 23 Sep 2022 04:57:45 +1000 (AEST)
+Received: by mail-qk1-x72e.google.com with SMTP id o7so6841909qkj.10;
+        Thu, 22 Sep 2022 11:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date;
+        bh=h9c+xPWJyC5OnFGo12v4TpTLnof1p8+esOXYmciFsQA=;
+        b=axhceb0omg3rX8tkuuP0AQ9Uwq2axBINJntz4zOv/BEVfSxg/ddN5kY3Gx/C6vrdw3
+         N8hqgRa5R76RpCqg4mTHnN1dbWkPdjFId8w5nvxn7A758diY5owUDU4phu9NrtF3TRjT
+         AgIvXm92Oiy4/Fv7p63YBmwatogCuf/3r0pDbYlAiDeNGHkjx2XnylVlLFmbm8jiq93t
+         pxusF/6VqWeyojGb6Qk9yeub6PRZsXQCBF3bcJAWHvEG9OeH3noFYuWi5tp+0MGcV7ua
+         SAmWYz21zlNRLFScWZssJ1x6kr7EW2DUHxCjTYisq41CBg3nS44wrqYhQJhVGi09hKPg
+         P20g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
+         :to:cc:subject:date;
+        bh=h9c+xPWJyC5OnFGo12v4TpTLnof1p8+esOXYmciFsQA=;
+        b=WEmvj2QMJn+SI7nKkSzanzikNysshIBadpRYGI707nQdrjQyB27FgwwHL3RSkHqtE8
+         /6mz24Aoh1iLqd/o0y/9c2LR3+eax9WtnMA9h0T8SsU5gpupmjvvGW38R58jx8pklJk9
+         3ucAtotdsGYRHUnZ1j3KMSFtGLkoRI06L36YOl0cR6ul+/QBzf3m94et4/n/sobx5fba
+         6fkwcDAC3/mUVdOI0fZW0DwAyaO+CV6FvgF/TjJ9REhkbcI0jtMP4p9UwcWfyAO9lBwr
+         a0QN1SfGcM8tHlF0E5FB0nJWme8yJrsop+ICqbyu6RZdLGZfGB6qDK0a5pkVqEQlgHe9
+         CizA==
+X-Gm-Message-State: ACrzQf2Zsge7nU12eZola9dNsWahcY7p4Izf1FVI+W/DJ5R+wYBQlMKd
+	6NaYyhIwItBOLvlD4Bml6A==
+X-Google-Smtp-Source: AMsMyM7lRX/UtjmtPjX7vd4fBl38n/2HwjotYxOaQHYiv6AR68EPDuLkUGmGjF8Iz8qfIhSJckxh4Q==
+X-Received: by 2002:a05:620a:1d02:b0:6ce:5820:2fdc with SMTP id dl2-20020a05620a1d0200b006ce58202fdcmr3246580qkb.638.1663873061853;
+        Thu, 22 Sep 2022 11:57:41 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+        by smtp.gmail.com with ESMTPSA id g17-20020ac87751000000b003434e47515csm3889217qtu.7.2022.09.22.11.57.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Sep 2022 11:57:41 -0700 (PDT)
+Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:5d3f:d09:85d2:d6e])
+	by serve.minyard.net (Postfix) with ESMTPSA id AEF841800BD;
+	Thu, 22 Sep 2022 18:57:40 +0000 (UTC)
+Date: Thu, 22 Sep 2022 13:57:39 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+Subject: Re: [PATCH] ipmi: kcs: aspeed: Update port address comments
+Message-ID: <YyywI8265vECnEHv@minyard.net>
+References: <20220920020333.601-1-chiawei_wang@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm100009.china.huawei.com (7.185.36.113)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220920020333.601-1-chiawei_wang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,53 +80,70 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Liu
- Shixin <liushixin2@huawei.com>, openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Reply-To: minyard@acm.org
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Use DEFINE_SHOW_ATTRIBUTE helper macro to simplify the code.
-No functional change.
+On Tue, Sep 20, 2022 at 10:03:33AM +0800, Chia-Wei Wang wrote:
+> Remove AST_usrGuide_KCS.pdf as it is no longer maintained.
 
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
- drivers/media/platform/aspeed/aspeed-video.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+Even if it's no longer maintained, is it useful?  It seems better to
+leave in useful documentation unless it has been replaced with something
+else.
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 20f795ccc11b..26f067c77217 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1753,19 +1753,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- 
- 	return 0;
- }
--
--static int aspeed_video_proc_open(struct inode *inode, struct file *file)
--{
--	return single_open(file, aspeed_video_debugfs_show, inode->i_private);
--}
--
--static const struct file_operations aspeed_video_debugfs_ops = {
--	.owner   = THIS_MODULE,
--	.open    = aspeed_video_proc_open,
--	.read    = seq_read,
--	.llseek  = seq_lseek,
--	.release = single_release,
--};
-+DEFINE_SHOW_ATTRIBUTE(aspeed_video_debugfs);
- 
- static struct dentry *debugfs_entry;
- 
-@@ -1779,7 +1767,7 @@ static int aspeed_video_debugfs_create(struct aspeed_video *video)
- {
- 	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
- 					    video,
--					    &aspeed_video_debugfs_ops);
-+					    &aspeed_video_debugfs_fops);
- 	if (!debugfs_entry)
- 		aspeed_video_debugfs_remove(video);
- 
--- 
-2.25.1
+-corey
 
+> 
+> Add more descriptions as the driver now supports the I/O
+> address configurations for both the KCS Data and Cmd/Status
+> interface registers.
+> 
+> Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> ---
+>  drivers/char/ipmi/kcs_bmc_aspeed.c | 29 ++++++++++++++++++-----------
+>  1 file changed, 18 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
+> index cdc88cde1e9a..19c32bf50e0e 100644
+> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
+> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
+> @@ -207,17 +207,24 @@ static void aspeed_kcs_updateb(struct kcs_bmc_device *kcs_bmc, u32 reg, u8 mask,
+>  }
+>  
+>  /*
+> - * AST_usrGuide_KCS.pdf
+> - * 2. Background:
+> - *   we note D for Data, and C for Cmd/Status, default rules are
+> - *     A. KCS1 / KCS2 ( D / C:X / X+4 )
+> - *        D / C : CA0h / CA4h
+> - *        D / C : CA8h / CACh
+> - *     B. KCS3 ( D / C:XX2h / XX3h )
+> - *        D / C : CA2h / CA3h
+> - *        D / C : CB2h / CB3h
+> - *     C. KCS4
+> - *        D / C : CA4h / CA5h
+> + * We note D for Data, and C for Cmd/Status, default rules are
+> + *
+> + * 1. Only the D address is given:
+> + *   A. KCS1/KCS2 (D/C: X/X+4)
+> + *      D/C: CA0h/CA4h
+> + *      D/C: CA8h/CACh
+> + *   B. KCS3 (D/C: XX2/XX3h)
+> + *      D/C: CA2h/CA3h
+> + *   C. KCS4 (D/C: X/X+1)
+> + *      D/C: CA4h/CA5h
+> + *
+> + * 2. Both the D/C addresses are given:
+> + *   A. KCS1/KCS2/KCS4 (D/C: X/Y)
+> + *      D/C: CA0h/CA1h
+> + *      D/C: CA8h/CA9h
+> + *      D/C: CA4h/CA5h
+> + *   B. KCS3 (D/C: XX2/XX3h)
+> + *      D/C: CA2h/CA3h
+>   */
+>  static int aspeed_kcs_set_address(struct kcs_bmc_device *kcs_bmc, u32 addrs[2], int nr_addrs)
+>  {
+> -- 
+> 2.25.1
+> 
