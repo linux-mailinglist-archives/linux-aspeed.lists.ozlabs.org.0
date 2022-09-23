@@ -1,74 +1,90 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA475E6B59
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Sep 2022 20:58:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C13BD5E7084
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 02:11:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MYPgl33GQz3c1x
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 04:58:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MYXcM5Srjz3c34
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 10:10:59 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=axhceb0o;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=S8QYp+FS;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=orfYQBJ1;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72e; helo=mail-qk1-x72e.google.com; envelope-from=tcminyard@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=64.147.123.24; helo=wout1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=axhceb0o;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=S8QYp+FS;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=orfYQBJ1;
 	dkim-atps=neutral
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+X-Greylist: delayed 530 seconds by postgrey-1.36 at boromir; Fri, 23 Sep 2022 10:10:52 AEST
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MYPfz581Yz3bpn;
-	Fri, 23 Sep 2022 04:57:45 +1000 (AEST)
-Received: by mail-qk1-x72e.google.com with SMTP id o7so6841909qkj.10;
-        Thu, 22 Sep 2022 11:57:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date;
-        bh=h9c+xPWJyC5OnFGo12v4TpTLnof1p8+esOXYmciFsQA=;
-        b=axhceb0omg3rX8tkuuP0AQ9Uwq2axBINJntz4zOv/BEVfSxg/ddN5kY3Gx/C6vrdw3
-         N8hqgRa5R76RpCqg4mTHnN1dbWkPdjFId8w5nvxn7A758diY5owUDU4phu9NrtF3TRjT
-         AgIvXm92Oiy4/Fv7p63YBmwatogCuf/3r0pDbYlAiDeNGHkjx2XnylVlLFmbm8jiq93t
-         pxusF/6VqWeyojGb6Qk9yeub6PRZsXQCBF3bcJAWHvEG9OeH3noFYuWi5tp+0MGcV7ua
-         SAmWYz21zlNRLFScWZssJ1x6kr7EW2DUHxCjTYisq41CBg3nS44wrqYhQJhVGi09hKPg
-         P20g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
-         :to:cc:subject:date;
-        bh=h9c+xPWJyC5OnFGo12v4TpTLnof1p8+esOXYmciFsQA=;
-        b=WEmvj2QMJn+SI7nKkSzanzikNysshIBadpRYGI707nQdrjQyB27FgwwHL3RSkHqtE8
-         /6mz24Aoh1iLqd/o0y/9c2LR3+eax9WtnMA9h0T8SsU5gpupmjvvGW38R58jx8pklJk9
-         3ucAtotdsGYRHUnZ1j3KMSFtGLkoRI06L36YOl0cR6ul+/QBzf3m94et4/n/sobx5fba
-         6fkwcDAC3/mUVdOI0fZW0DwAyaO+CV6FvgF/TjJ9REhkbcI0jtMP4p9UwcWfyAO9lBwr
-         a0QN1SfGcM8tHlF0E5FB0nJWme8yJrsop+ICqbyu6RZdLGZfGB6qDK0a5pkVqEQlgHe9
-         CizA==
-X-Gm-Message-State: ACrzQf2Zsge7nU12eZola9dNsWahcY7p4Izf1FVI+W/DJ5R+wYBQlMKd
-	6NaYyhIwItBOLvlD4Bml6A==
-X-Google-Smtp-Source: AMsMyM7lRX/UtjmtPjX7vd4fBl38n/2HwjotYxOaQHYiv6AR68EPDuLkUGmGjF8Iz8qfIhSJckxh4Q==
-X-Received: by 2002:a05:620a:1d02:b0:6ce:5820:2fdc with SMTP id dl2-20020a05620a1d0200b006ce58202fdcmr3246580qkb.638.1663873061853;
-        Thu, 22 Sep 2022 11:57:41 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
-        by smtp.gmail.com with ESMTPSA id g17-20020ac87751000000b003434e47515csm3889217qtu.7.2022.09.22.11.57.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 11:57:41 -0700 (PDT)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:5d3f:d09:85d2:d6e])
-	by serve.minyard.net (Postfix) with ESMTPSA id AEF841800BD;
-	Thu, 22 Sep 2022 18:57:40 +0000 (UTC)
-Date: Thu, 22 Sep 2022 13:57:39 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-Subject: Re: [PATCH] ipmi: kcs: aspeed: Update port address comments
-Message-ID: <YyywI8265vECnEHv@minyard.net>
-References: <20220920020333.601-1-chiawei_wang@aspeedtech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220920020333.601-1-chiawei_wang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MYXcD0tk3z302k
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Sep 2022 10:10:52 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id D6C7A32005BC;
+	Thu, 22 Sep 2022 20:01:56 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute3.internal (MEProxy); Thu, 22 Sep 2022 20:01:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1663891316; x=1663977716; bh=pmQnrRO+YK
+	fhpWQuVqOuHDw/6wiCkHQT8p9p2hxI6qE=; b=S8QYp+FSGIccsiXTDaT9HCp441
+	NKzEttVXecalr+5ZS0EFhHvxhhv9IvZR35rX7i4WXQ7zH/8ayLOBBhZzWsw8Cm4k
+	bkIJZHdbv7Eg7s6xGy9ZFOZyfJJkFtw1utl0yu7d+XBvhc1nzyStinEOdRGmlS9S
+	tAWA83s+LdN7lwEEzvKfoeHFd2HeLKKgTIM9Ds1FT1uT6WhfjKUOYLZKHgiWgPDM
+	6ubhfrjudqbbABcme/PSaZ0eGE/69qaKye4JFn1/kOHewQK/HC8uM766zN8VAX2A
+	LtMRLbUtaymmon13J046/hRV0jD8zKOQLD8rcoBYJG9S83mxkIYHdBiW4ZXw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1663891316; x=1663977716; bh=pmQnrRO+YKfhpWQuVqOuHDw/6wiC
+	kHQT8p9p2hxI6qE=; b=orfYQBJ1pytAksSkKRLZ3sBoocKIilnia7ne4njSwYB7
+	/cqcO0VuW4GbaVoOIA6s80/l6m7dJmvHPSSOV2+2KnO2ZANueyuZC9YNmYf62ayJ
+	p/fP4QoYcSnmTKOV7MYgCOxeqisnXDkGRMFdoX8Ws42GWLkcxaCk+fhhiSeLV3/4
+	veG0HMQxehLQmeD/zUshe2chC0Em1P8kGtXc75vBdLLIM8RMMyLR5FP/77Tg3lWY
+	zpx0eHCmEFLTOukLVmIvl5W0I2SirlGyjYJnehYym47SLpO5RmFECoa/xQLxbs4a
+	pbfSuSQ8o5350FkSd/bW7rwPqN4IXvLD8NVLgB84GQ==
+X-ME-Sender: <xms:c_csY4DplRPJ651SbyZOH5thr8emuqozyd5WGS3jhqKjvbeVAYpFtw>
+    <xme:c_csY6iHk5BrALSqLSzq6DIokAFxFv6ZoAmul9mDHoSTH4RTE3FuwpyaGOvH53spP
+    QTSlPCdC4S-Hlfsbw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefhedgfedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
+    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:c_csY7kK8tDnUwqngQKrhXZzpN9Zmq0ACf5pCNlzJ5QljTcAmr53iA>
+    <xmx:c_csY-wyIAJN4vDyPK5aHH37fXPUMT6KYYGxxLJsRcx1tY6f-2CbDg>
+    <xmx:c_csY9R6SasczO49or0xuj2iUM_EM08o_w2mhBIkPnavyEeJVpJwLg>
+    <xmx:dPcsY-RLDkfflhLixkEOqC19p-VAjDiOb6JLYKpT_dKxNftZC8hRVw>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C610E1700083; Thu, 22 Sep 2022 20:01:55 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
+Mime-Version: 1.0
+Message-Id: <c5acf780-7a9d-442c-a41c-efc69e5d0ed3@app.fastmail.com>
+In-Reply-To: <1c33bf6d-b458-b2bb-3116-ed20b9cadc0e@linaro.org>
+References: <20220811062953.5976-1-krzysztof.kozlowski@linaro.org>
+ <1c33bf6d-b458-b2bb-3116-ed20b9cadc0e@linaro.org>
+Date: Fri, 23 Sep 2022 09:31:35 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Joel Stanley" <joel@jms.id.au>, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v3] dt-bindings: arm: aspeed: adjust qcom,dc-scm-v1-bmc compatible
+ after rename
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,70 +96,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Sep 20, 2022 at 10:03:33AM +0800, Chia-Wei Wang wrote:
-> Remove AST_usrGuide_KCS.pdf as it is no longer maintained.
 
-Even if it's no longer maintained, is it useful?  It seems better to
-leave in useful documentation unless it has been replaced with something
-else.
 
--corey
+On Thu, 22 Sep 2022, at 16:19, Krzysztof Kozlowski wrote:
+> On 11/08/2022 08:29, Krzysztof Kozlowski wrote:
+>> The Nuvia DC-SCM BMC board compatible was renamed in commit
+>> 7f058112873e ("ARM: dts: aspeed: nuvia: rename vendor nuvia to qcom"),
+>> so adjust the bindings as well.
+>> 
+>> Fixes: f77024c80147 ("dt-bindings: arm: aspeed: document board compatibles")
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Acked-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+>> Acked-by: Rob Herring <robh@kernel.org>
+>> 
+>> ---
+>> 
+>> Changes since v2:
+>> 1. Fix typo in commit msg.
+>> 2. Add Acks.
+>> 
+>> Changes since v1:
+>> 1. Use proper qcom compatible.
+>
+> Andrew, Joel,
+>
+> Do you have any more comments on this patch? Do you plan to pick it up?
+> 5 weeks passed..
 
-> 
-> Add more descriptions as the driver now supports the I/O
-> address configurations for both the KCS Data and Cmd/Status
-> interface registers.
-> 
-> Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-> ---
->  drivers/char/ipmi/kcs_bmc_aspeed.c | 29 ++++++++++++++++++-----------
->  1 file changed, 18 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
-> index cdc88cde1e9a..19c32bf50e0e 100644
-> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
-> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
-> @@ -207,17 +207,24 @@ static void aspeed_kcs_updateb(struct kcs_bmc_device *kcs_bmc, u32 reg, u8 mask,
->  }
->  
->  /*
-> - * AST_usrGuide_KCS.pdf
-> - * 2. Background:
-> - *   we note D for Data, and C for Cmd/Status, default rules are
-> - *     A. KCS1 / KCS2 ( D / C:X / X+4 )
-> - *        D / C : CA0h / CA4h
-> - *        D / C : CA8h / CACh
-> - *     B. KCS3 ( D / C:XX2h / XX3h )
-> - *        D / C : CA2h / CA3h
-> - *        D / C : CB2h / CB3h
-> - *     C. KCS4
-> - *        D / C : CA4h / CA5h
-> + * We note D for Data, and C for Cmd/Status, default rules are
-> + *
-> + * 1. Only the D address is given:
-> + *   A. KCS1/KCS2 (D/C: X/X+4)
-> + *      D/C: CA0h/CA4h
-> + *      D/C: CA8h/CACh
-> + *   B. KCS3 (D/C: XX2/XX3h)
-> + *      D/C: CA2h/CA3h
-> + *   C. KCS4 (D/C: X/X+1)
-> + *      D/C: CA4h/CA5h
-> + *
-> + * 2. Both the D/C addresses are given:
-> + *   A. KCS1/KCS2/KCS4 (D/C: X/Y)
-> + *      D/C: CA0h/CA1h
-> + *      D/C: CA8h/CA9h
-> + *      D/C: CA4h/CA5h
-> + *   B. KCS3 (D/C: XX2/XX3h)
-> + *      D/C: CA2h/CA3h
->   */
->  static int aspeed_kcs_set_address(struct kcs_bmc_device *kcs_bmc, u32 addrs[2], int nr_addrs)
->  {
-> -- 
-> 2.25.1
-> 
+Sorry, things have been a bit complicated recently. Looks okay to me, 
+but Joel needs to pick it up.
+
+Acked-by: Andrew Jeffery <andrew@aj.id.au>
