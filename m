@@ -2,63 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237715E7B34
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 14:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1445E809A
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 19:22:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MYsc21d80z3cCk
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 22:56:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MYzTy3Qwkz3cHD
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Sep 2022 03:21:58 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l2j821D/;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=aB+p8r1C;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.115; helo=mga14.intel.com; envelope-from=sakari.ailus@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l2j821D/;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=aB+p8r1C;
 	dkim-atps=neutral
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MYsbw1kCXz3c8B;
-	Fri, 23 Sep 2022 22:56:43 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663937804; x=1695473804;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=36jlH4FYtvGxIFhDwdZD5Pb0snW6hsWleCbEEs/RP2A=;
-  b=l2j821D/1QGcq712PEWpFyAKvEGHGGCFkqXCK8YspgekViE1lCvRIUbH
-   irjUshOCinMas1NTUf/86+mlsjLw7MJ5g/TS0z2gi7KUmO/KNhWG0FH1W
-   B21XVLySp0vHzqdgA5jjB4WoQI1AByG2XgN3YuTUImljXYe/2vIvs/pe/
-   bY4G+GWfWb2eThmqtZRXIw/KWdPssQ64eJtkH2RGfuupsXlVptjvpOxrF
-   S+Fy7Inc9sXx9VNuF+6AYwrM+exMHHdDeugGF87a4zx7wETZfXy0OqMcR
-   huoWYr7QAfjMdxcM9qJ1ckEL3X9CutD8OU0ABzlmlSFd7pLuTo7dKT4bF
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="300568212"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="300568212"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 05:56:40 -0700
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="762606548"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 05:56:36 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with ESMTP id 8E80C20124;
-	Fri, 23 Sep 2022 15:56:34 +0300 (EEST)
-Date: Fri, 23 Sep 2022 12:56:34 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jammy Huang <jammy_huang@aspeedtech.com>
-Subject: Re: [PATCH v9 1/4] media: v4l: Add definition for the Aspeed JPEG
- format
-Message-ID: <Yy2tAlGXFJS+a2Lz@paasikivi.fi.intel.com>
-References: <20220921025112.13150-1-jammy_huang@aspeedtech.com>
- <20220921025112.13150-2-jammy_huang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MYzTr4Dj3z2xDN;
+	Sat, 24 Sep 2022 03:21:52 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sin.source.kernel.org (Postfix) with ESMTPS id AFB53CE256F;
+	Fri, 23 Sep 2022 17:21:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB988C433D7;
+	Fri, 23 Sep 2022 17:21:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1663953705;
+	bh=stMfFnVH/juCurSRTNCRk0c423DHo1u24Crm6CU1vz0=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=aB+p8r1CVsvPoo2lVwqArrrdiibKUjyAlj/wAgl+Q2WFLrSQyPfdtE+KLPquENasv
+	 niZ31sKEEp4CTZ6Vo/foIeirjcAUYcmVH3PUej6yCrXt610wOgHFc0PrVSRs5xvzmL
+	 afhJ6WCnzuakPfRpvC3Bym1mjp09VXpis8VJB+/9WLyEaCqltf83FbXqOGImvPGowh
+	 ObGWMFcHTeMjOwHLi6Taze6wgxOQ5QqzY3ifq6R2AZOSEWvqgQLvIdT5I3P/BcTyOg
+	 FXjRA2BeYDSqOQIWx2X0pOy9wbN+Ptq+d5ETTAV2LzQ5S1vmJuvyS6pyFlZLbxLuHF
+	 gDU56aF0GF4jA==
+From: Mark Brown <broonie@kernel.org>
+To: linux-spi@vger.kernel.org, Shang XiaoJing <shangxiaojing@huawei.com>, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, joel@jms.id.au, clg@kaod.org, andrew@aj.id.au, chin-ting_kuo@aspeedtech.com
+In-Reply-To: <20220923101632.19170-1-shangxiaojing@huawei.com>
+References: <20220923101632.19170-1-shangxiaojing@huawei.com>
+Subject: Re: [PATCH -next] spi: aspeed: Remove redundant dev_err call
+Message-Id: <166395370362.637404.4217222260781909886.b4-ty@kernel.org>
+Date: Fri, 23 Sep 2022 18:21:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220921025112.13150-2-jammy_huang@aspeedtech.com>
+X-Mailer: b4 0.10.0-dev-fc921
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,98 +61,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, laurent.pinchart@ideasonboard.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, stanimir.varbanov@linaro.org, ribalda@chromium.org, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Jammy,
-
-Thanks for the update.
-
-On Wed, Sep 21, 2022 at 10:51:09AM +0800, Jammy Huang wrote:
-> This introduces support for the Aspeed JPEG format, where the new frame
-> can refer to previous frame to reduce the amount of compressed data.
-> The concept is similar to I/P frame of video compression. It will
-> compare the new frame with previous one to decide which macroblock's
-> data is changed, and only the changed macroblocks will be compressed.
+On Fri, 23 Sep 2022 18:16:32 +0800, Shang XiaoJing wrote:
+> devm_ioremap_resource() prints error message in itself. Remove the
+> dev_err call to avoid redundant error message.
 > 
-> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
-> which is generally adapted for remote KVM.
 > 
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-reserved.rst | 17 +++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
->  include/uapi/linux/videodev2.h                  |  1 +
->  3 files changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> index 0ff68cd8cf62..f62bc76d606f 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> @@ -258,6 +258,23 @@ please make a proposal on the linux-media mailing list.
->          and it is used by various multimedia hardware blocks like GPU, display
->          controllers, ISP and video accelerators.
->          It contains four planes for progressive video.
-> +    * .. _V4L2-PIX-FMT-AJPG:
-> +
-> +      - ``V4L2_PIX_FMT_AJPG``
-> +      - 'AJPG'
-> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
-> +        which is generally adapted for remote KVM.
-> +        On each frame compression, I will compare the new frame with previous
-> +        one to decide which macroblock's data is changed, and only the changed
-> +        macroblocks will be compressed.
-> +
-> +        The implementation is based on AST2600 A3 datasheet, revision 0.9, which
-> +        is not publicly available. Or you can reference Video stream data format
-> +        – ASPEED mode compression of SDK_User_Guide which available on
-> +        AspeedTech-BMC/openbmc/releases.
-> +
-> +        Decoder's implementation can be found here,
-> +        `https://github.com/AspeedTech-BMC/aspeed_codec/ <https://github.com/AspeedTech-BMC/aspeed_codec/>`__
 
-This is better than the previous versions.
+Applied to
 
-Can you still run
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-$ scripts/checkpatch.pl --strict --max-line-length=80
+Thanks!
 
-?
+[1/1] spi: aspeed: Remove redundant dev_err call
+      commit: 04e0456f778de550a14d222d1a9ae0625511244d
 
-On the decoder --- which values is the user supposed to use for mode_420,
-selector and advance_selector parameters? I think this needs to be
-documented.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
->  .. raw:: latex
->  
->      \normalsize
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index a1a1b51ac599..c72bc3410bee 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1497,6 +1497,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
->  		case V4L2_PIX_FMT_QC08C:	descr = "QCOM Compressed 8-bit Format"; break;
->  		case V4L2_PIX_FMT_QC10C:	descr = "QCOM Compressed 10-bit Format"; break;
-> +		case V4L2_PIX_FMT_AJPG:		descr = "Aspeed JPEG"; break;
->  		default:
->  			if (fmt->description[0])
->  				return;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 86cae23cc446..870a7e5ef8ca 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -775,6 +775,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-bit dithered RGB */
->  #define V4L2_PIX_FMT_QC08C    v4l2_fourcc('Q', '0', '8', 'C') /* Qualcomm 8-bit compressed */
->  #define V4L2_PIX_FMT_QC10C    v4l2_fourcc('Q', '1', '0', 'C') /* Qualcomm 10-bit compressed */
-> +#define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
->  
->  /* 10bit raw packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
->  #define V4L2_PIX_FMT_IPU3_SBGGR10	v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
--- 
-Kind regards,
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Sakari Ailus
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
