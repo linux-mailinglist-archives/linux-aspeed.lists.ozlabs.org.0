@@ -1,55 +1,86 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1445E809A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 19:22:00 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C225E8524
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 23:52:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MYzTy3Qwkz3cHD
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Sep 2022 03:21:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MZ5VJ6lGtz3cXf
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Sep 2022 07:52:40 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=aB+p8r1C;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=ddvDvgBF;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=T6apudbi;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=aB+p8r1C;
+	dkim=pass (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=ddvDvgBF;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=T6apudbi;
 	dkim-atps=neutral
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MYzTr4Dj3z2xDN;
-	Sat, 24 Sep 2022 03:21:52 +1000 (AEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id AFB53CE256F;
-	Fri, 23 Sep 2022 17:21:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB988C433D7;
-	Fri, 23 Sep 2022 17:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663953705;
-	bh=stMfFnVH/juCurSRTNCRk0c423DHo1u24Crm6CU1vz0=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=aB+p8r1CVsvPoo2lVwqArrrdiibKUjyAlj/wAgl+Q2WFLrSQyPfdtE+KLPquENasv
-	 niZ31sKEEp4CTZ6Vo/foIeirjcAUYcmVH3PUej6yCrXt610wOgHFc0PrVSRs5xvzmL
-	 afhJ6WCnzuakPfRpvC3Bym1mjp09VXpis8VJB+/9WLyEaCqltf83FbXqOGImvPGowh
-	 ObGWMFcHTeMjOwHLi6Taze6wgxOQ5QqzY3ifq6R2AZOSEWvqgQLvIdT5I3P/BcTyOg
-	 FXjRA2BeYDSqOQIWx2X0pOy9wbN+Ptq+d5ETTAV2LzQ5S1vmJuvyS6pyFlZLbxLuHF
-	 gDU56aF0GF4jA==
-From: Mark Brown <broonie@kernel.org>
-To: linux-spi@vger.kernel.org, Shang XiaoJing <shangxiaojing@huawei.com>, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, joel@jms.id.au, clg@kaod.org, andrew@aj.id.au, chin-ting_kuo@aspeedtech.com
-In-Reply-To: <20220923101632.19170-1-shangxiaojing@huawei.com>
-References: <20220923101632.19170-1-shangxiaojing@huawei.com>
-Subject: Re: [PATCH -next] spi: aspeed: Remove redundant dev_err call
-Message-Id: <166395370362.637404.4217222260781909886.b4-ty@kernel.org>
-Date: Fri, 23 Sep 2022 18:21:43 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MZ5VD57jkz2x9C;
+	Sat, 24 Sep 2022 07:52:36 +1000 (AEST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id C5C0C5C00F5;
+	Fri, 23 Sep 2022 17:52:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 23 Sep 2022 17:52:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1663969954; x=1664056354; bh=48NjErML18
+	V8FEC6ma2n9S/WAw7f8GnGxxmF8unyKIQ=; b=ddvDvgBFW/wUPmVfW0yAMGY1vg
+	nQKjtal8R2KB5gbNmmb0gEfdbaLtg8WxtQadoR0134uV4fYdOqgfrBNhvmZPPjAY
+	Co4rQ7Q8cgvrwsG9BWhIYZF5eSy+CeufoaXT/CDWy1hQo9yP/Lt80GR7WfSgfIvm
+	yb1R3OLav9dnU3bCksCiPxm7TibrO0zQ93cLJL3gnUFxkCMlMK6MSwKGWKlO3gVE
+	iU7ONK0A7LU7T+EWUmVNjCiluw3LABWF/5bD/DTbaP5DLxzrvNzgJTim14YGsCfs
+	8q/BgLzetFQl0RgtNK6tj2GR51V9s/CRnMS5fbF0KKvrYLBSapGh92RqlIiQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1663969954; x=1664056354; bh=48NjErML18V8FEC6ma2n9S/WAw7f
+	8GnGxxmF8unyKIQ=; b=T6apudbidu6svbDifmwwQHsbnK/u4vUnkQJNHNwrI2EN
+	KhhjZixhCcbi/lil8Db651j/h7C+296ApPjVCSyCj09xAHMMlDrwMFt6ndaqjMwT
+	lLEtPCMJFTzvzF1Q0UGFIIRmHgkNhGadaWsId3s2P12hm9CzrhT/Q9sDi4irjB3o
+	kYw7RWXnq0YD2V9dU3RULTFRjb08tNkinf5Cvuyg8J7heeAXxMDG2ANJxaGpRWSR
+	n+ynxF+I1+NbL4oF6sVI/kDTvz3ArGPH3GbOKxBWYCsoMHFbw3AO2aoMFKls1rPb
+	7TFHBR/tuXsVX89rpRav1b2nifdR/TXY8FnVDeqAJQ==
+X-ME-Sender: <xms:oiouY2KziXEte8XQRGu10H_OBYTLdQ-ANjksg7-Hb-SEEbht0Eok4g>
+    <xme:oiouY-KIGbHetNhsQAK_x_YcWMZCxRCGdiwNnKMQcWxfWNSG5RTTCwLoFkeG1UJDj
+    CfWNARXEcnIPfA1hpI>
+X-ME-Received: <xmr:oiouY2usknzNEQraC9wRQTIkD1DTer3dh6XhAakB5PQDdXbdRqqR74sbO8ksf07kv45QE_ajwlpcp9Ujri2eVgQd5tPiWwxf>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefjedgtdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    gfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredt
+    tddvnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
+    hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpeehfeejheeftdejiedvfeekffeh
+    ledukeduleelffekgfdtleduledvtdegtdehkeenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:oiouY7b34tLWMVfuI-XeH3hM-SPLJUXSmm1R9HAw9wTklFQfUb2W_A>
+    <xmx:oiouY9bAPCE5K1gYZA4zDqKhAPqc3YFYiMP7oFQUDl2VbesrHpIhDA>
+    <xmx:oiouY3D7TJYKSkNqSLmCxxnXj15Aq0aBUe1hb1p3fYCSjzPBsxL0GQ>
+    <xmx:oiouY7OFwT7R_aZTzzHWB0SamZvjiP7h1a4899y2prrRObLSF3Aqrg>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 23 Sep 2022 17:52:34 -0400 (EDT)
+Date: Fri, 23 Sep 2022 16:52:33 -0500
+From: Patrick Williams <patrick@stwcx.xyz>
+To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+Subject: Re: [PATCH v4] ARM: dts: aspeed: yosemit V2: Enable OCP debug card
+Message-ID: <Yy4qofFUIxudLxbS@heinlein>
+References: <20220921064309.GA18932@hcl-ThinkPad-T495>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wHWYLb7Xs2B5C7b+"
+Content-Disposition: inline
+In-Reply-To: <20220921064309.GA18932@hcl-ThinkPad-T495>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,39 +92,92 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 23 Sep 2022 18:16:32 +0800, Shang XiaoJing wrote:
-> devm_ioremap_resource() prints error message in itself. Remove the
-> dev_err call to avoid redundant error message.
-> 
-> 
 
-Applied to
+--wHWYLb7Xs2B5C7b+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-Thanks!
+> Subject: [PATCH v4] ARM: dts: aspeed: yosemit V2: Enable OCP debug card
 
-[1/1] spi: aspeed: Remove redundant dev_err call
-      commit: 04e0456f778de550a14d222d1a9ae0625511244d
+Please double-check your spelling of commit messages.  You've misspelled
+"yosemite" here, which gives an impression that it is quite likely that
+other things are wrong with your commit.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+On Wed, Sep 21, 2022 at 12:13:09PM +0530, Karthikeyan Pasupathi wrote:
+> Added IPMB-13 channel for Debug Card communication.
+> which improve the readability of the machine and makes
+> easier to debug the server.  and it will display the some
+> informations about the server like "system info",
+> "Critical sensors" and "critical sel".
+>=20
+> ---
+> --- v4- Resolved syntax error
+> --- v3- Updated the title and commit
+> --- v2- Updated the title
+> --- v1- Initial draft
+> ---
+>=20
+> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/=
+arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> index 8864e9c312a8..84236df522dc 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> @@ -215,6 +215,17 @@
+>  	};
+>  };
+> =20
+> +&i2c13 {
+> +	status =3D "okay";
+> +	// Debug Card
+> +	multi-master;
+> +	ipmb13@10 {
+> +		compatible =3D "ipmb-dev";
+> +		reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
+> +		i2c-protocol;
+> +	};
+> +};
+> +
+>  &pwm_tacho {
+>  	status =3D "okay";
+>  	//FSC
+> --=20
+> 2.17.1
+>=20
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--=20
+Patrick Williams
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+--wHWYLb7Xs2B5C7b+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Mark
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmMuKqEACgkQqwNHzC0A
+wRkAfxAAhLE3Aykgvtr1bC+tjK+SlTLbEJx1tviuSQLRCJQiG4svJWTSiVWsukmU
+lRYBTtx5wWtTAKTMcltlihOLgUmvhp9WmELC/LlCZqNTvx9CFZk6zwM4LkaFW7SJ
++L/rL3ecLmP4QhAia9j5+pkZH/EVeN5gfuiYgeGFgDTx2cQAJ9614rBUpalcCnBZ
+Spc4CmZeOkmMv88RmU0NqvnLEnOXBTATWKpxh+3VbPHFa2xmMqcvleWA4cDAI4li
+nAyudDPMpOv/wg8ofjtPypfFNqG+tFZRU7Fdcqd5NJwkFMlGfC49aaNKbpkivy32
+EY/95D/rcfl7bQey4BHoUB8CaSMGFsyFw9Z/YalLZ57EiZ4YAKAEWgPAWzQU1yJb
+PjDyXwnQh12jvOG79XdVRWELWO3qvjszhcCAknTrBxerCceC8Ga+cA1sm5eoZR1N
+VSK2KP3FhL4yST8OEFU2C2yvgKYi9xpRPB12/po5mTMPlxbsPFlJ8IJxGT1NGsqP
+Ip4vsiKX7RR1sJ+WAr77gcfNrN8pvScm3gLlluah+JMPr23ZGgBlIGPl4FTk/xgS
+VMBGcO9zfcc+8BKmgJZ7Yc8hfu7TEq3XoM3cP0VR38mO3BKwvx+hcHiVO2xSKKDU
+S+c0oNAo4Z0oJIveoA8ucTBVHTWs4PZZVCKE9kYRTS1TTpnIuPg=
+=mMuK
+-----END PGP SIGNATURE-----
+
+--wHWYLb7Xs2B5C7b+--
