@@ -1,86 +1,123 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C225E8524
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Sep 2022 23:52:42 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 295015E9B5F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Sep 2022 10:00:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MZ5VJ6lGtz3cXf
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Sep 2022 07:52:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MbZtg6TBpz3f2t
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Sep 2022 18:00:27 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=ddvDvgBF;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=T6apudbi;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=p1VGHIRT;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.244.104; helo=nam12-mw2-obe.outbound.protection.outlook.com; envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=ddvDvgBF;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=T6apudbi;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=p1VGHIRT;
 	dkim-atps=neutral
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2104.outbound.protection.outlook.com [40.107.244.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MZ5VD57jkz2x9C;
-	Sat, 24 Sep 2022 07:52:36 +1000 (AEST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id C5C0C5C00F5;
-	Fri, 23 Sep 2022 17:52:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 23 Sep 2022 17:52:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1663969954; x=1664056354; bh=48NjErML18
-	V8FEC6ma2n9S/WAw7f8GnGxxmF8unyKIQ=; b=ddvDvgBFW/wUPmVfW0yAMGY1vg
-	nQKjtal8R2KB5gbNmmb0gEfdbaLtg8WxtQadoR0134uV4fYdOqgfrBNhvmZPPjAY
-	Co4rQ7Q8cgvrwsG9BWhIYZF5eSy+CeufoaXT/CDWy1hQo9yP/Lt80GR7WfSgfIvm
-	yb1R3OLav9dnU3bCksCiPxm7TibrO0zQ93cLJL3gnUFxkCMlMK6MSwKGWKlO3gVE
-	iU7ONK0A7LU7T+EWUmVNjCiluw3LABWF/5bD/DTbaP5DLxzrvNzgJTim14YGsCfs
-	8q/BgLzetFQl0RgtNK6tj2GR51V9s/CRnMS5fbF0KKvrYLBSapGh92RqlIiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1663969954; x=1664056354; bh=48NjErML18V8FEC6ma2n9S/WAw7f
-	8GnGxxmF8unyKIQ=; b=T6apudbidu6svbDifmwwQHsbnK/u4vUnkQJNHNwrI2EN
-	KhhjZixhCcbi/lil8Db651j/h7C+296ApPjVCSyCj09xAHMMlDrwMFt6ndaqjMwT
-	lLEtPCMJFTzvzF1Q0UGFIIRmHgkNhGadaWsId3s2P12hm9CzrhT/Q9sDi4irjB3o
-	kYw7RWXnq0YD2V9dU3RULTFRjb08tNkinf5Cvuyg8J7heeAXxMDG2ANJxaGpRWSR
-	n+ynxF+I1+NbL4oF6sVI/kDTvz3ArGPH3GbOKxBWYCsoMHFbw3AO2aoMFKls1rPb
-	7TFHBR/tuXsVX89rpRav1b2nifdR/TXY8FnVDeqAJQ==
-X-ME-Sender: <xms:oiouY2KziXEte8XQRGu10H_OBYTLdQ-ANjksg7-Hb-SEEbht0Eok4g>
-    <xme:oiouY-KIGbHetNhsQAK_x_YcWMZCxRCGdiwNnKMQcWxfWNSG5RTTCwLoFkeG1UJDj
-    CfWNARXEcnIPfA1hpI>
-X-ME-Received: <xmr:oiouY2usknzNEQraC9wRQTIkD1DTer3dh6XhAakB5PQDdXbdRqqR74sbO8ksf07kv45QE_ajwlpcp9Ujri2eVgQd5tPiWwxf>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefjedgtdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredt
-    tddvnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
-    hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpeehfeejheeftdejiedvfeekffeh
-    ledukeduleelffekgfdtleduledvtdegtdehkeenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:oiouY7b34tLWMVfuI-XeH3hM-SPLJUXSmm1R9HAw9wTklFQfUb2W_A>
-    <xmx:oiouY9bAPCE5K1gYZA4zDqKhAPqc3YFYiMP7oFQUDl2VbesrHpIhDA>
-    <xmx:oiouY3D7TJYKSkNqSLmCxxnXj15Aq0aBUe1hb1p3fYCSjzPBsxL0GQ>
-    <xmx:oiouY7OFwT7R_aZTzzHWB0SamZvjiP7h1a4899y2prrRObLSF3Aqrg>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 23 Sep 2022 17:52:34 -0400 (EDT)
-Date: Fri, 23 Sep 2022 16:52:33 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-Subject: Re: [PATCH v4] ARM: dts: aspeed: yosemit V2: Enable OCP debug card
-Message-ID: <Yy4qofFUIxudLxbS@heinlein>
-References: <20220921064309.GA18932@hcl-ThinkPad-T495>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MbZsh5ZNpz30hw;
+	Mon, 26 Sep 2022 17:59:35 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VgdDrihKhtWjxkMT7HoGbn1jBNh61wbKlGmI5qG8Md4oje5NozO+sQoy06SykQAhhNvdmgV5bsVcKPi8mfN1MaWq+/FpMO5SpTJeJzfzNX6AAunrYTzDBhzsbgu8nwbQijrZ3upviGKTExJm40u2O0kfJQNXW3/gw9FghesHP6ZFfRChVCu4lQfV0eZSczmhC161ekQlfw1K+mDwLVTxH7HLZkAg+0uxbE7OU172ODgl0DWghWUaCaK81d8/iEGZxscbJK0dclYfc5ESxcPjuUHbEoTE2DG8ZaKYe9EuQe666KuT15SbEhCew1E0CokcE18NBCz8NrWdjsr2rwX2JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R8A8efsndowdMBNoJsnkZ1LEc/rTlAmrxqdPIq1X66E=;
+ b=FrkSELdt4tEF55dctHsOCvhD68YUUlHn+yiAGGHqHqfn20spwMvHXJL7rA3jOZ4wmii/EyfDKzc/Xi28Dp3MlpuOB6JOtmfWrp7UlnpUHSevARsACRIkraNgmh5oQk4m68NkcPoBHA+U9hwT0kgJ9Jd5dOBSdKtWZ1v2PhtvxDysdBeZwoOX+DS6aWS60UagKBmfhLNz4VwDlXU574In2mOfOuy4fVKGDmJgP+U0qPzksSH133P3vVMPNIXKPYPVGEs+j9UUYe5cibzbyo6kFcVxHX+rgRrW13u3j0jw+HtcUrEUevayM04MF0yundwBV0+l9i7NdiOoBz+RBX9fYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R8A8efsndowdMBNoJsnkZ1LEc/rTlAmrxqdPIq1X66E=;
+ b=p1VGHIRTm/Z1qhczKpS/VfoadmxnfHukRFna+MJLCKVAPuNaBjOE1DU2FLsGKJoQq+ZvsWskAqLXf12zzM/XaWOyLfVltoXP/jeYBSHHCZHFMABRkUna4B9FLX9B+rbY7tlWAL6iEk08mttICAFrEt981flLruLM9tTEVZjVSOY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
+ BL0PR01MB5235.prod.exchangelabs.com (2603:10b6:208:31::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5654.20; Mon, 26 Sep 2022 07:59:16 +0000
+Received: from SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::7d50:e907:8e2e:1ff0]) by SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::7d50:e907:8e2e:1ff0%3]) with mapi id 15.20.5654.025; Mon, 26 Sep 2022
+ 07:59:16 +0000
+From: Quan Nguyen <quan@os.amperecomputing.com>
+To: openbmc@lists.ozlabs.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>,
+	soc@kernel.org,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	Open Source Submission <patches@amperecomputing.com>
+Subject: [PATCH v3 RESEND 0/2] Add device tree for Ampere's Mt. Mitchell BMC
+Date: Mon, 26 Sep 2022 14:58:46 +0700
+Message-Id: <20220926075848.206918-1-quan@os.amperecomputing.com>
+X-Mailer: git-send-email 2.35.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SGXP274CA0017.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::29)
+ To SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wHWYLb7Xs2B5C7b+"
-Content-Disposition: inline
-In-Reply-To: <20220921064309.GA18932@hcl-ThinkPad-T495>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR01MB7282:EE_|BL0PR01MB5235:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c265167-59f0-4161-1bc1-08da9f950221
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	fYpbOB8AoLAwJhTxumGZE4lr3/i+ehRidEoGF+1gRdu0j06dqNQCy7pwX0fOHptS9JEMW+8P5PgO8h3Av+QwpuWW5bnwKDkuuusNOaL3tjFivTfz7RNfeypmMPeDl0dEM7F1M9z32i8HkIRUTxaXIU82QvptidvmKP6meeG8XfS7pGnT8iibyBDYNtydblA6qLkBlNcRbyECfbkySiugI7pxsoojfjCkP2960LSjo1X6cA6uCSiND1y9byAs8WnFYpxsjNdXDiyqHW25hHuo1j507g0APhiuKghJBXt0i1OuTv85Inre5oo8VfaGUybo8hbqkfVEo+LfpJoBT+Hsl+XO7Tr1NiavHQm2oXGiT2hWpdYQTeAsbiHycsbIQNgYHDnGJqj/r/dQROX+ASEDAPvR440yMSWG0HTsGXj/7FZrdEfj7/grb3z2eDlx7htdpFF8AD6PotUBvoO1bIvetat/mTcirx6yerkLEnJujYrnJeGO8XWH/c2DUWN+pXnMMzvVeZE2SV9hR88z/WEc/Iuc8sI0Oyz7j4qljdJznAQ4nj4+PnuG0bgBfkEWNJDsEVlKGLDVpiKy5t27IQqF931Pe7DANz2emkzbYvxF7ty2lyaU+yEVKmHEgWkLhGlVip3KOpoBV48Fg4+QVkaLw852ZOAfWwqjTgfRkAhRYRFCaZjm8K8ES4DOUZ3UJVLqgo00U/88BoPEOuPz11TTex3jkEzXmlQFRGx1TPGW4CPWcrwcs6+DHstAm7ajLcX4tQ7a2j6hrr1hUeuI27tNfP0AwwqV4Vc7FDP7b63czNM=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR01MB7282.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(39840400004)(376002)(396003)(366004)(136003)(451199015)(7416002)(26005)(6512007)(5660300002)(6506007)(8936002)(52116002)(41300700001)(107886003)(6666004)(38350700002)(83380400001)(2616005)(1076003)(186003)(2906002)(66574015)(921005)(54906003)(110136005)(38100700002)(86362001)(4326008)(66946007)(8676002)(6486002)(316002)(66556008)(478600001)(66476007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?/v/wQpkcZDDEO/CU7raeIROdoZMx0BIUGqc7NnFUs2r9Wy/pvASRd5tN9+tC?=
+ =?us-ascii?Q?MnSqf1dJCnMSdlTOV5YEYpZTb+GwMVmpE8M+cYJUN7lqzyIjAzHUgR8nSjFx?=
+ =?us-ascii?Q?Gam4fXvCqcXxXW0Jx0RQRjQC5TFwScDxysbjplxV92LSWyaZk2sbdVsaNxgw?=
+ =?us-ascii?Q?Rd/ORLdJsGsyO3BBRUaqAcuvszxnNSf9EG7OZs9tg7kDIuDnjqbYFFiZ/py7?=
+ =?us-ascii?Q?GTBPmbdvn/yC2vNUQuZFqna5RAiSVG9OuHrKfnn222b5at1TlCBoZqg6FI/x?=
+ =?us-ascii?Q?mLR3yIZYmh9hDCKVQjku5Jt/Siw3oUTbHOkCUBFxttGQwVFnHIP6F2acV9Z8?=
+ =?us-ascii?Q?1Ajdd5T9RYC+bb7XjO9jeCIZkBXK3dCQ488qtsivv7PwMKo2pDwUVgob2qie?=
+ =?us-ascii?Q?n/8GBgzZB5eXedA8KtAqIji53VQUgbQOJq8FGGHl/vHjlI01tyG/r+nnfndS?=
+ =?us-ascii?Q?M7J7he0dYhb3+qOhj5CmP8vrZ5zHkV5MJUIxnB9eEtQ0nKkcitR89B/3r4sT?=
+ =?us-ascii?Q?mmdOWo/WPlzFQBNqrOgMNpOqjs2ugm5kIcBiKM9nhHm1WKQy0+C6nnq9zqn+?=
+ =?us-ascii?Q?V2krbMNpPV+xWrBlq2KGSZJxcuJD918/NR8XldWK/KbDWM9cqUDQHYUuqbxL?=
+ =?us-ascii?Q?ciXTsZ182nuKpD5G7Xro9Eq1xpIIjsxZVlCczBk8DnhmDNxdwFGTeAUBmwPn?=
+ =?us-ascii?Q?kuZLYoKhMOuat6z4Ee7oElZx1AAbTXTP508FKx2JEWbMuNdytZwEeS/Wu4i9?=
+ =?us-ascii?Q?h1bQv0cSMK4viUxz5MwPWzqGngITHyNa+O/iXU/kVMHnoU1ydoMy7sFziWBQ?=
+ =?us-ascii?Q?8uliL7chuIiH62OYQopXUPfT0fhpKuithxUy9ROc/XpM/UQsa0kIL5OGUF5d?=
+ =?us-ascii?Q?C32mGeMlyPOg2fc2mHD28s3gne+YGM4pJ7Q5amiiIcTzTSWQjj6A39osFKVO?=
+ =?us-ascii?Q?9hVEWhYlwt1zLxKcVmHloLn09m5zqbA0Z7uvpWXItdT9YMO1bszqUPML6wee?=
+ =?us-ascii?Q?Qt1tnNbmNjzCvu7Fw4w4SGdq6UBs0dB9OYw78SY/0osnCNyCiL07/LtDztJS?=
+ =?us-ascii?Q?gwV/8/ANZHc0OpRDcjGXk5bPCvMRtCH/Kph7DwyatCCSylIhIkmbhJKanFfK?=
+ =?us-ascii?Q?hYxZOe/pf1yxeAQVP+UxVT1lXHYIHf6gL7q9DEVwOdIgq1oKQKcHKZs9/Bp4?=
+ =?us-ascii?Q?8h0ympLT3PiSDFK1E5FBHzf3Ny2amhrv63H4Klzcq20QMmP89RWSVL7YYRBl?=
+ =?us-ascii?Q?GpgLq4IH6kWgKzBb5pXE83hqo/F/otP+RQ9/w1MNEH+t2w59jiXmK2d6VYv0?=
+ =?us-ascii?Q?akssjz9pF9uZSFIgbxNF6Vg0FpOjWXrGympR1dEt+MVVoXVAA2gcPm4QVTDt?=
+ =?us-ascii?Q?oBSkebD/d33Sg/MB4TXTd3Yx2dzPrtM9FaT4OSjl0rhWbRcG+BtCEQWhxo7b?=
+ =?us-ascii?Q?/t2k6vBcK3F1rgjjdsBLRrBAQFphBs6jDJ6sr1TKX5t4ZvD3M9mD52j+1mz9?=
+ =?us-ascii?Q?BgXfj04x5+CAWCOWpXOfG+k049PRGsl0ImDA/IpFrL5uWZsxkyVA8ae/x2LV?=
+ =?us-ascii?Q?T7vqV8Pmms1y+oTF+xRyum5UWh2Ruzsnft4zF7Gkdh4vJZdZdNQUUVMyhTCt?=
+ =?us-ascii?Q?SkuBolBnat+TSQn9oPOYE40=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c265167-59f0-4161-1bc1-08da9f950221
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2022 07:59:16.3669
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nmyg9WtRFef+QFfZXnEqDHYJSRHBUKqhUwnY1PNScr8/s2X4RuyAjH0qpN/6GHKfKbONRKjHlAy56tm8KS4mSNqu1Hyd+iDBP0IALcTKD5I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR01MB5235
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,92 +129,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: thang@os.amperecomputing.com, Quan Nguyen <quan@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+The Mt. Mitchell BMC is an ASPEED AST2600-based BMC for the Mt. Mitchell
+hardware reference platform with AmpereOne(TM) processor.
 
---wHWYLb7Xs2B5C7b+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v3 :
+  + Change adc-i2c node to generic adc node               [Krzysztof]
+  + Remove unused status property in adc node             [Krzysztof]
+  + Remove trailing blank line at the end of file         [Krzysztof]
+  + Fix alphabetical order in dt-binding documentation    [Krzysztof]
+  + Remove the wrong comment on vga_memory nodes             [Andrew]
+  + Remove gpio-keys                                         [Andrew]
+  + Remove the line-name for bmc-debug-mode, eth-phy-rst-n,
+    eth-phy-int-n, bmc-salt12-s0-ssif-n, fpga-program-b,
+    bmc-uart-cts1, bmc-spi-fm-boot-abr-pd, emmc-rst-n gpios  [Andrew]
+  + Update line-name for hs-csout-prochot, s1-spi-auth-fail-n  [Quan]
+  + Add line-name [s0|s1]-heartbeat                            [Quan]
 
+v2 :
+  + Add Ampere Mt. Mitchell BMC compatible                [Krzysztof]
+  + Remove bootargs                                       [Krzysztof]
+  + Fix gpio-keys nodes name to conform with device tree binding
+  documents                                               [Krzysztof]
+  + Fix some nodes to use generic name                    [Krzysztof]
+  + Remove unnecessary blank line                         [Krzysztof]
+  + Fix typo "LTC" to "LLC" in license info and corrected license
+  info to GPL-2.0-only
 
-> Subject: [PATCH v4] ARM: dts: aspeed: yosemit V2: Enable OCP debug card
+Quan Nguyen (2):
+  dt-bindings: arm: aspeed: document Ampere Mt.Mitchell BMC compatibles
+  ARM: dts: aspeed: Add device tree for Ampere's Mt. Mitchell BMC
 
-Please double-check your spelling of commit messages.  You've misspelled
-"yosemite" here, which gives an impression that it is quite likely that
-other things are wrong with your commit.
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 546 ++++++++++++++++++
+ 3 files changed, 548 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
 
-On Wed, Sep 21, 2022 at 12:13:09PM +0530, Karthikeyan Pasupathi wrote:
-> Added IPMB-13 channel for Debug Card communication.
-> which improve the readability of the machine and makes
-> easier to debug the server.  and it will display the some
-> informations about the server like "system info",
-> "Critical sensors" and "critical sel".
->=20
-> ---
-> --- v4- Resolved syntax error
-> --- v3- Updated the title and commit
-> --- v2- Updated the title
-> --- v1- Initial draft
-> ---
->=20
-> Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-> ---
->  arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/=
-arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> index 8864e9c312a8..84236df522dc 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> @@ -215,6 +215,17 @@
->  	};
->  };
-> =20
-> +&i2c13 {
-> +	status =3D "okay";
-> +	// Debug Card
-> +	multi-master;
-> +	ipmb13@10 {
-> +		compatible =3D "ipmb-dev";
-> +		reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +		i2c-protocol;
-> +	};
-> +};
-> +
->  &pwm_tacho {
->  	status =3D "okay";
->  	//FSC
-> --=20
-> 2.17.1
->=20
+-- 
+2.35.1
 
-Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
-
---=20
-Patrick Williams
-
---wHWYLb7Xs2B5C7b+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmMuKqEACgkQqwNHzC0A
-wRkAfxAAhLE3Aykgvtr1bC+tjK+SlTLbEJx1tviuSQLRCJQiG4svJWTSiVWsukmU
-lRYBTtx5wWtTAKTMcltlihOLgUmvhp9WmELC/LlCZqNTvx9CFZk6zwM4LkaFW7SJ
-+L/rL3ecLmP4QhAia9j5+pkZH/EVeN5gfuiYgeGFgDTx2cQAJ9614rBUpalcCnBZ
-Spc4CmZeOkmMv88RmU0NqvnLEnOXBTATWKpxh+3VbPHFa2xmMqcvleWA4cDAI4li
-nAyudDPMpOv/wg8ofjtPypfFNqG+tFZRU7Fdcqd5NJwkFMlGfC49aaNKbpkivy32
-EY/95D/rcfl7bQey4BHoUB8CaSMGFsyFw9Z/YalLZ57EiZ4YAKAEWgPAWzQU1yJb
-PjDyXwnQh12jvOG79XdVRWELWO3qvjszhcCAknTrBxerCceC8Ga+cA1sm5eoZR1N
-VSK2KP3FhL4yST8OEFU2C2yvgKYi9xpRPB12/po5mTMPlxbsPFlJ8IJxGT1NGsqP
-Ip4vsiKX7RR1sJ+WAr77gcfNrN8pvScm3gLlluah+JMPr23ZGgBlIGPl4FTk/xgS
-VMBGcO9zfcc+8BKmgJZ7Yc8hfu7TEq3XoM3cP0VR38mO3BKwvx+hcHiVO2xSKKDU
-S+c0oNAo4Z0oJIveoA8ucTBVHTWs4PZZVCKE9kYRTS1TTpnIuPg=
-=mMuK
------END PGP SIGNATURE-----
-
---wHWYLb7Xs2B5C7b+--
