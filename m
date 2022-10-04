@@ -1,54 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0D55F377F
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Oct 2022 23:12:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 798455F3BA6
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Oct 2022 05:30:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MhD7R46wvz30NN
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Oct 2022 08:12:35 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=agvtNGPA;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MhNW506bZz3bjv
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Oct 2022 14:30:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=sboyd@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=agvtNGPA;
-	dkim-atps=neutral
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MhD7H2Ptyz2xJF
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Oct 2022 08:12:27 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id 075ADCE0E6A;
-	Mon,  3 Oct 2022 21:12:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EC63C433D6;
-	Mon,  3 Oct 2022 21:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664831540;
-	bh=PMXiHaHX8cdiMSpxbKSGFpYCW/v8Nl0ML/t1WU7O3Vs=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=agvtNGPAXNkN0PMbndePEtBWIM9VSrpgYOM+xFcfi7OSZePc1E7ygsnv9Yo3B17no
-	 tBv6D9y1v5PLAvFIxt5e0CFHL3VC1szlF7McVq9dj3b5dp8ldGBkXolch9PVGW/t8/
-	 rNZQ8N9K9SuNJ3g5jJAYmWs7XPoxirNPcgp0AE6qc9bixwDWwPn677lKhuYW8O4Rg/
-	 qv+t6wTsmGy8DUNHpa/US0d0UBsbBrISlOJrfMHPu14ctwWrCQ50p5LAP+q6+E/bXr
-	 jMzHS4CrGG7DKgtT9Kpx2uPQsV3QSBheWbzaX1LvHZyN2uQc/auLd4gkRKomTDfHlN
-	 +XVkg9ROfIyjw==
-Content-Type: text/plain; charset="utf-8"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MhNVx5K2Wz2xfV
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Oct 2022 14:30:00 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 29437FRx092748;
+	Tue, 4 Oct 2022 11:07:15 +0800 (GMT-8)
+	(envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 4 Oct
+ 2022 11:28:48 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller"
+	<davem@davemloft.net>,
+        Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@aj.id.au>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        "Chia-Wei Wang --cc=linux-kernel @ vger
+ . kernel . org" <chiawei_wang@aspeedtech.com>
+Subject: [PATCH v2 0/4] Add Aspeed ACRY driver for hardware acceleration
+Date: Tue, 4 Oct 2022 11:28:37 +0800
+Message-ID: <20221004032841.3714928-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220421040426.171256-1-joel@jms.id.au>
-References: <20220421040426.171256-1-joel@jms.id.au>
-Subject: Re: [PATCH] clk: ast2600: BCLK comes from EPLL
-From: Stephen Boyd <sboyd@kernel.org>
-To: BMC-SW@aspeedtech.com, Joel Stanley <joel@jms.id.au>, Michael Turquette <mturquette@baylibre.com>, Ryan Chen <ryan_chen@aspeedtech.com>
-Date: Mon, 03 Oct 2022 14:12:18 -0700
-User-Agent: alot/0.10
-Message-Id: <20221003211220.3EC63C433D6@smtp.kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 29437FRx092748
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,18 +56,47 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Quoting Joel Stanley (2022-04-20 21:04:26)
-> This correction was made in the u-boot SDK recently. There are no
-> in-tree users of this clock so the impact is minimal.
->=20
-> Fixes: d3d04f6c330a ("clk: Add support for AST2600 SoC")
-> Link: https://github.com/AspeedTech-BMC/u-boot/commit/8ad54a5ae15f27fea5e=
-894cc2539a20d90019717
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
+Aspeed ACRY engine is designed to accelerate the throughput of
+ECDSA/RSA signature and verification.
 
-Applied to clk-next
+These patches aim to add Aspeed ACRY RSA driver support.
+This driver also pass the run-time self tests that take place at
+algorithm registration on both big-endian/little-endian system
+in AST2600 evaluation board .
+
+Tested-by below configs:
+- CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
+- CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=y
+- CONFIG_DMA_API_DEBUG=y
+- CONFIG_DMA_API_DEBUG_SG=y
+- CONFIG_CPU_BIG_ENDIAN=y
+
+Change since v1:
+- Fix dt-bindings description.
+- Refine the Makefile which has been addressed.
+
+Neal Liu (4):
+  crypto: aspeed: Add ACRY RSA driver
+  ARM: dts: aspeed: Add ACRY/AHBC device controller node
+  dt-bindings: crypto: add documentation for Aspeed ACRY
+  dt-bindings: bus: add documentation for Aspeed AHBC
+
+ .../bindings/bus/aspeed,ast2600-ahbc.yaml     |  46 +
+ .../bindings/crypto/aspeed,ast2600-acry.yaml  |  49 +
+ MAINTAINERS                                   |   2 +-
+ arch/arm/boot/dts/aspeed-g6.dtsi              |  13 +
+ drivers/crypto/aspeed/Kconfig                 |  11 +
+ drivers/crypto/aspeed/Makefile                |   2 +
+ drivers/crypto/aspeed/aspeed-acry.c           | 848 ++++++++++++++++++
+ 7 files changed, 970 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
+ create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2600-acry.yaml
+ create mode 100644 drivers/crypto/aspeed/aspeed-acry.c
+
+-- 
+2.25.1
+
