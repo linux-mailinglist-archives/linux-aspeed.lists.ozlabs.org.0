@@ -1,88 +1,70 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACE55F59D7
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Oct 2022 20:26:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE8A5F5A63
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Oct 2022 21:07:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MjNLS62Rlz3bnM
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 05:26:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MjPFq6Kpwz3bn4
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 06:07:11 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=mkUvKxPI;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=qhE4RDWj;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Qg03rLPp;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=stwcx.xyz (client-ip=64.147.123.25; helo=wout2-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=mkUvKxPI;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=qhE4RDWj;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Qg03rLPp;
 	dkim-atps=neutral
-X-Greylist: delayed 304 seconds by postgrey-1.36 at boromir; Thu, 06 Oct 2022 05:25:55 AEDT
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MjNLC5R4dz2ypV
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Oct 2022 05:25:55 +1100 (AEDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 10CB732000CC;
-	Wed,  5 Oct 2022 14:20:44 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 05 Oct 2022 14:20:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1664994044; x=1665080444; bh=WAwiYj605H
-	lgTSthgCJj1Q+rcJTLIwJfhihqfZ5YC4g=; b=mkUvKxPIeHG4i8RqtSxfuiMGvh
-	AD0imCgM6Fv4ZysippaiKWBfQvh/oUJtXmNqqeZ6Qu08PFKRIAc0s5Se+SDzM5zv
-	cGHsQ90MRq8asJgeggkb7VpNwbSrKTnWr2hw8VkLQsQTJE+jEbg4Etzn55OTrTWw
-	oXQrVGvUOWGaqwRgbnAs0kXX0gUfenhTj8VSbkQplPrBoRAPwty4zGVCCeu3y1FQ
-	Rp3ZOccrrI26cEMHLIyTw+P47++d1M8CIZYXdHJXy8THCkrtzvIK1B8SxIFCUuzE
-	4Rfv47+UK0UgNyFcBxSebZFLh6Yp4gbw3by9fBHwvN9g/ZJbXH8gIbO1eXTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1664994044; x=1665080444; bh=WAwiYj605HlgTSthgCJj1Q+rcJTL
-	IwJfhihqfZ5YC4g=; b=qhE4RDWjRWN7vsXFa1on8tHhvLyfZ9I9lSzNqI4NpdaD
-	ggnF8cl+SGj0G9+D9Le6ZINpxSWcwUfO9JGl1qXNau6ASZ+GfWIRDd5kyhgXorif
-	WPpDFfyYpXbVm342A0NKjx1ZFcGpiFQQXycq59qxA97+yL+3zjAcbJ1/bIgpgQzn
-	QrFQRs5maxANlfmj71QjJammvenDdiJkjYH8sADbbfbAzExeJY9wvSoAC3mF3WaK
-	xJGxiSiS6tiHowG1tEl6MYngEjQV8WW9+dVYqcs1RpugIcDPGvaG/LeHhJXvRIOr
-	ZiD7q3rB/dYfDKu2hptMd2B+ghe83K5W91C7DSJxmQ==
-X-ME-Sender: <xms:-8o9Y92EgClbYnPOquXUe1QFcEVtyfLiRGLyX1OJes0T90B6KRL8gg>
-    <xme:-8o9Y0E8yYx9AJWxGAI3aexN5N-R6X2GMyYGKDrRtMDeeW3fWi0WmhzQZDMWUrrJ9
-    T8eTZjfbfhdzWDzbgY>
-X-ME-Received: <xmr:-8o9Y95lHZ_iyUrVNBCkW84xw-wsKKuPMOYDEFSrDDvx1Pdqxbgr6cGiRfzRKbztxagCzUcDTgQYi4CPrI0VayfvK291UwiV>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeifedguddvvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enfghrlhcuvffnffculdejtddmnecujfgurhepfffhvfevuffkfhggtggujgesghdtreer
-    tddtvdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkh
-    esshhtfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepheefjeehfedtjeeivdefkeff
-    heeludekudelleffkefgtdeludelvddtgedtheeknecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:-8o9Y60_ldqL5k_l5TD2-PsRBZZida1DWPlz9IhZIwru7sOmWJ3Znw>
-    <xmx:-8o9YwFPgR4jkxWh2DIAt3YfpGfSJ5uzrqbNzGjPfBrH7qcIEkX7nA>
-    <xmx:-8o9Y78l3F0J4vqZa-4SkOvBtYEW_xOdWK7SkzxyR5egA_lcIMidbA>
-    <xmx:_Mo9Y71YbvFJPW-y11946hGkoI5GqRGqgvwtXfsLWxgmqpDWAhlPGw>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Oct 2022 14:20:43 -0400 (EDT)
-Date: Wed, 5 Oct 2022 13:20:41 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Potin Lai <potin.lai.pt@gmail.com>
-Subject: Re: [PATCH 0/2] ARM: dts: aspeed: bletchley: Update Bletchley BMC
- devicetree
-Message-ID: <Yz3K+fyTr6YZfNV6@heinlein>
-References: <20220929013130.1916525-1-potin.lai.pt@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MjPDh2s6dz2xHN;
+	Thu,  6 Oct 2022 06:06:12 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id E804CB81DE9;
+	Wed,  5 Oct 2022 19:06:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E786DC433D6;
+	Wed,  5 Oct 2022 19:06:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1664996766;
+	bh=qZOYdCT1aCe/JZjmiQhjcaPpLA57KvbcqFM3TGd0KYo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qg03rLPpbYIdisynjImLpdYkJO/sEMunrsh0dpMnd0msNKM4q0kwSn9oYsEkYyuoX
+	 RsSS3sZyqYQJRRR1IrpPXdANdbfCfehXhdmGhrYuQO3LIkr5VNd8jT0d+EjGP+P2Ed
+	 GFpOL3ADwr16c/4Ad0PTCYiNsIu6SuZa5PNluanuFkHkI2ZZAhaLL07kMIDcjNhx33
+	 VTm/sxf0RICxP5JnMhRPjFNiYtbYWgVVykluIoecv2Dh7WEsFrF37e121miiJId13X
+	 QqPVEx5p/xT0sRv3o+iMP4DlRHIUgYvEatArxXRRPQ1TqCcTXJxfHqWsD3NHrxTj20
+	 b5B48nBs9QVvQ==
+Date: Wed, 5 Oct 2022 21:06:01 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v10 3/3] i2c: aspeed: Assert NAK when slave is busy
+Message-ID: <Yz3VmWCqdolKg5sm@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+	openipmi-developer@lists.sourceforge.net,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	Open Source Submission <patches@amperecomputing.com>,
+	Phong Vo <phong@os.amperecomputing.com>,
+	thang@os.amperecomputing.com
+References: <20221004093106.1653317-1-quan@os.amperecomputing.com>
+ <20221004093106.1653317-4-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="QL+o9jTYRYz5coRp"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SJMSzPuygRaHqOAa"
 Content-Disposition: inline
-In-Reply-To: <20220929013130.1916525-1-potin.lai.pt@gmail.com>
+In-Reply-To: <20221004093106.1653317-4-quan@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,53 +76,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, thang@os.amperecomputing.com, linux-aspeed@lists.ozlabs.org, Corey Minyard <minyard@acm.org>, openbmc@lists.ozlabs.org, Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Brendan Higgins <brendan.higgins@linux.dev>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, openipmi-developer@lists.sourceforge.net, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
---QL+o9jTYRYz5coRp
+--SJMSzPuygRaHqOAa
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 29, 2022 at 09:31:28AM +0800, Potin Lai wrote:
-> Update Facebook Bletchley BMC devicetree base on Pre-PVT HW design.
+On Tue, Oct 04, 2022 at 04:31:06PM +0700, Quan Nguyen wrote:
+> On I2C_SLAVE_WRITE_REQUESTED event, Slave already ACK'ed on the address
+> phase. But as the backend driver is busy and unable to process any
+> request from Master, issue RxCmdLast for Slave to auto send NACK on
+> next incoming byte.
 >=20
-> Potin Lai (2):
->   ARM: dts: aspeed: bletchley: update and fix gpio-line-names
->   ARM: dts: aspeed: bletchley: enable emmc and ehci1
->=20
->  .../boot/dts/aspeed-bmc-facebook-bletchley.dts   | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
->=20
-> --=20
-> 2.31.1
->=20
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
 
-Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+Applied to for-current, thanks!
 
---=20
-Patrick Williams
 
---QL+o9jTYRYz5coRp
+--SJMSzPuygRaHqOAa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmM9yvcACgkQqwNHzC0A
-wRlYyA//bXll1taEF4M7taxKGpVc4W3CmG6QvbBUNcseUGbd5LaA3yBm0xQ2nm3Z
-U7WTZtuxZaDOhF6pgp2f74NUw1Q69w9hdw2/vMLGQb3UdLRoGF/HOSW/Ea6W8Woz
-eJ/rkNXoGxJWhWuMNPExqszjNDYS3gUabxzvCRbjf16iQbDlZMq2Asze2lIb46PU
-+vVR/JPJeimewkogjYMM81oyo5wwoFuLcEW//jrjAtiH87JeO41pZEJO6AC08DVS
-YUvP3D6aJS6fVC7zf9F2ooWLthhGjawW2akOYlSTpwmADOT41MHluiQOyBwbr+Bv
-8/6dikpi4PtNIJg7PZKRVA2hsSlOcP3pYLLdCEjkHG84PtaonwZL7x+QgR1GPu2c
-+phkD9J00Fvju2FIZnZdOw21w88+YepHNjZ+RrIpSE25t5vfd19Z8kqtthh2Fr2L
-whnZuX7r7xnnbNwS+ITvqj6qVWRw0MReozle96mqLW5m8Ejejp6GT81j5LhvF5Sz
-SSqPm3wcC5mynVZpwIwNg6H8LoStghZnAO80nqMkQbZp1t+DvKB8YHnkqmAMOA/H
-SLM+SQW3EKSCS1VpnfxjSl7how8RcwFRF6EBQBoYrjsplKnZkfas3W+iCEYM1Iro
-0nHNIStpS8pqbEcXEtHNHCdSb5LlwhuTN/DzHLenaoywBHB1Sw4=
-=yWyk
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmM91ZkACgkQFA3kzBSg
+KbYyDQ/9HuJtmUfec7mVOzYN9yOLKYOWOR5hIQd4A3+vP+K+7P1jObIubesRu2Xn
+4OTZ9aEZMgumnmIWX7dGG9seW67U8FDCXjmRTVXZK1SLasgoL+0FRJbzfvLIqLUY
+/dThu2R6w4xXOScan+snd98o5xj2gJIiRRUdNH0nNP7CioU5aWdxUykvqjoKYdzK
+EVP2nDsPTfLp36vBt2+edcZpJFV2wXtPGhzV7hcypWURm7F7+Phao9vsWphXdPt2
+aLZTFMNrjhkzE/M4PK4HVR11630Xan6D318KoJ3QcSWv0EAax+uxChijf03OYctM
+sz2oXSExvYUGpdgCiErUX3a/3to4HgJZSq6Gqjy4IuScNnpWV55teyW/rWs4gTK9
+yJF3O4Tn2Jq6hBN4WeDs4R79mR3rrAyVSddLzh+9DRQyISYBvVkqyJ5JQ6au+Ps9
+HJsIKXC8G/yq7dd9vop+fBSR6743sLE0Sge67fhxrv4h8tr4xZnXvgr5eRgwMJZW
+Jc/RDTPQGNZVrmiJYvKnUclNRLEbgnKrtryINWGt5nrRLMLu3gVjJGZxhESQqt8b
+C5uVsf1wyyw+K02minkivCVbD0un6hafek5bpILCzjZzLjh1HYoOGY0x6Xcog0uX
+tG4tTm/fOBqpHkJy4WbMBjuT5belbMyNwVrZNkNYjMK1WVRjZwc=
+=U+bJ
 -----END PGP SIGNATURE-----
 
---QL+o9jTYRYz5coRp--
+--SJMSzPuygRaHqOAa--
