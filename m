@@ -1,80 +1,88 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2A05F5707
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Oct 2022 17:03:09 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACE55F59D7
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Oct 2022 20:26:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MjHr934Blz2xrK
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 02:03:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MjNLS62Rlz3bnM
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 05:26:08 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=utnjQ6Ud;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=mkUvKxPI;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=qhE4RDWj;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12e; helo=mail-lf1-x12e.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=stwcx.xyz (client-ip=64.147.123.25; helo=wout2-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=utnjQ6Ud;
+	dkim=pass (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=mkUvKxPI;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=qhE4RDWj;
 	dkim-atps=neutral
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+X-Greylist: delayed 304 seconds by postgrey-1.36 at boromir; Thu, 06 Oct 2022 05:25:55 AEDT
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MjHr13RHNz30Ky
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Oct 2022 02:02:54 +1100 (AEDT)
-Received: by mail-lf1-x12e.google.com with SMTP id o7so18683406lfk.7
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 05 Oct 2022 08:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=94mwMcPTU0fA4GC+JR+9ZWgjXzSQUOmYw33Hhdzn4ZY=;
-        b=utnjQ6UduXlYMm84LFM1+C53Zd4+3CYWVgEibonC+mKvHo+QrpQNKpr6nfrkn3pdY+
-         7sOsaDoI5FAkzd40PI7MUVWG8C8wk+ON1W4Fygngosg8LU5l5LSA0nSk0jisnnansQgh
-         Ov3PcDgglKHzvxqQS+INU8gDqGh1Z1XW/YXM7EtBHQ8e4i43HqL9FxitMtXNyZTNIsV/
-         RFhNp/wQwfBveHuDbg3wlzSU+M2tVoFdX4lm9uZtvd+Zj1gSnlT8rBnb6LoNTi2om1Z3
-         AWVcHcEnJOoMkFI+n04+VIwVz1cMlasKLKrLjgHv7xf1B2QfnPTTOwTe/q+yLPedGquv
-         /F3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=94mwMcPTU0fA4GC+JR+9ZWgjXzSQUOmYw33Hhdzn4ZY=;
-        b=JqrK+6x2ZqDLVESYy6LQUjEAk9i6Oep0IE14zasMLlH3M2b5YNW28QlgzEg+PrJhNG
-         F1IkfsgWIEGJnszhpeX/8gqUeLUIanGShmNRhrR6tBOjabEF6y3HwitCfKNvL6CBSaCv
-         NSW/h0A8zKhThPwFCKPGS3BUsRCMkdT/atQbY23Ngu0z7xr3BZvwd8WXW7tpInWX237Z
-         7LAXPJ0wVnLcS+WNZQwzyhlvIICv3ipt2KStlBm+Qw8OeFOfGA3woJl8rh82j3bwoQKF
-         NszHEmbiiYSVs70OU7+X7jwPBJKl41xmoRySf1mm5k5Sn7gGCfIZ8CX7Ie/JqgSP7PmH
-         Agrg==
-X-Gm-Message-State: ACrzQf0Go4EG9HUr1K3TAoruxvxBF1B5u/fM4ppuFwm2emTs6dwoziZ3
-	EMdr2m8E6ylBi+dj/FaUYv6VkA==
-X-Google-Smtp-Source: AMsMyM68CmHG8MAbjGQCkuqDxcQYTAxCVd79Bsg/zhnTRlr1jiMxC2JAlMKCjvGfJEcUGXlkG0MctA==
-X-Received: by 2002:ac2:5b10:0:b0:4a2:5c4b:100c with SMTP id v16-20020ac25b10000000b004a25c4b100cmr91556lfn.406.1664982167969;
-        Wed, 05 Oct 2022 08:02:47 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id k6-20020a2eb746000000b0026a92616cd2sm887853ljo.35.2022.10.05.08.02.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Oct 2022 08:02:47 -0700 (PDT)
-Message-ID: <6f11e588-c899-8d5d-1ef1-22535d251901@linaro.org>
-Date: Wed, 5 Oct 2022 17:02:46 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MjNLC5R4dz2ypV
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Oct 2022 05:25:55 +1100 (AEDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 10CB732000CC;
+	Wed,  5 Oct 2022 14:20:44 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 05 Oct 2022 14:20:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1664994044; x=1665080444; bh=WAwiYj605H
+	lgTSthgCJj1Q+rcJTLIwJfhihqfZ5YC4g=; b=mkUvKxPIeHG4i8RqtSxfuiMGvh
+	AD0imCgM6Fv4ZysippaiKWBfQvh/oUJtXmNqqeZ6Qu08PFKRIAc0s5Se+SDzM5zv
+	cGHsQ90MRq8asJgeggkb7VpNwbSrKTnWr2hw8VkLQsQTJE+jEbg4Etzn55OTrTWw
+	oXQrVGvUOWGaqwRgbnAs0kXX0gUfenhTj8VSbkQplPrBoRAPwty4zGVCCeu3y1FQ
+	Rp3ZOccrrI26cEMHLIyTw+P47++d1M8CIZYXdHJXy8THCkrtzvIK1B8SxIFCUuzE
+	4Rfv47+UK0UgNyFcBxSebZFLh6Yp4gbw3by9fBHwvN9g/ZJbXH8gIbO1eXTg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1664994044; x=1665080444; bh=WAwiYj605HlgTSthgCJj1Q+rcJTL
+	IwJfhihqfZ5YC4g=; b=qhE4RDWjRWN7vsXFa1on8tHhvLyfZ9I9lSzNqI4NpdaD
+	ggnF8cl+SGj0G9+D9Le6ZINpxSWcwUfO9JGl1qXNau6ASZ+GfWIRDd5kyhgXorif
+	WPpDFfyYpXbVm342A0NKjx1ZFcGpiFQQXycq59qxA97+yL+3zjAcbJ1/bIgpgQzn
+	QrFQRs5maxANlfmj71QjJammvenDdiJkjYH8sADbbfbAzExeJY9wvSoAC3mF3WaK
+	xJGxiSiS6tiHowG1tEl6MYngEjQV8WW9+dVYqcs1RpugIcDPGvaG/LeHhJXvRIOr
+	ZiD7q3rB/dYfDKu2hptMd2B+ghe83K5W91C7DSJxmQ==
+X-ME-Sender: <xms:-8o9Y92EgClbYnPOquXUe1QFcEVtyfLiRGLyX1OJes0T90B6KRL8gg>
+    <xme:-8o9Y0E8yYx9AJWxGAI3aexN5N-R6X2GMyYGKDrRtMDeeW3fWi0WmhzQZDMWUrrJ9
+    T8eTZjfbfhdzWDzbgY>
+X-ME-Received: <xmr:-8o9Y95lHZ_iyUrVNBCkW84xw-wsKKuPMOYDEFSrDDvx1Pdqxbgr6cGiRfzRKbztxagCzUcDTgQYi4CPrI0VayfvK291UwiV>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeifedguddvvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enfghrlhcuvffnffculdejtddmnecujfgurhepfffhvfevuffkfhggtggujgesghdtreer
+    tddtvdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkh
+    esshhtfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepheefjeehfedtjeeivdefkeff
+    heeludekudelleffkefgtdeludelvddtgedtheeknecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
+X-ME-Proxy: <xmx:-8o9Y60_ldqL5k_l5TD2-PsRBZZida1DWPlz9IhZIwru7sOmWJ3Znw>
+    <xmx:-8o9YwFPgR4jkxWh2DIAt3YfpGfSJ5uzrqbNzGjPfBrH7qcIEkX7nA>
+    <xmx:-8o9Y78l3F0J4vqZa-4SkOvBtYEW_xOdWK7SkzxyR5egA_lcIMidbA>
+    <xmx:_Mo9Y71YbvFJPW-y11946hGkoI5GqRGqgvwtXfsLWxgmqpDWAhlPGw>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 5 Oct 2022 14:20:43 -0400 (EDT)
+Date: Wed, 5 Oct 2022 13:20:41 -0500
+From: Patrick Williams <patrick@stwcx.xyz>
+To: Potin Lai <potin.lai.pt@gmail.com>
+Subject: Re: [PATCH 0/2] ARM: dts: aspeed: bletchley: Update Bletchley BMC
+ devicetree
+Message-ID: <Yz3K+fyTr6YZfNV6@heinlein>
+References: <20220929013130.1916525-1-potin.lai.pt@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] greatlakes: dts: Add Facebook greatlakes (AST2600) BMC
-Content-Language: en-US
-To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>,
- "joel@jms.id.au" <joel@jms.id.au>
-References: <20220915072304.1438-1-Bonnie_Lo@Wiwynn.com>
- <10176630-3ff7-54f7-8836-779e5a2bf6d4@linaro.org>
- <HK0PR04MB3105F759F43FEDE24C24FB3AF84C9@HK0PR04MB3105.apcprd04.prod.outlook.com>
- <61de4c6c-84e9-345a-495d-4d44d9351d84@linaro.org>
- <HK0PR04MB3105AE7BA97942C160A6939AF85D9@HK0PR04MB3105.apcprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <HK0PR04MB3105AE7BA97942C160A6939AF85D9@HK0PR04MB3105.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="QL+o9jTYRYz5coRp"
+Content-Disposition: inline
+In-Reply-To: <20220929013130.1916525-1-potin.lai.pt@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,80 +94,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>, Bonnie Lo/WYHQ/Wiwynn <Bonnie_Lo@wiwynn.com>, "garnermic@fb.com" <garnermic@fb.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Delphine Chiu/WYHQ/Wiwynn <DELPHINE_CHIU@wiwynn.com>, "soc@kernel.org" <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "patrickw3@fb.com" <patrickw3@fb.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 05/10/2022 10:43, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
->> On 20/09/2022 09:45, Bonnie Lo/WYHQ/Wiwynn wrote:
->>> Hi Krzysztof,
->>>
->>> I revise the device tree as following and resend the mail.
->>> It create a new mail thread " [PATCH] ARM: dts: aspeed: greatlakes: Add
->> Facebook greatlakes (AST2600) BMC".
->>> Kindly to correct me, if there is any problem.
->>>
->>>> Use subject prefixes matching the subsystem (git log --oneline -- ...).
->>>>
->>>>>
->>>>> Add linux device tree entry related to greatlakes specific devices
->>>>> connected to BMC SoC.
->>>>
->>>> Please wrap commit message according to Linux coding style /
->>>> submission
->>>> process:
->>>> https://apc01.safelinks.protection.outlook.com/?url=https%3A%2F%2Feli
->>>>
->> xir.b%2F&amp;data=05%7C01%7CBonnie_Lo%40wiwynn.com%7Ca2eecb3c2d
->> ff4eff
->>>>
->> 361b08da9ae190fd%7Cda6e0628fc834caf9dd273061cbab167%7C0%7C0%7C6
->> 379925
->>>>
->> 90848633103%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQI
->> joiV2luM
->>>>
->> zIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=MJn
->> u2iv19
->>>> dvbcMH7SJSExKOFV18dUtGRFSKO6Au2tFg%3D&amp;reserved=0
->>>>
->> ootlin.com%2Flinux%2Fv5.18-rc4%2Fsource%2FDocumentation%2Fprocess%2
->>>>
->> Fsubmitting-patches.rst%23L586&amp;data=05%7C01%7CBonnie_Lo%40wiw
->>>>
->> ynn.com%7C1dee8dcb540a49522fb608da98cdba6f%7Cda6e0628fc834caf9dd
->>>>
->> 273061cbab167%7C0%7C0%7C637990306620286314%7CUnknown%7CTWFp
->>>>
->> bGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI
->>>>
->> 6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=mC2E3dJbuYgXklS%2Fw8s2w%2
->>>> BKH%2BZ3CsZSndFTgPBjyvpw%3D&amp;reserved=0
->>>>
->>>
->>> I have add " ARM: dts: aspeed: greatlakes:".
->>>
->>>>>
->>>>> Signed-off-by: Bonnie Lo <Bonnie_Lo@wiwynn.com>
->>>>> ---
->>>>>  arch/arm/boot/dts/Makefile                    |   1 +
->>>>>  .../dts/aspeed-bmc-facebook-greatlakes.dts    | 248
->>>> ++++++++++++++++++
->>>>
->>>> Missing documentation of board compatible (bindings) as first patch.
->>
->> Why did you ignore it?
-> 
-> We need to look at this more. There might be something under the Documentation tree.
-> Could you guide us an example for adding the document?
 
-https://lore.kernel.org/all/?q=s%3A%22dt-bindings%3A+arm%3A%22
+--QL+o9jTYRYz5coRp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fix your email server so it won't add footers making open-source
-collaboration not possible. You said that this email "contains
-proprietary or confidential information", therefore it is not suitable
-for open-source discussions.
+On Thu, Sep 29, 2022 at 09:31:28AM +0800, Potin Lai wrote:
+> Update Facebook Bletchley BMC devicetree base on Pre-PVT HW design.
+>=20
+> Potin Lai (2):
+>   ARM: dts: aspeed: bletchley: update and fix gpio-line-names
+>   ARM: dts: aspeed: bletchley: enable emmc and ehci1
+>=20
+>  .../boot/dts/aspeed-bmc-facebook-bletchley.dts   | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+>=20
+> --=20
+> 2.31.1
+>=20
 
-Best regards,
-Krzysztof
+Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
 
+--=20
+Patrick Williams
+
+--QL+o9jTYRYz5coRp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmM9yvcACgkQqwNHzC0A
+wRlYyA//bXll1taEF4M7taxKGpVc4W3CmG6QvbBUNcseUGbd5LaA3yBm0xQ2nm3Z
+U7WTZtuxZaDOhF6pgp2f74NUw1Q69w9hdw2/vMLGQb3UdLRoGF/HOSW/Ea6W8Woz
+eJ/rkNXoGxJWhWuMNPExqszjNDYS3gUabxzvCRbjf16iQbDlZMq2Asze2lIb46PU
++vVR/JPJeimewkogjYMM81oyo5wwoFuLcEW//jrjAtiH87JeO41pZEJO6AC08DVS
+YUvP3D6aJS6fVC7zf9F2ooWLthhGjawW2akOYlSTpwmADOT41MHluiQOyBwbr+Bv
+8/6dikpi4PtNIJg7PZKRVA2hsSlOcP3pYLLdCEjkHG84PtaonwZL7x+QgR1GPu2c
++phkD9J00Fvju2FIZnZdOw21w88+YepHNjZ+RrIpSE25t5vfd19Z8kqtthh2Fr2L
+whnZuX7r7xnnbNwS+ITvqj6qVWRw0MReozle96mqLW5m8Ejejp6GT81j5LhvF5Sz
+SSqPm3wcC5mynVZpwIwNg6H8LoStghZnAO80nqMkQbZp1t+DvKB8YHnkqmAMOA/H
+SLM+SQW3EKSCS1VpnfxjSl7how8RcwFRF6EBQBoYrjsplKnZkfas3W+iCEYM1Iro
+0nHNIStpS8pqbEcXEtHNHCdSb5LlwhuTN/DzHLenaoywBHB1Sw4=
+=yWyk
+-----END PGP SIGNATURE-----
+
+--QL+o9jTYRYz5coRp--
