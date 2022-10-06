@@ -2,75 +2,85 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5A55F5D67
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 01:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F11B5F5F48
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 05:07:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MjWgB0YRPz3bkP
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 10:56:06 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Mjbw13jNRz3brh
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 14:07:29 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=KSYASXbb;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=UNh8dCTb;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=s6v8JOKh;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82d; helo=mail-qt1-x82d.google.com; envelope-from=tcminyard@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=64.147.123.20; helo=wout4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=KSYASXbb;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=UNh8dCTb;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=s6v8JOKh;
 	dkim-atps=neutral
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MjWf16W6Hz2xKN;
-	Thu,  6 Oct 2022 10:55:05 +1100 (AEDT)
-Received: by mail-qt1-x82d.google.com with SMTP id l27so172389qtv.4;
-        Wed, 05 Oct 2022 16:55:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0XThhC9U9uKIxJQZ665eKAgfnugmApozs76ScmLZwBk=;
-        b=KSYASXbbQEnw9dIt1qkDOuDA0+QasmExuyaVSAsBd91F6GmYOyH0wPFBbWUd2SDuPt
-         Kd3u4wpivOfmtt4sWJlNrFFkqqvV8f0DLJWsedYyEQOqFKG+4wYoNjmU7UYmwonJVgba
-         UcykNav6fHuYOn2yHnk2YZrMx+dCZo4vkbYcBCbl5DKSGnKd0K3+enoOoQAZ5rYJdP8F
-         Eialm1q0BgCKh4h3pSS8fGqJqacuW9K5WknGiJPDgtOre9+AO9L9f09d5iCjyJTo5rlg
-         xCxAG2+koKTtIHDpzRUMp5XtfSIe8foYuVUlkWUe0f/R5mxhDmn31CETqJUaSCXCWqAX
-         7OWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0XThhC9U9uKIxJQZ665eKAgfnugmApozs76ScmLZwBk=;
-        b=2w7YnFLjqDrfHUihEl1Y2zRWeTmg70+CYQ5A/HCLVmmj1ItlKWIT8MEUjynPH4h+2K
-         Qpf5hutSwfdqCmpME5Jl4G1HCtSBGEhvc7URIum5iXmdRA/C0u53c4CsLPBPAJYR4Avq
-         4UhsS4yKqdNTnr+4VHjndaeYt4L4vTmwCAu+p88c6vwtV95RtjgYujHGln1fFrUxoTAO
-         njRNfG6B0vAGxlzcxZO8swmDDjthdm4gpuBTsSjaAZkpKNDaihtf3oOzIwxI0Dao0Ebv
-         H5iu121t4d7R4RJZZhsh55WHb4lpVdN/iJT3fA0LDnkLf9Z4JCZtD02owLLdPND/EUWQ
-         50yg==
-X-Gm-Message-State: ACrzQf3WLTOwdD1bRI4sn1ih0HtLv28riAcY2jre7Z6ztTfhF73AI5oG
-	6vfbYpPt+yE/ii6jn3hSVg==
-X-Google-Smtp-Source: AMsMyM4eROnmK5/Ehiq7Es0N/CNTVAElIT81oT1dQCstYathZwqVIbJlW0dOv1IpRAIF68hTPKC4ZA==
-X-Received: by 2002:ac8:7d13:0:b0:35c:e54e:9c8 with SMTP id g19-20020ac87d13000000b0035ce54e09c8mr1590034qtb.320.1665014102301;
-        Wed, 05 Oct 2022 16:55:02 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.185.126])
-        by smtp.gmail.com with ESMTPSA id bi27-20020a05620a319b00b006ce611aef61sm19661018qkb.95.2022.10.05.16.55.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 16:55:02 -0700 (PDT)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:2d13:71e3:7ea0:219])
-	by serve.minyard.net (Postfix) with ESMTPSA id 22E3F180015;
-	Wed,  5 Oct 2022 23:55:01 +0000 (UTC)
-Date: Wed, 5 Oct 2022 18:54:59 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH] ipmi: kcs: Poll OBF briefly to reduce OBE latency
-Message-ID: <Yz4ZU8Ron/b9GV6p@minyard.net>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mjbvp4pTSz30hw;
+	Thu,  6 Oct 2022 14:07:17 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 50B1632009B7;
+	Wed,  5 Oct 2022 23:07:13 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute3.internal (MEProxy); Wed, 05 Oct 2022 23:07:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1665025632; x=1665112032; bh=D2A7KGl6Nx
+	Nqwykh+AYiSj2aZjrv6WwosJ3tBKEWL9A=; b=UNh8dCTbt11+Y04xRIMeIQg+Q1
+	6IS109m/KEqCRXHJZ0D0fapKfJagnxilV4OlZwYfLXpqbyfFU1PmALyDrlVI4jec
+	+P0GaakUCl7jou5ZjBPx84ofanOdmTACKpOXf1i+s9tbxJumaVDWvNoGxDppxREM
+	8kK7ydXJA2EoPRmk1R/tGvKj3hU8iA6iGSuTjg+855soTewPwltgKq+PwSKRqwOI
+	ZC3mD62TvlMZeppksWRN0iCViyAP4WUTwuUugcJqmuvgJ1EyWEwwpyEyWprmth0L
+	jwROxznY51PGj8OCWGh5iy4GSy220RKmN9qXANbZkNnjVhHERLe+g8jCxP6g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1665025632; x=1665112032; bh=D2A7KGl6NxNqwykh+AYiSj2aZjrv
+	6WwosJ3tBKEWL9A=; b=s6v8JOKhc6PogwG6nV+k5ipmlROWpjI5vzgQgqABWzAV
+	AnJnbYVatK3HYrgyuDABlSjKK/s9ZkRq637ehv7szSZ5A3qD28RO5OcnK5ruOUeB
+	/hLS7Iaff7ZVntV9AVYtXUs8buBgjUH4Rn2SKTdUeBEXGWi/GQlBUU4pLUdp7pVH
+	7hTg+9S2eVOv5zpgrKJYC+Njlf1euCpgdqWONCyeSI1inkMXuIjZ0zOdbDEdgp0j
+	STEuthh4M2u3MG8ZfmQh1tF/i9McO7sfijfz35Ze713GRJWavYhSOR2h3YVLqvf7
+	5YdFaA01uy0XMtuRM9wnuGx0QqpMRtkUcSzlYinJbA==
+X-ME-Sender: <xms:YEY-Y8UNtac18V-Hiexm9LASsU9iONfZzSsfNNb8DqGrCsO-f-Y0YQ>
+    <xme:YEY-Ywn3B-LoAEKNrTi1VV3x4S0h2qtFyg0pEP8WzefqByUNmVpp-uTDQBPKF-o1s
+    UFahTPlyWrUaSm8aQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeigedgieekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
+    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:YEY-YwadAudAkAFsrZ_RbYcUEH1yQtse64xeP5r7Q2wNtpj8hKamQw>
+    <xmx:YEY-Y7Wrm-9JAkglnGHqmFGF9c8pNvKd7n9dDO4wIp1rgCsoFBYEXQ>
+    <xmx:YEY-Y2l-rF7H8u5FZrE1fWj7zjjyyxtZ9G1WmY8Erd_UnrJnCaqfOQ>
+    <xmx:YEY-Y3BdZ9hZ8dnnoJtj_WDaSWBmzxxjRpnGeZM7k22Vj3bluiODGQ>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 58DF01700083; Wed,  5 Oct 2022 23:07:12 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1015-gaf7d526680-fm-20220929.001-gaf7d5266
+Mime-Version: 1.0
+Message-Id: <f6a85e5e-a3b1-4e5c-9db6-1222dcabd780@app.fastmail.com>
+In-Reply-To:  <CACPK8XdnFPXZuzAaSMOUnV6ng9y2_ZMcAff12q8Zxvr2HJZy-w@mail.gmail.com>
 References: <20220812144741.240315-1-andrew@aj.id.au>
- <08c20621-e75d-4a72-82e6-b1980304e20a@app.fastmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <08c20621-e75d-4a72-82e6-b1980304e20a@app.fastmail.com>
+ <CACPK8XdnFPXZuzAaSMOUnV6ng9y2_ZMcAff12q8Zxvr2HJZy-w@mail.gmail.com>
+Date: Thu, 06 Oct 2022 13:36:51 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH] ipmi: kcs: Poll OBF briefly to reduce OBE latency
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,35 +92,107 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: linux-arm-kernel@lists.infradead.org, openipmi-developer@lists.sourceforge.net, openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc: Corey Minyard <minyard@acm.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Oct 06, 2022 at 09:42:57AM +1030, Andrew Jeffery wrote:
-> Hi Corey,
-> 
-> On Sat, 13 Aug 2022, at 00:17, Andrew Jeffery wrote:
-> > The ASPEED KCS devices don't provide a BMC-side interrupt for the host
-> > reading the output data register (ODR). The act of the host reading ODR
-> > clears the output buffer full (OBF) flag in the status register (STR),
-> > informing the BMC it can transmit a subsequent byte.
-> >
-> > On the BMC side the KCS client must enable the OBE event *and* perform a
-> > subsequent read of STR anyway to avoid races - the polling provides a
-> > window for the host to read ODR if data was freshly written while
-> > minimising BMC-side latency.
-> 
-> Just wondering whether you're happy to pick this one up? I haven't seen 
-> it hit the IPMI tree yet.
 
-Sorry.  It's in my tree for 6.2 right now.
 
-I can't push it up to for-next until 6.1-rc1 comes out.
+On Thu, 6 Oct 2022, at 10:20, Joel Stanley wrote:
+> On Fri, 12 Aug 2022 at 14:48, Andrew Jeffery <andrew@aj.id.au> wrote:
+>>
+>> The ASPEED KCS devices don't provide a BMC-side interrupt for the host
+>> reading the output data register (ODR). The act of the host reading ODR
+>> clears the output buffer full (OBF) flag in the status register (STR),
+>> informing the BMC it can transmit a subsequent byte.
+>>
+>> On the BMC side the KCS client must enable the OBE event *and* perform a
+>> subsequent read of STR anyway to avoid races - the polling provides a
+>> window for the host to read ODR if data was freshly written while
+>> minimising BMC-side latency.
+>>
+>
+> Fixes...?
 
--corey
+Is it a fix though? It's definitely an *improvement* in behaviour, but 
+the existing behaviour also wasn't *incorrect*, just kinda unfortunate 
+under certain timings? Dunno. I'm probably splitting hairs.
 
-> 
-> Cheers,
-> 
-> Andrew
+In any case, if we do want a fixes line:
+
+Fixes: 28651e6c4237 ("ipmi: kcs_bmc: Allow clients to control KCS IRQ state")
+
+>
+>> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+Thanks!
+
+>
+>> ---
+>>  drivers/char/ipmi/kcs_bmc_aspeed.c | 24 +++++++++++++++++++++---
+>>  1 file changed, 21 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
+>> index cdc88cde1e9a..417e5a3ccfae 100644
+>> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
+>> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
+>> @@ -399,13 +399,31 @@ static void aspeed_kcs_check_obe(struct timer_list *timer)
+>>  static void aspeed_kcs_irq_mask_update(struct kcs_bmc_device *kcs_bmc, u8 mask, u8 state)
+>>  {
+>>         struct aspeed_kcs_bmc *priv = to_aspeed_kcs_bmc(kcs_bmc);
+>> +       int rc;
+>> +       u8 str;
+>
+> str is status, it would be good to spell that out in full.
+
+I guess if it trips enough people up we can rename it later.
+
+>
+>>
+>>         /* We don't have an OBE IRQ, emulate it */
+>>         if (mask & KCS_BMC_EVENT_TYPE_OBE) {
+>> -               if (KCS_BMC_EVENT_TYPE_OBE & state)
+>> -                       mod_timer(&priv->obe.timer, jiffies + OBE_POLL_PERIOD);
+>> -               else
+>> +               if (KCS_BMC_EVENT_TYPE_OBE & state) {
+>> +                       /*
+>> +                        * Given we don't have an OBE IRQ, delay by polling briefly to see if we can
+>> +                        * observe such an event before returning to the caller. This is not
+>> +                        * incorrect because OBF may have already become clear before enabling the
+>> +                        * IRQ if we had one, under which circumstance no event will be propagated
+>> +                        * anyway.
+>> +                        *
+>> +                        * The onus is on the client to perform a race-free check that it hasn't
+>> +                        * missed the event.
+>> +                        */
+>> +                       rc = read_poll_timeout_atomic(aspeed_kcs_inb, str,
+>> +                                                     !(str & KCS_BMC_STR_OBF), 1, 100, false,
+>> +                                                     &priv->kcs_bmc, priv->kcs_bmc.ioreg.str);
+>> +                       /* Time for the slow path? */
+>
+> The mod_timer is the slow path? The question mark threw me.
+
+Yeah, mod_timer() is the slow path; read_poll_timeout_atomic() is the 
+fast path and we've exhausted the time we're willing to wait there if 
+we get -ETIMEDOUT.
+
+The comment was intended as a description for the question posed by the 
+condition. It made sense in my head but maybe it's confusing more than 
+it is enlightening?
+
+Andrew
+
+>
+>> +                       if (rc == -ETIMEDOUT)
+>> +                               mod_timer(&priv->obe.timer, jiffies + OBE_POLL_PERIOD);
+>> +               } else {
+>>                         del_timer(&priv->obe.timer);
+>> +               }
+>>         }
+>>
+>>         if (mask & KCS_BMC_EVENT_TYPE_IBF) {
+>> --
+>> 2.34.1
+>>
