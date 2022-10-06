@@ -2,118 +2,125 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FA55F60C4
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 07:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1814F5F6125
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 08:43:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MjgR94V8Hz3bmK
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 16:46:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MjhjP0c1Rz2xgb
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Oct 2022 17:43:37 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=VfsHdijF;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=e8pcYqnR;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.255.136; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.93.113; helo=nam10-dm6-obe.outbound.protection.outlook.com; envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=VfsHdijF;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=e8pcYqnR;
 	dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2136.outbound.protection.outlook.com [40.107.255.136])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2113.outbound.protection.outlook.com [40.107.93.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MjgR043Mwz2xgb
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Oct 2022 16:46:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MjhjG1gTdz2xJ0;
+	Thu,  6 Oct 2022 17:43:28 +1100 (AEDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sa+Cy4ghmaHe7kzeo+WDhOH3AwiZxjyAqhsaB8B6lhxQbboT30QeUvYPDwFL5jhmY8Oz9DA3LwMq/vanSXVOEWI6IoVXKMReq90bKNgKuq7u6UcVyoa16n7cNVTRf6kJH/CiCgzi2A2Uy7m80PBCWdxaeOATsEHK5QlNpGL7cZen9Ji+Mvdy1eXP6mkluNun0Ccngj2wjqpy3PGTvT9JdJiVt5UGrEq55gvjODcpNBV07ZSWX+oHLfgdVcUOa09r7GhmgYEnYP0+WGR7A4tv6kKTsUANrySMNVx8lBwLhd6uRFibz26R9wmiNIz9K7Ww0nGXWYGDo+j1ehhcOL5iCA==
+ b=FjN3gw7bbcQ+9VJuywUzjbMufZ0cL06ZfCFYjvVw7PmVPMq+b88b54bJfoqM5LWgoX48/qicUbo6nflf3Tcsbd8Ub0zMYOO3BaIgZZcI6ABag4xZdx7V1uFrQtTap+7vC7jYUX9Rf51orZ5ccy7JqACHb2zqEtylb++/ADHthX6Tv09N7CtqeUAlTtsASE8P3BJTZHgnXKw4popib+fpaWdK3GwEwzgYKtd69OBHN/RBCg7omdLEI1lrYgd6IHbUAbqbd5JYizFdqia6YLpjeLbW0z7RZsyW4qSAv65H3pCk8QgWUXSZmxDqDmxkmgmWbul5eFDNhhucdNF2bdESPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EYn/brhlM016ERIBFX6Z/B1mcDTxOhPKteLBh4WzVLo=;
- b=S38yeN4xhdhGHfNN51x9+fxu/1T/gYlFmqdhQHxwyhd8vkzSyiEiIe2q4SxyJXVsF3ruz5RqAjLZIDOEENXXz46s2NAaSaKOAet4Z6KHcww+X/fyYhYPvQWtUDRCsB/fK62H6Ciiltw1pfWcDHvYj8OSz2yoydCNEmry3I0o+2OpKJaKc/3uqDmAEnVefvwA2zrrffo4uc3xEPcpJGasmxluAA05UyrpxLKNhNvjO8+2vGYcZighso1kn3dAtYr8InN6BBI+F8TmqNALtVd/eEtCAbslKzxY/9rlsWxjkwfIHq+iXp3zqZ4lJOgEEQErjxSURoSYYl05PgGBnjliIA==
+ bh=5sZs4kYPXDunoGhOnZf1eHOiVNR1P/nKmANgZRq3/Lg=;
+ b=lWF4YlZkiaQ2eBeb7GMVtUlufeK8puHBwS9GVVqyhLRJj+1/dZBSh8/57qJotOmHHPThC58f8m4NTXRvtUQ+5US+tMvA4WYYrfD8Qr020ICkiTEoPyQ1FDcDDKBb+V3dQ4KE/bH/R2PA6DjUoZI6zeLpIZmWtwJhNmkUSGYSMGzLxzj5mXK/FKSowzaKjg/VbcP9p0Sb8RCNHGJUSrrwvUwUnpqvwm6c2Yqq5aJyfzmpbqrr3YT67/zW/aDs8O9soZhTu4WkUT5mJMKtEqLpoT+lmnMfv0J2EpfzMEW9jVWV/5XergePBuSStPkN1Wir92f1yuMaCXoMfL/y2tcfaw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EYn/brhlM016ERIBFX6Z/B1mcDTxOhPKteLBh4WzVLo=;
- b=VfsHdijFEXkarrscCKgIKpcfxA7WHiwAt+qx+yF677N9SOLsPpWHwb0gikIwEVJDpYrA/7B/L6l46XIi7owY8WqkoScin1R4OLRENvCw841sAjFjf2t+gs0kF1vf7XXX8mSKpP9DgDDY/epgGxkgrTHtO1FpCLOTxLyU1q172cjKX1LS3R2pjFp1pWO0MMhjBVBbDoCDHoELmUt4vIL8b+wHEmm4uQKFaPoNZxtCcg/AXXWsgXWae5YeRleJ8Ct3fMyX2ELov7AfHMfTCZw7KamCNLbcnwJDdJvi5BjWxBruCuuq1dbCBRzlK1ioWv4a+Hsj1GZ4TE2YvARk3VFK/Q==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by TYZPR06MB5323.apcprd06.prod.outlook.com (2603:1096:400:1f1::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Thu, 6 Oct
- 2022 05:45:42 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::c94b:7dc7:548:3c18]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::c94b:7dc7:548:3c18%4]) with mapi id 15.20.5676.033; Thu, 6 Oct 2022
- 05:45:42 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Rob Herring <robh@kernel.org>
-Subject: RE: [PATCH v2 4/4] dt-bindings: bus: add documentation for Aspeed
- AHBC
-Thread-Topic: [PATCH v2 4/4] dt-bindings: bus: add documentation for Aspeed
- AHBC
-Thread-Index: AQHY16FydoFvy/tRik2dFUNH8arC163/yrUAgADxsdA=
-Date: Thu, 6 Oct 2022 05:45:42 +0000
-Message-ID:  <HK0PR06MB32020E4C2124FDD9C68F811A805C9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20221004032841.3714928-1-neal_liu@aspeedtech.com>
- <20221004032841.3714928-5-neal_liu@aspeedtech.com>
- <20221005131840.GA3256371-robh@kernel.org>
-In-Reply-To: <20221005131840.GA3256371-robh@kernel.org>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: HK0PR06MB3202:EE_|TYZPR06MB5323:EE_
-x-ms-office365-filtering-correlation-id: 7e07d835-d7b4-4cec-0f4d-08daa75e01a5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  sM3/oFt8nf/7QUz44u5GxKTD7FzHJlqplV/0hR0yI4foGHSZp15bT8u6H0gFilZTpYUNFAeAwlJmcVnAU0B8iSknJKFpN0of/ZV37IRQuSwMPd+P8scKgfrjQSm3LtNxmcHqyaSOAZNszEVZpwHNA1Mb0pxvIMj5AO+K9PKcm05fe7PrcDPkhtJAo0EBAhEGuEuS/MCYKCZnKo/treU64xhYU1t1VcIk1jq6tD0O2B7UqrG3wKiP0ANLl4cUivwf8Jn+UnLn+EUbiK3AHn27vV/1GeE7zUKIT1kH+yJ7mDOpTGtg1xNlpZaF3iysHAYfA1t7AirXgWacbaneEaVnDyvdjOcgjDk6hCjohqVTw0fnbFA9UPNE+i1WzlacJhIvxEqaxyioL0a5r+Ut7lzXvpbvtJNqra9/fD96YtkSCmQLpCqDINa/YOA1XuVwmWFOsOsYcQz/Jh3WiX2TPfW4NF8VC3+WBX9SDr+EYOSSkXdhSKN7aPnAKEvUDgFDAxiJiiZYqjo2LFCeABMcONj4adXKbknwB7DByDqFhwa4CXZjzbMdjlvhS5kaGFkSYp+/5bNQmoR/oDb95k4Smg4vP/ffTRufL8s08KD2nkVEWiBQG7zWF4BGxj5nKNn6kMTVuPJp7z1eDb6JwTk0IoY9J5r1ZFjVNpeIUh1x2M2oSKBqCySPNBj3amBmgSZo0vp74gb+iLrk6KCy72eOfGrlGao16wCFoDWj+5eYNkK3fCZyTNOCSGA9J+SJcHRdgHS7ggScXRK5d3dNUNRTOsjPuEky5iUkOy5eKkW/Ar+MqX6DrP6CQ5nmlHEn7JHvsX1/MH70Z3k50/q2GIPOqSYhuA==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(136003)(39840400004)(346002)(366004)(396003)(451199015)(8936002)(52536014)(7416002)(5660300002)(186003)(6506007)(76116006)(122000001)(4326008)(8676002)(966005)(38070700005)(66946007)(66446008)(26005)(64756008)(7696005)(9686003)(66556008)(41300700001)(66476007)(54906003)(478600001)(55016003)(33656002)(38100700002)(6916009)(71200400001)(316002)(2906002)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?yc/82TXUBafv0HuGYPLByz/E2+BKlm3RrBbEIPXznkSKyf9VOjxmPTfYUn/J?=
- =?us-ascii?Q?2u5etxvm64byB9OE2+WBCYnxts5isOx9eXRD5AUXaO9iUglfDCaW0Yont2Th?=
- =?us-ascii?Q?d9x/C6iIPu0A0zkidItXy6gFeYSYDNrJIEuzMHs4mWcE5I8lT5etjpN7moyr?=
- =?us-ascii?Q?JVfU7/LvEBdJKBekq8ej7J+Xxiv3elNXlU+9cs6ZaLSgw0A1jOnGnUxv3Gkv?=
- =?us-ascii?Q?MvidO0uhNZkzma561SVuQdy4/GDPUWdpGirwyFFDZNcwjZPPOEtJT7qgQgmn?=
- =?us-ascii?Q?wgrhf9CkhQaSo/4BWJJ5OLxwI444TSpWxuHubUilGgJLUZx8pqRclXZt2lFY?=
- =?us-ascii?Q?8xenAQMQ1NkhTr8F/l06blQdMs0zFDGFxAF5/Qt9dovpHjLiuzxVaXgmhYKP?=
- =?us-ascii?Q?6amJtYBzro2EcBzoZFtUIqNF/HvHBgl+rktkDDfeWoY3EuY7XSjMeWwPr72W?=
- =?us-ascii?Q?IU8T9oDZD0DL4pbJKlpah1RsVpOXM2UOtJv7w/5zOY6NMHT+62H2ly4hezZ6?=
- =?us-ascii?Q?9G0e7zj4pImyD8clfgbg7c88u3AUM6/OHZIJ7BXwBpSkpWpggFR2iwby4Sa9?=
- =?us-ascii?Q?WTWRr7HukLp1QEsmpWu5uM8b0nCnqIxbiCdYZbT7cB3jJtulJ1kweK8CnvO8?=
- =?us-ascii?Q?ubMkInPqgyNP5PwKv3l8oSEnmnIS91BUJ1462wvDwtUVcSbzfPthyIGMcQjB?=
- =?us-ascii?Q?Jt4vxQHCN9RLAgSdsaaA5rLGekk3NXWsJUn7X7JERQd6SXpLCysi9Ohnh4Sv?=
- =?us-ascii?Q?lcShK6onNcngZR5fbpU5LUgum31slNEUTNy1SaorOWvsBtYtHRZqurzZ2SYe?=
- =?us-ascii?Q?l4+UvrsRw8LehfvTQDNvdZ2YrT5WaqLrd+H+0MVKCuq0PCDEX14KIsB7oTQN?=
- =?us-ascii?Q?oVY06hC10QyCMZkIbbGCnpE1yYK+bqKh2VjFPWrfA50ANr+PVCcb4LcXTlre?=
- =?us-ascii?Q?WvbLT+wnMQ8BUekxFGDOnI0adYKHdTpghIBpo0tNW/6mluO0Uh7Xvo7NUTZm?=
- =?us-ascii?Q?eyazab3swVwOfSg1tJrdBfkPN26oHgfM4EVjAVrx1xg5ryNc7VFXOqood4/A?=
- =?us-ascii?Q?qxvhuAG88+FSxhBdRAGR90AXePDe/qtvbEiBL4qaN0DFPLd7f61SJscG4pED?=
- =?us-ascii?Q?6w5fyjTp7mM7jRF/DdplU0HO5ohPh4VjLYMqRrvVbSkyCRmH1p6FAhNAxZCQ?=
- =?us-ascii?Q?VpGoBG5vtJJ1jj0RcOM6KXcI+RaTfiuDhLAX3FczoMTzzCrLnwxQTKwkCjuU?=
- =?us-ascii?Q?cHHKMi/7IFasAd3+83DbaRVajOF5MMsIlmVkAKLMopwR+7FB5yij4zMuD2ma?=
- =?us-ascii?Q?1m2AwhwL03weXzA3NS8srrDw1JGVNz8bepA39SAT7jX3cFbNduwzb05IL0eH?=
- =?us-ascii?Q?uJc8+D8CpiwpW2lKFRq8GI8BzIH/scARgx8xVCC9+druTusYj6KmUbpy2yxb?=
- =?us-ascii?Q?CovuBexmb+txa5+wvRxBV+50jJP3nQlBiKcE14yNAF8XsG9mnTrKxNimxHWT?=
- =?us-ascii?Q?ZT91MAjZ0f3OKz/qTGQygxeaFEUJEfBZWANbioAxFkWOgTOu3kiydA8rcv/e?=
- =?us-ascii?Q?UNcPuzcoTdpDkaav8lKEiiWwDWCL1AWl+e3ngguG?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ bh=5sZs4kYPXDunoGhOnZf1eHOiVNR1P/nKmANgZRq3/Lg=;
+ b=e8pcYqnR6PtenwQ7ZY8s37/n5ur6OnK4Pz8FkjWlmxusY5FB+ooO1f1Fx9SLBSW0aNIkdMJP2gxHffLrHuk1AxSMBs7WU7jkhH95YPAaFs0y/AzWlby3U7GoIOdZ+Ke/mICmdcF1lN8w3W88R8C+QPxB0QvNyBMDAW+bf8UWGbQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
+ DM6PR01MB4492.prod.exchangelabs.com (2603:10b6:5:34::20) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5676.23; Thu, 6 Oct 2022 06:43:09 +0000
+Received: from SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::7d50:e907:8e2e:1ff0]) by SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::7d50:e907:8e2e:1ff0%3]) with mapi id 15.20.5676.032; Thu, 6 Oct 2022
+ 06:43:09 +0000
+Message-ID: <47c67c2b-fb1e-af56-8e7a-06349ad5604b@os.amperecomputing.com>
+Date: Thu, 6 Oct 2022 13:42:56 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.0
+Subject: Re: [PATCH v10 0/3] Add SSIF BMC driver
+Content-Language: en-CA
+To: minyard@acm.org
+References: <20221004093106.1653317-1-quan@os.amperecomputing.com>
+ <Yz4Y4piC+e1mftLi@minyard.net>
+From: Quan Nguyen <quan@os.amperecomputing.com>
+In-Reply-To: <Yz4Y4piC+e1mftLi@minyard.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR01CA0170.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:28::26) To SJ0PR01MB7282.prod.exchangelabs.com
+ (2603:10b6:a03:3f2::24)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR01MB7282:EE_|DM6PR01MB4492:EE_
+X-MS-Office365-Filtering-Correlation-Id: c0b37938-602d-4dd0-5d8d-08daa766080b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	dvzVSQ9gUrCAY7MyI7xpsguT3BbGHpNkfz5lJ5T97pkxEwMl5TQN5N8Y8FW3wUxradGy3xx+vrSpmFsG2mbC0ny14O6T/pVOyba/wRT5FN65o05Tuhg/G0Rx6plE3HZ2kYISb3nL8WoES4gQizJvxv6nOMkPNCF6Ydx69tqXgxJWFZTAbbdDKQe0GVZcNxY3fKryqtB7gQJVu/Tabnq83l5mLJ4a16PpRGTvf3rydewcGlmSDhYtUIaivzBN7QX3elBMCF+KgH7ZJ5C/lu6fhv6FTzHDuDDMrAJiP1s9iYCE1OfwNm/XnqCOzdz50+pSHg8WcKbq4vD1qW97nWMv2Y6aVOnnRWqxGQKukxx+XsjbX0vtEvEyt+t9R0wkeiZq84+/teiNxh7iIV9fDaUm+iAAzVARIsJ+rCiX3LN0z+hWvcrHYHgYobskg00SCpIE5tkP7RDGNZBRvgHYFY2MNUqBRETrcX2ND3tRdtz3zlvU5Ckcz4mi2HyrVXXEz7Z9Cw6ToPrMstpu9M/TsLkwL9l5uH3CJFfYFi8nFsdhgU2W6ck1iDvV+QrLzNuG+3OY8ZK+NOJbDENwV+Wru015rWrQUiQCRmWsAO1dB1kyj+iURq67D/TTFE8r3jFKQsJPsCnlmGeJtXEY0j0r/1k6QFrucM3u3toSCbjfLjxajvSG6Dxhw6vuRGBqDQ9vh0jvVgdi/BWPos8A3LdMxe7pTwCPXTHDHuzrl5AD4nN5DdNxR/JPuCeuh8Oqzr5k9QdKHnT7Q27KH8XxWxP+xOCdmBsklnHd19eKkdNoBVg9S/EovKnxqBP7FkZDBsP348oMadTnUKq32g9sY8uJyHyXVQ==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR01MB7282.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(366004)(136003)(376002)(396003)(39850400004)(451199015)(966005)(66946007)(4326008)(54906003)(6916009)(6486002)(478600001)(8676002)(66476007)(66556008)(6666004)(41300700001)(107886003)(7416002)(38350700002)(6512007)(83380400001)(52116002)(6506007)(53546011)(38100700002)(26005)(86362001)(8936002)(5660300002)(316002)(2906002)(186003)(2616005)(31696002)(31686004)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?ZE8zeDZOUGxQWXpOVEFpZ3ZwRTlzOTJybUdWeTlkc1Z2VUQxSThuREdZcE96?=
+ =?utf-8?B?bFoxbnVmRVRKdytpZ0dkL0lPTVdaQldPeW1aK0E4VEVPRVlhRWRXTHVIZGtj?=
+ =?utf-8?B?aXg4YW55ZjdNWklBdU1Lekl3YnlQYnd0MDlhbC9FMFRsaXVuTkg1QThVVDgx?=
+ =?utf-8?B?MHN6ZS9LU1pMTEM0SnRjdjIzVmYrTlpZTTdDQk9LUjE4bXBqbHd6K3JjbVZR?=
+ =?utf-8?B?eHFyTGJYa05zS2NDbXZLbTFQWCtiWkI0QWJXQmpNRlpCejBDUUszcG43eXVz?=
+ =?utf-8?B?UEtZNWNwUklKMUMweVh6WHFuclhTNFFTOWJVWWszOEFIczMrZ05GQ2s0Z043?=
+ =?utf-8?B?dVNWc29rNDF2ZlFKdlZMaWxmMHJyWTh2V1dSQjVlOHZLN0tWMkdCQk5odmNS?=
+ =?utf-8?B?RDFObkVITCtDOUNKTHhWSmpyVUg5aE1FYjFFNEdmS0J2Z1d3L0RnV2tCY0F0?=
+ =?utf-8?B?NVc0alFOMUVCQlZsNjl5OUIrTDhzWUpnRWdibDRmcHNseHVzVkxvSWFNL3F3?=
+ =?utf-8?B?UmQwTkdJdGVaYzE1Sm03NENmT2pzTjJ3ZnJFbWdWa2VrbGR1Yll1bFM0SnNt?=
+ =?utf-8?B?S0U5Z2M5VmpHdWFJTWhVSC8xZnFlZC8vMVc3UGdtOXRxaUNVZklzSVNyWU00?=
+ =?utf-8?B?MWpsYmZzYmlTMXd6V3N5WFQ3ZGN2R2FnMXBWMTFCMmlqajdnU2ZRTjNBQU4v?=
+ =?utf-8?B?QlRYK0JhNjJTUXMydlgrNGgvYW15aXRFdmYyNXpSRUhoa250T1dKYkxHWERo?=
+ =?utf-8?B?cm8wM01URE9pazgrNCtIZ0RoTUtHdEFxQmVXWEgwVkZBL1hUdkF6TTYzUFBw?=
+ =?utf-8?B?UkozOXM1YVE2ODlEanVHOXMvUkFhNHB5TmI3OC9RQlM0VzlMMngzMk5nMW9Z?=
+ =?utf-8?B?aUh5a2hkYUFoZnBNRjR6Y3Y2dThVbjdEcThNazQvbWthTWlpUkFPUmxaa2pO?=
+ =?utf-8?B?Z3dEcm5DVm9qV21RMHhDM1o3VGxQSlZlQWwwRERMV002eWx1cG5BNHZrOXFD?=
+ =?utf-8?B?b3dHMlp1cEE5eFFlbVlXanJBZXRwUm1iaGJhb0REZmRsQWVQU3YxTjhyWnpD?=
+ =?utf-8?B?VEpEc2hQa2oySXExKzYvVzc4ci9BaDlxcXdnVWVJbjE4RitmWTdwZ3lpbTY2?=
+ =?utf-8?B?cG9GM013THVpOUxNQUZLV09HYnpKYzMrS2M1ODN6VXRoRDJ3RVlldFMvSkdk?=
+ =?utf-8?B?UERlZSt2KytZNHBsWmdXbzRCYU96YU1MUCsrYXFZbG0zTVRmOVNGNUo2bXFS?=
+ =?utf-8?B?MS9NaktjQldUQkVpNzArYnNEVzN1bWlOcjFYM21LeGxYTlhWbks3ZlljSmFv?=
+ =?utf-8?B?Snk5YXZnaHU5NkdMQjU4M3J3RjZpeUsxaWtXemZ6Ykh2M0Q4aGp0N25SMUlp?=
+ =?utf-8?B?bnJqa1htdFpvUHF1L0J6UHM2c21rYXpqdkdlb1Q2cms2bnpGUk1uWk1MbFlx?=
+ =?utf-8?B?Yk5DMldEUDJHRUpOZTdYMS9yQWpWRHZqYVVNYUZHKzRsTkdPcmE4OVNtS2dR?=
+ =?utf-8?B?UEQ2SzJxZmFXUTJsTWRKbFlMbEFpZEtHTG1YcjNyZmlPZ2UzbExEaHdDdlZK?=
+ =?utf-8?B?OEZUSWJpdEF2YSs4QUY2eFJUc21SVU5lRHdjeTd2cGJEeDBqZnFtakpNUExO?=
+ =?utf-8?B?YTk2enlkQmtHL0J4YzZMTmNpakdFK1dLdDVjRW5wUXlOaW1zZXRWNG1Lc2Iv?=
+ =?utf-8?B?OUcySE5vWjVQZElGVnZNMEExWlN4NGdyWk1sK3h2RGpPNUhMNDlGMHZUN0ti?=
+ =?utf-8?B?VkFENzNYZHNpNGxEMUNuY2MxaWpON3RHaDQ1WDlVV0d0UE9ISXhOQXl1SWVX?=
+ =?utf-8?B?S3c5czJMZUN5VklTdUkwUlgxT1NubHJubTZiKzRPU3RqV0RvZEdFdFpsdjJw?=
+ =?utf-8?B?OStxb2NSYTFSOXBWa2dMV0JVdzQyeW4xOUdJVXBlNW1HYmNJVW9qV1ZIeDFV?=
+ =?utf-8?B?bUVYWnNIeER5ajRHeE9UUHJHOXZkNllvaWZmamZPVHRqaGQ0LzU5Nk9SY0ln?=
+ =?utf-8?B?Wk9TV1NYektzUGhQOG5mU1M0TG10NVRWTWt5aW9RWlFoRzREVndRUXFtOE9W?=
+ =?utf-8?B?LzdlbVhnMEQwRTJUQjhYNVVkbXAzLzRIOE1Hem90MHJxUUo0UFpxTTd1Uk1k?=
+ =?utf-8?B?Z0dMNExCV3dvNXVUUVhtOUdHUkVGeWJrWXZqYmw5VStrQTEzc0taQ0dKUTI0?=
+ =?utf-8?Q?sjfl1U7VyOmI36sB9x3kUWA=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0b37938-602d-4dd0-5d8d-08daa766080b
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e07d835-d7b4-4cec-0f4d-08daa75e01a5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2022 05:45:42.2549
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2022 06:43:09.3873
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MRqRBuSHLCS8B9ffWxmZiGyP29X6CqZUaMT929fDnMby6gCK5Sg6QmuCkY7hYNXPy/6oJeJReYSzlagRKz9TDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5323
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 29ZXXxR5Yh0tHh6AqFhQ3A4QkxU8me4ofoZGDcua8Q7Dv3e+v01h7DlKSE2kx5+14KIYkM4PKsJ6wg6k9m9AyTbYu3BsqAmLPmNVAFQGfMg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB4492
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,86 +132,166 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S . Miller" <davem@davemloft.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, thang@os.amperecomputing.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Wolfram Sang <wsa@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, openipmi-developer@lists.sourceforge.net, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> > Add device tree binding documentation for the Aspeed Advanced
-> > High-Performance Bus (AHB) Controller.
-> >
-> > Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-> > ---
-> >  .../bindings/bus/aspeed,ast2600-ahbc.yaml     | 46
-> +++++++++++++++++++
-> >  1 file changed, 46 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
-> >
-> > diff --git
-> > a/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
-> > b/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
-> > new file mode 100644
-> > index 000000000000..c42a350d30a1
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
-> > @@ -0,0 +1,46 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: ASPEED Advanced High-Performance Bus Controller (AHBC) Device
-> > +Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Neal Liu <neal_liu@aspeedtech.com>
-> > +  - Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-> > +
-> > +description: |
-> > +  Advanced High-performance Bus Controller (AHBC) supports plenty of
-> > +mechanisms
-> > +  including a priority arbiter, an address decoder and a data
-> > +multiplexer
-> > +  to control the overall operations of Advanced High-performance
-> > +  Bus (AHB). AHB is the main system bus for ARM CPU to communicate
-> > +with the
-> > +  related peripherals.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - aspeed,ast2600-ahbc
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    bus {
-> > +        compatible =3D "simple-bus";
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <1>;
-> > +        ranges;
-> > +
-> > +        ahbc: bus@1e600000 {
-> > +            compatible =3D "aspeed,ast2600-ahbc";
-> > +            reg =3D <0x1e600000 0x100>;
->=20
-> Devices on the AHB bus should be child nodes here. Unless this is just fo=
-r
-> device master interface to memory, but that's not what the description sa=
-ys.
+Dear Corey,
 
-Sorry, I don't understand. "ahbc" device is already a child node here under=
- AHB bus.
-"ahbc" is a controller to control the overall operations of AHB, which is d=
-escribed in the description.
-Could you explain more details?
-Thanks.
+Thank you so much for helping me with all the comments and guidelines 
+you've shared though many versions.
 
+Best regards,
+- Quan
+
+On 06/10/2022 06:53, Corey Minyard wrote:
+> On Tue, Oct 04, 2022 at 04:31:03PM +0700, Quan Nguyen wrote:
+>> This series add support the SSIF BMC driver which is to perform in-band
+>> IPMI communication with their host in management (BMC) side.
+>>
+>> SSIF BMC driver in this series is tested with Aspeed AST2500 and AST2600
+> 
+> I have applied the two IPMI patches to the IPMI tree for 6.2.  Thanks
+> for sticking with this.
+> 
+> -corey
+> 
+>>
+>> Discussion for v9:
+>> https://lore.kernel.org/lkml/20220929080326.752907-1-quan@os.amperecomputing.com/
+>>
+>> v10:
+>>    + Issuing RxCmdLast command for all errnos                   [Wolfram]
+>>
+>> v9:
+>>    + Fix dependence with I2C subsystem                            [Randy]
+>>    + Update missing Reviewed-by tag from v7                         [Rob]
+>>    + Remove useless error handling path                              [CJ]
+>>    + Update comment for SSIF_ABORTING state                          [CJ]
+>>    + Fix "unknown type name --u8"                     [kernel test robot]
+>>    + Update commit message and add comment to explain
+>>      the effect of issuing RxCmdLast when Slave busy               [Quan]
+>>
+>> v8:
+>>    + Dropped ssif_bmc.h file and move its content to ssif_bmc.c   [Corey]
+>>    + Add struct ipmi_ssif_msg to include/uapi/linux/ipmi_ssif_bmc.h
+>>    header file                                                    [Corey]
+>>    + Use unsigned int for len field in struct ipmi_ssif_msg       [Corey]
+>>    + Avoid using packed structure                                 [Corey]
+>>    + Add comment to clarify the logic flow                        [Corey]
+>>    + Fix multipart read end with len=0 issue                      [Corey]
+>>    + Refactor code handle the too big request message             [Corey]
+>>    + Fix code indentation issue                                   [Corey]
+>>    + Clean buffer before receiving request to avoid garbage        [Quan]
+>>    + Fix the license to SPDX-License-Identifier: GPL-2.0-only      [Quan]
+>>
+>> v7:
+>>    + Remove unnecessary del_timer() in response_timeout()         [Corey]
+>>    + Change compatible string from "ampere,ssif-bmc" to "ssif-bmc"  [Jae]
+>>    + Dropped the use of ssif_msg_len() macro, use the len directly [Quan]
+>>    + Solve possible issue if both response timer and ssif_bmc_write()
+>>    occurred at the same time                                      [Corey]
+>>    + Fix wrong return type of ssif_bmc_poll()         [kernel robot test]
+>>    + Refactor and introduce ssif_part_buffer struct to replace the
+>>    response_buf to manage each send/receive part of ssif           [Quan]
+>>    + Change SSIF_BAD_SMBUS state to SSIF_ABORTING state           [Corey]
+>>    + Support abort feature to skip the current bad request/response and
+>>    wait until next new request                                    [Corey]
+>>    + Refactor the PEC calculation to avoid the re-calculate the PEC on
+>>    each I2C_SLAVE_WRITE_RECEIVED event                             [Quan]
+>>    + Fix the use of error-proned idx                              [Corey]
+>>    + Defer the test for valid SMBus command until the read/write part
+>>    is determined                                                   [Quan]
+>>    + Change/split unsupported_smbus_cmd() to
+>>    supported_[write|read]_cmd()                                   [Corey]
+>>    + Abort the request if somehow its size exceeded 255 bytes      [Quan]
+>>
+>> v6:
+>>    + Drop the use of slave_enable()                             [Wolfram]
+>>    + Make i2c-aspeed to issue RxCmdLast command on all
+>>    I2C_SLAVE_WRITE_REQUESTED event to assert NAK when slave busy   [Quan]
+>>    + Make i2c slave to return -EBUSY when it's busy                [Quan]
+>>    + Drop the aborting feature as return Completion Code 0xFF may stop
+>>    host to retry and make ipmi_ssif.so fails to load               [Quan]
+>>    + Add timer to recover slave from busy state when no response   [Quan]
+>>    + Clean request/response buffer appropriately                   [Quan]
+>>    + Add some minor change on error and warning messages           [Quan]
+>>
+>> v5:
+>>    + Correct the patches order to fix the bisect issue found by
+>>    kernel build robot
+>>
+>> v4:
+>>    + Fix recursive spinlock                                      [Graeme]
+>>    + Send response with Completion code 0xFF when aborting         [Quan]
+>>    + Fix warning with dt_binding_check                              [Rob]
+>>    + Change aspeed-ssif-bmc.yaml to ssif-bmc.yaml                  [Quan]
+>>    + Added bounding check on SMBus writes and the whole request     [Dan]
+>>    + Moved buffer to end of struct ssif_bmc_ctx to avoid context
+>>      corruption if somehow buffer is written past the end           [Dan]
+>>    + Return -EINVAL if userspace buffer too small, don't
+>>      silence truncate                                       [Corey, Joel]
+>>    + Not necessary to check NONBLOCK in lock                      [Corey]
+>>    + Enforce one user at a time                                    [Joel]
+>>    + Reject write with invalid response length from userspace     [Corey]
+>>    + Add state machines for better ssif bmc state handling         [Quan]
+>>    + Drop ssif_bmc_aspeed.c and make ssif_bmc.c is generic
+>>      SSIF BMC driver                                               [Quan]
+>>    + Change compatible string "aspeed,ast2500-ssif-bmc" to
+>>      "ampere,ssif-bmc"                                             [Quan]
+>>    + Toggle Slave enable in i2c-aspeed to turn on/off slave mode   [Ryan]
+>>    + Added slave_enable() to struct i2c_algorithm to control
+>>      slave mode and to address the recursive spinlock      [Graeme, Ryan]
+>>    + Abort current request with invalid SMBus write or
+>>      invalid command                                               [Quan]
+>>    + Abort all request if there is pending response                [Quan]
+>>    + Changed validate_pec() to validate_request()                  [Quan]
+>>    + Add unsupported_smbus_cmd() to handle unknown SMBus command   [Quan]
+>>    + Print internal state string for ease investigating issue      [Quan]
+>>    + Move to READY state on SLAVE_STOP event                       [Quan]
+>>    + Change initilize_transfer() to process_smbus_cmd()            [Quan]
+>>    + Introduce functions for each slave event                      [Quan]
+>>
+>> v3:
+>>    + Switched binding doc to use DT schema format                   [Rob]
+>>    + Splited into generic ssif_bmc and aspeed-specific      [Corey, Joel]
+>>    + Removed redundant license info                                [Joel]
+>>    + Switched to use traditional if-else                           [Joel]
+>>    + Removed unused ssif_bmc_ioctl()                               [Joel]
+>>    + Made handle_request()/complete_response() to return void      [Joel]
+>>    + Refactored send_ssif_bmc_response() and
+>>    receive_ssif_bmc_request()                                     [Corey]
+>>    + Remove mutex                                                 [Corey]
+>>    + Use spin_lock/unlock_irqsave/restore in callback             [Corey]
+>>    + Removed the unnecessary memset                               [Corey]
+>>    + Switch to use dev_err()                                      [Corey]
+>>    + Combine mask/unmask two interrupts together                  [Corey]
+>>    + Fixed unhandled Tx done with NAK                              [Quan]
+>>    + Late ack'ed Tx done w/wo Ack irq                              [Quan]
+>>    + Use aspeed-specific exported aspeed_set_slave_busy() when
+>>    slave busy to fix the deadlock                 [Graeme, Philipp, Quan]
+>>    + Clean buffer for last multipart read                          [Quan]
+>>    + Handle unknown incoming command                               [Quan]
+>>
+>> v2:
+>>    + Fixed compiling error with COMPILE_TEST for arc
+>>
+>> Quan Nguyen (3):
+>>    ipmi: ssif_bmc: Add SSIF BMC driver
+>>    bindings: ipmi: Add binding for SSIF BMC driver
+>>    i2c: aspeed: Assert NAK when slave is busy
+>>
+>>   .../devicetree/bindings/ipmi/ssif-bmc.yaml    |  38 +
+>>   drivers/char/ipmi/Kconfig                     |  10 +
+>>   drivers/char/ipmi/Makefile                    |   1 +
+>>   drivers/char/ipmi/ssif_bmc.c                  | 873 ++++++++++++++++++
+>>   drivers/i2c/busses/i2c-aspeed.c               |   9 +-
+>>   include/uapi/linux/ipmi_ssif_bmc.h            |  18 +
+>>   6 files changed, 948 insertions(+), 1 deletion(-)
+>>   create mode 100644 Documentation/devicetree/bindings/ipmi/ssif-bmc.yaml
+>>   create mode 100644 drivers/char/ipmi/ssif_bmc.c
+>>   create mode 100644 include/uapi/linux/ipmi_ssif_bmc.h
+>>
+>> -- 
+>> 2.35.1
+>>
