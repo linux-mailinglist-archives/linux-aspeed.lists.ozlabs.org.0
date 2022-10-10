@@ -2,56 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6A85F7F3D
-	for <lists+linux-aspeed@lfdr.de>; Fri,  7 Oct 2022 22:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D335F9FF8
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Oct 2022 16:13:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MkgQX5KzNz3dqy
-	for <lists+linux-aspeed@lfdr.de>; Sat,  8 Oct 2022 07:49:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MmLV26Hk2z3dqj
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 01:12:58 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rS+ol3nl;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kaod.org (client-ip=46.105.54.81; helo=smtpout3.mo529.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
-X-Greylist: delayed 597 seconds by postgrey-1.36 at boromir; Sat, 08 Oct 2022 07:49:01 AEDT
-Received: from smtpout3.mo529.mail-out.ovh.net (smtpout3.mo529.mail-out.ovh.net [46.105.54.81])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rS+ol3nl;
+	dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MkgQP5yL9z30JR
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  8 Oct 2022 07:48:59 +1100 (AEDT)
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.125])
-	by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 94A661303F460;
-	Fri,  7 Oct 2022 22:30:05 +0200 (CEST)
-Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Fri, 7 Oct
- 2022 22:30:04 +0200
-Authentication-Results: garm.ovh; auth=pass (GARM-106R006ae27c1e1-0ba7-49ef-b5c0-50886aca72bf,
-                    72EF84A86A0CAB1F8CEB0FBBC9371DA6A893A50B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <c1bfbadf-0989-329b-308e-1a3c79ca2caa@kaod.org>
-Date: Fri, 7 Oct 2022 22:29:59 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [v2] spi: aspeed: Fix typo in mode_bits field for AST2600
- platform
-Content-Language: en-US
-To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, <broonie@kernel.org>,
-	<joel@jms.id.au>, <andrew@aj.id.au>, <linux-aspeed@lists.ozlabs.org>,
-	<openbmc@lists.ozlabs.org>, <linux-spi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <BMC-SW@aspeedtech.com>,
-	<steven_lee@aspeedtech.com>
-References: <20221005083209.222272-1-chin-ting_kuo@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmLTy03rcz3bjp;
+	Tue, 11 Oct 2022 01:12:53 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id F305260F5E;
+	Mon, 10 Oct 2022 14:12:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77F16C433D7;
+	Mon, 10 Oct 2022 14:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1665411170;
+	bh=i+nTuecqo88xOxtIonJejeCxD46J/wAXbJ3XX3wP5tw=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=rS+ol3nlPgDNrGzZR/PNfnMdXZvGHsaHmgOA1Gz93bGvDnK2IhTxXPVHnLnqDMUE9
+	 o3/AC4GtBt9o1NJGSx4URHMVdqxp45kb0Ts2HUSv6v9J2UC5ZH/BTwnx3jJ8hjjAOG
+	 +7lITAlCddVy7QUyGqcJ62avRFPaI2Ou3ftEyKoCUBWarFM3c4+Bo1U5lxkUzDYVRQ
+	 2Hd05bSUnsor230vY1GU7p/eMlUiVRbLpT2+ftdoKumEnRv+u3jBcOq25Djgd7iVCj
+	 yDkZhLDnD4XDs8gdt65kMgMkSH9cP9HkzwBdz1mLpXGITPL1rGoVOjFudiqGbUvsJK
+	 YfK5xEFuNf1rg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-spi@vger.kernel.org, clg@kaod.org, joel@jms.id.au, steven_lee@aspeedtech.com, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, andrew@aj.id.au, linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
 In-Reply-To: <20221005083209.222272-1-chin-ting_kuo@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+References: <20221005083209.222272-1-chin-ting_kuo@aspeedtech.com>
+Subject: Re: [v2] spi: aspeed: Fix typo in mode_bits field for AST2600 platform
+Message-Id: <166541116820.121778.9566592036880610465.b4-ty@kernel.org>
+Date: Mon, 10 Oct 2022 15:12:48 +0100
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 61269dbd-0814-42ac-865a-8955e68af19d
-X-Ovh-Tracer-Id: 10109736741803953074
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeijedgudehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshhtvghvvghnpghlvggvsegrshhpvggvughtvggthhdrtghomhdpoffvtefjohhsthepmhhohedvle
+X-Mailer: b4 0.10.0-dev-fc921
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,44 +65,37 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/5/22 10:32, Chin-Ting Kuo wrote:
+On Wed, 5 Oct 2022 16:32:09 +0800, Chin-Ting Kuo wrote:
 > Both quad SPI TX and RX modes can be supported on AST2600.
 > Correct typo in mode_bits field in both ast2600_fmc_data
 > and ast2600_spi_data structs.
 > 
-> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> 
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+
+Thanks!
+
+[1/1] spi: aspeed: Fix typo in mode_bits field for AST2600 platform
+      commit: 5302e1ff315b40dfc9bb3f08911f5a788cc1de01
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-
-C.
-
-
-> ---
->   drivers/spi/spi-aspeed-smc.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-> index a334e89add86..33cefcf18392 100644
-> --- a/drivers/spi/spi-aspeed-smc.c
-> +++ b/drivers/spi/spi-aspeed-smc.c
-> @@ -1163,7 +1163,7 @@ static const struct aspeed_spi_data ast2500_spi_data = {
->   static const struct aspeed_spi_data ast2600_fmc_data = {
->   	.max_cs	       = 3,
->   	.hastype       = false,
-> -	.mode_bits     = SPI_RX_QUAD | SPI_RX_QUAD,
-> +	.mode_bits     = SPI_RX_QUAD | SPI_TX_QUAD,
->   	.we0	       = 16,
->   	.ctl0	       = CE0_CTRL_REG,
->   	.timing	       = CE0_TIMING_COMPENSATION_REG,
-> @@ -1178,7 +1178,7 @@ static const struct aspeed_spi_data ast2600_fmc_data = {
->   static const struct aspeed_spi_data ast2600_spi_data = {
->   	.max_cs	       = 2,
->   	.hastype       = false,
-> -	.mode_bits     = SPI_RX_QUAD | SPI_RX_QUAD,
-> +	.mode_bits     = SPI_RX_QUAD | SPI_TX_QUAD,
->   	.we0	       = 16,
->   	.ctl0	       = CE0_CTRL_REG,
->   	.timing	       = CE0_TIMING_COMPENSATION_REG,
-
+Mark
