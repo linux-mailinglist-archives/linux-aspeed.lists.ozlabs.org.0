@@ -2,51 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810705FB104
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70955FB105
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:09:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtMm30bcz30Bb
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:09:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtMr47M6z3bjJ
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:09:28 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nd0qzFzK;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CqmJZeEc;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.65; helo=mga03.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.115; helo=mga14.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nd0qzFzK;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CqmJZeEc;
 	dkim-atps=neutral
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmVWq6Dz8z3000;
-	Tue, 11 Oct 2022 07:15:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmVX21CKvz3cJx;
+	Tue, 11 Oct 2022 07:15:13 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665432904; x=1696968904;
+  t=1665432914; x=1696968914;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=b/f5qnk86K8IvDMxiisJG/aX+sY4tlL8aHadR4IA4AY=;
-  b=Nd0qzFzKAeUKY0p29IKgvOR9993VWBSHDMBPi1PDIQOrrDNLmsq61kA9
-   SO+Z91WxUZC7LDADIAapX6y8emzg6/AHln/a2Yirz4UEWBk74HkrZg9EN
-   uxmJGfX2pPjKviGIpeJjm8sYqw1xDHMSajldirTamLnKDCA0HZesEyN4G
-   B79XySwwQxMyOZpVu5sRWC3D15g2YE+CfZjwDSFeCu2X0PQrht5FHGCv6
-   43XtHesQ9zdLXh/wsW0KO9xtjT2WGDBH+fz/MwmAd3Ay3NtJFBBn65T39
-   zfsehz2I0ODCnRnT9lPCyIJYOvYFXog4gjCo1jGWTHHeGwtJSjwtiW2r2
+  bh=kjXzGbYDAGDzUThAUri+8VVRFkkuppwpSy0/gaNxk3U=;
+  b=CqmJZeEcpZZ6VDfgtvOIS08WP70QeZXw44gClLdIKqpWVBbIf1YVojy7
+   AUEWqqO9g0yvMuGRDvSWvYUKHb/wg978SuAL4n+9lKak3grXC7PLhOFCk
+   +wFNbXsxB2cV95fMORoRmFsp2z7g9QoUMu4xUcHBomq5q13i6EoCPK+r6
+   e4fRw6gYQ49ZR+v8fkHn9Sh/y8WfknEH+lIa8/qFvlZkofTg43G5jRJMO
+   OQz/vHpnmJUPab5X27EXl/lsgiOYAuE/EsC/XXeiFIB8fDhh7mkqVQq4h
+   3cPeH4WuiwYbr9NVtKX6aJPsqO2nG1jrbjpRl7+V7L81mErTR/oQnM5GM
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="305949302"
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="304314134"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="305949302"
+   d="scan'208";a="304314134"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:01 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="603862738"
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="603862769"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="603862738"
+   d="scan'208";a="603862769"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2022 13:14:50 -0700
+  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2022 13:14:59 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 5DBF01E0; Mon, 10 Oct 2022 23:15:11 +0300 (EEST)
+	id 778C82B0; Mon, 10 Oct 2022 23:15:11 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Marc Zyngier <maz@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -91,9 +91,9 @@ To: Marc Zyngier <maz@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 01/36] gpiolib: tegra186: Add missed header(s)
-Date: Mon, 10 Oct 2022 23:14:17 +0300
-Message-Id: <20221010201453.77401-2-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 02/36] gpiolib: cdev: Add missed header(s)
+Date: Mon, 10 Oct 2022 23:14:18 +0300
+Message-Id: <20221010201453.77401-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
 References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
@@ -124,28 +124,38 @@ While at it, sort headers alphabetically.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpio/gpio-tegra186.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpio/gpiolib-cdev.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpio/gpio-tegra186.c b/drivers/gpio/gpio-tegra186.c
-index 54d9fa7da9c1..fdc5bdcd5638 100644
---- a/drivers/gpio/gpio-tegra186.c
-+++ b/drivers/gpio/gpio-tegra186.c
-@@ -7,12 +7,13 @@
-  */
- 
+diff --git a/drivers/gpio/gpiolib-cdev.c b/drivers/gpio/gpiolib-cdev.c
+index f8041d4898d1..60a60e2d60c5 100644
+--- a/drivers/gpio/gpiolib-cdev.c
++++ b/drivers/gpio/gpiolib-cdev.c
+@@ -10,8 +10,9 @@
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/file.h>
+-#include <linux/gpio.h>
  #include <linux/gpio/driver.h>
++#include <linux/gpio.h>
 +#include <linux/hte.h>
  #include <linux/interrupt.h>
- #include <linux/irq.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
--#include <linux/hte.h>
+ #include <linux/irqreturn.h>
+ #include <linux/kernel.h>
+@@ -20,11 +21,12 @@
+ #include <linux/mutex.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/poll.h>
 +#include <linux/seq_file.h>
+ #include <linux/spinlock.h>
+ #include <linux/timekeeping.h>
+ #include <linux/uaccess.h>
+ #include <linux/workqueue.h>
+-#include <linux/hte.h>
++
+ #include <uapi/linux/gpio.h>
  
- #include <dt-bindings/gpio/tegra186-gpio.h>
- #include <dt-bindings/gpio/tegra194-gpio.h>
+ #include "gpiolib.h"
 -- 
 2.35.1
 
