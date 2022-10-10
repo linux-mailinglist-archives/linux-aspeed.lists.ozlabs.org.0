@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84AAD5FB11E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:10:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD825FB122
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:10:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtPF36SZz3bjJ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:10:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtPV0ph4z3c2v
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:10:54 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Es67GdFA;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hF5J6IRH;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.65; helo=mga03.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.151; helo=mga17.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Es67GdFA;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hF5J6IRH;
 	dkim-atps=neutral
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmVXR2m2gz3dqm;
-	Tue, 11 Oct 2022 07:15:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmVXS6Bhyz3dqg;
+	Tue, 11 Oct 2022 07:15:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665432935; x=1696968935;
+  t=1665432937; x=1696968937;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=eZ0nLr7k71p8hXdbh21/wdsvbcpSOALoNnQYnblRInI=;
-  b=Es67GdFATZuI+jI1EwZM5GeM9jxhz8zKnIKQrxBkjD46nWBrnF+onw87
-   Q4DvAWAYVR0vysM5Xf511gb7Qn/jXzZ6dNjFtgabh6M0/xf5oBhIuEWNt
-   Eg5yiLIi6GPRubjgWQfvrZTm0O4Jco2a3AMNgxbp4YQt20E8ADuEpNIyp
-   3hyNgPlz0x2mGgJjJa64In0JWrpWP7+a6S8A0llP7UYgb6B9J5kfry8hd
-   fG64Pp/ZS1sy2ulMsXzVs7An8xMeNR7MOv9byJS8uogTzkQAVsSi+6yg2
-   0/Z91tr50D6jhm3Z7FhfrN0h1PdPBOBEUTeyxbiNSwQCQPvzDLlJtd6/y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="305949447"
+  bh=xi/Nfv8WtOYvT0HZPT8w43GxR/eWjmHTHS8mPgZHjTw=;
+  b=hF5J6IRH34SAOOxVzmX+UC73ElnmBuHRCjqdH4SlQUZZbxuitJtoZof4
+   Qcwn+FMt1PTH4v3UsOkQJ5HLjDN6yqAtN8Lnze9HE1rMJ9H71aP1GIwIl
+   INEV042why2kTzgy8YV6MpZMNN8ISXnvzXXvRh5m1jSW+TsRH4DYPO4v9
+   hZmxBqKEig8dczJDYbD4XLfa5hDnht/eJ+rLRZJEiu39UXAdXte5GRxs4
+   8Hve63la00GxfS5KLe/OVv7gEALzdIh6FXuBzLtrSjOk8Mrhg/OUNCPnO
+   nnCOe3Y9pFpxgZQ0TwFcE9aEYra2yj8a7IKA7G3Z259kw72c9k3jpVFXr
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="284706657"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="305949447"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:33 -0700
+   d="scan'208";a="284706657"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="715240800"
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="603862936"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="715240800"
+   d="scan'208";a="603862936"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Oct 2022 13:15:23 -0700
+  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2022 13:15:23 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 66097766; Mon, 10 Oct 2022 23:15:13 +0300 (EEST)
+	id 75476781; Mon, 10 Oct 2022 23:15:13 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Marc Zyngier <maz@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -91,9 +91,9 @@ To: Marc Zyngier <maz@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 19/36] pinctrl: renesas: Add missed header(s)
-Date: Mon, 10 Oct 2022 23:14:35 +0300
-Message-Id: <20221010201453.77401-20-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 20/36] pinctrl: samsung: Add missed header(s)
+Date: Mon, 10 Oct 2022 23:14:36 +0300
+Message-Id: <20221010201453.77401-21-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
 References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
@@ -124,79 +124,34 @@ While at it, sort headers alphabetically.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 7 +++++--
- drivers/pinctrl/renesas/pinctrl-rzv2m.c | 4 +++-
- drivers/pinctrl/renesas/pinctrl.c       | 8 +++++---
- 3 files changed, 13 insertions(+), 6 deletions(-)
+ drivers/pinctrl/samsung/pinctrl-samsung.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index a43824fd9505..a08eee092430 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -8,16 +8,19 @@
- #include <linux/bitops.h>
- #include <linux/clk.h>
- #include <linux/gpio/driver.h>
+diff --git a/drivers/pinctrl/samsung/pinctrl-samsung.c b/drivers/pinctrl/samsung/pinctrl-samsung.c
+index bd13b5ef246d..5736761927cb 100644
+--- a/drivers/pinctrl/samsung/pinctrl-samsung.c
++++ b/drivers/pinctrl/samsung/pinctrl-samsung.c
+@@ -15,15 +15,16 @@
+ // but provides extensions to which platform specific implementation of the gpio
+ // and wakeup interrupts can be hooked to.
+ 
+-#include <linux/init.h>
+-#include <linux/platform_device.h>
 -#include <linux/io.h>
- #include <linux/interrupt.h>
+-#include <linux/property.h>
+-#include <linux/slab.h>
+ #include <linux/err.h>
+ #include <linux/gpio/driver.h>
++#include <linux/init.h>
 +#include <linux/io.h>
- #include <linux/module.h>
+ #include <linux/irqdomain.h>
  #include <linux/of_device.h>
- #include <linux/of_irq.h>
-+#include <linux/seq_file.h>
-+#include <linux/spinlock.h>
-+
-+#include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/pinconf-generic.h>
- #include <linux/pinctrl/pinconf.h>
- #include <linux/pinctrl/pinctrl.h>
- #include <linux/pinctrl/pinmux.h>
--#include <linux/spinlock.h>
- 
- #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
- 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzv2m.c b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
-index e8c18198bebd..061f16c77304 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzv2m.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
-@@ -15,11 +15,13 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/spinlock.h>
-+
-+#include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/pinconf-generic.h>
- #include <linux/pinctrl/pinconf.h>
- #include <linux/pinctrl/pinctrl.h>
- #include <linux/pinctrl/pinmux.h>
--#include <linux/spinlock.h>
- 
- #include <dt-bindings/pinctrl/rzv2m-pinctrl.h>
- 
-diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
-index b438d24c13b5..b74147800319 100644
---- a/drivers/pinctrl/renesas/pinctrl.c
-+++ b/drivers/pinctrl/renesas/pinctrl.c
-@@ -12,14 +12,16 @@
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/property.h>
 +#include <linux/seq_file.h>
 +#include <linux/slab.h>
-+#include <linux/spinlock.h>
-+
- #include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/machine.h>
--#include <linux/pinctrl/pinconf.h>
- #include <linux/pinctrl/pinconf-generic.h>
-+#include <linux/pinctrl/pinconf.h>
- #include <linux/pinctrl/pinctrl.h>
- #include <linux/pinctrl/pinmux.h>
--#include <linux/slab.h>
--#include <linux/spinlock.h>
+ #include <linux/spinlock.h>
  
- #include "core.h"
  #include "../core.h"
 -- 
 2.35.1
