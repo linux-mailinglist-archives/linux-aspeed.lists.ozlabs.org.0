@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80325FB108
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:09:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43ED05FB10F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:09:52 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtN53z54z2xJS
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:09:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtNG1DZ5z2xJS
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:09:50 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TFTF6e+5;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hUeqlFMt;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.115; helo=mga14.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.helo=mga12.intel.com (client-ip=192.55.52.136; helo=mga12.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TFTF6e+5;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hUeqlFMt;
 	dkim-atps=neutral
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmVX41Bjxz3dqM;
-	Tue, 11 Oct 2022 07:15:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmVXC6wYyz3cB6;
+	Tue, 11 Oct 2022 07:15:22 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665432916; x=1696968916;
+  t=1665432924; x=1696968924;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+IG7voHhSJy2wALLTCzE+UfbKUfIMwykh9YQ3tA6sww=;
-  b=TFTF6e+5H4QDTKHQG+SXpU2jzYmN6ky7y8LGzEQA9aR2u7P8+UV7OAtV
-   YBdA8jNnhwXUdGzFJ0NkzJ+iCvv0Ym8hwz2CXZGGMhomV3Z644VBjWL/S
-   rpOMHo38jTbrf7LX+BqaKfh30oxIC7dM2Ypm5WoO3dTb4F042/h3c4PTu
-   /IXXwO+LvnSTeYmIknol37iN8+H5QpU5A/+7e6td3IkDDfoDkn3SFHoiA
-   iIwo1RQrPs89fa8mEkz0QSJyqoGwaekeiH24tR/gBupR4xqYU1CYW7dvH
-   zOtWqOX5Oi8WiATTOY2katIrqNow0wlRxy4oUkMYC6+AqwIDLGIGTi6Mq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="304314148"
+  bh=uF7xBeu93M354EETrHSJuoNGE435FvYms9ki+0pIZb8=;
+  b=hUeqlFMtRY9qhzZfGAme7j0ADvWyshcVT/5kT9V7GMiRSAFUDjIgduNE
+   E4Hb4V5e/KrHzZa9xXyPd0dFaHNxAiy5I/LkDz8aGsqZmhjDivqW+gWeb
+   9351AuMEMzsJXjNNQSBHlXIFCdyJtfa5lmnApcrgZ7F7pChI2VHJmEiLr
+   I4eCj1VzASEHdqFewN9M5YGB42iOrqSz6aQcSnWgQ2/wzgAc3POm+hR4O
+   siqc47FIUOwCnV7Z3UMvzI7BAgC6Y6QrksIrx2bgKsWvmFRjOrctqsCGW
+   +nrgdf8TNwKx0JNOti/E1FU961AnXYCPPfuF92yAsKrOTTpdZ+HlsqSwC
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="284054611"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="304314148"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:14 -0700
+   d="scan'208";a="284054611"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="603862817"
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="715240730"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="603862817"
+   d="scan'208";a="715240730"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2022 13:15:03 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Oct 2022 13:15:10 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id EEB513ED; Mon, 10 Oct 2022 23:15:11 +0300 (EEST)
+	id 30918443; Mon, 10 Oct 2022 23:15:12 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Marc Zyngier <maz@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -91,9 +91,9 @@ To: Marc Zyngier <maz@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 06/36] pinctrl: at91: Add missed header(s)
-Date: Mon, 10 Oct 2022 23:14:22 +0300
-Message-Id: <20221010201453.77401-7-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 07/36] pinctrl: axp209: Add missed header(s)
+Date: Mon, 10 Oct 2022 23:14:23 +0300
+Message-Id: <20221010201453.77401-8-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
 References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
@@ -124,76 +124,32 @@ While at it, sort headers alphabetically.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/pinctrl/pinctrl-at91-pio4.c | 10 +++++++---
- drivers/pinctrl/pinctrl-at91.c      | 16 +++++++++-------
- 2 files changed, 16 insertions(+), 10 deletions(-)
+ drivers/pinctrl/pinctrl-axp209.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/pinctrl/pinctrl-at91-pio4.c b/drivers/pinctrl/pinctrl-at91-pio4.c
-index 82b921fd630d..e38c683aba09 100644
---- a/drivers/pinctrl/pinctrl-at91-pio4.c
-+++ b/drivers/pinctrl/pinctrl-at91-pio4.c
-@@ -7,18 +7,22 @@
-  */
- 
- #include <dt-bindings/pinctrl/at91.h>
-+
- #include <linux/clk.h>
- #include <linux/gpio/driver.h>
-+#include <linux/init.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
--#include <linux/init.h>
+diff --git a/drivers/pinctrl/pinctrl-axp209.c b/drivers/pinctrl/pinctrl-axp209.c
+index 7ab20ac15391..0bc1b381a2b8 100644
+--- a/drivers/pinctrl/pinctrl-axp209.c
++++ b/drivers/pinctrl/pinctrl-axp209.c
+@@ -16,13 +16,15 @@
+ #include <linux/module.h>
  #include <linux/of.h>
+ #include <linux/of_device.h>
+-#include <linux/pinctrl/pinconf-generic.h>
+-#include <linux/pinctrl/pinctrl.h>
+-#include <linux/pinctrl/pinmux.h>
  #include <linux/platform_device.h>
--#include <linux/pinctrl/pinconf.h>
-+#include <linux/seq_file.h>
-+#include <linux/slab.h>
-+
- #include <linux/pinctrl/pinconf-generic.h>
-+#include <linux/pinctrl/pinconf.h>
- #include <linux/pinctrl/pinctrl.h>
- #include <linux/pinctrl/pinmux.h>
--#include <linux/slab.h>
-+
- #include "core.h"
- #include "pinconf.h"
- #include "pinctrl-utils.h"
-diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
-index 81dbffab621f..1e1813d7c550 100644
---- a/drivers/pinctrl/pinctrl-at91.c
-+++ b/drivers/pinctrl/pinctrl-at91.c
-@@ -7,22 +7,24 @@
- 
- #include <linux/clk.h>
- #include <linux/err.h>
-+#include <linux/gpio/driver.h>
- #include <linux/init.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_address.h>
-+#include <linux/of_device.h>
- #include <linux/of_irq.h>
-+#include <linux/pm.h>
-+#include <linux/seq_file.h>
+ #include <linux/regmap.h>
  #include <linux/slab.h>
--#include <linux/interrupt.h>
--#include <linux/io.h>
--#include <linux/gpio/driver.h>
-+
-+/* Since we request GPIOs from ourself */
-+#include <linux/pinctrl/consumer.h>
- #include <linux/pinctrl/machine.h>
- #include <linux/pinctrl/pinconf.h>
- #include <linux/pinctrl/pinctrl.h>
- #include <linux/pinctrl/pinmux.h>
--/* Since we request GPIOs from ourself */
--#include <linux/pinctrl/consumer.h>
--#include <linux/pm.h>
  
- #include "pinctrl-at91.h"
- #include "core.h"
++#include <linux/pinctrl/consumer.h>
++#include <linux/pinctrl/pinconf-generic.h>
++#include <linux/pinctrl/pinctrl.h>
++#include <linux/pinctrl/pinmux.h>
++
+ #define AXP20X_GPIO_FUNCTIONS		0x7
+ #define AXP20X_GPIO_FUNCTION_OUT_LOW	0
+ #define AXP20X_GPIO_FUNCTION_OUT_HIGH	1
 -- 
 2.35.1
 
