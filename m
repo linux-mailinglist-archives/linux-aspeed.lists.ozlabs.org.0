@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C261C5FB124
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:11:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C8A5FB127
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:11:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtPf4vc6z3c4W
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:11:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtPq1x6Jz2xb4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:11:11 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PYL/dZ9C;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NlAc0tGx;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.151; helo=mga17.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.43; helo=mga05.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PYL/dZ9C;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NlAc0tGx;
 	dkim-atps=neutral
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmVXV6WgPz3dsK;
-	Tue, 11 Oct 2022 07:15:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmVXZ0hkcz3dqL;
+	Tue, 11 Oct 2022 07:15:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665432939; x=1696968939;
+  t=1665432942; x=1696968942;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=tzfMJ0+ACRnxRmcXeKB37BEH/TZzYy5SHS5JK+oMIQY=;
-  b=PYL/dZ9CnS13dHIQufhFlYCKgJtUpJRAYR7vs/9+Ff3EokTKGlTb3f/2
-   I3hi3DCA8llVged93AsBOJ+we60EX1VN6c3+REVdwCAOb1edsSnfnW3Pb
-   gK7wu3fpKL0PZdsgj15IY9lkaYZB/PRosxLWSIrCI/6S2qNwRWOF3MqbA
-   Yw7E2YmJEUpX7rrePaoXeYEf6WeSMxrDW2DLNPuH+VstSqRv3UiH88ZXe
-   hB9UeJA/FlMnoaRajjtoNBEFRwqOAluzjuJn4uenAfFkL64hu5pd0CIKi
-   ZEtrT4PGhWpMaA+BFI6hTmoAOotGqyMkXYQEmap1+2aRT2e5eSpM8wrzC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="284706678"
+  bh=V5LElSNyhQKrAlq5Wy8yAbor1UnFq6eJo+JhPVoOZ9c=;
+  b=NlAc0tGxUfQYMY+CtuI+5+Q+zHnzPZbGZJAEyfv++uyFkRWMDwjnikjC
+   kE8moFNKVH7QYfI92Ou/weFCFI3riIDOFcsJ1535z4OJR2YhO0ctKVEZW
+   ky+PUF5ZkGKxwRKyYqGYYRusFI+BDY55zWgQgqQrMwu/JhpwJldOAZII0
+   qMnE+3YvcmHGuvx7dQ9OhapHWUgtB3+pnkQUdjdgTjHL/fRkqGCKW1UrC
+   VowkjZZIdHwR8ieqQQWcXF9yQcpSrL8yTWjct6ldJVWP8NSP7C+JZJRgd
+   UCMS3lwWrlgqGXicXj4uqUVG6m91ichgW9VxCFFrKravtAzNUWoWrky5E
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="390634118"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="284706678"
+   d="scan'208";a="390634118"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:37 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:15:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="603862956"
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="603862964"
 X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="603862956"
+   d="scan'208";a="603862964"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2022 13:15:26 -0700
+  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2022 13:15:27 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id B177D89F; Mon, 10 Oct 2022 23:15:13 +0300 (EEST)
+	id C1AB58A8; Mon, 10 Oct 2022 23:15:13 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Marc Zyngier <maz@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -91,9 +91,9 @@ To: Marc Zyngier <maz@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2 24/36] pinctrl: st: Add missed header(s)
-Date: Mon, 10 Oct 2022 23:14:40 +0300
-Message-Id: <20221010201453.77401-25-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 25/36] pinctrl: starfive: Add missed header(s)
+Date: Mon, 10 Oct 2022 23:14:41 +0300
+Message-Id: <20221010201453.77401-26-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
 References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
@@ -124,48 +124,24 @@ While at it, sort headers alphabetically.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/pinctrl/pinctrl-st.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/pinctrl/pinctrl-st.c b/drivers/pinctrl/pinctrl-st.c
-index cf7f9cbe6044..985dfceb127d 100644
---- a/drivers/pinctrl/pinctrl-st.c
-+++ b/drivers/pinctrl/pinctrl-st.c
-@@ -5,21 +5,26 @@
-  *	Srinivas Kandagatla <srinivas.kandagatla@st.com>
-  */
- 
--#include <linux/init.h>
--#include <linux/module.h>
--#include <linux/slab.h>
- #include <linux/err.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/init.h>
- #include <linux/io.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
+diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+index 5b544fb7f3d8..6a8a9cfe8965 100644
+--- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
++++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+@@ -15,8 +15,10 @@
  #include <linux/of.h>
--#include <linux/of_irq.h>
- #include <linux/of_address.h>
--#include <linux/gpio/driver.h>
-+#include <linux/of_irq.h>
-+#include <linux/platform_device.h>
- #include <linux/regmap.h>
--#include <linux/mfd/syscon.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
 +#include <linux/seq_file.h>
-+#include <linux/slab.h>
-+#include <linux/string_helpers.h>
-+
+ #include <linux/spinlock.h>
+ 
 +#include <linux/pinctrl/consumer.h>
-+#include <linux/pinctrl/pinconf.h>
  #include <linux/pinctrl/pinctrl.h>
  #include <linux/pinctrl/pinmux.h>
--#include <linux/pinctrl/pinconf.h>
--#include <linux/platform_device.h>
-+
- #include "core.h"
  
- /* PIO Block registers */
 -- 
 2.35.1
 
