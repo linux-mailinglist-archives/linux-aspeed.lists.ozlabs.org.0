@@ -2,51 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82915FBEBD
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 02:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67855FBEBE
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 02:47:51 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MnDX112gdz2ygC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 11:47:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MnDX54dkMz2xWx
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 11:47:49 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=JOT+Anjv;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=knWzrFxa;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=collabora.com (client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab; helo=madras.collabora.co.uk; envelope-from=angelogioacchino.delregno@collabora.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::82c; helo=mail-qt1-x82c.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=JOT+Anjv;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=knWzrFxa;
 	dkim-atps=neutral
-X-Greylist: delayed 306 seconds by postgrey-1.36 at boromir; Wed, 12 Oct 2022 01:55:09 AEDT
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MmzNF1rcfz2xHb;
-	Wed, 12 Oct 2022 01:55:09 +1100 (AEDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 3DECE660235B;
-	Tue, 11 Oct 2022 15:49:51 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1665499795;
-	bh=WjWfvO7t5fdyGrI6m+hgGbT3QH4QBKj79I/hqKmON7Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JOT+AnjvhQZ3vD+INlRyJUZGm23CWRspXdxuJNoFNT/2BU3BDi5IDkH2Yrh9cl34H
-	 N8tYn0ib9h2NSJZ2wAIfZfryQVLEoNCgFUyUgtoeB3uep2/6DEsQ7yGEO0febOyHvI
-	 hMQps4hKjRpiDfHJVubm1kSgDODcE0fxz35XL3pmTQUoBsYWlj52rSQaBN3or/Qysa
-	 Nnl5TlEZJvEM/mGOVrA3G338yKAO4fX3D/W0mLbDZJMGmbluyKM/eYT4wVNA1RFmtD
-	 w5vR7Uu6LnwTML9dH9/oGV1Cci4KZACKsyC/Ihfwo8y3IRLkhbhb0iRzW5ZY4Zwh1d
-	 X736PHBsaUIKg==
-Message-ID: <74cdcd93-a528-ec8c-0808-0d698b86e47d@collabora.com>
-Date: Tue, 11 Oct 2022 16:49:48 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mn10Y1QWNz2xgb
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Oct 2022 03:08:10 +1100 (AEDT)
+Received: by mail-qt1-x82c.google.com with SMTP id z8so4011167qtv.5
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 11 Oct 2022 09:08:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GWYVEJdoqXnCQWtfT0bzkIP+70WLbsk9ZN19JnMQZx0=;
+        b=knWzrFxaglSBiHlwLMrZK+zOgKEtnU3K72eEGnOpfBMOKDwTCB1o5DFjMAX/q0UhNY
+         QtDdN11oGw+99XS3Ki30jbEV3wnK3M/RZFgBzC756EJj6Qzp7bRwpx0xVlVivFLLMSoT
+         OeFfvcAMzeUvMG2gk+zcXMcyojW/wbwfJ302GKQQDum8iO4SLMQHN5VVV6Lek8K2nrim
+         ey4zQ7XwZHcjBefqfLYDvCN8aZemyW2QsFCvMONV+AY8yi+43sfWfso0dPvhCbF12v5/
+         Zm2LP1ZxvniRrJK8KUjh3/YEL2QeZJReWqzdLohiEOSis5AiXvm/BDGrcU0o48e583KX
+         k3Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GWYVEJdoqXnCQWtfT0bzkIP+70WLbsk9ZN19JnMQZx0=;
+        b=LZM8BJRPOatt2vqMagP52Za+TgjzAQfc3v++q/5vtirA2K18BbXy5fvaKPEilLhiKz
+         /p/xkxfRNbQUcNycSrgEdKag42eB2L0jZ3jZBIHwe2Ql2jmeSsO09p82AIZyZWjjajg2
+         IPWMbpN+YuWqOhQ7D68pL5sXrpPU4tQDZjN/C/CIXKnJPlYNKyffB6Clq8+c6BbOhJ3I
+         Y9NUwpMWRrkjYxjjgaULRezSAZBq4yIEbLydjrEoEQM9Vc+XhwZcS/AAXh2tN23cB4Lv
+         naKyFlbJYubdBJ9cB2yKWQS9FwkE21VqiThmtLFUp2+hViQT/er0meYD9Ni7MOyjV+N4
+         kJPw==
+X-Gm-Message-State: ACrzQf1UZFItOGlK6iEqAvW9ILPTAh/r16pZw/5tE059nNceBy0pG+3h
+	fE91itKxDUmJtoNui1ONF8vMRQ==
+X-Google-Smtp-Source: AMsMyM4tb/82A1JDAzYalVciziTjce/S19vvHsKcNbs5jARqscG7vKxacamXR2e1H5XtfAKSXhInbA==
+X-Received: by 2002:ac8:7d49:0:b0:399:d201:840b with SMTP id h9-20020ac87d49000000b00399d201840bmr9746570qtb.309.1665504487275;
+        Tue, 11 Oct 2022 09:08:07 -0700 (PDT)
+Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
+        by smtp.gmail.com with ESMTPSA id w8-20020ac84d08000000b00399813f4d5bsm5725686qtv.72.2022.10.11.09.08.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Oct 2022 09:08:06 -0700 (PDT)
+Message-ID: <a9e5197d-78aa-4395-23bc-d7c3141f109a@linaro.org>
+Date: Tue, 11 Oct 2022 12:05:51 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2 14/36] pinctrl: mediatek: Add missed header(s)
-Content-Language: en-US
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v2 20/36] pinctrl: samsung: Add missed header(s)
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
  Kent Gibson <warthog618@gmail.com>,
@@ -54,6 +70,7 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Billy Tsai <billy_tsai@aspeedtech.com>, Thomas Gleixner
  <tglx@linutronix.de>, Linus Walleij <linus.walleij@linaro.org>,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Chen-Yu Tsai <wenst@chromium.org>,
  Claudiu Beznea <claudiu.beznea@microchip.com>,
  Samuel Holland <samuel@sholland.org>,
@@ -64,7 +81,6 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Phil Edworthy <phil.edworthy@renesas.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Fabien Dessenne <fabien.dessenne@foss.st.com>,
  Prathamesh Shete <pshete@nvidia.com>,
  Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-gpio@vger.kernel.org,
@@ -78,10 +94,11 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  linux-stm32@st-md-mailman.stormreply.com, linux-arm-msm@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org
 References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-15-andriy.shevchenko@linux.intel.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221010201453.77401-15-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20221010201453.77401-21-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221010201453.77401-21-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Wed, 12 Oct 2022 11:47:35 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -101,7 +118,7 @@ Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.c
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Il 10/10/22 22:14, Andy Shevchenko ha scritto:
+On 10/10/2022 16:14, Andy Shevchenko wrote:
 > Do not imply that some of the generic headers may be always included.
 > Instead, include explicitly what we are direct user of.
 > 
@@ -109,22 +126,11 @@ Il 10/10/22 22:14, Andy Shevchenko ha scritto:
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->   drivers/pinctrl/mediatek/pinctrl-moore.c | 3 +++
->   drivers/pinctrl/mediatek/pinctrl-paris.c | 5 +++++
->   2 files changed, 8 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/mediatek/pinctrl-moore.c b/drivers/pinctrl/mediatek/pinctrl-moore.c
-> index 526faaebaf77..9474ada5addb 100644
-> --- a/drivers/pinctrl/mediatek/pinctrl-moore.c
-> +++ b/drivers/pinctrl/mediatek/pinctrl-moore.c
-> @@ -9,6 +9,9 @@
->    */
->   
->   #include <linux/gpio/driver.h>
-> +
+>  drivers/pinctrl/samsung/pinctrl-samsung.c | 11 ++++++-----
 
-Apart from this blank line that I deem unnecessary....
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+Best regards,
+Krzysztof
 
