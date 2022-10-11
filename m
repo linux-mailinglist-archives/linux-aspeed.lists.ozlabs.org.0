@@ -2,117 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5261B5FB136
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2096D5FB137
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 13:12:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtR10zPJz2xjr
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:12:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MmtR56dQPz2xZf
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Oct 2022 22:12:17 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector1 header.b=BZf/TzD7;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bgdev-pl.20210112.gappssmtp.com header.i=@bgdev-pl.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=4RiRWBUe;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=foss.st.com (client-ip=185.132.182.106; helo=mx07-00178001.pphosted.com; envelope-from=prvs=6283cb1e70=patrice.chotard@foss.st.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2607:f8b0:4864:20::e34; helo=mail-vs1-xe34.google.com; envelope-from=brgl@bgdev.pl; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector1 header.b=BZf/TzD7;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20210112.gappssmtp.com header.i=@bgdev-pl.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=4RiRWBUe;
 	dkim-atps=neutral
-X-Greylist: delayed 2814 seconds by postgrey-1.36 at boromir; Tue, 11 Oct 2022 18:04:57 AEDT
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mmmxj3MYlz2xH9;
-	Tue, 11 Oct 2022 18:04:56 +1100 (AEDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B39Tju018454;
-	Tue, 11 Oct 2022 08:17:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=V624t9QB3OSFw1zXs27adq0X5KpBePyR7bffgkCPRgU=;
- b=BZf/TzD7V4AtrlAgEDz6HL8SxTEK/5w1vBLbT8B1I9w28vpK6WHq3xeJborxfXPaBq9y
- fqyuzA9fywbTg4i7IJQ2v1kPG79G2n0opDaTASGt3tMCVYL9cBmkf6fE+2WicTrCml6P
- Y7YAwErbxa1YhpRNtesvKfazBcEzYEAhjO868pw7nnAoWyhR3Bhe/fywdiuFVVNBhB+h
- 0yFzgSwd6U20ptBS6LlbC1XKmqgtzxBU6WV1i1mzgkyosXXIHGd/em5fGJ70isDXIXXW
- sdw8LFZBrcGq7uRHshPzjvFkEOGGjViuZ9vFQlYhueo8wMQ2kkgYPsSECxsK0Qs4EJgE PA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3k31exfmc6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Oct 2022 08:17:28 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A841110002A;
-	Tue, 11 Oct 2022 08:17:17 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 848F42128B9;
-	Tue, 11 Oct 2022 08:17:17 +0200 (CEST)
-Received: from [10.201.21.72] (10.75.127.46) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.31; Tue, 11 Oct
- 2022 08:17:13 +0200
-Message-ID: <8425ef44-f756-6e54-401a-e2665d4967f4@foss.st.com>
-Date: Tue, 11 Oct 2022 08:16:19 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mmn420Kqwz3bZY
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 11 Oct 2022 18:10:24 +1100 (AEDT)
+Received: by mail-vs1-xe34.google.com with SMTP id 126so13362203vsi.10
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 11 Oct 2022 00:10:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hR10MCfKc0ztXjq47GD8zFditl1Aj/34QtnbEQxfSWk=;
+        b=4RiRWBUeekVItBZL5lSfz4vYKqusTUXhLGqZVHfzXFKDBy9uQ/d4Xx9PRZ9SQ46mVH
+         IllsaBYuBLWfolYDUsvd8WUq0ne7lOofs8y9bcpDOHmNbECpLVAI3P8bGaDErRktQ16D
+         37NP3ZIcDYdhQdi3Y6HBZGzIgLdfOAdDZPvxHx53/i/6SxiilxCbUlD+RyVd0hE1wZs9
+         t6j4ZpsGZbtXQuwQE5M9KIRwO2J6uH5IJGhVFlm888/JWYDwEMFIwLSTvJQOSzGWsRVj
+         6S3KidvGKROoMwkxEyqX5t/0vIC6AaOKHceFQYhp32SR5vJAG0xspYqsWBTjnQ5MgJKB
+         nkfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hR10MCfKc0ztXjq47GD8zFditl1Aj/34QtnbEQxfSWk=;
+        b=Yc+TVipo/atPBAaviaRlHQypFV4rBtoI69dJB6lhQ6IuWat7sq5tizEPfpxkGgpaCg
+         V20QRXRpr+6sTsS5syh9VBe6SGl1z3bIlEAUTL/8IZLkZCGzbkN+Z7LN02SREGVi3TIe
+         ixD9ioKkkRH2wA1LPMjjyfEQ5D24BRvZJBkMyVDyLS1yU+0tEtAmIAWJhSdCvciPlndR
+         KJzsre6l4sT9aihwi0yUgqZLZkWMfXjuwlP+OHbo9hjl9N+bmlKb6bDAaNWwGQQHSEHh
+         As4FL+MSMieY4GUByjUPHU38fB1Eu0VtIQsFPAhRG1PbZ2pV/tt8K1Q4PlHAEUK0h8Ia
+         7BCA==
+X-Gm-Message-State: ACrzQf0q4xfdjU4Am/24FprVIltTdIAlFBrUVoRX8/C+usUJE7My1uOW
+	tO1MZOEzzKJZknNgFSauBI1jsd5uBIojeE3YpDKl3w==
+X-Google-Smtp-Source: AMsMyM7PsJIx7KvJSKcR5Sm5jYifTUaAFKZwO5sWELV0U7Xneak+ug0yvZCAf5s54XIznfiPvGDEs36hK4GxmtQ5LSQ=
+X-Received: by 2002:a05:6102:5788:b0:3a6:764d:1382 with SMTP id
+ dh8-20020a056102578800b003a6764d1382mr11441112vsb.13.1665472218413; Tue, 11
+ Oct 2022 00:10:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 24/36] pinctrl: st: Add missed header(s)
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marc Zyngier
-	<maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson
-	<warthog618@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Billy
- Tsai <billy_tsai@aspeedtech.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linus
- Walleij <linus.walleij@linaro.org>,
-        Mika Westerberg
-	<mika.westerberg@linux.intel.com>,
-        AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Samuel Holland
-	<samuel@sholland.org>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Bjorn Andersson
-	<bjorn.andersson@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy
-	<phil.edworthy@renesas.com>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski@linaro.org>,
-        Fabien Dessenne
-	<fabien.dessenne@foss.st.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        <linux-gpio@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linux-actions@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-        <linux-rpi-kernel@lists.infradead.org>, <alsa-devel@alsa-project.org>,
-        <patches@opensource.cirrus.com>, <linux-mediatek@lists.infradead.org>,
-        <linux-mips@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-omap@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-samsung-soc@vger.kernel.org>
 References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-25-andriy.shevchenko@linux.intel.com>
-Content-Language: en-US
-From: Patrice CHOTARD <patrice.chotard@foss.st.com>
-In-Reply-To: <20221010201453.77401-25-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 11 Oct 2022 09:10:07 +0200
+Message-ID: <CAMRc=Mc5t=R2pJYfHUntJj_UA3sL=sKGOQDL-Kf5=dfNJEKyvg@mail.gmail.com>
+Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-11_03,2022-10-10_02,2022-06-22_01
 X-Mailman-Approved-At: Tue, 11 Oct 2022 22:08:23 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -125,66 +74,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Jacky Bai <ping.bai@nxp.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Tony Lindgren <tony@atomide.com>, Konrad Dybcio <konrad.dybcio@somainline.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Tali Perry <tali.perry1@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Haojian Zhuang <haojian.zhuang@linaro.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Fabio Estevam <festevam@gmail.com>, Michal Simek <michal.simek@xilinx.com>, Tomer Maimon <tmaimon77@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, soc@kernel.org, Viresh Kumar <vireshk@kernel.org>, Gregory Clement <gregory.clement@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, Jonathan Hunter <jonathanh@nvidia.com>, Nancy Yuen <yuenn@google.com>, Ludovic Desroches <ludovic.desroches@microchip.com>, Andy Gross <agross@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-li
- st@broadcom.com>, Orson Zhai <orsonzhai@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, NXP Linux Team <linux-imx@nxp.com>, Andy Shevchenko <andy@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Tomasz Figa <tomasz.figa@gmail.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, Dong Aisheng <aisheng.dong@nxp.com>, Damien Le Moal <damien.lemoal@wdc.com>, Scott Branden <sbranden@broadcom.com>, Patrick Venture <venture@google.com>, Sean Wang <sean.wang@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Avi Fishman <avifishman70@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>, Emil Renner Berthing <kernel@esmil.dk>, Sebastian Hesselbar
- th <sebastian.hesselbarth@gmail.com>, Shawn Guo <shawnguo@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+Cc: Andrew Lunn <andrew@lunn.ch>, Kent Gibson <warthog618@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Horatiu Vultur <horatiu.vultur@microchip.com>, Emil Renner Berthing <kernel@esmil.dk>, Phil Edworthy <phil.edworthy@renesas.com>, linux-samsung-soc@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Michal Simek <michal.simek@xilinx.com>, Ludovic Desroches <ludovic.desroches@microchip.com>, NXP Linux Team <linux-imx@nxp.com>, Tali Perry <tali.perry1@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>, Thomas Gleixner <tglx@linutronix.de>, linux-omap@vger.kernel.org, Andy Shevchenko <andy@kernel.org>, Scott Branden <sbranden@broadcom.com>, linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>, Pengutroni
+ x Kernel Team <kernel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@microchip.com>, alsa-devel@alsa-project.org, Alim Akhtar <alim.akhtar@samsung.com>, linux-aspeed@lists.ozlabs.org, Thierry Reding <thierry.reding@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Gregory Clement <gregory.clement@bootlin.com>, Jonathan Hunter <jonathanh@nvidia.com>, Fabien Dessenne <fabien.dessenne@foss.st.com>, linux-media@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>, linux-arm-msm@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>, linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, soc@kernel.org, linux-rpi-kernel@lists.infradead.org, Mika Westerberg <mika.westerberg@linux.intel.com>, linux-arm-kernel@lists.infradead.org, Dong Aisheng <aisheng.dong@nxp.com>, Damien Le Moal <damien.lemoal@wdc.com>, linux-renesas-soc@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Jacky Bai <ping.bai@nxp.com>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Alexand
+ re Belloni <alexandre.belloni@bootlin.com>, Fabio Estevam <festevam@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, Nancy Yuen <yuenn@google.com>, Chen-Yu Tsai <wens@csie.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai <wenst@chromium.org>, Orson Zhai <orsonzhai@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, Ray Jui <rjui@broadcom.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Avi Fishman <avifishman70@gmail.com>, Patrick Venture <venture@google.com>, Shawn Guo <shawnguo@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, Tony Lindgren <tony@atomide.com>, Konrad Dybcio <konrad.dybcio@somainline.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Paul Cercueil <paul@crapouillou.net>, Haojian Zhuang <haojian.zhuang@linaro.org>, linux-riscv@lists.infradead.org, Marc 
+ Zyngier <maz@kernel.org>, openbmc@lists.ozlabs.org, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Prathamesh Shete <pshete@nvidia.com>, Andy Gross <agross@kernel.org>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, Sean Wang <sean.wang@kernel.org>, linux-mips@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Mon, Oct 10, 2022 at 10:15 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> Currently the header inclusion inside the pinctrl headers seems more arbitrary
+> than logical. This series is basically out of two parts:
+> - add missed headers to the pin control drivers / users
+> - clean up the headers of pin control subsystem
+>
+> The idea is to have this series to be pulled after -rc1 by the GPIO and
+> pin control subsystems, so all new drivers will utilize cleaned up headers
+> of the pin control.
+>
+> Please, review and comment.
+>
+> Changelog v2:
+> - added preparatory patches: all, but last (LKP)
+> - added missed forward declaration to the last patch (LKP)
+>
 
+Thanks for doing this. Did you use any kind of automation for
+detecting for which symbols the headers are missing?
 
-On 10/10/22 22:14, Andy Shevchenko wrote:
-> Do not imply that some of the generic headers may be always included.
-> Instead, include explicitly what we are direct user of.
-> 
-> While at it, sort headers alphabetically.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/pinctrl/pinctrl-st.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/pinctrl-st.c b/drivers/pinctrl/pinctrl-st.c
-> index cf7f9cbe6044..985dfceb127d 100644
-> --- a/drivers/pinctrl/pinctrl-st.c
-> +++ b/drivers/pinctrl/pinctrl-st.c
-> @@ -5,21 +5,26 @@
->   *	Srinivas Kandagatla <srinivas.kandagatla@st.com>
->   */
->  
-> -#include <linux/init.h>
-> -#include <linux/module.h>
-> -#include <linux/slab.h>
->  #include <linux/err.h>
-> +#include <linux/gpio/driver.h>
-> +#include <linux/init.h>
->  #include <linux/io.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/of_irq.h>
->  #include <linux/of_address.h>
-> -#include <linux/gpio/driver.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/platform_device.h>
->  #include <linux/regmap.h>
-> -#include <linux/mfd/syscon.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/slab.h>
-> +#include <linux/string_helpers.h>
-> +
-> +#include <linux/pinctrl/consumer.h>
-> +#include <linux/pinctrl/pinconf.h>
->  #include <linux/pinctrl/pinctrl.h>
->  #include <linux/pinctrl/pinmux.h>
-> -#include <linux/pinctrl/pinconf.h>
-> -#include <linux/platform_device.h>
-> +
->  #include "core.h"
->  
->  /* PIO Block registers */
-
-Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
-
-Thanks
-Patrice
+Bart
