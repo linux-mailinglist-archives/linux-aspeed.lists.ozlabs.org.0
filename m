@@ -2,104 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67855FBEBE
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 02:47:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0895FBEBF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 02:47:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MnDX54dkMz2xWx
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 11:47:49 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=knWzrFxa;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MnDX84wSWz3bht
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 11:47:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::82c; helo=mail-qt1-x82c.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=knWzrFxa;
-	dkim-atps=neutral
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.167.49; helo=mail-lf1-f49.google.com; envelope-from=wens213@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mn10Y1QWNz2xgb
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Oct 2022 03:08:10 +1100 (AEDT)
-Received: by mail-qt1-x82c.google.com with SMTP id z8so4011167qtv.5
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 11 Oct 2022 09:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GWYVEJdoqXnCQWtfT0bzkIP+70WLbsk9ZN19JnMQZx0=;
-        b=knWzrFxaglSBiHlwLMrZK+zOgKEtnU3K72eEGnOpfBMOKDwTCB1o5DFjMAX/q0UhNY
-         QtDdN11oGw+99XS3Ki30jbEV3wnK3M/RZFgBzC756EJj6Qzp7bRwpx0xVlVivFLLMSoT
-         OeFfvcAMzeUvMG2gk+zcXMcyojW/wbwfJ302GKQQDum8iO4SLMQHN5VVV6Lek8K2nrim
-         ey4zQ7XwZHcjBefqfLYDvCN8aZemyW2QsFCvMONV+AY8yi+43sfWfso0dPvhCbF12v5/
-         Zm2LP1ZxvniRrJK8KUjh3/YEL2QeZJReWqzdLohiEOSis5AiXvm/BDGrcU0o48e583KX
-         k3Ow==
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mn18Q1C9wz2xf4;
+	Wed, 12 Oct 2022 03:15:00 +1100 (AEDT)
+Received: by mail-lf1-f49.google.com with SMTP id bu25so21893212lfb.3;
+        Tue, 11 Oct 2022 09:15:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GWYVEJdoqXnCQWtfT0bzkIP+70WLbsk9ZN19JnMQZx0=;
-        b=LZM8BJRPOatt2vqMagP52Za+TgjzAQfc3v++q/5vtirA2K18BbXy5fvaKPEilLhiKz
-         /p/xkxfRNbQUcNycSrgEdKag42eB2L0jZ3jZBIHwe2Ql2jmeSsO09p82AIZyZWjjajg2
-         IPWMbpN+YuWqOhQ7D68pL5sXrpPU4tQDZjN/C/CIXKnJPlYNKyffB6Clq8+c6BbOhJ3I
-         Y9NUwpMWRrkjYxjjgaULRezSAZBq4yIEbLydjrEoEQM9Vc+XhwZcS/AAXh2tN23cB4Lv
-         naKyFlbJYubdBJ9cB2yKWQS9FwkE21VqiThmtLFUp2+hViQT/er0meYD9Ni7MOyjV+N4
-         kJPw==
-X-Gm-Message-State: ACrzQf1UZFItOGlK6iEqAvW9ILPTAh/r16pZw/5tE059nNceBy0pG+3h
-	fE91itKxDUmJtoNui1ONF8vMRQ==
-X-Google-Smtp-Source: AMsMyM4tb/82A1JDAzYalVciziTjce/S19vvHsKcNbs5jARqscG7vKxacamXR2e1H5XtfAKSXhInbA==
-X-Received: by 2002:ac8:7d49:0:b0:399:d201:840b with SMTP id h9-20020ac87d49000000b00399d201840bmr9746570qtb.309.1665504487275;
-        Tue, 11 Oct 2022 09:08:07 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id w8-20020ac84d08000000b00399813f4d5bsm5725686qtv.72.2022.10.11.09.08.02
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gcCjfDN4mDKfmx6uTh8+bavSggaZhIbJoPNugTf0yYI=;
+        b=sjGRy8vu6jxjeDX1iUFDyZl/jAw+THotM0c6JufYNhqMsMbEPg0US4ZjMdGDQKUpvs
+         Ad1KwwcPwNc8CYe7MZalulsUd8JVT6SIQLmpHOR24GKaNInyec9BI7VLtEInV+GPQTj7
+         lNSdgDunzvGQa9ac2t965+omAq4qOu/V6lEDxGfmHQk6IiC0aUjlpGJGIsUkU1d2BhGi
+         t1f8HQ2/Yut875F1+ozLWdbtZHmspzQKXP46IR3RSEEzti/XPdDozF1mLni23zf6Gnm3
+         WeB3CbTqA0AXsMey7kmUKBxKOlhO0oPYT75xPtWf7H3YUavk/IPYDjCKgiB5XaO97Gru
+         gx1w==
+X-Gm-Message-State: ACrzQf2GFMRCB9iDSOrfNFaHjrIKlmRPKji3SVlZZPezyCvQtdU7V3Qw
+	6M3SW3Yo3/t6NuJH3Yuhw++XU8Wf2iNGXUSBbZ4Alw==
+X-Google-Smtp-Source: AMsMyM4gQbzM94OQwl0v+Hv4N6SX7TD9wHyQDoYBFW7wtNW7g64Zcm+uzCKwT4asiU09bPZzZeA8JQ==
+X-Received: by 2002:a05:6512:3f89:b0:4a1:b468:1a7 with SMTP id x9-20020a0565123f8900b004a1b46801a7mr8313973lfa.341.1665504894440;
+        Tue, 11 Oct 2022 09:14:54 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id o26-20020ac25e3a000000b0049fe6f36880sm1909253lfg.51.2022.10.11.09.14.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 09:08:06 -0700 (PDT)
-Message-ID: <a9e5197d-78aa-4395-23bc-d7c3141f109a@linaro.org>
-Date: Tue, 11 Oct 2022 12:05:51 -0400
+        Tue, 11 Oct 2022 09:14:53 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id d6so21829983lfs.10;
+        Tue, 11 Oct 2022 09:14:52 -0700 (PDT)
+X-Received: by 2002:adf:eb84:0:b0:22a:917e:1c20 with SMTP id
+ t4-20020adfeb84000000b0022a917e1c20mr15144886wrn.223.1665504881328; Tue, 11
+ Oct 2022 09:14:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v2 20/36] pinctrl: samsung: Add missed header(s)
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Kent Gibson <warthog618@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Billy Tsai <billy_tsai@aspeedtech.com>, Thomas Gleixner
- <tglx@linutronix.de>, Linus Walleij <linus.walleij@linaro.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chen-Yu Tsai <wenst@chromium.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Samuel Holland <samuel@sholland.org>,
- Horatiu Vultur <horatiu.vultur@microchip.com>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Phil Edworthy <phil.edworthy@renesas.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Prathamesh Shete <pshete@nvidia.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-gpio@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-actions@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
- alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-21-andriy.shevchenko@linux.intel.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221010201453.77401-21-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com> <20221010201453.77401-8-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20221010201453.77401-8-andriy.shevchenko@linux.intel.com>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Wed, 12 Oct 2022 00:14:28 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65EuTdS3uvr6EgpiiK25PeYrVh+itte2wHz_wM=E1S4OA@mail.gmail.com>
+Message-ID: <CAGb2v65EuTdS3uvr6EgpiiK25PeYrVh+itte2wHz_wM=E1S4OA@mail.gmail.com>
+Subject: Re: [PATCH v2 07/36] pinctrl: axp209: Add missed header(s)
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Wed, 12 Oct 2022 11:47:35 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -112,25 +66,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Jacky Bai <ping.bai@nxp.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Tony Lindgren <tony@atomide.com>, Konrad Dybcio <konrad.dybcio@somainline.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Tali Perry <tali.perry1@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Haojian Zhuang <haojian.zhuang@linaro.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Fabio Estevam <festevam@gmail.com>, Michal Simek <michal.simek@xilinx.com>, Tomer Maimon <tmaimon77@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, soc@kernel.org, Viresh Kumar <vireshk@kernel.org>, Gregory Clement <gregory.clement@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, Jonathan Hunter <jonathanh@nvidia.com>, Nancy Yuen <yuenn@google.com>, Ludovic Desroches <ludovic.desroches@microchip.com>, Andy Gross <agross@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-li
- st@broadcom.com>, Orson Zhai <orsonzhai@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Patrice Chotard <patrice.chotard@foss.st.com>, NXP Linux Team <linux-imx@nxp.com>, Andy Shevchenko <andy@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Tomasz Figa <tomasz.figa@gmail.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, Dong Aisheng <aisheng.dong@nxp.com>, Damien Le Moal <damien.lemoal@wdc.com>, Scott Branden <sbranden@broadcom.com>, Patrick Venture <venture@google.com>, Sean Wang <sean.wang@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Avi Fishman <avifishman70@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>, Emil Renner 
- Berthing <kernel@esmil.dk>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Shawn Guo <shawnguo@kernel.org>, =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+Reply-To: wens@csie.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Kent Gibson <warthog618@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Horatiu Vultur <horatiu.vultur@microchip.com>, Emil Renner Berthing <kernel@esmil.dk>, Phil Edworthy <phil.edworthy@renesas.com>, linux-samsung-soc@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Michal Simek <michal.simek@xilinx.com>, Ludovic Desroches <ludovic.desroches@microchip.com>, NXP Linux Team <linux-imx@nxp.com>, Tali Perry <tali.perry1@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>, Thomas Gleixner <tglx@linutronix.de>, linux-omap@vger.kernel.org, Andy Shevchenko <andy@kernel.org>, Scott Branden <sbranden@broadcom.com>, linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>, Pengutroni
+ x Kernel Team <kernel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Alim Akhtar <alim.akhtar@samsung.com>, linux-aspeed@lists.ozlabs.org, Thierry Reding <thierry.reding@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Gregory Clement <gregory.clement@bootlin.com>, Jonathan Hunter <jonathanh@nvidia.com>, Fabien Dessenne <fabien.dessenne@foss.st.com>, linux-media@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>, linux-arm-msm@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>, linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, soc@kernel.org, linux-rpi-kernel@lists.infradead.org, Mika Westerberg <mika.westerberg@linux.intel.com>, linux-arm-kernel@lists.infradead.org, Dong Aisheng <aisheng.dong@nxp.com>, Damien Le Moal <damien.lemoal@wdc.com>, linux-renesas-soc@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Jacky Bai <ping.bai@nxp.com>, Basavaraj Natikar <Basavaraj.Nat
+ ikar@amd.com>, alsa-devel@alsa-project.org, Fabio Estevam <festevam@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, Nancy Yuen <yuenn@google.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai <wenst@chromium.org>, Orson Zhai <orsonzhai@gmail.com>, Patrice Chotard <patrice.chotard@foss.st.com>, Ray Jui <rjui@broadcom.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Avi Fishman <avifishman70@gmail.com>, Patrick Venture <venture@google.com>, Shawn Guo <shawnguo@kernel.org>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, Tony Lindgren <tony@atomide.com>, Konrad Dybcio <konrad.dybcio@somainline.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Paul Cercueil <paul@crapouillou.net>, Haojian Zhuang <haojian.zhuang@linaro.org>, linux-riscv@lists.infradead.org, Marc Zyngier <maz@kernel.org>, open
+ bmc@lists.ozlabs.org, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Prathamesh Shete <pshete@nvidia.com>, Andy Gross <agross@kernel.org>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, patches@opensource.cirrus.com, Sean Wang <sean.wang@kernel.org>, linux-mips@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/10/2022 16:14, Andy Shevchenko wrote:
+On Tue, Oct 11, 2022 at 4:16 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
 > Do not imply that some of the generic headers may be always included.
 > Instead, include explicitly what we are direct user of.
-> 
+>
 > While at it, sort headers alphabetically.
-> 
+>
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/pinctrl/samsung/pinctrl-samsung.c | 11 ++++++-----
 
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
