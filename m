@@ -2,66 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78CD5FC67F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 15:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DA35FC6D4
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 15:55:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MnYS21tdxz3bls
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Oct 2022 00:30:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MnZ0T4Yq9z3bjj
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Oct 2022 00:55:05 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fE1jC2hH;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=UozGTu6Y;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.93; helo=mga11.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102d; helo=mail-pj1-x102d.google.com; envelope-from=warthog618@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fE1jC2hH;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=UozGTu6Y;
 	dkim-atps=neutral
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MnYRr69Qjz2yR9;
-	Thu, 13 Oct 2022 00:30:15 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665581417; x=1697117417;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tV/ZvJGYw4mf000OleNKwCzv+JZQjAKj+4wcxHqkOco=;
-  b=fE1jC2hHij2QKrXFcOWcCbVa6YcNkTXIIYm30nyWXsltbt7zzY5J2zlW
-   pKCqBZSSZRb+jzrQfWvfJv9/eoGFr9Dml1N65KMNmMUChhpGGAVsnUhKG
-   Pf6OO/Xx6Fdzcr8wpie2yGSyHzvNtCsjZcqeWd/snAGEYV8iVdO70O8Wm
-   aFONE4tkMABXXm9kwRHqLnRV3OZ2QvD3T6xWe7RgXDWNkNxH1eI/vWVQN
-   bVz+fJQHQa+QPeuc/IiAKL+OGpZHVQse9SIaeCpTgRacs2LiKWdhV/rEZ
-   UPMRURUo4hZqjp4EQY11BkGGI0xbZpVSH2vhSinYipWZcTIPBJdVqLeg8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="302404005"
-X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
-   d="scan'208";a="302404005"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 06:30:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10497"; a="626766256"
-X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
-   d="scan'208";a="626766256"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP; 12 Oct 2022 06:30:07 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1oiboD-005qlS-1e;
-	Wed, 12 Oct 2022 16:30:05 +0300
-Date: Wed, 12 Oct 2022 16:30:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Kent Gibson <warthog618@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MnZ0K1SZDz2xJ8;
+	Thu, 13 Oct 2022 00:54:55 +1100 (AEDT)
+Received: by mail-pj1-x102d.google.com with SMTP id d7-20020a17090a2a4700b0020d268b1f02so2059616pjg.1;
+        Wed, 12 Oct 2022 06:54:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4W9PYnqE39FVIWPtx23Tk+GKt7RrA3d27Hf1sKJ7FqQ=;
+        b=UozGTu6YyIYkQQoEJ9mpP/ZP9EXBHkczxk9/ST0nwoYD5CXIifS1ksxnJ1z/XlD8Iv
+         DnXdQDc3QD5BBRt/elc/g3MpiMLgBMvz47ICmyWRQUwskodG72pwSD0FvOfnFwxR4gNT
+         0Nv0c1ZEd9a//beEgotrvzkxpjlIn11dOn3z2tb/KyektIxRp3AMw9k8NLnKlAlJMfAZ
+         ZW00APC6mm2Rgc0I9F6MtW+FIkz4pX/PUfBY7jV2tV/BJmcb7sxvPImZbSg5MEvkpS1A
+         VQqSmx00wjuq8wBY7o0koQO6OL1C+JRHOCj4nWqmVRt4CML82YQgP9dT0rzT4hrO952e
+         5MGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4W9PYnqE39FVIWPtx23Tk+GKt7RrA3d27Hf1sKJ7FqQ=;
+        b=wAEyZjvCSNTPerFWnvKH1bDbyq5VjkLAnZwSRhbQqSHvlP7RrSGodiT2xNB9eg92DC
+         7wvNPmg/gL7ZB+kDxEpt8D95o1D51TOYeLCp6PBDXUG9K0mX7zhF5aN2Ak/6M/oblPYL
+         ZkWoOSUa7u85AdxMmM/jQjYUiWgdwLnRlIcx2WaZbv2dzSavyuVsWdOfBA4H6GCTKLR1
+         E+E27G4uWtMPlNS6geiMOBDXEwSP8li5T7yftjaTmObici5zLoimSyGutJmSNpu2LwRd
+         U8pkh5pKbrdiEnofHfigZhUn4ntbeRcJjHkEgzCwUjtTGWpQVhTGVm1zCXZ4dxkAijjh
+         T1nQ==
+X-Gm-Message-State: ACrzQf2IL7fcjOaZozqIeXAmXCLs3+5Z3xBrh2AYyl+x3bkotzUIEEPe
+	ImfuL94jGAcsYJfsK3YOhek=
+X-Google-Smtp-Source: AMsMyM4GsOvqLbKi8bnipwZei9bul2eCxZ/xzZEAA7xagdE0qfFC/6Wvyu2i9hoIPRYsb/0vz6gCvA==
+X-Received: by 2002:a17:90a:f2c3:b0:20b:b75f:2f9e with SMTP id gt3-20020a17090af2c300b0020bb75f2f9emr5408380pjb.43.1665582890145;
+        Wed, 12 Oct 2022 06:54:50 -0700 (PDT)
+Received: from sol (110-174-58-111.static.tpgi.com.au. [110.174.58.111])
+        by smtp.gmail.com with ESMTPSA id s20-20020aa78bd4000000b00562f6df42f1sm8959924pfd.152.2022.10.12.06.54.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Oct 2022 06:54:49 -0700 (PDT)
+Date: Wed, 12 Oct 2022 21:54:39 +0800
+From: Kent Gibson <warthog618@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Subject: Re: [PATCH v2 02/36] gpiolib: cdev: Add missed header(s)
-Message-ID: <Y0bBXSHyxpdTGxoU@smile.fi.intel.com>
+Message-ID: <Y0bHH06cbngWk4mH@sol>
 References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
  <20221010201453.77401-3-andriy.shevchenko@linux.intel.com>
  <Y0SyVwjDl7NGfTPn@sol>
+ <Y0bBXSHyxpdTGxoU@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y0SyVwjDl7NGfTPn@sol>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <Y0bBXSHyxpdTGxoU@smile.fi.intel.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,37 +84,46 @@ Cc: linux-renesas-soc@vger.kernel.org, alsa-devel@alsa-project.org, linux-samsun
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Oct 11, 2022 at 08:01:27AM +0800, Kent Gibson wrote:
-> On Mon, Oct 10, 2022 at 11:14:18PM +0300, Andy Shevchenko wrote:
-
-...
-
-> > -#include <linux/gpio.h>
-> >  #include <linux/gpio/driver.h>
-> > +#include <linux/gpio.h>
-
-> But moving the gpio subsystem header after the gpio/driver is not
-> alphabetical ('.' precedes '/') and it read better and made more sense
-> to me the way it was.
-
-Okay, I will move it back.
-
-...
-
-> > +#include <linux/seq_file.h>
+On Wed, Oct 12, 2022 at 04:30:05PM +0300, Andy Shevchenko wrote:
+> On Tue, Oct 11, 2022 at 08:01:27AM +0800, Kent Gibson wrote:
+> > On Mon, Oct 10, 2022 at 11:14:18PM +0300, Andy Shevchenko wrote:
 > 
-> I wasn't aware that we use anything from seq_file.
-> What am I missing?
+> ...
+> 
+> > > -#include <linux/gpio.h>
+> > >  #include <linux/gpio/driver.h>
+> > > +#include <linux/gpio.h>
+> 
+> > But moving the gpio subsystem header after the gpio/driver is not
+> > alphabetical ('.' precedes '/') and it read better and made more sense
+> > to me the way it was.
+> 
+> Okay, I will move it back.
+> 
+> ...
+> 
+> > > +#include <linux/seq_file.h>
+> > 
+> > I wasn't aware that we use anything from seq_file.
+> > What am I missing?
+> 
+> 
+> Eventually I can answer to your question: the commit 0ae3109a8391
+> ("gpiolib: cdev: add fdinfo output for line request file descriptors")
+> is what you are missing.
+> 
+> That said, we need this patch.
+> 
 
+Ah, yes - totally forgot that one is in flight.
+That makes sense then.
 
-Eventually I can answer to your question: the commit 0ae3109a8391
-("gpiolib: cdev: add fdinfo output for line request file descriptors")
-is what you are missing.
+With the gpio headers retaining their original order:
 
-That said, we need this patch.
+Rewiewed-by: Kent Gibson <warthog618@gmail.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
