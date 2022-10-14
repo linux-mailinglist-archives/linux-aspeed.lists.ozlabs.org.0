@@ -2,73 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6DA35FC6D4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Oct 2022 15:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0415FEE5A
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Oct 2022 15:08:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MnZ0T4Yq9z3bjj
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Oct 2022 00:55:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Mpmsw3Mkxz3cf2
+	for <lists+linux-aspeed@lfdr.de>; Sat, 15 Oct 2022 00:08:36 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=UozGTu6Y;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lNQ1DdUv;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102d; helo=mail-pj1-x102d.google.com; envelope-from=warthog618@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=quicinc.com (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=quic_ggregory@quicinc.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=UozGTu6Y;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lNQ1DdUv;
 	dkim-atps=neutral
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MnZ0K1SZDz2xJ8;
-	Thu, 13 Oct 2022 00:54:55 +1100 (AEDT)
-Received: by mail-pj1-x102d.google.com with SMTP id d7-20020a17090a2a4700b0020d268b1f02so2059616pjg.1;
-        Wed, 12 Oct 2022 06:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4W9PYnqE39FVIWPtx23Tk+GKt7RrA3d27Hf1sKJ7FqQ=;
-        b=UozGTu6YyIYkQQoEJ9mpP/ZP9EXBHkczxk9/ST0nwoYD5CXIifS1ksxnJ1z/XlD8Iv
-         DnXdQDc3QD5BBRt/elc/g3MpiMLgBMvz47ICmyWRQUwskodG72pwSD0FvOfnFwxR4gNT
-         0Nv0c1ZEd9a//beEgotrvzkxpjlIn11dOn3z2tb/KyektIxRp3AMw9k8NLnKlAlJMfAZ
-         ZW00APC6mm2Rgc0I9F6MtW+FIkz4pX/PUfBY7jV2tV/BJmcb7sxvPImZbSg5MEvkpS1A
-         VQqSmx00wjuq8wBY7o0koQO6OL1C+JRHOCj4nWqmVRt4CML82YQgP9dT0rzT4hrO952e
-         5MGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4W9PYnqE39FVIWPtx23Tk+GKt7RrA3d27Hf1sKJ7FqQ=;
-        b=wAEyZjvCSNTPerFWnvKH1bDbyq5VjkLAnZwSRhbQqSHvlP7RrSGodiT2xNB9eg92DC
-         7wvNPmg/gL7ZB+kDxEpt8D95o1D51TOYeLCp6PBDXUG9K0mX7zhF5aN2Ak/6M/oblPYL
-         ZkWoOSUa7u85AdxMmM/jQjYUiWgdwLnRlIcx2WaZbv2dzSavyuVsWdOfBA4H6GCTKLR1
-         E+E27G4uWtMPlNS6geiMOBDXEwSP8li5T7yftjaTmObici5zLoimSyGutJmSNpu2LwRd
-         U8pkh5pKbrdiEnofHfigZhUn4ntbeRcJjHkEgzCwUjtTGWpQVhTGVm1zCXZ4dxkAijjh
-         T1nQ==
-X-Gm-Message-State: ACrzQf2IL7fcjOaZozqIeXAmXCLs3+5Z3xBrh2AYyl+x3bkotzUIEEPe
-	ImfuL94jGAcsYJfsK3YOhek=
-X-Google-Smtp-Source: AMsMyM4GsOvqLbKi8bnipwZei9bul2eCxZ/xzZEAA7xagdE0qfFC/6Wvyu2i9hoIPRYsb/0vz6gCvA==
-X-Received: by 2002:a17:90a:f2c3:b0:20b:b75f:2f9e with SMTP id gt3-20020a17090af2c300b0020bb75f2f9emr5408380pjb.43.1665582890145;
-        Wed, 12 Oct 2022 06:54:50 -0700 (PDT)
-Received: from sol (110-174-58-111.static.tpgi.com.au. [110.174.58.111])
-        by smtp.gmail.com with ESMTPSA id s20-20020aa78bd4000000b00562f6df42f1sm8959924pfd.152.2022.10.12.06.54.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Oct 2022 06:54:49 -0700 (PDT)
-Date: Wed, 12 Oct 2022 21:54:39 +0800
-From: Kent Gibson <warthog618@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 02/36] gpiolib: cdev: Add missed header(s)
-Message-ID: <Y0bHH06cbngWk4mH@sol>
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <20221010201453.77401-3-andriy.shevchenko@linux.intel.com>
- <Y0SyVwjDl7NGfTPn@sol>
- <Y0bBXSHyxpdTGxoU@smile.fi.intel.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mpmsm4N4Sz3c2Q;
+	Sat, 15 Oct 2022 00:08:26 +1100 (AEDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29E8xCev031628;
+	Fri, 14 Oct 2022 13:07:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=L4qGYHDlMyemRnk6qneB5Mk1RKKg2MqEDpuZh5iMKjk=;
+ b=lNQ1DdUvAy+iUmzajdiLGMDPb+LxCM/5ZDwO+te98TCqyHTYfATE+IvtqKGWzTr/5l2F
+ 5uM4xtAyQSPJPctDeulUfjR+I2YkaqMGea6ZA2uT0xe9nOWyCa378/HhofJA7nnNc0te
+ bFH/b9QNUd9emLzPpvFOvIXrwjZkk7AUCrOIbJeVPU981I4WRH748nqvLwwTcVBPR9IN
+ PoHELHWLtYUJKUpuIdOlC6C3Fx+K34azO5qsujr96BE0ygbK0Z1ncnNHldIdO2z6lfia
+ kUKVSeuo7aMa4cynD9qfYjUE0Q13DHkKZlGzcyGs3sRpDZg8rvY7BQeTvaLd/9QBf1ri 9g== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k73h6gyx6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Oct 2022 13:07:53 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29ED7qhv012825
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 14 Oct 2022 13:07:52 GMT
+Received: from quicinc.com (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 14 Oct
+ 2022 06:07:52 -0700
+Date: Fri, 14 Oct 2022 14:05:17 +0100
+From: Graeme Gregory <quic_ggregory@quicinc.com>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v10 1/3] ipmi: ssif_bmc: Add SSIF BMC driver
+Message-ID: <20221014130517.y4mdinylnwfrg6u2@ggregory-linuxws>
+References: <20221004093106.1653317-1-quan@os.amperecomputing.com>
+ <20221004093106.1653317-2-quan@os.amperecomputing.com>
+ <5fbc5a54-60f2-fc0d-a4a1-839f28a4d8ba@quicinc.com>
+ <48a5e252-9a1e-65e6-e8bf-add3d39a0286@os.amperecomputing.com>
+ <72c8a5bc-830d-25a9-0528-5d428dd9f163@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <Y0bBXSHyxpdTGxoU@smile.fi.intel.com>
+In-Reply-To: <72c8a5bc-830d-25a9-0528-5d428dd9f163@quicinc.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: GhBJVq-FaNrcr7G3ZBgPGC6CUcLwXHeR
+X-Proofpoint-GUID: GhBJVq-FaNrcr7G3ZBgPGC6CUcLwXHeR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-14_06,2022-10-14_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ suspectscore=0 mlxscore=0 impostorscore=0 spamscore=0 mlxlogscore=894
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210140075
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,50 +84,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Geert Uytterhoeven <geert+renesas@glider.be>, patches@opensource.cirrus.com, Bartosz Golaszewski <brgl@bgdev.pl>, linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, thang@os.amperecomputing.com, linux-aspeed@lists.ozlabs.org, Corey Minyard <minyard@acm.org>, openbmc@lists.ozlabs.org, Randy Dunlap <rdunlap@infradead.org>, Phong Vo <phong@os.amperecomputing.com>, linux-kernel@vger.kernel.org, Wolfram Sang <wsa@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, openipmi-developer@lists.sourceforge.net, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Oct 12, 2022 at 04:30:05PM +0300, Andy Shevchenko wrote:
-> On Tue, Oct 11, 2022 at 08:01:27AM +0800, Kent Gibson wrote:
-> > On Mon, Oct 10, 2022 at 11:14:18PM +0300, Andy Shevchenko wrote:
+On Mon, Oct 10, 2022 at 12:08:24PM +0100, Graeme Gregory wrote:
 > 
-> ...
-> 
-> > > -#include <linux/gpio.h>
-> > >  #include <linux/gpio/driver.h>
-> > > +#include <linux/gpio.h>
-> 
-> > But moving the gpio subsystem header after the gpio/driver is not
-> > alphabetical ('.' precedes '/') and it read better and made more sense
-> > to me the way it was.
-> 
-> Okay, I will move it back.
-> 
-> ...
-> 
-> > > +#include <linux/seq_file.h>
+> On 10/10/2022 02:28, Quan Nguyen wrote:
 > > 
-> > I wasn't aware that we use anything from seq_file.
-> > What am I missing?
-> 
-> 
-> Eventually I can answer to your question: the commit 0ae3109a8391
-> ("gpiolib: cdev: add fdinfo output for line request file descriptors")
-> is what you are missing.
-> 
-> That said, we need this patch.
-> 
+> > 
+> > On 07/10/2022 20:26, Graeme Gregory wrote:
+> > >
+> > > On 04/10/2022 10:31, Quan Nguyen wrote:
+> > > > The SMBus system interface (SSIF) IPMI BMC driver can be used to
+> > > > perform
+> > > > in-band IPMI communication with their host in management (BMC) side.
+> > > >
+> > > > Thanks Dan for the copy_from_user() fix in the link below.
+> > > >
+> > > > Link: https://lore.kernel.org/linux-arm-kernel/20220310114119.13736-4-quan@os.amperecomputing.com/
+> > > > Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> > >
+> > > I have been testing this on our hardware and I don't seem to be able
+> > > to get this driver working. I was using an older version.
+> > >
+> > > I have hacked ssifbridged to deal with the change in len from u8 to
+> > > unsigned int.
+> > >
+> > > It works as long as I only ever send SSIF commands, any attempt to
+> > > read a response crashes the state machine and the driver never
+> > > recovers. No further SSIF comms is possible! (slave doesnt even ACK
+> > > writes).
+> > >
+> > > A couple of comments below on possible state machine errors.
+> > >
+> > > Its possible I am doing something wrong!
+> > >
+> >
+> > Thanks Graeme for the test and the comments.
+> >
+> > What's your testing hardware?
+> >
+> > This was tested with Aspeed ast2500 and ast2600 with the patch series
+> > [1] below applied.
+> >
+> > If you use the same hw, could you pick the series and see if any thing
+> > improve ?
+> >
+> > [1] https://lore.kernel.org/all/20210616031046.2317-1-quan@os.amperecomputing.com/
+> >
+> Thanks, that patch series does stop the state machine crashing.
+>
+> I am testing on AST2600EVB with A1 rev, but we also have our own DC-SCM with
+> A3 chip.
+>
+> Responses are still not working for me, but I think that may be an error in
+> my ssifbridged hacks.
+>
+> Oct 10 10:54:55 qcom-evb-proto-ccf37d18ea0c ssifbridged[335]: Read ssif
+> request message with len=13 netfn=44 lun=0 cmd=2
+>
+> Oct 10 10:54:55 qcom-evb-proto-ccf37d18ea0c ipmid[312]: BootCode:
+> 000000000000000000
+>
+> Oct 10 10:54:55 qcom-evb-proto-ccf37d18ea0c ssifbridged[335]: Send ssif
+> respond message with len=4 netfn=45 lun=0 cmd=2 cc=0
+>
+> Oct 10 10:54:55 qcom-evb-proto-ccf37d18ea0c kernel: ipmi-ssif-host 0-0010:
+> Warn: on_read_requested_event unexpected READ REQUESTED in state=SSIF_READY
+>
+> Oct 10 10:54:55 qcom-evb-proto-ccf37d18ea0c kernel: ipmi-ssif-host 0-0010:
+> Warn: on_stop_event unexpected SLAVE STOP in state=SSIF_ABORTING
+>
+Just to close the loop on this, I have now fully tested this driver on
+our setup internally.
 
-Ah, yes - totally forgot that one is in flight.
-That makes sense then.
+Final hitch turned out to be an aardvark not issuing STOP events between
+reads/writes.
 
-With the gpio headers retaining their original order:
+Thanks for the work.
 
-Rewiewed-by: Kent Gibson <warthog618@gmail.com>
+Graeme
 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
