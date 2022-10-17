@@ -2,65 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C78600A95
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Oct 2022 11:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A99600B67
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Oct 2022 11:46:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MrWqC4Znzz3c6D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Oct 2022 20:27:19 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b8d0UFvg;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MrXDs5Fb5z3c6d
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Oct 2022 20:46:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.100; helo=mga07.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b8d0UFvg;
-	dkim-atps=neutral
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kaod.org (client-ip=188.165.59.253; helo=7.mo552.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+X-Greylist: delayed 381 seconds by postgrey-1.36 at boromir; Mon, 17 Oct 2022 20:46:00 AEDT
+Received: from 7.mo552.mail-out.ovh.net (7.mo552.mail-out.ovh.net [188.165.59.253])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MrWq40Drvz2xGB;
-	Mon, 17 Oct 2022 20:27:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665998832; x=1697534832;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uMXEjdYfJ4AJV1TGc6N3Z98FaBO6KSM8lYZW5Txc/+Q=;
-  b=b8d0UFvgt9//z4um0yxEYNfRoP9cae1ZsiHyOshhfCYeo8NqA+Ri+4KM
-   m1lzUaEsJ5A/cP0+Qd6jQ2nvEOSoEs+WmMJxTci6IG/UDFScp2kYnVKA2
-   YbL03o6Akbmv7iPpX2NZ9zSJIN6C1/LJhdGDXnsfPNzZZlNijmhJiwXM9
-   b+b5CS0drPBXcZUEqFZ+AB7/QVknWFLhGT7T87WnRCSr2zByU9XFjO5az
-   jpSvvI5dgq3nwjuBbm/CZrLS8xjIciYS0ltsP8Ny6rhF2N47UQrxnabpl
-   HUMfCp4fyLOgWfrUdHMNfHEWw/3YPMJFq2cryTllOz0qpxv7uyBeN2PzS
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="369942019"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="369942019"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 02:27:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="630619961"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="630619961"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 17 Oct 2022 02:27:03 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1okMOj-008i6R-2u;
-	Mon, 17 Oct 2022 12:27:01 +0300
-Date: Mon, 17 Oct 2022 12:27:01 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
-Message-ID: <Y00f5exY2fM6IwZ+@smile.fi.intel.com>
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdZ1M3ckw+jFgvMqG4jvR-t_44GPoZ6ZDXszwZCJr-cDpg@mail.gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MrXDm4xX0z2xHW
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Oct 2022 20:45:57 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
+	by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 8A3012723A;
+	Mon, 17 Oct 2022 09:39:31 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Mon, 17 Oct
+ 2022 11:39:30 +0200
+Authentication-Results: garm.ovh; auth=pass (GARM-95G001e4a9f766-4f6d-4d46-83cb-9024a96d311a,
+                    03067325AA2E056BEC2EB751A0783F460AB0E9BE) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <5141de99-33cc-7266-d56a-9f8112d1e588@kaod.org>
+Date: Mon, 17 Oct 2022 11:39:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZ1M3ckw+jFgvMqG4jvR-t_44GPoZ6ZDXszwZCJr-cDpg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] spi: aspeed: Fix window offset of CE1
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>
+References: <20221016155722.3520802-1-clg@kaod.org>
+ <CACPK8XfrF2h0zYNPcFwHmGfyohCOYQziqoUAJ6j60bEonFHu0A@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CACPK8XfrF2h0zYNPcFwHmGfyohCOYQziqoUAJ6j60bEonFHu0A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: ab2a3e5c-c840-4939-a121-c42b9414ee40
+X-Ovh-Tracer-Id: 2509067946161834799
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekledgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruhdplhhinhhugidqshhpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdpsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhlihhnuhigqdgrshhpvggvugeslhhishhtshdrohiilhgrsghsrdhorhhgpdhophgvnhgsmhgtsehlihhsthhsrdhoiihlrggsshdrohhrghdprghnughrvgifsegrjhdrihgurdgruhdplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdhkvghrnhgvlhesvh
+ hgvghrrdhkvghrnhgvlhdrohhrghdptghhihhnqdhtihhnghgpkhhuohesrghsphgvvgguthgvtghhrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,30 +61,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Kent Gibson <warthog618@gmail.com>, linux-omap@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-aspeed@lists.ozlabs.org, patches@opensource.cirrus.com, Bartosz Golaszewski <brgl@bgdev.pl>, linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, linux-riscv@lists.infradead.org, alsa-devel@alsa-project.org, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Oct 17, 2022 at 11:02:09AM +0200, Linus Walleij wrote:
-> On Mon, Oct 10, 2022 at 10:15 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
+On 10/17/22 00:43, Joel Stanley wrote:
+> On Sun, 16 Oct 2022 at 15:57, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> The offset value of the mapping window in the kernel structure is
+>> calculated using the value of the previous window offset. This doesn't
+>> reflect how the HW is configured and can lead to erroneous setting of
+>> the second flash device (CE1).
 > 
-> > Currently the header inclusion inside the pinctrl headers seems more arbitrary
-> > than logical. This series is basically out of two parts:
-> > - add missed headers to the pin control drivers / users
-> > - clean up the headers of pin control subsystem
-> >
-> > The idea is to have this series to be pulled after -rc1 by the GPIO and
-> > pin control subsystems, so all new drivers will utilize cleaned up headers
-> > of the pin control.
+> So .offset is expected to be the absolute address of the window, and
+> this was okay for the 2400/2500 but was broken on the 2600?
+
+the aspeed_spi_get_windows() routine collects in an array the window/decoding
+range setting for each CS, and the offset for CS1 and above is computed from
+the offset/size of the previous CS. But this makes an assumption on the fact
+ranges are contiguous, which is not necessarily how the HW is configured.
+
+C.
+
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
 > 
-> Aha I see you want to send a pull request so I backed out the applied patches
-> from the series for now.
-
-Can I consider all that you answered to as Rb tag?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> 
+>>
+>> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+>> Fixes: e3228ed92893 ("spi: spi-mem: Convert Aspeed SMC driver to spi-mem")
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   drivers/spi/spi-aspeed-smc.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+>> index 33cefcf18392..b90571396a60 100644
+>> --- a/drivers/spi/spi-aspeed-smc.c
+>> +++ b/drivers/spi/spi-aspeed-smc.c
+>> @@ -398,7 +398,7 @@ static void aspeed_spi_get_windows(struct aspeed_spi *aspi,
+>>                  windows[cs].cs = cs;
+>>                  windows[cs].size = data->segment_end(aspi, reg_val) -
+>>                          data->segment_start(aspi, reg_val);
+>> -               windows[cs].offset = cs ? windows[cs - 1].offset + windows[cs - 1].size : 0;
+>> +               windows[cs].offset = data->segment_start(aspi, reg_val) - aspi->ahb_base_phy;
+>>                  dev_vdbg(aspi->dev, "CE%d offset=0x%.8x size=0x%x\n", cs,
+>>                           windows[cs].offset, windows[cs].size);
+>>          }
+>> --
+>> 2.37.3
+>>
 
