@@ -1,65 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA3A601BF1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Oct 2022 00:03:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B25601BF2
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Oct 2022 00:03:05 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Mrrb745ZVz3c4B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Oct 2022 09:02:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MrrbC5NH8z3drb
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Oct 2022 09:03:03 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=t3+amSVG;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hPfP+D37;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::62c; helo=mail-ej1-x62c.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52e; helo=mail-ed1-x52e.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=t3+amSVG;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hPfP+D37;
 	dkim-atps=neutral
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MrW9K6D3Fz3bjv
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Oct 2022 19:57:55 +1100 (AEDT)
-Received: by mail-ej1-x62c.google.com with SMTP id bj12so23252588ejb.13
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Oct 2022 01:57:55 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MrWBY0JJnz3bZY
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Oct 2022 19:59:00 +1100 (AEDT)
+Received: by mail-ed1-x52e.google.com with SMTP id z97so15029868ede.8
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Oct 2022 01:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
         bh=683v4hUy0SmafI83To+Isl3SKfGOBhxnh8RoSe2BfVE=;
-        b=t3+amSVGDFAxRbolB49Ma9U6k9IIKhxDwAwyJUkTM3Li0PafxLZLXAW0NCm1nt3as1
-         N84+c+fPTLYB396bAl4/Q0w48uzDDqbLzehPyMBFM1Tp3a7LrIsxevlXc6BrscV+lOfq
-         mGJ3EW5/EeQu7kupGXI95MFitBtE3U0fWugPttQLchXJ+CX+jzVQP7cWoQFnr4RoD6gf
-         /aRgyHO6kVKTo3b840dYVddB4NeyVZKc5wR3ojjuItP2a5dz7lXcnTh1SpVRk9gntYNH
-         Gk9gvPVT1XVoXT4ho5ATtKaTXv1ddOuBPp3yPHFaekZ0rOkS6BaG1XZCPh3lnr6Q6wEH
-         dkkw==
+        b=hPfP+D37HijUTE9jk/Mvwhzrn2ULe0YvDh99eK0zEKvuHU9cJdu/VKytnLQUG78bI5
+         mtuLS+rfVj4L4Re6YsjDCb8XZQjE6KThaCbRlWhJuMr35QfCa1s2koAxFX5l4qQyWOKt
+         de8o8Z5FmmUFEYLn+AOhAHFSRnOKRIB6JkdIgKOdiTHWAihtflzKXjpcSWXFLs+erTYb
+         UqPBaaz6RWk1Ix2kb+avBworrHCfp8Kk+b3nCMEXnhhrqwP9bYtdFAdmYJ6kpE3Uehqu
+         UqG6gsNZbIdEimOOnJbUDXmkBH6QdWkCdch1eNgSXZLTZd9qSZNk9FiCuat+hszHsjXC
+         6ofg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=683v4hUy0SmafI83To+Isl3SKfGOBhxnh8RoSe2BfVE=;
-        b=5CENuBgN5/FLctxkglvDqm2ZDDand9ySFVj0cenDQXjUkAM9Tv/RVTibhJTdl3br23
-         lvg2e83hKyMu+xyFvVO965E4Zu3OH+QdCl70UVyRBMRdQMxr5gr7BNxtQYNHXFD1y5Fr
-         0jCYHk+CC9oNB3Rh+kpzn3k4okskRH6BKgCaSOnMRVuy1BcjteG8IP+7hv5C/nKuPi7r
-         pQvc7sRxodSBmslpyH46s/nuUupXAj7zt2aHqpbSTZU539881zZt/G0o1/YskzCyMLVa
-         8/dvY2fdQgnbRLyDJ7o7nYTEqIdICeUCWwdeR1dPOlPYFMGrFbtTRreMHEnY7HmqPKYQ
-         MN2w==
-X-Gm-Message-State: ACrzQf2N3t/YCRa7Bg5GU4XNIjP6T/c0DihIg4iURmpjReYYrSPghF0B
-	oBAcWS+qPrVAH5AJr3WTu2htxIMINXaF9LJ54W4wFQ==
-X-Google-Smtp-Source: AMsMyM7EnJZWawlqbK2hCUNnkoxsNghTgy0VPziEZIqZHqcD50fAvXotg3KWEk8WTOVELGE1o/67a6uUcG2NxUWD/Yc=
-X-Received: by 2002:a17:907:16aa:b0:6fe:91d5:18d2 with SMTP id
- hc42-20020a17090716aa00b006fe91d518d2mr4740704ejc.190.1665997072207; Mon, 17
- Oct 2022 01:57:52 -0700 (PDT)
+        b=STXeEqO5UJmeYgI9MuqsknIX+yoQBAD92DXwqmH6ApGL1TCalX9muN1OUw/7tmGaBo
+         kQLIECw+e6AXlNbvbpV/zmQIZWVo1+PBuHR67PFg+VzTQ0kZAvFg84++boTZ1EiNm2mY
+         B4qA8PB6sBixiLmMVuUhWcD9tShkaZCNYDfaeQHFsrMHM/yIyvYl1LBo5xh+/lgan6OH
+         lqCuL5ZGNktzbGvkL4J7fAynz0M7Vb31qLq90I0n9G2NDR8oRpbZTeEMfyuwcVUUapii
+         rSrNKms1UIR9m/8AEapSI9RSnqfIInIYPzfRt1H9dj/G9/hr82h3qzq3D166mXNOag2Y
+         +8yw==
+X-Gm-Message-State: ACrzQf3pb/wrVTz5rctsu3BIpGB+WiI4V+Aizzt3gUqinY2k/nl3dlhu
+	q+U2LQFsxJh5eMPVCeTvaLy/Ot499gsPjxIiK3ZvQIsnz8Q=
+X-Google-Smtp-Source: AMsMyM4LugacycwGAbGG4lPXc3T2wAA4Sgm0tgzLwijTOIxMlDdR0/hFw6+2igxL6VLWw7mRrDr2KaiUfbylXIWuugs=
+X-Received: by 2002:a17:906:5d04:b0:77f:ca9f:33d1 with SMTP id
+ g4-20020a1709065d0400b0077fca9f33d1mr7900873ejt.526.1665997127637; Mon, 17
+ Oct 2022 01:58:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com> <20221010201453.77401-8-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20221010201453.77401-8-andriy.shevchenko@linux.intel.com>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com> <20221010201453.77401-9-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20221010201453.77401-9-andriy.shevchenko@linux.intel.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 17 Oct 2022 10:57:41 +0200
-Message-ID: <CACRpkdbuUZugMYmO_9D3AhL7C=NCU65EF1MCmYauQ=zc2yvydg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/36] pinctrl: axp209: Add missed header(s)
+Date: Mon, 17 Oct 2022 10:58:36 +0200
+Message-ID: <CACRpkdauAT3fmHn_739Z04rJ7g4paLQEu1f3Ab9VWygsAj6nmw@mail.gmail.com>
+Subject: Re: [PATCH v2 08/36] pinctrl: bcm: Add missed header(s)
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Tue, 18 Oct 2022 09:01:13 +1100
