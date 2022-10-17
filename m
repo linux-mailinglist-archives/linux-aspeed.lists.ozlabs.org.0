@@ -1,58 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6527B6016BA
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Oct 2022 20:57:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C633A601A8F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Oct 2022 22:48:38 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MrmTD2BL9z3dqp
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Oct 2022 05:57:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MrpxJ4CDJz3dqh
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Oct 2022 07:48:36 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=S1+0HT3x;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.160.50; helo=mail-oa1-f50.google.com; envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=S1+0HT3x;
+	dkim-atps=neutral
+X-Greylist: delayed 473 seconds by postgrey-1.36 at boromir; Tue, 18 Oct 2022 07:48:28 AEDT
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MrmT93d1Tz2yfg;
-	Tue, 18 Oct 2022 05:57:32 +1100 (AEDT)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-131dda37dddso14385509fac.0;
-        Mon, 17 Oct 2022 11:57:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yhi01nIKMu8oS63Us1m9T4vtO8yAbuN6/vPxNd3xC04=;
-        b=TyhphFAIabhTKDNqAZOQlLJpLNkdoOXbvPR4JiQYq/esdQUIwIh1jqkXEK92mUById
-         Sz9yFLJbQjy4HQfJWKpNOBWmH/4guP1cjx1FX7ck2ImA6BvO0Usg4pyrpUqHTVaLSXmR
-         mbYO003ogqbCRIOX/Jjsu+QDriqqdrHwOTfqBF0m1LPZ/4Y06MJ+XoZaXiUhB4NMy3Yk
-         X89/NlNk4xhbUSCzj7eK8Mnm5QahGWCY9n6TtxUsM2uXF+/0cI5xxd8UwvQrd6SDNTS5
-         5i57HiulI8+ofGPOD51rKIuseCoMR03wdmHew4CurVI5O1Ah2fSnega868ztj+1ADvW3
-         Xf7w==
-X-Gm-Message-State: ACrzQf0Qf+fBEAGtOKK0kAbEJD35aoKvyvJgMvcYtqli02ifyrUrIzBC
-	Z0L+apQbdV9ns8YVJJAZOg==
-X-Google-Smtp-Source: AMsMyM6hd4KpSHEGg5rpmw44Oeh0ybM1WiVTBmJIC/qj0uwN3RJKLDIGEfvrnaZYCvC5RjxH/lV8IQ==
-X-Received: by 2002:a05:6870:c8a2:b0:136:5491:8f08 with SMTP id er34-20020a056870c8a200b0013654918f08mr15781649oab.225.1666033050385;
-        Mon, 17 Oct 2022 11:57:30 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t4-20020a4a8244000000b004805c328971sm4500369oog.42.2022.10.17.11.57.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Oct 2022 11:57:30 -0700 (PDT)
-Received: (nullmailer pid 2279555 invoked by uid 1000);
-	Mon, 17 Oct 2022 18:57:30 -0000
-Date: Mon, 17 Oct 2022 13:57:30 -0500
-From: Rob Herring <robh@kernel.org>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH linux v2 2/3] spi: aspeed: Handle custom decoding ranges
-Message-ID: <20221017185730.GB2264550-robh@kernel.org>
-References: <20221017091624.130227-1-clg@kaod.org>
- <20221017091624.130227-3-clg@kaod.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mrpx83JW6z2xHT
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 18 Oct 2022 07:48:28 +1100 (AEDT)
+Received: from hatter.bewilderbeest.net (97-113-250-99.tukw.qwest.net [97.113.250.99])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: zev)
+	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 608DEF7;
+	Mon, 17 Oct 2022 13:40:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+	s=thorn; t=1666039229;
+	bh=PtDkX7PN/aXZdmcB5xQ1pSmiMMClWzn8+l9E46Zb+/k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S1+0HT3xKjWKenhMqW7eFJIOAUQWxuFfz7VnDgIjyKHDkAmY/t7tYlnSonOA28j7T
+	 v/UBcLHfnMuvTAayb0FpaCJBY614VUMbzJSy/LY7Vbuvs36jZ/hjH2y22Xubj/hv2K
+	 KdqegozbG+83pOBx8Coyo4saSs6HvWuKjy9MWqBc=
+Date: Mon, 17 Oct 2022 13:40:27 -0700
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH] usb: gadget: aspeed: Fix probe regression
+Message-ID: <Y029u+ZZZikW4fYl@hatter.bewilderbeest.net>
+References: <20221017053006.358520-1-joel@jms.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221017091624.130227-3-clg@kaod.org>
+In-Reply-To: <20221017053006.358520-1-joel@jms.id.au>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,95 +58,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Naresh Solanki <naresh.solanki@9elements.com>, linux-arm-kernel@lists.infradead.org
+Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Oct 17, 2022 at 11:16:23AM +0200, Cédric Le Goater wrote:
-> The "ranges" property predefines settings for the decoding ranges of
-> each CS. If found in the DT, the driver applies the settings at probe
-> time. The default behavior is to set the decoding range of each CS
-> using the flash device size when the spi slave is setup.
-> 
-> Cc: Naresh Solanki <naresh.solanki@9elements.com>
-> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  drivers/spi/spi-aspeed-smc.c | 65 +++++++++++++++++++++++++++++++++++-
->  1 file changed, 64 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-> index b90571396a60..75e1d08bbd00 100644
-> --- a/drivers/spi/spi-aspeed-smc.c
-> +++ b/drivers/spi/spi-aspeed-smc.c
-> @@ -96,6 +96,7 @@ struct aspeed_spi {
->  	u32			 ahb_base_phy;
->  	u32			 ahb_window_size;
->  	struct device		*dev;
-> +	bool                     fixed_windows;
->  
->  	struct clk		*clk;
->  	u32			 clk_freq;
-> @@ -382,6 +383,7 @@ static const char *aspeed_spi_get_name(struct spi_mem *mem)
->  
->  struct aspeed_spi_window {
->  	u32 cs;
-> +	u32 reg;
->  	u32 offset;
->  	u32 size;
->  };
-> @@ -396,6 +398,7 @@ static void aspeed_spi_get_windows(struct aspeed_spi *aspi,
->  	for (cs = 0; cs < aspi->data->max_cs; cs++) {
->  		reg_val = readl(aspi->regs + CE0_SEGMENT_ADDR_REG + cs * 4);
->  		windows[cs].cs = cs;
-> +		windows[cs].reg = reg_val;
->  		windows[cs].size = data->segment_end(aspi, reg_val) -
->  			data->segment_start(aspi, reg_val);
->  		windows[cs].offset = data->segment_start(aspi, reg_val) - aspi->ahb_base_phy;
-> @@ -572,7 +575,8 @@ static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
->  	if (op->data.dir != SPI_MEM_DATA_IN)
->  		return -EOPNOTSUPP;
->  
-> -	aspeed_spi_chip_adjust_window(chip, desc->info.offset, desc->info.length);
-> +	if (!aspi->fixed_windows)
-> +		aspeed_spi_chip_adjust_window(chip, desc->info.offset, desc->info.length);
->  
->  	if (desc->info.length > chip->ahb_window_size)
->  		dev_warn(aspi->dev, "CE%d window (%dMB) too small for mapping",
-> @@ -712,6 +716,61 @@ static void aspeed_spi_enable(struct aspeed_spi *aspi, bool enable)
->  		aspeed_spi_chip_enable(aspi, cs, enable);
->  }
->  
-> +static int aspeed_spi_chip_read_ranges(struct device_node *node, struct aspeed_spi *aspi)
-> +{
-> +	const char *range_prop = "ranges";
-> +	struct property *prop;
-> +	struct aspeed_spi_window ranges[ASPEED_SPI_MAX_NUM_CS];
-> +	int prop_size;
-> +	int count;
-> +	int ret;
-> +	int i;
-> +
-> +	prop = of_find_property(node, range_prop, &prop_size);
-> +	if (!prop)
-> +		return 0;
+On Sun, Oct 16, 2022 at 10:30:06PM PDT, Joel Stanley wrote:
+>Since commit fc274c1e9973 ("USB: gadget: Add a new bus for gadgets"),
+>the gadget devices are proper driver core devices, which caused each
+>device to request pinmux settings:
+>
+> aspeed_vhub 1e6a0000.usb-vhub: Initialized virtual hub in USB2 mode
+> aspeed-g5-pinctrl 1e6e2080.pinctrl: pin A7 already requested by 1e6a0000.usb-vhub; cannot claim for gadget.0
+> aspeed-g5-pinctrl 1e6e2080.pinctrl: pin-232 (gadget.0) status -22
+> aspeed-g5-pinctrl 1e6e2080.pinctrl: could not request pin 232 (A7) from group USB2AD  on device aspeed-g5-pinctrl
+> g_mass_storage gadget.0: Error applying setting, reverse things back
+>
+>The vhub driver has already claimed the pins, so prevent the gadgets
+>from requesting them too by setting the magic of_node_reused flag. This
+>causes the driver core to skip the mux request.
+>
+>Reported-by: Zev Weiss <zev@bewilderbeest.net>
+>Reported-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+>Fixes: fc274c1e9973 ("USB: gadget: Add a new bus for gadgets")
+>Cc: stable@vger.kernel.org
+>Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-Parsing common properties yourself is generally a bad sign.
+Thanks Joel!
 
-> +
-> +	count = prop_size / sizeof(*ranges);
-> +	if (count > aspi->data->max_cs) {
-> +		dev_err(aspi->dev, "invalid '%s' property %d\n", range_prop, count);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (count < aspi->data->max_cs)
-> +		dev_dbg(aspi->dev, "'%s' property does not cover all CE\n",
-> +			range_prop);
-> +
-> +	ret = of_property_read_u32_array(node, range_prop, (u32 *)ranges, count * 4);
+Tested-by: Zev Weiss <zev@bewilderbeest.net>
 
-You've just gotten it horribly wrong because you ignored #size-cells and 
-#address-cells.
-
-Rob
