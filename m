@@ -2,62 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7122605D68
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Oct 2022 12:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8115605CCE
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Oct 2022 12:38:15 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MtPGY3RjTz3cfX
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Oct 2022 21:39:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MtPFd5R2yz3drY
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Oct 2022 21:38:13 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=xXdmWqIQ;
-	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4eKuWLJB;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=sT2vIrk7;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=R9wURkts;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.220.28; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=xXdmWqIQ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4eKuWLJB;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=sT2vIrk7;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=R9wURkts;
 	dkim-atps=neutral
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MtPFZ2kBYz3drm
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Oct 2022 21:38:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MtPFQ5lBSz3c6N
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Oct 2022 21:38:02 +1100 (AEDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B59D22B3D;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B282722B42;
 	Thu, 20 Oct 2022 10:37:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1666262278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FmVfBkgQXeOJOs+lPsJuCl8bEsl7tdAgDeD2faGswnM=;
-	b=xXdmWqIQfh0f0yJA3s0BPIeYEr3NNBygmE7VRKPJkQsM/g6E2+cV3BtvIsSHfPV/Zm2qX7
-	r2clL0Fv/uWooja8TMsFYgvZciJRT0hTccsFr8g1QaD0IUJqiBlD+GdmvD0oilhw5kenke
-	6XqrCQkfvOQ9SsLQR9c+XaGqOPwxmz4=
+	bh=dfNCfewKdF4qrRIFBcdy7kMwlQEEw/he+rN8lqzuO0c=;
+	b=sT2vIrk7gnJPmpN3+w8QkaaTa6QUjGrubtLOteaO8q4FcNJyLa4bQ5A3cJng6/bv4x1ZRW
+	Lz3p/ro9/w3xl+AVVT9FPWpjAMPcA8qn3cc/ebFvAESW96dJmzCi9Vt9UP6A/tQvx+rg4o
+	YGUKbfUA6e96QHnR/bkR596lb9w56ZA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1666262278;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FmVfBkgQXeOJOs+lPsJuCl8bEsl7tdAgDeD2faGswnM=;
-	b=4eKuWLJB4biZqfRWi8B+SJis28AqEs4YJSoTa7xFnBHPlmt1qY0h5xZ7aBvq6htSbFrV3z
-	FgVjttMfW3hPpXAA==
+	bh=dfNCfewKdF4qrRIFBcdy7kMwlQEEw/he+rN8lqzuO0c=;
+	b=R9wURktsZ4GUuQFrOAQNChz7Mxyve21ulKCwP98mDiqGdgQ9gW2RRTX44wOhGGfIABxhoh
+	cnNyRpZaMJHX9BCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BBDBF13AF5;
-	Thu, 20 Oct 2022 10:37:57 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F55713B72;
+	Thu, 20 Oct 2022 10:37:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id EG0KLQUlUWPPYwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:37:57 +0000
+	id qG2kDgYlUWPPYwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:37:58 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@gmail.com,
@@ -65,9 +65,9 @@ To: daniel@ffwll.ch,
 	javierm@redhat.com,
 	mripard@kernel.org,
 	maarten.lankhorst@linux.intel.com
-Subject: [PATCH 02/21] drm/imx: Don't set struct drm_driver.lastclose
-Date: Thu, 20 Oct 2022 12:37:36 +0200
-Message-Id: <20221020103755.24058-3-tzimmermann@suse.de>
+Subject: [PATCH 03/21] drm/ingenic: Don't set struct drm_driver.lastclose
+Date: Thu, 20 Oct 2022 12:37:37 +0200
+Message-Id: <20221020103755.24058-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221020103755.24058-1-tzimmermann@suse.de>
 References: <20221020103755.24058-1-tzimmermann@suse.de>
@@ -88,27 +88,28 @@ Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org, nouveau@lists.f
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Don't set struct drm_driver.lastclose. It's used to restore the
-fbdev console. But as imx uses generic fbdev emulation, the
-console is being restored by the DRM client helpers already. See
-the call to drm_client_dev_restore() in drm_lastclose().
+Don't set struct drm_mode_config.output_poll_changed. It's used to
+inform the fbdev console about conncetor changes. But as ingenic
+uses generic fbdev emulation, the console is being informed by the
+DRM client helpers already. See the calls to drm_client_dev_hotplug()
+in drm_probe_helper.c.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/imx/dcss/dcss-kms.c | 1 -
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-index b4f82ebca5325..1defd6a40f11d 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-@@ -21,7 +21,6 @@ DEFINE_DRM_GEM_DMA_FOPS(dcss_cma_fops);
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index ab0515d2c420a..99f86f1ba8bee 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -1018,7 +1018,6 @@ static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
  
- static const struct drm_mode_config_funcs dcss_drm_mode_config_funcs = {
- 	.fb_create = drm_gem_fb_create,
--	.output_poll_changed = drm_fb_helper_output_poll_changed,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
+ static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
+ 	.fb_create		= ingenic_drm_gem_fb_create,
+-	.output_poll_changed	= drm_fb_helper_output_poll_changed,
+ 	.atomic_check		= drm_atomic_helper_check,
+ 	.atomic_commit		= drm_atomic_helper_commit,
  };
 -- 
 2.38.0
