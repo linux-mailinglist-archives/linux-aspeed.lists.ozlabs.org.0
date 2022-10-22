@@ -2,78 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66C260840F
-	for <lists+linux-aspeed@lfdr.de>; Sat, 22 Oct 2022 06:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8430608E6A
+	for <lists+linux-aspeed@lfdr.de>; Sat, 22 Oct 2022 18:20:48 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MvSKy4hzfz3dsL
-	for <lists+linux-aspeed@lfdr.de>; Sat, 22 Oct 2022 15:00:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Mvmly4rlgz30F7
+	for <lists+linux-aspeed@lfdr.de>; Sun, 23 Oct 2022 03:20:46 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=o7EAYMMw;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tOG0B42B;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::334; helo=mail-ot1-x334.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2001:4860:4864:20::2b; helo=mail-oa1-x2b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=o7EAYMMw;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tOG0B42B;
 	dkim-atps=neutral
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MvSKs0Cy3z2xFx
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Oct 2022 15:00:32 +1100 (AEDT)
-Received: by mail-ot1-x334.google.com with SMTP id r13-20020a056830418d00b0065601df69c0so2942092otu.7
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Oct 2022 21:00:31 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mvmlp435Rz3bqw
+	for <linux-aspeed@lists.ozlabs.org>; Sun, 23 Oct 2022 03:20:37 +1100 (AEDT)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-13b6336a1acso1698442fac.3
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Oct 2022 09:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=20L4EctgpcreWPnaAcAxm8gZbB5uiC3QiKEacbqhxTM=;
-        b=o7EAYMMwP6ZaxHfdBsXv8JJkEPe1Rh/oyzCpP1GU4U7zcRQpNTjgqw5uvtJ9vah98l
-         2145rhiD/FhUTiyybAHbvrP1yVNU4pJKR4/ULEstdmrRFHUzBHFGrYx1Uh9kuluMnzgK
-         EWnVCtQv5QIOA01DxDXnK/nkArR2sbnCmW43m/93qQ8TSE3pCDvSy2cdP04U51xVfKjh
-         PTUTAdKiqpvwqO9lYXDiL6O+deBD3Jh1/Vo1WVxBXWrkxfhwUDvklRN//PL31R7jH1XR
-         BnL8a84pR4JUgNzpgxQNMRimKh+DvhnJBRb7XZRCldd3qhwEz/GtqwVSpcl7W1485Tzu
-         7vfg==
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oP+OivOlJKby7VX0wt07yv8oqh7iwPhSwvHGsEi8ePI=;
+        b=tOG0B42BsdazxfhzuTyBJ7MA1j+4BSyU7mlZLhPC+gv21gipF1srZBPJ6Tl0G+18gn
+         /9Rsu+duFErhwGXP51ACbYH9ri2zA30YUIdygtg91JoQYs5Oixg53edGQpekz86QBmG9
+         +22xyQ8DP6kf5d829+L20tN78RFNfzI5s6nR9QYwnz5snTQ7IMePeC0GFnfdNqlhemkk
+         bdoluDTNW8y/ISAzRbs493FQ2BX3RC7o5Rl6oZSZvlVehTYIKPHIR29KBbonMGjX84yB
+         n7aSWintkxx6mWv2lSFDqIorHujWmSKhdETTdedqQK7ZpP/ROOUzdt1/QVsL86XuTrzl
+         sWZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=20L4EctgpcreWPnaAcAxm8gZbB5uiC3QiKEacbqhxTM=;
-        b=GQGIqOIgtMchkNmihltq15mpnVsy7OPHhuALX3V3SV3Y9oAPFNEULNqvGMmuMY9rNI
-         /mzZhyLpGukmCV33Rrnlckn//6ACsW4mZt0mdPUYF92P9tAqKEGfgLLRZFhWEvVLa0h7
-         Zgee557P9jAZEMXDFoArAaCe5PVuz9SQiiKK7ibXFpX4BwYBE4ZyshDtkQs++bpgvBAQ
-         evv36kINg4XEYOYECqSkdYWKBGoVxdDepfmqJVWoAjYSml3w2pxqJSPi4h58UeNS1Y7p
-         Fz+DEcYUDMalY54YtYZBClnwNFbfk+B0O0e/jFYpaZcsyhEHgHZt9ad2RxvvrqTxdJwu
-         Y64A==
-X-Gm-Message-State: ACrzQf3IXcypZD8XFJm7QApl6TacI9O+TFKG96hE93+cmrGDQZhyjscD
-	R1akX/FmeA/rPnPzkPS56b8=
-X-Google-Smtp-Source: AMsMyM4a4vfPiXS4ensjO2jmNJL39Q1r0EY2hIwVvjzV2EXjqH84qsTv5jiTjT5zBf8bmYFsnlhJHg==
-X-Received: by 2002:a9d:3642:0:b0:655:f25f:be55 with SMTP id w60-20020a9d3642000000b00655f25fbe55mr11516791otb.13.1666411224826;
-        Fri, 21 Oct 2022 21:00:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id y3-20020a056870418300b0011f400edb17sm11187297oac.4.2022.10.21.21.00.22
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oP+OivOlJKby7VX0wt07yv8oqh7iwPhSwvHGsEi8ePI=;
+        b=rc5T5G83ZVH8NB1IM0/ImXA7j57Rt4wXjIUS84FUd1KHfYTO6Ol2070HX8/nKQfMPV
+         W5YLa/QGxa7wsIQTrt/N/drSmz2RHm5/hM0M+rvI1hI31orT1CoXLlrfZSKkz3RfKx2q
+         +7S44TNtNzod+7Eo/PV8RXyX3+n1yKb+O+JKz7OCL7CmOs9RImjnXmxmFNo+8lo4dufd
+         WLnmlIq0gLoeyLRSvH7foS9+u4ap0SsXQvb8wcZszSmRY9Xa0ksqvOGl3W6lHhHIybfM
+         6pH1JO0bEJViYOtPMKn2K3Y7vr9Sbml4nuJi2FfJCmJYYlQ2Bq8XCUNYSxhjJ0sNDQug
+         H8Og==
+X-Gm-Message-State: ACrzQf1zku/KkVtYJZP17iAsYSGiYgCJJo8VrMrIbYcpM7t/ajwol68t
+	GnJPDkQkf6zSIzxc6Es+675iSw==
+X-Google-Smtp-Source: AMsMyM5HZNHKBt3bPjg0ZWDzXEdMLa6L5POsBmjhsTM00sVzPQsTy/DfF+ZSjY7MoJ8YpzkahPsDRQ==
+X-Received: by 2002:a05:6870:c58b:b0:131:9324:60fd with SMTP id ba11-20020a056870c58b00b00131932460fdmr33558787oab.154.1666455633180;
+        Sat, 22 Oct 2022 09:20:33 -0700 (PDT)
+Received: from [10.203.8.70] ([205.153.95.177])
+        by smtp.gmail.com with ESMTPSA id 32-20020a9d0323000000b00660d7fbf13dsm2373160otv.51.2022.10.22.09.20.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Oct 2022 21:00:24 -0700 (PDT)
-Message-ID: <00d859b0-f766-4322-fe58-095d4f84e954@roeck-us.net>
-Date: Fri, 21 Oct 2022 21:00:22 -0700
+        Sat, 22 Oct 2022 09:20:32 -0700 (PDT)
+Message-ID: <bac3646a-13f3-9031-c5e6-b5d24e0d9514@linaro.org>
+Date: Sat, 22 Oct 2022 12:20:30 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 1/2] watchdog: aspeed: Add pre-timeout interrupt support
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 2/2] dt-bindings: watchdog: aspeed: Document
+ aspeed,pre-timeout-irq-us
 Content-Language: en-US
-To: Eddie James <eajames@linux.ibm.com>
+To: Eddie James <eajames@linux.ibm.com>, linux-watchdog@vger.kernel.org
 References: <20221021151559.781983-1-eajames@linux.ibm.com>
- <20221021151559.781983-2-eajames@linux.ibm.com>
- <20221021165650.GA1888515@roeck-us.net>
- <56929483-56d1-f2b8-9b7e-3fd6388e5f87@linux.ibm.com>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <56929483-56d1-f2b8-9b7e-3fd6388e5f87@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <20221021151559.781983-3-eajames@linux.ibm.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221021151559.781983-3-eajames@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,166 +83,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wim@linux-watchdog.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, wim@linux-watchdog.org, linux@roeck-us.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/21/22 12:39, Eddie James wrote:
-> 
-> On 10/21/22 11:56, Guenter Roeck wrote:
->> On Fri, Oct 21, 2022 at 10:15:58AM -0500, Eddie James wrote:
->>> Enable the pre-timeout interrupt if requested by device property.
->>>
->> I am not inclined to accept this patch without detailed explanation.
->> Why would it make sense and/or be desirable to completely bypass the
->> watchdog core with this pretimeout support ?
-> 
-> 
-> Sorry, I should add more detail.
-> 
-> It doesn't necessarily bypass the watchdog core. It can, if you specify reset-type="none". But if not, the watchdog will still fire at the appropriate time.
-> 
-> The purpose is to get a stack dump from a kernel panic rather than a hard reset from the watchdog. The interrupt will fire a certain number of microseconds (configurable by dts property) before the watchdog does. The interrupt handler then panics, and all the CPU stacks are dumped, so hopefully you can catch where another processor was stuck.
-> 
-> 
-> I can submit v2 with this information in the commit message and/or comments.
-> 
+On 21/10/2022 11:15, Eddie James wrote:
+> Document this new property for the pre-timeout interrupt.
 
-You did not answer the question why you do not use the pretimeout functionality
-supported by the watchdog core.
+Please convert bindings to DT schema first.
 
-Guenter
-
-> Thanks,
-> 
-> Eddie
-> 
-> 
->>
->> Thanks,
->> Guenter
->>
->>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
->>> ---
->>>   drivers/watchdog/aspeed_wdt.c | 53 +++++++++++++++++++++++++++++++++--
->>>   1 file changed, 51 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
->>> index 0cff2adfbfc9..8e12181a827e 100644
->>> --- a/drivers/watchdog/aspeed_wdt.c
->>> +++ b/drivers/watchdog/aspeed_wdt.c
->>> @@ -5,11 +5,14 @@
->>>    * Joel Stanley <joel@jms.id.au>
->>>    */
->>> +#include <linux/bits.h>
->>>   #include <linux/delay.h>
->>> +#include <linux/interrupt.h>
->>>   #include <linux/io.h>
->>>   #include <linux/kernel.h>
->>>   #include <linux/module.h>
->>>   #include <linux/of.h>
->>> +#include <linux/of_irq.h>
->>>   #include <linux/platform_device.h>
->>>   #include <linux/watchdog.h>
->>> @@ -26,20 +29,32 @@ struct aspeed_wdt {
->>>   struct aspeed_wdt_config {
->>>       u32 ext_pulse_width_mask;
->>> +    u32 irq_shift;
->>> +    u32 irq_mask;
->>>   };
->>>   static const struct aspeed_wdt_config ast2400_config = {
->>>       .ext_pulse_width_mask = 0xff,
->>> +    .irq_shift = 0,
->>> +    .irq_mask = 0,
->>>   };
->>>   static const struct aspeed_wdt_config ast2500_config = {
->>>       .ext_pulse_width_mask = 0xfffff,
->>> +    .irq_shift = 12,
->>> +    .irq_mask = GENMASK(31, 12),
->>> +};
->>> +
->>> +static const struct aspeed_wdt_config ast2600_config = {
->>> +    .ext_pulse_width_mask = 0xfffff,
->>> +    .irq_shift = 0,
->>> +    .irq_mask = GENMASK(31, 10),
->>>   };
->>>   static const struct of_device_id aspeed_wdt_of_table[] = {
->>>       { .compatible = "aspeed,ast2400-wdt", .data = &ast2400_config },
->>>       { .compatible = "aspeed,ast2500-wdt", .data = &ast2500_config },
->>> -    { .compatible = "aspeed,ast2600-wdt", .data = &ast2500_config },
->>> +    { .compatible = "aspeed,ast2600-wdt", .data = &ast2600_config },
->>>       { },
->>>   };
->>>   MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
->>> @@ -58,6 +73,7 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
->>>   #define   WDT_CTRL_RESET_SYSTEM        BIT(1)
->>>   #define   WDT_CTRL_ENABLE        BIT(0)
->>>   #define WDT_TIMEOUT_STATUS    0x10
->>> +#define   WDT_TIMEOUT_STATUS_IRQ        BIT(2)
->>>   #define   WDT_TIMEOUT_STATUS_BOOT_SECONDARY    BIT(1)
->>>   #define WDT_CLEAR_TIMEOUT_STATUS    0x14
->>>   #define   WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION    BIT(0)
->>> @@ -243,6 +259,17 @@ static const struct watchdog_info aspeed_wdt_info = {
->>>       .identity    = KBUILD_MODNAME,
->>>   };
->>> +static irqreturn_t aspeed_wdt_irq(int irq, void *arg)
->>> +{
->>> +    struct aspeed_wdt *wdt = arg;
->>> +    u32 status = readl(wdt->base + WDT_TIMEOUT_STATUS);
->>> +
->>> +    if (status & WDT_TIMEOUT_STATUS_IRQ)
->>> +        panic("Watchdog pre-timeout IRQ");
->>> +
->>> +    return IRQ_NONE;
->>> +}
->>> +
->>>   static int aspeed_wdt_probe(struct platform_device *pdev)
->>>   {
->>>       struct device *dev = &pdev->dev;
->>> @@ -253,6 +280,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->>>       const char *reset_type;
->>>       u32 duration;
->>>       u32 status;
->>> +    u32 timeout = 0;
->>>       int ret;
->>>       wdt = devm_kzalloc(dev, sizeof(*wdt), GFP_KERNEL);
->>> @@ -291,6 +319,27 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->>>       if (of_device_is_compatible(np, "aspeed,ast2400-wdt"))
->>>           wdt->ctrl = WDT_CTRL_1MHZ_CLK;
->>> +    if (config->irq_mask) {
->>> +        if (!of_property_read_u32(np, "aspeed,pre-timeout-irq-us", &timeout) && timeout) {
->>> +            int irq =  platform_get_irq(pdev, 0);
->>> +
->>> +            if (irq < 0) {
->>> +                dev_warn(dev, "Couldn't find IRQ: %d\n", irq);
->>> +                timeout = 0;
->>> +            } else {
->>> +                ret = devm_request_irq(dev, irq, aspeed_wdt_irq, IRQF_SHARED,
->>> +                               dev_name(dev), wdt);
->>> +                if (ret) {
->>> +                    dev_warn(dev, "Couldn't request IRQ:%d\n", ret);
->>> +                    timeout = 0;
->>> +                } else {
->>> +                    wdt->ctrl |= ((timeout << config->irq_shift) &
->>> +                              config->irq_mask) | WDT_CTRL_WDT_INTR;
->>> +                }
->>> +            }
->>> +        }
->>> +    }
->>> +
->>>       /*
->>>        * Control reset on a per-device basis to ensure the
->>>        * host is not affected by a BMC reboot
->>> @@ -308,7 +357,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->>>           else if (!strcmp(reset_type, "system"))
->>>               wdt->ctrl |= WDT_CTRL_RESET_MODE_FULL_CHIP |
->>>                        WDT_CTRL_RESET_SYSTEM;
->>> -        else if (strcmp(reset_type, "none"))
->>> +        else if (strcmp(reset_type, "none") && !timeout)
->>>               return -EINVAL;
->>>       }
->>>       if (of_property_read_bool(np, "aspeed,external-signal"))
->>> -- 
->>> 2.31.1
->>>
+Best regards,
+Krzysztof
 
