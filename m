@@ -2,87 +2,78 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5981D607F29
-	for <lists+linux-aspeed@lfdr.de>; Fri, 21 Oct 2022 21:39:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B66C260840F
+	for <lists+linux-aspeed@lfdr.de>; Sat, 22 Oct 2022 06:00:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MvFCt1tJNz3dsr
-	for <lists+linux-aspeed@lfdr.de>; Sat, 22 Oct 2022 06:39:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MvSKy4hzfz3dsL
+	for <lists+linux-aspeed@lfdr.de>; Sat, 22 Oct 2022 15:00:38 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Afzj3Rhd;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=o7EAYMMw;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::334; helo=mail-ot1-x334.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Afzj3Rhd;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=o7EAYMMw;
 	dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MvFCh271Gz3drM
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Oct 2022 06:39:27 +1100 (AEDT)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29LJPbKo025699;
-	Fri, 21 Oct 2022 19:39:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=GPZYBQ0k6gzszcp51jceAmjUy2bscuXiB65RpDNZtVk=;
- b=Afzj3RhdFppx+v8xbI86xsuEkaW5NiN33+Aw7Mm/Qu3RrnbKWn3R/q/WUz8ikpSla2Sg
- lYCqG+6tTdoeMFFioLg6c7snWhkPLb7XT/FWbL2JnMNPRfMbUdUORIzysw9qkKnNHOLA
- vJHJhEwbh3eWmS8bG95sBUaNfA7cXMFabI26P/ZxkQqnxVMD1vFNcvf9eCs+M4PpR4/d
- d325VwLxmgC/2aWcDNeankRpgeuOecNOv7/PYHgbpNh52qDC9GKvJQ2Y4DO9XFZzBgvA
- k8/HNs4FTnIw8bpxsn+Wc1/QtJZPWq2H4ie95N7fq5Zb0gM78ENrtnQcwnXn7XZCYL0Y Eg== 
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kc1jugehd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Oct 2022 19:39:14 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-	by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29LJZV8n015824;
-	Fri, 21 Oct 2022 19:39:13 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
-	by ppma03dal.us.ibm.com with ESMTP id 3kapd5n0br-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Oct 2022 19:39:13 +0000
-Received: from smtpav02.dal12v.mail.ibm.com ([9.208.128.128])
-	by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 29LJdDje5177944
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 21 Oct 2022 19:39:13 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 09F4C58060;
-	Fri, 21 Oct 2022 19:39:12 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F36405805A;
-	Fri, 21 Oct 2022 19:39:10 +0000 (GMT)
-Received: from [9.160.163.86] (unknown [9.160.163.86])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 21 Oct 2022 19:39:10 +0000 (GMT)
-Message-ID: <56929483-56d1-f2b8-9b7e-3fd6388e5f87@linux.ibm.com>
-Date: Fri, 21 Oct 2022 14:39:10 -0500
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MvSKs0Cy3z2xFx
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Oct 2022 15:00:32 +1100 (AEDT)
+Received: by mail-ot1-x334.google.com with SMTP id r13-20020a056830418d00b0065601df69c0so2942092otu.7
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Oct 2022 21:00:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=20L4EctgpcreWPnaAcAxm8gZbB5uiC3QiKEacbqhxTM=;
+        b=o7EAYMMwP6ZaxHfdBsXv8JJkEPe1Rh/oyzCpP1GU4U7zcRQpNTjgqw5uvtJ9vah98l
+         2145rhiD/FhUTiyybAHbvrP1yVNU4pJKR4/ULEstdmrRFHUzBHFGrYx1Uh9kuluMnzgK
+         EWnVCtQv5QIOA01DxDXnK/nkArR2sbnCmW43m/93qQ8TSE3pCDvSy2cdP04U51xVfKjh
+         PTUTAdKiqpvwqO9lYXDiL6O+deBD3Jh1/Vo1WVxBXWrkxfhwUDvklRN//PL31R7jH1XR
+         BnL8a84pR4JUgNzpgxQNMRimKh+DvhnJBRb7XZRCldd3qhwEz/GtqwVSpcl7W1485Tzu
+         7vfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=20L4EctgpcreWPnaAcAxm8gZbB5uiC3QiKEacbqhxTM=;
+        b=GQGIqOIgtMchkNmihltq15mpnVsy7OPHhuALX3V3SV3Y9oAPFNEULNqvGMmuMY9rNI
+         /mzZhyLpGukmCV33Rrnlckn//6ACsW4mZt0mdPUYF92P9tAqKEGfgLLRZFhWEvVLa0h7
+         Zgee557P9jAZEMXDFoArAaCe5PVuz9SQiiKK7ibXFpX4BwYBE4ZyshDtkQs++bpgvBAQ
+         evv36kINg4XEYOYECqSkdYWKBGoVxdDepfmqJVWoAjYSml3w2pxqJSPi4h58UeNS1Y7p
+         Fz+DEcYUDMalY54YtYZBClnwNFbfk+B0O0e/jFYpaZcsyhEHgHZt9ad2RxvvrqTxdJwu
+         Y64A==
+X-Gm-Message-State: ACrzQf3IXcypZD8XFJm7QApl6TacI9O+TFKG96hE93+cmrGDQZhyjscD
+	R1akX/FmeA/rPnPzkPS56b8=
+X-Google-Smtp-Source: AMsMyM4a4vfPiXS4ensjO2jmNJL39Q1r0EY2hIwVvjzV2EXjqH84qsTv5jiTjT5zBf8bmYFsnlhJHg==
+X-Received: by 2002:a9d:3642:0:b0:655:f25f:be55 with SMTP id w60-20020a9d3642000000b00655f25fbe55mr11516791otb.13.1666411224826;
+        Fri, 21 Oct 2022 21:00:24 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y3-20020a056870418300b0011f400edb17sm11187297oac.4.2022.10.21.21.00.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Oct 2022 21:00:24 -0700 (PDT)
+Message-ID: <00d859b0-f766-4322-fe58-095d4f84e954@roeck-us.net>
+Date: Fri, 21 Oct 2022 21:00:22 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
+ Thunderbird/102.2.2
 Subject: Re: [PATCH 1/2] watchdog: aspeed: Add pre-timeout interrupt support
-To: Guenter Roeck <linux@roeck-us.net>
+Content-Language: en-US
+To: Eddie James <eajames@linux.ibm.com>
 References: <20221021151559.781983-1-eajames@linux.ibm.com>
  <20221021151559.781983-2-eajames@linux.ibm.com>
  <20221021165650.GA1888515@roeck-us.net>
-Content-Language: en-US
-From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <20221021165650.GA1888515@roeck-us.net>
+ <56929483-56d1-f2b8-9b7e-3fd6388e5f87@linux.ibm.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <56929483-56d1-f2b8-9b7e-3fd6388e5f87@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GqS9Szf9qUjWXZy28hZIAbp9MzWezgEw
-X-Proofpoint-ORIG-GUID: GqS9Szf9qUjWXZy28hZIAbp9MzWezgEw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-21_04,2022-10-21_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 adultscore=0 mlxscore=0 malwarescore=0 spamscore=0
- mlxlogscore=999 priorityscore=1501 suspectscore=0 clxscore=1015
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210210114
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,169 +89,162 @@ Cc: devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-aspeed@lis
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On 10/21/22 12:39, Eddie James wrote:
+> 
+> On 10/21/22 11:56, Guenter Roeck wrote:
+>> On Fri, Oct 21, 2022 at 10:15:58AM -0500, Eddie James wrote:
+>>> Enable the pre-timeout interrupt if requested by device property.
+>>>
+>> I am not inclined to accept this patch without detailed explanation.
+>> Why would it make sense and/or be desirable to completely bypass the
+>> watchdog core with this pretimeout support ?
+> 
+> 
+> Sorry, I should add more detail.
+> 
+> It doesn't necessarily bypass the watchdog core. It can, if you specify reset-type="none". But if not, the watchdog will still fire at the appropriate time.
+> 
+> The purpose is to get a stack dump from a kernel panic rather than a hard reset from the watchdog. The interrupt will fire a certain number of microseconds (configurable by dts property) before the watchdog does. The interrupt handler then panics, and all the CPU stacks are dumped, so hopefully you can catch where another processor was stuck.
+> 
+> 
+> I can submit v2 with this information in the commit message and/or comments.
+> 
 
-On 10/21/22 11:56, Guenter Roeck wrote:
-> On Fri, Oct 21, 2022 at 10:15:58AM -0500, Eddie James wrote:
->> Enable the pre-timeout interrupt if requested by device property.
->>
-> I am not inclined to accept this patch without detailed explanation.
-> Why would it make sense and/or be desirable to completely bypass the
-> watchdog core with this pretimeout support ?
+You did not answer the question why you do not use the pretimeout functionality
+supported by the watchdog core.
 
+Guenter
 
-Sorry, I should add more detail.
-
-It doesn't necessarily bypass the watchdog core. It can, if you specify 
-reset-type="none". But if not, the watchdog will still fire at the 
-appropriate time.
-
-The purpose is to get a stack dump from a kernel panic rather than a 
-hard reset from the watchdog. The interrupt will fire a certain number 
-of microseconds (configurable by dts property) before the watchdog does. 
-The interrupt handler then panics, and all the CPU stacks are dumped, so 
-hopefully you can catch where another processor was stuck.
-
-
-I can submit v2 with this information in the commit message and/or comments.
-
-Thanks,
-
-Eddie
-
-
->
 > Thanks,
-> Guenter
->
->> Signed-off-by: Eddie James <eajames@linux.ibm.com>
->> ---
->>   drivers/watchdog/aspeed_wdt.c | 53 +++++++++++++++++++++++++++++++++--
->>   1 file changed, 51 insertions(+), 2 deletions(-)
+> 
+> Eddie
+> 
+> 
 >>
->> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
->> index 0cff2adfbfc9..8e12181a827e 100644
->> --- a/drivers/watchdog/aspeed_wdt.c
->> +++ b/drivers/watchdog/aspeed_wdt.c
->> @@ -5,11 +5,14 @@
->>    * Joel Stanley <joel@jms.id.au>
->>    */
->>   
->> +#include <linux/bits.h>
->>   #include <linux/delay.h>
->> +#include <linux/interrupt.h>
->>   #include <linux/io.h>
->>   #include <linux/kernel.h>
->>   #include <linux/module.h>
->>   #include <linux/of.h>
->> +#include <linux/of_irq.h>
->>   #include <linux/platform_device.h>
->>   #include <linux/watchdog.h>
->>   
->> @@ -26,20 +29,32 @@ struct aspeed_wdt {
->>   
->>   struct aspeed_wdt_config {
->>   	u32 ext_pulse_width_mask;
->> +	u32 irq_shift;
->> +	u32 irq_mask;
->>   };
->>   
->>   static const struct aspeed_wdt_config ast2400_config = {
->>   	.ext_pulse_width_mask = 0xff,
->> +	.irq_shift = 0,
->> +	.irq_mask = 0,
->>   };
->>   
->>   static const struct aspeed_wdt_config ast2500_config = {
->>   	.ext_pulse_width_mask = 0xfffff,
->> +	.irq_shift = 12,
->> +	.irq_mask = GENMASK(31, 12),
->> +};
->> +
->> +static const struct aspeed_wdt_config ast2600_config = {
->> +	.ext_pulse_width_mask = 0xfffff,
->> +	.irq_shift = 0,
->> +	.irq_mask = GENMASK(31, 10),
->>   };
->>   
->>   static const struct of_device_id aspeed_wdt_of_table[] = {
->>   	{ .compatible = "aspeed,ast2400-wdt", .data = &ast2400_config },
->>   	{ .compatible = "aspeed,ast2500-wdt", .data = &ast2500_config },
->> -	{ .compatible = "aspeed,ast2600-wdt", .data = &ast2500_config },
->> +	{ .compatible = "aspeed,ast2600-wdt", .data = &ast2600_config },
->>   	{ },
->>   };
->>   MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
->> @@ -58,6 +73,7 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
->>   #define   WDT_CTRL_RESET_SYSTEM		BIT(1)
->>   #define   WDT_CTRL_ENABLE		BIT(0)
->>   #define WDT_TIMEOUT_STATUS	0x10
->> +#define   WDT_TIMEOUT_STATUS_IRQ		BIT(2)
->>   #define   WDT_TIMEOUT_STATUS_BOOT_SECONDARY	BIT(1)
->>   #define WDT_CLEAR_TIMEOUT_STATUS	0x14
->>   #define   WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION	BIT(0)
->> @@ -243,6 +259,17 @@ static const struct watchdog_info aspeed_wdt_info = {
->>   	.identity	= KBUILD_MODNAME,
->>   };
->>   
->> +static irqreturn_t aspeed_wdt_irq(int irq, void *arg)
->> +{
->> +	struct aspeed_wdt *wdt = arg;
->> +	u32 status = readl(wdt->base + WDT_TIMEOUT_STATUS);
->> +
->> +	if (status & WDT_TIMEOUT_STATUS_IRQ)
->> +		panic("Watchdog pre-timeout IRQ");
->> +
->> +	return IRQ_NONE;
->> +}
->> +
->>   static int aspeed_wdt_probe(struct platform_device *pdev)
->>   {
->>   	struct device *dev = &pdev->dev;
->> @@ -253,6 +280,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->>   	const char *reset_type;
->>   	u32 duration;
->>   	u32 status;
->> +	u32 timeout = 0;
->>   	int ret;
->>   
->>   	wdt = devm_kzalloc(dev, sizeof(*wdt), GFP_KERNEL);
->> @@ -291,6 +319,27 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->>   	if (of_device_is_compatible(np, "aspeed,ast2400-wdt"))
->>   		wdt->ctrl = WDT_CTRL_1MHZ_CLK;
->>   
->> +	if (config->irq_mask) {
->> +		if (!of_property_read_u32(np, "aspeed,pre-timeout-irq-us", &timeout) && timeout) {
->> +			int irq =  platform_get_irq(pdev, 0);
->> +
->> +			if (irq < 0) {
->> +				dev_warn(dev, "Couldn't find IRQ: %d\n", irq);
->> +				timeout = 0;
->> +			} else {
->> +				ret = devm_request_irq(dev, irq, aspeed_wdt_irq, IRQF_SHARED,
->> +						       dev_name(dev), wdt);
->> +				if (ret) {
->> +					dev_warn(dev, "Couldn't request IRQ:%d\n", ret);
->> +					timeout = 0;
->> +				} else {
->> +					wdt->ctrl |= ((timeout << config->irq_shift) &
->> +						      config->irq_mask) | WDT_CTRL_WDT_INTR;
->> +				}
->> +			}
->> +		}
->> +	}
->> +
->>   	/*
->>   	 * Control reset on a per-device basis to ensure the
->>   	 * host is not affected by a BMC reboot
->> @@ -308,7 +357,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->>   		else if (!strcmp(reset_type, "system"))
->>   			wdt->ctrl |= WDT_CTRL_RESET_MODE_FULL_CHIP |
->>   				     WDT_CTRL_RESET_SYSTEM;
->> -		else if (strcmp(reset_type, "none"))
->> +		else if (strcmp(reset_type, "none") && !timeout)
->>   			return -EINVAL;
->>   	}
->>   	if (of_property_read_bool(np, "aspeed,external-signal"))
->> -- 
->> 2.31.1
+>> Thanks,
+>> Guenter
 >>
+>>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>>> ---
+>>>   drivers/watchdog/aspeed_wdt.c | 53 +++++++++++++++++++++++++++++++++--
+>>>   1 file changed, 51 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
+>>> index 0cff2adfbfc9..8e12181a827e 100644
+>>> --- a/drivers/watchdog/aspeed_wdt.c
+>>> +++ b/drivers/watchdog/aspeed_wdt.c
+>>> @@ -5,11 +5,14 @@
+>>>    * Joel Stanley <joel@jms.id.au>
+>>>    */
+>>> +#include <linux/bits.h>
+>>>   #include <linux/delay.h>
+>>> +#include <linux/interrupt.h>
+>>>   #include <linux/io.h>
+>>>   #include <linux/kernel.h>
+>>>   #include <linux/module.h>
+>>>   #include <linux/of.h>
+>>> +#include <linux/of_irq.h>
+>>>   #include <linux/platform_device.h>
+>>>   #include <linux/watchdog.h>
+>>> @@ -26,20 +29,32 @@ struct aspeed_wdt {
+>>>   struct aspeed_wdt_config {
+>>>       u32 ext_pulse_width_mask;
+>>> +    u32 irq_shift;
+>>> +    u32 irq_mask;
+>>>   };
+>>>   static const struct aspeed_wdt_config ast2400_config = {
+>>>       .ext_pulse_width_mask = 0xff,
+>>> +    .irq_shift = 0,
+>>> +    .irq_mask = 0,
+>>>   };
+>>>   static const struct aspeed_wdt_config ast2500_config = {
+>>>       .ext_pulse_width_mask = 0xfffff,
+>>> +    .irq_shift = 12,
+>>> +    .irq_mask = GENMASK(31, 12),
+>>> +};
+>>> +
+>>> +static const struct aspeed_wdt_config ast2600_config = {
+>>> +    .ext_pulse_width_mask = 0xfffff,
+>>> +    .irq_shift = 0,
+>>> +    .irq_mask = GENMASK(31, 10),
+>>>   };
+>>>   static const struct of_device_id aspeed_wdt_of_table[] = {
+>>>       { .compatible = "aspeed,ast2400-wdt", .data = &ast2400_config },
+>>>       { .compatible = "aspeed,ast2500-wdt", .data = &ast2500_config },
+>>> -    { .compatible = "aspeed,ast2600-wdt", .data = &ast2500_config },
+>>> +    { .compatible = "aspeed,ast2600-wdt", .data = &ast2600_config },
+>>>       { },
+>>>   };
+>>>   MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
+>>> @@ -58,6 +73,7 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
+>>>   #define   WDT_CTRL_RESET_SYSTEM        BIT(1)
+>>>   #define   WDT_CTRL_ENABLE        BIT(0)
+>>>   #define WDT_TIMEOUT_STATUS    0x10
+>>> +#define   WDT_TIMEOUT_STATUS_IRQ        BIT(2)
+>>>   #define   WDT_TIMEOUT_STATUS_BOOT_SECONDARY    BIT(1)
+>>>   #define WDT_CLEAR_TIMEOUT_STATUS    0x14
+>>>   #define   WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION    BIT(0)
+>>> @@ -243,6 +259,17 @@ static const struct watchdog_info aspeed_wdt_info = {
+>>>       .identity    = KBUILD_MODNAME,
+>>>   };
+>>> +static irqreturn_t aspeed_wdt_irq(int irq, void *arg)
+>>> +{
+>>> +    struct aspeed_wdt *wdt = arg;
+>>> +    u32 status = readl(wdt->base + WDT_TIMEOUT_STATUS);
+>>> +
+>>> +    if (status & WDT_TIMEOUT_STATUS_IRQ)
+>>> +        panic("Watchdog pre-timeout IRQ");
+>>> +
+>>> +    return IRQ_NONE;
+>>> +}
+>>> +
+>>>   static int aspeed_wdt_probe(struct platform_device *pdev)
+>>>   {
+>>>       struct device *dev = &pdev->dev;
+>>> @@ -253,6 +280,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
+>>>       const char *reset_type;
+>>>       u32 duration;
+>>>       u32 status;
+>>> +    u32 timeout = 0;
+>>>       int ret;
+>>>       wdt = devm_kzalloc(dev, sizeof(*wdt), GFP_KERNEL);
+>>> @@ -291,6 +319,27 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
+>>>       if (of_device_is_compatible(np, "aspeed,ast2400-wdt"))
+>>>           wdt->ctrl = WDT_CTRL_1MHZ_CLK;
+>>> +    if (config->irq_mask) {
+>>> +        if (!of_property_read_u32(np, "aspeed,pre-timeout-irq-us", &timeout) && timeout) {
+>>> +            int irq =  platform_get_irq(pdev, 0);
+>>> +
+>>> +            if (irq < 0) {
+>>> +                dev_warn(dev, "Couldn't find IRQ: %d\n", irq);
+>>> +                timeout = 0;
+>>> +            } else {
+>>> +                ret = devm_request_irq(dev, irq, aspeed_wdt_irq, IRQF_SHARED,
+>>> +                               dev_name(dev), wdt);
+>>> +                if (ret) {
+>>> +                    dev_warn(dev, "Couldn't request IRQ:%d\n", ret);
+>>> +                    timeout = 0;
+>>> +                } else {
+>>> +                    wdt->ctrl |= ((timeout << config->irq_shift) &
+>>> +                              config->irq_mask) | WDT_CTRL_WDT_INTR;
+>>> +                }
+>>> +            }
+>>> +        }
+>>> +    }
+>>> +
+>>>       /*
+>>>        * Control reset on a per-device basis to ensure the
+>>>        * host is not affected by a BMC reboot
+>>> @@ -308,7 +357,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
+>>>           else if (!strcmp(reset_type, "system"))
+>>>               wdt->ctrl |= WDT_CTRL_RESET_MODE_FULL_CHIP |
+>>>                        WDT_CTRL_RESET_SYSTEM;
+>>> -        else if (strcmp(reset_type, "none"))
+>>> +        else if (strcmp(reset_type, "none") && !timeout)
+>>>               return -EINVAL;
+>>>       }
+>>>       if (of_property_read_bool(np, "aspeed,external-signal"))
+>>> -- 
+>>> 2.31.1
+>>>
+
