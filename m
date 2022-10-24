@@ -2,77 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC9760A111
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Oct 2022 13:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D551460B5EE
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Oct 2022 20:44:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Mwt232XCsz3bgh
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Oct 2022 22:21:47 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yXNK7Wvq;
-	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5iYW05vz;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Mx3rx4zc1z3bvs
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Oct 2022 05:44:33 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=2001:67c:2178:6::1c; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yXNK7Wvq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5iYW05vz;
-	dkim-atps=neutral
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.160.51; helo=mail-oa1-f51.google.com; envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mwt0F1bnYz3cBX
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Oct 2022 22:20:13 +1100 (AEDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 364C822169;
-	Mon, 24 Oct 2022 11:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666610410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s8EjyldAvzdOSExh8dLPvPye++M7XBzrxFcMIv6xfEg=;
-	b=yXNK7WvqcfSZ73bIs91Y5i7Bf+/SN3NxlKz05cX26OSlw7GDaRM0CnD5Q8pdke1oaKAT3a
-	733QKiclqV7+xhnQy1p/B6dwHMQEKlOE67NXCdjUVPQa5CG4yRbA8jQ51vzzhzFm87CwpA
-	LRguV0fRfumlKaA25GcQYN5DK4EWF2k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666610410;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s8EjyldAvzdOSExh8dLPvPye++M7XBzrxFcMIv6xfEg=;
-	b=5iYW05vzugOpwdblq+hoaUUilaS6r1R4P1+qqdHtxMEn9I74hlGTuChnD/rLbuMU0RpEgw
-	Smdzlcetm0TpzGCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 866DC13357;
-	Mon, 24 Oct 2022 11:20:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id kK6cH+l0VmOYMgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:20:09 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch,
-	airlied@gmail.com,
-	sam@ravnborg.org,
-	javierm@redhat.com,
-	mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com
-Subject: [PATCH v2 21/21] drm/fb-helper: Remove unnecessary include statements
-Date: Mon, 24 Oct 2022 13:19:53 +0200
-Message-Id: <20221024111953.24307-22-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221024111953.24307-1-tzimmermann@suse.de>
-References: <20221024111953.24307-1-tzimmermann@suse.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mx3rq0YDpz2xH8
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Oct 2022 05:44:26 +1100 (AEDT)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-13bd19c3b68so2189693fac.7
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Oct 2022 11:44:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m4upE6rPkUg1Kk48qduhvrFmJwYjPpk30APYeg6GV6w=;
+        b=TApRhVszSgq2stBYrH/M6I6QvfzKdxSKtjRJVG9TSIQ5TrD5o4dSaFDllcFwv+uAEZ
+         BtclvdaXL2SWi5Nl+KXMFONZo7z7DAsxQdOaVOwCWSWtqyaHA8a+fHAJE0uD0CilrjAE
+         3+sGh6KqdUb3cuD5M8625JUZfZq/wn/I62BoYwdP3MXgqZBLv77CAw89YulxLCCgG22P
+         lUrcKvUqpltPyFRRfhNViCo2ifc2xgWPKQSjWqmIsfIsU+0QOsJI+U3MPGySu6tGZDsk
+         lVbwOi+NKfQsTi0kL4rqw1B9CKrC1hjvuxwrZMWiUW2cqUgrVg2ODDGZGlV6CkhSJ4oZ
+         T2lA==
+X-Gm-Message-State: ACrzQf1F12jJgdAUtKtNLWaOoQNHM0gxFIDT9+rXtloGbRRj1v1V1Vqp
+	Ch+3MJIx9zp4aW9+euNiGoJIyZarmQ==
+X-Google-Smtp-Source: AMsMyM6cky/yW1ZgEHaZQNSvu4CwhoYu/Fp9DZ/gEyYJFP3Btfjl8wSbjLryLSStc/QbxTWG7tZnMQ==
+X-Received: by 2002:a05:6870:3052:b0:131:932c:3316 with SMTP id u18-20020a056870305200b00131932c3316mr20789918oau.288.1666637062744;
+        Mon, 24 Oct 2022 11:44:22 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id q14-20020a4adc4e000000b00480b7efd5d9sm307974oov.6.2022.10.24.11.44.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 11:44:22 -0700 (PDT)
+Received: (nullmailer pid 2030017 invoked by uid 1000);
+	Mon, 24 Oct 2022 18:44:23 -0000
+Date: Mon, 24 Oct 2022 13:44:23 -0500
+From: Rob Herring <robh@kernel.org>
+To: Eddie James <eajames@linux.ibm.com>
+Subject: Re: [PATCH 2/2] dt-bindings: watchdog: aspeed: Document
+ aspeed,pre-timeout-irq-us
+Message-ID: <20221024184423.GA2023764-robh@kernel.org>
+References: <20221021151559.781983-1-eajames@linux.ibm.com>
+ <20221021151559.781983-3-eajames@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221021151559.781983-3-eajames@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,366 +64,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org, linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org, amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org, spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, wim@linux-watchdog.org, linux@roeck-us.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Remove include statements for <drm/drm_fb_helper.h> where it is not
-required (i.e., most of them). In a few places include other header
-files that are required by the source code.
+On Fri, Oct 21, 2022 at 10:15:59AM -0500, Eddie James wrote:
+> Document this new property for the pre-timeout interrupt.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+> index a8197632d6d2..81d2c35ca7e3 100644
+> --- a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+> +++ b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+> @@ -40,12 +40,17 @@ Optional properties:
+>  			specified no external signal is sent.
+>   - aspeed,ext-pulse-duration: External signal pulse duration in microseconds
+>  
+> -Optional properties for AST2500-compatible watchdogs:
+> +Optional properties for AST2500 and AST2600 compatible watchdogs:
+>   - aspeed,ext-push-pull: If aspeed,external-signal is present, set the pin's
+>  			 drive type to push-pull. The default is open-drain.
+>   - aspeed,ext-active-high: If aspeed,external-signal is present and and the pin
+>  			   is configured as push-pull, then set the pulse
+>  			   polarity to active-high. The default is active-low.
+> + - aspeed,pre-timeout-irq-us: If aspeed,pre-timeout-irq-us is non-zero, the
+> +			      pre-timeout interrupt will be enabled for the
+> +			      watchdog. The interrupt will fire the specified
+> +			      number of microseconds before the watchdog expires
+> +			      and trigger a kernel panic.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c  | 1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c     | 1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h        | 1 -
- drivers/gpu/drm/arm/hdlcd_crtc.c                | 1 -
- drivers/gpu/drm/ast/ast_drv.h                   | 1 -
- drivers/gpu/drm/bridge/tc358762.c               | 2 +-
- drivers/gpu/drm/drm_crtc_helper.c               | 1 -
- drivers/gpu/drm/drm_gem_framebuffer_helper.c    | 1 -
- drivers/gpu/drm/drm_probe_helper.c              | 1 -
- drivers/gpu/drm/etnaviv/etnaviv_drv.h           | 3 ++-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h | 1 -
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c     | 1 -
- drivers/gpu/drm/imx/imx-ldb.c                   | 2 +-
- drivers/gpu/drm/imx/imx-tve.c                   | 1 -
- drivers/gpu/drm/imx/parallel-display.c          | 2 +-
- drivers/gpu/drm/kmb/kmb_plane.c                 | 1 -
- drivers/gpu/drm/mgag200/mgag200_drv.h           | 1 -
- drivers/gpu/drm/qxl/qxl_drv.h                   | 1 -
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h     | 2 +-
- drivers/gpu/drm/tidss/tidss_kms.c               | 1 -
- drivers/gpu/drm/v3d/v3d_drv.c                   | 1 -
- drivers/gpu/drm/vboxvideo/vbox_main.c           | 1 -
- drivers/gpu/drm/virtio/virtgpu_drv.h            | 1 -
- drivers/gpu/drm/xen/xen_drm_front_gem.c         | 1 -
- 24 files changed, 6 insertions(+), 24 deletions(-)
+A pre-timeout interrupt is fairly common. Come up with a common property 
+please. You'll need to be clear if the time is from wdog restart or time 
+before final timeout. 
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index 491d4846fc02c..e1320edfc5274 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -26,7 +26,6 @@
- 
- #include <drm/display/drm_dp_helper.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/amdgpu_drm.h>
- #include "amdgpu.h"
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index dd6f9ae6fbe9f..b32b387599b5c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -40,7 +40,6 @@
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_gem_framebuffer_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_vblank.h>
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index 37322550d7508..8a39300b1a845 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -36,7 +36,6 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_fixed.h>
- #include <drm/drm_crtc_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_probe_helper.h>
- #include <linux/i2c.h>
-diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
-index 7030339fa2323..ddbe1dd2d44ef 100644
---- a/drivers/gpu/drm/arm/hdlcd_crtc.c
-+++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
-@@ -19,7 +19,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_of.h>
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 74f41282444f6..d51b81fea9c80 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -38,7 +38,6 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_mode.h>
- #include <drm/drm_framebuffer.h>
--#include <drm/drm_fb_helper.h>
- 
- #define DRIVER_AUTHOR		"Dave Airlie"
- 
-diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index 7f4fce1aa9988..0b6a284368859 100644
---- a/drivers/gpu/drm/bridge/tc358762.c
-+++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -11,6 +11,7 @@
-  */
- 
- #include <linux/delay.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
-@@ -19,7 +20,6 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-index f5fb22e0d0337..a209659a996c7 100644
---- a/drivers/gpu/drm/drm_crtc_helper.c
-+++ b/drivers/gpu/drm/drm_crtc_helper.c
-@@ -43,7 +43,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_print.h>
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index e35e224e6303a..e93533b86037f 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -9,7 +9,6 @@
- #include <linux/module.h>
- 
- #include <drm/drm_damage_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem.h>
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 69b0b2b9cc1c5..ef2b41b2eb7b8 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -36,7 +36,6 @@
- #include <drm/drm_client.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_print.h>
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index f32f4771dada7..2bb4c25565dcb 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -6,13 +6,14 @@
- #ifndef __ETNAVIV_DRV_H__
- #define __ETNAVIV_DRV_H__
- 
-+#include <linux/io.h>
- #include <linux/list.h>
- #include <linux/mm_types.h>
- #include <linux/sizes.h>
- #include <linux/time64.h>
- #include <linux/types.h>
- 
--#include <drm/drm_fb_helper.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_gem.h>
- #include <drm/etnaviv_drm.h>
- #include <drm/gpu_scheduler.h>
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 4a0cd22c10e21..f957552c6c507 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -19,7 +19,6 @@
- #include <linux/i2c.h>
- 
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
- 
- struct hibmc_connector {
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index 28e732f94bf2f..6c6b572987973 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index 41799011f73b6..c45fc8f4744d0 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/clk.h>
- #include <linux/component.h>
-+#include <linux/i2c.h>
- #include <linux/media-bus-format.h>
- #include <linux/mfd/syscon.h>
- #include <linux/mfd/syscon/imx6q-iomuxc-gpr.h>
-@@ -23,7 +24,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
-index 6b34fac3f73a0..d64ebd2cf15e8 100644
---- a/drivers/gpu/drm/imx/imx-tve.c
-+++ b/drivers/gpu/drm/imx/imx-tve.c
-@@ -19,7 +19,6 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index 06723b2e9b847..0fa0b590830b6 100644
---- a/drivers/gpu/drm/imx/parallel-display.c
-+++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -8,6 +8,7 @@
- #include <linux/component.h>
- #include <linux/media-bus-format.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/videodev2.h>
- 
-@@ -16,7 +17,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index a42f63f6f9573..d172a302f9024 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -9,7 +9,6 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_dma_helper.h>
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index f0c2349404b46..9e604dbb8e448 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -18,7 +18,6 @@
- #include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_plane.h>
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
-index 432758ad39a35..76f060810f634 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.h
-+++ b/drivers/gpu/drm/qxl/qxl_drv.h
-@@ -38,7 +38,6 @@
- 
- #include <drm/drm_crtc.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_ttm_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_gem.h>
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-index 1641440837af5..aeb03a57240fd 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-@@ -9,10 +9,10 @@
- #ifndef _ROCKCHIP_DRM_DRV_H
- #define _ROCKCHIP_DRM_DRV_H
- 
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_gem.h>
- 
-+#include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/component.h>
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index afb2879980c6c..345bcc3011e4f 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -10,7 +10,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index e8c975b815859..478f1f0f60dec 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -22,7 +22,6 @@
- #include <linux/reset.h>
- 
- #include <drm/drm_drv.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_managed.h>
- #include <uapi/drm/v3d_drm.h>
- 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
-index c9e8b3a63c621..3b83e550f4df5 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_main.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
-@@ -11,7 +11,6 @@
- #include <linux/pci.h>
- #include <linux/vbox_err.h>
- 
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_damage_helper.h>
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 9b98470593b06..b7a64c7dcc2c9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -35,7 +35,6 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem.h>
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-index e31554d7139f1..4c95ebcdcc2d3 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-@@ -12,7 +12,6 @@
- #include <linux/scatterlist.h>
- #include <linux/shmem_fs.h>
- 
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_prime.h>
- #include <drm/drm_probe_helper.h>
--- 
-2.38.0
-
+Rob
