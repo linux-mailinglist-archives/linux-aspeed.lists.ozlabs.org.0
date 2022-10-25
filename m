@@ -1,63 +1,33 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3DD60CD44
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Oct 2022 15:18:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AC260D735
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Oct 2022 00:36:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MxXZY4PS6z3c3V
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Oct 2022 00:18:45 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=FZsm3+Ap;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Mxmxm3HKSz3bym
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Oct 2022 09:36:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=collabora.com (client-ip=46.235.227.172; helo=madras.collabora.co.uk; envelope-from=nicolas.dufresne@collabora.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=FZsm3+Ap;
-	dkim-atps=neutral
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MxXZM6Tyxz2ygC;
-	Wed, 26 Oct 2022 00:18:33 +1100 (AEDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4D4936602254;
-	Tue, 25 Oct 2022 14:18:27 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1666703909;
-	bh=NzM0Ii6N1Q/ccnjjm2mgQk1R6bvLWfp7+zNhfLnkSFY=;
-	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=FZsm3+ApOIIPxWAprErRprh9iRzwFNhy4t0GpgZDnMSDdunxAkJ+IPv+QEysK8vBP
-	 jlPfGgrbVCsADH5torBhxZhYyJrRmq08+6dDKiR0noMKtniwkHnbhoL1vsGO65uL6S
-	 zbrVWYLLZJc8F4KpzUOiiwCPEbwcLCnlypUTCgub98QB3UQrobFMiLpWWDA3RpJBRl
-	 Pg1enL10eRunfZ96DbWSKLYk1+/lIhxvwDKYn0Z/kG+q2spqpimzdgi4zoNdw8ZY1g
-	 xnnh5YZRK0S0pkGM7dpldoa1cqGeIrF46Q+mxDEZPAaHfEt3AWMdRzuoXd+FEXYl5I
-	 +gU4H1PjaFwlQ==
-Message-ID: <8a8f7c818688bda7c75d2f4fb5f8f0d6f89cb965.camel@collabora.com>
-Subject: Re: [PATCH v10 3/5] media: Documentation: aspeed-video: Add user
- documentation for the aspeed-video driver
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com, 
- mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
- hverkuil-cisco@xs4all.nl,  laurent.pinchart@ideasonboard.com,
- xavier.roumegue@oss.nxp.com,  ezequiel@vanguardiasur.com.ar,
- stanimir.varbanov@linaro.org,  sakari.ailus@linux.intel.com,
- ming.qian@nxp.com, andrzej.p@collabora.com,  linux-media@vger.kernel.org,
- openbmc@lists.ozlabs.org,  linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org
-Date: Tue, 25 Oct 2022 09:18:16 -0400
-In-Reply-To: <20221025090203.5623-4-jammy_huang@aspeedtech.com>
-References: <20221025090203.5623-1-jammy_huang@aspeedtech.com>
-	 <20221025090203.5623-4-jammy_huang@aspeedtech.com>
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.crashing.org (client-ip=63.228.1.57; helo=gate.crashing.org; envelope-from=benh@kernel.crashing.org; receiver=<UNKNOWN>)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Mxmxd68xtz2xgG
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Oct 2022 09:36:04 +1100 (AEDT)
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 29PMTNiP006450;
+	Tue, 25 Oct 2022 17:29:24 -0500
+Message-ID: <49d97f97e63edb70392279845186547d73b2290e.camel@kernel.crashing.org>
+Subject: Re: [PATCH] usb: gadget: aspeed: fix buffer overflow
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Lei Yu <yulei.sh@bytedance.com>
+Date: Wed, 26 Oct 2022 09:29:23 +1100
+In-Reply-To: <CAGm54UE1oS1N_hn4RKuF8a+OWgfvJ-OCc0-uju4mXbtz-jw8VA@mail.gmail.com>
+References: <20221024094853.2877441-1-yulei.sh@bytedance.com>
+	 <661b43881b7f8764919847f29c0daf1866441090.camel@kernel.crashing.org>
+	 <CAGm54UE1oS1N_hn4RKuF8a+OWgfvJ-OCc0-uju4mXbtz-jw8VA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -70,142 +40,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Felipe Balbi <balbi@kernel.org>, Henry Tian <tianxiaofeng@bytedance.com>, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, open list <linux-kernel@vger.kernel.org>, Jakob Koschel <jakobkoschel@gmail.com>, "moderated
+ list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Jammy,
-
-thanks for the addition.
-
-Le mardi 25 octobre 2022 =C3=A0 17:02 +0800, Jammy Huang a =C3=A9crit=C2=A0=
-:
-> Add user documentation for the aspeed-video driver.
+On Tue, 2022-10-25 at 14:21 +0800, Lei Yu wrote:
 >=20
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
-> v10:
->   - new
-> ---
->  .../media/drivers/aspeed-video.rst            | 61 +++++++++++++++++++
->  .../userspace-api/media/drivers/index.rst     |  1 +
->  2 files changed, 62 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/drivers/aspeed-vide=
-o.rst
+
+> This case is treated as an error and we do not care about the
+> following data.
+> Similarly, if we change the MTU in BMC and let BMC ping the OS, the
+> OS
+> kernel does not crash and it gets RX errors, and the ping fails.
 >=20
-> diff --git a/Documentation/userspace-api/media/drivers/aspeed-video.rst b=
-/Documentation/userspace-api/media/drivers/aspeed-video.rst
-> new file mode 100644
-> index 000000000000..798a2588b175
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/drivers/aspeed-video.rst
-> @@ -0,0 +1,61 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: <isonum.txt>
-> +
-> +ASPEED video driver
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +ASPEED Video Engine found on AST2400/2500/2600 SoC supports high perform=
-ance
-> +video compressions with a wide range of video quality and compression ra=
-tio
-> +options. The adopted compressing algorithm is a modified JPEG algorithm.
-> +
-> +There are 2 types of compressions in this IP.
-> +
-> +* JPEG JFIF standard mode: for single frame and management compression
-> +* ASPEED proprietary mode: for multi-frame and differential compression.
-> +  Support 2-pass (high quality) video compression scheme (Patent pending=
- by
-> +  ASPEED). Provide visually lossless video compression quality or to red=
-uce
-> +  the network average loading under intranet KVM applications.
+> =C2=A0# ifconfig usb0
+> =C2=A0usb0: flags=3D4163<UP,BROADCAST,RUNNING,MULTICAST>=C2=A0 mtu 1500
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 RX packets 85=C2=A0 byte=
+s 15380 (15.0 KiB)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 RX errors 51=C2=A0 dropp=
+ed 0=C2=A0 overruns 0=C2=A0 frame 51
+>=20
+> With this patch, we get the similar behavior on BMC that the RX
+> errors
+> are increasing.
+>=20
+> > Additionally, I'm curious, why in this specific case is the device
+> > sending more data than
+> > the buffer can hold ? The MTU change should have resulted in
+> > buffers being re-allocated no ?
+>=20
+> The issue is found in a rare case during BIOS boot, we assume that
+> BIOS is sending unexpected data to BMC for unknown reasons.
 
-I think some of the information disclosed in the following quote could be
-summarized. Notably the part about the extra buffers.
+Ok thanks.
 
-   Aspeed JPEG Format requires an additional buffer, called bcd, to store
-   the information about which macro block in the new frame is different
-   from the previous one.
-  =20
-   To have bcd correctly working, we need to swap the buffers for src0/1 to
-   make src1 refer to previous frame and src0 to the coming new frame.
-  =20
-But before I push you this route, have you considered using a dedicated pix=
-el
-format instead ? Here's my thinking, the output of the JPEG encoder is no l=
-onger
-"compatible" (or at least won't yield the expected images) if used with a n=
-ormal
-JPEG decoder. By differentiating these two as dedicated formats, you will o=
-nly need
-1 vendor control, and you avoid the potential risk of software bugs mixing =
-them up.
-Also note that there is other JPEG based vendor formats that exist in V4L2.
+Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 
-Let me know what do you think ?
 
-Nicolas
-
-> +
-> +More details on the ASPEED video hardware operations can be found in
-> +*chapter 6.2.16 KVM Video Driver* of SDK_User_Guide which available on
-> +AspeedTech-BMC/openbmc/releases.
-> +
-> +The ASPEED video driver implements the following driver-specific control=
-:
-> +
-> +``V4L2_CID_ASPEED_HQ_MODE``
-> +-------------------------------
-> +    Enable/Disable ASPEED's High quality mode. This is a private control
-> +    that can be used to enable high quality for aspeed proprietary mode.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 4
-> +
-> +    * - ``(0)``
-> +      - ASPEED HQ mode is disabled.
-> +    * - ``(1)``
-> +      - ASPEED HQ mode is enabled.
-> +
-> +``V4L2_CID_ASPEED_HQ_JPEG_QUALITY``
-> +-------------------------------
-> +    Define the quality of ASPEED's High quality mode. This is a private =
-control
-> +    that can be used to decide compression quality if High quality mode =
-enabled
-> +    . Higher the value, better the quality and bigger the size.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 4
-> +
-> +    * - ``(1)``
-> +      - minimum
-> +    * - ``(12)``
-> +      - maximum
-> +    * - ``(1)``
-> +      - step
-> +    * - ``(1)``
-> +      - default
-> +
-> +**Copyright** |copy| 2022 ASPEED Technology Inc.
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Docume=
-ntation/userspace-api/media/drivers/index.rst
-> index 32f82aed47d9..46a494e00b72 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -31,6 +31,7 @@ For more details see the file COPYING in the source dis=
-tribution of Linux.
->  	:maxdepth: 5
->  	:numbered:
-> =20
-> +	aspeed-video
->  	ccs
->  	cx2341x-uapi
->  	dw100
+> > Or did you change the MTU on the remote and not on the local device
+> > ?
+> >=20
+>=20
+> Yes, the MTU is changed to 2000 in OS and kept 1500 on BMC, then the
+> issue is reproduced. (see detailed steps in the above email).
+>=20
+> The reason we made the above test is because we are trying to
+> reproduce the behavior as BIOS, and from the logs it looks like it's
+> sending a packet larger than MTU. Then we tried to adjust the MTU on
+> the OS side and reproduced the issue.
 
