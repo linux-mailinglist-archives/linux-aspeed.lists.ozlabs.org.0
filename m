@@ -2,50 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A368960C74F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Oct 2022 11:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3DD60CD44
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Oct 2022 15:18:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MxQxr3dGDz3bj9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Oct 2022 20:05:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MxXZY4PS6z3c3V
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Oct 2022 00:18:45 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=FZsm3+Ap;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=collabora.com (client-ip=46.235.227.172; helo=madras.collabora.co.uk; envelope-from=nicolas.dufresne@collabora.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=FZsm3+Ap;
+	dkim-atps=neutral
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MxQw31T11z3c6k;
-	Tue, 25 Oct 2022 20:03:31 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 29P8dHbx031240;
-	Tue, 25 Oct 2022 16:39:18 +0800 (GMT-8)
-	(envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 25 Oct
- 2022 17:02:03 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
-        <laurent.pinchart@ideasonboard.com>, <xavier.roumegue@oss.nxp.com>,
-        <ezequiel@vanguardiasur.com.ar>, <stanimir.varbanov@linaro.org>,
-        <nicolas.dufresne@collabora.com>, <sakari.ailus@linux.intel.com>,
-        <ming.qian@nxp.com>, <andrzej.p@collabora.com>,
-        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v10 5/5] media: aspeed: Extend debug message
-Date: Tue, 25 Oct 2022 17:02:03 +0800
-Message-ID: <20221025090203.5623-6-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221025090203.5623-1-jammy_huang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MxXZM6Tyxz2ygC;
+	Wed, 26 Oct 2022 00:18:33 +1100 (AEDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4D4936602254;
+	Tue, 25 Oct 2022 14:18:27 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1666703909;
+	bh=NzM0Ii6N1Q/ccnjjm2mgQk1R6bvLWfp7+zNhfLnkSFY=;
+	h=Subject:From:To:Date:In-Reply-To:References:From;
+	b=FZsm3+ApOIIPxWAprErRprh9iRzwFNhy4t0GpgZDnMSDdunxAkJ+IPv+QEysK8vBP
+	 jlPfGgrbVCsADH5torBhxZhYyJrRmq08+6dDKiR0noMKtniwkHnbhoL1vsGO65uL6S
+	 zbrVWYLLZJc8F4KpzUOiiwCPEbwcLCnlypUTCgub98QB3UQrobFMiLpWWDA3RpJBRl
+	 Pg1enL10eRunfZ96DbWSKLYk1+/lIhxvwDKYn0Z/kG+q2spqpimzdgi4zoNdw8ZY1g
+	 xnnh5YZRK0S0pkGM7dpldoa1cqGeIrF46Q+mxDEZPAaHfEt3AWMdRzuoXd+FEXYl5I
+	 +gU4H1PjaFwlQ==
+Message-ID: <8a8f7c818688bda7c75d2f4fb5f8f0d6f89cb965.camel@collabora.com>
+Subject: Re: [PATCH v10 3/5] media: Documentation: aspeed-video: Add user
+ documentation for the aspeed-video driver
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com, 
+ mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+ hverkuil-cisco@xs4all.nl,  laurent.pinchart@ideasonboard.com,
+ xavier.roumegue@oss.nxp.com,  ezequiel@vanguardiasur.com.ar,
+ stanimir.varbanov@linaro.org,  sakari.ailus@linux.intel.com,
+ ming.qian@nxp.com, andrzej.p@collabora.com,  linux-media@vger.kernel.org,
+ openbmc@lists.ozlabs.org,  linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org
+Date: Tue, 25 Oct 2022 09:18:16 -0400
+In-Reply-To: <20221025090203.5623-4-jammy_huang@aspeedtech.com>
 References: <20221025090203.5623-1-jammy_huang@aspeedtech.com>
+	 <20221025090203.5623-4-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 29P8dHbx031240
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,119 +73,139 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-updated as below:
+Hi Jammy,
 
-Capture:
-  Mode                : Direct fetch
-  VGA bpp mode        : 32
-  Signal              : lock
-  Width               : 1920
-  Height              : 1080
-  FRC                 : 0
+thanks for the addition.
 
-Compression:
-  Format              : JPEG
-  Subsampling         : 444
-  Quality             : 4
+Le mardi 25 octobre 2022 =C3=A0 17:02 +0800, Jammy Huang a =C3=A9crit=C2=A0=
+:
+> Add user documentation for the aspeed-video driver.
+>=20
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+> v10:
+>   - new
+> ---
+>  .../media/drivers/aspeed-video.rst            | 61 +++++++++++++++++++
+>  .../userspace-api/media/drivers/index.rst     |  1 +
+>  2 files changed, 62 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/drivers/aspeed-vide=
+o.rst
+>=20
+> diff --git a/Documentation/userspace-api/media/drivers/aspeed-video.rst b=
+/Documentation/userspace-api/media/drivers/aspeed-video.rst
+> new file mode 100644
+> index 000000000000..798a2588b175
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/drivers/aspeed-video.rst
+> @@ -0,0 +1,61 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: <isonum.txt>
+> +
+> +ASPEED video driver
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +ASPEED Video Engine found on AST2400/2500/2600 SoC supports high perform=
+ance
+> +video compressions with a wide range of video quality and compression ra=
+tio
+> +options. The adopted compressing algorithm is a modified JPEG algorithm.
+> +
+> +There are 2 types of compressions in this IP.
+> +
+> +* JPEG JFIF standard mode: for single frame and management compression
+> +* ASPEED proprietary mode: for multi-frame and differential compression.
+> +  Support 2-pass (high quality) video compression scheme (Patent pending=
+ by
+> +  ASPEED). Provide visually lossless video compression quality or to red=
+uce
+> +  the network average loading under intranet KVM applications.
 
-Performance:
-  Frame#              : 4
-  Frame Duration(ms)  :
-    Now               : 22
-    Min               : 21
-    Max               : 22
-  FPS                 : 45
+I think some of the information disclosed in the following quote could be
+summarized. Notably the part about the extra buffers.
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
-v10:
-  - no update
-v9:
-  - no update
-v8:
-  - no update
-v7:
-  - update debugfs message. Aspeed-jpeg's compression parameters only shown
-    if it's aspeed jpeg now
-v6:
-  - no update
-v5:
-  - no update
-v4:
-  - update debugfs log
-v3:
-  - no update
-v2:
-  - update commit message
----
- drivers/media/platform/aspeed/aspeed-video.c | 38 +++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+   Aspeed JPEG Format requires an additional buffer, called bcd, to store
+   the information about which macro block in the new frame is different
+   from the previous one.
+  =20
+   To have bcd correctly working, we need to swap the buffers for src0/1 to
+   make src1 refer to previous frame and src0 to the coming new frame.
+  =20
+But before I push you this route, have you considered using a dedicated pix=
+el
+format instead ? Here's my thinking, the output of the JPEG encoder is no l=
+onger
+"compatible" (or at least won't yield the expected images) if used with a n=
+ormal
+JPEG decoder. By differentiating these two as dedicated formats, you will o=
+nly need
+1 vendor control, and you avoid the potential risk of software bugs mixing =
+them up.
+Also note that there is other JPEG based vendor formats that exist in V4L2.
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 0b3605ebefc3..cf76aeee8cb6 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1905,9 +1905,29 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
- static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- {
- 	struct aspeed_video *v = s->private;
-+	u32 val08;
- 
- 	seq_puts(s, "\n");
- 
-+	seq_puts(s, "Capture:\n");
-+	val08 = aspeed_video_read(v, VE_CTRL);
-+	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
-+		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
-+	} else {
-+		seq_printf(s, "  %-20s:\tSync\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "Video source",
-+			   FIELD_GET(VE_CTRL_SOURCE, val08) ?
-+			   "external" : "internal");
-+		seq_printf(s, "  %-20s:\t%s\n", "DE source",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ?
-+			   "internal" : "external");
-+		seq_printf(s, "  %-20s:\t%s\n", "Cursor overlay",
-+			   FIELD_GET(VE_CTRL_AUTO_OR_CURSOR, val08) ?
-+			   "Without" : "With");
-+	}
-+
- 	seq_printf(s, "  %-20s:\t%s\n", "Signal",
- 		   v->v4l2_input_status ? "Unlock" : "Lock");
- 	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
-@@ -1916,13 +1936,29 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- 
- 	seq_puts(s, "\n");
- 
-+	seq_puts(s, "Compression:\n");
-+	seq_printf(s, "  %-20s:\t%s\n", "Format", format_str[v->format]);
-+	seq_printf(s, "  %-20s:\t%s\n", "Subsampling",
-+		   v->yuv420 ? "420" : "444");
-+	seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
-+	if (v->format == VIDEO_FMT_ASPEED) {
-+		seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
-+			   v->hq_mode ? "on" : "off");
-+		seq_printf(s, "  %-20s:\t%d\n", "HQ Quality",
-+			   v->hq_mode ? v->jpeg_hq_quality : 0);
-+	}
-+
-+	seq_puts(s, "\n");
-+
- 	seq_puts(s, "Performance:\n");
- 	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
- 	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
- 	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
- 	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
- 	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
--	seq_printf(s, "  %-20s:\t%d\n", "FPS", 1000 / (v->perf.totaltime / v->sequence));
-+	seq_printf(s, "  %-20s:\t%d\n", "FPS",
-+		   (v->perf.totaltime && v->sequence) ?
-+		   1000/(v->perf.totaltime/v->sequence) : 0);
- 
- 	return 0;
- }
--- 
-2.25.1
+Let me know what do you think ?
+
+Nicolas
+
+> +
+> +More details on the ASPEED video hardware operations can be found in
+> +*chapter 6.2.16 KVM Video Driver* of SDK_User_Guide which available on
+> +AspeedTech-BMC/openbmc/releases.
+> +
+> +The ASPEED video driver implements the following driver-specific control=
+:
+> +
+> +``V4L2_CID_ASPEED_HQ_MODE``
+> +-------------------------------
+> +    Enable/Disable ASPEED's High quality mode. This is a private control
+> +    that can be used to enable high quality for aspeed proprietary mode.
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 4
+> +
+> +    * - ``(0)``
+> +      - ASPEED HQ mode is disabled.
+> +    * - ``(1)``
+> +      - ASPEED HQ mode is enabled.
+> +
+> +``V4L2_CID_ASPEED_HQ_JPEG_QUALITY``
+> +-------------------------------
+> +    Define the quality of ASPEED's High quality mode. This is a private =
+control
+> +    that can be used to decide compression quality if High quality mode =
+enabled
+> +    . Higher the value, better the quality and bigger the size.
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 4
+> +
+> +    * - ``(1)``
+> +      - minimum
+> +    * - ``(12)``
+> +      - maximum
+> +    * - ``(1)``
+> +      - step
+> +    * - ``(1)``
+> +      - default
+> +
+> +**Copyright** |copy| 2022 ASPEED Technology Inc.
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Docume=
+ntation/userspace-api/media/drivers/index.rst
+> index 32f82aed47d9..46a494e00b72 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -31,6 +31,7 @@ For more details see the file COPYING in the source dis=
+tribution of Linux.
+>  	:maxdepth: 5
+>  	:numbered:
+> =20
+> +	aspeed-video
+>  	ccs
+>  	cx2341x-uapi
+>  	dw100
 
