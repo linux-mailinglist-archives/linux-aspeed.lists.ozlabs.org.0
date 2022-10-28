@@ -1,51 +1,122 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D2C61082B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 04:37:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DC2610ADF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 09:00:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Mz6CV5gHbz3cFM
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 13:37:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MzD2G2Gpjz3cBD
+	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 18:00:06 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=EgW1koWm;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.215.135; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=EgW1koWm;
+	dkim-atps=neutral
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2135.outbound.protection.outlook.com [40.107.215.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Mz6CM218Nz3bcw;
-	Fri, 28 Oct 2022 13:37:33 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 29S2D5KH054600;
-	Fri, 28 Oct 2022 10:13:06 +0800 (GMT-8)
-	(envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 28 Oct
- 2022 10:35:59 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
-        <laurent.pinchart@ideasonboard.com>, <xavier.roumegue@oss.nxp.com>,
-        <ezequiel@vanguardiasur.com.ar>, <stanimir.varbanov@linaro.org>,
-        <nicolas.dufresne@collabora.com>, <sakari.ailus@linux.intel.com>,
-        <ming.qian@nxp.com>, <andrzej.p@collabora.com>,
-        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v11 5/5] media: aspeed: Extend debug message
-Date: Fri, 28 Oct 2022 10:35:54 +0800
-Message-ID: <20221028023554.928-6-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221028023554.928-1-jammy_huang@aspeedtech.com>
-References: <20221028023554.928-1-jammy_huang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MzD243hDvz3c6D
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 28 Oct 2022 17:59:51 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GeCGOypCo05EkhfdEyBg/T44XpPj9AF5kDnuyJrciAxYes9g3zpoVS78sgjdgKaMSs+RKIsLerpUfdDa+hUIhOtVTvjRxPMC3pknqca2z9whyxFZIWv3RZkztb7KIJQSEzJ2NA6w1wNaZkYhBoYPkX/zvd6rk5TUC3Rp7WzV1ahGp1Zx8FnsnSbMkRLM9hrbNP3f4ZZSUFtfJdJr49b2DcW1A/h7k2DPhnqVLIcMVcPD5hll13bcKqXGkRbikEJ3Nis5P3l0K2ya6PAi1DSYbaLetnVJy2QuW7P5J1e/0l+yImTWvZz9OXdIxJaumiq6YVmHPKmZXYAB7eKdB15Lfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WGwHZSuTR8cuMA3fxjWkEx/lZYzZKnbslzP8rTriXoo=;
+ b=T9LcSOKhAccz+bIZlCmZR5R9RoEpj6LamzetMKYzgCclRgXIdTkhPvM5h+ri4ctcdIknnht3hZcayzgs3q3fBry9Bii7xXx/iPdJ/HtaRRIwofuLtOoU1XKy2kDfWdMXPP8nf9c+vxBAjdITf5fNuLJZs0xzMvF5tfSaARxsXINrVTWYiaKP/w8LkEkSF7OX9up2jJKRfM5BNlbkl4y8kd6Pr9M0+YN7dQu2I9EqUq0pllb8bg1UMFWahtxq48FQR85zJIrP2XFOBHfdrfq7bXKZ/29YFtnRP5bjft50DWbFF89cMyRlSBytWZqQxQcSRPohPYtyYIi83nVHhJ3fQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WGwHZSuTR8cuMA3fxjWkEx/lZYzZKnbslzP8rTriXoo=;
+ b=EgW1koWmj5nPrUBzUzcyxFljpvWJkUzR6ag4Za+v3TQ0syShgMfJ6DzHilx6KJ+srcDPaGbqQ/OwxADpX+jpUql7IfUzmMzCVI5CkPm3Id4bbo1JM6QNFX+6MxXMCkorbeG5xKrL40pXLTI9xcS72BwKZvJFcVzkmqe+6R1mz028NqZ3w8XlsUPElmiEZQ1GuQglPnJ2tsmcxjr5cX7vn2XS2WTLC7B3uzz5zBoA5OB60Ad3uFqEaYfjRR4wFJJH08V7XWaTO2zcpTGyKdue/mGaQeZs2YwQMwqHk+I88Ho3NTcInTsmBnlrpaXC6L2Bog7zIFHObZgKtoH2fCtfEw==
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
+ by PSAPR06MB4264.apcprd06.prod.outlook.com (2603:1096:301:82::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Fri, 28 Oct
+ 2022 06:59:32 +0000
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::9ae1:4f06:2773:f8dc]) by HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::9ae1:4f06:2773:f8dc%4]) with mapi id 15.20.5769.015; Fri, 28 Oct 2022
+ 06:59:32 +0000
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Lei YU <yulei.sh@bytedance.com>, Felipe Balbi <balbi@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>, Henry Tian <tianxiaofeng@bytedance.com>,
+	Jakob Koschel <jakobkoschel@gmail.com>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] usb: gadget: aspeed: fix buffer overflow
+Thread-Topic: [PATCH] usb: gadget: aspeed: fix buffer overflow
+Thread-Index: AQHY543fG2IRDKPpjUCvaIBADhhwbq4jYB2A
+Date: Fri, 28 Oct 2022 06:59:31 +0000
+Message-ID:  <HK0PR06MB32022348EA65805C7109B7D080329@HK0PR06MB3202.apcprd06.prod.outlook.com>
+References: <20221024094853.2877441-1-yulei.sh@bytedance.com>
+In-Reply-To: <20221024094853.2877441-1-yulei.sh@bytedance.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: HK0PR06MB3202:EE_|PSAPR06MB4264:EE_
+x-ms-office365-filtering-correlation-id: f197fd56-9262-44ff-e435-08dab8b1f708
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  dDPKNRV+f3NdJ5+rryDTM5BIoltllZI0gRzBVglfdcTFr3afLW/Hop1kqQFfSrU/0VJph7Uziu3klQjaExQ1r+flFhUgMFQmYWyt+nagx+Zg52CpIq/9smT+GsdB68JWnRJqxD7MvvkoBIYrr8gNHsyK7ci4OL6NZE/4pcIo4WQlzTfzi3fI0ZP653DmfOWcD//IzHbWowEe2kIqYEBNDAqPSAfJdBcHkZXrDAmWMu9nJAyGtz3s0pcm/bP+3KeHzgKuKW3dTGIq3AdqQHwEJgKN5UaoB9XOB5ikp0TAd5PFBVdEJ52ufucomKsWyy9f+WKKNymh6G7za5hKuwiZdDSHzqkQ4QTnOR4drVgj4QjlmgQiJt2B3RjbE2L5OufjjevhVtdzOg9eUGHLcj0G/PaKVW/d2DrWTpuYTEzZ7ws8jW8AXijCMxX9zt61jQmjs2lSb5k5S362mdNgkoe0ka4XhKgde5MKypKMJ1bewQjgXoQzy116jblQu9GIKuENdIdST1jQnDp577vRdNbcINs4tPlO0K03XYAZacBLG1z6YKUyqZ1OQ+rRkSTeTJrsq8bPboVjz92dW/wjLprD86G77ajfxu92hV702ntiAi0zJiYBobb1SiGdmeHQNPyTSLavKZQ8dfnqwJCulbeGhkemJiY023pOxBvJcvwBOu23KnsW0WPlLUq77uR0XydXGYM0ItwqDtpO6xLrd1LY4Iy9Swbq7lYSt3bB0c/mnkWg7w1hNoQsSTGJ3KmwnzegqHB/k8oue/h/ftsc+CG8MGTmeSL28tjEVNxiDNYIGNI=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(396003)(136003)(39840400004)(346002)(376002)(451199015)(26005)(107886003)(83380400001)(9686003)(478600001)(7696005)(66476007)(2906002)(38070700005)(6506007)(186003)(55016003)(7416002)(66556008)(66446008)(316002)(110136005)(71200400001)(66946007)(8936002)(41300700001)(4326008)(64756008)(5660300002)(76116006)(52536014)(8676002)(33656002)(86362001)(122000001)(921005)(38100700002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?9NySRj4EjMYFq+qAudISBYVCLBSIRcT2+j1uFWtMq8WAAlFnVXA/uvrJNTBs?=
+ =?us-ascii?Q?tQtCNayFxzmnEUEpcska34z04nKHzmTFAMvPFlNfNwhSUV/xQgpcnd0fcqTJ?=
+ =?us-ascii?Q?/IPu2uWXPr6GeKLqM4REHpO3vGgSpqNV/+wjKGZFodp2TNtl4iGvTWkA81TW?=
+ =?us-ascii?Q?jZDP/gzYSn3UASOnWW26BZPUZpVF0DeEyG0F+khfEJdpafkS4JgFpzO4X0GT?=
+ =?us-ascii?Q?TvDKL4OfATyTywABa4KHuoXQVLYdBd9THHb7nhK27NzVwxs1x7nFPC+ZnRrH?=
+ =?us-ascii?Q?lhGZJ/etHWincZUaUkUERkopWAovYgPwqcp5hQmxSc6eY/kOyymCdeV6m0ml?=
+ =?us-ascii?Q?SAglK+9qWwtB4ySNEbnriEadK6uhnx6UBCLgMKCPHlp7GmGXm+xc1XPxUcMJ?=
+ =?us-ascii?Q?Shn744W+gVMPsDmAscq07tDmMFUS6PwWrUaxgle+2piBYFn6Zfj3HSKYpcJn?=
+ =?us-ascii?Q?p93+MdwRRG7EX1rFC50Wj6CpiBjk0kuup1501N7epplqPlKEzxb9g8ffBUg+?=
+ =?us-ascii?Q?LioL6qLjhKIvgBmb0jgl5cLrsut1NiBxR0RA+6jP31dL96cu0ot2X39qYZ6A?=
+ =?us-ascii?Q?EoHgp6mwGTUv0s9MDTIcS8CCUPb27Vf10JjEAhCFc7OLD2bRF/3wZPOgnyyU?=
+ =?us-ascii?Q?GsMyitr0OP1JHHNNcsrSCf+yr0PTkEvGeq4R4Iqnp/Y2kQvbdLLxXTa/NNiE?=
+ =?us-ascii?Q?+25/O0miz8tANkXZtF2wJCyLJTJf9ykl1UyRdVpBGFQ+HlQ5n1+9vq9X2HxP?=
+ =?us-ascii?Q?HGdti0SOFmNkKX9hazcXDcnkvTPK59Vce6bYOrqeMljBCRUaovYLOQ+9rpY1?=
+ =?us-ascii?Q?8e8c+kncvb2a1Kpc8S2sz8Vf0qyis80fSz7a5jozmk2VU6+9fH+ph16oYl/L?=
+ =?us-ascii?Q?0nD3EpmaI9KHkG8+QgWdgLJaKj46epaRpDRrnk8ZXtjX8+1/liuDMPbmtbs0?=
+ =?us-ascii?Q?D94CyuPUmqSbpLA33ULmpJDA3MNQdhJ/hiP1qvM34Z00Cf3iarfGYgL3vZk7?=
+ =?us-ascii?Q?XZECsXkBgV4tBexLhduNyg2SNXDbVex0avXfUvkYM3qUUcMNluF2ZyJhcVhx?=
+ =?us-ascii?Q?z62A4ZgAq9d+5FERQPDw85/XVfmfkdlc33MrYHA6R+vkwkpaoGaecxr4qlW1?=
+ =?us-ascii?Q?0pHhFqOWIsa7D4xIwUn4X49y4hTwA9Aru08G8ySBV54Gim9n3h9EYguIEEK/?=
+ =?us-ascii?Q?6pQ+b+jviCKWYRIQqdmOUgegvGFCrCYbYGQTQQQxML3VnrhcAug6lG8U7Qe9?=
+ =?us-ascii?Q?57uY9LXB5HPHpbubZpQkghMB6PyD0c8r7btajf2JiWIMS6+yGJVHccP9Enj+?=
+ =?us-ascii?Q?sErzc/Ho4rMIPvF2zO5ZyHqQ5EG6mvFyiWJIjkUCrUYJUcU+xv6nOIQT67I8?=
+ =?us-ascii?Q?0MCLEj7iNlLiit/o26uM+5NBA2Wh94QYPms+/qgSYA5+ZakUnVMZkZp1/IcL?=
+ =?us-ascii?Q?AshnnhzpPyxZY0t89DEzFK9N/yGK91s6kAgy+GUUP2E8zrFrmcE+ZaULQoZA?=
+ =?us-ascii?Q?11X31pxLsyap0qfXQpwRUV1OpvpAuyUu9MEwJoFGd2QE93wMl1qCN6JEQIz0?=
+ =?us-ascii?Q?8//ssvBOVk1S+vreESp+snVPo+YaUcjLWYz5bVfD?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 29S2D5KH054600
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f197fd56-9262-44ff-e435-08dab8b1f708
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2022 06:59:31.9154
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lti2eOTMJvCKGpFaiTgvmsvdV+m6lPK3aNCMgRWNcgQnhQwNiY7cSN7D51s8Ns3PHsp4xhTI94s2PXAXLtyrUA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4264
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,121 +131,57 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-updated as below:
+> From: Henry Tian <tianxiaofeng@bytedance.com>
+>=20
+> In ast_vhub_epn_handle_ack() when the received data length exceeds the
+> buffer, it does not check the case and just copies to req.buf and cause a=
+ buffer
+> overflow, kernel oops on this case.
+>=20
+> This issue could be reproduced on a BMC with an OS that enables the lan o=
+ver
+> USB:
+> 1. In OS, enable the usb eth dev, verify it pings the BMC OK; 2. In OS, s=
+et the
+> usb dev mtu to 2000. (Default is 1500); 3. In OS, ping the BMC with `-s 2=
+000`
+> argument.
+>=20
+> The BMC kernel will get oops with below logs:
+>=20
+>     skbuff: skb_over_panic: text:8058e098 len:2048 put:2048
+> head:84c678a0 data:84c678c2 tail:0x84c680c2 end:0x84c67f00 dev:usb0
+>     ------------[ cut here ]------------
+>     kernel BUG at net/core/skbuff.c:113!
+>     Internal error: Oops - BUG: 0 [#1] ARM
+>     CPU: 0 PID: 0 Comm: swapper Not tainted
+> 5.15.69-c9fb275-dirty-d1e579a #1
+>     Hardware name: Generic DT based system
+>     PC is at skb_panic+0x60/0x6c
+>     LR is at irq_work_queue+0x6c/0x94
+>=20
+> Fix the issue by checking the length and set `-EOVERFLOW`.
+>=20
+> Tested: Verify the BMC kernel does not get oops in the above case, and th=
+e usb
+> ethernet gets RX packets errors instead.
 
-Capture:
-  Mode                : Direct fetch
-  VGA bpp mode        : 32
-  Signal              : lock
-  Width               : 1920
-  Height              : 1080
-  FRC                 : 0
+Thanks for your feedback.
+I tried to reproduce it on my side, and it cannot be reproduce it.
+Here are my test sequences:
+1. emulate one of the vhub port to usb ethernet through Linux gadget (ncm)
+2. connect BMC vhub to Host
+3. BMC & Host can ping each other (both usb eth dev default mtu is 1500)
+4. Set BMC mtu to 1000 (Host OS cannot set usb eth dev mtu to 2000, it's ma=
+xmtu is 1500)
+5. ping BMC with `s -1500` argument from Host OS
+6. BMC kernel no oops
 
-Compression:
-  Format              : JPEG
-  Subsampling         : 444
-  Quality             : 4
-
-Performance:
-  Frame#              : 4
-  Frame Duration(ms)  :
-    Now               : 22
-    Min               : 21
-    Max               : 22
-  FPS                 : 45
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
-v11:
-  - no update
-v10:
-  - no update
-v9:
-  - no update
-v8:
-  - no update
-v7:
-  - update debugfs message. Aspeed-jpeg's compression parameters only shown
-    if it's aspeed jpeg now
-v6:
-  - no update
-v5:
-  - no update
-v4:
-  - update debugfs log
-v3:
-  - no update
-v2:
-  - update commit message
----
- drivers/media/platform/aspeed/aspeed-video.c | 38 +++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 0b3605ebefc3..cf76aeee8cb6 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1905,9 +1905,29 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
- static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- {
- 	struct aspeed_video *v = s->private;
-+	u32 val08;
- 
- 	seq_puts(s, "\n");
- 
-+	seq_puts(s, "Capture:\n");
-+	val08 = aspeed_video_read(v, VE_CTRL);
-+	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
-+		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
-+	} else {
-+		seq_printf(s, "  %-20s:\tSync\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "Video source",
-+			   FIELD_GET(VE_CTRL_SOURCE, val08) ?
-+			   "external" : "internal");
-+		seq_printf(s, "  %-20s:\t%s\n", "DE source",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ?
-+			   "internal" : "external");
-+		seq_printf(s, "  %-20s:\t%s\n", "Cursor overlay",
-+			   FIELD_GET(VE_CTRL_AUTO_OR_CURSOR, val08) ?
-+			   "Without" : "With");
-+	}
-+
- 	seq_printf(s, "  %-20s:\t%s\n", "Signal",
- 		   v->v4l2_input_status ? "Unlock" : "Lock");
- 	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
-@@ -1916,13 +1936,29 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- 
- 	seq_puts(s, "\n");
- 
-+	seq_puts(s, "Compression:\n");
-+	seq_printf(s, "  %-20s:\t%s\n", "Format", format_str[v->format]);
-+	seq_printf(s, "  %-20s:\t%s\n", "Subsampling",
-+		   v->yuv420 ? "420" : "444");
-+	seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
-+	if (v->format == VIDEO_FMT_ASPEED) {
-+		seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
-+			   v->hq_mode ? "on" : "off");
-+		seq_printf(s, "  %-20s:\t%d\n", "HQ Quality",
-+			   v->hq_mode ? v->jpeg_hq_quality : 0);
-+	}
-+
-+	seq_puts(s, "\n");
-+
- 	seq_puts(s, "Performance:\n");
- 	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
- 	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
- 	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
- 	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
- 	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
--	seq_printf(s, "  %-20s:\t%d\n", "FPS", 1000 / (v->perf.totaltime / v->sequence));
-+	seq_printf(s, "  %-20s:\t%d\n", "FPS",
-+		   (v->perf.totaltime && v->sequence) ?
-+		   1000/(v->perf.totaltime/v->sequence) : 0);
- 
- 	return 0;
- }
--- 
-2.25.1
+I dumped the `req` related members in ast_vhub_epn_handle_ack() to see if w=
+hether the received data length exceeds the buffer length.
+In my case `req.length` is 16384 bytes, so it never exceeds it in this case=
+.
+I'm wondering what's the value of `req.length` in your test scenario? And h=
+ow can I reproduce it?
+Thanks
 
