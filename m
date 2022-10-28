@@ -1,53 +1,119 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E480610CE0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 11:17:27 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE7B610DED
+	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 11:56:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MzH4j0jp7z3cBP
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 20:17:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4MzHxp4Crcz3cFV
+	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 20:56:30 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bLkFDgjT;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=jYt3Pzxp;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linuxfoundation.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.255.121; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bLkFDgjT;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=jYt3Pzxp;
 	dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2121.outbound.protection.outlook.com [40.107.255.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MzH4X0TmJz2yMS
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 28 Oct 2022 20:17:14 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id B9186B8006F;
-	Fri, 28 Oct 2022 09:17:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E775CC433D7;
-	Fri, 28 Oct 2022 09:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666948628;
-	bh=QYTUjeWCWVOv+PHsUUrYftAhlJD6Nl7P/CQ1gw9EUiM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bLkFDgjTqqK3a5hjfEQ2jY4cFnTqAIR/m35tcaC3BtLjQocfVUDRF0Vr0Z0N/328d
-	 9N/YnKS0iZhIv6CxaxqqpSD6F7lXioCTkLHp/6nQW+SDxDfOgujODIt5Y3BNpkox5c
-	 2wzUkYpxpd7QjuIiFZNDR9Yf0PiVZ8w0cqFw1uFs=
-Date: Fri, 28 Oct 2022 11:17:05 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH] usb: gadget: aspeed: fix buffer overflow
-Message-ID: <Y1ueEYJk2epT/g4J@kroah.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4MzHxf0Q21z2xvF
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 28 Oct 2022 20:56:20 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Iznz/8wD44Qx7EYna6QXvwZjsBoqa/BA9AyMNqgLufyAeJcC9TxO8wQZM1OrYV0PR9GoQpD00ol4rcBkPV7zml0I8GdJ7Szswof8UIGyLiyCltwPxrIvirov5Orew/DEkXj3PXKpuUzB4XEXUoCnJa11KiCHoW9xQUUFop8aHyCwbJcxY8gYpkj3uZsY+N1NekS8U64MtOFErPOQIVSSkNihY5MW9ywgtveGdU4HMAe9x5kDlLHUapMv4mrOQ5VKqAehcVscYvlrV4CUZejPcgBXr/O/zltWI+Ob0/c7dwc6wRdRQI1yWkvaaRovg1EtiKr6cgxWWTZK5CtK4WGeGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+svCtqOdszc0oBgKaxRnHig4X90ziMVzxJfAGvHGB6I=;
+ b=BX6cZMQoW/CpjcqkKO/VU5hqL/uXmUXFDYJtIcrm1yjj8toNAhlP4ZwhZfjhhaIuT8ebWB4SR2kQvroRdppeq/YfjEXGD+zaIxmFMAbB0ZwWX7Bu3wrtxeg3t9wWDI8jNZAAlt5Ev/4N5r9VXICiJqyzav/8rH5T8dVd+FLdX3eWf0nvzmhLGQcXpFHhy5YRJCmVkMtz9lUFiAr6ayFbg+fQjDVweuq9A52M7ZZ/R/d+aXwGtRH9EpVTNMZXIwHpmyWpi5ocCgcEUmY6hKWge0UDq5MChc0zeI1fSxWZW/H53iQ6ZhuTk3lfPhgo69sDq7saPtGn66b3G49Fp1HBzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+svCtqOdszc0oBgKaxRnHig4X90ziMVzxJfAGvHGB6I=;
+ b=jYt3PzxpFPFHT+F7UlccszHIkx4W9+1pE3BgHjvLRBOef0yBHTRyoczB60QAiZrYP/Ce/ZgI9SWKPfGeQ9sMbCqTMAKGOsoLRIQDDgW1k2aGmsGSbWbYGgbvRiTjYkshG6i1qXtTflHeBOylYWICSpVXtxxGMyAPTnQnLIJUuv6/EAgLjB8Z0MKs9cG3YnABYo0/nI3FMaqRfRWo6XcA0GIyCL3xJQshmHzGn+KHLEV1FhSQzeTVYYqyv94wfP7tGTJpWnoGCa6Vq/nel+aFDwXwIciG/227eTnOT+SABNeEZPB5nl7qRus4g79YoY3zkpult0W9DcZ10/3IU78rtg==
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
+ by TY0PR06MB5056.apcprd06.prod.outlook.com (2603:1096:400:1bb::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Fri, 28 Oct
+ 2022 09:55:57 +0000
+Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::9ae1:4f06:2773:f8dc]) by HK0PR06MB3202.apcprd06.prod.outlook.com
+ ([fe80::9ae1:4f06:2773:f8dc%4]) with mapi id 15.20.5769.015; Fri, 28 Oct 2022
+ 09:55:57 +0000
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: RE: [PATCH] usb: gadget: aspeed: fix buffer overflow
+Thread-Topic: [PATCH] usb: gadget: aspeed: fix buffer overflow
+Thread-Index: AQHY543fG2IRDKPpjUCvaIBADhhwbq4jYB2AgAASRYCAABWy4IAABOeAgAADxYA=
+Date: Fri, 28 Oct 2022 09:55:57 +0000
+Message-ID:  <HK0PR06MB32024F58191E17DC5ABC99F380329@HK0PR06MB3202.apcprd06.prod.outlook.com>
 References: <20221024094853.2877441-1-yulei.sh@bytedance.com>
  <HK0PR06MB32022348EA65805C7109B7D080329@HK0PR06MB3202.apcprd06.prod.outlook.com>
  <CAGm54UExHOBw61DJNqxvW67OSr60fQ+Q247t63RzymiMOmHmFg@mail.gmail.com>
  <HK0PR06MB320203EF8E3AD14C34359B0580329@HK0PR06MB3202.apcprd06.prod.outlook.com>
+ <Y1ueEYJk2epT/g4J@kroah.com>
+In-Reply-To: <Y1ueEYJk2epT/g4J@kroah.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: HK0PR06MB3202:EE_|TY0PR06MB5056:EE_
+x-ms-office365-filtering-correlation-id: e6e908fe-47a9-4bc2-1eb1-08dab8ca9c4c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  cnj5RZGd8RIeYc8TwFkFxTu4tdMVYPXZLdltqupK9dtHhb0Iz9m6gMZu2CQyI1uo+rzknmwfFDsvPhC00PMLrV8FYPnM9TIvuwwUKc8yqdNx343sEUVI3+K76ENpJAwZML/QohnoFVlyt3dLQF5BUw0G/WQT/WcrEJUlkzvM2jqA/+xBe3rkV02xsw6l1G1j9UFNWVo/Rr8X8cF5Wk3+6ccyA+XU7GtJYNAA7Xew1hwCxaY3bx01dCxotShyfRITvJxhaw2g3CdPXv6ty4GqeNxcmWbR4i7oBqek7tGUunqFic8NBZMqiGx54g0HctW0FfJMMXloakzf6wxfW8DqrCJVGbgqyQVozH/arcBccpx4whWxHrbmei/4YDIZ48QxVDEJzY/0Pzf9yewTZi9GGgoEbe77l3Z8Dl+Gg7+wejX8LGwuQE2MZ4C+/4EKMUBq4XCsCi5NxiHv8DvE1mJDgm9xxyh85MM/ILwBEeXIbqdRUJIgRXmexV4MIuqkxDR0cjELHO/SyoVYdw4RVR1oxtrPnnVeBiPvFvmlGP9t22D6IuNy7F2VvD2q25nkAZT7OsqQCv4RXmQBlOEbB9v7pNiQWnq6z+CQK25cCZtji+qDKi7kREHpN+xOaXQoifY2URnV6mFKfTeVcCwvs5hsv717I4tZd6KCrEuwC+gEwGAjFsN/mSY+/oeBQP5B/U1H0Serg0EjOmyZ5rBmqyb9lvB0eMjKucK8POqBOPzruIcXaZTDFXpzivaeR49Nk0z0+hDDMcNep+xs2FYO8+gj8g==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0PR06MB3202.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(376002)(136003)(366004)(39850400004)(396003)(451199015)(86362001)(55016003)(54906003)(38070700005)(107886003)(6916009)(71200400001)(316002)(478600001)(33656002)(66556008)(83380400001)(66946007)(2906002)(66446008)(52536014)(4326008)(66476007)(186003)(8676002)(8936002)(7696005)(6506007)(64756008)(76116006)(41300700001)(26005)(5660300002)(38100700002)(122000001)(9686003)(7416002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?IJJrYeakPo7AYSB9q4VzqPzNgL4e8CWJsJrqrVt0g7gMPpCTi6Dy6syr0szR?=
+ =?us-ascii?Q?AGgFPpkDUJ01KoIKLd7xTpnjep88zUd0f2Bc94114NMlUemQqthqaLlSaT6h?=
+ =?us-ascii?Q?4jjSN3g11BVH0BUG/tIs9K38RIg6l8FeKgFu+6Zq7s2oJlwVInJPa7rg4Wao?=
+ =?us-ascii?Q?BiceMZCiS+BbfvdizUHvjxqb82E/iyP06RmCkY6SIPQJuv7nanJPO8m1/ijL?=
+ =?us-ascii?Q?Rq+xzfl7LKOcpfDAPQ4akZWb/ltcLxFa2QzfICCTd2Aa5qbHVvy3mQ8PkpCN?=
+ =?us-ascii?Q?8/VMVGoFykZRarvVfBl2+NBwGhzDYtKkaJ92ezOibElajnmIddR7872x43rd?=
+ =?us-ascii?Q?DYkpKAlaKomSXwd06mXqSttQlj9m1kU6Y/lcp+2jaffP1RVOM6DMcJ6l9BHr?=
+ =?us-ascii?Q?ji/tL+KdX5Xgp2zyH8FQuCXhx81NOXeI0bgjKS0cmCmuSYLaXSzLlGrQM5pE?=
+ =?us-ascii?Q?vsUdFVG7TyVXi7YojPBKn5MnkqSi4yZ7n//Tpa3LTHQV6fjM3PeszqdO2muY?=
+ =?us-ascii?Q?UMwuhDBXpuZZ9ej2Z7qPvXzyZPJwCunqroGx2mYJqcedi0ObZ1YntLQW9Fpp?=
+ =?us-ascii?Q?6WVEVT/rubTz4651TlFpxgEGz7CQiHPmla1cKV4IqG2nWfQ+4AJHc1Bx04V7?=
+ =?us-ascii?Q?Hsw89vmXeOZXiMIUHC1zg+FajTn0Ngtuhz1KubS6BlCItAW6HgvF0GbRNLkG?=
+ =?us-ascii?Q?AcXhXxx/tUz6tzd05mY7oc2FONLaxnXSyxxEyPZhvFB0zTv7EvVKqSqLvHJa?=
+ =?us-ascii?Q?vBhqio1kaBN56z5ix5tfCq8cEPR6DQUN2A26lQFJlYSxS9P4+537L6dSMBKf?=
+ =?us-ascii?Q?aHNmM0s+458wJzicGIaaHJxmP0jJq0twOc2hg0FlllrtFWbFCAs/rpVbQZab?=
+ =?us-ascii?Q?SGTrvnCJPwMXJmoIhfkZJ18dbFHxDo/kMwAXtabAYMPJY47dj/UN1qkiiTNL?=
+ =?us-ascii?Q?+ASEoei09qNS3oR8OQ+TRXM4MoTciRVtDR90nN5cIzKUFrC8+QNlT8YHoZ4X?=
+ =?us-ascii?Q?hUR2XLr4yYqzpxvQn1FP0W9YDWfHRX0oJw09FwO0aD9FSUQT/v6Sfh/YMxs5?=
+ =?us-ascii?Q?GbnqHM9uiHWuhSwZRVIHkI6YO5Dq4sjXqPwZ4Xas1Te9H00ejV94t+GAWnoX?=
+ =?us-ascii?Q?MmXokBLVReBb6T6IF9fzMC1/8IgSafTBLtpmHy+wJ+/6L3qIzyVkbuTdXfSs?=
+ =?us-ascii?Q?CjZLaNCTZv0dHA9eCNpmd7gptJkWx+PIAU/vBbpx6+y2gYSThplnXKvygkMF?=
+ =?us-ascii?Q?ngcqXvPlfA0LI/qUftTX7NCi/Ah3pJGARc212nOfqXTxqTnBqH0QK1W70CPY?=
+ =?us-ascii?Q?iPST/u7uJX8q2ObYIAK7GCnHsikBo8x0/BTx/CTJhZUq7Xx/42i8UYDL7HnS?=
+ =?us-ascii?Q?T+po0RYHDBsAwDX4hGqd2mNuJFZnfSomI7yFUZ/GMTs+39qyJFu8kLSmF5ZG?=
+ =?us-ascii?Q?eUMMiisSb+vRTmaig0MIn/6UTkO1hjP/7yUBRVL4utlIVErMkZlQ1GwQ3Mv7?=
+ =?us-ascii?Q?3Ys0Fr4VbBgaE88KGT+xQz4i0xRvy5urdfm3Kwlptxm8/sPfG09IRJnBl1FC?=
+ =?us-ascii?Q?fHIyVNy4BhKTkA98tRFuEgFxDj57kcoUHfDErmyf?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <HK0PR06MB320203EF8E3AD14C34359B0580329@HK0PR06MB3202.apcprd06.prod.outlook.com>
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6e908fe-47a9-4bc2-1eb1-08dab8ca9c4c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2022 09:55:57.0860
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fUq8Nz6l6jNRDgMiGCMjneIzOrwpzaXzQGbB4rUd7tEs7rqgyBdryRc+8AdFAqZoC/8JFRrp1a/rrbw/D4DKjw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5056
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,34 +129,39 @@ Cc: Felipe Balbi <balbi@kernel.org>, Henry Tian <tianxiaofeng@bytedance.com>, "l
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Oct 28, 2022 at 09:04:52AM +0000, Neal Liu wrote:
-> > > Thanks for your feedback.
-> > > I tried to reproduce it on my side, and it cannot be reproduce it.
-> > > Here are my test sequences:
-> > > 1. emulate one of the vhub port to usb ethernet through Linux gadget
-> > > (ncm)
-> > 
-> > We are using rndis instead of ncm.
-> > 
-> > > 2. connect BMC vhub to Host
-> > > 3. BMC & Host can ping each other (both usb eth dev default mtu is
-> > > 1500) 4. Set BMC mtu to 1000 (Host OS cannot set usb eth dev mtu to
-> > > 2000, it's maxmtu is 1500)
-> > 
-> > Not sure if it's related, but in my case (USB rndis, Debian 10 OS) it should be
-> > able to set MTU to 2000.
-> 
-> Using rndis is able to set MTU to 2000, and the issue can be reproduced.
+> > > > Thanks for your feedback.
+> > > > I tried to reproduce it on my side, and it cannot be reproduce it.
+> > > > Here are my test sequences:
+> > > > 1. emulate one of the vhub port to usb ethernet through Linux
+> > > > gadget
+> > > > (ncm)
+> > >
+> > > We are using rndis instead of ncm.
+> > >
+> > > > 2. connect BMC vhub to Host
+> > > > 3. BMC & Host can ping each other (both usb eth dev default mtu is
+> > > > 1500) 4. Set BMC mtu to 1000 (Host OS cannot set usb eth dev mtu
+> > > > to 2000, it's maxmtu is 1500)
+> > >
+> > > Not sure if it's related, but in my case (USB rndis, Debian 10 OS)
+> > > it should be able to set MTU to 2000.
+> >
+> > Using rndis is able to set MTU to 2000, and the issue can be reproduced=
+.
+>=20
+> Please NEVER use rndis anymore.  I need to go just delete that driver fro=
+m
+> the tree.
+>=20
+> It is insecure-by-design and will cause any system that runs it to be ins=
+tantly
+> compromised and it can not be fixed.  Never trust it.
+>=20
+> Even for data throughput tests, I wouldn't trust it as it does odd things=
+ with
+> packet sizes as you show here.
 
-Please NEVER use rndis anymore.  I need to go just delete that driver
-from the tree.
-
-It is insecure-by-design and will cause any system that runs it to be
-instantly compromised and it can not be fixed.  Never trust it.
-
-Even for data throughput tests, I wouldn't trust it as it does odd
-things with packet sizes as you show here.
-
-thanks,
-
-greg k-h
+Thanks for the info, Greg.
+If rndis will no longer be supported, how to use usb-ethernet on Windows OS=
+?
+For my understanding, ncm/ecm cannot work on Windows OS.
