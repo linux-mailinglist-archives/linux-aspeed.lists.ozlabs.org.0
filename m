@@ -2,21 +2,21 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C587613486
-	for <lists+linux-aspeed@lfdr.de>; Mon, 31 Oct 2022 12:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E43613482
+	for <lists+linux-aspeed@lfdr.de>; Mon, 31 Oct 2022 12:31:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N19x11xTYz3cCZ
-	for <lists+linux-aspeed@lfdr.de>; Mon, 31 Oct 2022 22:32:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N19wJ4yFqz3cCZ
+	for <lists+linux-aspeed@lfdr.de>; Mon, 31 Oct 2022 22:31:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N19wy0WFsz3bhZ
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 31 Oct 2022 22:32:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N19wF1tjgz2xHT
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 31 Oct 2022 22:31:38 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 29VB7WjM080106;
+	by twspam01.aspeedtech.com with ESMTP id 29VB7WZi080107;
 	Mon, 31 Oct 2022 19:07:32 +0800 (GMT-8)
 	(envelope-from billy_tsai@aspeedtech.com)
 Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
@@ -29,10 +29,12 @@ To: <jic23@kernel.org>, <lars@metafoo.de>, <robh+dt@kernel.org>,
         <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
         <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
         <BMC-SW@aspeedtech.com>
-Subject: [PATCH 1/2] iio: adc: aspeed: Remove the trim valid dts property.
-Date: Mon, 31 Oct 2022 19:32:07 +0800
-Message-ID: <20221031113208.19194-1-billy_tsai@aspeedtech.com>
+Subject: [PATCH 2/2] dt-bindings: iio: adc: Remove the property "aspeed,trim-data-valid"
+Date: Mon, 31 Oct 2022 19:32:08 +0800
+Message-ID: <20221031113208.19194-2-billy_tsai@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221031113208.19194-1-billy_tsai@aspeedtech.com>
+References: <20221031113208.19194-1-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -40,7 +42,7 @@ X-Originating-IP: [192.168.2.149]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 29VB7WjM080106
+X-MAIL: twspam01.aspeedtech.com 29VB7WZi080107
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,47 +57,32 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The dts property "aspeed,trim-data-valid" is used to determin whether to
-read the OTP register. If the image with the aspeed,trim-data-vali
-install to the chip without valid trimming data the adc controller will
-become confused. This patch use the default otp value 0 as a criterion
-for determining whether trimming data is valid instead of the dts
-property. The chip with actually trimming value is 0 should be filter out.
+The valid of the trimming data will use the otp default value as a
+criterion.
 
 Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
- drivers/iio/adc/aspeed_adc.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ .../devicetree/bindings/iio/adc/aspeed,ast2600-adc.yaml    | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index ffae64f39221..0f065f0bb8e7 100644
---- a/drivers/iio/adc/aspeed_adc.c
-+++ b/drivers/iio/adc/aspeed_adc.c
-@@ -201,6 +201,8 @@ static int aspeed_adc_set_trim_data(struct iio_dev *indio_dev)
- 				((scu_otp) &
- 				 (data->model_data->trim_locate->field)) >>
- 				__ffs(data->model_data->trim_locate->field);
-+			if (!trimming_val)
-+				trimming_val = 0x8;
- 		}
- 		dev_dbg(data->dev,
- 			"trimming val = %d, offset = %08x, fields = %08x\n",
-@@ -562,12 +564,9 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
+diff --git a/Documentation/devicetree/bindings/iio/adc/aspeed,ast2600-adc.yaml b/Documentation/devicetree/bindings/iio/adc/aspeed,ast2600-adc.yaml
+index b283c8ca2bbf..5c08d8b6e995 100644
+--- a/Documentation/devicetree/bindings/iio/adc/aspeed,ast2600-adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/aspeed,ast2600-adc.yaml
+@@ -62,13 +62,6 @@ properties:
+     description:
+       Inform the driver that last channel will be used to sensor battery.
  
--	if (of_find_property(data->dev->of_node, "aspeed,trim-data-valid",
--			     NULL)) {
--		ret = aspeed_adc_set_trim_data(indio_dev);
--		if (ret)
--			return ret;
--	}
-+	ret = aspeed_adc_set_trim_data(indio_dev);
-+	if (ret)
-+		return ret;
- 
- 	if (of_find_property(data->dev->of_node, "aspeed,battery-sensing",
- 			     NULL)) {
+-  aspeed,trim-data-valid:
+-    type: boolean
+-    description: |
+-      The ADC reference voltage can be calibrated to obtain the trimming
+-      data which will be stored in otp. This property informs the driver that
+-      the data store in the otp is valid.
+-
+ required:
+   - compatible
+   - reg
 -- 
 2.25.1
 
