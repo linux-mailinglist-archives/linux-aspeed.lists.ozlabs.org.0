@@ -2,54 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE665610EEA
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 12:45:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F676133BC
+	for <lists+linux-aspeed@lfdr.de>; Mon, 31 Oct 2022 11:37:45 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4MzK274g4hz3cFc
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Oct 2022 21:45:19 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Yj4rM9tk;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N18jz3H3Sz3c3V
+	for <lists+linux-aspeed@lfdr.de>; Mon, 31 Oct 2022 21:37:43 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linuxfoundation.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Yj4rM9tk;
-	dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4MzK216pnXz3cBf
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 28 Oct 2022 21:45:12 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 9FC2162793;
-	Fri, 28 Oct 2022 10:45:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862DAC433D6;
-	Fri, 28 Oct 2022 10:45:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1666953909;
-	bh=jKcdal1eAeH548wTNr8DKucNg4vasE8ekmVm8y7XImA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yj4rM9tk42hh+CVR/IUQmzjUBjxPas+HXIlaEYElR28cd9q8zhAlIGsAKUZPbAnWj
-	 IiLLZMdbiBtghSWFCGIT1oFeRr1tG9nRmi/uEt5pxCgoXTXkQHBsN3AEXd5GtYW8WV
-	 pB3iHBjQtZqj1JDNwL+yV00dTSsob0fez4TMySg8=
-Date: Fri, 28 Oct 2022 12:45:06 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH] usb: gadget: aspeed: fix buffer overflow
-Message-ID: <Y1uyssu84kl1INSR@kroah.com>
-References: <20221024094853.2877441-1-yulei.sh@bytedance.com>
- <HK0PR06MB32022348EA65805C7109B7D080329@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <CAGm54UExHOBw61DJNqxvW67OSr60fQ+Q247t63RzymiMOmHmFg@mail.gmail.com>
- <HK0PR06MB320203EF8E3AD14C34359B0580329@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <Y1ueEYJk2epT/g4J@kroah.com>
- <HK0PR06MB32024F58191E17DC5ABC99F380329@HK0PR06MB3202.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N18jp0qybz3c25
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 31 Oct 2022 21:37:32 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 29VADXEh074630;
+	Mon, 31 Oct 2022 18:13:33 +0800 (GMT-8)
+	(envelope-from billy_tsai@aspeedtech.com)
+Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 31 Oct
+ 2022 18:36:38 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+        <joel@jms.id.au>, <andrew@aj.id.au>, <lee.jones@linaro.org>,
+        <thierry.reding@gmail.com>, <u.kleine-koenig@pengutronix.de>,
+        <p.zabel@pengutronix.de>, <billy_tsai@aspeedtech.com>,
+        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <BMC-SW@aspeedtech.com>,
+        <garnermic@meta.com>
+Subject: [PATCH 0/3] Support pwm/tach driver for aspeed ast26xx
+Date: Mon, 31 Oct 2022 18:38:05 +0800
+Message-ID: <20221031103809.20225-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <HK0PR06MB32024F58191E17DC5ABC99F380329@HK0PR06MB3202.apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.149]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 29VADXEh074630
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +55,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, Henry Tian <tianxiaofeng@bytedance.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Jakob Koschel <jakobkoschel@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Oct 28, 2022 at 09:55:57AM +0000, Neal Liu wrote:
-> > > > > Thanks for your feedback.
-> > > > > I tried to reproduce it on my side, and it cannot be reproduce it.
-> > > > > Here are my test sequences:
-> > > > > 1. emulate one of the vhub port to usb ethernet through Linux
-> > > > > gadget
-> > > > > (ncm)
-> > > >
-> > > > We are using rndis instead of ncm.
-> > > >
-> > > > > 2. connect BMC vhub to Host
-> > > > > 3. BMC & Host can ping each other (both usb eth dev default mtu is
-> > > > > 1500) 4. Set BMC mtu to 1000 (Host OS cannot set usb eth dev mtu
-> > > > > to 2000, it's maxmtu is 1500)
-> > > >
-> > > > Not sure if it's related, but in my case (USB rndis, Debian 10 OS)
-> > > > it should be able to set MTU to 2000.
-> > >
-> > > Using rndis is able to set MTU to 2000, and the issue can be reproduced.
-> > 
-> > Please NEVER use rndis anymore.  I need to go just delete that driver from
-> > the tree.
-> > 
-> > It is insecure-by-design and will cause any system that runs it to be instantly
-> > compromised and it can not be fixed.  Never trust it.
-> > 
-> > Even for data throughput tests, I wouldn't trust it as it does odd things with
-> > packet sizes as you show here.
-> 
-> Thanks for the info, Greg.
-> If rndis will no longer be supported, how to use usb-ethernet on Windows OS?
-> For my understanding, ncm/ecm cannot work on Windows OS.
+Unlike the old design that the register setting of the TACH should based
+on the configure of the PWM. In ast26xx, the dependency between pwm and
+tach controller is eliminated and becomes a separate hardware block. One
+is used to provide pwm output and another is used to monitor the frequency
+of the input. Therefore, this patch serials implements them by writing the
+two driver "pwm-aspeed-ast2600.c" and "tach-aspeed-ast2600.c". The former
+is following the pwm subsystem which can apply the existed driver to
+controller the fan(pwm-fan.c), beeper(pwm-beeper.c) and so on. The latter
+is following the sysfs interface of hwmon to creat the node for fan
+monitor.
 
-rndis should ONLY be there for Windows XP, which is long out-of-support.
-Newer versions of windows have more sane usb protocols built into it and
-this driver is not needed.
+Billy Tsai (3):
+  dt-bindings: Add bindings for aspeed pwm-tach.
+  pwm: Add Aspeed ast2600 PWM support
+  hwmon: Add Aspeed ast2600 TACH support
 
-As proof of this, Android devices removed this from their kernel
-configuration a few years ago and no one has complained :)
+ .../bindings/hwmon/aspeed,ast2600-tach.yaml   |  48 ++
+ .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml |  76 ++
+ .../bindings/pwm/aspeed,ast2600-pwm.yaml      |  64 ++
+ drivers/hwmon/Kconfig                         |   9 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/tach-aspeed-ast2600.c           | 692 ++++++++++++++++++
+ drivers/pwm/Kconfig                           |  10 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-aspeed-ast2600.c              | 325 ++++++++
+ 9 files changed, 1226 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+ create mode 100644 drivers/hwmon/tach-aspeed-ast2600.c
+ create mode 100644 drivers/pwm/pwm-aspeed-ast2600.c
 
-thanks,
+-- 
+2.25.1
 
-greg k-h
