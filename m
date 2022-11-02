@@ -2,93 +2,92 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23553615ECE
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 10:04:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2994E615EDA
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 10:05:27 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N2LYP15Ldz3cGk
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 20:04:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N2LZY0W44z3cLh
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 20:05:25 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqN0JAdp;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqN0JAdp;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=OwwZn5CY;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Vc0sdx11;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=javierm@redhat.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=javierm@redhat.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqN0JAdp;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqN0JAdp;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=OwwZn5CY;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Vc0sdx11;
 	dkim-atps=neutral
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N2LYC5Z4bz2xl5
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Nov 2022 20:04:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N2LZP4KmVz3bm9
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Nov 2022 20:05:17 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1667379848;
+	s=mimecast20190719; t=1667379914;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
-	b=ZqN0JAdp7pNMwP/JSudJr8tNGqBtC9is6+4zQUe2tYII9G4tpzpc3IjVckyyJCzsxk5yjq
-	AvLauga149POG/aHSVmWfYUOqJgRmloNwiaEFvQ8rbaPQ6GeJZ20ikqI186J3ohLcQUCrg
-	oxol6t2P8Q3ejmGbSKtC8dZTFBKwUUo=
+	bh=LpYqcUNkPgIA1fAPwB+EiO+Z9dq0ENSiM+RajxMrldI=;
+	b=OwwZn5CYF1i3neaZWugrRdQ5juRrx4iEdt9YO0AmyNhu8TmpiI7IThe/DlXDhq1R18wOzT
+	mUsD3dlFPmBhx79LiMaXYIdssohVzYbSnsJXuFJBDMaULcAya9BmADVaPisM2ShBS2/KJ5
+	iJrRmyirYRPOcQ2tu0dR+9d5ebr2q2M=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1667379848;
+	s=mimecast20190719; t=1667379915;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
-	b=ZqN0JAdp7pNMwP/JSudJr8tNGqBtC9is6+4zQUe2tYII9G4tpzpc3IjVckyyJCzsxk5yjq
-	AvLauga149POG/aHSVmWfYUOqJgRmloNwiaEFvQ8rbaPQ6GeJZ20ikqI186J3ohLcQUCrg
-	oxol6t2P8Q3ejmGbSKtC8dZTFBKwUUo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=LpYqcUNkPgIA1fAPwB+EiO+Z9dq0ENSiM+RajxMrldI=;
+	b=Vc0sdx11GgZkxJV72grD55hiGS1kaeSUAMBmoqXA40YId6yrlf3FFjKwYhmW/8e1DqfrEq
+	A6TrWbFEs2hhoYumd2glvswvK3ct1aAXx7jaNNrytsItpCdqYveC5k8kytHcZ+B52tIZqt
+	A+bfbFxujwUFfop46S5XUO+L/CvpAKs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-237-Tx8UEUzFOeCEkYUXv5UZIA-1; Wed, 02 Nov 2022 05:04:01 -0400
-X-MC-Unique: Tx8UEUzFOeCEkYUXv5UZIA-1
-Received: by mail-wm1-f71.google.com with SMTP id r187-20020a1c44c4000000b003c41e9ae97dso793148wma.6
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Nov 2022 02:04:01 -0700 (PDT)
+ us-mta-588-3FmgnT82PuONX9jwc13e6w-1; Wed, 02 Nov 2022 05:05:05 -0400
+X-MC-Unique: 3FmgnT82PuONX9jwc13e6w-1
+Received: by mail-wm1-f69.google.com with SMTP id h8-20020a1c2108000000b003cf550bfc8dso806998wmh.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Nov 2022 02:05:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
-        b=Dxbdojk+mArpjyO54Rw7YuH2ti6C8D0+feE9pIg7MAcUYfd0jLm0Lk1d4ol0V3V3rI
-         WKlT5yHjO3tZLdlnnqGZGePIrMHUbmt8wthusLKh7hHWkAlSbnlgdY/wtv6FAH44L622
-         qqgo0nP3c4fuMW2/pXYjn2u9soPWlXGUSEaqp4R93IpYRSQsMXl1fugHwQfTvxofGyhb
-         dcE3+9NprX4surgTEmrQzsT7xbmZB0p1JEFcW4n6z+Z9xlX1TDW0104XFywQi9uHi81v
-         7CZkzkpqqRI+T+TMXlaznvp0ktkAtXhza9n0o2ylHWt8KR7TaCcdgNuOSMB0gy3MU6OZ
-         ewQA==
-X-Gm-Message-State: ACrzQf3Y3a5tggf4S6tY2NO5IQST9T9oe0JrHT4bmBFPIW4ZQoy3wLoq
-	217RumvbdDQ3FN7Z5h8ROyuaDcdfDRNA8L/72cvW5jIWfURTDOHDY3Q4NKlyjsXQHOOsouIiliW
-	8WkX8LoO6btbhLKab21LXhAHKhg==
-X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id k9-20020a7bc409000000b003cf4c818936mr24380805wmi.38.1667379840252;
-        Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM72ckpdUoZR+NwXtu1sv2+7NmgS+YMIWWHB7QdeKnWTKduGDRl7tg4bkpenTZv0mX1kFf34kw==
-X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id k9-20020a7bc409000000b003cf4c818936mr24380784wmi.38.1667379840046;
-        Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
+        bh=LpYqcUNkPgIA1fAPwB+EiO+Z9dq0ENSiM+RajxMrldI=;
+        b=cwhKqaoQmt9RIJouhwF+0bQ7vwg81QrPkB4l6ziP2aTpyYpaCBy/bagP5NEicHMA82
+         5jws6bUAEQlLHptqv80T63rLD1CRKvj4H3d8w6IryF2gva++qQeToJJrMRZ9CY7A4jzR
+         lL+l+TRH/NPb4lU8EaKSfa8yk3pyDXIfnuIs9q+/EJYeCdapsKTxwitVO85pj3OjgHY4
+         abGA09Lso919RAgdHWGC186k3wYvW4GdTd/o1TrusMOGe8MuGu+APaUHSW4a5ok/tt7A
+         ersJBclGKk+6eak5cksZuMxMbhZ3jYSxgH9BD+OGT6SMv3+zTUNa1mcv30I3NAznY6Vo
+         p8Tw==
+X-Gm-Message-State: ACrzQf1ht+HQ75YscnXpoKKUt09u0SB3xWJIt1df12bvG/Z6pR233Kzh
+	5Jd9+C6q7eGCy7VYsXmFtzETGYDIPalTNcnXTSXDo3M90Vaw2cYmuDNBM1FhZCU8uSNRQ0O3bOS
+	iXBFxpDeEhJFPwIqgVc1XciOfeA==
+X-Received: by 2002:a5d:6488:0:b0:22b:3b0b:5e72 with SMTP id o8-20020a5d6488000000b0022b3b0b5e72mr14464173wri.138.1667379904749;
+        Wed, 02 Nov 2022 02:05:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6Ug/7BR+PMLuqwC0wiYVRKEgerXkzKho5yFNKIDT0bC26SnYKpkqpAn1quqQ9FNF9E1JGkLg==
+X-Received: by 2002:a5d:6488:0:b0:22b:3b0b:5e72 with SMTP id o8-20020a5d6488000000b0022b3b0b5e72mr14464139wri.138.1667379904487;
+        Wed, 02 Nov 2022 02:05:04 -0700 (PDT)
 Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id b13-20020a5d550d000000b002366b17ca8bsm14083933wrv.108.2022.11.02.02.03.58
+        by smtp.gmail.com with ESMTPSA id p2-20020a5d4582000000b00228d52b935asm12402687wrq.71.2022.11.02.02.05.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 02:03:59 -0700 (PDT)
-Message-ID: <87284e5e-859e-3b1c-7142-28d4fa7a7939@redhat.com>
-Date: Wed, 2 Nov 2022 10:03:57 +0100
+        Wed, 02 Nov 2022 02:05:04 -0700 (PDT)
+Message-ID: <a96d57d8-486d-5a48-a00a-39df6275cbb5@redhat.com>
+Date: Wed, 2 Nov 2022 10:05:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v2 15/21] drm/fb-helper: Disconnect damage worker from
- update logic
+Subject: Re: [PATCH v2 16/21] drm/fb-helper: Call fb_sync in I/O functions
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
 References: <20221024111953.24307-1-tzimmermann@suse.de>
- <20221024111953.24307-16-tzimmermann@suse.de>
+ <20221024111953.24307-17-tzimmermann@suse.de>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20221024111953.24307-16-tzimmermann@suse.de>
+In-Reply-To: <20221024111953.24307-17-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -110,33 +109,14 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 10/24/22 13:19, Thomas Zimmermann wrote:
-> The fbdev helpers implement a damage worker that forwards fbdev
-> updates to the DRM driver. The worker's update logic depends on
-> the generic fbdev emulation. Separate the two via function pointer.
-> 
-> The generic fbdev emulation sets struct drm_fb_helper_funcs.fb_dirty,
-> a new callback that hides the update logic from the damage worker.
-> It's not possible to use the generic logic with other fbdev emulation,
-> because it contains additional code for the shadow buffering that
-> the generic emulation employs.
-> 
-> DRM drivers with internal fbdev emulation can set fb_dirty to their
-> own implementation if they require damage handling; although no such
-> drivers currently exist.
+> Call struct fb_ops.fb_sync in drm_fbdev_{read,write}() to mimic the
+> behavior of fbdev. Fbdev implementations of fb_read and fb_write in
+> struct fb_ops invoke fb_sync to synchronize with outstanding operations
+> before I/O. Doing the same in DRM implementations will allow us to use
+> them throughout DRM drivers.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-
-[...]
-
->  static void drm_fb_helper_damage_work(struct work_struct *work)
->  {
-> -	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper,
-> -						    damage_work);
-> -	struct drm_device *dev = helper->dev;
-> +	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
-
-This line is an unrelated code style change. But I guess it's OK.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
