@@ -1,51 +1,99 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D22E615DD2
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 09:35:51 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23553615ECE
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 10:04:27 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N2KwP0kdqz3dt6
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 19:35:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N2LYP15Ldz3cGk
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 20:04:25 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqN0JAdp;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqN0JAdp;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=javierm@redhat.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqN0JAdp;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ZqN0JAdp;
+	dkim-atps=neutral
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N2Kw74mNfz3dsG
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Nov 2022 19:35:35 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 2A28BAHw072663;
-	Wed, 2 Nov 2022 16:11:11 +0800 (GMT-8)
-	(envelope-from billy_tsai@aspeedtech.com)
-Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 2 Nov
- 2022 16:34:24 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
-        <joel@jms.id.au>, <andrew@aj.id.au>, <lee.jones@linaro.org>,
-        <thierry.reding@gmail.com>, <u.kleine-koenig@pengutronix.de>,
-        <p.zabel@pengutronix.de>, <billy_tsai@aspeedtech.com>,
-        <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pwm@vger.kernel.org>, <BMC-SW@aspeedtech.com>,
-        <garnermic@meta.com>
-Subject: [v3 3/3] hwmon: Add Aspeed ast2600 TACH support
-Date: Wed, 2 Nov 2022 16:36:01 +0800
-Message-ID: <20221102083601.10456-4-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221102083601.10456-1-billy_tsai@aspeedtech.com>
-References: <20221102083601.10456-1-billy_tsai@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N2LYC5Z4bz2xl5
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Nov 2022 20:04:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1667379848;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
+	b=ZqN0JAdp7pNMwP/JSudJr8tNGqBtC9is6+4zQUe2tYII9G4tpzpc3IjVckyyJCzsxk5yjq
+	AvLauga149POG/aHSVmWfYUOqJgRmloNwiaEFvQ8rbaPQ6GeJZ20ikqI186J3ohLcQUCrg
+	oxol6t2P8Q3ejmGbSKtC8dZTFBKwUUo=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1667379848;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
+	b=ZqN0JAdp7pNMwP/JSudJr8tNGqBtC9is6+4zQUe2tYII9G4tpzpc3IjVckyyJCzsxk5yjq
+	AvLauga149POG/aHSVmWfYUOqJgRmloNwiaEFvQ8rbaPQ6GeJZ20ikqI186J3ohLcQUCrg
+	oxol6t2P8Q3ejmGbSKtC8dZTFBKwUUo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-237-Tx8UEUzFOeCEkYUXv5UZIA-1; Wed, 02 Nov 2022 05:04:01 -0400
+X-MC-Unique: Tx8UEUzFOeCEkYUXv5UZIA-1
+Received: by mail-wm1-f71.google.com with SMTP id r187-20020a1c44c4000000b003c41e9ae97dso793148wma.6
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Nov 2022 02:04:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XBlp2DOijU5hXQ9AriUwp9vEVLgfxcCQxHX+sSZSvOs=;
+        b=Dxbdojk+mArpjyO54Rw7YuH2ti6C8D0+feE9pIg7MAcUYfd0jLm0Lk1d4ol0V3V3rI
+         WKlT5yHjO3tZLdlnnqGZGePIrMHUbmt8wthusLKh7hHWkAlSbnlgdY/wtv6FAH44L622
+         qqgo0nP3c4fuMW2/pXYjn2u9soPWlXGUSEaqp4R93IpYRSQsMXl1fugHwQfTvxofGyhb
+         dcE3+9NprX4surgTEmrQzsT7xbmZB0p1JEFcW4n6z+Z9xlX1TDW0104XFywQi9uHi81v
+         7CZkzkpqqRI+T+TMXlaznvp0ktkAtXhza9n0o2ylHWt8KR7TaCcdgNuOSMB0gy3MU6OZ
+         ewQA==
+X-Gm-Message-State: ACrzQf3Y3a5tggf4S6tY2NO5IQST9T9oe0JrHT4bmBFPIW4ZQoy3wLoq
+	217RumvbdDQ3FN7Z5h8ROyuaDcdfDRNA8L/72cvW5jIWfURTDOHDY3Q4NKlyjsXQHOOsouIiliW
+	8WkX8LoO6btbhLKab21LXhAHKhg==
+X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id k9-20020a7bc409000000b003cf4c818936mr24380805wmi.38.1667379840252;
+        Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM72ckpdUoZR+NwXtu1sv2+7NmgS+YMIWWHB7QdeKnWTKduGDRl7tg4bkpenTZv0mX1kFf34kw==
+X-Received: by 2002:a7b:c409:0:b0:3cf:4c81:8936 with SMTP id k9-20020a7bc409000000b003cf4c818936mr24380784wmi.38.1667379840046;
+        Wed, 02 Nov 2022 02:04:00 -0700 (PDT)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id b13-20020a5d550d000000b002366b17ca8bsm14083933wrv.108.2022.11.02.02.03.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Nov 2022 02:03:59 -0700 (PDT)
+Message-ID: <87284e5e-859e-3b1c-7142-28d4fa7a7939@redhat.com>
+Date: Wed, 2 Nov 2022 10:03:57 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.149]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2A28BAHw072663
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 15/21] drm/fb-helper: Disconnect damage worker from
+ update logic
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, sam@ravnborg.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com
+References: <20221024111953.24307-1-tzimmermann@suse.de>
+ <20221024111953.24307-16-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20221024111953.24307-16-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,586 +105,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>
+Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org, linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org, amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org, linux-sunxi@lists.linux.dev, linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org, spice-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, freedreno@lists.freedesktop.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch add the support of Tachometer which can use to monitor the
-frequency of the input. The tach supports up to 16 channels and it's part
-function of multi-function device "pwm-tach controller".
+On 10/24/22 13:19, Thomas Zimmermann wrote:
+> The fbdev helpers implement a damage worker that forwards fbdev
+> updates to the DRM driver. The worker's update logic depends on
+> the generic fbdev emulation. Separate the two via function pointer.
+> 
+> The generic fbdev emulation sets struct drm_fb_helper_funcs.fb_dirty,
+> a new callback that hides the update logic from the damage worker.
+> It's not possible to use the generic logic with other fbdev emulation,
+> because it contains additional code for the shadow buffering that
+> the generic emulation employs.
+> 
+> DRM drivers with internal fbdev emulation can set fb_dirty to their
+> own implementation if they require damage handling; although no such
+> drivers currently exist.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-Reported-by: kernel test robot <lkp@intel.com>
----
- Documentation/hwmon/index.rst               |   1 +
- Documentation/hwmon/tach-aspeed-ast2600.rst |  28 ++
- drivers/hwmon/Kconfig                       |   9 +
- drivers/hwmon/Makefile                      |   1 +
- drivers/hwmon/tach-aspeed-ast2600.c         | 476 ++++++++++++++++++++
- 5 files changed, 515 insertions(+)
- create mode 100644 Documentation/hwmon/tach-aspeed-ast2600.rst
- create mode 100644 drivers/hwmon/tach-aspeed-ast2600.c
+[...]
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index f790f1260c33..c4c0559fd4fa 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -179,6 +179,7 @@ Hardware Monitoring Kernel Drivers
-    smsc47m1
-    sparx5-temp
-    stpddc60
-+   tach-aspeed-ast2600
-    tc654
-    tc74
-    thmc50
-diff --git a/Documentation/hwmon/tach-aspeed-ast2600.rst b/Documentation/hwmon/tach-aspeed-ast2600.rst
-new file mode 100644
-index 000000000000..8967f60672dc
---- /dev/null
-+++ b/Documentation/hwmon/tach-aspeed-ast2600.rst
-@@ -0,0 +1,28 @@
-+Kernel driver tach-aspeed-ast2600
-+==============================
-+
-+Supported chips:
-+	ASPEED AST2600
-+
-+Authors:
-+	<billy_tsai@aspeedtech.com>
-+
-+Description:
-+------------
-+This driver implements support for ASPEED AST2600 Fan Tacho controller.
-+The controller supports up to 16 tachometer inputs.
-+
-+The driver provides the following sensor accesses in sysfs:
-+=============== ======= =====================================================
-+fanX_input	ro	provide current fan rotation value in RPM as reported
-+			by the fan to the device.
-+fanX_div	rw	Fan divisor: Supported value are power of 4 (1, 4, 16
-+                        64, ... 4194304)
-+                        The larger divisor, the less rpm accuracy and the less
-+                        affected by fan signal glitch.
-+fanX_min	rw      Fan minimum RPM which can used to change the timeout
-+                        value for controller polling the result.
-+fanX_max	rw      Fan maximum RPM which can used to change the polling
-+                        period of the driver.
-+fanX_pulses	rw      Fan pulses per resolution.
-+=============== ======= ======================================================
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index fa2356398744..a84c15b73aa6 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -397,6 +397,15 @@ config SENSORS_ASPEED
- 	  This driver can also be built as a module. If so, the module
- 	  will be called aspeed_pwm_tacho.
- 
-+config SENSORS_TACH_ASPEED_AST2600
-+	tristate "ASPEED ast2600 Tachometer support"
-+	select REGMAP
-+	help
-+	  This driver provides support for Aspeed ast2600 Tachometer.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called tach-aspeed-ast2600.
-+
- config SENSORS_ATXP1
- 	tristate "Attansic ATXP1 VID controller"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index d2497b2644e6..7e2d708e93b8 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -51,6 +51,7 @@ obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
- obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
- obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
- obj-$(CONFIG_SENSORS_ASC7621)	+= asc7621.o
-+obj-$(CONFIG_SENSORS_TACH_ASPEED_AST2600) += tach-aspeed-ast2600.o
- obj-$(CONFIG_SENSORS_ASPEED)	+= aspeed-pwm-tacho.o
- obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
- obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
-diff --git a/drivers/hwmon/tach-aspeed-ast2600.c b/drivers/hwmon/tach-aspeed-ast2600.c
-new file mode 100644
-index 000000000000..c10e6bc3c035
---- /dev/null
-+++ b/drivers/hwmon/tach-aspeed-ast2600.c
-@@ -0,0 +1,476 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) ASPEED Technology Inc.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/errno.h>
-+#include <linux/hwmon.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/reset.h>
-+#include <linux/sysfs.h>
-+
-+/* The channel number of Aspeed tach controller */
-+#define TACH_ASPEED_NR_TACHS		16
-+/* TACH Control Register */
-+#define TACH_ASPEED_CTRL(ch)		(((ch) * 0x10) + 0x08)
-+#define TACH_ASPEED_IER			BIT(31)
-+#define TACH_ASPEED_INVERS_LIMIT	BIT(30)
-+#define TACH_ASPEED_LOOPBACK		BIT(29)
-+#define TACH_ASPEED_ENABLE		BIT(28)
-+#define TACH_ASPEED_DEBOUNCE_MASK	GENMASK(27, 26)
-+#define TACH_ASPEED_DEBOUNCE_BIT	26
-+#define TACH_ASPEED_IO_EDGE_MASK	GENMASK(25, 24)
-+#define TACH_ASPEED_IO_EDGE_BIT		24
-+#define TACH_ASPEED_CLK_DIV_T_MASK	GENMASK(23, 20)
-+#define TACH_ASPEED_CLK_DIV_BIT		20
-+#define TACH_ASPEED_THRESHOLD_MASK	GENMASK(19, 0)
-+/* [27:26] */
-+#define DEBOUNCE_3_CLK			0x00
-+#define DEBOUNCE_2_CLK			0x01
-+#define DEBOUNCE_1_CLK			0x02
-+#define DEBOUNCE_0_CLK			0x03
-+/* [25:24] */
-+#define F2F_EDGES			0x00
-+#define R2R_EDGES			0x01
-+#define BOTH_EDGES			0x02
-+/* [23:20] */
-+/* divisor = 4 to the nth power, n = register value */
-+#define DEFAULT_TACH_DIV		1024
-+#define DIV_TO_REG(divisor)		(ilog2(divisor) >> 1)
-+
-+/* TACH Status Register */
-+#define TACH_ASPEED_STS(ch)		(((ch) * 0x10) + 0x0C)
-+
-+/*PWM_TACH_STS */
-+#define TACH_ASPEED_ISR			BIT(31)
-+#define TACH_ASPEED_PWM_OUT		BIT(25)
-+#define TACH_ASPEED_PWM_OEN		BIT(24)
-+#define TACH_ASPEED_DEB_INPUT		BIT(23)
-+#define TACH_ASPEED_RAW_INPUT		BIT(22)
-+#define TACH_ASPEED_VALUE_UPDATE	BIT(21)
-+#define TACH_ASPEED_FULL_MEASUREMENT	BIT(20)
-+#define TACH_ASPEED_VALUE_MASK		GENMASK(19, 0)
-+/**********************************************************
-+ * Software setting
-+ *********************************************************/
-+#define DEFAULT_FAN_MIN_RPM		1000
-+#define DEFAULT_FAN_PULSE_PR		2
-+/*
-+ * Add this value to avoid CPU consuming a lot of resources in waiting rpm
-+ * updating. Assume the max rpm of fan is 60000, the fastest period of updating
-+ * tach value will be equal to (1000000 * 2 * 60) / (2 * max_rpm) = 1000us.
-+ */
-+#define DEFAULT_FAN_MAX_RPM		60000
-+
-+struct aspeed_tach_channel_params {
-+	int limited_inverse;
-+	u16 threshold;
-+	u8 tach_edge;
-+	u8 tach_debounce;
-+	u8 pulse_pr;
-+	u32 min_rpm;
-+	u32 max_rpm;
-+	u32 divisor;
-+	u32 sample_period; /* unit is us */
-+	u32 polling_period; /* unit is us */
-+};
-+
-+struct aspeed_tach_data {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct clk *clk;
-+	struct reset_control *reset;
-+	bool tach_present[TACH_ASPEED_NR_TACHS];
-+	struct aspeed_tach_channel_params *tach_channel;
-+};
-+
-+static void aspeed_update_tach_sample_period(struct aspeed_tach_data *priv,
-+					     u8 fan_tach_ch)
-+{
-+	u32 tach_period_us;
-+	u8 pulse_pr = priv->tach_channel[fan_tach_ch].pulse_pr;
-+	u32 min_rpm = priv->tach_channel[fan_tach_ch].min_rpm;
-+
-+	/*
-+	 * min(Tach input clock) = (PulsePR * minRPM) / 60
-+	 * max(Tach input period) = 60 / (PulsePR * minRPM)
-+	 * Tach sample period > 2 * max(Tach input period) = (2*60) / (PulsePR * minRPM)
-+	 */
-+	tach_period_us = (USEC_PER_SEC * 2 * 60) / (pulse_pr * min_rpm);
-+	/* Add the margin (about 1.5) of tach sample period to avoid sample miss */
-+	tach_period_us = (tach_period_us * 1500) >> 10;
-+	dev_dbg(priv->dev, "tach%d sample period = %dus", fan_tach_ch, tach_period_us);
-+	priv->tach_channel[fan_tach_ch].sample_period = tach_period_us;
-+}
-+
-+static void aspeed_update_tach_polling_period(struct aspeed_tach_data *priv,
-+					      u8 fan_tach_ch)
-+{
-+	u32 tach_period_us;
-+	u8 pulse_pr = priv->tach_channel[fan_tach_ch].pulse_pr;
-+	u32 max_rpm = priv->tach_channel[fan_tach_ch].max_rpm;
-+
-+	tach_period_us = (USEC_PER_SEC * 2 * 60) / (pulse_pr * max_rpm);
-+	dev_dbg(priv->dev, "tach%d polling period = %dus", fan_tach_ch, tach_period_us);
-+	priv->tach_channel[fan_tach_ch].polling_period = tach_period_us;
-+}
-+
-+static void aspeed_tach_ch_enable(struct aspeed_tach_data *priv, u8 tach_ch,
-+				  bool enable)
-+{
-+	if (enable)
-+		regmap_set_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+				TACH_ASPEED_ENABLE);
-+	else
-+		regmap_clear_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+				  TACH_ASPEED_ENABLE);
-+}
-+
-+static int aspeed_get_fan_tach_ch_rpm(struct aspeed_tach_data *priv,
-+				      u8 fan_tach_ch)
-+{
-+	u32 raw_data, tach_div, val;
-+	unsigned long clk_source;
-+	u64 rpm;
-+	int ret;
-+
-+	ret = regmap_read_poll_timeout(priv->regmap, TACH_ASPEED_STS(fan_tach_ch), val,
-+				       (val & TACH_ASPEED_FULL_MEASUREMENT) &&
-+					       (val & TACH_ASPEED_VALUE_UPDATE),
-+				       priv->tach_channel[fan_tach_ch].polling_period,
-+				       priv->tach_channel[fan_tach_ch].sample_period);
-+
-+	if (ret) {
-+		/* return 0 if we didn't get an answer because of timeout */
-+		if (ret == -ETIMEDOUT)
-+			return 0;
-+		return ret;
-+	}
-+
-+	raw_data = val & TACH_ASPEED_VALUE_MASK;
-+	/*
-+	 * We need the mode to determine if the raw_data is double (from
-+	 * counting both edges).
-+	 */
-+	if (priv->tach_channel[fan_tach_ch].tach_edge == BOTH_EDGES)
-+		raw_data <<= 1;
-+
-+	tach_div = raw_data * (priv->tach_channel[fan_tach_ch].divisor) *
-+		   (priv->tach_channel[fan_tach_ch].pulse_pr);
-+
-+	clk_source = clk_get_rate(priv->clk);
-+	dev_dbg(priv->dev, "clk %ld, raw_data %d , tach_div %d\n", clk_source,
-+		raw_data, tach_div);
-+
-+	if (tach_div == 0)
-+		return -EDOM;
-+
-+	rpm = (u64)clk_source * 60;
-+	do_div(rpm, tach_div);
-+
-+	return rpm;
-+}
-+
-+static int aspeed_tach_hwmon_read(struct device *dev,
-+				  enum hwmon_sensor_types type, u32 attr,
-+				  int channel, long *val)
-+{
-+	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-+	u32 reg_val;
-+	int ret;
-+
-+	switch (attr) {
-+	case hwmon_fan_input:
-+		ret = aspeed_get_fan_tach_ch_rpm(priv, channel);
-+		if (ret < 0)
-+			return ret;
-+		*val = ret;
-+		break;
-+	case hwmon_fan_min:
-+		*val = priv->tach_channel[channel].min_rpm;
-+		break;
-+	case hwmon_fan_max:
-+		*val = priv->tach_channel[channel].max_rpm;
-+		break;
-+	case hwmon_fan_div:
-+		regmap_read(priv->regmap, TACH_ASPEED_CTRL(channel), &reg_val);
-+		reg_val = FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK, reg_val);
-+		*val = BIT(reg_val << 1);
-+		break;
-+	case hwmon_fan_pulses:
-+		*val = priv->tach_channel[channel].pulse_pr;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+	return 0;
-+}
-+
-+static int aspeed_tach_hwmon_write(struct device *dev,
-+				   enum hwmon_sensor_types type, u32 attr,
-+				   int channel, long val)
-+{
-+	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-+
-+	switch (attr) {
-+	case hwmon_fan_min:
-+		priv->tach_channel[channel].min_rpm = val;
-+		aspeed_update_tach_sample_period(priv, channel);
-+		break;
-+	case hwmon_fan_max:
-+		priv->tach_channel[channel].max_rpm = val;
-+		aspeed_update_tach_polling_period(priv, channel);
-+		break;
-+	case hwmon_fan_div:
-+		if (!(is_power_of_2(val) && !(ilog2(val) % 2))) {
-+			dev_err(dev,
-+				"fan_div value %ld not supported. Only support power of 4\n",
-+				val);
-+			return -EINVAL;
-+		}
-+		priv->tach_channel[channel].divisor = val;
-+		regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(channel),
-+				  TACH_ASPEED_CLK_DIV_T_MASK,
-+				  DIV_TO_REG(priv->tach_channel[channel].divisor)
-+					  << TACH_ASPEED_CLK_DIV_BIT);
-+		break;
-+	case hwmon_fan_pulses:
-+		priv->tach_channel[channel].pulse_pr = val;
-+		aspeed_update_tach_sample_period(priv, channel);
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return 0;
-+}
-+
-+static umode_t aspeed_tach_dev_is_visible(const void *drvdata,
-+					  enum hwmon_sensor_types type,
-+					  u32 attr, int channel)
-+{
-+	const struct aspeed_tach_data *priv = drvdata;
-+
-+	if (!priv->tach_present[channel])
-+		return 0;
-+	switch (attr) {
-+	case hwmon_fan_input:
-+		return 0444;
-+	case hwmon_fan_min:
-+	case hwmon_fan_max:
-+	case hwmon_fan_div:
-+	case hwmon_fan_pulses:
-+		return 0644;
-+	}
-+	return 0;
-+}
-+
-+static const struct hwmon_ops aspeed_tach_ops = {
-+	.is_visible = aspeed_tach_dev_is_visible,
-+	.read = aspeed_tach_hwmon_read,
-+	.write = aspeed_tach_hwmon_write,
-+};
-+
-+static const struct hwmon_channel_info *aspeed_tach_info[] = {
-+	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES,
-+			   HWMON_F_INPUT | HWMON_F_MIN | HWMON_F_MAX |
-+				   HWMON_F_DIV | HWMON_F_PULSES),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info aspeed_tach_chip_info = {
-+	.ops = &aspeed_tach_ops,
-+	.info = aspeed_tach_info,
-+};
-+
-+static void aspeed_create_fan_tach_channel(struct aspeed_tach_data *priv,
-+					   u32 tach_ch)
-+{
-+	priv->tach_present[tach_ch] = true;
-+	priv->tach_channel[tach_ch].limited_inverse = 0;
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_INVERS_LIMIT,
-+			  priv->tach_channel[tach_ch].limited_inverse ?
-+				  TACH_ASPEED_INVERS_LIMIT :
-+				  0);
-+
-+	priv->tach_channel[tach_ch].tach_debounce = DEBOUNCE_3_CLK;
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_DEBOUNCE_MASK,
-+			  priv->tach_channel[tach_ch].tach_debounce
-+				  << TACH_ASPEED_DEBOUNCE_BIT);
-+
-+	priv->tach_channel[tach_ch].tach_edge = F2F_EDGES;
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_IO_EDGE_MASK,
-+			  priv->tach_channel[tach_ch].tach_edge
-+				  << TACH_ASPEED_IO_EDGE_BIT);
-+
-+	priv->tach_channel[tach_ch].divisor = DEFAULT_TACH_DIV;
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_CLK_DIV_T_MASK,
-+			  DIV_TO_REG(priv->tach_channel[tach_ch].divisor)
-+				  << TACH_ASPEED_CLK_DIV_BIT);
-+
-+	priv->tach_channel[tach_ch].threshold = 0;
-+	regmap_write_bits(priv->regmap, TACH_ASPEED_CTRL(tach_ch),
-+			  TACH_ASPEED_THRESHOLD_MASK,
-+			  priv->tach_channel[tach_ch].threshold);
-+
-+	priv->tach_channel[tach_ch].pulse_pr = DEFAULT_FAN_PULSE_PR;
-+	priv->tach_channel[tach_ch].min_rpm = DEFAULT_FAN_MIN_RPM;
-+	aspeed_update_tach_sample_period(priv, tach_ch);
-+
-+	priv->tach_channel[tach_ch].max_rpm = DEFAULT_FAN_MAX_RPM;
-+	aspeed_update_tach_polling_period(priv, tach_ch);
-+
-+	aspeed_tach_ch_enable(priv, tach_ch, true);
-+}
-+
-+static int aspeed_tach_create_fan(struct device *dev, struct device_node *child,
-+				  struct aspeed_tach_data *priv)
-+{
-+	u32 tach_channel;
-+	int ret;
-+
-+	ret = of_property_read_u32(child, "reg", &tach_channel);
-+	if (ret)
-+		return ret;
-+
-+	aspeed_create_fan_tach_channel(priv, tach_channel);
-+
-+	return 0;
-+}
-+
-+static void aspeed_tach_reset_assert(void *data)
-+{
-+	struct reset_control *rst = data;
-+
-+	reset_control_assert(rst);
-+}
-+
-+static int aspeed_tach_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np, *child;
-+	struct aspeed_tach_data *priv;
-+	struct device *hwmon;
-+	struct platform_device *parent_dev;
-+	int ret;
-+
-+	np = dev->parent->of_node;
-+	if (!of_device_is_compatible(np, "aspeed,ast2600-pwm-tach"))
-+		return dev_err_probe(dev, -ENODEV,
-+				     "Unsupported tach device binding\n");
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+	priv->dev = &pdev->dev;
-+	priv->tach_channel =
-+		devm_kcalloc(dev, TACH_ASPEED_NR_TACHS,
-+			     sizeof(*priv->tach_channel), GFP_KERNEL);
-+
-+	priv->regmap = syscon_node_to_regmap(np);
-+	if (IS_ERR(priv->regmap))
-+		return dev_err_probe(dev, PTR_ERR(priv->regmap),
-+				     "Couldn't get regmap\n");
-+	parent_dev = of_find_device_by_node(np);
-+	priv->clk = devm_clk_get_enabled(&parent_dev->dev, NULL);
-+	if (IS_ERR(priv->clk))
-+		return dev_err_probe(dev, PTR_ERR(priv->clk),
-+				     "Couldn't get clock\n");
-+
-+	priv->reset = devm_reset_control_get_shared(&parent_dev->dev, NULL);
-+	if (IS_ERR(priv->reset))
-+		return dev_err_probe(dev, PTR_ERR(priv->reset),
-+				     "Couldn't get reset control\n");
-+
-+	ret = reset_control_deassert(priv->reset);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Couldn't deassert reset control\n");
-+
-+	ret = devm_add_action_or_reset(dev, aspeed_tach_reset_assert,
-+				       priv->reset);
-+	if (ret)
-+		return ret;
-+
-+	for_each_child_of_node(dev->of_node, child) {
-+		ret = aspeed_tach_create_fan(dev, child, priv);
-+		if (ret) {
-+			of_node_put(child);
-+			return ret;
-+		}
-+	}
-+
-+	hwmon = devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv,
-+						     &aspeed_tach_chip_info, NULL);
-+	ret = PTR_ERR_OR_ZERO(hwmon);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to register hwmon device\n");
-+	return 0;
-+}
-+
-+static const struct of_device_id of_stach_match_table[] = {
-+	{
-+		.compatible = "aspeed,ast2600-tach",
-+	},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, of_stach_match_table);
-+
-+static struct platform_driver aspeed_tach_driver = {
-+	.probe		= aspeed_tach_probe,
-+	.driver		= {
-+		.name	= "aspeed_tach",
-+		.of_match_table = of_stach_match_table,
-+	},
-+};
-+
-+module_platform_driver(aspeed_tach_driver);
-+
-+MODULE_AUTHOR("Billy Tsai <billy_tsai@aspeedtech.com>");
-+MODULE_DESCRIPTION("Aspeed ast2600 TACH device driver");
-+MODULE_LICENSE("GPL v2");
-+
+>  static void drm_fb_helper_damage_work(struct work_struct *work)
+>  {
+> -	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper,
+> -						    damage_work);
+> -	struct drm_device *dev = helper->dev;
+> +	struct drm_fb_helper *helper = container_of(work, struct drm_fb_helper, damage_work);
+
+This line is an unrelated code style change. But I guess it's OK.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-2.25.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
