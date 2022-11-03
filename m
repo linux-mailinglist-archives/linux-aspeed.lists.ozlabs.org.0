@@ -1,62 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AA76181D2
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Nov 2022 16:16:25 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECBD6181D6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Nov 2022 16:16:30 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N36m706DXz3cJX
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Nov 2022 02:16:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N36mC6x79z3cHw
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Nov 2022 02:16:27 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yvt0gOxB;
-	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JgfauNgk;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=2IHU9odf;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3Zy/+KY1;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.220.28; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=2001:67c:2178:6::1d; helo=smtp-out2.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yvt0gOxB;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JgfauNgk;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=2IHU9odf;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3Zy/+KY1;
 	dkim-atps=neutral
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N36kb4VyKz3cKk
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Nov 2022 02:15:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N36kb5CMXz3cLm
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Nov 2022 02:15:03 +1100 (AEDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D1F3C21E06;
-	Thu,  3 Nov 2022 15:14:59 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 65D8E1F8F3;
+	Thu,  3 Nov 2022 15:15:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1667488499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1667488500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UVBxH0SCO//07QUQ6EK/LfA90pQs6KDqJ9dD5J474xM=;
-	b=yvt0gOxB2lenOEStb/UiJX1DHn3g2kKsI7mtE4SGpNQSAhB7lYBWctzlz1reFVQJV5Q7Dr
-	9KtiNP07UesIRoJkQ20OBX+QffIA0guywKHcw8bFrTEd942EgwbZfJYBXbqYb3+CHu7FpM
-	9uqeHjGX+09FJKRvQbcgI46xl268Eu8=
+	bh=wr52WabQn4KK+bwhCdJXRXC0GHxQRZf3tOH2OwXrlI4=;
+	b=2IHU9odfZVC/BEosd5kYe2nSLZ0DFNgEeVXJI5zLv+JKV2wN30OSjGQ+p+oRUTcnBI+aSY
+	pkhdYXovwCXBs4Bkt8vaHgMYWDzvbQSgHd0WfjuIdzacDrsUKfmLPmD7qtna79oEsJ6XuK
+	jJL/sse9X2zXCpuZbC6pTPqYFUYFoHo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1667488499;
+	s=susede2_ed25519; t=1667488500;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UVBxH0SCO//07QUQ6EK/LfA90pQs6KDqJ9dD5J474xM=;
-	b=JgfauNgkk7JwnVqiJlezA/GaUozyirPiPZWwmsrpZSHazdzqxSROAFO3R1veLQkMRJ/Bf/
-	B6Qfs11b1jHuJuBQ==
+	bh=wr52WabQn4KK+bwhCdJXRXC0GHxQRZf3tOH2OwXrlI4=;
+	b=3Zy/+KY1PXJuswjeMIT6ebHMi8zktn+cASefhirMXLxQQC/cH2yhbAYxRTqiOd8n2gteRF
+	me+3Ej2BR8ugj7AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55B7F13ADB;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DAEFB13AAF;
 	Thu,  3 Nov 2022 15:14:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OMwZFPPaY2PBGgAAMHmgww
+	id kA2nM/PaY2PBGgAAMHmgww
 	(envelope-from <tzimmermann@suse.de>); Thu, 03 Nov 2022 15:14:59 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
@@ -65,9 +65,9 @@ To: daniel@ffwll.ch,
 	javierm@redhat.com,
 	mripard@kernel.org,
 	maarten.lankhorst@linux.intel.com
-Subject: [PATCH v3 19/23] drm/fb-helper: Always initialize generic fbdev emulation
-Date: Thu,  3 Nov 2022 16:14:42 +0100
-Message-Id: <20221103151446.2638-20-tzimmermann@suse.de>
+Subject: [PATCH v3 20/23] drm/fb-helper: Set flag in struct drm_fb_helper for leaking physical addresses
+Date: Thu,  3 Nov 2022 16:14:43 +0100
+Message-Id: <20221103151446.2638-21-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221103151446.2638-1-tzimmermann@suse.de>
 References: <20221103151446.2638-1-tzimmermann@suse.de>
@@ -88,45 +88,72 @@ Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, dri-devel@list
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Initialize the generic fbdev emulation even if it has been disabled
-on the kernel command line. The hotplug and mode initialization will
-fail accordingly.
-
-The kernel parameter can still be changed at runtime and the emulation
-will initialize after hotplugging the connector.
+Uncouple the parameter drm_leak_fbdev_smem from the implementation by
+setting a flag in struct drm_fb_helper. This will help to move the
+generic fbdev emulation into its own source file, while keeping the
+parameter in drm_fb_helper.c. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/drm_fb_helper.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 10 +++++++---
+ include/drm/drm_fb_helper.h     |  2 ++
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 3dfda1e3830b3..95f389433c4a6 100644
+index 95f389433c4a6..105d9c8fe3250 100644
 --- a/drivers/gpu/drm/drm_fb_helper.c
 +++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -526,11 +526,6 @@ int drm_fb_helper_init(struct drm_device *dev,
- {
- 	int ret;
+@@ -74,7 +74,7 @@ MODULE_PARM_DESC(drm_fbdev_overalloc,
+  * considered as a broken and legacy behaviour from a modern fbdev device.
+  */
+ #if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
+-static bool drm_leak_fbdev_smem = false;
++static bool drm_leak_fbdev_smem;
+ module_param_unsafe(drm_leak_fbdev_smem, bool, 0600);
+ MODULE_PARM_DESC(drm_leak_fbdev_smem,
+ 		 "Allow unsafe leaking fbdev physical smem address [default=false]");
+@@ -1968,6 +1968,10 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+ 		sizes.surface_height = config->max_height;
+ 	}
  
--	if (!drm_fbdev_emulation) {
--		dev->fb_helper = fb_helper;
--		return 0;
--	}
--
- 	/*
- 	 * If this is not the generic fbdev client, initialize a drm_client
- 	 * without callbacks so we can use the modesets.
-@@ -2716,9 +2711,6 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
- 	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
- 	drm_WARN(dev, dev->fb_helper, "fb_helper is already set!\n");
++#if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
++	fb_helper->hint_leak_smem_start = drm_leak_fbdev_smem;
++#endif
++
+ 	/* push down into drivers */
+ 	ret = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);
+ 	if (ret < 0)
+@@ -2165,7 +2169,7 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
+ 	info->var.pixclock = 0;
+ 	/* Shamelessly allow physical address leaking to userspace */
+ #if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
+-	if (!drm_leak_fbdev_smem)
++	if (!fb_helper->hint_leak_smem_start)
+ #endif
+ 		/* don't leak any physical addresses to userspace */
+ 		info->flags |= FBINFO_HIDE_SMEM_START;
+@@ -2564,7 +2568,7 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
+ 		 * case.
+ 		 */
+ #if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
+-		if (drm_leak_fbdev_smem && fbi->fix.smem_start == 0 &&
++		if (fb_helper->hint_leak_smem_start && fbi->fix.smem_start == 0 &&
+ 		    !drm_WARN_ON_ONCE(dev, map.is_iomem))
+ 			fbi->fix.smem_start =
+ 				page_to_phys(virt_to_page(fbi->screen_buffer));
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index 6581183618b89..3dfb5d1093871 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -199,6 +199,8 @@ struct drm_fb_helper {
+ 	 * See also: @deferred_setup
+ 	 */
+ 	int preferred_bpp;
++
++	bool hint_leak_smem_start;
+ };
  
--	if (!drm_fbdev_emulation)
--		return;
--
- 	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
- 	if (!fb_helper) {
- 		drm_err(dev, "Failed to allocate fb_helper\n");
+ static inline struct drm_fb_helper *
 -- 
 2.38.0
 
