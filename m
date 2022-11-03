@@ -2,69 +2,129 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784EA6170C2
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Nov 2022 23:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2148361754B
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Nov 2022 04:53:43 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N2hZH2lcgz3c2j
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Nov 2022 09:36:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N2qcP0PX5z3bsK
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Nov 2022 14:53:41 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Ogx+ovNo;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=EK6tpANK;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.215.121; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Ogx+ovNo;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=EK6tpANK;
 	dkim-atps=neutral
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2121.outbound.protection.outlook.com [40.107.215.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N2hZ71kc9z2xjr
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Nov 2022 09:36:13 +1100 (AEDT)
-Received: by mail-pl1-x632.google.com with SMTP id b21so202571plc.9
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Nov 2022 15:36:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=asm9P2XWCiMn4Vml+HfqmeJ9Equ9Ftejm36QD1NxLfk=;
-        b=Ogx+ovNo3m6QYt25heGGrophhpPrSU/hM1qrG2ZXat8H2b1CelNLQJ++X8wfjdJWrg
-         ykoGUchkDJuKmxDJ3RNEktphd09n1pGRqAdLFXhMiQ+Z09QdRPBJazLXLAEEhrko6A2r
-         J7DSQXQv9YyNNJvH8krAkNUZUaWyIoNPpxHcJLggARUMbAtXFR+T6PlgNX2hWOFMvdw4
-         MxgaVoxTaWFDIsrYFkRCgcf/sYiK+jVlfsWD5neQtAqqbAaFE/dP/5kMFxPTdzx3L9Vm
-         sz19h5M0gXimjJSL/XY+c8IbtSHvkHHXxAn+Yi+0PkTvwATu/69olmsjJthEDihlcrG+
-         7pCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=asm9P2XWCiMn4Vml+HfqmeJ9Equ9Ftejm36QD1NxLfk=;
-        b=Icx9RNDQSk8d7+83jk8tPZ+EenAoQvxR4lgFbxZ4XruS6QmKmrQ2mNol7d+NgotWcd
-         0y31E+Exc9DKQwRPPMaur/m3DDjb3vv6YZxGd8fjAGEgweKqPud2a8L+bNlTrOcwhhMa
-         6FpNQVkO3U8natXk+ntzEUTqcpWQXlJsATqxMJDHHEMBqbAHTwadnUkMtGABjfH02UjC
-         QfTCgAiQJkzWrt8HoH2EKP0f+LWeWgQKsCqnOkfCGPu+VvbKFpmUQQvDlKmIM8CHdJoi
-         sKxJYQGoi3BN+HOu2mwLhMjzKwVfNMVVJNGRiYyT6cZ8soDX+Xgss3SjSWohmJuzOiLJ
-         WGSA==
-X-Gm-Message-State: ACrzQf2B/cxQ+XkCghJQTYu6wBZDU2YCA75cLJcWu+Ll/TepTA0lRj6g
-	ScdiCQX8p0eG4AchsSUg0fFqYq6yoyg=
-X-Google-Smtp-Source: AMsMyM5W061wByaviVk7pjg2O41hBR/HQDAb/69JoRcj9Tuv9AKMR8HHMCypfdiVv2DeafGPv4stKA==
-X-Received: by 2002:a17:902:7101:b0:180:202c:ad77 with SMTP id a1-20020a170902710100b00180202cad77mr28075680pll.47.1667428569952;
-        Wed, 02 Nov 2022 15:36:09 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.18])
-        by smtp.gmail.com with ESMTPSA id r11-20020aa7988b000000b0056babe4fb8asm8927241pfl.49.2022.11.02.15.36.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 15:36:09 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] ARM: dts: aspeed: rainier: Fix pca9551 nodes
-Date: Thu,  3 Nov 2022 09:05:54 +1030
-Message-Id: <20221102223554.1738642-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.35.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N2qc76rTxz3bqW
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Nov 2022 14:53:23 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lB0tlRQdQ+E1zxc2QzijgvQbzU6DteATPDotNgHXSe2TuP9bfgmeR5rULWr0jGqBDuUfKbbhd96EqXdRgH1lvYcojF65KmOb6ksyG5z15VKk+zvXliFk5W6gT71bV++hHr02qDKhwQmY5+WRrCtm/V9uTvgy81YN1xhoPBsHhLuUNyVQJz/v44z7P4hhxJGLkEMBTmRp55PQ6S/7tUiSEaLV6pUO7w16eLJEcM3BuQ+QOaCy25SzoxFNK8S4KatXkYmcT4wBorgoC3HAFxrp/gBVJXbZIW/tCeowU5H7VshuApRaX+Ego46rNihOpu/AtJUazfJqeDnSn1NIjio+lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XEt6SnoQt5ciN70bbdoQMM2nBaY7jrDjx6HtyQq5Dmg=;
+ b=kdmG7LYBt6OOvLYq6Ktdf9BWLHAqewcjLe6GlTfXJahQEmcO66g1UQZnez9+htMT9yKToGNZ+b8fNlNqZIAlOgXh/l2z2YiUuKOGcQXzXuZ1lSdXEWq7HupbxpErlOQ4Fd+pPq7TYbnZip+FT9Sf4NFqDVGE5wWzeM937zQLr6rSNXbkXUloZtk0u1/vU8Qv1MhLXzXWbVX+m2VxpN4XTvNqlOFoP0YtawFqU70ZcZ2Io4ZrdqG41eHEIFibx3cQozHMwuUUrKwruIWOOr/7m81X10CXMmOv58k7H8I4fpubJz75Ayh4By2YhSpxD6mjW2e8cNT8UKP255Zmne6AJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XEt6SnoQt5ciN70bbdoQMM2nBaY7jrDjx6HtyQq5Dmg=;
+ b=EK6tpANKcZ/TMcknAPHiqBtjHHpTFy5i2shtxFpho9XEmXq4MRa+Ni8BK86NY6TOxlpP9mBY++UAbeRMM4o+PkXdP2oyzFXDG1N1JiyOjhpYy3EcuvhycxujEin635nsxEisAs7c4Oe76vmcu7Ob7nNr5wmjkR/CdLBoxmpHLH6Qt0OtDSMM6kgArEhqA1BBeMMs5lZeLp72ahCx/Hdk/z+wEwzRA0WzVRUSkQclZiqZjoeggdb3SRIn6rZV2XPr99YXg61YhJoXaahq3Qz+BVQr4iExNghWyNPcma1puw9+hgc3CkyMpf1z0yKLr4zZvvWgz1da/kibdIf7wp2X2Q==
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
+ SEZPR06MB5174.apcprd06.prod.outlook.com (2603:1096:101:70::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5791.22; Thu, 3 Nov 2022 03:52:59 +0000
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::dd5d:e720:e00f:831]) by SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::dd5d:e720:e00f:831%6]) with mapi id 15.20.5769.019; Thu, 3 Nov 2022
+ 03:52:59 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [v2 3/3] hwmon: Add Aspeed ast2600 TACH support
+Thread-Topic: [v2 3/3] hwmon: Add Aspeed ast2600 TACH support
+Thread-Index: AQHY7ddiCLgpICHNHkaN+NgNt8n5/K4qDDAAgAGuNQCAACN3AIABPBaA
+Date: Thu, 3 Nov 2022 03:52:59 +0000
+Message-ID: <F1166366-99CC-4A36-A0A2-4965C787E60B@aspeedtech.com>
+References: <20221101095156.30591-1-billy_tsai@aspeedtech.com>
+ <20221101095156.30591-4-billy_tsai@aspeedtech.com>
+ <20221101131456.GA1310110@roeck-us.net>
+ <271C521D-8F20-4C86-B3DA-9C0AD74242D4@aspeedtech.com>
+ <20221102170138.GA2913353@roeck-us.net>
+In-Reply-To: <20221102170138.GA2913353@roeck-us.net>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/16.66.22101101
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|SEZPR06MB5174:EE_
+x-ms-office365-filtering-correlation-id: cd5194b0-3be4-4712-87eb-08dabd4ee633
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  ud1bq5jvK+o9ETvBSmDAxujOFw60P7/w49IWMH/nwr9B/Ro3XRIWa01x/kD/WvFXKVPSdr62HYvbIRbdRLFMSnIreqZ8DGYr4Zq/fFtIhH/esQmTbDzdsytLy15aRcQeOuYWlJrHnB9anuexOHPF36q/yEqYrHEb8uW8B1Xc3IFE4ltpwWfOQwXVMQIH36iBYaEX0PHoUOvKCBp1MsFjck045WwJAEBT2u6b14zlL/FIZMVeFkogj2oHHvXTP4qiWq6KAVwT+AvQ9QnenbVxcDpF25qn05lircryEwYxafCreAayQbfbrVbGE6Tl82xVd932fhmWpZ6tqq3wEibUP6mZmdyfzTyUc/pUA+8WwObeWceVSIbpWLVCftbDhsqmhnpN4ThZg2k/c4Of+cSMzZMDANw8UcIlcd+b/I9CffQP3BUK3yUcOQw+YZVIW4WGPjITHDpIaq2vhXKASKTVQIdTCPDvZcHXuOEJsdFpazuVWpFzyK6pISKVuecOqcyF4dDj3CMUCfqIxZSZqqRDFPaTiFN4dy5wv/V/U12zIyXBJURZPlQVJ+81qPH3hYxmDNrwqqrIN0RWunaRk7WStgucKl8CjtuGhU1KrvSCHxg6Hspb9Yqt2Qh492STEaai+Eq4J9MKX30bXCNwQpcIgUUatIAErlTQs6c6zTu5H6ojoGhBQU3fkETQEaJnBqPgl46pOEND0A/3uBInai1Ggu4O46fBxCdwACeAZJVswOY2ASild7eeVhDGXFuZYf1WOMeUiTYilpyKtFXWjOSUQHf6IFFrsxtiuhIevV+tOt8=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(366004)(136003)(39850400004)(396003)(376002)(451199015)(2616005)(66556008)(7416002)(316002)(478600001)(76116006)(66946007)(6916009)(54906003)(91956017)(4326008)(66476007)(66446008)(6506007)(53546011)(71200400001)(26005)(6512007)(8936002)(41300700001)(64756008)(5660300002)(6486002)(2906002)(186003)(83380400001)(36756003)(38100700002)(122000001)(8676002)(33656002)(38070700005)(86362001)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?U0d4eUhySzBQMGd3RGUwYjJRWXNGd3dQODF1K283ek90Y2p6eHdvRWQ5SWFS?=
+ =?utf-8?B?ZzdZQlJRUk1WWjJRRUFNc3pEMTRaekdJeldDTGJhY3RUZEFLK1Z6aHBPc3Uw?=
+ =?utf-8?B?UDhhekFaRkdKb2JHeTl6bkFPZEJrRUUxOXFISVNPUng4RUhzMW5CTXp2T2JU?=
+ =?utf-8?B?a3VTMldwOUVLQXFJSG9ZSm9XbnlENEg2RU4yMENidkxpYmpXQlFaR0tZMTkr?=
+ =?utf-8?B?ZkdQMDd0RldrdStUN0dwNjBMcVNSQThLYU9kRXJTbVVENGQvbGQyQTRQUFBp?=
+ =?utf-8?B?MDhFZkVhNEJHMXlxQ0h3MW5XUGJ2R0UvcFBQQmJ4THI5VmJDTW1xZlJPZTBj?=
+ =?utf-8?B?UkJhTG1OZERoRS90TmhEYlk4czNXZ1JYeFRiUmlxK3J2UzNlNHgwYlRFOW5s?=
+ =?utf-8?B?SHJGVFM3c3duV0wxVHZMcUxzdWV0MzJYczk5dzNEYVM2aFpoQVE2eGl2ZENs?=
+ =?utf-8?B?UzNBYnlUa2FiOGpzQnN3OTY1NXByTFlYUVI0akxkWDBBdE5RYjR2MnkrZ25Q?=
+ =?utf-8?B?Tld4ckIyMTFWdzVqTkZhQlBRVmlRUDJqVUo3VVBkVEtFeG9xcWNlaDNSZlZr?=
+ =?utf-8?B?c1lvOTdIeHIyREdJeStqK0FZZzA0TmJDbldIT1FlOXJXYzNLM0dFU0s2RjVT?=
+ =?utf-8?B?cjJSWURYVmlmOUNCVmV3aXNZU2lHRk1RZ21raC9lSHFYdGRxb3dnU0lSMlhk?=
+ =?utf-8?B?SlEzOTE1eFYrYUEyckI5elVweFdmaWJDeXZ5QWxjSjBMYzdEckI5OXhPU2hq?=
+ =?utf-8?B?YkhsSXRNUXNHSkpOVnA3dlVmK2pLNVlobHIrQ3BFOGhDK2RkZDkxczgxd0lm?=
+ =?utf-8?B?QlFyRnkwRnR2ZmdKaitPVWxMNWFRVjVENUVibTJxQkU5MHhlSDYyTEFMaHhB?=
+ =?utf-8?B?aXcwOHBYZEdkd25VaG9lNHNmaSt1RXZPU1RhNHYrZ3FRZkw1Y0k0QVJ1TmJS?=
+ =?utf-8?B?bnRxYVo5WlJYSWp4MVRsS3J4dmd2L0ZHTThxQlNyNkdSR0oyRk1SUGQrSUVB?=
+ =?utf-8?B?bzh0dVpic2VqS3ZsdlJSaW9oR003RkczcG42YS9zL2FKQXBYWGg0WDFVNEhZ?=
+ =?utf-8?B?VTkvM3pnU2dUVkxxcGNrbC9TeVhBbWRYMmQ3NW5VZEJBR1RDWm13ZDhTNTBt?=
+ =?utf-8?B?cG5kU29tQUpRWEZXSGZDMUxoUmdxTFAwYUs5QmJScEFCK1NEaVM2eGYxNW5J?=
+ =?utf-8?B?dE5nV01EUUN5NlM0dFhta2tyempZZ2Q3cDF2NksxdUZSY2hwOFFNMmxkdWlq?=
+ =?utf-8?B?STAvS3Bsa0NzUW9pY0U4VElPRGJVVm9Ed2JJaEF5bGkybzZQeG56THc0T0lv?=
+ =?utf-8?B?eityT1IyMVpBNXpnTnNDRGt5WXZuLzV6empFNGI2WEI1YzhvU0hMRVdML1BH?=
+ =?utf-8?B?bE1tU3A1NTliVlp5dHJCVzNYNU1QVW1SMlNrRm9jOFFRMll6WS9XT0VNRjNt?=
+ =?utf-8?B?M0pFKzJISmgwc3dmaEtTc0ZoT0dJdUpyUTEyY0pMSWs1aExSM080ZTFRT2RB?=
+ =?utf-8?B?dXlMQTd1blVmcnI0QXE0NzkwUStjS1RMdlpGSDRhMnhObE1wdC9lbXk0anJs?=
+ =?utf-8?B?WXhxN1lMeS9oTWtzQ1pPUDFBN0o2M3dsbWlvUjB5azVReHFnejZ0Tk9wc3FP?=
+ =?utf-8?B?RW1LZkRFeERGNFlxSHRxeXU3M3V5RVpBMUM3R3dHYkF4WW1IbnZwdGNXSnVt?=
+ =?utf-8?B?RGZyV0lZT3krVnc1aHpQb0hFSTlJNnZCK0laa2laKytaV2NoeG4wam0vNWQz?=
+ =?utf-8?B?T2g3eUpWNWVrNUtBMGJIK0dITWpEdGxwSmFEdnhKb2k5azVBTXRhZWVxV1JD?=
+ =?utf-8?B?b2ZOTEFZWU5sOVJhQm8rd1AwQkcrN3NaenBEQzAwZExjVHlYRkhDbWNhTUVC?=
+ =?utf-8?B?eVBzT25waGk4RitqMWNTbk53UGpNeTc4Yk15UGVZcEtWTTlrNUQ4N2VFS2Nl?=
+ =?utf-8?B?SUw5VjF0QzRZRDFUME1vd2hOaWhGRmVJUUlvTWFESEpUdWVsVkUwOERkNEFQ?=
+ =?utf-8?B?R1RaRUZQQ3NhckZxc1NwZVgzZ1N1dytoY2pVVmd6L3VIdWlKZ0RLQW9GNGNS?=
+ =?utf-8?B?TmNvUUFKL3dtaVIzWFYvRFFBTGxYeVpvTUdJZUQySEt6WFNrUjAzR2Fid2tr?=
+ =?utf-8?B?bldESUY2V2dtbVdLb0JPZkJWcVFNejFZVVlvVjU2RUxIa0lpZ3VBaCtWWUJx?=
+ =?utf-8?B?V2c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8AACCD2E2E1C6044AE9B9C0376A870F9@apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd5194b0-3be4-4712-87eb-08dabd4ee633
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2022 03:52:59.3269
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: enrG2z1CAIuomxLgCiHUtD8IdZwPSjkdWeOX6XADI0XJ3uwKTLU6a6B72/687esF60p+N7GCUQyO6zj6psRAgWVxOYWgfViSgHt/4BfmmSs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5174
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,282 +136,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "garnermic@meta.com" <garnermic@meta.com>, "jdelvare@suse.com" <jdelvare@suse.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, "lee.jones@linaro.org" <lee.jones@linaro.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Santosh Puranik <santosh.puranik@in.ibm.com>
-
-The pca9551 compatible LED drivers are under the pca9546 mux
-on Rainier pass > 1. On pass 1, they are directly connected to
-the aspeed i2c.
-
-Signed-off-by: Santosh Puranik <santosh.puranik@in.ibm.com>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 208 +++++++++----------
- 1 file changed, 104 insertions(+), 104 deletions(-)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index 24c1f698275d..05d856856844 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -1018,32 +1018,6 @@ tmp275@4a {
- 		reg = <0x4a>;
- 	};
- 
--	pca9551@60 {
--		compatible = "nxp,pca9551";
--		reg = <0x60>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		gpio-controller;
--		#gpio-cells = <2>;
--
--		led@0 {
--			label = "cablecard0-cxp-top";
--			reg = <0>;
--			retain-state-shutdown;
--			default-state = "keep";
--			type = <PCA955X_TYPE_LED>;
--		};
--
--		led@1 {
--			label = "cablecard0-cxp-bot";
--			reg = <1>;
--			retain-state-shutdown;
--			default-state = "keep";
--			type = <PCA955X_TYPE_LED>;
--		};
--	};
--
- 	pca9546@70 {
- 		compatible = "nxp,pca9546";
- 		reg = <0x70>;
-@@ -1061,6 +1035,32 @@ eeprom@50 {
- 				compatible = "atmel,24c64";
- 				reg = <0x50>;
- 			};
-+
-+			pca9551@60 {
-+				compatible = "nxp,pca9551";
-+				reg = <0x60>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+
-+				led@0 {
-+					label = "cablecard0-cxp-top";
-+					reg = <0>;
-+					retain-state-shutdown;
-+					default-state = "keep";
-+					type = <PCA955X_TYPE_LED>;
-+				};
-+
-+				led@1 {
-+					label = "cablecard0-cxp-bot";
-+					reg = <1>;
-+					retain-state-shutdown;
-+					default-state = "keep";
-+					type = <PCA955X_TYPE_LED>;
-+				};
-+			};
- 		};
- 
- 		i2c4mux0chn1: i2c@1 {
-@@ -1100,58 +1100,6 @@ tmp275@49 {
- 		reg = <0x49>;
- 	};
- 
--	pca9551@60 {
--		compatible = "nxp,pca9551";
--		reg = <0x60>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		gpio-controller;
--		#gpio-cells = <2>;
--
--		led@0 {
--			label = "cablecard3-cxp-top";
--			reg = <0>;
--			retain-state-shutdown;
--			default-state = "keep";
--			type = <PCA955X_TYPE_LED>;
--		};
--
--		led@1 {
--			label = "cablecard3-cxp-bot";
--			reg = <1>;
--			retain-state-shutdown;
--			default-state = "keep";
--			type = <PCA955X_TYPE_LED>;
--		};
--	};
--
--	pca9551@61 {
--		compatible = "nxp,pca9551";
--		reg = <0x61>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		gpio-controller;
--		#gpio-cells = <2>;
--
--		led@0 {
--			label = "cablecard4-cxp-top";
--			reg = <0>;
--			retain-state-shutdown;
--			default-state = "keep";
--			type = <PCA955X_TYPE_LED>;
--		};
--
--		led@1 {
--			label = "cablecard4-cxp-bot";
--			reg = <1>;
--			retain-state-shutdown;
--			default-state = "keep";
--			type = <PCA955X_TYPE_LED>;
--		};
--	};
--
- 	pca9546@70 {
- 		compatible = "nxp,pca9546";
- 		reg = <0x70>;
-@@ -1169,6 +1117,32 @@ eeprom@50 {
- 				compatible = "atmel,24c64";
- 				reg = <0x50>;
- 			};
-+
-+			pca9551@60 {
-+				compatible = "nxp,pca9551";
-+				reg = <0x60>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+
-+				led@0 {
-+					label = "cablecard3-cxp-top";
-+					reg = <0>;
-+					retain-state-shutdown;
-+					default-state = "keep";
-+					type = <PCA955X_TYPE_LED>;
-+				};
-+
-+				led@1 {
-+					label = "cablecard3-cxp-bot";
-+					reg = <1>;
-+					retain-state-shutdown;
-+					default-state = "keep";
-+					type = <PCA955X_TYPE_LED>;
-+				};
-+			};
- 		};
- 
- 		i2c5mux0chn1: i2c@1 {
-@@ -1180,6 +1154,32 @@ eeprom@51 {
- 				compatible = "atmel,24c64";
- 				reg = <0x51>;
- 			};
-+
-+			pca9551@61 {
-+				compatible = "nxp,pca9551";
-+				reg = <0x61>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+
-+				led@0 {
-+					label = "cablecard4-cxp-top";
-+					reg = <0>;
-+					retain-state-shutdown;
-+					default-state = "keep";
-+					type = <PCA955X_TYPE_LED>;
-+				};
-+
-+				led@1 {
-+					label = "cablecard4-cxp-bot";
-+					reg = <1>;
-+					retain-state-shutdown;
-+					default-state = "keep";
-+					type = <PCA955X_TYPE_LED>;
-+				};
-+			};
- 		};
- 	};
- };
-@@ -2032,32 +2032,6 @@ tmp275@49 {
- 		reg = <0x49>;
- 	};
- 
--	pca9551@60 {
--		compatible = "nxp,pca9551";
--		reg = <0x60>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		gpio-controller;
--		#gpio-cells = <2>;
--
--		led@0 {
--			label = "cablecard10-cxp-top";
--			reg = <0>;
--			retain-state-shutdown;
--			default-state = "keep";
--			type = <PCA955X_TYPE_LED>;
--		};
--
--		led@1 {
--			label = "cablecard10-cxp-bot";
--			reg = <1>;
--			retain-state-shutdown;
--			default-state = "keep";
--			type = <PCA955X_TYPE_LED>;
--		};
--	};
--
- 	pca9546@70 {
- 		compatible = "nxp,pca9546";
- 		reg = <0x70>;
-@@ -2075,6 +2049,32 @@ eeprom@50 {
- 				compatible = "atmel,24c64";
- 				reg = <0x50>;
- 			};
-+
-+			pca9551@60 {
-+				compatible = "nxp,pca9551";
-+				reg = <0x60>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+
-+				led@0 {
-+					label = "cablecard10-cxp-top";
-+					reg = <0>;
-+					retain-state-shutdown;
-+					default-state = "keep";
-+					type = <PCA955X_TYPE_LED>;
-+				};
-+
-+				led@1 {
-+					label = "cablecard10-cxp-bot";
-+					reg = <1>;
-+					retain-state-shutdown;
-+					default-state = "keep";
-+					type = <PCA955X_TYPE_LED>;
-+				};
-+			};
- 		};
- 
- 		i2c11mux0chn1: i2c@1 {
--- 
-2.35.1
-
+T24gMjAyMi8xMS8zLCAxOjAxIEFNLCAiR3VlbnRlciBSb2VjayIgPGdyb2VjazdAZ21haWwuY29t
+IG9uIGJlaGFsZiBvZiBsaW51eEByb2Vjay11cy5uZXQ+IHdyb3RlOg0KDQogICAgT24gV2VkLCBO
+b3YgMDIsIDIwMjIgYXQgMDY6NTQ6NDNBTSArMDAwMCwgQmlsbHkgVHNhaSB3cm90ZToNCiAgICA+
+ICAgPiBIaSBHdWVudGVyLA0KICAgID4gICA+IA0KICAgID4gICA+IE9uIDIwMjIvMTEvMSwgOTox
+NSBQTSwgIkd1ZW50ZXIgUm9lY2siIDxncm9lY2s3QGdtYWlsLmNvbSBvbiBiZWhhbGYgb2YgbGlu
+dXhAcm9lY2stdXMubmV0PiB3cm90ZToNCiAgICA+ICAgPiANCiAgICA+ICAgPiAgICAgT24gVHVl
+LCBOb3YgMDEsIDIwMjIgYXQgMDU6NTE6NTZQTSArMDgwMCwgQmlsbHkgVHNhaSB3cm90ZToNCiAg
+ICA+ICAgPiAgICAgPiA+ICsNCiAgICA+ICAgPiAgICAgPiA+ICsJLyogUmVzdGFydCB0aGUgVGFj
+aCBjaGFubmVsIHRvIGd1YXJhbnRlZSB0aGUgdmFsdWUgaXMgZnJlc2ggKi8NCiAgICA+ICAgPiAg
+ICAgPiA+ICsJYXNwZWVkX3RhY2hfY2hfZW5hYmxlKHByaXYsIGZhbl90YWNoX2NoLCBmYWxzZSk7
+DQogICAgPiAgID4gICAgID4gPiArCWFzcGVlZF90YWNoX2NoX2VuYWJsZShwcml2LCBmYW5fdGFj
+aF9jaCwgdHJ1ZSk7DQogICAgPiAgID4gDQogICAgPiAgID4gICAgID4gSXMgdGhhdCByZWFsbHkg
+bmVlZGVkID8gRG9lc24ndCB0aGUgY29udHJvbGxlciBtZWFzdXJlIHZhbHVlcyBjb250aW51b3Vz
+bHkgPw0KICAgID4gICA+IA0KICAgID4gICA+IFllcywgdGhlIGNvbnRyb2xsZXIgd2lsbCBtZWFz
+dXJlIHZhbHVlcyBjb250aW51b3VzbHkgYnkgaGFyZHdhcmUuIEkgd2lsbCByZW1vdmUgaXQuIA0K
+ICAgID4gICA+IElmIHRoZSB1c2VyIHdhbnQgdG8gZ2V0IHRoZSBmcmVzaCB2YWx1ZSwgaXQgc2hv
+dWxkIGJlIGRvbmUgYnkgdGhlIGFwcGxpY2F0aW9uIGxheWVyDQogICAgPiAgID4gKGUuZy4gcmVh
+ZCB0d28gdGltZXMpLg0KICAgID4gICA+IA0KICAgID4gICA+ICAgICA+ID4gKw0KICAgID4gICA+
+ICAgICA+ID4gKwlpZiAocmV0KSB7DQogICAgPiAgID4gICAgID4gPiArCQkvKiByZXR1cm4gMCBp
+ZiB3ZSBkaWRuJ3QgZ2V0IGFuIGFuc3dlciBiZWNhdXNlIG9mIHRpbWVvdXQqLw0KICAgID4gICA+
+ICAgICA+ID4gKwkJaWYgKHJldCA9PSAtRVRJTUVET1VUKQ0KICAgID4gICA+ICAgICA+ID4gKwkJ
+CXJldHVybiAwOw0KICAgID4gICA+ICAgICA+ID4gKwkJZWxzZQ0KICAgID4gICA+ICAgICA+ID4g
+KwkJCXJldHVybiByZXQ7DQogICAgPiAgID4gDQogICAgPiAgID4gICAgID4gZWxzZSBhZnRlciBy
+ZXR1cm4gaXMgdW5uZWNlc3NhcnksIGFuZCB3aHkgd291bGQgYSB0aW1lb3V0IGJlIGJlIGlnbm9y
+ZWQgPw0KICAgID4gICA+IA0KICAgID4gICA+IFdoZW4gdGhlIHVzZXIgc2V0cyB0aGUgY29ycmVj
+dCBmYW4gaW5mb3JtYXRpb24gKGkuZS4sIG1pbl9ycG0sIG1heF9ycG0pLCB0aGUgcmVhZA0KICAg
+ID4gICA+IHBvbGwgdGltZW91dCB3aWxsIG9ubHkgb2NjdXIgaWYgdGhlIHRhY2ggcGluIGRvZXMg
+bm90IGdldCBhbnkgc2lnbmFsIChpLmUuIHJwbT0wKS4NCiAgICA+ICAgPiANCg0KICAgID4gICBJ
+biB0aGF0IGNhc2UgaXQgd291bGQgYmUgYXBwcm9wcmlhdGUgdG8gcmV0dXJuIC1FVElNRURPVVQg
+dG8gdGhlIGNhbGxlci4NCg0KICAgID4gICBBbnl3YXksIHRoYXQgc2hvdWxkIHJlYWxseSBub3Qg
+aGFwcGVuLiBTeXNmcyBhdHRyaWJ1dGVzIHN1Y2ggYXMgbWluaW11bS9tYXhpbXVtIGZhbg0KICAg
+ID4gICBzcGVlZCwgdGhlIG51bWJlciBvZiBmYW4gcHVsc2VzIHBlciByZXZvbHV0aW9uLCBvciBh
+IGRpdmlkZXIgdmFsdWUgc2hvdWxkIG9ubHkgZXhpc3QNCiAgICA+ICAgaWYgdGhlIGNoaXAgbmVl
+ZHMgdGhhdCBpbmZvcm1hdGlvbiwgZm9yIGV4YW1wbGUgdG8gcmVwb3J0IGEgZmFuIGVycm9yL2Fs
+YXJtIGlmIHRoZQ0KICAgID4gICBtZWFzdXJlZCBzcGVlZCBpcyBvdXQgb2YgcmFuZ2Ugb3IgaWYg
+dGhlIGNoaXAgYWN0dWFsbHkgY2FsY3VsYXRlcyBSUE0gYW5kIHByb3ZpZGVzDQogICAgPiAgIHRo
+ZSByZXN1bHQgdG8gdGhlIGRyaXZlci4gVGhvc2UgdmFsdWVzIHNob3VsZCBub3QgYmUgbmVjZXNz
+YXJ5IChhbmQgc2hvdWxkIG5vdCBiZQ0KICAgID4gICB1c2VkKSB0byBjYWxjdWxhdGUgc29tZSB0
+aW1lb3V0Lg0KDQpDYW4ndCBJIHVzZSBhIG1pbi9tYXggUlBNIHRvIGxldCB0aGUgZHJpdmVyIGtu
+b3cgYSByZWFzb25hYmxlIHRpbWVvdXQvcG9sbGluZyBwZXJpb2Qgd2hlbg0KdGhlIGRyaXZlciBp
+cyB0cnlpbmcgdG8gZ2V0IFJQTT8NCkJlYWNhdXNlIHRoYXQgb3VyIHRhY2ggY29udHJvbGxlciBo
+YXZlIHRoZSBmYWxnIHRvIGluZGljYXRlcyB0aGUgaGFyZHdhcmUgZGV0ZWN0ZWQgdGhlIGNoYW5n
+ZQ0KaW4gdGhlIGlucHV0IHNpZ25hbC4gSSBuZWVkIHRoZSBwcm9wZXIgdGltb3V0IHRvIHJ1bGUg
+b3V0IHNsb3cgUlBNcy4NCg0KVGhhbmtzDQoNCkJlc3QgUmVnYXJkcywNCkJpbGx5IFRzYWkNCg0K
+DQoNCg0K
