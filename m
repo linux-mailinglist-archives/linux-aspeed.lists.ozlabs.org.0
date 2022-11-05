@@ -2,71 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116DF61DAB6
-	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Nov 2022 15:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FF161DD56
+	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Nov 2022 19:44:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N4K1s1p0Hz3cV8
-	for <lists+linux-aspeed@lfdr.de>; Sun,  6 Nov 2022 01:02:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N4RHH01pPz3cNL
+	for <lists+linux-aspeed@lfdr.de>; Sun,  6 Nov 2022 05:44:27 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=WZJGW3l1;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=i8fgFmif;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22c; helo=mail-oi1-x22c.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::22d; helo=mail-lj1-x22d.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=WZJGW3l1;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=i8fgFmif;
 	dkim-atps=neutral
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N4K1j4d0lz3c6t
-	for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Nov 2022 01:02:15 +1100 (AEDT)
-Received: by mail-oi1-x22c.google.com with SMTP id g10so7918327oif.10
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 05 Nov 2022 07:02:15 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N4RH54wb2z3c6d
+	for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Nov 2022 05:44:15 +1100 (AEDT)
+Received: by mail-lj1-x22d.google.com with SMTP id b9so10702775ljr.5
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 05 Nov 2022 11:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UWKQpWV4q18oUUAJI5y05A3Qk/YN9wzpbCG2obhLtyQ=;
-        b=WZJGW3l1z10C+6EY2Vpl9D/BE2rvprjerZP/fVm6a0Lfz3ce47j6rdLjoeBrk9zwRf
-         El2g06eggeoqBRt51CGxE8LjuJPD6nF1vLwBUE1Sr4qk0rglhlQb5+O9gkZ3NjMitZMH
-         llF0MvXfOmHyhZrTQ1wAfiN/uSQ8ltVsQbD2LAVwQA0KoEDtXxG/gSH/GXDGzzs/1DzF
-         GvCVUbfdpacxYILCrY9pLYW8WmQ+01h38IZmMBflXUGJsz0l0A8FqSJ6SSLZtcMO1VA0
-         UbF/HZHSQxUv5WsLLHjHNFveTeI5ZrzXCK1n0ayNArjcOwVN+jcJqEe2OP6aXq0OiS/g
-         cmJQ==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZqM95oaPnJH5MWhlRXsh/pWYkhJUcy6fi/S/KLDeWUY=;
+        b=i8fgFmifmE2Phhsq1JPfWQNpmrQX0+ooyicsgoxgtQAmqDeRap3MBc7AoGm0MJ7M3M
+         Har1YTulusg/2t3IN/iBpL3sK3EsnGVE/pGFJlCjTe1xrZb46hVwZKzfz65FOmc1Uz8R
+         rmwsRRKwlnbGBfN4dYB1qptl5Yfu1PNVZV9rOH4zQFXNYqjRBCMOwVBHgUW+Vrfxawt6
+         wGf/Q0BoF2U23YLWy0YQVKf3Q2oRqK1PrEldxJ1zHXSS6wPpoq7WK/wC/qjetG32yN47
+         Q1lq/MB7nBpivCwjpjVYSsbjan0knjOuKIqeZZPKM6PNmY0W2Voove26aW731rivYfKm
+         nmKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UWKQpWV4q18oUUAJI5y05A3Qk/YN9wzpbCG2obhLtyQ=;
-        b=N5KeiWyW1qAQPmGXVk69mMEiXw++BQjo6SZRh5zV355m5WDtOVSR35wOUZrsMSVOEC
-         r2ET9M+pQpim/iRBdPqp2/Gw7h4hqKb/bmnCQVZNr0l3IRTFY5EXDu+YwamYrIL9WsKo
-         FSLmdRHnMHIe7tvNOUUifcScp2c05QfozI3HV7m9wHQvDD0+runTKU42T4uB5NU9ZYKO
-         zMg6absnBzlp778UUsLXzww4/FlmZvWGS6D1sbKigg1anTilsx7nVCvEcoi4x5Keob1T
-         7HKP+WFcJpagm6MDMcXv/Hbqpbj978pewVx3KJ2l7hvhK6qWAWZjp2zLxwCCkvskOlRQ
-         tmIg==
-X-Gm-Message-State: ACrzQf0/QmlT4EdguYJR/wttkoKxgOJh8V3rInEUficDda3yWwzZT5Tv
-	nJw4S98Lql6GvIeLbFQyhWU=
-X-Google-Smtp-Source: AMsMyM5RaWy/k+dJcmwEl4cIbvyShI1ptqjzBjNZBPpR17CbK3PAkFdqE/NSjFMUMWq60Wb4tRpZbA==
-X-Received: by 2002:a05:6808:2387:b0:354:e5a0:ec9d with SMTP id bp7-20020a056808238700b00354e5a0ec9dmr360773oib.202.1667656932512;
-        Sat, 05 Nov 2022 07:02:12 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 3-20020a4ae1a3000000b0048fb9b6dd70sm666953ooy.0.2022.11.05.07.02.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Nov 2022 07:02:11 -0700 (PDT)
-Date: Sat, 5 Nov 2022 07:02:09 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] watchdog: Include <linux/kstrtox.h> when appropriate
-Message-ID: <20221105140209.GB1606271@roeck-us.net>
-References: <08fd5512e569558231247515c04c8596a1d11004.1667646547.git.christophe.jaillet@wanadoo.fr>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZqM95oaPnJH5MWhlRXsh/pWYkhJUcy6fi/S/KLDeWUY=;
+        b=ikjQEu32ofUP89GVXQdWexYP8cHJIYlJDhK+7QDgdeEB9DMmxdPWDTaT0FXXa3gyI5
+         39hDga13e+nF9GUeRNZefwlJmCWh2yI/YJc9DyeZ2OI3jCfHG5Xc+bCf8eZ5nt+zaUxy
+         XIE01K3D89AHnf2xFGOKy//lUO6UqiuFJwIATHO5yfyaGqIBg6yOqFHo0qhhvSbXQFT8
+         Pp5EtJXIBy4LROn5DuOwz2gtRXDyhtBbxddFwxZgc+V1eUy7yv1xy9hx0I/rnW43Z2Fm
+         Yq5bA4lieyP2GHkLz98mLDNPSzE1gm5Ipkrh+Uyl0SansIs3pAQ3h1OMfL68ShTNw8og
+         DAYQ==
+X-Gm-Message-State: ACrzQf2lb19zqsL4u8c2ZalJjYWZAiiH9v9fN8vTWUjp9dqwcl8UEmS3
+	ZcMtFgojbbqaxddzv4FB7jZrmA==
+X-Google-Smtp-Source: AMsMyM7OO4zYB/vcy8i1R2jRRjgDN+xMBxQNR3RbzhMCOaS4aSSPJtSTQhnXBAgmsT65yZmr79W0Ng==
+X-Received: by 2002:a2e:91c4:0:b0:277:e53:151a with SMTP id u4-20020a2e91c4000000b002770e53151amr15950844ljg.81.1667673848114;
+        Sat, 05 Nov 2022 11:44:08 -0700 (PDT)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id a21-20020ac25e75000000b004991437990esm386360lfr.11.2022.11.05.11.44.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Nov 2022 11:44:07 -0700 (PDT)
+Message-ID: <35b095a0-6bda-32c2-99e2-6815a852f9f0@linaro.org>
+Date: Sat, 5 Nov 2022 19:44:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <08fd5512e569558231247515c04c8596a1d11004.1667646547.git.christophe.jaillet@wanadoo.fr>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: document Delta AHE-50DC BMC
+To: Zev Weiss <zev@bewilderbeest.net>, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, soc@kernel.org
+References: <20221105013321.2719-1-zev@bewilderbeest.net>
+ <20221105013321.2719-2-zev@bewilderbeest.net>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221105013321.2719-2-zev@bewilderbeest.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,50 +83,19 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Nov 05, 2022 at 12:09:34PM +0100, Christophe JAILLET wrote:
-> The kstrto<something>() functions have been moved from kernel.h to
-> kstrtox.h.
+On 05/11/2022 21:33, Zev Weiss wrote:
+> Document Delta AHE-50DC BMC board compatible.
 > 
-> So, in order to eventually remove <linux/kernel.h> from <linux/watchdog.h>,
-> include the latter directly in the appropriate files.
-> 
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 > ---
->  drivers/watchdog/aspeed_wdt.c   | 1 +
->  drivers/watchdog/watchdog_dev.c | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-> index 0cff2adfbfc9..10863d2ef924 100644
-> --- a/drivers/watchdog/aspeed_wdt.c
-> +++ b/drivers/watchdog/aspeed_wdt.c
-> @@ -8,6 +8,7 @@
->  #include <linux/delay.h>
->  #include <linux/io.h>
->  #include <linux/kernel.h>
-> +#include <linux/kstrtox.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> diff --git a/drivers/watchdog/watchdog_dev.c b/drivers/watchdog/watchdog_dev.c
-> index 55574ed42504..f31608f3e324 100644
-> --- a/drivers/watchdog/watchdog_dev.c
-> +++ b/drivers/watchdog/watchdog_dev.c
-> @@ -35,6 +35,7 @@
->  #include <linux/init.h>		/* For __init/__exit/... */
->  #include <linux/hrtimer.h>	/* For hrtimers */
->  #include <linux/kernel.h>	/* For printk/panic/... */
-> +#include <linux/kstrtox.h>	/* For kstrto* */
->  #include <linux/kthread.h>	/* For kthread_work */
->  #include <linux/miscdevice.h>	/* For handling misc devices */
->  #include <linux/module.h>	/* For module stuff/... */
-> -- 
-> 2.34.1
-> 
+
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
