@@ -2,76 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FF161DD56
-	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Nov 2022 19:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDC261E148
+	for <lists+linux-aspeed@lfdr.de>; Sun,  6 Nov 2022 10:24:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N4RHH01pPz3cNL
-	for <lists+linux-aspeed@lfdr.de>; Sun,  6 Nov 2022 05:44:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N4ppH5dhMz3cLg
+	for <lists+linux-aspeed@lfdr.de>; Sun,  6 Nov 2022 20:24:07 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=i8fgFmif;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=Q8sLcxsl;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::22d; helo=mail-lj1-x22d.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=i8fgFmif;
+	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=Q8sLcxsl;
 	dkim-atps=neutral
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+X-Greylist: delayed 114628 seconds by postgrey-1.36 at boromir; Sun, 06 Nov 2022 20:24:01 AEDT
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N4RH54wb2z3c6d
-	for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Nov 2022 05:44:15 +1100 (AEDT)
-Received: by mail-lj1-x22d.google.com with SMTP id b9so10702775ljr.5
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 05 Nov 2022 11:44:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqM95oaPnJH5MWhlRXsh/pWYkhJUcy6fi/S/KLDeWUY=;
-        b=i8fgFmifmE2Phhsq1JPfWQNpmrQX0+ooyicsgoxgtQAmqDeRap3MBc7AoGm0MJ7M3M
-         Har1YTulusg/2t3IN/iBpL3sK3EsnGVE/pGFJlCjTe1xrZb46hVwZKzfz65FOmc1Uz8R
-         rmwsRRKwlnbGBfN4dYB1qptl5Yfu1PNVZV9rOH4zQFXNYqjRBCMOwVBHgUW+Vrfxawt6
-         wGf/Q0BoF2U23YLWy0YQVKf3Q2oRqK1PrEldxJ1zHXSS6wPpoq7WK/wC/qjetG32yN47
-         Q1lq/MB7nBpivCwjpjVYSsbjan0knjOuKIqeZZPKM6PNmY0W2Voove26aW731rivYfKm
-         nmKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZqM95oaPnJH5MWhlRXsh/pWYkhJUcy6fi/S/KLDeWUY=;
-        b=ikjQEu32ofUP89GVXQdWexYP8cHJIYlJDhK+7QDgdeEB9DMmxdPWDTaT0FXXa3gyI5
-         39hDga13e+nF9GUeRNZefwlJmCWh2yI/YJc9DyeZ2OI3jCfHG5Xc+bCf8eZ5nt+zaUxy
-         XIE01K3D89AHnf2xFGOKy//lUO6UqiuFJwIATHO5yfyaGqIBg6yOqFHo0qhhvSbXQFT8
-         Pp5EtJXIBy4LROn5DuOwz2gtRXDyhtBbxddFwxZgc+V1eUy7yv1xy9hx0I/rnW43Z2Fm
-         Yq5bA4lieyP2GHkLz98mLDNPSzE1gm5Ipkrh+Uyl0SansIs3pAQ3h1OMfL68ShTNw8og
-         DAYQ==
-X-Gm-Message-State: ACrzQf2lb19zqsL4u8c2ZalJjYWZAiiH9v9fN8vTWUjp9dqwcl8UEmS3
-	ZcMtFgojbbqaxddzv4FB7jZrmA==
-X-Google-Smtp-Source: AMsMyM7OO4zYB/vcy8i1R2jRRjgDN+xMBxQNR3RbzhMCOaS4aSSPJtSTQhnXBAgmsT65yZmr79W0Ng==
-X-Received: by 2002:a2e:91c4:0:b0:277:e53:151a with SMTP id u4-20020a2e91c4000000b002770e53151amr15950844ljg.81.1667673848114;
-        Sat, 05 Nov 2022 11:44:08 -0700 (PDT)
-Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id a21-20020ac25e75000000b004991437990esm386360lfr.11.2022.11.05.11.44.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Nov 2022 11:44:07 -0700 (PDT)
-Message-ID: <35b095a0-6bda-32c2-99e2-6815a852f9f0@linaro.org>
-Date: Sat, 5 Nov 2022 19:44:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: document Delta AHE-50DC BMC
-To: Zev Weiss <zev@bewilderbeest.net>, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, soc@kernel.org
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N4pp93XKZz3bbb;
+	Sun,  6 Nov 2022 20:24:01 +1100 (AEDT)
+Received: from hatter.bewilderbeest.net (97-113-250-99.tukw.qwest.net [97.113.250.99])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: zev)
+	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 0E3C3216;
+	Sun,  6 Nov 2022 01:23:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+	s=thorn; t=1667726637;
+	bh=Q6rA6QGxk4YR7vZUSMP3iZf8lpV6fi2XiRCc0+f8lyk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q8sLcxslhia5fk7j7nWLtocYLbLxI7C+mepSmRLlSSBtFMII+h/gi7mrXc9E/2lYt
+	 jkYkcyd3TNsi4kVGpRmgOz8HpsOrDlBmpaYrqrgYYKwrTgx4jf04u0w8a5GTJJrKDh
+	 80JbCw2oCYBUp45IlW2aZxfLkQohm3M4V1WUJmds=
+Date: Sun, 6 Nov 2022 01:23:55 -0800
+From: Zev Weiss <zev@bewilderbeest.net>
+To: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	soc@kernel.org
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: Add Delta AHE-50DC BMC
+Message-ID: <Y2d9K1KGM8BcR6Rn@hatter.bewilderbeest.net>
 References: <20221105013321.2719-1-zev@bewilderbeest.net>
- <20221105013321.2719-2-zev@bewilderbeest.net>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221105013321.2719-2-zev@bewilderbeest.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20221105013321.2719-3-zev@bewilderbeest.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20221105013321.2719-3-zev@bewilderbeest.net>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,15 +64,25 @@ Cc: devicetree@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozl
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 05/11/2022 21:33, Zev Weiss wrote:
-> Document Delta AHE-50DC BMC board compatible.
-> 
-> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-> ---
+On Fri, Nov 04, 2022 at 06:33:21PM PDT, Zev Weiss wrote:
+>This is a 1U Open19 power shelf with six PSUs and 50 12VDC outputs via
+>LM25066 efuses.  It's managed by a pair of AST1250 BMCs in a redundant
+>active/active configuration using a PCA9541 on each I2C bus to
+>arbitrate access between the two.
+>
+>Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+>---
+> arch/arm/boot/dts/Makefile                    |    1 +
+> .../arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts | 1094 +++++++++++++++++
+> 2 files changed, 1095 insertions(+)
+> create mode 100644 arch/arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts
+>
+
+Hmm -- actually, after posting this I realized that the repetitive efuse 
+nodes could be expressed in a much more concise and much less tedious, 
+error-prone manner using a preprocessor macro or two; I'll send a v2 
+with that approach instead.
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+Zev
 
