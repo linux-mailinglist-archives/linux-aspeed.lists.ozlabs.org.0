@@ -1,55 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926DD61E2BA
-	for <lists+linux-aspeed@lfdr.de>; Sun,  6 Nov 2022 15:50:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BCBE61E4BC
+	for <lists+linux-aspeed@lfdr.de>; Sun,  6 Nov 2022 18:16:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N4y2Z2tLWz3cGr
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Nov 2022 01:50:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N51H31b0Qz2yR9
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Nov 2022 04:16:15 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fpWE9GoP;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=noua/yFq;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2001:4860:4864:20::31; helo=mail-oa1-x31.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fpWE9GoP;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=noua/yFq;
 	dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N4y2P22dtz2xCd
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Nov 2022 01:50:05 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id CDDF060C74;
-	Sun,  6 Nov 2022 14:50:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C498C433C1;
-	Sun,  6 Nov 2022 14:49:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667746200;
-	bh=2/Oq4fxqMnhCc+bd62Y6vkjiu/snPGpLW2GdYhAJ9HU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fpWE9GoPqgrBzQAb4xjS4heDU/dsZ/tb4Y/CLLkxeGtErwgiuNOxgN9V+oXU3pXCC
-	 T8k6EaBqF/0CDMbv9o41CJARmcb0/crudR0amV23awx5EgcMJIIfzos1UerGsssueC
-	 vXvcl7qYQiBMs25bSzytt7B42BGIxJ+Pkzf2zjnG1NywY37oKYh065nq0httUG3kzR
-	 pJMfyLr6S7KGe2N0m6goNmdAbPlhodCnNX6HaGKVwjaSvqTRtJvQGasOyUVnHWzDJ/
-	 9LM5bejQ31Mnvc85KiO3j7bLget74NesW47z4YjApltZhYxnCe86fd55/uuQr5lpQ8
-	 jRtMSaCTWCyyw==
-Date: Sun, 6 Nov 2022 14:49:49 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH 1/2] iio: adc: aspeed: Remove the trim valid dts
- property.
-Message-ID: <20221106144949.61731d8e@jic23-huawei>
-In-Reply-To: <20221031113208.19194-1-billy_tsai@aspeedtech.com>
-References: <20221031113208.19194-1-billy_tsai@aspeedtech.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N51Gv4dV2z3bbb
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Nov 2022 04:16:06 +1100 (AEDT)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-13b103a3e5dso10490243fac.2
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 06 Nov 2022 09:16:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uEv5IfnJcbTamlVtUpqiTgyx6Ij9nPLIySLxf/hjkbo=;
+        b=noua/yFqm3voDQ4vK/Xnwv2lPUhv/bjeNBEioUMO1caiY+cqjqktx+Pq+DRvesZCgA
+         d//QuwBhkaum3ZBYqfka1bjS4ugjvhz9zNrSBccZhQnCtF5iSpOiT1aqW4lzlyJCKvrV
+         dQx6PgpGJKBWIl75kdxQhvPvNmohvGiU9mjOOPYyrhjV6FiChPpKXEJGdG1Z//cOb2uy
+         YmEf79V1DwuecsFIiSRsvbyzi1fqNHa8BDzUHl5y5Pv1lOKXCOWge8VhqhweK8+mq7T6
+         oc9rMh9QUnrWGArDAbXUF3fHSqvgREeIP7GukLeCHvRT4nVTCvhAgf+vo2IbBXnnMtFo
+         +RXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uEv5IfnJcbTamlVtUpqiTgyx6Ij9nPLIySLxf/hjkbo=;
+        b=Xcp++B8JT2cBcK6XGGChUfhoD3sBH6Gfqvr/VoAhloUV91woxeM+aQc1Gx/k7s/53F
+         esIiF2W4bMqCkpKMWDFKSFev3Gj6Hh6YdOZB0rJ4oLKXVkSycHodszA4l6HjqZA0Z8PR
+         WZQjORp+dF6A72cZA+mRfsZyaNW9xMYGdlTAkFUiK/jtG64sxojhG+26gKM0hWb6ESi9
+         tCpM+zhcVpOvPitVb49Gs1p3nr0MFocXypOKxMTrdO8j2kO6zQFUFJLt9c2vjZwR4BJm
+         9f3sSOeueQXYynujsOXl77W1DFy2gOPk1ZuEcqwb6BSWEOsUMBpYXr0e/r8kbE9yQOFc
+         Kpdg==
+X-Gm-Message-State: ACrzQf3gSymxj5zTBxxTWfiDaedlE5rBq4etW5tyMYzMcC13D+VGymLI
+	NUoKB/U48RvU4zWURrmMu2k=
+X-Google-Smtp-Source: AMsMyM5bzIlrUuIFBGzNbqYQ02V6lN7ciCTOZDwHAvBLO5/YGgrsTnGI/pK4hMCO3nar5mewI1/zCg==
+X-Received: by 2002:a05:6870:4612:b0:13b:775d:511 with SMTP id z18-20020a056870461200b0013b775d0511mr37349401oao.81.1667754963323;
+        Sun, 06 Nov 2022 09:16:03 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w52-20020a9d3637000000b00668953207b2sm2022492otb.80.2022.11.06.09.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Nov 2022 09:16:02 -0800 (PST)
+Date: Sun, 6 Nov 2022 09:16:01 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] hwmon: Include <linux/kstrtox.h> when appropriate
+Message-ID: <20221106171601.GB105056@roeck-us.net>
+References: <0e819645f8d607f7b4550c8aaf4a563b1404bf40.1667730675.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0e819645f8d607f7b4550c8aaf4a563b1404bf40.1667730675.git.christophe.jaillet@wanadoo.fr>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,72 +78,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, lars@metafoo.de, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, robh+dt@kernel.org, colin.king@canonical.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org, Marc Hulsman <m.hulsman@tudelft.nl>, Rudolf Marek <r.marek@assembler.cz>, Corentin Labbe <clabbe.montjoie@gmail.com>, Henrik Rydberg <rydberg@bitmath.org>, Juerg Haefliger <juergh@proton.me>, Steve Glendinning <steve.glendinning@shawell.net>, Jean Delvare <jdelvare@suse.com>, Roger Lucas <vt8231@hiddenengine.co.uk>, Tim Harvey <tharvey@gateworks.com>, Riku Voipio <riku.voipio@iki.fi>, Hans de Goede <hdegoede@redhat.com>, Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>, linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, Guillaume Ligneul <guillaume.ligneul@gmail.com>, George Joseph <george.joseph@fairview5.com>, linux-kernel@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>, Huang Rui <ray.huang@amd.com>, Ibrahim Tilki <Ibrahim.Tilki@analog.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 31 Oct 2022 19:32:07 +0800
-Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+On Sun, Nov 06, 2022 at 11:31:27AM +0100, Christophe JAILLET wrote:
+> The kstrto<something>() functions have been moved from kernel.h to
+> kstrtox.h.
+> 
+> So, include the latter directly in the appropriate files.
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> The goal of this patch is to eventually remove <linux/kernel.h> from
+> <linux/watchdog.h>.
+> 
+> This patch is needed to avoid indirect inclusion, via <linux/watchdog.h>,
+> in fschmd.c, ftsteutates.c and w83793.c.
+> 
+> 
+> Maybe, just including <linux/kstrtox.h> in <linux/hwmon.h> would also do
+> the job. It is likely that this file is included in all hwmon's drivers.
+> Let me know if this less intrusive approach is preferred.
 
-> The dts property "aspeed,trim-data-valid" is used to determin whether to
-> read the OTP register. If the image with the aspeed,trim-data-vali
-> install to the chip without valid trimming data the adc controller will
-> become confused. This patch use the default otp value 0 as a criterion
-> for determining whether trimming data is valid instead of the dts
-> property. The chip with actually trimming value is 0 should be filter out.
-
-Hi Billy,
-
-I'm not sure I correctly follow the patch description.  Would the following
-be an accurate description?
-
-The dts property "aspeed,trim-data-valid" is currently used to determine
-whether to read trimming data from the OTP register. If this is set on
-a device without valid trimming data in the OTP the ADC will not function
-correctly. This patch drops he use of this property and instead uses the
-default (unprogrammed) OTP value of 0 to detect when a fallback value of
-0x8 should be used rather then the value read from the OTP.
-
-Also, is this a bug fix we need to backport?  If so please provide a fixes
-tag.
+Include it from <linux/hwmon-sysfs.h>. This should cover almost all
+drivers needing it. The remaining drivers (if there are any) should
+include it directly. Almost all drivers registering the hwmon device
+with [devm_]hwmon_device_register_with_info() do not need the include,
+but (almost) all drivers registering with an older API will need it.
+Those drivers will also include <linux/hwmon-sysfs.h>.
 
 Thanks,
-
-Jonathan
-
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  drivers/iio/adc/aspeed_adc.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-> index ffae64f39221..0f065f0bb8e7 100644
-> --- a/drivers/iio/adc/aspeed_adc.c
-> +++ b/drivers/iio/adc/aspeed_adc.c
-> @@ -201,6 +201,8 @@ static int aspeed_adc_set_trim_data(struct iio_dev *indio_dev)
->  				((scu_otp) &
->  				 (data->model_data->trim_locate->field)) >>
->  				__ffs(data->model_data->trim_locate->field);
-> +			if (!trimming_val)
-> +				trimming_val = 0x8;
->  		}
->  		dev_dbg(data->dev,
->  			"trimming val = %d, offset = %08x, fields = %08x\n",
-> @@ -562,12 +564,9 @@ static int aspeed_adc_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->  
-> -	if (of_find_property(data->dev->of_node, "aspeed,trim-data-valid",
-> -			     NULL)) {
-> -		ret = aspeed_adc_set_trim_data(indio_dev);
-> -		if (ret)
-> -			return ret;
-> -	}
-> +	ret = aspeed_adc_set_trim_data(indio_dev);
-> +	if (ret)
-> +		return ret;
->  
->  	if (of_find_property(data->dev->of_node, "aspeed,battery-sensing",
->  			     NULL)) {
-
+Guenter
