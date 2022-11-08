@@ -1,53 +1,135 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B54A62049D
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Nov 2022 01:19:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C616209F9
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Nov 2022 08:18:28 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N5pcP1wh6z3cFs
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Nov 2022 11:19:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N5zwL33MGz3cML
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Nov 2022 18:18:26 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=Tp7F6FCh;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=SjdHXF73;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.255.117; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=Tp7F6FCh;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=SjdHXF73;
 	dkim-atps=neutral
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2117.outbound.protection.outlook.com [40.107.255.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N5pY20s4Tz2xf6;
-	Tue,  8 Nov 2022 11:16:05 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (97-113-250-99.tukw.qwest.net [97.113.250.99])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 12B2DB76;
-	Mon,  7 Nov 2022 16:16:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1667866561;
-	bh=3VhOcEvxFccvRIos7On0Hck2TyHvd6rH+W1YQcByc3w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Tp7F6FChc19LJVnti4xee0My7n/ntUElyCrEZiGdUs4Q8g9aouJkNtfDWwcHsMaa3
-	 4QaD+QWF9dR0lHHzpWVVEXcKm+PZ2h4K8bLcZj8mtC52cw446WUvlqVdxzyODhEseQ
-	 K0I8tD1AYTE//ergGoK/7EjHhWmQyYNz4wxJUYXo=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	soc@kernel.org
-Subject: [PATCH v2 2/2] ARM: dts: aspeed: Add Delta AHE-50DC BMC
-Date: Mon,  7 Nov 2022 16:15:51 -0800
-Message-Id: <20221108001551.18175-3-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221108001551.18175-1-zev@bewilderbeest.net>
-References: <20221108001551.18175-1-zev@bewilderbeest.net>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N5zw70FHDz3cGv
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Nov 2022 18:18:12 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EFoyehn4rlN3gA91MPRarG1E8xkA02Qz9fYml/snrvPRNYC6W0gkSLMo4RudGuQbfSUkreOcy686sWu29qsYVVlD/ICaLQQATVOAFbgg1cLUKOlNGOKmKvvz+pCsNVbuEeW0HCdiZ7tEz0LdLRp3UBeHA6eXzfgXFwXdD7kaz7r274cqti8bQX7dDKtSGOG0c1UZj0xosssFgleCfbInoFJ8yuXyUETqfWVvBIkLUaIlXbfPgwVAzynQldzs/8JaTfIj8jHKGerETywy5jaCGW8YCyO7vZbJm/7p+hmW5SiZHoYEapUx16C7vDhmWSRROfYYxHGLLptc0Ct7HK4GnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z02ORDOJklA+3twYPXE1aJ8PueqK99wXDa0ExeUjnFI=;
+ b=JQComhAsVF9izJq3aHXuM/wbivC47daokovEHDGe3xbcmkWjNY5/vtPGtsgHpzxEpn7C+jtSsrafpW7QHMGle/PkjuhGudeFO4rNEbviSOqwzj8ebtMrY4ntJ0kCJnfc5cOa+jlwYc/mW51IHPezfOLLkhco3O1sxilVUBJ9WHZd3GkJXTXFmowKDwQM0jBHOlQAUQyqDd1Pt3GTP5AJpLm0dpPn05Uijv7z5jEWdXJIZjWsXCEdd6Aa02smJV15SsU/5/ORWHdSZ9LYi4Zl+yDlp6FaYpNYTff8JLV4XBr0DebH2g3gc3RCk1GBrIP3yX8KvGzZX/0AFF6L7jD9aw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z02ORDOJklA+3twYPXE1aJ8PueqK99wXDa0ExeUjnFI=;
+ b=SjdHXF730BTsvJuQRpeBMral09LGbD3VV32GYDjglrOq8Z7U1f01SmOc96yMyEmLtcp/Ai26w5IjwyGVVSKjQMYC6Z09PdDTzTL3HtmjkT4776g+tNSdHnJqy2SDBf04BchQD3/QGrVbt7/26K7BlHZx1nWeAHacpRCAYLbZ31WY6IMRMoJ1RLNRDDStbtxuWbqOl8j1mLQZIXAAMXjRBUF8wi2WPri3dW/9BOZRulHezaGhywivqCSrOHf8Fz4rD9KCvQLgUaAwFvsXbsHfa+VT7LFJJFIFo5l0RSGYFPT62bRVscY0igSRUo4UEF8WtTktakZy/hvRX7Iekpgjxw==
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
+ TYZPR06MB5907.apcprd06.prod.outlook.com (2603:1096:400:339::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.25; Tue, 8 Nov
+ 2022 07:17:48 +0000
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::dd5d:e720:e00f:831]) by SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::dd5d:e720:e00f:831%6]) with mapi id 15.20.5769.019; Tue, 8 Nov 2022
+ 07:17:48 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [v2 3/3] hwmon: Add Aspeed ast2600 TACH support
+Thread-Topic: [v2 3/3] hwmon: Add Aspeed ast2600 TACH support
+Thread-Index:  AQHY7ddiCLgpICHNHkaN+NgNt8n5/K4qDDAAgAGuNQCAACN3AIABPBaA//+EZgCAAJm3AIAADgqAgACn1oA=
+Date: Tue, 8 Nov 2022 07:17:48 +0000
+Message-ID: <4EC60594-E1F5-4F05-A9E6-3BDCFAE62A65@aspeedtech.com>
+References: <20221101095156.30591-1-billy_tsai@aspeedtech.com>
+ <20221101095156.30591-4-billy_tsai@aspeedtech.com>
+ <20221101131456.GA1310110@roeck-us.net>
+ <271C521D-8F20-4C86-B3DA-9C0AD74242D4@aspeedtech.com>
+ <20221102170138.GA2913353@roeck-us.net>
+ <F1166366-99CC-4A36-A0A2-4965C787E60B@aspeedtech.com>
+ <20221103043034.GA2113834@roeck-us.net>
+ <E9E92BC7-CB1A-487F-9E5D-2A403A01CB17@aspeedtech.com>
+ <20221103143059.GB145042@roeck-us.net>
+In-Reply-To: <20221103143059.GB145042@roeck-us.net>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/16.66.22101101
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|TYZPR06MB5907:EE_
+x-ms-office365-filtering-correlation-id: 2d92fda0-1fc6-4108-eff1-08dac1595707
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  QCe50A8hO6omYyZwpYCrYOU17l7eaHaTXFrVdcMusGqa+JNRin2VcZu5IlmkocpGErGmEdlQiNQwj/wIVaSTg3+gteg8q9D9b625L34YjQxf6iGpSLkjj5FG5IYa9GUOSKpqY+DC0dX3MjDP/+Ue2jzVHQSPddjiTObf1I2nzXVqxfS3+fVhyE4na/MX6YouVc2hGCMC6BE/clQuN4HCD5NJBEmtof6BDKbakGF5sz8cZs1ZxpH54Wmoup7gyeSdcwl6IiMrGofuUOcmP8tKdT3HE/XVNP0IPRSy0KvSi52/+QfPim4X9YqZcb7IOKb8BzwGgP1HHUbAyPDH6FlSall3IVlZHJe4lRDuV3r8FX2Bx9OjA6PS4+rKk6s9GDeOn+9toXvFURFDbpKF97n8g5gzZ6eRFn8dVYoiOhCcY9qGWkSwJs+ZEprEsnFf662gNFwVua4d1s7r2e+YG5GhB7MQnzAM7+nPxm/BP93OAbvA0Kg9NmUBtJsNyiGokI9UYK2QMlymEQaMDlgafWcnHeWt1ekV9+JvGyH6a6K/EsXRxVFvbYP0ANi/laiSUZx72UwCQh86gYXoxIOsXAqOwNo2e+pVJFMSMeuM10wKfGlHHJZGJCzS0ISMqDkH0x9LapmqT5pxkd1G+bymlUcNOuENnvj2rS2HjmWPGLuq0T7JaEaW3BxgsLmfsewfNZWOfr37gE942cbX7PbBuDOu5q0p0hS6WRMs5wAIxJaUaP+3fJrtLa/TCgw1v+HnDrNvLNKat2tOmeqR8bjOecw9DVaBiZeiH63+EOq5L8NV7Wg=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(136003)(376002)(396003)(366004)(39840400004)(451199015)(83380400001)(186003)(316002)(38100700002)(6916009)(41300700001)(8936002)(54906003)(478600001)(6486002)(2906002)(36756003)(6506007)(53546011)(6512007)(33656002)(26005)(71200400001)(122000001)(86362001)(2616005)(5660300002)(66556008)(8676002)(66446008)(38070700005)(4326008)(66946007)(76116006)(7416002)(64756008)(91956017)(66476007)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?d1I5cEZiVU5jRm9QWnBrcnMrUldZQmhOVzlhYW4yYWljQ0ZNSDVGVFRJeGxZ?=
+ =?utf-8?B?bVRvbk9jTnE2bnVoQmcxQThhUXYvWitRclFSM0hrTkpLL0VwekJGWUo2UDha?=
+ =?utf-8?B?dzRJNi9WUU9nQmppdnZqUXBYSHdpSVp0S1Y1ejJvUXFWbDMwSmRwVzFvd2Fi?=
+ =?utf-8?B?TkJNanVFdlZRMCt4aG9rbEhjdFF1Rnh0dXJKb0tWbEV5b1dmTkE3WkR5OE1V?=
+ =?utf-8?B?QmcxZGlDVEdXQncwdE13Q1hheXh5Rzc0ZVlpbHdqZyttZ1hWdmxvV28wY2lK?=
+ =?utf-8?B?UjdoRmdnbFlxS0ZrUDBCd1RoTWhOaUg4eTRBWnJaWVorRzhLQzZsY1l4bWlF?=
+ =?utf-8?B?OFl5Zk9CUCtaWlVIdVUrS2R0K3g0YVJWSGZrNFpkbGN0NHV5Q3d2VCt2U3pN?=
+ =?utf-8?B?UXFINkR1YXg0bzVYdmlCTVRvZ0R2SGZqN1NhdUxNSnpTSUdLWHBKK3lMZFRr?=
+ =?utf-8?B?MC8xcGNnUXpUekw5bXk1U0l4RU1sQWFDRlp4dU1zeXh6YTU3SnlWQ0dzeDB1?=
+ =?utf-8?B?RHZDcEhKOU8yTXlyNTc4WExlZHpFdG5SKzBMOWwrd0x6dEhNNnB3akRHZ044?=
+ =?utf-8?B?T0tOME5IUDRTOXF2b3lmTnVCLzR0aStkYm1vRnpJQTR3S3RNZzh0WTZkQzlF?=
+ =?utf-8?B?anB0WEFhMkVNZzJ4RXVSaE1pTnBUTEh5bVFCeDhtRTArVXNHVGorQkR0eUxR?=
+ =?utf-8?B?VFYxQ0lnbnVMeldlcjIrbU5MTFBuOFhkQy85N2xmQ1o5V3lJMWsyR2VFUk1p?=
+ =?utf-8?B?RldHTWpaSndMblJYc1BGdndnbmprbHdkRERTbnY4TDZzMXF3Mm5ZVVc1WEdu?=
+ =?utf-8?B?SisxaDF5ZitqbE02ckRBS0x4S2VKeW1oYUd6cHhBUEo2aG81UjBadGE4cG1Z?=
+ =?utf-8?B?UlRzTmZlYTFqUzFqTWFoVi9qZW83d1ZZTllIdU4wbTNSMjBkYzB6ajJueFJ4?=
+ =?utf-8?B?UGhmeHpOUXBKR2RUOUZBbDQzeDQ0ZExEMzhQY3pVUVdLaDJLcXk1YUZzMUVC?=
+ =?utf-8?B?NkhNTzk1Rk1OOXNhWUV5bmE5RXhuYUxHZnNaVUtzNm4zR0VGK3hYSUNadk90?=
+ =?utf-8?B?aUFlelZLcGcveGRjK1VaVWZ3eC9UNUR1Tmc1Y2pJOWtXM0JJVWgxOVlEamx2?=
+ =?utf-8?B?MHZvQ202aTZYZHEzSHJBKzdtQUVMUEFudmZIUUNIbHdZcE05dVZjT01WTFFq?=
+ =?utf-8?B?dkt0VmFUNUZCTXk2bEVaeUR0cnE3L2ZiZFRYdFV4OVR1UE9zYWpUcVdtTXdz?=
+ =?utf-8?B?aktWc09rNjNJSGtRNWg4amRsU0xQamp4T2xYRnRRYTRsRWdWeDA1MTY0UUhi?=
+ =?utf-8?B?bW1Cb28vNmlqMFp1cngyb0lRVXBOcnVxUmpLWDFxc25HYnF4UVR1UStwOWUx?=
+ =?utf-8?B?ODFHNlhOYjNIUUlnZit3by9iQncvR294bVpISU5Jc1R1bWNJTDN0QkJaUWhq?=
+ =?utf-8?B?TVorcy82cysxY3NvRG42dnl6WllYcHRzcjBTaHg1MUcxVS9oQmZVMGpKTzRl?=
+ =?utf-8?B?Z2QzRTFSUFhQcUJyUFZ2QXYwejJBZnJXRzlUdDNrQ1NMQVBDSThSVG5EYnV4?=
+ =?utf-8?B?YmpGTURmcGpWSFlieXJNVjE3V0p4UkxHckRrcnB3S1g3TWF0ZzhHbkRIYXBo?=
+ =?utf-8?B?Z01LODUvam8rL2NzYzBUWWpSRmNUai9KaW5xaWRhWE9XamkySUNVT2o3Wkl3?=
+ =?utf-8?B?dExBZzQ5TTk1ZVVvTlJIVUxzcElWNUw2YVMzVE9Hd0FHREN4ZitwbU53ZG9q?=
+ =?utf-8?B?S3kzYWo4TjR0M2EwN1IraHVVSnFzZEZHZnhiOE0rTGYva0ZGZHd4RGtRNitt?=
+ =?utf-8?B?eTZLS2FGcDRwZmdtajJDZUlOTjFveVhSb0o2TXFmVmF0amFUcHlRak81SUFF?=
+ =?utf-8?B?UFZhM09IRkdFR3BXKzIwdEl3VUJQcmhyQWRteWl0enJaUEd4ZVp3aC8rWk5l?=
+ =?utf-8?B?L1R3L05YK3lqazltN2lGSmV4ZVJGV053bDZxellYeElpNGszb1craWtnWWpT?=
+ =?utf-8?B?VDhwTU1rNDFvQjdGcnVhdVRFeENtVDZVcUlVb3o1UlA1RE5XMU9OajNULzQ5?=
+ =?utf-8?B?REpiR0srVFE4ZDVlR0cyTzVQTU1jQWZJN0k2RiszYjJjY1YzTHZIeW5mRFBU?=
+ =?utf-8?B?T2w2d3M3NGRjN0JaMkFDOXVpQlFVSm5SVEkrY3VwN1FBSTBhQUU3NjhzZEJm?=
+ =?utf-8?B?OFE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7AC886FA082A0C469D797E58D76E7CD1@apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d92fda0-1fc6-4108-eff1-08dac1595707
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2022 07:17:48.2265
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GzS/pjPIGgU6kGFYZHQi1L4EaBVWwms1nrajXbQWNpvVRznNUcv4vDZJqGeynpQzke5pViR0KMbCZ1rnShacMEuUBy+er3YY8MBB5RkZMPA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5907
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,458 +141,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "garnermic@meta.com" <garnermic@meta.com>, "jdelvare@suse.com" <jdelvare@suse.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, "lee.jones@linaro.org" <lee.jones@linaro.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is a 1U Open19 power shelf with six PSUs and 50 12VDC outputs via
-LM25066 efuses.  It's managed by a pair of AST1250 BMCs in a redundant
-active/active configuration using a PCA9541 on each I2C bus to
-arbitrate access between the two.
-
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
----
- arch/arm/boot/dts/Makefile                    |   1 +
- .../arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts | 418 ++++++++++++++++++
- 2 files changed, 419 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts
-
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 6aa7dc4db2fc..8961fbb2c0bc 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1588,6 +1588,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-asrock-e3c246d4i.dtb \
- 	aspeed-bmc-asrock-romed8hm3.dtb \
- 	aspeed-bmc-bytedance-g220a.dtb \
-+	aspeed-bmc-delta-ahe50dc.dtb \
- 	aspeed-bmc-facebook-bletchley.dtb \
- 	aspeed-bmc-facebook-cloudripper.dtb \
- 	aspeed-bmc-facebook-cmm.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts b/arch/arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts
-new file mode 100644
-index 000000000000..6600f7e9bf5e
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts
-@@ -0,0 +1,418 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/dts-v1/;
-+
-+#include "aspeed-g4.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+#define EFUSE_OUTPUT(n)					\
-+	efuse##n {					\
-+		compatible = "regulator-output";	\
-+		vout-supply = <&efuse##n>;		\
-+	}
-+
-+#define __stringify(x) #x
-+
-+#define EFUSE(hexaddr, num)							\
-+	efuse@##hexaddr {							\
-+		compatible = "lm25066";						\
-+		reg = <0x##hexaddr>;						\
-+		shunt-resistor-micro-ohms = <675>;				\
-+		regulators {							\
-+			efuse##num: vout0 {					\
-+				regulator-name = __stringify(efuse##num##-reg);	\
-+			};							\
-+		};								\
-+	}
-+
-+/{
-+	model = "Delta Power AHE-50DC";
-+	compatible = "delta,ahe50dc-bmc", "aspeed,ast2400";
-+
-+	aliases {
-+		serial4 = &uart5;
-+
-+		/*
-+		 * pca9541-arbitrated logical i2c buses are numbered as the
-+		 * corresponding physical bus plus 20
-+		 */
-+		i2c20 = &i2carb0;
-+		i2c21 = &i2carb1;
-+		i2c22 = &i2carb2;
-+		i2c23 = &i2carb3;
-+		i2c24 = &i2carb4;
-+		i2c26 = &i2carb6;
-+		i2c27 = &i2carb7;
-+		i2c28 = &i2carb8;
-+		i2c32 = &i2carb12;
-+	};
-+
-+	chosen {
-+		stdout-path = &uart3;
-+		bootargs = "console=ttyS2,115200n8 earlycon";
-+	};
-+
-+	memory@40000000 {
-+		reg = <0x40000000 0x10000000>;
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		heartbeat {
-+			gpios = <&gpio ASPEED_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
-+			linux,default-trigger = "heartbeat";
-+		};
-+
-+		panic {
-+			gpios = <&gpio ASPEED_GPIO(P, 2) GPIO_ACTIVE_HIGH>;
-+			linux,default-trigger = "panic";
-+		};
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 0>, <&adc 1>, <&adc 2>, <&adc 3>, <&adc 4>,
-+			<&adc 5>, <&adc 6>, <&adc 7>, <&adc 8>, <&adc 9>;
-+	};
-+
-+	EFUSE_OUTPUT(01);
-+	EFUSE_OUTPUT(02);
-+	EFUSE_OUTPUT(03);
-+	EFUSE_OUTPUT(04);
-+	EFUSE_OUTPUT(05);
-+	EFUSE_OUTPUT(06);
-+	EFUSE_OUTPUT(07);
-+	EFUSE_OUTPUT(08);
-+	EFUSE_OUTPUT(09);
-+	EFUSE_OUTPUT(10);
-+	EFUSE_OUTPUT(11);
-+	EFUSE_OUTPUT(12);
-+	EFUSE_OUTPUT(13);
-+	EFUSE_OUTPUT(14);
-+	EFUSE_OUTPUT(15);
-+	EFUSE_OUTPUT(16);
-+	EFUSE_OUTPUT(17);
-+	EFUSE_OUTPUT(18);
-+	EFUSE_OUTPUT(19);
-+	EFUSE_OUTPUT(20);
-+	EFUSE_OUTPUT(21);
-+	EFUSE_OUTPUT(22);
-+	EFUSE_OUTPUT(23);
-+	EFUSE_OUTPUT(24);
-+	EFUSE_OUTPUT(25);
-+	EFUSE_OUTPUT(26);
-+	EFUSE_OUTPUT(27);
-+	EFUSE_OUTPUT(28);
-+	EFUSE_OUTPUT(29);
-+	EFUSE_OUTPUT(30);
-+	EFUSE_OUTPUT(31);
-+	EFUSE_OUTPUT(32);
-+	EFUSE_OUTPUT(33);
-+	EFUSE_OUTPUT(34);
-+	EFUSE_OUTPUT(35);
-+	EFUSE_OUTPUT(36);
-+	EFUSE_OUTPUT(37);
-+	EFUSE_OUTPUT(38);
-+	EFUSE_OUTPUT(39);
-+	EFUSE_OUTPUT(40);
-+	EFUSE_OUTPUT(41);
-+	EFUSE_OUTPUT(42);
-+	EFUSE_OUTPUT(43);
-+	EFUSE_OUTPUT(44);
-+	EFUSE_OUTPUT(45);
-+	EFUSE_OUTPUT(46);
-+	EFUSE_OUTPUT(47);
-+	EFUSE_OUTPUT(48);
-+	EFUSE_OUTPUT(49);
-+	EFUSE_OUTPUT(50);
-+
-+};
-+
-+&fmc {
-+	status = "okay";
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "flash0";
-+		spi-max-frequency = <50000000>; // 50 MHz
-+#include "openbmc-flash-layout.dtsi"
-+	};
-+};
-+
-+&uart3 {
-+	status = "okay";
-+};
-+
-+&mac1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii2_default &pinctrl_mdio2_default>;
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@79 {
-+		compatible = "nxp,pca9541";
-+		reg = <0x79>;
-+
-+		i2carb0: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			/* lm25066 efuses @ 10-17, 40-47, 50-57 */
-+			EFUSE(10, 03);
-+			EFUSE(11, 04);
-+			EFUSE(12, 01);
-+			EFUSE(13, 02);
-+			EFUSE(14, 13);
-+			EFUSE(15, 14);
-+			EFUSE(16, 15);
-+			EFUSE(17, 16);
-+			EFUSE(40, 12);
-+			EFUSE(41, 11);
-+			EFUSE(42, 10);
-+			EFUSE(43, 09);
-+			EFUSE(44, 08);
-+			EFUSE(45, 07);
-+			EFUSE(46, 05);
-+			EFUSE(47, 06);
-+			EFUSE(50, 17);
-+			EFUSE(51, 18);
-+			EFUSE(52, 20);
-+			EFUSE(53, 19);
-+			EFUSE(54, 22);
-+			EFUSE(55, 21);
-+			EFUSE(56, 24);
-+			EFUSE(57, 23);
-+		};
-+	};
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@72 {
-+		compatible = "nxp,pca9541";
-+		reg = <0x72>;
-+
-+		i2carb1: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@73 {
-+		compatible = "nxp,pca9541";
-+		reg = <0x73>;
-+
-+		i2carb2: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+	};
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@74 {
-+		compatible = "nxp,pca9541";
-+		reg = <0x74>;
-+
-+		i2carb3: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+	};
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@7a {
-+		compatible = "nxp,pca9541";
-+		reg = <0x7a>;
-+
-+		i2carb4: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			gpio@20 {
-+				compatible = "nxp,pca9534";
-+				reg = <0x20>;
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+			};
-+
-+			/* lm25066 efuses @ 10-17, 40-47, 50-57, 59, 5a */
-+			EFUSE(10, 27);
-+			EFUSE(11, 28);
-+			EFUSE(12, 25);
-+			EFUSE(13, 26);
-+			EFUSE(14, 37);
-+			EFUSE(15, 38);
-+			EFUSE(16, 39);
-+			EFUSE(17, 40);
-+			EFUSE(40, 36);
-+			EFUSE(41, 35);
-+			EFUSE(42, 34);
-+			EFUSE(43, 33);
-+			EFUSE(44, 32);
-+			EFUSE(45, 31);
-+			EFUSE(46, 29);
-+			EFUSE(47, 30);
-+			EFUSE(50, 41);
-+			EFUSE(51, 42);
-+			EFUSE(52, 44);
-+			EFUSE(53, 43);
-+			EFUSE(54, 46);
-+			EFUSE(55, 45);
-+			EFUSE(56, 48);
-+			EFUSE(57, 47);
-+			EFUSE(59, 49);
-+			EFUSE(5a, 50);
-+		};
-+	};
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@75 {
-+		compatible = "nxp,pca9541";
-+		reg = <0x75>;
-+
-+		i2carb6: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+	};
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@76 {
-+		compatible = "nxp,pca9541";
-+		reg = <0x76>;
-+
-+		i2carb7: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+	};
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@7c {
-+		compatible = "nxp,pca9541";
-+		reg = <0x7c>;
-+
-+		i2carb8: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			fancontrol@30 {
-+				compatible = "delta,ahe50dc-fan";
-+				reg = <0x30>;
-+			};
-+
-+			/* Baseboard FRU eeprom */
-+			eeprom@50 {
-+				compatible = "atmel,24c02";
-+				reg = <0x50>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+	bus-frequency = <200000>;
-+
-+	pca9541@71 {
-+		compatible = "nxp,pca9541";
-+		reg = <0x71>;
-+
-+		i2carb12: i2c-arb {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+	};
-+};
-+
-+&gpio {
-+	status = "okay";
-+	gpio-line-names =
-+		/*  A */ "", "", "", "", "", "", "", "",
-+		/*  B */ "", "", "", "", "", "", "", "",
-+		/*  C */ "RESET_PEER_N", "HEARTBEAT_OUT", "", "", "", "", "", "",
-+		/*  D */ "", "", "", "", "", "", "", "",
-+		/*  E */ "DOOM_N", "", "", "", "", "LED_PWR_BLUE", "", "",
-+		/*  F */ "", "", "", "", "", "", "", "",
-+		/*  G */ "", "", "", "", "", "", "", "",
-+		/*  H */ "", "", "", "", "", "", "", "",
-+		/*  I */ "", "", "", "", "", "", "", "",
-+		/*  J */ "", "", "BMC_ID", "", "", "", "", "",
-+		/*  K */ "", "", "", "", "", "", "", "",
-+		/*  L */ "", "", "", "", "", "", "", "",
-+		/*  M */ "", "", "", "", "", "", "", "",
-+		/*  N */ "", "", "", "", "", "", "", "",
-+		/*  O */ "", "", "", "", "", "", "", "",
-+		/*  P */ "LED_GREEN", "", "LED_RED", "", "", "", "", "",
-+		/*  Q */ "", "", "", "", "", "", "", "",
-+		/*  R */ "", "", "", "", "", "", "", "",
-+		/*  S */ "", "", "", "", "", "", "", "",
-+		/*  T */ "", "", "", "", "", "", "", "",
-+		/*  U */ "", "", "", "", "", "", "", "",
-+		/*  V */ "", "", "", "", "", "", "", "",
-+		/*  W */ "", "", "", "", "", "", "", "",
-+		/*  X */ "", "", "", "", "", "", "", "",
-+		/*  Y */ "HEARTBEAT_IN", "BOARDREV0", "BOARDREV1", "",
-+		/*  Z */ "", "", "", "", "", "", "", "",
-+		/* AA */ "", "", "", "", "", "", "", "",
-+		/* AB */ "", "", "", "";
-+
-+	/*
-+	 * I don't rightly know what this GPIO really *is*, but setting it to
-+	 * zero causes the fans to run at full speed, after which setting it
-+	 * back to one causes a power output glitch, so install a hog to keep
-+	 * it at one as a failsafe to ensure nothing accidentally touches it.
-+	 */
-+	doom-guardrail {
-+		gpio-hog;
-+		gpios = <ASPEED_GPIO(E, 0) GPIO_ACTIVE_LOW>;
-+		output-low;
-+	};
-+};
-+
-+&adc {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc0_default
-+		&pinctrl_adc1_default
-+		&pinctrl_adc2_default
-+		&pinctrl_adc3_default
-+		&pinctrl_adc4_default
-+		&pinctrl_adc5_default
-+		&pinctrl_adc6_default
-+		&pinctrl_adc7_default
-+		&pinctrl_adc8_default
-+		&pinctrl_adc9_default>;
-+};
--- 
-2.38.1
-
+DQpPbiAyMDIyLzExLzMsIDEwOjMxIFBNLCAiR3VlbnRlciBSb2VjayIgPGdyb2VjazdAZ21haWwu
+Y29tIG9uIGJlaGFsZiBvZiBsaW51eEByb2Vjay11cy5uZXQ+IHdyb3RlOg0KDQogICAgT24gVGh1
+LCBOb3YgMDMsIDIwMjIgYXQgMDU6NDA6NDRBTSArMDAwMCwgQmlsbHkgVHNhaSB3cm90ZToNCiAg
+ICA+ID4gT24gMjAyMi8xMS8zLCAxMjozMCBQTSwgIkd1ZW50ZXIgUm9lY2siIDxncm9lY2s3QGdt
+YWlsLmNvbSBvbiBiZWhhbGYgb2YgbGludXhAcm9lY2stdXMubmV0PiB3cm90ZToNCiAgICA+ID4g
+DQogICAgPiA+ICAgICBPbiBUaHUsIE5vdiAwMywgMjAyMiBhdCAwMzo1Mjo1OUFNICswMDAwLCBC
+aWxseSBUc2FpIHdyb3RlOg0KICAgID4gPiAgICAgPiA+IA0KICAgID4gPiAgICAgPiA+IENhbid0
+IEkgdXNlIGEgbWluL21heCBSUE0gdG8gbGV0IHRoZSBkcml2ZXIga25vdyBhIHJlYXNvbmFibGUg
+dGltZW91dC9wb2xsaW5nIHBlcmlvZCB3aGVuDQogICAgPiA+ICAgICA+ID4gdGhlIGRyaXZlciBp
+cyB0cnlpbmcgdG8gZ2V0IFJQTT8NCiAgICA+ID4gICAgID4gPiBCZWFjYXVzZSB0aGF0IG91ciB0
+YWNoIGNvbnRyb2xsZXIgaGF2ZSB0aGUgZmFsZyB0byBpbmRpY2F0ZXMgdGhlIGhhcmR3YXJlIGRl
+dGVjdGVkIHRoZSBjaGFuZ2UNCiAgICA+ID4gICAgID4gPiBpbiB0aGUgaW5wdXQgc2lnbmFsLiBJ
+IG5lZWQgdGhlIHByb3BlciB0aW1vdXQgdG8gcnVsZSBvdXQgc2xvdyBSUE1zLg0KICAgID4gPiAN
+CiAgICA+ID4gICAgID4gSWYgdGhlIGNoaXAgbWVhc3VyZXMgdGhlIGZhbiBzcGVlZCBjb250aW51
+b3VzbHksIHdoeSB3b3VsZCB0aGF0IGV2ZXIgYmUgYQ0KICAgID4gPiAgICAgPiBwcm9ibGVtLCBh
+bmQgd2h5IHdhaXQgaW4gdGhlIGZpcnN0IHBsYWNlIGluc3RlYWQgb2YganVzdCB0YWtpbmcgdGhl
+IG1vc3QNCiAgICA+ID4gICAgID4gcmVjZW50IHJlc3VsdCA/DQogICAgPiA+IA0KICAgID4gPiAg
+ICAgPiBQcmV0dHkgbXVjaCBldmVyeSBvdGhlciBkcml2ZXIgaXMgZG9pbmcgdGhhdCwgc28gSSBy
+ZWFsbHkgZG9uJ3QgdW5kZXJzdGFuZA0KICAgID4gPiAgICAgPiB3aHkgdGhhdCB3b3VsZCBub3Qg
+d29yayBoZXJlLg0KICAgID4gPiANCiAgICA+ID4gV2hlbiB0aGUgZmFuIHNwZWVkIGRyb3AgZnJv
+bSBhIHZlcnkgZmFzdCBSUE0gdG8gYSB2ZXJ5IHNsb3cgUlBNLiBFc3BlY2lhbGx5IHdoZW4gaXQg
+aXMgY2xvc2UgdG8gc3RvcHBpbmcuDQogICAgPiA+IFRoZSBtb3N0IHJlY2VudCByZXN1bHQgd2ls
+bCBiZSBubyBtZWFuaW5nZnVsIHZhbHVlLiBUaGUgc2xvd2VyIFJQTSBuZWVkcyBtb3JlIHRpbWUg
+dG8gc2FtcGxlIGl0LiBFLmcuLCBJZg0KICAgID4gPiB3ZSB3YW50IHRvIG1lYXN1cmUgdGhlIGZh
+biB3aXRoIDYwMCBSUE0sIHRoZSBjb250cm9sbGVyIG5lZWRzIGF0IGxlYXN0IDEwMG1zLiBEdXJp
+bmcgdGhpcyB0aW1lIHBlcmlvZCwgd2UNCiAgICA+ID4gd2lsbCBhbHdheXMgZ2V0IHRoZSB3cm9u
+ZyB2YWx1ZS4gU28sIG91ciB0YWNoIGNvbnRyb2xsZXIgaGF2ZSB0aGUgZmxhZyB0byBhdm9pZCB0
+aGlzIHByb2JsZW06DQogICAgPiA+IFRBQ0hfQVNQRUVEX1ZBTFVFX1VQREFURTogdGFjaCB2YWx1
+ZSB1cGRhdGVkIHNpbmNlIGxhc3QgcmVhZA0KICAgID4gPiBUaGlzIGZsYWcgd2lsbCBiZSBzZXQg
+d2hlbiB0aGUgY29udHJvbGxlciBkZXRlY3RlZCB0aGUgY2hhbmdlIG9mIHRoZSBzaWduYWwgYW5k
+IGNsZWFyIGJ5IHJlYWQgaXQuDQogICAgPiA+IEluIG9yZGVyIHRvIHVzZSB0aGlzIGZsYWcsIHRo
+ZSBjb250cm9sbGVyIG5lZWRzIHRoZSBwcm9wZXIgdGltZW91dCBiYXNlZCBvbiBtaW5pbXVtIFJQ
+TSB0byBhdm9pZCB3YWl0aW5nIGZvcmV2ZXIuDQogICAgPiA+IA0KDQogICAgPiBJIGFtIG5vdCBn
+b2luZyB0byBhY2NlcHQgdGhpcyBwYXRjaCBhcy1pcy4gSWYgdXNlcnNwYWNlIHdhbnRzIHRvIGhh
+dmUNCiAgICA+IHZhbHVlcyBhY2N1cmF0ZSBkb3duIHRvIG1zLCB0aGlzIGtpbmQgb2YgYXBwcm9h
+Y2ggaXMganVzdCB3cm9uZy4gVXNlcnMNCiAgICA+IHdpbGwgaGF2ZSB0byBsaXZlIHdpdGggdGhl
+IGZhY3QgdGhhdCBtZWFzdXJlbWVudHMgbWF5IGJlIGEgYml0IChpbiB0aGUgDQogICAgPiA8IDEg
+c2Vjb25kIHJhbmdlKSBvdXQgb2YgZGF0ZS4gTWFueSBvbGRlciBkcml2ZXJzIGV2ZW4gaW1wbGVt
+ZW50IGNvZGUNCiAgICA+IHdoaWNoIGF2b2lkcyByZWFkaW5nIHJlZ2lzdGVycyBhZ2FpbiBmb3Ig
+YSBzZWNvbmQgb3IgbG9uZ2VyLiBPbGRlcg0KICAgID4gdGVtcGVyYXR1cmUgc2Vuc29ycyBtYXkg
+dGFrZSBzZXZlcmFsIHNlY29uZHMgdG8gcHJvdmlkZSBuZXcgcmVhZGluZ3MuDQogICAgPiBUaGF0
+IGlzIG5vdCBhIHJlYXNvbiB0byBibG9jayB1c2Vyc3BhY2UgdW50aWwgYSBuZXcgdmFsdWUgaXMg
+YXZhaWxhYmxlLg0KICAgID4gSSBkbyBub3Qgc2VlIHRoYXQgYXMgYSBwcm9ibGVtLiBJbiBteSBv
+cGluaW9uIGl0IGlzIG11Y2ggbW9yZSBvZiBhDQogICAgPiBwcm9ibGVtIGlmIHRoZSBkcml2ZXIg
+cmV0dXJucyBhIGNvbXBsZXRlbHkgYmFkIHZhbHVlIHN1Y2ggYXMgMCBvciBldmVuDQogICAgPiBh
+biBlcnJvciBjb2RlIGJlY2F1c2UgaXRzIHNvZnR3YXJlIHBhcmFtZXRlcnMgZGlkIG5vdCBtYXRj
+aCByZWFsaXR5IGFuZA0KICAgID4gdGhlIGRyaXZlciBkaWRuJ3Qgd2FpdCBsb25nIGVub3VnaCBm
+b3IgYSBuZXcgdmFsdWUuIFRoYXQgd291bGQgYmUgX211Y2hfDQogICAgPiB3b3JzZSB0aGFuIHBy
+b3ZpZGluZyBhIHZhbHVlIHdoaWNoIGlzIGEgZmV3IDEwMCBtcyBvdXQgb2YgZGF0ZSwgYW5kIHlv
+dXINCiAgICA+IGNvZGUgaXMgdnVsbmVyYWJsZSB0byB0aGF0IHByb2JsZW0uDQoNCiAgICA+IEJl
+c2lkZXMsIGZvciBhIGZhbiB0byByZWR1Y2UgaXRzIHNwZWVkIHRoYXQgcXVpY2tseSwgaXQgaGFz
+IHRvIGJlIG1hbnVhbGx5DQogICAgPiBzdG9wcGVkLiBOb3JtYWxseSBmYW5zIHRha2Ugc2V2ZXJh
+bCBzZWNvbmRzIHRvIHN0b3AgaWYgcG93ZXIgaXMgdGFrZW4gYXdheQ0KICAgID4gY29tcGxldGVs
+eS4gWW91ciBjb2RlIGlzIGFkZGluZyBhIGxvdCBvZiBjb21wbGV4aXR5IChhbmQgdW5uZWNlc3Nh
+cnkNCiAgICA+IGF0dHJpYnV0ZXMpIGZvciBubyBnb29kIHJlYXNvbi4NCg0KVGhhbmtzIGZvciB5
+b3VyIGRldGFpbGVkIGV4cGxhbmF0aW9ucy4NCkkgd2lsbCByZW1vdmUgdGhlIG1pbiBhbmQgbWF4
+IFJQTXMgYW5kIHJldHVybiB0aGUgdGFjaCB2YWx1ZSBkaXJlY3RseSB3aXRob3V0IGFueSBwb2xs
+aW5nIG9yIGRlbGF5Lg0KDQpCZXN0IFJlZ2FyZHMsDQpCaWxseSBUc2FpDQoNCg0K
