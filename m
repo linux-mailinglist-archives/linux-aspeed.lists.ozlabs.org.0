@@ -1,50 +1,46 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F7E6238E7
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 02:34:58 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B9E6239C1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 03:25:44 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N74C40cTKz3cck
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 12:34:56 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=j3YgJkCe;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N75Kf13J1z3cN0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 13:25:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=j3YgJkCe;
-	dkim-atps=neutral
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N74Bx5wGcz2yxc
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Nov 2022 12:34:49 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (97-113-250-99.tukw.qwest.net [97.113.250.99])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 9F1F1216;
-	Wed,  9 Nov 2022 17:34:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1668044084;
-	bh=aMUJmwn2tQh5G1GOQ7muR4JdKNLACHu6x6zglyc6xeo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=j3YgJkCeaZFMY3ySEztwGyArlwSjTmP2O3YQ9XznmrjQgLKe0ziaFVEd78TzMGzSn
-	 XNHCgYpHGfmliBnFeIcVUvVReWxXBRGbafKgF6UMAss+moAda/muO3OqjWf/n26UX1
-	 bt/RAjF6hkR0XbIH2ZmKMjN42G4e3ccJwyrsFJs8=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Joel Stanley <joel@jms.id.au>,
-	linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] MAINTAINERS: aspeed: Update git tree URL
-Date: Wed,  9 Nov 2022 17:34:38 -0800
-Message-Id: <20221110013438.16212-1-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.38.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N75KZ1cn4z2yHc;
+	Thu, 10 Nov 2022 13:25:35 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 2AA21AR2098463;
+	Thu, 10 Nov 2022 10:01:10 +0800 (GMT-8)
+	(envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 10 Nov
+ 2022 10:24:48 +0800
+Message-ID: <7860c838-a3cd-d4e5-43d0-fe504138e1ef@aspeedtech.com>
+Date: Thu, 10 Nov 2022 10:24:37 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: Log spam from aspeed-video driver
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>, Zev Weiss <zev@bewilderbeest.net>
+References: <Y1dX9r9ybGjBrW0k@hatter.bewilderbeest.net>
+ <CACPK8XfQhaG2pb6=0YL6J3ME2XLxuQdV37tTuoOX5-05c7pDnQ@mail.gmail.com>
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <CACPK8XfQhaG2pb6=0YL6J3ME2XLxuQdV37tTuoOX5-05c7pDnQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2AA21AR2098463
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,34 +52,69 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Zev Weiss <zev@bewilderbeest.net>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The description for joel/aspeed.git on git.kernel.org currently says:
+Hi Zev,
 
-    Old Aspeed tree. Please see joel/bmc.git
+Thanks for your advice.
 
-Let's update MAINTAINERS accordingly.
+On 2022/11/10 上午 07:54, Joel Stanley wrote:
+> On Tue, 25 Oct 2022 at 03:29, Zev Weiss <zev@bewilderbeest.net> wrote:
+>> Hi all,
+>>
+>> Since the recent update of the OpenBMC kernel to 6.0, I've been seeing a
+>> lot of new log noise from aspeed-video driver when the host is powered
+>> off after having been on:
+>>
+>>       [  335.526279] aspeed-video 1e700000.video: Timed out; first mode detect
+>>       [  335.544172] aspeed-video 1e700000.video: No signal; don't start frame
+>>       [  337.165555] aspeed-video 1e700000.video: Timed out; first mode detect
+>>       [  337.186214] aspeed-video 1e700000.video: No signal; don't start frame
+>>       [  338.815501] aspeed-video 1e700000.video: Timed out; first mode detect
+>>       [  338.834008] aspeed-video 1e700000.video: No signal; don't start frame
+>>
+>> It just emits that pair of messages continuously, about every 1.6
+>> seconds.
+> Our current generation machines don't use the bmc kvm setup, so this
+> hasn't seen much testing by IBM.
+>
+> I'd like to hear from aspeed. If this is a problem with the driver
+> then it's something to look into. If it's log spam then we should put
+> it back to a dbg call.
+>
+>> Looking through the commit history of the driver, it looks like that
+>> stems from commit a3de90afe392 ("media: aspeed: use
+>> v4l2_info/v4l2_warn/v4l2_dbg for log"), which converted a bunch of print
+>> calls from dev_dbg() to various v4l2_*() calls.  Reverting to the old
+>> 5.15 kernel (which didn't include that change), I found by enabling the
+>> dev_dbg() prints via sysfs (and cranking up the console loglevel) that
+>> the conditions triggering those messages have been happening all along,
+>> I just hadn't been seeing them because the debug prints were disabled by
+>> default.
+>>
+>> I should note that aside from the dmesg spam I don't see any functional
+>> problems with the driver; obmc-ikvm works as expected.
+>>
+>> Was switching those dev_dbg() calls to v4l2_warn() instead of v4l2_dbg()
+>> intentional?  Does this indicate some latent bug that should be fixed,
+>> or should they just be converted to v4l2_dbg()?
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+vl42_warn was used to warn the user something unexpected happen. But 
+since these
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cac5a4ad4eb8..1775e5fdaefd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1969,7 +1969,7 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
- S:	Supported
- Q:	https://patchwork.ozlabs.org/project/linux-aspeed/list/
--T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
- F:	Documentation/devicetree/bindings/arm/aspeed/
- F:	arch/arm/boot/dts/aspeed-*
- F:	arch/arm/mach-aspeed/
+things can be corrected and won't affect the user expericen,  I will 
+update a patch to use
+
+v4l2_dbg rather than v4l2_warn.
+
+>>
+>>
+>> Thanks,
+>> Zev
+>>
 -- 
-2.38.1
+Best Regards
+Jammy
 
