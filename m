@@ -2,63 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F196237CB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 00:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F7E6238E7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 02:34:58 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N720X6Ksbz3cB4
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 10:55:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N74C40cTKz3cck
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 12:34:56 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Wd6ppp30;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=j3YgJkCe;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::331; helo=mail-wm1-x331.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Wd6ppp30;
+	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=j3YgJkCe;
 	dkim-atps=neutral
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N720R5jD7z2yyZ;
-	Thu, 10 Nov 2022 10:55:35 +1100 (AEDT)
-Received: by mail-wm1-x331.google.com with SMTP id t1so151383wmi.4;
-        Wed, 09 Nov 2022 15:55:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=j51pcpmAt7rygikiVDfge95qbdKBtRf/PjFzkYZrMnc=;
-        b=Wd6ppp30utQntCUqz+qW2cMWBmwMs+rr95pprrQ4BHDRQxjd30vD6E/xLK0J4s5ygs
-         XFdDT1RYyNMEv8ooKTwg21fWqx4yPRayjTX94hEsCfgP+jITqGcRlT5SkL5BNMlzhTL4
-         KN621bpyhvV2Z759F5e+QYGQ6fKGmRLziziwM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j51pcpmAt7rygikiVDfge95qbdKBtRf/PjFzkYZrMnc=;
-        b=JHulyt/qZ+btr9jOiQyJbLoxTMgUN9Fl41F5KuJNldTcAYVjAkWgurp7NyLaZ1ltj2
-         yaSnwvYlGmcsQXC8N4fOKdzOqPNo5K4HiKMu9tfagtb9kaObMJM3kIP9caOia95Wy4yO
-         BTCWKANfeylpkMauGoeUNQ4kyXFEBlXl+514zoboEzc0hG4770dpaymsXY6k/kIXjIQT
-         5B9iEPY8dJK68bUA5ZYL+RXLD6r6Od0kdwbb0wApZ8/hCz75kr+uOEa7Rnq9d+zX4UpF
-         8fS9mdFb3mEbLFJYfUyzKqTCD8b5gmSmbRloQlJqXxWhgdmUD4g5n1Wfn4NPekwayFje
-         Q6SQ==
-X-Gm-Message-State: ACrzQf0zvj1eQvY7nabNloqBiWgyWLdNAEx3F+8mEd+2+VxNyWGN9xQx
-	3QT2lfKvtmZDXrhmnqIBP+1agq3pkSiwpOs8OZU=
-X-Google-Smtp-Source: AMsMyM633cR3aqFZIJs92t3FJDeCnj/48LR9q/mCiFCWUWAAUvWB71S7IrPEET1nrwzBbJA7zpjBPNFK4ve3y4WY6Cg=
-X-Received: by 2002:a05:600c:a46:b0:3b9:9b97:9304 with SMTP id
- c6-20020a05600c0a4600b003b99b979304mr41506443wmq.34.1668038131488; Wed, 09
- Nov 2022 15:55:31 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N74Bx5wGcz2yxc
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Nov 2022 12:34:49 +1100 (AEDT)
+Received: from hatter.bewilderbeest.net (97-113-250-99.tukw.qwest.net [97.113.250.99])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: zev)
+	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 9F1F1216;
+	Wed,  9 Nov 2022 17:34:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+	s=thorn; t=1668044084;
+	bh=aMUJmwn2tQh5G1GOQ7muR4JdKNLACHu6x6zglyc6xeo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=j3YgJkCeaZFMY3ySEztwGyArlwSjTmP2O3YQ9XznmrjQgLKe0ziaFVEd78TzMGzSn
+	 XNHCgYpHGfmliBnFeIcVUvVReWxXBRGbafKgF6UMAss+moAda/muO3OqjWf/n26UX1
+	 bt/RAjF6hkR0XbIH2ZmKMjN42G4e3ccJwyrsFJs8=
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Joel Stanley <joel@jms.id.au>,
+	linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] MAINTAINERS: aspeed: Update git tree URL
+Date: Wed,  9 Nov 2022 17:34:38 -0800
+Message-Id: <20221110013438.16212-1-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221108001551.18175-1-zev@bewilderbeest.net>
-In-Reply-To: <20221108001551.18175-1-zev@bewilderbeest.net>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 9 Nov 2022 23:55:19 +0000
-Message-ID: <CACPK8XeKA+rFwOGCZam2XZh9v8OndyZeE2sk4-3nb-rKdNeDBA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] ARM: dts: aspeed: Add Delta AHE-50DC BMC
-To: Zev Weiss <zev@bewilderbeest.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,40 +56,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: Zev Weiss <zev@bewilderbeest.net>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 8 Nov 2022 at 00:16, Zev Weiss <zev@bewilderbeest.net> wrote:
->
-> Hello,
->
-> This series adds a device-tree for the BMCs of the Delta AHE-50DC
-> Open19 power shelf.  The first patch adds a compat entry to the Aspeed
-> bindings; the second adds the device-tree itself.
->
-> Changes since v1 [0]:
->  - rearranged patch 2 with macros to reduce boilerplate
->  - added ack from Krzysztof on patch 1
+The description for joel/aspeed.git on git.kernel.org currently says:
 
-Looks good to me, I've put it in the aspeed tree for 6.2.
+    Old Aspeed tree. Please see joel/bmc.git
 
->
-> Thanks,
-> Zev
->
-> [0] https://lore.kernel.org/lkml/20221105013321.2719-1-zev@bewilderbeest.net/T/
->
-> Zev Weiss (2):
->   dt-bindings: arm: aspeed: document Delta AHE-50DC BMC
->   ARM: dts: aspeed: Add Delta AHE-50DC BMC
->
->  .../bindings/arm/aspeed/aspeed.yaml           |   1 +
->  arch/arm/boot/dts/Makefile                    |   1 +
->  .../arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts | 418 ++++++++++++++++++
->  3 files changed, 420 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts
->
-> --
-> 2.38.1
->
+Let's update MAINTAINERS accordingly.
+
+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cac5a4ad4eb8..1775e5fdaefd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1969,7 +1969,7 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Supported
+ Q:	https://patchwork.ozlabs.org/project/linux-aspeed/list/
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+ F:	Documentation/devicetree/bindings/arm/aspeed/
+ F:	arch/arm/boot/dts/aspeed-*
+ F:	arch/arm/mach-aspeed/
+-- 
+2.38.1
+
