@@ -1,45 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCC5623F26
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 10:58:00 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA47E625344
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Nov 2022 06:58:41 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4N7HMV2l0Zz3cKq
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Nov 2022 20:57:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4N7p0v4vfkz3cNb
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Nov 2022 16:58:39 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Udqr2R8V;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::433; helo=mail-wr1-x433.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Udqr2R8V;
+	dkim-atps=neutral
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4N7HML71qZz2xb4;
-	Thu, 10 Nov 2022 20:57:48 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 2AA9WgmQ047730;
-	Thu, 10 Nov 2022 17:32:42 +0800 (GMT-8)
-	(envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 10 Nov
- 2022 17:56:21 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>, <zev@bewilderbeest.net>,
-        <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] media: aspeed: Use v4l2_dbg to replace v4l2_warn to avoid log spam
-Date: Thu, 10 Nov 2022 17:56:11 +0800
-Message-ID: <20221110095611.522-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4N7p0m3zyBz2xB1
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Nov 2022 16:58:32 +1100 (AEDT)
+Received: by mail-wr1-x433.google.com with SMTP id g12so5116152wrs.10
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Nov 2022 21:58:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dQTrN1j7D5Od0RfI0QG9Fx5v8zmQsi9NEHZ+3EDUSmk=;
+        b=Udqr2R8V2vNlq/sUqkbHvF99eYazAH/Ki28lYHT/G1nHEvnKkXmEK2VuFCBklfjWkf
+         3Bo4PmakcOB+8PWupzC2xT07UlatAy62NcnCjTseUoPltjv1JnLr7YMNIxEfWa0IvoIS
+         Rsbs1oj0nKU6W1qF64Yh3P4Rb8YBiydAsqXPk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dQTrN1j7D5Od0RfI0QG9Fx5v8zmQsi9NEHZ+3EDUSmk=;
+        b=Dnz4ZFInUGuU685TRuXNhktEx9/i5D/8EhDfMp7DvFvUuEickViPcpPqcdjY2dY1Sw
+         GMmdBCfay55JT6xNh6Wh91XEwpHEWcsaI0cogzOpCevlks1TRkkdbNDJJ9p3ZjgiER3m
+         cnotoGh+uO3oB7oXwMHHGxi4euXZi+O2ww9t9mbsPWR/jpH+Kc/OveJjEUI1Bzr64PMB
+         Yvxl4cIAvNggnjspD1rFVMCN9qbFRYVfZGa1c3LkMGhY7Z9qc5+3s2/q8DR10EhO7h9V
+         UcHh2sZgS9WCZ6hbZ6TJqYA0+x+myA8rVaLXqW/tEdqIRRDZkIikR5aE8ub1RgX8CHoQ
+         itQw==
+X-Gm-Message-State: ANoB5pmeROfnqX/OBtMBF3ljjF8xknWTEOop1lL7+2uw9zYXT/sRpLDs
+	7cmb1daCghDb3wNubAQJsF+lcTLtkdY6lPDa/HA=
+X-Google-Smtp-Source: AA0mqf7ddsHaE9m3bziST+k+8FnQ49rwnt7qQpt3yMJefxJD01k/U73boNvBT/FrsyenllusOjqxghFE6ABOF16G7Vg=
+X-Received: by 2002:adf:f10b:0:b0:236:4983:285a with SMTP id
+ r11-20020adff10b000000b002364983285amr235372wro.606.1668146308386; Thu, 10
+ Nov 2022 21:58:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2AA9WgmQ047730
+References: <20221110013438.16212-1-zev@bewilderbeest.net>
+In-Reply-To: <20221110013438.16212-1-zev@bewilderbeest.net>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 11 Nov 2022 05:58:16 +0000
+Message-ID: <CACPK8XdkXaVXzabFM-g6xQ1CBjZheiP9oFrYk5o1__QR7WBcdw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: aspeed: Update git tree URL
+To: Zev Weiss <zev@bewilderbeest.net>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,98 +70,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-If the host is powered off, there will be many warning log. To avoid the
-log spam in this condition, replace v4l2_warn with v4l2_dbg.
+On Thu, 10 Nov 2022 at 01:34, Zev Weiss <zev@bewilderbeest.net> wrote:
+>
+> The description for joel/aspeed.git on git.kernel.org currently says:
+>
+>     Old Aspeed tree. Please see joel/bmc.git
+>
+> Let's update MAINTAINERS accordingly.
+>
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- drivers/media/platform/aspeed/aspeed-video.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Thanks!
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index cf76aeee8cb6..662465d13a0e 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -586,13 +586,13 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
- 	bool bcd_buf_need = (video->format != VIDEO_FMT_STANDARD);
- 
- 	if (video->v4l2_input_status) {
--		v4l2_warn(&video->v4l2_dev, "No signal; don't start frame\n");
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "No signal; don't start frame\n");
- 		return 0;
- 	}
- 
- 	if (!(seq_ctrl & VE_SEQ_CTRL_COMP_BUSY) ||
- 	    !(seq_ctrl & VE_SEQ_CTRL_CAP_BUSY)) {
--		v4l2_warn(&video->v4l2_dev, "Engine busy; don't start frame\n");
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "Engine busy; don't start frame\n");
- 		return -EBUSY;
- 	}
- 
-@@ -615,7 +615,7 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
- 				       struct aspeed_video_buffer, link);
- 	if (!buf) {
- 		spin_unlock_irqrestore(&video->lock, flags);
--		v4l2_warn(&video->v4l2_dev, "No buffers; don't start frame\n");
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "No buffers; don't start frame\n");
- 		return -EPROTO;
- 	}
- 
-@@ -796,7 +796,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
- 			if (video->format == VIDEO_FMT_STANDARD &&
- 			    list_is_last(&buf->link, &video->buffers)) {
- 				empty = false;
--				v4l2_warn(&video->v4l2_dev, "skip to keep last frame updated\n");
-+				v4l2_dbg(1, debug, &video->v4l2_dev, "skip to keep last frame updated\n");
- 			} else {
- 				buf->vb.vb2_buf.timestamp = ktime_get_ns();
- 				buf->vb.sequence = video->sequence++;
-@@ -1060,7 +1060,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 						      res_check(video),
- 						      MODE_DETECT_TIMEOUT);
- 		if (!rc) {
--			v4l2_warn(&video->v4l2_dev, "Timed out; first mode detect\n");
-+			v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out; first mode detect\n");
- 			clear_bit(VIDEO_RES_DETECT, &video->flags);
- 			return;
- 		}
-@@ -1081,7 +1081,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 						      MODE_DETECT_TIMEOUT);
- 		clear_bit(VIDEO_RES_DETECT, &video->flags);
- 		if (!rc) {
--			v4l2_warn(&video->v4l2_dev, "Timed out; second mode detect\n");
-+			v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out; second mode detect\n");
- 			return;
- 		}
- 
-@@ -1104,7 +1104,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 	} while (invalid_resolution && (tries++ < INVALID_RESOLUTION_RETRIES));
- 
- 	if (invalid_resolution) {
--		v4l2_warn(&video->v4l2_dev, "Invalid resolution detected\n");
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "Invalid resolution detected\n");
- 		return;
- 	}
- 
-@@ -1856,7 +1856,7 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
- 				!test_bit(VIDEO_FRAME_INPRG, &video->flags),
- 				STOP_TIMEOUT);
- 	if (!rc) {
--		v4l2_warn(&video->v4l2_dev, "Timed out when stopping streaming\n");
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out when stopping streaming\n");
- 
- 		/*
- 		 * Need to force stop any DMA and try and get HW into a good
+Acked-by: Joel Stanley <joel@jms.id.au>
 
-base-commit: aae703b02f92bde9264366c545e87cec451de471
-prerequisite-patch-id: bf47e8ab2998acfbc32be5a4b7b5ae8a3ae4218b
-prerequisite-patch-id: bf82715983e08f2e810ff1a82ce644f5f9006cd9
-prerequisite-patch-id: 28a2040ef0235e5765f05d2fc5529bce2a0f4c6f
-prerequisite-patch-id: 7e761c779730536db8baf50db5fc8caf058e95af
-prerequisite-patch-id: c48ea20973fa35938a7d33a0e20d2900df48755f
--- 
-2.25.1
+Arnd, does the soc team have a branch for these?
 
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cac5a4ad4eb8..1775e5fdaefd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1969,7 +1969,7 @@ L:        linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  L:     linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+>  S:     Supported
+>  Q:     https://patchwork.ozlabs.org/project/linux-aspeed/list/
+> -T:     git git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
+> +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+>  F:     Documentation/devicetree/bindings/arm/aspeed/
+>  F:     arch/arm/boot/dts/aspeed-*
+>  F:     arch/arm/mach-aspeed/
+> --
+> 2.38.1
+>
