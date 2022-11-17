@@ -1,75 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DF462BB2C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Nov 2022 12:15:00 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA0062D162
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Nov 2022 04:02:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NC0nZ0vb8z3cD6
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Nov 2022 22:14:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NCPpb0mYvz3cMJ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Nov 2022 14:02:15 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=F8cMBQRG;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=C2jhk9al;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=pkarthikeyan1509@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::334; helo=mail-wm1-x334.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=F8cMBQRG;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=C2jhk9al;
 	dkim-atps=neutral
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NC0nN66lDz3c8C;
-	Wed, 16 Nov 2022 22:14:47 +1100 (AEDT)
-Received: by mail-pl1-x633.google.com with SMTP id b21so16109101plc.9;
-        Wed, 16 Nov 2022 03:14:47 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NCPpP6Pk7z3cLF;
+	Thu, 17 Nov 2022 14:02:03 +1100 (AEDT)
+Received: by mail-wm1-x334.google.com with SMTP id a11-20020a05600c2d4b00b003cf6f5fd9f1so706540wmg.2;
+        Wed, 16 Nov 2022 19:02:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nyC+yDLSk48NJUeZiMOPIOe4ZUnpBcxh3+f3W/dMNhk=;
-        b=F8cMBQRGmA7UbL/PbV3eIPwM+8lhBL3rkfuqTpNMjpbaBWgDF7PTr++FdWTUw9krKg
-         KI4GEjGZk5QUGvDFGED9XEwDhm8xRb1X5KhVf2C7GCTC2/YDz/8rvX4nTLmKutT5c5jk
-         1XrWaFRBgdQvVUhB/1Qe+3cnQIlIoJNYDhmTLiK7VjCjspEvgzNBP21iQ5aN65Yva2e6
-         T9jvHyQn9I5tRE/u3pJuKdw8f/s2hoNPlReiYFF9s36gZ1hapteOeg4JgN24PD/DGu/4
-         U0DghUrKY0x3mhfFZWP4nt7ykYBajM0IeM6OWeL3ZSX+9p0YGT/7P1tPA4pvmt3VMiJ7
-         Dm2Q==
+        d=jms.id.au; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oZNyOtjou7UGJa2BliLM3P7z/CgeMGDCK77AaNy+wyQ=;
+        b=C2jhk9alJDbZ5zE2SEo1NUOVF583b2PxjyxmXI5EDaCEimWEeZn2/rHcTvHgV2DaGt
+         WDY4CH0W4wb0jqG3tSeTV2vcZjeTa9t/iKjPs/MGiKk6C+ZYPelvaw1l5GJE16xIcmIz
+         KCxTB43Hz/DU5YZXIkjtjitro4guGbjADT4YY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nyC+yDLSk48NJUeZiMOPIOe4ZUnpBcxh3+f3W/dMNhk=;
-        b=hwoEenQs7E8H0I92bLJLd5sur8TXO5in93LG8utOjpQVMzbfbPMTGIezFTfk+7SQtf
-         4eEfcc2cL1wqPNvJRxj2NQUTFo0kBmfjC1cafA8qGdV3H30AWY1mvgvkobYhaSjgU9kK
-         CuuaP6E8fSLdGeyLC+nAz9zcEpcjeSEsWtrVsFsDJgmXofF23HT/xkhuus6kMxNMjbo3
-         Qmc39lNk9Cm1OD4uinwjVfzNiNzHuKqfQASWzhDHPVTSkB2f5diJHi86adS8f0RIKY/v
-         jKd2LkjaY0b7dkD4ccHxH8wVuRxNQeJ2ng+O7HPSKCB6cFbPvjTf8jO5Nt46AMEGdAyZ
-         6phw==
-X-Gm-Message-State: ANoB5pl25MoMpHgMIr5W7YSAqHGhf2iVQFh5w8n5WZrq4JcuEEXXIfk4
-	GtuIAV7xORCQYfxJ/ic08jo=
-X-Google-Smtp-Source: AA0mqf7w7C3XTM72ib/KnsNNsPX5J+DD22f1WSN/EZuW6n6yMcf+Zifxo6jiMnwqJySegYDIxLfz8A==
-X-Received: by 2002:a17:902:ce8b:b0:186:a3a0:601c with SMTP id f11-20020a170902ce8b00b00186a3a0601cmr8419673plg.105.1668597285062;
-        Wed, 16 Nov 2022 03:14:45 -0800 (PST)
-Received: from hcl-ThinkPad-T495 ([2409:4072:707:8c4c:69fe:3231:5395:4d2f])
-        by smtp.gmail.com with ESMTPSA id f21-20020aa79695000000b00561dcfa700asm10594330pfk.107.2022.11.16.03.14.39
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 16 Nov 2022 03:14:44 -0800 (PST)
-Date: Wed, 16 Nov 2022 16:44:35 +0530
-From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	openbmc@lists.ozlabs.org
-Subject: [PATCH v1] ARM: dts: aspeed: Yosemite V2: Add GPIO line names
-Message-ID: <20221116111435.GA27359@hcl-ThinkPad-T495>
+        bh=oZNyOtjou7UGJa2BliLM3P7z/CgeMGDCK77AaNy+wyQ=;
+        b=W2Up6WE2tiEXCmG+qOfSPNzDb16Dbb3ckBZXaGg7fO9nHMwGnwZGymORABwWviVubu
+         eub0BiHWESTFS+F49Egci0gDgn8Y7II/KmDxqjVvwap+pXLKTc6H4Xe00Hvuc9NTxQxT
+         rOVUHQC2dg5J+/pjD1ApIQ52BeQhrSd6qprEg3M3vjNZIEPhOzldu6kp4WnDQ/Ls/pwN
+         FHYPaZxX4dnDOZqiXbsHmlkuysJMlMdjAjt2sO3ruvyvpts5lpJ8JG8bja64+yxPQnSn
+         RXZnjokR/V4iDV2m9BNB4TgfOAwKM401HeIkrnYzM8AM4GHKBRKq0PEEZH+VSsXwJG0P
+         7iBw==
+X-Gm-Message-State: ANoB5plIrHWZkErdr+0cqzRm1QLou+XfCEuxhiQp0thMNz0fY7Hb5FdI
+	rKIC3FpljxpbeTaaw1KR7UAPWLZd5mHVIzZsZB8=
+X-Google-Smtp-Source: AA0mqf5i0jUWFC4j+cDibzi3Vs644huDdFdGP0IPBdvtnKtWfTcCOdK582I2KflVIQxdgy1oF4QmbhOO9vJplBbSQxc=
+X-Received: by 2002:a7b:cb83:0:b0:3cf:96da:3846 with SMTP id
+ m3-20020a7bcb83000000b003cf96da3846mr3757718wmi.10.1668654117812; Wed, 16 Nov
+ 2022 19:01:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20221024081115.3320584-1-quan@os.amperecomputing.com> <781ea7c7-b33e-f054-71eb-d760f7a01301@os.amperecomputing.com>
+In-Reply-To: <781ea7c7-b33e-f054-71eb-d760f7a01301@os.amperecomputing.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 17 Nov 2022 03:01:45 +0000
+Message-ID: <CACPK8XcCKK_o0hBA82k0CEcpbHXbHcUii3bgoGvHaGvtw2Q_Ww@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: mtjade,mtmitchell: Add BMC SSIF nodes
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,74 +70,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, thang@os.amperecomputing.com, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Name the GPIOs to help userspace work with them. The names describe
-the functionality the lines provide, it makes easier to share
-userspace code across different system.
+On Wed, 16 Nov 2022 at 07:06, Quan Nguyen <quan@os.amperecomputing.com> wrote:
+>
+>
+> Just a gentle ping about this patch.
+>
+> Thanks and best regards,
+> - Quan
+>
+> On 24/10/2022 15:11, Quan Nguyen wrote:
+> > Add BMC SSIF node to support IPMI in-band communication.
+> >
+> > Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
 
-Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
+Applied, thanks.
 
----
---- v1 - Initial draft
----
----
- .../dts/aspeed-bmc-facebook-yosemitev2.dts    | 41 +++++++++++++++++++
- 1 file changed, 41 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-index 8864e9c312a8..f84e2eeb9fd1 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-@@ -119,6 +119,47 @@
- 			&pinctrl_adc15_default>;
- };
- 
-+&gpio {
-+	status = "okay";
-+	gpio-line-names =
-+	/*A0-A7*/	"","","","","","","","",
-+	/*B0-B7*/	"","","","","","","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"POWER_BUTTON","POWER_OUT1","","POWER_OUT2","","POWER_OUT3","",
-+			"POWER_OUT4",
-+	/*E0-E7*/	"DEBUG_UART_SEL0","DEBUG_UART_SEL1","DEBUG_UART_SEL2",
-+			"DEBUG_UART_RX_SEL_N","","","","",
-+	/*F0-F7*/	"","","","","","","","",
-+	/*G0-G7*/	"LED_POST_CODE_0","LED_POST_CODE_1","LED_POST_CODE_2",
-+			"LED_POST_CODE_3","","","","",
-+	/*H0-H7*/	"","","","","","","","",
-+	/*I0-I7*/	"SLOT1_POWER_OK","SLOT2_POWER_OK","SLOT3_POWER_OK","SLOT4_POWER_OK",
-+			"","","","",
-+	/*J0-J7*/	"","","","","","","","",
-+	/*K0-K7*/	"","","","","","","","",
-+	/*L0-L7*/	"","","","","","","","",
-+	/*M0-M7*/	"","","","","","","","",
-+	/*N0-N7*/	"","","I2C_SLOT1","I2C_SLOT2","I2C_SLOT3","I2C_SLOT4","","",
-+	/*O0-O7*/	"","","","SELECTOR_BUTTON","SLOT1_POWER","SLOT2_POWER","SLOT3_POWER",
-+			"SLOT4_POWER",
-+	/*P0-P7*/	"","","","","LED_POST_CODE_4","LED_POST_CODE_5","LED_POST_CODE_6",
-+			"LED_POST_CODE_7",
-+	/*Q0-Q7*/	"","","","","","","","",
-+	/*R0-R7*/	"","","","GPIO_DBG_CARD_PRSNT","","","","",
-+	/*S0-S7*/	"RESET_OUT1","RESET_OUT2","RESET_OUT3","RESET_OUT4","","","","",
-+	/*T0-T7*/	"","","","","","","","",
-+	/*U0-U7*/	"","","","","","","","",
-+	/*V0-V7*/	"","","","","","","","",
-+	/*W0-W7*/	"","","","","","","","",
-+	/*X0-X7*/	"","","","","","","","",
-+	/*Y0-Y7*/	"","","","","","","","",
-+	/*Z0-Z7*/	"POST_COMPLETE","POST_COMPLETE2","POST_COMPLETE3","POST_COMPLETE4",
-+			"","","","",
-+	/*AA0-AA7*/	"","","","","HAND_SW1","HAND_SW2","HAND_SW3","HAND_SW4",
-+	/*AB0-AB7*/	"RESET_BUTTON","","","","","","","",
-+	/*AC0-AC7*/	"","","","","","","","";
-+};
-+
- &i2c1 {
- 	//Host1 IPMB bus
- 	status = "okay";
--- 
-2.17.1
-
+> > ---
+> >   arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts     | 4 ++++
+> >   arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 4 ++++
+> >   2 files changed, 8 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+> > index d127cbcc7998..353359822d7b 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+> > @@ -342,6 +342,10 @@ &mac1 {
+> >
+> >   &i2c0 {
+> >       status = "okay";
+> > +     ssif-bmc@10 {
+> > +             compatible = "ssif-bmc";
+> > +             reg = <0x10>;
+> > +     };
+> >   };
+> >
+> >   &i2c1 {
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> > index 606cd4be245a..4b91600eaf62 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> > @@ -445,6 +445,10 @@ &i2c9 {
+> >
+> >   &i2c11 {
+> >       status = "okay";
+> > +     ssif-bmc@10 {
+> > +             compatible = "ssif-bmc";
+> > +             reg = <0x10>;
+> > +     };
+> >   };
+> >
+> >   &i2c14 {
