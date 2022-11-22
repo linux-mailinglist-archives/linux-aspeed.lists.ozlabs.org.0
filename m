@@ -1,114 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC2662EDE9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Nov 2022 07:52:20 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 803BD6331AE
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Nov 2022 01:57:53 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ND6sX6b3gz3cKD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Nov 2022 17:52:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NGQpl2F8fz2yN9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Nov 2022 11:57:51 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=blHYfQwr;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Wn7LxHxN;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:fe59::729; helo=nam12-dm6-obe.outbound.protection.outlook.com; envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::435; helo=mail-wr1-x435.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=blHYfQwr;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Wn7LxHxN;
 	dkim-atps=neutral
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on20729.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe59::729])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ND6sN2GrCz3bky;
-	Fri, 18 Nov 2022 17:52:06 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LRpKOCMu/mK3xnWcvRwUsTSYEXkQR1yD9H618t/aOYb6qJXp9DnmKzODThpyRjxEoqnQJCcvymnQLl6O3M0eBaGmv5IPmxMbySxX3AJaShunkC//0LWVAME7O6LKj5NcZ6zVKMLEoUZJBO5fPrTzzahrd6GbLJ0hPNPsCd+wiiKde4GmBesI7J8ie2ZGAnAl5CQpStxhHU4qsDxT9CE9XIk6Pi4ekRSJZ1ZKsNxwv233bo9RwdEVYGWXtvm2MRI37Vhvptnat0x1ST9ngIfP4kqEJ1b4nX+XR6BZSAyzXsuSFyabTqPGQJuIiERU95XTB3CK4kSi5XEhct15JLPVpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+gxhRXZTUW4ifiiTQ8rRfRhkvi9nYqXJQpQlzx2ATNA=;
- b=P5qAN7uOq3MIkdfzsnZHRN2Nn1tzmKkJeT0m5CiO1Q1qRc2ibXZ8qjPeRCTaD56v/35XIIaHouU2H6eWCqvNx4Ffn86swPflNUDkYtRzEujRw3FRmZ9rHZbVgWP1YUz1aZRfbu3d8F8LAyrtdaYm6GqvGjAGABnMewuWn5068LZQAEJjvQqzBJFD03NFt/lcSv9doC9SZSf69/uVWiQHuHsgHKUKJyKGAN4rrbw93Bb165MMcruEgh4Sug7yJP6660RmO2yXTRpI3AZsmVYZrJDSZQ2lBw6zZKU74qcBYTBOzpAy1Rk8WFvxUVdKwL7dGj6+gDKr2j3CYRi1no0zIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NGQpd4HNxz2xkx
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 22 Nov 2022 11:57:44 +1100 (AEDT)
+Received: by mail-wr1-x435.google.com with SMTP id x5so18386540wrt.7
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Nov 2022 16:57:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+gxhRXZTUW4ifiiTQ8rRfRhkvi9nYqXJQpQlzx2ATNA=;
- b=blHYfQwrabByk5sKTmtoSleSa4sZjm89oyaraByvUCXA2Xmh1ItXOnDl0q1aIngC53httqLkI7pK5XANWh8hSqPKDOXXwDC8GmFmDoB8EvK8J+MABh8C2rwuuGUpxu+7nmAX6a3OvN+lMT7GZpfdqVLbmLyazaci/tvliSk2rlc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from SN4PR01MB7455.prod.exchangelabs.com (2603:10b6:806:202::11) by
- DM6PR01MB5801.prod.exchangelabs.com (2603:10b6:5:200::30) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5813.16; Fri, 18 Nov 2022 06:51:45 +0000
-Received: from SN4PR01MB7455.prod.exchangelabs.com
- ([fe80::df7e:7f53:a83f:a86a]) by SN4PR01MB7455.prod.exchangelabs.com
- ([fe80::df7e:7f53:a83f:a86a%4]) with mapi id 15.20.5813.016; Fri, 18 Nov 2022
- 06:51:45 +0000
-From: Quan Nguyen <quan@os.amperecomputing.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH] ARM: dts: aspeed: mtjade: Add SMPro nodes
-Date: Fri, 18 Nov 2022 13:51:09 +0700
-Message-Id: <20221118065109.2339066-1-quan@os.amperecomputing.com>
-X-Mailer: git-send-email 2.35.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SGBP274CA0015.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::27)
- To SN4PR01MB7455.prod.exchangelabs.com (2603:10b6:806:202::11)
+        d=jms.id.au; s=google;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GLNpOC+EKWhHYX3ClfPrj2d8ABDTkig29CHfa3CG5z0=;
+        b=Wn7LxHxNYEUcNzh5Yi6H7zMJ37MUheNt1yCSxSgFx4Nd19to9uIfW10w5VhxWTOa2u
+         /I+0m0Glugebfu3wA5PTRVCTuY/bPYaxKjsXTyqqRMpADGP3NidUypMw8zvYzpX2n9Rg
+         AMXXNT97A2/YSYROnpkAlf13MuN4Iu/wNv6TU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GLNpOC+EKWhHYX3ClfPrj2d8ABDTkig29CHfa3CG5z0=;
+        b=nrxr6MnH7UHewESuTBCrtwF8dA6a+v9bCmpEQ8XbY/seqmZONylmm9RYPKF1Y5tIK3
+         EZNH15cVDYUv/7Dd2LEZXtz4hwqYqmUOqF/fC78GNpHpEt0vOVlkXAib+8K9rzDJuDxS
+         okzBHyrK86A63hK30AzmruWFr/Wcrg0mzldU31e968MlR8SRIe1XxxrcyXc8D959IrH4
+         8sImya3Zx1dXV+lKAH5qn2wOZtEW1Rqm1z7h3TwD/XG5ZNEMnq0CxloH0DSD4r/N6VLo
+         h+pQtW1nWDvNganCLEBvt7ukAHOfQx0zHWFSNUmgCF6ALEOWo6hcmdhUq/aTBQsVofIJ
+         xH8g==
+X-Gm-Message-State: ANoB5plgjsgVCzykBE/yFUPAw9E7gEAYPLb2htoYQ6cu/h2iLlwSq0RQ
+	iue/bzDvIGxYa8vJaorio8izOOj/GlNzHyQDT/k=
+X-Google-Smtp-Source: AA0mqf4zegYOqBDXBohUs5DvvquRK2r81ahOv/8Tc5r8so4t4oYa7n5dSAlPXleW16X3sA1ToHjCec/d5wZBzNh5ZAU=
+X-Received: by 2002:a5d:6642:0:b0:236:6a28:eeda with SMTP id
+ f2-20020a5d6642000000b002366a28eedamr12373629wrw.315.1669078660427; Mon, 21
+ Nov 2022 16:57:40 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR01MB7455:EE_|DM6PR01MB5801:EE_
-X-MS-Office365-Filtering-Correlation-Id: 807b2a9e-76f8-4652-e104-08dac9315aeb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	X/AeZjrQ9e0NuSSydUZXoMf8QeznadP4emuo1QyXi/0u9P8zGo9YJgZ1WYDKEbeNjmnztSsVPbO5T9JvbW3hpajLhfkg6Xnu02HSMRon1ZcVLDNL46CeDoMid8Ng/OyQaMGL48Yo8B8WdioKR+wtF70/6e6uRvOIOi7na0JSG6ljQmpY9DuGMfpZvH25pmSb9E+AMVqwo/pFIalzK5DSS/puUcTrnOExDdGSs3iVsX2vAj4qb/KUhjHFZ5K7tH1cCz5YuefP7wt0Z1LO5ewJwrQx+lXvv+ZM+ko8Scy1FlDbiMolnu1VTDSns+wPmmrDHol692CYzPuW2VeEJurGbyRXpvbNBzpRpIIJjg9ih4oMBZV9vONzq3M//hNkBpZ/ze9ONH+qDn62DPGwjRbXvhwSrYlf0jW2mLP0JtEroUB6Lc3aOzNDZ/Agx4rL6cvXEJ62LOIEz2eijy3s8AvJUEiIPBz9lcWteCEFGWtkhVrECfu0xCydZchnIIGnId+7RprbJnNibku/3nNh+kRV6yGjBqQeAPPZpvlesoyIntfdZoCsz1DnEJTZhrf+vT4Fjwk2X8WgBonmOsyYKIMTzwLcOIHbWVNFDwfs/LuRv+3INi1oFey3B3CowlmLg3/7BiYltHlcuhuMtXBxmfNUdL4Kuvi15Yzi9vGspG2BJv619AqJEbyoilN6fyTg+LL9
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR01MB7455.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(366004)(396003)(376002)(39850400004)(346002)(451199015)(86362001)(6486002)(110136005)(6512007)(6666004)(6506007)(26005)(478600001)(52116002)(8936002)(66946007)(66476007)(41300700001)(66556008)(8676002)(5660300002)(316002)(107886003)(2906002)(54906003)(4744005)(4326008)(38350700002)(38100700002)(2616005)(1076003)(186003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?pnslQmetZtTMpGBWLolcBAEfLQB76a8XAaweYSFhnYCmkOIhga1Rzb7fO9Fg?=
- =?us-ascii?Q?uJBlDfyA6aaMnAsUXrB8B5s8SM/6McqIFycZv4+FaSQ+jFFHb2HUEDHUnY+s?=
- =?us-ascii?Q?42CMeSx7Eoj8XpjGUB4C1b5goS59b41EJHqDJ1dFHmgdctq4BxKOEiYe158Y?=
- =?us-ascii?Q?rPxOp44hCRSJimF3tIr0YyByJ/A9LM5kUG/COsbYhagqw+c3VH81TTuhbQQd?=
- =?us-ascii?Q?bp3VoAIl3ed3Dkpp/1Wtv0r0NkMPSxqbwciKDf0b85rujO2h4WCH+vEZZ52c?=
- =?us-ascii?Q?lJcwf2HPxjpPg9hOw+BrH+i2aLhMPOVd5UoSKItbJeRGTNI7AqNYd3nt28gG?=
- =?us-ascii?Q?CwMJoLnGCIq9VnEUUY759/IlXYVUsnOmPMnBLwrIAxWUpJ5pybTiMpXmIK5w?=
- =?us-ascii?Q?oDcgRjm23EF4TlPUhZGadWiGrSyEgHW4bwMkWe2rUV3IgRz+ziS83LLE85i7?=
- =?us-ascii?Q?JnZYEwUdZt6fgImiO0wva7tynkzqdqhxFTmlO0bCDT7RuvlBUfEIizyqil3n?=
- =?us-ascii?Q?M19i9nxG1C/dbsyuKRs1yf9FthYDx2/eovHkjma3dD1pyB7sTvhVaEGrOJpK?=
- =?us-ascii?Q?NCpNRd3VJwZfXmT0YJZ0Fj83I04WsGm2wmhxTc1qwgzSWLtI4Y8tPpuT3a+9?=
- =?us-ascii?Q?wzctEwg/1QNUS+IZndhrgdze2TDvAKNzZMfDmNABF/eSuGRmlhffsAzqS1oS?=
- =?us-ascii?Q?kOheGx0o9DZ4v7I2SUenLIFG2GzxQWgpnbMsOD48rWCjt3MPxHMze1EiGZid?=
- =?us-ascii?Q?aN+bcUc7E0u58BZN88qqrSDHQ4CdT8DQU2OmCmFsvfe//myRr0adZV4yS5vU?=
- =?us-ascii?Q?7clkMhNC8/sCwzao5KTqXhTvuMq16MTYrfxSO/YUf0kU/T5McTqCaVFVAmCZ?=
- =?us-ascii?Q?AFYMhsiB1cmTHMgRznLla3/4/u0BWBohI5ofghAOE5xLBd1kSzl0QW3Mvt+C?=
- =?us-ascii?Q?zuMOI2coQwxKi5gozyL6WIpS0okH9T5IMocEtjCD3+4ALk7okLWZVUYmCdgm?=
- =?us-ascii?Q?ZSfwU76IsHXPEdYMgqQheGKJ8ckbS3p284nmox9xeaoV6OhDZoZy37F/lm1G?=
- =?us-ascii?Q?/XdiIHKWDar2crs6T6tJm5vbLtQNI5aJSTXZ4TMA5qqz8QmkM3DbSrlzCWm3?=
- =?us-ascii?Q?7NTA1O4O0Aa/YMuaWuDzaN+zHUCCW8dKvDyGM29BG+5Or/v5wlVS+0w8lDwr?=
- =?us-ascii?Q?brIfhp5z04m3LLpRQ5eambadlQ1Pa/RLy9sFHaYyvmu4SfGWHZ4JkEULyVNS?=
- =?us-ascii?Q?+5lDX50AVRYKjdbmh3cTWMRHqIv0+VZrJmeEwUy3WE+lHGNn4SxTzsff+A7k?=
- =?us-ascii?Q?9FDO9pqQeph/RrUojc6gLH3ZyhKU7IA4hROInzngYA8m6Pz6OgORatijHDvY?=
- =?us-ascii?Q?nJ0hp/VxuiPkY9tSGacvuFTvmoVHPtYNb0kZwcQbYvI+agZpAzk2g7G45UEs?=
- =?us-ascii?Q?Jhar6dpXtmBfhEV5L7ZXtYsifYkfKnq/XIUtwEdDrd1vTlpVwYINoOZc38wE?=
- =?us-ascii?Q?FCOfVPbm5joGjESiRXbHlcyI2I5mhItaFutwxUC1Nhw03kpMF71ucHTxdQ16?=
- =?us-ascii?Q?xMfj9ujl1lcf1zAiQ7STC+T5leXCxPAu5AJEegnSUTmbsICGyT09xFzueKk1?=
- =?us-ascii?Q?7C/H9m8VQYR5Jle2QGH4Xnw=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 807b2a9e-76f8-4652-e104-08dac9315aeb
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR01MB7455.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2022 06:51:45.0004
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EEEZ+x8iapOaPX768+wZPen0+zV4ArHb6Q00o16JI6pEeslbi3yY55AJKUJUkVcynwVS123CjDURK51trk9B1Nr+89ytuxmv0oTWyuqCGsw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB5801
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 22 Nov 2022 00:57:29 +0000
+Message-ID: <CACPK8Xfsc8BaL_qAgV+3Rk-AFcQoDVfTpMzHvq_rR-UYqwpNNQ@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: devicetree changes for 6.2
+To: SoC Team <soc@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,36 +67,84 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Quan Nguyen <quan@os.amperecomputing.com>, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add SMPro nodes to Mt. Jade BMC.
+Hello soc maintainers,
 
-Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
----
- arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Here are the aspeed device tree changes for v6.2.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-index 353359822d7b..0a51d2e32fab 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-@@ -354,6 +354,14 @@ &i2c1 {
- 
- &i2c2 {
- 	status = "okay";
-+	smpro@4f {
-+		compatible = "ampere,smpro";
-+		reg = <0x4f>;
-+	};
-+	smpro@4e {
-+		compatible = "ampere,smpro";
-+		reg = <0x4e>;
-+	};
- };
- 
- &i2c3 {
--- 
-2.35.1
+The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
+  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+tags/aspeed-6.2-devicetree
+
+for you to fetch changes up to 3973fc0f9f07fc4186bb581014404fbf77a659b5:
+
+  ARM: dts: aspeed: mtjade: Add SMPro nodes (2022-11-20 20:47:32 +1030)
+
+----------------------------------------------------------------
+ASPEED device tree updates for 6.2
+
+ - New machines
+
+  * IBM Bonnell AST2600 BMC, for a Power10 server
+  * Delta AHE-50DC AST1250 BMC, for a 1U Open19 power shelf
+
+ - Removed machines
+
+  * IBM Mihawk AST2500 BMC, a Power9 server similar to Witherspoon
+
+ - Fixes and updates for bletchley, mtjade/mtmitchell, rainier/everest
+
+----------------------------------------------------------------
+Adriana Kobylak (1):
+      ARM: dts: aspeed: rainier,everest: Move reserved memory regions
+
+Eddie James (2):
+      ARM: dts: aspeed: Add IBM Bonnell system BMC devicetree
+      ARM: dts: aspeed: p10bmc: Add occ-hwmon nodes
+
+Joel Stanley (1):
+      ARM: dts: aspeed: Remove Mihawk
+
+Potin Lai (7):
+      ARM: dts: aspeed: bletchley: Change LED sys_log_id to active low
+      ARM: dts: aspeed: bletchley: Disable GPIOV2 pull-down
+      ARM: dts: aspeed: bletchley: Bind presence-sledX pins via gpio-keys
+      ARM: dts: aspeed: bletchley: Update fusb302 nodes
+      ARM: dts: aspeed: bletchley: Update and fix gpio-line-names
+      ARM: dts: aspeed: bletchley: Enable emmc and ehci1
+      ARM: dts: aspeed-g6: Add aliases for mdio nodes
+
+Quan Nguyen (2):
+      ARM: dts: aspeed: mtjade,mtmitchell: Add BMC SSIF nodes
+      ARM: dts: aspeed: mtjade: Add SMPro nodes
+
+Santosh Puranik (1):
+      ARM: dts: aspeed: rainier: Fix pca9551 nodes
+
+Zev Weiss (2):
+      dt-bindings: arm: aspeed: document Delta AHE-50DC BMC
+      ARM: dts: aspeed: Add Delta AHE-50DC BMC
+
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+ arch/arm/boot/dts/Makefile                         |    3 +-
+ arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts     |   12 +
+ arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts |    4 +
+ arch/arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts     |  418 ++++++
+ .../arm/boot/dts/aspeed-bmc-facebook-bletchley.dts |  213 ++-
+ arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts       |  921 +++++++++++++
+ arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts       |   57 +-
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts       |  244 ++--
+ arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts        | 1381 --------------------
+ arch/arm/boot/dts/aspeed-g6.dtsi                   |    4 +
+ 11 files changed, 1705 insertions(+), 1553 deletions(-)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-delta-ahe50dc.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts
+ delete mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
