@@ -1,52 +1,47 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2722C6376EE
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Nov 2022 11:57:27 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF0B6382AC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Nov 2022 04:25:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NHw1d0q1Rz3dvC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Nov 2022 21:57:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NJKx83Dxvz3dvm
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Nov 2022 14:25:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com; receiver=<UNKNOWN>)
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NHw1Q39brz3cMn
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Nov 2022 21:57:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NJKx44g1Tz3brQ;
+	Fri, 25 Nov 2022 14:24:54 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 2AOAVUR3039627;
-	Thu, 24 Nov 2022 18:31:30 +0800 (GMT-8)
-	(envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 24 Nov
- 2022 18:55:56 +0800
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller"
-	<davem@davemloft.net>,
-        Joel Stanley <joel@jms.id.au>, Andrew Jeffery
-	<andrew@aj.id.au>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        "Chia-Wei Wang --cc=linux-kernel @ vger
- . kernel . org" <chiawei_wang@aspeedtech.com>
-Subject: [PATCH v3 4/4] dt-bindings: bus: add documentation for Aspeed AHBC
-Date: Thu, 24 Nov 2022 18:55:52 +0800
-Message-ID: <20221124105552.1006549-5-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221124105552.1006549-1-neal_liu@aspeedtech.com>
-References: <20221124105552.1006549-1-neal_liu@aspeedtech.com>
+	by twspam01.aspeedtech.com with ESMTP id 2AP2xDVf033118;
+	Fri, 25 Nov 2022 10:59:13 +0800 (GMT-8)
+	(envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 25 Nov
+ 2022 11:23:42 +0800
+Message-ID: <80b80234-7dbb-4344-0328-15e83ef2357e@aspeedtech.com>
+Date: Fri, 25 Nov 2022 11:23:22 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] media: aspeed: Use v4l2_dbg to replace v4l2_warn to avoid
+ log spam
+Content-Language: en-US
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+References: <20221110095611.522-1-jammy_huang@aspeedtech.com>
+ <c8a4a3b6-6591-2710-433f-642277eeb8f3@molgen.mpg.de>
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <c8a4a3b6-6591-2710-433f-642277eeb8f3@molgen.mpg.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
+X-Originating-IP: [192.168.2.115]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2AOAVUR3039627
+X-MAIL: twspam01.aspeedtech.com 2AP2xDVf033118
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,62 +53,149 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, zev@bewilderbeest.net, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add device tree binding documentation for the Aspeed
-Advanced High-Performance Bus (AHB) Controller.
+Hi Paul,
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
----
- .../bindings/bus/aspeed,ast2600-ahbc.yaml     | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
+On 2022/11/23 下午 04:08, Paul Menzel wrote:
+> Dear Jammy,
+>
+>
+> Am 10.11.22 um 10:56 schrieb Jammy Huang:
+>> If the host is powered off, there will be many warning log. To avoid the
+>
+> …, many warnings are logged.
+>
+> Also, please paste one example message.
+OK
+>
+> Are the messages really just debug messages, or only in the one 
+> condition? If the latter, another solution should be found, like 
+> checking if the host is powered off, or rate limiting the message.
 
-diff --git a/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml b/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
-new file mode 100644
-index 000000000000..cf9740f2a0c7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
-@@ -0,0 +1,37 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ASPEED Advanced High-Performance Bus Controller (AHBC) Device Tree Bindings
-+
-+maintainers:
-+  - Neal Liu <neal_liu@aspeedtech.com>
-+  - Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-+
-+description: |
-+  Advanced High-performance Bus Controller (AHBC) supports plenty of mechanisms
-+  including a priority arbiter, an address decoder and a data multiplexer
-+  to control the overall operations of Advanced High-performance Bus (AHB).
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2600-ahbc
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    ahbc@1e600000 {
-+        compatible = "aspeed,ast2600-ahbc";
-+        reg = <0x1e600000 0x100>;
-+    };
+In my opinion, these logs are the former one.
+
+video: Timed out; first mode detect
+
+=> This would happen if timing detection failed.
+
+No signal; don't start frame
+
+=> This would happen when timing-detection is not finished with valid 
+resolution detected.
+
+>
+>> log spam in this condition, replace v4l2_warn with v4l2_dbg.
+>
+> Please add a reference, to Zev’s report on the mailing list.
+>
+> Link: …
+OK, thanks.
+>
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>>   drivers/media/platform/aspeed/aspeed-video.c | 16 ++++++++--------
+>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/aspeed/aspeed-video.c 
+>> b/drivers/media/platform/aspeed/aspeed-video.c
+>> index cf76aeee8cb6..662465d13a0e 100644
+>> --- a/drivers/media/platform/aspeed/aspeed-video.c
+>> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+>> @@ -586,13 +586,13 @@ static int aspeed_video_start_frame(struct 
+>> aspeed_video *video)
+>>       bool bcd_buf_need = (video->format != VIDEO_FMT_STANDARD);
+>>         if (video->v4l2_input_status) {
+>> -        v4l2_warn(&video->v4l2_dev, "No signal; don't start frame\n");
+>> +        v4l2_dbg(1, debug, &video->v4l2_dev, "No signal; don't start 
+>> frame\n");
+>>           return 0;
+>>       }
+>>         if (!(seq_ctrl & VE_SEQ_CTRL_COMP_BUSY) ||
+>>           !(seq_ctrl & VE_SEQ_CTRL_CAP_BUSY)) {
+>> -        v4l2_warn(&video->v4l2_dev, "Engine busy; don't start 
+>> frame\n");
+>> +        v4l2_dbg(1, debug, &video->v4l2_dev, "Engine busy; don't 
+>> start frame\n");
+>>           return -EBUSY;
+>>       }
+>>   @@ -615,7 +615,7 @@ static int aspeed_video_start_frame(struct 
+>> aspeed_video *video)
+>>                          struct aspeed_video_buffer, link);
+>>       if (!buf) {
+>>           spin_unlock_irqrestore(&video->lock, flags);
+>> -        v4l2_warn(&video->v4l2_dev, "No buffers; don't start frame\n");
+>> +        v4l2_dbg(1, debug, &video->v4l2_dev, "No buffers; don't 
+>> start frame\n");
+>>           return -EPROTO;
+>>       }
+>>   @@ -796,7 +796,7 @@ static irqreturn_t aspeed_video_irq(int irq, 
+>> void *arg)
+>>               if (video->format == VIDEO_FMT_STANDARD &&
+>>                   list_is_last(&buf->link, &video->buffers)) {
+>>                   empty = false;
+>> -                v4l2_warn(&video->v4l2_dev, "skip to keep last frame 
+>> updated\n");
+>> +                v4l2_dbg(1, debug, &video->v4l2_dev, "skip to keep 
+>> last frame updated\n");
+>>               } else {
+>>                   buf->vb.vb2_buf.timestamp = ktime_get_ns();
+>>                   buf->vb.sequence = video->sequence++;
+>> @@ -1060,7 +1060,7 @@ static void aspeed_video_get_resolution(struct 
+>> aspeed_video *video)
+>>                                 res_check(video),
+>>                                 MODE_DETECT_TIMEOUT);
+>>           if (!rc) {
+>> -            v4l2_warn(&video->v4l2_dev, "Timed out; first mode 
+>> detect\n");
+>> +            v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out; first 
+>> mode detect\n");
+>>               clear_bit(VIDEO_RES_DETECT, &video->flags);
+>>               return;
+>>           }
+>> @@ -1081,7 +1081,7 @@ static void aspeed_video_get_resolution(struct 
+>> aspeed_video *video)
+>>                                 MODE_DETECT_TIMEOUT);
+>>           clear_bit(VIDEO_RES_DETECT, &video->flags);
+>>           if (!rc) {
+>> -            v4l2_warn(&video->v4l2_dev, "Timed out; second mode 
+>> detect\n");
+>> +            v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out; second 
+>> mode detect\n");
+>>               return;
+>>           }
+>>   @@ -1104,7 +1104,7 @@ static void 
+>> aspeed_video_get_resolution(struct aspeed_video *video)
+>>       } while (invalid_resolution && (tries++ < 
+>> INVALID_RESOLUTION_RETRIES));
+>>         if (invalid_resolution) {
+>> -        v4l2_warn(&video->v4l2_dev, "Invalid resolution detected\n");
+>> +        v4l2_dbg(1, debug, &video->v4l2_dev, "Invalid resolution 
+>> detected\n");
+>>           return;
+>>       }
+>>   @@ -1856,7 +1856,7 @@ static void 
+>> aspeed_video_stop_streaming(struct vb2_queue *q)
+>>                   !test_bit(VIDEO_FRAME_INPRG, &video->flags),
+>>                   STOP_TIMEOUT);
+>>       if (!rc) {
+>> -        v4l2_warn(&video->v4l2_dev, "Timed out when stopping 
+>> streaming\n");
+>> +        v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out when 
+>> stopping streaming\n");
+>>             /*
+>>            * Need to force stop any DMA and try and get HW into a good
+>>
+>> base-commit: aae703b02f92bde9264366c545e87cec451de471
+>> prerequisite-patch-id: bf47e8ab2998acfbc32be5a4b7b5ae8a3ae4218b
+>> prerequisite-patch-id: bf82715983e08f2e810ff1a82ce644f5f9006cd9
+>> prerequisite-patch-id: 28a2040ef0235e5765f05d2fc5529bce2a0f4c6f
+>> prerequisite-patch-id: 7e761c779730536db8baf50db5fc8caf058e95af
+>> prerequisite-patch-id: c48ea20973fa35938a7d33a0e20d2900df48755f
+
 -- 
-2.25.1
+Best Regards
+Jammy
 
