@@ -1,41 +1,40 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6772C639F26
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Nov 2022 02:59:50 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 049E0639F27
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Nov 2022 02:59:53 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NL7vS2P8xz3cMt
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Nov 2022 12:59:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NL7vV66sRz3cMt
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Nov 2022 12:59:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=zhengyongjun3@huawei.com; receiver=<UNKNOWN>)
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.189; helo=szxga03-in.huawei.com; envelope-from=yuancan@huawei.com; receiver=<UNKNOWN>)
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NJTyC6FRnz3c2j;
-	Fri, 25 Nov 2022 20:26:27 +1100 (AEDT)
-Received: from kwepemi500013.china.huawei.com (unknown [172.30.72.53])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4NJTxQ1ltpz15Mv1;
-	Fri, 25 Nov 2022 17:25:46 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by kwepemi500013.china.huawei.com
- (7.221.188.120) with Microsoft SMTP Server (version=TLS1_2,
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NJV360sDKz30Ky
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Nov 2022 20:30:41 +1100 (AEDT)
+Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.55])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NJTzB42bxzJnsv;
+	Fri, 25 Nov 2022 17:27:18 +0800 (CST)
+Received: from huawei.com (10.175.112.208) by dggpeml500024.china.huawei.com
+ (7.185.36.10) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 25 Nov
- 2022 17:26:18 +0800
-From: Zheng Yongjun <zhengyongjun3@huawei.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>,
-	<linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] media: aspeed: Fix return value check in aspeed_video_debugfs_create()
-Date: Fri, 25 Nov 2022 09:24:15 +0000
-Message-ID: <20221125092415.29635-1-zhengyongjun3@huawei.com>
+ 2022 17:30:36 +0800
+From: Yuan Can <yuancan@huawei.com>
+To: <neal_liu@aspeedtech.com>, <gregkh@linuxfoundation.org>, <joel@jms.id.au>,
+	<andrew@aj.id.au>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH] usb: gadget: aspeed_udc: Add checks for dma_alloc_coherent()
+Date: Fri, 25 Nov 2022 09:28:33 +0000
+Message-ID: <20221125092833.74822-1-yuancan@huawei.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.175.112.208]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemi500013.china.huawei.com (7.221.188.120)
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500024.china.huawei.com (7.185.36.10)
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 28 Nov 2022 12:58:14 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -49,38 +48,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: yuancan@huawei.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-In case of error, the function debugfs_create_file() returns ERR_PTR()
-and never returns NULL. The NULL test in the return value check
-should be replaced with IS_ERR().
+As the dma_alloc_coherent() may return NULL, the return value needs to be
+checked to avoid NULL poineter dereference.
 
-Fixes: 52fed10ad756 ("media: aspeed: add debugfs")
-Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
+Signed-off-by: Yuan Can <yuancan@huawei.com>
 ---
- drivers/media/platform/aspeed/aspeed-video.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/udc/aspeed_udc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 20f795ccc11b..c8fc2450e409 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1780,10 +1780,12 @@ static int aspeed_video_debugfs_create(struct aspeed_video *video)
- 	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
- 					    video,
- 					    &aspeed_video_debugfs_ops);
--	if (!debugfs_entry)
-+	if (IS_ERR(debugfs_entry)) {
- 		aspeed_video_debugfs_remove(video);
-+		return ERR_PTR(debugfs_entry);
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+index 01968e2167f9..7dc2457c7460 100644
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -1516,6 +1516,10 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 					  AST_UDC_EP_DMA_SIZE *
+ 					  AST_UDC_NUM_ENDPOINTS,
+ 					  &udc->ep0_buf_dma, GFP_KERNEL);
++	if (!udc->ep0_buf) {
++		rc = -ENOMEM;
++		goto err;
 +	}
-
--	return !debugfs_entry ? -EIO : 0;
-+	return 0;
- }
- #else
- static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
---
+ 
+ 	udc->gadget.speed = USB_SPEED_UNKNOWN;
+ 	udc->gadget.max_speed = USB_SPEED_HIGH;
+-- 
 2.17.1
 
