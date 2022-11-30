@@ -2,74 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF42F63CB30
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Nov 2022 23:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 186CD63E2C6
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Nov 2022 22:31:10 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NMHbp5ZKvz3bWT
-	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Nov 2022 09:50:14 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DGXb4k2R;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NMsp405Nfz3bbY
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Dec 2022 08:31:08 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=quicinc.com (client-ip=205.220.180.131; helo=mx0b-0031df01.pphosted.com; envelope-from=quic_jaehyoo@quicinc.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DGXb4k2R;
-	dkim-atps=neutral
-X-Greylist: delayed 693 seconds by postgrey-1.36 at boromir; Wed, 30 Nov 2022 09:50:09 AEDT
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.210.46; helo=mail-ot1-f46.google.com; envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NMHbj09vgz30JR
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Nov 2022 09:50:07 +1100 (AEDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2ATKQItk019161;
-	Tue, 29 Nov 2022 22:38:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=Mq1Vp+oOxQr8VV6vXTFrK1okxbGnx38bFu54ktkCjqo=;
- b=DGXb4k2RhZI7pNvPZoy+aYkbTpxZg/OgthJMNGG0bPaB8DJ0bUyY5ARDYPLHWXbqBa8Y
- HlF+qct3XBC7DpjS3nSFuCmc4j7T1lk3pMxhPTRFV+tVFkiwr+vDGXorKDI+Z7JF+BcD
- NHOBsxiFxX9L/SMZVLPs1zKUU8n05/4j0s4197TXdtMYGCcdPLzFE9IXuFD1LzoyEIMN
- Zb7z7Gi0FzP7fIZY/Tj5M+WioKn1K5f+mvjSerc7xQFJFB0MKf+lHk1fgsX6+5oZ/jmO
- 30tM/4vj0n6FatBG9vRQyYtFqIOQv4gNv8w1MGRFo67hRzqA48jUVyBoxQHTnALCY+55 hg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3m5bx0thcu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Nov 2022 22:38:19 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2ATMcItm014096
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Nov 2022 22:38:18 GMT
-Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 29 Nov
- 2022 14:38:17 -0800
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: [PATCH] ARM: dts: aspeed-g6: Add more UART controller nodes
-Date: Tue, 29 Nov 2022 14:38:05 -0800
-Message-ID: <20221129223805.815027-1-quic_jaehyoo@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NMsny0R3sz303P
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Dec 2022 08:31:01 +1100 (AEDT)
+Received: by mail-ot1-f46.google.com with SMTP id w26-20020a056830061a00b0066c320f5b49so12091342oti.5
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Nov 2022 13:31:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mc6V9+sDoG9Mki15v8P5KKA7NfsAq4SE0l5Qimb/jYw=;
+        b=3U6n686QmOj3PlwSMwN695zLp06L9TXHka+OxB9fZRQAkmokq7o41OAaZ7dFjuqIUQ
+         idvSiaJ8iOn6ZZmTEUdimborwyFUQryRoyGL1oM9DDjqfZ4VXrMY5Ky5xpuWdgMsWxu8
+         S+7VQLnUzKZl2c8xz9uMien1uXC58Nc9VQ51SNzzIX3Be0OEOVrcCcr/hojJUcQyA/bq
+         wuopE8ABpdUVXKQqgz14S4rouRXdIWYxhfOr+k4hiKCC0pXF01mhLj59AUBVoFar44bI
+         iSZg/5+Si5DhG69Ly3NxUykHNNsEOqbp7mX5+aIGLqKuukgVuy9yYNIpU7h7AcPYKUfS
+         Vtjw==
+X-Gm-Message-State: ANoB5pkwqCK/GNRETpy4ycgHdWkpdVwbtWYfs98NAGLmme/mSM8FyUEq
+	4CL4RKwoygv54g9WyF167Q==
+X-Google-Smtp-Source: AA0mqf4vUPSR7ovZbOCRKRqMQN2EeuGVgLzCTx74Sseob1+HjZJNxvL9pC0HARrpgxgB7hYUbhdb3Q==
+X-Received: by 2002:a05:6830:1688:b0:66c:42d7:7d70 with SMTP id k8-20020a056830168800b0066c42d77d70mr21118469otr.98.1669843858446;
+        Wed, 30 Nov 2022 13:30:58 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id u9-20020a056870f28900b0011bde9f5745sm1781162oap.23.2022.11.30.13.30.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Nov 2022 13:30:57 -0800 (PST)
+Received: (nullmailer pid 2960995 invoked by uid 1000);
+	Wed, 30 Nov 2022 21:30:57 -0000
+Date: Wed, 30 Nov 2022 15:30:57 -0600
+From: Rob Herring <robh@kernel.org>
+To: Neal Liu <neal_liu@aspeedtech.com>
+Subject: Re: [PATCH v3 4/4] dt-bindings: bus: add documentation for Aspeed
+ AHBC
+Message-ID: <20221130213057.GA2960216-robh@kernel.org>
+References: <20221124105552.1006549-1-neal_liu@aspeedtech.com>
+ <20221124105552.1006549-5-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: roAmhsvQwMLUnz_U8Lncun9aCJsOEbce
-X-Proofpoint-ORIG-GUID: roAmhsvQwMLUnz_U8Lncun9aCJsOEbce
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-29_13,2022-11-29_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 bulkscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
- phishscore=0 clxscore=1011 mlxlogscore=888 suspectscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211290135
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221124105552.1006549-5-neal_liu@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,93 +64,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Graeme Gregory <quic_ggregory@quicinc.com>, linux-arm-kernel@lists.infradead.org, Jamie Iles <quic_jiles@quicinc.com>
+Cc: devicetree@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add nodes for UART10, UART11, UART12 and UART13 into aspeed-g6.dtsi.
+On Thu, Nov 24, 2022 at 06:55:52PM +0800, Neal Liu wrote:
+> Add device tree binding documentation for the Aspeed
+> Advanced High-Performance Bus (AHB) Controller.
+> 
+> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+> ---
+>  .../bindings/bus/aspeed,ast2600-ahbc.yaml     | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml b/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
+> new file mode 100644
+> index 000000000000..cf9740f2a0c7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
+> @@ -0,0 +1,37 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ASPEED Advanced High-Performance Bus Controller (AHBC) Device Tree Bindings
 
-UART12 and UART13 have two mappable pin groups so their pinmux setting
-should be specified in a board dts instead like below.
+Drop " Device Tree Bindings"
 
-UART12:
-  pinctrl-0 = <&pinctrl_uart12g0_default>;
-  or
-  pinctrl-0 = <&pinctrl_uart12g1_default>;
+With that,
 
-UART13:
-  pinctrl-0 = <&pinctrl_uart13g0_default>;
-  or
-  pinctrl-0 = <&pinctrl_uart13g1_default>;
-
-Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
----
- arch/arm/boot/dts/aspeed-g6.dtsi | 52 ++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
-
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index b94ccdb5213d..afc356416d53 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -816,6 +816,58 @@ uart9: serial@1e790300 {
- 				status = "disabled";
- 			};
- 
-+			uart10: serial@1e790400 {
-+				compatible = "ns16550a";
-+				reg = <0x1e790400 0x20>;
-+				reg-shift = <2>;
-+				reg-io-width = <4>;
-+				interrupts = <GIC_SPI 61 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&syscon ASPEED_CLK_GATE_UART10CLK>;
-+				no-loopback-test;
-+				pinctrl-names = "default";
-+				pinctrl-0 = <&pinctrl_uart10_default>;
-+
-+				status = "disabled";
-+			};
-+
-+			uart11: serial@1e790500 {
-+				compatible = "ns16550a";
-+				reg = <0x1e790500 0x20>;
-+				reg-shift = <2>;
-+				reg-io-width = <4>;
-+				interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&syscon ASPEED_CLK_GATE_UART11CLK>;
-+				no-loopback-test;
-+				pinctrl-names = "default";
-+				pinctrl-0 = <&pinctrl_uart11_default>;
-+
-+				status = "disabled";
-+			};
-+
-+			uart12: serial@1e790600 {
-+				compatible = "ns16550a";
-+				reg = <0x1e790600 0x20>;
-+				reg-shift = <2>;
-+				reg-io-width = <4>;
-+				interrupts = <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&syscon ASPEED_CLK_GATE_UART12CLK>;
-+				no-loopback-test;
-+
-+				status = "disabled";
-+			};
-+
-+			uart13: serial@1e790700 {
-+				compatible = "ns16550a";
-+				reg = <0x1e790700 0x20>;
-+				reg-shift = <2>;
-+				reg-io-width = <4>;
-+				interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&syscon ASPEED_CLK_GATE_UART13CLK>;
-+				no-loopback-test;
-+
-+				status = "disabled";
-+			};
-+
- 			i2c: bus@1e78a000 {
- 				compatible = "simple-bus";
- 				#address-cells = <1>;
--- 
-2.34.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
