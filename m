@@ -1,64 +1,70 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1227264087E
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Dec 2022 15:33:31 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFE9640B70
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Dec 2022 17:57:56 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NNwRD6B5Qz3bVX
-	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Dec 2022 01:33:28 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FeDHOOuO;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NNzdt0H1pz3bqW
+	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Dec 2022 03:57:54 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.120; helo=mga04.intel.com; envelope-from=sakari.ailus@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FeDHOOuO;
-	dkim-atps=neutral
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux-m68k.org (client-ip=195.130.132.48; helo=cantor.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=<UNKNOWN>)
+Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NNwR63C6sz30Qv;
-	Sat,  3 Dec 2022 01:33:21 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669991602; x=1701527602;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n2a/CpHAAbyq8nKYEBLb4Z+TMWPhb76u70lEuNyc05Y=;
-  b=FeDHOOuOmn2pd/TzOCTedD5iu4Ie0d3jfqBd9lJSh67hPvuiydxJx0Zz
-   aZIoGMf8DRuDSvZEKgio9mHsv2le6lcpOOAT4dJhC+at8J7tszLHD46no
-   pQIs1pGWD85ccJ3HVSdq35AMAoUNvMr5OqnEACXmaXO8bWCc6LnbGEckm
-   +Opgu10TzOCpTI08Fbk3IzWJPBwufIGTTthHQitfBivDUvV2sIi5RYbrW
-   ZAXtsHYPshoHzw9uCfXSrnGZIBF7RIjuurejiPqarBluixZucRwxSP38v
-   GvX0K9x+e0WlUDtDvcks51UYCpkwRDPKMoJIXyV2FZLGLw7wrFY3pt66n
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="314665460"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
-   d="scan'208";a="314665460"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 06:33:19 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="677614996"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665471600"; 
-   d="scan'208";a="677614996"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 06:33:14 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id F0A3220363;
-	Fri,  2 Dec 2022 16:24:28 +0200 (EET)
-Date: Fri, 2 Dec 2022 14:24:28 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jammy Huang <jammy_huang@aspeedtech.com>
-Subject: Re: [PATCH v11 3/5] media: Documentation: aspeed-video: Add user
- documentation for the aspeed-video driver
-Message-ID: <Y4oKnBDnvliD8cJb@paasikivi.fi.intel.com>
-References: <20221028023554.928-1-jammy_huang@aspeedtech.com>
- <20221028023554.928-4-jammy_huang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NNzc12WKBz3bjf
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  3 Dec 2022 03:56:17 +1100 (AEDT)
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4NNzSv4s3Tz4x90s
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Dec 2022 17:50:07 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2d07:19c5:4d8b:89d9])
+	by albert.telenet-ops.be with bizsmtp
+	id rUpV2800J0ys3B706UpVBw; Fri, 02 Dec 2022 17:49:59 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1p19E8-002K5t-LE; Fri, 02 Dec 2022 17:49:28 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1p19E8-006WZw-7R; Fri, 02 Dec 2022 17:49:28 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Stefan Agner <stefan@agner.ch>,
+	Li Yang <leoyang.li@nxp.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	UNGLinuxDriver@microchip.com,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: [PATCH 00/11] Fix pca954x i2c-mux node names
+Date: Fri,  2 Dec 2022 17:49:15 +0100
+Message-Id: <cover.1669999298.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221028023554.928-4-jammy_huang@aspeedtech.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,115 +76,101 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-aspeed@lists.ozlabs.org, andrzej.p@collabora.com, openbmc@lists.ozlabs.org, xavier.roumegue@oss.nxp.com, stanimir.varbanov@linaro.org, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, ming.qian@nxp.com, laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Jammy,
+	Hi all,
 
-On Fri, Oct 28, 2022 at 10:35:52AM +0800, Jammy Huang wrote:
-> Add user documentation for the aspeed-video driver.
-> 
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
-> v11:
->   - update the way to change format
-> v10:
->   - new
-> ---
->  .../media/drivers/aspeed-video.rst            | 61 +++++++++++++++++++
->  .../userspace-api/media/drivers/index.rst     |  1 +
->  2 files changed, 66 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/drivers/aspeed-video.rst
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/aspeed-video.rst b/Documentation/userspace-api/media/drivers/aspeed-video.rst
-> new file mode 100644
-> index 000000000000..e5656a8d990e
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/drivers/aspeed-video.rst
-> @@ -0,0 +1,65 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: <isonum.txt>
-> +
-> +ASPEED video driver
-> +===================
-> +
-> +ASPEED Video Engine found on AST2400/2500/2600 SoC supports high performance
-> +video compressions with a wide range of video quality and compression ratio
-> +options. The adopted compressing algorithm is a modified JPEG algorithm.
-> +
-> +There are 2 types of compressions in this IP.
-> +
-> +* JPEG JFIF standard mode: for single frame and management compression
-> +* ASPEED proprietary mode: for multi-frame and differential compression.
-> +  Support 2-pass (high quality) video compression scheme (Patent pending by
-> +  ASPEED). Provide visually lossless video compression quality or to reduce
-> +  the network average loading under intranet KVM applications.
-> +
-> +VIDIOC_S_FMT can be used to choose which format you want. V4L2_PIX_FMT_JPEG
-> +stands for JPEG JFIF standard mode; V4L2_PIX_FMT_AJPG stands for ASPEED
-> +proprietary mode.
-> +
-> +More details on the ASPEED video hardware operations can be found in
-> +*chapter 6.2.16 KVM Video Driver* of SDK_User_Guide which available on
-> +AspeedTech-BMC/openbmc/releases.
+According to the I2C bus multiplexer/switch DT bindings, i2c-mux nodes
+should be named "i2c-mux" (or something similar).
+This patch series renames nodes for pca954x i2c-muxes that are flagged
+by
 
-Same comment on this, what does this refer to?
+    make dtbs_checK DT_SCHEMA_FILES=Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
 
-> +
-> +The ASPEED video driver implements the following driver-specific control:
-> +
-> +``V4L2_CID_ASPEED_HQ_MODE``
-> +-------------------------------
-> +    Enable/Disable ASPEED's High quality mode. This is a private control
-> +    that can be used to enable high quality for aspeed proprietary mode.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 4
-> +
-> +    * - ``(0)``
-> +      - ASPEED HQ mode is disabled.
-> +    * - ``(1)``
-> +      - ASPEED HQ mode is enabled.
-> +
-> +``V4L2_CID_ASPEED_HQ_JPEG_QUALITY``
-> +-------------------------------
-> +    Define the quality of ASPEED's High quality mode. This is a private control
-> +    that can be used to decide compression quality if High quality mode enabled
-> +    . Higher the value, better the quality and bigger the size.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 4
-> +
-> +    * - ``(1)``
-> +      - minimum
-> +    * - ``(12)``
-> +      - maximum
-> +    * - ``(1)``
-> +      - step
-> +    * - ``(1)``
-> +      - default
-> +
-> +**Copyright** |copy| 2022 ASPEED Technology Inc.
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> index 32f82aed47d9..46a494e00b72 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -31,6 +31,7 @@ For more details see the file COPYING in the source distribution of Linux.
->  	:maxdepth: 5
->  	:numbered:
->  
-> +	aspeed-video
->  	ccs
->  	cx2341x-uapi
->  	dw100
+Please apply where appropriate.
+Thanks!
+
+Geert Uytterhoeven (11):
+  ARM: dts: ti: Fix pca954x i2c-mux node names
+  ARM: dts: aspeed: Fix pca954x i2c-mux node names
+  ARM: dts: imx: Fix pca9547 i2c-mux node name
+  ARM: dts: nuvoton: Fix pca954x i2c-mux node names
+  ARM: dts: socfpga: Fix pca9548 i2c-mux node name
+  ARM: dts: vf610: Fix pca9548 i2c-mux node names
+  arm64: dts: freescale: Fix pca954x i2c-mux node names
+  arm64: dts: marvell: Fix pca954x i2c-mux node names
+  arm64: dts: renesas: ulcb-kf: Fix pca9548 i2c-mux node names
+  MIPS: mscc: jaguar2: Fix pca9545 i2c-mux node names
+  powerpc: dts: fsl: Fix pca954x i2c-mux node names
+
+ arch/arm/boot/dts/am3874-iceboard.dts         |  4 +-
+ .../boot/dts/aspeed-bmc-bytedance-g220a.dts   | 18 ++++----
+ .../dts/aspeed-bmc-facebook-cloudripper.dts   | 10 ++--
+ arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts | 46 +++++++++----------
+ .../boot/dts/aspeed-bmc-facebook-elbert.dts   |  4 +-
+ .../arm/boot/dts/aspeed-bmc-facebook-fuji.dts | 30 ++++++------
+ .../boot/dts/aspeed-bmc-facebook-minipack.dts | 32 ++++++-------
+ .../dts/aspeed-bmc-facebook-tiogapass.dts     |  8 ++--
+ .../boot/dts/aspeed-bmc-facebook-wedge100.dts |  2 +-
+ .../boot/dts/aspeed-bmc-facebook-wedge400.dts |  6 +--
+ .../arm/boot/dts/aspeed-bmc-facebook-yamp.dts |  2 +-
+ arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts  | 18 ++++----
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts  |  8 ++--
+ .../boot/dts/aspeed-bmc-inspur-fp5280g2.dts   |  4 +-
+ .../boot/dts/aspeed-bmc-inspur-nf5280m6.dts   | 12 ++---
+ .../dts/aspeed-bmc-inventec-transformers.dts  |  6 +--
+ arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts |  4 +-
+ .../boot/dts/aspeed-bmc-lenovo-hr855xg2.dts   |  4 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts    |  4 +-
+ arch/arm/boot/dts/aspeed-bmc-quanta-q71l.dts  |  6 +--
+ arch/arm/boot/dts/aspeed-bmc-quanta-s6q.dts   | 10 ++--
+ arch/arm/boot/dts/aspeed-bmc-vegman-n110.dts  | 14 +++---
+ arch/arm/boot/dts/aspeed-bmc-vegman-rx20.dts  | 10 ++--
+ arch/arm/boot/dts/aspeed-bmc-vegman-sx20.dts  | 14 +++---
+ arch/arm/boot/dts/imx53-ppd.dts               |  2 +-
+ arch/arm/boot/dts/nuvoton-npcm730-gbs.dts     | 16 +++----
+ arch/arm/boot/dts/nuvoton-npcm730-gsj.dts     |  2 +-
+ arch/arm/boot/dts/nuvoton-npcm730-kudo.dts    |  8 ++--
+ .../dts/nuvoton-npcm750-runbmc-olympus.dts    |  4 +-
+ .../boot/dts/socfpga_cyclone5_vining_fpga.dts |  2 +-
+ arch/arm/boot/dts/vf610-zii-dev-rev-b.dts     |  2 +-
+ arch/arm/boot/dts/vf610-zii-dev-rev-c.dts     |  2 +-
+ .../boot/dts/freescale/fsl-ls1012a-qds.dts    |  2 +-
+ .../boot/dts/freescale/fsl-ls1043a-qds.dts    |  2 +-
+ .../boot/dts/freescale/fsl-ls1046a-qds.dts    |  2 +-
+ .../boot/dts/freescale/fsl-ls1088a-qds.dts    |  2 +-
+ .../boot/dts/freescale/fsl-ls1088a-rdb.dts    |  2 +-
+ .../boot/dts/freescale/fsl-ls1088a-ten64.dts  |  2 +-
+ .../boot/dts/freescale/fsl-ls208xa-qds.dtsi   |  2 +-
+ .../boot/dts/freescale/fsl-ls208xa-rdb.dtsi   |  2 +-
+ .../boot/dts/freescale/fsl-lx2160a-cex7.dtsi  |  2 +-
+ .../boot/dts/freescale/imx8mm-nitrogen-r2.dts |  2 +-
+ .../boot/dts/freescale/imx8mq-nitrogen.dts    |  4 +-
+ arch/arm64/boot/dts/freescale/imx8qxp-mek.dts |  2 +-
+ .../boot/dts/marvell/armada-8040-mcbin.dtsi   |  2 +-
+ .../dts/marvell/armada-8040-puzzle-m801.dts   |  2 +-
+ arch/arm64/boot/dts/renesas/ulcb-kf.dtsi      |  4 +-
+ arch/mips/boot/dts/mscc/jaguar2_pcb110.dts    |  4 +-
+ arch/powerpc/boot/dts/fsl/t1024qds.dts        |  2 +-
+ arch/powerpc/boot/dts/fsl/t1024rdb.dts        |  2 +-
+ arch/powerpc/boot/dts/fsl/t104xqds.dtsi       |  2 +-
+ arch/powerpc/boot/dts/fsl/t104xrdb.dtsi       |  2 +-
+ arch/powerpc/boot/dts/fsl/t208xqds.dtsi       |  2 +-
+ arch/powerpc/boot/dts/fsl/t208xrdb.dtsi       |  2 +-
+ 54 files changed, 182 insertions(+), 182 deletions(-)
 
 -- 
-Kind regards,
+2.25.1
 
-Sakari Ailus
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
