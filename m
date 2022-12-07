@@ -1,75 +1,48 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C621644DA9
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Dec 2022 22:02:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 417E16456A4
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Dec 2022 10:37:14 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NRXsy0dNzz2xml
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Dec 2022 08:02:14 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mLTZZLRF;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NRsd41Z72z3bgs
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Dec 2022 20:37:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=dinguyen@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mLTZZLRF;
-	dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NRXsn09LNz2xJN;
-	Wed,  7 Dec 2022 08:02:04 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 26D9DB81B50;
-	Tue,  6 Dec 2022 21:02:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D33CC433D6;
-	Tue,  6 Dec 2022 21:01:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670360519;
-	bh=bvu32LFYIQ3mqvaTjtC2wlG+bQ9D2wDMKyzUQjMLf4M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mLTZZLRFOJuvTzmVeiD2+CyUjIalTOGm3M/E4TMnfX2uFbcuGdWa7eJLw1/8YlUI5
-	 DbE+pdQmZNSGfU2yrVr37kqsQVuMvMq2z3g6OzCP6giGorFIO3+M+Jd0WHE2F6Sk8O
-	 qIIRC7Yu4dDw202VtZGBeE1iMDdwvCfn3cTCt7ky0fRYQv5gZpxFGA0uE8VWJsoIMq
-	 fqlWxLAhCX6knHHyU3u7iy4ECDBUKM9ynujSfKssDRRQanAv+c/MHu8BQbPfxXlUqQ
-	 zurB1mt1f5M1xQlD1SXS9Z363LzSOTk4cIwZha01CKuz9YXkQ2oxSeoKQiSIcO+f0S
-	 uIywgvgMBgt3w==
-Message-ID: <98a97883-3303-20eb-5a18-cfa00af9443e@kernel.org>
-Date: Tue, 6 Dec 2022 15:01:54 -0600
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NRscz1K0zz3bWl;
+	Wed,  7 Dec 2022 20:37:04 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 2B79QuVC047635;
+	Wed, 7 Dec 2022 17:26:56 +0800 (GMT-8)
+	(envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 7 Dec
+ 2022 17:35:19 +0800
+Message-ID: <8bd7b378-70c9-bcd2-2d81-f6567a9f63fb@aspeedtech.com>
+Date: Wed, 7 Dec 2022 17:35:20 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 05/11] ARM: dts: socfpga: Fix pca9548 i2c-mux node name
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v11 1/5] media: v4l: Add definition for the Aspeed JPEG
+ format
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20221028023554.928-1-jammy_huang@aspeedtech.com>
+ <20221028023554.928-2-jammy_huang@aspeedtech.com>
+ <Y4oKdBApOGk9TUHO@paasikivi.fi.intel.com>
 Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Avi Fishman <avifishman70@gmail.com>,
- Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
- Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
- Benjamin Fair <benjaminfair@google.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Stefan Agner <stefan@agner.ch>, Li Yang <leoyang.li@nxp.com>,
- Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- UNGLinuxDriver@microchip.com, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>
-References: <cover.1669999298.git.geert+renesas@glider.be>
- <a7bcc2de6c2c0946f56b2d9f9584c55cf28545dc.1669999298.git.geert+renesas@glider.be>
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <a7bcc2de6c2c0946f56b2d9f9584c55cf28545dc.1669999298.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <Y4oKdBApOGk9TUHO@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2B79QuVC047635
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +54,117 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org, ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-aspeed@lists.ozlabs.org, andrzej.p@collabora.com, openbmc@lists.ozlabs.org, xavier.roumegue@oss.nxp.com, stanimir.varbanov@linaro.org, hverkuil-cisco@xs4all.nl, mchehab@kernel.org, ming.qian@nxp.com, laurent.pinchart@ideasonboard.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Sakari,
 
 
-On 12/2/22 10:49, Geert Uytterhoeven wrote:
-> "make dtbs_check":
-> 
->      arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dtb: i2cswitch@70: $nodename:0: 'i2cswitch@70' does not match '^(i2c-?)?mux'
-> 	    From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
->      arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dtb: i2cswitch@70: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3', 'i2c@4', 'i2c@5', 'i2c@6', 'i2c@7' were unexpected)
->          From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.yaml
-> 
-> Fix this by renaming the PCA9548 node to "i2c-mux", to match the I2C bus
-> multiplexer/switch DT bindings and the Generic Names Recommendation in
-> the Devicetree Specification.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->   arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts b/arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts
-> index f24f17c2f5ee6bc4..e0630b0eed036d35 100644
-> --- a/arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts
-> +++ b/arch/arm/boot/dts/socfpga_cyclone5_vining_fpga.dts
-> @@ -141,7 +141,7 @@ at24@50 {
->   		reg = <0x50>;
->   	};
->   
-> -	i2cswitch@70 {
-> +	i2c-mux@70 {
->   		compatible = "nxp,pca9548";
->   		#address-cells = <1>;
->   		#size-cells = <0>;
+After discussing with Hans, I will send patches on top to update this.
 
-Applied!
+Thanks for your review.
 
-Thanks,
-Dinh
+
+On 2022/12/2 下午 10:23, Sakari Ailus wrote:
+> Hi Jammy,
+>
+> Apologies for a late reply.
+>
+> On Fri, Oct 28, 2022 at 10:35:50AM +0800, Jammy Huang wrote:
+>> This introduces support for the Aspeed JPEG format, where the new frame
+>> can refer to previous frame to reduce the amount of compressed data.
+>> The concept is similar to I/P frame of video compression. It will
+>> compare the new frame with previous one to decide which macroblock's
+>> data is changed, and only the changed macroblocks will be compressed.
+>>
+>> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
+>> which is generally adapted for remote KVM.
+>>
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>> v11:
+>>    - no update
+>> v10:
+>>    - no update
+>> v9:
+>>    - Rebase on new kernel
+>> v8:
+>>    - Add decoder information for aspeed-jpeg
+>> v7:
+>>    - Add more information for aspeed-jpeg
+>> v6:
+>>    - Update description for new format, aspeed-jpeg, in Documentation.
+>> v5:
+>>    - no update
+>> v4:
+>>    - new
+>> ---
+>>   .../userspace-api/media/v4l/pixfmt-reserved.rst | 17 +++++++++++++++++
+>>   drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
+>>   include/uapi/linux/videodev2.h                  |  1 +
+>>   3 files changed, 19 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+>> index 0ff68cd8cf62..73cd99828010 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+>> @@ -258,6 +258,23 @@ please make a proposal on the linux-media mailing list.
+>>           and it is used by various multimedia hardware blocks like GPU, display
+>>           controllers, ISP and video accelerators.
+>>           It contains four planes for progressive video.
+>> +    * .. _V4L2-PIX-FMT-AJPG:
+>> +
+>> +      - ``V4L2_PIX_FMT_AJPG``
+>> +      - 'AJPG'
+>> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
+>> +        which is generally adapted for remote KVM.
+>> +        On each frame compression, I will compare the new frame with previous
+>> +        one to decide which macroblock's data is changed, and only the changed
+>> +        macroblocks will be compressed.
+>> +
+>> +        The implementation is based on AST2600 A3 datasheet, revision 0.9, which
+>> +        is not publicly available. Or you can reference Video stream data format
+>> +        – ASPEED mode compression of SDK_User_Guide which available on
+>> +        AspeedTech-BMC/openbmc/releases.
+> What does this refer to? If it's a URL, please add a reference as below.
+>
+> Also please run this on the patches:
+>
+> 	$ scripts/checkpatch.pl --strict --max-line-length=80
+>
+>> +
+>> +        Decoder's implementation can be found here,
+>> +        `aspeed_codec <https://github.com/AspeedTech-BMC/aspeed_codec/>`__
+>>   .. raw:: latex
+>>   
+>>       \normalsize
+>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> index fddba75d9074..8cb4b976064e 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> @@ -1497,6 +1497,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>   		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
+>>   		case V4L2_PIX_FMT_QC08C:	descr = "QCOM Compressed 8-bit Format"; break;
+>>   		case V4L2_PIX_FMT_QC10C:	descr = "QCOM Compressed 10-bit Format"; break;
+>> +		case V4L2_PIX_FMT_AJPG:		descr = "Aspeed JPEG"; break;
+>>   		default:
+>>   			if (fmt->description[0])
+>>   				return;
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 86cae23cc446..870a7e5ef8ca 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -775,6 +775,7 @@ struct v4l2_pix_format {
+>>   #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-bit dithered RGB */
+>>   #define V4L2_PIX_FMT_QC08C    v4l2_fourcc('Q', '0', '8', 'C') /* Qualcomm 8-bit compressed */
+>>   #define V4L2_PIX_FMT_QC10C    v4l2_fourcc('Q', '1', '0', 'C') /* Qualcomm 10-bit compressed */
+>> +#define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
+>>   
+>>   /* 10bit raw packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
+>>   #define V4L2_PIX_FMT_IPU3_SBGGR10	v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+
+-- 
+Best Regards
+Jammy
+
