@@ -2,50 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08C964B76D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Dec 2022 15:32:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93AA164C424
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Dec 2022 08:02:36 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NWgv554p3z3bhW
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Dec 2022 01:32:33 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=UeIoSVBu;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NX5sQ2SZ5z3c4B
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Dec 2022 18:02:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linuxfoundation.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=UeIoSVBu;
-	dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NWgv12xKcz3bXC
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Dec 2022 01:32:29 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 8E7156155B;
-	Tue, 13 Dec 2022 14:32:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E684C433D2;
-	Tue, 13 Dec 2022 14:32:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1670941946;
-	bh=6Las1K6UsElcFFPKMNMg/lxZmRcl29cdsCfhLvP95Vk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UeIoSVBuUB/0IelecfTsfwwOBLOjzk4biEag1yZSGBsgssA16IZz7Zw3OF7b+Vy2V
-	 3PH0MIiz/Y5bbJne7eAkOxpYE7wdDgq4SQY81kalO1rwQ0uyOSVFyVMea04l3GBuJV
-	 68y42W5AGZiQuabz+FWzGA2XCMnqzGE7ALHC5oO4=
-Date: Tue, 13 Dec 2022 15:32:23 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: Re: [PATCH v2] usb: gadget: aspeed_udc: Add check for
- dma_alloc_coherent
-Message-ID: <Y5iM90xfRT65Invq@kroah.com>
-References: <20221213122116.43278-1-jiasheng@iscas.ac.cn>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NX5sK0wCgz3bcf
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Dec 2022 18:02:26 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 2BE6qVhi081808;
+	Wed, 14 Dec 2022 14:52:31 +0800 (GMT-8)
+	(envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 14 Dec
+ 2022 15:01:19 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@aj.id.au>,
+        Neal Liu <neal_liu@aspeedtech.com>,
+        Herbert Xu
+	<herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+Subject: [PATCH v4 3/4] dt-bindings: crypto: add documentation for Aspeed ACRY
+Date: Wed, 14 Dec 2022 15:01:13 +0800
+Message-ID: <20221214070114.3966155-4-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221214070114.3966155-1-neal_liu@aspeedtech.com>
+References: <20221214070114.3966155-1-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221213122116.43278-1-jiasheng@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2BE6qVhi081808
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,21 +58,89 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, neal_liu@aspeedtech.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org, christian.koenig@amd.com, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Dec 13, 2022 at 08:21:16PM +0800, Jiasheng Jiang wrote:
-> Add the check for the return value of dma_alloc_coherent
-> in order to avoid NULL pointer dereference.
-> 
-> Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Add device tree binding documentation for the Aspeed
+ECDSA/RSA ACRY Engines Controller.
 
-Again, please prove that you tested this and follow the requirements at:
-	Documentation/process/researcher-guidelines.rst
-in order for us to be able to accept your changes.
+Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/crypto/aspeed,ast2600-acry.yaml  | 49 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 2 files changed, 50 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2600-acry.yaml
 
-thanks,
+diff --git a/Documentation/devicetree/bindings/crypto/aspeed,ast2600-acry.yaml b/Documentation/devicetree/bindings/crypto/aspeed,ast2600-acry.yaml
+new file mode 100644
+index 000000000000..b18f178aac06
+--- /dev/null
++++ b/Documentation/devicetree/bindings/crypto/aspeed,ast2600-acry.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ASPEED ACRY ECDSA/RSA Hardware Accelerator Engines
++
++maintainers:
++  - Neal Liu <neal_liu@aspeedtech.com>
++
++description:
++  The ACRY ECDSA/RSA engines is designed to accelerate the throughput
++  of ECDSA/RSA signature and verification. Basically, ACRY can be
++  divided into two independent engines - ECC Engine and RSA Engine.
++
++properties:
++  compatible:
++    enum:
++      - aspeed,ast2600-acry
++
++  reg:
++    items:
++      - description: acry base address & size
++      - description: acry sram base address & size
++
++  clocks:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/ast2600-clock.h>
++    acry: crypto@1e6fa000 {
++        compatible = "aspeed,ast2600-acry";
++        reg = <0x1e6fa000 0x400>, <0x1e710000 0x1800>;
++        interrupts = <160>;
++        clocks = <&syscon ASPEED_CLK_GATE_RSACLK>;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 164f67e59e5f..e6157d18d804 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3214,7 +3214,7 @@ ASPEED CRYPTO DRIVER
+ M:	Neal Liu <neal_liu@aspeedtech.com>
+ L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/crypto/aspeed,ast2500-hace.yaml
++F:	Documentation/devicetree/bindings/crypto/aspeed,*
+ F:	drivers/crypto/aspeed/
+ 
+ ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
+-- 
+2.25.1
 
-greg k-h
