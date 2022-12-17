@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF4A64F597
-	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Dec 2022 01:10:14 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F3C64F59F
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Dec 2022 01:10:38 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NYmZD3J6cz3bbx
-	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Dec 2022 11:10:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NYmZh00TRz3bbx
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Dec 2022 11:10:36 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nW2Ya+mx;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dhdd7xkr;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nW2Ya+mx;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dhdd7xkr;
 	dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NYmZ26pLzz3bTS
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Dec 2022 11:10:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NYmZY4c0Dz3bVK
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Dec 2022 11:10:29 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 308B1B81E4C;
-	Sat, 17 Dec 2022 00:09:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8CDC433EF;
-	Sat, 17 Dec 2022 00:09:55 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 69DB4622C8;
+	Sat, 17 Dec 2022 00:10:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E64CEC4339C;
+	Sat, 17 Dec 2022 00:10:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1671235796;
+	s=k20201202; t=1671235826;
 	bh=l/uTSJpkb7iF9/bwE+UEqemQYnCtWxrWUH9JUkWJkGE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nW2Ya+mxjnazqcEtAu94JgWjG5i1j9fKZFjbcE7WkwA/TX6/rY0Rg4WB1+NMji0GT
-	 8grodPCAZsJUaswlki4Y5T84ws1eQbX/ybk1vz2B+Nir2tmgiNHKyrf2Wz5gAa6RwN
-	 Kw7g6WK4K8M/9Amj+CBqECg+LKj4bXLq1eYJnWJYNXWDsAFW+h77cpOgmMnJ+laHiZ
-	 5u0QyyH4ChpU/BtIvuAyjLK60U3KQhKJaab7gw0+sCZrhxF6Q9mJJ7RSPvzb65vVcS
-	 sBHpRSVc2lv9a+5ZCsHv3AOqX4KROgMInuc9AdqFnCPg7D6rdobBJe56zIhS4v/KvF
-	 vG9eV4wdaXwgw==
+	b=Dhdd7xkr6rP22tO0oUkeB1G3jtT88Nyi+rMojDaTMp72vwew6YDJo5HoSHWgM9wo9
+	 8jh7HhBeBWZjCy+WbDmAtOrot86Ze4kh9FSUPOrzxKCwQGi2M25XOi/iTBSYkXC4aT
+	 jvVX+omNn13dzyBE+mYIfXF1VwFvIbPTkQnttd/p1sLh0knVFpAt/XLii1JK1dEx6p
+	 lWjOpMGABaGNa1IfjkteHxfGKGnpIhraqupBXnMrkcF2FOZABneGZ3WcuEVatvE2WQ
+	 EepvjBGlXwLxuwyX5DZqd+A/o8zBIdavX3YKIRoMKEAcEmOSaECJBq19fA4jh/LDAy
+	 YSgJw3TkbiEKg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 3/9] ARM: dts: aspeed: rainier,everest: Move reserved memory regions
-Date: Fri, 16 Dec 2022 19:09:30 -0500
-Message-Id: <20221217000937.41115-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 3/8] ARM: dts: aspeed: rainier,everest: Move reserved memory regions
+Date: Fri, 16 Dec 2022 19:10:07 -0500
+Message-Id: <20221217001013.41239-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221217000937.41115-1-sashal@kernel.org>
-References: <20221217000937.41115-1-sashal@kernel.org>
+In-Reply-To: <20221217001013.41239-1-sashal@kernel.org>
+References: <20221217001013.41239-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
