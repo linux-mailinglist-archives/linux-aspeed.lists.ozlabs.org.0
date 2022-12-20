@@ -1,56 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F3C64F59F
-	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Dec 2022 01:10:38 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B10651F3C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Dec 2022 11:52:09 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NYmZh00TRz3bbx
-	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Dec 2022 11:10:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NbtgV4nRTz3bh4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Dec 2022 21:52:06 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dhdd7xkr;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=yhJTjcPy;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::62f; helo=mail-pl1-x62f.google.com; envelope-from=yulei.sh@bytedance.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dhdd7xkr;
+	dkim=pass (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=yhJTjcPy;
 	dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NYmZY4c0Dz3bVK
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Dec 2022 11:10:29 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 69DB4622C8;
-	Sat, 17 Dec 2022 00:10:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E64CEC4339C;
-	Sat, 17 Dec 2022 00:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1671235826;
-	bh=l/uTSJpkb7iF9/bwE+UEqemQYnCtWxrWUH9JUkWJkGE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Dhdd7xkr6rP22tO0oUkeB1G3jtT88Nyi+rMojDaTMp72vwew6YDJo5HoSHWgM9wo9
-	 8jh7HhBeBWZjCy+WbDmAtOrot86Ze4kh9FSUPOrzxKCwQGi2M25XOi/iTBSYkXC4aT
-	 jvVX+omNn13dzyBE+mYIfXF1VwFvIbPTkQnttd/p1sLh0knVFpAt/XLii1JK1dEx6p
-	 lWjOpMGABaGNa1IfjkteHxfGKGnpIhraqupBXnMrkcF2FOZABneGZ3WcuEVatvE2WQ
-	 EepvjBGlXwLxuwyX5DZqd+A/o8zBIdavX3YKIRoMKEAcEmOSaECJBq19fA4jh/LDAy
-	 YSgJw3TkbiEKg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 3/8] ARM: dts: aspeed: rainier,everest: Move reserved memory regions
-Date: Fri, 16 Dec 2022 19:10:07 -0500
-Message-Id: <20221217001013.41239-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221217001013.41239-1-sashal@kernel.org>
-References: <20221217001013.41239-1-sashal@kernel.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NbtgL3B1Fz2xJN
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Dec 2022 21:51:56 +1100 (AEDT)
+Received: by mail-pl1-x62f.google.com with SMTP id 17so11930012pll.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Dec 2022 02:51:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3J2t6zleCgSaKLgdwsyrOWk3vUr6ggb3hDwqkO8Hsk8=;
+        b=yhJTjcPyEVStYIqzGKgu5LXSn6WS+0vwVkXG5oR+b5ML6XrciGesuHKBApFAUcmCJu
+         txkw4JXcbHCIoLUnNMFU2YIdYzn5/KFH1sb8CCCqkUon43LmuU5k2pSPdezzgcJwlweU
+         4W6Kw1T9xr4KiyydwA0f5BpuH/neWa8SYEi+ko/Ggm5qkaJSRYcilX/d4sSFHgDw/fkx
+         wb5jwMoypxD2HdtVZQYt/2AjuOgKZ9HKoK6H2hUOcRD+kROH+DryZzmyHAGTsjTdw/0Y
+         MMxiZvZoQzyT0tTZk/S6MBKHavCvMM2AAAny+UkoJ7hxBSx6Ju/x/tS9qerbsTGm6fz3
+         NhKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3J2t6zleCgSaKLgdwsyrOWk3vUr6ggb3hDwqkO8Hsk8=;
+        b=Z+Bpmg9d4zFeKRos8pOs9vGFC9i3JapwuRWh248AlGytuj5HVbGGl6Mrtmx/hj73EQ
+         E5+sJakmes0DCAuOqnSQds2/KecOJQz9PyNIm6W99m/q1OXYmerbnJWnDDZbMKNHHzl8
+         S7rhurMofcUQV09N48bCtJzmktGySlgYEGPsIsYV40TioEdvnQOj9Kg1HUpqmESVlgxa
+         vnciWRvDxv7Ux8qM+lL0Y7Kxw5X+mIkuMSI4A73qkj7PG4fX8HSnjxATZQyedMo0WMHl
+         7gJFBQ37OAdlZnNrN1Wa5nBJ5FyINpa0rk9ou+hJUgUEGQrCsu1AEB28H1Ew0TpDyCHt
+         En3A==
+X-Gm-Message-State: AFqh2kqfUyJKieZcjdGVB1l4tKYA906qrvmRaqMc8h9iGtsyNnCDqvSl
+	9T9ON82cFaS6q4horF9WWRUPHSZ4QoSpwcbK7vMXVA==
+X-Google-Smtp-Source: AMrXdXsbMmZ+abZvthKeUcE6S5KJ0Nw21C9lu75JjjhYsXq0C550qP+sb4SA09XW0kDvRbpGa0qljFkuavCHYUa5urw=
+X-Received: by 2002:a17:903:25c5:b0:191:4149:2800 with SMTP id
+ jc5-20020a17090325c500b0019141492800mr208plb.3.1671533514185; Tue, 20 Dec
+ 2022 02:51:54 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20221024094853.2877441-1-yulei.sh@bytedance.com>
+ <HK0PR06MB32022348EA65805C7109B7D080329@HK0PR06MB3202.apcprd06.prod.outlook.com>
+ <CAGm54UExHOBw61DJNqxvW67OSr60fQ+Q247t63RzymiMOmHmFg@mail.gmail.com>
+ <HK0PR06MB320203EF8E3AD14C34359B0580329@HK0PR06MB3202.apcprd06.prod.outlook.com>
+ <Y1ueEYJk2epT/g4J@kroah.com> <HK0PR06MB32024F58191E17DC5ABC99F380329@HK0PR06MB3202.apcprd06.prod.outlook.com>
+ <Y1uyssu84kl1INSR@kroah.com>
+In-Reply-To: <Y1uyssu84kl1INSR@kroah.com>
+From: Lei Yu <yulei.sh@bytedance.com>
+Date: Tue, 20 Dec 2022 18:51:42 +0800
+Message-ID: <CAGm54UGmp=kTKGLhEfENF4SqkvRt_GcpuGH_g5PjtQiBkwtOsA@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: aspeed: fix buffer overflow
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Neal Liu <neal_liu@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,125 +78,60 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, devicetree@vger.kernel.org, keescook@chromium.org, linux-aspeed@lists.ozlabs.org, Adriana Kobylak <anoo@us.ibm.com>, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org
+Cc: Felipe Balbi <balbi@kernel.org>, Henry Tian <tianxiaofeng@bytedance.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Jakob Koschel <jakobkoschel@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Adriana Kobylak <anoo@us.ibm.com>
+On Fri, Oct 28, 2022 at 6:45 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Oct 28, 2022 at 09:55:57AM +0000, Neal Liu wrote:
+> > > > > > Thanks for your feedback.
+> > > > > > I tried to reproduce it on my side, and it cannot be reproduce it.
+> > > > > > Here are my test sequences:
+> > > > > > 1. emulate one of the vhub port to usb ethernet through Linux
+> > > > > > gadget
+> > > > > > (ncm)
+> > > > >
+> > > > > We are using rndis instead of ncm.
+> > > > >
+> > > > > > 2. connect BMC vhub to Host
+> > > > > > 3. BMC & Host can ping each other (both usb eth dev default mtu is
+> > > > > > 1500) 4. Set BMC mtu to 1000 (Host OS cannot set usb eth dev mtu
+> > > > > > to 2000, it's maxmtu is 1500)
+> > > > >
+> > > > > Not sure if it's related, but in my case (USB rndis, Debian 10 OS)
+> > > > > it should be able to set MTU to 2000.
+> > > >
+> > > > Using rndis is able to set MTU to 2000, and the issue can be reproduced.
 
-[ Upstream commit e184d42a6e085f95f5c4f1a4fbabebab2984cb68 ]
+USB ecm is also tested and it is possible to set MTU to 2000, and
+could reproduce the issue.
+So I think this patch is needed anyway.
 
-Move the reserved regions to account for a decrease in DRAM when ECC is
-enabled. ECC takes 1/9th of memory.
+@Neal Liu Could you kindly help to verify the USB ECM case?
 
-Running on HW with ECC off, u-boot prints:
-DRAM:  already initialized, 1008 MiB (capacity:1024 MiB, VGA:16 MiB, ECC:off)
-
-And with ECC on, u-boot prints:
-DRAM:  already initialized, 896 MiB (capacity:1024 MiB, VGA:16 MiB, ECC:on, ECC size:896 MiB)
-
-This implies that MCR54 is configured for ECC to be bounded at the
-bottom of a 16MiB VGA memory region:
-
-1024MiB - 16MiB (VGA) = 1008MiB
-1008MiB / 9 (for ECC) = 112MiB
-1008MiB - 112MiB = 896MiB (available DRAM)
-
-The flash_memory region currently starts at offset 896MiB:
-0xb8000000 (flash_memory offset) - 0x80000000 (base memory address) = 0x38000000 = 896MiB
-
-This is the end of the available DRAM with ECC enabled and therefore it
-needs to be moved.
-
-Since the flash_memory is 64MiB in size and needs to be 64MiB aligned,
-it can just be moved up by 64MiB and would sit right at the end of the
-available DRAM buffer.
-
-The ramoops region currently follows the flash_memory, but it can be
-moved to sit above flash_memory which would minimize the address-space
-fragmentation.
-
-Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-Link: https://lore.kernel.org/r/20220916195535.1020185-1-anoo@linux.ibm.com
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 17 ++++++++---------
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 16 +++++++++-------
- 2 files changed, 17 insertions(+), 16 deletions(-)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-index a6a2bc3b855c..fcc890e3ad73 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-@@ -162,16 +162,9 @@ reserved-memory {
- 		#size-cells = <1>;
- 		ranges;
- 
--		/* LPC FW cycle bridge region requires natural alignment */
--		flash_memory: region@b8000000 {
--			no-map;
--			reg = <0xb8000000 0x04000000>; /* 64M */
--		};
--
--		/* 48MB region from the end of flash to start of vga memory */
--		ramoops@bc000000 {
-+		ramoops@b3e00000 {
- 			compatible = "ramoops";
--			reg = <0xbc000000 0x200000>; /* 16 * (4 * 0x8000) */
-+			reg = <0xb3e00000 0x200000>; /* 16 * (4 * 0x8000) */
- 			record-size = <0x8000>;
- 			console-size = <0x8000>;
- 			ftrace-size = <0x8000>;
-@@ -179,6 +172,12 @@ ramoops@bc000000 {
- 			max-reason = <3>; /* KMSG_DUMP_EMERG */
- 		};
- 
-+		/* LPC FW cycle bridge region requires natural alignment */
-+		flash_memory: region@b4000000 {
-+			no-map;
-+			reg = <0xb4000000 0x04000000>; /* 64M */
-+		};
-+
- 		/* VGA region is dictated by hardware strapping */
- 		vga_memory: region@bf000000 {
- 			no-map;
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index bf59a9962379..4879da4cdbd2 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -95,14 +95,9 @@ reserved-memory {
- 		#size-cells = <1>;
- 		ranges;
- 
--		flash_memory: region@b8000000 {
--			no-map;
--			reg = <0xb8000000 0x04000000>; /* 64M */
--		};
--
--		ramoops@bc000000 {
-+		ramoops@b3e00000 {
- 			compatible = "ramoops";
--			reg = <0xbc000000 0x200000>; /* 16 * (4 * 0x8000) */
-+			reg = <0xb3e00000 0x200000>; /* 16 * (4 * 0x8000) */
- 			record-size = <0x8000>;
- 			console-size = <0x8000>;
- 			ftrace-size = <0x8000>;
-@@ -110,6 +105,13 @@ ramoops@bc000000 {
- 			max-reason = <3>; /* KMSG_DUMP_EMERG */
- 		};
- 
-+		/* LPC FW cycle bridge region requires natural alignment */
-+		flash_memory: region@b4000000 {
-+			no-map;
-+			reg = <0xb4000000 0x04000000>; /* 64M */
-+		};
-+
-+		/* VGA region is dictated by hardware strapping */
- 		vga_memory: region@bf000000 {
- 			no-map;
- 			compatible = "shared-dma-pool";
--- 
-2.35.1
-
+> > >
+> > > Please NEVER use rndis anymore.  I need to go just delete that driver from
+> > > the tree.
+> > >
+> > > It is insecure-by-design and will cause any system that runs it to be instantly
+> > > compromised and it can not be fixed.  Never trust it.
+> > >
+> > > Even for data throughput tests, I wouldn't trust it as it does odd things with
+> > > packet sizes as you show here.
+> >
+> > Thanks for the info, Greg.
+> > If rndis will no longer be supported, how to use usb-ethernet on Windows OS?
+> > For my understanding, ncm/ecm cannot work on Windows OS.
+>
+> rndis should ONLY be there for Windows XP, which is long out-of-support.
+> Newer versions of windows have more sane usb protocols built into it and
+> this driver is not needed.
+>
+> As proof of this, Android devices removed this from their kernel
+> configuration a few years ago and no one has complained :)
+>
+> thanks,
+>
+> greg k-h
