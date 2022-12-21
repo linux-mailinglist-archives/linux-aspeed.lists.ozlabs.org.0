@@ -2,72 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C164652B73
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Dec 2022 03:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECB8653A12
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Dec 2022 01:21:01 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NcHQ0098yz3bVs
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Dec 2022 13:26:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NcrZM3Jcrz2yjR
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Dec 2022 11:20:59 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=K9QYLOLd;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IvK3f51M;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::531; helo=mail-pg1-x531.google.com; envelope-from=yulei.sh@bytedance.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=devnull+icon.mricon.com@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=K9QYLOLd;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IvK3f51M;
 	dkim-atps=neutral
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NcHPt1McFz2xjr
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Dec 2022 13:26:40 +1100 (AEDT)
-Received: by mail-pg1-x531.google.com with SMTP id f9so9534758pgf.7
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Dec 2022 18:26:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=z13W3xH1nsTvhWnmTXNul5f6es8IjrbA1O/Wf7PIKNI=;
-        b=K9QYLOLdztcSsTqUl7QGaammCGHwhV6GDinc1PhhBdLobE/lTqf4Fbdiwti5iLSzDU
-         MvGjre3X845BtKnSxgc5U7Bm/GsqqtDeunyDlPhk7+e3YSLu9dJU8GSaHmwaYDRl3PRB
-         Q5dwbjfO/M3FGw0Mb21FzIzbufJZnsSb8ztlcBEjBLTwHY6NebUCmTE00bMVGfnQBu92
-         6vI2SJD2SPJPzdBDY6Pbo+vDulW6IVbqRVh+HCXvOi0z8DzwouI9DLFchH/1PRapBNRM
-         BLevifdSiRso2c17qIyHaLjzlwIULRIhEka7O9uub0NAXMh9PRZSmZTUaJ20YWZ9PvwD
-         GD6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z13W3xH1nsTvhWnmTXNul5f6es8IjrbA1O/Wf7PIKNI=;
-        b=IbNz0abSve14DWyIn1G/+JLnQGPyohXBRQajTbgaJF1s6biQdM735jR+eRGGdZEvsQ
-         fW28PQFhNXQoKyctk2N1pZ3yJ3TR81rPkUAbZ332b/ZSjPBn+Ca5XHhgfT3oJDb7CXT+
-         +LlWA7s22oB6PNCxJdJn6t4kJW2tAgXvY6PsIl6yGlGKphzroM8/2rLiOJhoisAisnvQ
-         U6TGY8X6+8jTeCX/bswSMXdd7DNHUbJ17AGPXhtanUFiCvuIJ0qy/JR4aEdEkY8vTRcN
-         5zf2ACw/jvF0aEqVbsQC/KW9syaLTSsBZDdBZJolV5esY/TjHPZhu2swux+WSBWgnW9w
-         nqmA==
-X-Gm-Message-State: ANoB5pmqvHClOerujOe1PFglt1Sfz1YiATKYbwbkUjm4Zfv3/+UJG0v9
-	kPRjcRPKkLaM7JazXcKeEa7ef0KwdsACSYOiMY4OKQ==
-X-Google-Smtp-Source: AA0mqf5V/yx0Q8zO5dmug5Y1jw5YLRIhuVHHnHGhsTq9FbPhZwCtCA9tlOs289stSkFMYCoFkO/pg3WzcUnpiib76WU=
-X-Received: by 2002:a63:3641:0:b0:478:e542:7d77 with SMTP id
- d62-20020a633641000000b00478e5427d77mr11878033pga.101.1671589596254; Tue, 20
- Dec 2022 18:26:36 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nck4n2Mpgz3bY5
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Dec 2022 06:28:25 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 0914EB81C11;
+	Wed, 21 Dec 2022 19:28:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AB682C433EF;
+	Wed, 21 Dec 2022 19:28:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1671650899;
+	bh=SgIYscCI2WWmovIM5nFHjpdoI0vUI0Hpccma397neIs=;
+	h=From:Date:Subject:To:List-Id:Cc:Reply-To:From;
+	b=IvK3f51MNa5+k90PPwx2Ep68WpT11S5jtttMxjRvhH94C18jS67SUxsyopudOFsN+
+	 Xs10S36LMTt4LCJIeSsyRwqeVNdA1DX3VguDrmjs1qV+2+0Ccl9bVswt9r7Nna4Y5I
+	 6Z1r7tqmq1mH44hhLcQdNB3LiudqkC7oHJyApCBn9xKg/8FtGweOyogS5K8G6Q6Fg2
+	 7aeXpYa3LUpJRJIJU7YIKWWkWGkm0Yk1O+tLYy4mydf6S0PaW+NefO3lhGLgsx1lLv
+	 QOm9o4TM96bFrWVmfI/NzuUpTBjRe0rNLBSAzPRoBu88O2aWBTyzydPcH6NIBX1hMR
+	 xTSYeXVz137VA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F51C4332F;
+	Wed, 21 Dec 2022 19:28:19 +0000 (UTC)
+From: Konstantin Ryabitsev via B4 Submission Endpoint
+ <devnull+icon.mricon.com@kernel.org>
+Date: Wed, 21 Dec 2022 14:27:59 -0500
+Subject: [PATCH] arm: lanyang: fix lable->label typo for lanyang dts
 MIME-Version: 1.0
-References: <20221024094853.2877441-1-yulei.sh@bytedance.com>
- <HK0PR06MB32022348EA65805C7109B7D080329@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <CAGm54UExHOBw61DJNqxvW67OSr60fQ+Q247t63RzymiMOmHmFg@mail.gmail.com>
- <HK0PR06MB320203EF8E3AD14C34359B0580329@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <Y1ueEYJk2epT/g4J@kroah.com> <HK0PR06MB32024F58191E17DC5ABC99F380329@HK0PR06MB3202.apcprd06.prod.outlook.com>
- <Y1uyssu84kl1INSR@kroah.com> <CAGm54UGmp=kTKGLhEfENF4SqkvRt_GcpuGH_g5PjtQiBkwtOsA@mail.gmail.com>
- <TY2PR06MB321303972156248AB08CAB2480EB9@TY2PR06MB3213.apcprd06.prod.outlook.com>
-In-Reply-To: <TY2PR06MB321303972156248AB08CAB2480EB9@TY2PR06MB3213.apcprd06.prod.outlook.com>
-From: Lei Yu <yulei.sh@bytedance.com>
-Date: Wed, 21 Dec 2022 10:26:25 +0800
-Message-ID: <CAGm54UHWhRQsvaBQM7mgfP2A5os=mYDTfKS9qfS0C5_9XkcrSA@mail.gmail.com>
-Subject: RE: [PATCH] usb: gadget: aspeed: fix buffer overflow
-To: Neal Liu <neal_liu@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20221221-lanyang-lable-fix-v1-1-eb6e11eb4a6c@mricon.com>
+X-B4-Tracking: v=1; b=H4sIAD9eo2MC/x1NWwrCQAy8Ssm3ge7iA7yK+JHtTm2grpKIKKV3N
+ xUGhnkxCzlM4XTuFjK81fXRQqRdR8Mk7QbWGppyn3MK8CztG35wmcGjfvjYH1DHtK/5BIpdEQcX
+ kzZM2/Iu/oJtwdMQ/f/Z5bquP95wODB8AAAA
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+X-Mailer: b4 0.11.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1671650898; l=1212;
+ i=icon@mricon.com; s=20221221; h=from:subject:message-id;
+ bh=2IbMt37be02samN0SyLfQQMRKqpQAoGkiG6WjPTqeHE=; =?utf-8?q?b=3Dvky9FSwxUi52?=
+ =?utf-8?q?4bgC0XAV2tIoUj+s5J6LHm9YNa6hbEgx1ns8LctbBs+ql6Q21U0spd5JmTc6j9Bm?=
+ NcUS5faPCAN15saXFVSPQNRNPm0aTh0AM3NW6ctQGnj29YEq3LJQ
+X-Developer-Key: i=icon@mricon.com; a=ed25519;
+ pk=24L8+ejW6PwbTbrJ/uT8HmSM8XkvGGtjTZ6NftSSI6I=
+X-Endpoint-Received:  by B4 Submission Endpoint for icon@mricon.com/20221221 with auth_id=16
+X-Original-From: Konstantin Ryabitsev <icon@mricon.com>
+X-Mailman-Approved-At: Thu, 22 Dec 2022 11:17:03 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,24 +77,47 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, Henry Tian <tianxiaofeng@bytedance.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Jakob Koschel <jakobkoschel@gmail.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Reply-To: icon@mricon.com
+Cc: linux-aspeed@lists.ozlabs.org, Jens Schleusener <Jens.Schleusener@fossies.org>, devicetree@kernel.org, Konstantin Ryabitsev <icon@mricon.com>, Konstantin Ryabitsev <mricon@kernel.org>, linux-kernel@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Dec 21, 2022 at 10:17 AM Neal Liu <neal_liu@aspeedtech.com> wrote:
-> > > > > > Using rndis is able to set MTU to 2000, and the issue can be
-> > reproduced.
-> >
-> > USB ecm is also tested and it is possible to set MTU to 2000, and could
-> > reproduce the issue.
-> > So I think this patch is needed anyway.
-> >
-> > @Neal Liu Could you kindly help to verify the USB ECM case?
->
-> How to set MTU to 2000 on USB ECM case? I remember last time I cannot set by using "ifconfig ..."
-> Regardless ECM or RNDIS, I agree this patch is still needed.
+From: Konstantin Ryabitsev <icon@mricon.com>
 
-You were able to set MTU to 2000 for RNDIS but not for NCM.
-@Greg Kroah-Hartman indicated that RNDIS should not be used anymore.
-So I tested ECM and verified it could set MTU 2000 and the issue could
-be reproduced.
+Fix an obvious spelling error in the dts file for Lanyang BMC.
+This was reported via bugzilla a few years ago but never fixed.
+
+Reported-by: Jens Schleusener <Jens.Schleusener@fossies.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=205891
+Signed-off-by: Konstantin Ryabitsev <icon@mricon.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts b/arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts
+index c0847636f20b..e72e8ef5bff2 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts
+@@ -52,12 +52,12 @@ hdd_fault {
+ 			gpios = <&gpio ASPEED_GPIO(B, 3) GPIO_ACTIVE_HIGH>;
+ 		};
+ 		bmc_err {
+-			lable = "BMC_fault";
++			label = "BMC_fault";
+ 			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+ 		sys_err {
+-			lable = "Sys_fault";
++			label = "Sys_fault";
+ 			gpios = <&gpio ASPEED_GPIO(H, 7) GPIO_ACTIVE_HIGH>;
+ 		};
+ 	};
+
+---
+base-commit: 830b3c68c1fb1e9176028d02ef86f3cf76aa2476
+change-id: 20221221-lanyang-lable-fix-605edf14d27e
+
+Best regards,
+-- 
+Konstantin Ryabitsev <icon@mricon.com>
