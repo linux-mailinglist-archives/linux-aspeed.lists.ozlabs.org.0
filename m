@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218F7655719
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Dec 2022 02:31:52 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E11C655720
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Dec 2022 02:32:23 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Nf6396YQlz3bNr
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Dec 2022 12:31:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Nf63n3Cfkz3bcq
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Dec 2022 12:32:21 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dKMe4KbW;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nDSX7iA8;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dKMe4KbW;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nDSX7iA8;
 	dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nf6344PbMz3bNr
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 24 Dec 2022 12:31:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nf63h3jRLz3bNr
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 24 Dec 2022 12:32:16 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 25AC9B8213E;
-	Sat, 24 Dec 2022 01:31:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93EE4C433D2;
-	Sat, 24 Dec 2022 01:31:38 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 889FC61FAB;
+	Sat, 24 Dec 2022 01:32:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11021C433D2;
+	Sat, 24 Dec 2022 01:32:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1671845499;
-	bh=sAkIvo9bRvzrWbhftRyX+wtSZ0NMfgFqAawCWd3Jc/k=;
+	s=k20201202; t=1671845534;
+	bh=LCnqaDhLRYuSm3SpDgSeOwsyVzE+9qlPqgOMK3H5XyU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dKMe4KbWzXIZcbuK3MEcN5zmTA45tXY85gftt8vPAJU0qtNlb4p0hX7Yl6yg6qjOn
-	 qCez9ewFSNIAYn9PjCqxPm8K+OLnbS1ZnYLtVzXaw+I2qMuaQKyr+M+xWNU5U1VH+H
-	 BATH0BgENynRQsL8/2gpCitA27QeqmP8zkMEoy71CxysPrNMPPpOwOZ0x5OJqhdqUe
-	 53tnEJLGoPvumgT+TO1hg1508Cowdmxg22qVTYXU7Ati1uqzlNccIXOwjFKg5YrTIm
-	 8ai38PkUo7Pk7CRAZ/J2NebQ6+FKCOgyM7cgZLnYE1qkezosrMH07Wf/pTNphfsqH9
-	 pq+KWjg2WBb6w==
+	b=nDSX7iA832BIEjJZK1/a+/dViFUCWW+zL7y/Oc5U/AvY4/K5jMjbuSDv4QJcoVNdf
+	 5qzn0stlhx0oWAzveDnDe4F/lBPMBOuk1/uL7AcNRF0PYgnnxaQWq8lxV3Tkl1IPxW
+	 8GNjsMEOiFkpAPlxI5SbQIPOMngPnQbTufXqjrBTNum7EkW7llJDFHnr6c9p2NE/4x
+	 9SYFM4Yujbahb/oP8arZpKnNdCmvOEMEFT+AAMdnk9OcmtdbtfTcl6eO2T1bD39HPt
+	 vLbq5PC/g4c3wCKO9xsPwarMUmUat6fgZGbjoFOSqUQSssk6PE/hlyNoyznKLjJvd1
+	 XzzokKLVIOGAg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 03/14] usb: gadget: aspeed: fix buffer overflow
-Date: Fri, 23 Dec 2022 20:31:16 -0500
-Message-Id: <20221224013127.393187-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 03/11] usb: gadget: aspeed: fix buffer overflow
+Date: Fri, 23 Dec 2022 20:31:53 -0500
+Message-Id: <20221224013202.393372-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221224013127.393187-1-sashal@kernel.org>
-References: <20221224013127.393187-1-sashal@kernel.org>
+In-Reply-To: <20221224013202.393372-1-sashal@kernel.org>
+References: <20221224013202.393372-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -109,10 +109,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 13 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index 7a635c499777..ac3ca24f8b04 100644
+index d11d3d14313f..9cd5e792dbf7 100644
 --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
 +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-@@ -37,7 +37,7 @@ void ast_vhub_done(struct ast_vhub_ep *ep, struct ast_vhub_req *req,
+@@ -42,7 +42,7 @@ void ast_vhub_done(struct ast_vhub_ep *ep, struct ast_vhub_req *req,
  
  	list_del_init(&req->queue);
  
@@ -122,10 +122,10 @@ index 7a635c499777..ac3ca24f8b04 100644
  
  	if (req->req.dma) {
 diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-index 917892ca8753..f265b9a47450 100644
+index cb164c615e6f..934fa026832b 100644
 --- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
 +++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-@@ -84,6 +84,7 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
+@@ -89,6 +89,7 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
  {
  	struct ast_vhub_req *req;
  	unsigned int len;
@@ -133,7 +133,7 @@ index 917892ca8753..f265b9a47450 100644
  	u32 stat;
  
  	/* Read EP status */
-@@ -119,9 +120,15 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
+@@ -124,9 +125,15 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
  	len = VHUB_EP_DMA_TX_SIZE(stat);
  
  	/* If not using DMA, copy data out if needed */
@@ -152,7 +152,7 @@ index 917892ca8753..f265b9a47450 100644
  	/* Adjust size */
  	req->req.actual += len;
  
-@@ -129,9 +136,10 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
+@@ -134,9 +141,10 @@ static void ast_vhub_epn_handle_ack(struct ast_vhub_ep *ep)
  	if (len < ep->ep.maxpacket)
  		req->last_desc = 1;
  
