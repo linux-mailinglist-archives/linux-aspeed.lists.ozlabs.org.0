@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940A26556FC
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Dec 2022 02:30:24 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A45655703
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Dec 2022 02:31:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Nf61S6jnFz3bfD
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Dec 2022 12:30:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Nf62L35B2z3bZx
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Dec 2022 12:31:06 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=tDP7Krwc;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Td0gtDY4;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=tDP7Krwc;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Td0gtDY4;
 	dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nf61H5kLpz307C
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 24 Dec 2022 12:30:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nf62F4PFMz3bNr
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 24 Dec 2022 12:31:01 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 248B461BFB;
-	Sat, 24 Dec 2022 01:30:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A327DC433D2;
-	Sat, 24 Dec 2022 01:30:04 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 436D761FAB;
+	Sat, 24 Dec 2022 01:30:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CD03C433EF;
+	Sat, 24 Dec 2022 01:30:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1671845406;
+	s=k20201202; t=1671845458;
 	bh=mmH/nPVvl+htovbJ1ua/Fax2SK3m8s772R+6Hm1S5qY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tDP7KrwczTG/DBCMIflBd8SQgvBR/ijfxDvJ7roNALeXkCbP7qmAQPyiQgwAfMe/+
-	 kCwvxOb8BSZH4UarhWPoJCozgj1QYT8f5Ph3z5Lnrh2FXVZVHvN7BXaFax9pYUmfj8
-	 DkcLxnH13YyO0QD7OEYdbQEylM+cNrISJF+HYmUTR49Fh7C/TcMk13f/nTELSKb2ab
-	 jEye5NWqGv5CzZRzdkR1OJpGt1BUfQmfGSr5o/JvYIaoRlmcEGtCtj8lI9HZYe0n0T
-	 mE6OAVYMuaAMLmXuQzf0/SpwnIDPZR9anxsU6Q9Uan68ydAu3maFRqnLgstj4xYUCj
-	 NtqrBKQvqvphw==
+	b=Td0gtDY4CEwpOS0lNyH54CiiB8SJNqUIwtz5UZ533dO5e4dSpxqYTkc7PvO80l5XX
+	 x7mhra0duW0Y41lN9PewFgX3LGIJPnwvhVgIcozKox8aXb1FGGogWMU3vvd9CgBQgf
+	 q1vIVLabcxMAUXRY9/K+0qAO/tgujvH3e/kegTI5qXuxtP7skdbgPlt0yDSJ4isJ/Z
+	 IkpB4DeaZosJBW5wvLw1Pq89b7o/RDdC+W5pK3Dyk0gehd9hNB2Q2TK++Woo5pD+OT
+	 +SQ/sbm342sjVWQYc653hknza1jgPaKeaZloEAHPzL+y1E2lpMITB3LCMT8TyzVRTM
+	 b1f+ayRJh/1Zw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 11/26] usb: gadget: aspeed: fix buffer overflow
-Date: Fri, 23 Dec 2022 20:29:15 -0500
-Message-Id: <20221224012930.392358-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 04/18] usb: gadget: aspeed: fix buffer overflow
+Date: Fri, 23 Dec 2022 20:30:20 -0500
+Message-Id: <20221224013034.392810-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221224012930.392358-1-sashal@kernel.org>
-References: <20221224012930.392358-1-sashal@kernel.org>
+In-Reply-To: <20221224013034.392810-1-sashal@kernel.org>
+References: <20221224013034.392810-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
