@@ -1,66 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B07665AD0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Jan 2023 12:52:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 043C8665B3A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Jan 2023 13:19:33 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NsQzJ5bcyz3cdJ
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Jan 2023 22:52:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NsRZB63gjz3c7J
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Jan 2023 23:19:30 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=oZkMOTv8;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=YeIjkL73;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::131; helo=mail-lf1-x131.google.com; envelope-from=aladyshev22@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=oZkMOTv8;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=YeIjkL73;
 	dkim-atps=neutral
 Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NsQz84JHSz3bVr
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Jan 2023 22:52:34 +1100 (AEDT)
-Received: by mail-lf1-x131.google.com with SMTP id m6so23111600lfj.11
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Jan 2023 03:52:34 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NsRZ51RzCz3bWF
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Jan 2023 23:19:22 +1100 (AEDT)
+Received: by mail-lf1-x131.google.com with SMTP id bu8so23212476lfb.4
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Jan 2023 04:19:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=akX8Spsmb8eHc45qxyT07eMq4v6BQfaJuDvgRydNQ0U=;
-        b=oZkMOTv8VzItNdeoOagEla1tgEF0wFLmF31sfOgof2//fXwwUxxnP0BYRXJ2pYwZNK
-         YMvvL9Uez4P5ApEM2BkEvxg/3eZamx/ft+/VFJ0eVZ8atnAT5vdsV9tglCZJ5t8WcO5f
-         mKK4/fQoduWWAPVE1EUHJV2b1WL/23dH+U/7DfLPqdehABg8h4TSC6IVsmf89BndNdmt
-         0SCpOhjlrw8VvYSXTkGgGIBx+7y4VEaO/UxMk+UkjRTapOxfmVGDViDjY4kfo4a1BHW0
-         HDnjsubkMOB95AszsJFszQmW0mw6TIqJ9ES4VPJHWA6805Vpz2Mo1jr4eOkL8aRbQ9HB
-         DwjQ==
+        bh=iC5Tm3f1bIyIFR/SNMJvXCgdTLuVzDKlqQ4xdi94zMc=;
+        b=YeIjkL73qjiBNqZcNqCIWv3VfCydmTEmjEfQTKQU7PTKOaCzIFsgYIscICX3JHz6XJ
+         MIWgvpCYYuFXGJnBu9ex9yYfswihiFIrhKvEAAg9fgAJsxlMp6roaKMMe+6qQz8QDui9
+         WxAB1cdROtn34/7PCE80aVJBCpZYEl101aC2GrUe4P3pA7fQM3CpkuqrTXBm/JeCgOoJ
+         VFrneKecW1weCXNYiV9NeEpmEeeCU0dCtAOnip/US5BfUYZnkEmExWxdRsd+hkXDtLfJ
+         ghj0XMJ+wn72EGOapIqjCMYGCFMO7xCr6e4J8iqBKNYbnkza0YL7syHaZai2W9lrgnVH
+         5hIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=akX8Spsmb8eHc45qxyT07eMq4v6BQfaJuDvgRydNQ0U=;
-        b=GAeprMqDBmYNgs+lk3vFKtBCr5cY7ybpEtd7TZXXc1jbdBhSIsdm8Z6pDRADcnD6TH
-         teSFX5+fzzNxt+Lb08w7fmdnjFTQlMEhz9NmH9yL6W4rGG37yV2Ozl48DtYVo7h8gTYV
-         +sDQTwx4UZFq/LYKeHX0wM/yld1X7FRPw/1FBufdC7E+4RMY4yQN5+kXyoEL+QZuirwT
-         9VkgVD5PaL3+ebwbCREpzz2/HBVGEbL6+Zcxl5OvZ43J6gLev5QlDL68WI2xRhShXIcb
-         2jU7sixvfX9disvITl6IsW6/CaNoVZpqMsAN/0uDTNuT6RBkPCo6047km/rV+z6bA9pQ
-         wKSA==
-X-Gm-Message-State: AFqh2kq/ZVx3qTq0Y/DqIRRhOJzV3w2OIpgc0joLiNlLzbO3Nxm2a6/d
-	Zbv/qI9JYtJN1ShWUZl6LrY=
-X-Google-Smtp-Source: AMrXdXsZ2CI7/xZBxfernCt7RhQ7XRGyHhWU/FBiLhf5qGEAexunzC4zJICg6uyMk70PL9RBXuITPg==
-X-Received: by 2002:a05:6512:202f:b0:4cb:ca5:b5ba with SMTP id s15-20020a056512202f00b004cb0ca5b5bamr13375670lfs.29.1673437951291;
-        Wed, 11 Jan 2023 03:52:31 -0800 (PST)
+        bh=iC5Tm3f1bIyIFR/SNMJvXCgdTLuVzDKlqQ4xdi94zMc=;
+        b=oCitnDa+eXUVJryTgTK6QjyzEURjcdssBt7VCpT4ZIeARG2dXDyhJ5aIbS1tWS62E4
+         Ezx5ZXFn8xDILsOaGrDk4v39jbpS7fOYOmAaEC3sor32YTvmlTuUYZBQuZYlTkxw60ep
+         TPYwJGyztdYNtIGRE7BtWeJmY80oCbca2HwYBK1BQnzZYSk2HT0UcOVvLhJRMF2w23to
+         MLA4ydpRdlxuPyc/Gz7xXs3XmFHWLP7dAvGt622tTjRO9HCSe+uOzkWPge31qWS2Ffwl
+         NKVCvkWSLw9EqjMJyVQuwvdjpG9DqhiIRbWLWETywWJoNBpFmBHI2U2FKggbS6BRd4xm
+         bSzA==
+X-Gm-Message-State: AFqh2kqQu4+2lcSXVToLS+4x5MfTXkfJs/yJJr/+WgLSYs9jPb4u89P8
+	msNpFDj49GKiqOLcARGc8w0=
+X-Google-Smtp-Source: AMrXdXt/35t0+3ucLLkQao5tN+iGBAwNJg1p5KDkdOIcCLnfQqPY3oznuDNR7dPpDy4v4d94rH5Ldg==
+X-Received: by 2002:a05:6512:2349:b0:4a4:68b9:66cd with SMTP id p9-20020a056512234900b004a468b966cdmr20243785lfu.24.1673439559709;
+        Wed, 11 Jan 2023 04:19:19 -0800 (PST)
 Received: from PC10319.67 ([82.97.198.254])
-        by smtp.googlemail.com with ESMTPSA id x11-20020a056512078b00b004b5821219fbsm2711185lfr.60.2023.01.11.03.52.30
+        by smtp.googlemail.com with ESMTPSA id f14-20020a0565123b0e00b004b7033da2d7sm2701530lfv.128.2023.01.11.04.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 03:52:30 -0800 (PST)
+        Wed, 11 Jan 2023 04:19:19 -0800 (PST)
 From: Konstantin Aladyshev <aladyshev22@gmail.com>
 To: 
-Subject: [PATCH] ARM: dts: ethanolx: Enable CTS/RTS pins on UART1
-Date: Wed, 11 Jan 2023 14:52:27 +0300
-Message-Id: <20230111115227.1357-1-aladyshev22@gmail.com>
+Subject: [PATCH] ARM: dts: ethanolx: Enable VUART
+Date: Wed, 11 Jan 2023 15:19:17 +0300
+Message-Id: <20230111121917.1636-1-aladyshev22@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -79,29 +79,40 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Konstantin Aladys
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-BMC UART1 is connected to the P0 CPU UART1. As the connection has
-CTS and RTS signals, enable these functions on the BMC side.
+Enable Virtual UART (VUART) module. This module provides virtual serial
+communication capabilities between host CPU and BMC and can be used for
+the Serial-Over-LAN (SoL) feature implementation.
 
 Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
 ---
- arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-index 5f9093c58e8c..d8e8fca44c78 100644
+index d8e8fca44c78..6bded774c457 100644
 --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
 +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-@@ -90,7 +90,9 @@ &uart1 {
+@@ -5,6 +5,7 @@
+ 
+ #include "aspeed-g5.dtsi"
+ #include <dt-bindings/gpio/aspeed-gpio.h>
++#include <dt-bindings/interrupt-controller/irq.h>
+ 
+ / {
+ 	model = "AMD EthanolX BMC";
+@@ -275,6 +276,12 @@ &lpc_ctrl {
  	status = "okay";
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_txd1_default
--		     &pinctrl_rxd1_default>;
-+		     &pinctrl_rxd1_default
-+		     &pinctrl_nrts1_default
-+		     &pinctrl_ncts1_default>;
  };
  
- &uart5 {
++&vuart {
++	status = "okay";
++	aspeed,lpc-io-reg = <0x3f8>;
++	aspeed,lpc-interrupts = <4 IRQ_TYPE_LEVEL_HIGH>;
++};
++
+ &pwm_tacho {
+ 	status = "okay";
+ 	pinctrl-names = "default";
 -- 
 2.25.1
 
