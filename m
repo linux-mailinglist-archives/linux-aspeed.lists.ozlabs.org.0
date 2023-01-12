@@ -2,47 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D308066E8BC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jan 2023 22:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B910767104C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 02:42:43 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NxMwj5N9Pz3cMr
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 08:49:09 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NxT694VhVz3cFD
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 12:42:41 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=v1SObeTR;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=walle.cc (client-ip=2a01:4f8:c0c:9d57::1; helo=mail.3ffe.de; envelope-from=michael@walle.cc; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=v1SObeTR;
+	dkim-atps=neutral
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NxMwZ6PcTz2yg5
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Jan 2023 08:49:00 +1100 (AEDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pHtog-0004mh-3v; Tue, 17 Jan 2023 22:48:26 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pHtoa-006lhq-DJ; Tue, 17 Jan 2023 22:48:20 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pHtoZ-00DhVz-MN; Tue, 17 Jan 2023 22:48:19 +0100
-Date: Tue, 17 Jan 2023 22:48:06 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [v4 0/5] Support pwm/tach driver for aspeed ast26xx
-Message-ID: <20230117214806.ptnnhgxmlvyzjdzp@pengutronix.de>
-References: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nt7c76cvSz3cFB;
+	Fri, 13 Jan 2023 02:23:35 +1100 (AEDT)
+Received: from mwalle01.sab.local (unknown [213.135.10.150])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.3ffe.de (Postfix) with ESMTPSA id AEFE013A8;
+	Thu, 12 Jan 2023 16:15:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+	t=1673536524;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X+EXB67jHQWbpiH7doIgNE3IzkUk0cDpvd28eCdXdHc=;
+	b=v1SObeTRNLJpjdepJB7CjLj8we54Y2ol5tw/KNMZVQv/PCNAjn3qGES8Opj1EierfvQF2F
+	5yXBRSR2/bR4rGjF3f64jjLhK0xiIaoJ2HGEy7J2goNbvFdIH6YX+BXYKYk/9ibd1bZMpe
+	ekpCdU+EDimoTFVuAhwLDCCWUR/bzXM5qJJtcCY4dJjI+C2VBipzT70njkYRSA+msRchXp
+	IUCtZqNJqkS1JPJpluCwl1g2ZA8fpPd2FY/r6FSyGGZzPIQjH6LTLVu28AexHrJxIEXHOy
+	+o64u1du+Gp9RBHKJVQRomZh+G3l8tVm2sz00HHeXQUFjRQwn6uS9wCXJvuCqQ==
+From: Michael Walle <michael@walle.cc>
+Date: Thu, 12 Jan 2023 16:15:07 +0100
+Subject:  [PATCH net-next 01/10] net: mdio: cavium: Separate C22 and C45 transactions
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="y5jqbiyht4hvalnt"
-Content-Disposition: inline
-In-Reply-To: <20221123061635.32025-1-billy_tsai@aspeedtech.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id:  <20230112-net-next-c45-seperation-part-2-v1-1-5eeaae931526@walle.cc>
+References:  <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
+In-Reply-To:  <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
+To: Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
+ Sean Wang <sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Bryan Whitehead <bryan.whitehead@microchip.com>, UNGLinuxDriver@microchip.com,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Jose Abreu <joabreu@synopsys.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Claudiu Manoil <claudiu.manoil@nxp.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Li Yang <leoyang.li@nxp.com>
+X-Mailer: b4 0.11.1
+X-Mailman-Approved-At: Wed, 18 Jan 2023 12:41:55 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,46 +82,255 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, jdelvare@suse.com, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org, corbet@lwn.net, lee@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, robh+dt@kernel.org, thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org, linux@roeck-us.net, linux-arm-kernel@lists.infradead.org
+Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>, linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+From: Andrew Lunn <andrew@lunn.ch>
 
---y5jqbiyht4hvalnt
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The cavium IP can perform both C22 and C45 transfers.  Create separate
+functions for each and register the C45 versions in both the octeon
+and thunder bus driver.
 
-Hello Billy,
+Signed-off-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Michael Walle <michael@walle.cc>
+---
+ drivers/net/mdio/mdio-cavium.c  | 111 +++++++++++++++++++++++++++++-----------
+ drivers/net/mdio/mdio-cavium.h  |   9 +++-
+ drivers/net/mdio/mdio-octeon.c  |   6 ++-
+ drivers/net/mdio/mdio-thunder.c |   6 ++-
+ 4 files changed, 95 insertions(+), 37 deletions(-)
 
-I wonder if you address the feedback you got for this series. I think
-there are no big issues left, are there?
+diff --git a/drivers/net/mdio/mdio-cavium.c b/drivers/net/mdio/mdio-cavium.c
+index 95ce274c1be1..fd81546a4d3d 100644
+--- a/drivers/net/mdio/mdio-cavium.c
++++ b/drivers/net/mdio/mdio-cavium.c
+@@ -26,7 +26,7 @@ static void cavium_mdiobus_set_mode(struct cavium_mdiobus *p,
+ }
+ 
+ static int cavium_mdiobus_c45_addr(struct cavium_mdiobus *p,
+-				   int phy_id, int regnum)
++				   int phy_id, int devad, int regnum)
+ {
+ 	union cvmx_smix_cmd smi_cmd;
+ 	union cvmx_smix_wr_dat smi_wr;
+@@ -38,12 +38,10 @@ static int cavium_mdiobus_c45_addr(struct cavium_mdiobus *p,
+ 	smi_wr.s.dat = regnum & 0xffff;
+ 	oct_mdio_writeq(smi_wr.u64, p->register_base + SMI_WR_DAT);
+ 
+-	regnum = (regnum >> 16) & 0x1f;
+-
+ 	smi_cmd.u64 = 0;
+ 	smi_cmd.s.phy_op = 0; /* MDIO_CLAUSE_45_ADDRESS */
+ 	smi_cmd.s.phy_adr = phy_id;
+-	smi_cmd.s.reg_adr = regnum;
++	smi_cmd.s.reg_adr = devad;
+ 	oct_mdio_writeq(smi_cmd.u64, p->register_base + SMI_CMD);
+ 
+ 	do {
+@@ -59,28 +57,51 @@ static int cavium_mdiobus_c45_addr(struct cavium_mdiobus *p,
+ 	return 0;
+ }
+ 
+-int cavium_mdiobus_read(struct mii_bus *bus, int phy_id, int regnum)
++int cavium_mdiobus_read_c22(struct mii_bus *bus, int phy_id, int regnum)
+ {
+ 	struct cavium_mdiobus *p = bus->priv;
+ 	union cvmx_smix_cmd smi_cmd;
+ 	union cvmx_smix_rd_dat smi_rd;
+-	unsigned int op = 1; /* MDIO_CLAUSE_22_READ */
+ 	int timeout = 1000;
+ 
+-	if (regnum & MII_ADDR_C45) {
+-		int r = cavium_mdiobus_c45_addr(p, phy_id, regnum);
++	cavium_mdiobus_set_mode(p, C22);
++
++	smi_cmd.u64 = 0;
++	smi_cmd.s.phy_op = 1; /* MDIO_CLAUSE_22_READ */;
++	smi_cmd.s.phy_adr = phy_id;
++	smi_cmd.s.reg_adr = regnum;
++	oct_mdio_writeq(smi_cmd.u64, p->register_base + SMI_CMD);
++
++	do {
++		/* Wait 1000 clocks so we don't saturate the RSL bus
++		 * doing reads.
++		 */
++		__delay(1000);
++		smi_rd.u64 = oct_mdio_readq(p->register_base + SMI_RD_DAT);
++	} while (smi_rd.s.pending && --timeout);
++
++	if (smi_rd.s.val)
++		return smi_rd.s.dat;
++	else
++		return -EIO;
++}
++EXPORT_SYMBOL(cavium_mdiobus_read_c22);
+ 
+-		if (r < 0)
+-			return r;
++int cavium_mdiobus_read_c45(struct mii_bus *bus, int phy_id, int devad,
++			    int regnum)
++{
++	struct cavium_mdiobus *p = bus->priv;
++	union cvmx_smix_cmd smi_cmd;
++	union cvmx_smix_rd_dat smi_rd;
++	int timeout = 1000;
++	int r;
+ 
+-		regnum = (regnum >> 16) & 0x1f;
+-		op = 3; /* MDIO_CLAUSE_45_READ */
+-	} else {
+-		cavium_mdiobus_set_mode(p, C22);
+-	}
++	r = cavium_mdiobus_c45_addr(p, phy_id, devad, regnum);
++	if (r < 0)
++		return r;
+ 
+ 	smi_cmd.u64 = 0;
+-	smi_cmd.s.phy_op = op;
++	smi_cmd.s.phy_op = 3; /* MDIO_CLAUSE_45_READ */
+ 	smi_cmd.s.phy_adr = phy_id;
+ 	smi_cmd.s.reg_adr = regnum;
+ 	oct_mdio_writeq(smi_cmd.u64, p->register_base + SMI_CMD);
+@@ -98,36 +119,64 @@ int cavium_mdiobus_read(struct mii_bus *bus, int phy_id, int regnum)
+ 	else
+ 		return -EIO;
+ }
+-EXPORT_SYMBOL(cavium_mdiobus_read);
++EXPORT_SYMBOL(cavium_mdiobus_read_c45);
+ 
+-int cavium_mdiobus_write(struct mii_bus *bus, int phy_id, int regnum, u16 val)
++int cavium_mdiobus_write_c22(struct mii_bus *bus, int phy_id, int regnum,
++			     u16 val)
+ {
+ 	struct cavium_mdiobus *p = bus->priv;
+ 	union cvmx_smix_cmd smi_cmd;
+ 	union cvmx_smix_wr_dat smi_wr;
+-	unsigned int op = 0; /* MDIO_CLAUSE_22_WRITE */
+ 	int timeout = 1000;
+ 
+-	if (regnum & MII_ADDR_C45) {
+-		int r = cavium_mdiobus_c45_addr(p, phy_id, regnum);
++	cavium_mdiobus_set_mode(p, C22);
+ 
+-		if (r < 0)
+-			return r;
++	smi_wr.u64 = 0;
++	smi_wr.s.dat = val;
++	oct_mdio_writeq(smi_wr.u64, p->register_base + SMI_WR_DAT);
+ 
+-		regnum = (regnum >> 16) & 0x1f;
+-		op = 1; /* MDIO_CLAUSE_45_WRITE */
+-	} else {
+-		cavium_mdiobus_set_mode(p, C22);
+-	}
++	smi_cmd.u64 = 0;
++	smi_cmd.s.phy_op = 0; /* MDIO_CLAUSE_22_WRITE */;
++	smi_cmd.s.phy_adr = phy_id;
++	smi_cmd.s.reg_adr = regnum;
++	oct_mdio_writeq(smi_cmd.u64, p->register_base + SMI_CMD);
++
++	do {
++		/* Wait 1000 clocks so we don't saturate the RSL bus
++		 * doing reads.
++		 */
++		__delay(1000);
++		smi_wr.u64 = oct_mdio_readq(p->register_base + SMI_WR_DAT);
++	} while (smi_wr.s.pending && --timeout);
++
++	if (timeout <= 0)
++		return -EIO;
++
++	return 0;
++}
++EXPORT_SYMBOL(cavium_mdiobus_write_c22);
++
++int cavium_mdiobus_write_c45(struct mii_bus *bus, int phy_id, int devad,
++			     int regnum, u16 val)
++{
++	struct cavium_mdiobus *p = bus->priv;
++	union cvmx_smix_cmd smi_cmd;
++	union cvmx_smix_wr_dat smi_wr;
++	int timeout = 1000;
++	int r;
++
++	r = cavium_mdiobus_c45_addr(p, phy_id, devad, regnum);
++	if (r < 0)
++		return r;
+ 
+ 	smi_wr.u64 = 0;
+ 	smi_wr.s.dat = val;
+ 	oct_mdio_writeq(smi_wr.u64, p->register_base + SMI_WR_DAT);
+ 
+ 	smi_cmd.u64 = 0;
+-	smi_cmd.s.phy_op = op;
++	smi_cmd.s.phy_op = 1; /* MDIO_CLAUSE_45_WRITE */
+ 	smi_cmd.s.phy_adr = phy_id;
+-	smi_cmd.s.reg_adr = regnum;
++	smi_cmd.s.reg_adr = devad;
+ 	oct_mdio_writeq(smi_cmd.u64, p->register_base + SMI_CMD);
+ 
+ 	do {
+@@ -143,7 +192,7 @@ int cavium_mdiobus_write(struct mii_bus *bus, int phy_id, int regnum, u16 val)
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL(cavium_mdiobus_write);
++EXPORT_SYMBOL(cavium_mdiobus_write_c45);
+ 
+ MODULE_DESCRIPTION("Common code for OCTEON and Thunder MDIO bus drivers");
+ MODULE_AUTHOR("David Daney");
+diff --git a/drivers/net/mdio/mdio-cavium.h b/drivers/net/mdio/mdio-cavium.h
+index a2245d436f5d..71b8e20cd664 100644
+--- a/drivers/net/mdio/mdio-cavium.h
++++ b/drivers/net/mdio/mdio-cavium.h
+@@ -114,5 +114,10 @@ static inline u64 oct_mdio_readq(void __iomem *addr)
+ #define oct_mdio_readq(addr)		readq(addr)
+ #endif
+ 
+-int cavium_mdiobus_read(struct mii_bus *bus, int phy_id, int regnum);
+-int cavium_mdiobus_write(struct mii_bus *bus, int phy_id, int regnum, u16 val);
++int cavium_mdiobus_read_c22(struct mii_bus *bus, int phy_id, int regnum);
++int cavium_mdiobus_write_c22(struct mii_bus *bus, int phy_id, int regnum,
++			     u16 val);
++int cavium_mdiobus_read_c45(struct mii_bus *bus, int phy_id, int devad,
++			    int regnum);
++int cavium_mdiobus_write_c45(struct mii_bus *bus, int phy_id, int devad,
++			     int regnum, u16 val);
+diff --git a/drivers/net/mdio/mdio-octeon.c b/drivers/net/mdio/mdio-octeon.c
+index e096e68ac667..7c65c547d377 100644
+--- a/drivers/net/mdio/mdio-octeon.c
++++ b/drivers/net/mdio/mdio-octeon.c
+@@ -58,8 +58,10 @@ static int octeon_mdiobus_probe(struct platform_device *pdev)
+ 	snprintf(bus->mii_bus->id, MII_BUS_ID_SIZE, "%px", bus->register_base);
+ 	bus->mii_bus->parent = &pdev->dev;
+ 
+-	bus->mii_bus->read = cavium_mdiobus_read;
+-	bus->mii_bus->write = cavium_mdiobus_write;
++	bus->mii_bus->read = cavium_mdiobus_read_c22;
++	bus->mii_bus->write = cavium_mdiobus_write_c22;
++	bus->mii_bus->read_c45 = cavium_mdiobus_read_c45;
++	bus->mii_bus->write_c45 = cavium_mdiobus_write_c45;
+ 
+ 	platform_set_drvdata(pdev, bus);
+ 
+diff --git a/drivers/net/mdio/mdio-thunder.c b/drivers/net/mdio/mdio-thunder.c
+index 822d2cdd2f35..3847ee92c109 100644
+--- a/drivers/net/mdio/mdio-thunder.c
++++ b/drivers/net/mdio/mdio-thunder.c
+@@ -93,8 +93,10 @@ static int thunder_mdiobus_pci_probe(struct pci_dev *pdev,
+ 		bus->mii_bus->name = KBUILD_MODNAME;
+ 		snprintf(bus->mii_bus->id, MII_BUS_ID_SIZE, "%llx", r.start);
+ 		bus->mii_bus->parent = &pdev->dev;
+-		bus->mii_bus->read = cavium_mdiobus_read;
+-		bus->mii_bus->write = cavium_mdiobus_write;
++		bus->mii_bus->read = cavium_mdiobus_read_c22;
++		bus->mii_bus->write = cavium_mdiobus_write_c22;
++		bus->mii_bus->read_c45 = cavium_mdiobus_read_c45;
++		bus->mii_bus->write_c45 = cavium_mdiobus_write_c45;
+ 
+ 		err = of_mdiobus_register(bus->mii_bus, node);
+ 		if (err)
 
-There is only one patch left open in the PWM patchwork (i.e. the patch
-implementing the driver that already has my Reviewed-by tag). I'll
-discard that one, too, as "changes requested" and hope you will send a
-v5.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---y5jqbiyht4hvalnt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPHF5MACgkQwfwUeK3K
-7Am6Rgf/dyL2yHQajtxCDMIEYXoOPD0fs1U+AFUQZWILgnBky3GTsjqPb+iRF0Zr
-w+4QERyKzgxAyfJE3EptEtnxjBOPWZ1JKx1tBpJDsEBem7ew5QmjSZ9vX28jfcaa
-NR8HzbJdZKOdM/Brmd3jCKGNj63CYH8rD0CW4mUf07oVvw55j6g1ZULwVvHnOGse
-DG9GpBgzzhaIPYapwlkhIdfeESU84fWfQLlOxdcNxR4/8OXDCO2lUbzXULBVbjUe
-lzBlQzwJk2bQegMSAIXRIACskEMbmoMY6RBKJCJUEniyIcPyJ8//YGW1pHq8fnRO
-xriqAmZs2kKuyqloDKo4g/GVvGVikQ==
-=FqEI
------END PGP SIGNATURE-----
-
---y5jqbiyht4hvalnt--
+-- 
+2.30.2
