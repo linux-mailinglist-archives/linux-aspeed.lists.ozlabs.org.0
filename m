@@ -2,95 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDAA6685D0
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Jan 2023 22:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6EC6686B0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Jan 2023 23:17:53 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NtJ8T6VVXz3fDY
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jan 2023 08:48:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NtJp74P9vz3c5D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jan 2023 09:17:51 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=CLGQjrQB;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=esi4sIDL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::e2e; helo=mail-vs1-xe2e.google.com; envelope-from=f.fainelli@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::1031; helo=mail-pj1-x1031.google.com; envelope-from=keescook@chromium.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=CLGQjrQB;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=esi4sIDL;
 	dkim-atps=neutral
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NtHNr39K5z3fN4;
-	Fri, 13 Jan 2023 08:14:19 +1100 (AEDT)
-Received: by mail-vs1-xe2e.google.com with SMTP id i188so20347406vsi.8;
-        Thu, 12 Jan 2023 13:14:19 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NtJnz3PG8z3bTm
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Jan 2023 09:17:40 +1100 (AEDT)
+Received: by mail-pj1-x1031.google.com with SMTP id o8-20020a17090a9f8800b00223de0364beso25062898pjp.4
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Jan 2023 14:17:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9G8E/pbF0yCVEwppEfeZ3APRR94ekY7sl663Hc09EMo=;
-        b=CLGQjrQB/cXT4ivLFkBZ2uFfRzV2B4EuZw/fwRZDs/OamGqTfErZRyoEF5zSftNssA
-         aXo/J943u3z52xiiyn9ozbhsyoQruIu2fecHP/z+SDB5JICNMpxq0KcptZnYMIhrShBM
-         YfC96q6zTGqcqq9hX2DPYulrMchhsuMtmAzxE/31s8E9O7Mmo6W9CLXhI76inUfSWyDe
-         +cHCugoc13oZ7d5vWOFEfSgOP8LUmFvg/dNuqBbCgACKDXztYEDpxaveJOoNssA3MPUw
-         vfhD6ahNx593rmXHQEFQIlfxRB/Tly17byXrAoAyTruXS4oWhtjl0KJfWf3LFxNyESR/
-         QMaA==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=duA6Un7MMHsWwDUG6Y+g/Vg750sAKeltAfxhDAJWOzI=;
+        b=esi4sIDLgCeEJk+u0yjNbzcOwnXIyrdFqNgIf/C/hPkZydzpXkwVQAN68jczLwo5Vy
+         DjaWv1FKrmoOVsI/0IYwX7hEP8bcbjLX9gMOv2qJZ01Sb6xTbGwFMOr7weCr1vnx3hO8
+         JxqhFjo+y4XHo7VkWAHe0Pp4x16s1XVBDAvHI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9G8E/pbF0yCVEwppEfeZ3APRR94ekY7sl663Hc09EMo=;
-        b=xldH3DA7DrdztDDTAkJvGSzWOfta4gVE0zT3SWsaUM9rLYmsL2GcaXDKh7A8j2b1q1
-         ezJXyrIHpGFSHudZR1hS89uFOMuAduZ/zZygIY3/iHMta+lJ0gIYBBKPbj0Lb9tArk2z
-         QuLvv6suJvsQJaJGTQ+9zfDISW3MVTBT8gBD/s3rT0mvnGLRXB+GspYiSrG/hrHlOkRN
-         jM2J7RYl4KOn6u7rURrW48YG6xYZw6mShF/X4uQnZvvfG8mbFVPkRBU9sd0iRl5bBQPW
-         iAq+cMoPD3V/9UXDLbqzkr0HYwzoxG2QXkeqNglwpRyDmC/SYLHyO5x43XcqjSq8px2Z
-         etqA==
-X-Gm-Message-State: AFqh2kr6UrQkWJQxhI2Nc1UEVqaW5aflgxFkZDDeF4rJi5b9kIOilX9t
-	MwO2eEFoRvk9h88yDYgANAI=
-X-Google-Smtp-Source: AMrXdXvqOpDKUMfAeRKnyAEn0jSg0Xdln+Y3NUo/FVdyWNh9GqqApDbAMshix//ZhSV0K8IXOyErgA==
-X-Received: by 2002:a05:6102:32d3:b0:3d1:657e:39ff with SMTP id o19-20020a05610232d300b003d1657e39ffmr335281vss.30.1673558054609;
-        Thu, 12 Jan 2023 13:14:14 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id u15-20020a37ab0f000000b006f9c2be0b4bsm11202593qke.135.2023.01.12.13.13.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jan 2023 13:14:14 -0800 (PST)
-Message-ID: <2fd5c783-94f1-1896-c6b9-431a754aec14@gmail.com>
-Date: Thu, 12 Jan 2023 13:13:51 -0800
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=duA6Un7MMHsWwDUG6Y+g/Vg750sAKeltAfxhDAJWOzI=;
+        b=z64ylTgU8cKvU6u4cZDp2L+IwLXujW+CoNFnzLLiqpX8b7wlIbmScKfW5B9yBOJ521
+         1GMGrtaYcxl9HOS+ob949drmq4HB9tHadwhalyRnwxKM/xjXo2i39KpirgVGZajdncE8
+         y+9o2RogYCyxKwZeTQ6bkrBTzVABcfI4dzAtY2rJASxx4NUE8Tkz4/Gn9kVRJCqUyWiD
+         oiZvX8gZK2n2OfNoicj1eQ/9Lb63kcOTdlu4kGSdn2uHtKv9UyTXBl9MZmxNN+8G1KD0
+         77JwYkDYgTcsrH3CLDOwsGNKtwWbRCXLKRPQNFjD//AMRPVBHyvp/P6vIq7PrCHHT2Xu
+         QMBQ==
+X-Gm-Message-State: AFqh2kr3MDD/jdOqUcyOF7hnRFVXEQ3sXp8c5+11w+X84boTJyY4z2ko
+	J0c32q1CaKLr2KFjfZB1ZoU3pQ==
+X-Google-Smtp-Source: AMrXdXu4y1USXbmB33jWp7T1TGYvEnF6MOtrQLu8xzf4Ek5Cp8Os7yBkCc4yDy30ibdWeK8h+3oGNQ==
+X-Received: by 2002:a17:902:9685:b0:192:f5a8:3099 with SMTP id n5-20020a170902968500b00192f5a83099mr26592237plp.5.1673561857844;
+        Thu, 12 Jan 2023 14:17:37 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id z9-20020a170903018900b00189db296776sm12808100plg.17.2023.01.12.14.17.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jan 2023 14:17:37 -0800 (PST)
+Date: Thu, 12 Jan 2023 14:17:36 -0800
+From: Kees Cook <keescook@chromium.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH][next] crypto: aspeed - Replace zero-length array with
+ flexible-array member
+Message-ID: <202301121417.EE86BDD5C@keescook>
+References: <Y7zBxbEAvcEEJRie@work>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH net-next 03/10] net: mdio: mux-bcm-iproc: Separate C22 and
- C45 transactions
-Content-Language: en-US
-To: Michael Walle <michael@walle.cc>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Felix Fietkau <nbd@nbd.name>,
- John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>,
- Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Bryan Whitehead <bryan.whitehead@microchip.com>,
- UNGLinuxDriver@microchip.com, Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Claudiu Manoil <claudiu.manoil@nxp.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Li Yang <leoyang.li@nxp.com>
-References: <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
- <20230112-net-next-c45-seperation-part-2-v1-3-5eeaae931526@walle.cc>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20230112-net-next-c45-seperation-part-2-v1-3-5eeaae931526@walle.cc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y7zBxbEAvcEEJRie@work>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,28 +75,26 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: Herbert Xu <herbert@gondor.apana.org.au>, linux-aspeed@lists.ozlabs.org, Neal Liu <neal_liu@aspeedtech.com>, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 1/12/23 07:15, Michael Walle wrote:
-> From: Andrew Lunn <andrew@lunn.ch>
+On Mon, Jan 09, 2023 at 07:39:17PM -0600, Gustavo A. R. Silva wrote:
+> Zero-length arrays are deprecated[1] and we are moving towards
+> adopting C99 flexible-array members instead. So, replace zero-length
+> array declaration in struct aspeed_sham_ctx with flex-array
+> member.
 > 
-> The MDIO mux broadcom iproc can perform both C22 and C45 transfers.
-> Create separate functions for each and register the C45 versions using
-> the new API calls.
+> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+> routines on memcpy() and help us make progress towards globally
+> enabling -fstrict-flex-arrays=3 [2].
 > 
-> Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-> Signed-off-by: Michael Walle <michael@walle.cc>
-> ---
-> Apparently, in the c45 case, the reg value including the MII_ADDR_C45
-> bit is written to the hardware. Looks weird, that a "random" software
-> bit is written to a register. Florian is that correct? Also, with this
-> patch this flag isn't set anymore.
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays [1]
+> Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [2]
+> Link: https://github.com/KSPP/linux/issues/78
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-We should be masking the MII_ADDR_C45 bit because the MDIO_ADDR_OFFSET 
-only defines bits 0 through 20 as being read/write and bits above being 
-read-only. In practice, this is probably not making any difference or harm.
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
 -- 
-Florian
-
+Kees Cook
