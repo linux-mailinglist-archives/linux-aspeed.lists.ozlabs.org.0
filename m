@@ -2,53 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B5C671042
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 02:42:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4677F67104D
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 02:42:48 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NxT5M6W59z3fBD
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 12:41:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NxT6G0gTDz3bdS
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 12:42:46 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=u49FS3Dk;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=ZscdTe8D;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=walle.cc (client-ip=159.69.201.130; helo=mail.3ffe.de; envelope-from=michael@walle.cc; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=u49FS3Dk;
+	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=ZscdTe8D;
 	dkim-atps=neutral
 Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nt7c35Hxbz3c90;
-	Fri, 13 Jan 2023 02:23:31 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nt7cB1Q50z3cfS;
+	Fri, 13 Jan 2023 02:23:38 +1100 (AEDT)
 Received: from mwalle01.sab.local (unknown [213.135.10.150])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id 17DAF1243;
-	Thu, 12 Jan 2023 16:15:23 +0100 (CET)
+	by mail.3ffe.de (Postfix) with ESMTPSA id 699BC15D5;
+	Thu, 12 Jan 2023 16:15:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-	t=1673536523;
+	t=1673536524;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Z7B4pND5e+QR5QtoQ7I5oChkxQuHHA20+0hEeYmGTgM=;
-	b=u49FS3Dk9qDfluXiGp9TkmisU6Qu5EvwZeqGdovxab6dVxup2BRDNMldkVcrzwCEAfpQAO
-	ZqMoR10rIPYiZXZgHEfpSBuByb641u4TLay6c3YIfCdpyyraN3BAKHkEcEFVIkadRUCeaH
-	NhRHm0VW+4rqcCspn5gc2CDfsZ3V9+V77PoUo5/EbEgb2mqudJB6j2SVDvbwlriGHsQVNE
-	g+ewd5Nm+se/6Xbqu+vFAXV0+H4iY4LjVWzQ14ymHNqNk0p3sf4brIiS32qqEmA3kq2MDu
-	6wV/2+U3EUaZghtv6GX3t0E72N3yCT7u78d3h0OeNauAyUvteuYApMHhmZ3Iug==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QGlMvwVE0XBFSe9hGJvTgj13A12QmBDoi6rAazqMrhA=;
+	b=ZscdTe8D24J1musI5j2G7C9p7+ZQ5A+f8En3gxFovHFbVirPpUojaZkfg333kVIDkDF3u1
+	JkLizYnIr5ACFDZnrUbxG7bosetMyVxoGTk4vVHb3dlVYWpyrNR3Gv8VlK90gXxJzafZ6J
+	xAmzBjKWMTol8QKlyKKhzrU2+AzcReoW6O5Lkwhj8E3BH6xgVrvjvKNoB3/nprPu4gTFIA
+	YStEnuS/eof5Rt7PsXK7P80//8ogCCMooFjZwakakV+TeFA6h3WcMwkRo12ls99PGFIO4e
+	d0VputPdm1yE5Q/e/hkRFikGmt7mi5GgxQNdqBEw9dFiWC7f9diy0rkmOmtt7A==
 From: Michael Walle <michael@walle.cc>
-Subject: [PATCH net-next 00/10] net: mdio: Continue separating C22 and C45
-Date: Thu, 12 Jan 2023 16:15:07 +0100
-Message-Id:  <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
+Date: Thu, 12 Jan 2023 16:15:08 +0100
+Subject:  [PATCH net-next 02/10] net: mdio: i2c: Separate C22 and C45 transactions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAPsjwGMC/zWNwQrCMBBEf6Xs2YVuTLX4K+Jhk25tDsawG6RQ+
- u+mgoc5PIZ5s4GJJjG4dRuofJKld25Apw7iwvkpmKbG4Hp37okcZqkta8XoBzQpolzbBgtrRYcU
- xjkE8v4yXqFJAptgUM5xOTQvtip6FEVlTuvv+Q5/KTz2/QtSEQk5kwAAAA==
+Content-Transfer-Encoding: 7bit
+Message-Id:  <20230112-net-next-c45-seperation-part-2-v1-2-5eeaae931526@walle.cc>
+References:  <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
+In-Reply-To:  <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
 To: Heiner Kallweit <hkallweit1@gmail.com>,
  Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
@@ -86,88 +86,96 @@ Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org, netdev@vger.ker
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-I've picked this older series from Andrew up and rebased it onto
-the latest net-next.
+From: Andrew Lunn <andrew@lunn.ch>
 
-This is the second patch set in the series which separates the C22
-and C45 MDIO bus transactions at the API level to the MDIO bus drivers.
+The MDIO over I2C bus driver can perform both C22 and C45 transfers.
+Create separate functions for each and register the C45 versions using
+the new API calls.
 
+Signed-off-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Michael Walle <michael@walle.cc>
-
-￼
-
-To: Heiner Kallweit <hkallweit1@gmail.com>
-To: Russell King <linux@armlinux.org.uk>
-To: "David S. Miller" <davem@davemloft.net>
-To: Eric Dumazet <edumazet@google.com>
-To: Jakub Kicinski <kuba@kernel.org>
-To: Paolo Abeni <pabeni@redhat.com>
-To: Ray Jui <rjui@broadcom.com>
-To: Scott Branden <sbranden@broadcom.com>
-To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-To: Joel Stanley <joel@jms.id.au>
-To: Andrew Jeffery <andrew@aj.id.au>
-To: Felix Fietkau <nbd@nbd.name>
-To: John Crispin <john@phrozen.org>
-To: Sean Wang <sean.wang@mediatek.com>
-To: Mark Lee <Mark-MC.Lee@mediatek.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>
-To: Bryan Whitehead <bryan.whitehead@microchip.com>
-To: UNGLinuxDriver@microchip.com
-To: Giuseppe Cavallaro <peppe.cavallaro@st.com>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>
-To: Jose Abreu <joabreu@synopsys.com>
-To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: Claudiu Manoil <claudiu.manoil@nxp.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Florian Fainelli <f.fainelli@gmail.com>
-To: Li Yang <leoyang.li@nxp.com>
-Cc: netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-aspeed@lists.ozlabs.org
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Michael Walle <michael@walle.cc>
-
 ---
-Andrew Lunn (10):
-      net: mdio: cavium: Separate C22 and C45 transactions
-      net: mdio: i2c: Separate C22 and C45 transactions
-      net: mdio: mux-bcm-iproc: Separate C22 and C45 transactions
-      net: mdio: aspeed: Separate C22 and C45 transactions
-      net: mdio: ipq4019: Separate C22 and C45 transactions
-      net: ethernet: mtk_eth_soc: Separate C22 and C45 transactions
-      net: lan743x: Separate C22 and C45 transactions
-      net: stmmac: Separate C22 and C45 transactions for xgmac2
-      net: stmmac: Separate C22 and C45 transactions for xgmac
-      enetc: Separate C22 and C45 transactions
+ drivers/net/mdio/mdio-i2c.c | 32 +++++++++++++++++++++++---------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
 
- drivers/net/dsa/ocelot/felix_vsc9959.c             |   6 +-
- drivers/net/ethernet/freescale/enetc/enetc_mdio.c  | 119 ++++++--
- .../net/ethernet/freescale/enetc/enetc_pci_mdio.c  |   6 +-
- drivers/net/ethernet/freescale/enetc/enetc_pf.c    |  12 +-
- drivers/net/ethernet/mediatek/mtk_eth_soc.c        | 178 +++++++----
- drivers/net/ethernet/microchip/lan743x_main.c      | 106 ++++---
- drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c  | 331 ++++++++++++++-------
- drivers/net/mdio/mdio-aspeed.c                     |  47 +--
- drivers/net/mdio/mdio-cavium.c                     | 111 +++++--
- drivers/net/mdio/mdio-cavium.h                     |   9 +-
- drivers/net/mdio/mdio-i2c.c                        |  32 +-
- drivers/net/mdio/mdio-ipq4019.c                    | 154 ++++++----
- drivers/net/mdio/mdio-mux-bcm-iproc.c              |  54 +++-
- drivers/net/mdio/mdio-octeon.c                     |   6 +-
- drivers/net/mdio/mdio-thunder.c                    |   6 +-
- include/linux/fsl/enetc_mdio.h                     |  21 +-
- 16 files changed, 766 insertions(+), 432 deletions(-)
----
-base-commit: 0a093b2893c711d82622a9ab27da4f1172821336
-change-id: 20230112-net-next-c45-seperation-part-2-1b8fbb144687
+diff --git a/drivers/net/mdio/mdio-i2c.c b/drivers/net/mdio/mdio-i2c.c
+index bf8bf5e20faf..9577a1842997 100644
+--- a/drivers/net/mdio/mdio-i2c.c
++++ b/drivers/net/mdio/mdio-i2c.c
+@@ -30,7 +30,8 @@ static unsigned int i2c_mii_phy_addr(int phy_id)
+ 	return phy_id + 0x40;
+ }
+ 
+-static int i2c_mii_read_default(struct mii_bus *bus, int phy_id, int reg)
++static int i2c_mii_read_default_c45(struct mii_bus *bus, int phy_id, int devad,
++				    int reg)
+ {
+ 	struct i2c_adapter *i2c = bus->priv;
+ 	struct i2c_msg msgs[2];
+@@ -41,8 +42,8 @@ static int i2c_mii_read_default(struct mii_bus *bus, int phy_id, int reg)
+ 		return 0xffff;
+ 
+ 	p = addr;
+-	if (reg & MII_ADDR_C45) {
+-		*p++ = 0x20 | ((reg >> 16) & 31);
++	if (devad >= 0) {
++		*p++ = 0x20 | devad;
+ 		*p++ = reg >> 8;
+ 	}
+ 	*p++ = reg;
+@@ -64,8 +65,8 @@ static int i2c_mii_read_default(struct mii_bus *bus, int phy_id, int reg)
+ 	return data[0] << 8 | data[1];
+ }
+ 
+-static int i2c_mii_write_default(struct mii_bus *bus, int phy_id, int reg,
+-				 u16 val)
++static int i2c_mii_write_default_c45(struct mii_bus *bus, int phy_id,
++				     int devad, int reg, u16 val)
+ {
+ 	struct i2c_adapter *i2c = bus->priv;
+ 	struct i2c_msg msg;
+@@ -76,8 +77,8 @@ static int i2c_mii_write_default(struct mii_bus *bus, int phy_id, int reg,
+ 		return 0;
+ 
+ 	p = data;
+-	if (reg & MII_ADDR_C45) {
+-		*p++ = (reg >> 16) & 31;
++	if (devad >= 0) {
++		*p++ = devad;
+ 		*p++ = reg >> 8;
+ 	}
+ 	*p++ = reg;
+@@ -94,6 +95,17 @@ static int i2c_mii_write_default(struct mii_bus *bus, int phy_id, int reg,
+ 	return ret < 0 ? ret : 0;
+ }
+ 
++static int i2c_mii_read_default_c22(struct mii_bus *bus, int phy_id, int reg)
++{
++	return i2c_mii_read_default_c45(bus, phy_id, -1, reg);
++}
++
++static int i2c_mii_write_default_c22(struct mii_bus *bus, int phy_id, int reg,
++				     u16 val)
++{
++	return i2c_mii_write_default_c45(bus, phy_id, -1, reg, val);
++}
++
+ /* RollBall SFPs do not access internal PHY via I2C address 0x56, but
+  * instead via address 0x51, when SFP page is set to 0x03 and password to
+  * 0xffffffff.
+@@ -403,8 +415,10 @@ struct mii_bus *mdio_i2c_alloc(struct device *parent, struct i2c_adapter *i2c,
+ 		mii->write = i2c_mii_write_rollball;
+ 		break;
+ 	default:
+-		mii->read = i2c_mii_read_default;
+-		mii->write = i2c_mii_write_default;
++		mii->read = i2c_mii_read_default_c22;
++		mii->write = i2c_mii_write_default_c22;
++		mii->read_c45 = i2c_mii_read_default_c45;
++		mii->write_c45 = i2c_mii_write_default_c45;
+ 		break;
+ 	}
+ 
 
-Best regards,
 -- 
-Michael Walle <michael@walle.cc>
+2.30.2
