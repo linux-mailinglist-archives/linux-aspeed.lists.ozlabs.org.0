@@ -2,68 +2,34 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6EC6686B0
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Jan 2023 23:17:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07ECE668AB3
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jan 2023 05:13:46 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NtJp74P9vz3c5D
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jan 2023 09:17:51 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=esi4sIDL;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NtShl6PNmz3fBQ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jan 2023 15:13:43 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::1031; helo=mail-pj1-x1031.google.com; envelope-from=keescook@chromium.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=esi4sIDL;
-	dkim-atps=neutral
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=216.24.177.18; helo=formenos.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=<UNKNOWN>)
+Received: from formenos.hmeau.com (helcar.hmeau.com [216.24.177.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NtJnz3PG8z3bTm
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Jan 2023 09:17:40 +1100 (AEDT)
-Received: by mail-pj1-x1031.google.com with SMTP id o8-20020a17090a9f8800b00223de0364beso25062898pjp.4
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Jan 2023 14:17:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=duA6Un7MMHsWwDUG6Y+g/Vg750sAKeltAfxhDAJWOzI=;
-        b=esi4sIDLgCeEJk+u0yjNbzcOwnXIyrdFqNgIf/C/hPkZydzpXkwVQAN68jczLwo5Vy
-         DjaWv1FKrmoOVsI/0IYwX7hEP8bcbjLX9gMOv2qJZ01Sb6xTbGwFMOr7weCr1vnx3hO8
-         JxqhFjo+y4XHo7VkWAHe0Pp4x16s1XVBDAvHI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=duA6Un7MMHsWwDUG6Y+g/Vg750sAKeltAfxhDAJWOzI=;
-        b=z64ylTgU8cKvU6u4cZDp2L+IwLXujW+CoNFnzLLiqpX8b7wlIbmScKfW5B9yBOJ521
-         1GMGrtaYcxl9HOS+ob949drmq4HB9tHadwhalyRnwxKM/xjXo2i39KpirgVGZajdncE8
-         y+9o2RogYCyxKwZeTQ6bkrBTzVABcfI4dzAtY2rJASxx4NUE8Tkz4/Gn9kVRJCqUyWiD
-         oiZvX8gZK2n2OfNoicj1eQ/9Lb63kcOTdlu4kGSdn2uHtKv9UyTXBl9MZmxNN+8G1KD0
-         77JwYkDYgTcsrH3CLDOwsGNKtwWbRCXLKRPQNFjD//AMRPVBHyvp/P6vIq7PrCHHT2Xu
-         QMBQ==
-X-Gm-Message-State: AFqh2kr3MDD/jdOqUcyOF7hnRFVXEQ3sXp8c5+11w+X84boTJyY4z2ko
-	J0c32q1CaKLr2KFjfZB1ZoU3pQ==
-X-Google-Smtp-Source: AMrXdXu4y1USXbmB33jWp7T1TGYvEnF6MOtrQLu8xzf4Ek5Cp8Os7yBkCc4yDy30ibdWeK8h+3oGNQ==
-X-Received: by 2002:a17:902:9685:b0:192:f5a8:3099 with SMTP id n5-20020a170902968500b00192f5a83099mr26592237plp.5.1673561857844;
-        Thu, 12 Jan 2023 14:17:37 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z9-20020a170903018900b00189db296776sm12808100plg.17.2023.01.12.14.17.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 14:17:37 -0800 (PST)
-Date: Thu, 12 Jan 2023 14:17:36 -0800
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH][next] crypto: aspeed - Replace zero-length array with
- flexible-array member
-Message-ID: <202301121417.EE86BDD5C@keescook>
-References: <Y7zBxbEAvcEEJRie@work>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NtShg3q67z3bpH
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Jan 2023 15:13:37 +1100 (AEDT)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1pGBRM-00H5Jc-38; Fri, 13 Jan 2023 12:13:17 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 13 Jan 2023 12:13:16 +0800
+Date: Fri, 13 Jan 2023 12:13:16 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Neal Liu <neal_liu@aspeedtech.com>
+Subject: Re: [PATCH v5 0/4] Add Aspeed ACRY driver for hardware acceleration
+Message-ID: <Y8DaXA9X5Rp+3jCA@gondor.apana.org.au>
+References: <20230104013436.203427-1-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y7zBxbEAvcEEJRie@work>
+In-Reply-To: <20230104013436.203427-1-neal_liu@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,26 +41,63 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>, linux-aspeed@lists.ozlabs.org, Neal Liu <neal_liu@aspeedtech.com>, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Jan 09, 2023 at 07:39:17PM -0600, Gustavo A. R. Silva wrote:
-> Zero-length arrays are deprecated[1] and we are moving towards
-> adopting C99 flexible-array members instead. So, replace zero-length
-> array declaration in struct aspeed_sham_ctx with flex-array
-> member.
+On Wed, Jan 04, 2023 at 09:34:32AM +0800, Neal Liu wrote:
+> Aspeed ACRY engine is designed to accelerate the throughput of
+> ECDSA/RSA signature and verification.
 > 
-> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> routines on memcpy() and help us make progress towards globally
-> enabling -fstrict-flex-arrays=3 [2].
+> These patches aim to add Aspeed ACRY RSA driver support.
+> This driver also pass the run-time self tests that take place at
+> algorithm registration on both big-endian/little-endian system
+> in AST2600 evaluation board .
 > 
-> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays [1]
-> Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [2]
-> Link: https://github.com/KSPP/linux/issues/78
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Tested-by below configs:
+> - CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
+> - CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=y
+> - CONFIG_DMA_API_DEBUG=y
+> - CONFIG_DMA_API_DEBUG_SG=y
+> - CONFIG_CPU_BIG_ENDIAN=y
+> 
+> Change since v4:
+> - Remove GFP_DMA flag since it's unnecessary.
+> 
+> Change since v3:
+> - Revise aspeed,ast2600-ahbc.yaml dt-bindings description.
+> 
+> Change since v2:
+> - Fix format and uninitialized warning.
+> - Revise binding description.
+> 
+> Change since v1:
+> - Fix dt-bindings description.
+> - Refine the Makefile which has been addressed.
+> 
+> Neal Liu (4):
+>   crypto: aspeed: Add ACRY RSA driver
+>   ARM: dts: aspeed: Add ACRY/AHBC device controller node
+>   dt-bindings: crypto: add documentation for Aspeed ACRY
+>   dt-bindings: bus: add documentation for Aspeed AHBC
+> 
+>  .../bindings/bus/aspeed,ast2600-ahbc.yaml     |  37 +
+>  .../bindings/crypto/aspeed,ast2600-acry.yaml  |  49 ++
+>  MAINTAINERS                                   |   2 +-
+>  arch/arm/boot/dts/aspeed-g6.dtsi              |  13 +
+>  drivers/crypto/aspeed/Kconfig                 |  11 +
+>  drivers/crypto/aspeed/Makefile                |   2 +
+>  drivers/crypto/aspeed/aspeed-acry.c           | 828 ++++++++++++++++++
+>  7 files changed, 941 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2600-acry.yaml
+>  create mode 100644 drivers/crypto/aspeed/aspeed-acry.c
+> 
+> -- 
+> 2.25.1
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
+All applied.  Thanks.
 -- 
-Kees Cook
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
