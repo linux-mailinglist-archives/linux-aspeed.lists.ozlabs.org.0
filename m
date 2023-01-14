@@ -1,35 +1,56 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07ECE668AB3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jan 2023 05:13:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1348366A97D
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Jan 2023 06:50:33 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NtShl6PNmz3fBQ
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jan 2023 15:13:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Nv6nz001pz3fCK
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Jan 2023 16:50:30 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PbzAb7Fu;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=216.24.177.18; helo=formenos.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=<UNKNOWN>)
-Received: from formenos.hmeau.com (helcar.hmeau.com [216.24.177.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PbzAb7Fu;
+	dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NtShg3q67z3bpH
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Jan 2023 15:13:37 +1100 (AEDT)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1pGBRM-00H5Jc-38; Fri, 13 Jan 2023 12:13:17 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 13 Jan 2023 12:13:16 +0800
-Date: Fri, 13 Jan 2023 12:13:16 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH v5 0/4] Add Aspeed ACRY driver for hardware acceleration
-Message-ID: <Y8DaXA9X5Rp+3jCA@gondor.apana.org.au>
-References: <20230104013436.203427-1-neal_liu@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nv6np1Mg0z3c91;
+	Sat, 14 Jan 2023 16:50:22 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 4DEE960B45;
+	Sat, 14 Jan 2023 05:50:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99D12C433EF;
+	Sat, 14 Jan 2023 05:50:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673675418;
+	bh=ngfQjwFKmCSeocAW86AdE9in/ESlzA2f+NOfkGPnaOg=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=PbzAb7FuLH7rstaaHzkqO/TKJ0jhzX5/WVGU1Atan9l2+aId0YIBwQBc6HEWGIdOx
+	 NpBUiimoP/3W4GeYmgQWkIyK0QxD26i1VH8jDscuPlEWm/rxaumM/fnWM8Us8rXkdc
+	 xVnwryq7I1nXtFLtPG4iU0vHUeQs6adLDniT54mEpUIdDbaTldpzW/tSZCCv49Latq
+	 ASQ9j+AGIg2kynwAdJes0zFQh1cxh1mZpE8rDdsFr7ssJaPfEAj30VnTs0y0CgEV7e
+	 g99L+fsWom9cv4n4jn7ebEEiBWKp8bDx58WvX+T4uizSBRsOOFIll46WgLTttVOLUn
+	 Um0jMC9DtZRtQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 75D05E21EE0;
+	Sat, 14 Jan 2023 05:50:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230104013436.203427-1-neal_liu@aspeedtech.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 00/10] net: mdio: Continue separating C22 and C45
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id:  <167367541847.15756.1816103460556617097.git-patchwork-notify@kernel.org>
+Date: Sat, 14 Jan 2023 05:50:18 +0000
+References: <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
+In-Reply-To: <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
+To: Michael Walle <michael@walle.cc>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,63 +62,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S . Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
+Cc: andrew@lunn.ch, alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org, vladimir.oltean@nxp.com, alexandre.torgue@foss.st.com, edumazet@google.com, leoyang.li@nxp.com, linux-stm32@st-md-mailman.stormreply.com, f.fainelli@gmail.com, linux@armlinux.org.uk, joabreu@synopsys.com, bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com, lorenzo@kernel.org, Mark-MC.Lee@mediatek.com, rjui@broadcom.com, sean.wang@mediatek.com, claudiu.manoil@nxp.com, linux-mediatek@lists.infradead.org, john@phrozen.org, matthias.bgg@gmail.com, peppe.cavallaro@st.com, linux-arm-kernel@lists.infradead.org, sbranden@broadcom.com, bryan.whitehead@microchip.com, linux-kernel@vger.kernel.org, UNGLinuxDriver@microchip.com, mcoquelin.stm32@gmail.com, netdev@vger.kernel.org, hkallweit1@gmail.com, linuxppc-dev@lists.ozlabs.org, davem@davemloft.net, nbd@nbd.name
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jan 04, 2023 at 09:34:32AM +0800, Neal Liu wrote:
-> Aspeed ACRY engine is designed to accelerate the throughput of
-> ECDSA/RSA signature and verification.
-> 
-> These patches aim to add Aspeed ACRY RSA driver support.
-> This driver also pass the run-time self tests that take place at
-> algorithm registration on both big-endian/little-endian system
-> in AST2600 evaluation board .
-> 
-> Tested-by below configs:
-> - CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
-> - CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=y
-> - CONFIG_DMA_API_DEBUG=y
-> - CONFIG_DMA_API_DEBUG_SG=y
-> - CONFIG_CPU_BIG_ENDIAN=y
-> 
-> Change since v4:
-> - Remove GFP_DMA flag since it's unnecessary.
-> 
-> Change since v3:
-> - Revise aspeed,ast2600-ahbc.yaml dt-bindings description.
-> 
-> Change since v2:
-> - Fix format and uninitialized warning.
-> - Revise binding description.
-> 
-> Change since v1:
-> - Fix dt-bindings description.
-> - Refine the Makefile which has been addressed.
-> 
-> Neal Liu (4):
->   crypto: aspeed: Add ACRY RSA driver
->   ARM: dts: aspeed: Add ACRY/AHBC device controller node
->   dt-bindings: crypto: add documentation for Aspeed ACRY
->   dt-bindings: bus: add documentation for Aspeed AHBC
-> 
->  .../bindings/bus/aspeed,ast2600-ahbc.yaml     |  37 +
->  .../bindings/crypto/aspeed,ast2600-acry.yaml  |  49 ++
->  MAINTAINERS                                   |   2 +-
->  arch/arm/boot/dts/aspeed-g6.dtsi              |  13 +
->  drivers/crypto/aspeed/Kconfig                 |  11 +
->  drivers/crypto/aspeed/Makefile                |   2 +
->  drivers/crypto/aspeed/aspeed-acry.c           | 828 ++++++++++++++++++
->  7 files changed, 941 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/bus/aspeed,ast2600-ahbc.yaml
->  create mode 100644 Documentation/devicetree/bindings/crypto/aspeed,ast2600-acry.yaml
->  create mode 100644 drivers/crypto/aspeed/aspeed-acry.c
-> 
-> -- 
-> 2.25.1
+Hello:
 
-All applied.  Thanks.
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu, 12 Jan 2023 16:15:07 +0100 you wrote:
+> I've picked this older series from Andrew up and rebased it onto
+> the latest net-next.
+> 
+> This is the second patch set in the series which separates the C22
+> and C45 MDIO bus transactions at the API level to the MDIO bus drivers.
+> 
+> Signed-off-by: Michael Walle <michael@walle.cc>
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,01/10] net: mdio: cavium: Separate C22 and C45 transactions
+    https://git.kernel.org/netdev/net-next/c/93641ecbaa1f
+  - [net-next,02/10] net: mdio: i2c: Separate C22 and C45 transactions
+    https://git.kernel.org/netdev/net-next/c/87e3bee0f247
+  - [net-next,03/10] net: mdio: mux-bcm-iproc: Separate C22 and C45 transactions
+    https://git.kernel.org/netdev/net-next/c/d544a25930a7
+  - [net-next,04/10] net: mdio: aspeed: Separate C22 and C45 transactions
+    https://git.kernel.org/netdev/net-next/c/c3c497eb8b24
+  - [net-next,05/10] net: mdio: ipq4019: Separate C22 and C45 transactions
+    https://git.kernel.org/netdev/net-next/c/c58e39942adf
+  - [net-next,06/10] net: ethernet: mtk_eth_soc: Separate C22 and C45 transactions
+    https://git.kernel.org/netdev/net-next/c/900888374e73
+  - [net-next,07/10] net: lan743x: Separate C22 and C45 transactions
+    https://git.kernel.org/netdev/net-next/c/3d90c03cb416
+  - [net-next,08/10] net: stmmac: Separate C22 and C45 transactions for xgmac2
+    https://git.kernel.org/netdev/net-next/c/5b0a447efff5
+  - [net-next,09/10] net: stmmac: Separate C22 and C45 transactions for xgmac
+    https://git.kernel.org/netdev/net-next/c/3c7826d0b106
+  - [net-next,10/10] enetc: Separate C22 and C45 transactions
+    https://git.kernel.org/netdev/net-next/c/80e87442e69b
+
+You are awesome, thank you!
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
