@@ -2,67 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FDD671053
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 02:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E3A671055
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 02:43:25 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NxT6n4ZyFz30DC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 12:43:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NxT6z5KK2z3bTB
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 12:43:23 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=xmPF+pbQ;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JVkn4k0N;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=walle.cc (client-ip=2a01:4f8:c0c:9d57::1; helo=mail.3ffe.de; envelope-from=michael@walle.cc; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.115; helo=mga14.intel.com; envelope-from=jani.nikula@intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=xmPF+pbQ;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JVkn4k0N;
 	dkim-atps=neutral
-Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NwX7j3yM1z30RT
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Jan 2023 23:55:45 +1100 (AEDT)
-Received: from mwalle01.sab.local (unknown [213.135.10.150])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id D9DE016F2;
-	Mon, 16 Jan 2023 13:55:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-	t=1673873739;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N/4W4B+W4pbypXR0XLXo8vwK/KzTHK+Yr6B7LFX8zfE=;
-	b=xmPF+pbQnuFJOIntAfRbp9TykBDBlvpixmjoiiWQ1ZmDbGhat5vqpLYOEh8b0FThavc0Hp
-	XQmq5Zs+X+BSLhhO7tisGY1ZyxhoyWi+gz2tHrj28iKFKYNmFm8bCBasoF0aAV/ZyYZ79a
-	4IYKgYHHAzbPN54vhPfSQbf7VQ0DeWm7Y/mPClv6SFdDFyQEDb2NnvAjpNzYFqn4ICwqgb
-	A2EVliCxWfRccD+6tIO+yyyhMucYX+KVvjH8ElwfZH/YgPNnuNB8FIe+CwO0xP3EgD7VfK
-	cUMALh+rWueQwiQjMXst9NEXnuW4FLyXKQpKRxSqLV+CB0Rrz7B3kkzBIN7buw==
-From: Michael Walle <michael@walle.cc>
-Date: Mon, 16 Jan 2023 13:55:18 +0100
-Subject: [PATCH net-next 6/6] net: phy: Remove probe_capabilities
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nwcgf2Xn9z3bNj
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Jan 2023 03:20:07 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1673886014; x=1705422014;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=3kP3+Z/fGb1HUUCGydhyc9dGWiwyXHQhkXAlft+qAzY=;
+  b=JVkn4k0NuqJa5bMFje9alCznXx/l8w3eTR4arMBPPY3ZyQklsnrqCZqH
+   AdDavWsjfSnSz7KClUHoLGVQOKXol64H60cWmGj92q0xC+jmL7SUzL3pv
+   K5f+6m+jNIqjDP2diEgsa8q2QMCamulWy1+2562cpT0Atml/M7FS1w5cN
+   T3BoycrXTiX8IdGcVvJddURvLM7Do9tLST3LIsz7cNTC3caiDdLbdv5cD
+   rJZicZHIEv6/gV0nq17FEALihapul650pbMM+bNhYiYe7w1Ti0twwpchb
+   W1DKTU1S07m7EJv0OCWF5DAmiBR0Qa/SmM3sUip+Ja+5nUkK2QHHhKeA5
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="324558191"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
+   d="scan'208";a="324558191"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 08:20:03 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10592"; a="766952438"
+X-IronPort-AV: E=Sophos;i="5.97,221,1669104000"; 
+   d="scan'208";a="766952438"
+Received: from amakarev-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.13.137])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2023 08:19:59 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org,
+ daniel@ffwll.ch, airlied@gmail.com
+Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
+In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+Date: Mon, 16 Jan 2023 18:19:56 +0200
+Message-ID: <87k01me9jn.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id:  <20230116-net-next-remove-probe-capabilities-v1-6-5aa29738a023@walle.cc>
-References:  <20230116-net-next-remove-probe-capabilities-v1-0-5aa29738a023@walle.cc>
-In-Reply-To:  <20230116-net-next-remove-probe-capabilities-v1-0-5aa29738a023@walle.cc>
-To: Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Felix Fietkau <nbd@nbd.name>,
- John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>,
- Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Bryan Whitehead <bryan.whitehead@microchip.com>, UNGLinuxDriver@microchip.com,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>
-X-Mailer: b4 0.11.1
+Content-Type: text/plain
 X-Mailman-Approved-At: Wed, 18 Jan 2023 12:41:55 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -75,129 +67,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>, linux-mediatek@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Andrew Lunn <andrew@lunn.ch>
+On Mon, 16 Jan 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> A lot of source files include drm_crtc_helper.h for its contained
+> include statements. This leads to excessive compile-time dependencies.
+>
+> Where possible, remove the include statements for drm_crtc_helper.h
+> and include the required source files directly. Also remove the
+> include statements from drm_crtc_helper.h itself, which doesn't need
+> most of them.
+>
+> I built this patchset on x86-64, aarch64 and arm. Hopefully I found
+> all include dependencies.
 
-Deciding if to probe of PHYs using C45 is now determine by if the bus
-provides the C45 read method. This makes probe_capabilities redundant
-so remove it.
+I think this is the right direction and I support this. Personally I
+think it's enough to build test and fix any fallout afterwards.
 
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Michael Walle <michael@walle.cc>
----
- drivers/net/ethernet/adi/adin1110.c               | 1 -
- drivers/net/ethernet/freescale/xgmac_mdio.c       | 1 -
- drivers/net/ethernet/mediatek/mtk_eth_soc.c       | 1 -
- drivers/net/ethernet/microchip/lan743x_main.c     | 2 --
- drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 3 ---
- drivers/net/mdio/mdio-aspeed.c                    | 1 -
- include/linux/phy.h                               | 8 --------
- 7 files changed, 17 deletions(-)
+To that end, I did build test this myself with my config, and it was
+fine, though that probably doesn't add much coverage.
 
-diff --git a/drivers/net/ethernet/adi/adin1110.c b/drivers/net/ethernet/adi/adin1110.c
-index 0805f249fff2..25f55756681d 100644
---- a/drivers/net/ethernet/adi/adin1110.c
-+++ b/drivers/net/ethernet/adi/adin1110.c
-@@ -523,7 +523,6 @@ static int adin1110_register_mdiobus(struct adin1110_priv *priv,
- 	mii_bus->priv = priv;
- 	mii_bus->parent = dev;
- 	mii_bus->phy_mask = ~((u32)GENMASK(2, 0));
--	mii_bus->probe_capabilities = MDIOBUS_C22;
- 	snprintf(mii_bus->id, MII_BUS_ID_SIZE, "%s", dev_name(dev));
- 
- 	ret = devm_mdiobus_register(dev, mii_bus);
-diff --git a/drivers/net/ethernet/freescale/xgmac_mdio.c b/drivers/net/ethernet/freescale/xgmac_mdio.c
-index 8b5a4cd8ff08..a13b4ba4d6e1 100644
---- a/drivers/net/ethernet/freescale/xgmac_mdio.c
-+++ b/drivers/net/ethernet/freescale/xgmac_mdio.c
-@@ -397,7 +397,6 @@ static int xgmac_mdio_probe(struct platform_device *pdev)
- 	bus->read_c45 = xgmac_mdio_read_c45;
- 	bus->write_c45 = xgmac_mdio_write_c45;
- 	bus->parent = &pdev->dev;
--	bus->probe_capabilities = MDIOBUS_C22_C45;
- 	snprintf(bus->id, MII_BUS_ID_SIZE, "%pa", &res->start);
- 
- 	priv = bus->priv;
-diff --git a/drivers/net/ethernet/mediatek/mtk_eth_soc.c b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
-index dc50e0b227a6..d67ec28b2ba3 100644
---- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
-+++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
-@@ -808,7 +808,6 @@ static int mtk_mdio_init(struct mtk_eth *eth)
- 	eth->mii_bus->write = mtk_mdio_write_c22;
- 	eth->mii_bus->read_c45 = mtk_mdio_read_c45;
- 	eth->mii_bus->write_c45 = mtk_mdio_write_c45;
--	eth->mii_bus->probe_capabilities = MDIOBUS_C22_C45;
- 	eth->mii_bus->priv = eth;
- 	eth->mii_bus->parent = eth->dev;
- 
-diff --git a/drivers/net/ethernet/microchip/lan743x_main.c b/drivers/net/ethernet/microchip/lan743x_main.c
-index e205edf477de..86b81df374da 100644
---- a/drivers/net/ethernet/microchip/lan743x_main.c
-+++ b/drivers/net/ethernet/microchip/lan743x_main.c
-@@ -3279,7 +3279,6 @@ static int lan743x_mdiobus_init(struct lan743x_adapter *adapter)
- 			lan743x_csr_write(adapter, SGMII_CTL, sgmii_ctl);
- 			netif_dbg(adapter, drv, adapter->netdev,
- 				  "SGMII operation\n");
--			adapter->mdiobus->probe_capabilities = MDIOBUS_C22_C45;
- 			adapter->mdiobus->read = lan743x_mdiobus_read_c22;
- 			adapter->mdiobus->write = lan743x_mdiobus_write_c22;
- 			adapter->mdiobus->read_c45 = lan743x_mdiobus_read_c45;
-@@ -3295,7 +3294,6 @@ static int lan743x_mdiobus_init(struct lan743x_adapter *adapter)
- 			netif_dbg(adapter, drv, adapter->netdev,
- 				  "RGMII operation\n");
- 			// Only C22 support when RGMII I/F
--			adapter->mdiobus->probe_capabilities = MDIOBUS_C22;
- 			adapter->mdiobus->read = lan743x_mdiobus_read_c22;
- 			adapter->mdiobus->write = lan743x_mdiobus_write_c22;
- 			adapter->mdiobus->name = "lan743x-mdiobus";
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-index d2cb22f49ce5..21aaa2730ac8 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-@@ -553,9 +553,6 @@ int stmmac_mdio_register(struct net_device *ndev)
- 
- 	new_bus->name = "stmmac";
- 
--	if (priv->plat->has_gmac4)
--		new_bus->probe_capabilities = MDIOBUS_C22_C45;
--
- 	if (priv->plat->has_xgmac) {
- 		new_bus->read = &stmmac_xgmac2_mdio_read_c22;
- 		new_bus->write = &stmmac_xgmac2_mdio_write_c22;
-diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-aspeed.c
-index 2f4bbda5e56c..c727103c8b05 100644
---- a/drivers/net/mdio/mdio-aspeed.c
-+++ b/drivers/net/mdio/mdio-aspeed.c
-@@ -164,7 +164,6 @@ static int aspeed_mdio_probe(struct platform_device *pdev)
- 	bus->write = aspeed_mdio_write_c22;
- 	bus->read_c45 = aspeed_mdio_read_c45;
- 	bus->write_c45 = aspeed_mdio_write_c45;
--	bus->probe_capabilities = MDIOBUS_C22_C45;
- 
- 	rc = of_mdiobus_register(bus, pdev->dev.of_node);
- 	if (rc) {
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index fceaac0fb319..fbeba4fee8d4 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -419,14 +419,6 @@ struct mii_bus {
- 	/** @reset_gpiod: Reset GPIO descriptor pointer */
- 	struct gpio_desc *reset_gpiod;
- 
--	/** @probe_capabilities: bus capabilities, used for probing */
--	enum {
--		MDIOBUS_NO_CAP = 0,
--		MDIOBUS_C22,
--		MDIOBUS_C45,
--		MDIOBUS_C22_C45,
--	} probe_capabilities;
--
- 	/** @shared_lock: protect access to the shared element */
- 	struct mutex shared_lock;
- 
+FWIW,
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
 
 -- 
-2.30.2
+Jani Nikula, Intel Open Source Graphics Center
