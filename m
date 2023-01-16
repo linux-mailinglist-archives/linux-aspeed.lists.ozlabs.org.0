@@ -1,70 +1,70 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B2466BF14
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Jan 2023 14:13:40 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B4766BF31
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Jan 2023 14:14:00 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NwXXL3Wgxz3cFN
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jan 2023 00:13:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NwXXk064lz3cBp
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jan 2023 00:13:58 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Ki78kxq5;
-	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mS2UGuvs;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0udO1KOY;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0kAsl8d5;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.220.29; helo=smtp-out2.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Ki78kxq5;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mS2UGuvs;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0udO1KOY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0kAsl8d5;
 	dkim-atps=neutral
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NwXWN3Zd2z3cGR
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NwXWN4XvSz3cHF
 	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Jan 2023 00:12:48 +1100 (AEDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3796A67784;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 80E3467853;
 	Mon, 16 Jan 2023 13:12:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1673874759; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qnxmLVBM3b5pX8woukmNI4lXDkoScqQDZfPuhN17SoA=;
-	b=Ki78kxq5ook/MB+oBsjo/QwrX+4u05UI6B07emgGVaZws7APKtrEOj8FfLfJxuBb8pvUoo
-	K3xf0p76E+khWGvFH4Zx7QYk6PLNqBkviFywHoTc0WEvGbU+sM4DXpGsLM1d8Ix72TYntr
-	XWHaGgJXlANWMSxjWNNzSZICGWe9y0Q=
+	bh=ux8DO5Cbg3WS+Dfk4vpf92hsyg6mGAUkiBHpQHhMXvk=;
+	b=0udO1KOY9nse10LxnrwMJ/4ZBUmhjfQOxP9YFBL2ZxLj3CfzcWAjAOExUTIMm24SZobp1H
+	DvxZ0zUaperDGLiu36fywRIwV4O3kGFoaVLE78Wu/hbk/ICHfXwCBTrGC2qMpxsbbw6m7d
+	DMAKQUFqxRABvqGDM/iZ0TaY6nuYYBA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1673874759;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qnxmLVBM3b5pX8woukmNI4lXDkoScqQDZfPuhN17SoA=;
-	b=mS2UGuvsvQrsC0iwGxsxEyLqbV9mbvfXKLBIk4Nb9SlYrsNtFW2ThorRECRcKstVQs6qbp
-	I0tkPGMIywTKE1AA==
+	bh=ux8DO5Cbg3WS+Dfk4vpf92hsyg6mGAUkiBHpQHhMXvk=;
+	b=0kAsl8d5/KED7Gle3yOJOyWgMXWXtm6cjqGel8SpMUh/SCfZ64itz4QqFBB4i9CN68yps5
+	HJXIA+2DwlHYM9Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E94BB138FA;
-	Mon, 16 Jan 2023 13:12:38 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B449139C3;
+	Mon, 16 Jan 2023 13:12:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 0An9N0ZNxWNrNQAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:38 +0000
+	id OLCbDUdNxWNrNQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:39 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: sam@ravnborg.org,
 	daniel@ffwll.ch,
 	airlied@gmail.com
-Subject: [PATCH 06/22] drm/ast: Remove unnecessary include statements for drm_crtc_helper.h
-Date: Mon, 16 Jan 2023 14:12:19 +0100
-Message-Id: <20230116131235.18917-7-tzimmermann@suse.de>
+Subject: [PATCH 07/22] drm/bridge: Remove unnecessary include statements for drm_crtc_helper.h
+Date: Mon, 16 Jan 2023 14:12:20 +0100
+Message-Id: <20230116131235.18917-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230116131235.18917-1-tzimmermann@suse.de>
 References: <20230116131235.18917-1-tzimmermann@suse.de>
@@ -94,47 +94,99 @@ possible.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_drv.c  | 1 -
- drivers/gpu/drm/ast/ast_main.c | 1 -
- drivers/gpu/drm/ast/ast_mode.c | 1 -
- 3 files changed, 3 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c  | 1 -
+ drivers/gpu/drm/bridge/analogix/anx7625.c           | 1 -
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 1 -
+ drivers/gpu/drm/bridge/ite-it6505.c                 | 1 -
+ drivers/gpu/drm/bridge/ite-it66121.c                | 1 -
+ drivers/gpu/drm/bridge/tc358768.c                   | 1 -
+ drivers/gpu/drm/bridge/tc358775.c                   | 1 -
+ 7 files changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 420fc75c240e..d78852c7cf5b 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -31,7 +31,6 @@
- 
- #include <drm/drm_aperture.h>
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+index 339e0f05b260..3577c532abb4 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+@@ -22,7 +22,6 @@
  #include <drm/drm_atomic_helper.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_generic.h>
- #include <drm/drm_gem_shmem_helper.h>
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index bffa310a0431..f83ce77127cb 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -29,7 +29,6 @@
- #include <linux/pci.h>
- 
- #include <drm/drm_atomic_helper.h>
--#include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_managed.h>
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index e82e9a8d85e5..dcb8ced4ce75 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -35,7 +35,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
  #include <drm/drm_crtc.h>
 -#include <drm/drm_crtc_helper.h>
- #include <drm/drm_damage_helper.h>
  #include <drm/drm_edid.h>
- #include <drm/drm_format_helper.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index b375887e655d..6846199a2ee1 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -26,7 +26,6 @@
+ #include <drm/display/drm_hdcp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index 31442a922502..f6822dfa3805 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -43,7 +43,6 @@
+ #include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_connector.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_print.h>
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 9cda2df21b88..bc451b2a77c2 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -26,7 +26,6 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index b34860871627..a2d723d6a4be 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -22,7 +22,6 @@
+ 
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_modes.h>
+ #include <drm/drm_print.h>
+diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
+index 839b8832b9b5..7c0cbe84611b 100644
+--- a/drivers/gpu/drm/bridge/tc358768.c
++++ b/drivers/gpu/drm/bridge/tc358768.c
+@@ -15,7 +15,6 @@
+ #include <linux/slab.h>
+ 
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index 91b5e1207c47..19316994ddd1 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -23,7 +23,6 @@
+ #include <drm/display/drm_dp_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+-#include <drm/drm_crtc_helper.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
 -- 
 2.39.0
 
