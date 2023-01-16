@@ -2,90 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF8C66BC05
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Jan 2023 11:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E4366BF3C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Jan 2023 14:14:09 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NwTC25NGbz3cCL
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Jan 2023 21:43:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NwXXv4vqqz3cDs
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jan 2023 00:14:07 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=UD/iKX/1;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=tGQuciRd;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Dkv3ssXg;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YKR9ZNdx;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.27; helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.220.29; helo=smtp-out2.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=UD/iKX/1;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=tGQuciRd;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Dkv3ssXg;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YKR9ZNdx;
 	dkim-atps=neutral
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NwTBr2pJjz30CT
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Jan 2023 21:43:15 +1100 (AEDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 166EC5C00E0;
-	Mon, 16 Jan 2023 05:43:09 -0500 (EST)
-Received: from imap50 ([10.202.2.100])
-  by compute6.internal (MEProxy); Mon, 16 Jan 2023 05:43:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1673865789; x=1673952189; bh=uJ8Z29O6MR
-	Aq0KRjgL+wIdJIj9qvUR4EghTVu5Hcgd4=; b=UD/iKX/1Kl0JOaM0oTDC4ga0b+
-	4vOOLM0XaigJYzqEETvpcdmHOZyAmYvqxYxIRj8hZdXGiVpJXsOHsIpgatWD0vfy
-	9V0D45RdfSZ7kENz+M1rOCPJIl3t/IYCZbM1LtKNoZ0684/QAZA9bwTpql2ZaOvX
-	bUF0DEE0G/bbe+myjocBDQLeRHPHBHaC11lvgbWxB2F7vLyanU9GxYNtFzp7u+NG
-	wYRsA/+/S8JYnRUnXw2w+VQaFo7RMlzBR2oexVRpUiFGvGsxHMOl08ixn81R2cxI
-	UFE/sDYvUBeRXBilgjlHadhZr+dGyCxy/eOgaKIDKbeYrj1EzxwWVum/DvOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1673865789; x=1673952189; bh=uJ8Z29O6MRAq0KRjgL+wIdJIj9qv
-	UR4EghTVu5Hcgd4=; b=tGQuciRdXH2bM3w5AMSOeDyC+VILd/9FN+/1keCB3rl6
-	YIfX3S5tzymlSgcLzJ+S+LbiewBae47hJYAEecDbnzJ2m+qrlx18m/Kms5REn+PL
-	HYyDmd4FhqESIAlLmD+vfhEDJgvP0xcK0y0DMxYOAiQju5PG1k9/+P3K+9vYDgFU
-	XQ16213b1TgJZfU5cBNOegzfpq4wyU+az5hcXVLEnUqwdv9Kecpg6sC4A/9kA3Qp
-	fhKfJ82N70Fcy4j/Ry6ptECmpQ3a0yefq/c2UQ3ShT2sg5OhHdQ3kVdZowBAKp72
-	hCCFxe+Sy/sh78WZ+lD2CaO+rhl/rGg1eDRpotjv8w==
-X-ME-Sender: <xms:PCrFY20He12zKsX3rvqXIl-eLwbuwlD2qC6SzoCKEjUuaa3pNSC4XQ>
-    <xme:PCrFY5EzgPwL8ei9gwxT7D3TzaNkHe23BZVKu4whTzl7Q1j8RleVGALX7c-RkfIQx
-    KcSNUAKipPv5SZOvQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtgedgudekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
-    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
-    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:PCrFY-6S9u-8_PsTF92Kef_P_4Us8TAw5SsZCmjhHV8VoKo75TU4nA>
-    <xmx:PCrFY33PSdACtBHLbiNUqOqZBNltCyMvHqc-nZITgazpIk-mJ0Rf8g>
-    <xmx:PCrFY5FqV-nzoNmjKmJ0Wpqhljia5SPJGZJ0w3HUf_Vb0a-Ubq2n6w>
-    <xmx:PSrFYyO4pYtL3a8SHGg6hIoSprNJf9XwORiJVb2_4a2NystW2rWWUA>
-Feedback-ID: idfb84289:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 8745A1700089; Mon, 16 Jan 2023 05:43:08 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1187-g678636ba0d-fm-20230113.001-g678636ba
-Mime-Version: 1.0
-Message-Id: <3d95553d-2e86-40c9-bfe3-a837bfc7f57f@app.fastmail.com>
-In-Reply-To:  <SEZPR06MB5269DA226076831F4B36135DF2C19@SEZPR06MB5269.apcprd06.prod.outlook.com>
-References: <20230103093702.2613574-1-ryan_chen@aspeedtech.com>
- <SEZPR06MB5269DA226076831F4B36135DF2C19@SEZPR06MB5269.apcprd06.prod.outlook.com>
-Date: Mon, 16 Jan 2023 21:12:47 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Ryan Chen" <ryan_chen@aspeedtech.com>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Joel Stanley" <joel@jms.id.au>, "Linus Walleij" <linus.walleij@linaro.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
-Subject: Re: [PATCH 0/2] Add ASPEED AST2600 miss pinctrl
-Content-Type: text/plain
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NwXWN4kncz3cJF
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Jan 2023 00:12:48 +1100 (AEDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6377167773;
+	Mon, 16 Jan 2023 13:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1673874757; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=YQ1YlOVInu6WsLhZgXbEIaFPrF+YO75TAo9I3Omn8lU=;
+	b=Dkv3ssXgPwtN3kjuLt7Xxr/dpn86Y80sgPw+gQlpFgefvho7hRs6ljDYQCyek6cMEtIUnp
+	SGEO72jh9B2QUiQxGcZyPKQaYAjaBkQX6BEYNtY97jAsb7ULX/NOuF6qTPbpybqJn3siaP
+	eD2uYvokqxFn1uMu5oUg76PGtAveSj0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1673874757;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=YQ1YlOVInu6WsLhZgXbEIaFPrF+YO75TAo9I3Omn8lU=;
+	b=YKR9ZNdxeA1F59bn4EWw8CGDO8y6VBcLVvAazzlL5QGqy3h8+ATlpHDblpJITTnrXS4Km0
+	xUgsEi/Z9reSwIDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E2A3138FA;
+	Mon, 16 Jan 2023 13:12:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id CRPmBUVNxWNrNQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 16 Jan 2023 13:12:37 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: sam@ravnborg.org,
+	daniel@ffwll.ch,
+	airlied@gmail.com
+Subject: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
+Date: Mon, 16 Jan 2023 14:12:13 +0100
+Message-Id: <20230116131235.18917-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,17 +75,161 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>
+Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+A lot of source files include drm_crtc_helper.h for its contained
+include statements. This leads to excessive compile-time dependencies.
+
+Where possible, remove the include statements for drm_crtc_helper.h
+and include the required source files directly. Also remove the
+include statements from drm_crtc_helper.h itself, which doesn't need
+most of them.
+
+I built this patchset on x86-64, aarch64 and arm. Hopefully I found
+all include dependencies.
+
+Thanks to Sam Ravnborg for bringing this to my attention.
+
+Thomas Zimmermann (22):
+  drm/amdgpu: Fix coding style
+  drm: Remove unnecessary include statements for drm_crtc_helper.h
+  drm/amdgpu: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/arm/komeda: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/aspeed: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/ast: Remove unnecessary include statements for drm_crtc_helper.h
+  drm/bridge: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/gma500: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/i2c/ch7006: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/ingenic: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/kmb: Remove unnecessary include statements for drm_crtc_helper.h
+  drm/logicvc: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/nouveau: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/radeon: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/rockchip: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/shmobile: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/sprd: Remove unnecessary include statements for drm_crtc_helper.h
+  drm/sun4i: Remove unnecessary include statements for drm_crtc_helper.h
+  drm/tidss: Remove unnecessary include statements for drm_crtc_helper.h
+  drm/udl: Remove unnecessary include statements for drm_crtc_helper.h
+  drm/vboxvideo: Remove unnecessary include statements for
+    drm_crtc_helper.h
+  drm/crtc-helper: Remove most include statements from drm_crtc_helper.h
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  5 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_encoders.c       |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c            |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h           |  1 -
+ drivers/gpu/drm/amd/amdgpu/atombios_crtc.c         |  1 -
+ drivers/gpu/drm/amd/amdgpu/atombios_encoders.c     |  1 -
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c             |  2 ++
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c             |  2 ++
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c              |  2 ++
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c              |  2 ++
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |  1 -
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.h    |  1 -
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c           |  1 -
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c            |  1 -
+ drivers/gpu/drm/aspeed/aspeed_gfx_out.c            |  1 -
+ drivers/gpu/drm/ast/ast_drv.c                      |  1 -
+ drivers/gpu/drm/ast/ast_main.c                     |  1 -
+ drivers/gpu/drm/ast/ast_mode.c                     |  1 -
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |  1 -
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |  1 -
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |  1 -
+ drivers/gpu/drm/bridge/ite-it6505.c                |  1 -
+ drivers/gpu/drm/bridge/ite-it66121.c               |  1 -
+ drivers/gpu/drm/bridge/tc358768.c                  |  1 -
+ drivers/gpu/drm/bridge/tc358775.c                  |  1 -
+ drivers/gpu/drm/drm_crtc_helper.c                  |  1 -
+ drivers/gpu/drm/drm_lease.c                        |  2 +-
+ drivers/gpu/drm/drm_plane_helper.c                 |  1 -
+ drivers/gpu/drm/gma500/cdv_device.c                |  1 +
+ drivers/gpu/drm/gma500/cdv_intel_crt.c             |  2 ++
+ drivers/gpu/drm/gma500/cdv_intel_display.c         |  1 +
+ drivers/gpu/drm/gma500/cdv_intel_dp.c              |  1 +
+ drivers/gpu/drm/gma500/cdv_intel_hdmi.c            |  2 ++
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c            |  2 ++
+ drivers/gpu/drm/gma500/framebuffer.c               |  2 ++
+ drivers/gpu/drm/gma500/gma_display.c               |  2 ++
+ drivers/gpu/drm/gma500/oaktrail_crtc.c             |  1 +
+ drivers/gpu/drm/gma500/oaktrail_hdmi.c             |  2 ++
+ drivers/gpu/drm/gma500/oaktrail_lvds.c             |  1 +
+ drivers/gpu/drm/gma500/psb_device.c                |  1 +
+ drivers/gpu/drm/gma500/psb_intel_display.c         |  3 +++
+ drivers/gpu/drm/gma500/psb_intel_drv.h             |  1 -
+ drivers/gpu/drm/gma500/psb_intel_lvds.c            |  2 ++
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c            |  2 ++
+ drivers/gpu/drm/i2c/ch7006_drv.c                   |  2 ++
+ drivers/gpu/drm/i2c/ch7006_priv.h                  |  1 -
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  1 -
+ drivers/gpu/drm/kmb/kmb_crtc.c                     |  1 -
+ drivers/gpu/drm/kmb/kmb_plane.c                    |  1 -
+ drivers/gpu/drm/logicvc/logicvc_interface.c        |  1 -
+ drivers/gpu/drm/logicvc/logicvc_mode.c             |  1 -
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c            |  1 +
+ drivers/gpu/drm/nouveau/dispnv04/dac.c             |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/dfp.c             |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/tvmodesnv17.c     |  1 -
+ drivers/gpu/drm/nouveau/dispnv04/tvnv04.c          |  2 +-
+ drivers/gpu/drm/nouveau/dispnv04/tvnv17.c          |  1 +
+ drivers/gpu/drm/nouveau/dispnv50/head.c            |  1 -
+ drivers/gpu/drm/nouveau/nouveau_drm.c              |  1 -
+ drivers/gpu/drm/nouveau/nouveau_vga.c              |  1 -
+ drivers/gpu/drm/radeon/atombios_crtc.c             |  2 +-
+ drivers/gpu/drm/radeon/atombios_encoders.c         |  1 +
+ drivers/gpu/drm/radeon/r300.c                      |  1 -
+ drivers/gpu/drm/radeon/radeon_asic.c               |  1 -
+ drivers/gpu/drm/radeon/radeon_connectors.c         |  1 +
+ drivers/gpu/drm/radeon/radeon_display.c            |  1 +
+ drivers/gpu/drm/radeon/radeon_drv.c                |  1 -
+ drivers/gpu/drm/radeon/radeon_encoders.c           |  1 -
+ drivers/gpu/drm/radeon/radeon_irq_kms.c            |  1 -
+ drivers/gpu/drm/radeon/radeon_legacy_crtc.c        |  2 +-
+ drivers/gpu/drm/radeon/radeon_legacy_encoders.c    |  2 +-
+ drivers/gpu/drm/radeon/radeon_legacy_tv.c          |  1 -
+ drivers/gpu/drm/radeon/radeon_mode.h               |  2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  1 -
+ drivers/gpu/drm/shmobile/shmob_drm_crtc.c          |  2 ++
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c           |  1 -
+ drivers/gpu/drm/shmobile/shmob_drm_plane.c         |  1 -
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |  1 -
+ drivers/gpu/drm/sprd/sprd_drm.c                    |  1 -
+ drivers/gpu/drm/sprd/sprd_dsi.c                    |  1 -
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |  2 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c                 |  1 -
+ drivers/gpu/drm/tidss/tidss_drv.c                  |  1 -
+ drivers/gpu/drm/tidss/tidss_encoder.c              |  2 +-
+ drivers/gpu/drm/tidss/tidss_kms.c                  |  1 -
+ drivers/gpu/drm/tidss/tidss_plane.c                |  1 -
+ drivers/gpu/drm/udl/udl_drv.c                      |  2 +-
+ drivers/gpu/drm/udl/udl_modeset.c                  |  1 -
+ drivers/gpu/drm/vboxvideo/vbox_drv.c               |  2 +-
+ drivers/gpu/drm/vboxvideo/vbox_main.c              |  1 -
+ include/drm/drm_crtc_helper.h                      | 14 +++++++++-----
+ include/drm/drm_fixed.h                            |  1 +
+ 94 files changed, 70 insertions(+), 70 deletions(-)
 
 
-On Mon, 16 Jan 2023, at 14:03, Ryan Chen wrote:
-> Hello Andrew,
-> 	Could you help review this series patch?
+base-commit: 68d139b609a97a83e7c231189d4864aba4e1679b
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+-- 
+2.39.0
 
-Yep, I hope to get to it this week, just trying to pick up the pieces 
-after the new year break :)
-
-Andrew
