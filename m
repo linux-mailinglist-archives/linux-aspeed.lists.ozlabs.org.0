@@ -1,75 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375CD671044
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 02:42:11 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F091667104E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 02:42:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NxT5Y13SPz3c9Y
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 12:42:09 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NxT6L5ZsVz3bdV
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 12:42:50 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=HCr8AYDb;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=Fm0iMjxf;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=walle.cc (client-ip=159.69.201.130; helo=mail.3ffe.de; envelope-from=michael@walle.cc; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=HCr8AYDb;
+	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.a=rsa-sha256 header.s=mail2022082101 header.b=Fm0iMjxf;
 	dkim-atps=neutral
-X-Greylist: delayed 476 seconds by postgrey-1.36 at boromir; Fri, 13 Jan 2023 02:23:31 AEDT
 Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nt7c34DrKz3c6s;
-	Fri, 13 Jan 2023 02:23:31 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NwX7d5fywz3c1p
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Jan 2023 23:55:41 +1100 (AEDT)
 Received: from mwalle01.sab.local (unknown [213.135.10.150])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id 1682519E1;
-	Thu, 12 Jan 2023 16:15:28 +0100 (CET)
+	by mail.3ffe.de (Postfix) with ESMTPSA id 2F03E12F5;
+	Mon, 16 Jan 2023 13:55:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-	t=1673536528;
+	t=1673873735;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M63+6MCstsrkrL79YC4nH8Ygb4Uiw61YneTbHbcZv4o=;
-	b=HCr8AYDbVE/BRcy4f1FgkMaJKmd3QIOm1dWxMogbOow4MoeU6V239gDO62iCVAPmvK1Mpy
-	d2a6tV9WARK31SJCS7hSczdPDHEu4UuYLxrzhoC/F5Awfj4TZLW1g704BhLwnLKJNeY5ck
-	z2IZ2tFclfnGyEwbM3nNUbof4zg6F2PtlDadtm3JbgkrNqJ4a7i40Nq6wbZ6dcnJDzzPJe
-	QUONECMSdmK2GgwMsBj7Dn337At3tlUQpK3PZNXLcE/17f3Xo9ivObRFWdck1EjuqSi+LY
-	aL4urJi5AL/U9GatVV/eeVh9QcVy/BUy3D2yk5yJBJb+wGoND3qlh6W+CYcaaQ==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oi2SopsYqvQOvZS8eGSs/vfUTqYgbbTRsA3aYNrX8os=;
+	b=Fm0iMjxfC0m13II6p3JkZ2RQjrcS+i2JomIL+v0Clxs+USFXV019fSnKd5b5tuXniSzMtk
+	MU5fsC6tY6S4cmiH6XiEGu2rJiyj9VAK8gJ2bZ0pW1/16NMQxqbfZWRI1w7mh06fGBDpkE
+	G+bcVtLKz0wwbvhZKHoLxxgWqeaMA3FR0DJQ70bI4dI/51u+EhA+bxvwR9Xr9L4NMD4BAX
+	JhvjbzuVfDNt7zrYNj4d6TSK3oX6XbMxKStXuUSe+FlWj3T2nWm4vXY3BjI2YQKqZdYi2q
+	AGmz80894DJ0vFmlBhqGerR6dxrOdJ3GYtY2VJ87OKuXLgxNFS7xFuEIR7Gm8g==
 From: Michael Walle <michael@walle.cc>
-Date: Thu, 12 Jan 2023 16:15:16 +0100
-Subject: [PATCH net-next 10/10] enetc: Separate C22 and C45 transactions
+Subject: [PATCH net-next 0/6] net: phy: Remove probe_capabilities
+Date: Mon, 16 Jan 2023 13:55:13 +0100
+Message-Id:  <20230116-net-next-remove-probe-capabilities-v1-0-5aa29738a023@walle.cc>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id:  <20230112-net-next-c45-seperation-part-2-v1-10-5eeaae931526@walle.cc>
-References:  <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
-In-Reply-To:  <20230112-net-next-c45-seperation-part-2-v1-0-5eeaae931526@walle.cc>
+X-B4-Tracking: v=1; b=H4sIADFJxWMC/zXNwQqDMBAE0F+RPXchMSK0v1J62MS1LtQkbIII4
+ r83FnqYwzDw5oDCKlzg0R2gvEmRFFuxtw7CQvHNKFPr0JveGWtHjFxb9orKa9oYsybPGCiTl4/U
+ ZqFx02Ds4O5zGKFBngqjV4phuaiVSmW9hqw8y/57f8Ifhtd5fgEMJ2GZlwAAAA==
 To: Heiner Kallweit <hkallweit1@gmail.com>,
  Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Felix Fietkau <nbd@nbd.name>, John Crispin <john@phrozen.org>,
- Sean Wang <sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Felix Fietkau <nbd@nbd.name>,
+ John Crispin <john@phrozen.org>, Sean Wang <sean.wang@mediatek.com>,
+ Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo Bianconi <lorenzo@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  Bryan Whitehead <bryan.whitehead@microchip.com>, UNGLinuxDriver@microchip.com,
  Giuseppe Cavallaro <peppe.cavallaro@st.com>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
  Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Claudiu Manoil <claudiu.manoil@nxp.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Li Yang <leoyang.li@nxp.com>
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>
 X-Mailer: b4 0.11.1
 X-Mailman-Approved-At: Wed, 18 Jan 2023 12:41:55 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -83,307 +75,75 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>, linux-mediatek@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>, linux-mediatek@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Andrew Lunn <andrew@lunn.ch>
+With all the drivers which used .probe_capabilities converted to the
+new c45 MDIO access methods, we can now decide based upon these whether
+a bus driver supports c45 and we can get rid of the not widely used
+probe_capabilites.
 
-The enetc MDIO bus driver can perform both C22 and C45 transfers.
-Create separate functions for each and register the C45 versions using
-the new API calls where appropriate.
+Unfortunately, due to a now broader support of c45 scans, this will
+trigger a bug on some boards with a (c22-only) Micrel PHY. These PHYs
+don't ignore c45 accesses correctly, thinking they are addressed
+themselves and distrupt the MDIO access. To avoid this, a blacklist
+for c45 scans is introduced.
 
-This driver is shared with the Felix DSA switch, so update that at the
-same time.
-
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+To: Russell King <linux@armlinux.org.uk>
+To: "David S. Miller" <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Felix Fietkau <nbd@nbd.name>
+To: John Crispin <john@phrozen.org>
+To: Sean Wang <sean.wang@mediatek.com>
+To: Mark Lee <Mark-MC.Lee@mediatek.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+To: Bryan Whitehead <bryan.whitehead@microchip.com>
+To: UNGLinuxDriver@microchip.com
+To: Giuseppe Cavallaro <peppe.cavallaro@st.com>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>
+To: Jose Abreu <joabreu@synopsys.com>
+To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+To: Joel Stanley <joel@jms.id.au>
+To: Andrew Jeffery <andrew@aj.id.au>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-aspeed@lists.ozlabs.org
+Cc: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Michael Walle <michael@walle.cc>
+
 ---
- drivers/net/dsa/ocelot/felix_vsc9959.c             |   6 +-
- drivers/net/ethernet/freescale/enetc/enetc_mdio.c  | 119 +++++++++++++++------
- .../net/ethernet/freescale/enetc/enetc_pci_mdio.c  |   6 +-
- drivers/net/ethernet/freescale/enetc/enetc_pf.c    |  12 ++-
- include/linux/fsl/enetc_mdio.h                     |  21 +++-
- 5 files changed, 121 insertions(+), 43 deletions(-)
+Andrew Lunn (6):
+      net: mdio: Move mdiobus_scan() within file
+      net: mdio: Rework scanning of bus ready for quirks
+      net: mdio: Add workaround for Micrel PHYs which are not C45 compatible
+      net: mdio: scan bus based on bus capabilities for C22 and C45
+      net: phy: Decide on C45 capabilities based on presence of method
+      net: phy: Remove probe_capabilities
 
-diff --git a/drivers/net/dsa/ocelot/felix_vsc9959.c b/drivers/net/dsa/ocelot/felix_vsc9959.c
-index 01ac70fd7ddf..cbcc457499f3 100644
---- a/drivers/net/dsa/ocelot/felix_vsc9959.c
-+++ b/drivers/net/dsa/ocelot/felix_vsc9959.c
-@@ -954,8 +954,10 @@ static int vsc9959_mdio_bus_alloc(struct ocelot *ocelot)
- 		return -ENOMEM;
- 
- 	bus->name = "VSC9959 internal MDIO bus";
--	bus->read = enetc_mdio_read;
--	bus->write = enetc_mdio_write;
-+	bus->read = enetc_mdio_read_c22;
-+	bus->write = enetc_mdio_write_c22;
-+	bus->read_c45 = enetc_mdio_read_c45;
-+	bus->write_c45 = enetc_mdio_write_c45;
- 	bus->parent = dev;
- 	mdio_priv = bus->priv;
- 	mdio_priv->hw = hw;
-diff --git a/drivers/net/ethernet/freescale/enetc/enetc_mdio.c b/drivers/net/ethernet/freescale/enetc/enetc_mdio.c
-index 1c8f5cc6dec4..998aaa394e9c 100644
---- a/drivers/net/ethernet/freescale/enetc/enetc_mdio.c
-+++ b/drivers/net/ethernet/freescale/enetc/enetc_mdio.c
-@@ -55,7 +55,8 @@ static int enetc_mdio_wait_complete(struct enetc_mdio_priv *mdio_priv)
- 				  is_busy, !is_busy, 10, 10 * 1000);
- }
- 
--int enetc_mdio_write(struct mii_bus *bus, int phy_id, int regnum, u16 value)
-+int enetc_mdio_write_c22(struct mii_bus *bus, int phy_id, int regnum,
-+			 u16 value)
- {
- 	struct enetc_mdio_priv *mdio_priv = bus->priv;
- 	u32 mdio_ctl, mdio_cfg;
-@@ -63,14 +64,39 @@ int enetc_mdio_write(struct mii_bus *bus, int phy_id, int regnum, u16 value)
- 	int ret;
- 
- 	mdio_cfg = ENETC_EMDIO_CFG;
--	if (regnum & MII_ADDR_C45) {
--		dev_addr = (regnum >> 16) & 0x1f;
--		mdio_cfg |= MDIO_CFG_ENC45;
--	} else {
--		/* clause 22 (ie 1G) */
--		dev_addr = regnum & 0x1f;
--		mdio_cfg &= ~MDIO_CFG_ENC45;
--	}
-+	dev_addr = regnum & 0x1f;
-+	mdio_cfg &= ~MDIO_CFG_ENC45;
-+
-+	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CFG, mdio_cfg);
-+
-+	ret = enetc_mdio_wait_complete(mdio_priv);
-+	if (ret)
-+		return ret;
-+
-+	/* set port and dev addr */
-+	mdio_ctl = MDIO_CTL_PORT_ADDR(phy_id) | MDIO_CTL_DEV_ADDR(dev_addr);
-+	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CTL, mdio_ctl);
-+
-+	/* write the value */
-+	enetc_mdio_wr(mdio_priv, ENETC_MDIO_DATA, value);
-+
-+	ret = enetc_mdio_wait_complete(mdio_priv);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(enetc_mdio_write_c22);
-+
-+int enetc_mdio_write_c45(struct mii_bus *bus, int phy_id, int dev_addr,
-+			 int regnum, u16 value)
-+{
-+	struct enetc_mdio_priv *mdio_priv = bus->priv;
-+	u32 mdio_ctl, mdio_cfg;
-+	int ret;
-+
-+	mdio_cfg = ENETC_EMDIO_CFG;
-+	mdio_cfg |= MDIO_CFG_ENC45;
- 
- 	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CFG, mdio_cfg);
- 
-@@ -83,13 +109,11 @@ int enetc_mdio_write(struct mii_bus *bus, int phy_id, int regnum, u16 value)
- 	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CTL, mdio_ctl);
- 
- 	/* set the register address */
--	if (regnum & MII_ADDR_C45) {
--		enetc_mdio_wr(mdio_priv, ENETC_MDIO_ADDR, regnum & 0xffff);
-+	enetc_mdio_wr(mdio_priv, ENETC_MDIO_ADDR, regnum & 0xffff);
- 
--		ret = enetc_mdio_wait_complete(mdio_priv);
--		if (ret)
--			return ret;
--	}
-+	ret = enetc_mdio_wait_complete(mdio_priv);
-+	if (ret)
-+		return ret;
- 
- 	/* write the value */
- 	enetc_mdio_wr(mdio_priv, ENETC_MDIO_DATA, value);
-@@ -100,9 +124,9 @@ int enetc_mdio_write(struct mii_bus *bus, int phy_id, int regnum, u16 value)
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(enetc_mdio_write);
-+EXPORT_SYMBOL_GPL(enetc_mdio_write_c45);
- 
--int enetc_mdio_read(struct mii_bus *bus, int phy_id, int regnum)
-+int enetc_mdio_read_c22(struct mii_bus *bus, int phy_id, int regnum)
- {
- 	struct enetc_mdio_priv *mdio_priv = bus->priv;
- 	u32 mdio_ctl, mdio_cfg;
-@@ -110,14 +134,51 @@ int enetc_mdio_read(struct mii_bus *bus, int phy_id, int regnum)
- 	int ret;
- 
- 	mdio_cfg = ENETC_EMDIO_CFG;
--	if (regnum & MII_ADDR_C45) {
--		dev_addr = (regnum >> 16) & 0x1f;
--		mdio_cfg |= MDIO_CFG_ENC45;
--	} else {
--		dev_addr = regnum & 0x1f;
--		mdio_cfg &= ~MDIO_CFG_ENC45;
-+	dev_addr = regnum & 0x1f;
-+	mdio_cfg &= ~MDIO_CFG_ENC45;
-+
-+	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CFG, mdio_cfg);
-+
-+	ret = enetc_mdio_wait_complete(mdio_priv);
-+	if (ret)
-+		return ret;
-+
-+	/* set port and device addr */
-+	mdio_ctl = MDIO_CTL_PORT_ADDR(phy_id) | MDIO_CTL_DEV_ADDR(dev_addr);
-+	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CTL, mdio_ctl);
-+
-+	/* initiate the read */
-+	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CTL, mdio_ctl | MDIO_CTL_READ);
-+
-+	ret = enetc_mdio_wait_complete(mdio_priv);
-+	if (ret)
-+		return ret;
-+
-+	/* return all Fs if nothing was there */
-+	if (enetc_mdio_rd(mdio_priv, ENETC_MDIO_CFG) & MDIO_CFG_RD_ER) {
-+		dev_dbg(&bus->dev,
-+			"Error while reading PHY%d reg at %d.%d\n",
-+			phy_id, dev_addr, regnum);
-+		return 0xffff;
- 	}
- 
-+	value = enetc_mdio_rd(mdio_priv, ENETC_MDIO_DATA) & 0xffff;
-+
-+	return value;
-+}
-+EXPORT_SYMBOL_GPL(enetc_mdio_read_c22);
-+
-+int enetc_mdio_read_c45(struct mii_bus *bus, int phy_id, int dev_addr,
-+			int regnum)
-+{
-+	struct enetc_mdio_priv *mdio_priv = bus->priv;
-+	u32 mdio_ctl, mdio_cfg;
-+	u16 value;
-+	int ret;
-+
-+	mdio_cfg = ENETC_EMDIO_CFG;
-+	mdio_cfg |= MDIO_CFG_ENC45;
-+
- 	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CFG, mdio_cfg);
- 
- 	ret = enetc_mdio_wait_complete(mdio_priv);
-@@ -129,13 +190,11 @@ int enetc_mdio_read(struct mii_bus *bus, int phy_id, int regnum)
- 	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CTL, mdio_ctl);
- 
- 	/* set the register address */
--	if (regnum & MII_ADDR_C45) {
--		enetc_mdio_wr(mdio_priv, ENETC_MDIO_ADDR, regnum & 0xffff);
-+	enetc_mdio_wr(mdio_priv, ENETC_MDIO_ADDR, regnum & 0xffff);
- 
--		ret = enetc_mdio_wait_complete(mdio_priv);
--		if (ret)
--			return ret;
--	}
-+	ret = enetc_mdio_wait_complete(mdio_priv);
-+	if (ret)
-+		return ret;
- 
- 	/* initiate the read */
- 	enetc_mdio_wr(mdio_priv, ENETC_MDIO_CTL, mdio_ctl | MDIO_CTL_READ);
-@@ -156,7 +215,7 @@ int enetc_mdio_read(struct mii_bus *bus, int phy_id, int regnum)
- 
- 	return value;
- }
--EXPORT_SYMBOL_GPL(enetc_mdio_read);
-+EXPORT_SYMBOL_GPL(enetc_mdio_read_c45);
- 
- struct enetc_hw *enetc_hw_alloc(struct device *dev, void __iomem *port_regs)
- {
-diff --git a/drivers/net/ethernet/freescale/enetc/enetc_pci_mdio.c b/drivers/net/ethernet/freescale/enetc/enetc_pci_mdio.c
-index dafb26f81f95..a1b595bd7993 100644
---- a/drivers/net/ethernet/freescale/enetc/enetc_pci_mdio.c
-+++ b/drivers/net/ethernet/freescale/enetc/enetc_pci_mdio.c
-@@ -39,8 +39,10 @@ static int enetc_pci_mdio_probe(struct pci_dev *pdev,
- 	}
- 
- 	bus->name = ENETC_MDIO_BUS_NAME;
--	bus->read = enetc_mdio_read;
--	bus->write = enetc_mdio_write;
-+	bus->read = enetc_mdio_read_c22;
-+	bus->write = enetc_mdio_write_c22;
-+	bus->read_c45 = enetc_mdio_read_c45;
-+	bus->write_c45 = enetc_mdio_write_c45;
- 	bus->parent = dev;
- 	mdio_priv = bus->priv;
- 	mdio_priv->hw = hw;
-diff --git a/drivers/net/ethernet/freescale/enetc/enetc_pf.c b/drivers/net/ethernet/freescale/enetc/enetc_pf.c
-index 9f6c4f5c0a6c..bc012deedab4 100644
---- a/drivers/net/ethernet/freescale/enetc/enetc_pf.c
-+++ b/drivers/net/ethernet/freescale/enetc/enetc_pf.c
-@@ -848,8 +848,10 @@ static int enetc_mdio_probe(struct enetc_pf *pf, struct device_node *np)
- 		return -ENOMEM;
- 
- 	bus->name = "Freescale ENETC MDIO Bus";
--	bus->read = enetc_mdio_read;
--	bus->write = enetc_mdio_write;
-+	bus->read = enetc_mdio_read_c22;
-+	bus->write = enetc_mdio_write_c22;
-+	bus->read_c45 = enetc_mdio_read_c45;
-+	bus->write_c45 = enetc_mdio_write_c45;
- 	bus->parent = dev;
- 	mdio_priv = bus->priv;
- 	mdio_priv->hw = &pf->si->hw;
-@@ -885,8 +887,10 @@ static int enetc_imdio_create(struct enetc_pf *pf)
- 		return -ENOMEM;
- 
- 	bus->name = "Freescale ENETC internal MDIO Bus";
--	bus->read = enetc_mdio_read;
--	bus->write = enetc_mdio_write;
-+	bus->read = enetc_mdio_read_c22;
-+	bus->write = enetc_mdio_write_c22;
-+	bus->read_c45 = enetc_mdio_read_c45;
-+	bus->write_c45 = enetc_mdio_write_c45;
- 	bus->parent = dev;
- 	bus->phy_mask = ~0;
- 	mdio_priv = bus->priv;
-diff --git a/include/linux/fsl/enetc_mdio.h b/include/linux/fsl/enetc_mdio.h
-index 2d9203314865..df25fffdc0ae 100644
---- a/include/linux/fsl/enetc_mdio.h
-+++ b/include/linux/fsl/enetc_mdio.h
-@@ -37,16 +37,27 @@ struct enetc_mdio_priv {
- 
- #if IS_REACHABLE(CONFIG_FSL_ENETC_MDIO)
- 
--int enetc_mdio_read(struct mii_bus *bus, int phy_id, int regnum);
--int enetc_mdio_write(struct mii_bus *bus, int phy_id, int regnum, u16 value);
-+int enetc_mdio_read_c22(struct mii_bus *bus, int phy_id, int regnum);
-+int enetc_mdio_write_c22(struct mii_bus *bus, int phy_id, int regnum,
-+			 u16 value);
-+int enetc_mdio_read_c45(struct mii_bus *bus, int phy_id, int devad, int regnum);
-+int enetc_mdio_write_c45(struct mii_bus *bus, int phy_id, int devad, int regnum,
-+			 u16 value);
- struct enetc_hw *enetc_hw_alloc(struct device *dev, void __iomem *port_regs);
- 
- #else
- 
--static inline int enetc_mdio_read(struct mii_bus *bus, int phy_id, int regnum)
-+static inline int enetc_mdio_read_c22(struct mii_bus *bus, int phy_id,
-+				      int regnum)
- { return -EINVAL; }
--static inline int enetc_mdio_write(struct mii_bus *bus, int phy_id, int regnum,
--				   u16 value)
-+static inline int enetc_mdio_write_c22(struct mii_bus *bus, int phy_id,
-+				       int regnum, u16 value)
-+{ return -EINVAL; }
-+static inline int enetc_mdio_read_c45(struct mii_bus *bus, int phy_id,
-+				      int devad, int regnum)
-+{ return -EINVAL; }
-+static inline int enetc_mdio_write_c45(struct mii_bus *bus, int phy_id,
-+				       int devad, int regnum, u16 value)
- { return -EINVAL; }
- struct enetc_hw *enetc_hw_alloc(struct device *dev, void __iomem *port_regs)
- { return ERR_PTR(-EINVAL); }
+ drivers/net/ethernet/adi/adin1110.c               |   1 -
+ drivers/net/ethernet/freescale/xgmac_mdio.c       |   1 -
+ drivers/net/ethernet/marvell/pxa168_eth.c         |   2 +-
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c       |   1 -
+ drivers/net/ethernet/microchip/lan743x_main.c     |   2 -
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c |   3 -
+ drivers/net/mdio/mdio-aspeed.c                    |   1 -
+ drivers/net/phy/mdio_bus.c                        | 194 +++++++++++++++-------
+ drivers/net/phy/phy_device.c                      |   2 +-
+ include/linux/micrel_phy.h                        |   2 +
+ include/linux/phy.h                               |  10 +-
+ 11 files changed, 138 insertions(+), 81 deletions(-)
+---
+base-commit: c12e2e5b76b2e739ccdf196bee960412b45d5f85
+change-id: 20230116-net-next-remove-probe-capabilities-03d401439fc6
 
+Best regards,
 -- 
-2.30.2
+Michael Walle <michael@walle.cc>
