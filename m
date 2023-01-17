@@ -1,121 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1437366D3A9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jan 2023 01:35:30 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CF966D86A
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jan 2023 09:41:48 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Nwqg35HDYz3cDD
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jan 2023 11:35:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Nx2SB52Qgz3cCL
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jan 2023 19:41:46 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=b+zWNjZJ;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cX3lTal0;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AxodzgBL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.117.100; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.220.29; helo=smtp-out2.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=b+zWNjZJ;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cX3lTal0;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AxodzgBL;
 	dkim-atps=neutral
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2100.outbound.protection.outlook.com [40.107.117.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nwqfq1CT8z30Lt;
-	Tue, 17 Jan 2023 11:35:13 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XuTMW5P0mWSV6zhmVo2Szkl5B0gKCzch7pbfA3sKqUVypr3xij0BDTCIGB2ZSxiLL5zHOwsRHAfkPgvD3Y/aGLY0r8inPiSZoJfdeJ+ri25B5hIUUJR2eZoSIlBBKcxHHzIjkauPKOMpSJBK7oYr2PCpPPOZ4tc3yWwfwW0D0iVOtTVLMLT++jVHPONjtD5Jlaaiw9JXoPPwEQEvnak5YZOCEVapFerIp5i0ezR0vcQPlX9r2FjKZFR7CtIC8Khaav7eIAQcppVWbelPfmezyBjsk7pJWhuFWiUpYRsTaSpEPC8NaF+BuGvTNVRPZVs2Y1FCMmQXdv5xwRslKLINGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4q1nayywIysmw8plBJESAH2slQf7YZEZQAnyKcLc8tM=;
- b=SDZMOMiqzTtIn1VsP6qU6hlXPFn2nVMLMCcotYermBC1XhUervdltzWONFlQI5ADB0kD4d4yYhMESzmp8/fjH0MXNE46bKAIBDSnP/sbFzuneY9juzCQx+7YUoakwhmHMUxH/bxbeaY2hnDilzeahYqyaCXRAE6IG9pVHl2Vbi/NWiiGYHeTDcsXsK7ntqLm0cD9g7ydXKKNjtGFusT+/TjUpGmCMDICeKFk3RdOMKDLVoPEQ/tuODMJbsQ+WrL2PfcTXySPtEQFULhhjndpjqOmpoJWz5IKDTBEKpncLZkDEk+Bba2tUA77A44tYD68cCev3r8Fg1CRHSEisQfGIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4q1nayywIysmw8plBJESAH2slQf7YZEZQAnyKcLc8tM=;
- b=b+zWNjZJzyg5cXcipW3diRCyptwVXrE+jmDCbZhWcVfhRNExG+XU/IjOcqf5ckPBMxX08smoOgsSVGtKQu2CabQvJ7jkN+GfQwMdfCH7HvbsQ35Vj/VlNBKwusXa3ddnstavmPRXKpl8o8u6fFHSskXeOPzMFOCGx5+WOrFyjG63vIG1tvD+l5PBMYKjebCjLCDPXlJ/loGgGgZNSGTpHX1TBc3uFpT3z98Ln+0mk1Jn9SieETIk+6Yf5/oZ96N/oI4Aa+gdpz3Sh73F3FQ7/dPzZgMXpXlxkOUlkxJRFAXrOtYlavHUuzYuap+CUEox0oa0scFVYuYJcZniWzxOCQ==
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by SEYPR06MB6155.apcprd06.prod.outlook.com (2603:1096:101:dd::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.10; Tue, 17 Jan
- 2023 00:34:53 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::3e52:d08c:ecf4:d572]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::3e52:d08c:ecf4:d572%5]) with mapi id 15.20.6002.012; Tue, 17 Jan 2023
- 00:34:53 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Andrew Jeffery <andrew@aj.id.au>, "openbmc@lists.ozlabs.org"
-	<openbmc@lists.ozlabs.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>,
-	Linus Walleij <linus.walleij@linaro.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>
-Subject: RE: [PATCH 0/2] Add ASPEED AST2600 miss pinctrl
-Thread-Topic: [PATCH 0/2] Add ASPEED AST2600 miss pinctrl
-Thread-Index: AQHZH1b1LTqsdnfNSkKXmN3Th9Enf66gd64QgAB4L4CAAOgqQA==
-Date: Tue, 17 Jan 2023 00:34:53 +0000
-Message-ID:  <SEZPR06MB526999E79E16DA4D43D15B21F2C69@SEZPR06MB5269.apcprd06.prod.outlook.com>
-References: <20230103093702.2613574-1-ryan_chen@aspeedtech.com>
- <SEZPR06MB5269DA226076831F4B36135DF2C19@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <3d95553d-2e86-40c9-bfe3-a837bfc7f57f@app.fastmail.com>
-In-Reply-To: <3d95553d-2e86-40c9-bfe3-a837bfc7f57f@app.fastmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEZPR06MB5269:EE_|SEYPR06MB6155:EE_
-x-ms-office365-filtering-correlation-id: 33f35ff8-ab69-4c40-157c-08daf822a67b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  /ntjWEs1Q5N90bBHfpa76bIu2nWAahNwAsSUrBMNPNj5iA8sQgcSfJi+VatUg41UQBDzh6FlCIM9e3i47vh57wwBIFvtBjft+j3tJCpHCpRLVAAhurDVUltLUU8lfV4Cbegn1JM9mh+OHho3QcIsjKMqtBYWq4H5q90eMsQ+sirWaZGn+KMmksoLStZqfiJVz/sAmV71Eo1N9/CClcL3Al7ocEEi4xigVgfUiXFCH09xA6TrwRvKmr5MAMUtk4aCRQ4JRfl1hfQyaCNK4OCGRiCU29yBdLdpnG0LdSwF71AW+zZpYo79RtPgodfXJIfS+CbgrISEKDpFipEswXTDa5m5DY5ckuDqpudJEl9AGRXePwUC2g1NsfwJoW4SwAvAX5MXhur+FzDNnCiCR7xVAzO1ht9GhYuu7OLhG4V0mHntvpf/aUwuyw5jCvvos2+OuFyr7Vo7VxcC0evYOoe7eryu4BD6GhmB1MawmAcRRZHLsT6dSK2G4QQnOrucW9ZaFPIcjXbKiXX1q9EB8tvXwbGhAi99K8rbmlwc46+9H7WI2/cnwo3+3dF//A0LYblCPmOJRva+8GUaJl6epftPHcpFGXRoLGbwvf74Dms1Houb10Bp8LzgWT3dcC0L3hg6arRGFn+95HQVjSdsOCiUNK29FyEVAnyrPrAxpDe2DHbV7DZN/D2AbHfCxm0g5R47wJtkOVtLc+qUVbYj9YORFg==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(396003)(366004)(136003)(39850400004)(346002)(451199015)(38100700002)(86362001)(38070700005)(52536014)(55016003)(8676002)(76116006)(66556008)(66476007)(4326008)(64756008)(66946007)(66446008)(2906002)(8936002)(5660300002)(4744005)(83380400001)(122000001)(33656002)(478600001)(7696005)(71200400001)(316002)(110136005)(41300700001)(53546011)(107886003)(9686003)(26005)(186003)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?4tbZuE//51M1QEMqB87UciGkSs94xoS6BXdDFAyJPmJc1eg/DJFUjm5tLj0g?=
- =?us-ascii?Q?Jy9ttGrJEbZFc3K1EDYFkGrjA6LHb9cA+oM5dNLFYpVkvUaQdZNunjbLDa4m?=
- =?us-ascii?Q?N5F/YlWvXqcaxlvugpZ/sz6zIshcO9NhGIxsmLHv3yOKxRlllzIMAfbLGEE2?=
- =?us-ascii?Q?Pcj3OFTUR8TCRRK0Mju9FJ/jMRMQinmp5FlOUCIOQuU9Dm4IdsbsCwcrI5uQ?=
- =?us-ascii?Q?cD0EFg3hCKqcsJKz8MvZDqfgG5+kJt0ZTMMWPx+B5MbLVtSNP6ZgD4AF2NYf?=
- =?us-ascii?Q?1V4FYO9Foj2zzpXM/D0tetxNw2QaesxI+7sPFX2oVDEDC72zsPerNnJLJ1o2?=
- =?us-ascii?Q?ZAapSTSEr3fP+8APUzmx//E4bU5wU1104uXdV0Hv33/DTQqzSWTwSW/6lcXJ?=
- =?us-ascii?Q?TbXbw91RxXOCfqsBsc6vDHzvU3JDVBGQzpI3JYK77b0q4MrqnyhA+xbKjsZr?=
- =?us-ascii?Q?WkW/x0850ezirVi29hBM4All13YjqvOKpCmjDYavT2UzU9LZ24qxXWciJLc3?=
- =?us-ascii?Q?AeaADuyHjr5uqJI8qHeCW/ldShw19+gK3K5fQYfpBPYTmMqvf2d1smW3nOP7?=
- =?us-ascii?Q?yD/GE80GRqOTUP4E40EbWRXQyxZzgLvSM2LlRaiXYWMjHxeMor2U4poO3vEh?=
- =?us-ascii?Q?FPkycec/FX4md/acCUFcyn5mo/Z0EA73vwPkm8cSUJTZCvByXZpqYDmZWcpb?=
- =?us-ascii?Q?VEiGZcykHSBW1r+Vl1wHTqjTMPJZC++jwVLPJgb1y+z6Yk2ym+OK4RId+ayA?=
- =?us-ascii?Q?KVO8YyGcXfT+ovP9fs94gXtRop6J4o2CPZnHT/COfdHWjIgdO5va8t1BFpjL?=
- =?us-ascii?Q?SS5l9p0bRO+w8a67hWKw24lYDla4ajUDMYvZlxfoTubTSsYhKhm5aYCK/QGd?=
- =?us-ascii?Q?qAyohwcNcsccwLYwAsKG0Wb3b7g8LRDf/K75XYBRgEg0oaK1pWTslCagzvNZ?=
- =?us-ascii?Q?D1x65ze4SIzIcgwiEf86mv0zC7pkWSpN6+uwoQfdb/i93EW9HXs25BJ2VqgX?=
- =?us-ascii?Q?KQ0Nu9EgsUf+qIyTc4fGVLNGo0Q28nTd9I2y5sijz446yQXv0fp5O8XzboJC?=
- =?us-ascii?Q?IzJe0EREFJORFR8OGqZeYgtds4/J23TznNf3SvZvgg/TcPtg0uzyHnShq2v1?=
- =?us-ascii?Q?/CU/BtFY5ndts9hNs5WbUTJbeCX0phzwszm5PYNiBtVX8XCJxzoIQy+meZzq?=
- =?us-ascii?Q?EdKdGJ52ebLv+4+RoOhc3GvWG9GLbXznJL1ICZ5xfR1yhxzUxoK77ts3Ymkm?=
- =?us-ascii?Q?PYXb3gAEmR3m/n5rbyBNieWUuYAPQ6zZvgq9MgN0lH0DvJLh2sIKhOl/fp+v?=
- =?us-ascii?Q?hkXyW/Y9T0eTsxZiRTa3dWAfQZIvgQNRubA2we3BTn412kXPK8Vw7BvzKyac?=
- =?us-ascii?Q?Bp+xStZ3W59eATNGcik3qzjVu9/D9jFg2hemYWkPTTGIFo0K8ky9ExnwCPl7?=
- =?us-ascii?Q?x+/br9MONkFEXFyDpj2pCnPFExzhnnmAUTNAkpUHfgrDFi6ce0N0vrXBXJuQ?=
- =?us-ascii?Q?GgI8jvXDNbmOlwHK9G3x78QpcvBkgwH1mNFy1/3pWgYXOCtbeHoBotVA7cfn?=
- =?us-ascii?Q?k9xC8ZU7K+OVNip4cZS1O0pnD5LvscEjXpM7kjQZ?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nx2S5195pz3bYW
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Jan 2023 19:41:40 +1100 (AEDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 389096834E;
+	Tue, 17 Jan 2023 08:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1673944896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rg3+qKkwwxy1PyfGEgfsERCs9EspIVLV9IOlw7clUwc=;
+	b=cX3lTal0KQAYsRZMF9DQ+eMErCnOWxeo2gynfs10W9/H4iCoCFR7zgCqFJTZOizWm7VIwZ
+	ZmJGrcUQrPfE5w0M02dM9jLLMXFfoDYA1bxvPWPl7M/maov6xVTeh3O/OhNtv1rYSuvA64
+	t17ZNy0xFk3BW6nhAVMJ56ZYPKI6YXY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1673944896;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rg3+qKkwwxy1PyfGEgfsERCs9EspIVLV9IOlw7clUwc=;
+	b=AxodzgBL94uIf+5wnZzzRB6mLCh0ReLOrIGCeXPVUVxG1UZhYLe+jPXJejK3aaDbhkNwc0
+	jGCKSb7cEzvvV/CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E85351390C;
+	Tue, 17 Jan 2023 08:41:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id NOR0Nz9fxmNJXQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 17 Jan 2023 08:41:35 +0000
+Message-ID: <40c778d6-1348-2c6c-2e37-c3602cc66b7b@suse.de>
+Date: Tue, 17 Jan 2023 09:41:35 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33f35ff8-ab69-4c40-157c-08daf822a67b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jan 2023 00:34:53.1382
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: f/W65RPhhIgGdw74cTjyoI2R7ZbgckDxk7z3nKU+f4ASWr5blOW6XvNOuQMSQVlAB3GZxeYJiEpzjazX3ST8jYjOK7GquQCVaMXOZ97QTyI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6155
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+ <87k01me9jn.fsf@intel.com>
+ <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HZoXM0yd7tEI0Xb9vAUNJ06z"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,30 +84,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>
+Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org, sam@ravnborg.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> -----Original Message-----
-> From: Andrew Jeffery <andrew@aj.id.au>
-> Sent: Monday, January 16, 2023 6:43 PM
-> To: Ryan Chen <ryan_chen@aspeedtech.com>; openbmc@lists.ozlabs.org; Rob
-> Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
-> <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>; Linus
-> Walleij <linus.walleij@linaro.org>; linux-aspeed@lists.ozlabs.org
-> Cc: BMC-SW <BMC-SW@aspeedtech.com>
-> Subject: Re: [PATCH 0/2] Add ASPEED AST2600 miss pinctrl
->=20
->=20
->=20
-> On Mon, 16 Jan 2023, at 14:03, Ryan Chen wrote:
-> > Hello Andrew,
-> > 	Could you help review this series patch?
->=20
-> Yep, I hope to get to it this week, just trying to pick up the pieces aft=
-er the new
-> year break :)
->=20
-Hello Andrew,
-	Thank your response. enjoy your holiday
-Ryan
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HZoXM0yd7tEI0Xb9vAUNJ06z
+Content-Type: multipart/mixed; boundary="------------M0Q2evvYu05hQ9r0mpgHSfn3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Cc: linux-aspeed@lists.ozlabs.org, sam@ravnborg.org,
+ linux-mips@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Message-ID: <40c778d6-1348-2c6c-2e37-c3602cc66b7b@suse.de>
+Subject: Re: [PATCH 00/22] drm: Remove includes for drm_crtc_helper.h
+References: <20230116131235.18917-1-tzimmermann@suse.de>
+ <87k01me9jn.fsf@intel.com>
+ <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
+In-Reply-To: <CADnq5_PsL8N27_LC_h1m8i_FCg6mJtr7K9Yjv=guw-KGD2wU5w@mail.gmail.com>
+
+--------------M0Q2evvYu05hQ9r0mpgHSfn3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkNCg0KQW0gMTYuMDEuMjMgdW0gMTk6Mzcgc2NocmllYiBBbGV4IERldWNoZXI6DQo+IE9u
+IE1vbiwgSmFuIDE2LCAyMDIzIGF0IDExOjIwIEFNIEphbmkgTmlrdWxhDQo+IDxqYW5pLm5p
+a3VsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOg0KPj4NCj4+IE9uIE1vbiwgMTYgSmFuIDIw
+MjMsIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4+
+PiBBIGxvdCBvZiBzb3VyY2UgZmlsZXMgaW5jbHVkZSBkcm1fY3J0Y19oZWxwZXIuaCBmb3Ig
+aXRzIGNvbnRhaW5lZA0KPj4+IGluY2x1ZGUgc3RhdGVtZW50cy4gVGhpcyBsZWFkcyB0byBl
+eGNlc3NpdmUgY29tcGlsZS10aW1lIGRlcGVuZGVuY2llcy4NCj4+Pg0KPj4+IFdoZXJlIHBv
+c3NpYmxlLCByZW1vdmUgdGhlIGluY2x1ZGUgc3RhdGVtZW50cyBmb3IgZHJtX2NydGNfaGVs
+cGVyLmgNCj4+PiBhbmQgaW5jbHVkZSB0aGUgcmVxdWlyZWQgc291cmNlIGZpbGVzIGRpcmVj
+dGx5LiBBbHNvIHJlbW92ZSB0aGUNCj4+PiBpbmNsdWRlIHN0YXRlbWVudHMgZnJvbSBkcm1f
+Y3J0Y19oZWxwZXIuaCBpdHNlbGYsIHdoaWNoIGRvZXNuJ3QgbmVlZA0KPj4+IG1vc3Qgb2Yg
+dGhlbS4NCj4+Pg0KPj4+IEkgYnVpbHQgdGhpcyBwYXRjaHNldCBvbiB4ODYtNjQsIGFhcmNo
+NjQgYW5kIGFybS4gSG9wZWZ1bGx5IEkgZm91bmQNCj4+PiBhbGwgaW5jbHVkZSBkZXBlbmRl
+bmNpZXMuDQo+Pg0KPj4gSSB0aGluayB0aGlzIGlzIHRoZSByaWdodCBkaXJlY3Rpb24gYW5k
+IEkgc3VwcG9ydCB0aGlzLiBQZXJzb25hbGx5IEkNCj4+IHRoaW5rIGl0J3MgZW5vdWdoIHRv
+IGJ1aWxkIHRlc3QgYW5kIGZpeCBhbnkgZmFsbG91dCBhZnRlcndhcmRzLg0KPj4NCj4+IFRv
+IHRoYXQgZW5kLCBJIGRpZCBidWlsZCB0ZXN0IHRoaXMgbXlzZWxmIHdpdGggbXkgY29uZmln
+LCBhbmQgaXQgd2FzDQo+PiBmaW5lLCB0aG91Z2ggdGhhdCBwcm9iYWJseSBkb2Vzbid0IGFk
+ZCBtdWNoIGNvdmVyYWdlLg0KPj4NCj4+IEZXSVcsDQo+Pg0KPj4gQWNrZWQtYnk6IEphbmkg
+TmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+DQo+IA0KPiBBZ3JlZWQuICBJIGFwcGxp
+ZWQgMS8yMiBzaW5jZSBpdCB3YXMgYW4gdW5yZWxhdGVkIGNsZWFudXAsIGJ1dCB0aGUNCj4g
+cmVzdCBvZiB0aGUgc2VyaWVzIGlzOg0KPiBBY2tlZC1ieTogQWxleCBEZXVjaGVyIDxhbGV4
+YW5kZXIuZGV1Y2hlckBhbWQuY29tPg0KDQpUaGFua3MgdG8gYm90aCBvZiB5b3UuIEknbGwg
+bGVhdmUgb3V0IHRoZSBmaXJzdCBwYXRjaCB3aGVuIG1lcmdpbmcgdGhlIA0Kc2VyaWVzLg0K
+DQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPj4NCj4+DQo+PiAtLQ0KPj4gSmFuaSBO
+aWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcg0KDQotLSANClRob21h
+cyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJl
+IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
+ZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhy
+ZXI6IEl2byBUb3Rldg0K
+
+--------------M0Q2evvYu05hQ9r0mpgHSfn3--
+
+--------------HZoXM0yd7tEI0Xb9vAUNJ06z
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPGXz8FAwAAAAAACgkQlh/E3EQov+CD
+Jw/+MTb+BPZzh8/QUyb31NxfXoxbq8jtzMJYljSz0DCcnbcyJi/VodlwaLvUrUMdrGCbwnbEQi3/
+tbnWP/LyqMUoi/wipxPzIS3kdeJka/6y5ytVh1xIXqGiGr4vrTPGfUvsl/5WKBvUDeLEhXRCjww6
+255YDfk6ypXLcbYIZMBw6JacQG6AjrFY0Nkd0GJjryMNRYigv+T06RauL4BdPshf7YWSz3FLU5QB
+UiueCCbkoGZZItQp0F6NwuNTOaIYcGaih1ZjYoM5sdF7PRWuUj2lgm5CKrYOL5USSWnMtrG+gV4c
+vrJXvdT4VlEcAIqhMcB+XprmbpjUEIkEwMpWgZncSFwJqYSPc3e9WNqVG8L3Yc2o0RXavaR+jgV4
+8TfMO42iMGxzIRRewW7nd4EswNn+4FQycCRIjBxsMR/yVSL29x6HMBDEm2FjpMX5NKMpRBwvrCcJ
+uH7yzcltwZDKq0UFEjNr4jNUedc1KU5My/OqSp4Vo8MTMXM3MwFQlQ+w4TjaHQOB/TxO2jb2bytv
+h7q4OPXnwAEJd3FRKgdgshzpM4oj7K6xuhgyeBZRjM0Js7QOSmXrWIB2W2oLBkOgnxlfTmvrvk/A
+3yb/toR+az7Zvh7nxy+dNvjbc+ivcWFEXirk0i4+3Sxx+VcvwdmF9WlOH7tEfG/EY15VzrC56LpJ
+X3E=
+=5Kpg
+-----END PGP SIGNATURE-----
+
+--------------HZoXM0yd7tEI0Xb9vAUNJ06z--
