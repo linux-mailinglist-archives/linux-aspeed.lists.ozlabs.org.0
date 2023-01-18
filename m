@@ -2,62 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B076711B9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 04:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB2B6711BE
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 04:20:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NxWG063nxz3cMr
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 14:19:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NxWH14WG0z3c9G
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 14:20:29 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=gFJ6plrG;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=jhYPbsnI;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62d; helo=mail-ej1-x62d.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=gFJ6plrG;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=jhYPbsnI;
 	dkim-atps=neutral
 Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NxWFr5Qklz2yjR
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Jan 2023 14:19:26 +1100 (AEDT)
-Received: by mail-ej1-x62d.google.com with SMTP id mg12so7751890ejc.5
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Jan 2023 19:19:26 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NxWGw6Z6zz2yjR
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Jan 2023 14:20:24 +1100 (AEDT)
+Received: by mail-ej1-x62d.google.com with SMTP id mg12so7755439ejc.5
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Jan 2023 19:20:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=jms.id.au; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FgA+6yqUgolw/SqxO1YAy7+szNjmtGYdLu65H2lP81o=;
-        b=gFJ6plrGY2qMO2z6gkb3oSWK7AMapIqGWeg4VhsfPJQ3yF5qtcB5TSjijGQibJL8aI
-         5ZcYvl4phtUmhwoVVWlnghRSHBf+w4zha54HhzQk8XYYCpLvWRWM5TflHwuCvaT3Ipad
-         1PiD+YpN4tNwnLllc4kviZkPn4Uagic+7Cnp8=
+        bh=8FzgOUe3N6aaG9WcYlJy+T4HQMpFm5yBh2i8Tj448wA=;
+        b=jhYPbsnIxrHWZQj/falPBOBFXlgFF9aBZZYvuLYD55LhbnYoeDIV4uRhgDAcVq7dI6
+         9yOp2fPT5trimwTR0KCVpNJWkH3AWE5ctEySeyHVVAkPBsAaexXLaBpDbSRjC0yz9+hS
+         juoEpJfv2521BVAXNKkkfWW5l3ho/1EuYdC3w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FgA+6yqUgolw/SqxO1YAy7+szNjmtGYdLu65H2lP81o=;
-        b=YfoAOz66ESMqDmdTPJ32XUXlRUTsnD8yfq7xq0OccyGgL/B3RP4TGFrCaZioN5GmEf
-         Cgx0pCiLWizJdT8AfF6dzs8n48HlKt5XmAIpAxa6pGYx3TXV1haq//g5Zd334+fPF0WW
-         O0GwX7muvKgLCzTvUzt0FiCeU/0m0IRl1W6bQ1G68rFK3BMF2qr6AHHr+xkVaxNPzwzI
-         KdlXOudaiR4gBYl6fo+VL8tafaiVoIsm3d29aY9NaMEKupJPPMUDq/FqBJzwhjMCKqKd
-         5n9/9z+vxjiBSRWnnbVR+TMS6xvd+DK0P4BT9QzYlaDeJlW4jcMPuC5H6NjLy9FV2A3v
-         FUXw==
-X-Gm-Message-State: AFqh2ko0+WIqRIEwIM7yjH7jtLYzSmSig4hzZzJzRiwHRR3j5nYWt0l8
-	oN/rkUIHlNVT/8ldD8/TaP7c7EIHrRQfpcIpB7U=
-X-Google-Smtp-Source: AMrXdXsF4H3MGnT6GULCJ3IMPm1iznAunBegxShAmG0yJaPN1dHMmR98JqAWtVJ7/AwYH44IZCvxUjrEJny8HwSs1g0=
-X-Received: by 2002:a17:907:75e8:b0:872:1905:4185 with SMTP id
- jz8-20020a17090775e800b0087219054185mr362309ejc.651.1674011962419; Tue, 17
- Jan 2023 19:19:22 -0800 (PST)
+        bh=8FzgOUe3N6aaG9WcYlJy+T4HQMpFm5yBh2i8Tj448wA=;
+        b=Buh+2PDfIPk6AhUJa4IwC9QzOPWOjTRjwxWnbmZxUbJ+cRGtzZfDSLv7/ohkngVBS9
+         oYQpX6GHEa15Nk6OWZ0dF8DMRdkv618G5IqfaxFodX3nFSrrogcKe2URB+LCE5SaIF/h
+         20nwZb421SGTrwEoTTRMzG9IsYD91cYmywezgkhL86H/csTEcztyMrY/ul8HpYzIPCnc
+         /5dZ2vIGOeVVHkRxifEToEPZxXRaoliRblPthSrOyj+4nQw4swRzxqy8sdOm/YehpIkX
+         YaFS+WlDhybU1HH/IgivkAa5d76fRfl5xWWnw/dwXyAdbQc9ZkBi+nGY+g6vhEn2b7uY
+         fBWw==
+X-Gm-Message-State: AFqh2kqk3OAIPOC/I2e2KRBoh43g3G4rOnXZQ7bLIMJQIu42sgD2PJ9e
+	u9QBUEvrXUOw590TRqWQVyNKRGO/Ohr6Jq+V87U=
+X-Google-Smtp-Source: AMrXdXvJg7JrQ0tQpOiGpYa3Hc2tprQvleaQu13cmOeI6UjvDDfMyHMpwohsZsAvZq+uHsMty/a3nlybLbMFu/LNHGs=
+X-Received: by 2002:a17:907:9541:b0:84d:3532:eca9 with SMTP id
+ ex1-20020a170907954100b0084d3532eca9mr479621ejc.394.1674012021802; Tue, 17
+ Jan 2023 19:20:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20221226054535.2836110-1-potin.lai.pt@gmail.com> <Y7SX/6bsztulhw7/@heinlein.taila677.ts.net>
-In-Reply-To: <Y7SX/6bsztulhw7/@heinlein.taila677.ts.net>
+References: <20221025055046.1704920-1-potin.lai.pt@gmail.com>
+In-Reply-To: <20221025055046.1704920-1-potin.lai.pt@gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 18 Jan 2023 03:19:09 +0000
-Message-ID: <CACPK8XdPiHZJo69K99ZL=kWVis_X=JtSAWuYN6FCAVpijcjirw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] ARM: dts: aspeed: bletchley: Update Bletchley devicetree
-To: Patrick Williams <patrick@stwcx.xyz>
+Date: Wed, 18 Jan 2023 03:20:09 +0000
+Message-ID: <CACPK8XcgzVPkmKLim7FTbsAn7W4h+d_DMnrpwHHRdWau3qcrYg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] ARM: dts: aspeed-g6: add aliases for mdio nodes
+To: Potin Lai <potin.lai.pt@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -70,25 +70,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Potin Lai <potin.lai.pt@gmail.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 3 Jan 2023 at 21:10, Patrick Williams <patrick@stwcx.xyz> wrote:
+On Tue, 25 Oct 2022 at 05:52, Potin Lai <potin.lai.pt@gmail.com> wrote:
 >
-> On Mon, Dec 26, 2022 at 01:45:33PM +0800, Potin Lai wrote:
-> > Update Bletchley BMC devicetree.
-> >
-> > Potin Lai (2):
-> >   ARM: dts: aspeed: bletchley: rename flash1 label
-> >   ARM: dts: aspeed: bletchley: enable wdtrst1
+> Add aliases for mdio nodes so that we can use name to lookup the
+> bus address of Aspeed SOC.
 >
-> Series is
+> For example:
+> root@bletchley:~# cat /sys/firmware/devicetree/base/aliases/mdio0
+> /ahb/mdio@1e650000
+> root@bletchley:~# cat /sys/firmware/devicetree/base/aliases/mdio1
+> /ahb/mdio@1e650008
+> root@bletchley:~# cat /sys/firmware/devicetree/base/aliases/mdio2
+> /ahb/mdio@1e650010
+> root@bletchley:~# cat /sys/firmware/devicetree/base/aliases/mdio3
+> /ahb/mdio@1e650018
 >
-> Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
 
-Merged for submission in v6.3.
+Thanks, that's better I think.
 
-Cheers,
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-Joel
+
+> ---
+> LINK: [v1] https://lore.kernel.org/all/20221025024145.1561047-1-potin.lai.pt@gmail.com/
+>
+> change v1 --> v2:
+> * move mdio aliases to aspeed-g6.dtsi
+> ---
+>  arch/arm/boot/dts/aspeed-g6.dtsi | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+> index 0cc92874caa8..6f159ef1efbc 100644
+> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+> @@ -36,6 +36,10 @@ aliases {
+>                 serial4 = &uart5;
+>                 serial5 = &vuart1;
+>                 serial6 = &vuart2;
+> +               mdio0 = &mdio0;
+> +               mdio1 = &mdio1;
+> +               mdio2 = &mdio2;
+> +               mdio3 = &mdio3;
+>         };
+>
+>
+> --
+> 2.31.1
+>
