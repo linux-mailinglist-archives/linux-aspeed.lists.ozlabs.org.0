@@ -2,64 +2,86 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB55C672E82
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 02:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAA2673091
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 05:50:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Ny5Kh0XGQz3cKm
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 12:54:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ny9Dw5nTDz3fCZ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 15:50:56 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=k0PPWVKh;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=wtktud6v;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=B7iVNBkl;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62f; helo=mail-ej1-x62f.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=64.147.123.19; helo=wout3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=k0PPWVKh;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=wtktud6v;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=B7iVNBkl;
 	dkim-atps=neutral
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Ny5KW6pwbz3bXQ;
-	Thu, 19 Jan 2023 12:54:37 +1100 (AEDT)
-Received: by mail-ej1-x62f.google.com with SMTP id kt14so1982382ejc.3;
-        Wed, 18 Jan 2023 17:54:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=e5LSz9bvo3BZ3yzR2LZdddWGu50g7D481ggXK11d8M0=;
-        b=k0PPWVKhCWmYp+/4o8oguC5R37MopUd//IyT1BMNYlmFuqOfC+PXEqR4ju6ET6EHPj
-         UMETuVxZJ7cjl47cvVjMIcJzgFi7PdATI6UypFahVC/NzuqT8pMg4hwu2Y+jNHdr51f7
-         rYTf0pCFhgx8Eids2p5agC7kJgzMXgEFPTZb8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=e5LSz9bvo3BZ3yzR2LZdddWGu50g7D481ggXK11d8M0=;
-        b=j1d+SBDwAyl1iUw4EIQXq2eIqC3qmKTXgD7oD0LqSk990LVrlMydFH9YdVFZlcJ92d
-         uh145t4vcevfLXxbm0Uus3gN5/qVdNCrDORICBo5m5dDecrGN6cVgDKzHpunFKrGOrud
-         m8wlLYWEK2zW5EAzERuOcwEpKA+/D76d+WJ17lVnzTEdjGs7gou6NFUZFZeCJPB7ggcF
-         8sqRXc6gI4mVqa9cqbWxzlOSFcm5+IqQcDnY6s171xXbOxGV5jTOL6tG3XwZoom6Ck6d
-         nAWRAVSzNKAb7hRbsFQxl0qI2uT/c4/iQAzad1hGO2MG2TuU8Ew8+TKIe0vy79Rbg2dE
-         enWw==
-X-Gm-Message-State: AFqh2krZTBEOv64Yze52WAsA23OmsAQ/Vg6KECFJHGzg7pgNL1NynqZD
-	tvenSMRPrj4dTHopyqyrUIguBARL6mt3pi3MIPc=
-X-Google-Smtp-Source: AMrXdXu+ox64PdWPYUzYVyZ0V9eEMhNYJBdrtYqnVqBurU84ellrmAEXv1jl+qoNNn06JcsWkIRO245bljA8fWYGORE=
-X-Received: by 2002:a17:906:3b85:b0:7c1:4665:9684 with SMTP id
- u5-20020a1709063b8500b007c146659684mr1204502ejf.23.1674093274564; Wed, 18 Jan
- 2023 17:54:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20220818101839.28860-1-billy_tsai@aspeedtech.com>
- <CACRpkdYpp_1JJQmuX27pECxN0cjzciCuETLPTrSYKqpX0FPABQ@mail.gmail.com> <e501d2fb-aaa0-470d-a8d5-5f8e97898df7@beta.fastmail.com>
-In-Reply-To: <e501d2fb-aaa0-470d-a8d5-5f8e97898df7@beta.fastmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 19 Jan 2023 01:54:22 +0000
-Message-ID: <CACPK8XfQ=uarsOgJ7LaXqLyGG2vSF-47RkAEV=T2gruapx-yfg@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: Force to disable the function's signal
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Ny9Dq6zfFz3bbc
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Jan 2023 15:50:51 +1100 (AEDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id 6248F3200934;
+	Wed, 18 Jan 2023 23:39:04 -0500 (EST)
+Received: from imap50 ([10.202.2.100])
+  by compute6.internal (MEProxy); Wed, 18 Jan 2023 23:39:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1674103143; x=1674189543; bh=G/hJoNUFWj
+	tKbalV91EsTE4kaSD2XXRJqsp9xGH9tiw=; b=wtktud6v0QuSAM++KqtlJ9JymT
+	urABw/YuHkM2OhkzRthap85AiAieCN54YO4ZtQsZCxfSmI2o/AF2MAkBePGO2+de
+	pwC9ioWzW1H98M+gbRDrVeLuwzSI3fcNpAhtlLWjbcWTQ5/BdMiENx9nArF2rsBm
+	Ijmm8KYhTrBEFmGoT29s/qgbjRIT4SZy2+pFk+M8Q2dt/L2rJ21QLqrMPm288IPz
+	d8eRT9ApF31BGh4q+EjPKJstxMBCSBTobxHzxgGN/pQd5y202e6MUe3WxEbsxsvF
+	+Gn6bbhTx2mgBJ1nCSebTM1m0DUiDrRQjE4AwHmf9yZfQ2Q2bvqaEBvzObiw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1674103143; x=1674189543; bh=G/hJoNUFWjtKbalV91EsTE4kaSD2
+	XXRJqsp9xGH9tiw=; b=B7iVNBklJB13VVobFHkHlDLx1pqF+CQFpIgiNTJxnekV
+	bCCITs7+Q+QuTUrfIYxrQyhSY7uuj7BS0/mWQdimNfijRjPbXUCg35hab6qsta7Z
+	4raBCnnYZVirIEZpAYDV1qGaTfY7zUHWUDE3SDaDgY1UiNTWxwa2SSyRCBzD8zj8
+	1SYAQxqsav/FlQNy49DX5xzpuA30Rn2YSFNOrns7HvYC1pSF4AGdJFFZTEA08qd/
+	M/dKMzb+0/btvCc3xe5JxqWZnuY6O+lXMcQIda2oo6E/RDnsyoQc/Cmpnyzzlu1g
+	2PxlzbOkHfb0+Jh7Di5FrD7Xx8epIzNwaQZRdUE9LQ==
+X-ME-Sender: <xms:ZsnIY6Td5QBJTyIjLl35IK4HLl7nZIJbXDfwns4EAz9VAarYaIYUjQ>
+    <xme:ZsnIY_zSJrpf_Xu3v6QlGJRgwFepOUrDThb0ELSAXKS1NYkwutUjr4oHwo8bXTJ5D
+    TOwXaSIpdhlMF2URg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtledgjeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
+    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:ZsnIY32VxiOVv7Z9qwJZwy5AfFAnF0_kTfLJtinqJSCYGEG4Q39rlA>
+    <xmx:ZsnIY2Bg-x94GPXSajk-r9GO2IEBPOaStSeoHSQbsNFRXCZAuhFg7w>
+    <xmx:ZsnIYzgNYsvzR2WJWh532vdSoXEZBm1H1QIxkWlHIICjgS5ipycuEQ>
+    <xmx:Z8nIY2uJvIvhRZy6F3nSJJkzebeJ4rjJU5YTELdMq4AhBOYzJxXMbA>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 742831700089; Wed, 18 Jan 2023 23:39:02 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
+Mime-Version: 1.0
+Message-Id: <e4832133-962b-4825-83ac-d99e26a8bdd5@app.fastmail.com>
+In-Reply-To: <20230119014859.1900136-1-yangyingliang@huawei.com>
+References: <20230119014859.1900136-1-yangyingliang@huawei.com>
+Date: Thu, 19 Jan 2023 15:08:42 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Yang Yingliang" <yangyingliang@huawei.com>,
+ "Linux Crypto Mailing List" <linux-crypto@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH -next] crypto: aspeed: change aspeed_acry_akcipher_algs to static
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,63 +93,14 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: neal_liu@aspeedtech.com, Herbert Xu <herbert@gondor.apana.org.au>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 26 Aug 2022 at 22:48, Andrew Jeffery <andrew@aj.id.au> wrote:
-> On Sat, 27 Aug 2022, at 07:26, Linus Walleij wrote:
-> > On Thu, Aug 18, 2022 at 12:18 PM Billy Tsai <billy_tsai@aspeedtech.com> wrote:
-> >
-> >> When the driver want to disable the signal of the function, it doesn't
-> >> need to query the state of the mux function's signal on a pin. The
-> >> condition below will miss the disable of the signal:
 
-> > I can't see the verdict for this patch? Will there be a new
-> > version, or are we in the middle of a discussion?
-> > I'd really like Andrew's ACK on the result before merging.
->
-> Apologies, it's been a bit of A Week :)
->
-> Given the approach has been discussed with the IP designer and solves a bug I'm okay for it to be merged. If we run into issues it is easy enough to back it out.
 
-As foreseen by Andrew, this caused a regression. On the Romulus
-machine the device tree contains a gpio hog for GPIO S7. With the
-patch applied:
+On Thu, 19 Jan 2023, at 12:18, Yang Yingliang wrote:
+> aspeed_acry_akcipher_algs is only used in aspeed-acry.c now,
+> change it to static.
 
-[    0.384796] aspeed-g5-pinctrl 1e6e2080.pinctrl: request pin 151
-(AA20) for 1e780000.gpio:943
-[    0.385009] Muxing pin 151 for GPIO
-[    0.385081] Disabling signal VPOB9 for VPO
-[    0.402291] aspeed-g5-pinctrl 1e6e2080.pinctrl: Failed to acquire
-regmap for IP block 1
-[    0.402521] aspeed-g5-pinctrl 1e6e2080.pinctrl: request() failed for pin 151
-
-The code path is aspeed-gpio -> pinmux-g5 -> regmap -> clk, and the
-of_clock code returns an error as it doesn't have a valid struct
-clk_hw pointer. The regmap call happens because pinmux wants to check
-the GFX node (IP block 1) to query bits there.
-
-For reference, reverting the patch gives us this trace:
-
-[    0.393160] Muxing pin 151 for GPIO
-[    0.393267] Disabling signal VPOB9 for VPO
-[    0.393383] Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-[    0.393552] Disabling signal VPOB9 for VPOOFF1
-[    0.393681] Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-[    0.393835] Disabling signal VPOB9 for VPOOFF2
-[    0.393965] Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-[    0.394097] Enabling signal GPIOS7 for GPIOS7
-[    0.394217] Muxed pin 151 as GPIOS7
-[    0.394411] gpio-943 (seq_cont): hogged as output/low
-
-This can be reproduced in qemu without userspace:
-
-qemu-system-arm -M romulus-bmc -nographic -kernel arch/arm/boot/zImage
--dtb arch/arm/boot/dts/aspeed-bmc-opp-romulus.dtb -no-reboot
-
-Billy, do you have any suggestions?
-
-Cheers,
-
-Joel
+Acked-by: Andrew Jeffery <andrew@aj.id.au>
