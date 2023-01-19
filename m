@@ -1,118 +1,93 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73EA3673130
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 06:30:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7485E673349
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 09:06:56 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NyB6t1n8Bz3fCg
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 16:30:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NyFb22Xjnz3cKm
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 19:06:54 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=TQ390SIb;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=nug90yAN;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=LAhVEuFa;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=40.107.117.138; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=arndb.de (client-ip=66.111.4.28; helo=out4-smtp.messagingengine.com; envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=TQ390SIb;
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=nug90yAN;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=LAhVEuFa;
 	dkim-atps=neutral
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2138.outbound.protection.outlook.com [40.107.117.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+X-Greylist: delayed 538 seconds by postgrey-1.36 at boromir; Thu, 19 Jan 2023 19:05:49 AEDT
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NyB6h2Ktqz3c7K
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Jan 2023 16:30:35 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R8MavNw71UjNLWQBStIaVdDd6UTu/qYI2AShUuN7auVUywaUDvzaLAa5Pndcfu9adqHS4tpk4Zn/rXtWE3kmE7qKeabtQbadu75StKSMAQFgbFQRkcuGMu3gQnXvL8sMr2dw3SZA7spdAyaHJhw2Dxjz+abnLh+YvnmiS5v6KUkHbDTsk2eeKWNNGdoWgDdZBjOOiwaOc8m9Wj4LcGvPnbZYFCGIB45VibZwQX1ubMcctMQO25nu989GOnaWkm1BWNJdsDP2WjijFuZABryOUnLJaaXNInD4N/v3pL70DObpCT/rQXd7QnolOkd0W+v+4PUi0gMGRiVTRMiALdwxkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YTlANqY317wm69C6VIRxHd7WnTu73POBjX7KxE7T7U0=;
- b=LScGt2tVo9HyrIeqEUBphsreA+vW+kWFN4q6mM+lWKMlYOaf+BC9IB8Iu6Eq+pgimkpc9o9XOtQxhqP2TpIy5E38APISjIWWs7yIP3bqYfeEEGRl7rAvvaT1UU85p7ffpWOzjFLwDXnIvuhkaj4UVeLTvhPqRyiKcsYspsuywFVsS4DqBy+VuC7dV20oOTA8610wTiV45IMIt1wBtrLnwbVMAIH3n6tve43PBhVkkCRDcEI8ID/ltoTqPkf8yw9IMT1VNmEhkPXkCUBjmZ47pNtdbGtKXdcOzmnYZLvel2QwOblcN9L7/wVpPCyQYDQuPQD9G0psmKuFnmynzrwnOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YTlANqY317wm69C6VIRxHd7WnTu73POBjX7KxE7T7U0=;
- b=TQ390SIbvWyr6WzEd/fIhpvVT5RJ1n3isLpocXnq5X4UUglMJRY2l8v2AI8YMW/wBsUkdM0oQnbep+CZWSM3eQje0OPPoe+wfAT399nZtq0UDOA9q8aUbnd2CrMbrZrsJXrmc8Ugsp/pRATD0o+6JK1ROlxEaIB0VWU/wFhL2BvR61KbKLft6Fb6+O0eZGpEjqyEXIhtlpQShWQ/lJ70u/j2BB3TxgrBEIxrAmFXZqaalxytlY3qEqgsGbEXMVoGuBWGjQM8t5Vf4+gfH+4kWsxx/izh2kZtTcXjKSlfGKeD7iZWjHLApNXxTfDLjIB4nsgPg3re6xhwjy7URjzSow==
-Received: from SG2PR06MB3207.apcprd06.prod.outlook.com (2603:1096:4:6b::9) by
- PSAPR06MB4151.apcprd06.prod.outlook.com (2603:1096:301:2b::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6002.24; Thu, 19 Jan 2023 05:30:14 +0000
-Received: from SG2PR06MB3207.apcprd06.prod.outlook.com
- ([fe80::bfa0:771c:8258:c299]) by SG2PR06MB3207.apcprd06.prod.outlook.com
- ([fe80::bfa0:771c:8258:c299%3]) with mapi id 15.20.6002.024; Thu, 19 Jan 2023
- 05:30:14 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Yang Yingliang <yangyingliang@huawei.com>, "linux-crypto@vger.kernel.org"
-	<linux-crypto@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>
-Subject: RE: [PATCH -next] crypto: aspeed: change aspeed_acry_akcipher_algs to
- static
-Thread-Topic: [PATCH -next] crypto: aspeed: change aspeed_acry_akcipher_algs
- to static
-Thread-Index: AQHZK6WwSMVtzomYYE+HVkKQig9+xq6lNqxQ
-Date: Thu, 19 Jan 2023 05:30:14 +0000
-Message-ID:  <SG2PR06MB3207C0C0D82F4F27BC4C3F6F80C49@SG2PR06MB3207.apcprd06.prod.outlook.com>
-References: <20230119014859.1900136-1-yangyingliang@huawei.com>
-In-Reply-To: <20230119014859.1900136-1-yangyingliang@huawei.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR06MB3207:EE_|PSAPR06MB4151:EE_
-x-ms-office365-filtering-correlation-id: 0bb0f2a6-578d-48a4-0bb1-08daf9de3df6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  YxND1fMjxgWCcfzk4wyk6lbwzO5k49V9Ecp3z7LsQEUEPwVJB5UyeHIrsT6HnUUqJu4bivpFU9GYd/W7hf5XawXLnAvN+JfoXvtQffBGSTmguhor1krqBwIJrRn9OMR5rFPGfBeE3bbhyLWIW9OHNg2TV/S390i0sPf7Ij/VA+BY25Sxg03s0LOZDehkmbOLPkSBh674M/eOFU5VYq9xkRT6EHmFxvxrAnU58KHtFQEDeu6XKgTN7Gy/3zJqjSRCm1A+LSLno26WCjA2NOH81zwiu5cU7m7r+ZFv9DsQmXJR641Xj8R6+ViaSts18hAqGg+aOqsL0BKvLCV6cA9tdX3tpxDFfWBFt51BN5UVXTcfHecL0bBPS6zpt2HSIsS/+5oyizrwhkEvXFWLDErDdZ0D7zeaIXiAGI3mtGKhez4VPuemSnCMGUDeHqFRCP5v6QlcAURbsysq3brTPUsmGLKUe4E7ThH3TNAYH6smRoAPe+11j25SOoWDpT9w4Y8PXF/94v+LztuDkB670PjwDgv8VroDiPaHbM6SGzQL+v3i85+Yjq8+OzMDxxs03ZeWlQPiw3T/z/jCtx2+OdL2wRamlExuPhYIojsFDIA+itfqqu832M+J37eMa1EaQx/f6mW+MN0WrQwiSHwj2ldJ1JpmY+X40dZFqs78MxT7GtApCWj+DbmD8zmLFbsqk5j9o8V6YAtThp8wxUBzaDmSmA==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3207.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(39840400004)(366004)(136003)(346002)(396003)(451199015)(33656002)(6506007)(110136005)(186003)(478600001)(26005)(9686003)(8936002)(7696005)(38070700005)(86362001)(8676002)(4744005)(83380400001)(64756008)(5660300002)(66556008)(52536014)(76116006)(66476007)(66446008)(71200400001)(66946007)(4326008)(41300700001)(316002)(2906002)(122000001)(38100700002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?VHwNtwVBZRaXJEW97jvf1mbPOAqBn/gn8LuOAn+fcQnKKa8RaATUoaAPIebJ?=
- =?us-ascii?Q?VMsfIxriouGyKzrxwJOQfeWg39ohOhYEMlxjkDeR1BAvnriBmBfPm+g9GlT9?=
- =?us-ascii?Q?C65ARVBxhgJqzXt57ezEGYTtzdR26v+jo+m1abbbImDBcLPZsE7C0XdpVhoY?=
- =?us-ascii?Q?PbPXPhMXDMUv0IyTehUub3aNg6lglhqykTLAA8NkQwUUoY03PWeXdgbsWad2?=
- =?us-ascii?Q?gL8T4w+ehdUMIKHxDHXbtdX4hTmvxG9jGiZXdbC+LWbIv2r/vhwTgEoNSbOO?=
- =?us-ascii?Q?VGiH4fywHg4Ib4M1V9v6s1ExA+PYV871iKk5axSXvovV5/jc3gltdxxHYMaf?=
- =?us-ascii?Q?yPkGJXa2G5i0RbjU1ZI8USgjtXBDr+xzJJlrAt3U4iBkGnUORkurzmfKgl0O?=
- =?us-ascii?Q?nfercce5G4caqPRxnN0Sl2SXFxs+QlQnm/teLLmAn3AknBROLjf73pvnlime?=
- =?us-ascii?Q?WSufw8nY45j910kK9eKQLmEByrvp6c8QsU211vIfR969bt2XgAudtoI2qlHW?=
- =?us-ascii?Q?qTaiReVKTWJrlDatJU2HkRD9/2Vx0vZiXpxkZbK4MpdFhfuP6FhOLLivRA8T?=
- =?us-ascii?Q?ZIci4Dfje0o0Wq7475LFmHUJJjvmm7qO7j92nIMVGUdWMIWYZRcFM5INz87D?=
- =?us-ascii?Q?HbB164bBOBlUTAtTZbLkaEKvFkzFvhloKb8l++pmfYalqDi5ecy8WXE5BI1R?=
- =?us-ascii?Q?nuAzf/GUpVzJaxrekcn8BX5XTfP5Qgwfizwo4IQg9tDYo77QOJDlha4mt2HL?=
- =?us-ascii?Q?H3XbZZbYDFx/8ItG16xOHId1AU2676iXdtIjf3qSPXMACBER1Fqd6oWAHKsp?=
- =?us-ascii?Q?BCgpemjYxrUkL/9d1WyfPi5i5rfvgr3IvhJvO+ODJJsKitGsmUqCDA6gh9yl?=
- =?us-ascii?Q?RtkS1pOxQhZyCXbenS64yWue11nPgucZ8X1ABokNQkyqeQa8SUr1ihV7oOfl?=
- =?us-ascii?Q?zpjGQr66i3gN5/6C+Z0kTXTy6M82jHMExkau8v/UTEVqG5gZxKjVb2aqwIqV?=
- =?us-ascii?Q?yStDRKD2tW1CIaXkOwCHXH/oTUEeovtx7JSKfA47spYahqM0vhn3QZBijk70?=
- =?us-ascii?Q?5ZfNWK0YCZF+nMwHpIyqibJgakwZ8zMFmKqy6fTNjvkzH3UBCQNa6uHCJY+N?=
- =?us-ascii?Q?+sHzfX0tpVbtj6d4yTn/Q1uiKgSUWJvHACoYyaRfbWVriQQrNXSCv0X5XnLS?=
- =?us-ascii?Q?sj6emuXsNsHWJswRt7QeH0FxPuKyDfB3Bqr3dEFWYGeiz8bD8ZfEzWnZOWv7?=
- =?us-ascii?Q?vAD996xj4M/LxrxSKDeEn1Sqw8vU4OEqScz34WyeO/b4giV6pvX3g7RtlS76?=
- =?us-ascii?Q?/hHW0q3/bKuxnQrvSWx2VUS8qadEetdBsxyjjf+9r6RMAD59H25cEgkErYq1?=
- =?us-ascii?Q?b9IDIU4Ua0tjHNm2UZzc74cNHKo2dW5vF4Gq/X4kKvz12YdgqweN+PCdTnl/?=
- =?us-ascii?Q?JbZifu7E94AhDMTGS4DHfpO66dOMxFhA58QdhBsCQpFXYMwHbwQAxKpIdIFb?=
- =?us-ascii?Q?TB3nXt0QDpI6VgEnxZlkjye1HOQ8NZVIdP8+EW51cHev1CuVlCZMYTmiTbEK?=
- =?us-ascii?Q?imOA5dBHdPHAWgBOmez4JJwhAC651/R9Tw7cNmGH?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3207.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bb0f2a6-578d-48a4-0bb1-08daf9de3df6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2023 05:30:14.3624
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pSe/Ps+1l86t1RQbQ6S/PtE/MlB88Gc9AUtlUxXEoqa/6Ga4SQTebwjCxCV/d93HKCZsGDeBM0CpWT9VLIyFxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4151
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NyFYn0flHz3c8d;
+	Thu, 19 Jan 2023 19:05:48 +1100 (AEDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 600285C012B;
+	Thu, 19 Jan 2023 02:56:45 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 19 Jan 2023 02:56:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1674115005; x=1674201405; bh=zM/k9tWl4A
+	ZrWACJdmXZKTCMgs2DStBICdw4oFEh4H4=; b=nug90yANL1BU+oerGfsfC3JWCp
+	px5nq10ZWCYRxRqjuR7cr0E1dZfNERA1YS4xgs24Uu8QSy1UqWyk48hgQ5/BJqtH
+	svftZg4LRcVVZpRwYwObtIs5ZbUlRJGfon7agIi0xBDsQO7/0jqSFD/3dgBYDf/p
+	qPQ99mVRoDklIyGf271Vhf5Lusz/Jhm5M9o3p2g9jCHMn4LarI5wwlv6qRLmhRjX
+	sG440ytAjY61X6m1loZwPEK0rFlks+cH6liuttQj9EdxPT3Fv0Z4mST8ZDXOJdsm
+	4DiNB1r2tnHce6cBNQ+2s9S7Et6G/gBy95kyQXpI29wy9bxo6TVuuzbicPbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1674115005; x=1674201405; bh=zM/k9tWl4AZrWACJdmXZKTCMgs2D
+	StBICdw4oFEh4H4=; b=LAhVEuFatwN4IqZ62mEz3Hnr2TNcpjs+OpJaS/SSH/vc
+	2meRhx/01xhC72sMQZLpp2u4IwcGe90j7Qr24dL4X2JBmw6wzNQ23KZG8JKiPWKK
+	8byfhu3YQE8qkOpd5PbSo5df5E/wAb5q8BbGzTOOm1AfcU7Ys7WMN/xDtjRcRYFY
+	Z+wvvfTnQyMxjD3GnuU6ll2APFcUeiX1BiJdazHEblINDqjq1M0n6O4GI709zCRc
+	bMqZkt2mTOK+SiLYy6Bne98gZ5UGR7pOf08Er6/gcSteneHET57cY+ZwjuhbY6uX
+	FMn5qT3tCJ8cgKgOtM8J/C8LLS3IT1CL2JeQuztDGw==
+X-ME-Sender: <xms:vPfIY-kHc6idtBmJEJMnOM5f19hT15nponz-QEK6H0BnDTBqJSnJrA>
+    <xme:vPfIY13Q17Ji2RPFJKB7L5_-r5yXGBk1c70DGtfb8E7rFj-2Jf6j4_8I-4ucSS4Pc
+    lXtNl9JTSkFBowjodo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtledguddugecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:vPfIY8qdM75Mgw2blVly3rYojUfqbZ9aYEPi5l5Yxrl00y_uCB-bSQ>
+    <xmx:vPfIYykX2ULdg1eb8H6rSSzuE1rRP2CX8O0s4tGtj5m0Lcgb1jqm0g>
+    <xmx:vPfIY812TaWcznlN9lBuCvcyHQnmNoTU5wJiKi3WSfv1BYddvvaaDw>
+    <xmx:vffIY2Mk-8K9tt6Igf6XVogGHUGah65qpykOb6DwH8aVP7XENUOMcQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 8233AB60086; Thu, 19 Jan 2023 02:56:44 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
+Mime-Version: 1.0
+Message-Id: <66ef9643-b47e-428d-892d-7c1cbd358a5d@app.fastmail.com>
+In-Reply-To: <Y8jzsmC3azFgbZLP@enigma.ccjz.io>
+References: <20230110042533.12894-1-clayc@hpe.com>
+ <20230110042533.12894-3-clayc@hpe.com>
+ <110af65f-9c18-524d-a073-ef7be60d1f5a@linaro.org>
+ <Y8AIHDizIqu9u9BR@enigma.ccjz.io>
+ <48cd3e28-f1db-487d-8971-473dc8c12c09@app.fastmail.com>
+ <Y8VUOENIhe72sqMO@enigma.ccjz.io>
+ <55f09599-b553-4429-aa79-ca99ccf95cda@app.fastmail.com>
+ <Y8jzsmC3azFgbZLP@enigma.ccjz.io>
+Date: Thu, 19 Jan 2023 08:56:25 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Clay Chang" <clayc@hpe.com>
+Subject: Re: [PATCH 2/5] dt-bindings: soc: hpe: hpe,gxp-srom.yaml
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,35 +99,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-aspeed@lists.ozlabs.org, "Verdun, Jean-Marie" <verdun@hpe.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-kernel@vger.kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>, "Hawkins, Nick" <nick.hawkins@hpe.com>, Russell King <linux@armlinux.org.uk>, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Tomer Maimon <tmaimon77@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> aspeed_acry_akcipher_algs is only used in aspeed-acry.c now, change it to
-> static.
->=20
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+On Thu, Jan 19, 2023, at 08:39, Clay Chang wrote:
+> On Mon, Jan 16, 2023 at 04:18:59PM +0100, Arnd Bergmann wrote:
+>
+> Sorry for not saying it clearly. I meant to put those HPE BMC related
+> drivers that are "not specific" to a particular subsystem in
+> drivers/soc/hpe. For those fit into some existing subsystems go to their
+> designated places.
 
-Reviewed-by: Neal Liu <neal_liu@aspeedtech.com>
+Ok, that makes sense. I'm just trying to reduce the number
+of drivers that fit into this category.
 
-> ---
->  drivers/crypto/aspeed/aspeed-acry.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/crypto/aspeed/aspeed-acry.c
-> b/drivers/crypto/aspeed/aspeed-acry.c
-> index 6d3790583f8b..164c524015f0 100644
-> --- a/drivers/crypto/aspeed/aspeed-acry.c
-> +++ b/drivers/crypto/aspeed/aspeed-acry.c
-> @@ -603,7 +603,7 @@ static void aspeed_acry_rsa_exit_tfm(struct
-> crypto_akcipher *tfm)
->  	crypto_free_akcipher(ctx->fallback_tfm);
->  }
->=20
-> -struct aspeed_acry_alg aspeed_acry_akcipher_algs[] =3D {
-> +static struct aspeed_acry_alg aspeed_acry_akcipher_algs[] =3D {
->  	{
->  		.akcipher =3D {
->  			.encrypt =3D aspeed_acry_rsa_enc,
-> --
-> 2.25.1
+>> >> Again, it's hard for me to tell why this even needs to be runtime
+>> >> configurable, please try to describe what type of application
+>> >> would access the sysfs interface here, and why this can't just
+>> >> be set to a fixed value by bootloader or kernel without user
+>> >> interaction.
+>> >
+>> > The register is used for communication and synchronization between the
+>> > BMC and the host. During runtime, user-space daemons configures the
+>> > value of the register for interactions.
+>> 
+>> That does not sound very specific. What is the subsystem on the
+>> host that this communicates with? Can you put the driver into the
+>> same subsystem?
+>
+> This is a control register in the BMC chip that partially controls host
+> boot behaviors. When writing to the register, privileged mode is
+> required. That's why we rely on a kernel driver for writing to the
+> control register. And, there is no corresponding subsystem in the host
+> OS. For this case, is it acceptable to put this driver under
+> drivers/soc/hpe?
+
+I see. So this sounds like it might be generic BMC feature, which would
+be nice to handle consistently for all BMC families. We had some
+discussions about other BMC features in the past, but don't remember
+what the overall consensus was, so I'm adding the openbmc list and
+as well as aspeed and npcm maintainers to Cc.
+
+The part I'm still missing is what type of userspace makes this
+decision on the BMC side, and whether that might already have a
+generalized interface. If there is, maybe part of that interface
+can be abstracted in the kernel.
+
+    Arnd
