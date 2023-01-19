@@ -1,64 +1,40 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1A3672B6E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jan 2023 23:44:59 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BD1672E21
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 02:31:14 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Ny16c3YWnz3cfK
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 09:44:56 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=loLOq4wY;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ny4pR6Bv1z3cFW
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Jan 2023 12:31:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::632; helo=mail-ej1-x632.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=loLOq4wY;
-	dkim-atps=neutral
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=yangyingliang@huawei.com; receiver=<UNKNOWN>)
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Ny16R6msRz3bcw
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Jan 2023 09:44:47 +1100 (AEDT)
-Received: by mail-ej1-x632.google.com with SMTP id hw16so1063983ejc.10
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Jan 2023 14:44:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5rDVfmGaTHq7SddtJNWhZM8yAn31bV4+g6pAERHOpLg=;
-        b=loLOq4wYdeeCrYxIj7EUgXtnLj1TNav8NpjXyEPBSllezfA0igfvQj1eoLL1+bLNH+
-         wU1YQpXqxikSAjwD4urWorUYTDg6wplMfFVQn61BLel4F79Xhm5agvj+ya2rc/K94vdv
-         LlVlQtou3hPA7WpYBpFSIXFhVj8UxSajSA8eY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5rDVfmGaTHq7SddtJNWhZM8yAn31bV4+g6pAERHOpLg=;
-        b=7UvXU4nDM0iV/CD7w7CEQkxD6ht/WXC5hztVIVB9mQJaCYbYTyjOBT9Z5b0cydFPm2
-         m+ZSTXptugBJ8yTNwBDvFRgm72FKkVJgdEqESdtz//AcvS7k0CrCqhTgJ5UAWqa/6aFv
-         HQ9/gutnoKgn983WZ36KT9DWTkaymFVvNXRFkDfkLPT8OR1KL0AkebkxewVLvI7RO84L
-         wrCC99S3GSjpOvgdUqVjPaj2w/u0Hp5ERTcy7ReG3Ge23Yjf1Fvjv4cISO3Y7XBK3Yrr
-         Gykpr3ixFiwv8FBFg8SoI3aU2pt9iZdgwEQ66m7vgJoK0hwHPGICSBwEzSKpKAZ0DdfC
-         czUQ==
-X-Gm-Message-State: AFqh2koQtEiOBb8/hf3vQ4TxMhbyLDzOgvE6fYyjBhium2J9nTUziuoF
-	B7lUxBYwXH18svOAp1OxSrK/MyDEIrv2JO5llcA=
-X-Google-Smtp-Source: AMrXdXuuvLFNYm7lHWC2rdR13oc2fxERzfgrom2b9EwLGCHFygtP/ioTmhiGnTiBauTyAzigAvc19/AK3d7UvVu5/tc=
-X-Received: by 2002:a17:906:9394:b0:7c4:efcf:3bc8 with SMTP id
- l20-20020a170906939400b007c4efcf3bc8mr1125299ejx.702.1674081879203; Wed, 18
- Jan 2023 14:44:39 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Ny4pJ0rcdz30CT
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Jan 2023 12:31:00 +1100 (AEDT)
+Received: from dggpemm100007.china.huawei.com (unknown [172.30.72.54])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Ny4m51zvBz16MhK;
+	Thu, 19 Jan 2023 09:29:09 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by dggpemm100007.china.huawei.com
+ (7.185.36.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
+ 2023 09:30:53 +0800
+From: Yang Yingliang <yangyingliang@huawei.com>
+To: <linux-crypto@vger.kernel.org>, <linux-aspeed@lists.ozlabs.org>
+Subject: [PATCH -next] crypto: aspeed: change aspeed_acry_akcipher_algs to static
+Date: Thu, 19 Jan 2023 09:48:59 +0800
+Message-ID: <20230119014859.1900136-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230118150030.2079226-1-aaelhaj@google.com>
-In-Reply-To: <20230118150030.2079226-1-aaelhaj@google.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 18 Jan 2023 22:44:27 +0000
-Message-ID: <CACPK8XeAX8de_J7px2R2Bc0V7m7hMgGEfB1xpkwFKDzDDr73Og@mail.gmail.com>
-Subject: Re: [PATCH] arm: dts: aspeed: tyan s8036: enable kcs interrupts.
-To: Ali El-Haj-Mahmoud <aaelhaj@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm100007.china.huawei.com (7.185.36.116)
+X-CFilter-Loop: Reflected
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,42 +46,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, osk@google.com, linux-arm-kernel@lists.infradead.org
+Cc: neal_liu@aspeedtech.com, herbert@gondor.apana.org.au, yangyingliang@huawei.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 18 Jan 2023 at 15:00, Ali El-Haj-Mahmoud <aaelhaj@google.com> wrote:
->
-> When the BIOS is built with kcs interrupts enabled, not enabling
-> interrupts on the BMC results in very poor IPMI performance.
-> The other way around (BIOS with interrupts disabled, BMC with
-> interrupts enabled) doesn't suffer degraded IPMI performance.
-> Enabling interrupts on the BMC covers both scenarios, and should
-> be the default.
->
-> TESTED: manually verified IPMI performance when BIOS is built with and
-> without KCS interrupts.
->
-> Signed-off-by: Ali El-Haj-Mahmoud <aaelhaj@google.com>
+aspeed_acry_akcipher_algs is only used in aspeed-acry.c now,
+change it to static.
 
-Thanks, I've applied this for 6.3.
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/crypto/aspeed/aspeed-acry.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
->  arch/arm/boot/dts/aspeed-bmc-tyan-s8036.dts | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-tyan-s8036.dts b/arch/arm/boot/dts/aspeed-bmc-tyan-s8036.dts
-> index 708ee78e4b83..f6c4549c0ac4 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-tyan-s8036.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-tyan-s8036.dts
-> @@ -364,6 +364,7 @@ &kcs1 {
->  &kcs3 {
->         status = "okay";
->         aspeed,lpc-io-reg = <0xca2>;
-> +       aspeed,lpc-interrupts = <1 IRQ_TYPE_LEVEL_HIGH>;
->  };
->
->  /* Enable BMC VGA output to show an early (pre-BIOS) boot screen */
-> --
-> 2.39.0.314.g84b9a713c41-goog
->
+diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
+index 6d3790583f8b..164c524015f0 100644
+--- a/drivers/crypto/aspeed/aspeed-acry.c
++++ b/drivers/crypto/aspeed/aspeed-acry.c
+@@ -603,7 +603,7 @@ static void aspeed_acry_rsa_exit_tfm(struct crypto_akcipher *tfm)
+ 	crypto_free_akcipher(ctx->fallback_tfm);
+ }
+ 
+-struct aspeed_acry_alg aspeed_acry_akcipher_algs[] = {
++static struct aspeed_acry_alg aspeed_acry_akcipher_algs[] = {
+ 	{
+ 		.akcipher = {
+ 			.encrypt = aspeed_acry_rsa_enc,
+-- 
+2.25.1
+
