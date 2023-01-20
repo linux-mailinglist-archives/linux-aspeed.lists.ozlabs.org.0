@@ -2,86 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00D3674961
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Jan 2023 03:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C558675115
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Jan 2023 10:29:30 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NykBC5P5dz3fH4
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Jan 2023 13:35:31 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NyvMq6Klwz3fHP
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Jan 2023 20:29:27 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=x94vPwB5;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=RTv8KibR;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=W8j4vr4N;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.26; helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=x94vPwB5;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=RTv8KibR;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=W8j4vr4N;
 	dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NykB61HWBz3fCN
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Jan 2023 13:35:26 +1100 (AEDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 221585C00F9;
-	Thu, 19 Jan 2023 21:35:24 -0500 (EST)
-Received: from imap50 ([10.202.2.100])
-  by compute6.internal (MEProxy); Thu, 19 Jan 2023 21:35:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1674182124; x=1674268524; bh=Fy7EKPXBAr
-	N+WCsmzbW5Z4IW68RVTvGvcLHcC0xPOOg=; b=x94vPwB5Ps/232XtN9oMJhQcng
-	wqzFrJp4q/IVKzn40Rt+HybPa0BXIjFsHRZ6i9t0QdYI3GfplJJZlNNQKL1W+jCG
-	trKc2dsoVuKVgVKtem3qxLwW7wbSw1Y2H8my5bVY4zOad9hom06TO32zDambzzGm
-	fE0ePg49Kmpvbdq9kbfCq9KyxfTK4j2422FmtVSa5OcSAqguXmY4Fne+7GgpOW8Q
-	R9eJKsBMVmoUtvDILRayUCBWEWePdtz72xPNXGKWQ2B+7bYsF+bDwaJNF8Qmiv7P
-	iz8y4A7UE1f+9quhonk+XcfCyVDM3emPqT2AShsajMssUhjERt7xSqD+omfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1674182124; x=1674268524; bh=Fy7EKPXBArN+WCsmzbW5Z4IW68RV
-	TvGvcLHcC0xPOOg=; b=RTv8KibRMz/CwKnZSmcLrnrTQjrR2iNZOMR91TwkbjBf
-	rADcpben7krIWVfqYPhohoLl9/n+yBAUQf8bbEKdMEKFotvOCDWCdmCn5av5oVtK
-	bKPV+OHayUm1959oM6R+wnh2zT35iX2pC2zAtqyCYHweI/geq8hIekdpyqT5RRsv
-	lB8fxzWKArr/RPD4BHNgmgazX6ZqIK/m3RdDAwDs3YVetSdZpCQXoMOvdk7vrKzQ
-	w4KyFg4/hTxOSmbZfct/xcNcI28BO35JLZGVWyLjVGhRGunBpQskp2lRVxS4gMBK
-	oJa8M0hOm8BNFUxtexctdTcnn4vMCPoVOZfBZ7StPw==
-X-ME-Sender: <xms:6_3JYyT6Jmb-jVoQuTBHwWWssQ-QvBWB_q-l5_25pz8231JJ2oWajg>
-    <xme:6_3JY3z1epznseJ5GFuhZnV-AfjStPuy4SM34kO76Hh9z7RPyoCEovjk_onpgXTgJ
-    k2eJioGH3vb7qdYOg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduuddggeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
-    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
-    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
-    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:6_3JY_1FmOa68-vdB9nk0rtkkIASjHEx7u-qZSlNe68_k1PmYiRygg>
-    <xmx:6_3JY-CG1i1pKwvxrysWxWBnYRQD2EnUS6M4sSYyDnZlxRyz5SV7ag>
-    <xmx:6_3JY7hxSBQQ72xNVT4HJWRtaz5dLVFHd_9Fxea3uyHuFP_jDkF1lQ>
-    <xmx:7P3JY-v9WhDbkZdwm5m7Xtdgc5fBUoKTtPbtEeF67GCKeqjzR9oXbA>
-Feedback-ID: idfb84289:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 7544C1700089; Thu, 19 Jan 2023 21:35:23 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
-Mime-Version: 1.0
-Message-Id: <b565b254-45aa-4f7a-b158-99fb4c66167f@app.fastmail.com>
-In-Reply-To: <20230119235501.53294-1-joel@jms.id.au>
-References: <20230119235501.53294-1-joel@jms.id.au>
-Date: Fri, 20 Jan 2023 13:05:02 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Billy Tsai" <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH] pinctrl: aspeed-g5: Bypass clock check when fetching regmap
-Content-Type: text/plain
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NyvMj17TDz3bXr;
+	Fri, 20 Jan 2023 20:29:21 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 9F5CEB81851;
+	Fri, 20 Jan 2023 09:29:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F75C433EF;
+	Fri, 20 Jan 2023 09:29:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674206955;
+	bh=brDlj3Fbi7upMkdhiJd32zzx8QN9gAkdfZZv5Lf1Gjo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W8j4vr4NyGHU0KDJCAMomXPRTzRsjAiZTqQWD6Pg/q4KJtPMNiiHpkTK+jnoLpOkN
+	 RSuOb4UKU0XMvTOBt9Y3e0k3Xzr6Ulmuu/QGAyRY5tO/J/BWT3pC8ogKmyyiA9t0t7
+	 93Ejw+NCYdBFUZcQZR8ublOTOx6Ok46g1ejvIP41mRxyAdRz392B6uQfrLS2RLa91d
+	 GMkrM7DuGoSoB9qgNpnU1gxWIiU2HbY4KcvyzmZtBcK1GFT5wdmcYRR4Q3z+Vpxd32
+	 aFhcLft3d+09gntu8uqh8Dkk0Bmir6ZVgLnCd8oJeWXO201CvuGPyOruleKDefPJir
+	 SsiFlCMoPqc/g==
+Date: Fri, 20 Jan 2023 10:29:12 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: ye.xingchen@zte.com.cn
+Subject: Re: [PATCH] i2c: aspeed: Use devm_platform_get_and_ioremap_resource()
+Message-ID: <Y8pe6PWZQ4TVHlqi@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>, ye.xingchen@zte.com.cn,
+	brendan.higgins@linux.dev, benh@kernel.crashing.org, joel@jms.id.au,
+	andrew@aj.id.au, linux-i2c@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+References: <202301191715319948743@zte.com.cn>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7B4quZu9JV9hqI/T"
+Content-Disposition: inline
+In-Reply-To: <202301191715319948743@zte.com.cn>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,48 +65,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, brendan.higgins@linux.dev, linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
+--7B4quZu9JV9hqI/T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 20 Jan 2023, at 10:25, Joel Stanley wrote:
-> A recent commit cf517fef601b ("pinctrl: aspeed: Force to disable the
-> function's signal") exposed a problem with fetching the regmap for
-> reading the GFX register.
->
-> The Romulus machine the device tree contains a gpio hog for GPIO S7.
-> With the patch applied:
->
->   Muxing pin 151 for GPIO
->   Disabling signal VPOB9 for VPO
->   aspeed-g5-pinctrl 1e6e2080.pinctrl: Failed to acquire regmap for IP block 1
->   aspeed-g5-pinctrl 1e6e2080.pinctrl: request() failed for pin 151
->
-> The code path is aspeed-gpio -> pinmux-g5 -> regmap -> clk, and the
-> of_clock code returns an error as it doesn't have a valid struct clk_hw
-> pointer. The regmap call happens because pinmux wants to check the GFX
-> node (IP block 1) to query bits there.
->
-> For reference, before the offending patch:
->
->   Muxing pin 151 for GPIO
->   Disabling signal VPOB9 for VPO
->   Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
->   Disabling signal VPOB9 for VPOOFF1
->   Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
->   Disabling signal VPOB9 for VPOOFF2
->   Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
->   Enabling signal GPIOS7 for GPIOS7
->   Muxed pin 151 as GPIOS7
->   gpio-943 (seq_cont): hogged as output/low
->
-> As a workaround, skip the clock check to allow pinmux to proceed.
+On Thu, Jan 19, 2023 at 05:15:31PM +0800, ye.xingchen@zte.com.cn wrote:
+> From: ye xingchen <ye.xingchen@zte.com.cn>
+>=20
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
+>=20
+> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 
-We'd want the clock on and and the device out of reset before this 
-makes sense though. We're just assuming the IP is in an operational 
-state? Was this just accidentally working because reading the register 
-in a bad state is producing 0 instead of other undefined garbage?
+Applied to for-next, thanks!
 
-Andrew
+
+--7B4quZu9JV9hqI/T
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPKXugACgkQFA3kzBSg
+KbbyJw//XiPV3HIZdzP6F3LPYW27GANPJVSQz0jiB9jz7JrumN/9nsWScOx8T15z
+RtNzubE0tYP2sq8HxytaRfnjrw7g0paQQqm82vXGlqpCbMRduiZK3RDY3GCuMEuD
+tgGMYR1wcY6gv7vYUcfR4eegbRaCaDG327a60lNI7ec2pgBT2sEWbwrmoDlXn9FL
+putgoKAGFCoVXq3FgiyKcfNwb78K7EBRcWuIowhMMI1Jv/ZS0PWuWcSFa1UTLnoL
+q41vgTgsCNJJBMIkp/ewXUK4r8DXdXN73nR7Ld8El6+su4RcRGSwEOJUiWjq6sxV
+w9dy8E2Wrp3jgNvQV4jXFi17XKmos3ueH289nvUKRodwa7GWZLoGl1X+DQa8Ctg+
+mqGcsDSs6VAnMHO34tVGHE1rZr2VogxXPO8PI2AddNRUO1Drko5reMPxezzM+LUN
+u6oT5v/Siml9Nl4b6mzgGQF02BCuZT7sJp1xaA27a6mqPXqT6NaG8bNz6bZqWd4k
+D6KbIRgO7oRgLY3HMXzmXHn/TQfAoEcMcCMjxCsNnCD2YnOzJLOOiJR8AjL0mH2H
+IXAKFDh51pBhDPXWjSbzGpr0osZAPoF0jRgFa3NoFQtBu8eFTVkTctPKY4OUDM/7
+wR56ThbF3BhDp5L0SuuZGO5vFK8fMQu9IxLX9D+uuzf7SZq15X0=
+=AWQ7
+-----END PGP SIGNATURE-----
+
+--7B4quZu9JV9hqI/T--
