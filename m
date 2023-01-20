@@ -2,70 +2,84 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97A3674792
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Jan 2023 00:55:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077B6674936
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Jan 2023 03:10:27 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4NyfdX1dk4z3fH1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Jan 2023 10:55:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4NyjdC3j5fz3fH6
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Jan 2023 13:10:23 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=akYNw9C8;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=RtvdCubr;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=jmXdcuw1;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.26; helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=akYNw9C8;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=RtvdCubr;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=jmXdcuw1;
 	dkim-atps=neutral
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NyfdN0DBJz3fD8
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Jan 2023 10:55:19 +1100 (AEDT)
-Received: by mail-pl1-x632.google.com with SMTP id 12so1098245plo.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Jan 2023 15:55:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZlaNs59h5L/VZK9NKX1XrN48x5B0buY4rNRSvhSEduY=;
-        b=akYNw9C8jZ1H8bdyXNUUsoZOe0v6Q2cgeHQp86x0kz8Id83Glq38O8wO7YWB2htT6P
-         CVJo4izquStKNDmyA/31103uG/t8hCaBS5Auy2zAX4cRf7buOeDhv1kYoDbSeHeD4k82
-         Zx5hCvbbI/HVdn4wErJrQ/qbSZXZgLF0hIQ4qsSXc1TdZSCwW5XxVSxugYud5eRvFwTg
-         piXVZ0B/rN6p2p4AODRYPG6FL67CzneGSfWymLD5U6pMeVxCmSH1TtXML8QWa5hB9JiJ
-         pZ6BRQVtEMfhp16M2WWk+TBa3WGMhnv/aLY7NOuv4TDcc739qk0dKk6FCtd4Z/fkzzOl
-         KivA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZlaNs59h5L/VZK9NKX1XrN48x5B0buY4rNRSvhSEduY=;
-        b=a1QTYGgZmXSwKZ9XBqoCyrx1KYDahKevmDMYLoL4JTns3HvkmjGBpTW2U5jvAG5G3r
-         8app0egsvgIStj0N/BCC9suaOCyVgixLt9KZVvUDyhpA6c6QIYnvGjmNgsdgosY5jwca
-         YgYgSCJpHCRi0IJXFk9FregRIlumT17CLr9meosYcBgyJtJk9LfICnkN5NYQZ5wKpeuI
-         7+3fnaw/ZAYctrmKUyLzkyHi0Pe9GEdQytUvpGXcKj/CIQviDUp1GF9uKOO+A6s5rQfe
-         yycgCoLwjJldle1Yuo0VFlVRyxxtvRiBl/ZHi2/Tu+KtXZbJEywDn+Hx6xx8cpkMycJO
-         LfWA==
-X-Gm-Message-State: AFqh2kr1QfLwG3NndDjbYhDKfVV/t2tTAuyM7vczKMYqCNmdQs0E6lQj
-	F41/G9hgA3GaEJEUKwXxXtSOjZAo31c=
-X-Google-Smtp-Source: AMrXdXtgf4X3l3kRiB9pQjlLynR7Djz18tE7IYnrdEy0rX51iGVUNwfBOIdeFXLhSIz56FgGfz0ZGw==
-X-Received: by 2002:a17:903:2014:b0:194:a7b2:4329 with SMTP id s20-20020a170903201400b00194a7b24329mr10600713pla.28.1674172516245;
-        Thu, 19 Jan 2023 15:55:16 -0800 (PST)
-Received: from voyager.lan ([45.124.203.15])
-        by smtp.gmail.com with ESMTPSA id h5-20020a170902f54500b001948ff557besm8967603plf.83.2023.01.19.15.55.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 15:55:15 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: Andrew Jeffery <andrew@aj.id.au>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: [PATCH] pinctrl: aspeed-g5: Bypass clock check when fetching regmap
-Date: Fri, 20 Jan 2023 10:25:01 +1030
-Message-Id: <20230119235501.53294-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.39.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Nyjd056DMz3cFD;
+	Fri, 20 Jan 2023 13:10:12 +1100 (AEDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id CFAD25C0045;
+	Thu, 19 Jan 2023 21:10:07 -0500 (EST)
+Received: from imap50 ([10.202.2.100])
+  by compute6.internal (MEProxy); Thu, 19 Jan 2023 21:10:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1674180607; x=1674267007; bh=pnns9lOh0+
+	GIdk6jiwVH0+nJnurmy6WQSI2jQ7YKUHE=; b=RtvdCubr/5zbN6z4f11I+/dx0h
+	cE9T/jhovRak6vKBLpnbET178ecRA6JBVxpC3M1wcq0VYeOfsxlFyIysqMvNi6u7
+	hi1zmb7U40dcpIeT5jRSA6x9MIA1tT/7senzJdttTEiq/7zcshqznVaB2biJdtOi
+	tcALXd+hVgRzg9pSwP1q1rWtILjCYbGG3O8ArETqXjvxDxHg01hGTLpaUbKNncO0
+	mbwOwrurZ2Knx2Drhwih7riU/ZF2VRNYVDJyNUA+0kmelr2RwTG/91U15P0Y4dwg
+	rVavxeAn7uWpKoDRaGloi0XBCVuLerlaNe+hehRDO/G8snWWK7xkqWLP7exA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1674180607; x=1674267007; bh=pnns9lOh0+GIdk6jiwVH0+nJnurm
+	y6WQSI2jQ7YKUHE=; b=jmXdcuw1So6AdCt0QM5o0UMBMZ6lJVXsk1P2RqB5uWJB
+	iS/q/7teKVKsxaf7ltLapeDQPQ/cm3YJPVGn/4tXwaRzeyDK2iPcH5EhKVzb8mdT
+	F0avdag1JDCYjV+M5SnPdzxFS7igio/hc/0UXqZfNGR5sw5o0BykOKfKJ7KFMahh
+	oveHStpsr/v8Xlvt/KksS2vjYn2Exzfd56lEUionTIryQb1tWZJlmjqbtz+P7cse
+	R+o0o2nhMlYBOJW1fQaxXhEprft4GqRCNUB6odoC8wrST6ITDBR6reOUPCwVwC/F
+	oNIVrcUreZUtx6hz5x6FNOo9Ya7g2wO1ZXWurXbA9Q==
+X-ME-Sender: <xms:_vfJY74skrozPaNqFM06HFI83YyNE3mS7_Lu02aucCOb0mCogLRmuA>
+    <xme:_vfJYw7djQ-ap10FZU1kFjeWovDgszTjU0P9h2Xc5tA85IxI-TyMn4DVYudcu_Yk8
+    g5NqQJ5L9FfUl94HA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduuddggeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+    frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
+    feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:_vfJYycLSviNEoJStpLaTBLS0fsqQDwIuKIlb6frvV1sh_UEcZ2X6A>
+    <xmx:_vfJY8I1Y5wNMmb5Faq82aVsN_qVyZkZRxdDfNsk9Xq0cNt64oIReg>
+    <xmx:_vfJY_Lzpb8YUiFhPmyFyVUDb82gopNuzQAM3qa8-jjF6_Y00-_PNQ>
+    <xmx:__fJY389_LTzCQhSMVZ5A4831SAzl_eHHBMgIf1KVdMQ_g-QiNdvzw>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id DA8DC1700090; Thu, 19 Jan 2023 21:10:06 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
+Mime-Version: 1.0
+Message-Id: <f5423719-6d12-407a-85e6-896fe97c723c@app.fastmail.com>
+In-Reply-To: <202301191715319948743@zte.com.cn>
+References: <202301191715319948743@zte.com.cn>
+Date: Fri, 20 Jan 2023 12:39:46 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: ye.xingchen@zte.com.cn, brendan.higgins@linux.dev
+Subject: Re: [PATCH] i2c: aspeed: Use devm_platform_get_and_ioremap_resource()
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,61 +91,19 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-A recent commit cf517fef601b ("pinctrl: aspeed: Force to disable the
-function's signal") exposed a problem with fetching the regmap for
-reading the GFX register.
 
-The Romulus machine the device tree contains a gpio hog for GPIO S7.
-With the patch applied:
 
-  Muxing pin 151 for GPIO
-  Disabling signal VPOB9 for VPO
-  aspeed-g5-pinctrl 1e6e2080.pinctrl: Failed to acquire regmap for IP block 1
-  aspeed-g5-pinctrl 1e6e2080.pinctrl: request() failed for pin 151
+On Thu, 19 Jan 2023, at 19:45, ye.xingchen@zte.com.cn wrote:
+> From: ye xingchen <ye.xingchen@zte.com.cn>
+>
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
+>
+> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 
-The code path is aspeed-gpio -> pinmux-g5 -> regmap -> clk, and the
-of_clock code returns an error as it doesn't have a valid struct clk_hw
-pointer. The regmap call happens because pinmux wants to check the GFX
-node (IP block 1) to query bits there.
-
-For reference, before the offending patch:
-
-  Muxing pin 151 for GPIO
-  Disabling signal VPOB9 for VPO
-  Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-  Disabling signal VPOB9 for VPOOFF1
-  Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-  Disabling signal VPOB9 for VPOOFF2
-  Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-  Enabling signal GPIOS7 for GPIOS7
-  Muxed pin 151 as GPIOS7
-  gpio-943 (seq_cont): hogged as output/low
-
-As a workaround, skip the clock check to allow pinmux to proceed.
-
-Fixes: cf517fef601b ("pinctrl: aspeed: Force to disable the function's signal")
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-index 7ee0c473ad70..f714fe40e400 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-@@ -2635,7 +2635,7 @@ static struct regmap *aspeed_g5_acquire_regmap(struct aspeed_pinmux_data *ctx,
- 		node = of_parse_phandle(ctx->dev->of_node,
- 					"aspeed,external-nodes", 0);
- 		if (node) {
--			map = syscon_node_to_regmap(node);
-+			map = device_node_to_regmap(node);
- 			of_node_put(node);
- 			if (IS_ERR(map))
- 				return map;
--- 
-2.39.0
-
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
