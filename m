@@ -2,42 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1175967747E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Jan 2023 04:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB3167747F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Jan 2023 04:32:19 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P0bJF6qN6z3c9N
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Jan 2023 14:32:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P0bJK61X1z3Wtr
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Jan 2023 14:32:17 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=T2T2vnT1;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=leemhuis.info (client-ip=80.237.130.52; helo=wp530.webpack.hosteurope.de; envelope-from=regressions@leemhuis.info; receiver=<UNKNOWN>)
-X-Greylist: delayed 1168 seconds by postgrey-1.36 at boromir; Sat, 21 Jan 2023 23:52:10 AEDT
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=T2T2vnT1;
+	dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4NzbqG3x7qz3c9V;
-	Sat, 21 Jan 2023 23:52:09 +1100 (AEDT)
-Received: from [2a02:8108:963f:de38:4bc7:2566:28bd:b73c]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1pJD2t-0004b6-4q; Sat, 21 Jan 2023 13:32:31 +0100
-Message-ID: <3af98200-7240-9e93-bd6a-d0e2f71ab1c4@leemhuis.info>
-Date: Sat, 21 Jan 2023 13:32:30 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4NzhsH0qCYz3cDR;
+	Sun, 22 Jan 2023 03:39:14 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 5626360B47;
+	Sat, 21 Jan 2023 16:39:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FBD0C433D2;
+	Sat, 21 Jan 2023 16:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674319150;
+	bh=gT/5AvVpeDrgKjkh47OXtzrBPwHm9WVXPk88PeHkYdg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=T2T2vnT1Xs4tW5V/oTrCVF/YscJHiNq+7HTjvmQMO07kIVdALzUWUY/Lg7jgN8oeV
+	 wDH/jrinV14zyuMq2EWtvqw0MJqCVYQkQmSM97I02rGKmkJT8mWnP+XySroZ4rplWG
+	 RlAswjzAZLSIUe5xREEi1xk7mpGRJ+el+yXQps4AW3OLVqJhTAobryzkTKQ7IcmeFR
+	 gz9n7eY4kKn03iiqGBkjRAI/u36bgFn5jBskRGSmm4cNBL/uaGM08TtLTQYXpHtqxx
+	 meoZpovFIIHToxzFIsTk068dsFlMtc5YJ3ropDVVqr5LoNdkRAl4Bqac9L/I3U7BVM
+	 lonUWh/lOpEIw==
+Date: Sat, 21 Jan 2023 16:52:35 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Subject: Re: [PATCH v2 04/13] iio: imu: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+Message-ID: <20230121165235.13da9db2@jic23-huawei>
+In-Reply-To: <20230119185342.2093323-5-amit.kumar-mahapatra@amd.com>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+	<20230119185342.2093323-5-amit.kumar-mahapatra@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] pinctrl: aspeed: Force to disable the function's signal
-Content-Language: en-US, de-DE
-To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-References: <20220818101839.28860-1-billy_tsai@aspeedtech.com>
- <CACRpkdYpp_1JJQmuX27pECxN0cjzciCuETLPTrSYKqpX0FPABQ@mail.gmail.com>
- <e501d2fb-aaa0-470d-a8d5-5f8e97898df7@beta.fastmail.com>
- <CACPK8XfQ=uarsOgJ7LaXqLyGG2vSF-47RkAEV=T2gruapx-yfg@mail.gmail.com>
-From: "Linux kernel regression tracking (#adding)" <regressions@leemhuis.info>
-In-Reply-To: <CACPK8XfQ=uarsOgJ7LaXqLyGG2vSF-47RkAEV=T2gruapx-yfg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1674305530;462628e7;
-X-HE-SMSGID: 1pJD2t-0004b6-4q
 X-Mailman-Approved-At: Mon, 23 Jan 2023 14:29:55 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -50,95 +63,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Linux kernel regressions list <regressions@lists.linux.dev>, linux-aspeed@lists.ozlabs.org, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: heiko@sntech.de, linus.walleij@linaro.org, dri-devel@lists.freedesktop.org, alim.akhtar@samsung.com, miquel.raynal@bootlin.com, sumit.semwal@linaro.org, stefan@datenfreihafen.org, tmaimon77@gmail.com, linux-samsung-soc@vger.kernel.org, samuel@sholland.org, khilman@baylibre.com, haibo.chen@nxp.com, mingo@redhat.com, linux-imx@nxp.com, linux-sunxi@lists.linux.dev, s.hauer@pengutronix.de, l.stelmach@samsung.com, sanju.mehta@amd.com, elder@kernel.org, sbranden@broadcom.com, gregkh@linuxfoundation.org, linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, yogeshgaur.83@gmail.com, michael@walle.cc, skomatineni@nvidia.com, kernel@pengutronix.de, olteanv@gmail.com, linux-wpan@vger.kernel.org, claudiu.beznea@microchip.com, alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org, linux-wireless@vger.kernel.org, edumazet@google.com, thierry.reding@gmail.com, lars@metafoo.de, vireshk@kernel.org, jonathanh@nvidia.com, linux-rockchip@lists.infr
+ adead.org, jbrunet@baylibre.com, linux-media@vger.kernel.org, andi@etezian.org, Michael.Hennerich@analog.com, martin.blumenstingl@googlemail.com, linux-arm-msm@vger.kernel.org, radu_nicolae.pirea@upb.ro, haojian.zhuang@gmail.com, jaswinder.singh@linaro.org, clg@kaod.org, linux-amlogic@lists.infradead.org, michal.simek@amd.com, linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org, libertas-dev@lists.infradead.org, davem@davemloft.net, mcoquelin.stm32@gmail.com, pratyush@kernel.org, linux-rpi-kernel@lists.infradead.org, narmstrong@baylibre.com, linux-iio@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mtd@lists.infradead.org, masahisa.kojima@linaro.org, festevam@gmail.com, git@amd.com, f.fainelli@gmail.com, linux-staging@lists.linux.dev, jernej.skrabec@gmail.com, yuenn@google.com, wens@csie.org, bcm-kernel-feedback-list@broadcom.com, pabeni@redhat.com, amitrkcian2002@gmail.com, rjui@broadcom.com, john.garry@huawei.com, j.neuschaefer@gmx.net, rostedt@goodmis.org, broo
+ nie@kernel.org, tali.perry1@gmail.com, avifishman70@gmail.com, ldewangan@nvidia.com, netdev@vger.kernel.org, shawnguo@kernel.org, christian.koenig@amd.com, alex.aring@gmail.com, vigneshr@ti.com, konrad.dybcio@somainline.org, alexandre.torgue@foss.st.com, bjorn.andersson@linaro.org, linux-riscv@lists.infradead.org, robert.jarzmik@free.fr, kdasu.kdev@gmail.com, richard@nod.at, agross@kernel.org, kuba@kernel.org, tudor.ambarus@microchip.com, kvalo@kernel.org, johan@kernel.org, rmfrfs@gmail.com, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, han.xu@nxp.com, venture@google.com, nicolas.ferre@microchip.com, fancer.lancer@gmail.com, krzysztof.kozlowski@linaro.org, palmer@dabbelt.com, openbmc@lists.ozlabs.org, daniel@zonque.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
+On Fri, 20 Jan 2023 00:23:33 +0530
+Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com> wrote:
 
-[CCing the regression list, as it should be in the loop for regressions:
-https://docs.kernel.org/admin-guide/reporting-regressions.html]
+> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
+> members of struct spi_device to be an array. But changing the type of these
+> members to array would break the spi driver functionality. To make the
+> transition smoother introduced four new APIs to get/set the
+> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
+> spi->cs_gpiod references with get or set API calls.
+> While adding multi-cs support in further patches the chip_select & cs_gpiod
+> members of the spi_device structure would be converted to arrays & the
+> "idx" parameter of the APIs would be used as array index i.e.,
+> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+> 
+> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
 
-On 19.01.23 02:54, Joel Stanley wrote:
-> On Fri, 26 Aug 2022 at 22:48, Andrew Jeffery <andrew@aj.id.au> wrote:
->> On Sat, 27 Aug 2022, at 07:26, Linus Walleij wrote:
->>> On Thu, Aug 18, 2022 at 12:18 PM Billy Tsai <billy_tsai@aspeedtech.com> wrote:
->>>
->>>> When the driver want to disable the signal of the function, it doesn't
->>>> need to query the state of the mux function's signal on a pin. The
->>>> condition below will miss the disable of the signal:
-> 
->>> I can't see the verdict for this patch? Will there be a new
->>> version, or are we in the middle of a discussion?
->>> I'd really like Andrew's ACK on the result before merging.
->>
->> Apologies, it's been a bit of A Week :)
->>
->> Given the approach has been discussed with the IP designer and solves a bug I'm okay for it to be merged. If we run into issues it is easy enough to back it out.
-> 
-> As foreseen by Andrew, this caused a regression. On the Romulus
-> machine the device tree contains a gpio hog for GPIO S7. With the
-> patch applied:
-> 
-> [    0.384796] aspeed-g5-pinctrl 1e6e2080.pinctrl: request pin 151
-> (AA20) for 1e780000.gpio:943
-> [    0.385009] Muxing pin 151 for GPIO
-> [    0.385081] Disabling signal VPOB9 for VPO
-> [    0.402291] aspeed-g5-pinctrl 1e6e2080.pinctrl: Failed to acquire
-> regmap for IP block 1
-> [    0.402521] aspeed-g5-pinctrl 1e6e2080.pinctrl: request() failed for pin 151
-> 
-> The code path is aspeed-gpio -> pinmux-g5 -> regmap -> clk, and the
-> of_clock code returns an error as it doesn't have a valid struct
-> clk_hw pointer. The regmap call happens because pinmux wants to check
-> the GFX node (IP block 1) to query bits there.
-> 
-> For reference, reverting the patch gives us this trace:
-> 
-> [    0.393160] Muxing pin 151 for GPIO
-> [    0.393267] Disabling signal VPOB9 for VPO
-> [    0.393383] Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-> [    0.393552] Disabling signal VPOB9 for VPOOFF1
-> [    0.393681] Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-> [    0.393835] Disabling signal VPOB9 for VPOOFF2
-> [    0.393965] Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
-> [    0.394097] Enabling signal GPIOS7 for GPIOS7
-> [    0.394217] Muxed pin 151 as GPIOS7
-> [    0.394411] gpio-943 (seq_cont): hogged as output/low
-> 
-> This can be reproduced in qemu without userspace:
-> 
-> qemu-system-arm -M romulus-bmc -nographic -kernel arch/arm/boot/zImage
-> -dtb arch/arm/boot/dts/aspeed-bmc-opp-romulus.dtb -no-reboot
-> 
-> Billy, do you have any suggestions?
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
+> ---
+>  drivers/iio/imu/adis16400.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iio/imu/adis16400.c b/drivers/iio/imu/adis16400.c
+> index c02fc35dceb4..3eda32e12a53 100644
+> --- a/drivers/iio/imu/adis16400.c
+> +++ b/drivers/iio/imu/adis16400.c
+> @@ -466,7 +466,7 @@ static int adis16400_initial_setup(struct iio_dev *indio_dev)
+>  
+>  		dev_info(&indio_dev->dev, "%s: prod_id 0x%04x at CS%d (irq %d)\n",
+>  			indio_dev->name, prod_id,
+> -			st->adis.spi->chip_select, st->adis.spi->irq);
+> +			spi_get_chipselect(st->adis.spi, 0), st->adis.spi->irq);
+>  	}
+>  	/* use high spi speed if possible */
+>  	if (st->variant->flags & ADIS16400_HAS_SLOW_MODE) {
 
-#regzbot ^introduced cf517fef601b
-#regzbot title pinctrl: aspeed-g5-pinctrl 1e6e2080.pinctrl: Failed to
-acquire regmap for IP block 1
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
