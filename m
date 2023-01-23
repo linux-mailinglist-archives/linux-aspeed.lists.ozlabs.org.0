@@ -1,60 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55DC4678BC1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Jan 2023 00:06:13 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF53678BC3
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Jan 2023 00:06:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P15Lq16Z5z3bP1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Jan 2023 10:06:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P15Ly13lVz3bXr
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Jan 2023 10:06:18 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=FvdWBlHe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector1 header.b=Zm5ggXoN;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ti.com (client-ip=198.47.23.248; helo=lelv0143.ext.ti.com; envelope-from=d-gole@ti.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=foss.st.com (client-ip=185.132.182.106; helo=mx07-00178001.pphosted.com; envelope-from=prvs=938766468e=patrice.chotard@foss.st.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=FvdWBlHe;
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector1 header.b=Zm5ggXoN;
 	dkim-atps=neutral
-X-Greylist: delayed 866 seconds by postgrey-1.36 at boromir; Tue, 24 Jan 2023 01:37:43 AEDT
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+X-Greylist: delayed 2740 seconds by postgrey-1.36 at boromir; Tue, 24 Jan 2023 05:03:03 AEDT
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P0t473PLNz30R1;
-	Tue, 24 Jan 2023 01:37:42 +1100 (AEDT)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 30NELWIe048974;
-	Mon, 23 Jan 2023 08:21:32 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1674483692;
-	bh=BlwQD0ARUqblb48RoEOI25OrVzMPGwg0R8vqptzkpJg=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=FvdWBlHevL+XhAXaPy6/J5HISPF/VxUYp4ghd1OWL43dNVfYvXx7g2ekBT5wQUebb
-	 Z/07W4YvJKF6TF7RTc4RvQAKzkBGhqILEYF+bDhNVaut9uibJTMsoi4PzBJtGFNdxQ
-	 U3G4OdSkYHOE3bCY4gA0ok7R5fHJd+5EAWcvuU0g=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 30NELWpG001905
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 23 Jan 2023 08:21:32 -0600
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 23
- Jan 2023 08:21:31 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 23 Jan 2023 08:21:31 -0600
-Received: from [10.250.234.171] (ileaxei01-snat.itg.ti.com [10.180.69.5])
-	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 30NEKpI9018755;
-	Mon, 23 Jan 2023 08:20:53 -0600
-Message-ID: <90084f5f-6e9d-7b17-5487-3b4b01bd5e7d@ti.com>
-Date: Mon, 23 Jan 2023 19:50:50 +0530
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P0yd36KD7z3c8G;
+	Tue, 24 Jan 2023 05:03:02 +1100 (AEDT)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30NEJOGm009639;
+	Mon, 23 Jan 2023 18:16:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=R1aMUGjTbxhxY6hkyKRGBk4zxbzWjzxiNcedON6udFo=;
+ b=Zm5ggXoNZruq7Bb3b8N1qmVGlQxdkRIHa80INaPpZBBpXyjLW8eCZLOi26l5A6+RB5/w
+ Z+PZ3/cL4Va46yqtmJi5PORwYTY46FioxWKylbeuPxm436newkRnSC7hmZnYsKWHL2Kb
+ E8O4kMxS5/CdwDsQ4mM0v4xIMFleF1b25tB/cNt2YL3f/fwzgGAIWdrLxxMD8SuKdWQu
+ cPFgMv67SOjqXrPKNSoqvl1+YjTlQbFYmJvNya7GzzdG/j6Oyh9icv6JPWXR/j9Hrm2V
+ cNegJauCMm20Z1Gl+nUL+NtrY2i2G1zVxWNtOmY+nTZipz1phWQlTPi0LXd8tXF5+ztP QA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3n89epk4d4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Jan 2023 18:16:42 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 733D910002A;
+	Mon, 23 Jan 2023 18:16:37 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 89E49228A2B;
+	Mon, 23 Jan 2023 18:16:37 +0100 (CET)
+Received: from [10.201.21.26] (10.201.21.26) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Mon, 23 Jan
+ 2023 18:16:34 +0100
+Message-ID: <e068c541-b492-a513-6212-fd698e4fc9c4@foss.st.com>
+Date: Mon, 23 Jan 2023 18:16:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
 Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
  spi->cs_gpiod references with function call
-Content-Language: en-US
 To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>,
         <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
         <jic23@kernel.org>, <tudor.ambarus@microchip.com>,
@@ -83,11 +83,17 @@ To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>,
         <elder@kernel.org>, <gregkh@linuxfoundation.org>
 References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
  <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-From: Dhruva Gole <d-gole@ti.com>
+Content-Language: en-US
+From: Patrice CHOTARD <patrice.chotard@foss.st.com>
 In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Originating-IP: [10.201.21.26]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
 X-Mailman-Approved-At: Tue, 24 Jan 2023 10:05:29 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -105,9 +111,9 @@ Cc: alexandre.belloni@bootlin.com, tmaimon77@gmail.com, linux-aspeed@lists.ozlab
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Amit,
+Hi Amit
 
-On 20/01/23 00:23, Amit Kumar Mahapatra wrote:
+On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
 > Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
 > members of struct spi_device to be an array. But changing the type of these
 > members to array would break the spi driver functionality. To make the
@@ -118,20 +124,69 @@ On 20/01/23 00:23, Amit Kumar Mahapatra wrote:
 > members of the spi_device structure would be converted to arrays & the
 > "idx" parameter of the APIs would be used as array index i.e.,
 > spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
->
+> 
 > Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
 > ---
-> [...]
->  drivers/spi/spi-cadence-quadspi.c |  5 +++--
->  drivers/spi/spi-cadence-xspi.c    |  4 ++--
->  drivers/spi/spi-cadence.c         |  4 ++--
+
 [...]
 
-For SPI Cadence QSPI,
-Reviewed-by: Dhruva Gole <d-gole@ti.com>
+>  drivers/spi/spi-stm32-qspi.c      | 12 ++++++------
 
--- 
-Best regards,
-Dhruva Gole
-Texas Instruments Incorporated
+[...]
 
+> diff --git a/drivers/spi/spi-stm32-qspi.c b/drivers/spi/spi-stm32-qspi.c
+> index 9131660c1afb..b9e61372dcfb 100644
+> --- a/drivers/spi/spi-stm32-qspi.c
+> +++ b/drivers/spi/spi-stm32-qspi.c
+> @@ -359,7 +359,7 @@ static int stm32_qspi_get_mode(u8 buswidth)
+>  static int stm32_qspi_send(struct spi_device *spi, const struct spi_mem_op *op)
+>  {
+>  	struct stm32_qspi *qspi = spi_controller_get_devdata(spi->master);
+> -	struct stm32_qspi_flash *flash = &qspi->flash[spi->chip_select];
+> +	struct stm32_qspi_flash *flash = &qspi->flash[spi_get_chipselect(spi, 0)];
+>  	u32 ccr, cr;
+>  	int timeout, err = 0, err_poll_status = 0;
+>  
+> @@ -564,7 +564,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
+>  	struct spi_mem_op op;
+>  	int ret = 0;
+>  
+> -	if (!spi->cs_gpiod)
+> +	if (!spi_get_csgpiod(spi, 0))
+>  		return -EOPNOTSUPP;
+>  
+>  	ret = pm_runtime_resume_and_get(qspi->dev);
+> @@ -573,7 +573,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
+>  
+>  	mutex_lock(&qspi->lock);
+>  
+> -	gpiod_set_value_cansleep(spi->cs_gpiod, true);
+> +	gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), true);
+>  
+>  	list_for_each_entry(transfer, &msg->transfers, transfer_list) {
+>  		u8 dummy_bytes = 0;
+> @@ -626,7 +626,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
+>  	}
+>  
+>  end_of_transfer:
+> -	gpiod_set_value_cansleep(spi->cs_gpiod, false);
+> +	gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), false);
+>  
+>  	mutex_unlock(&qspi->lock);
+>  
+> @@ -669,8 +669,8 @@ static int stm32_qspi_setup(struct spi_device *spi)
+>  
+>  	presc = DIV_ROUND_UP(qspi->clk_rate, spi->max_speed_hz) - 1;
+>  
+> -	flash = &qspi->flash[spi->chip_select];
+> -	flash->cs = spi->chip_select;
+> +	flash = &qspi->flash[spi_get_chipselect(spi, 0)];
+> +	flash->cs = spi_get_chipselect(spi, 0);
+>  	flash->presc = presc;
+>  
+>  	mutex_lock(&qspi->lock);
+
+Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+
+Thanks
+Patrice
