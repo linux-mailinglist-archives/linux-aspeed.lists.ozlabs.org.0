@@ -2,58 +2,91 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D281B678BC5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Jan 2023 00:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820336787EA
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Jan 2023 21:35:50 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P15M35Zl3z3bXQ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Jan 2023 10:06:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P121J0nbMz3cC4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Jan 2023 07:35:48 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Eg+5K7sq;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.167.182; helo=mail-oi1-f182.google.com; envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=anoo@linux.ibm.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Eg+5K7sq;
+	dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P11cj1Xbkz2yg5;
-	Tue, 24 Jan 2023 07:17:57 +1100 (AEDT)
-Received: by mail-oi1-f182.google.com with SMTP id i9so7642781oif.4;
-        Mon, 23 Jan 2023 12:17:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EY7We4I2hSyd2pZ0VulkHT4dyOP0LEqk/GnlS4AQK4k=;
-        b=cuiiTZy/NR3Dg3NoZqc5QUK51S0bVHWRYJiD1xfo5/tt/y3h3TmH73vClK5AycFc++
-         /t6pEIrZzlymITPlw4tUsRigNCj6WQJyLIPrJm7B9bYkYC5QQZ5CHbH7WsIqXzGijgMo
-         BPIbs1VXYN79/VkqJei9s6r/NV7o7RQjFd6yrpxImLHG3DYCpN6Qi+WEpFsyjwDlV0fZ
-         FeBF5La7jSz2vEfBLjsfOSriuevagqzVxjK+CtiFNOu/XMLghRRNF4dEPsvT2FcdJsBD
-         894g4fcEqe2AE1cAF7fpCz3gLs7CbR2h7M+wpUQurA6813rdfsBGWZuIAXfndDbKR+b9
-         Jxfw==
-X-Gm-Message-State: AFqh2kq2q++qEotubn/a3LmQ2rHYmAIBMWeNY2pwYYif7Og6rCvVajBG
-	m5k9rcbn++2F2MAzoeobHg==
-X-Google-Smtp-Source: AMrXdXuvPUKWyC8RGNKpvhdFpfXGmbs7xnQ1zVyMxDHfPRH77j6ghKDaBa0O8cM4huncdcgY7ZWv7g==
-X-Received: by 2002:a05:6808:f14:b0:364:e9f4:9dd with SMTP id m20-20020a0568080f1400b00364e9f409ddmr15059505oiw.47.1674505074502;
-        Mon, 23 Jan 2023 12:17:54 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id i11-20020aca2b0b000000b00369a721732asm124660oik.41.2023.01.23.12.17.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 12:17:54 -0800 (PST)
-Received: (nullmailer pid 2454148 invoked by uid 1000);
-	Mon, 23 Jan 2023 20:17:51 -0000
-Date: Mon, 23 Jan 2023 14:17:51 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/2] spi: dt-bindings: cleanup examples - indentation,
- lowercase hex
-Message-ID: <20230123201751.GA2450665-robh@kernel.org>
-References: <20230118173932.358153-1-krzysztof.kozlowski@linaro.org>
- <20230118173932.358153-2-krzysztof.kozlowski@linaro.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P121B2V43z30QQ
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Jan 2023 07:35:41 +1100 (AEDT)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30NKH2on008372;
+	Mon, 23 Jan 2023 20:35:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : message-id :
+ content-type : subject : date : in-reply-to : cc : to : references :
+ mime-version; s=pp1; bh=io/cDpUh5LugZOE9wLIW/3yUwuueKVoJ2jGZALRbbJI=;
+ b=Eg+5K7sqMvRgSWWs3NMnWz0DJwP4rsUjIpGCgifd3kw+agx8UXXKpZRNgNyv310osPq8
+ bSMlKwWlG6PC2o51DB53DtYJDoS3PzJWuZG393VVuYd5GgA0tXhW0cgBKrjZYw3FSYa3
+ AZKaoR/ZgzjALd9OpnxItAwmEEN13k/Wt9Y41tNyKZAgJs4Gw6O2cr7M42ERA+h5b36v
+ Sg0FysBIJWXcWHhyZkS4PMUdJ0MFCRhYeYc3IWDbCrQioPqEkX0KSx8+sSriEp96gDUI
+ t8mAJfsW5sc9WbCodmDpCaPtkw8roKAQAi1qPIGr7YG1SQ8kQ/sd7nPzc541fVBEsvO0 +g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3na14q0dac-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Jan 2023 20:35:23 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30NKQmua014951;
+	Mon, 23 Jan 2023 20:35:23 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3na14q0da3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Jan 2023 20:35:22 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+	by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30NHjwp0019839;
+	Mon, 23 Jan 2023 20:35:21 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
+	by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3n87p71xeh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Jan 2023 20:35:21 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 30NKZKsp9765520
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Jan 2023 20:35:20 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5B6C25805A;
+	Mon, 23 Jan 2023 20:35:20 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CCB8D5803F;
+	Mon, 23 Jan 2023 20:35:18 +0000 (GMT)
+Received: from smtpclient.apple (unknown [9.77.143.243])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 23 Jan 2023 20:35:18 +0000 (GMT)
+From: Adriana Kobylak <anoo@linux.ibm.com>
+Message-Id: <4A9DBC51-596B-47C0-BA4D-9E790EBAE0FC@linux.ibm.com>
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_325B3039-6FD0-4B60-B539-7E4A8AD02676"
+Subject: Re: [PATCH 1/2] ARM: dts: aspeed: bletchley: rename flash1 label
+Date: Mon, 23 Jan 2023 14:34:44 -0600
+In-Reply-To: <20221226054535.2836110-2-potin.lai.pt@gmail.com>
+To: Potin Lai <potin.lai.pt@gmail.com>
+References: <20221226054535.2836110-1-potin.lai.pt@gmail.com>
+ <20221226054535.2836110-2-potin.lai.pt@gmail.com>
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: BY0FmikMQJ7B9Y2CyoPbAJSoeXZHnlQ_
+X-Proofpoint-GUID: rEpzcPk9SueZ4jOYkVChqJBL6avldJAb
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118173932.358153-2-krzysztof.kozlowski@linaro.org>
-X-Mailman-Approved-At: Tue, 24 Jan 2023 10:05:29 +1100
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ spamscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 adultscore=0
+ clxscore=1011 mlxlogscore=999 malwarescore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301230195
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,51 +98,166 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Bert Vermeulen <bert@biot.com>, Erwan Leray <erwan.leray@foss.st.com>, Heiko Stuebner <heiko@sntech.de>, Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Gabor Juhos <juhosg@openwrt.org>, Thierry Reding <thierry.reding@gmail.com>, Haibo Chen <haibo.chen@nxp.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>, =?UTF-8?B?77+9ZWNraQ==?= <rafal@milecki.pl>, linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>, linux-aspeed@lists.ozlabs.org, Anson Huang <Anson.Huang@nxp.com>, Samuel Holland <samuel@sholland.org>, Leilk Liu <leilk.liu@mediatek.com>, Kevin Hilman <khilman@baylibre.com>, Michal Simek <michal.simek@xilinx.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@list
- s.infradead.org, Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-arm-msm@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>, linux-amlogic@lists.infradead.org, Patrice Chotard <patrice.chotard@foss.st.com>, NXP Linux Team <linux-imx@nxp.com>, devicetree@vger.kernel.org, Kuldeep Singh <singh.kuldeep87k@gmail.com>, linux-tegra@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Parshuram Thombare <pthombar@cadence.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, openbmc@lists.ozlabs.org, Sascha Hauer <s.hauer@pengutronix.de>, Maxime Ripard <mripard@kernel.org>, Vaishnav Achath <vaishnav.a@ti.com>, Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, Paul Walmsley <paul.walmsley@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>, Han Xu <han.xu@nxp.com>
- , linux-arm-kernel@lists.infradead.org, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Neil Armstrong <neil.armstrong@linaro.org>, Christophe Kerello <christophe.kerello@foss.st.com>, Li-hao Kuo <lhjeff911@gmail.com>, Birger Koblitz <mail@birger-koblitz.de>, Bjorn Andersson <andersson@kernel.org>, Kamal Dasu <kdasu.kdev@gmail.com>, linux-kernel@vger.kernel.org, Serge Semin <fancer.lancer@gmail.com>, linux-spi@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, Yogesh Gaur <yogeshgaur.83@gmail.com>, Chris Packham <chris.packham@alliedtelesis.co.nz>, Palmer Dabbelt <palmer@dabbelt.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Chunyan Zhang <zhang.lyra@gmail.com>, Shawn Guo <shawnguo@kernel.org>, linux-sunxi@lists.linux.dev, Pragnesh Patel <pragnesh.patel@sifive.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jan 18, 2023 at 06:39:32PM +0100, Krzysztof Kozlowski wrote:
-> Cleanup examples:
->  - use 4-space indentation (for cases when it is neither 4 not 2 space),
->  - drop redundant blank lines,
->  - use lowercase hex.
-> 
-> No functional impact except adjusting to preferred coding style.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+--Apple-Mail=_325B3039-6FD0-4B60-B539-7E4A8AD02676
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+> On Dec 25, 2022, at 11:45 PM, Potin Lai <potin.lai.pt@gmail.com> wrote:
+>=20
+> In OpenBMC, phosphor-software-manager use "alt-bmc" for secondary falsh
+> label.
+> Rename flash1 label to "alt-bmc" to support dual image feature inOpenBMC.
+>=20
+> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
 > ---
->  .../bindings/spi/amlogic,meson-gx-spicc.yaml  |  26 +--
->  .../bindings/spi/amlogic,meson6-spifc.yaml    |  22 +--
->  .../bindings/spi/aspeed,ast2600-fmc.yaml      |  24 +--
->  .../bindings/spi/brcm,spi-bcm-qspi.yaml       | 156 +++++++++---------
->  .../bindings/spi/cdns,qspi-nor.yaml           |   4 +-
->  .../bindings/spi/nvidia,tegra210-quad.yaml    |  42 ++---
->  .../bindings/spi/qcom,spi-qcom-qspi.yaml      |   1 -
->  .../devicetree/bindings/spi/renesas,rspi.yaml |  22 +--
->  .../bindings/spi/spi-sunplus-sp7021.yaml      |   4 +-
->  .../devicetree/bindings/spi/st,stm32-spi.yaml |   1 -
->  10 files changed, 150 insertions(+), 152 deletions(-)
+> arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/a=
+rm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> index a619eec70633..791f83aaac50 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> @@ -307,7 +307,7 @@ flash@0 {
+> 	flash@1 {
+> 		status =3D "okay";
+> 		m25p,fast-read;
+> -		label =3D "flash1";
+> +		label =3D "alt-bmc";
+> 		spi-max-frequency =3D <50000000>;
 
-[...]
+This is correct, and I see it=E2=80=99s been merged into 6.3.=20
+Just something you may want do to as a follow-up change to add the partitio=
+ns to the alternate flash device. Similar to the include line for:
 
-> diff --git a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-> index d35c6f7e2dd5..18afdaab946d 100644
-> --- a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-> @@ -95,7 +95,6 @@ examples:
->               <&dmamux1 1 40 0x400 0x05>;
->        dma-names = "rx", "tx";
->        cs-gpios = <&gpioa 11 0>;
+flash@0{
+=E2=80=A6
+label =3D =E2=80=9Cbmc=E2=80=9D
+...
+#include "openbmc-flash-layout-128.dtsi=E2=80=9D
+};
 
-Looks like the indentation needs adjusting here.
+You probably want an include for the alt partitions and add this include li=
+ne at the end:
+flash@1{
+=E2=80=A6
+label =3D =E2=80=9Calt-bmc=E2=80=9D;
+...
++ #include "openbmc-flash-layout-128-alt.dtsi=E2=80=9D
+};
 
-> -
->      };
->  
->  ...
-> -- 
-> 2.34.1
-> 
+There=E2=80=99s not a file "openbmc-flash-layout-128-alt.dtsi=E2=80=9D that=
+ exists today, so you=E2=80=99d need to create it by copying it the existin=
+g "openbmc-flash-layout-128.dtsi=E2=80=9D and just add an =E2=80=9Calt-=E2=
+=80=9C prefix to the partition labels, this is the change that was done to =
+create the file "openbmc-flash-layout-64-alt.dtsi=E2=80=9D for 64MB flash c=
+hips as an example: https://lore.kernel.org/openbmc/Yboga8RUoYrXoPB1@heinle=
+in/t/#maca042c23241f765fc2aaaa9d90131ee69b8cf81
+
+The function that you gain by adding =E2=80=9Calt-=E2=80=9C partitions to t=
+he secondary flash device is that the phosphor-software-manager code will a=
+uto-mount the partitions including the read-write filesystem for syncing/ba=
+ckup and also create the d-bus version interfaces for this secondary flash =
+device.
+
+This is probably more information that you=E2=80=99d want, but you may had =
+noticed that IBM=E2=80=99s 128MB tacoma system "aspeed-bmc-opp-tacoma.dts=
+=E2=80=9D does not have partitions for the secondary device, and the reason=
+ is that the 2nd NOR chip is not used, instead we have an eMMC card attache=
+d and use the u-boot partition from the primary NOR flash device. Otherwise=
+ we would had created the "openbmc-flash-layout-128-alt.dtsi=E2=80=9D file =
+already.
+
+> 	};
+> };
+> --=20
+> 2.31.1
+>=20
+
+
+--Apple-Mail=_325B3039-6FD0-4B60-B539-7E4A8AD02676
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"overflow-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: =
+after-white-space;"><br><div><br><blockquote type=3D"cite"><div>On Dec =
+25, 2022, at 11:45 PM, Potin Lai &lt;potin.lai.pt@gmail.com&gt; =
+wrote:</div><br class=3D"Apple-interchange-newline"><div><div>In =
+OpenBMC, phosphor-software-manager use "alt-bmc" for secondary =
+falsh<br>label.<br>Rename flash1 label to "alt-bmc" to support dual =
+image feature inOpenBMC.<br><br>Signed-off-by: Potin Lai =
+&lt;potin.lai.pt@gmail.com&gt;<br>---<br> =
+arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 2 +-<br> 1 file =
+changed, 1 insertion(+), 1 deletion(-)<br><br>diff --git =
+a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts =
+b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts<br>index =
+a619eec70633..791f83aaac50 100644<br>--- =
+a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts<br>+++ =
+b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts<br>@@ -307,7 =
++307,7 @@ flash@0 {<br> <span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>flash@1 {<br> <span =
+class=3D"Apple-tab-span" style=3D"white-space:pre">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space:pre">	</span>status =3D =
+"okay";<br> <span class=3D"Apple-tab-span" style=3D"white-space:pre">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space:pre">	=
+</span>m25p,fast-read;<br>-<span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">	</span>label =3D "flash1";<br>+<span =
+class=3D"Apple-tab-span" style=3D"white-space:pre">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space:pre">	</span>label =3D =
+"alt-bmc";<br> <span class=3D"Apple-tab-span" style=3D"white-space:pre">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space:pre">	=
+</span>spi-max-frequency =3D =
+&lt;50000000&gt;;<br></div></div></blockquote><div><br></div><div>This =
+is correct, and I see it=E2=80=99s been merged into =
+6.3.&nbsp;</div><div>Just something you may want do to as a follow-up =
+change to add the partitions to the alternate flash device. Similar to =
+the include line =
+for:</div><div><br></div><div>flash@0{</div><div>=E2=80=A6</div><div>label=
+ =3D =E2=80=9Cbmc=E2=80=9D</div><div>...</div><div>#include =
+"openbmc-flash-layout-128.dtsi=E2=80=9D</div><div>};</div><div><br></div><=
+div>You probably want an include for the alt partitions and add this =
+include line at the =
+end:</div><div>flash@1{</div><div>=E2=80=A6</div><div>label =3D =
+=E2=80=9Calt-bmc=E2=80=9D;</div><div>...</div><div>+ #include =
+"openbmc-flash-layout-128-alt.dtsi=E2=80=9D</div><div>};</div><div><br></d=
+iv><div>There=E2=80=99s not a file "openbmc-flash-layout-128-alt.dtsi=E2=80=
+=9D that exists today, so you=E2=80=99d need to create it by copying it =
+the existing "openbmc-flash-layout-128.dtsi=E2=80=9D and just add an =
+=E2=80=9Calt-=E2=80=9C prefix to the partition labels, this is the =
+change that was done to create the file =
+"openbmc-flash-layout-64-alt.dtsi=E2=80=9D for 64MB flash chips as an =
+example:&nbsp;<a =
+href=3D"https://lore.kernel.org/openbmc/Yboga8RUoYrXoPB1@heinlein/t/#maca0=
+42c23241f765fc2aaaa9d90131ee69b8cf81">https://lore.kernel.org/openbmc/Ybog=
+a8RUoYrXoPB1@heinlein/t/#maca042c23241f765fc2aaaa9d90131ee69b8cf81</a></di=
+v><div><br></div><div>The function that you gain by adding =E2=80=9Calt-=E2=
+=80=9C partitions to the secondary flash device is that the =
+phosphor-software-manager code will auto-mount the partitions including =
+the read-write filesystem for syncing/backup and also create the d-bus =
+version interfaces for this secondary flash =
+device.</div><div><br></div><div>This is probably more information that =
+you=E2=80=99d want, but you may had noticed that IBM=E2=80=99s 128MB =
+tacoma system "aspeed-bmc-opp-tacoma.dts=E2=80=9D does not have =
+partitions for the secondary device, and the reason is that the 2nd NOR =
+chip is not used, instead we have an eMMC card attached and use the =
+u-boot partition from the primary NOR flash device. Otherwise we would =
+had created the "openbmc-flash-layout-128-alt.dtsi=E2=80=9D file =
+already.</div><br><blockquote type=3D"cite"><div><div> <span =
+class=3D"Apple-tab-span" style=3D"white-space:pre">	</span>};<br> =
+};<br>-- =
+<br>2.31.1<br><br></div></div></blockquote></div><br></body></html>=
+
+--Apple-Mail=_325B3039-6FD0-4B60-B539-7E4A8AD02676--
+
