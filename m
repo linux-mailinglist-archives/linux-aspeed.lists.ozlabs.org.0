@@ -2,88 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DD36804F1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 05:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26986804F2
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 05:21:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P4w3G4tc6z3bYw
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 15:20:58 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CrVCim1T;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P4w3K5YG2z3cK6
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 15:21:01 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::e2a; helo=mail-vs1-xe2a.google.com; envelope-from=william.zhang@broadcom.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CrVCim1T;
-	dkim-atps=neutral
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.160.48; helo=mail-oa1-f48.google.com; envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P1lnR4HhKz3bmQ
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Jan 2023 11:57:59 +1100 (AEDT)
-Received: by mail-vs1-xe2a.google.com with SMTP id 3so18302063vsq.7
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Jan 2023 16:57:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=cc:to:subject:message-id:date:thread-index:mime-version:in-reply-to
-         :references:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rnupRxl3VvVD6wnX/rjCTPN+IGER3PqVdmhZPfYmGNA=;
-        b=CrVCim1Tv5XYBaVCXm+h1P6Bc7sIjJfRgssI7RNVQgNW4AXuzTEsEguuSOXQMqfL+F
-         ocOmDKrCP+9TfrGU0z51OrbrbwanFkfmTBJ9ih/TQZDWvSuN1ilrFP8T9CaOBW0WAoy5
-         hcyK4HyYOezzMFwirnTCR4MJcVE5a7iDTdDkI=
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P2FFk2zR4z3bYW;
+	Thu, 26 Jan 2023 07:05:45 +1100 (AEDT)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-142b72a728fso22713671fac.9;
+        Wed, 25 Jan 2023 12:05:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:thread-index:mime-version:in-reply-to
-         :references:from:x-gm-message-state:from:to:cc:subject:date
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rnupRxl3VvVD6wnX/rjCTPN+IGER3PqVdmhZPfYmGNA=;
-        b=rS3sq70FV8z91VUJnHL0HLlPr77nD1tVbcXE1mo3KGa3uXS2S88aiQb2kNPo1R3MIS
-         5tHEqeZRx+96rk4+HSgWIFS1p4jCINrIiY6bmAnKRRQjgulCM6xvt/6L1g5fDSDiRrRe
-         wt//DgCy3Q7jGV8IMHVFFlGTabYvW/jd3r/LPDrrHnCcTcYphrMWjvshpMHmxzovaSOa
-         G/ThxDiCHIWacIfBe60YkXhNIVvLN9+p/dQQgly6AmWDmnqvBGgHnvHLq47NFzlaosly
-         FTwdMsf1KgfPeRWq+Bnu0YEP3uq7xP0shQVXKqEd4iMBTpfmXXeO8CdmZ/ayTXoOXh4E
-         /6aw==
-X-Gm-Message-State: AFqh2koR7JJxha1kcR5kKrsJLonRt9YDn/LoH9wqTKAAvqj6Yfp5aDlz
-	4iSGGzLp1gCUY1MIvXXc0MRR7BviRE3JpdEcF2xY2w==
-X-Google-Smtp-Source: AMrXdXu0WEVAHtkl/7WrGp7gsGmIxeNAjZACQY1znOQilpBjqALn5uFkSCuep3Y6cqMY533KDesP8Mmq99uNyBp2hTA=
-X-Received: by 2002:a67:f246:0:b0:3b1:5690:a240 with SMTP id
- y6-20020a67f246000000b003b15690a240mr3921552vsm.68.1674608274113; Tue, 24 Jan
- 2023 16:57:54 -0800 (PST)
-From: William Zhang <william.zhang@broadcom.com>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com> <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+        bh=8kqCnvG5HfBYMdFzmIrllsGYjZVwDWefqF05Cmky4HA=;
+        b=dQvkEiqJ/QlykD2eNy80pgbREuoYW7I6zKmgMOutrVIhClyuE0ANaiZZJ4JiTwLh/q
+         NlMzElrn27pjdo7amBr8A+Z+F9rbDT527khGwdtAbzb+idPRTRD2KxrGhWBlB3KCJZem
+         tpN2+wGhgNp6SPNTgZQONQ/PiA0xSNYJidjFOWQusqHtNLpAqLS6LxWOXM3S/fXrnkrS
+         yfgTYpnx3XqoPpq4OP1XP4EYFhAOHmfIYgOVi1VT/keo/sFSAKEd8JQefF+Gt6HR8phk
+         eSypIj4h3kmamiwisfduqxUGMyNVahHbTcntnWWK+HeJaTDHOqPLzECh2SNYQZgJvEjE
+         j+hg==
+X-Gm-Message-State: AO0yUKWIywf+X6X7mBwP4nPYDUGfMyzut7a2EYNlPcRdgRJh4gcLyLyZ
+	Z7gF1rhic9Ii+JVWHsLmkA==
+X-Google-Smtp-Source: AK7set+KlYA9hOhKxY3yXbw1+jJFui+axb/K8qUGpNYSrXD6fL93Qjufe/ZRHNh9bIxZbHxYbUPr4A==
+X-Received: by 2002:a05:6870:14d5:b0:163:45a2:e276 with SMTP id l21-20020a05687014d500b0016345a2e276mr684576oab.9.1674677142691;
+        Wed, 25 Jan 2023 12:05:42 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id n20-20020a056870559400b0010d7242b623sm2325869oao.21.2023.01.25.12.05.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jan 2023 12:05:42 -0800 (PST)
+Received: (nullmailer pid 2768672 invoked by uid 1000);
+	Wed, 25 Jan 2023 20:05:39 -0000
+Date: Wed, 25 Jan 2023 14:05:39 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 2/2] spi: dt-bindings: cleanup examples - indentation,
+ lowercase hex
+Message-ID: <167467713905.2768614.7865748447151198568.robh@kernel.org>
+References: <20230124083342.34869-1-krzysztof.kozlowski@linaro.org>
+ <20230124083342.34869-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGsd40KKMSPSaowQedOCmq8Q0lhhQIBWekOAbfQgXk=
-Date: Tue, 24 Jan 2023 16:57:49 -0800
-Message-ID: <36840e0caeca5f53eef4fab615fc7976@mail.gmail.com>
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, broonie@kernel.org, 
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, jic23@kernel.org, 
-	tudor.ambarus@microchip.com, pratyush@kernel.org, sanju.mehta@amd.com, 
-	chin-ting_kuo@aspeedtech.com, clg@kaod.org, kdasu.kdev@gmail.com, 
-	f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com, 
-	eajames@linux.ibm.com, olteanv@gmail.com, han.xu@nxp.com, 
-	john.garry@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
-	narmstrong@baylibre.com, khilman@baylibre.com, matthias.bgg@gmail.com, 
-	haibo.chen@nxp.com, linus.walleij@linaro.org, daniel@zonque.org, 
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org, 
-	bjorn.andersson@linaro.org, heiko@sntech.de, krzysztof.kozlowski@linaro.org, 
-	andi@etezian.org, mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, 
-	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	masahisa.kojima@linaro.org, jaswinder.singh@linaro.org, rostedt@goodmis.org, 
-	mingo@redhat.com, l.stelmach@samsung.com, davem@davemloft.net, 
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, alex.aring@gmail.com, 
-	stefan@datenfreihafen.org, kvalo@kernel.org, thierry.reding@gmail.com, 
-	jonathanh@nvidia.com, skomatineni@nvidia.com, sumit.semwal@linaro.org, 
-	christian.koenig@amd.com, j.neuschaefer@gmx.net, vireshk@kernel.org, 
-	rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org, 
-	gregkh@linuxfoundation.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000056b28e05f30c1ff2"
-X-Mailman-Approved-At: Mon, 30 Jan 2023 15:19:37 +1100
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124083342.34869-2-krzysztof.kozlowski@linaro.org>
+X-Mailman-Approved-At: Mon, 30 Jan 2023 15:19:32 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,195 +65,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org, konrad.dybcio@somainline.org, dri-devel@lists.freedesktop.org, tali.perry1@gmail.com, ldewangan@nvidia.com, linux-mtd@lists.infradead.org, alim.akhtar@samsung.com, linux-riscv@lists.infradead.org, linux-spi@vger.kernel.org, festevam@gmail.com, linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com, git@amd.com, linux-samsung-soc@vger.kernel.org, yogeshgaur.83@gmail.com, openbmc@lists.ozlabs.org, linux-staging@lists.linux.dev, yuenn@google.com, bcm-kernel-feedback-list@broadcom.com, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-imx@nxp.com, amitrkcian2002@gmail.com, Michael.Hennerich@analog.com, martin.blumenstingl@googlemail.com, linux-arm-msm@vger.kernel.org, radu_nicolae.pirea@upb.ro, greybus-dev@lists.linaro.org, lars@metafoo.de, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux
- -amlogic@lists.infradead.org, michal.simek@amd.com, linux-arm-kernel@lists.infradead.org, avifishman70@gmail.com, venture@google.com, libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, nicolas.ferre@microchip.com, fancer.lancer@gmail.com, linux-kernel@vger.kernel.org, michael@walle.cc, palmer@dabbelt.com, kernel@pengutronix.de, netdev@vger.kernel.org, linux-media@vger.kernel.org, linux-wpan@vger.kernel.org, claudiu.beznea@microchip.com
+Cc: Erwan Leray <erwan.leray@foss.st.com>, ", Bert Vermeulen" <bert@biot.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-amlogic@lists.infradead.org, =?UTF-8?B?77+9ZWNraQ==?= <rafal@milecki.pl>, linux-riscv@lists.infradead.org, ", Fabio Estevam" <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>, linux-aspeed@lists.ozlabs.org, Anson Huang <Anson.Huang@nxp.com>, Kamal Dasu <kdasu.kdev@gmail.com>, Leilk Liu <leilk.liu@mediatek.com>, Chunyan Zhang <zhang.lyra@gmail.com>, openbmc@lists.ozlabs.org, Michal Simek <michal.simek@xilinx.com>, Haibo Chen <haib
+ o.chen@nxp.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, ", Broadcom internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>, Birger Koblitz <mail@birger-koblitz.de>, Orson Zhai <orsonzhai@gmail.com>, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Kuldeep Singh <singh.kuldeep87k@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Parshuram Thombare <pthombar@cadence.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, Maxime Ripard <mripard@kernel.org>, Chris Packham <chris.packham@alliedtelesis.co.nz>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-mediatek@lists.infradead.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, Paul Walmsley <paul.walmsley@sifive.com>, linux-tegra@vger.kernel.org, Han Xu <han.xu@nxp.com>, lin
+ ux-arm-kernel@lists.infradead.org, Patrice Chotard <patrice.chotard@foss.st.com>, Neil Armstrong <neil.armstrong@linaro.org>, ", Christophe Kerello" <christophe.kerello@foss.st.com>, Li-hao Kuo <lhjeff911@gmail.com>, Gabor Juhos <juhosg@openwrt.org>, Vaishnav Achath <vaishnav.a@ti.com>, Bjorn Andersson <andersson@kernel.org>, Samuel Holland <samuel@sholland.org>, Heiko Stuebner <heiko@sntech.de>, linux-kernel@vger.kernel.org, Serge Semin <fancer.lancer@gmail.com>, linux-spi@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, Yogesh Gaur <yogeshgaur.83@gmail.com>, Mark Brown <broonie@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, Pragnesh Patel <pragnesh.patel@sifive.com>, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---00000000000056b28e05f30c1ff2
-Content-Type: text/plain; charset="UTF-8"
 
-On 01/19/2023 10:53 AM, 'Amit Kumar Mahapatra' via
-BCM-KERNEL-FEEDBACK-LIST,PDL wrote:
-> diff --git a/drivers/spi/spi-bcm63xx-hsspi.c
-> b/drivers/spi/spi-bcm63xx-hsspi.c
-> index b871fd810d80..dc179c4677d4 100644
-> --- a/drivers/spi/spi-bcm63xx-hsspi.c
-> +++ b/drivers/spi/spi-bcm63xx-hsspi.c
-> @@ -130,7 +130,7 @@ static void bcm63xx_hsspi_set_cs(struct bcm63xx_hsspi
-> *bs, unsigned int cs,
->   static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi *bs,
->   				  struct spi_device *spi, int hz)
->   {
-> -	unsigned int profile = spi->chip_select;
-> +	unsigned int profile = spi_get_chipselect(spi, 0);
->   	u32 reg;
->
->   	reg = DIV_ROUND_UP(2048, DIV_ROUND_UP(bs->speed_hz, hz));
-> @@ -157,7 +157,7 @@ static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi
-> *bs,
->   static int bcm63xx_hsspi_do_txrx(struct spi_device *spi, struct
-> spi_transfer *t)
->   {
->   	struct bcm63xx_hsspi *bs = spi_master_get_devdata(spi->master);
-> -	unsigned int chip_select = spi->chip_select;
-> +	unsigned int chip_select = spi_get_chipselect(spi, 0);
->   	u16 opcode = 0;
->   	int pending = t->len;
->   	int step_size = HSSPI_BUFFER_LEN;
-> @@ -165,7 +165,7 @@ static int bcm63xx_hsspi_do_txrx(struct spi_device
-> *spi, struct spi_transfer *t)
->   	u8 *rx = t->rx_buf;
->
->   	bcm63xx_hsspi_set_clk(bs, spi, t->speed_hz);
-> -	bcm63xx_hsspi_set_cs(bs, spi->chip_select, true);
-> +	bcm63xx_hsspi_set_cs(bs, spi_get_chipselect(spi, 0), true);
->
->   	if (tx && rx)
->   		opcode = HSSPI_OP_READ_WRITE;
-> @@ -228,14 +228,14 @@ static int bcm63xx_hsspi_setup(struct spi_device
-> *spi)
->   	u32 reg;
->
->   	reg = __raw_readl(bs->regs +
-> -			  HSSPI_PROFILE_SIGNAL_CTRL_REG(spi->chip_select));
-> +			  HSSPI_PROFILE_SIGNAL_CTRL_REG(spi_get_chipselect(spi, 0)));
->   	reg &= ~(SIGNAL_CTRL_LAUNCH_RISING | SIGNAL_CTRL_LATCH_RISING);
->   	if (spi->mode & SPI_CPHA)
->   		reg |= SIGNAL_CTRL_LAUNCH_RISING;
->   	else
->   		reg |= SIGNAL_CTRL_LATCH_RISING;
->   	__raw_writel(reg, bs->regs +
-> -		     HSSPI_PROFILE_SIGNAL_CTRL_REG(spi->chip_select));
-> +		     HSSPI_PROFILE_SIGNAL_CTRL_REG(spi_get_chipselect(spi, 0)));
->
->   	mutex_lock(&bs->bus_mutex);
->   	reg = __raw_readl(bs->regs + HSSPI_GLOBAL_CTRL_REG);
-> @@ -243,16 +243,16 @@ static int bcm63xx_hsspi_setup(struct spi_device
-> *spi)
->   	/* only change actual polarities if there is no transfer */
->   	if ((reg & GLOBAL_CTRL_CS_POLARITY_MASK) == bs->cs_polarity) {
->   		if (spi->mode & SPI_CS_HIGH)
-> -			reg |= BIT(spi->chip_select);
-> +			reg |= BIT(spi_get_chipselect(spi, 0));
->   		else
-> -			reg &= ~BIT(spi->chip_select);
-> +			reg &= ~BIT(spi_get_chipselect(spi, 0));
->   		__raw_writel(reg, bs->regs + HSSPI_GLOBAL_CTRL_REG);
->   	}
->
->   	if (spi->mode & SPI_CS_HIGH)
-> -		bs->cs_polarity |= BIT(spi->chip_select);
-> +		bs->cs_polarity |= BIT(spi_get_chipselect(spi, 0));
->   	else
-> -		bs->cs_polarity &= ~BIT(spi->chip_select);
-> +		bs->cs_polarity &= ~BIT(spi_get_chipselect(spi, 0));
->
->   	mutex_unlock(&bs->bus_mutex);
->
-> @@ -283,7 +283,7 @@ static int bcm63xx_hsspi_transfer_one(struct
-> spi_master *master,
->   	 * e. At the end restore the polarities again to their default values.
->   	 */
->
-> -	dummy_cs = !spi->chip_select;
-> +	dummy_cs = !spi_get_chipselect(spi, 0);
->   	bcm63xx_hsspi_set_cs(bs, dummy_cs, true);
->
->   	list_for_each_entry(t, &msg->transfers, transfer_list) {
-> @@ -296,7 +296,7 @@ static int bcm63xx_hsspi_transfer_one(struct
-> spi_master *master,
->   		spi_transfer_delay_exec(t);
->
->   		if (t->cs_change)
-> -			bcm63xx_hsspi_set_cs(bs, spi->chip_select, false);
-> +			bcm63xx_hsspi_set_cs(bs, spi_get_chipselect(spi, 0), false);
->   	}
->
->   	mutex_lock(&bs->bus_mutex);
+On Tue, 24 Jan 2023 09:33:42 +0100, Krzysztof Kozlowski wrote:
+> Cleanup examples:
+>  - use 4-space indentation (for cases when it is neither 4 not 2 space),
+>  - drop redundant blank lines,
+>  - use lowercase hex.
+> 
+> No functional impact except adjusting to preferred coding style.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au> # aspeed
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org> # meson
+> 
+> ---
+> 
+> Changes since v1:
+> 1. Adjust indentation in two more examples (cdns,qspi-nor, st,stm32-spi)
+> 2. Add tags
+> ---
+>  .../bindings/spi/amlogic,meson-gx-spicc.yaml  |  26 +--
+>  .../bindings/spi/amlogic,meson6-spifc.yaml    |  22 +--
+>  .../bindings/spi/aspeed,ast2600-fmc.yaml      |  24 +--
+>  .../bindings/spi/brcm,spi-bcm-qspi.yaml       | 156 +++++++++---------
+>  .../bindings/spi/cdns,qspi-nor.yaml           |  34 ++--
+>  .../bindings/spi/nvidia,tegra210-quad.yaml    |  42 ++---
+>  .../bindings/spi/qcom,spi-qcom-qspi.yaml      |   1 -
+>  .../devicetree/bindings/spi/renesas,rspi.yaml |  22 +--
+>  .../bindings/spi/spi-sunplus-sp7021.yaml      |   4 +-
+>  .../devicetree/bindings/spi/st,stm32-spi.yaml |  23 ++-
+>  10 files changed, 176 insertions(+), 178 deletions(-)
+> 
 
-For bcm63xx-hsspi driver,
-
-Acked-by: William Zhang <william.zhang@broadcom.com>
-
---00000000000056b28e05f30c1ff2
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-YDZuuBJwnyCzevMoPtVYPharioL5H3BRnQi8YoTXH7/uRo33dewYFm474yFjwwnt82TFtveVZkVq
-6h4WIQ4wTcwFfET8zMkELnGzS5SHCl8sPD+lNxxJ1JDZYwIDAQABo4IB2zCCAdcwDgYDVR0PAQH/
-BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9i
-YWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUF
-BzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAy
-MDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xv
-YmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRw
-Oi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAlBgNV
-HREEHjAcgRp3aWxsaWFtLnpoYW5nQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAf
-BgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUq65GzwZxydFHjjYEU/9h
-xHhPWlwwDQYJKoZIhvcNAQELBQADggEBAA2hGG3JPAdGPH0ZdohGUCIVjKz+U+EFuIDbS6A/5jqX
-VhYAxZlzj7tSjUIM7G7IhyfqPC46GKJ/4x+Amz1Z6YxNGy71L68kYD6hIbBcA5AM42QBUufly6Oa
-/ppSz3WoflVyFFQ5YXniZ+eU+2/cdnYZg4aVUnFjimOF5o3NfMLzOkhQNxbaDjFUfUYD8hKmU6v4
-0vUBj8KZ9Gi1LIagLKUREn8jku0lcLsRbnJ5Ey5ScajC/FESPyYWasOW8j8/1EoJksmhbYGKNS6C
-urb/KlmDGfVrIRYDbL0ckhGQIP5c6L+kSQZ2sHnQK0e0WgIaZYxaPYeY5u0GLCOze+3vyRMxggJt
-MIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYD
-VQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwxuh2XG3FXRL1W
-JOEwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIPV0GPci7PjhkOLQr5YYlwfjp9bZ
-8n4Nhqy3DqNgqzROMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIz
-MDEyNTAwNTc1NFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
-CWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFl
-AwQCATANBgkqhkiG9w0BAQEFAASCAQCDeRwW7sqpu5MnOyyvjxmJvRUbfI/L5CP1JkPtuA2BZ0WX
-P6pe/eXLFP9A//7IMZwRnMYubkHF2KOwoW3nTAZfFZU1MJtjpUcUMyAey4sODSCw78wnDub+b0R4
-rbtgWN26AOILOF9V7rUdA5hd4ZZZWrSVlZOxQOnkEnrrXwRMTZ6H4LILkENVRytDPX6WcNSzofVt
-bTZisKrK4TQRGwagjsH1XbjDJQy3in8wE53Bemw/woVR/U5dKkgH5bIc7O+yvfRkg3Dze87oKtUn
-0jlTOX7lGBKRqMHxDVl2SRBQXJ+ytWpT1WR9l3AFCBIp4QCo4isjywLpWTF5YramMP+j
---00000000000056b28e05f30c1ff2--
+Reviewed-by: Rob Herring <robh@kernel.org>
