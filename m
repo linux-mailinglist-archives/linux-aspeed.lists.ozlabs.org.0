@@ -1,147 +1,89 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1066804F0
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 05:20:55 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DD36804F1
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 05:21:00 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P4w393lBMz3c6s
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 15:20:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P4w3G4tc6z3bYw
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 15:20:58 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=F5EtfmWA;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CrVCim1T;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::e2a; helo=mail-vs1-xe2a.google.com; envelope-from=william.zhang@broadcom.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=F5EtfmWA;
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CrVCim1T;
 	dkim-atps=neutral
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P1Kxy42mgz3bZ4
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Jan 2023 19:33:58 +1100 (AEDT)
-Received: by mail-wm1-x333.google.com with SMTP id f12-20020a7bc8cc000000b003daf6b2f9b9so12247873wml.3
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Jan 2023 00:33:58 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P1lnR4HhKz3bmQ
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Jan 2023 11:57:59 +1100 (AEDT)
+Received: by mail-vs1-xe2a.google.com with SMTP id 3so18302063vsq.7
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Jan 2023 16:57:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b+nxm6AUQrdND9hhv0fMGvZp0eeAkpWlOdH7gphjJuI=;
-        b=F5EtfmWAs7GPnYDrFQA3qmog15Uouc0N5eHuu9MQT8H2T6aDjEdcdx6q4XF1aYYbaJ
-         rbwCf0tZscxlRycuE90c1IDIIYSkTVn6+h5a7tyAiGlxsWcdO0soiLhxFb8WtixiaCy2
-         WhJ7z1uWeJG3cB8kdbcxsXHLILrdicAwZQwK3ABCRS3cgWDvH+Noz8yeqWEdjLT3Adfl
-         xIoYzEWZLOmTO25Qa6Z52Pr2d0ZuTw6ENohjnwx1ee9VkWdrhhCjjUzkjdm+I3XLz0h2
-         1aVovCbXImM9IRjLIsfp/mQTfRMevBV5hGf/qmeILQbAth9fbOj/6XP0FHJANAst6ttN
-         Kmlg==
+        d=broadcom.com; s=google;
+        h=cc:to:subject:message-id:date:thread-index:mime-version:in-reply-to
+         :references:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rnupRxl3VvVD6wnX/rjCTPN+IGER3PqVdmhZPfYmGNA=;
+        b=CrVCim1Tv5XYBaVCXm+h1P6Bc7sIjJfRgssI7RNVQgNW4AXuzTEsEguuSOXQMqfL+F
+         ocOmDKrCP+9TfrGU0z51OrbrbwanFkfmTBJ9ih/TQZDWvSuN1ilrFP8T9CaOBW0WAoy5
+         hcyK4HyYOezzMFwirnTCR4MJcVE5a7iDTdDkI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b+nxm6AUQrdND9hhv0fMGvZp0eeAkpWlOdH7gphjJuI=;
-        b=C9rGzg5ylAFhqo/X6VQBO9oxKtbQFViJHYGCSO/a877GLu/FajwjDqC9vgE8eJEOMH
-         5JShCh3O1Cc5WMtxIpCO+wleXcs4/SGJJOWqiKdmk+XXaDskKhT/1h+k1N+fQwbT3Kaf
-         ivOy1ESSmtQR9wuIcVPO1PF6Pab0bmWzd+IhhRwuf9j336OLvNuV+L6DhAqC49jV5Wnh
-         eo1rni/50n7yJ5yIHdf2ge8aDYSihY66bNh/JcI9QLU0P2gZphRUsn3sbDbB3ldHc/nH
-         jzKJgwaYklT9oC5FHjACJGIyP30UXXRAv15FVoM342qvnaT6HGXxN9QrXWYFwZRrwukF
-         fx1Q==
-X-Gm-Message-State: AFqh2krTVxWDCZFYU7MyaPvcrSG00oOCjRmInVNTsjz5f3InFqSQxLbE
-	02N2J0/N4jwVg07o0B72ZtlmMQ==
-X-Google-Smtp-Source: AMrXdXva1GteWUvLjwso/FKOzr72v0f91fSczdeUW3DCTAHFGCcG58kJzxHtnlRqyRT3RNGgPZZBjg==
-X-Received: by 2002:a1c:ed0a:0:b0:3d3:4a47:52e9 with SMTP id l10-20020a1ced0a000000b003d34a4752e9mr26816656wmh.15.1674549235084;
-        Tue, 24 Jan 2023 00:33:55 -0800 (PST)
-Received: from krzk-bin.. ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id n34-20020a05600c182200b003da286f8332sm1319075wmp.18.2023.01.24.00.33.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 00:33:54 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
-	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	Kamal Dasu <kdasu.kdev@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Han Xu <han.xu@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Haibo Chen <haibo.chen@nxp.com>,
-	Yogesh Gaur <yogeshgaur.83@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Li-hao Kuo <lhjeff911@gmail.com>,
-	Michal Simek <michal.simek@xilinx.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	=?UTF-8?q?=82ecki?= <rafal@milecki.pl>,
-	Vaishnav Achath <vaishnav.a@ti.com>,
-	Parshuram Thombare <pthombar@cadence.com>,
-	Leilk Liu <leilk.liu@mediatek.com>,
-	Gabor Juhos <juhosg@openwrt.org>,
-	Bert Vermeulen <bert@biot.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Marek Vasut <marex@denx.de>,
-	Birger Koblitz <mail@birger-koblitz.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Anson Huang <Anson.Huang@nxp.com>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Kuldeep Singh <singh.kuldeep87k@gmail.com>,
-	Pragnesh Patel <pragnesh.patel@sifive.com>,
-	Christophe Kerello <christophe.kerello@foss.st.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Erwan Leray <erwan.leray@foss.st.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org,
-	linux-mediatek@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH v2 2/2] spi: dt-bindings: cleanup examples - indentation, lowercase hex
-Date: Tue, 24 Jan 2023 09:33:42 +0100
-Message-Id: <20230124083342.34869-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230124083342.34869-1-krzysztof.kozlowski@linaro.org>
-References: <20230124083342.34869-1-krzysztof.kozlowski@linaro.org>
+        h=cc:to:subject:message-id:date:thread-index:mime-version:in-reply-to
+         :references:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rnupRxl3VvVD6wnX/rjCTPN+IGER3PqVdmhZPfYmGNA=;
+        b=rS3sq70FV8z91VUJnHL0HLlPr77nD1tVbcXE1mo3KGa3uXS2S88aiQb2kNPo1R3MIS
+         5tHEqeZRx+96rk4+HSgWIFS1p4jCINrIiY6bmAnKRRQjgulCM6xvt/6L1g5fDSDiRrRe
+         wt//DgCy3Q7jGV8IMHVFFlGTabYvW/jd3r/LPDrrHnCcTcYphrMWjvshpMHmxzovaSOa
+         G/ThxDiCHIWacIfBe60YkXhNIVvLN9+p/dQQgly6AmWDmnqvBGgHnvHLq47NFzlaosly
+         FTwdMsf1KgfPeRWq+Bnu0YEP3uq7xP0shQVXKqEd4iMBTpfmXXeO8CdmZ/ayTXoOXh4E
+         /6aw==
+X-Gm-Message-State: AFqh2koR7JJxha1kcR5kKrsJLonRt9YDn/LoH9wqTKAAvqj6Yfp5aDlz
+	4iSGGzLp1gCUY1MIvXXc0MRR7BviRE3JpdEcF2xY2w==
+X-Google-Smtp-Source: AMrXdXu0WEVAHtkl/7WrGp7gsGmIxeNAjZACQY1znOQilpBjqALn5uFkSCuep3Y6cqMY533KDesP8Mmq99uNyBp2hTA=
+X-Received: by 2002:a67:f246:0:b0:3b1:5690:a240 with SMTP id
+ y6-20020a67f246000000b003b15690a240mr3921552vsm.68.1674608274113; Tue, 24 Jan
+ 2023 16:57:54 -0800 (PST)
+From: William Zhang <william.zhang@broadcom.com>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com> <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 30 Jan 2023 15:19:26 +1100
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGsd40KKMSPSaowQedOCmq8Q0lhhQIBWekOAbfQgXk=
+Date: Tue, 24 Jan 2023 16:57:49 -0800
+Message-ID: <36840e0caeca5f53eef4fab615fc7976@mail.gmail.com>
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, broonie@kernel.org, 
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, jic23@kernel.org, 
+	tudor.ambarus@microchip.com, pratyush@kernel.org, sanju.mehta@amd.com, 
+	chin-ting_kuo@aspeedtech.com, clg@kaod.org, kdasu.kdev@gmail.com, 
+	f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com, 
+	eajames@linux.ibm.com, olteanv@gmail.com, han.xu@nxp.com, 
+	john.garry@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	narmstrong@baylibre.com, khilman@baylibre.com, matthias.bgg@gmail.com, 
+	haibo.chen@nxp.com, linus.walleij@linaro.org, daniel@zonque.org, 
+	haojian.zhuang@gmail.com, robert.jarzmik@free.fr, agross@kernel.org, 
+	bjorn.andersson@linaro.org, heiko@sntech.de, krzysztof.kozlowski@linaro.org, 
+	andi@etezian.org, mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, 
+	wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	masahisa.kojima@linaro.org, jaswinder.singh@linaro.org, rostedt@goodmis.org, 
+	mingo@redhat.com, l.stelmach@samsung.com, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, alex.aring@gmail.com, 
+	stefan@datenfreihafen.org, kvalo@kernel.org, thierry.reding@gmail.com, 
+	jonathanh@nvidia.com, skomatineni@nvidia.com, sumit.semwal@linaro.org, 
+	christian.koenig@amd.com, j.neuschaefer@gmx.net, vireshk@kernel.org, 
+	rmfrfs@gmail.com, johan@kernel.org, elder@kernel.org, 
+	gregkh@linuxfoundation.org
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="00000000000056b28e05f30c1ff2"
+X-Mailman-Approved-At: Mon, 30 Jan 2023 15:19:37 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,514 +95,195 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: alexandre.belloni@bootlin.com, tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org, konrad.dybcio@somainline.org, dri-devel@lists.freedesktop.org, tali.perry1@gmail.com, ldewangan@nvidia.com, linux-mtd@lists.infradead.org, alim.akhtar@samsung.com, linux-riscv@lists.infradead.org, linux-spi@vger.kernel.org, festevam@gmail.com, linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com, git@amd.com, linux-samsung-soc@vger.kernel.org, yogeshgaur.83@gmail.com, openbmc@lists.ozlabs.org, linux-staging@lists.linux.dev, yuenn@google.com, bcm-kernel-feedback-list@broadcom.com, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-imx@nxp.com, amitrkcian2002@gmail.com, Michael.Hennerich@analog.com, martin.blumenstingl@googlemail.com, linux-arm-msm@vger.kernel.org, radu_nicolae.pirea@upb.ro, greybus-dev@lists.linaro.org, lars@metafoo.de, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux
+ -amlogic@lists.infradead.org, michal.simek@amd.com, linux-arm-kernel@lists.infradead.org, avifishman70@gmail.com, venture@google.com, libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, nicolas.ferre@microchip.com, fancer.lancer@gmail.com, linux-kernel@vger.kernel.org, michael@walle.cc, palmer@dabbelt.com, kernel@pengutronix.de, netdev@vger.kernel.org, linux-media@vger.kernel.org, linux-wpan@vger.kernel.org, claudiu.beznea@microchip.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Cleanup examples:
- - use 4-space indentation (for cases when it is neither 4 not 2 space),
- - drop redundant blank lines,
- - use lowercase hex.
+--00000000000056b28e05f30c1ff2
+Content-Type: text/plain; charset="UTF-8"
 
-No functional impact except adjusting to preferred coding style.
+On 01/19/2023 10:53 AM, 'Amit Kumar Mahapatra' via
+BCM-KERNEL-FEEDBACK-LIST,PDL wrote:
+> diff --git a/drivers/spi/spi-bcm63xx-hsspi.c
+> b/drivers/spi/spi-bcm63xx-hsspi.c
+> index b871fd810d80..dc179c4677d4 100644
+> --- a/drivers/spi/spi-bcm63xx-hsspi.c
+> +++ b/drivers/spi/spi-bcm63xx-hsspi.c
+> @@ -130,7 +130,7 @@ static void bcm63xx_hsspi_set_cs(struct bcm63xx_hsspi
+> *bs, unsigned int cs,
+>   static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi *bs,
+>   				  struct spi_device *spi, int hz)
+>   {
+> -	unsigned int profile = spi->chip_select;
+> +	unsigned int profile = spi_get_chipselect(spi, 0);
+>   	u32 reg;
+>
+>   	reg = DIV_ROUND_UP(2048, DIV_ROUND_UP(bs->speed_hz, hz));
+> @@ -157,7 +157,7 @@ static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi
+> *bs,
+>   static int bcm63xx_hsspi_do_txrx(struct spi_device *spi, struct
+> spi_transfer *t)
+>   {
+>   	struct bcm63xx_hsspi *bs = spi_master_get_devdata(spi->master);
+> -	unsigned int chip_select = spi->chip_select;
+> +	unsigned int chip_select = spi_get_chipselect(spi, 0);
+>   	u16 opcode = 0;
+>   	int pending = t->len;
+>   	int step_size = HSSPI_BUFFER_LEN;
+> @@ -165,7 +165,7 @@ static int bcm63xx_hsspi_do_txrx(struct spi_device
+> *spi, struct spi_transfer *t)
+>   	u8 *rx = t->rx_buf;
+>
+>   	bcm63xx_hsspi_set_clk(bs, spi, t->speed_hz);
+> -	bcm63xx_hsspi_set_cs(bs, spi->chip_select, true);
+> +	bcm63xx_hsspi_set_cs(bs, spi_get_chipselect(spi, 0), true);
+>
+>   	if (tx && rx)
+>   		opcode = HSSPI_OP_READ_WRITE;
+> @@ -228,14 +228,14 @@ static int bcm63xx_hsspi_setup(struct spi_device
+> *spi)
+>   	u32 reg;
+>
+>   	reg = __raw_readl(bs->regs +
+> -			  HSSPI_PROFILE_SIGNAL_CTRL_REG(spi->chip_select));
+> +			  HSSPI_PROFILE_SIGNAL_CTRL_REG(spi_get_chipselect(spi, 0)));
+>   	reg &= ~(SIGNAL_CTRL_LAUNCH_RISING | SIGNAL_CTRL_LATCH_RISING);
+>   	if (spi->mode & SPI_CPHA)
+>   		reg |= SIGNAL_CTRL_LAUNCH_RISING;
+>   	else
+>   		reg |= SIGNAL_CTRL_LATCH_RISING;
+>   	__raw_writel(reg, bs->regs +
+> -		     HSSPI_PROFILE_SIGNAL_CTRL_REG(spi->chip_select));
+> +		     HSSPI_PROFILE_SIGNAL_CTRL_REG(spi_get_chipselect(spi, 0)));
+>
+>   	mutex_lock(&bs->bus_mutex);
+>   	reg = __raw_readl(bs->regs + HSSPI_GLOBAL_CTRL_REG);
+> @@ -243,16 +243,16 @@ static int bcm63xx_hsspi_setup(struct spi_device
+> *spi)
+>   	/* only change actual polarities if there is no transfer */
+>   	if ((reg & GLOBAL_CTRL_CS_POLARITY_MASK) == bs->cs_polarity) {
+>   		if (spi->mode & SPI_CS_HIGH)
+> -			reg |= BIT(spi->chip_select);
+> +			reg |= BIT(spi_get_chipselect(spi, 0));
+>   		else
+> -			reg &= ~BIT(spi->chip_select);
+> +			reg &= ~BIT(spi_get_chipselect(spi, 0));
+>   		__raw_writel(reg, bs->regs + HSSPI_GLOBAL_CTRL_REG);
+>   	}
+>
+>   	if (spi->mode & SPI_CS_HIGH)
+> -		bs->cs_polarity |= BIT(spi->chip_select);
+> +		bs->cs_polarity |= BIT(spi_get_chipselect(spi, 0));
+>   	else
+> -		bs->cs_polarity &= ~BIT(spi->chip_select);
+> +		bs->cs_polarity &= ~BIT(spi_get_chipselect(spi, 0));
+>
+>   	mutex_unlock(&bs->bus_mutex);
+>
+> @@ -283,7 +283,7 @@ static int bcm63xx_hsspi_transfer_one(struct
+> spi_master *master,
+>   	 * e. At the end restore the polarities again to their default values.
+>   	 */
+>
+> -	dummy_cs = !spi->chip_select;
+> +	dummy_cs = !spi_get_chipselect(spi, 0);
+>   	bcm63xx_hsspi_set_cs(bs, dummy_cs, true);
+>
+>   	list_for_each_entry(t, &msg->transfers, transfer_list) {
+> @@ -296,7 +296,7 @@ static int bcm63xx_hsspi_transfer_one(struct
+> spi_master *master,
+>   		spi_transfer_delay_exec(t);
+>
+>   		if (t->cs_change)
+> -			bcm63xx_hsspi_set_cs(bs, spi->chip_select, false);
+> +			bcm63xx_hsspi_set_cs(bs, spi_get_chipselect(spi, 0), false);
+>   	}
+>
+>   	mutex_lock(&bs->bus_mutex);
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au> # aspeed
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org> # meson
+For bcm63xx-hsspi driver,
 
----
+Acked-by: William Zhang <william.zhang@broadcom.com>
 
-Changes since v1:
-1. Adjust indentation in two more examples (cdns,qspi-nor, st,stm32-spi)
-2. Add tags
----
- .../bindings/spi/amlogic,meson-gx-spicc.yaml  |  26 +--
- .../bindings/spi/amlogic,meson6-spifc.yaml    |  22 +--
- .../bindings/spi/aspeed,ast2600-fmc.yaml      |  24 +--
- .../bindings/spi/brcm,spi-bcm-qspi.yaml       | 156 +++++++++---------
- .../bindings/spi/cdns,qspi-nor.yaml           |  34 ++--
- .../bindings/spi/nvidia,tegra210-quad.yaml    |  42 ++---
- .../bindings/spi/qcom,spi-qcom-qspi.yaml      |   1 -
- .../devicetree/bindings/spi/renesas,rspi.yaml |  22 +--
- .../bindings/spi/spi-sunplus-sp7021.yaml      |   4 +-
- .../devicetree/bindings/spi/st,stm32-spi.yaml |  23 ++-
- 10 files changed, 176 insertions(+), 178 deletions(-)
+--00000000000056b28e05f30c1ff2
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-diff --git a/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml b/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-index e5eca3a6f132..4e28e6e9d8e0 100644
---- a/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-+++ b/Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml
-@@ -100,17 +100,17 @@ unevaluatedProperties: false
- examples:
-   - |
-     spi@c1108d80 {
--          compatible = "amlogic,meson-gx-spicc";
--          reg = <0xc1108d80 0x80>;
--          interrupts = <112>;
--          clocks = <&clk81>;
--          clock-names = "core";
--          #address-cells = <1>;
--          #size-cells = <0>;
--
--          display@0 {
--              compatible = "lg,lg4573";
--              spi-max-frequency = <1000000>;
--              reg = <0>;
--          };
-+        compatible = "amlogic,meson-gx-spicc";
-+        reg = <0xc1108d80 0x80>;
-+        interrupts = <112>;
-+        clocks = <&clk81>;
-+        clock-names = "core";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        display@0 {
-+            compatible = "lg,lg4573";
-+            spi-max-frequency = <1000000>;
-+            reg = <0>;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml b/Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml
-index 806043fed4d1..8e769ccda97f 100644
---- a/Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml
-+++ b/Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml
-@@ -40,15 +40,15 @@ unevaluatedProperties: false
- examples:
-   - |
-     spi@c1108c80 {
--          compatible = "amlogic,meson6-spifc";
--          reg = <0xc1108c80 0x80>;
--          clocks = <&clk81>;
--          #address-cells = <1>;
--          #size-cells = <0>;
--
--          flash: flash@0 {
--              compatible = "spansion,m25p80", "jedec,spi-nor";
--              reg = <0>;
--              spi-max-frequency = <40000000>;
--          };
-+        compatible = "amlogic,meson6-spifc";
-+        reg = <0xc1108c80 0x80>;
-+        clocks = <&clk81>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        flash: flash@0 {
-+            compatible = "spansion,m25p80", "jedec,spi-nor";
-+            reg = <0>;
-+            spi-max-frequency = <40000000>;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-index aae6fb139b5b..57d932af4506 100644
---- a/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-+++ b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-@@ -60,23 +60,23 @@ examples:
-         interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
- 
-         flash@0 {
--                reg = < 0 >;
--                compatible = "jedec,spi-nor";
--                spi-max-frequency = <50000000>;
--                spi-rx-bus-width = <2>;
-+            reg = < 0 >;
-+            compatible = "jedec,spi-nor";
-+            spi-max-frequency = <50000000>;
-+            spi-rx-bus-width = <2>;
-         };
- 
-         flash@1 {
--                reg = < 1 >;
--                compatible = "jedec,spi-nor";
--                spi-max-frequency = <50000000>;
--                spi-rx-bus-width = <2>;
-+            reg = < 1 >;
-+            compatible = "jedec,spi-nor";
-+            spi-max-frequency = <50000000>;
-+            spi-rx-bus-width = <2>;
-         };
- 
-         flash@2 {
--                reg = < 2 >;
--                compatible = "jedec,spi-nor";
--                spi-max-frequency = <50000000>;
--                spi-rx-bus-width = <2>;
-+            reg = < 2 >;
-+            compatible = "jedec,spi-nor";
-+            spi-max-frequency = <50000000>;
-+            spi-rx-bus-width = <2>;
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml b/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-index ec5873919170..28222aae3077 100644
---- a/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/brcm,spi-bcm-qspi.yaml
-@@ -99,98 +99,98 @@ required:
- examples:
-   - | # BRCMSTB SoC: SPI Master (MSPI+BSPI) for SPI-NOR access
-     spi@f03e3400 {
--            compatible = "brcm,spi-brcmstb-qspi", "brcm,spi-bcm-qspi";
--            reg = <0xf03e3400 0x188>, <0xf03e3200 0x50>, <0xf03e0920 0x4>;
--            reg-names = "mspi", "bspi", "cs_reg";
--            interrupts = <0x5>, <0x6>, <0x1>, <0x2>, <0x3>, <0x4>, <0x0>;
--            interrupt-parent = <&gic>;
--            interrupt-names = "mspi_done",
--                              "mspi_halted",
--                              "spi_lr_fullness_reached",
--                              "spi_lr_session_aborted",
--                              "spi_lr_impatient",
--                              "spi_lr_session_done",
--                              "spi_lr_overread";
--            clocks = <&hif_spi>;
--            #address-cells = <0x1>;
--            #size-cells = <0x0>;
--
--            flash@0 {
--                    #size-cells = <0x2>;
--                    #address-cells = <0x2>;
--                    compatible = "m25p80";
--                    reg = <0x0>;
--                    spi-max-frequency = <0x2625a00>;
--                    spi-cpol;
--                    spi-cpha;
--            };
-+        compatible = "brcm,spi-brcmstb-qspi", "brcm,spi-bcm-qspi";
-+        reg = <0xf03e3400 0x188>, <0xf03e3200 0x50>, <0xf03e0920 0x4>;
-+        reg-names = "mspi", "bspi", "cs_reg";
-+        interrupts = <0x5>, <0x6>, <0x1>, <0x2>, <0x3>, <0x4>, <0x0>;
-+        interrupt-parent = <&gic>;
-+        interrupt-names = "mspi_done",
-+                          "mspi_halted",
-+                          "spi_lr_fullness_reached",
-+                          "spi_lr_session_aborted",
-+                          "spi_lr_impatient",
-+                          "spi_lr_session_done",
-+                          "spi_lr_overread";
-+        clocks = <&hif_spi>;
-+        #address-cells = <0x1>;
-+        #size-cells = <0x0>;
-+
-+        flash@0 {
-+            #size-cells = <0x2>;
-+            #address-cells = <0x2>;
-+            compatible = "m25p80";
-+            reg = <0x0>;
-+            spi-max-frequency = <0x2625a00>;
-+            spi-cpol;
-+            spi-cpha;
-+        };
-     };
-   - | # BRCMSTB SoC: MSPI master for any SPI device
-     spi@f0416000 {
--            clocks = <&upg_fixed>;
--            compatible = "brcm,spi-brcmstb-mspi", "brcm,spi-bcm-qspi";
--            reg = <0xf0416000 0x180>;
--            reg-names = "mspi";
--            interrupts = <0x14>;
--            interrupt-parent = <&irq0_aon_intc>;
--            interrupt-names = "mspi_done";
--            #address-cells = <1>;
--            #size-cells = <0>;
-+        clocks = <&upg_fixed>;
-+        compatible = "brcm,spi-brcmstb-mspi", "brcm,spi-bcm-qspi";
-+        reg = <0xf0416000 0x180>;
-+        reg-names = "mspi";
-+        interrupts = <0x14>;
-+        interrupt-parent = <&irq0_aon_intc>;
-+        interrupt-names = "mspi_done";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-     };
-   - | # iProc SoC
-     #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-     spi@18027200 {
--            compatible = "brcm,spi-nsp-qspi", "brcm,spi-bcm-qspi";
--            reg = <0x18027200 0x184>,
--                  <0x18027000 0x124>,
--                  <0x1811c408 0x004>,
--                  <0x180273a0 0x01c>;
--            reg-names = "mspi", "bspi", "intr_regs", "intr_status_reg";
--            interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
--            interrupt-names = "mspi_done",
--                              "mspi_halted",
--                              "spi_lr_fullness_reached",
--                              "spi_lr_session_aborted",
--                              "spi_lr_impatient",
--                              "spi_lr_session_done";
--            clocks = <&iprocmed>;
--            num-cs = <2>;
--            #address-cells = <1>;
--            #size-cells = <0>;
-+        compatible = "brcm,spi-nsp-qspi", "brcm,spi-bcm-qspi";
-+        reg = <0x18027200 0x184>,
-+              <0x18027000 0x124>,
-+              <0x1811c408 0x004>,
-+              <0x180273a0 0x01c>;
-+        reg-names = "mspi", "bspi", "intr_regs", "intr_status_reg";
-+        interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "mspi_done",
-+                          "mspi_halted",
-+                          "spi_lr_fullness_reached",
-+                          "spi_lr_session_aborted",
-+                          "spi_lr_impatient",
-+                          "spi_lr_session_done";
-+        clocks = <&iprocmed>;
-+        num-cs = <2>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-     };
-   - | # NS2 SoC
-     #include <dt-bindings/interrupt-controller/irq.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-     spi@66470200 {
--            compatible = "brcm,spi-ns2-qspi", "brcm,spi-bcm-qspi";
--            reg = <0x66470200 0x184>,
--                  <0x66470000 0x124>,
--                  <0x67017408 0x004>,
--                  <0x664703a0 0x01c>;
--            reg-names = "mspi", "bspi", "intr_regs", "intr_status_reg";
--            interrupts = <GIC_SPI 419 IRQ_TYPE_LEVEL_HIGH>;
--            interrupt-names = "spi_l1_intr";
--            clocks = <&iprocmed>;
--            num-cs = <2>;
-+        compatible = "brcm,spi-ns2-qspi", "brcm,spi-bcm-qspi";
-+        reg = <0x66470200 0x184>,
-+              <0x66470000 0x124>,
-+              <0x67017408 0x004>,
-+              <0x664703a0 0x01c>;
-+        reg-names = "mspi", "bspi", "intr_regs", "intr_status_reg";
-+        interrupts = <GIC_SPI 419 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "spi_l1_intr";
-+        clocks = <&iprocmed>;
-+        num-cs = <2>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        flash@0 {
-             #address-cells = <1>;
--            #size-cells = <0>;
--
--            flash@0 {
--                    #address-cells = <1>;
--                    #size-cells = <1>;
--                    compatible = "m25p80";
--                    reg = <0x0>;
--                    spi-max-frequency = <12500000>;
--                    spi-cpol;
--                    spi-cpha;
--            };
-+            #size-cells = <1>;
-+            compatible = "m25p80";
-+            reg = <0x0>;
-+            spi-max-frequency = <12500000>;
-+            spi-cpol;
-+            spi-cpha;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml b/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
-index 9be4e2c5d1ee..5c01db128be0 100644
---- a/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
-+++ b/Documentation/devicetree/bindings/spi/cdns,qspi-nor.yaml
-@@ -103,21 +103,21 @@ unevaluatedProperties: false
- examples:
-   - |
-     qspi: spi@ff705000 {
--      compatible = "cdns,qspi-nor";
--      #address-cells = <1>;
--      #size-cells = <0>;
--      reg = <0xff705000 0x1000>,
--            <0xffa00000 0x1000>;
--      interrupts = <0 151 4>;
--      clocks = <&qspi_clk>;
--      cdns,fifo-depth = <128>;
--      cdns,fifo-width = <4>;
--      cdns,trigger-address = <0x00000000>;
--      resets = <&rst 0x1>, <&rst 0x2>;
--      reset-names = "qspi", "qspi-ocp";
--
--      flash@0 {
--              compatible = "jedec,spi-nor";
--              reg = <0x0>;
--      };
-+        compatible = "cdns,qspi-nor";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        reg = <0xff705000 0x1000>,
-+              <0xffa00000 0x1000>;
-+        interrupts = <0 151 4>;
-+        clocks = <&qspi_clk>;
-+        cdns,fifo-depth = <128>;
-+        cdns,fifo-width = <4>;
-+        cdns,trigger-address = <0x00000000>;
-+        resets = <&rst 0x1>, <&rst 0x2>;
-+        reset-names = "qspi", "qspi-ocp";
-+
-+        flash@0 {
-+            compatible = "jedec,spi-nor";
-+            reg = <0x0>;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-index 9f78b2c06494..9ae1611175f2 100644
---- a/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-+++ b/Documentation/devicetree/bindings/spi/nvidia,tegra210-quad.yaml
-@@ -74,25 +74,25 @@ examples:
-     #include <dt-bindings/reset/tegra210-car.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     spi@70410000 {
--            compatible = "nvidia,tegra210-qspi";
--            reg = <0x70410000 0x1000>;
--            interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
--            #address-cells = <1>;
--            #size-cells = <0>;
--            clocks = <&tegra_car TEGRA210_CLK_QSPI>,
--                     <&tegra_car TEGRA210_CLK_QSPI_PM>;
--            clock-names = "qspi", "qspi_out";
--            resets = <&tegra_car 211>;
--            dmas = <&apbdma 5>, <&apbdma 5>;
--            dma-names = "rx", "tx";
--
--            flash@0 {
--                    compatible = "jedec,spi-nor";
--                    reg = <0>;
--                    spi-max-frequency = <104000000>;
--                    spi-tx-bus-width = <2>;
--                    spi-rx-bus-width = <2>;
--                    nvidia,tx-clk-tap-delay = <0>;
--                    nvidia,rx-clk-tap-delay = <0>;
--            };
-+        compatible = "nvidia,tegra210-qspi";
-+        reg = <0x70410000 0x1000>;
-+        interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        clocks = <&tegra_car TEGRA210_CLK_QSPI>,
-+                 <&tegra_car TEGRA210_CLK_QSPI_PM>;
-+        clock-names = "qspi", "qspi_out";
-+        resets = <&tegra_car 211>;
-+        dmas = <&apbdma 5>, <&apbdma 5>;
-+        dma-names = "rx", "tx";
-+
-+        flash@0 {
-+            compatible = "jedec,spi-nor";
-+            reg = <0>;
-+            spi-max-frequency = <104000000>;
-+            spi-tx-bus-width = <2>;
-+            spi-rx-bus-width = <2>;
-+            nvidia,tx-clk-tap-delay = <0>;
-+            nvidia,rx-clk-tap-delay = <0>;
-+        };
-     };
-diff --git a/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml b/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-index 85e7770703bd..e94d915e28c8 100644
---- a/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
-@@ -87,7 +87,6 @@ examples:
-                 spi-tx-bus-width = <2>;
-                 spi-rx-bus-width = <2>;
-             };
--
-         };
-     };
- ...
-diff --git a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-index f45d3b75d6de..4d8ec69214c9 100644
---- a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-+++ b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-@@ -141,15 +141,15 @@ examples:
-     #include <dt-bindings/power/r8a7791-sysc.h>
- 
-     qspi: spi@e6b10000 {
--            compatible = "renesas,qspi-r8a7791", "renesas,qspi";
--            reg = <0xe6b10000 0x2c>;
--            interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
--            clocks = <&cpg CPG_MOD 917>;
--            dmas = <&dmac0 0x17>, <&dmac0 0x18>, <&dmac1 0x17>, <&dmac1 0x18>;
--            dma-names = "tx", "rx", "tx", "rx";
--            power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
--            resets = <&cpg 917>;
--            num-cs = <1>;
--            #address-cells = <1>;
--            #size-cells = <0>;
-+        compatible = "renesas,qspi-r8a7791", "renesas,qspi";
-+        reg = <0xe6b10000 0x2c>;
-+        interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cpg CPG_MOD 917>;
-+        dmas = <&dmac0 0x17>, <&dmac0 0x18>, <&dmac1 0x17>, <&dmac1 0x18>;
-+        dma-names = "tx", "rx", "tx", "rx";
-+        power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+        resets = <&cpg 917>;
-+        num-cs = <1>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-     };
-diff --git a/Documentation/devicetree/bindings/spi/spi-sunplus-sp7021.yaml b/Documentation/devicetree/bindings/spi/spi-sunplus-sp7021.yaml
-index 69a463305274..edb5ba71af3a 100644
---- a/Documentation/devicetree/bindings/spi/spi-sunplus-sp7021.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-sunplus-sp7021.yaml
-@@ -59,9 +59,9 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/interrupt-controller/irq.h>
--    spi@9C002D80 {
-+    spi@9c002d80 {
-         compatible = "sunplus,sp7021-spi";
--        reg = <0x9C002D80 0x80>, <0x9C002E00 0x80>;
-+        reg = <0x9c002d80 0x80>, <0x9c002e00 0x80>;
-         reg-names = "master", "slave";
-         interrupt-parent = <&intc>;
-         interrupt-names = "dma_w",
-diff --git a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-index d35c6f7e2dd5..9ca1a843c820 100644
---- a/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/st,stm32-spi.yaml
-@@ -84,18 +84,17 @@ examples:
-     #include <dt-bindings/clock/stm32mp1-clks.h>
-     #include <dt-bindings/reset/stm32mp1-resets.h>
-     spi@4000b000 {
--      #address-cells = <1>;
--      #size-cells = <0>;
--      compatible = "st,stm32h7-spi";
--      reg = <0x4000b000 0x400>;
--      interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
--      clocks = <&rcc SPI2_K>;
--      resets = <&rcc SPI2_R>;
--      dmas = <&dmamux1 0 39 0x400 0x05>,
--             <&dmamux1 1 40 0x400 0x05>;
--      dma-names = "rx", "tx";
--      cs-gpios = <&gpioa 11 0>;
--
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        compatible = "st,stm32h7-spi";
-+        reg = <0x4000b000 0x400>;
-+        interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&rcc SPI2_K>;
-+        resets = <&rcc SPI2_R>;
-+        dmas = <&dmamux1 0 39 0x400 0x05>,
-+               <&dmamux1 1 40 0x400 0x05>;
-+        dma-names = "rx", "tx";
-+        cs-gpios = <&gpioa 11 0>;
-     };
- 
- ...
--- 
-2.34.1
-
+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
+YDZuuBJwnyCzevMoPtVYPharioL5H3BRnQi8YoTXH7/uRo33dewYFm474yFjwwnt82TFtveVZkVq
+6h4WIQ4wTcwFfET8zMkELnGzS5SHCl8sPD+lNxxJ1JDZYwIDAQABo4IB2zCCAdcwDgYDVR0PAQH/
+BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9i
+YWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUF
+BzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAy
+MDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xv
+YmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRw
+Oi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAlBgNV
+HREEHjAcgRp3aWxsaWFtLnpoYW5nQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAf
+BgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUq65GzwZxydFHjjYEU/9h
+xHhPWlwwDQYJKoZIhvcNAQELBQADggEBAA2hGG3JPAdGPH0ZdohGUCIVjKz+U+EFuIDbS6A/5jqX
+VhYAxZlzj7tSjUIM7G7IhyfqPC46GKJ/4x+Amz1Z6YxNGy71L68kYD6hIbBcA5AM42QBUufly6Oa
+/ppSz3WoflVyFFQ5YXniZ+eU+2/cdnYZg4aVUnFjimOF5o3NfMLzOkhQNxbaDjFUfUYD8hKmU6v4
+0vUBj8KZ9Gi1LIagLKUREn8jku0lcLsRbnJ5Ey5ScajC/FESPyYWasOW8j8/1EoJksmhbYGKNS6C
+urb/KlmDGfVrIRYDbL0ckhGQIP5c6L+kSQZ2sHnQK0e0WgIaZYxaPYeY5u0GLCOze+3vyRMxggJt
+MIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYD
+VQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwxuh2XG3FXRL1W
+JOEwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIPV0GPci7PjhkOLQr5YYlwfjp9bZ
+8n4Nhqy3DqNgqzROMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIz
+MDEyNTAwNTc1NFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsG
+CWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFl
+AwQCATANBgkqhkiG9w0BAQEFAASCAQCDeRwW7sqpu5MnOyyvjxmJvRUbfI/L5CP1JkPtuA2BZ0WX
+P6pe/eXLFP9A//7IMZwRnMYubkHF2KOwoW3nTAZfFZU1MJtjpUcUMyAey4sODSCw78wnDub+b0R4
+rbtgWN26AOILOF9V7rUdA5hd4ZZZWrSVlZOxQOnkEnrrXwRMTZ6H4LILkENVRytDPX6WcNSzofVt
+bTZisKrK4TQRGwagjsH1XbjDJQy3in8wE53Bemw/woVR/U5dKkgH5bIc7O+yvfRkg3Dze87oKtUn
+0jlTOX7lGBKRqMHxDVl2SRBQXJ+ytWpT1WR9l3AFCBIp4QCo4isjywLpWTF5YramMP+j
+--00000000000056b28e05f30c1ff2--
