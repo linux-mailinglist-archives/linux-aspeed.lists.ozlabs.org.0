@@ -1,59 +1,109 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26986804F2
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 05:21:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 819446804F3
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 05:21:07 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P4w3K5YG2z3cK6
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 15:21:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P4w3P2wkjz30Jy
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 15:21:05 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=USfPHSeV;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.160.48; helo=mail-oa1-f48.google.com; envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=USfPHSeV;
+	dkim-atps=neutral
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P2FFk2zR4z3bYW;
-	Thu, 26 Jan 2023 07:05:45 +1100 (AEDT)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-142b72a728fso22713671fac.9;
-        Wed, 25 Jan 2023 12:05:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8kqCnvG5HfBYMdFzmIrllsGYjZVwDWefqF05Cmky4HA=;
-        b=dQvkEiqJ/QlykD2eNy80pgbREuoYW7I6zKmgMOutrVIhClyuE0ANaiZZJ4JiTwLh/q
-         NlMzElrn27pjdo7amBr8A+Z+F9rbDT527khGwdtAbzb+idPRTRD2KxrGhWBlB3KCJZem
-         tpN2+wGhgNp6SPNTgZQONQ/PiA0xSNYJidjFOWQusqHtNLpAqLS6LxWOXM3S/fXrnkrS
-         yfgTYpnx3XqoPpq4OP1XP4EYFhAOHmfIYgOVi1VT/keo/sFSAKEd8JQefF+Gt6HR8phk
-         eSypIj4h3kmamiwisfduqxUGMyNVahHbTcntnWWK+HeJaTDHOqPLzECh2SNYQZgJvEjE
-         j+hg==
-X-Gm-Message-State: AO0yUKWIywf+X6X7mBwP4nPYDUGfMyzut7a2EYNlPcRdgRJh4gcLyLyZ
-	Z7gF1rhic9Ii+JVWHsLmkA==
-X-Google-Smtp-Source: AK7set+KlYA9hOhKxY3yXbw1+jJFui+axb/K8qUGpNYSrXD6fL93Qjufe/ZRHNh9bIxZbHxYbUPr4A==
-X-Received: by 2002:a05:6870:14d5:b0:163:45a2:e276 with SMTP id l21-20020a05687014d500b0016345a2e276mr684576oab.9.1674677142691;
-        Wed, 25 Jan 2023 12:05:42 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id n20-20020a056870559400b0010d7242b623sm2325869oao.21.2023.01.25.12.05.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 12:05:42 -0800 (PST)
-Received: (nullmailer pid 2768672 invoked by uid 1000);
-	Wed, 25 Jan 2023 20:05:39 -0000
-Date: Wed, 25 Jan 2023 14:05:39 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 2/2] spi: dt-bindings: cleanup examples - indentation,
- lowercase hex
-Message-ID: <167467713905.2768614.7865748447151198568.robh@kernel.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P2M1c2Wrzz2yRV;
+	Thu, 26 Jan 2023 11:25:40 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id B913DB81C04;
+	Thu, 26 Jan 2023 00:25:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A33C433D2;
+	Thu, 26 Jan 2023 00:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674692736;
+	bh=rcUgsNadKKTYCHHFUAWb2M6WYShRxFqUqgbGPO0Ctyo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=USfPHSeVEkf75rA9BZhlvuBgt3C7xXOJz8CoJRO6VnKLCjKvOAvSuVOAAHVjwSZuH
+	 JX2uNAzawrEKpN+IqKJBN8lZGMGtxJCIlcga2OR/Jokxood0zP+0bznprQUUG8DKwD
+	 QQ4K8QcBAABfVqaYdZkX1GDNvLDUpOqo8lT76FcMgCjtCOTzSgIuGkJP+fXUzUf6dD
+	 100h5T1y3ypmPfXHYY5ic0/FD44fBeYBRbgvrs6b+RGsQdN+Y9IGXhlnFK4zWS8fRh
+	 7XQZeHxve4rzsEvNEN1VoemmfZArPIZ/VVHfPgRMbQaX3uomO1YRRPxzlGNr8JKnr3
+	 01bMP8uE6lW7Q==
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
+ =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
+ Kamal Dasu <kdasu.kdev@gmail.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Han Xu <han.xu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Serge Semin <fancer.lancer@gmail.com>, Haibo Chen <haibo.chen@nxp.com>, 
+ Yogesh Gaur <yogeshgaur.83@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Li-hao Kuo <lhjeff911@gmail.com>, 
+ Michal Simek <michal.simek@xilinx.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ =?utf-8?q?=EF=BF=BDecki?= <rafal@milecki.pl>, 
+ Vaishnav Achath <vaishnav.a@ti.com>, 
+ Parshuram Thombare <pthombar@cadence.com>, 
+ Leilk Liu <leilk.liu@mediatek.com>, Gabor Juhos <juhosg@openwrt.org>, 
+ Bert Vermeulen <bert@biot.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Marek Vasut <marex@denx.de>, Birger Koblitz <mail@birger-koblitz.de>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Anson Huang <Anson.Huang@nxp.com>, 
+ Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+ Kuldeep Singh <singh.kuldeep87k@gmail.com>, 
+ Pragnesh Patel <pragnesh.patel@sifive.com>, 
+ Christophe Kerello <christophe.kerello@foss.st.com>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Erwan Leray <erwan.leray@foss.st.com>, 
+ Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-spi@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-amlogic@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
+ linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230124083342.34869-1-krzysztof.kozlowski@linaro.org>
 References: <20230124083342.34869-1-krzysztof.kozlowski@linaro.org>
- <20230124083342.34869-2-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 1/2] spi: dt-bindings: drop unneeded quotes
+Message-Id: <167469271489.2661317.15374060752399847689.b4-ty@kernel.org>
+Date: Thu, 26 Jan 2023 00:25:14 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230124083342.34869-2-krzysztof.kozlowski@linaro.org>
-X-Mailman-Approved-At: Mon, 30 Jan 2023 15:19:32 +1100
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.0
+X-Mailman-Approved-At: Mon, 30 Jan 2023 15:19:21 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,43 +115,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Erwan Leray <erwan.leray@foss.st.com>, ", Bert Vermeulen" <bert@biot.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-amlogic@lists.infradead.org, =?UTF-8?B?77+9ZWNraQ==?= <rafal@milecki.pl>, linux-riscv@lists.infradead.org, ", Fabio Estevam" <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>, linux-aspeed@lists.ozlabs.org, Anson Huang <Anson.Huang@nxp.com>, Kamal Dasu <kdasu.kdev@gmail.com>, Leilk Liu <leilk.liu@mediatek.com>, Chunyan Zhang <zhang.lyra@gmail.com>, openbmc@lists.ozlabs.org, Michal Simek <michal.simek@xilinx.com>, Haibo Chen <haib
- o.chen@nxp.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, ", Broadcom internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>, Birger Koblitz <mail@birger-koblitz.de>, Orson Zhai <orsonzhai@gmail.com>, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Kuldeep Singh <singh.kuldeep87k@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Parshuram Thombare <pthombar@cadence.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, Maxime Ripard <mripard@kernel.org>, Chris Packham <chris.packham@alliedtelesis.co.nz>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, linux-mediatek@lists.infradead.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, Paul Walmsley <paul.walmsley@sifive.com>, linux-tegra@vger.kernel.org, Han Xu <han.xu@nxp.com>, lin
- ux-arm-kernel@lists.infradead.org, Patrice Chotard <patrice.chotard@foss.st.com>, Neil Armstrong <neil.armstrong@linaro.org>, ", Christophe Kerello" <christophe.kerello@foss.st.com>, Li-hao Kuo <lhjeff911@gmail.com>, Gabor Juhos <juhosg@openwrt.org>, Vaishnav Achath <vaishnav.a@ti.com>, Bjorn Andersson <andersson@kernel.org>, Samuel Holland <samuel@sholland.org>, Heiko Stuebner <heiko@sntech.de>, linux-kernel@vger.kernel.org, Serge Semin <fancer.lancer@gmail.com>, linux-spi@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, Yogesh Gaur <yogeshgaur.83@gmail.com>, Mark Brown <broonie@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, Pragnesh Patel <pragnesh.patel@sifive.com>, NXP Linux Team <linux-imx@nxp.com>
+Cc: Rob Herring <robh@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-On Tue, 24 Jan 2023 09:33:42 +0100, Krzysztof Kozlowski wrote:
-> Cleanup examples:
->  - use 4-space indentation (for cases when it is neither 4 not 2 space),
->  - drop redundant blank lines,
->  - use lowercase hex.
-> 
+On Tue, 24 Jan 2023 09:33:41 +0100, Krzysztof Kozlowski wrote:
+> Cleanup by removing unneeded quotes from refs and redundant blank lines.
 > No functional impact except adjusting to preferred coding style.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au> # aspeed
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org> # meson
-> 
-> ---
-> 
-> Changes since v1:
-> 1. Adjust indentation in two more examples (cdns,qspi-nor, st,stm32-spi)
-> 2. Add tags
-> ---
->  .../bindings/spi/amlogic,meson-gx-spicc.yaml  |  26 +--
->  .../bindings/spi/amlogic,meson6-spifc.yaml    |  22 +--
->  .../bindings/spi/aspeed,ast2600-fmc.yaml      |  24 +--
->  .../bindings/spi/brcm,spi-bcm-qspi.yaml       | 156 +++++++++---------
->  .../bindings/spi/cdns,qspi-nor.yaml           |  34 ++--
->  .../bindings/spi/nvidia,tegra210-quad.yaml    |  42 ++---
->  .../bindings/spi/qcom,spi-qcom-qspi.yaml      |   1 -
->  .../devicetree/bindings/spi/renesas,rspi.yaml |  22 +--
->  .../bindings/spi/spi-sunplus-sp7021.yaml      |   4 +-
->  .../devicetree/bindings/spi/st,stm32-spi.yaml |  23 ++-
->  10 files changed, 176 insertions(+), 178 deletions(-)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Applied to
+
+   broonie/spi.git for-next
+
+Thanks!
+
+[1/2] spi: dt-bindings: drop unneeded quotes
+      commit: 99a7fa0e75a3a595a577fb5efa4b84a491f664a2
+[2/2] spi: dt-bindings: cleanup examples - indentation, lowercase hex
+      commit: ee8d422c91d87ebe230769b2cb89f087e56b560a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
