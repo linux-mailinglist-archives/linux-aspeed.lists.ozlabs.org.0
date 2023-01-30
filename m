@@ -2,67 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54F267E588
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Jan 2023 13:39:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18066803F1
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 03:59:38 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P3HFw59rgz3fHR
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Jan 2023 23:39:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P4tFL5BYSz3cQl
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Jan 2023 13:59:34 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=B16eeh7H;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=P7m8d8Vu;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b32; helo=mail-yb1-xb32.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::629; helo=mail-ej1-x629.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=B16eeh7H;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=P7m8d8Vu;
 	dkim-atps=neutral
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P3HFS1vxwz3fHX
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Jan 2023 23:39:07 +1100 (AEDT)
-Received: by mail-yb1-xb32.google.com with SMTP id c124so5770188ybb.13
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Jan 2023 04:39:07 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P4tFD2KfCz3cGR
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Jan 2023 13:59:26 +1100 (AEDT)
+Received: by mail-ej1-x629.google.com with SMTP id bk15so27963775ejb.9
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 29 Jan 2023 18:59:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=jms.id.au; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XwZuZwMC+f2f/AgCvMkCdUDxtZ31St7fTmiATBXQIEc=;
-        b=B16eeh7HmWczjoVldqvEQlcUFdGq6GVI3qJ7ca0R+DKSBxhLu6/n+/kzHARW/+Kukr
-         VOftiWNFcTb0fmDwtrtn1ZNw/o5EodIqxmBKlvc6lW+/12mhjdxMgvi8/MoK8Uo1Cy6N
-         OVEKOWtO8tv2IMSKEzid+N3iYKnBtnDlz1KFcXzC2XcpYIR8Bvc/sa+Q96HAz5rpHBKt
-         tnBrIBNj9XaIytwfS5fECPql+UohU59hAj5mK04bpXEI1tELvUm/dDSZcKXC/SeEewWG
-         zNvFcgYnaGFu+XeTJc970niU8hj0J07AfSjaeUJX1A2z7D30EoSMqiCxopMMRQXSA8oo
-         XAaQ==
+        bh=cuvuEIWvWifnWX+tS1UYLP6iIDWylaHtaPdx3s7KXPI=;
+        b=P7m8d8Vu8n6QWMQBb7p50k+pVC6BEmR2mNBvda/nkiWAg+SXwQPkUAnf+RtpTGB91a
+         KLD5Lg7XHB98GPiGC0W33pDX+Wttrj9Do6/FblIvC1EBy+WTQqx+2jBCcGBlubPR3mmV
+         htYWs0wBIFhwhs+JVf8p0z85dRsKIIXP1mFrA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XwZuZwMC+f2f/AgCvMkCdUDxtZ31St7fTmiATBXQIEc=;
-        b=Yp97mABU8T8Zc8fMK+Ghh4wRj7XSw9vK4MBanKuHx+5VQuD6+AhIRYnZZOqKridjLx
-         aQp568ZoDDwqVLKBmJuOj3SXrvkGEdoYdSsXvrhHoqrfYJNPU0Fu5N79GuP6/nRILibQ
-         TwRCwFY7RQgtjdjBuiYTYgtFiJaiobnVuRTuSNlRlfsn4rgLTL7Kze5RXKsaSkv/dy1S
-         +Wel7FKmze36jdCimJjbnUMHi/uRA5KeAVKjs19LH5V0oUrFOghMR8MScbltki3W+Ss2
-         lyjnssPXG4Z/kNH864GWjXGFjcZamXG5qWSyv9TK+BwsXXhiCMCliiYfRlv30SL3ZMLz
-         m4FA==
-X-Gm-Message-State: AO0yUKWqTvWkbXEAh0ksJf7bTsUnSOnPP6KTuz3qxcwpazhK8HIB/2Hh
-	XN5IHGTlD1cqzNhiBt3VXd21h2TeKnXrkGoadmu+Sg==
-X-Google-Smtp-Source: AK7set8P6BjVJvQtoZCgfykSubTY4hwEKuJfKzYmgIV1cELHLdH5Ujvw88+vwYhILkEtpv+XPIPlvnXeK5VtoxtBuKM=
-X-Received: by 2002:a25:d884:0:b0:80b:66c5:9fc5 with SMTP id
- p126-20020a25d884000000b0080b66c59fc5mr1739203ybg.210.1674823144253; Fri, 27
- Jan 2023 04:39:04 -0800 (PST)
+        bh=cuvuEIWvWifnWX+tS1UYLP6iIDWylaHtaPdx3s7KXPI=;
+        b=oGi8Zs59xpwoifhdgbXFBf8Tphw8zdoFhtf7TVit7K5MsLN3oW3bfAV4/7fdJqd4OF
+         AvkZmT2QfXKrdNv+4M51o7wFF4FpRi8kH2xsgk60lH50LPk6DJYsqPIWZHUEitybQLJF
+         vA0uaU+TlTZ10039xk26Kl60m9XgHcKtNLOMGFl4VhKZpiRfFamB/y5XRrpzcZ4ARHDm
+         Fk0pX3nqFM9nacrSc0euIWhLxivTcjXtgWJlnZz9mANU4X6IPB+BP1cPGHRq4AVIMJQe
+         HzgULB7/LHcT9gftgjXvNGkoMjU8Xn4tr8kDQy/81ST19/Be/5WtBIpotNDwkDLxYyD2
+         RgFQ==
+X-Gm-Message-State: AO0yUKXllFsW7Xcc1hqVvS6IheqryCFv/mTcXbHFSo7B8E68Xb8d0vCc
+	uO1/x+w+RwOnwosLv857ALlpPbNRzrTxl5bE13s=
+X-Google-Smtp-Source: AK7set8jJbSsX0UW9Q/dgX/JZoXwGvmYuPcKHeNB3K01XA1dZgMi/vz0oqAdBiKgmfDyvC65QFwFa779jrBBAm7Vmag=
+X-Received: by 2002:a17:907:2a03:b0:87f:5802:fd72 with SMTP id
+ fd3-20020a1709072a0300b0087f5802fd72mr1847753ejc.237.1675047561610; Sun, 29
+ Jan 2023 18:59:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20220818101839.28860-1-billy_tsai@aspeedtech.com>
- <CACRpkdYpp_1JJQmuX27pECxN0cjzciCuETLPTrSYKqpX0FPABQ@mail.gmail.com>
- <e501d2fb-aaa0-470d-a8d5-5f8e97898df7@beta.fastmail.com> <CACPK8XfQ=uarsOgJ7LaXqLyGG2vSF-47RkAEV=T2gruapx-yfg@mail.gmail.com>
-In-Reply-To: <CACPK8XfQ=uarsOgJ7LaXqLyGG2vSF-47RkAEV=T2gruapx-yfg@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 27 Jan 2023 13:38:53 +0100
-Message-ID: <CACRpkdZPxZgWJ3jjiesOFGXmwzZFqeByZyx1VCy5pDWyVQHy+A@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: Force to disable the function's signal
-To: Joel Stanley <joel@jms.id.au>
+References: <20230119235501.53294-1-joel@jms.id.au> <b565b254-45aa-4f7a-b158-99fb4c66167f@app.fastmail.com>
+ <CACRpkdYGG8jA9x8Hb9ByvkhFXgbyG43K=LB5F0t4hLxyXtWKjQ@mail.gmail.com>
+In-Reply-To: <CACRpkdYGG8jA9x8Hb9ByvkhFXgbyG43K=LB5F0t4hLxyXtWKjQ@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 30 Jan 2023 02:59:09 +0000
+Message-ID: <CACPK8Xf3Nz8mZrGrwUXx9PZWp90jYwEOAoZ2giY4qKou3opn3w@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: aspeed-g5: Bypass clock check when fetching regmap
+To: Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -75,17 +71,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jan 19, 2023 at 2:54 AM Joel Stanley <joel@jms.id.au> wrote:
+On Fri, 27 Jan 2023 at 12:36, Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Fri, Jan 20, 2023 at 3:35 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+> > On Fri, 20 Jan 2023, at 10:25, Joel Stanley wrote:
+>
+> > > A recent commit cf517fef601b ("pinctrl: aspeed: Force to disable the
+> > > function's signal") exposed a problem with fetching the regmap for
+> > > reading the GFX register.
+> > >
+> > > The Romulus machine the device tree contains a gpio hog for GPIO S7.
+> > > With the patch applied:
+> > >
+> > >   Muxing pin 151 for GPIO
+> > >   Disabling signal VPOB9 for VPO
+> > >   aspeed-g5-pinctrl 1e6e2080.pinctrl: Failed to acquire regmap for IP block 1
+> > >   aspeed-g5-pinctrl 1e6e2080.pinctrl: request() failed for pin 151
+> > >
+> > > The code path is aspeed-gpio -> pinmux-g5 -> regmap -> clk, and the
+> > > of_clock code returns an error as it doesn't have a valid struct clk_hw
+> > > pointer. The regmap call happens because pinmux wants to check the GFX
+> > > node (IP block 1) to query bits there.
+> > >
+> > > For reference, before the offending patch:
+> > >
+> > >   Muxing pin 151 for GPIO
+> > >   Disabling signal VPOB9 for VPO
+> > >   Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
+> > >   Disabling signal VPOB9 for VPOOFF1
+> > >   Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
+> > >   Disabling signal VPOB9 for VPOOFF2
+> > >   Want SCU8C[0x00000080]=0x1, got 0x0 from 0x00000000
+> > >   Enabling signal GPIOS7 for GPIOS7
+> > >   Muxed pin 151 as GPIOS7
+> > >   gpio-943 (seq_cont): hogged as output/low
+> > >
+> > > As a workaround, skip the clock check to allow pinmux to proceed.
+> >
+> > We'd want the clock on and and the device out of reset before this
+> > makes sense though. We're just assuming the IP is in an operational
+> > state? Was this just accidentally working because reading the register
+> > in a bad state is producing 0 instead of other undefined garbage?
+>
+> This makes sense, can we come up with a resonable patch for this
+> problem or should this one be merged as an intermediate remedy?
 
-> As foreseen by Andrew, this caused a regression. On the Romulus
-> machine the device tree contains a gpio hog for GPIO S7. With the
-> patch applied:
+Andrew is correct, my testing showed that we do need to take the
+device out of reset in order to write a value that sticks. Qemu is
+insufficient for testing this as it doesn't model the reset lines.
 
-OK shall I just revert the patch?
+We really don't want to enable the clocks just to set a value that
+doesn't need to be set. There's a big nasty delay in the clock driver.
 
-Yours,
-Linus Walleij
+I suggest we revert the problematic patch until we can come up with a
+better solution.
+
+Cheers,
+
+Joel
