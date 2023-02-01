@@ -1,79 +1,48 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91DF068637F
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Feb 2023 11:14:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 023C0686461
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Feb 2023 11:36:29 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P6Hp43QQmz3cgq
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Feb 2023 21:14:20 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=C9Djn4E/;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P6JHZ62D9z3f43
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Feb 2023 21:36:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=C9Djn4E/;
-	dkim-atps=neutral
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P6Hnw1Lzjz3bfT
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Feb 2023 21:14:11 +1100 (AEDT)
-Received: by mail-wm1-x32b.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so958623wmb.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 01 Feb 2023 02:14:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KAhoNlTJho5ZnwZSN6lbqDoq8aHHdJxgOkFCOiCRGuk=;
-        b=C9Djn4E/y+WbPQRSb7rGXC3bXUj0z5dMPW8UG+wZaFqKgTXv5ulrzV4PWTXkCNbSMG
-         EsIuWK9c5t1oFnvPpxr1SJD4mrDc5mEI8+QNhkYILbyhKuivB9EtXKSc6+V55gvj3WBP
-         mUy3/XGyYUbQbphVQ7NwfKETJKbkTmRJTAqoPke3kAqgnY9/vaJUKy6I7SRu6KfRzs5u
-         uT7FCmDjhdxDTfD5JrQQO8pB4BYnpaTg8HhhPPF5a0sNZpGvp8GZvrPJTAix/f6cRLH9
-         44Ej7oe+DnZb3DxMYYQNIhxy3fHGV9Le74DvnpL0TyTiit90UOCYTpE38QTk5S1QwpbZ
-         CQ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KAhoNlTJho5ZnwZSN6lbqDoq8aHHdJxgOkFCOiCRGuk=;
-        b=NUAx14yyA4BSEiUo5HagzxNMg6nJgm6pag4GY6HPtn24Hcvn2BPil6c//4Ot8yL+Qc
-         obsawvp9lR4G3u3DFsX8XfHrnMGnsARNLBHPW53IXgIx7KIDGVdh9Jb/3fKJWIym9NOZ
-         pvm8ZcQz6RhdsIDBd09cU6cVCvXTOLGD6c+/TZB+bAhfHE4aFOF+OGWg8b7sPAVX0ahe
-         tl+kpdCOqu5/eHDF8sgIWoiK2eAteHOfPTx5BawrrlAX86GdVCSmjw88JZ6Y3AiDqwVa
-         aHVBWdpCuur+Bc/JXWGt0IlPvcr0M/1D9zk7uQcwMDKYDsj/WZ8/frJ6s4UzUeBa8mD8
-         nlmA==
-X-Gm-Message-State: AO0yUKX9MkZwELftj5wgXb4PQgyYx1Id6LZPh4vs9Ze2/zRryq7mCZpi
-	cnFYyxOTR0U3Gif2Q48TeITzkA==
-X-Google-Smtp-Source: AK7set/QB2ylCwztdMqI85o97PSgSoy4ia3dLIUk/CTPbDVz11aXGXi1yf3ARYrlnV6AKTfWyzezXQ==
-X-Received: by 2002:a05:600c:3783:b0:3de:e8c5:d826 with SMTP id o3-20020a05600c378300b003dee8c5d826mr892459wmr.28.1675246446580;
-        Wed, 01 Feb 2023 02:14:06 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id p16-20020a05600c469000b003a84375d0d1sm1309737wmo.44.2023.02.01.02.14.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Feb 2023 02:14:06 -0800 (PST)
-Message-ID: <307017b7-2ecf-2ce5-4031-27bb6f09feb1@linaro.org>
-Date: Wed, 1 Feb 2023 11:14:04 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P6JG8301bz3cNY;
+	Wed,  1 Feb 2023 21:35:12 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 311AMJwS097433;
+	Wed, 1 Feb 2023 18:22:19 +0800 (GMT-8)
+	(envelope-from ryan_chen@aspeedtech.com)
+Received: from aspeedtech.com (192.168.10.13) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 1 Feb
+ 2023 18:34:04 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley
+	<joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 0/3] Add ASPEED AST2600 I2C new controller driver
+Date: Wed, 1 Feb 2023 18:33:56 +0800
+Message-ID: <20230201103359.1742140-1-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 3/3] ARM: dts: aspeed: Add device tree for Ufispace
- NCPLite BMC
-Content-Language: en-US
-To: Jordan Chang <jordan.chang@ufispace.com>
-References: <20230119102102.73414-1-jordan.chang@ufispace.com>
- <20230119102102.73414-4-jordan.chang@ufispace.com>
- <3e242c03-f8fd-2136-0263-2306acb9f610@linaro.org>
- <CAJ3czeT1O3iw2S_SK3z0C6dMiJ+-fUrWXPox4LJpJkMy_rVsJA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAJ3czeT1O3iw2S_SK3z0C6dMiJ+-fUrWXPox4LJpJkMy_rVsJA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.13]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 311AMJwS097433
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,58 +54,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: jay.tc.lin@ufispace.com, eason.ys.huang@ufispace.com, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 01/02/2023 11:06, Jordan Chang wrote:
->>> +     gpio-keys {
->>> +             compatible = "gpio-keys";
->>> +
->>> +             fan-status-int-l {
->>
->> Does not look like you tested the DTS against bindings. Please run `make
->> dtbs_check` (see Documentation/devicetree/bindings/writing-schema.rst
->> for instructions).
->>
->> These will bring warnings. Missing generic name,
->>
-> I have run the `make dtbs_check` command, and did not notice the warning
-> message 'Missing generic name'. It shows lots of compatible failed messages.
-> - /ahb/ftgmac@1e670000: failed to match any schema with compatible:
+This series add AST2600 i2c new register set driver. The i2c new
+register set have new clock divider option for more flexiable generation.
+And also have separate i2c master and slave register set for control.
 
-You can run it with DT_SCHEMA_FILES=gpio-keys
+v4:
+-fix i2c-ast2600.c driver buffer mode use single buffer conflit in
+ master slave mode both enable.
+-fix kmemleak issue when use dma mode.
+-fix typo aspeed,i2c-ast2600.yaml compatible is "aspeed,ast2600-i2c"
+-fix typo aspeed,i2c-ast2600.ymal to aspeed,i2c-ast2600.yaml
 
-> 
->>> +                     label = "fan-status-int-l";
->>> +                     gpios = <&gpio0 ASPEED_GPIO(M, 2) GPIO_ACTIVE_LOW>;
->>> +                     linux,code = <ASPEED_GPIO(M, 2)>;
->>> +             };
->>> +
+v3:
+-fix i2c global clock divide default value.
+-remove i2c slave no used dev_dbg info.
 
-(...)
+v2:
+-add i2c global ymal file commit.
+-rename file name from new to ast2600.
+ aspeed-i2c-new-global.c -> i2c-ast2600-global.c
+ aspeed-i2c-new-global.h -> i2c-ast2600-global.h
+ i2c-new-aspeed.c -> i2c-ast2600.c
+-rename all driver function name to ast2600.
 
->>> +
->>> +&i2c4 {
->>> +     status = "okay";
->>> +
->>> +     psu@58 {
->>> +             compatible = "pmbus";
->>
->> Where is this compatible documented?
-> Can not find the corresponding document.
->>
->> Did you run checkpatch? Did it pass without warnings?
-> Yes, I did run the ./scripts/checkpatch.pl and there were two warnings left.
-> - WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> - WARNING: line length of 104 exceeds 100 columns
-> I just ignore those warnings that Joel has informed me in the previous
-> mail loop.
-> 
+Ryan Chen (3):
+  dt-bindings: i2c-ast2600: Add support for AST2600 I2C global
+    controller
+  dt-bindings: i2c-ast2600: Add support for AST2600 i2C driver
+  i2c: aspeed: support ast2600 i2c new register mode driver
 
-Hm, is it then correct compatible?
+ .../i2c/aspeed,i2c-ast2600-global.yaml        |   44 +
+ .../bindings/i2c/aspeed,i2c-ast2600.yaml      |   78 +
+ MAINTAINERS                                   |   10 +
+ drivers/i2c/busses/Kconfig                    |   11 +
+ drivers/i2c/busses/Makefile                   |    1 +
+ drivers/i2c/busses/i2c-ast2600-global.c       |   94 +
+ drivers/i2c/busses/i2c-ast2600-global.h       |   19 +
+ drivers/i2c/busses/i2c-ast2600.c              | 1811 +++++++++++++++++
+ 8 files changed, 2068 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i2c/aspeed,i2c-ast2600-global.yaml
+ create mode 100644 Documentation/devicetree/bindings/i2c/aspeed,i2c-ast2600.yaml
+ create mode 100644 drivers/i2c/busses/i2c-ast2600-global.c
+ create mode 100644 drivers/i2c/busses/i2c-ast2600-global.h
+ create mode 100644 drivers/i2c/busses/i2c-ast2600.c
 
-
-Best regards,
-Krzysztof
+-- 
+2.34.1
 
