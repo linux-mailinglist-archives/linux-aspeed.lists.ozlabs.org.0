@@ -1,135 +1,89 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AC06874F2
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 06:15:58 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B102B6874FA
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 06:19:25 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P6n7H5wJnz3f3B
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 16:15:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P6nCH0hcwz3f39
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 16:19:23 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=vFMshj+D;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=Dkrt63Ht;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Brz+nTBf;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::72c; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=64.147.123.25; helo=wout2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=vFMshj+D;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=Dkrt63Ht;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Brz+nTBf;
 	dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2072c.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::72c])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P6n721M1wz3cNY;
-	Thu,  2 Feb 2023 16:15:39 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hoYlsIEzK+VgnmbwG8OG8AmrLekoks4mOKUFByrQooHT3Ak4wCVV6RqMUdCnxvRz0XsN/t5H8Ezb5RkJT0BcLDIW6XRA87gknKl/mYgo9T7fvsh3AZqc0xcDZkVLT+5mkTz8HDZE+v1bBZDMP7gBiu2QdAPUPfpKsG9AM1fjVmUgTCPIOdTZnFMgBEZXk0ygMWOmF6tWIuwOyokzXeryKvP9fZdIoZiTCn7ChWZP+5XBIcpphhr65FZl1a29Xzk/A9B3bGQNsJ0awScEoI07C0P7Bg3I90NcDY+3QcVr6iAIAebmgPy1PvTHZKdDx3DfdZgU9Aea+VuwLWe3JVShpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3b7dhh1H/pO6FsOTdXwnSF0x7I0+ijE9+z7TYwR8uQY=;
- b=dTGmu4TEnQ2PGNS7L17klL6TI4/NndzhsFDU5agDi+oD+a0UieB2nWPd9LLeE8Gse0PpY+PXXI1/9l/9ufSeHokFFlvEZ+mgMCoYHWErHcc4EK0cv6Tzpr0fe2I6fe4v0CrExkGKsekrRYIFmp2HTECipYIvjOgo5+VNodQGkNtpwNWZsle7y/SuIp1ma8zIV73xIpTsgbK8FYgJ49ISLte5nPaCiW+Dp47zzNBRo1JHwlVN5CtzCRcCED+pkkfilKrmLStKng/FWS5AYonV+/8IJBUf1sJOoPQ/9+3w9IaciWJq5h5aTmj8BYUWl8gXZReaVW6U6wL3MiVjeEXDEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3b7dhh1H/pO6FsOTdXwnSF0x7I0+ijE9+z7TYwR8uQY=;
- b=vFMshj+Dnwx+wlFCjMkis9nX/TxJzx8LaGDcyU8gJbUYGUkmMQVy9kGJMIcvj0ECrWDLyAtmW/qjPtVE59s/7y4XT8kZzLqWXTdyvKNR/nNeLXsmFA3q/SRcLPTg40XqDFbsL1fM5/SHQWcUOCECH1+uj3KyWg5KMz1dc8HddKNzC7+RpQWF8FHS0/vLu4vOCTUSaloh2l1CvFUURUqjIS0JptfrrT8zv85QR9LQwsqZXazUA0s3U9Ns0hp//5j8AsU34hFvu6Dcs828uTGtrlpIgofWJAInMXoZrOI+mPpwHpqpYY4zoAAkSf6/uhfuGhkM4m8Hv8xBZZ6hq0VFhA==
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by PSAPR06MB4262.apcprd06.prod.outlook.com (2603:1096:301:84::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.7; Thu, 2 Feb
- 2023 05:15:16 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::3e52:d08c:ecf4:d572]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::3e52:d08c:ecf4:d572%5]) with mapi id 15.20.6064.022; Thu, 2 Feb 2023
- 05:15:16 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Jeremy Kerr <jk@codeconstruct.com.au>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley
-	<joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Philipp Zabel
-	<p.zabel@pengutronix.de>, "openbmc@lists.ozlabs.org"
-	<openbmc@lists.ozlabs.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 1/3] dt-bindings: i2c-ast2600: Add support for AST2600
- I2C global controller
-Thread-Topic: [PATCH v4 1/3] dt-bindings: i2c-ast2600: Add support for AST2600
- I2C global controller
-Thread-Index: AQHZNii2rnNDWFAQPEWeUWL84Heona67EG0AgAANEfA=
-Date: Thu, 2 Feb 2023 05:15:16 +0000
-Message-ID:  <SEZPR06MB5269699F950320DB7A78D7FEF2D69@SEZPR06MB5269.apcprd06.prod.outlook.com>
-References: <20230201103359.1742140-1-ryan_chen@aspeedtech.com>
-	 <20230201103359.1742140-2-ryan_chen@aspeedtech.com>
- <c227fa62c1040c7c280f1a6559dcf4cf8fb40428.camel@codeconstruct.com.au>
-In-Reply-To:  <c227fa62c1040c7c280f1a6559dcf4cf8fb40428.camel@codeconstruct.com.au>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEZPR06MB5269:EE_|PSAPR06MB4262:EE_
-x-ms-office365-filtering-correlation-id: ec65b14a-1fc2-4dfd-3aaf-08db04dc78ba
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  dAxA8klIhHn6ONwrWUPO/u2Vq75rmFkVvKg8keLzJSEmy65ZrnFgrZbl2+cHAWO1riH8AsrTsIl/rf26Civ46VtwNvmgg55CvWvhzfusG2l3tB/ooAEeMixwf+p9kJTtUJygN6stA97NZDZ0Qym6cEogsZUVDbv9B1oDgOd9Vh7xyljQGSNzdqpD9J66d4goYAMaES5oMtUfoTVduNQcgCgHArFaF3UnqmVp8a2eeUadNfv2uCqbdL71U80nVH7FMRv4RSVOXZGSUqNadwNUt7IdYpved79v4TTcJKnN9b+0z3P6j0/FtlZcdy10k5HAIRzWJFhYN88fDvWIYFCkkdz9i3P/7ubqqKgl7RM7gETsOgKvsMVbtly/ODldu5gJycLF+MYdcOe/cR2ZY4PV2UR7GlTQcRn4+OkakJ6bfQsmltNf4DeCc2yRoqJJIKbVwL6Lp8e7chDQoGrh4mVitUVCMvBxcszLsnCIhTHDVgGs/6WDk0maQns5hHsVsPMxNkLPknK1p1OYuvjpVJZQ9BtR2x6n+XRhG7EqxEsalWSEQHJXtvVQkhU/uGDZRvHk0v0V/1YsZ77TQhYTsSoAa+lRwBmLtbAxrPOuBp8733MNphAoRa7T7d7XSS6vxY7Ug9tRauFYx8UuhM7idQGlw352GFmu2nx8wPpjkEYtcUjUbKD9xvCxkddbkmP3BUZoyDf9z6GRpQV3xRCR3wU2dOmQap2dDHkXHd2ZcEcWfY4=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39840400004)(396003)(346002)(366004)(136003)(376002)(451199018)(33656002)(7696005)(71200400001)(921005)(8676002)(316002)(110136005)(6506007)(478600001)(7416002)(4744005)(5660300002)(52536014)(2906002)(66556008)(64756008)(66446008)(66476007)(76116006)(66946007)(41300700001)(8936002)(38070700005)(55016003)(38100700002)(86362001)(122000001)(186003)(9686003)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?dnBxM2NVUTFDdzJxUE8rZkFKdVNDTmR4a0tHdVNVeTlCV1U2VVQ5R0I0SWZB?=
- =?utf-8?B?QUtOOG00RTFMVFZ3OW1kYkFyM2NDcC85MEdsVHNPZGplc0ZmaUNGR2NmbVJp?=
- =?utf-8?B?VnNsbklMV0lMYmxrTmwyVWl5Ym1wVHZrNXNaM2Y4TFZGMVl2UTFmVXg2NStx?=
- =?utf-8?B?QjFxTkdsNjJ3SXQzUVYyamVoRTRUR0NNRmVlR1c5TEVGVFRnZ1hJN25RTXlM?=
- =?utf-8?B?YklrOWZYQ1dBMnlCakZOOUlzVnZXR0k5azhYTDMxdUhFMzBlWEs2bkZ1VlNY?=
- =?utf-8?B?Z0JXdWwrR2dHRTBrdE1YNGhRcDI1NW9FRHJWUWVuRGpzdTFGT25VUUIwK3E2?=
- =?utf-8?B?blpvVUJRQUVZSFJISmIyUnRmbUVRTzF2OUEvOW0rY2Jzb3dkT3hENHlyeFNM?=
- =?utf-8?B?QUx6cDFHTG9JT1JkaDE5bXZ6QWxDQkxDd004anBETU1xMkZSQnIxRnZFZlh4?=
- =?utf-8?B?ZXB3Zm54YTQ2UFJreEFCSUtTMExSTGl2UkpjU0FzS1lueEV3K2hhUENxWVNR?=
- =?utf-8?B?c2J4OU5wTmVUNTZzNHVhanVVZnpBcG1uVDNqZVNDT1BwWFlaZHl3cFlKVGJw?=
- =?utf-8?B?eWkya1ROdGEwRW4wc1orVlFOY3N0dWNHSkJvY3lHeEt2LzFRcGZtVWZuSXNh?=
- =?utf-8?B?SnAvc29PQWIyU3N3RU9kK3JKWTdlUSs4UVAwK1MrSlJ1ejZQNnU4UlM5ZGsw?=
- =?utf-8?B?ZUh3Q1pEaXM4SVBYWkdENTNCQUt5eEhNV2t1R0J0cXZpdFdUNEdnODhUWFhN?=
- =?utf-8?B?M1NpNGlLVlozeXI1WWtURjc2UldYaUtJWW05SlR4eTIxaUZpRjJRWVkzbnFi?=
- =?utf-8?B?Wm02ZUJnc3N0RHBCTHQ1ODhiVVpUeE5HNkF4ZGFod1Fobmk1czUwdTU4S2ZR?=
- =?utf-8?B?RDkrd2pJWXFSakZ4aFpsc05JOEFjVEsySSszbFRDZ045OGcrWnNYOTBrbXIx?=
- =?utf-8?B?Q1k5d0J6YkcrRkVHNFNhanBhcFc2RkFkL3U5Q1ZCT01sYVF6UWEvZGc1NGlp?=
- =?utf-8?B?L01SWktuS00ra04rREM1ZmNLb3J3UWdTVjNPRlp5OW1OdWE1Njd2dXZ4anRM?=
- =?utf-8?B?OUJyNEowc2JGaDc2Yy9RZ3crZ0E3WHRaNmtIL0tkTnVUZlBYdWgvMmRNWW12?=
- =?utf-8?B?WnlDV1ZNTEY0KzJuRml5dERhQTlLM0pVaWlPS0JGbDlsZUVNeUZPMmh3N01y?=
- =?utf-8?B?cHNLZGI4dytGZUZTcG9reXIyTHgxcWduY1JIc3JHM1F5V3p3SGwzaFMybmMr?=
- =?utf-8?B?anN1YU4xZ1BSOGpZV2U0UDJud2JBeUhQTS9jZ3dVSGpjbGtTdWVSTWpqOVM4?=
- =?utf-8?B?TWRIeUxjRlVqT3RtUjZVVGl1VUNpaE9zblVpdkZSRVN4N216NEN6c1hQd09Z?=
- =?utf-8?B?N2xUalpHTW5FdjczdENaVU5NZTRtbjZhTlhMQjJmN0lkM2JzQVo0clFFR3Q0?=
- =?utf-8?B?aXgzdXc2c0JvYWhUd2c0aVpKSWhZcWl3MTN6aUZHaFNDZHc3M2ZTTUYxc1pF?=
- =?utf-8?B?alk3dmkzUWtsdy9XZXgyWGltd2RNWmc2bVRJbWtiZTNXSnFiQjB3eTdORk9z?=
- =?utf-8?B?dWZieWJFbklWaTdUQlFTMm1DL1YvOHZGOXBWRTUyN2NWRXRCcE5mSFpkblBp?=
- =?utf-8?B?dzhjcXZxUENnQTcvcnNTRitJRVdkbUxaZmtSbjBvUjF5MGVKY2poRUVNNXgv?=
- =?utf-8?B?clNNWmk1c0F4UnVkamRIaFpScytvcGg1TURnYi9DanU5ZW5pVWZzOFE5MEFL?=
- =?utf-8?B?SGN5KzQvQTNGaTdOamkwUVJWSVA2TGNOb09uc09pNmFFVGFtR0NpNHU3R0du?=
- =?utf-8?B?WTdCMzBJNEZta0o2aFdRZmlZWndkaTRMRGNwVXJraVFHSlorak5wcWJTUk02?=
- =?utf-8?B?Z3l1MHJCZjVRTFk0NEdLVStPdmdKbHlrKyswM2xkQ1p6N1JJdTBFYS9lVlRZ?=
- =?utf-8?B?N2h4bVNNdzRMOWIzL3d6RENBS2d3T1ZzeW1MMVFiYWxkRURsS1dlVGdWMHE5?=
- =?utf-8?B?ZGNlUk9uekYwR200ZklHTFZMa09CTmlqNTdRVGd3NTRZaDdrTmhod1BsckdI?=
- =?utf-8?B?enkzQWdyR2d3bWJYZEI5QnorYlczbjJ5Zk5DS0s1RThoT2NaUXNLVTNyaG4y?=
- =?utf-8?Q?sFyPtpUTQnP3Y8WkI2NJA0NQJ?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec65b14a-1fc2-4dfd-3aaf-08db04dc78ba
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Feb 2023 05:15:16.7330
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sBY/F5uCOKZHmGv/Cf8KKb6ZzjfMSdqlaE6GuerA7se1fz6PprDcjbt/upNbCzPCu+sfXHPS6L4ODA3pMWcCQfJRJWjpLNRkQIWoSC6omJg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4262
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P6nC44F55z3cNY
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Feb 2023 16:19:11 +1100 (AEDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id 14D823200907;
+	Thu,  2 Feb 2023 00:19:03 -0500 (EST)
+Received: from imap50 ([10.202.2.100])
+  by compute6.internal (MEProxy); Thu, 02 Feb 2023 00:19:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1675315142; x=1675401542; bh=qlB8J5fcQ9
+	pWFGZPh4fvEz5uOnYTgBjr7dz+WP8j5yc=; b=Dkrt63HtIe6vqployzDjAFGg6L
+	YWsfnUolSV9YToK6J0XcZpBbyRMwKffcs6c6PspuyKxA5FDVZmhNC2zBMyZ19tqQ
+	uazskdwpzP7acDAdBylGVWotvR+xame+DNvgfuxdPWtKW9iG9xgFMNIvPD0gKMpR
+	fko2tgLTCHv4SFzLW2yH1j4HY4lXQVILhYGFaKF7Gf7Ia9tY1GYYygJJq5jHJ4zJ
+	eDsbHKRKRaHPRFTjWHp7o7eKDOAV+ThsTX4FTc92LnvCtG1G0uiGNjqgqDphaLDj
+	GfjlCuQtpqb9VScZ/fmse+7Yp9t6atvCYqGf/1OpOKgktIpRZOtnO/BD2T3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1675315142; x=1675401542; bh=qlB8J5fcQ9pWFGZPh4fvEz5uOnYT
+	gBjr7dz+WP8j5yc=; b=Brz+nTBfPhT7mfU2URl1sQT+Gn+skyv9wCEli/6Rgu+6
+	EVU+zWfliZW6k4izI6Hl26mlHhCVnivLV+ld+4PdePm1D97vISJwK97lXhtm5h/J
+	UCCSQJT+MpZezEylekW2/7qbrEkbDiXbLbL6Y6HHB/QJZ+AJZQfV2m2OYDrSrdTt
+	ZELV3Nwd5h9ldz6t/7wmo0sr/3TAEM32x0ts3uYHppxdLeAnyOn4AF/42B2ObMRh
+	RFBIreOxwdAv8MnrCVONw2iZYwt6UPZPgc+meIu4tWHWtVqO39jzlcfDxHyS4vsc
+	yJAs9i7HGv/jgY27K0Fx4xBcdJJrXd8jHdNP4wxnng==
+X-ME-Sender: <xms:xkfbY3GLvG03Yvc7lDMoY4m0yFTOUpnLTq4PeyavsBv49HJYZ20eSA>
+    <xme:xkfbY0UBsfDzpqQACwkLaAGnxZsw3tAGOVfopqDnA6jXhm87o69vG3P3luH-qyrxo
+    -JuMHpc9-cUH8bC8w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefjedgkeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+    ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+    frrghtthgvrhhnpeeujedvleduveetfffhlefhtdfgfedvteffhefhtedtheeffefggeei
+    fedvheehhfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhoiihlrggsshdrohhrgh
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgu
+    rhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:xkfbY5LgfXvw1p-Z0x93AFPz6dQvAP8X_Mg835dKllBOCGvaYO0WQw>
+    <xmx:xkfbY1E215NRPYIJpqDp6dXQF6PmZZIBKleovQk9FN5piRGEm3v2LA>
+    <xmx:xkfbY9WqXtrtEDIk8nPnHLUzZf_JjSCOfvCOp8DrJj4iYtUWashmbg>
+    <xmx:xkfbY2OcSQi637wFrBWuNAma7rjwfzhtm43HxYrfBxju2yj6GU2CkA>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 413C81700089; Thu,  2 Feb 2023 00:19:02 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-107-g82c3c54364-fm-20230131.002-g82c3c543
+Mime-Version: 1.0
+Message-Id: <8f165a30-4adc-4a39-a467-4cd3d466e850@app.fastmail.com>
+In-Reply-To:  <TY2PR06MB321334CFD4ED1BD4AF97965380D69@TY2PR06MB3213.apcprd06.prod.outlook.com>
+References: <63da97b5.3V1HSQEat507LFIr%lkp@intel.com>
+ <76f4dea0-9a39-4238-a213-0167477f5d54@app.fastmail.com>
+ <TY2PR06MB321334CFD4ED1BD4AF97965380D69@TY2PR06MB3213.apcprd06.prod.outlook.com>
+Date: Thu, 02 Feb 2023 15:48:35 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Neal Liu" <neal_liu@aspeedtech.com>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 66eee64b235411d512bed4d672c2d00683239daf
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,22 +95,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, kbuild test robot <lkp@intel.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>, Linux Memory Management List <linux-mm@kvack.org>, "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, Andrew Morton <akpm@linux-foundation.org>, "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGVsbG8gSmVyZW15DQo+IA0KPiA+IEFTVDI2MDAgSTJDIGdsb2JhbCByZWdpc3RlciBjb250cm9s
-bGVyLCBhZGQgYmluZGluZ3MgZG9jdW1lbnQgdG8NCj4gPiBzdXBwb3J0IGRyaXZlciBvZiBpMmMg
-Z2xvYmFsIHJlZ2lzdGVyIHNldC4NCj4gDQo+IFsuLi5dDQo+IA0KPiA+ICthbGxPZjoNCj4gPiAr
-wqAgLSAkcmVmOiAvc2NoZW1hcy9pMmMvaTJjLWNvbnRyb2xsZXIueWFtbCMNCj4gDQo+IEFyZSB5
-b3Ugc3VyZSBhYm91dCB0aGlzPyBUaGlzIHBhcnRpY3VsYXIgYmluZGluZyBkb2Vzbid0IGRlc2Ny
-aWJlIHRoZSBpMmMNCj4gY29udHJvbGxlci4NCkR1ZSB0byB0aGlzIGlzIGkyYyBkcml2ZXIgZ2xv
-YmFsIHJlZ2lzdGVyIHNldHRpbmcuIEkgdGhpbmsgSSB3aWxsIHJlbW92ZSB0aGlzIHJlZjoNCkJ1
-dCBpbnN0ZWFkIGFkZCBkZXNjcmlwdGlvbiBmb3IgdW5kZXJzdGFuZGluZy4gSXMgaXQgb2s/DQoN
-Cj4gDQo+ID4gKw0KPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ICvCoCBjb21wYXRpYmxlOg0KPiA+ICvC
-oMKgwqAgZW51bToNCj4gPiArwqDCoMKgwqDCoCAtIGFzcGVlZCxhc3QyNjAwLWkyYy1nbG9iYWwN
-Cj4gPiArDQo+ID4gK8KgIHJlZzoNCj4gPiArwqDCoMKgIG1pbkl0ZW1zOiAxDQo+ID4gK8KgwqDC
-oCBpdGVtczoNCj4gPiArwqDCoMKgwqDCoCAtIGRlc2NyaXB0aW9uOiBhZGRyZXNzIG9mZnNldCBh
-bmQgcmFuZ2Ugb2YgYnVzDQo+ID4gK8KgwqDCoMKgwqAgLSBkZXNjcmlwdGlvbjogYWRkcmVzcyBv
-ZmZzZXQgYW5kIHJhbmdlIG9mIGJ1cyBidWZmZXINCj4gDQo+IFNlZW1zIHRvIGJlIGEgZHVwbGlj
-YXRlIGhlcmUuDQo+IA0KVGhlIHNhbWUsIHdpbGwgcmVtb3ZlIGl0ZW1zLCBrZWVwIG1pbkl0ZW1z
-OjEuIA0KDQpUaGFua3MNClJ5YW4NCj4gDQo+IA0KPiBKZXJlbXkNCg==
+
+
+On Thu, 2 Feb 2023, at 13:29, Neal Liu wrote:
+>> Hi Neal,
+>> 
+>> On Thu, 2 Feb 2023, at 03:17, kernel test robot wrote:
+>> > tree/branch:
+>> > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>> > master
+>> > branch HEAD: 66eee64b235411d512bed4d672c2d00683239daf  Add
+>> linux-next
+>> > specific files for 20230201
+>> >
+>> >
+>> > Unverified Error/Warning (likely false positive, please contact us if
+>> > interested):
+>> >
+>> > drivers/crypto/aspeed/aspeed-acry.c:295:37: sparse: sparse: incorrect
+>> > type in assignment (different base types)
+>> > drivers/crypto/aspeed/aspeed-acry.c:305:28: sparse: sparse: cast
+>> > removes address space '__iomem' of expression
+>> > drivers/crypto/aspeed/aspeed-acry.c:606:24: sparse: sparse: symbol
+>> > 'aspeed_acry_akcipher_algs' was not declared. Should it be static?
+>> 
+>> Can you please look into these issues with the ACRY driver?
+>> 
+>> Cheers,
+>> 
+>> Andrew
+>
+> I just send patch to fix the first 2 warnings,
+
+Thanks.
+
+> and the last one warning 
+> is already fixed by another patch.
+> [PATCH-next] crypto: aspeed: fix type warnings
+> https://patchwork.ozlabs.org/project/linux-aspeed/patch/20230119014859.1900136-1-yangyingliang@huawei.com/
+> Thanks
+>
+
+Great!
+
+Andrew
