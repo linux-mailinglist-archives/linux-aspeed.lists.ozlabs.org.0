@@ -2,60 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBC4687722
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 09:19:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4073D687725
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 09:19:28 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P6sBx4rL3z3f3d
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 19:19:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P6sC216X6z3cdv
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 19:19:26 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=yR0zznsS;
+	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=0kR63NHO;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ufispace.com (client-ip=2607:f8b0:4864:20::102a; helo=mail-pj1-x102a.google.com; envelope-from=jordan.chang@ufispace.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ufispace.com (client-ip=2607:f8b0:4864:20::643; helo=mail-pl1-x643.google.com; envelope-from=jordan.chang@ufispace.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=yR0zznsS;
+	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=0kR63NHO;
 	dkim-atps=neutral
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P6sBp4Fx0z3cdv
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Feb 2023 19:19:13 +1100 (AEDT)
-Received: by mail-pj1-x102a.google.com with SMTP id c10-20020a17090a1d0a00b0022e63a94799so4846259pjd.2
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 02 Feb 2023 00:19:13 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P6sBs2L91z3cdv
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Feb 2023 19:19:17 +1100 (AEDT)
+Received: by mail-pl1-x643.google.com with SMTP id d3so1080428plr.10
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 02 Feb 2023 00:19:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ufispace-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BSLvoWKFIHzwbiFrmh/N7Zqs+NmVx/mQp/jfLVij8Fo=;
-        b=yR0zznsS7cpKWzf5jRRu1SGs5mdFv/ROA4gWJHdcf2U0ApQBKMCTIx7XJTvfyIhYx7
-         z4ZU+Wb8T/vM5vYb4/8lzB8hrv0hA4AyIZLJLJKteoRUwHCREgIqN9434HXAXY0iCRVB
-         ew05JPjLH1iedjt1pKPYk1qWZeaU1ybOS0C5znbVTEoDJiHSnoPmpsUE1YvA6FQgsJyz
-         vxj+xfCfPD0x3avfnnqNxuPXaPwST/M1hCpiPAJtLU0daE3NUFKGsngr+c7Uwm5Nd0Xf
-         GVAEwM9ozQ5XrzKfjU7heQNNdZR+iYLwPv7gH4vy2hRjXEwfTV0dqh0RksQSr4vqmvNd
-         mfMw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xYQEim1aMd1zzuJMmA4e6AobcW8EG99vfBVaZv6UaOI=;
+        b=0kR63NHO0bLqMO7x5f84eHCV8ztqxsEFVaUb1CzThkMCQ5grIfQEcq2AZusm6xl7qW
+         mUsf6YIHGE80/pLWp5Gz0wJTFYJ6C1vxx6D7/Xxv4wkcFNEc6CHVBY8QG4BlapBQzcU3
+         xiBc8x1aOVWxjWijQ+tJPfJzxc9PIhV2uI0g5smrtn4SnN/otn9p/zgd7beiEPoVdLT/
+         XmD3PceJcPJGjT5NCRdRsv7O4bjFpTyBWjpK4RDdL6oQoETWOREQE4hYA1Tye4J6zLqD
+         3JbYQxQJUxf89NPyjE/h5qhsmvjchNg9KznJhcNBVjM27uKd9j3+4/NkQ/hH6GQjjwwQ
+         Cmjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BSLvoWKFIHzwbiFrmh/N7Zqs+NmVx/mQp/jfLVij8Fo=;
-        b=N8XFJ47xhlFrlkTXlKl+/qM2SWGPmPQiIp2cVxEZ1xfjLZoJm/cxOtknSXdxq7QQok
-         oBISm9WLQq7Onsv4Wm6a4rlpWiVvKtwo/hl36TJ0sZFicM/yl37/u+CPaxk8Q2L/veb/
-         uK70o7RVBWZrMWdmQ0n00NDZtU60AqyfLEwDLZ4xcPinG3RThBw332Jg71EIJHP4kSGM
-         B6bUci3fC5Q45ZFA0bVx3G4UQOW9Aet6bczPhGcePXRL2wLK1d0oSi3k3YpS1BM9d0GJ
-         mo/EN9SpUGoq788kRO2idwVsOqEtT1/IoLE5xv/tsVMydNHKl2n2SS+dmILxqgF/gJWg
-         OyCQ==
-X-Gm-Message-State: AO0yUKVMPIVflqjEaqUh5ttlykDvZjF7K5Rf40RbgpfKeJ7sX79IndsI
-	8JcRR4U+C7oY1KO0GLUyicV//Q==
-X-Google-Smtp-Source: AK7set9hjfIzs5B04/10d95IHbHrAEAa7w/n9b2kPsEqjrWUVEguQhrMFdHHr8eu1oqizGH77mcqXw==
-X-Received: by 2002:a17:903:24f:b0:196:3db5:c08b with SMTP id j15-20020a170903024f00b001963db5c08bmr6596565plh.69.1675325950749;
-        Thu, 02 Feb 2023 00:19:10 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xYQEim1aMd1zzuJMmA4e6AobcW8EG99vfBVaZv6UaOI=;
+        b=AyVYzUMqrUDUVuRzn/IUqrkqMA8wJoW9+o9uAu1LccnO4atNOisWG/rQ+dACV4Ez+t
+         +mVKC/BxTDffKDfJA93xq74LIhIe9qJrwznLBTqIv3RgwWj1RDjbURvcks2K5CBwjJZe
+         QJhsBSeL1tD0hjAej5JU8iXkx6WgeU8jCVz0XzYXKzkdWrx9LoCqcsBuLa9cZiGRqURf
+         CBY0vNtrNFt5xt2vKQMc7C1mpGKENon4ZVAGs2Pb8DbQTGiMBB+3DOtLREvZKvwMvzJe
+         sBlKscjBnRWoPugcTYUox6JwSxoFzcvMbrn8Tl2K3kz6vBgUKC5vDWTf87kfIeZviu0o
+         FJUg==
+X-Gm-Message-State: AO0yUKVriCC18cc/03fcWZGXuRoldQhExo9auzhfR1yXJvZJ0u6oMYrj
+	RKMa6fDJsFQHRdnfc9vPrI2bPQ==
+X-Google-Smtp-Source: AK7set/ZVmhVHWKUZUM7FcTZVNEEzrtV4rjOjDXDVGcvHPkD8SzdYteHtyGI+iHyr8Zovw42x1EQ/w==
+X-Received: by 2002:a17:902:c3c5:b0:196:433e:2384 with SMTP id j5-20020a170902c3c500b00196433e2384mr5472705plj.57.1675325955317;
+        Thu, 02 Feb 2023 00:19:15 -0800 (PST)
 Received: from openbmc500G.LAB.ufispace (CH210-63-217-225.static.apol.com.tw. [210.63.217.225])
-        by smtp.gmail.com with ESMTPSA id y9-20020a1709029b8900b0019324fbec59sm13187552plp.41.2023.02.02.00.19.08
+        by smtp.gmail.com with ESMTPSA id y9-20020a1709029b8900b0019324fbec59sm13187552plp.41.2023.02.02.00.19.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 00:19:10 -0800 (PST)
+        Thu, 02 Feb 2023 00:19:14 -0800 (PST)
 From: Jordan Chang <jordan.chang@ufispace.com>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
@@ -64,10 +65,12 @@ To: linux-arm-kernel@lists.infradead.org,
 	joel@jms.id.au,
 	andrew@aj.id.au,
 	robh+dt@kernel.org
-Subject: [PATCH v2 0/3] Add Ufispace NCPLite platform device tree
-Date: Thu,  2 Feb 2023 16:18:40 +0800
-Message-Id: <20230202081843.2358-1-jordan.chang@ufispace.com>
+Subject: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add prefix for Ufi Space
+Date: Thu,  2 Feb 2023 16:18:41 +0800
+Message-Id: <20230202081843.2358-2-jordan.chang@ufispace.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230202081843.2358-1-jordan.chang@ufispace.com>
+References: <20230202081843.2358-1-jordan.chang@ufispace.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -85,25 +88,26 @@ Cc: jay.tc.lin@ufispace.com, eason.ys.huang@ufispace.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add Ufispace NCPLite platform device tree, and add the compatible
-string in dt-bindings files.
+Add a vendor prefix for Ufi Space (https://www.ufispace.com).
 
-Changes for v2:
-- modify node name to generic one and check with dtbs_check
-- send-email without confidential mode
+Signed-off-by: Jordan Chang <jordan.chang@ufispace.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Jordan Chang (3):
-  dt-bindings: vendor-prefixes: Add prefix for Ufi Space
-  dt-bindings: arm: aspeed: document Ufispace NCPLite BMC
-  ARM: dts: aspeed: Add device tree for Ufispace NCPLite BMC
-
- .../bindings/arm/aspeed/aspeed.yaml           |   1 +
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- arch/arm/boot/dts/Makefile                    |   1 +
- .../boot/dts/aspeed-bmc-ufispace-ncplite.dts  | 359 ++++++++++++++++++
- 4 files changed, 363 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 2f0151e9f6be..ab0dd1cb5ede 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1344,6 +1344,8 @@ patternProperties:
+     description: Ubiquiti Networks
+   "^udoo,.*":
+     description: Udoo
++  "^ufispace,.*":
++    description: Ufi Space Co., Ltd.
+   "^ugoos,.*":
+     description: Ugoos Industrial Co., Ltd.
+   "^uniwest,.*":
 -- 
 2.39.0
 
