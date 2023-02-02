@@ -2,45 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833A9687624
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 08:05:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBC4687722
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 09:19:23 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P6qYH113qz3f3f
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 18:05:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P6sBx4rL3z3f3d
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Feb 2023 19:19:21 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=yR0zznsS;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ufispace.com (client-ip=2607:f8b0:4864:20::102a; helo=mail-pj1-x102a.google.com; envelope-from=jordan.chang@ufispace.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=yR0zznsS;
+	dkim-atps=neutral
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P6qY95Bldz3bM7
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Feb 2023 18:04:57 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 3126q2Ri020440;
-	Thu, 2 Feb 2023 14:52:02 +0800 (GMT-8)
-	(envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 2 Feb
- 2023 15:03:48 +0800
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Neal Liu
-	<neal_liu@aspeedtech.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S
- . Miller" <davem@davemloft.net>
-Subject: [PATCH v2 -next] crypto: aspeed: fix type warnings
-Date: Thu, 2 Feb 2023 15:03:45 +0800
-Message-ID: <20230202070345.191514-1-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P6sBp4Fx0z3cdv
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Feb 2023 19:19:13 +1100 (AEDT)
+Received: by mail-pj1-x102a.google.com with SMTP id c10-20020a17090a1d0a00b0022e63a94799so4846259pjd.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 02 Feb 2023 00:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ufispace-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BSLvoWKFIHzwbiFrmh/N7Zqs+NmVx/mQp/jfLVij8Fo=;
+        b=yR0zznsS7cpKWzf5jRRu1SGs5mdFv/ROA4gWJHdcf2U0ApQBKMCTIx7XJTvfyIhYx7
+         z4ZU+Wb8T/vM5vYb4/8lzB8hrv0hA4AyIZLJLJKteoRUwHCREgIqN9434HXAXY0iCRVB
+         ew05JPjLH1iedjt1pKPYk1qWZeaU1ybOS0C5znbVTEoDJiHSnoPmpsUE1YvA6FQgsJyz
+         vxj+xfCfPD0x3avfnnqNxuPXaPwST/M1hCpiPAJtLU0daE3NUFKGsngr+c7Uwm5Nd0Xf
+         GVAEwM9ozQ5XrzKfjU7heQNNdZR+iYLwPv7gH4vy2hRjXEwfTV0dqh0RksQSr4vqmvNd
+         mfMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BSLvoWKFIHzwbiFrmh/N7Zqs+NmVx/mQp/jfLVij8Fo=;
+        b=N8XFJ47xhlFrlkTXlKl+/qM2SWGPmPQiIp2cVxEZ1xfjLZoJm/cxOtknSXdxq7QQok
+         oBISm9WLQq7Onsv4Wm6a4rlpWiVvKtwo/hl36TJ0sZFicM/yl37/u+CPaxk8Q2L/veb/
+         uK70o7RVBWZrMWdmQ0n00NDZtU60AqyfLEwDLZ4xcPinG3RThBw332Jg71EIJHP4kSGM
+         B6bUci3fC5Q45ZFA0bVx3G4UQOW9Aet6bczPhGcePXRL2wLK1d0oSi3k3YpS1BM9d0GJ
+         mo/EN9SpUGoq788kRO2idwVsOqEtT1/IoLE5xv/tsVMydNHKl2n2SS+dmILxqgF/gJWg
+         OyCQ==
+X-Gm-Message-State: AO0yUKVMPIVflqjEaqUh5ttlykDvZjF7K5Rf40RbgpfKeJ7sX79IndsI
+	8JcRR4U+C7oY1KO0GLUyicV//Q==
+X-Google-Smtp-Source: AK7set9hjfIzs5B04/10d95IHbHrAEAa7w/n9b2kPsEqjrWUVEguQhrMFdHHr8eu1oqizGH77mcqXw==
+X-Received: by 2002:a17:903:24f:b0:196:3db5:c08b with SMTP id j15-20020a170903024f00b001963db5c08bmr6596565plh.69.1675325950749;
+        Thu, 02 Feb 2023 00:19:10 -0800 (PST)
+Received: from openbmc500G.LAB.ufispace (CH210-63-217-225.static.apol.com.tw. [210.63.217.225])
+        by smtp.gmail.com with ESMTPSA id y9-20020a1709029b8900b0019324fbec59sm13187552plp.41.2023.02.02.00.19.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 00:19:10 -0800 (PST)
+From: Jordan Chang <jordan.chang@ufispace.com>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	joel@jms.id.au,
+	andrew@aj.id.au,
+	robh+dt@kernel.org
+Subject: [PATCH v2 0/3] Add Ufispace NCPLite platform device tree
+Date: Thu,  2 Feb 2023 16:18:40 +0800
+Message-Id: <20230202081843.2358-1-jordan.chang@ufispace.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 3126q2Ri020440
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,60 +81,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: jay.tc.lin@ufispace.com, eason.ys.huang@ufispace.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch fixes following warnings:
+Add Ufispace NCPLite platform device tree, and add the compatible
+string in dt-bindings files.
 
-1. sparse: incorrect type in assignment (different base types)
-Fix: change to __le32 type.
-2. sparse: cast removes address space '__iomem' of expression
-Fix: use readb to avoid dereferencing the memory.
+Changes for v2:
+- modify node name to generic one and check with dtbs_check
+- send-email without confidential mode
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
----
-Change since v1: keep iomem marker to remain its purpose.
+Jordan Chang (3):
+  dt-bindings: vendor-prefixes: Add prefix for Ufi Space
+  dt-bindings: arm: aspeed: document Ufispace NCPLite BMC
+  ARM: dts: aspeed: Add device tree for Ufispace NCPLite BMC
 
- drivers/crypto/aspeed/aspeed-acry.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../boot/dts/aspeed-bmc-ufispace-ncplite.dts  | 359 ++++++++++++++++++
+ 4 files changed, 363 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
 
-diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
-index 164c524015f0..f2429e699d14 100644
---- a/drivers/crypto/aspeed/aspeed-acry.c
-+++ b/drivers/crypto/aspeed/aspeed-acry.c
-@@ -252,7 +252,7 @@ static int aspeed_acry_rsa_ctx_copy(struct aspeed_acry_dev *acry_dev, void *buf,
- 				    enum aspeed_rsa_key_mode mode)
- {
- 	const u8 *src = xbuf;
--	u32 *dw_buf = (u32 *)buf;
-+	__le32 *dw_buf = (__le32 *)buf;
- 	int nbits, ndw;
- 	int i, j, idx;
- 	u32 data = 0;
-@@ -302,7 +302,7 @@ static int aspeed_acry_rsa_ctx_copy(struct aspeed_acry_dev *acry_dev, void *buf,
- static int aspeed_acry_rsa_transfer(struct aspeed_acry_dev *acry_dev)
- {
- 	struct akcipher_request *req = acry_dev->req;
--	u8 *sram_buffer = (u8 *)acry_dev->acry_sram;
-+	u8 __iomem *sram_buffer = (u8 __iomem *)acry_dev->acry_sram;
- 	struct scatterlist *out_sg = req->dst;
- 	static u8 dram_buffer[ASPEED_ACRY_SRAM_MAX_LEN];
- 	int leading_zero = 1;
-@@ -321,11 +321,11 @@ static int aspeed_acry_rsa_transfer(struct aspeed_acry_dev *acry_dev)
- 
- 	for (j = ASPEED_ACRY_SRAM_MAX_LEN - 1; j >= 0; j--) {
- 		data_idx = acry_dev->data_byte_mapping[j];
--		if (sram_buffer[data_idx] == 0 && leading_zero) {
-+		if (readb(sram_buffer + data_idx) == 0 && leading_zero) {
- 			result_nbytes--;
- 		} else {
- 			leading_zero = 0;
--			dram_buffer[i] = sram_buffer[data_idx];
-+			dram_buffer[i] = readb(sram_buffer + data_idx);
- 			i++;
- 		}
- 	}
 -- 
-2.25.1
+2.39.0
 
