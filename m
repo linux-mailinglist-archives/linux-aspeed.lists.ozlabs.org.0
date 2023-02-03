@@ -1,46 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D419B688E0C
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Feb 2023 04:36:13 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DC8689766
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Feb 2023 11:59:41 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P7Lsl5bHgz3f6H
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Feb 2023 14:36:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4P7XjR0J0Qz3f6L
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Feb 2023 21:59:39 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=RYnORqcu;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=RYnORqcu;
+	dkim-atps=neutral
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P7Lsh1LFQz3bNj
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Feb 2023 14:36:06 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 3133NSqX042892;
-	Fri, 3 Feb 2023 11:23:28 +0800 (GMT-8)
-	(envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 3 Feb
- 2023 11:35:17 +0800
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Neal Liu
-	<neal_liu@aspeedtech.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S
- . Miller" <davem@davemloft.net>
-Subject: [RESENT PATCH v3 -next] crypto: aspeed: fix type warnings
-Date: Fri, 3 Feb 2023 11:35:12 +0800
-Message-ID: <20230203033512.980497-1-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4P7XjH1gQ9z3f5s
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Feb 2023 21:59:31 +1100 (AEDT)
+Received: from hatter.bewilderbeest.net (97-113-250-99.tukw.qwest.net [97.113.250.99])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: zev)
+	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id CF2E13C4;
+	Fri,  3 Feb 2023 02:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+	s=thorn; t=1675421655;
+	bh=Ch3jIrqzLLO1RgMMeN6WVOGy2TVSQx5KsM9SaZGkzB0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RYnORqcuYn2xQA6rNMqf2uDffWYNIB5eOt4Pb8fBD+9LtPs2UvlqoPHkCqMBoqI+3
+	 JPpRuy9y87ijlkKMD+ywMS0yPZikDEYYgfjaEH9KANtxVc2S9+xOizDJbxlEtOuzU4
+	 vKPy0dX/X4XDhIKCPmpmQ/8cVEmVNKHXW9EdadwU=
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Andrew Jeffery <andrew@aj.id.au>,
+	Joel Stanley <joel@jms.id.au>
+Subject: [PATCH 0/2] ARM: dts: aspeed: ASRock BMC updates
+Date: Fri,  3 Feb 2023 02:54:03 -0800
+Message-Id: <20230203105405.21942-1-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 3133NSqX042892
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,61 +56,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch fixes following warnings:
+Hello,
 
-1. sparse: incorrect type in assignment (different base types)
-Fix: change to __le32 type.
-2. sparse: cast removes address space '__iomem' of expression
-Fix: use readb to avoid dereferencing the memory.
+This patch series contains two small device-tree updates for ASRock
+BMCs -- an LED polarity fix for romed8hm3, and enabling the ast2500
+PECI device on e3c246d4i.
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
----
-Change since v2: remove unnecessary cast.
-Change since v1: keep iomem marker to remain its purpose.
 
- drivers/crypto/aspeed/aspeed-acry.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Thanks,
+Zev
 
-diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
-index 164c524015f0..1f77ebd73489 100644
---- a/drivers/crypto/aspeed/aspeed-acry.c
-+++ b/drivers/crypto/aspeed/aspeed-acry.c
-@@ -252,7 +252,7 @@ static int aspeed_acry_rsa_ctx_copy(struct aspeed_acry_dev *acry_dev, void *buf,
- 				    enum aspeed_rsa_key_mode mode)
- {
- 	const u8 *src = xbuf;
--	u32 *dw_buf = (u32 *)buf;
-+	__le32 *dw_buf = buf;
- 	int nbits, ndw;
- 	int i, j, idx;
- 	u32 data = 0;
-@@ -302,7 +302,7 @@ static int aspeed_acry_rsa_ctx_copy(struct aspeed_acry_dev *acry_dev, void *buf,
- static int aspeed_acry_rsa_transfer(struct aspeed_acry_dev *acry_dev)
- {
- 	struct akcipher_request *req = acry_dev->req;
--	u8 *sram_buffer = (u8 *)acry_dev->acry_sram;
-+	u8 __iomem *sram_buffer = acry_dev->acry_sram;
- 	struct scatterlist *out_sg = req->dst;
- 	static u8 dram_buffer[ASPEED_ACRY_SRAM_MAX_LEN];
- 	int leading_zero = 1;
-@@ -321,11 +321,11 @@ static int aspeed_acry_rsa_transfer(struct aspeed_acry_dev *acry_dev)
- 
- 	for (j = ASPEED_ACRY_SRAM_MAX_LEN - 1; j >= 0; j--) {
- 		data_idx = acry_dev->data_byte_mapping[j];
--		if (sram_buffer[data_idx] == 0 && leading_zero) {
-+		if (readb(sram_buffer + data_idx) == 0 && leading_zero) {
- 			result_nbytes--;
- 		} else {
- 			leading_zero = 0;
--			dram_buffer[i] = sram_buffer[data_idx];
-+			dram_buffer[i] = readb(sram_buffer + data_idx);
- 			i++;
- 		}
- 	}
+
+Zev Weiss (2):
+  ARM: dts: aspeed: romed8hm3: Fix GPIO polarity of system-fault LED
+  ARM: dts: aspeed: e3c246d4i: Add PECI device
+
+ arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts | 4 ++++
+ arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
 -- 
-2.25.1
+2.39.1.236.ga8a28b9eace8
 
