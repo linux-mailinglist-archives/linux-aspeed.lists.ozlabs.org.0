@@ -2,60 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C67768CD9F
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Feb 2023 04:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA7168ECD0
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Feb 2023 11:28:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4P9q1Z0w36z3cGH
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Feb 2023 14:51:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PBbn905LKz3cgR
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Feb 2023 21:28:29 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=dT7Q1Y3y;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=V3Oqu9vy;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62d; helo=mail-ej1-x62d.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=dT7Q1Y3y;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=V3Oqu9vy;
 	dkim-atps=neutral
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4P9q1P0lqcz3bTS
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Feb 2023 14:51:18 +1100 (AEDT)
-Received: by mail-ej1-x62d.google.com with SMTP id qw12so39996107ejc.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Feb 2023 19:51:18 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PBbn05v4zz3cMT
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Feb 2023 21:28:18 +1100 (AEDT)
+Received: by mail-wm1-x333.google.com with SMTP id bg5-20020a05600c3c8500b003e00c739ce4so1085558wmb.5
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Feb 2023 02:28:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1kuhwo6Br/SXIA2IZ0bvJrbV39UIM6SkgEHl7l1GqPY=;
-        b=dT7Q1Y3yd0f3DfyVEQW4gse6XFUUvZZZCepxJSb52yaVwBxAuotMAH51inwzxhoG9m
-         mvogpN897vxwD8NIgQYd+4C5enARq2jPPnX/oAyp3ocmcHgMZoNqP+6jwBrfk7aMYDbt
-         jeeeNdfB9zl3Np1ocU1y49Z241AjqChYefAvg=
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zPx3PngIR8DhUNEkJNoSw3b5IoN0UlUPn06sByvNhzk=;
+        b=V3Oqu9vyzZwsIQff8hANhqv/sm6hI+RKNCL8L1ddqodvuTOigdfNOR1sJ9krPX6n6F
+         lrVHKVnTuNA2PvxZnsCxzNEt+F/kTAOmjdHBHAyTd2GHzXeRigEFfEuF0+AcPs7mVn/5
+         nZU/78C+8Xit7MVWuo+IRGFPSTQDPS2v1lr0tnFqRm8DCvUcQnluTmFTdnyV/9skwFlI
+         /hLhIFlS/Jr/49Og9RN+S1rXtDGPM6fk9Qxuq/LpLXYk18JEd/vov3+7C0MQwdLzujPG
+         aMWaFoEM9PYEdPwHdA0i0mmd+4U2oCk7JOfs67O/dt6oLU+umO0nBcFISwIMcJ3NI4Q5
+         uCCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1kuhwo6Br/SXIA2IZ0bvJrbV39UIM6SkgEHl7l1GqPY=;
-        b=8DF85LYoBkHdftvK3Xi9GUzwUMnjKWKy6G0w0dytLYGnNn9Xcbs47eDJBUdHKAQhEp
-         Fo8jUsxIJ069E3uRPAloBThFwO3RtGvZ5nnK66aQrci0jbBM8U5aI8Jmb+yCWVqF2gAq
-         NKNxG7RfPUThxh9VothymkBLhBp7PGQbiCfeR0chpm3xM3sVBnmf+3Aja8lYNkqXWqjt
-         1vhNNSbX/K9a21nCCXKiYJayXFIcvzrnN+KzfodGxmnyAOHtmlamO8CmwnI0ZwtzEO8i
-         YuKohjkMnVhA8o62eNuFftDx8NlyHAU4vAOT9Z5si3ABLwlZUbyrCsLh3F02kgCRjaLm
-         gzug==
-X-Gm-Message-State: AO0yUKUIohAFZkI6JDMTW/EDfv9dMdwFeGl8jTlRRwrza2HbWM43L6Ss
-	H+sDv6vRHfcSfWgxZ3bZok8CUDzrqOtzBHEjQIQ=
-X-Google-Smtp-Source: AK7set97XHlhlULHvnXEiUh8JWU6vAwteZZtj4sMBmGkmqbiHYapUggiQvtpzoNKI/yCe5rSix03N+XHjRajewMIA7U=
-X-Received: by 2002:a17:906:3013:b0:885:2313:c8b5 with SMTP id
- 19-20020a170906301300b008852313c8b5mr482951ejz.201.1675741874649; Mon, 06 Feb
- 2023 19:51:14 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zPx3PngIR8DhUNEkJNoSw3b5IoN0UlUPn06sByvNhzk=;
+        b=cH2QivFJKpmv+NbpBBaultXUfLlayiImaUrZrbXiVO2MBbFkWZlqzNmvEPbhHRQkHS
+         Joty6qqjb//T7lsseDnyubyDhpLJWQXETDXlPQmZtpPNHwAnBu8c1yYQQvxnrRoi7apr
+         2g3FtA4bENEhIxKpfm+mahA/W6wcM643TCZHcxP58ecrdLxI7w4pH9pqw+r2rSBgAZtS
+         Dn3OLogLm1pJG7bDoFWN9gbzs/t27ujrQ8lweeKX2Y34y+BB6Gf13GFx01NI9d/43HY7
+         hRd6Jq0yyJei+/XkqgAQZRtjQStue8ERE8rAG/tHNU2aNjpUoAknMdB+P8AGD7upGOV7
+         tOVw==
+X-Gm-Message-State: AO0yUKXE4Eiyh8yU4kNBjPW86wlAoT3ugadri5Igf7cq/PvrM5s+Hqii
+	NGw4AqG07aFbS8wixdmi8I/04A==
+X-Google-Smtp-Source: AK7set/WsTpPNnLmbeDYcwU6ylA0LbbTvFVJcsPMQVF9uUqlxofQa+jEXReXVQ6i+OXENazVLtUXJw==
+X-Received: by 2002:a05:600c:1716:b0:3df:f7cc:4da2 with SMTP id c22-20020a05600c171600b003dff7cc4da2mr5966396wmn.16.1675852092080;
+        Wed, 08 Feb 2023 02:28:12 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id be7-20020a05600c1e8700b003dff2b493c8sm1601687wmb.36.2023.02.08.02.28.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Feb 2023 02:28:11 -0800 (PST)
+Message-ID: <53818676-1e4d-2e58-00d3-ab06b3741fc2@linaro.org>
+Date: Wed, 8 Feb 2023 11:28:10 +0100
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 7 Feb 2023 03:51:08 +0000
-Message-ID: <CACPK8XdbffU5yRSZF-zR2xv-+6aJK+hEXP8TOkW=SvS+nNTGxg@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: devicetree changes for 6.3
-To: SoC Team <soc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add prefix for Ufi
+ Space
+Content-Language: en-US
+To: Jordan Chang <jordan.chang@ufispace.com>,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ joel@jms.id.au, andrew@aj.id.au, robh+dt@kernel.org
+References: <20230202081843.2358-1-jordan.chang@ufispace.com>
+ <20230202081843.2358-2-jordan.chang@ufispace.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230202081843.2358-2-jordan.chang@ufispace.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,75 +86,19 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: jay.tc.lin@ufispace.com, eason.ys.huang@ufispace.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Soc maintainers,
+On 02/02/2023 09:18, Jordan Chang wrote:
+> Add a vendor prefix for Ufi Space (https://www.ufispace.com).
+> 
+> Signed-off-by: Jordan Chang <jordan.chang@ufispace.com>
+> ---
 
-Here are the aspeed device tree changes for 6.3
 
-The following changes since commit 1b929c02afd37871d5afb9d498426f83432e71c2:
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-  Linux 6.2-rc1 (2022-12-25 13:41:39 -0800)
+Best regards,
+Krzysztof
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-6.3-devicetree
-
-for you to fetch changes up to 1480bcf074d34e754990204240f8473cdbef0072:
-
-  ARM: dts: aspeed: p10bmc: Enable UART2 (2023-02-01 15:10:18 +1030)
-
-----------------------------------------------------------------
-ASPEED device tree updates for 6.3
-
- - New machines
-
-   * Ufispace NCPLite AST2600 BMC
-   * Facebook Greatlakes AST2600 BMC
-
- - Updates for ethanolx, bletchley and tyan s8036
-
-----------------------------------------------------------------
-Ali El-Haj-Mahmoud (1):
-      arm: dts: aspeed: tyan s8036: Enable kcs interrupts
-
-Delphine CC Chiu (2):
-      dt-bindings: arm: aspeed: add Facebook Greatlakes board
-      ARM: dts: aspeed: greatlakes: Add Facebook greatlakes (AST2600) BMC
-
-Eddie James (1):
-      ARM: dts: aspeed: p10bmc: Enable UART2
-
-Jordan Chang (3):
-      dt-bindings: vendor-prefixes: Add prefix for Ufi Space
-      dt-bindings: arm: aspeed: document Ufispace NCPLite BMC
-      ARM: dts: aspeed: Add device tree for Ufispace NCPLite BMC
-
-Konstantin Aladyshev (5):
-      ARM: dts: aspeed: ethanolx: Enable VUART
-      ARM: dts: aspeed: ethanolx: Correct EEPROM device name
-      ARM: dts: aspeed: ethanolx: Add label for the master partition
-      ARM: dts: aspeed: ethanolx: Enable CTS/RTS pins on UART1
-      ARM: dts: aspeed: ethanolx: Add BIOS flash chip
-
-Potin Lai (2):
-      ARM: dts: aspeed: bletchley: Rename flash1 label
-      ARM: dts: aspeed: bletchley: Enable wdtrst1
-
- .../devicetree/bindings/arm/aspeed/aspeed.yaml     |   2 +
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- arch/arm/boot/dts/Makefile                         |   2 +
- arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts      |  25 +-
- .../arm/boot/dts/aspeed-bmc-facebook-bletchley.dts |  13 +-
- .../boot/dts/aspeed-bmc-facebook-greatlakes.dts    | 241 ++++++++++++++
- arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts       |   4 +
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts       |   4 +
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts       |   4 +
- arch/arm/boot/dts/aspeed-bmc-tyan-s8036.dts        |   1 +
- arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts  | 360 +++++++++++++++++++++
- 11 files changed, 655 insertions(+), 3 deletions(-)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-greatlakes.dts
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
