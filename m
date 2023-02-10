@@ -2,55 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27C969BEF5
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 08:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5A069BEF6
+	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 08:46:12 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PKHfj4fQxz3bfw
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 18:46:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PKHfp08L3z30NN
+	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 18:46:10 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YSXn1Thb;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cX/+nSzR;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.31; helo=mga06.intel.com; envelope-from=ilpo.jarvinen@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YSXn1Thb;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cX/+nSzR;
 	dkim-atps=neutral
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PCvyc2j2Hz3cNN;
-	Sat, 11 Feb 2023 00:41:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PCwCK1ct1z3cBL;
+	Sat, 11 Feb 2023 00:52:12 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676036472; x=1707572472;
+  t=1676037133; x=1707573133;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=BW+wBj/OAjPTC+OK/TehhbSR6rGKqrmkqjubJXxF/eI=;
-  b=YSXn1ThbxBKXBAQp945QR48E4BKXQr9QataTWIOac2UOj9a67STZB7J9
-   kmJbsrxBqgcmb6j6qkkYbMFm0k4O2B/837zW43pClXstAWDtRWKT+lzgA
-   BbP0FTbsuvBNYsBJsXhGmlbcF35oIVVHmEjj8874wPn/J9di4gImDDV6s
-   BQUkOB+YkPlBFxwtakgps0VucDLpsFSnRt+0ucjuvGhIlUwsQmcwlHZOY
-   OAWXcR8+dtOIm1vpGXBbmn30ZpHGrR1u//ETQHxkL0xO5xmQSUfzHRW24
-   S/thFUd1LYG9gYYloB8iQZX721TnELrFcYk5s2XWva3PxYUWRYVNjw5Ff
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="392824602"
+  bh=r4w/CErbxaJzMbH7832T/6D/ahn1FgUG57ZITj5IzaQ=;
+  b=cX/+nSzRmZaEuU+GasHSoCdHasn/AwCS+Oc2nKWKMd4VJ2tO0oSdlNKE
+   PLwWV9lJ8rnHgi1Bi6LP/hFlhwkTy21axNEUsPr5MwwFrSF44r+ghXMSq
+   nVRi0x98ETr4c3ZPjSvuVCsBTyQUHPUamAsux4QD6XZ7komjb4agc9qPF
+   x7JTvj88EdX+PqD1UhyVeOmfT/BY784sMoCqvUrEg+kLMvLd4vEu+UA/w
+   /p/fAW4UE3m/mzeP0qh6BUlTa3o0WilY+vzDJT4A4faoq6u24W+kDbxWF
+   UgWCpBbG8RppDSU4LId+ec6qpAxNi8Ze51ZdXv3T/SjF34FMJXcXgxgtm
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="392826851"
 X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="392824602"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 05:41:06 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="645629349"
+   d="scan'208";a="392826851"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 05:52:10 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="736748179"
 X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="645629349"
+   d="scan'208";a="736748179"
 Received: from tnemeth-mobl1.ger.corp.intel.com ([10.251.213.60])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 05:41:02 -0800
-Date: Fri, 10 Feb 2023 15:40:56 +0200 (EET)
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 05:52:06 -0800
+Date: Fri, 10 Feb 2023 15:52:03 +0200 (EET)
 From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
+To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
 Subject: Re: [PATCH 3/4] serial: 8250: Add Aspeed UART driver
-In-Reply-To: <34e3729f-9266-3606-9f11-33222f50e753@molgen.mpg.de>
-Message-ID: <95c8a699-7293-8d89-222-a69c56da08f@linux.intel.com>
-References: <20230210072643.2772-1-chiawei_wang@aspeedtech.com> <20230210072643.2772-4-chiawei_wang@aspeedtech.com> <34e3729f-9266-3606-9f11-33222f50e753@molgen.mpg.de>
+In-Reply-To: <20230210072643.2772-4-chiawei_wang@aspeedtech.com>
+Message-ID: <2d389fc9-0d5-42a1-b6d7-695c70dcf0fe@linux.intel.com>
+References: <20230210072643.2772-1-chiawei_wang@aspeedtech.com> <20230210072643.2772-4-chiawei_wang@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-Mailman-Approved-At: Sun, 19 Feb 2023 18:42:49 +1100
@@ -65,18 +65,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-serial <linux-serial@vger.kernel.org>, linux-aspeed@lists.ozlabs.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, Jiri Slaby <jirislaby@kernel.org>, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-serial <linux-serial@vger.kernel.org>, linux-aspeed@lists.ozlabs.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org, LKML <linux-kernel@vger.kernel.org>, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 10 Feb 2023, Paul Menzel wrote:
+On Fri, 10 Feb 2023, Chia-Wei Wang wrote:
 
-> > +MODULE_LICENSE("GPL");
+> Add the driver for Aspeed UART/VUART devices, which are 16550A
+> compatible. It is an wrapper to cover the generic 16550A operation
+> while exetending DMA feature for the devices.
 > 
-> Should it be GPL v2?
+> Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> ---
+>  drivers/tty/serial/8250/8250_aspeed.c | 502 ++++++++++++++++++++++++++
+>  drivers/tty/serial/8250/Kconfig       |   8 +
+>  drivers/tty/serial/8250/Makefile      |   1 +
 
-No, it should. "GPL" is the correct for in MOUDLE_LICENSE(). SPDX lines 
-are a different thing and more precise.
+Hi,
+
+Before I look any further into this, could you please explain why this is 
+made to be entirely separate from what we have in 
+  drivers/tty/serial/8250/8250_aspeed_vuart.c
+?
+
+I quickly went through some functions and they've significant parts in 
+common with no variations at all in many functions and you're defines 
+are 1:1 too (except for the DMA buf sizes). It would seem much better to 
+add the missing functionality into 8250_aspeed_vuart.c rather than 
+creating something from scratch with large overlap with existing code.
+
+If you intend to keep it as a separate one, you should have a rather good 
+justification for it.
+
 
 -- 
  i.
