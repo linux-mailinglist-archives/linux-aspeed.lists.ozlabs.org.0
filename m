@@ -2,67 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E6C691AF9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 10:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934B6691B08
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 10:13:47 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PCp0y4cjDz3cGm
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 20:12:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PCp212sSdz3cgV
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 20:13:45 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=S20XtXRx;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ioeihDRp;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::436; helo=mail-wr1-x436.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::332; helo=mail-wm1-x332.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=S20XtXRx;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ioeihDRp;
 	dkim-atps=neutral
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PCp0l1smFz3bXv
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Feb 2023 20:12:37 +1100 (AEDT)
-Received: by mail-wr1-x436.google.com with SMTP id ba1so4356554wrb.5
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Feb 2023 01:12:37 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PCp1s3JD3z3bZl
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Feb 2023 20:13:37 +1100 (AEDT)
+Received: by mail-wm1-x332.google.com with SMTP id n28-20020a05600c3b9c00b003ddca7a2bcbso3541491wms.3
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Feb 2023 01:13:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=mL4KyztuyODt2VU+CZBnxvtMdXCFPb2+6mKlAc4eZC8=;
-        b=S20XtXRxLi9OLqhtFW8XCPtwUd+Rl4Faq9mS8wjYKBgh31Pnoh3OfEhL9S/ERdUNNQ
-         yLlBtKlU6rhe6r+TrlYMC8QfO588W2aP63SV3Z+WAEzAK1C4urenJDD5KiVvg2daSj1t
-         cwjThEK4YvPEY8SK7FdBXltg2tqfL0GZHLuUYa2XsSJHZDEFamzxlzsYXPTVrrsCrIvl
-         vGgSY5ucvFQK2Mus3hGr7HtbQDicLcI7ubQJsA5SSPrJUPn3eTl32eZZkcmOfL/i7Bon
-         DcK0i3RSGKJk29gnQf2yHapwDWHj28CKZmpy1cYTYOEZBYBREB7nCijj1gheA1xBn8vG
-         h3ug==
+        bh=HlncjyUCwyJrK1zxs8hOgkWlTAUHyGxnew5NJR5HoOk=;
+        b=ioeihDRpWkLc0NiYcHmP2VjAXuXfJgTno0+GGHtc2ApSbnwf8ZttX4ToE2X1LGl9e3
+         rn0sey7JRnTQvxRc9a3hCc/7r45zXLqRIBZVMQhygpAOE4Kh4evGQl/j2/5F58fj7KSV
+         mkiLmdMz6lwrqwc3wgONkzWFfGxTEUllHMuDNYzHvkFyWPr5YSoA0usILw4IbULG6f7I
+         oXf5tkS+Il5qR0PLlz/SUDOY1KL66rp4mRNBPhrD6skoJVFrascRyehbrjc6xoYBILoc
+         MguYi5u3ynlBMdb34LDZjITpHuQ8jG00Y1tLH4kmK9EWK5Mr4E+koLbcI0+gzvwtr1br
+         Yj0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mL4KyztuyODt2VU+CZBnxvtMdXCFPb2+6mKlAc4eZC8=;
-        b=k+9IY8GgdfvUczD5Qxj5mFPZ61LA5hxKOG2u1gMed9aDwLgfl/yWRDpolh6n1vc/t2
-         oLXO+sARJ5oJB33sI6nSz3wtaZ++EY3aGNUNH/6F+VShU1ebE6oSM9fsPuh8rijEAmuR
-         e8DQxe8yvME4UqXA4Vl0s1Ku0SzqdtS2tmSQRLaRcGVKvj1VwhcVbmbd0+yKasbzWDYB
-         ClD8cKmoxQSqFG+3fMTisqlzuheeDfgW3OhHsgHgZu793VdipnDUvyUFAKxFssYtSDP4
-         +CeQDx96tk9uHHTfglEY3iJNW3PNA5kPRvCWp9GlctUWCR5xkp4kJbBjm7G1nPQoz1aK
-         SOwg==
-X-Gm-Message-State: AO0yUKW/3IUiYFXwO32SJNCa7romtreGfgPet8+HemBamDlOEYdZyhqs
-	3ojJ+W3mZ8QBDPzRWrn7KRLMFg==
-X-Google-Smtp-Source: AK7set+2hQaPKBxAjcdrkUNWE2GxbNQBY+5ujjxLnyWUu6HynLLF+1AwbHMoQHYvLNkJGD0AWK7PKw==
-X-Received: by 2002:adf:e946:0:b0:2c4:83e:2784 with SMTP id m6-20020adfe946000000b002c4083e2784mr6068680wrn.63.1676020353212;
-        Fri, 10 Feb 2023 01:12:33 -0800 (PST)
+        bh=HlncjyUCwyJrK1zxs8hOgkWlTAUHyGxnew5NJR5HoOk=;
+        b=PLCXDpr020sK1oGfO26AOevL52kvbfvcauy3Co0yXbQE6cCwT5DxOsVSOJBnDYY80X
+         ad98rbptkgH+iVUBw0/DRSRJqswX3MQ7gXm6WbBf261EtMx8yv+7/q62H0tfZacfDdkJ
+         V6nqfn+Y/u1JlF+2/39sD++RO5AnJbPAi7pyckbepbRFpuu9YrewpMW2TUXF6Q8KRTBa
+         bv7ZfrkDWo41gK/1tusAVoz5bw60N5Px4JihB63vt8QCPdcKRLYNna5ds6l2XGm9Ge5J
+         A+fjr5OeLS/J4Z8RRNzHaL8zTBGjysw7ZwEMnR/ArSO/meeYQJX5efQsqL8CF5HT2aL0
+         bL6A==
+X-Gm-Message-State: AO0yUKXHyNH4rTCU7F5Zoq44XNlhIEUS8pJGgl7jIHY8BUixUpu8vpoZ
+	vNRFD8zXha8y4xMY1NQUx7osN2YJnwDlNTJ3
+X-Google-Smtp-Source: AK7set9hTzR19H75OZ+KCGwk0xY4ukdRB5fD+F5y3OEC4AKzPLXqs450JrI5RSl1Ypsyl9gIdXzqNA==
+X-Received: by 2002:a05:600c:990:b0:3da:fc07:5e80 with SMTP id w16-20020a05600c099000b003dafc075e80mr1549310wmp.12.1676020414014;
+        Fri, 10 Feb 2023 01:13:34 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id a4-20020adfeec4000000b002bfc0558ecdsm3065098wrp.113.2023.02.10.01.12.31
+        by smtp.gmail.com with ESMTPSA id l19-20020a05600c2cd300b003dfefe115b9sm4965219wmc.0.2023.02.10.01.13.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 01:12:32 -0800 (PST)
-Message-ID: <2d0d1866-95f9-942d-57e0-06a5ed17d35d@linaro.org>
-Date: Fri, 10 Feb 2023 10:12:31 +0100
+        Fri, 10 Feb 2023 01:13:33 -0800 (PST)
+Message-ID: <c1e096fa-5941-cdd8-2cdc-ecf04661a389@linaro.org>
+Date: Fri, 10 Feb 2023 10:13:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 1/4] dt-bindings: aspeed: Add UART controller
+Subject: Re: [PATCH 2/4] soc: aspeed: Add UART DMA support
 Content-Language: en-US
 To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>, gregkh@linuxfoundation.org,
  robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au,
@@ -71,9 +71,9 @@ To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>, gregkh@linuxfoundation.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  openbmc@lists.ozlabs.org
 References: <20230210072643.2772-1-chiawei_wang@aspeedtech.com>
- <20230210072643.2772-2-chiawei_wang@aspeedtech.com>
+ <20230210072643.2772-3-chiawei_wang@aspeedtech.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230210072643.2772-2-chiawei_wang@aspeedtech.com>
+In-Reply-To: <20230210072643.2772-3-chiawei_wang@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -91,127 +91,40 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 10/02/2023 08:26, Chia-Wei Wang wrote:
-> Add dt-bindings for Aspeed UART controller.
-
-Describe the hardware. What's the difference against existing Aspeed
-UART used everywhere?
-
+> This driver provides DMA support for AST26xx UART and VUART
+> devices. It is useful to offload CPU overhead while using
+> UART/VUART for binary file transfer.
 > 
 > Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
 > ---
->  .../bindings/serial/aspeed,uart.yaml          | 81 +++++++++++++++++++
->  1 file changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/serial/aspeed,uart.yaml
+>  drivers/soc/aspeed/Kconfig             |   9 +
+>  drivers/soc/aspeed/Makefile            |   1 +
+>  drivers/soc/aspeed/aspeed-udma.c       | 447 +++++++++++++++++++++++++
+>  include/linux/soc/aspeed/aspeed-udma.h |  34 ++
 
-Filename: aspeed,ast2600-uart.yaml
-(unless you are adding here more compatibles, but your const suggests
-that it's not going to happen)
+NAK.
 
+DMA drivers do not go to soc, but to dma subsystem.
+
+>  4 files changed, 491 insertions(+)
+>  create mode 100644 drivers/soc/aspeed/aspeed-udma.c
+>  create mode 100644 include/linux/soc/aspeed/aspeed-udma.h
 > 
-> diff --git a/Documentation/devicetree/bindings/serial/aspeed,uart.yaml b/Documentation/devicetree/bindings/serial/aspeed,uart.yaml
-> new file mode 100644
-> index 000000000000..10c457d6a72e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/serial/aspeed,uart.yaml
-> @@ -0,0 +1,81 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/serial/aspeed,uart.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aspeed Universal Asynchronous Receiver/Transmitter
 
-This title matches other Aspeed UARTs, so aren't you duplicating bindings?
+(...)
 
 > +
-> +maintainers:
-> +  - Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> +	return 0;
+> +}
 > +
-> +allOf:
-> +  - $ref: serial.yaml#
-> +
-> +description: |
-> +  The Aspeed UART is based on the basic 8250 UART and compatible
-> +  with 16550A, with support for DMA
-> +
-> +properties:
-> +  compatible:
-> +    const: aspeed,ast2600-uart
-> +
-> +  reg:
-> +    description: The base address of the UART register bank
+> +static const struct of_device_id aspeed_udma_match[] = {
+> +	{ .compatible = "aspeed,ast2600-udma" },
 
-Drop description
+Undocumented compatible.
 
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: The clock the baudrate is derived from
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description: The IRQ number of the device
-
-Drop description
-
-> +    maxItems: 1
-> +
-> +  dma-mode:
-> +    type: boolean
-> +    description: Enable DMA
-
-Drop property. DMA is enabled on presence of dmas.
-
-> +
-> +  dma-channel:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: The channel number to be used in the DMA engine
-
-That's not a correct DMA property. dmas and dma-names
-git grep dma -- Documentation/devicetree/bindings/
+Please run scripts/checkpatch.pl and fix reported warnings.
 
 
-> +
-> +  virtual:
-> +    type: boolean
-> +    description: Indicate virtual UART
-
-Virtual means not existing in real world? We do not describe in DTS
-non-existing devices. Drop entire property.
-
-> +
-> +  sirq:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: The serial IRQ number on LPC bus interface
-
-Drop entire property.
-
-> +
-> +  sirq-polarity:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: The serial IRQ polarity on LPC bus interface
-
-Drop entire property.
-
-> +
-> +  pinctrl-0: true
-> +
-> +  pinctrl_names:
-> +    const: default
-
-
-Drop both, you do no not need them.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - interrupts
-> +
-> +unevaluatedProperties: false
-> +
 
 Best regards,
 Krzysztof
