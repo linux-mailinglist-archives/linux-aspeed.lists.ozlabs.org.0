@@ -1,79 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3E0691BFD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 10:54:18 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FA8691C23
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 11:01:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PCpwm1w7Pz3cfh
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 20:54:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PCq5V2mDSz3f5H
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 21:01:50 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=StafhWd9;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iFfzWPjR;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::431; helo=mail-wr1-x431.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=134.134.136.126; helo=mga18.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=StafhWd9;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iFfzWPjR;
 	dkim-atps=neutral
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PCpwc1684z3cdk
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Feb 2023 20:54:05 +1100 (AEDT)
-Received: by mail-wr1-x431.google.com with SMTP id o18so4476160wrj.3
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Feb 2023 01:54:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DT/YTaczEsqUTwtjEMUlyfX5CYHzpcISFyERcOWxQMk=;
-        b=StafhWd9wRSyN57pB6OeyIV1oXxde2bom8ccd2vsCgV8Q03LXmkn7/f4XF6AmbWxHV
-         p3CASxzY0nhkjAqxx5X8YBS23Tn9xwdtzKRFRlOnU6og/PMyd1QQi/9vzArUJqIlyNxW
-         EGL1KqLtNNuuFw7TGAJawmQdS8QnfbWPvnUT7Qyfx0tABPOsn/rNwXzWyG5KS4mAXb8Q
-         5UjUqffm5+ra6GjCADD2OB1wDu87xCcrCjipvzNNlgsf6tv3T9EN416nCIqsQgEzdVV+
-         ueJB2J1YmXpBhdJ8tqEXQW0ubVscFdFwrtn+g7jUJXII7R6KWBxDTEQxTCxRqGhOSg9k
-         ePlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DT/YTaczEsqUTwtjEMUlyfX5CYHzpcISFyERcOWxQMk=;
-        b=Bp84q8Ok/kzSPiJq4AhdgTOTiI0NeriFF56q0XPtUx3wgIPtIQexjm+F70h6gG6zk/
-         643SJqxSCRTzOnECC+MDPFBnKpWMsTMFYUEuCbVEyPDWf7Ifk7rZNFtFC/IRz4eIFX0l
-         h2mwLGqtgePVlKt8N0ELstmyKuVj0+ImB2QHSP7d6TxhLgOm+ny86CiXglLX2IuscIIw
-         D/LShG1pD9DNoH4O5ujxI3q0kqyoiK23PcG4Fp9DYx4eVW0/BKxv+KlY8RmFwjym072b
-         ExkCov41YSAfpjx7EBQPzJI7qqvrKZheJKc8Z3/Z+6xmI5PSBOKzbfz4DusKW4yzDe5Q
-         JzhQ==
-X-Gm-Message-State: AO0yUKWb0T5yhRnkoAXAgJd63mqegoh7vzk6FvULOqpPnqT0N7AbpHMm
-	v3P2ck/5X22V1g4slgODzH+kwQ==
-X-Google-Smtp-Source: AK7set/mQrAtmfuIVos3kekrVUbU1HQtOa2i/MpfcvN3fFMdpIOrhpCy8l3PlJuS/m6POCcQgb1QQw==
-X-Received: by 2002:adf:f708:0:b0:2c5:3cd6:4fdf with SMTP id r8-20020adff708000000b002c53cd64fdfmr4413510wrp.39.1676022841466;
-        Fri, 10 Feb 2023 01:54:01 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id n7-20020a5d4207000000b002c3ce97ec38sm3311518wrq.115.2023.02.10.01.54.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Feb 2023 01:54:01 -0800 (PST)
-Message-ID: <c400735a-901c-5fb3-428c-81258ff99615@linaro.org>
-Date: Fri, 10 Feb 2023 10:53:59 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PCq4G6Fd5z3cdk;
+	Fri, 10 Feb 2023 21:00:40 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1676023247; x=1707559247;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=skyO+n4E72IHbnF1r9khsegze0IsfBWcm+0BlzjaYsw=;
+  b=iFfzWPjRVoWdCDM92z9p+cqoYRj4h5H7iXNTpCgBnyarAFdQIM3aFkPF
+   lddjXBMAlgePvH2SqTmMAFmhWnorGZXPjammNUmxjTBwvJoK6EpqGnKHZ
+   jqCqvS6nn6hzUvY5wnkU1Q1JeTQegILaJJGm3V6pavFrwLv1K/BjtRu1a
+   aCvP3bnSG3YS6TH9tKvYIRB92tWI9SDueuK5RWROxjdvIrSno0oW7JsYD
+   6CAzqiOS+B0szaXFgXYCF32/jxdcJ/HV7eCNHlPCU/OdxI4kjwZFRr/E0
+   iR74C0cscuNmtFgB6tzv31DW95GvPABe4aadx1PKrDlAjLksROHfFOh8L
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="314028001"
+X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
+   d="scan'208";a="314028001"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 02:00:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="661355216"
+X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; 
+   d="scan'208";a="661355216"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 10 Feb 2023 02:00:32 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pQQCm-0005jh-0Q;
+	Fri, 10 Feb 2023 10:00:32 +0000
+Date: Fri, 10 Feb 2023 18:00:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>, gregkh@linuxfoundation.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	joel@jms.id.au, andrew@aj.id.au, jirislaby@kernel.org,
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org
+Subject: Re: [PATCH 2/4] soc: aspeed: Add UART DMA support
+Message-ID: <202302101749.ctd9pkv1-lkp@intel.com>
+References: <20230210072643.2772-3-chiawei_wang@aspeedtech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 3/3] ARM: dts: aspeed: Add device tree for Ufispace
- NCPLite BMC
-Content-Language: en-US
-To: Jordan Chang <jordan.chang@ufispace.com>
-References: <20230210055451.72153-1-jordan.chang@ufispace.com>
- <20230210055451.72153-4-jordan.chang@ufispace.com>
- <4b735136-d9c0-cf01-e453-c8da31754a93@linaro.org>
- <CAJ3czeSeuPx1L-qkXFVLR+UQDyJHF_G4Z5MdoYSeLaifWNnn=A@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAJ3czeSeuPx1L-qkXFVLR+UQDyJHF_G4Z5MdoYSeLaifWNnn=A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230210072643.2772-3-chiawei_wang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,27 +75,131 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: jay.tc.lin@ufispace.com, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, eason.ys.huang@ufispace.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/02/2023 10:21, Jordan Chang wrote:
-> Hi Krzysztof,
-> 
-> On Fri, Feb 10, 2023 at 4:56 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org> wrote:
->>
->> From where did you get my Ack? I don't recall it.
->>
-> 
-> I misunderstood the usage of acked-by, please ignore this email patch.
-> Apology for the mistakes.
-> Should I resend an email patch or it still works on the previous v2 email?
+Hi Chia-Wei,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus robh/for-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.2-rc7 next-20230210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chia-Wei-Wang/dt-bindings-aspeed-Add-UART-controller/20230210-152832
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230210072643.2772-3-chiawei_wang%40aspeedtech.com
+patch subject: [PATCH 2/4] soc: aspeed: Add UART DMA support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230210/202302101749.ctd9pkv1-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/b1e3a89584657d9b0398f3f46b09dc4229835fa3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Chia-Wei-Wang/dt-bindings-aspeed-Add-UART-controller/20230210-152832
+        git checkout b1e3a89584657d9b0398f3f46b09dc4229835fa3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/soc/aspeed/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302101749.ctd9pkv1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/soc/aspeed/aspeed-udma.c: In function 'aspeed_udma_request_chan':
+>> drivers/soc/aspeed/aspeed-udma.c:194:13: warning: variable 'retval' set but not used [-Wunused-but-set-variable]
+     194 |         int retval = 0;
+         |             ^~~~~~
 
 
-Please send v4 with correct tags (so tags present only for the patches I
-gave them explicitly).
+vim +/retval +194 drivers/soc/aspeed/aspeed-udma.c
 
-Best regards,
-Krzysztof
+   189	
+   190	static int aspeed_udma_request_chan(u32 ch_no, dma_addr_t addr,
+   191			struct circ_buf *rb, u32 rb_sz,
+   192			aspeed_udma_cb_t cb, void *id, bool dis_tmout, bool is_tx)
+   193	{
+ > 194		int retval = 0;
+   195		int rbsz_code;
+   196	
+   197		u32 reg;
+   198		unsigned long flags;
+   199		struct aspeed_udma_chan *ch;
+   200	
+   201		if (ch_no > UDMA_MAX_CHANNEL) {
+   202			retval = -EINVAL;
+   203			goto out;
+   204		}
+   205	
+   206		if (IS_ERR_OR_NULL(rb) || IS_ERR_OR_NULL(rb->buf)) {
+   207			retval = -EINVAL;
+   208			goto out;
+   209		}
+   210	
+   211		rbsz_code = aspeed_udma_get_bufsz_code(rb_sz);
+   212		if (rbsz_code < 0) {
+   213			retval = -EINVAL;
+   214			goto out;
+   215		}
+   216	
+   217		spin_lock_irqsave(&udma->lock, flags);
+   218	
+   219		if (is_tx) {
+   220			reg = readl(udma->regs + UDMA_TX_DMA_INT_EN);
+   221			if (reg & (0x1 << ch_no)) {
+   222				retval = -EBUSY;
+   223				goto unlock_n_out;
+   224			}
+   225	
+   226			reg |= (0x1 << ch_no);
+   227			writel(reg, udma->regs + UDMA_TX_DMA_INT_EN);
+   228	
+   229			reg = readl(udma->regs + UDMA_CHX_TX_CTRL(ch_no));
+   230			reg |= (dis_tmout) ? UDMA_TX_CTRL_TMOUT_DISABLE : 0;
+   231			reg |= (rbsz_code << UDMA_TX_CTRL_BUFSZ_SHIFT) & UDMA_TX_CTRL_BUFSZ_MASK;
+   232			writel(reg, udma->regs + UDMA_CHX_TX_CTRL(ch_no));
+   233	
+   234			writel(addr, udma->regs + UDMA_CHX_TX_BUF_BASE(ch_no));
+   235		} else {
+   236			reg = readl(udma->regs + UDMA_RX_DMA_INT_EN);
+   237			if (reg & (0x1 << ch_no)) {
+   238				retval = -EBUSY;
+   239				goto unlock_n_out;
+   240			}
+   241	
+   242			reg |= (0x1 << ch_no);
+   243			writel(reg, udma->regs + UDMA_RX_DMA_INT_EN);
+   244	
+   245			reg = readl(udma->regs + UDMA_CHX_RX_CTRL(ch_no));
+   246			reg |= (dis_tmout) ? UDMA_RX_CTRL_TMOUT_DISABLE : 0;
+   247			reg |= (rbsz_code << UDMA_RX_CTRL_BUFSZ_SHIFT) & UDMA_RX_CTRL_BUFSZ_MASK;
+   248			writel(reg, udma->regs + UDMA_CHX_RX_CTRL(ch_no));
+   249	
+   250			writel(addr, udma->regs + UDMA_CHX_RX_BUF_BASE(ch_no));
+   251		}
+   252	
+   253		ch = (is_tx) ? &udma->tx_chs[ch_no] : &udma->rx_chs[ch_no];
+   254		ch->rb = rb;
+   255		ch->rb_sz = rb_sz;
+   256		ch->cb = cb;
+   257		ch->cb_arg = id;
+   258		ch->dma_addr = addr;
+   259		ch->dis_tmout = dis_tmout;
+   260	
+   261	unlock_n_out:
+   262		spin_unlock_irqrestore(&udma->lock, flags);
+   263	out:
+   264		return 0;
+   265	}
+   266	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
