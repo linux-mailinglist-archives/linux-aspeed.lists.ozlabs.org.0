@@ -1,75 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0174D6941CD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 10:47:09 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3F56941DB
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 10:48:26 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PFfd53r3Pz3c7d
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 20:47:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PFffb6XPfz3c65
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 20:48:23 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SJdEpQrW;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=iqg1iidp;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::330; helo=mail-wm1-x330.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::431; helo=mail-wr1-x431.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SJdEpQrW;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=iqg1iidp;
 	dkim-atps=neutral
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFfcx6TGnz2xGL
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 20:46:55 +1100 (AEDT)
-Received: by mail-wm1-x330.google.com with SMTP id n13so8254206wmr.4
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 01:46:55 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFffS5L2Fz2xGL
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 20:48:16 +1100 (AEDT)
+Received: by mail-wr1-x431.google.com with SMTP id o15so8165696wrc.9
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 01:48:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=yOPgLCW7T8vK/LSUPT7A6YVcJlxOCqf9nMJwHUXwdEU=;
-        b=SJdEpQrWIorwhYxdpYo5dT1Hf7Cm32zZOIHcIfzdVpTxS1TvyGiPg0CPAhxKRZRx2U
-         ZFgbjQ/o5ScN49Ht+6UKYyiXtshnxk5TSouQI1BEZKuqDGk1yWCsSpcFoQh3z3U2+fen
-         GiY6eS1NwG7mVTDBfaLtJ9FzA1zkGKRuv2xQPPWk0qRfxEdN3g1N/hYlygfCFrUeiq5A
-         7WMz7oMTpCMDi7oLIJvQv3JvLFawVXF1reIHqRvM79W1YtGI9gp0fBd8mGYnyxtLEcM0
-         AJEUFVq/cx6EX9XGRzy0jZKeshAR3ed6XdTu5vq+y4gap6m4Lm088ez35KxVLhHZ4uXM
-         Z3+Q==
+        bh=+1kwf1vAAGzxCmCPcA7pId76+TiaZMPeuqbYRjhDajU=;
+        b=iqg1iidpuC878bjhi1dUE+ySfvTTHYjtd1Ufcm/6TohoU44N5mE/qYqYYf09cizx2J
+         kvcB9EMg6UJjyr2YjmasBo9D27xpV3zDhIysvOJmjDNgPaeFNvcbys4zRTU6u8y/cslL
+         vgFMGAS99taGEjU8ptczo/oGJ5zE/5n73GytMa0Tc0e8oNd8OuDy5Xi1BMdfq9Yvkncz
+         sQoT/rtvgGNn2uR1rEGrU79qxGV7Rd2IrdSjzqtObHfJcHc5PUaeYafVDHy6TnDOhTlv
+         MCpsz7CcJFhDBQPwDer/Dr/8fL/QKd6bVdRpINrnTSC4OQzylieFslAYztTLzYWBImG5
+         E0GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yOPgLCW7T8vK/LSUPT7A6YVcJlxOCqf9nMJwHUXwdEU=;
-        b=IEi/Qi8ex//IR0yoomDCCEK7ktfatDROpSYVbxh4IRMk25Fvm25LWdBfDcbrPzGGsq
-         w2DiDNae/9iOgghNuRk8Zlxx7cbqKdryNHw55sH79/WoDmUrNCS4P62g3m2J/BAF7uzb
-         8iH1z0idGxPrkgfM/BKv4qgr7LuA2EKXBSvZQX5ZJpUytWEF/RfSuTTTQYPGAeZJbdn2
-         HvnhVaggPf/vldLdeE1lJCOn/t+N8uNiwtHNuaVcTsGF/bt2HHDxii9P15wwAozX4NiD
-         +zHAGkQX4eLZzQddn8SHnoc8zEIwsWKkhERlUL0HJPP+iuDquQdbakIxG2GW1Iejd6QX
-         TvtA==
-X-Gm-Message-State: AO0yUKVHlBkJvRx8WE0R/KK5SxEzy8hUODvCZbxWfGcf1ZByW2mbpoNa
-	e7oxrNgbKfuS8710CdvkBRONKQ==
-X-Google-Smtp-Source: AK7set+95nq5YeloUXV/H16QNZdb80eq/m50nMdjfMX/lyZ9KFUHlXUkRW98jtFC3saws8yua1JPDQ==
-X-Received: by 2002:a05:600c:32a7:b0:3df:dea7:8ec with SMTP id t39-20020a05600c32a700b003dfdea708ecmr19050100wmp.20.1676281611437;
-        Mon, 13 Feb 2023 01:46:51 -0800 (PST)
+        bh=+1kwf1vAAGzxCmCPcA7pId76+TiaZMPeuqbYRjhDajU=;
+        b=YExIAwMubTeD1qsKGhijuNgVIhmOMArp+xOYsi3LA9R1HNvH+Y6C4dFqm/RORGZbhW
+         xtH8QeqRvGv6J0Dn+WGTB1nm9TgUEklBUMJfYMnDT8ApbYCvUDDorLatPDFwqKfIxnER
+         cEv6KnTYHGdH7EL4O28/uvV66/aVneB/flLUYvHsn7G5ERsV801HyDyJBM7doVY8BaJC
+         BuOTgLMEKzLWMwIoULEFk8vMyb6mShGng+IipJLwGGfhfKRsPQLI0Xr/wYPh0ClvL/71
+         dpgQ4Q3G9e1aIm4peWPFIAn6aHWYdigcY49ToH3W4twbyGnt74wEgzWKkFJNycDBCsp2
+         bF6A==
+X-Gm-Message-State: AO0yUKUkdWUXqDcKiAuNWTuv8XYLr/ZLYl/PvgNSZLLSkmcZ7xq4JDNK
+	R/IIgEsrFU93y+yqlD6DBwRElA==
+X-Google-Smtp-Source: AK7set/mlUlrcEB/1ZY4P1k17QQhdOmwcDlJJEmcaw/T8ayP16umrQ9Gvz6kD7LORoZW+F4JkBTH9A==
+X-Received: by 2002:a5d:66ce:0:b0:2bc:aa67:28fb with SMTP id k14-20020a5d66ce000000b002bcaa6728fbmr20117943wrw.49.1676281692402;
+        Mon, 13 Feb 2023 01:48:12 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id p5-20020a1c5445000000b003dc492e4430sm13292404wmi.28.2023.02.13.01.46.49
+        by smtp.gmail.com with ESMTPSA id k6-20020adfe8c6000000b002c55551e6e9sm3292285wrn.108.2023.02.13.01.48.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 01:46:51 -0800 (PST)
-Message-ID: <238f6b4c-b4d3-5dfd-35b2-34fede2d1d84@linaro.org>
-Date: Mon, 13 Feb 2023 10:46:48 +0100
+        Mon, 13 Feb 2023 01:48:12 -0800 (PST)
+Message-ID: <45ce9e62-2620-b959-985d-ae00b071e350@linaro.org>
+Date: Mon, 13 Feb 2023 10:48:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] clk: aspeed: Add full configs for i3c clocks
+Subject: Re: [PATCH v2 2/3] clk: aspeed: Add full configs for i3c clocks
 Content-Language: en-US
 To: Jeremy Kerr <jk@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org,
  linux-clk@vger.kernel.org
-References: <cover.1676259904.git.jk@codeconstruct.com.au>
- <68e306d262841a5435d1a7145764b64f524a2352.1676259904.git.jk@codeconstruct.com.au>
+References: <cover.1676267865.git.jk@codeconstruct.com.au>
+ <5ee4ade6820a9db8dc9c20bb39fd8a4c4cd7c2a6.1676267865.git.jk@codeconstruct.com.au>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <68e306d262841a5435d1a7145764b64f524a2352.1676259904.git.jk@codeconstruct.com.au>
+In-Reply-To: <5ee4ade6820a9db8dc9c20bb39fd8a4c4cd7c2a6.1676267865.git.jk@codeconstruct.com.au>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -83,18 +83,18 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Joel Stanley <jms@jms.id.au>, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 13/02/2023 04:48, Jeremy Kerr wrote:
-> The current ast2600 i3c clock definitions are top-level, and include a
+On 13/02/2023 07:02, Jeremy Kerr wrote:
+> The current ast2600 i3c clock definitions are top-level (rather than
+> based on their actual hw sources: either HCLK or APLL), and include a
 > couple of definitions for (non-existent) i3c6 and i3c7.
 > 
-> This change re-parents these to the main i3c clock, sourced from the
-> APLL. We also remove the i3c6 and i3c7 definitions and mark those entries
-> in the gates array as reserved - all entries in the array must be
-> contiguous.
+> This change re-parents these to the main i3c clock, explicitly sourced
+> from the APLL rather than whatever G6_CLK_SELECTION5 was last set to. We
+> also remove the i3c6 and i3c7 definitions.
 > 
 > This change is a partial cherry-pick and rework of ed44b8cdfdb and
 > 1a35eb926d7 from Aspeed's own tree, originally by Dylan Hung
@@ -102,15 +102,17 @@ On 13/02/2023 04:48, Jeremy Kerr wrote:
 > 
 > Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
 > ---
->  drivers/clk/clk-ast2600.c                 | 39 ++++++++++++++++++-----
->  include/dt-bindings/clock/ast2600-clock.h |  6 ++--
+>  drivers/clk/clk-ast2600.c                 | 38 ++++++++++++++++++-----
+>  include/dt-bindings/clock/ast2600-clock.h |  3 +-
 
-Bindings are separate patches. Always.
+My comments from v1:
 
->  2 files changed, 34 insertions(+), 11 deletions(-)
+Bindings are always separate patches.
+
+>  2 files changed, 31 insertions(+), 10 deletions(-)
 > 
 > diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
-> index 9c3305bcb27a..24ad34440e1e 100644
+> index 1f08ff3c60fa..45549cb18107 100644
 > --- a/drivers/clk/clk-ast2600.c
 > +++ b/drivers/clk/clk-ast2600.c
 > @@ -4,6 +4,7 @@
@@ -140,7 +142,7 @@ Bindings are separate patches. Always.
 >  
 >  #define ASPEED_HPLL_PARAM		0x200
 >  #define ASPEED_APLL_PARAM		0x210
-> @@ -97,14 +110,14 @@ static const struct aspeed_gate_data aspeed_g6_gates[] = {
+> @@ -97,14 +110,13 @@ static const struct aspeed_gate_data aspeed_g6_gates[] = {
 >  	[ASPEED_CLK_GATE_LHCCLK]	= { 37, -1, "lhclk-gate",	"lhclk", 0 },	/* LPC master/LPC+ */
 >  	/* Reserved 38 RSA: no longer used */
 >  	/* Reserved 39 */
@@ -158,12 +160,11 @@ Bindings are separate patches. Always.
 > +	[ASPEED_CLK_GATE_I3C3CLK]	= { 43,  43, "i3c3clk-gate",	"i3cclk", 0 }, /* I3C3 */
 > +	[ASPEED_CLK_GATE_I3C4CLK]	= { 44,  44, "i3c4clk-gate",	"i3cclk", 0 }, /* I3C4 */
 > +	[ASPEED_CLK_GATE_I3C5CLK]	= { 45,  45, "i3c5clk-gate",	"i3cclk", 0 }, /* I3C5 */
-> +	[ASPEED_CLK_GATE_RESERVED43]	= { 46,  46, "reserved-43",	NULL,	0 },
-> +	[ASPEED_CLK_GATE_RESERVED44]	= { 47,  47, "reserved-44",	NULL,	0 },
+> +	/* Reserved: 46 & 47 */
 >  	[ASPEED_CLK_GATE_UART1CLK]	= { 48,  -1, "uart1clk-gate",	"uart",	 0 },	/* UART1 */
 >  	[ASPEED_CLK_GATE_UART2CLK]	= { 49,  -1, "uart2clk-gate",	"uart",	 0 },	/* UART2 */
 >  	[ASPEED_CLK_GATE_UART3CLK]	= { 50,  -1, "uart3clk-gate",	"uart",  0 },	/* UART3 */
-> @@ -772,6 +785,16 @@ static void __init aspeed_g6_cc(struct regmap *map)
+> @@ -775,6 +787,16 @@ static void __init aspeed_g6_cc(struct regmap *map)
 >  	/* USB 2.0 port1 phy 40MHz clock */
 >  	hw = clk_hw_register_fixed_rate(NULL, "usb-phy-40m", NULL, 0, 40000000);
 >  	aspeed_g6_clk_data->hws[ASPEED_CLK_USBPHY_40M] = hw;
@@ -181,20 +182,15 @@ Bindings are separate patches. Always.
 >  
 >  static void __init aspeed_g6_cc_init(struct device_node *np)
 > diff --git a/include/dt-bindings/clock/ast2600-clock.h b/include/dt-bindings/clock/ast2600-clock.h
-> index d8b0db2f7a7d..98dc82702755 100644
+> index d8b0db2f7a7d..600549d7bee8 100644
 > --- a/include/dt-bindings/clock/ast2600-clock.h
 > +++ b/include/dt-bindings/clock/ast2600-clock.h
-> @@ -57,9 +57,8 @@
+> @@ -57,8 +57,6 @@
 >  #define ASPEED_CLK_GATE_I3C3CLK		40
 >  #define ASPEED_CLK_GATE_I3C4CLK		41
 >  #define ASPEED_CLK_GATE_I3C5CLK		42
 > -#define ASPEED_CLK_GATE_I3C6CLK		43
 > -#define ASPEED_CLK_GATE_I3C7CLK		44
 
-This breaks the ABI and commit msg does not provide justfication for it.
-
-
-
-Best regards,
-Krzysztof
+This is an ABI break and commit msg does not really justify it.
 
