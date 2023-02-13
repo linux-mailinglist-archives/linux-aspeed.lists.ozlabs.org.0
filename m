@@ -1,61 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38873693F3B
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 08:57:36 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BF3693F3C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 08:57:41 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PFcBk07HVz3bW0
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 18:57:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PFcBq3VdCz30Jy
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 18:57:39 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=LwZ/sKRz;
+	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=OC7yt40j;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ufispace.com (client-ip=2607:f8b0:4864:20::42f; helo=mail-pf1-x42f.google.com; envelope-from=jordan.chang@ufispace.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ufispace.com (client-ip=2607:f8b0:4864:20::434; helo=mail-pf1-x434.google.com; envelope-from=jordan.chang@ufispace.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=LwZ/sKRz;
+	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=OC7yt40j;
 	dkim-atps=neutral
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFcBd1cBNz2x9J
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 18:57:29 +1100 (AEDT)
-Received: by mail-pf1-x42f.google.com with SMTP id n2so7353926pfo.3
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 12 Feb 2023 23:57:29 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFcBg67L0z3bbX
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 18:57:31 +1100 (AEDT)
+Received: by mail-pf1-x434.google.com with SMTP id g9so7339162pfo.5
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 12 Feb 2023 23:57:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ufispace-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tHJhiuRiqcFrsMSI4ugI2BOz+NSM+ro+gE1w6zVpdyI=;
-        b=LwZ/sKRzDFxjgmVtGLG6VES6M86sDeHn1sB1X609wpG94R/o0z9PEfDEvOkk+WSM9U
-         R6B08yRzbGXdnhC/dNtXoug6mH0k4y4QI4FkMIqE5ytFvA0Cwhx7/2CIhYXPaje/d1Tq
-         6U+jWY258loP6HwtfH9SmYIMY+v63CQHHzz3xVb2/MhGWYRXUx8ZQWS2tP3T/TndSuAT
-         sv5hycb+JIt/Ygnk6IuEj3BH/We8dhnSbtLdT2XcCnfzl/dYuDSmS6Lxs7OAwjO3dhC0
-         jaWQyBTo3qMDR/940X93jTILihyUfybzXE3TUkwViPGPC4O1dWPb/nj+JHn0GF47E510
-         cYtA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gLX8z+VmkuhbOJU8SjqmtGQULQdYzLn1lbUbBir9szk=;
+        b=OC7yt40jxaTF6jNCYwPDvxK09QZDR6/XZpaTyUdw2Whoh/7qgTKFQcW9Twcn9XdQDw
+         Jibid8vcsogYD4lml+vglt9NLSOF8w/gxfh7gElRI+4k5077ui/+HgVApiEndX6MuXKP
+         NzeqFQoLLJYUu7HTs9Tynm34hnMPpeC495vFYUEEzFu5Rhpnn9qzaZsWGAR6oiIkzMuk
+         PCjSS+gKz/90DX3JY1FAlyWFu6r3MhUWhelOlnocWdt8CUHvU6xIijhez7AsqhIsH8TE
+         BTu/eXRAj5o2rvtmLqqdS2kwLQn43MkEtYdH5vBkYZ4sPzB3ZH6ruIrktQVT8Lk5wfTT
+         LVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tHJhiuRiqcFrsMSI4ugI2BOz+NSM+ro+gE1w6zVpdyI=;
-        b=YAvhyhOQsJAmby+UUT+SObmoYrrUJSGnW1NBDHm+te3dE1VV0s1/b/n8tojjmYArvM
-         aULYy/8mfwoJ8pXcnaa4OSXxb+BDM2q2ba0AO9iE/aB8/lt6INq8S00pcpd5ss9uP/32
-         nCUUrdgdP8DeowTLsQ3gz5n32lWSoAhV0nc0w2xkmEAaz9btOeETu/gNKo+wUl1GnXZI
-         a3B2x5y8UkBWujlQwXERz1tIvlTYgkuUCet9bmm2Neyv8h8c8/CnDvuqa3LA5rPIZVAZ
-         6hV/q0gexHPDL3k03arStmVhoG/REyTz9R47LjPLpNQr3+IE8f8bJi+eHbQnnIm61qi7
-         Xg8Q==
-X-Gm-Message-State: AO0yUKUn58KI99oXey8A3aoWb8YpJ5Jgs9YyHeGiPxabo/MwwwToZDe9
-	FlKzI+OJT583hdJ3R1lwxnE/2A==
-X-Google-Smtp-Source: AK7set9LE8GPOhtY+B1RcIiH1yuIiy0jL2qeqKDiUlM0tAifpAsNTHw/az3I4uhlO37/K0cCECo23w==
-X-Received: by 2002:aa7:9ad6:0:b0:5a8:ab62:28fc with SMTP id x22-20020aa79ad6000000b005a8ab6228fcmr3620669pfp.9.1676275046246;
-        Sun, 12 Feb 2023 23:57:26 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gLX8z+VmkuhbOJU8SjqmtGQULQdYzLn1lbUbBir9szk=;
+        b=LLQuH5Ds1Fx/Vc54HHnw9EkWNBxLLDHNEkwVemKnNIXCrC/oN5kUVhfc+wpVXmH7Gu
+         Rwcwk6bHb0cvUHMu9KdGyVRetas0qJIbZe4ISmlF+sXl8cqzpsoGhZBWT/lq/QE7mNns
+         e94Zinha0Y8rY1axr9dVLhNpFfjKQmG1gKD7bFT4nf8VmJZOyXlN9eocw+6aacA84Neu
+         rHVf8TToIfFfvWawu+mE3bLinFaEhrsKFdSaGCcTNrDntaE784unmS/FNgRTCv8G9iJy
+         IEN4L4NwZlQHR9VujU0RjDvi2zmi5s+cljiG4qd5B0GSkWMi1krYwOBQUz8hrcBbdQc8
+         vYIg==
+X-Gm-Message-State: AO0yUKXgv3Ov5J3M20XleRc+DkOXzWSdWCqJE6sgriBmItIMT12Be/5s
+	PHvFaYXKbo8D3sFUJ+Fd2H2avw==
+X-Google-Smtp-Source: AK7set+19kSuwlvtTPrZXjW9sq2dkiWDCq4qDWcYmb3Ln9K3Jns+sFYmxPEVf3a4CPd60nTDQtS6OA==
+X-Received: by 2002:a62:1c8d:0:b0:5a8:aa5e:4bc3 with SMTP id c135-20020a621c8d000000b005a8aa5e4bc3mr4389932pfc.1.1676275049606;
+        Sun, 12 Feb 2023 23:57:29 -0800 (PST)
 Received: from openbmc500G.LAB.ufispace (CH210-63-217-225.static.apol.com.tw. [210.63.217.225])
-        by smtp.gmail.com with ESMTPSA id e9-20020aa78249000000b00588e0d5124asm7255959pfn.160.2023.02.12.23.57.24
+        by smtp.gmail.com with ESMTPSA id e9-20020aa78249000000b00588e0d5124asm7255959pfn.160.2023.02.12.23.57.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 23:57:25 -0800 (PST)
+        Sun, 12 Feb 2023 23:57:29 -0800 (PST)
 From: Jordan Chang <jordan.chang@ufispace.com>
 To: linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
@@ -65,10 +66,12 @@ To: linux-arm-kernel@lists.infradead.org,
 	joel@jms.id.au,
 	andrew@aj.id.au,
 	robh+dt@kernel.org
-Subject: [PATCH v5 0/1] Add Ufispace NCPLite platform device tree
-Date: Mon, 13 Feb 2023 15:57:18 +0800
-Message-Id: <20230213075719.37276-1-jordan.chang@ufispace.com>
+Subject: [PATCH v5 1/1] ARM: dts: aspeed: Add device tree for Ufispace NCPLite BMC
+Date: Mon, 13 Feb 2023 15:57:19 +0800
+Message-Id: <20230213075719.37276-2-jordan.chang@ufispace.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230213075719.37276-1-jordan.chang@ufispace.com>
+References: <20230213075719.37276-1-jordan.chang@ufispace.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -86,30 +89,394 @@ Cc: jay.tc.lin@ufispace.com, eason.ys.huang@ufispace.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add Ufispace NCPLite platform device tree, and add the compatible
-string in dt-bindings files.
+Add initial version of device tree for Ufispace NCPLite platform
+which is equipped with AST2600-based BMC.
 
-Changes for v5:
-- add "Reviewed-by: Andrew Jeffery"
-
-Changes for v4:
-- revise the tags
-
-Changes for v3:
-- add "Acked-by: Krzysztof Kozlowski"
-
-Changes for v2:
-- modify node name to generic one and check with dtbs_check
-- send-email without confidential mode
-
-Jordan Chang (1):
-  ARM: dts: aspeed: Add device tree for Ufispace NCPLite BMC
-
+Signed-off-by: Jordan Chang <jordan.chang@ufispace.com>
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+---
  arch/arm/boot/dts/Makefile                    |   1 +
  .../boot/dts/aspeed-bmc-ufispace-ncplite.dts  | 359 ++++++++++++++++++
  2 files changed, 360 insertions(+)
  create mode 100644 arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
 
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 2ee9c043218b..d26e0651e805 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1626,6 +1626,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-inventec-transformers.dtb \
+ 	aspeed-bmc-tyan-s7106.dtb \
+ 	aspeed-bmc-tyan-s8036.dtb \
++	aspeed-bmc-ufispace-ncplite.dtb \
+ 	aspeed-bmc-vegman-n110.dtb \
+ 	aspeed-bmc-vegman-rx20.dtb \
+ 	aspeed-bmc-vegman-sx20.dtb
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts b/arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
+new file mode 100644
+index 000000000000..58bce8382cb5
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
+@@ -0,0 +1,359 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++// Copyright (c) 2022 Ufispace Co., Ltd.
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/i2c/i2c.h>
++#include <dt-bindings/gpio/aspeed-gpio.h>
++
++/ {
++	model = "Ufispace NCPLite BMC";
++	compatible = "ufispace,ncplite-bmc", "aspeed,ast2600";
++
++	aliases {
++		serial4 = &uart5;
++	};
++
++	chosen {
++		stdout-path = &uart5;
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x80000000>;
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
++			      <&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
++			      <&adc1 0>, <&adc1 1>, <&adc1 2>, <&adc1 3>,
++			      <&adc1 4>, <&adc1 5>, <&adc1 6>, <&adc1 7>;
++	};
++
++	gpio-keys {
++		compatible = "gpio-keys";
++
++		event-fan-alert {
++			label = "fan-alert";
++			gpios = <&gpio0 ASPEED_GPIO(M, 2) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(M, 2)>;
++		};
++
++		event-allpwr-good {
++			label = "allpwr-good";
++			gpios = <&gpio0 ASPEED_GPIO(V, 4) GPIO_ACTIVE_HIGH>;
++			linux,code = <ASPEED_GPIO(V, 4)>;
++		};
++
++		event-psu0-alert {
++			label = "psu0-alert";
++			gpios = <&gpio0 ASPEED_GPIO(V, 1) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(V, 1)>;
++		};
++
++		event-psu1-alert {
++			label = "psu1-alert";
++			gpios = <&gpio0 ASPEED_GPIO(V, 2) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(V, 2)>;
++		};
++
++		event-thermal-alert {
++			label = "thermal-alert";
++			gpios = <&gpio0 ASPEED_GPIO(P, 2) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(P, 2)>;
++		};
++
++		event-cpu-caterr {
++			label = "cpu-caterr";
++			gpios = <&gpio0 ASPEED_GPIO(N, 3) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(N, 3)>;
++		};
++
++		event-cpu-thermtrip {
++			label = "cpu-thermtrip";
++			gpios = <&gpio0 ASPEED_GPIO(V, 5) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(V, 5)>;
++		};
++
++		event-psu0-presence {
++			label = "psu0-presence";
++			gpios = <&gpio0 ASPEED_GPIO(F, 6) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(F, 6)>;
++		};
++
++		event-psu1-presence {
++			label = "psu1-presence";
++			gpios = <&gpio0 ASPEED_GPIO(F, 7) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(F, 7)>;
++		};
++
++		event-psu0-power-ok {
++			label = "psu0-power-ok";
++			gpios = <&gpio0 ASPEED_GPIO(M, 4) GPIO_ACTIVE_HIGH>;
++			linux,code = <ASPEED_GPIO(M, 4)>;
++		};
++
++		event-psu1-power-ok {
++			label = "psu1-power-ok";
++			gpios = <&gpio0 ASPEED_GPIO(M, 5) GPIO_ACTIVE_HIGH>;
++			linux,code = <ASPEED_GPIO(M, 5)>;
++		};
++	};
++
++	gpio-keys-polled {
++		compatible = "gpio-keys-polled";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		poll-interval = <1000>;
++
++		event-fan0-presence {
++			label = "fan0-presence";
++			gpios = <&fan_ioexp 2 GPIO_ACTIVE_LOW>;
++			linux,code = <2>;
++		};
++
++		event-fan1-presence {
++			label = "fan1-presence";
++			gpios = <&fan_ioexp 6 GPIO_ACTIVE_LOW>;
++			linux,code = <6>;
++		};
++
++		event-fan2-presence {
++			label = "fan2-presence";
++			gpios = <&fan_ioexp 10 GPIO_ACTIVE_LOW>;
++			linux,code = <10>;
++		};
++
++		event-fan3-presence {
++			label = "fan3-presence";
++			gpios = <&fan_ioexp 14 GPIO_ACTIVE_LOW>;
++			linux,code = <14>;
++		};
++	};
++};
++
++&mac2 {
++	status = "okay";
++	use-ncsi;
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii3_default>;
++	clocks = <&syscon ASPEED_CLK_GATE_MAC3CLK>,
++		 <&syscon ASPEED_CLK_MAC3RCLK>;
++	clock-names = "MACCLK", "RCLK";
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout-64.dtsi"
++	};
++
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "alt-bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout-64-alt.dtsi"
++	};
++};
++
++&uart1 {
++	status = "okay";
++};
++
++&uart4 {
++	status = "okay";
++};
++
++&uart5 {
++	status = "okay";
++};
++
++&kcs3 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca2>;
++};
++
++&lpc_reset {
++	status = "okay";
++};
++
++&lpc_ctrl {
++	status = "okay";
++};
++
++&uart_routing {
++	status = "okay";
++};
++
++&wdt1 {
++	status = "okay";
++};
++
++&wdt2 {
++	status = "okay";
++};
++
++&peci0 {
++	status = "okay";
++};
++
++&udc {
++	status = "okay";
++};
++
++&adc0 {
++	vref = <2500>;
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
++		&pinctrl_adc2_default &pinctrl_adc3_default
++		&pinctrl_adc4_default &pinctrl_adc5_default
++		&pinctrl_adc6_default &pinctrl_adc7_default>;
++};
++
++&adc1 {
++	vref = <2500>;
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default
++		&pinctrl_adc10_default &pinctrl_adc11_default
++		&pinctrl_adc12_default &pinctrl_adc13_default
++		&pinctrl_adc14_default &pinctrl_adc15_default>;
++};
++
++&i2c0 {
++	status = "okay";
++};
++
++&i2c1 {
++	status = "okay";
++
++	temperature-sensor@48 {
++		compatible = "national,lm75";
++		reg = <0x48>;
++	};
++
++	temperature-sensor@49 {
++		compatible = "national,lm75";
++		reg = <0x49>;
++	};
++
++	temperature-sensor@4c {
++		compatible = "national,lm86";
++		reg = <0x4c>;
++	};
++};
++
++&i2c2 {
++	status = "okay";
++
++	temperature-sensor@4f {
++		compatible = "national,lm75";
++		reg = <0x4f>;
++	};
++
++	fan_ioexp: i2c-expander@20 {
++		compatible = "nxp,pca9535";
++		reg = <0x20>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio-line-names =
++		"","","presence-fan0","",
++		"","","presence-fan1","",
++		"","","presence-fan2","",
++		"","","presence-fan3","";
++	};
++};
++
++&i2c3 {
++	status = "okay";
++
++	eeprom@50 {
++		compatible = "atmel,24c128";
++		reg = <0x50>;
++		pagesize = <64>;
++	};
++};
++
++&i2c4 {
++	status = "okay";
++
++	psu@58 {
++		compatible = "pmbus";
++		reg = <0x58>;
++	};
++
++	eeprom@50 {
++		compatible = "atmel,24c02";
++		reg = <0x50>;
++		pagesize = <1>;
++	};
++};
++
++&i2c5 {
++	status = "okay";
++
++	psu@58 {
++		compatible = "pmbus";
++		reg = <0x58>;
++	};
++
++	eeprom@50 {
++		compatible = "atmel,24c02";
++		reg = <0x50>;
++		pagesize = <1>;
++	};
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c10 {
++	status = "okay";
++
++	temperature-sensor@4d {
++		compatible = "national,lm75";
++		reg = <0x4d>;
++	};
++};
++
++&gpio0 {
++	status = "okay";
++
++	gpio-line-names =
++	/*A0-A7*/	"","","","","","","","",
++	/*B0-B7*/	"","","","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","","","","","","","",
++	/*E0-E7*/	"","","","","","","","",
++	/*F0-F7*/	"CPU_PWRGD","","","power-button","host0-ready","","presence-ps0","presence-ps1",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","reset-button","","",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"power-chassis-control0","power-chassis-control1","","","","","","",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"","","","","","","","",
++	/*Q0-Q7*/	"","","","","","","","",
++	/*R0-R7*/	"","","","","","","","",
++	/*S0-S7*/	"","","","","","","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","","power-chassis-good","","","";
++};
 -- 
 2.39.0
 
