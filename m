@@ -2,77 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAD169474D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 14:44:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E8969479E
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 15:05:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PFltt4ZLgz3c8F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Feb 2023 00:44:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PFmLk59kvz3bh7
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Feb 2023 01:05:02 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ytH2NJkc;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=DIRZZdqG;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::430; helo=mail-wr1-x430.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ytH2NJkc;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=DIRZZdqG;
 	dkim-atps=neutral
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFltk5TLRz2xHH
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Feb 2023 00:44:13 +1100 (AEDT)
-Received: by mail-wr1-x430.google.com with SMTP id m14so12249920wrg.13
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 05:44:13 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFmLZ5Grqz2xb4
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Feb 2023 01:04:54 +1100 (AEDT)
+Received: from rico.lan (unknown [159.196.93.152])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DE37120034;
+	Mon, 13 Feb 2023 22:04:50 +0800 (AWST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8YndzVf3v6/PsLB4xK8l0Uo2uF+AS5qRQ1VgyuaYEtU=;
-        b=ytH2NJkcPta5r4EPLRm4775bH0r5ADtnJOIFsbPl09/9KNCMgIaz0PZV0BfJeqrnlU
-         quS+NGLbT99F2JIBYG6vbpD5/cKVtpifXUqqS6600N+5wH2H9WhF/teI/24Zaf+X8QEN
-         1+d7xqvzZ2KsizaauuzRc6Vo7o4hmEjWJcvVM7uvFnTF9lc9mz/nmdDKPJDiKPXpDSZu
-         JTVTTi4EJWM1HaPisNF4f4NwI+nv4CUWrfPs3S0TUqz8qUCRcmAoaJgba3NdZyv77XEu
-         ede5e4NixFfzGxYTtC6a63WsB2CZDBQhBdoDz3zzOr/XTMYKKSHT4raPwz6A6MLgQAF2
-         k0Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8YndzVf3v6/PsLB4xK8l0Uo2uF+AS5qRQ1VgyuaYEtU=;
-        b=j4x08O0+vREieF+xU7vx1m+P20VaP6GTGRnrtMMxQf4/TwAZ91zpmegwDcjtwmEnel
-         HLtM8HzbPPikGamI6Bz3K3YcXxqW/uN6t6aFIzAJaKpEd2DfoaWxMI9n4pccGp3rbRUv
-         U3LD+NgqS8GvYwX4MFKsj8Qi1A6626c5yLfCR7LXu8/ULWwlSR6Lk3eSITuA5w52qN9K
-         ++tRyAQ+uUSqDX13xnkOvhUJDHDxWMobDwq7337Rphla/iBYW+l7rVSifFC+wPQRp6gf
-         4GOJE+3/Yyh4/odtHmifTH7aZYih4/oYEWH4hgWgvCtMxxLIfKGkx6CZVOOKQpoTon/Q
-         OlbA==
-X-Gm-Message-State: AO0yUKWKsACwIGKKGYWO+4rUoe630GGNUbOf7YzRDLPLgkupMN/HRJRE
-	6c4TJEZXqAlQB8/XV+Zu9Mx7pTM56ajq+A/n
-X-Google-Smtp-Source: AK7set/17SJjnCRcpQIPGHx+EFyoU4FpCGw43e1kOiXX79UznQPjL3PPfrqHr+skXbFC8GK1Qch8Mg==
-X-Received: by 2002:a05:6000:1808:b0:2c5:5929:4bcf with SMTP id m8-20020a056000180800b002c559294bcfmr2854910wrh.28.1676295850679;
-        Mon, 13 Feb 2023 05:44:10 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id v17-20020a5d43d1000000b002c54bf0e9f7sm7801758wrr.117.2023.02.13.05.44.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 05:44:10 -0800 (PST)
-Message-ID: <eb0fa8ee-9c14-c8a4-2d3e-6180f5d875b6@linaro.org>
-Date: Mon, 13 Feb 2023 14:44:09 +0100
+	d=codeconstruct.com.au; s=2022a; t=1676297093;
+	bh=Rqlv2sqC3TCOsNxDajqKf5TrX0e0ldaMazRHcAdox5Y=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=DIRZZdqGngeJpL61e8FmNJDXUh91fn2h6RfyVA7ijmQpB0hxt9dliRXy1EEqMiAIr
+	 QJkUxMMLbSVSCNX1pJAtXYEfiwPttzlLm9Ln8IZZxRRNFBJp9xDQY00bC4IvjGLdmM
+	 0xuWehqRc6RE4z3Zfcx/GmqzItE07VMqI2TkOXckldrPjQvKP1Rpv1d4WyTNEoeUOf
+	 jrwsJ1NJgQpza5gM3+4XaDrzbSY63fsp20aaRtXVdaom4s+N7v0eV3qiu4qXAkbVsa
+	 NriW9m15mybE2ZMva6kvmuQZJAgQWPg1q+/WzTRdfg/UVuYXYh1kE6zsdIvtM5s0uI
+	 jHi4M2mUSZQ9g==
+Message-ID: <2528217bf1d43b834587cc0e399d7e86695bd390.camel@codeconstruct.com.au>
+Subject: Re: [RFC PATCH] dt-bindings: Add AST2600 i3c controller binding
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	devicetree@vger.kernel.org
+Date: Mon, 13 Feb 2023 22:04:50 +0800
+In-Reply-To: <71aeb3da-13a1-1c79-9fe6-f5c23d398394@linaro.org>
+References: 	<5c047dd91390b9ee4cd8bca3ff107db37a7be4ac.1676273912.git.jk@codeconstruct.com.au>
+	 <7c6741e1-ae41-ba20-b859-736214c680e8@linaro.org>
+	 <91e9e815bed8c2eff19dbe6b3ed36d10c6edcbfd.camel@codeconstruct.com.au>
+	 <929a30fc-35f3-ab21-3a16-936ed69d5505@linaro.org>
+	 <80fa21969d9e0e7a123bd525199dbb40e79d47e3.camel@codeconstruct.com.au>
+	 <71aeb3da-13a1-1c79-9fe6-f5c23d398394@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 5/5] dt-bindings: clock: ast2600: Add reset config for
- I3C
-Content-Language: en-US
-To: Jeremy Kerr <jk@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org,
- linux-clk@vger.kernel.org
-References: <cover.1676294433.git.jk@codeconstruct.com.au>
- <3aad8dc671a65e65f0cced648847c504514f5b0e.1676294433.git.jk@codeconstruct.com.au>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <3aad8dc671a65e65f0cced648847c504514f5b0e.1676294433.git.jk@codeconstruct.com.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,19 +63,70 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-i3c@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 13/02/2023 14:24, Jeremy Kerr wrote:
-> Add reset line definitions for the AST2600 I3C block's reset inputs.
-> 
-> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
-> 
+Hi Krzysztof,
+
+> > Yes, that's essentially what I'm looking for with this change -
+> > particularly with the pullup config, which (as you say) could
+> > arguably
+> > be a pinctrl config instead.
+>=20
+> Depends, there was just a short sentence. If this is external
+> resistor
+> on the board, why this device needs such property (and none of other
+> devices need...)? If this is internal pull up of I3C (and there is no
+> other pin configuration possible, no other pins), it looks reasonable
+> to me to have it here. But I am all guessing it...
+
+It's the second case: there is a configurable pullup resistor in each of
+the i3c controllers (or, more accurately: in the ast2600's glue
+between the SoC and the I3C IP block).
+
+The pullup configuration is controlled by the SoC "global" i3c
+registers; a block shared by all of the SoC's i3c controllers. So, any
+driver implementation would need to set up that global register
+configuration on i3c controller init.
+
+So, I can see two options for the binding (and consequently the driver
+implementation):
+
+ 1) the sda-pullup-ohms property on the controller binding, which a
+ driver implementation could set directly through the global register
+ set
+
+ 2) define a pin controller on the global register block, allowing other
+ (standard) DT pinctrl definitions to control the pullup calue. This
+ would need a new driver implementation for the pin controller, but that
+ shouldn't be too complex to implement.
+
+For the binding proposed here, I've chosen (1). We can handle all of the
+other (non-pullup-related) global register configuration by treating the
+globals as a simple generic syscon device.
+
+I'm happy to try (2) instead, if that's the better approach. However,
+that may be over-engineering the binding spec (and consequently, the
+necessary driver implementation) for just setting a register value.
+
+From your second point:
+
+> (and there is no other pin configuration possible, no other pins)
+
+This is a fairly small and isolated component of the global ast2600 pin
+configuration; the pullup value is set separately from the
+already-implemented SoC-wide pinctrl. Merging the pullup values into
+that wouldn't really fit the hardware interface mode though; this is a
+separate IP block linked to the i3c controllers.
+
+Let me know if you have any preferences on the approach to a biding
+structure.
+
+And Andrew: let me know if your experience with the ast2600 SoC's
+pinctrl would suggest either option.
+
+Cheers,
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Jeremy
