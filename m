@@ -2,49 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EA3693E05
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 07:02:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E159693EDE
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 08:21:44 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PFYfH6QkNz3c69
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 17:02:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PFbPL1LSDz3c65
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 18:21:42 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=FgUuQAGL;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=rhbucKsa;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ufispace.com (client-ip=2607:f8b0:4864:20::231; helo=mail-oi1-x231.google.com; envelope-from=jordan.chang@ufispace.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=FgUuQAGL;
+	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=rhbucKsa;
 	dkim-atps=neutral
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFYf20sG3z3bbX
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 17:02:33 +1100 (AEDT)
-Received: by codeconstruct.com.au (Postfix, from userid 10000)
-	id 42284202DA; Mon, 13 Feb 2023 14:02:33 +0800 (AWST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFbPB0q2Xz3bfw
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 18:21:31 +1100 (AEDT)
+Received: by mail-oi1-x231.google.com with SMTP id bj22so9427224oib.11
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 12 Feb 2023 23:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1676268153;
-	bh=eLUPAGT631b5vX2q9I73MK63Lf+Bgpoyf5/+0x8s3ik=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FgUuQAGLoAEGwzQboFMDhqrlXaR04dkNKLyIkOj5LNE4I8PKx4HY2D4oVf/QBdprh
-	 G/68qdLRdSn2cS1HwumYHALIgdoGlCJ8jq3TPRRmctEhdie6JaGqZrclrs+ybknMUB
-	 Ovp/OTuZu/W010kW+Qu+C1x/qS0r5ATViVOUuvokBiD7YWEuH2kyE6Q20eQfbiOKyC
-	 CeavgQJq0HjItnGYCt7clFRIpZUhgboKl/Zb9CKdavLDBR5WP1phtja66TxkI7jMAj
-	 9RhV3WfIh+MUy6J6wLdYJ3jZZIHB1Jn9M37wzWzvo9UBEjNSRkuI3RKV/6P1BfxPaU
-	 FtDy8/Wc0lOMw==
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: linux-aspeed@lists.ozlabs.org,
-	linux-clk@vger.kernel.org
-Subject: [PATCH v2 3/3] dts: ast2600: Add reset config for I3C
-Date: Mon, 13 Feb 2023 14:02:08 +0800
-Message-Id: <f426c3a22d64d076b007a0fc75dc95a389a9387f.1676267865.git.jk@codeconstruct.com.au>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1676267865.git.jk@codeconstruct.com.au>
-References: <cover.1676267865.git.jk@codeconstruct.com.au>
+        d=ufispace-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tu3Rg9Nc9tQdXwpvmhafgzXQ8RyOPEDDD2j9N3bOJ9Y=;
+        b=rhbucKsaF7+Mk5ib60jTJ4D0s6/wXI1ilnFVZL1k4ehPJhvQbhPNAXBSEuaB7pBRI6
+         YzV7Vy78+B/h5/Q3qudP6b37y3hwjZTMu/9swOgfDQF3UQX/M1VBwGHZs1gPxoRUPylD
+         7KaOtEwpu5DsCLNyqKLu/GEOR7Uq7t4ZJMIHJNwlJzVBqPtgW7Qtg/DzzDpUYpsLoiRS
+         VY8k9f4nfwTL8v1/OTSBBTceUOOLdfHKNdfL2afWwk2TlKKsEmqm/VgFZYcwCKCiQUQA
+         FIijhynrGCRyo/ZGOIYVhi2QxxZ6rB0sX6CyETwBpA8aqIc/+2mvCjusVthnscPfCu3v
+         tkdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tu3Rg9Nc9tQdXwpvmhafgzXQ8RyOPEDDD2j9N3bOJ9Y=;
+        b=7ZHiRiJzX0mtbYNtE6KaIbsYd7HGlWFh164NRKULjx4CorN1QWbR4pCwdNT2a7aBTs
+         gpQtCTeIbHywSDoOFk+QdgrbKgYUk7jW+6QW9/n292VJEt4x26Eg2sFNqnf/LH0q4RVK
+         Jn0ULEGPr6R5Y4G/57E3S/4AU9+gloLjX67TYq7EUY/++kI+0jtJfneKWSHWtoHOIrlN
+         HE+5VpeI0gyRU5PnoYx+MvrdQLdOlFxmP1ZAYtWwWPZFQE9FpGYP4A7mdSIqVwbA1Wix
+         tW+R+elmnphnf4P8ngWLaKURStWP1BZ6354unM0SrKltQ4Jm8WQ+lrOTm/UdpCSmt7tN
+         pgBg==
+X-Gm-Message-State: AO0yUKUr178NbhklXp+1hLHhGgERGxA/8xUZO2aw5mp2nsM0sSJyocS+
+	ZS7x5MuZ/HUMC9kfrvkLGLrMbvpr/Eg+wO5+d4Bfxw==
+X-Google-Smtp-Source: AK7set/e0bJVfEBzygvuQJIzqcbZTs/OUfDWmBy0vBYsOf67t1TDn9nW5hUaKrWnY73k1wjEjHI3BRLZg/+VRobb8wc=
+X-Received: by 2002:a05:6808:60d:b0:37b:7c36:4df8 with SMTP id
+ y13-20020a056808060d00b0037b7c364df8mr1721341oih.144.1676272888357; Sun, 12
+ Feb 2023 23:21:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230210103829.74470-1-jordan.chang@ufispace.com>
+ <20230210103829.74470-2-jordan.chang@ufispace.com> <12424bbd-cd3c-4d96-a7d8-1c83241b845f@app.fastmail.com>
+In-Reply-To: <12424bbd-cd3c-4d96-a7d8-1c83241b845f@app.fastmail.com>
+From: Jordan Chang <jordan.chang@ufispace.com>
+Date: Mon, 13 Feb 2023 15:21:17 +0800
+Message-ID: <CAJ3czeQSEv48M=_DWHs1-b7OxLccY1xe-VfNYRq9JUv_fHt3WQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/1] ARM: dts: aspeed: Add device tree for Ufispace
+ NCPLite BMC
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,35 +75,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: jay.tc.lin@ufispace.com, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, eason.ys.huang@ufispace.com, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This change adds the reset line definitions for the AST2600 I3C block's
-reset inputs.
+Hi Andrew,
 
-Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
----
- include/dt-bindings/clock/ast2600-clock.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thank you for taking time to review.
 
-diff --git a/include/dt-bindings/clock/ast2600-clock.h b/include/dt-bindings/clock/ast2600-clock.h
-index 600549d7bee8..16b7389bbb9c 100644
---- a/include/dt-bindings/clock/ast2600-clock.h
-+++ b/include/dt-bindings/clock/ast2600-clock.h
-@@ -90,6 +90,12 @@
- /* Only list resets here that are not part of a gate */
- #define ASPEED_RESET_ADC		55
- #define ASPEED_RESET_JTAG_MASTER2	54
-+#define ASPEED_RESET_I3C5		45
-+#define ASPEED_RESET_I3C4		44
-+#define ASPEED_RESET_I3C3		43
-+#define ASPEED_RESET_I3C2		42
-+#define ASPEED_RESET_I3C1		41
-+#define ASPEED_RESET_I3C0		40
- #define ASPEED_RESET_I3C_DMA		39
- #define ASPEED_RESET_PWM		37
- #define ASPEED_RESET_PECI		36
--- 
-2.39.1
+On Mon, Feb 13, 2023 at 9:56 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+> > +
+> > +     temperature-sensor@4f {
+> > +             cpmpatible = "national,lm75";
+>
+> s/cpmp/comp/
+Will revise the typo.
 
+Best regards,
+Jordan Chang
