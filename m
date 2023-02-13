@@ -2,76 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39EC469414E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 10:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0174D6941CD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 10:47:09 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PFfMm0rWyz30QD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 20:35:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PFfd53r3Pz3c7d
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 20:47:05 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ClAtuvBe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SJdEpQrW;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32e; helo=mail-wm1-x32e.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::330; helo=mail-wm1-x330.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ClAtuvBe;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SJdEpQrW;
 	dkim-atps=neutral
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFfMc02rMz2xjw
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 20:35:23 +1100 (AEDT)
-Received: by mail-wm1-x32e.google.com with SMTP id az4-20020a05600c600400b003dff767a1f1so8493187wmb.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 01:35:23 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFfcx6TGnz2xGL
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 20:46:55 +1100 (AEDT)
+Received: by mail-wm1-x330.google.com with SMTP id n13so8254206wmr.4
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 01:46:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Gmgucw7ArcE1rVHBJg9HjFw2E1lAyLd9N9iv88RjGQE=;
-        b=ClAtuvBeysiK4DiEo6LMV3dTn1HCCdUhBXbF5Ye+aVaPFpxD9yHzuKfl1cOzH1Dbu+
-         DeUNqql54iNavpEAhMFhIQEUhW785AX9d3ge/8WbagLLx4/zs6eSWZFYOGjLPErFQCoJ
-         AQNJIOlNEqi+KerCvb/Hz15ePbUcm4ZpUpwB/QIkheyJ0uYQBfoaYdObvaXQM5Zmsu7B
-         H6ur1q3icdwV2C2qt9qtlQL5zAsXwFjnfWkRt/Gv99w7POcqPZMeLU7F59zHUivodIfs
-         +uBaMZUyd0EmdS7DEC6YC2735WGR+iRt6AhhdqOWpHXTFfu0eab4f97qwOArJyMDJYHl
-         ekvQ==
+        bh=yOPgLCW7T8vK/LSUPT7A6YVcJlxOCqf9nMJwHUXwdEU=;
+        b=SJdEpQrWIorwhYxdpYo5dT1Hf7Cm32zZOIHcIfzdVpTxS1TvyGiPg0CPAhxKRZRx2U
+         ZFgbjQ/o5ScN49Ht+6UKYyiXtshnxk5TSouQI1BEZKuqDGk1yWCsSpcFoQh3z3U2+fen
+         GiY6eS1NwG7mVTDBfaLtJ9FzA1zkGKRuv2xQPPWk0qRfxEdN3g1N/hYlygfCFrUeiq5A
+         7WMz7oMTpCMDi7oLIJvQv3JvLFawVXF1reIHqRvM79W1YtGI9gp0fBd8mGYnyxtLEcM0
+         AJEUFVq/cx6EX9XGRzy0jZKeshAR3ed6XdTu5vq+y4gap6m4Lm088ez35KxVLhHZ4uXM
+         Z3+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gmgucw7ArcE1rVHBJg9HjFw2E1lAyLd9N9iv88RjGQE=;
-        b=AaZByfHnuSciZx9OHgVN0nXKzOeog1uWjjqiB6UHY6FBk6i0OyDrrV2Kbo+9fsk4IK
-         +dy8phfwRJBsfLkL61sbjCMJw6i6ZAssX/6EfV+Sd/Ohnc64xI2r+rnHivQJvnHxDNBV
-         mdD2jslpzhxJ+E5BmPoLb1zMZKc3H6zmBYGT8MHLmEd10eYIUOQHH1Pk3Sr8Nr50Cg5f
-         G9kNt5oiM+IUhX+wanZm0mv9W1sd5+S4AqVPF2fHy4hmQul656EQyZt/0bdknAAgmyCT
-         XCEVc6QYIosMdgicWWqw6hIxrmOAx0qeVd0BrkOmeQ4RVGd+RloxbwvjzM/HyqATix94
-         QYlA==
-X-Gm-Message-State: AO0yUKWkA+lDPsWqq6vFVJIXCY0bEURGnZjyHeXPFKEtaeQPi2L9pISm
-	3bM1mzprQCn1aeHrxfMs6rNM4g==
-X-Google-Smtp-Source: AK7set8t1hWdwz4+lb2JgagXmy8pG7Dx7iXEOWfMIit4rR4uri5IsmUt3xVOuYZuZ7mMxX4PXm7AsQ==
-X-Received: by 2002:a05:600c:3b92:b0:3df:eedf:df1c with SMTP id n18-20020a05600c3b9200b003dfeedfdf1cmr22437691wms.38.1676280919784;
-        Mon, 13 Feb 2023 01:35:19 -0800 (PST)
+        bh=yOPgLCW7T8vK/LSUPT7A6YVcJlxOCqf9nMJwHUXwdEU=;
+        b=IEi/Qi8ex//IR0yoomDCCEK7ktfatDROpSYVbxh4IRMk25Fvm25LWdBfDcbrPzGGsq
+         w2DiDNae/9iOgghNuRk8Zlxx7cbqKdryNHw55sH79/WoDmUrNCS4P62g3m2J/BAF7uzb
+         8iH1z0idGxPrkgfM/BKv4qgr7LuA2EKXBSvZQX5ZJpUytWEF/RfSuTTTQYPGAeZJbdn2
+         HvnhVaggPf/vldLdeE1lJCOn/t+N8uNiwtHNuaVcTsGF/bt2HHDxii9P15wwAozX4NiD
+         +zHAGkQX4eLZzQddn8SHnoc8zEIwsWKkhERlUL0HJPP+iuDquQdbakIxG2GW1Iejd6QX
+         TvtA==
+X-Gm-Message-State: AO0yUKVHlBkJvRx8WE0R/KK5SxEzy8hUODvCZbxWfGcf1ZByW2mbpoNa
+	e7oxrNgbKfuS8710CdvkBRONKQ==
+X-Google-Smtp-Source: AK7set+95nq5YeloUXV/H16QNZdb80eq/m50nMdjfMX/lyZ9KFUHlXUkRW98jtFC3saws8yua1JPDQ==
+X-Received: by 2002:a05:600c:32a7:b0:3df:dea7:8ec with SMTP id t39-20020a05600c32a700b003dfdea708ecmr19050100wmp.20.1676281611437;
+        Mon, 13 Feb 2023 01:46:51 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id w19-20020a05600c475300b003e11f280b8bsm11265977wmo.44.2023.02.13.01.35.18
+        by smtp.gmail.com with ESMTPSA id p5-20020a1c5445000000b003dc492e4430sm13292404wmi.28.2023.02.13.01.46.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 01:35:19 -0800 (PST)
-Message-ID: <71aeb3da-13a1-1c79-9fe6-f5c23d398394@linaro.org>
-Date: Mon, 13 Feb 2023 10:35:17 +0100
+        Mon, 13 Feb 2023 01:46:51 -0800 (PST)
+Message-ID: <238f6b4c-b4d3-5dfd-35b2-34fede2d1d84@linaro.org>
+Date: Mon, 13 Feb 2023 10:46:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [RFC PATCH] dt-bindings: Add AST2600 i3c controller binding
+Subject: Re: [PATCH 1/2] clk: aspeed: Add full configs for i3c clocks
 Content-Language: en-US
-To: Jeremy Kerr <jk@codeconstruct.com.au>, devicetree@vger.kernel.org
-References: <5c047dd91390b9ee4cd8bca3ff107db37a7be4ac.1676273912.git.jk@codeconstruct.com.au>
- <7c6741e1-ae41-ba20-b859-736214c680e8@linaro.org>
- <91e9e815bed8c2eff19dbe6b3ed36d10c6edcbfd.camel@codeconstruct.com.au>
- <929a30fc-35f3-ab21-3a16-936ed69d5505@linaro.org>
- <80fa21969d9e0e7a123bd525199dbb40e79d47e3.camel@codeconstruct.com.au>
+To: Jeremy Kerr <jk@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org,
+ linux-clk@vger.kernel.org
+References: <cover.1676259904.git.jk@codeconstruct.com.au>
+ <68e306d262841a5435d1a7145764b64f524a2352.1676259904.git.jk@codeconstruct.com.au>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <80fa21969d9e0e7a123bd525199dbb40e79d47e3.camel@codeconstruct.com.au>
+In-Reply-To: <68e306d262841a5435d1a7145764b64f524a2352.1676259904.git.jk@codeconstruct.com.au>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -85,34 +83,116 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-i3c@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Joel Stanley <jms@jms.id.au>, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 13/02/2023 10:21, Jeremy Kerr wrote:
-> Hi Krzysztof,
+On 13/02/2023 04:48, Jeremy Kerr wrote:
+> The current ast2600 i3c clock definitions are top-level, and include a
+> couple of definitions for (non-existent) i3c6 and i3c7.
 > 
->> You should clearly communicate that driver is coming...
+> This change re-parents these to the main i3c clock, sourced from the
+> APLL. We also remove the i3c6 and i3c7 definitions and mark those entries
+> in the gates array as reserved - all entries in the array must be
+> contiguous.
 > 
-> OK.
+> This change is a partial cherry-pick and rework of ed44b8cdfdb and
+> 1a35eb926d7 from Aspeed's own tree, originally by Dylan Hung
+> <dylan_hung@aspeedtech.com>.
 > 
->> Anyway binding comes with the driver, otherwise how can we check that
->> you actually implemented it?
-> 
-> I'll include this with the driver once we're past the RFC reviews.
-> 
->> Please send patches, not RFC. RFC means you are uncertain this is even
->> correct and you ask for generic discussion.
-> 
-> Yes, that's essentially what I'm looking for with this change -
-> particularly with the pullup config, which (as you say) could arguably
-> be a pinctrl config instead.
+> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+> ---
+>  drivers/clk/clk-ast2600.c                 | 39 ++++++++++++++++++-----
+>  include/dt-bindings/clock/ast2600-clock.h |  6 ++--
 
-Depends, there was just a short sentence. If this is external resistor
-on the board, why this device needs such property (and none of other
-devices need...)? If this is internal pull up of I3C (and there is no
-other pin configuration possible, no other pins), it looks reasonable to
-me to have it here. But I am all guessing it...
+Bindings are separate patches. Always.
+
+>  2 files changed, 34 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
+> index 9c3305bcb27a..24ad34440e1e 100644
+> --- a/drivers/clk/clk-ast2600.c
+> +++ b/drivers/clk/clk-ast2600.c
+> @@ -4,6 +4,7 @@
+>  
+>  #define pr_fmt(fmt) "clk-ast2600: " fmt
+>  
+> +#include <linux/bitfield.h>
+>  #include <linux/mfd/syscon.h>
+>  #include <linux/of_address.h>
+>  #include <linux/of_device.h>
+> @@ -32,6 +33,18 @@
+>  #define ASPEED_G6_CLK_SELECTION1	0x300
+>  #define ASPEED_G6_CLK_SELECTION2	0x304
+>  #define ASPEED_G6_CLK_SELECTION4	0x310
+> +#define ASPEED_G6_CLK_SELECTION5	0x314
+> +#define   I3C_CLK_SELECTION		BIT(31)
+> +#define     I3C_CLK_SELECT_HCLK		0
+> +#define     I3C_CLK_SELECT_APLL_DIV	1
+> +#define   APLL_DIV_SELECTION		GENMASK(30, 28)
+> +#define     APLL_DIV_2			0b001
+> +#define     APLL_DIV_3			0b010
+> +#define     APLL_DIV_4			0b011
+> +#define     APLL_DIV_5			0b100
+> +#define     APLL_DIV_6			0b101
+> +#define     APLL_DIV_7			0b110
+> +#define     APLL_DIV_8			0b111
+>  
+>  #define ASPEED_HPLL_PARAM		0x200
+>  #define ASPEED_APLL_PARAM		0x210
+> @@ -97,14 +110,14 @@ static const struct aspeed_gate_data aspeed_g6_gates[] = {
+>  	[ASPEED_CLK_GATE_LHCCLK]	= { 37, -1, "lhclk-gate",	"lhclk", 0 },	/* LPC master/LPC+ */
+>  	/* Reserved 38 RSA: no longer used */
+>  	/* Reserved 39 */
+> -	[ASPEED_CLK_GATE_I3C0CLK]	= { 40,  40, "i3c0clk-gate",	NULL,	 0 },	/* I3C0 */
+> -	[ASPEED_CLK_GATE_I3C1CLK]	= { 41,  41, "i3c1clk-gate",	NULL,	 0 },	/* I3C1 */
+> -	[ASPEED_CLK_GATE_I3C2CLK]	= { 42,  42, "i3c2clk-gate",	NULL,	 0 },	/* I3C2 */
+> -	[ASPEED_CLK_GATE_I3C3CLK]	= { 43,  43, "i3c3clk-gate",	NULL,	 0 },	/* I3C3 */
+> -	[ASPEED_CLK_GATE_I3C4CLK]	= { 44,  44, "i3c4clk-gate",	NULL,	 0 },	/* I3C4 */
+> -	[ASPEED_CLK_GATE_I3C5CLK]	= { 45,  45, "i3c5clk-gate",	NULL,	 0 },	/* I3C5 */
+> -	[ASPEED_CLK_GATE_I3C6CLK]	= { 46,  46, "i3c6clk-gate",	NULL,	 0 },	/* I3C6 */
+> -	[ASPEED_CLK_GATE_I3C7CLK]	= { 47,  47, "i3c7clk-gate",	NULL,	 0 },	/* I3C7 */
+> +	[ASPEED_CLK_GATE_I3C0CLK]	= { 40,  40, "i3c0clk-gate",	"i3cclk", 0 }, /* I3C0 */
+> +	[ASPEED_CLK_GATE_I3C1CLK]	= { 41,  41, "i3c1clk-gate",	"i3cclk", 0 }, /* I3C1 */
+> +	[ASPEED_CLK_GATE_I3C2CLK]	= { 42,  42, "i3c2clk-gate",	"i3cclk", 0 }, /* I3C2 */
+> +	[ASPEED_CLK_GATE_I3C3CLK]	= { 43,  43, "i3c3clk-gate",	"i3cclk", 0 }, /* I3C3 */
+> +	[ASPEED_CLK_GATE_I3C4CLK]	= { 44,  44, "i3c4clk-gate",	"i3cclk", 0 }, /* I3C4 */
+> +	[ASPEED_CLK_GATE_I3C5CLK]	= { 45,  45, "i3c5clk-gate",	"i3cclk", 0 }, /* I3C5 */
+> +	[ASPEED_CLK_GATE_RESERVED43]	= { 46,  46, "reserved-43",	NULL,	0 },
+> +	[ASPEED_CLK_GATE_RESERVED44]	= { 47,  47, "reserved-44",	NULL,	0 },
+>  	[ASPEED_CLK_GATE_UART1CLK]	= { 48,  -1, "uart1clk-gate",	"uart",	 0 },	/* UART1 */
+>  	[ASPEED_CLK_GATE_UART2CLK]	= { 49,  -1, "uart2clk-gate",	"uart",	 0 },	/* UART2 */
+>  	[ASPEED_CLK_GATE_UART3CLK]	= { 50,  -1, "uart3clk-gate",	"uart",  0 },	/* UART3 */
+> @@ -772,6 +785,16 @@ static void __init aspeed_g6_cc(struct regmap *map)
+>  	/* USB 2.0 port1 phy 40MHz clock */
+>  	hw = clk_hw_register_fixed_rate(NULL, "usb-phy-40m", NULL, 0, 40000000);
+>  	aspeed_g6_clk_data->hws[ASPEED_CLK_USBPHY_40M] = hw;
+> +
+> +	/* i3c clock: source from apll, divide by 8 */
+> +	regmap_read(map, ASPEED_G6_CLK_SELECTION5, &val);
+> +	val &= ~(I3C_CLK_SELECTION | APLL_DIV_SELECTION);
+> +	val |= FIELD_PREP(I3C_CLK_SELECTION, I3C_CLK_SELECT_APLL_DIV);
+> +	val |= FIELD_PREP(APLL_DIV_SELECTION, APLL_DIV_8);
+> +	regmap_write(map, ASPEED_G6_CLK_SELECTION5, val);
+> +
+> +	hw = clk_hw_register_fixed_factor(NULL, "i3cclk", "apll", 0, 1, 8);
+> +	aspeed_g6_clk_data->hws[ASPEED_CLK_I3C] = hw;
+>  };
+>  
+>  static void __init aspeed_g6_cc_init(struct device_node *np)
+> diff --git a/include/dt-bindings/clock/ast2600-clock.h b/include/dt-bindings/clock/ast2600-clock.h
+> index d8b0db2f7a7d..98dc82702755 100644
+> --- a/include/dt-bindings/clock/ast2600-clock.h
+> +++ b/include/dt-bindings/clock/ast2600-clock.h
+> @@ -57,9 +57,8 @@
+>  #define ASPEED_CLK_GATE_I3C3CLK		40
+>  #define ASPEED_CLK_GATE_I3C4CLK		41
+>  #define ASPEED_CLK_GATE_I3C5CLK		42
+> -#define ASPEED_CLK_GATE_I3C6CLK		43
+> -#define ASPEED_CLK_GATE_I3C7CLK		44
+
+This breaks the ABI and commit msg does not provide justfication for it.
+
 
 
 Best regards,
