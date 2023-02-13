@@ -2,78 +2,126 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095B8691D05
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 11:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6168A693BD7
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 02:45:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PCqwR5tJCz3cht
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Feb 2023 21:39:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PFRxl1Ncdz3c6n
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 12:45:47 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=upOZiQhd;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=VdAkvuHG;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ufispace.com (client-ip=2607:f8b0:4864:20::1036; helo=mail-pj1-x1036.google.com; envelope-from=jordan.chang@ufispace.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::731; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=upOZiQhd;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=VdAkvuHG;
 	dkim-atps=neutral
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20731.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::731])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PCqwL0G24z3f3Y
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Feb 2023 21:38:57 +1100 (AEDT)
-Received: by mail-pj1-x1036.google.com with SMTP id rm7-20020a17090b3ec700b0022c05558d22so5096502pjb.5
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Feb 2023 02:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ufispace-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ACnHvTU7gEng4y82wmBORUtHHJ+pZWFgrAC6kuRsmqw=;
-        b=upOZiQhd0RX2x1omiYwQGd/DuEYL09P/GjQhlBuW0vwFelDEyyc8CFaHT7keFLvFcN
-         WjrjWobT7HGKOeIT2JRwSLzOo+5JzvhzZ0ThhQg8tq4rnYCbdZsTLInvRNz+yljTYcfX
-         gevxdzKb0rRa9M/YTS0NmjWOqJR9E7YYF6saw5XQjX5SwBzZ5lYWKXgDE19xa7ubxNof
-         UHb5gwwxOLqucZ+7Z30FjdHmXvcsQ1z7dQaDqrR3jiOAywDaZ6a1aSTco2BHI+MsyOME
-         s/umcus118s3yqi2pPdsfPxJVLAjzr4Js0453WGh1yzve9x/zEEifjzjoN5mb4xWa26A
-         ZHSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ACnHvTU7gEng4y82wmBORUtHHJ+pZWFgrAC6kuRsmqw=;
-        b=6PH2OFZ9TvFidJBzYjhCdSqbBqDKLprZBWNclHljMTKqXHk3hnD0lQaTjHDE21/imk
-         lLQ1IkCsNuk1igC+pTUyn5tsHJV30A/X7aaTxUdH1D+YuanuaC0yfV7qEg257GD94f/O
-         Funj7Q9aamsBlALkH31Q7W9PGgla9mbVOgD2DtXiz3HIFQbJ5OwHM7MW0vUl4IP9gN99
-         GzIWSmc42AUSH5+KXgwZ0/zCfEOjKvkHvp3aJPqxniT76FG98vXchNHf0+9ukChWdeQ2
-         qsZ34J4cAMZiTutKYF0CXRjGzozkb6uI/KRhjhAmHvn21vItwDNOX0DZjiPwQBMzmKOR
-         TXGQ==
-X-Gm-Message-State: AO0yUKVSMPthiyeEhencKfGeNRhw7RcU9Yehkxe3j0eTNPXuqNbvGd35
-	bwJKlmML8f/DOe2s814VI9W/ow==
-X-Google-Smtp-Source: AK7set8jYO4WESox6/84onZMAE53uv1nj/PtAzJnxcrlx13j3y9gqRXLtLfihZRa+keorSrm5w/Qxw==
-X-Received: by 2002:a05:6a21:3389:b0:bc:c86a:f60f with SMTP id yy9-20020a056a21338900b000bcc86af60fmr17009625pzb.54.1676025534766;
-        Fri, 10 Feb 2023 02:38:54 -0800 (PST)
-Received: from openbmc500G.LAB.ufispace (CH210-63-217-225.static.apol.com.tw. [210.63.217.225])
-        by smtp.gmail.com with ESMTPSA id v25-20020a62a519000000b005809d382016sm2973950pfm.74.2023.02.10.02.38.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 02:38:54 -0800 (PST)
-From: Jordan Chang <jordan.chang@ufispace.com>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	joel@jms.id.au,
-	andrew@aj.id.au,
-	robh+dt@kernel.org
-Subject: [PATCH v4 1/1] ARM: dts: aspeed: Add device tree for Ufispace NCPLite BMC
-Date: Fri, 10 Feb 2023 18:38:29 +0800
-Message-Id: <20230210103829.74470-2-jordan.chang@ufispace.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230210103829.74470-1-jordan.chang@ufispace.com>
-References: <20230210103829.74470-1-jordan.chang@ufispace.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFRxV6cX7z3bg5;
+	Mon, 13 Feb 2023 12:45:32 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B2sz2nMxMaMWysBj4fBxeFhUvPV5tFIiJPT+1h2Z83hVR+HWfxH3wARJoLty1PtPG4Kse/jB5IVrTjvRSnXg3jI4jBIKcgHMyL72z6S3ryTvyCt6Uv3u31BTP2Wf9FMhHEiOF2bsv1rmrVy0mN8KdSwDcaFOtoVhffyizqzvdGUsrBvSIljL48vupNvUTL0wGCvRL7PuRTbOBa/ixZe4rp1typqQax2qAHNvYK7OfOQlNDsFxwafjoydZYqGDKbdMflw91bhOTdUiVS4Bv56LEMFykXFKmLw4GXqm6RKRVAKkNmF9hRAFIIdvj2fE1t5glQl5iyzs7vBxAWu1vrxYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DaeYP8KParJdlf1dBMQnib32qQAf89vsuzEhz/eQ3E4=;
+ b=Gp+7dP40xl3eCvYfVYDSU60aufPm+TAVppz/50XuOPGVmWi7FGUWzbnma8vmbqkT0iBazA5IqaOu52a/83SCdsyXUp60Fp8XzwISxKJLKzyRhYJlNgcRPWz3lFTIR2Cwj+PESn7IEu2mdfjEZXStNMlCBGEIHq+jLXzNwDeFk1zSAELYvjLG45kLHqYbgZ7gcFPFNtV1h96XBi6B1t9TrQuVESG+k/mEpu4SZ/SvR2iHxZrPeAURs9KpDGogJwzxFv4cIVxQdCshz3dDsiXG6/Kfu8qH+LsD6NLpq5ymON5QRUTCkwJcRYdcKsWYDTXaO4Bd4XN3OFi87k8hmoaBGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DaeYP8KParJdlf1dBMQnib32qQAf89vsuzEhz/eQ3E4=;
+ b=VdAkvuHGb6eFtjTsdBOa/CdLkL0YfiylLp5g0XKmNH7HTzhbQsixYbmw/23ijaMlhk3xcJZ9sDVmkmaU7a3uGBuDWEF8Te9FlwQcOLydhNUU5n6I01Oupc9MShU3gysgxxrR6Ipjapte5g7UeI0EWMaTH6WKbgL3LLehAsowG1vxMsbtJbi6q0okn1Kb0sbCltJh8o6JcdgsBmY5gATpibgrMxdEFaEB6sRbHi/yVHxznu1wR1J7f9uz7Vc2ATleOU3ZvDHA/EzHAkC8I7R1iMvhXTvg1ftPzO54vQLHcbIIkkUpGLnJguLkcB6yOprVdBhmmdIqhTpwkgfMSjhsvg==
+Received: from KL1PR0601MB3781.apcprd06.prod.outlook.com
+ (2603:1096:820:11::14) by TYZPR06MB6141.apcprd06.prod.outlook.com
+ (2603:1096:400:343::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.9; Mon, 13 Feb
+ 2023 01:45:06 +0000
+Received: from KL1PR0601MB3781.apcprd06.prod.outlook.com
+ ([fe80::2cd0:fdbf:62e0:8eaa]) by KL1PR0601MB3781.apcprd06.prod.outlook.com
+ ([fe80::2cd0:fdbf:62e0:8eaa%4]) with mapi id 15.20.6111.010; Mon, 13 Feb 2023
+ 01:45:06 +0000
+From: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+To: =?utf-8?B?SWxwbyBKw6RydmluZW4=?= <ilpo.jarvinen@linux.intel.com>
+Subject: RE: [PATCH 3/4] serial: 8250: Add Aspeed UART driver
+Thread-Topic: [PATCH 3/4] serial: 8250: Add Aspeed UART driver
+Thread-Index: AQHZPSGHc2FuUfvkK0yq1ehxne+sqq7IM3KAgAPqpgA=
+Date: Mon, 13 Feb 2023 01:45:05 +0000
+Message-ID:  <KL1PR0601MB378160E42842A0A55947BF7191DD9@KL1PR0601MB3781.apcprd06.prod.outlook.com>
+References: <20230210072643.2772-1-chiawei_wang@aspeedtech.com>
+ <20230210072643.2772-4-chiawei_wang@aspeedtech.com>
+ <2d389fc9-0d5-42a1-b6d7-695c70dcf0fe@linux.intel.com>
+In-Reply-To: <2d389fc9-0d5-42a1-b6d7-695c70dcf0fe@linux.intel.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: KL1PR0601MB3781:EE_|TYZPR06MB6141:EE_
+x-ms-office365-filtering-correlation-id: 387de25e-406f-45c8-aab5-08db0d63eeaf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  x/GrUbWf3guZgs1jmHd8lqsSlUaaYjf8vfgAaINbVgRM7WwUalsJsdAa754MXvE+e45pYdx2hi+A7Xk1HbG3Z0KAW+A+XT2p/OFO6nIoBn7xUbUfzwmVgnDeugmv0u30Nzdqg9tn5AULoyYZCUcGg/EwLoZQAvNTl1zs5J6+O14NuMEj7UkXYnl+PNo6a9YX3QAD/OX/ohnO+l3dtvz7CBYcYOk4nWxhK9HV4MiQaa8Lq02iAX8r7Op4C0HawABrysWJrYjlTUUYDkbZ9gXoEaH/JSXnAVcOiecjFrZ16M4LV9J9Hn5JdE3PONy64QptbQ+ZtbLl+QCgIM3o7FIMcFHbzYLFGt7uC9tEN9q2YuGXu3etULQKCz5FU6IzCoRm/0Qdhg4Zr6EEwnZqWYwYsoHjdYm4ox9zBP/vzjaNYnYc1VfVG2dekOb/8l2Ls0ttfgaUzpgHagqLiTBLS8FS4ZbqZoMRWiEwoK1Vims4i9nqOQjwC8coSVV/M2wAbZVQqnHhQQRb5npzaxfZXIHd9AWZbTWE2j6JHSKXIm2pI/j54opnJA8n6dCajnrvlGUy3+Im8NJu961GXAhfi4NorOmLM5xXS2pUmMjuaP9dj4YmvbR/qFdcwBjlrYC6hJvNHcGPvBd2PllDjXxc1vHP/HOMoteEyKTkUj3Lv/cV+3ppfsRssBbhQlm3Fj33r1QUP9IqMI66Q6WEYxu9GHwvWw==
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB3781.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(376002)(136003)(346002)(396003)(39830400003)(451199018)(71200400001)(7696005)(186003)(26005)(54906003)(6506007)(9686003)(478600001)(8936002)(41300700001)(52536014)(2906002)(7416002)(5660300002)(316002)(8676002)(76116006)(66556008)(66476007)(38100700002)(64756008)(66946007)(4326008)(66446008)(122000001)(55016003)(86362001)(38070700005)(33656002)(6916009)(66574015);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?OWZNWkVYbW9CdkU1YWhmaXBkUFVHZnRPcksrc3ZGVXpGRENEZkplU3JaUTBQ?=
+ =?utf-8?B?SHdaTXR2Q01waWVVZVNuQlUvR0VwUHpWQVVmRUh1dUxwQUpuUGVPa2Y5S1BI?=
+ =?utf-8?B?QVErV2VsUmFmZVV3MjY0TVVqTG5idWFmK1BuS00yZ0hNODJEUys0UjNQWHky?=
+ =?utf-8?B?VjVEWFB5aE1qcEQyQXhpVytKem5HSnRsd3RsNGhYeFhkUmduTFZ2WVYwd2dZ?=
+ =?utf-8?B?NExrNjErN3I1VEJPQjJtVWlqenZ3dkphVnNuSTNkSlhVUERPT3ZCanRyempC?=
+ =?utf-8?B?UVIzanl2VzQ2aGg3d01rZVVLVkZMY1ZPdFlBMytER29tRGtJWUZMS2VpeVh4?=
+ =?utf-8?B?NElwSTdULzhWeG9oWVZXTjl0ZkRzbDBxWlVjTlZwQU5RUEt1elZwTUJ5YkpF?=
+ =?utf-8?B?N3MxWXN3Wno0c0FBcks0N3dMcCtWSDRvNUpSeExEVEFnM1V0SUlHZ1JJL1dY?=
+ =?utf-8?B?a1l2aHNXUUZlOHQ2RTBqa3AvcStrOHFZMWN1bE1EbDJaUFZsUGM3WHZEam90?=
+ =?utf-8?B?dVI2N0x2dWNLbjBxTTlXcWtRY2szMm1UUHZUY2J4TGtGZEpTU0MwQWd4Rkk2?=
+ =?utf-8?B?eFJYL0tyNmI1UnZiaHUzUlNtSjg1emV3eDR6NHUzdEtUWUlvcmhyVEhVdERH?=
+ =?utf-8?B?cUo1a3d3RVVaZHdnRzkvMzRxRDlJNjhlOTZmNUc4b0E2ZUZYVyszSnlMZXlp?=
+ =?utf-8?B?c21wRXBnZ0ovRnFpUWF5TW1vM2pYcDB2ZjB2Qk1JRFgvV3VLYnZxdjhMWFp4?=
+ =?utf-8?B?Q3l1WEUrL01Fd2RSRm83OVJoVS8xQ244b3hidUtlaU9WYnN0aUM0aHIxNGY4?=
+ =?utf-8?B?WEsxeU1rRVJwTWp0enZtRGV6NXZwZjRlS20vZHZOTVdDdk05cVlVd3BXeEJW?=
+ =?utf-8?B?WXhPanUvRDZxZ0VHdk9Bc1pQZUl6ZW4rbHVTK3BOdGRLMVoyWUpzVG1QdkpI?=
+ =?utf-8?B?TGtsdGoxK3hpbXJEcWp2bWhVSHJNNDlsdy81MUxhTEFEZmJhY0VZK0JudHph?=
+ =?utf-8?B?Y3FDTGhWWDlNTjJna0tVTFR5VjhiYWhyMUgxYmtMV0ZIOHgyQzBaWDI3TTFh?=
+ =?utf-8?B?S1Z0bVBWRFJjQndKQ0ZpcDJZWVVZNHFvWVRIOU53U0Y3dkNWU1hxZHhVWmFM?=
+ =?utf-8?B?WmRlUithcXZDQVRUNStURzZ5ckxYYktaalRhYTlVWGNvdzNZMkNNS2ZlWEdM?=
+ =?utf-8?B?RGh1Q0cwb3lzdjZqdmVPSnBBSkV3UUVZaDQvaS9sWTY3TG5MamNmZUMzbXkv?=
+ =?utf-8?B?RWVsaXNpM3RqTjJIRE9rOXc0ajhZc0J4WUEyS2tYWTY4NHZMeHFOU1h1L3ZP?=
+ =?utf-8?B?VlRqcTZaZFk4K21xVGlHWjQrdm9IZEVCNUh6aHJqcFBhM09hRWVDUUJkZjdu?=
+ =?utf-8?B?T1JRMi9MK3lMMENmVlQreXNtQVdOakloYUdqcEl6QUIxRXNNS296cWtKYzkw?=
+ =?utf-8?B?TXdYL0tmOUxYWC9PTXRPZGpjSEhabDNoQzM5dTYwWWJINEprT2xKMnBKNTlB?=
+ =?utf-8?B?Ym9QcTRRV3p5S241cTZLLzNoQklGVTBzd0I0dS9pM0hxQmZrejBDWFJMOEYy?=
+ =?utf-8?B?dWw4NmxGbE5EdDNSajh5UWhSb2xPdmVZOTJQWE5VeFJjd3lUcTVnSEFQT0FN?=
+ =?utf-8?B?NzZYd2x1UEM0NGozTGhHTk9nSjZtRGVLYm5xWjRHajh4cmdUV1ZSQkMvVWEw?=
+ =?utf-8?B?NndINUJJcHhSS0xERGdNeEUrd041MHdkTW9Pd0NwSDNXS3czZGF4b2dHampE?=
+ =?utf-8?B?UzJNempEMnJvWjhXdkZWVGlROWY4RFJCczlaQzJXMjdCMmRHd2xFUGxuQWxP?=
+ =?utf-8?B?aFZvakREZEE2aktSdmdrRWQ4ODhBNnJpOUFTU3hYcWl5WFhodzQzK21wWWJ6?=
+ =?utf-8?B?RS9QSTZCR2wreEhiVzlQSHBSSVZiekFGUW8wL2xtb3ZvcTFhWTkrR0ZRZlYz?=
+ =?utf-8?B?TkZRaVNEeVdkc0YvL1hEaFhDd3RJUXErdlFjcHVNU2EvWUVlc3E4ZDN6QTkw?=
+ =?utf-8?B?bEFkOUxpdkNKUWo2NU85MnVNajlQbVpzbXZwMm1EbVdaN3ZmMHA4YVltS1ZV?=
+ =?utf-8?B?TDF2NDN3aGZSYjA3QWxJb0F3NHlKbzRrNGpBSkRXaGF1UXNsL0Vock5RK20x?=
+ =?utf-8?B?eDIwR0xXWWwzK0JoakE1RFVHWEtyVE9waDNSY0RUOFRlSm5XRTZuckJPbWJl?=
+ =?utf-8?B?ZFE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB3781.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 387de25e-406f-45c8-aab5-08db0d63eeaf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2023 01:45:05.9845
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jrbd0tkDgE/pa+3bUPcSYqczoyTCJcMHaB2LB/2wLHr+TQBCLMXpOLN3ufmr5oXiPCSFovpEJk4ePTkQ8aTEVYUrDuGulRc1JYx3LVekuTs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6141
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,397 +133,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: jay.tc.lin@ufispace.com, eason.ys.huang@ufispace.com
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, linux-serial <linux-serial@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, LKML <linux-kernel@vger.kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, Jiri Slaby <jirislaby@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add initial version of device tree for Ufispace NCPLite platform
-which is equipped with AST2600-based BMC.
-
-Signed-off-by: Jordan Chang <jordan.chang@ufispace.com>
----
- arch/arm/boot/dts/Makefile                    |   1 +
- .../boot/dts/aspeed-bmc-ufispace-ncplite.dts  | 359 ++++++++++++++++++
- 2 files changed, 360 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
-
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 2ee9c043218b..d26e0651e805 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1626,6 +1626,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-inventec-transformers.dtb \
- 	aspeed-bmc-tyan-s7106.dtb \
- 	aspeed-bmc-tyan-s8036.dtb \
-+	aspeed-bmc-ufispace-ncplite.dtb \
- 	aspeed-bmc-vegman-n110.dtb \
- 	aspeed-bmc-vegman-rx20.dtb \
- 	aspeed-bmc-vegman-sx20.dtb
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts b/arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
-new file mode 100644
-index 000000000000..a3853bdcae9d
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-ufispace-ncplite.dts
-@@ -0,0 +1,359 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright (c) 2022 Ufispace Co., Ltd.
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+#include <dt-bindings/i2c/i2c.h>
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "Ufispace NCPLite BMC";
-+	compatible = "ufispace,ncplite-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		stdout-path = &uart5;
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x80000000>;
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
-+			      <&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
-+			      <&adc1 0>, <&adc1 1>, <&adc1 2>, <&adc1 3>,
-+			      <&adc1 4>, <&adc1 5>, <&adc1 6>, <&adc1 7>;
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		event-fan-alert {
-+			label = "fan-alert";
-+			gpios = <&gpio0 ASPEED_GPIO(M, 2) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(M, 2)>;
-+		};
-+
-+		event-allpwr-good {
-+			label = "allpwr-good";
-+			gpios = <&gpio0 ASPEED_GPIO(V, 4) GPIO_ACTIVE_HIGH>;
-+			linux,code = <ASPEED_GPIO(V, 4)>;
-+		};
-+
-+		event-psu0-alert {
-+			label = "psu0-alert";
-+			gpios = <&gpio0 ASPEED_GPIO(V, 1) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(V, 1)>;
-+		};
-+
-+		event-psu1-alert {
-+			label = "psu1-alert";
-+			gpios = <&gpio0 ASPEED_GPIO(V, 2) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(V, 2)>;
-+		};
-+
-+		event-thermal-alert {
-+			label = "thermal-alert";
-+			gpios = <&gpio0 ASPEED_GPIO(P, 2) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(P, 2)>;
-+		};
-+
-+		event-cpu-caterr {
-+			label = "cpu-caterr";
-+			gpios = <&gpio0 ASPEED_GPIO(N, 3) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(N, 3)>;
-+		};
-+
-+		event-cpu-thermtrip {
-+			label = "cpu-thermtrip";
-+			gpios = <&gpio0 ASPEED_GPIO(V, 5) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(V, 5)>;
-+		};
-+
-+		event-psu0-presence {
-+			label = "psu0-presence";
-+			gpios = <&gpio0 ASPEED_GPIO(F, 6) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(F, 6)>;
-+		};
-+
-+		event-psu1-presence {
-+			label = "psu1-presence";
-+			gpios = <&gpio0 ASPEED_GPIO(F, 7) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(F, 7)>;
-+		};
-+
-+		event-psu0-power-ok {
-+			label = "psu0-power-ok";
-+			gpios = <&gpio0 ASPEED_GPIO(M, 4) GPIO_ACTIVE_HIGH>;
-+			linux,code = <ASPEED_GPIO(M, 4)>;
-+		};
-+
-+		event-psu1-power-ok {
-+			label = "psu1-power-ok";
-+			gpios = <&gpio0 ASPEED_GPIO(M, 5) GPIO_ACTIVE_HIGH>;
-+			linux,code = <ASPEED_GPIO(M, 5)>;
-+		};
-+	};
-+
-+	gpio-keys-polled {
-+		compatible = "gpio-keys-polled";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		poll-interval = <1000>;
-+
-+		event-fan0-presence {
-+			label = "fan0-presence";
-+			gpios = <&fan_ioexp 2 GPIO_ACTIVE_LOW>;
-+			linux,code = <2>;
-+		};
-+
-+		event-fan1-presence {
-+			label = "fan1-presence";
-+			gpios = <&fan_ioexp 6 GPIO_ACTIVE_LOW>;
-+			linux,code = <6>;
-+		};
-+
-+		event-fan2-presence {
-+			label = "fan2-presence";
-+			gpios = <&fan_ioexp 10 GPIO_ACTIVE_LOW>;
-+			linux,code = <10>;
-+		};
-+
-+		event-fan3-presence {
-+			label = "fan3-presence";
-+			gpios = <&fan_ioexp 14 GPIO_ACTIVE_LOW>;
-+			linux,code = <14>;
-+		};
-+	};
-+};
-+
-+&mac2 {
-+	status = "okay";
-+	use-ncsi;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii3_default>;
-+	clocks = <&syscon ASPEED_CLK_GATE_MAC3CLK>,
-+		 <&syscon ASPEED_CLK_MAC3RCLK>;
-+	clock-names = "MACCLK", "RCLK";
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout-64.dtsi"
-+	};
-+
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "alt-bmc";
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout-64-alt.dtsi"
-+	};
-+};
-+
-+&uart1 {
-+	status = "okay";
-+};
-+
-+&uart4 {
-+	status = "okay";
-+};
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&kcs3 {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0xca2>;
-+};
-+
-+&lpc_reset {
-+	status = "okay";
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+};
-+
-+&uart_routing {
-+	status = "okay";
-+};
-+
-+&wdt1 {
-+	status = "okay";
-+};
-+
-+&wdt2 {
-+	status = "okay";
-+};
-+
-+&peci0 {
-+	status = "okay";
-+};
-+
-+&udc {
-+	status = "okay";
-+};
-+
-+&adc0 {
-+	vref = <2500>;
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-+		&pinctrl_adc2_default &pinctrl_adc3_default
-+		&pinctrl_adc4_default &pinctrl_adc5_default
-+		&pinctrl_adc6_default &pinctrl_adc7_default>;
-+};
-+
-+&adc1 {
-+	vref = <2500>;
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default
-+		&pinctrl_adc10_default &pinctrl_adc11_default
-+		&pinctrl_adc12_default &pinctrl_adc13_default
-+		&pinctrl_adc14_default &pinctrl_adc15_default>;
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	temperature-sensor@48 {
-+		compatible = "national,lm75";
-+		reg = <0x48>;
-+	};
-+
-+	temperature-sensor@49 {
-+		compatible = "national,lm75";
-+		reg = <0x49>;
-+	};
-+
-+	temperature-sensor@4c {
-+		compatible = "national,lm86";
-+		reg = <0x4c>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	temperature-sensor@4f {
-+		cpmpatible = "national,lm75";
-+		reg = <0x4f>;
-+	};
-+
-+	fan_ioexp: i2c-expander@20 {
-+		compatible = "nxp,pca9535";
-+		reg = <0x20>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+		"","","presence-fan0","",
-+		"","","presence-fan1","",
-+		"","","presence-fan2","",
-+		"","","presence-fan3","";
-+	};
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c128";
-+		reg = <0x50>;
-+		pagesize = <64>;
-+	};
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+
-+	psu@58 {
-+		compatible = "pmbus";
-+		reg = <0x58>;
-+	};
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c02";
-+		reg = <0x50>;
-+		pagesize = <1>;
-+	};
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+
-+	psu@58 {
-+		compatible = "pmbus";
-+		reg = <0x58>;
-+	};
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c02";
-+		reg = <0x50>;
-+		pagesize = <1>;
-+	};
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+
-+	temperature-sensor@4d {
-+		compatible = "national,lm75";
-+		reg = <0x4d>;
-+	};
-+};
-+
-+&gpio0 {
-+	status = "okay";
-+
-+	gpio-line-names =
-+	/*A0-A7*/	"","","","","","","","",
-+	/*B0-B7*/	"","","","","","","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"","","","","","","","",
-+	/*E0-E7*/	"","","","","","","","",
-+	/*F0-F7*/	"CPU_PWRGD","","","power-button","host0-ready","","presence-ps0","presence-ps1",
-+	/*G0-G7*/	"","","","","","","","",
-+	/*H0-H7*/	"","","","","","","","",
-+	/*I0-I7*/	"","","","","","reset-button","","",
-+	/*J0-J7*/	"","","","","","","","",
-+	/*K0-K7*/	"","","","","","","","",
-+	/*L0-L7*/	"","","","","","","","",
-+	/*M0-M7*/	"","","","","","","","",
-+	/*N0-N7*/	"power-chassis-control0","power-chassis-control1","","","","","","",
-+	/*O0-O7*/	"","","","","","","","",
-+	/*P0-P7*/	"","","","","","","","",
-+	/*Q0-Q7*/	"","","","","","","","",
-+	/*R0-R7*/	"","","","","","","","",
-+	/*S0-S7*/	"","","","","","","","",
-+	/*T0-T7*/	"","","","","","","","",
-+	/*U0-U7*/	"","","","","","","","",
-+	/*V0-V7*/	"","","","","power-chassis-good","","","";
-+};
--- 
-2.39.0
-
+PiBGcm9tOiBJbHBvIErDpHJ2aW5lbiA8aWxwby5qYXJ2aW5lbkBsaW51eC5pbnRlbC5jb20+DQo+
+IFNlbnQ6IEZyaWRheSwgRmVicnVhcnkgMTAsIDIwMjMgOTo1MiBQTQ0KPiANCj4gT24gRnJpLCAx
+MCBGZWIgMjAyMywgQ2hpYS1XZWkgV2FuZyB3cm90ZToNCj4gDQo+ID4gQWRkIHRoZSBkcml2ZXIg
+Zm9yIEFzcGVlZCBVQVJUL1ZVQVJUIGRldmljZXMsIHdoaWNoIGFyZSAxNjU1MEENCj4gPiBjb21w
+YXRpYmxlLiBJdCBpcyBhbiB3cmFwcGVyIHRvIGNvdmVyIHRoZSBnZW5lcmljIDE2NTUwQSBvcGVy
+YXRpb24NCj4gPiB3aGlsZSBleGV0ZW5kaW5nIERNQSBmZWF0dXJlIGZvciB0aGUgZGV2aWNlcy4N
+Cj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IENoaWEtV2VpIFdhbmcgPGNoaWF3ZWlfd2FuZ0Bhc3Bl
+ZWR0ZWNoLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy90dHkvc2VyaWFsLzgyNTAvODI1MF9h
+c3BlZWQuYyB8IDUwMg0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICBkcml2ZXJz
+L3R0eS9zZXJpYWwvODI1MC9LY29uZmlnICAgICAgIHwgICA4ICsNCj4gPiAgZHJpdmVycy90dHkv
+c2VyaWFsLzgyNTAvTWFrZWZpbGUgICAgICB8ICAgMSArDQo+IA0KPiBIaSwNCj4gDQo+IEJlZm9y
+ZSBJIGxvb2sgYW55IGZ1cnRoZXIgaW50byB0aGlzLCBjb3VsZCB5b3UgcGxlYXNlIGV4cGxhaW4g
+d2h5IHRoaXMgaXMgbWFkZSB0bw0KPiBiZSBlbnRpcmVseSBzZXBhcmF0ZSBmcm9tIHdoYXQgd2Ug
+aGF2ZSBpbg0KPiAgIGRyaXZlcnMvdHR5L3NlcmlhbC84MjUwLzgyNTBfYXNwZWVkX3Z1YXJ0LmMN
+Cj4gPw0KPiANCj4gSSBxdWlja2x5IHdlbnQgdGhyb3VnaCBzb21lIGZ1bmN0aW9ucyBhbmQgdGhl
+eSd2ZSBzaWduaWZpY2FudCBwYXJ0cyBpbiBjb21tb24NCj4gd2l0aCBubyB2YXJpYXRpb25zIGF0
+IGFsbCBpbiBtYW55IGZ1bmN0aW9ucyBhbmQgeW91J3JlIGRlZmluZXMgYXJlIDE6MSB0b28NCj4g
+KGV4Y2VwdCBmb3IgdGhlIERNQSBidWYgc2l6ZXMpLiBJdCB3b3VsZCBzZWVtIG11Y2ggYmV0dGVy
+IHRvIGFkZCB0aGUgbWlzc2luZw0KPiBmdW5jdGlvbmFsaXR5IGludG8gODI1MF9hc3BlZWRfdnVh
+cnQuYyByYXRoZXIgdGhhbiBjcmVhdGluZyBzb21ldGhpbmcgZnJvbQ0KPiBzY3JhdGNoIHdpdGgg
+bGFyZ2Ugb3ZlcmxhcCB3aXRoIGV4aXN0aW5nIGNvZGUuDQo+IA0KPiBJZiB5b3UgaW50ZW5kIHRv
+IGtlZXAgaXQgYXMgYSBzZXBhcmF0ZSBvbmUsIHlvdSBzaG91bGQgaGF2ZSBhIHJhdGhlciBnb29k
+DQo+IGp1c3RpZmljYXRpb24gZm9yIGl0Lg0KDQpZZXMsIHRoZSBtYWluIGRpZmZlcmVuY2UgaXMg
+dGhlIFVBUlQgRE1BIHN1cHBvcnQuDQpIb3dldmVyLCBkdWUgdG8gdGhlIFVETUEgZGVzaWduIGlz
+IG5vdCBxdWl0ZSBmaXQgdG8gdGhlIERNQUVuZ2luZSwgdGhlIGltcGxlbWVudGF0aW9uIGlzIGtp
+bmQgb2YgaGFja2luZy4NCldlIHRob3VnaHQgbGVhdmluZyB0aGUgb3JpZ2luYWwgVlVBUlQgZHJp
+dmVyIHVuaW1wYWN0ZWQgd291bGQgYmUgYmV0dGVyLg0KVGhlIFVETUEgY292ZXJzIGJvdGggVUFS
+VCBhbmQgVlVBUlQgRE1BIHN1cHBvcnQsIGFuZCBzbyBkbyB0aGUgbmV3IDgyNTBfYXNwZWVkLmMu
+DQoNClJlZ2FyZHMsDQpDaGlhd2VpDQo=
