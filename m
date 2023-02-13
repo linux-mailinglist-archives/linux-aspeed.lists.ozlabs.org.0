@@ -1,69 +1,47 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E159693EDE
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 08:21:44 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1108693EFF
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 08:42:35 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PFbPL1LSDz3c65
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 18:21:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PFbsP4Zycz3c71
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Feb 2023 18:42:33 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=rhbucKsa;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=c2yd1IFc;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ufispace.com (client-ip=2607:f8b0:4864:20::231; helo=mail-oi1-x231.google.com; envelope-from=jordan.chang@ufispace.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ufispace-com.20210112.gappssmtp.com header.i=@ufispace-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=rhbucKsa;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=c2yd1IFc;
 	dkim-atps=neutral
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFbPB0q2Xz3bfw
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 18:21:31 +1100 (AEDT)
-Received: by mail-oi1-x231.google.com with SMTP id bj22so9427224oib.11
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 12 Feb 2023 23:21:31 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PFbsG21JRz3bhH
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Feb 2023 18:42:26 +1100 (AEDT)
+Received: by codeconstruct.com.au (Postfix, from userid 10000)
+	id F2D1B200E3; Mon, 13 Feb 2023 15:42:22 +0800 (AWST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ufispace-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tu3Rg9Nc9tQdXwpvmhafgzXQ8RyOPEDDD2j9N3bOJ9Y=;
-        b=rhbucKsaF7+Mk5ib60jTJ4D0s6/wXI1ilnFVZL1k4ehPJhvQbhPNAXBSEuaB7pBRI6
-         YzV7Vy78+B/h5/Q3qudP6b37y3hwjZTMu/9swOgfDQF3UQX/M1VBwGHZs1gPxoRUPylD
-         7KaOtEwpu5DsCLNyqKLu/GEOR7Uq7t4ZJMIHJNwlJzVBqPtgW7Qtg/DzzDpUYpsLoiRS
-         VY8k9f4nfwTL8v1/OTSBBTceUOOLdfHKNdfL2afWwk2TlKKsEmqm/VgFZYcwCKCiQUQA
-         FIijhynrGCRyo/ZGOIYVhi2QxxZ6rB0sX6CyETwBpA8aqIc/+2mvCjusVthnscPfCu3v
-         tkdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tu3Rg9Nc9tQdXwpvmhafgzXQ8RyOPEDDD2j9N3bOJ9Y=;
-        b=7ZHiRiJzX0mtbYNtE6KaIbsYd7HGlWFh164NRKULjx4CorN1QWbR4pCwdNT2a7aBTs
-         gpQtCTeIbHywSDoOFk+QdgrbKgYUk7jW+6QW9/n292VJEt4x26Eg2sFNqnf/LH0q4RVK
-         Jn0ULEGPr6R5Y4G/57E3S/4AU9+gloLjX67TYq7EUY/++kI+0jtJfneKWSHWtoHOIrlN
-         HE+5VpeI0gyRU5PnoYx+MvrdQLdOlFxmP1ZAYtWwWPZFQE9FpGYP4A7mdSIqVwbA1Wix
-         tW+R+elmnphnf4P8ngWLaKURStWP1BZ6354unM0SrKltQ4Jm8WQ+lrOTm/UdpCSmt7tN
-         pgBg==
-X-Gm-Message-State: AO0yUKUr178NbhklXp+1hLHhGgERGxA/8xUZO2aw5mp2nsM0sSJyocS+
-	ZS7x5MuZ/HUMC9kfrvkLGLrMbvpr/Eg+wO5+d4Bfxw==
-X-Google-Smtp-Source: AK7set/e0bJVfEBzygvuQJIzqcbZTs/OUfDWmBy0vBYsOf67t1TDn9nW5hUaKrWnY73k1wjEjHI3BRLZg/+VRobb8wc=
-X-Received: by 2002:a05:6808:60d:b0:37b:7c36:4df8 with SMTP id
- y13-20020a056808060d00b0037b7c364df8mr1721341oih.144.1676272888357; Sun, 12
- Feb 2023 23:21:28 -0800 (PST)
+	d=codeconstruct.com.au; s=2022a; t=1676274142;
+	bh=Gac3PppOPjYLz3RFgIIfbWPmQu5Mk+Pg0GDUNnRwP4E=;
+	h=From:To:Cc:Subject:Date;
+	b=c2yd1IFcixnbYvx10pSFloY8TVzM4S4/w12Ewfdg1qBxrRnf3V4gTP0rx+kEcbyy1
+	 3f47Zts8DxFOuG89imjJctCO3MmQk1qRCim38z/HUyhg7Ck96ZaxIBtwGgHbSOxkNA
+	 Tqk0A9WHlHfk7G9OXBKwWOZ4QJ7puRvXS/QqO+NNiM2q8gv5ak0Po8/eoRTyfVAvtt
+	 a97NxRpI7rpnaNJPm9KOwaI1rUN+Soq9XXBA89R5dAxnMRbmbgQnc0mIApozMQttaw
+	 6Rnpn6GoDuvjcIeRFMAQbqgIsbw3w1P6gCjmUoKgbmkfDyNfp93Dx+lfK7WZZVhxX1
+	 1aVibyQQcqylQ==
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: devicetree@vger.kernel.org
+Subject: [RFC PATCH] dt-bindings: Add AST2600 i3c controller binding
+Date: Mon, 13 Feb 2023 15:41:52 +0800
+Message-Id: <5c047dd91390b9ee4cd8bca3ff107db37a7be4ac.1676273912.git.jk@codeconstruct.com.au>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230210103829.74470-1-jordan.chang@ufispace.com>
- <20230210103829.74470-2-jordan.chang@ufispace.com> <12424bbd-cd3c-4d96-a7d8-1c83241b845f@app.fastmail.com>
-In-Reply-To: <12424bbd-cd3c-4d96-a7d8-1c83241b845f@app.fastmail.com>
-From: Jordan Chang <jordan.chang@ufispace.com>
-Date: Mon, 13 Feb 2023 15:21:17 +0800
-Message-ID: <CAJ3czeQSEv48M=_DWHs1-b7OxLccY1xe-VfNYRq9JUv_fHt3WQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] ARM: dts: aspeed: Add device tree for Ufispace
- NCPLite BMC
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,21 +53,115 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: jay.tc.lin@ufispace.com, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, eason.ys.huang@ufispace.com, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-i3c@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Andrew,
+This change adds a devicetree binding for the ast2600 i3c controller
+hardware. This is heavily based on the designware i3c hardware, plus a
+reset facility and two platform-specific properties:
 
-Thank you for taking time to review.
+ - sda-pullup-ohms: to specify the value of the configurable pullup
+   resistors on the SDA line
 
-On Mon, Feb 13, 2023 at 9:56 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> > +
-> > +     temperature-sensor@4f {
-> > +             cpmpatible = "national,lm75";
->
-> s/cpmp/comp/
-Will revise the typo.
+ - global-regs: to reference the (ast2600-specific) i3c global register
+   block, and the device index to use within it.
 
-Best regards,
-Jordan Chang
+Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+---
+RFC: the example in this depends on some not-yet-accepted patches for
+the clock and reset linkages:
+
+  https://lore.kernel.org/linux-devicetree/cover.1676267865.git.jk@codeconstruct.com.au/T/
+
+I'm also keen to get some review on the pullup configuration too.
+
+---
+ .../bindings/i3c/aspeed,ast2600-i3c.yaml      | 75 +++++++++++++++++++
+ 1 file changed, 75 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/aspeed,ast2600-i3c.yaml
+
+diff --git a/Documentation/devicetree/bindings/i3c/aspeed,ast2600-i3c.yaml b/Documentation/devicetree/bindings/i3c/aspeed,ast2600-i3c.yaml
+new file mode 100644
+index 000000000000..ef28a8b77c94
+--- /dev/null
++++ b/Documentation/devicetree/bindings/i3c/aspeed,ast2600-i3c.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/i3c/aspeed,ast2600-i3c.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ASPEED AST2600 i3c controller
++
++maintainers:
++  - Jeremy Kerr <jk@codeconstruct.com.au>
++
++allOf:
++  - $ref: i3c.yaml#
++
++properties:
++  compatible:
++    const: aspeed,ast2600-i3c
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  sda-pullup-ohms:
++    enum: [545, 750, 2000]
++    default: 2000
++    description: |
++      Value of SDA pullup resistor in Ohms
++
++  global-regs:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: |
++      A (phandle, controller index) reference to the i3c global register set
++      used for this device.
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - interrupts
++  - global-regs
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/ast2600-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    i3c-master@2000 {
++        #address-cells = <3>;
++        #size-cells = <0>;
++        compatible = "aspeed,ast2600-i3c";
++        reg = <0x2000 0x1000>;
++        clocks = <&syscon ASPEED_CLK_GATE_I3C0CLK>;
++        resets = <&syscon ASPEED_RESET_I3C0>;
++        global-regs = <&i3c_global 0>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&pinctrl_i3c1_default>;
++        interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
++    };
++
++    i3c_global: i3c-global@0 {
++        compatible = "aspeed,ast2600-i3c-global", "simple-mfd", "syscon";
++        resets = <&syscon ASPEED_RESET_I3C_DMA>;
++        reg = <0x0 0x1000>;
++    };
++...
+-- 
+2.39.1
+
