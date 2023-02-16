@@ -2,139 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BFE698FC0
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Feb 2023 10:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A66698FFC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Feb 2023 10:37:29 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PHV2Z1Xkyz3cdg
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Feb 2023 20:27:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PHVGZ6WPsz3cdm
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Feb 2023 20:37:26 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=HF8aH+BY;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IWvdWUom;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::717; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::136; helo=mail-lf1-x136.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=HF8aH+BY;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IWvdWUom;
 	dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20717.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::717])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PHV2T0Qd0z3cH9;
-	Thu, 16 Feb 2023 20:26:56 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TQxPozULysqjrXzXqeBn44+OGvYF/B6P6W7cQ4qq88Z4/z9T4XBAXhubdC+BPc8VSVhzJSzXaT6aIgC1iMpTwqcDE7ZmnJxA/gWulUUeG2WTyyxf3ejRJtYe6kzfZcHRQOhVb65ZWejBXGaAQIFpPyKIETnEn3Nfuphfz9sAPH0F6Wit5MlNqIpnuFhXs8G/KFBA01jhpzhM1rvGhkqfax0tawRe9DIdG6mR1pjMKnpsSE9cBjQ4K+wJb+nHzDnBjjdNGLPahAD9Vyx9tix0gx5BCixQpTe0Mb+qUElRQ+9MI8t5u0KEqr+XVKKY5BdRxIeX2JOwpl19ed9VZbrwHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g38FmdhRdefM/TAwdI6sQhQ9Eg+qWGH1u7Zdr8gBwiE=;
- b=j9suxGd9gnfx4/OhINpAqhAEp9S+BwUA0LdghbwTPJ16+bcVQeiGQ3ZmyrGhSvZG+4im5x4U7z18xVC5FiOgLi1bzjXu91oSIRbhxp4T1ejSCjCWOwXL9CGqMKnXCsVY1sr4KxVXR63fKjX3u3Bxe/5QMDe0KpYC8E2+8h9Hvn8bZYxC+bG8tMqlMx0aJV0DDK9I0jadjDMW0VmjtkmeNxCfJSQKexQPC5twLft73M9Iqq4jEhZuXocbejKbDtvQ+7OW++NgJiiqtqJ8p+Qeq/EvWosZHA2IFgAPbYcWHzBUSrz4OAmB+4ntvF4VrqgXbzaaMxeajpY9wHKF132OQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g38FmdhRdefM/TAwdI6sQhQ9Eg+qWGH1u7Zdr8gBwiE=;
- b=HF8aH+BYPC2H9rTJC7VQ3Yr/ZLbaunMmafVtI4Fu4jX8GoiqNalXdpCV3Vw34jYNx9muF82zsWra2eLEDwk0KmUn0cuZJWYb5EYknOvSLoRUmWafQGCSlwlR1heTdFHcpJd/CLLQp0jyzg+EZ6CDxc3XGk52mmETCR5121pFewQ2vELNKXifoaSfsyT6HHdov1Wn6UtQ5gRIUtAp938raMk3wgpQYWFTTfZWzHieK3njvoURWWxe4CHdw87/5UFGehwaJfP0dC6mZzB4X3a3SrTVYj9mTfkCDneLPr3a46Y2XuDANjxG7ClzNhRUgP95xTPey/huYNyS1aPyunWmRw==
-Received: from TYZPR06MB5274.apcprd06.prod.outlook.com (2603:1096:400:1ff::14)
- by KL1PR0601MB5550.apcprd06.prod.outlook.com (2603:1096:820:c1::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.10; Thu, 16 Feb
- 2023 09:26:37 +0000
-Received: from TYZPR06MB5274.apcprd06.prod.outlook.com
- ([fe80::e7c2:8fd8:5892:6687]) by TYZPR06MB5274.apcprd06.prod.outlook.com
- ([fe80::e7c2:8fd8:5892:6687%9]) with mapi id 15.20.6111.009; Thu, 16 Feb 2023
- 09:26:37 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, Andrew
- Jeffery <andrew@aj.id.au>, Philipp Zabel <p.zabel@pengutronix.de>,
-	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support for AST2600
- i2C driver
-Thread-Topic: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support for AST2600
- i2C driver
-Thread-Index:  AQHZNii3UFiZnjoVzEOnbd7WD7fD4K67XHWAgBQ23XCAAPWKAIAA2h/AgAAA9ACAAAA2YA==
-Date: Thu, 16 Feb 2023 09:26:37 +0000
-Message-ID:  <TYZPR06MB5274B15C35A6030CB49BFD23F2A09@TYZPR06MB5274.apcprd06.prod.outlook.com>
-References: <20230201103359.1742140-1-ryan_chen@aspeedtech.com>
- <20230201103359.1742140-3-ryan_chen@aspeedtech.com>
- <b0f55494-3a17-4d87-7b8f-5b078503cb53@linaro.org>
- <SEZPR06MB52690A1D06F3CFEAAF1FDBDEF2A39@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <b58fad13-12d5-346b-9452-d345c7bf5327@linaro.org>
- <TYZPR06MB5274C8D759C5C762C12A1CE9F2A09@TYZPR06MB5274.apcprd06.prod.outlook.com>
- <c5aa358d-6fb8-9d4d-eef7-d3a8268229e8@linaro.org>
-In-Reply-To: <c5aa358d-6fb8-9d4d-eef7-d3a8268229e8@linaro.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB5274:EE_|KL1PR0601MB5550:EE_
-x-ms-office365-filtering-correlation-id: 21f783d5-16f7-4795-7413-08db0fffe765
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  9BFGye4OqToDpPNvfSalVZxFrysXMTcKRsHczFy6M9f0btGCu0DjVooe3tsgDHFFO+5wS2qk/EPtFQgN+OwibXKsXJMkYpU2aCnaISXTdlAEWKV20iKlE0rxHC+IL3UjEvHMgrvLrCXOAzD1a1Fg7tiILkkHnQ6B0oU9VEDYQUDRoP53zdhJ67YTI7cQysr5DWloYEr8+9aYQmoowpuFEYThay2xNgcEYrss04HPNysDgXF1nT1kodPfnWwlyMnqRIWtwvEgOEwrruIgmfnsytnpwwszhRw3F70f2HJ7SZAGFxVFy3weYG5ou4V1S8R0cYaM+QvLUHipwxQJvYPsRhJHtP5PEwFxuG6+Maktu05OfljY8lKtcpDc9o5eoGD6hsuh83yYCgJo5UUocnzMH5R3w85x6fY5ehPArFaE3GNa94fz+dbpdA9YKC6i2+FYckPOdIUGHurkuYLjii4Sl/BeZRKwPXNor3OVF/5K4+gAiMgylXKIJ590dIUFLsfs7uuIpQcXoE5zacP5q8G6ReOnQBfgJsFwFKUqMdk0vCjFj9Uv/dntVpkCyRnIpyGNZhjBLa7cfTA9FztuyjNXRCGm6v+DWaS9/Hd6cBLtWQYL+euWl2FT6nR73myb/A/f9laYGdn7gnRnzcg53kmSdIe1bEJXdbm5ia25Kbqk8YSPQERYqc6UYTlAnhl0k0d8OvgBRi1tMppPigd6WmP6fJPaRd7fp0aEc3QZIAxkUdA=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB5274.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(39850400004)(346002)(376002)(366004)(136003)(451199018)(2906002)(6506007)(83380400001)(7696005)(33656002)(53546011)(26005)(71200400001)(921005)(86362001)(9686003)(41300700001)(66446008)(478600001)(8676002)(64756008)(55016003)(52536014)(316002)(7416002)(66556008)(8936002)(5660300002)(122000001)(38100700002)(186003)(38070700005)(66946007)(110136005)(66476007)(76116006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?bmlwS3FFWG55VlB3OG1jM1dvaytKMVpsNWI4NGR5VTZaYVAyRlZyZE9iM1Mv?=
- =?utf-8?B?S1pjR0hCNWZQTUw2R0RYZ1FjZXZzRGtGNkdOOTlTMkFoSFNqaFVzL2c0bHFt?=
- =?utf-8?B?cTV5WkZyWC8yd1Y1VTRiTU5USkdqOHg4ZjhDeXFyYXpkdEc0MkdhdUFsNUhH?=
- =?utf-8?B?bmVwdTdpQnBmaUlJR0RRY1BCcDY3VDZxa1NtRHRING1kMTVDdGJmOHpXbDBT?=
- =?utf-8?B?ZEpoZDBQWE91dXNsRUVQYkhRYlRWcUU0d3A1S21pV0hObXRkQzYxcjdDMGhl?=
- =?utf-8?B?KzZ2c0FEbEt6SUpSVmZQaGZXK0djMldxMDZyY2dGckhUZmhjL0VPZUNSdm5X?=
- =?utf-8?B?Y3JoSXB5QVg0UDd0NkE5bFVzQlZUSGFyQWhvZXo5SXNhRUxMZUZKOFJON0xL?=
- =?utf-8?B?TWVhaUt5cC85blR5Q043dWQvOXBFL2M1dkNDRFdTMHlmZTRlOHFuWGJVMzNP?=
- =?utf-8?B?QzFRQmdSQ3hvMGRUYU95Mk5KL2RaVHZzcUJKMUJhOExORmZvd3c3bVpPZEJt?=
- =?utf-8?B?T1BWbGxjRmo2Tll1YzJHcmw4RFNhelh4ZUpwVWNwMlkwOHJZcUlYN3BKS3Uw?=
- =?utf-8?B?OGhHdE56NU1OTHhHQ3pTbzR3b3k1blJYRzNRcWJqdU1qUnkyYUI5bEMvajMv?=
- =?utf-8?B?bG53RWpWRjhtQUpnazl5UkZuQnpEZ2xvcG16M3BmdjNuTERhNW9PTUpGcDZP?=
- =?utf-8?B?eE9ZTEJOY1IxR0p0VjV1TlBNaklTb2Z0aHVXWUJxL21aRGJJT1hpZ0doUjNr?=
- =?utf-8?B?Q0Q2cFp6NEYyak1lZHg1M3ZHUHhPM0J3Y3c1a0JNaTFsenMxQ0VpQ1RtcFcx?=
- =?utf-8?B?bzNITitsaWFxYzZWRXZqNW1sc2hmdm9ZOVFTUDJVdFN0aVJYSnQvNmpBdFNj?=
- =?utf-8?B?QWVjeHR6Z3N0OUw4TFQyYlUzeU5NK0lPK3JsbkJHWmh2Q3Z0OVlHTDEwQXYv?=
- =?utf-8?B?VzlpSnoxTkZVQXRHWHoxdWp2ZHRlbVM4ejMvZnZYOFYzUGdlWjZtNk5OMW9P?=
- =?utf-8?B?ejdmSnp5QkNRYWV2QlNmbTdVN2t5UXlQVDRkYVordUhQVGVwRytaQzAwOFRj?=
- =?utf-8?B?QWZ4MFVMUXI2dWxvc2VQYjBSbjdSeXcvbFBVdlpKdTYxUy9ycXZ6Vm43UUxn?=
- =?utf-8?B?d2NyR3oxN2ZMM21TMzB3Z2FCN3FSRlQ3bGY2YTZRTHZhWk5TSzJ5Nlo4ZEFt?=
- =?utf-8?B?b0pGRHRqaEh5TnRSTHhtckdzSk5BS1BTMTdWdlV1dnpuaWNtTU15bHdGM2tU?=
- =?utf-8?B?NStQSUs1SjNoeHY0QmkzQW93SXlocFpraVdPUVVOd2JMOWFXQm5tdjhRK1du?=
- =?utf-8?B?VFpJMFZHR3BvM3hCaG90eHk2THFkREZkU3dITkltZWZuVlhIUmQwNHRLSStn?=
- =?utf-8?B?ckx1dUdjNG5IQlBudldHS0xPNVB5VUYvaXhRblNsb3FRaE1GNi8zcmRhN3dq?=
- =?utf-8?B?YUxGVHVuTVFPNHpXSHdxOTI2bXo3ZWxLK0pqVU9vK3JPTFUxOGI0eHYyV3JP?=
- =?utf-8?B?ZWRYbDZvUTNCMmovL2RvMWFWUHRkL0pHa2JTTDVWbGZBYTdlTXFSVjhNSk5s?=
- =?utf-8?B?NGVKdXJHSWUwQ2VSb2RjanNaR0ROYWRHcVlMeFozVi9JVUd5T25OcHIrOGRR?=
- =?utf-8?B?OGlwMFI2VEJRZ1czdGxYdEF1S0RXU1BaSXhvdWkranRLclpqTEdyaDVrWTZX?=
- =?utf-8?B?OUFDNS96dG1NTWR1ZDlPc0VVeVhZbjg2S3FqWHltV2o2NjJsK0N5WmRTclNN?=
- =?utf-8?B?QXZXT214R0p2OHFwRUQrNnFkaVBiU2hWNU8rNTl2VnJMbTN2SkV0STZtNENp?=
- =?utf-8?B?c1RYL0QrTDZwK1hDMTBSMUZVS0Q4ajZMZWt2VDJGOGFSQ2R0cmVGZitlZkNk?=
- =?utf-8?B?QVJ0VGxOVjhDM0lHTXNqWmExbFlMdkQ0Y3NUMCtrS0gwU1FtUmtkZUY2TTlS?=
- =?utf-8?B?YWN0Z2tLeElaN2l6ODM2QVd3dDE5cXRyVWIyMmdWRGxEYVlIU1lYY2xqVGhU?=
- =?utf-8?B?L3RkSExKOWN6VzdSd3JhVWdkMW44cExkMVo0R2RGc1VyU0o3QXdJdkdRbzRy?=
- =?utf-8?B?VlFUc0F0M1l3U2pnZURrUlNqZXcvb1hiRHJSV2ZxbmtIelBuR0p1V2FyQkl3?=
- =?utf-8?Q?0UggTDjJlGvbS0qbrttL6FOJn?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PHVGH2vhWz3cdm
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Feb 2023 20:37:08 +1100 (AEDT)
+Received: by mail-lf1-x136.google.com with SMTP id g28so2096967lfv.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Feb 2023 01:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J4kcTI2putLnbdN9MP2mFPB2+31xxohlAWl8A4kqJzM=;
+        b=IWvdWUomqTO8QzgT9/RsA6AztLIRxUOVfgNmvqvN5Gxqy/9cUOZIxx4zOEI1GUMEuO
+         V9TAsRuESAn9eSAcdJ2Q3Y3LmKVgHE8dfzqSPMuCxP/X5dVXTxpT/3K4G5ne2L20BOdg
+         +Ns/bp3nNMVysizAwePy8SWWIByCVc5VQGg8CAYpY3pYPX0k66HI0RMoIupaYO98vhyF
+         UQv0R+0F5TTrERZ+m2rMar8TvjV9kY3VTcqgBRT3yds+E6jk3uqrdTy6JBPMpNEg1k6H
+         AheohWlxTzNKMooy9nCo7cHAhRm+3PHCMpalddk4nPGaayP7ES+3UEPmE2SdsVilbLTV
+         raJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J4kcTI2putLnbdN9MP2mFPB2+31xxohlAWl8A4kqJzM=;
+        b=SBweSxgYnGV2+MA55YiSxeVF05gww9jpAwsJaD2Ylgxc8JIOKx2dDpKlKoQCSxgoRi
+         5lVfRQo3b/SRLGBCwb5IPwTObf3FNeT4rkKwcAUVlFFXblmGYkJ0EOyi/FrmmExp6h3S
+         HYjSLxgXy2wHv3NidIJflGavZgNYVHbTL9NFg7SRkRpQGDcf+Q3AU9zxxRj95vW/B+vT
+         tCXUpsW/ZyMRst3SyDAoYZvqCBk8MKWErGvLMaUhYXJPIKPNmPr9AeZ1kCsMFLFpsGdO
+         yfrWfyUrWJ6Jhot6fZ9Ely35BpQn3G+8uWtID27PhiWPHShZSeUhovm1Uh3FC8b1fuaM
+         8S8w==
+X-Gm-Message-State: AO0yUKVy5DyhDn5OZwjXuY/dVIE72Nd236IGOp1QFCTnsKQnF0NTCwUy
+	Vur3XpGnKzceaTEhZY3Mj9lx8Q==
+X-Google-Smtp-Source: AK7set8LMDSUl/0lfLpNLdxiWXIpZtBeu3tMcI1noiOnxnhVDDzyYiOekOwnbuCrkq4smDZqBa7rOg==
+X-Received: by 2002:a05:6512:48f:b0:4ce:88af:473b with SMTP id v15-20020a056512048f00b004ce88af473bmr1118725lfq.54.1676540224493;
+        Thu, 16 Feb 2023 01:37:04 -0800 (PST)
+Received: from [127.0.1.1] ([85.235.12.219])
+        by smtp.gmail.com with ESMTPSA id r3-20020a19ac43000000b004d8758a452asm229069lfc.288.2023.02.16.01.37.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Feb 2023 01:37:04 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH 00/17] Mass convert GPIO IRQ chips to be immutable
+Date: Thu, 16 Feb 2023 10:37:01 +0100
+Message-Id: <20230215-immutable-chips-v1-0-51a8f224a5d0@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5274.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21f783d5-16f7-4795-7413-08db0fffe765
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2023 09:26:37.5695
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7nx6Xap0C/RTe7sy6WrFbXgg3Z8XNyxWHHaAAr9adX9nuqoGb27hNFGyrsqDRmm9iBrv8/cPii5mn71LQeRcbP4LO3AUaOq2YrJcR1BaUXU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB5550
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD357WMC/0XNQQqDMBCF4avIrDtgprTBXqV0kaSjGdAYMioF8
+ e6N3XT5w/t4OygXYYVHs0PhTVTmVMNcGgjRpYFR3rWBWrq2ZG4o07Quzo+MIUpWtHfqiMja3jB
+ U5Z0y+uJSiKcbssx/cw5y4V4+v8vn6zi+Vg6p2IIAAAA=
+To: Mun Yew Tham <mun.yew.tham@intel.com>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@aj.id.au>, Alban Bedel <albeu@free.fr>, 
+ Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, Jay Fang <f.fangjian@huawei.com>, 
+ Daniel Palmer <daniel@thingy.jp>, Romain Perier <romain.perier@gmail.com>, 
+ Grygorii Strashko <grygorii.strashko@ti.com>, 
+ Santosh Shilimkar <ssantosh@kernel.org>, Kevin Hilman <khilman@kernel.org>, 
+ William Breathitt Gray <william.gray@linaro.org>
+X-Mailer: b4 0.12.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,58 +88,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org, Tony Lindgren <tony@atomide.com>, Marc Zyngier <maz@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGVsbG8gS3J6eXN6dG9mDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTog
-S3J6eXN6dG9mIEtvemxvd3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBsaW5hcm8ub3JnPg0KPiBT
-ZW50OiBUaHVyc2RheSwgRmVicnVhcnkgMTYsIDIwMjMgNToyMiBQTQ0KPiBUbzogUnlhbiBDaGVu
-IDxyeWFuX2NoZW5AYXNwZWVkdGVjaC5jb20+OyBSb2IgSGVycmluZw0KPiA8cm9iaCtkdEBrZXJu
-ZWwub3JnPjsgS3J6eXN6dG9mIEtvemxvd3NraQ0KPiA8a3J6eXN6dG9mLmtvemxvd3NraStkdEBs
-aW5hcm8ub3JnPjsgSm9lbCBTdGFubGV5IDxqb2VsQGptcy5pZC5hdT47IEFuZHJldw0KPiBKZWZm
-ZXJ5IDxhbmRyZXdAYWouaWQuYXU+OyBQaGlsaXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4
-LmRlPjsNCj4gb3BlbmJtY0BsaXN0cy5vemxhYnMub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3Rz
-LmluZnJhZGVhZC5vcmc7DQo+IGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnOyBsaW51eC1r
-ZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjQgMi8zXSBkdC1i
-aW5kaW5nczogaTJjLWFzdDI2MDA6IEFkZCBzdXBwb3J0IGZvciBBU1QyNjAwDQo+IGkyQyBkcml2
-ZXINCj4gDQo+IE9uIDE2LzAyLzIwMjMgMTA6MjAsIFJ5YW4gQ2hlbiB3cm90ZToNCj4gPiBIZWxs
-byBLcnp5c3p0b2YNCj4gPg0KPiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBG
-cm9tOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+
-DQo+ID4+IFNlbnQ6IFRodXJzZGF5LCBGZWJydWFyeSAxNiwgMjAyMyA0OjE4IEFNDQo+ID4+IFRv
-OiBSeWFuIENoZW4gPHJ5YW5fY2hlbkBhc3BlZWR0ZWNoLmNvbT47IFJvYiBIZXJyaW5nDQo+ID4+
-IDxyb2JoK2R0QGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpDQo+ID4+IDxrcnp5c3p0
-b2Yua296bG93c2tpK2R0QGxpbmFyby5vcmc+OyBKb2VsIFN0YW5sZXkgPGpvZWxAam1zLmlkLmF1
-PjsNCj4gPj4gQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5hdT47IFBoaWxpcHAgWmFiZWwN
-Cj4gPj4gPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+OyBvcGVuYm1jQGxpc3RzLm96bGFicy5vcmc7
-DQo+ID4+IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsNCj4gPj4gbGludXgt
-YXNwZWVkQGxpc3RzLm96bGFicy5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4g
-Pj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NCAyLzNdIGR0LWJpbmRpbmdzOiBpMmMtYXN0MjYwMDog
-QWRkIHN1cHBvcnQgZm9yDQo+ID4+IEFTVDI2MDAgaTJDIGRyaXZlcg0KPiA+Pg0KPiA+PiBPbiAx
-NS8wMi8yMDIzIDA2OjQzLCBSeWFuIENoZW4gd3JvdGU6DQo+ID4+Pj4+ICsgIC0gJHJlZjogL3Nj
-aGVtYXMvaTJjL2kyYy1jb250cm9sbGVyLnlhbWwjDQo+ID4+Pj4+ICsNCj4gPj4+Pj4gK3Byb3Bl
-cnRpZXM6DQo+ID4+Pj4+ICsgIGNvbXBhdGlibGU6DQo+ID4+Pj4+ICsgICAgZW51bToNCj4gPj4+
-Pj4gKyAgICAgIC0gYXNwZWVkLGFzdDI2MDAtaTJjDQo+ID4+Pj4NCj4gPj4+PiBOQUsuIEl0J3Mg
-YWxyZWFkeSB0aGVyZS4gUGxlYXNlIGRvIG5vdCB3YXN0ZSBvdXIgdGltZSBpbiBzdWJtaXR0aW5n
-DQo+ID4+Pj4gZHVwbGljYXRlZCBkcml2ZXJzLg0KPiA+Pj4NCj4gPj4+IEl0IGlzIG5vdCBkdXBs
-aWNhdGVkLCBhcyBteSBkZXNjcmlwdGlvbiBpbiBjb3ZlciAiIFRoaXMgc2VyaWVzIGFkZA0KPiA+
-Pj4gQVNUMjYwMCBpMmMNCj4gPj4gbmV3IHJlZ2lzdGVyIHNldCBkcml2ZXIiDQo+ID4+PiBTbywg
-dGhpcyB3aWxsIGJlIGRpZmZlcmVudCBkcml2ZXIgY29tcGF0aWJsZS4NCj4gPj4+IFRoZSBvcmln
-aW5hbCBjb21wYXRpYmxlIGlzDQo+ID4+PiAgICAgICAtIGFzcGVlZCxhc3QyNDAwLWkyYy1idXMN
-Cj4gPj4+ICAgICAgIC0gYXNwZWVkLGFzdDI1MDAtaTJjLWJ1cw0KPiA+Pj4gICAgICAgLSBhc3Bl
-ZWQsYXN0MjYwMC1pMmMtYnVzDQo+ID4+PiBTbyB0aGUgbmV3IHJlZ2lzdGVyIHNldCBjb21wYXRp
-YmxlIGlzICItIGFzcGVlZCxhc3QyNjAwLWkyYyIsIHJlbW92ZQ0KPiAiYnVzIi4NCj4gPj4NCj4g
-Pj4gQmluZGluZ3MgYXJlIGRvY3VtZW50aW5nIGhhcmR3YXJlLCBzbyBJIGNsYWltIC0gd2UgYWxy
-ZWFkeSBoYXZlIHRoaXMNCj4gPj4gaGFyZHdhcmUgZGVzY3JpYmVkIGFuZCB0aGlzIGlzIGR1cGxp
-Y2F0ZWQuIE90aGVyd2lzZSAtIHdoYXQgYXJlIHRoZXNlDQo+ID4+IHR3byBJMkMgY29udHJvbGxl
-cnMgYW5kIHdoYXQgYXJlIHRoZSBkaWZmZXJlbmNlcz8gV2h5IHRoZXkgZG8gbm90DQo+ID4+IGhh
-dmUgcmVhbGx5IGRpZmZlcmVudCBuYW1lPyBCdXMgbG9va3MgbW9yZSBsaWtlIGEgbWlzdGFrZSB0
-aGFuIGENCj4gZGlmZmVyZW50aWF0aW5nIG5hbWUuDQo+ID4gRm9yIG1pc3VuZGVyc3RhbmRpbmcs
-IG9yIG1pc3Rha2VuLg0KPiA+IEkgcHVycG9zZSB0byBiZSBhc3BlZWQsYXN0MjYwMC1pMmN2Miwg
-d2lsbCBpdCBtb3JlIGNsZWFyIHdheSA/DQo+IA0KPiBJIGRvbid0IGtub3cuIEkgc3RpbGwgZGlk
-IG5vdCBnZXQgYW5zd2Vycy4gSSBhc2tlZCBoZXJlIHNldmVyYWwgcXVlc3Rpb25zLg0KVGhvc2Ug
-YXJlIGRpZmZlcmVudCBpMmMgY29udHJvbGxlciwgYXMgSSBkZXNjcmlwdGlvbiBpbiBjb3ZlciBs
-ZXR0ZXIuDQpUaGUgaTJjIG5ldyByZWdpc3RlciBtb2RlLCB0aGVyZSBoYXZlIHR3byBzZXBhcmF0
-ZSBzbGF2ZS9tYXN0ZXIgcmVnaXN0ZXIuDQpBbmQgZGlmZmVyZW50IHJlZ2lzdGVyIHdpdGggb2xk
-IHJlZ2lzdGVyLg0KU28gbm93LCBhdm9pZCBtaXN1bmRlcnN0YW5kaW5nLCBvciBtaXN0YWtlbi4N
-CkkgcHVycG9zZSB0byBiZSBhc3BlZWQsYXN0MjYwMC1pMmN2Mi4NCg0KQmVzdCByZWdhcmRzLA0K
-UnlhbiBDaGVuIA0K
+We are getting tired of these irq_chips not getting converted
+to be immutable, so I just take out the big hammer and fix
+some that I deem not too complex as best I can.
+
+I stopped after doing some, I will take another sweep at some
+point I guess.
+
+Please test if you have the hardware. The OMAP patch especially,
+hi Tony ;)
+
+I don't expect this to be merged to v6.3, but as Bartosz may
+feel it is fixes material they are of course fine to trickle
+in on a case-by-case basis.
+
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Linus Walleij (17):
+      gpio: altera: Convert to immutable irq_chip
+      gpio: adnp: Convert to immutable irq_chip
+      gpio: aspeed: Convert to immutable irq_chip
+      gpio: aspeed-sgpio: Convert to immutable irq_chip
+      gpio: ath79: Convert to immutable irq_chip
+      gpio: cadence: Convert to immutable irq_chip
+      gpio: eic_sprd: Convert to immutable irq_chip
+      gpio: hisi: Convert to immutable irq_chip
+      gpio: hlwd: Convert to immutable irq_chip
+      gpio: idt3243x: Convert to immutable irq_chip
+      gpio: msc313: Convert to immutable irq_chip
+      gpio: mlxbf2: Convert to immutable irq_chip
+      gpio: max732x: Convert to immutable irq_chip
+      gpio: omap: Drop irq_base
+      gpio: omap: Convert to immutable irq_chip
+      gpio: pci-idio-16: Convert to immutable irq_chip
+      gpio: pcie-idio-24: Convert to immutable irq_chip
+
+ drivers/gpio/gpio-adnp.c         |  9 ++++-
+ drivers/gpio/gpio-altera.c       | 25 +++++++-----
+ drivers/gpio/gpio-aspeed-sgpio.c | 44 +++++++++++++++++----
+ drivers/gpio/gpio-aspeed.c       | 44 ++++++++++++++++++---
+ drivers/gpio/gpio-ath79.c        |  8 +++-
+ drivers/gpio/gpio-cadence.c      | 10 +++--
+ drivers/gpio/gpio-eic-sprd.c     | 33 +++++++++++-----
+ drivers/gpio/gpio-hisi.c         | 25 +++++++-----
+ drivers/gpio/gpio-hlwd.c         | 33 ++++++++++++----
+ drivers/gpio/gpio-idt3243x.c     | 11 ++++--
+ drivers/gpio/gpio-max732x.c      |  8 +++-
+ drivers/gpio/gpio-mlxbf2.c       | 32 ++++++++++++----
+ drivers/gpio/gpio-msc313.c       | 26 +++++++++++--
+ drivers/gpio/gpio-omap.c         | 83 ++++++++++++++++++++++------------------
+ drivers/gpio/gpio-pci-idio-16.c  | 12 ++++--
+ drivers/gpio/gpio-pcie-idio-24.c | 12 ++++--
+ 16 files changed, 297 insertions(+), 118 deletions(-)
+---
+base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+change-id: 20230215-immutable-chips-762922277f1e
+
+Best regards,
+-- 
+Linus Walleij <linus.walleij@linaro.org>
+
