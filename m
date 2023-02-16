@@ -1,69 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23A769900C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Feb 2023 10:37:51 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BCE699010
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Feb 2023 10:37:56 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PHVH14Qh5z3cjJ
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Feb 2023 20:37:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PHVH614Jkz3cgq
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Feb 2023 20:37:54 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=uzg/z7Js;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pxg7ldUM;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12d; helo=mail-lf1-x12d.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12f; helo=mail-lf1-x12f.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=uzg/z7Js;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pxg7ldUM;
 	dkim-atps=neutral
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PHVGM1nTVz3cdm
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Feb 2023 20:37:15 +1100 (AEDT)
-Received: by mail-lf1-x12d.google.com with SMTP id w11so1991197lfu.11
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Feb 2023 01:37:14 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PHVGN3B7Wz3cj6
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Feb 2023 20:37:16 +1100 (AEDT)
+Received: by mail-lf1-x12f.google.com with SMTP id bp15so1982084lfb.13
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Feb 2023 01:37:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p9WM9bt3/Qg3GpN9YlZ5Md1vJbLQ+qCNkMONfruzQdU=;
-        b=uzg/z7JsYN6JRINI2ztHDI7TVZ5gbs5hccwxhziMFWqgp6FPYevwrJdEn6294hbqEc
-         9RqcwZLiwz41RhtZox1l19YuY0E3m73AHer6GaayRRRTnZ6OAnosbKbjB6277iNWM9Vx
-         tFyJ4pzjpNujTKprYJmj2G6u411h5U+UNkextvLF2I63BscpPxxgRFoVyu3Kul9S9BYD
-         41UJe28ggKb3d55uLsCZTOqn/FWPGtN0FB284wDKgWly9/4XXf7DDvgALtqQSVOE1mpV
-         x2SXb0zMIjFSltPqWvVUOgvskt396AsontVpIlDa3gij5ylP+fLcR3RDLReVr8rfmn+a
-         rNvg==
+        bh=Wl7R3r+A9Tke4e8NDXF8qIlLiiRge2GGICvgO2R5L/w=;
+        b=pxg7ldUM+y/9fT9HO1vpoLqyx8DYhPtT6WOYDNRvnDXt8XRMcK2H4HHWdzhdN2X3pq
+         JqqfuHvt0rEDXyZjSQbWfIIqwdObuT7LyZr1EdmYFdfnEeuq8qQmFF++dAARzomTLzB8
+         AB6rLIKbdkGW6kAHAeOh4qiFiilKhBwjkOphvIkbJs+w2QO3qJ9fE4Uh01+l9xsonc/U
+         fcqfkFUtiOe9BBS2Hdy5UvrXLWa7k4y6bQm61tKfbhQYfRh/1oE72H7e56Z5tkc4gBfQ
+         SbyiSNKmV27w/l3jTYH9jYqTfdWC2w/dzQJ9jpF8kjB1WSE/f9vgRmUIVWsvA6z2VjUe
+         tAiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p9WM9bt3/Qg3GpN9YlZ5Md1vJbLQ+qCNkMONfruzQdU=;
-        b=40fjxjKfpFmSUE5UpADWx41XMDXrLZ/w/pWLWudRYrFNu4nxYoWk1obOpweT9G6De6
-         2ECA8GRDOYRZlCn1fMbQj8U5pK6UwoCzGbq4SIGmaKzmhTMrHEsXngtH/48X0c00Ut7n
-         hWN52z6wMXaGPEN/1DRZy+h75bzdIQqe/e8YYBJbLXVSqNIC1zRjVkaofmqA+eCXSOJo
-         ZAuXK043AdpJgMyfkJcxQ2hcSQtc104D39MjMfyFemrvAXbF3MlCO5flBIQVakH/BvJl
-         wx6cBw7YZKhHkzSHLqo1NRuQDd+8Elb54XPoRPM+boFMLGmr52QRpJNDVLrNEsKCi1pU
-         g6yg==
-X-Gm-Message-State: AO0yUKUcdEKIuwMn518Cv0SYVSu60nk2mLkgtued23dooh7tZkTFOX7v
-	5I/RZ4kJPK3NAGd8kuN+i6AOhA==
-X-Google-Smtp-Source: AK7set8iaxNS73z6iMuN8ou73deEBqjeFNK+tgPO89SDO4UEnUoK2/uA/aJ8sSgQCGZ7D/GOVGIFlw==
-X-Received: by 2002:a19:750f:0:b0:4db:2c52:349b with SMTP id y15-20020a19750f000000b004db2c52349bmr1843213lfe.21.1676540231694;
-        Thu, 16 Feb 2023 01:37:11 -0800 (PST)
+        bh=Wl7R3r+A9Tke4e8NDXF8qIlLiiRge2GGICvgO2R5L/w=;
+        b=kw+3exRLhtokcEEJdrcAWX6v5LJjxk1IpMjxwXuMqV44Q4q4bkhedGYpmfLtmPMU+N
+         nbBGtB2n1blnR+akNn03vLhyug5scWbesV36HRqs58qep9R9vRneNlAarTFHwgoV/k0i
+         mHzNLY2JUjg42mypdIBtxYB40riNP1KtEgkMCFXYmicD6PZ7F46OJsgQ+bRW8qKudDg3
+         DezRi6UYLfBLN5LI5lHijlvhXLkUgCbfuQ4t26WMRtmfI4RJ4IwH0dvZ1+qFC1Etcu4E
+         6eNXhnWlXzVNb3P4zRLVf9rxS/P40YJVfWZi126F5tM66gkxxr4zvNuzzFDsDmGezY2A
+         tTiQ==
+X-Gm-Message-State: AO0yUKWwcJ/0JwoHklPveIUxuCs/3hqtPm95Cptp94CXur8WouWNZ8CH
+	K8gxaUm4nGqlDziVQDI6+clhCg==
+X-Google-Smtp-Source: AK7set+5lpyG/A2gkwOREVj7bxbC83xONCYNQmZgPFTTuF7G7vmN1Ht/jlCYKhdZTaaDaEp0VlLhFw==
+X-Received: by 2002:ac2:5544:0:b0:4d7:2e11:d075 with SMTP id l4-20020ac25544000000b004d72e11d075mr1551317lfk.45.1676540232747;
+        Thu, 16 Feb 2023 01:37:12 -0800 (PST)
 Received: from [127.0.1.1] ([85.235.12.219])
-        by smtp.gmail.com with ESMTPSA id r3-20020a19ac43000000b004d8758a452asm229069lfc.288.2023.02.16.01.37.10
+        by smtp.gmail.com with ESMTPSA id r3-20020a19ac43000000b004d8758a452asm229069lfc.288.2023.02.16.01.37.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Feb 2023 01:37:11 -0800 (PST)
+        Thu, 16 Feb 2023 01:37:12 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 16 Feb 2023 10:37:07 +0100
-Subject: [PATCH 06/17] gpio: cadence: Convert to immutable irq_chip
+Date: Thu, 16 Feb 2023 10:37:08 +0100
+Subject: [PATCH 07/17] gpio: eic_sprd: Convert to immutable irq_chip
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230215-immutable-chips-v1-6-51a8f224a5d0@linaro.org>
+Message-Id: <20230215-immutable-chips-v1-7-51a8f224a5d0@linaro.org>
 References: <20230215-immutable-chips-v1-0-51a8f224a5d0@linaro.org>
 In-Reply-To: <20230215-immutable-chips-v1-0-51a8f224a5d0@linaro.org>
 To: Mun Yew Tham <mun.yew.tham@intel.com>, 
@@ -98,54 +98,96 @@ intuition.
 Cc: Marc Zyngier <maz@kernel.org>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpio/gpio-cadence.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpio/gpio-eic-sprd.c | 33 ++++++++++++++++++++++++---------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpio/gpio-cadence.c b/drivers/gpio/gpio-cadence.c
-index 137aea49ba02..3720b90cad10 100644
---- a/drivers/gpio/gpio-cadence.c
-+++ b/drivers/gpio/gpio-cadence.c
-@@ -70,6 +70,7 @@ static void cdns_gpio_irq_mask(struct irq_data *d)
- 	struct cdns_gpio_chip *cgpio = gpiochip_get_data(chip);
+diff --git a/drivers/gpio/gpio-eic-sprd.c b/drivers/gpio/gpio-eic-sprd.c
+index 8d722e026e9c..695d74ba55f0 100644
+--- a/drivers/gpio/gpio-eic-sprd.c
++++ b/drivers/gpio/gpio-eic-sprd.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
++#include <linux/seq_file.h>
+ #include <linux/spinlock.h>
  
- 	iowrite32(BIT(d->hwirq), cgpio->regs + CDNS_GPIO_IRQ_DIS);
-+	gpiochip_disable_irq(chip, irqd_to_hwirq(d));
+ /* EIC registers definition */
+@@ -91,7 +92,7 @@ enum sprd_eic_type {
+ 
+ struct sprd_eic {
+ 	struct gpio_chip chip;
+-	struct irq_chip intc;
++	struct device *dev;
+ 	void __iomem *base[SPRD_EIC_MAX_BANK];
+ 	enum sprd_eic_type type;
+ 	spinlock_t lock;
+@@ -255,6 +256,7 @@ static void sprd_eic_irq_mask(struct irq_data *data)
+ 	default:
+ 		dev_err(chip->parent, "Unsupported EIC type.\n");
+ 	}
++	gpiochip_disable_irq(chip, irqd_to_hwirq(data));
  }
  
- static void cdns_gpio_irq_unmask(struct irq_data *d)
-@@ -77,6 +78,7 @@ static void cdns_gpio_irq_unmask(struct irq_data *d)
- 	struct gpio_chip *chip = irq_data_get_irq_chip_data(d);
- 	struct cdns_gpio_chip *cgpio = gpiochip_get_data(chip);
+ static void sprd_eic_irq_unmask(struct irq_data *data)
+@@ -263,6 +265,7 @@ static void sprd_eic_irq_unmask(struct irq_data *data)
+ 	struct sprd_eic *sprd_eic = gpiochip_get_data(chip);
+ 	u32 offset = irqd_to_hwirq(data);
  
-+	gpiochip_enable_irq(chip, irqd_to_hwirq(d));
- 	iowrite32(BIT(d->hwirq), cgpio->regs + CDNS_GPIO_IRQ_EN);
++	gpiochip_enable_irq(chip, irqd_to_hwirq(data));
+ 	switch (sprd_eic->type) {
+ 	case SPRD_EIC_DEBOUNCE:
+ 		sprd_eic_update(chip, offset, SPRD_EIC_DBNC_IE, 1);
+@@ -564,6 +567,24 @@ static void sprd_eic_irq_handler(struct irq_desc *desc)
+ 	chained_irq_exit(ic, desc);
  }
  
-@@ -138,11 +140,13 @@ static void cdns_gpio_irq_handler(struct irq_desc *desc)
- 	chained_irq_exit(irqchip, desc);
- }
- 
--static struct irq_chip cdns_gpio_irqchip = {
-+static const struct irq_chip cdns_gpio_irqchip = {
- 	.name		= "cdns-gpio",
- 	.irq_mask	= cdns_gpio_irq_mask,
- 	.irq_unmask	= cdns_gpio_irq_unmask,
--	.irq_set_type	= cdns_gpio_irq_set_type
-+	.irq_set_type	= cdns_gpio_irq_set_type,
-+	.flags		= IRQCHIP_IMMUTABLE,
++static void sprd_eic_irq_print_chip(struct irq_data *data, struct seq_file *p)
++{
++	struct gpio_chip *chip = irq_data_get_irq_chip_data(data);
++	struct sprd_eic *sprd_eic = gpiochip_get_data(chip);
++
++	seq_printf(p, dev_name(sprd_eic->dev));
++}
++
++static const struct irq_chip sprd_eic_irq_chip = {
++	.irq_ack = sprd_eic_irq_ack,
++	.irq_mask = sprd_eic_irq_mask,
++	.irq_unmask = sprd_eic_irq_unmask,
++	.irq_set_type = sprd_eic_irq_set_type,
++	.irq_print_chip = sprd_eic_irq_print_chip,
++	.flags = IRQCHIP_SKIP_SET_WAKE | IRQCHIP_IMMUTABLE,
 +	GPIOCHIP_IRQ_RESOURCE_HELPERS,
- };
++};
++
+ static int sprd_eic_probe(struct platform_device *pdev)
+ {
+ 	const struct sprd_eic_variant_data *pdata;
+@@ -584,6 +605,7 @@ static int sprd_eic_probe(struct platform_device *pdev)
  
- static int cdns_gpio_probe(struct platform_device *pdev)
-@@ -222,7 +226,7 @@ static int cdns_gpio_probe(struct platform_device *pdev)
- 		struct gpio_irq_chip *girq;
+ 	spin_lock_init(&sprd_eic->lock);
+ 	sprd_eic->type = pdata->type;
++	sprd_eic->dev = &pdev->dev;
  
- 		girq = &cgpio->gc.irq;
--		girq->chip = &cdns_gpio_irqchip;
-+		gpio_irq_chip_set_chip(girq, &cdns_gpio_irqchip);
- 		girq->parent_handler = cdns_gpio_irq_handler;
- 		girq->num_parents = 1;
- 		girq->parents = devm_kcalloc(&pdev->dev, 1,
+ 	sprd_eic->irq = platform_get_irq(pdev, 0);
+ 	if (sprd_eic->irq < 0)
+@@ -626,15 +648,8 @@ static int sprd_eic_probe(struct platform_device *pdev)
+ 		break;
+ 	}
+ 
+-	sprd_eic->intc.name = dev_name(&pdev->dev);
+-	sprd_eic->intc.irq_ack = sprd_eic_irq_ack;
+-	sprd_eic->intc.irq_mask = sprd_eic_irq_mask;
+-	sprd_eic->intc.irq_unmask = sprd_eic_irq_unmask;
+-	sprd_eic->intc.irq_set_type = sprd_eic_irq_set_type;
+-	sprd_eic->intc.flags = IRQCHIP_SKIP_SET_WAKE;
+-
+ 	irq = &sprd_eic->chip.irq;
+-	irq->chip = &sprd_eic->intc;
++	gpio_irq_chip_set_chip(irq, &sprd_eic_irq_chip);
+ 	irq->handler = handle_bad_irq;
+ 	irq->default_type = IRQ_TYPE_NONE;
+ 	irq->parent_handler = sprd_eic_irq_handler;
 
 -- 
 2.34.1
