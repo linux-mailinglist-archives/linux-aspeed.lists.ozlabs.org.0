@@ -1,36 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720B169BF10
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 08:48:32 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D798369BF11
+	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 08:48:36 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PKHjV1gXyz3c8n
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 18:48:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PKHjZ5S5Qz3bhY
+	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 18:48:34 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=rB70gVJY;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=alpha.franken.de (client-ip=193.175.24.41; helo=elvis.franken.de; envelope-from=tsbogend@alpha.franken.de; receiver=<UNKNOWN>)
-X-Greylist: delayed 3008 seconds by postgrey-1.36 at boromir; Sat, 18 Feb 2023 02:24:25 AEDT
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PJFwT1ZrZz3f99
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Feb 2023 02:24:25 +1100 (AEDT)
-Received: from uucp (helo=alpha)
-	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-	id 1pT1o3-0001zG-00; Fri, 17 Feb 2023 15:33:47 +0100
-Received: by alpha.franken.de (Postfix, from userid 1000)
-	id 19465C28A2; Fri, 17 Feb 2023 14:28:16 +0100 (CET)
-Date: Fri, 17 Feb 2023 14:28:16 +0100
-From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 10/17] gpio: idt3243x: Convert to immutable irq_chip
-Message-ID: <20230217132816.GA9335@alpha.franken.de>
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kemnade.info (client-ip=2a01:238:4321:8900:456f:ecd6:43e:202c; helo=mail.andi.de1.cc; envelope-from=andreas@kemnade.info; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=rB70gVJY;
+	dkim-atps=neutral
+X-Greylist: delayed 1851 seconds by postgrey-1.36 at boromir; Sat, 18 Feb 2023 04:02:52 AEDT
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [IPv6:2a01:238:4321:8900:456f:ecd6:43e:202c])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PJJ644G52z3bgd
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Feb 2023 04:02:52 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=fdyKvwYgQMyYOvs0tXMattzjV5AJbXrXbx9GVNi92gc=; b=rB70gVJYdKjUfB2yk/iVq2XOG1
+	Kgz5TPxBW/7arPV6XSZz1yZ12auLu2TXIoaD7K1FW7uVqa7Wsyapj81K0uh4ETQJe0YucyxwXfZpy
+	JAWsOqemDPnYuCoYmLLtqw4gPH5njmPZcee71RnsRhqjJqZk5RvQeRKNKHrtD7lssDjdYV5n1amOe
+	eKJ4MgDUEax7LfqUoDPNYve/gQX9vV9j0+WlUmBSa9sdoJQdCjuzI1JKc36+uMNZ3/Ue/j/mXAhwL
+	UCjZUecALDmF/lsNq1WZWU3DfsBUsTMeVWxjcMsU5G8HWJEn2M+viihT0izK/FZKldRpU0JBFzo8l
+	N5Mx9YRg==;
+Received: from p200300ccff0dfd001a3da2fffebfd33a.dip0.t-ipconnect.de ([2003:cc:ff0d:fd00:1a3d:a2ff:febf:d33a] helo=aktux)
+	by mail.andi.de1.cc with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <andreas@kemnade.info>)
+	id 1pT3de-00064j-S3; Fri, 17 Feb 2023 17:31:11 +0100
+Date: Fri, 17 Feb 2023 17:31:08 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Tony Lindgren <tony@atomide.com>
+Subject: Re: [PATCH 15/17] gpio: omap: Convert to immutable irq_chip
+Message-ID: <20230217173108.1448ce92@aktux>
+In-Reply-To: <Y+8xkV5aUrAajLNP@atomide.com>
 References: <20230215-immutable-chips-v1-0-51a8f224a5d0@linaro.org>
- <20230215-immutable-chips-v1-10-51a8f224a5d0@linaro.org>
+	<20230215-immutable-chips-v1-15-51a8f224a5d0@linaro.org>
+	<Y+8xkV5aUrAajLNP@atomide.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230215-immutable-chips-v1-10-51a8f224a5d0@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -1.0 (-)
 X-Mailman-Approved-At: Sun, 19 Feb 2023 18:42:49 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -43,74 +65,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, Grygorii Strashko <grygorii.strashko@ti.com>, linux-omap@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Mun Yew Tham <mun.yew.tham@intel.com>, Kevin Hilman <khilman@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Jay Fang <f.fangjian@huawei.com>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Daniel Palmer <daniel@thingy.jp>, Alban Bedel <albeu@free.fr>, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, Romain Perier <romain.perier@gmail.com>, William Breathitt Gray <william.gray@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, Linus Walleij <linus.walleij@linaro.org>, Daniel Palmer <daniel@thingy.jp>, Alban Bedel <albeu@free.fr>, Kevin Hilman <khilman@kernel.org>, Marc Zyngier <maz@kernel.org>, William Breathitt Gray <william.gray@linaro.org>, Orson Zhai <orsonzhai@gmail.com>, Grygorii Strashko <grygorii.strashko@ti.com>, Jay Fang <f.fangjian@huawei.com>, linux-gpio@vger.kernel.org, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Mun Yew Tham <mun.yew.tham@intel.com>, linux-kernel@vger.kernel.org, Chunyan Zhang <zhang.lyra@gmail.com>, Romain Perier <romain.perier@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Feb 16, 2023 at 10:37:11AM +0100, Linus Walleij wrote:
-> Convert the driver to immutable irq-chip with a bit of
-> intuition.
-> 
-> Cc: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/gpio/gpio-idt3243x.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpio/gpio-idt3243x.c b/drivers/gpio/gpio-idt3243x.c
-> index 1cafdf46f875..00f547d26254 100644
-> --- a/drivers/gpio/gpio-idt3243x.c
-> +++ b/drivers/gpio/gpio-idt3243x.c
-> @@ -92,6 +92,8 @@ static void idt_gpio_mask(struct irq_data *d)
->  	writel(ctrl->mask_cache, ctrl->pic + IDT_PIC_IRQ_MASK);
->  
->  	raw_spin_unlock_irqrestore(&gc->bgpio_lock, flags);
-> +
-> +	gpiochip_disable_irq(gc, irqd_to_hwirq(d));
->  }
->  
->  static void idt_gpio_unmask(struct irq_data *d)
-> @@ -100,6 +102,7 @@ static void idt_gpio_unmask(struct irq_data *d)
->  	struct idt_gpio_ctrl *ctrl = gpiochip_get_data(gc);
->  	unsigned long flags;
->  
-> +	gpiochip_enable_irq(gc, irqd_to_hwirq(d));
->  	raw_spin_lock_irqsave(&gc->bgpio_lock, flags);
->  
->  	ctrl->mask_cache &= ~BIT(d->hwirq);
-> @@ -119,12 +122,14 @@ static int idt_gpio_irq_init_hw(struct gpio_chip *gc)
->  	return 0;
->  }
->  
-> -static struct irq_chip idt_gpio_irqchip = {
-> +static const struct irq_chip idt_gpio_irqchip = {
->  	.name = "IDTGPIO",
->  	.irq_mask = idt_gpio_mask,
->  	.irq_ack = idt_gpio_ack,
->  	.irq_unmask = idt_gpio_unmask,
-> -	.irq_set_type = idt_gpio_irq_set_type
-> +	.irq_set_type = idt_gpio_irq_set_type,
-> +	.flags = IRQCHIP_IMMUTABLE,
-> +	GPIOCHIP_IRQ_RESOURCE_HELPERS,
->  };
->  
->  static int idt_gpio_probe(struct platform_device *pdev)
-> @@ -168,7 +173,7 @@ static int idt_gpio_probe(struct platform_device *pdev)
->  			return parent_irq;
->  
->  		girq = &ctrl->gc.irq;
-> -		girq->chip = &idt_gpio_irqchip;
-> +		gpio_irq_chip_set_chip(girq, &idt_gpio_irqchip);
->  		girq->init_hw = idt_gpio_irq_init_hw;
->  		girq->parent_handler = idt_gpio_dispatch;
->  		girq->num_parents = 1;
-> 
-> -- 
-> 2.34.1
+On Fri, 17 Feb 2023 09:49:37 +0200
+Tony Lindgren <tony@atomide.com> wrote:
 
-Tested-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Hi,
+> 
+> * Linus Walleij <linus.walleij@linaro.org> [230216 09:38]:
+> > Convert the driver to immutable irq-chip with a bit of
+> > intuition.
+> > 
+> > This driver require some special care: .irq_ack() was copied
+> > from dummy_irq_chip where it was defined as noop. This only
+> > makes sense if using handle_edge_irq() that will unconditionally
+> > call .irq_ack() to avoid a crash, but this driver is not ever
+> > using handle_edge_irq() so just avoid assigning .irq_ack().
+> > 
+> > A separate chip had to be created for the non-wakeup instance.  
+> 
+> Nice, works for me.
+> 
+> BTW, I still see these warnings remaining on boot:
+> 
+> gpio gpiochip0: Static allocation of GPIO base is deprecated, use dynamic allocation.
+> 
+> Seems like we might be able to get rid of those too now or are
+> there still some dependencies with /sys/class/gpio for example?
+> 
+on what are you testing? on -next? I thought I have fixed theese warning with
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=92bf78b33b0b463b00c6b0203b49aea845daecc8
 
-
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Regards,
+Andreas
