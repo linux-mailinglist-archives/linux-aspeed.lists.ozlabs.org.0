@@ -2,75 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E8A69BF0D
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 08:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9568669BF0E
+	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 08:48:23 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PKHjD5HfSz2xrD
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 18:48:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PKHjK2rTBz3bg1
+	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 18:48:21 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=sifive.com header.i=@sifive.com header.a=rsa-sha256 header.s=google header.b=SNz8dv5z;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ePSkcEjM;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=sifive.com (client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=ben.dooks@sifive.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::232; helo=mail-oi1-x232.google.com; envelope-from=gengcixi@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=sifive.com header.i=@sifive.com header.a=rsa-sha256 header.s=google header.b=SNz8dv5z;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ePSkcEjM;
 	dkim-atps=neutral
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PHdWd4N35z3cT4
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Feb 2023 02:04:11 +1100 (AEDT)
-Received: by mail-wr1-x42d.google.com with SMTP id r28so1679947wra.5
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Feb 2023 07:04:11 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PHyDc0Hmzz3c9K
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Feb 2023 14:37:17 +1100 (AEDT)
+Received: by mail-oi1-x232.google.com with SMTP id r28so3806136oiw.3
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Feb 2023 19:37:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eQ4D1e7OsydChicX50RhYW35hCzCmSAMZsBfa+Xta+0=;
-        b=SNz8dv5zMWNJuuPbgHGxQDPr/JPYIjY+/Yn3i8jbcWefLvGrtBBslS4YbYeD18sYar
-         3vHRciM2MR8NfSDR+NgRzxZ9elZcLE6bzJlPl0pVou0ce9bxWjQjBVTHf58S3N7KTAwf
-         ci1Vzxpr3ceLWo7TBeqCnA+x6t/qW1MCN5RekRKn3XbHrZSiayRrVvZt3D0DVxEqOjyd
-         zGWRRbL0UrxYQNcLBbJJhwmqlbCGfvtRQfsboU+PI+4Gdmfx9Ny5WQY4kWoSYUZE1r+E
-         DELL42Q4JzyosvMCQZnmlXDmyRg0/GpntLP/kDYSynSi6H/9Ftbhp0LStArH8XAwloez
-         81nQ==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nSVqDFINb6eTwnKScQKOjb76m3fWngmDehoCyhWJ504=;
+        b=ePSkcEjMi7poii0SK0dny0hZgpjsBJ5YF2xuLigoCxuADXvJNjLAwR52kS9buXCrb2
+         lvM+POooecWQXQlVjfndNYmpqxxicw4qBA0oOZHtszF12yYjz6oME4sp7NVcDE9roKpI
+         TYIbJuGYHtFCpf1OSqlCYEickCzf8g4TwtsC4fQtQuxNmjlmXV0/Vrb1+cZncl82bA6b
+         cJD2nUNQMgmPaNdEpDTQ8krB3vtt5ArJ+j1y1kBQkP2C9WFcjQ/zwQ5LCC35+IAOpX5o
+         jWdBzLK9zJUQgZsFKHvlpcJAKyOzdvqNhxWdLAKu6wYmcWUtG0i5dOn5TOLrgSnYW5us
+         9WGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eQ4D1e7OsydChicX50RhYW35hCzCmSAMZsBfa+Xta+0=;
-        b=lgczsJ9QVFuBeG4Wq3xuafNWgJ3js7jPK0QeKhMvK7fv2E4wV2Uz1gMJyXz8XqrTgz
-         qu0XsrBFkr5UwTUc9NdvmAMu5FxIbDDm0mrGKpLhRBASogsu2xmsPXYC5sewBV+mXgG5
-         +2xzqaS22E+Y5VZoSI7MXzxT70GiJodXly+o0m2Ii/HedcK9J/zznxuRn9hfvehb9NT9
-         mlMyqv9+O6dlGe6ZQcqDxGgNlqdMT1aWC1S7ewJ3DfkfavUesMsWOZtzajptQhOqyob4
-         /U4X0Wf9mZRG734QVWOBydJrh+1l5DovrCmEGh9BIgBY4wXD2+zxb3g49Gc6I5DD1VXN
-         pgrQ==
-X-Gm-Message-State: AO0yUKW1behn17Txiunu5Z+3Hb6wbAzkpVnzR7ROa0yWEuaEk6gcyM3B
-	qKNTjWb6EuWbS9fPb5K7HWuoGA==
-X-Google-Smtp-Source: AK7set8vMvgLkfVuOhbBQcIoMKcYBI3CyptMMUKw+8/IdahJJGKA/oBlPMJi1NauBsBuPE9BP4H+ig==
-X-Received: by 2002:adf:f888:0:b0:2c3:e993:9d7d with SMTP id u8-20020adff888000000b002c3e9939d7dmr4733394wrp.30.1676559847439;
-        Thu, 16 Feb 2023 07:04:07 -0800 (PST)
-Received: from [10.35.4.184] ([167.98.27.226])
-        by smtp.gmail.com with ESMTPSA id c4-20020adfe704000000b002c5534db60bsm1714097wrm.71.2023.02.16.07.04.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Feb 2023 07:04:07 -0800 (PST)
-Message-ID: <9b374250-3afc-6277-d1c6-0dac1c682bca@sifive.com>
-Date: Thu, 16 Feb 2023 15:04:05 +0000
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nSVqDFINb6eTwnKScQKOjb76m3fWngmDehoCyhWJ504=;
+        b=fV5VkyheAEoSZB2442l4nMiK9edDf9CuJWyyO0ZW5Af4cEwRQ0nT10J6JMejkeiRP7
+         RKMIAhqpTG01GqcWxKPzWzIvrzhoDB3Bjw3zWjle+LP2WsF5zYN5VSXhuJk7hE/doDLQ
+         a6F7Nz8PDullmC1DXcuUVwxbn0CXxUuuBL4goTjBqIfNgiD4uA+kNqXabiomzB9DGIpr
+         iWON1RAcImIQZzUoJ9zEdaifIcfsySzwuyeb0tBXS2S6n+Fz9mvFABlRNG729owZwSO3
+         5f9Sp0ffSA7i/iPi7GDR7SnrJvP84rxX2TXDNyyqf2HMYjuBNz1bvHkfVl7iD+4Ug/TC
+         1n2A==
+X-Gm-Message-State: AO0yUKX+GZ+vnXtzc6I/TIfzYUGvUJp2T1nXO/c5mR+P3l+J25dMguhW
+	LVzODmd9mii2xi2iOkUpPMB70amAg8h2A7oPXTo=
+X-Google-Smtp-Source: AK7set8sazgD1rXwE5nxeE+TvZYbpwDcytXkRh1hJj9cXjV8uta15Eq5AjAMfNdOotYQDnb4JNCJvgE7fgHunDDmA3Y=
+X-Received: by 2002:a05:6808:10cd:b0:378:7f38:c934 with SMTP id
+ s13-20020a05680810cd00b003787f38c934mr374426ois.127.1676605034648; Thu, 16
+ Feb 2023 19:37:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH 2/4] i3c: dw: Add platform operations
-To: Jeremy Kerr <jk@codeconstruct.com.au>, linux-i3c@lists.infradead.org
-References: <cover.1676532146.git.jk@codeconstruct.com.au>
- <eb90bc9ee9f72efc2012abce3e4e50186552e194.1676532146.git.jk@codeconstruct.com.au>
-Content-Language: en-GB
-From: Ben Dooks <ben.dooks@sifive.com>
-In-Reply-To: <eb90bc9ee9f72efc2012abce3e4e50186552e194.1676532146.git.jk@codeconstruct.com.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230215-immutable-chips-v1-0-51a8f224a5d0@linaro.org> <20230215-immutable-chips-v1-7-51a8f224a5d0@linaro.org>
+In-Reply-To: <20230215-immutable-chips-v1-7-51a8f224a5d0@linaro.org>
+From: Cixi Geng <gengcixi@gmail.com>
+Date: Fri, 17 Feb 2023 11:36:38 +0800
+Message-ID: <CAF12kFt3SPJppcwPxE9F2mTKaMKkN_Nvw1J8_=L1U5OOEgxwJA@mail.gmail.com>
+Subject: Re: [PATCH 07/17] gpio: eic_sprd: Convert to immutable irq_chip
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000084dbcd05f4dd07f0"
 X-Mailman-Approved-At: Sun, 19 Feb 2023 18:42:49 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -83,121 +74,279 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Vitor Soares <ivitro@gmail.com>, devicetree@vger.kernel.org, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Marc Zyngier <maz@kernel.org>, Grygorii Strashko <grygorii.strashko@ti.com>, linux-omap@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Mun Yew Tham <mun.yew.tham@intel.com>, Kevin Hilman <khilman@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Jay Fang <f.fangjian@huawei.com>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Daniel Palmer <daniel@thingy.jp>, Alban Bedel <albeu@free.fr>, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, Romain Perier <romain.perier@gmail.com>, William Breathitt Gray <william.gray@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 16/02/2023 07:41, Jeremy Kerr wrote:
-> The dw i3c core can be integrated into various SoC devices. Platforms
-> that use this core may need a little configuration that is specific to
-> that platform.
-> 
-> Add a little infrastructure to allow platform-specific behaviour: a bit
-> of data on struct dw_i3c_master, and two hooks to the probe and init
-> calls to enable this.
-> 
-> A future change will add new platform support that uses these hooks.
-> 
-> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+--00000000000084dbcd05f4dd07f0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Linus Walleij <linus.walleij@linaro.org> =E4=BA=8E2023=E5=B9=B42=E6=9C=8816=
+=E6=97=A5=E5=91=A8=E5=9B=9B 17:41=E5=86=99=E9=81=93=EF=BC=9A
+
+> Convert the driver to immutable irq-chip with a bit of
+> intuition.
+>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->   drivers/i3c/master/dw-i3c-master.c | 42 +++++++++++++++++++++++++-----
->   1 file changed, 36 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/i3c/master/dw-i3c-master.c b/drivers/i3c/master/dw-i3c-master.c
-> index d73d57362b3b..49b891449222 100644
-> --- a/drivers/i3c/master/dw-i3c-master.c
-> +++ b/drivers/i3c/master/dw-i3c-master.c
-> @@ -241,6 +241,17 @@ struct dw_i3c_master {
->   	char version[5];
->   	char type[5];
->   	u8 addrs[MAX_DEVS];
+>  drivers/gpio/gpio-eic-sprd.c | 33 ++++++++++++++++++++++++---------
+>  1 file changed, 24 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpio/gpio-eic-sprd.c b/drivers/gpio/gpio-eic-sprd.c
+> index 8d722e026e9c..695d74ba55f0 100644
+> --- a/drivers/gpio/gpio-eic-sprd.c
+> +++ b/drivers/gpio/gpio-eic-sprd.c
+>
+Hi LInus:
+this file which convert to immutable changes had included in the
+patchset[1] early.
+Thank you for your commit anyway.
+[1]
+https://lore.kernel.org/all/CAMRc=3DMeCCT09umHQ+T6Z6OXMedBh3UXzmQ=3D1PCyo1z=
+EMr34TCw@mail.gmail.com/
+
+@@ -11,6 +11,7 @@
+>  #include <linux/module.h>
+>  #include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/seq_file.h>
+>  #include <linux/spinlock.h>
+>
+>  /* EIC registers definition */
+> @@ -91,7 +92,7 @@ enum sprd_eic_type {
+>
+>  struct sprd_eic {
+>         struct gpio_chip chip;
+> -       struct irq_chip intc;
+> +       struct device *dev;
+>         void __iomem *base[SPRD_EIC_MAX_BANK];
+>         enum sprd_eic_type type;
+>         spinlock_t lock;
+> @@ -255,6 +256,7 @@ static void sprd_eic_irq_mask(struct irq_data *data)
+>         default:
+>                 dev_err(chip->parent, "Unsupported EIC type.\n");
+>         }
+> +       gpiochip_disable_irq(chip, irqd_to_hwirq(data));
+>  }
+>
+>  static void sprd_eic_irq_unmask(struct irq_data *data)
+> @@ -263,6 +265,7 @@ static void sprd_eic_irq_unmask(struct irq_data *data=
+)
+>         struct sprd_eic *sprd_eic =3D gpiochip_get_data(chip);
+>         u32 offset =3D irqd_to_hwirq(data);
+>
+> +       gpiochip_enable_irq(chip, irqd_to_hwirq(data));
+>         switch (sprd_eic->type) {
+>         case SPRD_EIC_DEBOUNCE:
+>                 sprd_eic_update(chip, offset, SPRD_EIC_DBNC_IE, 1);
+> @@ -564,6 +567,24 @@ static void sprd_eic_irq_handler(struct irq_desc
+> *desc)
+>         chained_irq_exit(ic, desc);
+>  }
+>
+> +static void sprd_eic_irq_print_chip(struct irq_data *data, struct
+> seq_file *p)
+> +{
+> +       struct gpio_chip *chip =3D irq_data_get_irq_chip_data(data);
+> +       struct sprd_eic *sprd_eic =3D gpiochip_get_data(chip);
 > +
-> +	/* platform-specific data */
-> +	const struct dw_i3c_platform_ops *platform_ops;
-> +	union {
-> +	} pdata;
+> +       seq_printf(p, dev_name(sprd_eic->dev));
+> +}
 > +
+> +static const struct irq_chip sprd_eic_irq_chip =3D {
+> +       .irq_ack =3D sprd_eic_irq_ack,
+> +       .irq_mask =3D sprd_eic_irq_mask,
+> +       .irq_unmask =3D sprd_eic_irq_unmask,
+> +       .irq_set_type =3D sprd_eic_irq_set_type,
+> +       .irq_print_chip =3D sprd_eic_irq_print_chip,
+> +       .flags =3D IRQCHIP_SKIP_SET_WAKE | IRQCHIP_IMMUTABLE,
+> +       GPIOCHIP_IRQ_RESOURCE_HELPERS,
 > +};
 > +
-> +struct dw_i3c_platform_ops {
-> +	int (*probe)(struct dw_i3c_master *i3c, struct platform_device *pdev);
-> +	int (*init)(struct dw_i3c_master *i3c);
->   };
-
-Given the comment below having this and the main probe defined in a 
-header so users can just call in and we don't have to change the
-main code here every time someone comes up with their own
-special way of handing this?
-
->   struct dw_i3c_i2c_dev_data {
-> @@ -612,6 +623,12 @@ static int dw_i3c_master_bus_init(struct i3c_master_controller *m)
->   	u32 thld_ctrl;
->   	int ret;
->   
-> +	if (master->platform_ops && master->platform_ops->init) {
-> +		ret = master->platform_ops->init(master);
-> +		if (ret)
-> +			return ret;
-> +	}
-
-I'd rather have a "default" set of ops than have all this checking for
-NULL pointers all over the place.
-
-> +
->   	switch (bus->mode) {
->   	case I3C_BUS_MODE_MIXED_FAST:
->   	case I3C_BUS_MODE_MIXED_LIMITED:
-> @@ -1128,8 +1145,15 @@ static const struct i3c_master_controller_ops dw_mipi_i3c_ops = {
->   	.i2c_xfers = dw_i3c_master_i2c_xfers,
->   };
->   
-> +static const struct of_device_id dw_i3c_master_of_match[] = {
-> +	{ .compatible = "snps,dw-i3c-master-1.00a", },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, dw_i3c_master_of_match);
-> +
->   static int dw_i3c_probe(struct platform_device *pdev)
->   {
-> +	const struct of_device_id *match;
->   	struct dw_i3c_master *master;
->   	int ret, irq;
->   
-> @@ -1181,6 +1205,18 @@ static int dw_i3c_probe(struct platform_device *pdev)
->   	master->maxdevs = ret >> 16;
->   	master->free_pos = GENMASK(master->maxdevs - 1, 0);
->   
-> +	/* match any platform-specific ops */
-> +	match = of_match_node(dw_i3c_master_of_match, pdev->dev.of_node);
-> +	if (match && match->data)
-> +		master->platform_ops = match->data;
-
-I'm sure there's a of_device_get_match_data() which would have
-both removed hte need to move the match table around and the
-call to of_match_node().
-
-> +
-> +	/* platform-specific probe */
-> +	if (master->platform_ops && master->platform_ops->probe) {
-> +		ret = master->platform_ops->probe(master, pdev);
-> +		if (ret)
-> +			goto err_assert_rst;
-> +	}
-> +
->   	ret = i3c_master_register(&master->base, &pdev->dev,
->   				  &dw_mipi_i3c_ops, false);
->   	if (ret)
-> @@ -1213,12 +1249,6 @@ static int dw_i3c_remove(struct platform_device *pdev)
->   	return 0;
->   }
->   
-> -static const struct of_device_id dw_i3c_master_of_match[] = {
-> -	{ .compatible = "snps,dw-i3c-master-1.00a", },
-> -	{},
-> -};
-> -MODULE_DEVICE_TABLE(of, dw_i3c_master_of_match);
+>  static int sprd_eic_probe(struct platform_device *pdev)
+>  {
+>         const struct sprd_eic_variant_data *pdata;
+> @@ -584,6 +605,7 @@ static int sprd_eic_probe(struct platform_device *pde=
+v)
+>
+>         spin_lock_init(&sprd_eic->lock);
+>         sprd_eic->type =3D pdata->type;
+> +       sprd_eic->dev =3D &pdev->dev;
+>
+>         sprd_eic->irq =3D platform_get_irq(pdev, 0);
+>         if (sprd_eic->irq < 0)
+> @@ -626,15 +648,8 @@ static int sprd_eic_probe(struct platform_device
+> *pdev)
+>                 break;
+>         }
+>
+> -       sprd_eic->intc.name =3D dev_name(&pdev->dev);
+> -       sprd_eic->intc.irq_ack =3D sprd_eic_irq_ack;
+> -       sprd_eic->intc.irq_mask =3D sprd_eic_irq_mask;
+> -       sprd_eic->intc.irq_unmask =3D sprd_eic_irq_unmask;
+> -       sprd_eic->intc.irq_set_type =3D sprd_eic_irq_set_type;
+> -       sprd_eic->intc.flags =3D IRQCHIP_SKIP_SET_WAKE;
 > -
->   static struct platform_driver dw_i3c_driver = {
->   	.probe = dw_i3c_probe,
->   	.remove = dw_i3c_remove,
+>         irq =3D &sprd_eic->chip.irq;
+> -       irq->chip =3D &sprd_eic->intc;
+> +       gpio_irq_chip_set_chip(irq, &sprd_eic_irq_chip);
+>         irq->handler =3D handle_bad_irq;
+>         irq->default_type =3D IRQ_TYPE_NONE;
+>         irq->parent_handler =3D sprd_eic_irq_handler;
+>
+> --
+> 2.34.1
+>
+>
 
+--00000000000084dbcd05f4dd07f0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Linus Walleij &lt;<a href=3D"mailto:l=
+inus.walleij@linaro.org">linus.walleij@linaro.org</a>&gt; =E4=BA=8E2023=E5=
+=B9=B42=E6=9C=8816=E6=97=A5=E5=91=A8=E5=9B=9B 17:41=E5=86=99=E9=81=93=EF=BC=
+=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Convert the =
+driver to immutable irq-chip with a bit of<br>
+intuition.<br>
+<br>
+Cc: Marc Zyngier &lt;<a href=3D"mailto:maz@kernel.org" target=3D"_blank">ma=
+z@kernel.org</a>&gt;<br>
+Signed-off-by: Linus Walleij &lt;<a href=3D"mailto:linus.walleij@linaro.org=
+" target=3D"_blank">linus.walleij@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpio/gpio-eic-sprd.c | 33 ++++++++++++++++++++++++---------<b=
+r>
+=C2=A01 file changed, 24 insertions(+), 9 deletions(-)<br>
+<br>
+diff --git a/drivers/gpio/gpio-eic-sprd.c b/drivers/gpio/gpio-eic-sprd.c<br=
+>
+index 8d722e026e9c..695d74ba55f0 100644<br>
+--- a/drivers/gpio/gpio-eic-sprd.c<br>
++++ b/drivers/gpio/gpio-eic-sprd.c<br></blockquote><div>Hi LInus:=C2=A0</di=
+v><div>this file which convert to immutable changes had included in the pat=
+chset[1] early.</div><div>Thank you for your commit anyway.</div><div>[1]=
+=C2=A0<a href=3D"https://lore.kernel.org/all/CAMRc=3DMeCCT09umHQ+T6Z6OXMedB=
+h3UXzmQ=3D1PCyo1zEMr34TCw@mail.gmail.com/">https://lore.kernel.org/all/CAMR=
+c=3DMeCCT09umHQ+T6Z6OXMedBh3UXzmQ=3D1PCyo1zEMr34TCw@mail.gmail.com/</a></di=
+v><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+@@ -11,6 +11,7 @@<br>
+=C2=A0#include &lt;linux/module.h&gt;<br>
+=C2=A0#include &lt;linux/of_device.h&gt;<br>
+=C2=A0#include &lt;linux/platform_device.h&gt;<br>
++#include &lt;linux/seq_file.h&gt;<br>
+=C2=A0#include &lt;linux/spinlock.h&gt;<br>
+<br>
+=C2=A0/* EIC registers definition */<br>
+@@ -91,7 +92,7 @@ enum sprd_eic_type {<br>
+<br>
+=C2=A0struct sprd_eic {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct gpio_chip chip;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0struct irq_chip intc;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct device *dev;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 void __iomem *base[SPRD_EIC_MAX_BANK];<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 enum sprd_eic_type type;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 spinlock_t lock;<br>
+@@ -255,6 +256,7 @@ static void sprd_eic_irq_mask(struct irq_data *data)<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_err(chip-&gt;pa=
+rent, &quot;Unsupported EIC type.\n&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0gpiochip_disable_irq(chip, irqd_to_hwirq(data))=
+;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void sprd_eic_irq_unmask(struct irq_data *data)<br>
+@@ -263,6 +265,7 @@ static void sprd_eic_irq_unmask(struct irq_data *data)<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct sprd_eic *sprd_eic =3D gpiochip_get_data=
+(chip);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 u32 offset =3D irqd_to_hwirq(data);<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0gpiochip_enable_irq(chip, irqd_to_hwirq(data));=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (sprd_eic-&gt;type) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case SPRD_EIC_DEBOUNCE:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sprd_eic_update(chi=
+p, offset, SPRD_EIC_DBNC_IE, 1);<br>
+@@ -564,6 +567,24 @@ static void sprd_eic_irq_handler(struct irq_desc *desc=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 chained_irq_exit(ic, desc);<br>
+=C2=A0}<br>
+<br>
++static void sprd_eic_irq_print_chip(struct irq_data *data, struct seq_file=
+ *p)<br>
++{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct gpio_chip *chip =3D irq_data_get_irq_chi=
+p_data(data);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct sprd_eic *sprd_eic =3D gpiochip_get_data=
+(chip);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0seq_printf(p, dev_name(sprd_eic-&gt;dev));<br>
++}<br>
++<br>
++static const struct irq_chip sprd_eic_irq_chip =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.irq_ack =3D sprd_eic_irq_ack,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.irq_mask =3D sprd_eic_irq_mask,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.irq_unmask =3D sprd_eic_irq_unmask,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.irq_set_type =3D sprd_eic_irq_set_type,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.irq_print_chip =3D sprd_eic_irq_print_chip,<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.flags =3D IRQCHIP_SKIP_SET_WAKE | IRQCHIP_IMMU=
+TABLE,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0GPIOCHIP_IRQ_RESOURCE_HELPERS,<br>
++};<br>
++<br>
+=C2=A0static int sprd_eic_probe(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 const struct sprd_eic_variant_data *pdata;<br>
+@@ -584,6 +605,7 @@ static int sprd_eic_probe(struct platform_device *pdev)=
+<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 spin_lock_init(&amp;sprd_eic-&gt;lock);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sprd_eic-&gt;type =3D pdata-&gt;type;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_eic-&gt;dev =3D &amp;pdev-&gt;dev;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sprd_eic-&gt;irq =3D platform_get_irq(pdev, 0);=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sprd_eic-&gt;irq &lt; 0)<br>
+@@ -626,15 +648,8 @@ static int sprd_eic_probe(struct platform_device *pdev=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_eic-&gt;<a href=3D"http://intc.name" rel=
+=3D"noreferrer" target=3D"_blank">intc.name</a> =3D dev_name(&amp;pdev-&gt;=
+dev);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_eic-&gt;intc.irq_ack =3D sprd_eic_irq_ack;=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_eic-&gt;intc.irq_mask =3D sprd_eic_irq_mas=
+k;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_eic-&gt;intc.irq_unmask =3D sprd_eic_irq_u=
+nmask;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_eic-&gt;intc.irq_set_type =3D sprd_eic_irq=
+_set_type;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sprd_eic-&gt;intc.flags =3D IRQCHIP_SKIP_SET_WA=
+KE;<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 irq =3D &amp;sprd_eic-&gt;chip.irq;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0irq-&gt;chip =3D &amp;sprd_eic-&gt;intc;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0gpio_irq_chip_set_chip(irq, &amp;sprd_eic_irq_c=
+hip);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 irq-&gt;handler =3D handle_bad_irq;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 irq-&gt;default_type =3D IRQ_TYPE_NONE;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 irq-&gt;parent_handler =3D sprd_eic_irq_handler=
+;<br>
+<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div></div>
+
+--00000000000084dbcd05f4dd07f0--
