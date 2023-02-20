@@ -2,119 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E40D69BF12
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 08:48:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B8569C559
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 07:24:10 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PKHjg29fSz2xWc
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Feb 2023 18:48:39 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=uDUpUHYy;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PKsng5chcz3c6n
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 17:24:07 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:7e8c::71e; helo=nam04-mw2-obe.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=uDUpUHYy;
-	dkim-atps=neutral
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2071e.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e8c::71e])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PJwDx19K7z3c4w;
-	Sun, 19 Feb 2023 04:10:55 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j120TydXqp67aTcTPy/9g8CvOqcH7RaxPItgR8S5f/gPHv9eUvZQjzlqxEx//ZLgUrqnq+kOk0sKKmN4XsAjGg2eypZgVJAUNNCZQ8Gbs5NuspzGKtcQzxKVkbeeI4MhzibyilAKww+wEijath1doA32aVtgfRhmwyj6ZgWBxgrIWSNV4kkfHTMDGyuH40xlxWXTvt9O8YgHgwBjA9SUHELwCPQY9uRfzeATuhIVIlBv+OTljjmF/rn+SswHhchuQl6+7zOSluQKg568NqV0FRXlnfzYisYigdwQ5ns0IV2CklmjuZFU/fh0tszv5e7dpGPDubQJu+l8hQoYRuVqhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kg3wppsGM/VdqzPSASw13uXclav8wZ4Nr9tFxcmxUmU=;
- b=aY4NbJQUIEoHvXEeWIoT6nIPYtNtVAjnvtvAD7smKyGP/wjnw2a7c40go85abbX/RSz6aoU5RY7L14IAx1UYqP3LAQOhhRSSUr8GyNrYTILhRX+hN1m252CR1345pK5LnG8mcSinya3A+m5YcTtN1JSzX3kI/2xngElIKsMd6AVVxrmTftRgVIzfZS5mGPDlKKSXPWV8EEGvjCga9Rrx8eF/xGGhWj428OaH+m+3DDe9PKZgq0CVSH8B2VFLko+dpFz/Rjy8bHWALwMM5jp/vdmSoayMLXjmb+zSkOl3PbbeHEm+PBhgVvtOzyk0NY9U3XCzI8JBTQ6TfiDhvS7tew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kg3wppsGM/VdqzPSASw13uXclav8wZ4Nr9tFxcmxUmU=;
- b=uDUpUHYyMsWK5mPAyAQsvu5vrmkkbjbJIo3ZBfw2Zur5hDaG3JbNijAJ1xOXuyQQpTge/P8mggXITVEwSud9/Rg99YQyNZn3L1OPFVCGqQsPbhxO3g/QNwjDqURUH/TNchhHtEz87IRaLofnlGibneFa0po9yS3eN8CcsFUYu0o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from SN6PR01MB4973.prod.exchangelabs.com (2603:10b6:805:c4::13) by
- SJ0PR01MB6464.prod.exchangelabs.com (2603:10b6:a03:29c::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6111.17; Sat, 18 Feb 2023 17:10:30 +0000
-Received: from SN6PR01MB4973.prod.exchangelabs.com
- ([fe80::a807:4f38:56ee:b079]) by SN6PR01MB4973.prod.exchangelabs.com
- ([fe80::a807:4f38:56ee:b079%4]) with mapi id 15.20.6086.028; Sat, 18 Feb 2023
- 17:10:29 +0000
-From: Chanh Nguyen <chanh@os.amperecomputing.com>
-To: OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ARM: dts: aspeed: mtjade, mtmitchell: Add OCP device temperature sensor
-Date: Sun, 19 Feb 2023 00:10:02 +0700
-Message-Id: <20230218171002.8725-1-chanh@os.amperecomputing.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR04CA0010.apcprd04.prod.outlook.com
- (2603:1096:4:197::11) To SN6PR01MB4973.prod.exchangelabs.com
- (2603:10b6:805:c4::13)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PKsmw2H4tz3bnP;
+	Mon, 20 Feb 2023 17:23:27 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 31K64vFx022736;
+	Mon, 20 Feb 2023 14:04:57 +0800 (GMT-8)
+	(envelope-from ryan_chen@aspeedtech.com)
+Received: from aspeedtech.com (192.168.10.13) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 20 Feb
+ 2023 14:17:51 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Joel Stanley
+	<joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>, <openbmc@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 0/2] Add ASPEED AST2600 I2Cv2 controller driver
+Date: Mon, 20 Feb 2023 14:17:43 +0800
+Message-ID: <20230220061745.1973981-1-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR01MB4973:EE_|SJ0PR01MB6464:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b3ee555-f845-4a72-5bf5-08db11d30909
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	lJCu+Q9iq1WNa3VusroiC2ssl5ZmUGYGG4KVjBzmPwbxOWUfN+21eI028WZIzapBwmK7ujel/g/FMrmsDfhTE3/Y+uOb6TjWSwPlnznwQS7lnWinHnbt3Z/AUnnH2iQFhbTjgvvfx34Eyp+GOlff4A3ADSD5me499p49BEOigzZXk86J2SQoWrp3XjiDhxZdjdWRNqtyLnYDZ3/Q9J5Iuddwe1W1OYGSiCBzty2jI4qsg4/+oGJB6IrfOnrzcHENT5oRcVshc499bAaycdFRV7Csh3zj5+w29H9cl1LWd3ZEFhJFYsg7XQp/Hp9HBZyyFV9Z1/P/ubYPnJCtJA58OP9cXcQku+y8Sy/IxQ+CrgAaOPkD/fRtiH95savGzcsY+urz53glL801EzAcBQk9vXIs7LkjkvXIOXhxvGeAhIBVI118+dbZ/qJW0JhSwgvYU5h6M4DV5bhY/on27pRFMRSZ6TY/uANfMA5mma/200l7VhQf8e4qqRKZvy2ezIa+jfKMDvRc87b5F6fvnxfhjPD2hjtJcMUoWooEI7d7V0NxuRYI2B0W58rn9bS8UkWaSyBLMheQsNPTUtdpYgI024GLBbdxFrnYqCMkKGp4THvh987W8sHjTtIviDoVxQYNss9QWnA7eRIcWL0i3zKK7/mqG4o+0JU7sWk5lj92R05dAhkzW1ohpTmg4n+9KQjs9T0J5lfFeywlLfTI1iyOPg==
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR01MB4973.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(136003)(346002)(396003)(366004)(39840400004)(451199018)(86362001)(38100700002)(4326008)(1076003)(5660300002)(8936002)(66556008)(8676002)(2906002)(66476007)(66946007)(38350700002)(52116002)(41300700001)(186003)(26005)(2616005)(6512007)(6666004)(316002)(107886003)(6506007)(6486002)(478600001)(110136005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?Uyba9Omj4PvF/L9NBsIbxOoe7rnfxWa5KE9aZ0Zl0VQaJLQ37QXCemMT3Wno?=
- =?us-ascii?Q?vGHseUNH+Gx90sJfIBJEUkIiZyFgEw6BJnjS7HnCxhleZuLgoDxphnAbiI8e?=
- =?us-ascii?Q?hYPy5Nzcd9upcpP8plRdDuCJj6IvHM1cdXOlUDoasxYgd8mJ750RopzoO+h8?=
- =?us-ascii?Q?A+/Y0ZKGYHuc0SGIyIOqpRMyt4wMbSVfD9wdxeia3A6PNBrW5y6VazYfHhdw?=
- =?us-ascii?Q?Yej/IuigRKzDFcOAbSGKXnXDCDSV5xXRQgbp7LAeoL8UXihAKWPHN9YNlNYK?=
- =?us-ascii?Q?e6IM+9Eca77KDmpclJmUHsMFc0QH7rMBVAgfdkGlqEW7mk/HWK3j9Sqgmi6h?=
- =?us-ascii?Q?0KYLeuOjNe7qW9gtjECnDo3l062lsPxTAuy3tgDidjC8eaYlRtAFygEdUhcc?=
- =?us-ascii?Q?xoICnitOsnqGIEeK0erdm5wBU/H+4lhylZkgGUDi9mcVR7XEM8LU/T0RzblB?=
- =?us-ascii?Q?+QGbaoZUogbhu22N//niPvcMd+oPZxRQOaLP+twZ/M9rON927bfE0tF9akq4?=
- =?us-ascii?Q?i8gtK2fnTuu8kkLhLz1fYBXtva0CqnDAHyRlKLfNBehuGD6ENjHByoBo5sNy?=
- =?us-ascii?Q?7TiBHqrGrU0b0GJlz+Q7HUc7sCTSVnR6tJnUWHgccITq5r6YquJCdQLaXwr8?=
- =?us-ascii?Q?mGT6yLAOquZlYpZ+T0ythn6H/U7fE7MnF2sAVhZYSoM8A5TqpudCUGw6Laqv?=
- =?us-ascii?Q?4TGYX10WyusOOZgOtDMXguPtuie45qfIVsThf9xkKpseUEcD08VgkwGKavLE?=
- =?us-ascii?Q?kSzMMMtPAS5uun1+6JTl7/VBt4IytKKl1Jhhpup26OHAtOdNbXzP5oYsfiRr?=
- =?us-ascii?Q?W4aM6MKIpBroQUYBvs0p4VMnKkCH06JNXWjOFG6Rkrl3lEfhF+O5bkPtqhph?=
- =?us-ascii?Q?yP/aDpci2Jy3bZgnao0F5bHICR38758ukyyh7YRjKSuknMSAZmrQtRK4cQAz?=
- =?us-ascii?Q?bpZmHqdHh39EvaMEbYZb4pb/RbLzmQ7ZsEFNUcc10qfmJ7VaHAyzeGGhBEIL?=
- =?us-ascii?Q?1dKbKBopVSpHf4TMv7wkpGiDnw8XLv5QPftGrbbc8qoFYEjw3Ato2C6gdRUB?=
- =?us-ascii?Q?RTaF+GeOaEJHcGxsAq73VOGykFRlVyl7PvIRCKq0Xyg7zeFXaeYFWd7tOdLb?=
- =?us-ascii?Q?KO3hlRhtJKOKDF0uEkJo68g1CfOLRY+ZvF41XR/KJoDUTefjw29H1n7aQQyK?=
- =?us-ascii?Q?2mJpwr1CTiSo70fIZ1/kF7tH892BX5An8AXmJnVSulBVFDW6hWMH8/wEkQDe?=
- =?us-ascii?Q?mBj4G4OFxf+BGLLIzCHbFdBFuBdH77yqOXhy7atuD5z7s24v2adTL/T4hhHT?=
- =?us-ascii?Q?3HgAnQEDjI/iE4SLBD9famclxzbERnAx+BajcdQziCiIqK9zw7CmyrnR0310?=
- =?us-ascii?Q?ElxlmEFPNWlMFu5IuQ8iDJr5tIvSeVenjiDdlP06/mI9xetluCI6/TGlmsQh?=
- =?us-ascii?Q?ucSdIqKKXfX1tjdjZhSRTmBL4yEO0mCH+50NkltG/OdVhIpSryvafI7TOREq?=
- =?us-ascii?Q?CVlcdcwZjS0FyhLx/1RD4BJ0zh+Kj2dlWKkCOQ8z3oSdnkFBMbCa+/yofAey?=
- =?us-ascii?Q?hR7H6vpSQYtkSbO5Pw1CIUzU2AuhkDRWKVSPDb/8wTw5VoJsbBGI0v34y9CN?=
- =?us-ascii?Q?eXjkPnLgkMfoXmdKmxN6zg8=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b3ee555-f845-4a72-5bf5-08db11d30909
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4973.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2023 17:10:29.2312
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iAx3ZjXE7Ju4Ih3MS4T2VzvPpNGbCFLvFazo+gYlYMv4uNJL+shJOD/93YOsxoBCYWlh7pIIO+R3SHlOR8UFYfz8NBv1lBuefEQFmAypslt7EImBeshSb5aMWzUqWD9Q
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR01MB6464
-X-Mailman-Approved-At: Sun, 19 Feb 2023 18:42:49 +1100
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.13]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 31K64vFx022736
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,101 +54,120 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Chanh Nguyen <chanh@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Define an I2C alias port from I2C Switch 0x70 at I2C5.
-Add the OCP device temperature sensor via I2C alias port
-as a tmp421 sensor.
+This series add AST2600 i2cv2 new register set driver. The i2cv2 new
+register set have new clock divider option for more flexiable generation.
+And also have separate i2c master and slave register set for control.
 
-Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
----
- .../arm/boot/dts/aspeed-bmc-ampere-mtjade.dts | 16 ++++++++++
- .../boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 29 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
+The legacy register layout is mix master/slave register control together.
+The following is add more detail description about new register layout.
+And new feature set add for register.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-index 0a51d2e32fab..b93339ed61c0 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-@@ -49,6 +49,11 @@
- 		 */
- 		i2c80 = &nvme_m2_0;
- 		i2c81 = &nvme_m2_1;
-+
-+		/*
-+		 *  i2c bus 82 assigned to OCP slot
-+		 */
-+		i2c82 = &ocpslot;
- 	};
- 
- 	chosen {
-@@ -420,6 +425,17 @@
- 		reg = <0x70>;
- 		i2c-mux-idle-disconnect;
- 
-+		ocpslot: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0x0>;
-+
-+			ocp_temp: temperature-sensor@1f {
-+				compatible = "ti,tmp421";
-+				reg = <0x1f>;
-+			};
-+		};
-+
- 		nvmeslot_0_7: i2c@3 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-index 4b91600eaf62..c832b8ae5999 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-@@ -10,6 +10,14 @@
- 	model = "Ampere Mt.Mitchell BMC";
- 	compatible = "ampere,mtmitchell-bmc", "aspeed,ast2600";
- 
-+	aliases {
-+		/*
-+		 *  i2c bus 30-31 assigned to OCP slot 0-1
-+		 */
-+		i2c30 = &ocpslot_0;
-+		i2c31 = &ocpslot_1;
-+	};
-+
- 	chosen {
- 		stdout-path = &uart5;
- 	};
-@@ -424,6 +432,27 @@
- 		#size-cells = <0>;
- 		reg = <0x70>;
- 		i2c-mux-idle-disconnect;
-+
-+		ocpslot_0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0x0>;
-+
-+			ocpslot_0_temp: temperature-sensor@1f {
-+				compatible = "ti,tmp421";
-+				reg = <0x1f>;
-+			};
-+		};
-+		ocpslot_1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0x1>;
-+
-+			ocpslot_1_temp: temperature-sensor@1f {
-+				compatible = "ti,tmp421";
-+				reg = <0x1f>;
-+			};
-+		};
- 	};
- };
- 
+-Add new clock divider option for more flexible and accurate clock
+rate generation
+-Add tCKHighMin timing to guarantee SCL high pulse width.
+-Add support dual pool buffer mode, split 32 bytes pool buffer of
+each device into 2 x 16 bytes for Tx and Rx individually.
+-Increase DMA buffer size to 4096 bytes and support byte alignment.
+-Re-define the base address of BUS1 ~ BUS16 and Pool buffer.
+-Re-define registers for separating master and slave mode control.
+-Support 4 individual DMA buffers for master Tx and Rx, slave Tx and Rx.
+
+And following is new register set for package transfer sequence.
+-New Master operation mode:
+ S -> Aw -> P
+ S -> Aw -> TxD -> P
+ S -> Ar -> RxD -> P
+ S -> Aw -> RxD -> Sr -> Ar -> TxD -> P
+-Bus SDA lock auto-release capability for new master DMA command mode.
+-Bus auto timeout for new master/slave DMA mode.
+
+The following is two versus register layout.
+Old:
+{I2CD00}: Function Control Register     
+{I2CD04}: Clock and AC Timing Control Register
+{I2CD08}: Clock and AC Timing Control Register
+{I2CD0C}: Interrupt Control Register
+{I2CD10}: Interrupt Status Register 
+{I2CD14}: Command/Status Register   
+{I2CD18}: Slave Device Address Register
+{I2CD1C}: Pool Buffer Control Register
+{I2CD20}: Transmit/Receive Byte Buffer Register
+{I2CD24}: DMA Mode Buffer Address Register
+{I2CD28}: DMA Transfer Length Register
+{I2CD2C}: Original DMA Mode Buffer Address Setting
+{I2CD30}: Original DMA Transfer Length Setting and Final Status
+
+New Register mode
+{I2CC00}: Master/Slave Function Control Register
+{I2CC04}: Master/Slave Clock and AC Timing Control Register
+{I2CC08}: Master/Slave Transmit/Receive Byte Buffer Register
+{I2CC0C}: Master/Slave Pool Buffer Control Register
+{I2CM10}: Master Interrupt Control Register
+{I2CM14}: Master Interrupt Status Register  
+{I2CM18}: Master Command/Status Register
+{I2CM1C}: Master DMA Buffer Length Register
+{I2CS20}: Slave~ Interrupt Control Register
+{I2CS24}: Slave~ Interrupt Status Register
+{I2CS28}: Slave~ Command/Status Register
+{I2CS2C}: Slave~ DMA Buffer Length Register
+{I2CM30}: Master DMA Mode Tx Buffer Base Address
+{I2CM34}: Master DMA Mode Rx Buffer Base Address
+{I2CS38}: Slave~ DMA Mode Tx Buffer Base Address
+{I2CS3C}: Slave~ DMA Mode Rx Buffer Base Address
+{I2CS40}: Slave Device Address Register
+{I2CM48}: Master DMA Length Status Register
+{I2CS4C}: Slave  DMA Length Status Register
+{I2CC50}: Current DMA Operating Address Status
+{I2CC54}: Current DMA Operating Length  Status
+
+v5:
+-remove ast2600-i2c-global.yaml, i2c-ast2600-global.c.
+-i2c-ast2600.c
+ -remove legacy clock divide, all go for new clock divide.
+ -remove duplicated read isr.
+ -remove no used driver match
+ -fix probe return for each labels return.
+ -global use mfd driver, driver use phandle to regmap read/write.
+-rename aspeed,i2c-ast2600.yaml to aspeed,i2cv2.yaml
+-remove bus-frequency.
+-add required aspeed,gr
+-add timeout, byte-mode, buff-mode properites.
+
+v4:
+-fix i2c-ast2600.c driver buffer mode use single buffer conflit in
+ master slave mode both enable.
+-fix kmemleak issue when use dma mode.
+-fix typo aspeed,i2c-ast2600.yaml compatible is "aspeed,ast2600-i2c"
+-fix typo aspeed,i2c-ast2600.ymal to aspeed,i2c-ast2600.yaml
+
+v3:
+-fix i2c global clock divide default value.
+-remove i2c slave no used dev_dbg info.
+
+v2:
+-add i2c global ymal file commit.
+-rename file name from new to ast2600.
+ aspeed-i2c-new-global.c -> i2c-ast2600-global.c
+ aspeed-i2c-new-global.h -> i2c-ast2600-global.h
+ i2c-new-aspeed.c -> i2c-ast2600.c
+-rename all driver function name to ast2600.
+
+Ryan Chen (2):
+  dt-bindings: i2c: Add support for ASPEED i2Cv2
+  i2c: aspeed: support ast2600 i2cv2 new register mode driver
+
+ .../devicetree/bindings/i2c/aspeed,i2cv2.yaml |   83 +
+ MAINTAINERS                                   |    9 +
+ drivers/i2c/busses/Kconfig                    |   11 +
+ drivers/i2c/busses/Makefile                   |    1 +
+ drivers/i2c/busses/i2c-ast2600.c              | 1703 +++++++++++++++++
+ 5 files changed, 1807 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i2c/aspeed,i2cv2.yaml
+ create mode 100644 drivers/i2c/busses/i2c-ast2600.c
+
 -- 
-2.17.1
+2.34.1
 
