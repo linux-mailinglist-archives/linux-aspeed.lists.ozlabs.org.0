@@ -1,83 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0060169C8DA
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 11:44:43 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCECA69C9B5
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 12:24:23 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PKzZK2Myfz3c8f
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 21:44:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PL0S51GHBz3brQ
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 22:24:21 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fnNTy2X7;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=F9/04s3M;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52a; helo=mail-ed1-x52a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fnNTy2X7;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=F9/04s3M;
 	dkim-atps=neutral
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PKzZC3PDPz3bNj
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Feb 2023 21:44:35 +1100 (AEDT)
-Received: by mail-ed1-x52a.google.com with SMTP id f13so2318063edz.6
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Feb 2023 02:44:35 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PL0Rx3np4z3bnP;
+	Mon, 20 Feb 2023 22:24:13 +1100 (AEDT)
+Received: from pecola.lan (unknown [159.196.93.152])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 327FD20009;
+	Mon, 20 Feb 2023 19:24:09 +0800 (AWST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nAr9XKr2ows0ZL4lWEGiuUXi4Y81IFXVXwxMIX5eq8A=;
-        b=fnNTy2X7U8y7zMHj3DYo1PryRXOURd89hFD5uJ/Ggth6z/KwfDvYFiLZYsMlm3DN6i
-         H2XPOhHfMFMIbDTvPRiclRvEAagO8eQP/zKSz4n8W+v622f67KQgiG0VuDabQnPR8XE1
-         DlWni/m4VJw33Ph4yaupo9+wY/RCdJyQFxg95z2Wza5X0AfPJB4nhxl5+U5MOAECJtqP
-         9jHEQQ4WVeaTEdcobqWQ3eqkiOD5/ftfv9IYNwXCJv0jDWDVcqLToVV6By7mpv2KYxu8
-         CMS20gUqO1iC/53OXx2Y2qJ5X+JKs4UtdNtWXugUfqbVXo5DTGjBZC+DFZlxODup9e+X
-         +4lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nAr9XKr2ows0ZL4lWEGiuUXi4Y81IFXVXwxMIX5eq8A=;
-        b=D/BAZPtJ5PYur4WlYEGRsgXI0vFCQ7vcZ355vaNGIsonVjrC5Igx33HzVIIsFiNUY6
-         iqxWQy7H2DGmqZEvP+/2Bi2fvA10MSzBu/2nhVYme00ai4FHFlp8nS8zLvi8J0Gzgh29
-         QmLuBG51IF9zuLI/JeBF9R++xqI3myARIzqLBFGBy/8kNvkZEaRXyPDzWi+LKk4zPM0/
-         EJRijCVpcUo2HkzYhdhyBkLvrBS7rYZjfvtYvgZGnK+6daXAtAWB87895FdhBrt0AIq8
-         hg44c/P/yoGCI96PjQFj+dR/m/xjhDFvHzpQZOlCw8VzdblgVf9gDzJr0nadcQyNtSZC
-         44yA==
-X-Gm-Message-State: AO0yUKWR/BvIkiDAEdd5Hry8foufHfyWs3ZSCXYMqguKGCjc0xAJHvZc
-	+cZzpfgAb0BzfXmux+qmiQPkaw==
-X-Google-Smtp-Source: AK7set8TR+cAzF/JDkXW72w5dUn26frqdxo8bQYFTgM6H9WQ5kSiovRMhPpgNXwj63DdPlZX5wdONw==
-X-Received: by 2002:a05:6402:10d9:b0:4ac:bd35:d05b with SMTP id p25-20020a05640210d900b004acbd35d05bmr180522edu.27.1676889872004;
-        Mon, 20 Feb 2023 02:44:32 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id u15-20020a50950f000000b004ad61135698sm1911398eda.13.2023.02.20.02.44.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 02:44:31 -0800 (PST)
-Message-ID: <7dfdb0fb-3a8b-0584-e8b1-6d2200f18097@linaro.org>
-Date: Mon, 20 Feb 2023 11:44:30 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 2/2] i2c: aspeed: support ast2600 i2cv2 new register
- mode driver
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Philipp Zabel <p.zabel@pengutronix.de>, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
+	d=codeconstruct.com.au; s=2022a; t=1676892251;
+	bh=2CrjEgYe8SBTNfJBvAZ15H122fXa8P+V4hEaKlRMaeU=;
+	h=Subject:From:To:Date:In-Reply-To:References;
+	b=F9/04s3MmpTCAHOgUEYcZAf1ovz/oB7zy9S9v7vYz2BvEBkzMJOAsD5NFxDCDN+XA
+	 IOcPegwDjeRPDzWo3GegjETA7YBPcO2keRbo0pYxmFk2iJqvXCgwqms83wvqpqDoCs
+	 UtHjJ8v4qgHiQF2ew8kkRxpbQUvQAli8XS86a9TY16ikbHeaQ0RSHhiU099QNZxwKr
+	 q6RyRMlVt0wGLNKxq1oDPozTcrYmYU4+cS0JWXDsudQy+tSpzvYRha8zB5tetPU6bj
+	 C9KMCICL+5eRUFlObId47XekZId6X+Llxh53w6mjqpZHA5MZHrVylGpQ8YRwuaXmCu
+	 Bg/ElQqASFFjg==
+Message-ID: <dfc2c2c442af55f64e147c920585cb7e6a74939f.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v5 1/2] dt-bindings: i2c: Add support for ASPEED i2Cv2
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,  Philipp Zabel
+ <p.zabel@pengutronix.de>, "openbmc@lists.ozlabs.org"
+ <openbmc@lists.ozlabs.org>,  "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Date: Mon, 20 Feb 2023 19:24:08 +0800
+In-Reply-To: <TYZPR06MB5274714E58C319B4FE3B6E1BF2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
 References: <20230220061745.1973981-1-ryan_chen@aspeedtech.com>
- <20230220061745.1973981-3-ryan_chen@aspeedtech.com>
- <63986fb1-f8d4-f348-bae9-72e08369213b@linaro.org>
-In-Reply-To: <63986fb1-f8d4-f348-bae9-72e08369213b@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+	 <20230220061745.1973981-2-ryan_chen@aspeedtech.com>
+	 <2141e513acc750bf26775f5b435f4dccd41244aa.camel@codeconstruct.com.au>
+	 <TYZPR06MB5274714E58C319B4FE3B6E1BF2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
+MIME-Version: 1.0
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,40 +70,73 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 20/02/2023 09:43, Krzysztof Kozlowski wrote:
-> On 20/02/2023 07:17, Ryan Chen wrote:
+Hi Ryan,
 
-(...)
+> > > +=C2=A0 clock-frequency:
+> > > +=C2=A0=C2=A0=C2=A0 description:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Desired I2C bus clock frequency in Hz=
+. default 100khz.
+> > > +
+> > > +=C2=A0 multi-master:
+> > > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > > +=C2=A0=C2=A0=C2=A0 description:
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 states that there is another master a=
+ctive on this bus
+> >=20
+> > These are common to all i2c controllers, but I see that i2c-controller.=
+yaml
+> > doesn't include them (while i2c.text does).
+> >=20
+> > I assume we're OK to include these in the device bindings in the meanti=
+me.
+> > But in that case, you may also want to include the common "smbus-alert"
+> > property, which you consume in your driver.
+> >=20
+> Since i2c.text have multi-master, smbus-alert. I don't need those two rig=
+ht?
 
->> +	ret = of_property_read_u32(pdev->dev.of_node, "clock-frequency", &i2c_bus->bus_frequency);
->> +	if (ret < 0) {
->> +		dev_warn(&pdev->dev, "Could not read bus-frequency property\n");
->> +		i2c_bus->bus_frequency = 100000;
->> +	}
->> +
->> +	/* Initialize the I2C adapter */
->> +	i2c_bus->adap.owner = THIS_MODULE;
->> +	i2c_bus->adap.algo = &i2c_ast2600_algorithm;
->> +	i2c_bus->adap.retries = 0;
->> +	i2c_bus->adap.dev.parent = i2c_bus->dev;
->> +	i2c_bus->adap.dev.of_node = pdev->dev.of_node;
->> +	i2c_bus->adap.algo_data = i2c_bus;
->> +	strscpy(i2c_bus->adap.name, pdev->name, sizeof(i2c_bus->adap.name));
->> +	i2c_set_adapdata(&i2c_bus->adap, i2c_bus);
->> +
->> +	ast2600_i2c_init(i2c_bus);
->> +
->> +	ret = devm_request_irq(&pdev->dev, i2c_bus->irq, ast2600_i2c_bus_irq, 0,
->> +			       dev_name(&pdev->dev), i2c_bus);
->> +	if (ret < 0)
->> +		goto unmap;
->> +
->> +	if (of_property_read_bool(pdev->dev.of_node, "smbus-alert")) {
-> 
-> There is no such property. Don't add undocumented properties to your code.
+Depends whether the maintainers consider i2c.text as part of the
+schema, I figure. Might be best to get their input on this.
 
-Actually such property exists, so this one is fine.
 
-Best regards,
-Krzysztof
+> > > +=C2=A0 timeout:
+> > > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > > +=C2=A0=C2=A0=C2=A0 description: Enable i2c bus timeout for master/sl=
+ave (35ms)
+> > > +
+> > > +=C2=A0 byte-mode:
+> > > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > > +=C2=A0=C2=A0=C2=A0 description: Force i2c driver use byte mode trans=
+mit
+> > > +
+> > > +=C2=A0 buff-mode:
+> > > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > > +=C2=A0=C2=A0=C2=A0 description: Force i2c driver use buffer mode tra=
+nsmit
+> >=20
+> > These three aren't really a property of the hardware, more of the inten=
+ded
+> > driver configuration. Do they really belong in the DT?
+> >=20
+> Sorry, I am confused.=20
+> This is hardware controller mode setting for each i2c transfer.=20
+> So I add it in property for change different i2c transfer mode.
+> Is my mis-understand the property setting?
 
+It depends what this is configuration is for.
+
+Would you set the transfer mode based on the design of the board? Is
+there something about the physical i2c bus wiring (or some other
+hardware design choice) that would mean you use one setting over
+another?
+
+On the other hand, if it's just because of OS behaviour, then this
+doesn't belong in the DT.
+
+Maybe to help us understand: why would you ever *not* want DMA mode?
+Isn't that always preferable?
+
+Cheers,
+
+
+Jeremy
