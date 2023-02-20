@@ -1,134 +1,95 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDCA69C811
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 10:56:35 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0F069C89E
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 11:34:56 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PKyVm6kQcz3c6Y
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 20:56:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PKzM170F9z3c9s
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 21:34:53 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=hy0oVyWV;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ppQmi1Y4;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::720; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52b; helo=mail-ed1-x52b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=hy0oVyWV;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ppQmi1Y4;
 	dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20720.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::720])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PKyVf43Mnz3bjw;
-	Mon, 20 Feb 2023 20:56:25 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WXleuJU6oBURF8aYlRUQ+dEdAhbQ7UUPoW67DtEMFN6WglwD4l5hYX6wY42+JLsNZhkoJhkITEqR6CNAEJXtlwLzd/iG6oLm1fNzACeU1+cO+41lxuK0p8c7RiNPHhy2eWrnSkKKcqoronQBfKwN8wRPjukAb2yn4hS4a4aT+FqEpMdH6t8fBYW4JxTmjuSGpfynL8iOnNwzozqUVKzzI6gIbIY12yT3jD/DgjNm4Sg7pQt2IdkGcf90iRQpaQYVBSYDOStFO/hS96ebXizU3x9b53DQmv7HF6lDDY6TAfwoH+BQ0NFmc/IYdx9JfPhFseztsFUA97MeVwNOLm3/tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rE+1bJLg155VmtGl2JrpQcgNdAPhXCjiNiqaBBIJX78=;
- b=UCnB5VPKRIPH2qL/hb6qdQIyltP3UCNZ1X1MTY/C5Kb/jyOs/CsOw7aiQVNsED6zPkvKJSUN9avo1R6e0X34zjAPLjzhlqBwGJmVVUKF/wYZGu3VqKiNVSVa6U7WYskOhpflhIyg19rfbKvCVDNDfuE9DiY4fv06Psd0z8WNXKzaClxgwnLRNJkoiJzVntJe2Z81chiAmYlQO6fTVWsYDsptckUAnHLxqWJQyaulVCKXYL4rYZBD8bZkqVS2V0++e+EZUxDwaP5cAKT75Au6Rwg98EEyysfZYDhO009tYGHBWl9ygPDPnoUZ2nb7A/0tQdjK66kVW6VkvseVUQTgWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rE+1bJLg155VmtGl2JrpQcgNdAPhXCjiNiqaBBIJX78=;
- b=hy0oVyWVmLAMaeeVZ9ueiVFDBmL/Ux+9BQMDJkees/yatd6x73m4IySRVlVeUHmI0JwesjDZVxAYffTSr7FuMotrUTwJD3U1QiGIaqMOzJHqGXrL9tTIfBOzrjHus/9U39InY/Npdjl+I8jiNpnAzpaS0f0MoFKkag+coMeZJA2pp5U3Ob4EE/6nzMv5u7lVdRTYUpOEI5S3eqRDpvWATVruOTw12rrBrXa10FI8+jXEhxAdKbbTCistt7ITu8lQAfDC9fwOS6gRmBNbEyeii9RWonw/B/LWkvCi1kIbjYTfe73bT78e6G50Anr02848CBgJRmZXwD4JzTraHuJddg==
-Received: from TYZPR06MB5274.apcprd06.prod.outlook.com (2603:1096:400:1ff::14)
- by SEYPR06MB6084.apcprd06.prod.outlook.com (2603:1096:101:d9::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.14; Mon, 20 Feb
- 2023 09:56:04 +0000
-Received: from TYZPR06MB5274.apcprd06.prod.outlook.com
- ([fe80::e7c2:8fd8:5892:6687]) by TYZPR06MB5274.apcprd06.prod.outlook.com
- ([fe80::e7c2:8fd8:5892:6687%9]) with mapi id 15.20.6111.009; Mon, 20 Feb 2023
- 09:56:04 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, Andrew
- Jeffery <andrew@aj.id.au>, Philipp Zabel <p.zabel@pengutronix.de>,
-	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v5 0/2] Add ASPEED AST2600 I2Cv2 controller driver
-Thread-Topic: [PATCH v5 0/2] Add ASPEED AST2600 I2Cv2 controller driver
-Thread-Index: AQHZRPMQRsE7XcRDFESdaCc38f1sNK7XgUEAgAAXKSA=
-Date: Mon, 20 Feb 2023 09:56:04 +0000
-Message-ID:  <TYZPR06MB5274195CB92C4604280A776EF2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
-References: <20230220061745.1973981-1-ryan_chen@aspeedtech.com>
- <54ef0dee-30dc-3ba9-d2f7-8270204b5505@linaro.org>
-In-Reply-To: <54ef0dee-30dc-3ba9-d2f7-8270204b5505@linaro.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB5274:EE_|SEYPR06MB6084:EE_
-x-ms-office365-filtering-correlation-id: 099e2cc5-090f-4d79-40b8-08db1328ae43
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  eIQ8Zfcd7mKOAxZNYMIUZSo147J1V86eFEApbenIzPB61UIoD/Dtq+99DjZhCSv/ceKbUyhywFLHFTiYqCdl3DZ6F8CKclQfiHEa8ZmBP15Q/MNfXM18+EhcfJWTuxUp5oS0Na23wB7iC6c71G51zPIyb9aagYs/qbiMV0EPdPIJwu5MDA1Y2Cha1oBZi0qqDpWAJdgzn4dXPbvoHiw5k/p+6JJAzInhml+PIi3bpsu/3p9toRQ4JaRGJnENpH6eIDl8yHEl5+WqQmrf3YudqGq0jE678NFcuOMkvPGEHBgJVWqayHvQJmORWpT8zMLzor6U+TZIUxhyt4FoOHi3LltMpiYI3ysDQyUDLxapQjqw6TVeLDkd91n/gQkmchTMRs4z4QloSztI2HrTKyfLN5d8EtPvq+lNBnhJo6DwhpC0gmUb1Cyj9+RhLaKcjXkEmGEcBSDEq9jNbyrEgLjL5It0zZhKwQnLZ+i3PJbAxT497/UVzcyG60FJAlTkvchtu5pek61p5grqx9r0oBcv/HcKJXgLduS2vaieM8dOyUmXWwp01C92uGUXtTSk+FfcBUyChlOr/EGgUfo2BKa3zEn3rLf5UaLbh6Fa2261RfNvPLPopyZnlGP2O1RQAewE3PTAi/Y5jUHWDlSLM7lAFlVfjSQacW/iU3Mna6tTWjK6SH1WEezmDyoRVV650R4Il05DSztD43py8c+U6QoH2hXIQat5EozybP/Vevy2h6w=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB5274.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(396003)(136003)(346002)(376002)(39850400004)(451199018)(110136005)(5660300002)(7416002)(86362001)(316002)(478600001)(9686003)(186003)(26005)(33656002)(83380400001)(52536014)(66946007)(7696005)(76116006)(2906002)(66556008)(66476007)(8676002)(71200400001)(64756008)(66446008)(8936002)(38070700005)(53546011)(6506007)(55016003)(921005)(38100700002)(122000001)(41300700001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?dDhzT3lwdU13NmM2N2h3YVZUSWFTRjVkMDh4VS9HZFFRbkJOVkZUQkhMODNl?=
- =?utf-8?B?eFZBQ2xnY1p5VlZNUC9IWEc1L29vMDVmbW56bFBDRkNXME1SdzFGYzFYeldY?=
- =?utf-8?B?WDNMOEM2M3VvcGZJWXhaOWV3U1Z5TjcrWGswMFBUeXNRZ21xeS9NVW1rdEF4?=
- =?utf-8?B?SWV5dHVDdmJabDZFUEJpeXFFRFBRcFZDRGJvQWdhQVdUcTdyem9OT1haTVlE?=
- =?utf-8?B?bUs3aU9QYTRTdW5UYmtYUm5Nbk05TGtETlROQm42VEtja1MrRFFtNmo4M2hQ?=
- =?utf-8?B?RFQ1YjB5YWNPMmtqR2xraGFDVEZtekt2WU5vcUQyNGNiRjY4eWVRczRXMTZl?=
- =?utf-8?B?eTY0bEtwTXZDc2dKY09SV21QeVhySDdEai9Ld3RIWGE2em9nNXYrREJFS1VP?=
- =?utf-8?B?QmIzcjRPaDhUZ3V1TTE0a2Q0Tm9GM0swR2pBaVU5UHI3ZTBJS1BsOTlhdHll?=
- =?utf-8?B?MjZRVCtIREFQV29mbE5CTW1pYzFHTTh6UkNucHZ5bytkTFU2K1JxaUFvUFRG?=
- =?utf-8?B?Nkl1K2dRc3RoOEVUK2FQVXFIRWJ4ZXlJdkdET0xJb0ZtM2dsbnEyaWVNL1Zo?=
- =?utf-8?B?TC95ZDNKSU5kSXhuSHMyTzBuZUpmempvY0FkZUtsLzNXaHJyeWdwL2NVaGxJ?=
- =?utf-8?B?ZWI3MzlpUEtwUUJKdk5HZUtzclNSU1pXcjJ5NjExVS9PMlQzNnp0Yy9mNHd3?=
- =?utf-8?B?bUU4cEhWMk5tM0xuYVN4dDQ2elFiM3FEYnc2N2E5aUhNNmdoZHpUTVB4M3J6?=
- =?utf-8?B?cXgvMVdhSWtkV0lzMWpNTUNDdlJVLytaQVdnWWFHUnhOdC9yQTZ3bTl2UlRB?=
- =?utf-8?B?ekgzd0JBckhRWTAvM1dkcnFNa3dQdmdBSExDajFtSWx4MEVCVDZDak4ybEdG?=
- =?utf-8?B?QUJJUStTTCtGRUJUVTBYY1plWDE0VVlKTDg4Mi9MYkVxRGFKT1pBck5tbjNR?=
- =?utf-8?B?a0N4dXUxSE5qVWl0b3FVOXY0TmMrZXpBQVEvS05KdHozN0FoSzFHeEthbDZ1?=
- =?utf-8?B?SG0zVXArd2FmSmxnbjRyKzdaWGo3TVdqcEFzZ2VpTjFMRkpsNlFRb1NzY3No?=
- =?utf-8?B?UnNZUGI2R3pyN2tMV3l2SXFHVjBSQVRoaUliRFFxZGtJSFZaMGZXYlphNXBI?=
- =?utf-8?B?OVJQYkE0eS81LzVJYkhvVXU0TVYvWE9ONWpPb3JoVnQ5MjdqbXJxZ0hEd0JN?=
- =?utf-8?B?K1hRUXR4K0hRY1Y1Umg4TU1KYXVVSDNuSDRtOE5wN1gvRHNBOGZMT3hKTGsx?=
- =?utf-8?B?OURIVVdjNXNPK3JCcFVsM204WHdwTDBOYjNxUENkeVFoc1FkR2hmdnBWTExm?=
- =?utf-8?B?eVordEFpaDFwQ0JRaVRTZk1LQkF1Nm9MQUNibUxqZW43aUt1M2JIeE80UXk5?=
- =?utf-8?B?dmkrZGtqNmNVMFBZMjlJYzY0dGJtYTZjc3VOYkpEcWo1U0wwQXpuajVZTDVG?=
- =?utf-8?B?Y1pVOGlVS3F1STd1bzdveFg5eENkYXF1NjRrWXhLaEVENmxVSWZFclFueU1P?=
- =?utf-8?B?b2IyaW9oaTlvNDZOM2hNaUJNQWJ2ZysvZ3E3amdOY1dJRWRlZDFQOFZMY0tV?=
- =?utf-8?B?VUZnZm5abXROTjVybUJWRUZveFNDV1BnKzZiTTBXVzg5aVBnaDJoV2FqL081?=
- =?utf-8?B?T3grcVhERERlK2JTeHoxVkpPVFNKOEhvdE5EMzlXVUhxRzBlNDgzQUs0Sk13?=
- =?utf-8?B?UmtMZ0VoY1hoQXBOZm9wKzlNZ1BGc1lFRlE3eG9Fdm4xcHd3RS9wd2h6c2JU?=
- =?utf-8?B?YWlVYldrUWs2M0x3ZDcyUlpHVGtZZm1BVzN4RVcrdXJ1TTlPSjBzQmd3dXd1?=
- =?utf-8?B?NWpjV0lLMXpidEVJVEozc3dKeUEyZ0dkUGs2UDV3WVFzWEZuWjNTZ1g5dlNl?=
- =?utf-8?B?bGx1Z1Z4d055N3ZIeTRkMXdDUEl4RXozcHZOOEtCRUNtblEwQ0MxbGNpOUF5?=
- =?utf-8?B?dy90bG51UUlTNUlTZE1nSlJheklqSkZuRWswK2F0QTZEeHc3L2FyM3psSWtn?=
- =?utf-8?B?eldOc2NEUmpZWHhTYlpUYXRYSjZJekFyOUl5bTdIejhoam1hak5UWmtrb3h4?=
- =?utf-8?B?UnAyMHJ1TXdvOHkxRndabW5xZkw0YXkrRzcwK3FjcGpxN2tFdkY4TGFzeW9U?=
- =?utf-8?B?U2htaUh5cWIwVmRRczZDaXhnZ0lWTVdHQWRLNFR4RVBhaThqY2RUS2JFdWRN?=
- =?utf-8?B?Wmc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PKzLv0WSSz3bNn
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Feb 2023 21:34:45 +1100 (AEDT)
+Received: by mail-ed1-x52b.google.com with SMTP id eq27so7413722edb.5
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Feb 2023 02:34:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PJUeD1mMnkWMdEqTjhu/PluaS3q38C4/RyKxK3O4AIQ=;
+        b=ppQmi1Y4kr6grK6Sk8zj+w0k1eSZF7l4WAcroDZiOKaymndLyFtN2uP7awoCZPq3Y0
+         jU8w2MMxNRD0ZevfxIqAwcbBcbaprjp3Vlpy6AwxVHEu5BWC4kLEnXFaWxe6XEKyvZfX
+         S5PVQCx2iNU6UxY/Psxtcwm262bHu+/EYDX6yT1uRs3LCLU74OYHmpiUUsTJtsiSHLhR
+         3rl5ARklU0OCtqZJt4hwiM3HXis5BJAxbYqjttsLJo0+w+L7atcPzad+J7g7MuBelnxz
+         ASZlWKdNdcTWcQVx+1BOcA5957q4DlID1dhESNR/VjfQALPj4/XnY+5BYHcUfY6JXq/A
+         UOmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PJUeD1mMnkWMdEqTjhu/PluaS3q38C4/RyKxK3O4AIQ=;
+        b=g8gMEzIP2LJHbqdwIN+dLq6O+CxH8+XMNBoOWd4AwzJ2EgIFVHW3Sqnjz8VTp2dK+F
+         bLLheruHbEYv1ETC2eJ+7YOJpY5nRKcbvsOsnB2pGiRaPEwgl4OQLVxiVVRpdxtCTvnG
+         A3dO1PIzFMzJuCBFfwSaXN7P+WQGi8mvVzOm2/pPqA+0JZ0TSp+rtxHgDtwspcq63Shx
+         fJALoGSMUJ+ctFoqjXRSsUbnnrq2LwUmm/Aw8Y9+lgOXmNeDFaBpc/HPL0eZNSRJUYOy
+         OJrV0/V9voUjxacb8aC/YDhf3WxYoWi66lKP1XJfXBLzpmBkxNPXuvg0Y65dJLvUaWSR
+         DvVQ==
+X-Gm-Message-State: AO0yUKWEee1LDbrXlr7G64Renre318vhaYDFEro02Ns3cYpM/7FsBc25
+	stEjEiHWEiO50Gh080dYhEbfdQ==
+X-Google-Smtp-Source: AK7set+HAzdSAd4gXzvkj+DTSnjsyi8v5Y+h7AlU6Rwz4WxUDJV7ilf/6Qk2FWvVd9fSjo9rDREJsQ==
+X-Received: by 2002:a17:907:3da4:b0:8b1:7fe9:162e with SMTP id he36-20020a1709073da400b008b17fe9162emr15446901ejc.47.1676889276493;
+        Mon, 20 Feb 2023 02:34:36 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id mm26-20020a170906cc5a00b008b31e317c04sm4188803ejb.89.2023.02.20.02.34.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Feb 2023 02:34:36 -0800 (PST)
+Message-ID: <ab6453b3-3c5d-6027-d7b5-fd246e2c9fba@linaro.org>
+Date: Mon, 20 Feb 2023 11:34:34 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5274.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 099e2cc5-090f-4d79-40b8-08db1328ae43
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2023 09:56:04.5851
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Pr06+DF6LjaTSlL+5mdXO1EJ5fofNv3s/qwRhhRMoynasRXkZTzrTwn/wQWI1F+lnJqp8xdiA3KQfMB/Khqcp8z4O38CUs5J6BuwqRAFZ+k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6084
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support for AST2600
+ i2C driver
+Content-Language: en-US
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20230201103359.1742140-1-ryan_chen@aspeedtech.com>
+ <20230201103359.1742140-3-ryan_chen@aspeedtech.com>
+ <b0f55494-3a17-4d87-7b8f-5b078503cb53@linaro.org>
+ <SEZPR06MB52690A1D06F3CFEAAF1FDBDEF2A39@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <b58fad13-12d5-346b-9452-d345c7bf5327@linaro.org>
+ <TYZPR06MB5274C8D759C5C762C12A1CE9F2A09@TYZPR06MB5274.apcprd06.prod.outlook.com>
+ <c5aa358d-6fb8-9d4d-eef7-d3a8268229e8@linaro.org>
+ <TYZPR06MB5274B15C35A6030CB49BFD23F2A09@TYZPR06MB5274.apcprd06.prod.outlook.com>
+ <bb73393c-d642-0128-9e63-1a751f090a85@linaro.org>
+ <TYZPR06MB52741EB5CD43327A877CA20FF2A69@TYZPR06MB5274.apcprd06.prod.outlook.com>
+ <861da92e-c1a0-f08c-1241-8e833c32674e@linaro.org>
+ <TYZPR06MB52740C99ED255A0F54A17924F2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <TYZPR06MB52740C99ED255A0F54A17924F2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,28 +104,209 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGVsbG8gS3J6eXN6dG9mLA0KDQpSeWFuIENoZW4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2Ut
-LS0tLQ0KPiBGcm9tOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxp
-bmFyby5vcmc+DQo+IFNlbnQ6IE1vbmRheSwgRmVicnVhcnkgMjAsIDIwMjMgNDozMCBQTQ0KPiBU
-bzogUnlhbiBDaGVuIDxyeWFuX2NoZW5AYXNwZWVkdGVjaC5jb20+OyBSb2IgSGVycmluZw0KPiA8
-cm9iaCtkdEBrZXJuZWwub3JnPjsgS3J6eXN6dG9mIEtvemxvd3NraQ0KPiA8a3J6eXN6dG9mLmtv
-emxvd3NraStkdEBsaW5hcm8ub3JnPjsgSm9lbCBTdGFubGV5IDxqb2VsQGptcy5pZC5hdT47IEFu
-ZHJldw0KPiBKZWZmZXJ5IDxhbmRyZXdAYWouaWQuYXU+OyBQaGlsaXBwIFphYmVsIDxwLnphYmVs
-QHBlbmd1dHJvbml4LmRlPjsNCj4gb3BlbmJtY0BsaXN0cy5vemxhYnMub3JnOyBsaW51eC1hcm0t
-a2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7DQo+IGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMu
-b3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0gg
-djUgMC8yXSBBZGQgQVNQRUVEIEFTVDI2MDAgSTJDdjIgY29udHJvbGxlciBkcml2ZXINCj4gDQo+
-IA0KPiBPbiAyMC8wMi8yMDIzIDA3OjE3LCBSeWFuIENoZW4gd3JvdGU6DQo+ID4gVGhpcyBzZXJp
-ZXMgYWRkIEFTVDI2MDAgaTJjdjIgbmV3IHJlZ2lzdGVyIHNldCBkcml2ZXIuIFRoZSBpMmN2MiBu
-ZXcNCj4gPiByZWdpc3RlciBzZXQgaGF2ZSBuZXcgY2xvY2sgZGl2aWRlciBvcHRpb24gZm9yIG1v
-cmUgZmxleGlhYmxlIGdlbmVyYXRpb24uDQo+IA0KPiBUeXBvOiBmbGV4aWJsZQ0KV2lsbCBmaXgg
-dHlwby4gDQo+IA0KPiA+IEFuZCBhbHNvIGhhdmUgc2VwYXJhdGUgaTJjIG1hc3RlciBhbmQgc2xh
-dmUgcmVnaXN0ZXIgc2V0IGZvciBjb250cm9sLg0KPiANCj4gU2luY2Ugc2V2ZXJhbCBvZiBteSBx
-dWVzdGlvbnMgcmVtYWluZWQgdW5hbnN3ZXJlZCBhbmQgcXVpdGUgZnJhbmtseSBpdCdzDQo+IGZy
-dWl0bGVzcy4uLiBzbyBsZXQgbWUgcmVhZCB0aGUgY29tbWl0IG1zZyBkaXJlY3RseSAtIGl0J3Mg
-dGhlIHNhbWUgZGV2aWNlLCBqdXN0DQo+IHdpdGggZGlmZmVyZW50IHJlZ2lzdGVyIGxheW91dC4g
-SGF2aW5nIG5ldyBjb21wYXRpYmxlIG1ha2VzIHNlbnNlLCBidXQgdGhpcw0KPiBzaG91bGQgYmUg
-cGFydCBvZiBvbGQgYmluZGluZy4NCj4gDQpTb3JyeSwgSSBhbSBjb25mdXNlZCwgRG8geW91IG1l
-YW4gSSBzaG91bGQgYmFzZSBvbiBvcmlnaW5hbCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvaTJjL2FzcGVlZCxpMmMueWFtbA0KQWRkIG5ldyBjb21wYXRpYmxlPyBOb3QgYWRkIGFu
-b3RoZXIgYXNwZWVkLGkyY3YyLnlhbWwuDQoNCg0KQmVzdCByZWdhcmRzLA0KUnlhbg0K
+On 20/02/2023 10:14, Ryan Chen wrote:
+> Hello Krzysztof,
+> 
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Sent: Monday, February 20, 2023 3:59 PM
+>> To: Ryan Chen <ryan_chen@aspeedtech.com>; Rob Herring
+>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>> <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>; Andrew
+>> Jeffery <andrew@aj.id.au>; Philipp Zabel <p.zabel@pengutronix.de>;
+>> openbmc@lists.ozlabs.org; linux-arm-kernel@lists.infradead.org;
+>> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
+>> Subject: Re: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support for AST2600
+>> i2C driver
+>>
+>> On 18/02/2023 02:19, Ryan Chen wrote:
+>>> Hello Krzysztof,
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>> Sent: Friday, February 17, 2023 4:37 PM
+>>>> To: Ryan Chen <ryan_chen@aspeedtech.com>; Rob Herring
+>>>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>>>> <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>;
+>>>> Andrew Jeffery <andrew@aj.id.au>; Philipp Zabel
+>>>> <p.zabel@pengutronix.de>; openbmc@lists.ozlabs.org;
+>>>> linux-arm-kernel@lists.infradead.org;
+>>>> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
+>>>> Subject: Re: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support for
+>>>> AST2600 i2C driver
+>>>>
+>>>> On 16/02/2023 10:26, Ryan Chen wrote:
+>>>>> Hello Krzysztof
+>>>>>
+>>>>>> -----Original Message-----
+>>>>>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>>>> Sent: Thursday, February 16, 2023 5:22 PM
+>>>>>> To: Ryan Chen <ryan_chen@aspeedtech.com>; Rob Herring
+>>>>>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>>>>>> <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>;
+>>>>>> Andrew Jeffery <andrew@aj.id.au>; Philipp Zabel
+>>>>>> <p.zabel@pengutronix.de>; openbmc@lists.ozlabs.org;
+>>>>>> linux-arm-kernel@lists.infradead.org;
+>>>>>> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
+>>>>>> Subject: Re: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support
+>>>>>> for
+>>>>>> AST2600 i2C driver
+>>>>>>
+>>>>>> On 16/02/2023 10:20, Ryan Chen wrote:
+>>>>>>> Hello Krzysztof
+>>>>>>>
+>>>>>>>> -----Original Message-----
+>>>>>>>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>>>>>> Sent: Thursday, February 16, 2023 4:18 AM
+>>>>>>>> To: Ryan Chen <ryan_chen@aspeedtech.com>; Rob Herring
+>>>>>>>> <robh+dt@kernel.org>; Krzysztof Kozlowski
+>>>>>>>> <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley
+>>>>>>>> <joel@jms.id.au>; Andrew Jeffery <andrew@aj.id.au>; Philipp Zabel
+>>>>>>>> <p.zabel@pengutronix.de>; openbmc@lists.ozlabs.org;
+>>>>>>>> linux-arm-kernel@lists.infradead.org;
+>>>>>>>> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
+>>>>>>>> Subject: Re: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support
+>>>>>>>> for
+>>>>>>>> AST2600 i2C driver
+>>>>>>>>
+>>>>>>>> On 15/02/2023 06:43, Ryan Chen wrote:
+>>>>>>>>>>> +  - $ref: /schemas/i2c/i2c-controller.yaml#
+>>>>>>>>>>> +
+>>>>>>>>>>> +properties:
+>>>>>>>>>>> +  compatible:
+>>>>>>>>>>> +    enum:
+>>>>>>>>>>> +      - aspeed,ast2600-i2c
+>>>>>>>>>>
+>>>>>>>>>> NAK. It's already there. Please do not waste our time in
+>>>>>>>>>> submitting duplicated drivers.
+>>>>>>>>>
+>>>>>>>>> It is not duplicated, as my description in cover " This series
+>>>>>>>>> add
+>>>>>>>>> AST2600 i2c
+>>>>>>>> new register set driver"
+>>>>>>>>> So, this will be different driver compatible.
+>>>>>>>>> The original compatible is
+>>>>>>>>>       - aspeed,ast2400-i2c-bus
+>>>>>>>>>       - aspeed,ast2500-i2c-bus
+>>>>>>>>>       - aspeed,ast2600-i2c-bus
+>>>>>>>>> So the new register set compatible is "- aspeed,ast2600-i2c",
+>>>>>>>>> remove
+>>>>>> "bus".
+>>>>>>>>
+>>>>>>>> Bindings are documenting hardware, so I claim - we already have
+>>>>>>>> this hardware described and this is duplicated. Otherwise - what
+>>>>>>>> are these two I2C controllers and what are the differences? Why
+>>>>>>>> they do not have really different name? Bus looks more like a
+>>>>>>>> mistake than a
+>>>>>> differentiating name.
+>>>>>>> For misunderstanding, or mistaken.
+>>>>>>> I purpose to be aspeed,ast2600-i2cv2, will it more clear way ?
+>>>>>>
+>>>>>> I don't know. I still did not get answers. I asked here several questions.
+>>>>> Those are different i2c controller, as I description in cover letter.
+>>>>
+>>>> The cover letter does not explain here anything. It barely mentions
+>>>> "new register set" and "separate register set". This is really short,
+>>>> so without proper explanations you will get all these questions. Are
+>>>> they compatible? Do they overlap? Are they completely different? If
+>>>> so, why datasheet uses same name for them? So many questions but
+>>>> cover letter is basically two sentences and
+>>>> here:
+>>>
+>>> Sorry my misunderstanding.
+>>> The legacy register layout is mix master/slave register control together.
+>>> So will let confuse about register.
+>>> The following is add more detail description about new register layout.
+>>> And new feature set add for register.
+>>>
+>>> -Add new clock divider option for more flexible and accurate clock
+>>> rate generation -Add tCKHighMin timing to guarantee SCL high pulse width.
+>>> -Add support dual pool buffer mode, split 32 bytes pool buffer of each device
+>> into 2 x 16 bytes for Tx and Rx individually.
+>>> -Increase DMA buffer size to 4096 bytes and support byte alignment.
+>>> -Re-define the base address of BUS1 ~ BUS16 and Pool buffer.
+>>> -Re-define registers for separating master and slave mode control.
+>>> -Support 4 individual DMA buffers for master Tx and Rx, slave Tx and Rx.
+>>>
+>>> And following is new register set for package transfer sequence.
+>>> New Master operation mode: S -> Aw -> P {S: Start, Sr: Repeat Start, Aw/r:
+>> Address for write/read, P: Stop}.
+>>> New Master operation mode: S -> Aw -> TxD -> P New Master operation
+>>> mode: S -> Ar -> RxD -> P New Slave  operation mode: S -> Aw -> RxD ->
+>>> Sr -> Ar -> TxD -> P.
+>>> -Bus SDA lock auto-release capability for new master DMA command mode.
+>>> -Bus auto timeout for new master/slave DMA mode.
+>>>
+>>> The following is two versus register layout.
+>>> Old:
+>>> {I2CD00}: Function Control Register
+>>> {I2CD04}: Clock and AC Timing Control Register \#1
+>>> {I2CD08}: Clock and AC Timing Control Register \#2
+>>> {I2CD0C}: Interrupt Control Register
+>>> {I2CD10}: Interrupt Status Register
+>>> {I2CD14}: Command/Status Register
+>>> {I2CD18}: Slave Device Address Register
+>>> {I2CD1C}: Pool Buffer Control Register
+>>> {I2CD20}: Transmit/Receive Byte Buffer Register
+>>> {I2CD24}: DMA Mode Buffer Address Register
+>>> {I2CD28}: DMA Transfer Length Register
+>>> {I2CD2C}: Original DMA Mode Buffer Address Setting
+>>> {I2CD30}: Original DMA Transfer Length Setting and Final Status
+>>>
+>>> New Register mode
+>>> {I2CC00}: Master/Slave Function Control Register
+>>> {I2CC04}: Master/Slave Clock and AC Timing Control Register
+>>> {I2CC08}: Master/Slave Transmit/Receive Byte Buffer Register
+>>> {I2CC0C}: Master/Slave Pool Buffer Control Register
+>>> {I2CM10}: Master Interrupt Control Register
+>>> {I2CM14}: Master Interrupt Status Register
+>>> {I2CM18}: Master Command/Status Register
+>>> {I2CM1C}: Master DMA Buffer Length Register
+>>> {I2CS20}: Slave~ Interrupt Control Register
+>>> {I2CS24}: Slave~ Interrupt Status Register
+>>> {I2CS28}: Slave~ Command/Status Register
+>>> {I2CS2C}: Slave~ DMA Buffer Length Register
+>>> {I2CM30}: Master DMA Mode Tx Buffer Base Address
+>>> {I2CM34}: Master DMA Mode Rx Buffer Base Address
+>>> {I2CS38}: Slave~ DMA Mode Tx Buffer Base Address
+>>> {I2CS3C}: Slave~ DMA Mode Rx Buffer Base Address
+>>> {I2CS40}: Slave Device Address Register
+>>> {I2CM48}: Master DMA Length Status Register
+>>> {I2CS4C}: Slave  DMA Length Status Register
+>>> {I2CC50}: Current DMA Operating Address Status
+>>> {I2CC54}: Current DMA Operating Length  Status
+>>
+>> Thanks for explanation, yet still I don't get whether these are separate devices
+>> or not. So again, you got several questions and you should answer them, not
+>> only parts of them.
+>>
+>> Are they compatible? Do they overlap? Are they completely different? If so,
+>> why datasheet uses same name for them?
+> 
+> They are not compatible. The register offset is overlap.
+> Old register is from 0x00 ~ 0x30
+> New register is from 0x00 ~ 0x54
+> The new design has another register, call global register that do 1 bit to set switch 
+> register decode to be new or old register layout.
+> For example, old register AC timing have two setting I2CD04/08 but new is I2CC04.
+> And now register setting for AC timing.
+> And also master/slave register separate control. Not mix at I2CD14.
+> About naming in datasheet, due to you can see the new design concept is the same.
+> So most use the same name to be offset register name. 
+> From mix to separate master/slave control. 
+> The following an example. 
+> IER 1 to 2
+> {I2CD0C}: Interrupt Control Register to 2 set {I2CM10}: Master Interrupt Control Register, {I2CS20}: Slave~ Interrupt Control Register
+> ISR, 1 to 2
+> {I2CD0C}: Interrupt Control Register -> {I2CM14}: Master Interrupt Status Register, {I2CS24}: Slave~ Interrupt Status Register
+> And so on...
+
+OK, that helps to understand. If I understand correctly, still the same
+hardware, but you just switch from old to new register interface (or
+mode). Separate compatible: yes. Separate binding: I don't think.
+
+Best regards,
+Krzysztof
+
