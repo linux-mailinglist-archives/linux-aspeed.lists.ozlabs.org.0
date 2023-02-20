@@ -2,60 +2,33 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCECA69C9B5
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 12:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5938969CB44
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 13:44:40 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PL0S51GHBz3brQ
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 22:24:21 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=F9/04s3M;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PL2Dk1J3mz3c9r
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 23:44:38 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=F9/04s3M;
-	dkim-atps=neutral
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.alibaba.com (client-ip=115.124.30.110; helo=out30-110.freemail.mail.aliyun.com; envelope-from=yang.lee@linux.alibaba.com; receiver=<UNKNOWN>)
+X-Greylist: delayed 303 seconds by postgrey-1.36 at boromir; Mon, 20 Feb 2023 23:44:33 AEDT
+Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PL0Rx3np4z3bnP;
-	Mon, 20 Feb 2023 22:24:13 +1100 (AEDT)
-Received: from pecola.lan (unknown [159.196.93.152])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 327FD20009;
-	Mon, 20 Feb 2023 19:24:09 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1676892251;
-	bh=2CrjEgYe8SBTNfJBvAZ15H122fXa8P+V4hEaKlRMaeU=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=F9/04s3MmpTCAHOgUEYcZAf1ovz/oB7zy9S9v7vYz2BvEBkzMJOAsD5NFxDCDN+XA
-	 IOcPegwDjeRPDzWo3GegjETA7YBPcO2keRbo0pYxmFk2iJqvXCgwqms83wvqpqDoCs
-	 UtHjJ8v4qgHiQF2ew8kkRxpbQUvQAli8XS86a9TY16ikbHeaQ0RSHhiU099QNZxwKr
-	 q6RyRMlVt0wGLNKxq1oDPozTcrYmYU4+cS0JWXDsudQy+tSpzvYRha8zB5tetPU6bj
-	 C9KMCICL+5eRUFlObId47XekZId6X+Llxh53w6mjqpZHA5MZHrVylGpQ8YRwuaXmCu
-	 Bg/ElQqASFFjg==
-Message-ID: <dfc2c2c442af55f64e147c920585cb7e6a74939f.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v5 1/2] dt-bindings: i2c: Add support for ASPEED i2Cv2
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley
- <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,  Philipp Zabel
- <p.zabel@pengutronix.de>, "openbmc@lists.ozlabs.org"
- <openbmc@lists.ozlabs.org>,  "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Date: Mon, 20 Feb 2023 19:24:08 +0800
-In-Reply-To: <TYZPR06MB5274714E58C319B4FE3B6E1BF2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
-References: <20230220061745.1973981-1-ryan_chen@aspeedtech.com>
-	 <20230220061745.1973981-2-ryan_chen@aspeedtech.com>
-	 <2141e513acc750bf26775f5b435f4dccd41244aa.camel@codeconstruct.com.au>
-	 <TYZPR06MB5274714E58C319B4FE3B6E1BF2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PL2Dd2bZZz3bh6
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Feb 2023 23:44:32 +1100 (AEDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0Vc6Ws8T_1676896763;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0Vc6Ws8T_1676896763)
+          by smtp.aliyun-inc.com;
+          Mon, 20 Feb 2023 20:39:23 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: davem@davemloft.net
+Subject: [PATCH -next] crypto: Use devm_platform_ioremap_resource()
+Date: Mon, 20 Feb 2023 20:39:21 +0800
+Message-Id: <20230220123921.7191-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,76 +40,47 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: herbert@gondor.apana.org.au, linux-aspeed@lists.ozlabs.org, neal_liu@aspeedtech.com, linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Ryan,
+Convert platform_get_resource(), devm_ioremap_resource() to a single
+call to Use devm_platform_ioremap_resource(), as this is exactly
+what this function does.
 
-> > > +=C2=A0 clock-frequency:
-> > > +=C2=A0=C2=A0=C2=A0 description:
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Desired I2C bus clock frequency in Hz=
-. default 100khz.
-> > > +
-> > > +=C2=A0 multi-master:
-> > > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > > +=C2=A0=C2=A0=C2=A0 description:
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 states that there is another master a=
-ctive on this bus
-> >=20
-> > These are common to all i2c controllers, but I see that i2c-controller.=
-yaml
-> > doesn't include them (while i2c.text does).
-> >=20
-> > I assume we're OK to include these in the device bindings in the meanti=
-me.
-> > But in that case, you may also want to include the common "smbus-alert"
-> > property, which you consume in your driver.
-> >=20
-> Since i2c.text have multi-master, smbus-alert. I don't need those two rig=
-ht?
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/crypto/aspeed/aspeed-acry.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Depends whether the maintainers consider i2c.text as part of the
-schema, I figure. Might be best to get their input on this.
+diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
+index 1f77ebd73489..857a7a222922 100644
+--- a/drivers/crypto/aspeed/aspeed-acry.c
++++ b/drivers/crypto/aspeed/aspeed-acry.c
+@@ -712,7 +712,6 @@ static int aspeed_acry_probe(struct platform_device *pdev)
+ {
+ 	struct aspeed_acry_dev *acry_dev;
+ 	struct device *dev = &pdev->dev;
+-	struct resource *res;
+ 	int rc;
+ 
+ 	acry_dev = devm_kzalloc(dev, sizeof(struct aspeed_acry_dev),
+@@ -724,13 +723,11 @@ static int aspeed_acry_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, acry_dev);
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	acry_dev->regs = devm_ioremap_resource(dev, res);
++	acry_dev->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(acry_dev->regs))
+ 		return PTR_ERR(acry_dev->regs);
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+-	acry_dev->acry_sram = devm_ioremap_resource(dev, res);
++	acry_dev->acry_sram = devm_platform_ioremap_resource(pdev, 1);
+ 	if (IS_ERR(acry_dev->acry_sram))
+ 		return PTR_ERR(acry_dev->acry_sram);
+ 
+-- 
+2.20.1.7.g153144c
 
-
-> > > +=C2=A0 timeout:
-> > > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > > +=C2=A0=C2=A0=C2=A0 description: Enable i2c bus timeout for master/sl=
-ave (35ms)
-> > > +
-> > > +=C2=A0 byte-mode:
-> > > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > > +=C2=A0=C2=A0=C2=A0 description: Force i2c driver use byte mode trans=
-mit
-> > > +
-> > > +=C2=A0 buff-mode:
-> > > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > > +=C2=A0=C2=A0=C2=A0 description: Force i2c driver use buffer mode tra=
-nsmit
-> >=20
-> > These three aren't really a property of the hardware, more of the inten=
-ded
-> > driver configuration. Do they really belong in the DT?
-> >=20
-> Sorry, I am confused.=20
-> This is hardware controller mode setting for each i2c transfer.=20
-> So I add it in property for change different i2c transfer mode.
-> Is my mis-understand the property setting?
-
-It depends what this is configuration is for.
-
-Would you set the transfer mode based on the design of the board? Is
-there something about the physical i2c bus wiring (or some other
-hardware design choice) that would mean you use one setting over
-another?
-
-On the other hand, if it's just because of OS behaviour, then this
-doesn't belong in the DT.
-
-Maybe to help us understand: why would you ever *not* want DMA mode?
-Isn't that always preferable?
-
-Cheers,
-
-
-Jeremy
