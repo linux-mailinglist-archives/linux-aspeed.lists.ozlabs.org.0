@@ -1,82 +1,144 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C02769C6E7
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 09:44:05 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAF769C771
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 10:15:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PKwv71fwsz3c9K
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 19:44:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PKxbB1r1zz3cFY
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Feb 2023 20:15:18 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=qQUrk+pz;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=E1SU4YxH;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::529; helo=mail-ed1-x529.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:704b::711; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=qQUrk+pz;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=E1SU4YxH;
 	dkim-atps=neutral
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20711.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::711])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PKwtw2JBGz3c6n
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Feb 2023 19:43:50 +1100 (AEDT)
-Received: by mail-ed1-x529.google.com with SMTP id o12so1951794edb.9
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Feb 2023 00:43:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Oc7qwSosW73sJztVFY9hFeshz9Qo4V+H8pEm5ZTWB4A=;
-        b=qQUrk+pzSBrV3nJupE2SwxALGtPLYDAAND47qsEkKuU7gRYe9INWg4gxnvujPSTtnK
-         h7QdX9ngNnc0QEFnFJon8fa5yVx1Y68rFyQTbAmu2X5NDzmiTwkkOzksObo2lgbc8qkS
-         nxEfhPwdm6A2ND0RnpB29d8nLNU5qTnkKVUcK7P/VYfBgxSKNW7ynWD6ayf2ZfT73B8e
-         I7PIsrv+PGiaHb7DgQ7KhUJsOOail+8hLA4dfFBxrgtIuaskqY1zjJDEGrIRwlKF1ZPg
-         QSYuaehCT8SPLQb6tovSSH9BY2jxc0ml6sCZOHRvoEUIZmyljR7y0arTpWpOODmMTzsv
-         df3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oc7qwSosW73sJztVFY9hFeshz9Qo4V+H8pEm5ZTWB4A=;
-        b=SokiFyN9sJTHDX0HZCVZqO9iC9SPJ0MXxkngwJM2N1YO0eXs3QDxHPRQh/9sNiapFk
-         X8dRAuixz0p1urodxf3kHRCMOx5x3bK/9nvbZ9TQfw5+5Kd8vBq6GH3c8J7WiraYOX2j
-         iWHbp1d82Zp5V5eIudSfazGT3mH6xGFTZRIs9Zwg0mPu8P6JaRvPNpExFFDc5JTdoPyN
-         1eEWJ28lb0SKf06uITGrkGE2x8/qhTOiVOX+B3Ctjw6qmelVpTtw+KIU+D6XwzDoEwSR
-         pdNEnCaIiOvA5yoQPxpgOKWIEZo2xR7l58AaAcfSKBk+D6ZpN/A1K9VO/wI1eCB9fUBr
-         449Q==
-X-Gm-Message-State: AO0yUKWSXD4zd/5nD0Ie1M3BZlxpDY0I4hgYij3qfSczcdaRPmakiqxr
-	iJWXvYEyuwrBs0t7EQKjp80wvw==
-X-Google-Smtp-Source: AK7set+h/km1BcSp8WLRTYcEpcL/rcR4qt7lygIWcCF3VrUjrX36Tgiq7gxwG7osnlP0+WObDSsn9Q==
-X-Received: by 2002:a17:907:2da8:b0:8b1:7274:1a72 with SMTP id gt40-20020a1709072da800b008b172741a72mr6245934ejc.6.1676882626033;
-        Mon, 20 Feb 2023 00:43:46 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id t24-20020a1709066bd800b008c6c47f59c1sm2256212ejs.48.2023.02.20.00.43.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Feb 2023 00:43:45 -0800 (PST)
-Message-ID: <63986fb1-f8d4-f348-bae9-72e08369213b@linaro.org>
-Date: Mon, 20 Feb 2023 09:43:43 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PKxZZ4yRJz3c9C;
+	Mon, 20 Feb 2023 20:14:45 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZeJNW/aHGbBsuGCpU/zrPHwyCewODpWVFgTlRnUI0ba1WFzDXQvaD8SvCDM+1HJwyx9zntOERuFC4KRM+uwF4CZo/hlDjg9ZVCLIuBXOm/oivMWoSEpsnV2Eshw2C8hhY6KOqXlQyj7mxE4rGAP1PVsk7YlxacjRERDUeC4E/GJ4Ne5oZyl+5gliEv35KxLHpn64Lw39AYVS82p7Ko5NCnUdoq7Svi0fWF1mufmpCP555B8Ym3z6IggDO9kdrVN8lDlIeicc6NJJU7MVovS9JclllA45bQ7XjuPDw2NnKVOTPPPFl1KlCIf6wfBkdD5AJUk/ZI5bGLVJOmYD5XlSDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ehd9LEIBXY/iXCa7UC1e55251+teab/dxiDDLXyH9QU=;
+ b=OF44vp0XZ23EJV/I/FSvAtcAyQvI4W15/NJwpiEF+A5Qw1ORL1A9C5pklX9IUCgWtEOjABVMh1p43tmYhMrrWJaJSN7GVN12dvkuJaiEVBGJdOkYtwkNiph7n3KuVZpgucoM23hqp4K1RY/AoqPoDAlu4sMesBfE8Jsa3n5HphJqkB/dQL7NRpqCJzUMpt2h2/bf7uQffDknwnt7WFhTjJtWXwKocHySvMZjL99fTdM8t8VEqoE38lq1UH9ND3ExePddTHTG6xB5dKsxVydSyXhcaQjZ822gVN2I4eMrsKkuyfxm1RWdf6xYFMK/rBjZgrw5lfxeTK3Ukxu04G0vnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ehd9LEIBXY/iXCa7UC1e55251+teab/dxiDDLXyH9QU=;
+ b=E1SU4YxHWacOzbNYVruF9oz4DFJAPdtFkDHpVQhvbVrah+lqR55EuQB90OlEHiEHrB7smyKm/a+SjUDxb+HRcMkstujiubswXbeDEAvtuFnvvzVDPcyu5AW+i8ZFrr9LC/K9YYesYP+XW/3pbUgwrmCg7nyAbeWyN3+RcXLGmZahKKEoib3/fqqfeznbRHGEFMIsAwB6J3wHtbSbwXr2VYK38ZKuBhJH5nFdynao2SZ3WhRv/4ApoqtzJKb1evoxaeTKdLBfyij7dV0FbmR9g0bBwBPVOBJoZZNb3zHvc4zdjLXMkizWsuA8xUugnooE9JWe7D7b/nRJ+i5zsrTNLg==
+Received: from TYZPR06MB5274.apcprd06.prod.outlook.com (2603:1096:400:1ff::14)
+ by SI2PR06MB4505.apcprd06.prod.outlook.com (2603:1096:4:157::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.16; Mon, 20 Feb
+ 2023 09:14:23 +0000
+Received: from TYZPR06MB5274.apcprd06.prod.outlook.com
+ ([fe80::e7c2:8fd8:5892:6687]) by TYZPR06MB5274.apcprd06.prod.outlook.com
+ ([fe80::e7c2:8fd8:5892:6687%9]) with mapi id 15.20.6111.009; Mon, 20 Feb 2023
+ 09:14:21 +0000
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, Andrew
+ Jeffery <andrew@aj.id.au>, Philipp Zabel <p.zabel@pengutronix.de>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support for AST2600
+ i2C driver
+Thread-Topic: [PATCH v4 2/3] dt-bindings: i2c-ast2600: Add support for AST2600
+ i2C driver
+Thread-Index:  AQHZNii3UFiZnjoVzEOnbd7WD7fD4K67XHWAgBQ23XCAAPWKAIAA2h/AgAAA9ACAAAA2YIABhaIAgAESETCAA5pHgIAAEVLA
+Date: Mon, 20 Feb 2023 09:14:21 +0000
+Message-ID:  <TYZPR06MB52740C99ED255A0F54A17924F2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
+References: <20230201103359.1742140-1-ryan_chen@aspeedtech.com>
+ <20230201103359.1742140-3-ryan_chen@aspeedtech.com>
+ <b0f55494-3a17-4d87-7b8f-5b078503cb53@linaro.org>
+ <SEZPR06MB52690A1D06F3CFEAAF1FDBDEF2A39@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <b58fad13-12d5-346b-9452-d345c7bf5327@linaro.org>
+ <TYZPR06MB5274C8D759C5C762C12A1CE9F2A09@TYZPR06MB5274.apcprd06.prod.outlook.com>
+ <c5aa358d-6fb8-9d4d-eef7-d3a8268229e8@linaro.org>
+ <TYZPR06MB5274B15C35A6030CB49BFD23F2A09@TYZPR06MB5274.apcprd06.prod.outlook.com>
+ <bb73393c-d642-0128-9e63-1a751f090a85@linaro.org>
+ <TYZPR06MB52741EB5CD43327A877CA20FF2A69@TYZPR06MB5274.apcprd06.prod.outlook.com>
+ <861da92e-c1a0-f08c-1241-8e833c32674e@linaro.org>
+In-Reply-To: <861da92e-c1a0-f08c-1241-8e833c32674e@linaro.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR06MB5274:EE_|SI2PR06MB4505:EE_
+x-ms-office365-filtering-correlation-id: 49059253-8bc1-4123-65d0-08db1322da70
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  uCN1SDRPh4EqAtg2uX3+ajatX11Gc3ezTcXTeImajXaUsbk9D81ObHlbURBsygRPxWlkMLfTXKC0XoWA85YcCnGOdHn1yqty1Bt1PWknSsXU4tMk4tuUm9qxP4XwwbTCMCmfBgCg81tQIAxP66/gKyuIULtnitLVU7SXNYRGkh/c5kalGP8+Jv4qUUZvmdfAjsQaQ30aymLTRy8YX9rRhZG554wCo4h0VxMVzUqM+cXkBLhfU41BhXMekfH2YApvCk0+OR5WmTcBqWLzsaHy40/sRl3W/pgSXCxGC0i+dLw4ytBZinSAZpdBwcevp5BWzDmxK+sY9klib/4Cm6G5wQXodFHeVzu5D82yHaCNU1WqbZ+x6GC9m/PenkBo2oq3FIrYscHS5vz+Beso0mEXnptVyBuxNx8ENipnCbiilSWyNRgQKkEykpLgSks1enbp0Ki3YaH2R57q7TYQxxJe1KpalTfU5VLvcQyMITAutjcYCHt0AGZY9p886oon3KrjRKOL68bwMaoMgr/ZZBRFjUEGCN7zIZnJvJSPseyDaYalXOFkAxkeabDEeRKO4k6Eh+4yiU4JutOIKwPyFE1fuP4FvYLGHWNVQTlwrzyyRsF6fc6oGMjaynM2LMhkhFQ+EXzmlvvMrpgaQFQac8g4dXSCJ9WF4PnhuBCb5vuQnP+EI66z/yv/amNvLzpXkIhEyVtoO39w5aEUOdVS7Z8YGrcQm31pHo2uetJ7nBIuzU4=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB5274.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(376002)(136003)(396003)(39850400004)(346002)(366004)(451199018)(33656002)(38070700005)(921005)(83380400001)(2906002)(38100700002)(122000001)(86362001)(52536014)(41300700001)(8936002)(7416002)(5660300002)(8676002)(66446008)(66476007)(66556008)(66946007)(76116006)(478600001)(7696005)(9686003)(53546011)(26005)(6506007)(186003)(316002)(71200400001)(64756008)(110136005)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?a0p6eGlUL3R3U1IzS1JjZTlKbzY5VTF0SWo3UGREZDZPcDRuamdmcmlndXZl?=
+ =?utf-8?B?b3lBOHR5TXMxblJ3ZDB2bENwWGdyOXBFeVhLYkxHeE1iZDVFRTFwWUVOakFt?=
+ =?utf-8?B?Qk9xWE1Qbk9JK0FWbHFqT3V6cm1RUEw2ZFBxdk9Sdy81RXo3dHJyWGNmV1F1?=
+ =?utf-8?B?K3VUSmlIeGdTb1ZsOU9WbjlzaGpUYzN3dUZtWE1RRFdObldvNFp5eUgzNXNT?=
+ =?utf-8?B?RjFtMHdFdGY5QW1MSHhKWitzN1VrTjQxZkxZb2lUQ0g2SkxnMWZ6SnJ2STBB?=
+ =?utf-8?B?M0pnOTVrQ2gxdHVlYTNEZkc5YTZmYmNIVU0zN040bnZUU1c0TE9KaXBxZi96?=
+ =?utf-8?B?QnBRN1MrNERzWG1yUGpIZ2FEaFdTUFpQQnFKb2pXRlJpU3JuT004WGdDczEw?=
+ =?utf-8?B?ZmNmMkxQMXpvc0QyYVVIeGFXMlB1K21zRU8zeUJOa2g5dEdTTG9hc2tZTFZQ?=
+ =?utf-8?B?OEpLK3MwM1k1b01ERXBUekx4VENhNVhuN2xyd3N6NmEzRXQwQ0x3aStzM0g2?=
+ =?utf-8?B?aEh2TC9GS0FhbkZFMVVKS2tNUWZJYUVFTzBlbjh2T0dBdlUyanlDQkl1R2RP?=
+ =?utf-8?B?SmZwTjNJZ1hvNGZ6RTBPZmUwZ3dvUS9SOG9mNHVGVmxYSFdJMVhCY1oxdndv?=
+ =?utf-8?B?dFBJakNETUtURFR6ci9jdHp5ekk2RWRNZWU3Mk9oazRRdFEyODlpdzRLN05Y?=
+ =?utf-8?B?VWRIVmVGYzR6SXBNQWpIQWJWRlIwdjBPU2FSK3R2OW51Mk14dm5BcUpwN1NQ?=
+ =?utf-8?B?R3g0WHoxS0RrVVd3SXF3STdSR0RkZzNZeEhIMkpDNmlCV0VQRHNiSnovM1Uw?=
+ =?utf-8?B?Smt0UTJFS3orZ1ZFbGRSM25YdW5sNTZrZmVocDFneWtVN1pxQnJWTWNQRTZX?=
+ =?utf-8?B?bFY0Y2lkTHh2Rm5tcGZkTGJYOUEwNlRwWEtEZTVDbU4zYTdNNkl5MFRrVXJS?=
+ =?utf-8?B?WUxNaG1GbkF2NE5hb0VCa3k5UG9Ya1NURTZJcmk4NVNZTTJpTmtvM0ZFWFFU?=
+ =?utf-8?B?cUcvU29TVjZYVU1Mei9JU3lKckFuQzZvK1hxMXNKcWJhV0d6MC9JYUliMkl3?=
+ =?utf-8?B?TTVYbTUwOUx5Nlk2K2pDd2VqS1B2d3FUdE9tS1I0UmlncG9pRjZ1VmNJZFNu?=
+ =?utf-8?B?RnFwMHlObmcxWmR0MjA2RXN0dlBJZTZIZmJHenNPdnpUaUsyckhtWWxxTW5V?=
+ =?utf-8?B?SXhIa05RM0RReHdaZWdxajFmdHFtMnlucDJTeitleXRIV1BUaWlrci9hZmRB?=
+ =?utf-8?B?enBodmhaSTQ3c0pNTGVkRm1SaG9mWjZFRmlFYlJCMXJkUWhmdUZGaHdRREZ6?=
+ =?utf-8?B?V3p4L21ORnN4UllZOURxTUl3Vk0zTGFLck5rQjVDSk1tV0N5VjlRTWlUbWlO?=
+ =?utf-8?B?VWcrd1hkcHd4SE9mT01JNS92eEI3d3VpTXhjQTNUbHd0YjBzK2xJcXhnVEth?=
+ =?utf-8?B?VnREUTF4bGovQUdXbzIwUkQwR3pzYUtQaS9WbTIzMzJja3NPL0dlWXVYdks2?=
+ =?utf-8?B?QVJBWVpoZ3l3MFFlRWZFdnFtT3pYcUR0MlVvSW1Zb0tFdVR5MFdRWlJCTWNZ?=
+ =?utf-8?B?V0thb2dDRk55MlBJcmpKS3pWMWxWS3pDdjRnWmFiVFd4aUdwL0V0b3llc1dm?=
+ =?utf-8?B?a0VsbkhNbk9OYkk0SkNXdzVMZmNsd1lMWFRhbzVBSjVPd0p3aGRJU0VZdkhR?=
+ =?utf-8?B?VURZbU1hN3lpbk9CdExLSGFPT2UxRUVQTGcyUmpVcFZMbHFWT3NMTkp4RTA3?=
+ =?utf-8?B?SlhyQWVxQU1YakdhRTlxdEN5cjdBakFraTNHSnRXdGd2SFpHVFR1bm1yVzY3?=
+ =?utf-8?B?eS9aNjBPRG5MTGY0Vnp4K3hLRElLMjJWU0dpWlBGNnJOKzVZbjNpa1BsWDQ0?=
+ =?utf-8?B?cHZsdm9XdDNqRisvT3htVFZOQnNFY0NvZ1F2bElMd0xISDZQeHY0V0p4MjBi?=
+ =?utf-8?B?NVV0dmk5VFdyRDY1cHB5T2Z2bkIreHkxUEltQ1lqSi84enZCczJxcEhFSVpB?=
+ =?utf-8?B?S3RjZmNTTGRLN2I0U3hlYWVIRGJPZ1QyK28ydW9qUUxodnNza1gzMnZnbkY2?=
+ =?utf-8?B?UUk4b01QRHVrdDdGZXAyUXAvbnRxUzk3Wkc0V1JqSWpjWHBvUDBOTUFzVDFC?=
+ =?utf-8?Q?d7X03S+BXpfwuNSxGP7CdGdB1?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 2/2] i2c: aspeed: support ast2600 i2cv2 new register
- mode driver
-Content-Language: en-US
-To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Philipp Zabel <p.zabel@pengutronix.de>, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20230220061745.1973981-1-ryan_chen@aspeedtech.com>
- <20230220061745.1973981-3-ryan_chen@aspeedtech.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230220061745.1973981-3-ryan_chen@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5274.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49059253-8bc1-4123-65d0-08db1322da70
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2023 09:14:21.7359
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GX4JaJCb4px+wJFp7VZgmPxgX3eZeEs30NVX/Ic5rk2Jhn8FxavE2XvM0vu4u4347NSVElHSR9hWHJ6+5qI9Z931QZK3T0AXP0DjmN7s3WU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4505
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,863 +153,169 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 20/02/2023 07:17, Ryan Chen wrote:
-> Add i2cv2 new register mode driver to support AST2600 i2c new register
-> mode. AST2600 i2c controller have legacy and new register mode. The
-> new register mode have global register support 4 base clock for scl
-> clock selection, and new clock divider mode. The i2c new register mode
-> have separate register set to control i2c master and slave.
-> 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> ---
->  MAINTAINERS                      |    9 +
->  drivers/i2c/busses/Kconfig       |   11 +
->  drivers/i2c/busses/Makefile      |    1 +
->  drivers/i2c/busses/i2c-ast2600.c | 1703 ++++++++++++++++++++++++++++++
->  4 files changed, 1724 insertions(+)
->  create mode 100644 drivers/i2c/busses/i2c-ast2600.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 749710e22b4d..c9841568cb24 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1924,6 +1924,15 @@ F:	Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2400-i2c-ic.
->  F:	drivers/i2c/busses/i2c-aspeed.c
->  F:	drivers/irqchip/irq-aspeed-i2c-ic.c
->  
-> +ARM/ASPEED I2CV2 DRIVER
-> +M:      Ryan Chen <ryan_chen@aspeedtech.com>
-> +R:      Andrew Jeffery <andrew@aj.id.au>
-> +L:      linux-i2c@vger.kernel.org
-> +L:      openbmc@lists.ozlabs.org (moderated for non-subscribers)
-> +S:      Maintained
-> +F:      Documentation/devicetree/bindings/i2c/aspeed,i2cv2.yaml
-> +F:      drivers/i2c/busses/i2c-ast2600.c
-> +
->  ARM/ASPEED MACHINE SUPPORT
->  M:	Joel Stanley <joel@jms.id.au>
->  R:	Andrew Jeffery <andrew@aj.id.au>
-> diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-> index 7284206b278b..f3f7500ce768 100644
-> --- a/drivers/i2c/busses/Kconfig
-> +++ b/drivers/i2c/busses/Kconfig
-> @@ -389,6 +389,17 @@ config I2C_ALTERA
->  	  This driver can also be built as a module.  If so, the module
->  	  will be called i2c-altera.
->  
-> +config I2C_AST2600
-> +	tristate "Aspeed I2C v2 Controller"
-> +	depends on ARCH_ASPEED || COMPILE_TEST
-> +	select I2C_SMBUS
-> +	help
-> +	  If you say yes to this option, support will be included for the
-> +	  Aspeed I2C controller with new register set.
-> +
-> +	  This driver can also be built as a module.  If so, the module
-> +	  will be called i2c-new-aspeed.
-> +
->  config I2C_ASPEED
->  	tristate "Aspeed I2C Controller"
->  	depends on ARCH_ASPEED || COMPILE_TEST
-> diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
-> index c5cac15f075c..d0ab4d45781c 100644
-> --- a/drivers/i2c/busses/Makefile
-> +++ b/drivers/i2c/busses/Makefile
-> @@ -38,6 +38,7 @@ obj-$(CONFIG_I2C_POWERMAC)	+= i2c-powermac.o
->  obj-$(CONFIG_I2C_ALTERA)	+= i2c-altera.o
->  obj-$(CONFIG_I2C_AMD_MP2)	+= i2c-amd-mp2-pci.o i2c-amd-mp2-plat.o
->  obj-$(CONFIG_I2C_ASPEED)	+= i2c-aspeed.o
-> +obj-$(CONFIG_I2C_AST2600)	+= i2c-ast2600.o
->  obj-$(CONFIG_I2C_AT91)		+= i2c-at91.o
->  i2c-at91-objs			:= i2c-at91-core.o i2c-at91-master.o
->  ifeq ($(CONFIG_I2C_AT91_SLAVE_EXPERIMENTAL),y)
-> diff --git a/drivers/i2c/busses/i2c-ast2600.c b/drivers/i2c/busses/i2c-ast2600.c
-> new file mode 100644
-> index 000000000000..b5fe0af57d11
-> --- /dev/null
-> +++ b/drivers/i2c/busses/i2c-ast2600.c
-> @@ -0,0 +1,1703 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * ASPEED AST2600 new register set I2C controller driver
-> + *
-> + * Copyright (C) ASPEED Technology Inc.
-> + */
-> +#include <linux/clk.h>
-> +#include <linux/err.h>
-> +#include <linux/i2c.h>
-> +#include <linux/io.h>
-> +#include <linux/slab.h>
-> +#include <linux/delay.h>
-> +#include <linux/reset.h>
-> +#include <linux/module.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/completion.h>
-> +#include <linux/of.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/regmap.h>
-> +#include <linux/of_device.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/i2c-smbus.h>
-> +
-> +/*
-> + * APB clk : 100Mhz
-> + * div	: scl		: baseclk [APB/((div/2) + 1)] : tBuf [1/bclk * 16]
-> + * I2CG10[31:24] base clk4 for i2c auto recovery timeout counter (0xC6)
-> + * I2CG10[23:16] base clk3 for Standard-mode (100Khz) min tBuf 4.7us
-> + * 0x3c : 100.8Khz	: 3.225Mhz					  : 4.96us
-> + * 0x3d : 99.2Khz	: 3.174Mhz					  : 5.04us
-> + * 0x3e : 97.65Khz	: 3.125Mhz					  : 5.12us
-> + * 0x40 : 97.75Khz	: 3.03Mhz					  : 5.28us
-> + * 0x41 : 99.5Khz	: 2.98Mhz					  : 5.36us (default)
-> + * I2CG10[15:8] base clk2 for Fast-mode (400Khz) min tBuf 1.3us
-> + * 0x12 : 400Khz	: 10Mhz						  : 1.6us
-> + * I2CG10[7:0] base clk1 for Fast-mode Plus (1Mhz) min tBuf 0.5us
-> + * 0x08 : 1Mhz		: 20Mhz						  : 0.8us
-> + */
-> +#define AST2600_I2CG_ISR			0x00
-> +#define AST2600_I2CG_SLAVE_ISR		0x04
-> +#define AST2600_I2CG_OWNER		0x08
-> +#define AST2600_I2CG_CTRL		0x0C
-> +#define AST2600_I2CG_CLK_DIV_CTRL	0x10
-> +
-> +#define AST2600_I2CG_SLAVE_PKT_NAK	BIT(4)
-> +#define AST2600_I2CG_M_S_SEPARATE_INTR	BIT(3)
-> +#define AST2600_I2CG_CTRL_NEW_REG	BIT(2)
-> +#define AST2600_I2CG_CTRL_NEW_CLK_DIV	BIT(1)
-> +
-> +#define AST2600_GLOBAL_INIT				\
-> +			(AST2600_I2CG_CTRL_NEW_REG |	\
-> +			AST2600_I2CG_CTRL_NEW_CLK_DIV)
-> +#define I2CCG_DIV_CTRL 0xC6411208
-> +
-> +/* 0x00 : I2CC Master/Slave Function Control Register  */
-> +#define AST2600_I2CC_FUN_CTRL		0x00
-> +#define AST2600_I2CC_SLAVE_ADDR_RX_EN		BIT(20)
-> +#define AST2600_I2CC_MASTER_RETRY_MASK		GENMASK(19, 18)
-> +#define AST2600_I2CC_MASTER_RETRY(x)		(((x) & GENMASK(1, 0)) << 18)
-> +#define AST2600_I2CC_BUS_AUTO_RELEASE		BIT(17)
-> +#define AST2600_I2CC_M_SDA_LOCK_EN			BIT(16)
-> +#define AST2600_I2CC_MULTI_MASTER_DIS		BIT(15)
-> +#define AST2600_I2CC_M_SCL_DRIVE_EN			BIT(14)
-> +#define AST2600_I2CC_MSB_STS				BIT(9)
-> +#define AST2600_I2CC_SDA_DRIVE_1T_EN		BIT(8)
-> +#define AST2600_I2CC_M_SDA_DRIVE_1T_EN		BIT(7)
-> +#define AST2600_I2CC_M_HIGH_SPEED_EN		BIT(6)
-> +/* reserver 5 : 2 */
-> +#define AST2600_I2CC_SLAVE_EN			BIT(1)
-> +#define AST2600_I2CC_MASTER_EN			BIT(0)
-> +
-> +/* 0x04 : I2CC Master/Slave Clock and AC Timing Control Register #1 */
-> +#define AST2600_I2CC_AC_TIMING		0x04
-> +#define AST2600_I2CC_TTIMEOUT(x)			(((x) & GENMASK(4, 0)) << 24)
-> +#define AST2600_I2CC_TCKHIGHMIN(x)			(((x) & GENMASK(3, 0)) << 20)
-> +#define AST2600_I2CC_TCKHIGH(x)			(((x) & GENMASK(3, 0)) << 16)
-> +#define AST2600_I2CC_TCKLOW(x)			(((x) & GENMASK(3, 0)) << 12)
-> +#define AST2600_I2CC_THDDAT(x)			(((x) & GENMASK(1, 0)) << 10)
-> +#define AST2600_I2CC_TOUTBASECLK(x)			(((x) & GENMASK(1, 0)) << 8)
-> +#define AST2600_I2CC_TBASECLK(x)			((x) & GENMASK(3, 0))
-> +
-> +/* 0x08 : I2CC Master/Slave Transmit/Receive Byte Buffer Register */
-> +#define AST2600_I2CC_STS_AND_BUFF		0x08
-> +#define AST2600_I2CC_TX_DIR_MASK			GENMASK(31, 29)
-> +#define AST2600_I2CC_SDA_OE				BIT(28)
-> +#define AST2600_I2CC_SDA_O				BIT(27)
-> +#define AST2600_I2CC_SCL_OE				BIT(26)
-> +#define AST2600_I2CC_SCL_O				BIT(25)
-> +
-> +#define AST2600_I2CC_SCL_LINE_STS			BIT(18)
-> +#define AST2600_I2CC_SDA_LINE_STS			BIT(17)
-> +#define AST2600_I2CC_BUS_BUSY_STS			BIT(16)
-> +
-> +#define AST2600_I2CC_GET_RX_BUFF(x)			(((x) >> 8) & GENMASK(7, 0))
-> +
-> +/* 0x0C : I2CC Master/Slave Pool Buffer Control Register  */
-> +#define AST2600_I2CC_BUFF_CTRL		0x0C
-> +#define AST2600_I2CC_GET_RX_BUF_LEN(x)		(((x) >> 24) & GENMASK(5, 0))
-> +#define AST2600_I2CC_SET_RX_BUF_LEN(x)		(((((x) - 1) & GENMASK(4, 0)) << 16) | BIT(0))
-> +#define AST2600_I2CC_SET_TX_BUF_LEN(x)		(((((x) - 1) & GENMASK(4, 0)) << 8) | BIT(0))
-> +#define AST2600_I2CC_GET_TX_BUF_LEN(x)		((((x) >> 8) & GENMASK(4, 0)) + 1)
-> +
-> +/* 0x10 : I2CM Master Interrupt Control Register */
-> +#define AST2600_I2CM_IER			0x10
-> +/* 0x14 : I2CM Master Interrupt Status Register   : WC */
-> +#define AST2600_I2CM_ISR			0x14
-> +
-> +#define AST2600_I2CM_PKT_TIMEOUT			BIT(18)
-> +#define AST2600_I2CM_PKT_ERROR			BIT(17)
-> +#define AST2600_I2CM_PKT_DONE			BIT(16)
-> +
-> +#define AST2600_I2CM_BUS_RECOVER_FAIL		BIT(15)
-> +#define AST2600_I2CM_SDA_DL_TO			BIT(14)
-> +#define AST2600_I2CM_BUS_RECOVER			BIT(13)
-> +#define AST2600_I2CM_SMBUS_ALT			BIT(12)
-> +
-> +#define AST2600_I2CM_SCL_LOW_TO			BIT(6)
-> +#define AST2600_I2CM_ABNORMAL			BIT(5)
-> +#define AST2600_I2CM_NORMAL_STOP			BIT(4)
-> +#define AST2600_I2CM_ARBIT_LOSS			BIT(3)
-> +#define AST2600_I2CM_RX_DONE			BIT(2)
-> +#define AST2600_I2CM_TX_NAK				BIT(1)
-> +#define AST2600_I2CM_TX_ACK				BIT(0)
-> +
-> +/* 0x18 : I2CM Master Command/Status Register   */
-> +#define AST2600_I2CM_CMD_STS		0x18
-> +#define AST2600_I2CM_PKT_ADDR(x)			(((x) & GENMASK(6, 0)) << 24)
-> +#define AST2600_I2CM_PKT_EN				BIT(16)
-> +#define AST2600_I2CM_SDA_OE_OUT_DIR			BIT(15)
-> +#define AST2600_I2CM_SDA_O_OUT_DIR			BIT(14)
-> +#define AST2600_I2CM_SCL_OE_OUT_DIR			BIT(13)
-> +#define AST2600_I2CM_SCL_O_OUT_DIR			BIT(12)
-> +#define AST2600_I2CM_RECOVER_CMD_EN			BIT(11)
-> +
-> +#define AST2600_I2CM_RX_DMA_EN			BIT(9)
-> +#define AST2600_I2CM_TX_DMA_EN			BIT(8)
-> +/* Command Bit */
-> +#define AST2600_I2CM_RX_BUFF_EN			BIT(7)
-> +#define AST2600_I2CM_TX_BUFF_EN			BIT(6)
-> +#define AST2600_I2CM_STOP_CMD			BIT(5)
-> +#define AST2600_I2CM_RX_CMD_LAST			BIT(4)
-> +#define AST2600_I2CM_RX_CMD				BIT(3)
-> +
-> +#define AST2600_I2CM_TX_CMD				BIT(1)
-> +#define AST2600_I2CM_START_CMD			BIT(0)
-> +
-> +/* 0x1C : I2CM Master DMA Transfer Length Register	 */
-> +#define AST2600_I2CM_DMA_LEN		0x1C
-> +/* Tx Rx support length 1 ~ 4096 */
-> +#define AST2600_I2CM_SET_RX_DMA_LEN(x)	((((x) & GENMASK(11, 0)) << 16) | BIT(31))
-> +#define AST2600_I2CM_SET_TX_DMA_LEN(x)	(((x) & GENMASK(11, 0)) | BIT(15))
-> +
-> +/* 0x20 : I2CS Slave Interrupt Control Register   */
-> +#define AST2600_I2CS_IER			0x20
-> +/* 0x24 : I2CS Slave Interrupt Status Register	 */
-> +#define AST2600_I2CS_ISR			0x24
-> +
-> +#define AST2600_I2CS_ADDR_INDICATE_MASK	GENMASK(31, 30)
-> +#define AST2600_I2CS_SLAVE_PENDING			BIT(29)
-> +
-> +#define AST2600_I2CS_WAIT_TX_DMA			BIT(25)
-> +#define AST2600_I2CS_WAIT_RX_DMA			BIT(24)
-> +
-> +#define AST2600_I2CS_ADDR3_NAK			BIT(22)
-> +#define AST2600_I2CS_ADDR2_NAK			BIT(21)
-> +#define AST2600_I2CS_ADDR1_NAK			BIT(20)
-> +
-> +#define AST2600_I2CS_ADDR_MASK			GENMASK(19, 18)
-> +#define AST2600_I2CS_PKT_ERROR			BIT(17)
-> +#define AST2600_I2CS_PKT_DONE			BIT(16)
-> +#define AST2600_I2CS_INACTIVE_TO			BIT(15)
-> +
-> +#define AST2600_I2CS_SLAVE_MATCH			BIT(7)
-> +#define AST2600_I2CS_ABNOR_STOP			BIT(5)
-> +#define AST2600_I2CS_STOP				BIT(4)
-> +#define AST2600_I2CS_RX_DONE_NAK			BIT(3)
-> +#define AST2600_I2CS_RX_DONE			BIT(2)
-> +#define AST2600_I2CS_TX_NAK				BIT(1)
-> +#define AST2600_I2CS_TX_ACK				BIT(0)
-> +
-> +/* 0x28 : I2CS Slave CMD/Status Register   */
-> +#define AST2600_I2CS_CMD_STS		0x28
-> +#define AST2600_I2CS_ACTIVE_ALL			GENMASK(18, 17)
-> +#define AST2600_I2CS_PKT_MODE_EN			BIT(16)
-> +#define AST2600_I2CS_AUTO_NAK_NOADDR		BIT(15)
-> +#define AST2600_I2CS_AUTO_NAK_EN			BIT(14)
-> +
-> +#define AST2600_I2CS_ALT_EN				BIT(10)
-> +#define AST2600_I2CS_RX_DMA_EN			BIT(9)
-> +#define AST2600_I2CS_TX_DMA_EN			BIT(8)
-> +#define AST2600_I2CS_RX_BUFF_EN			BIT(7)
-> +#define AST2600_I2CS_TX_BUFF_EN			BIT(6)
-> +#define AST2600_I2CS_RX_CMD_LAST			BIT(4)
-> +
-> +#define AST2600_I2CS_TX_CMD				BIT(2)
-> +
-> +#define AST2600_I2CS_DMA_LEN		0x2C
-> +#define AST2600_I2CS_SET_RX_DMA_LEN(x)	(((((x) - 1) & GENMASK(11, 0)) << 16) | BIT(31))
-> +#define AST2600_I2CS_RX_DMA_LEN_MASK	(GENMASK(11, 0) << 16)
-> +
-> +#define AST2600_I2CS_SET_TX_DMA_LEN(x)	((((x) - 1) & GENMASK(11, 0)) | BIT(15))
-> +#define AST2600_I2CS_TX_DMA_LEN_MASK	GENMASK(11, 0)
-> +
-> +/* I2CM Master DMA Tx Buffer Register   */
-> +#define AST2600_I2CM_TX_DMA			0x30
-> +/* I2CM Master DMA Rx Buffer Register	*/
-> +#define AST2600_I2CM_RX_DMA			0x34
-> +/* I2CS Slave DMA Tx Buffer Register   */
-> +#define AST2600_I2CS_TX_DMA			0x38
-> +/* I2CS Slave DMA Rx Buffer Register   */
-> +#define AST2600_I2CS_RX_DMA			0x3C
-> +
-> +#define AST2600_I2CS_ADDR_CTRL		0x40
-> +
-> +#define	AST2600_I2CS_ADDR3_MASK		GENMASK(22, 16)
-> +#define	AST2600_I2CS_ADDR2_MASK		GENMASK(14, 8)
-> +#define	AST2600_I2CS_ADDR1_MASK		GENMASK(6, 0)
-
-Drop indent after #define
-
-> +
-> +#define AST2600_I2CM_DMA_LEN_STS		0x48
-> +#define AST2600_I2CS_DMA_LEN_STS		0x4C
-> +
-> +#define AST2600_I2C_GET_TX_DMA_LEN(x)		((x) & GENMASK(12, 0))
-> +#define AST2600_I2C_GET_RX_DMA_LEN(x)		(((x) >> 16) & GENMASK(12, 0))
-> +
-> +/* 0x40 : Slave Device Address Register */
-> +#define AST2600_I2CS_ADDR3_ENABLE			BIT(23)
-> +#define AST2600_I2CS_ADDR3(x)			((x) << 16)
-> +
-> +#define AST2600_I2CS_ADDR2_ENABLE			BIT(15)
-> +#define AST2600_I2CS_ADDR2(x)			((x) << 8)
-> +#define AST2600_I2CS_ADDR1_ENABLE			BIT(7)
-> +#define AST2600_I2CS_ADDR1(x)			(x)
-> +
-> +#define I2C_SLAVE_MSG_BUF_SIZE		256
-> +
-> +#define AST2600_I2C_DMA_SIZE		4096
-> +
-> +#define MASTER_TRIGGER_LAST_STOP	(AST2600_I2CM_RX_CMD_LAST | AST2600_I2CM_STOP_CMD)
-> +#define SLAVE_TRIGGER_CMD	(AST2600_I2CS_ACTIVE_ALL | AST2600_I2CS_PKT_MODE_EN)
-> +
-> +/* i2c timeout counter: use base clk4 1Mhz
-> + * 1/(1000/4096) = 4.096ms * 8 = 32.768ms
-> + */
-> +#define AST_I2C_TIMEOUT_CLK		0x2
-> +#define AST_I2C_TIMEOUT_COUNT	0x8
-> +
-> +struct ast2600_i2c_timing_table {
-> +	u32 divisor;
-> +	u32 timing;
-> +};
-> +
-> +enum xfer_mode {
-> +	BYTE_MODE = 0,
-> +	BUFF_MODE,
-> +	DMA_MODE,
-> +};
-> +
-> +struct ast2600_i2c_bus {
-> +	struct i2c_adapter		adap;
-> +	struct device			*dev;
-> +	void __iomem			*reg_base;
-> +	struct regmap			*gr_regmap;
-> +	struct reset_control		*rst;
-> +	int				irq;
-> +	enum xfer_mode			mode;
-> +	struct clk			*clk;
-> +	u32				apb_clk;
-> +	u32				bus_frequency;
-> +	int				slave_operate;
-> +	int				timeout_enable;
-> +	/* smbus alert */
-> +	int				alert_enable;
-> +	struct i2c_smbus_alert_setup	alert_data;
-> +	struct i2c_client		*ara;
-> +	/* Multi-master */
-> +	bool				multi_master;
-> +	/* master structure */
-> +	int				cmd_err;
-> +	struct completion		cmd_complete;
-> +	struct i2c_msg			*msgs;
-> +	size_t				buf_index;
-> +	/* cur xfer msgs index*/
-> +	int				msgs_index;
-> +	int				msgs_count;
-> +	u8				*master_safe_buf;
-> +	dma_addr_t			master_dma_addr;
-> +	/*total xfer count */
-> +	int				master_xfer_cnt;
-> +	/* Buffer mode */
-> +	void __iomem			*buf_base;
-> +	size_t				buf_size;
-> +	/* Slave structure */
-> +	int				slave_xfer_len;
-> +	int				slave_xfer_cnt;
-> +#ifdef CONFIG_I2C_SLAVE
-> +	unsigned char			*slave_dma_buf;
-> +	dma_addr_t			slave_dma_addr;
-> +	struct i2c_client		*slave;
-> +#endif
-> +};
-> +
-
-(...)
-
-> +
-> +	//Check 0x14's SDA and SCL status
-
-Use Linux coding style. See Coding style document.
-
-> +	state = readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF);
-> +	if (!(state & AST2600_I2CC_SDA_LINE_STS) && (state & AST2600_I2CC_SCL_LINE_STS)) {
-> +		writel(AST2600_I2CM_RECOVER_CMD_EN, i2c_bus->reg_base + AST2600_I2CM_CMD_STS);
-> +		r = wait_for_completion_timeout(&i2c_bus->cmd_complete, i2c_bus->adap.timeout);
-> +		if (r == 0) {
-> +			dev_dbg(i2c_bus->dev, "recovery timed out\n");
-> +			ret = -ETIMEDOUT;
-> +		} else {
-> +			if (i2c_bus->cmd_err) {
-> +				dev_dbg(i2c_bus->dev, "recovery error\n");
-> +				ret = -EPROTO;
-> +			}
-> +		}
-> +	}
-> +
-> +	dev_dbg(i2c_bus->dev, "Recovery done [%x]\n",
-> +		readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF));
-> +	if (readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF) & AST2600_I2CC_BUS_BUSY_STS) {
-> +		dev_dbg(i2c_bus->dev, "Can't recovery bus [%x]\n",
-> +			readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF));
-> +	}
-> +
-> +	writel(ctrl, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-> +	return ret;
-> +}
-> +
-> +#ifdef CONFIG_I2C_SLAVE
-> +static void ast2600_i2c_slave_packet_dma_irq(struct ast2600_i2c_bus *i2c_bus, u32 sts)
-> +{
-> +	int slave_rx_len;
-> +	u32 cmd = 0;
-> +	u8 value;
-> +	int i = 0;
-> +
-> +	sts &= ~(AST2600_I2CS_SLAVE_PENDING);
-> +	/* Handle i2c slave timeout condition */
-> +	if (AST2600_I2CS_INACTIVE_TO & sts) {
-> +		cmd = SLAVE_TRIGGER_CMD;
-> +		cmd |= AST2600_I2CS_RX_DMA_EN;
-> +		writel(AST2600_I2CS_SET_RX_DMA_LEN(I2C_SLAVE_MSG_BUF_SIZE),
-> +		       i2c_bus->reg_base + AST2600_I2CS_DMA_LEN);
-> +		writel(cmd, i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_STOP, &value);
-> +		return;
-> +	}
-> +
-> +	sts &= ~(AST2600_I2CS_PKT_DONE | AST2600_I2CS_PKT_ERROR);
-> +
-> +	switch (sts) {
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE | AST2600_I2CS_WAIT_RX_DMA:
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_WAIT_RX_DMA:
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_WRITE_REQUESTED, &value);
-> +		slave_rx_len = AST2600_I2C_GET_RX_DMA_LEN(readl(i2c_bus->reg_base +
-> +						      AST2600_I2CS_DMA_LEN_STS));
-> +		for (i = 0; i < slave_rx_len; i++) {
-> +			i2c_slave_event(i2c_bus->slave, I2C_SLAVE_WRITE_RECEIVED,
-> +					&i2c_bus->slave_dma_buf[i]);
-> +		}
-> +		writel(AST2600_I2CS_SET_RX_DMA_LEN(I2C_SLAVE_MSG_BUF_SIZE),
-> +				i2c_bus->reg_base + AST2600_I2CS_DMA_LEN);
-> +		cmd = SLAVE_TRIGGER_CMD | AST2600_I2CS_RX_DMA_EN;
-> +		break;
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_STOP:
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_STOP, &value);
-> +		writel(AST2600_I2CS_SET_RX_DMA_LEN(I2C_SLAVE_MSG_BUF_SIZE),
-> +				i2c_bus->reg_base + AST2600_I2CS_DMA_LEN);
-> +		cmd = SLAVE_TRIGGER_CMD | AST2600_I2CS_RX_DMA_EN;
-> +		break;
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE_NAK |
-> +			AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_WAIT_RX_DMA |
-> +			AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-> +	case AST2600_I2CS_RX_DONE_NAK | AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-> +	case AST2600_I2CS_RX_DONE | AST2600_I2CS_WAIT_RX_DMA | AST2600_I2CS_STOP:
-> +	case AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-> +	case AST2600_I2CS_RX_DONE | AST2600_I2CS_WAIT_RX_DMA:
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-> +		if (sts & AST2600_I2CS_SLAVE_MATCH)
-> +			i2c_slave_event(i2c_bus->slave, I2C_SLAVE_WRITE_REQUESTED, &value);
-> +
-> +		slave_rx_len = AST2600_I2C_GET_RX_DMA_LEN(readl(i2c_bus->reg_base +
-> +						      AST2600_I2CS_DMA_LEN_STS));
-> +		for (i = 0; i < slave_rx_len; i++) {
-> +			i2c_slave_event(i2c_bus->slave, I2C_SLAVE_WRITE_RECEIVED,
-> +					&i2c_bus->slave_dma_buf[i]);
-> +		}
-> +		writel(AST2600_I2CS_SET_RX_DMA_LEN(I2C_SLAVE_MSG_BUF_SIZE),
-> +		       i2c_bus->reg_base + AST2600_I2CS_DMA_LEN);
-> +		if (sts & AST2600_I2CS_STOP)
-> +			i2c_slave_event(i2c_bus->slave, I2C_SLAVE_STOP, &value);
-> +		cmd = SLAVE_TRIGGER_CMD | AST2600_I2CS_RX_DMA_EN;
-> +		break;
-> +
-> +	/* it is Mw data Mr coming -> it need send tx */
-> +	case AST2600_I2CS_RX_DONE | AST2600_I2CS_WAIT_TX_DMA:
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE | AST2600_I2CS_WAIT_TX_DMA:
-> +		/* it should be repeat start read */
-> +		if (sts & AST2600_I2CS_SLAVE_MATCH)
-> +			i2c_slave_event(i2c_bus->slave, I2C_SLAVE_WRITE_REQUESTED, &value);
-> +
-> +		slave_rx_len = AST2600_I2C_GET_RX_DMA_LEN(readl(i2c_bus->reg_base +
-> +						      AST2600_I2CS_DMA_LEN_STS));
-> +		for (i = 0; i < slave_rx_len; i++) {
-> +			i2c_slave_event(i2c_bus->slave, I2C_SLAVE_WRITE_RECEIVED,
-> +					&i2c_bus->slave_dma_buf[i]);
-> +		}
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_READ_REQUESTED,
-> +				&i2c_bus->slave_dma_buf[0]);
-> +		writel(0, i2c_bus->reg_base + AST2600_I2CS_DMA_LEN_STS);
-> +		writel(AST2600_I2CS_SET_TX_DMA_LEN(1),
-> +				i2c_bus->reg_base + AST2600_I2CS_DMA_LEN);
-> +		cmd = SLAVE_TRIGGER_CMD | AST2600_I2CS_TX_DMA_EN;
-> +		break;
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_WAIT_TX_DMA:
-> +		/* First Start read */
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_READ_REQUESTED,
-> +				&i2c_bus->slave_dma_buf[0]);
-> +		writel(AST2600_I2CS_SET_TX_DMA_LEN(1),
-> +				i2c_bus->reg_base + AST2600_I2CS_DMA_LEN);
-> +		cmd = SLAVE_TRIGGER_CMD | AST2600_I2CS_TX_DMA_EN;
-> +		break;
-> +	case AST2600_I2CS_WAIT_TX_DMA:
-> +		/* it should be next start read */
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_READ_PROCESSED,
-> +				&i2c_bus->slave_dma_buf[0]);
-> +		writel(0, i2c_bus->reg_base + AST2600_I2CS_DMA_LEN_STS);
-> +		writel(AST2600_I2CS_SET_TX_DMA_LEN(1),
-> +				i2c_bus->reg_base + AST2600_I2CS_DMA_LEN);
-> +		cmd = SLAVE_TRIGGER_CMD | AST2600_I2CS_TX_DMA_EN;
-> +		break;
-> +
-> +	case AST2600_I2CS_TX_NAK | AST2600_I2CS_STOP:
-> +		/* it just tx complete */
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_STOP, &value);
-> +		writel(0, i2c_bus->reg_base + AST2600_I2CS_DMA_LEN_STS);
-> +		writel(AST2600_I2CS_SET_RX_DMA_LEN(I2C_SLAVE_MSG_BUF_SIZE),
-> +		       i2c_bus->reg_base + AST2600_I2CS_DMA_LEN);
-> +		cmd = SLAVE_TRIGGER_CMD | AST2600_I2CS_RX_DMA_EN;
-> +		break;
-> +	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE:
-> +		cmd = 0;
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_WRITE_REQUESTED, &value);
-> +		break;
-> +	case AST2600_I2CS_STOP:
-> +		cmd = 0;
-> +		i2c_slave_event(i2c_bus->slave, I2C_SLAVE_STOP, &value);
-> +		break;
-> +	default:
-> +		dev_dbg(i2c_bus->dev, "todo slave isr case %x, sts %x\n", sts,
-> +			readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF));
-> +		break;
-> +	}
-> +
-> +	if (cmd)
-> +		writel(cmd, i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-> +	writel(AST2600_I2CS_PKT_DONE, i2c_bus->reg_base + AST2600_I2CS_ISR);
-> +	readl(i2c_bus->reg_base + AST2600_I2CS_ISR);
-> +	dev_dbg(i2c_bus->dev, "cmd %x\n", cmd);
-> +}
-> +
-> +static void ast2600_i2c_slave_packet_buff_irq(struct ast2600_i2c_bus *i2c_bus, u32 sts)
-> +{
-> +	int slave_rx_len = 0;
-> +	u32 cmd = 0;
-> +	u8 value;
-> +	int i = 0;
-> +
-> +	//due to master slave is common buffer, so need force the master stop not issue
-
-Ditto... and everywhere else.
-
-(...)
-
-> +
-> +static int ast2600_i2c_master_irq(struct ast2600_i2c_bus *i2c_bus)
-> +{
-> +	u32 sts = readl(i2c_bus->reg_base + AST2600_I2CM_ISR);
-> +	u32 ier = readl(i2c_bus->reg_base + AST2600_I2CM_IER);
-> +	u32 ctrl = 0;
-> +
-> +	dev_dbg(i2c_bus->dev, "M sts %x\n", sts);
-
-NAK. Don't drop debugs to interrupt handlers. This might flood the log
-and is unusable.
-
-> +	if (!i2c_bus->alert_enable)
-> +		sts &= ~AST2600_I2CM_SMBUS_ALT;
-> +
-> +	if (AST2600_I2CM_BUS_RECOVER_FAIL & sts) {
-> +		dev_dbg(i2c_bus->dev, "M clear isr: AST2600_I2CM_BUS_RECOVER_FAIL= %x\n", sts);
-
-No debugs in handlers.
-
-> +		writel(AST2600_I2CM_BUS_RECOVER_FAIL, i2c_bus->reg_base + AST2600_I2CM_ISR);
-> +		ctrl = readl(i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-> +		writel(0, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-> +		writel(ctrl, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-> +		i2c_bus->cmd_err = -EPROTO;
-> +		complete(&i2c_bus->cmd_complete);
-> +		return 1;
-> +	}
-> +
-> +	if (AST2600_I2CM_BUS_RECOVER & sts) {
-> +		dev_dbg(i2c_bus->dev, "M clear isr: AST2600_I2CM_BUS_RECOVER= %x\n", sts);
-
-Ditto
-
-> +		writel(AST2600_I2CM_BUS_RECOVER, i2c_bus->reg_base + AST2600_I2CM_ISR);
-> +		i2c_bus->cmd_err = 0;
-> +		complete(&i2c_bus->cmd_complete);
-> +		return 1;
-> +	}
-> +
-> +	if (AST2600_I2CM_SMBUS_ALT & sts) {
-> +		if (ier & AST2600_I2CM_SMBUS_ALT) {
-> +			dev_dbg(i2c_bus->dev, "M clear isr: AST2600_I2CM_SMBUS_ALT= %x\n", sts);
-
-Ditto
-
-> +			/* Disable ALT INT */
-> +			writel(ier & ~AST2600_I2CM_SMBUS_ALT, i2c_bus->reg_base + AST2600_I2CM_IER);
-> +			i2c_handle_smbus_alert(i2c_bus->ara);
-> +			writel(AST2600_I2CM_SMBUS_ALT, i2c_bus->reg_base + AST2600_I2CM_ISR);
-> +			dev_err(i2c_bus->dev,
-> +				"ast2600_master_alert_recv bus id %d, Disable Alt, Please Imple\n",
-> +				i2c_bus->adap.nr);
-
-Really? This is your intention? To print error on every error condition
-on every interrupt?
-
-> +			return 1;
-> +		}
-> +	}
-> +
-> +	i2c_bus->cmd_err = ast2600_i2c_is_irq_error(sts);
-> +	if (i2c_bus->cmd_err) {
-> +		dev_dbg(i2c_bus->dev, "received error interrupt: 0x%02x\n", sts);
-
-Drop
-
-> +		writel(AST2600_I2CM_PKT_DONE, i2c_bus->reg_base + AST2600_I2CM_ISR);
-> +		complete(&i2c_bus->cmd_complete);
-> +		return 1;
-> +	}
-> +
-> +	if (AST2600_I2CM_PKT_DONE & sts) {
-> +		ast2600_i2c_master_package_irq(i2c_bus, sts);
-> +		return 1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t ast2600_i2c_bus_irq(int irq, void *dev_id)
-> +{
-> +	struct ast2600_i2c_bus *i2c_bus = dev_id;
-> +
-> +#ifdef CONFIG_I2C_SLAVE
-> +	if (readl(i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL) & AST2600_I2CC_SLAVE_EN) {
-> +		if (ast2600_i2c_slave_irq(i2c_bus)) {
-> +//			dev_dbg(i2c_bus->dev, "bus-%d.slave handle\n", i2c_bus->adap.nr);
-
-Drop
-
-> +			return IRQ_HANDLED;
-> +		}
-> +	}
-> +#endif
-> +	return ast2600_i2c_master_irq(i2c_bus) ? IRQ_HANDLED : IRQ_NONE;
-> +}
-> +
-
-(...)
-
-> +
-> +static int ast2600_i2c_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *np = pdev->dev.of_node;
-> +	struct ast2600_i2c_bus *i2c_bus;
-> +	struct resource *res;
-> +	u32 global_ctrl;
-> +	int ret = 0;
-> +
-> +	i2c_bus = devm_kzalloc(&pdev->dev, sizeof(*i2c_bus), GFP_KERNEL);
-> +	if (!i2c_bus)
-> +		return -ENOMEM;
-> +
-> +	i2c_bus->rst = devm_reset_control_get_shared(&pdev->dev, NULL);
-> +	if (IS_ERR(i2c_bus->rst)) {
-> +		dev_err(&pdev->dev,
-> +			"missing or invalid reset controller device tree entry\n");
-> +		goto free_mem;
-> +	}
-> +	reset_control_deassert(i2c_bus->rst);
-> +
-> +	i2c_bus->gr_regmap = syscon_regmap_lookup_by_phandle(np, "aspeed,i2c-global");
-
-NAK, undocumented property. This is really untested patchset. Your code
-does not match bindings which do not match DTS.
-
-Send entire set - bindings, driver and DTS which all work together.
-
-Further you have several other undocumented properties.
-
-> +	if (IS_ERR(i2c_bus->gr_regmap)) {
-> +		dev_err(&pdev->dev, "failed to find ast2600 i2c global regmap\n");
-> +		ret = -ENOMEM;
-> +		goto free_mem;
-> +	}
-> +
-> +	regmap_read(i2c_bus->gr_regmap, AST2600_I2CG_CTRL, &global_ctrl);
-> +	if ((global_ctrl & AST2600_GLOBAL_INIT) != AST2600_GLOBAL_INIT) {
-> +		regmap_write(i2c_bus->gr_regmap, AST2600_I2CG_CTRL, AST2600_GLOBAL_INIT);
-> +		regmap_write(i2c_bus->gr_regmap, AST2600_I2CG_CLK_DIV_CTRL, I2CCG_DIV_CTRL);
-> +	}
-> +
-> +	i2c_bus->mode = DMA_MODE;
-> +	i2c_bus->slave_operate = 0;
-> +
-> +	if (of_property_read_bool(pdev->dev.of_node, "byte-mode"))
-
-This must be gone from DT, as you do not describe hardware but "force
-driver".
-
-> +		i2c_bus->mode = BYTE_MODE;> +
-> +	if (of_property_read_bool(pdev->dev.of_node, "buff-mode")) {
-
-This for sure is not property of DT.
-
-> +		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-> +		if (res && resource_size(res) >= 2)
-> +			i2c_bus->buf_base = devm_ioremap_resource(&pdev->dev, res);
-> +
-> +		if (!IS_ERR_OR_NULL(i2c_bus->buf_base))
-> +			i2c_bus->buf_size = resource_size(res)/2;
-> +
-> +		i2c_bus->mode = BUFF_MODE;
-> +	}
-> +
-> +	if (of_property_read_bool(pdev->dev.of_node, "timeout"))
-
-Also will be gone.
-
-> +		i2c_bus->timeout_enable = 1;
-> +
-> +	i2c_bus->dev = &pdev->dev;
-> +	init_completion(&i2c_bus->cmd_complete);
-> +
-> +	i2c_bus->reg_base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(i2c_bus->reg_base)) {
-> +		ret = PTR_ERR(i2c_bus->reg_base);
-> +		goto free_mem;
-> +	}
-> +
-> +	i2c_bus->irq = platform_get_irq(pdev, 0);
-> +	if (i2c_bus->irq < 0) {
-> +		dev_err(&pdev->dev, "no irq specified\n");
-> +		ret = -i2c_bus->irq;
-> +		goto unmap;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, i2c_bus);
-> +
-> +	i2c_bus->clk = devm_clk_get(i2c_bus->dev, NULL);
-> +	if (IS_ERR(i2c_bus->clk)) {
-> +		dev_err(i2c_bus->dev, "no clock defined\n");
-
-use dev_err_probe().
-
-> +		ret = -ENODEV;
-> +		goto unmap;
-> +	}
-> +	i2c_bus->apb_clk = clk_get_rate(i2c_bus->clk);
-> +	dev_dbg(i2c_bus->dev, "i2c_bus->apb_clk %d\n", i2c_bus->apb_clk);
-> +
-
-NAK, drop useless debug.
-
-> +
-> +	ret = of_property_read_u32(pdev->dev.of_node, "clock-frequency", &i2c_bus->bus_frequency);
-> +	if (ret < 0) {
-> +		dev_warn(&pdev->dev, "Could not read bus-frequency property\n");
-> +		i2c_bus->bus_frequency = 100000;
-> +	}
-> +
-> +	/* Initialize the I2C adapter */
-> +	i2c_bus->adap.owner = THIS_MODULE;
-> +	i2c_bus->adap.algo = &i2c_ast2600_algorithm;
-> +	i2c_bus->adap.retries = 0;
-> +	i2c_bus->adap.dev.parent = i2c_bus->dev;
-> +	i2c_bus->adap.dev.of_node = pdev->dev.of_node;
-> +	i2c_bus->adap.algo_data = i2c_bus;
-> +	strscpy(i2c_bus->adap.name, pdev->name, sizeof(i2c_bus->adap.name));
-> +	i2c_set_adapdata(&i2c_bus->adap, i2c_bus);
-> +
-> +	ast2600_i2c_init(i2c_bus);
-> +
-> +	ret = devm_request_irq(&pdev->dev, i2c_bus->irq, ast2600_i2c_bus_irq, 0,
-> +			       dev_name(&pdev->dev), i2c_bus);
-> +	if (ret < 0)
-> +		goto unmap;
-> +
-> +	if (of_property_read_bool(pdev->dev.of_node, "smbus-alert")) {
-
-There is no such property. Don't add undocumented properties to your code.
-
-> +
-> +	return 0;
-> +
-> +free_irq:
-> +	devm_free_irq(&pdev->dev, i2c_bus->irq, i2c_bus);
-
-Why?
-
-> +unmap:
-> +	devm_iounmap(&pdev->dev, i2c_bus->reg_base);
-
-Why?
-
-> +free_mem:
-> +	devm_kfree(&pdev->dev, i2c_bus);
-
-Why?
-
-> +
-> +	return ret;
-> +}
-> +
-> +static int ast2600_i2c_remove(struct platform_device *pdev)
-> +{
-> +	struct ast2600_i2c_bus *i2c_bus = platform_get_drvdata(pdev);
-> +
-> +	/* Disable everything. */
-> +	writel(0, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-> +	writel(0, i2c_bus->reg_base + AST2600_I2CM_IER);
-> +
-> +	devm_free_irq(&pdev->dev, i2c_bus->irq, i2c_bus);
-> +
-> +	i2c_del_adapter(&i2c_bus->adap);
-
-Wrong order of cleanup. It should be reversed to the probe, unless you
-have some reason, but then please explain.
-
-> +
-> +#ifdef CONFIG_I2C_SLAVE
-> +	/* for memory buffer initial */
-> +	if (i2c_bus->mode == DMA_MODE)
-> +		dma_free_coherent(i2c_bus->dev, I2C_SLAVE_MSG_BUF_SIZE,
-> +				i2c_bus->slave_dma_buf, i2c_bus->slave_dma_addr);
-> +#endif
-> +
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver ast2600_i2c_bus_driver = {
-> +	.probe = ast2600_i2c_probe,
-> +	.remove = ast2600_i2c_remove,
-> +	.driver = {
-> +		.name = KBUILD_MODNAME,
-> +		.of_match_table = ast2600_i2c_bus_of_table,
-> +	},
-> +};
-> +module_platform_driver(ast2600_i2c_bus_driver);
-> +
-> +MODULE_AUTHOR("Ryan Chen <ryan_chen@aspeedtech.com>");
-> +MODULE_DESCRIPTION("ASPEED AST2600 I2C Controller Driver");
-> +MODULE_LICENSE("GPL");
-
-Best regards,
-Krzysztof
-
+SGVsbG8gS3J6eXN6dG9mLA0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJv
+bTogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBsaW5hcm8ub3JnPg0K
+PiBTZW50OiBNb25kYXksIEZlYnJ1YXJ5IDIwLCAyMDIzIDM6NTkgUE0NCj4gVG86IFJ5YW4gQ2hl
+biA8cnlhbl9jaGVuQGFzcGVlZHRlY2guY29tPjsgUm9iIEhlcnJpbmcNCj4gPHJvYmgrZHRAa2Vy
+bmVsLm9yZz47IEtyenlzenRvZiBLb3psb3dza2kNCj4gPGtyenlzenRvZi5rb3psb3dza2krZHRA
+bGluYXJvLm9yZz47IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+OyBBbmRyZXcNCj4gSmVm
+ZmVyeSA8YW5kcmV3QGFqLmlkLmF1PjsgUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25p
+eC5kZT47DQo+IG9wZW5ibWNAbGlzdHMub3psYWJzLm9yZzsgbGludXgtYXJtLWtlcm5lbEBsaXN0
+cy5pbmZyYWRlYWQub3JnOw0KPiBsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZzsgbGludXgt
+a2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDIvM10gZHQt
+YmluZGluZ3M6IGkyYy1hc3QyNjAwOiBBZGQgc3VwcG9ydCBmb3IgQVNUMjYwMA0KPiBpMkMgZHJp
+dmVyDQo+IA0KPiBPbiAxOC8wMi8yMDIzIDAyOjE5LCBSeWFuIENoZW4gd3JvdGU6DQo+ID4gSGVs
+bG8gS3J6eXN6dG9mLA0KPiA+DQo+ID4NCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gPj4gRnJvbTogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBsaW5h
+cm8ub3JnPg0KPiA+PiBTZW50OiBGcmlkYXksIEZlYnJ1YXJ5IDE3LCAyMDIzIDQ6MzcgUE0NCj4g
+Pj4gVG86IFJ5YW4gQ2hlbiA8cnlhbl9jaGVuQGFzcGVlZHRlY2guY29tPjsgUm9iIEhlcnJpbmcN
+Cj4gPj4gPHJvYmgrZHRAa2VybmVsLm9yZz47IEtyenlzenRvZiBLb3psb3dza2kNCj4gPj4gPGty
+enlzenRvZi5rb3psb3dza2krZHRAbGluYXJvLm9yZz47IEpvZWwgU3RhbmxleSA8am9lbEBqbXMu
+aWQuYXU+Ow0KPiA+PiBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFqLmlkLmF1PjsgUGhpbGlwcCBa
+YWJlbA0KPiA+PiA8cC56YWJlbEBwZW5ndXRyb25peC5kZT47IG9wZW5ibWNAbGlzdHMub3psYWJz
+Lm9yZzsNCj4gPj4gbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnOw0KPiA+PiBs
+aW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9y
+Zw0KPiA+PiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDIvM10gZHQtYmluZGluZ3M6IGkyYy1hc3Qy
+NjAwOiBBZGQgc3VwcG9ydCBmb3INCj4gPj4gQVNUMjYwMCBpMkMgZHJpdmVyDQo+ID4+DQo+ID4+
+IE9uIDE2LzAyLzIwMjMgMTA6MjYsIFJ5YW4gQ2hlbiB3cm90ZToNCj4gPj4+IEhlbGxvIEtyenlz
+enRvZg0KPiA+Pj4NCj4gPj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+Pj4+IEZy
+b206IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dza2lAbGluYXJvLm9yZz4N
+Cj4gPj4+PiBTZW50OiBUaHVyc2RheSwgRmVicnVhcnkgMTYsIDIwMjMgNToyMiBQTQ0KPiA+Pj4+
+IFRvOiBSeWFuIENoZW4gPHJ5YW5fY2hlbkBhc3BlZWR0ZWNoLmNvbT47IFJvYiBIZXJyaW5nDQo+
+ID4+Pj4gPHJvYmgrZHRAa2VybmVsLm9yZz47IEtyenlzenRvZiBLb3psb3dza2kNCj4gPj4+PiA8
+a3J6eXN6dG9mLmtvemxvd3NraStkdEBsaW5hcm8ub3JnPjsgSm9lbCBTdGFubGV5IDxqb2VsQGpt
+cy5pZC5hdT47DQo+ID4+Pj4gQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5hdT47IFBoaWxp
+cHAgWmFiZWwNCj4gPj4+PiA8cC56YWJlbEBwZW5ndXRyb25peC5kZT47IG9wZW5ibWNAbGlzdHMu
+b3psYWJzLm9yZzsNCj4gPj4+PiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7
+DQo+ID4+Pj4gbGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmc7IGxpbnV4LWtlcm5lbEB2Z2Vy
+Lmtlcm5lbC5vcmcNCj4gPj4+PiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDIvM10gZHQtYmluZGlu
+Z3M6IGkyYy1hc3QyNjAwOiBBZGQgc3VwcG9ydA0KPiA+Pj4+IGZvcg0KPiA+Pj4+IEFTVDI2MDAg
+aTJDIGRyaXZlcg0KPiA+Pj4+DQo+ID4+Pj4gT24gMTYvMDIvMjAyMyAxMDoyMCwgUnlhbiBDaGVu
+IHdyb3RlOg0KPiA+Pj4+PiBIZWxsbyBLcnp5c3p0b2YNCj4gPj4+Pj4NCj4gPj4+Pj4+IC0tLS0t
+T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+Pj4+PiBGcm9tOiBLcnp5c3p0b2YgS296bG93c2tp
+IDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+DQo+ID4+Pj4+PiBTZW50OiBUaHVyc2Rh
+eSwgRmVicnVhcnkgMTYsIDIwMjMgNDoxOCBBTQ0KPiA+Pj4+Pj4gVG86IFJ5YW4gQ2hlbiA8cnlh
+bl9jaGVuQGFzcGVlZHRlY2guY29tPjsgUm9iIEhlcnJpbmcNCj4gPj4+Pj4+IDxyb2JoK2R0QGtl
+cm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpDQo+ID4+Pj4+PiA8a3J6eXN6dG9mLmtvemxv
+d3NraStkdEBsaW5hcm8ub3JnPjsgSm9lbCBTdGFubGV5DQo+ID4+Pj4+PiA8am9lbEBqbXMuaWQu
+YXU+OyBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFqLmlkLmF1PjsgUGhpbGlwcCBaYWJlbA0KPiA+
+Pj4+Pj4gPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+OyBvcGVuYm1jQGxpc3RzLm96bGFicy5vcmc7
+DQo+ID4+Pj4+PiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7DQo+ID4+Pj4+
+PiBsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVs
+Lm9yZw0KPiA+Pj4+Pj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NCAyLzNdIGR0LWJpbmRpbmdzOiBp
+MmMtYXN0MjYwMDogQWRkIHN1cHBvcnQNCj4gPj4+Pj4+IGZvcg0KPiA+Pj4+Pj4gQVNUMjYwMCBp
+MkMgZHJpdmVyDQo+ID4+Pj4+Pg0KPiA+Pj4+Pj4gT24gMTUvMDIvMjAyMyAwNjo0MywgUnlhbiBD
+aGVuIHdyb3RlOg0KPiA+Pj4+Pj4+Pj4gKyAgLSAkcmVmOiAvc2NoZW1hcy9pMmMvaTJjLWNvbnRy
+b2xsZXIueWFtbCMNCj4gPj4+Pj4+Pj4+ICsNCj4gPj4+Pj4+Pj4+ICtwcm9wZXJ0aWVzOg0KPiA+
+Pj4+Pj4+Pj4gKyAgY29tcGF0aWJsZToNCj4gPj4+Pj4+Pj4+ICsgICAgZW51bToNCj4gPj4+Pj4+
+Pj4+ICsgICAgICAtIGFzcGVlZCxhc3QyNjAwLWkyYw0KPiA+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+PiBO
+QUsuIEl0J3MgYWxyZWFkeSB0aGVyZS4gUGxlYXNlIGRvIG5vdCB3YXN0ZSBvdXIgdGltZSBpbg0K
+PiA+Pj4+Pj4+PiBzdWJtaXR0aW5nIGR1cGxpY2F0ZWQgZHJpdmVycy4NCj4gPj4+Pj4+Pg0KPiA+
+Pj4+Pj4+IEl0IGlzIG5vdCBkdXBsaWNhdGVkLCBhcyBteSBkZXNjcmlwdGlvbiBpbiBjb3ZlciAi
+IFRoaXMgc2VyaWVzDQo+ID4+Pj4+Pj4gYWRkDQo+ID4+Pj4+Pj4gQVNUMjYwMCBpMmMNCj4gPj4+
+Pj4+IG5ldyByZWdpc3RlciBzZXQgZHJpdmVyIg0KPiA+Pj4+Pj4+IFNvLCB0aGlzIHdpbGwgYmUg
+ZGlmZmVyZW50IGRyaXZlciBjb21wYXRpYmxlLg0KPiA+Pj4+Pj4+IFRoZSBvcmlnaW5hbCBjb21w
+YXRpYmxlIGlzDQo+ID4+Pj4+Pj4gICAgICAgLSBhc3BlZWQsYXN0MjQwMC1pMmMtYnVzDQo+ID4+
+Pj4+Pj4gICAgICAgLSBhc3BlZWQsYXN0MjUwMC1pMmMtYnVzDQo+ID4+Pj4+Pj4gICAgICAgLSBh
+c3BlZWQsYXN0MjYwMC1pMmMtYnVzDQo+ID4+Pj4+Pj4gU28gdGhlIG5ldyByZWdpc3RlciBzZXQg
+Y29tcGF0aWJsZSBpcyAiLSBhc3BlZWQsYXN0MjYwMC1pMmMiLA0KPiA+Pj4+Pj4+IHJlbW92ZQ0K
+PiA+Pj4+ICJidXMiLg0KPiA+Pj4+Pj4NCj4gPj4+Pj4+IEJpbmRpbmdzIGFyZSBkb2N1bWVudGlu
+ZyBoYXJkd2FyZSwgc28gSSBjbGFpbSAtIHdlIGFscmVhZHkgaGF2ZQ0KPiA+Pj4+Pj4gdGhpcyBo
+YXJkd2FyZSBkZXNjcmliZWQgYW5kIHRoaXMgaXMgZHVwbGljYXRlZC4gT3RoZXJ3aXNlIC0gd2hh
+dA0KPiA+Pj4+Pj4gYXJlIHRoZXNlIHR3byBJMkMgY29udHJvbGxlcnMgYW5kIHdoYXQgYXJlIHRo
+ZSBkaWZmZXJlbmNlcz8gV2h5DQo+ID4+Pj4+PiB0aGV5IGRvIG5vdCBoYXZlIHJlYWxseSBkaWZm
+ZXJlbnQgbmFtZT8gQnVzIGxvb2tzIG1vcmUgbGlrZSBhDQo+ID4+Pj4+PiBtaXN0YWtlIHRoYW4g
+YQ0KPiA+Pj4+IGRpZmZlcmVudGlhdGluZyBuYW1lLg0KPiA+Pj4+PiBGb3IgbWlzdW5kZXJzdGFu
+ZGluZywgb3IgbWlzdGFrZW4uDQo+ID4+Pj4+IEkgcHVycG9zZSB0byBiZSBhc3BlZWQsYXN0MjYw
+MC1pMmN2Miwgd2lsbCBpdCBtb3JlIGNsZWFyIHdheSA/DQo+ID4+Pj4NCj4gPj4+PiBJIGRvbid0
+IGtub3cuIEkgc3RpbGwgZGlkIG5vdCBnZXQgYW5zd2Vycy4gSSBhc2tlZCBoZXJlIHNldmVyYWwg
+cXVlc3Rpb25zLg0KPiA+Pj4gVGhvc2UgYXJlIGRpZmZlcmVudCBpMmMgY29udHJvbGxlciwgYXMg
+SSBkZXNjcmlwdGlvbiBpbiBjb3ZlciBsZXR0ZXIuDQo+ID4+DQo+ID4+IFRoZSBjb3ZlciBsZXR0
+ZXIgZG9lcyBub3QgZXhwbGFpbiBoZXJlIGFueXRoaW5nLiBJdCBiYXJlbHkgbWVudGlvbnMNCj4g
+Pj4gIm5ldyByZWdpc3RlciBzZXQiIGFuZCAic2VwYXJhdGUgcmVnaXN0ZXIgc2V0Ii4gVGhpcyBp
+cyByZWFsbHkgc2hvcnQsDQo+ID4+IHNvIHdpdGhvdXQgcHJvcGVyIGV4cGxhbmF0aW9ucyB5b3Ug
+d2lsbCBnZXQgYWxsIHRoZXNlIHF1ZXN0aW9ucy4gQXJlDQo+ID4+IHRoZXkgY29tcGF0aWJsZT8g
+RG8gdGhleSBvdmVybGFwPyBBcmUgdGhleSBjb21wbGV0ZWx5IGRpZmZlcmVudD8gSWYNCj4gPj4g
+c28sIHdoeSBkYXRhc2hlZXQgdXNlcyBzYW1lIG5hbWUgZm9yIHRoZW0/IFNvIG1hbnkgcXVlc3Rp
+b25zIGJ1dA0KPiA+PiBjb3ZlciBsZXR0ZXIgaXMgYmFzaWNhbGx5IHR3byBzZW50ZW5jZXMgYW5k
+DQo+ID4+IGhlcmU6DQo+ID4NCj4gPiBTb3JyeSBteSBtaXN1bmRlcnN0YW5kaW5nLg0KPiA+IFRo
+ZSBsZWdhY3kgcmVnaXN0ZXIgbGF5b3V0IGlzIG1peCBtYXN0ZXIvc2xhdmUgcmVnaXN0ZXIgY29u
+dHJvbCB0b2dldGhlci4NCj4gPiBTbyB3aWxsIGxldCBjb25mdXNlIGFib3V0IHJlZ2lzdGVyLg0K
+PiA+IFRoZSBmb2xsb3dpbmcgaXMgYWRkIG1vcmUgZGV0YWlsIGRlc2NyaXB0aW9uIGFib3V0IG5l
+dyByZWdpc3RlciBsYXlvdXQuDQo+ID4gQW5kIG5ldyBmZWF0dXJlIHNldCBhZGQgZm9yIHJlZ2lz
+dGVyLg0KPiA+DQo+ID4gLUFkZCBuZXcgY2xvY2sgZGl2aWRlciBvcHRpb24gZm9yIG1vcmUgZmxl
+eGlibGUgYW5kIGFjY3VyYXRlIGNsb2NrDQo+ID4gcmF0ZSBnZW5lcmF0aW9uIC1BZGQgdENLSGln
+aE1pbiB0aW1pbmcgdG8gZ3VhcmFudGVlIFNDTCBoaWdoIHB1bHNlIHdpZHRoLg0KPiA+IC1BZGQg
+c3VwcG9ydCBkdWFsIHBvb2wgYnVmZmVyIG1vZGUsIHNwbGl0IDMyIGJ5dGVzIHBvb2wgYnVmZmVy
+IG9mIGVhY2ggZGV2aWNlDQo+IGludG8gMiB4IDE2IGJ5dGVzIGZvciBUeCBhbmQgUnggaW5kaXZp
+ZHVhbGx5Lg0KPiA+IC1JbmNyZWFzZSBETUEgYnVmZmVyIHNpemUgdG8gNDA5NiBieXRlcyBhbmQg
+c3VwcG9ydCBieXRlIGFsaWdubWVudC4NCj4gPiAtUmUtZGVmaW5lIHRoZSBiYXNlIGFkZHJlc3Mg
+b2YgQlVTMSB+IEJVUzE2IGFuZCBQb29sIGJ1ZmZlci4NCj4gPiAtUmUtZGVmaW5lIHJlZ2lzdGVy
+cyBmb3Igc2VwYXJhdGluZyBtYXN0ZXIgYW5kIHNsYXZlIG1vZGUgY29udHJvbC4NCj4gPiAtU3Vw
+cG9ydCA0IGluZGl2aWR1YWwgRE1BIGJ1ZmZlcnMgZm9yIG1hc3RlciBUeCBhbmQgUngsIHNsYXZl
+IFR4IGFuZCBSeC4NCj4gPg0KPiA+IEFuZCBmb2xsb3dpbmcgaXMgbmV3IHJlZ2lzdGVyIHNldCBm
+b3IgcGFja2FnZSB0cmFuc2ZlciBzZXF1ZW5jZS4NCj4gPiBOZXcgTWFzdGVyIG9wZXJhdGlvbiBt
+b2RlOiBTIC0+IEF3IC0+IFAge1M6IFN0YXJ0LCBTcjogUmVwZWF0IFN0YXJ0LCBBdy9yOg0KPiBB
+ZGRyZXNzIGZvciB3cml0ZS9yZWFkLCBQOiBTdG9wfS4NCj4gPiBOZXcgTWFzdGVyIG9wZXJhdGlv
+biBtb2RlOiBTIC0+IEF3IC0+IFR4RCAtPiBQIE5ldyBNYXN0ZXIgb3BlcmF0aW9uDQo+ID4gbW9k
+ZTogUyAtPiBBciAtPiBSeEQgLT4gUCBOZXcgU2xhdmUgIG9wZXJhdGlvbiBtb2RlOiBTIC0+IEF3
+IC0+IFJ4RCAtPg0KPiA+IFNyIC0+IEFyIC0+IFR4RCAtPiBQLg0KPiA+IC1CdXMgU0RBIGxvY2sg
+YXV0by1yZWxlYXNlIGNhcGFiaWxpdHkgZm9yIG5ldyBtYXN0ZXIgRE1BIGNvbW1hbmQgbW9kZS4N
+Cj4gPiAtQnVzIGF1dG8gdGltZW91dCBmb3IgbmV3IG1hc3Rlci9zbGF2ZSBETUEgbW9kZS4NCj4g
+Pg0KPiA+IFRoZSBmb2xsb3dpbmcgaXMgdHdvIHZlcnN1cyByZWdpc3RlciBsYXlvdXQuDQo+ID4g
+T2xkOg0KPiA+IHtJMkNEMDB9OiBGdW5jdGlvbiBDb250cm9sIFJlZ2lzdGVyDQo+ID4ge0kyQ0Qw
+NH06IENsb2NrIGFuZCBBQyBUaW1pbmcgQ29udHJvbCBSZWdpc3RlciBcIzENCj4gPiB7STJDRDA4
+fTogQ2xvY2sgYW5kIEFDIFRpbWluZyBDb250cm9sIFJlZ2lzdGVyIFwjMg0KPiA+IHtJMkNEMEN9
+OiBJbnRlcnJ1cHQgQ29udHJvbCBSZWdpc3Rlcg0KPiA+IHtJMkNEMTB9OiBJbnRlcnJ1cHQgU3Rh
+dHVzIFJlZ2lzdGVyDQo+ID4ge0kyQ0QxNH06IENvbW1hbmQvU3RhdHVzIFJlZ2lzdGVyDQo+ID4g
+e0kyQ0QxOH06IFNsYXZlIERldmljZSBBZGRyZXNzIFJlZ2lzdGVyDQo+ID4ge0kyQ0QxQ306IFBv
+b2wgQnVmZmVyIENvbnRyb2wgUmVnaXN0ZXINCj4gPiB7STJDRDIwfTogVHJhbnNtaXQvUmVjZWl2
+ZSBCeXRlIEJ1ZmZlciBSZWdpc3Rlcg0KPiA+IHtJMkNEMjR9OiBETUEgTW9kZSBCdWZmZXIgQWRk
+cmVzcyBSZWdpc3Rlcg0KPiA+IHtJMkNEMjh9OiBETUEgVHJhbnNmZXIgTGVuZ3RoIFJlZ2lzdGVy
+DQo+ID4ge0kyQ0QyQ306IE9yaWdpbmFsIERNQSBNb2RlIEJ1ZmZlciBBZGRyZXNzIFNldHRpbmcN
+Cj4gPiB7STJDRDMwfTogT3JpZ2luYWwgRE1BIFRyYW5zZmVyIExlbmd0aCBTZXR0aW5nIGFuZCBG
+aW5hbCBTdGF0dXMNCj4gPg0KPiA+IE5ldyBSZWdpc3RlciBtb2RlDQo+ID4ge0kyQ0MwMH06IE1h
+c3Rlci9TbGF2ZSBGdW5jdGlvbiBDb250cm9sIFJlZ2lzdGVyDQo+ID4ge0kyQ0MwNH06IE1hc3Rl
+ci9TbGF2ZSBDbG9jayBhbmQgQUMgVGltaW5nIENvbnRyb2wgUmVnaXN0ZXINCj4gPiB7STJDQzA4
+fTogTWFzdGVyL1NsYXZlIFRyYW5zbWl0L1JlY2VpdmUgQnl0ZSBCdWZmZXIgUmVnaXN0ZXINCj4g
+PiB7STJDQzBDfTogTWFzdGVyL1NsYXZlIFBvb2wgQnVmZmVyIENvbnRyb2wgUmVnaXN0ZXINCj4g
+PiB7STJDTTEwfTogTWFzdGVyIEludGVycnVwdCBDb250cm9sIFJlZ2lzdGVyDQo+ID4ge0kyQ00x
+NH06IE1hc3RlciBJbnRlcnJ1cHQgU3RhdHVzIFJlZ2lzdGVyDQo+ID4ge0kyQ00xOH06IE1hc3Rl
+ciBDb21tYW5kL1N0YXR1cyBSZWdpc3Rlcg0KPiA+IHtJMkNNMUN9OiBNYXN0ZXIgRE1BIEJ1ZmZl
+ciBMZW5ndGggUmVnaXN0ZXINCj4gPiB7STJDUzIwfTogU2xhdmV+IEludGVycnVwdCBDb250cm9s
+IFJlZ2lzdGVyDQo+ID4ge0kyQ1MyNH06IFNsYXZlfiBJbnRlcnJ1cHQgU3RhdHVzIFJlZ2lzdGVy
+DQo+ID4ge0kyQ1MyOH06IFNsYXZlfiBDb21tYW5kL1N0YXR1cyBSZWdpc3Rlcg0KPiA+IHtJMkNT
+MkN9OiBTbGF2ZX4gRE1BIEJ1ZmZlciBMZW5ndGggUmVnaXN0ZXINCj4gPiB7STJDTTMwfTogTWFz
+dGVyIERNQSBNb2RlIFR4IEJ1ZmZlciBCYXNlIEFkZHJlc3MNCj4gPiB7STJDTTM0fTogTWFzdGVy
+IERNQSBNb2RlIFJ4IEJ1ZmZlciBCYXNlIEFkZHJlc3MNCj4gPiB7STJDUzM4fTogU2xhdmV+IERN
+QSBNb2RlIFR4IEJ1ZmZlciBCYXNlIEFkZHJlc3MNCj4gPiB7STJDUzNDfTogU2xhdmV+IERNQSBN
+b2RlIFJ4IEJ1ZmZlciBCYXNlIEFkZHJlc3MNCj4gPiB7STJDUzQwfTogU2xhdmUgRGV2aWNlIEFk
+ZHJlc3MgUmVnaXN0ZXINCj4gPiB7STJDTTQ4fTogTWFzdGVyIERNQSBMZW5ndGggU3RhdHVzIFJl
+Z2lzdGVyDQo+ID4ge0kyQ1M0Q306IFNsYXZlICBETUEgTGVuZ3RoIFN0YXR1cyBSZWdpc3Rlcg0K
+PiA+IHtJMkNDNTB9OiBDdXJyZW50IERNQSBPcGVyYXRpbmcgQWRkcmVzcyBTdGF0dXMNCj4gPiB7
+STJDQzU0fTogQ3VycmVudCBETUEgT3BlcmF0aW5nIExlbmd0aCAgU3RhdHVzDQo+IA0KPiBUaGFu
+a3MgZm9yIGV4cGxhbmF0aW9uLCB5ZXQgc3RpbGwgSSBkb24ndCBnZXQgd2hldGhlciB0aGVzZSBh
+cmUgc2VwYXJhdGUgZGV2aWNlcw0KPiBvciBub3QuIFNvIGFnYWluLCB5b3UgZ290IHNldmVyYWwg
+cXVlc3Rpb25zIGFuZCB5b3Ugc2hvdWxkIGFuc3dlciB0aGVtLCBub3QNCj4gb25seSBwYXJ0cyBv
+ZiB0aGVtLg0KPiANCj4gQXJlIHRoZXkgY29tcGF0aWJsZT8gRG8gdGhleSBvdmVybGFwPyBBcmUg
+dGhleSBjb21wbGV0ZWx5IGRpZmZlcmVudD8gSWYgc28sDQo+IHdoeSBkYXRhc2hlZXQgdXNlcyBz
+YW1lIG5hbWUgZm9yIHRoZW0/DQoNClRoZXkgYXJlIG5vdCBjb21wYXRpYmxlLiBUaGUgcmVnaXN0
+ZXIgb2Zmc2V0IGlzIG92ZXJsYXAuDQpPbGQgcmVnaXN0ZXIgaXMgZnJvbSAweDAwIH4gMHgzMA0K
+TmV3IHJlZ2lzdGVyIGlzIGZyb20gMHgwMCB+IDB4NTQNClRoZSBuZXcgZGVzaWduIGhhcyBhbm90
+aGVyIHJlZ2lzdGVyLCBjYWxsIGdsb2JhbCByZWdpc3RlciB0aGF0IGRvIDEgYml0IHRvIHNldCBz
+d2l0Y2ggDQpyZWdpc3RlciBkZWNvZGUgdG8gYmUgbmV3IG9yIG9sZCByZWdpc3RlciBsYXlvdXQu
+DQpGb3IgZXhhbXBsZSwgb2xkIHJlZ2lzdGVyIEFDIHRpbWluZyBoYXZlIHR3byBzZXR0aW5nIEky
+Q0QwNC8wOCBidXQgbmV3IGlzIEkyQ0MwNC4NCkFuZCBub3cgcmVnaXN0ZXIgc2V0dGluZyBmb3Ig
+QUMgdGltaW5nLg0KQW5kIGFsc28gbWFzdGVyL3NsYXZlIHJlZ2lzdGVyIHNlcGFyYXRlIGNvbnRy
+b2wuIE5vdCBtaXggYXQgSTJDRDE0Lg0KQWJvdXQgbmFtaW5nIGluIGRhdGFzaGVldCwgZHVlIHRv
+IHlvdSBjYW4gc2VlIHRoZSBuZXcgZGVzaWduIGNvbmNlcHQgaXMgdGhlIHNhbWUuDQpTbyBtb3N0
+IHVzZSB0aGUgc2FtZSBuYW1lIHRvIGJlIG9mZnNldCByZWdpc3RlciBuYW1lLiANCkZyb20gbWl4
+IHRvIHNlcGFyYXRlIG1hc3Rlci9zbGF2ZSBjb250cm9sLiANClRoZSBmb2xsb3dpbmcgYW4gZXhh
+bXBsZS4gDQpJRVIgMSB0byAyDQp7STJDRDBDfTogSW50ZXJydXB0IENvbnRyb2wgUmVnaXN0ZXIg
+dG8gMiBzZXQge0kyQ00xMH06IE1hc3RlciBJbnRlcnJ1cHQgQ29udHJvbCBSZWdpc3Rlciwge0ky
+Q1MyMH06IFNsYXZlfiBJbnRlcnJ1cHQgQ29udHJvbCBSZWdpc3Rlcg0KSVNSLCAxIHRvIDINCntJ
+MkNEMEN9OiBJbnRlcnJ1cHQgQ29udHJvbCBSZWdpc3RlciAtPiB7STJDTTE0fTogTWFzdGVyIElu
+dGVycnVwdCBTdGF0dXMgUmVnaXN0ZXIsIHtJMkNTMjR9OiBTbGF2ZX4gSW50ZXJydXB0IFN0YXR1
+cyBSZWdpc3Rlcg0KQW5kIHNvIG9uLi4uDQoNCj4gDQo+IEkgZG9uJ3QgdW5kZXJzdGFuZCB3aHkg
+d2Ugc3RydWdnbGUgc28gbXVjaCB0byBnZXQgYmFzaWMgaW5mbyBqdXN0aWZ5aW5nIHRoaXMNCj4g
+cGF0Y2hzZXQuDQo+IA0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0b2YNCg0K
