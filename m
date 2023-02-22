@@ -2,61 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6D269EC3C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Feb 2023 02:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEFB69EC48
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Feb 2023 02:17:30 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PLyqr3BhKz3c6R
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Feb 2023 12:14:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PLytw27zgz3bwQ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Feb 2023 12:17:28 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ksjWfUD7;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=GqrAlrvD;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.microsoft.com (client-ip=13.77.154.182; helo=linux.microsoft.com; envelope-from=dphadke@linux.microsoft.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::535; helo=mail-ed1-x535.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ksjWfUD7;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=GqrAlrvD;
 	dkim-atps=neutral
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PLyqj2LfGz300C;
-	Wed, 22 Feb 2023 12:14:41 +1100 (AEDT)
-Received: from [192.168.87.25] (unknown [50.35.78.176])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 33E7320B9C3D;
-	Tue, 21 Feb 2023 17:14:07 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 33E7320B9C3D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1677028447;
-	bh=YTkfcoTrsyGUhPbAsJNW1hFtxJhcxATFUQJzQJ+E840=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=ksjWfUD7hL4lluKkN4pyotZAcfERPzfs3CXBvbcHi0Lo+wPjs33I5/pVstNjH2kls
-	 q0vfgIXT9nM0kXJiEpsfRXOeOPz9TtJ1UY3OuEK7kN2aV/k9BZrA2waNzRTCKhOztW
-	 1fe+pTK6b/qVT5wvs7gFyCbTFooPdzbctJdO2q/g=
-Message-ID: <d0f8d17a-bdcb-7554-b96c-99226d013fe6@linux.microsoft.com>
-Date: Tue, 21 Feb 2023 17:14:07 -0800
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PLytl3K9qz3c8h;
+	Wed, 22 Feb 2023 12:17:19 +1100 (AEDT)
+Received: by mail-ed1-x535.google.com with SMTP id cy6so18846406edb.5;
+        Tue, 21 Feb 2023 17:17:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gT5ZSNIpI/yGjRCiyO4SCf25/TIbnWrvagpIK4outfk=;
+        b=GqrAlrvDzA2RyHnVeA3Sjo6RvBiHGY5GTdpeagHbSMILyqfK7KUgYsA4MvEc51TaAJ
+         cTaPbgN7CAVHFn9e+Ont7H2L2pb9JH0UO3zXX77atqPW1/ncQQ2mZc+WYeyV0X6ArmYE
+         Mrq+qH1vBEnhEaEmuxAANgQxRHzzgjKe39XSE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gT5ZSNIpI/yGjRCiyO4SCf25/TIbnWrvagpIK4outfk=;
+        b=21nVSMxfrQ+vbhfUo/pfS1kyXMcCiIsa4ugC7nBzj0ePVXKEcAi8ryuSeOHaWybVlc
+         wEBaZMXJeOhPUiRHnfAWsAd63efkoPjPwgf3x0ihP948Y+yry8Qpt8gQ7jcyUJe0/M18
+         oQs0PZ1A7te6cjxtvN45pOwS+VB4vyHoNQkAxnQBEnc1zig793MT/Te81B0U+2MP8iiz
+         L5iOxMamWb3AFzCs0Ze0kPbq+ucJUPob6wvSk49DBx6Kq2tdULNZ2bFjtzNwiVqxqrQm
+         p6IwdiVCwwZX03GzdKWNZswBr8GKtLn399yji34pzuatkMnn0Ee7cAWqoDo58/dceaMH
+         SIFw==
+X-Gm-Message-State: AO0yUKVrP9rkHDjHUqCYYIhNAnydyc4ZhjDEB3x9zZz6A1n929btILBY
+	mUkgkpuYe/i6pQ76d04+zmt9ORr5qjZbcOzOS9einaVJ
+X-Google-Smtp-Source: AK7set9exesMePic266XNZcQh4feMCxFbPgJgTLHbhqLICr+GjcL5odlL/ZqdseIwc2ukLyyBshlOXwGx6djDfoQtn8=
+X-Received: by 2002:a17:906:8295:b0:8b1:3357:b16b with SMTP id
+ h21-20020a170906829500b008b13357b16bmr6714865ejx.4.1677028635979; Tue, 21 Feb
+ 2023 17:17:15 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 1/2] dt-bindings: i2c: Add support for ASPEED i2Cv2
-Content-Language: en-US
-To: Ryan Chen <ryan_chen@aspeedtech.com>,
- Jeremy Kerr <jk@codeconstruct.com.au>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20230220061745.1973981-1-ryan_chen@aspeedtech.com>
- <20230220061745.1973981-2-ryan_chen@aspeedtech.com>
- <2141e513acc750bf26775f5b435f4dccd41244aa.camel@codeconstruct.com.au>
- <TYZPR06MB5274714E58C319B4FE3B6E1BF2A49@TYZPR06MB5274.apcprd06.prod.outlook.com>
- <dfc2c2c442af55f64e147c920585cb7e6a74939f.camel@codeconstruct.com.au>
- <TYZPR06MB527469EBE6A18B897D2C1F6CF2A59@TYZPR06MB5274.apcprd06.prod.outlook.com>
-From: Dhananjay Phadke <dphadke@linux.microsoft.com>
-In-Reply-To: <TYZPR06MB527469EBE6A18B897D2C1F6CF2A59@TYZPR06MB5274.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20221118065109.2339066-1-quan@os.amperecomputing.com> <32FE8D60-98AF-4134-8FB0-46B0CE7CA420@amperemail.onmicrosoft.com>
+In-Reply-To: <32FE8D60-98AF-4134-8FB0-46B0CE7CA420@amperemail.onmicrosoft.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 22 Feb 2023 01:17:03 +0000
+Message-ID: <CACPK8Xe062i-6RsF6m+G4W8TfVVh=xOpmSevP2qvPy=u1_UqzA@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: mtjade: Add SMPro nodes
+To: Thang Nguyen OS <thang@amperemail.onmicrosoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,51 +72,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, Quan Nguyen OS <quan@os.amperecomputing.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Open Source Submission <patches@amperecomputing.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 2/20/2023 7:32 PM, Ryan Chen wrote:
->>>>> +  timeout:
->>>>> +    type: boolean
->>>>> +    description: Enable i2c bus timeout for master/slave (35ms)
->>>>> +
->>>>> +  byte-mode:
->>>>> +    type: boolean
->>>>> +    description: Force i2c driver use byte mode transmit
->>>>> +
->>>>> +  buff-mode:
->>>>> +    type: boolean
->>>>> +    description: Force i2c driver use buffer mode transmit
->>>>
->>>> These three aren't really a property of the hardware, more of the
->>>> intended driver configuration. Do they really belong in the DT?
->>>>
->>> Sorry, I am confused.
->>> This is hardware controller mode setting for each i2c transfer.
->>> So I add it in property for change different i2c transfer mode.
->>> Is my mis-understand the property setting?
->>
->> It depends what this is configuration is for.
->>
->> Would you set the transfer mode based on the design of the board? Is there
->> something about the physical i2c bus wiring (or some other hardware design
->> choice) that would mean you use one setting over another?
->>
-> No, it not depend on board design. It is only for register control for controller transfer behave.
-> The controller support 3 different trigger mode for transfer.
-> Byte mode: it means step by step to issue transfer.
-> Example i2c read, each step will issue interrupt then driver need trigger for next step.
-> Sr (start read) | D | D | D | P
-> Buffer mode: it means, the data can prepare into buffer register, then Trigger transfer. So Sr D D D P, only have only 1 interrupt handling.
-> The DMA mode most like with buffer mode, The differ is data prepare in DRAM, than trigger transfer.
-> 
-> 
+On Tue, 14 Feb 2023 at 04:02, Thang Nguyen OS
+<thang@amperemail.onmicrosoft.com> wrote:
 
-Unless these settings like xfer mode are per i2c bus, it could be just a
-module parameter? Not sure anything other than default mode would be
-used if DMA mode works for all master/slave transactions.
+> Hi Joel,
+> Can you also pick https://git.kernel.org/pub/scm/linux/kernel/git/next/li=
+nux-next.git/commit/?id=3D7c07553807c5125c89de242d35c10c206fd8e6bb to fix U=
+SB gadget issue? It is to support multiple devices (i.e. virtual media, USB=
+ Ethernet, =E2=80=A6) at the same time?
 
-Regards,
-Dhananjay
+This is also in dev-6.1 already.
 
+Thanks for getting your changes upstream!
 
+Cheers,
+
+Joel
