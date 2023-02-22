@@ -1,68 +1,70 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C566069F022
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Feb 2023 09:25:55 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3B969F029
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Feb 2023 09:28:48 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PM8PF48Vmz3bfs
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Feb 2023 19:25:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PM8SZ2sGvz3c9K
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Feb 2023 19:28:46 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=xysvr+Ij;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=jHB+t+H4;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52a; helo=mail-ed1-x52a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::42b; helo=mail-wr1-x42b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=xysvr+Ij;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=jHB+t+H4;
 	dkim-atps=neutral
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PM8P65ZTvz3bhX
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Feb 2023 19:25:45 +1100 (AEDT)
-Received: by mail-ed1-x52a.google.com with SMTP id da10so28307893edb.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Feb 2023 00:25:45 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PM8SQ3wfCz3bNj
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Feb 2023 19:28:37 +1100 (AEDT)
+Received: by mail-wr1-x42b.google.com with SMTP id l1so6605026wry.10
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Feb 2023 00:28:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Yd2Qwx1nvbdSkpNKN1vXqZLWIMV64pGDxkOP3Z4wAyI=;
-        b=xysvr+IjvA1MGFmQYvICHIQWzKYW+rN58cB9ler//9XlFliSLip6yZXcTEMzFwaipL
-         81zc/nZ8xWvzpgr0rdP9pLdp9SykNTH3fo4XWMfmh3Bfqq9x0/tVYunJcP4+iI6WGT0S
-         PpOiEUQ7IHKk52ArZCvSO5pSTd5ZiC5dSGZZ+zPGyFAqVXrTNFjcJmZ75W1qwp4YuJD7
-         4rUGtKYpi94YWfrPTmIO5HloZjHZrnyU99CZat14tw50fJvi0mkObEOMdwri0FJE+5cG
-         SdlATfJrnocZZUAsYZ+jIi8JQw3g6E/i1+nuQikkLOYZgrxBs3wScOmvvnXiSb/DUzZI
-         e1mQ==
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rLFMV5iAE6vR4P2SIlhoSPSGtCrLcwNMxI3aYuG3Z2Y=;
+        b=jHB+t+H4R7ui2sqZfxcO/KdAQ7pJ82WQR8pB9ODA4zULtHVq0+ITHtkxoS7GU+f1km
+         jFe3neGlT1ObrD+Jrffq1iW4olA3ag0Vda03HemP0F2VZe2rvLtW7hlnFE11iOghrvLU
+         73cH1v5Tio1/FY5T81MOHsLwhZ75Aaqzzn3aAn8m05P4tIxKsRGUsr+MEnfTo+O20O3S
+         nKpNL6JuFaGdVIGJNcF+8ncfqeLKV+Frtle+g4tjgpMKcdW/T9Nqm2BbQSj+P3HVDC8n
+         mjkkLdvgagZft7fWxpVWQoczB6yUsuEzYGydL7aAXn9Gava76R8Sa1ySoFLjmwC9ihJy
+         /DEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yd2Qwx1nvbdSkpNKN1vXqZLWIMV64pGDxkOP3Z4wAyI=;
-        b=P4ATqiNVO96lCNEaJX2mOsZ+lTq111ov9iTEdmfz3/G7TRZFX+CDXvTxLL6OePfXb0
-         U/zD3HMOYwnIz5NxDwuj4xaWDG9UX9t2RA502P0f8lfWsxJN6HjB8ZhCMlQ9kpmZUYdt
-         cxxAwOPY5s9GiqlBShjyZ7CL+SZI2ZVgi2jX+7weqxFJqig24uTWWaXbzInVKo6sYkWH
-         rtAiaP4J7RxYfTMNhx0eqNBM0q9788FVg78QHwls/G4Yw7q0bPZM6AQrzM6Q50nx2Xkv
-         GvdqFGh856pZHhCgaRWQIKQ5mnhUPu2hP40S5Ge+zQSJMg9gBlIGh8wu7PSPTG2BQsQV
-         0qQw==
-X-Gm-Message-State: AO0yUKX80RraWio3Lk8GSPh9SZXYKJgg2k57aWVCrrsZy7kfdP0mR28V
-	w/g70uU3+EM7rdw3wWSRVmnA3g==
-X-Google-Smtp-Source: AK7set8VOS86U/BfNPLUpdGpMtlK0+oRUELSkdxWxlJBtjecgCYxy/hXwieUmoMkiVaIP/R+3AE6CQ==
-X-Received: by 2002:a17:906:86d4:b0:87b:3d29:2982 with SMTP id j20-20020a17090686d400b0087b3d292982mr15367507ejy.11.1677054342574;
-        Wed, 22 Feb 2023 00:25:42 -0800 (PST)
+        bh=rLFMV5iAE6vR4P2SIlhoSPSGtCrLcwNMxI3aYuG3Z2Y=;
+        b=bpQlp0CQee54B4Ps72R3lSRbNoLlBLmkVkesfQWGnp28EBuOo60+RlasJv9f5BABmf
+         cRHUv4wOAH2s6v7uJw0EiA2YT3r/EMB/utepiD973G66912RTIxD5LueZqTniLD8AJTJ
+         JiGVtoQ5M/fr/0grzE8u18xajoz8eFKCJ4mHhIKrl256NT5L0jCvw4wRJwOlIXuGSyIj
+         3PAvSu32YqAqKtcBycGbM2cz/h0v7709JvM8dn3LfC7AzXqyggTSTVUseYpwTQHl+X2h
+         ECub9uCyxzgsgeuq8A4b1jT1q/vcfp6l16LCudw8H72+SsdD282zgSheBpbFSQT8MrQA
+         G4OA==
+X-Gm-Message-State: AO0yUKW9TOuhKvxMhixifjiQWT93YCrTw8koP2uxLpk31R6e4p4Fekn4
+	06bgHeRsP3ryKVLwBqu/uVvjPw==
+X-Google-Smtp-Source: AK7set+jDApicTjSI5qypPYbTiOAoFcQmVCJyWdI/f/zCeNCFE0XoE6sPmq0GGUIRSinRQMbWsxscQ==
+X-Received: by 2002:a5d:45cb:0:b0:2c5:4f04:c50d with SMTP id b11-20020a5d45cb000000b002c54f04c50dmr6530784wrs.48.1677054509270;
+        Wed, 22 Feb 2023 00:28:29 -0800 (PST)
 Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id k26-20020a170906579a00b008b2714f4d8asm6869078ejq.181.2023.02.22.00.25.41
+        by smtp.gmail.com with ESMTPSA id a8-20020adfed08000000b002c55cdb1de5sm6382130wro.116.2023.02.22.00.28.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Feb 2023 00:25:42 -0800 (PST)
-Message-ID: <94238c42-1250-4d51-86e5-0a960dea0ffc@linaro.org>
-Date: Wed, 22 Feb 2023 09:25:40 +0100
+        Wed, 22 Feb 2023 00:28:28 -0800 (PST)
+Message-ID: <77480142-a2c0-f6da-af0e-d3f01f72ac53@linaro.org>
+Date: Wed, 22 Feb 2023 09:28:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v5 1/2] dt-bindings: i2c: Add support for ASPEED i2Cv2
+Subject: Re: [PATCH v5 2/2] i2c: aspeed: support ast2600 i2cv2 new register
+ mode driver
+Content-Language: en-US
 To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
@@ -73,18 +75,13 @@ To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>,
  "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <20230220061745.1973981-1-ryan_chen@aspeedtech.com>
- <20230220061745.1973981-2-ryan_chen@aspeedtech.com>
- <676c7777-635c-cc1f-b919-d33e84a45442@linaro.org>
- <TYZPR06MB527427ADCCD29DFD77FB0EE3F2A59@TYZPR06MB5274.apcprd06.prod.outlook.com>
- <80d873d4-d813-6c25-8f47-f5ff9af718ec@linaro.org>
- <SEZPR06MB5269502D7CBCD5698B65FF9FF2A59@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <c0ac0ab3-87fc-e74a-b4e2-3cf1b3a8a5e2@linaro.org>
- <SEZPR06MB52698CCA6AE59DDC6C15CBE4F2AA9@SEZPR06MB5269.apcprd06.prod.outlook.com>
-Content-Language: en-US
+ <20230220061745.1973981-3-ryan_chen@aspeedtech.com>
+ <63986fb1-f8d4-f348-bae9-72e08369213b@linaro.org>
+ <SEZPR06MB5269B032022D3D7286E59D36F2AA9@SEZPR06MB5269.apcprd06.prod.outlook.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SEZPR06MB52698CCA6AE59DDC6C15CBE4F2AA9@SEZPR06MB5269.apcprd06.prod.outlook.com>
+In-Reply-To: <SEZPR06MB5269B032022D3D7286E59D36F2AA9@SEZPR06MB5269.apcprd06.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,132 +96,65 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 22/02/2023 03:59, Ryan Chen wrote:
-> Hello Krzysztof,
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Sent: Tuesday, February 21, 2023 7:05 PM
->> To: Ryan Chen <ryan_chen@aspeedtech.com>; Rob Herring
->> <robh+dt@kernel.org>; Krzysztof Kozlowski
->> <krzysztof.kozlowski+dt@linaro.org>; Joel Stanley <joel@jms.id.au>; Andrew
->> Jeffery <andrew@aj.id.au>; Philipp Zabel <p.zabel@pengutronix.de>;
->> openbmc@lists.ozlabs.org; linux-arm-kernel@lists.infradead.org;
->> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
->> Subject: Re: [PATCH v5 1/2] dt-bindings: i2c: Add support for ASPEED i2Cv2
->>
->> On 21/02/2023 11:42, Ryan Chen wrote:
->>>>>>> +    type: boolean
->>>>>>> +    description: Enable i2c bus timeout for master/slave (35ms)
->>>>>>
->>>>>> Why this is property for DT? It's for sure not bool, but proper
->>>>>> type coming from units.
->>>>> This is i2c controller feature for enable slave mode inactive
->>>>> timeout and also master mode sda/scl auto release timeout.
->>>>> So I will modify to
->>>>>   aspeed,timeout:
->>>>> 	type: boolean
->>>>>     description: I2C bus timeout enable for master/slave mode
->>>>
->>>> This does not answer my concerns. Why this is board specific?
->>> Sorry, can’t catch your point.
->>> It is not board specific. It is controller feature.
->>> ASPEED SOC chip is server product, master connect may have fingerprint
->>> connect to another board. And also support hotplug.
->>> For example I2C controller as slave mode, and suddenly disconnected.
->>> Slave state machine will keep waiting for master clock in for rx/tx transfer.
->>> So it need timeout setting to enable timeout unlock controller state.
->>> And in another side. As master mode, slave is clock stretching.
->>> The master will be keep waiting, until slave release cll stretching.
->>
->> OK, thanks for describing the feature. I still do not see how this is DT related.
-> 
-> Let me draw more about the board-specific. 
-> The following is an example about i2c layout in board.
-> Board A														Board B
-> --------------------------------------------------------							--------------------------------------------------------
-> |    i2c bus#1(master/slave)  <--------------------> fingerprint.(can be unplug)    <--------------------> i2c bus#x (master/slave) |
-> |    i2c bus#2(master) -> tmp i2c device     |			     		|									|
-> |    i2c bus#3(master) -> adc i2c device      |					|									|
-> --------------------------------------------------------							--------------------------------------------------------
-> In this case i2c bus#1 need enable timeout, avoid suddenly unplug the connector. That slave will keep state to drive clock stretching.
-> So it is specific enable in i2c bus#1. Others is not needed enable timeout. 
-> Does this draw is more clear in scenario?
+On 22/02/2023 04:36, Ryan Chen wrote:
 
-I2C bus #1 works in slave mode? So you always need it for slave work?
+>>> +
+>>> +	return 0;
+>>> +
+>>> +free_irq:
+>>> +	devm_free_irq(&pdev->dev, i2c_bus->irq, i2c_bus);
+>>
+>> Why?
+>>
+>>> +unmap:
+>>> +	devm_iounmap(&pdev->dev, i2c_bus->reg_base);
+>>
+>> Why?
+>>
+>>> +free_mem:
+>>> +	devm_kfree(&pdev->dev, i2c_bus);
+>>
+>> Why?
+>>
+> 
+> Sorry, those are probe following, if any error, will goto this label.
+> To release mem/unmap/free_irq. Is this unnecessary? 
+
+Releasing managed resources is usualyl unnecessary. Therefore I am
+asking why do you think it is necessary here?
+
+> I saw many driver submit is remove all probe fail goto label, is just return ERR.
+> Do you mean I direct go for this way?
+
+Why would you do it differently?
 
 > 
->>>
->>> So in those reason add this timeout design in controller.
+>>> +
+>>> +	return ret;
+>>> +}
+>>> +
+>>> +static int ast2600_i2c_remove(struct platform_device *pdev) {
+>>> +	struct ast2600_i2c_bus *i2c_bus = platform_get_drvdata(pdev);
+>>> +
+>>> +	/* Disable everything. */
+>>> +	writel(0, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
+>>> +	writel(0, i2c_bus->reg_base + AST2600_I2CM_IER);
+>>> +
+>>> +	devm_free_irq(&pdev->dev, i2c_bus->irq, i2c_bus);
+>>> +
+>>> +	i2c_del_adapter(&i2c_bus->adap);
 >>
->> You need to justify why DT is correct place for this property. DT is not for
->> configuring OS, but to describe hardware. I gave you one possibility
->> - why different boards would like to set this property. You said it is not board
->> specific, thus all boards will have it (or none of them).
->> Without any other reason, this is not a DT property. Drop.
->>
->>>>
->>>>>
->>>>>>> +
->>>>>>> +  byte-mode:
->>>>>>> +    type: boolean
->>>>>>> +    description: Force i2c driver use byte mode transmit
->>>>>>
->>>>>> Drop, not a DT property.
->>>>>>
->>>>>>> +
->>>>>>> +  buff-mode:
->>>>>>> +    type: boolean
->>>>>>> +    description: Force i2c driver use buffer mode transmit
->>>>>>
->>>>>> Drop, not a DT property.
->>>>>>
->>>>> The controller support 3 different for transfer.
->>>>> Byte mode: it means step by step to issue transfer.
->>>>> Example i2c read, each step will issue interrupt then enable next step.
->>>>> Sr (start read) | D | D | D | P
->>>>> Buffer mode: it means, the data can prepare into buffer register,
->>>>> then Trigger transfer. So Sr D D D P, only have only 1 interrupt handling.
->>>>> The DMA mode most like with buffer mode, The differ is data prepare
->>>>> in DRAM, than trigger transfer.
->>>>>
->>>>> So, should I modify to
->>>>>   aspeed,byte:
->>>>> 	type: boolean
->>>>>     description: Enable i2c controller transfer with byte mode
->>>>>
->>>>>   aspeed,buff:
->>>>> 	type: boolean
->>>>>     description: Enable i2c controller transfer with buff mode
->>>>
->>>> 1. No, these are not bools but enum in such case.
->>>
->>> Thanks, will modify following.
->>> aspeed,xfer_mode:
->>>     enum: [0, 1, 2]
->>>     description:
->>>       0: byte mode, 1: buff_mode, 2: dma_mode
->>
->> Just keep it text - byte, buffered, dma
->>
->>>
->>>> 2. And why exactly this is board-specific?
->>>
->>> No, it not depends on board design. It is only for register control for
->> controller transfer behave.
->>> The controller support 3 different trigger mode for transfer.
->>> Assign bus#1 ~ 3 : dma tranfer and assign bus#4 ~ 6 : buffer mode
->>> transfer, That can reduce the dram usage.
->>
->> Then anyway it does not look like property for Devicetree. DT describes
->> hardware, not OS behavior.
+>> Wrong order of cleanup. It should be reversed to the probe, unless you have
+>> some reason, but then please explain.
 > 
-> The same draw, in this case, i2c bus#1 that is multi-master transfer architecture. 
-> Both will inactive with trunk data. That cane enable i2c#1 use DMA transfer to reduce CPU utilized.
-> Others (bus#2/3) can keep byte/buff mode. 
+> Sorry, this in remove function, it should do i2c_del_adapter(&i2c_bus->adap) in the end.
+> Why this should revered to probe?
 
-Isn't then current bus configuration for I2C#1 known to the driver?
-Jeremy asked few other questions around here...
+Because it's logical, you do the same with error paths of probe, it it
+usually the only way to make sure some of the resources are not used by
+some other piece (e.g. interrupt handler is called while i2c adapter is
+unregistered).
+
 
 Best regards,
 Krzysztof
