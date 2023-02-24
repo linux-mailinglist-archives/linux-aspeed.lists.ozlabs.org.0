@@ -2,51 +2,45 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7649C6A141A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Feb 2023 01:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766066A14C3
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Feb 2023 03:06:40 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PN9Bq2nQCz3chl
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Feb 2023 11:05:23 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=QD9X4h7z;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PNCtk2xYTz3cjF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Feb 2023 13:06:38 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=QD9X4h7z;
-	dkim-atps=neutral
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PN99W5fmYz3cf8
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 24 Feb 2023 11:04:15 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (174-21-161-58.tukw.qwest.net [174.21.161.58])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id ADB684228;
-	Thu, 23 Feb 2023 16:04:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1677197051;
-	bh=SVvuc4nE5AlFPl8sNCRV4mTme19ET0laznkxlRxM+Wc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QD9X4h7zNd8khM2nvt6c3AjBC/gs7VCbGTNIANnCs+IxnaVroeCZ9rd+6wrFR4vdm
-	 bfUg70n8UCqhVMJriV6k+6i7SCWHsQFqT7Cl6NdQ19a9aD6hM3vEv9SuEE4MZSrzsQ
-	 xbCNC4a3Puta97EcnRYnFSyAvj5rrAqKBl7AohjU=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Andrew Jeffery <andrew@aj.id.au>,
-	Joel Stanley <joel@jms.id.au>
-Subject: [PATCH v2 3/3] ARM: dts: aspeed: asrock: Correct firmware flash SPI clocks
-Date: Thu, 23 Feb 2023 16:04:00 -0800
-Message-Id: <20230224000400.12226-4-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230224000400.12226-1-zev@bewilderbeest.net>
-References: <20230224000400.12226-1-zev@bewilderbeest.net>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PNCtb70lYz3cXX
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 24 Feb 2023 13:06:28 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 31O1qK9V007233;
+	Fri, 24 Feb 2023 09:52:20 +0800 (GMT-8)
+	(envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 24 Feb
+ 2023 10:05:24 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Neal Liu
+	<neal_liu@aspeedtech.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S
+ . Miller" <davem@davemloft.net>
+Subject: [PATCH v2] crypto: aspeed: add error handling if dmam_alloc_coherent() failed
+Date: Fri, 24 Feb 2023 10:05:21 +0800
+Message-ID: <20230224020521.3158285-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 31O1qK9V007233
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,49 +52,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-While I'm not aware of any problems that have occurred running these
-at 100 MHz, the official word from ASRock is that 50 MHz is the
-correct speed to use, so let's be safe and use that instead.
+Since the acry_dev->buf_addr may be NULL, add error handling to
+prevent any additional access to avoid potential issues.
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-Cc: stable@vger.kernel.org
-Fixes: 2b81613ce417 ("ARM: dts: aspeed: Add ASRock E3C246D4I BMC")
-Fixes: a9a3d60b937a ("ARM: dts: aspeed: Add ASRock ROMED8HM3 BMC")
+Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts | 2 +-
- arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Change since v1: remove memzero_explicit() as dmam_alloc_coherent()
+returns memory that's already zeroed.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
-index 67a75aeafc2b..c4b2efbfdf56 100644
---- a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
-@@ -63,7 +63,7 @@ flash@0 {
- 		status = "okay";
- 		m25p,fast-read;
- 		label = "bmc";
--		spi-max-frequency = <100000000>; /* 100 MHz */
-+		spi-max-frequency = <50000000>; /* 50 MHz */
- #include "openbmc-flash-layout.dtsi"
- 	};
- };
-diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
-index 00efe1a93a69..4554abf0c7cd 100644
---- a/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
-@@ -51,7 +51,7 @@ flash@0 {
- 		status = "okay";
- 		m25p,fast-read;
- 		label = "bmc";
--		spi-max-frequency = <100000000>; /* 100 MHz */
-+		spi-max-frequency = <50000000>; /* 50 MHz */
- #include "openbmc-flash-layout-64.dtsi"
- 	};
- };
+ drivers/crypto/aspeed/aspeed-acry.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
+index 1f77ebd73489..eb30649ea7b3 100644
+--- a/drivers/crypto/aspeed/aspeed-acry.c
++++ b/drivers/crypto/aspeed/aspeed-acry.c
+@@ -782,7 +782,10 @@ static int aspeed_acry_probe(struct platform_device *pdev)
+ 	acry_dev->buf_addr = dmam_alloc_coherent(dev, ASPEED_ACRY_BUFF_SIZE,
+ 						 &acry_dev->buf_dma_addr,
+ 						 GFP_KERNEL);
+-	memzero_explicit(acry_dev->buf_addr, ASPEED_ACRY_BUFF_SIZE);
++	if (!acry_dev->buf_addr) {
++		rc = -ENOMEM;
++		goto err_engine_rsa_start;
++	}
+ 
+ 	aspeed_acry_register(acry_dev);
+ 
 -- 
-2.39.1.438.gdcb075ea9396.dirty
+2.25.1
 
