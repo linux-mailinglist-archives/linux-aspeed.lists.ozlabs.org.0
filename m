@@ -1,54 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A643F6A2D3E
-	for <lists+linux-aspeed@lfdr.de>; Sun, 26 Feb 2023 04:15:36 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 268CB6A2EB3
+	for <lists+linux-aspeed@lfdr.de>; Sun, 26 Feb 2023 08:04:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PPTKL3hSDz3cdD
-	for <lists+linux-aspeed@lfdr.de>; Sun, 26 Feb 2023 14:15:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PPZPY22DNz3cd8
+	for <lists+linux-aspeed@lfdr.de>; Sun, 26 Feb 2023 18:04:33 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=eRUwOOoH;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=eRUwOOoH;
+	dkim-atps=neutral
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PPTJb6dqLz2ynD;
-	Sun, 26 Feb 2023 14:14:53 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-	by twspam01.aspeedtech.com with ESMTP id 31Q30CKT025216;
-	Sun, 26 Feb 2023 11:00:12 +0800 (GMT-8)
-	(envelope-from ryan_chen@aspeedtech.com)
-Received: from aspeedtech.com (192.168.10.13) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 26 Feb
- 2023 11:13:25 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Benjamin Herrenschmidt
-	<benh@kernel.crashing.org>,
-        Joel Stanley <joel@jms.id.au>, Rob Herring
-	<robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>, <linux-i2c@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for AST2600-i2cv2
-Date: Sun, 26 Feb 2023 11:13:20 +0800
-Message-ID: <20230226031321.3126756-2-ryan_chen@aspeedtech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230226031321.3126756-1-ryan_chen@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PPZPP4YMJz3c7Q;
+	Sun, 26 Feb 2023 18:04:25 +1100 (AEDT)
+Received: from sparky.lan (unknown [159.196.93.152])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 1BD3A2022A;
+	Sun, 26 Feb 2023 15:04:17 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1677395063;
+	bh=Y7NTv+s/hWLeamtCbWmhn/7LKRoNqR/n38OfE9hBxlM=;
+	h=Subject:From:To:Date:In-Reply-To:References;
+	b=eRUwOOoHuKdrRpkN6k32TqeYuPJ2qpo8OHbVCzKlNi0EcrDheEyrUr7y8e7GJXNED
+	 PQwzOSmmsOInezLa2c5lLpi0j0qRe3tda/GrHsp2InsAdUhXEerdjAFXxWoH3gbzHx
+	 dDYrnKPJZbqCtAng1kR86tfWvHG2oOa/oQ++PKP+19xVZuawP0azjT98V5dNiTSadq
+	 8v3A5ynMhOdk7FvEZgoSv2pABRqqkeW8E9fVYdE31uRXt2MdT0XYrVjXoNgBFxY/g5
+	 m8O0EWEC04qfEIQ3kBcIl0LGlDNYvh+ThCamAIPZWrpyTkS307I3ZcU/ECJeppcfGd
+	 6BwTzPiVu4NkQ==
+Message-ID: <8999ef4a57b035a81b086d8732d119638d46968c.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for
+ AST2600-i2cv2
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Joel Stanley <joel@jms.id.au>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>,  linux-i2c@vger.kernel.org,
+ openbmc@lists.ozlabs.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org
+Date: Sun, 26 Feb 2023 15:04:16 +0800
+In-Reply-To: <20230226031321.3126756-2-ryan_chen@aspeedtech.com>
 References: <20230226031321.3126756-1-ryan_chen@aspeedtech.com>
+	 <20230226031321.3126756-2-ryan_chen@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.13]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 31Q30CKT025216
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,80 +70,85 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add ast2600-i2cv2 compatible and aspeed,global-regs, aspeed,timeout
-aspeed,xfer-mode description for ast2600-i2cv2.
+Hi Ryan,
 
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
----
- .../devicetree/bindings/i2c/aspeed,i2c.yaml   | 44 +++++++++++++++++++
- 1 file changed, 44 insertions(+)
+> --- a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
+> @@ -49,6 +49,25 @@ properties:
+> =C2=A0=C2=A0=C2=A0=C2=A0 description:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 states that there is another master =
+active on this bus
+> =C2=A0
+> +=C2=A0 aspeed,timeout:
+> +=C2=A0=C2=A0=C2=A0 type: boolean
+> +=C2=A0=C2=A0=C2=A0 description: I2C bus timeout enable for master/slave =
+mode
+> +
+> +=C2=A0 aspeed,xfer-mode:
+> +=C2=A0=C2=A0=C2=A0 description: |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 I2C bus transfer mode selection.
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - "byte": I2C bus byte transfer mode.
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - "buffered": I2C bus buffer register tra=
+nsfer mode.
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - "dma": I2C bus dma transfer mode (defau=
+lt)
+> +=C2=A0=C2=A0=C2=A0 items:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum: [byte, buffered, dma]
+> +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/non-unique-str=
+ing-array
 
-diff --git a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-index f597f73ccd87..75de3ce41cf5 100644
---- a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-@@ -49,6 +49,25 @@ properties:
-     description:
-       states that there is another master active on this bus
- 
-+  aspeed,timeout:
-+    type: boolean
-+    description: I2C bus timeout enable for master/slave mode
-+
-+  aspeed,xfer-mode:
-+    description: |
-+      I2C bus transfer mode selection.
-+      - "byte": I2C bus byte transfer mode.
-+      - "buffered": I2C bus buffer register transfer mode.
-+      - "dma": I2C bus dma transfer mode (default)
-+    items:
-+      enum: [byte, buffered, dma]
-+    maxItems: 1
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+
-+  aspeed,global-regs:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of i2c global register node.
-+
- required:
-   - reg
-   - compatible
-@@ -57,6 +76,19 @@ required:
- 
- unevaluatedProperties: false
- 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        const: aspeed,ast2600-i2cv2
-+
-+then:
-+  properties:
-+    reg:
-+      minItems: 2
-+  required:
-+    - aspeed,global-regs
-+
- examples:
-   - |
-     #include <dt-bindings/clock/aspeed-clock.h>
-@@ -71,3 +103,15 @@ examples:
-       interrupts = <0>;
-       interrupt-parent = <&i2c_ic>;
-     };
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    i2c1: i2c@80 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      compatible = "aspeed,ast2600-i2cv2";
-+      reg = <0x80 0x80>, <0xc00 0x20>;
-+      interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-+      aspeed,global-regs = <&i2c_global>;
-+      clocks = <&syscon ASPEED_CLK_APB>;
-+      resets = <&syscon ASPEED_RESET_I2C>;
-+    };
--- 
-2.34.1
+There are still unresolved questions about this xfer-mode property from
+previous submissions of this binding. We don't yet have a justification
+on why the mode configuration is needed in the device tree rather than
+something that is specified in a driver implementation.
 
+By now, I think we well understand what the modes are, and how a driver
+implementation might configure them, but none of that has (so far)
+provided sufficient rationale on why this belongs in the device tree.
+
+The previous threads had a couple of pending discussions, following up on
+those here:
+
+A) You mentioned in [1] that the DMA controller is shared between all i3c
+devices, does that have any consequence on which modes individual
+devices might want to choose?
+
+B) You implied in [2] that the different transfer modes might be related
+to whether there are other masters present on the bus, but the logic
+behind that is not clear.
+
+C) In [3] you mentioned that there might be some DRAM savings by using a
+particular mode.
+
+and, most importantly:
+
+D) unanswered from [4] and [5]: what are the hardware-specified reasons
+why a DT author would chose one mode over another?
+
+If you can write this out in some format like:
+
+ - in hardware situation X, you should use DMA mode
+ - in hardware situation Y, you should use byte mode
+ - [...]
+
+that might help us to understand where this configuration belongs, or
+what a reasonable DT representation should look like, or even if
+existing DT schema can already provide the information required to
+decide.
+
+Cheers,
+
+
+Jeremy
+
+[1]: https://lists.ozlabs.org/pipermail/linux-aspeed/2023-February/009876.h=
+tml
+[2]: https://lists.ozlabs.org/pipermail/linux-aspeed/2023-February/009892.h=
+tml
+[3]: https://lists.ozlabs.org/pipermail/linux-aspeed/2023-February/009880.h=
+tml
+[4]: https://lists.ozlabs.org/pipermail/linux-aspeed/2023-February/009871.h=
+tml
+[5]: https://lists.ozlabs.org/pipermail/linux-aspeed/2023-February/009884.h=
+tml
