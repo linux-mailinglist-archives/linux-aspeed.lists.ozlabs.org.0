@@ -1,41 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111026A6869
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 08:51:28 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D26F6A68B9
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 09:17:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PRRJF6n4Zz3cF0
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 18:51:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PRRtk03B6z3cGk
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 19:17:50 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=PEowzYc9;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=molgen.mpg.de (client-ip=141.14.17.11; helo=mx3.molgen.mpg.de; envelope-from=pmenzel@molgen.mpg.de; receiver=<UNKNOWN>)
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=PEowzYc9;
+	dkim-atps=neutral
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRRJ56b6vz3bg5;
-	Wed,  1 Mar 2023 18:51:15 +1100 (AEDT)
-Received: from [192.168.0.2] (ip5f5aefed.dynamic.kabel-deutschland.de [95.90.239.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 5291661CC457B;
-	Wed,  1 Mar 2023 08:51:10 +0100 (CET)
-Message-ID: <775059b1-4697-b745-4743-55f7f7a9143e@molgen.mpg.de>
-Date: Wed, 1 Mar 2023 08:51:09 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRRtZ4GTYz3bgj
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Mar 2023 19:17:42 +1100 (AEDT)
+Received: from pecola.lan (unknown [159.196.93.152])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 12FF420034;
+	Wed,  1 Mar 2023 16:17:39 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1677658660;
+	bh=woNoLas9qnFhgi2HTH7IsMcjNwAfQKmp4m9Er7VtDVM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=PEowzYc9B2LIuyaK3BtrFQXwzP0mhCqomVvK6auctWuEl7bC4n4gQEolYh0fOSayt
+	 pMjNbs6eU8bI7EBNuDvWmft769L1QQlRqHkktK83ncMVVfvkXPn3jNc50GKprhaVj/
+	 kE9xlkgZzilRAaZ826hqzFuBr6RaIYtIFcMwqsM5oaGn2TMiV3EyyuxFzNrLvD6/Gv
+	 mMt1Pu2i2d75yIQDWqnAWhvuB1JqgslY93DqOaJKZXp+QLwfbGbeY4eEEuQCPR0XTE
+	 wrPbKoHCarqmMbXBnaFLU1y279IFDTKYAe4UBkF4U5JOJzD3lbvyHeW4JfbdHHAHGz
+	 +dUFuYpvKWb1g==
+Message-ID: <f5c9ecb7b1a850b196dfd3a5207f03226f514721.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v4 3/5] clk: ast2600: Add full configs for I3C clocks
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Joel Stanley <joel@jms.id.au>
+Date: Wed, 01 Mar 2023 16:17:39 +0800
+In-Reply-To: <1024ddf2c4047e5a6cd516809d4d15ea5e0349b6.camel@codeconstruct.com.au>
+References: <20230228091638.206569-1-jk@codeconstruct.com.au>
+	 <20230228091638.206569-4-jk@codeconstruct.com.au>
+	 <CACPK8XfZCaLK+1kRkHa+wvGyt3YCwiZDR7CKRPKxdjuBFH+01Q@mail.gmail.com>
+	 <1024ddf2c4047e5a6cd516809d4d15ea5e0349b6.camel@codeconstruct.com.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] ARM: dts: aspeed: mtmitchell: Enable NCSI
-To: Chanh Nguyen <chanh@os.amperecomputing.com>
-References: <20230228102820.18477-1-chanh@os.amperecomputing.com>
-Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20230228102820.18477-1-chanh@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,108 +60,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-clk@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Chanh,
+Hi Joel,
+
+> > > @@ -15,7 +16,7 @@
+> > >=20
+> > > =C2=A0#include "clk-aspeed.h"
+> > >=20
+> > > -#define ASPEED_G6_NUM_CLKS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 71
+> > > +#define ASPEED_G6_NUM_CLKS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 72
+> >=20
+> > NUM_CLKS seems dangerous. Should we instead use
+> > ARRAY_SIZE(aspeed_g6_gates)?
+>=20
+> Yep, that would have saved me some time debugging. That would suit as
+> a separate change though, would you like it in the same series?
+
+No wait, it's not just ARRAY_SIZE(aspeed_g6_gates), there's a bunch of
+manually-configured clocks in the aspeed_g6_clk_data->hws[] array too.
+
+This might require a bit more of a restructure if we want to get rid of
+the NUM_CLKS definitions...
+
+Cheers,
 
 
-Thank you for the patch.
-
-Am 28.02.23 um 11:28 schrieb Chanh Nguyen:
-> Support the mac3 (RGMII4) as an NC-SI stack instead of an MDIO PHY.
-> 
-> The OCP slot #0 and OCP slot #1 use a common the BMC_NCSI signal,
-
-*the* seems a leftover.
-
-> so we use only one of them at the same time. The OCP slot #0 will
-> be enabled by PCA9539's setting by default.
-> 
-> Also, enable the OCP Auxiliary Power during booting.
-
-Is there a reason not to make this a separate commit?
-
-
-Kind regards,
-
-Paul
-
-
-> Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
-> ---
-> Changes in v2:
->     - Change PCA9539APW node name.                     [Krzysztof]
-> ---
->   .../boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 37 ++++++++++++++++++-
->   1 file changed, 36 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-> index 4b91600eaf62..1e0e88465254 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-> @@ -251,6 +251,14 @@
->   	pinctrl-0 = <&pinctrl_rgmii1_default>;
->   };
->   
-> +&mac3 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rmii4_default>;
-> +	clock-names = "MACCLK", "RCLK";
-> +	use-ncsi;
-> +};
-> +
->   &fmc {
->   	status = "okay";
->   	flash@0 {
-> @@ -439,6 +447,26 @@
->   	status = "okay";
->   };
->   
-> +&i2c8 {
-> +	status = "okay";
-> +
-> +	gpio@77 {
-> +		compatible = "nxp,pca9539";
-> +		reg = <0x77>;
-> +		gpio-controller;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		#gpio-cells = <2>;
-> +
-> +		bmc-ocp0-en-hog {
-> +			gpio-hog;
-> +			gpios = <7 GPIO_ACTIVE_LOW>;
-> +			output-high;
-> +			line-name = "bmc-ocp0-en-n";
-> +		};
-> +	};
-> +};
-> +
->   &i2c9 {
->   	status = "okay";
->   };
-> @@ -530,13 +558,20 @@
->   	/*V0-V7*/	"s0-hightemp-n","s0-fault-alert","s0-sys-auth-failure-n",
->   			"host0-reboot-ack-n","host0-ready","host0-shd-req-n",
->   			"host0-shd-ack-n","s0-overtemp-n",
-> -	/*W0-W7*/	"ocp-aux-pwren","ocp-main-pwren","ocp-pgood","",
-> +	/*W0-W7*/	"","ocp-main-pwren","ocp-pgood","",
->   			"bmc-ok","bmc-ready","spi0-program-sel","spi0-backup-sel",
->   	/*X0-X7*/	"i2c-backup-sel","s1-fault-alert","s1-fw-boot-ok",
->   			"s1-hightemp-n","s0-spi-auth-fail-n","s1-sys-auth-failure-n",
->   			"s1-overtemp-n","s1-spi-auth-fail-n",
->   	/*Y0-Y7*/	"","","","","","","","host0-special-boot",
->   	/*Z0-Z7*/	"reset-button","ps0-pgood","ps1-pgood","","","","","";
-> +
-> +	ocp-aux-pwren-hog {
-> +		gpio-hog;
-> +		gpios = <ASPEED_GPIO(W, 0) GPIO_ACTIVE_HIGH>;
-> +		output-high;
-> +		line-name = "ocp-aux-pwren";
-> +	};
->   };
->   
->   &gpio1 {
+Jeremy
