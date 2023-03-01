@@ -1,62 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8996A646B
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 01:49:41 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F8B6A6470
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 01:50:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PRFxb0tLGz3c46
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 11:49:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PRFyv4N7qz3c6P
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 11:50:47 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=NVgStDPJ;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=dyyWssqt;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::52a; helo=mail-ed1-x52a.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::535; helo=mail-ed1-x535.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=NVgStDPJ;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=dyyWssqt;
 	dkim-atps=neutral
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRFxR2RTvz30Lt
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Mar 2023 11:49:31 +1100 (AEDT)
-Received: by mail-ed1-x52a.google.com with SMTP id cy6so47495349edb.5
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Feb 2023 16:49:30 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRFyn15fQz3bTc
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Mar 2023 11:50:41 +1100 (AEDT)
+Received: by mail-ed1-x535.google.com with SMTP id s26so47344570edw.11
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Feb 2023 16:50:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=jms.id.au; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kn741iAhWjnSvmrDZleHGNSeYwFm8STm5Ya4EwcTIQA=;
-        b=NVgStDPJRBmRlQZsmftDf8c4WCB2NVPYJ4id07IjmV94n5WTKVGkhCZ3Z/TAJu8hvx
-         Gd/nqzFKpS0FsiKOjn/z1Ab2x+xTTfj7AB0Q9f4t2oBvcB9qDldjXgLP+/cwEDz65C1K
-         2iiYuxr+OYj2OsJB1pFd7NQuGYZHBTKfxa0fk=
+        bh=ynnNEJ0OvCRhJyHXpVT5xLF+Y6XFOKfk2/bquuxHgOg=;
+        b=dyyWssqtEcqiKT7VoraJN8oiAk/zyVGRWxc5Rj4xO/OalLZ8gwyyvaGZIxRK8w3WTr
+         g5b9CL3uPhY6+FpgXgpCDQGHDmrA+AJ3TIoba7l4CcIF5DNl/JBawLLs33Zd7Nnt22Om
+         vh6StvCmQ86GV3oBklBuFUifqCkBlHSG99yVo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kn741iAhWjnSvmrDZleHGNSeYwFm8STm5Ya4EwcTIQA=;
-        b=fFBM8sHbNLAffk/rQvzYNydNZsSzSCx660jxl7bSUCzrN3pGqQyfEISwp8xK3duKVf
-         3vjUWEY+kS7IMaJ4CVraFGOA6QEptQJFf2SHvoZRaiYBT5ZnaXznz5N7LqGGLhfgQQh5
-         kFL+cT7qvEeWllg/dI7jlsKXyVxJqalpTeYv8rwQecEMxUu3Gw5NwVWS62zRKHsri6Wg
-         XEqPTK+E4V48SBgb2AyORjI88S0lcWrm5yWW12oZPYbaBW2kAyuEhuR+BwE+ldU/DD4E
-         Ik+f2z89xBjc84MyOnSWEvmM9uIaY0vBQpL+cldTOYOLpQ5pni2yc0EuIYwXgNeXq7TX
-         Xrlg==
-X-Gm-Message-State: AO0yUKXZG6CV3ForSM0C3/940XZ56qFk+9oDCTbJvdYNo9osmxLogvTY
-	76R1PJSmZ/po6rGN269k4e6eHb4wuEV5X8xh/Ng=
-X-Google-Smtp-Source: AK7set/JIQ8zzJbyxKugXjghghYkMBYBiKLVjci91LtkFEbgS/XapeFpjr8GfHBFs5PDfoV0Lz8HToyONIKZkyGAEnc=
-X-Received: by 2002:a50:d548:0:b0:4ad:7439:cec7 with SMTP id
- f8-20020a50d548000000b004ad7439cec7mr2717158edj.7.1677631767973; Tue, 28 Feb
- 2023 16:49:27 -0800 (PST)
+        bh=ynnNEJ0OvCRhJyHXpVT5xLF+Y6XFOKfk2/bquuxHgOg=;
+        b=YTQggiiuDWd88zgWwqmvP6Ct1AdbPnw3pFVCHYD5f3A+hDQOVVOphEZ8Ni3ra+ZH+m
+         e0QGZlNJ5JdHhChBwkInA0tV97YvPLlZLyrw1FPCKQgkanm23mxLTX3xbfZm9WBjUxig
+         Dj9VmqXlUAwCY3Qt45pvY7ep9q/7HAJf1uv/bdAIZCSTjgaovTkS1mAZ01o3a0a9pKPu
+         w/xbqQ0MVxuqEWLirBUR9c4oSgorjMxrnZsDtHeKtWSvAPSUYr0NGZ1C6KRwnPGN7FWN
+         dlWDq11K+I1ft938+fkGTJAGOe8ZeaFvWEnEOrEIn9tQqBIf+cU3EfAZiRRTl0ELIiKj
+         o3OA==
+X-Gm-Message-State: AO0yUKXf1a2cQ7msyI4lc8x5xSCnFykdMlDdZHM86z2f4HMBdzUOFNIf
+	EkPQoUsqgcPluAnjLUwyvOs6aX5QAnRkW6pW1ds=
+X-Google-Smtp-Source: AK7set+7WDDBuXBGzo96ZtLI2wdyOJir2jdHhZzySjRCGEPwTLVIKS28KjoazkzNIINdilRJOZV0Xs8xUA3r2vgOdQ4=
+X-Received: by 2002:a50:c319:0:b0:4ad:7439:cec3 with SMTP id
+ a25-20020a50c319000000b004ad7439cec3mr2710135edb.7.1677631836974; Tue, 28 Feb
+ 2023 16:50:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20230228091638.206569-1-jk@codeconstruct.com.au> <20230228091638.206569-6-jk@codeconstruct.com.au>
-In-Reply-To: <20230228091638.206569-6-jk@codeconstruct.com.au>
+References: <20230228091638.206569-1-jk@codeconstruct.com.au> <20230228091638.206569-2-jk@codeconstruct.com.au>
+In-Reply-To: <20230228091638.206569-2-jk@codeconstruct.com.au>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 1 Mar 2023 00:49:15 +0000
-Message-ID: <CACPK8XcA_SES=Wo7vuWEJ4U5kTizM5brmb=6ELXD-taCFJQwgA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] dt-bindings: clock: ast2600: Add reset config for I3C
+Date: Wed, 1 Mar 2023 00:50:24 +0000
+Message-ID: <CACPK8XffdV3YMy0eu4sZQhw-tS2g5kz_RHLD98Up9G0P9NAR4A@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] clk: ast2600: allow empty entries in aspeed_g6_gates
 To: Jeremy Kerr <jk@codeconstruct.com.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -76,38 +76,52 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 
 On Tue, 28 Feb 2023 at 09:16, Jeremy Kerr <jk@codeconstruct.com.au> wrote:
 >
-> Add reset line definitions for the AST2600 I3C block's reset inputs.
+> We're about to remove an entry from aspeed_g6_gates, but we won't want
+> to alter/reorder existing entries. Allow empty entries in this array.
+
+Nice. So it's recorded somewhere: the gates array should be
+sequential, with the include/dt-bindings/clock/ast2600-clock.h defines
+starting at 0 and counting up. If a clock gets mistakenly added and
+needs to be removed, we can't have a "hole" in the array so instead we
+leave it NULL and skip over adding it.
+
+We could simply remove the bad entry but this would break the
+theoretical case of a device tree with an old header, so we leave the
+gaps in place :(
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+Cheers,
+
+Joel
+
+
+
+
 >
 > Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >
 > ---
-> v2:
+> v3:
 >  - reword commit message
 > ---
->  include/dt-bindings/clock/ast2600-clock.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/clk/clk-ast2600.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/include/dt-bindings/clock/ast2600-clock.h b/include/dt-bindings/clock/ast2600-clock.h
-> index b4d69103d722..b1c129977910 100644
-> --- a/include/dt-bindings/clock/ast2600-clock.h
-> +++ b/include/dt-bindings/clock/ast2600-clock.h
-> @@ -90,6 +90,12 @@
->  /* Only list resets here that are not part of a gate */
-
-These definitions are part of a gate, yeah?
-
->  #define ASPEED_RESET_ADC               55
->  #define ASPEED_RESET_JTAG_MASTER2      54
-> +#define ASPEED_RESET_I3C5              45
-> +#define ASPEED_RESET_I3C4              44
-> +#define ASPEED_RESET_I3C3              43
-> +#define ASPEED_RESET_I3C2              42
-> +#define ASPEED_RESET_I3C1              41
-> +#define ASPEED_RESET_I3C0              40
->  #define ASPEED_RESET_I3C_DMA           39
->  #define ASPEED_RESET_PWM               37
->  #define ASPEED_RESET_PECI              36
+> diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
+> index 9c3305bcb27a..1f08ff3c60fa 100644
+> --- a/drivers/clk/clk-ast2600.c
+> +++ b/drivers/clk/clk-ast2600.c
+> @@ -652,6 +652,9 @@ static int aspeed_g6_clk_probe(struct platform_device *pdev)
+>                 const struct aspeed_gate_data *gd = &aspeed_g6_gates[i];
+>                 u32 gate_flags;
+>
+> +               if (!gd->name)
+> +                       continue;
+> +
+>                 /*
+>                  * Special case: the USB port 1 clock (bit 14) is always
+>                  * working the opposite way from the other ones.
 > --
 > 2.39.1
 >
