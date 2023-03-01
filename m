@@ -1,68 +1,46 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9CA6A6670
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 04:23:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DB26A667F
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 04:34:33 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PRKMQ1B7Hz3c9s
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 14:23:46 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=EFXUbuSe;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PRKbq5YsSz3c9V
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 14:34:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=EFXUbuSe;
-	dkim-atps=neutral
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRKMG3gYXz306l;
-	Wed,  1 Mar 2023 14:23:38 +1100 (AEDT)
-Received: from pecola.lan (unknown [159.196.93.152])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id B7FAF2003E;
-	Wed,  1 Mar 2023 11:23:33 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1677641016;
-	bh=IZsgVb8ZtIZq1XVBi515jr/CvL6YVLvbvd3LsvrHoaE=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=EFXUbuSeAez/QolDnTxDb614EnfQLrdARAaohwkNDRkO3nIx8ogpQL9LCq11oPeYD
-	 nWYH3tggxG0vVHVvASY836WVG22+I/SS8wFLjxB8EnNoiMeIbJ0zCkyxSvNkl0eRlD
-	 T9mk1HDFnHiCOtX+9P8TqDFdzZ5vIu5WYLWHvvXGrKbpKBl4V7ewlpBLr2BdORnUsw
-	 L8FWMT8VjY2yV4nvGaaFY0+X32eGNq8YhI19cliwEMM885RO7/amjiTp+DlNtbQDGq
-	 i2gQvni+P5YR/dKi/XL/LMHeb2++aqojE/1iAkrJmXQEQ2lieiRgcpvB1PVnbjYxSV
-	 J/nF2XVXYWKbw==
-Message-ID: <c18b064b6b01bd547b2f03006dbf4bb6fdf9b91d.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for
- AST2600-i2cv2
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Ryan Chen <ryan_chen@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>, 
- Brendan Higgins <brendan.higgins@linux.dev>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Joel Stanley <joel@jms.id.au>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Philipp Zabel
- <p.zabel@pengutronix.de>,  "linux-i2c@vger.kernel.org"
- <linux-i2c@vger.kernel.org>, "openbmc@lists.ozlabs.org"
- <openbmc@lists.ozlabs.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Date: Wed, 01 Mar 2023 11:23:33 +0800
-In-Reply-To: <SEZPR06MB52695281E21B27DB57A7B2FFF2AD9@SEZPR06MB5269.apcprd06.prod.outlook.com>
-References: <20230226031321.3126756-1-ryan_chen@aspeedtech.com>
-	 <20230226031321.3126756-2-ryan_chen@aspeedtech.com>
-	 <8999ef4a57b035a81b086d8732d119638d46968c.camel@codeconstruct.com.au>
-	 <SEZPR06MB52699858C92383E8E07D0832F2AF9@SEZPR06MB5269.apcprd06.prod.outlook.com>
-	 <f4cb3efc9825efa582aa94bd03657b1319ff38fd.camel@codeconstruct.com.au>
-	 <SEZPR06MB52695281E21B27DB57A7B2FFF2AD9@SEZPR06MB5269.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRKbh38HJz2yNX
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Mar 2023 14:34:22 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 3213IphW072955;
+	Wed, 1 Mar 2023 11:18:51 +0800 (GMT-8)
+	(envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 1 Mar
+ 2023 11:32:15 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Neal Liu
+	<neal_liu@aspeedtech.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S
+ . Miller" <davem@davemloft.net>
+Subject: [PATCH] crypto: aspeed: fix uninitialized symbol 'idx' warning
+Date: Wed, 1 Mar 2023 11:32:05 +0800
+Message-ID: <20230301033205.2137450-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 3213IphW072955
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,80 +52,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: kernel test
+ robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Dan Carpenter <error27@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Ryan,
+'idx' is not initialized if it's not EXP_MODE nor MOD_MODE.
+Use "else" instead to fix it.
 
-> Sorry, Do you mean add in description like following??
-> =C2=A0 aspeed,xfer-mode:
-> =C2=A0=C2=A0=C2=A0 description: |
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 I2C bus transfer mode selection.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ERRATA "I2C DMA fa=
-ils when DRAM bus is busy and it can not
-> take DMA write data
-> Immediately", only 1 i2c bus can be enable for DMA mode.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - "byte": I2C bus byte transfer mode.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - "buffered": I2C bus buffer register tran=
-sfer mode.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - "dma": I2C bus dma transfer mode (defaul=
-t)
+Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Link: https://lore.kernel.org/r/202302261052.CVFRyq6F-lkp@intel.com/
 
-I would suggest putting some background about the transfer mode as a
-top-level description in the binding.
+---
+ drivers/crypto/aspeed/aspeed-acry.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-There has been a lot of discussion here on why the binding specifies
-the transfer mode; it would be useful (for future readers) to have a
-bit of context on what modes they should use.
+diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
+index 1f77ebd73489..828dc3ae1b5f 100644
+--- a/drivers/crypto/aspeed/aspeed-acry.c
++++ b/drivers/crypto/aspeed/aspeed-acry.c
+@@ -289,7 +289,7 @@ static int aspeed_acry_rsa_ctx_copy(struct aspeed_acry_dev *acry_dev, void *buf,
+ 
+ 			if (mode == ASPEED_RSA_EXP_MODE)
+ 				idx = acry_dev->exp_dw_mapping[j - 1];
+-			else if (mode == ASPEED_RSA_MOD_MODE)
++			else /* mode == ASPEED_RSA_MOD_MODE */
+ 				idx = acry_dev->mod_dw_mapping[j - 1];
+ 
+ 			dw_buf[idx] = cpu_to_le32(data);
+-- 
+2.25.1
 
-Perhaps something like:
-
-    description: |
-      [general binding description]
-
-      ASPEED ast2600 platforms have a number of i2c controllers, and share =
-a
-      single DMA engine between the set. DTSes can specify the mode of data
-      transfer to/from the device - either DMA or programmed I/O - but
-      hardware limitations may require a DTS to manually allocate which
-      controller can use DMA mode; the enable-dma property allows control o=
-f
-      this.
-
-      In cases where one the hardware design results in a specific
-      controller handling a larger amount of data, a DTS would likely
-      allocate DMA mode for that one controller.
-
-- adjusted for whatever property interface we settle on here, of course.
-
-> > So, it sounds like:
-> >=20
-> > =C2=A0- there's no point in using byte mode, as buffer mode provides
-> > =C2=A0=C2=A0 equivalent functionality with fewer drawbacks (ie, less in=
-terrupt
-> > =C2=A0=C2=A0 load)
-> >=20
-> > =C2=A0- this just leaves the dma and buffer modes
-> >=20
-> > =C2=A0- only one controller can use dma mode
-> >=20
-> > So: how about just a single boolean property to indicate "use DMA
-> > on this controller"? Something like aspeed,enable-dma? Or if DT binding
-> > experts can suggest something common that might be more suitable?
->=20
-> If so, just leave enable-dma and only support for buffer mode and dma
-> mode, am I right?
-
-Yes, from what you have said so far, I think just a single switch
-between DMA / not-DMA is all you need here (unless there is any time
-that byte mode is preferable?)
-
-If there is already an existing DT convention for indicating/enabling
-DMA capability, I would suggest using that. Otherwise, just a boolean
-flag with a sensible name would seem to work fine. The DT experts
-probably have a good idea of what works best here :)
-
-Cheers,
-
-
-Jeremy
