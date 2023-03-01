@@ -2,55 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6066A67CC
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 07:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706F66A692F
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 09:53:50 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PRQ342cryz3c6P
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 17:54:56 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=L9TRX5s3;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PRShD27Rhz3cJg
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 19:53:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=L9TRX5s3;
-	dkim-atps=neutral
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kaod.org (client-ip=188.165.32.156; helo=3.mo548.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+X-Greylist: delayed 2397 seconds by postgrey-1.36 at boromir; Wed, 01 Mar 2023 19:53:41 AEDT
+Received: from 3.mo548.mail-out.ovh.net (3.mo548.mail-out.ovh.net [188.165.32.156])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRQ2z6CCxz2yNm
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Mar 2023 17:54:51 +1100 (AEDT)
-Received: from pecola.lan (unknown [159.196.93.152])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id CFAAA20034;
-	Wed,  1 Mar 2023 14:54:50 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1677653690;
-	bh=7hd2rXTIjthijwypIiEY2EMElVsWDZ7kE82iOJb/pYM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=L9TRX5s3EOuTW1uU3uwpVE9xF3X5jVGN9sq/EVoDDGx7Rq3j1OMrsXev+boozONzJ
-	 CZIqtLhVWUiiAnRK0m2zLgObXi4h3XV1ubVSaLFBDIzsQi0DiKrM2OFtPfUJebWEHb
-	 RiuFpaXVaQWxgi0ploAItX8xEa7u0ipWBBZdWFCkUxyiKURqTVPcsvfitgavyOwuvA
-	 ScOtJ7wq1f43ybiHH2YEeVYrWf174OOHKSJzVGH9Rj9V/4XoGPF4an/ejxc9/xN/4O
-	 iOmGUsO6ZmEprddiJ0XJALptziBaIXM8XKeR8kf7LylGg4DV+s8yx9kNb6SxHor1M4
-	 fqv9pZnOgRc3Q==
-Message-ID: <51803a244c28c53b5adb384effc09df1909dd1e8.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v4 5/5] dt-bindings: clock: ast2600: Add reset config
- for I3C
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Joel Stanley <joel@jms.id.au>
-Date: Wed, 01 Mar 2023 14:54:50 +0800
-In-Reply-To: <CACPK8XfRg9vHYjC0rco4dr9pNY03vXTrmXaopOGBgdCq09LybQ@mail.gmail.com>
-References: <20230228091638.206569-1-jk@codeconstruct.com.au>
-	 <20230228091638.206569-6-jk@codeconstruct.com.au>
-	 <CACPK8XcA_SES=Wo7vuWEJ4U5kTizM5brmb=6ELXD-taCFJQwgA@mail.gmail.com>
-	 <cbbb99ce6125048667e4c41412710a61dc4d686f.camel@codeconstruct.com.au>
-	 <CACPK8XfRg9vHYjC0rco4dr9pNY03vXTrmXaopOGBgdCq09LybQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRSh51yTyz3c6P
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Mar 2023 19:53:38 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.25])
+	by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6E55B212FB;
+	Wed,  1 Mar 2023 07:34:00 +0000 (UTC)
+Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 1 Mar
+ 2023 08:33:59 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-110S004a495a9e5-a5cd-4f60-b657-3841be6cd6d6,
+                    BA6511934B6943C3167A88A21852BB5F3FADB7F3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <36da41c9-2396-5dd4-7fef-c85412f23045@kaod.org>
+Date: Wed, 1 Mar 2023 08:33:58 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: asrock: Correct firmware flash
+ SPI clocks
+To: Joel Stanley <joel@jms.id.au>, Zev Weiss <zev@bewilderbeest.net>
+References: <20230224000400.12226-1-zev@bewilderbeest.net>
+ <20230224000400.12226-4-zev@bewilderbeest.net>
+ <CACPK8XdFT=+VJJ=iDhcmWPh9m9of2b+2UYxkrAisp6tdmWOWKg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CACPK8XdFT=+VJJ=iDhcmWPh9m9of2b+2UYxkrAisp6tdmWOWKg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.110]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: b1580e2c-5d52-471c-b456-c19902cff7ea
+X-Ovh-Tracer-Id: 18439707202531920885
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgedguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruhdpiigvvhessggvfihilhguvghrsggvvghsthdrnhgvthdprghnughrvgifsegrjhdrihgurdgruhdpkhhriiihshiithhofhdrkhhoiihlohifshhkihdoughtsehlihhnrghrohdrohhrghdprhhosghhodgutheskhgvrhhnvghlrdhorhhgpdguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrshhpvg
+ gvugeslhhishhtshdrohiilhgrsghsrdhorhhgpdhlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpohhpvghnsghmtgeslhhishhtshdrohiilhgrsghsrdhorhhgpdhsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,51 +63,73 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-clk@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Joel,
+On 3/1/23 02:30, Joel Stanley wrote:
+> On Fri, 24 Feb 2023 at 00:04, Zev Weiss <zev@bewilderbeest.net> wrote:
+>>
+>> While I'm not aware of any problems that have occurred running these
+>> at 100 MHz, the official word from ASRock is that 50 MHz is the
+>> correct speed to use, so let's be safe and use that instead.
+> 
+> :(
+> 
+> Validated with which driver?
+> 
+> Cédric, do you have any thoughts on this?
+  
 
-> > So I'm not sure what that comment is supposed to signify as to what
-> > qualifies as a "gate" in the context of a reset...
->=20
-> This is poor documentation from the author of the clock driver,
+Transactions on the Firmware SPI controller are usually configured at
+50MHz by U-Boot and Linux to stay on the safe side, specially CE0 from
+which the board boots. The other SPI controllers are generally set at
+a higher freq : 100MHz, because the devices on these buses are not for
+booting the BMC, they are mostly only written to (at a default lower
+freq). There are some exceptions when the devices and the wiring permit
+higher rates.
 
-Hah, not that guy again!
+For the record, we lowered the SPI freq on the AST2400 (palmetto)
+because some chips would freak out once in a while at 100MHz.
 
-> which is me.
+C.
 
-oh.
+>> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+>> Cc: stable@vger.kernel.org
+>> Fixes: 2b81613ce417 ("ARM: dts: aspeed: Add ASRock E3C246D4I BMC")
+>> Fixes: a9a3d60b937a ("ARM: dts: aspeed: Add ASRock ROMED8HM3 BMC")
+>> ---
+>>   arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts | 2 +-
+>>   arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts | 2 +-
+>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
+>> index 67a75aeafc2b..c4b2efbfdf56 100644
+>> --- a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
+>> +++ b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
+>> @@ -63,7 +63,7 @@ flash@0 {
+>>                  status = "okay";
+>>                  m25p,fast-read;
+>>                  label = "bmc";
+>> -               spi-max-frequency = <100000000>; /* 100 MHz */
+>> +               spi-max-frequency = <50000000>; /* 50 MHz */
+>>   #include "openbmc-flash-layout.dtsi"
+>>          };
+>>   };
+>> diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
+>> index 00efe1a93a69..4554abf0c7cd 100644
+>> --- a/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
+>> +++ b/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
+>> @@ -51,7 +51,7 @@ flash@0 {
+>>                  status = "okay";
+>>                  m25p,fast-read;
+>>                  label = "bmc";
+>> -               spi-max-frequency = <100000000>; /* 100 MHz */
+>> +               spi-max-frequency = <50000000>; /* 50 MHz */
+>>   #include "openbmc-flash-layout-64.dtsi"
+>>          };
+>>   };
+>> --
+>> 2.39.1.438.gdcb075ea9396.dirty
+>>
 
-> We only expose the reset lines in the device tree for resets that are
-> not associated with a clock line.
->=20
-> This is done because the aspeed docs specify we do a dance when
-> enabling an IP:
->=20
-> =C2=A01. Place IP in reset
-> =C2=A02. Enable clock
-> =C2=A03. Delay
-> =C2=A04. Release reset
->=20
-> So we do this with the aspeed_g6_gates array. The rule is: any gate
-> with a number in the rst column doesn't have that reset line exposed.
-> That's what this cryptic comment in the header is warning about.
-
-That makes sense, and means I can drop the explicit reset control from
-the DTS, and then we don't need these definitions.
-
-> This was documented to some extent in the original commit message for
-> the 2400/2500 driver:
->=20
-> =C2=A0https://git.kernel.org/torvalds/c/15ed8ce5f84e2b
->=20
-> We could hoist that out and put it in the source file(s).
-
-Awesome, thanks for the explanation - I'll add a patch to do so.
-
-Cheers,
-
-
-Jeremy
