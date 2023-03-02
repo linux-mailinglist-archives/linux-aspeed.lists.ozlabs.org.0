@@ -1,78 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8006A7BED
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Mar 2023 08:36:18 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8996A8CB1
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Mar 2023 00:04:25 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PS2wJ1jknz3cMj
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Mar 2023 18:36:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PSRWC38bGz3bfk
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Mar 2023 10:04:23 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=bf8Rpe2m;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.a=rsa-sha256 header.s=rsa2 header.b=TYQvjvix;
+	dkim=fail reason="signature verification failed" header.d=ravnborg.org header.i=@ravnborg.org header.a=ed25519-sha256 header.s=ed2 header.b=Z7zbinB+;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::532; helo=mail-ed1-x532.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=ravnborg.org (client-ip=2a02:2350:5:404::1; helo=mailrelay5-1.pub.mailoutpod2-cph3.one.com; envelope-from=sam@ravnborg.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=bf8Rpe2m;
+	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.a=rsa-sha256 header.s=rsa2 header.b=TYQvjvix;
+	dkim=pass header.d=ravnborg.org header.i=@ravnborg.org header.a=ed25519-sha256 header.s=ed2 header.b=Z7zbinB+;
 	dkim-atps=neutral
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+X-Greylist: delayed 11720 seconds by postgrey-1.36 at boromir; Fri, 03 Mar 2023 10:04:13 AEDT
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PS2w65zL3z3bgT
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Mar 2023 18:36:04 +1100 (AEDT)
-Received: by mail-ed1-x532.google.com with SMTP id d30so63977018eda.4
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 01 Mar 2023 23:36:04 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PSRW202lvz3cG1
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Mar 2023 10:04:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1677742560;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XCQZG2b6SjjHN0wfxKrnSflpvL+Z18WTHOqyR2lQDUY=;
-        b=bf8Rpe2m42aadVErpqsTPzwa4dIeFJb9LbEzJeoa53Bh57v1DaLkkxi1HD3oK5Agcb
-         5f9u5Blm5jX+432IXEmEXRNpjJkz5vatmQ09pwQRVbRTlSol9CBJpGbfWeJVeYs1SfJd
-         783vrdnTd6Xz5bZgJ0N22viVDA3WWEppROrHfOwNFeaicKIo6Eqj0RhC97Hag8AYZSm0
-         X1eKarC7GKdU/1NgCsK4OJpKeC+jsL6Jc1gSE9KR4bzWSo6AIk/9pwOMwi07j5zShVqH
-         bKistQWZAXbyO43dyOj9edQV3uFaGdFRbF79NVChHt1RY5Tx7l//fdWZ9EF61DvNlmmE
-         PpYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677742560;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XCQZG2b6SjjHN0wfxKrnSflpvL+Z18WTHOqyR2lQDUY=;
-        b=5RizuGEv3WEz/4ZM1pXRAYcFIjnnyTfUqFhqGFRA4JhGxJHmM+SaZ8UWs5pI8WVKJV
-         sX2Q+7AyH5vYK2mkP/TSRMY/4Zgt0ip/rbhgdbU1tNjHH7FtRTW6IDnW303BJaHG3M6X
-         0p651ysYuHuZ066+/8VOz8M4hwkekes0lYD5Gl01G2zsYa8NMmpZOB9WKBoQMQX23/Vo
-         ZkWW0IwhITkwtVnTYLNDY8F8hlqMSHoMqpUd7ZcuHXGJHY0u9Y/O1CfpBPyhtsF9V/Tu
-         1pu2v81/fYnGMK0cRTRIyFUy5Jn7Af/niJSvjS7kas0aBip1/Gw//bSwNdXSuxPWEX4s
-         oerA==
-X-Gm-Message-State: AO0yUKWIfnSQcvqLLalhy8Hhk5NajGdUHJp3kpwsgsvDChllNY4YerHr
-	HYYVHimbqRevexuT9B7ZoKn16Q==
-X-Google-Smtp-Source: AK7set8Stq6eJ2jfWoMqx3IDPesp90JlK5i/M5llisyWgsD8i8UNUT0SDrUjZ9NmAVATNrX9YcgbQw==
-X-Received: by 2002:a17:907:a0d5:b0:886:221b:44e5 with SMTP id hw21-20020a170907a0d500b00886221b44e5mr12137595ejc.62.1677742560629;
-        Wed, 01 Mar 2023 23:36:00 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id q8-20020a50aa88000000b004bc422b58a2sm1635332edc.88.2023.03.01.23.35.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Mar 2023 23:36:00 -0800 (PST)
-Message-ID: <2c16fa96-a710-4ea6-74df-247a4bc7d2dd@linaro.org>
-Date: Thu, 2 Mar 2023 08:35:58 +0100
+	d=ravnborg.org; s=rsa2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=BtNi97NVqmGApn3BCpFm47tB4evorZmaN6Pi5IgjHRY=;
+	b=TYQvjvixOf/3rzSA5RmgEfx7465TZ4sZXzQtCp7dAVX3dgOixLCPjD+rbwhqy+CDyF+qXDx1/jUSx
+	 rcsdK7CMokFMUVYsTaNX7BG0G+QVYdP9DiUpqrYGRxRZCvK1UsPA+r8d1Ah8sNPtH5fo6e9OidjQjM
+	 cShBXyNDlYWFwEe7499JUEKg6hb5tSsiqaVT8jPzzimGo22ryQxRNW9lsNP9V3tJr60ogap68Hft82
+	 j7Z2VAram2dQ4f8wUTTwSk/sTr4zxoypWxXn2UJ/rJsdGJ09+rgmt6PH03mGL4u2h6Jl2YL0nn2QHR
+	 JYeihHU7gOcMm5Aku6byl6o9rOadexg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed2;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=BtNi97NVqmGApn3BCpFm47tB4evorZmaN6Pi5IgjHRY=;
+	b=Z7zbinB+9V6oieKcPqyRWSc+qnO8WPOFDAC9HEXYAK2WDzv6DzcUA32mQ0nEibyXIJDKJL+pbTnKq
+	 OxtBCqcBQ==
+X-HalOne-ID: 155bb931-b933-11ed-8805-7703b0afff57
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+	by mailrelay5 (Halon) with ESMTPSA
+	id 155bb931-b933-11ed-8805-7703b0afff57;
+	Thu, 02 Mar 2023 19:47:40 +0000 (UTC)
+Date: Thu, 2 Mar 2023 20:47:38 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 05/22] drm/atmel-hlcdc: Use GEM DMA fbdev emulation
+Message-ID: <ZAD9WnhAcwAdQPqT@ravnborg.org>
+References: <20230301153101.4282-1-tzimmermann@suse.de>
+ <20230301153101.4282-6-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 6/6] dt-bindings: clock: ast2600: Expand comment on
- reset definitions
-To: Jeremy Kerr <jk@codeconstruct.com.au>, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-clk@vger.kernel.org
-References: <20230302005834.13171-1-jk@codeconstruct.com.au>
- <20230302005834.13171-7-jk@codeconstruct.com.au>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230302005834.13171-7-jk@codeconstruct.com.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230301153101.4282-6-tzimmermann@suse.de>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,19 +69,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org, edmund.j.dea@intel.com, alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com, anitha.chrisanthus@intel.com, festevam@gmail.com, linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com, samuel@sholland.org, airlied@gmail.com, javierm@redhat.com, jernej.skrabec@gmail.com, linux-imx@nxp.com, alain.volmat@foss.st.com, linux-sunxi@lists.linux.dev, p.zabel@pengutronix.de, daniel@ffwll.ch, raphael.gallais-pou@foss.st.com, martin.blumenstingl@googlemail.com, s.hauer@pengutronix.de, maarten.lankhorst@linux.intel.com, mripard@kernel.org, laurentiu.palcu@oss.nxp.com, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com, hyun.kwon@xilinx.com, tomba@kernel.org, jyri.sarha@iki.fi, yannick.fertre@foss.st.com, philippe.cornu@foss.st.com, kernel@pengutronix.de, khilman@baylibre.com, shawnguo@kernel.org, l.stach@pengutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 02/03/2023 01:58, Jeremy Kerr wrote:
-> The current "not part of a gate" is a little ambiguous. Expand this a
-> little to clarify the reference to the paired clock + reset control.
+On Wed, Mar 01, 2023 at 04:30:44PM +0100, Thomas Zimmermann wrote:
+> Use the fbdev emulation that is optimized for DMA helpers. Avoids
+> possible shadow buffering and makes the code simpler.
 > 
-> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> index 4e806b06d35d..29603561d501 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> @@ -19,7 +19,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_drv.h>
+> -#include <drm/drm_fbdev_generic.h>
+> +#include <drm/drm_fbdev_dma.h>
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+>  #include <drm/drm_module.h>
+> @@ -760,7 +760,7 @@ static int atmel_hlcdc_dc_drm_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_unload;
+>  
+> -	drm_fbdev_generic_setup(ddev, 24);
+> +	drm_fbdev_dma_setup(ddev, 24);
+>  
+>  	return 0;
+>  
+> -- 
+> 2.39.2
