@@ -2,55 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165B96A7575
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Mar 2023 21:36:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABF06A78A0
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Mar 2023 01:59:00 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PRmGz4Q0bz3cLf
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Mar 2023 07:36:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PRt5t4wsxz3cFW
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Mar 2023 11:58:58 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=mnVGx8zB;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=U2Q0zgjR;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=mnVGx8zB;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=U2Q0zgjR;
 	dkim-atps=neutral
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRmGr6lpBz3c8h
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Mar 2023 07:36:20 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (174-21-161-58.tukw.qwest.net [174.21.161.58])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 3A62B341;
-	Wed,  1 Mar 2023 12:36:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1677702975;
-	bh=IRmYsMVKZO7oj/cHyStRNgW6UvFUZ3w6BCIHeycLvXE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mnVGx8zBSAvVSEXbzkQ3uAqbks7J8iX0ljiFBrh5zEu6CyjY3IsrZmuFOZ3y63y8K
-	 /bf9/xnkLgmr6gEWeZercgWJSCYmwhTodkCuK7O/HaXG6DrRtdLBYz6WBV4rnIaIXc
-	 hjCjIQFdpH+1v37ItHG94ruPSwiu5a2Xat+y0/Sg=
-Date: Wed, 1 Mar 2023 12:36:13 -0800
-From: Zev Weiss <zev@bewilderbeest.net>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: asrock: Correct firmware flash
- SPI clocks
-Message-ID: <Y/+3PSQzo+ZGM+hk@hatter.bewilderbeest.net>
-References: <20230224000400.12226-1-zev@bewilderbeest.net>
- <20230224000400.12226-4-zev@bewilderbeest.net>
- <CACPK8XdFT=+VJJ=iDhcmWPh9m9of2b+2UYxkrAisp6tdmWOWKg@mail.gmail.com>
- <36da41c9-2396-5dd4-7fef-c85412f23045@kaod.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PRt5c24mBz3c6C
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 Mar 2023 11:58:44 +1100 (AEDT)
+Received: by codeconstruct.com.au (Postfix, from userid 10000)
+	id 7702B2024F; Thu,  2 Mar 2023 08:58:41 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1677718721;
+	bh=lYoTPeexRcOzzTOGXNKHbOel7qjqCaaeX1rZP2bFTX4=;
+	h=From:To:Cc:Subject:Date;
+	b=U2Q0zgjRpreRtnQiVkZ+hd4kAZ01WdIXMuzxbAcRpPaMB8M0nhBk1ZzpvnQQvBuVy
+	 QnoYzqraoWiTqtzrwAylgYGQ1YL8TJ3ledWHbiIJYtt6oFRUvGlusDTXAYCca8FIg3
+	 o2vGoqQEI2Vj4bYeRDwHo2+HA7a6uD1uAxcTeOvqaaz3roPaxYCPyBHBGlSbAmGBUD
+	 JO9NMaKwl/mR7nUkUBGxpRKTv/0+hBVXE5yp2E1DW+qqIcI/JDHryxH2Rw405xJ1e+
+	 7ovoJVUVT4llNRFCeFSsWHtSTd1jFXJgg89POg4WMJUNoCQmRmHydoY7C+c4FbjEAc
+	 YPeXEv2xqtWTA==
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: devicetree@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-clk@vger.kernel.org
+Subject: [PATCH v5 0/6] Add definitions for AST2600 i3c clocks
+Date: Thu,  2 Mar 2023 08:58:28 +0800
+Message-Id: <20230302005834.13171-1-jk@codeconstruct.com.au>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <36da41c9-2396-5dd4-7fef-c85412f23045@kaod.org>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +55,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Feb 28, 2023 at 11:33:58PM PST, Cédric Le Goater wrote:
->On 3/1/23 02:30, Joel Stanley wrote:
->>On Fri, 24 Feb 2023 at 00:04, Zev Weiss <zev@bewilderbeest.net> wrote:
->>>
->>>While I'm not aware of any problems that have occurred running these
->>>at 100 MHz, the official word from ASRock is that 50 MHz is the
->>>correct speed to use, so let's be safe and use that instead.
->>
->>:(
->>
->>Validated with which driver?
->>
+This series adds some base configuration for the i3c controllers on
+ast2600 hardware. We'll use the reset and clock definitions in the
+proposed dt binding example, hence sending these first.
 
-spi-nor, FWIW.
+v5:
+ - use regmap_update_bits rather than FIELD_PREP
+ - drop reset defines; resets should be handled by clock control
+ - add comments for the above
+ - add comment for NUM_CLKS semantics
+v4:
+ - ensure we have enough space in ASPEED_G6_NUM_CLKS
+v3:
+ - split dt-bindings from clk changes
+ - unify subject prefixes
+v2:
+ - based on feedback from Joel Stanley: avoid adding RESERVED clock
+   definitions, allowing empty entries in aspeed_g6_gates instead.
 
->>Cédric, do you have any thoughts on this?
->
->Transactions on the Firmware SPI controller are usually configured at
->50MHz by U-Boot and Linux to stay on the safe side, specially CE0 from
->which the board boots. The other SPI controllers are generally set at
->a higher freq : 100MHz, because the devices on these buses are not for
->booting the BMC, they are mostly only written to (at a default lower
->freq). There are some exceptions when the devices and the wiring permit
->higher rates.
->
->For the record, we lowered the SPI freq on the AST2400 (palmetto)
->because some chips would freak out once in a while at 100MHz.
->
->C.
->
+Jeremy Kerr (6):
+  clk: ast2600: allow empty entries in aspeed_g6_gates
+  dt-bindings: clock: ast2600: Add top-level I3C clock
+  clk: ast2600: Add full configs for I3C clocks
+  dt-bindings: clock: ast2600: remove IC36 & I3C7 clock definitions
+  clk: ast2600: Add comment about combined clock + reset handling
+  dt-bindings: clock: ast2600: Expand comment on reset definitions
 
-Yeah, this actually grew out of some OpenBMC bringup work on another 
-ASRock board -- I started out with a 100MHz clock since that's what I'd 
-been using without a hitch on previous ASRock systems (such as these), 
-but saw sporadic data corruption.  Some discussion on the OpenBMC 
-Discord 
-(https://discord.com/channels/775381525260664832/775694683589574659/1074904879023263774 
-and 
-https://discord.com/channels/775381525260664832/775694683589574659/1075336116212875335) 
-prompted me to try 50MHz instead, which seemed to solve the problem -- 
-then after enquiring about it with ASRock I discovered that the 100MHz 
-clocks we've been using on these boards are also officially out of spec.
+ drivers/clk/clk-ast2600.c                 | 67 ++++++++++++++++++++---
+ include/dt-bindings/clock/ast2600-clock.h |  5 +-
+ 2 files changed, 60 insertions(+), 12 deletions(-)
 
-
-Zev
+-- 
+2.39.1
 
