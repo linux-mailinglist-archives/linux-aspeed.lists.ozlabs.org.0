@@ -1,55 +1,111 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6843D6AF6CA
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Mar 2023 21:36:53 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D67876AFC8F
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 02:56:41 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PWS0d67cTz3cgv
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 07:36:49 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XGkkYfMl;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PWb5g5pJ5z3cBF
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 12:56:39 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XGkkYfMl;
-	dkim-atps=neutral
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PWS0S6LLkz3cDF
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Mar 2023 07:36:37 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=BVb4tiMdT2faXd9FacvIsPER+ODtFm7SXnJKt/bIKr0=; b=XGkkYfMl0eR2Y5wzxKDMDPNrn6
-	+rpYYkyAcD+KC/5LdUYdjbbzDP670KJnpZC8xkvFvh47FJPVoC7PHNTwgCmmKukCe5q8dYb6edElx
-	CRu9TxI/bt8+LUNptGEYi6cAxXM526j2XXdeBPT/O7+jny9MlxoCJ7uNlgqOzjpnyjs0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1pZe2A-006haZ-W3; Tue, 07 Mar 2023 21:35:42 +0100
-Date: Tue, 7 Mar 2023 21:35:42 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Klaus Kudielka <klaus.kudielka@gmail.com>
-Subject: Re: [PATCH net-next v2 4/6] net: mdio: scan bus based on bus
- capabilities for C22 and C45
-Message-ID: <72530e86-9ba9-4a01-9cd2-68835ecae7a0@lunn.ch>
-References: <20230116-net-next-remove-probe-capabilities-v2-0-15513b05e1f4@walle.cc>
- <20230116-net-next-remove-probe-capabilities-v2-4-15513b05e1f4@walle.cc>
- <449bde236c08d5ab5e54abd73b645d8b29955894.camel@gmail.com>
- <100c439a-2a4d-4cb2-96f2-5bf273e2121a@lunn.ch>
- <712bc92ca6d576f33f63f1e9c2edf0030b10d3ae.camel@gmail.com>
- <db6b8a09-b680-4baa-8963-d355ad29eb09@lunn.ch>
- <0e10aa8492eadb587949d8744b56fccaabbd183b.camel@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PSvsS5qvbz3f4L
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Mar 2023 04:21:48 +1100 (AEDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pY95b-0006Ot-7P; Fri, 03 Mar 2023 18:21:03 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pY95P-001bia-Q5; Fri, 03 Mar 2023 18:20:51 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pY95P-001tht-22; Fri, 03 Mar 2023 18:20:51 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>,
+	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+	=?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Radu Pirea <radu_nicolae.pirea@upb.ro>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	William Zhang <william.zhang@broadcom.com>,
+	Kursad Oney <kursad.oney@broadcom.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>,
+	Anand Gore <anand.gore@broadcom.com>,
+	=?utf-8?b?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Kamal Dasu <kdasu.kdev@gmail.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Han Xu <han.xu@nxp.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Jay Fang <f.fangjian@huawei.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Andi Shyti <andi@etezian.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Li-hao Kuo <lhjeff911@gmail.com>,
+	Masahisa Kojima <masahisa.kojima@linaro.org>,
+	Jassi Brar <jaswinder.singh@linaro.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PATCH 00/87] spi: Convert to platform remove callback returning void
+Date: Fri,  3 Mar 2023 18:19:14 +0100
+Message-Id: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0e10aa8492eadb587949d8744b56fccaabbd183b.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11739; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=RWqvc8RnhEbQQ2oAk+E+9rPdzPGR+1W5SnXdzobHuT8=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkAisJkW18zyL+YEzlTtbekP+5UvgovAIj/gcML nwd+Kay6RGJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAIrCQAKCRDB/BR4rcrs CaFBB/92x5SnXIGhT6giruoYpGJoso7Z3MP3OVm/DCgJH6s6vYJGV9pYI2lu5eRUCDJcQoZTtgK ZkjyGMNYXLHw5tUKn88EDwX0RuzGhj1fwNvi8u3zdCpZd0blCS4DV8PGtqPH15IKjCg/NSwpEO0 xOmALBy9uOxij739aBF/xuxhaZWpjiyjPVbwwC1NGIxdOTpGl00eDfc6ZiABfbeTa5LWEblpdn3 rWOBzSBlcyizkhTVwSimgHB/YEYbG/drCH5pRdxMGW+U10fVOuvdYOknPfRpZ5kOcyLnDxD362d aviWRkaIauhw3X9/YDqmV6gHXwcidGlxnJzNMnpfCDTq2Mlj
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+X-Mailman-Approved-At: Wed, 08 Mar 2023 12:56:37 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,26 +117,213 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, Eric Dumazet <edumazet@google.com>, linux-stm32@st-md-mailman.stormreply.com, Russell King <linux@armlinux.org.uk>, Jose Abreu <joabreu@synopsys.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Mark Lee <Mark-MC.Lee@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, linux-mediatek@lists.infradead.org, John Crispin <john@phrozen.org>, Matthias Brugger <matthias.bgg@gmail.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, linux-arm-kernel@lists.infradead.org, Bryan Whitehead <bryan.whitehead@microchip.com>, linux-kernel@vger.kernel.org, UNGLinuxDriver@microchip.com, Michael Walle <michael@walle.cc>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, Felix Fietkau <nbd@nbd.name>
+Cc: linux-aspeed@lists.ozlabs.org, Alim Akhtar <alim.akhtar@samsung.com>, linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org, Nancy Yuen <yuenn@google.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev, linux-xtensa@linux-xtensa.org, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Patrick Venture <venture@google.com>, linux-spi@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, Yogesh Gaur <yogeshgaur.83@gmai
+ l.com>, Pengutronix Kernel Team <kernel@pengutronix.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> Summary: Still 4 calls to mdio_bus_scan_c22, but also *2* calls to mdio_bus_scan_c45, approx. 190*100 reads by the switch driver
+Hello,
 
-Those calls to mdio_bus_scan_c45 are caused by 743a19e38d02 net: dsa:
-mv88e6xxx: Separate C22 and C45 transactions.
+this patch series adapts the platform drivers below drivers/spi
+to use the .remove_new() callback. Compared to the traditional .remove()
+callback .remove_new() returns no value. This is a good thing because
+the driver core doesn't (and cannot) cope for errors during remove. The
+only effect of a non-zero return value in .remove() is that the driver
+core emits a warning. The device is removed anyhow and an early return
+from .remove() usually yields a resource leak.
 
-Some families of the mv88e6xxx do support C45 bus transactions. That
-includes the 6171 you have. Before, we never scanned the C45 bus, but
-now we do.
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
 
-But something does not add up. Doing an additional c45 scan should
-only double the number of reads by the switch driver.
+All drivers touched here returned zero unconditionally in their remove
+callback, so they could all be converted trivially to .remove_new().
 
-The only part of a c45 scan which is not linear is
-mv88e6xxx_g2_smi_phy_wait() which is implemented by
-mv88e6xxx_wait_mask(). That loops reading a register waiting for a bit
-to change. Maybe print out the value of i, and see if it is looping
-more times for C45 than C22?
+Note that this series depends on commit 5c5a7680e67b ("platform: Provide
+a remove callback that returns no value") that is already in Linus' tree
+but not yet included in a tagged version.
 
-     Andrew
+Best regards
+Uwe
+
+Uwe Kleine-König (87):
+  spi: ar934x: Convert to platform remove callback returning void
+  spi: armada-3700: Convert to platform remove callback returning void
+  spi: aspeed-smc: Convert to platform remove callback returning void
+  spi: at91-usart: Convert to platform remove callback returning void
+  spi: ath79: Convert to platform remove callback returning void
+  spi: atmel: Convert to platform remove callback returning void
+  spi: au1550: Convert to platform remove callback returning void
+  spi: axi-spi-engine: Convert to platform remove callback returning void
+  spi: bcm2835: Convert to platform remove callback returning void
+  spi: bcm2835aux: Convert to platform remove callback returning void
+  spi: bcm63xx-hsspi: Convert to platform remove callback returning void
+  spi: bcm63xx: Convert to platform remove callback returning void
+  spi: bcmbca-hsspi: Convert to platform remove callback returning void
+  spi: brcmstb-qspi: Convert to platform remove callback returning void
+  spi: cadence-quadspi: Convert to platform remove callback returning void
+  spi: cadence: Convert to platform remove callback returning void
+  spi: cavium-octeon: Convert to platform remove callback returning void
+  spi: coldfire-qspi: Convert to platform remove callback returning void
+  spi: davinci: Convert to platform remove callback returning void
+  spi: dln2: Convert to platform remove callback returning void
+  spi: dw-bt1: Convert to platform remove callback returning void
+  spi: dw-mmio: Convert to platform remove callback returning void
+  spi: ep93xx: Convert to platform remove callback returning void
+  spi: fsl-dspi: Convert to platform remove callback returning void
+  spi: fsl-espi: Convert to platform remove callback returning void
+  spi: fsl-lpspi: Convert to platform remove callback returning void
+  spi: fsl-qspi: Convert to platform remove callback returning void
+  spi: fsl-spi: Convert to platform remove callback returning void
+  spi: geni-qcom: Convert to platform remove callback returning void
+  spi: hisi-kunpeng: Convert to platform remove callback returning void
+  spi: img-spfi: Convert to platform remove callback returning void
+  spi: iproc-qspi: Convert to platform remove callback returning void
+  spi: lantiq-ssc: Convert to platform remove callback returning void
+  spi: meson-spicc: Convert to platform remove callback returning void
+  spi: meson-spifc: Convert to platform remove callback returning void
+  spi: microchip-core-qspi: Convert to platform remove callback returning void
+  spi: microchip-core: Convert to platform remove callback returning void
+  spi: mpc512x-psc: Convert to platform remove callback returning void
+  spi: mpc52xx-psc: Convert to platform remove callback returning void
+  spi: mpc52xx: Convert to platform remove callback returning void
+  spi: mtk-nor: Convert to platform remove callback returning void
+  spi: mtk-snfi: Convert to platform remove callback returning void
+  spi: mxic: Convert to platform remove callback returning void
+  spi: mxs: Convert to platform remove callback returning void
+  spi: npcm-fiu: Convert to platform remove callback returning void
+  spi: npcm-pspi: Convert to platform remove callback returning void
+  spi: nxp-fspi: Convert to platform remove callback returning void
+  spi: oc-tiny: Convert to platform remove callback returning void
+  spi: omap-uwire: Convert to platform remove callback returning void
+  spi: omap2-mcspi: Convert to platform remove callback returning void
+  spi: orion: Convert to platform remove callback returning void
+  spi: pic32-sqi: Convert to platform remove callback returning void
+  spi: pic32: Convert to platform remove callback returning void
+  spi: ppc4xx: Convert to platform remove callback returning void
+  spi: pxa2xx: Convert to platform remove callback returning void
+  spi: qcom-qspi: Convert to platform remove callback returning void
+  spi: rb4xx: Convert to platform remove callback returning void
+  spi: rockchip-sfc: Convert to platform remove callback returning void
+  spi: rockchip: Convert to platform remove callback returning void
+  spi: rpc-if: Convert to platform remove callback returning void
+  spi: rspi: Convert to platform remove callback returning void
+  spi: s3c64xx: Convert to platform remove callback returning void
+  spi: sh-hspi: Convert to platform remove callback returning void
+  spi: sh-msiof: Convert to platform remove callback returning void
+  spi: sh-sci: Convert to platform remove callback returning void
+  spi: sh: Convert to platform remove callback returning void
+  spi: sifive: Convert to platform remove callback returning void
+  spi: slave-mt27xx: Convert to platform remove callback returning void
+  spi: sn-f-ospi: Convert to platform remove callback returning void
+  spi: sprd-adi: Convert to platform remove callback returning void
+  spi: st-ssc4: Convert to platform remove callback returning void
+  spi: stm32-qspi: Convert to platform remove callback returning void
+  spi: stm32: Convert to platform remove callback returning void
+  spi: sun4i: Convert to platform remove callback returning void
+  spi: sun6i: Convert to platform remove callback returning void
+  spi: sunplus-sp7021: Convert to platform remove callback returning void
+  spi: synquacer: Convert to platform remove callback returning void
+  spi: tegra114: Convert to platform remove callback returning void
+  spi: tegra20-sflash: Convert to platform remove callback returning void
+  spi: tegra20-slink: Convert to platform remove callback returning void
+  spi: tegra210-quad: Convert to platform remove callback returning void
+  spi: topcliff-pch: Convert to platform remove callback returning void
+  spi: uniphier: Convert to platform remove callback returning void
+  spi: xilinx: Convert to platform remove callback returning void
+  spi: xtensa-xtfpga: Convert to platform remove callback returning void
+  spi: zynq-qspi: Convert to platform remove callback returning void
+  spi: zynqmp-gqspi: Convert to platform remove callback returning void
+
+ drivers/spi/spi-ar934x.c              |  6 ++----
+ drivers/spi/spi-armada-3700.c         |  6 ++----
+ drivers/spi/spi-aspeed-smc.c          |  5 ++---
+ drivers/spi/spi-at91-usart.c          |  6 ++----
+ drivers/spi/spi-ath79.c               |  6 ++----
+ drivers/spi/spi-atmel.c               |  6 ++----
+ drivers/spi/spi-au1550.c              |  5 ++---
+ drivers/spi/spi-axi-spi-engine.c      |  6 ++----
+ drivers/spi/spi-bcm2835.c             | 12 +++---------
+ drivers/spi/spi-bcm2835aux.c          |  6 ++----
+ drivers/spi/spi-bcm63xx-hsspi.c       |  6 ++----
+ drivers/spi/spi-bcm63xx.c             |  6 ++----
+ drivers/spi/spi-bcmbca-hsspi.c        |  6 ++----
+ drivers/spi/spi-brcmstb-qspi.c        |  6 ++----
+ drivers/spi/spi-cadence-quadspi.c     |  6 ++----
+ drivers/spi/spi-cadence.c             |  6 ++----
+ drivers/spi/spi-cavium-octeon.c       |  6 ++----
+ drivers/spi/spi-coldfire-qspi.c       |  6 ++----
+ drivers/spi/spi-davinci.c             |  5 ++---
+ drivers/spi/spi-dln2.c                |  6 ++----
+ drivers/spi/spi-dw-bt1.c              |  6 ++----
+ drivers/spi/spi-dw-mmio.c             |  6 ++----
+ drivers/spi/spi-ep93xx.c              |  6 ++----
+ drivers/spi/spi-fsl-dspi.c            |  6 ++----
+ drivers/spi/spi-fsl-espi.c            |  6 ++----
+ drivers/spi/spi-fsl-lpspi.c           |  5 ++---
+ drivers/spi/spi-fsl-qspi.c            |  6 ++----
+ drivers/spi/spi-fsl-spi.c             | 11 ++++-------
+ drivers/spi/spi-geni-qcom.c           |  5 ++---
+ drivers/spi/spi-hisi-kunpeng.c        |  6 ++----
+ drivers/spi/spi-img-spfi.c            |  6 ++----
+ drivers/spi/spi-iproc-qspi.c          |  6 ++----
+ drivers/spi/spi-lantiq-ssc.c          |  6 ++----
+ drivers/spi/spi-meson-spicc.c         |  6 ++----
+ drivers/spi/spi-meson-spifc.c         |  6 ++----
+ drivers/spi/spi-microchip-core-qspi.c |  6 ++----
+ drivers/spi/spi-microchip-core.c      |  6 ++----
+ drivers/spi/spi-mpc512x-psc.c         | 22 ++++++++--------------
+ drivers/spi/spi-mpc52xx-psc.c         |  6 ++----
+ drivers/spi/spi-mpc52xx.c             |  6 ++----
+ drivers/spi/spi-mtk-nor.c             |  6 ++----
+ drivers/spi/spi-mtk-snfi.c            |  5 ++---
+ drivers/spi/spi-mxic.c                |  6 ++----
+ drivers/spi/spi-mxs.c                 |  6 ++----
+ drivers/spi/spi-npcm-fiu.c            |  5 ++---
+ drivers/spi/spi-npcm-pspi.c           |  6 ++----
+ drivers/spi/spi-nxp-fspi.c            |  6 ++----
+ drivers/spi/spi-oc-tiny.c             |  5 ++---
+ drivers/spi/spi-omap-uwire.c          |  5 ++---
+ drivers/spi/spi-omap2-mcspi.c         |  6 ++----
+ drivers/spi/spi-orion.c               |  6 ++----
+ drivers/spi/spi-pic32-sqi.c           |  6 ++----
+ drivers/spi/spi-pic32.c               |  6 ++----
+ drivers/spi/spi-ppc4xx.c              |  5 ++---
+ drivers/spi/spi-pxa2xx.c              |  6 ++----
+ drivers/spi/spi-qcom-qspi.c           |  6 ++----
+ drivers/spi/spi-rb4xx.c               |  6 ++----
+ drivers/spi/spi-rockchip-sfc.c        |  6 ++----
+ drivers/spi/spi-rockchip.c            |  6 ++----
+ drivers/spi/spi-rpc-if.c              |  6 ++----
+ drivers/spi/spi-rspi.c                |  6 ++----
+ drivers/spi/spi-s3c64xx.c             |  6 ++----
+ drivers/spi/spi-sh-hspi.c             |  6 ++----
+ drivers/spi/spi-sh-msiof.c            |  5 ++---
+ drivers/spi/spi-sh-sci.c              |  5 ++---
+ drivers/spi/spi-sh.c                  |  6 ++----
+ drivers/spi/spi-sifive.c              |  6 ++----
+ drivers/spi/spi-slave-mt27xx.c        |  6 ++----
+ drivers/spi/spi-sn-f-ospi.c           |  6 ++----
+ drivers/spi/spi-sprd-adi.c            |  5 ++---
+ drivers/spi/spi-st-ssc4.c             |  6 ++----
+ drivers/spi/spi-stm32-qspi.c          |  6 ++----
+ drivers/spi/spi-stm32.c               |  6 ++----
+ drivers/spi/spi-sun4i.c               |  6 ++----
+ drivers/spi/spi-sun6i.c               |  5 ++---
+ drivers/spi/spi-sunplus-sp7021.c      |  5 ++---
+ drivers/spi/spi-synquacer.c           |  6 ++----
+ drivers/spi/spi-tegra114.c            |  6 ++----
+ drivers/spi/spi-tegra20-sflash.c      |  6 ++----
+ drivers/spi/spi-tegra20-slink.c       |  5 ++---
+ drivers/spi/spi-tegra210-quad.c       |  6 ++----
+ drivers/spi/spi-topcliff-pch.c        |  6 ++----
+ drivers/spi/spi-uniphier.c            |  6 ++----
+ drivers/spi/spi-xilinx.c              |  6 ++----
+ drivers/spi/spi-xtensa-xtfpga.c       |  6 ++----
+ drivers/spi/spi-zynq-qspi.c           |  6 ++----
+ drivers/spi/spi-zynqmp-gqspi.c        |  6 ++----
+ 87 files changed, 183 insertions(+), 350 deletions(-)
+
+base-commit: 2eb29d59ddf02e39774abfb60b2030b0b7e27c1f
+-- 
+2.39.1
+
