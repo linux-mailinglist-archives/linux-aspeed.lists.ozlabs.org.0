@@ -2,52 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939E56A9D79
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Mar 2023 18:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCFAA6AA37A
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Mar 2023 23:00:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PSvtD3kX2z3ch2
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Mar 2023 04:22:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PT22l0Q1Rz3cjC
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Mar 2023 09:00:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kaod.org (client-ip=79.137.123.220; helo=smtpout2.mo529.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+X-Greylist: delayed 435 seconds by postgrey-1.36 at boromir; Sat, 04 Mar 2023 09:00:07 AEDT
+Received: from smtpout2.mo529.mail-out.ovh.net (smtpout2.mo529.mail-out.ovh.net [79.137.123.220])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PSvrs4t90z3cK8
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Mar 2023 04:21:17 +1100 (AEDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pY95V-0006P2-0S; Fri, 03 Mar 2023 18:20:57 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pY95Q-001bio-Fa; Fri, 03 Mar 2023 18:20:52 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pY95P-001ti2-KO; Fri, 03 Mar 2023 18:20:51 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
-	=?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
-	Mark Brown <broonie@kernel.org>,
-	Joel Stanley <joel@jms.id.au>
-Subject: [PATCH 03/87] spi: aspeed-smc: Convert to platform remove callback returning void
-Date: Fri,  3 Mar 2023 18:19:17 +0100
-Message-Id: <20230303172041.2103336-4-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
-References: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PT22b5S9Qz3bgr
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Mar 2023 09:00:05 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.188])
+	by mo529.mail-out.ovh.net (Postfix) with ESMTPS id E32522147F;
+	Fri,  3 Mar 2023 21:52:42 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 3 Mar
+ 2023 22:52:41 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-95G001d732c472-8cab-4b6b-bb7d-bfc5848c7217,
+                    D247C90D5DACFD620130D6A3F59DE8A1FE9C6D23) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 86.250.25.177
+Message-ID: <6a1826c6-3951-03eb-d38c-56e7517c3c6e@kaod.org>
+Date: Fri, 3 Mar 2023 22:52:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1627; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=o5sJFUxoNT7gwytQoziVYIAoannDkz/5r4cZ/QJwJjk=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkAisW7UH+01oobN1QWAUpph1uqBXyOJkpZ0nOy DUyy4zqZLmJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAIrFgAKCRDB/BR4rcrs CVMZB/9QkIFFT+vICGEx1YNlTkfjJVHM2QBt+NJNDA+HWzdkKDRW887iFtRGjsWRE9BbDDMkdP7 pUvFIYAZp+H13c8zm+6MujgtilCOebLnxM+rB1tZWKrsONWuAEJMo3QAofdSv/QnHWqaM6saL2L 5B54oAhsa13wvLhOso6pteb1zacagtz6GwAN+L2lgWDf/rCWobpodrdf8oq7WPjyB2GHOBED8xR 17oUoJcLxpNIPvs6raYkbYKRTFY2z7dgYJKGg1gapaqJvnZsC/VY056kJnhA10Fd07y+dj4cxFH DHibwpa3DL752UFe8mGEYBxFceANuh4Jzs2Jv6cjw3c6hWch
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 03/87] spi: aspeed-smc: Convert to platform remove
+ callback returning void
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, Mark Brown
+	<broonie@kernel.org>, Joel Stanley <joel@jms.id.au>
+References: <20230303172041.2103336-1-u.kleine-koenig@pengutronix.de>
+ <20230303172041.2103336-4-u.kleine-koenig@pengutronix.de>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230303172041.2103336-4-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 827e19ec-485e-4362-bb35-131486e0838d
+X-Ovh-Tracer-Id: 7794042108611103666
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudelledgudegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuhdrkhhlvghinhgvqdhkohgvnhhighesphgvnhhguhhtrhhonhhigidruggvpdgthhhinhdqthhinhhgpghkuhhosegrshhpvggvughtvggthhdrtghomhdpsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhjohgvlhesjhhmshdrihgurdgruhdprghnughrvgifsegrjhdrihgurdgruhdplhhinhhugidqrghsphgvvggusehlihhsthhsrdhoiihlrggsshdrohhrghdpohhpvghnsghmtgeslhhishhtshdrohiilhgrsghsrdhorhhgpdhlihhnuhigqdhsphhisehvghgvrhdrkh
+ gvrhhnvghlrdhorhhgpdhlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,50 +68,56 @@ Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-spi@vger.kern
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+On 3/3/23 18:19, Uwe Kleine-König wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is a
+> quest to make the remove callback return void. In the first step of this
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+> 
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Acked-by: Cédric Le Goater <clg@kaod.org>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/spi/spi-aspeed-smc.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-index 873ff2cf72c9..3f2548860317 100644
---- a/drivers/spi/spi-aspeed-smc.c
-+++ b/drivers/spi/spi-aspeed-smc.c
-@@ -787,13 +787,12 @@ static int aspeed_spi_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int aspeed_spi_remove(struct platform_device *pdev)
-+static void aspeed_spi_remove(struct platform_device *pdev)
- {
- 	struct aspeed_spi *aspi = platform_get_drvdata(pdev);
- 
- 	aspeed_spi_enable(aspi, false);
- 	clk_disable_unprepare(aspi->clk);
--	return 0;
- }
- 
- /*
-@@ -1201,7 +1200,7 @@ MODULE_DEVICE_TABLE(of, aspeed_spi_matches);
- 
- static struct platform_driver aspeed_spi_driver = {
- 	.probe			= aspeed_spi_probe,
--	.remove			= aspeed_spi_remove,
-+	.remove_new		= aspeed_spi_remove,
- 	.driver	= {
- 		.name		= DEVICE_NAME,
- 		.of_match_table = aspeed_spi_matches,
--- 
-2.39.1
+C.
+
+> ---
+>   drivers/spi/spi-aspeed-smc.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+> index 873ff2cf72c9..3f2548860317 100644
+> --- a/drivers/spi/spi-aspeed-smc.c
+> +++ b/drivers/spi/spi-aspeed-smc.c
+> @@ -787,13 +787,12 @@ static int aspeed_spi_probe(struct platform_device *pdev)
+>   	return ret;
+>   }
+>   
+> -static int aspeed_spi_remove(struct platform_device *pdev)
+> +static void aspeed_spi_remove(struct platform_device *pdev)
+>   {
+>   	struct aspeed_spi *aspi = platform_get_drvdata(pdev);
+>   
+>   	aspeed_spi_enable(aspi, false);
+>   	clk_disable_unprepare(aspi->clk);
+> -	return 0;
+>   }
+>   
+>   /*
+> @@ -1201,7 +1200,7 @@ MODULE_DEVICE_TABLE(of, aspeed_spi_matches);
+>   
+>   static struct platform_driver aspeed_spi_driver = {
+>   	.probe			= aspeed_spi_probe,
+> -	.remove			= aspeed_spi_remove,
+> +	.remove_new		= aspeed_spi_remove,
+>   	.driver	= {
+>   		.name		= DEVICE_NAME,
+>   		.of_match_table = aspeed_spi_matches,
 
