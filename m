@@ -1,86 +1,172 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329306AFC93
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 02:56:57 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6356AFC94
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 02:57:02 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PWb5z04mqz3bgW
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 12:56:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PWb643GDgz3bgT
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 12:57:00 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=mrIagg7o;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AGUzKdv3;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=klaus.kudielka@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.120; helo=mga04.intel.com; envelope-from=anitha.chrisanthus@intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=mrIagg7o;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AGUzKdv3;
 	dkim-atps=neutral
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PV8vz74qBz30Bp
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  6 Mar 2023 05:13:17 +1100 (AEDT)
-Received: by mail-wm1-x333.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so6854771wms.2
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 05 Mar 2023 10:13:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=mqbwrljujP18pr0J91izh0ShFnouuP4ylInXLNUV8Cs=;
-        b=mrIagg7oJ7aDVmWnAj0hUhf5gOjMZ6uWu7Xkp/YNgl+BhGZHc+VjssWiEj9yo0Yo49
-         S4YMsbmXObUMS/JIyziURTTVXKKV8B5/zcI5eMWEva2HfbreX/5Ld3/JMkwexiKn+9UZ
-         o7xQCiUogLWxR/fnCy+vNZS+COUvZKeXCImGgECwxuk0QmP77LzWsYUGzY85k0X/ZJoG
-         N6Jv4wU+YRNyjz7YECRny8izLNjVqdIn5BIM7/PBASCxi8WIpH97EBwfX+U/BF2d210a
-         Ww7Qw3cFEZtX3w6scPm73EXaE0Smcc1fARIevDcpeVKIM/mn2VvqTe4z/VGHKXjLoaWt
-         A+OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mqbwrljujP18pr0J91izh0ShFnouuP4ylInXLNUV8Cs=;
-        b=DdR56e6fPmdAf0SIqsQZP5vQO0zkDazfsciVbDzog5cCewNWaY4zM2wOrOFXlwbk5Y
-         o0EbEX8xkxl/IZQ2rhrawCISvcmnJRx9l8dJDQhc/O4qVeOUc5P9fSCegO/6Mtv/hsd2
-         pTJfYXBJQWXF3XgrR1ywx6dWKFCP1wDrCLxA5eH2r77Qjr96kF7cYXULP5cO+QYR/QEi
-         L1AQuzV7CXsgIjMLOmfWmI/HowZCDpA3kvupl9DbWlTAi+QG+4Sxjcijy6GT2Q2y5ecd
-         1mrWgX46mzZlimcoDgS3b8AWRg6F9fCZxRs3caq9f+n5lQppZcl30msytA5aslhBCmPP
-         4sXw==
-X-Gm-Message-State: AO0yUKWe67959rkpI6CaY+fYsfP/2w+1OJtFI7lRdrA4yyGvGzy4o1oU
-	+eaB/glrhOaaHprXQ9t3yio=
-X-Google-Smtp-Source: AK7set9leCI9y/0pNB2cBetQqJXtFdQEO1uvCDpNMJM8iL+srfkDePZQ1bR8FJyV6BX7q9Txd18Fxw==
-X-Received: by 2002:a05:600c:4ece:b0:3de:d52:2cd2 with SMTP id g14-20020a05600c4ece00b003de0d522cd2mr7578238wmq.4.1678039991269;
-        Sun, 05 Mar 2023 10:13:11 -0800 (PST)
-Received: from ?IPv6:2a02:168:6806:0:f511:380:84eb:e6f7? ([2a02:168:6806:0:f511:380:84eb:e6f7])
-        by smtp.gmail.com with ESMTPSA id p21-20020a05600c431500b003daf672a616sm7970342wme.22.2023.03.05.10.13.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Mar 2023 10:13:10 -0800 (PST)
-Message-ID: <449bde236c08d5ab5e54abd73b645d8b29955894.camel@gmail.com>
-Subject: Re: [PATCH net-next v2 4/6] net: mdio: scan bus based on bus
- capabilities for C22 and C45
-From: Klaus Kudielka <klaus.kudielka@gmail.com>
-To: Michael Walle <michael@walle.cc>, Heiner Kallweit
- <hkallweit1@gmail.com>,  Russell King <linux@armlinux.org.uk>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Felix Fietkau
- <nbd@nbd.name>, John Crispin <john@phrozen.org>,  Sean Wang
- <sean.wang@mediatek.com>, Mark Lee <Mark-MC.Lee@mediatek.com>, Lorenzo
- Bianconi <lorenzo@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Bryan Whitehead <bryan.whitehead@microchip.com>,
- UNGLinuxDriver@microchip.com, Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,  Jose Abreu
- <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Joel
- Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-Date: Sun, 05 Mar 2023 19:13:09 +0100
-In-Reply-To: <20230116-net-next-remove-probe-capabilities-v2-4-15513b05e1f4@walle.cc>
-References: 	<20230116-net-next-remove-probe-capabilities-v2-0-15513b05e1f4@walle.cc>
-	 <20230116-net-next-remove-probe-capabilities-v2-4-15513b05e1f4@walle.cc>
-Content-Type: text/plain; charset="UTF-8"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PVlgM3h7kz3c7t
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Mar 2023 04:19:26 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1678123167; x=1709659167;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Tr5B3KsXUr00luTQ2CIfWUtMztpA6dDyGsuXLxy4wKE=;
+  b=AGUzKdv3XRT00JYMDLpQajH3j8VVidVttJlwzQorTmt+ERwwBEtFegUP
+   MbECTqJ80ONw7tpX1Jm0Z8zCOPZ9t7vk92cM2kDQxXC3K7ZmF3fQAELev
+   BPOS/l0KukuyDQ60GvDJtzovBunZXcAlZVDDX6DOe1rRzOWJflcbL6SKw
+   qzp+lff1B64FI+vn2oy5T0NOvOPqSY1d3JOMTmYprv+cB+p+J3U3gaHOd
+   Dy4DlN4HIRxNzR9KQlSzyRNCthJbmLj/dTcDMZvCiifVY8OS8GwrWXwW3
+   lGTIsw9ImANaCXSPN0w1Lexx9AZTuNJAs+Mke8kd0YjmSOtFS/kGffFqe
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="334331387"
+X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
+   d="scan'208";a="334331387"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2023 09:19:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="922018483"
+X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; 
+   d="scan'208";a="922018483"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga006.fm.intel.com with ESMTP; 06 Mar 2023 09:19:02 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 6 Mar 2023 09:18:57 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Mon, 6 Mar 2023 09:18:57 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Mon, 6 Mar 2023 09:18:57 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hn5jPZouL+50OCcFILh8Fr8eShvHm1x1dRG/iJYqvqIsqPnmvx1sP7rw3GHiIiyEbL+qHPeMa07ms48Owgz7Mj4uuqL2VKrEfngSjS5PtnHsOLPlKo1NPFUsMcDcU84cSAw7kXmRoAfw9vGdiMvqhKRQa5eACsaKj85u3INtMtULXahfcXaEMqLDfnhTbA2NGsCkGdgjOOi+2BrqgRvOzNCHeUAJyaWZCukvUgtD6bDPvw4pPyNCzG/FcreYzk2eYYpqAAg9LvVuvrcshoRZ6EjGDk6chc+Bj8h4nzvIdWA1x6/QfQHFFmoiLcZ4Kfc1fMOYSaBi04H6Jt9T3rhxLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gzUNWxRGI0sCBhpXAQOw5SttUlGiXdN6dT0IutBPOO4=;
+ b=nI110PmtBU+jHt3IgxLNz6Ggil6QmZFv2Hd2aNr5pLSvoyduC4iL+VT9hoWuN2UqjS7a08hDDY9gK+zo9+IjKQcZluIV5vLZ/hacvXVV1E7ZEsYDcEz9w9eK7kiez5FLJdJ/patWKJy1kwgZKCjsAeJaQbWw3gENAqHYreRT0TXDzJRfHbWucc9sO06j+QN9A+8tMSWoZgJMD0PzyFuYFBO3wji3SroTyX4EZsHgiV9cv8/pSWxwJlhJ23UVXrK3SfzjV3zSv4bvknDq0QAt8trTIEasIpOzTg2v3xpV9wOW1P6yafRKt0+BtsJjvFzZ/VhpS1VsLvORGAHnWXgk6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
+ by SJ0PR11MB5183.namprd11.prod.outlook.com (2603:10b6:a03:2d9::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
+ 2023 17:18:51 +0000
+Received: from BY5PR11MB4182.namprd11.prod.outlook.com
+ ([fe80::8ce:88fe:a727:2c7d]) by BY5PR11MB4182.namprd11.prod.outlook.com
+ ([fe80::8ce:88fe:a727:2c7d%7]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
+ 17:18:50 +0000
+From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, "javierm@redhat.com"
+	<javierm@redhat.com>, "maarten.lankhorst@linux.intel.com"
+	<maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
+	<mripard@kernel.org>, "airlied@gmail.com" <airlied@gmail.com>,
+	"daniel@ffwll.ch" <daniel@ffwll.ch>, "andrew@aj.id.au" <andrew@aj.id.au>,
+	"laurentiu.palcu@oss.nxp.com" <laurentiu.palcu@oss.nxp.com>,
+	"l.stach@pengutronix.de" <l.stach@pengutronix.de>, "shawnguo@kernel.org"
+	<shawnguo@kernel.org>, "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+	"kernel@pengutronix.de" <kernel@pengutronix.de>, "festevam@gmail.com"
+	<festevam@gmail.com>, "linux-imx@nxp.com" <linux-imx@nxp.com>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "edmund.j.dea@intel.com"
+	<edmund.j.dea@intel.com>, "khilman@baylibre.com" <khilman@baylibre.com>,
+	"jbrunet@baylibre.com" <jbrunet@baylibre.com>,
+	"martin.blumenstingl@googlemail.com" <martin.blumenstingl@googlemail.com>,
+	"alain.volmat@foss.st.com" <alain.volmat@foss.st.com>,
+	"yannick.fertre@foss.st.com" <yannick.fertre@foss.st.com>,
+	"raphael.gallais-pou@foss.st.com" <raphael.gallais-pou@foss.st.com>,
+	"philippe.cornu@foss.st.com" <philippe.cornu@foss.st.com>,
+	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "samuel@sholland.org"
+	<samuel@sholland.org>, "jyri.sarha@iki.fi" <jyri.sarha@iki.fi>,
+	"tomba@kernel.org" <tomba@kernel.org>, "linus.walleij@linaro.org"
+	<linus.walleij@linaro.org>, "hyun.kwon@xilinx.com" <hyun.kwon@xilinx.com>,
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
+Subject: RE: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
+Thread-Topic: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
+Thread-Index: AQHZTFLqT/G+20B44Uqk84Ghxzzz9q7uBlug
+Date: Mon, 6 Mar 2023 17:18:50 +0000
+Message-ID: <BY5PR11MB418232ED63F992E309C9B2D18CB69@BY5PR11MB4182.namprd11.prod.outlook.com>
+References: <20230301153101.4282-1-tzimmermann@suse.de>
+ <20230301153101.4282-10-tzimmermann@suse.de>
+In-Reply-To: <20230301153101.4282-10-tzimmermann@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY5PR11MB4182:EE_|SJ0PR11MB5183:EE_
+x-ms-office365-filtering-correlation-id: a1ba9e34-b9fb-4384-4f6c-08db1e66da64
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /wAAl0bLOGE4tnjJP7vV9qlwQ4PRzD5R4UfHGfWP8yWVOCYAJ1EnyOBOUirE1LeZWmGqupsvXstU/C7e07+eaaQkoICgJ9yYA8KNVPuCmFFPugRjBo1B+0ybom4C+hFgS2XawGYAnR1W2UI84vx2dQwqjYMYUXsRSzu5MTawoeeZGs5Yw28/KpjtsyUqV3n+8f6j6TyYm1m5qJnaCDe7xwUF3P0eejpQtiU0TvZq3VmXNBqTjb/UiyLodQhEpgv94ie6uMmDBQwVLTBHe4Kz8kBl3FoC5duB0OrReCOlmDWNoKpUuHCNsJtCGS63Ocr2j3vRsHfFL4f+jvKFr4rdmnywJBcKe8jzHHUvXmWZlP9bNL8FKEhT0fyI7llgLECOGBQcIwr3mJXi+I5VLOecIu2LMg3MzE5RhGTE+toIdfQYFaAOD2LcRb9OcDHvCc3R08h92+csdAUcObEzAOKlZcZenx6egdlrZyibJGMjFR7CVpKOVPVuHSpCQXjH1uPcH90/2ypgH+vrEKwFn+6WHGzBQ1zib+TebbD4fsmn0d7Ssm9I/HyT2fV5Nm6UrYHi7RnKKWmE6YO+vsu2Xj7cqRnrmo6H3MZb/4J89Wzm+ZCgMwyq6SFgnTy9GUZ2gXg/iVjk+5+T6vBGfvlwBsCIFZjjeJcEbsRziZW/SP2aZjtZjXX6YmcV9gm2WiHavEGZD6CyBEfm0Osd+jawQkcHC2lI/iWc1RE002RPtXPNBnE=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4182.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199018)(110136005)(54906003)(316002)(83380400001)(55016003)(33656002)(86362001)(9686003)(186003)(2906002)(5660300002)(66476007)(76116006)(66446008)(66556008)(8936002)(66946007)(41300700001)(8676002)(4326008)(53546011)(478600001)(6506007)(26005)(64756008)(71200400001)(7416002)(7406005)(82960400001)(7696005)(122000001)(52536014)(921005)(38100700002)(38070700005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Y32UWqM8B7yUopZAxelLTE1aSq9ZaEpn6byispHi6ZJ3pCsPf91FrD80pDiE?=
+ =?us-ascii?Q?Lpkn0IbqRpCcN68Xzyewcze9GFuslxznvYNGZ+r1QALGrPtTSjDR5ZZPT9Vo?=
+ =?us-ascii?Q?vDqAFqCG3WIuCznlR+g1JpvOqVe740HSfeId+8l6tX9U0sibz/2+ICeT5qzQ?=
+ =?us-ascii?Q?Ga4vu0hx6qWlI8H4kXM8ejv4owRh93v6lbU1r661NU2gMhy8gcevC7ZbW7eY?=
+ =?us-ascii?Q?dt7eSYLpfxlg+0TN8w6deimIcT5LrnCzaP0P5df/FPWthUky60XgmsPwaq1x?=
+ =?us-ascii?Q?LIOU8WMHZcXq7YRokuo4sfNybGqPPKN4USXQD86/lDTUZ52dLQf6xHkPkymV?=
+ =?us-ascii?Q?Ekt+xGA5XpKcszqyuwpLduOSyn9m/yMcNq0CRVi3lyEhna+6Zd6C+c1VgGGu?=
+ =?us-ascii?Q?LzBl//h1NrtAFTG0TUydfxvRagMcuBtiu6nKE0XeI7859042psjNv17J5Rh6?=
+ =?us-ascii?Q?QKDdzOvcAA4c/sNrQjIyDUM7N0HHwziB/CowT0E+3lMifEWAPIOQcEn774VA?=
+ =?us-ascii?Q?ZOGvB8/Upn0W7rlvxI+ReGXYc8RxaOfWfByHnhfOV3E1FKQKE7QkAVv4APOQ?=
+ =?us-ascii?Q?mxJDN6e7WomqD+oKUhY36BunH6GY2vgPYX/Oxq92jhySYt6xG5eKymPaIP2M?=
+ =?us-ascii?Q?mwNAqW+HQPhd2FVS866LI0gF0pLE583HwIHEDPe/lguf1HVtiIgNYNPuoK/b?=
+ =?us-ascii?Q?S3BFaJdlqqi40lxjyXNtoVr+BNT66DTfWlHhp/JtWze9L8gS7/w7fuTUc2Bf?=
+ =?us-ascii?Q?2arklfYXvS2mPp4d1+qgNgkPQvJgc0MgbqBvXNi3u3z6xNRKusOZE6/NNWvF?=
+ =?us-ascii?Q?tEAIUGxXBxyR7XCZQBoQn/i2FxZsj/qJFEQS3Z2d4BYMoPEo9qMkL/2RXFl4?=
+ =?us-ascii?Q?WQIA0tsARA3FbB/VEFHbmFArIbTfyjPo79xTBoOlH8QtIMXJm1L+41lUDKRE?=
+ =?us-ascii?Q?bNuBlpxKiUdmVoFb3s402YCCMxENITacxMW3xpLqfCBZuO1BLNb8nGXdmrPI?=
+ =?us-ascii?Q?/n8T84plhoaemWUjeQfZZRPn1s7M56VzZgE1n+qLCO/SnIWXFGmT+gZTinmR?=
+ =?us-ascii?Q?XQmWbqLXtXqDM4cmavBGDd7/JNAQCP60MZHZ1/EwPVnuB2pzPNSuxe26vu+y?=
+ =?us-ascii?Q?9SrOZAHIptJka9jtT8H6wJNIW3c1+GizNKyRgVLWMUWkRT1ETC/Jbn1fQo7U?=
+ =?us-ascii?Q?5MYJjR+ArrWhXej7WWCP/F5zZXLXSbeTq30Z5R278JM2BH8c854QJt5lJ5n+?=
+ =?us-ascii?Q?mil7UjD2boCbJRiZDRfJa7wNdIXDqIC1uQzVGbaFxkCTmaMUsQhT/2vh7V9b?=
+ =?us-ascii?Q?pFdytV2MtPzIzDMt9sdix95uxXLPKIigiJLmpxYDVfFi2sxXv+GGaY9XMfA8?=
+ =?us-ascii?Q?fGeRiwu9Y+l10D3Xa5W/kBKgXwFJ5ERxtKuBEgavw/s2EVU9wJRuerCif7b2?=
+ =?us-ascii?Q?fK1vhcy3/i6lL5VfFjTn05EQpNrKZePbbXxaSnjKe1198dNnYDxQBoe0jmyc?=
+ =?us-ascii?Q?MV5nnIZWsGpTacxcQDGQexWtcQgRMVercGKZBZh0jN/T4ciZF+MK/0OIApY9?=
+ =?us-ascii?Q?GJVr1/B5mivBA7LOGeQ1I9ZgobCRz0ixX7TAxwjpOurIBvaiH0Ojdmlf/YMg?=
+ =?us-ascii?Q?gw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-1 
 MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1ba9e34-b9fb-4384-4f6c-08db1e66da64
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2023 17:18:50.2092
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +leBX449Y6a3fBrjbgIpAOKIzEF4X6wS7tNiLwOAQ5tZ6U8MzwCAJ4B/k3U1z8rMBk0m4Eyl9HlAAcCf9OsukwNdBuYZrDN3cl4wbQVawY0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5183
+X-OriginatorOrg: intel.com
 X-Mailman-Approved-At: Wed, 08 Mar 2023 12:56:37 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -93,345 +179,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Jesse Brandeburg <jesse.brandeburg@intel.com>, linux-mediatek@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>, "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2023-01-18 at 11:01 +0100, Michael Walle wrote:
-> From: Andrew Lunn <andrew@lunn.ch>
+Acked-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+
+> -----Original Message-----
+> From: Thomas Zimmermann <tzimmermann@suse.de>
+> Sent: Wednesday, March 1, 2023 7:31 AM
+> To: javierm@redhat.com; maarten.lankhorst@linux.intel.com;
+> mripard@kernel.org; airlied@gmail.com; daniel@ffwll.ch; andrew@aj.id.au;
+> laurentiu.palcu@oss.nxp.com; l.stach@pengutronix.de;
+> shawnguo@kernel.org; s.hauer@pengutronix.de; kernel@pengutronix.de;
+> festevam@gmail.com; linux-imx@nxp.com; p.zabel@pengutronix.de;
+> Chrisanthus, Anitha <anitha.chrisanthus@intel.com>;
+> edmund.j.dea@intel.com; khilman@baylibre.com; jbrunet@baylibre.com;
+> martin.blumenstingl@googlemail.com; alain.volmat@foss.st.com;
+> yannick.fertre@foss.st.com; raphael.gallais-pou@foss.st.com;
+> philippe.cornu@foss.st.com; mcoquelin.stm32@gmail.com;
+> alexandre.torgue@foss.st.com; jernej.skrabec@gmail.com;
+> samuel@sholland.org; jyri.sarha@iki.fi; tomba@kernel.org;
+> linus.walleij@linaro.org; hyun.kwon@xilinx.com;
+> laurent.pinchart@ideasonboard.com
+> Cc: dri-devel@lists.freedesktop.org; linux-aspeed@lists.ozlabs.org; linux=
+-arm-
+> kernel@lists.infradead.org; linux-amlogic@lists.infradead.org; linux-
+> stm32@st-md-mailman.stormreply.com; linux-sunxi@lists.linux.dev; Thomas
+> Zimmermann <tzimmermann@suse.de>
+> Subject: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
 >=20
-> Now that all MDIO bus drivers which set probe_capabilities to
-> MDIOBUS_C22_C45 have been converted to use the name API for C45
-> transactions, perform the scanning of the bus based on which methods
-> the bus provides.
+> Use the fbdev emulation that is optimized for DMA helpers. Avoids
+> possible shadow buffering and makes the code simpler.
 >=20
-> Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-> Signed-off-by: Michael Walle <michael@walle.cc>
-> Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-
-Hello,
-
-On a Turris Omnia (Armada 385, Marvell 88E6176) this commit results
-in a strange boot behaviour. I see two distinct multi-second freezes
-in dmesg. Usually (up to the commit before), the (monolithic) kernel
-starts init after ~1.6 seconds, now it takes more than 6....
-
-dmesg output below. Any idea, why this is happening?
-
-Best regards, Klaus
-
-[    0.000000] Booting Linux on physical CPU 0x0
-[    0.000000] Linux version 6.2.0-rc3+ (xxxx) (arm-linux-gnueabihf-gcc (De=
-bian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP Sun M=
-ar  5 16:20:57 CET 2023
-[    0.000000] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=3D10c=
-5387d
-[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instr=
-uction cache
-[    0.000000] OF: fdt: Machine model: Turris Omnia
-[    0.000000] Memory policy: Data cache writealloc
-[    0.000000] Zone ranges:
-[    0.000000]   Normal   [mem 0x0000000000000000-0x000000002fffffff]
-[    0.000000]   HighMem  [mem 0x0000000030000000-0x000000003fffffff]
-[    0.000000] Movable zone start for each node
-[    0.000000] Early memory node ranges
-[    0.000000]   node   0: [mem 0x0000000000000000-0x000000003fffffff]
-[    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x000000003ffff=
-fff]
-[    0.000000] percpu: Embedded 12 pages/cpu s19604 r8192 d21356 u49152
-[    0.000000] pcpu-alloc: s19604 r8192 d21356 u49152 alloc=3D12*4096
-[    0.000000] pcpu-alloc: [0] 0 [0] 1=20
-[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 26041=
-6
-[    0.000000] Kernel command line: console=3DttyS0,115200 quiet root=3DPAR=
-TUUID=3D262ecdb3-01 mvneta.txq_number=3D2 mvneta.rxq_number=3D2
-[    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 by=
-tes, linear)
-[    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 byte=
-s, linear)
-[    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
-[    0.000000] Memory: 1022716K/1048576K available (7168K kernel code, 590K=
- rwdata, 1776K rodata, 1024K init, 233K bss, 25860K reserved, 0K cma-reserv=
-ed, 262144K highmem)
-[    0.000000] SLUB: HWalign=3D64, Order=3D0-3, MinObjects=3D0, CPUs=3D2, N=
-odes=3D1
-[    0.000000] rcu: Hierarchical RCU implementation.
-[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=3D8 to nr_cpu_ids=3D=
-2.
-[    0.000000] 	Tracing variant of Tasks RCU enabled.
-[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 2=
-5 jiffies.
-[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=3D16, nr_cpu_ids=
-=3D2
-[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
-[    0.000000] L2C: DT/platform modifies aux control register: 0x06070000 -=
-> 0x16070000
-[    0.000000] L2C-310 enabling early BRESP for Cortex-A9
-[    0.000000] L2C-310 full line of zeros enabled for Cortex-A9
-[    0.000000] L2C-310 D prefetch enabled, offset 1 lines
-[    0.000000] L2C-310 dynamic clock gating enabled, standby mode enabled
-[    0.000000] L2C-310 Coherent cache controller enabled, 16 ways, 1024 kB
-[    0.000000] L2C-310 Coherent: CACHE_ID 0x410054c9, AUX_CTRL 0x56070001
-[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contentio=
-n.
-[    0.000001] sched_clock: 64 bits at 800MHz, resolution 1ns, wraps every =
-4398046511103ns
-[    0.000012] clocksource: arm_global_timer: mask: 0xffffffffffffffff max_=
-cycles: 0xb881274fa3, max_idle_ns: 440795210636 ns
-[    0.000026] Switching to timer-based delay loop, resolution 1ns
-[    0.000153] Ignoring duplicate/late registration of read_current_timer d=
-elay
-[    0.000159] clocksource: armada_370_xp_clocksource: mask: 0xffffffff max=
-_cycles: 0xffffffff, max_idle_ns: 76450417870 ns
-[    0.000302] Calibrating delay loop (skipped), value calculated using tim=
-er frequency.. 1600.00 BogoMIPS (lpj=3D3200000)
-[    0.000310] pid_max: default: 32768 minimum: 301
-[    0.000396] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes, =
-linear)
-[    0.000403] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 by=
-tes, linear)
-[    0.000726] CPU: Testing write buffer coherency: ok
-[    0.000749] CPU0: Spectre v2: using BPIALL workaround
-[    0.000864] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
-[    0.001188] cblist_init_generic: Setting adjustable number of callback q=
-ueues.
-[    0.001192] cblist_init_generic: Setting shift to 1 and lim to 1.
-[    0.001241] Setting up static identity map for 0x100000 - 0x100060
-[    0.001314] mvebu-soc-id: MVEBU SoC ID=3D0x6820, Rev=3D0x4
-[    0.001393] mvebu-pmsu: Initializing Power Management Service Unit
-[    0.001458] rcu: Hierarchical SRCU implementation.
-[    0.001460] rcu: 	Max phase no-delay instances is 1000.
-[    0.001631] smp: Bringing up secondary CPUs ...
-[    0.001833] Booting CPU 1
-[    0.001955] CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
-[    0.001962] CPU1: Spectre v2: using BPIALL workaround
-[    0.002016] smp: Brought up 1 node, 2 CPUs
-[    0.002020] SMP: Total of 2 processors activated (3200.00 BogoMIPS).
-[    0.002025] CPU: All CPU(s) started in SVC mode.
-[    0.002291] devtmpfs: initialized
-[    0.004089] VFP support v0.3: implementor 41 architecture 3 part 30 vari=
-ant 9 rev 4
-[    0.004132] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xfffffff=
-f, max_idle_ns: 7645041785100000 ns
-[    0.004141] futex hash table entries: 512 (order: 3, 32768 bytes, linear=
-)
-[    0.004196] pinctrl core: initialized pinctrl subsystem
-[    0.004478] NET: Registered PF_NETLINK/PF_ROUTE protocol family
-[    0.004981] DMA: preallocated 256 KiB pool for atomic coherent allocatio=
-ns
-[    0.005337] thermal_sys: Registered thermal governor 'step_wise'
-[    0.005440] mvebu-pmsu: CPU hotplug support is currently broken on Armad=
-a 38x: disabling
-[    0.005445] mvebu-pmsu: CPU idle is currently broken on Armada 38x: disa=
-bling
-[    0.010021] SCSI subsystem initialized
-[    0.010039] libata version 3.00 loaded.
-[    0.010094] usbcore: registered new interface driver usbfs
-[    0.010107] usbcore: registered new interface driver hub
-[    0.010123] usbcore: registered new device driver usb
-[    0.010716] clocksource: Switched to clocksource arm_global_timer
-[    0.011194] NET: Registered PF_INET protocol family
-[    0.011303] IP idents hash table entries: 16384 (order: 5, 131072 bytes,=
- linear)
-[    0.012144] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, =
-4096 bytes, linear)
-[    0.012157] Table-perturb hash table entries: 65536 (order: 6, 262144 by=
-tes, linear)
-[    0.012164] TCP established hash table entries: 8192 (order: 3, 32768 by=
-tes, linear)
-[    0.012201] TCP bind hash table entries: 8192 (order: 5, 131072 bytes, l=
-inear)
-[    0.012316] TCP: Hash tables configured (established 8192 bind 8192)
-[    0.012363] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
-[    0.012389] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, lin=
-ear)
-[    0.012498] NET: Registered PF_UNIX/PF_LOCAL protocol family
-[    0.013022] workingset: timestamp_bits=3D14 max_order=3D18 bucket_order=
-=3D4
-[    0.013133] Unpacking initramfs...
-[    0.013356] NET: Registered PF_ALG protocol family
-[    0.013390] Block layer SCSI generic (bsg) driver version 0.4 loaded (ma=
-jor 251)
-[    0.013406] io scheduler bfq registered
-[    0.018260] armada-38x-pinctrl f1018000.pinctrl: registered pinctrl driv=
-er
-[    0.018567] gpio gpiochip0: Static allocation of GPIO base is deprecated=
-, use dynamic allocation.
-[    0.018922] gpio gpiochip1: Static allocation of GPIO base is deprecated=
-, use dynamic allocation.
-[    0.019318] mv_xor f1060800.xor: Marvell shared XOR driver
-[    0.047355] mv_xor f1060800.xor: Marvell XOR (Descriptor Mode): ( xor cp=
-y intr )
-[    0.047527] mv_xor f1060900.xor: Marvell shared XOR driver
-[    0.075302] mv_xor f1060900.xor: Marvell XOR (Descriptor Mode): ( xor cp=
-y intr )
-[    0.075544] Serial: 8250/16550 driver, 5 ports, IRQ sharing disabled
-[    0.076072] printk: console [ttyS0] disabled
-[    0.076106] f1012000.serial: ttyS0 at MMIO 0xf1012000 (irq =3D 38, base_=
-baud =3D 15625000) is a 16550A
-[    0.076131] printk: console [ttyS0] enabled
-[    0.076545] f1012100.serial: ttyS1 at MMIO 0xf1012100 (irq =3D 39, base_=
-baud =3D 15625000) is a 16550A
-[    0.077023] ahci-mvebu f10a8000.sata: AHCI 0001.0000 32 slots 2 ports 6 =
-Gbps 0x3 impl platform mode
-[    0.077035] ahci-mvebu f10a8000.sata: flags: 64bit ncq sntf led only pmp=
- fbs pio slum part sxs=20
-[    0.077454] scsi host0: ahci-mvebu
-[    0.077669] scsi host1: ahci-mvebu
-[    0.077746] ata1: SATA max UDMA/133 mmio [mem 0xf10a8000-0xf10a9fff] por=
-t 0x100 irq 40
-[    0.077752] ata2: SATA max UDMA/133 mmio [mem 0xf10a8000-0xf10a9fff] por=
-t 0x180 irq 40
-[    0.078389] spi-nor spi0.0: s25fl164k (8192 Kbytes)
-[    0.186266] Freeing initrd memory: 4576K
-[    0.194291] 3 fixed-partitions partitions found on MTD device spi0.0
-[    0.194305] Creating 3 MTD partitions on "spi0.0":
-[    0.194310] 0x000000000000-0x0000000f0000 : "U-Boot"
-[    0.194494] 0x000000100000-0x000000800000 : "Rescue system"
-[    0.194609] 0x0000000f0000-0x000000100000 : "u-boot-env"
-[    0.202428] mv88e6085 f1072004.mdio-mii:10: switch 0x1760 detected: Marv=
-ell 88E6176, revision 1
-[    0.392679] ata2: SATA link down (SStatus 0 SControl 300)
-[    0.554721] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
-[    0.555400] ata1.00: supports DRM functions and may not be fully accessi=
-ble
-[    0.555404] ata1.00: ATA-10: KINGSTON SKC600MS512G, S4800105, max UDMA/1=
-33
-[    0.555410] ata1.00: 1000215216 sectors, multi 1: LBA48 NCQ (depth 32)
-[    0.556078] ata1.00: Features: Trust Dev-Sleep
-[    0.556178] ata1.00: supports DRM functions and may not be fully accessi=
-ble
-[    0.556830] ata1.00: configured for UDMA/133
-[    0.557003] scsi 0:0:0:0: Direct-Access     ATA      KINGSTON SKC600M 01=
-05 PQ: 0 ANSI: 5
-[    0.557513] sd 0:0:0:0: [sda] 1000215216 512-byte logical blocks: (512 G=
-B/477 GiB)
-[    0.557521] sd 0:0:0:0: [sda] 4096-byte physical blocks
-[    0.557542] sd 0:0:0:0: [sda] Write Protect is off
-[    0.557548] sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
-[    0.557582] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled,=
- doesn't support DPO or FUA
-[    0.557650] sd 0:0:0:0: [sda] Preferred minimum I/O size 4096 bytes
-[    0.558138]  sda: sda1
-[    0.558252] sd 0:0:0:0: [sda] Attached SCSI removable disk
-*** FREEZE ***
-[    2.779254] mvneta_bm f10c8000.bm: Buffer Manager for network controller=
- enabled
-[    2.780632] mvneta f1070000.ethernet eth0: Using device tree mac address=
- d8:58:d7:00:6f:b9
-[    2.781609] mvneta f1030000.ethernet eth1: Using device tree mac address=
- d8:58:d7:00:6f:b7
-[    2.782547] mvneta f1034000.ethernet eth2: Using device tree mac address=
- d8:58:d7:00:6f:b8
-[    2.782747] orion-ehci f1058000.usb: EHCI Host Controller
-[    2.782761] orion-ehci f1058000.usb: new USB bus registered, assigned bu=
-s number 1
-[    2.782807] orion-ehci f1058000.usb: irq 45, io mem 0xf1058000
-[    2.798726] orion-ehci f1058000.usb: USB 2.0 started, EHCI 1.00
-[    2.799034] hub 1-0:1.0: USB hub found
-[    2.799053] hub 1-0:1.0: 1 port detected
-[    2.799415] xhci-hcd f10f0000.usb3: xHCI Host Controller
-[    2.799427] xhci-hcd f10f0000.usb3: new USB bus registered, assigned bus=
- number 2
-[    2.799475] xhci-hcd f10f0000.usb3: hcc params 0x0a000990 hci version 0x=
-100 quirks 0x0000000000010010
-[    2.799497] xhci-hcd f10f0000.usb3: irq 46, io mem 0xf10f0000
-[    2.799506] xhci-hcd f10f0000.usb3: xHCI Host Controller
-[    2.799513] xhci-hcd f10f0000.usb3: new USB bus registered, assigned bus=
- number 3
-[    2.799525] xhci-hcd f10f0000.usb3: Host supports USB 3.0 SuperSpeed
-[    2.799776] hub 2-0:1.0: USB hub found
-[    2.799793] hub 2-0:1.0: 1 port detected
-[    2.799927] usb usb3: We don't know the algorithms for LPM for this host=
-, disabling LPM.
-[    2.800135] hub 3-0:1.0: USB hub found
-[    2.800152] hub 3-0:1.0: 1 port detected
-[    2.800329] xhci-hcd f10f8000.usb3: xHCI Host Controller
-[    2.800340] xhci-hcd f10f8000.usb3: new USB bus registered, assigned bus=
- number 4
-[    2.800383] xhci-hcd f10f8000.usb3: hcc params 0x0a000990 hci version 0x=
-100 quirks 0x0000000000010010
-[    2.800404] xhci-hcd f10f8000.usb3: irq 47, io mem 0xf10f8000
-[    2.800414] xhci-hcd f10f8000.usb3: xHCI Host Controller
-[    2.800421] xhci-hcd f10f8000.usb3: new USB bus registered, assigned bus=
- number 5
-[    2.800431] xhci-hcd f10f8000.usb3: Host supports USB 3.0 SuperSpeed
-[    2.800671] hub 4-0:1.0: USB hub found
-[    2.800687] hub 4-0:1.0: 1 port detected
-[    2.800824] usb usb5: We don't know the algorithms for LPM for this host=
-, disabling LPM.
-[    2.801039] hub 5-0:1.0: USB hub found
-[    2.801055] hub 5-0:1.0: 1 port detected
-[    2.801293] usbcore: registered new interface driver uas
-[    2.801337] usbcore: registered new interface driver usb-storage
-[    2.801815] armada38x-rtc f10a3800.rtc: registered as rtc0
-[    2.801892] armada38x-rtc f10a3800.rtc: setting system clock to 2023-03-=
-05T16:48:56 UTC (1678034936)
-[    2.803556] at24 1-0054: 8192 byte 24c64 EEPROM, writable, 1 bytes/write
-[    2.803591] i2c i2c-0: Added multiplexed i2c bus 1
-[    2.803627] i2c i2c-0: Added multiplexed i2c bus 2
-[    2.803657] i2c i2c-0: Added multiplexed i2c bus 3
-[    2.803688] i2c i2c-0: Added multiplexed i2c bus 4
-[    2.803717] i2c i2c-0: Added multiplexed i2c bus 5
-[    2.803796] i2c i2c-0: Added multiplexed i2c bus 6
-[    2.803828] i2c i2c-0: Added multiplexed i2c bus 7
-[    2.804026] pca953x 8-0071: using no AI
-[    2.805622] i2c i2c-0: Added multiplexed i2c bus 8
-[    2.805630] pca954x 0-0070: registered 8 multiplexed busses for I2C mux =
-pca9547
-[    2.807069] orion_wdt: Initial timeout 171 sec
-[    2.807255] sdhci: Secure Digital Host Controller Interface driver
-[    2.807259] sdhci: Copyright(c) Pierre Ossman
-[    2.807320] sdhci-pltfm: SDHCI platform and OF driver helper
-[    2.816014] marvell-cesa f1090000.crypto: CESA device successfully regis=
-tered
-[    2.816451] NET: Registered PF_INET6 protocol family
-[    2.817118] Segment Routing with IPv6
-[    2.817146] In-situ OAM (IOAM) with IPv6
-[    2.817208] NET: Registered PF_PACKET protocol family
-[    2.817323] Registering SWP/SWPB emulation handler
-[    2.838752] mmc0: SDHCI controller on f10d8000.sdhci [f10d8000.sdhci] us=
-ing ADMA
-[    2.915557] sfp sfp: Host maximum power 3.0W
-[    2.919406] mv88e6085 f1072004.mdio-mii:10: switch 0x1760 detected: Marv=
-ell 88E6176, revision 1
-[    2.942956] mmc0: new high speed MMC card at address 0001
-[    2.943334] mmcblk0: mmc0:0001 H8G4a\x92 7.28 GiB=20
-[    2.944348]  mmcblk0: p1
-[    2.944624] mmcblk0boot0: mmc0:0001 H8G4a\x92 4.00 MiB=20
-[    2.944926] mmcblk0boot1: mmc0:0001 H8G4a\x92 4.00 MiB=20
-[    2.945157] mmcblk0rpmb: mmc0:0001 H8G4a\x92 4.00 MiB, chardev (250:0)
-[    3.246121] sfp sfp: module TP-LINK          TL-SM321B        rev      s=
-n 1403076900       dc 140401
-[    3.246143] mvneta f1034000.ethernet eth2: switched to inband/1000base-x=
- link mode
-*** FREEZE ***
-[    5.956754] mv88e6085 f1072004.mdio-mii:10: configuring for fixed/rgmii-=
-id link mode
-[    5.958419] mv88e6085 f1072004.mdio-mii:10: configuring for fixed/rgmii-=
-id link mode
-[    5.959693] mv88e6085 f1072004.mdio-mii:10: Link is Up - 1Gbps/Full - fl=
-ow control off
-[    5.963191] mv88e6085 f1072004.mdio-mii:10: Link is Up - 1Gbps/Full - fl=
-ow control off
-[    6.030496] mv88e6085 f1072004.mdio-mii:10 lan0 (uninitialized): PHY [mv=
-88e6xxx-1:00] driver [Marvell 88E1540] (irq=3D68)
-[    6.102678] mv88e6085 f1072004.mdio-mii:10 lan1 (uninitialized): PHY [mv=
-88e6xxx-1:01] driver [Marvell 88E1540] (irq=3D69)
-[    6.174861] mv88e6085 f1072004.mdio-mii:10 lan2 (uninitialized): PHY [mv=
-88e6xxx-1:02] driver [Marvell 88E1540] (irq=3D70)
-[    6.246141] mv88e6085 f1072004.mdio-mii:10 lan3 (uninitialized): PHY [mv=
-88e6xxx-1:03] driver [Marvell 88E1540] (irq=3D71)
-[    6.318682] mv88e6085 f1072004.mdio-mii:10 lan4 (uninitialized): PHY [mv=
-88e6xxx-1:04] driver [Marvell 88E1540] (irq=3D72)
-[    6.321598] device eth1 entered promiscuous mode
-[    6.322472] device eth0 entered promiscuous mode
-[    6.322491] DSA: tree 0 setup
-[    6.323315] Freeing unused kernel image (initmem) memory: 1024K
-[    6.323453] Run /init as init process
-[    6.323457]   with arguments:
-[    6.323459]     /init
-[    6.323461]   with environment:
-[    6.323463]     HOME=3D/
-[    6.323465]     TERM=3Dlinux
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/kmb/kmb_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/kmb/kmb_drv.c
+> b/drivers/gpu/drm/kmb/kmb_drv.c
+> index d29c678f6c91..24035b53441c 100644
+> --- a/drivers/gpu/drm/kmb/kmb_drv.c
+> +++ b/drivers/gpu/drm/kmb/kmb_drv.c
+> @@ -15,7 +15,7 @@
+>=20
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_drv.h>
+> -#include <drm/drm_fbdev_generic.h>
+> +#include <drm/drm_fbdev_dma.h>
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+>  #include <drm/drm_module.h>
+> @@ -562,7 +562,7 @@ static int kmb_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_register;
+>=20
+> -	drm_fbdev_generic_setup(&kmb->drm, 0);
+> +	drm_fbdev_dma_setup(&kmb->drm, 0);
+>=20
+>  	return 0;
+>=20
+> --
+> 2.39.2
 
