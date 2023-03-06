@@ -2,51 +2,138 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D4B6AB1D2
-	for <lists+linux-aspeed@lfdr.de>; Sun,  5 Mar 2023 20:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E79E6AB3F2
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Mar 2023 01:49:28 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PVB6G25Rrz3cKm
-	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Mar 2023 06:07:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PVKj20Rtnz3cHX
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Mar 2023 11:49:26 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=FETKQeQa;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=Xyv+/6SE;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::70c; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=FETKQeQa;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=Xyv+/6SE;
 	dkim-atps=neutral
-X-Greylist: delayed 1840 seconds by postgrey-1.36 at boromir; Mon, 06 Mar 2023 06:07:07 AEDT
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2070c.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::70c])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PVB636G3bz3c7S
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  6 Mar 2023 06:07:07 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=VhBhWkSwNPL50LvOyHCZWAtOvU1QaETtKHZK8bbP7kk=; b=FETKQeQaDxUaW6ymG7WuaGGd8y
-	qRIMX7hl8QGQZ2BAeyM+6kT0HFYNkCpnS+7gweLRMk4qcvFzhZyKdDkz+lSLOZMok9OCxQ7/cK79n
-	xL4hHrcMb4X3zEHCYkfa7bUj4nn0eZG5NGskq3XkU8T6OgYWJpBUKJobSPEqr94gjt9w=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1pYtCm-006VG9-SJ; Sun, 05 Mar 2023 19:35:32 +0100
-Date: Sun, 5 Mar 2023 19:35:32 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Klaus Kudielka <klaus.kudielka@gmail.com>
-Subject: Re: [PATCH net-next v2 4/6] net: mdio: scan bus based on bus
- capabilities for C22 and C45
-Message-ID: <100c439a-2a4d-4cb2-96f2-5bf273e2121a@lunn.ch>
-References: <20230116-net-next-remove-probe-capabilities-v2-0-15513b05e1f4@walle.cc>
- <20230116-net-next-remove-probe-capabilities-v2-4-15513b05e1f4@walle.cc>
- <449bde236c08d5ab5e54abd73b645d8b29955894.camel@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PVKhr5xsmz3c8r;
+	Mon,  6 Mar 2023 11:49:15 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WbQ7bnYCl83jYmZlRoPPQ+aHpHts6DmjeZGBR4VJY1QnIV3bwvS3LoqRPFAUlLW8QotnS3qa0tlpS8g/yrchIQrUOtVC0m27jWtUDGB0SWexwzPHJaIeb5hnvC8UFPqsFtz4L41oGQVAN7376PV7C38UCyuCBeBYXCRtJZoTWExeDsDQ3OYdpnc2XbOBsDrlR+gy8yb+sklvwzFYmekwYBJcDXfDRN4Kk1OAmwZasW/38IykjIt0KdbjzunX9SoTUV0oHsZ21BpaSmTRq6rq1qqmynuNzHd3o7tSgAGK/TRyjl7PF6a6izUpRRue8IqE94AcRmWt70H4RdgCZIVzhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FW8ETPhWF4iLuInhwBh0O3RNQXA0by4j83FY2En09I4=;
+ b=TBCZ9NDKOmKNIYozKi56/L8hGGI78VeoTd4r5BJONHRXJGb6IOl/i2i2Kn6es5G4g2X6kIGPYoACa6jaSUJAmKoiIFWBVgBKvpxz3dJn6toZ41Za184h+psNldWI3ik3xHOnQGHeIBmeOuqcuVjOYunVb4+N74DFV3PaTnO740JuPhlI8HE1KY2v/rIoMkywhsHY91GUHds+OSrorl2ki6hhXiLLxM/CLS0IGSDwFxjtX9Wcr1qKkV2C134ESgeX7/P+G46aFdjTuxZBBULHqmldpOuK41hjROqbiMPaUfbMUSIBpeY46Z84KAwny0fU7n5yj4bwVCs7U/qD+ppN0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FW8ETPhWF4iLuInhwBh0O3RNQXA0by4j83FY2En09I4=;
+ b=Xyv+/6SEkY5pE/nh/RdvK9xzjPXv/YlxwjJz1nriZeJv3t9pczjrvUtSC/pOCysjJ/Un7veKs9U3uLOTEdYBeG1Dz4nwI17iInllwWNrJC5xYOAwrANhx37FloKeJX38pWQ2YqpP4PvS2bStsbEchO7poGi2vbLxm8ZU0b0xQOV1houacuqWFFARMN4bM29iELdz6kMfqQ0hk6vkFrE0KTX/ac9+oVMi5ElbZWPP22kU7AmpXnHpu4M8BCJ3s0iM629cNQ/EdL0O2pkx1oP/rwPgrXtV0Nd5zDAMzfrvhy6hDrts4vf/4J+ODr8mDZld2uPRX5wZXH17wMYpkLfF4w==
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+ by TYUPR06MB6149.apcprd06.prod.outlook.com (2603:1096:400:354::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.17; Mon, 6 Mar
+ 2023 00:48:52 +0000
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::daf6:5ebb:a93f:1869]) by SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::daf6:5ebb:a93f:1869%9]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
+ 00:48:52 +0000
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Wolfram Sang
+	<wsa@kernel.org>
+Subject: RE: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for
+ AST2600-i2cv2
+Thread-Topic: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for
+ AST2600-i2cv2
+Thread-Index:  AQHZSZBNCqcj9BIMLU6U/5WV2MINja7idvcAgALva/CAA1hsgIAAAQawgAAHfwCAAAAwwIAACb6AgAANnCCAAAdYAIAA+HuggAIdpoCAAPm8QA==
+Date: Mon, 6 Mar 2023 00:48:52 +0000
+Message-ID:  <SEZPR06MB5269B541150855BF0DABFACFF2B69@SEZPR06MB5269.apcprd06.prod.outlook.com>
+References: <20230226031321.3126756-1-ryan_chen@aspeedtech.com>
+ <20230226031321.3126756-2-ryan_chen@aspeedtech.com>
+ <53090449-58c9-bc03-56df-aa8ae93c0c26@linaro.org>
+ <SEZPR06MB52699DEB2255EB54F35C2A59F2AD9@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <fc20a2d1-e2f9-c22b-dcdf-153cb527eea8@linaro.org>
+ <SEZPR06MB526902637624A97D7DFB8523F2B39@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <c41ee6b5-ddb4-1253-de54-a295b3bab2cc@linaro.org>
+ <SEZPR06MB5269E7B8785B3CB56A63A916F2B39@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <a3615fe7-aa2a-53e9-2732-ba4512b9369d@linaro.org>
+ <SEZPR06MB5269E7B070B239F8E349C427F2B39@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <c5cf6e0a-05dc-dff7-6218-df0984d1ba47@linaro.org>
+ <SEZPR06MB5269CB53B51B89C3CA039442F2B09@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <e59fe30a-75d1-eb59-52a3-014fe3c961a6@linaro.org>
+In-Reply-To: <e59fe30a-75d1-eb59-52a3-014fe3c961a6@linaro.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEZPR06MB5269:EE_|TYUPR06MB6149:EE_
+x-ms-office365-filtering-correlation-id: 7b09ef86-75dd-415b-6d1a-08db1ddc8e72
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  ufuga2hYRiirD00u8wezHPoHGRb+cbXMGBZcu+21kSUwipZHexNCZEVo68GX/oG+jM5TJMaUuPyuJ75SaGMGsvIb8oMdlCTMPTAtcb0RpT++8Ibhz6AZMprc4jeglopYcJKAg+UMWJ9LC6pbL0QM2+dBAOCOUlI3F/S5RGWANBf+nc4UGfy/IVbby0/g3gh7/yzweWFi6PW5RBr4D7Rxos5lVcOsIMq63BB2GpnpSwWmNbyW36A5PHYJE5XeoGEFJf5RS+LWlfXgiy4sNewb0Tgn89pqqwvpNXIAYI9f8pBqXSFThXU8+k8xdEoKTOOlk942CaArkoL9TST538KydNtnMM/tIO/YfWrigerjYoZYRqlz2FkIfYO3zikqlepmCAF6EfLKCq1kFMhijCvEr+0o0yrMqVJwwFpXCmfSCjgDPeV1aiTd+1J1mJvti1a6sfT5j4FUIeg0QaFHU8OlJ3JExzTTAdJdhfTDSoz2P+D8mTIhS2H9tcxfH+tyfpZwGdQhLpajbeDFEx0ZkMdM1116h2WWzWmUVXOPK1Rejap5TXm7ojcgUDtPsJLAsdbKB/AwbR/tFpYCnbZlSgx5jh9ARBqeJcno9eS/rSAhqqYwLyxDt7FyhHoH98C0Wg83aReR/inafO2HLr5tiT7EE/yVVSdeTSBF2QlUW7+BwgXavFptoLOQlMAK4hqPjfj9
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(376002)(366004)(136003)(39830400003)(346002)(451199018)(6506007)(53546011)(186003)(9686003)(26005)(478600001)(2906002)(38070700005)(71200400001)(55016003)(7696005)(38100700002)(8936002)(52536014)(966005)(122000001)(5660300002)(66946007)(8676002)(66556008)(66446008)(64756008)(76116006)(41300700001)(4326008)(66476007)(7416002)(33656002)(316002)(54906003)(86362001)(110136005)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?c3pKNmVsWXBsMVdES1cvTTYvQ3YzSmFuVFF2dnV5elRrZE5sU1RQWklTZEUy?=
+ =?utf-8?B?M2hzS2pJWU1mRDJaUjFaejQ1aGRSdVRRcU5TM2kwZ1Brb0FGNS9QK1VXclNw?=
+ =?utf-8?B?VDFuYWNJSm5kaDdENlAwOE1mRVhMN2tDcjI4RTVpZjJtaXJpaGZOK0RRbW1H?=
+ =?utf-8?B?SnVyMXM2MjZrSTl5STVtL3kwMXR4cUdCN3VOYWlTU0czRzNkQlZGYkcwL29i?=
+ =?utf-8?B?bzNNZjJnY3VVZTQ2TkUyL2dndU5Tb3VNUlh4OVF4RzV5djNTdFVwVC82VE8y?=
+ =?utf-8?B?dG1USUlzTkN3WjI5emwzWHV6ajNodFNLYzk3d3lSdXhiV1I1blJXaXV3TXl2?=
+ =?utf-8?B?cklnQUZXQS9mMXFWdmlqa1RIUXZhWmthUHB2YWk0dDZVQzNLMnI3ZDJiUlVX?=
+ =?utf-8?B?bFcxYVkxWFhoK0ZsMkhnbnRLU3BFcXBvV2tONEZWMzZReGIrdDY3Y1JmK2NV?=
+ =?utf-8?B?Ykl6aUFna2FQd0V5blhSTkVIUVRpUDV5WHZZTk1Ba2FBM0pvejhKbW1WMjg2?=
+ =?utf-8?B?MTZ4YXROWFRWZkxsL1Bub3MxaEVIL2VYejJPNzJPK09LNFVBM0ZyU2Z5Y2U0?=
+ =?utf-8?B?SDFjSnVLN2xDTmJiZGRIcGs3NXlMOFg1dzBYVHFaZUNhRXFJRkh4NHAwNm9x?=
+ =?utf-8?B?M0FlZS9XM0E4d0Nockc3aWRhc2RJbkloQzgwbjgzakdLQ0tuQlgzOG40ZHpW?=
+ =?utf-8?B?ZXZISEkza0J2TlNyVlJaNkx5c0dCNU82VFF3dnRXZ280S2lJSHhhUC9CWHQ3?=
+ =?utf-8?B?c3FDMVAzYzRlSUxPSWNJREZqZGNnLytkbWJCdDVkeGJkMElnUXdzN1V1OStV?=
+ =?utf-8?B?V1BzM3VhVm1rUWxNcVpFS1c5OVJmNkJkd1B0ZEM5ZUU1bGtNNENWV01acjJp?=
+ =?utf-8?B?VnB0a3BVN2taYWs3cTZCMit1S003a2JqNktwWU9GTFRsTjVlamFQTk1qTG41?=
+ =?utf-8?B?OTAwQjJPald4cUFOWnhvM2FYKzVwZVhpNy81MlA5a0o5cTRPL1N2UmVSV0kv?=
+ =?utf-8?B?TkV6WExOeFpsQ1lydlQ2cHpZdjNGTVZPZXlKd0ZlaTUzVXdoOUVEbTRHY014?=
+ =?utf-8?B?aUJnZXh2U0JyRnJYZFJaZFhvWURKMkp5K3IvNVgvZnc5S3dVb1dNZ0R1dnBX?=
+ =?utf-8?B?cnNpWGZKTkJNa3RsYklxekgyQkNmaVRFbVVCNXR4OGR1VTdoZWJxL1hqR2tH?=
+ =?utf-8?B?YkVVQUlBQ1BGazRMY3ZWM3QrM3lKd2lqN1RFamg3dEkyTU51dHVYNUtITHpq?=
+ =?utf-8?B?Y3NnejYwbXR5Zm8xTmJHVE5zOEk1RDgvTjgvQU0rOThqbyswVFYrZmwrNmZX?=
+ =?utf-8?B?ZDV4Z1lrL0JNYWVZWk1MWVJPSEQwcHhXUUFnVmQ0ZFRwTlhkZmwyZTFtUDA0?=
+ =?utf-8?B?MmJtV0JOdVJ4U3VqakdXOERYZlpVY2ZSYldtaXRjUm0vaHFaTERybmJ3STBy?=
+ =?utf-8?B?ZWFFYjFLOUVBeWFTdHdrelRJN2JHN1o4b0t3SWlxUlJQR3dvajFXU0NZcGFZ?=
+ =?utf-8?B?NThJd0QxNGNXQ28vNEJBa0tRMWliTmx3Y0huRTR1YVFZOTR3YWQyRXlUVE8z?=
+ =?utf-8?B?S1FhZExDQTVoOHJEMzVNaTIwenVnWXpqTGVtZUdlQWxqcnJQU0Z1eGt4ekxq?=
+ =?utf-8?B?UmNIS3UzVk4zOTZuaFBDeG9UTFltdzB3SlEzNlRCcG8vVHQ4OWI0VkxYeVdx?=
+ =?utf-8?B?V1dlU1ZuOURueFg0dWpiaWl3QVVFZnJ0ZGd0T0J4L2I3NmVnOS9vQWhzS1B5?=
+ =?utf-8?B?MGo3WVhnTzNvZXdpT1gwSy9LMTdFbXlZYjYxUGJoUHVVaE4zZlArMDU3bW96?=
+ =?utf-8?B?K2RUU051N0IzYUFWWUExbWg2QVBvRzNGeGpVeUcxSmppeW13MUdyYW52TCti?=
+ =?utf-8?B?SnZ6RHBoSWxsamlzVjdkUVJKZmo3N1hYRnhsWEpBZWkzY1RpY0hXMzM2dlk4?=
+ =?utf-8?B?eVpzREVuMzh5SlV4Wk9WM1lUZ2ZTYTNvd0VYZkFoblh2d2w5Vk4vS1NKMGlx?=
+ =?utf-8?B?eG1hbGd4UUE1WThhNU44dWtuSGlXbGk2aTVIdW5idWZQaFdVOFZWUkJxUjVH?=
+ =?utf-8?B?TXdhWjRQdEFIRi9ja0cvTFBFM1k5RDgyeEQzU1hoMXF3d1pRSjFIQ2RHeXo1?=
+ =?utf-8?Q?oUZvuKMW21kJncYZ8fpI3qltQ?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <449bde236c08d5ab5e54abd73b645d8b29955894.camel@gmail.com>
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b09ef86-75dd-415b-6d1a-08db1ddc8e72
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2023 00:48:52.2619
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0kToxIZPDRlvuj/wWvIgn6NByE0ZfmDrLYoaObKPiRdkMV/I7UU6Lyo2z85d4oCiKdynHDnN22PV5pVKITcmoMCmbkBljomxz5SmxIrqcL0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYUPR06MB6149
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,277 +145,113 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, Eric Dumazet <edumazet@google.com>, linux-stm32@st-md-mailman.stormreply.com, Russell King <linux@armlinux.org.uk>, Jose Abreu <joabreu@synopsys.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Mark Lee <Mark-MC.Lee@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, linux-mediatek@lists.infradead.org, John Crispin <john@phrozen.org>, Matthias Brugger <matthias.bgg@gmail.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, linux-arm-kernel@lists.infradead.org, Bryan Whitehead <bryan.whitehead@microchip.com>, linux-kernel@vger.kernel.org, UNGLinuxDriver@microchip.com, Michael Walle <michael@walle.cc>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, Felix Fietkau <nbd@nbd.name>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, Mar 05, 2023 at 07:13:09PM +0100, Klaus Kudielka wrote:
-> On Wed, 2023-01-18 at 11:01 +0100, Michael Walle wrote:
-> > From: Andrew Lunn <andrew@lunn.ch>
-> > 
-> > Now that all MDIO bus drivers which set probe_capabilities to
-> > MDIOBUS_C22_C45 have been converted to use the name API for C45
-> > transactions, perform the scanning of the bus based on which methods
-> > the bus provides.
-> > 
-> > Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-> > Signed-off-by: Michael Walle <michael@walle.cc>
-> > Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-> 
-> Hello,
-> 
-> On a Turris Omnia (Armada 385, Marvell 88E6176) this commit results
-> in a strange boot behaviour. I see two distinct multi-second freezes
-> in dmesg. Usually (up to the commit before), the (monolithic) kernel
-> starts init after ~1.6 seconds, now it takes more than 6....
-> 
-> dmesg output below. Any idea, why this is happening?
-
-The Armada 385 uses mdio-orian, also known as
-drivers/net/ethernet/marvell/mvmdio.c. It comes in two variants, one
-which supports only C22 and one which only supports C45, if i'm
-reading orion_mdio_match[] correctly.
-
-Please could you add a debug print in orion_mdio_smi_read() and
-orion_mdio_xsmi_read_c45() and see if there is a difference before and
-after this patch.
-
-I'm assuming here the problem is with the MDIO bus associated to
-mvneta, and not the mdio bus associated to the switch. That assumption
-could be wrong, but the printk's should help with that as well.
-
-      Andrew
-
-
-> 
-> Best regards, Klaus
-> 
-> [    0.000000] Booting Linux on physical CPU 0x0
-> [    0.000000] Linux version 6.2.0-rc3+ (xxxx) (arm-linux-gnueabihf-gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP Sun Mar  5 16:20:57 CET 2023
-> [    0.000000] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=10c5387d
-> [    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
-> [    0.000000] OF: fdt: Machine model: Turris Omnia
-> [    0.000000] Memory policy: Data cache writealloc
-> [    0.000000] Zone ranges:
-> [    0.000000]   Normal   [mem 0x0000000000000000-0x000000002fffffff]
-> [    0.000000]   HighMem  [mem 0x0000000030000000-0x000000003fffffff]
-> [    0.000000] Movable zone start for each node
-> [    0.000000] Early memory node ranges
-> [    0.000000]   node   0: [mem 0x0000000000000000-0x000000003fffffff]
-> [    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x000000003fffffff]
-> [    0.000000] percpu: Embedded 12 pages/cpu s19604 r8192 d21356 u49152
-> [    0.000000] pcpu-alloc: s19604 r8192 d21356 u49152 alloc=12*4096
-> [    0.000000] pcpu-alloc: [0] 0 [0] 1 
-> [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 260416
-> [    0.000000] Kernel command line: console=ttyS0,115200 quiet root=PARTUUID=262ecdb3-01 mvneta.txq_number=2 mvneta.rxq_number=2
-> [    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes, linear)
-> [    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes, linear)
-> [    0.000000] mem auto-init: stack:off, heap alloc:off, heap free:off
-> [    0.000000] Memory: 1022716K/1048576K available (7168K kernel code, 590K rwdata, 1776K rodata, 1024K init, 233K bss, 25860K reserved, 0K cma-reserved, 262144K highmem)
-> [    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
-> [    0.000000] rcu: Hierarchical RCU implementation.
-> [    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=2.
-> [    0.000000] 	Tracing variant of Tasks RCU enabled.
-> [    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
-> [    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
-> [    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
-> [    0.000000] L2C: DT/platform modifies aux control register: 0x06070000 -> 0x16070000
-> [    0.000000] L2C-310 enabling early BRESP for Cortex-A9
-> [    0.000000] L2C-310 full line of zeros enabled for Cortex-A9
-> [    0.000000] L2C-310 D prefetch enabled, offset 1 lines
-> [    0.000000] L2C-310 dynamic clock gating enabled, standby mode enabled
-> [    0.000000] L2C-310 Coherent cache controller enabled, 16 ways, 1024 kB
-> [    0.000000] L2C-310 Coherent: CACHE_ID 0x410054c9, AUX_CTRL 0x56070001
-> [    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
-> [    0.000001] sched_clock: 64 bits at 800MHz, resolution 1ns, wraps every 4398046511103ns
-> [    0.000012] clocksource: arm_global_timer: mask: 0xffffffffffffffff max_cycles: 0xb881274fa3, max_idle_ns: 440795210636 ns
-> [    0.000026] Switching to timer-based delay loop, resolution 1ns
-> [    0.000153] Ignoring duplicate/late registration of read_current_timer delay
-> [    0.000159] clocksource: armada_370_xp_clocksource: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 76450417870 ns
-> [    0.000302] Calibrating delay loop (skipped), value calculated using timer frequency.. 1600.00 BogoMIPS (lpj=3200000)
-> [    0.000310] pid_max: default: 32768 minimum: 301
-> [    0.000396] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
-> [    0.000403] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
-> [    0.000726] CPU: Testing write buffer coherency: ok
-> [    0.000749] CPU0: Spectre v2: using BPIALL workaround
-> [    0.000864] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
-> [    0.001188] cblist_init_generic: Setting adjustable number of callback queues.
-> [    0.001192] cblist_init_generic: Setting shift to 1 and lim to 1.
-> [    0.001241] Setting up static identity map for 0x100000 - 0x100060
-> [    0.001314] mvebu-soc-id: MVEBU SoC ID=0x6820, Rev=0x4
-> [    0.001393] mvebu-pmsu: Initializing Power Management Service Unit
-> [    0.001458] rcu: Hierarchical SRCU implementation.
-> [    0.001460] rcu: 	Max phase no-delay instances is 1000.
-> [    0.001631] smp: Bringing up secondary CPUs ...
-> [    0.001833] Booting CPU 1
-> [    0.001955] CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
-> [    0.001962] CPU1: Spectre v2: using BPIALL workaround
-> [    0.002016] smp: Brought up 1 node, 2 CPUs
-> [    0.002020] SMP: Total of 2 processors activated (3200.00 BogoMIPS).
-> [    0.002025] CPU: All CPU(s) started in SVC mode.
-> [    0.002291] devtmpfs: initialized
-> [    0.004089] VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
-> [    0.004132] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
-> [    0.004141] futex hash table entries: 512 (order: 3, 32768 bytes, linear)
-> [    0.004196] pinctrl core: initialized pinctrl subsystem
-> [    0.004478] NET: Registered PF_NETLINK/PF_ROUTE protocol family
-> [    0.004981] DMA: preallocated 256 KiB pool for atomic coherent allocations
-> [    0.005337] thermal_sys: Registered thermal governor 'step_wise'
-> [    0.005440] mvebu-pmsu: CPU hotplug support is currently broken on Armada 38x: disabling
-> [    0.005445] mvebu-pmsu: CPU idle is currently broken on Armada 38x: disabling
-> [    0.010021] SCSI subsystem initialized
-> [    0.010039] libata version 3.00 loaded.
-> [    0.010094] usbcore: registered new interface driver usbfs
-> [    0.010107] usbcore: registered new interface driver hub
-> [    0.010123] usbcore: registered new device driver usb
-> [    0.010716] clocksource: Switched to clocksource arm_global_timer
-> [    0.011194] NET: Registered PF_INET protocol family
-> [    0.011303] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
-> [    0.012144] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
-> [    0.012157] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
-> [    0.012164] TCP established hash table entries: 8192 (order: 3, 32768 bytes, linear)
-> [    0.012201] TCP bind hash table entries: 8192 (order: 5, 131072 bytes, linear)
-> [    0.012316] TCP: Hash tables configured (established 8192 bind 8192)
-> [    0.012363] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
-> [    0.012389] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
-> [    0.012498] NET: Registered PF_UNIX/PF_LOCAL protocol family
-> [    0.013022] workingset: timestamp_bits=14 max_order=18 bucket_order=4
-> [    0.013133] Unpacking initramfs...
-> [    0.013356] NET: Registered PF_ALG protocol family
-> [    0.013390] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 251)
-> [    0.013406] io scheduler bfq registered
-> [    0.018260] armada-38x-pinctrl f1018000.pinctrl: registered pinctrl driver
-> [    0.018567] gpio gpiochip0: Static allocation of GPIO base is deprecated, use dynamic allocation.
-> [    0.018922] gpio gpiochip1: Static allocation of GPIO base is deprecated, use dynamic allocation.
-> [    0.019318] mv_xor f1060800.xor: Marvell shared XOR driver
-> [    0.047355] mv_xor f1060800.xor: Marvell XOR (Descriptor Mode): ( xor cpy intr )
-> [    0.047527] mv_xor f1060900.xor: Marvell shared XOR driver
-> [    0.075302] mv_xor f1060900.xor: Marvell XOR (Descriptor Mode): ( xor cpy intr )
-> [    0.075544] Serial: 8250/16550 driver, 5 ports, IRQ sharing disabled
-> [    0.076072] printk: console [ttyS0] disabled
-> [    0.076106] f1012000.serial: ttyS0 at MMIO 0xf1012000 (irq = 38, base_baud = 15625000) is a 16550A
-> [    0.076131] printk: console [ttyS0] enabled
-> [    0.076545] f1012100.serial: ttyS1 at MMIO 0xf1012100 (irq = 39, base_baud = 15625000) is a 16550A
-> [    0.077023] ahci-mvebu f10a8000.sata: AHCI 0001.0000 32 slots 2 ports 6 Gbps 0x3 impl platform mode
-> [    0.077035] ahci-mvebu f10a8000.sata: flags: 64bit ncq sntf led only pmp fbs pio slum part sxs 
-> [    0.077454] scsi host0: ahci-mvebu
-> [    0.077669] scsi host1: ahci-mvebu
-> [    0.077746] ata1: SATA max UDMA/133 mmio [mem 0xf10a8000-0xf10a9fff] port 0x100 irq 40
-> [    0.077752] ata2: SATA max UDMA/133 mmio [mem 0xf10a8000-0xf10a9fff] port 0x180 irq 40
-> [    0.078389] spi-nor spi0.0: s25fl164k (8192 Kbytes)
-> [    0.186266] Freeing initrd memory: 4576K
-> [    0.194291] 3 fixed-partitions partitions found on MTD device spi0.0
-> [    0.194305] Creating 3 MTD partitions on "spi0.0":
-> [    0.194310] 0x000000000000-0x0000000f0000 : "U-Boot"
-> [    0.194494] 0x000000100000-0x000000800000 : "Rescue system"
-> [    0.194609] 0x0000000f0000-0x000000100000 : "u-boot-env"
-> [    0.202428] mv88e6085 f1072004.mdio-mii:10: switch 0x1760 detected: Marvell 88E6176, revision 1
-> [    0.392679] ata2: SATA link down (SStatus 0 SControl 300)
-> [    0.554721] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
-> [    0.555400] ata1.00: supports DRM functions and may not be fully accessible
-> [    0.555404] ata1.00: ATA-10: KINGSTON SKC600MS512G, S4800105, max UDMA/133
-> [    0.555410] ata1.00: 1000215216 sectors, multi 1: LBA48 NCQ (depth 32)
-> [    0.556078] ata1.00: Features: Trust Dev-Sleep
-> [    0.556178] ata1.00: supports DRM functions and may not be fully accessible
-> [    0.556830] ata1.00: configured for UDMA/133
-> [    0.557003] scsi 0:0:0:0: Direct-Access     ATA      KINGSTON SKC600M 0105 PQ: 0 ANSI: 5
-> [    0.557513] sd 0:0:0:0: [sda] 1000215216 512-byte logical blocks: (512 GB/477 GiB)
-> [    0.557521] sd 0:0:0:0: [sda] 4096-byte physical blocks
-> [    0.557542] sd 0:0:0:0: [sda] Write Protect is off
-> [    0.557548] sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
-> [    0.557582] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-> [    0.557650] sd 0:0:0:0: [sda] Preferred minimum I/O size 4096 bytes
-> [    0.558138]  sda: sda1
-> [    0.558252] sd 0:0:0:0: [sda] Attached SCSI removable disk
-> *** FREEZE ***
-> [    2.779254] mvneta_bm f10c8000.bm: Buffer Manager for network controller enabled
-> [    2.780632] mvneta f1070000.ethernet eth0: Using device tree mac address d8:58:d7:00:6f:b9
-> [    2.781609] mvneta f1030000.ethernet eth1: Using device tree mac address d8:58:d7:00:6f:b7
-> [    2.782547] mvneta f1034000.ethernet eth2: Using device tree mac address d8:58:d7:00:6f:b8
-> [    2.782747] orion-ehci f1058000.usb: EHCI Host Controller
-> [    2.782761] orion-ehci f1058000.usb: new USB bus registered, assigned bus number 1
-> [    2.782807] orion-ehci f1058000.usb: irq 45, io mem 0xf1058000
-> [    2.798726] orion-ehci f1058000.usb: USB 2.0 started, EHCI 1.00
-> [    2.799034] hub 1-0:1.0: USB hub found
-> [    2.799053] hub 1-0:1.0: 1 port detected
-> [    2.799415] xhci-hcd f10f0000.usb3: xHCI Host Controller
-> [    2.799427] xhci-hcd f10f0000.usb3: new USB bus registered, assigned bus number 2
-> [    2.799475] xhci-hcd f10f0000.usb3: hcc params 0x0a000990 hci version 0x100 quirks 0x0000000000010010
-> [    2.799497] xhci-hcd f10f0000.usb3: irq 46, io mem 0xf10f0000
-> [    2.799506] xhci-hcd f10f0000.usb3: xHCI Host Controller
-> [    2.799513] xhci-hcd f10f0000.usb3: new USB bus registered, assigned bus number 3
-> [    2.799525] xhci-hcd f10f0000.usb3: Host supports USB 3.0 SuperSpeed
-> [    2.799776] hub 2-0:1.0: USB hub found
-> [    2.799793] hub 2-0:1.0: 1 port detected
-> [    2.799927] usb usb3: We don't know the algorithms for LPM for this host, disabling LPM.
-> [    2.800135] hub 3-0:1.0: USB hub found
-> [    2.800152] hub 3-0:1.0: 1 port detected
-> [    2.800329] xhci-hcd f10f8000.usb3: xHCI Host Controller
-> [    2.800340] xhci-hcd f10f8000.usb3: new USB bus registered, assigned bus number 4
-> [    2.800383] xhci-hcd f10f8000.usb3: hcc params 0x0a000990 hci version 0x100 quirks 0x0000000000010010
-> [    2.800404] xhci-hcd f10f8000.usb3: irq 47, io mem 0xf10f8000
-> [    2.800414] xhci-hcd f10f8000.usb3: xHCI Host Controller
-> [    2.800421] xhci-hcd f10f8000.usb3: new USB bus registered, assigned bus number 5
-> [    2.800431] xhci-hcd f10f8000.usb3: Host supports USB 3.0 SuperSpeed
-> [    2.800671] hub 4-0:1.0: USB hub found
-> [    2.800687] hub 4-0:1.0: 1 port detected
-> [    2.800824] usb usb5: We don't know the algorithms for LPM for this host, disabling LPM.
-> [    2.801039] hub 5-0:1.0: USB hub found
-> [    2.801055] hub 5-0:1.0: 1 port detected
-> [    2.801293] usbcore: registered new interface driver uas
-> [    2.801337] usbcore: registered new interface driver usb-storage
-> [    2.801815] armada38x-rtc f10a3800.rtc: registered as rtc0
-> [    2.801892] armada38x-rtc f10a3800.rtc: setting system clock to 2023-03-05T16:48:56 UTC (1678034936)
-> [    2.803556] at24 1-0054: 8192 byte 24c64 EEPROM, writable, 1 bytes/write
-> [    2.803591] i2c i2c-0: Added multiplexed i2c bus 1
-> [    2.803627] i2c i2c-0: Added multiplexed i2c bus 2
-> [    2.803657] i2c i2c-0: Added multiplexed i2c bus 3
-> [    2.803688] i2c i2c-0: Added multiplexed i2c bus 4
-> [    2.803717] i2c i2c-0: Added multiplexed i2c bus 5
-> [    2.803796] i2c i2c-0: Added multiplexed i2c bus 6
-> [    2.803828] i2c i2c-0: Added multiplexed i2c bus 7
-> [    2.804026] pca953x 8-0071: using no AI
-> [    2.805622] i2c i2c-0: Added multiplexed i2c bus 8
-> [    2.805630] pca954x 0-0070: registered 8 multiplexed busses for I2C mux pca9547
-> [    2.807069] orion_wdt: Initial timeout 171 sec
-> [    2.807255] sdhci: Secure Digital Host Controller Interface driver
-> [    2.807259] sdhci: Copyright(c) Pierre Ossman
-> [    2.807320] sdhci-pltfm: SDHCI platform and OF driver helper
-> [    2.816014] marvell-cesa f1090000.crypto: CESA device successfully registered
-> [    2.816451] NET: Registered PF_INET6 protocol family
-> [    2.817118] Segment Routing with IPv6
-> [    2.817146] In-situ OAM (IOAM) with IPv6
-> [    2.817208] NET: Registered PF_PACKET protocol family
-> [    2.817323] Registering SWP/SWPB emulation handler
-> [    2.838752] mmc0: SDHCI controller on f10d8000.sdhci [f10d8000.sdhci] using ADMA
-> [    2.915557] sfp sfp: Host maximum power 3.0W
-> [    2.919406] mv88e6085 f1072004.mdio-mii:10: switch 0x1760 detected: Marvell 88E6176, revision 1
-> [    2.942956] mmc0: new high speed MMC card at address 0001
-> [    2.943334] mmcblk0: mmc0:0001 H8G4a\x92 7.28 GiB 
-> [    2.944348]  mmcblk0: p1
-> [    2.944624] mmcblk0boot0: mmc0:0001 H8G4a\x92 4.00 MiB 
-> [    2.944926] mmcblk0boot1: mmc0:0001 H8G4a\x92 4.00 MiB 
-> [    2.945157] mmcblk0rpmb: mmc0:0001 H8G4a\x92 4.00 MiB, chardev (250:0)
-> [    3.246121] sfp sfp: module TP-LINK          TL-SM321B        rev      sn 1403076900       dc 140401
-> [    3.246143] mvneta f1034000.ethernet eth2: switched to inband/1000base-x link mode
-> *** FREEZE ***
-> [    5.956754] mv88e6085 f1072004.mdio-mii:10: configuring for fixed/rgmii-id link mode
-> [    5.958419] mv88e6085 f1072004.mdio-mii:10: configuring for fixed/rgmii-id link mode
-> [    5.959693] mv88e6085 f1072004.mdio-mii:10: Link is Up - 1Gbps/Full - flow control off
-> [    5.963191] mv88e6085 f1072004.mdio-mii:10: Link is Up - 1Gbps/Full - flow control off
-> [    6.030496] mv88e6085 f1072004.mdio-mii:10 lan0 (uninitialized): PHY [mv88e6xxx-1:00] driver [Marvell 88E1540] (irq=68)
-> [    6.102678] mv88e6085 f1072004.mdio-mii:10 lan1 (uninitialized): PHY [mv88e6xxx-1:01] driver [Marvell 88E1540] (irq=69)
-> [    6.174861] mv88e6085 f1072004.mdio-mii:10 lan2 (uninitialized): PHY [mv88e6xxx-1:02] driver [Marvell 88E1540] (irq=70)
-> [    6.246141] mv88e6085 f1072004.mdio-mii:10 lan3 (uninitialized): PHY [mv88e6xxx-1:03] driver [Marvell 88E1540] (irq=71)
-> [    6.318682] mv88e6085 f1072004.mdio-mii:10 lan4 (uninitialized): PHY [mv88e6xxx-1:04] driver [Marvell 88E1540] (irq=72)
-> [    6.321598] device eth1 entered promiscuous mode
-> [    6.322472] device eth0 entered promiscuous mode
-> [    6.322491] DSA: tree 0 setup
-> [    6.323315] Freeing unused kernel image (initmem) memory: 1024K
-> [    6.323453] Run /init as init process
-> [    6.323457]   with arguments:
-> [    6.323459]     /init
-> [    6.323461]   with environment:
-> [    6.323463]     HOME=/
-> [    6.323465]     TERM=linux
-> 
+SGVsbG8gS3J6eXN6dG9mLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
+IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dza2lAbGluYXJvLm9yZz4NCj4g
+U2VudDogU3VuZGF5LCBNYXJjaCA1LCAyMDIzIDU6NDkgUE0NCj4gVG86IFJ5YW4gQ2hlbiA8cnlh
+bl9jaGVuQGFzcGVlZHRlY2guY29tPjsgV29sZnJhbSBTYW5nDQo+IDx3c2FAa2VybmVsLm9yZz4N
+Cj4gQ2M6IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+OyBCcmVuZGFuIEhpZ2dpbnMNCj4g
+PGJyZW5kYW4uaGlnZ2luc0BsaW51eC5kZXY+OyBLcnp5c3p0b2YgS296bG93c2tpDQo+IDxrcnp5
+c3p0b2Yua296bG93c2tpK2R0QGxpbmFyby5vcmc+OyBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFq
+LmlkLmF1PjsNCj4gZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IFBoaWxpcHAgWmFiZWwgPHAu
+emFiZWxAcGVuZ3V0cm9uaXguZGU+OyBSb2INCj4gSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3Jn
+PjsgQmVuamFtaW4gSGVycmVuc2NobWlkdA0KPiA8YmVuaEBrZXJuZWwuY3Jhc2hpbmcub3JnPjsg
+bGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmc7DQo+IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMu
+aW5mcmFkZWFkLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsNCj4gb3BlbmJtY0Bs
+aXN0cy5vemxhYnMub3JnOyBsaW51eC1pMmNAdmdlci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJl
+OiBbUEFUQ0ggdjYgMS8yXSBkdC1iaW5kaW5nczogaTJjOiBhc3BlZWQ6IHN1cHBvcnQgZm9yIEFT
+VDI2MDAtaTJjdjINCj4gDQo+IE9uIDA0LzAzLzIwMjMgMDI6MzMsIFJ5YW4gQ2hlbiB3cm90ZToN
+Cj4gPiBIZWxsbyBLcnp5c3p0b2YsDQo+ID4NCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
+LS0NCj4gPj4gRnJvbTogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBs
+aW5hcm8ub3JnPg0KPiA+PiBTZW50OiBGcmlkYXksIE1hcmNoIDMsIDIwMjMgNjo0MSBQTQ0KPiA+
+PiBUbzogUnlhbiBDaGVuIDxyeWFuX2NoZW5AYXNwZWVkdGVjaC5jb20+OyBXb2xmcmFtIFNhbmcN
+Cj4gPj4gPHdzYUBrZXJuZWwub3JnPg0KPiA+PiBDYzogSm9lbCBTdGFubGV5IDxqb2VsQGptcy5p
+ZC5hdT47IEJyZW5kYW4gSGlnZ2lucw0KPiA+PiA8YnJlbmRhbi5oaWdnaW5zQGxpbnV4LmRldj47
+IEtyenlzenRvZiBLb3psb3dza2kNCj4gPj4gPGtyenlzenRvZi5rb3psb3dza2krZHRAbGluYXJv
+Lm9yZz47IEFuZHJldyBKZWZmZXJ5DQo+ID4+IDxhbmRyZXdAYWouaWQuYXU+OyBkZXZpY2V0cmVl
+QHZnZXIua2VybmVsLm9yZzsgUGhpbGlwcCBaYWJlbA0KPiA+PiA8cC56YWJlbEBwZW5ndXRyb25p
+eC5kZT47IFJvYiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5lbC5vcmc+OyBCZW5qYW1pbg0KPiA+PiBI
+ZXJyZW5zY2htaWR0IDxiZW5oQGtlcm5lbC5jcmFzaGluZy5vcmc+Ow0KPiA+PiBsaW51eC1hc3Bl
+ZWRAbGlzdHMub3psYWJzLm9yZzsgbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3Jn
+Ow0KPiA+PiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBvcGVuYm1jQGxpc3RzLm96bGFi
+cy5vcmc7DQo+ID4+IGxpbnV4LWkyY0B2Z2VyLmtlcm5lbC5vcmcNCj4gPj4gU3ViamVjdDogUmU6
+IFtQQVRDSCB2NiAxLzJdIGR0LWJpbmRpbmdzOiBpMmM6IGFzcGVlZDogc3VwcG9ydCBmb3INCj4g
+Pj4gQVNUMjYwMC1pMmN2Mg0KPiA+Pg0KPiA+PiBPbiAwMy8wMy8yMDIzIDExOjE2LCBSeWFuIENo
+ZW4gd3JvdGU6DQo+ID4+Pj4+Pj4+PiBhc3BlZWQsdGltb3V0IHByb3Blcml0ZXM6DQo+ID4+Pj4+
+Pj4+PiBGb3IgZXhhbXBsZSBJMkMgY29udHJvbGxlciBhcyBzbGF2ZSBtb2RlLCBhbmQgc3VkZGVu
+bHkNCj4gPj4+PiBkaXNjb25uZWN0ZWQuDQo+ID4+Pj4+Pj4+PiBTbGF2ZSBzdGF0ZSBtYWNoaW5l
+IHdpbGwga2VlcCB3YWl0aW5nIGZvciBtYXN0ZXIgY2xvY2sgaW4gZm9yDQo+ID4+Pj4+Pj4+PiBy
+eC90eA0KPiA+Pj4+Pj4gdHJhbnNtaXQuDQo+ID4+Pj4+Pj4+PiBTbyBpdCBuZWVkIHRpbWVvdXQg
+c2V0dGluZyB0byBlbmFibGUgdGltZW91dCB1bmxvY2sgY29udHJvbGxlcg0KPiBzdGF0ZS4NCj4g
+Pj4+Pj4+Pj4+IEFuZCBpbiBhbm90aGVyIHNpZGUuIEluIE1hc3RlciBzaWRlIGFsc28gbmVlZCBh
+dm9pZCBzdWRkZW5seQ0KPiA+Pj4+Pj4+Pj4gc2xhdmUNCj4gPj4+Pj4+Pj4gbWlzcyh1bi1wbHVn
+KSwgTWFzdGVyIHdpbGwgdGltZW91dCBhbmQgcmVsZWFzZSB0aGUgU0RBL1NDTC4NCj4gPj4+Pj4+
+Pj4+DQo+ID4+Pj4+Pj4+PiBEbyB5b3UgbWVhbiBhZGQgdGhvc2UgZGVzY3JpcHRpb24gaW50byBv
+cmUgYXNwZWVkLHRpbW91dA0KPiA+Pj4+Pj4+Pj4gcHJvcGVyaXRlcw0KPiA+Pj4+Pj4+PiBkZXNj
+cmlwdGlvbj8NCj4gPj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4gWW91IGFyZSBkZXNjcmliaW5nIGhlcmUg
+b25lIHBhcnRpY3VsYXIgZmVhdHVyZSB5b3Ugd2FudCB0bw0KPiA+Pj4+Pj4+PiBlbmFibGUgaW4g
+dGhlIGRyaXZlciB3aGljaCBsb29rcyBub24tc2NhbGFibGUgYW5kIG1vcmUNCj4gPj4+Pj4+Pj4g
+ZGlmZmljdWx0IHRvDQo+ID4+Pj4gY29uZmlndXJlL3VzZS4NCj4gPj4+Pj4+Pj4gV2hhdCBJIHdh
+cyBsb29raW5nIGZvciBpcyB0byBkZXNjcmliZSB0aGUgYWN0dWFsIGNvbmZpZ3VyYXRpb24NCj4g
+Pj4+Pj4+Pj4geW91IGhhdmUNCj4gPj4+PiAoZS5nLg0KPiA+Pj4+Pj4+PiBtdWx0aS1tYXN0ZXIp
+IHdoaWNoIGxlYWRzIHRvIGVuYWJsZSBvciBkaXNhYmxlIHN1Y2ggZmVhdHVyZSBpbg0KPiA+Pj4+
+Pj4+PiB5b3VyDQo+ID4+Pj4+PiBoYXJkd2FyZS4NCj4gPj4+Pj4+Pj4gRXNwZWNpYWxseSB0aGF0
+IGJvb2wgdmFsdWUgZG9lcyBub3Qgc2NhbGUgbGF0ZXIgdG8gYWN0dWFsDQo+ID4+Pj4+Pj4+IHRp
+bWVvdXQgdmFsdWVzIGluIHRpbWUgKG1zKS4uLg0KPiA+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+PiBJIGRv
+bid0IGtub3cgSTJDIHRoYXQgbXVjaCwgYnV0IEkgd29uZGVyIC0gd2h5IHRoaXMgc2hvdWxkIGJl
+DQo+ID4+Pj4+Pj4+IHNwZWNpZmljIHRvIEFzcGVlZCBJMkMgYW5kIG5vIG90aGVyIEkyQyBjb250
+cm9sbGVycyBpbXBsZW1lbnQgaXQ/DQo+ID4+Pj4+Pj4+IElPVywgdGhpcyBsb29rcyBxdWl0ZSBn
+ZW5lcmljIGFuZCBldmVyeSBJMkMgY29udHJvbGxlciBzaG91bGQNCj4gPj4+Pj4+Pj4gaGF2ZSBp
+dC4gQWRkaW5nIGl0IHNwZWNpZmljIHRvIEFzcGVlZCBzdWdnZXN0cyB0aGF0IGVpdGhlciB3ZQ0K
+PiA+Pj4+Pj4+PiBtaXNzIGEgZ2VuZXJpYyBwcm9wZXJ0eSBvciB0aGlzIHNob3VsZCBub3QgYmUg
+aW4gRFQgYXQgYWxsDQo+ID4+Pj4+Pj4+IChiZWNhdXNlIG5vIG9uZSBlbHNlIGhhcw0KPiA+Pj4+
+Pj4gaXQuLi4pLg0KPiA+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+PiBBbHNvIEkgd29uZGVyLCB3aHkgeW91
+IHdvdWxkbid0IGVuYWJsZSB0aW1lb3V0IGFsd2F5cy4uLg0KPiA+Pj4+Pj4+Pg0KPiA+Pj4+Pj4+
+PiArQ2MgV29sZnJhbSwNCj4gPj4+Pj4+Pj4gTWF5YmUgeW91IGtub3cgd2hldGhlciBib29sICJ0
+aW1lb3V0IiBwcm9wZXJ0eSBmb3Igb25lDQo+ID4+Pj4+Pj4+IGNvbnRyb2xsZXIgbWFrZXMgc2Vu
+c2U/IFdoeSB3ZSBkbyBub3QgaGF2ZSBpdCBmb3IgYWxsIGNvbnRyb2xsZXJzPw0KPiA+Pj4+Pj4+
+Pg0KPiA+Pj4+Pj4+IEJlY2F1c2UsIGkyYyBidXMgZGlkbuKAmXQgc3BlY2lmaWMgdGltZW91dC4N
+Cj4gPj4+Pj4+PiBCdXQgU01CdXMgZGVmaW5lcyBhIGNsb2NrIGxvdyB0aW1lLW91dCwgVElNRU9V
+VCBvZiAzNSBtcy4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IEl0IGhhdmUgZGVmaW5pdGlvbiBpbiBT
+TUJ1cyBzcGVjaWZpY2F0aW9uLg0KPiA+Pj4+Pj4+IGh0dHA6Ly9zbWJ1cy5vcmcvc3BlY3MvU01C
+dXNfM18xXzIwMTgwMzE5LnBkZg0KPiA+Pj4+Pj4+IFlvdSBjYW4gY2hlY2sgUGFnZSAxOCwgTm90
+ZTMgdGhhdCBoYXZlIHRpbWVvdXQgZGVzY3JpcHRpb24uDQo+ID4+Pj4+Pg0KPiA+Pj4+Pj4gVGhl
+biB5b3UgaGF2ZSBhbHJlYWR5IHByb3BlcnR5IGZvciB0aGlzIC0gInNtYnVzIj8NCj4gPj4+Pj4g
+VG8gYmUgYSBwcm9wZXJ0eSAic21idXMiLCB0aGF0IHdvdWxkIGJlIGEgYmlnIHRvcGljLCBJIHNh
+dyBmc2wgaTJjDQo+ID4+Pj4+IGFsc28gaGF2ZSB0aGlzLg0KPiA+Pj4+PiBodHRwczovL2dpdGh1
+Yi5jb20vdG9ydmFsZHMvbGludXgvYmxvYi9tYXN0ZXIvRG9jdW1lbnRhdGlvbi9kZXZpY2UNCj4g
+Pj4+Pj4gdHINCj4gPj4+Pj4gZWUNCj4gPj4+Pj4gL2JpbmRpbmdzL2kyYy9pMmMtbXBjLnlhbWwj
+TDQzLUw0Nw0KPiA+Pj4+PiBTbywgSSBqdXN0IHRoaW5rIHRoZSAidGltZW91dCIgcHJvcGVydHku
+DQo+ID4+Pj4NCj4gPj4+PiBZZWFoIGFuZCB0aGlzIGlzIHRoZSBvbmx5IHBsYWNlLiBJdCBhbHNv
+IGRpZmZlcnMgYmVjYXVzZSBpdCBhbGxvd3MNCj4gPj4+PiBhY3R1YWwgdGltZW91dCB2YWx1ZXMu
+DQo+ID4+PiBUaGFua3MsIFNvIGNhbiBJIHN0aWxsIGtlZXAgdGhlIHByb3BlcnR5ICJhc3BlZWQs
+dGltZW91dCIgaGVyZT8NCj4gPj4+IEl0IGlzIHRoZSBvbmx5IHBsYWNlLg0KPiA+Pg0KPiA+PiBO
+bywgYmVjYXVzZSBub25lIG9mIG15IGNvbmNlcm5zIGFib3ZlIGFyZSBhZGRyZXNzZWQuDQo+ID4+
+DQo+ID4gVGhhbmtzLCBJIHJlYWxpemUgeW91ciBjb25jZXJucy4NCj4gPg0KPiA+IFNvLCBJIG1v
+ZGlmeSBpdCBsaWtlIGkyYy1tcGMueWFtbA0KPiA+IGh0dHBzOi8vZ2l0aHViLmNvbS90b3J2YWxk
+cy9saW51eC9ibG9iL21hc3Rlci9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUNCj4gPiAvYmluZGlu
+Z3MvaTJjL2kyYy1tcGMueWFtbCNMNDMtTDQ3DQo+ID4NCj4gPiAgIGFzcGVlZCx0aW1lb3V0Og0K
+PiA+ICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzINCj4g
+PiAgICAgZGVzY3JpcHRpb246IHwNCj4gPiAgICAgICBJMkMgYnVzIHRpbWVvdXQgaW4gbWljcm9z
+ZWNvbmRzDQo+ID4gSXMgdGhpcyB3YXkgYWNjZXB0YWJsZT8NCj4gDQo+IFNvLCBsZXQncyByZXBl
+YXQgbXkgbGFzdCBxdWVzdGlvbnM6DQo+IA0KPiAxLiBXaHkgeW91IHdvdWxkbid0IGVuYWJsZSB0
+aW1lb3V0IGFsd2F5cy4uLg0KPiANCj4gWW91IHdyb3RlOg0KPiA+IGh0dHA6Ly9zbWJ1cy5vcmcv
+c3BlY3MvU01CdXNfM18xXzIwMTgwMzE5LnBkZg0KPiA+IFlvdSBjYW4gY2hlY2sgUGFnZSAxOCwg
+Tm90ZTMgdGhhdCBoYXZlIHRpbWVvdXQgZGVzY3JpcHRpb24uDQo+IA0KPiB3aGljaCBpbmRpY2F0
+ZXMgeW91IHNob3VsZCBhbHdheXMgdXNlIHRpbWVvdXQsIGRvZXNuJ3QgaXQ/DQoNClllcywgaWYg
+Ym9hcmQgZGVzaWduIHRoZSBidXMgaXMgY29ubmVjdGVkIHdpdGggU01CVVMgZGV2aWNlLCBpdCBz
+aG91bGQgZW5hYmxlLg0KQnV0IGluIG15IHByZXZpb3VzIHN0YXRlbWVudCwgdGhlIGJvYXJkIGRl
+c2lnbiBpcyB0d28gbXVsdGktbWFzdGVyIGRldmljZXMgY29ubmVjdGVkIGVhY2ggb3RoZXIuIA0K
+QW5kIGJvdGggZGV2aWNlIGlzIHRyYW5zZmVyIHdpdGggTUNUUCBwcm90b2NvbC4gDQpUaGF0IHdp
+bGwgbm90IFNNQlVTIHByb3RvY29sLiANClRoZXkgbmVlZCBoYXZlIHRpbWVvdXQgdGhhdCBwcmV2
+ZW50IHVuZXhwZWN0ZWQgdW4tcGx1Zy4NCkkgZG8gdGhlIHN0dWR5IHdpdGggc21idXMgaW4gTGlu
+dXgsIHRoYXQgd2lsbCBkaWZmZXJlbnQgc2xhdmUgY2FsbCBiYWNrLiBDb21wYXJlIHdpdGggc21i
+dXMgc2xhdmUgYW5kIG1jdHAgc2xhdmUuDQpTbyBpbiB0aGlzIHNjZW5hcmlvLCB0aGF0IGlzIG9u
+bHkgZW5hYmxlIGZvciB0aW1lb3V0LiANCiANCj4gMi4gV2h5IHdlIGRvIG5vdCBoYXZlIGl0IGZv
+ciBhbGwgY29udHJvbGxlcnMgd2l0aCBTTUJ1cyB2Mz8gV2h5IHRoaXMgb25lIGlzDQo+IHNwZWNp
+YWw/DQoNCk5vdCBhbGwgYnVzIGlzIGNvbm5lY3RlZCB3aXRoIHNtYnVzLiBNb3N0IGFyZSBpMmMg
+ZGV2aWNlIGNvbm5lY3RlZCBpbiBib2FyZC4NClRoYXQgd2lsbCBiZSBzcGVjaWZpYyBzdGF0ZW1l
+bnQgZm9yIGVhY2ggYnVzLg0KDQpCZXN0IHJlZ2FyZHMsDQpSeWFuIENoZW4NCg==
