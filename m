@@ -1,89 +1,76 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DB26AD8D5
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Mar 2023 09:11:54 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5095A6AD9A7
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Mar 2023 09:55:54 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PW7T45F72z3cRW
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Mar 2023 19:11:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PW8Rp6ZRDz3cP0
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Mar 2023 19:55:50 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=q3PBcvB1;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=aZQXG646;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ZuAKNjDQ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::529; helo=mail-ed1-x529.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.220.29; helo=smtp-out2.suse.de; envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=q3PBcvB1;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=aZQXG646;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ZuAKNjDQ;
 	dkim-atps=neutral
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PW7Sx48TZz3cBm
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Mar 2023 19:11:43 +1100 (AEDT)
-Received: by mail-ed1-x529.google.com with SMTP id k10so25030340edk.13
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Mar 2023 00:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678176698;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+gmLTaMxh+UgKG/kflrxb/f3sNJaZcDEgaX2MESY0eU=;
-        b=q3PBcvB1zvsXE87gITbF/SzJQLo4Xx88B32/Tmw3dv2IrNfQYd8YbzJyVUtxwcFMDx
-         rDtF1kRD/J5rUZPOvdQrEAbExMBQTrNf0mRJwrTD4e0RYlDjbmuEVLPhc59kpXOuBguq
-         NyTY2kmk766MwbnpQMj2RcnYDPRvYilXFFVXrGGXa6GA9A20SUrpFbYn5+sC/xnzSEjE
-         FKhWGUqha329de9TWzywrqVay3P5xsD6TFOP7FdCGyCFWBqV4svNe0CvcyDUW8zR9Ieu
-         GkyggizmmZfQzDjfqt/w1nTLu3jfwmjXH29xP1JazPuuDhlWLd974oZW9quGhCvR2Jt1
-         hokg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678176698;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+gmLTaMxh+UgKG/kflrxb/f3sNJaZcDEgaX2MESY0eU=;
-        b=7aoMgMEudpMS7q2VmrvorYR3sHEd+0nDBBhOrUc3oWB1TBmUR8qA+avafiLZ4KonU6
-         l9MYPkEBFoV9Cy5IaS+3MZgWUeWVX56Cs5Diw7tD37P/Ea19B/z6NWN+crLoazT0IR6/
-         2Ndo/+pd0JeQVy62nFx0DaBW5rkRNDUjErBZe4HHBlOJUYzsT5dIM/9GhPf/gDdFuCLE
-         TUe8aYsikd0lE2QJSigI4DjS8Ur+l4khG2xGoCJXEibhPrzwHBQDLLiuNQulKbVGOiCb
-         +Px+hBtf8bJcaclLlPcWge1t9zkTkJvqyWedkCkzbhOL+V3JRHCx4qdfoM5ZML2f0ve+
-         msHA==
-X-Gm-Message-State: AO0yUKU9oKiMwDH3Z2RjIvXfGmTY06xAtPTh6lynGWg6nD3qMOxtjMMz
-	q69NjTvZYW70JAKFpIx67W79dg==
-X-Google-Smtp-Source: AK7set8K0X83pfhJzpDlAHKtkhFREUYDfeXRLHVhI+OBX7UgwhDddxevyD4fRlkYHGhDqm65b0Wfbw==
-X-Received: by 2002:a50:ed18:0:b0:4af:7bdc:1891 with SMTP id j24-20020a50ed18000000b004af7bdc1891mr12995254eds.11.1678176698410;
-        Tue, 07 Mar 2023 00:11:38 -0800 (PST)
-Received: from ?IPV6:2a02:810d:15c0:828:5310:35c7:6f9e:2cd3? ([2a02:810d:15c0:828:5310:35c7:6f9e:2cd3])
-        by smtp.gmail.com with ESMTPSA id u2-20020a50d502000000b004c0057b478bsm6341543edi.34.2023.03.07.00.11.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Mar 2023 00:11:38 -0800 (PST)
-Message-ID: <d33145c3-e985-4d3c-a08c-6a249a8dc463@linaro.org>
-Date: Tue, 7 Mar 2023 09:11:36 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PW8Rf3gwmz3c6V
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Mar 2023 19:55:42 +1100 (AEDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C1E131FE10;
+	Tue,  7 Mar 2023 08:55:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1678179330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jJvuxY7Q7W6lr3F8/22gRy6xoHYvuDzzJyI4xHrBvJ8=;
+	b=aZQXG646NFuCeHIVNdmR0IYLUoqoqogIprpnNa+O+tbbsz3wdnRf+hQ73i32cVtbUXjvfx
+	7mYOpPPi02h9Z+pwpWgzAe2xfFRt9MHZJAk3Lb0TYuiIORnHpKfio1Kt2BkTDe6ZwrrCbm
+	QTBuUuscgkiSMBDgIipq+1c+aP0MPow=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1678179330;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jJvuxY7Q7W6lr3F8/22gRy6xoHYvuDzzJyI4xHrBvJ8=;
+	b=ZuAKNjDQx5UiCYwiTcriSna9rcRvvy1+YnwXmOHQkvzQyiEEPFFiBaaAoV6yzz2b2krWgH
+	6y1OYHiJIBbbADBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1987013440;
+	Tue,  7 Mar 2023 08:55:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id hApkBQL8BmRrKAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 07 Mar 2023 08:55:30 +0000
+Message-ID: <0e789778-03ca-e3cb-9c94-e8b55573894c@suse.de>
+Date: Tue, 7 Mar 2023 09:55:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for
- AST2600-i2cv2
+Subject: Re: [PATCH 00/22] drm/dma-helper: Add dedicated fbdev emulation
 Content-Language: en-US
-To: Ryan Chen <ryan_chen@aspeedtech.com>, Wolfram Sang <wsa@kernel.org>
-References: <20230226031321.3126756-1-ryan_chen@aspeedtech.com>
- <20230226031321.3126756-2-ryan_chen@aspeedtech.com>
- <53090449-58c9-bc03-56df-aa8ae93c0c26@linaro.org>
- <SEZPR06MB52699DEB2255EB54F35C2A59F2AD9@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <fc20a2d1-e2f9-c22b-dcdf-153cb527eea8@linaro.org>
- <SEZPR06MB526902637624A97D7DFB8523F2B39@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <c41ee6b5-ddb4-1253-de54-a295b3bab2cc@linaro.org>
- <SEZPR06MB5269E7B8785B3CB56A63A916F2B39@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <a3615fe7-aa2a-53e9-2732-ba4512b9369d@linaro.org>
- <SEZPR06MB5269E7B070B239F8E349C427F2B39@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <c5cf6e0a-05dc-dff7-6218-df0984d1ba47@linaro.org>
- <SEZPR06MB5269CB53B51B89C3CA039442F2B09@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <e59fe30a-75d1-eb59-52a3-014fe3c961a6@linaro.org>
- <SEZPR06MB5269B541150855BF0DABFACFF2B69@SEZPR06MB5269.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SEZPR06MB5269B541150855BF0DABFACFF2B69@SEZPR06MB5269.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Linus Walleij <linus.walleij@linaro.org>
+References: <20230301153101.4282-1-tzimmermann@suse.de>
+ <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0AKPEWDCojFXq3Qt40ngMipB"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,162 +82,101 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, edmund.j.dea@intel.com, alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com, anitha.chrisanthus@intel.com, festevam@gmail.com, linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com, samuel@sholland.org, airlied@gmail.com, javierm@redhat.com, jernej.skrabec@gmail.com, linux-imx@nxp.com, alain.volmat@foss.st.com, linux-sunxi@lists.linux.dev, p.zabel@pengutronix.de, daniel@ffwll.ch, raphael.gallais-pou@foss.st.com, martin.blumenstingl@googlemail.com, s.hauer@pengutronix.de, maarten.lankhorst@linux.intel.com, mripard@kernel.org, laurentiu.palcu@oss.nxp.com, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com, hyun.kwon@xilinx.com, tomba@kernel.org, jyri.sarha@iki.fi, yannick.fertre@foss.st.com, philippe.cornu@foss.st.com, kernel@pengutronix.de, khilman@baylibre.com, shawnguo@kernel.org, l.stach@pengutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 06/03/2023 01:48, Ryan Chen wrote:
-> Hello Krzysztof,
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Sent: Sunday, March 5, 2023 5:49 PM
->> To: Ryan Chen <ryan_chen@aspeedtech.com>; Wolfram Sang
->> <wsa@kernel.org>
->> Cc: Joel Stanley <joel@jms.id.au>; Brendan Higgins
->> <brendan.higgins@linux.dev>; Krzysztof Kozlowski
->> <krzysztof.kozlowski+dt@linaro.org>; Andrew Jeffery <andrew@aj.id.au>;
->> devicetree@vger.kernel.org; Philipp Zabel <p.zabel@pengutronix.de>; Rob
->> Herring <robh+dt@kernel.org>; Benjamin Herrenschmidt
->> <benh@kernel.crashing.org>; linux-aspeed@lists.ozlabs.org;
->> linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org;
->> openbmc@lists.ozlabs.org; linux-i2c@vger.kernel.org
->> Subject: Re: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for AST2600-i2cv2
->>
->> On 04/03/2023 02:33, Ryan Chen wrote:
->>> Hello Krzysztof,
->>>
->>>> -----Original Message-----
->>>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>> Sent: Friday, March 3, 2023 6:41 PM
->>>> To: Ryan Chen <ryan_chen@aspeedtech.com>; Wolfram Sang
->>>> <wsa@kernel.org>
->>>> Cc: Joel Stanley <joel@jms.id.au>; Brendan Higgins
->>>> <brendan.higgins@linux.dev>; Krzysztof Kozlowski
->>>> <krzysztof.kozlowski+dt@linaro.org>; Andrew Jeffery
->>>> <andrew@aj.id.au>; devicetree@vger.kernel.org; Philipp Zabel
->>>> <p.zabel@pengutronix.de>; Rob Herring <robh+dt@kernel.org>; Benjamin
->>>> Herrenschmidt <benh@kernel.crashing.org>;
->>>> linux-aspeed@lists.ozlabs.org; linux-arm-kernel@lists.infradead.org;
->>>> linux-kernel@vger.kernel.org; openbmc@lists.ozlabs.org;
->>>> linux-i2c@vger.kernel.org
->>>> Subject: Re: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for
->>>> AST2600-i2cv2
->>>>
->>>> On 03/03/2023 11:16, Ryan Chen wrote:
->>>>>>>>>>> aspeed,timout properites:
->>>>>>>>>>> For example I2C controller as slave mode, and suddenly
->>>>>> disconnected.
->>>>>>>>>>> Slave state machine will keep waiting for master clock in for
->>>>>>>>>>> rx/tx
->>>>>>>> transmit.
->>>>>>>>>>> So it need timeout setting to enable timeout unlock controller
->> state.
->>>>>>>>>>> And in another side. In Master side also need avoid suddenly
->>>>>>>>>>> slave
->>>>>>>>>> miss(un-plug), Master will timeout and release the SDA/SCL.
->>>>>>>>>>>
->>>>>>>>>>> Do you mean add those description into ore aspeed,timout
->>>>>>>>>>> properites
->>>>>>>>>> description?
->>>>>>>>>>
->>>>>>>>>> You are describing here one particular feature you want to
->>>>>>>>>> enable in the driver which looks non-scalable and more
->>>>>>>>>> difficult to
->>>>>> configure/use.
->>>>>>>>>> What I was looking for is to describe the actual configuration
->>>>>>>>>> you have
->>>>>> (e.g.
->>>>>>>>>> multi-master) which leads to enable or disable such feature in
->>>>>>>>>> your
->>>>>>>> hardware.
->>>>>>>>>> Especially that bool value does not scale later to actual
->>>>>>>>>> timeout values in time (ms)...
->>>>>>>>>>
->>>>>>>>>> I don't know I2C that much, but I wonder - why this should be
->>>>>>>>>> specific to Aspeed I2C and no other I2C controllers implement it?
->>>>>>>>>> IOW, this looks quite generic and every I2C controller should
->>>>>>>>>> have it. Adding it specific to Aspeed suggests that either we
->>>>>>>>>> miss a generic property or this should not be in DT at all
->>>>>>>>>> (because no one else has
->>>>>>>> it...).
->>>>>>>>>>
->>>>>>>>>> Also I wonder, why you wouldn't enable timeout always...
->>>>>>>>>>
->>>>>>>>>> +Cc Wolfram,
->>>>>>>>>> Maybe you know whether bool "timeout" property for one
->>>>>>>>>> controller makes sense? Why we do not have it for all controllers?
->>>>>>>>>>
->>>>>>>>> Because, i2c bus didn’t specific timeout.
->>>>>>>>> But SMBus defines a clock low time-out, TIMEOUT of 35 ms.
->>>>>>>>>
->>>>>>>>> It have definition in SMBus specification.
->>>>>>>>> http://smbus.org/specs/SMBus_3_1_20180319.pdf
->>>>>>>>> You can check Page 18, Note3 that have timeout description.
->>>>>>>>
->>>>>>>> Then you have already property for this - "smbus"?
->>>>>>> To be a property "smbus", that would be a big topic, I saw fsl i2c
->>>>>>> also have this.
->>>>>>> https://github.com/torvalds/linux/blob/master/Documentation/device
->>>>>>> tr
->>>>>>> ee
->>>>>>> /bindings/i2c/i2c-mpc.yaml#L43-L47
->>>>>>> So, I just think the "timeout" property.
->>>>>>
->>>>>> Yeah and this is the only place. It also differs because it allows
->>>>>> actual timeout values.
->>>>> Thanks, So can I still keep the property "aspeed,timeout" here?
->>>>> It is the only place.
->>>>
->>>> No, because none of my concerns above are addressed.
->>>>
->>> Thanks, I realize your concerns.
->>>
->>> So, I modify it like i2c-mpc.yaml
->>> https://github.com/torvalds/linux/blob/master/Documentation/devicetree
->>> /bindings/i2c/i2c-mpc.yaml#L43-L47
->>>
->>>   aspeed,timeout:
->>>     $ref: /schemas/types.yaml#/definitions/uint32
->>>     description: |
->>>       I2C bus timeout in microseconds
->>> Is this way acceptable?
->>
->> So, let's repeat my last questions:
->>
->> 1. Why you wouldn't enable timeout always...
->>
->> You wrote:
->>> http://smbus.org/specs/SMBus_3_1_20180319.pdf
->>> You can check Page 18, Note3 that have timeout description.
->>
->> which indicates you should always use timeout, doesn't it?
-> 
-> Yes, if board design the bus is connected with SMBUS device, it should enable.
-> But in my previous statement, the board design is two multi-master devices connected each other. 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0AKPEWDCojFXq3Qt40ngMipB
+Content-Type: multipart/mixed; boundary="------------BEwAduE2kZD6RTHO5irLjcAJ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, andrew@aj.id.au,
+ laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, p.zabel@pengutronix.de, anitha.chrisanthus@intel.com,
+ edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com,
+ yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
+ philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com, samuel@sholland.org,
+ jyri.sarha@iki.fi, tomba@kernel.org, hyun.kwon@xilinx.com,
+ laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev
+Message-ID: <0e789778-03ca-e3cb-9c94-e8b55573894c@suse.de>
+Subject: Re: [PATCH 00/22] drm/dma-helper: Add dedicated fbdev emulation
+References: <20230301153101.4282-1-tzimmermann@suse.de>
+ <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
+In-Reply-To: <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
 
-For which you have the property, thus case is solved, isn't it? You want
-timeout always except for multi-master?
+--------------BEwAduE2kZD6RTHO5irLjcAJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> And both device is transfer with MCTP protocol. 
-> That will not SMBUS protocol. 
-> They need have timeout that prevent unexpected un-plug.
-> I do the study with smbus in Linux, that will different slave call back. Compare with smbus slave and mctp slave.
-> So in this scenario, that is only enable for timeout. 
+SGkNCg0KQW0gMDYuMDMuMjMgdW0gMjM6MTkgc2NocmllYiBMaW51cyBXYWxsZWlqOg0KPiBP
+biBXZWQsIE1hciAxLCAyMDIzIGF0IDQ6MzHigK9QTSBUaG9tYXMgWmltbWVybWFubiA8dHpp
+bW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+IA0KPj4gQWRkIGZiZGV2IGVtdWxhdGlvbiB0
+aGF0IGlzIG9wdGltaXplZCBmb3IgRE1BIGhlbHBlcnMsIGFzIHVzZWQgYnkgbW9zdA0KPj4g
+ZHJpdmVycy4gSXQgb3BlcmF0ZXMgZGlyZWN0bHkgb24gR0VNIERNQSBidWZmZXJzIGluIHN5
+c3RlbSBtZW1vcnkuDQo+PiBNZW1vcnkgcGFnZXMgYXJlIG1tYXAnZWQgZGlyZWN0bHkgdG8g
+dXNlcnNwYWNlLiBObyBpbXBsaWNpdCBzaGFkb3cNCj4+IGJ1ZmZlcnMgbmVlZCB0byBiZSBh
+bGxvY2F0ZWQ7IGFzIGNhbiBoYXBwZW4gd2l0aCB0aGUgZ2VuZXJpYyBmYmRldg0KPj4gZW11
+bGF0aW9uLiBDb252ZXJ0IGRyaXZlcnMgdGhhdCBmdWxmaWwgdGhlIHJlcXVpcmVtZW50cy4N
+Cj4+DQo+PiBUZXN0ZWQgd2l0aCBmYmNvbiBhbmQgSUdUIG9uIHZjNC4NCj4+DQo+PiBGdXR1
+cmUgZGlyZWN0aW9uOiBwcm92aWRpbmcgYSBkZWRpY2F0ZWQgZmJkZXYgZW11bGF0aW9uIGZv
+ciBHRU0gRE1BDQo+PiBoZWxwZXJzIHdpbGwgYWxsb3cgdXMgdG8gcmVtb3ZlIHRoaXMgY2Fz
+ZSBmcm9tIHRoZSBnZW5lcmljIGZiZGV2IGNvZGUuDQo+PiBUaGUgbGF0dGVyIGNhbiB0aGVu
+IGJlIHNpbXBsaWZpZWQuDQo+IA0KPiAxKSBJIGxvdmUgeW91ciB3b3JrLg0KDQpUaGFuayB5
+b3UuIDopDQoNCj4gDQo+IDIpIFdoeSBpc24ndCB0aGlzIERSTSBkcml2ZXIgY2hhbmdlZD8N
+Cj4gZHJpdmVycy9ncHUvZHJtL21jZGUvbWNkZV9kcnYuYw0KPiBBRkFJQ1QgaXQgYWxzbyB1
+c2VzIEdFTSBidWZmZXJzIGluIHN5c3RlbSBtZW1vcnkuDQoNClRoaXMgZHJpdmVyIHJlcXVp
+cmVzIGRhbWFnZSBoYW5kbGluZw0KDQogDQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9s
+aW51eC92Ni4yL3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vbWNkZS9tY2RlX2Rydi5jI0w5Nw0K
+DQpmb3Igd2hpY2ggd2UgaGF2ZSB0byBjYWxsIHRoZSBmcmFtZWJ1ZmZlcidzIGRpcnR5IGNh
+bGxiYWNrDQoNCiANCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y2LjIvc291
+cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBlci5jI0wyODUN
+Cg0KYWZ0ZXIgZWFjaCB3cml0ZS4NCg0KRG9pbmcgdGhpcyB3aXRoIGZiZGV2IGVtdWxhdGlv
+biByZXF1aXJlcyB0cmFja2luZyBvZiBtbWFwJ2VkIHBhZ2VzIHZpYSANCmZiZGV2J3MgZGVm
+ZXJyZWQtSS9PIG1lY2hhbmlzbXMuIFRoYXQgbWFrZXMgdGhlIGZiZGV2LWVtdWxhdGlvbiBj
+b2RlIA0KbW9yZSBjb21wbGV4LiBBRkFJQ1QsIHRoZSBleGlzdGluZyBnZW5lcmljIGZiZGV2
+IGVtdWxhdGlvbiBhbHJlYWR5IA0KaW1wbGVtZW50cyB0aGlzIGNhc2UgJ2dvb2QgZW5vdWdo
+LicNCg0KPiANCj4gMykgVGhpcyBvbmU6DQo+IGRyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDEx
+MV9kcnYuYw0KPiBpcyBhbHNvIHZlcnkgc2ltaWxhciwgYnV0IGNhbiBzb21ldGltZXMgdXNl
+IGEgZGVkaWNhdGVkDQo+IFJBTSBtZW1vcnkgZm9yIGFsbG9jYXRpb25zIHVzaW5nIENNQSwg
+ZG9lcyB0aGF0IG1ha2UNCj4gaXQgbm90IGEgY2FuZGlkYXRlPw0KDQpUaGFua3MsIEkgdGhp
+bmsgSSBzaW1wbHkgbWlzc2VkIHBsMTExLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
+IA0KPiBUaGV5IGFyZW4ndCBtdWNoIGRpZmZlcmVudCBpbiBob3cgdGhleSB3b3JrIGZyb20g
+dGhlIFRWRTIwMC4NCj4gDQo+IFlvdXJzLA0KPiBMaW51cyBXYWxsZWlqDQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
+ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
+aHJlcjogSXZvIFRvdGV2DQo=
 
-And the driver knows which protocol it is going to talk and such choice
-should not be in DT.
+--------------BEwAduE2kZD6RTHO5irLjcAJ--
 
->  
->> 2. Why we do not have it for all controllers with SMBus v3? Why this one is
->> special?
-> 
-> Not all bus is connected with smbus. Most are i2c device connected in board.
-> That will be specific statement for each bus.
+--------------0AKPEWDCojFXq3Qt40ngMipB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-That's not the answer to my question. Why other controllers which can be
-connected to I2C or SMBus devices do not need this property?
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Krzysztof
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQG/AEFAwAAAAAACgkQlh/E3EQov+DZ
+dRAAwJH7RKJhMWo0NmVD3hLGlh9SV/+0Z6rXXWaT119pdC7Qqd4OeVAiYuj4OXzkQBnO1BAE/OCn
+623FCxR3h/X6NHs03QD0Cw9FsUFaw6K44M7a+iJs8C0YWMXlG3uXefcIJYqi3SA7FOd7f8LfriGK
+w1fTag5CpmqLKLBtqFQbTuUgc8UrJRR7bmo8Y+kb7HZhPZEW3UGnn93dK+c5aVEM/W92hMP9T+QY
+F68SJ9+1s6VnX2c4VzSJW4BRi0ujNDw+5njK127CxTfTL++I2hY6ySC7ygOpN3tnOk1Xq9VD890m
+9pNVCGbmpiYWDVGiSZabqLPadf7srknsSYFz2q4Lo/lNNIa9caZ6m2VnUe376US8sipgDvusghPw
+Wjja8mOtgsTxLucjXySQd4z85fITbt5KME5/FtEvS23V/qxsbRyLdjUCLgfwzYZx9Ytn8uXFyMR8
+MlpkR+pSeujgMLrpSI1JQ7/nOPOkaP2jtKmvqDb7n8h7n0r9vzI7hcNjS88IrQxWC2hSzeyMIPJq
+EwwWt4qUA1hGWHyWHN4f4fjyjpAxuJ4sctNiRQ89ZYLG8Z2eEpD9o6h2h35tj+a39UdoNSywO6gM
+sxezN515EZlVaY85IrYAjSzRchAdtL6z+rgL8CTpd6FsCzzcY2I8h+JgS5BNX0KhmTojmMCnK3bw
+CnY=
+=Aoyh
+-----END PGP SIGNATURE-----
 
+--------------0AKPEWDCojFXq3Qt40ngMipB--
