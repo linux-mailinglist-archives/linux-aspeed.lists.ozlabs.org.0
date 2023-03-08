@@ -2,67 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBFE6B06B4
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 13:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F756B088C
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 14:24:12 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PWrns4kcMz3cFr
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 23:13:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PWtLt5RXhz3cFr
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 00:24:06 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mG+VNc7/;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YP9iVT7V;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b29; helo=mail-yb1-xb29.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=maz@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mG+VNc7/;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YP9iVT7V;
 	dkim-atps=neutral
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PWrnh60rmz3bg8
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Mar 2023 23:13:42 +1100 (AEDT)
-Received: by mail-yb1-xb29.google.com with SMTP id q8so72679ybu.5
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Mar 2023 04:13:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678277617;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oca9dY8hWUO5/h8xtr438Tcso20TDnzGLmg2ddoHe4M=;
-        b=mG+VNc7/+ZVH4peD5IzNTeOjeDEtz2/QDLrQseyt1w5jR60Vf3vwhV/UiECtfojG1d
-         placMWBg9SZ3uNn9KmQCqQyQKL+3dbLOvATLA2d7k4wzQeMx7iD1t8Ej0dykdODGuchw
-         ZIC5gVhPTsdlc+vgfY7DP/ICTAy1rHAyN0BtycPUV2Td9bWfnWKPQAR41CdVEPVcLgjE
-         +amCcxZzViJs5TgPv/+zaeIZbAkHw0Gr3djUm2UlDD9P1vRU2cWC0xMDVSvcDMuZv6Ij
-         EZN20pCM7mLDwQNRN/EbnHrQycWZHZ6Zqd7umnQU+0SOlaK2Kpr6Cuz2EZN4okjiyEw/
-         ID7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678277617;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Oca9dY8hWUO5/h8xtr438Tcso20TDnzGLmg2ddoHe4M=;
-        b=BnB9NjNVWz8WTQDNXlrmR36+EaCmJ9bV/9ryihKY0ENH+uK28IQ0eB37oqqKlX8JgP
-         CI+aQkKSh2j0SQkgx7mgglVy3I0XVZpMfCcbiBAn8qeg/N4kXDcMYNVrVc8EyLDqO5H8
-         GIyjthWRbARi0qbolF0GU679zV2wZwvBLcYkUkMpyES96EU4f0QzZ3ekzAQYsOBetBj0
-         RmPBstQTTtf+16e1Vr8Tdu/jGfzCMbub+mrj9YCJJMaD1KqlbxHtWt3Ts1Vk/X7lEnZ9
-         IDGtA0ssvziGoKsxMcDvN8b1R2dYqSn/mCvg+dIk5Ye00BotprXOPVdj0zB4TfgcKW/6
-         41zQ==
-X-Gm-Message-State: AO0yUKW0tyEoiER5kDWvJoen4EtvicY2/+phmnes/WBliz8OBjaY3I3z
-	jO7fxNMJj4YhCGZleuJ1yZfeFZMRItoZqA3Y8ZHjmg==
-X-Google-Smtp-Source: AK7set+ggNypJdI+7ULj7vVNY+A7k42rbSaDWPMWE5mmu2065wVDPTzRD/vMNWcCbvtu842b/ja6rElDW3gnsY5CIcg=
-X-Received: by 2002:a5b:209:0:b0:aa9:bd2e:3746 with SMTP id
- z9-20020a5b0209000000b00aa9bd2e3746mr6164422ybl.4.1678277617418; Wed, 08 Mar
- 2023 04:13:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20230215-immutable-chips-v2-0-d6b0e3f2d991@linaro.org>
- <20230215-immutable-chips-v2-3-d6b0e3f2d991@linaro.org> <CACPK8Xc7ekzM9oeR7+fYuK8RfZ4jA8gpH=nUJ-OTp0XZoKwzHQ@mail.gmail.com>
-In-Reply-To: <CACPK8Xc7ekzM9oeR7+fYuK8RfZ4jA8gpH=nUJ-OTp0XZoKwzHQ@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 8 Mar 2023 13:13:25 +0100
-Message-ID: <CACRpkdZmemtVHkdo7f8G4wTHEayk1moHSMHEyvomebPV_h8AHA@mail.gmail.com>
-Subject: Re: [PATCH v2 03/16] gpio: aspeed: Convert to immutable irq_chip
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PWtLp2YDQz3bgT
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Mar 2023 00:24:02 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sin.source.kernel.org (Postfix) with ESMTPS id 927E8CE1FBC;
+	Wed,  8 Mar 2023 13:23:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD41C4339B;
+	Wed,  8 Mar 2023 13:23:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678281835;
+	bh=hT92dE85ttwqs1ZZDQqJMTVleq0+hPStHYeiYdXbll4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YP9iVT7VmpX0Oz5S8nxLHPHF5vocLZ4qffTZOwucNihZuWZ94bcl3ESUZs905XwxO
+	 ZnAsVV+TkXBxnnIj9gt4YdNRZve0iNPyTCwY2Uo+XZJbC0y3YKiFcNfSZ/DE9HHCFs
+	 vm/gXC0ffG+p27GIwy7hxxtmhwNZUgR6BirKimKb5+NGegKiKCwRFAfw6IMnABQIYY
+	 dkSEQPs2+7cYa3AVsIIN8G58ZZWE3BOfpGBadhOG8yNE7zWuYJ6IZ5d2Nmxf+ZivIb
+	 36cS8QxJPK4Riy0w6cICJRwccHlEMob24RciL+Z8ImyXRHQdlC0VTe9jShrPdqAH2K
+	 pGatxrCM8WSSA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1pZtlo-00FzYC-Sg;
+	Wed, 08 Mar 2023 13:23:52 +0000
+Date: Wed, 08 Mar 2023 13:23:52 +0000
+Message-ID: <861qlzz89j.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
 To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 03/16] gpio: aspeed: Convert to immutable irq_chip
+In-Reply-To: <CACPK8Xc7ekzM9oeR7+fYuK8RfZ4jA8gpH=nUJ-OTp0XZoKwzHQ@mail.gmail.com>
+References: <20230215-immutable-chips-v2-0-d6b0e3f2d991@linaro.org>
+	<20230215-immutable-chips-v2-3-d6b0e3f2d991@linaro.org>
+	<CACPK8Xc7ekzM9oeR7+fYuK8RfZ4jA8gpH=nUJ-OTp0XZoKwzHQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: joel@jms.id.au, linus.walleij@linaro.org, mun.yew.tham@intel.com, brgl@bgdev.pl, andrew@aj.id.au, albeu@free.fr, orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, f.fangjian@huawei.com, daniel@thingy.jp, romain.perier@gmail.com, ssantosh@kernel.org, khilman@kernel.org, william.gray@linaro.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-omap@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,13 +73,73 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, linux-omap@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Mun Yew Tham <mun.yew.tham@intel.com>, Kevin Hilman <khilman@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Jay Fang <f.fangjian@huawei.com>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Daniel Palmer <daniel@thingy.jp>, Alban Bedel <albeu@free.fr>, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, Romain Perier <romain.perier@gmail.com>, William Breathitt Gray <william.gray@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-omap@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Mun Yew Tham <mun.yew.tham@intel.com>, Kevin Hilman <khilman@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Jay Fang <f.fangjian@huawei.com>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Daniel Palmer <daniel@thingy.jp>, Alban Bedel <albeu@free.fr>, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, William Breathitt Gray <william.gray@linaro.org>, Romain Perier <romain.perier@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Mar 8, 2023 at 2:22 AM Joel Stanley <joel@jms.id.au> wrote:
+On Wed, 08 Mar 2023 01:21:50 +0000,
+Joel Stanley <joel@jms.id.au> wrote:
+> 
 > On Tue, 7 Mar 2023 at 13:04, Linus Walleij <linus.walleij@linaro.org> wrote:
-
+> >
+> > Convert the driver to immutable irq-chip with a bit of
+> > intuition.
+> >
+> > Cc: Marc Zyngier <maz@kernel.org>
+> > Tested-by: Joel Stanley <joel@jms.id.au>
+> > Acked-by: Marc Zyngier <maz@kernel.org>
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> > ---
+> >  drivers/gpio/gpio-aspeed.c | 44 ++++++++++++++++++++++++++++++++++++++------
+> >  1 file changed, 38 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
+> > index a94da80d3a95..9c4852de2733 100644
+> > --- a/drivers/gpio/gpio-aspeed.c
+> > +++ b/drivers/gpio/gpio-aspeed.c
+> > @@ -15,6 +15,7 @@
+> >  #include <linux/module.h>
+> >  #include <linux/pinctrl/consumer.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/seq_file.h>
+> >  #include <linux/spinlock.h>
+> >  #include <linux/string.h>
+> >
+> > @@ -53,7 +54,7 @@ struct aspeed_gpio_config {
+> >   */
+> >  struct aspeed_gpio {
+> >         struct gpio_chip chip;
+> > -       struct irq_chip irqc;
+> > +       struct device *dev;
+> >         raw_spinlock_t lock;
+> >         void __iomem *base;
+> >         int irq;
+> > @@ -566,6 +567,10 @@ static void aspeed_gpio_irq_set_mask(struct irq_data *d, bool set)
+> >
+> >         addr = bank_reg(gpio, bank, reg_irq_enable);
+> >
+> > +       /* Unmasking the IRQ */
+> > +       if (set)
+> > +               gpiochip_enable_irq(&gpio->chip, irqd_to_hwirq(d));
+> > +
+> >         raw_spin_lock_irqsave(&gpio->lock, flags);
+> >         copro = aspeed_gpio_copro_request(gpio, offset);
+> >
+> > @@ -579,6 +584,10 @@ static void aspeed_gpio_irq_set_mask(struct irq_data *d, bool set)
+> >         if (copro)
+> >                 aspeed_gpio_copro_release(gpio, offset);
+> >         raw_spin_unlock_irqrestore(&gpio->lock, flags);
+> > +
+> > +       /* Masking the IRQ */
+> > +       if (!set)
+> > +               gpiochip_disable_irq(&gpio->chip, irqd_to_hwirq(d));
+> >  }
+> >
+> >  static void aspeed_gpio_irq_mask(struct irq_data *d)
+> > @@ -1080,6 +1089,30 @@ int aspeed_gpio_copro_release_gpio(struct gpio_desc *desc)
+> >  }
+> >  EXPORT_SYMBOL_GPL(aspeed_gpio_copro_release_gpio);
+> >
 > > +static void aspeed_gpio_irq_print_chip(struct irq_data *d, struct seq_file *p)
 > > +{
 > > +       const struct aspeed_gpio_bank *bank;
@@ -89,21 +148,76 @@ On Wed, Mar 8, 2023 at 2:22 AM Joel Stanley <joel@jms.id.au> wrote:
 > > +       int rc, offset;
 > > +
 > > +       rc = irqd_to_aspeed_gpio_data(d, &gpio, &bank, &bit, &offset);
->
+> 
 > Why do we call this instead of using irq_data_get_irq_chip_data?
-
-Because this is what the other irqchip callbacks do and I do not
-dare to do anything inventive or different as I can't really test
-the patches.
-
+> 
 > Actually, the callback appears to do the same as the default
 > implementation, so we could just drop it?
+> 
+> from kernel/irq/proc.c:
+> 
+>         if (desc->irq_data.chip) {
+>                 if (desc->irq_data.chip->irq_print_chip)
+>                         desc->irq_data.chip->irq_print_chip(&desc->irq_data, p);
+>                 else if (desc->irq_data.chip->name)
+>                         seq_printf(p, " %8s", desc->irq_data.chip->name);
 
-So is chip->name always set to dev_name(dev) if we don't define
-it? I had no idea.
+It only does the same thing *if* chip->name is set. And in this
+particular case it really shouldn't be set, as it isn't a constant
+string.
 
-I can respon with this change, the optional IRQ should be a separate
-patch I think?
+>
+> A test on the rainier ast2600 bmc machine:
+> 
+> # gpio-event-mon -n gpiochip0 -o 123 -r -f &
+> # cat /proc/interrupts  |grep gpio-event-mon
+>  60:          0          0  1e780800.gpio 123 Edge      gpio-event-mon
+> 
+> 
+> 
+> 
+> > +       if (rc)
+> > +               return;
+> > +
+> > +       seq_printf(p, dev_name(gpio->dev));
+> > +}
+> > +
+> > +static const struct irq_chip aspeed_gpio_irq_chip = {
+> > +       .irq_ack = aspeed_gpio_irq_ack,
+> > +       .irq_mask = aspeed_gpio_irq_mask,
+> > +       .irq_unmask = aspeed_gpio_irq_unmask,
+> > +       .irq_set_type = aspeed_gpio_set_type,
+> > +       .irq_print_chip = aspeed_gpio_irq_print_chip,
+> > +       .flags = IRQCHIP_IMMUTABLE,
+> > +       GPIOCHIP_IRQ_RESOURCE_HELPERS,
+> > +};
+> > +
+> >  /*
+> >   * Any banks not specified in a struct aspeed_bank_props array are assumed to
+> >   * have the properties:
+> > @@ -1149,6 +1182,8 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
+> >         if (IS_ERR(gpio->base))
+> >                 return PTR_ERR(gpio->base);
+> >
+> > +       gpio->dev = &pdev->dev;
+> > +
+> >         raw_spin_lock_init(&gpio->lock);
+> >
+> >         gpio_id = of_match_node(aspeed_gpio_of_table, pdev->dev.of_node);
+> > @@ -1208,12 +1243,9 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
+> >
+> >                 gpio->irq = rc;
+> >                 girq = &gpio->chip.irq;
+> > -               girq->chip = &gpio->irqc;
+> > +               gpio_irq_chip_set_chip(girq, &aspeed_gpio_irq_chip);
+> >                 girq->chip->name = dev_name(&pdev->dev);
 
-Yours,
-Linus Walleij
+And this assignment will probably explode if, as expected, 'chip' is
+const and cannot be written to.
+
+I obviously didn't spot this when I first looked at these patches.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
