@@ -2,63 +2,125 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A746AFC36
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 02:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E6F6B0017
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 08:43:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PWZKy75BWz3cfj
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 12:22:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PWkny6Pthz3cDM
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 18:43:34 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=EBSM/OKB;
+	dkim=fail reason="key not found in DNS" header.d=amperemail.onmicrosoft.com header.i=@amperemail.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-amperemail-onmicrosoft-com header.b=9mmK6jRj;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::531; helo=mail-ed1-x531.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:fe59::701; helo=nam12-dm6-obe.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=EBSM/OKB;
+	dkim=fail reason="key not found in DNS" header.d=amperemail.onmicrosoft.com header.i=@amperemail.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-amperemail-onmicrosoft-com header.b=9mmK6jRj;
 	dkim-atps=neutral
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on20701.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe59::701])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PWZKp6Gdlz3bh0
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Mar 2023 12:22:05 +1100 (AEDT)
-Received: by mail-ed1-x531.google.com with SMTP id j11so40262502edq.4
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Mar 2023 17:22:05 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PWknr6lG2z3blJ;
+	Wed,  8 Mar 2023 18:43:26 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=caOai+KcRixd2Zvq4fjD06gRZOC//7eiD4l8tHSbCK0dXKW3UKnidvd00rNI1sAPKDlUPF+FeEz/XCEjoLo5zmpOITFffnGnXlF2Jdk8MCFKezAjL30f5Jjw52hj6lgzhO2dS+r4oP2gqnaAv+qUINTBpdUNhpgsR7yx3r7bxe8FuNItuwslmlbkkOtVMmGRJ7h1rIF3at2GJNLcHV9aihbhYfnr+Rr79FLqDVaeNXBBTWNNWeBxpJz320eCQ7kmKhd/cFevz55DErALLqcGr9EwMlXGsRr8njNiq3fGKAkmHymqIlfUIAOhiaUdRQUdLYPl4kKumMHpcm0z/vpSVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NIooDhCfTWDHm7yEdoEq3vG3IXqqSO4+27/oK9y1zf4=;
+ b=NYUtB0gcx67UXKGTo9/kZO9wEtXXqOicHxbQLfgntP1rTZmus3dZlh1S/kcN2YXVhjeivRzwO2hbgVTG/iuNDr3O7E1qwKyKPZzkWbkzae3r1iXFBkP7yVdbNqI+LGyPDO5qIwkJwLPee0i8ccR8sCYB413OGt/bO6/uur7VtcX9HEmuzVX/xNksPdu1QuEtcGK2U3YVvDn3ss5Bn7pBRcW3olJh2ydcMhhy/u/hRboHUSo8cyrMTVPxmc+1aWg88qTT79YkAbyfBbdZKBtdZhTXfaMJFW4iuguNtsvqvi/lTbh/5R880CRq2ypTQFtDFbV3E9jjkIqhvckty/fIrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=amperemail.onmicrosoft.com; dkim=pass
+ header.d=amperemail.onmicrosoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1678238523;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kgCshYxZS/Jm2b+NgeZjnnNv6WQ+2nHoInOLBGQV6es=;
-        b=EBSM/OKBjqJulrz6TQNgJmChnhPr0q4Ih/pJ8qfs1lFfhYhl7MmNufwH7KyopSrkiM
-         /hYj//hqzBibHr71DguP6GZ8jz9ZuzXSPyIw+7TDHNCcOZCg/SAEP3LQVmc4pMlZf+ra
-         OVoGWdaPjkoIpHiwMugodeNzumVR4mfmhZcQU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678238523;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kgCshYxZS/Jm2b+NgeZjnnNv6WQ+2nHoInOLBGQV6es=;
-        b=BI0FWV1eQFZAQhl/cLGlXu5BoClJ7mfwHoHXRg7Of21x18P7EEFL1Aj5HxuVw9mw4Z
-         k29Ejh5x6O2lIcfuV0zKaGT1TaFmsQpMCJpBC57SkInGtE1wbT5uk5lhLt/gHefm7R7v
-         pROlIojfNGv0TNfvVql61ZyrD1ojinHCrTRtsggzXSf4EvKFIA1vE0h1LLJnstOvm+AY
-         tkJryKPhz48K2Q8Yrb/S8SnkTA8zliEBKssYvdU2Nd/FRewcwvfSf63FvZBLONdhpdWw
-         UHg7+KV8CRp2H5B3OJQou2ghGTdIWICwyIHPbERHKVwY+Mg7jbnKJPgtyLEsjCBb4klI
-         Uk+w==
-X-Gm-Message-State: AO0yUKUFVUiL4RJmchRLG7mCV1+7l9ZBQOpA7+3Ky+wFmGwd9TSNh1eY
-	eP28CWdQZOHlza5l3jC9Luaa4HhDxr/kH4Qa4Kk=
-X-Google-Smtp-Source: AK7set88tsv/WvfOjstIfDoVJMzUSUbMMHZrM4x7KZhGl281R5lLlHUX/2cFaTNKcE7r7eZzaz9BIYn25v2RRmY+iGU=
-X-Received: by 2002:a17:906:a01a:b0:8f5:2e0e:6dc5 with SMTP id
- p26-20020a170906a01a00b008f52e0e6dc5mr8445498ejy.0.1678238522506; Tue, 07 Mar
- 2023 17:22:02 -0800 (PST)
+ d=amperemail.onmicrosoft.com; s=selector1-amperemail-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NIooDhCfTWDHm7yEdoEq3vG3IXqqSO4+27/oK9y1zf4=;
+ b=9mmK6jRj4sRIjn+ddo9rdT9TrPX7bhNBmAZ/RAFfZUnXgZDpTgZNmYmMs8qg9Y5rCzOb/3x5sNgvGG9md8Yw7sp8XYPvMtMvCc3eLrlJ5vgTE5qiPAs4U5mGT2DVWdBItFgG5s63NAsb5St41RuZW1uokETxv8yfchm7Gb8t5ro=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amperemail.onmicrosoft.com;
+Received: from SN6PR01MB4973.prod.exchangelabs.com (2603:10b6:805:c4::13) by
+ DM6PR01MB5099.prod.exchangelabs.com (2603:10b6:5:59::18) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.15; Wed, 8 Mar 2023 07:43:02 +0000
+Received: from SN6PR01MB4973.prod.exchangelabs.com
+ ([fe80::a807:4f38:56ee:b079]) by SN6PR01MB4973.prod.exchangelabs.com
+ ([fe80::a807:4f38:56ee:b079%6]) with mapi id 15.20.6178.016; Wed, 8 Mar 2023
+ 07:43:02 +0000
+Message-ID: <298e8999-6faa-044c-43ef-552d107cff5f@amperemail.onmicrosoft.com>
+Date: Wed, 8 Mar 2023 14:42:49 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2] ARM: dts: aspeed: mtmitchell: Enable NCSI
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>, Chanh Nguyen <chanh@os.amperecomputing.com>
+References: <20230228102820.18477-1-chanh@os.amperecomputing.com>
+ <CACPK8XesuUATxCVEGpus=ZHTkjS=L=gjRHC3V+=XLSofU-WSSw@mail.gmail.com>
+From: Chanh Nguyen <chanh@amperemail.onmicrosoft.com>
+In-Reply-To: <CACPK8XesuUATxCVEGpus=ZHTkjS=L=gjRHC3V+=XLSofU-WSSw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SYCP282CA0019.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:80::31) To SN6PR01MB4973.prod.exchangelabs.com
+ (2603:10b6:805:c4::13)
 MIME-Version: 1.0
-References: <20230215-immutable-chips-v2-0-d6b0e3f2d991@linaro.org> <20230215-immutable-chips-v2-3-d6b0e3f2d991@linaro.org>
-In-Reply-To: <20230215-immutable-chips-v2-3-d6b0e3f2d991@linaro.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 8 Mar 2023 01:21:50 +0000
-Message-ID: <CACPK8Xc7ekzM9oeR7+fYuK8RfZ4jA8gpH=nUJ-OTp0XZoKwzHQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/16] gpio: aspeed: Convert to immutable irq_chip
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR01MB4973:EE_|DM6PR01MB5099:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b73fe64-52d5-43b5-6220-08db1fa8be70
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	NtHxfmCrHeiFaYb/ZrHuqpdY5skQTioeifs9rax8P0v6pm2StBdoP46T+1oV6KBf3Ok/gVDQbTSIcNlkIg5UXcygG5ss2XRF/XmwNz5hqzJg6OayvfElBQXWnqRn/Q0G5Wy4EPynNhop5w2DONq+JhW5Yr6fqcyl39czZ7yGqsDBYt9ujtSEuk5lGdnpsrhzjbBDvUDKzrGYqkX5bmoGwE1EJFkjpJHEdsDViUK1vQVCxX99AbBZ8/N86QtfLz6ZSE/XtDtoXTqFtDKex+gfZAtn6jLqz0UVi6qg5Hf+83vz78m9g9MELO5YZUS4P5V3XYMY6twA5hfg4+89UgIPi1Daitg74KumqwJJnl0hEpDQVn7V/VmUCNdgdsCqSWYFsFCH4WfiFf34/jX8Ntl/qs/7D1i4usfAxK2XbT8jGblfRiqx8Q/GtpIiwtYxeaxc29V8CWnlfmXI09mIzGSGn+TeavjZpLFbXkfm7E0lEZnUVnBz8GoLLFtQP7iLShNgeI9YyHEiBbKDDJkzZmLtMq2/N5LlpDWi9B7QshTscFJM0tKRZrkhWcw5hUyCHCTnDjLBi/3QoGcTxaAlfSmcoVb1jvKcG5AF/V7amm9dN990857YEKX1N+SZ6yhFibwd+4t5hM2yzgiSOHoNZ3BrHP3BWavK8ptl9FJn4YHxR9DPznomRB5xI9JlBG9Y53HXccLvN9KAJxk75moTULioQYWLE0jAaGA/GGzzbQLUnEE=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR01MB4973.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(396003)(136003)(39850400004)(376002)(346002)(451199018)(31686004)(2906002)(38100700002)(83170400001)(31696002)(42882007)(6486002)(53546011)(186003)(478600001)(6512007)(6506007)(66946007)(110136005)(8676002)(54906003)(83380400001)(6666004)(4326008)(66476007)(26005)(2616005)(41300700001)(66556008)(316002)(8936002)(5660300002)(449214003)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?MFczaGltN2xnMmszbE5oVGpabzdjWkdCbG96YzZNSEp4WThqUE9laGl6bHVU?=
+ =?utf-8?B?Y0NhNGpPdmEyQkFzSEdRTG1LckJHditUTGxaV3V3TXR2TnJKcXJzcUFFWHV6?=
+ =?utf-8?B?UkNwc2pTaUpHQUhaSW16bDY0bW9CNlRYY2ZlM1FFUXZ5TTVSaDRrMXhLTUsw?=
+ =?utf-8?B?M1l3N0kwRUFPcnJlQzM3ckVCMDJiMktQU3R2OXY5MmM5a0s4cDhoQitSS0lH?=
+ =?utf-8?B?YTNIalh0N0RGS0U4VVc0RVhtdVovQ2kya2w5dElUZEFMcC9uRjlwcm9ZOVdZ?=
+ =?utf-8?B?ZDBUN0ZrZUI4T05RcVNHMTlKMm41TXRCV1gxQXRKVjFDMXpyWUE3KzJHWG1r?=
+ =?utf-8?B?b3RqMU5CUW5hM1hmZGdyWUx2MmorVUVSWUlYMTl6ekswNnFmQ2tGMlNOZHJy?=
+ =?utf-8?B?NGwvWk1SNFlta3oxbWxOZVM4QjVENnFkRjZiaXZjVXJERC9uRXNLY05kNnlN?=
+ =?utf-8?B?WXFPTVgwWTZmWGJybDRBTGQwcVU1dHZaaDgxbDVTQWh6L0J3NmFKNzZwOVRh?=
+ =?utf-8?B?eDEzL0RCaVpiRGhNVmNXa0dWWXBONGxMWXVTVjNjVVRMc0NRYkZ1Nm83a0cr?=
+ =?utf-8?B?SDQ1MytCS0dtZm9kUWx0M0dFRUdINUxUUVNqdzFpM0R5WGZwNERMazViZnRC?=
+ =?utf-8?B?M0pRYVduLzBsbVAyaE01TmxGbjc4b2xjUk81d1NxdWY2ZUFHcTVKYjdLV3ls?=
+ =?utf-8?B?MkpqVDlwTkY3SXVaRHczcjRzNXJXbnJtVWhYbUdRVHdTRUlmajNoWkVvWGwy?=
+ =?utf-8?B?a21keEJiR002YWFwODdIWHJLQkh1VklkT09RTVRGMzQ3b3MxWkhjRXl1Ym9R?=
+ =?utf-8?B?TG9VVVZaT283alZ6NzNnREdRZG1kaC8rbS84SHVrVnBNdW9oWktPby9uN2lN?=
+ =?utf-8?B?QTZyRXIzUmJzUUZvVFBqc0dKTmF0RnV2QW9pQzJkRUliTU9kZnE4L2pkcGNj?=
+ =?utf-8?B?ZGtwZThjbyt3QmZVWWZvUThlaUUxMDhDMUQrWFlIbWgyU09GR1Bvb3BIRkQx?=
+ =?utf-8?B?ZmExM2o2NXBJbnFCTlRCSHJGSDdlaEV4K3NHR1N2aEhHV2RqZFBZRittR3cx?=
+ =?utf-8?B?QXZjVTlTTzA3SGFMMkUrSVNGL3VUQUZpVkpiYmFqNWFJNk5FUTZOT1gxcHdu?=
+ =?utf-8?B?ck5Va0tOVFBiU3ZrKzA3M05QVVpKUlVTREZXVm9GZWVyaXNzYkJWb2RPZkVG?=
+ =?utf-8?B?Rk5palM2L05CcHpwUHhHZ1F3SXo5Zk4vcG1ib0pUT1VoTjQyYmJaZXlqMnUy?=
+ =?utf-8?B?QU9jNUlMbTBFMFlObmJZcy91bHFjMk1tQWtXeFlxL3ZZTlpEWU5GUkc3RHRP?=
+ =?utf-8?B?emg0S3J3UzI4N2pDQUd0d1R5M05uMGVwczVBZk15Smc1SlJLeHhaWWR1cFRo?=
+ =?utf-8?B?YVg0NkV0V1h5cUZXNWtXMW92TTRrd0N0SUNRTi84MkhSS2tVUUlwZzVrV05S?=
+ =?utf-8?B?NVphOHFxUEgramtwUUZJQXlMNWd3WEYvc2IzRUMrc05qRS9vNEhHMlkycElX?=
+ =?utf-8?B?b0pmVXNNSFMyc09BK090cFkxeXdXRkhCbjN3YVBrOFRlbUR6cG9HQ2hBZjlC?=
+ =?utf-8?B?VXBuRWVVMmRNNGZTZCtsemx2cld2RWwza3VHeitUT2FHMzI5U29LTHNkV1Yw?=
+ =?utf-8?B?L0pVcHFQd0R1U2U3YitRRUw2ejlRYlZhMXZTRUdHUk9iRmdILzBZRTd1Qkdz?=
+ =?utf-8?B?M2k4QlJ4MHNTTXFQb3BPdXlVVENMb203ekFKZHd4anVNekVNSUx6NVFXMUcr?=
+ =?utf-8?B?RmZiRCtjZ20yQ2JabXBhK2kxdlY2TjdXL3MzM2czMGtxMmtKRjIzeFVsWFVs?=
+ =?utf-8?B?MHErS3BVVGFVMHpnYlZSY1RhcTJxN2JZdjlkVkRYKzFSNUtpcjRqNGlXc0hI?=
+ =?utf-8?B?ZXlNZTJxOW9OS29nZmpyNUNVVHZHNW84bngwdnZSVlJaWWVrc2tKcEovVHQw?=
+ =?utf-8?B?NmZKMHY0SG56S0Rqamo1bmVPTFJhSGJ1K3VLRlM0Z3Z6R1ludzFBUVpTSnhB?=
+ =?utf-8?B?UlBBYVh1SFdlNS9PSHQyb1pFNGIwUXFZK2lKMHp6V09MdEFFUmplaC9xZW50?=
+ =?utf-8?B?eXE4dFhCYXR2cXJvS2RtZGxjRFh6RmJtaW1DcEIrYisweTBUUElmMld5Ym1D?=
+ =?utf-8?B?dU9mQjh5Z1RVSWpjWGFHZ2lPR0lncndKOFZtMWhvNjN1Sm4vaUdveGE0OTQ3?=
+ =?utf-8?Q?qQbR9abAAaohI56PBrYJJa8=3D?=
+X-OriginatorOrg: amperemail.onmicrosoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b73fe64-52d5-43b5-6220-08db1fa8be70
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4973.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 07:43:01.9465
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dvBU2DSzHHKp0mPFkVlmoNRncbGVyhEXA2A49ZNT3yWfHjqRelLd/iZ2GGzmYVXokKwYOFKXgdLR3GPI43ocivE2NK/7a0Xp6PT4zzmem1cZ+c9Eu9wpga1gnG3KQktU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB5099
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,234 +132,107 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, linux-omap@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Mun Yew Tham <mun.yew.tham@intel.com>, Kevin Hilman <khilman@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Jay Fang <f.fangjian@huawei.com>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Daniel Palmer <daniel@thingy.jp>, Alban Bedel <albeu@free.fr>, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, Romain Perier <romain.perier@gmail.com>, William Breathitt Gray <william.gray@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 7 Mar 2023 at 13:04, Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> Convert the driver to immutable irq-chip with a bit of
-> intuition.
->
-> Cc: Marc Zyngier <maz@kernel.org>
-> Tested-by: Joel Stanley <joel@jms.id.au>
-> Acked-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/gpio/gpio-aspeed.c | 44 ++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 38 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
-> index a94da80d3a95..9c4852de2733 100644
-> --- a/drivers/gpio/gpio-aspeed.c
-> +++ b/drivers/gpio/gpio-aspeed.c
-> @@ -15,6 +15,7 @@
->  #include <linux/module.h>
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/platform_device.h>
-> +#include <linux/seq_file.h>
->  #include <linux/spinlock.h>
->  #include <linux/string.h>
->
-> @@ -53,7 +54,7 @@ struct aspeed_gpio_config {
->   */
->  struct aspeed_gpio {
->         struct gpio_chip chip;
-> -       struct irq_chip irqc;
-> +       struct device *dev;
->         raw_spinlock_t lock;
->         void __iomem *base;
->         int irq;
-> @@ -566,6 +567,10 @@ static void aspeed_gpio_irq_set_mask(struct irq_data *d, bool set)
->
->         addr = bank_reg(gpio, bank, reg_irq_enable);
->
-> +       /* Unmasking the IRQ */
-> +       if (set)
-> +               gpiochip_enable_irq(&gpio->chip, irqd_to_hwirq(d));
-> +
->         raw_spin_lock_irqsave(&gpio->lock, flags);
->         copro = aspeed_gpio_copro_request(gpio, offset);
->
-> @@ -579,6 +584,10 @@ static void aspeed_gpio_irq_set_mask(struct irq_data *d, bool set)
->         if (copro)
->                 aspeed_gpio_copro_release(gpio, offset);
->         raw_spin_unlock_irqrestore(&gpio->lock, flags);
-> +
-> +       /* Masking the IRQ */
-> +       if (!set)
-> +               gpiochip_disable_irq(&gpio->chip, irqd_to_hwirq(d));
->  }
->
->  static void aspeed_gpio_irq_mask(struct irq_data *d)
-> @@ -1080,6 +1089,30 @@ int aspeed_gpio_copro_release_gpio(struct gpio_desc *desc)
->  }
->  EXPORT_SYMBOL_GPL(aspeed_gpio_copro_release_gpio);
->
-> +static void aspeed_gpio_irq_print_chip(struct irq_data *d, struct seq_file *p)
-> +{
-> +       const struct aspeed_gpio_bank *bank;
-> +       struct aspeed_gpio *gpio;
-> +       u32 bit;
-> +       int rc, offset;
-> +
-> +       rc = irqd_to_aspeed_gpio_data(d, &gpio, &bank, &bit, &offset);
-
-Why do we call this instead of using irq_data_get_irq_chip_data?
-
-Actually, the callback appears to do the same as the default
-implementation, so we could just drop it?
-
-from kernel/irq/proc.c:
-
-        if (desc->irq_data.chip) {
-                if (desc->irq_data.chip->irq_print_chip)
-                        desc->irq_data.chip->irq_print_chip(&desc->irq_data, p);
-                else if (desc->irq_data.chip->name)
-                        seq_printf(p, " %8s", desc->irq_data.chip->name);
-
-A test on the rainier ast2600 bmc machine:
-
-# gpio-event-mon -n gpiochip0 -o 123 -r -f &
-# cat /proc/interrupts  |grep gpio-event-mon
- 60:          0          0  1e780800.gpio 123 Edge      gpio-event-mon
 
 
+On 01/03/2023 07:17, Joel Stanley wrote:
+> On Tue, 28 Feb 2023 at 10:28, Chanh Nguyen <chanh@os.amperecomputing.com> wrote:
+>>
+>> Support the mac3 (RGMII4) as an NC-SI stack instead of an MDIO PHY.
+>>
+>> The OCP slot #0 and OCP slot #1 use a common the BMC_NCSI signal,
+>> so we use only one of them at the same time. The OCP slot #0 will
+>> be enabled by PCA9539's setting by default.
+>>
+>> Also, enable the OCP Auxiliary Power during booting.
+>>
+>> Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
+> 
+> LGTM. I'll apply it once we have a -rc1.
+> 
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> 
 
+Thank Joel very much!
 
-> +       if (rc)
-> +               return;
-> +
-> +       seq_printf(p, dev_name(gpio->dev));
-> +}
-> +
-> +static const struct irq_chip aspeed_gpio_irq_chip = {
-> +       .irq_ack = aspeed_gpio_irq_ack,
-> +       .irq_mask = aspeed_gpio_irq_mask,
-> +       .irq_unmask = aspeed_gpio_irq_unmask,
-> +       .irq_set_type = aspeed_gpio_set_type,
-> +       .irq_print_chip = aspeed_gpio_irq_print_chip,
-> +       .flags = IRQCHIP_IMMUTABLE,
-> +       GPIOCHIP_IRQ_RESOURCE_HELPERS,
-> +};
-> +
->  /*
->   * Any banks not specified in a struct aspeed_bank_props array are assumed to
->   * have the properties:
-> @@ -1149,6 +1182,8 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
->         if (IS_ERR(gpio->base))
->                 return PTR_ERR(gpio->base);
->
-> +       gpio->dev = &pdev->dev;
-> +
->         raw_spin_lock_init(&gpio->lock);
->
->         gpio_id = of_match_node(aspeed_gpio_of_table, pdev->dev.of_node);
-> @@ -1208,12 +1243,9 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
->
->                 gpio->irq = rc;
->                 girq = &gpio->chip.irq;
-> -               girq->chip = &gpio->irqc;
-> +               gpio_irq_chip_set_chip(girq, &aspeed_gpio_irq_chip);
->                 girq->chip->name = dev_name(&pdev->dev);
-> -               girq->chip->irq_ack = aspeed_gpio_irq_ack;
-> -               girq->chip->irq_mask = aspeed_gpio_irq_mask;
-> -               girq->chip->irq_unmask = aspeed_gpio_irq_unmask;
-> -               girq->chip->irq_set_type = aspeed_gpio_set_type;
-> +
-
-I was thinking we could make the interrupt registration unconditional,
-as there's always an irq in the device tree. Happy to send a follow
-up, or for you to fold in a change along the lines of this:
-
---- a/drivers/gpio/gpio-aspeed.c
-+++ b/drivers/gpio/gpio-aspeed.c
-@@ -1091,14 +1091,7 @@ EXPORT_SYMBOL_GPL(aspeed_gpio_copro_release_gpio);
-
- static void aspeed_gpio_irq_print_chip(struct irq_data *d, struct seq_file *p)
- {
--       const struct aspeed_gpio_bank *bank;
--       struct aspeed_gpio *gpio;
--       u32 bit;
--       int rc, offset;
--
--       rc = irqd_to_aspeed_gpio_data(d, &gpio, &bank, &bit, &offset);
--       if (rc)
--               return;
-+       struct aspeed_gpio *gpio = irq_data_get_irq_chip_data(d);
-
-        seq_printf(p, dev_name(gpio->dev));
- }
-@@ -1108,7 +1101,7 @@ static const struct irq_chip aspeed_gpio_irq_chip = {
-        .irq_mask = aspeed_gpio_irq_mask,
-        .irq_unmask = aspeed_gpio_irq_unmask,
-        .irq_set_type = aspeed_gpio_set_type,
--       .irq_print_chip = aspeed_gpio_irq_print_chip,
-+//     .irq_print_chip = aspeed_gpio_irq_print_chip,
-        .flags = IRQCHIP_IMMUTABLE,
-        GPIOCHIP_IRQ_RESOURCE_HELPERS,
- };
-@@ -1170,6 +1163,7 @@ MODULE_DEVICE_TABLE(of, aspeed_gpio_of_table);
- static int __init aspeed_gpio_probe(struct platform_device *pdev)
- {
-        const struct of_device_id *gpio_id;
-+       struct gpio_irq_chip *girq;
-        struct aspeed_gpio *gpio;
-        int rc, i, banks, err;
-        u32 ngpio;
-@@ -1238,27 +1232,25 @@ static int __init aspeed_gpio_probe(struct
-platform_device *pdev)
-
-        /* Optionally set up an irqchip if there is an IRQ */
-        rc = platform_get_irq(pdev, 0);
--       if (rc > 0) {
--               struct gpio_irq_chip *girq;
--
--               gpio->irq = rc;
--               girq = &gpio->chip.irq;
--               gpio_irq_chip_set_chip(girq, &aspeed_gpio_irq_chip);
--               girq->chip->name = dev_name(&pdev->dev);
--
--               girq->parent_handler = aspeed_gpio_irq_handler;
--               girq->num_parents = 1;
--               girq->parents = devm_kcalloc(&pdev->dev, 1,
--                                            sizeof(*girq->parents),
--                                            GFP_KERNEL);
--               if (!girq->parents)
--                       return -ENOMEM;
--               girq->parents[0] = gpio->irq;
--               girq->default_type = IRQ_TYPE_NONE;
--               girq->handler = handle_bad_irq;
--               girq->init_valid_mask = aspeed_init_irq_valid_mask;
-+       if (rc < 0) {
-+               return rc;
-        }
-
-+       gpio->irq = rc;
-+       girq = &gpio->chip.irq;
-+       gpio_irq_chip_set_chip(girq, &aspeed_gpio_irq_chip);
-+       girq->chip->name = dev_name(&pdev->dev);
-+
-+       girq->parent_handler = aspeed_gpio_irq_handler;
-+       girq->num_parents = 1;
-+       girq->parents = devm_kcalloc(&pdev->dev, 1,
-sizeof(*girq->parents), GFP_KERNEL);
-+       if (!girq->parents)
-+               return -ENOMEM;
-+       girq->parents[0] = gpio->irq;
-+       girq->default_type = IRQ_TYPE_NONE;
-+       girq->handler = handle_bad_irq;
-+       girq->init_valid_mask = aspeed_init_irq_valid_mask;
-+
-        gpio->offset_timer =
-                devm_kzalloc(&pdev->dev, gpio->chip.ngpio, GFP_KERNEL);
-        if (!gpio->offset_timer)
-
-
->                 girq->parent_handler = aspeed_gpio_irq_handler;
->                 girq->num_parents = 1;
->                 girq->parents = devm_kcalloc(&pdev->dev, 1,
->
-> --
-> 2.34.1
->
+>> ---
+>> Changes in v2:
+>>     - Change PCA9539APW node name.                     [Krzysztof]
+>> ---
+>>   .../boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 37 ++++++++++++++++++-
+>>   1 file changed, 36 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+>> index 4b91600eaf62..1e0e88465254 100644
+>> --- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+>> +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+>> @@ -251,6 +251,14 @@
+>>          pinctrl-0 = <&pinctrl_rgmii1_default>;
+>>   };
+>>
+>> +&mac3 {
+>> +       status = "okay";
+>> +       pinctrl-names = "default";
+>> +       pinctrl-0 = <&pinctrl_rmii4_default>;
+>> +       clock-names = "MACCLK", "RCLK";
+>> +       use-ncsi;
+>> +};
+>> +
+>>   &fmc {
+>>          status = "okay";
+>>          flash@0 {
+>> @@ -439,6 +447,26 @@
+>>          status = "okay";
+>>   };
+>>
+>> +&i2c8 {
+>> +       status = "okay";
+>> +
+>> +       gpio@77 {
+>> +               compatible = "nxp,pca9539";
+>> +               reg = <0x77>;
+>> +               gpio-controller;
+>> +               #address-cells = <1>;
+>> +               #size-cells = <0>;
+>> +               #gpio-cells = <2>;
+>> +
+>> +               bmc-ocp0-en-hog {
+>> +                       gpio-hog;
+>> +                       gpios = <7 GPIO_ACTIVE_LOW>;
+>> +                       output-high;
+>> +                       line-name = "bmc-ocp0-en-n";
+>> +               };
+>> +       };
+>> +};
+>> +
+>>   &i2c9 {
+>>          status = "okay";
+>>   };
+>> @@ -530,13 +558,20 @@
+>>          /*V0-V7*/       "s0-hightemp-n","s0-fault-alert","s0-sys-auth-failure-n",
+>>                          "host0-reboot-ack-n","host0-ready","host0-shd-req-n",
+>>                          "host0-shd-ack-n","s0-overtemp-n",
+>> -       /*W0-W7*/       "ocp-aux-pwren","ocp-main-pwren","ocp-pgood","",
+>> +       /*W0-W7*/       "","ocp-main-pwren","ocp-pgood","",
+>>                          "bmc-ok","bmc-ready","spi0-program-sel","spi0-backup-sel",
+>>          /*X0-X7*/       "i2c-backup-sel","s1-fault-alert","s1-fw-boot-ok",
+>>                          "s1-hightemp-n","s0-spi-auth-fail-n","s1-sys-auth-failure-n",
+>>                          "s1-overtemp-n","s1-spi-auth-fail-n",
+>>          /*Y0-Y7*/       "","","","","","","","host0-special-boot",
+>>          /*Z0-Z7*/       "reset-button","ps0-pgood","ps1-pgood","","","","","";
+>> +
+>> +       ocp-aux-pwren-hog {
+>> +               gpio-hog;
+>> +               gpios = <ASPEED_GPIO(W, 0) GPIO_ACTIVE_HIGH>;
+>> +               output-high;
+>> +               line-name = "ocp-aux-pwren";
+>> +       };
+>>   };
+>>
+>>   &gpio1 {
+>> --
+>> 2.17.1
+>>
