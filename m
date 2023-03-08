@@ -2,57 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3276B6CB3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 00:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3896B72D6
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 10:42:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PZcF54Mrjz3c8V
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 10:58:33 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PZsCP4ybtz3cML
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 20:42:57 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=RigY3aTC;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=q89OEdbd;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::335; helo=mail-wm1-x335.google.com; envelope-from=tudor.ambarus@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=RigY3aTC;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=q89OEdbd;
 	dkim-atps=neutral
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PZcF04Dkdz3bkM
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Mar 2023 10:58:28 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=0L7vTZLcerwnAyoI0HVYfhsjcRF+aysJp1HB0AOdCV4=; b=RigY3aTC9kT+QiKNzqRX38zVCH
-	H9IyfEUEinWJxoVVOnQL7KViGfh7ztg4ru5NXEGuXPJCagcFhLsCPgYkFt0Kq4kJQ3Kjrxr03MMdr
-	rJAatoXBJw2VG1GfOT1bgchjypQ3DpfV21hmdBXDLsOb6ziWbAAjef7IoVoF2hHdfhII=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1pbVZI-0078fQ-FU; Mon, 13 Mar 2023 00:57:36 +0100
-Date: Mon, 13 Mar 2023 00:57:36 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Klaus Kudielka <klaus.kudielka@gmail.com>
-Subject: Re: [PATCH net-next v2 4/6] net: mdio: scan bus based on bus
- capabilities for C22 and C45
-Message-ID: <04d0bf49-452c-472c-add4-a0d5bd944476@lunn.ch>
-References: <09d65e1ee0679e1e74b4f3a5a4c55bd48332f043.camel@gmail.com>
- <70f5bca0-322c-4bae-b880-742e56365abe@lunn.ch>
- <10da10caea22a8f5da8f1779df3e13b948e8a363.camel@gmail.com>
- <4abd56aa-5b9f-4e16-b0ca-11989bb8c764@lunn.ch>
- <bff0e542b8c04980e9e3af1d3e6bf739c87eb514.camel@gmail.com>
- <a57a216d-ff5a-46e6-9780-e53772dcefc8@lunn.ch>
- <2f64385a350359c5755eb4d2479e2efef7a96216.camel@gmail.com>
- <29ee3cc4-a1d6-4a07-8d90-4b2f26059e7d@lunn.ch>
- <0a1ec04fe494fcd8c68d03e4f544d7162c0e4f39.camel@gmail.com>
- <024b696003d8403d62c45411c813058684e0418c.camel@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PWmc13nYgz2ygG
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Mar 2023 20:05:03 +1100 (AEDT)
+Received: by mail-wm1-x335.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so742435wms.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Mar 2023 01:05:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678266299;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kA8QaXHaQv2zTvTrF1F5tUB/9uaPE/un/rBzeew06Qk=;
+        b=q89OEdbdQ8/5wEe6qFgIWzh3vd6s4xaRgf89QS/3X4cOBtJctnoIMQxxEkA1D1BiHI
+         0rPMGxYv1A8HM3xCu5rwnUu1Ej1pGr2yhOovW1vpKhfjmrhnTXnSrnkTPEb2jQaLNjCu
+         gjPvDpbonBmkmrER6l1D5vxT9FfWi6H61jHjcQqvRP49uhXANQfBL/nTJmVo9mW1K9+n
+         yBrlg1+msaFsX+hZi1yQGq1ALarkY7lxAgSKSy51rXIuUTDYzdRIQ4Td+1aCJOW/HPYu
+         E7T1Lo6gbBZA2NMhBQNGnjngG9/h7JB3LioUT5eLeFK7zU7ue/RKGy/ITsQAn5o7NDuO
+         SNdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678266299;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kA8QaXHaQv2zTvTrF1F5tUB/9uaPE/un/rBzeew06Qk=;
+        b=N7itU62CJ1t2muktIss0jpDkarsESPBOFf8sTF4VxGr6Y/h1no5iU079tUHt7vBDAW
+         M+EJarIhqYiiq0nXAgkjsKpH8XjyM94I3UhxNGTVqA7QV6f/ofOV63218bWV9QiXPmNL
+         qh2Yltbqrj55D48fCrf2EIHVnMicoSvobAnziKRpfunxV/RuUgFCdSTEXd7PsQtVt6Dm
+         mqtY6S7Kuu0Ulvzwjwgft4LlUagnho5XwqpSdw+xPukny9PkOTL2KqVDdnEisCD+tm1+
+         RtHiNmIKNF4/Unl8hiulXmfXlO+IIkl6QaYcsi9En9Ksr7B8ZXuG1dj/K98bZlJAcrmk
+         XFSg==
+X-Gm-Message-State: AO0yUKVri6wkIhKA8THEjq4QF8YesUTtHLj8VvGOhqpKmFaTyfmHi6us
+	6GTjNIGljX5aS6UVbWHhgEzVmA==
+X-Google-Smtp-Source: AK7set/L9zFk+/3muQ4XCE6qXO8h4slPi9HcknR81cfBA77IySEK46FikrIsHFywPlVNMXfACef86g==
+X-Received: by 2002:a05:600c:1907:b0:3eb:29fe:7b9e with SMTP id j7-20020a05600c190700b003eb29fe7b9emr14295268wmq.17.1678266299463;
+        Wed, 08 Mar 2023 01:04:59 -0800 (PST)
+Received: from [192.168.2.107] ([79.115.63.78])
+        by smtp.gmail.com with ESMTPSA id v38-20020a05600c4da600b003eb68bb61c8sm14645299wmp.3.2023.03.08.01.04.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Mar 2023 01:04:58 -0800 (PST)
+Message-ID: <1766f6ef-d9d8-04f7-a6bf-0ea6bc0b3d23@linaro.org>
+Date: Wed, 8 Mar 2023 09:04:55 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <024b696003d8403d62c45411c813058684e0418c.camel@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] spi: Replace `dummy.nbytes` with `dummy.ncycles`
+To: Serge Semin <fancer.lancer@gmail.com>, Sergiu.Moga@microchip.com,
+ Mark Brown <broonie@kernel.org>, Tudor Ambarus
+ <tudor.ambarus@microchip.com>, Pratyush Yadav <pratyush@kernel.org>,
+ Michael Walle <michael@walle.cc>
+References: <20220911174551.653599-1-sergiu.moga@microchip.com>
+ <20220925220304.buk3yuqoh6vszfci@mobilestation>
+ <18e6e8a8-6412-7e31-21e0-6becd4400ac1@microchip.com>
+ <20220926172454.kbpzck7med5bopre@mobilestation>
+Content-Language: en-US
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <20220926172454.kbpzck7med5bopre@mobilestation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 13 Mar 2023 20:42:54 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +88,97 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, Eric Dumazet <edumazet@google.com>, linux-stm32@st-md-mailman.stormreply.com, Russell King <linux@armlinux.org.uk>, Jose Abreu <joabreu@synopsys.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Mark Lee <Mark-MC.Lee@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, linux-mediatek@lists.infradead.org, John Crispin <john@phrozen.org>, Matthias Brugger <matthias.bgg@gmail.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, linux-arm-kernel@lists.infradead.org, Bryan Whitehead <bryan.whitehead@microchip.com>, linux-kernel@vger.kernel.org, UNGLinuxDriver@microchip.com, Michael Walle <michael@walle.cc>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, Felix Fietkau <nbd@nbd.name>
+Cc: alexandre.belloni@bootlin.com, vigneshr@ti.com, linux-aspeed@lists.ozlabs.org, alexandre.torgue@foss.st.com, tali.perry1@gmail.com, linux-mtd@lists.infradead.org, miquel.raynal@bootlin.com, linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, tmaimon77@gmail.com, kdasu.kdev@gmail.com, richard@nod.at, michal.simek@xilinx.com, haibo.chen@nxp.com, openbmc@lists.ozlabs.org, yuenn@google.com, bcm-kernel-feedback-list@broadcom.com, linux-rockchip@lists.infradead.org, avifishman70@gmail.com, john.garry@huawei.com, linux-mediatek@lists.infradead.org, clg@kaod.org, matthias.bgg@gmail.com, han.xu@nxp.com, linux-arm-kernel@lists.infradead.org, venture@google.com, heiko@sntech.de, Nicolas.Ferre@microchip.com, linux-kernel@vger.kernel.org, yogeshgaur.83@gmail.com, mcoquelin.stm32@gmail.com, Claudiu.Beznea@microchip.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, Mar 12, 2023 at 04:15:41PM +0100, Klaus Kudielka wrote:
-> On Sun, 2023-03-12 at 10:04 +0100, Klaus Kudielka wrote:
-> > On Sun, 2023-03-12 at 03:53 +0100, Andrew Lunn wrote:
-> > > 
-> > > Correct. But their also should not of been any noticeable slow down,
-> > > because there should not be any additional scanning when everything is
-> > > described in DT. And the move of the MDIO bus registration from probe
-> > > to setup should actually make it faster than before.
-> > > 
-> > 
-> > But then, why *do* I see such a big difference on the Omnia?
-> > 
-> > mdiobus_scan_bus_c45() takes:
-> > ~2.7 seconds without phy_mask patch
-> > ~0.2 seconds with phy_mask patch
-> 
-> Following up myself, the answer is in the call path
-> mv88e6xxx_mdios_register()
-> 	 -> mv88e6xxx_mdio_register()
-> 		-> of_mdiobus_register()
-> 
-> A child node "mdio" would be needed for the scan to be limited by
-> the device tree. And this one is *not* in armada-385-turris-omnia.dts.
-> 
-> My (incorrect) understanding was, the child node "ports" would trigger
-> that behaviour.
+Hi, Sarge,
 
-Yes, of_mdiobus_register() calls mdiobus_register() if there is no
-MDIO node in DT. And that will result in a full bus scan, limited by
-phy_mask.
+On 9/26/22 18:24, Serge Semin wrote:
+>>>> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+>>>> index f2c64006f8d7..cc8ca824f912 100644
+>>>> --- a/drivers/mtd/spi-nor/core.c
+>>>> +++ b/drivers/mtd/spi-nor/core.c
+>>>> @@ -88,7 +88,7 @@ void spi_nor_spimem_setup_op(const struct spi_nor *nor,
+>>>>        if (op->addr.nbytes)
+>>>>                op->addr.buswidth = spi_nor_get_protocol_addr_nbits(proto);
+>>>>
+>>>
+>>>
+>>>> -     if (op->dummy.nbytes)
+>>>> +     if (op->dummy.ncycles)
+>>>>                op->dummy.buswidth = spi_nor_get_protocol_addr_nbits(proto);
+>>>>
+>>>>        if (op->data.nbytes)
+>>>> @@ -106,9 +106,6 @@ void spi_nor_spimem_setup_op(const struct spi_nor *nor,
+>>>>                op->dummy.dtr = true;
+>>>>                op->data.dtr = true;
+>>>>
+>>>> -             /* 2 bytes per clock cycle in DTR mode. */
+>>>> -             op->dummy.nbytes *= 2;
+>>>> -
+>>>>                ext = spi_nor_get_cmd_ext(nor, op);
+>>>>                op->cmd.opcode = (op->cmd.opcode << 8) | ext;
+>>>>                op->cmd.nbytes = 2;
+>>>> @@ -207,10 +204,7 @@ static ssize_t spi_nor_spimem_read_data(struct spi_nor *nor, loff_t from,
+>>>>
+>>>>        spi_nor_spimem_setup_op(nor, &op, nor->read_proto);
+>>>>
+>>>> -     /* convert the dummy cycles to the number of bytes */
+>>>> -     op.dummy.nbytes = (nor->read_dummy * op.dummy.buswidth) / 8;
+>>>> -     if (spi_nor_protocol_is_dtr(nor->read_proto))
+>>>> -             op.dummy.nbytes *= 2;
+>>>> +     op.dummy.ncycles = nor->read_dummy;
+>>> So according to this modification and what is done in the rest of the
+>>> patch, the dummy part of the SPI-mem operations now contains the number
+>>> of cycles only. Am I right to think that it means a number of dummy
+>>> clock oscillations? (Judging from what I've seen in the HW-manuals of
+>>> the SPI NOR memory devices most likely I am...)
+>>
+>>
+>> Yes, you are correct.
+>>
 
-And for completeness, there is one additional case. When there is a DT
-description, reg = <> is optional for a PHY. Most cases, it is used,
-but if you have a board designs which can take different pin
-compatible PHYs, the address of the PHY might not be known. After
-probing PHYs which are listed in DT with reg properties, it will scan
-the bus for additional PHYs and assign them to entries which do not
-have reg properties.
+I confirm.
 
-	Andrew
+>>
+>>> If so the "ncycles" field
+>>> is now free from the "data" semantic. Then what is the meaning of the
+>>> "buswidth and "dtr" fields in the spi_mem_op.dummy field?
+>>>
+>>
+>> It is still meaningful as it is used for the conversion by some drivers 
+>> to nbytes and I do not see how it goes out of the specification in any 
+>> way. So, at least for now, I do not see any reason to remove these fields.
+> I do see the way these fields are used in the SPI-mem drivers. I was
+> wondering what do these bits mean in the framework of the SPI-mem
+> core? AFAICS from the specification the dummy cycles are irrelevant to
+> the data bus state. It says "the master tri-states the bus during
+> 'dummy' cycles." If so I don't see a reason to have the DTR and
+> buswidth fields in the spi_mem_op structure anymore. The number of
+> cycles could be calculated right on the initialization stage based on
+> the SPI NOR/NAND requirements.
+> 
+> @Mark, @Tudor, @Pratyush, what do you think?
+> 
+
+In an ideal world, where both the controller and the device talk about
+dummy number of cycles, I would agree with you, buswidth and dtr should
+not be relevant for the number of dummy cycles. But it seems that there
+are old controllers (e.g. spi-hisi-sfc-v3xx.c, spi-mt65xx.c, spi-mxic.c)
+that support buswidths > 1 and work only with dummy nbytes, they are not
+capable of specifying a smaller granularity (ncycles). Thus the older
+controllers would have to convert the dummy ncycles to dummy nbytes.
+Since mixed transfer modes are a thing (see jesd251, it talks about
+4S-4D-4D), where single transfer mode (S) can be mixed with double
+transfer mode (D) for a command, the controller would have to guess the
+buswidth and dtr of the dummy. Shall they replicate the buswidth and dtr
+of the address or of the data? There's no rule for that. So we're forced
+to keep the dummy.{dtr, buswidth} fields by the old controllers that
+don't understand dummy ncycles.
+
+I'm going to send a v2 of this patch, I'll add you in To. Thanks for
+taking the time to review this patch!
+
+Cheers,
+ta
