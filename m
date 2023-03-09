@@ -1,102 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E164F6B2302
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 12:29:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C526B2AE6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 17:37:19 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PXRlt5pwRz3ccr
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 22:29:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PXZbK0xYsz3cXf
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Mar 2023 03:37:17 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GwcBUxVB;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GwcBUxVB;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=HsRYZazV;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=fmartine@redhat.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GwcBUxVB;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GwcBUxVB;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=HsRYZazV;
 	dkim-atps=neutral
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PXRln3Tztz3bhx
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Mar 2023 22:29:09 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678361347;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
-	b=GwcBUxVB+lcW/SEYDIvZBUIgdsMu4u6EixY/rjJ9d3AJb6JkeOwrV8LUmZzfgVc6EDO0Ep
-	P2YFbSIO0gifQl3we+FABKfRpPmerO9PTAic5dciOVqkjKzM/fbk/KYFTizHiBSMo6kcpS
-	RYyj+W2LOpsVhdeXtR9TfIRdMbFgEyg=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678361347;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
-	b=GwcBUxVB+lcW/SEYDIvZBUIgdsMu4u6EixY/rjJ9d3AJb6JkeOwrV8LUmZzfgVc6EDO0Ep
-	P2YFbSIO0gifQl3we+FABKfRpPmerO9PTAic5dciOVqkjKzM/fbk/KYFTizHiBSMo6kcpS
-	RYyj+W2LOpsVhdeXtR9TfIRdMbFgEyg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-231-CVwJvbjtMIKX20epUqIg3A-1; Thu, 09 Mar 2023 06:29:05 -0500
-X-MC-Unique: CVwJvbjtMIKX20epUqIg3A-1
-Received: by mail-wr1-f70.google.com with SMTP id l5-20020a5d6745000000b002c91cb49949so350030wrw.14
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 09 Mar 2023 03:29:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678361344;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
-        b=clJyQVgGYumia1M/HvZ64wWhBhqtYO/eA2+o9K8b5eo0dQ6LVKKY5NsVxa6rVr9LfQ
-         1xd6AnMV7k3VNmpNYjNeL1fFB9Stl33a8OrQyuKewDXR9xXRtt59Lzk+wmUFIgGuI6s5
-         jrMQJrgvCLqb+v8rM1q0xCfBko8hZpAxQBVT6ZgDRaMmjN8LwKyxUXsFDOxSw2kqxJfJ
-         gRBPi2GrxJ0AAFV3v2gWxcLlFEGgFDxhWTgscyj3wb/xcHNhTtqbngiU0Vc4ImuKSIE7
-         Wde/DPOE0gdfMkGoczgQpWhimgZx2Gabd4jRDa9O3PzwsTFA5Gt1DvB9yAbK0VruLSZQ
-         5XvQ==
-X-Gm-Message-State: AO0yUKXo+cYbYEwRAGDX2STqRUTHsZvSqiI2hrP/ZsFz5lZ66F5W2L6p
-	KjmCHjeUiXENA1VVIKxJbXRMrfJ9IDvnvdcMDPkvs7GWka/T86OE18FdZEBFpDujESX7SDi5tSx
-	iyIr5fj3HtL15mRuYoKOTEWfR1Q==
-X-Received: by 2002:a5d:6505:0:b0:2c6:e682:e55b with SMTP id x5-20020a5d6505000000b002c6e682e55bmr11934465wru.48.1678361344741;
-        Thu, 09 Mar 2023 03:29:04 -0800 (PST)
-X-Google-Smtp-Source: AK7set/SuOlGzNjzuB+/71QhRoDFVzQZ5KDl1yemHeUwxjB4OayINr1XWjAGx9mSH74oqRW7vJe0XA==
-X-Received: by 2002:a5d:6505:0:b0:2c6:e682:e55b with SMTP id x5-20020a5d6505000000b002c6e682e55bmr11934447wru.48.1678361344548;
-        Thu, 09 Mar 2023 03:29:04 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id bg2-20020a05600c3c8200b003e214803343sm2615371wmb.46.2023.03.09.03.29.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 03:29:04 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, andrew@aj.id.au, laurentiu.palcu@oss.nxp.com,
- l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- p.zabel@pengutronix.de, anitha.chrisanthus@intel.com,
- edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com,
- yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com,
- samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
- linus.walleij@linaro.org, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 22/22] drm/xlnx: Use GEM DMA fbdev emulation
-In-Reply-To: <20230301153101.4282-23-tzimmermann@suse.de>
-References: <20230301153101.4282-1-tzimmermann@suse.de>
- <20230301153101.4282-23-tzimmermann@suse.de>
-Date: Thu, 09 Mar 2023 12:29:03 +0100
-Message-ID: <875yba6u4g.fsf@minerva.mail-host-address-is-not-set>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PXZb92TRhz3bW0
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Mar 2023 03:37:08 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=RwAwxYzMMu53HWwvcRiGxx/sOZSEI6ZJ+OulcB8tgBo=; b=HsRYZazVugOV86A6aoM3lAoldB
+	OB4bMUzq504ybOSkt9tamHp7pDrOrfZZ+9cSHPgolQT46CMDo3Mdmta9cLXTDMpvJMEJWa57nvS36
+	aHWrNasx50xlogWZ4IAFScsiptbtLnntWXz9NbhcB9t1jO+ZpdTXaIfN5tXvBqT3l4Yg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1paJFh-006tc4-Vf; Thu, 09 Mar 2023 17:36:25 +0100
+Date: Thu, 9 Mar 2023 17:36:25 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Klaus Kudielka <klaus.kudielka@gmail.com>
+Subject: Re: [PATCH net-next v2 4/6] net: mdio: scan bus based on bus
+ capabilities for C22 and C45
+Message-ID: <70f5bca0-322c-4bae-b880-742e56365abe@lunn.ch>
+References: <20230116-net-next-remove-probe-capabilities-v2-0-15513b05e1f4@walle.cc>
+ <20230116-net-next-remove-probe-capabilities-v2-4-15513b05e1f4@walle.cc>
+ <449bde236c08d5ab5e54abd73b645d8b29955894.camel@gmail.com>
+ <100c439a-2a4d-4cb2-96f2-5bf273e2121a@lunn.ch>
+ <712bc92ca6d576f33f63f1e9c2edf0030b10d3ae.camel@gmail.com>
+ <db6b8a09-b680-4baa-8963-d355ad29eb09@lunn.ch>
+ <0e10aa8492eadb587949d8744b56fccaabbd183b.camel@gmail.com>
+ <72530e86-9ba9-4a01-9cd2-68835ecae7a0@lunn.ch>
+ <09d65e1ee0679e1e74b4f3a5a4c55bd48332f043.camel@gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <09d65e1ee0679e1e74b4f3a5a4c55bd48332f043.camel@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,24 +63,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, Thomas Zimmermann <tzimmermann@suse.de>, linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, Eric Dumazet <edumazet@google.com>, linux-stm32@st-md-mailman.stormreply.com, Russell King <linux@armlinux.org.uk>, Jose Abreu <joabreu@synopsys.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Mark Lee <Mark-MC.Lee@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, linux-mediatek@lists.infradead.org, John Crispin <john@phrozen.org>, Matthias Brugger <matthias.bgg@gmail.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, linux-arm-kernel@lists.infradead.org, Bryan Whitehead <bryan.whitehead@microchip.com>, linux-kernel@vger.kernel.org, UNGLinuxDriver@microchip.com, Michael Walle <michael@walle.cc>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, Felix Fietkau <nbd@nbd.name>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Wed, Mar 08, 2023 at 07:34:40PM +0100, Klaus Kudielka wrote:
+> On Tue, 2023-03-07 at 21:35 +0100, Andrew Lunn wrote:
+> > > Summary: Still 4 calls to mdio_bus_scan_c22, but also *2* calls to mdio_bus_scan_c45, approx. 190*100 reads by the switch driver
 
-> Use the fbdev emulation that is optimized for DMA helpers. Avoids
-> possible shadow buffering and makes the code simpler.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+I was wrong about something i said earlier. A C22 scan reads two
+registers for each of the 32 possible locations of a C22 PHY on the
+bus. A C45 scan is however much more expensive. It will read 30 time
+two registers for each of the 32 possible locations of a C45 PHY on
+the bus.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+One things that could help is moving some code around a bit. Currently
+mv88e6xxx_mdios_register() is called at the end of
+mv88e6xxx_probe(). Try moving it to the beginning of
+mv88e6xxx_setup(). The call to mv88e6xxx_mdios_unregister() then need
+to move into mv88e6xxx_teardown().
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+	Andrew
 
