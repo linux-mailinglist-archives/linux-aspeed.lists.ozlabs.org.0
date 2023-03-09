@@ -2,70 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E91B6B1478
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Mar 2023 22:48:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E90F66B1A97
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 06:09:25 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PX5Y34btYz3cLF
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 08:48:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PXHKX2nhCz3cMT
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 16:09:20 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Xv/o7k0V;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=pvwqHuzj;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::1136; helo=mail-yw1-x1136.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1030; helo=mail-pj1-x1030.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Xv/o7k0V;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=pvwqHuzj;
 	dkim-atps=neutral
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PX5Xy5dCYz3bfk
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Mar 2023 08:48:32 +1100 (AEDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-536c2a1cc07so329698767b3.5
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Mar 2023 13:48:31 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PXHKN6xVPz3bgv
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Mar 2023 16:09:12 +1100 (AEDT)
+Received: by mail-pj1-x1030.google.com with SMTP id bo22so1029776pjb.4
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Mar 2023 21:09:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678312108;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r1Ycd9MmkZ2o31hnxqTTUh8Ie49xD0xPTPsqNUPpbcE=;
-        b=Xv/o7k0Va9ra9mE73WP4AO/knHRACFl8S/3UJgsNtwkCJf4p/6EnG7TSDqfWb5S2ET
-         QPTgv1Ack5u+Ior3itotdTnvjFht+PrMP/DvL3wcr087JMTqNVE+O9WDOFucCb4XyM7Q
-         hptF+lMH7sS86/kenHZFjyYaXBphhsMtH7rrRI6v/F5opojCYr5tDerr+FJtlnZOqXri
-         71LOH+W/uXXYopEz3FmDqnk2nZTqWkv79lesqYnr+vK0TNNYawdqW+pT8vp2Gx43Pyfi
-         k3ueFZmbEacvw365C7gte1UCMA5m58UdlGLKHJ10PNw7Lg4k6eM21e3WQlSTv3fiSQSc
-         e+vQ==
+        d=gmail.com; s=20210112; t=1678338548;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=jrgCo1aotaF55CjvexYHXM5Pnsd671YP1OYXwhtpBXU=;
+        b=pvwqHuzjwvWCmXG/ZzrVSrH8kNoSnk97vNwOSarkua2ARkuS0Woh6AnQWoDZ3ib1h0
+         23787MjzUgNDA1egLDQI71p9sW8z4gfgs1gh0vM/TYJz0pE7Sko+ekkG9qPEOEvj0gsw
+         eGFMI2fU7wPFVcIUbErsI8ijidakjOHpwSg1bbjDcZJA4wpe7V5+nZ8qRz4Wjx790h7K
+         GfmkUq0MYPylXHQOYZWKmT9H2o7Yo2R9YLj2dgY8iGmS5h8PqUvFIkrYd5VW3zMqma96
+         KV1Pv/9K0FMVr/xLuKLNUFpGltYBe2tzvBLOXACSsrBo9cisbRn2yaaavU2539FLe8Hm
+         OzSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678312108;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r1Ycd9MmkZ2o31hnxqTTUh8Ie49xD0xPTPsqNUPpbcE=;
-        b=vZzNE80YorxejcntKAp+htoM32EJK4JcPksNMorhiRW4HUUAQQiyyCG3b/87ERTYuu
-         HMtqh45vvxK5aadtnCKbjyDvU/mDHq0Qo9cEHdSfo7Y7i2/rrNYeyDxdFfqkybtm4h9a
-         dukOrViRfKZRswv3wnsLXPQf2VxWN+DjLae1J9GrZzh7S03OG/Y4zPcU47L1+A5D9FgU
-         vrugniy4K+nKyqCZtp2prJoFDm4C4WZsO2vv62XI+wLFzjKtGFRTy/snsKIfYjDTjd/s
-         MsYW6LmdSltOVP9o4fcyH1L3fOaG9WfpY+4o/bt5i49aosRa8wCLLVUw92Q93csEiN6m
-         cQzQ==
-X-Gm-Message-State: AO0yUKWQ1QWs2s+QKcouLzxZsztI0zxeH1rok7rVIA/yDFdSUsOHyPLl
-	I/O15bXI9ikFLhDperUmZPRd70qKTXAnxy81Ymnx+Q==
-X-Google-Smtp-Source: AK7set/wE7ucXTrmTPRWG6Tw0KsQfg4nawWkRLd5ehVt2euhHktMPD4UxK14To9kK895Sfm4gvFpqlYTabtJ0vdBjOM=
-X-Received: by 2002:a81:af1f:0:b0:536:4ad1:f71 with SMTP id
- n31-20020a81af1f000000b005364ad10f71mr11945676ywh.9.1678312108521; Wed, 08
- Mar 2023 13:48:28 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678338548;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jrgCo1aotaF55CjvexYHXM5Pnsd671YP1OYXwhtpBXU=;
+        b=Cc74FHUi2C3ujknP05hcKtC2pYXUP9ZvHdSEXn0rfEVdpab4MlvlBU+ma/F24/4/lw
+         mFWPMj2wfAEbwGvYEjD+nvO3IF3ThXv1+6EkdyHU3LRK29gItou5qVBOXOc+9ZoUV9RQ
+         ai9op5s9aSkCv3GoeRbGdRzU0h6wCiYzctd/1fpFNJa6fO/KgxxCGg/X+nA0m4LQRUtB
+         ma0jqI3JnQ5XV8K+BJdHnK+FzivBRHpsV408o9KuWjdg6r/pPa56GzGBo3Ler1QU3AtA
+         5XbXonxXwJs8ae8CFJaCdrI++ga7B3uN93w1LJ/kSrj8r4Ik82GgONSIeHECLye9VT13
+         vSxg==
+X-Gm-Message-State: AO0yUKWjhF1obXAmW/jMz6Ya6DD8P2UlBYjjOlAO24dHUs8QVtEjMtLC
+	Koes2b9L4VWPKoWn9IrCPlM=
+X-Google-Smtp-Source: AK7set81hD3ZINjS7zQHvR05JYhLu0DwTe73WJYpteW/srQCXACiPrzuc0mXQSOM11r6dQI+VQARTQ==
+X-Received: by 2002:a17:90b:4b41:b0:234:f4a:8985 with SMTP id mi1-20020a17090b4b4100b002340f4a8985mr21836406pjb.15.1678338547744;
+        Wed, 08 Mar 2023 21:09:07 -0800 (PST)
+Received: from localhost.localdomain ([45.124.203.18])
+        by smtp.gmail.com with ESMTPSA id gq12-20020a17090b104c00b002372106a5c2sm611491pjb.37.2023.03.08.21.09.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 21:09:07 -0800 (PST)
+From: Joel Stanley <joel@jms.id.au>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH] gpio: aspeed: Always register the irqchip
+Date: Thu,  9 Mar 2023 15:38:55 +1030
+Message-Id: <20230309050855.3311834-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230215-immutable-chips-v2-0-d6b0e3f2d991@linaro.org>
- <20230215-immutable-chips-v2-3-d6b0e3f2d991@linaro.org> <CACPK8Xc7ekzM9oeR7+fYuK8RfZ4jA8gpH=nUJ-OTp0XZoKwzHQ@mail.gmail.com>
- <861qlzz89j.wl-maz@kernel.org>
-In-Reply-To: <861qlzz89j.wl-maz@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 8 Mar 2023 22:48:16 +0100
-Message-ID: <CACRpkdZ_jEd5hZDGaTd+4Ns7o+oMiAh=pED==WemVCnC-csNqg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/16] gpio: aspeed: Convert to immutable irq_chip
-To: Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,21 +77,89 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-omap@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Mun Yew Tham <mun.yew.tham@intel.com>, Kevin Hilman <khilman@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Jay Fang <f.fangjian@huawei.com>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Daniel Palmer <daniel@thingy.jp>, Alban Bedel <albeu@free.fr>, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, Romain Perier <romain.perier@gmail.com>, William Breathitt Gray <william.gray@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: Jeremy Kerr <jk@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Mar 8, 2023 at 2:23=E2=80=AFPM Marc Zyngier <maz@kernel.org> wrote:
+The driver was implemented in a way that made the irqchip optional, if a
+irq was not present in the device tree. However, all of the device trees
+have always had an irq, so the optional-ness has never been used.
 
-> > >                 girq->chip->name =3D dev_name(&pdev->dev);
->
-> And this assignment will probably explode if, as expected, 'chip' is
-> const and cannot be written to.
->
-> I obviously didn't spot this when I first looked at these patches.
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+Linus, feel free to put this in your immutable gpiochip series
 
-Dang, I'll fix, then I will go over the rest of the patches
-and make sure I didn't miss any other of these name assignments.
+ drivers/gpio/gpio-aspeed.c | 49 ++++++++++++++++++--------------------
+ 1 file changed, 23 insertions(+), 26 deletions(-)
 
-Thanks,
-Linus Walleij
+diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
+index a94da80d3a95..129f6a6b4d1d 100644
+--- a/drivers/gpio/gpio-aspeed.c
++++ b/drivers/gpio/gpio-aspeed.c
+@@ -1137,8 +1137,9 @@ MODULE_DEVICE_TABLE(of, aspeed_gpio_of_table);
+ static int __init aspeed_gpio_probe(struct platform_device *pdev)
+ {
+ 	const struct of_device_id *gpio_id;
++	struct gpio_irq_chip *girq;
+ 	struct aspeed_gpio *gpio;
+-	int rc, i, banks, err;
++	int rc, irq, i, banks, err;
+ 	u32 ngpio;
+ 
+ 	gpio = devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
+@@ -1201,31 +1202,27 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
+ 		aspeed_gpio_change_cmd_source(gpio, bank, 3, GPIO_CMDSRC_ARM);
+ 	}
+ 
+-	/* Optionally set up an irqchip if there is an IRQ */
+-	rc = platform_get_irq(pdev, 0);
+-	if (rc > 0) {
+-		struct gpio_irq_chip *girq;
+-
+-		gpio->irq = rc;
+-		girq = &gpio->chip.irq;
+-		girq->chip = &gpio->irqc;
+-		girq->chip->name = dev_name(&pdev->dev);
+-		girq->chip->irq_ack = aspeed_gpio_irq_ack;
+-		girq->chip->irq_mask = aspeed_gpio_irq_mask;
+-		girq->chip->irq_unmask = aspeed_gpio_irq_unmask;
+-		girq->chip->irq_set_type = aspeed_gpio_set_type;
+-		girq->parent_handler = aspeed_gpio_irq_handler;
+-		girq->num_parents = 1;
+-		girq->parents = devm_kcalloc(&pdev->dev, 1,
+-					     sizeof(*girq->parents),
+-					     GFP_KERNEL);
+-		if (!girq->parents)
+-			return -ENOMEM;
+-		girq->parents[0] = gpio->irq;
+-		girq->default_type = IRQ_TYPE_NONE;
+-		girq->handler = handle_bad_irq;
+-		girq->init_valid_mask = aspeed_init_irq_valid_mask;
+-	}
++	/* Set up an irqchip */
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return irq;
++	gpio->irq = irq;
++	girq = &gpio->chip.irq;
++	girq->chip = &gpio->irqc;
++	girq->chip->name = dev_name(&pdev->dev);
++	girq->chip->irq_ack = aspeed_gpio_irq_ack;
++	girq->chip->irq_mask = aspeed_gpio_irq_mask;
++	girq->chip->irq_unmask = aspeed_gpio_irq_unmask;
++	girq->chip->irq_set_type = aspeed_gpio_set_type;
++	girq->parent_handler = aspeed_gpio_irq_handler;
++	girq->num_parents = 1;
++	girq->parents = devm_kcalloc(&pdev->dev, 1, sizeof(*girq->parents), GFP_KERNEL);
++	if (!girq->parents)
++		return -ENOMEM;
++	girq->parents[0] = gpio->irq;
++	girq->default_type = IRQ_TYPE_NONE;
++	girq->handler = handle_bad_irq;
++	girq->init_valid_mask = aspeed_init_irq_valid_mask;
+ 
+ 	gpio->offset_timer =
+ 		devm_kzalloc(&pdev->dev, gpio->chip.ngpio, GFP_KERNEL);
+-- 
+2.39.2
+
