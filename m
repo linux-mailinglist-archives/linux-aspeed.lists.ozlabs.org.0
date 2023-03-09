@@ -1,77 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D806B22A6
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 12:21:17 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728956B22A9
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 12:21:35 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PXRZg4QWrz3cTk
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 22:21:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PXRb11rfHz3cTk
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 22:21:33 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=DxHnWUYB;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=DxHnWUYB;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CU40T/dh;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CU40T/dh;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=fmartine@redhat.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=DxHnWUYB;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=DxHnWUYB;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CU40T/dh;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CU40T/dh;
 	dkim-atps=neutral
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PXRZZ09DYz3bhx
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Mar 2023 22:21:09 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PXRZw163jz3bhx
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Mar 2023 22:21:27 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678360867;
+	s=mimecast20190719; t=1678360885;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
 	bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
-	b=DxHnWUYBvv7AuuzG2NLSFvqNvImphyZ1qpk1y+QZQJY0eRcWj7f7NZkvvepbq0VgGf6Y8T
-	q9fmScCxMxRKiYtgj2+ylehI9PNo6FOnbTv6zDOoZxWFE+IPauDtca+0HmBKKXeJLD0zee
-	gMUbLpXDg5sqby36mj56f+Eo063l/2g=
+	b=CU40T/dhvBztNwrsVnlRl1wprx1SK03OK+kO20wyYBCfHjLSrOzvCMrcJr8eMnaabGSwIh
+	rqf/haMMXQc/ahc1CEeEffYvx33ny7wNJXLmUDu8XDDt1OlIiAdOI799V1fy5g+wAOqDNL
+	XtBiep6tjUK7UqV/VT5k/GhgUf8UOGU=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1678360867;
+	s=mimecast20190719; t=1678360885;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
 	bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
-	b=DxHnWUYBvv7AuuzG2NLSFvqNvImphyZ1qpk1y+QZQJY0eRcWj7f7NZkvvepbq0VgGf6Y8T
-	q9fmScCxMxRKiYtgj2+ylehI9PNo6FOnbTv6zDOoZxWFE+IPauDtca+0HmBKKXeJLD0zee
-	gMUbLpXDg5sqby36mj56f+Eo063l/2g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	b=CU40T/dhvBztNwrsVnlRl1wprx1SK03OK+kO20wyYBCfHjLSrOzvCMrcJr8eMnaabGSwIh
+	rqf/haMMXQc/ahc1CEeEffYvx33ny7wNJXLmUDu8XDDt1OlIiAdOI799V1fy5g+wAOqDNL
+	XtBiep6tjUK7UqV/VT5k/GhgUf8UOGU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-90-pNes8EDHO4yK0wmzSk2L7A-1; Thu, 09 Mar 2023 06:21:06 -0500
-X-MC-Unique: pNes8EDHO4yK0wmzSk2L7A-1
-Received: by mail-wm1-f70.google.com with SMTP id az39-20020a05600c602700b003e97eb80524so2248894wmb.4
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 09 Mar 2023 03:21:06 -0800 (PST)
+ us-mta-108-kOPB3Qi_N1mi3LV6xBrUBA-1; Thu, 09 Mar 2023 06:21:24 -0500
+X-MC-Unique: kOPB3Qi_N1mi3LV6xBrUBA-1
+Received: by mail-wm1-f72.google.com with SMTP id k20-20020a05600c1c9400b003e2249bd2b4so539511wms.5
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 09 Mar 2023 03:21:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678360865;
+        d=1e100.net; s=20210112; t=1678360883;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
-        b=H16O47dyXodthZBMTJksr32UKGgf+zObidhpvKloZQrWelOKFtMoSK/8f+Hmmf+M0w
-         hM23DByc5js0qcoRVnT6ppTTx+ENgZ5Lgilrytdc0vy/Y9G8DqNL9PuMS6O69+tSqS+D
-         aZ/cTGROHeYGVMc731vOhDYPfgv4cXiqnIeCOD2FuD0Dimpfm5MAlMJ7/P+6JjHftfdw
-         Y1EIjRevpDh6zEBCvu7XY5IEBScoPqeeT1FQ6wlJ++OJt3Q/Z5BW2XJe6+PNDrW/4hKQ
-         SuleXEUq9a3NcbKVNl8xWoOdwlfk3MwFPmsTKtgmmtFP+5QnePQP485bNRasfgtUXWBa
-         RY/A==
-X-Gm-Message-State: AO0yUKWIzXaHjVP/Nk54QlIztlZLvjR6FqgxfjVPodHTZj9DSyXV7fk8
-	Hu5PRRE4ova82Rbyl1jvIsf4O0FWosE0e66OWwUi+MKP9XIS8nNd1I4vLevCNFGI45BZXJrYmjr
-	8cubQkpvXHfvDb02WMCqEK+ksdg==
-X-Received: by 2002:a05:600c:3506:b0:3ea:f6c4:5f26 with SMTP id h6-20020a05600c350600b003eaf6c45f26mr18534968wmq.17.1678360860414;
-        Thu, 09 Mar 2023 03:21:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set8sLO5bKSPBoOiZMye1ieYHzGLgjQdrxGWGVp5ppUvSkKaG+jgho1T4oKqlnOH+WRjzqLQwTQ==
-X-Received: by 2002:a05:600c:3506:b0:3ea:f6c4:5f26 with SMTP id h6-20020a05600c350600b003eaf6c45f26mr18534954wmq.17.1678360860177;
-        Thu, 09 Mar 2023 03:21:00 -0800 (PST)
+        b=PvKRV565Lvw9ZMIjj1Pnj9PmfYysYTFAzVb4KaV0MUHN38UlmSwx6Z507+b3hxOxFu
+         G6P11xH13NyAliuEIzVxlxiFGutdiRlSPyL8oiuBvnZcpp6vooXNEOYTyUowrVvWdMlu
+         czRK0B2/hNI2K/wFLwGD6iNMPfH0j+7FBylgTocfayrEvB0qD7tDmOeDKfBsgDbFwzBp
+         cONZtw3ktAQH51s9JQEnSjnq8Le+PeT0Gpi8tPriyzH/+bJeQ+8KzO1jk+V75y96q8LL
+         veU7OImhPn/gSotQ+2RSmFzHd5fGBA7TQeW7q4leMIHhgXEXMYrRaSukVugLHQ32FNK0
+         PnxA==
+X-Gm-Message-State: AO0yUKWHMVpfhscNUFJT+qIxLyhsZtCnzRR92ZDyRHbn8MZCf2i7du6u
+	6xH0ceaTK+I2Vwwvz+olcA+3a+SuyOzRTZJqVjLIZZ6g7PMO40Mb0AhszbZMnM/omz6GeGRchoj
+	XYhxBi3GKdtbuVoUL3x7QDzBfRw==
+X-Received: by 2002:a05:600c:19cf:b0:3e7:772d:22de with SMTP id u15-20020a05600c19cf00b003e7772d22demr18809453wmq.30.1678360883236;
+        Thu, 09 Mar 2023 03:21:23 -0800 (PST)
+X-Google-Smtp-Source: AK7set9QvIelUa3ZPRMnnDZU4wSkpr+jKhTz8vzz9MlATkeg82OLoMst/ctfKDlY/kc1tAF7ljMTyg==
+X-Received: by 2002:a05:600c:19cf:b0:3e7:772d:22de with SMTP id u15-20020a05600c19cf00b003e7772d22demr18809404wmq.30.1678360882944;
+        Thu, 09 Mar 2023 03:21:22 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id m8-20020a05600c3b0800b003eae73ee4a1sm2681759wms.17.2023.03.09.03.20.59
+        by smtp.gmail.com with ESMTPSA id m16-20020a7bca50000000b003eb5a0873e0sm2237300wml.39.2023.03.09.03.21.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Mar 2023 03:21:00 -0800 (PST)
+        Thu, 09 Mar 2023 03:21:22 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
@@ -87,12 +87,12 @@ To: Thomas Zimmermann <tzimmermann@suse.de>,
  samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
  linus.walleij@linaro.org, hyun.kwon@xilinx.com,
  laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 07/22] drm/imx/dcss: Use GEM DMA fbdev emulation
-In-Reply-To: <20230301153101.4282-8-tzimmermann@suse.de>
+Subject: Re: [PATCH 08/22] drm/imx: Use GEM DMA fbdev emulation
+In-Reply-To: <20230301153101.4282-9-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
- <20230301153101.4282-8-tzimmermann@suse.de>
-Date: Thu, 09 Mar 2023 12:20:59 +0100
-Message-ID: <87jzzqcgro.fsf@minerva.mail-host-address-is-not-set>
+ <20230301153101.4282-9-tzimmermann@suse.de>
+Date: Thu, 09 Mar 2023 12:21:22 +0100
+Message-ID: <87h6uucgr1.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
