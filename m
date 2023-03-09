@@ -1,69 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8436B1CAD
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 08:46:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1CA6B1CA6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 08:46:18 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PXLph5VBFz3cGr
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 18:46:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PXLpc2kB4z3cM3
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Mar 2023 18:46:16 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IzVpcZj9;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LVaYC1uH;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12d; helo=mail-lf1-x12d.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12b; helo=mail-lf1-x12b.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IzVpcZj9;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LVaYC1uH;
 	dkim-atps=neutral
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PXLpL2lGQz3cFn
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PXLpL2hRNz3cDp
 	for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Mar 2023 18:46:01 +1100 (AEDT)
-Received: by mail-lf1-x12d.google.com with SMTP id n2so1123244lfb.12
+Received: by mail-lf1-x12b.google.com with SMTP id bi9so1173724lfb.2
         for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Mar 2023 23:46:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678347956;
+        d=linaro.org; s=google; t=1678347957;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t+KEmI8whzjEUAizVJPshJjrICLTLWn62dQQiYVD1jA=;
-        b=IzVpcZj96fumWwiZ9ce8p3OR00lwH2NSwIo6JgwE3eUrUbaCenSVg9A2IfJ0T5yKrF
-         SkQWIosnVkJASnorq0HjSVujiLGhuf+H/CU3+yYMQDsjvDUskV5emKdM0lVSezIrvkss
-         FdSBrCi4CbAaiEwps34Uui98JaatpeK5ak6yYuz8f0AyWyYZGKxp09rbxX+XT2uue5iD
-         y0EBrkyqDVoaygONBXCc3okeqz57bWs1/PtSZqIlcbl24A1He/CyjbG+PL8ikEmDC83G
-         bojse/lcmBP4bVFZ6FWWkICZkNA3MUkOtFnZcL3KeJuhzjI5+iXI9EZUHsr5eguGZ3l2
-         MDkQ==
+        bh=gpj9iowK+fUp1eAd8JepT37zZC9XqDcnhD9hDARq2kU=;
+        b=LVaYC1uHViSwQIwTtsQWwAe1lesXk5XAH+m8tsANxNLm8ZWQySYOnlqMTMrkgBKHra
+         ZoCgaS0jAuZ1G56TqbjxcqO3X25zia57NoBxjobuvRccmpHolykoWf3Uuz/O2AM3orAc
+         R93oTD3v95aaf560IINvCe7rMhHRRfBu1W81pMz1AzIkhqH1834ztCHpnxG05AF2zj3Q
+         3n5BGjk7AgkSLSfuM7woK+BYozB6up/xzXd5+t684HJB8NNv3jvusxR1F6r4tbggUbxq
+         i7D46OqOvnbcFXjLQ4xHc9ZEigur2mB6ShJazmvrLGp1nFo3OPSnf7e3bBhW8594CZE0
+         msHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678347956;
+        d=1e100.net; s=20210112; t=1678347957;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t+KEmI8whzjEUAizVJPshJjrICLTLWn62dQQiYVD1jA=;
-        b=aqdr1YVEmyZMVNsd9/g4RWejj6RHttM0h+luu3KDX0i0gVUexhe6lnhJEP4XLJYva8
-         6puk2kRcgA1GuSRFsvvkYF1jiO4l5OE3FUrBjTrCqLF8kAvZ3kxeiwwV7Jdr4L40ZA7I
-         bI3FRCr6TiqOKYpwLjXjEkZ2MUV8Pp8hcxCNyoBq/xmKtUpS9yQNCN2Z9O/hiO+i5ABQ
-         KA1YjlvsaFejTX0htmqcCx0PDbseLhkKqJ+hxf/z4qHXaBkIUIW1zAIudOJHlimb1x4c
-         iZXfMy5rem0ia0Tqq8+Ja6M0gUklfEjH35FU1616o3gOGfBpaDJJX9fo0ogTaNT5WuWy
-         FaCQ==
-X-Gm-Message-State: AO0yUKXJkkFI1F6fyViM61eFilX3frNEpyONPAcDNzKU5/W3t34uZ5j7
-	KgJM2bsx2O7WUSoSoensOTferA==
-X-Google-Smtp-Source: AK7set9WPD6eu/vWCYRu6sj0S213JwL98jfUk1++KvMe+8mAaYh/4t0MAArd1j+T9EDICORejXX9CQ==
-X-Received: by 2002:ac2:4c0d:0:b0:4e2:3453:40eb with SMTP id t13-20020ac24c0d000000b004e2345340ebmr5437312lfq.34.1678347956342;
-        Wed, 08 Mar 2023 23:45:56 -0800 (PST)
+        bh=gpj9iowK+fUp1eAd8JepT37zZC9XqDcnhD9hDARq2kU=;
+        b=GN9Bh1PeoFC9VgtYNrsrM5aDDErsvnGXLyo1psMrxBP0eNQ768/JQdEX1IHu234bvN
+         tcprmUZbiiS/Uc49dtnUbeefcvBY0uGCZzD/zFA5Cs8330keX6TWvHt9L9t4v6TlgtLu
+         Y+yt5M68VovIp/vBy2Uc2s2gs+hJenR0Nx28foV972WOst9NcGmpkdEWEdneYFK1wjmo
+         LGRtDeKUN5EDnb6dyzw5+d9YkqsNdN28nZyX75pi5ngTnAHYBiM86KzF4AQ41XtgZ/dR
+         eFE8hny3/lxRwmv1JoeUmIjK/FcslTdD69K+hNQKO6heWIg78sU/hDjxx012XuNAYBTF
+         VOvA==
+X-Gm-Message-State: AO0yUKUhZrakzhZlzAKE2FMVfRap9fm+j1ynxYxNm/B4S0LFXcVLwdlD
+	0t1sxblrO74gbVCzBoZdcjHhfQ==
+X-Google-Smtp-Source: AK7set9jsf2WuGRz5LxAt7KqAy7iY8/0PXQZmq2Fb+Muy+D+yzkuBpmFzh1g/bSrLlMG71qOdJif9Q==
+X-Received: by 2002:ac2:55ac:0:b0:4cc:a107:82f4 with SMTP id y12-20020ac255ac000000b004cca10782f4mr5734632lfg.64.1678347957440;
+        Wed, 08 Mar 2023 23:45:57 -0800 (PST)
 Received: from [127.0.1.1] ([85.235.12.219])
-        by smtp.gmail.com with ESMTPSA id a6-20020a056512020600b004bb766e01a4sm2568972lfo.245.2023.03.08.23.45.55
+        by smtp.gmail.com with ESMTPSA id a6-20020a056512020600b004bb766e01a4sm2568972lfo.245.2023.03.08.23.45.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Mar 2023 23:45:55 -0800 (PST)
+        Wed, 08 Mar 2023 23:45:57 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 09 Mar 2023 08:45:49 +0100
-Subject: [PATCH v3 01/17] gpio: altera: Convert to immutable irq_chip
+Date: Thu, 09 Mar 2023 08:45:50 +0100
+Subject: [PATCH v3 02/17] gpio: adnp: Convert to immutable irq_chip
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230215-immutable-chips-v3-1-972542092a77@linaro.org>
+Message-Id: <20230215-immutable-chips-v3-2-972542092a77@linaro.org>
 References: <20230215-immutable-chips-v3-0-972542092a77@linaro.org>
 In-Reply-To: <20230215-immutable-chips-v3-0-972542092a77@linaro.org>
 To: Mun Yew Tham <mun.yew.tham@intel.com>, 
@@ -98,80 +98,56 @@ Cc: Marc Zyngier <maz@kernel.org>
 Acked-by: Marc Zyngier <maz@kernel.org>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpio/gpio-altera.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ drivers/gpio/gpio-adnp.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpio/gpio-altera.c b/drivers/gpio/gpio-altera.c
-index b59fae993626..c1599edb3453 100644
---- a/drivers/gpio/gpio-altera.c
-+++ b/drivers/gpio/gpio-altera.c
-@@ -24,14 +24,12 @@
- * @interrupt_trigger	: specifies the hardware configured IRQ trigger type
- *			  (rising, falling, both, high)
- * @mapped_irq		: kernel mapped irq number.
--* @irq_chip		: IRQ chip configuration
- */
- struct altera_gpio_chip {
- 	struct of_mm_gpio_chip mmchip;
- 	raw_spinlock_t gpio_lock;
- 	int interrupt_trigger;
- 	int mapped_irq;
--	struct irq_chip irq_chip;
- };
+diff --git a/drivers/gpio/gpio-adnp.c b/drivers/gpio/gpio-adnp.c
+index a6439e3daff0..9b01c391efce 100644
+--- a/drivers/gpio/gpio-adnp.c
++++ b/drivers/gpio/gpio-adnp.c
+@@ -307,6 +307,7 @@ static void adnp_irq_mask(struct irq_data *d)
+ 	unsigned int pos = d->hwirq & 7;
  
- static void altera_gpio_irq_unmask(struct irq_data *d)
-@@ -43,6 +41,7 @@ static void altera_gpio_irq_unmask(struct irq_data *d)
- 
- 	altera_gc = gpiochip_get_data(irq_data_get_irq_chip_data(d));
- 	mm_gc = &altera_gc->mmchip;
-+	gpiochip_enable_irq(&mm_gc->gc, irqd_to_hwirq(d));
- 
- 	raw_spin_lock_irqsave(&altera_gc->gpio_lock, flags);
- 	intmask = readl(mm_gc->regs + ALTERA_GPIO_IRQ_MASK);
-@@ -68,6 +67,7 @@ static void altera_gpio_irq_mask(struct irq_data *d)
- 	intmask &= ~BIT(irqd_to_hwirq(d));
- 	writel(intmask, mm_gc->regs + ALTERA_GPIO_IRQ_MASK);
- 	raw_spin_unlock_irqrestore(&altera_gc->gpio_lock, flags);
-+	gpiochip_disable_irq(&mm_gc->gc, irqd_to_hwirq(d));
+ 	adnp->irq_enable[reg] &= ~BIT(pos);
++	gpiochip_disable_irq(gc, irqd_to_hwirq(d));
  }
  
- /*
-@@ -233,6 +233,17 @@ static void altera_gpio_irq_leveL_high_handler(struct irq_desc *desc)
- 	chained_irq_exit(chip, desc);
+ static void adnp_irq_unmask(struct irq_data *d)
+@@ -316,6 +317,7 @@ static void adnp_irq_unmask(struct irq_data *d)
+ 	unsigned int reg = d->hwirq >> adnp->reg_shift;
+ 	unsigned int pos = d->hwirq & 7;
+ 
++	gpiochip_enable_irq(gc, irqd_to_hwirq(d));
+ 	adnp->irq_enable[reg] |= BIT(pos);
  }
  
-+static const struct irq_chip altera_gpio_irq_chip = {
-+	.name = "altera-gpio",
-+	.irq_mask = altera_gpio_irq_mask,
-+	.irq_unmask = altera_gpio_irq_unmask,
-+	.irq_set_type = altera_gpio_irq_set_type,
-+	.irq_startup  = altera_gpio_irq_startup,
-+	.irq_shutdown = altera_gpio_irq_mask,
+@@ -372,13 +374,15 @@ static void adnp_irq_bus_unlock(struct irq_data *d)
+ 	mutex_unlock(&adnp->irq_lock);
+ }
+ 
+-static struct irq_chip adnp_irq_chip = {
++static const struct irq_chip adnp_irq_chip = {
+ 	.name = "gpio-adnp",
+ 	.irq_mask = adnp_irq_mask,
+ 	.irq_unmask = adnp_irq_unmask,
+ 	.irq_set_type = adnp_irq_set_type,
+ 	.irq_bus_lock = adnp_irq_bus_lock,
+ 	.irq_bus_sync_unlock = adnp_irq_bus_unlock,
 +	.flags = IRQCHIP_IMMUTABLE,
 +	GPIOCHIP_IRQ_RESOURCE_HELPERS,
-+};
-+
- static int altera_gpio_probe(struct platform_device *pdev)
- {
- 	struct device_node *node = pdev->dev.of_node;
-@@ -278,15 +289,9 @@ static int altera_gpio_probe(struct platform_device *pdev)
- 	}
- 	altera_gc->interrupt_trigger = reg;
+ };
  
--	altera_gc->irq_chip.name = "altera-gpio";
--	altera_gc->irq_chip.irq_mask     = altera_gpio_irq_mask;
--	altera_gc->irq_chip.irq_unmask   = altera_gpio_irq_unmask;
--	altera_gc->irq_chip.irq_set_type = altera_gpio_irq_set_type;
--	altera_gc->irq_chip.irq_startup  = altera_gpio_irq_startup;
--	altera_gc->irq_chip.irq_shutdown = altera_gpio_irq_mask;
--
- 	girq = &altera_gc->mmchip.gc.irq;
--	girq->chip = &altera_gc->irq_chip;
-+	gpio_irq_chip_set_chip(girq, &altera_gpio_irq_chip);
+ static int adnp_irq_setup(struct adnp *adnp)
+@@ -469,7 +473,8 @@ static int adnp_gpio_setup(struct adnp *adnp, unsigned int num_gpios,
+ 			return err;
+ 
+ 		girq = &chip->irq;
+-		girq->chip = &adnp_irq_chip;
++		gpio_irq_chip_set_chip(girq, &adnp_irq_chip);
 +
- 	if (altera_gc->interrupt_trigger == IRQ_TYPE_LEVEL_HIGH)
- 		girq->parent_handler = altera_gpio_irq_leveL_high_handler;
- 	else
+ 		/* This will let us handle the parent IRQ in the driver */
+ 		girq->parent_handler = NULL;
+ 		girq->num_parents = 0;
 
 -- 
 2.34.1
