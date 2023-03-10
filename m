@@ -1,69 +1,83 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93E26B4AB4
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Mar 2023 16:26:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EB46B51BD
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Mar 2023 21:23:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PY8yd5PZYz3cB9
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Mar 2023 02:26:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PYHYb3bZyz3ckZ
+	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Mar 2023 07:23:15 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bgdev-pl.20210112.gappssmtp.com header.i=@bgdev-pl.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=xRgf8zpx;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=nqYajTJn;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2607:f8b0:4864:20::92b; helo=mail-ua1-x92b.google.com; envelope-from=brgl@bgdev.pl; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::335; helo=mail-wm1-x335.google.com; envelope-from=klaus.kudielka@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20210112.gappssmtp.com header.i=@bgdev-pl.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=xRgf8zpx;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=nqYajTJn;
 	dkim-atps=neutral
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PY8yS3NRjz3bgn
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Mar 2023 02:25:50 +1100 (AEDT)
-Received: by mail-ua1-x92b.google.com with SMTP id v48so3741212uad.6
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Mar 2023 07:25:50 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PYHYR0pzrz3cjb
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Mar 2023 07:23:04 +1100 (AEDT)
+Received: by mail-wm1-x335.google.com with SMTP id k37so4246932wms.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Mar 2023 12:23:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112; t=1678461947;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fdQamsC4vi5DdWnwK5HVEMpNIaeepKJtcchj23r+Ns8=;
-        b=xRgf8zpxpRcJiHDvwUeCgbDOhtkP0Co5sv+gAy33WegXPv7/8fF4TChaKaOtJk7Zib
-         p9248LVUG2Op1wOvSOlIN3/odHqRfA5uyWhQ+RCL/D4KcgIdvEK7nTGgRWvrJu7DwF68
-         sG9v09jiWmvcWoAMA4OCSI8OUiY6S1+HZGGVvsKUEhzElhGVBwNBQ+A+mX6wTv8S8gzJ
-         hMO8c8uEn1awYHv22BiJGlHel8L4nMzk7d8nnDK4iOpmrUHA4WqQN1E/ncqGT+JXGAxf
-         1MgZ/5aFZSZ+zMeSbZ4OgVDyVDApZSpdwrT/vE+wCvVqciX5oRp7fbLAcCZvvo6aOWTX
-         UDjg==
+        d=gmail.com; s=20210112; t=1678479778;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4FSUfPM9PzkBQgHDUuENGncvGQIkUiTKD50SixP/pVQ=;
+        b=nqYajTJnlqn2QszL583h60rJxUCMetnsvZgOsAO3yQAfcrcBdEo8ujageLvtqCYR1C
+         EWgzG34cjLhLbcN7aJJpu48AZ4GJOjR/lpJu3wYFmjF8nEqXcEIUWHhA/XO01XBK/KOl
+         cW4rWfcpfb+IWiCe5/+7ZV5n5gYAttg7um8uQH9aMdNGjyZIvqHHcr/gXZ4S/31TsRXz
+         gWu3t9TM1IV3j3/3DNK8Dg60318W85GLtsAc7npo0uVGZvcoer/OD3fANpZRJkO4vkU7
+         ycrXXqP0TTHiM3zAo+1tjLoQGM7zk5RgYPG2JXldcnhAbIdK5G+jqkQssPhif40m7KGy
+         SDaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678461947;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fdQamsC4vi5DdWnwK5HVEMpNIaeepKJtcchj23r+Ns8=;
-        b=i5R99PYJAQ7x8hWA+MxRxsptGUsxrT3D0hVqAILW/B65ZzDJ3GDVxfWr1rB7TDnyoL
-         Ge9i9ebLJ/XUNchW+VNt/Kl7W1hOzpgZWkLONXuBdvD4E1EnN4d1gs8T45Gj4nrcmZbV
-         hqhodXoV1ZLyiNGLxtxf0SWus1zpaUsS3S6o6lcRwb/RQFNqX0rxw29fbNUpvpyaEWy1
-         rkfspGCvyl1GgySg3hbcST/B97mp4zzqQ21weOc59LZmh5s/Zydpj1rppVz2jYne5kZr
-         wuOUXgFYEIPHPYN+ot6ZuQffPglyjx0Oy1aFarXh24Qf+YJkYaK02p1J6HBYwj2VTwvm
-         piIw==
-X-Gm-Message-State: AO0yUKXVVu9K5v/jfwsW2vMjtRcpZdR5N1lyoVxTSWle6mkkpigW1Ugu
-	PnpxCRuj7DVemCoK4smVQEX2aQyXwWd/GNXw7xckew==
-X-Google-Smtp-Source: AK7set8JKIa0SDKefJ5/5r0bsBT4FjcaTDkUOLiUSu4UpVWrx/n+FeDaLWhaBvyJsXFMK706ylGuz6gzvS1T6/qS6zA=
-X-Received: by 2002:a05:6122:588:b0:42f:6cba:201f with SMTP id
- i8-20020a056122058800b0042f6cba201fmr3007297vko.1.1678461947541; Fri, 10 Mar
- 2023 07:25:47 -0800 (PST)
-MIME-Version: 1.0
-References: <20230215-immutable-chips-v3-0-972542092a77@linaro.org>
-In-Reply-To: <20230215-immutable-chips-v3-0-972542092a77@linaro.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 10 Mar 2023 16:25:36 +0100
-Message-ID: <CAMRc=MdyjQDEMNxGYOKwWHry7MnEFMHYZSg=-FPohNwn6dxjaQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/17] Mass convert GPIO IRQ chips to be immutable
-To: Linus Walleij <linus.walleij@linaro.org>
+        d=1e100.net; s=20210112; t=1678479778;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4FSUfPM9PzkBQgHDUuENGncvGQIkUiTKD50SixP/pVQ=;
+        b=5662sivopHyov4qpmyHYYyLqAQtzLUz/Gpp8R1WFWawaOMjs024AHamuj/AKq1vSQu
+         qEwc3zQ4oe0Xs9EAU6doI3mszL92k2xtK3LIR38TVmoSO99m9iGizSbOD2a3OIoQymGJ
+         pUYDMrSl8/yb1d0pqkz5s4fexjsWRy9thJ8tW8T7WtVhQze103JApw+b1Sb9RAjmhdBT
+         DZRgmS7v4V7sD3VU+q/VbX0FwXc1oIoUXp9U32a3T6S11ooThMqNkkC8ss3mX6SkLcVB
+         VzMH7SOVLVMPOcRMTSiFKJOIunQSEhd5Octq7RB/4Ox3B1h9KRh8+5DEcfF3EUaUtrNj
+         +moA==
+X-Gm-Message-State: AO0yUKWbNYqcY3MtmjUUwlYV5QQsD/NlxDoMBteWHzFow7qMYvV4OPAT
+	wqutuGDTWpnF91hSAVyCS18=
+X-Google-Smtp-Source: AK7set+Y2IDpfiEwJF5RRzfh95sswmbosQPuhKf9C3F+lrJubOCiXt2+E2ADzjiE7HXqA7OK3SfoaQ==
+X-Received: by 2002:a05:600c:4f01:b0:3ea:f6c4:3060 with SMTP id l1-20020a05600c4f0100b003eaf6c43060mr3857549wmq.18.1678479777626;
+        Fri, 10 Mar 2023 12:22:57 -0800 (PST)
+Received: from ?IPv6:2a02:168:6806:0:66a2:bd80:e6ae:416? ([2a02:168:6806:0:66a2:bd80:e6ae:416])
+        by smtp.gmail.com with ESMTPSA id k6-20020a5d5186000000b002c707785da4sm576606wrv.107.2023.03.10.12.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 12:22:57 -0800 (PST)
+Message-ID: <10da10caea22a8f5da8f1779df3e13b948e8a363.camel@gmail.com>
+Subject: Re: [PATCH net-next v2 4/6] net: mdio: scan bus based on bus
+ capabilities for C22 and C45
+From: Klaus Kudielka <klaus.kudielka@gmail.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Date: Fri, 10 Mar 2023 21:22:56 +0100
+In-Reply-To: <70f5bca0-322c-4bae-b880-742e56365abe@lunn.ch>
+References: 	<20230116-net-next-remove-probe-capabilities-v2-0-15513b05e1f4@walle.cc>
+	 <20230116-net-next-remove-probe-capabilities-v2-4-15513b05e1f4@walle.cc>
+	 <449bde236c08d5ab5e54abd73b645d8b29955894.camel@gmail.com>
+	 <100c439a-2a4d-4cb2-96f2-5bf273e2121a@lunn.ch>
+	 <712bc92ca6d576f33f63f1e9c2edf0030b10d3ae.camel@gmail.com>
+	 <db6b8a09-b680-4baa-8963-d355ad29eb09@lunn.ch>
+	 <0e10aa8492eadb587949d8744b56fccaabbd183b.camel@gmail.com>
+	 <72530e86-9ba9-4a01-9cd2-68835ecae7a0@lunn.ch>
+	 <09d65e1ee0679e1e74b4f3a5a4c55bd48332f043.camel@gmail.com>
+	 <70f5bca0-322c-4bae-b880-742e56365abe@lunn.ch>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-1 
+MIME-Version: 1.0
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,92 +89,93 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Tony Lindgren <tony@atomide.com>, Daniel Palmer <daniel@thingy.jp>, Alban Bedel <albeu@free.fr>, Kevin Hilman <khilman@kernel.org>, Marc Zyngier <maz@kernel.org>, William Breathitt Gray <william.gray@linaro.org>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Jay Fang <f.fangjian@huawei.com>, linux-gpio@vger.kernel.org, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Mun Yew Tham <mun.yew.tham@intel.com>, linux-kernel@vger.kernel.org, Chunyan Zhang <zhang.lyra@gmail.com>, Romain Perier <romain.perier@gmail.com>
+Cc: linux-aspeed@lists.ozlabs.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, Eric Dumazet <edumazet@google.com>, linux-stm32@st-md-mailman.stormreply.com, Russell King <linux@armlinux.org.uk>, Jose Abreu <joabreu@synopsys.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Lorenzo Bianconi <lorenzo@kernel.org>, Mark Lee <Mark-MC.Lee@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, linux-mediatek@lists.infradead.org, John Crispin <john@phrozen.org>, Matthias Brugger <matthias.bgg@gmail.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, linux-arm-kernel@lists.infradead.org, Bryan Whitehead <bryan.whitehead@microchip.com>, linux-kernel@vger.kernel.org, UNGLinuxDriver@microchip.com, Michael Walle <michael@walle.cc>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>, "David S.
+ Miller" <davem@davemloft.net>, Felix Fietkau <nbd@nbd.name>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Mar 9, 2023 at 8:45=E2=80=AFAM Linus Walleij <linus.walleij@linaro.=
-org> wrote:
->
-> We are getting tired of these irq_chips not getting converted
-> to be immutable, so I just take out the big hammer and fix
-> some that I deem not too complex as best I can.
->
-> I stopped after doing some, I will take another sweep at some
-> point I guess.
->
-> This is v6.4 material.
->
-> The last two patches to pci-idio-* (patch 15 and 16) can be
-> omitted if William's patches to convert this driver to
-> regmap GPIO are merged first.
->
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
-> Changes in v3:
-> - Deleted the irq_chip->name assignment in the Aspeed driver
-> - Fold in a patch from Joel to make aspeed IRQs compulsory
-> - Link to v2: https://lore.kernel.org/r/20230215-immutable-chips-v2-0-d6b=
-0e3f2d991@linaro.org
->
-> Changes in v2:
-> - Rebased on v6.3-rc1
-> - Collected some test and ACK tags
-> - Link to v1: https://lore.kernel.org/r/20230215-immutable-chips-v1-0-51a=
-8f224a5d0@linaro.org
->
-> ---
-> Joel Stanley (1):
->       gpio: aspeed: Always register the irqchip
->
-> Linus Walleij (16):
->       gpio: altera: Convert to immutable irq_chip
->       gpio: adnp: Convert to immutable irq_chip
->       gpio: aspeed: Convert to immutable irq_chip
->       gpio: aspeed-sgpio: Convert to immutable irq_chip
->       gpio: ath79: Convert to immutable irq_chip
->       gpio: cadence: Convert to immutable irq_chip
->       gpio: hisi: Convert to immutable irq_chip
->       gpio: hlwd: Convert to immutable irq_chip
->       gpio: idt3243x: Convert to immutable irq_chip
->       gpio: msc313: Convert to immutable irq_chip
->       gpio: mlxbf2: Convert to immutable irq_chip
->       gpio: max732x: Convert to immutable irq_chip
->       gpio: omap: Drop irq_base
->       gpio: omap: Convert to immutable irq_chip
->       gpio: pci-idio-16: Convert to immutable irq_chip
->       gpio: pcie-idio-24: Convert to immutable irq_chip
->
->  drivers/gpio/gpio-adnp.c         |  9 ++++-
->  drivers/gpio/gpio-altera.c       | 25 +++++++-----
->  drivers/gpio/gpio-aspeed-sgpio.c | 44 +++++++++++++++++----
->  drivers/gpio/gpio-aspeed.c       | 82 ++++++++++++++++++++++++++--------=
------
->  drivers/gpio/gpio-ath79.c        |  8 +++-
->  drivers/gpio/gpio-cadence.c      | 10 +++--
->  drivers/gpio/gpio-hisi.c         | 25 +++++++-----
->  drivers/gpio/gpio-hlwd.c         | 33 ++++++++++++----
->  drivers/gpio/gpio-idt3243x.c     | 11 ++++--
->  drivers/gpio/gpio-max732x.c      |  8 +++-
->  drivers/gpio/gpio-mlxbf2.c       | 32 ++++++++++++----
->  drivers/gpio/gpio-msc313.c       | 26 +++++++++++--
->  drivers/gpio/gpio-omap.c         | 83 ++++++++++++++++++++++------------=
-------
->  drivers/gpio/gpio-pci-idio-16.c  | 12 ++++--
->  drivers/gpio/gpio-pcie-idio-24.c | 12 ++++--
->  15 files changed, 290 insertions(+), 130 deletions(-)
-> ---
-> base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-> change-id: 20230215-immutable-chips-762922277f1e
->
-> Best regards,
-> --
-> Linus Walleij <linus.walleij@linaro.org>
->
+On Thu, 2023-03-09 at 17:36 +0100, Andrew Lunn wrote:
+>=20
+> I was wrong about something i said earlier. A C22 scan reads two
+> registers for each of the 32 possible locations of a C22 PHY on the
+> bus. A C45 scan is however much more expensive. It will read 30 time
+> two registers for each of the 32 possible locations of a C45 PHY on
+> the bus.
+>=20
+> One things that could help is moving some code around a bit. Currently
+> mv88e6xxx_mdios_register() is called at the end of
+> mv88e6xxx_probe(). Try moving it to the beginning of
+> mv88e6xxx_setup(). The call to mv88e6xxx_mdios_unregister() then need
+> to move into mv88e6xxx_teardown().
+>=20
 
-Normally these irq_chip conversions would go upstream as fixes but
-this time there are too many at once. I applied them to my
-gpio/for-next branch. Let's give them some time in next and later we
-can backport them if necessary.
+Yes, that helps. Primarily, because mdiobus_scan_bus_c45 now is called only=
+ once,
+and at least some things are done in parallel.
 
-Bartosz
+(Still, ~2s waiting for the C45 scan to complete).
+
+[    0.382715] mdio_bus mv88e6xxx-0: *** mdiobus_scan_bus_c22 call ***
+[    0.387571] mmc0: new high speed MMC card at address 0001
+[    0.387953] mmcblk0: mmc0:0001 H8G4a\x92 7.28 GiB=20
+[    0.388929]  mmcblk0: p1
+[    0.389197] mmcblk0boot0: mmc0:0001 H8G4a\x92 4.00 MiB=20
+[    0.389508] mmcblk0boot1: mmc0:0001 H8G4a\x92 4.00 MiB=20
+[    0.389850] mmcblk0rpmb: mmc0:0001 H8G4a\x92 4.00 MiB, chardev (250:0)
+[    0.393323] ata2: SATA link down (SStatus 0 SControl 300)
+[    0.486839] mdio_bus mv88e6xxx-0: *** mdiobus_scan_bus_c22 return ***
+[    0.486850] mdio_bus mv88e6xxx-0: *** mdiobus_scan_bus_c45 call ***
+[    0.554696] ata1: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[    0.555373] ata1.00: supports DRM functions and may not be fully accessi=
+ble
+[    0.555378] ata1.00: ATA-10: KINGSTON SKC600MS512G, S4800105, max UDMA/1=
+33
+[    0.555384] ata1.00: 1000215216 sectors, multi 1: LBA48 NCQ (depth 32)
+[    0.556055] ata1.00: Features: Trust Dev-Sleep
+[    0.556150] ata1.00: supports DRM functions and may not be fully accessi=
+ble
+[    0.556800] ata1.00: configured for UDMA/133
+[    0.556981] scsi 0:0:0:0: Direct-Access     ATA      KINGSTON SKC600M 01=
+05 PQ: 0 ANSI: 5
+[    0.557506] sd 0:0:0:0: [sda] 1000215216 512-byte logical blocks: (512 G=
+B/477 GiB)
+[    0.557515] sd 0:0:0:0: [sda] 4096-byte physical blocks
+[    0.557552] sd 0:0:0:0: [sda] Write Protect is off
+[    0.557557] sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
+[    0.557613] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled,=
+ doesn't support DPO or FUA
+[    0.557736] sd 0:0:0:0: [sda] Preferred minimum I/O size 4096 bytes
+[    0.558295]  sda: sda1
+[    0.558417] sd 0:0:0:0: [sda] Attached SCSI removable disk
+[    0.685992] sfp sfp: module TP-LINK          TL-SM321B        rev      s=
+n 1403076900       dc 140401
+[    0.686009] mvneta f1034000.ethernet eth2: switched to inband/1000base-x=
+ link mode
+[    2.820390] mdio_bus mv88e6xxx-0: *** mdiobus_scan_bus_c45 return ***
+[    3.464461] mv88e6085 f1072004.mdio-mii:10: configuring for fixed/rgmii-=
+id link mode
+[    3.466123] mv88e6085 f1072004.mdio-mii:10: configuring for fixed/rgmii-=
+id link mode
+[    3.467397] mv88e6085 f1072004.mdio-mii:10: Link is Up - 1Gbps/Full - fl=
+ow control off
+[    3.471263] mv88e6085 f1072004.mdio-mii:10: Link is Up - 1Gbps/Full - fl=
+ow control off
+[    3.538112] mv88e6085 f1072004.mdio-mii:10 lan0 (uninitialized): PHY [mv=
+88e6xxx-0:00] driver [Marvell 88E1540] (irq=3D68)
+[    3.602833] mv88e6085 f1072004.mdio-mii:10 lan1 (uninitialized): PHY [mv=
+88e6xxx-0:01] driver [Marvell 88E1540] (irq=3D69)
+[    3.674111] mv88e6085 f1072004.mdio-mii:10 lan2 (uninitialized): PHY [mv=
+88e6xxx-0:02] driver [Marvell 88E1540] (irq=3D70)
+[    3.746290] mv88e6085 f1072004.mdio-mii:10 lan3 (uninitialized): PHY [mv=
+88e6xxx-0:03] driver [Marvell 88E1540] (irq=3D71)
+[    3.818291] mv88e6085 f1072004.mdio-mii:10 lan4 (uninitialized): PHY [mv=
+88e6xxx-0:04] driver [Marvell 88E1540] (irq=3D72)
+[    3.820845] device eth1 entered promiscuous mode
+[    3.821730] device eth0 entered promiscuous mode
+[    3.821749] DSA: tree 0 setup
+[    3.822563] Freeing unused kernel image (initmem) memory: 1024K
+[    3.822727] Run /init as init process
+
+
+Regards, Klaus
+
