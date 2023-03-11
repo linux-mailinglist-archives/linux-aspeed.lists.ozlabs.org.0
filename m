@@ -1,69 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849C86B5DAD
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Mar 2023 17:11:32 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6D26B5EDF
+	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Mar 2023 18:33:13 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PYnwf1k3Mz3cLW
-	for <lists+linux-aspeed@lfdr.de>; Sun, 12 Mar 2023 03:11:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PYqkv1039z3cHG
+	for <lists+linux-aspeed@lfdr.de>; Sun, 12 Mar 2023 04:33:11 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=NjrXETXb;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=RX+BkKj+;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::435; helo=mail-wr1-x435.google.com; envelope-from=klaus.kudielka@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::436; helo=mail-wr1-x436.google.com; envelope-from=klaus.kudielka@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=NjrXETXb;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=RX+BkKj+;
 	dkim-atps=neutral
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PYnwS141Pz3btb
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 12 Mar 2023 03:11:19 +1100 (AEDT)
-Received: by mail-wr1-x435.google.com with SMTP id h14so7708539wru.4
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Mar 2023 08:11:19 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PYqkj3XQ5z306Y
+	for <linux-aspeed@lists.ozlabs.org>; Sun, 12 Mar 2023 04:32:59 +1100 (AEDT)
+Received: by mail-wr1-x436.google.com with SMTP id t15so7796406wrz.7
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Mar 2023 09:32:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678551070;
+        d=gmail.com; s=20210112; t=1678555976;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=wTwVrHUwJuxo2nAv8WcWBTbXbikVuPU2S0IixEuBaf4=;
-        b=NjrXETXbZlcsvTNNCs9yzV/6PY+CmmQAxqPMkiNPO7QnMj6ytAX2MO60sgp2paNr9c
-         Hj4btjqwVQYF5lLso0uID3MzUxTkZWfLMIEk6fajBsPgnH07UIpVWC04WKT6L+qzzwUq
-         2eXh/JXic2jrLs7bRYweE2xFP9A4hvZVloIFsATIbYE4tZvjdNUE217s5/7sS8Ayn3zb
-         4y5cNUEUaXO/9Dhavli5sH+hB6hWTXJUzqrvs4t9pQSV8bj/6cuUmzVIvHIr6ii3bG3z
-         GHvtgjEuloh0lGRfs2aBA6ScgOF2GeGe5cr4k2ApsqReCT35clKNcoVw3C+8ofih80pf
-         cBug==
+        bh=BS/U63CP8kyc4s3+ndFwYv3c/IbBKEKDtQ8znLZINo4=;
+        b=RX+BkKj+x9TiMv3r/lL//tQpdeczI/eIoOk8GNW2B997wf/HecmbDllwY2uelEG6SW
+         NFzKMG9Y8UUTaOLQdyxRPlkDNP1u2gbO2I6JCDlC9f8n0tVMzUtVmkPrYMQ/5gTTvIex
+         B7MpIpXwFxRMt4Za9+FOvX04zp7uhkrZF+ENEt6FiCUbmO97P3IiIUFHVUKwj/V2aZEO
+         ubZie3KLAa3d3xuXS3uikY5XNveSErnSmyofgMAptn+7YChpYU7HHwVPbpFGXsb5GHU8
+         pN427twy0g9FmB350c4j7aDVbOSqRrNc7uvq+AaCQtSGNScLHq5tbsThpFh3D5t1SlDX
+         SKgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678551070;
+        d=1e100.net; s=20210112; t=1678555976;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wTwVrHUwJuxo2nAv8WcWBTbXbikVuPU2S0IixEuBaf4=;
-        b=bDW8kLSVt8C1TAAzbgCF1W4sWUuwbwi9B5uYj7QQH2uHpbTZlJwYqIpKYYvPzxLjuK
-         9wz3OTEDZaz/MYowB4rJflUCp+zLf/0sh70Qmk43wWM3NOsdPOTCCaUgCddSW+rr4X9p
-         iV6k5udttPX92nE8S39iheAKnwtzdh4kMKYs9HvP6ItIb9WYS0pHcb+HmQOKR2fF07FJ
-         I8yd8OOdSrw9IyloJ3NOYkf8g1lmUTx1WH29nIOGMiRzB9Ws4xcGOYFJJaHFoIJSp8nD
-         Px4VN8yFmDm9YFdy1+fq9Mt1JbkNzJ6ARnBZmgNx9syrki/a6+zIpuYmOaSgcD2NxVZs
-         ywkw==
-X-Gm-Message-State: AO0yUKXE0WL9O4Vv72vPkmcIQ4Iod2UzOqCF7JUa5w8bdRUG0G6ImNbo
-	6P9tC67UdM2SBOirBoI4bMQ=
-X-Google-Smtp-Source: AK7set9VyJg+v0ZGE7y65i5aFyOLU9IOZOR0GJb9hHZKpkI2ykj3H4fHVqW+NtUo6nKqBhqI6frrGw==
-X-Received: by 2002:adf:e302:0:b0:2c7:851:c0bf with SMTP id b2-20020adfe302000000b002c70851c0bfmr19781176wrj.0.1678551069607;
-        Sat, 11 Mar 2023 08:11:09 -0800 (PST)
+        bh=BS/U63CP8kyc4s3+ndFwYv3c/IbBKEKDtQ8znLZINo4=;
+        b=HDvUSbwERfSRqzSgFQhy8VjMFOZiWW1hPdcd7vC06iXL8sR9yV8j2jqZejbdNQR1WM
+         zx04285HDaXyA8mWxiNteHRSFbTnvWg58qyXtoNeDW/loabWM8JBy8/TxiZ/D/EwAeJY
+         00LLckaVqnb7Xbs3lpPnSbQp3uMneb9MasT1fzP7G0gTfkrmsbEUthNwnddbY6l3ES/T
+         EZtlPkB1wrjXVrdTL6D174XFzh8R637aK2/qUPOc0HOwcExqA1acwDWBjJhKk38Ps0yb
+         VaGDTi2a0uYU4xH2XOG6BCv8cM1e9ebegH7v4FZzTAp7tZm02pOPjGyuNYiBFaDSHlPE
+         5l0Q==
+X-Gm-Message-State: AO0yUKVXYT2JWXU5PEw4ZdljWOBfDzXxr9E8k98yDOA/LXGH4vHkW+C4
+	HQUsXVKLmF6UEwNzWk700j8=
+X-Google-Smtp-Source: AK7set9ukWzDo0xy6J7gbHp7jIKCnz8dTe9J/CWuuqUqxE+n+q/r8zAWdbMSQuUV7O2FnpyIFohiiA==
+X-Received: by 2002:a5d:5145:0:b0:2c7:a0e:347b with SMTP id u5-20020a5d5145000000b002c70a0e347bmr19984098wrt.8.1678555976064;
+        Sat, 11 Mar 2023 09:32:56 -0800 (PST)
 Received: from ?IPv6:2a02:168:6806:0:cb1:a328:ee29:2bd6? ([2a02:168:6806:0:cb1:a328:ee29:2bd6])
-        by smtp.gmail.com with ESMTPSA id b18-20020a05600010d200b002cea8f07813sm346294wrx.81.2023.03.11.08.11.08
+        by smtp.gmail.com with ESMTPSA id a10-20020adfe5ca000000b002cde25fba30sm3059307wrn.1.2023.03.11.09.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Mar 2023 08:11:09 -0800 (PST)
-Message-ID: <2f64385a350359c5755eb4d2479e2efef7a96216.camel@gmail.com>
+        Sat, 11 Mar 2023 09:32:55 -0800 (PST)
+Message-ID: <49a9154ae4e2b3e6bc85e560368f6474f97cea88.camel@gmail.com>
 Subject: Re: [PATCH net-next v2 4/6] net: mdio: scan bus based on bus
  capabilities for C22 and C45
 From: Klaus Kudielka <klaus.kudielka@gmail.com>
 To: Andrew Lunn <andrew@lunn.ch>
-Date: Sat, 11 Mar 2023 17:11:08 +0100
-In-Reply-To: <a57a216d-ff5a-46e6-9780-e53772dcefc8@lunn.ch>
+Date: Sat, 11 Mar 2023 18:32:54 +0100
+In-Reply-To: <2f64385a350359c5755eb4d2479e2efef7a96216.camel@gmail.com>
 References: <100c439a-2a4d-4cb2-96f2-5bf273e2121a@lunn.ch>
 	 <712bc92ca6d576f33f63f1e9c2edf0030b10d3ae.camel@gmail.com>
 	 <db6b8a09-b680-4baa-8963-d355ad29eb09@lunn.ch>
@@ -75,6 +75,7 @@ References: <100c439a-2a4d-4cb2-96f2-5bf273e2121a@lunn.ch>
 	 <4abd56aa-5b9f-4e16-b0ca-11989bb8c764@lunn.ch>
 	 <bff0e542b8c04980e9e3af1d3e6bf739c87eb514.camel@gmail.com>
 	 <a57a216d-ff5a-46e6-9780-e53772dcefc8@lunn.ch>
+	 <2f64385a350359c5755eb4d2479e2efef7a96216.camel@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-1 
@@ -95,101 +96,46 @@ Cc: linux-aspeed@lists.ozlabs.org, Alexandre Torgue <alexandre.torgue@foss.st.co
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, 2023-03-11 at 16:39 +0100, Andrew Lunn wrote:
+On Sat, 2023-03-11 at 17:11 +0100, Klaus Kudielka wrote:
+> On Sat, 2023-03-11 at 16:39 +0100, Andrew Lunn wrote:
 >=20
-> I have one more idea which can speed things up. The scanning of the
-> MDIO bus works in two different ways depending on if there is a DT
-> node, describing what should be found on the bus. For mv88e6xxx, using
-> DT is optional. Some boards do, some don't.
+> > If there is no DT node, by default, all 32 addresses on the bus are
+> > scanned. However, DSA makes another assumption. There is a one to one
+> > mapping between port number and PHY address on the MDIO bus. Port 0
+> > uses MDIO address 0. Port 7 uses MDIO address 7 etc. If you have an 8
+> > port switch, there is no point scanning addresses 8 to 31, they will
+> > never be used.
+> >=20
+> > The mdio bus structure has a member phy_mask. This is a bitmap. If bit
+> > N is set, address N is not scanned. So i suggest you extend
+> > mv88e6xxx_mdio_register() to set phy_mask based on
+> > mv88e6xxx_num_ports(chip).
+> >=20
 >=20
-> If there is a DT node, only the addresses listed in DT are scanned.
-
-Here's the definition of the switch in the Turris Omnia device tree.
-
-	/* Switch MV88E6176 at address 0x10 */
-	switch@10 {
-		pinctrl-names =3D "default";
-		pinctrl-0 =3D <&swint_pins>;
-		compatible =3D "marvell,mv88e6085";
-		#address-cells =3D <1>;
-		#size-cells =3D <0>;
-
-		dsa,member =3D <0 0>;
-		reg =3D <0x10>;
-
-		interrupt-parent =3D <&gpio1>;
-		interrupts =3D <13 IRQ_TYPE_LEVEL_LOW>;
-
-		ports {
-			#address-cells =3D <1>;
-			#size-cells =3D <0>;
-
-			ports@0 {
-				reg =3D <0>;
-				label =3D "lan0";
-			};
-
-			ports@1 {
-				reg =3D <1>;
-				label =3D "lan1";
-			};
-
-			ports@2 {
-				reg =3D <2>;
-				label =3D "lan2";
-			};
-
-			ports@3 {
-				reg =3D <3>;
-				label =3D "lan3";
-			};
-
-			ports@4 {
-				reg =3D <4>;
-				label =3D "lan4";
-			};
-
-			ports@5 {
-				reg =3D <5>;
-				label =3D "cpu";
-				ethernet =3D <&eth1>;
-				phy-mode =3D "rgmii-id";
-
-				fixed-link {
-					speed =3D <1000>;
-					full-duplex;
-				};
-			};
-
-			ports@6 {
-				reg =3D <6>;
-				label =3D "cpu";
-				ethernet =3D <&eth0>;
-				phy-mode =3D "rgmii-id";
-
-				fixed-link {
-					speed =3D <1000>;
-					full-duplex;
-				};
-			};
-		};
-
->=20
-> If there is no DT node, by default, all 32 addresses on the bus are
-> scanned. However, DSA makes another assumption. There is a one to one
-> mapping between port number and PHY address on the MDIO bus. Port 0
-> uses MDIO address 0. Port 7 uses MDIO address 7 etc. If you have an 8
-> port switch, there is no point scanning addresses 8 to 31, they will
-> never be used.
->=20
-> The mdio bus structure has a member phy_mask. This is a bitmap. If bit
-> N is set, address N is not scanned. So i suggest you extend
-> mv88e6xxx_mdio_register() to set phy_mask based on
-> mv88e6xxx_num_ports(chip).
+> What you are proposing here would not show any improvement on the
+> Omnia, as only the 6 ports would be scanned - right?=20
 >=20
 
-What you are proposing here would not show any improvement on the
-Omnia, as only the 6 ports would be scanned - right?=20
+Well, maybe I misunderstood the argument with DT completely, so I gave it a=
+ try:
 
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Andrew
+--- a/drivers/net/dsa/mv88e6xxx/chip.c
++++ b/drivers/net/dsa/mv88e6xxx/chip.c
+@@ -3797,6 +3797,7 @@ static int mv88e6xxx_mdio_register(struct mv88e6xxx_c=
+hip *chip,
+        bus->read_c45 =3D mv88e6xxx_mdio_read_c45;
+        bus->write_c45 =3D mv88e6xxx_mdio_write_c45;
+        bus->parent =3D chip->dev;
++       bus->phy_mask =3D GENMASK(31, mv88e6xxx_num_ports(chip));
+=20
+        if (!external) {
+                err =3D mv88e6xxx_g2_irq_mdio_setup(chip, bus);
+
+>=20
+
+Now THAT one makes a difference! With this on top, I'm back at normal boot =
+time!
+I hope this is what you had in mind?
+
+Best regards, Klaus
 
