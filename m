@@ -2,78 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7F86B7300
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 10:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FD56B7302
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 10:45:13 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PZsFv0SYtz3cCc
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 20:45:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PZsFy6yD4z3bjx
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 20:45:10 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bvzKGPqJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eymBdvbL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bvzKGPqJ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eymBdvbL;
 	dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PYwjT2ZMPz301F;
-	Sun, 12 Mar 2023 08:17:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PZK2W2k3bz3c6t;
+	Sun, 12 Mar 2023 23:33:23 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id A0B54B80B49;
-	Sat, 11 Mar 2023 21:17:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B025C433A8;
-	Sat, 11 Mar 2023 21:16:44 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A49F460F0F;
+	Sun, 12 Mar 2023 12:33:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C379EC433D2;
+	Sun, 12 Mar 2023 12:33:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678569432;
-	bh=nxjIZb2lDBuKK2G4lNzbnKP45y5UoeG95pRVo5INiRE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bvzKGPqJVg2bAaBl8LvuSNq4FE4F8OHaj0dxY1RmvBRvrUteeh49EnCBFgpLpsimi
-	 X9QjmQX5ru5ARgvQanZf4uxwTdtbSXJBvWNRv/d86I7owOd9TPANApjMIEt8UOom/V
-	 rlpKM3DSWdmGVC5sTOOGKI7C35EJY3xqnU9SQBlbwRy+sPkyfeO2xcIoXPdhr3KG5S
-	 maSO5XBX1iOLzTj27xMUWw1Z5Arz1xysQ8bAZkDXGqorBZ3q1BRVnKovYh/ImB0NqZ
-	 5jPOxe6cAx/K/KlowItsOB1tQgOaqn0wX00B/jAga6Qsnzqoh25kwlapaLa6EQAQNP
-	 eT/NzyqjKOROw==
-From: Mark Brown <broonie@kernel.org>
-To: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com, 
- jic23@kernel.org, pratyush@kernel.org, Sanju.Mehta@amd.com, 
- chin-ting_kuo@aspeedtech.com, clg@kaod.org, kdasu.kdev@gmail.com, 
- f.fainelli@gmail.com, rjui@broadcom.com, sbranden@broadcom.com, 
- eajames@linux.ibm.com, olteanv@gmail.com, han.xu@nxp.com, 
- john.garry@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- khilman@baylibre.com, matthias.bgg@gmail.com, haibo.chen@nxp.com, 
- linus.walleij@linaro.org, daniel@zonque.org, haojian.zhuang@gmail.com, 
- robert.jarzmik@free.fr, agross@kernel.org, heiko@sntech.de, 
- krzysztof.kozlowski@linaro.org, andi@etezian.org, mcoquelin.stm32@gmail.com, 
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com, 
- samuel@sholland.org, masahisa.kojima@linaro.org, jaswinder.singh@linaro.org, 
- rostedt@goodmis.org, mingo@redhat.com, l.stelmach@samsung.com, 
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
- pabeni@redhat.com, alex.aring@gmail.com, stefan@datenfreihafen.org, 
- kvalo@kernel.org, james.schulman@cirrus.com, david.rhodes@cirrus.com, 
- tanureal@opensource.cirrus.com, rf@opensource.cirrus.com, perex@perex.cz, 
- tiwai@suse.com, npiggin@gmail.com, christophe.leroy@csgroup.eu, 
- mpe@ellerman.id.au, oss@buserror.net, windhl@126.com, 
- yangyingliang@huawei.com, william.zhang@broadcom.com, 
- kursad.oney@broadcom.com, jonas.gorski@gmail.com, anand.gore@broadcom.com, 
- rafal@milecki.pl, Tudor Ambarus <tudor.ambarus@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-In-Reply-To: <20230310173217.3429788-1-amit.kumar-mahapatra@amd.com>
-References: <20230310173217.3429788-1-amit.kumar-mahapatra@amd.com>
-Subject: Re: (subset) [PATCH V6 00/15] Add support for stacked/parallel
- memories
-Message-Id: <167856940280.964268.10660159170818600511.b4-ty@kernel.org>
-Date: Sat, 11 Mar 2023 21:16:42 +0000
+	s=k20201202; t=1678624400;
+	bh=wKK18JhLAidYuz7urwViijJ7ZzWu18IoQlSj7/PTI4Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eymBdvbLzTtRs6nBQ8S8SsE7NG6OOyokbEEAu2+UYecDgnuFGBPRsp2lyq+aixcOe
+	 4QUQPnA5Ml3/EPjJ/78qW1dIZlnKn8l0z64Pzcc007TntpiL0AUTfSEJTPzBuh5JOL
+	 OIt2F7U3ccQLmcwVxxkFhWUYVmPuDas4QL8rbd9sN7t708A++tjaPP0z9rm6+bb4gp
+	 8pm/U9GRpBatLyhesGz582RrB2Myu1qla1USA6uUjasI5FHMTFwCPdgcfAm1uRVfwl
+	 MKumMM1UiIsGwnR9jrt904v3srZFfEGFQPGRp322wd47pnK1zWgv3d2DT2Usj26Y9i
+	 es2PWSPYPJtCQ==
+Date: Sun, 12 Mar 2023 13:33:16 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v6 1/2] dt-bindings: i2c: aspeed: support for
+ AST2600-i2cv2
+Message-ID: <20230312123316.rn2qm3jnw7iy5yts@intel.intel>
+References: <20230226031321.3126756-1-ryan_chen@aspeedtech.com>
+ <20230226031321.3126756-2-ryan_chen@aspeedtech.com>
+ <53090449-58c9-bc03-56df-aa8ae93c0c26@linaro.org>
+ <SEZPR06MB52699DEB2255EB54F35C2A59F2AD9@SEZPR06MB5269.apcprd06.prod.outlook.com>
+ <fc20a2d1-e2f9-c22b-dcdf-153cb527eea8@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-2eb1a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fc20a2d1-e2f9-c22b-dcdf-153cb527eea8@linaro.org>
 X-Mailman-Approved-At: Mon, 13 Mar 2023 20:42:54 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -86,60 +65,66 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org, konrad.dybcio@somainline.org, alsa-devel@alsa-project.org, tali.perry1@gmail.com, ldewangan@nvidia.com, linux-mtd@lists.infradead.org, alim.akhtar@samsung.com, linux-riscv@lists.infradead.org, linux-spi@vger.kernel.org, festevam@gmail.com, linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com, git@amd.com, linux-samsung-soc@vger.kernel.org, yogeshgaur.83@gmail.com, openbmc@lists.ozlabs.org, jonathanh@nvidia.com, yuenn@google.com, bcm-kernel-feedback-list@broadcom.com, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-imx@nxp.com, amitrkcian2002@gmail.com, Michael.Hennerich@analog.com, martin.blumenstingl@googlemail.com, linux-arm-msm@vger.kernel.org, radu_nicolae.pirea@upb.ro, linuxppc-dev@lists.ozlabs.org, lars@metafoo.de, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lis
- ts.infradead.org, michal.simek@amd.com, linux-arm-kernel@lists.infradead.org, avifishman70@gmail.com, venture@google.com, libertas-dev@lists.infradead.org, linux-wireless@vger.kernel.org, nicolas.ferre@microchip.com, fancer.lancer@gmail.com, linux-kernel@vger.kernel.org, michael@walle.cc, thierry.reding@gmail.com, palmer@dabbelt.com, kernel@pengutronix.de, netdev@vger.kernel.org, patches@opensource.cirrus.com, linux-wpan@vger.kernel.org, claudiu.beznea@microchip.com
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Wolfram Sang <wsa@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 10 Mar 2023 23:02:02 +0530, Amit Kumar Mahapatra wrote:
-> This patch is in the continuation to the discussions which happened on
-> 'commit f89504300e94 ("spi: Stacked/parallel memories bindings")' for
-> adding dt-binding support for stacked/parallel memories.
+Hi Krzysztof and Ryan,
+
+> >>> +  aspeed,timeout:
+> >>> +    type: boolean
+> >>> +    description: I2C bus timeout enable for master/slave mode
+> >>
+> >> Nothing improved here in regards to my last comment.
+> > 
+> > Yes, as I know your require is about " DT binding to represent hardware setup"
+> > So I add more description about aspeed,timeout as blow.
+> > 
+> > ASPEED SOC chip is server product, i2c bus may have fingerprint connect to another board. And also support hotplug.
+> > The following is board-specific design example.
+> > Board A                                         Board B
+> > -------------------------                       ------------------------
+> > |i2c bus#1(master/slave)  <===fingerprint ===> i2c bus#x (master/slave)|
+> > |i2c bus#2(master)-> tmp i2c device |          |                       |
+> > |i2c bus#3(master)-> adc i2c device |          |                       |
+> > -------------------------                       ------------------------
+> > 
+> > aspeed,timout properites:
+> > For example I2C controller as slave mode, and suddenly disconnected.
+> > Slave state machine will keep waiting for master clock in for rx/tx transmit.
+> > So it need timeout setting to enable timeout unlock controller state.
+> > And in another side. In Master side also need avoid suddenly slave miss(un-plug), Master will timeout and release the SDA/SCL.
+> > 
+> > Do you mean add those description into ore aspeed,timout properites description?
 > 
-> This patch series updated the spi-nor, spi core and the spi drivers
-> to add stacked and parallel memories support.
+> You are describing here one particular feature you want to enable in the
+> driver which looks non-scalable and more difficult to configure/use.
+> What I was looking for is to describe the actual configuration you have
+> (e.g. multi-master) which leads to enable or disable such feature in
+> your hardware. Especially that bool value does not scale later to actual
+> timeout values in time (ms)...
 > 
-> [...]
+> I don't know I2C that much, but I wonder - why this should be specific
+> to Aspeed I2C and no other I2C controllers implement it? IOW, this looks
+> quite generic and every I2C controller should have it. Adding it
+> specific to Aspeed suggests that either we miss a generic property or
+> this should not be in DT at all (because no one else has it...).
 
-Applied to
+this property is missing in the i2c devicetree property and
+because this is the second driver needing it, I think it should
+be added.
 
-   broonie/spi.git for-next
+To be clear, this timeout means that the SCL is kept low for some
+number of milliseconds in order to force the slave to enter a
+wait state. This is done when the master has some particular
+needs as Ryan is describing.
 
-Thanks!
+It's defined in the i2c specification, while smbus defines it in
+a range from 25 to 35 ms.
 
-[01/15] spi: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: 9e264f3f85a56cc109cc2d6010a48aa89d5c1ff1
-[02/15] net: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: 25fd0550d9b9c92288a17fb7d605cdcdb4a65a64
-[03/15] iio: imu: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: 0183f81fce154ae1d4df2bb28d22ad6612317148
-[04/15] mtd: devices: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: 0817bcef53e4e3df23c023eddaa2b35b7288400e
-[05/15] staging: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: caa9d3475b1c5566f0272273c147cc9b72f2be28
-[06/15] platform/x86: serial-multi-instantiate: Replace all spi->chip_select and spi->cs_gpiod references with function call
-        commit: e20451f44ca33ec40422e9868775e117ef2da935
-[07/15] powerpc/83xx/mpc832x_rdb: Replace all spi->chip_select references with function call
-        commit: 3aba06a9fee04f6fefa9df71d3ee27dd4c464ad5
-[08/15] ALSA: hda: cs35l41: Replace all spi->chip_select references with function call
-        commit: 06b5e53c8b2b016e06a53ab6f01006ca7bbfa5df
+In any case it's not a boolean value unless the controller has it
+defined internally by the firmware.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+So... nack! Please, hold a bit, I'm sending a patch. 
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Andi
