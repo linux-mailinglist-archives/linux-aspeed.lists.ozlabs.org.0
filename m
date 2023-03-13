@@ -2,65 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6C16B841A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 22:40:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BD66B841D
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 22:41:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Pb97L4Jcyz3c79
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Mar 2023 08:40:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Pb9912ZL8z3bdV
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Mar 2023 08:41:57 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=K2pXxPF4;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=obeFtHVs;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::112c; helo=mail-yw1-x112c.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b2a; helo=mail-yb1-xb2a.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=K2pXxPF4;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=obeFtHVs;
 	dkim-atps=neutral
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pb97B5d4bz3bVP
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Mar 2023 08:40:22 +1100 (AEDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-54184571389so118414307b3.4
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Mar 2023 14:40:22 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pb98v4jV7z3bW0
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Mar 2023 08:41:50 +1100 (AEDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id v196so6122629ybe.9
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Mar 2023 14:41:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1678743619;
+        d=linaro.org; s=google; t=1678743706;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ecgxfHAz/UBXIjhNVQyUFhEfo+f44kweGIvOpc2a+8o=;
-        b=K2pXxPF4Q5NEb4aJh/ZtgOcay4z11aGdPJNGxoAyPpo5KHia65JmMJB5d/8Zuyw+mk
-         tdCZvErxJ2+Ov6F3uwE0QJROGtFxcgLs87rRt5F0kxCCgObLtL179NI1TBOK9gGgGNJF
-         Eh1qJPWmBakRFt6FaPcxyZurn1mCFc0uppN0BduNDbYkQ+cupOSDrFYHqqBB3+fKZKrd
-         MbQHQFxJIAhFilhE19dQAn6Hs0OfHLcEq+ul1IX3tDPWqnP0oSGLzgbn7d3SK+ZP02oo
-         r6ydpI+oGA5J1HikH4j8Apu5N/h8d3h2Vnb/H9bp2xjP5xBYwfX+xhPNTLVqo8zyv8em
-         5+3g==
+        bh=aln1hEdgcCcgANtA4QqHK4LEQZjmm0gs9rDgqPgUYnk=;
+        b=obeFtHVsVUapqop3MZKJozH3FqvKkagKehW9wH8Kk5Z2q53GUYuOTYQwDJfe0rD8GW
+         VpTxDa9EKaUb3LWfiQoMqGQSCyEpNI4+b7GzmK3XkQWXoUv7H4WEm+kgX282GUGaLcRR
+         oGw49ywWS7ZvrQu5Q27+vM/J3wsgjMJyc2aw94wUqS/O+xhj7nfPqMcBIzeH6DX+m0Tu
+         U9ONMmuiYC1sfpAyBk/IEs7gHez697aQhir78i9oLtd/P/vN7M2cqeAND8s7hBro5uge
+         sz8dQISn4LMWOjeQoS+p40Jax/AQFpfz+RS+w4EF14NUdwHYe3NrEHORt1Qkv0DcvvHm
+         AErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678743619;
+        d=1e100.net; s=20210112; t=1678743706;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ecgxfHAz/UBXIjhNVQyUFhEfo+f44kweGIvOpc2a+8o=;
-        b=JrXRor3Y8296+u5eN8oUN5l6KKHE+4TzYWBanP+eQoZcg07x7FJbkm95y15DZvJFJi
-         FMMGzfP+4iR3P9THlvA/1jLt9WTMdJawTv9bsf3f4YhXTrghuYda/W1ZqQMDND06wHuh
-         HIJjos36JHLycAldoF3kygZWAvoPQP0VWteQKz0GtDUrrYlWhwPEZTNfgA4PRma/rRRy
-         +M9A0WzvLBskJzA0j87CQBAGLJh/ZorucjDnzeW8G+unHpdEvbXv1beP24Ztks8zBUou
-         egZAgL1y+DZbu3+4CVyE5Aam6rkfs0e9j7j2bUCNLON/28+OQ2ULkt6czGzo5Y3P7jsg
-         vt2g==
-X-Gm-Message-State: AO0yUKVZ2uHRyNqgPSi1I4Mvz+aYEFlt9T1M6kfxwt1v+/THeJJF0xi5
-	ac9w1XIve8zp7X3kt+UBlUyK8VNE1xi9n7r19qIZbA==
-X-Google-Smtp-Source: AK7set8MXe6q7JAQYwdFRB8ZhsrrhbkSYB8JcvLg20wPqKZq56TZe41RwUBKjK5hxxwd+ByFitU1csO05sXE3FhMJro=
-X-Received: by 2002:a81:af1f:0:b0:536:4ad1:f71 with SMTP id
- n31-20020a81af1f000000b005364ad10f71mr22810681ywh.9.1678743619469; Mon, 13
- Mar 2023 14:40:19 -0700 (PDT)
+        bh=aln1hEdgcCcgANtA4QqHK4LEQZjmm0gs9rDgqPgUYnk=;
+        b=hvi2/GrpNi/AdzimkcDzlajBMvPNMNOXDOGSIIqZa+Rhxzu1MCWtioUoeLvnFmFVNv
+         Lz6hSi3pYfIfFaRflkaN4ugzi/c1Mtz6nlLXON5j8tbpPTR2ERjR0H44O4rLUs5aGLCN
+         ZTw1wq+iXDZ5hguDy+pqFIAtyX8KYZAKoUsTbVf7o6TN9MV6BY++E4RPRsLYqMSqR8NV
+         gHWzUliEtecs7GSMFy45Mms4Ozwd6HyAdJRjyY3zp4QAPc1/GZv4u6UD7D4BoehdxHoD
+         e5dzlv9RN+y49M6R9h2Hs8PLpDuAhz8RNJhhSC+1jI21GJ4pmFEEx4ZcDdNRvaw272jd
+         1qPA==
+X-Gm-Message-State: AO0yUKVWY4ArJ9PEvct93VRiynLP91uXISndkuBmWOePyMcCIG16w3PB
+	XPftXoJgFaxSbO3/00V0oYKo7n2aG9S05ALoSDgYVw==
+X-Google-Smtp-Source: AK7set+R+YI9Nnas+5qiv6+jEi0Hs0zRL5Bqz75GQxapnR9lrv+JhLm/gXYEZWElQkVJe81BR8KBAxDNduDAH7eUSZY=
+X-Received: by 2002:a5b:c48:0:b0:b1a:64ba:9cac with SMTP id
+ d8-20020a5b0c48000000b00b1a64ba9cacmr3361726ybr.4.1678743706748; Mon, 13 Mar
+ 2023 14:41:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230313155138.20584-1-tzimmermann@suse.de> <20230313155138.20584-25-tzimmermann@suse.de>
-In-Reply-To: <20230313155138.20584-25-tzimmermann@suse.de>
+References: <20230313155138.20584-1-tzimmermann@suse.de> <20230313155138.20584-26-tzimmermann@suse.de>
+In-Reply-To: <20230313155138.20584-26-tzimmermann@suse.de>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 13 Mar 2023 22:40:07 +0100
-Message-ID: <CACRpkdZLFuGdSqnDYXnoWEjnVmumT23Rz4Y9QT9-9=Uoj5PUpQ@mail.gmail.com>
-Subject: Re: [PATCH v2 24/25] drm/mcde: Use GEM DMA fbdev emulation
+Date: Mon, 13 Mar 2023 22:41:34 +0100
+Message-ID: <CACRpkdYDpvpvURPCsdAMEd6s4_uU3UCpWoVLYkM8jh+wBM0ACg@mail.gmail.com>
+Subject: Re: [PATCH v2 25/25] drm/pl111: Use GEM DMA fbdev emulation
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -91,7 +91,6 @@ wxkdszpTC-a_uZA+tQ@mail.gmail.com/
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Tested-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
