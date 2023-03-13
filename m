@@ -2,66 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4026B7CD3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 16:53:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AB46B840D
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Mar 2023 22:38:21 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Pb1RT5jLRz3cC5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Mar 2023 02:53:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Pb94p72Ynz3cFn
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Mar 2023 08:38:18 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c7vqOzuq;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=oBqnejAr;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.115; helo=mga14.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::1135; helo=mail-yw1-x1135.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c7vqOzuq;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=oBqnejAr;
 	dkim-atps=neutral
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pb1Q75wnnz3cDG
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Mar 2023 02:52:46 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1678722768; x=1710258768;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=44H65SqPEjytPpOdhJ9BoDKKnN4CrCDrzMx5ajkPqYc=;
-  b=c7vqOzuqGbgrvuATAhAnelGS+gnPTbt4sxFQDsSVJ2bJpVwueyPL/abT
-   cHfLW+H1PmQAWG9/zXwQYT1sCsXRUcGJL2g/1j5vrcxjaFKpF1HVfQCUD
-   FZAOl83wp3w2lwN9hbCDjb3CijKuBFGSGaEaVEaEzKcBW9pyIDDt1UvQF
-   OFDIg+dFmo3lZ2DWytG66DwDvbLfX53P6q0TG6kBH0lFEHLjfl6iNlgHO
-   OR0VXVsf1eOs7Nc5yAeA6Uuk+Zy+6IZ+J/PoLx7LfhqdcWbjOGvirN7Cy
-   B3YbTOXfH0B008x0Kcyax0Eu+2eB8GPoQZMovkBHr85eAdUJ+i83qwW0E
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="337206327"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="337206327"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2023 08:52:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="747659008"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; 
-   d="scan'208";a="747659008"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Mar 2023 08:52:31 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 74026365; Mon, 13 Mar 2023 17:53:15 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Henry Tian <tianxiaofeng@bytedance.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Liang He <windhl@126.com>,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/1] usb: gadget: aspeed: Rectify a bit a random header inclusion
-Date: Mon, 13 Mar 2023 17:53:10 +0200
-Message-Id: <20230313155310.80022-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pb94h0W9Gz3bT1
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Mar 2023 08:38:10 +1100 (AEDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-53d277c1834so267030447b3.10
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Mar 2023 14:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678743488;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5MoCrv9jwtexNbM0NP+aK8vItTXphA3RLnXqGbEpBLs=;
+        b=oBqnejAr+cRAwqwSDggHbvyESDCGAm0IT2diFdiMbosVlO5Ebuhv06xmTVl9Mh/HiC
+         neV3kaLcXxQXZ8rWMN8gaBnTm1Qs4vHbNOBsKiKclKcZXxdswwbW7rBFUKdItfCnI55B
+         2ciaYsFh+G7t/+4hYcljFYbfjyaEpP3SMr2C9qEUP/kIQsFIHhlZF56rBM4WUzFRQ661
+         MMseawNEKdVEkMrE+QDWzPun/jDHPZLOHsF0+5oWgZmpKX/eGOmxBPDExhV/iJDyeQ53
+         7MDPKM5XS+1UdJ2cwhsUmyEm2WnUYeGW2PETZiXrAbRMWy1JxeNHHzOrvI5hsaoqnfPl
+         S05A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678743488;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5MoCrv9jwtexNbM0NP+aK8vItTXphA3RLnXqGbEpBLs=;
+        b=NB+HNFAzxCXMRugfK0MIpG4fNO0TVpxFEUqH9hi2YOkrdeMSx+dv30mp0KN217Jt2c
+         +YSxcRzxsjlbQrvq3GiwAWnWKxKV4+pte99yf6/ex3S4oRtskWULHAPdDbeUH/shknSP
+         wZS35tCCURJLZVqUle/eHi46SVCmHaLkCUoZ4J6c18vz1RPG6WaXWZyZmkKeBemVzJYN
+         HNdNY4u1JyLq7/fNQxVaY7Spj6AtG0R1jkb9OBcgm0jCTASH7DctRuWgqKJEB7x3tfRl
+         PuxXr23h0GRF9qm1h3vKYm8j27d91mGP/weeelfl0Cq61eQ6AAFg55sOCytrSoYZJCE4
+         wh7Q==
+X-Gm-Message-State: AO0yUKVbmM+wlAf4QKEK6WXbS6A2U28ZfFpHAANKI9nqJnZb3TPkIHEx
+	R6b5Lplq5MMCKTtFucir7IOFhMdcUwQdy9u/E2rzsQ==
+X-Google-Smtp-Source: AK7set8L1lXLBOk8wvAHM9wRqKPNXWlxKrtxI+qzt+FALwwKZEBkTpnXYO0qQldUzFZLmRJDWTgYnC/ZzTNl4HJfoug=
+X-Received: by 2002:a81:ae04:0:b0:534:d71f:14e6 with SMTP id
+ m4-20020a81ae04000000b00534d71f14e6mr5550337ywh.9.1678743487766; Mon, 13 Mar
+ 2023 14:38:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230313155138.20584-1-tzimmermann@suse.de>
+In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 13 Mar 2023 22:37:56 +0100
+Message-ID: <CACRpkdZngHNjW0=ZtnjvNV=rfR8tip_iqTE-FDWY+ggsU6DCmw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/25] drm/dma-helper: Add dedicated fbdev emulation
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,84 +75,17 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-aspeed@lists.ozlabs.org, maarten.lankhorst@linux.intel.com, javierm@redhat.com, mripard@kernel.org, linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, daniel@ffwll.ch, linux-amlogic@lists.infradead.org, airlied@gmail.com, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-It looks like the driver copied'n'pasted almost random set of
-headers for its code. Rectify it a bit by removing of_gpio.h
-that is not only unused, but also will be removed in the future
-completely.
+On Mon, Mar 13, 2023 at 4:51=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/usb/gadget/udc/aspeed-vhub/core.c | 1 -
- drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 1 -
- drivers/usb/gadget/udc/aspeed-vhub/ep0.c  | 1 -
- drivers/usb/gadget/udc/aspeed-vhub/epn.c  | 1 -
- drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 1 -
- 5 files changed, 5 deletions(-)
+> Tested with fbcon and IGT on vc4.
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index ac3ca24f8b04..86398a04a012 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-@@ -21,7 +21,6 @@
- #include <linux/clk.h>
- #include <linux/usb/gadget.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/regmap.h>
- #include <linux/dma-mapping.h>
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 4f3bc27c1c62..573109ca5b79 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -21,7 +21,6 @@
- #include <linux/clk.h>
- #include <linux/usb/gadget.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/regmap.h>
- #include <linux/dma-mapping.h>
- #include <linux/usb.h>
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-index b4cf46249fea..e9aa74231760 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-@@ -21,7 +21,6 @@
- #include <linux/clk.h>
- #include <linux/usb/gadget.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/regmap.h>
- #include <linux/dma-mapping.h>
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-index 56e55472daa1..148d7ec3ebf4 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-@@ -21,7 +21,6 @@
- #include <linux/clk.h>
- #include <linux/usb/gadget.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/regmap.h>
- #include <linux/dma-mapping.h>
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-index e2207d014620..a63e4af60a56 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-@@ -21,7 +21,6 @@
- #include <linux/clk.h>
- #include <linux/usb/gadget.h>
- #include <linux/of.h>
--#include <linux/of_gpio.h>
- #include <linux/regmap.h>
- #include <linux/dma-mapping.h>
- #include <linux/bcd.h>
--- 
-2.39.2
+Also tested on the U8500 MCDE on Samsung GT-I8190 (Golden)
+successfully.
 
+Yours,
+Linus Walleij
