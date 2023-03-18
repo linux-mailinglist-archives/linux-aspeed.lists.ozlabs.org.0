@@ -1,36 +1,35 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E0D6C5C48
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 02:49:37 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DF66C5C49
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 02:49:39 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PhpDb2HhPz3chv
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 12:49:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PhpDd5BP4z3cf8
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 12:49:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=sina.com (client-ip=202.108.3.19; helo=r3-19.sinamail.sina.com.cn; envelope-from=hdanton@sina.com; receiver=<UNKNOWN>)
-X-Greylist: delayed 136 seconds by postgrey-1.36 at boromir; Sat, 18 Mar 2023 14:03:52 AEDT
-Received: from r3-19.sinamail.sina.com.cn (r3-19.sinamail.sina.com.cn [202.108.3.19])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=hust.edu.cn (client-ip=202.114.0.240; helo=hust.edu.cn; envelope-from=dddddd@hust.edu.cn; receiver=<UNKNOWN>)
+X-Greylist: delayed 613 seconds by postgrey-1.36 at boromir; Sat, 18 Mar 2023 18:07:03 AEDT
+Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pdm6c3ZHnz3cMT
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Mar 2023 14:03:50 +1100 (AEDT)
-Received: from unknown (HELO localhost.localdomain)([114.249.61.130])
-	by sina.com (172.16.97.35) with ESMTP
-	id 641529610001DA0C; Sat, 18 Mar 2023 11:00:50 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-X-SMAIL-MID: 98080415073823
-From: Hillf Danton <hdanton@sina.com>
-To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-Subject: Re: [PATCH v2 3/5] dmaengine: aspeed: Add AST2600 UART DMA driver
-Date: Sat, 18 Mar 2023 11:01:13 +0800
-Message-Id: <20230318030113.2024-1-hdanton@sina.com>
-In-Reply-To: <20230314021817.30446-4-chiawei_wang@aspeedtech.com>
-References: <20230314021817.30446-1-chiawei_wang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PdsWC537nz3bsK
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Mar 2023 18:07:03 +1100 (AEDT)
+Received: from uu22.. ([10.12.190.56])
+	(user=dddddd@hust.edu.cn mech=LOGIN bits=0)
+	by mx1.hust.edu.cn  with ESMTP id 32I6tJ9i012306-32I6tJ9j012306
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 18 Mar 2023 14:55:20 +0800
+From: huyinhao <dddddd@hust.edu.cn>
+To: joel@jms.id.au
+Subject: [PATCH v2] drivers: soc: fix dead code in aspeed_lpc_snoop_config_irq
+Date: Sat, 18 Mar 2023 14:55:09 +0800
+Message-Id: <20230318065509.51019-1-dddddd@hust.edu.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: dddddd@hust.edu.cn
 X-Mailman-Approved-At: Thu, 23 Mar 2023 12:49:28 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -43,43 +42,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, vkoul@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, dmaengine@vger.kernel.org
+Cc: huyinhao <dddddd@hust.edu.cn>, Dongliang Mu <dzm91@hust.edu.cn>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 14 Mar 2023 10:18:15 +0800 Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-> +static irqreturn_t ast2600_udma_isr(int irq, void *arg)
-> +{
+From the comment of platform_get_irq, it only returns non-zero IRQ
+number and negative error number, other than zero.
 
-[...]
+Fix this if condition when platform_get_irq returns a negative
+error number.
 
-> +	/* handle RX interrupt */
-> +	sts = readl(udma->regs + UDMA_RX_INT_STS);
-> +	for_each_set_bit(ch_bit, (unsigned long *)&sts, udma->n_ucs / 2) {
-> +		ch_id = (ch_bit << 1) + 1;
-> +		wptr = readl(udma->regs + UDMA_CH_WPTR(ch_id));
-> +
-> +		uc = &udma->ucs[ch_id];
-> +		ud = &uc->ud;
-> +		tx = &ud->tx;
-> +
-> +		uc->residue = (ud->size & ~UDMA_CH_CTRL_BUFSZ) - wptr;
-> +
-> +		/* handle non-4B-aligned case */
-> +		if (ud->addr & 0x3) {
-> +			p = phys_to_virt(dma_to_phys(uc->chan.device->dev, ud->addr));
+Signed-off-by: huyinhao <dddddd@hust.edu.cn>
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+v1->v2: Change "Signed-off-by" to "Reviewed-by" 
+and change the email of "From" to "Signed-off-by"
+ drivers/soc/aspeed/aspeed-lpc-snoop.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This does not work if the dma address has no corresponding struct page.
+diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+index eceeaf8dfbeb..c4a03b3a5cf8 100644
+--- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
++++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+@@ -167,8 +167,8 @@ static int aspeed_lpc_snoop_config_irq(struct aspeed_lpc_snoop *lpc_snoop,
+ 	int rc;
+ 
+ 	lpc_snoop->irq = platform_get_irq(pdev, 0);
+-	if (!lpc_snoop->irq)
+-		return -ENODEV;
++	if (lpc_snoop->irq < 0)
++		return lpc_snoop->irq;
+ 
+ 	rc = devm_request_irq(dev, lpc_snoop->irq,
+ 			      aspeed_lpc_snoop_irq, IRQF_SHARED,
+-- 
+2.34.1
 
-> +			memcpy(p, uc->buf, wptr);
-> +		}
-> +
-> +		ast2600_udma_terminate(&uc->chan);
-> +
-> +		dma_cookie_complete(tx);
-> +		dma_descriptor_unmap(tx);
-> +		dmaengine_desc_get_callback_invoke(tx, NULL);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
