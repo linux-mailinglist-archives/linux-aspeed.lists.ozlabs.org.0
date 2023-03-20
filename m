@@ -1,59 +1,103 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87526C5C58
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 02:50:36 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055436C5C5A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 02:50:44 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PhpFk4WT0z3bZx
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 12:50:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PhpFs5lt6z3bYw
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 12:50:41 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nHaNO0/d;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jV+wT9G9;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.31; helo=mga06.intel.com; envelope-from=ilpo.jarvinen@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82c; helo=mail-qt1-x82c.google.com; envelope-from=f.fainelli@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nHaNO0/d;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jV+wT9G9;
 	dkim-atps=neutral
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PgBvv5Lj9z3cBp;
-	Mon, 20 Mar 2023 22:14:34 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679310876; x=1710846876;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Amz4/Av8RIHbzuWj5LX0wvdbWha7TGpA6N4V/XgAueM=;
-  b=nHaNO0/dkrMxO/tANts4pQM4Fw6uF8Bn1nn9HZMYCA3QrPSpnlGkNC9I
-   m1hBGmNZS+5qQklzoIhrKok28KS1mzWXRDgF3gOPIMmsb1AmvHeuxGS3L
-   3cEioDYHBfiAT15KBGUc2FIlxXCcANJ9j+1MLeQzkQnlpLCGw6hobMw4i
-   /tDAhVjTQEuCYPgpQPBpCHJ63AORrIjhfBw0RppoC4YwDEXpqPuj3gRMQ
-   fbMgJZXaAU5Vz90aaP+WXJNoBASBrvhExD8th0GYCW/tBizVQKPA8q4z5
-   hTEqliCZ2l8PKowJZE8k/Pu9JksvVAnAfzKO1bpV4MOi9Yh0406gdfDoK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="401206726"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="401206726"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 04:14:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="1010431497"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; 
-   d="scan'208";a="1010431497"
-Received: from mbouhaou-mobl1.ger.corp.intel.com ([10.252.61.151])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2023 04:14:24 -0700
-Date: Mon, 20 Mar 2023 13:14:22 +0200 (EET)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-Subject: Re: [PATCH v3 3/5] dmaengine: aspeed: Add AST2600 UART DMA driver
-In-Reply-To: <20230320081133.23655-4-chiawei_wang@aspeedtech.com>
-Message-ID: <493b758-2ddf-b44a-48a8-69e8de5d85b@linux.intel.com>
-References: <20230320081133.23655-1-chiawei_wang@aspeedtech.com> <20230320081133.23655-4-chiawei_wang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PgN6b1xfnz2xG9
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Mar 2023 05:09:27 +1100 (AEDT)
+Received: by mail-qt1-x82c.google.com with SMTP id ay22so2810030qtb.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Mar 2023 11:09:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679335763;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9Ym0Aa6IJr35fCbX8wJyITkzyONp9K1eXcn9gLrMKEM=;
+        b=jV+wT9G9dMq++VXoHOITcaMwSKfT7Ne8l6voVfiCeH20VK0uzRJIf9CA2v8jn1mE42
+         9De/qJTXiN3NlwKDdk7NArH7WT5H+4m7s71wZTV+2BygDTiQuwk+mRLMpRhBukxFua9x
+         67hE9fL+3OgJ1dTRBMXtTwDXEznGIlnqEuoH6BXNz+DtDWm5LZSaKbCnlxFhePXKvQQw
+         biWPqZK1eoCZ6HeXFY1w+DmsNHS4W090fENE/el13ZE/cuRLHNVC7Li/p30/Ai1N8xhv
+         3ejM9NTyAoTh9dtKbufIgtWOwd6srKtNAzDZ9KiKE0PTE7Lb1wYokPUbe9HLqHLVnTp7
+         mdLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679335763;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9Ym0Aa6IJr35fCbX8wJyITkzyONp9K1eXcn9gLrMKEM=;
+        b=NqzQKO2ThyjqztQ2wSbdEEDjRPKAeUZozhphBD3YYIJzAU2C430R5p1hZ7s6loUNsU
+         PGjdXbJw+QISXdhQBzoVTRyyuhXFYnfxtjvuk9mdlqhytfmgK4OSzdv6kiRvGHFsPgo2
+         j0g5yTOwrNJ2mkF5TzBFWrIR7tose5g+xmvtCD8YKeJaHorgtoGq6OOn4+OScqVK6T3m
+         vcvjMZwpJxBw+ZtMDduEQ1Lv9R9DDmgSN1rbaO3bwDaJ5+yLtK/7TrhkfM/u7uLmZLpI
+         PMXrrTJrwQekl+xe36LweiSIiEuME9U7XSFmRbFKAKuz1C6T7JHPIgGrXEwmxvrz0Ui0
+         9SkQ==
+X-Gm-Message-State: AO0yUKWSEQuwPbVf/zccZ8E6Rw7EYXzW46wg3gE4qXgXkAsywpVXlr8s
+	oRPFDYR0g4+rpV67gwdOUBA=
+X-Google-Smtp-Source: AK7set/rOHA8qVlayMALPx0FGjCcSWh/Kq1WvV8aodxfR3XsSBymHa1dS0evHblRHeVucdEeSCUF5g==
+X-Received: by 2002:a05:622a:190e:b0:3d7:1979:829e with SMTP id w14-20020a05622a190e00b003d71979829emr125230qtc.27.1679335763440;
+        Mon, 20 Mar 2023 11:09:23 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id l16-20020ac84a90000000b003d4ee7879d0sm2042741qtq.56.2023.03.20.11.09.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Mar 2023 11:09:22 -0700 (PDT)
+Message-ID: <82ae9fd5-a4f9-89a6-8040-c64d22a85ebb@gmail.com>
+Date: Mon, 20 Mar 2023 11:08:56 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] dt-bindings: net: Drop unneeded quotes
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+ Manivannan Sadhasivam <mani@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>,
+ Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>,
+ Michal Simek <michal.simek@xilinx.com>, Andrew Lunn <andrew@lunn.ch>,
+ Vladimir Oltean <olteanv@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Tobias Waldekranz <tobias@waldekranz.com>,
+ Lars Povlsen <lars.povlsen@microchip.com>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>,
+ Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230317233605.3967621-1-robh@kernel.org>
+From: Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20230317233605.3967621-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Thu, 23 Mar 2023 12:49:29 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -66,596 +110,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: pmenzel@molgen.mpg.de, hdanton@sina.com, linux-serial <linux-serial@vger.kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org, LKML <linux-kernel@vger.kernel.org>, vkoul@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, dmaengine@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org, linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org, linux-can@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 20 Mar 2023, Chia-Wei Wang wrote:
-
-> Aspeed AST2600 UART DMA (UDMA) includes 28 channels for the
-> DMA transmission and recevie of each UART devices.
+On 3/17/23 16:36, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
 > 
-> Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> diff --git a/drivers/dma/ast2600-udma.c b/drivers/dma/ast2600-udma.c
-> new file mode 100644
-> index 000000000000..39117b26996d
-> --- /dev/null
-> +++ b/drivers/dma/ast2600-udma.c
-> @@ -0,0 +1,534 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) ASPEED Technology Inc.
-> + */
-> +#include <linux/delay.h>
-> +#include <linux/bitfield.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/dmaengine.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_dma.h>
-> +#include <linux/dma-direct.h>
-> +#include "dmaengine.h"
-> +
-> +#define DEVICE_NAME	"aspeed-udma"
-> +
-> +/* register offset */
-> +#define UDMA_TX_EN		0x000
-> +#define UDMA_RX_EN		0x004
-> +#define UDMA_TMOUT		0x00c
-> +#define UDMA_TX_PTR_RST		0x020
-> +#define UDMA_RX_PTR_RST		0x024
-> +#define UDMA_TX_INT_EN		0x030
-> +#define UDMA_TX_INT_STS		0x034
-> +#define UDMA_RX_INT_EN		0x038
-> +#define UDMA_RX_INT_STS		0x03c
-> +
-> +#define UDMA_CH_OFFS(x)		((x) * 0x10)
-> +#define UDMA_CH_RPTR(x)		(0x040 + UDMA_CH_OFFS(x))
-> +#define UDMA_CH_WPTR(x)		(0x044 + UDMA_CH_OFFS(x))
-> +#define UDMA_CH_ADDR(x)		(0x048 + UDMA_CH_OFFS(x))
-> +#define UDMA_CH_CTRL(x)		(0x04c + UDMA_CH_OFFS(x))
-> +#define   UDMA_CH_CTRL_BUFSZ	GENMASK(1, 0)
-> +
-> +#define UDMA_MAX_BUFSZ	(0x10000)
+>   .../devicetree/bindings/net/actions,owl-emac.yaml  |  2 +-
+>   .../bindings/net/allwinner,sun4i-a10-emac.yaml     |  2 +-
+>   .../bindings/net/allwinner,sun4i-a10-mdio.yaml     |  2 +-
+>   .../devicetree/bindings/net/altr,tse.yaml          |  2 +-
+>   .../bindings/net/aspeed,ast2600-mdio.yaml          |  2 +-
+>   .../devicetree/bindings/net/brcm,amac.yaml         |  2 +-
+>   .../devicetree/bindings/net/brcm,systemport.yaml   |  2 +-
 
-Unnecessary parenthesis.
-
-> +#define UDMA_MAX_TXSZ	(UDMA_MAX_BUFSZ - 1)
-> +
-> +enum ast2600_udma_bufsz {
-> +	UDMA_BUFSZ_1KB,
-> +	UDMA_BUFSZ_4KB,
-> +	UDMA_BUFSZ_16KB,
-> +	UDMA_BUFSZ_64KB,
-> +};
-> +
-> +struct ast2600_udma_desc {
-> +	struct dma_async_tx_descriptor tx;
-> +	dma_addr_t addr;
-> +	unsigned int size;
-> +};
-> +
-> +struct ast2600_udma_chan {
-> +	struct dma_chan chan;
-> +	struct ast2600_udma_desc ud;
-> +	struct ast2600_udma *udma;
-> +	uint32_t residue;
-> +
-> +	/* 4B-aligned local buffer for workaround */
-> +	uint8_t *buf;
-> +	dma_addr_t buf_addr;
-> +
-> +	bool is_tx;
-> +};
-> +
-> +struct ast2600_udma {
-> +	struct dma_device ddev;
-> +	uint8_t __iomem *regs;
-> +	int irq;
-> +	struct ast2600_udma_chan *ucs;
-> +	uint32_t n_ucs;
-> +	spinlock_t lock;
-> +};
-> +
-> +static struct ast2600_udma_chan *to_ast2600_udma_chan(struct dma_chan *chan)
-> +{
-> +	return container_of(chan, struct ast2600_udma_chan, chan);
-> +}
-> +
-> +static int ast2600_udma_alloc_chan_resources(struct dma_chan *chan)
-> +{
-> +	dma_cookie_init(chan);
-> +
-> +	return 0;
-> +}
-> +
-> +static dma_cookie_t ast2600_udma_tx_submit(struct dma_async_tx_descriptor *tx)
-> +{
-> +	return dma_cookie_assign(tx);
-> +}
-> +
-> +/* consider only 8250_dma using dmaengine_prep_slave_single() */
-> +static struct dma_async_tx_descriptor *ast2600_udma_prep_slave_sg(struct dma_chan *chan,
-> +								  struct scatterlist *sgl,
-> +								  unsigned int sg_len,
-> +								  enum dma_transfer_direction dir,
-> +								  unsigned long tx_flags,
-> +								  void *context)
-> +{
-> +	struct device *dev = chan->device->dev;
-> +	struct ast2600_udma_chan *uc = to_ast2600_udma_chan(chan);
-> +	struct ast2600_udma_desc *ud = &uc->ud;
-> +	phys_addr_t pa;
-> +	void *va;
-> +
-> +	if (!is_slave_direction(dir)) {
-> +		dev_err(dev, "direction is not slave mode\n");
-> +		return NULL;
-> +	}
-> +
-> +	if (sg_len != 1) {
-
-> 1
-
-> +		dev_err(dev, "scatter list length is not 1\n");
-> +		return NULL;
-> +	}
-> +
-> +	if (uc->is_tx && dir != DMA_MEM_TO_DEV) {
-> +		dev_err(dev, "invalid direction to TX channel\n");
-> +		return NULL;
-> +	}
-> +
-> +	ud->addr = sg_dma_address(sgl);
-> +	ud->size = sg_dma_len(sgl);
-> +
-> +	if (uc->is_tx) {
-> +		if (ud->size > UDMA_MAX_TXSZ) {
-> +			dev_err(dev, "invalid TX DMA SIZE");
-> +			return NULL;
-> +		}
-> +
-> +		/*
-> +		 * UDMA is limited to 4B-aligned DMA addresses.
-> +		 * Thus copy data to local 4B-aligned buffer if
-> +		 * the source does not fit.
-> +		 */
-> +		if (ud->addr & 0x3) {
-
-!IS_ALIGNED()
-
-Remember to add include for it.
-
-> +			pa = dma_to_phys(chan->device->dev, ud->addr);
-> +			if (pa != (phys_addr_t)-1) {
-> +				va = phys_to_virt(pa);
-> +				memcpy(uc->buf, va, ud->size);
-> +				ud->addr = uc->buf_addr;
-> +			}
-> +		}
-> +	} else {
-> +		/*
-> +		 * UDMA RX buffer size is limited to 1/4/16/64 KB
-> +		 * We use the lower bits to encode the buffer size
-> +		 */
-> +		switch (ud->size) {
-> +		case 0x400:
-
-SZ_1K, etc in linux/sizes.h.
-
-> +			ud->size |= FIELD_PREP(UDMA_CH_CTRL_BUFSZ, UDMA_BUFSZ_1KB);
-> +			break;
-> +		case 0x1000:
-> +			ud->size |= FIELD_PREP(UDMA_CH_CTRL_BUFSZ, UDMA_BUFSZ_4KB);
-> +			break;
-> +		case 0x4000:
-> +			ud->size |= FIELD_PREP(UDMA_CH_CTRL_BUFSZ, UDMA_BUFSZ_16KB);
-> +			break;
-> +		case 0x10000:
-> +			ud->size |= FIELD_PREP(UDMA_CH_CTRL_BUFSZ, UDMA_BUFSZ_64KB);
-> +			break;
-> +		default:
-> +			dev_err(dev, "invalid RX DMA size\n");
-> +			return NULL;
-> +		}
-> +	}
-> +
-> +	dma_async_tx_descriptor_init(&ud->tx, &uc->chan);
-> +	ud->tx.tx_submit = ast2600_udma_tx_submit;
-> +
-> +	return &ud->tx;
-> +}
-> +
-> +static void ast2600_udma_issue_pending(struct dma_chan *chan)
-> +{
-> +	unsigned long flags;
-> +	uint32_t r_pr, r_is, r_ie, r_en, reg;
-> +	uint32_t ch_id = chan->chan_id;
-> +	uint32_t ch_bit = ch_id / 2;
-> +	dma_addr_t rx_addr;
-> +	uint32_t rx_size;
-> +	struct ast2600_udma_chan *uc = to_ast2600_udma_chan(chan);
-> +	struct ast2600_udma_desc *ud = &uc->ud;
-> +	struct ast2600_udma *udma = uc->udma;
-> +
-> +	if (uc->is_tx) {
-> +		r_pr = UDMA_TX_PTR_RST;
-> +		r_is = UDMA_TX_INT_STS;
-> +		r_ie = UDMA_TX_INT_EN;
-> +		r_en = UDMA_TX_EN;
-> +	} else {
-> +		r_pr = UDMA_RX_PTR_RST;
-> +		r_is = UDMA_RX_INT_STS;
-> +		r_ie = UDMA_RX_INT_EN;
-> +		r_en = UDMA_RX_EN;
-> +	}
-> +
-> +	spin_lock_irqsave(&udma->lock, flags);
-> +
-> +	/* reset channel HW read/write pointer */
-> +	writel(BIT(ch_bit), udma->regs + r_pr);
-> +	writel(0, udma->regs + r_pr);
-> +
-> +	/* clear interrupt status */
-> +	writel(BIT(ch_bit), udma->regs + r_is);
-> +
-> +	/* set transfer address & size */
-> +	if (uc->is_tx) {
-> +		writel(ud->addr, udma->regs + UDMA_CH_ADDR(ch_id));
-> +		writel(ud->size, udma->regs + UDMA_CH_WPTR(ch_id));
-> +		writel(UDMA_BUFSZ_64KB, udma->regs + UDMA_CH_CTRL(ch_id));
-> +	} else {
-> +		/*
-> +		 * UDMA is limited to 4B-aligned addresses.
-> +		 * Thus use local 4B-aligned buffer to get
-> +		 * RX data and copy to the real destination
-> +		 * after then.
-> +		 */
-> +		rx_addr = (ud->addr & 0x3) ? uc->buf_addr : ud->addr;
-
-!IS_ALIGNED()
-
-> +		rx_size = FIELD_GET(UDMA_CH_CTRL_BUFSZ, ud->size);
-> +		writel(rx_addr, udma->regs + UDMA_CH_ADDR(ch_id));
-> +		writel(rx_size, udma->regs + UDMA_CH_CTRL(ch_id));
-> +	}
-> +
-> +	/* enable interrupt */
-> +	reg = readl(udma->regs + r_ie) | BIT(ch_bit);
-
-Usually, in this kind of constructs, the logic is put on its own line 
-between readl and writel.
-
-> +	writel(reg, udma->regs + r_ie);
-> +
-> +	/* start DMA */
-> +	reg = readl(udma->regs + r_en) | BIT(ch_bit);
-> +	writel(reg, udma->regs + r_en);
-> +
-> +	spin_unlock_irqrestore(&udma->lock, flags);
-> +}
-> +
-> +static enum dma_status ast2600_udma_tx_status(struct dma_chan *chan,
-> +		dma_cookie_t cookie, struct dma_tx_state *txstate)
-> +{
-> +	struct ast2600_udma_chan *uc = to_ast2600_udma_chan(chan);
-> +	enum dma_status sts = dma_cookie_status(chan, cookie, txstate);
-> +
-> +	dma_set_residue(txstate, uc->residue);
-> +
-> +	return sts;
-> +}
-> +
-> +static int ast2600_udma_pause(struct dma_chan *chan)
-> +{
-> +	unsigned long flags;
-> +	uint32_t r_en, r_ie, reg;
-> +	uint32_t ch_id = chan->chan_id;
-> +	uint32_t ch_bit = ch_id / 2;
-> +	struct ast2600_udma_chan *uc = to_ast2600_udma_chan(chan);
-> +	struct ast2600_udma *udma = uc->udma;
-> +
-> +	if (uc->is_tx) {
-> +		r_en = UDMA_TX_EN;
-> +		r_ie = UDMA_TX_INT_EN;
-> +	} else {
-> +		r_en = UDMA_RX_EN;
-> +		r_ie = UDMA_RX_INT_EN;
-> +	}
-> +
-> +	spin_lock_irqsave(&udma->lock, flags);
-> +
-> +	reg = readl(udma->regs + r_en) & ~BIT(ch_bit);
-> +	writel(reg, udma->regs + r_en);
-> +
-> +	reg = readl(udma->regs + r_ie) & ~BIT(ch_bit);
-> +	writel(reg, udma->regs + r_ie);
-> +
-> +	spin_unlock_irqrestore(&udma->lock, flags);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ast2600_udma_resume(struct dma_chan *chan)
-> +{
-> +	unsigned long flags;
-> +	uint32_t r_en, r_ie, reg;
-> +	uint32_t ch_id = chan->chan_id;
-> +	uint32_t ch_bit = ch_id / 2;
-> +	struct ast2600_udma_chan *uc = to_ast2600_udma_chan(chan);
-> +	struct ast2600_udma *udma = uc->udma;
-> +
-> +	if (uc->is_tx) {
-> +		r_en = UDMA_TX_EN;
-> +		r_ie = UDMA_TX_INT_EN;
-> +	} else {
-> +		r_en = UDMA_RX_EN;
-> +		r_ie = UDMA_RX_INT_EN;
-> +	}
-> +
-> +	spin_lock_irqsave(&udma->lock, flags);
-> +
-> +	reg = readl(udma->regs + r_en) | BIT(ch_bit);
-> +	writel(reg, udma->regs + r_en);
-> +
-> +	reg = readl(udma->regs + r_ie) | BIT(ch_bit);
-> +	writel(reg, udma->regs + r_ie);
-> +
-> +	spin_unlock_irqrestore(&udma->lock, flags);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ast2600_udma_terminate(struct dma_chan *chan)
-> +{
-> +	unsigned long flags;
-> +	uint32_t r_pr, r_is, r_ie, r_en, reg;
-> +	uint32_t ch_id = chan->chan_id;
-> +	uint32_t ch_bit = ch_id / 2;
-> +	struct ast2600_udma_chan *uc = to_ast2600_udma_chan(chan);
-> +	struct ast2600_udma *udma = uc->udma;
-> +
-> +	if (uc->is_tx) {
-> +		r_pr = UDMA_TX_PTR_RST;
-> +		r_is = UDMA_TX_INT_STS;
-> +		r_ie = UDMA_TX_INT_EN;
-> +		r_en = UDMA_TX_EN;
-> +	} else {
-> +		r_pr = UDMA_RX_PTR_RST;
-> +		r_is = UDMA_RX_INT_STS;
-> +		r_ie = UDMA_RX_INT_EN;
-> +		r_en = UDMA_RX_EN;
-> +	}
-> +
-> +	spin_lock_irqsave(&udma->lock, flags);
-> +
-> +	/* disable DMA */
-> +	reg = readl(udma->regs + r_en) & ~BIT(ch_bit);
-> +	writel(reg, udma->regs + r_en);
-> +
-> +	/* disable interrupt */
-> +	reg = readl(udma->regs + r_ie) & ~BIT(ch_bit);
-> +	writel(reg, udma->regs + r_ie);
-> +
-> +	/* clear interrupt status */
-> +	writel(BIT(ch_bit), udma->regs + r_is);
-> +
-> +	/* reset channel HW read/write pointer */
-> +	writel(BIT(ch_bit), udma->regs + r_pr);
-> +	writel(0, udma->regs + r_pr);
-> +
-> +	spin_unlock_irqrestore(&udma->lock, flags);
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t ast2600_udma_isr(int irq, void *arg)
-> +{
-> +	struct ast2600_udma *udma = arg;
-> +	struct ast2600_udma_chan *uc;
-> +	struct ast2600_udma_desc *ud;
-> +	struct dma_async_tx_descriptor *tx;
-> +	uint32_t sts, rptr, wptr;
-> +	uint32_t ch_id, ch_bit;
-> +	phys_addr_t pa;
-> +	void *va;
-> +
-> +	/* handle TX interrupt */
-> +	sts = readl(udma->regs + UDMA_TX_INT_STS);
-> +	for_each_set_bit(ch_bit, (unsigned long *)&sts, (udma->n_ucs / 2)) {
-
-Why not make sts unsigned long to avoid the cast?
-
-Unnecessary parenthesis.
-
-> +		ch_id = ch_bit << 1;
-> +		rptr = readl(udma->regs + UDMA_CH_RPTR(ch_id));
-> +		wptr = readl(udma->regs + UDMA_CH_WPTR(ch_id));
-> +
-> +		uc = &udma->ucs[ch_id];
-> +		uc->residue = wptr - rptr;
-> +
-> +		ast2600_udma_terminate(&uc->chan);
-> +
-> +		tx = &uc->ud.tx;
-> +		dma_cookie_complete(tx);
-> +		dma_descriptor_unmap(tx);
-> +		dmaengine_desc_get_callback_invoke(tx, NULL);
-> +	}
-> +
-> +	/* handle RX interrupt */
-> +	sts = readl(udma->regs + UDMA_RX_INT_STS);
-> +	for_each_set_bit(ch_bit, (unsigned long *)&sts, udma->n_ucs / 2) {
-> +		ch_id = (ch_bit << 1) + 1;
-> +		wptr = readl(udma->regs + UDMA_CH_WPTR(ch_id));
-> +
-> +		uc = &udma->ucs[ch_id];
-> +		ud = &uc->ud;
-> +		tx = &ud->tx;
-> +
-> +		uc->residue = (ud->size & ~UDMA_CH_CTRL_BUFSZ) - wptr;
-> +
-> +		/* handle non-4B-aligned case */
-> +		if (ud->addr & 0x3) {
-
-!IS_ALIGNED()
-
-> +			pa = dma_to_phys(uc->chan.device->dev, ud->addr);
-> +			if (pa != (phys_addr_t)-1) {
-> +				va = phys_to_virt(pa);
-> +				memcpy(va, uc->buf, wptr);
-> +			}
-> +		}
-> +
-> +		ast2600_udma_terminate(&uc->chan);
-> +
-> +		dma_cookie_complete(tx);
-> +		dma_descriptor_unmap(tx);
-> +		dmaengine_desc_get_callback_invoke(tx, NULL);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int ast2600_udma_probe(struct platform_device *pdev)
-> +{
-> +	int i, rc;
-> +	struct resource *res;
-> +	struct ast2600_udma *udma;
-> +	struct device *dev = &pdev->dev;
-> +
-> +	udma = devm_kzalloc(dev, sizeof(*udma), GFP_KERNEL);
-> +	if (!udma)
-> +		return -ENOMEM;
-> +
-> +	dma_cap_set(DMA_SLAVE, udma->ddev.cap_mask);
-> +	udma->ddev.device_alloc_chan_resources = ast2600_udma_alloc_chan_resources;
-> +	udma->ddev.device_prep_slave_sg = ast2600_udma_prep_slave_sg;
-> +	udma->ddev.device_issue_pending = ast2600_udma_issue_pending;
-> +	udma->ddev.device_tx_status = ast2600_udma_tx_status;
-> +	udma->ddev.device_pause = ast2600_udma_pause;
-> +	udma->ddev.device_resume = ast2600_udma_resume;
-> +	udma->ddev.device_terminate_all = ast2600_udma_terminate;
-> +	udma->ddev.src_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE);
-> +	udma->ddev.dst_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE);
-> +	udma->ddev.directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
-> +	udma->ddev.residue_granularity = DMA_RESIDUE_GRANULARITY_BURST;
-> +	udma->ddev.dev = dev;
-> +	INIT_LIST_HEAD(&udma->ddev.channels);
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (IS_ERR(res)) {
-> +		dev_err(dev, "cannot get IO resource\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	udma->regs = devm_ioremap_resource(dev, res);
-> +	if (IS_ERR(udma->regs)) {
-> +		dev_err(dev, "cannot map IO registers\n");
-> +		return PTR_ERR(udma->regs);
-> +	}
-> +
-> +	/* timeout value: 0x200 * (PCLK * 14400) */
-> +	writel(0x200, udma->regs + UDMA_TMOUT);
-> +
-> +	/* disable all for safety */
-> +	writel(0x0, udma->regs + UDMA_TX_EN);
-> +	writel(0x0, udma->regs + UDMA_RX_EN);
-> +
-> +	udma->irq = platform_get_irq(pdev, 0);
-> +	if (udma->irq < 0)
-> +		return udma->irq;
-> +
-> +	rc = devm_request_irq(&pdev->dev, udma->irq, ast2600_udma_isr,
-> +			      IRQF_SHARED, DEVICE_NAME, udma);
-> +	if (rc) {
-> +		dev_err(dev, "cannot request IRQ\n");
-> +		return rc;
-> +	}
-> +
-> +	rc = of_property_read_u32(dev->of_node, "dma-channels", &udma->n_ucs);
-> +	if (rc) {
-> +		dev_err(dev, "cannot find number of channels\n");
-> +		return rc;
-> +	}
-> +
-> +	udma->ucs = devm_kzalloc(dev,
-> +				 sizeof(struct ast2600_udma_chan) * udma->n_ucs, GFP_KERNEL);
-> +	if (!udma->ucs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < udma->n_ucs; ++i) {
-> +		udma->ucs[i].is_tx = !(i % 2);
-
-& 1 would make more sense I think.
-
-> +		udma->ucs[i].chan.device = &udma->ddev;
-> +		udma->ucs[i].buf = dmam_alloc_coherent(dev, UDMA_MAX_BUFSZ,
-> +						       &udma->ucs[i].buf_addr, GFP_KERNEL);
-> +		if (!udma->ucs[i].buf)
-> +			return -ENOMEM;
-> +
-> +		udma->ucs[i].udma = udma;
-> +		list_add_tail(&udma->ucs[i].chan.device_node, &udma->ddev.channels);
-> +	}
-> +
-> +	rc = dma_async_device_register(&udma->ddev);
-> +	if (rc)
-> +		return rc;
-> +
-> +	rc = of_dma_controller_register(dev->of_node, of_dma_xlate_by_chan_id, &udma->ddev);
-> +	if (rc)
-> +		return rc;
-> +
-> +	spin_lock_init(&udma->lock);
-> +
-> +	platform_set_drvdata(pdev, udma);
-> +
-> +	dev_info(dev, "module loaded\n");
-
-Don't print anything when there's no error.
-
-> +	return 0;
-> +}
-> +
-> +static int ast2600_udma_remove(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct ast2600_udma *udma = platform_get_drvdata(pdev);
-> +
-> +	of_dma_controller_free(dev->of_node);
-> +	dma_async_device_unregister(&udma->ddev);
-> +
-> +	dev_info(dev, "module removed\n");
-
-Ditto.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id ast2600_udma_match[] = {
-> +	{ .compatible = "aspeed,ast2600-udma" },
-> +	{ },
-> +};
-> +
-> +static struct platform_driver ast2600_udma_driver = {
-> +	.probe = ast2600_udma_probe,
-> +	.remove = ast2600_udma_remove,
-> +	.driver = {
-> +			.name = DEVICE_NAME,
-> +			.of_match_table = ast2600_udma_match,
-> +	},
-> +};
-> +
-> +module_platform_driver(ast2600_udma_driver);
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Chia-Wei Wang <chiawei_wang@aspeedtech.com");
-> 
-
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
- i.
+Florian
 
