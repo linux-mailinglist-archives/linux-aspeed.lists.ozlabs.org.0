@@ -2,73 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66326C3575
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Mar 2023 16:19:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C4B6C357E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Mar 2023 16:20:35 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PgwJK5P1xz3cQl
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Mar 2023 02:19:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PgwKF1K3dz3cdK
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Mar 2023 02:20:33 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=a9/mRmDd;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=RIZhyIZ9;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52f; helo=mail-ed1-x52f.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52b; helo=mail-ed1-x52b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=a9/mRmDd;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=RIZhyIZ9;
 	dkim-atps=neutral
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PgwJC45Qkz3c6m
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Mar 2023 02:19:39 +1100 (AEDT)
-Received: by mail-ed1-x52f.google.com with SMTP id eg48so60997194edb.13
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Mar 2023 08:19:39 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PgwK86Bs1z3c6m
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Mar 2023 02:20:28 +1100 (AEDT)
+Received: by mail-ed1-x52b.google.com with SMTP id r11so61129358edd.5
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Mar 2023 08:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679411975;
+        d=linaro.org; s=google; t=1679412025;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=N2mP2BnsQm5zh6A2HZUTUjLmcpObY/zGao0pM3PGo0g=;
-        b=a9/mRmDdoKZe4hhJTvpyCKClqpUYC+NK2bBvbKm60dxzY9gnmfTSZj8AiS80GfNyk5
-         bW6FwwOD+ms6rmCHj72eMQyXwxGqM9POwKXiUBNj0wELc5Y7PPdEMGFyijxPA1c7iZ49
-         OVUqYTmOcT6j8aF9yvCnG5LdN8RzMaZfcIZ00Q4ZBPIf8GXklbycWNde2wHRexk/ppcY
-         vQrPhozeuNvycoFLmZs/9ZeWDp2iMSiI/+ApBNMqCXbwXojKQ3xqr6gr440O5yoTVWi6
-         /Ky3g6vptPcGfsW9xcc/6VTqiYx9Q5vQmtZ5579ab7l1uS/9hAnYJmN0KeiGEkmD+xyw
-         3D2g==
+        bh=5Da2jxuDTdjMSjUZ5oJaHx1frHV9AyEaeWV3IO9K8Rs=;
+        b=RIZhyIZ9n0aS3DStByjSKQu/175aENkML4VQIuqDuR3TrTGuDi59cBsHTE2ZhqcIwd
+         rTx4kVX5fZoY9GU7W/OPKD4Rps8U1hUsSqnzkkytb/5KH95gWW8BVcSC1Y4Kv3oCY7bM
+         H4QUrxopAbXaCgr5BGAc+kmUs3WyY+ufwfnGEzXYIt22mDWF0WnoIaWKsm+GjRT9uwIO
+         KKwlC0CEdTABkp5bZcBCE1AxjjQXhIWG3gW8DNVYBgLBL4u1XzgFA4T5uCijk9yP7oWs
+         skNsxpAnAmm4Vj0yN8ZHUUcZv8mLj6rvLxWbnj7u2KrLMtdJSitv58VRNhVpfUdRatzm
+         dgbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679411975;
+        d=1e100.net; s=20210112; t=1679412025;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N2mP2BnsQm5zh6A2HZUTUjLmcpObY/zGao0pM3PGo0g=;
-        b=seHVM1G9WlehjonTXql+mjnxKkewOb8vOQ+JzfcjaMYEQGD5VoyLik4Q6okLP8M7pU
-         3qJf596TC+T9RLZ8PdbfF/4kJcvnWb/O1sykwxV/URm73kXtFMjH+wRKwowfMLSUlEYG
-         g6TH35Am8UiI3W6MFooyFgK3eRauOD4Pgu+7yX2RHnK/pc6s24xLqEU1nGax4QYwirIS
-         9eaK2/PjnM4bbtgUlTUarhcDZ24LeWZPHyaTfWgHj1vWWGDCDqgDf8esbc5zv+3td6Jo
-         w3JjmLwQNsa77d4X+p4GF1NEQDcasNghgT3rLgHXESDxpjHxiq63KM/bkK0uR+/s85RV
-         TcKA==
-X-Gm-Message-State: AO0yUKX6fSmkNpvd31xFXUBOTua27HbvyumMKtmJ7BuBfzzlr5FZgK1x
-	HhaLIOxky+98icz9y4nwOHtVVQ==
-X-Google-Smtp-Source: AK7set8T8K2wOtiJQwaJ+xGQGB6ZcAZOwXgU8n6yD90OeTQO2Khv8i5BOklJDUGRgKscZAFRclXJ8Q==
-X-Received: by 2002:a17:907:75d8:b0:8aa:502c:44d3 with SMTP id jl24-20020a17090775d800b008aa502c44d3mr3318942ejc.41.1679411975153;
-        Tue, 21 Mar 2023 08:19:35 -0700 (PDT)
+        bh=5Da2jxuDTdjMSjUZ5oJaHx1frHV9AyEaeWV3IO9K8Rs=;
+        b=eopNb7uZjusL1EXTp0CPgeRqFg2BIPjgvePQ+RVBDqjVshXh9vdaee5wJ2x0FYs5Af
+         98Kj4fws96bwq8E9fmNk0IGHUKEto1+VA0UhrjzRZMxCVidCvCI1TA8SPEj4+H9eSyJ0
+         k0YpmSUpwBbxAMBMgcZhEMOZoH1jFwCZwGCS5v/t0HmXYuhHfyJIxeaHhR+oMplstjxl
+         nu/9FnNbWorsefs3+N9ZKUBp35EbrFOXKnIddHOuxKbMXZ9zQBUXrY32F3naPeRAt8ct
+         1JIh7iQcYt7oXVve+5nKHj1UQnHafDaPXmdPjuFPjhmEDI8EfOMlQmACr4MPyKWT65Xm
+         L6/A==
+X-Gm-Message-State: AO0yUKWm49PIIS0zwmsAwFo8Zc2bpC0TTMALSCsSjoqGI1ToRENOuM2M
+	17wF0WDlweuES5G0XPllmHxNPA==
+X-Google-Smtp-Source: AK7set93GdFlp6UxzAJRhP+TpVPdJfQCztzCBUEZMkFY2nmybXMPfjIo0Fvf6G9cxJLVi/gEQ8Umdg==
+X-Received: by 2002:aa7:d84d:0:b0:4ef:9bf0:7177 with SMTP id f13-20020aa7d84d000000b004ef9bf07177mr3338986eds.9.1679412025077;
+        Tue, 21 Mar 2023 08:20:25 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:2142:d8da:5ae4:d817? ([2a02:810d:15c0:828:2142:d8da:5ae4:d817])
-        by smtp.gmail.com with ESMTPSA id 11-20020a170906318b00b008d606b1bbb1sm5899106ejy.9.2023.03.21.08.19.34
+        by smtp.gmail.com with ESMTPSA id y2-20020a50ce02000000b004c0057b478bsm6493930edi.34.2023.03.21.08.20.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Mar 2023 08:19:34 -0700 (PDT)
-Message-ID: <6d4cf513-0787-6b39-8d38-30484be7ddff@linaro.org>
-Date: Tue, 21 Mar 2023 16:19:33 +0100
+        Tue, 21 Mar 2023 08:20:24 -0700 (PDT)
+Message-ID: <bad282d5-9e40-a99d-0abb-d04163dcf080@linaro.org>
+Date: Tue, 21 Mar 2023 16:20:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/4] doc: Add Atmel AT30TSE serial eeprom
+Subject: Re: [PATCH v2 3/4] eeprom: ee1004: Add devicetree binding
 Content-Language: en-US
 To: Eddie James <eajames@linux.ibm.com>, linux-kernel@vger.kernel.org
 References: <20230321151642.461618-1-eajames@linux.ibm.com>
- <20230321151642.461618-3-eajames@linux.ibm.com>
+ <20230321151642.461618-4-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230321151642.461618-3-eajames@linux.ibm.com>
+In-Reply-To: <20230321151642.461618-4-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -87,36 +87,17 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 21/03/2023 16:16, Eddie James wrote:
-> The AT30TSE is compatible with the JEDEC EE1004 standard. Document it
-> as a trivial I2C device.
+> Add an OF match table for devicetree instantiation of EE1004
+> devices.
+
+Subject: There is no device tree binding here. You add OF matching (or
+support) to the driver.
+
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
-
-Use subject prefixes matching the subsystem (which you can get for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching).
-
 > ---
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-> index 6f482a254a1d..43e26c73a95f 100644
-> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> @@ -47,6 +47,8 @@ properties:
->            - ams,iaq-core
->              # i2c serial eeprom (24cxx)
->            - at,24c08
-> +            # i2c serial eeprom (EE1004 standard)
-
-AT30TSE?
-
-> +          - atmel,at30tse
-
-Microchip does not find anything on AT30TSE. Are you sure this is the
-model name?
-
+>  drivers/misc/eeprom/ee1004.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
 Best regards,
 Krzysztof
