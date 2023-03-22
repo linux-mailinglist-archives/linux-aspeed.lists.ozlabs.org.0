@@ -2,82 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DB96C4CDE
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Mar 2023 15:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA436C591A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Mar 2023 22:55:02 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PhVbB4H24z3cfH
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 01:04:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Phj1t2tN2z3chm
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 08:54:58 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=OgEMCVX0;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=e3uHRIoB;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::534; helo=mail-ed1-x534.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=OgEMCVX0;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=e3uHRIoB;
 	dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PhVZh4mqpz3cM6
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Mar 2023 01:04:12 +1100 (AEDT)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32MDHB1I019224;
-	Wed, 22 Mar 2023 14:04:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=e5kXO0NJGkvXS5bgTXxLjg7+d878iJXOxykGqAZwKRQ=;
- b=OgEMCVX02lVt/uqJez+0REqJk8ImhUmH64sMkOiIdKM9FD79skDWzsD4sSBKrKFK1bUH
- AGix19nZ32MR9ChMTkvoXIqBRXw2F8Kc2vE5P1pL8CQPur4lZ4URkIqZvQhtb38BsHYb
- LcoTaw3pwJFhCEgzwWV363jlIOXI6eAcdkJY7QOBsuiGV5lQTaGgS3E1XXJru1n8UW7T
- ygvAzTH8dag+8WLQvGD+rH9jz9b1nqGKzUzH9cJHPwgMnhVFsXQmMN2V2NYqPHBqn9Rs
- 8qTo3xZk2DLvE4LcB1JmuHaM4QCNBBmcg1EjIAmLr1EzcP0s5P0AB3eBhKrS8td5j5lF cA== 
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
-	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg2dy9cgb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Mar 2023 14:04:00 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
-	by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MAiWYM030001;
-	Wed, 22 Mar 2023 14:04:00 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
-	by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3pd4x78mcw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Mar 2023 14:04:00 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32ME3xQR27394762
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 Mar 2023 14:03:59 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0719C5805D;
-	Wed, 22 Mar 2023 14:03:59 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8346E58064;
-	Wed, 22 Mar 2023 14:03:57 +0000 (GMT)
-Received: from slate16.aus.stglabs.ibm.com (unknown [9.77.129.242])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 22 Mar 2023 14:03:57 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/4] ARM: dts: aspeed: bonnell: Add DIMM SPD
-Date: Wed, 22 Mar 2023 09:03:48 -0500
-Message-Id: <20230322140348.569397-5-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230322140348.569397-1-eajames@linux.ibm.com>
-References: <20230322140348.569397-1-eajames@linux.ibm.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Phj1l5l1yz3bmH
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Mar 2023 08:54:48 +1100 (AEDT)
+Received: by mail-ed1-x534.google.com with SMTP id ek18so78835133edb.6
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Mar 2023 14:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679522082;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8uvaRG6SEubgVDA8byacGya26N57UadVLJD7KEjV3v8=;
+        b=e3uHRIoBfiqATEEQUeoKbGF4jKPKe/GadoIicmI2t0auPCUZSg0mWBf2LIk1arnKmZ
+         54hOhTTuBT3JmwEEZob6Lw4YvkMmj/kplRUumQm3fHT7Kd4AxBPfk8L3b3XpmeoWGLPg
+         T+2whG2hq/Sb8mClxgwgOT+kPi0v3gbBeGTzI2wp7+YS7q3jtsp+RoYUX8bTYdNySWli
+         vQK1fv45TOVgSllyKbw/6jDxPXyacVEZGCQsZk+1yl+khoX7XIbFqL7Z2InRpfvPxXhf
+         DiyCR8yjhJ0oOjhFBdCquaJhzSEkQwCNf/9P9xtscbbtt5SRkzF7Ttvc/WwuPlTcXR4Z
+         KW8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679522082;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8uvaRG6SEubgVDA8byacGya26N57UadVLJD7KEjV3v8=;
+        b=WeYt0rJXQw/eA3wVm1Q7WyKIU5qlNcZCg1WwD4m68K+tOOBu0b+aeutr5leHOZU7KU
+         MXwMEG3tUGl9xeLgj1Oy5nGM2pGPbzww1WHlNfzylUfn1H9RWe7SFQjLlf9KY2/UAl6f
+         r5r0mBUV9aNBhEg5u0Sn0snd8qYYr2hc4+5vipNagW5lyY7bp6MRQmF2LzL8bxQj0ao3
+         rLPXNXq3Z4mjVmymH/4PyARNZRKcrREsOZvGVmES2ghCi0G5MDEbocQo7dFVdo0pmBP4
+         tj9zyoHkE3urSyDM77bYifwLivK5aBV6/8VMecSvDsKOiyf+e2MaVP2DXTa0alK9ZG+d
+         K/Wg==
+X-Gm-Message-State: AO0yUKU2IE2oF88EYjtFN8OgXOlCSOx+7PN6xVB2azPLVnuzKyDqtNrD
+	ozKfQPqeWBHz6KZrdRFOPgkbtA==
+X-Google-Smtp-Source: AK7set/PZpsMUz4Si6epVj5Xk29Fp9cUg4PfUfBNqtl8qYNcExJeg+LuYMrEp71qE9lZhQLzeacgUA==
+X-Received: by 2002:a05:6402:1391:b0:501:c839:cf90 with SMTP id b17-20020a056402139100b00501c839cf90mr7103329edv.3.1679522082373;
+        Wed, 22 Mar 2023 14:54:42 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:626d:5729:6e71:4c22? ([2a02:810d:15c0:828:626d:5729:6e71:4c22])
+        by smtp.gmail.com with ESMTPSA id x21-20020a50d615000000b004bb810e0b87sm8377005edi.39.2023.03.22.14.54.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Mar 2023 14:54:41 -0700 (PDT)
+Message-ID: <50a6f96b-0822-66e4-be5c-46466766702b@linaro.org>
+Date: Wed, 22 Mar 2023 22:54:41 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: W_DPpyvQCuqjlus0IPW6KlVFz3MnU4nx
-X-Proofpoint-ORIG-GUID: W_DPpyvQCuqjlus0IPW6KlVFz3MnU4nx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_11,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 malwarescore=0 suspectscore=0 adultscore=0 mlxlogscore=648
- lowpriorityscore=0 phishscore=0 spamscore=0 mlxscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303220103
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 2/4] dt-bindings: trivial-devices: Add Atmel
+ AT30TSE004A serial eeprom
+Content-Language: en-US
+To: Eddie James <eajames@linux.ibm.com>, linux-kernel@vger.kernel.org
+References: <20230322140348.569397-1-eajames@linux.ibm.com>
+ <20230322140348.569397-3-eajames@linux.ibm.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230322140348.569397-3-eajames@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,56 +87,16 @@ Cc: devicetree@vger.kernel.org, arnd@arndb.de, linux-aspeed@lists.ozlabs.org, gr
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add the DIMM SPD to the processor I2C busses.
+On 22/03/2023 15:03, Eddie James wrote:
+> The AT30TSE004A EEPROM is compatible with the JEDEC EE1004 standard.
+> Document it as a trivial I2C device.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts
-index 79516dc21c01..ab99d915b50e 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts
-@@ -232,18 +232,38 @@ cfam0_i2c1: i2c-bus@1 {
- 
- 			cfam0_i2c10: i2c-bus@a {
- 				reg = <10>;	/* OP3A */
-+
-+				eeprom@50 {
-+					compatible = "atmel,at30tse004a";
-+					reg = <0x50>;
-+				};
- 			};
- 
- 			cfam0_i2c11: i2c-bus@b {
- 				reg = <11>;	/* OP3B */
-+
-+				eeprom@50 {
-+					compatible = "atmel,at30tse004a";
-+					reg = <0x50>;
-+				};
- 			};
- 
- 			cfam0_i2c12: i2c-bus@c {
- 				reg = <12>;	/* OP4A */
-+
-+				eeprom@50 {
-+					compatible = "atmel,at30tse004a";
-+					reg = <0x50>;
-+				};
- 			};
- 
- 			cfam0_i2c13: i2c-bus@d {
- 				reg = <13>;	/* OP4B */
-+
-+				eeprom@50 {
-+					compatible = "atmel,at30tse004a";
-+					reg = <0x50>;
-+				};
- 			};
- 
- 			cfam0_i2c14: i2c-bus@e {
--- 
-2.31.1
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
