@@ -1,68 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D529E6C5C60
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 02:51:04 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC546C67C3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 13:13:43 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PhpGG5g1Hz3bZx
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 12:51:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Pj44j4TK4z3cf8
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Mar 2023 23:13:41 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LXcwVizv;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=sntech.de (client-ip=185.11.138.130; helo=gloria.sntech.de; envelope-from=heiko@sntech.de; receiver=<UNKNOWN>)
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b29; helo=mail-yb1-xb29.google.com; envelope-from=ulf.hansson@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LXcwVizv;
+	dkim-atps=neutral
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4PhgBH1L4Bz3cBj
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Mar 2023 07:32:04 +1100 (AEDT)
-Received: from p508fd58e.dip0.t-ipconnect.de ([80.143.213.142] helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1pf56y-0004XT-Oa; Wed, 22 Mar 2023 21:31:08 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: Andreas =?ISO-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
- Damien Le Moal <damien.lemoal@wdc.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
- Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Tomasz Figa <tomasz.figa@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Emil Renner Berthing <kernel@esmil.dk>,
- Jianlong Huang <jianlong.huang@starfivetech.com>,
- Dvorkin Dmitry <dvorkin@tibbo.com>, Wells Lu <wellslutw@gmail.com>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Michal Simek <michal.simek@xilinx.com>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
-Date: Wed, 22 Mar 2023 21:31:06 +0100
-Message-ID: <14697371.uLZWGnKmhe@phil>
-In-Reply-To: <20230317233623.3968172-1-robh@kernel.org>
-References: <20230317233623.3968172-1-robh@kernel.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pj44c6vXcz3cfg
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Mar 2023 23:13:36 +1100 (AEDT)
+Received: by mail-yb1-xb29.google.com with SMTP id e65so24480483ybh.10
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Mar 2023 05:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679573612;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DrtQ8CwDcwRA/DKiIVaGSBD/b1SSGaInqX/K7jpVRKA=;
+        b=LXcwVizvFL7SjKCXKuCoQfWAYpHOQFMIsfvaBv9J6ZIhI6mlTEb/OoL/PGa2EYhDKy
+         aQNsr29CKBreYNUaDvAFNZYVQ83GbRN6+wEcg1BKTCsqEoS/1dZnpd/FxTAtaw3BK4np
+         4DXFFWefgVSPCWNzoguFllSpnuEEIA6kZ9WA7WFS602rAyB2UX8afTfhNXRd7SM6+Vat
+         AC8vmciKYPSiQF5/PEGpA4+iRnjwHaRE2jhB9ZmD8pMwnJhXaPqu4/lz8sQaJVhujOXp
+         rvoxT99I4g/pi0v5T8Djhfz9aSpX06eQNrsM42xMbbPr4pFvchLC7xsajuWVyc19ilWz
+         aQPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679573612;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DrtQ8CwDcwRA/DKiIVaGSBD/b1SSGaInqX/K7jpVRKA=;
+        b=WjbvDU3ZxB7KwrYhVX9YDHZDz2bpEOrVBp4Jghy9fEmSb6lFBS4XgKazwJbgGc26AA
+         jt73FWlmYlm+8dY+0uNR8dZDTMIk3HP7ZlX5qUiONMuGqceTcsN7kAuUTdByVJJLsgA+
+         8u5F05XeNqb4WovUC+ZMXQ7MZfdGim1Z5Abbeuu8g1fNF0M5CM/S9aLl8d4Ak9e2SFky
+         QY5yPI7L6x/QFziQy0D3GQrQRJoFms/NjzhtIPgS11rQPJNVeVG8l723CjKINMUdLv2h
+         jOcFUL3R1NnZrkZ2AUmg1FYOk0lY9v8jVCLe83ibY0husBEgOxPuOg/ymrNLzNPToir+
+         BdFA==
+X-Gm-Message-State: AAQBX9ee5r/BgzHPL6+MsNNRLVQRoGkz8wAqxCX4hY9eLqmtGOgWmpv7
+	krJLVVhTxa5JKrL5KgPt1VMz1geTecCWR5q790jlhg==
+X-Google-Smtp-Source: AKy350Y6PAngVYMC5aIvNHmGoOD2wdu03PXzck6qzjHGv4u4r/rSe3V4PKht12FdYJJ+8QYKiBvoXSmOWogaFoo1tbA=
+X-Received: by 2002:a05:6902:722:b0:b68:7a4a:5258 with SMTP id
+ l2-20020a056902072200b00b687a4a5258mr2072334ybt.3.1679573611981; Thu, 23 Mar
+ 2023 05:13:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Mailman-Approved-At: Thu, 23 Mar 2023 12:49:28 +1100
+References: <20230315055023.61779-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230315055023.61779-1-yang.lee@linux.alibaba.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 23 Mar 2023 13:12:56 +0100
+Message-ID: <CAPDyKFrcATB2qxzpkHGKD=VGK21Vr83xmHYcaX708F0Qjek4xA@mail.gmail.com>
+Subject: Re: [PATCH -next] mmc: sdhci-of-aspeed: Use devm_platform_get_and_ioremap_resource()
+To: Yang Li <yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,18 +73,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-rockchip@lists.infradead.org, patches@opensource.cirrus.com, openbmc@lists.ozlabs.org, linux-actions@lists.infradead.org, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: oel@jms.id.au, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org, adrian.hunter@intel.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Am Samstag, 18. M=E4rz 2023, 00:36:18 CET schrieb Rob Herring:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On Wed, 15 Mar 2023 at 06:50, Yang Li <yang.lee@linux.alibaba.com> wrote:
+>
+> According to commit 890cc39a8799 ("drivers: provide
+> devm_platform_get_and_ioremap_resource()"), convert
+> platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
+>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 
->  .../devicetree/bindings/pinctrl/rockchip,pinctrl.yaml  | 10 +++++-----
+Applied for next, thanks!
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de> #rockchip
+Kind regards
+Uffe
 
-
+> ---
+>  drivers/mmc/host/sdhci-of-aspeed.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+> index ba6677bf7372..25b4073f698b 100644
+> --- a/drivers/mmc/host/sdhci-of-aspeed.c
+> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
+> @@ -547,8 +547,7 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
+>                 return ret;
+>         }
+>
+> -       sdc->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -       sdc->regs = devm_ioremap_resource(&pdev->dev, sdc->res);
+> +       sdc->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &sdc->res);
+>         if (IS_ERR(sdc->regs)) {
+>                 ret = PTR_ERR(sdc->regs);
+>                 goto err_clk;
+> --
+> 2.20.1.7.g153144c
+>
