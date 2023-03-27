@@ -1,144 +1,132 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFA36C997E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Mar 2023 04:07:27 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8BE6C9A7A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Mar 2023 06:13:32 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4PlGRK3VZsz3c8h
-	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Mar 2023 13:07:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PlKDk25n9z3cd2
+	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Mar 2023 15:13:26 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="key not found in DNS" header.d=amperemail.onmicrosoft.com header.i=@amperemail.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-amperemail-onmicrosoft-com header.b=7DHl7uqk;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:7eaa::71c; helo=nam11-dm6-obe.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="key not found in DNS" header.d=amperemail.onmicrosoft.com header.i=@amperemail.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-amperemail-onmicrosoft-com header.b=7DHl7uqk;
+	dkim-atps=neutral
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2071c.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaa::71c])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pkz3d4vxhz3cLT
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 27 Mar 2023 01:34:21 +1100 (AEDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQS-0007kf-OP; Sun, 26 Mar 2023 16:32:52 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQ1-006rYX-Ss; Sun, 26 Mar 2023 16:32:25 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQ1-0088Th-32; Sun, 26 Mar 2023 16:32:25 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Ajye Huang <ajye_huang@compal.corp-partner.google.com>,
-	Rory Liu <hellojacky0226@hotmail.com>,
-	Scott Chao <scott_chao@wistron.corp-partner.google.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Ettore Chimenti <ek5.chimenti@gmail.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Sean Young <sean@mess.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Antti Palosaari <crope@iki.fi>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Ming Qian <ming.qian@nxp.com>,
-	Shijie Qin <shijie.qin@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Eddie James <eajames@linux.ibm.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Moudy Ho <moudy.ho@mediatek.com>,
-	Qiheng Lin <linqiheng@huawei.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	=?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	=?utf-8?q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Benoit Parrot <bparrot@ti.com>,
-	Hyun Kwon <hyun.kwon@xilinx.com>,
-	Michal Simek <michal.simek@xilinx.com>,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	Eduardo Valentin <edubezval@gmail.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 000/117] media: Convert to platform remove callback returning void
-Date: Sun, 26 Mar 2023 16:30:25 +0200
-Message-Id: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PlKDY1MJwz3cDG;
+	Mon, 27 Mar 2023 15:13:15 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FNmqOd+Pa/l4y5LOyz2q+/TN4F9dY+zJYdwngoWeAbEVEynk+CjCl/QEbAQpiMj0z5eC5NZc5J8/0ivqn/KMRWCJ0THR4RurNrqXOwPmZWoka+PTib4bO+TIgU77w+PLdUAa2UWjg47c96DEuCPoh/cjf58oUvI+pTzMbxN7A9jEfo+L8y2STOBqnW7Dh+LPSd4UKH3KRt8vvx4BbPKLZGbQFVYzl1YJmIR5ia6vae2fQkC/ruTrmdzlKfhvzARIJHmtsFtp1dqNCMEVeGjn8iNo4vwWm1+0MDKHb219vjcSWV+YGsNMBeAYpFXNp/6K6sc5IupY4KTqksHOWyPbrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wpHvpJ1IYNc8j6UBHxZVoksVXWxseqw+K41QbokUMXo=;
+ b=iq+7sBFLXCZXt387LdiI+Dtf4zhkWXSZZuzQgv5rF/+1FpFdgkpK06yLQD35eagIUuk6oPXspNsy5/xg0HRWUUkLXp5/x8lEP8WWMDXnQqKW+Cr9ycTfQRrPQoMsRJfVN0TtNfEfeCGWeXIXOqVPy26BerpDDpBYOh/Mlcx8OoCxoIclQHuMpmHHJpp2teFVWXwslsQImt5YnjgaBRe2N63TjusKPWjJnZ0FxLg7wIBjBz/KBoqOrw0jFCEQwe82NpxmiHabPb9v2JKaDB/E59zA65PkL+z98T2mPaEAeSdONbW1rpNpGWGSsMrFjXLYnh5AHQBEwPmBQvYbq+EeNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=amperemail.onmicrosoft.com; dkim=pass
+ header.d=amperemail.onmicrosoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amperemail.onmicrosoft.com; s=selector1-amperemail-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wpHvpJ1IYNc8j6UBHxZVoksVXWxseqw+K41QbokUMXo=;
+ b=7DHl7uqkeq9K4nnfzJLwFOzO5wL7MnVZYSnYRRIk8M7Gutsipf/r94PF71U3zWzFujEeMANbIgcCBEXCquRbPoteuPPGvyT8iWNVovPu/GwRTjc9EZUIh4Si5bmxfQFLVOvdnNDuILRM27F1luDoMJ66DM3hu/39w0bz/DUij8c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amperemail.onmicrosoft.com;
+Received: from SN6PR01MB4973.prod.exchangelabs.com (2603:10b6:805:c4::13) by
+ BYAPR01MB5112.prod.exchangelabs.com (2603:10b6:a03:1e::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6254.16; Mon, 27 Mar 2023 04:12:52 +0000
+Received: from SN6PR01MB4973.prod.exchangelabs.com
+ ([fe80::cc68:95c1:33f7:57e6]) by SN6PR01MB4973.prod.exchangelabs.com
+ ([fe80::cc68:95c1:33f7:57e6%5]) with mapi id 15.20.6222.030; Mon, 27 Mar 2023
+ 04:12:51 +0000
+Message-ID: <df563be9-cde5-2cd5-1db0-6a1d5e100a06@amperemail.onmicrosoft.com>
+Date: Mon, 27 Mar 2023 11:12:42 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH] ARM: dts: aspeed: mtjade, mtmitchell: Add OCP device
+ temperature sensor
+To: Chanh Nguyen <chanh@os.amperecomputing.com>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+References: <20230218171002.8725-1-chanh@os.amperecomputing.com>
+Content-Language: en-US
+From: Chanh Nguyen <chanh@amperemail.onmicrosoft.com>
+In-Reply-To: <20230218171002.8725-1-chanh@os.amperecomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR02CA0133.apcprd02.prod.outlook.com
+ (2603:1096:4:188::18) To SN6PR01MB4973.prod.exchangelabs.com
+ (2603:10b6:805:c4::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=17060; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=R8JEVMooI/UfNqow28CHlf2dkvNbbdnM7oZhwsOv/Hk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFZtV3UxdfOKZxR3JuBPhyseFtriLtuq2rjef c5xbUtn61CJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWbQAKCRCPgPtYfRL+ Ton3B/9Emj2J7A7FbG3XeXfbXDRYJLuUenGjQKgVUX197T3GYrPBaHRlqJdMQdaDQ6pw0JoZVNI rvtuLyDyWyqbvbGbyWt4tkuusZ2AGpDR1EfpiPjzHafb5zfDIr+1qkROEh3lBOUWU/pC6eRbSXs lk5P4k72UW5GmudDrb66F+/OGIGCwJhr6JXVI2uAaHAKsYqWnOL6stOh8UEpk6OO4VTd445r4xQ YlcpYDM93N2MFOs1gEucUoAxMpO+ZSqMkHajHe/6jdhJj7Hwp3qC1wByPUNzHodLMFO3kVk0FJZ 1wsm2ov8oAUlDIriIN7ezncuntIthEokyQGTGnc5+Yo5+wK5
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
-X-Mailman-Approved-At: Mon, 27 Mar 2023 13:07:10 +1100
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR01MB4973:EE_|BYAPR01MB5112:EE_
+X-MS-Office365-Filtering-Correlation-Id: 772d2f0f-6154-4da8-ca14-08db2e798815
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	G7vCxrswFubwZ558RA+KCnCBV83cTapSL8yjYrkzHkUnuANzzAjAXROtlI8GNzK4nOX6Vgr65eUpd5dxvq9+4dajwhnvPLmXKO4P94oXegXu0Q9Z6+/QV5M5CmlI7mcuR94AgApqyRv2UpemBKNXWk74WCehR84kVoU9vULa3L7GwrLmWWCNWhcw6h3+UInxzVIL85lfzlX21tzAWcWH3ZfTiEc4Tyggrl05MqdkFMhcXlrfgSTteDYkY7crRTvQidYGhGq8D6DfkKx5nTMDFPki+BIveTy+HeOZrPu55FtCz4Jyq8LgdgqNDDULlnSxHcHXvsWYBuk98qx0ytgAl/IlWYwvJLi3+yzjA3l5RLAcvUt7PD/BPlZemG8BscWGCc8B0et8NlgItIat9iDUMTzXKIgndUvpftOftiSAuoTIPij/jI4eUSq5Y8i4w742owSe4GKCbMnmAGWoShWzUnLyXz+ukjtcV1JKVLHEhUzNYx5BD1PGkEuqsk4VkqaX6s8X4RpMzX0DJkpD8Ud3w4jhvuQBp3WwQBXVJ1UqJjNg5q846hY/bQuQ3ILC8aZOZelXT6CAWFx8UaiPgIxBzqo2fksO8/kO0xulMIwNyFx90VW/w5ds445Y7reCAFLeh/QptHOMvxesSUnEhGQSCw==
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR01MB4973.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(136003)(396003)(346002)(39840400004)(451199021)(83380400001)(42882007)(2616005)(66476007)(66946007)(66556008)(8676002)(6486002)(478600001)(53546011)(6512007)(6506007)(26005)(186003)(110136005)(316002)(6666004)(2906002)(83170400001)(31696002)(41300700001)(38100700002)(5660300002)(8936002)(921005)(31686004)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?cG80eHluVzc2S0JkdFFPVUEvY2YxTlliUm5UOEJ3dVZyN0FwS0V3SEJTSmxC?=
+ =?utf-8?B?VzRPRVdGRUNVbG9iSUFLekpISldHYUxLMzlZQ1ZBajYwemlnd0J3ZENCZFBj?=
+ =?utf-8?B?bmdsVVlBWnIxLzdIKzk5dkd5MEhUcFJ1T0JPZnZid0o1OE0rZUM3bU1ZRUx4?=
+ =?utf-8?B?bGYxcWtwUFJJcWhPc0xLd1Jmb1BLUzdWSXpVbmJPdjBRZU1VN2ZnQkh0VGRX?=
+ =?utf-8?B?L0dNVmZ2djNBVDlzcU1ldFcrbm10WGpSaU9hd3JIbUNGM010SGdaTVAwbEVL?=
+ =?utf-8?B?cGJaWVd2a3BYUC9ka1ZFcTQzeUJzVVFnUkxaRXJHbVZMK2VyblBaQjdRa2tC?=
+ =?utf-8?B?bGxPNzNnZmVXb2c2Q3NTTmdDWmVGeDgrZ09MMlBMMGorSStMMTBPTnpsV3FZ?=
+ =?utf-8?B?M05KNG10bFZXem0rZjlFYzZROVo5c0FuOWwwM3VNYU1WT0l6NnNjZEsvY1ll?=
+ =?utf-8?B?VkJPR2lpYXdwNFUxVVdPekxGcUMvNGxkK2pLVW1RQ2dHNVlKbFNsL2RxYWZS?=
+ =?utf-8?B?K2VCWS9RVkk4cVVSeFRWK0xlaSs0WVkwTDJSWlpTSllUS2cvWFpuSHhON2Rr?=
+ =?utf-8?B?UHpGaDFJUVBqdzk1bjZXT3JUTXRCdmt1RWdVWk1FWXZKNjlSZ2NEaEx5T1Vj?=
+ =?utf-8?B?NGlkMWtiZi9LSU1OUWxBVXY4cEx5c1g5UnFqbTMrTUYySDZqek0zbThocUdX?=
+ =?utf-8?B?WVVqNHdsUEUrQ1pjQzhHNDRtemduUFdkRERiYncyYnpiaGtzdTJMd0xrSnBa?=
+ =?utf-8?B?Y3ZyTXVneGtnTlc1aTJVVnNiK0lhbVpNUjAzZUhlNlNSd0srbXB4N3NzbTFR?=
+ =?utf-8?B?Z0hZYXlOVmlPRXBPcWRkek8vUTY2QUR5OGQyYWhmcS9IMUZLNlBGN0l0RS8y?=
+ =?utf-8?B?QmE5c2hjcElHK2owRzVVQmE3SW1nTjBGeTRzZWFjNlZuZVR3L0VGN1NUL3Nq?=
+ =?utf-8?B?ekh4TVMyeXBhSkFYeUtPRDFxS245QjdSWmtUdlVGTXR1Q2RPRmRWb1g5NzZw?=
+ =?utf-8?B?Sm5JYVZGMVY4NzV0OUN0RVNDeGoxZk1aaGNvSVFJR0wvL0Z0Qi9NWE40Tksr?=
+ =?utf-8?B?Z3hTdGQ3S2V2WVpjOW12NEdZR21raE0yT2RlRXlmaXJmM1ZvTjlidVQ5dExx?=
+ =?utf-8?B?WmdzbHorNXJvSzl2aHdNa3hCbWJPcDI4VmF2WGVXMmJkWXRML2IzOU1kd2Jp?=
+ =?utf-8?B?OXJscWh5azc0bytMK3Y2VHcvZjVocisyeFBLRVkray9HcmRQdDdUb2ZualJQ?=
+ =?utf-8?B?dlpUUW1FSk5oNmowcmlDYXoyajF0K0JHM0xLYnZWMnlOckhjMVUrcVZYMVdO?=
+ =?utf-8?B?R0ZYNFRpZHBtbnUrZnNGa2hMT2cxZHFVUkdwY29OclM5K05BOXplWTBvSzM1?=
+ =?utf-8?B?TnBFMk02MTJwbkFSaXZ3aks1c3pqbEZ1MHk4Q25FU2EvRUgwd3RLeXdDaGtB?=
+ =?utf-8?B?SHhFSm9IUFJ2Tmxna0hGRVhOM0NUVkljcVlhalJEU1QrUTkrRG14VkI1cE1z?=
+ =?utf-8?B?a293R0lLUmFwSEdJenF0ZzA4QklYYWtOTDV1b1ZhNmxmRHFlUUFIRURZUWxS?=
+ =?utf-8?B?dWJJMXNwUFpSa29TVHpMSi91cFErQUF6QXZJUzNpczVWa2ozR2x1Nkw1Mk1K?=
+ =?utf-8?B?SkRJcnJYTFk1aDN3aWpsamJXdzBzUFNNQlMwZlVTWWV2RmI0a1Q5bi9jRWl5?=
+ =?utf-8?B?RlJucW9TQy9HL01EVGJRZ2hCOEpCaVFQMDgwZ3AybGdNc0M2N004RDh0NUlm?=
+ =?utf-8?B?Vzd2d0JSc3owbXhFUU9zNW1vSDA5RzdVdjQ3SUR5ZUNwUnJ4aW56RExFMnpk?=
+ =?utf-8?B?SW5CLzE1ZWF5Q05abmlTdFZGSTBKa3BpSjc1djZsQWovaEE1VXNXVUNiMW9P?=
+ =?utf-8?B?b21mRkIzYU5qTEtMN0htLzREQ1RQd2dDdVRoK1ptU2JFNmorSjVYL01QS0Zi?=
+ =?utf-8?B?SzBDUWYzQzUvMW9GWlRTZllqYUpjc1ZLZ2Y4WmFLZUk2V2JkMXFzSE5aNFB1?=
+ =?utf-8?B?QXhJeTB6Y3ZKbHRkK3BKcVptQ2JXdHd0bXN6akQ0bkdHWVMzSXU3cGFWZDhE?=
+ =?utf-8?B?WGpzWW5NMnB6VWFmVEZvaXlTTEc3WjM3TkdNRXVSOE5hR0JXMytxc2xad1Ft?=
+ =?utf-8?B?dE8wUk9WTzJWaWh2ZnQwNEx5djAweTJ2cVdhcTNmTjg1YVRVeXhwd2l4M1hF?=
+ =?utf-8?Q?gqphdBpRomWhh/Mp5Q1P2rA=3D?=
+X-OriginatorOrg: amperemail.onmicrosoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 772d2f0f-6154-4da8-ca14-08db2e798815
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4973.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 04:12:51.5829
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ERYTaf7UxnG6zhfjflzePxLTywM8a4/2sxU9RAwxyOOXZJ/sGPrXtaEnNb7ex/61ukNpYZNvWxm4egZO8MlxPU60Wcpg4vaj13tQTt9SJMFv6cG9pfq1Dki1PUMYN2jF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR01MB5112
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,298 +138,105 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Alim Akhtar <alim.akhtar@samsung.com>, Guenter Roeck <groeck@chromium.org>, Fabio Estevam <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, openbmc@lists.ozlabs.org, Kieran Bingham <kieran.bingham@ideasonboard.com>, linux-rockchip@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello,
+Dear reviewers,
 
-this series adapts the platform drivers below drivers/pci to use the
-.remove_new() callback. Compared to the traditional .remove() callback
-.remove_new() returns no value. This is a good thing because the driver core
-doesn't (and cannot) cope for errors during remove. The only effect of a
-non-zero return value in .remove() is that the driver core emits a warning. The
-device is removed anyhow and an early return from .remove() usually yields a
-resource leak.
+Just a gentle ping for the patch.
 
-By changing the remove callback to return void driver authors cannot
-reasonably assume any more that there is some kind of cleanup later.
+Thanks,
+- Chanh
 
-Only three drivers needed some preparation first to make sure they
-return 0 unconditionally in their remove callback. Then all drivers
-could be trivially converted without side effects to .remove_new().
-
-The changes to the individual drivers are all orthogonal. If I need to
-resend some patches because of some review feedback, I'd like to only
-send the patches that actually needed changes, so please pick up the
-remaining patches that don't need changing to reduce the amount of mail.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (117):
-  media: cec-gpio: Convert to platform remove callback returning void
-  media: cros-ec-cec: Don't exit early in .remove() callback
-  media: cros-ec-cec: Convert to platform remove callback returning void
-  media: ao-cec-g12a: Convert to platform remove callback returning void
-  media: ao-cec: Convert to platform remove callback returning void
-  media: s5p_cec: Convert to platform remove callback returning void
-  media: seco-cec: Convert to platform remove callback returning void
-  media: stih-cec: Convert to platform remove callback returning void
-  media: stm32-cec: Convert to platform remove callback returning void
-  media: tegra_cec: Convert to platform remove callback returning void
-  media: rtl2832_sdr: Convert to platform remove callback returning void
-  media: zd1301_demod: Convert to platform remove callback returning
-    void
-  media: allegro-core: Convert to platform remove callback returning
-    void
-  media: ge2d: Convert to platform remove callback returning void
-  media: vpu_core: Convert to platform remove callback returning void
-  media: vpu_drv: Convert to platform remove callback returning void
-  media: aspeed-video: Convert to platform remove callback returning
-    void
-  media: atmel-isi: Convert to platform remove callback returning void
-  media: cdns-csi2rx: Convert to platform remove callback returning void
-  media: cdns-csi2tx: Convert to platform remove callback returning void
-  media: coda-common: Convert to platform remove callback returning void
-  media: pxa_camera: Convert to platform remove callback returning void
-  media: m2m-deinterlace: Convert to platform remove callback returning
-    void
-  media: marvell: Simplify remove callback
-  media: marvell: Convert to platform remove callback returning void
-  media: mtk_jpeg_core: Convert to platform remove callback returning
-    void
-  media: mtk_mdp_core: Convert to platform remove callback returning
-    void
-  media: mtk-mdp3-core: Convert to platform remove callback returning
-    void
-  media: mtk_vcodec_dec_drv: Convert to platform remove callback
-    returning void
-  media: mtk_vcodec_enc_drv: Convert to platform remove callback
-    returning void
-  media: mtk_vpu: Convert to platform remove callback returning void
-  media: microchip-csi2dc: Convert to platform remove callback returning
-    void
-  media: microchip-sama5d2-isc: Convert to platform remove callback
-    returning void
-  media: microchip-sama7g5-isc: Convert to platform remove callback
-    returning void
-  media: vde: Convert to platform remove callback returning void
-  media: dw100: Convert to platform remove callback returning void
-  media: mxc-jpeg: Convert to platform remove callback returning void
-  media: imx-mipi-csis: Convert to platform remove callback returning
-    void
-  media: imx-pxp: Convert to platform remove callback returning void
-  media: imx7-media-csi: Convert to platform remove callback returning
-    void
-  media: mx2_emmaprp: Convert to platform remove callback returning void
-  media: camss: Convert to platform remove callback returning void
-  media: venus: Warn only once about problems in .remove()
-  media: venus: Convert to platform remove callback returning void
-  media: vdec: Convert to platform remove callback returning void
-  media: venc: Convert to platform remove callback returning void
-  media: rcar-fcp: Convert to platform remove callback returning void
-  media: rcar-isp: Convert to platform remove callback returning void
-  media: rcar-core: Convert to platform remove callback returning void
-  media: rcar-csi2: Convert to platform remove callback returning void
-  media: rcar_drif: Convert to platform remove callback returning void
-  media: rcar_fdp1: Convert to platform remove callback returning void
-  media: rcar_jpu: Convert to platform remove callback returning void
-  media: renesas-ceu: Convert to platform remove callback returning void
-  media: rzg2l-core: Convert to platform remove callback returning void
-  media: rzg2l-csi2: Convert to platform remove callback returning void
-  media: sh_vou: Convert to platform remove callback returning void
-  media: vsp1_drv: Convert to platform remove callback returning void
-  media: rga: Convert to platform remove callback returning void
-  media: rkisp1-dev: Convert to platform remove callback returning void
-  media: gsc-core: Convert to platform remove callback returning void
-  media: fimc-core: Convert to platform remove callback returning void
-  media: fimc-is-i2c: Convert to platform remove callback returning void
-  media: fimc-is: Convert to platform remove callback returning void
-  media: fimc-lite: Convert to platform remove callback returning void
-  media: media-dev: Convert to platform remove callback returning void
-  media: mipi-csis: Convert to platform remove callback returning void
-  media: camif-core: Convert to platform remove callback returning void
-  media: g2d: Convert to platform remove callback returning void
-  media: jpeg-core: Convert to platform remove callback returning void
-  media: s5p_mfc: Convert to platform remove callback returning void
-  media: bdisp-v4l2: Convert to platform remove callback returning void
-  media: c8sectpfe-core: Convert to platform remove callback returning
-    void
-  media: delta-v4l2: Convert to platform remove callback returning void
-  media: hva-v4l2: Convert to platform remove callback returning void
-  media: dma2d: Convert to platform remove callback returning void
-  media: stm32-dcmi: Convert to platform remove callback returning void
-  media: sun4i_csi: Convert to platform remove callback returning void
-  media: sun6i_csi: Convert to platform remove callback returning void
-  media: sun6i_mipi_csi2: Convert to platform remove callback returning
-    void
-  media: sun8i_a83t_mipi_csi2: Convert to platform remove callback
-    returning void
-  media: sun8i-di: Convert to platform remove callback returning void
-  media: sun8i_rotate: Convert to platform remove callback returning
-    void
-  media: am437x-vpfe: Convert to platform remove callback returning void
-  media: cal: Convert to platform remove callback returning void
-  media: vpif: Convert to platform remove callback returning void
-  media: vpif_capture: Convert to platform remove callback returning
-    void
-  media: vpif_display: Convert to platform remove callback returning
-    void
-  media: omap_vout: Convert to platform remove callback returning void
-  media: isp: Convert to platform remove callback returning void
-  media: vpe: Convert to platform remove callback returning void
-  media: hantro_drv: Convert to platform remove callback returning void
-  media: via-camera: Convert to platform remove callback returning void
-  media: video-mux: Convert to platform remove callback returning void
-  media: xilinx-csi2rxss: Convert to platform remove callback returning
-    void
-  media: xilinx-tpg: Convert to platform remove callback returning void
-  media: xilinx-vipp: Convert to platform remove callback returning void
-  media: xilinx-vtc: Convert to platform remove callback returning void
-  media: radio-si476x: Convert to platform remove callback returning
-    void
-  media: radio-timb: Convert to platform remove callback returning void
-  media: radio-wl1273: Convert to platform remove callback returning
-    void
-  media: radio-platform-si4713: Convert to platform remove callback
-    returning void
-  media: gpio-ir-recv: Convert to platform remove callback returning
-    void
-  media: img-ir-core: Convert to platform remove callback returning void
-  media: ir-hix5hd2: Convert to platform remove callback returning void
-  media: meson-ir-tx: Convert to platform remove callback returning void
-  media: meson-ir: Convert to platform remove callback returning void
-  media: mtk-cir: Convert to platform remove callback returning void
-  media: st_rc: Convert to platform remove callback returning void
-  media: sunxi-cir: Convert to platform remove callback returning void
-  media: vicodec-core: Convert to platform remove callback returning
-    void
-  media: vidtv_bridge: Convert to platform remove callback returning
-    void
-  media: vim2m: Convert to platform remove callback returning void
-  media: vimc-core: Convert to platform remove callback returning void
-  media: visl-core: Convert to platform remove callback returning void
-  media: vivid-core: Convert to platform remove callback returning void
-  media: it913x: Convert to platform remove callback returning void
-
- drivers/media/cec/platform/cec-gpio/cec-gpio.c   |  5 ++---
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 16 ++++++++--------
- drivers/media/cec/platform/meson/ao-cec-g12a.c   |  6 ++----
- drivers/media/cec/platform/meson/ao-cec.c        |  6 ++----
- drivers/media/cec/platform/s5p/s5p_cec.c         |  5 ++---
- drivers/media/cec/platform/seco/seco-cec.c       |  6 ++----
- drivers/media/cec/platform/sti/stih-cec.c        |  6 ++----
- drivers/media/cec/platform/stm32/stm32-cec.c     |  6 ++----
- drivers/media/cec/platform/tegra/tegra_cec.c     |  6 ++----
- drivers/media/dvb-frontends/rtl2832_sdr.c        |  6 ++----
- drivers/media/dvb-frontends/zd1301_demod.c       |  6 ++----
- .../media/platform/allegro-dvt/allegro-core.c    |  6 ++----
- drivers/media/platform/amlogic/meson-ge2d/ge2d.c |  6 ++----
- drivers/media/platform/amphion/vpu_core.c        |  6 ++----
- drivers/media/platform/amphion/vpu_drv.c         |  6 ++----
- drivers/media/platform/aspeed/aspeed-video.c     |  6 ++----
- drivers/media/platform/atmel/atmel-isi.c         |  6 ++----
- drivers/media/platform/cadence/cdns-csi2rx.c     |  6 ++----
- drivers/media/platform/cadence/cdns-csi2tx.c     |  6 ++----
- drivers/media/platform/chips-media/coda-common.c |  5 ++---
- drivers/media/platform/intel/pxa_camera.c        |  6 ++----
- drivers/media/platform/m2m-deinterlace.c         |  6 ++----
- drivers/media/platform/marvell/mmp-driver.c      | 16 +++-------------
- .../media/platform/mediatek/jpeg/mtk_jpeg_core.c |  6 ++----
- .../media/platform/mediatek/mdp/mtk_mdp_core.c   |  5 ++---
- .../media/platform/mediatek/mdp3/mtk-mdp3-core.c |  5 ++---
- .../mediatek/vcodec/mtk_vcodec_dec_drv.c         |  5 ++---
- .../mediatek/vcodec/mtk_vcodec_enc_drv.c         |  5 ++---
- drivers/media/platform/mediatek/vpu/mtk_vpu.c    |  6 ++----
- .../media/platform/microchip/microchip-csi2dc.c  |  6 ++----
- .../platform/microchip/microchip-sama5d2-isc.c   |  6 ++----
- .../platform/microchip/microchip-sama7g5-isc.c   |  6 ++----
- drivers/media/platform/nvidia/tegra-vde/vde.c    |  6 ++----
- drivers/media/platform/nxp/dw100/dw100.c         |  6 ++----
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c   |  6 ++----
- drivers/media/platform/nxp/imx-mipi-csis.c       |  6 ++----
- drivers/media/platform/nxp/imx-pxp.c             |  6 ++----
- drivers/media/platform/nxp/imx7-media-csi.c      |  6 ++----
- drivers/media/platform/nxp/mx2_emmaprp.c         |  6 ++----
- drivers/media/platform/qcom/camss/camss.c        |  6 ++----
- drivers/media/platform/qcom/venus/core.c         |  6 ++----
- drivers/media/platform/qcom/venus/vdec.c         |  6 ++----
- drivers/media/platform/qcom/venus/venc.c         |  6 ++----
- drivers/media/platform/renesas/rcar-fcp.c        |  6 ++----
- drivers/media/platform/renesas/rcar-isp.c        |  6 ++----
- .../media/platform/renesas/rcar-vin/rcar-core.c  |  6 ++----
- .../media/platform/renesas/rcar-vin/rcar-csi2.c  |  6 ++----
- drivers/media/platform/renesas/rcar_drif.c       |  8 +++-----
- drivers/media/platform/renesas/rcar_fdp1.c       |  6 ++----
- drivers/media/platform/renesas/rcar_jpu.c        |  6 ++----
- drivers/media/platform/renesas/renesas-ceu.c     |  6 ++----
- .../platform/renesas/rzg2l-cru/rzg2l-core.c      |  6 ++----
- .../platform/renesas/rzg2l-cru/rzg2l-csi2.c      |  6 ++----
- drivers/media/platform/renesas/sh_vou.c          |  5 ++---
- drivers/media/platform/renesas/vsp1/vsp1_drv.c   |  6 ++----
- drivers/media/platform/rockchip/rga/rga.c        |  6 ++----
- .../media/platform/rockchip/rkisp1/rkisp1-dev.c  |  6 ++----
- .../media/platform/samsung/exynos-gsc/gsc-core.c |  5 ++---
- .../platform/samsung/exynos4-is/fimc-core.c      |  5 ++---
- .../platform/samsung/exynos4-is/fimc-is-i2c.c    |  6 ++----
- .../media/platform/samsung/exynos4-is/fimc-is.c  |  6 ++----
- .../platform/samsung/exynos4-is/fimc-lite.c      |  5 ++---
- .../platform/samsung/exynos4-is/media-dev.c      |  8 +++-----
- .../platform/samsung/exynos4-is/mipi-csis.c      |  6 ++----
- .../platform/samsung/s3c-camif/camif-core.c      |  6 ++----
- drivers/media/platform/samsung/s5p-g2d/g2d.c     |  5 ++---
- .../media/platform/samsung/s5p-jpeg/jpeg-core.c  |  6 ++----
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c |  5 ++---
- drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c |  6 ++----
- .../platform/st/sti/c8sectpfe/c8sectpfe-core.c   |  6 ++----
- drivers/media/platform/st/sti/delta/delta-v4l2.c |  6 ++----
- drivers/media/platform/st/sti/hva/hva-v4l2.c     |  6 ++----
- drivers/media/platform/st/stm32/dma2d/dma2d.c    |  6 ++----
- drivers/media/platform/st/stm32/stm32-dcmi.c     |  6 ++----
- .../media/platform/sunxi/sun4i-csi/sun4i_csi.c   |  6 ++----
- .../media/platform/sunxi/sun6i-csi/sun6i_csi.c   |  6 ++----
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c      |  6 ++----
- .../sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c  |  6 ++----
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c |  6 ++----
- .../platform/sunxi/sun8i-rotate/sun8i_rotate.c   |  6 ++----
- drivers/media/platform/ti/am437x/am437x-vpfe.c   |  6 ++----
- drivers/media/platform/ti/cal/cal.c              |  6 ++----
- drivers/media/platform/ti/davinci/vpif.c         |  6 ++----
- drivers/media/platform/ti/davinci/vpif_capture.c |  5 ++---
- drivers/media/platform/ti/davinci/vpif_display.c |  6 ++----
- drivers/media/platform/ti/omap/omap_vout.c       |  5 ++---
- drivers/media/platform/ti/omap3isp/isp.c         |  6 ++----
- drivers/media/platform/ti/vpe/vpe.c              |  6 ++----
- drivers/media/platform/verisilicon/hantro_drv.c  |  5 ++---
- drivers/media/platform/via/via-camera.c          |  5 ++---
- drivers/media/platform/video-mux.c               |  6 ++----
- drivers/media/platform/xilinx/xilinx-csi2rxss.c  |  6 ++----
- drivers/media/platform/xilinx/xilinx-tpg.c       |  6 ++----
- drivers/media/platform/xilinx/xilinx-vipp.c      |  6 ++----
- drivers/media/platform/xilinx/xilinx-vtc.c       |  6 ++----
- drivers/media/radio/radio-si476x.c               |  6 ++----
- drivers/media/radio/radio-timb.c                 |  5 ++---
- drivers/media/radio/radio-wl1273.c               |  6 ++----
- .../media/radio/si4713/radio-platform-si4713.c   |  6 ++----
- drivers/media/rc/gpio-ir-recv.c                  |  6 ++----
- drivers/media/rc/img-ir/img-ir-core.c            |  5 ++---
- drivers/media/rc/ir-hix5hd2.c                    |  5 ++---
- drivers/media/rc/meson-ir-tx.c                   |  6 ++----
- drivers/media/rc/meson-ir.c                      |  6 ++----
- drivers/media/rc/mtk-cir.c                       |  6 ++----
- drivers/media/rc/st_rc.c                         |  5 ++---
- drivers/media/rc/sunxi-cir.c                     |  6 ++----
- .../media/test-drivers/vicodec/vicodec-core.c    |  6 ++----
- drivers/media/test-drivers/vidtv/vidtv_bridge.c  |  6 ++----
- drivers/media/test-drivers/vim2m.c               |  6 ++----
- drivers/media/test-drivers/vimc/vimc-core.c      |  6 ++----
- drivers/media/test-drivers/visl/visl-core.c      |  6 ++----
- drivers/media/test-drivers/vivid/vivid-core.c    |  5 ++---
- drivers/media/tuners/it913x.c                    |  6 ++----
- 114 files changed, 237 insertions(+), 449 deletions(-)
-
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
--- 
-2.39.2
-
+On 19/02/2023 00:10, Chanh Nguyen wrote:
+> Define an I2C alias port from I2C Switch 0x70 at I2C5.
+> Add the OCP device temperature sensor via I2C alias port
+> as a tmp421 sensor.
+> 
+> Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
+> ---
+>   .../arm/boot/dts/aspeed-bmc-ampere-mtjade.dts | 16 ++++++++++
+>   .../boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 29 +++++++++++++++++++
+>   2 files changed, 45 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+> index 0a51d2e32fab..b93339ed61c0 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+> @@ -49,6 +49,11 @@
+>   		 */
+>   		i2c80 = &nvme_m2_0;
+>   		i2c81 = &nvme_m2_1;
+> +
+> +		/*
+> +		 *  i2c bus 82 assigned to OCP slot
+> +		 */
+> +		i2c82 = &ocpslot;
+>   	};
+>   
+>   	chosen {
+> @@ -420,6 +425,17 @@
+>   		reg = <0x70>;
+>   		i2c-mux-idle-disconnect;
+>   
+> +		ocpslot: i2c@0 {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			reg = <0x0>;
+> +
+> +			ocp_temp: temperature-sensor@1f {
+> +				compatible = "ti,tmp421";
+> +				reg = <0x1f>;
+> +			};
+> +		};
+> +
+>   		nvmeslot_0_7: i2c@3 {
+>   			#address-cells = <1>;
+>   			#size-cells = <0>;
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> index 4b91600eaf62..c832b8ae5999 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> @@ -10,6 +10,14 @@
+>   	model = "Ampere Mt.Mitchell BMC";
+>   	compatible = "ampere,mtmitchell-bmc", "aspeed,ast2600";
+>   
+> +	aliases {
+> +		/*
+> +		 *  i2c bus 30-31 assigned to OCP slot 0-1
+> +		 */
+> +		i2c30 = &ocpslot_0;
+> +		i2c31 = &ocpslot_1;
+> +	};
+> +
+>   	chosen {
+>   		stdout-path = &uart5;
+>   	};
+> @@ -424,6 +432,27 @@
+>   		#size-cells = <0>;
+>   		reg = <0x70>;
+>   		i2c-mux-idle-disconnect;
+> +
+> +		ocpslot_0: i2c@0 {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			reg = <0x0>;
+> +
+> +			ocpslot_0_temp: temperature-sensor@1f {
+> +				compatible = "ti,tmp421";
+> +				reg = <0x1f>;
+> +			};
+> +		};
+> +		ocpslot_1: i2c@1 {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +			reg = <0x1>;
+> +
+> +			ocpslot_1_temp: temperature-sensor@1f {
+> +				compatible = "ti,tmp421";
+> +				reg = <0x1f>;
+> +			};
+> +		};
+>   	};
+>   };
+>   
