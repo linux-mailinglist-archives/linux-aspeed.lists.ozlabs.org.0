@@ -2,51 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0894D6C9557
-	for <lists+linux-aspeed@lfdr.de>; Sun, 26 Mar 2023 16:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0734A6C9913
+	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Mar 2023 02:47:09 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Pkz2C667yz3chK
-	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Mar 2023 01:33:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PlDfX2Yp2z3cdD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Mar 2023 11:47:00 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=JtsN+5D9;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::530; helo=mail-ed1-x530.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=JtsN+5D9;
+	dkim-atps=neutral
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pkz245B6Zz3cKv
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 27 Mar 2023 01:32:58 +1100 (AEDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQA-0007qX-KM; Sun, 26 Mar 2023 16:32:34 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQ6-006ra3-7V; Sun, 26 Mar 2023 16:32:30 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1pgRQ5-0088Ut-7N; Sun, 26 Mar 2023 16:32:29 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Eddie James <eajames@linux.ibm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Joel Stanley <joel@jms.id.au>
-Subject: [PATCH 017/117] media: aspeed-video: Convert to platform remove callback returning void
-Date: Sun, 26 Mar 2023 16:30:44 +0200
-Message-Id: <20230326143224.572654-20-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
-References: <20230326143224.572654-1-u.kleine-koenig@pengutronix.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PlDfM5Qjhz3brQ
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 27 Mar 2023 11:46:50 +1100 (AEDT)
+Received: by mail-ed1-x530.google.com with SMTP id b20so29387052edd.1
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 26 Mar 2023 17:46:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google; t=1679878006;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iwNKwWEmP0+GBVy7Aoyp0/jnxyDCmqGAIfdYaEYV01Q=;
+        b=JtsN+5D9e8csHqSMHYvyo6EvP2mKy0R29zsl3MPx8eDxeScV0UoljmM81XYMTbwJR5
+         eOPbWx8UipBzCi4sVdxaoljBRNz1wezsTWSkQEjo92pPAFbbU/nqgJAYM4Re3vxDGkoi
+         mJ0a9BtjTpJQpX3aoxzHISwCH1bm0Zt21sLRY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679878006;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iwNKwWEmP0+GBVy7Aoyp0/jnxyDCmqGAIfdYaEYV01Q=;
+        b=gnIC07Yc+QAnajABGHKGopaJNbmV5lJXQtftNgtSM2E3gfYbQEzXTFBSv6ojI3GlkJ
+         bDRFtAM1JW2lXoQqN//zP9mB1U5DAZwSWR5WpVrApKa1DN05NoZNFsoWSay+8QzuKCx8
+         vsMJSaRSr6WhoHfXkYAitBJN9ZFE04DCruPR55K2e8loQhwFXtOQStPOM3G+crCoH24J
+         BZyfvnzrByxt9ua4JMvkk+Kr1exsUcpfM8WHGKYeYzeLBbFI0huCq/vrI8Vvgyvl69xw
+         yQ39MF4zdTwJ3WqhCni3QOPx4+IFGmYlsu5u2drgVovo2kCjDO3joaPR/Kylp7befI4W
+         COZg==
+X-Gm-Message-State: AAQBX9e6m8SBmvZMuGsR6ma1bzVXjVkXrTXE1PIeHJkcGJpkYjIxdgvG
+	qqP+P16V9EPcipdNQgK/JthkRTJjf49arBHHmVY=
+X-Google-Smtp-Source: AKy350YxyRrBNpB+l72B0KEPxWYOuuDAh8I+xWUczm85SPuXBBnshTxQkofqnrgwImaPDip50XzGGVfk680VYgKGsNQ=
+X-Received: by 2002:a17:906:eec7:b0:93e:186f:ea0d with SMTP id
+ wu7-20020a170906eec700b0093e186fea0dmr4376106ejb.15.1679878005645; Sun, 26
+ Mar 2023 17:46:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1876; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=KutP+Y7ggmovOkH+OeVwSMF2KZqCIcZODewIzhblqao=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIFab2ufSfDado4VWw1jF8GYECshQZd+1a/zYg l4extXNT1OJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCBWmwAKCRCPgPtYfRL+ ToulCACHe8Da4FGG6yr9pXEmGcObel9MPRf1adnzUFyvkzR6IwLKPCgsOK11dGO2PnKVGe8zk61 FO+ohs1dSvLOM3MYJK1qZGCOn1fqXYBVeEkFGBeZBNeQkjVIvGi26NHIvqWuT+2nAQf1BinQzVy afjG1+u8rDvbDemgkbYniZrmNr/bYzmAgC7zcDX6emS/Qd0yyjid3+JIFXrtJaTnwSqAG7tKssB aC7AZ6XbOMypiGzO1y1rnJm2svskBsEECXiCm3gKh842J+BBctxlRgYJHQRHpRMT5zl8NBFd/Fn 3TttGRDOLyBGmP8RZOA3TbM0P+DU++97B6D/AM2ySH1Gh2pE
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+References: <20230322140348.569397-1-eajames@linux.ibm.com> <20230322140348.569397-5-eajames@linux.ibm.com>
+In-Reply-To: <20230322140348.569397-5-eajames@linux.ibm.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 27 Mar 2023 00:46:33 +0000
+Message-ID: <CACPK8XfJr03L43KbWcZ44nAiVhpPF8Pao2OM4R2F36b=bkQ-fQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] ARM: dts: aspeed: bonnell: Add DIMM SPD
+To: Eddie James <eajames@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,57 +70,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, arnd@arndb.de, linux-aspeed@lists.ozlabs.org, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+On Wed, 22 Mar 2023 at 14:04, Eddie James <eajames@linux.ibm.com> wrote:
+>
+> Add the DIMM SPD to the processor I2C busses.
+>
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/media/platform/aspeed/aspeed-video.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+I will take this through the aspeed tree.
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 794d4dc3a654..374eb7781936 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -2206,7 +2206,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int aspeed_video_remove(struct platform_device *pdev)
-+static void aspeed_video_remove(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev);
-@@ -2228,8 +2228,6 @@ static int aspeed_video_remove(struct platform_device *pdev)
- 	aspeed_video_free_buf(video, &video->jpeg);
- 
- 	of_reserved_mem_device_release(dev);
--
--	return 0;
- }
- 
- static struct platform_driver aspeed_video_driver = {
-@@ -2238,7 +2236,7 @@ static struct platform_driver aspeed_video_driver = {
- 		.of_match_table = aspeed_video_of_match,
- 	},
- 	.probe = aspeed_video_probe,
--	.remove = aspeed_video_remove,
-+	.remove_new = aspeed_video_remove,
- };
- 
- module_platform_driver(aspeed_video_driver);
--- 
-2.39.2
-
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts
+> index 79516dc21c01..ab99d915b50e 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts
+> @@ -232,18 +232,38 @@ cfam0_i2c1: i2c-bus@1 {
+>
+>                         cfam0_i2c10: i2c-bus@a {
+>                                 reg = <10>;     /* OP3A */
+> +
+> +                               eeprom@50 {
+> +                                       compatible = "atmel,at30tse004a";
+> +                                       reg = <0x50>;
+> +                               };
+>                         };
+>
+>                         cfam0_i2c11: i2c-bus@b {
+>                                 reg = <11>;     /* OP3B */
+> +
+> +                               eeprom@50 {
+> +                                       compatible = "atmel,at30tse004a";
+> +                                       reg = <0x50>;
+> +                               };
+>                         };
+>
+>                         cfam0_i2c12: i2c-bus@c {
+>                                 reg = <12>;     /* OP4A */
+> +
+> +                               eeprom@50 {
+> +                                       compatible = "atmel,at30tse004a";
+> +                                       reg = <0x50>;
+> +                               };
+>                         };
+>
+>                         cfam0_i2c13: i2c-bus@d {
+>                                 reg = <13>;     /* OP4B */
+> +
+> +                               eeprom@50 {
+> +                                       compatible = "atmel,at30tse004a";
+> +                                       reg = <0x50>;
+> +                               };
+>                         };
+>
+>                         cfam0_i2c14: i2c-bus@e {
+> --
+> 2.31.1
+>
