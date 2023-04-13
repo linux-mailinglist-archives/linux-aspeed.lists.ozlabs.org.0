@@ -1,61 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D575A6E07A7
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Apr 2023 09:24:06 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id B05996E0851
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Apr 2023 09:55:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Pxrfq4fXyz3bbZ
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Apr 2023 17:24:03 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=fGPEP/Bx;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4PxsMJ4k18z3fSD
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Apr 2023 17:55:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62d; helo=mail-ej1-x62d.google.com; envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=fGPEP/Bx;
-	dkim-atps=neutral
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Pxrfj4y1pz3bT7
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Apr 2023 17:23:56 +1000 (AEST)
-Received: by mail-ej1-x62d.google.com with SMTP id xi5so35031621ejb.13
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Apr 2023 00:23:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1681370633; x=1683962633;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ql5Do4NIOwiBMn1MBftygs4Legcy5XT8a+gOumAZ0g8=;
-        b=fGPEP/BxnivPQ4bemAIXIqVAeQ1yZlvRk2w0VGdvzRQt6DbHLvPth4OLy3bLTqiO5/
-         gxK0UiO4+SORJy4LOWI+qzVhjycACgATb5JPBiA4RPfmef8U4cAnUeA/+z8FcjduiBXR
-         6k57Y/Lk5aH+3Pku9dkeyAqD1uSYgBzUECOQE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681370633; x=1683962633;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ql5Do4NIOwiBMn1MBftygs4Legcy5XT8a+gOumAZ0g8=;
-        b=cU7O/IVdFmBrWEUCC4D07wOEi8caoWJBvhAPLV5Ej55GXRvMCVhktuhnPbQrtT12UC
-         jjfgPr8QITWHJz2KMaQp6+XJ3sc0jazCy5mdH9DK5khE5dJcive4ULJN8RNfaOvawWN1
-         CP18d5z8tVpsGnKa6PLIg/14yuSD/ka8J/wDYYZVHXdmu857Gsi2+wL8WtYLaz+w5TyQ
-         d7Zv83GOe2sJp9j7qZyYhEvHCKbpYqyXtIsL7ZJtjWoD4WlrKFMn/Ba0VTjwVAcxqmEW
-         uvWNYpUVvi/RzFe4JA1WShpRc2TeZLyy8M/eqXh3Hdqo3ipledyLQ/g4rAMJyDLa4+Fw
-         3vMQ==
-X-Gm-Message-State: AAQBX9dBtIuDkSqMdQ27vNYuA6ITyrQ4cEVO38M+HBSg7pmw4kSrKsFq
-	M96E43nAKOd/Vp9n5k3p6n3Pe8R+Ew1i/TGVv3c=
-X-Google-Smtp-Source: AKy350ZRdbvovOQMYN2DjpLBfPxvrpd+xwRinIn1FhDpSfW+DBSoFUUjrwEKFA3aH42hsnhCSYb6gZMZaxKVY/uOW9E=
-X-Received: by 2002:a17:906:c455:b0:94a:5691:b12b with SMTP id
- ck21-20020a170906c45500b0094a5691b12bmr767712ejb.11.1681370633503; Thu, 13
- Apr 2023 00:23:53 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4PxsLg06pMz3cNJ;
+	Thu, 13 Apr 2023 17:55:05 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 33D7bXbY096962;
+	Thu, 13 Apr 2023 15:37:33 +0800 (GMT-8)
+	(envelope-from ryan_chen@aspeedtech.com)
+Received: from aspeedtech.com (192.168.10.13) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 13 Apr
+ 2023 15:53:30 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Brendan Higgins <brendan.higgins@linux.dev>,
+        Benjamin Herrenschmidt
+	<benh@kernel.crashing.org>,
+        Joel Stanley <joel@jms.id.au>, Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Philipp Zabel <p.zabel@pengutronix.de>, Wolfram Sang <wsa@kernel.org>,
+        "Andy
+ Shevchenko" <andriy.shevchenko@linux.intel.com>,
+        <linux-i2c@vger.kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        William Zhang <william.zhang@broadcom.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>,
+        Ryan Chen
+	<ryan_chen@aspeedtech.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        "Phil
+ Edworthy" <phil.edworthy@renesas.com>,
+        <openbmc@lists.ozlabs.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v9 0/2 RESEND] Add ASPEED AST2600 I2Cv2 controller driver
+Date: Thu, 13 Apr 2023 15:53:25 +0800
+Message-ID: <20230413075327.1397306-1-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 13 Apr 2023 07:23:41 +0000
-Message-ID: <CACPK8XfmK5S=1PQjBQHb6daDR3qTWN-_NLoXP7+ZDCk13wDxcA@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: devicetree changes for 6.4
-To: SoC Team <soc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.13]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 33D7bXbY096962
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,66 +70,183 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Soc maintainers,
+This series add AST2600 i2cv2 new register set driver. The i2cv2 driver
+is new register set that have new clock divider option for more
+flexiable generation. And also have separate i2c master and slave register
+set for control.
 
-Here's the aspeed device tree pull request for 6.4. A bit late, I lost
-track of time.
+The legacy register layout is mix master/slave register control together.
+The following is add more detail description about new register layout.
+And new feature set add for register.
 
-The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
+-Add new clock divider option for more flexible and accurate clock rate
+generation -Add tCKHighMin timing to guarantee SCL high pulse width.
+-Add support dual pool buffer mode, split 32 bytes pool buffer of each
+device into 2 x 16 bytes for Tx and Rx individually.
+-Increase DMA buffer size to 4096 bytes and support byte alignment.
+-Re-define the base address of BUS1 ~ BUS16 and Pool buffer.
+-Re-define registers for separating master and slave mode control.
+-Support 4 individual DMA buffers for master Tx and Rx, slave Tx and Rx.
 
-  Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
+And following is new register set for package transfer sequence.
+-New Master operation mode:
+ S -> Aw -> P
+ S -> Aw -> TxD -> P
+ S -> Ar -> RxD -> P
+ S -> Aw -> RxD -> Sr -> Ar -> TxD -> P
+-Bus SDA lock auto-release capability for new master DMA command mode.
+-Bus auto timeout for new master/slave DMA mode.
 
-are available in the Git repository at:
+The following is two versus register layout.
+Old:
+{I2CD00}: Function Control Register     
+{I2CD04}: Clock and AC Timing Control Register
+{I2CD08}: Clock and AC Timing Control Register
+{I2CD0C}: Interrupt Control Register
+{I2CD10}: Interrupt Status Register 
+{I2CD14}: Command/Status Register   
+{I2CD18}: Slave Device Address Register
+{I2CD1C}: Pool Buffer Control Register
+{I2CD20}: Transmit/Receive Byte Buffer Register
+{I2CD24}: DMA Mode Buffer Address Register
+{I2CD28}: DMA Transfer Length Register
+{I2CD2C}: Original DMA Mode Buffer Address Setting
+{I2CD30}: Original DMA Transfer Length Setting and Final Status
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-6.4-devicetree
+New Register mode
+{I2CC00}: Master/Slave Function Control Register
+{I2CC04}: Master/Slave Clock and AC Timing Control Register
+{I2CC08}: Master/Slave Transmit/Receive Byte Buffer Register
+{I2CC0C}: Master/Slave Pool Buffer Control Register
+{I2CM10}: Master Interrupt Control Register
+{I2CM14}: Master Interrupt Status Register
+{I2CM18}: Master Command/Status Register
+{I2CM1C}: Master DMA Buffer Length Register
+{I2CS20}: Slave~ Interrupt Control Register
+{I2CS24}: Slave~ Interrupt Status Register
+{I2CS28}: Slave~ Command/Status Register
+{I2CS2C}: Slave~ DMA Buffer Length Register
+{I2CM30}: Master DMA Mode Tx Buffer Base Address
+{I2CM34}: Master DMA Mode Rx Buffer Base Address
+{I2CS38}: Slave~ DMA Mode Tx Buffer Base Address
+{I2CS3C}: Slave~ DMA Mode Rx Buffer Base Address
+{I2CS40}: Slave Device Address Register
+{I2CM48}: Master DMA Length Status Register
+{I2CS4C}: Slave  DMA Length Status Register
+{I2CC50}: Current DMA Operating Address Status
+{I2CC54}: Current DMA Operating Length  Status
 
-for you to fetch changes up to 7d4f0b0df7c5ec0cec834f87591423a7bbd1bab2:
+aspeed,global-regs:
+This global register is needed, global register is setting for
+new clock divide control, and new register set control.
 
-  ARM: dts: aspeed-g6: Add UDMA node (2023-04-13 16:43:15 +0930)
+ASPEED SOC chip is server product, i2c bus may have fingerprint
+connect to another board. And also support hotplug.
+The following is board-specific design example.
+Board A                                         Board B
+-------------------------                       ------------------------
+|i2c bus#1(master/slave)  <===fingerprint ===> i2c bus#x (master/slave)|
+|i2c bus#2(master)-> tmp i2c device |          |                       |
+|i2c bus#3(master)-> adc i2c device |          |                       |
+-------------------------                       ------------------------
 
-----------------------------------------------------------------
-ASPEED device tree updates for 6.4
+i2c-scl-clk-low-timeout-us:
+For example I2C controller as slave mode, and suddenly disconnected.
+Slave state machine will keep waiting for master clock in for rx/tx
+transmit. So it need timeout setting to enable timeout unlock controller
+state. And in another side. In Master side also need avoid suddenly
+slave miss(un-plug), Master will timeout and release the SDA/SCL.
 
- - Fixes for romed8hm3 GPIO, asrock SPI clocks, bonnell eeprom
+aspeed,enable-dma:
+For example The bus#1 have trunk data needed for transfer,
+it can enable bus dma mode transfer, it can reduce cpu utilized.
+Others bus bus#2/3 use defautl buffer mode.
 
- - Misc updates for various BMC systems
+v9:
+-aspeed,i2c.yaml
+ -backoff to v7.
+  -no fix typo in maintainer's name and email. this would be another patch.
+  -no remove address-cells, size-cells, this would be another patch.
+ -use aspeed,enable-dma property instead of aspeed,xfer-mode selection.
+ -fix allOf and else false properties for aspeed,ast2600-i2cv2.
+-i2c-ast2600.c
+ -no change, the same with v8
 
- - Add AST2600 UDMA node
+v8:
+-aspeed,i2c.yaml
+ -modify commit message.
+  -Fix typo in maintainer's name and email.
+ -remove address-cells, size-cells.
+-i2c-ast2600.c
+ -move "i2c timeout counter" comment description before property_read.
+ -remove redundant code "return ret" in probe end.
 
-----------------------------------------------------------------
-Chanh Nguyen (1):
-      ARM: dts: aspeed: mtmitchell: Enable NCSI
+v7:
+-aspeed,i2c.yaml
+ -Update ASPEED I2C maintainers email.
+ -use aspeed,enable-dma property instead of aspeed,xfer-mode selection.
+ -fix allOf and else false properties for aspeed,ast2600-i2cv2.
+-i2c-ast2600.c
+ -remove aspeed,xfer-mode instead of aspeed,enable-dma mode. buffer mode
+is default.
+ -remove aspeed,timeout instead of i2c-scl-clk-low-timeout-us for
+timeout setting.
 
-Chia-Wei Wang (1):
-      ARM: dts: aspeed-g6: Add UDMA node
+v6:
+-remove aspeed,i2cv2.yaml, merge to aspeed,i2c.yaml -add support for
+ i2cv2 properites.
+-i2c-ast2600.c
+ -fix ast2600_i2c_remove ordering.
+ -remove ast2600_i2c_probe goto labels, and add dev_err_probe -remove
+  redundant deb_dbg debug message.
+ -rename gr_regmap -> global_regs
 
-Delphine CC Chiu (2):
-      ARM: dts: aspeed: greatlakes: Add gpio names
-      ARM: dts: aspeed: greatlakes: add mctp device
+v5:
+-remove ast2600-i2c-global.yaml, i2c-ast2600-global.c.
+-i2c-ast2600.c
+ -remove legacy clock divide, all go for new clock divide.
+ -remove duplicated read isr.
+ -remove no used driver match
+ -fix probe return for each labels return.
+ -global use mfd driver, driver use phandle to regmap read/write.
+-rename aspeed,i2c-ast2600.yaml to aspeed,i2cv2.yaml -remove bus-frequency.
+-add required aspeed,gr
+-add timeout, byte-mode, buff-mode properites.
 
-Eddie James (3):
-      ARM: dts: aspeed: everest: Add reserved memory for TPM event log
-      ARM: dts: aspeed: bonnell: Remove MAC3
-      ARM: dts: aspeed: bonnell: Update eeprom size
+v4:
+-fix i2c-ast2600.c driver buffer mode use single buffer conflit in
+ master slave mode both enable.
+-fix kmemleak issue when use dma mode.
+-fix typo aspeed,i2c-ast2600.yaml compatible is "aspeed,ast2600-i2c"
+-fix typo aspeed,i2c-ast2600.ymal to aspeed,i2c-ast2600.yaml
 
-Lakshmi Yadlapati (1):
-      ARM: dts: aspeed: p10bmc: Change power supply info
+v3:
+-fix i2c global clock divide default value.
+-remove i2c slave no used dev_dbg info.
 
-Zev Weiss (3):
-      ARM: dts: aspeed: romed8hm3: Fix GPIO polarity of system-fault LED
-      ARM: dts: aspeed: e3c246d4i: Add PECI device
-      ARM: dts: aspeed: asrock: Correct firmware flash SPI clocks
+v2:
+-add i2c global ymal file commit.
+-rename file name from new to ast2600.
+ aspeed-i2c-new-global.c -> i2c-ast2600-global.c
+ aspeed-i2c-new-global.h -> i2c-ast2600-global.h
+ i2c-new-aspeed.c -> i2c-ast2600.c
+-rename all driver function name to ast2600.
 
- arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 37 ++++++++++++++-
- arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts  |  6 ++-
- arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts  |  4 +-
- .../boot/dts/aspeed-bmc-facebook-greatlakes.dts    | 53 ++++++++++++++++++++++
- arch/arm/boot/dts/aspeed-bmc-ibm-bonnell.dts       | 24 +++-------
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts       |  6 +++
- arch/arm/boot/dts/aspeed-g6.dtsi                   |  9 ++++
- 7 files changed, 118 insertions(+), 21 deletions(-)
+Ryan Chen (2):
+  dt-bindings: i2c: aspeed: support for AST2600-i2cv2
+  i2c: aspeed: support ast2600 i2c new register mode driver
+
+ .../devicetree/bindings/i2c/aspeed,i2c.yaml   |   52 +-
+ MAINTAINERS                                   |    9 +
+ drivers/i2c/busses/Kconfig                    |   11 +
+ drivers/i2c/busses/Makefile                   |    1 +
+ drivers/i2c/busses/i2c-ast2600.c              | 1602 +++++++++++++++++
+ 5 files changed, 1672 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/i2c/busses/i2c-ast2600.c
+
+-- 
+2.34.1
+
