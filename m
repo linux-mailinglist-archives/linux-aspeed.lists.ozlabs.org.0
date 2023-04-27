@@ -2,121 +2,93 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748106EEC28
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Apr 2023 03:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3C76EFECB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Apr 2023 03:10:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Q5hkX1yKkz3c9K
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Apr 2023 11:54:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Q6Hjq2b5cz3f5M
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Apr 2023 11:10:55 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=j1n61RUF;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=nB/JtY4t;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=NV1MVCS/;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:7eb2::72f; helo=nam02-bn1-obe.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.27; helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=j1n61RUF;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=nB/JtY4t;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=NV1MVCS/;
 	dkim-atps=neutral
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2072f.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eb2::72f])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+X-Greylist: delayed 330 seconds by postgrey-1.36 at boromir; Thu, 27 Apr 2023 11:10:50 AEST
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Q5CWz46Fxz3cdj;
-	Tue, 25 Apr 2023 16:58:39 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n2pzIfBZQgCM8hDlCqtPKJUyq18RzQjO+1a4iNkq3Vd9UvXh3kTIFWNh0tmQy05ybM+ckHhytyR4+am/ifI0FeQrSGCE0TllPLLXkJA3hY97o0XHS7AqUbVrONxpQJ+xrKdCR/Bnin9YIfNR5R7G1lG+LRFWnniypM6vxPdJ4WcRfw3g+7n6hKgAJeSfUweaCPfqlO8LHupMV3ge4rSQn/8gWfJzqntI9BkGjqAXHtSlFZ5VWmYbi8/A5pAwcL7dLein694OCfIUKFtk7p+qxd/ZyNpDQ0AyRZQeTbq6BRBllEEFhSi0Rq44YHXf7Xo0pCrPqIwEQZtpbks+Up9uSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BrErqXJC53VxM2wB/OXNQ/V63QIPSlJVlK1UaYSJrmQ=;
- b=KGvN5QjhWIh6C/vWvLWQm0qrBqdM5VhKWF98ssxkH3b2ms6UAtGbgA9IksUna6Jlq6thF4f4ed2mDu6dnFrYaGbjagE8r7n3es+USTynFzfCZcdRZ77kE5QosBZI85ejig1dOA2DbNAZzxWzocomUphPlXie2sf0UPB1KDV4RQ/y6/ZXWalBM8TuF2xmXyldBY2iDLMXDwaX2Bv8KBQrTqpwcaAKLcvy3ZWeHGmty11nfXn0oDeAURgBIFKV2YFmrjxLTAbV1eJqQvi1b/zgA/c2ctEkokb2pVgV0LdT0Zw08p51IKQuxe5m1bPVppja6ZlOiRzu54hRpkb35vPphA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BrErqXJC53VxM2wB/OXNQ/V63QIPSlJVlK1UaYSJrmQ=;
- b=j1n61RUF3cJ6ecrjD1P4JyRH/Adua5yDftsTcwyFXqKdjn3w6TwGX7bvJZkNWU+7mubw2lSklthNecClHkfLRdsJ+qtdAqTtvhK9ONo1E+CxknvyD9xh2rC6C8zacGPo1kjyjXK6Amn6cTsAghv3LmWtYx/8lcljrBtUY+CwZAA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from BYAPR01MB4966.prod.exchangelabs.com (2603:10b6:a03:7e::28) by
- PH0PR01MB6504.prod.exchangelabs.com (2603:10b6:510:b::14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6340.19; Tue, 25 Apr 2023 06:58:24 +0000
-Received: from BYAPR01MB4966.prod.exchangelabs.com
- ([fe80::46c3:3b44:d2f8:4c3]) by BYAPR01MB4966.prod.exchangelabs.com
- ([fe80::46c3:3b44:d2f8:4c3%4]) with mapi id 15.20.6340.019; Tue, 25 Apr 2023
- 06:58:24 +0000
-From: Chanh Nguyen <chanh@os.amperecomputing.com>
-To: OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] ARM: dts: aspeed: mtmitchell: Add MCTP
-Date: Tue, 25 Apr 2023 13:57:15 +0700
-Message-Id: <20230425065715.21871-5-chanh@os.amperecomputing.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230425065715.21871-1-chanh@os.amperecomputing.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Q6Hjk1kV0z3cJG
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Apr 2023 11:10:50 +1000 (AEST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id B763E5C0190;
+	Wed, 26 Apr 2023 21:05:18 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute6.internal (MEProxy); Wed, 26 Apr 2023 21:05:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1682557518; x=1682643918; bh=E9
+	N8YXlvDEdxrAOzpWB07e0HpA0cgLPwCCuN0JGi1NE=; b=nB/JtY4tdwNaRwdn30
+	rBNDNdsx8g3kHsfY86zbAbzLE/JC40Hgr61iYVa1H572SY+Sdz6FlUWHP0WIR1wn
+	ryrOMeFD0DQpU0lfgOyAAmjgcKUTm4SSNhKAmIGFU0QaBsWt+QcXrzLPc90CI3m5
+	jzJQvQRy9vLIZDbMnHiqH43uPkWiraRsHXwfdtrM+C/PoIzH7e/eA6jYgsZ+ywVm
+	ZggLwSRHdaQCgci+TjUZ4qauNLYqvsZ4q9OPBjm5wCXO5zchTXOO4ZWK8rUx9/bh
+	E27VYXcQI2Tps54W3bkbteJW/GUCss3n3WHKlXdwksQVvN110U2Ae0lIqGKJIuZU
+	+H8Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1682557518; x=1682643918; bh=E9N8YXlvDEdxr
+	AOzpWB07e0HpA0cgLPwCCuN0JGi1NE=; b=NV1MVCS/4myadOVfRl5KdVqYuveNt
+	JFhxl+imGNCLBr1qldWO/81lc+nZ3J8PvPriJMvmuxNehxt/w/I97PN26hJl3QvP
+	XQH481miT3v0iMWiGclLjJmqhX3sE08XRxwtiZSRaWSvaflHAvxJqJImhcYsCD/f
+	qSYgLR5JXLVBQdlp24l8alS8+NCYAFF9/QhwSfOd2X4GDli6gvvWDJSREvy2mvul
+	va75OR0qg3Gc2z56behqTgE6ev4p5/rZX80gNbCgQFpE37VkMk/vxwKDQBynsO+/
+	CUvqfKw7iDd4wATe1rGzNrIyuViKwl41tprh7C9mJIEfboxl91EkiL8lA==
+X-ME-Sender: <xms:TspJZKW4lxEmrBKUN_gnGKh8m0ihYrYKph-v-_ji1e4Q-kn98au7xQ>
+    <xme:TspJZGn4j2PFHPuT9X9uynjIzveH0P0E5g9h_RpeSx1pvSpU7BCQzHyhvOBLg9zfv
+    _CJbGvNeEZu8KGc9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeduhedggeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+    rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+    grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
+    hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:TspJZOZyp8Mjj7ZuEBWQbdxRPf8fYEtuZ3ZMpSs4sT-FjE2iKiCHaw>
+    <xmx:TspJZBX8cWRChpTzxvVd8iVSTZGtUz8C62vVoyL1Xbx9IilQT35RkQ>
+    <xmx:TspJZEn3ogIWhJwlx5nekNiCI41A2SLfPSiU0SAyO1eytXUFTWUqEA>
+    <xmx:TspJZCaRKN0afJqzH40ZgARZbvdL1jW9Stpc5BuJ73gCxXFe0JiYxA>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 7CF681700090; Wed, 26 Apr 2023 21:05:18 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-374-g72c94f7a42-fm-20230417.001-g72c94f7a
+Mime-Version: 1.0
+Message-Id: <f5c261ff-7901-434a-aa2f-3b2f684cb4a7@app.fastmail.com>
+In-Reply-To: <20230425065715.21871-5-chanh@os.amperecomputing.com>
 References: <20230425065715.21871-1-chanh@os.amperecomputing.com>
+ <20230425065715.21871-5-chanh@os.amperecomputing.com>
+Date: Thu, 27 Apr 2023 10:34:43 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Chanh Nguyen" <chanh@os.amperecomputing.com>,
+ "OpenBMC Maillist" <openbmc@lists.ozlabs.org>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Joel Stanley" <joel@jms.id.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] ARM: dts: aspeed: mtmitchell: Add MCTP
 Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0051.apcprd02.prod.outlook.com
- (2603:1096:4:54::15) To BYAPR01MB4966.prod.exchangelabs.com
- (2603:10b6:a03:7e::28)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR01MB4966:EE_|PH0PR01MB6504:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30bba879-403e-43d9-897c-08db455a76c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	weDf+Qln3h2ISa/Mgs8IQVTeru+ZdJpJ2+wUolOTCCeIH8sSDibVCeDHPVLWLgsWzBY5sBN2lk7+81CIEhvW6F+/IhhrqjmXgkANgrlx0zmA7e33d1VGI6L1HYZ1NhlmjJdPJlZ+h1KfN5cdfyOcmcOxHPUfSMQg3qoRfa2sJMFErYTyaqDjEpeqyAVXoDpyV5EfUKqaGuCMYA73BvuH8IxoIhZSgSh1bJmqJGQnRZU6LfxUG9Mz8C/2+JhaMZBZmT2/LcAq01vH8OGegDYjNIoD/LS8ytklK2l2eKkYoDsojHG2oosCWZ5uQWiRLgh7SleBz+j1K9viURuiDNEvsKVgx0lxO48GIeO0MTNYRF3PSLK1KV9os8XMoHQTjQZToS8rZUuC+gaq5mKdhes8Tj5Z8wtWy5+NvdtVbrjBbCP4ZKJhEDw/f0vFZsvz913vsP1NRDsWU4fk+Xeou6TqpZnGV10xRBxg2U0WE1lkItmx620cYDw9wkMyup9PUIO+Wlr8IbtgtWE2bV+6iJnksCg8JibJ1d5kRnqSol9ZOANkcEzoYYHVxiJxxNow4ZTTGHDVz2Y3j7QTPLwA9Hc6S3KlhOVg071s5tU1/+udBeRkO/su9j8EDSDxC3395hJt
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR01MB4966.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(396003)(346002)(39850400004)(376002)(136003)(451199021)(107886003)(6506007)(1076003)(26005)(6512007)(2616005)(186003)(38350700002)(38100700002)(66946007)(478600001)(86362001)(66556008)(66476007)(8676002)(8936002)(110136005)(5660300002)(52116002)(6486002)(41300700001)(2906002)(4744005)(4326008)(6666004)(316002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?yWsTi82feKNNXNI2DJkbuS49cBtIARX7I3yxgKPFd+t4St26Jog7CoEylAix?=
- =?us-ascii?Q?NrDX+1rKX9LfqgnKyDd79ImoxgCdem8iHPK/fEUx+sYeAh9cElB5nrFbWIim?=
- =?us-ascii?Q?T2yjwN9qwFXFD0auJFnGfkG5QLsE/gAbOBQ8PVWw3mBNSdatofKHBvhFbcSz?=
- =?us-ascii?Q?i86iqcS5dNRNN8kHbVdHZkrdYX4amCT0PiBXfo315z6EMD8EXZNvW08uQnUc?=
- =?us-ascii?Q?SODqTlM1v3cMhiP1CfQNIvzGbH3SiVo8idhksrHBLz9EIklwtZbEp17rghlA?=
- =?us-ascii?Q?eOFjJdX2TwdFVBxAAY5j4zEW70L8NZyVnKjSpVg86CAfq5o11NnVu8Zka4GX?=
- =?us-ascii?Q?oGzwcR/QdHHbClrmCeTZRjM2b0T9pnK00Pk5w7uLP6+RpTWWc0mRPkVfDyiy?=
- =?us-ascii?Q?ZtiWuE3QmaYfFnHlk0i63TSdCwQe9fPqPw+cPmJot1g5A72C62FVqRAyhvLQ?=
- =?us-ascii?Q?XnMidu3oCGCKjIg1rCksrlCd5VKbDrYj+xi0RgAYcdTwpJ5/eoHj7L5ejc68?=
- =?us-ascii?Q?gB2nn14wDzbVp2kSMR2Wr5/nxwsvJ+Ekl77/d3bzZjzwwzQT6Lk7JEBxUz83?=
- =?us-ascii?Q?4PhQFZQCxilb2On7YAXEZPfNbkH5txZ2MEYMF4T7C0foRCaIIEZy9ypSg41u?=
- =?us-ascii?Q?uSoHlcYyWiRgOTOlNfSI2pVNJ/miyNyVAg2uYrvleyH9vfn1rbYj66+AJR3z?=
- =?us-ascii?Q?zjAic9qKx3mNozwFNITvgO4c3NoJIrDhIpq48Acjn9nSoGJxzVtU34WWgCFF?=
- =?us-ascii?Q?pCths9ZUsciJ3/omJsIlK96BBMGsXOU8S8MRDq4d8hU3RVKLhsMl5ljPZybk?=
- =?us-ascii?Q?mU3q3oGoa/2al/rrikYKGPoMwU4C/bvf1xSFL/uMiK7diMD6INBIxzezFy7I?=
- =?us-ascii?Q?+/G5+Xs0aNpJGTCgr5I/+SiKGwfCFNSY2awDHNBXieCW91G2rLvZ8x3yLz1h?=
- =?us-ascii?Q?iUuLbkS8KqCoHjLAvIaJXfEvs2oO/cXzwBLqUjCA6Rve47Ol6lCAmPfElPHj?=
- =?us-ascii?Q?rm+Tz9CDEUDKlVR9Irlfm6oyiULtS5FkcM9LoOwRD3xB8E+7R5G6aqTg2VeI?=
- =?us-ascii?Q?i/A1Vb+Uii77KZ44b33myWRFVX6ctckYTr9MB94scSR2wWuskvbWqFsGIlhf?=
- =?us-ascii?Q?FRaUfP+2tNin/pK0tK5nNyfQNl7mUeVyFnDuOnZVMdkJh5ZUcXEFY/cEJPaM?=
- =?us-ascii?Q?nNnqFwDFOg5P25/y6/QFpmT2Vf/z5veExi0v0v0qBIH/c2hx1fkoUCsNxssP?=
- =?us-ascii?Q?A/YyVeVDjQTu2HRRtxyUGx+KcAwMetuZRr9CbjqRhMBNXLM5PZikscqa1027?=
- =?us-ascii?Q?uALUoTGnfrdtEB57NQpUN4JpHeIQA/vemZxJMzwEolZnIo75mV1u1msKCuLy?=
- =?us-ascii?Q?4Hei/H5OZQ3nt0ZB0JzubV483elhT1QVe7vsSSOuhir/hOgJCyxjJpio2hMZ?=
- =?us-ascii?Q?0fDKnFNIZc3VH4b9pfYyD9OzuaHqymZUDwsMwXpKMWog2Jnu0W6r4QmcMoxh?=
- =?us-ascii?Q?0pu81yP3COzWQGeyQx642jQmcvEYBiJVElFMHaEOEWRxKi5+jWI9OFV4KZZM?=
- =?us-ascii?Q?X5Y+kT9xP1J6KmoArziVLv6b9L6GEt9tL+p2ZHAVSd7lnXQTUOxW201igjig?=
- =?us-ascii?Q?h3yeUKJlC7KV7FVuozFryf8=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30bba879-403e-43d9-897c-08db455a76c5
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR01MB4966.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2023 06:58:24.8583
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jZJj5hf+uYrgVCoa2kHXcZuZpom0h/fVXzvuRsuRuvppo0W11SRu1pIZlmeFZFrQsYb7ZsSXG7OD6T0g4AXyPMLAkE2wyq3MjTNTnqCNaO+jL+xvxR25ZRNPBfR7zO3u
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR01MB6504
-X-Mailman-Approved-At: Wed, 26 Apr 2023 11:54:06 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,35 +100,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Chanh Nguyen <chanh@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Enable MCTP driver on I2C3 bus for MCTP transaction
 
-Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
----
- arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-index 0b5ea8620063..33e06eafed31 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
-@@ -366,6 +366,13 @@
- 
- &i2c3 {
- 	status = "okay";
-+	bus-frequency = <1000000>;
-+	multi-master;
-+	mctp-controller;
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <0x10>;
-+	};
- };
- 
- &i2c4 {
--- 
-2.17.1
+On Tue, 25 Apr 2023, at 16:27, Chanh Nguyen wrote:
+> Enable MCTP driver on I2C3 bus for MCTP transaction
+>
+> Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts 
+> b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> index 0b5ea8620063..33e06eafed31 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts
+> @@ -366,6 +366,13 @@
+> 
+>  &i2c3 {
+>  	status = "okay";
+> +	bus-frequency = <1000000>;
+> +	multi-master;
+> +	mctp-controller;
+> +	mctp@10 {
+> +		compatible = "mctp-i2c-controller";
+> +		reg = <0x10>;
 
+This needs to be `reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;`
+
+Andrew
