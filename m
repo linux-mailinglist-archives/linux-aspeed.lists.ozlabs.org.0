@@ -2,54 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74AF6F0F5A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Apr 2023 01:59:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A22646F2795
+	for <lists+linux-aspeed@lfdr.de>; Sun, 30 Apr 2023 06:18:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Q6t4T16tjz3f6K
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Apr 2023 09:59:05 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=aBeprQVz;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Q8ClM2cjKz3cBP
+	for <lists+linux-aspeed@lfdr.de>; Sun, 30 Apr 2023 14:18:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=aBeprQVz;
-	dkim-atps=neutral
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com; envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Q6t4J5kYcz3c7d
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 28 Apr 2023 09:58:56 +1000 (AEST)
-Received: from pecola.lan (unknown [159.196.93.152])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 891CF20009;
-	Fri, 28 Apr 2023 07:58:51 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1682639934;
-	bh=HTlmV6ZYUailRTclcFWB41eToJ0kSd2aafbUpDtmzXM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=aBeprQVzla52BpBzP4NDOD/EXYT0gCz5f/mBvPv3jwVqFXYNrXdbADJhjxk5EI88t
-	 V1vDNRV4whgTv6fq1xKG8dqir0OP6olRos15WbZ8DWGcCo4quuskgrO+wsvsA8W8eu
-	 4xnjzTe62VTdrXiIHhshul5GVO3isB4u6BROzVyXRHVINsiXZ0QcBOJxpaP62MRu8x
-	 Re9YOC4oL3z16L8kxZeCOA7fNbpMYqLIQEOOm1WPXpJcHYI0AvHoXkaYbqqlrIiCA8
-	 h75nIYkiXElBXVHeva9tsbmmmdNWoRBBXoOMNJvKJYKC8bJdbKZY7tXxzJbduUI5Gr
-	 NgiuDvQV/CDWg==
-Message-ID: <25ee56f181b11baa9ef54f13b6ef37977ee48b68.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v3 3/3] i3c: ast2600: Add AST2600 platform-specific
- driver
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: "Zbigniew, Lukwinski" <zbigniew.lukwinski@linux.intel.com>, 
-	linux-i3c@lists.infradead.org
-Date: Fri, 28 Apr 2023 07:58:50 +0800
-In-Reply-To: <671a4bc0-526e-5224-7cb9-f80ebab2c0ef@linux.intel.com>
-References: <20230331091501.3800299-1-jk@codeconstruct.com.au>
-	 <20230331091501.3800299-4-jk@codeconstruct.com.au>
-	 <671a4bc0-526e-5224-7cb9-f80ebab2c0ef@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Q8ClC4MqXz30Mn;
+	Sun, 30 Apr 2023 14:18:45 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+	by twspam01.aspeedtech.com with ESMTP id 33U40HT4060619;
+	Sun, 30 Apr 2023 12:00:17 +0800 (GMT-8)
+	(envelope-from ryan_chen@aspeedtech.com)
+Received: from aspeedtech.com (192.168.10.13) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sun, 30 Apr
+ 2023 12:17:15 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: <jk@codeconstruct.com.au>, Brendan Higgins <brendan.higgins@linux.dev>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Joel Stanley
+	<joel@jms.id.au>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Philipp Zabel <p.zabel@pengutronix.de>, Wolfram Sang <wsa@kernel.org>,
+        "Andy
+ Shevchenko" <andriy.shevchenko@linux.intel.com>,
+        <linux-i2c@vger.kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
+        Jean Delvare <jdelvare@suse.de>,
+        William Zhang <william.zhang@broadcom.com>,
+        Tyrone Ting <kfting@nuvoton.com>,
+        Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>,
+        Ryan Chen
+	<ryan_chen@aspeedtech.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        "Phil
+ Edworthy" <phil.edworthy@renesas.com>,
+        <openbmc@lists.ozlabs.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <=linux-kernel@vger.kernel.org>,
+        Andi Shyti
+	<andi.shyti@kernel.org>
+Subject: [PATCH v11 0/2] Add ASPEED AST2600 I2Cv2 controller driver
+Date: Sun, 30 Apr 2023 12:17:10 +0800
+Message-ID: <20230430041712.3247998-1-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.13]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 33U40HT4060619
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,28 +71,206 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Vitor Soares <ivitro@gmail.com>, devicetree@vger.kernel.org, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matt Johnston <matt@codeconstruct.com.au>, Jack Chen <zenghuchen@google.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi=C2=A0Lukwinski,
+This series add AST2600 i2cv2 new register set driver. The i2cv2 driver
+is new register set that have new clock divider option for more
+flexiable generation. And also have separate i2c master and slave register
+set for control.
 
-> > +	case 545:
-> > +		reg =3D AST2600_I3CG_REG0_SDA_PULLUP_EN_2K |
-> > +			AST2600_I3CG_REG0_SDA_PULLUP_EN_750;
->
-> It does not work. To enable PullUp=3D545R you need to set both 28 and
-> 29 bit (0x30000000) but 'AST2600_I3CG_REG0_SDA_PULLUP_EN_2K |
-> AST2600_I3CG_REG0_SDA_PULLUP_EN_750' is in fact 0x20000000.
+The legacy register layout is mix master/slave register control together.
+The following is add more detail description about new register layout.
+And new feature set add for register.
 
-Ah, good catch - I'd missed that the 2K is 0b00.
+-Add new clock divider option for more flexible and accurate clock rate
+generation -Add tCKHighMin timing to guarantee SCL high pulse width.
+-Add support dual pool buffer mode, split 32 bytes pool buffer of each
+device into 2 x 16 bytes for Tx and Rx individually.
+-Increase DMA buffer size to 4096 bytes and support byte alignment.
+-Re-define the base address of BUS1 ~ BUS16 and Pool buffer.
+-Re-define registers for separating master and slave mode control.
+-Support 4 individual DMA buffers for master Tx and Rx, slave Tx and Rx.
 
-> Maybe you could consider adding extra macro
-> 'AST2600_I3CG_REG0_SDA_PULLUP_EN_545' =3D (0x3 << 28)?
+And following is new register set for package transfer sequence.
+-New Master operation mode:
+ S -> Aw -> P
+ S -> Aw -> TxD -> P
+ S -> Ar -> RxD -> P
+ S -> Aw -> RxD -> Sr -> Ar -> TxD -> P
+-Bus SDA lock auto-release capability for new master DMA command mode.
+-Bus auto timeout for new master/slave DMA mode.
 
-Sounds good, I'll send a fix today.
+The following is two versus register layout.
+Old:
+{I2CD00}: Function Control Register     
+{I2CD04}: Clock and AC Timing Control Register
+{I2CD08}: Clock and AC Timing Control Register
+{I2CD0C}: Interrupt Control Register
+{I2CD10}: Interrupt Status Register 
+{I2CD14}: Command/Status Register   
+{I2CD18}: Slave Device Address Register
+{I2CD1C}: Pool Buffer Control Register
+{I2CD20}: Transmit/Receive Byte Buffer Register
+{I2CD24}: DMA Mode Buffer Address Register
+{I2CD28}: DMA Transfer Length Register
+{I2CD2C}: Original DMA Mode Buffer Address Setting
+{I2CD30}: Original DMA Transfer Length Setting and Final Status
 
-Cheers,
+New Register mode
+{I2CC00}: Master/Slave Function Control Register
+{I2CC04}: Master/Slave Clock and AC Timing Control Register
+{I2CC08}: Master/Slave Transmit/Receive Byte Buffer Register
+{I2CC0C}: Master/Slave Pool Buffer Control Register
+{I2CM10}: Master Interrupt Control Register
+{I2CM14}: Master Interrupt Status Register
+{I2CM18}: Master Command/Status Register
+{I2CM1C}: Master DMA Buffer Length Register
+{I2CS20}: Slave~ Interrupt Control Register
+{I2CS24}: Slave~ Interrupt Status Register
+{I2CS28}: Slave~ Command/Status Register
+{I2CS2C}: Slave~ DMA Buffer Length Register
+{I2CM30}: Master DMA Mode Tx Buffer Base Address
+{I2CM34}: Master DMA Mode Rx Buffer Base Address
+{I2CS38}: Slave~ DMA Mode Tx Buffer Base Address
+{I2CS3C}: Slave~ DMA Mode Rx Buffer Base Address
+{I2CS40}: Slave Device Address Register
+{I2CM48}: Master DMA Length Status Register
+{I2CS4C}: Slave  DMA Length Status Register
+{I2CC50}: Current DMA Operating Address Status
+{I2CC54}: Current DMA Operating Length  Status
 
+aspeed,global-regs:
+This global register is needed, global register is setting for
+new clock divide control, and new register set control.
 
-Jeremy
+ASPEED SOC chip is server product, i2c bus may have fingerprint
+connect to another board. And also support hotplug.
+The following is board-specific design example.
+Board A                                         Board B
+-------------------------                       ------------------------
+|i2c bus#1(master/slave)  <===fingerprint ===> i2c bus#x (master/slave)|
+|i2c bus#2(master)-> tmp i2c device |          |                       |
+|i2c bus#3(master)-> adc i2c device |          |                       |
+-------------------------                       ------------------------
+
+i2c-scl-clk-low-timeout-us:
+For example I2C controller as slave mode, and suddenly disconnected.
+Slave state machine will keep waiting for master clock in for rx/tx
+transmit. So it need timeout setting to enable timeout unlock controller
+state. And in another side. In Master side also need avoid suddenly
+slave miss(un-plug), Master will timeout and release the SDA/SCL.
+
+aspeed,enable-dma:
+For example The bus#1 have trunk data needed for transfer,
+it can enable bus dma mode transfer, it can reduce cpu utilized.
+Others bus bus#2/3 use defautl buffer mode.
+
+v11:
+-aspeed,i2c.yaml
+ -no change, the same with v10.
+-i2c-ast2600.c
+ -modify alert_enable from int -> boolean.
+ -modify dbg string recovery -> recover.
+ -remove no need to init 0.
+ -remove new line after break.
+ -remove unneeded empty line.
+ -modify dma_alloc_coherent to dmam_alloc_coherent
+ -modify probe nomem return dev_err_probe
+ -modify i2c_add_adapter to devm_i2c_adapter
+ -modify checkpatch: Alignment should match open parenthesis
+ -modify checkpatch: braces {} should be used on all arms of this statement
+ -modify checkpatch: Unbalanced braces around else statement
+
+v10:
+-aspeed,i2c.yaml
+ -move unevaluatedProperties after allOf.
+ -remove extra one blank line.
+-i2c-ast2600.c
+ -no change, the same with v8.
+
+v9:
+-aspeed,i2c.yaml
+ -backoff to v7.
+  -no fix typo in maintainer's name and email. this would be another patch.
+  -no remove address-cells, size-cells, this would be another patch.
+ -use aspeed,enable-dma property instead of aspeed,xfer-mode selection.
+ -fix allOf and else false properties for aspeed,ast2600-i2cv2.
+-i2c-ast2600.c
+ -no change, the same with v8
+
+v8:
+-aspeed,i2c.yaml
+ -modify commit message.
+  -Fix typo in maintainer's name and email.
+ -remove address-cells, size-cells.
+-i2c-ast2600.c
+ -move "i2c timeout counter" comment description before property_read.
+ -remove redundant code "return ret" in probe end.
+
+v7:
+-aspeed,i2c.yaml
+ -Update ASPEED I2C maintainers email.
+ -use aspeed,enable-dma property instead of aspeed,xfer-mode selection.
+ -fix allOf and else false properties for aspeed,ast2600-i2cv2.
+-i2c-ast2600.c
+ -remove aspeed,xfer-mode instead of aspeed,enable-dma mode. buffer mode
+is default.
+ -remove aspeed,timeout instead of i2c-scl-clk-low-timeout-us for
+timeout setting.
+
+v6:
+-remove aspeed,i2cv2.yaml, merge to aspeed,i2c.yaml -add support for
+ i2cv2 properites.
+-i2c-ast2600.c
+ -fix ast2600_i2c_remove ordering.
+ -remove ast2600_i2c_probe goto labels, and add dev_err_probe -remove
+  redundant deb_dbg debug message.
+ -rename gr_regmap -> global_regs
+
+v5:
+-remove ast2600-i2c-global.yaml, i2c-ast2600-global.c.
+-i2c-ast2600.c
+ -remove legacy clock divide, all go for new clock divide.
+ -remove duplicated read isr.
+ -remove no used driver match
+ -fix probe return for each labels return.
+ -global use mfd driver, driver use phandle to regmap read/write.
+-rename aspeed,i2c-ast2600.yaml to aspeed,i2cv2.yaml -remove bus-frequency.
+-add required aspeed,gr
+-add timeout, byte-mode, buff-mode properites.
+
+v4:
+-fix i2c-ast2600.c driver buffer mode use single buffer conflit in
+ master slave mode both enable.
+-fix kmemleak issue when use dma mode.
+-fix typo aspeed,i2c-ast2600.yaml compatible is "aspeed,ast2600-i2c"
+-fix typo aspeed,i2c-ast2600.ymal to aspeed,i2c-ast2600.yaml
+
+v3:
+-fix i2c global clock divide default value.
+-remove i2c slave no used dev_dbg info.
+
+v2:
+-add i2c global ymal file commit.
+-rename file name from new to ast2600.
+ aspeed-i2c-new-global.c -> i2c-ast2600-global.c
+ aspeed-i2c-new-global.h -> i2c-ast2600-global.h
+ i2c-new-aspeed.c -> i2c-ast2600.c
+-rename all driver function name to ast2600.
+
+Ryan Chen (2):
+  dt-bindings: i2c: aspeed: support for AST2600-i2cv2
+  i2c: aspeed: support ast2600 i2c new register mode driver
+
+ .../devicetree/bindings/i2c/aspeed,i2c.yaml   |   51 +-
+ MAINTAINERS                                   |    9 +
+ drivers/i2c/busses/Kconfig                    |   11 +
+ drivers/i2c/busses/Makefile                   |    1 +
+ drivers/i2c/busses/i2c-ast2600.c              | 1596 +++++++++++++++++
+ 5 files changed, 1665 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/i2c/busses/i2c-ast2600.c
+
+-- 
+2.34.1
+
