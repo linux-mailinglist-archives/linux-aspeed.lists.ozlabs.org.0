@@ -1,71 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952096F4C03
-	for <lists+linux-aspeed@lfdr.de>; Tue,  2 May 2023 23:19:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 204496F4C35
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 May 2023 23:28:06 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Q9tHy2y3rz3cNj
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 May 2023 07:19:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Q9tTv6d9Kz3cCm
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 May 2023 07:28:03 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=KRpm0LIj;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QeycS2K3;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::1136; helo=mail-yw1-x1136.google.com; envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=KRpm0LIj;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QeycS2K3;
 	dkim-atps=neutral
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Q9tHm2HYDz3c6Y
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  3 May 2023 07:19:14 +1000 (AEST)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-555e853d3c5so41130647b3.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 02 May 2023 14:19:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683062351; x=1685654351;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0h/G3jDyFIlsGjKztRY6ZyzstNpimF/rtsReSh8uQhc=;
-        b=KRpm0LIjs28Qed8shWU3rN8qoEPt7Z2dbTHfeBDQWUYQ/eleo/D1hSCVxF8U6UZ+bs
-         F1XMfbU8w5Ga3fHrL9f52m54VFw9b/NoIHxi6VJvUi0wJbHm/C9DZq5Ys2jrTCtfhcm1
-         oBkQ2yn5ZHZ/TfTLorY09e+913thRNTfaqI5mNLT0k9tsDcNET4Mx+BQIf1502z+U6F5
-         zdPY5wpLT0wKF469rWVGVCkKCBVQOBcwk1PBnM9kbNCfxW76JztqaMMAKMKH5t+1tPeB
-         +v6bV47t5nalynw/2xl/re8ehZcjTh36Ag3m136LAbl2iZeuJ0S5NvYOTuc93MhpGwqC
-         v4lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683062351; x=1685654351;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0h/G3jDyFIlsGjKztRY6ZyzstNpimF/rtsReSh8uQhc=;
-        b=JkHIXILxLypwjuR46MJX1Hiz7nMV7hRpsbjTprl8hAlAdF3rbL11FG6xcd+S3yl7LW
-         WFBPXRY71EVGF20blcDtxtWuyXD0IPCpmKMo3cJr6QTuKqEmFj3WZ3fawAA4bKq2Yi9Y
-         cB9Z0/G4Gqi609j7PIarYZXW6Frr6qsR/hbIcEQNTwLWs+gQ7G0FJ6+CCf+xmQVsxtes
-         xtTilL7CYDnUZuUnxVyxNEI8IWpoq0Es+qqed/987g2kqjKM6vYnBc6YG/0jAnm/A8Ub
-         jzYHtde7DSRbVP5G6Gn5HRH2QEGMEIIClUpyCAJJcsVtW6wtL70b+fW7v16aEILgMaYU
-         4Epw==
-X-Gm-Message-State: AC+VfDx6eObF3NBdgpALqHu4HV97AcTPf4IAHcLE9ORw+R5ta5Q4ucPB
-	ylrHeMFwvx5EU9ugNUX0CvEv/P0IlJrKERA2xDrJ5g==
-X-Google-Smtp-Source: ACHHUZ40eKx7z1zIEK43ZteAtF8Wd9UqjzfberS/RGyfg0Yc35rUPQJQ5+CsgQDyrPQsSFVeJx8PEmL+DqYZgiAtTAc=
-X-Received: by 2002:a0d:e68f:0:b0:54f:6a20:5a19 with SMTP id
- p137-20020a0de68f000000b0054f6a205a19mr17486306ywe.34.1683062351071; Tue, 02
- May 2023 14:19:11 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Q9tTn3H8qz3c46;
+	Wed,  3 May 2023 07:27:57 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 08F62621E5;
+	Tue,  2 May 2023 21:27:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ED51C433AC;
+	Tue,  2 May 2023 21:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683062874;
+	bh=jCPU9c2wabBAGUXBx0w4fzzWZn23Up45NdgJcoiuHoA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QeycS2K3ewctYzTEloVu2+psY1yqWMXDLYjl/hvzEsuI/rCoQyIWWrcInlG2NU5Vt
+	 ZhiIh1MtTKjd9pFeckk+tiJy1vVp29OFdMTgDcx/WJ8LIp4BhfJ3MXtCJQAtf7GADC
+	 ZJdBo0RViTWUfEfA3DXuXjn1fFMM3XfEJZyZ5wmhns7RNVlUIWAnXy7ypOpLvEIpYJ
+	 r4LQxZKMQxJG/FTUbYhGjyuF3Mv044AWIzcT07DI6ofTS/0sY0cUV9ehQof2sSRQE/
+	 DSdSrQeAczbNO8taFydoCq3ou1kt6VgqPZ91Zx6Dw9OIFvc9BxWvsfCMDi0PxjaTpH
+	 o/TXDp3yhtUmA==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2a7b02615f1so44664821fa.0;
+        Tue, 02 May 2023 14:27:53 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwtvCKpeTUXuOCuevLdZ+BGre3F05HjkufphCK+5rh8BRqAT8Hh
+	XZqKgDZ+QIBz2ujvX8zAPQ+L/pGIeF/aNjy8PQ==
+X-Google-Smtp-Source: ACHHUZ4VmzJ58Blp8vkFEMpnZTP3rUtg0aygjDIMYeTMpSWAwJvPoANOd1LtrOl749GRPWYY5WO4jHHB7hvvVyp4ngc=
+X-Received: by 2002:a2e:860b:0:b0:2a8:bb99:250d with SMTP id
+ a11-20020a2e860b000000b002a8bb99250dmr5156347lji.6.1683062871907; Tue, 02 May
+ 2023 14:27:51 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
  <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain> <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
  <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
  <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
  <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com> <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
-In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 2 May 2023 23:18:59 +0200
-Message-ID: <CACRpkdZx6vEVnxVt0tW4nYtnbv8g=Dc11sa_3myB3GW4jXk1oA@mail.gmail.com>
+ <CACRpkdZx6vEVnxVt0tW4nYtnbv8g=Dc11sa_3myB3GW4jXk1oA@mail.gmail.com>
+In-Reply-To: <CACRpkdZx6vEVnxVt0tW4nYtnbv8g=Dc11sa_3myB3GW4jXk1oA@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 2 May 2023 16:27:39 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKzof_mYRw9Dd0YAVWr1AFoO8gwkVUR22AJX_RF2xv0aA@mail.gmail.com>
+Message-ID: <CAL_JsqKzof_mYRw9Dd0YAVWr1AFoO8gwkVUR22AJX_RF2xv0aA@mail.gmail.com>
 Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-To: Rob Herring <robh+dt@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -84,30 +78,37 @@ Cc: linux-aspeed@lists.ozlabs.org, linux-realtek-soc@lists.infradead.org, linux-
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, May 2, 2023 at 9:40=E2=80=AFPM Rob Herring <robh+dt@kernel.org> wro=
-te:
-
-> I've dusted off my script and made a branch[1] with the result.
-> There's just a couple of fixes needed after the script is run (see the
-> top commit). The cross arch includes are all fixed up by the script.
-> dtbs_install maintains a flat install. I compared the number of .dtbs
-> before and after to check the script.
+On Tue, May 2, 2023 at 4:19=E2=80=AFPM Linus Walleij <linus.walleij@linaro.=
+org> wrote:
 >
-> I think the only issue remaining is finalizing the mapping of
-> platforms to subdirs. What I have currently is a mixture of SoC
-> families and vendors. The most notable are all the Freescale/NXP
-> platforms, pxa, socfpga, and stm32. It's not consistent with arm64
-> either. Once that's finalized, I still need to go update MAINTAINERS.
+> On Tue, May 2, 2023 at 9:40=E2=80=AFPM Rob Herring <robh+dt@kernel.org> w=
+rote:
+>
+> > I've dusted off my script and made a branch[1] with the result.
+> > There's just a couple of fixes needed after the script is run (see the
+> > top commit). The cross arch includes are all fixed up by the script.
+> > dtbs_install maintains a flat install. I compared the number of .dtbs
+> > before and after to check the script.
+> >
+> > I think the only issue remaining is finalizing the mapping of
+> > platforms to subdirs. What I have currently is a mixture of SoC
+> > families and vendors. The most notable are all the Freescale/NXP
+> > platforms, pxa, socfpga, and stm32. It's not consistent with arm64
+> > either. Once that's finalized, I still need to go update MAINTAINERS.
+>
+> I see my nits were fixed like I wanted them, and it's now mostly a
+> mix of soc and vendor names that make sense so from my point of view:
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+>
+> NB:
+> arch/arm64/boot/dts/arm$
+> vexpress-v2m-rs1.dtsi -> ../../../../arm/boot/dts/vexpress-v2m-rs1.dtsi
+>
+> This still works after the script, yes?
 
-I see my nits were fixed like I wanted them, and it's now mostly a
-mix of soc and vendor names that make sense so from my point of view:
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Yes, because in the script I do:
 
-NB:
-arch/arm64/boot/dts/arm$
-vexpress-v2m-rs1.dtsi -> ../../../../arm/boot/dts/vexpress-v2m-rs1.dtsi
+git grep -l -F "vexpress-v2m-rs1" arch/arm64/boot/dts | xargs perl -p
+-i -e "s/vexpress-v2m-rs1/arm\/arm\/vexpress-v2m-rs1/"
 
-This still works after the script, yes?
-
-Yours,
-Linus Walleij
+Rob
