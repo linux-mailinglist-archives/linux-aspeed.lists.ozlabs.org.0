@@ -1,70 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804D56F6150
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 May 2023 00:30:24 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FE86F68FA
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 May 2023 12:18:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QBWqL2zJDz3blg
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 May 2023 08:30:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QBqXW0PHvz3cdM
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 May 2023 20:18:35 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=bNRlnnTF;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.a=rsa-sha256 header.s=pandora-2019 header.b=Q2NqYN/F;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102b; helo=mail-pj1-x102b.google.com; envelope-from=f.fainelli@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=armlinux.org.uk (client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142; helo=pandora.armlinux.org.uk; envelope-from=linux+linux-aspeed=lists.ozlabs.org@armlinux.org.uk; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=bNRlnnTF;
+	dkim=pass (2048-bit key; secure) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.a=rsa-sha256 header.s=pandora-2019 header.b=Q2NqYN/F;
 	dkim-atps=neutral
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+X-Greylist: delayed 363 seconds by postgrey-1.36 at boromir; Thu, 04 May 2023 20:18:25 AEST
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QBWqF1P3Qz3bTs;
-	Thu,  4 May 2023 08:30:14 +1000 (AEST)
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-24decf5cc03so3450530a91.0;
-        Wed, 03 May 2023 15:30:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683153012; x=1685745012;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5Mp6CzPotn9aMhYuP1SiSdnM3toCuetUTL6p1Pka30U=;
-        b=bNRlnnTF+SjZJvfO0HArhda1ki6KEyIa7yIRZQPDhMmTqTNNooLEQemu27nE0HCTDC
-         ehg0UFT/VFvJrzxIMMpqs/LfyiZTcvfm3F+XeRCHeLKiHGTslEamAcA/igyUj1RUpYqb
-         jGTv1DRSnyHXSO+6BklV+H0tQUegWEpRcj9ZpU3IZeJyr0OTp0uWflXKxNLt/Dv3Fo9Q
-         lyreFoA/HC5oPSx7g0RJgiSEs9GwL3CQmot20cPJQBMw9eDNFCnNWmZeSQ/ZfOgd+UUX
-         wLIk2ukG1JzFJdW7nk5OX9lr2jX57mY836CjkAxfeHIEUZ2uly4MzKA0lNXFe8yznUDm
-         6rKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683153012; x=1685745012;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Mp6CzPotn9aMhYuP1SiSdnM3toCuetUTL6p1Pka30U=;
-        b=Ciizqsm57RiOldftYdn1iVU8a5P/mrehaHmMdIGV6wqZkIM8LaGNO8DdMJXH4iqmx3
-         oDvUkXWJIfC9yJ/NGQ3vI1rBA/wNSuvYFRbYBCJczgytH8FC2RY1t/zcrBLkHdNyWBto
-         24i709S/AkVzpP+Rvm7BiBxIHgc95tcb+sUVCVRBMJaMTaJTlvQaXMjGzbBFwCJx6PD/
-         4bNZSOoLKA72MFvEVNS7u+WWMNwECBp2IsLtUilpZrn60QCxN9n2lX8jPqMAvvOttHWH
-         AhkHMB9fUyW5pL7OBYOTgnZQIAok9PgGz29o9XRMYssSl4q9HgJlvNAlSrCuKAjQlopp
-         EiLg==
-X-Gm-Message-State: AC+VfDzpmWDdsxecWBOrEL6QqeURgnlVYMAiSIW2jCwe8IULKWAvZNHu
-	55qIbhRoGVFSbJ/bQd613c8=
-X-Google-Smtp-Source: ACHHUZ68cmsHxtB87iONW+SsuMsSJr4NkMfMrRrxl8kzW+7lj28j0Q7Ue/XhdACq9ZdVdGd7yUEu7w==
-X-Received: by 2002:a17:90a:a891:b0:247:bdd3:a039 with SMTP id h17-20020a17090aa89100b00247bdd3a039mr172899pjq.8.1683153011868;
-        Wed, 03 May 2023 15:30:11 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id jx12-20020a17090b46cc00b0024e0141353dsm1872551pjb.28.2023.05.03.15.30.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 May 2023 15:30:11 -0700 (PDT)
-Message-ID: <bae5336c-a26a-cabb-6b83-ee9cece18130@gmail.com>
-Date: Wed, 3 May 2023 15:29:58 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Content-Language: en-US
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QBqXK5QMQz3bWj
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  4 May 2023 20:18:24 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=f9IPUEpyBrx41XXxSrkiHV0HEd6PMWxGjklTbCAmGKM=; b=Q2NqYN/Fkihy43H/8u3aGt/ofV
+	0Y3XG6lm1CdWYvSiyatBQ0G5rRbPax1/SdmoCS8XzIq+LwlMiGRbgHOk4KJPHv71XsXkaJq2rJ5Aj
+	oxG9AvHjaWpZz4law9GcRvdMWb5N2Wifr9JYNfIetVLNCPLXypTpm6Is4LWo3d1NTmynlrimN4Eny
+	cZnL0m6aof24zIK6IikSgO1ZfVrw6maAcn74DcOlxGeJrmSHo3wewf0gylo8qjrdlLr+aqmrpi/tX
+	7yIxxbUSVIgoGy+PMVarbqsZ8KOUU+VZLp5gLcuM3Hi+fibA8zNzcOqtUa8fp+v1dquHPB76oUNO6
+	/bHPZLnw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49876)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1puVwF-0004T3-Sb; Thu, 04 May 2023 11:11:51 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1puVwB-0002mb-S8; Thu, 04 May 2023 11:11:47 +0100
+Date: Thu, 4 May 2023 11:11:47 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Rob Herring <robh+dt@kernel.org>
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Message-ID: <ZFOE4wd31hpJh0ro@shell.armlinux.org.uk>
 References: <20220328000915.15041-1-ansuelsmth@gmail.com>
  <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
  <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain>
@@ -73,12 +56,10 @@ References: <20220328000915.15041-1-ansuelsmth@gmail.com>
  <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
  <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com>
  <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
- <d4b52074-d11c-4c7a-ad74-b2fce64c6d30@gmail.com>
- <CAL_JsqKRcMSijAdiP_BpyBGRuMhscZ12QFcLBAeZ+TcaQg7r4g@mail.gmail.com>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <CAL_JsqKRcMSijAdiP_BpyBGRuMhscZ12QFcLBAeZ+TcaQg7r4g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,127 +76,25 @@ Cc: linux-aspeed@lists.ozlabs.org, linux-realtek-soc@lists.infradead.org, linux-
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 5/2/23 18:04, Rob Herring wrote:
-> On Tue, May 2, 2023 at 6:02 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
->>
->> On 5/2/23 12:40, Rob Herring wrote:
->>> On Tue, May 2, 2023 at 3:15 AM Arnd Bergmann <arnd@arndb.de> wrote:
->>>>
->>>> On Tue, Apr 25, 2023, at 17:57, Rob Herring wrote:
->>>>> On Tue, Apr 25, 2023 at 2:28 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>>>>
->>>>>> Does your script also cater for .dts files not matching any pattern,
->>>>>> but including a .dtsi file that does match a pattern?
->>>>>
->>>>> I assume I built everything after moving, but maybe not...
->>>>>
->>>>> That's all just "details". First, we need agreement on a) moving
->>>>> things to subdirs and b) doing it 1-by-1 or all at once. So far we've
->>>>> been stuck on a) for being 'too much churn'.
->>>>
->>>> Sorry for missing most of the discussion last week. The script sounds
->>>> fine to me, the only reason I didn't want to do this in the past is that
->>>> we had the plan to move platforms out of the kernel tree to an external
->>>> repository and I wanted to do this platform at a time and also only move
->>>> each one once. I don't think that is going to happen anytime soon now,
->>>> so let's just do your script.
->>>>
->>>> Can you send me the script and/or a pull request of the resulting
->>>> tree based on my soc/dt branch? Everything is merged upstream,
->>>> and I think git-merge would handle the remaining merges with any
->>>> other changes in mainline.
->>>
->>> I've dusted off my script and made a branch[1] with the result.
->>> There's just a couple of fixes needed after the script is run (see the
->>> top commit). The cross arch includes are all fixed up by the script.
->>> dtbs_install maintains a flat install. I compared the number of .dtbs
->>> before and after to check the script.
->>>
->>> I think the only issue remaining is finalizing the mapping of
->>> platforms to subdirs. What I have currently is a mixture of SoC
->>> families and vendors. The most notable are all the Freescale/NXP
->>> platforms, pxa, socfpga, and stm32. It's not consistent with arm64
->>> either. Once that's finalized, I still need to go update MAINTAINERS.
->>>
->>> Here's the current mapping:
->>>
->>> vendor_map = {
->>>       'alphascale' : 'alphascale',
->>>       'alpine' : 'alpine',
->>>       'artpec' : 'axis',
->>>       'axm' : 'lsi',
->>>       'cx9' : 'cnxt',
->>>       'ecx' : 'calxeda',
->>>       'highbank' : 'calxeda',
->>>       'ep7' : 'cirrus',
->>>       'mxs': 'mxs',
->>>       'imx23': 'mxs',
->>>       'imx28': 'mxs',
->>>       'sun' : 'allwinner',
->>>       'imx': 'imx',
->>>       'e6' : 'imx',
->>>       'e7' : 'imx',
->>>       'mba6' : 'imx',
->>>       'ls': 'fsl',
->>>       'vf': 'fsl',
->>>       'qcom': 'qcom',
->>>       'am3' : 'ti',
->>>       'am4' : 'ti',
->>>       'am5' : 'ti',
->>>       'dra' : 'ti',
->>>       'keystone' : 'ti',
->>>       'omap' : 'ti',
->>>       'compulab' : 'ti',
->>>       'logicpd' : 'ti',
->>>       'elpida' : 'ti',
->>>       'motorola' : 'ti',
->>>       'twl' : 'ti',
->>>       'da' : 'ti',
->>>       'dm' : 'ti',
->>>       'nspire' : 'nspire',
->>>       'armada' : 'marvell',
->>>       'dove' : 'marvell',
->>>       'kirkwood' : 'marvell',
->>>       'orion' : 'marvell',
->>>       'mvebu' : 'marvell',
->>>       'mmp' : 'marvell',
->>>       'berlin' : 'berlin',
->>>       'pxa2' : 'pxa',
->>>       'pxa3' : 'pxa',
->>>       'pxa' : 'marvell',
->>>       'arm-' : 'arm',
->>>       'integ' : 'arm',
->>>       'mps' : 'arm',
->>>       've' : 'arm',
->>>       'aspeed' : 'aspeed',
->>>       'ast2' : 'aspeed',
->>>       'facebook' : 'aspeed',
->>>       'ibm' : 'aspeed',
->>>       'openbmc' : 'aspeed',
->>>       'en7' : 'airoha',
->>>       'at91' : 'microchip',
->>>       'sama' : 'microchip',
->>>       'sam9' : 'microchip',
->>>       'usb_' : 'microchip',
->>>       'tny_' : 'microchip',
->>>       'mpa1600' : 'microchip',
->>>       'animeo_ip' : 'microchip',
->>>       'aks-cdu' : 'microchip',
->>>       'ethernut5' : 'microchip',
->>>       'evk-pro3' : 'microchip',
->>>       'pm9g45' : 'microchip',
->>>       'ge86' : 'microchip',
->>>       'bcm' : 'brcm',
->>
->> How about we use 'broadcom' here, to follow what arm64 does? I could
->> rename arch/mips/boot/dts/brcm to arch/mips/boot/dts/broadcom for
->> consistency, too?
-> 
-> Okay, though if starting clean I'd somewhat prefer to use the vendor
-> prefix. I guess since arm and arm64 share dtsi files, they should
-> match.
+On Tue, May 02, 2023 at 02:40:19PM -0500, Rob Herring wrote:
+> I think the only issue remaining is finalizing the mapping of
+> platforms to subdirs. What I have currently is a mixture of SoC
+> families and vendors. The most notable are all the Freescale/NXP
+> platforms, pxa, socfpga, and stm32. It's not consistent with arm64
+> either. Once that's finalized, I still need to go update MAINTAINERS.
 
-Sounds good to me, let's go with "brcm" then.
+I haven't followed this discussion at all, so here's a question.
+
+What does this mean for the _installed_ dtb files? Do they move
+location? If they do, lots is going to break, because there will
+be u-boot configurations and other scripts that assume the flat
+directory structure for the installed dtb files.
+
+I don't think changing the installed dtb structure is acceptable
+at this point in time. It's something that _should_ have been
+thought about when ARM was converted to dtb, it's too late to be
+changing that now.
+
 -- 
-Florian
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
