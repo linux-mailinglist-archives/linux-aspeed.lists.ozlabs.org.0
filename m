@@ -1,69 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED4B6FB043
-	for <lists+linux-aspeed@lfdr.de>; Mon,  8 May 2023 14:39:21 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FD56FB8FA
+	for <lists+linux-aspeed@lfdr.de>; Mon,  8 May 2023 22:55:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QFLT26YhXz3cd5
-	for <lists+linux-aspeed@lfdr.de>; Mon,  8 May 2023 22:39:18 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Dc6j0gNJ;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QFYT12nyKz3cdC
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 May 2023 06:55:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.88; helo=mga01.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Dc6j0gNJ;
-	dkim-atps=neutral
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QFLRs3X0Rz3cBK;
-	Mon,  8 May 2023 22:38:15 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683549497; x=1715085497;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TGcBs2WMT86YIl2FW8BGGb2rDomhZlvsCn9sqxbnMAI=;
-  b=Dc6j0gNJTIwYhvCh3Sd5IMUk4HqvY8FE6ZWpCnHQayfDiE5Sd0ZfCitH
-   OOk5Vt6mlvKsjhb3wOe1Ptxv4YNENmmj/fvXycTdWvky6VhqK3kYhOXX1
-   Gx/n6JgAqea+yY4shDxbSRmCQ8kfUDwjGfm1++9J5EEc08JV+r08WL5/s
-   rRvzIYqvlM3yaJjgJm+zuThunfZJKL+Il0FopFP1rc3uF/aREicj4ziWn
-   +qNbVRU7HkbbTD5/0Zt0G5eEaUkNjEdYCKBOca0s5NjPLhoTlx0TbBodj
-   3OJFJrjTmfqQ0ecnzmBHFZkkN/NuExyC98suylRC2jictvxQMrBMJr9de
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="377724350"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="377724350"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 05:38:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="822653340"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="822653340"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga004.jf.intel.com with ESMTP; 08 May 2023 05:38:04 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1pw07t-00ArL0-0V;
-	Mon, 08 May 2023 15:38:01 +0300
-Date: Mon, 8 May 2023 15:38:00 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v11 2/2] i2c: aspeed: support ast2600 i2c new register
- mode driver
-Message-ID: <ZFjtKNtR3zveNIvY@smile.fi.intel.com>
-References: <20230430041712.3247998-1-ryan_chen@aspeedtech.com>
- <20230430041712.3247998-3-ryan_chen@aspeedtech.com>
- <ZFFzRL/+73Ftix4Q@smile.fi.intel.com>
- <SEZPR06MB526906C3DAFFE0A8FA924AA7F2709@SEZPR06MB5269.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QFYRK2Kghz3cBL
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 May 2023 06:53:33 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw7r9-000308-NO; Mon, 08 May 2023 22:53:15 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw7r4-0024pC-EM; Mon, 08 May 2023 22:53:10 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pw7r3-002YUu-K0; Mon, 08 May 2023 22:53:09 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Brendan Higgins <brendan.higgins@linux.dev>,
+	Wolfram Sang <wsa@kernel.org>
+Subject: [PATCH 03/89] i2c: aspeed: Convert to platform remove callback returning void
+Date: Mon,  8 May 2023 22:51:40 +0200
+Message-Id: <20230508205306.1474415-4-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
+References: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SEZPR06MB526906C3DAFFE0A8FA924AA7F2709@SEZPR06MB5269.apcprd06.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1714; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=9zNsI5stUnuhq0FHylihgdIHvTwSQVOvrt5eEDRxnsI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkWWBDUvMtm/WjKIGQSlttusSEAyRutYR/7+6F6 jlZk3FRObOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZFlgQwAKCRCPgPtYfRL+ ToVqB/wIJjh1M34I9n3/oezujnyyemKFn4RZb2KZy4OIRwmftRZXK2Yhjpb9OaZ/k5qxecJvB8f r2D73urArwe+CdbB1S3SbNbXloErOdQjJrMlLhCE6rPrM1hE+XCN2lB1eBVu23W1f7hHBC+a8hB ZXZmtCHGCCyvuXHkSjELSgac9dpcyQZxoTCbS/ZHdr7ZFkpoqJwbnkrrRyAszA/WUsnQEr1WfVg CpBfiY/7PI+vebi6Bzi8Jkesww4ufpQDkTcTK45uEDgTr5epLjf2lwb6J0Z25jCZ6ZWgRaekqf+ BS1Q0Xc+M037lingsnv6BfzDV43v+5axIqlRsF3gnasQGQLj
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,124 +57,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Brendan Higgins <brendan.higgins@linux.dev>, Conor Dooley <conor.dooley@microchip.com>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "jk@codeconstruct.com.au" <jk@codeconstruct.com.au>, Jean Delvare <jdelvare@suse.de>, Andi Shyti <andi.shyti@kernel.org>, Phil Edworthy <phil.edworthy@renesas.com>, Florian Fainelli <f.fainelli@gmail.com>, "=linux-kernel@vger.kernel.org" <=linux-kernel@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, William Zhang <william.zhang@broadcom.com>, Rob Herring <robh+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>, Wolfram Sang <wsa@kernel.org>, Tyrone Ting <kfting@nuvoton.com>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, May 07, 2023 at 02:21:10AM +0000, Ryan Chen wrote:
-> > On Sun, Apr 30, 2023 at 12:17:12PM +0800, Ryan Chen wrote:
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
-...
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-> > > +#define AST2600_GLOBAL_INIT				\
-> > > +			(AST2600_I2CG_CTRL_NEW_REG |	\
-> > > +			AST2600_I2CG_CTRL_NEW_CLK_DIV)
-> > 
-> > Make just a one TAB and put the last two lines on the single one.
-> 
-> Update by following. 
-> 
-> #define AST2600_GLOBAL_INIT		\
-> 	(AST2600_I2CG_CTRL_NEW_REG |	\
-> 	 AST2600_I2CG_CTRL_NEW_CLK_DIV)
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/i2c/busses/i2c-aspeed.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-As I mentioned the last two can occupy a single line.
-
-...
-
-> > > +	/* send start */
-> > > +	dev_dbg(i2c_bus->dev, "[%d] %sing %d byte%s %s 0x%02x\n",
-> > > +		i2c_bus->msgs_index, msg->flags & I2C_M_RD ? "read" : "write",
-> > 
-> > str_read_write() ?
-> Sorry do you mean there have a function call str_read_write?
-> Can you point me where it is for refer?
-
-string_helpers.h.
-
-> > > +		msg->len, msg->len > 1 ? "s" : "",
-> > > +		msg->flags & I2C_M_RD ? "from" : "to", msg->addr);
-
-...
-
-> > > +				if (--i % 4 != 3)
-> > > +					writel(*(u32 *)wbuf, i2c_bus->buf_base + i - (i % 4));
-> > 
-> > The above code is ugly. Can you think about it and write in a better way?
-> Sorry, that is because the register only support for 4 byte align write.
-> That the reason I need put for byte write to 4 byte align write.
-
-Yes, that's fine. The problem is in _how_ the driver does it. We have a lot of
-helpers in the kernel to access unaligned data.
-
-...
-
-> > > +	return ast2600_i2c_master_irq(i2c_bus) ? IRQ_HANDLED : IRQ_NONE;
-> > 
-> > IRQ_RETVAL() ?
-> Sorry, most return is handled or not handled.
-> Do you mean replace it just " return IRQ_RETVAL(ret);"
-
-Have you had a chance to look in the implementation of IRQ_RETVAL() ?
-I believe if you do, you will find the answer to your question.
-
-...
-
-> > > +	if (i2c_bus->mode == BUFF_MODE) {
-> > > +		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-> > > +		if (res && resource_size(res) >= 2) {
-> > > +			i2c_bus->buf_base = devm_ioremap_resource(dev, res);
-> > > +
-> > > +			if (!IS_ERR_OR_NULL(i2c_bus->buf_base))
-> > > +				i2c_bus->buf_size = resource_size(res) / 2;
-> > > +		} else {
-> > > +			i2c_bus->mode = BYTE_MODE;
-> > > +		}
-> > > +	}
-> > 
-> > Can be done without additional checks and with a simple call to
-> > devm_platform_ioremap_resource(). No?
-> > 
-> Sorry, I can't catch your point, can you guide me more about it?
-
-	if (BUFF_MODE) {
-		void __iomem buf_base;
-
-		buf_base = devm_platform_ioremap_and_get_resource(pdev, 1, &res);
-		if (IS_ERR(buf_base))
-			mode = BYTE_MODE;
-		else {
-			->buf_base = buf_base;
-			->buf_size = ...
-		}
-	}
-
-...
-
-> > > +	ret = of_property_read_u32(dev->of_node, "clock-frequency",
-> > &i2c_bus->bus_frequency);
-> > > +	if (ret < 0) {
-> > > +		dev_warn(dev, "Could not read clock-frequency property\n");
-> > > +		i2c_bus->bus_frequency = 100000;
-> > > +	}
-> > 
-> > There are macro for standard speeds. Moreover, there is a function to parse
-> > properties, no need to open code.
-> > 
-> Will update
-> ret = of_property_read_u32(dev->of_node, "clock-frequency", &bus_freq);
-> if (ret < 0) {
->     dev_warn(dev, "Could not read clock-frequency property\n");
->     i2c_bus->bus_frequency = I2C_SPEED_STANDARD;
-> } else {
->     i2c_bus->bus_frequency = bus_freq;
-> }
-
-No, just use the I2C core API to fill this property in the specific i2c_timings
-structure.
-
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index d3c99c5b3247..2e5acfeb76c8 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -1061,7 +1061,7 @@ static int aspeed_i2c_probe_bus(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int aspeed_i2c_remove_bus(struct platform_device *pdev)
++static void aspeed_i2c_remove_bus(struct platform_device *pdev)
+ {
+ 	struct aspeed_i2c_bus *bus = platform_get_drvdata(pdev);
+ 	unsigned long flags;
+@@ -1077,13 +1077,11 @@ static int aspeed_i2c_remove_bus(struct platform_device *pdev)
+ 	reset_control_assert(bus->rst);
+ 
+ 	i2c_del_adapter(&bus->adap);
+-
+-	return 0;
+ }
+ 
+ static struct platform_driver aspeed_i2c_bus_driver = {
+ 	.probe		= aspeed_i2c_probe_bus,
+-	.remove		= aspeed_i2c_remove_bus,
++	.remove_new	= aspeed_i2c_remove_bus,
+ 	.driver		= {
+ 		.name		= "aspeed-i2c-bus",
+ 		.of_match_table	= aspeed_i2c_bus_of_table,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.2
 
