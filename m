@@ -1,67 +1,133 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506B870ACDB
-	for <lists+linux-aspeed@lfdr.de>; Sun, 21 May 2023 09:46:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D377F70ACDC
+	for <lists+linux-aspeed@lfdr.de>; Sun, 21 May 2023 09:46:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QPCMY1v16z3c7S
-	for <lists+linux-aspeed@lfdr.de>; Sun, 21 May 2023 17:46:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QPCMb52ffz3f4l
+	for <lists+linux-aspeed@lfdr.de>; Sun, 21 May 2023 17:46:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=inventec.com (client-ip=61.220.76.156; helo=mail.inventec.com; envelope-from=chen.pj@inventec.com; receiver=<UNKNOWN>)
-Received: from mail.inventec.com (mail.inventec.com [61.220.76.156])
-	(using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=<UNKNOWN>)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QLjgm1h12z3bm9
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 May 2023 16:22:11 +1000 (AEST)
-Received: from IEC1-EX2016-03.iec.inventec (10.15.2.59) by
- IEC1-EX2016-04.iec.inventec (10.1.254.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 17 May 2023 14:22:04 +0800
-Received: from IEC1-MSE-FE1.inventec.com (10.1.254.203) by
- IEC1-EX2016-03.iec.inventec (10.15.2.59) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Wed, 17 May 2023 14:22:04 +0800
-Received: from IEC1-EX2016-02.iec.inventec (IEC1-EX2016-02.iec.inventec [10.1.254.221])
-	by IEC1-MSE-FE1.inventec.com with ESMTP id 34H6M3FB010145;
-	Wed, 17 May 2023 14:22:03 +0800 (GMT-8)
-	(envelope-from Chen.PJ@inventec.com)
-Received: from IEC1-EX2016-01.iec.inventec (10.15.2.58) by
- IEC1-EX2016-02.iec.inventec (10.1.254.221) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 17 May 2023 14:22:03 +0800
-Received: from IEC1-EX2016-01.iec.inventec ([fe80::ad9c:c1af:d29:f80d]) by
- IEC1-EX2016-01.iec.inventec ([fe80::ad9c:c1af:d29:f80d%7]) with mapi id
- 15.01.2507.021; Wed, 17 May 2023 14:22:03 +0800
-From: =?big5?B?Q2hlbi5QSiCzr6xmpfQgVEFP?= <Chen.PJ@inventec.com>
-To: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-	"soc@kernel.org" <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley
-	<joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v3] ARM: dts: aspeed: Adding Inventec Starscream BMC
-Thread-Topic: [PATCH v3] ARM: dts: aspeed: Adding Inventec Starscream BMC
-Thread-Index: AQHZiIfkyCwbhrfLkUicZIBwqYvTMw==
-Date: Wed, 17 May 2023 06:22:02 +0000
-Message-ID: <b24d7f5dfa844d0ea6c5ed91b6516d40@inventec.com>
-References: <2658c8aa-4bb2-fcd5-75c4-08612c8dd5a6@linaro.org>
-In-Reply-To: <2658c8aa-4bb2-fcd5-75c4-08612c8dd5a6@linaro.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-imapappendstamp: IEC1-EX2016-01.iec.inventec (15.01.2507.021)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [10.6.245.192]
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QM7tZ6HsCz3cMw
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 May 2023 09:03:00 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pzQAP-0007j9-9U; Thu, 18 May 2023 01:02:45 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pzQAN-000wnZ-18; Thu, 18 May 2023 01:02:43 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pzQAM-005UVF-2k; Thu, 18 May 2023 01:02:42 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Chen <peter.chen@kernel.org>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Chunfeng Yun <chunfeng.yun@mediatek.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Prashanth K <quic_prashk@quicinc.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Lei YU <yulei.sh@bytedance.com>,
+	Neal Liu <neal_liu@aspeedtech.com>,
+	Henry Tian <tianxiaofeng@bytedance.com>,
+	Cristian Birsan <cristian.birsan@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Kevin Cernekee <cernekee@gmail.com>,
+	Justin Chen <justinpopo6@gmail.com>,
+	Al Cooper <alcooperx@gmail.com>,
+	Li Yang <leoyang.li@nxp.com>,
+	Gaosheng Cui <cuigaosheng1@huawei.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Paolo Abeni <pabeni@redhat.com>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Kalle Valo <kvalo@kernel.org>,
+	Kang Chen <void0red@gmail.com>,
+	Shaomin Deng <dengshaomin@cdjrlc.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Richard Leitner <richard.leitner@linux.dev>,
+	Colin Ian King <colin.i.king@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Zheng Wang <zyytlz.wz@163.com>,
+	Phil Edworthy <phil.edworthy@renesas.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Wayne Chang <waynec@nvidia.com>,
+	Haotien Hsu <haotienh@nvidia.com>,
+	Jim Lin <jilin@nvidia.com>,
+	Tang Bin <tangbin@cmss.chinamobile.com>,
+	Sing-Han Chen <singhanc@nvidia.com>,
+	Piyush Mehta <piyush.mehta@amd.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Darren Stevens <darren@stevens-zone.net>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Olav Kongas <ok@artecdesign.ee>,
+	Artur Bujdoso <artur.bujdoso@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Rui Miguel Silva <rui.silva@linaro.org>,
+	Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+	Jean Delvare <jdelvare@suse.de>,
+	Dongliang Mu <mudongliangabcd@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dan Carpenter <error27@gmail.com>,
+	=?utf-8?q?Samuel_=C4=8Cavoj?= <samuel@cavoj.net>,
+	Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <shuah@kernel.org>
+Subject: [PATCH 00/97] usb: Convert to platform remove callback returning void
+Date: Thu, 18 May 2023 01:01:02 +0200
+Message-Id: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MAIL: IEC1-MSE-FE1.inventec.com 34H6M3FB010145
-X-TM-SNTS-SMTP: 	1D7072165AFBA82A853BBF87EE0259399E745636869805EEE1A80A4D9814403F2000:8
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13896; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=fqdhPP54usEi8baXSoJI3FzPlkc2fS3jhA8DcZSCQuk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkZVvo7YCpz/3hjEBffLjdT8PvX4si+92iw+jNb Tz6v0ULfQiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZGVb6AAKCRCPgPtYfRL+ TlYMCACAXHsbcSe2/YxZgpBERFMM+jw4JinGM2u2mtbpocRgDWydlQkNFy06NXz1h2u2LDPPSIk iwAWSLfyjZF5lILnnr1YPqSGMAud+fjVygVXeafiHtV2ZVmijZlE5qO5hIdvYYfYPm00rV346M1 0n6/klc5RNf6vwRbm5bfbW4TL9w/yh7gjm3FhYVqzy2qnbyWjW2RI51VigjlXmPY0yu7Fc+E3/g 977tkeVRRvrmYhF1SBhLzzklWCnQ98bnL+n69yxGNr1WiQY2NG+etq4cDuF0q8cOAYWpmmIt5MX nmIPrvIgStBnrRfZ8cNeWWPjB9kFO+x2K8B7eEv8WwwsqITu
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-Mailman-Approved-At: Sun, 21 May 2023 17:46:35 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -74,201 +140,258 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: =?big5?B?WWUuVmljILitpnSyTSBUQU8=?= <ye.vic@inventec.com>, =?big5?B?SHVhbmcuQWxhbmcgtsCtXq2mIFRBTw==?= <Huang.Alang@inventec.com>
+Cc: linux-aspeed@lists.ozlabs.org, Aswath Govindraju <a-govindraju@ti.com>, Alim Akhtar <alim.akhtar@samsung.com>, Hongren Zheng <i@zenithal.me>, Fabio Estevam <festevam@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>, linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, openbmc@lists.ozlabs.org, Nancy Yuen <yuenn@google.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, Roger Quadros <rogerq@kernel.org>, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Patrick Venture <venture@google.com>, linux-usb@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, kernel@pengutronix.de, linuxppc-dev@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SW5pdGlhbCBpbnRyb2R1Y3Rpb24gb2YgSW52ZW50ZWMgU3RhcnNjcmVhbSB4ODYgZmFtaWx5DQpl
-cXVpcHBlZCB3aXRoIEFTVDI2MDAgQk1DIFNvQy4NCg0KU2lnbmVkLW9mZi1ieTogQ2hlbiBQSiA8
-Q2hlbi5wakBpbnZlbnRlYy5jb20+DQoNCi0tLQ0KIFYyIC0+IFYzOg0KICAtIFJlbmFtZSB0aGUg
-bm9kZSBuYW1lIHRvIGdlbmVyaWMuDQogVjEgLT4gVjI6DQogIC0gQ29ycmVjdCBMaWNlbnNlIGRl
-c2NyaXB0aW9uDQogIC0gUmVtb3ZlIG5vdCBzdXBwb3J0ZWQgZGV2aWNlDQogIC0gVXNpbmcgb3Bl
-bmJtYy1mbGFzaC1sYXlvdXQuZHRzaQ0KICAtIENvcnJlY3QgZGV2aWNlIGZvcm1hdA0KLS0tDQog
-YXJjaC9hcm0vYm9vdC9kdHMvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgIHwgICAxICsNCiAu
-Li4vZHRzL2FzcGVlZC1ibWMtaW52ZW50ZWMtc3RhcnNjcmVhbS5kdHMgICAgfCA0ODUgKysrKysr
-KysrKysrKysrKysrDQogMiBmaWxlcyBjaGFuZ2VkLCA0ODYgaW5zZXJ0aW9ucygrKQ0KIGNyZWF0
-ZSBtb2RlIDEwMDY0NCBhcmNoL2FybS9ib290L2R0cy9hc3BlZWQtYm1jLWludmVudGVjLXN0YXJz
-Y3JlYW0uZHRzDQoNCmRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9NYWtlZmlsZSBiL2Fy
-Y2gvYXJtL2Jvb3QvZHRzL01ha2VmaWxlDQppbmRleCBlYjY4MTkwM2Q1MGIuLjZhODk3ZmY0MGZm
-MCAxMDA2NDQNCi0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL01ha2VmaWxlDQorKysgYi9hcmNoL2Fy
-bS9ib290L2R0cy9NYWtlZmlsZQ0KQEAgLTE2MjksNiArMTYyOSw3IEBAIGR0Yi0kKENPTkZJR19B
-UkNIX0FTUEVFRCkgKz0gXA0KIAlhc3BlZWQtYm1jLXF1YW50YS1xNzFsLmR0YiBcDQogCWFzcGVl
-ZC1ibWMtcXVhbnRhLXM2cS5kdGIgXA0KIAlhc3BlZWQtYm1jLXN1cGVybWljcm8teDExc3BpLmR0
-YiBcDQorCWFzcGVlZC1ibWMtaW52ZW50ZWMtc3RhcnNjcmVhbS5kdGIgXA0KIAlhc3BlZWQtYm1j
-LWludmVudGVjLXRyYW5zZm9ybWVycy5kdGIgXA0KIAlhc3BlZWQtYm1jLXR5YW4tczcxMDYuZHRi
-IFwNCiAJYXNwZWVkLWJtYy10eWFuLXM4MDM2LmR0YiBcDQpkaWZmIC0tZ2l0IGEvYXJjaC9hcm0v
-Ym9vdC9kdHMvYXNwZWVkLWJtYy1pbnZlbnRlYy1zdGFyc2NyZWFtLmR0cyBiL2FyY2gvYXJtL2Jv
-b3QvZHRzL2FzcGVlZC1ibWMtaW52ZW50ZWMtc3RhcnNjcmVhbS5kdHMNCm5ldyBmaWxlIG1vZGUg
-MTAwNjQ0DQppbmRleCAwMDAwMDAwMDAwMDAuLjE1ZTM1NWFhMmM5Zg0KLS0tIC9kZXYvbnVsbA0K
-KysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkLWJtYy1pbnZlbnRlYy1zdGFyc2NyZWFtLmR0
-cw0KQEAgLTAsMCArMSw0ODUgQEANCisvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIu
-MC1vci1sYXRlcg0KKy8vIENvcHlyaWdodCAyMDIzIEludmVudGVjIENvcnAuDQorDQorL2R0cy12
-MS87DQorDQorI2luY2x1ZGUgImFzcGVlZC1nNi5kdHNpIg0KKyNpbmNsdWRlICJhc3BlZWQtZzYt
-cGluY3RybC5kdHNpIg0KKyNpbmNsdWRlIDxkdC1iaW5kaW5ncy9pMmMvaTJjLmg+DQorI2luY2x1
-ZGUgPGR0LWJpbmRpbmdzL2dwaW8vYXNwZWVkLWdwaW8uaD4NCisNCisvIHsNCisJbW9kZWwgPSAi
-U1RBUlNDUkVBTSBCTUMiOw0KKwljb21wYXRpYmxlID0gImludmVudGVjLHN0YXJzY3JlYW0tYm1j
-IiwgImFzcGVlZCxhc3QyNjAwIjsNCisNCisJYWxpYXNlcyB7DQorCQlzZXJpYWw0ID0gJnVhcnQ1
-Ow0KKwl9Ow0KKw0KKwljaG9zZW4gew0KKwkJc3Rkb3V0LXBhdGggPSAmdWFydDU7DQorCX07DQor
-DQorCW1lbW9yeUA4MDAwMDAwMCB7DQorCQlkZXZpY2VfdHlwZSA9ICJtZW1vcnkiOw0KKwkJcmVn
-ID0gPDB4ODAwMDAwMDAgMHg4MDAwMDAwMD47DQorCX07DQorDQorCXJlc2VydmVkLW1lbW9yeSB7
-DQorCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsNCisJCSNzaXplLWNlbGxzID0gPDE+Ow0KKwkJcmFu
-Z2VzOw0KKw0KKwkJdmlkZW9fZW5naW5lX21lbW9yeTogdmlkZW8gew0KKwkJCXNpemUgPSA8MHgw
-NDAwMDAwMD47DQorCQkJYWxpZ25tZW50ID0gPDB4MDEwMDAwMDA+Ow0KKwkJCWNvbXBhdGlibGUg
-PSAic2hhcmVkLWRtYS1wb29sIjsNCisJCQlyZXVzYWJsZTsNCisJCX07DQorCX07DQorDQorDQor
-CWlpby1od21vbiB7DQorCQljb21wYXRpYmxlID0gImlpby1od21vbiI7DQorCQlpby1jaGFubmVs
-cyA9DQorCQk8JmFkY191NzQgMD4sIC8vIFAwX1ZERDExDQorCQk8JmFkY191NzQgMT4sIC8vIFAx
-X1ZERDExDQorCQk8JmFkY191NzQgMj4sIC8vIFAwXzNWM19TNQ0KKwkJPCZhZGNfdTc0IDM+LCAv
-LyBQMV8zVjNfUzUNCisJCTwmYWRjX3U3NCA0PiwgLy8gUDNWMw0KKwkJPCZhZGNfdTc0IDU+LCAv
-LyBWQkFUDQorCQk8JmFkY191NzQgNj4sIC8vIFAzVjNfU1RCWQ0KKwkJPCZhZGNfdTc0IDc+LCAv
-LyBQNVZfU1RCWQ0KKwkJPCZhZGNfdTc0IDg+LCAvLyBQNVYNCisJCTwmYWRjX3U3NCA5PiwgLy8g
-UDEyVg0KKwkJPCZhZGNfdTc0IDEwPiwgLy8gUDFfVkREMThfUzUNCisJCTwmYWRjX3U3NCAxMT4g
-Ly8gUDBfVkREMThfUzUNCisJCTsNCisJfTsNCisNCisJbGVkcyB7DQorCQljb21wYXRpYmxlID0g
-ImdwaW8tbGVkcyI7DQorDQorCQl1aWQgew0KKwkJCWxhYmVsID0gIlVJRF9MRUQiOw0KKwkJCWdw
-aW9zID0gPCZncGlvMCBBU1BFRURfR1BJTyhYLCAyKSBHUElPX0FDVElWRV9MT1c+Ow0KKwkJfTsN
-CisNCisJCWhlYXJ0YmVhdCB7DQorCQkJbGFiZWwgPSAiSEJfTEVEIjsNCisJCQlncGlvcyA9IDwm
-Z3BpbzAgQVNQRUVEX0dQSU8oUCwgNykgR1BJT19BQ1RJVkVfTE9XPjsNCisJCX07DQorCX07DQor
-fTsNCisNCismbWRpbzAgew0KKwlzdGF0dXMgPSAib2theSI7DQorDQorCWV0aHBoeTA6IGV0aGVy
-bmV0LXBoeUAwIHsNCisJCWNvbXBhdGlibGUgPSAiZXRoZXJuZXQtcGh5LWllZWU4MDIuMy1jMjIi
-Ow0KKwkJcmVnID0gPDE+Ow0KKwl9Ow0KK307DQorDQorJm1hYzIgew0KKwlzdGF0dXMgPSAib2th
-eSI7DQorCXBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQorCXBoeS1tb2RlID0gInJtaWkiOw0K
-KwlwaW5jdHJsLTAgPSA8JnBpbmN0cmxfcm1paTNfZGVmYXVsdD47DQorCXVzZS1uY3NpOw0KK307
-DQorDQorJm1hYzMgew0KKwlzdGF0dXMgPSAib2theSI7DQorDQorCXBoeS1tb2RlID0gInJnbWlp
-IjsNCisJcGh5LWhhbmRsZSA9IDwmZXRocGh5MD47DQorDQorCXBpbmN0cmwtbmFtZXMgPSAiZGVm
-YXVsdCI7DQorCXBpbmN0cmwtMCA9IDwmcGluY3RybF9yZ21paTRfZGVmYXVsdD47DQorfTsNCisN
-CismZm1jIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKwlmbGFzaEAwIHsNCisJCXN0YXR1cyA9ICJv
-a2F5IjsNCisJCW0yNXAsZmFzdC1yZWFkOw0KKwkJbGFiZWwgPSAiYm1jIjsNCisJCXNwaS1tYXgt
-ZnJlcXVlbmN5ID0gPDUwMDAwMDAwPjsNCisJCXNwaS10eC1idXMtd2lkdGggPSA8ND47DQorCQlz
-cGktcngtYnVzLXdpZHRoID0gPDQ+Ow0KKyNpbmNsdWRlICJvcGVuYm1jLWZsYXNoLWxheW91dC5k
-dHNpIg0KKwl9Ow0KKw0KKwlmbGFzaEAxIHsNCisJCXN0YXR1cyA9ICJva2F5IjsNCisJCW0yNXAs
-ZmFzdC1yZWFkOw0KKwkJbGFiZWwgPSAiYm1jMiI7DQorCQlzcGktbWF4LWZyZXF1ZW5jeSA9IDw1
-MDAwMDAwMD47DQorCQlzcGktdHgtYnVzLXdpZHRoID0gPDQ+Ow0KKwkJc3BpLXJ4LWJ1cy13aWR0
-aCA9IDw0PjsNCisJfTsNCit9Ow0KKw0KKyZzcGkxIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKwlw
-aW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0KKwlwaW5jdHJsLTAgPSA8JnBpbmN0cmxfc3BpMV9k
-ZWZhdWx0PjsNCisNCisJZmxhc2hAMCB7DQorCQlzdGF0dXMgPSAib2theSI7DQorCQltMjVwLGZh
-c3QtcmVhZDsNCisJCWxhYmVsID0gImJpb3MiOw0KKwkJc3BpLW1heC1mcmVxdWVuY3kgPSA8NTAw
-MDAwMDA+Ow0KKwkJc3BpLXR4LWJ1cy13aWR0aCA9IDw0PjsNCisJCXNwaS1yeC1idXMtd2lkdGgg
-PSA8ND47DQorCX07DQorfTsNCisNCisNCismd2R0MSB7DQorCXN0YXR1cyA9ICJva2F5IjsNCit9
-Ow0KKw0KKyZ2dWFydDEgew0KKwlzdGF0dXMgPSAib2theSI7DQorfTsNCisNCismdWFydDEgew0K
-KwlzdGF0dXMgPSAib2theSI7DQorfTsNCisNCismdWFydDMgew0KKwlzdGF0dXMgPSAib2theSI7
-DQorfTsNCisNCismdWFydDUgew0KKwlzdGF0dXMgPSAib2theSI7DQorfTsNCisNCisma2NzMyB7
-DQorCWFzcGVlZCxscGMtaW8tcmVnID0gPDB4Y2EyPjsNCisJc3RhdHVzID0gIm9rYXkiOw0KK307
-DQorDQorJnVhcnRfcm91dGluZyB7DQorCXN0YXR1cyA9ICJva2F5IjsNCit9Ow0KKw0KKyZpMmMw
-IHsNCisJc3RhdHVzID0gIm9rYXkiOw0KK307DQorJmkyYzEgew0KKwlzdGF0dXMgPSAib2theSI7
-DQorfTsNCismaTJjMiB7DQorCXN0YXR1cyA9ICJva2F5IjsNCit9Ow0KKyZpMmMzIHsNCisJc3Rh
-dHVzID0gIm9rYXkiOw0KK307DQorDQorJmkyYzQgew0KKwlzdGF0dXMgPSAib2theSI7DQorDQor
-CS8vIEkyQyBFWFBBTkRFUg0KKwlpMmMtc3dpdGNoQDcxIHsNCisJCWNvbXBhdGlibGUgPSAibnhw
-LHBjYTk1NDYiOw0KKwkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkjc2l6ZS1jZWxscyA9IDww
-PjsNCisJCXJlZyA9IDwweDcxPjsNCisNCisJCWkyY0AwIHsNCisJCQkjYWRkcmVzcy1jZWxscyA9
-IDwxPjsNCisJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCisJCQlyZWcgPSA8MD47DQorCQkJLy8gQU1E
-IFNCLVRTSSBDUFUxDQorCQkJc2J0c2lANGMgew0KKwkJCQljb21wYXRpYmxlID0gImFtZCxzYnRz
-aSI7DQorCQkJCXJlZyA9IDwweDRjPjsNCisJCQl9Ow0KKwkJfTsNCisNCisJCWkyY0AxIHsNCisJ
-CQkjYWRkcmVzcy1jZWxscyA9IDwxPjsNCisJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCisJCQlyZWcg
-PSA8MT47DQorCQkJLy8gQU1EIFNCLVRTSSBDUFUyDQorCQkJc2J0c2lANDggew0KKwkJCQljb21w
-YXRpYmxlID0gImFtZCxzYnRzaSI7DQorCQkJCXJlZyA9IDwweDQ4PjsNCisJCQl9Ow0KKwkJfTsN
-CisJfTsNCit9Ow0KKw0KKyZpMmM1IHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKw0KKwkvLyBJMkMg
-RVhQQU5ERVIgVTE1Mw0KKwlpMmMtc3dpdGNoQDcwIHsNCisJCWNvbXBhdGlibGUgPSAibnhwLHBj
-YTk1NDYiOw0KKwkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkjc2l6ZS1jZWxscyA9IDwwPjsN
-CisJCXJlZyA9IDwweDcwPjsNCisNCisJCXVzYl9odWI6IGkyY0AwIHsNCisJCQkjYWRkcmVzcy1j
-ZWxscyA9IDwxPjsNCisJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCisJCQlyZWcgPSA8MD47DQorDQor
-CQkJLy8gVVNCIFUxMTQNCisJCQl1c2ItaHViQDJjIHsNCisJCQkJY29tcGF0aWJsZSA9ICJtaWNy
-b2NoaXAsdXNiMjUxNGIiOw0KKwkJCQlyZWcgPSA8MHgyYz47DQorCQkJfTsNCisJCX07DQorDQor
-CQlyaXNlcjE6IGkyY0AxIHsNCisJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsNCisJCQkjc2l6ZS1j
-ZWxscyA9IDwwPjsNCisJCQlyZWcgPSA8MT47DQorCQl9Ow0KKw0KKwkJcmlzZXIyOiBpMmNAMiB7
-DQorCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkJI3NpemUtY2VsbHMgPSA8MD47DQorCQkJ
-cmVnID0gPDI+Ow0KKwkJfTsNCisNCisJCWkyY0AzIHsNCisJCQkjYWRkcmVzcy1jZWxscyA9IDwx
-PjsNCisJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCisJCQlyZWcgPSA8Mz47DQorCQl9Ow0KKwl9Ow0K
-K307DQorDQorJmkyYzYgew0KKwlzdGF0dXMgPSAib2theSI7DQorDQorCS8vIEZSVSBNb3RoZXJi
-b2FyZA0KKwllZXByb21ANTEgew0KKwkJY29tcGF0aWJsZSA9ICJhdG1lbCwyNGM2NCI7DQorCQly
-ZWcgPSA8MHg1MT47DQorCQlwYWdlc2l6ZSA9IDwzMj47DQorCX07DQorDQorCS8vIEFEQ19VNzQN
-CisJYWRjX3U3NDogYWRjQDM1IHsNCisJCWNvbXBhdGlibGUgPSAibWF4aW0sbWF4MTEzOSI7DQor
-CQlyZWcgPSA8MHgzNT47DQorCQkjaW8tY2hhbm5lbC1jZWxscyA9IDwxPjsNCisJfTsNCisNCisJ
-cHN1QDU4IHsNCisJCWNvbXBhdGlibGUgPSAicG1idXMiOw0KKwkJcmVnID0gPDB4NTg+Ow0KKwl9
-Ow0KKw0KKwlwc3VANWEgew0KKwkJY29tcGF0aWJsZSA9ICJwbWJ1cyI7DQorCQlyZWcgPSA8MHg1
-YT47DQorCX07DQorDQorCS8vIE1vdGhlcmJvYXJkIFRlbXBfVTg5DQorCXRlbXBlcmF0dXJlLXNl
-bnNvckA0ZSB7DQorCQljb21wYXRpYmxlID0gInRpLHRtcDQyMSI7DQorCQlyZWcgPSA8MHg0ZT47
-DQorCX07DQorDQorCS8vIFJ1bkJNQyBUZW1wX1U2DQorCXRlbXBlcmF0dXJlLXNlbnNvckA0OSB7
-DQorCQljb21wYXRpYmxlID0gInRpLHRtcDc1IjsNCisJCXJlZyA9IDwweDQ5PjsNCisJfTsNCisN
-CisJLy8gUmlnaHQgZWFyIGJvYXJkIFRlbXBfVTENCisJdGVtcGVyYXR1cmUtc2Vuc29yQDdjIHsN
-CisJCWNvbXBhdGlibGUgPSAiZW1jMTQwMyI7DQorCQlyZWcgPSA8MHg3Yz47DQorCX07DQorfTsN
-CisNCismaTJjNyB7DQorCXN0YXR1cyA9ICJva2F5IjsNCisJLy8gSTJDIEVYUEFOREVSIFU0MA0K
-KwlpMmMtc3dpdGNoQDcwIHsNCisJCWNvbXBhdGlibGUgPSAibnhwLHBjYTk1NDUiOw0KKwkJI2Fk
-ZHJlc3MtY2VsbHMgPSA8MT47DQorCQkjc2l6ZS1jZWxscyA9IDwwPjsNCisJCXJlZyA9IDwweDcw
-PjsNCisNCisJCWkyY0AwIHsNCisJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsNCisJCQkjc2l6ZS1j
-ZWxscyA9IDwwPjsNCisJCQlyZWcgPSA8MD47DQorCQl9Ow0KKw0KKwkJaTJjQDEgew0KKwkJCSNh
-ZGRyZXNzLWNlbGxzID0gPDE+Ow0KKwkJCSNzaXplLWNlbGxzID0gPDA+Ow0KKwkJCXJlZyA9IDwx
-PjsNCisJCX07DQorDQorCQlpMmNAMiB7DQorCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkJ
-I3NpemUtY2VsbHMgPSA8MD47DQorCQkJcmVnID0gPDI+Ow0KKwkJfTsNCisNCisJCWkyY0AzIHsN
-CisJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsNCisJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCisJCQly
-ZWcgPSA8Mz47DQorCQl9Ow0KKwl9Ow0KK307DQorDQorDQorJmkyYzggew0KKwlzdGF0dXMgPSAi
-b2theSI7DQorCS8vIEZSVSBSdW5CTUMNCisJZWVwcm9tQDUxIHsNCisJCWNvbXBhdGlibGUgPSAi
-YXRtZWwsMjRjNTEyIjsNCisJCXJlZyA9IDwweDUxPjsNCisJCXBhZ2VzaXplID0gPDEyOD47DQor
-CX07DQorDQorCS8vIEZhbiBjb250cm9sbGVyDQorCXB3bUAyMCB7DQorCQljb21wYXRpYmxlID0g
-Im1heDMxNzkwIjsNCisJCXJlZyA9IDwweDIwPjsNCisJfTsNCisJcHdtQDIzIHsNCisJCWNvbXBh
-dGlibGUgPSAibWF4MzE3OTAiOw0KKwkJcmVnID0gPDB4MjM+Ow0KKwl9Ow0KKwlwd21AMmUgew0K
-KwkJY29tcGF0aWJsZSA9ICJlbWMyMzA1IjsNCisJCXJlZyA9IDwweDJlPjsNCisJfTsNCit9Ow0K
-Kw0KKyZpMmM5IHsNCisJc3RhdHVzID0gIm9rYXkiOw0KK307DQorDQorJmkyYzEwIHsNCisJc3Rh
-dHVzID0gIm9rYXkiOw0KK307DQorDQorJmkyYzExIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KK307
-DQorDQorJmkyYzEyIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKwkvLyBGUlUgU0NNDQorCWVlcHJv
-bUA1MSB7DQorCQljb21wYXRpYmxlID0gImF0bWVsLDI0YzUxMiI7DQorCQlyZWcgPSA8MHg1MT47
-DQorCQlwYWdlc2l6ZSA9IDwxMjg+Ow0KKwl9Ow0KKw0KKwkvLyBTQ00gVGVtcF9VMTcNCisJdGVt
-cGVyYXR1cmUtc2Vuc29yQDRmIHsNCisJCWNvbXBhdGlibGUgPSAidGksdG1wNzUiOw0KKwkJcmVn
-ID0gPDB4NGY+Ow0KKwl9Ow0KK307DQorDQorDQorJmdwaW8wIHsNCisJc3RhdHVzID0gIm9rYXki
-Ow0KKwlncGlvLWxpbmUtbmFtZXMgPQ0KKwkvKkEwLUE3Ki8gICAiIiwiIiwiIiwiIiwiIiwiIiwi
-IiwiIiwNCisJLypCMC1CNyovICAgImFsZXJ0LXBzdTAtc21iLXItbiIsImJtYy1yZWFkeSIsIiIs
-ImFzc2VydC1jcHUwLXByb2Nob3Qtci1uIiwiIiwiIiwiIiwiIiwNCisJLypDMC1DNyovICAgIiIs
-IiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qRDAtRDcqLyAgICIiLCIiLCIiLCIiLCIiLCIiLCIi
-LCIiLA0KKwkvKkUwLUU3Ki8gICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCisJLypGMC1GNyov
-ICAgIiIsIiIsIiIsIiIsInJlc2V0LXNncGlvLXItbiIsIiIsIiIsIiIsDQorCS8qRzAtRzcqLyAg
-ICIiLCIiLCJzY20tanRhZy1tdXgtc2VsZWN0IiwiIiwiIiwiIiwiIiwiIiwNCisJLypIMC1INyov
-ICAgIiIsIiIsIiIsIiIsInJlc2V0LW91dCIsInBvd2VyLW91dCIsIiIsIiIsDQorCS8qSTAtSTcq
-LyAgICIiLCIiLCIiLCIiLCIiLCIiLCJpcnEtYm1jLWNwdTAtYnVmLW5taS1uIiwiIiwNCisJLypK
-MC1KNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qSzAtSzcqLyAgICIiLCIiLCIi
-LCIiLCIiLCIiLCIiLCIiLA0KKwkvKkwwLUw3Ki8gICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwN
-CisJLypNMC1NNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qTjAtTjcqLyAgICIi
-LCIiLCJuY3NpLW9jcC1jbGstZW4tbiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qTzAtTzcqLyAgICIi
-LCIiLCIiLCIiLCIiLCIiLCJjcHUxLXRoZXJtYWwtdHJpcC1uIiwiIiwNCisJLypQMC1QNyovICAg
-IiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qUTAtUTcqLyAgICJjcHUwLXByb2Nob3QtbiIs
-IiIsImNwdTEtcHJvY2hvdC1uIiwiIiwiY3B1MC1wZS1yc3QwIiwiIiwiIiwiIiwNCisJLypSMC1S
-NyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qUzAtUzcqLyAgICIiLCIiLCIiLCIi
-LCIiLCJQQ0hfU0xQX1M0X0JNQ19OIiwiY3B1MC10aGVybXRyaXAtbiIsImFsZXJ0LXBzdTEtc21i
-LXItbiIsDQorCS8qVDAtVDcqLyAgICIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLA0KKwkvKlUwLVU3
-Ki8gICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCisJLypWMC1WNyovICAgImJpb3MtcmVjb3Zl
-cnktYnVmLW4iLCIiLCJhc3NlcnQtY3B1MS1wcm9jaG90LXItbiIsIiIsInBvd2VyLWNoYXNzaXMt
-Z29vZCIsIiIsIiIsIiIsDQorCS8qVzAtVzcqLyAgICIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLA0K
-KwkvKlgwLVg3Ki8gICAiIiwiIiwiIiwiIiwicGxhdGZvcm0tdHlwZSIsIiIsIiIsIiIsDQorCS8q
-WTAtWTcqLyAgICIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLA0KKwkvKlowLVo3Ki8gICAiIiwiY3Bs
-ZC1wb3dlci1icmVhay1uIiwiIiwiIiwiIiwiIiwiIiwiIiwNCisJLypBQTAtQUE3Ki8gIiIsIiIs
-IiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qQUIwLUFCNyovICIiLCIiLCIiLCIiLCIiLCIiLCIiLCIi
-LA0KKwkvKkFDMC1BQzcqLyAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIjsNCit9Ow0KKw0KKyZzZ3Bp
-b20wIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKwltYXgtbmdwaW9zID0gPDY0PjsNCisJbmdwaW9z
-ID0gPDY0PjsNCisJYnVzLWZyZXF1ZW5jeSA9IDwxMDAwMDAwPjsNCisJZ3Bpby1saW5lLW5hbWVz
-ID0NCisJLyppbiAtIG91dCAtIGluIC0gb3V0ICovDQorCS8qQTAtQTcqLyAgICIiLCIiLCIiLCIi
-LCIiLCIiLCIiLCIiLA0KKwkvKkEwLUE3Ki8gICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCisJ
-LypCMC1CNyovICAgIiIsInJlc2V0LWNwdTAtaTJjLW4iLCIiLCJyZXNldC1jcHUxLWkyYy1uIiwi
-IiwicmVzZXQtaTJjLWJ1czctbiIsIiIsInVzYjI1MTQtMS1yZXNldC1uIiwNCisJLypCMC1CNyov
-ICAgIiIsImJtYy1jcHUwLXVhcnQtZW4iLCIiLCJoZHQtYnVmZi1lbi1uIiwiIiwiYXNzZXJ0LWNs
-ZWFyLWNtb3MiLCIiLCJoZHQtbXV4LXNlbGVjdC1tb24iLA0KKwkvKkMwLUM3Ki8gICAibGVkLWlk
-ZW50aWZ5IiwiY3BsZC1qdGFnLW9lLXItbiIsImNwdTAtc3BkLWhvc3QtY3RybC1uIiwicmVzZXQt
-Y3BsZC1oZHQtbiIsIiIsImkzYy1tdXgtc2VsZWN0IiwiIiwic3BpLW11eC1zZWxlY3QiLA0KKwkv
-KkMwLUM3Ki8gICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCisJLypEMC1ENyovICAgIiIsIiIs
-IiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qRDAtRDcqLyAgICIiLCIiLCIiLCIiLCIiLCIiLCJiaW9z
-LXBvc3QtY29tcGxldGUtYnVmLW4iLCIiLA0KKwkvKkUwLUU3Ki8gICAiIiwiIiwiIiwiIiwiIiwi
-IiwiIiwiIiwNCisJLypFMC1FNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qRjAt
-RjcqLyAgICJwcmVzZW5jZS1mYW4wLW4iLCIiLCJwcmVzZW5jZS1mYW4xLW4iLCIiLCJwcmVzZW5j
-ZS1mYW4yLW4iLCIiLCJwcmVzZW5jZS1mYW4zLW4iLCIiLA0KKwkvKkYwLUY3Ki8gICAicHJlc2Vu
-Y2UtZmFuNC1uIiwiIiwicHJlc2VuY2UtZmFuNS1uIiwiIiwicHJlc2VuY2UtY3B1MC1uIiwiIiwi
-cHJlc2VuY2UtY3B1MS1uIiwiIiwNCisJLypHMC1HNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIs
-IiIsDQorCS8qRzAtRzcqLyAgICIiLCIiLCIiLCIiLCJwcmVzZW5jZS1wc3UwLWNwbGQtbiIsIiIs
-InByZXNlbmNlLXBzdTEtY3BsZC1uIiwiIiwNCisJLypIMC1INyovICAgIiIsIiIsIiIsIiIsIiIs
-IiIsIiIsIiIsDQorCS8qSDAtSDcqLyAgICIiLCIiLCIiLCIiLCJwcmVzZW5jZS1yaXNlcjAtbiIs
-IiIsInByZXNlbmNlLXJpc2VyMS1uIiwiIjsNCit9Ow0KKw0KKw0KKyZscGNfc25vb3Agew0KKwlz
-dGF0dXMgPSAib2theSI7DQorCXNub29wLXBvcnRzID0gPDB4ODA+Ow0KK307DQorDQorJmVtbWNf
-Y29udHJvbGxlciB7DQorCXN0YXR1cyA9ICJva2F5IjsNCit9Ow0KKw0KKyZlbW1jIHsNCisJc3Rh
-dHVzID0gIm9rYXkiOw0KKwlub24tcmVtb3ZhYmxlOw0KKwltYXgtZnJlcXVlbmN5ID0gPDUyMDAw
-MDAwPjsNCisJYnVzLXdpZHRoID0gPDg+Ow0KK307DQorDQorJnZpZGVvIHsNCisJc3RhdHVzID0g
-Im9rYXkiOw0KKwltZW1vcnktcmVnaW9uID0gPCZ2aWRlb19lbmdpbmVfbWVtb3J5PjsNCit9Ow0K
-Kw0KKyZ2aHViIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKwlhc3BlZWQsdmh1Yi1kb3duc3RyZWFt
-LXBvcnRzID0gPDc+Ow0KKwlhc3BlZWQsdmh1Yi1nZW5lcmljLWVuZHBvaW50cyA9IDwyMT47DQor
-CXBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQorCXBpbmN0cmwtMCA9IDwmcGluY3RybF91c2Iy
-YWRfZGVmYXVsdD47DQorfTsNCisNCismcnRjIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KK307DQor
-DQotLSANCjIuMjUuMQ0KDQo=
+Hello,
+
+this series convers the drivers below drivers/usb to the .remove_new()
+callback of struct platform_driver(). The motivation is to make the
+remove callback less prone for errors and wrong assumptions. See commit
+5c5a7680e67b ("platform: Provide a remove callback that returns no
+value") for a more detailed rationale.
+
+All drivers converted here already returned zero unconditionally in their
+.remove() callback, so converting them to .remove_new() is trivial.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (97):
+  usb: c67x00-drv: Convert to platform remove callback returning void
+  usb: cdns3-imx: Convert to platform remove callback returning void
+  usb: cdns3-plat: Convert to platform remove callback returning void
+  usb: cdns3-ti: Convert to platform remove callback returning void
+  usb: chipidea/ci_hdrc_imx: Convert to platform remove callback
+    returning void
+  usb: chipidea/ci_hdrc_msm: Convert to platform remove callback
+    returning void
+  usb: chipidea/ci_hdrc_tegra: Convert to platform remove callback
+    returning void
+  usb: chipidea/ci_hdrc_usb2: Convert to platform remove callback
+    returning void
+  usb: chipidea/core: Convert to platform remove callback returning void
+  usb: common: usb-conn-gpio: Convert to platform remove callback
+    returning void
+  usb: dwc2/platform: Convert to platform remove callback returning void
+  usb: core: Convert to platform remove callback returning void
+  usb: dwc3-am62: Convert to platform remove callback returning void
+  usb: dwc3-exynos: Convert to platform remove callback returning void
+  usb: dwc3-imx8mp: Convert to platform remove callback returning void
+  usb: dwc3-keystone: Convert to platform remove callback returning void
+  usb: dwc3-meson-g12a: Convert to platform remove callback returning
+    void
+  usb: dwc3-of-simple: Convert to platform remove callback returning
+    void
+  usb: dwc3-omap: Convert to platform remove callback returning void
+  usb: dwc3-qcom: Convert to platform remove callback returning void
+  usb: dwc3-st: Convert to platform remove callback returning void
+  usb: dwc3-xilinx: Convert to platform remove callback returning void
+  usb: fotg210: Convert to platform remove callback returning void
+  usb: gadget: hid: Convert to platform remove callback returning void
+  usb: gadget: aspeed: Convert to platform remove callback returning
+    void
+  usb: gadget/atmel_usba_udc: Convert to platform remove callback
+    returning void
+  usb: gadget/bcm63xx_udc: Convert to platform remove callback returning
+    void
+  usb: bdc: Convert to platform remove callback returning void
+  usb: gadget/dummy_hcd: Convert to platform remove callback returning
+    void
+  usb: gadget/fsl_qe_udc: Convert to platform remove callback returning
+    void
+  usb: gadget/fusb300_udc: Convert to platform remove callback returning
+    void
+  usb: gadget/m66592-udc: Convert to platform remove callback returning
+    void
+  usb: gadget/mv_u3d_core: Convert to platform remove callback returning
+    void
+  usb: gadget/mv_udc_core: Convert to platform remove callback returning
+    void
+  usb: gadget/net2272: Convert to platform remove callback returning
+    void
+  usb: gadget/omap_udc: Convert to platform remove callback returning
+    void
+  usb: gadget/pxa27x_udc: Convert to platform remove callback returning
+    void
+  usb: gadget/r8a66597-udc: Convert to platform remove callback
+    returning void
+  usb: gadget/renesas_usb3: Convert to platform remove callback
+    returning void
+  usb: gadget/renesas_usbf: Convert to platform remove callback
+    returning void
+  usb: gadget/rzv2m_usb3drd: Convert to platform remove callback
+    returning void
+  usb: gadget/snps_udc_plat: Convert to platform remove callback
+    returning void
+  usb: gadget/tegra-xudc: Convert to platform remove callback returning
+    void
+  usb: gadget/udc-xilinx: Convert to platform remove callback returning
+    void
+  usb: ehci-atmel: Convert to platform remove callback returning void
+  usb: ehci-brcm: Convert to platform remove callback returning void
+  usb: ehci-exynos: Convert to platform remove callback returning void
+  usb: ehci-fsl: Convert to platform remove callback returning void
+  usb: ehci-grlib: Convert to platform remove callback returning void
+  usb: ehci-mv: Convert to platform remove callback returning void
+  usb: ehci-npcm7xx: Convert to platform remove callback returning void
+  usb: ehci-omap: Convert to platform remove callback returning void
+  usb: ehci-orion: Convert to platform remove callback returning void
+  usb: ehci-platform: Convert to platform remove callback returning void
+  usb: ehci-ppc-of: Convert to platform remove callback returning void
+  usb: ehci-sh: Convert to platform remove callback returning void
+  usb: ehci-spear: Convert to platform remove callback returning void
+  usb: ehci-st: Convert to platform remove callback returning void
+  usb: ehci-xilinx-of: Convert to platform remove callback returning
+    void
+  usb: fsl-mph-dr-of: Convert to platform remove callback returning void
+  usb: isp116x-hcd: Convert to platform remove callback returning void
+  usb: isp1362-hcd: Convert to platform remove callback returning void
+  usb: octeon-hcd: Convert to platform remove callback returning void
+  usb: ohci-at91: Convert to platform remove callback returning void
+  usb: ohci-da8xx: Convert to platform remove callback returning void
+  usb: ohci-exynos: Convert to platform remove callback returning void
+  usb: ohci-nxp: Convert to platform remove callback returning void
+  usb: ohci-omap: Convert to platform remove callback returning void
+  usb: ohci-platform: Convert to platform remove callback returning void
+  usb: ohci-ppc-of: Convert to platform remove callback returning void
+  usb: ohci-pxa27x: Convert to platform remove callback returning void
+  usb: ohci-s3c2410: Convert to platform remove callback returning void
+  usb: ohci-sm501: Convert to platform remove callback returning void
+  usb: ohci-spear: Convert to platform remove callback returning void
+  usb: ohci-st: Convert to platform remove callback returning void
+  usb: oxu210hp-hcd: Convert to platform remove callback returning void
+  usb: r8a66597-hcd: Convert to platform remove callback returning void
+  usb: sl811-hcd: Convert to platform remove callback returning void
+  usb: uhci-grlib: Convert to platform remove callback returning void
+  usb: uhci-platform: Convert to platform remove callback returning void
+  usb: xhci-histb: Convert to platform remove callback returning void
+  usb: xhci-mtk: Convert to platform remove callback returning void
+  usb: xhci-plat: Convert to platform remove callback returning void
+  usb: xhci-tegra: Convert to platform remove callback returning void
+  usb: isp1760: Convert to platform remove callback returning void
+  usb: misc: eud: Convert to platform remove callback returning void
+  usb: misc: usb3503: Convert to platform remove callback returning void
+  usb: renesas_usbhs: Convert to platform remove callback returning void
+  usb: roles: intel_xhci: Convert to platform remove callback returning
+    void
+  usb: typec: mux: gpio-sbu: Convert to platform remove callback
+    returning void
+  usb: typec: intel_pmc_mux: Convert to platform remove callback
+    returning void
+  usb: typec: qcom-pmic-typec: Convert to platform remove callback
+    returning void
+  usb: typec: tcpci_mt6360: Convert to platform remove callback
+    returning void
+  usb: typec: tcpci_mt6360: Convert to platform remove callback
+    returning void
+  usb: typec: wcove: Convert to platform remove callback returning void
+  usb: typec: ucsi: acpi: Convert to platform remove callback returning
+    void
+  usbip: vhci_hcd: Convert to platform remove callback returning void
+
+ drivers/usb/c67x00/c67x00-drv.c                |  6 ++----
+ drivers/usb/cdns3/cdns3-imx.c                  |  6 ++----
+ drivers/usb/cdns3/cdns3-plat.c                 |  5 ++---
+ drivers/usb/cdns3/cdns3-ti.c                   |  6 ++----
+ drivers/usb/chipidea/ci_hdrc_imx.c             |  6 ++----
+ drivers/usb/chipidea/ci_hdrc_msm.c             |  6 ++----
+ drivers/usb/chipidea/ci_hdrc_tegra.c           |  6 ++----
+ drivers/usb/chipidea/ci_hdrc_usb2.c            |  6 ++----
+ drivers/usb/chipidea/core.c                    |  6 ++----
+ drivers/usb/common/usb-conn-gpio.c             |  6 ++----
+ drivers/usb/dwc2/platform.c                    |  6 ++----
+ drivers/usb/dwc3/core.c                        |  6 ++----
+ drivers/usb/dwc3/dwc3-am62.c                   |  5 ++---
+ drivers/usb/dwc3/dwc3-exynos.c                 |  6 ++----
+ drivers/usb/dwc3/dwc3-imx8mp.c                 |  6 ++----
+ drivers/usb/dwc3/dwc3-keystone.c               |  6 ++----
+ drivers/usb/dwc3/dwc3-meson-g12a.c             |  6 ++----
+ drivers/usb/dwc3/dwc3-of-simple.c              |  6 ++----
+ drivers/usb/dwc3/dwc3-omap.c                   |  6 ++----
+ drivers/usb/dwc3/dwc3-qcom.c                   |  6 ++----
+ drivers/usb/dwc3/dwc3-st.c                     |  6 ++----
+ drivers/usb/dwc3/dwc3-xilinx.c                 |  6 ++----
+ drivers/usb/fotg210/fotg210-core.c             |  6 ++----
+ drivers/usb/gadget/legacy/hid.c                |  6 ++----
+ drivers/usb/gadget/udc/aspeed-vhub/core.c      |  8 +++-----
+ drivers/usb/gadget/udc/atmel_usba_udc.c        |  6 ++----
+ drivers/usb/gadget/udc/bcm63xx_udc.c           |  6 ++----
+ drivers/usb/gadget/udc/bdc/bdc_core.c          |  5 ++---
+ drivers/usb/gadget/udc/dummy_hcd.c             | 11 ++++-------
+ drivers/usb/gadget/udc/fsl_qe_udc.c            |  6 ++----
+ drivers/usb/gadget/udc/fusb300_udc.c           |  6 ++----
+ drivers/usb/gadget/udc/m66592-udc.c            |  5 ++---
+ drivers/usb/gadget/udc/mv_u3d_core.c           |  6 ++----
+ drivers/usb/gadget/udc/mv_udc_core.c           |  6 ++----
+ drivers/usb/gadget/udc/net2272.c               |  6 ++----
+ drivers/usb/gadget/udc/omap_udc.c              |  6 ++----
+ drivers/usb/gadget/udc/pxa27x_udc.c            |  6 ++----
+ drivers/usb/gadget/udc/r8a66597-udc.c          |  6 ++----
+ drivers/usb/gadget/udc/renesas_usb3.c          |  6 ++----
+ drivers/usb/gadget/udc/renesas_usbf.c          |  6 ++----
+ drivers/usb/gadget/udc/rzv2m_usb3drd.c         |  6 ++----
+ drivers/usb/gadget/udc/snps_udc_plat.c         |  8 +++-----
+ drivers/usb/gadget/udc/tegra-xudc.c            |  6 ++----
+ drivers/usb/gadget/udc/udc-xilinx.c            |  6 ++----
+ drivers/usb/host/ehci-atmel.c                  |  6 ++----
+ drivers/usb/host/ehci-brcm.c                   |  5 ++---
+ drivers/usb/host/ehci-exynos.c                 |  6 ++----
+ drivers/usb/host/ehci-fsl.c                    |  6 ++----
+ drivers/usb/host/ehci-grlib.c                  |  6 ++----
+ drivers/usb/host/ehci-mv.c                     |  6 ++----
+ drivers/usb/host/ehci-npcm7xx.c                |  6 ++----
+ drivers/usb/host/ehci-omap.c                   |  6 ++----
+ drivers/usb/host/ehci-orion.c                  |  6 ++----
+ drivers/usb/host/ehci-platform.c               |  6 ++----
+ drivers/usb/host/ehci-ppc-of.c                 |  6 ++----
+ drivers/usb/host/ehci-sh.c                     |  6 ++----
+ drivers/usb/host/ehci-spear.c                  |  6 ++----
+ drivers/usb/host/ehci-st.c                     |  6 ++----
+ drivers/usb/host/ehci-xilinx-of.c              |  6 ++----
+ drivers/usb/host/fsl-mph-dr-of.c               |  5 ++---
+ drivers/usb/host/isp116x-hcd.c                 |  7 +++----
+ drivers/usb/host/isp1362-hcd.c                 |  6 ++----
+ drivers/usb/host/octeon-hcd.c                  |  6 ++----
+ drivers/usb/host/ohci-at91.c                   |  5 ++---
+ drivers/usb/host/ohci-da8xx.c                  |  6 ++----
+ drivers/usb/host/ohci-exynos.c                 |  6 ++----
+ drivers/usb/host/ohci-nxp.c                    |  6 ++----
+ drivers/usb/host/ohci-omap.c                   |  5 ++---
+ drivers/usb/host/ohci-platform.c               |  6 ++----
+ drivers/usb/host/ohci-ppc-of.c                 |  6 ++----
+ drivers/usb/host/ohci-pxa27x.c                 |  5 ++---
+ drivers/usb/host/ohci-s3c2410.c                |  5 ++---
+ drivers/usb/host/ohci-sm501.c                  |  6 ++----
+ drivers/usb/host/ohci-spear.c                  |  5 ++---
+ drivers/usb/host/ohci-st.c                     |  6 ++----
+ drivers/usb/host/oxu210hp-hcd.c                |  6 ++----
+ drivers/usb/host/r8a66597-hcd.c                |  5 ++---
+ drivers/usb/host/sl811-hcd.c                   |  5 ++---
+ drivers/usb/host/uhci-grlib.c                  |  6 ++----
+ drivers/usb/host/uhci-platform.c               |  6 ++----
+ drivers/usb/host/xhci-histb.c                  |  6 ++----
+ drivers/usb/host/xhci-mtk.c                    |  6 ++----
+ drivers/usb/host/xhci-plat.c                   |  6 ++----
+ drivers/usb/host/xhci-tegra.c                  |  6 ++----
+ drivers/usb/isp1760/isp1760-if.c               |  6 ++----
+ drivers/usb/misc/qcom_eud.c                    |  6 ++----
+ drivers/usb/misc/usb3503.c                     |  6 ++----
+ drivers/usb/renesas_usbhs/common.c             |  6 ++----
+ drivers/usb/roles/intel-xhci-usb-role-switch.c |  6 ++----
+ drivers/usb/typec/mux/gpio-sbu-mux.c           |  6 ++----
+ drivers/usb/typec/mux/intel_pmc_mux.c          |  6 ++----
+ drivers/usb/typec/qcom-pmic-typec.c            |  6 ++----
+ drivers/usb/typec/tcpm/tcpci_mt6360.c          |  5 ++---
+ drivers/usb/typec/tcpm/tcpci_mt6370.c          |  6 ++----
+ drivers/usb/typec/tcpm/wcove.c                 |  6 ++----
+ drivers/usb/typec/ucsi/ucsi_acpi.c             |  6 ++----
+ drivers/usb/usbip/vhci_hcd.c                   |  6 ++----
+ 97 files changed, 199 insertions(+), 379 deletions(-)
+
+
+base-commit: ac9a78681b921877518763ba0e89202254349d1b
+-- 
+2.39.2
+
