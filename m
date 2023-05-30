@@ -1,54 +1,94 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630F27158EB
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 May 2023 10:41:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 897FE716391
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 May 2023 16:18:32 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QVm8r3x2sz30QQ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 May 2023 18:41:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QVvdL1Qzcz2xBV
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 May 2023 00:18:30 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Bxk2glO+;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=aKd99wQh;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linuxfoundation.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Bxk2glO+;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=aKd99wQh;
 	dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QTcC43jPsz3c9K;
-	Sun, 28 May 2023 21:39:43 +1000 (AEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id B5A2760CF6;
-	Sun, 28 May 2023 11:39:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9394FC433EF;
-	Sun, 28 May 2023 11:39:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1685273981;
-	bh=WtlDtiO7o3IdZ94cLuiib04GpSzPp1zVh24DIBWiihI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bxk2glO+BbOKrHzNMwfkUFuzSaTG4YMyWFqTCZLGydhnv4g0zhk5JUuOq6DFw6fcb
-	 0B/S7xbbC0DAoklyfFwD4QkVmX5YabCfrYz8Xj8mBc1AHpLk4ka5bgWFsrvlPNxC69
-	 ZxbRYnpD6PJP9/20rpUWKoRJ9FTTVTeA2SwbjnnQ=
-Date: Sun, 28 May 2023 12:39:33 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 00/97] usb: Convert to platform remove callback returning
- void
-Message-ID: <2023052838-sincerity-dwindle-3658@gregkh>
-References: <20230517230239.187727-1-u.kleine-koenig@pengutronix.de>
- <2023052848-patronage-zen-de4b@gregkh>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QVvdC3RnXz3bkD;
+	Wed, 31 May 2023 00:18:23 +1000 (AEST)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34UDeSY5011649;
+	Tue, 30 May 2023 14:18:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=X+BCio2225xDSjN0IY0e48DYq1CNHg9Y4ZY/uoMoLrk=;
+ b=aKd99wQhOv/FUspt8ryXzv/Dr9otr42CVjiZ/puiMy5IZU97ub1xXsg7V8NlUcEDXnfw
+ fYNsD8wZ98z0S3p9sZmzFtOjI52XNTWVtXLfdKSDBsfc1vIKWolwE5NVNu5gPjT0WETU
+ Y4J7yvbHKrtrNHEVbtCdUaXS762TMMzemZfbMzrymmhawBb2YbD9x9x5rEmVBtalW5ZE
+ noFAJGeSc+hOSLM9basje8LFDPdwv5KML80piKC+RpyXBWgDfNpCrBN2DFafmc5l5vvx
+ 18+vIDHD2J0/pVZ0nAouTFHMpMqUclbAmf81j3IrG4He3LcfFHAlYKxZQlHwVuc7uZsC MQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qwj0e9hew-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 May 2023 14:18:09 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34UDeVEX011730;
+	Tue, 30 May 2023 14:18:08 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qwj0e9heh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 May 2023 14:18:08 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+	by ppma01wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34UDPFoI009520;
+	Tue, 30 May 2023 14:18:08 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
+	by ppma01wdc.us.ibm.com (PPS) with ESMTPS id 3qu9g5q6cx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 May 2023 14:18:08 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34UEI6pd5178044
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 May 2023 14:18:06 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 79DDC58058;
+	Tue, 30 May 2023 14:18:06 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 491DF58057;
+	Tue, 30 May 2023 14:18:06 +0000 (GMT)
+Received: from [9.61.0.144] (unknown [9.61.0.144])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 30 May 2023 14:18:06 +0000 (GMT)
+Message-ID: <e123f9a1-e316-a80d-1431-1d3528c25ba5@linux.ibm.com>
+Date: Tue, 30 May 2023 09:18:06 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2023052848-patronage-zen-de4b@gregkh>
-X-Mailman-Approved-At: Tue, 30 May 2023 18:40:56 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] aspeed-video.c: Fix error checking for debugfs_create_dir
+To: Osama Muhammad <osmtendev@gmail.com>, mchehab@kernel.org, joel@jms.id.au,
+        andrew@aj.id.au
+References: <20230524171137.22128-1-osmtendev@gmail.com>
+Content-Language: en-US
+From: Eddie James <eajames@linux.ibm.com>
+In-Reply-To: <20230524171137.22128-1-osmtendev@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: DSF5jfKcmHE-ax3BFAKGbt1dgredKQN2
+X-Proofpoint-ORIG-GUID: tMGJsXcu9DFzvcK79DzGAD4azZowQp1G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-30_10,2023-05-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 phishscore=0 spamscore=0
+ adultscore=0 clxscore=1011 mlxlogscore=999 malwarescore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305300114
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,34 +100,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Richard Leitner <richard.leitner@linux.dev>, Tomer Maimon <tmaimon77@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Justin Chen <justinpopo6@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Hongren Zheng <i@zenithal.me>, Zheng Wang <zyytlz.wz@163.com>, Gaosheng Cui <cuigaosheng1@huawei.com>, Jerome Brunet <jbrunet@baylibre.com>, Phil Edworthy <phil.edworthy@renesas.com>, linux-samsung-soc@vger.kernel.org, Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>, Artur Bujdoso <artur.bujdoso@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, NXP Linux Team <linux-imx@nxp.com>, Cristian Birsan <cristian.birsan@microchip.com>, linux-tegra@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, Souradeep Chowdhury <quic_schowdhu@quicinc.com>, linux-omap@vger.kernel.org, Neal Liu <neal_liu@aspeedtech.com>, Peter Chen <peter.chen@kernel.org>, linux-usb@vger.kernel
- .org, kernel@pengutronix.de, Claudiu Beznea <claudiu.beznea@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Prashanth K <quic_prashk@quicinc.com>, Thierry Reding <thierry.reding@gmail.com>, Shuah Khan <shuah@kernel.org>, Jean Delvare <jdelvare@suse.de>, Piyush Mehta <piyush.mehta@amd.com>, Jim Lin <jilin@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, Minas Harutyunyan <hminas@synopsys.com>, Haotien Hsu <haotienh@nvidia.com>, Colin Ian King <colin.i.king@gmail.com>, Kang Chen <void0red@gmail.com>, Mathias Nyman <mathias.nyman@intel.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, Aswath Govindraju <a-govindraju@ti.com>, Haojian Zhuang <haojian.zhuang@gmail.com>, Roger Quadros <rogerq@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, linux-amlogic@lists.infradead.org, Wayne Chang <waynec@nvidia.com>, Sing-Han Chen <singhanc@nvidia.com>, linux-arm-kernel@lists.infradead.org, Neil Arm
- strong <neil.armstrong@linaro.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-renesas-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, Darren Stevens <darren@stevens-zone.net>, Herve Codina <herve.codina@bootlin.com>, Dan Carpenter <error27@gmail.com>, Alexander Stein <alexander.stein@ew.tq-group.com>, Al Cooper <alcooperx@gmail.com>, Valentina Manea <valentina.manea.m@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>, Michal Simek <michal.simek@amd.com>, Kevin Cernekee <cernekee@gmail.com>, Nancy Yuen <yuenn@google.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Paolo Abeni <pabeni@redhat.com>, Patrice Chotard <patrice.chotard@foss.st.com>, Arnd Bergmann <arnd@arndb.de>, "Steven Rostedt \(Google\)" <rostedt@goodmis.org>, Vladimir Zapolskiy <vz@mleia.com>, Francesco Dolcini <francesco.dolcini@toradex.com>, Olav Kongas <ok@artecdesign.ee>, Shaomin Deng <
- dengshaomin@cdjrlc.com>, Tang Bin <tangbin@cmss.chinamobile.com>, Avi Fishman <avifishman70@gmail.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>, Konrad Dybcio <konrad.dybcio@linaro.org>, Guenter Roeck <linux@roeck-us.net>, Shawn Guo <shawnguo@kernel.org>, Tali Perry <tali.perry1@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, Henry Tian <tianxiaofeng@bytedance.com>, openbmc@lists.ozlabs.org, Andy Gross <agross@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>, Pawel Laszczak <pawell@cadence.com>, Kalle Valo <kvalo@kernel.org>, Dongliang Mu <mudongliangabcd@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Matthias Brugger <matthias.bgg@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Emanuele Ghidoli <emanuele.ghidoli@toradex.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
- , Patrick Venture <venture@google.com>, Bjorn Andersson <andersson@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Li Yang <leoyang.li@nxp.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rui Miguel Silva <rui.silva@linaro.org>, linuxppc-dev@lists.ozlabs.org, Daniel Mack <daniel@zonque.org>
+Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, May 28, 2023 at 12:37:17PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, May 18, 2023 at 01:01:02AM +0200, Uwe Kleine-König wrote:
-> > Hello,
-> > 
-> > this series convers the drivers below drivers/usb to the .remove_new()
-> > callback of struct platform_driver(). The motivation is to make the
-> > remove callback less prone for errors and wrong assumptions. See commit
-> > 5c5a7680e67b ("platform: Provide a remove callback that returns no
-> > value") for a more detailed rationale.
-> > 
-> > All drivers converted here already returned zero unconditionally in their
-> > .remove() callback, so converting them to .remove_new() is trivial.
-> 
-> All but 2 patches applied, as one was for a driver that wasn't in the
-> tree anymore, and the dwc2 patch didn't apply at all.
 
-Oops, the xhci patches broke the build so I dropped them too.  Please
-regenerate the series against the next linux-next that has these in
-them and resend the remaining bits.
+On 5/24/23 12:11, Osama Muhammad wrote:
+> This patch fixes the error checking in aspeed-video.c in
+> debugfs_create_dir. The correct way to check if an error occurred
+> is using 'IS_ERR' inline function.
 
-thanks,
 
-greg k-h
+Thanks.
+
+Reviewed-by: Eddie James <eajames@linux.ibm.com>
+
+
+>
+> Signed-off-by: Osama Muhammad <osmtendev@gmail.com>
+> ---
+>   drivers/media/platform/aspeed/aspeed-video.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+> index 374eb7781936..97847f44964a 100644
+> --- a/drivers/media/platform/aspeed/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+> @@ -1976,7 +1976,7 @@ static int aspeed_video_debugfs_create(struct aspeed_video *video)
+>   	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
+>   					    video,
+>   					    &aspeed_video_debugfs_fops);
+> -	if (!debugfs_entry)
+> +	if (IS_ERR(debugfs_entry))
+>   		aspeed_video_debugfs_remove(video);
+>   
+>   	return !debugfs_entry ? -EIO : 0;
