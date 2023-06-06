@@ -2,298 +2,41 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBED6725102
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 02:01:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98798723E16
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Jun 2023 11:45:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QbSFJ3nRnz3dsM
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 10:01:56 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=o54X53Hf;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Qb5FW2yX1z3f67
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Jun 2023 19:45:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.helo=mail.zeus03.de (client-ip=194.117.254.33; helo=mail.zeus03.de; envelope-from=wsa+renesas@sang-engineering.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=o54X53Hf;
-	dkim-atps=neutral
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=mail.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QZQrR6JJJz3c7K
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  5 Jun 2023 17:55:16 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-	date:from:to:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=k1; bh=qNV9qf6rhJyxF+PFiRZlT81q/Mvm
-	db/EcAsD5Y7RO4A=; b=o54X53HfsxbpVsf5OsUMs5hqfUKh1FtMAgIvGYf/ao8X
-	OfgN/S/1QbXgW8iXetNizszdV6LmLLnwJIh/Ml2IAWrSsKhBUlY5kCxt0pa+RfrM
-	Hgft1OFLr+tM1Ea0Ob4WmgW4UT5YMSDHvFkIuQkEfMYIGIj3rB9wkDUyFzgsx04=
-Received: (qmail 2935631 invoked from network); 5 Jun 2023 09:54:54 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Jun 2023 09:54:54 +0200
-X-UD-Smtp-Session: l3s3148p1@qaPYN1391MQujnt4
-Date: Mon, 5 Jun 2023 09:54:53 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Thor Thayer <thor.thayer@linux.intel.com>,
-	Elie Morisse <syniurge@gmail.com>,
-	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Allison Randal <allison@lohutok.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Kamal Dasu <kdasu.kdev@gmail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jochen Friedrich <jochen@scram.de>,
-	Benson Leung <bleung@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	Baruch Siach <baruch@tkos.co.il>,
-	Jean-Marie Verdun <verdun@hpe.com>,
-	Nick Hawkins <nick.hawkins@hpe.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Oleksij Rempel <linux@rempel-privat.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Chris Pringle <chris.pringle@phabrix.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>,
-	Vadim Pasternak <vadimp@nvidia.com>,
-	Michael Shych <michaelsh@nvidia.com>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Qii Wang <qii.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Stefan Roese <sr@denx.de>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Peter Korsgaard <peter@korsgaard.com>, Andrew Lunn <andrew@lunn.ch>,
-	Robert Richter <rric@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Vignesh R <vigneshr@ti.com>, Michael Ellerman <mpe@ellerman.id.au>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Rob Herring <robh@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Loic Poulain <loic.poulain@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jim Cromie <jim.cromie@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Wei Chen <harperchen1110@gmail.com>,
-	George Cherian <gcherian@marvell.com>,
-	Peter Rosin <peda@axentia.se>,
-	Peter Korsgaard <peter.korsgaard@barco.com>,
-	linux-aspeed@lists.ozlabs.org,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Jan Dabros <jsd@semihalf.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
-	Benjamin Fair <benjaminfair@google.com>,
-	linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Nancy Yuen <yuenn@google.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-sunxi@lists.linux.dev, Joel Stanley <joel@jms.id.au>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-arm-msm@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	linux-arm-kernel@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	Patrick Venture <venture@google.com>, linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Dmitry Osipenko <digetx@gmail.com>, asahi@lists.linux.dev,
-	kernel@pengutronix.de, linuxppc-dev@lists.ozlabs.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 00/89] i2c: Convert to platform remove callback returning
- void
-Message-ID: <ZH2UzYLPEQay3MBT@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Thor Thayer <thor.thayer@linux.intel.com>,
-	Elie Morisse <syniurge@gmail.com>,
-	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Allison Randal <allison@lohutok.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Kamal Dasu <kdasu.kdev@gmail.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jochen Friedrich <jochen@scram.de>,
-	Benson Leung <bleung@chromium.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	Baruch Siach <baruch@tkos.co.il>,
-	Jean-Marie Verdun <verdun@hpe.com>,
-	Nick Hawkins <nick.hawkins@hpe.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Oleksij Rempel <linux@rempel-privat.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Chris Pringle <chris.pringle@phabrix.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>,
-	Vadim Pasternak <vadimp@nvidia.com>,
-	Michael Shych <michaelsh@nvidia.com>,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Qii Wang <qii.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Stefan Roese <sr@denx.de>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Avi Fishman <avifishman70@gmail.com>,
-	Tomer Maimon <tmaimon77@gmail.com>,
-	Tali Perry <tali.perry1@gmail.com>,
-	Peter Korsgaard <peter@korsgaard.com>, Andrew Lunn <andrew@lunn.ch>,
-	Robert Richter <rric@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Vignesh R <vigneshr@ti.com>, Michael Ellerman <mpe@ellerman.id.au>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Rob Herring <robh@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Loic Poulain <loic.poulain@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jim Cromie <jim.cromie@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Wei Chen <harperchen1110@gmail.com>,
-	George Cherian <gcherian@marvell.com>,
-	Peter Rosin <peda@axentia.se>,
-	Peter Korsgaard <peter.korsgaard@barco.com>,
-	linux-aspeed@lists.ozlabs.org,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Jan Dabros <jsd@semihalf.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
-	Benjamin Fair <benjaminfair@google.com>,
-	linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Nancy Yuen <yuenn@google.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-sunxi@lists.linux.dev, Joel Stanley <joel@jms.id.au>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-arm-msm@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	linux-arm-kernel@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	Patrick Venture <venture@google.com>, linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Dmitry Osipenko <digetx@gmail.com>, asahi@lists.linux.dev,
-	kernel@pengutronix.de, linuxppc-dev@lists.ozlabs.org,
-	linux-i2c@vger.kernel.org
-References: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
- <20230601073322.ww25ajaurktqsryr@pengutronix.de>
- <ZHijKtBbH2sCSuT4@shikoro>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Qb5F82JL4z3bdV
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  6 Jun 2023 19:45:32 +1000 (AEST)
+Received: from BillyTsai-pc.aspeed.com (192.168.1.221) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 6 Jun
+ 2023 17:43:41 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+	<lee@kernel.org>, <thierry.reding@gmail.com>,
+	<u.kleine-koenig@pengutronix.de>, <corbet@lwn.net>, <p.zabel@pengutronix.de>,
+	<billy_tsai@aspeedtech.com>, <linux-hwmon@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+	<linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>, <patrick@stwcx.xyz>
+Subject: [v5 0/5] Support pwm/tach driver for aspeed ast26xx
+Date: Tue, 6 Jun 2023 17:45:30 +0800
+Message-ID: <20230606094535.5388-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pOTGJ+ASVLoKQ1Xi"
-Content-Disposition: inline
-In-Reply-To: <ZHijKtBbH2sCSuT4@shikoro>
-X-Mailman-Approved-At: Wed, 07 Jun 2023 10:01:37 +1000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.1.221]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -308,42 +51,84 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Unlike the old design that the register setting of the TACH should based
+on the configure of the PWM. In ast26xx, the dependency between pwm and
+tach controller is eliminated and becomes a separate hardware block. One
+is used to provide pwm output and another is used to monitor the frequency
+of the input. Therefore, this patch serials implements them by writing the
+two driver "pwm-aspeed-ast2600.c" and "tach-aspeed-ast2600.c". The former
+is following the pwm subsystem which can apply the existed driver to
+controller the fan(pwm-fan.c), beeper(pwm-beeper.c) and so on. The latter
+is following the sysfs interface of hwmon to creat the node for fan
+monitor.
 
---pOTGJ+ASVLoKQ1Xi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v4:
+- pwm:
+  - Fix the return type of get_status function.
+- tach:
+  - read clk source once and re-use it
+  - Remove the constants variables
+  - Allocate tach_channel as array
+  - Use dev->parent
+- dt-binding:
+  - Fix the order of the patches
+  - Add example and description for tach child node
+  - Remove pwm extension property
 
-On Thu, Jun 01, 2023 at 03:54:50PM +0200, Wolfram Sang wrote:
->=20
-> > I wonder how this series will go in. My expectation was that Wolfram
-> > picks up the whole series via his tree?!
->=20
-> Will do. I am currently super-busy, though.
+Changes since v3:
+- pwm:
+  - Remove unnecessary include header
+  - Fix warning Prefer "GPL" over "GPL v2"
+- tach:
+  - Remove the paremeter min_rpm and max_rpm and return the tach value 
+  directly without any polling or delay.
+  - Fix warning Prefer "GPL" over "GPL v2"
+- dt-binding:
+  - Replace underscore in node names with dashes
+  - Split per subsystem
 
-Whole series applied to for-next. I squashed all the commits into one.
-These are mostly simple changes which we won't revert anyhow, but fix
-incrementally if we ever find an issue.
+Changes since v2:
+- pwm:
+  - Use devm_* api to simplify the error cleanup
+  - Fix the multi-line alignment problem
+- tach:
+  - Add tach-aspeed-ast2600 to index.rst
+  - Fix the multi-line alignment problem
+  - Remove the tach enable/disable when read the rpm
+  - Fix some coding format issue
 
+Changes since v1:
+- tach:
+  - Add the document tach-aspeed-ast2600.rst
+  - Use devm_* api to simplify the error cleanup.
+  - Change hwmon register api to devm_hwmon_device_register_with_info
 
---pOTGJ+ASVLoKQ1Xi
-Content-Type: application/pgp-signature; name="signature.asc"
+Billy Tsai (5):
+  dt-bindings: pwm: Add bindings for aspeed pwm controller
+  dt-bindings: hwmon: Add bindings for aspeed tach controller
+  dt-bindings: mfd: Add aspeed pwm-tach binding
+  pwm: Add Aspeed ast2600 PWM support
+  hwmon: Add Aspeed ast2600 TACH support
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/hwmon/aspeed,ast2600-tach.yaml   |  40 ++
+ .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml |  76 ++++
+ .../bindings/pwm/aspeed,ast2600-pwm.yaml      |  32 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/tach-aspeed-ast2600.rst   |  25 ++
+ drivers/hwmon/Kconfig                         |   9 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/tach-aspeed-ast2600.c           | 367 ++++++++++++++++++
+ drivers/pwm/Kconfig                           |  10 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-aspeed-ast2600.c              | 319 +++++++++++++++
+ 11 files changed, 881 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+ create mode 100644 Documentation/hwmon/tach-aspeed-ast2600.rst
+ create mode 100644 drivers/hwmon/tach-aspeed-ast2600.c
+ create mode 100644 drivers/pwm/pwm-aspeed-ast2600.c
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmR9lM0ACgkQFA3kzBSg
-KbZSPhAAsfk7pusys7GFW8hUTH1/MqaEtjs2e4zgiR1STw1eeim+O6Ayd8LuEdGz
-eXWZfv2E4SYhFi1+lXo4jFP3tPkCynMqn8BLbfRwq6XzXboMRQtEOXXnmRM7aOKN
-5x2CbAPlQQZ3A4Bbht92ESvKN54WRDM8V5wg0YUkowAlK6wtG0H8ajUOqYJdfVeN
-OPftzfdxQUDphHtitAoIYgHrz8UDxZSuASIjHBbb5ppBwZNtxc81DQYuIE42ajf8
-uYRrujqm1lKaRKdWvbZrOwZ42he5QLFl88mVLpQ9OmuhexOuBryk/847XdGDUMP6
-LdI40mazpIk+X2txyOySPbR0e3nCmq8gHBUKw1VQ3FMcCwAf60CxaO6fz0WLKPnU
-ezWsW6ETk7l52upnb0oSFnTH7ZHBN30Ebtb6xqMoDWs4i6RX/DX//leVHoHb+rD1
-tj0EV3wgmvXgyo2wcha8I05YeTYiFofK5PmHq3L3yXBDusslXdEsyVdFU/Mjy01G
-vFMWb2wJliDaJy3u9c2LkNBeWdlScTUM7U978o1sakXd6k4AcFJ9iufF0QDoTKqF
-iZmdoZaQuVCiGtwB/gUFMtbQDnikh1r2XxLSeeIIe1Fj2yfWr/GzVUq2tCzWu2J/
-D0nf7ftd8Y/SK1BYHfuuHox68zo4O8+CNB9WKjgkdt4JsXBlV0U=
-=xv1r
------END PGP SIGNATURE-----
+-- 
+2.25.1
 
---pOTGJ+ASVLoKQ1Xi--
