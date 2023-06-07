@@ -2,80 +2,122 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D103C725515
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 09:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D8C7257B0
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 10:32:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Qbdlj0NSZz3cdM
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 17:10:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QbgZq3MG8z3dtH
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 18:32:51 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UOSj4A+2;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=XdycWaOF;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:704b::709; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UOSj4A+2;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=XdycWaOF;
 	dkim-atps=neutral
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20709.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::709])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QbdlY2q6Fz3bcc
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  7 Jun 2023 17:10:15 +1000 (AEST)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9741caaf9d4so1033074466b.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 07 Jun 2023 00:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686121809; x=1688713809;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RNbd0rV0wgo4TlBHE0Z+HQIt/9tYb3WUn2Xisg5I4Vk=;
-        b=UOSj4A+2ZRDTz2ZtgutALrHXYmvxP82XQkIEWX5OyM4RK3+i2hw5jh9/t/vT+D6xP0
-         C5jQg/TV6Qk3cOSJgmDaFnNbkCcBkNSheyfauSsdM5ZP4o3gyWe6x85+0Cd2ntOe1kRe
-         yiWkhIGIpVEr35zhrEWAYou+0Q5j/0X3PPEkS1AT4MgWBVlHVRnfZdJTGypF0t6EgUIY
-         8am/szsW/5k//patGgsMyH3FCAqRqDe6o5tZnVgouzp68VDOppdXE2Jqh3EkIkXkjW6Y
-         JGAdMAWsWWRjZOIZ70i3I6JNz7RJtrMtaVaBM57nyZdhRHS3S/NlEJYLdyBVdS1Rp5YD
-         Ud9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686121809; x=1688713809;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RNbd0rV0wgo4TlBHE0Z+HQIt/9tYb3WUn2Xisg5I4Vk=;
-        b=e+vdLwjz4bRiEtP6Bw3cBJtNXODKBbYelbK+SeiKFe3mHUK0mrfkvP3RKVaPbJAaCG
-         lySME12wJkXO94a3gvhM/vxZy70porvghLY+eFZ1i8oc+/NeAhsjpJ3kPBtbirOe4ghT
-         iAp+/aOoN6yv0EUaaJD/d/G8r65ZuXNITodvjiqBS2zjjwD5jbFsX886gp2fxBkaE7J/
-         d6a3tAJuxLYo093p7Oep7pOFkS81vzwOBnUVa+Ek19zYXZ67cTyekxOqm2j0iJav3RvD
-         B8+b6dG3tNiHmPjeFSd70xSARd6ZBPuHO1xAb1HMuFGuMZ0r/eikWg09ocFgdVKtWaPN
-         fWEg==
-X-Gm-Message-State: AC+VfDwK5lUEtb24V+dFGEi7nsdnR+lWPOXprscqAlIJthGax1FRgzRU
-	veVNHi2NVbzuub/8ZzH6fuGwyg==
-X-Google-Smtp-Source: ACHHUZ7aeESog1csl2k7sGYQ2vfcQCGBYNFejR21FOhToVA+9TBvt7DhY+vJamrZ7lva5yKLFFVEcA==
-X-Received: by 2002:a17:907:3f9a:b0:96f:8666:5fc4 with SMTP id hr26-20020a1709073f9a00b0096f86665fc4mr6012541ejc.50.1686121809565;
-        Wed, 07 Jun 2023 00:10:09 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id fx4-20020a170906b74400b00977d0f1c5bcsm4203514ejb.69.2023.06.07.00.10.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 00:10:09 -0700 (PDT)
-Message-ID: <742d3161-3a4d-ea77-7bd4-85f6636bf400@linaro.org>
-Date: Wed, 7 Jun 2023 09:10:05 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QbgZh469Hz3brd
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  7 Jun 2023 18:32:41 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KnTSYDEq/ug646L6URAzBiL2o/SqjYIcRO2cLgt9WHj/GId3mV2mZjj9LPrPGinD2y7Nr5uv4RsvE6E3RXCyWpy65yYDpgXYI+hHpfd3prhCSQ1M6m80aEFI+guJ2hpw45Tt3jG9lMeFo/Qo9RUIDZUyAyRv+3AxRUzcqTq1/kkm67th9Sy1LqPbxBClYpvzEfmqs+3qLzvPmkGrOE9OmKs4DENWv+45rueCw8H/iabRxG9d3Hkqo93Y9V9CL4wIBFAYqeM1l+NcHB0s2ZX1Aq1GmHeXmCS73lDem5gOx+d7EaS0flSYpmtjf3fk+A2cR5Q6h4REWH9qW11K5h4o9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dbbfdDygkjEFuFhmOln10ZABeeYjy6/jbxmN/iUJH20=;
+ b=VAm8UxvHp1ImecuoLOv5dikj4kmqUrEPBxwpLVi7SM183yeQa5TJmcizzz8NYhieAr0Dxc6f4Q8wU2jbill4mofKRa4b+NFEa8oyL8ggQiNE0mIYmmg3JCA3Je9MAeij9XP0iAlr9WTHC2i7L6gc+ccNQf/OKY5xZViEi+UCmBCP/tFu8ieahxWneBKSigGKKDG3kn09JPGZkR4O4zTPsIbp1WvQhxjkPgtyXD69RVNl3mSucHmraBkgdV3PjJ6qRh2Q9G03MilsNUG9hpu22mAJc3xT1WppRZzIJN4d0J03HXjDrLddFcmKRztvhapEV6bxo/HU12lDw74Q9y1qVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dbbfdDygkjEFuFhmOln10ZABeeYjy6/jbxmN/iUJH20=;
+ b=XdycWaOFRX4vB77S2LzXuq+RKGxo1P7F7pWz8ju1wsOd7Y5XxDMVWSBF5QdgVNKkFo5dWfUiT1ljv/1mb58u6KP0trTVwor1BDXq62k92MXAwjjx5a21KlvXhPynsDcQTLiIHiFERheKK10cYjBTxEYYOruZLZf5XDRdLHYJSjxezyNxkEitGu/sRSCzA6bZ2Zrp8hbf9TjdoKmGwfWPtVMFHy+QjNhoJyY10twa3iwqgQGoluLnXowMMxbgElkC+5dmLIGsK7gr2l8hZchutunTumdalksVnkG42Bw6YLfo2up+ugPQyG4YX7d21v9mfvyup0Od++cvgXARXMuOMA==
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
+ TYZPR06MB6786.apcprd06.prod.outlook.com (2603:1096:400:45e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.28; Wed, 7 Jun
+ 2023 08:32:18 +0000
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::cc45:2366:5fc9:c775]) by SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::cc45:2366:5fc9:c775%3]) with mapi id 15.20.6455.030; Wed, 7 Jun 2023
+ 08:32:18 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Patrick Williams
+	<patrick@stwcx.xyz>
 Subject: Re: [v5 3/5] dt-bindings: mfd: Add aspeed pwm-tach binding
-To: Billy Tsai <billy_tsai@aspeedtech.com>,
- Patrick Williams <patrick@stwcx.xyz>
+Thread-Topic: [v5 3/5] dt-bindings: mfd: Add aspeed pwm-tach binding
+Thread-Index:  AQHZmFtk1R/dtj8sXk+ajmqdJHRQi699mE4AgAA3RYCAAAS/AIAA3fD6gAA7MoCAAAOpSw==
+Date: Wed, 7 Jun 2023 08:32:18 +0000
+Message-ID:  <SG2PR06MB33657063A2E3239AD0A21F718B53A@SG2PR06MB3365.apcprd06.prod.outlook.com>
 References: <20230606094535.5388-1-billy_tsai@aspeedtech.com>
  <20230606094535.5388-4-billy_tsai@aspeedtech.com>
  <35bf0a69-bcf6-ae35-eb3c-e74cfcf9c571@linaro.org>
  <ZH89fXknZlhGmM_H@heinlein.vulture-banana.ts.net>
  <c28f963e-d13c-6b5c-c389-996e986f81d5@linaro.org>
  <SG2PR06MB33652E18980E9CF8E4F0894D8B53A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+ <742d3161-3a4d-ea77-7bd4-85f6636bf400@linaro.org>
+In-Reply-To: <742d3161-3a4d-ea77-7bd4-85f6636bf400@linaro.org>
+Accept-Language: zh-TW, en-US
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SG2PR06MB33652E18980E9CF8E4F0894D8B53A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|TYZPR06MB6786:EE_
+x-ms-office365-filtering-correlation-id: 54a646b5-206b-4960-b32c-08db6731b4a6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  iUcPVCevsIl8YZAAEkghZJEfOs2EX/dwbfMGhjxPhEbApc0zAYItnQaIXut2tBX1yduKeA8GNL0rMhX5E6lcnCgRjqqhsaNHNGx2JoqNXzG9I6YnlQM1kK60RfHwGR3BCY04t4COR4r86WvQY3+419XeTQSJK/L1m0uE+0xjyPToaBGYfxl32u4EQ7FFwgISCw8diKRjAwOF6P2O0giorywqbvndpGoe3eUjRD5kA7C+YP8pzrnAB5bCABuSPonow9zu1Es3oAT51/mnLsdDkN7MM4qGR6bRnI4o7VMTEkMbv1H/2VGvFs4DgmNPt/swQEGLbXHCrMbK4sU2BZAJikaYXNoScyG7aid3LXLCcpCCCR2dJlQAGlWaDjSLVgUbErNr+qxXNQBp9sdo2jTMDm2NhnbiYmJ1DkyArqLoxW4C3gbI7xX/WGuauli7UN48nXp32KBLt15jFIXmW3XObiJC084ILqieZIhOV/5tdTY2oi9K36wdZMnIa3bHEhs/x2bke5EkMn0IcjVjyGBh33lkpckOruUXjA5s18rov7W+xKxMBCDY5+a4Rx9nGcQ/wrtECbnYEU9t4uTOpRhCHLjdgC2qed9+5snlUi4pplwuyvvIJ+QrLpxFpaNCDpRx
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(366004)(39850400004)(396003)(346002)(376002)(451199021)(55236004)(33656002)(8936002)(64756008)(66446008)(66556008)(316002)(41300700001)(478600001)(8676002)(38100700002)(558084003)(52536014)(66476007)(9686003)(4326008)(5660300002)(66946007)(26005)(6506007)(76116006)(91956017)(110136005)(7416002)(186003)(54906003)(122000001)(71200400001)(2906002)(55016003)(7696005)(38070700005)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?2D0JyYxi3glcThKXUTmA0eSvEQWnt4oqyq9krt9a9LmHR5xAUU0C/dhQnHgr?=
+ =?us-ascii?Q?vmdJ1btH4wrZzl90Ewbi0SxmlkUxCQtq6NfAe0EM/mBq4c6/Fwn68D03JAxv?=
+ =?us-ascii?Q?68qgvqIE+0n+oJb0CtsGY1A9uEhGa3wvHUFodxMfUi6AgHHdSOGWjyxzB655?=
+ =?us-ascii?Q?fIYQYcFAs9I01av5ODENoMkQsLVyjL1fIsMpyzjQoPa66aJ5AdqEyo8rjbUo?=
+ =?us-ascii?Q?Z61VFckexupE31fUrjyhKFuU2UJ5jVHfv8Du8K3t18rM7v6DX/wjfelggsEp?=
+ =?us-ascii?Q?kHgz/0Rq7idT9nkoBrxcNiYmaWqxZcNMZL346Zaqt6BtMPLLW+hnFMnrT0/1?=
+ =?us-ascii?Q?9Jo5AeRm+HTrFRe1ImICI09Mn5bxh/VaspC7pL+0tPVB0xPedAlcsecVxdGR?=
+ =?us-ascii?Q?gcGFMgtiQdZkplEWYQg1R2or/SQiKkKn8OfeFE1LTbHo/8ro97d7pfMTQKDe?=
+ =?us-ascii?Q?XdZwfUzV3oeymeewM48oal7psqKxS8mSWYNaA/H6Xo8jGlUMDGZM+cvy4P2/?=
+ =?us-ascii?Q?VnwXJADnSS5qJORrT5O+GyaS4f4JY0PyLQBhOsXIBanlSk21bMRpnP8LF3KY?=
+ =?us-ascii?Q?PJngO5rXb+eW9DbeQlfTpUwu1cWtzsQXtoZOfCvIagHvHH1N+7twPHIY9VNY?=
+ =?us-ascii?Q?e1CAihkVtO/oyjZ01soFra4ksuj8kGmNEb8YafuWxT5mczMzh0w7tw1JHJNz?=
+ =?us-ascii?Q?fzkEQ3fAiq7McNdckcOY6JaB3hm2x9A3sdj56uUYvIQUCmBFID9yzyv4x4Ec?=
+ =?us-ascii?Q?ypbABoiLa7tDQm0+E5iynVt+Gdw75WaeFK8lQz8u2zrhS8ADlxuYiGHq+zs/?=
+ =?us-ascii?Q?rhEg1uhRB8eCAGlxll44wyKPhPNQ81o/ia0pvTLXtQa/x6wIPN39/iRIpnvl?=
+ =?us-ascii?Q?199tJGLHMHINT4ZR/jA+FDWcmma4z/WKilrQvHv7euiDsx23Pqg836IrOrmg?=
+ =?us-ascii?Q?7Q4k4MfOFSm3UPxlW96FagG+3v2Wg6NYEK9hdEQ1LwguWdLDOgF7Dakao3mv?=
+ =?us-ascii?Q?py2TvktbckWvb8WpuAQYNtWIz44Cu4XWMUMsBbMxJLs/30asDVNBNdC/lVeK?=
+ =?us-ascii?Q?YKRWz+AA6QAzKNTzyJgfsneQ/emKhKkMZwNn0JbtqzK+48J/93pbjmDR1rWd?=
+ =?us-ascii?Q?W0d8d3Gp8PB4ooCutM9f/Bb9gHsX5BEqt2ycLkL8RZe61fYIVBtAlN/kyQYS?=
+ =?us-ascii?Q?9siZhN7EXNinuvkJ9kjIRuOVPf+YXpcwiT1sBhFLONM5PHISpL8cyDfwenQ7?=
+ =?us-ascii?Q?30HMuPTgv779vK406xpGOmcQLja46++qGoB0hZk2f68egTg7jzcJzihDAUzd?=
+ =?us-ascii?Q?71RaVIT1tyDcnvYbOLwr7T0Nd++I922XJS9G4oLICes/GVehSmQxDQqnb70l?=
+ =?us-ascii?Q?vPXAw+eo/f4zGd9ssMKCjkGScyhDeyig5WWrzy1CUwQAWS+5WIST2C/VwYx8?=
+ =?us-ascii?Q?xj2YRu81CXpcVNEwHlpU6v8tZg1IGk5PAecfOcmTUJlW/RA/2dwy49YmxV+V?=
+ =?us-ascii?Q?GVdKp179/xEZJ36Z6TI+8A0LdgwK0vXyq6UaiHrIKZaY7Gg6SIskHEzq+oKx?=
+ =?us-ascii?Q?5Voyz57eYD2VInLjT1Odz1X2z/4cmGLF/mK87ozjFTZPdao5WfKi6o9sdIJA?=
+ =?us-ascii?Q?ljpMbZaB18V2rNj82Mx4Gk8=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_SG2PR06MB33657063A2E3239AD0A21F718B53ASG2PR06MB3365apcp_"
+MIME-Version: 1.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54a646b5-206b-4960-b32c-08db6731b4a6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2023 08:32:18.4575
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zKRQaKLHL1310OO4FizUZhnvrh8wfEF/7lMB2kQWaemAxDG2uC/WUVMPg//kHhkk2X8UacMSfdAFi/DDw8BRMauBvrhYdM40YfSxYgKZoWY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6786
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,115 +133,84 @@ Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vge
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 07/06/2023 08:26, Billy Tsai wrote:
->         On 06/06/2023 16:06, Patrick Williams wrote:
->         >> On Tue, Jun 06, 2023 at 12:49:04PM +0200, Krzysztof Kozlowski wrote:
->         >>
->         >> Hi Krzysztof,
->         >>
->         >> Thank you for reviewing this from Billy.
->         >>
->         >> The Aspeed chip is heavily used by the OpenBMC community and the 2600
->         >> has been used in production systems for almost 2 years now.  Many
->         >> companies are having to carry previous versions of these as patches, and
->         >> some of the APIs changed since the last revision from Billy.  So, I had
->         >> asked him to submit the latest patch set with as many revisions as he
->         >> understood what to change, since the conversation seemed to have died
->         >> since last time he submitted.
->         >>
->         >> I don't believe Billy is intentionally ignoring your feedback and he is
->         >> motivated to get this patch set wrapped up into an acceptable state.
->         >>
->         >>> On 06/06/2023 11:45, Billy Tsai wrote:
->         >>
->         >>> NAK. You got here clear comment. You cannot have simple MFD with
->         >>> resources. It is not simple anymore.
->         >>>
->         >>
->         >> In fairness, Billy asked for clarification from you on this point and didn't
->         >> receive it.
->         >>
->         >> https://lore.kernel.org/lkml/24DD1FEB-95F3-47BE-BE61-8B0E6FBDE20F@aspeedtech.com/
-> 
->         > I gave the instruction what Billy should do:
-> 
->         > https://lore.kernel.org/lkml/41500a04-b004-0e2c-20a1-3a3092b90e6d@linaro.org/
-> 
->         > What about other ignored comments? About subject, quotes and more? Even
->         > if this one was unclear, then why ignoring all the rest?
-> 
-> It's possible that there was some confusion regarding your message. I apologize for any misunderstanding.
-> About the subject: I apologize for the misunderstanding. I just drop the redundant "bindings" in the commit message.
+--_000_SG2PR06MB33657063A2E3239AD0A21F718B53ASG2PR06MB3365apcp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Read entire message, not some parts of it.
+Ok, I got it. I will remove usage of the simple-mfd and parent node in next=
+ version of the patch.
+Thanks
 
-"Subject: drop second, redundant "bindings".
-Also use proper PATCH prefix."
+Best Regards,
+Billy Tsai
 
-Where did you drop the bindings in the subject? I still see it, look:
-"dt-bindings: mfd: Add aspeed pwm-tach binding"
-                                       ^^^^^^^^ what is this?
+--_000_SG2PR06MB33657063A2E3239AD0A21F718B53ASG2PR06MB3365apcp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-> About the quotes: I believe the issue was simply related to the order of the patches, and I have resolved it. Did I misunderstand?
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:PMingLiU;
+	panose-1:2 2 5 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@PMingLiU";
+	panose-1:2 1 6 1 0 1 1 1 1 1;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:10.0pt;
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style>
+</head>
+<body lang=3D"en-TW" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:brea=
+k-word">
+<div class=3D"WordSection1">
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><span style=3D"font-s=
+ize:11.0pt">Ok, I got it. I will remove usage of the simple-mfd and parent =
+node in next version of the patch.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;color=
+:#212121">Thanks<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;color=
+:#212121"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;color=
+:#212121">Best Regards,&nbsp;</span><span style=3D"color:#212121"><o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt;color=
+:#212121">Billy Tsai</span><span style=3D"color:#212121"><o:p></o:p></span>=
+</p>
+</div>
+</div>
+</body>
+</html>
 
-I still see them, so how did you solve them?
-
-> About the Missing description:
-> 
->> +patternProperties:
->> +  "^fan@[a-z0-9]+$":
->> +    type: object
-> 
->> Missing description. But more important - why do you have such child
->> nodes? Your example does not have them. What's the point? Do you expect
->> different number of fans per one device (one compatible)?
-> 
-> In this patch series, I have included examples and descriptions to provide additional information.
-> The child node is used to enable the channel of this tach controller.
-
-You do not need children for this.
-
-> I expect that the dts will include information regarding the number of fans connected to the board and their corresponding channels.
-
-Your example DTS must be complete and nothing like this was there. There
-is still no point in the children.
-
-> 
->         >>
->         >> He felt what he was trying to accomplish met the documented
->         >> expectations.  Are there some changes that need to be done in mfd.txt to
->         >> further clarify when to use it and when not to?
-> 
->         > I think mfd.txt clearly states:
->         > "For more complex devices, when the nexus driver has to
->         > probe registers to figure out what child devices exist etc, this should
->         > not be used. In the latter case the child devices will be determined by
->         > the operating system."
-> 
-> About the mfd:
-> For our pwm and tach devices, there is no need to check/apply any hardware register from parent to determine child’s existence or functional.
-> They don’t have any dependency on the parent node. 
-
-You are joking right? The dependency is clearly visible in the driver.
-You are getting parent's node to get its resources. That's the
-dependency which is not allowed. Children should take care of their
-resources, not parent's!
-
-> In fact, it doesn’t require a specific driver to bind with the "aspeed,ast2600-pwm-tach" label. Their purpose is solely to share the same clock, reset phandle and base address.
-
-That's what the drivers are for, so you need it...
-
-> The main reason for using simple-mfd in this case is because these two independent devices share the same base address. In fact, I can relocate the clock and reset configurations to the child nodes rather than the parent node.
-
-How? These are clocks of parent. Don't create fake DTS to represent
-workarounds. Or you want to say that current DTS is fake and does not
-match the hardware?
-
->  In this case, I still can't use simple-mfd?
-
-For the last time: No. You cannot, because you have resources needed for
-children.
-
-Best regards,
-Krzysztof
-
+--_000_SG2PR06MB33657063A2E3239AD0A21F718B53ASG2PR06MB3365apcp_--
