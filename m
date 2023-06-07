@@ -2,63 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3459D7258B8
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 10:55:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C677268A6
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 20:26:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Qbh4r01MLz3cCh
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Jun 2023 18:55:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QbwmH1CzSz3dws
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 04:26:55 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=D2ESwCvV;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pzkOcuk2;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52a; helo=mail-ed1-x52a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=D2ESwCvV;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pzkOcuk2;
 	dkim-atps=neutral
 Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Qbh4k4fNcz3cCh
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  7 Jun 2023 18:55:16 +1000 (AEST)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-516a008e495so369608a12.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 07 Jun 2023 01:55:16 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Qbwm45V0Pz3cXl
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Jun 2023 04:26:44 +1000 (AEST)
+Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-51475e981f0so1997506a12.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 07 Jun 2023 11:26:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686128112; x=1688720112;
+        d=linaro.org; s=google; t=1686162401; x=1688754401;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=RTpA5qOAPRS8MQZfyN8Ss9cXLKE3reuQWNe17eVOs98=;
-        b=D2ESwCvV3EMJ4Ca9Xo0YrNr2h8zDu3w8UAFRDTvjKd+CzOHysYAMrUv95WmgXW6pef
-         PsKk6OT+GE3LhG59KbziqQ8SX2zQaEPT9u8GVDR84WIwdNAJaeEZI0k91AdVnjG4fkba
-         7QfIE+0YEtfGCqwMJjmHD0uUn7sG3yGccZKVA9w7gvuWa2pSa7UzCkUG/q57UumGb1EA
-         4OKi4guQJOqGhlKfXqujVgAzpzyCQ7hJotGxoUFQ9FHVd4N13KRLYrRg+JJE1C5Pxxon
-         yqRiF+kOeMILJ7ArRRRzkzEFaxvUjTteQsnxlZPRwwLMcnLuFClt6rOtK1yjIsDrIlmd
-         ftfw==
+        bh=ZRj+mE8jCuZmOYVQqkftbO+ddM2GLO7xQ0oXcx+IVPg=;
+        b=pzkOcuk2QH5o8cSqzHedtXSDBcDhlF3m1WDSJvl7OVrVSK0Q3W5DgsoqMvf5fE6X1O
+         JiAdA/oH10Y2IzEdmhHsNm8PNLmX60mlHAlZAIOXaP2bSe8a+0mEOri7GwAahN3I5w+f
+         1OL1nbq2JFg8rTKxc6LBUiNSYG4iuckRDEIeTaOeihJgbOKV0yrHA8pB6c9bi1DrhM94
+         tqerLRwLfB06wLXl+kKoTWrJ4q7Zr+C2dRU4lQUXsjOcOb6mq4R8VySKoRElUYe2vN6X
+         DevUHmBVJ+Pq2mmfVm3H5BZBlHQLtIch9DGumt1Ttpem2iJLme0pspfd6gIMqNQYVqXF
+         8bqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686128112; x=1688720112;
+        d=1e100.net; s=20221208; t=1686162401; x=1688754401;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RTpA5qOAPRS8MQZfyN8Ss9cXLKE3reuQWNe17eVOs98=;
-        b=F9+iMDCun9rqgOJhlx8tp1ng4MIOmbvqZSOovp/k1CT1aR0WDUwp7b6B82f+ap714N
-         /uCzPu5a9xhalcxAKqleWA0Tkb8Onu5ggB8cRj8t/By+Quh5Q9jE/M4b/g5J1MxBAC4L
-         KXVS5IbxI+Z4LMS+cQ3hd7J8wxVaAVBlvhZsAfUGP+oRcptX7EH6HimgdHR5IGq3KllU
-         EM/ZbaXZcLHJEMHNKQIQSg9WLtSgHV2V2OSloTib8sMK+1hWPhDA6DgYQZI6jPImzvDj
-         g9sDzSBzsaCiUWwhlyb3Z4iK42k5422/SIsvfIThag2k7WYqU4Kn3a/d6lNXAlKOXbMu
-         /44w==
-X-Gm-Message-State: AC+VfDwNGMf9p6wHnaOw5NSeVTtft0qMCkZ/PnrY4mOSvZ8LYIydyq+4
-	ykxyJ+1OsDGRbdgoNSsjeBzB4A==
-X-Google-Smtp-Source: ACHHUZ68EljsPgkNMfLt/pjzYCbcf3rch3Eqf0hQ739bCBHvP3l1XP1YD46PoScoXp1Rg3YgbqRIWg==
-X-Received: by 2002:aa7:c59a:0:b0:514:9e47:4319 with SMTP id g26-20020aa7c59a000000b005149e474319mr4990483edq.5.1686128111991;
-        Wed, 07 Jun 2023 01:55:11 -0700 (PDT)
+        bh=ZRj+mE8jCuZmOYVQqkftbO+ddM2GLO7xQ0oXcx+IVPg=;
+        b=G7TOck85FsiW2WsjLjCjMZMW1S/D9hLPqBlhNZxScj3eNxRjW15LM0QnstmZiT9JKH
+         IY5x9OIM+LhMJnRXJ3cEWV+aQFZ6cIpP4ehAFc/8JJcz9tMfhnKuG5JtY0bC3ulqMuiw
+         17i925RXeBLbBDZTkPzXsJJAdjREmhEDMG4vErS2OFHvGMYJaJPnR28gDJ3aK7sQ1pya
+         2c6O7r5oESgZsmI9Jr7WRZsg5CruPpmTMn4UnRjVEHe+cbQYcA/zTWbIIZKFASKKbrl5
+         uV0aHF0ymoMw6pF+cxuDe+a88YV8q/paD27Xyk0eLXriGkaHNLxirOjfwK+seECAuDBE
+         4xeQ==
+X-Gm-Message-State: AC+VfDxUI7ROoDuS1zXuXOvsk79KdIsNe92Xpet4I8On4Mk9AOAhuk2b
+	lGv4Uew5pulS01yNjyw3TB/lsw==
+X-Google-Smtp-Source: ACHHUZ5YUulZzqwNfYTpRRDDYzgUjLAdgZeSBYf9eA5aKTpF9KWdikk8pq/Ts0lAJ7VXnuCh4iWv0Q==
+X-Received: by 2002:a17:907:3e1e:b0:96f:b58e:7e21 with SMTP id hp30-20020a1709073e1e00b0096fb58e7e21mr7507816ejc.52.1686162401374;
+        Wed, 07 Jun 2023 11:26:41 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id u6-20020aa7d0c6000000b0050488d1d376sm5951735edo.0.2023.06.07.01.55.09
+        by smtp.gmail.com with ESMTPSA id bv2-20020a170906b1c200b009659ad1072fsm7215357ejb.113.2023.06.07.11.26.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 01:55:11 -0700 (PDT)
-Message-ID: <c8fe71a4-f8bb-d0a5-a227-14040fa024a9@linaro.org>
-Date: Wed, 7 Jun 2023 10:55:08 +0200
+        Wed, 07 Jun 2023 11:26:40 -0700 (PDT)
+Message-ID: <fdb342c0-393b-dc34-bbc4-f23f1d59492a@linaro.org>
+Date: Wed, 7 Jun 2023 20:26:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
@@ -75,7 +75,7 @@ References: <20230606094535.5388-1-billy_tsai@aspeedtech.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 In-Reply-To: <SG2PR06MB33652E18980E9CF8E4F0894D8B53A@SG2PR06MB3365.apcprd06.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,26 +92,17 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 07/06/2023 08:26, Billy Tsai wrote:
->         >>
->         >> He felt what he was trying to accomplish met the documented
->         >> expectations.  Are there some changes that need to be done in mfd.txt to
->         >> further clarify when to use it and when not to?
+>> Missing description. But more important - why do you have such child
+>> nodes? Your example does not have them. What's the point? Do you expect
+>> different number of fans per one device (one compatible)?
 > 
->         > I think mfd.txt clearly states:
->         > "For more complex devices, when the nexus driver has to
->         > probe registers to figure out what child devices exist etc, this should
->         > not be used. In the latter case the child devices will be determined by
->         > the operating system."
-> 
-> About the mfd:
-> For our pwm and tach devices, there is no need to check/apply any hardware register from parent to determine child’s existence or functional.
-> They don’t have any dependency on the parent node. In fact, it doesn’t require a specific driver to bind with the "aspeed,ast2600-pwm-tach" label. Their purpose is solely to share the same clock, reset phandle and base address. The main reason for using simple-mfd in this case is because these two independent devices share the same base address.
+> In this patch series, I have included examples and descriptions to provide additional information.
+> The child node is used to enable the channel of this tach controller.
 
-Actually one more thoughts. I have doubt that you have two independent
-devices. If you share the clock, reset line and register address space,
-this means *you do not have two independent devices*.
 
-You have most likely only one device.
+Children are not for this. Look for cells examples (e.g. gpio-cells,
+pwm-cells). It seems this is the same as Nuvoton NCT7362Y, so no. Don't
+use reg for that purpose.
 
 Best regards,
 Krzysztof
