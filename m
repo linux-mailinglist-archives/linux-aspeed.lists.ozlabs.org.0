@@ -1,72 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C94727B3F
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 11:28:00 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F96728109
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 15:18:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QcJly3byDz3dxl
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 19:27:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QcPsp6nSKz3dyG
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 23:18:22 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Iv/XXxWB;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=K4GWIYXT;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::529; helo=mail-ed1-x529.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52b; helo=mail-pg1-x52b.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Iv/XXxWB;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=K4GWIYXT;
 	dkim-atps=neutral
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QcJls2770z3cLT
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Jun 2023 19:27:53 +1000 (AEST)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-510d6b939bfso681512a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Jun 2023 02:27:53 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QcPsk1nbdz3cds
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Jun 2023 23:18:17 +1000 (AEST)
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-543c6a2aa07so265640a12.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Jun 2023 06:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686216469; x=1688808469;
+        d=gmail.com; s=20221208; t=1686230294; x=1688822294;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4M4AXwuus3QNcxn5wLRmX6dWFPy9Bx8ysuH50InMwSo=;
-        b=Iv/XXxWBX0f2XCCR6QA12a+irtrS/oHxhfmmy7hqMHSK7RAzwb9HV+XNm5fKtRB0QF
-         k6beldcZQW2GRHQE+1UonNwxq60CY/l6n4IJeMZpujS1xMr50FRH9qLdxDCIgRCsuTDu
-         Z2vqQqsbZ/BvujbnKRRIIbZ0mc4/U5+4GEzJw9aI4wOEMpeidmed3Dc21wgupOgRVec1
-         7mMA04e5O3EeoB9JJ7pSX2P2ftncDThKdmmxKh7fVi5MXEf7vSwk78e+JVIqwLaXYnTn
-         rFTUV59anSVgY9cSY/QoPl6O4eGFQOOwkRaTAyJAZpNqAFZq6sl+KqPvyaB0W9RozFm/
-         t5rg==
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=D7t/IcsLb1sT149B6ebMikIHDMKdt1t6KHWtlJh10/o=;
+        b=K4GWIYXT3UU+cMQQ9MmBi0hMM0SFVFnM2dt0AhYzqQABRQdYWtL79TlQGkIPQz1jS4
+         j55JKWZeEMYrCfaH0CB8RQ4z0/XvIjIbQw9FiHIi7qRO7VgKAU8XSSVRO50Le2wUROBy
+         hYx/mbWxDd4z4XSFH1+weJ6o3Bf3DpMs3zuPZdEXLf0ugnP4e2nFAFemUqcGc1CfBZ9H
+         POQRpHfPq75yAiPFGsOCS/CN+kzmaTuAXs/BqMdfn6LCKHXq5GeH09gv4X8E8/kRDclF
+         yOoVOoMoM0da32wBUR44aUNaE2gGyfmbgDJwWHq9632pppxAtP2vwHnkJ5zZhcqrC/ng
+         nZxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686216469; x=1688808469;
+        d=1e100.net; s=20221208; t=1686230294; x=1688822294;
         h=content-transfer-encoding:in-reply-to:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4M4AXwuus3QNcxn5wLRmX6dWFPy9Bx8ysuH50InMwSo=;
-        b=TWlO2qlwaE+jiWYYEOOXSPgDRyNw2HHnw0yYwLwbFQVbTo0W54u5J4Etajtr12EkYf
-         2VOoPRpk1cG7VXRAakLRBbi10l3KoOb6/hrSgFVM9XnHYl24YhCgt2NKHkCtEy0k25AY
-         6yY7KUwD4lwH809H/c+enrWjuaENP7WT4X/dWfZ9oifE3mZ6C5EAgX0SPc+4Jc9vhYSS
-         WictwSv6Z4T3QwB2ByI5/ATiZ6/44BpWwid2kfY6NzBt+dGfvHXlrpPbpztZvY+ER6ka
-         9fj34MMEEwWF8poTAyEhOGd/6bQqRHwitWzdbT0jWNQUnr453+78R1V+mVEi/DbS/X6i
-         hlnA==
-X-Gm-Message-State: AC+VfDwmeP1pnYjpyjM0+D3RHqNB1pPi72rNAaYA9ijkM5BIEjZO3hSe
-	9WGkiFFOEZTul+02Mcf7qnGhXQ==
-X-Google-Smtp-Source: ACHHUZ61lgRdfNH+4iXxEctmcKpZlKsW/Cb7gNYirHVgh00nzDxu+CtNqzKNbg5xj0GFO96YbeoOVQ==
-X-Received: by 2002:a05:6402:613:b0:516:7928:ed70 with SMTP id n19-20020a056402061300b005167928ed70mr6344488edv.3.1686216469187;
-        Thu, 08 Jun 2023 02:27:49 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id n17-20020aa7c691000000b005105f002fd1sm316888edq.66.2023.06.08.02.27.46
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D7t/IcsLb1sT149B6ebMikIHDMKdt1t6KHWtlJh10/o=;
+        b=EKngEhJPu4bnxE1qO8SjzqGrKrIumdtEhOKBduYfG0W38HWx6ViqQfAxSEJBzYPiaR
+         4uHfqZtMKV/AhEyt4f1rav3GSrCELeYWmsgzjjcyPJ2rBIth/mi/T3y2VTiJhaLZrGjh
+         TAsM52CmxS6iTQcHixJ5/Hn9EaH1iKwnpzRZIZAzKAMK1UgtR6xraaU4YlfCnwXWAKUY
+         CpsXQAEJ+/LRQBo3uQqg4Ktw9S4B2BIkyCshMnoypV3BYLIwn5Pw7PYb5OtwLOvD9zin
+         ONZeeSZJ8mF0YQNjZYQX6aTXCAwpCb6NMLaj2Dnq0NJ8DCEiEWGusEBrETHIE1ubJxJb
+         s8YQ==
+X-Gm-Message-State: AC+VfDywp/2XT3Z+rkEMs2NxnwCpD8L4x9BC/AybRSw2W6VEuazpQnvK
+	Eaohse0YW7Y9TUiEbRXTRGM=
+X-Google-Smtp-Source: ACHHUZ5M/cI7gc7yzFDF3kqFxm4rWeaJQMCH5IYlgrLd2Urk2wIeKfwBQ3qpgm5c0VI/CYCFNUAMfg==
+X-Received: by 2002:a17:903:1207:b0:1b0:ec0:7d01 with SMTP id l7-20020a170903120700b001b00ec07d01mr4863322plh.35.1686230294140;
+        Thu, 08 Jun 2023 06:18:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t12-20020a170902b20c00b001ac741dfd29sm1387520plr.295.2023.06.08.06.18.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 02:27:48 -0700 (PDT)
-Message-ID: <5b5ccfb9-d6ea-9f22-bc8f-c048da726cc9@linaro.org>
-Date: Thu, 8 Jun 2023 11:27:46 +0200
+        Thu, 08 Jun 2023 06:18:13 -0700 (PDT)
+Message-ID: <f76f89a0-7773-6f64-c890-293093d4aba3@roeck-us.net>
+Date: Thu, 8 Jun 2023 06:18:10 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [v6 1/4] dt-bindings: pwm: Add ASPEED PWM Control documentation
+ Thunderbird/102.10.0
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
 Content-Language: en-US
 To: Billy Tsai <billy_tsai@aspeedtech.com>,
  "jdelvare@suse.com" <jdelvare@suse.com>,
- "linux@roeck-us.net" <linux@roeck-us.net>,
  "robh+dt@kernel.org" <robh+dt@kernel.org>,
  "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
  "joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
@@ -84,17 +85,13 @@ To: Billy Tsai <billy_tsai@aspeedtech.com>,
  "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
  "patrick@stwcx.xyz" <patrick@stwcx.xyz>
 References: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
- <20230608021839.12769-2-billy_tsai@aspeedtech.com>
- <4dffd320-8e30-fb30-6ded-79519afddc21@linaro.org>
- <SG2PR06MB3365DD80EA2FD026D400C4A78B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
- <61278e12-ba39-4503-ca74-a7118b0f6e99@linaro.org>
- <SG2PR06MB336528007D2685F8D95DF4078B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
- <fb3cb26b-61d7-5f57-41de-f419aa50ac0b@linaro.org>
- <SG2PR06MB3365558F9A3127744CEF1C068B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <SG2PR06MB3365558F9A3127744CEF1C068B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20230608021839.12769-3-billy_tsai@aspeedtech.com>
+ <c1c485b0-b68b-4db7-4b67-5d59f1ecb84e@roeck-us.net>
+ <SG2PR06MB3365E360F3FCDE639F3D2D1E8B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <SG2PR06MB3365E360F3FCDE639F3D2D1E8B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,69 +106,51 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 08/06/2023 11:15, Billy Tsai wrote:
-> On 08/06/2023 10:21, Billy Tsai wrote:
->         >>         On 08/06/2023 09:47, Billy Tsai wrote:
->         >>         >>
->         >>         >>   >> +
->         >>         >>   >> +allOf:
->         >>         >>   >> +  - $ref: pwm.yaml#
->         >>         >>   >> +
->         >>         >>   >> +properties:
->         >>         >>   >> +  compatible:
->         >>         >>   >> +    enum:
->         >>         >>   >> +      - aspeed,ast2600-pwm
->         >>         >>   >> +
->         >>         >>   >> +  "#pwm-cells":
->         >>         >>   >> +    const: 3
->         >>         >>
->         >>         >>   > 3 cells? For one PWM? What are they?
->         >>         >>
->         >>         >> channel, period and polarity.
->         >>
->         >>         > Don't cut my responses. You wrote you have one PWM output, so only one
->         >>         > channel. What do you put then in the channel?
->         >>
->         >> You need to put 0 in the cell of the channel, the example of the dts usage will like following:
->         >>
->         >> pwm0: pwm0@1e610000 {
->         >>         compatible = "aspeed,ast2600-pwm";
->         >>         reg = <0x1e610000 0x8>;
->         >>         #pwm-cells = <3>;
->         >>         #address-cells = <1>;
->         >>         #size-cells = <0>;
->         >>         pinctrl-names = "default";
->         >>         pinctrl-0 = <&pinctrl_pwm0_default>;
->         >>         clocks = <&syscon ASPEED_CLK_AHB>;
->         >>         resets = <&syscon ASPEED_RESET_PWM>;
->         >>         status = "okay";
->         >> };
->         >>
->         >> pwm1: pwm1@1e610010 {
->         >>         compatible = "aspeed,ast2600-pwm";
->         >>         reg = <0x1e610010 0x8>;
->         >>         #pwm-cells = <3>;
->         >>         #address-cells = <1>;
->         >>         #size-cells = <0>;
->         >>         pinctrl-names = "default";
->         >>         pinctrl-0 = <&pinctrl_pwm1_default>;
->         >>         clocks = <&syscon ASPEED_CLK_AHB>;
->         >>         resets = <&syscon ASPEED_RESET_PWM>;
->         >>         status = "okay";
+On 6/7/23 23:21, Billy Tsai wrote:
+>          > The code says:
 > 
->         > BTW, these are not two PWM devices but one. I don't understand why you
->         > changed previous design into something like this, but this is not
->         > representing your hardware.
+>          > In Aspeed AST2600 SoC features 16 TACH controllers, with each
 > 
-> The previous design of my patch treated our PWM controller as having 16 PWM channels.
-> However, from a hardware perspective, it consists of 16 individual PWM chips, each
-> with its own set of two 4-byte control registers. These chips operate independently
-> and are not affected by each other.
+>          > controller capable of supporting up to 1 input.
+> 
+>          > which is a bit different. I guess there are no examples anymore,
+> 
+>          > but I'd really like to see how this looks like in the devicetree file,
+> 
+>          > and how the driver is supposed to distinguish/select the 16 inputs.
+> 
+> Hi Roeck,
+> 
+> The node in the devicetree file will looks like following:
+> 
+> tach0: tach0@1e610008 {
+> 
+>          compatible = "aspeed,ast2600-tach";
+> 
+>          reg = <0x1e610008 0x8>;
+> 
+>          #address-cells = <1>;
+> 
+>          #size-cells = <0>;
+> 
+>          pinctrl-names = "default";
+> 
+>          pinctrl-0 = <&pinctrl_tach0_default>;
+> 
+>          clocks = <&syscon ASPEED_CLK_AHB>;
+> 
+>          resets = <&syscon ASPEED_RESET_PWM>;
+> 
+>          status = "disabled";
+> 
+> };
+> 
 
-They are affected by each other - you use the same clock and reset line.
-I really doubt you have 16 PWM controllers. Anyway, I cannot judge.
-Either your previous submissions were totally bogus or this one is.
+Neither reg nor pinctrl is mentioned in the bindings. Maybe that is not needed nowadays,
+but I find it confusing.
 
-Best regards,
-Krzysztof
+Either case, it is highly unusual that there would be 16 instances of this device
+instead of one. Why is this done ? It doesn't really make sense to me.
+
+Guenter
 
