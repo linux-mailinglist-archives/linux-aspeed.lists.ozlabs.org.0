@@ -2,81 +2,132 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D04072767A
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 07:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3971C727734
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 08:22:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QcBrB723Pz3cM3
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 15:01:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QcDdS4vZJz3dxY
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 16:22:04 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=dOUSITiX;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=FT9W8Ned;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2001:4860:4864:20::2f; helo=mail-oa1-x2f.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:704b::714; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=dOUSITiX;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=FT9W8Ned;
 	dkim-atps=neutral
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20714.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::714])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QcBr51jZnz3cM3
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Jun 2023 15:01:09 +1000 (AEST)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-19fa4346498so175215fac.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 07 Jun 2023 22:01:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686200466; x=1688792466;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tLZi1CYZuu2VgWmDxEUsvma/BxogAGe1aTFKnySv72E=;
-        b=dOUSITiXhrAW9w7lSMWSXYnbmhE+9Z0knBBzF0jANYpU53hS8y5kkq7a45iO9XH/Rq
-         kNVUgy68lnLDFFuUheOcD6oOYY30Wx6nQoV7YdnSBBmUu/8c4M50k/wl9hkPRNirnMoK
-         l3yTCP4bsiVNxXKqUlml3WdqaJZdA6RcBo5OxzCmshedd5Nrs7puGV33tJHZb0sVplau
-         SBOY5YFFKd4Gd2tKX/xdQITCDYAD8J8nrVF0UsjYuenPvRs3LCKMGYMUNTY4A3+LgvC+
-         k0MJKLS/tnmWNixZNtPtYQuPyVtBVALDdOyCZnSAOA7rrY41c4hI++u+X3atqYaLkkPn
-         jQhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686200466; x=1688792466;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tLZi1CYZuu2VgWmDxEUsvma/BxogAGe1aTFKnySv72E=;
-        b=dCG8M1JZRsoMrGuQARs5TwznLTQNV1rYhvbaaoNcI6l5Hp8tCD5dnyTEz/u0Z6VGFB
-         aFp9RGeRBpksNvhJWrqJ3XNBiHH9svZuM/nE3nNdefhIAHK+gJMC6PwWvZemkHqSAfch
-         nsdF2oM8Yy1FKeslWV2F6DpKahcGjMyHhrLfXtc9Q+g9AcZ3OTSIn6gCCrIC0O0rAeq7
-         oyZMytkrv0/UcL6Pw8No3tNu7DZj6drDDNej+qvT3SMdAUCU+Z1CnXN+kg7uo4/IGsPn
-         Uc2d0r87Cn15LDtlhneoGgsLqRuU6SDAFRxSWU6lrBaBFkF03HG43z8v0HLz7ohzCu5I
-         fgbw==
-X-Gm-Message-State: AC+VfDzg5Lv8SkqNEttkJvZJmVNdU45pCSoE3vWfeKZBLrI2Brc0S2G4
-	HMa7mtaiFA2uRRzTv6BoESM=
-X-Google-Smtp-Source: ACHHUZ7mOcP3G0nBPWzh/Jfi432lHgdOvWOndI4O4UpB/qIDWOZuktIrrdDifh6RacP8a7iD0OyxsA==
-X-Received: by 2002:a05:6870:e6d0:b0:19e:8883:b0ea with SMTP id s16-20020a056870e6d000b0019e8883b0eamr4828686oak.6.1686200465789;
-        Wed, 07 Jun 2023 22:01:05 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s23-20020a170902b19700b001afd275e186sm360625plr.286.2023.06.07.22.01.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 22:01:05 -0700 (PDT)
-Message-ID: <8d889c6c-b0fb-0a1f-9441-3d983c1a3923@roeck-us.net>
-Date: Wed, 7 Jun 2023 22:01:02 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US
-To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au,
- andrew@aj.id.au, thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
- corbet@lwn.net, p.zabel@pengutronix.de, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org, patrick@stwcx.xyz
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QcDdF1WF4z3cNY
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Jun 2023 16:21:48 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=enEBHr/p27sfR0R6NyK5i7GEdGPP1hP/CiUvgGEbRRKIWKVDseJOEUYZRzP7EAAnO/9A5bJfqSbufI5CragDGKYpWftGoTFxhGZAxhl5hofhA3UV+8S2qJUeCf5OVizoaMKKsmbvoRAFn1QUoH47WIyckf8LOoA4MXIXNJN9Mf9HT+bKBMV+jzdl5fqUS7PrCXvGGyeiLpDoKQh97PIh6Pm0r7wYJcPs+3+eQQF0oeFaG9/vnI23YaAmvqL6PuhYOAy8ntFSyIYXtvEIoTkVciHIbZiQbHzhU8HxGn3ELc2+7E8ccE+vcmEDGeyh3kIkghY+qH4em/XQOMaasY9HMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OuufjG1Jz+QKxoqfLaRSeN+1n/tJaePN9osDjsNPR8I=;
+ b=KsZ5C/MqdOrtJyeIZF7fwf+KgUjwftDE3I4TgP4X7gY2NnT5DqSfx5+L9m1qs65J15N4aZfdj4cTlHLjiFyk4LIdS6FzflameTOBVWtMlkjg6pPNu6ZcF8sLrl7FXmE31ybcl0S+MHIBBf9SqKkFehVRtRJy6CicBV6PpQTfqyusEF8lMNckEqBMbK0SuVR7Ltmilcj/sFEQIKZt2qdovaPNi0LGbTKAOC4vcjXLIuSrp/PCfOmYcBmRnXzmItjur3yweNOlxp07dB1s/VIAfmAjQaMcqr/qypnYOCQ7lI6RASh7cxtnd2aeujyubhzUX2DIe/5WtgA3B06MxwkAig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OuufjG1Jz+QKxoqfLaRSeN+1n/tJaePN9osDjsNPR8I=;
+ b=FT9W8NedBYZF7uVNXnryYg4r3h3qeXy6VeksAqGJ77VkQGBk/v7QykMYI/a6Hhwa051xpa9UVmM62PMaSHLhMkvGUN6cm5pma7hhUJLrmNbF1bG/mkXCo4VRVC9YkJqWh9rrhNjhiZEBe/6SZ/EQQkP5qOQQqqsA+fr7SKThjV3RuqRVgzHcpIYxFtvLtGnyckZm9tMqS1IzxAJkgelPj6C7VjBYPS4RQ3z5lLFnpmIZmpDK2tS6jqboLPYRLkisDtRFlgRfEXaKil3N5jwM816go41bGS2OKX98ac40v+ZesyrzEMnbxaGM7xgBZjaIcVsgr44MaARQhe/F9ttDgw==
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
+ SI2PR06MB4609.apcprd06.prod.outlook.com (2603:1096:4:142::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6477.19; Thu, 8 Jun 2023 06:21:24 +0000
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::cc45:2366:5fc9:c775]) by SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::cc45:2366:5fc9:c775%3]) with mapi id 15.20.6455.030; Thu, 8 Jun 2023
+ 06:21:24 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Guenter Roeck <linux@roeck-us.net>, "jdelvare@suse.com"
+	<jdelvare@suse.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+	"corbet@lwn.net" <corbet@lwn.net>, "p.zabel@pengutronix.de"
+	<p.zabel@pengutronix.de>, "linux-hwmon@vger.kernel.org"
+	<linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org"
+	<linux-pwm@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+Thread-Topic: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+Thread-Index: AQHZma89aOEdGxKS0EScrdWknPpRuq+AWFqAgAAVuQk=
+Date: Thu, 8 Jun 2023 06:21:23 +0000
+Message-ID:  <SG2PR06MB3365E360F3FCDE639F3D2D1E8B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
 References: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
- <20230608021839.12769-5-billy_tsai@aspeedtech.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [v6 4/4] hwmon: Add Aspeed ast2600 TACH support
-In-Reply-To: <20230608021839.12769-5-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20230608021839.12769-3-billy_tsai@aspeedtech.com>
+ <c1c485b0-b68b-4db7-4b67-5d59f1ecb84e@roeck-us.net>
+In-Reply-To: <c1c485b0-b68b-4db7-4b67-5d59f1ecb84e@roeck-us.net>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|SI2PR06MB4609:EE_
+x-ms-office365-filtering-correlation-id: 6694b4c5-b5b2-43e0-431d-08db67e89589
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  Z35JNeheEdBB4S9zFRUqyZ0xrx3481dJwiSy254RG3GrH2Z3m5qaalRd+MUDOTyd84pGyuEXa80e3c0jDy5w7ytmmGl/orrNyBf9nDFyZbBZFHeNNzfeaMxyN7Z6dVfJ1wWau4fT2xSmv6sgvtXJl4tkrmeGYafFEdMyBFV93OjMlUopwLQAOPM5kGmjM/Fo6Z/ix+FMQX91vqWiyV1Re2lmMQFc1e23S4AsQE0XAW1HaP2lS3ax89ln31TGv0WaBcaMKZhrmtwxqrY0kuqgymX4weWOXCvI8tQ67mGO/XqLOzZ37qQp/lLrtqaQjG9F3zyFjocBosK/GMOXYgQE+kzMjfaFnt1tzsYANvdBAi4E+UkhNSIhO6Fx3C8+xd5cEcyQOA3T+NvHEAHMcTADr4gJCUsGuRIniBnEGa3CgVFNh/oCGb8v1XswnIVmuR/CwrQ59xVZ+2JkbTPGruubETdWZDNwq2kn7mh2BpJD9nzalGN2J9PU9/hKEoHsHjRP7ivU12WHWU1F6CqZW6s+/kpUoTqwiBzOa8sZttBIPIx880f/J9i7QwI9Q4L457zAB7xEwXBiixnMxrB+WRnW3ZOrX9QA9w/adPShH7leEY8V+GaN6UkMNnQABJJAt1Uv
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(366004)(39850400004)(396003)(376002)(136003)(451199021)(186003)(83380400001)(478600001)(71200400001)(38070700005)(6506007)(55236004)(9686003)(26005)(55016003)(8936002)(86362001)(66556008)(91956017)(316002)(122000001)(66476007)(64756008)(76116006)(921005)(7696005)(66446008)(66946007)(5660300002)(2906002)(52536014)(41300700001)(8676002)(38100700002)(33656002)(7416002)(110136005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?tkw4GuJws2ZfUQD+Ox/vt9gT8X30xjJv8J6N74Wl/YNc9FFDqIWVMEDUnlpd?=
+ =?us-ascii?Q?wQXgxCKifw1vng0YEufLofQitN1PgdPYG6ReBODWl3+PGnNITQbCdnqeWFxV?=
+ =?us-ascii?Q?0rzRVQJGNN6YZzHw3GO0j8Gd4xpC4SqvgJdDAkiQVYQ5kITcpYkEYzl5zFtQ?=
+ =?us-ascii?Q?Mvv4q1MdGpn5LjByWuNicxJUq0HGf1WdfqqGp9L1mi1FNlRJmZPrk6xj6CKn?=
+ =?us-ascii?Q?Yg2pnqRgd5BJMVXzqO1ep2hSWuIZ4RpTmevCBuwuoao+qGrU3vDOqSOdEK02?=
+ =?us-ascii?Q?Zk7i1NpG4Qt+TBHS6cIXKIQQjfqd3PypSzb6NGYV7zpXBeXce5dtUGzm2+Ju?=
+ =?us-ascii?Q?elgvyv1uF9E8xe4IolIkn2eVtCcbar7g7hP9zHSKGJzjtzlRI03HYhgHwuEX?=
+ =?us-ascii?Q?zuaQW5SLkuk5IuxfR0U2225HJ+tOmZTYiu1KX9bx8OcyE46zMxqGChHqtS7L?=
+ =?us-ascii?Q?29s36rD+ESW35FQpxgqlkFEMrAZkJ8CjiktRwwLcVgRBFXwd6I/8qJTUKS2M?=
+ =?us-ascii?Q?AlnLMLYvBUFAroSs5yDsB7IeFMvNzBs1/SG2KdVUS9noM5mYEJYXTc/4EGvD?=
+ =?us-ascii?Q?PvTc+/eKFIuZofLaeP52lGVg0x8WghYQiEfylmPqlvEq5j3mTxI7+SizuHKU?=
+ =?us-ascii?Q?mo2ulNbne/jAfcK2dzsycec66ftzsE8TvjYTQIkdJd/Gvq9FXq4R5duIel13?=
+ =?us-ascii?Q?0jpr6GyMIqkE22ihICJJqeJUNsKNtWE60zg1wkZ9ChvPmhH47hdBGpB3tOZu?=
+ =?us-ascii?Q?3nKE+EoLWyFKaOsMmDjViGvTSZlkytifvsuSroXavdvMndNvkmbDcEkmwcn4?=
+ =?us-ascii?Q?xSwmoXAJ2IAA0faX64zJHHvOQFjtAlAwLT5jRklEjzqT43rKTroA+4MHWvFj?=
+ =?us-ascii?Q?IR/NH9EzX+mxF+7t63r7TVO/NLw3VuItgbsVPNL5jdG52lHffd05gu8E7RNv?=
+ =?us-ascii?Q?MJ0K05QMxBw1e3if+n/IQYS8s7+EizgYo9E+kCAd2lf+Y+dwzC1DEbuLrUj9?=
+ =?us-ascii?Q?h96BGSjwF/G0cohnV0LnuAicosBCygMGHyDlZYotNhEdWGQ6JGdAlMVVqVnh?=
+ =?us-ascii?Q?Xd8QSddTsYEJbQSQLeegjM3prxSki8dj9vyk7rv0EMZUJxZNkYu8BvYdM4ID?=
+ =?us-ascii?Q?mCrAmXzGaOLUHQ2rbKj5dMm8oZB+BtpLCdTuJHou3j89rmAg6VAi+a3rFwHU?=
+ =?us-ascii?Q?ALeVRMLOygykQ6LK6+JL1UnfPS6EL2fpDekOCR3GuaJVJzbSDhJvDjkgod9d?=
+ =?us-ascii?Q?K/Tqbel9PZWp6h1apbYgwTvT4EN56CdPhzy6cko9GyUfFGvgqZ+e5wriA4qa?=
+ =?us-ascii?Q?4r1H1KNoTcHykheHDJoarMMStoMWRsHqRbE8Gx/SMj5TumqBx1bpep6z2HZZ?=
+ =?us-ascii?Q?g5iwVS+fFOpHgP89kB3h4q1FJJndT6gma43J1l09CHmyfHRMGr94NTzNPK+P?=
+ =?us-ascii?Q?9vmHxMgvT+H619IOng2dkZ36bE0NCzZl9ErXEBZZvcoH7yrqnTPkpcKWInra?=
+ =?us-ascii?Q?ga2Up0VBNYjwET7EmdTqn1ifCw+qkqbW7a1KBCeCuxYo/Db6mUeUNSGI6uGt?=
+ =?us-ascii?Q?HaBvOeIe+5FX54aNQ7LXpOKSgrxGxxSUW/uo/2jpKBsC9nGC3Df2yKBrOiWl?=
+ =?us-ascii?Q?qx8e8s/CBgcb0AbH1hl2eRQ=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_SG2PR06MB3365E360F3FCDE639F3D2D1E8B50ASG2PR06MB3365apcp_"
+MIME-Version: 1.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6694b4c5-b5b2-43e0-431d-08db67e89589
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2023 06:21:24.1796
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PQJ5r5Uf2mjXoBKAinN9kNC6FZ2QmpE7L+zmWqZ6sZ+2qfJbqqCYlDJv9WKPmWeZ0znrTslrVXLzc4xLMFcvsFF+XydwyZ+dUx0QomE0Ml0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4609
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,462 +142,809 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 6/7/23 19:18, Billy Tsai wrote:
-> Add the support of Tachometer which can use to monitor the frequency of
-> the input. In Aspeed AST2600 SoC features 16 TACH controllers, with each
-> controller capable of supporting up to 1 input.
-> 
+--_000_SG2PR06MB3365E360F3FCDE639F3D2D1E8B50ASG2PR06MB3365apcp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-You mean there will be 16 instances of this driver ? That is weird,
-confusing, and warrants a detailed explanation.
+        > The code says:
 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->   Documentation/hwmon/index.rst               |   1 +
->   Documentation/hwmon/tach-aspeed-ast2600.rst |  25 ++
->   drivers/hwmon/Kconfig                       |  10 +
->   drivers/hwmon/Makefile                      |   1 +
->   drivers/hwmon/tach-aspeed-ast2600.c         | 305 ++++++++++++++++++++
->   5 files changed, 342 insertions(+)
->   create mode 100644 Documentation/hwmon/tach-aspeed-ast2600.rst
->   create mode 100644 drivers/hwmon/tach-aspeed-ast2600.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index ddff3c5713d7..4c3dd74675ef 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -194,6 +194,7 @@ Hardware Monitoring Kernel Drivers
->      sparx5-temp
->      stpddc60
->      sy7636a-hwmon
-> +   tach-aspeed-ast2600
->      tc654
->      tc74
->      thmc50
-> diff --git a/Documentation/hwmon/tach-aspeed-ast2600.rst b/Documentation/hwmon/tach-aspeed-ast2600.rst
-> new file mode 100644
-> index 000000000000..b08c73a4237f
-> --- /dev/null
-> +++ b/Documentation/hwmon/tach-aspeed-ast2600.rst
-> @@ -0,0 +1,25 @@
-> +Kernel driver tach-aspeed-ast2600
-> +=================================
-> +
-> +Supported chips:
-> +	ASPEED AST2600
-> +
-> +Authors:
-> +	<billy_tsai@aspeedtech.com>
-> +
-> +Description:
-> +------------
-> +This driver implements support for ASPEED AST2600 Fan Tacho controller.
-> +The controller supports up to 1 tachometer inputs.
-> +
-> +The driver provides the following sensor accesses in sysfs:
-> +
-> +=============== ======= ======================================================
-> +fanX_input	ro	provide current fan rotation value in RPM as reported
-> +			by the fan to the device.
-> +fanX_div	rw	Fan divisor: Supported value are power of 4 (1, 4, 16
-> +                        64, ... 4194304)
-> +                        The larger divisor, the less rpm accuracy and the less
-> +                        affected by fan signal glitch.
-> +fanX_pulses	rw      Fan pulses per resolution.
+        > In Aspeed AST2600 SoC features 16 TACH controllers, with each
+        > controller capable of supporting up to 1 input.
 
-Presumably, as implemented, that would be 16 instances, each with fan1_{input,div}.
+        > which is a bit different. I guess there are no examples anymore,
+        > but I'd really like to see how this looks like in the devicetree =
+file,
+        > and how the driver is supposed to distinguish/select the 16 input=
+s.
+Hi Roeck,
 
-> +=============== ======= ======================================================
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index a5253abb7ea7..5948a63e44e7 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -411,6 +411,16 @@ config SENSORS_ASPEED
->   	  This driver can also be built as a module. If so, the module
->   	  will be called aspeed_pwm_tacho.
->   
-> +config SENSORS_TACH_ASPEED_AST2600
-> +	tristate "ASPEED ast2600 Tachometer support"
-> +	depends on ARCH_ASPEED || COMPILE_TEST
-> +	depends on HAVE_CLK && HAS_IOMEM
-> +	help
-> +	  This driver provides support for Aspeed ast2600 Tachometer.
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called tach-aspeed-ast2600.
-> +
->   config SENSORS_ATXP1
->   	tristate "Attansic ATXP1 VID controller"
->   	depends on I2C
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index c5cd7e3a67ff..a3bf5b438e0f 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -53,6 +53,7 @@ obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
->   obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
->   obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
->   obj-$(CONFIG_SENSORS_ASC7621)	+= asc7621.o
-> +obj-$(CONFIG_SENSORS_TACH_ASPEED_AST2600) += tach-aspeed-ast2600.o
->   obj-$(CONFIG_SENSORS_ASPEED)	+= aspeed-pwm-tacho.o
->   obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
->   obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
-> diff --git a/drivers/hwmon/tach-aspeed-ast2600.c b/drivers/hwmon/tach-aspeed-ast2600.c
-> new file mode 100644
-> index 000000000000..8be66ee25a31
-> --- /dev/null
-> +++ b/drivers/hwmon/tach-aspeed-ast2600.c
-> @@ -0,0 +1,305 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) ASPEED Technology Inc.
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/errno.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset.h>
-> +#include <linux/sysfs.h>
-> +
-> +/* TACH Control Register */
-> +#define TACH_ASPEED_CTRL		(0x00)
-> +#define TACH_ASPEED_IER			BIT(31)
-> +#define TACH_ASPEED_INVERS_LIMIT	BIT(30)
-> +#define TACH_ASPEED_LOOPBACK		BIT(29)
-> +#define TACH_ASPEED_ENABLE		BIT(28)
-> +#define TACH_ASPEED_DEBOUNCE_MASK	GENMASK(27, 26)
-> +#define TACH_ASPEED_DEBOUNCE_BIT	26
-> +#define TACH_ASPEED_IO_EDGE_MASK	GENMASK(25, 24)
-> +#define TACH_ASPEED_IO_EDGE_BIT		24
-> +#define TACH_ASPEED_CLK_DIV_T_MASK	GENMASK(23, 20)
-> +#define TACH_ASPEED_CLK_DIV_BIT		20
-> +#define TACH_ASPEED_THRESHOLD_MASK	GENMASK(19, 0)
-> +/* [27:26] */
-> +#define DEBOUNCE_3_CLK			0x00
-> +#define DEBOUNCE_2_CLK			0x01
-> +#define DEBOUNCE_1_CLK			0x02
-> +#define DEBOUNCE_0_CLK			0x03
-> +/* [25:24] */
-> +#define F2F_EDGES			0x00
-> +#define R2R_EDGES			0x01
-> +#define BOTH_EDGES			0x02
-> +/* [23:20] */
-> +/* divisor = 4 to the nth power, n = register value */
-> +#define DEFAULT_TACH_DIV		1024
-> +#define DIV_TO_REG(divisor)		(ilog2(divisor) >> 1)
-> +
-> +/* TACH Status Register */
-> +#define TACH_ASPEED_STS			(0x04)
+The node in the devicetree file will looks like following:
 
-Unnecesarry ()
+tach0: tach0@1e610008 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610008 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach0_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-> +
-> +/*PWM_TACH_STS */
-> +#define TACH_ASPEED_ISR			BIT(31)
-> +#define TACH_ASPEED_PWM_OUT		BIT(25)
-> +#define TACH_ASPEED_PWM_OEN		BIT(24)
-> +#define TACH_ASPEED_DEB_INPUT		BIT(23)
-> +#define TACH_ASPEED_RAW_INPUT		BIT(22)
-> +#define TACH_ASPEED_VALUE_UPDATE	BIT(21)
-> +#define TACH_ASPEED_FULL_MEASUREMENT	BIT(20)
-> +#define TACH_ASPEED_VALUE_MASK		GENMASK(19, 0)
-> +/**********************************************************
-> + * Software setting
-> + *********************************************************/
-> +#define DEFAULT_FAN_PULSE_PR		2
-> +
-> +struct aspeed_tach_channel_params {
-> +	u8 pulse_pr;
-> +	u32 divisor;
-> +};
-> +
-> +struct aspeed_tach_data {
-> +	struct device *dev;
-> +	void __iomem *base;
-> +	struct clk *clk;
-> +	struct reset_control *reset;
-> +	bool tach_present;
-> +	struct aspeed_tach_channel_params tach_channel;
+tach1: tach1@1e610018 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610018 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach1_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-Assuming that all channels have the same divisor, this structure
-is really unnecessary (especially since pulse_pr should be dropped -
-see below).
+tach2: tach2@1e610028 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610028 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach2_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-> +	unsigned long clk_source;
-> +};
-> +
-> +static void aspeed_tach_ch_enable(struct aspeed_tach_data *priv, bool enable)
-> +{
-> +	if (enable)
-> +		writel(readl(priv->base + TACH_ASPEED_CTRL) |
-> +			       (TACH_ASPEED_ENABLE),
-> +		       priv->base + TACH_ASPEED_CTRL);
-> +	else
-> +		writel(readl(priv->base + TACH_ASPEED_CTRL) &
-> +			       ~(TACH_ASPEED_ENABLE),
+tach3: tach3@1e610038 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610038 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach3_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-Unnecessary () around TACH_ASPEED_ENABLE.
+tach4: tach4@1e610048 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610048 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach4_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-> +		       priv->base + TACH_ASPEED_CTRL);
-> +}
-> +
-> +static u64 aspeed_tach_val_to_rpm(struct aspeed_tach_data *priv, u32 tach_val)
-> +{
-> +	u64 rpm;
-> +	u32 tach_div;
-> +
-> +	tach_div = tach_val * (priv->tach_channel.divisor) *
-> +		   (priv->tach.channel.pulse_pr);
-> +
+tach5: tach5@1e610058 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610058 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach5_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-Unnecessary () around priv->tach_channel.pulse_pr and priv->tach_channel.divisor.
-I am not going to look further for those. Please make sure you drop them all.
+tach6: tach6@1e610068 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610068 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach6_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-> +	dev_dbg(priv->dev, "clk %ld, tach_val %d , tach_div %d\n",
-> +		priv->clk_source, tach_val, tach_div);
-> +
-> +	rpm = (u64)priv->clk_source * 60;
-> +	do_div(rpm, tach_div);
-> +
-> +	return rpm;
+tach7: tach7@1e610078 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610078 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach7_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-This function should really return an integer.
+tach8: tach8@1e610088 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610088 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach8_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-> +}
-> +
-> +static int aspeed_get_fan_tach_ch_rpm(struct aspeed_tach_data *priv)
-> +{
-> +	u32 val;
-> +	u64 rpm;
-> +
-> +	val = readl(priv->base + TACH_ASPEED_STS);
-> +
-> +	if (!(val & TACH_ASPEED_FULL_MEASUREMENT))
-> +		return 0;
-> +	rpm = aspeed_tach_val_to_rpm(priv, val & TACH_ASPEED_VALUE_MASK);
-> +
-> +	return rpm;
+tach9: tach9@1e610098 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e610098 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach9_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-The 'rpm' variable is unnecessary.
+tach10: tach10@1e6100A8 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e6100A8 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach10_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-> +}
-> +
-> +static int aspeed_tach_hwmon_read(struct device *dev,
-> +				  enum hwmon_sensor_types type, u32 attr,
-> +				  int channel, long *val)
-> +{
-> +	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-> +	u32 reg_val;
-> +	int ret;
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		ret = aspeed_get_fan_tach_ch_rpm(priv);
-> +		if (ret < 0)
-> +			return ret;
+tach11: tach11@1e6100B8 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e6100B8 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach11_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-Why ? The called code never returns a negative value.
+tach12: tach12@1e6100C8 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e6100C8 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach12_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-> +		*val = ret;
-> +		break;
-> +	case hwmon_fan_div:
-> +		reg_val = readl(priv->base + TACH_ASPEED_CTRL);
-> +		reg_val = FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK, reg_val);
-> +		*val = BIT(reg_val << 1);
-> +		break;
-> +	case hwmon_fan_pulses:
-> +		*val = priv->tach_channel.pulse_pr;
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int aspeed_tach_hwmon_write(struct device *dev,
-> +				   enum hwmon_sensor_types type, u32 attr,
-> +				   int channel, long val)
-> +{
-> +	struct aspeed_tach_data *priv = dev_get_drvdata(dev);
-> +
-> +	switch (attr) {
-> +	case hwmon_fan_div:
-> +		if (!is_power_of_2(val) || (ilog2(val) % 2))
-> +			return -EINVAL;
-> +		else if (DIV_TO_REG(val) > 0xb)
+tach13: tach13@1e6100D8 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e6100D8 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach13_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-Else after return is unnecessary
+tach14: tach14@1e6100E8 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e6100E8 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach14_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-> +			return -ERANGE;
+tach15: tach15@1e6100F8 {
+        compatible =3D "aspeed,ast2600-tach";
+        reg =3D <0x1e6100F8 0x8>;
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+        pinctrl-names =3D "default";
+        pinctrl-0 =3D <&pinctrl_tach15_default>;
+        clocks =3D <&syscon ASPEED_CLK_AHB>;
+        resets =3D <&syscon ASPEED_RESET_PWM>;
+        status =3D "disabled";
+};
 
-Math result not representable ? Not really.
-
-> +		priv->tach_channel.divisor = val;
-> +		writel((readl(priv->base + TACH_ASPEED_CTRL) &
-> +			~(TACH_ASPEED_CLK_DIV_T_MASK)) |
-
-Unnecessary () around TACH_ASPEED_CLK_DIV_T_MASK.
-
-> +			       (DIV_TO_REG(priv->tach_channel.divisor)
-> +				<< TACH_ASPEED_CLK_DIV_BIT),
-> +		       priv->base + TACH_ASPEED_CTRL);
-> +		break;
-> +	case hwmon_fan_pulses:
-> +		priv->tach_channel.pulse_pr = val;
+Thanks
+Best Regards,
+Billy Tsai
 
 
-The ABI says for the pulses atribute:
+--_000_SG2PR06MB3365E360F3FCDE639F3D2D1E8B50ASG2PR06MB3365apcp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-                 Should only be created if the chip has a register to configure
-                 the number of pulses. In the absence of such a register (and
-                 thus attribute) the value assumed by all devices is 2 pulses
-                 per fan revolution.
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:10.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style>
+</head>
+<body lang=3D"en-TW" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:brea=
+k-word">
+<div class=3D"WordSection1">
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; The code says:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; In Aspeed AST2600 SoC features 16 TACH control=
+lers, with each<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; controller capable of supporting up to 1 input=
+.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; which is a bit different. I guess there are no=
+ examples anymore,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; but I'd really like to see how this looks like=
+ in the devicetree file,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; and how the driver is supposed to distinguish/=
+select the 16 inputs.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Hi <=
+/span><span style=3D"font-size:12.0pt;color:black">Roeck</span><span lang=
+=3D"EN-US" style=3D"font-size:12.0pt;color:black">,</span><span lang=3D"EN-=
+US" style=3D"font-size:11.0pt"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
+>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">The node in the dev=
+icetree file will looks like following:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach0: tach0@1e6100=
+08 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610008 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach0_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach1: tach1@1e6100=
+18 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610018 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach1_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach2: tach2@1e6100=
+28 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610028 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach2_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach3: tach3@1e6100=
+38 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610038 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach3_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach4: tach4@1e6100=
+48 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; &nbsp;&nbsp;reg =3D &lt;0x1e610048 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach4_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach5: tach5@1e6100=
+58 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610058 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach5_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach6: tach6@1e6100=
+68 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &nbsp;reg =3D &lt;0x1e610068 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach6_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp; &nbsp;&nbsp;&nbsp;status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach7: tach7@1e6100=
+78 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610078 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach7_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach8: tach8@1e6100=
+88 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610088 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach8_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach9: tach9@1e6100=
+98 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610098 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach9_default&gt;;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach10: tach10@1e61=
+00A8 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e6100A8 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach10_default&gt;;<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach11: tach11@1e61=
+00B8 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e6100B8 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach11_default&gt;;<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach12: tach12@1e61=
+00C8 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e6100C8 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach12_default&gt;;<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach13: tach13@1e61=
+00D8 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e6100D8 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach13_default&gt;;<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach14: tach14@1e61=
+00E8 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e6100E8 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach14_default&gt;;<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">tach15: tach15@1e61=
+00F8 {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e6100F8 0x8&gt;;<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach15_default&gt;;<=
+o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">};<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
+>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Than=
+ks<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Best=
+ Regards, <o:p>
+</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Bill=
+y Tsai<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
+>&nbsp;</o:p></span></p>
+</div>
+</div>
+</body>
+</html>
 
-I see no evidence that there is a chip register for the number of pulses.
-Please drop this attribute.
-
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t aspeed_tach_dev_is_visible(const void *drvdata,
-> +					  enum hwmon_sensor_types type,
-> +					  u32 attr, int channel)
-> +{
-> +	const struct aspeed_tach_data *priv = drvdata;
-> +
-> +	if (!priv->tach_present)
-> +		return 0;
-
-What is the point of instantiating the driver in this case ?
-
-> +	switch (attr) {
-> +	case hwmon_fan_input:
-> +		return 0444;
-> +	case hwmon_fan_div:
-> +	case hwmon_fan_pulses:
-> +		return 0644;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_ops aspeed_tach_ops = {
-> +	.is_visible = aspeed_tach_dev_is_visible,
-> +	.read = aspeed_tach_hwmon_read,
-> +	.write = aspeed_tach_hwmon_write,
-> +};
-> +
-> +static const struct hwmon_channel_info *aspeed_tach_info[] = {
-> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_DIV | HWMON_F_PULSES),
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_chip_info aspeed_tach_chip_info = {
-> +	.ops = &aspeed_tach_ops,
-> +	.info = aspeed_tach_info,
-> +};
-> +
-> +static void aspeed_present_fan_tach(struct aspeed_tach_data *priv)
-> +{
-> +	priv->tach_present = true;
-> +	priv->tach_channel.divisor = DEFAULT_TACH_DIV;
-> +	priv->tach_channel.pulse_pr = DEFAULT_FAN_PULSE_PR;
-> +
-> +	writel((readl(priv->base + TACH_ASPEED_CTRL) &
-> +		~(TACH_ASPEED_INVERS_LIMIT | TACH_ASPEED_DEBOUNCE_MASK |
-> +		  TACH_ASPEED_IO_EDGE_MASK | TACH_ASPEED_CLK_DIV_T_MASK |
-> +		  TACH_ASPEED_THRESHOLD_MASK)) |
-> +		       ((DEBOUNCE_3_CLK << TACH_ASPEED_DEBOUNCE_BIT) |
-> +			F2F_EDGES |
-> +			(DIV_TO_REG(priv->tach_channel.divisor)
-> +			 << TACH_ASPEED_CLK_DIV_BIT)),
-> +	       priv->base + TACH_ASPEED_CTRL);
-> +
-> +	aspeed_tach_ch_enable(priv, true);
-> +}
-> +
-> +static void aspeed_tach_reset_assert(void *data)
-> +{
-> +	struct reset_control *rst = data;
-> +
-> +	reset_control_assert(rst);
-> +}
-> +
-> +static int aspeed_tach_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct aspeed_tach_data *priv;
-> +	struct device *hwmon;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +	priv->dev = &pdev->dev;
-> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->base))
-> +		return PTR_ERR(priv->base);
-> +	priv->clk = devm_clk_get_enabled(dev, NULL);
-> +	if (IS_ERR(priv->clk))
-> +		return dev_err_probe(dev, PTR_ERR(priv->clk),
-> +				     "Couldn't get clock\n");
-> +
-> +	priv->clk_source = clk_get_rate(priv->clk);
-> +	priv->reset = devm_reset_control_get_shared(dev, NULL);
-> +	if (IS_ERR(priv->reset))
-> +		return dev_err_probe(dev, PTR_ERR(priv->reset),
-> +				     "Couldn't get reset control\n");
-> +
-> +	ret = reset_control_deassert(priv->reset);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Couldn't deassert reset control\n");
-> +
-> +	ret = devm_add_action_or_reset(dev, aspeed_tach_reset_assert,
-> +				       priv->reset);
-> +	if (ret)
-> +		return ret;
-> +
-> +	aspeed_present_fan_tach(priv);
-> +
-> +	hwmon = devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv,
-> +						     &aspeed_tach_chip_info, NULL);
-> +	ret = PTR_ERR_OR_ZERO(hwmon);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to register hwmon device\n");
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id of_stach_match_table[] = {
-> +	{
-> +		.compatible = "aspeed,ast2600-tach",
-> +	},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, of_stach_match_table);
-> +
-> +static struct platform_driver aspeed_tach_driver = {
-> +	.probe		= aspeed_tach_probe,
-> +	.driver		= {
-> +		.name	= "aspeed_tach",
-> +		.of_match_table = of_stach_match_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(aspeed_tach_driver);
-> +
-> +MODULE_AUTHOR("Billy Tsai <billy_tsai@aspeedtech.com>");
-> +MODULE_DESCRIPTION("Aspeed ast2600 TACH device driver");
-> +MODULE_LICENSE("GPL");
-
+--_000_SG2PR06MB3365E360F3FCDE639F3D2D1E8B50ASG2PR06MB3365apcp_--
