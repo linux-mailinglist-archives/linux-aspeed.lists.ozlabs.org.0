@@ -1,79 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0041C72D885
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Jun 2023 06:24:16 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=bCsckZmc;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BF7728990
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Jun 2023 22:34:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QgFnB6KLxz301c
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Jun 2023 14:24:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QcbXp1BvZz3f0h
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Jun 2023 06:34:18 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fgaZ349J;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::735; helo=mail-qk1-x735.google.com; envelope-from=dianders@chromium.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=bCsckZmc;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fgaZ349J;
 	dkim-atps=neutral
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QcXDx3QrCz3dws
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Jun 2023 04:05:19 +1000 (AEST)
-Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-75d4fb03100so82908785a.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Jun 2023 11:05:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686247515; x=1688839515;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PeA6Fr7MyJEEh+PxA+wsyF1Cp1tipvwi/ySisRbvhVk=;
-        b=bCsckZmcr8xvPUlcbVqZT2dH527T2zX7YgxFDI+xxpwKcvoVHFwU7NypR9FW6i5My4
-         eBpeZQkpfUjLkNV09F7P7NjYg2qMDVSgs4OzoujxQpoSVWK5eYRY7K8B0Ty0opt+iRA9
-         TIy2SCeFA70iZ4Qb9OP36HK5qZI4HS0auSeAU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686247515; x=1688839515;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PeA6Fr7MyJEEh+PxA+wsyF1Cp1tipvwi/ySisRbvhVk=;
-        b=KAs7LP0KLgnXata4SOESk0HdvhYxAVObKgvfFcIBP6TjdwcXA+W1oMdpT2pBEAGsXR
-         zZe7WniZ4a1auJBsgun/pt0/o+loBvLVljcjG+wKf5H3hCUQRA5dzPefAz6xGoH5krmw
-         GoZQtYntThRq6o7TWnpPb8Zdm81w7i0weqHqulkAUBN0SED8NWqZrIWGVzGnqDsDXjQs
-         iC3mGM9MOD+I53dyvoryiM6GpF+Q5OU8koDAEd05U2nAdmLDgl0INHvUL7Wo+cBizAcm
-         MXyMxleJjo3HG1h0duaO/Y8a+YLroCUFe+KTmMaBW7+kmX/0T14J2w9ReVf4Mwba95O4
-         R4eQ==
-X-Gm-Message-State: AC+VfDxwM94NeqT+zez/HcuMBR5LdVsqP46/f8/V28eU7fYUES3G6qcJ
-	JlKq4LIojltrL5sy1vjCtyPC645xq2DaqMnDT84ong==
-X-Google-Smtp-Source: ACHHUZ6UqoU/y+/87B7A0it55guFu134V5TsKmBOD/9CfMw23ANfzxC8t+rG7OxBLVm/4Kf4QOoeEA==
-X-Received: by 2002:a05:620a:2415:b0:75d:6a24:9bd with SMTP id d21-20020a05620a241500b0075d6a2409bdmr7541038qkn.69.1686247514973;
-        Thu, 08 Jun 2023 11:05:14 -0700 (PDT)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com. [209.85.160.171])
-        by smtp.gmail.com with ESMTPSA id p5-20020a05620a112500b0075cd80fde9esm486659qkk.89.2023.06.08.11.05.14
-        for <linux-aspeed@lists.ozlabs.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 11:05:14 -0700 (PDT)
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-3f9b7de94e7so260371cf.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Jun 2023 11:05:14 -0700 (PDT)
-X-Received: by 2002:a05:6e02:188a:b0:33e:6b65:6f78 with SMTP id
- o10-20020a056e02188a00b0033e6b656f78mr167838ilu.27.1686245934574; Thu, 08 Jun
- 2023 10:38:54 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QcbXg3fJjz3bhL;
+	Fri,  9 Jun 2023 06:34:11 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id F1DE3641A4;
+	Thu,  8 Jun 2023 20:34:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56EFCC4339E;
+	Thu,  8 Jun 2023 20:34:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686256448;
+	bh=sDQU8yDhZvEN0YygXlDwwk/pG5OO2+PNN+eimNV1mxQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fgaZ349JLx+w83grh2ZLXulv/+6NJAi3DgUkiDjdPUnEbtk4GQEssHtbOIddqu7NS
+	 lPaC6AHuim2fJRANrT5DaAmdXiQpvBm+7mGFYRsrpE+oxJUOyxOcSTn5lKiyDxe1Or
+	 n5YgMMfQ4bTaC2QJt/JnTYxj/givMqGUBBz3rUIry4SQD/wz5fgIIRzW+GMrEpzSFi
+	 PbfnO38m/nfnN3xuhX7TtG4zZHxJFbZGDmEo4sAIkiZ9b2pSGKKgp/euyIGBlEVoLc
+	 GjISgjtw2dBk6OSTF08aIBGYgRcFyZGTf1PvKvLV50bqV6sHmzKcOLVI2G/vh42+xc
+	 r1JZZ8BI/NqLw==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-4f63ea7bfb6so1275383e87.3;
+        Thu, 08 Jun 2023 13:34:08 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxAMhe+kbAdPN5WPSoHmQS5Pemr0CdLqwIQtJh25YAcLf6YluOR
+	3X9+OQyAmavSiyWGPuxramb07JUD2HHys3rAeQ==
+X-Google-Smtp-Source: ACHHUZ5SCj+1HRHRtKPyWx3l9LJOj9l0nyCPip7lrCiON1VeZXUrpVZAJ73MOZnz04qUR2b59Vv4/CBNUYxpj6dT0Jg=
+X-Received: by 2002:a2e:9cd6:0:b0:2b1:d91b:51c3 with SMTP id
+ g22-20020a2e9cd6000000b002b1d91b51c3mr4481468ljj.30.1686256446472; Thu, 08
+ Jun 2023 13:34:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
- <20230601154002.uv2wfatpb7b45duz@pengutronix.de> <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
- <20230608162642.GA23400@pendragon.ideasonboard.com> <2b8ccac8-2828-1279-93aa-a601d8d72e43@ideasonboard.com>
-In-Reply-To: <2b8ccac8-2828-1279-93aa-a601d8d72e43@ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 8 Jun 2023 10:38:41 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V6YuP4ojsFSVSMFaGGDCVvzEQFTKm66pRTwD7Ry=_Kaw@mail.gmail.com>
-Message-ID: <CAD=FV=V6YuP4ojsFSVSMFaGGDCVvzEQFTKm66pRTwD7Ry=_Kaw@mail.gmail.com>
-Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback returning void
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com> <85eb14ec-f465-7447-ad77-a3dabc666f47@kernel.org>
+ <YkKRYnN84D9VZhGj@Ansuel-xps.localdomain> <CAL_Jsq+RQQ-ADMxLPUFwk6S6kGmb6oNDy4k52fnU0EtbUvqmSA@mail.gmail.com>
+ <CAMuHMdWNTE48MFy6fqxAsfMWz9b6E7dVNXtXtESP95sxk2PGwA@mail.gmail.com>
+ <CAL_JsqJthKTm8bhRF2B=ae1tvtPeYYXx_Tm76qQtSwLtH5C6VA@mail.gmail.com>
+ <720a2829-b6b5-411c-ac69-9a53e881f48d@app.fastmail.com> <CAL_JsqKCtmkwzKa01gyG65fH8ye6R3KhR41PJbJhOJ4X9j=znA@mail.gmail.com>
+ <ZFrPJQdwoxqFpzUO@probook>
+In-Reply-To: <ZFrPJQdwoxqFpzUO@probook>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Thu, 8 Jun 2023 14:33:53 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLTj_L-V8HR=TzO6+r9Xew=yivaKG1ngCn+NCjgPZwZzw@mail.gmail.com>
+Message-ID: <CAL_JsqLTj_L-V8HR=TzO6+r9Xew=yivaKG1ngCn+NCjgPZwZzw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+To: =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 13 Jun 2023 14:20:29 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,142 +73,50 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, Xinliang Liu <xinliang.liu@linaro.org>, Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>, Alim Akhtar <alim.akhtar@samsung.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Marijn Suijten <marijn.suijten@somainline.org>, Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>, Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>, Karol Herbst <kherbst@redhat.com>, Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, Javier Martinez Canillas <javierm@redhat.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>, Akhil P Oommen <quic_akhilpo@quicinc.com>, Danilo Krummrich <dakr@redhat.com>, NXP Linux Team <linux-imx@nxp.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-sunxi@lists.linux.dev, Rahul T R 
- <r-ravikumar@ti.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Jani Nikula <jani.nikula@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>, etnaviv@lists.freedesktop.org, Yuan Can <yuancan@huawei.com>, Inki Dae <inki.dae@samsung.com>, Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>, Hyun Kwon <hyun.kwon@xilinx.com>, Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de, Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org, Claudiu Beznea <claudiu.beznea@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>, John Stultz <jstultz@google.com>, Mihail Atanassov <mihail.atanassov@arm.com>, Liang He <windhl@126.com>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, lima@lists.freedesktop.org, Chunyan Zhang <z
- hang.lyra@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>, Minghao Chi <chi.minghao@zte.com.cn>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org, Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>, Alain Volmat <alain.volmat@foss.st.com>, Liu Ying <victor.liu@nxp.com>, linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, Neil Armstrong <neil.armstrong@linaro.org>, Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Kyungmin Park <kyungmin.park@samsung.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Brian Starkey <brian.starkey@arm.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Miaoqian Lin <linmq006@gmail.com>, Stefan Agner <stefan@agner.ch>, Michal Simek <michal.simek@xilinx.com>, linux-tegra@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonb
- oard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh@kernel.org>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Mali DP Maintainers <malidp@foss.arm.com>, Orson Zhai <orsonzhai@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Lyude Paul <lyude@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Guo Zhengkui <guozhengkui@vivo.com>, Konrad Dybcio <konrad.dybcio@somainline.org>, Alison Wang <alison.wang@nxp.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Christian Gmeiner <christian.gmeiner@gmail.com>, Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>, Baolin Wang <baolin.wang@linux.alibaba.com>, Daniel Vetter <daniel@ffwll.ch>, Liu Shixin <liushixin2@huawei.com>, Tomi Valkeinen <tomba@kernel.org>, Deepak R Varma <drv@mailo.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>, Tian Tao <tiantao6@hisilic
- on.com>, Shawn Guo <shawnguo@kernel.org>, Yannick Fertre <yannick.fertre@foss.st.com>, linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>, Liviu Dudau <liviu.dudau@arm.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@gmail.com>, Marek Vasut <marex@denx.de>, linux-renesas-soc@vger.kernel.org, Yongqin Liu <yongqin.liu@linaro.org>, Jayshri Pawar <jpawar@cadence.com>, Jonas Karlman <jonas@kwiboo.se>, Rob Clark <robdclark@gmail.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Philippe Cornu <philippe.cornu@foss.st.com>, Thomas Zimmermann <tzimmermann@suse.de>, Melissa Wen <mwen@igalia.com>, linux-mediatek@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Matthias Brugger <matthias.bgg@gmail.com>, Stephen Boyd <swboyd@chromium.org>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Bjorn 
- Andersson <andersson@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Qiang Yu <yuq825@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>, Lucas Stach <l.stach@pengutronix.de>
+Cc: linux-aspeed@lists.ozlabs.org, linux-realtek-soc@lists.infradead.org, Krzysztof Kozlowski <krzk@kernel.org>, linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, openbmc@lists.ozlabs.org, linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org, Geert Uytterhoeven <geert@linux-m68k.org>, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, linux-unisoc@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, Linux-OMAP <linux-omap@vger.kernel.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Christian Marangi <ansuelsmth@gmail.com>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, kernel@dh-electronics.com, Krzysztof Kozlowski <krzk+dt@kernel.org>, "linux-oxnas@groups.io" <linux-oxnas@groups.io
+ >
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi,
-
-On Thu, Jun 8, 2023 at 10:19=E2=80=AFAM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
+On Tue, May 9, 2023 at 4:55=E2=80=AFPM Jonathan Neusch=C3=A4fer
+<j.neuschaefer@gmx.net> wrote:
 >
-> On 08/06/2023 19:26, Laurent Pinchart wrote:
-> > Hi Doug,
+> On Tue, May 02, 2023 at 02:40:19PM -0500, Rob Herring wrote:
+> [...]
+> > I've dusted off my script and made a branch[1] with the result.
+> > There's just a couple of fixes needed after the script is run (see the
+> > top commit). The cross arch includes are all fixed up by the script.
+> > dtbs_install maintains a flat install. I compared the number of .dtbs
+> > before and after to check the script.
 > >
-> > On Thu, Jun 08, 2023 at 09:08:15AM -0700, Doug Anderson wrote:
-> >> On Thu, Jun 1, 2023 at 8:40=E2=80=AFAM Uwe Kleine-K=C3=B6nig wrote:
-> >>> On Sun, May 07, 2023 at 06:25:23PM +0200, Uwe Kleine-K=C3=B6nig wrote=
-:
-> >>>> this patch series adapts the platform drivers below drivers/gpu/drm
-> >>>> to use the .remove_new() callback. Compared to the traditional .remo=
-ve()
-> >>>> callback .remove_new() returns no value. This is a good thing becaus=
-e
-> >>>> the driver core doesn't (and cannot) cope for errors during remove. =
-The
-> >>>> only effect of a non-zero return value in .remove() is that the driv=
-er
-> >>>> core emits a warning. The device is removed anyhow and an early retu=
-rn
-> >>>> from .remove() usually yields a resource leak.
-> >>>>
-> >>>> By changing the remove callback to return void driver authors cannot
-> >>>> reasonably (but wrongly) assume any more that there happens some kin=
-d of
-> >>>> cleanup later.
-> >>>
-> >>> I wonder if someone would volunteer to add the whole series to
-> >>> drm-misc-next?!
-> >>
-> >> It looks as if Neil applied quite a few of them already, so I looked
-> >> at what was left...
-> >>
-> >> I'm a little hesitant to just apply the whole kit-and-caboodle to
-> >> drm-misc-next since there are specific DRM trees for a bunch of them
-> >> and it would be better if they landed there. ...so I went through all
-> >> the patches that still applied to drm-misc-next, then used
-> >> 'scripts/get_maintainer.pl --scm' to check if they were maintained
-> >> through drm-misc. That still left quite a few patches. I've applied
-> >> those ones and pushed to drm-misc-next:
-> >>
-> >> 71722685cd17 drm/xlnx/zynqmp_dpsub: Convert to platform remove
-> >> callback returning void
-> >> 1ed54a19f3b3 drm/vc4: Convert to platform remove callback returning vo=
-id
-> >> b957812839f8 drm/v3d: Convert to platform remove callback returning vo=
-id
-> >> e2fd3192e267 drm/tve200: Convert to platform remove callback returning=
- void
-> >> 84e6da7ad553 drm/tiny: Convert to platform remove callback returning v=
-oid
-> >> 34cdd1f691ad drm/tidss: Convert to platform remove callback returning =
-void
-> >> d665e3c9d37a drm/sun4i: Convert to platform remove callback returning =
-void
-> >> 0c259ab19146 drm/stm: Convert to platform remove callback returning vo=
-id
-> >> 9a865e45884a drm/sti: Convert to platform remove callback returning vo=
-id
-> >> 3c855610840e drm/rockchip: Convert to platform remove callback returni=
-ng void
-> >> e41977a83b71 drm/panfrost: Convert to platform remove callback returni=
-ng void
-> >> cef3776d0b5a drm/panel: Convert to platform remove callback returning =
-void
-> >> bd296a594e87 drm/mxsfb: Convert to platform remove callback returning =
-void
-> >> 38ca2d93d323 drm/meson: Convert to platform remove callback returning =
-void
-> >> fd1457d84bae drm/mcde: Convert to platform remove callback returning v=
-oid
-> >> 41a56a18615c drm/logicvc: Convert to platform remove callback returnin=
-g void
-> >> 980ec6444372 drm/lima: Convert to platform remove callback returning v=
-oid
-> >> 82a2c0cc1a22 drm/hisilicon: Convert to platform remove callback return=
-ing void
-> >> c3b28b29ac0a drm/fsl-dcu: Convert to platform remove callback returnin=
-g void
-> >> a118fc6e71f9 drm/atmel-hlcdc: Convert to platform remove callback retu=
-rning void
-> >> 9a32dd324c46 drm/aspeed: Convert to platform remove callback returning=
- void
-> >> 2c7d291c498c drm/arm/malidp: Convert to platform remove callback retur=
-ning void
-> >> a920028df679 drm/arm/hdlcd: Convert to platform remove callback return=
-ing void
-> >> 1bf3d76a7d15 drm/komeda: Convert to platform remove callback returning=
- void
-> >>
-> >> The following ones appeared to apply to the top of drm-misc-next, but
-> >> I didn't apply them since get_maintainer didn't say they were part of
-> >> drm-misc-next:
-> >>
-> >> drm/tiny: Convert to platform remove callback returning void
-> >> drm/tilcdc: Convert to platform remove callback returning void
-> >> drm/sprd: Convert to platform remove callback returning void
-> >> drm/shmobile: Convert to platform remove callback returning void
-> >> drm/rcar-du: Convert to platform remove callback returning void
+> > I think the only issue remaining is finalizing the mapping of
+> > platforms to subdirs. What I have currently is a mixture of SoC
+> > families and vendors. The most notable are all the Freescale/NXP
+> > platforms, pxa, socfpga, and stm32. It's not consistent with arm64
+> > either. Once that's finalized, I still need to go update MAINTAINERS.
 > >
-> > If you don't mind, could you take the rcar-du patch through drm-misc to=
-o
-> > ? I don't plan to send another pull request for v6.5.
+> > Here's the current mapping:
 > >
-> >> drm/omap: Convert to platform remove callback returning void
-> >
-> > Tomi, should drm/omap moved to being maintained through drm-misc ?
+> > vendor_map =3D {
+> [...]
+> >     'aspeed' : 'aspeed',
+> >     'ast2' : 'aspeed',
+> >     'facebook' : 'aspeed',
+> >     'ibm' : 'aspeed',
 >
-> Yes. tilcdc, tidss and omapdrm are all maintained through drm-misc.
+> >     'openbmc' : 'aspeed',
+>
+> The openbmc flash layouts are currently only used by aspeed devicetrees,
+> but they don't really depend on any aspeed details. It would be possible
+> to reuse them in Nuvoton BMC devicetrees in the future, for example.
+>
+> In that sense, I think putting them in a separate "openbmc" directory
+> would be slightly better.
 
-tidss was already in my list of applied patches.
+Could be used on arm64 or riscv too at some point. We do some cross
+arch includes, but IMO it would be better to move to
+include/dt-bindings/ or somewhere outside of arch/. Other common
+things I didn't move. I could do that here too. I prefer to that the
+sub-directories are just chip vendors/families.
 
-I've applied the other two and pushed:
-
-c2807ecb5290 drm/omap: Convert to platform remove callback returning void
-e52d1282f919 drm/tilcdc: Convert to platform remove callback returning void
-
-
-> But
-> I guess I need to add something to the MAINTAINERS to make this clear.
-> I'll look at it.
-
-The key I was looking for was:
-
-T:      git git://anongit.freedesktop.org/drm/drm-misc
-
--Doug
+Rob
