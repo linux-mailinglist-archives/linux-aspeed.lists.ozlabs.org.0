@@ -2,76 +2,71 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936F572AB8B
-	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jun 2023 14:52:43 +0200 (CEST)
-Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QddCD3MFYz3f84
-	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jun 2023 22:52:40 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E6D733103
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jun 2023 14:19:25 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=g45/G3xC;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=aoltxPQ7;
 	dkim-atps=neutral
+Received: from boromir.ozlabs.org (localhost [IPv6:::1])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QjJB30thgz3bfm
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jun 2023 22:19:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::c2d; helo=mail-oo1-xc2d.google.com; envelope-from=tcminyard@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=g45/G3xC;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=aoltxPQ7;
 	dkim-atps=neutral
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::240; helo=mslow1.mail.gandi.net; envelope-from=gregory.clement@bootlin.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 868 seconds by postgrey-1.37 at boromir; Fri, 16 Jun 2023 22:19:14 AEST
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QddC242xwz3dw2
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 10 Jun 2023 22:52:29 +1000 (AEST)
-Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-55af44f442dso1774420eaf.1
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 10 Jun 2023 05:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686401546; x=1688993546;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ypunSIKUqzh75YIeQaRkHjhmNZ/hwFhCbdx6FqXAu9o=;
-        b=g45/G3xC9sH2xNWZ6p7/51PCGM+7NosvtHN4VJoiDJxnTel/9M5KBWRJXTrbVFGxk8
-         u5MXFHO/yBVREKnKTeZSFVBJnairzfK8l1912tF7jCrey4fPFI64Pjn5A4IXCo51t7un
-         rlMZ3BK6wD3AMoJWg0v7rJaPx2kNXTrUOrvjya6R6McblHu89Sl/Hj1xbcOe6qhCHage
-         2c72hl7T8Zq8yX5rzilD+b0AupIowbIqRpCuUTckO2QE+qpWcYWRo4zpPxtk52Cc/TXM
-         Wdvjj+/rVzXDwDEXINf80szdTpuCkkzXTjacnVTfc3RUieDfTEpJ+RG928/jsC3D3q25
-         2rAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686401546; x=1688993546;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ypunSIKUqzh75YIeQaRkHjhmNZ/hwFhCbdx6FqXAu9o=;
-        b=dbdfUW6sRIeAheLaTorbXeZ0I9op6yu5WOKEpyax4cBSIAE/nMH3OKdInsUrJhNc3H
-         QadOG636ZggtC4ODeZE5ybORSbkLD2dHoX+aW3BMJSEaATKZVlwzUehxTUbynBz7IMod
-         rFoe70/ZT/mAVIliY/VBM5WBwsXZvZhHW4GRZIY95GivPPg4m8F14ruYgURZVozHWg46
-         Wni6e9QZiBZNBEX54Ug5FPiUBjW3/FYZ83uk8hWyDQLXggYiDhj0tYpoyZj2N1erbq9P
-         itE6P2fYW4MLVG3hQuPZaEb8Ts5CY6CNWAfOHxXqJNUUGEF0htGUB0WDCU/RCK8zsI7j
-         YczA==
-X-Gm-Message-State: AC+VfDxF1JXClu4vvN4eUQJFYyDbjDrfi805OPaB8+FgtNlPhGRYGBGH
-	wQdQNGAzzEi26mQuEgNFKQ==
-X-Google-Smtp-Source: ACHHUZ5tZl6zQi3tZ3ZIyb80b0WEZFIQ3IM8ZhCNGZxrKoZC2y3OSR1/MtXGpq4cjDjk0GM+k+2xPQ==
-X-Received: by 2002:a4a:e7c1:0:b0:546:dd51:f74f with SMTP id y1-20020a4ae7c1000000b00546dd51f74fmr2296073oov.4.1686401546227;
-        Sat, 10 Jun 2023 05:52:26 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
-        by smtp.gmail.com with ESMTPSA id v4-20020a4aa504000000b00552acb7c89dsm1652130ook.21.2023.06.10.05.52.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jun 2023 05:52:25 -0700 (PDT)
-Received: from mail.minyard.net (unknown [IPv6:2001:470:b8f6:1b:8f19:4a52:beef:59ed])
-	by serve.minyard.net (Postfix) with ESMTPSA id 76BDB1800BA;
-	Sat, 10 Jun 2023 12:52:24 +0000 (UTC)
-Date: Sat, 10 Jun 2023 07:52:23 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH] dt-bindings: ipmi: aspeed,ast2400-kcs-bmc: drop unneeded
- quotes
-Message-ID: <ZIRyB531ttuE1SUI@mail.minyard.net>
-References: <20230609140729.64799-1-krzysztof.kozlowski@linaro.org>
- <778e2930-1678-45bb-a01e-21bf321fb6d8@betaapp.fastmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QjJ9t4RGYz2y1g
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Jun 2023 22:19:14 +1000 (AEST)
+Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9C473CBEED
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Jun 2023 12:04:51 +0000 (UTC)
+X-GND-Sasl: gregory.clement@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1686917075;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hlCuWySWYgX7Kdg+EfFX5CHUsZ8ytLbktxPmYzXn8j8=;
+	b=aoltxPQ7yYUzPN9LsHuCZ8qjAYCsLKBhPseiWeKQ8elWopCJXgKLB4jaHkyMAeyj2dMXU+
+	E+jUBZF5V14HHXpxPPSB+4bTrraVQpM0bZ7tEMHxP54CF9+xEssOi/+6RmiDuRTeiFGMfw
+	Yaj8X2RJrX/uYjhG4N5xzh1otJSOw2Ye+focZyatLfoyuN+aeJdtbOG7DWQ4E645owENuN
+	U/N6yvU2aY82DY2xXZUVU/TYhNyojCnEFplQ7pnvq1zXFOkuWJsA6lOg63qQkW8FhlIAnt
+	awzKjpyGVsfLKSL6Ya7uZN6SzzA5giwN3Y807e1EJtDaK8hgViYUnSfEW6fqHw==
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+X-GND-Sasl: gregory.clement@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B53220007;
+	Fri, 16 Jun 2023 12:04:32 +0000 (UTC)
+From: Gregory CLEMENT <gregory.clement@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v2 3/3] arm64: dts: marvell: Fix pca954x i2c-mux node names
+In-Reply-To: <685e7539-0a2b-4bf3-9725-a7a4780c82cb@lunn.ch>
+References: <cover.1684856632.git.geert+renesas@glider.be>
+ <fed5b15691283ce72ceb9fb074f953c5da0f6852.1684856632.git.geert+renesas@glider.be>
+ <685e7539-0a2b-4bf3-9725-a7a4780c82cb@lunn.ch>
+Date: Fri, 16 Jun 2023 14:04:32 +0200
+Message-ID: <87fs6rhaun.fsf@BL-laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <778e2930-1678-45bb-a01e-21bf321fb6d8@betaapp.fastmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,69 +78,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>, linux-aspeed@lists.ozlabs.org, Nancy Yuen <yuenn@google.com>, Patrick Venture <venture@google.com>, Russell King <linux@armlinux.org.uk>, Tali Perry <tali.perry1@gmail.com>, Avi Fishman <avifishman70@gmail.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Jun 10, 2023 at 08:49:27AM +0930, Andrew Jeffery wrote:
-> 
-> 
-> On Fri, 9 Jun 2023, at 23:37, Krzysztof Kozlowski wrote:
-> > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> > checking for this can be enabled in yamllint.
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> Acked-by: Andrew Jeffery <andrew@aj.id.au>
+Andrew Lunn <andrew@lunn.ch> writes:
 
-This is in my next tree.  Thank you.
+> On Tue, May 23, 2023 at 05:50:21PM +0200, Geert Uytterhoeven wrote:
+>> "make dtbs_check":
+>>=20
+>>     arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: i2c-switch@70: $n=
+odename:0: 'i2c-switch@70' does not match '^(i2c-?)?mux'
+>> 	    From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.=
+yaml
+>>     arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: i2c-switch@70: Un=
+evaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c=
+@0', 'i2c@1', 'i2c@2' were unexpected)
+>> 	    From schema: Documentation/devicetree/bindings/i2c/i2c-mux-pca954x.=
+yaml
+>>     ...
+>>=20
+>> Fix this by renaming PCA954x nodes to "i2c-mux", to match the I2C bus
+>> multiplexer/switch DT bindings and the Generic Names Recommendation in
+>> the Devicetree Specification.
+>>=20
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+>
+>     Andrew
 
--corey
+Applied on mvebu/dt64
 
-> 
-> > ---
-> >  .../devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml  | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git 
-> > a/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml 
-> > b/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
-> > index 4ff6fabfcb30..129e32c4c774 100644
-> > --- a/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
-> > +++ b/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
-> > @@ -41,7 +41,7 @@ properties:
-> >        - description: STR register
-> > 
-> >    aspeed,lpc-io-reg:
-> > -    $ref: '/schemas/types.yaml#/definitions/uint32-array'
-> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> >      minItems: 1
-> >      maxItems: 2
-> >      description: |
-> > @@ -50,7 +50,7 @@ properties:
-> >        status address may be optionally provided.
-> > 
-> >    aspeed,lpc-interrupts:
-> > -    $ref: "/schemas/types.yaml#/definitions/uint32-array"
-> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> >      minItems: 2
-> >      maxItems: 2
-> >      description: |
-> > @@ -63,12 +63,12 @@ properties:
-> > 
-> >    kcs_chan:
-> >      deprecated: true
-> > -    $ref: '/schemas/types.yaml#/definitions/uint32'
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      description: The LPC channel number in the controller
-> > 
-> >    kcs_addr:
-> >      deprecated: true
-> > -    $ref: '/schemas/types.yaml#/definitions/uint32'
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> >      description: The host CPU IO map address
-> > 
-> >  required:
-> > -- 
-> > 2.34.1
+Thanks,
+
+Gregory
+
+--=20
+Gregory Clement, Bootlin
+Embedded Linux and Kernel engineering
+http://bootlin.com
