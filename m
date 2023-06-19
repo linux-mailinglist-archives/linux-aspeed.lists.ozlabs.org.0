@@ -1,82 +1,87 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A36734CA7
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Jun 2023 09:48:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A32E8734CF9
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Jun 2023 10:03:25 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=inventec.com header.i=@inventec.com header.a=rsa-sha256 header.s=sEx03 header.b=QXivl8xr;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=R5lm2JEo;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Ql21j51Bfz30Xd
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Jun 2023 17:48:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ql2MH2xhlz30PS
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Jun 2023 18:03:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=inventec.com header.i=@inventec.com header.a=rsa-sha256 header.s=sEx03 header.b=QXivl8xr;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=R5lm2JEo;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=inventec.com (client-ip=218.32.67.185; helo=mail.inventec.com; envelope-from=chen.pj@inventec.com; receiver=lists.ozlabs.org)
-Received: from mail.inventec.com (mail.inventec.com [218.32.67.185])
-	(using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::631; helo=mail-ej1-x631.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Ql21c3nqVz303l
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Jun 2023 17:48:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Ql2M83n9dz303l
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Jun 2023 18:03:15 +1000 (AEST)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-98746d7f35dso376499666b.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Jun 2023 01:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-    s=sEx03; d=inventec.com;
-    h=from:to:cc:subject:date:message-id:in-reply-to:content-type:
-      mime-version;
-    bh=8SApXZkGgOeFsWFeTThrw5Y0o/+JYCBncaziLDbuwuc=;
-    b=QXivl8xrM3UHk0nqNlz65C3MyDhIvvsBQi1hNUgJzij/aUoLaWSFA3uw1k1P5T
-      JT9kXFvfiF2eiLHpWPLNdnTpvYfLXrZWY2ozsN67on3bpbBJJWUkit3hRdeP87
-      DuhSX8Srv4MhID+O6vzfTBuJnfjshk9qHJLBVo+4xpP09cY=
-Received: from IEC1-EX2016-04.iec.inventec (10.1.254.222) by
- IEC1-EX2016-03.iec.inventec (10.15.2.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 19 Jun 2023 15:47:55 +0800
-Received: from IEC1-MSE-FE2.inventec.com (10.1.254.204) by
- IEC1-EX2016-04.iec.inventec (10.1.254.222) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Mon, 19 Jun 2023 15:47:55 +0800
-Received: from IEC1-EX2016-02.iec.inventec (IEC1-EX2016-02.iec.inventec [10.1.254.221])
-	by IEC1-MSE-FE2.inventec.com with ESMTP id 35J7lom5069730;
-	Mon, 19 Jun 2023 15:47:50 +0800 (GMT-8)
-	(envelope-from Chen.PJ@inventec.com)
-Received: from IEC1-EX2016-01.iec.inventec (10.15.2.58) by
- IEC1-EX2016-02.iec.inventec (10.1.254.221) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 19 Jun 2023 15:47:51 +0800
-Received: from IEC1-EX2016-01.iec.inventec ([fe80::81ed:c8de:ba4:c745]) by
- IEC1-EX2016-01.iec.inventec ([fe80::81ed:c8de:ba4:c745%7]) with mapi id
- 15.01.2507.023; Mon, 19 Jun 2023 15:47:50 +0800
-From: =?utf-8?B?Q2hlbi5QSiDpmbPmn4/ku7sgVEFP?= <Chen.PJ@inventec.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Arnd Bergmann
-	<arnd@arndb.de>, Olof Johansson <olof@lixom.net>, "soc@kernel.org"
-	<soc@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>
-Subject: RE: [PATCH v5 1/2] dt-bindings: arm: aspeed: add Inventec
+        d=linaro.org; s=google; t=1687161788; x=1689753788;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7MsnoYz0hP2V8CBehrpeQPUT+76r/6pTB7F31k/oTqQ=;
+        b=R5lm2JEoN1Dap5ewRuzod70/svJW4Tpp+Jf/ugmj1Yk7OL5KSTGTc2+KLFvXEYZtts
+         ByDbXZoZ7c6jDHRXmdIpI2Ml/CJ5/87e+a/DcPAG4qe/3X/dS3mR/WK4HcxKs5G54pUp
+         k3US0FIJ7DwVVZDtHqibOsRlTx7HuZTzO5NocTyCsvoO0L2t+Nb4MTpHWCpzfkFAzYLW
+         W8fprdmu60ugR/QdbVDPQtR5R20Jvp9cCsX76SdJ2g4o9MfkcRTPivLh64I9A68Mq1Uc
+         VXKXFrmYX1ZqL+v+ALMzoK3FotlHqeR19D35Fi1kZwhwCLSy8CvBHZMSKbipZsiKSQif
+         KoDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687161788; x=1689753788;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7MsnoYz0hP2V8CBehrpeQPUT+76r/6pTB7F31k/oTqQ=;
+        b=OdJ0/+kMOw49UxqAVQXOhEjOTJGJ8GZ+Iboy7EMa5WGyY0l3x2fYeYMw8PLw7BLmok
+         XLqPBe8W5ZGHBzmo7i8JLrJySvN/6oG/ochf1FCjZMJ8ytDD7b0kYUh/vJR6FZhBNtl5
+         S7RAo7UkjO+0FBWrJtsR/r1+VS8Q5wnj10Ocbu4RFfKGVmUu1nKNhJn8xdge4uEolsQd
+         MAi3fm2oSBnUz+iF4k5cn6iJsV1+C2UjliHGrUlFT8PXPEfivCb80bpBFymsv1mjbqjw
+         l2NtsoE4FztWMmZ6ZGmTO3U/ueKrCtlOu/JGOqnYAmA7CqI7Hz1OWZLaaMCLapR46HfL
+         84Rg==
+X-Gm-Message-State: AC+VfDxfa2Mnav0VS9kuIG2UVn2/ejJujt44CNPtPqWSMxxD9o7oYoXv
+	r1xC43RP1UxVAUl1u0lEVxBQHQ==
+X-Google-Smtp-Source: ACHHUZ4G6sKfA1qmngTmVTdImZtQIJooHKrYQsNUpw4ekWRnZ6ieoPMK8rs9BRGC1ccyE688NqDM8Q==
+X-Received: by 2002:a17:907:31c2:b0:974:c32c:b484 with SMTP id xf2-20020a17090731c200b00974c32cb484mr9045597ejb.72.1687161788200;
+        Mon, 19 Jun 2023 01:03:08 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id q2-20020a170906360200b0096a27dbb5b2sm14113007ejb.209.2023.06.19.01.03.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jun 2023 01:03:07 -0700 (PDT)
+Message-ID: <68262eba-c9b7-5c3c-acb1-1c651931e959@linaro.org>
+Date: Mon, 19 Jun 2023 10:03:06 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v5 1/2] dt-bindings: arm: aspeed: add Inventec
  starscream-bmc
-Thread-Topic: [PATCH v5 1/2] dt-bindings: arm: aspeed: add Inventec
- starscream-bmc
-Thread-Index: AQHZonlGhub8MK1GcUC3/L5H9ZwPt6+RK0EAgACQAKA=
-Date: Mon, 19 Jun 2023 07:47:50 +0000
-Message-ID: <832a9af9c9024ed3b7bee0d36a482837@inventec.com>
+Content-Language: en-US
+To: =?UTF-8?B?Q2hlbi5QSiDpmbPmn4/ku7sgVEFP?= <Chen.PJ@inventec.com>,
+ Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+ "soc@kernel.org" <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
 References: <20230619064249.3623-1-chen.pj@inventec.com>
  <2a9e503b-7a5b-3b1e-a912-5d54a23c1ca1@linaro.org>
-In-Reply-To: <2a9e503b-7a5b-3b1e-a912-5d54a23c1ca1@linaro.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.6.245.192]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MAIL: IEC1-MSE-FE2.inventec.com 35J7lom5069730
-X-TM-SNTS-SMTP: 9DCE9D045593F2EF9FC039E1ACED29B7002FF0250890EEAFEE7D2B4813BA86872000:8
+ <832a9af9c9024ed3b7bee0d36a482837@inventec.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <832a9af9c9024ed3b7bee0d36a482837@inventec.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,35 +93,24 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: =?utf-8?B?WWUuVmljIOiRieWuh+a4hSBUQU8=?= <ye.vic@inventec.com>, =?utf-8?B?SHVhbmcuQWxhbmcg6buD6Iux6YOOIFRBTw==?= <Huang.Alang@inventec.com>
+Cc: =?UTF-8?B?WWUuVmljIOiRieWuh+a4hSBUQU8=?= <ye.vic@inventec.com>, =?UTF-8?B?SHVhbmcuQWxhbmcg6buD6Iux6YOOIFRBTw==?= <Huang.Alang@inventec.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgS3J6eXN6dG9mLA0KDQpTb3JyeSBmb3IgYnJvdGhlcmluZyB5b3UgYW5kIHRoYW5rcyBmb3Ig
-eW91ciBwYXRpZW5jZS4NCg0KSSB1c2UgImdpdCBpbWFwIHNlbmQiIGFuZCBjYW4gb25seSBzZW5k
-IHR3byBwYXRjaCBzZXBhcmF0ZWx5Lg0KQWZ0ZXIgeW91ciBpbnN0cnVjdGlvbiwgd2Ugc2V0dXAg
-dGhlIHNtdHAgc2VydmVyIGFuZCBub3cgc2VuZCB0d28gcGF0Y2ggdG9nZXRoZXIuDQoNCkJ1dCBp
-dCBzZWVtcyBzdGlsbCBub3QgZW5vdWdoLg0KRGlkIHlvdSBtZWFuIHdlIG5lZWQgdG8gY29tYmlu
-ZSB0d28gcGF0Y2ggdGhhdCBtb2RpZnkgdGhlIGRvY3VtZW50IGFuZCBkdHMgaW4gIm9uZSIgcGF0
-Y2g/DQoNCkJlc3QgUmVnYXJkcw0KUEogQ2hlbg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
-LQ0KRnJvbTogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6eXN6dG9mLmtvemxvd3NraUBsaW5hcm8u
-b3JnPiANClNlbnQ6IE1vbmRheSwgSnVuZSAxOSwgMjAyMyAyOjU2IFBNDQpUbzogQ2hlbi5QSiDp
-mbPmn4/ku7sgVEFPIDxDaGVuLlBKQGludmVudGVjLmNvbT47IEFybmQgQmVyZ21hbm4gPGFybmRA
-YXJuZGIuZGU+OyBPbG9mIEpvaGFuc3NvbiA8b2xvZkBsaXhvbS5uZXQ+OyBzb2NAa2VybmVsLm9y
-ZzsgUm9iIEhlcnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz47IEtyenlzenRvZiBLb3psb3dza2kg
-PGtyenlzenRvZi5rb3psb3dza2krZHRAbGluYXJvLm9yZz47IEpvZWwgU3RhbmxleSA8am9lbEBq
-bXMuaWQuYXU+OyBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFqLmlkLmF1PjsgbGludXgtYXJtLWtl
-cm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnOyBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGlu
-dXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmcN
-CkNjOiBZZS5WaWMg6JGJ5a6H5riFIFRBTyA8eWUudmljQGludmVudGVjLmNvbT47IEh1YW5nLkFs
-YW5nIOm7g+iLsemDjiBUQU8gPEh1YW5nLkFsYW5nQGludmVudGVjLmNvbT4NClN1YmplY3Q6IFJl
-OiBbUEFUQ0ggdjUgMS8yXSBkdC1iaW5kaW5nczogYXJtOiBhc3BlZWQ6IGFkZCBJbnZlbnRlYyBz
-dGFyc2NyZWFtLWJtYw0KDQpPbiAxOS8wNi8yMDIzIDA4OjQyLCBQSiBDaGVuIHdyb3RlOg0KPiBG
-cm9tOiBDaGVuIFBKIDxDaGVuLnBqQGludmVudGVjLmNvbT4NCj4gDQo+IERvY3VtZW50IHRoZSBu
-ZXcgY29tcGF0aWJsZXMgdXNlZCBvbiBJbnZlbnRlYyBzdGFyc2NyZWFtLWJtYw0KPiANCj4gU2ln
-bmVkLW9mZi1ieTogQ2hlbiBQSiA8Q2hlbi5wakBpbnZlbnRlYy5jb20+DQoNCmh0dHBzOi8vbG9y
-ZS5rZXJuZWwub3JnL2FsbC8zMTA2YzRhMS1jZTViLWE5YzQtNWNmNC02YWRlYWQ3ZmNlODBAbGlu
-YXJvLm9yZy8NCg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzJlMDZlN2RiLTY0ZjktNTFm
-OC1hZGYxLWIyNDBmMzBhMjYwOEBsaW5hcm8ub3JnLw0KDQpXaGF0J3MgdW5jbGVhciBoZXJlPyBZ
-b3UgZGlkIG5vdCBjYXJlIHRvIHJlc3BvbmQgdG8gdGhhdCAodGhlIHNlY29uZCBwYXJ0IG9mIHRo
-YXQgbWVzc2FnZSkuDQoNCkJlc3QgcmVnYXJkcywNCktyenlzenRvZg0KDQo=
+On 19/06/2023 09:47, Chen.PJ 陳柏任 TAO wrote:
+> Hi Krzysztof,
+> 
+> Sorry for brothering you and thanks for your patience.
+> 
+> I use "git imap send" and can only send two patch separately.
+> After your instruction, we setup the smtp server and now send two patch together.
+> 
+> But it seems still not enough.
+> Did you mean we need to combine two patch that modify the document and dts in "one" patch?
+
+No, I meant the second part of my message. The long one, explaining in
+details what you should do.
+
+Best regards,
+Krzysztof
+
