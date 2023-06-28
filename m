@@ -2,81 +2,135 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0618873D653
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Jun 2023 05:30:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71AA740944
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Jun 2023 07:31:11 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=inventec.com header.i=@inventec.com header.a=rsa-sha256 header.s=sEx04 header.b=OknEdtjH;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=K59kE4p0;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QqCzX6jVPz30fS
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Jun 2023 13:30:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QrVYQ2NcGz30P9
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Jun 2023 15:31:06 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=inventec.com header.i=@inventec.com header.a=rsa-sha256 header.s=sEx04 header.b=OknEdtjH;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=K59kE4p0;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=inventec.com (client-ip=61.220.76.156; helo=mail.inventec.com; envelope-from=chen.pj@inventec.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 905 seconds by postgrey-1.37 at boromir; Mon, 26 Jun 2023 13:30:42 AEST
-Received: from mail.inventec.com (mail.inventec.com [61.220.76.156])
-	(using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::728; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20728.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::728])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QqCzQ6pfVz2ykB
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Jun 2023 13:30:42 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-    s=sEx04; d=inventec.com;
-    h=from:to:cc:subject:date:message-id:in-reply-to:content-type:
-      mime-version;
-    bh=cNfFLHsN73Cgx4cIxE+oAhvs7QHOb84die9agNfgxyg=;
-    b=OknEdtjHuHFOENJjwEaKTR55Kv9jMEoYO5gh8f4i88hg5FDUF61FjDqb3ox7mm
-      +vTpwtOAkeLuWXPG5aoVx43ocbUOsSCoyyqARxlfpapXJwxoyOd/lLF3eqQhUU
-      m7YdcZNKFjQEDsl45rTYfjCYN0kwW1yDfg8/L8lPeRRzWPg=
-Received: from IEC1-EX2016-03.iec.inventec (10.15.2.59) by
- IEC1-EX2016-04.iec.inventec (10.1.254.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 26 Jun 2023 11:15:28 +0800
-Received: from IEC1-MSE-FE1.inventec.com (10.1.254.203) by
- IEC1-EX2016-03.iec.inventec (10.15.2.59) with Microsoft SMTP Server id
- 15.1.2507.23 via Frontend Transport; Mon, 26 Jun 2023 11:15:28 +0800
-Received: from IEC1-EX2016-01.iec.inventec (IEC1-EX2016-01.iec.inventec [10.15.2.58])
-	by IEC1-MSE-FE1.inventec.com with ESMTP id 35Q3FNle043708;
-	Mon, 26 Jun 2023 11:15:23 +0800 (GMT-8)
-	(envelope-from Chen.PJ@inventec.com)
-Received: from IEC1-EX2016-01.iec.inventec (10.15.2.58) by
- IEC1-EX2016-01.iec.inventec (10.15.2.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 26 Jun 2023 11:15:23 +0800
-Received: from IEC1-EX2016-01.iec.inventec ([fe80::4086:c45a:2131:8c05]) by
- IEC1-EX2016-01.iec.inventec ([fe80::4086:c45a:2131:8c05%7]) with mapi id
- 15.01.2507.023; Mon, 26 Jun 2023 11:15:23 +0800
-From: =?big5?B?Q2hlbi5QSiCzr6xmpfQgVEFP?= <Chen.PJ@inventec.com>
-To: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-	"soc@kernel.org" <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Joel Stanley
-	<joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v6 2/2] ARM: dts: aspeed: Adding Inventec Starscream BMC
-Thread-Topic: [PATCH v6 2/2] ARM: dts: aspeed: Adding Inventec Starscream BMC
-Thread-Index: AQHZp9xy8PC8iVFlCEK7wP++sb4reQ==
-Date: Mon, 26 Jun 2023 03:15:23 +0000
-Message-ID: <853b4f8157524445b9a518724fbd7a4d@inventec.com>
-References: <f5e6a29f-6df7-b56c-c7b2-9914008eaa33@linaro.org>
-In-Reply-To: <f5e6a29f-6df7-b56c-c7b2-9914008eaa33@linaro.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QrVY61klpz30GJ
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Jun 2023 15:30:48 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zz0PHhtt3E538NI3yRZI40X3SrOEXXuxjTGPq8dZD5/B/U9+LnFpDYE5Ls3iVq2JR1axJFJbHL+XrEWGz8bwkKNc8PwdvzSeCzsT/67tUUwSzxdnE0W45iwyR1KX/3B005ZyJzedr9fb3uHvQrh8gxdpwF7ZCzpsCUH/VlLNnZ1jdYnWR0nQhS5254oXZ38mPeiVYXYHdWM4fB2+fTtAVq/rH4e0mMsWOvS06G6YciNzU5cgC+BZ3Nj2X3kamQ7vzfP2ptK9GO8ST9PImbeuyLYpDncjL4rW+gbRFTeFIgyGlaqYRa6N8fl4+FEFtnh2TDyJA82yvaiJFckyAj5N6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rr0MT5ockU49jLi3+CID0ADH809DppIn5ncGmNzy8VM=;
+ b=WAnBxLxqpBaCTYCeqyCRy4ec7PqF0V7WM+33xiyzVxIV1qJe1HBWpge5g9V/Cj5GxUIs0L38wCG6DzVMw2Cjm/rsh494gEYLrRPznmTCHBa4nMqT2GrXiqgjvS8R6GehEbn4wuhDIX+a+VgRMDzjjVgJBzSsxL2ZUN8IEqADa2v+OqgVZBPRBbodOQFPcnOV3u0aR75gVf+vNkO1juK2mQukHKB1r4Bv1enNN/C0s1qSta9q/hTtIj6rvnSH/uIktlbAPqa9LWawqi+vVJPk6rvxY3ZQeQ/HWkAEu17nOLeoyNXAsrcBJx656dpga1u3AriXnt7e6g4F5sXBA1crFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rr0MT5ockU49jLi3+CID0ADH809DppIn5ncGmNzy8VM=;
+ b=K59kE4p04Ur5G+nQB3W8aNomm9i7jZQYNEmnEFjBooLEO9RnBZuxX9pv/cihtDVvK6oufNb+YZjzCXjv2Um1VLp1wyvcmhhe5XWfPFjebi7V3/ivDtBsd5xXOO7dSVek6hiiLpHCxkoF9rZL8Ic+dG3vkLXEuxOlrS4EOjNQU9E898x1QsArmN06ayx6JOiE7HOVp537HYSk5QKsMaehqKWmjFFNFX9ChBxzlatWa/FJDOYl/iCH7SU8GrOX9QBp4sFna9AfRzibR+6Lf/m78yZJXjWfIeS042GP83urDdrDqzaNK5C6sAx/H2N5P6/LH11AfPit0EocJiHOG8wdxQ==
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
+ KL1PR0601MB5725.apcprd06.prod.outlook.com (2603:1096:820:bb::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Wed, 28 Jun
+ 2023 05:30:20 +0000
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::cc45:2366:5fc9:c775]) by SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::cc45:2366:5fc9:c775%3]) with mapi id 15.20.6521.023; Wed, 28 Jun 2023
+ 05:30:20 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Guenter Roeck <linux@roeck-us.net>, "jdelvare@suse.com"
+	<jdelvare@suse.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+	"corbet@lwn.net" <corbet@lwn.net>, "p.zabel@pengutronix.de"
+	<p.zabel@pengutronix.de>, "linux-hwmon@vger.kernel.org"
+	<linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org"
+	<linux-pwm@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+Thread-Topic: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+Thread-Index: AQHZma89aOEdGxKS0EScrdWknPpRuq+AWFqAgAAVuQmAAHXlAIAe65u5
+Date: Wed, 28 Jun 2023 05:30:20 +0000
+Message-ID:  <SG2PR06MB33654B0D05D4644D409C5E888B24A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+References: <20230608021839.12769-1-billy_tsai@aspeedtech.com>
+ <20230608021839.12769-3-billy_tsai@aspeedtech.com>
+ <c1c485b0-b68b-4db7-4b67-5d59f1ecb84e@roeck-us.net>
+ <SG2PR06MB3365E360F3FCDE639F3D2D1E8B50A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+ <f76f89a0-7773-6f64-c890-293093d4aba3@roeck-us.net>
+In-Reply-To: <f76f89a0-7773-6f64-c890-293093d4aba3@roeck-us.net>
 Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-imapappendstamp: IEC1-EX2016-01.iec.inventec (15.01.2507.023)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [10.6.245.192]
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|KL1PR0601MB5725:EE_
+x-ms-office365-filtering-correlation-id: 914dd680-9083-404e-bd6f-08db7798c36b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  tUvQC1tUzAi2BSGscFYf3pnQJdHQcN1BPPp/sqi7KfaDj/Crv3gHA1y7XEAQlNm7925s+vqlmA/zZ0VDUtfwFNg9GSLHTKahu35udCvedNBe1CmOU0nrzNzhigcKr7ajsd34yMvCkVMekNdj/n7OA53WBoMdBP/tdjnKy7HabEcj8ZVpreEc0BMB0fEAgVrDQxOMtUrQoRJx1biNnphxCjh95fuBVIx4LEcROa+f6GySLlGTSKOrV7GnVGusH8nb5emlz2tsD9bLKadoZELemH78XOQuaJNXGzk7U6xY4qILR1KcNGrs7yeflH1q7U1rCauGfRcByFr886zxuc3rZDAqm/tDkeh7sU0+1r990qwqbIth7EtRFacMNllDJANCmFV0mauE2Zl8A1D8FYY7450PSSgn4dJEZfDOACPYF5kCalJgD15109WwviimP5V+7sL5g2nYEeprs86JvVw5lYF/ttJMXPyUihdgH/yRzsdUyqGqJy3tj2yXcMuuCRvXNZYYvCrZNQix//HErafVOSXbEbSfptUoWK8RTO1je5Vu1N+JEGddizoAcL1ReeXGfHeVn4AfzoLuN2nEat78CIOjkJGzWVopu8jdOwo71xqB8nMcsSOec0jNdi+1GVUB
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(396003)(376002)(136003)(366004)(39850400004)(451199021)(7416002)(52536014)(5660300002)(66946007)(91956017)(76116006)(33656002)(66556008)(64756008)(66446008)(66476007)(478600001)(316002)(8936002)(8676002)(2906002)(110136005)(55016003)(38070700005)(41300700001)(71200400001)(55236004)(186003)(7696005)(86362001)(26005)(6506007)(53546011)(38100700002)(9686003)(921005)(122000001)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?/EzR9pahVIK890CSI+gGJBiljPnNLdFPneE4TaFH/bKAzfhWtp9KS882CJjB?=
+ =?us-ascii?Q?p6wfDAZN0d1ZW8wsU7eN/jhHH+NX2u6wbmkWS334IQmmpg557XLFUiHsRnlF?=
+ =?us-ascii?Q?RngCN8z6XTUruyz9EWLRCC9qenK4kBirKQoKX5TXeTHCKQAgTv0T7CsnI0y/?=
+ =?us-ascii?Q?5hPMZOeyfCt41rbZ3Gl0Z3Y+xgPmp0Mclw0NmM+lNrq7wt0L8M1TAzCyHi8R?=
+ =?us-ascii?Q?v9XgwYfi2+IHVGsVC/XTkz11/9ryJwPn3QnkjoyjYAbIOPaWNidbbjJKXhHd?=
+ =?us-ascii?Q?U4eIkxg9TDIDvb0cZtLcr6GJLMViKfOoRrvXP5TXH63ftrDVKIaxo5L5a3VV?=
+ =?us-ascii?Q?18JXBNd8mce9VwKqN/6oxaaSLcfiEvF1jew4XNkMdLw+2XrZl8uDVkUUSHqx?=
+ =?us-ascii?Q?1jBgmhouN21InFdT/Yi12xTruVy6U+YBGf5bZYiJT2WNdymbiF67dHEbuIlE?=
+ =?us-ascii?Q?owc2HMOS2EMFUYui2bbfKQoZFKji155g/jvXhJHjtLWXZmfLLOGqQiNZ77Mk?=
+ =?us-ascii?Q?K4oHS3sAL6Huo5n9hIiZZcSrTUj2La6g1qAZIK2eJzHfJw8RB7unE/yr4Mh8?=
+ =?us-ascii?Q?fzqp1uZPFImfuR0TYJiGIjKS6LsECve1yqv3A+SUz0W/SdtUH/feUtQ8F5FL?=
+ =?us-ascii?Q?78YclAPN4FzzD05xLsihG3rJHOJJpOfVXNjtVh6TpDSqOXfJ0ec0K2IL7GOZ?=
+ =?us-ascii?Q?wK+2bP36Cu+VCM2ldeYUoIgMUxGpkTYgBjMms4aOYdArCt775f7ZpZzemzC8?=
+ =?us-ascii?Q?U1TXzl+/k5HFGKmlfMJX9CXl4iAAimGE4EWwS93DSsxCtQS5jhnr+UFFqH02?=
+ =?us-ascii?Q?kx3r1DU8AfeF4IPup4y6UdxshYoNAl6Xmn5iJVfO84ZENnNHnEVeYpzK0MPz?=
+ =?us-ascii?Q?l41jPPEJ3jwtjIS1Yv1ty7MzWXevgQ2j52GthZYcp4CDFvR3gzOr8n6+x4YG?=
+ =?us-ascii?Q?02PdJbV/qcLjKbGvEHHxXS0T6BKySQzYrNeM+1XS+ab5b5DSF2AfY3zceNoo?=
+ =?us-ascii?Q?7Vy2361fOLwkv0To/e1RKuhn+5JsglJeLRqfiRVd6E61Bzs3ieEQGbu6ZWa2?=
+ =?us-ascii?Q?vh6YJ3mU4nTz4C6ZW9KkWr4dT6epBcZ81TyrhKlYCmzJugoAbXZZXPq3YiZN?=
+ =?us-ascii?Q?uYbtHtal+CVDpNPFhaHPNfPQrd4RTtlJrRh6QAspYw1ohaJ1s0xBG0pn85qw?=
+ =?us-ascii?Q?Db8uD5FZ12319YQSM0h9VueHsbtcQSQ/tgAwUaGtvoq4VefNKBu3GBDJu4u3?=
+ =?us-ascii?Q?eczzEVfH/puvG6j/V3q6NWVR76+QyNZjCoNRktoaWPR+q+D4AffXtX5/5lZ6?=
+ =?us-ascii?Q?mjEfNWLCpGTqay1o6gk0g+8N6RA5ZFaBCDceKv/KAYWPAFHh51MFcbeBvaWZ?=
+ =?us-ascii?Q?lxEd7yAVUKF6GjfDd2c7KlZ/u0y6bxvpeqsubBIEGtKqR7bflYEtQlTNbD7x?=
+ =?us-ascii?Q?dhNUzAMi2IUyj0YJq1EwPu3K99pVvWwVbW0ERnjJIcUl1qib5qdDPtpQROGg?=
+ =?us-ascii?Q?q0krz+H+qhOd0w0AdUVHmSc7i1tmQs067grhVVZxX+H1yF0IXlRadWd2gjoc?=
+ =?us-ascii?Q?LyWHsdw8GXrRU6WwOZMAID5uQ6FYhtH0ZC0zWGyHcMg+hnbg610pFN2dWMwH?=
+ =?us-ascii?Q?P/zqAvK9l36JgcNvQVlnnVk=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_SG2PR06MB33654B0D05D4644D409C5E888B24ASG2PR06MB3365apcp_"
 MIME-Version: 1.0
-X-MAIL: IEC1-MSE-FE1.inventec.com 35Q3FNle043708
-X-TM-SNTS-SMTP: 3541382B538827170457F80A1E6995C1B02B9C4B2E338176515CFB675203D1012000:8
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 914dd680-9083-404e-bd6f-08db7798c36b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2023 05:30:20.0280
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZuNuoGmz8HTpr/bxtQ3vYhNOCaHa4Fz6FUvP3OKxZzrrenyxPqD3JTvlDdvzA9pMo5Ts+iCNhyl/2K2T+NANIl8E/Ug6+gNOjQhX7E2+e9k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB5725
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,162 +142,283 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: =?big5?B?WWUuVmljILitpnSyTSBUQU8=?= <ye.vic@inventec.com>, =?big5?B?SHVhbmcuQWxhbmcgtsCtXq2mIFRBTw==?= <Huang.Alang@inventec.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SW5pdGlhbCBpbnRyb2R1Y3Rpb24gb2YgSW52ZW50ZWMgU3RhcnNjcmVhbSB4ODYgZmFtaWx5DQpl
-cXVpcHBlZCB3aXRoIEFTVDI2MDAgQk1DIFNvQy4NCg0KU2lnbmVkLW9mZi1ieTogQ2hlbiBQSiA8
-Q2hlbi5wakBpbnZlbnRlYy5jb20+DQoNCi0tLQ0KIFY1IC0+IFY2Og0KICAtIFJlbW92ZSBzZXR0
-aW5nIG5vdCBtYXRjaCBkdC1iaW5naW5nIGNoZWNrLg0KIFY0IC0+IFY1Og0KICAtIFJlbW92ZSBk
-ZXZpY2VzIG5vdCBkZWZpbmVkIGluIGR0LWJpbmRpbmcgeWV0Lg0KIFYzIC0+IFY0Og0KICAtIFJl
-cGx5IHdpdGggZGV2aWNldHJlZSBiaW5kaW5nDQogICAgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
-YWxsLzI4ZjBjZTBhODI0NjQwODNhZTI0ZjllZjJmNTk4NDI1QGludmVudGVjLmNvbS8NCiBWMiAt
-PiBWMzoNCiAgLSBSZW5hbWUgdGhlIG5vZGUgbmFtZSB0byBnZW5lcmljLg0KIFYxIC0+IFYyOg0K
-ICAtIENvcnJlY3QgTGljZW5zZSBkZXNjcmlwdGlvbg0KICAtIFJlbW92ZSBub3Qgc3VwcG9ydGVk
-IGRldmljZQ0KICAtIFVzaW5nIG9wZW5ibWMtZmxhc2gtbGF5b3V0LmR0c2kNCiAgLSBDb3JyZWN0
-IGRldmljZSBmb3JtYXQNCi0tLQ0KIGFyY2gvYXJtL2Jvb3QvZHRzL01ha2VmaWxlICAgICAgICAg
-ICAgICAgICAgICB8ICAgMSArDQogLi4uL2R0cy9hc3BlZWQtYm1jLWludmVudGVjLXN0YXJzY3Jl
-YW0uZHRzICAgIHwgMzkyICsrKysrKysrKysrKysrKysrKw0KIDIgZmlsZXMgY2hhbmdlZCwgMzkz
-IGluc2VydGlvbnMoKykNCiBjcmVhdGUgbW9kZSAxMDA2NDQgYXJjaC9hcm0vYm9vdC9kdHMvYXNw
-ZWVkLWJtYy1pbnZlbnRlYy1zdGFyc2NyZWFtLmR0cw0KDQpkaWZmIC0tZ2l0IGEvYXJjaC9hcm0v
-Ym9vdC9kdHMvTWFrZWZpbGUgYi9hcmNoL2FybS9ib290L2R0cy9NYWtlZmlsZQ0KaW5kZXggZWI2
-ODE5MDNkNTBiLi42YTg5N2ZmNDBmZjAgMTAwNjQ0DQotLS0gYS9hcmNoL2FybS9ib290L2R0cy9N
-YWtlZmlsZQ0KKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvTWFrZWZpbGUNCkBAIC0xNjI5LDYgKzE2
-MjksNyBAQCBkdGItJChDT05GSUdfQVJDSF9BU1BFRUQpICs9IFwNCiAJYXNwZWVkLWJtYy1xdWFu
-dGEtcTcxbC5kdGIgXA0KIAlhc3BlZWQtYm1jLXF1YW50YS1zNnEuZHRiIFwNCiAJYXNwZWVkLWJt
-Yy1zdXBlcm1pY3JvLXgxMXNwaS5kdGIgXA0KKwlhc3BlZWQtYm1jLWludmVudGVjLXN0YXJzY3Jl
-YW0uZHRiIFwNCiAJYXNwZWVkLWJtYy1pbnZlbnRlYy10cmFuc2Zvcm1lcnMuZHRiIFwNCiAJYXNw
-ZWVkLWJtYy10eWFuLXM3MTA2LmR0YiBcDQogCWFzcGVlZC1ibWMtdHlhbi1zODAzNi5kdGIgXA0K
-ZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1ibWMtaW52ZW50ZWMtc3RhcnNj
-cmVhbS5kdHMgYi9hcmNoL2FybS9ib290L2R0cy9hc3BlZWQtYm1jLWludmVudGVjLXN0YXJzY3Jl
-YW0uZHRzDQpuZXcgZmlsZSBtb2RlIDEwMDY0NA0KaW5kZXggMDAwMDAwMDAwMDAwLi44MTA1MDdk
-MzI0NDMNCi0tLSAvZGV2L251bGwNCisrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1ibWMt
-aW52ZW50ZWMtc3RhcnNjcmVhbS5kdHMNCkBAIC0wLDAgKzEsMzkyIEBADQorLy8gU1BEWC1MaWNl
-bnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb3ItbGF0ZXINCisvLyBDb3B5cmlnaHQgMjAyMyBJbnZl
-bnRlYyBDb3JwLg0KKw0KKy9kdHMtdjEvOw0KKw0KKyNpbmNsdWRlICJhc3BlZWQtZzYuZHRzaSIN
-CisjaW5jbHVkZSAiYXNwZWVkLWc2LXBpbmN0cmwuZHRzaSINCisjaW5jbHVkZSA8ZHQtYmluZGlu
-Z3MvaTJjL2kyYy5oPg0KKyNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2FzcGVlZC1ncGlvLmg+
-DQorDQorLyB7DQorCW1vZGVsID0gIlNUQVJTQ1JFQU0gQk1DIjsNCisJY29tcGF0aWJsZSA9ICJp
-bnZlbnRlYyxzdGFyc2NyZWFtLWJtYyIsICJhc3BlZWQsYXN0MjYwMCI7DQorDQorCWFsaWFzZXMg
-ew0KKwkJc2VyaWFsNCA9ICZ1YXJ0NTsNCisJfTsNCisNCisJY2hvc2VuIHsNCisJCXN0ZG91dC1w
-YXRoID0gJnVhcnQ1Ow0KKwl9Ow0KKw0KKwltZW1vcnlAODAwMDAwMDAgew0KKwkJZGV2aWNlX3R5
-cGUgPSAibWVtb3J5IjsNCisJCXJlZyA9IDwweDgwMDAwMDAwIDB4ODAwMDAwMDA+Ow0KKwl9Ow0K
-Kw0KKwlyZXNlcnZlZC1tZW1vcnkgew0KKwkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkjc2l6
-ZS1jZWxscyA9IDwxPjsNCisJCXJhbmdlczsNCisNCisJCXZpZGVvX2VuZ2luZV9tZW1vcnk6IHZp
-ZGVvIHsNCisJCQlzaXplID0gPDB4MDQwMDAwMDA+Ow0KKwkJCWFsaWdubWVudCA9IDwweDAxMDAw
-MDAwPjsNCisJCQljb21wYXRpYmxlID0gInNoYXJlZC1kbWEtcG9vbCI7DQorCQkJcmV1c2FibGU7
-DQorCQl9Ow0KKwl9Ow0KKw0KKwlsZWRzIHsNCisJCWNvbXBhdGlibGUgPSAiZ3Bpby1sZWRzIjsN
-CisNCisJCWxlZC11aWQgew0KKwkJCWxhYmVsID0gIlVJRF9MRUQiOw0KKwkJCWdwaW9zID0gPCZn
-cGlvMCAxODYgR1BJT19BQ1RJVkVfTE9XPjsNCisJCX07DQorDQorCQlsZWQtaGVhcnRiZWF0IHsN
-CisJCQlsYWJlbCA9ICJIQl9MRUQiOw0KKwkJCWdwaW9zID0gPCZncGlvMCAxMjcgR1BJT19BQ1RJ
-VkVfTE9XPjsNCisJCX07DQorCX07DQorfTsNCisNCismbWRpbzAgew0KKwlzdGF0dXMgPSAib2th
-eSI7DQorDQorCWV0aHBoeTA6IGV0aGVybmV0LXBoeUAwIHsNCisJCWNvbXBhdGlibGUgPSAiZXRo
-ZXJuZXQtcGh5LWllZWU4MDIuMy1jMjIiOw0KKwkJcmVnID0gPDE+Ow0KKwl9Ow0KK307DQorDQor
-Jm1hYzIgew0KKwlzdGF0dXMgPSAib2theSI7DQorCXBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7
-DQorCXBoeS1tb2RlID0gInJtaWkiOw0KKwlwaW5jdHJsLTAgPSA8JnBpbmN0cmxfcm1paTNfZGVm
-YXVsdD47DQorCXVzZS1uY3NpOw0KK307DQorDQorJm1hYzMgew0KKwlzdGF0dXMgPSAib2theSI7
-DQorCXBoeS1tb2RlID0gInJnbWlpIjsNCisJcGh5LWhhbmRsZSA9IDwmZXRocGh5MD47DQorCXBp
-bmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQorCXBpbmN0cmwtMCA9IDwmcGluY3RybF9yZ21paTRf
-ZGVmYXVsdD47DQorfTsNCisNCismZm1jIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKwlmbGFzaEAw
-IHsNCisJCXN0YXR1cyA9ICJva2F5IjsNCisJCW0yNXAsZmFzdC1yZWFkOw0KKwkJbGFiZWwgPSAi
-Ym1jIjsNCisJCXNwaS1tYXgtZnJlcXVlbmN5ID0gPDUwMDAwMDAwPjsNCisJCXNwaS10eC1idXMt
-d2lkdGggPSA8ND47DQorCQlzcGktcngtYnVzLXdpZHRoID0gPDQ+Ow0KKyNpbmNsdWRlICJvcGVu
-Ym1jLWZsYXNoLWxheW91dC5kdHNpIg0KKwl9Ow0KKw0KKwlmbGFzaEAxIHsNCisJCXN0YXR1cyA9
-ICJva2F5IjsNCisJCW0yNXAsZmFzdC1yZWFkOw0KKwkJbGFiZWwgPSAiYm1jMiI7DQorCQlzcGkt
-bWF4LWZyZXF1ZW5jeSA9IDw1MDAwMDAwMD47DQorCQlzcGktdHgtYnVzLXdpZHRoID0gPDQ+Ow0K
-KwkJc3BpLXJ4LWJ1cy13aWR0aCA9IDw0PjsNCisJfTsNCit9Ow0KKw0KKyZzcGkxIHsNCisJc3Rh
-dHVzID0gIm9rYXkiOw0KKwlwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0KKwlwaW5jdHJsLTAg
-PSA8JnBpbmN0cmxfc3BpMV9kZWZhdWx0PjsNCisNCisJZmxhc2hAMCB7DQorCQlzdGF0dXMgPSAi
-b2theSI7DQorCQltMjVwLGZhc3QtcmVhZDsNCisJCWxhYmVsID0gImJpb3MiOw0KKwkJc3BpLW1h
-eC1mcmVxdWVuY3kgPSA8NTAwMDAwMDA+Ow0KKwkJc3BpLXR4LWJ1cy13aWR0aCA9IDw0PjsNCisJ
-CXNwaS1yeC1idXMtd2lkdGggPSA8ND47DQorCX07DQorfTsNCisNCismdnVhcnQxIHsNCisJc3Rh
-dHVzID0gIm9rYXkiOw0KK307DQorDQorJnVhcnQxIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KK307
-DQorDQorJnVhcnQzIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KK307DQorDQorJnVhcnQ1IHsNCisJ
-c3RhdHVzID0gIm9rYXkiOw0KK307DQorDQorJmtjczMgew0KKwlhc3BlZWQsbHBjLWlvLXJlZyA9
-IDwweGNhMj47DQorCXN0YXR1cyA9ICJva2F5IjsNCit9Ow0KKw0KKyZ1YXJ0X3JvdXRpbmcgew0K
-KwlzdGF0dXMgPSAib2theSI7DQorfTsNCisNCismaTJjMCB7DQorCXN0YXR1cyA9ICJva2F5IjsN
-Cit9Ow0KKyZpMmMxIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KK307DQorJmkyYzIgew0KKwlzdGF0
-dXMgPSAib2theSI7DQorfTsNCismaTJjMyB7DQorCXN0YXR1cyA9ICJva2F5IjsNCit9Ow0KKw0K
-KyZpMmM0IHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKw0KKwkvLyBJMkMgRVhQQU5ERVINCisJaTJj
-LW11eEA3MSB7DQorCQljb21wYXRpYmxlID0gIm54cCxwY2E5NTQ2IjsNCisJCSNhZGRyZXNzLWNl
-bGxzID0gPDE+Ow0KKwkJI3NpemUtY2VsbHMgPSA8MD47DQorCQlyZWcgPSA8MHg3MT47DQorDQor
-CQlpMmNAMCB7DQorCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkJI3NpemUtY2VsbHMgPSA8
-MD47DQorCQkJcmVnID0gPDA+Ow0KKwkJCS8vIEFNRCBTQi1UU0kgQ1BVMQ0KKwkJCXNidHNpQDRj
-IHsNCisJCQkJY29tcGF0aWJsZSA9ICJhbWQsc2J0c2kiOw0KKwkJCQlyZWcgPSA8MHg0Yz47DQor
-CQkJfTsNCisJCX07DQorDQorCQlpMmNAMSB7DQorCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQor
-CQkJI3NpemUtY2VsbHMgPSA8MD47DQorCQkJcmVnID0gPDE+Ow0KKwkJCS8vIEFNRCBTQi1UU0kg
-Q1BVMg0KKwkJCXNidHNpQDQ4IHsNCisJCQkJY29tcGF0aWJsZSA9ICJhbWQsc2J0c2kiOw0KKwkJ
-CQlyZWcgPSA8MHg0OD47DQorCQkJfTsNCisJCX07DQorCX07DQorfTsNCisNCismaTJjNSB7DQor
-CXN0YXR1cyA9ICJva2F5IjsNCisNCisJLy8gSTJDIEVYUEFOREVSIFUxNTMNCisJaTJjLW11eEA3
-MCB7DQorCQljb21wYXRpYmxlID0gIm54cCxwY2E5NTQ2IjsNCisJCSNhZGRyZXNzLWNlbGxzID0g
-PDE+Ow0KKwkJI3NpemUtY2VsbHMgPSA8MD47DQorCQlyZWcgPSA8MHg3MD47DQorDQorCQl1c2Jf
-aHViOiBpMmNAMCB7DQorCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkJI3NpemUtY2VsbHMg
-PSA8MD47DQorCQkJcmVnID0gPDA+Ow0KKwkJfTsNCisNCisJCXJpc2VyMTogaTJjQDEgew0KKwkJ
-CSNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KKwkJCSNzaXplLWNlbGxzID0gPDA+Ow0KKwkJCXJlZyA9
-IDwxPjsNCisJCX07DQorDQorCQlyaXNlcjI6IGkyY0AyIHsNCisJCQkjYWRkcmVzcy1jZWxscyA9
-IDwxPjsNCisJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCisJCQlyZWcgPSA8Mj47DQorCQl9Ow0KKw0K
-KwkJaTJjQDMgew0KKwkJCSNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KKwkJCSNzaXplLWNlbGxzID0g
-PDA+Ow0KKwkJCXJlZyA9IDwzPjsNCisJCX07DQorCX07DQorfTsNCisNCismaTJjNiB7DQorCXN0
-YXR1cyA9ICJva2F5IjsNCisNCisJLy8gTW90aGVyYm9hcmQgVGVtcF9VODkNCisJdGVtcGVyYXR1
-cmUtc2Vuc29yQDRlIHsNCisJCWNvbXBhdGlibGUgPSAidGksdG1wNDIxIjsNCisJCXJlZyA9IDww
-eDRlPjsNCisJfTsNCisNCisJLy8gUnVuQk1DIFRlbXBfVTYNCisJdGVtcGVyYXR1cmUtc2Vuc29y
-QDQ5IHsNCisJCWNvbXBhdGlibGUgPSAidGksdG1wNzUiOw0KKwkJcmVnID0gPDB4NDk+Ow0KKwl9
-Ow0KK307DQorDQorJmkyYzcgew0KKwlzdGF0dXMgPSAib2theSI7DQorCS8vIEkyQyBFWFBBTkRF
-UiBVNDANCisJaTJjLW11eEA3MCB7DQorCQljb21wYXRpYmxlID0gIm54cCxwY2E5NTQ1IjsNCisJ
-CSNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KKwkJI3NpemUtY2VsbHMgPSA8MD47DQorCQlyZWcgPSA8
-MHg3MD47DQorDQorCQlpMmNAMCB7DQorCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkJI3Np
-emUtY2VsbHMgPSA8MD47DQorCQkJcmVnID0gPDA+Ow0KKwkJfTsNCisNCisJCWkyY0AxIHsNCisJ
-CQkjYWRkcmVzcy1jZWxscyA9IDwxPjsNCisJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCisJCQlyZWcg
-PSA8MT47DQorCQl9Ow0KKw0KKwkJaTJjQDIgew0KKwkJCSNhZGRyZXNzLWNlbGxzID0gPDE+Ow0K
-KwkJCSNzaXplLWNlbGxzID0gPDA+Ow0KKwkJCXJlZyA9IDwyPjsNCisJCX07DQorDQorCQlpMmNA
-MyB7DQorCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47DQorCQkJI3NpemUtY2VsbHMgPSA8MD47DQor
-CQkJcmVnID0gPDM+Ow0KKwkJfTsNCisJfTsNCit9Ow0KKw0KKw0KKyZpMmM4IHsNCisJc3RhdHVz
-ID0gIm9rYXkiOw0KKwkvLyBGUlUgUnVuQk1DDQorCWVlcHJvbUA1MSB7DQorCQljb21wYXRpYmxl
-ID0gImF0bWVsLDI0YzUxMiI7DQorCQlyZWcgPSA8MHg1MT47DQorCQlwYWdlc2l6ZSA9IDwxMjg+
-Ow0KKwl9Ow0KK307DQorDQorJmkyYzkgew0KKwlzdGF0dXMgPSAib2theSI7DQorfTsNCisNCism
-aTJjMTAgew0KKwlzdGF0dXMgPSAib2theSI7DQorfTsNCisNCismaTJjMTEgew0KKwlzdGF0dXMg
-PSAib2theSI7DQorfTsNCisNCismaTJjMTIgew0KKwlzdGF0dXMgPSAib2theSI7DQorCS8vIEZS
-VSBTQ00NCisJZWVwcm9tQDUxIHsNCisJCWNvbXBhdGlibGUgPSAiYXRtZWwsMjRjNTEyIjsNCisJ
-CXJlZyA9IDwweDUxPjsNCisJCXBhZ2VzaXplID0gPDEyOD47DQorCX07DQorDQorCS8vIFNDTSBU
-ZW1wX1UxNw0KKwl0ZW1wZXJhdHVyZS1zZW5zb3JANGYgew0KKwkJY29tcGF0aWJsZSA9ICJ0aSx0
-bXA3NSI7DQorCQlyZWcgPSA8MHg0Zj47DQorCX07DQorfTsNCisNCisNCismZ3BpbzAgew0KKwlz
-dGF0dXMgPSAib2theSI7DQorCWdwaW8tbGluZS1uYW1lcyA9DQorCS8qQTAtQTcqLyAgICIiLCIi
-LCIiLCIiLCIiLCIiLCIiLCIiLA0KKwkvKkIwLUI3Ki8gICAiYWxlcnQtcHN1MC1zbWItci1uIiwi
-Ym1jLXJlYWR5IiwiIiwiYXNzZXJ0LWNwdTAtcHJvY2hvdC1yLW4iLA0KKwkiIiwiIiwiIiwiIiwN
-CisJLypDMC1DNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qRDAtRDcqLyAgICIi
-LCIiLCIiLCIiLCIiLCIiLCIiLCIiLA0KKwkvKkUwLUU3Ki8gICAiIiwiIiwiIiwiIiwiIiwiIiwi
-IiwiIiwNCisJLypGMC1GNyovICAgIiIsIiIsIiIsIiIsInJlc2V0LXNncGlvLXItbiIsIiIsIiIs
-IiIsDQorCS8qRzAtRzcqLyAgICIiLCIiLCJzY20tanRhZy1tdXgtc2VsZWN0IiwiIiwiIiwiIiwi
-IiwiIiwNCisJLypIMC1INyovICAgIiIsIiIsIiIsIiIsInJlc2V0LW91dCIsInBvd2VyLW91dCIs
-IiIsIiIsDQorCS8qSTAtSTcqLyAgICIiLCIiLCIiLCIiLCIiLCIiLCJpcnEtYm1jLWNwdTAtYnVm
-LW5taS1uIiwiIiwNCisJLypKMC1KNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8q
-SzAtSzcqLyAgICIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLA0KKwkvKkwwLUw3Ki8gICAiIiwiIiwi
-IiwiIiwiIiwiIiwiIiwiIiwNCisJLypNMC1NNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIs
-DQorCS8qTjAtTjcqLyAgICIiLCIiLCJuY3NpLW9jcC1jbGstZW4tbiIsIiIsIiIsIiIsIiIsIiIs
-DQorCS8qTzAtTzcqLyAgICIiLCIiLCIiLCIiLCIiLCIiLCJjcHUxLXRoZXJtYWwtdHJpcC1uIiwi
-IiwNCisJLypQMC1QNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qUTAtUTcqLyAg
-ICJjcHUwLXByb2Nob3QtbiIsIiIsImNwdTEtcHJvY2hvdC1uIiwiIiwiY3B1MC1wZS1yc3QwIiwi
-IiwiIiwiIiwNCisJLypSMC1SNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qUzAt
-UzcqLyAgICIiLCIiLCIiLCIiLA0KKwkiIiwiUENIX1NMUF9TNF9CTUNfTiIsImNwdTAtdGhlcm10
-cmlwLW4iLCJhbGVydC1wc3UxLXNtYi1yLW4iLA0KKwkvKlQwLVQ3Ki8gICAiIiwiIiwiIiwiIiwi
-IiwiIiwiIiwiIiwNCisJLypVMC1VNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8q
-VjAtVjcqLyAgICJiaW9zLXJlY292ZXJ5LWJ1Zi1uIiwiIiwiYXNzZXJ0LWNwdTEtcHJvY2hvdC1y
-LW4iLCIiLA0KKwkicG93ZXItY2hhc3Npcy1nb29kIiwiIiwiIiwiIiwNCisJLypXMC1XNyovICAg
-IiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qWDAtWDcqLyAgICIiLCIiLCIiLCIiLCJwbGF0
-Zm9ybS10eXBlIiwiIiwiIiwiIiwNCisJLypZMC1ZNyovICAgIiIsIiIsIiIsIiIsIiIsIiIsIiIs
-IiIsDQorCS8qWjAtWjcqLyAgICIiLCJjcGxkLXBvd2VyLWJyZWFrLW4iLCIiLCIiLCIiLCIiLCIi
-LCIiLA0KKwkvKkFBMC1BQTcqLyAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCisJLypBQjAtQUI3
-Ki8gIiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQorCS8qQUMwLUFDNyovICIiLCIiLCIiLCIiLCIi
-LCIiLCIiLCIiOw0KK307DQorDQorJnNncGlvbTAgew0KKwlzdGF0dXMgPSAib2theSI7DQorCW5n
-cGlvcyA9IDw2ND47DQorCWJ1cy1mcmVxdWVuY3kgPSA8MTAwMDAwMD47DQorfTsNCisNCisNCism
-bHBjX3Nub29wIHsNCisJc3RhdHVzID0gIm9rYXkiOw0KKwlzbm9vcC1wb3J0cyA9IDwweDgwPjsN
-Cit9Ow0KKw0KKyZlbW1jX2NvbnRyb2xsZXIgew0KKwlzdGF0dXMgPSAib2theSI7DQorfTsNCisN
-CismZW1tYyB7DQorCXN0YXR1cyA9ICJva2F5IjsNCisJbm9uLXJlbW92YWJsZTsNCisJbWF4LWZy
-ZXF1ZW5jeSA9IDw1MjAwMDAwMD47DQorCWJ1cy13aWR0aCA9IDw4PjsNCit9Ow0KKw0KKyZ2aWRl
-byB7DQorCXN0YXR1cyA9ICJva2F5IjsNCisJbWVtb3J5LXJlZ2lvbiA9IDwmdmlkZW9fZW5naW5l
-X21lbW9yeT47DQorfTsNCisNCismdmh1YiB7DQorCXN0YXR1cyA9ICJva2F5IjsNCisJYXNwZWVk
-LHZodWItZG93bnN0cmVhbS1wb3J0cyA9IDw3PjsNCisJYXNwZWVkLHZodWItZ2VuZXJpYy1lbmRw
-b2ludHMgPSA8MjE+Ow0KKwlwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0KKwlwaW5jdHJsLTAg
-PSA8JnBpbmN0cmxfdXNiMmFkX2RlZmF1bHQ+Ow0KK307DQorDQorJnJ0YyB7DQorCXN0YXR1cyA9
-ICJva2F5IjsNCit9Ow0KLS0gDQoyLjI1LjENCg0K
+--_000_SG2PR06MB33654B0D05D4644D409C5E888B24ASG2PR06MB3365apcp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+        On 6/7/23 23:21, Billy Tsai wrote:
+        > >          > The code says:
+        > >
+        > >          > In Aspeed AST2600 SoC features 16 TACH controllers, =
+with each
+        > >
+        > >          > controller capable of supporting up to 1 input.
+        > >
+        > >          > which is a bit different. I guess there are no examp=
+les anymore,
+        > >
+        > >          > but I'd really like to see how this looks like in th=
+e devicetree file,
+        > >
+        > >          > and how the driver is supposed to distinguish/select=
+ the 16 inputs.
+        > >
+        > > Hi Roeck,
+        > >
+        > > The node in the devicetree file will looks like following:
+        > >
+        > > tach0: tach0@1e610008 {
+        > >
+        > >          compatible =3D "aspeed,ast2600-tach";
+        > >
+        > >          reg =3D <0x1e610008 0x8>;
+        > >
+        > >          #address-cells =3D <1>;
+        > >
+        > >          #size-cells =3D <0>;
+        > >
+        > >          pinctrl-names =3D "default";
+        > >
+        > >          pinctrl-0 =3D <&pinctrl_tach0_default>;
+        > >
+        > >          clocks =3D <&syscon ASPEED_CLK_AHB>;
+        > >
+        > >          resets =3D <&syscon ASPEED_RESET_PWM>;
+        > >
+        > >          status =3D "disabled";
+        > >
+        > > };
+        > >
+
+        > Neither reg nor pinctrl is mentioned in the bindings. Maybe that =
+is not needed nowadays,
+        > but I find it confusing.
+
+        > Either case, it is highly unusual that there would be 16 instance=
+s of this device
+        > instead of one. Why is this done ? It doesn't really make sense t=
+o me.
+
+Having 16 instances of PWM and Tach is more compatible with our hardware de=
+sign.
+This is because our register layout for PWM and Tach is not continuous.
+PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
+PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
+...
+Each PWM/Tach instance has its own controller register and is not dependent=
+ on others.
+
+Thanks
+
+Best Regards,
+Billy Tsai
+
+--_000_SG2PR06MB33654B0D05D4644D409C5E888B24ASG2PR06MB3365apcp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:10.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style>
+</head>
+<body lang=3D"en-TW" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<div id=3D"mail-editor-reference-message-container">
+<div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; On 6/7/23 23:21, Billy Tsai wrote:<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; &gt; The code says:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &gt; In Aspeed AST2600 SoC features 16 TACH controllers, =
+with each<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &gt; controller capable of supporting up to 1 input.<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &gt; which is a bit different. I guess there are no examp=
+les anymore,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &gt; but I'd really like to see how this looks like in th=
+e devicetree file,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &gt; and how the driver is supposed to distinguish/select=
+ the 16 inputs.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt; Hi Roeck,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt; The node in the devicetree file will=
+ looks like following:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt; tach0: tach0@1e610008 {<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2600-tach&quot;;<o:p></o:p=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; reg =3D &lt;0x1e610008 0x8&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; #address-cells =3D &lt;1&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; #size-cells =3D &lt;0&gt;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot;default&quot;;<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; pinctrl-0 =3D &lt;&amp;pinctrl_tach0_default&gt;;<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; resets =3D &lt;&amp;syscon ASPEED_RESET_PWM&gt;;<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; status =3D &quot;disabled&quot;;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; &gt; };<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; &gt; <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; Neither reg nor pinctrl is mentioned in the bi=
+ndings. Maybe that is not needed nowadays,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; but I find it confusing.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; Either case, it is highly unusual that there w=
+ould be 16 instances of this device<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; &gt; instead of one. Why is this done ? It doesn't =
+really make sense to me.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Having 16 instances=
+ of PWM and Tach is more compatible with our hardware design.
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">This is because our=
+ register layout for PWM and Tach is not continuous.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">PWM0 used 0x0 0x4, =
+Tach0 used 0x8 0xc<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">PWM1 used 0x10 0x14=
+, Tach1 used 0x18 0x1c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">...<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Each PWM/Tach insta=
+nce has its own controller register and is not dependent on others.<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thanks<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Best Regards,<o:p><=
+/o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Billy Tsai<o:p></o:=
+p></span></p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_SG2PR06MB33654B0D05D4644D409C5E888B24ASG2PR06MB3365apcp_--
