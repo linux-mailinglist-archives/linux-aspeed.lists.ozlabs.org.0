@@ -2,51 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8D774A8ED
-	for <lists+linux-aspeed@lfdr.de>; Fri,  7 Jul 2023 04:24:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B720F74CB2A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jul 2023 06:22:43 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=k/MmSA+G;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4QxxzL31lsz3c1g
-	for <lists+linux-aspeed@lfdr.de>; Fri,  7 Jul 2023 12:23:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4QzrSx4hzqz30XQ
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jul 2023 14:22:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=iscas.ac.cn (client-ip=159.226.251.25; helo=cstnet.cn; envelope-from=jiasheng@iscas.ac.cn; receiver=lists.ozlabs.org)
-X-Greylist: delayed 433 seconds by postgrey-1.37 at boromir; Fri, 07 Jul 2023 12:23:54 AEST
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=k/MmSA+G;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72d; helo=mail-qk1-x72d.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4QxxzG1Z3Yz30Cg
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Jul 2023 12:23:53 +1000 (AEST)
-Received: from ed3e173716be.home.arpa (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowABnLOl6dadk665DCQ--.49713S2;
-	Fri, 07 Jul 2023 10:16:26 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: joel@jms.id.au,
-	andrew@aj.id.au
-Subject: [PATCH] soc: aspeed: socinfo: Add kfree for kstrdup
-Date: Fri,  7 Jul 2023 10:16:25 +0800
-Message-Id: <20230707021625.7727-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4QzrSs4hwcz2ygr;
+	Mon, 10 Jul 2023 14:22:35 +1000 (AEST)
+Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-765a4ff26cdso366554585a.0;
+        Sun, 09 Jul 2023 21:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google; t=1688962952; x=1691554952;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KdPVtuGWSeh+e/CBypa8yvniv55q4NGBxX2TleYGOls=;
+        b=k/MmSA+GB3nUSHuzTWAKdW+rACKSvV3MdhyKgDGKnyuWIjHUbMCagmypEOkZVV55Io
+         iBYxTr0uz75WTg64Y7k3kiOIOZ7IrWbZscHM1Qk1xj3ZLi5QvlB8+n0zze9JPcLVG7YY
+         /+1/D8rhY6FVGZDJyIpACRvoYHbU0e1L2lxCE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688962952; x=1691554952;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KdPVtuGWSeh+e/CBypa8yvniv55q4NGBxX2TleYGOls=;
+        b=ImHW9DavwnQOB/BRTYz7XZv56wFB/V24X+wEMUtIdNIRIiDFdbapSzVrn9CTrjvEy+
+         TZv6E9GMExpksZ0JY2ixpNwYkvlmFOAaiDGoxh9LZDDf24V6k8Vw8uNgfIaaSIt8EGMj
+         4rGJIzBFhNZS/SNAK7MW5uz+TO4bFglfbKJMUlsiakXSLfD167dnt24U39cCiR5BR0SH
+         TDoPWnjM0qQVRNcU33F8Xnqu1YBe6zypPYjp47dfKt0kgkJ5O+Y171oCqPeljYPKoQD0
+         +V2TginA1eGdfxACy0A0f6dD2soWClU9i7yE2A1TSva4M3bsP4YxJpF8HZ50a9zqgzm7
+         v9Gg==
+X-Gm-Message-State: ABy/qLaosmMXH2HZ7+Juuuqtjk+6BGh6P35UOx98wHzSRZv4/26sUIG0
+	8WuLXOUPdJdPhZ1wKNcYGCEqOd4bAVidUe/bHjg2jMBP5hqY0Q==
+X-Google-Smtp-Source: APBJJlFPmu/OpSM3hi2YqcI2sfhcz7s1RLQ6X0BZQcnNGXKfqOg1DMVVigKZ89Mqohjn+kNP2hZxf+s2peyir5k6h7U=
+X-Received: by 2002:a05:622a:1313:b0:3fd:eca6:8aed with SMTP id
+ v19-20020a05622a131300b003fdeca68aedmr13615111qtk.44.1688962952027; Sun, 09
+ Jul 2023 21:22:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABnLOl6dadk665DCQ--.49713S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jry3GF13Ww17uF1ktFy7KFg_yoW3XFXE9r
-	4UCw15Xry5G3s7Za45ZrsYvryq9ay29r1fCa1fKF13AFWUJFZxWFy2gr97Zr1rWr4xAF98
-	J34UtryrJw17GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbckFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
-	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
-	Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
-	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI
-	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
-	1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
-	42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUgVyxUUUUU=
-X-Originating-IP: [124.16.138.129]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+References: <20230628083735.19946-2-zev@bewilderbeest.net>
+In-Reply-To: <20230628083735.19946-2-zev@bewilderbeest.net>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 10 Jul 2023 04:22:18 +0000
+Message-ID: <CACPK8Xei-295TNmkjg53qXyQHwSUf3s+Sj87_o7ZEw1G0+NPpw@mail.gmail.com>
+Subject: Re: [PATCH] soc: aspeed: uart-routing: Use __sysfs_match_string
+To: Zev Weiss <zev@bewilderbeest.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,30 +70,42 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Jiasheng Jiang <jiasheng@iscas.ac.cn>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Oskar Senft <osk@google.com>, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add kfree() in the later error handling in order to avoid memory leak.
+On Wed, 28 Jun 2023 at 08:43, Zev Weiss <zev@bewilderbeest.net> wrote:
+>
+> The existing use of match_string() caused it to reject 'echo foo' due
+> to the implicitly appended newline, which was somewhat ergonomically
+> awkward and inconsistent with typical sysfs behavior.  Using the
+> __sysfs_* variant instead provides more convenient and consistent
+> linefeed-agnostic behavior.
 
-Fixes: e0218dca5787 ("soc: aspeed: Add soc info driver")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/soc/aspeed/aspeed-socinfo.c | 1 +
- 1 file changed, 1 insertion(+)
+Nice.
 
-diff --git a/drivers/soc/aspeed/aspeed-socinfo.c b/drivers/soc/aspeed/aspeed-socinfo.c
-index 1ca140356a08..3f759121dc00 100644
---- a/drivers/soc/aspeed/aspeed-socinfo.c
-+++ b/drivers/soc/aspeed/aspeed-socinfo.c
-@@ -137,6 +137,7 @@ static int __init aspeed_socinfo_init(void)
- 
- 	soc_dev = soc_device_register(attrs);
- 	if (IS_ERR(soc_dev)) {
-+		kfree(attrs->machine);
- 		kfree(attrs->soc_id);
- 		kfree(attrs->serial_number);
- 		kfree(attrs);
--- 
-2.25.1
+Fixes: c6807970c3bc ("soc: aspeed: Add UART routing support")
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
+>
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> ---
+>  drivers/soc/aspeed/aspeed-uart-routing.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/soc/aspeed/aspeed-uart-routing.c b/drivers/soc/aspeed/aspeed-uart-routing.c
+> index ef8b24fd1851..59123e1f27ac 100644
+> --- a/drivers/soc/aspeed/aspeed-uart-routing.c
+> +++ b/drivers/soc/aspeed/aspeed-uart-routing.c
+> @@ -524,7 +524,7 @@ static ssize_t aspeed_uart_routing_store(struct device *dev,
+>         struct aspeed_uart_routing_selector *sel = to_routing_selector(attr);
+>         int val;
+>
+> -       val = match_string(sel->options, -1, buf);
+> +       val = __sysfs_match_string(sel->options, -1, buf);
+>         if (val < 0) {
+>                 dev_err(dev, "invalid value \"%s\"\n", buf);
+>                 return -EINVAL;
+> --
+> 2.40.0.5.gf6e3b97ba6d2.dirty
+>
