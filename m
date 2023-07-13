@@ -2,41 +2,39 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E6E750452
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Jul 2023 12:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223847516A4
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jul 2023 05:13:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R1DLc2ttlz3c30
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Jul 2023 20:22:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R1fnw0PYMz3c1t
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jul 2023 13:13:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=molgen.mpg.de (client-ip=141.14.17.11; helo=mx3.molgen.mpg.de; envelope-from=pmenzel@molgen.mpg.de; receiver=lists.ozlabs.org)
-X-Greylist: delayed 579 seconds by postgrey-1.37 at boromir; Wed, 12 Jul 2023 20:21:43 AEST
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.226; helo=mail.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from mail.aspeedtech.com (211-20-114-226.hinet-ip.hinet.net [211.20.114.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R1DLH4lwFz3byl;
-	Wed, 12 Jul 2023 20:21:43 +1000 (AEST)
-Received: from [141.14.220.45] (g45.guest.molgen.mpg.de [141.14.220.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 053DF61E5FE01;
-	Wed, 12 Jul 2023 12:09:16 +0200 (CEST)
-Message-ID: <461f3b88-87e6-32f2-3ed8-5764a9a6e162@molgen.mpg.de>
-Date: Wed, 12 Jul 2023 12:09:15 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R1fn76J0Fz3Wtt;
+	Thu, 13 Jul 2023 13:12:55 +1000 (AEST)
+Received: from [192.168.2.181] (192.168.2.181) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 13 Jul
+ 2023 11:12:33 +0800
+Message-ID: <e9a333d2-c633-2619-33fd-dd17816b7da8@aspeedtech.com>
+Date: Thu, 13 Jul 2023 11:12:33 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
 Subject: Re: [PATCH] media: aspeed: Fix memory overwrite if timing is 1600x900
-Content-Language: en-US
-To: Jammy Huang <jammy_huang@aspeedtech.com>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
 References: <20230712092606.2508-1-jammy_huang@aspeedtech.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20230712092606.2508-1-jammy_huang@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <461f3b88-87e6-32f2-3ed8-5764a9a6e162@molgen.mpg.de>
+Content-Language: en-US
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <461f3b88-87e6-32f2-3ed8-5764a9a6e162@molgen.mpg.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.181]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,60 +50,95 @@ Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.k
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Jammy,
+Hi Paul,
 
 
-Thank you very much for your patch.
+On 2023/7/12 下午 06:09, Paul Menzel wrote:
+> Dear Jammy,
+>
+>
+> Thank you very much for your patch.
+>
+> Am 12.07.23 um 11:26 schrieb Jammy Huang:
+>> When capturing 1600x900, system could crash when system memory usage is
+>> tight.
+>
+> Please provide part of the trace, and if you have a commend to 
+> reproduce it, please also add it. Is it documented somewhere, that it 
+> needs to be aligned?
 
-Am 12.07.23 um 11:26 schrieb Jammy Huang:
-> When capturing 1600x900, system could crash when system memory usage is
-> tight.
+Sorry, but I didn't find trace when this issue happened.The system just 
+crash and reboot.
 
-Please provide part of the trace, and if you have a commend to reproduce 
-it, please also add it. Is it documented somewhere, that it needs to be 
-aligned?
+It just takes a few minutes to reproduce this issue using the way as below,
 
-> The size of macro block captured is 8x8. Therefore, we should make sure
-> the height of src-buf is 8 aligned to fix this issue.
-> 
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
->   drivers/media/platform/aspeed/aspeed-video.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-> index 374eb7781936..14594f55a77f 100644
-> --- a/drivers/media/platform/aspeed/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed/aspeed-video.c
-> @@ -1130,7 +1130,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->   static void aspeed_video_set_resolution(struct aspeed_video *video)
->   {
->   	struct v4l2_bt_timings *act = &video->active_timings;
-> -	unsigned int size = act->width * act->height;
-> +	unsigned int size = act->width * ALIGN(act->height, 8);
->   
->   	/* Set capture/compression frame sizes */
->   	aspeed_video_calc_compressed_size(video, size);
-> @@ -1147,7 +1147,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->   		u32 width = ALIGN(act->width, 64);
->   
->   		aspeed_video_write(video, VE_CAP_WINDOW, width << 16 | act->height);
-> -		size = width * act->height;
-> +		size = width * ALIGN(act->height, 8);
+1. Use 1600x900 to display on host
 
-Maybe add a comment.
+2. Mount ISO through 'Virtual media' on OpenBMC's web
 
-Excuse my ignorance, but as `width` is already 64 bit aligned, how does 
-aligning the second factor make a difference for `size`? Can you give an 
-example?
+3. Run script as below on host to do sha continuously
 
->   	} else {
->   		aspeed_video_write(video, VE_CAP_WINDOW,
->   				   act->width << 16 | act->height);
-> 
-> base-commit: 2605e80d3438c77190f55b821c6575048c68268e
+#!/bin/bash
+
+while [ [1] ];
+do
+         find /media -type f -printf '"%h/%f"\n' | xargs sha256sum
+done
+
+4. Open KVM on OpenBMC's web
 
 
-Kind regards,
+I will add above information to next patch.
 
-Paul
+>
+>> The size of macro block captured is 8x8. Therefore, we should make sure
+>> the height of src-buf is 8 aligned to fix this issue.
+>>
+>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>> ---
+>>   drivers/media/platform/aspeed/aspeed-video.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/aspeed/aspeed-video.c 
+>> b/drivers/media/platform/aspeed/aspeed-video.c
+>> index 374eb7781936..14594f55a77f 100644
+>> --- a/drivers/media/platform/aspeed/aspeed-video.c
+>> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+>> @@ -1130,7 +1130,7 @@ static void aspeed_video_get_resolution(struct 
+>> aspeed_video *video)
+>>   static void aspeed_video_set_resolution(struct aspeed_video *video)
+>>   {
+>>       struct v4l2_bt_timings *act = &video->active_timings;
+>> -    unsigned int size = act->width * act->height;
+>> +    unsigned int size = act->width * ALIGN(act->height, 8);
+>>         /* Set capture/compression frame sizes */
+>>       aspeed_video_calc_compressed_size(video, size);
+>> @@ -1147,7 +1147,7 @@ static void aspeed_video_set_resolution(struct 
+>> aspeed_video *video)
+>>           u32 width = ALIGN(act->width, 64);
+>>             aspeed_video_write(video, VE_CAP_WINDOW, width << 16 | 
+>> act->height);
+>> -        size = width * act->height;
+>> +        size = width * ALIGN(act->height, 8);
+>
+> Maybe add a comment.
+>
+> Excuse my ignorance, but as `width` is already 64 bit aligned, how 
+> does aligning the second factor make a difference for `size`? Can you 
+> give an example?
+>
+>>       } else {
+>>           aspeed_video_write(video, VE_CAP_WINDOW,
+>>                      act->width << 16 | act->height);
+>>
+>> base-commit: 2605e80d3438c77190f55b821c6575048c68268e
+>
+>
+> Kind regards,
+>
+> Paul
+
+-- 
+Best Regards
+Jammy
+
