@@ -1,74 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A1B753068
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jul 2023 06:12:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2292753069
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jul 2023 06:12:40 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=d8qAos+3;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ccczWNKO;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R2J3Q2pFSz3c3W
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jul 2023 14:12:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R2J3V43gVz3c2K
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jul 2023 14:12:38 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=d8qAos+3;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ccczWNKO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::432; helo=mail-wr1-x432.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32c; helo=mail-wm1-x32c.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R2J3H6pqGz2xr6
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jul 2023 14:12:25 +1000 (AEST)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3143798f542so1584772f8f.2
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Jul 2023 21:12:25 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R2J3L3tn8z2xr6
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jul 2023 14:12:30 +1000 (AEST)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fbc54cab6fso13622545e9.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Jul 2023 21:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689307938; x=1691899938;
+        d=linaro.org; s=google; t=1689307946; x=1691899946;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=f8CTz13Ju/w9ax8ItZAVN5IBS20v8dpfE5mavSr6QmY=;
-        b=d8qAos+3KnkGz93yO8WWHVCCKmxnxkGJKeWhWxHc2Xf0lWJ+2zUVBs2HZFPYhq/2Pm
-         4zPX3OgolxCGO1rMqd6s88CbhTvUOVLtmkJOQEsFPl7k0lGsxYnVaXJvROUB0NDjbo3l
-         2/o94arb7IgUTDblGtpvp94s9BD8UFCD9+ak0hrLyz3PzaQ2mvVaEk7jJeNC7Yjsqs4d
-         GxfZ2oZhhx3TUj2HxkSv0bxAAJySlFXwP5Qa9rJ/Xd/4NtTwoIp6z3ekzp1TMkM8qa6b
-         zzrC7qElNpYTiy9Oe6fJVxL+2uEOUqefUOWv/DXabeqQP3kJnrAlKD/B4fI/vz1h8U96
-         njYw==
+        bh=F0om7TZyUtm78+G+6P856aCHHrm1f5f1KaX3wUrCTAY=;
+        b=ccczWNKODZuxkRpCg56pFlAaZdQRexz9nkS8tlC/ZdzAfGtdQ7nZ1awhlh+/BomWyx
+         5BdcclPjEkThLWEV8IH5urqxA2zYVv3RSNPbwp+Ldrkk68PnG/DDzCTpNjxtmxn9bbu8
+         sScBjzCiOzSl26cwhrYen9VMYqMOWNP9a0EBjrokc2xFiuRz9EVmEL8RqB029L+4IpTu
+         5K7L6NNTrMK5+dnmEMxrRuvwRIqBNp5eyMjp6EIMkDr2ve9FGv/xzhDZWkIckiUF6pVt
+         /KaJ0PKvC6H4DbG2iqHFmWn02efNj6CIx67rNmxCdhyiDAxMunEIaoB9FMFDxnRwZqZP
+         gnBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689307938; x=1691899938;
+        d=1e100.net; s=20221208; t=1689307946; x=1691899946;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f8CTz13Ju/w9ax8ItZAVN5IBS20v8dpfE5mavSr6QmY=;
-        b=BgLvDxbFa8QKQ/oK7HlO827T9YLHGapKDm3eL3kN+zNo+jsnrDEzCxBFFV0DlyPdM9
-         WIQQLyddn6D4Y8VyKFFuiXhZWqiQoaHW2cfJm72uOqOuDrIkTVEN44kePGJAgNyzJj9Q
-         ft0W9Gg6qHrp5nvEuD/8LEiUO/b81XwLRVpxy+rkeEtK6tKd6Y+anLq9xJWiWAoZvJYI
-         gKMqfzR1Eqy2UGRjXRCqaas5ccEuVgAm+5Q3dCBOumBzA5y11F24TXdb6s13rrr6h3zG
-         3/gziV82Jmbumg2PccxjhqIwl64XpniCJbrXUK1y5rGT+Nj31iKnvNyjiKpNuLXb/qUw
-         BN+A==
-X-Gm-Message-State: ABy/qLZp88aY108rlFTXGwPNFGpamE9yePfbmzhHF4+FYKufCyZ0pbt7
-	s/ZfE96mMMpCpq4T5dywksi1tA==
-X-Google-Smtp-Source: APBJJlEiIEZ5oNA1kHIlijl6CR0KNtgyfSCPe+BnecIDGB/eed9crKM0HAEf5FXJE7lQ0/sQpDohiw==
-X-Received: by 2002:a5d:68c6:0:b0:313:f235:cd17 with SMTP id p6-20020a5d68c6000000b00313f235cd17mr3038668wrw.40.1689307938125;
-        Thu, 13 Jul 2023 21:12:18 -0700 (PDT)
+        bh=F0om7TZyUtm78+G+6P856aCHHrm1f5f1KaX3wUrCTAY=;
+        b=NHxMgJQZZ1gm1jDbw+ir2LJLZvbW9iZRydFACdDqhaUTHp5X/9B/bnqp6gCyaFXX26
+         M7hBFlEXhp1sNiWaZQbpFsKnVjoQwxwV+h9RM/d0VqPTUbDviZVEd7wEwmTNb40am25M
+         wivNXbsppy5i+VE4dbNzNX7jmDs8ixwvbt7R0Az/hmgCD3v6zahlrv/fk5NQQnTX6WOX
+         MDSqITDftAXwY/Tj4a66MUQe0Zh82fGj/fRlhspHriq6OcNw5TFMM3HgD0Y/Zq43mvN4
+         c6GljJB9uDwbcxqDznIAngR3RPgwYQ6jN+gwVvntA+4c3K8FBlwrarufu5gtWNlb3z74
+         KeOw==
+X-Gm-Message-State: ABy/qLYZvxRWsgb+MGKaLqrG1ia/Qde6Yvc+3eHNfJUJvPy6/NJvFftA
+	7uxOAaoArFHhLKzFvbT2u8t7RNIDlDMQWf0eVQc=
+X-Google-Smtp-Source: APBJJlFirpaQfMgeNnJNmqD/IIFh+MZqYnv5ScO0xHnlU6ErTOZlfdl92D5b5W6MJdqzRwxs+uoReg==
+X-Received: by 2002:a5d:4641:0:b0:313:f0ef:1e55 with SMTP id j1-20020a5d4641000000b00313f0ef1e55mr2799626wrs.37.1689307946155;
+        Thu, 13 Jul 2023 21:12:26 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id r12-20020a0560001b8c00b003141b9ddab3sm9566447wru.114.2023.07.13.21.12.16
+        by smtp.gmail.com with ESMTPSA id r7-20020a5d6947000000b00313fd294d6csm9783978wrw.7.2023.07.13.21.12.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jul 2023 21:12:17 -0700 (PDT)
-Message-ID: <627bcf48-d9fb-5bfc-f45b-f9cf614d081d@linaro.org>
-Date: Fri, 14 Jul 2023 06:12:15 +0200
+        Thu, 13 Jul 2023 21:12:25 -0700 (PDT)
+Message-ID: <58b40977-5223-7431-3c0e-dcf87bf1ef3f@linaro.org>
+Date: Fri, 14 Jul 2023 06:12:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2 0/2] Add Facebook Yosemite V4 (AST2600) BMC
+Subject: Re: [PATCH v2 1/2] dt-bindings: arm: aspeed: add Facebook Yosemite V4
+ board
 Content-Language: en-US
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>
 References: <20230712073752.54624-3-Delphine_CC_Chiu@wiwynn.com>
  <20230714023502.3225096-1-Delphine_CC_Chiu@wiwynn.com>
+ <20230714023502.3225096-2-Delphine_CC_Chiu@wiwynn.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230714023502.3225096-1-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20230714023502.3225096-2-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -82,17 +88,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, soc@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 14/07/2023 04:34, Delphine CC Chiu wrote:
-> v2 - Add Facebook Yosemite V4 (AST2600) BMC
+> Document the new compatibles used on Facebook Yosemite V4.
 > 
+> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+> ---
 
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets.
+This is a friendly reminder during the review process.
+
+It looks like you received a tag and forgot to add it.
+
+If you do not know the process, here is a short explanation:
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions. However, there's no need to repost patches *only* to add the
+tags. The upstream maintainer will do that for acks received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.4/source/Documentation/process/submitting-patches.rst#L552
+
+If a tag was not added on purpose, please state why and what changed.
 
 Best regards,
 Krzysztof
