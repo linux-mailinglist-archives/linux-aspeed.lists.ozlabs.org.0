@@ -1,79 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17CB753806
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jul 2023 12:26:55 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ex+LPH8w;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C88A67540D2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jul 2023 19:46:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R2SMK5lbXz3c4t
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jul 2023 20:26:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R2f6X5PqVz3cK8
+	for <lists+linux-aspeed@lfdr.de>; Sat, 15 Jul 2023 03:46:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ex+LPH8w;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::433; helo=mail-pf1-x433.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.166.51; helo=mail-io1-f51.google.com; envelope-from=robherring2@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R2SMF227Bz30XZ
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jul 2023 20:26:48 +1000 (AEST)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6686c74183cso1692271b3a.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jul 2023 03:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689330405; x=1691922405;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=OeDz9XOyO2BYg3Fsp6L2LMwg9YaX4dzxFbvqddCCNbc=;
-        b=ex+LPH8wvfjEVCF0n3s6EmyDriahHf0k8cD+7xAUFjd8g86YStOQQ0TcV5a0oQOcnA
-         yCdYEJt6bY1tHGnCKAoKi4J/e3jxJgGwhKlideP6K8PcX63uEh+tI7Buyzfj03/3AJGv
-         cqEiPEpYBs1pjLKPJ4Y56tlxv/BmWZWFHsWT7jsajd+NQCHCuVxTnRX9sZBEnD+6yt/3
-         Ni8+jTItOOTK7vmKAZg42GqkwxBQu8myDkQ8RGChgRrcvrY0qTKa9I8s119YcaCj9Epk
-         RgTgNibToeN8Zi4jd6SLISN0wsoNTVbrjLlQ/8qZu/vkJoIqO2zs1PVE1vaYWHq/GDMd
-         KFdA==
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R2f6T0wcnz3c5g
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 15 Jul 2023 03:46:24 +1000 (AEST)
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-7836272f36eso89504439f.1
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jul 2023 10:46:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689330405; x=1691922405;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1689356782; x=1691948782;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OeDz9XOyO2BYg3Fsp6L2LMwg9YaX4dzxFbvqddCCNbc=;
-        b=hLCKOeLimt+iUvHDJKemWMCOVe+16UF6kz1sO8PMqwQCSdLvKo9EdklMsGtJoxenKJ
-         tZnOfRXN1sxm/C8flRPdJwvC7Qvs5XgffQhQRPXR9z92pq0EEt/wNv2yvl8YoRhtkN71
-         mIOwTDWqz9GlFv7THcWXX1dcn9yDSCJWxHOINb6k/EJy4qfYWXFJI4+AU/RsthXgSmgK
-         lpt7Kq6SBmqvzyJqTYqN0L6QkmtDVly0Eyyj0yddajtunxyeMUH1+i0i2kCpoDKpBZhs
-         K7nXfWpLSaGfVsBuqJSKyYzWgyLoeBc9/GCRz0WUUPOHAncc7MboxLiT5Ks8c6LhOqWz
-         uy/A==
-X-Gm-Message-State: ABy/qLbQhmCheuVQ7EglyrmPagEtI2ClEnMdyJG2j2E827FRIyneFreX
-	BujrN7WwC6WucPF9nIe3mbQ=
-X-Google-Smtp-Source: APBJJlGPzXvxtEOFuHaJbQ4dhtA0fv1hirhejLpmoI89mcWrV+4LLQ+oGeZ2UFuMoX7KIEqT4a96/w==
-X-Received: by 2002:a05:6a00:17a6:b0:666:e42c:d5fb with SMTP id s38-20020a056a0017a600b00666e42cd5fbmr6488013pfg.32.1689330405421;
-        Fri, 14 Jul 2023 03:26:45 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s10-20020a62e70a000000b006687b41c4dasm6869160pfh.110.2023.07.14.03.26.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 03:26:44 -0700 (PDT)
-Message-ID: <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net>
-Date: Fri, 14 Jul 2023 03:26:42 -0700
+        bh=++9nzD/JzCF39gAGrMXF8Y6idYmLnfKSrYyS8JLIzsI=;
+        b=SEt7kMcq7Z7d4lunvAS81Y1URvwYJc/6IDVzWeURi5kdpFtbW1396DzWTy88lsDmEE
+         tVr5XquEFc9W15iFPeVNXaVXE4DBFBQ1kMeinXV4CqcSg4vX/LDobwn9axDeZhT9n7f2
+         mWp6DEXclDKB3lc76y/StVIh0q8WZ5Sjlf85NRpNtKJnCG4EkZSNbCUuUZ5jwmEhqmsU
+         bzWLAKAHb61Bs8wv9riYTRyCCMv6eIibcNN8sMwo6E/mFHKmOAqAU0ze5Re54t0/HDO9
+         TayJbsHYCmkgxhJvwecf+UunY6QlZdc7F0s0J9gUyQFgGJ/7lXihxjgzDptHH9EgvZr3
+         QQdQ==
+X-Gm-Message-State: ABy/qLakeQfQG+ZWHrTpQ05XcX0RSOK0QwQcUTbnjmO3QeBpIuBfHraz
+	zHRDS+svmTK5Ytg4Q8JavQ==
+X-Google-Smtp-Source: APBJJlHG+t3WZVcyrkykKAdQOVqphOSCT5jQaGdMGeB11R0kRg+uJBi/VTvyTNrIijy8sN8Abne9kg==
+X-Received: by 2002:a6b:f101:0:b0:787:1d0a:ce81 with SMTP id e1-20020a6bf101000000b007871d0ace81mr5974474iog.13.1689356782016;
+        Fri, 14 Jul 2023 10:46:22 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id ce16-20020a05660242d000b00785cd25010esm2654702iob.11.2023.07.14.10.46.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jul 2023 10:46:21 -0700 (PDT)
+Received: (nullmailer pid 4057372 invoked by uid 1000);
+	Fri, 14 Jul 2023 17:46:11 -0000
+From: Rob Herring <robh@kernel.org>
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, Robert Marko <robert.marko@sartura.hr>, Saravanan Sekar <sravanhome@gmail.com>, Luka Perkov <luka.perkov@sartura.hr>, Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>
+Subject: [PATCH] hwmon: Explicitly include correct DT includes
+Date: Fri, 14 Jul 2023 11:46:04 -0600
+Message-Id: <20230714174607.4057185-1-robh@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
- documentation
-Content-Language: en-US
-To: =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>
-References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
- <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
- <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
- <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -86,59 +60,546 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "corbet@lwn.net" <corbet@lwn.net>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 7/14/23 03:18, 蔡承達 wrote:
-> Guenter Roeck <linux@roeck-us.net> 於 2023年7月14日 週五 下午5:59寫道：
->>
->> On 7/14/23 00:13, Krzysztof Kozlowski wrote:
->>> On 14/07/2023 09:04, 蔡承達 wrote:
->>>
->>>>           > This is because our register layout for PWM and Tach is not
->>>> continuous.
->>>>
->>>>           > PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
->>>>
->>>>           > PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
->>>>
->>>>           > ...
->>>>
->>>>           > Each PWM/Tach instance has its own controller register and is not
->>>> dependent on others.
->>>
->>> Your email reply quoting style is very difficult to read.
->>>
->>>>
->>>>
->>>>
->>>> Hi Guenter,
->>>>
->>>>
->>>>
->>>> Did you receive a response to my previous email?
->>>>
->>>> I would like to inquire if you have any further concerns regarding the PWM
->>>> and Tach with 16 instances.
->>>
->>> But isn't like this in all PWMs in all SoCs?
->>>
->>
->> Correct, pretty much every fan controller is implemented that way.
->> I don't understand the logic.
->>
-> 
-> Hi Krzysztof and Guenter,
-> 
-> Apologies for any confusion earlier.
-> So, you think that the implementation with 16 instances of TACH/PWM
-> device nodes in dts instead of one is ok to you, right?
-> 
+The DT of_device.h and of_platform.h date back to the separate
+of_platform_bus_type before it as merged into the regular platform bus.
+As part of that merge prepping Arm DT support 13 years ago, they
+"temporarily" include each other. They also include platform_device.h
+and of.h. As a result, there's a pretty much random mix of those include
+files used throughout the tree. In order to detangle these headers and
+replace the implicit includes with struct declarations, users need to
+explicitly include the correct includes.
 
-Did I say that ? No, it is not ok with me. It is confusing and doesn't make
-sense to me. This is one fan controller with 16 channels, not 16 separate
-controllers.
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ drivers/hwmon/ad7418.c           | 2 +-
+ drivers/hwmon/ads7828.c          | 2 +-
+ drivers/hwmon/adt7475.c          | 1 -
+ drivers/hwmon/as370-hwmon.c      | 3 ++-
+ drivers/hwmon/aspeed-pwm-tacho.c | 3 +--
+ drivers/hwmon/g762.c             | 1 -
+ drivers/hwmon/gxp-fan-ctrl.c     | 2 +-
+ drivers/hwmon/ina2xx.c           | 1 -
+ drivers/hwmon/lm63.c             | 2 +-
+ drivers/hwmon/lm75.c             | 2 +-
+ drivers/hwmon/lm85.c             | 2 +-
+ drivers/hwmon/lm90.c             | 2 +-
+ drivers/hwmon/lochnagar-hwmon.c  | 1 -
+ drivers/hwmon/ltq-cputemp.c      | 3 ++-
+ drivers/hwmon/max31730.c         | 1 -
+ drivers/hwmon/max6621.c          | 2 +-
+ drivers/hwmon/max6697.c          | 1 -
+ drivers/hwmon/mcp3021.c          | 1 -
+ drivers/hwmon/nsa320-hwmon.c     | 2 --
+ drivers/hwmon/pmbus/dps920ab.c   | 2 +-
+ drivers/hwmon/pmbus/ibm-cffps.c  | 2 +-
+ drivers/hwmon/pmbus/ir38064.c    | 4 ++--
+ drivers/hwmon/pmbus/max20730.c   | 2 +-
+ drivers/hwmon/pmbus/mp5023.c     | 2 +-
+ drivers/hwmon/pmbus/mpq7932.c    | 2 +-
+ drivers/hwmon/pmbus/q54sj108a2.c | 2 +-
+ drivers/hwmon/pmbus/tps53679.c   | 2 +-
+ drivers/hwmon/pmbus/ucd9000.c    | 2 +-
+ drivers/hwmon/pmbus/ucd9200.c    | 2 +-
+ drivers/hwmon/sbtsi_temp.c       | 1 -
+ drivers/hwmon/scpi-hwmon.c       | 2 +-
+ drivers/hwmon/tmp421.c           | 2 +-
+ drivers/hwmon/tmp464.c           | 2 +-
+ drivers/hwmon/tps23861.c         | 2 +-
+ drivers/hwmon/ultra45_env.c      | 3 ++-
+ drivers/hwmon/vexpress-hwmon.c   | 1 -
+ drivers/hwmon/w83773g.c          | 2 +-
+ 37 files changed, 31 insertions(+), 40 deletions(-)
 
-Guenter
+diff --git a/drivers/hwmon/ad7418.c b/drivers/hwmon/ad7418.c
+index ffe81e445010..bcea66eac82b 100644
+--- a/drivers/hwmon/ad7418.c
++++ b/drivers/hwmon/ad7418.c
+@@ -16,7 +16,7 @@
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/err.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/delay.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/hwmon/ads7828.c b/drivers/hwmon/ads7828.c
+index 1932613ec095..e86894e35639 100644
+--- a/drivers/hwmon/ads7828.c
++++ b/drivers/hwmon/ads7828.c
+@@ -18,7 +18,7 @@
+ #include <linux/i2c.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/platform_data/ads7828.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+diff --git a/drivers/hwmon/adt7475.c b/drivers/hwmon/adt7475.c
+index c0ce88324ea6..5363254644da 100644
+--- a/drivers/hwmon/adt7475.c
++++ b/drivers/hwmon/adt7475.c
+@@ -10,7 +10,6 @@
+  */
+ 
+ #include <linux/module.h>
+-#include <linux/of_device.h>
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/i2c.h>
+diff --git a/drivers/hwmon/as370-hwmon.c b/drivers/hwmon/as370-hwmon.c
+index fffbf385a57f..316454bd983d 100644
+--- a/drivers/hwmon/as370-hwmon.c
++++ b/drivers/hwmon/as370-hwmon.c
+@@ -11,7 +11,8 @@
+ #include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
++#include <linux/platform_device.h>
+ 
+ #define CTRL		0x0
+ #define  PD		BIT(0)
+diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
+index d11f674e3dc3..997df4b40509 100644
+--- a/drivers/hwmon/aspeed-pwm-tacho.c
++++ b/drivers/hwmon/aspeed-pwm-tacho.c
+@@ -12,8 +12,7 @@
+ #include <linux/io.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
+-#include <linux/of_platform.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/reset.h>
+diff --git a/drivers/hwmon/g762.c b/drivers/hwmon/g762.c
+index 1b6ff4712138..fad69ef56c75 100644
+--- a/drivers/hwmon/g762.c
++++ b/drivers/hwmon/g762.c
+@@ -39,7 +39,6 @@
+ #include <linux/kernel.h>
+ #include <linux/clk.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_data/g762.h>
+ 
+ #define DRVNAME "g762"
+diff --git a/drivers/hwmon/gxp-fan-ctrl.c b/drivers/hwmon/gxp-fan-ctrl.c
+index 2e05bc2f627a..00e057050437 100644
+--- a/drivers/hwmon/gxp-fan-ctrl.c
++++ b/drivers/hwmon/gxp-fan-ctrl.c
+@@ -6,7 +6,7 @@
+ #include <linux/hwmon.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ 
+ #define OFS_FAN_INST	0 /* Is 0 because plreg base will be set at INST */
+diff --git a/drivers/hwmon/ina2xx.c b/drivers/hwmon/ina2xx.c
+index cfd7efef5cdf..a47973e2d606 100644
+--- a/drivers/hwmon/ina2xx.c
++++ b/drivers/hwmon/ina2xx.c
+@@ -31,7 +31,6 @@
+ #include <linux/hwmon.h>
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/jiffies.h>
+-#include <linux/of_device.h>
+ #include <linux/of.h>
+ #include <linux/delay.h>
+ #include <linux/util_macros.h>
+diff --git a/drivers/hwmon/lm63.c b/drivers/hwmon/lm63.c
+index 6972454eb4e0..562c94c7d831 100644
+--- a/drivers/hwmon/lm63.c
++++ b/drivers/hwmon/lm63.c
+@@ -33,7 +33,7 @@
+ #include <linux/hwmon.h>
+ #include <linux/err.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/sysfs.h>
+ #include <linux/types.h>
+ 
+diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
+index 72e634d1b857..72cdc405a3b0 100644
+--- a/drivers/hwmon/lm75.c
++++ b/drivers/hwmon/lm75.c
+@@ -13,7 +13,7 @@
+ #include <linux/hwmon.h>
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/err.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of.h>
+ #include <linux/regmap.h>
+ #include <linux/util_macros.h>
+diff --git a/drivers/hwmon/lm85.c b/drivers/hwmon/lm85.c
+index 8540178f5b74..2a62ea7b25a9 100644
+--- a/drivers/hwmon/lm85.c
++++ b/drivers/hwmon/lm85.c
+@@ -12,7 +12,7 @@
+  */
+ 
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/jiffies.h>
+diff --git a/drivers/hwmon/lm90.c b/drivers/hwmon/lm90.c
+index 90101c236f35..b25ae8b7ec90 100644
+--- a/drivers/hwmon/lm90.c
++++ b/drivers/hwmon/lm90.c
+@@ -106,7 +106,7 @@
+ #include <linux/kstrtox.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/workqueue.h>
+diff --git a/drivers/hwmon/lochnagar-hwmon.c b/drivers/hwmon/lochnagar-hwmon.c
+index 6350904a8a8b..5202dddfd61e 100644
+--- a/drivers/hwmon/lochnagar-hwmon.c
++++ b/drivers/hwmon/lochnagar-hwmon.c
+@@ -16,7 +16,6 @@
+ #include <linux/mfd/lochnagar2_regs.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ 
+diff --git a/drivers/hwmon/ltq-cputemp.c b/drivers/hwmon/ltq-cputemp.c
+index 08e09a82acab..f7e4a4ca5239 100644
+--- a/drivers/hwmon/ltq-cputemp.c
++++ b/drivers/hwmon/ltq-cputemp.c
+@@ -9,8 +9,9 @@
+ #include <linux/hwmon.h>
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/init.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ 
+ #include <lantiq_soc.h>
+ 
+diff --git a/drivers/hwmon/max31730.c b/drivers/hwmon/max31730.c
+index b1300ca9db1f..7d237db6e57c 100644
+--- a/drivers/hwmon/max31730.c
++++ b/drivers/hwmon/max31730.c
+@@ -11,7 +11,6 @@
+ #include <linux/init.h>
+ #include <linux/hwmon.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
+ #include <linux/of.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/hwmon/max6621.c b/drivers/hwmon/max6621.c
+index 7f709fd1af89..af7e62685898 100644
+--- a/drivers/hwmon/max6621.c
++++ b/drivers/hwmon/max6621.c
+@@ -12,7 +12,7 @@
+ #include <linux/i2c.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/regmap.h>
+ 
+ #define MAX6621_DRV_NAME		"max6621"
+diff --git a/drivers/hwmon/max6697.c b/drivers/hwmon/max6697.c
+index 3a67778f111c..fe826fcf9990 100644
+--- a/drivers/hwmon/max6697.c
++++ b/drivers/hwmon/max6697.c
+@@ -15,7 +15,6 @@
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/err.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
+ #include <linux/of.h>
+ 
+ #include <linux/platform_data/max6697.h>
+diff --git a/drivers/hwmon/mcp3021.c b/drivers/hwmon/mcp3021.c
+index 127e15ff3e76..9814eaf24564 100644
+--- a/drivers/hwmon/mcp3021.c
++++ b/drivers/hwmon/mcp3021.c
+@@ -20,7 +20,6 @@
+ #include <linux/err.h>
+ #include <linux/device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ 
+ /* Vdd / reference voltage in millivolt */
+ #define MCP3021_VDD_REF_MAX	5500
+diff --git a/drivers/hwmon/nsa320-hwmon.c b/drivers/hwmon/nsa320-hwmon.c
+index ebe6b031e56f..e26334469549 100644
+--- a/drivers/hwmon/nsa320-hwmon.c
++++ b/drivers/hwmon/nsa320-hwmon.c
+@@ -20,8 +20,6 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+-#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ 
+ /* Tests for error return values rely upon this value being < 0x80 */
+diff --git a/drivers/hwmon/pmbus/dps920ab.c b/drivers/hwmon/pmbus/dps920ab.c
+index f7ff3e4650b7..04e0d598a6e5 100644
+--- a/drivers/hwmon/pmbus/dps920ab.c
++++ b/drivers/hwmon/pmbus/dps920ab.c
+@@ -9,7 +9,7 @@
+ #include <linux/debugfs.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include "pmbus.h"
+ 
+ struct dps920ab_data {
+diff --git a/drivers/hwmon/pmbus/ibm-cffps.c b/drivers/hwmon/pmbus/ibm-cffps.c
+index c791925b8907..5b11aacda4d2 100644
+--- a/drivers/hwmon/pmbus/ibm-cffps.c
++++ b/drivers/hwmon/pmbus/ibm-cffps.c
+@@ -13,7 +13,7 @@
+ #include <linux/leds.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/pmbus.h>
+ 
+ #include "pmbus.h"
+diff --git a/drivers/hwmon/pmbus/ir38064.c b/drivers/hwmon/pmbus/ir38064.c
+index 871c322d3d51..04185be3fdb6 100644
+--- a/drivers/hwmon/pmbus/ir38064.c
++++ b/drivers/hwmon/pmbus/ir38064.c
+@@ -6,7 +6,7 @@
+  *
+  * VOUT_MODE is not supported by the device. The driver fakes VOUT linear16
+  * mode with exponent value -8 as direct mode with m=256/b=0/R=0.
+- *          
++ *
+  * The device supports VOUT_PEAK, IOUT_PEAK, and TEMPERATURE_PEAK, however
+  * this driver does not currently support them.
+  */
+@@ -16,7 +16,7 @@
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/regulator/driver.h>
+ #include "pmbus.h"
+ 
+diff --git a/drivers/hwmon/pmbus/max20730.c b/drivers/hwmon/pmbus/max20730.c
+index 7bcf27995033..6f99085c2c3b 100644
+--- a/drivers/hwmon/pmbus/max20730.c
++++ b/drivers/hwmon/pmbus/max20730.c
+@@ -15,7 +15,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/pmbus.h>
+ #include <linux/util_macros.h>
+ #include "pmbus.h"
+diff --git a/drivers/hwmon/pmbus/mp5023.c b/drivers/hwmon/pmbus/mp5023.c
+index c4c4324d2b74..21acb7fd9a1a 100644
+--- a/drivers/hwmon/pmbus/mp5023.c
++++ b/drivers/hwmon/pmbus/mp5023.c
+@@ -5,7 +5,7 @@
+ 
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include "pmbus.h"
+ 
+ static struct pmbus_driver_info mp5023_info = {
+diff --git a/drivers/hwmon/pmbus/mpq7932.c b/drivers/hwmon/pmbus/mpq7932.c
+index 865d42edda1a..6c62f01da7c6 100644
+--- a/drivers/hwmon/pmbus/mpq7932.c
++++ b/drivers/hwmon/pmbus/mpq7932.c
+@@ -12,7 +12,7 @@
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/pmbus.h>
+ #include "pmbus.h"
+ 
+diff --git a/drivers/hwmon/pmbus/q54sj108a2.c b/drivers/hwmon/pmbus/q54sj108a2.c
+index b830f3b02bcc..a235c1cdf4fe 100644
+--- a/drivers/hwmon/pmbus/q54sj108a2.c
++++ b/drivers/hwmon/pmbus/q54sj108a2.c
+@@ -10,7 +10,7 @@
+ #include <linux/i2c.h>
+ #include <linux/kstrtox.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include "pmbus.h"
+ 
+ #define STORE_DEFAULT_ALL		0x11
+diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
+index ef99005a3af5..e77b12f342b4 100644
+--- a/drivers/hwmon/pmbus/tps53679.c
++++ b/drivers/hwmon/pmbus/tps53679.c
+@@ -12,7 +12,7 @@
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include "pmbus.h"
+ 
+ enum chips {
+diff --git a/drivers/hwmon/pmbus/ucd9000.c b/drivers/hwmon/pmbus/ucd9000.c
+index c404d306e8f7..b1d1d4214e69 100644
+--- a/drivers/hwmon/pmbus/ucd9000.c
++++ b/drivers/hwmon/pmbus/ucd9000.c
+@@ -10,7 +10,7 @@
+ #include <linux/delay.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/init.h>
+ #include <linux/err.h>
+ #include <linux/slab.h>
+diff --git a/drivers/hwmon/pmbus/ucd9200.c b/drivers/hwmon/pmbus/ucd9200.c
+index a82847945508..e4aad64b2d94 100644
+--- a/drivers/hwmon/pmbus/ucd9200.c
++++ b/drivers/hwmon/pmbus/ucd9200.c
+@@ -7,7 +7,7 @@
+ 
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/init.h>
+ #include <linux/err.h>
+ #include <linux/slab.h>
+diff --git a/drivers/hwmon/sbtsi_temp.c b/drivers/hwmon/sbtsi_temp.c
+index b79cece4ac9a..dd85cf89f008 100644
+--- a/drivers/hwmon/sbtsi_temp.c
++++ b/drivers/hwmon/sbtsi_temp.c
+@@ -13,7 +13,6 @@
+ #include <linux/hwmon.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
+ #include <linux/of.h>
+ 
+ /*
+diff --git a/drivers/hwmon/scpi-hwmon.c b/drivers/hwmon/scpi-hwmon.c
+index 121e5e9f487f..a0d220609565 100644
+--- a/drivers/hwmon/scpi-hwmon.c
++++ b/drivers/hwmon/scpi-hwmon.c
+@@ -8,7 +8,7 @@
+ 
+ #include <linux/hwmon.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/scpi_protocol.h>
+ #include <linux/slab.h>
+diff --git a/drivers/hwmon/tmp421.c b/drivers/hwmon/tmp421.c
+index 3cde3916ab6d..10b66c9ce045 100644
+--- a/drivers/hwmon/tmp421.c
++++ b/drivers/hwmon/tmp421.c
+@@ -20,7 +20,7 @@
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/err.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/sysfs.h>
+ 
+ /* Addresses to scan */
+diff --git a/drivers/hwmon/tmp464.c b/drivers/hwmon/tmp464.c
+index 4b79c3f4d9fe..f58ca4c6acb6 100644
+--- a/drivers/hwmon/tmp464.c
++++ b/drivers/hwmon/tmp464.c
+@@ -14,7 +14,7 @@
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/hwmon/tps23861.c b/drivers/hwmon/tps23861.c
+index 8fbbb29ae11d..d33ecbac00d6 100644
+--- a/drivers/hwmon/tps23861.c
++++ b/drivers/hwmon/tps23861.c
+@@ -14,7 +14,7 @@
+ #include <linux/hwmon.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/regmap.h>
+ 
+ #define TEMPERATURE			0x2c
+diff --git a/drivers/hwmon/ultra45_env.c b/drivers/hwmon/ultra45_env.c
+index b23cff2e3d5d..3b580f229887 100644
+--- a/drivers/hwmon/ultra45_env.c
++++ b/drivers/hwmon/ultra45_env.c
+@@ -9,7 +9,8 @@
+ #include <linux/types.h>
+ #include <linux/slab.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <linux/io.h>
+ #include <linux/hwmon.h>
+ #include <linux/hwmon-sysfs.h>
+diff --git a/drivers/hwmon/vexpress-hwmon.c b/drivers/hwmon/vexpress-hwmon.c
+index 2ac5fb96bba4..d82a3b454d0e 100644
+--- a/drivers/hwmon/vexpress-hwmon.c
++++ b/drivers/hwmon/vexpress-hwmon.c
+@@ -13,7 +13,6 @@
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/vexpress.h>
+ 
+diff --git a/drivers/hwmon/w83773g.c b/drivers/hwmon/w83773g.c
+index 7f3615f5587c..045eea8378c2 100644
+--- a/drivers/hwmon/w83773g.c
++++ b/drivers/hwmon/w83773g.c
+@@ -12,7 +12,7 @@
+ #include <linux/hwmon.h>
+ #include <linux/hwmon-sysfs.h>
+ #include <linux/err.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/regmap.h>
+ 
+ /* W83773 has 3 channels */
+-- 
+2.40.1
 
