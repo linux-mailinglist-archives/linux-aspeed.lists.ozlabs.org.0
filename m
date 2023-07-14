@@ -2,52 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC65F755E3B
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jul 2023 10:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9794D755E3C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jul 2023 10:16:52 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=fdTi9RX0;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R4FKp4ZnLz2yW0
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jul 2023 18:16:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R4FKt3j4Yz2y1j
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jul 2023 18:16:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33; helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=fdTi9RX0;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::235; helo=mail-oi1-x235.google.com; envelope-from=billyking19920205@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R1zMP5FZPz3c3x
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jul 2023 01:40:14 +1000 (AEST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qJyQC-00033b-T0; Thu, 13 Jul 2023 17:40:00 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qJyPp-00E9Ib-Gt; Thu, 13 Jul 2023 17:39:37 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qJyPo-004aZX-PQ; Thu, 13 Jul 2023 17:39:36 +0200
-Date: Thu, 13 Jul 2023 17:39:36 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Paul <seanpaul@chromium.org>
-Subject: Re: [Freedreno] [PATCH RFC v1 00/52] drm/crtc: Rename struct
- drm_crtc::dev to drm_dev
-Message-ID: <20230713153936.k2m6aj34vptj5vf7@pengutronix.de>
-References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
- <87fs5tgpvv.fsf@intel.com>
- <CAOw6vbLO_UaXDbTCtAQJgthXOUMPqEV+c2MQhP-1DuK44OhGxw@mail.gmail.com>
- <20230713130337.fd2l67r23g2irifx@pengutronix.de>
- <CAOw6vbKtjyUm+OqO7LSV1hDOMQATwkEWP4GzBbbXib0i5EviUQ@mail.gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R2Msk28cTz2xqH
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jul 2023 17:04:25 +1000 (AEST)
+Received: by mail-oi1-x235.google.com with SMTP id 5614622812f47-392116ae103so1224954b6e.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jul 2023 00:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689318261; x=1691910261;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ct5iW0ccrR/9N0121PpCL8sBSVjvyEMaWpZ9Z6RaSww=;
+        b=fdTi9RX0UHW5JsMNDBJ4gWLoiZOaGmD0a5ZKaDOYkKE4cXLNmpigumU0BctS0wrtY/
+         hw95EvAL3yozD3hvix2FFWyOSGzrYdrBGgVlehMgMy/pIng8dTpijVDu/PmeXiiLpFM+
+         AHDPBi/CQZu+xws9jXMK/wOzcXFKL7NquwUofvv5opwD7TAKa6EnFbmfz1pFCxRaqCIG
+         zuLDzK6wpbJ+pPMKN0xSnG89kzysxERy4bYiQJQ11e7r5PacQGI/hlTmFQtz/7uUV/nC
+         wb/sj77pW7peJSPCV7QaJWO6ArAkWTD6iE4a+Csu8L9KQZsGTHStIqyhbirQd1bGYC1i
+         TzzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689318261; x=1691910261;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ct5iW0ccrR/9N0121PpCL8sBSVjvyEMaWpZ9Z6RaSww=;
+        b=Dzqg+PaAiJ6eo7huHSm0tbczlc61SC+WDCuRCeO4KCUQMhIjKuxPhz7iIrARzuWiAI
+         4+R9AS7Paa3BZ60Ls7MFh9936vd56Es+OJYPmUN0v/IyuY3Cjweyup7G3v5qzqeQ7zxR
+         IWLg3ZbjWeH0a0VVXWqrOahZJmIyqymVu0QH78ov1p8S9yS+4b21Fv0Zrhkm2dAs+kop
+         g+abWWcLqbWgad5pxpk8/IXk+SBvBkIia4U5q5h1dC1275i4PFC/jK+OjvtDgiRAone5
+         F7SCHa1L/RbpJ4s8++bk3H+YfMGTiTPyKVPDu0jUAjVOH4EuXdUSgyzdlHE4k1kzdUVF
+         Nb0g==
+X-Gm-Message-State: ABy/qLaLqxTz0lwWm3nFyMcwfZ9zadvAZ5M0DivxPGbgMdNeVEyN3UNj
+	bAKzwqZ0QLy0DFZ1zZNyw0CneqK7N+zYzl9BBso=
+X-Google-Smtp-Source: APBJJlElje0JyWi/pEFOyo8CFYLDpmFMq00Bnwa1vvnod9f3hcR37f+wOZOaUI6uulwVibwVME8QMd3bea+x4Q4/hzg=
+X-Received: by 2002:a05:6808:20a4:b0:3a3:83c9:bdf7 with SMTP id
+ s36-20020a05680820a400b003a383c9bdf7mr4836867oiw.5.1689318261363; Fri, 14 Jul
+ 2023 00:04:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mnk65dkcvejfh2ja"
-Content-Disposition: inline
-In-Reply-To: <CAOw6vbKtjyUm+OqO7LSV1hDOMQATwkEWP4GzBbbXib0i5EviUQ@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+From: =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>
+Date: Fri, 14 Jul 2023 15:04:10 +0800
+Message-ID: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control documentation
+To: Guenter Roeck <linux@roeck-us.net>, "jdelvare@suse.com" <jdelvare@suse.com>, 
+	"robh+dt@kernel.org" <robh+dt@kernel.org>, 
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "joel@jms.id.au" <joel@jms.id.au>, 
+	"andrew@aj.id.au" <andrew@aj.id.au>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, 
+	"u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, 
+	Billy Tsai <billy_tsai@aspeedtech.com>
+Content-Type: multipart/alternative; boundary="000000000000e1997a06006d0eb6"
 X-Mailman-Approved-At: Mon, 17 Jul 2023 18:11:36 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -60,72 +84,376 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Geert Uytterhoeven <geert+renesas@glider.be>, Xinliang Liu <xinliang.liu@linaro.org>, Linus Walleij <linus.walleij@linaro.org>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Alexey Kodanev <aleksei.kodanev@bell-sw.com>, dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>, Vandita Kulkarni <vandita.kulkarni@intel.com>, Alim Akhtar <alim.akhtar@samsung.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Marijn Suijten <marijn.suijten@somainline.org>, Jonathan Hunter <jonathanh@nvidia.com>, Arun R Murthy <arun.r.murthy@intel.com>, Jyri Sarha <jyri.sarha@iki.fi>, Jerome Brunet <jbrunet@baylibre.com>, Liu Shixin <liushixin2@huawei.com>, linux-samsung-soc@vger.kernel.org, Drew Davenport <ddavenport@chromium.org>, Samuel Holland <samuel@sholland.org>, Matt Roper <matthew.d.roper@intel.com>, Wenjing Liu <wenjing.liu@amd.com>, Javier Martinez Canillas <javierm@redhat.com>, Stanislav Lisovskiy <stanislav.l
- isovskiy@intel.com>, Danilo Krummrich <dakr@redhat.com>, NXP Linux Team <linux-imx@nxp.com>, spice-devel@lists.freedesktop.org, Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>, linux-sunxi@lists.linux.dev, Stylon Wang <stylon.wang@amd.com>, Tim Huang <Tim.Huang@amd.com>, Suraj Kandpal <suraj.kandpal@intel.com>, =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, Andi Shyti <andi.shyti@linux.intel.com>, Yifan Zhang <yifan1.zhang@amd.com>, Leo Li <sunpeng.li@amd.com>, Sascha Hauer <s.hauer@pengutronix.de>, Lucas De Marchi <lucas.demarchi@intel.com>, Inki Dae <inki.dae@samsung.com>, Hersen Wu <hersenxs.wu@amd.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, =?utf-8?Q?=C5=81ukasz?= Bartosik <lb@semihalf.com>, Radhakrishna Sripada <radhakrishna.sripada@intel.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutron
- ix.de, Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org, Claudiu Beznea <claudiu.beznea@microchip.com>, Zack Rusin <zackr@vmware.com>, Gerd Hoffmann <kraxel@redhat.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, amd-gfx@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>, =?utf-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>, virtualization@lists.linux-foundation.org, Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Thierry Reding <thierry.reding@gmail.com>, Yongqin Liu <yongqin.liu@linaro.org>, Mario Limonciello <mario.limonciello@amd.com>, Fei Yang <fei.yang@intel.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, David Francis <David.Francis@amd.com>, Aaron Liu <aaron.liu@amd.com>, Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, Vinod Polimera <qu
- ic_vpolimer@quicinc.com>, linux-rockchip@lists.infradead.org, Fangzhi Zuo <jerry.zuo@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>, VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>, Ben Skeggs <bskeggs@redhat.com>, Sam Ravnborg <sam@ravnborg.org>, Jouni =?utf-8?B?SMO2Z2FuZGVy?= <jouni.hogander@intel.com>, Dave Airlie <airlied@redhat.com>, linux-mips@vger.kernel.org, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, Animesh Manna <animesh.manna@intel.com>, Maxime Ripard <mripard@kernel.org>, Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>, Biju Das <biju.das.jz@bp.renesas.com>, linux-amlogic@lists.infradead.org, Evan Quan <evan.quan@amd.com>, Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org, Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Boris Brezillon <bbrezillon@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>, San
- dy Huang <hjc@rock-chips.com>, Swati Sharma <swati2.sharma@intel.com>, linux-renesas-soc@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Hawking Zhang <Hawking.Zhang@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>, Haneen Mohammed <hamohammed.sa@gmail.com>, Anusha Srivatsa <anusha.srivatsa@intel.com>, Dan Carpenter <error27@gmail.com>, Karol Herbst <kherbst@redhat.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, linux-hyperv@vger.kernel.org, Stefan Agner <stefan@agner.ch>, Melissa Wen <melissa.srw@gmail.com>, =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, Luca Coelho <luciano.coelho@intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Likun Gao <Likun.Gao@amd.com>, "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>, Alain Volmat <alain.volmat@foss.st.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, Jernej Skrabec <jernej.skrabe
- c@gmail.com>, Deepak Rawat <drawat.floss@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Orson Zhai <orsonzhai@gmail.com>, Ankit Nautiyal <ankit.k.nautiyal@intel.com>, Harry Wentland <harry.wentland@amd.com>, Chia-I Wu <olvaffe@gmail.com>, Alan Liu <haoping.liu@amd.com>, Philip Yang <Philip.Yang@amd.com>, Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org, Alison Wang <alison.wang@nxp.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Gustavo Sousa <gustavo.sousa@intel.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Philipp Zabel <p.zabel@pengutronix.de>, Gurchetan Singh <gurchetansingh@chromium.org>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Tomi Valkeinen <tomba@kernel.org>, Deepak R Varma <drv@mailo.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Kieran Bingham <kieran.bingham+renesas@ideasonboa
- rd.com>, Tian Tao <tiantao6@hisilicon.com>, Roman Li <roman.li@amd.com>, Shawn Guo <shawnguo@kernel.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Khaled Almahallawy <khaled.almahallawy@intel.com>, linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Imre Deak <imre.deak@intel.com>, Liviu Dudau <liviu.dudau@arm.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Mikko Perttunen <mperttunen@nvidia.com>, Paul Cercueil <paul@crapouillou.net>, Rob Clark <robdclark@gmail.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>, David Airlie <airlied@gmail.com>, Marek Vasut <marex@denx.de>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, xen-devel@lists.xenproject.org, Guchun Chen <guchun.chen@amd.com>, Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Jani
-  Nikula <jani.nikula@intel.com>, Uma Shankar <uma.shankar@intel.com>, Mika Kahola <mika.kahola@intel.com>, Jiasheng Jiang <jiasheng@iscas.ac.cn>, Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, David Lechner <david@lechnology.com>, Vinod Govindapillai <vinod.govindapillai@intel.com>, Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?utf-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>, Melissa Wen <mwen@igalia.com>, Hans de Goede <hdegoede@redhat.com>, linux-mediatek@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Matthias Brugger <matthias.bgg@gmail.com>, David Tadokoro <davidbtadokoro@usp.br>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-tegra@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, Yannick Fertre <yannick.fertre@foss.st.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, John Stultz <jstultz@google.
- com>, Philippe Cornu <philippe.cornu@foss.st.com>, Daniel Vetter <daniel@ffwll.ch>, Wayne Lin <Wayne.Lin@amd.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Nirmoy Das <nirmoy.das@intel.com>, Lang Yu <Lang.Yu@amd.com>, Lucas Stach <l.stach@pengutronix.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+--000000000000e1997a06006d0eb6
+Content-Type: text/plain; charset="UTF-8"
 
---mnk65dkcvejfh2ja
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+        On 6/7/23 23:21, Billy Tsai wrote:
 
-On Thu, Jul 13, 2023 at 10:41:45AM -0400, Sean Paul wrote:
-> On Thu, Jul 13, 2023 at 9:04=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> > But even with the one-patch-per-rename approach I'd consider the
-> > renaming a net win, because ease of understanding code has a big value.
-> > It's value is not so easy measurable as "conflicts when backporting",
-> > but it also matters in say two years from now, while backporting
-> > shouldn't be an issue then any more.
->=20
-> You've rightly identified the conjecture in your statement. I've been
-> on both sides of the argument, having written/maintained drm code
-> upstream and cherry-picked changes to a downstream kernel. Perhaps
-> it's because drm's definition of dev is ingrained in my muscle memory,
-> or maybe it's because I don't do a lot of upstream development these
-> days, but I just have a hard time seeing the benefit here.
+        > > >          > The code says:
 
-I see that my change doesn't immediately benefit those who are already
-at home in drivers/gpu/drm. So it's quite understandable that someone in
-a senior role (long time contributor or maintainer) doesn't see a big
-upside.
+        > > >
 
-In contrast I think my change (with its indisputable cost) lowers the
-bar for new contributors to drm. IMHO that's something a maintainer has
-to have on their radar, too, and that's easily undervalued in my
-experience.
+        > > >          > In Aspeed AST2600 SoC features 16 TACH
+controllers, with each
 
-Of course in the end it's about weighting the ups and downs.=20
+        > > >
+
+        > > >          > controller capable of supporting up to 1 input.
+
+        > > >
+
+        > > >          > which is a bit different. I guess there are no
+examples anymore,
+
+        > > >
+
+        > > >          > but I'd really like to see how this looks like in
+the devicetree file,
+
+        > > >
+
+        > > >          > and how the driver is supposed to
+distinguish/select the 16 inputs.
+
+        > > >
+
+        > > > Hi Roeck,
+
+        > > >
+
+        > > > The node in the devicetree file will looks like following:
+
+        > > >
+
+        > > > tach0: tach0@1e610008 {
+
+        > > >
+
+        > > >          compatible = "aspeed,ast2600-tach";
+
+        > > >
+
+        > > >          reg = <0x1e610008 0x8>;
+
+        > > >
+
+        > > >          #address-cells = <1>;
+
+        > > >
+
+        > > >          #size-cells = <0>;
+
+        > > >
+
+        > > >          pinctrl-names = "default";
+
+        > > >
+
+        > > >          pinctrl-0 = <&pinctrl_tach0_default>;
+
+        > > >
+
+        > > >          clocks = <&syscon ASPEED_CLK_AHB>;
+
+        > > >
+
+        > > >          resets = <&syscon ASPEED_RESET_PWM>;
+
+        > > >
+
+        > > >          status = "disabled";
+
+        > > >
+
+        > > > };
+
+        > > >
+
+
+
+        > > Neither reg nor pinctrl is mentioned in the bindings. Maybe
+that is not needed nowadays,
+
+        > > but I find it confusing.
+
+
+
+        > > Either case, it is highly unusual that there would be 16
+instances of this device
+
+        > > instead of one. Why is this done ? It doesn't really make sense
+to me.
+
+
+
+        > Having 16 instances of PWM and Tach is more compatible with our
+hardware design.
+
+        > This is because our register layout for PWM and Tach is not
+continuous.
+
+        > PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
+
+        > PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
+
+        > ...
+
+        > Each PWM/Tach instance has its own controller register and is not
+dependent on others.
+
+
+
+Hi Guenter,
+
+
+
+Did you receive a response to my previous email?
+
+I would like to inquire if you have any further concerns regarding the PWM
+and Tach with 16 instances.
+
+
 
 Thanks
-Uwe
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---mnk65dkcvejfh2ja
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Best Regards,
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSwGrcACgkQj4D7WH0S
-/k5Z8gf+L2DppHWGxGaiKRiYvHQTrpom5T4lLxWIcMzNp/SZXGce+FkxNCXXp4ev
-Fm4EE5lHyGkTfeMAeH8KSvtkAT3Lf/Bifz3Ij2fmsLRLCJdOxIA9Zra8u3cWmLdd
-JX+wb8zFJARzb/u+kG6ZD4IgJ+39LqIZ9JLUqaV4jyZZps2Vf8cvPDNYp96vAwdB
-GUECE+pPcMQvSkBdwy5pCGdEatjq9O12xWwv6uvNcJqbIbToJVVsUHLBjTGEJfGI
-PgyrtoM72NQY/p5d9veqBKCQTkKUBW5Ly+HbKzey9Dy/IPWeSU1Q/1WH/hUphbbs
-k0+Jh4Ot72m5BF8rwKgRu0NikQcP4A==
-=OtIn
------END PGP SIGNATURE-----
+Billy Tsai
 
---mnk65dkcvejfh2ja--
+--000000000000e1997a06006d0eb6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;=
+font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>On 6/7/23 23:21=
+, Billy Tsai wrote:</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size=
+:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0<=
+/span>&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<=
+span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; The code says:=
+</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:C=
+alibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;<=
+span class=3D"gmail-Apple-converted-space">=C2=A0</span></p><p class=3D"Mso=
+Normal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;c=
+olor:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"g=
+mail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-sp=
+ace">=C2=A0</span>&gt; In Aspeed AST2600 SoC features 16 TACH controllers, =
+with each</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font=
+-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &=
+gt; &gt;<span class=3D"gmail-Apple-converted-space">=C2=A0</span></p><p cla=
+ss=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,san=
+s-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span c=
+lass=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-con=
+verted-space">=C2=A0</span>&gt; controller capable of supporting up to 1 in=
+put.</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-fami=
+ly:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt;=
+ &gt;<span class=3D"gmail-Apple-converted-space">=C2=A0</span></p><p class=
+=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-=
+serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span cla=
+ss=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-conver=
+ted-space">=C2=A0</span>&gt; which is a bit different. I guess there are no=
+ examples anymore,</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:=
+10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</sp=
+an>&gt; &gt; &gt;<span class=3D"gmail-Apple-converted-space">=C2=A0</span><=
+/p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Ca=
+libri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-=
+Apple-converted-space">=C2=A0</span>&gt; but I&#39;d really like to see how=
+ this looks like in the devicetree file,</p><p class=3D"MsoNormal" style=3D=
+"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)"=
+>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-conve=
+rted-space">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gmail-Apple-converted=
+-space">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin:0cm;font-si=
+ze:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0<=
+/span>&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<=
+span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; and how the dr=
+iver is supposed to distinguish/select the 16 inputs.</p><p class=3D"MsoNor=
+mal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;colo=
+r:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmai=
+l-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gmail-Ap=
+ple-converted-space">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margi=
+n:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted=
+-space">=C2=A0</span>&gt; &gt; &gt; Hi Roeck,</p><p class=3D"MsoNormal" sty=
+le=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,=
+0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-=
+converted-space">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gmail-Apple-conv=
+erted-space">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin:0cm;fo=
+nt-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=
+=C2=A0</span>&gt; &gt; &gt; The node in the devicetree file will looks like=
+ following:</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;fo=
+nt-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt=
+; &gt; &gt;<span class=3D"gmail-Apple-converted-space">=C2=A0</span></p><p =
+class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,=
+sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<spa=
+n class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt; tach0: =
+tach0@1e610008 {</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10=
+pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</sp=
+an>&gt; &gt; &gt;<span class=3D"gmail-Apple-converted-space">=C2=A0</span><=
+/p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Ca=
+libri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-=
+Apple-converted-space">=C2=A0</span>compatible =3D &quot;aspeed,ast2600-tac=
+h&quot;;</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-=
+family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &=
+gt; &gt;<span class=3D"gmail-Apple-converted-space">=C2=A0</span></p><p cla=
+ss=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,san=
+s-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span c=
+lass=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-con=
+verted-space">=C2=A0</span>reg =3D &lt;0x1e610008 0x8&gt;;</p><p class=3D"M=
+soNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif=
+;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D=
+"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gma=
+il-Apple-converted-space">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"=
+margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-conver=
+ted-space">=C2=A0</span>&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>=
+#address-cells =3D &lt;1&gt;;</p><p class=3D"MsoNormal" style=3D"margin:0cm=
+;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space=
+">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gmail-Apple-converted-space">=
+=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;=
+font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0<s=
+pan class=3D"gmail-Apple-converted-space">=C2=A0</span>=C2=A0=C2=A0=C2=A0&g=
+t; &gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span cla=
+ss=3D"gmail-Apple-converted-space">=C2=A0</span>#size-cells =3D &lt;0&gt;;<=
+/p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Ca=
+libri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;<=
+span class=3D"gmail-Apple-converted-space">=C2=A0</span></p><p class=3D"Mso=
+Normal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;c=
+olor:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"g=
+mail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-sp=
+ace">=C2=A0</span>pinctrl-names =3D &quot;default&quot;;</p><p class=3D"Mso=
+Normal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;c=
+olor:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"g=
+mail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gmail=
+-Apple-converted-space">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"ma=
+rgin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-conver=
+ted-space">=C2=A0</span>&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>=
+pinctrl-0 =3D &lt;&amp;pinctrl_tach0_default&gt;;</p><p class=3D"MsoNormal"=
+ style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rg=
+b(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Ap=
+ple-converted-space">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gmail-Apple-=
+converted-space">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin:0c=
+m;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space=
+">=C2=A0</span>&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>clocks =
+=3D &lt;&amp;syscon ASPEED_CLK_AHB&gt;;</p><p class=3D"MsoNormal" style=3D"=
+margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-conver=
+ted-space">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gmail-Apple-converted-=
+space">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin:0cm;font-siz=
+e:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0<=
+/span>&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<=
+span class=3D"gmail-Apple-converted-space">=C2=A0</span>resets =3D &lt;&amp=
+;syscon ASPEED_RESET_PWM&gt;;</p><p class=3D"MsoNormal" style=3D"margin:0cm=
+;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space=
+">=C2=A0</span>&gt; &gt; &gt;<span class=3D"gmail-Apple-converted-space">=
+=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;=
+font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>=
+&gt; &gt; &gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span c=
+lass=3D"gmail-Apple-converted-space">=C2=A0</span>status =3D &quot;disabled=
+&quot;;</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-f=
+amily:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &=
+gt; &gt;<span class=3D"gmail-Apple-converted-space">=C2=A0</span></p><p cla=
+ss=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,san=
+s-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span c=
+lass=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt; };</p><p c=
+lass=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,s=
+ans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span=
+ class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; &gt; &gt;<span cla=
+ss=3D"gmail-Apple-converted-space">=C2=A0</span></p><p class=3D"MsoNormal" =
+style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb=
+(0,0,0)">=C2=A0</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10p=
+t;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>=
+&gt; &gt; Neither reg nor pinctrl is mentioned in the bindings. Maybe that =
+is not needed nowadays,</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-=
+size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=
+=A0</span>&gt; &gt; but I find it confusing.</p><p class=3D"MsoNormal" styl=
+e=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0=
+,0)">=C2=A0</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;fo=
+nt-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt=
+; &gt; Either case, it is highly unusual that there would be 16 instances o=
+f this device</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;=
+font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>=
+&gt; &gt; instead of one. Why is this done ? It doesn&#39;t really make sen=
+se to me.</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font=
+-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0</p><p class=3D"MsoNorma=
+l" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:=
+rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-=
+Apple-converted-space">=C2=A0</span>&gt; Having 16 instances of PWM and Tac=
+h is more compatible with our hardware design.<span class=3D"gmail-Apple-co=
+nverted-space">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin:0cm;=
+font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space=
+">=C2=A0</span>&gt; This is because our register layout for PWM and Tach is=
+ not continuous.</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10=
+pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</sp=
+an>&gt; PWM0 used 0x0 0x4, Tach0 used 0x8 0xc</p><p class=3D"MsoNormal" sty=
+le=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,=
+0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<span class=3D"gmail-Apple-=
+converted-space">=C2=A0</span>&gt; PWM1 used 0x10 0x14, Tach1 used 0x18 0x1=
+c</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:=
+Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0<span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; ...</p>=
+<p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calib=
+ri,sans-serif;color:rgb(0,0,0)">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<=
+span class=3D"gmail-Apple-converted-space">=C2=A0</span>&gt; Each PWM/Tach =
+instance has its own controller register and is not dependent on others.</p=
+><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Cali=
+bri,sans-serif;color:rgb(0,0,0)">=C2=A0</p><p class=3D"MsoNormal" style=3D"=
+margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">=
+Hi Guenter,</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;fo=
+nt-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0</p><p class=3D"MsoNor=
+mal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;colo=
+r:rgb(0,0,0)">Did you receive a response to my previous email?</p><p class=
+=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-=
+serif;color:rgb(0,0,0)"><span lang=3D"EN-US">I would like to inquire if you=
+ have any further concerns regarding the PWM and Tach with 16 instances.</s=
+pan></p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;font-fami=
+ly:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0</p><p class=3D"MsoNormal" st=
+yle=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0=
+,0,0)">Thanks</p><p class=3D"MsoNormal" style=3D"margin:0cm;font-size:10pt;=
+font-family:Calibri,sans-serif;color:rgb(0,0,0)">=C2=A0</p><p class=3D"MsoN=
+ormal" style=3D"margin:0cm;font-size:10pt;font-family:Calibri,sans-serif;co=
+lor:rgb(0,0,0)">Best Regards,</p><p class=3D"MsoNormal" style=3D"margin:0cm=
+;font-size:10pt;font-family:Calibri,sans-serif;color:rgb(0,0,0)">Billy Tsai=
+</p></div>
+
+--000000000000e1997a06006d0eb6--
