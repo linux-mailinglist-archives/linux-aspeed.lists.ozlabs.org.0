@@ -1,82 +1,83 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A66A754F96
-	for <lists+linux-aspeed@lfdr.de>; Sun, 16 Jul 2023 18:08:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE29754FED
+	for <lists+linux-aspeed@lfdr.de>; Sun, 16 Jul 2023 19:00:22 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=HE//uS2g;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Xhgz+LJB;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R3qrx3lvhz3bcS
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jul 2023 02:08:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R3s0J23zLz30fF
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jul 2023 03:00:16 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=HE//uS2g;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Xhgz+LJB;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::534; helo=mail-ed1-x534.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::631; helo=mail-pl1-x631.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R3qrh5J96z30Jy
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jul 2023 02:08:34 +1000 (AEST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-51e99584a82so4792574a12.1
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 16 Jul 2023 09:08:34 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R3s092LKqz2xBV
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jul 2023 03:00:08 +1000 (AEST)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1b8ad907ba4so20557955ad.0
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 16 Jul 2023 10:00:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689523707; x=1692115707;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20221208; t=1689526804; x=1692118804;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=yFNOxCkZidbalN7CuyDDRpdo9zeZvLW7A53Aw1rLKbM=;
-        b=HE//uS2g8oJofWthSV32zbw+CJapJ/Tm9PZHDtSngUqz/r5XkJc+b4Tc0sLTaTvKec
-         zqJ00IlLi8lak5WeR8YLitYN3Bkzh817YQi9Bp7ypzpZB2bE3EEk+U+xjVZ695Bn+EPt
-         mERPLvOewkPUntu/559HrttHK4qFScRiUc8NPkyH4rEam7+/cn+U4N+UJkBVrQGoPJMV
-         tnzvlkqbfdhnGCGytVmUv+CPan6p/vMJHvJ/lFJ4uq/721YrER1nWvVr/45mHJkJttAy
-         6z2Hd9W8kMAP1CXmTvbfuQZbYSJwG5k0dgs0vQi6Iox0liE8LmiFvew9Hb13NsKLOVk5
-         CkUA==
+        bh=7RZBSC9VlSCWDDQ9NaldE02NH19Agbf9l1F2PLZ3gMU=;
+        b=Xhgz+LJBK80DgVAlAdMzAf9hJLuv4SUnLFdgKVhm7CIJMmSwB4uOUnzvuj91L751x6
+         BdutsfJZ8dpA+kY1eU+7kkGYO80pdi2UHVijW6BxEp+xX7MTPEezQmcZ5jLqudo034zH
+         z8q56R0ND8Ev7G40aXSvWeknaOnLokeZ+dhGaCwk6E+klX2YjhVmDNIKh91EjQSRRsXn
+         CvuXXqon+6/PsPOzfN1Jz6DlTG5JJBlBofVFnjUpxZ50O1dfd/g9qZcWRV2iGww2magn
+         i/Iq7vuXYgcWuoWeSsGzLY73/xU4wa710bYCPOET+TD/9JV0P70gEOfIwwT8LrBWUMnU
+         ypVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689523707; x=1692115707;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1689526804; x=1692118804;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yFNOxCkZidbalN7CuyDDRpdo9zeZvLW7A53Aw1rLKbM=;
-        b=LrmEJJol4c3oupSXH12B3kfom72sY+B2WH2vqemGH77GmtV5FgVd6EFirZyADZNWxc
-         xVJe6KOXxA4rNlXPPgzD0nPqjCJvSYgQTjjPQtohTkLzGgFPVwWiqe49Cg+0oHbNGtQQ
-         lMGaXJjwM6QETFmxmRWZVfXrLKJuYMw+Ogq1z6lETUaxG9FFNXbdZ1quQ9xGkSf6+wF8
-         vqG6CqrsfntkKhO9WVeAVg8Be2gAd7VWGhBPW65q9Uqp9HuMRQKs08LAn55771f/7ay5
-         ZrMxdXx1WkpsSW4xpl3amEG4Y1Jo7agmqnnR/4f0s/eQiWjuodXhs4gMV/fJfGGWKOOG
-         9uvA==
-X-Gm-Message-State: ABy/qLZzgOHVg+Ga5yR4XePhYneCLinIxBqxDLYUho2h6qDaYyIrFh2m
-	evJw/srsLi8Cb4pNSj/lM09g/Q==
-X-Google-Smtp-Source: APBJJlGTep8KdTxvuPl0WnJS8vyPvSMZi8aDsQQ+H0L3EiFiiq2Ww4jKrPFs5gGwcbADlAqstdyWEA==
-X-Received: by 2002:a17:906:1114:b0:98e:4c96:6e1f with SMTP id h20-20020a170906111400b0098e4c966e1fmr9722967eja.69.1689523706778;
-        Sun, 16 Jul 2023 09:08:26 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
-        by smtp.gmail.com with ESMTPSA id l9-20020a170906230900b0099342c87775sm8124189eja.20.2023.07.16.09.08.24
+        bh=7RZBSC9VlSCWDDQ9NaldE02NH19Agbf9l1F2PLZ3gMU=;
+        b=RFZU5rII0S+zSrGGBH5UeuBTNpv1QkfJXUw5IzWPuYNoMJjY97p+wdEFzO9kdsjPZV
+         Wv3Tz7fjhw5nT9sl9Gl9VaIXhWYmgiYID4vL3+SQ/vqWko5yD/mZ2ut89x9jSJ3KA+cs
+         Obx8b4/fPGD8+vmPXc4nIPQp8lIyvA6akFYXsfBbL0TWL8LGufqhgs7HeeQ0CX/ev0+3
+         oSNUKBUogI1HoLS2TEtMxSsl9hb5ZvDmVTNlk5Y0Q9SNNbTjffGuM4JB7LRZF/l5O0he
+         ykqhciC/Gq/a62qBS9qPt3Jynsad8RSbg04Nlimg1QtnESSlzjmCWkCGcOxrA5zeiqMH
+         klzQ==
+X-Gm-Message-State: ABy/qLaEATK91Z4RziUti82WPCsP/x7L61JWift9TGeJsyYusRtpUp0B
+	hfOXTow89pILROqXXOFEdOo=
+X-Google-Smtp-Source: APBJJlEf5Hxvs83+h5l+00e+naQWCiqNakhSinl9PZLGOJ0G+eMabdQR6VlF1n/dqXxDfUKPyylETg==
+X-Received: by 2002:a17:903:2310:b0:1b8:7618:5414 with SMTP id d16-20020a170903231000b001b876185414mr9372013plh.60.1689526803628;
+        Sun, 16 Jul 2023 10:00:03 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y4-20020a170902ed4400b001b8a54f99d1sm11183638plb.275.2023.07.16.10.00.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Jul 2023 09:08:25 -0700 (PDT)
-Message-ID: <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org>
-Date: Sun, 16 Jul 2023 18:08:23 +0200
+        Sun, 16 Jul 2023 10:00:02 -0700 (PDT)
+Message-ID: <7a69bda1-5f4c-5b1f-8eb6-6fd58917a9b1@roeck-us.net>
+Date: Sun, 16 Jul 2023 10:00:00 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
- documentation
-To: =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>,
- Guenter Roeck <linux@roeck-us.net>
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>
 References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
  <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org>
  <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
  <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
  <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net>
  <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control
+ documentation
+In-Reply-To: <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,83 +93,53 @@ Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vge
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 14/07/2023 13:17, 蔡承達 wrote:
-> Guenter Roeck <linux@roeck-us.net> 於 2023年7月14日 週五 下午6:26寫道：
+On 7/16/23 09:08, Krzysztof Kozlowski wrote:
+
+[ ... ]
+
 >>
->> On 7/14/23 03:18, 蔡承達 wrote:
->>> Guenter Roeck <linux@roeck-us.net> 於 2023年7月14日 週五 下午5:59寫道：
->>>>
->>>> On 7/14/23 00:13, Krzysztof Kozlowski wrote:
->>>>> On 14/07/2023 09:04, 蔡承達 wrote:
->>>>>
->>>>>>           > This is because our register layout for PWM and Tach is not
->>>>>> continuous.
->>>>>>
->>>>>>           > PWM0 used 0x0 0x4, Tach0 used 0x8 0xc
->>>>>>
->>>>>>           > PWM1 used 0x10 0x14, Tach1 used 0x18 0x1c
->>>>>>
->>>>>>           > ...
->>>>>>
->>>>>>           > Each PWM/Tach instance has its own controller register and is not
->>>>>> dependent on others.
->>>>>
->>>>> Your email reply quoting style is very difficult to read.
->>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>>> Hi Guenter,
->>>>>>
->>>>>>
->>>>>>
->>>>>> Did you receive a response to my previous email?
->>>>>>
->>>>>> I would like to inquire if you have any further concerns regarding the PWM
->>>>>> and Tach with 16 instances.
->>>>>
->>>>> But isn't like this in all PWMs in all SoCs?
->>>>>
->>>>
->>>> Correct, pretty much every fan controller is implemented that way.
->>>> I don't understand the logic.
->>>>
->>>
->>> Hi Krzysztof and Guenter,
->>>
->>> Apologies for any confusion earlier.
->>> So, you think that the implementation with 16 instances of TACH/PWM
->>> device nodes in dts instead of one is ok to you, right?
->>>
->>
->> Did I say that ? No, it is not ok with me. It is confusing and doesn't make
->> sense to me. This is one fan controller with 16 channels, not 16 separate
->> controllers.
->>
+>> This patch serial doesn't use to binding the fan control h/w. It is
+>> used to binding the two independent h/w blocks.
+>> One is used to provide pwm output and another is used to monitor the
+>> speed of the input.
+>> My patch is used to point out that the pwm and the tach is the
+>> different function and don't need to
+>> bind together. You can not only combine them as the fan usage but also
+>> treat them as the individual module for
+>> use. For example: the pwm can use to be the beeper (pwm-beeper.c), the
+>> tach can be used to monitor the heart beat signal.
 > 
-> This patch serial doesn't use to binding the fan control h/w. It is
-> used to binding the two independent h/w blocks.
-> One is used to provide pwm output and another is used to monitor the
-> speed of the input.
-> My patch is used to point out that the pwm and the tach is the
-> different function and don't need to
-> bind together. You can not only combine them as the fan usage but also
-> treat them as the individual module for
-> use. For example: the pwm can use to be the beeper (pwm-beeper.c), the
-> tach can be used to monitor the heart beat signal.
+> Isn't this exactly the same as in every other SoC? PWMs can be used in
+> different ways?
+> 
 
-Isn't this exactly the same as in every other SoC? PWMs can be used in
-different ways?
+... and in every fan controller. Not that it really makes sense because
+normally the pwm controller part of such chips is tied to the fan input,
+to enable automatic fan control, but it is technically possible.
+In many cases this is also the case in SoCs, for example, in ast2500.
+Apparently this was redesigned in ast2600 where they two blocks are
+only lightly coupled (there are two pwm status bits in the fan status
+register, but I have no idea what those mean). If the blocks are tightly
+coupled, separate drivers don't really make sense.
 
-Anyway, it is tricky to keep the discussion since you avoid posting
-entire DTS. I already said:
+There are multiple ways to separate the pwm controller part from the
+fan inputs if that is really necessary. One would be to provide a
+sequence of address mappings, the other would be to pass the memory
+region from an mfd driver. It is not necessary to have N instances
+of the fan controller, even if the address space is not continuous.
 
-"I will start NAKing such patches without DTS user. It's like reviewing
-fake code for some unknown solution and trying to get from you piece of
-answers one by one, because you do not want to share entire part."
+Guenter
 
-
-
-Best regards,
-Krzysztof
+> Anyway, it is tricky to keep the discussion since you avoid posting
+> entire DTS. I already said:
+> 
+> "I will start NAKing such patches without DTS user. It's like reviewing
+> fake code for some unknown solution and trying to get from you piece of
+> answers one by one, because you do not want to share entire part."
+> 
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
 
