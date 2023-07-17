@@ -2,56 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD8D759398
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jul 2023 13:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715BD75939A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jul 2023 13:00:20 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=pu6DLejj;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ucKzLgH+;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R5XsT66sTz2ykW
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jul 2023 21:00:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R5XsZ2Vk4z2y9d
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jul 2023 21:00:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=pu6DLejj;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ucKzLgH+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::240; helo=mslow1.mail.gandi.net; envelope-from=luca.ceresoli@bootlin.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 304 seconds by postgrey-1.37 at boromir; Mon, 17 Jul 2023 22:31:48 AEST
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=jarkko@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R4M0465KGz2yFB
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jul 2023 22:31:48 +1000 (AEST)
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id AAE70CE9BB
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jul 2023 12:26:45 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BE0D32000C;
-	Mon, 17 Jul 2023 12:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1689596788;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xfIQQUGuk2YngWOS8fdrYDdOu8Z6QhNBtgynXxqIkxI=;
-	b=pu6DLejjSYrxTONDk5/XdeXoNmahir1eSWyr0IAyC5+CzV+z7kVIv0SIU1WMmF5on1CgqD
-	KQMv7HISFwBD83UgHXeIYvA6rMs4zilESREno4fIl9tHoG5j8KuMGef30GXaJomEjoNSXB
-	b27ZnZ9I2DkJ16lt7XoMqFe9mN2ip4prfSVsj2SpNBgHGroLTT9anwzmDU7ZmjHgcKavfM
-	YT6a5qXXuO8iNNI928PNokmiYbnOK1bsbfPyiXo6MfvnS5M/07LrFJlHjhELObDmMRCvQo
-	UvLPoo3HQls1bUDPug12g+YVs2SccW7y5VCvmnwJJIZUaBWuD6j/7/vLgvzENw==
-Date: Mon, 17 Jul 2023 14:26:14 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] clk: Explicitly include correct DT includes
-Message-ID: <20230717142614.78db5c4e@booty>
-In-Reply-To: <20230714174342.4052882-1-robh@kernel.org>
-References: <20230714174342.4052882-1-robh@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R4PGq1Zfcz2xgw;
+	Tue, 18 Jul 2023 00:14:43 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A0E6061083;
+	Mon, 17 Jul 2023 14:14:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E21C433C7;
+	Mon, 17 Jul 2023 14:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689603280;
+	bh=DsVLgJx2JovG0BwaBnx+6xFRFrkyvGDsH0nInttVSzE=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=ucKzLgH+gYQ2yeRHpjUzVozbucN60bF3TCnu8zVxmvt8XM4guK8u2YW5zz40XNW+o
+	 SxXAUnD8/tyKAjpZlzccK3s6pV7RsqSrUHQ6zBDGWZHqyIrsQF5rF+DKseMQK7glYr
+	 hFurZA14yZingf2xQNYQX6dlkCD/9ymz80dMUmsNMgX7mXuNMKJJjePpZpkoCS5cnd
+	 smDDnAFsvX7prND8pXk6QtXkaXkujMCGgjleIxOmNa8cZsuhMAbE77VWF8Bv19rQZK
+	 Z2F4xFH/0IJyUjraJg5PAlTtOnr7xTJ045g27ztrz6BTnuPcKNMwNJdSZhKfFjGCrs
+	 zFF3/nXHR/bYA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 17 Jul 2023 14:14:30 +0000
+Message-Id: <CU4IDETDBZ0C.1N1XJ58T5O5K3@seitikki>
+Subject: Re: [PATCH] char: Explicitly include correct DT includes
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Rob Herring" <robh@kernel.org>, "David Airlie" <airlied@redhat.com>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Olivia Mackall" <olivia@selenic.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>, "Nicolas Ferre"
+ <nicolas.ferre@microchip.com>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
+ <claudiu.beznea@microchip.com>, "Florian Fainelli"
+ <florian.fainelli@broadcom.com>, "Broadcom internal kernel review list"
+ <bcm-kernel-feedback-list@broadcom.com>, "Ray Jui" <rjui@broadcom.com>,
+ "Scott Branden" <sbranden@broadcom.com>, "Avi Fishman"
+ <avifishman70@gmail.com>, "Tomer Maimon" <tmaimon77@gmail.com>, "Tali
+ Perry" <tali.perry1@gmail.com>, "Patrick Venture" <venture@google.com>,
+ "Nancy Yuen" <yuenn@google.com>, "Benjamin Fair" <benjaminfair@google.com>,
+ "Deepak Saxena" <dsaxena@plexity.net>, "Michael Ellerman"
+ <mpe@ellerman.id.au>, "Nicholas Piggin" <npiggin@gmail.com>, "Christophe
+ Leroy" <christophe.leroy@csgroup.eu>, "Maxime Coquelin"
+ <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
+ <alexandre.torgue@foss.st.com>, "Corey Minyard" <minyard@acm.org>, "Joel
+ Stanley" <joel@jms.id.au>, "Andrew Jeffery" <andrew@aj.id.au>, "Peter
+ Huewe" <peterhuewe@gmx.de>, "Jason Gunthorpe" <jgg@ziepe.ca>
+X-Mailer: aerc 0.14.0
+References: <20230714174315.4052438-1-robh@kernel.org>
+In-Reply-To: <20230714174315.4052438-1-robh@kernel.org>
 X-Mailman-Approved-At: Wed, 19 Jul 2023 20:57:09 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -64,21 +82,328 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>, Peng Fan <peng.fan@nxp.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, Heiko Stuebner <heiko@sntech.de>, Geert Uytterhoeven <geert+renesas@glider.be>, Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Paul Walmsley <paul.walmsley@sifive.com>, Tomasz Figa <tomasz.figa@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-riscv@lists.infradead.org, Jonathan Hunter <jonathanh@nvidia.com>, Fabio Estevam <festevam@gmail.com>, linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Abel Vesa <abelvesa@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, linux-samsung-soc@vger.kernel.org, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Dinh Nguyen <dinguyen@kernel.org>, Emilio =?UTF-8?Q?L=C3=B3pez?= <emilio@elop
- ez.com.ar>, Kevin Hilman <khilman@baylibre.com>, Gregory Clement <gregory.clement@bootlin.com>, linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Hal Feng <hal.feng@starfivetech.com>, Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-arm-msm@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Jerome Brunet <jbrunet@baylibre.com>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Emil Renner Berthing <kernel@esmil.dk>, Manivannan Sadhasivam <mani@kernel.org>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, soc@kernel.org, l
- inux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Alex Helms <alexander.helms.jy@renesas.com>, linux-amlogic@lists.infradead.org, Michal Simek <michal.simek@amd.com>, Cristian Marussi <cristian.marussi@arm.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-arm-kernel@lists.infradead.org, Neil Armstrong <neil.armstrong@linaro.org>, linux-oxnas@groups.io, Tero Kristo <kristo@kernel.org>, Scott Branden <sbranden@broadcom.com>, Stephen Boyd <sboyd@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, Bjorn Andersson <andersson@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Sudeep Holla <sudee
- p.holla@arm.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Andreas =?UTF-8?Q?F=C3=A4rber?= <afaerber@suse.de>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org, linux-integrity@vger.kernel.org, openipmi-developer@lists.sourceforge.net, linuxppc-dev@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 14 Jul 2023 11:43:29 -0600
-Rob Herring <robh@kernel.org> wrote:
+On Fri Jul 14, 2023 at 5:43 PM UTC, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/char/agp/uninorth-agp.c        | 1 +
+>  drivers/char/bsr.c                     | 3 +--
+>  drivers/char/hw_random/atmel-rng.c     | 2 +-
+>  drivers/char/hw_random/bcm2835-rng.c   | 3 +--
+>  drivers/char/hw_random/ingenic-trng.c  | 2 +-
+>  drivers/char/hw_random/iproc-rng200.c  | 3 +--
+>  drivers/char/hw_random/npcm-rng.c      | 3 +--
+>  drivers/char/hw_random/omap-rng.c      | 2 --
+>  drivers/char/hw_random/omap3-rom-rng.c | 1 -
+>  drivers/char/hw_random/pasemi-rng.c    | 3 +--
+>  drivers/char/hw_random/pic32-rng.c     | 3 +--
+>  drivers/char/hw_random/stm32-rng.c     | 3 ++-
+>  drivers/char/hw_random/xgene-rng.c     | 5 ++---
+>  drivers/char/hw_random/xiphera-trng.c  | 1 -
+>  drivers/char/ipmi/kcs_bmc_aspeed.c     | 1 -
+>  drivers/char/tpm/tpm_ftpm_tee.c        | 1 -
+>  drivers/char/tpm/tpm_tis.c             | 1 -
+>  drivers/char/tpm/tpm_tis_spi_main.c    | 2 +-
+>  drivers/char/tpm/tpm_tis_synquacer.c   | 1 -
+>  19 files changed, 14 insertions(+), 27 deletions(-)
+>
+> diff --git a/drivers/char/agp/uninorth-agp.c b/drivers/char/agp/uninorth-=
+agp.c
+> index 62de7f4ba864..84411b13c49f 100644
+> --- a/drivers/char/agp/uninorth-agp.c
+> +++ b/drivers/char/agp/uninorth-agp.c
+> @@ -3,6 +3,7 @@
+>   * UniNorth AGPGART routines.
+>   */
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/pci.h>
+>  #include <linux/slab.h>
+>  #include <linux/init.h>
+> diff --git a/drivers/char/bsr.c b/drivers/char/bsr.c
+> index 12143854aeac..70d31aed9011 100644
+> --- a/drivers/char/bsr.c
+> +++ b/drivers/char/bsr.c
+> @@ -6,11 +6,10 @@
+>   * Author: Sonny Rao <sonnyrao@us.ibm.com>
+>   */
+> =20
+> +#include <linux/device.h>
+>  #include <linux/kernel.h>
+>  #include <linux/of.h>
+>  #include <linux/of_address.h>
+> -#include <linux/of_device.h>
+> -#include <linux/of_platform.h>
+>  #include <linux/fs.h>
+>  #include <linux/module.h>
+>  #include <linux/cdev.h>
+> diff --git a/drivers/char/hw_random/atmel-rng.c b/drivers/char/hw_random/=
+atmel-rng.c
+> index b8effe77d80f..a37367ebcbac 100644
+> --- a/drivers/char/hw_random/atmel-rng.c
+> +++ b/drivers/char/hw_random/atmel-rng.c
+> @@ -15,7 +15,7 @@
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+>  #include <linux/hw_random.h>
+> -#include <linux/of_device.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> =20
+> diff --git a/drivers/char/hw_random/bcm2835-rng.c b/drivers/char/hw_rando=
+m/bcm2835-rng.c
+> index e98fcac578d6..e19b0f9f48b9 100644
+> --- a/drivers/char/hw_random/bcm2835-rng.c
+> +++ b/drivers/char/hw_random/bcm2835-rng.c
+> @@ -8,8 +8,7 @@
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> -#include <linux/of_address.h>
+> -#include <linux/of_platform.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/printk.h>
+>  #include <linux/clk.h>
+> diff --git a/drivers/char/hw_random/ingenic-trng.c b/drivers/char/hw_rand=
+om/ingenic-trng.c
+> index 0eb80f786f4d..759445d4f65a 100644
+> --- a/drivers/char/hw_random/ingenic-trng.c
+> +++ b/drivers/char/hw_random/ingenic-trng.c
+> @@ -11,8 +11,8 @@
+>  #include <linux/hw_random.h>
+>  #include <linux/io.h>
+>  #include <linux/iopoll.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+> =20
+> diff --git a/drivers/char/hw_random/iproc-rng200.c b/drivers/char/hw_rand=
+om/iproc-rng200.c
+> index 06bc060534d8..34df3f0d3e45 100644
+> --- a/drivers/char/hw_random/iproc-rng200.c
+> +++ b/drivers/char/hw_random/iproc-rng200.c
+> @@ -12,8 +12,7 @@
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> -#include <linux/of_address.h>
+> -#include <linux/of_platform.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/delay.h>
+> =20
+> diff --git a/drivers/char/hw_random/npcm-rng.c b/drivers/char/hw_random/n=
+pcm-rng.c
+> index 9903d0357e06..8a304b754217 100644
+> --- a/drivers/char/hw_random/npcm-rng.c
+> +++ b/drivers/char/hw_random/npcm-rng.c
+> @@ -8,12 +8,11 @@
+>  #include <linux/init.h>
+>  #include <linux/random.h>
+>  #include <linux/err.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/hw_random.h>
+>  #include <linux/delay.h>
+> -#include <linux/of_irq.h>
+>  #include <linux/pm_runtime.h>
+> -#include <linux/of_device.h>
+> =20
+>  #define NPCM_RNGCS_REG		0x00	/* Control and status register */
+>  #define NPCM_RNGD_REG		0x04	/* Data register */
+> diff --git a/drivers/char/hw_random/omap-rng.c b/drivers/char/hw_random/o=
+map-rng.c
+> index 00ff96703dd2..be03f76a2a80 100644
+> --- a/drivers/char/hw_random/omap-rng.c
+> +++ b/drivers/char/hw_random/omap-rng.c
+> @@ -26,8 +26,6 @@
+>  #include <linux/slab.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+> -#include <linux/of_address.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/clk.h>
+>  #include <linux/io.h>
+> diff --git a/drivers/char/hw_random/omap3-rom-rng.c b/drivers/char/hw_ran=
+dom/omap3-rom-rng.c
+> index f06e4f95114f..18dc46b1b58e 100644
+> --- a/drivers/char/hw_random/omap3-rom-rng.c
+> +++ b/drivers/char/hw_random/omap3-rom-rng.c
+> @@ -20,7 +20,6 @@
+>  #include <linux/err.h>
+>  #include <linux/io.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> =20
+> diff --git a/drivers/char/hw_random/pasemi-rng.c b/drivers/char/hw_random=
+/pasemi-rng.c
+> index 2498d4ef9fe2..6959d6edd44c 100644
+> --- a/drivers/char/hw_random/pasemi-rng.c
+> +++ b/drivers/char/hw_random/pasemi-rng.c
+> @@ -9,11 +9,10 @@
+> =20
+>  #include <linux/module.h>
+>  #include <linux/kernel.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/hw_random.h>
+>  #include <linux/delay.h>
+> -#include <linux/of_address.h>
+> -#include <linux/of_platform.h>
+>  #include <linux/io.h>
+> =20
+>  #define SDCRNG_CTL_REG			0x00
+> diff --git a/drivers/char/hw_random/pic32-rng.c b/drivers/char/hw_random/=
+pic32-rng.c
+> index 99c8bd0859a1..728b68b1a496 100644
+> --- a/drivers/char/hw_random/pic32-rng.c
+> +++ b/drivers/char/hw_random/pic32-rng.c
+> @@ -12,9 +12,8 @@
+>  #include <linux/hw_random.h>
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+> +#include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+> -#include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+> =20
+> diff --git a/drivers/char/hw_random/stm32-rng.c b/drivers/char/hw_random/=
+stm32-rng.c
+> index a6731cf0627a..efb6a9f9a11b 100644
+> --- a/drivers/char/hw_random/stm32-rng.c
+> +++ b/drivers/char/hw_random/stm32-rng.c
+> @@ -10,8 +10,9 @@
+>  #include <linux/iopoll.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/of_address.h>
+> -#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
+>  #include <linux/slab.h>
+> diff --git a/drivers/char/hw_random/xgene-rng.c b/drivers/char/hw_random/=
+xgene-rng.c
+> index 7c8f3cb7c6af..c25bb169563d 100644
+> --- a/drivers/char/hw_random/xgene-rng.c
+> +++ b/drivers/char/hw_random/xgene-rng.c
+> @@ -15,9 +15,8 @@
+>  #include <linux/init.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/module.h>
+> -#include <linux/of_platform.h>
+> -#include <linux/of_irq.h>
+> -#include <linux/of_address.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/timer.h>
+> =20
+>  #define RNG_MAX_DATUM			4
+> diff --git a/drivers/char/hw_random/xiphera-trng.c b/drivers/char/hw_rand=
+om/xiphera-trng.c
+> index 2a9fea72b2e0..2c586d1fe8a9 100644
+> --- a/drivers/char/hw_random/xiphera-trng.c
+> +++ b/drivers/char/hw_random/xiphera-trng.c
+> @@ -7,7 +7,6 @@
+>  #include <linux/err.h>
+>  #include <linux/io.h>
+>  #include <linux/hw_random.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/delay.h>
+> =20
+> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_b=
+mc_aspeed.c
+> index 2dea8cd5a09a..72640da55380 100644
+> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
+> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
+> @@ -14,7 +14,6 @@
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_address.h>
+> -#include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/poll.h>
+>  #include <linux/regmap.h>
+> diff --git a/drivers/char/tpm/tpm_ftpm_tee.c b/drivers/char/tpm/tpm_ftpm_=
+tee.c
+> index 528f35b14fb6..76adb108076c 100644
+> --- a/drivers/char/tpm/tpm_ftpm_tee.c
+> +++ b/drivers/char/tpm/tpm_ftpm_tee.c
+> @@ -11,7 +11,6 @@
+> =20
+>  #include <linux/acpi.h>
+>  #include <linux/of.h>
+> -#include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/tee_drv.h>
+>  #include <linux/tpm.h>
+> diff --git a/drivers/char/tpm/tpm_tis.c b/drivers/char/tpm/tpm_tis.c
+> index 7db3593941ea..e4030404c64e 100644
+> --- a/drivers/char/tpm/tpm_tis.c
+> +++ b/drivers/char/tpm/tpm_tis.c
+> @@ -25,7 +25,6 @@
+>  #include <linux/acpi.h>
+>  #include <linux/freezer.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/kernel.h>
+>  #include <linux/dmi.h>
+>  #include "tpm.h"
+> diff --git a/drivers/char/tpm/tpm_tis_spi_main.c b/drivers/char/tpm/tpm_t=
+is_spi_main.c
+> index 1f5207974a17..c6101914629d 100644
+> --- a/drivers/char/tpm/tpm_tis_spi_main.c
+> +++ b/drivers/char/tpm/tpm_tis_spi_main.c
+> @@ -28,7 +28,7 @@
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> =20
+> -#include <linux/of_device.h>
+> +#include <linux/of.h>
+>  #include <linux/spi/spi.h>
+>  #include <linux/tpm.h>
+> =20
+> diff --git a/drivers/char/tpm/tpm_tis_synquacer.c b/drivers/char/tpm/tpm_=
+tis_synquacer.c
+> index 49278746b0e2..7f9b4bfceb6e 100644
+> --- a/drivers/char/tpm/tpm_tis_synquacer.c
+> +++ b/drivers/char/tpm/tpm_tis_synquacer.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+>  #include <linux/of.h>
+> -#include <linux/of_device.h>
+>  #include <linux/kernel.h>
+>  #include "tpm.h"
+>  #include "tpm_tis_core.h"
+> --=20
+> 2.40.1
 
->  drivers/clk/clk-versaclock5.c                    | 1 -
+drivers/char/tpm/**
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # versaclock5
+Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+BR, Jarkko
