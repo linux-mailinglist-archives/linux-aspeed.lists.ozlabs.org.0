@@ -2,77 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F168C759397
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jul 2023 13:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD8D759398
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jul 2023 13:00:15 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=H2COhlx6;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=pu6DLejj;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R5XsN676Hz2yGK
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jul 2023 21:00:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R5XsT66sTz2ykW
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jul 2023 21:00:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=H2COhlx6;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=pu6DLejj;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::d2c; helo=mail-io1-xd2c.google.com; envelope-from=orbit.huang@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::240; helo=mslow1.mail.gandi.net; envelope-from=luca.ceresoli@bootlin.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 304 seconds by postgrey-1.37 at boromir; Mon, 17 Jul 2023 22:31:48 AEST
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R4HQv1PwVz2yDd;
-	Mon, 17 Jul 2023 19:51:18 +1000 (AEST)
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-77a62a84855so171844439f.1;
-        Mon, 17 Jul 2023 02:51:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689587474; x=1692179474;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tcwB+50WnrsP8py0GmyCczQm2hmYLGk+1hGHK9Qssd8=;
-        b=H2COhlx61z8Ns4BSCqx04DRIvFD+dsah8oj7ScwfTlakaVfK/hmNgyBgCiEZV9wn49
-         lZnRqqSMNGzqDHsfko26Tvdcjvyv5rnEfk1DNATnd1BSJBNRMonWacSi7kVjl0RESo1u
-         K2vJPh3Asy9Iwt2WYiYU6J5/xjDKA9SIkdkFtNAcGPn6mO6yZZYyINZRVUXyq+iOjAJn
-         k+T4GCyqwrVEix9sUBEblydFtWxmzvWWNa2/qj8XIVisN1vP8fOjGM1ERjz55eIobWtS
-         7JZC6SAieh+l+26E9qWgi9cRFu1ERmFGu4dU7jaNzjMO4wbyRajs1wdvfPoszrnCwNU7
-         Y6ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689587474; x=1692179474;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tcwB+50WnrsP8py0GmyCczQm2hmYLGk+1hGHK9Qssd8=;
-        b=lRa9akxxUA8cQ6zoMyiODhgQ3o2t9ER0IQ0RxR6XTBa/hLi0I1MoMBq7GKKi1lByy9
-         hcayhJuvOo8CUjDThjrmN2eJKuhbL28RMD3fYjjaeB1YalDR0rooukVeXCfsKoR6B+qu
-         gnhm6wzoADaG6Rbek4zUwa3Bb87dd7OXmGfa/Yf1O/goshFoXIfT9ufuWZf7iKAcbX7W
-         egq0IAnIaluH8j8omgyZEW54ybT24qk3jInF0wWKRW4rAG9KLeC4WGE+sJpkodmGPrGx
-         4yFcdD9pnxZjMVg1Ek/A/yD3jx/Vk0DFouazz0Ho6+Hbfr/1f+90Np2ZSAG4Xaw+FWzB
-         XK3w==
-X-Gm-Message-State: ABy/qLZ1yvhJfGosYp6jZ+Ua4WCvoZa8CaEpnFR5PUbbhZAKeVyxc7JW
-	fevpGMXD9n6bLYoyE4utv0g=
-X-Google-Smtp-Source: APBJJlFdf/+zUrmvf62IEu/h0Ce8005lr+fBlUd78kDZAW2R9nniW9R9S7bI2n8dcGtTrzCuxGWMQQ==
-X-Received: by 2002:a5e:aa14:0:b0:786:4795:30c9 with SMTP id s20-20020a5eaa14000000b00786479530c9mr10485510ioe.20.1689587474435;
-        Mon, 17 Jul 2023 02:51:14 -0700 (PDT)
-Received: from JammyHuang-PC.aspeed.com ([118.99.208.177])
-        by smtp.gmail.com with ESMTPSA id g11-20020a02b70b000000b0042b3ff53458sm4376819jam.169.2023.07.17.02.51.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 02:51:14 -0700 (PDT)
-From: Jammy Huang <orbit.huang@gmail.com>
-X-Google-Original-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: eajames@linux.ibm.com,
-	mchehab@kernel.org,
-	joel@jms.id.au,
-	andrew@aj.id.au,
-	linux-media@vger.kernel.org,
-	openbmc@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: aspeed: Fix memory overwrite if timing is 1600x900
-Date: Mon, 17 Jul 2023 17:51:11 +0800
-Message-Id: <20230717095111.1957-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R4M0465KGz2yFB
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jul 2023 22:31:48 +1000 (AEST)
+Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id AAE70CE9BB
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jul 2023 12:26:45 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BE0D32000C;
+	Mon, 17 Jul 2023 12:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1689596788;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xfIQQUGuk2YngWOS8fdrYDdOu8Z6QhNBtgynXxqIkxI=;
+	b=pu6DLejjSYrxTONDk5/XdeXoNmahir1eSWyr0IAyC5+CzV+z7kVIv0SIU1WMmF5on1CgqD
+	KQMv7HISFwBD83UgHXeIYvA6rMs4zilESREno4fIl9tHoG5j8KuMGef30GXaJomEjoNSXB
+	b27ZnZ9I2DkJ16lt7XoMqFe9mN2ip4prfSVsj2SpNBgHGroLTT9anwzmDU7ZmjHgcKavfM
+	YT6a5qXXuO8iNNI928PNokmiYbnOK1bsbfPyiXo6MfvnS5M/07LrFJlHjhELObDmMRCvQo
+	UvLPoo3HQls1bUDPug12g+YVs2SccW7y5VCvmnwJJIZUaBWuD6j/7/vLgvzENw==
+Date: Mon, 17 Jul 2023 14:26:14 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] clk: Explicitly include correct DT includes
+Message-ID: <20230717142614.78db5c4e@booty>
+In-Reply-To: <20230714174342.4052882-1-robh@kernel.org>
+References: <20230714174342.4052882-1-robh@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-Mailman-Approved-At: Wed, 19 Jul 2023 20:57:09 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -85,58 +64,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>, Peng Fan <peng.fan@nxp.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, Heiko Stuebner <heiko@sntech.de>, Geert Uytterhoeven <geert+renesas@glider.be>, Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Paul Walmsley <paul.walmsley@sifive.com>, Tomasz Figa <tomasz.figa@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-riscv@lists.infradead.org, Jonathan Hunter <jonathanh@nvidia.com>, Fabio Estevam <festevam@gmail.com>, linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Abel Vesa <abelvesa@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, linux-samsung-soc@vger.kernel.org, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Dinh Nguyen <dinguyen@kernel.org>, Emilio =?UTF-8?Q?L=C3=B3pez?= <emilio@elop
+ ez.com.ar>, Kevin Hilman <khilman@baylibre.com>, Gregory Clement <gregory.clement@bootlin.com>, linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Hal Feng <hal.feng@starfivetech.com>, Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-arm-msm@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Jerome Brunet <jbrunet@baylibre.com>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Emil Renner Berthing <kernel@esmil.dk>, Manivannan Sadhasivam <mani@kernel.org>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, soc@kernel.org, l
+ inux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Alex Helms <alexander.helms.jy@renesas.com>, linux-amlogic@lists.infradead.org, Michal Simek <michal.simek@amd.com>, Cristian Marussi <cristian.marussi@arm.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-arm-kernel@lists.infradead.org, Neil Armstrong <neil.armstrong@linaro.org>, linux-oxnas@groups.io, Tero Kristo <kristo@kernel.org>, Scott Branden <sbranden@broadcom.com>, Stephen Boyd <sboyd@kernel.org>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, Bjorn Andersson <andersson@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Sudeep Holla <sudee
+ p.holla@arm.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Andreas =?UTF-8?Q?F=C3=A4rber?= <afaerber@suse.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-When capturing 1600x900, system could crash when system memory usage is
-tight.
+On Fri, 14 Jul 2023 11:43:29 -0600
+Rob Herring <robh@kernel.org> wrote:
 
-The way to reproduce this issue:
-1. Use 1600x900 to display on host
-2. Mount ISO through 'Virtual media' on OpenBMC's web
-3. Run script as below on host to do sha continuously
-  #!/bin/bash
-  while [ [1] ];
-  do
-	find /media -type f -printf '"%h/%f"\n' | xargs sha256sum
-  done
-4. Open KVM on OpenBMC's web
+>  drivers/clk/clk-versaclock5.c                    | 1 -
 
-The size of macro block captured is 8x8. Therefore, we should make sure
-the height of src-buf is 8 aligned to fix this issue.
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # versaclock5
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- v2 changes
-  - Add how to reproduce this issue.
----
- drivers/media/platform/aspeed/aspeed-video.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 374eb7781936..14594f55a77f 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1130,7 +1130,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- static void aspeed_video_set_resolution(struct aspeed_video *video)
- {
- 	struct v4l2_bt_timings *act = &video->active_timings;
--	unsigned int size = act->width * act->height;
-+	unsigned int size = act->width * ALIGN(act->height, 8);
- 
- 	/* Set capture/compression frame sizes */
- 	aspeed_video_calc_compressed_size(video, size);
-@@ -1147,7 +1147,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 		u32 width = ALIGN(act->width, 64);
- 
- 		aspeed_video_write(video, VE_CAP_WINDOW, width << 16 | act->height);
--		size = width * act->height;
-+		size = width * ALIGN(act->height, 8);
- 	} else {
- 		aspeed_video_write(video, VE_CAP_WINDOW,
- 				   act->width << 16 | act->height);
-
-base-commit: 2605e80d3438c77190f55b821c6575048c68268e
 -- 
-2.25.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
