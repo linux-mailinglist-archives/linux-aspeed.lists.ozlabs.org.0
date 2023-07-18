@@ -1,78 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A9B756ABD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jul 2023 19:34:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 907567572A8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Jul 2023 06:01:39 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=dnzydAvE;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=fCpfi36d;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R4TjR0Sqwz2yVs
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Jul 2023 03:34:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R4lcx3GtBz30Kf
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Jul 2023 14:01:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=dnzydAvE;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=fCpfi36d;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::432; helo=mail-pf1-x432.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::230; helo=mail-oi1-x230.google.com; envelope-from=billyking19920205@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R4TjJ31vCz2yGT
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 18 Jul 2023 03:34:27 +1000 (AEST)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-666eef03ebdso3099462b3a.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jul 2023 10:34:27 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R4lcn0jwTz300N
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 18 Jul 2023 14:01:28 +1000 (AEST)
+Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-3a412653335so3221625b6e.1
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jul 2023 21:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689615262; x=1692207262;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=dUoi1Mmr8IMK534APH+CWG7qY8Kuyh2p4qso744suGo=;
-        b=dnzydAvEN9YKARwMthDayszanj76dr67zlOjek2z19bKs+DhWqcD0TxQOdtYPy0yLC
-         jtunZLbbV7avrJrx8DE05sppNwgr4k1WbozR5pICNcFaF4ohwYqi68Wwg0z3D2Z2tCJK
-         BCwuyzaNwrLn9S55IX/Qm5+k67U47Baow+iVxhAKTocY/EhYr7FAsWQozYbSHYGJ+V7h
-         hPy09nr4O6X38+slC+30vzZFCf1SxTpXsbbSiJUj4ChUA3t+jjmCS46i/pPKkCT75uBG
-         zN4Lwy8Q/UPax6vRK7ApcFMuiypogMlfS2qKE1CQMxnyOQXMYHRoqUiNskeR69OmBtmp
-         soqg==
+        d=gmail.com; s=20221208; t=1689652885; x=1692244885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TFDsYeU09QyX9nMGiHdFlrICPlkCawySijwdpTw5NLM=;
+        b=fCpfi36ddfNUO4DxSsb38t1Gm9qcZ2cyxe1ho9CTdR0NF3RYOvfxRFg8sjudYuMA35
+         YbfxUYupQDgG7zx/tJKMpfhNlAXcnXKnKu1xoxJeOd362zxKXkWrBRU1KfqYzmif3OuM
+         yaNzfCWTnY5jtYBCPD8/LkyjZIgn1wuVPT6F5YHmK4DWR/VkTpeXKdunCmjQIxdZVknY
+         g9x+RMMYiTVo243FOHcCk/5Jy98HLDIzKYer4s9KRVaLv3052hDn3acFvxHfSrMDlK0t
+         f7vauHUJk9r0tJqPad+Iv4P+drE/i5dirMTQfBoPV+8/VkfMy62mQxYR2YHYrR0Y+2M0
+         F5ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689615262; x=1692207262;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dUoi1Mmr8IMK534APH+CWG7qY8Kuyh2p4qso744suGo=;
-        b=ljxm/gJ4Yi1MejxHVVAOxw9AGPdgUzuGAbBujlknwMtOTBVtdDxEZZ2+/sHj+Xr+6I
-         MrGj3kChtEoJ8YmhNolRy4OSZo3q9pUWWE5OttJ6uWnIhfZ5rfBmp4UWdvOtT2OxOEM8
-         eIaP84fQZd8/suslhCEPhlp2oFhtjcfVyL20wuZafcpBNHqSBYmgdBBojr/p0wsOSY7u
-         kGz4EJ2pbBC9q8FO2O6I8OjlHbA8karCYQKM7oBGUsVlgCs/MMPQYL5UPXh4kgPm9dvb
-         pB3j7Ngno5CZWe5GFY2vwjJtbmFzX9ljG7bhc31v0JW/qZ8dDn8jmZ/3HiMtsFDVmglx
-         Mehg==
-X-Gm-Message-State: ABy/qLaxU2Wyna/7dEuavCTyAjqUfX9+U/XH8IWy8yxxYUX9RntQB4uk
-	p23TqXGgfNfaCvCdlXiDsYI=
-X-Google-Smtp-Source: APBJJlHgiE4S+MXfi6uaGWczHajeTCKhbKry4gKne+v0Nr5Vemydgez1HyMd0UNJpeoHBOwwOlVSZA==
-X-Received: by 2002:a05:6a00:17a1:b0:682:4ef7:9b17 with SMTP id s33-20020a056a0017a100b006824ef79b17mr16331177pfg.32.1689615262353;
-        Mon, 17 Jul 2023 10:34:22 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t5-20020a62ea05000000b0063b96574b8bsm58971pfh.220.2023.07.17.10.34.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jul 2023 10:34:21 -0700 (PDT)
-Message-ID: <a4b0115d-7a06-100c-ec77-027493c86206@roeck-us.net>
-Date: Mon, 17 Jul 2023 10:34:20 -0700
+        d=1e100.net; s=20221208; t=1689652885; x=1692244885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TFDsYeU09QyX9nMGiHdFlrICPlkCawySijwdpTw5NLM=;
+        b=J/DpSWdKVdYNNXjVitonOHdv31Mexyk/ogmO75j3jqOZI1TBJ6We8BS6Atvpyg/P2e
+         HNODhbrIggb5XlcnyDmeiaaMn6AAYQKaaQFR3kQkrHnAe7owbitIbMnW3LGOSOoQ8K/M
+         3oNcuFJ+/NRjxietYRvmGlanIP6i2lmv4gj9DQwzNLZ/HXtSITXd5jiT/gOOd8cRmJIL
+         tN94j1TwmeWty+qY5zOYgWvm+iNPXlCF3Kvo/6bkNS13r+RHeg0w/pJBUbhhH2YExB21
+         x2ZStWoGk9sqFoaP0RBGE3Dx/l4MdD5h0uQDMGvUP60nktY8OLscGW7BU1akBqAmFd5p
+         gctA==
+X-Gm-Message-State: ABy/qLYHUEtMCLhXkoMIhQymSp5hflQ6phS/suIAflWiHc9QEnP90Nq+
+	m4pySpvEUdxPIAgYFrRZJK67WmroDUDvcsLOvO8=
+X-Google-Smtp-Source: APBJJlFei5nTsv62G4RI+NBkc29pl0jchtNvubF4SKpPkRcKNsh9fO5zwyBsd/MW55rbHWgSub5On7KihHxl/Remrv4=
+X-Received: by 2002:a05:6808:199c:b0:3a3:ac49:77dc with SMTP id
+ bj28-20020a056808199c00b003a3ac4977dcmr15295760oib.1.1689652884633; Mon, 17
+ Jul 2023 21:01:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] hwmon: Explicitly include correct DT includes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20230714174607.4057185-1-robh@kernel.org>
- <e0e1b465-8419-419e-90ae-4b72f5189469@roeck-us.net>
- <CAL_JsqJZcxoQEhaGr34Mk1P_8vc8wctcfzswWc8VbRrsv0S7zg@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <CAL_JsqJZcxoQEhaGr34Mk1P_8vc8wctcfzswWc8VbRrsv0S7zg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CAGUgbhCqOJaEPjS96o2au21uW4NhqFScm4Ayd8PzOQvqxQ94SQ@mail.gmail.com>
+ <0b9dd5cf-f4ca-2e6b-624d-0b451bbc2f30@linaro.org> <0ba3767c-d481-6e2c-2d32-b79af0e1efd8@roeck-us.net>
+ <CAGUgbhC34-pUp4ECULc0ScaN7hUF1L-z69h+ji-TiVrv4gKd3Q@mail.gmail.com>
+ <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net> <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
+ <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org> <7a69bda1-5f4c-5b1f-8eb6-6fd58917a9b1@roeck-us.net>
+ <CAGUgbhCTDPGt_vpbfaEreX+iuLJ3WUBqt4kppxyaFZQus9Zf0Q@mail.gmail.com> <b22b2ccc-6760-0db6-067b-109c3864d2e8@linaro.org>
+In-Reply-To: <b22b2ccc-6760-0db6-067b-109c3864d2e8@linaro.org>
+From: =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>
+Date: Tue, 18 Jul 2023 12:01:13 +0800
+Message-ID: <CAGUgbhDmXnyxYCL9h9C0P4ByDSTstWnGqW=uFoDVVHeK3BerHA@mail.gmail.com>
+Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control documentation
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,33 +80,115 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, Saravanan Sekar <sravanhome@gmail.com>, linux-aspeed@lists.ozlabs.org, patches@opensource.cirrus.com, Jean-Marie Verdun <verdun@hpe.com>, Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org, Richard Fitzgerald <rf@opensource.cirrus.com>, Nick Hawkins <nick.hawkins@hpe.com>, Sudeep Holla <sudeep.holla@arm.com>, Luka Perkov <luka.perkov@sartura.hr>, Robert Marko <robert.marko@sartura.hr>, Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "corbet@lwn.net" <corbet@lwn.net>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, Guenter Roeck <linux@roeck-us.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 7/17/23 10:24, Rob Herring wrote:
-> On Sat, Jul 15, 2023 at 10:55 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> On Fri, Jul 14, 2023 at 11:46:04AM -0600, Rob Herring wrote:
->>> The DT of_device.h and of_platform.h date back to the separate
->>> of_platform_bus_type before it as merged into the regular platform bus.
->>> As part of that merge prepping Arm DT support 13 years ago, they
->>> "temporarily" include each other. They also include platform_device.h
->>> and of.h. As a result, there's a pretty much random mix of those include
->>> files used throughout the tree. In order to detangle these headers and
->>> replace the implicit includes with struct declarations, users need to
->>> explicitly include the correct includes.
->>>
->>> Signed-off-by: Rob Herring <robh@kernel.org>
->>
->> Applied to hwmon-next.
-> 
-> I found there's a double include of of.h in lm75.c. Can you fix that
-> up or do you want me to send a fix?
-> 
+>
+> On 17/07/2023 11:01, =E8=94=A1=E6=89=BF=E9=81=94 wrote:
+> > Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2023=E5=B9=B47=E6=9C=8817=
+=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=881:00=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+> >>
+> >> On 7/16/23 09:08, Krzysztof Kozlowski wrote:
+> >>
+> >> [ ... ]
+> >>
+> >>>>
+> >>>> This patch serial doesn't use to binding the fan control h/w. It is
+> >>>> used to binding the two independent h/w blocks.
+> >>>> One is used to provide pwm output and another is used to monitor the
+> >>>> speed of the input.
+> >>>> My patch is used to point out that the pwm and the tach is the
+> >>>> different function and don't need to
+> >>>> bind together. You can not only combine them as the fan usage but al=
+so
+> >>>> treat them as the individual module for
+> >>>> use. For example: the pwm can use to be the beeper (pwm-beeper.c), t=
+he
+> >>>> tach can be used to monitor the heart beat signal.
+> >>>
+> >>> Isn't this exactly the same as in every other SoC? PWMs can be used i=
+n
+> >>> different ways?
+> >>>
+> >>
+> >> ... and in every fan controller. Not that it really makes sense becaus=
+e
+> >> normally the pwm controller part of such chips is tied to the fan inpu=
+t,
+> >> to enable automatic fan control, but it is technically possible.
+> >> In many cases this is also the case in SoCs, for example, in ast2500.
+> >> Apparently this was redesigned in ast2600 where they two blocks are
+> >> only lightly coupled (there are two pwm status bits in the fan status
+> >> register, but I have no idea what those mean). If the blocks are tight=
+ly
+> >> coupled, separate drivers don't really make sense.
+> >>
+> >> There are multiple ways to separate the pwm controller part from the
+> >> fan inputs if that is really necessary. One would be to provide a
+> >> sequence of address mappings, the other would be to pass the memory
+> >> region from an mfd driver. It is not necessary to have N instances
+> >> of the fan controller, even if the address space is not continuous.
+> >>
+> >
+> > Hi Guenter,
+> >
+> > May I ask about the meaning of the sequence of address mappings? It app=
+ears
+> > to consist of multiple tuples within the 'reg' property, indicating
+> > the usage of PWM/Tach
+> > registers within a single instance. After that I can use the dts like f=
+ollowing:
+> >
+> > pwm: pwm@1e610000 {
+> > ...
+> > reg =3D <0x1e610000 0x8
+> > 0x1e610010 0x8
+> > 0x1e610020 0x8
+> > 0x1e610030 0x8
+> > 0x1e610040 0x8
+> > 0x1e610050 0x8
+> > 0x1e610060 0x8
+> > 0x1e610070 0x8
+> > 0x1e610080 0x8
+> > 0x1e610090 0x8
+> > 0x1e6100A0 0x8
+> > 0x1e6100B0 0x8
+> > 0x1e6100C0 0x8
+> > 0x1e6100D0 0x8
+> > 0x1e6100E0 0x8
+> > 0x1e6100F0 0x8>;
+>
+>
+> Uh, no... I mean, why? We keep pointing out that this should not be done
+> differently than any other SoC. Open any other SoC PWM controller and
+> tell me why this is different? Why this cannot be one address space?
 
-I fixed it up. Thanks a lot for noticing.
+Hi Krzysztof,
 
-Guenter
+This is because the register layout for PWM and Tach is not continuous.
+Each PWM/Tach instance has its own set of controller registers, and they
+are independent of each other.
 
+For example:
+PWM0 uses registers 0x0 and 0x4, while Tach0 uses registers 0x8 and 0xc.
+PWM1 uses registers 0x10 and 0x14, while Tach1 uses registers 0x18 and 0x1c=
+.
+...
 
+To separate the PWM controller part from the fan inputs, Guenter has
+provided two methods.
+The first method involves passing the memory region from an MFD
+driver, which was the
+initial method I intended to use. However, it seems that this method
+does not make sense to you.
+
+Therefore, I would like to explore the second method suggested by
+Guenter, which involves providing
+a sequence of address mappings.
+
+Thanks
+
+Best Regards,
+Billy Tsai
