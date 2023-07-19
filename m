@@ -2,79 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA445760206
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jul 2023 00:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEAEB760205
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jul 2023 00:08:48 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=sberdevices.ru header.i=@sberdevices.ru header.a=rsa-sha256 header.s=mail header.b=ftS9UdnF;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ragnatech-se.20221208.gappssmtp.com header.i=@ragnatech-se.20221208.gappssmtp.com header.a=rsa-sha256 header.s=20221208 header.b=PNHMPmfG;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4R8vSg62Tgz2ykV
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jul 2023 08:08:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4R8vSZ2xP9z30Ql
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jul 2023 08:08:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=sberdevices.ru header.i=@sberdevices.ru header.a=rsa-sha256 header.s=mail header.b=ftS9UdnF;
+	dkim=pass (2048-bit key; unprotected) header.d=ragnatech-se.20221208.gappssmtp.com header.i=@ragnatech-se.20221208.gappssmtp.com header.a=rsa-sha256 header.s=20221208 header.b=PNHMPmfG;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=sberdevices.ru (client-ip=45.89.224.132; helo=mx1.sberdevices.ru; envelope-from=ddrokosov@sberdevices.ru; receiver=lists.ozlabs.org)
-X-Greylist: delayed 503 seconds by postgrey-1.37 at boromir; Thu, 20 Jul 2023 04:48:08 AEST
-Received: from mx1.sberdevices.ru (mx2.sberdevices.ru [45.89.224.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ragnatech.se (client-ip=2a00:1450:4864:20::12c; helo=mail-lf1-x12c.google.com; envelope-from=niklas.soderlund@ragnatech.se; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4R5lFN087Zz2yFB
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jul 2023 04:48:05 +1000 (AEST)
-Received: from p-infra-ksmg-sc-msk02 (localhost [127.0.0.1])
-	by mx1.sberdevices.ru (Postfix) with ESMTP id 660A412007A;
-	Wed, 19 Jul 2023 21:39:33 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.sberdevices.ru 660A412007A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-	s=mail; t=1689791973;
-	bh=sc+94aLvgVUxBUEzSPbWOsr9WhtmbJCsOLteFFzOoLU=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=ftS9UdnFVupfX9JxONl46s/RGEHl80jPk77NDDqzvRlD1qSq1jhJ6yXhfHaSPewnr
-	 LEQ6tu0ClcfcCUU9btQ8pcnKoaAO2EJBXjugGbhFMHWzBlTJxypP0F3af+WF7YnUcT
-	 qwRJV+UdIg9Tq/ng5S2MnxsHFZSDjXsqkqprkZ/FAn6+PAzMRaUZQlMaszmoB8jzPf
-	 AAU7c/jMuvSi1AM8yvRzt0m4L7ILTyWgBLaRMTnYKOJhuMJljph7thz7MAefNZECdm
-	 ASZdS2Hm97OvI4aj7PSdUXrCYM7KLsHLwhBPeZ4VRaDC7sbNbBsJ+UEFUFLlGc1JiM
-	 1mc7vWHZzj6DA==
-Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.sberdevices.ru (Postfix) with ESMTPS;
-	Wed, 19 Jul 2023 21:39:33 +0300 (MSK)
-Received: from localhost (100.64.160.123) by p-i-exch-sc-m01.sberdevices.ru
- (172.16.192.107) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 19 Jul
- 2023 21:39:33 +0300
-Date: Wed, 19 Jul 2023 21:39:27 +0300
-From: Dmitry Rokosov <ddrokosov@sberdevices.ru>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4R5lC44V6gz2ygr
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jul 2023 04:46:08 +1000 (AEST)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4f122ff663eso11961485e87.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 19 Jul 2023 11:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1689792361; x=1692384361;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8P6p5GxD+C7LfK4xTVAmdgfr7J5QiZZmSr+c4qR0eQ4=;
+        b=PNHMPmfGkc1gL3s+kuZsOV06iS0AVcua9wceAmdSEpVaau8usQXOmlxuVajPoqahSZ
+         oXCeyXW3i7qO4gPQC3/B5Lo5Eqmi2HM4U13eYxzJby4ZFd5uR2kFc8wjOiArIEd55PBA
+         FeCJue+xZBMErbY8RHL9QpZivP+scZ+Uhv+xiPlfw+QmU/c+xu8cJYkIrMEc/MG7elAK
+         qWZ83FR4V9wLcNgcODc1mJlKxSJnwdLewAg5rcPN0PhCf2e09w5V1Bp1xL5H141MnfFQ
+         Zld3xPSZJnzYVXtM2wQmsSZTU5Qt4Z0CaW8ampG4BzUMYrnqq3UfbUoP7KRh6XWbjalG
+         17Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689792361; x=1692384361;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8P6p5GxD+C7LfK4xTVAmdgfr7J5QiZZmSr+c4qR0eQ4=;
+        b=J7az1eDmUSeNMB9EWn8gwRBV9RN1WMQfzn1XpmcPh1nlCtFoc8xy5u6aEmKglMiig0
+         MU/1xX8JDs62auuySd8ekSWAqn3KZe7jCCMPj2MNehooCssqYva/9mtPUFajDZR7S3Dh
+         /CxgD+Ylz+pygVg2snE30Iarg52I1DScQ9uf0PUNNEPMw3bdTg2zRvUCA9elkmHPdQwC
+         iq9e9L7Dxiisbu1zjM3U1xAShVvxmOth1pHuqf3z34BcbFo69ziXoup4hvDRNdzkdke2
+         RggGdOthnKNSG3ng+iQharWBdpj9nuPACGreHPbvW9Arzi9GM7YSGomDLfEwT4n8asiV
+         bA3Q==
+X-Gm-Message-State: ABy/qLZbfunQfiWCjR9++66+vnea38KY8EiDq7umqfOfcVO2c4fO++eR
+	dcVBKEm4ART5ZwvYuSHBTqdfBA==
+X-Google-Smtp-Source: APBJJlFtrWyQNURr4DI24Yfx+KhHtEnbcs8mZXCEdNLSvmMP4IixrdRQLU+06NloRR7Z4XxkYEDlqQ==
+X-Received: by 2002:a05:6512:250f:b0:4fb:8de9:ac0e with SMTP id be15-20020a056512250f00b004fb8de9ac0emr607490lfb.1.1689792361237;
+        Wed, 19 Jul 2023 11:46:01 -0700 (PDT)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id m8-20020ac24248000000b004fbad6bc93dsm1057209lfl.136.2023.07.19.11.46.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jul 2023 11:46:00 -0700 (PDT)
+Date: Wed, 19 Jul 2023 20:45:59 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] clk: Explicitly include correct DT includes
-Message-ID: <20230719183927.c4ykdjw3iekmugzy@CAB-WSD-L081021>
-References: <20230714174342.4052882-1-robh@kernel.org>
+Subject: Re: [PATCH v2] media: Explicitly include correct DT includes
+Message-ID: <ZLgvZ2ao1tgrRlFu@oden.dyn.berto.se>
+References: <20230718143118.1065743-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230714174342.4052882-1-robh@kernel.org>
-User-Agent: NeoMutt/20220415
-X-Originating-IP: [100.64.160.123]
-X-ClientProxiedBy: p-i-exch-sc-m02.sberdevices.ru (172.16.192.103) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 10
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 178730 [Jul 19 2023]
-X-KSMG-AntiSpam-Version: 5.9.59.0
-X-KSMG-AntiSpam-Envelope-From: DDRokosov@sberdevices.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 524 524 9753033d6953787301affc41bead8ed49c47b39d, {Track_E25351}, {Tracking_from_domain_doesnt_match_to}, sberdevices.ru:5.0.1,7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;p-i-exch-sc-m01.sberdevices.ru:5.0.1,7.1.1;100.64.160.123:7.1.2, FromAlignment: s, {Tracking_white_helo}, ApMailHostAddress: 100.64.160.123
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2023/07/19 15:29:00 #21641898
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230718143118.1065743-1-robh@kernel.org>
 X-Mailman-Approved-At: Tue, 25 Jul 2023 08:08:42 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -87,14 +80,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>, Peng Fan <peng.fan@nxp.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, Heiko Stuebner <heiko@sntech.de>, Geert Uytterhoeven <geert+renesas@glider.be>, Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Paul Walmsley <paul.walmsley@sifive.com>, Tomasz Figa <tomasz.figa@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-riscv@lists.infradead.org, Jonathan Hunter <jonathanh@nvidia.com>, Fabio Estevam <festevam@gmail.com>, linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Abel Vesa <abelvesa@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, linux-samsung-soc@vger.kernel.org, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Dinh Nguyen <dinguyen@kernel.org>, Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez
- .com.ar>, Kevin Hilman <khilman@baylibre.com>, Gregory Clement <gregory.clement@bootlin.com>, linux-tegra@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Hal Feng <hal.feng@starfivetech.com>, Chanwoo Choi <cw00.choi@samsung.com>, Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-arm-msm@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Jerome Brunet <jbrunet@baylibre.com>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, linux-sunxi@lists.linux.dev, NXP Linux Team <linux-imx@nxp.com>, devicetree@vger.kernel.org, Emil Renner Berthing <kernel@esmil.dk>, Manivannan Sadhasivam <mani@kernel.org>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, soc@kernel.org, lin
- ux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, Baolin Wang <baolin.wang@linux.alibaba.com>, Santosh Shilimkar <ssantosh@kernel.org>, Alex Helms <alexander.helms.jy@renesas.com>, linux-amlogic@lists.infradead.org, Michal Simek <michal.simek@amd.com>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>, Cristian Marussi <cristian.marussi@arm.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-arm-kernel@lists.infradead.org, Neil Armstrong <neil.armstrong@linaro.org>, linux-oxnas@groups.io, Tero Kristo <kristo@kernel.org>, Scott Branden <sbranden@broadcom.com>, Stephen Boyd <sboyd@kernel.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Bjorn Andersson <andersson@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>, Pengutronix Kernel Team <ke
- rnel@pengutronix.de>, Sudeep Holla <sudeep.holla@arm.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>
+Cc: Maxime Ripard <mripard@kernel.org>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Minghsiu Tsai <minghsiu.tsai@mediatek.com>, Heiko Stuebner <heiko@sntech.de>, Dafna Hirschfeld <dafna@fastmail.com>, linux-rockchip@lists.infradead.org, Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-kernel@vger.kernel.org, Vikash Garodia <quic_vgarodia@quicinc.com>, linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Alim Akhtar <alim.akhtar@samsung.com>, Dmitry Osipenko <digetx@gmail.com>, Fabio Estevam <festevam@gmail.com>, linux-stm32@st-md-mailman.stormreply.com, linux-aspeed@lists.ozlabs.org, Jerome Brunet <jbrunet@baylibre.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Tiffany Lin <tiffany.lin@mediatek.com>, Sean Young <sean@mess.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Kevin Hilman <khilman@baylibre.com>, openbmc@lists.ozlabs.org, Chen-Yu Tsai <w
+ ens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Shijie Qin <shijie.qin@nxp.com>, Matt Ranostay <matt.ranostay@konsulko.com>, Andy Gross <agross@kernel.org>, Steve Longerbeam <slongerbeam@gmail.com>, Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>, Philipp Zabel <p.zabel@pengutronix.de>, linux-sunxi@lists.linux.dev, NXP Linux Team <linux-imx@nxp.com>, Bin Liu <bin.liu@mediatek.com>, devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, Sean Wang <sean.wang@mediatek.com>, linux-renesas-soc@vger.kernel.org, Houlong Wei <houlong.wei@mediatek.com>, Benoit Parrot <bparrot@ti.com>, Rui Miguel Silva <rmfrfs@gmail.com>, linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.
+ infradead.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Yong Deng <yong.deng@magewell.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, Zhou Peng <eagle.zhou@nxp.com>, Bjorn Andersson <andersson@kernel.org>, Samuel Holland <samuel@sholland.org>, Michael Tretter <m.tretter@pengutronix.de>, Konrad Dybcio <konrad.dybcio@linaro.org>, Krz ysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>, Ming Qian <ming.qian@nxp.com>, Michael Riesch <michael.riesch@wolfvision.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Jul 14, 2023 at 11:43:29AM -0600, Rob Herring wrote:
+Hi Rob,
+
+On 2023-07-18 08:31:14 -0600, Rob Herring wrote:
 > The DT of_device.h and of_platform.h date back to the separate
 > of_platform_bus_type before it as merged into the regular platform bus.
 > As part of that merge prepping Arm DT support 13 years ago, they
@@ -106,18 +100,14 @@ On Fri, Jul 14, 2023 at 11:43:29AM -0600, Rob Herring wrote:
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
+> v2:
+> - Fix double include of of.h
+> ---
 
-[...]
+For,
 
-For
+>  drivers/media/platform/renesas/rcar-isp.c                     | 2 +-
+>  drivers/media/platform/renesas/rcar-vin/rcar-core.c           | 1 -
+>  drivers/media/platform/renesas/rcar-vin/rcar-csi2.c           | 1 -
 
->  drivers/clk/meson/a1-peripherals.c               | 2 +-
->  drivers/clk/meson/a1-pll.c                       | 2 +-
-
-Reviewed-by: Dmitry Rokosov <ddrokosov@sberdevices.ru>
-
-[...]
-
--- 
-Thank you,
-Dmitry
+Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
