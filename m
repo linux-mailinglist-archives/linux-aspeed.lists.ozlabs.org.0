@@ -2,32 +2,32 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA19764482
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jul 2023 05:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7FA76449B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jul 2023 05:54:32 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=MPWbBGwy;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=ve+4sWE1;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RBGjt6XNLz3cJ8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jul 2023 13:40:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RBH2Y0LNRz3bNj
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jul 2023 13:54:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=MPWbBGwy;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=ve+4sWE1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feae::60f; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2060f.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::60f])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feae::609; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20609.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::609])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RBGjm2y8Sz3cDr
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Jul 2023 13:39:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RBH2N5SKbz2yVF
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Jul 2023 13:54:19 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l45w42LtFW+9qjwoqqymkCdWxq6ona4c2s94eCA4IWqNERUYVU1+ghPaf6dxvLgFUFQYaDmzm9SDyinskx19xK3qtxZz7ZLPiUj8nO+qU89s/MteDyzrD/B4GIhaupb54y7ZzL2IfOT7XBuV+sbuCRqKDLi+1GjjbqsYDfJTIj5nuftuVPTCK5HKOtqdcPSjjsjqCsByjwzfl7xum1u7SUKsn6y3YFpFXMSFDkn80VhT/Lwuc+XF3w2IGH215wskytFU+7Tl2GlLbMYDwaAOv6yAgWbBlw8PyUuFOPs+8MeubgEyUHvKwLgNuS/CFjDGAugmodRWeuh9MYidB2JWkQ==
+ b=FMl6vmjIvkIPvXakP1394jB2kmHZdFxQ73O/XmIR8gvi94/JjinoymIgVhRXQQm/Bc7Bh2GlAMxJa+FVFF6NTSq6WQ4sJIBMSETF5WtDeL4pzIVsfLIfxkW7Y+7ODg3C3tivPSFw44CZFPiytrxEYGLxhThThOUtTFgq96OTVCmGDhmXOfc9FsrHGw/pZt44OegPe2dvlzTtjnJByW+uwTkHBuArBUIL86TwfuI5dQ5dcVDtUDlxzQHMIZvyDbK65E3qntrySjPx8TYFEH+JI/aP93lxbpV7Pf1RTAsqL9fbWxLE4M9CzQ1O6ACzzgvWYLEy+nMo/rzzHyvtzRJGww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tRxXQ9EsziZubPqMqlfwFTJ4qcCb890a0A5C9iZi5RM=;
- b=R46ydliw+x9RQdIk06khwkjBwc/Cm9cZmjnwjw2A6/w8v+Vg68mpkZIGp8rfI5YA2wzFYRz/7eQ/lf5fyysrly/1s0mxr1ylEWJ6Ok5tS2LP8gMv3C+rD5KhEfjbltUHcL3DjiWvVhqTj7chefe9+UyE2CfAYajDNy6PIMDM3WS/Bcic7YTt07djfHPP/1UsWhBAOGAQGNJ/E5X4+rrqSsMGL7AU626QSIj5H+fjhwU4RTW+oO4E+m234lf7texzsHtuA9nTbardGgDf90vzz31zfDeI/jah7iEsnEF+D54Xdj4EzinX14fhXRRYCtkrMBbGWSPskZWaPb5VZGpSQA==
+ bh=u+44Ya1rfNIyoje9DhGQK7jKOzFKKBC1l3WjDp18DPs=;
+ b=VlhpKYea7/PgME2ys8vUD7my/SeSs1V4bTeJj01/TzjUAlJVOLaGw4nUiZ/4x9IO+G/iA1VzAlOW/oWr4ysye/zEwcudTYKkdNfkAzJptwOAldh88YLrKfWJcQFIoqeNgy9Azd6mmCT1dclcJL4dI9EJ/Jzn3tNRvrnhMcBMNNP3TVXVim0tFgxeFE7d0ubwdYbc0BpACH7u3aXQ0whWh6fZffmjBYGmdyVZd/lVHn9MjUaN+oD+AbA93beZ6ndbhXV0P0NqoQeXZnueDsGmLM5YbNayJ6z0f2xV8eBZ1ATOMtTOTp5QN1i/BV2hCgvJENVJ27dyLyiwW34yOaP/UA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
  (p=quarantine sp=quarantine pct=100) action=quarantine
@@ -35,18 +35,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tRxXQ9EsziZubPqMqlfwFTJ4qcCb890a0A5C9iZi5RM=;
- b=MPWbBGwybkgQiNKLVuis4Gm3vhiOih2lQ1/fvYjz9P6brugPavgffbVsgQ25eloN0d13I5hdAv8eRL7RNwMg6yM4T4dKQILZ2P13GV4kNU/3GK4MbC8Db1QW9Uh2+hKGNXimZtPYzhhOmhOlHy43goQil5rGBB4ufnc+IFGxaMoJ6Gg5dygtBtgYhUYrUii7ijwEeC24IJ2rN4oKBEABdSoyRegevDqzQF6mv2HdQYl3BLII8OAe7qiG7Cvi+Ndxa/DuN3yFAKi9Nkaeyqhp3GuvzfYFl9zGfGd1zq3J2Db6nGKG7TI64h7xDC267xxBEG0G6NmhK82wsUBXHejjpQ==
-Received: from PU1PR01CA0016.apcprd01.prod.exchangelabs.com
- (2603:1096:803:15::28) by SEYPR04MB6821.apcprd04.prod.outlook.com
- (2603:1096:101:db::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.35; Thu, 27 Jul
- 2023 03:39:33 +0000
-Received: from HK2PEPF00006FB0.apcprd02.prod.outlook.com
- (2603:1096:803:15:cafe::fe) by PU1PR01CA0016.outlook.office365.com
- (2603:1096:803:15::28) with Microsoft SMTP Server (version=TLS1_2,
+ bh=u+44Ya1rfNIyoje9DhGQK7jKOzFKKBC1l3WjDp18DPs=;
+ b=ve+4sWE1C9AAdYdN8yUPme681OZKkw1d41CEks3Y+2ga3XFiDEc2U1PghnzDY7w13rp7CPh5iwtqv2ZIhR/R+GKMfMT2za5SkIb+PCixGr7fofeWI94iZjXmcpMrv9aRRUd1uXNCRQHSYwdDwyA6bGm6yGu2yLLo+yDobWUV9nbGFd4z2oBNKApyj4BR7UnCqOvMFALZWg5ytIlKqtt3VDPA1BivCJFTRNBlPhBx3EQ1s8veMiiBoP/JJ2tCTaYl4iQEfxLsXCntfHfta4hRu2+GdtYsXhV1SxcSihQ8cGDVOG03tNeQDBfySvL1CdaJV4SCGUbeTRfkyK6HuzwReg==
+Received: from PSBPR02CA0012.apcprd02.prod.outlook.com (2603:1096:301::22) by
+ SI2PR04MB5751.apcprd04.prod.outlook.com (2603:1096:4:1e2::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6609.33; Thu, 27 Jul 2023 03:53:58 +0000
+Received: from HK2PEPF00006FB4.apcprd02.prod.outlook.com
+ (2603:1096:301:0:cafe::56) by PSBPR02CA0012.outlook.office365.com
+ (2603:1096:301::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29 via Frontend
- Transport; Thu, 27 Jul 2023 03:39:32 +0000
+ Transport; Thu, 27 Jul 2023 03:53:58 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
  smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
@@ -54,45 +53,38 @@ Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
  designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
  client-ip=211.20.1.79; helo=localhost.localdomain;
 Received: from localhost.localdomain (211.20.1.79) by
- HK2PEPF00006FB0.mail.protection.outlook.com (10.167.8.6) with Microsoft SMTP
- Server id 15.20.6631.22 via Frontend Transport; Thu, 27 Jul 2023 03:39:32
+ HK2PEPF00006FB4.mail.protection.outlook.com (10.167.8.10) with Microsoft SMTP
+ Server id 15.20.6631.22 via Frontend Transport; Thu, 27 Jul 2023 03:53:57
  +0000
 From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-To: patrick@stwcx.xyz,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH 2/2] ARM: dts: aspeed: yosemitev4: add Facebook Yosemite V4 BMC
-Date: Thu, 27 Jul 2023 11:39:25 +0800
-Message-Id: <20230727033926.1904529-2-Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz
+Subject: [PATCH v4 0/2] ARM: dts: Facebook Yosemite V4 platform
+Date: Thu, 27 Jul 2023 11:53:48 +0800
+Message-Id: <20230727035354.1906590-1-Delphine_CC_Chiu@wiwynn.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230727033926.1904529-1-Delphine_CC_Chiu@wiwynn.com>
-References: <20230727033926.1904529-1-Delphine_CC_Chiu@wiwynn.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK2PEPF00006FB0:EE_|SEYPR04MB6821:EE_
+X-MS-TrafficTypeDiagnostic: HK2PEPF00006FB4:EE_|SI2PR04MB5751:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a05c31fc-e1d8-44fa-aa7d-08db8e531757
+X-MS-Office365-Filtering-Correlation-Id: fe72e879-b8e7-4db7-cb67-08db8e551ae2
 X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	bfETf+esXlUo0DYcrC3A4/TCTlKoyY7OPgMR6BwhU5GWUg4PwPVTz4r2cyiss8P5JoHfS9UjUsc3efWWp1AtBN1Up7onHlQXGR+s/bQeEx2JEhm6f28/fK6Cnl+LJNTbN7GUuVsicvByE8uho4VE7RPiheS84Qv2foaZktP/LWqqNnu1t3tp6RUV83ferg62WX9m0LDcAl5lfgItZe+xBN91D6r289upBjVB5rvjOspmMH3skg3c0I117lcfeUAq+7/0O5kISoNTEO3Zck7w8a4LBiZiw16/JWrkBNLv7ilpGQhHI9Gvfzqos0MzBsY0sEWgtc/3oTTMQqqpAZG1V+nkT+7Y8f6kqE6839HDGwcbLEjPMpwXJTAi8Rg6gJ94cmjx72ryakjfHxphOVILC63qCCsMuHICN9fM4eQn6GrKkZpSAXym73cX/i8bvvYEUaxlsZwomWVMj/wrPgDzT6dDzMyXEtZey6GfEElZduBFVe3Dc0vJZLlgARvvxnhfOTek8LythYr+S8ZDwy/GZT+sLSmvdP7feVbcbLIXFdaPjP6u/3Ewy+Acsen6YPZADGxYyHXN6ri2/IBeL9zhHKNcLsr4LU/3SE7GAMjbk80882KCAwXtEviAUiPYJJZCcbcZnFtPFFuxg1pPVn39VxemceXO9v71piYKOaHEVU+WEefIZHxaOk6/mtCJF/BW8Qmlci2hsDG2XEmEyjBfQA==
-X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230028)(6069001)(4636009)(346002)(136003)(376002)(396003)(39860400002)(47680400002)(451199021)(82310400008)(36840700001)(46966006)(9316004)(6512007)(6666004)(6486002)(478600001)(4326008)(356005)(70206006)(110136005)(316002)(70586007)(81166007)(36736006)(82740400003)(8936002)(36860700001)(336012)(1076003)(6506007)(186003)(26005)(956004)(47076005)(2616005)(36756003)(40480700001)(41300700001)(30864003)(8676002)(2906002)(5660300002)(7416002)(86362001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 	fFI1Hh5OmUNsx0XCskljkIGgAa7BPsKLIE/UnMGyMt2YUkBMW/u56pgPGiMeANRqQL0qCJz3kQulRLYK/8aQXwpj/56ot+2HRHaK3YNvLbqhboHaawaHDODLC9694JUOkBqngzxGQTfjQDbFmkQNEe6mQbUdJjf1HUkosXC5xFF8GSClf8qqxi+O1vOk48ETd6GM1fft1Pe2BesE6SWHwM2xg/x1f8kQBUuXeZk/K696xqcuREMLZNnmM3MgddvY7JHWNelhtKj7rbFb4NKlQ/l2FU5AZD7nGRguwTI6GS44MSFi+SpV0hS8rZAN4MhImYmRrVhawGeLYQI0V9eGrwQ7EM9aloL0FhlHFt2yP59GPj3/MTqStSG1FtKLx7ZnxWc6LEPJaZ4xKkMXJjawYyvix7KdIyZicgLN8amluUaQS4eQwbKEAXGxGB57OpC6AbrJyfuy12wUU+RmYuQcCBeApyvUy7GyAORpiPiFQnk51a2K2NFyuCF1f9uFLGUTd4yzlwZneaBhcJ8Oc2UAMLcxQFwBglDlW28yOVNgb3fe741IyLWvamZ/lMSU4txlb9Getjdy2H9P+PzVa7tIO2J3E9theFQ25/A3CyvNFXfu82f3DzeGVEQf4M/BJTFEd1O2aU8WcdLpnD4NzRHZJ8EtaoE9mm/mN4zBssRy/ni5vlo6iHI8jI3FzXnM13QdiYQQm16pgwFzGaRoNfJUiA==
+X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230028)(6069001)(4636009)(396003)(136003)(39860400002)(346002)(376002)(47680400002)(451199021)(82310400008)(36840700001)(46966006)(336012)(1076003)(186003)(47076005)(26005)(6506007)(956004)(36860700001)(2616005)(6666004)(70586007)(4326008)(316002)(36736006)(7416002)(8676002)(5660300002)(41300700001)(6916009)(6486002)(70206006)(6512007)(8936002)(478600001)(40480700001)(4744005)(54906003)(2906002)(81166007)(356005)(9316004)(36756003)(86362001)(82740400003);DIR:OUT;SFP:1101;
 X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 03:39:32.5608
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 03:53:57.5148
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a05c31fc-e1d8-44fa-aa7d-08db8e531757
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe72e879-b8e7-4db7-cb67-08db8e551ae2
 X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource: 	HK2PEPF00006FB0.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: 	HK2PEPF00006FB4.apcprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR04MB6821
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR04MB5751
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,678 +96,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 Add linux device tree entry related to
 Yosemite V4 specific devices connected to BMC SoC.
 
-Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
----
+v4 - Resend with cover letter
+v3 - Revise the bootargs to stdout-path
+   - Revise i2c devices
+v2 - Revise the DTS node name
+v1 - Add binding document
+
+Delphine CC Chiu (2):
+  dt-bindings: arm: aspeed: add Facebook Yosemite V4 board
+  ARM: dts: aspeed: yosemitev4: add Facebook Yosemite V4 BMC
+
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
  arch/arm/boot/dts/aspeed/Makefile             |   1 +
  .../aspeed/aspeed-bmc-facebook-yosemitev4.dts | 640 ++++++++++++++++++
- 2 files changed, 641 insertions(+)
+ 3 files changed, 642 insertions(+)
  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev4.dts
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index c68984322a86..023fb428611f 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -26,6 +26,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-facebook-wedge400.dtb \
- 	aspeed-bmc-facebook-yamp.dtb \
- 	aspeed-bmc-facebook-yosemitev2.dtb \
-+	aspeed-bmc-facebook-yosemitev4.dtb \
- 	aspeed-bmc-ibm-bonnell.dtb \
- 	aspeed-bmc-ibm-everest.dtb \
- 	aspeed-bmc-ibm-rainier.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev4.dts
-new file mode 100644
-index 000000000000..1ca7ed6a0e7f
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev4.dts
-@@ -0,0 +1,640 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright 2022 Facebook Inc.
-+
-+/dts-v1/;
-+#include "aspeed-g6.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/leds/leds-pca955x.h>
-+#include <dt-bindings/i2c/i2c.h>
-+
-+/ {
-+	model = "Facebook Yosemite V4 BMC";
-+	compatible = "facebook,yosemitev4-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial4 = &uart5;
-+		serial5 = &uart6;
-+		serial6 = &uart7;
-+		serial7 = &uart8;
-+		serial8 = &uart9;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial4:57600n8";
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x80000000>;
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
-+				<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
-+				<&adc1 0>, <&adc1 1>;
-+	};
-+};
-+
-+&uart1 {
-+	status = "okay";
-+};
-+
-+&uart2 {
-+	status = "okay";
-+};
-+
-+&uart3 {
-+	status = "okay";
-+};
-+
-+&uart4 {
-+	status = "okay";
-+};
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&uart6 {
-+	status = "okay";
-+};
-+
-+&uart7 {
-+	status = "okay";
-+};
-+
-+&uart8 {
-+	status = "okay";
-+};
-+
-+&uart9 {
-+	status = "okay";
-+};
-+
-+&wdt1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_wdtrst1_default>;
-+	aspeed,reset-type = "soc";
-+	aspeed,external-signal;
-+	aspeed,ext-push-pull;
-+	aspeed,ext-active-high;
-+	aspeed,ext-pulse-duration = <256>;
-+};
-+
-+&mac2 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii3_default>;
-+	no-hw-checksum;
-+	use-ncsi;
-+	mlx,multi-host;
-+	ncsi-ctrl,start-redo-probe;
-+	ncsi-ctrl,no-channel-monitor;
-+	ncsi-package = <1>;
-+	ncsi-channel = <1>;
-+	ncsi-rexmit = <1>;
-+	ncsi-timeout = <2>;
-+};
-+
-+&mac3 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii4_default>;
-+	no-hw-checksum;
-+	use-ncsi;
-+	mlx,multi-host;
-+	ncsi-ctrl,start-redo-probe;
-+	ncsi-ctrl,no-channel-monitor;
-+	ncsi-package = <1>;
-+	ncsi-channel = <1>;
-+	ncsi-rexmit = <1>;
-+	ncsi-timeout = <2>;
-+};
-+
-+&rtc {
-+	status = "okay";
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-rx-bus-width = <4>;
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout-64.dtsi"
-+	};
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc2";
-+		spi-rx-bus-width = <4>;
-+		spi-max-frequency = <50000000>;
-+	};
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+	multi-master;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+	multi-master;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+	multi-master;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+	multi-master;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+	multi-master;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+	multi-master;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+	multi-master;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+	multi-master;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+	bus-frequency = <400000>;
-+	i2c-mux@70 {
-+		compatible = "nxp,pca9544";
-+		idle-state = <0>;
-+		i2c-mux-idle-disconnect;
-+		reg = <0x70>;
-+	};
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+	bus-frequency = <400000>;
-+	i2c-mux@71 {
-+		compatible = "nxp,pca9544";
-+		idle-state = <0>;
-+		i2c-mux-idle-disconnect;
-+		reg = <0x71>;
-+	};
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+	bus-frequency = <400000>;
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+	bus-frequency = <400000>;
-+	power-sensor@10 {
-+		compatible = "adi, adm1272";
-+		reg = <0x10>;
-+	};
-+
-+	power-sensor@12 {
-+		compatible = "adi, adm1272";
-+		reg = <0x12>;
-+	};
-+
-+	gpio@20 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x20>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	gpio@21 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x21>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	gpio@22 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x22>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	gpio@23 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x23>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	temperature-sensor@48 {
-+		compatible = "ti,tmp75";
-+		reg = <0x48>;
-+	};
-+
-+	temperature-sensor@49 {
-+		compatible = "ti,tmp75";
-+		reg = <0x49>;
-+	};
-+
-+	temperature-sensor@4a {
-+		compatible = "ti,tmp75";
-+		reg = <0x4a>;
-+	};
-+
-+	temperature-sensor@4b {
-+		compatible = "ti,tmp75";
-+		reg = <0x4b>;
-+	};
-+
-+	eeprom@54 {
-+		compatible = "atmel,24c256";
-+		reg = <0x54>;
-+	};
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+	bus-frequency = <400000>;
-+
-+	temperature-sensor@48 {
-+		compatible = "ti,tmp75";
-+		reg = <0x48>;
-+	};
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c128";
-+		reg = <0x50>;
-+	};
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+	bus-frequency = <400000>;
-+};
-+
-+&i2c14 {
-+	status = "okay";
-+	bus-frequency = <400000>;
-+	adc@1d {
-+		compatible = "ti,adc128d818";
-+		reg = <0x1d>;
-+		ti,mode = /bits/ 8 <2>;
-+	};
-+
-+	adc@35 {
-+		compatible = "ti,adc128d818";
-+		reg = <0x35>;
-+		ti,mode = /bits/ 8 <2>;
-+	};
-+
-+	adc@37 {
-+		compatible = "ti,adc128d818";
-+		reg = <0x37>;
-+		ti,mode = /bits/ 8 <2>;
-+	};
-+
-+	power-sensor@40 {
-+		compatible = "ti,ina230";
-+		reg = <0x40>;
-+	};
-+
-+	power-sensor@41 {
-+		compatible = "ti,ina230";
-+		reg = <0x41>;
-+	};
-+
-+	power-sensor@42 {
-+		compatible = "ti,ina230";
-+		reg = <0x42>;
-+	};
-+
-+	power-sensor@41 {
-+		compatible = "ti,ina230";
-+		reg = <0x43>;
-+	};
-+
-+	power-sensor@44 {
-+		compatible = "ti,ina230";
-+		reg = <0x44>;
-+	};
-+
-+	temperature-sensor@4e {
-+		compatible = "ti,tmp75";
-+		reg = <0x4e>;
-+	};
-+
-+	temperature-sensor@4f {
-+		compatible = "ti,tmp75";
-+		reg = <0x4f>;
-+	};
-+
-+	eeprom@51 {
-+		compatible = "atmel,24c128";
-+		reg = <0x51>;
-+	};
-+
-+	i2c-mux@71 {
-+		compatible = "nxp,pca9846";
-+		idle-state = <0>;
-+		i2c-mux-idle-disconnect;
-+		reg = <0x71>;
-+
-+		i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			adc@1f {
-+				compatible = "ti,adc128d818";
-+				reg = <0x1f>;
-+				ti,mode = /bits/ 8 <2>;
-+			};
-+
-+			pwm@20{
-+				compatible = "max31790";
-+				reg = <0x20>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			gpio@22{
-+				compatible = "ti,tca6424";
-+				reg = <0x22>;
-+			};
-+
-+			pwm@23{
-+				compatible = "max31790";
-+				reg = <0x23>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			adc@33 {
-+				compatible = "maxim,max11615";
-+				reg = <0x33>;
-+			};
-+
-+			eeprom@52 {
-+				compatible = "atmel,24c128";
-+				reg = <0x52>;
-+			};
-+
-+			gpio@61 {
-+				compatible = "nxp,pca9552";
-+				reg = <0x61>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+			};
-+		};
-+
-+		i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			adc@1f {
-+				compatible = "ti,adc128d818";
-+				reg = <0x1f>;
-+				ti,mode = /bits/ 8 <2>;
-+			};
-+
-+			pwm@20{
-+				compatible = "max31790";
-+				reg = <0x20>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			gpio@22{
-+				compatible = "ti,tca6424";
-+				reg = <0x22>;
-+			};
-+
-+			pwm@23{
-+				compatible = "max31790";
-+				reg = <0x23>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			adc@33 {
-+				compatible = "maxim,max11615";
-+				reg = <0x33>;
-+			};
-+
-+			eeprom@52 {
-+				compatible = "atmel,24c128";
-+				reg = <0x52>;
-+			};
-+
-+			gpio@61 {
-+				compatible = "nxp,pca9552";
-+				reg = <0x61>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+			};
-+		};
-+	};
-+
-+	i2c-mux@73 {
-+		compatible = "nxp,pca9544";
-+		idle-state = <0>;
-+		i2c-mux-idle-disconnect;
-+		reg = <0x73>;
-+
-+		i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			adc@35 {
-+				compatible = "maxim,max11617";
-+				reg = <0x35>;
-+			};
-+		};
-+
-+		i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			adc@35 {
-+				compatible = "maxim,max11617";
-+				reg = <0x35>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c15 {
-+	status = "okay";
-+	mctp-controller;
-+	multi-master;
-+	bus-frequency = <400000>;
-+
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	i2c-mux@72 {
-+		compatible = "nxp,pca9544";
-+		idle-state = <0>;
-+		i2c-mux-idle-disconnect;
-+		reg = <0x72>;
-+	};
-+};
-+
-+&adc0 {
-+	ref_voltage = <2500>;
-+	status = "okay";
-+	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-+			&pinctrl_adc2_default &pinctrl_adc3_default
-+			&pinctrl_adc4_default &pinctrl_adc5_default
-+			&pinctrl_adc6_default &pinctrl_adc7_default>;
-+};
-+
-+&adc1 {
-+	ref_voltage = <2500>;
-+	status = "okay";
-+	pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default>;
-+};
-+
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&uhci {
-+	status = "okay";
-+};
 -- 
 2.25.1
 
