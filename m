@@ -2,55 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F28770F33
-	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Aug 2023 12:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 789CF7719D5
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:01:57 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nXu7JJHL;
+	dkim=pass (1024-bit key; unprotected) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=JMwOLltw;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RHyy63Rcyz3cR3
-	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Aug 2023 20:10:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5LW1qrxz2yVc
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:01:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nXu7JJHL;
+	dkim=pass (1024-bit key; unprotected) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=JMwOLltw;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RHyxv6jpDz304l;
-	Sat,  5 Aug 2023 20:10:11 +1000 (AEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 277E860C41;
-	Sat,  5 Aug 2023 10:10:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37E34C433C8;
-	Sat,  5 Aug 2023 10:10:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691230206;
-	bh=RZD/okUT8P7W5bz60THY3oriTvZX3Irx0g2o/7jpNgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nXu7JJHLU9Jooam3uyoQ6e0wCkbz7xIrGiNIEzv+H/djdFeKyXyWdoZ+cS3ex/nwx
-	 Hf9os47q9i4O8rPUaHQEgCCnGE2sIREgy0TXaQFDlx0XI6OsZZ3twxM2UKb2vu8lk9
-	 VjGfrOnun6jBInNaow/vZ6xwduNClFon1dJhbxDxobyoV0jJhVMfWkTshDyLIiZXx8
-	 2JpDieuy6NeBfihyEuejwO1jTP//MyoaxMPoQ32cQNoIQeXAk9HZXylYzNVrd8TKZc
-	 kH3hOayvpvoIsew6gxod6r315LuWEQMQ0jQq40j4QCIftMqMIxr0mjwDZBTOR7cW9P
-	 a8t3p6xKC7M+g==
-Date: Sat, 5 Aug 2023 12:10:04 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Lixue Liang <lianglixuehao@126.com>
-Subject: Re: [PATCH] i2c: aspeed: Avoid accessing freed buffers during i2c
- transfers.
-Message-ID: <20230805101004.dknxj7nqrt2aes5n@intel.intel>
-References: <20230728122416.17782-1-lianglixuehao@126.com>
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=126.com (client-ip=220.181.12.26; helo=m126.mail.126.com; envelope-from=lianglixuehao@126.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 940 seconds by postgrey-1.37 at boromir; Fri, 28 Jul 2023 22:40:45 AEST
+Received: from m126.mail.126.com (m126.mail.126.com [220.181.12.26])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RC6gK6kKnz3Wts;
+	Fri, 28 Jul 2023 22:40:43 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=FoxBD
+	YqOKyiWiTrz1BH4q8oi7fSeNd2Y5rKiieL1SJQ=; b=JMwOLltwUM6nZC31hnjsI
+	rFEPejxCuR+xeacnr2pk0Dqfjdc/sHXY+XFIx65nEsXGuzdhG/fyAHHV3FX1IRv3
+	WLAGSaPWpJWU933HIP7xdjU+4XrZOo3zbBo3DUdxlljDGGTtX/VRO4pgnc+KCiA9
+	mDiyjzPUUx+nqYsvCoWHZY=
+Received: from localhost.localdomain (unknown [117.136.33.150])
+	by zwqz-smtp-mta-g2-0 (Coremail) with SMTP id _____wD3_q5ys8NkgYAxBA--.37325S2;
+	Fri, 28 Jul 2023 20:24:21 +0800 (CST)
+From: Lixue Liang <lianglixuehao@126.com>
+To: brendan.higgins@linux.dev, benh@kernel.crashing.org,
+	joel@jms.id.au, "andi.shyti@kernel.organdrew"@aj.id.au
+Subject: [PATCH] i2c: aspeed: Avoid accessing freed buffers during i2c transfers.
+Date: Fri, 28 Jul 2023 12:24:16 +0000
+Message-Id: <20230728122416.17782-1-lianglixuehao@126.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230728122416.17782-1-lianglixuehao@126.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wD3_q5ys8NkgYAxBA--.37325S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Wr1DurW8WryxCr15tw13Arb_yoWDGFc_Ka
+	1kua4xJr1DJF95Cw1Fywn8ZFyF9345ur4kWw1vya4fC3WYv3s5JFyq9FZ3ArsrWFZ7GFy5
+	J3Wj9F4fAr1DGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8H89tUUUUU==
+X-Originating-IP: [117.136.33.150]
+X-CM-SenderInfo: xold0w5ol03vxkdrqiyswou0bp/1tbi5Ry6FlpD+gIe0QABs6
+X-Mailman-Approved-At: Mon, 07 Aug 2023 16:01:51 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,45 +57,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Lixue Liang <lianglixue@greatwall.com.cn>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, brendan.higgins@linux.dev, p.zabel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: Lixue Liang <lianglixue@greatwall.com.cn>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, lianglixuehao@126.com, linux-i2c@vger.kernel.org, p.zabel@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Lixue,
+From: Lixue Liang <lianglixue@greatwall.com.cn>
 
-On Fri, Jul 28, 2023 at 12:24:16PM +0000, Lixue Liang wrote:
-> From: Lixue Liang <lianglixue@greatwall.com.cn>
-> 
-> After waiting for the transmission timeout, the I2C controller will
-> continue to transmit data when the bus is idle. Clearing bus->msg will
-> avoid kernel panic when accessing the freed msg->buf in
-> aspeed_i2c_master_irq.
+After waiting for the transmission timeout, the I2C controller will
+continue to transmit data when the bus is idle. Clearing bus->msg will
+avoid kernel panic when accessing the freed msg->buf in
+aspeed_i2c_master_irq.
 
-actually in aspeed_i2c_master_irq() you are already checking for
-!bus->msgs.
+Signed-off-by: Lixue Liang <lianglixue@greatwall.com.cn>
+---
+ drivers/i2c/busses/i2c-aspeed.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-What kind of panic are you referring to?
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index 2e5acfeb76c8..c83057497e26 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -713,6 +713,8 @@ static int aspeed_i2c_master_xfer(struct i2c_adapter *adap,
+ 		spin_lock_irqsave(&bus->lock, flags);
+ 		if (bus->master_state == ASPEED_I2C_MASTER_PENDING)
+ 			bus->master_state = ASPEED_I2C_MASTER_INACTIVE;
++
++		bus->msgs = NULL;
+ 		spin_unlock_irqrestore(&bus->lock, flags);
+ 
+ 		return -ETIMEDOUT;
+-- 
+2.27.0
 
-Andi
-
-> Signed-off-by: Lixue Liang <lianglixue@greatwall.com.cn>
-> ---
->  drivers/i2c/busses/i2c-aspeed.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-> index 2e5acfeb76c8..c83057497e26 100644
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -713,6 +713,8 @@ static int aspeed_i2c_master_xfer(struct i2c_adapter *adap,
->  		spin_lock_irqsave(&bus->lock, flags);
->  		if (bus->master_state == ASPEED_I2C_MASTER_PENDING)
->  			bus->master_state = ASPEED_I2C_MASTER_INACTIVE;
-> +
-> +		bus->msgs = NULL;
->  		spin_unlock_irqrestore(&bus->lock, flags);
->  
->  		return -ETIMEDOUT;
-> -- 
-> 2.27.0
-> 
