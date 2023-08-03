@@ -2,54 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88C27719E2
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67637719E1
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:02:37 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QBNVUFI5;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bo7MVsa1;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5MM5WtCz2yV1
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:02:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5MH46k2z2yVh
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:02:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QBNVUFI5;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bo7MVsa1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RH3mT522dz3bYx;
-	Fri,  4 Aug 2023 08:43:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RH3mM5s1xz308W;
+	Fri,  4 Aug 2023 08:43:47 +1000 (AEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 104EA61EE2;
-	Thu,  3 Aug 2023 22:43:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA8C7C433C7;
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 2B1A161EEE;
 	Thu,  3 Aug 2023 22:43:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D967FC433C8;
+	Thu,  3 Aug 2023 22:43:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102631;
-	bh=R76ioRk8I4DMRoQdi+plajp1uKqt2Z5mY3EQuaOmZR4=;
+	s=k20201202; t=1691102625;
+	bh=KtCTm8P3ZFPnN+VJ1KJBv1l1cSj885PBIvibZEA9CFY=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=QBNVUFI5O2z9OUqU805wd+Q0LYarSS43c3wZDp+nybANKUZmTXauY3r2eu94aWZn7
-	 +jQGRu6wwrT3Dg85fiGmdMVuBt9gwsrB711ZahfXJR1I5ukhXWz4YhHFGAOO2s3Bb+
-	 mgk7snY56VWEcGPqrSshdCDRhpe1gwRoXx8iDc5EBlzCy4cERwYCmJfyMYLI6GnEze
-	 gXBeCG56udbc7C5pVFxcM/jy87edsuCWFuelyHeGwBA/4w+6u73wtHp+EWq2/OU8ax
-	 2YRGF7GRCWtp3XuMuAQCljnXVLq7aPRJhexjPaF/hEsXSa7lSaCboKk5uN9zgIuzOZ
-	 wn6l6nD6LQKvQ==
-Received: (nullmailer pid 3693794 invoked by uid 1000);
+	b=bo7MVsa1PBJS3oAt6C7lE2MQrPn6pxc9efA2qZ5huiRANMhVjXByXKZhBwqAIi+9x
+	 u9UVdv6CUAVhQ77sdLFdEJm/QkWOk0ykZZM37LvQqzGXcxMRs/LjozPEYSrAKQ9nSB
+	 5oVbcE+G5NTPAL2bWzIv1hpCBrkL5QePQJjoyc+Aw4UbH6QC8INDzHLfwZWMWR+wSG
+	 tlrAwAZESxEw3s4Vn/zqmLiHA3BMg9GjO3Lrzia8fM4hsOXgD6HBbctAhm7lfO7FOH
+	 dGzlCLuYxPdd+JK/DHcz70G23se9J5yx1ib0FW9v5Vh8brWKm4w8myjmjyZrSjqu0d
+	 vRUhW/xtmS34w==
+Received: (nullmailer pid 3693796 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:43:02 -0600
-Subject: [PATCH v2 22/23] soc: xilinx: Explicitly include correct DT
- includes
+Date: Thu, 03 Aug 2023 16:43:03 -0600
+Subject: [PATCH v2 23/23] soc: fsl: Explicitly include correct DT includes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-22-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-23-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>, Lubomir Rintel <lkundrak@v3.sk>, Linus Walleij <linus.walleij@linaro.org>, Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>, Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Shiraz Has
@@ -81,22 +80,74 @@ replace the implicit includes with struct declarations, users need to
 explicitly include the correct includes.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/soc/xilinx/zynqmp_power.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/soc/xilinx/zynqmp_power.c b/drivers/soc/xilinx/zynqmp_power.c
-index 641dcc958911..913417506468 100644
---- a/drivers/soc/xilinx/zynqmp_power.c
-+++ b/drivers/soc/xilinx/zynqmp_power.c
-@@ -11,6 +11,7 @@
+---
+v2:
+ - Add qe.c
+---
+ drivers/soc/fsl/dpaa2-console.c | 3 ++-
+ drivers/soc/fsl/qe/qe.c         | 3 ++-
+ drivers/soc/fsl/qe/qe_common.c  | 1 -
+ drivers/soc/fsl/qe/qe_tdm.c     | 4 +---
+ 4 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/soc/fsl/dpaa2-console.c b/drivers/soc/fsl/dpaa2-console.c
+index 53917410f2bd..1dca693b6b38 100644
+--- a/drivers/soc/fsl/dpaa2-console.c
++++ b/drivers/soc/fsl/dpaa2-console.c
+@@ -9,9 +9,10 @@
+ #define pr_fmt(fmt) "dpaa2-console: " fmt
  
- #include <linux/mailbox_client.h>
  #include <linux/module.h>
+-#include <linux/of_device.h>
 +#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/reboot.h>
- #include <linux/suspend.h>
+ #include <linux/of_address.h>
+ #include <linux/miscdevice.h>
++#include <linux/platform_device.h>
+ #include <linux/uaccess.h>
+ #include <linux/slab.h>
+ #include <linux/fs.h>
+diff --git a/drivers/soc/fsl/qe/qe.c b/drivers/soc/fsl/qe/qe.c
+index 58746e570d14..3ee0c7c1e9a4 100644
+--- a/drivers/soc/fsl/qe/qe.c
++++ b/drivers/soc/fsl/qe/qe.c
+@@ -25,7 +25,8 @@
+ #include <linux/iopoll.h>
+ #include <linux/crc32.h>
+ #include <linux/mod_devicetable.h>
+-#include <linux/of_platform.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
+ #include <soc/fsl/qe/immap_qe.h>
+ #include <soc/fsl/qe/qe.h>
+ 
+diff --git a/drivers/soc/fsl/qe/qe_common.c b/drivers/soc/fsl/qe/qe_common.c
+index a0cb8e746879..9729ce86db59 100644
+--- a/drivers/soc/fsl/qe/qe_common.c
++++ b/drivers/soc/fsl/qe/qe_common.c
+@@ -16,7 +16,6 @@
+ #include <linux/genalloc.h>
+ #include <linux/init.h>
+ #include <linux/list.h>
+-#include <linux/of_device.h>
+ #include <linux/spinlock.h>
+ #include <linux/export.h>
+ #include <linux/of.h>
+diff --git a/drivers/soc/fsl/qe/qe_tdm.c b/drivers/soc/fsl/qe/qe_tdm.c
+index 7d7d78d3ee50..a3b691875c8e 100644
+--- a/drivers/soc/fsl/qe/qe_tdm.c
++++ b/drivers/soc/fsl/qe/qe_tdm.c
+@@ -9,9 +9,7 @@
+  */
+ #include <linux/io.h>
+ #include <linux/kernel.h>
+-#include <linux/of_address.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
++#include <linux/of.h>
+ #include <soc/fsl/qe/qe_tdm.h>
+ 
+ static int set_tdm_framer(const char *tdm_framer_type)
 
 -- 
 2.40.1
