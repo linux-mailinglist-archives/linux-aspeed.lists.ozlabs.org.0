@@ -1,61 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D157719D9
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:02:05 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 684A77719E0
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:02:33 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Ue2/2BrP;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dypy6XjJ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5Lg5Hxcz2ygZ
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:02:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5MC1YGGz2yVr
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:02:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Ue2/2BrP;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dypy6XjJ;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RH3lg0QjYz2ydW;
-	Fri,  4 Aug 2023 08:43:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RH3mH0zS2z301S;
+	Fri,  4 Aug 2023 08:43:43 +1000 (AEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id A8E5061EE8;
-	Thu,  3 Aug 2023 22:43:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94961C433CB;
-	Thu,  3 Aug 2023 22:43:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 76B0061EE4;
+	Thu,  3 Aug 2023 22:43:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 710AEC433CA;
+	Thu,  3 Aug 2023 22:43:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102587;
-	bh=mkgjslj3UqmAoWtd2vZdQ4Vowszqgwhuroo4KSgo6cU=;
+	s=k20201202; t=1691102620;
+	bh=zb9vj/VoMfFtM5/p26omsqagLrngLAbUMPXWG2NxI2Y=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=Ue2/2BrPWwdvX5MfXhdFS9TPQVdPVFovIcMhMAIpkiy9PxrUxe5Gthxa11lRkZ+Z/
-	 suw/MuQ9R5AV/kKuCel2LV9T4MdZuDNplh3sUAVPg2VTydAw6905v3bv1OKlijDZYr
-	 HzHwVUw9tG0gZXIjE5BiqPG9+D2Yd9MEVjuD4w6fqdMbvvZsklGNVsifqvRbivo+Fu
-	 PXAAjC8+zKWONkBLNK8nSc5b/dXWsCKvXGAt5r7sk+WMRQA7H7s6/vuA7T31vekuuT
-	 8bOzzUehhX7rM8bKEC9yFKOsBufla4IGaS8fMFt/wViKG/s32IdckqOrOrp2bu7x6B
-	 MHedWr/MTf4MQ==
-Received: (nullmailer pid 3693752 invoked by uid 1000);
+	b=Dypy6XjJ8UlxQtx4tlAY1sAXXOmSwlE3SPBIuZWPKi5pJqxbskihd07u1ZcqWFkAC
+	 0aBI10Qc65Y59tkMXN+BxpV3yDSMp3JFeXtyAbRzTOXR26SyFPQhSmQJi8t1E0/mMa
+	 QMT2Lmm3W6332ZslnZmUgwH976KM96jt433wdVaQuaFPthMHayKMUeiLbTCFSvnBSc
+	 uhAHOk/ldwSKKlQZGJl2VjEZAfODgurQr/RirLvWgcL1/qRV0hgXWyqt+mPCwscPAB
+	 WrxAcNEQCSe7hx3Ibu1IhlYMRjUYECDyPrcKqiLRYiCyyJcMJ/8G44Kl0KcPl0wCWR
+	 xOAKDEvHwD7jg==
+Received: (nullmailer pid 3693754 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:41 -0600
-Subject: [PATCH v2 01/23] ARM: l2x0: Add explicit includes for init and
- types
+Date: Thu, 03 Aug 2023 16:42:42 -0600
+Subject: [PATCH v2 02/23] ARM: sti: Drop unused includes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-1-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-2-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>, Lubomir Rintel <lkundrak@v3.sk>, Linus Walleij <linus.walleij@linaro.org>, Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>, Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Shiraz Has
  him <shiraz.linux.kernel@gmail.com>, Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jay Fang <f.fangjian@huawei.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Cristian Marussi <cristian.marussi@arm.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Dinh Nguyen <dinguyen@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Michal Simek <michal.simek@amd.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Ulf Hansson <ulf.hansson@linaro.org>, Li Yang <leoyang.li@nxp.com>, Qiang Zhao <qiang.zhao@nxp.com>
 X-Mailer: b4 0.13-dev
-X-Mailman-Approved-At: Mon, 07 Aug 2023 16:01:50 +1000
+X-Mailman-Approved-At: Mon, 07 Aug 2023 16:01:51 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +70,26 @@ Cc: linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org, openbmc@lists.ozlab
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The cache-l2x0.h header uses u32 type and the __init and __iomem
-attributes, so it should have explicit includes for those.
+Several includes are not needed, so drop them.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/include/asm/hardware/cache-l2x0.h | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm/mach-sti/board-dt.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm/include/asm/hardware/cache-l2x0.h b/arch/arm/include/asm/hardware/cache-l2x0.h
-index a6d4ee86ba54..5a7ee70f561c 100644
---- a/arch/arm/include/asm/hardware/cache-l2x0.h
-+++ b/arch/arm/include/asm/hardware/cache-l2x0.h
-@@ -9,6 +9,8 @@
- #define __ASM_ARM_HARDWARE_L2X0_H
+diff --git a/arch/arm/mach-sti/board-dt.c b/arch/arm/mach-sti/board-dt.c
+index ffecbf29646f..488084b61b4a 100644
+--- a/arch/arm/mach-sti/board-dt.c
++++ b/arch/arm/mach-sti/board-dt.c
+@@ -4,8 +4,6 @@
+  * Author(s): Srinivas Kandagatla <srinivas.kandagatla@st.com>
+  */
  
- #include <linux/errno.h>
-+#include <linux/init.h>
-+#include <linux/types.h>
+-#include <linux/irq.h>
+-#include <linux/of_platform.h>
+ #include <asm/hardware/cache-l2x0.h>
+ #include <asm/mach/arch.h>
  
- #define L2X0_CACHE_ID			0x000
- #define L2X0_CACHE_TYPE			0x004
 
 -- 
 2.40.1
