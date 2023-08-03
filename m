@@ -1,97 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8F176CF0C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Aug 2023 15:44:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 093DE76E685
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Aug 2023 13:14:27 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=XalsLoKF;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=OA3p6QPR;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RGCrf74XMz2ygw
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Aug 2023 23:44:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RGmSw64JCz3c3s
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Aug 2023 21:14:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=XalsLoKF;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=OA3p6QPR;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::632; helo=mail-ej1-x632.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RGCrZ0Q9Dz2ykV;
-	Wed,  2 Aug 2023 23:44:29 +1000 (AEST)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 372DdWmY001583;
-	Wed, 2 Aug 2023 13:44:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=g55Ym+YpNFbYbsHJm78sD6z/mEY3akqaVkYyzH3Jg7g=;
- b=XalsLoKFIRMecbK04Ju3GMu6LWdk0ZWH2zOQoUDSUau+5GV3bZUpMGlvGZzaGlngcA7F
- my/jzr5MLWWc2CkwQ9iVw0xoOqNradBdA3LDq8bYw+0V6mOBWTdQ8VbOF2wmQ7G4RAOq
- QP6v2ylxhFkJbYc20fWBiyMrNp3VMgHTwJ5lMxSRmoG+m01xMWxVdGuobsSSHDt6f1ZJ
- vBGgHLMJrxEn0RCfvHlYmG/JXHnlfnvxAb4m1XBtzomio0wiWJaAdDrxlS/cdY7+lVGt
- PW18230/0EavT612jKmHZT9OuNrGKA9NMMPqb3HEaV2RjX9ew1eBwsPDrhgE22Id2Ua5 0g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3s7r1a8f0m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Aug 2023 13:44:01 +0000
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 372De5Fx006219;
-	Wed, 2 Aug 2023 13:43:40 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3s7r1a8dr9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Aug 2023 13:43:39 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 372CkWXw006161;
-	Wed, 2 Aug 2023 13:41:18 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3s5d3sn9kj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Aug 2023 13:41:17 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 372DfH2B29295132
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 2 Aug 2023 13:41:17 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3D1D758054;
-	Wed,  2 Aug 2023 13:41:17 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 973595804E;
-	Wed,  2 Aug 2023 13:41:16 +0000 (GMT)
-Received: from [9.61.179.91] (unknown [9.61.179.91])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  2 Aug 2023 13:41:16 +0000 (GMT)
-Message-ID: <388f1d61-c419-a133-6266-daff1fa4cd60@linux.ibm.com>
-Date: Wed, 2 Aug 2023 08:41:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] i2c: aspeed: Avoid accessing freed buffers during i2c
- transfers.
-To: Lei YU <mine260309@gmail.com>, Joel Stanley <joel@jms.id.au>
-References: <20230728122416.17782-1-lianglixuehao@126.com>
- <CACPK8Xf6YssamEmHB5XDf8JYk+_=hnG8Yzqn4kCikseqg6rqOA@mail.gmail.com>
- <CAARXrtmZbu3aabYJkEc25rHymRHDX4=zNdecHAs3LnQ259RkPg@mail.gmail.com>
-Content-Language: en-US
-From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <CAARXrtmZbu3aabYJkEc25rHymRHDX4=zNdecHAs3LnQ259RkPg@mail.gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: brqHT6bMSvTJF7K0U5buGGNpMKUKQ0Wg
-X-Proofpoint-ORIG-GUID: svrKPSwC-tR9dzrOChMyy-us0eG8TCj-
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RGmSm4fvjz2yVs
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Aug 2023 21:14:15 +1000 (AEST)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-99bcf2de59cso122398066b.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Aug 2023 04:14:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691061249; x=1691666049;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bz7M4w89N1Qj4qzojD7WPQXmewiYpLB/S7kPSHWDd6Y=;
+        b=OA3p6QPR3AVsmyV3GzKFNQbrJfTeEWbfYPiQnF2rPd6ol0Y0hHhyO/YSjTaIVFMLOC
+         yBpNefN9xyzCCt3FAHOBJoDgtWfO8xWwoDo4TR2gsFddEcT5u78clDNHUwBsTP/dgYML
+         4lFsd2EiEkhsr0GfVq5C2h9zWIxVC/oQ9n4Obx4DrMJIxs1z5DdyrcOHhpWtJ8l5S3k5
+         DC11fhpkp116wnx63BYuFn4YLxQ8t51XwLOIe+ygHJyg8VsL7emoP2uMD2WrB7oeDjy4
+         eQxvHPELEtspGoqPSKmErDZYGr01Wm1Jv2QB9DLynJZw57nhpaHw9Yp0zBrcYAdTEySt
+         1RVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691061249; x=1691666049;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bz7M4w89N1Qj4qzojD7WPQXmewiYpLB/S7kPSHWDd6Y=;
+        b=kVeseoHKKELDVEJFoXUoqaqRUz+DjaxcyHk5VbQNqpKc+Knicv3BPzAncUpPwcxJJi
+         yB79LuQpcouOHxQK7ElAoJAhrV+EXSBeOMnpxF2yDbkNDhuviQ97fKUOxftHaj+Tj7/l
+         hUAldTbyG6HwOjYCfIQz0gUOXxfZXZZ4RcfZVQQqvBuk5e+w7Y2mnSSEZDgtP1MEcZgv
+         ad8l96Rcj9WIZv7LrO4aSEvRbYtmUobv0zzyNIwGBwzrHUkzfs0u8yVD0d8mCUc99A+l
+         l1yeo86xnyqErgW3LWQOpTjpT97S36JUly5egOaQTH+BAdCdFF/lA/9GC1Tfhm7fEYMp
+         gD9Q==
+X-Gm-Message-State: ABy/qLZdjB3aUPX/XQpxjo6OppQY2s7Kc2bJLJQF+VvX40XYwjX0Wmg4
+	RkJtttZ17W3OaJ5hIMGdqDD3Rg==
+X-Google-Smtp-Source: APBJJlFyawsd/4ViwQElZD43o2SEQ8gXoVUXKCPY0H5qJIEYPnp0tfDY4O+6BXoX4TRJKeyNxGW7Pg==
+X-Received: by 2002:a17:906:105e:b0:99b:d977:c00c with SMTP id j30-20020a170906105e00b0099bd977c00cmr6377108ejj.45.1691061249590;
+        Thu, 03 Aug 2023 04:14:09 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.245])
+        by smtp.gmail.com with ESMTPSA id v8-20020a17090690c800b00997e99a662bsm10256142ejw.20.2023.08.03.04.14.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Aug 2023 04:14:09 -0700 (PDT)
+Message-ID: <9654ac64-11c6-9fae-0e8d-feb6440dd45c@linaro.org>
+Date: Thu, 3 Aug 2023 13:14:07 +0200
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-02_09,2023-08-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=999 clxscore=1011 mlxscore=0
- adultscore=0 malwarescore=0 phishscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308020121
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: add Facebook Yosemite V4
+ board
+Content-Language: en-US
+To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>,
+ "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>
+References: <20230727033926.1904529-1-Delphine_CC_Chiu@wiwynn.com>
+ <c9062d5c-b536-f89c-b380-8a0c9b858526@linaro.org>
+ <PS2PR04MB35928B386F03C987061433D2B70BA@PS2PR04MB3592.apcprd04.prod.outlook.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <PS2PR04MB35928B386F03C987061433D2B70BA@PS2PR04MB3592.apcprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,70 +88,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Lixue Liang <lianglixue@greatwall.com.cn>, linux-aspeed@lists.ozlabs.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Lixue Liang <lianglixuehao@126.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, brendan.higgins@linux.dev, linux-i2c@vger.kernel.org, p.zabel@pengutronix.de, linux-arm-kernel@lists.infradead.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On 02/08/2023 04:34, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Sent: Thursday, July 27, 2023 2:49 PM
+>> To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>;
+>> patrick@stwcx.xyz; Rob Herring <robh+dt@kernel.org>; Krzysztof Kozlowski
+>> <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley <conor+dt@kernel.org>;
+>> Joel Stanley <joel@jms.id.au>; Andrew Jeffery <andrew@aj.id.au>
+>> Cc: devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
+>> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
+>> Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: add Facebook Yosemite V4
+>> board
+>>
+>>   Security Reminder: Please be aware that this email is sent by an external
+>> sender.
+>>
+>> On 27/07/2023 05:39, Delphine CC Chiu wrote:
+>>> Document the new compatibles used on Facebook Yosemite V4.
+>>>
+>>> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+>>> ---
+>>>  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>
+>> I got the same patch four times...
+> It was my oversight to send the same patch multiple times.
+> Would you please to tell that should I resend a new version, or these patches has been already under reviewed.
+> Thank you.
 
-On 7/31/23 01:10, Lei YU wrote:
-> There is a same fix in 
-> https: //lore. kernel. org/openbmc/374237cb-1cda-df12-eb9f-7422cab51fc4@ linux. alibaba. com/ 
-> On Mon, Jul 31, 2023 at 12: 21 PM Joel Stanley <joel@ jms. id. au> 
-> wrote: On Fri, 28 Jul 2023 at 12: 40, Lixue Liang 
-> <lianglixuehao@ 126. com>
-> ZjQcmQRYFpfptBannerStart
-> This Message Is From an Untrusted Sender
-> You have not previously corresponded with this sender.
-> Report Suspicious
-> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/PjiDSg!12-vrJBTB7HSMYjxkCEvpHwVyelw0CenAD3RKRjmVVfRig6DzCgRBaxHaeYsJsATzFgNYSRGXy6rQNXpmK9YdWQxScm-2h9p_bilDuLeU1r8NS5OEkCngl01P94y$> 
->
-> ZjQcmQRYFpfptBannerEnd
-> There is a same fix in 
-> https://lore.kernel.org/openbmc/374237cb-1cda-df12-eb9f-7422cab51fc4@linux.alibaba.com/
->
-> On Mon, Jul 31, 2023 at 12:21 PM Joel Stanley <joel@jms.id.au> wrote:
->
->     On Fri, 28 Jul 2023 at 12:40, Lixue Liang <lianglixuehao@126.com>
->     wrote:
->     >
->     > From: Lixue Liang <lianglixue@greatwall.com.cn>
->     >
->     > After waiting for the transmission timeout, the I2C controller will
->     > continue to transmit data when the bus is idle. Clearing
->     bus->msg will
->     > avoid kernel panic when accessing the freed msg->buf in
->     > aspeed_i2c_master_irq.
->     >
->     > Signed-off-by: Lixue Liang <lianglixue@greatwall.com.cn>
->     > ---
->     >  drivers/i2c/busses/i2c-aspeed.c | 2 ++
->     >  1 file changed, 2 insertions(+)
->     >
->     > diff --git a/drivers/i2c/busses/i2c-aspeed.c
->     b/drivers/i2c/busses/i2c-aspeed.c
->     > index 2e5acfeb76c8..c83057497e26 100644
->     > --- a/drivers/i2c/busses/i2c-aspeed.c
->     > +++ b/drivers/i2c/busses/i2c-aspeed.c
->     > @@ -713,6 +713,8 @@ static int aspeed_i2c_master_xfer(struct
->     i2c_adapter *adap,
->     >                 spin_lock_irqsave(&bus->lock, flags);
->     >                 if (bus->master_state == ASPEED_I2C_MASTER_PENDING)
->     >                         bus->master_state =
->     ASPEED_I2C_MASTER_INACTIVE;
->     > +
->     > +               bus->msgs = NULL;
->
->     Eddie, is this the same issue you were debugging?
->
+I don't see versioning, no changelog. Thus if you send the same patches
+all the time, then answer is - please version your patches, implement
+the feedback and explain in changelog what changed.
 
-Yes, it is, and the same fix I settled on.
+Otherwise it will not get reviewed, so I assume this was not reviewed
+and it is waiting for proper submission.
 
+Best regards,
+Krzysztof
 
->
->     >  spin_unlock_irqrestore(&bus->lock, flags);
->     >
->     >                 return -ETIMEDOUT;
->     > --
->     > 2.27.0
->     >
->
