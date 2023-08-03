@@ -2,53 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684A77719E0
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6437719E5
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:03:04 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dypy6XjJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=draOJyVJ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5MC1YGGz2yVr
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:02:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5Mp0BTtz2yDX
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:03:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dypy6XjJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=draOJyVJ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RH3mH0zS2z301S;
-	Fri,  4 Aug 2023 08:43:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RH3n24y1Xz3c3X;
+	Fri,  4 Aug 2023 08:44:22 +1000 (AEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 76B0061EE4;
-	Thu,  3 Aug 2023 22:43:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 710AEC433CA;
-	Thu,  3 Aug 2023 22:43:36 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 0CC0161EEE;
+	Thu,  3 Aug 2023 22:44:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1252EC433C8;
+	Thu,  3 Aug 2023 22:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102620;
-	bh=zb9vj/VoMfFtM5/p26omsqagLrngLAbUMPXWG2NxI2Y=;
+	s=k20201202; t=1691102660;
+	bh=prG9EyLTNfHDqOF6uZVSzYO6KHwa1ZJ65S1OeS16o4U=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=Dypy6XjJ8UlxQtx4tlAY1sAXXOmSwlE3SPBIuZWPKi5pJqxbskihd07u1ZcqWFkAC
-	 0aBI10Qc65Y59tkMXN+BxpV3yDSMp3JFeXtyAbRzTOXR26SyFPQhSmQJi8t1E0/mMa
-	 QMT2Lmm3W6332ZslnZmUgwH976KM96jt433wdVaQuaFPthMHayKMUeiLbTCFSvnBSc
-	 uhAHOk/ldwSKKlQZGJl2VjEZAfODgurQr/RirLvWgcL1/qRV0hgXWyqt+mPCwscPAB
-	 WrxAcNEQCSe7hx3Ibu1IhlYMRjUYECDyPrcKqiLRYiCyyJcMJ/8G44Kl0KcPl0wCWR
-	 xOAKDEvHwD7jg==
-Received: (nullmailer pid 3693754 invoked by uid 1000);
+	b=draOJyVJLQBKyS4iqncW0BU01+r0cep3aYPRMDZm0f5BYhZFvK9xiQJhE8Enq5To6
+	 sMUmRoj1APMm3b7dIxmepA413QzLle9nTDSYvxGTWIDJBFGtF2YHXRvTMh8FKWnt9r
+	 pSEnH0y0v8oyWO/mbL7GCCn6q808jdGVZtfgCEL/zT1kRxnmG/sixqpamgLlZ2P/yj
+	 fRPkfr/3L3oJqhHI5b1mBgcReCzF1dfudndFFIDO1qQopUI0Sy5MNY8jjT6eHOilvd
+	 Az2PkZbLhwC60TmC2wgLyZbgMXZic9Z20SjV30/+w/4w+t3YekZtXVAfiZvw1hUc2u
+	 5S5tOl7Xsd2mA==
+Received: (nullmailer pid 3693756 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:42 -0600
-Subject: [PATCH v2 02/23] ARM: sti: Drop unused includes
+Date: Thu, 03 Aug 2023 16:42:43 -0600
+Subject: [PATCH v2 03/23] ARM: alpine: Drop unused includes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-2-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-3-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>, Lubomir Rintel <lkundrak@v3.sk>, Linus Walleij <linus.walleij@linaro.org>, Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>, Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Shiraz Has
@@ -70,26 +70,26 @@ Cc: linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org, openbmc@lists.ozlab
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Several includes are not needed, so drop them.
+of_platform.h is not needed, drop it.
 
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/mach-sti/board-dt.c | 2 --
+ arch/arm/mach-alpine/alpine_machine.c | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm/mach-sti/board-dt.c b/arch/arm/mach-sti/board-dt.c
-index ffecbf29646f..488084b61b4a 100644
---- a/arch/arm/mach-sti/board-dt.c
-+++ b/arch/arm/mach-sti/board-dt.c
-@@ -4,8 +4,6 @@
-  * Author(s): Srinivas Kandagatla <srinivas.kandagatla@st.com>
+diff --git a/arch/arm/mach-alpine/alpine_machine.c b/arch/arm/mach-alpine/alpine_machine.c
+index d256a99e9b99..bc491bbbabf8 100644
+--- a/arch/arm/mach-alpine/alpine_machine.c
++++ b/arch/arm/mach-alpine/alpine_machine.c
+@@ -5,8 +5,6 @@
+  * Copyright (C) 2015 Annapurna Labs Ltd.
   */
  
--#include <linux/irq.h>
 -#include <linux/of_platform.h>
- #include <asm/hardware/cache-l2x0.h>
+-
  #include <asm/mach/arch.h>
  
+ static const char * const al_match[] __initconst = {
 
 -- 
 2.40.1
