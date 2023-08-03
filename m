@@ -2,53 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751E17719E4
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:02:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 951F37719E3
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 08:02:46 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FJ1+duqU;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Y+fqhLiO;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5Mj27Q8z2yGB
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:02:57 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RK5MS3bbZz2yVr
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Aug 2023 16:02:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FJ1+duqU;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Y+fqhLiO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RH3mw17KMz3cGL;
-	Fri,  4 Aug 2023 08:44:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RH3mZ50SBz3c60;
+	Fri,  4 Aug 2023 08:43:58 +1000 (AEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 7D54161EE4;
-	Thu,  3 Aug 2023 22:44:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A4BC433C7;
-	Thu,  3 Aug 2023 22:44:09 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 0F3D361EE8;
+	Thu,  3 Aug 2023 22:43:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87CD4C433CB;
+	Thu,  3 Aug 2023 22:43:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1691102653;
-	bh=kteogynxAW7+pSqJ+F5ajc09a1cS6TIo4KO19Vs6RtE=;
+	s=k20201202; t=1691102636;
+	bh=WEop4A58QX4APZMWFjwJZzVIMTZ/gj08MS46QbUH+O0=;
 	h=From:Date:Subject:References:In-Reply-To:List-Id:To:Cc:From;
-	b=FJ1+duqUPdJnrC2BObDXwwr6wBo9yowp0ny1+RIX+QLR6FQg3iGkACB0X4smaJb2r
-	 Zm3mOxrKxTM1LstEvrjFZYdSAw7OVemsCAIJYL7crSvWXRxnTeAiWfg9X1K0XQ9HS4
-	 qgihX0X70Ig4jHM62HvxGKm0hKEUEUiRc6QglCXFDLE2PMth+AhdTa27UmCR/bkW9j
-	 KOLDJn8lZ7eau9gqTn9PvwGFOzD2/QtAZh7Fm0Mjmd2P4GF257OWGlLUa2vgcfCIRQ
-	 SAdRvo2UO6VCfMOMAVzAHdxqZrHBywMEQsOjbduuGTaBK+CzY6YLecnzBsvgzYypZl
-	 b5LP0YHZNqbYg==
-Received: (nullmailer pid 3693772 invoked by uid 1000);
+	b=Y+fqhLiO2N/3BIklSvPdj/3t54A2SO538v+THGRbWVdvrUdGXZkj9WCwWnEuC0rEH
+	 gespuBRA1xL7TJzPYt9CmeUEwG3xYjmef8Rb4DEjSgWcOgDeFlEAY2jwvCv9m00aXo
+	 PLlSOTcuF6lC84+jzDl5/46+egAsK5JdtN5875Xuoo83Y2+DmsZ9d4ZKdMXl+ZX1x/
+	 7wHD/36vNZJIW7Rr8FXoSPr/zewqMGfwlaqrdr8EQyf7FhKNw8k0gYCrLoOa1aDpBL
+	 sUliGqGD8tuuqRANpQZf9EPXsOzBTK7xqFPGCTevIxAs/OuwMBdtUH6+9y05tKEHt0
+	 I8fTDYtjOEDSQ==
+Received: (nullmailer pid 3693774 invoked by uid 1000);
 	Thu, 03 Aug 2023 22:42:55 -0000
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 03 Aug 2023 16:42:51 -0600
-Subject: [PATCH v2 11/23] ARM: pxa: Drop unused includes
+Date: Thu, 03 Aug 2023 16:42:52 -0600
+Subject: [PATCH v2 12/23] ARM: rockchip: Drop unused includes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230803-dt-header-cleanups-for-soc-v2-11-d8de2cc88bff@kernel.org>
+Message-Id: <20230803-dt-header-cleanups-for-soc-v2-12-d8de2cc88bff@kernel.org>
 References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 To: soc@kernel.org, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins <nick.hawkins@hpe.com>, Lubomir Rintel <lkundrak@v3.sk>, Linus Walleij <linus.walleij@linaro.org>, Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>, Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Shiraz Has
@@ -72,28 +72,34 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 
 Several includes are not needed, so drop them.
 
+of_platform.h is not needed, but it implicitly includes of.h which is
+needed.
+
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- arch/arm/mach-pxa/pxa-dt.c | 6 ------
- 1 file changed, 6 deletions(-)
+ arch/arm/mach-rockchip/rockchip.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/arch/arm/mach-pxa/pxa-dt.c b/arch/arm/mach-pxa/pxa-dt.c
-index 5e5d543fdf46..a292de91dce5 100644
---- a/arch/arm/mach-pxa/pxa-dt.c
-+++ b/arch/arm/mach-pxa/pxa-dt.c
-@@ -5,13 +5,7 @@
-  *  Copyright (C) 2012 Daniel Mack
-  */
- 
--#include <linux/irq.h>
--#include <linux/irqdomain.h>
--#include <linux/of_irq.h>
+diff --git a/arch/arm/mach-rockchip/rockchip.c b/arch/arm/mach-rockchip/rockchip.c
+index beea4564eed4..82102fbabf92 100644
+--- a/arch/arm/mach-rockchip/rockchip.c
++++ b/arch/arm/mach-rockchip/rockchip.c
+@@ -9,15 +9,11 @@
+ #include <linux/kernel.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
++#include <linux/of.h>
+ #include <linux/of_clk.h>
 -#include <linux/of_platform.h>
+-#include <linux/irqchip.h>
+ #include <linux/clocksource.h>
+-#include <linux/mfd/syscon.h>
+-#include <linux/regmap.h>
  #include <asm/mach/arch.h>
--#include <asm/mach/time.h>
--#include "irqs.h"
- 
- #include "generic.h"
+ #include <asm/mach/map.h>
+-#include <asm/hardware/cache-l2x0.h>
+ #include "core.h"
+ #include "pm.h"
  
 
 -- 
