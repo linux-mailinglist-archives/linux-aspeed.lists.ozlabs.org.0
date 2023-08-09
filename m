@@ -1,50 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9A6775107
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Aug 2023 04:47:20 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEEA775134
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Aug 2023 05:06:17 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=eJuCBJ+W;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=XmuHq8I3;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RLDwx6pkmz30Db
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Aug 2023 12:47:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RLFLr74XHz30JF
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Aug 2023 13:06:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=eJuCBJ+W;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=XmuHq8I3;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:704b::705; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=dylan_hung@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20705.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::705])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::726; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=dylan_hung@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20726.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::726])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RLDwl5s2dz2xVV
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Aug 2023 12:47:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RLFLh1pfFz2yV8
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Aug 2023 13:05:59 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ewa5aQ22TrFSc1bxX+EWe1BZmMHfobLLwrUoij5y+mNPPA3gXvQ1MsRG8c1LmFcvtWKAbzJ0cEl4wU8VM9OMGJHMr3kc65KbeDVe4UeZNgXl9sExpjdQICasXSLQIVY0rs2D2mOTpbQPQ/N+BEOa1D42h+B3RA6pNthymKlDCx2WwU/XHVJaWZptKmT/3PqF9Ot+vAJv5QEKyY4t+QiA12C8ftQkkMbpHR7v/qT6gASlh1E3TQ6CngZ6xfm+aJFSWy3lF0w0kqQiIYZKi6DKrsElwF3oVM7LmEiUJpCrDgqMLdSkBCgDN9Axgf/3LTJyQjtHBh7jpQhB7XrS46u+Ag==
+ b=KoIooMhDLrsyleupf5bwKHiz1aUH7R9ywZPyHI/Avln9MzBHJe1x5YDRSXEDac5woO/dJVxIc3pxVwF+1bfGnpNX2lFqtJOu+bZGHWWzIrbQDempyZQs7o9Ey2NaLNTiTzi15F8yXZvzJ+gnfG34o5wElzCY6zSuq4CHlHKDWDjRoS5NbGdhfvL3vFkBC2MRHbiDY+UvePHcVE7TBhO5keCaJqd/XuvQ17IZV03dOQZ38oZvr9MAWPd6nCVaBGSP7c31a3HcdZB1r4hfbpXodZD2ZDWkfvHDmuSjgL992gek1LmfqLX/W9xNL5NAM2cL1m+MXVzA/ZZTgm9OkgN+DA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nfr2Xxdd2+8XRAhraXa1FDwAbeuvPcJfjb1Qz0keE4U=;
- b=iBUUMrVVHdwOseFazfycO3z50sUQ3GUjAkjp6IiP10gzSlAbTugP9gxMOzr3xLM9/xT697gaIbUEAaqZl9KjKG0lkmM7PImIz9d8dCrldJpML+cVp+dPSt1UFDz4fvsyQh97O0314xvtZlgprTIDSag/kujA1ICL+aL7DXYLrT/QVtOcqGQLkXyQzKhDKZUC7KQauJx7ev5SahlAB3XJPXa2xpfrH1y1fBw6JobNgKBNaWfZinP5XtCKHJMnf/8SDBLM9a7gOwKtlqxcGhijdoI+ztitmiY/7bbLAHWVJZ7UabTZcMN2ZqxC/+SsUg3kJouyyZ4/Zd1Gatgrrupp0w==
+ bh=7MoAQc8TW9BoFkVQT0lfNEB6p4didzhOlYqTKMcunCg=;
+ b=isJcwSyU4vfrOfnqWHtvOycg/yFasdIxvrB/1TlzhP6Ghq2TZit0bbY41jZrH6e1fxoR3XUWhebhnZb8pwrowIw6gBrLsUqR210CZIUJtmi9Fb+yOr5WmMrHRn6M+7jbccUxYiSiLpfEjJylxbBAwqGO2QwZ4cuQTXXGhlvsskO16H4Vje3u9rzdT9nhelUJ+1t2DJBuwHZBraH766AFYumF6u8Nw1Yh4Jb0xTwrPem+Kzqmr2SLKwmcGGV3PBr5Z7EJEJ0jXvungY43yifdpr5nDp38cXa3cFEhIw0lJkIw1D9wR4fUSy7d60vYuQuAlxVPPiF/7BGReaymBeDetw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
  header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nfr2Xxdd2+8XRAhraXa1FDwAbeuvPcJfjb1Qz0keE4U=;
- b=eJuCBJ+WBYU3qPBLRlW6EpnzMRwhcqKUnpLs/tvY3NQss2O4aW0FzLY8orQ66U4RHTvFly+z1Umnq3ZxHC8jDHdZhieHTsJpm8k7ExuzvY4aYmyT/xG92ESG9yykYPpt6k0MJyMJ7PlrSYWaTXaH42PDkB9bn6mYXCDc7R4W9SmAkQ0ObenxnJ7HuI9vuuNG66pQu+4Nl0CuYD2ftbNHvNisieOgd5D6J2PRisvPtTAb8YT1Faj7ZpU5o/JMgNlKpWqIO5ohKPx8yEglaQ1GbfjUQOazu2eTXFAeK1OoXo4UcY9RvxZjRjEt2HZ9GIPsSPsZqvfh54D10WS+QN8dug==
+ bh=7MoAQc8TW9BoFkVQT0lfNEB6p4didzhOlYqTKMcunCg=;
+ b=XmuHq8I3WysvLkYzMTV4NfLAg65wKHQmyZXgg5u/ZSR0JbTCfZzR3o89yc3iaa+XT8XPXqVFLyz54Xl+c31c+KgrHAd5KqvkJSG6kZj5hVkLVVJnn5QTeKodvvF8vc4JiDZaPh9PYm4CsKp2BuokceU78k0b1oRvYglmlNMKHhBzyUYQAgfbrGi4Td5NvR4jkSsCBFNYursIXUgoomc17YtBQNrigGAg/hQ4kheOmDjaNOz5MGgxDnl3dgZb7akByZ4Mw8ZcuOw1kyUpmzdmXtbG6LGPuCfuQFpjYOnmc1DjqXVv6kYWRAw0DH6LNlRNoogATv4fpWnGqcAcbyX/tQ==
 Received: from TYZPR06MB6567.apcprd06.prod.outlook.com (2603:1096:400:465::12)
- by PUZPR06MB5936.apcprd06.prod.outlook.com (2603:1096:301:11d::13) with
+ by KL1PR06MB6579.apcprd06.prod.outlook.com (2603:1096:820:f3::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.28; Wed, 9 Aug
- 2023 02:46:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.27; Wed, 9 Aug
+ 2023 03:05:36 +0000
 Received: from TYZPR06MB6567.apcprd06.prod.outlook.com
  ([fe80::3261:9707:fa4e:572f]) by TYZPR06MB6567.apcprd06.prod.outlook.com
  ([fe80::3261:9707:fa4e:572f%2]) with mapi id 15.20.6652.026; Wed, 9 Aug 2023
- 02:46:35 +0000
+ 03:05:35 +0000
 From: Dylan Hung <dylan_hung@aspeedtech.com>
 To: Jeremy Kerr <jk@codeconstruct.com.au>, "alexandre.belloni@bootlin.com"
 	<alexandre.belloni@bootlin.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
@@ -60,9 +60,9 @@ To: Jeremy Kerr <jk@codeconstruct.com.au>, "alexandre.belloni@bootlin.com"
 	<linux-kernel@vger.kernel.org>
 Subject: RE: [PATCH 0/3] Add Aspeed AST2600 I3C support
 Thread-Topic: [PATCH 0/3] Add Aspeed AST2600 I3C support
-Thread-Index: AQHZyg78ndVj9Ombp0W1p1fw4rNeCK/hFv0AgAAsIPA=
-Date: Wed, 9 Aug 2023 02:46:34 +0000
-Message-ID:  <TYZPR06MB656732D4E436B711CB560B449C12A@TYZPR06MB6567.apcprd06.prod.outlook.com>
+Thread-Index: AQHZyg78ndVj9Ombp0W1p1fw4rNeCK/hFv0AgAAs1eA=
+Date: Wed, 9 Aug 2023 03:05:34 +0000
+Message-ID:  <TYZPR06MB65674B8AA26D959254101A749C12A@TYZPR06MB6567.apcprd06.prod.outlook.com>
 References: <20230808154241.749641-1-dylan_hung@aspeedtech.com>
  <d8d577e91779e045d5a2c7d701f65133a15b5d64.camel@codeconstruct.com.au>
 In-Reply-To:  <d8d577e91779e045d5a2c7d701f65133a15b5d64.camel@codeconstruct.com.au>
@@ -73,64 +73,56 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=aspeedtech.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB6567:EE_|PUZPR06MB5936:EE_
-x-ms-office365-filtering-correlation-id: b3be7e93-5131-4cdd-df9b-08db9882d8a0
+x-ms-traffictypediagnostic: TYZPR06MB6567:EE_|KL1PR06MB6579:EE_
+x-ms-office365-filtering-correlation-id: 8d61fbdc-71bf-4e84-cc03-08db98858075
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  SolHJYSp8FaIfK4Cv3d9Or02igctTfrzF59vSBIvI13yQo4h16m4WQRq8KfoktrZf9pGR9QTY2JPnpXK4MgnID5wUjpqcwOqeowdd8/gUcBdfxlIIWVlYhI29MDAdWZK4QeI9BxI6XODVWACIbtELRBT3ftGG9+hPYlO0XlHKERMpd0LrLuTyyFj/naWuAHrhq5sW5Epwc1udmL5MawUEwee1og4DSaYDeISrqRBwreQPTxwE40UQdULd7TimRxAa/FPJpNMW4ItfX6sjDh1aaPwv8iBKHVS5M2MRgmTRwMdLM7LMnlWKt5AXucLmUVe6W3IoftmjYvtE9yIVHuW9ZXIuCJoi/xPnBC1CCHaE5MyhQHGy+tttnlax/OZzTViR4yVoqTL3Cw93Ee3AW2zzS3ZiXAGcDht4/GTSkMRucRxRLMWw+Ma+KhiX4xCMUGHUZGa0b+yK3yXVERs6/NnT4LX/9xaZotqmw59UPfhTSZZP49wqO5CQ7uB+TyVjS+HLve2G2LdVuE28EHChgoGBMNQZuZ+eSJDI7wKRzgiYUkKoG2W1BTk58Y4SmQ/od+aaDku5Bm4o3Crvowceu1MZEGEBCMpPeqKJV6mIx6L87uNkIltIhK4vQHm7xrV2UBx
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6567.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39850400004)(136003)(376002)(366004)(396003)(346002)(451199021)(186006)(1800799006)(478600001)(71200400001)(7696005)(9686003)(54906003)(966005)(110136005)(83380400001)(53546011)(6506007)(76116006)(66946007)(64756008)(66446008)(66476007)(66556008)(4326008)(316002)(86362001)(55016003)(33656002)(41300700001)(2906002)(38070700005)(921005)(7416002)(5660300002)(26005)(122000001)(52536014)(38100700002)(8676002)(8936002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info:  F3kn/FkigG1ixMvUETOQ7db3qLeuU/TNMjEodYnXP5VVUsxi9MRw4q+fNOBy5voU6lDw0fnOMGWe8Q39iqUE1SBUnXSsa/+13G4Pob4Nq5uThEkzhfajykIWS3U+ytaDs9BUdC3Hiav/JY0T6Pb4iNVmSiWov+1TT/tszY5L+7Lc6Ts5nLodTmxHiGOQQw1BIgSN31Efg5ZECfpqZ+73EJ0FdkX1CHcYw7dqp8FE6b5XITOBjwOH7Al6PKnIZ2uZLViXmyuNzveMyny4i6RnjhqrlsMx56OlH7lDFaZt6Zenu2DPocjVRn2iSVfHGJNdUC8Oszpa1SDC1Y5qgSpkfxEo7kPE/75QucZDtTqNZSXfc/m1y5Osp+tBCpFPfoeNR4KqB3AIG9kBLNSRyfSnlSDgZKqKNxLA4wwhGrbmsAKXjo9qrrd71A2avyxvauQ3dkdiGK7iYGMVffAPUaZdLnMWrefeN5/wp1MnBwp9j9Nf2KtOAJnO0HT0u2Y0dFvBYEu0P7snhFgfL3bvQvb7IZlgOVO5qo8Z6uzxyghKIkkA0kd3KyL8JZevUd3aNJFHLnje2232+XUK1JutxgqfatX+250jn4hyQHjlslfs6NRuTpiDhEFEzuNAEt9eaYHt
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6567.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39850400004)(376002)(396003)(366004)(136003)(346002)(451199021)(1800799006)(186006)(966005)(53546011)(9686003)(166002)(26005)(6506007)(33656002)(55016003)(66556008)(64756008)(66476007)(38100700002)(54906003)(110136005)(52536014)(7416002)(5660300002)(38070700005)(86362001)(41300700001)(2906002)(316002)(8676002)(76116006)(7696005)(66946007)(4326008)(8936002)(66446008)(71200400001)(122000001)(478600001)(921005)(83380400001);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?dk5pcExPWkxGMXZFdFNqMm9Kd0MrWi9XcjI5clNyTVVyOTNYYUMvRTZoN0Ro?=
- =?utf-8?B?UlprS05VaXdZK0dSK3RzdGcyVWJ3dGcwTHl3TjhqRVdQeXFRb0g3eCtIc2JU?=
- =?utf-8?B?eGY2UnQvMmpEMWYrNTQ4TmZEd0E4b1ZFTzFmek4yNm1ybTRaQStxQWcySnpG?=
- =?utf-8?B?V0kzWmx5RCtrelVPWXl0eWpPSHFzRzVob2h4bWFyZTZFaE9TZHB0ZE40bzJV?=
- =?utf-8?B?TWIvWU1TZzladDVGdE5XZEJWR1NnTTlQekU3aDRyZmxOT2VwbUtSRXFVeUhY?=
- =?utf-8?B?cUNmdEg4cnI0Zk5XamRBWjVVYmRUeDBuQ1BZVGduZEdyU2RnWFMvelBSdTNm?=
- =?utf-8?B?L3pNT0s5RGdWRkVxdit1WkxSNXRXMGU4Vmw1MFhTRkEzMVdwMVc5ZGxJRG1S?=
- =?utf-8?B?Q2c2b2Y2VVFFY1EzWXFYWmdOV1FKTUNNSzlrVWllUkJGaTRTRjdhUGJKVVd5?=
- =?utf-8?B?RlNMYldPSXFwTkRPRUVQaHVKbE1PcGhpanVyWTZBalJ6MC9IY2ZJZlZiMFo2?=
- =?utf-8?B?Vmh3VGQya1JzWmY3VmhKcHN4NkdrdU1XUEV2dU1JbnE5aXR0c1djTVNIcXJD?=
- =?utf-8?B?ejg0RTRFMHMyMnRSTWZIL2pmeStrTVNYWTJHNk1SV2QwZVVkdGF6ZStGSW9l?=
- =?utf-8?B?MFlidUdzRTM3MGl6Yi9WODhGZFRNdkpmUFlIUzNrdzlPYW9qMUc0ZTd0QkRY?=
- =?utf-8?B?Zy9OZzh1Q3N3NzlHRG5sMERQano2WElrR0NmbnNCUFBpZHhadm1sL2dyeWF4?=
- =?utf-8?B?N2FCYjRubzdtZldncFV1dWZ5VEFQV0M3SGxqY0JvQWFqNHVUVStBMWVrSWZ0?=
- =?utf-8?B?NXl0MDFGUjBHSFlxSlVmUmU0SW5OcmpJaGhHSGlON0JvMG9NNlpJQU92aHpx?=
- =?utf-8?B?ZDYrMXh2RElESzc4ZitmYURNbXpwYWtrbk9nRFYxNE1GbzhON2JucVBYQ0wy?=
- =?utf-8?B?SGtYTlp0QVNldWQ5WkN1aGlhbTFLR3h5clpBMVVIMDdEK0RoSmx6Z1NGMXJn?=
- =?utf-8?B?SGxaS04zUm9odzRFL1UvS2FkWHU2bitITzkwZmRjcXE0dExCUzJQUHYyd3ZE?=
- =?utf-8?B?Ym85Mlg3d3prRFNNWmthL1FUTlNOcnJFMmFOc2ZOQ3JIVEZDNHZHQ1JXeFZi?=
- =?utf-8?B?d0FEczVqV21RQkFxcUdHSEtDRzFwVm1xdnNzY2JiS1ROZmE1NzJBWC95L1pu?=
- =?utf-8?B?OHpsaU1OcnN1UUpHaWo1SFcwMnZRUzhacEk3M1V3TVNMSHpoL2cvWXJzOGlx?=
- =?utf-8?B?MFV4WkdmZW5UUzliekNqUnNVMGhEck9KNmtoMWQwKzl5Skt2dy9rVWt0TEJa?=
- =?utf-8?B?dStWQUVzc095V0dFTmEvTlpqblh0Z3NNcEVwV0NTUkJVU2Y1M0NoZmo1bmxP?=
- =?utf-8?B?Z1p5enA3M1FpUGR1aVdNOFppZW14a2hoYllLOG93dE5sZlFud1VpZGRWRThB?=
- =?utf-8?B?K3RxTHpJRzZyQnNVSTBhbU5rRHJWRkE0RUVxUFVQSE00N25QaWtlRlAvU2VP?=
- =?utf-8?B?NDR1QkJVR2xDTWs1RDZiVElOMHVYNnV0eStJc0UrTUdwV2ZXTjBQNElUM05N?=
- =?utf-8?B?Ny9kNDVDQk9sK05aSkdicVcrOWovcjBka0pibDUwSElEekEvS3NPZ2xCdU9L?=
- =?utf-8?B?QmZWREowakhCZGZqYi9uOEUyRmhnZ2xtOHhwRk9GNWFrdUI5Ri85QlNpSnBt?=
- =?utf-8?B?dmJCaHpkTkNZS1pGR0JKSmJNWTZoR3pTbmJxTkZLb05wVDBXRDdTUzB5K3hB?=
- =?utf-8?B?b0NWeVhyTmRoNEltNWJPeVZVQUlWMmdMVG9ZUVpiMnpmYlJ3a2UwaWU1Q21z?=
- =?utf-8?B?UWVvNWdDUU50VWlRcGREK25OVTZUV3VIREFlamxpdklFR2t6SW9sS0J3RUhE?=
- =?utf-8?B?WUcwZWR5RG5OMGpHVlN5VTlwZ3VnbE1pTVYxNlJhVHUwOUZYd3gwb0lkTGFh?=
- =?utf-8?B?TkpMV1c1OFllYWFVN1NBclYwN1phYVliUmlKYzFqVHlPYTdBQmF2TnZYSmY0?=
- =?utf-8?B?Q3hldHdJV2g4Q3ZyWit3aGFKV2YvdkxoVXMrS1BpY1Nxb3VNb0p6amYxZU5U?=
- =?utf-8?B?OUhrWVVMMk5aTkYxeUV4WCtremtZdkEwOUtzN3ZaV2UzK3VkUFY2RDF5K1JJ?=
- =?utf-8?Q?8nhREK0LloOsS/R5PTg2wmeCd?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?HIWjHzoAu7tgCKojh8DTLcK0D/cnsJyVWk4Y99xn7M9Wm9ohtGS/D6QDzNea?=
+ =?us-ascii?Q?y8Y7dbmjiAAK9ghHENJxKLmnXjX9/tbQIqsheEICQSl+UEnQc2p+bHprRZ5r?=
+ =?us-ascii?Q?awOzIBvDFwU5Xteh+Z+1ksRyxv4a2oivptrCTxttai8MBHI9rP6qjBuTC+Tn?=
+ =?us-ascii?Q?CCEvc4fNlJUpnSmbEgu6S/VZkhjAF6KyXCDPiWSWKnVS89wpLMUihqZRZfsR?=
+ =?us-ascii?Q?F0VjpKIXYAb33d6lRvmaPato/8j8cxN5/0FAxwhoO89hYgt39ZpgsSvu+B/N?=
+ =?us-ascii?Q?WYxK+opGOul5I12KcPpWj4Eu2xg+oYEvhz6iUed6mNsy5JmHzURQYESBPjHi?=
+ =?us-ascii?Q?iuJwNEiaMXJzfmcSAVbq5HkqSM+UnZKDbT/J6y258g5aftEUoc/Os6PqgUmo?=
+ =?us-ascii?Q?PR7HEFZUoWgPt7yV26ErzHGOG7x8DglPvR5lyEXXU+DBTj+g4RVFi4OFTs0D?=
+ =?us-ascii?Q?36IaOwdO26TCDZB9kI9jUDUOfyzQot/ku49Be5dVEV4sKl04VThGVBtGPWSN?=
+ =?us-ascii?Q?a+6fZMPtaaukTuYMGzfsv79xMYww7vLRPmTa11e+H76fBULNwfTgB+4pXpdG?=
+ =?us-ascii?Q?orgR2PEk7GY16/+Hqg1n2fXZzoHKJRZ2iD+ZMAmp8cCh5jM0U1UPGM1FUlug?=
+ =?us-ascii?Q?A8vif8PTxJcbHeAyVzSplNZlfirOyYgGhboJWODTJQxMbxiBQybwlSeSfvID?=
+ =?us-ascii?Q?9W5mqc7MNp1JFJhOgXzKjASkcoZYd+fiXEn0PwmjiaLiBDRdh3NIIVOzEGXE?=
+ =?us-ascii?Q?couiLHOM8NP93AVE7wN+0KAW5FqP7ghZYjwss17Be+QgbMzd8Bkqg6WhJHKo?=
+ =?us-ascii?Q?B3PmytgWMfzKFkqe6U3MumEXfI1lhKftHAIg+tpgyq+EuHobycdvSj0usnim?=
+ =?us-ascii?Q?gjjN4PKOs5IoFSUVW1DoFPdQ6qCVQwFRFGkGkBVCjsfuDFR9Y4tzI87i6R/L?=
+ =?us-ascii?Q?J6tV1nm4j9bkDMeSnU+1s2C1zcq7oJ4Ol5loTqxwwM50/NatVVfvNuAcV5EE?=
+ =?us-ascii?Q?osTjFI7ljPVV7sGKHEW8A3X9fvBMtYac09+Ub0zBOgL1HwhCH/n0zdoPXfPW?=
+ =?us-ascii?Q?g1NULt6Sd1IhLogXCxx/ZgzFQOiW2dAR4swWM8TfQhfYTFUH9ir9jlzYut7F?=
+ =?us-ascii?Q?iAPCdrZBByGyWX7klBJHg5g25Qg1gHpkQvGPjkZRyYxh1x/PQc70qT4Sh0oO?=
+ =?us-ascii?Q?yoiDJrEtpH3ddcdM6ByW93ho1jRbackbLqjWRaC+S53tRfDz7yC92NBq2+lP?=
+ =?us-ascii?Q?SjWp9g6gG/K1HazRCoglFMAuqf4gsZOQa+tRcOJDD+nCjAK0K866JDTRJIJc?=
+ =?us-ascii?Q?HCDK7hpfRsfBRoguoYojqpaykv/44zHDBGZ981vAuzT40CRI7hDxnxDmgtgW?=
+ =?us-ascii?Q?WzpWeF6ZAbjUW6M9b4nxMwxsOGX4MQXNGSFuPsKCVez2DQ5OzhssQ+t86dvt?=
+ =?us-ascii?Q?9zqpY1uSk5VgeQUndRVudQcLAK0gJYD5b9BlfxGIchTiETPZKlBiJx54zvjk?=
+ =?us-ascii?Q?dVC/55jbp2FRjPoHZzWLC/smC0ZT8KUg8K/TYJiZHZe2PmHRVSTjIKsz6FCK?=
+ =?us-ascii?Q?XzMkTwwVrEY/HbJFRHKPUTE9i4rGh80yUnlSfDSMXlX6p3o0b5Mm+Gr1C4e5?=
+ =?us-ascii?Q?og=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_TYZPR06MB65674B8AA26D959254101A749C12ATYZPR06MB6567apcp_"
 MIME-Version: 1.0
 X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6567.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3be7e93-5131-4cdd-df9b-08db9882d8a0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2023 02:46:35.0175
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d61fbdc-71bf-4e84-cc03-08db98858075
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2023 03:05:35.6074
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: D5ag1pYllpXF7hiXW3Sx6NMS+PbIVQ9MrUzDDfz4HuEDHWeZ9m2ACX7DiLbwU2EhYjU/t8BZ73T3VL7gwSpAppaRPadpyMalY4Vb33M283Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5936
+X-MS-Exchange-CrossTenant-userprincipalname: w8M8HOEJVh+PFFyU6a1224AWsiDNuqKT/dT5eDV9IVbnWyF+rx7TuqAHpKnsjCt8YnO4t/8mUj7rOwPaJ9FXxsR8j0nD4xehHQwtYjWDsp8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6579
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,51 +138,267 @@ Cc: BMC-SW <BMC-SW@aspeedtech.com>, "kobedylan@gmail.com" <kobedylan@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgSmVyZW15LA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEplcmVt
-eSBLZXJyIFttYWlsdG86amtAY29kZWNvbnN0cnVjdC5jb20uYXVdDQo+IFNlbnQ6IFdlZG5lc2Rh
-eSwgQXVndXN0IDksIDIwMjMgODowOCBBTQ0KPiBUbzogRHlsYW4gSHVuZyA8ZHlsYW5faHVuZ0Bh
-c3BlZWR0ZWNoLmNvbT47DQo+IGFsZXhhbmRyZS5iZWxsb25pQGJvb3RsaW4uY29tOyByb2JoK2R0
-QGtlcm5lbC5vcmc7DQo+IGtyenlzenRvZi5rb3psb3dza2krZHRAbGluYXJvLm9yZzsgY29ub3Ir
-ZHRAa2VybmVsLm9yZzsgam9lbEBqbXMuaWQuYXU7DQo+IGFuZHJld0Bhai5pZC5hdTsgcC56YWJl
-bEBwZW5ndXRyb25peC5kZTsgbGludXgtaTNjQGxpc3RzLmluZnJhZGVhZC5vcmc7DQo+IGRldmlj
-ZXRyZWVAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5v
-cmc7DQo+IGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnOyBsaW51eC1rZXJuZWxAdmdlci5r
-ZXJuZWwub3JnDQo+IENjOiBCTUMtU1cgPEJNQy1TV0Bhc3BlZWR0ZWNoLmNvbT47IGtvYmVkeWxh
-bkBnbWFpbC5jb20NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAwLzNdIEFkZCBBc3BlZWQgQVNUMjYw
-MCBJM0Mgc3VwcG9ydA0KPiANCj4gSGkgRHlsYW4sDQo+IA0KPiA+IFRoaXMgcGF0Y2ggc2VyaWVz
-IGludHJvZHVjZXMgdGhlIG5lY2Vzc2FyeSBjaGFuZ2VzIHRvIGVuYWJsZSBJM0MNCj4gPiBzdXBw
-b3J0IGZvciB0aGUgQXNwZWVkIEFTVDI2MDAgSTNDIGNvbnRyb2xsZXIuIFNwZWNpZmljYWxseSwg
-aXQNCj4gPiBhZGRyZXNzZXMgdGhlIG1pc3NpbmcgcGluY3RybCBjb25maWd1cmF0aW9uIGFuZCBy
-ZXNldCBjb250cm9sIGZvciB0aGUNCj4gPiBJM0MgZnVuY3Rpb25hbGl0eS4NCj4gDQo+ICsxIGZv
-ciB0aGUgcGluY3RybCBjaGFuZ2VzIGZvciB0aGUgSTNDMSBhbmQgSTNDMiBjb250cm9sbGVycyAo
-SSdsbA0KPiByZXZpZXcgYW5kIGFjayBzZXBhcmF0ZWx5KS4gSSBoYXZlIGJlZW4gdGVzdGluZyBv
-biBJM0MzIGFuZCB1cCwgYnV0IGp1c3Qgbm90DQo+IHdpdGggdGhlIEhWSTNDIG9uIDEgJiAyLCBo
-ZW5jZSBubyBwaW5jdHJsIGRlZmluaXRpb24gdGhlcmUuDQo+IA0KPiBIb3dldmVyLCBJIGRvbid0
-IHRoaW5rIHRoZSBvdGhlciB0d28gYXJlIG5lZWRlZC4NCj4gDQo+IEZvciAyLzMgYW5kIDMvMywg
-eW91J3JlIGFkZGluZyBhIHJlc2V0IGNvbnRyb2wgZm9yIHRoZSBnbG9iYWwgcmVnaXN0ZXIgYmxv
-Y2sNCj4gd2l0aGluIHRoZSBwZXItY29udHJvbGxlciBkcml2ZXIsIGJ1dCB3ZSBjYW4gYWxyZWFk
-eSBkbyB0aGF0IG9uIGEgZ2xvYmFsIGJhc2lzDQo+IHdpdGggdGhlIGV4aXN0aW5nIHN5c2NvbiBk
-ZXZpY2UuIEhlbmNlIHRoaXMgZWFybGllciBjaGFuZ2U6DQo+IA0KPiANCj4gaHR0cHM6Ly9naXQu
-a2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L2Nv
-bW1pdC9kcmkNCj4gdmVycy9tZmQvc3lzY29uLmM/aWQ9N2QxZTNiZDk0ODI4YWQ5ZmM4NmY1NTI1
-M2NkNmZlYzhlZGQ2NTM5NA0KPiANCj4gRm9yIHRoaXMsIEkgaGF2ZToNCj4gDQo+ICAgICAmaTNj
-IHsNCj4gICAgICAgICBpM2NfZ2xvYmFsOiBpM2MtZ2xvYmFsIHsNCj4gICAgICAgICAgICAgY29t
-cGF0aWJsZSA9ICJhc3BlZWQsYXN0MjYwMC1pM2MtZ2xvYmFsIiwgInNpbXBsZS1tZmQiLA0KPiAi
-c3lzY29uIjsNCj4gICAgICAgICAgICAgcmVzZXRzID0gPCZzeXNjb24gQVNQRUVEX1JFU0VUX0kz
-Q19ETUE+Ow0KPiAgICAgICAgICAgICByZWcgPSA8MHgwIDB4MTAwMD47DQo+ICAgICAgICAgfTsN
-Cj4gDQo+ICAgICAgICAgaTNjMjogaTNjLW1hc3RlckA0MDAwIHsNCj4gICAgICAgICAgICAgY29t
-cGF0aWJsZSA9ICJhc3BlZWQsYXN0MjYwMC1pM2MiOw0KPiAgICAgICAgICAgICByZWcgPSA8MHg0
-MDAwIDB4MTAwMD47DQo+ICAgICAgICAgICAgIGNsb2NrcyA9IDwmc3lzY29uIEFTUEVFRF9DTEtf
-R0FURV9JM0MyQ0xLPjsNCj4gICAgICAgICAgICAgcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IjsN
-Cj4gICAgICAgICAgICAgcGluY3RybC0wID0gPCZwaW5jdHJsX2kzYzNfZGVmYXVsdD47DQo+ICAg
-ICAgICAgICAgIGludGVycnVwdHMgPSA8R0lDX1NQSSAxMDQgSVJRX1RZUEVfTEVWRUxfSElHSD47
-DQo+ICAgICAgICAgICAgIGFzcGVlZCxnbG9iYWwtcmVncyA9IDwmaTNjX2dsb2JhbCAyPjsNCj4g
-ICAgICAgICAgICAgc3RhdHVzID0gImRpc2FibGVkIjsNCj4gICAgICAgICB9Ow0KPiANCj4gICAg
-ICAgICAvKiAuLi4gKi8NCj4gICAgIH07DQo+IA0KPiAtIHdpdGggbm8gY2hhbmdlcyBuZWVkZWQg
-dG8gYW55IGJpbmRpbmdzLiBJIGhhdmVuJ3QgbmVlZGVkIGFueSBvdGhlciByZXNldHM7DQo+IGFy
-ZSB0aGVyZSBwZXItY29udHJvbGxlciByZXNldHMgc3BlY2lmaWVkIGluIHRoZSBIVyBkb2NzIHlv
-dSBoYXZlPw0KPiANCj4gRG9lcyB0aGF0IHdvcmsgZm9yIHlvdT8gSWYgeW91J2QgbGlrZSB0byB0
-ZXN0LCBmZWVsIGZyZWUgdG8gdXNlIG15IHNhbXBsZSBkdHMgYXQ6DQo+IA0KPiANCj4gaHR0cHM6
-Ly9naXRodWIuY29tL0NvZGVDb25zdHJ1Y3QvbGludXgvY29tbWl0LzA1Y2FjMjQ3MDVmYTYyZDIx
-NzZlY2JiDQo+IGJmMTVkOTU1Y2ZlODZlNzUzDQo+IA0KPiBDaGVlcnMsDQo+IA0KPiANCj4gSmVy
-ZW15DQo=
+--_000_TYZPR06MB65674B8AA26D959254101A749C12ATYZPR06MB6567apcp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Jeremy,
+
+> -----Original Message-----
+> From: Jeremy Kerr [mailto:jk@codeconstruct.com.au]
+> Sent: Wednesday, August 9, 2023 8:08 AM
+> To: Dylan Hung <dylan_hung@aspeedtech.com>;
+> alexandre.belloni@bootlin.com; robh+dt@kernel.org;
+> krzysztof.kozlowski+dt@linaro.org; conor+dt@kernel.org; joel@jms.id.au;
+> andrew@aj.id.au; p.zabel@pengutronix.de; linux-i3c@lists.infradead.org;
+> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
+> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
+> Cc: BMC-SW <BMC-SW@aspeedtech.com>; kobedylan@gmail.com
+> Subject: Re: [PATCH 0/3] Add Aspeed AST2600 I3C support
+>
+> Hi Dylan,
+>
+> > This patch series introduces the necessary changes to enable I3C
+> > support for the Aspeed AST2600 I3C controller. Specifically, it
+> > addresses the missing pinctrl configuration and reset control for the
+> > I3C functionality.
+>
+> +1 for the pinctrl changes for the I3C1 and I3C2 controllers (I'll
+> review and ack separately). I have been testing on I3C3 and up, but just =
+not
+> with the HVI3C on 1 & 2, hence no pinctrl definition there.
+
+Thank you for your review. I3C1 and I3C2 can only operate in low voltage (1=
+.0V/1.2V), which is why there are no HVI3C1 and HVI3C2 pinctrl definitions.
+
+>
+> However, I don't think the other two are needed.
+>
+> For 2/3 and 3/3, you're adding a reset control for the global register bl=
+ock
+> within the per-controller driver, but we can already do that on a global =
+basis
+> with the existing syscon device. Hence this earlier change:
+>
+
+I followed your recommendation and verified that it worked on my end.
+Should I resend the pinctrl patch as a stand-alone submission?
+
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/dri
+> vers/mfd/syscon.c?id=3D7d1e3bd94828ad9fc86f55253cd6fec8edd65394
+>
+> For this, I have:
+>
+>     &i3c {
+>         i3c_global: i3c-global {
+>             compatible =3D "aspeed,ast2600-i3c-global", "simple-mfd",
+> "syscon";
+>             resets =3D <&syscon ASPEED_RESET_I3C_DMA>;
+>             reg =3D <0x0 0x1000>;
+>         };
+>
+>         i3c2: i3c-master@4000 {
+>             compatible =3D "aspeed,ast2600-i3c";
+>             reg =3D <0x4000 0x1000>;
+>             clocks =3D <&syscon ASPEED_CLK_GATE_I3C2CLK>;
+>             pinctrl-names =3D "default";
+>             pinctrl-0 =3D <&pinctrl_i3c3_default>;
+>             interrupts =3D <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>;
+>             aspeed,global-regs =3D <&i3c_global 2>;
+>             status =3D "disabled";
+>         };
+>
+>         /* ... */
+>     };
+>
+> - with no changes needed to any bindings. I haven't needed any other rese=
+ts;
+> are there per-controller resets specified in the HW docs you have?
+>
+> Does that work for you? If you'd like to test, feel free to use my sample=
+ dts at:
+>
+>
+> https://github.com/CodeConstruct/linux/commit/05cac24705fa62d2176ecbb
+> bf15d955cfe86e753
+>
+> Cheers,
+>
+>
+> Jeremy
+
+--_000_TYZPR06MB65674B8AA26D959254101A749C12ATYZPR06MB6567apcp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:\65B0 \7D30 \660E \9AD4 ;
+	panose-1:2 2 5 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:"\@\65B0 \7D30 \660E \9AD4 ";
+	panose-1:2 1 6 1 0 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:12.0pt;
+	font-family:"\65B0 \7D30 \660E \9AD4 ",serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style>
+</head>
+<body lang=3D"ZH-TW" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:brea=
+k-word">
+<div class=3D"WordSection1">
+<div>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Hi J=
+eremy,<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: Jeremy Kerr [<a href=3D"mailto:jk@codeconstruct.com.au">mailto:j=
+k@codeconstruct.com.au</a>]<br>
+&gt; Sent: Wednesday, August 9, 2023 8:08 AM<br>
+&gt; To: Dylan Hung &lt;dylan_hung@aspeedtech.com&gt;;<br>
+&gt; alexandre.belloni@bootlin.com; robh+dt@kernel.org;<br>
+&gt; krzysztof.kozlowski+dt@linaro.org; conor+dt@kernel.org; joel@jms.id.au=
+;<br>
+&gt; andrew@aj.id.au; p.zabel@pengutronix.de; linux-i3c@lists.infradead.org=
+;<br>
+&gt; devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;<br>
+&gt; linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org<br>
+&gt; Cc: BMC-SW &lt;BMC-SW@aspeedtech.com&gt;; kobedylan@gmail.com<br>
+&gt; Subject: Re: [PATCH 0/3] Add Aspeed AST2600 I3C support<br>
+&gt; <br>
+&gt; Hi Dylan,<br>
+&gt; <br>
+&gt; &gt; This patch series introduces the necessary changes to enable I3C<=
+br>
+&gt; &gt; support for the Aspeed AST2600 I3C controller. Specifically, it<b=
+r>
+&gt; &gt; addresses the missing pinctrl configuration and reset control for=
+ the<br>
+&gt; &gt; I3C functionality.<br>
+&gt; <br>
+&gt; +1 for the pinctrl changes for the I3C1 and I3C2 controllers (I'll<br>
+&gt; review and ack separately). I have been testing on I3C3 and up, but ju=
+st not<br>
+&gt; with the HVI3C on 1 &amp; 2, hence no pinctrl definition there.<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
+>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Than=
+k you for your review. I3C1 and I3C2 can only operate in low voltage (1.0V/=
+1.2V), which is why there are no HVI3C1 and HVI3C2 pinctrl definitions.<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><br>
+&gt; <br>
+&gt; However, I don't think the other two are needed.<br>
+&gt; <br>
+&gt; For 2/3 and 3/3, you're adding a reset control for the global register=
+ block<br>
+&gt; within the per-controller driver, but we can already do that on a glob=
+al basis<br>
+&gt; with the existing syscon device. Hence this earlier change:<br>
+&gt;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
+>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">I fo=
+llowed your recommendation and verified that it worked on my end.<o:p></o:p=
+></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Shou=
+ld I resend the pinctrl patch as a stand-alone submission?<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><br>
+&gt; <br>
+&gt; <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/li=
+nux.git/commit/dri">
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/d=
+ri</a><br>
+&gt; vers/mfd/syscon.c?id=3D7d1e3bd94828ad9fc86f55253cd6fec8edd65394<br>
+&gt; <br>
+&gt; For this, I have:<br>
+&gt; <br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; &amp;i3c {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i3c_global: i3c-global=
+ {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; compatible =3D &quot;aspeed,ast2600-i3c-global&quot;, &quot;simple-mfd&qu=
+ot;,<br>
+&gt; &quot;syscon&quot;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; resets =3D &lt;&amp;syscon ASPEED_RESET_I3C_DMA&gt;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; reg =3D &lt;0x0 0x1000&gt;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
+&gt; <br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i3c2: i3c-master@4000 =
+{<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; compatible =3D &quot;aspeed,ast2600-i3c&quot;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; reg =3D &lt;0x4000 0x1000&gt;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; clocks =3D &lt;&amp;syscon ASPEED_CLK_GATE_I3C2CLK&gt;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; pinctrl-names =3D &quot;default&quot;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; pinctrl-0 =3D &lt;&amp;pinctrl_i3c3_default&gt;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; interrupts =3D &lt;GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH&gt;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; aspeed,global-regs =3D &lt;&amp;i3c_global 2&gt;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; status =3D &quot;disabled&quot;;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
+&gt; <br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* ... */<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
+&gt; <br>
+&gt; - with no changes needed to any bindings. I haven't needed any other r=
+esets;<br>
+&gt; are there per-controller resets specified in the HW docs you have?<br>
+&gt; <br>
+&gt; Does that work for you? If you'd like to test, feel free to use my sam=
+ple dts at:<br>
+&gt; <br>
+&gt; <br>
+&gt; <a href=3D"https://github.com/CodeConstruct/linux/commit/05cac24705fa6=
+2d2176ecbb">
+https://github.com/CodeConstruct/linux/commit/05cac24705fa62d2176ecbb</a><b=
+r>
+&gt; bf15d955cfe86e753<br>
+&gt; <br>
+&gt; Cheers,<br>
+&gt; <br>
+&gt; <br>
+&gt; Jeremy<o:p></o:p></span></p>
+</div>
+</div>
+</body>
+</html>
+
+--_000_TYZPR06MB65674B8AA26D959254101A749C12ATYZPR06MB6567apcp_--
