@@ -1,48 +1,85 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F7F7802E8
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Aug 2023 03:16:50 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6587802EF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Aug 2023 03:17:02 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RRkVS1jG6z2ydM
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Aug 2023 11:16:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RRkVh0mF7z3cTD
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Aug 2023 11:17:00 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.189; helo=szxga03-in.huawei.com; envelope-from=wangzhu9@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=sntech.de (client-ip=185.11.138.130; helo=gloria.sntech.de; envelope-from=heiko@sntech.de; receiver=lists.ozlabs.org)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RKsTl5rrBz2xq6
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Aug 2023 22:10:51 +1000 (AEST)
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RKs1f66cJz1hwH1;
-	Tue,  8 Aug 2023 19:49:58 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.174.202) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 8 Aug 2023 19:52:47 +0800
-From: Zhu Wang <wangzhu9@huawei.com>
-To: <andrew@lunn.ch>, <gregory.clement@bootlin.com>,
-	<sebastian.hesselbarth@gmail.com>, <a.zummo@towertech.it>,
-	<alexandre.belloni@bootlin.com>, <joel@jms.id.au>, <andrew@aj.id.au>,
-	<nicolas.ferre@microchip.com>, <claudiu.beznea@tuxon.dev>,
-	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
-	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-rtc@vger.kernel.org>,
-	<linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH -next 5/5] rtc: at91rm9200: remove redundant of_match_ptr()
-Date: Tue, 8 Aug 2023 19:52:13 +0800
-Message-ID: <20230808115213.154377-6-wangzhu9@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230808115213.154377-1-wangzhu9@huawei.com>
-References: <20230808115213.154377-1-wangzhu9@huawei.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RLWqZ3tRfz2yVT;
+	Wed,  9 Aug 2023 23:58:31 +1000 (AEST)
+Received: from [194.95.143.137] (helo=phil.dip.tu-dresden.de)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1qTjgu-0007Qm-Nw; Wed, 09 Aug 2023 15:57:36 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Daniel Mack <daniel@zonque.org>,
+	Jay Fang <f.fangjian@huawei.com>,
+	Qiang Zhao <qiang.zhao@nxp.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Jisheng Zhang <jszhang@kernel.org>,
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Li Yang <leoyang.li@nxp.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	soc@kernel.org,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Patrick Venture <venture@google.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	Joel Stanley <joel@jms.id.au>,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Shiraz Has him <shiraz.linux.kernel@gmail.com>,
+	Stuart Yoder <stuyoder@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Lubomir Rintel <lkundrak@v3.sk>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Antoine Tenart <atenart@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: (subset) [PATCH v2 00/23] ARM: DT include cleanups
+Date: Wed,  9 Aug 2023 15:57:33 +0200
+Message-Id: <169158939237.3288791.15504684466280859190.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
+References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.202]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500025.china.huawei.com (7.185.36.35)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 18 Aug 2023 11:16:42 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -55,31 +92,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: wangzhu9@huawei.com
+Cc: Heiko Stuebner <heiko@sntech.de>, linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The driver depends on CONFIG_OF, so it is not necessary to use
-of_match_ptr() here. We remove of_match_ptr() here.
+On Thu, 03 Aug 2023 16:42:40 -0600, Rob Herring wrote:
+> Arnd, This is all the remaining ARM and SoC related patches of DT
+> include cleanups which have not be applied by sub-arch maintainers.
+> 
+> A few of these are v2, but most are just resends of v1.
+> 
+> 
 
-Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
----
- drivers/rtc/rtc-at91rm9200.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thanks!
 
-diff --git a/drivers/rtc/rtc-at91rm9200.c b/drivers/rtc/rtc-at91rm9200.c
-index e9d17232d0a8..4052e983455f 100644
---- a/drivers/rtc/rtc-at91rm9200.c
-+++ b/drivers/rtc/rtc-at91rm9200.c
-@@ -642,7 +642,7 @@ static struct platform_driver at91_rtc_driver = {
- 	.driver		= {
- 		.name	= "at91_rtc",
- 		.pm	= &at91_rtc_pm_ops,
--		.of_match_table = of_match_ptr(at91_rtc_dt_ids),
-+		.of_match_table = at91_rtc_dt_ids,
- 	},
- };
- 
+I didn't find a reply to the thread in terms of it going
+in alltogether, so went forward and picked the Rockchip things
+I missed before.
+
+
+[12/23] ARM: rockchip: Drop unused includes
+        commit: 8cbdf5d2880923070198c240534f4cca3e04dfb1
+[20/23] soc: rockchip: Explicitly include correct DT includes
+        commit: fc7696e2ae81404c6ca176e7ebbddd4b19c40953
+
+Best regards,
 -- 
-2.17.1
-
+Heiko Stuebner <heiko@sntech.de>
