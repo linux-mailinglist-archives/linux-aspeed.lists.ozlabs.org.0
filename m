@@ -2,54 +2,90 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48A8776D86
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Aug 2023 03:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F59776EAB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Aug 2023 05:45:01 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=DlBFBS8v;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=zAzQcnXD;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RLqDN3yWHz3c5S
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Aug 2023 11:32:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RLt966Vmfz3cG1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Aug 2023 13:44:58 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=126.com header.i=@126.com header.a=rsa-sha256 header.s=s110527 header.b=DlBFBS8v;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=zAzQcnXD;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=126.com (client-ip=220.181.15.50; helo=m1550.mail.126.com; envelope-from=lianglixuehao@126.com; receiver=lists.ozlabs.org)
-Received: from m1550.mail.126.com (m1550.mail.126.com [220.181.15.50])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RLqDF63Qxz300g;
-	Thu, 10 Aug 2023 11:32:29 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=u/mVijGdlHPAccIJwEx/VIBLaUvHBDxJ7+T48GzQETk=; b=D
-	lBFBS8vKp/4agABX0HXayQBrpzNRdulqgGmOV0zBARWoK29KF+iVadLOiQWn/kOo
-	ZeHyGTuCZI9cGCYXpHT3n7uAoQhRV3RtypymShLKwHEKxGsIoDLEVzmpHTAou/Ll
-	8IIoPShbMK+yIBRLbx5DyHOhBI8cnE/l7AUs4RZNDs=
-Received: from lianglixuehao$126.com ( [117.136.12.166] ) by
- ajax-webmail-wmsvr50 (Coremail) ; Thu, 10 Aug 2023 09:30:52 +0800 (CST)
-X-Originating-IP: [117.136.12.166]
-Date: Thu, 10 Aug 2023 09:30:52 +0800 (CST)
-From: =?UTF-8?B?5qKB56S85a2m?= <lianglixuehao@126.com>
-To: "Eddie James" <eajames@linux.ibm.com>
-Subject: Re:Re: [PATCH] i2c: aspeed: Avoid accessing freed buffers during
- i2c transfers.
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20230109(dcb5de15)
- Copyright (c) 2002-2023 www.mailtech.cn 126com
-In-Reply-To: <388f1d61-c419-a133-6266-daff1fa4cd60@linux.ibm.com>
-References: <20230728122416.17782-1-lianglixuehao@126.com>
- <CACPK8Xf6YssamEmHB5XDf8JYk+_=hnG8Yzqn4kCikseqg6rqOA@mail.gmail.com>
- <CAARXrtmZbu3aabYJkEc25rHymRHDX4=zNdecHAs3LnQ259RkPg@mail.gmail.com>
- <388f1d61-c419-a133-6266-daff1fa4cd60@linux.ibm.com>
-X-NTES-SC: AL_QuySA/qYvkgu5CGaYekZk0cQjuo+UMuwuPov249XP5k0uCrE9AErUlBGGFLT9OSTCAuLnzeQWztu7+tFd7BJQ47DqNx34F7y7ga3v/alcN9z
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_13329_607406992.1691631052127"
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:704b::629; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20629.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::629])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RLt8y1SnBz306p
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Aug 2023 13:44:48 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bWbWNNWoPBEc6ceij4YQARcJhk7V7yS0V5QUr7dIW1+cgY3lL7toeAwpSmfdO313ZgCkAT77AZ6CgnoRy0k5OKxSYnUpNPhyn/iZuTyVer0o1EY+Q/nm1a21TGzmt5uWFuc3SAwU0XRC3eRw4p3dGO5pEvI6KDv+F1DX/mke496VWV8mQDojQ3ys6UzQkn46b/6SChgqvsGpNUppfaCImBATYtyMvqn5bAEqLqE4C6Q3SMnQ2yRiM6bKGc2d/KWI624ERIjhjnXOvfIffo0NMSg/aaNZAh9klPP4KM9nd5bSSi+EvhO8WO5nTO8X/hvj2yuByFsje/AODYCeOq75gQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ejM72s73HVOX/AkBpXIeXl3SPxsJfIxUPmywfGVowt4=;
+ b=mfpguZFlt7T4NuYzU/+4xElUW+gr1T4NT2gHdrIkfZZbceAo3D4irkqM4EaIwt31UZs5fTmU18svoWbl8I6A0nC2aMPtmFr0LHLzmsBDaKdP4B67hI7oGGpaB0QObhGA+QFImgorRPlp3YisfSiMlP67KIB02qtvZvVcmoqnOC9iABrjSLiFXWjRxbpdaU7AEpjDmhA53JNkPC8+toc36sJxZ3kbOj8DWIRp0+JoIr9m8zIYYN3w2PN1dH6TMe2YtovJWmAr1T34bdvgWowMRza8/VdySBVOXLCn5xm8SnaCNznOrJkWfniE1NuIv9POv1+8gSUyu2SS2U4akhzRew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ejM72s73HVOX/AkBpXIeXl3SPxsJfIxUPmywfGVowt4=;
+ b=zAzQcnXDBHJ+eUV8Vv6eUeO6si9+tE9uLBewZnmOIWlcRiBWa3U+uDa4hcQPsYCB3V2uAPtod8D3B4pmrhx0DpgBR77AJ7tsnzpuu4ETelQb46AAzJiUNz7ljJ5DnNSTkS7UbbMceKXLECxCmNCAOXnLVwls75tv16uGE+LPLoe79SmBwYZfGgBZ2rEVwQfU2hnUefcZR5s4M9xe2gQKhmUEV+ORt/RypCsBIpgpAz2TXHeoEmYKSbzhS5jgYAYPkjOSN4DMbTB/pXrtJ/mDKKv1gLS6eQjPD6japj7OAbYI3NcogjmSsya70qWS0Y0SocLiyEI0xotyILWLsKvrSw==
+Received: from PS2PR04CA0016.apcprd04.prod.outlook.com (2603:1096:300:55::28)
+ by TYZPR04MB6303.apcprd04.prod.outlook.com (2603:1096:400:289::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30; Thu, 10 Aug
+ 2023 03:44:23 +0000
+Received: from HK3PEPF00000221.apcprd03.prod.outlook.com
+ (2603:1096:300:55:cafe::b6) by PS2PR04CA0016.outlook.office365.com
+ (2603:1096:300:55::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30 via Frontend
+ Transport; Thu, 10 Aug 2023 03:44:23 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ HK3PEPF00000221.mail.protection.outlook.com (10.167.8.43) with Microsoft SMTP
+ Server id 15.20.6652.20 via Frontend Transport; Thu, 10 Aug 2023 03:44:22
+ +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz
+Subject: [PATCH v8 0/2] ARM: dts: Facebook Yosemite 4 platform
+Date: Thu, 10 Aug 2023 11:44:17 +0800
+Message-Id: <20230810034421.742166-1-Delphine_CC_Chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Message-ID: <1eb66406.e3a.189dd11655f.Coremail.lianglixuehao@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: MsqowACXS1rNPdRkcvQQAA--.47919W
-X-CM-SenderInfo: xold0w5ol03vxkdrqiyswou0bp/1tbi3AXHFlpEFxbVoQACsh
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF00000221:EE_|TYZPR04MB6303:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 115d3cc3-5071-4d00-7e37-08db9954163c
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	Ij+ZjNefE+8a9Cll410ZLQXxPcvfTa439/VtGEzqSgIHIQzF4sWQGb1A+Lh3KWqYaHtEm0S38pt95dBN93+HbEIJcVJ5KuzJ1mOfH+KEN3RKaau9S8/ms6AhAoCQMDGVgwiZruvY4uS50ydBkoxoQl81oWAxZ1gOS7CA/QRiWACpQN9pAoBnvhwHhEHM/1/6jTLx9dmJDy6cl+/J1rUYiWNhlUE/kCCDSB88qGhuqyF3GdO9xanqHcKaDQKSxu+RnOsltgOtcDJ1CPZgbUj/56GlRuJOC2wSWwsOKolFnti3Co5KI9HFO/omCpfoxhPJFuJL53LLeqHI4DzyW8R5O5dYkU3jy1rWNnL/GEDAicdU1BJUK3CWsP9UXmYZDx31ezidHr0VkUxG7eZ4uckdZcRPV5CvtCw5hQHFr2WLGTtsDOcCPjPikbD6Jz5pH4RZrrItiWXtbi3xOOwfwg1XqGoeSmV7PK1CIX1sDOQ3hIGb9/3j2pzD1+9zc6FfUJhNVxcm2ncvmIZqv5Qr37lhjatno4/wJf0N4wn9G4s1Btj+6qmTnEG0deWkkQpiboRn4QrTVMPvoH08y+ZbrRXVsyj2eMG4TFhBt6XMhuffDFXEgSefcO8ioyE/kZJO7se59JPNcpMUPqL0UyvA20oj7JJG0BUmdXo3H9Ng9XF1dY8Wm6JgvkgtiKmENP1so4Ioe3Q9Wxvb2hq18owgpd/JEQ==
+X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230028)(6069001)(4636009)(346002)(396003)(136003)(376002)(39850400004)(47680400002)(186006)(82310400008)(451199021)(1800799006)(36840700001)(46966006)(8936002)(8676002)(36736006)(316002)(41300700001)(4326008)(70206006)(6916009)(70586007)(9316004)(86362001)(36756003)(5660300002)(7416002)(40480700001)(4744005)(2906002)(6486002)(47076005)(336012)(6666004)(36860700001)(6512007)(1076003)(26005)(356005)(81166007)(478600001)(6506007)(54906003)(83380400001)(2616005)(82740400003)(956004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2023 03:44:22.9922
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 115d3cc3-5071-4d00-7e37-08db9954163c
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource: 	HK3PEPF00000221.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR04MB6303
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,146 +97,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Lixue Liang <lianglixue@greatwall.com.cn>, linux-aspeed@lists.ozlabs.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, brendan.higgins@linux.dev, p.zabel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-------=_Part_13329_607406992.1691631052127
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Add linux device tree entry related to
+Yosemite 4 specific devices connected to BMC SoC.
 
-SGkgRWRkaWUsCkkgY2FuJ3Qgc2VlIGZyb20gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb3BlbmJt
-Yy8zNzQyMzdjYi0xY2RhLWRmMTItZWI5Zi03NDIyY2FiNTFmYzRAbGludXguYWxpYmFiYS5jb20v
-IHdoeSB0aGUgcGF0Y2ggd2FzIHJlamVjdGVkLgpjYW4geW91IHRlbGwgbWUgd2h5PyBBZnRlciBh
-bGwsIHRoaXMgcHJvYmxlbSB3aWxsIGFsd2F5cyBoYXBwZW4uCgoKVGhhbmtzLgoKCgoKCgoKCgoK
-CgoKCkF0IDIwMjMtMDgtMDIgMjE6NDE6MTYsICJFZGRpZSBKYW1lcyIgPGVhamFtZXNAbGludXgu
-aWJtLmNvbT4gd3JvdGU6Cj4KPk9uIDcvMzEvMjMgMDE6MTAsIExlaSBZVSB3cm90ZToKPj4gVGhl
-cmUgaXMgYSBzYW1lIGZpeCBpbiAKPj4gaHR0cHM64oCKLy9sb3JlLuKAimtlcm5lbC7igIpvcmcv
-b3BlbmJtYy8zNzQyMzdjYi0xY2RhLWRmMTItZWI5Zi03NDIyY2FiNTFmYzRA4oCKbGludXgu4oCK
-YWxpYmFiYS7igIpjb20vIAo+PiBPbiBNb24sIEp1bCAzMSwgMjAyMyBhdCAxMjrigIoyMSBQTSBK
-b2VsIFN0YW5sZXkgPGpvZWxA4oCKam1zLuKAimlkLuKAimF1PiAKPj4gd3JvdGU6IE9uIEZyaSwg
-MjggSnVsIDIwMjMgYXQgMTI64oCKNDAsIExpeHVlIExpYW5nIAo+PiA8bGlhbmdsaXh1ZWhhb0Di
-gIoxMjYu4oCKY29tPgo+PiBaalFjbVFSWUZwZnB0QmFubmVyU3RhcnQKPj4gVGhpcyBNZXNzYWdl
-IElzIEZyb20gYW4gVW50cnVzdGVkIFNlbmRlcgo+PiBZb3UgaGF2ZSBub3QgcHJldmlvdXNseSBj
-b3JyZXNwb25kZWQgd2l0aCB0aGlzIHNlbmRlci4KPj4gUmVwb3J0IFN1c3BpY2lvdXMKPj4gPGh0
-dHBzOi8vdXMtcGhpc2hhbGFybS1ld3QucHJvb2Zwb2ludC5jb20vRVdUL3YxL1BqaURTZyExMi12
-ckpCVEI3SFNNWWp4a0NFdnBId1Z5ZWx3MENlbkFEM1JLUmptVlZmUmlnNkR6Q2dSQmF4SGFlWXNK
-c0FUekZnTllTUkdYeTZyUU5YcG1LOVlkV1F4U2NtLTJoOXBfYmlsRHVMZVUxcjhOUzVPRWtDbmds
-MDFQOTR5JD4gCj4+Cj4+IFpqUWNtUVJZRnBmcHRCYW5uZXJFbmQKPj4gVGhlcmUgaXMgYSBzYW1l
-IGZpeCBpbiAKPj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb3BlbmJtYy8zNzQyMzdjYi0xY2Rh
-LWRmMTItZWI5Zi03NDIyY2FiNTFmYzRAbGludXguYWxpYmFiYS5jb20vCj4+Cj4+IE9uIE1vbiwg
-SnVsIDMxLCAyMDIzIGF0IDEyOjIx4oCvUE0gSm9lbCBTdGFubGV5IDxqb2VsQGptcy5pZC5hdT4g
-d3JvdGU6Cj4+Cj4+ICAgICBPbiBGcmksIDI4IEp1bCAyMDIzIGF0IDEyOjQwLCBMaXh1ZSBMaWFu
-ZyA8bGlhbmdsaXh1ZWhhb0AxMjYuY29tPgo+PiAgICAgd3JvdGU6Cj4+ICAgICA+Cj4+ICAgICA+
-IEZyb206IExpeHVlIExpYW5nIDxsaWFuZ2xpeHVlQGdyZWF0d2FsbC5jb20uY24+Cj4+ICAgICA+
-Cj4+ICAgICA+IEFmdGVyIHdhaXRpbmcgZm9yIHRoZSB0cmFuc21pc3Npb24gdGltZW91dCwgdGhl
-IEkyQyBjb250cm9sbGVyIHdpbGwKPj4gICAgID4gY29udGludWUgdG8gdHJhbnNtaXQgZGF0YSB3
-aGVuIHRoZSBidXMgaXMgaWRsZS4gQ2xlYXJpbmcKPj4gICAgIGJ1cy0+bXNnIHdpbGwKPj4gICAg
-ID4gYXZvaWQga2VybmVsIHBhbmljIHdoZW4gYWNjZXNzaW5nIHRoZSBmcmVlZCBtc2ctPmJ1ZiBp
-bgo+PiAgICAgPiBhc3BlZWRfaTJjX21hc3Rlcl9pcnEuCj4+ICAgICA+Cj4+ICAgICA+IFNpZ25l
-ZC1vZmYtYnk6IExpeHVlIExpYW5nIDxsaWFuZ2xpeHVlQGdyZWF0d2FsbC5jb20uY24+Cj4+ICAg
-ICA+IC0tLQo+PiAgICAgPiAgZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1hc3BlZWQuYyB8IDIgKysK
-Pj4gICAgID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPj4gICAgID4KPj4gICAg
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaTJjL2J1c3Nlcy9pMmMtYXNwZWVkLmMKPj4gICAgIGIv
-ZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1hc3BlZWQuYwo+PiAgICAgPiBpbmRleCAyZTVhY2ZlYjc2
-YzguLmM4MzA1NzQ5N2UyNiAxMDA2NDQKPj4gICAgID4gLS0tIGEvZHJpdmVycy9pMmMvYnVzc2Vz
-L2kyYy1hc3BlZWQuYwo+PiAgICAgPiArKysgYi9kcml2ZXJzL2kyYy9idXNzZXMvaTJjLWFzcGVl
-ZC5jCj4+ICAgICA+IEBAIC03MTMsNiArNzEzLDggQEAgc3RhdGljIGludCBhc3BlZWRfaTJjX21h
-c3Rlcl94ZmVyKHN0cnVjdAo+PiAgICAgaTJjX2FkYXB0ZXIgKmFkYXAsCj4+ICAgICA+ICAgICAg
-ICAgICAgICAgICBzcGluX2xvY2tfaXJxc2F2ZSgmYnVzLT5sb2NrLCBmbGFncyk7Cj4+ICAgICA+
-ICAgICAgICAgICAgICAgICBpZiAoYnVzLT5tYXN0ZXJfc3RhdGUgPT0gQVNQRUVEX0kyQ19NQVNU
-RVJfUEVORElORykKPj4gICAgID4gICAgICAgICAgICAgICAgICAgICAgICAgYnVzLT5tYXN0ZXJf
-c3RhdGUgPQo+PiAgICAgQVNQRUVEX0kyQ19NQVNURVJfSU5BQ1RJVkU7Cj4+ICAgICA+ICsKPj4g
-ICAgID4gKyAgICAgICAgICAgICAgIGJ1cy0+bXNncyA9IE5VTEw7Cj4+Cj4+ICAgICBFZGRpZSwg
-aXMgdGhpcyB0aGUgc2FtZSBpc3N1ZSB5b3Ugd2VyZSBkZWJ1Z2dpbmc/Cj4+Cj4KPlllcywgaXQg
-aXMsIGFuZCB0aGUgc2FtZSBmaXggSSBzZXR0bGVkIG9uLgo+Cj4KPj4KPj4gICAgID4gIHNwaW5f
-dW5sb2NrX2lycXJlc3RvcmUoJmJ1cy0+bG9jaywgZmxhZ3MpOwo+PiAgICAgPgo+PiAgICAgPiAg
-ICAgICAgICAgICAgICAgcmV0dXJuIC1FVElNRURPVVQ7Cj4+ICAgICA+IC0tCj4+ICAgICA+IDIu
-MjcuMAo+PiAgICAgPgo+Pgo=
-------=_Part_13329_607406992.1691631052127
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
+Changelog:
+v8 - Add description of Yosemite 4
+   - Remove unsupported ncsi config
+   - Revise i2c-mux config
+   - Correct power sensor i2c address
+   - Restore i2c 11 bus-frequency to default
+v7 - Revise changelog format
+v6 - Change project name from yosemitev4 to yosemite4
+v5 - Revise rtc setting
+   - Remove duplicated multi-master setting
+v4 - Resend with cover letter
+v3 - Revise the bootargs to stdout-path
+   - Revise i2c devices
+v2 - Revise the DTS node name
+v1 - Add binding document
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPkhpJm5ic3A7PHNwYW4g
-c3R5bGU9ImZvbnQtZmFtaWx5OiBhcmlhbDsgd2hpdGUtc3BhY2UtY29sbGFwc2U6IHByZXNlcnZl
-OyI+RWRkaWUsPC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxl
-PSJmb250LWZhbWlseTogYXJpYWw7IHdoaXRlLXNwYWNlLWNvbGxhcHNlOiBwcmVzZXJ2ZTsiPiAg
-PC9zcGFuPjxmb250IGZhY2U9ImFyaWFsIj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2UtY29sbGFw
-c2U6IHByZXNlcnZlOyI+SSBjYW4ndCBzZWUgZnJvbSA8L3NwYW4+PC9mb250PjxzcGFuIHN0eWxl
-PSJmb250LWZhbWlseTogYXJpYWw7IHdoaXRlLXNwYWNlLWNvbGxhcHNlOiBwcmVzZXJ2ZTsiPjxh
-IGhyZWY9Imh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL29wZW5ibWMvMzc0MjM3Y2ItMWNkYS1kZjEy
-LWViOWYtNzQyMmNhYjUxZmM0QGxpbnV4LmFsaWJhYmEuY29tLyIgX3NyYz0iaHR0cHM6Ly9sb3Jl
-Lmtlcm5lbC5vcmcvb3BlbmJtYy8zNzQyMzdjYi0xY2RhLWRmMTItZWI5Zi03NDIyY2FiNTFmYzRA
-bGludXguYWxpYmFiYS5jb20vIj5odHRwczovL2xvcmUua2VybmVsLm9yZy9vcGVuYm1jLzM3NDIz
-N2NiLTFjZGEtZGYxMi1lYjlmLTc0MjJjYWI1MWZjNEBsaW51eC5hbGliYWJhLmNvbS88L2E+IDwv
-c3Bhbj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2UtY29sbGFwc2U6IHByZXNlcnZlOyBmb250LWZh
-bWlseTogYXJpYWw7Ij4gd2h5IHRoZSBwYXRjaCB3YXMgcmVqZWN0ZWQuIDwvc3Bhbj48L2Rpdj48
-ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2UtY29sbGFwc2U6
-IHByZXNlcnZlOyBmb250LWZhbWlseTogYXJpYWw7Ij4gY2FuIHlvdSB0ZWxsIG1lIHdoeT8gQWZ0
-ZXIgYWxsLCB0aGlzIHByb2JsZW0gd2lsbCBhbHdheXMgaGFwcGVuLjwvc3Bhbj48L2Rpdj48ZGl2
-IHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+VGhh
-bmtzLjwvZGl2PjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46
-IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxkaXYgc3R5bGU9InBv
-c2l0aW9uOnJlbGF0aXZlO3pvb206MSI+PC9kaXY+PGRpdiBpZD0iZGl2TmV0ZWFzZU1haWxDYXJk
-Ij48L2Rpdj48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cHJlPjxicj5BdCAyMDIzLTA4
-LTAyIDIxOjQxOjE2LCAiRWRkaWUgSmFtZXMiICZsdDtlYWphbWVzQGxpbnV4LmlibS5jb20mZ3Q7
-IHdyb3RlOgomZ3Q7CiZndDtPbiA3LzMxLzIzIDAxOjEwLCBMZWkgWVUgd3JvdGU6CiZndDsmZ3Q7
-IFRoZXJlIGlzIGEgc2FtZSBmaXggaW4gCiZndDsmZ3Q7IGh0dHBzOuKAii8vbG9yZS7igIprZXJu
-ZWwu4oCKb3JnL29wZW5ibWMvMzc0MjM3Y2ItMWNkYS1kZjEyLWViOWYtNzQyMmNhYjUxZmM0QOKA
-imxpbnV4LuKAimFsaWJhYmEu4oCKY29tLyAKJmd0OyZndDsgT24gTW9uLCBKdWwgMzEsIDIwMjMg
-YXQgMTI64oCKMjEgUE0gSm9lbCBTdGFubGV5ICZsdDtqb2VsQOKAimptcy7igIppZC7igIphdSZn
-dDsgCiZndDsmZ3Q7IHdyb3RlOiBPbiBGcmksIDI4IEp1bCAyMDIzIGF0IDEyOuKAijQwLCBMaXh1
-ZSBMaWFuZyAKJmd0OyZndDsgJmx0O2xpYW5nbGl4dWVoYW9A4oCKMTI2LuKAimNvbSZndDsKJmd0
-OyZndDsgWmpRY21RUllGcGZwdEJhbm5lclN0YXJ0CiZndDsmZ3Q7IFRoaXMgTWVzc2FnZSBJcyBG
-cm9tIGFuIFVudHJ1c3RlZCBTZW5kZXIKJmd0OyZndDsgWW91IGhhdmUgbm90IHByZXZpb3VzbHkg
-Y29ycmVzcG9uZGVkIHdpdGggdGhpcyBzZW5kZXIuCiZndDsmZ3Q7IFJlcG9ydCZuYnNwO1N1c3Bp
-Y2lvdXMKJmd0OyZndDsgJmx0O2h0dHBzOi8vdXMtcGhpc2hhbGFybS1ld3QucHJvb2Zwb2ludC5j
-b20vRVdUL3YxL1BqaURTZyExMi12ckpCVEI3SFNNWWp4a0NFdnBId1Z5ZWx3MENlbkFEM1JLUmpt
-VlZmUmlnNkR6Q2dSQmF4SGFlWXNKc0FUekZnTllTUkdYeTZyUU5YcG1LOVlkV1F4U2NtLTJoOXBf
-YmlsRHVMZVUxcjhOUzVPRWtDbmdsMDFQOTR5JCZndDsgCiZndDsmZ3Q7CiZndDsmZ3Q7IFpqUWNt
-UVJZRnBmcHRCYW5uZXJFbmQKJmd0OyZndDsgVGhlcmUgaXMgYSBzYW1lIGZpeCBpbiAKJmd0OyZn
-dDsgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb3BlbmJtYy8zNzQyMzdjYi0xY2RhLWRmMTItZWI5
-Zi03NDIyY2FiNTFmYzRAbGludXguYWxpYmFiYS5jb20vCiZndDsmZ3Q7CiZndDsmZ3Q7IE9uIE1v
-biwgSnVsIDMxLCAyMDIzIGF0IDEyOjIx4oCvUE0gSm9lbCBTdGFubGV5ICZsdDtqb2VsQGptcy5p
-ZC5hdSZndDsgd3JvdGU6CiZndDsmZ3Q7CiZndDsmZ3Q7ICAgICBPbiBGcmksIDI4IEp1bCAyMDIz
-IGF0IDEyOjQwLCBMaXh1ZSBMaWFuZyAmbHQ7bGlhbmdsaXh1ZWhhb0AxMjYuY29tJmd0OwomZ3Q7
-Jmd0OyAgICAgd3JvdGU6CiZndDsmZ3Q7ICAgICAmZ3Q7CiZndDsmZ3Q7ICAgICAmZ3Q7IEZyb206
-IExpeHVlIExpYW5nICZsdDtsaWFuZ2xpeHVlQGdyZWF0d2FsbC5jb20uY24mZ3Q7CiZndDsmZ3Q7
-ICAgICAmZ3Q7CiZndDsmZ3Q7ICAgICAmZ3Q7IEFmdGVyIHdhaXRpbmcgZm9yIHRoZSB0cmFuc21p
-c3Npb24gdGltZW91dCwgdGhlIEkyQyBjb250cm9sbGVyIHdpbGwKJmd0OyZndDsgICAgICZndDsg
-Y29udGludWUgdG8gdHJhbnNtaXQgZGF0YSB3aGVuIHRoZSBidXMgaXMgaWRsZS4gQ2xlYXJpbmcK
-Jmd0OyZndDsgICAgIGJ1cy0mZ3Q7bXNnIHdpbGwKJmd0OyZndDsgICAgICZndDsgYXZvaWQga2Vy
-bmVsIHBhbmljIHdoZW4gYWNjZXNzaW5nIHRoZSBmcmVlZCBtc2ctJmd0O2J1ZiBpbgomZ3Q7Jmd0
-OyAgICAgJmd0OyBhc3BlZWRfaTJjX21hc3Rlcl9pcnEuCiZndDsmZ3Q7ICAgICAmZ3Q7CiZndDsm
-Z3Q7ICAgICAmZ3Q7IFNpZ25lZC1vZmYtYnk6IExpeHVlIExpYW5nICZsdDtsaWFuZ2xpeHVlQGdy
-ZWF0d2FsbC5jb20uY24mZ3Q7CiZndDsmZ3Q7ICAgICAmZ3Q7IC0tLQomZ3Q7Jmd0OyAgICAgJmd0
-OyZuYnNwOyBkcml2ZXJzL2kyYy9idXNzZXMvaTJjLWFzcGVlZC5jIHwgMiArKwomZ3Q7Jmd0OyAg
-ICAgJmd0OyZuYnNwOyAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCiZndDsmZ3Q7ICAg
-ICAmZ3Q7CiZndDsmZ3Q7ICAgICAmZ3Q7IGRpZmYgLS1naXQgYS9kcml2ZXJzL2kyYy9idXNzZXMv
-aTJjLWFzcGVlZC5jCiZndDsmZ3Q7ICAgICBiL2RyaXZlcnMvaTJjL2J1c3Nlcy9pMmMtYXNwZWVk
-LmMKJmd0OyZndDsgICAgICZndDsgaW5kZXggMmU1YWNmZWI3NmM4Li5jODMwNTc0OTdlMjYgMTAw
-NjQ0CiZndDsmZ3Q7ICAgICAmZ3Q7IC0tLSBhL2RyaXZlcnMvaTJjL2J1c3Nlcy9pMmMtYXNwZWVk
-LmMKJmd0OyZndDsgICAgICZndDsgKysrIGIvZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1hc3BlZWQu
-YwomZ3Q7Jmd0OyAgICAgJmd0OyBAQCAtNzEzLDYgKzcxMyw4IEBAIHN0YXRpYyBpbnQgYXNwZWVk
-X2kyY19tYXN0ZXJfeGZlcihzdHJ1Y3QKJmd0OyZndDsgICAgIGkyY19hZGFwdGVyICphZGFwLAom
-Z3Q7Jmd0OyAgICAgJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7c3Bpbl9sb2NrX2lycXNhdmUoJmFtcDtidXMtJmd0O2xvY2ss
-IGZsYWdzKTsKJmd0OyZndDsgICAgICZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2lmIChidXMtJmd0O21hc3Rlcl9zdGF0ZSA9
-PSBBU1BFRURfSTJDX01BU1RFUl9QRU5ESU5HKQomZ3Q7Jmd0OyAgICAgJmd0OyZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwO2J1cy0mZ3Q7bWFzdGVyX3N0YXRlID0KJmd0OyZndDsgICAg
-IEFTUEVFRF9JMkNfTUFTVEVSX0lOQUNUSVZFOwomZ3Q7Jmd0OyAgICAgJmd0OyArCiZndDsmZ3Q7
-ICAgICAmZ3Q7ICsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7YnVzLSZndDttc2dzID0gTlVMTDsKJmd0OyZndDsKJmd0OyZndDsgICAgIEVkZGll
-LCBpcyB0aGlzIHRoZSBzYW1lIGlzc3VlIHlvdSB3ZXJlIGRlYnVnZ2luZz8KJmd0OyZndDsKJmd0
-OwomZ3Q7WWVzLCBpdCBpcywgYW5kIHRoZSBzYW1lIGZpeCBJIHNldHRsZWQgb24uCiZndDsKJmd0
-OwomZ3Q7Jmd0OwomZ3Q7Jmd0OyAgICAgJmd0OyAmbmJzcDtzcGluX3VubG9ja19pcnFyZXN0b3Jl
-KCZhbXA7YnVzLSZndDtsb2NrLCBmbGFncyk7CiZndDsmZ3Q7ICAgICAmZ3Q7CiZndDsmZ3Q7ICAg
-ICAmZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDtyZXR1cm4gLUVUSU1FRE9VVDsKJmd0OyZndDsgICAgICZndDsgLS0KJmd0OyZn
-dDsgICAgICZndDsgMi4yNy4wCiZndDsmZ3Q7ICAgICAmZ3Q7CiZndDsmZ3Q7CjwvcHJlPjwvZGl2
-Pg==
-------=_Part_13329_607406992.1691631052127--
+Delphine CC Chiu (2):
+  dt-bindings: arm: aspeed: add Facebook Yosemite 4 board
+  ARM: dts: aspeed: yosemite4: add Facebook Yosemite 4 BMC
+
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 627 ++++++++++++++++++
+ 3 files changed, 629 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+
+-- 
+2.25.1
 
