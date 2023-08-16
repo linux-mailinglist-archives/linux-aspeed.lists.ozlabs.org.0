@@ -1,75 +1,91 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568D377C7D3
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Aug 2023 08:33:10 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC47477D913
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Aug 2023 05:32:19 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=k84xQmkA;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=bAurM1hO;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RQ1fr1dYFz3c3c
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Aug 2023 16:33:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RQYbj3lckz3cNj
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Aug 2023 13:32:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=k84xQmkA;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=bAurM1hO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2001:4860:4864:20::2a; helo=mail-oa1-x2a.google.com; envelope-from=billyking19920205@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feae::62a; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2062a.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::62a])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RQ1fg6f90z2xps
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Aug 2023 16:32:58 +1000 (AEST)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1c11d53221cso3002482fac.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Aug 2023 23:32:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692081171; x=1692685971;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AXyT0KU7mlgwdolM1slTRqIWpl1oaIGWyvpE5anceUg=;
-        b=k84xQmkASS5F995UZgmnC6LbbGavBDa7l2s9k71XK0MokU0Qt+6LsX3YVqLfZi1sy8
-         9762VTUxfE5Fbb0ihlzt24vTXZN+/L9ALcGOqEA30ICl/wTG7v7jOJ1DgQzAl3UXwvfb
-         FNKzHLSZbgRH3VqIk6Y4PiVVrESUj0vD4vURekRVtRKDBrUbFaYC61v0PwBzHpO6gNPP
-         fZwj3xVxkKnE4kTULo87nbBix6VsmWcIDgyw1F3len1VXb2LEsum71Hnm5q0nRgVFIkJ
-         SSGC5RKiHuxDCfAtBbbnH0XK+CuE31RCgN7CxL6wGMyCzgg784NwznNRYdKjmwZTAGEp
-         EXjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692081171; x=1692685971;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AXyT0KU7mlgwdolM1slTRqIWpl1oaIGWyvpE5anceUg=;
-        b=gb44MwWVm7mjvbAWRsVhNnxAVRIT6KlXJNP6rP3zvWV/VUbJl0cYzhHIm89uselPF6
-         ZQa4T4DrIhDGkYfuzuIdbicqt7Bl5dIehsETB8rhc/eVWa/1+MffNsJBxJdnWMydqpbD
-         9HNjxQkb8EZDXm4PBnpPRl9b8GbrLzWYv8PlGz2mSg3DqsiyHU8iIii6M21yUj4+X4ly
-         HiMkMQ+hCTZiZCIk2+nNKsQhxSYyOSLAwjE84WU1W/9J3dUgbqB7SKPNk88E3ocDU5ek
-         TP1R6RnrgklJY1+/K6gf0dnWXoBvjkBfW1zaBsWsLzM4jxJ6ARIix930ehkbiRXeLQiD
-         1ujQ==
-X-Gm-Message-State: AOJu0YzAsfcN9rOR3iZ4Hic166ZmeRbaL51rJ0uw2/JyVWGS2xCvWWM7
-	3aqj24VJwyuISfsU01q82kr3AdZCoQ6vX8rmai8=
-X-Google-Smtp-Source: AGHT+IFDi2OxwWt6jyRqikG/vM1XoLDHRV3Fww5fww8bst+rx3w3FUWw8m3l8Y9ihCnHJUb0Wd3U2xhBp2AnXxvVCpg=
-X-Received: by 2002:a05:6870:9343:b0:1bf:43d2:526c with SMTP id
- j3-20020a056870934300b001bf43d2526cmr11907847oak.15.1692081171162; Mon, 14
- Aug 2023 23:32:51 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RQYbW6Jw6z2yFM
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Aug 2023 13:32:06 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EB0zkkVoBAT7VmcIh380LXcpLkWCi088z6vAJHACJXKAQ4z57eKFCNbxwG+cwtz41zFmytSpbScdSkSfXRq43l0j7dvDT73b0D6FUNdo8VEeC6z2+XbnyhqVCdQwQud0ntF535HZYnequVJMVrfT74/yhyA1xaSF3DQ4YND4udp9iiuDG6KOqkPZw3J6aobSji8DVc7a6Idr637pkunZlaeUb2jw94E0AQSyBbNyEzXQoH7sjCmPkcemj1R8+Rw1uNcNORY981s/k0cgbfhBa2BP/uviz8ko1lkdCgkQIbn/EuU6+zRizpmuYBlmh5nVwoW10BZxF4f0qrKfE64MGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ATd8aUqFCTFkpiBNPDzM14dQZl5km+8PheWzRJoENeg=;
+ b=mSIkh9gT6kd26sAeLMD30j5G5momEYQ+e0Q/FfC/Iu56fQjYucmMX7GtyS2UwUbA1rjEEwfPSBR5bmngqeaKpCUjiWFxzUQWKkYQ/mynNXuDEgDo5LDWKgKdh9bYOuDV9DT4a8Y+9bF2QPRPR5Aqunt4P2t42f86SD3x3bfMgSijuHwPLAgnLC/V1PxZA+OLiOD8c2D7ABu/SonWYeV2JpCPFUHBs+aBfNZ3U97UVYU8ugl9nFhxBL1t8Y/S+RMb4/wG4u41xEyk70UFNZgFIlQNVfCjtfabtyw3KAi9BAuPqyShlqS8p+S4LQAb5uHvjKvRXXRAFesjeJukJk5s+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ATd8aUqFCTFkpiBNPDzM14dQZl5km+8PheWzRJoENeg=;
+ b=bAurM1hOB9Ux/ybFbqaE9hjzBbZb+edYr2lqe8w4ElaMsrk4UfR7MQ3nit8EIBxMJTjURR1C6x3nso9lTny3UNwN609hqMggnkMstLxHbvnObOirDNBc5kum+feRA1UYbvw1z5q8AOH+I2P8EC1pHTjFJJN8Y1enFRjK4LD1xXCnQtbcMCt0SZXL0x5JSnAfeZLqXu410eYlnIt/ASjZmRJHHO4ih3OrXudgqvHHOscVWNir/S4rre3sBhc4TRmhu4u9F8RLHd8N4nOOrIPrNfprJw9eEN9q3O/RWGfTNUVf6xm9/jjrxZyuNDcVQtWOlAOmHhcEJeLLaeHJE7rm/g==
+Received: from PU1PR01CA0042.apcprd01.prod.exchangelabs.com
+ (2603:1096:803:16::30) by SI2PR04MB5669.apcprd04.prod.outlook.com
+ (2603:1096:4:1a4::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Wed, 16 Aug
+ 2023 03:31:38 +0000
+Received: from PSAAPC01FT064.eop-APC01.prod.protection.outlook.com
+ (2603:1096:803:16:cafe::52) by PU1PR01CA0042.outlook.office365.com
+ (2603:1096:803:16::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.33 via Frontend
+ Transport; Wed, 16 Aug 2023 03:31:38 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ PSAAPC01FT064.mail.protection.outlook.com (10.13.38.172) with Microsoft SMTP
+ Server id 15.20.6699.14 via Frontend Transport; Wed, 16 Aug 2023 03:31:36
+ +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz
+Subject: [PATCH v10 0/2] ARM: dts: Facebook Yosemite 4 platform
+Date: Wed, 16 Aug 2023 11:31:30 +0800
+Message-Id: <20230816033134.3750232-1-Delphine_CC_Chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <7b198d57-ddec-3074-314a-3e5e5b8f48f9@roeck-us.net>
- <CAGUgbhDbFedVe-pc+muD_NtDpjHpGqMDdrS3A73C-QbxeHn4oQ@mail.gmail.com>
- <cf91edc9-1093-495b-48eb-6b05198c2541@linaro.org> <7a69bda1-5f4c-5b1f-8eb6-6fd58917a9b1@roeck-us.net>
- <CAGUgbhCTDPGt_vpbfaEreX+iuLJ3WUBqt4kppxyaFZQus9Zf0Q@mail.gmail.com>
- <b22b2ccc-6760-0db6-067b-109c3864d2e8@linaro.org> <CAGUgbhDmXnyxYCL9h9C0P4ByDSTstWnGqW=uFoDVVHeK3BerHA@mail.gmail.com>
- <3756dffd-1407-d656-485a-9cf1eefd9ae1@linaro.org> <ZLYziWcIWcNnzMXR@orome>
- <709d738c-3bf3-d808-4172-468d7ad947d7@roeck-us.net> <ZLY779Bc4LpJ0TER@orome>
-In-Reply-To: <ZLY779Bc4LpJ0TER@orome>
-From: =?UTF-8?B?6JSh5om/6YGU?= <billyking19920205@gmail.com>
-Date: Tue, 15 Aug 2023 14:32:39 +0800
-Message-ID: <CAGUgbhCPhG1q-VXihaPbASkkigdmhd8Lo6ynCTEayLV83Y+=VQ@mail.gmail.com>
-Subject: Re: [v6 2/4] dt-bindings: hwmon: Add ASPEED TACH Control documentation
-To: Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PSAAPC01FT064:EE_|SI2PR04MB5669:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 733bd0a5-e97c-4a2f-efe3-08db9e094c12
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	PBg/S868v1o9aNfPq5THhev/eJHgN8qiIEGZJDn8NvvJgb9pvEQo9ZXXP0Joynf8ty1FkaK7nF21LglpPZxdncdL459RnVUAJzvepjG5yxJctAYFCyJanecdGNHlJAcH1BvQ9f2UukInZWC0Ygu2EeanHh0KddQc0VcK8RMWjbDpMzO9qkgmN74gX2wDZOjNCPg/YLvLwH1U9NU06CM2j1Ud4ORXPvo34WAt+RhwewlsZhMDFZVqV2AKxXQmbvE10p9GWAZqTnC91V129dCcoXb57bk/2G9wHQ3SO8yoLWT1HTkyMGFRYBxsdSy3TSDiBAybuSciIbbiBoN9pebSGmOwvw6GrcdBTaOXh2HUH0LQOPPhLe2QUncHWuX5b6p0SSqKJD6qNL00qsTa/szWEmg1ZbSaLEUheAWAh/f/vDrY8tFxcDaZhHKPHfG+PunQdSfBhozOXSnHjeyRAlLT2+4TIVXcyVr4N/En0s4ww4LkDnKQcGnLW0bcbYuMJj/6s9WeBKFU2R/Jw2Aj71qbH1fHRBQXmO2JsJuD8oNJaGEu8gKWfJMmhlGXe+RylXzcfjTYZM+eyp2ac1ZzRiAnuEBVhSrcERSKnEpyEIq/5NkCmX/Cdg1pNvkQkgjpubi13V2JDWHOo6oX+yOdrC4uNc+GupcDwVAz/HqSZ0Q5CcXpyPeumoRv1ohuat4aHOURXBPqtPZw/GKa65qImlZzhg==
+X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(376002)(39860400002)(396003)(346002)(136003)(47680400002)(1800799009)(82310400011)(451199024)(186009)(46966006)(36840700001)(6666004)(36736006)(54906003)(70586007)(70206006)(6512007)(6486002)(6506007)(2906002)(478600001)(1076003)(336012)(26005)(9316004)(6916009)(7416002)(5660300002)(2616005)(956004)(83380400001)(41300700001)(316002)(47076005)(36860700001)(8936002)(4326008)(82740400003)(8676002)(81166007)(356005)(36756003)(86362001)(40480700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 03:31:36.4855
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 733bd0a5-e97c-4a2f-efe3-08db9e094c12
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource: 	PSAAPC01FT064.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR04MB5669
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,269 +97,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "corbet@lwn.net" <corbet@lwn.net>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, Guenter Roeck <linux@roeck-us.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Thierry Reding <thierry.reding@gmail.com> =E6=96=BC 2023=E5=B9=B47=E6=9C=88=
-18=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=883:14=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> On Mon, Jul 17, 2023 at 11:54:26PM -0700, Guenter Roeck wrote:
-> > On 7/17/23 23:39, Thierry Reding wrote:
-> > > On Tue, Jul 18, 2023 at 08:04:24AM +0200, Krzysztof Kozlowski wrote:
-> > > > On 18/07/2023 06:01, =E8=94=A1=E6=89=BF=E9=81=94 wrote:
-> > > > > >
-> > > > > > On 17/07/2023 11:01, =E8=94=A1=E6=89=BF=E9=81=94 wrote:
-> > > > > > > Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2023=E5=B9=B47=
-=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=881:00=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> > > > > > > >
-> > > > > > > > On 7/16/23 09:08, Krzysztof Kozlowski wrote:
-> > > > > > > >
-> > > > > > > > [ ... ]
-> > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > This patch serial doesn't use to binding the fan contro=
-l h/w. It is
-> > > > > > > > > > used to binding the two independent h/w blocks.
-> > > > > > > > > > One is used to provide pwm output and another is used t=
-o monitor the
-> > > > > > > > > > speed of the input.
-> > > > > > > > > > My patch is used to point out that the pwm and the tach=
- is the
-> > > > > > > > > > different function and don't need to
-> > > > > > > > > > bind together. You can not only combine them as the fan=
- usage but also
-> > > > > > > > > > treat them as the individual module for
-> > > > > > > > > > use. For example: the pwm can use to be the beeper (pwm=
--beeper.c), the
-> > > > > > > > > > tach can be used to monitor the heart beat signal.
-> > > > > > > > >
-> > > > > > > > > Isn't this exactly the same as in every other SoC? PWMs c=
-an be used in
-> > > > > > > > > different ways?
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > ... and in every fan controller. Not that it really makes s=
-ense because
-> > > > > > > > normally the pwm controller part of such chips is tied to t=
-he fan input,
-> > > > > > > > to enable automatic fan control, but it is technically poss=
-ible.
-> > > > > > > > In many cases this is also the case in SoCs, for example, i=
-n ast2500.
-> > > > > > > > Apparently this was redesigned in ast2600 where they two bl=
-ocks are
-> > > > > > > > only lightly coupled (there are two pwm status bits in the =
-fan status
-> > > > > > > > register, but I have no idea what those mean). If the block=
-s are tightly
-> > > > > > > > coupled, separate drivers don't really make sense.
-> > > > > > > >
-> > > > > > > > There are multiple ways to separate the pwm controller part=
- from the
-> > > > > > > > fan inputs if that is really necessary. One would be to pro=
-vide a
-> > > > > > > > sequence of address mappings, the other would be to pass th=
-e memory
-> > > > > > > > region from an mfd driver. It is not necessary to have N in=
-stances
-> > > > > > > > of the fan controller, even if the address space is not con=
-tinuous.
-> > > > > > > >
-> > > > > > >
-> > > > > > > Hi Guenter,
-> > > > > > >
-> > > > > > > May I ask about the meaning of the sequence of address mappin=
-gs? It appears
-> > > > > > > to consist of multiple tuples within the 'reg' property, indi=
-cating
-> > > > > > > the usage of PWM/Tach
-> > > > > > > registers within a single instance. After that I can use the =
-dts like following:
-> > > > > > >
-> > > > > > > pwm: pwm@1e610000 {
-> > > > > > > ...
-> > > > > > > reg =3D <0x1e610000 0x8
-> > > > > > > 0x1e610010 0x8
-> > > > > > > 0x1e610020 0x8
-> > > > > > > 0x1e610030 0x8
-> > > > > > > 0x1e610040 0x8
-> > > > > > > 0x1e610050 0x8
-> > > > > > > 0x1e610060 0x8
-> > > > > > > 0x1e610070 0x8
-> > > > > > > 0x1e610080 0x8
-> > > > > > > 0x1e610090 0x8
-> > > > > > > 0x1e6100A0 0x8
-> > > > > > > 0x1e6100B0 0x8
-> > > > > > > 0x1e6100C0 0x8
-> > > > > > > 0x1e6100D0 0x8
-> > > > > > > 0x1e6100E0 0x8
-> > > > > > > 0x1e6100F0 0x8>;
-> > > > > >
-> > > > > >
-> > > > > > Uh, no... I mean, why? We keep pointing out that this should no=
-t be done
-> > > > > > differently than any other SoC. Open any other SoC PWM controll=
-er and
-> > > > > > tell me why this is different? Why this cannot be one address s=
-pace?
-> > > > >
-> > > > > Hi Krzysztof,
-> > > > >
-> > > > > This is because the register layout for PWM and Tach is not conti=
-nuous.
-> > > > > Each PWM/Tach instance has its own set of controller registers, a=
-nd they
-> > > > > are independent of each other.
-> > > >
-> > > > Register layout is not continuous in many other devices, so again -=
- why
-> > > > this must be different?
-> > > >
-> > > > >
-> > > > > For example:
-> > > > > PWM0 uses registers 0x0 and 0x4, while Tach0 uses registers 0x8 a=
-nd 0xc.
-> > > > > PWM1 uses registers 0x10 and 0x14, while Tach1 uses registers 0x1=
-8 and 0x1c.
-> > > > > ...
-> > > > >
-> > > > > To separate the PWM controller part from the fan inputs, Guenter =
-has
-> > > > > provided two methods.
-> > > > > The first method involves passing the memory region from an MFD
-> > > > > driver, which was the
-> > > >
-> > > > I have no clue how can you pass memory region
-> > > > (Documentation/devicetree/bindings/reserved-memory/) from MFD and w=
-hy
-> > > > does it make sense here.
-> > > >
-> > > > > initial method I intended to use. However, it seems that this met=
-hod
-> > > > > does not make sense to you.
-> > > > >
-> > > > > Therefore, I would like to explore the second method suggested by
-> > > > > Guenter, which involves providing
-> > > > > a sequence of address mappings.
-> > >
-> > > At the risk of saying what others have said: given that there's a sin=
-gle
-> > > reset line and a single clock line controlling all of these channels =
-and
-> > > given what I recall of how address demuxers work in chips, everything
-> > > indicates that this is a single hardware block/device.
-> > >
-> > > So the way that this should be described in DT is:
-> > >
-> > >     pwm@1e610000 {
-> > >             reg =3D <0x1e610000 0x100>;
-> > >             clocks =3D ...;
-> > >             resets =3D ...
-> > >     };
-> > >
-> > > That'd be the most accurate representation of this hardware in DT. It=
- is
-> > > then up to the driver to expose this in any way you see fit. For Linu=
-x
-> > > it may make sense to expose this as 16 PWM channels and 16 hardware
-> > > monitoring devices. Other operating systems using the same DT may cho=
-ose
-> >
-> > It is single chip. It should be a single hardware monitoring device wit=
-h
-> > 16 channels. I don't even want to think about the mess we'd get if peop=
-le
-> > start modeling a single chip as N hardware monitoring devices, one for
-> > each monitoring channel supported by that chip. It would be even more m=
-essy
-> > if the driver supporting those N devices would be marked for asynchrono=
-us
-> > probe, which would result in random hwmon device assignments.
->
-> Sorry, I badly worded it. What I meant to say was: one hardware
-> monitoring device with 16 channels.
->
-> > > to expose this differently, depending on their frameworks, etc. A sim=
-ple
-> > > operating system may not expose this as separate resources at all but
-> > > instead directly program individual registers from this block.
-> > >
-> > > I'd also like to add that I think trying to split this up into multip=
-le
-> > > drivers in Linux is a bit overkill. In my opinion, though I know not
-> > > everyone shares this view, it's perfectly fine for one driver to expo=
-se
-> > > multiple types of resources. There's plenty of use-cases across the
-> > > kernel where tightly coupled devices like this have a single driver t=
-hat
-> > > registers with multiple subsystems. Going through MFD only because th=
-is
-> > > particular hardware doesn't split registers nicely along Linux subsys=
-tem
-> > > boundaries.
-> > >
-> > > So FWIW, I'm fine carrying hwmon code in a PWM driver and I'm equally
-> > > fine if PWM code ends up in a hwmon driver (or any other subsystem
-> > > really) if that makes sense for a given hardware.
-> > >
-> >
-> > I am fine either way as well, as long as we are talking about a single
-> > hwmon device and not 16 of them.
->
-> Excellent. Should make it pretty clear in which direction this should
-> go.
->
-Hi Thierry,
+Add linux device tree entry related to
+Yosemite 4 specific devices connected to BMC SoC.
 
-Thank you for organizing and providing guidance on this patch series.
-I'd like to
-confirm my understanding of the next steps. Based on the previous discussio=
-ns,
-I should proceed by combining the PWM and TACH drivers into a single driver=
-.
-This consolidated driver would then be exposed to both the hwmon and
-pwm subsystems.
-Base on this driver the dts node of this would like following:
+Changelog:
+v10 - Change to 128MB flash layout from 64MB
+ v9 - Remove mac2/mac3 duplicated setting about no-hw-checksum
+ v8 - Add description of Yosemite 4
+    - Remove unsupported ncsi config
+    - Revise i2c-mux config
+    - Correct power sensor i2c address
+    - Restore i2c 11 bus-frequency to default
+ v7 - Revise changelog format
+ v6 - Change project name from yosemitev4 to yosemite4
+ v5 - Revise rtc setting
+    - Remove duplicated multi-master setting
+ v4 - Resend with cover letter
+ v3 - Revise the bootargs to stdout-path
+    - Revise i2c devices
+ v2 - Revise the DTS node name
+ v1 - Add binding document
 
-pwm_tach: pwm-tach-controller@1e610000 {
-compatible =3D "aspeed,ast2600-pwm-tach"
-reg =3D <0x1e610000 0x100>;
-clocks =3D <&syscon ASPEED_CLK_AHB>;
-resets =3D <&syscon ASPEED_RESET_PWM>;
-#pwm-cells =3D <3>;
-#address-cells =3D <1>;
-#size-cells =3D <0>;
-fan@0 {
-aspeed,fan-tach-ch =3D /bits/ 8 <0x00>;
-};
-fan@1 {
-aspeed,fan-tach-ch =3D /bits/ 8 <0x01, 0x02>;
-};
-};
+Delphine CC Chiu (2):
+  dt-bindings: arm: aspeed: add Facebook Yosemite 4 board
+  ARM: dts: aspeed: yosemite4: add Facebook Yosemite 4 BMC
 
-The subnode of the fan is utilized to create the hwmon interface,
-which facilitates monitoring
-the speed of the input tach pin.
-If users wish to employ PWM for fan or beeper control, they can create
-the necessary configuration
-through the following DTS declaration:
-fan0: pwm-fan0 {
-compatible =3D "pwm-fan";
-pwms =3D <&pwm_tach 0 40000 0>; /* Target freq:25 kHz */
-cooling-min-state =3D <0>;
-cooling-max-state =3D <3>;
-#cooling-cells =3D <2>;
-cooling-levels =3D <0 15 128 255>;
-};
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 624 ++++++++++++++++++
+ 3 files changed, 626 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
 
-buzzer {
-compatible =3D "pwm-beeper";
-pwms =3D <&pwm_tach 1 500000 0>;
-};
+-- 
+2.25.1
 
-Thanks
-Best Regards,
-Billy Tsai
