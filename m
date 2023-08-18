@@ -1,70 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106E47802F3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Aug 2023 03:17:10 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1306780331
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Aug 2023 03:25:29 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=permerror header.d=linaro.org header.i=@linaro.org header.a=rsa-sha1 header.s=google header.b=YAetKf4q;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Tsfx5UYy;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RRkVq67NNz3cSP
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Aug 2023 11:17:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RRkhR3k6qz3cTd
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Aug 2023 11:25:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=YAetKf4q;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Tsfx5UYy;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b31; helo=mail-yb1-xb31.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.43; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RM0Fj0wQ2z2yTv
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Aug 2023 18:19:21 +1000 (AEST)
-Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-d62bdd1a97dso586366276.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Aug 2023 01:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691655558; x=1692260358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=78OX4fId0Em709uz0mp6uxgk8bb4IwlDXBz/uTj2fjY=;
-        b=YAetKf4q0nZa/dO71z7++J7KKpe1E1CC7O3ahafQ7APpHv5jmvyn5BBv2mwDpYC5is
-         aCqkyV5eahWJcbkNVk0H4ZuATN+jOIeGgJTiNul2i5t9tXVMigNJA6VlxX/a8OMvNSIA
-         YaLs/IE+usEOobqLkPYKtN3CknTSd/aP7iBrjDMEftqOkGi4Hzn8W27JugL/elhtZAtS
-         lvN5G1ptPirqDO85jdOp47BWA9MJm/z4Kcuzuh6yVL2pnLpcF/Uw4mERq/Siv1vZ2eMQ
-         WGKJAkQHqeDReRN5me9rxTKini4wIOwCZjirxG0wunRnpyvqVfZs1EDQzXiZjCK8xLxA
-         VFLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691655558; x=1692260358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=78OX4fId0Em709uz0mp6uxgk8bb4IwlDXBz/uTj2fjY=;
-        b=SpcwBjd/zpZKAAuR3Y/L/wIdQD62dAF4ys2dTBMiGfuA0HeHcFcPvpS+cHJ/dGeo/d
-         5FFf6u6Hqb8LeqMnWZ1DRrvtp5ueOHS3lPl8RKhKUjUSDHmxaMVn8Vgh8kYs+XpscORH
-         ZauSrPByS+R4qRyy5mE/5dZ5xD9ddlNDJhKBW1EyJQ+OS3JQA4/pwNUCgMFOfLp24gd8
-         nxYGpow5TmiGXFFovJUfxy0hLEOIkj9CdZKvt/S6rtlGnwRneCVUvGpqVB7QIqmFdqx2
-         lBe+l1iPReUxab73Su1Y/afrw8+k0TJX2IAwqG6cy6XcUD82lTtIlCL5RfjT2Tp9wprN
-         dx1g==
-X-Gm-Message-State: AOJu0Yx+c1RjD96JKmufQ1DC1YkjIoy5xNxIBRALwyfbAAsTizTkAumV
-	8hVk/k2ckMKEqA39lPt7AaYxLNUcP9QlExz2xzl00Q==
-X-Google-Smtp-Source: AGHT+IG5aWoH89NQGXx33HlD2q+rxamc3JsaObqeeE5H8gH+u446bjvEEFYnXEHJg1VQn5y6v1yXRNGsOkfTWSlQZaU=
-X-Received: by 2002:a25:d711:0:b0:d1a:b59c:502d with SMTP id
- o17-20020a25d711000000b00d1ab59c502dmr1894292ybg.18.1691655558135; Thu, 10
- Aug 2023 01:19:18 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RRkhB2tj6z2yV5
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Aug 2023 11:25:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692321914; x=1723857914;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+8E+SlOMdmHXrq7jkOnhzVbu0oqWUbim62T8xG6hOzs=;
+  b=Tsfx5UYy++WW3TAAZDZmfStC83M6CI6URUoZRYempYPZU5PPYQlNlUj4
+   wsQM5HqlpgDK8NHKIoD9SHfFJ2bHlgqbJgjtZg/H+PEAMNrW/xrcphJPo
+   A0QKYOnsk+HQhqIv75aHyR69+68Ij0eVtuxIMJ0UU61TPDclI43bUiGPq
+   k5DpsazXk6Nh1ivraweUNsQlF8Uw2BSC9thSsNIwBO2TH1S9UeWmHoDmm
+   q69gSEPDXyW90vVR2LiJZJFMlNfBJUc5CSdW58ClCwHrxMuhMaVwt611d
+   Z2AglBnomw2SV6Gzrz8OwjJX3HgTCyvV1B5j+jwKvwTuyVLYdBgWy6WjV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="459337070"
+X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
+   d="scan'208";a="459337070"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 18:25:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="769918940"
+X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
+   d="scan'208";a="769918940"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 17 Aug 2023 18:25:03 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qWoEY-0001ah-0S;
+	Fri, 18 Aug 2023 01:25:02 +0000
+Date: Fri, 18 Aug 2023 09:24:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
+	linux@roeck-us.net, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
+	corbet@lwn.net, thierry.reding@gmail.com,
+	u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pwm@vger.kernel.org, BMC-SW@aspeedtech.com, patrick@stwcx.xyz
+Subject: Re: [PATCH v7 2/2] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED
+ g6 PWM/Fan tach
+Message-ID: <202308180900.0ecFnDBI-lkp@intel.com>
+References: <20230817120029.221484-3-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-References: <20230803-dt-header-cleanups-for-soc-v2-0-d8de2cc88bff@kernel.org> <20230803-dt-header-cleanups-for-soc-v2-13-d8de2cc88bff@kernel.org>
-In-Reply-To: <20230803-dt-header-cleanups-for-soc-v2-13-d8de2cc88bff@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 10 Aug 2023 10:19:07 +0200
-Message-ID: <CACRpkdYsdKCrQpfoXZFv1XqT-o1skX=TDY-WJ1CSpgavMb+UrQ@mail.gmail.com>
-Subject: Re: [PATCH v2 13/23] ARM: versatile: Drop unused includes
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 18 Aug 2023 11:16:42 +1000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230817120029.221484-3-billy_tsai@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,20 +79,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>, Sascha Hauer <s.hauer@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, Stuart Yoder <stuyoder@gmail.com>, Jean-Marie Verdun <verdun@hpe.com>, Liviu Dudau <liviu.dudau@arm.com>, Tali Perry <tali.perry1@gmail.com>, linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, Jisheng Zhang <jszhang@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Robert Jarzmik <robert.jarzmik@free.fr>, linux-aspeed@lists.ozlabs.org, Tomer Maimon <tmaimon77@gmail.com>, Fabio Estevam <festevam@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Samuel Holland <samuel@sholland.org>, Viresh Kumar <vireshk@kernel.org>, Gregory Clement <gregory.clement@bootlin.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Nancy Yuen <yuenn@google.com>, Chen-Yu Tsai <wens@csie.org>, linux-rockchip@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Qiang 
- Zhao <qiang.zhao@nxp.com>, Patrice Chotard <patrice.chotard@foss.st.com>, Tsahee Zidenberg <tsahee@annapurnalabs.com>, linux-pm@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>, Jay Fang <f.fangjian@huawei.com>, Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>, soc@kernel.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, Nick Hawkins <nick.hawkins@hpe.com>, Matthias Brugger <matthias.bgg@gmail.com>, Michal Simek <michal.simek@amd.com>, Cristian Marussi <cristian.marussi@arm.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Avi Fishman <avifishman70@gmail.com>, Patrick Venture <venture@google.com>, Antoine Tenart <atenart@kernel.org>, linux-kernel@vger.kernel.org, Li Yang <leoyang.li@nxp.com>, Dinh Nguyen <dinguyen@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Shiraz Has him <shiraz.linux.kernel
- @gmail.com>, openbmc@lists.ozlabs.org, Daniel Mack <daniel@zonque.org>
+Cc: oe-kbuild-all@lists.linux.dev
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Aug 4, 2023 at 12:43=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
-:
+Hi Billy,
 
-> Several includes are not needed, so drop them.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+kernel test robot noticed the following build warnings:
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.5-rc6 next-20230817]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Yours,
-Linus Walleij
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-hwmon-Support-Aspeed-g6-PWM-TACH-Control/20230817-200427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230817120029.221484-3-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v7 2/2] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230818/202308180900.0ecFnDBI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230818/202308180900.0ecFnDBI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308180900.0ecFnDBI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/hwmon/aspeed-g6-pwm-tach.c: In function 'aspeed_tach_create_fan':
+>> drivers/hwmon/aspeed-g6-pwm-tach.c:431:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     431 |         int ret, count;
+         |             ^~~
+
+
+vim +/ret +431 drivers/hwmon/aspeed-g6-pwm-tach.c
+
+   426	
+   427	static int aspeed_tach_create_fan(struct device *dev,
+   428					  struct aspeed_pwm_tach_data *priv)
+   429	{
+   430		u8 *tach_ch;
+ > 431		int ret, count;
+   432	
+   433		count = of_property_count_u8_elems(dev->of_node, "aspeed,fan-tach-ch");
+   434		if (count < 1)
+   435			return -EINVAL;
+   436		tach_ch = devm_kcalloc(dev, count, sizeof(*tach_ch), GFP_KERNEL);
+   437		if (!tach_ch)
+   438			return -ENOMEM;
+   439		ret = of_property_read_u8_array(dev->of_node, "aspeed,fan-tach-ch",
+   440						tach_ch, count);
+   441	
+   442		aspeed_present_fan_tach(priv, tach_ch, count);
+   443	
+   444		return 0;
+   445	}
+   446	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
