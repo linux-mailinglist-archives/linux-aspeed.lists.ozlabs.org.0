@@ -1,70 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17B3782729
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Aug 2023 12:34:12 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C5A783051
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Aug 2023 20:36:03 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=TdgCCHiO;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kqrw4sI9;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RTpkB6JPQz3bN9
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Aug 2023 20:34:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RV1Q937X6z3bYc
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Aug 2023 04:36:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=TdgCCHiO;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kqrw4sI9;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b33; helo=mail-yb1-xb33.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RTpj12h60z300g
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Aug 2023 20:33:07 +1000 (AEST)
-Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-d66f105634eso2904046276.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Aug 2023 03:33:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692613980; x=1693218780;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q7QH95jHBqWIxVR7mqs55h58lm3p4pOggAhZ2D3QcTk=;
-        b=TdgCCHiO/SMRYUmmZAwWaOlEn9JMUmZ7oWiflCO5R9riNIDEVrciC9kcnIqWLXtGTT
-         fvvAUFCIw1idIS2wQuTK0f6XJk1S2XMAAZ3q3T9nqReYX4Xw7pHnF7xB6y3MryIw0jfc
-         yUz0VXp0WPJcO+R8cQ9P0edkja2h/ZVjOTLcjOKyQwXfNuw8W5fmyuntWNggM9Gc1ch6
-         R5zKgl9YHj9Jt83TTXYR8fBI2zSKjkD4iANk6erymz4GXAwGZaA4eAYAHCPEQmrDgawb
-         XZ1Erafvly5jVIlGIne7jRDHo95CnI/D6l3LKqjpBm8rDpv/rUnhi3MDx3O/PurVh8w/
-         hX1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692613980; x=1693218780;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q7QH95jHBqWIxVR7mqs55h58lm3p4pOggAhZ2D3QcTk=;
-        b=StDqMMphz7W0dXWrBGmc5SWIv3zsEGHIOkimQT4WZufsXJ7RF2eG+lpxDOlIeMxryo
-         NI1kh3EnhYQtj8eN0/K/jcXvX5wlfST+fd8NuZftlrG7aS1Ym9t/VDUaWFfirpCXmT68
-         pRD21jtjLcORNIr7JnNr9QRN2lsedKIWMdlcTj6y0q5c84AjJZi0i0ACQfuKdDlqptzg
-         ILqhbmyc3QqZTMxAUGABvz4cnORK/Qz0sHEvaQEZvQSl/1hArjEDIdgmHZdtoPe3AOZ2
-         T70rq7lelE61c6bI1QndAFTUtF3OwEP/hV/uEHKct+aldyIypP4z6SRfSFCaNdhi0E+F
-         kOcw==
-X-Gm-Message-State: AOJu0YxruabvWbcxPqP7KC8+3FeWcuX2/m8smc17F+Yauvoj0oKc3dHY
-	9PKkEsT1KuNFZ0iJ11RLeOUDBXURjRW6ZQS2HhiVCA==
-X-Google-Smtp-Source: AGHT+IGRl2mhuGTfCN/KF/Nitxl2U0XsRMCfNpgl5mhsl8YWXSW88C/b2vvv2xSAEAdreymTqTbpPxbQXvUgIewfCpI=
-X-Received: by 2002:a25:bc8:0:b0:cec:81af:cf92 with SMTP id
- 191-20020a250bc8000000b00cec81afcf92mr5694932ybl.36.1692613980506; Mon, 21
- Aug 2023 03:33:00 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RV1Q273vTz2yD7
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 22 Aug 2023 04:35:54 +1000 (AEST)
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37LIWlVF031023;
+	Mon, 21 Aug 2023 18:35:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=SKY0eyk28r2lUWEjJCCWE2+4XvvrRT8bG+uYRHFusfk=;
+ b=kqrw4sI9obPH9l56pPkaSt8UhR7WCIdCmbtpXxFu36tOhdcnXzXioQUZxyM3n2d8BlXQ
+ 0RvOI78/Rdkx+0QE29CZ79EZDfoRi4Vffj92ojEtWju8KaAz04UUR4cNeHbraMBSgwzI
+ dG+Rf3zzEIqM6J7bgIKCNoSEzmJ9/XzUzjfBZdO7g1LSd+RiTeJhAQqCNSiulKdCoZu8
+ 4SlFSD3hg11PE07IAjxGXS8pgwZq+VGpRkF+7Ij11KfMUF7iyhcZgisVqCse4HgcN1lS
+ zVLcczOA5rMIXqb3LR/AHx//icl6/9DiQXespBbdOrX2XngZneNknjhC8kWgprTjcVZ7 Zg== 
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3smd9vr3gx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Aug 2023 18:35:39 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37LGHL9h020705;
+	Mon, 21 Aug 2023 18:35:38 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3sk9jkd6yf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Aug 2023 18:35:38 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37LIZbgC31064594
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Aug 2023 18:35:38 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E87335803F;
+	Mon, 21 Aug 2023 18:35:37 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6C97C5804E;
+	Mon, 21 Aug 2023 18:35:37 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 21 Aug 2023 18:35:37 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: joel@jms.id.au, andrew@aj.id.au, eajames@linux.ibm.com
+Subject: [PATCH v1 0/1] Host side BMC device driver
+Date: Mon, 21 Aug 2023 13:35:24 -0500
+Message-Id: <20230821183525.3427144-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230819010907.916061-1-robh@kernel.org>
-In-Reply-To: <20230819010907.916061-1-robh@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 21 Aug 2023 12:32:49 +0200
-Message-ID: <CACRpkdZQVry-p90AZSfrJHJuscN3CuJU-ySKU2+zCHbVt-Z1Kg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: aspeed: Allow only defined pin mux
- node properties
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -wIrhtgGanzxXvQ6xYbrk8DA4HGfUitE
+X-Proofpoint-GUID: -wIrhtgGanzxXvQ6xYbrk8DA4HGfUitE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-21_07,2023-08-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ bulkscore=0 phishscore=0 adultscore=0 impostorscore=0 clxscore=1011
+ suspectscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
+ mlxlogscore=510 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308210173
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,32 +86,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Aug 19, 2023 at 3:09=E2=80=AFAM Rob Herring <robh@kernel.org> wrote=
-:
+Hello,
+This patch includes support for host side BMC device driver.
 
-> The Aspeed pinctrl bindings are missing an additionalProperties/
-> unevaluatedProperties schemas on the child pin mux nodes which means any
-> undefined properties are allowed. In addition, using
-> 'additionalProperties' for child nodes with any name works better than a
-> pattern matching everything with an if/then schema to select nodes only.
->
-> With 'additionalProperties' added, 'pins' and 'bias-disable'
-> properties need to be added as they were not defined. A $ref to
-> pinmux-node.yaml which defines the common property types was also
-> missing.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Ninad Palsule (1):
+  soc/aspeed: Add host side BMC device driver
 
-Patch applied!
+ drivers/soc/aspeed/Kconfig               |   9 +
+ drivers/soc/aspeed/Makefile              |   1 +
+ drivers/soc/aspeed/aspeed-host-bmc-dev.c | 251 +++++++++++++++++++++++
+ 3 files changed, 261 insertions(+)
+ create mode 100644 drivers/soc/aspeed/aspeed-host-bmc-dev.c
 
-> Really 'pins' should have some constraints, but I don't know what the
-> possible values are. Happy to add if someone can tell me what.
+-- 
+2.39.2
 
-Aspeed folks: put this on your TODO!
-
-Yours,
-Linus Walleij
