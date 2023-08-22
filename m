@@ -2,26 +2,26 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8117885EE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316D17885F9
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:39:12 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHyr6Dmjz3dGc
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:38:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHzK5t2Vz2ytj
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:39:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.188; helo=szxga02-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVcQ0WBhz30NP;
-	Tue, 22 Aug 2023 23:31:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVdK6k12z2yVm;
+	Tue, 22 Aug 2023 23:32:21 +1000 (AEST)
 Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RVV9J6DNpz1L9Qn;
-	Tue, 22 Aug 2023 21:11:32 +0800 (CST)
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RVV8R3ZmjzTmN3;
+	Tue, 22 Aug 2023 21:10:47 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 22 Aug
- 2023 21:12:59 +0800
+ 2023 21:13:01 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<joel@jms.id.au>, <andrew@aj.id.au>, <florian.fainelli@broadcom.com>,
@@ -34,9 +34,9 @@ To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
 	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
 	<linus.walleij@linaro.org>, <heiko@sntech.de>
-Subject: [PATCH -next 11/25] spi: dw-bt1: Use helper function devm_clk_get_enabled()
-Date: Tue, 22 Aug 2023 21:12:23 +0800
-Message-ID: <20230822131237.1022815-12-lizetao1@huawei.com>
+Subject: [PATCH -next 12/25] spi: dw-mmio: Use helper function devm_clk_get_*()
+Date: Tue, 22 Aug 2023 21:12:24 +0800
+Message-ID: <20230822131237.1022815-13-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230822131237.1022815-1-lizetao1@huawei.com>
 References: <20230822131237.1022815-1-lizetao1@huawei.com>
@@ -67,75 +67,73 @@ Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
 and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
 replaced by devm_clk_get_enabled() when driver enables (and possibly
 prepares) the clocks for the whole lifetime of the device. Moreover, it is
-no longer necessary to unprepare and disable the clocks explicitly.
+no longer necessary to unprepare and disable the clocks explicitly. Also,
+devm_clk_get_optional() and clk_prepare_enable() can now be replaced by
+devm_clk_get_optional_enabled(). Moreover, the lable "out_clk" no longer
+makes sense, rename it to "out_reset".
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/spi/spi-dw-bt1.c | 23 +++++------------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+ drivers/spi/spi-dw-mmio.c | 20 +++++---------------
+ 1 file changed, 5 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/spi/spi-dw-bt1.c b/drivers/spi/spi-dw-bt1.c
-index 5e1c01822967..5391bcac305c 100644
---- a/drivers/spi/spi-dw-bt1.c
-+++ b/drivers/spi/spi-dw-bt1.c
-@@ -269,43 +269,32 @@ static int dw_spi_bt1_probe(struct platform_device *pdev)
+diff --git a/drivers/spi/spi-dw-mmio.c b/drivers/spi/spi-dw-mmio.c
+index 805264c9c65c..6d9f64ecbfd6 100644
+--- a/drivers/spi/spi-dw-mmio.c
++++ b/drivers/spi/spi-dw-mmio.c
+@@ -340,28 +340,22 @@ static int dw_spi_mmio_probe(struct platform_device *pdev)
+ 	if (dws->irq < 0)
+ 		return dws->irq; /* -ENXIO */
  
- 	dws->paddr = mem->start;
- 
--	dwsbt1->clk = devm_clk_get(&pdev->dev, NULL);
-+	dwsbt1->clk = devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(dwsbt1->clk))
- 		return PTR_ERR(dwsbt1->clk);
- 
--	ret = clk_prepare_enable(dwsbt1->clk);
+-	dwsmmio->clk = devm_clk_get(&pdev->dev, NULL);
++	dwsmmio->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+ 	if (IS_ERR(dwsmmio->clk))
+ 		return PTR_ERR(dwsmmio->clk);
+-	ret = clk_prepare_enable(dwsmmio->clk);
 -	if (ret)
 -		return ret;
--
- 	dws->bus_num = pdev->id;
- 	dws->reg_io_width = 4;
- 	dws->max_freq = clk_get_rate(dwsbt1->clk);
--	if (!dws->max_freq) {
--		ret = -EINVAL;
--		goto err_disable_clk;
--	}
-+	if (!dws->max_freq)
-+		return -EINVAL;
  
- 	init_func = device_get_match_data(&pdev->dev);
- 	ret = init_func(pdev, dwsbt1);
- 	if (ret)
--		goto err_disable_clk;
-+		return ret;
- 
- 	pm_runtime_enable(&pdev->dev);
- 
- 	ret = dw_spi_add_host(&pdev->dev, dws);
- 	if (ret) {
- 		pm_runtime_disable(&pdev->dev);
--		goto err_disable_clk;
-+		return ret;
+ 	/* Optional clock needed to access the registers */
+-	dwsmmio->pclk = devm_clk_get_optional(&pdev->dev, "pclk");
++	dwsmmio->pclk = devm_clk_get_optional_enabled(&pdev->dev, "pclk");
+ 	if (IS_ERR(dwsmmio->pclk)) {
+ 		ret = PTR_ERR(dwsmmio->pclk);
+-		goto out_clk;
++		goto out_reset;
  	}
+-	ret = clk_prepare_enable(dwsmmio->pclk);
+-	if (ret)
+-		goto out_clk;
  
- 	platform_set_drvdata(pdev, dwsbt1);
+ 	/* find an optional reset controller */
+ 	dwsmmio->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev, "spi");
+ 	if (IS_ERR(dwsmmio->rstc)) {
+ 		ret = PTR_ERR(dwsmmio->rstc);
+-		goto out_clk;
++		goto out_reset;
+ 	}
+ 	reset_control_deassert(dwsmmio->rstc);
  
- 	return 0;
--
--err_disable_clk:
--	clk_disable_unprepare(dwsbt1->clk);
--
--	return ret;
- }
+@@ -397,9 +391,7 @@ static int dw_spi_mmio_probe(struct platform_device *pdev)
  
- static void dw_spi_bt1_remove(struct platform_device *pdev)
-@@ -315,8 +304,6 @@ static void dw_spi_bt1_remove(struct platform_device *pdev)
- 	dw_spi_remove_host(&dwsbt1->dws);
- 
+ out:
  	pm_runtime_disable(&pdev->dev);
--
--	clk_disable_unprepare(dwsbt1->clk);
+-	clk_disable_unprepare(dwsmmio->pclk);
+-out_clk:
+-	clk_disable_unprepare(dwsmmio->clk);
++out_reset:
+ 	reset_control_assert(dwsmmio->rstc);
+ 
+ 	return ret;
+@@ -411,8 +403,6 @@ static void dw_spi_mmio_remove(struct platform_device *pdev)
+ 
+ 	dw_spi_remove_host(&dwsmmio->dws);
+ 	pm_runtime_disable(&pdev->dev);
+-	clk_disable_unprepare(dwsmmio->pclk);
+-	clk_disable_unprepare(dwsmmio->clk);
+ 	reset_control_assert(dwsmmio->rstc);
  }
  
- static const struct of_device_id dw_spi_bt1_of_match[] = {
 -- 
 2.34.1
 
