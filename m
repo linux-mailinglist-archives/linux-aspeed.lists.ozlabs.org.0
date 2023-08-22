@@ -1,27 +1,27 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC387885E2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:38:21 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C37B7885F4
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:39:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHyM3Xhpz3cnR
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:38:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHz62JbCz3dJC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:38:58 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.187; helo=szxga01-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.188; helo=szxga02-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVCc5DSCz2ytJ;
-	Tue, 22 Aug 2023 23:13:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVcZ5yp2z3bjc;
+	Tue, 22 Aug 2023 23:31:42 +1000 (AEST)
 Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RVV6g4mz2ztS5s;
-	Tue, 22 Aug 2023 21:09:15 +0800 (CST)
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RVV6s61w2zNnTg;
+	Tue, 22 Aug 2023 21:09:25 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 22 Aug
- 2023 21:12:57 +0800
+ 2023 21:12:58 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<joel@jms.id.au>, <andrew@aj.id.au>, <florian.fainelli@broadcom.com>,
@@ -34,9 +34,9 @@ To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
 	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
 	<linus.walleij@linaro.org>, <heiko@sntech.de>
-Subject: [PATCH -next 09/25] spi: spi-cavium-thunderx: Use helper function devm_clk_get_enabled()
-Date: Tue, 22 Aug 2023 21:12:21 +0800
-Message-ID: <20230822131237.1022815-10-lizetao1@huawei.com>
+Subject: [PATCH -next 10/25] spi: davinci: Use helper function devm_clk_get_enabled()
+Date: Tue, 22 Aug 2023 21:12:22 +0800
+Message-ID: <20230822131237.1022815-11-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230822131237.1022815-1-lizetao1@huawei.com>
 References: <20230822131237.1022815-1-lizetao1@huawei.com>
@@ -71,47 +71,56 @@ no longer necessary to unprepare and disable the clocks explicitly.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/spi/spi-cavium-thunderx.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/spi/spi-davinci.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/spi/spi-cavium-thunderx.c b/drivers/spi/spi-cavium-thunderx.c
-index f7c378a5f1bc..337aef12abcc 100644
---- a/drivers/spi/spi-cavium-thunderx.c
-+++ b/drivers/spi/spi-cavium-thunderx.c
-@@ -49,16 +49,12 @@ static int thunderx_spi_probe(struct pci_dev *pdev,
- 	p->regs.tx = 0x1010;
- 	p->regs.data = 0x1080;
+diff --git a/drivers/spi/spi-davinci.c b/drivers/spi/spi-davinci.c
+index c457b550d3ad..5688be245c68 100644
+--- a/drivers/spi/spi-davinci.c
++++ b/drivers/spi/spi-davinci.c
+@@ -915,14 +915,11 @@ static int davinci_spi_probe(struct platform_device *pdev)
  
--	p->clk = devm_clk_get(dev, NULL);
-+	p->clk = devm_clk_get_enabled(dev, NULL);
- 	if (IS_ERR(p->clk)) {
- 		ret = PTR_ERR(p->clk);
- 		goto error;
+ 	dspi->bitbang.master = host;
+ 
+-	dspi->clk = devm_clk_get(&pdev->dev, NULL);
++	dspi->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+ 	if (IS_ERR(dspi->clk)) {
+ 		ret = -ENODEV;
+ 		goto free_host;
  	}
- 
--	ret = clk_prepare_enable(p->clk);
+-	ret = clk_prepare_enable(dspi->clk);
 -	if (ret)
--		goto error;
--
- 	p->sys_freq = clk_get_rate(p->clk);
- 	if (!p->sys_freq)
- 		p->sys_freq = SYS_FREQ_DEFAULT;
-@@ -82,7 +78,6 @@ static int thunderx_spi_probe(struct pci_dev *pdev,
- 	return 0;
+-		goto free_host;
  
- error:
--	clk_disable_unprepare(p->clk);
- 	pci_release_regions(pdev);
+ 	host->use_gpio_descriptors = true;
+ 	host->dev.of_node = pdev->dev.of_node;
+@@ -947,7 +944,7 @@ static int davinci_spi_probe(struct platform_device *pdev)
+ 
+ 	ret = davinci_spi_request_dma(dspi);
+ 	if (ret == -EPROBE_DEFER) {
+-		goto free_clk;
++		goto free_host;
+ 	} else if (ret) {
+ 		dev_info(&pdev->dev, "DMA is not supported (%d)\n", ret);
+ 		dspi->dma_rx = NULL;
+@@ -991,8 +988,6 @@ static int davinci_spi_probe(struct platform_device *pdev)
+ 		dma_release_channel(dspi->dma_rx);
+ 		dma_release_channel(dspi->dma_tx);
+ 	}
+-free_clk:
+-	clk_disable_unprepare(dspi->clk);
+ free_host:
  	spi_controller_put(host);
- 	return ret;
-@@ -97,7 +92,6 @@ static void thunderx_spi_remove(struct pci_dev *pdev)
- 	if (!p)
- 		return;
+ err:
+@@ -1018,8 +1013,6 @@ static void davinci_spi_remove(struct platform_device *pdev)
  
--	clk_disable_unprepare(p->clk);
- 	pci_release_regions(pdev);
- 	/* Put everything in a known state. */
- 	writeq(0, p->register_base + OCTEON_SPI_CFG(p));
+ 	spi_bitbang_stop(&dspi->bitbang);
+ 
+-	clk_disable_unprepare(dspi->clk);
+-
+ 	if (dspi->dma_rx) {
+ 		dma_release_channel(dspi->dma_rx);
+ 		dma_release_channel(dspi->dma_tx);
 -- 
 2.34.1
 
