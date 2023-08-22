@@ -1,27 +1,27 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0F37885F1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:38:53 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6FC7885E0
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:38:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHyz4JX3z3dHd
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:38:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHyK2j6gz3dDb
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:38:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.187; helo=szxga01-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVcQ29Nkz3bTQ;
-	Tue, 22 Aug 2023 23:31:33 +1000 (AEST)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.56])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RVV9821pFz1L9G9;
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVCX0rgtz2ym1;
+	Tue, 22 Aug 2023 23:13:27 +1000 (AEST)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RVV984PwWzrSLc;
 	Tue, 22 Aug 2023 21:11:24 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 22 Aug
- 2023 21:12:51 +0800
+ 2023 21:12:52 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<joel@jms.id.au>, <andrew@aj.id.au>, <florian.fainelli@broadcom.com>,
@@ -34,9 +34,9 @@ To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
 	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
 	<linus.walleij@linaro.org>, <heiko@sntech.de>
-Subject: [PATCH -next 03/25] spi: aspeed: Use helper function devm_clk_get_enabled()
-Date: Tue, 22 Aug 2023 21:12:15 +0800
-Message-ID: <20230822131237.1022815-4-lizetao1@huawei.com>
+Subject: [PATCH -next 04/25] spi: ath79: Use helper function devm_clk_get_enabled()
+Date: Tue, 22 Aug 2023 21:12:16 +0800
+Message-ID: <20230822131237.1022815-5-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230822131237.1022815-1-lizetao1@huawei.com>
 References: <20230822131237.1022815-1-lizetao1@huawei.com>
@@ -71,59 +71,53 @@ no longer necessary to unprepare and disable the clocks explicitly.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/spi/spi-aspeed-smc.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ drivers/spi/spi-ath79.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-index 21b0fa646c7d..bbd417c55e7f 100644
---- a/drivers/spi/spi-aspeed-smc.c
-+++ b/drivers/spi/spi-aspeed-smc.c
-@@ -748,7 +748,7 @@ static int aspeed_spi_probe(struct platform_device *pdev)
- 	aspi->ahb_window_size = resource_size(res);
- 	aspi->ahb_base_phy = res->start;
- 
--	aspi->clk = devm_clk_get(&pdev->dev, NULL);
-+	aspi->clk = devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(aspi->clk)) {
- 		dev_err(dev, "missing clock\n");
- 		return PTR_ERR(aspi->clk);
-@@ -760,12 +760,6 @@ static int aspeed_spi_probe(struct platform_device *pdev)
- 		return -EINVAL;
+diff --git a/drivers/spi/spi-ath79.c b/drivers/spi/spi-ath79.c
+index 1b6d977d111c..c9f1d1e1dcf7 100644
+--- a/drivers/spi/spi-ath79.c
++++ b/drivers/spi/spi-ath79.c
+@@ -200,20 +200,16 @@ static int ath79_spi_probe(struct platform_device *pdev)
+ 		goto err_put_host;
  	}
  
--	ret = clk_prepare_enable(aspi->clk);
--	if (ret) {
--		dev_err(dev, "can not enable the clock\n");
--		return ret;
--	}
+-	sp->clk = devm_clk_get(&pdev->dev, "ahb");
++	sp->clk = devm_clk_get_enabled(&pdev->dev, "ahb");
+ 	if (IS_ERR(sp->clk)) {
+ 		ret = PTR_ERR(sp->clk);
+ 		goto err_put_host;
+ 	}
+ 
+-	ret = clk_prepare_enable(sp->clk);
+-	if (ret)
+-		goto err_put_host;
 -
- 	/* IRQ is for DMA, which the driver doesn't support yet */
+ 	rate = DIV_ROUND_UP(clk_get_rate(sp->clk), MHZ);
+ 	if (!rate) {
+ 		ret = -EINVAL;
+-		goto err_clk_disable;
++		goto err_put_host;
+ 	}
  
- 	ctlr->mode_bits = SPI_RX_DUAL | SPI_TX_DUAL | data->mode_bits;
-@@ -777,14 +771,9 @@ static int aspeed_spi_probe(struct platform_device *pdev)
- 	ctlr->dev.of_node = dev->of_node;
+ 	sp->rrw_delay = ATH79_SPI_RRW_DELAY_FACTOR / rate;
+@@ -229,8 +225,6 @@ static int ath79_spi_probe(struct platform_device *pdev)
  
- 	ret = devm_spi_register_controller(dev, ctlr);
--	if (ret) {
-+	if (ret)
- 		dev_err(&pdev->dev, "spi_register_controller failed\n");
--		goto disable_clk;
--	}
--	return 0;
+ err_disable:
+ 	ath79_spi_disable(sp);
+-err_clk_disable:
+-	clk_disable_unprepare(sp->clk);
+ err_put_host:
+ 	spi_controller_put(host);
  
--disable_clk:
--	clk_disable_unprepare(aspi->clk);
- 	return ret;
+@@ -243,7 +237,6 @@ static void ath79_spi_remove(struct platform_device *pdev)
+ 
+ 	spi_bitbang_stop(&sp->bitbang);
+ 	ath79_spi_disable(sp);
+-	clk_disable_unprepare(sp->clk);
+ 	spi_controller_put(sp->bitbang.master);
  }
  
-@@ -793,7 +782,6 @@ static void aspeed_spi_remove(struct platform_device *pdev)
- 	struct aspeed_spi *aspi = platform_get_drvdata(pdev);
- 
- 	aspeed_spi_enable(aspi, false);
--	clk_disable_unprepare(aspi->clk);
- }
- 
- /*
 -- 
 2.34.1
 
