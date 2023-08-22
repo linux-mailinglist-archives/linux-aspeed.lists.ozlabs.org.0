@@ -1,27 +1,27 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DBE7885E5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:38:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDAE7885FA
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:39:14 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHyS1gMDz3dDH
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:38:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHzN1Hd7z3dJL
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:39:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.187; helo=szxga01-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.188; helo=szxga02-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVCh4n3sz2yD6;
-	Tue, 22 Aug 2023 23:13:36 +1000 (AEST)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RVV6l6x4PztS7V;
-	Tue, 22 Aug 2023 21:09:19 +0800 (CST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVdP0rgPz3bV4;
+	Tue, 22 Aug 2023 23:32:25 +1000 (AEST)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.56])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RVV8T4byTzTmMj;
+	Tue, 22 Aug 2023 21:10:49 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 22 Aug
- 2023 21:13:02 +0800
+ 2023 21:13:03 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<joel@jms.id.au>, <andrew@aj.id.au>, <florian.fainelli@broadcom.com>,
@@ -34,9 +34,9 @@ To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
 	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
 	<linus.walleij@linaro.org>, <heiko@sntech.de>
-Subject: [PATCH -next 13/25] spi: spi-fsl-dspi: Use helper function devm_clk_get_enabled()
-Date: Tue, 22 Aug 2023 21:12:25 +0800
-Message-ID: <20230822131237.1022815-14-lizetao1@huawei.com>
+Subject: [PATCH -next 14/25] spi: lantiq-ssc: Use helper function devm_clk_get_enabled()
+Date: Tue, 22 Aug 2023 21:12:26 +0800
+Message-ID: <20230822131237.1022815-15-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230822131237.1022815-1-lizetao1@huawei.com>
 References: <20230822131237.1022815-1-lizetao1@huawei.com>
@@ -71,61 +71,55 @@ no longer necessary to unprepare and disable the clocks explicitly.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/spi/spi-fsl-dspi.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/spi/spi-lantiq-ssc.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/spi/spi-fsl-dspi.c b/drivers/spi/spi-fsl-dspi.c
-index 8318249f8a1f..c9eae046f66c 100644
---- a/drivers/spi/spi-fsl-dspi.c
-+++ b/drivers/spi/spi-fsl-dspi.c
-@@ -1372,19 +1372,16 @@ static int dspi_probe(struct platform_device *pdev)
- 		}
+diff --git a/drivers/spi/spi-lantiq-ssc.c b/drivers/spi/spi-lantiq-ssc.c
+index 938e9e577e4f..18a46569ba46 100644
+--- a/drivers/spi/spi-lantiq-ssc.c
++++ b/drivers/spi/spi-lantiq-ssc.c
+@@ -932,14 +932,11 @@ static int lantiq_ssc_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto err_host_put;
+ 
+-	spi->spi_clk = devm_clk_get(dev, "gate");
++	spi->spi_clk = devm_clk_get_enabled(dev, "gate");
+ 	if (IS_ERR(spi->spi_clk)) {
+ 		err = PTR_ERR(spi->spi_clk);
+ 		goto err_host_put;
+ 	}
+-	err = clk_prepare_enable(spi->spi_clk);
+-	if (err)
+-		goto err_host_put;
+ 
+ 	/*
+ 	 * Use the old clk_get_fpi() function on Lantiq platform, till it
+@@ -952,7 +949,7 @@ static int lantiq_ssc_probe(struct platform_device *pdev)
+ #endif
+ 	if (IS_ERR(spi->fpi_clk)) {
+ 		err = PTR_ERR(spi->fpi_clk);
+-		goto err_clk_disable;
++		goto err_host_put;
  	}
  
--	dspi->clk = devm_clk_get(&pdev->dev, "dspi");
-+	dspi->clk = devm_clk_get_enabled(&pdev->dev, "dspi");
- 	if (IS_ERR(dspi->clk)) {
- 		ret = PTR_ERR(dspi->clk);
- 		dev_err(&pdev->dev, "unable to get clock\n");
- 		goto out_ctlr_put;
- 	}
--	ret = clk_prepare_enable(dspi->clk);
--	if (ret)
--		goto out_ctlr_put;
+ 	num_cs = 8;
+@@ -1010,8 +1007,6 @@ static int lantiq_ssc_probe(struct platform_device *pdev)
+ 	destroy_workqueue(spi->wq);
+ err_clk_put:
+ 	clk_put(spi->fpi_clk);
+-err_clk_disable:
+-	clk_disable_unprepare(spi->spi_clk);
+ err_host_put:
+ 	spi_controller_put(host);
  
- 	ret = dspi_init(dspi);
- 	if (ret)
--		goto out_clk_put;
-+		goto out_ctlr_put;
+@@ -1029,7 +1024,6 @@ static void lantiq_ssc_remove(struct platform_device *pdev)
+ 	hw_enter_config_mode(spi);
  
- 	dspi->irq = platform_get_irq(pdev, 0);
- 	if (dspi->irq <= 0) {
-@@ -1400,7 +1397,7 @@ static int dspi_probe(struct platform_device *pdev)
- 				   IRQF_SHARED, pdev->name, dspi);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Unable to attach DSPI interrupt\n");
--		goto out_clk_put;
-+		goto out_ctlr_put;
- 	}
- 
- poll_mode:
-@@ -1432,8 +1429,6 @@ static int dspi_probe(struct platform_device *pdev)
- out_free_irq:
- 	if (dspi->irq)
- 		free_irq(dspi->irq, dspi);
--out_clk_put:
--	clk_disable_unprepare(dspi->clk);
- out_ctlr_put:
- 	spi_controller_put(ctlr);
- 
-@@ -1458,7 +1453,6 @@ static void dspi_remove(struct platform_device *pdev)
- 	dspi_release_dma(dspi);
- 	if (dspi->irq)
- 		free_irq(dspi->irq, dspi);
--	clk_disable_unprepare(dspi->clk);
+ 	destroy_workqueue(spi->wq);
+-	clk_disable_unprepare(spi->spi_clk);
+ 	clk_put(spi->fpi_clk);
  }
  
- static void dspi_shutdown(struct platform_device *pdev)
 -- 
 2.34.1
 
