@@ -2,26 +2,26 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30227885F5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0F37885F1
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:38:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHz83mQvz3dHJ
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:39:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXHyz4JX3z3dHd
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:38:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.188; helo=szxga02-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVcY57njz3bcJ;
-	Tue, 22 Aug 2023 23:31:41 +1000 (AEST)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RVV6j1lnzzNnMw;
-	Tue, 22 Aug 2023 21:09:17 +0800 (CST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVVcQ29Nkz3bTQ;
+	Tue, 22 Aug 2023 23:31:33 +1000 (AEST)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.56])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RVV9821pFz1L9G9;
+	Tue, 22 Aug 2023 21:11:24 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 22 Aug
- 2023 21:12:50 +0800
+ 2023 21:12:51 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<joel@jms.id.au>, <andrew@aj.id.au>, <florian.fainelli@broadcom.com>,
@@ -34,9 +34,9 @@ To: <broonie@kernel.org>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
 	<avifishman70@gmail.com>, <tmaimon77@gmail.com>, <tali.perry1@gmail.com>,
 	<venture@google.com>, <yuenn@google.com>, <benjaminfair@google.com>,
 	<linus.walleij@linaro.org>, <heiko@sntech.de>
-Subject: [PATCH -next 02/25] spi: armada-3700: Use helper function devm_clk_get_prepared()
-Date: Tue, 22 Aug 2023 21:12:14 +0800
-Message-ID: <20230822131237.1022815-3-lizetao1@huawei.com>
+Subject: [PATCH -next 03/25] spi: aspeed: Use helper function devm_clk_get_enabled()
+Date: Tue, 22 Aug 2023 21:12:15 +0800
+Message-ID: <20230822131237.1022815-4-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230822131237.1022815-1-lizetao1@huawei.com>
 References: <20230822131237.1022815-1-lizetao1@huawei.com>
@@ -64,73 +64,66 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
-and enabled clocks"), devm_clk_get() and clk_prepare() can now be replaced
-by devm_clk_get_prepared() when driver prepares the clocks for the whole
-lifetime of the device. Moreover, it is no longer necessary to unprepare
-the clocks explicitly.
+and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
+replaced by devm_clk_get_enabled() when driver enables (and possibly
+prepares) the clocks for the whole lifetime of the device. Moreover, it is
+no longer necessary to unprepare and disable the clocks explicitly.
 
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
- drivers/spi/spi-armada-3700.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ drivers/spi/spi-aspeed-smc.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/spi/spi-armada-3700.c b/drivers/spi/spi-armada-3700.c
-index 0103ac0158c0..70113b9dab35 100644
---- a/drivers/spi/spi-armada-3700.c
-+++ b/drivers/spi/spi-armada-3700.c
-@@ -865,18 +865,12 @@ static int a3700_spi_probe(struct platform_device *pdev)
+diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+index 21b0fa646c7d..bbd417c55e7f 100644
+--- a/drivers/spi/spi-aspeed-smc.c
++++ b/drivers/spi/spi-aspeed-smc.c
+@@ -748,7 +748,7 @@ static int aspeed_spi_probe(struct platform_device *pdev)
+ 	aspi->ahb_window_size = resource_size(res);
+ 	aspi->ahb_base_phy = res->start;
  
- 	init_completion(&spi->done);
- 
--	spi->clk = devm_clk_get(dev, NULL);
-+	spi->clk = devm_clk_get_prepared(dev, NULL);
- 	if (IS_ERR(spi->clk)) {
- 		dev_err(dev, "could not find clk: %ld\n", PTR_ERR(spi->clk));
- 		goto error;
+-	aspi->clk = devm_clk_get(&pdev->dev, NULL);
++	aspi->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+ 	if (IS_ERR(aspi->clk)) {
+ 		dev_err(dev, "missing clock\n");
+ 		return PTR_ERR(aspi->clk);
+@@ -760,12 +760,6 @@ static int aspeed_spi_probe(struct platform_device *pdev)
+ 		return -EINVAL;
  	}
  
--	ret = clk_prepare(spi->clk);
+-	ret = clk_prepare_enable(aspi->clk);
 -	if (ret) {
--		dev_err(dev, "could not prepare clk: %d\n", ret);
--		goto error;
+-		dev_err(dev, "can not enable the clock\n");
+-		return ret;
 -	}
 -
- 	host->max_speed_hz = min_t(unsigned long, A3700_SPI_MAX_SPEED_HZ,
- 					clk_get_rate(spi->clk));
- 	host->min_speed_hz = DIV_ROUND_UP(clk_get_rate(spi->clk),
-@@ -888,19 +882,17 @@ static int a3700_spi_probe(struct platform_device *pdev)
- 			       dev_name(dev), host);
- 	if (ret) {
- 		dev_err(dev, "could not request IRQ: %d\n", ret);
--		goto error_clk;
-+		goto error;
- 	}
+ 	/* IRQ is for DMA, which the driver doesn't support yet */
  
- 	ret = devm_spi_register_controller(dev, host);
- 	if (ret) {
- 		dev_err(dev, "Failed to register host\n");
--		goto error_clk;
-+		goto error;
- 	}
+ 	ctlr->mode_bits = SPI_RX_DUAL | SPI_TX_DUAL | data->mode_bits;
+@@ -777,14 +771,9 @@ static int aspeed_spi_probe(struct platform_device *pdev)
+ 	ctlr->dev.of_node = dev->of_node;
  
- 	return 0;
+ 	ret = devm_spi_register_controller(dev, ctlr);
+-	if (ret) {
++	if (ret)
+ 		dev_err(&pdev->dev, "spi_register_controller failed\n");
+-		goto disable_clk;
+-	}
+-	return 0;
  
--error_clk:
--	clk_unprepare(spi->clk);
- error:
- 	spi_controller_put(host);
- out:
-@@ -909,10 +901,6 @@ static int a3700_spi_probe(struct platform_device *pdev)
- 
- static void a3700_spi_remove(struct platform_device *pdev)
- {
--	struct spi_controller *host = platform_get_drvdata(pdev);
--	struct a3700_spi *spi = spi_controller_get_devdata(host);
--
--	clk_unprepare(spi->clk);
+-disable_clk:
+-	clk_disable_unprepare(aspi->clk);
+ 	return ret;
  }
  
- static struct platform_driver a3700_spi_driver = {
+@@ -793,7 +782,6 @@ static void aspeed_spi_remove(struct platform_device *pdev)
+ 	struct aspeed_spi *aspi = platform_get_drvdata(pdev);
+ 
+ 	aspeed_spi_enable(aspi, false);
+-	clk_disable_unprepare(aspi->clk);
+ }
+ 
+ /*
 -- 
 2.34.1
 
