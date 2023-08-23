@@ -2,56 +2,45 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FCD785E4C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Aug 2023 19:10:31 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fPAdYWHF;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id 34384785E4F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Aug 2023 19:10:48 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RWCQY5cxyz3dJ4
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Aug 2023 03:10:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RWCQt0PH7z3dg8
+	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Aug 2023 03:10:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fPAdYWHF;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=srs0=yznc=ei=robh_at_kernel.org=rob@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=185.176.79.56; helo=frasgout.his.huawei.com; envelope-from=jonathan.cameron@huawei.com; receiver=lists.ozlabs.org)
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWCPr1hsPz3fZr
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 03:09:52 +1000 (AEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C661C62384;
-	Wed, 23 Aug 2023 17:09:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7589BC433CB;
-	Wed, 23 Aug 2023 17:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692810589;
-	bh=WPvAkPh8AunP/lNvri8BRVfUDHESTWdheGKzVZNfuQs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fPAdYWHFcJSmlFRtEquy4q0hkIj/keX9dvaPI0fAzpFs9SMJmKHM1W+0C5kRbp13D
-	 v0JGKX3SEbbiz5WqGUM+xjrfgotZPHwn7blD2aaY+/GqExIh8/d+9wyMpKWM9MbUFh
-	 gYc2jPggM7x5EXaMgM1jt/g9cT0da2qTs5lvVHpOT82i2nUSHKH2EkmoRHH0cRqTkj
-	 0UH7SBcH3rTAkU/lRdp4DN79JjzrKQ1mZd9R3yDM4iy70Z2pdCxBxkOO6XrXF9jFng
-	 ociCJI6PouPtW40u+HDSIIE/tT4bVSj/v/p4jAXYIJcTebZ54Wf4HAShtfQP72leid
-	 rovrzf3dsQtRA==
-Received: (nullmailer pid 2496484 invoked by uid 1000);
-	Wed, 23 Aug 2023 17:09:46 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWCQn0CSyz3cCv;
+	Thu, 24 Aug 2023 03:10:40 +1000 (AEST)
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4RWCPp3qVPz6HJb9;
+	Thu, 24 Aug 2023 01:09:50 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 23 Aug
+ 2023 18:10:33 +0100
+Date: Wed, 23 Aug 2023 18:10:32 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Li Zetao <lizetao1@huawei.com>
+Subject: Re: [PATCH -next v2 02/25] spi: armada-3700: Use helper function
+ devm_clk_get_prepared()
+Message-ID: <20230823181032.00001455@Huawei.com>
+In-Reply-To: <20230823133938.1359106-3-lizetao1@huawei.com>
+References: <20230822131237.1022815-1-lizetao1@huawei.com>
+	<20230823133938.1359106-1-lizetao1@huawei.com>
+	<20230823133938.1359106-3-lizetao1@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: peteryin <peteryin.openbmc@gmail.com>
-In-Reply-To: <20230823160810.1067102-1-peteryin.openbmc@gmail.com>
-References: <20230823160810.1067102-1-peteryin.openbmc@gmail.com>
-Message-Id: <169281058628.2496450.12875634767226591718.robh@kernel.org>
-Subject: Re: [PATCH] Title: Select GPIO command source.
-Date: Wed, 23 Aug 2023 12:09:46 -0500
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,79 +52,94 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, johnny_huang@aspeedtech.com, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, peteryin <peter.yin@quantatw.com>
+Cc: heiko@sntech.de, linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org, tali.perry1@gmail.com, conor.dooley@microchip.com, linux-riscv@lists.infradead.org, jbrunet@baylibre.com, florian.fainelli@broadcom.com, yuenn@google.com, khilman@baylibre.com, tmaimon77@gmail.com, linux-rockchip@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com, avifishman70@gmail.com, martin.blumenstingl@googlemail.com, rjui@broadcom.com, broonie@kernel.org, linux-mediatek@lists.infradead.org, clg@kaod.org, matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org, sbranden@broadcom.com, venture@google.com, fancer.lancer@gmail.com, linux-spi@vger.kernel.org, daire.mcnamara@microchip.com, olteanv@gmail.com, openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, 23 Aug 2023 21:39:15 +0800
+Li Zetao <lizetao1@huawei.com> wrote:
 
-On Thu, 24 Aug 2023 00:08:10 +0800, peteryin wrote:
-> From: peteryin <peter.yin@quantatw.com>
+> Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
+> and enabled clocks"), devm_clk_get() and clk_prepare() can now be replaced
+> by devm_clk_get_prepared() when driver prepares the clocks for the whole
+> lifetime of the device. Moreover, it is no longer necessary to unprepare
+> the clocks explicitly.
 > 
-> Description:
->   The capability to choose the GPIO command source
-> between ARM LPC and Coprocessor CPU is supported.
-> 
-> Test Plan:
-> Get Bank gpio command source
->   e.g.
->   cd /sys/bus/platform/drivers/aspeed-command-source/
->   cat 1e780000.gpio-command-source/bank_abcd
->   ARM ARM ARM ARM
-> 
-> Set Bank gpio command source.
->   e.g.
->   cd /sys/bus/platform/drivers/aspeed-command-source/
-> 
->   echo "A ARM" > 1e780000.gpio-command-source/bank_abcd
->   or
->   echo "A LPC" > 1e780000.gpio-command-source/bank_abcd
->   or$
->   echo "A COP" > 1e780000.gpio-command-source/bank_abcd
-> 
-> Signed-off-by: peteryin <peteryin.openbmc@gmail.com>
+> Signed-off-by: Li Zetao <lizetao1@huawei.com>
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
 > ---
->  .../sysfs-driver-aspeed-gpio-command-source   |  24 ++
->  .../soc/aspeed/gpio-command-source.yaml       |  58 ++++
->  drivers/soc/aspeed/Kconfig                    |   9 +
->  drivers/soc/aspeed/Makefile                   |   1 +
->  drivers/soc/aspeed/aspeed-command-source.c    | 266 ++++++++++++++++++
->  5 files changed, 358 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
->  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
->  create mode 100644 drivers/soc/aspeed/aspeed-command-source.c
+> v1 -> v2: Drop the empty remove function a3700_spi_remove().
 > 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml:38:3: [error] syntax error: expected <block end>, but found '?' (syntax)
-./Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml:39:6: [error] missing starting space in comment (comments)
-
-dtschema/dtc warnings/errors:
-make[2]: *** Deleting file 'Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.example.dts'
-Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml:38:3: expected <block end>, but found '?'
-make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.example.dts] Error 1
-make[2]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml:38:3: expected <block end>, but found '?'
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml: ignoring, error parsing file
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: dt_binding_check] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230823160810.1067102-1-peteryin.openbmc@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+>  drivers/spi/spi-armada-3700.c | 23 +++--------------------
+>  1 file changed, 3 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/spi/spi-armada-3700.c b/drivers/spi/spi-armada-3700.c
+> index 0103ac0158c0..3c9ed412932f 100644
+> --- a/drivers/spi/spi-armada-3700.c
+> +++ b/drivers/spi/spi-armada-3700.c
+> @@ -865,18 +865,12 @@ static int a3700_spi_probe(struct platform_device *pdev)
+>  
+>  	init_completion(&spi->done);
+>  
+> -	spi->clk = devm_clk_get(dev, NULL);
+> +	spi->clk = devm_clk_get_prepared(dev, NULL);
+>  	if (IS_ERR(spi->clk)) {
+>  		dev_err(dev, "could not find clk: %ld\n", PTR_ERR(spi->clk));
+>  		goto error;
+>  	}
+>  
+> -	ret = clk_prepare(spi->clk);
+> -	if (ret) {
+> -		dev_err(dev, "could not prepare clk: %d\n", ret);
+> -		goto error;
+> -	}
+> -
+>  	host->max_speed_hz = min_t(unsigned long, A3700_SPI_MAX_SPEED_HZ,
+>  					clk_get_rate(spi->clk));
+>  	host->min_speed_hz = DIV_ROUND_UP(clk_get_rate(spi->clk),
+> @@ -888,40 +882,29 @@ static int a3700_spi_probe(struct platform_device *pdev)
+>  			       dev_name(dev), host);
+>  	if (ret) {
+>  		dev_err(dev, "could not request IRQ: %d\n", ret);
+> -		goto error_clk;
+> +		goto error;
+>  	}
+>  
+>  	ret = devm_spi_register_controller(dev, host);
+>  	if (ret) {
+>  		dev_err(dev, "Failed to register host\n");
+> -		goto error_clk;
+> +		goto error;
+>  	}
+>  
+>  	return 0;
+>  
+> -error_clk:
+> -	clk_unprepare(spi->clk);
+>  error:
+>  	spi_controller_put(host);
+>  out:
+>  	return ret;
+>  }
+>  
+> -static void a3700_spi_remove(struct platform_device *pdev)
+> -{
+> -	struct spi_controller *host = platform_get_drvdata(pdev);
+> -	struct a3700_spi *spi = spi_controller_get_devdata(host);
+> -
+> -	clk_unprepare(spi->clk);
+> -}
+> -
+>  static struct platform_driver a3700_spi_driver = {
+>  	.driver = {
+>  		.name	= DRIVER_NAME,
+>  		.of_match_table = of_match_ptr(a3700_spi_dt_ids),
+>  	},
+>  	.probe		= a3700_spi_probe,
+> -	.remove_new	= a3700_spi_remove,
+>  };
+>  
+>  module_platform_driver(a3700_spi_driver);
 
