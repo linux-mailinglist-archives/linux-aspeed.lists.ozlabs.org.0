@@ -2,77 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5308E788622
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90019788623
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:46 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ipPWfyUN;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LG5mt7XX;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ141C0jz30fF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ182d5Wz307s
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ipPWfyUN;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LG5mt7XX;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.vnet.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.vnet.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWB5961hQz3c1J
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 02:10:20 +1000 (AEST)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1bf1935f6c2so39520675ad.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 23 Aug 2023 09:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692807017; x=1693411817;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z0xBOCTk1h2aY6GHi56izPP9ZKIEziL2gPlL/YE4i+4=;
-        b=ipPWfyUNYuRmPTdTq7hZyx0FMVwjxEbwcsNALJwZeA+hPyS3Qult+/I0vjW5WDHUPz
-         N0qybclfWYHirwhZ+wYIgu1FagJJGOpEVByAsc1JyNO/kvtjeNJ5xza9yXrpBndEbFU3
-         dMzVqp4Zf+Puo6w/uVBPtsu8iRn0yPWvZ8cVTn5tM0R0H8cy+B3dJe2t2shQRBwyDscC
-         Q+QrYF+PDG5L8ruj6AOfTA5c8U9ksbd9Xm1Lb4+Sob5XnLl2t+l4NBfQm4vztxTyRSvN
-         36riPFJE3siMTO7GqrRfUT1fi7XNARnuberLmGHItM0ihzYKCLLbsgy+zuFib0iRbw8W
-         r7dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692807017; x=1693411817;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z0xBOCTk1h2aY6GHi56izPP9ZKIEziL2gPlL/YE4i+4=;
-        b=Ngh2dvdr8yiB026gBshjRbeyxfGoY4XbcgjKRRHETIZA4K+NdK6UGxcKSilBgEDRXy
-         SBTLgKQdlBIwEtVJGu2tq2rxo7PILQF7E6bOuZXMOC6WtHRZh5Wk9V1F6gkI2xDMDLhW
-         oW5Q0b+Mi10IqacQJW3yimjUSGmFe46jKnSqGXgGumECKxakZKVTRenn6vyhYHyxRxoi
-         6cZBrHBUmE732OAASoUuNvK0HG9larfI/jqZvzbe1LU0NcQCGsCGlwAVzOTXoVsDM0fV
-         WKPOIp4Sg80jIIIXWDekAxmfVHQZwD0Hh/xdfqfcA2JEjEaxM8qOpmMoc2H5FyWdNRlT
-         lPFQ==
-X-Gm-Message-State: AOJu0YzK87j7dth2SPKOMPPMitLl2FfETNuCXApndNGyY8tLa93YGDKw
-	qo05+Y8mnFHMJCkgticCgaU=
-X-Google-Smtp-Source: AGHT+IEACi22azJ0gb7FjH9uYx64mg3/D5Ji14qErxd0e2/DACqtz/r6g9qNG75rGfKjuX3cNDSlJQ==
-X-Received: by 2002:a17:903:1c4:b0:1b5:522a:1578 with SMTP id e4-20020a17090301c400b001b5522a1578mr19098503plh.29.1692807017054;
-        Wed, 23 Aug 2023 09:10:17 -0700 (PDT)
-Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001afd821c057sm11238296pli.58.2023.08.23.09.10.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 09:10:16 -0700 (PDT)
-From: peteryin <peteryin.openbmc@gmail.com>
-To: joel@jms.id.au,
-	andrew@aj.id.au,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	eajames@linux.ibm.com,
-	johnny_huang@aspeedtech.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH] Title: Select GPIO command source.
-Date: Thu, 24 Aug 2023 00:08:10 +0800
-Message-Id: <20230823160810.1067102-1-peteryin.openbmc@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWCwR2HSPz2xpm
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 03:32:54 +1000 (AEST)
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37NHTvAf004129;
+	Wed, 23 Aug 2023 17:32:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=yhPUGJp1hbDPP2WngAKxhzRDOvm7F81esNVKWbVBMZ0=;
+ b=LG5mt7XXMhUYxOWuM3nqqQKBdPHjzrvvwnOelv7rG3aNeQWA2mWllEHDd1WC7de/9+WC
+ 965NuWGtJN0EBYRD10q8QXk4JDLYGCxvMSJTFN++ykRXaZiFK+wGy42DkGZURKfjYtlb
+ ZMjsEnIU/IRz1cX/+5TYJsqeX+Jc/fSa2Cbqs7M7pLrWshS09QNfu4Cn8+G4iQ4AoVDi
+ SOEpd18TbYRKm5vd6FDn0/CJdmZHpsN/CiYjcOO+8Xz1SD4YQP1XmT6wiTNPPm+dgtPd
+ FxXqtMgCsBUUHCo2jCROYGhSXtLm2X94DNNhaQtcZ1qCqdbqouI0aNcfpj5y8QCnUWhY rg== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3snpjmg26n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Aug 2023 17:32:40 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37NGnPb4004055;
+	Wed, 23 Aug 2023 17:32:39 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3sn21rg5rd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Aug 2023 17:32:38 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37NHWbNm21168584
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 23 Aug 2023 17:32:38 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A5CA558050;
+	Wed, 23 Aug 2023 17:32:37 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4736B58056;
+	Wed, 23 Aug 2023 17:32:36 +0000 (GMT)
+Received: from [9.67.101.231] (unknown [9.67.101.231])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 23 Aug 2023 17:32:36 +0000 (GMT)
+Message-ID: <5c918888-6933-7661-45f0-32ae4521aa2c@linux.vnet.ibm.com>
+Date: Wed, 23 Aug 2023 12:32:35 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.13.0
+Subject: Re: [PATCH v1 1/1] soc/aspeed: Add host side BMC device driver
+Content-Language: en-US
+From: Ninad Palsule <ninad@linux.vnet.ibm.com>
+To: Andrew Lunn <andrew@lunn.ch>, Ninad Palsule <ninad@linux.ibm.com>
+References: <20230821183525.3427144-1-ninad@linux.ibm.com>
+ <20230821183525.3427144-2-ninad@linux.ibm.com>
+ <5159abb8-1b4c-4576-b370-4dd9db142beb@lunn.ch>
+ <6cea8ee7-f845-6ef3-631f-3f252ff5e949@linux.vnet.ibm.com>
+In-Reply-To: <6cea8ee7-f845-6ef3-631f-3f252ff5e949@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 1mv__vacMC-yZ399KpgyNPqZKlLTnK9L
+X-Proofpoint-ORIG-GUID: 1mv__vacMC-yZ399KpgyNPqZKlLTnK9L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-23_12,2023-08-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0 impostorscore=0
+ clxscore=1015 suspectscore=0 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308230159
 X-Mailman-Approved-At: Fri, 25 Aug 2023 21:33:58 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -85,443 +96,84 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: peteryin <peter.yin@quantatw.com>, peteryin <peteryin.openbmc@gmail.com>
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: peteryin <peter.yin@quantatw.com>
+Hello Andrew,
 
-Description:
-  The capability to choose the GPIO command source
-between ARM LPC and Coprocessor CPU is supported.
+On 8/22/23 11:14 AM, Ninad Palsule wrote:
+> Hello Andrew,
+>
+> Thanks for the review.
+>
+> On 8/21/23 2:29 PM, Andrew Lunn wrote:
+>>> Testing:
+>>>    - This is tested on IBM rainier system with BMC. It requires BMC 
+>>> side
+>>>      BMC device driver which is available in the ASPEED's 5.15 SDK
+>>>      kernel.
+>> How relevant is that? To the host side, it just appears to be an
+>> 16550A. Is the SDK emulating an 16550A? If you where to use a
+>> different kernel, is it still guaranteed to be an 16550A? I also
+>> notice there is a mainline
+>> drivers/tty/serial/8250/8250_aspeed_vuart.c. Could that be used on the
+>> BMC? That would be a better testing target than the vendor kernel.
+>
+> This is just to indicate how I tested my code.
+>
+> Yes, aspeed chip (in this case ast2600) is compatible with 16550 UART.
+>
+> I am guessing it should work with different kernel too as 16550 
+> standard is used.
+>
+> The 8250_aspeed_vuart.c is a BMC side driver for accessing VUART over 
+> LPC bus and
+>
+> this is a host side driver to access VUART over PCIe bus.
+>
+>>> +config ASPEED_HOST_BMC_DEV
+>>> +    bool "ASPEED SoC Host BMC device driver"
+>>> +    default ARCH_ASPEED
+>>> +    select SOC_BUS
+>>> +    default ARCH_ASPEED
+>> same default twice?
+> Removed.
+>>
+>>> +static int __init aspeed_host_bmc_device_init(void)
+>>> +{
+>>> +    int ret;
+>>> +
+>>> +    /* register pci driver */
+>>> +    ret = pci_register_driver(&aspeed_host_bmc_dev_driver);
+>>> +    if (ret < 0) {
+>>> +        pr_err("pci-driver: can't register pci driver\n");
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    return 0;
+>>> +
+>>> +}
+>>> +
+>>> +static void aspeed_host_bmc_device_exit(void)
+>>> +{
+>>> +    /* unregister pci driver */
+>>> +    pci_unregister_driver(&aspeed_host_bmc_dev_driver);
+>>> +}
+>>> +
+>>> +late_initcall(aspeed_host_bmc_device_init);
+>>> +module_exit(aspeed_host_bmc_device_exit);
+>> It looks like you can use module_pci_driver() ?
+> yes, It should work unless the late initcall is important. I will test 
+> it and see.
 
-Test Plan:
-Get Bank gpio command source
-  e.g.
-  cd /sys/bus/platform/drivers/aspeed-command-source/
-  cat 1e780000.gpio-command-source/bank_abcd
-  ARM ARM ARM ARM
+I will not be able to use module_pci_driver() as it doesn't support late 
+initcall which is required otherwise
 
-Set Bank gpio command source.
-  e.g.
-  cd /sys/bus/platform/drivers/aspeed-command-source/
+8250 registration fails. So I am not making this change.
 
-  echo "A ARM" > 1e780000.gpio-command-source/bank_abcd
-  or
-  echo "A LPC" > 1e780000.gpio-command-source/bank_abcd
-  or$
-  echo "A COP" > 1e780000.gpio-command-source/bank_abcd
-
-Signed-off-by: peteryin <peteryin.openbmc@gmail.com>
----
- .../sysfs-driver-aspeed-gpio-command-source   |  24 ++
- .../soc/aspeed/gpio-command-source.yaml       |  58 ++++
- drivers/soc/aspeed/Kconfig                    |   9 +
- drivers/soc/aspeed/Makefile                   |   1 +
- drivers/soc/aspeed/aspeed-command-source.c    | 266 ++++++++++++++++++
- 5 files changed, 358 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
- create mode 100644 Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
- create mode 100644 drivers/soc/aspeed/aspeed-command-source.c
-
-diff --git a/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source b/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
-new file mode 100644
-index 000000000000..4698f47a1f75
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
-@@ -0,0 +1,24 @@
-+What:		/sys/bus/platform/drivers/aspeed-command-source/\*command\*/bank\*
-+Date:		August 2023
-+Contact:	Peter Yin <peter.yin@quantatw.com>
-+Description:	Get or set the gpio command source for ARM, LPC or Coprocessor CPU.
-+
-+		When read, each file shows the list of available options with bank
-+		that depends on the selected bank file.
-+
-+		e.g.
-+		get gpio command source
-+		cd /sys/bus/platform/drivers/aspeed-command-source/
-+		cat 1e780000.gpio-command-source/bank_abcd
-+		ARM ARM ARM ARM
-+		In this case, gets bank gpio command source.
-+
-+
-+		e.g.
-+		set gpio command source
-+		cd /sys/bus/platform/drivers/aspeed-command-source/
-+		echo "A ARM" > 1e780000.gpio-command-source/bank_abcd
-+		or
-+		echo "A LPC" > 1e780000.gpio-command-source/bank_abcd
-+		or
-+		echo "A COP" > 1e780000.gpio-command-source/bank_abcd
-diff --git a/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml b/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
-new file mode 100644
-index 000000000000..034183667501
---- /dev/null
-+++ b/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
-@@ -0,0 +1,58 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# # Copyright (c) 2023 Quanta Inc.
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/soc/aspeed/gpio-command-source.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Aspeed UART Routing Controller
-+
-+maintainers:
-+  - Peter Yin <peter.yin@quantatw.com>
-+
-+description:
-+  The Aspeed gpio command source control allow to dynamically write the inputs for
-+  the built-in gpio command source.
-+
-+  This allows, for example, to connect the gpio command source to ARM LPC or Coprocessor CPU.
-+  e.g. let LPC port80 to connect the gpio group.
-+
-+  This driver is for the BMC side. The sysfs files allow the BMC userspace
-+  which owns the system configuration policy, to configure gpio command source.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - aspeed,ast2600-gpio-command-source
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+  gpio0: gpio@1e780000 {
-+    #gpio-cells = <2>;
-+    gpio-controller;
-+    compatible = "aspeed,ast2600-gpio", "simple-mfd", "syscon";
-+    reg = <0x1e780000 0x400>;
-+    interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
-+    gpio-ranges = <&pinctrl 0 0 208>;
-+    ngpios = <208>;
-+    clocks = <&syscon ASPEED_CLK_APB2>;
-+    interrupt-controller;
-+    #interrupt-cells = <2>;
-+
-+    #address-cells = <1>;
-+    #size-cells = <1>;
-+    ranges = <0x0 0x1e780000 0x400>;
-+    gpio_command_source: gpio-command-source@0 {
-+      compatible = "aspeed,ast2600-gpio-command-source";
-+      reg = <0x0 0x400>;
-+      status = "disabled";
-+    };
-+  };
-diff --git a/drivers/soc/aspeed/Kconfig b/drivers/soc/aspeed/Kconfig
-index bdea4b0a687b..066bea90bd00 100644
---- a/drivers/soc/aspeed/Kconfig
-+++ b/drivers/soc/aspeed/Kconfig
-@@ -34,6 +34,15 @@ config ASPEED_UART_ROUTING
- 	  users to perform runtime configuration of the RX muxes among
- 	  the UART controllers and I/O pins.
- 
-+config ASPEED_COMMAND_SOURCE
-+	tristate "ASPEED gpio command source control"
-+	select REGMAP
-+	select MFD_SYSCON
-+	default ARCH_ASPEED
-+	help
-+	  Provides a driver to control the gpio command source to ARM,
-+	  LPC or Coprocessor.
-+
- config ASPEED_P2A_CTRL
- 	tristate "ASPEED P2A (VGA MMIO to BMC) bridge control"
- 	select REGMAP
-diff --git a/drivers/soc/aspeed/Makefile b/drivers/soc/aspeed/Makefile
-index 224127a1dd55..3246f41fe2b2 100644
---- a/drivers/soc/aspeed/Makefile
-+++ b/drivers/soc/aspeed/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_ASPEED_LPC_CTRL)		+= aspeed-lpc-ctrl.o
- obj-$(CONFIG_ASPEED_LPC_SNOOP)		+= aspeed-lpc-snoop.o
- obj-$(CONFIG_ASPEED_UART_ROUTING)	+= aspeed-uart-routing.o
-+obj-$(CONFIG_ASPEED_COMMAND_SOURCE)	+= aspeed-command-source.o
- obj-$(CONFIG_ASPEED_P2A_CTRL)		+= aspeed-p2a-ctrl.o
- obj-$(CONFIG_ASPEED_SOCINFO)		+= aspeed-socinfo.o
- obj-$(CONFIG_ASPEED_SBC)		+= aspeed-sbc.o
-diff --git a/drivers/soc/aspeed/aspeed-command-source.c b/drivers/soc/aspeed/aspeed-command-source.c
-new file mode 100644
-index 000000000000..ecf15b56c1a6
---- /dev/null
-+++ b/drivers/soc/aspeed/aspeed-command-source.c
-@@ -0,0 +1,266 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (c) 2023 Quanta Inc.
-+ */
-+#include <linux/device.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/of_platform.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/regmap.h>
-+#include <linux/platform_device.h>
-+
-+/* register offsets */
-+#define GPIO60		0x60
-+#define GPIO68		0x68
-+#define GPIO90		0x90
-+#define GPIOE0		0xE0
-+#define GPIO110		0x110
-+#define GPIO140		0x140
-+#define GPIO170		0x170
-+
-+/* attributes options */
-+#define GPIO_COMMAND_SOURCE_ABCD	"bank_abcd"
-+#define GPIO_COMMAND_SOURCE_EFGH	"bank_efgh"
-+#define GPIO_COMMAND_SOURCE_IJKL	"bank_ijkl"
-+#define GPIO_COMMAND_SOURCE_MNOP	"bank_mnop"
-+#define GPIO_COMMAND_SOURCE_QRST	"bank_qrst"
-+#define GPIO_COMMAND_SOURCE_UVWX	"bank_uvwx"
-+#define GPIO_COMMAND_SOURCE_YZ		"bank_yz"
-+#define GPIO_BANK_SIZE			(4)
-+
-+#define COMMAND_SOURCE1_OFFSET		(4)
-+#define GPIO_GPIO_GRUOP_OFFSET		(8)
-+
-+struct aspeed_gpio_command_source {
-+	struct regmap *map;
-+	struct attribute_group const *attr_grp;
-+};
-+
-+struct aspeed_gpio_command_source_selector {
-+	struct device_attribute	dev_attr;
-+	uint32_t reg;
-+	const char *const group[];
-+};
-+
-+static const char *const options[] = {
-+	"ARM", "LPC", "COP", "NON", NULL
-+};
-+
-+
-+#define to_routing_selector(_dev_attr)					\
-+	container_of(_dev_attr, struct aspeed_gpio_command_source_selector, dev_attr)
-+
-+static ssize_t aspeed_gpio_command_source_show(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf);
-+
-+static ssize_t aspeed_gpio_command_source_store(struct device *dev,
-+					 struct device_attribute *attr,
-+					 const char *buf, size_t count);
-+
-+#define ROUTING_ATTR(_name) {					\
-+	.attr = {.name = _name,					\
-+		 .mode = VERIFY_OCTAL_PERMISSIONS(0644) },	\
-+	.show = aspeed_gpio_command_source_show,			\
-+	.store = aspeed_gpio_command_source_store,			\
-+}
-+
-+/* routing selector for AST26xx */
-+static struct aspeed_gpio_command_source_selector ast2600_bank_abcd = {
-+	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_ABCD),
-+	.reg = GPIO60,
-+	.group = { "A", "B", "C", "D", NULL},
-+};
-+
-+static struct aspeed_gpio_command_source_selector ast2600_bank_efgh = {
-+	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_EFGH),
-+	.reg = GPIO68,
-+	.group = { "E", "F", "G", "H", NULL},
-+
-+};
-+
-+static struct aspeed_gpio_command_source_selector ast2600_bank_ijkl = {
-+	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_IJKL),
-+	.reg = GPIO90,
-+	.group = { "I", "J", "L", "L", NULL},
-+};
-+
-+static struct aspeed_gpio_command_source_selector ast2600_bank_mnop = {
-+	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_MNOP),
-+	.reg = GPIOE0,
-+	.group = { "M", "N", "O", "P", NULL},
-+};
-+
-+static struct aspeed_gpio_command_source_selector ast2600_bank_qrst = {
-+	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_QRST),
-+	.reg = GPIO110,
-+	.group = { "Q", "R", "S", "T", NULL},
-+};
-+
-+static struct aspeed_gpio_command_source_selector ast2600_bank_uvwx = {
-+	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_UVWX),
-+	.reg = GPIO140,
-+	.group = { "U", "V", "W", "X", NULL},
-+};
-+
-+static struct aspeed_gpio_command_source_selector ast2600_bank_yz = {
-+	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_YZ),
-+	.reg = GPIO170,
-+	.group = { "Y", "Z", NULL, NULL, NULL},
-+};
-+
-+static struct attribute *ast2600_gpio_command_source_attrs[] = {
-+	&ast2600_bank_abcd.dev_attr.attr,
-+	&ast2600_bank_efgh.dev_attr.attr,
-+	&ast2600_bank_ijkl.dev_attr.attr,
-+	&ast2600_bank_mnop.dev_attr.attr,
-+	&ast2600_bank_qrst.dev_attr.attr,
-+	&ast2600_bank_uvwx.dev_attr.attr,
-+	&ast2600_bank_yz.dev_attr.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group ast2600_gpio_command_source_attr_group = {
-+	.attrs = ast2600_gpio_command_source_attrs,
-+};
-+
-+static ssize_t aspeed_gpio_command_source_show(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	struct aspeed_gpio_command_source *gpio_cmd_src = dev_get_drvdata(dev);
-+	struct aspeed_gpio_command_source_selector *sel = to_routing_selector(attr);
-+	uint8_t cmd_src0, cmd_src1;
-+	uint32_t val1 = 0, val2 = 0;
-+	int len = 0;
-+
-+	regmap_read(gpio_cmd_src->map, sel->reg, &val1);
-+	regmap_read(gpio_cmd_src->map, sel->reg + GPIO_GPIO_GRUOP_OFFSET, &val2);
-+
-+	for (int i = 0; i < GPIO_BANK_SIZE; i++) {
-+		cmd_src0 = (uint8_t)(val1 >> i*8);
-+		cmd_src1 = (uint8_t)(val2 >> i*8);
-+
-+		if (cmd_src0 == 0 && cmd_src1 == 0)
-+			len += sysfs_emit_at(buf, len, "%s ", options[0]);
-+		else if (cmd_src0 == 1 && cmd_src1 == 0)
-+			len += sysfs_emit_at(buf, len, "%s ", options[1]);
-+		else if (cmd_src0 == 0 && cmd_src1 == 1)
-+			len += sysfs_emit_at(buf, len, "%s ", options[2]);
-+		else if (cmd_src0 == 1 && cmd_src1 == 1)
-+			len += sysfs_emit_at(buf, len, "%s ", options[3]);
-+	}
-+
-+	len += sysfs_emit_at(buf, len, "\n");
-+	return len;
-+}
-+
-+static ssize_t aspeed_gpio_command_source_store(struct device *dev,
-+					 struct device_attribute *attr,
-+					 const char *buf, size_t count)
-+{
-+	struct aspeed_gpio_command_source *gpio_cmd_src = dev_get_drvdata(dev);
-+	struct aspeed_gpio_command_source_selector *sel = to_routing_selector(attr);
-+
-+	char input1[4], input2[4];
-+	int idx1 = -1, idx2 = -1;
-+	uint8_t cmd_src0 = 0, cmd_src1 = 0;
-+
-+	if (count >= sizeof(input1) + sizeof(input2))
-+		return -EINVAL; // Input is too long
-+
-+	if (sscanf(buf, "%3s %3s", input1, input2) != 2)
-+		return -EINVAL; // Failed to parse input
-+
-+	idx1 = match_string(sel->group, -1, input1); //match gpio group
-+	idx2 = match_string(options, -1, input2);    //match action
-+	if (idx1 < 0 || idx2 < 0) {
-+		dev_err(dev, "invalid value idx1=%d,idx2=%d\n", idx1, idx2);
-+		return -EINVAL;
-+	}
-+
-+	if (idx2 == 0) {  //ARM
-+		cmd_src0 = 0;
-+		cmd_src1 = 0;
-+	} else if (idx2 == 1) { //LPC
-+		cmd_src0 = 1;
-+		cmd_src1 = 0;
-+	} else if (idx2 == 2) { //Coprocessor CPU
-+		cmd_src0 = 0;
-+		cmd_src1 = 1;
-+	} else if (idx2 == 3) { //Reserve
-+		cmd_src0 = 1;
-+		cmd_src1 = 1;
-+	}
-+
-+	regmap_update_bits(gpio_cmd_src->map,
-+			   sel->reg,
-+			   1 << (idx1*GPIO_GPIO_GRUOP_OFFSET),
-+			   cmd_src0 << (idx1 * GPIO_GPIO_GRUOP_OFFSET));
-+
-+	regmap_update_bits(gpio_cmd_src->map,
-+			   (sel->reg) + COMMAND_SOURCE1_OFFSET,
-+			   1 << (idx1*GPIO_GPIO_GRUOP_OFFSET),
-+			   cmd_src1 << (idx1 * GPIO_GPIO_GRUOP_OFFSET));
-+	return count;
-+}
-+
-+static int aspeed_gpio_command_source_probe(struct platform_device *pdev)
-+{
-+	int rc;
-+	struct device *dev = &pdev->dev;
-+	struct aspeed_gpio_command_source *gpio_cmd_src;
-+
-+	gpio_cmd_src = devm_kzalloc(&pdev->dev, sizeof(*gpio_cmd_src), GFP_KERNEL);
-+	if (!gpio_cmd_src)
-+		return -ENOMEM;
-+
-+	gpio_cmd_src->map = syscon_node_to_regmap(dev->parent->of_node);
-+	if (IS_ERR(gpio_cmd_src->map)) {
-+		dev_err(dev, "cannot get regmap\n");
-+		return PTR_ERR(gpio_cmd_src->map);
-+	}
-+
-+	gpio_cmd_src->attr_grp = of_device_get_match_data(dev);
-+
-+	rc = sysfs_create_group(&dev->kobj, gpio_cmd_src->attr_grp);
-+	if (rc < 0)
-+		return rc;
-+
-+	dev_set_drvdata(dev, gpio_cmd_src);
-+	dev_info(dev, "module probe success\n");
-+
-+	return 0;
-+}
-+
-+static int aspeed_gpio_command_source_remove(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct aspeed_gpio_command_source *gpio_cmd_src = platform_get_drvdata(pdev);
-+
-+	sysfs_remove_group(&dev->kobj, gpio_cmd_src->attr_grp);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id aspeed_gpio_command_source_table[] = {
-+	{ .compatible = "aspeed,ast2600-gpio-command-source",
-+	  .data = &ast2600_gpio_command_source_attr_group },
-+	{ },
-+};
-+
-+static struct platform_driver aspeed_gpio_command_source_driver = {
-+	.driver = {
-+		.name = "aspeed-gpio-command-source",
-+		.of_match_table = aspeed_gpio_command_source_table,
-+	},
-+	.probe = aspeed_gpio_command_source_probe,
-+	.remove = aspeed_gpio_command_source_remove,
-+};
-+
-+module_platform_driver(aspeed_gpio_command_source_driver);
-+
-+MODULE_AUTHOR("Peter Yin <peter.yin@quantatw.com>");
-+MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("Driver to configure Aspeed GPIO Command Source");
--- 
-2.25.1
-
+>
+> Thanks & Regards,
+>
+> Ninad Palsule
+>
