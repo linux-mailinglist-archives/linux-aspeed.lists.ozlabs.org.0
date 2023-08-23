@@ -1,32 +1,32 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75A978860A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:39:58 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A71D78861E
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:31 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ0D5kT2z3dL3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:39:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ0s0QXKz3dD2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.189; helo=szxga03-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.187; helo=szxga01-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RW6lv4Y4zz3c1M;
-	Wed, 23 Aug 2023 23:40:11 +1000 (AEST)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RW6hG4ZB9zLpCH;
-	Wed, 23 Aug 2023 21:37:02 +0800 (CST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RW6mV1y2Pz3c4y;
+	Wed, 23 Aug 2023 23:40:42 +1000 (AEST)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RW6gX3YYgztS8b;
+	Wed, 23 Aug 2023 21:36:24 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 23 Aug
- 2023 21:40:06 +0800
+ 2023 21:40:07 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <lizetao1@huawei.com>
-Subject: [PATCH -next v2 15/25] spi: meson-spicc: Use helper function devm_clk_get_enabled()
-Date: Wed, 23 Aug 2023 21:39:28 +0800
-Message-ID: <20230823133938.1359106-16-lizetao1@huawei.com>
+Subject: [PATCH -next v2 16/25] spi: spi-meson-spifc: Use helper function devm_clk_get_enabled()
+Date: Wed, 23 Aug 2023 21:39:29 +0800
+Message-ID: <20230823133938.1359106-17-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230823133938.1359106-1-lizetao1@huawei.com>
 References: <20230822131237.1022815-1-lizetao1@huawei.com>
@@ -59,104 +59,66 @@ and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
 replaced by devm_clk_get_enabled() when driver enables (and possibly
 prepares) the clocks for the whole lifetime of the device. Moreover, it is
 no longer necessary to unprepare and disable the clocks explicitly.
+Moreover, the lable "out_clk" no longer makes sense, rename it to "out_pm".
 
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
 v1 -> v2: None
 
- drivers/spi/spi-meson-spicc.c | 33 ++++++---------------------------
- 1 file changed, 6 insertions(+), 27 deletions(-)
+ drivers/spi/spi-meson-spifc.c | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/spi/spi-meson-spicc.c b/drivers/spi/spi-meson-spicc.c
-index 43d134f4b42b..1f2d26254e03 100644
---- a/drivers/spi/spi-meson-spicc.c
-+++ b/drivers/spi/spi-meson-spicc.c
-@@ -820,7 +820,7 @@ static int meson_spicc_probe(struct platform_device *pdev)
- 		goto out_master;
+diff --git a/drivers/spi/spi-meson-spifc.c b/drivers/spi/spi-meson-spifc.c
+index 06626f406f68..d70a18885b49 100644
+--- a/drivers/spi/spi-meson-spifc.c
++++ b/drivers/spi/spi-meson-spifc.c
+@@ -312,19 +312,13 @@ static int meson_spifc_probe(struct platform_device *pdev)
+ 		goto out_err;
  	}
  
--	spicc->core = devm_clk_get(&pdev->dev, "core");
-+	spicc->core = devm_clk_get_enabled(&pdev->dev, "core");
- 	if (IS_ERR(spicc->core)) {
- 		dev_err(&pdev->dev, "core clock request failed\n");
- 		ret = PTR_ERR(spicc->core);
-@@ -828,7 +828,7 @@ static int meson_spicc_probe(struct platform_device *pdev)
+-	spifc->clk = devm_clk_get(spifc->dev, NULL);
++	spifc->clk = devm_clk_get_enabled(spifc->dev, NULL);
+ 	if (IS_ERR(spifc->clk)) {
+ 		dev_err(spifc->dev, "missing clock\n");
+ 		ret = PTR_ERR(spifc->clk);
+ 		goto out_err;
  	}
  
- 	if (spicc->data->has_pclk) {
--		spicc->pclk = devm_clk_get(&pdev->dev, "pclk");
-+		spicc->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
- 		if (IS_ERR(spicc->pclk)) {
- 			dev_err(&pdev->dev, "pclk clock request failed\n");
- 			ret = PTR_ERR(spicc->pclk);
-@@ -836,22 +836,10 @@ static int meson_spicc_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	ret = clk_prepare_enable(spicc->core);
+-	ret = clk_prepare_enable(spifc->clk);
 -	if (ret) {
--		dev_err(&pdev->dev, "core clock enable failed\n");
--		goto out_master;
+-		dev_err(spifc->dev, "can't prepare clock\n");
+-		goto out_err;
 -	}
 -
--	ret = clk_prepare_enable(spicc->pclk);
--	if (ret) {
--		dev_err(&pdev->dev, "pclk clock enable failed\n");
--		goto out_core_clk;
--	}
--
- 	spicc->pinctrl = devm_pinctrl_get(&pdev->dev);
- 	if (IS_ERR(spicc->pinctrl)) {
- 		ret = PTR_ERR(spicc->pinctrl);
--		goto out_clk;
-+		goto out_master;
- 	}
+ 	rate = clk_get_rate(spifc->clk);
  
- 	device_reset_optional(&pdev->dev);
-@@ -878,31 +866,25 @@ static int meson_spicc_probe(struct platform_device *pdev)
- 	ret = meson_spicc_pow2_clk_init(spicc);
+ 	master->num_chipselect = 1;
+@@ -343,12 +337,11 @@ static int meson_spifc_probe(struct platform_device *pdev)
+ 	ret = devm_spi_register_master(spifc->dev, master);
  	if (ret) {
- 		dev_err(&pdev->dev, "pow2 clock registration failed\n");
+ 		dev_err(spifc->dev, "failed to register spi master\n");
 -		goto out_clk;
-+		goto out_master;
- 	}
- 
- 	if (spicc->data->has_enhance_clk_div) {
- 		ret = meson_spicc_enh_clk_init(spicc);
- 		if (ret) {
- 			dev_err(&pdev->dev, "clock registration failed\n");
--			goto out_clk;
-+			goto out_master;
- 		}
- 	}
- 
- 	ret = devm_spi_register_master(&pdev->dev, master);
- 	if (ret) {
- 		dev_err(&pdev->dev, "spi master registration failed\n");
--		goto out_clk;
-+		goto out_master;
++		goto out_pm;
  	}
  
  	return 0;
- 
 -out_clk:
--	clk_disable_unprepare(spicc->pclk);
--
--out_core_clk:
--	clk_disable_unprepare(spicc->core);
--
- out_master:
+-	clk_disable_unprepare(spifc->clk);
++out_pm:
+ 	pm_runtime_disable(spifc->dev);
+ out_err:
  	spi_master_put(master);
+@@ -357,11 +350,7 @@ static int meson_spifc_probe(struct platform_device *pdev)
  
-@@ -916,9 +898,6 @@ static void meson_spicc_remove(struct platform_device *pdev)
- 	/* Disable SPI */
- 	writel(0, spicc->base + SPICC_CONREG);
- 
--	clk_disable_unprepare(spicc->core);
--	clk_disable_unprepare(spicc->pclk);
+ static void meson_spifc_remove(struct platform_device *pdev)
+ {
+-	struct spi_master *master = platform_get_drvdata(pdev);
+-	struct meson_spifc *spifc = spi_master_get_devdata(master);
 -
- 	spi_master_put(spicc->master);
+ 	pm_runtime_get_sync(&pdev->dev);
+-	clk_disable_unprepare(spifc->clk);
+ 	pm_runtime_disable(&pdev->dev);
  }
  
 -- 
