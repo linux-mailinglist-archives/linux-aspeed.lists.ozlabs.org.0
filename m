@@ -2,42 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041F6788612
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5308E788622
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:42 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ipPWfyUN;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ0Z62fpz3cnG
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ141C0jz30fF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.188; helo=szxga02-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ipPWfyUN;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RW6m85S4Qz3bvY;
-	Wed, 23 Aug 2023 23:40:24 +1000 (AEST)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RW6jQ27ZrzTmcD;
-	Wed, 23 Aug 2023 21:38:02 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
- (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 23 Aug
- 2023 21:40:17 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <lizetao1@huawei.com>
-Subject: [PATCH -next v2 25/25] spi: rockchip: Use helper function devm_clk_get_enabled()
-Date: Wed, 23 Aug 2023 21:39:38 +0800
-Message-ID: <20230823133938.1359106-26-lizetao1@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230823133938.1359106-1-lizetao1@huawei.com>
-References: <20230822131237.1022815-1-lizetao1@huawei.com>
- <20230823133938.1359106-1-lizetao1@huawei.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWB5961hQz3c1J
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 02:10:20 +1000 (AEST)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1bf1935f6c2so39520675ad.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 23 Aug 2023 09:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692807017; x=1693411817;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z0xBOCTk1h2aY6GHi56izPP9ZKIEziL2gPlL/YE4i+4=;
+        b=ipPWfyUNYuRmPTdTq7hZyx0FMVwjxEbwcsNALJwZeA+hPyS3Qult+/I0vjW5WDHUPz
+         N0qybclfWYHirwhZ+wYIgu1FagJJGOpEVByAsc1JyNO/kvtjeNJ5xza9yXrpBndEbFU3
+         dMzVqp4Zf+Puo6w/uVBPtsu8iRn0yPWvZ8cVTn5tM0R0H8cy+B3dJe2t2shQRBwyDscC
+         Q+QrYF+PDG5L8ruj6AOfTA5c8U9ksbd9Xm1Lb4+Sob5XnLl2t+l4NBfQm4vztxTyRSvN
+         36riPFJE3siMTO7GqrRfUT1fi7XNARnuberLmGHItM0ihzYKCLLbsgy+zuFib0iRbw8W
+         r7dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692807017; x=1693411817;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z0xBOCTk1h2aY6GHi56izPP9ZKIEziL2gPlL/YE4i+4=;
+        b=Ngh2dvdr8yiB026gBshjRbeyxfGoY4XbcgjKRRHETIZA4K+NdK6UGxcKSilBgEDRXy
+         SBTLgKQdlBIwEtVJGu2tq2rxo7PILQF7E6bOuZXMOC6WtHRZh5Wk9V1F6gkI2xDMDLhW
+         oW5Q0b+Mi10IqacQJW3yimjUSGmFe46jKnSqGXgGumECKxakZKVTRenn6vyhYHyxRxoi
+         6cZBrHBUmE732OAASoUuNvK0HG9larfI/jqZvzbe1LU0NcQCGsCGlwAVzOTXoVsDM0fV
+         WKPOIp4Sg80jIIIXWDekAxmfVHQZwD0Hh/xdfqfcA2JEjEaxM8qOpmMoc2H5FyWdNRlT
+         lPFQ==
+X-Gm-Message-State: AOJu0YzK87j7dth2SPKOMPPMitLl2FfETNuCXApndNGyY8tLa93YGDKw
+	qo05+Y8mnFHMJCkgticCgaU=
+X-Google-Smtp-Source: AGHT+IEACi22azJ0gb7FjH9uYx64mg3/D5Ji14qErxd0e2/DACqtz/r6g9qNG75rGfKjuX3cNDSlJQ==
+X-Received: by 2002:a17:903:1c4:b0:1b5:522a:1578 with SMTP id e4-20020a17090301c400b001b5522a1578mr19098503plh.29.1692807017054;
+        Wed, 23 Aug 2023 09:10:17 -0700 (PDT)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001afd821c057sm11238296pli.58.2023.08.23.09.10.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 09:10:16 -0700 (PDT)
+From: peteryin <peteryin.openbmc@gmail.com>
+To: joel@jms.id.au,
+	andrew@aj.id.au,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	eajames@linux.ibm.com,
+	johnny_huang@aspeedtech.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] Title: Select GPIO command source.
+Date: Thu, 24 Aug 2023 00:08:10 +0800
+Message-Id: <20230823160810.1067102-1-peteryin.openbmc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500012.china.huawei.com (7.221.188.12)
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 25 Aug 2023 21:33:58 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -50,109 +85,443 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: heiko@sntech.de, linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org, tali.perry1@gmail.com, conor.dooley@microchip.com, linux-riscv@lists.infradead.org, jbrunet@baylibre.com, florian.fainelli@broadcom.com, yuenn@google.com, khilman@baylibre.com, tmaimon77@gmail.com, linux-rockchip@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com, avifishman70@gmail.com, martin.blumenstingl@googlemail.com, rjui@broadcom.com, broonie@kernel.org, linux-mediatek@lists.infradead.org, clg@kaod.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>, matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org, sbranden@broadcom.com, venture@google.com, fancer.lancer@gmail.com, linux-spi@vger.kernel.org, daire.mcnamara@microchip.com, olteanv@gmail.com, openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org
+Cc: peteryin <peter.yin@quantatw.com>, peteryin <peteryin.openbmc@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
-and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
-replaced by devm_clk_get_enabled() when driver enables (and possibly
-prepares) the clocks for the whole lifetime of the device. Moreover, it is
-no longer necessary to unprepare and disable the clocks explicitly.
+From: peteryin <peter.yin@quantatw.com>
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
+Description:
+  The capability to choose the GPIO command source
+between ARM LPC and Coprocessor CPU is supported.
+
+Test Plan:
+Get Bank gpio command source
+  e.g.
+  cd /sys/bus/platform/drivers/aspeed-command-source/
+  cat 1e780000.gpio-command-source/bank_abcd
+  ARM ARM ARM ARM
+
+Set Bank gpio command source.
+  e.g.
+  cd /sys/bus/platform/drivers/aspeed-command-source/
+
+  echo "A ARM" > 1e780000.gpio-command-source/bank_abcd
+  or
+  echo "A LPC" > 1e780000.gpio-command-source/bank_abcd
+  or$
+  echo "A COP" > 1e780000.gpio-command-source/bank_abcd
+
+Signed-off-by: peteryin <peteryin.openbmc@gmail.com>
 ---
-v1 -> v2: None
+ .../sysfs-driver-aspeed-gpio-command-source   |  24 ++
+ .../soc/aspeed/gpio-command-source.yaml       |  58 ++++
+ drivers/soc/aspeed/Kconfig                    |   9 +
+ drivers/soc/aspeed/Makefile                   |   1 +
+ drivers/soc/aspeed/aspeed-command-source.c    | 266 ++++++++++++++++++
+ 5 files changed, 358 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
+ create mode 100644 Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
+ create mode 100644 drivers/soc/aspeed/aspeed-command-source.c
 
- drivers/spi/spi-rockchip.c | 30 +++++-------------------------
- 1 file changed, 5 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/spi/spi-rockchip.c b/drivers/spi/spi-rockchip.c
-index 5b010094dace..4b9669da2cf3 100644
---- a/drivers/spi/spi-rockchip.c
-+++ b/drivers/spi/spi-rockchip.c
-@@ -782,42 +782,30 @@ static int rockchip_spi_probe(struct platform_device *pdev)
- 		goto err_put_ctlr;
- 	}
+diff --git a/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source b/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
+new file mode 100644
+index 000000000000..4698f47a1f75
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
+@@ -0,0 +1,24 @@
++What:		/sys/bus/platform/drivers/aspeed-command-source/\*command\*/bank\*
++Date:		August 2023
++Contact:	Peter Yin <peter.yin@quantatw.com>
++Description:	Get or set the gpio command source for ARM, LPC or Coprocessor CPU.
++
++		When read, each file shows the list of available options with bank
++		that depends on the selected bank file.
++
++		e.g.
++		get gpio command source
++		cd /sys/bus/platform/drivers/aspeed-command-source/
++		cat 1e780000.gpio-command-source/bank_abcd
++		ARM ARM ARM ARM
++		In this case, gets bank gpio command source.
++
++
++		e.g.
++		set gpio command source
++		cd /sys/bus/platform/drivers/aspeed-command-source/
++		echo "A ARM" > 1e780000.gpio-command-source/bank_abcd
++		or
++		echo "A LPC" > 1e780000.gpio-command-source/bank_abcd
++		or
++		echo "A COP" > 1e780000.gpio-command-source/bank_abcd
+diff --git a/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml b/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
+new file mode 100644
+index 000000000000..034183667501
+--- /dev/null
++++ b/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# # Copyright (c) 2023 Quanta Inc.
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/soc/aspeed/gpio-command-source.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Aspeed UART Routing Controller
++
++maintainers:
++  - Peter Yin <peter.yin@quantatw.com>
++
++description:
++  The Aspeed gpio command source control allow to dynamically write the inputs for
++  the built-in gpio command source.
++
++  This allows, for example, to connect the gpio command source to ARM LPC or Coprocessor CPU.
++  e.g. let LPC port80 to connect the gpio group.
++
++  This driver is for the BMC side. The sysfs files allow the BMC userspace
++  which owns the system configuration policy, to configure gpio command source.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - aspeed,ast2600-gpio-command-source
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++  gpio0: gpio@1e780000 {
++    #gpio-cells = <2>;
++    gpio-controller;
++    compatible = "aspeed,ast2600-gpio", "simple-mfd", "syscon";
++    reg = <0x1e780000 0x400>;
++    interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
++    gpio-ranges = <&pinctrl 0 0 208>;
++    ngpios = <208>;
++    clocks = <&syscon ASPEED_CLK_APB2>;
++    interrupt-controller;
++    #interrupt-cells = <2>;
++
++    #address-cells = <1>;
++    #size-cells = <1>;
++    ranges = <0x0 0x1e780000 0x400>;
++    gpio_command_source: gpio-command-source@0 {
++      compatible = "aspeed,ast2600-gpio-command-source";
++      reg = <0x0 0x400>;
++      status = "disabled";
++    };
++  };
+diff --git a/drivers/soc/aspeed/Kconfig b/drivers/soc/aspeed/Kconfig
+index bdea4b0a687b..066bea90bd00 100644
+--- a/drivers/soc/aspeed/Kconfig
++++ b/drivers/soc/aspeed/Kconfig
+@@ -34,6 +34,15 @@ config ASPEED_UART_ROUTING
+ 	  users to perform runtime configuration of the RX muxes among
+ 	  the UART controllers and I/O pins.
  
--	rs->apb_pclk = devm_clk_get(&pdev->dev, "apb_pclk");
-+	rs->apb_pclk = devm_clk_get_enabled(&pdev->dev, "apb_pclk");
- 	if (IS_ERR(rs->apb_pclk)) {
- 		dev_err(&pdev->dev, "Failed to get apb_pclk\n");
- 		ret = PTR_ERR(rs->apb_pclk);
- 		goto err_put_ctlr;
- 	}
- 
--	rs->spiclk = devm_clk_get(&pdev->dev, "spiclk");
-+	rs->spiclk = devm_clk_get_enabled(&pdev->dev, "spiclk");
- 	if (IS_ERR(rs->spiclk)) {
- 		dev_err(&pdev->dev, "Failed to get spi_pclk\n");
- 		ret = PTR_ERR(rs->spiclk);
- 		goto err_put_ctlr;
- 	}
- 
--	ret = clk_prepare_enable(rs->apb_pclk);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "Failed to enable apb_pclk\n");
--		goto err_put_ctlr;
--	}
--
--	ret = clk_prepare_enable(rs->spiclk);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "Failed to enable spi_clk\n");
--		goto err_disable_apbclk;
--	}
--
- 	spi_enable_chip(rs, false);
- 
- 	ret = platform_get_irq(pdev, 0);
- 	if (ret < 0)
--		goto err_disable_spiclk;
-+		goto err_put_ctlr;
- 
- 	ret = devm_request_threaded_irq(&pdev->dev, ret, rockchip_spi_isr, NULL,
- 			IRQF_ONESHOT, dev_name(&pdev->dev), ctlr);
- 	if (ret)
--		goto err_disable_spiclk;
-+		goto err_put_ctlr;
- 
- 	rs->dev = &pdev->dev;
- 	rs->freq = clk_get_rate(rs->spiclk);
-@@ -843,7 +831,7 @@ static int rockchip_spi_probe(struct platform_device *pdev)
- 	if (!rs->fifo_len) {
- 		dev_err(&pdev->dev, "Failed to get fifo length\n");
- 		ret = -EINVAL;
--		goto err_disable_spiclk;
-+		goto err_put_ctlr;
- 	}
- 
- 	pm_runtime_set_autosuspend_delay(&pdev->dev, ROCKCHIP_AUTOSUSPEND_TIMEOUT);
-@@ -937,10 +925,6 @@ static int rockchip_spi_probe(struct platform_device *pdev)
- 		dma_release_channel(ctlr->dma_tx);
- err_disable_pm_runtime:
- 	pm_runtime_disable(&pdev->dev);
--err_disable_spiclk:
--	clk_disable_unprepare(rs->spiclk);
--err_disable_apbclk:
--	clk_disable_unprepare(rs->apb_pclk);
- err_put_ctlr:
- 	spi_controller_put(ctlr);
- 
-@@ -950,13 +934,9 @@ static int rockchip_spi_probe(struct platform_device *pdev)
- static void rockchip_spi_remove(struct platform_device *pdev)
- {
- 	struct spi_controller *ctlr = spi_controller_get(platform_get_drvdata(pdev));
--	struct rockchip_spi *rs = spi_controller_get_devdata(ctlr);
- 
- 	pm_runtime_get_sync(&pdev->dev);
- 
--	clk_disable_unprepare(rs->spiclk);
--	clk_disable_unprepare(rs->apb_pclk);
--
- 	pm_runtime_put_noidle(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 	pm_runtime_set_suspended(&pdev->dev);
++config ASPEED_COMMAND_SOURCE
++	tristate "ASPEED gpio command source control"
++	select REGMAP
++	select MFD_SYSCON
++	default ARCH_ASPEED
++	help
++	  Provides a driver to control the gpio command source to ARM,
++	  LPC or Coprocessor.
++
+ config ASPEED_P2A_CTRL
+ 	tristate "ASPEED P2A (VGA MMIO to BMC) bridge control"
+ 	select REGMAP
+diff --git a/drivers/soc/aspeed/Makefile b/drivers/soc/aspeed/Makefile
+index 224127a1dd55..3246f41fe2b2 100644
+--- a/drivers/soc/aspeed/Makefile
++++ b/drivers/soc/aspeed/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_ASPEED_LPC_CTRL)		+= aspeed-lpc-ctrl.o
+ obj-$(CONFIG_ASPEED_LPC_SNOOP)		+= aspeed-lpc-snoop.o
+ obj-$(CONFIG_ASPEED_UART_ROUTING)	+= aspeed-uart-routing.o
++obj-$(CONFIG_ASPEED_COMMAND_SOURCE)	+= aspeed-command-source.o
+ obj-$(CONFIG_ASPEED_P2A_CTRL)		+= aspeed-p2a-ctrl.o
+ obj-$(CONFIG_ASPEED_SOCINFO)		+= aspeed-socinfo.o
+ obj-$(CONFIG_ASPEED_SBC)		+= aspeed-sbc.o
+diff --git a/drivers/soc/aspeed/aspeed-command-source.c b/drivers/soc/aspeed/aspeed-command-source.c
+new file mode 100644
+index 000000000000..ecf15b56c1a6
+--- /dev/null
++++ b/drivers/soc/aspeed/aspeed-command-source.c
+@@ -0,0 +1,266 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (c) 2023 Quanta Inc.
++ */
++#include <linux/device.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/of_platform.h>
++#include <linux/mfd/syscon.h>
++#include <linux/regmap.h>
++#include <linux/platform_device.h>
++
++/* register offsets */
++#define GPIO60		0x60
++#define GPIO68		0x68
++#define GPIO90		0x90
++#define GPIOE0		0xE0
++#define GPIO110		0x110
++#define GPIO140		0x140
++#define GPIO170		0x170
++
++/* attributes options */
++#define GPIO_COMMAND_SOURCE_ABCD	"bank_abcd"
++#define GPIO_COMMAND_SOURCE_EFGH	"bank_efgh"
++#define GPIO_COMMAND_SOURCE_IJKL	"bank_ijkl"
++#define GPIO_COMMAND_SOURCE_MNOP	"bank_mnop"
++#define GPIO_COMMAND_SOURCE_QRST	"bank_qrst"
++#define GPIO_COMMAND_SOURCE_UVWX	"bank_uvwx"
++#define GPIO_COMMAND_SOURCE_YZ		"bank_yz"
++#define GPIO_BANK_SIZE			(4)
++
++#define COMMAND_SOURCE1_OFFSET		(4)
++#define GPIO_GPIO_GRUOP_OFFSET		(8)
++
++struct aspeed_gpio_command_source {
++	struct regmap *map;
++	struct attribute_group const *attr_grp;
++};
++
++struct aspeed_gpio_command_source_selector {
++	struct device_attribute	dev_attr;
++	uint32_t reg;
++	const char *const group[];
++};
++
++static const char *const options[] = {
++	"ARM", "LPC", "COP", "NON", NULL
++};
++
++
++#define to_routing_selector(_dev_attr)					\
++	container_of(_dev_attr, struct aspeed_gpio_command_source_selector, dev_attr)
++
++static ssize_t aspeed_gpio_command_source_show(struct device *dev,
++					struct device_attribute *attr,
++					char *buf);
++
++static ssize_t aspeed_gpio_command_source_store(struct device *dev,
++					 struct device_attribute *attr,
++					 const char *buf, size_t count);
++
++#define ROUTING_ATTR(_name) {					\
++	.attr = {.name = _name,					\
++		 .mode = VERIFY_OCTAL_PERMISSIONS(0644) },	\
++	.show = aspeed_gpio_command_source_show,			\
++	.store = aspeed_gpio_command_source_store,			\
++}
++
++/* routing selector for AST26xx */
++static struct aspeed_gpio_command_source_selector ast2600_bank_abcd = {
++	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_ABCD),
++	.reg = GPIO60,
++	.group = { "A", "B", "C", "D", NULL},
++};
++
++static struct aspeed_gpio_command_source_selector ast2600_bank_efgh = {
++	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_EFGH),
++	.reg = GPIO68,
++	.group = { "E", "F", "G", "H", NULL},
++
++};
++
++static struct aspeed_gpio_command_source_selector ast2600_bank_ijkl = {
++	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_IJKL),
++	.reg = GPIO90,
++	.group = { "I", "J", "L", "L", NULL},
++};
++
++static struct aspeed_gpio_command_source_selector ast2600_bank_mnop = {
++	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_MNOP),
++	.reg = GPIOE0,
++	.group = { "M", "N", "O", "P", NULL},
++};
++
++static struct aspeed_gpio_command_source_selector ast2600_bank_qrst = {
++	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_QRST),
++	.reg = GPIO110,
++	.group = { "Q", "R", "S", "T", NULL},
++};
++
++static struct aspeed_gpio_command_source_selector ast2600_bank_uvwx = {
++	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_UVWX),
++	.reg = GPIO140,
++	.group = { "U", "V", "W", "X", NULL},
++};
++
++static struct aspeed_gpio_command_source_selector ast2600_bank_yz = {
++	.dev_attr = ROUTING_ATTR(GPIO_COMMAND_SOURCE_YZ),
++	.reg = GPIO170,
++	.group = { "Y", "Z", NULL, NULL, NULL},
++};
++
++static struct attribute *ast2600_gpio_command_source_attrs[] = {
++	&ast2600_bank_abcd.dev_attr.attr,
++	&ast2600_bank_efgh.dev_attr.attr,
++	&ast2600_bank_ijkl.dev_attr.attr,
++	&ast2600_bank_mnop.dev_attr.attr,
++	&ast2600_bank_qrst.dev_attr.attr,
++	&ast2600_bank_uvwx.dev_attr.attr,
++	&ast2600_bank_yz.dev_attr.attr,
++	NULL,
++};
++
++static const struct attribute_group ast2600_gpio_command_source_attr_group = {
++	.attrs = ast2600_gpio_command_source_attrs,
++};
++
++static ssize_t aspeed_gpio_command_source_show(struct device *dev,
++					struct device_attribute *attr,
++					char *buf)
++{
++	struct aspeed_gpio_command_source *gpio_cmd_src = dev_get_drvdata(dev);
++	struct aspeed_gpio_command_source_selector *sel = to_routing_selector(attr);
++	uint8_t cmd_src0, cmd_src1;
++	uint32_t val1 = 0, val2 = 0;
++	int len = 0;
++
++	regmap_read(gpio_cmd_src->map, sel->reg, &val1);
++	regmap_read(gpio_cmd_src->map, sel->reg + GPIO_GPIO_GRUOP_OFFSET, &val2);
++
++	for (int i = 0; i < GPIO_BANK_SIZE; i++) {
++		cmd_src0 = (uint8_t)(val1 >> i*8);
++		cmd_src1 = (uint8_t)(val2 >> i*8);
++
++		if (cmd_src0 == 0 && cmd_src1 == 0)
++			len += sysfs_emit_at(buf, len, "%s ", options[0]);
++		else if (cmd_src0 == 1 && cmd_src1 == 0)
++			len += sysfs_emit_at(buf, len, "%s ", options[1]);
++		else if (cmd_src0 == 0 && cmd_src1 == 1)
++			len += sysfs_emit_at(buf, len, "%s ", options[2]);
++		else if (cmd_src0 == 1 && cmd_src1 == 1)
++			len += sysfs_emit_at(buf, len, "%s ", options[3]);
++	}
++
++	len += sysfs_emit_at(buf, len, "\n");
++	return len;
++}
++
++static ssize_t aspeed_gpio_command_source_store(struct device *dev,
++					 struct device_attribute *attr,
++					 const char *buf, size_t count)
++{
++	struct aspeed_gpio_command_source *gpio_cmd_src = dev_get_drvdata(dev);
++	struct aspeed_gpio_command_source_selector *sel = to_routing_selector(attr);
++
++	char input1[4], input2[4];
++	int idx1 = -1, idx2 = -1;
++	uint8_t cmd_src0 = 0, cmd_src1 = 0;
++
++	if (count >= sizeof(input1) + sizeof(input2))
++		return -EINVAL; // Input is too long
++
++	if (sscanf(buf, "%3s %3s", input1, input2) != 2)
++		return -EINVAL; // Failed to parse input
++
++	idx1 = match_string(sel->group, -1, input1); //match gpio group
++	idx2 = match_string(options, -1, input2);    //match action
++	if (idx1 < 0 || idx2 < 0) {
++		dev_err(dev, "invalid value idx1=%d,idx2=%d\n", idx1, idx2);
++		return -EINVAL;
++	}
++
++	if (idx2 == 0) {  //ARM
++		cmd_src0 = 0;
++		cmd_src1 = 0;
++	} else if (idx2 == 1) { //LPC
++		cmd_src0 = 1;
++		cmd_src1 = 0;
++	} else if (idx2 == 2) { //Coprocessor CPU
++		cmd_src0 = 0;
++		cmd_src1 = 1;
++	} else if (idx2 == 3) { //Reserve
++		cmd_src0 = 1;
++		cmd_src1 = 1;
++	}
++
++	regmap_update_bits(gpio_cmd_src->map,
++			   sel->reg,
++			   1 << (idx1*GPIO_GPIO_GRUOP_OFFSET),
++			   cmd_src0 << (idx1 * GPIO_GPIO_GRUOP_OFFSET));
++
++	regmap_update_bits(gpio_cmd_src->map,
++			   (sel->reg) + COMMAND_SOURCE1_OFFSET,
++			   1 << (idx1*GPIO_GPIO_GRUOP_OFFSET),
++			   cmd_src1 << (idx1 * GPIO_GPIO_GRUOP_OFFSET));
++	return count;
++}
++
++static int aspeed_gpio_command_source_probe(struct platform_device *pdev)
++{
++	int rc;
++	struct device *dev = &pdev->dev;
++	struct aspeed_gpio_command_source *gpio_cmd_src;
++
++	gpio_cmd_src = devm_kzalloc(&pdev->dev, sizeof(*gpio_cmd_src), GFP_KERNEL);
++	if (!gpio_cmd_src)
++		return -ENOMEM;
++
++	gpio_cmd_src->map = syscon_node_to_regmap(dev->parent->of_node);
++	if (IS_ERR(gpio_cmd_src->map)) {
++		dev_err(dev, "cannot get regmap\n");
++		return PTR_ERR(gpio_cmd_src->map);
++	}
++
++	gpio_cmd_src->attr_grp = of_device_get_match_data(dev);
++
++	rc = sysfs_create_group(&dev->kobj, gpio_cmd_src->attr_grp);
++	if (rc < 0)
++		return rc;
++
++	dev_set_drvdata(dev, gpio_cmd_src);
++	dev_info(dev, "module probe success\n");
++
++	return 0;
++}
++
++static int aspeed_gpio_command_source_remove(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct aspeed_gpio_command_source *gpio_cmd_src = platform_get_drvdata(pdev);
++
++	sysfs_remove_group(&dev->kobj, gpio_cmd_src->attr_grp);
++
++	return 0;
++}
++
++static const struct of_device_id aspeed_gpio_command_source_table[] = {
++	{ .compatible = "aspeed,ast2600-gpio-command-source",
++	  .data = &ast2600_gpio_command_source_attr_group },
++	{ },
++};
++
++static struct platform_driver aspeed_gpio_command_source_driver = {
++	.driver = {
++		.name = "aspeed-gpio-command-source",
++		.of_match_table = aspeed_gpio_command_source_table,
++	},
++	.probe = aspeed_gpio_command_source_probe,
++	.remove = aspeed_gpio_command_source_remove,
++};
++
++module_platform_driver(aspeed_gpio_command_source_driver);
++
++MODULE_AUTHOR("Peter Yin <peter.yin@quantatw.com>");
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("Driver to configure Aspeed GPIO Command Source");
 -- 
-2.34.1
+2.25.1
 
