@@ -1,140 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7942578512E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Aug 2023 09:11:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEB0785224
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Aug 2023 09:58:24 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=ZUWlN3WS;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E/wU8zwA;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RVy7s429nz3c2K
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Aug 2023 17:11:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RVz9V0rrXz3c8W
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Aug 2023 17:58:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=ZUWlN3WS;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E/wU8zwA;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::703; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20703.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::703])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=134.134.136.126; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVy7f3D3jz2xHK;
-	Wed, 23 Aug 2023 17:11:40 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C59nFZubldU+gDnkYX7TAIqx2/yAipuT2I39aPvHyUDuNxHAFFZKkAXaFqk0S9pvaogUxsk+V9oPpJZCaN0zDavJrgMLqbZEMrCVLVBrtadCRexa/Y4P9DmXuGfN2ptCTecN0SXjtT1IYYfb+zf0v1NxRS8KZ2JXNuyjAIEHWSC8DWNwkwrmNjIhuc3SqrbwrdcBUP8tGqkOi2RlJ5mZllfDPSev9l7jwyTD2YxD57SystpktTdQ9Fl8VKbDy9chby1QqBjj5Xfe3ZKJ/nJlsVHJHwauQwouQEAp8betcv6gHGRbweSdleZpQlQBjbaHcFiDvljx5TWMOd41AhVqPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+7xSverx84p1FkG7XUOE1Uhtjz9zbU2K14Uh7EYXy7M=;
- b=isdgJ9xih/6d2BtXRJYhZXfwoKYhh3ON7Sd2VtzZ2LP5bJ0YN+bLgFqryAQ5ldBtowD9A6nl+1AWHJCBZOxRYQg5YHcnJIh94QwL9ImVQzIRDPBi2SskiOnskIbcIDQpCi7Cu2+4N8f7xbLwb42KztSCBToE5Wsq9qRvYM1FVnzfVKMVivDsH4ZufIv98haZl4LTsjHbvDUwPiZrS9OdndWdDRdkYjw+SR9XG3Rm8I7CyToxrqYCt1bDycmhpihX0NWUlJCJDVOfRy/xhCV+UOLc3dt86AecfAmO+seM+TQ81mw5d+O5Xf8wVC4Z+OmkNcE5l0LCm2eoXI6rUUb2Ag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+7xSverx84p1FkG7XUOE1Uhtjz9zbU2K14Uh7EYXy7M=;
- b=ZUWlN3WSxMqN4xnMG4fHiVTnJQhqF3ORdVfciTJIjW+RSGD9o2yxI5Ro0cOKfTy0WIC14vUsXMgO8pmEPzK4xBd4p/YVP2V03tuize0EOc/AdotFSHuxbu1uoAX/7vMwKzsRg7/GOuApLoivV3R+GpjzDRZkB9zP7o8eoRwRVLQOHG+lBNHmEBFYnnWzDg9MoeF0mpuLmzI34v9nlqpY8aIA+11wQ/54e1oneb+b0fqNGYb/xTKjr9sYCQlsCxSGC4K5oPlQMTV1yEVFmohwy0nG/aZVGdjrcV/OuAKMIt/UvFL4sNp24huue5QmjXt9/vBbAg/PndN01t+X0teVmg==
-Received: from TYZPR06MB5203.apcprd06.prod.outlook.com (2603:1096:400:1f9::9)
- by SG2PR06MB5360.apcprd06.prod.outlook.com (2603:1096:4:1db::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Wed, 23 Aug
- 2023 07:11:19 +0000
-Received: from TYZPR06MB5203.apcprd06.prod.outlook.com
- ([fe80::c404:538d:e090:f7b]) by TYZPR06MB5203.apcprd06.prod.outlook.com
- ([fe80::c404:538d:e090:f7b%5]) with mapi id 15.20.6699.020; Wed, 23 Aug 2023
- 07:11:19 +0000
-From: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-To: Li Zetao <lizetao1@huawei.com>, "broonie@kernel.org" <broonie@kernel.org>,
-	"clg@kaod.org" <clg@kaod.org>, "joel@jms.id.au" <joel@jms.id.au>,
-	"andrew@aj.id.au" <andrew@aj.id.au>, "florian.fainelli@broadcom.com"
-	<florian.fainelli@broadcom.com>, "rjui@broadcom.com" <rjui@broadcom.com>,
-	"sbranden@broadcom.com" <sbranden@broadcom.com>,
-	"bcm-kernel-feedback-list@broadcom.com"
-	<bcm-kernel-feedback-list@broadcom.com>, "fancer.lancer@gmail.com"
-	<fancer.lancer@gmail.com>, "olteanv@gmail.com" <olteanv@gmail.com>,
-	"neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
-	"khilman@baylibre.com" <khilman@baylibre.com>, "jbrunet@baylibre.com"
-	<jbrunet@baylibre.com>, "martin.blumenstingl@googlemail.com"
-	<martin.blumenstingl@googlemail.com>, "conor.dooley@microchip.com"
-	<conor.dooley@microchip.com>, "daire.mcnamara@microchip.com"
-	<daire.mcnamara@microchip.com>, "matthias.bgg@gmail.com"
-	<matthias.bgg@gmail.com>, "angelogioacchino.delregno@collabora.com"
-	<angelogioacchino.delregno@collabora.com>, "avifishman70@gmail.com"
-	<avifishman70@gmail.com>, "tmaimon77@gmail.com" <tmaimon77@gmail.com>,
-	"tali.perry1@gmail.com" <tali.perry1@gmail.com>, "venture@google.com"
-	<venture@google.com>, "yuenn@google.com" <yuenn@google.com>,
-	"benjaminfair@google.com" <benjaminfair@google.com>,
-	"linus.walleij@linaro.org" <linus.walleij@linaro.org>, "heiko@sntech.de"
-	<heiko@sntech.de>
-Subject: RE: [PATCH -next 03/25] spi: aspeed: Use helper function
- devm_clk_get_enabled()
-Thread-Topic: [PATCH -next 03/25] spi: aspeed: Use helper function
- devm_clk_get_enabled()
-Thread-Index: AQHZ1Ppmytx9atFtzEKmu2Zv4vvkIa/3d2Ew
-Date: Wed, 23 Aug 2023 07:11:19 +0000
-Message-ID:  <TYZPR06MB520349C9A467FD2D43E6F345B21CA@TYZPR06MB5203.apcprd06.prod.outlook.com>
-References: <20230822131237.1022815-1-lizetao1@huawei.com>
- <20230822131237.1022815-4-lizetao1@huawei.com>
-In-Reply-To: <20230822131237.1022815-4-lizetao1@huawei.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB5203:EE_|SG2PR06MB5360:EE_
-x-ms-office365-filtering-correlation-id: 2aec4954-4ee9-476e-46df-08dba3a82606
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  UksuVfA07KeYylAFTzYVwnR03vKUXPV1+C+/WfIt3E/yJeHHyOQFE0AeGU+psE8dqDZlvI1tamMx3ttkFGvLDhHcgmL8VglaiB1ltIoFJVi4hxrkM8ru+Z5jV/ouaL0dxD66i2Y3NAsZTWWlWM+HRYxBxVrtXPf14tVb/8UnXuPOKsBV9gCLErY5yOZO7Y3El6dXHLR/XbTdxskoZ/sRV4bGxfvFYiUXk0VSyF03P4d9Cps/7bMTBTO82ZkujaQ7n09q5Njs5miA83r7z/4o2TPp+N3rzRJa4zG1OXszJ3CKDE3wrkFZ+irkuITgfnYi+WjWvJIBN3R5YNXC8x2d4XmH/pubVrbsxLrFkDPG+L00B8G7L3sUWhDeQnEkOLYLvtn175xyla0vdVOqq13GX8Fr3k0PPi6E++fQcetMeyxNf+vzDfWasHp9PUvBiF8ODRVQT7G99x3t2TdFQ0TbGeHsfvD5iEsFWm+bJKOTZzEZYQ49ZUXaR39RGkIKDCmkKyKBJqUxXXYzvFbrYubb7GD8ZYnQXCnnjOKEapD6HUiRBWRfnyerEZ9QHfAU+8V5MtptVrOKS/SrUVI3UO9dOvbN9tkRcp/kX4I9sU14qxwbZtSbsWH0C+l3QIXB9bGH4RE3ErDJp422tnyP3to/aA==
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB5203.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(366004)(396003)(346002)(136003)(451199024)(186009)(1800799009)(26005)(9686003)(38070700005)(122000001)(55016003)(33656002)(38100700002)(86362001)(921005)(83380400001)(8676002)(8936002)(110136005)(66556008)(41300700001)(316002)(76116006)(66446008)(64756008)(54906003)(2906002)(66946007)(52536014)(5660300002)(4326008)(66476007)(7416002)(7406005)(71200400001)(7696005)(6506007)(53546011)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?piirPloeETUiZDsm2mshr/STo7mKeHNoEE9xLsd6ZDB7EQqgDNl6jTOKUB8t?=
- =?us-ascii?Q?8pi8nE1YXuUlw/keJmT5XtJ0fb/8DoYSkzWYH04NUHpk5Ue1BkdGcB1vy0Mw?=
- =?us-ascii?Q?HedxUum+IlS8K0xCSjjKO/1WXarbwzwSB7Vvewxm9uv7vihVh9S2v+atSky2?=
- =?us-ascii?Q?l0ACvtpo19kPFM1otC1Jph+scqrUhkYdrjmehV1dbe/5mprIKPJD+ShVu1hM?=
- =?us-ascii?Q?tuUzs1FUe0WYsM3cwR5svoiVP1SoBYyIgHYzb1GDA4yzaINWBtzvgjXgn1fH?=
- =?us-ascii?Q?LUZj7MfRt2sbwe0kWIqptcv4WeQU/huC3ZRPoSoymrJ5e+V5+xxEpLTn94yf?=
- =?us-ascii?Q?NLjU9iuYUjA1JNkL3oc0bgL+SBd4txZwdAlsKe1ELdXeVCFPx4KDaKoZ4wu/?=
- =?us-ascii?Q?UGhyWHrUBfjiP86aErivfFdieJ57PEDkBOODwDXdipu8AD+8+r8E6DufsS1a?=
- =?us-ascii?Q?EfTv0N2jzeq99eXmcOjXiV0kq3wMXCkRur9MgNhOCFP4HQ5bLK8SG1nwbVGL?=
- =?us-ascii?Q?Dj1d1t5NuccVZluWMf+gevjbvLJhgioK9nsSQdkSXxGVpg/90wfFIam3mK66?=
- =?us-ascii?Q?D1Z3DmHijy87SKCFjpGGVOg+gWYZUV7YthrdqZHQYCozLyDS9CHW8EaH6qUx?=
- =?us-ascii?Q?1n3CA59XkoZPTDIM9ZF5o+e8qWXAiCVfE/9Mokb0Gzkj4udC+u/ro2jUVT3O?=
- =?us-ascii?Q?RzBioAS84FqwW73Ou1yaQI8MpV9lXLtYoIIZ2N1NXWcEnLGI1QFX5DbSzwBt?=
- =?us-ascii?Q?kJIhKZAWiqfs8tEF1io8zax5OXx2qcxwxesWzjil15MhIwJe/ugJk9gdKqcm?=
- =?us-ascii?Q?TqHPgbgefpjA21xfVDXz0+yZ9Z6yyS4peUyYvw49nb/2vVT6cgzouyhnZAjd?=
- =?us-ascii?Q?jE62xJyMWwqWoZeTInreNZvpjbc8TBSCa34POz1FYufU8C2vZoB56hIaWBC7?=
- =?us-ascii?Q?MnogW44ehRkhwnKAoL6YC0O+i6vcG/0Xt+/+FGa+YWNCjTATTzL0snIzW8DQ?=
- =?us-ascii?Q?zMnFUgZvqRNckWmtuu581+JOZnyoktvAcSMHsOpsRZKR5ok/azkQTOK6jaJg?=
- =?us-ascii?Q?V2N6W7EWkKrIDQU2a+Tmcr5/J2XxW9oIpBYvlkGTm2VqCBFL8lKMOxJ9ml3A?=
- =?us-ascii?Q?0U2X99qS0Zi6zleKkjkzyghJL8yPOqQNDGdk3Rrko4yvnOMAMPZD8cP+QrW3?=
- =?us-ascii?Q?DvG2Nzlm9w/Z2bnBCsp/keST7P+Ao3Yuy+/tnO6tzrWVhUuGBoWYxqv2bp32?=
- =?us-ascii?Q?XllweDmuSSg5S0J6muBUkC30bUG80AWOVGQSMrH+XfLCPx7PC31woAMQ4xYw?=
- =?us-ascii?Q?Kh/IgC4QCMi1NNQKrwQ1FQkhyijJY1FvK9Wl8Ki8neIhMgIAa2Hon0Hw6J2T?=
- =?us-ascii?Q?RXLuUPw+dRPY1bVmwVvRLRT/ruNkMzUatFAEj3gDDjHzFdQYZPV2ZKc6nu9X?=
- =?us-ascii?Q?7MDHEeLZmd7MWpzMEAcqQrSd83zZgkN9z4Bgx9trX8UVpE1YXfuwqzDg8na8?=
- =?us-ascii?Q?bTPay5h+xPebI/f2doPOZkpmZCKuqMEm9njUO7HxFhCMDv0hF4hk0I+oTEfF?=
- =?us-ascii?Q?wS7ktDs9JCaI2uRWtgnT92nLgtG6pqJGQUCz9Sy614YAw5ByWTlmOhuZq5Y8?=
- =?us-ascii?Q?Ug=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RVz9L2YrMz3bvd
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 23 Aug 2023 17:58:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692777494; x=1724313494;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/7RRnTvGQwPcZ/Ng1AtLSyuUMoakgOEQVTL9ZFy7sY8=;
+  b=E/wU8zwAxJcpCps9i1xN6fqHRIFLo9hUJCGUmWgjdPBNOnb0AG7nzk2r
+   7VwOejbNBHacTerZQ6X2bwKMirKt2eJ0ObNUMbCPuZjbfmuuiI37EKldZ
+   /g0F6YHD+uDza9YvWjyJeHk2iF4G7zGw6q083P1XJE8wH5WevnK0zEt37
+   MVd4WnH6c6mEEGJXExqSNAgWFIxwuOI8P8gI9+e6H/HQ+ruTLNa2MvR3d
+   3nvMWeVpoTRA6sUY669OOVV41PuwZ/pfJXrXVPFcBKYRPFQT5qG1nyR/3
+   0ZjeMC1mjrTMUYUuKU67Y1k9vw4dYpvKR2nWjXsTfMrg35ruaL/KG0Ycz
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="359080990"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="359080990"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2023 00:58:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10810"; a="826624663"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="826624663"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Aug 2023 00:58:04 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qYikd-0000z9-2b;
+	Wed, 23 Aug 2023 07:58:03 +0000
+Date: Wed, 23 Aug 2023 15:57:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ninad Palsule <ninad@linux.ibm.com>, joel@jms.id.au, andrew@aj.id.au,
+	eajames@linux.ibm.com
+Subject: Re: [PATCH v1 1/1] soc/aspeed: Add host side BMC device driver
+Message-ID: <202308231554.SV5ASPV0-lkp@intel.com>
+References: <20230821183525.3427144-2-ninad@linux.ibm.com>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5203.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2aec4954-4ee9-476e-46df-08dba3a82606
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2023 07:11:19.0828
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1Kt7NHf6kT+F7gf3XSI4DaWUAkIdrym/uf/uEEoRCaqwOpuJ4oY3DscO6Y5ZbR0DTYVendSZh83KK2xtwyM7njgJu8rnFYDA5xszVViGpXI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB5360
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230821183525.3427144-2-ninad@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,87 +71,188 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>, "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, "linux-rpi-kernel@lists.infradead.org" <linux-rpi-kernel@lists.infradead.org>, "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>, "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, oe-kbuild-all@lists.linux.dev
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Ninad,
 
-> -----Original Message-----
-> From: Li Zetao <lizetao1@huawei.com>
-> Sent: Tuesday, August 22, 2023 9:12 PM
-> Subject: [PATCH -next 03/25] spi: aspeed: Use helper function
-> devm_clk_get_enabled()
->=20
-> Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepare=
-d
-> and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
-> replaced by devm_clk_get_enabled() when driver enables (and possibly
-> prepares) the clocks for the whole lifetime of the device. Moreover, it i=
-s no
-> longer necessary to unprepare and disable the clocks explicitly.
->=20
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
-> ---
->  drivers/spi/spi-aspeed-smc.c | 16 ++--------------
->  1 file changed, 2 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c =
-index
-> 21b0fa646c7d..bbd417c55e7f 100644
-> --- a/drivers/spi/spi-aspeed-smc.c
-> +++ b/drivers/spi/spi-aspeed-smc.c
-> @@ -748,7 +748,7 @@ static int aspeed_spi_probe(struct platform_device
-> *pdev)
->  	aspi->ahb_window_size =3D resource_size(res);
->  	aspi->ahb_base_phy =3D res->start;
->=20
-> -	aspi->clk =3D devm_clk_get(&pdev->dev, NULL);
-> +	aspi->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
->  	if (IS_ERR(aspi->clk)) {
->  		dev_err(dev, "missing clock\n");
->  		return PTR_ERR(aspi->clk);
-> @@ -760,12 +760,6 @@ static int aspeed_spi_probe(struct platform_device
-> *pdev)
->  		return -EINVAL;
->  	}
->=20
-> -	ret =3D clk_prepare_enable(aspi->clk);
-> -	if (ret) {
-> -		dev_err(dev, "can not enable the clock\n");
-> -		return ret;
-> -	}
-> -
->  	/* IRQ is for DMA, which the driver doesn't support yet */
->=20
->  	ctlr->mode_bits =3D SPI_RX_DUAL | SPI_TX_DUAL | data->mode_bits; @@
-> -777,14 +771,9 @@ static int aspeed_spi_probe(struct platform_device *pde=
-v)
->  	ctlr->dev.of_node =3D dev->of_node;
->=20
->  	ret =3D devm_spi_register_controller(dev, ctlr);
-> -	if (ret) {
-> +	if (ret)
->  		dev_err(&pdev->dev, "spi_register_controller failed\n");
-> -		goto disable_clk;
-> -	}
-> -	return 0;
->=20
-> -disable_clk:
-> -	clk_disable_unprepare(aspi->clk);
->  	return ret;
->  }
->=20
-> @@ -793,7 +782,6 @@ static void aspeed_spi_remove(struct platform_device
-> *pdev)
->  	struct aspeed_spi *aspi =3D platform_get_drvdata(pdev);
->=20
->  	aspeed_spi_enable(aspi, false);
-> -	clk_disable_unprepare(aspi->clk);
->  }
->=20
->  /*
-> --
-> 2.34.1
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on linus/master v6.5-rc7 next-20230822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Ninad-Palsule/soc-aspeed-Add-host-side-BMC-device-driver/20230822-023858
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20230821183525.3427144-2-ninad%40linux.ibm.com
+patch subject: [PATCH v1 1/1] soc/aspeed: Add host side BMC device driver
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230823/202308231554.SV5ASPV0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230823/202308231554.SV5ASPV0-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308231554.SV5ASPV0-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/soc/aspeed/aspeed-host-bmc-dev.c: In function 'aspeed_pci_host_bmc_device_probe':
+>> drivers/soc/aspeed/aspeed-host-bmc-dev.c:184:1: warning: the frame size of 1072 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     184 | }
+         | ^
+
+
+vim +184 drivers/soc/aspeed/aspeed-host-bmc-dev.c
+
+    42	
+    43	static int aspeed_pci_host_bmc_device_probe(struct pci_dev *pdev,
+    44			const struct pci_device_id *ent)
+    45	{
+    46		struct uart_8250_port uart[VUART_MAX_PARMS];
+    47		struct device *dev = &pdev->dev;
+    48		struct aspeed_pci_bmc_dev *pci_bmc_dev;
+    49		int rc = 0;
+    50		int i = 0;
+    51		int nr_entries;
+    52		u16 config_cmd_val;
+    53	
+    54		pci_bmc_dev = kzalloc(sizeof(*pci_bmc_dev), GFP_KERNEL);
+    55		if (!pci_bmc_dev) {
+    56			rc = -ENOMEM;
+    57			dev_err(dev, "kmalloc() returned NULL memory.\n");
+    58			goto out_err;
+    59		}
+    60	
+    61		rc = pcim_enable_device(pdev);
+    62		if (rc != 0) {
+    63			dev_err(dev, "pcim_enable_device() returned error %d\n", rc);
+    64			goto out_free0;
+    65		}
+    66	
+    67		/* set PCI host mastering  */
+    68		pci_set_master(pdev);
+    69	
+    70		/*
+    71		 * Try to allocate max MSI. If multiple MSI is not possible then use
+    72		 * the legacy interrupt. Note: PowerPC doesn't support multiple MSI.
+    73		 */
+    74		nr_entries = pci_alloc_irq_vectors(pdev, BMC_MULTI_MSI, BMC_MULTI_MSI,
+    75					PCI_IRQ_MSIX | PCI_IRQ_MSI);
+    76	
+    77		if (nr_entries < 0) {
+    78			pci_bmc_dev->legacy_irq = 1;
+    79			pci_read_config_word(pdev, PCI_COMMAND, &config_cmd_val);
+    80			config_cmd_val &= ~PCI_COMMAND_INTX_DISABLE;
+    81			pci_write_config_word((struct pci_dev *)pdev, PCI_COMMAND, config_cmd_val);
+    82	
+    83		} else {
+    84			pci_bmc_dev->legacy_irq = 0;
+    85			pci_read_config_word(pdev, PCI_COMMAND, &config_cmd_val);
+    86			config_cmd_val |= PCI_COMMAND_INTX_DISABLE;
+    87			pci_write_config_word((struct pci_dev *)pdev, PCI_COMMAND, config_cmd_val);
+    88			rc = pci_irq_vector(pdev, BMC_MSI_IDX_BASE);
+    89			if (rc < 0) {
+    90				dev_err(dev, "pci_irq_vector() returned error %d msi=%u msix=%u\n",
+    91					-rc, pdev->msi_enabled, pdev->msix_enabled);
+    92				goto out_free1;
+    93			}
+    94			pdev->irq = rc;
+    95		}
+    96	
+    97		/* Get access to the BARs */
+    98		for (i = 0; i < BAR_MAX; i++) {
+    99			rc = pci_request_region(pdev, i, DRIVER_NAME);
+   100			if (rc < 0) {
+   101				dev_err(dev, "pci_request_region(%d) returned error %d\n", i, rc);
+   102				goto out_unreg;
+   103			}
+   104	
+   105			pci_bmc_dev->bars[i].bar_base = pci_resource_start(pdev, i);
+   106			pci_bmc_dev->bars[i].bar_size = pci_resource_len(pdev, i);
+   107			pci_bmc_dev->bars[i].bar_ioremap = pci_ioremap_bar(pdev, i);
+   108			if (pci_bmc_dev->bars[i].bar_ioremap == NULL) {
+   109				dev_err(dev, "pci_ioremap_bar(%d) failed\n", i);
+   110				rc = -ENOMEM;
+   111				goto out_unreg;
+   112			}
+   113		}
+   114	
+   115		/* ERRTA40: dummy read */
+   116		(void)__raw_readl((void __iomem *)pci_bmc_dev->bars[BAR_MSG].bar_ioremap);
+   117	
+   118		pci_set_drvdata(pdev, pci_bmc_dev);
+   119	
+   120		/* setup VUART */
+   121		memset(uart, 0, sizeof(uart));
+   122	
+   123		for (i = 0; i < VUART_MAX_PARMS; i++) {
+   124			vuart_ioport[i] = 0x3F8 - (i * 0x100);
+   125			vuart_sirq[i] = 0x10 + 4 - i - BMC_MSI_IDX_BASE;
+   126			uart[i].port.flags = UPF_SKIP_TEST | UPF_BOOT_AUTOCONF | UPF_SHARE_IRQ;
+   127			uart[i].port.uartclk = 115200 * 16;
+   128			pci_bmc_dev->lines[i] = -1;
+   129	
+   130			if (pci_bmc_dev->legacy_irq) {
+   131				uart[i].port.irq = pdev->irq;
+   132			} else {
+   133				rc = pci_irq_vector(pdev, vuart_sirq[i]);
+   134				if (rc < 0) {
+   135					dev_err(dev,
+   136						"pci_irq_vector() returned error %d msi=%u msix=%u\n",
+   137						-rc, pdev->msi_enabled, pdev->msix_enabled);
+   138					goto out_unreg;
+   139				}
+   140				uart[i].port.irq = rc;
+   141			}
+   142			uart[i].port.dev = dev;
+   143			uart[i].port.iotype = UPIO_MEM32;
+   144			uart[i].port.iobase = 0;
+   145			uart[i].port.mapbase =
+   146					pci_bmc_dev->bars[BAR_MSG].bar_base + (vuart_ioport[i] << 2);
+   147			uart[i].port.membase =
+   148					pci_bmc_dev->bars[BAR_MSG].bar_ioremap + (vuart_ioport[i] << 2);
+   149			uart[i].port.type = PORT_16550A;
+   150			uart[i].port.flags |= (UPF_IOREMAP | UPF_FIXED_PORT | UPF_FIXED_TYPE);
+   151			uart[i].port.regshift = 2;
+   152	
+   153			rc = serial8250_register_8250_port(&uart[i]);
+   154			if (rc < 0) {
+   155				dev_err(dev,
+   156					"cannot setup VUART@%xh over PCIe, rc=%d\n",
+   157					vuart_ioport[i], -rc);
+   158				goto out_unreg;
+   159			}
+   160			pci_bmc_dev->lines[i] = rc;
+   161		}
+   162	
+   163		return 0;
+   164	
+   165	out_unreg:
+   166		for (i = 0; i < VUART_MAX_PARMS; i++) {
+   167			if (pci_bmc_dev->lines[i] >= 0)
+   168				serial8250_unregister_port(pci_bmc_dev->lines[i]);
+   169		}
+   170	
+   171		pci_release_regions(pdev);
+   172	out_free1:
+   173		if (pci_bmc_dev->legacy_irq)
+   174			free_irq(pdev->irq, pdev);
+   175		else
+   176			pci_free_irq_vectors(pdev);
+   177	
+   178		pci_clear_master(pdev);
+   179	out_free0:
+   180		kfree(pci_bmc_dev);
+   181	out_err:
+   182	
+   183		return rc;
+ > 184	}
+   185	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
