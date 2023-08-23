@@ -1,32 +1,32 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A01788606
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:39:50 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A77C788605
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:39:47 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ035ss8z3cRH
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:39:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ013d71z3cHH
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:39:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.188; helo=szxga02-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RW6lq38w4z2xqB;
-	Wed, 23 Aug 2023 23:40:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RW6ln0Djnz2xqB;
+	Wed, 23 Aug 2023 23:40:04 +1000 (AEST)
 Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RW6gX48BVzNmsj;
-	Wed, 23 Aug 2023 21:36:24 +0800 (CST)
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RW6jy5FlQz16NyT;
+	Wed, 23 Aug 2023 21:38:30 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 23 Aug
- 2023 21:39:58 +0800
+ 2023 21:39:59 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <lizetao1@huawei.com>
-Subject: [PATCH -next v2 07/25] spi: bcm2835aux: Use helper function devm_clk_get_enabled()
-Date: Wed, 23 Aug 2023 21:39:20 +0800
-Message-ID: <20230823133938.1359106-8-lizetao1@huawei.com>
+Subject: [PATCH -next v2 08/25] spi: spi-cadence: Use helper function devm_clk_get_enabled()
+Date: Wed, 23 Aug 2023 21:39:21 +0800
+Message-ID: <20230823133938.1359106-9-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230823133938.1359106-1-lizetao1@huawei.com>
 References: <20230822131237.1022815-1-lizetao1@huawei.com>
@@ -65,78 +65,68 @@ Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
 v1 -> v2: None
 
- drivers/spi/spi-bcm2835aux.c | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
+ drivers/spi/spi-cadence.c | 23 +++--------------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/spi/spi-bcm2835aux.c b/drivers/spi/spi-bcm2835aux.c
-index 6d2a5d9f2498..06fe155a70c9 100644
---- a/drivers/spi/spi-bcm2835aux.c
-+++ b/drivers/spi/spi-bcm2835aux.c
-@@ -512,7 +512,7 @@ static int bcm2835aux_spi_probe(struct platform_device *pdev)
- 	if (IS_ERR(bs->regs))
- 		return PTR_ERR(bs->regs);
+diff --git a/drivers/spi/spi-cadence.c b/drivers/spi/spi-cadence.c
+index 12c940ba074a..1f2f8c717df6 100644
+--- a/drivers/spi/spi-cadence.c
++++ b/drivers/spi/spi-cadence.c
+@@ -581,31 +581,19 @@ static int cdns_spi_probe(struct platform_device *pdev)
+ 		goto remove_ctlr;
+ 	}
  
--	bs->clk = devm_clk_get(&pdev->dev, NULL);
-+	bs->clk = devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(bs->clk)) {
- 		err = PTR_ERR(bs->clk);
- 		dev_err(&pdev->dev, "could not get clk: %d\n", err);
-@@ -523,19 +523,11 @@ static int bcm2835aux_spi_probe(struct platform_device *pdev)
- 	if (bs->irq < 0)
- 		return bs->irq;
+-	xspi->pclk = devm_clk_get(&pdev->dev, "pclk");
++	xspi->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
+ 	if (IS_ERR(xspi->pclk)) {
+ 		dev_err(&pdev->dev, "pclk clock not found.\n");
+ 		ret = PTR_ERR(xspi->pclk);
+ 		goto remove_ctlr;
+ 	}
  
--	/* this also enables the HW block */
--	err = clk_prepare_enable(bs->clk);
--	if (err) {
--		dev_err(&pdev->dev, "could not prepare clock: %d\n", err);
--		return err;
+-	ret = clk_prepare_enable(xspi->pclk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "Unable to enable APB clock.\n");
+-		goto remove_ctlr;
 -	}
 -
- 	/* just checking if the clock returns a sane value */
- 	clk_hz = clk_get_rate(bs->clk);
- 	if (!clk_hz) {
- 		dev_err(&pdev->dev, "clock returns 0 Hz\n");
--		err = -ENODEV;
--		goto out_clk_disable;
-+		return -ENODEV;
- 	}
- 
- 	/* reset SPI-HW block */
-@@ -547,22 +539,18 @@ static int bcm2835aux_spi_probe(struct platform_device *pdev)
- 			       dev_name(&pdev->dev), host);
- 	if (err) {
- 		dev_err(&pdev->dev, "could not request IRQ: %d\n", err);
--		goto out_clk_disable;
-+		return err;
- 	}
- 
- 	err = spi_register_controller(host);
- 	if (err) {
- 		dev_err(&pdev->dev, "could not register SPI host: %d\n", err);
--		goto out_clk_disable;
-+		return err;
- 	}
- 
- 	bcm2835aux_debugfs_create(bs, dev_name(&pdev->dev));
- 
- 	return 0;
+ 	if (!spi_controller_is_target(ctlr)) {
+-		xspi->ref_clk = devm_clk_get(&pdev->dev, "ref_clk");
++		xspi->ref_clk = devm_clk_get_enabled(&pdev->dev, "ref_clk");
+ 		if (IS_ERR(xspi->ref_clk)) {
+ 			dev_err(&pdev->dev, "ref_clk clock not found.\n");
+ 			ret = PTR_ERR(xspi->ref_clk);
+-			goto clk_dis_apb;
+-		}
 -
--out_clk_disable:
--	clk_disable_unprepare(bs->clk);
--	return err;
- }
+-		ret = clk_prepare_enable(xspi->ref_clk);
+-		if (ret) {
+-			dev_err(&pdev->dev, "Unable to enable device clock.\n");
+-			goto clk_dis_apb;
++			goto remove_ctlr;
+ 		}
  
- static void bcm2835aux_spi_remove(struct platform_device *pdev)
-@@ -575,9 +563,6 @@ static void bcm2835aux_spi_remove(struct platform_device *pdev)
- 	spi_unregister_controller(host);
+ 		pm_runtime_use_autosuspend(&pdev->dev);
+@@ -679,10 +667,7 @@ static int cdns_spi_probe(struct platform_device *pdev)
+ 	if (!spi_controller_is_target(ctlr)) {
+ 		pm_runtime_set_suspended(&pdev->dev);
+ 		pm_runtime_disable(&pdev->dev);
+-		clk_disable_unprepare(xspi->ref_clk);
+ 	}
+-clk_dis_apb:
+-	clk_disable_unprepare(xspi->pclk);
+ remove_ctlr:
+ 	spi_controller_put(ctlr);
+ 	return ret;
+@@ -703,8 +688,6 @@ static void cdns_spi_remove(struct platform_device *pdev)
  
- 	bcm2835aux_spi_reset_hw(bs);
--
--	/* disable the HW block by releasing the clock */
--	clk_disable_unprepare(bs->clk);
- }
+ 	cdns_spi_write(xspi, CDNS_SPI_ER, CDNS_SPI_ER_DISABLE);
  
- static const struct of_device_id bcm2835aux_spi_match[] = {
+-	clk_disable_unprepare(xspi->ref_clk);
+-	clk_disable_unprepare(xspi->pclk);
+ 	pm_runtime_set_suspended(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
+ 
 -- 
 2.34.1
 
