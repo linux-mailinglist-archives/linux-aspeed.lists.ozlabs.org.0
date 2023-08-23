@@ -2,31 +2,31 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D8C788620
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFF0788621
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:38 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ0x4rNCz3dF0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ100mPDz3dDb
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.187; helo=szxga01-in.huawei.com; envelope-from=lizetao1@huawei.com; receiver=lists.ozlabs.org)
 Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RW6mb4b7Cz3c3S;
-	Wed, 23 Aug 2023 23:40:47 +1000 (AEST)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RW6gd6GSvztSCY;
-	Wed, 23 Aug 2023 21:36:29 +0800 (CST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RW6mx5kBkz2yDD;
+	Wed, 23 Aug 2023 23:41:05 +1000 (AEST)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.57])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RW6gf6j7LztSFf;
+	Wed, 23 Aug 2023 21:36:30 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500012.china.huawei.com
  (7.221.188.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 23 Aug
- 2023 21:40:13 +0800
+ 2023 21:40:14 +0800
 From: Li Zetao <lizetao1@huawei.com>
 To: <lizetao1@huawei.com>
-Subject: [PATCH -next v2 21/25] spi: orion: Use helper function devm_clk_get_enabled()
-Date: Wed, 23 Aug 2023 21:39:34 +0800
-Message-ID: <20230823133938.1359106-22-lizetao1@huawei.com>
+Subject: [PATCH -next v2 22/25] spi: pic32-sqi: Use helper function devm_clk_get_enabled()
+Date: Wed, 23 Aug 2023 21:39:35 +0800
+Message-ID: <20230823133938.1359106-23-lizetao1@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230823133938.1359106-1-lizetao1@huawei.com>
 References: <20230822131237.1022815-1-lizetao1@huawei.com>
@@ -65,54 +65,80 @@ Signed-off-by: Li Zetao <lizetao1@huawei.com>
 ---
 v1 -> v2: None
 
- drivers/spi/spi-orion.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ drivers/spi/spi-pic32-sqi.c | 27 +++------------------------
+ 1 file changed, 3 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 1f10f5c8e34d..eee9ff4bfa5b 100644
---- a/drivers/spi/spi-orion.c
-+++ b/drivers/spi/spi-orion.c
-@@ -688,21 +688,17 @@ static int orion_spi_probe(struct platform_device *pdev)
- 	devdata = devdata ? devdata : &orion_spi_dev_data;
- 	spi->devdata = devdata;
- 
--	spi->clk = devm_clk_get(&pdev->dev, NULL);
-+	spi->clk = devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(spi->clk)) {
- 		status = PTR_ERR(spi->clk);
- 		goto out;
+diff --git a/drivers/spi/spi-pic32-sqi.c b/drivers/spi/spi-pic32-sqi.c
+index 883354d0ff52..3f1e5b27776b 100644
+--- a/drivers/spi/spi-pic32-sqi.c
++++ b/drivers/spi/spi-pic32-sqi.c
+@@ -593,33 +593,20 @@ static int pic32_sqi_probe(struct platform_device *pdev)
  	}
  
--	status = clk_prepare_enable(spi->clk);
--	if (status)
--		goto out;
+ 	/* clocks */
+-	sqi->sys_clk = devm_clk_get(&pdev->dev, "reg_ck");
++	sqi->sys_clk = devm_clk_get_enabled(&pdev->dev, "reg_ck");
+ 	if (IS_ERR(sqi->sys_clk)) {
+ 		ret = PTR_ERR(sqi->sys_clk);
+ 		dev_err(&pdev->dev, "no sys_clk ?\n");
+ 		goto err_free_host;
+ 	}
+ 
+-	sqi->base_clk = devm_clk_get(&pdev->dev, "spi_ck");
++	sqi->base_clk = devm_clk_get_enabled(&pdev->dev, "spi_ck");
+ 	if (IS_ERR(sqi->base_clk)) {
+ 		ret = PTR_ERR(sqi->base_clk);
+ 		dev_err(&pdev->dev, "no base clk ?\n");
+ 		goto err_free_host;
+ 	}
+ 
+-	ret = clk_prepare_enable(sqi->sys_clk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "sys clk enable failed\n");
+-		goto err_free_host;
+-	}
 -
- 	/* The following clock is only used by some SoCs */
- 	spi->axi_clk = devm_clk_get(&pdev->dev, "axi");
- 	if (PTR_ERR(spi->axi_clk) == -EPROBE_DEFER) {
- 		status = -EPROBE_DEFER;
--		goto out_rel_clk;
-+		goto out;
+-	ret = clk_prepare_enable(sqi->base_clk);
+-	if (ret) {
+-		dev_err(&pdev->dev, "base clk enable failed\n");
+-		clk_disable_unprepare(sqi->sys_clk);
+-		goto err_free_host;
+-	}
+-
+ 	init_completion(&sqi->xfer_done);
+ 
+ 	/* initialize hardware */
+@@ -629,7 +616,7 @@ static int pic32_sqi_probe(struct platform_device *pdev)
+ 	ret = ring_desc_ring_alloc(sqi);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "ring alloc failed\n");
+-		goto err_disable_clk;
++		goto err_free_host;
  	}
- 	if (!IS_ERR(spi->axi_clk))
- 		clk_prepare_enable(spi->axi_clk);
-@@ -795,8 +791,6 @@ static int orion_spi_probe(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- out_rel_axi_clk:
- 	clk_disable_unprepare(spi->axi_clk);
--out_rel_clk:
--	clk_disable_unprepare(spi->clk);
- out:
+ 
+ 	/* install irq handlers */
+@@ -669,10 +656,6 @@ static int pic32_sqi_probe(struct platform_device *pdev)
+ err_free_ring:
+ 	ring_desc_ring_free(sqi);
+ 
+-err_disable_clk:
+-	clk_disable_unprepare(sqi->base_clk);
+-	clk_disable_unprepare(sqi->sys_clk);
+-
+ err_free_host:
  	spi_controller_put(host);
- 	return status;
-@@ -810,7 +804,6 @@ static void orion_spi_remove(struct platform_device *pdev)
+ 	return ret;
+@@ -685,10 +668,6 @@ static void pic32_sqi_remove(struct platform_device *pdev)
+ 	/* release resources */
+ 	free_irq(sqi->irq, sqi);
+ 	ring_desc_ring_free(sqi);
+-
+-	/* disable clk */
+-	clk_disable_unprepare(sqi->base_clk);
+-	clk_disable_unprepare(sqi->sys_clk);
+ }
  
- 	pm_runtime_get_sync(&pdev->dev);
- 	clk_disable_unprepare(spi->axi_clk);
--	clk_disable_unprepare(spi->clk);
- 
- 	spi_unregister_controller(host);
- 	pm_runtime_disable(&pdev->dev);
+ static const struct of_device_id pic32_sqi_of_ids[] = {
 -- 
 2.34.1
 
