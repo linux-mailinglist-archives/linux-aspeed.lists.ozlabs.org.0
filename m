@@ -2,47 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90BC785E61
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Aug 2023 19:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F73785E98
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Aug 2023 19:31:51 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=HH+SqFSt;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RWCYP5FWLz3cG5
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Aug 2023 03:16:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RWCv93GBPz30JF
+	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Aug 2023 03:31:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=185.176.79.56; helo=frasgout.his.huawei.com; envelope-from=jonathan.cameron@huawei.com; receiver=lists.ozlabs.org)
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=HH+SqFSt;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWCYJ1nvQz2xTh;
-	Thu, 24 Aug 2023 03:16:20 +1000 (AEST)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4RWCSR0Fxdz67Ldy;
-	Thu, 24 Aug 2023 01:12:07 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 23 Aug
- 2023 18:16:16 +0100
-Date: Wed, 23 Aug 2023 18:16:15 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Li Zetao <lizetao1@huawei.com>, <linux-amlogic@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-rpi-kernel@lists.infradead.org>
-Subject: Re: [PATCH -next v2 24/25] spi: spl022: Use helper function
- devm_clk_get_enabled()
-Message-ID: <20230823181615.00007e9f@Huawei.com>
-In-Reply-To: <20230823133938.1359106-25-lizetao1@huawei.com>
-References: <20230822131237.1022815-1-lizetao1@huawei.com>
-	<20230823133938.1359106-1-lizetao1@huawei.com>
-	<20230823133938.1359106-25-lizetao1@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWCtz6LJYz2yhS
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 03:31:39 +1000 (AEST)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37NHNfaA012986;
+	Wed, 23 Aug 2023 17:31:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=iOBugGskYHmD0uJFkfQL4c+7e2X+OOWA3+L/qWS03Vk=;
+ b=HH+SqFStYfRpdnTK3fGjDobC3kUMLSLIvmx+Ye2VFvs76Rm+CWSxh6itM4Gc8I0rN1cs
+ ob15T90nH/nK8OhobfkY67+se7flt71TDpS96erCFoZqAWnnCd+vkG3wN61VIyFhsxdO
+ jpCDAZQFDg5Wym5eYfR2J80vZP9Nx5MBdrgBP+8O3exwwjPxQapzgAepY4qvP39ODPJW
+ yExbdkhfpEg6O9ee5PwB8XBC1a28/rrVOwXNos8XzDSiCwnEmDq4wyjMfVdS2vwIigUI
+ PMgS9AYNdBTimwE4CYL0/3rsQtByr73+9VspMFlMuGr2MRAfu4t0bSoCZeNOKsJJwj8z 6A== 
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3snp7a0m5c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Aug 2023 17:31:11 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37NGfdHJ016435;
+	Wed, 23 Aug 2023 17:31:10 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3sn227r672-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Aug 2023 17:31:10 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37NHV9ST34669158
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 23 Aug 2023 17:31:10 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C13D058065;
+	Wed, 23 Aug 2023 17:31:09 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8C05F5805A;
+	Wed, 23 Aug 2023 17:31:09 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 23 Aug 2023 17:31:09 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: joel@jms.id.au, andrew@aj.id.au, eajames@linux.ibm.com
+Subject: [PATCH v2 0/1] Host side BMC device driver
+Date: Wed, 23 Aug 2023 12:31:03 -0500
+Message-Id: <20230823173104.3219128-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ZyRyjJk49C0uHXMgTFHXfzxt3tHL8j6u
+X-Proofpoint-GUID: ZyRyjJk49C0uHXMgTFHXfzxt3tHL8j6u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-23_12,2023-08-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 bulkscore=0 phishscore=0 adultscore=0 mlxlogscore=574
+ priorityscore=1501 impostorscore=0 suspectscore=0 clxscore=1015 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308230154
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,76 +86,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: heiko@sntech.de, linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org, tali.perry1@gmail.com, conor.dooley@microchip.com, linux-riscv@lists.infradead.org, jbrunet@baylibre.com, florian.fainelli@broadcom.com, yuenn@google.com, khilman@baylibre.com, tmaimon77@gmail.com, linux-rockchip@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com, avifishman70@gmail.com, martin.blumenstingl@googlemail.com, rjui@broadcom.com, broonie@kernel.org, linux-mediatek@lists.infradead.org, clg@kaod.org, matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org, sbranden@broadcom.com, venture@google.com, fancer.lancer@gmail.com, linux-spi@vger.kernel.org, daire.mcnamara@microchip.com, olteanv@gmail.com, openbmc@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 23 Aug 2023 21:39:37 +0800
-Li Zetao <lizetao1@huawei.com> wrote:
+Hello,
+This is a version 2 patch. I have incorporated review comments
+and fixed warning reported by kernel test robot.
 
-> Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
-> and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
-> replaced by devm_clk_get_enabled() when driver enables (and possibly
-> prepares) the clocks for the whole lifetime of the device. Moreover, it is
-> no longer necessary to unprepare and disable the clocks explicitly.
-> Moreover, the label "err_no_clk_en" is no used, drop it for clean code.
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Li Zetao <lizetao1@huawei.com>
-FWIW
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Ninad Palsule (1):
+  soc/aspeed: Add host side BMC device driver
 
-If you want to follow up with a patch fixing that odd formatting (on it's own)
-then that would be great.
+ drivers/soc/aspeed/Kconfig               |   8 +
+ drivers/soc/aspeed/Makefile              |   1 +
+ drivers/soc/aspeed/aspeed-host-bmc-dev.c | 250 +++++++++++++++++++++++
+ 3 files changed, 259 insertions(+)
+ create mode 100644 drivers/soc/aspeed/aspeed-host-bmc-dev.c
 
-Jonathan
-
-> ---
-> v1 -> v2: Delete the modification of odd formatting.
-> 
->  drivers/spi/spi-pl022.c | 11 +----------
->  1 file changed, 1 insertion(+), 10 deletions(-)
-> 
-> diff --git a/drivers/spi/spi-pl022.c b/drivers/spi/spi-pl022.c
-> index bb347b6bb6f3..d1b6110b38fc 100644
-> --- a/drivers/spi/spi-pl022.c
-> +++ b/drivers/spi/spi-pl022.c
-> @@ -2168,19 +2168,13 @@ static int pl022_probe(struct amba_device *adev, const struct amba_id *id)
->  	dev_info(&adev->dev, "mapped registers from %pa to %p\n",
->  		&adev->res.start, pl022->virtbase);
->  
-> -	pl022->clk = devm_clk_get(&adev->dev, NULL);
-> +	pl022->clk = devm_clk_get_enabled(&adev->dev, NULL);
->  	if (IS_ERR(pl022->clk)) {
->  		status = PTR_ERR(pl022->clk);
->  		dev_err(&adev->dev, "could not retrieve SSP/SPI bus clock\n");
->  		goto err_no_clk;
->  	}
->  
-> -	status = clk_prepare_enable(pl022->clk);
-> -	if (status) {
-> -		dev_err(&adev->dev, "could not enable SSP/SPI bus clock\n");
-> -		goto err_no_clk_en;
-> -	}
-> -
->  	/* Initialize transfer pump */
->  	tasklet_init(&pl022->pump_transfers, pump_transfers,
->  		     (unsigned long)pl022);
-> @@ -2240,8 +2234,6 @@ static int pl022_probe(struct amba_device *adev, const struct amba_id *id)
->  	if (platform_info->enable_dma)
->  		pl022_dma_remove(pl022);
->   err_no_irq:
-> -	clk_disable_unprepare(pl022->clk);
-> - err_no_clk_en:
->   err_no_clk:
->   err_no_ioremap:
->  	amba_release_regions(adev);
-> @@ -2268,7 +2260,6 @@ pl022_remove(struct amba_device *adev)
->  	if (pl022->host_info->enable_dma)
->  		pl022_dma_remove(pl022);
->  
-> -	clk_disable_unprepare(pl022->clk);
->  	amba_release_regions(adev);
->  	tasklet_disable(&pl022->pump_transfers);
->  }
+-- 
+2.39.2
 
