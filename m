@@ -2,78 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C0E78679A
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Aug 2023 08:41:42 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ZuwcSB5H;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id 5293D786AC7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Aug 2023 10:56:09 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RWYQW6v5sz2yVT
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Aug 2023 16:41:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RWcPg1YQcz3c8W
+	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Aug 2023 18:56:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ZuwcSB5H;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::136; helo=mail-lf1-x136.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWYQH3l58z2yTy
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 16:41:25 +1000 (AEST)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-5007f3d3235so6618641e87.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 23 Aug 2023 23:41:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692859280; x=1693464080;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9i9P/L8yrXEBknvUsgFXYcHwitiPfQ3Qj/oqiiME4Lo=;
-        b=ZuwcSB5Hus8aOVLW2o1wnZ1BI4QqPj5ZQdLJvmCxifzTiZqutuagzuEA1DOLN2fqeB
-         NzydH4s0b9CdTWryqzjY6Oyyej7z3Ypl/h0iWf3Zue4iaFXDfitpR8lcc7zq5GABmG3Q
-         8EC2glB64JYIvSNByn3iTzZwLRP1WDLra7orTjgxVvOXuUQKtYkpANjnrBwhuWmqDlLQ
-         w9Ix+F+oDFVULIdgL4Xj/BIY4zn89iJd6i4nut7yYQyzwLoWDZcDyKPxG0g4oc+/YRTY
-         sOqznOYSYLDbcygVgsUS8whCrJlN0T0eov6qpN5A8HQB7Rf8JE062298n2Y9tF7Cv76g
-         unzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692859280; x=1693464080;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9i9P/L8yrXEBknvUsgFXYcHwitiPfQ3Qj/oqiiME4Lo=;
-        b=IGaUPIpiUI2CwumqWRhdijPKBMhWGm24JuVi9EALXLQV6vTeQWNSmUIN1PPfogyogP
-         mi06MkyHPnOupig7958QiMMcHxkrNa4MQgWjYG0B0zI7AASt+qnxgKNhDay4oTCHEYqh
-         r08FLdXXtDBJDHGmPSkGsz1NqvpsMNh6no7y7piGjiX1ImDUSPP4rt1ranLMVoESnQ+w
-         eaGLE/1sUY4kOcIXfd+htGP6y5QFwPYLi8zrMgh2scXiTzeeBey4H1BlP5r80EgNKDrs
-         ikq3CEl7+St0JDSm/sBiEBwYOZ82oppFB08RA2Jfmbf4ddPDl0ppBX7R+NaM+efWgOZm
-         Gfrw==
-X-Gm-Message-State: AOJu0Yz9+xLsL84sdsBQUN4nj+kgojDsD18nCKJNiLQfw+leAnULN7BK
-	nysVFRjjhR7pguuRIGVfKcNomg==
-X-Google-Smtp-Source: AGHT+IG/WSER3YY2uiYGuTReO1vmCy0UJBRwseBs67v3EaFPUs/cxt5WDmhCRYsE/Jjdn53EClnBzg==
-X-Received: by 2002:a19:2d17:0:b0:4fe:1b7b:3cc9 with SMTP id k23-20020a192d17000000b004fe1b7b3cc9mr9654809lfj.38.1692859279564;
-        Wed, 23 Aug 2023 23:41:19 -0700 (PDT)
-Received: from [192.168.0.22] ([77.252.47.198])
-        by smtp.gmail.com with ESMTPSA id h3-20020aa7c603000000b005256ae8494asm10063848edq.17.2023.08.23.23.41.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Aug 2023 23:41:19 -0700 (PDT)
-Message-ID: <41cabea8-f694-f860-b3c1-757e9b8119f8@linaro.org>
-Date: Thu, 24 Aug 2023 08:41:17 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWcPZ0s3Gz2yst;
+	Thu, 24 Aug 2023 18:56:02 +1000 (AEST)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	by gandalf.ozlabs.org (Postfix) with ESMTP id 4RWcPT715Jz4wy7;
+	Thu, 24 Aug 2023 18:55:57 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4RWcPD1WXsz4wxn;
+	Thu, 24 Aug 2023 18:55:43 +1000 (AEST)
+Message-ID: <4450e65b-5de4-e503-ea2e-da95410f4c50@kaod.org>
+Date: Thu, 24 Aug 2023 10:55:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] Title: Select GPIO command source.
+ Thunderbird/102.13.0
+Subject: Re: [PATCH -next 03/25] spi: aspeed: Use helper function
+ devm_clk_get_enabled()
 Content-Language: en-US
-To: peteryin <peteryin.openbmc@gmail.com>, joel@jms.id.au, andrew@aj.id.au,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- eajames@linux.ibm.com, johnny_huang@aspeedtech.com,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20230823160810.1067102-1-peteryin.openbmc@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230823160810.1067102-1-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Li Zetao <lizetao1@huawei.com>, broonie@kernel.org,
+ chin-ting_kuo@aspeedtech.com, joel@jms.id.au, andrew@aj.id.au,
+ florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com, fancer.lancer@gmail.com,
+ olteanv@gmail.com, neil.armstrong@linaro.org, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+ conor.dooley@microchip.com, daire.mcnamara@microchip.com,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+ avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+ venture@google.com, yuenn@google.com, benjaminfair@google.com,
+ linus.walleij@linaro.org, heiko@sntech.de
+References: <20230822131237.1022815-1-lizetao1@huawei.com>
+ <20230822131237.1022815-4-lizetao1@huawei.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230822131237.1022815-4-lizetao1@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,106 +60,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: peteryin <peter.yin@quantatw.com>
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-spi@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 23/08/2023 18:08, peteryin wrote:
-> From: peteryin <peter.yin@quantatw.com>
+On 8/22/23 15:12, Li Zetao wrote:
+> Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
+> and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
+> replaced by devm_clk_get_enabled() when driver enables (and possibly
+> prepares) the clocks for the whole lifetime of the device. Moreover, it is
+> no longer necessary to unprepare and disable the clocks explicitly.
 > 
-> Description:
->   The capability to choose the GPIO command source
-> between ARM LPC and Coprocessor CPU is supported.
-> 
-> Test Plan:
-> Get Bank gpio command source
->   e.g.
->   cd /sys/bus/platform/drivers/aspeed-command-source/
->   cat 1e780000.gpio-command-source/bank_abcd
->   ARM ARM ARM ARM
-> 
-> Set Bank gpio command source.
->   e.g.
->   cd /sys/bus/platform/drivers/aspeed-command-source/
-> 
->   echo "A ARM" > 1e780000.gpio-command-source/bank_abcd
->   or
->   echo "A LPC" > 1e780000.gpio-command-source/bank_abcd
->   or$
->   echo "A COP" > 1e780000.gpio-command-source/bank_abcd
-> 
-> Signed-off-by: peteryin <peteryin.openbmc@gmail.com>
-> ---
->  .../sysfs-driver-aspeed-gpio-command-source   |  24 ++
->  .../soc/aspeed/gpio-command-source.yaml       |  58 ++++
+> Signed-off-by: Li Zetao <lizetao1@huawei.com>
 
-Bindings are separate patches. And it would be pointed out by checkpatch.
 
-Please run scripts/checkpatch.pl and fix reported warnings. Some
-warnings can be ignored, but the code here looks like it needs a fix.
-Feel free to get in touch if the warning is not clear.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Please use standard email subjects, so with the PATCH keyword in the
-title. `git format-patch` helps here to create proper versioned patches.
-Another useful tool is b4. Skipping the PATCH keyword makes filtering of
-emails more difficult thus making the review process less convenient.
+Thanks,
 
->  drivers/soc/aspeed/Kconfig                    |   9 +
->  drivers/soc/aspeed/Makefile                   |   1 +
->  drivers/soc/aspeed/aspeed-command-source.c    | 266 ++++++++++++++++++
->  5 files changed, 358 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
->  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
->  create mode 100644 drivers/soc/aspeed/aspeed-command-source.c
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source b/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
-> new file mode 100644
-> index 000000000000..4698f47a1f75
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-driver-aspeed-gpio-command-source
-> @@ -0,0 +1,24 @@
-> +What:		/sys/bus/platform/drivers/aspeed-command-source/\*command\*/bank\*
-> +Date:		August 2023
-> +Contact:	Peter Yin <peter.yin@quantatw.com>
-> +Description:	Get or set the gpio command source for ARM, LPC or Coprocessor CPU.
-> +
-> +		When read, each file shows the list of available options with bank
-> +		that depends on the selected bank file.
-> +
-> +		e.g.
-> +		get gpio command source
-> +		cd /sys/bus/platform/drivers/aspeed-command-source/
-> +		cat 1e780000.gpio-command-source/bank_abcd
-> +		ARM ARM ARM ARM
-> +		In this case, gets bank gpio command source.
-> +
-> +
-> +		e.g.
-> +		set gpio command source
-> +		cd /sys/bus/platform/drivers/aspeed-command-source/
-> +		echo "A ARM" > 1e780000.gpio-command-source/bank_abcd
-> +		or
-> +		echo "A LPC" > 1e780000.gpio-command-source/bank_abcd
-> +		or
-> +		echo "A COP" > 1e780000.gpio-command-source/bank_abcd
-> diff --git a/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml b/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
-> new file mode 100644
-> index 000000000000..034183667501
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/aspeed/gpio-command-source.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# # Copyright (c) 2023 Quanta Inc.
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/soc/aspeed/gpio-command-source.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
-
-Best regards,
-Krzysztof
+C.
 
