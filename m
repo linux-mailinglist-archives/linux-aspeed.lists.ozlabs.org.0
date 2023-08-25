@@ -2,88 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90019788623
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5208788626
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:50 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LG5mt7XX;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mGDbL0K3;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ182d5Wz307s
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ1D4cfkz3dDH
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LG5mt7XX;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mGDbL0K3;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.vnet.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.vnet.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::232; helo=mail-oi1-x232.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RWCwR2HSPz2xpm
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 03:32:54 +1000 (AEST)
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37NHTvAf004129;
-	Wed, 23 Aug 2023 17:32:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=yhPUGJp1hbDPP2WngAKxhzRDOvm7F81esNVKWbVBMZ0=;
- b=LG5mt7XXMhUYxOWuM3nqqQKBdPHjzrvvwnOelv7rG3aNeQWA2mWllEHDd1WC7de/9+WC
- 965NuWGtJN0EBYRD10q8QXk4JDLYGCxvMSJTFN++ykRXaZiFK+wGy42DkGZURKfjYtlb
- ZMjsEnIU/IRz1cX/+5TYJsqeX+Jc/fSa2Cbqs7M7pLrWshS09QNfu4Cn8+G4iQ4AoVDi
- SOEpd18TbYRKm5vd6FDn0/CJdmZHpsN/CiYjcOO+8Xz1SD4YQP1XmT6wiTNPPm+dgtPd
- FxXqtMgCsBUUHCo2jCROYGhSXtLm2X94DNNhaQtcZ1qCqdbqouI0aNcfpj5y8QCnUWhY rg== 
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3snpjmg26n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Aug 2023 17:32:40 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37NGnPb4004055;
-	Wed, 23 Aug 2023 17:32:39 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3sn21rg5rd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Aug 2023 17:32:38 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37NHWbNm21168584
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 23 Aug 2023 17:32:38 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A5CA558050;
-	Wed, 23 Aug 2023 17:32:37 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4736B58056;
-	Wed, 23 Aug 2023 17:32:36 +0000 (GMT)
-Received: from [9.67.101.231] (unknown [9.67.101.231])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 23 Aug 2023 17:32:36 +0000 (GMT)
-Message-ID: <5c918888-6933-7661-45f0-32ae4521aa2c@linux.vnet.ibm.com>
-Date: Wed, 23 Aug 2023 12:32:35 -0500
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RX59B4jzbz2yst
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Aug 2023 13:31:57 +1000 (AEST)
+Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-3a44cccbd96so347596b6e.3
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 20:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692934312; x=1693539112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H90oOeYrkwbf+xoaK3jBcWIDwQknofALHbHaFFtwxJg=;
+        b=mGDbL0K3SF2pkLgHiMgrAq5oyd2RsLKf6vLIeGPBstn2lZrxpMcYcI5g9drw2rqZtQ
+         sF7GeDKkWaKrw2LxYapuVggEMhTBEBZ0SjkzUHEWNANUP8D9FbJjBq3ggqqjC8zHUJtf
+         Mv91vybsbc2LbD1lKNq9BfcRGokWNb0vYPZ9JP57v0X8ysBcAmpq0SXuRCkfhG/2LDLH
+         II33byyeWl21X0nU22hOa9jWBIxrpplYdCwykSVFG3RfizRCpR+bmZMLn/d5Xk5O2COX
+         fvHeEal9pjCS94UiYRlEmUzc/CZFnQ/gdC84KA026R+vKaTds1GxaQHHUWBqTGzyysEm
+         w4iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692934312; x=1693539112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H90oOeYrkwbf+xoaK3jBcWIDwQknofALHbHaFFtwxJg=;
+        b=M1w7XsjicPHJQBwbonj5lZNp+NsLkm0EoCA33CBWvdmZBWmlAimffhAX2+YaI4VbIt
+         CU42r3Hxs5/m1gGPZ1ULrlCJaNfMEScK/7DEqj7q1KirhD0pQvgvdO4G52YB6zEY1cg6
+         e0w5uOMGf5g2UmCm+7fvPt1K0U3CRuIMWAyD78DEz9S4FQYPet/lVyie7bwIoXV5HW+P
+         qLjW2AGhu4UwHO7Bc4gW1bF5OE5PLYJXXXgq5RoiiZ5Y1YR11hWFvNINVtEu/1BUqkbE
+         UPY4zCemWpC8OAZK1Vt6Z0Ld56wi9m9F4fHmWQ8L1BQ4p15c49O/MAZLJmBq2I7J1gsx
+         zicA==
+X-Gm-Message-State: AOJu0YzA4o2jkkoh6j86sFxCcdgjjbCCEDsscyUlbXpXdDKhkzM76xh4
+	gcWfru8TVx9NgEczJXngIBU=
+X-Google-Smtp-Source: AGHT+IEktqJR1lBjOJV3K63tpPkjTmHg3s0ySzI46NjesmTphSu3beB9t0RWkaadWTpxcb+K6Nq3uA==
+X-Received: by 2002:a05:6358:5e0b:b0:134:c4dc:2c43 with SMTP id q11-20020a0563585e0b00b00134c4dc2c43mr15507561rwn.28.1692934311727;
+        Thu, 24 Aug 2023 20:31:51 -0700 (PDT)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id p9-20020a63b809000000b0055b61cd99a1sm406474pge.81.2023.08.24.20.31.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Aug 2023 20:31:51 -0700 (PDT)
+From: peteryin <peteryin.openbmc@gmail.com>
+To: robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	joel@jms.id.au,
+	andrew@aj.id.au,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Add Meta openBMC Minerva dts file.
+Date: Fri, 25 Aug 2023 11:29:45 +0800
+Message-Id: <20230825032945.1649050-1-peteryin.openbmc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.0
-Subject: Re: [PATCH v1 1/1] soc/aspeed: Add host side BMC device driver
-Content-Language: en-US
-From: Ninad Palsule <ninad@linux.vnet.ibm.com>
-To: Andrew Lunn <andrew@lunn.ch>, Ninad Palsule <ninad@linux.ibm.com>
-References: <20230821183525.3427144-1-ninad@linux.ibm.com>
- <20230821183525.3427144-2-ninad@linux.ibm.com>
- <5159abb8-1b4c-4576-b370-4dd9db142beb@lunn.ch>
- <6cea8ee7-f845-6ef3-631f-3f252ff5e949@linux.vnet.ibm.com>
-In-Reply-To: <6cea8ee7-f845-6ef3-631f-3f252ff5e949@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 1mv__vacMC-yZ399KpgyNPqZKlLTnK9L
-X-Proofpoint-ORIG-GUID: 1mv__vacMC-yZ399KpgyNPqZKlLTnK9L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-23_12,2023-08-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0 impostorscore=0
- clxscore=1015 suspectscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2308100000 definitions=main-2308230159
 X-Mailman-Approved-At: Fri, 25 Aug 2023 21:33:58 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -96,84 +83,354 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: potin.lai@quantatw.com, cosmo.chou@quantatw.com, daniel-hsu@quantatw.com, peteryin <peteryin.openbmc@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Andrew,
+This is for Meta openBMC Minerva dts.
 
-On 8/22/23 11:14 AM, Ninad Palsule wrote:
-> Hello Andrew,
->
-> Thanks for the review.
->
-> On 8/21/23 2:29 PM, Andrew Lunn wrote:
->>> Testing:
->>>    - This is tested on IBM rainier system with BMC. It requires BMC 
->>> side
->>>      BMC device driver which is available in the ASPEED's 5.15 SDK
->>>      kernel.
->> How relevant is that? To the host side, it just appears to be an
->> 16550A. Is the SDK emulating an 16550A? If you where to use a
->> different kernel, is it still guaranteed to be an 16550A? I also
->> notice there is a mainline
->> drivers/tty/serial/8250/8250_aspeed_vuart.c. Could that be used on the
->> BMC? That would be a better testing target than the vendor kernel.
->
-> This is just to indicate how I tested my code.
->
-> Yes, aspeed chip (in this case ast2600) is compatible with 16550 UART.
->
-> I am guessing it should work with different kernel too as 16550 
-> standard is used.
->
-> The 8250_aspeed_vuart.c is a BMC side driver for accessing VUART over 
-> LPC bus and
->
-> this is a host side driver to access VUART over PCIe bus.
->
->>> +config ASPEED_HOST_BMC_DEV
->>> +    bool "ASPEED SoC Host BMC device driver"
->>> +    default ARCH_ASPEED
->>> +    select SOC_BUS
->>> +    default ARCH_ASPEED
->> same default twice?
-> Removed.
->>
->>> +static int __init aspeed_host_bmc_device_init(void)
->>> +{
->>> +    int ret;
->>> +
->>> +    /* register pci driver */
->>> +    ret = pci_register_driver(&aspeed_host_bmc_dev_driver);
->>> +    if (ret < 0) {
->>> +        pr_err("pci-driver: can't register pci driver\n");
->>> +        return ret;
->>> +    }
->>> +
->>> +    return 0;
->>> +
->>> +}
->>> +
->>> +static void aspeed_host_bmc_device_exit(void)
->>> +{
->>> +    /* unregister pci driver */
->>> +    pci_unregister_driver(&aspeed_host_bmc_dev_driver);
->>> +}
->>> +
->>> +late_initcall(aspeed_host_bmc_device_init);
->>> +module_exit(aspeed_host_bmc_device_exit);
->> It looks like you can use module_pci_driver() ?
-> yes, It should work unless the late initcall is important. I will test 
-> it and see.
+Signed-off-by: peteryin <peteryin.openbmc@gmail.com>
+---
+ .../boot/dts/aspeed-bmc-facebook-minerva.dts  | 330 ++++++++++++++++++
+ 1 file changed, 330 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
 
-I will not be able to use module_pci_driver() as it doesn't support late 
-initcall which is required otherwise
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
+new file mode 100644
+index 000000000000..4fb9b5f72942
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
+@@ -0,0 +1,330 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2023 Facebook Inc.
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++
++/ {
++	model = "Facebook Minerva";
++	compatible = "facebook, minerva-bmc", "aspeed,ast2600";
++
++	aliases {
++		serial0 = &uart1;
++		serial4 = &uart5;
++	};
++
++	chosen {
++		bootargs = "console=ttyS4,57600n8";
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x80000000>;
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
++			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
++			<&adc1 2>;
++	};
++
++};
++
++// HOST BIOS Debug
++&uart1 {
++	status = "okay";
++};
++
++
++// SOL Host Console
++&uart2 {
++	status = "okay";
++	pinctrl-0 = <>;
++
++};
++
++// SOL BMC Console
++&uart4 {
++	status = "okay";
++	pinctrl-0 = <>;
++};
++
++// BMC Debug Console
++&uart5 {
++	status = "okay";
++};
++
++//MTIA
++&uart6 {
++	status = "okay";
++};
++
++&uart_routing {
++	status = "okay";
++};
++
++&vuart1 {
++	status = "okay";
++	virtual;
++	port=<0x3e8>;
++	sirq = <7>;
++	sirq-polarity = <0>;
++	dma-mode;
++	dma-channel = <12>;
++};
++
++&wdt1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_wdtrst1_default>;
++	aspeed,reset-type = "soc";
++	aspeed,external-signal;
++	aspeed,ext-push-pull;
++	aspeed,ext-active-high;
++	aspeed,ext-pulse-duration = <256>;
++};
++
++
++&mac3 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii4_default>;
++	no-hw-checksum;
++	use-ncsi;
++	ncsi-ctrl,start-redo-probe;
++	ncsi-ctrl,no-channel-monitor;
++	mlx,multi-host;
++	ncsi-package = <1>;
++	ncsi-channel = <1>;
++	ncsi-rexmit = <1>;
++	ncsi-timeout = <2>;
++};
++
++&rtc {
++	status = "okay";
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout-128.dtsi"
++	};
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "alt-bmc";
++		spi-max-frequency = <50000000>;
++	};
++};
++
++
++//BIOS Flash
++&spi2 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi2_default>;
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "pnor";
++		spi-max-frequency = <12000000>;
++		spi-tx-bus-width = <2>;
++		spi-rx-bus-width = <2>;
++	};
++};
++
++
++&kcs2 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca8>;
++};
++
++&kcs3 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca2>;
++};
++
++
++&lpc_snoop {
++	status = "okay";
++	snoop-ports = <0x80>;
++};
++
++&peci0 {
++	status = "okay";
++	clock-frequency = <1000000>;
++};
++
++&sgpiom0 {
++	status = "okay";
++	max-ngpios = <128>;
++	ngpios = <128>;
++	bus-frequency = <2000000>;
++	gpio-line-names =
++	/*in - out - in - out */
++	/*A0-A7*/   "","","","","","enable_sensors","","",
++	/*A0-A7*/   "","","","","","","","",
++	/*B0-B7*/   "","","","","","","","",
++	/*B0-B7*/   "","","","","","","","",
++	/*C0-C7*/   "","","","","","","","",
++	/*C0-C7*/   "","","","","","","","",
++	/*D0-D7*/   "","","","","","","","",
++	/*D0-D7*/   "","","","","","","","",
++	/*E0-E7*/   "","","","","","","","",
++	/*E0-E7*/   "","","","","","","","",
++	/*F0-F7*/   "","","","","","","","",
++	/*F0-F7*/   "","","","","","","","",
++	/*G0-G7*/   "","","","","","","","",
++	/*G0-G7*/   "","","","","","","","",
++	/*H0-H7*/   "","","","","","","","",
++	/*H0-H7*/   "","","","","","","","";
++};
++
++&i2c0 {
++	status = "okay";
++};
++
++&i2c1 {
++	status = "okay";
++	tmp75@4B {
++		compatible = "ti,tmp75";
++		reg = <0x4B>;
++	};
++};
++
++&i2c2 {
++	status = "okay";
++};
++
++&i2c3 {
++	status = "okay";
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c9 {
++	status = "okay";
++};
++
++&i2c11 {
++	status = "okay";
++};
++
++&i2c12 {
++	status = "okay";
++};
++
++&i2c13 {
++	status = "okay";
++};
++
++// To Debug card
++&i2c14 {
++	status = "okay";
++	multi-master;
++	aspeed,hw-timeout-ms = <1000>;
++};
++
++&i2c15 {
++	status = "okay";
++	// SCM FRU
++	eeprom@50 {
++		compatible = "atmel,24c64";
++		reg = <0x50>;
++	};
++	// BSM FRU
++	eeprom@56 {
++		compatible = "atmel,24c64";
++		reg = <0x56>;
++	};
++
++};
++
++&adc0 {
++	ref_voltage = <2500>;
++	status = "okay";
++
++	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
++		&pinctrl_adc2_default &pinctrl_adc3_default
++		&pinctrl_adc4_default &pinctrl_adc5_default
++		&pinctrl_adc6_default &pinctrl_adc7_default>;
++};
++
++&adc1 {
++	ref_voltage = <2500>;
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc10_default>;
++};
++
++&jtag1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_jtagm_default>;
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&gpio0 {
++	pinctrl-names = "default";
++	gpio-line-names =
++	/*A0-A7*/	"","","","","","","","",
++	/*B0-B7*/	"","","","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","","SOL_UART_SET","","","","","",
++	/*E0-E7*/	"","","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","","","",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"LED_POSTCODE_0","LED_POSTCODE_1",
++			"LED_POSTCODE_2","LED_POSTCODE_3",
++			"LED_POSTCODE_4","LED_POSTCODE_5",
++			"LED_POSTCODE_6","LED_POSTCODE_7",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"","","","","","","","",
++	/*Q0-Q7*/	"","","","","","","","",
++	/*R0-R7*/	"","","","","","","","",
++	/*S0-S7*/	"","","","","","","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","","","","","",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","";
++};
++
+-- 
+2.25.1
 
-8250 registration fails. So I am not making this change.
-
->
-> Thanks & Regards,
->
-> Ninad Palsule
->
