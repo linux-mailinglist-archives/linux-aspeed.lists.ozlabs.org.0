@@ -2,76 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5208788626
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 13:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F79788E2E
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 20:02:05 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mGDbL0K3;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=eCx8WVfL;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RXJ1D4cfkz3dDH
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Aug 2023 21:40:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RXST74ch2z30GC
+	for <lists+linux-aspeed@lfdr.de>; Sat, 26 Aug 2023 04:02:03 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mGDbL0K3;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=eCx8WVfL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::232; helo=mail-oi1-x232.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::133; helo=mail-lf1-x133.google.com; envelope-from=fancer.lancer@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RX59B4jzbz2yst
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Aug 2023 13:31:57 +1000 (AEST)
-Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-3a44cccbd96so347596b6e.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Aug 2023 20:31:57 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RXSSy34kVz2xwD;
+	Sat, 26 Aug 2023 04:01:52 +1000 (AEST)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4fe61ae020bso1791209e87.2;
+        Fri, 25 Aug 2023 11:01:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692934312; x=1693539112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H90oOeYrkwbf+xoaK3jBcWIDwQknofALHbHaFFtwxJg=;
-        b=mGDbL0K3SF2pkLgHiMgrAq5oyd2RsLKf6vLIeGPBstn2lZrxpMcYcI5g9drw2rqZtQ
-         sF7GeDKkWaKrw2LxYapuVggEMhTBEBZ0SjkzUHEWNANUP8D9FbJjBq3ggqqjC8zHUJtf
-         Mv91vybsbc2LbD1lKNq9BfcRGokWNb0vYPZ9JP57v0X8ysBcAmpq0SXuRCkfhG/2LDLH
-         II33byyeWl21X0nU22hOa9jWBIxrpplYdCwykSVFG3RfizRCpR+bmZMLn/d5Xk5O2COX
-         fvHeEal9pjCS94UiYRlEmUzc/CZFnQ/gdC84KA026R+vKaTds1GxaQHHUWBqTGzyysEm
-         w4iA==
+        d=gmail.com; s=20221208; t=1692986508; x=1693591308;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4SFmUXAYsem7iTnU68RPaQTJXrNLKxTUlTSWUKYfwJY=;
+        b=eCx8WVfLLhKkDjYHE6LK5+wOPjcskGc2P+q8qCaMNCmGUkxVl2+Ou9LZVdTftBUBlK
+         WpXKnv14V+1pUS0PkvDNEJCBz0zJQikC5MCQbj7G84AF0CAbJnWIKSnSW4kANFO1pOtV
+         FrKHyo6IaRo6cvvrqZ0v9S3Qc76mA8gbqxXzLpiIsNWeFHqMgA4kZzEH8kQFq0kgZv8A
+         P7qYMVbflmKM6lhcX9sznJ9AoVE5qbJNDtqb7ZBarvTN2crUZSw8+MMZdltbTIVGFIje
+         1YzmEkg+K03iITsDY0VP7euhRoTy0IRUOcx1/Sh7StJvEm5yOeazBN/8ddHbzV3ggByZ
+         7e7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692934312; x=1693539112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H90oOeYrkwbf+xoaK3jBcWIDwQknofALHbHaFFtwxJg=;
-        b=M1w7XsjicPHJQBwbonj5lZNp+NsLkm0EoCA33CBWvdmZBWmlAimffhAX2+YaI4VbIt
-         CU42r3Hxs5/m1gGPZ1ULrlCJaNfMEScK/7DEqj7q1KirhD0pQvgvdO4G52YB6zEY1cg6
-         e0w5uOMGf5g2UmCm+7fvPt1K0U3CRuIMWAyD78DEz9S4FQYPet/lVyie7bwIoXV5HW+P
-         qLjW2AGhu4UwHO7Bc4gW1bF5OE5PLYJXXXgq5RoiiZ5Y1YR11hWFvNINVtEu/1BUqkbE
-         UPY4zCemWpC8OAZK1Vt6Z0Ld56wi9m9F4fHmWQ8L1BQ4p15c49O/MAZLJmBq2I7J1gsx
-         zicA==
-X-Gm-Message-State: AOJu0YzA4o2jkkoh6j86sFxCcdgjjbCCEDsscyUlbXpXdDKhkzM76xh4
-	gcWfru8TVx9NgEczJXngIBU=
-X-Google-Smtp-Source: AGHT+IEktqJR1lBjOJV3K63tpPkjTmHg3s0ySzI46NjesmTphSu3beB9t0RWkaadWTpxcb+K6Nq3uA==
-X-Received: by 2002:a05:6358:5e0b:b0:134:c4dc:2c43 with SMTP id q11-20020a0563585e0b00b00134c4dc2c43mr15507561rwn.28.1692934311727;
-        Thu, 24 Aug 2023 20:31:51 -0700 (PDT)
-Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id p9-20020a63b809000000b0055b61cd99a1sm406474pge.81.2023.08.24.20.31.49
+        d=1e100.net; s=20221208; t=1692986508; x=1693591308;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4SFmUXAYsem7iTnU68RPaQTJXrNLKxTUlTSWUKYfwJY=;
+        b=ZBWpQIjfcxfL17/52Z+T0SwgsPz9KybnVclal8h/PmBsKBXRtm2izmUqWCG9Nts39m
+         Q9Oel0V/DCvrjd2V8p2PqhbbhV6HWN0HymtM7Ei6UUZu5JXNsNMat72Xl6gkcCmWImzk
+         eIYvutVK781BAA0knl051R9qequoa+BUsLHIenfgHi23F1OsaOAtS8v3FwLmKjj4tM3B
+         fYKZ6TLsg5rUgPTff+aG8NVXwRmapmQh4tb2/jUJRVJcC74jlvkUQwSY29nHpWS85DfE
+         ODr61Nm+8H5wfAguR0RIR7qy4gcjD+Y3AVqktFba90/RIE48lxM0rNtxNT203SucJEWo
+         52MA==
+X-Gm-Message-State: AOJu0YxyhiuwOG+UWQjzbS7sYr/gUNMr4Uixa0PMhyYdGmFseUpojcMh
+	aPrEW3derfwuJpzEzAM4c2I=
+X-Google-Smtp-Source: AGHT+IH0lcoByGdkGAuuyTRpzPSqRVfYxYDuaWbs9bJOeWJsrinCWk1P2nZBUgaVHYuB9th1ImqFzA==
+X-Received: by 2002:a05:6512:2303:b0:4fe:4e2c:8e52 with SMTP id o3-20020a056512230300b004fe4e2c8e52mr18884207lfu.42.1692986507967;
+        Fri, 25 Aug 2023 11:01:47 -0700 (PDT)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id a9-20020ac25209000000b004fba077e654sm366283lfl.194.2023.08.25.11.01.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 20:31:51 -0700 (PDT)
-From: peteryin <peteryin.openbmc@gmail.com>
-To: robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	joel@jms.id.au,
-	andrew@aj.id.au,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Add Meta openBMC Minerva dts file.
-Date: Fri, 25 Aug 2023 11:29:45 +0800
-Message-Id: <20230825032945.1649050-1-peteryin.openbmc@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 25 Aug 2023 11:01:47 -0700 (PDT)
+Date: Fri, 25 Aug 2023 21:01:44 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH -next v2 11/25] spi: dw-bt1: Use helper function
+ devm_clk_get_enabled()
+Message-ID: <cgw2bpsh47p4vz3hectcwsz53dhmffpurufw2prxzg43ra2fpc@7xklvkozre6g>
+References: <20230822131237.1022815-1-lizetao1@huawei.com>
+ <20230823133938.1359106-1-lizetao1@huawei.com>
+ <20230823133938.1359106-12-lizetao1@huawei.com>
+ <xxosi2ymo7otqyfbmjlubezzedqw6ulwwhdmbdjbto7yaqw673@q673weupq67y>
+ <20230823181344.000026bd@Huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 25 Aug 2023 21:33:58 +1000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230823181344.000026bd@Huawei.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,354 +82,127 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: potin.lai@quantatw.com, cosmo.chou@quantatw.com, daniel-hsu@quantatw.com, peteryin <peteryin.openbmc@gmail.com>
+Cc: heiko@sntech.de, linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org, Li Zetao <lizetao1@huawei.com>, tali.perry1@gmail.com, conor.dooley@microchip.com, linux-riscv@lists.infradead.org, jbrunet@baylibre.com, florian.fainelli@broadcom.com, yuenn@google.com, khilman@baylibre.com, tmaimon77@gmail.com, linux-rockchip@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com, avifishman70@gmail.com, martin.blumenstingl@googlemail.com, rjui@broadcom.com, broonie@kernel.org, linux-mediatek@lists.infradead.org, clg@kaod.org, matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org, sbranden@broadcom.com, venture@google.com, linux-spi@vger.kernel.org, daire.mcnamara@microchip.com, olteanv@gmail.com, openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is for Meta openBMC Minerva dts.
+On Wed, Aug 23, 2023 at 06:13:44PM +0100, Jonathan Cameron wrote:
+> On Wed, 23 Aug 2023 17:35:35 +0300
+> Serge Semin <fancer.lancer@gmail.com> wrote:
+> 
+> > On Wed, Aug 23, 2023 at 09:39:24PM +0800, Li Zetao wrote:
+> > > Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
+> > > and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now be
+> > > replaced by devm_clk_get_enabled() when driver enables (and possibly
+> > > prepares) the clocks for the whole lifetime of the device. Moreover, it is
+> > > no longer necessary to unprepare and disable the clocks explicitly.
+> > >   
+> > 
+> > > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > Acked-by: Serge Semin <fancer.lancer@gmail.com>
+> > > Signed-off-by: Li Zetao <lizetao1@huawei.com>  
+> > 
+> > Just for the record, the tags order is normally supposed to reflect a
+> > patch route. Even though AFAICS it's explicitly defined for the Sob
+> > tags only (see Documentation/process/submitting-patches.rst), but
+> > almost all kernel developers apply that rule to all the tags. See the
+> > kernel git log as the brightest example. So your Sob tag should have
+> > been kept first, then either my Ab or Jonathan' Rb tags.
+> 
 
-Signed-off-by: peteryin <peteryin.openbmc@gmail.com>
----
- .../boot/dts/aspeed-bmc-facebook-minerva.dts  | 330 ++++++++++++++++++
- 1 file changed, 330 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
+> There have been far too many discussions about this over the years.
+> There is an argument (I'm not saying I agree with it) that tags given
+> on an earlier version than the one posted should be before the SoB of
+> the author on basis that the SoB is occurring later (as it's on the new
+> version).  That is a slightly stronger argument if there are changes
+> to the patch, but then things get inconsistent between patches with minor
+> changes and those without. *sigh*
+> 
+> So this pattern is fairly common if a bit weird in my view :)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
-new file mode 100644
-index 000000000000..4fb9b5f72942
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
-@@ -0,0 +1,330 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright (c) 2023 Facebook Inc.
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "Facebook Minerva";
-+	compatible = "facebook, minerva-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial0 = &uart1;
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		bootargs = "console=ttyS4,57600n8";
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x80000000>;
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
-+			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
-+			<&adc1 2>;
-+	};
-+
-+};
-+
-+// HOST BIOS Debug
-+&uart1 {
-+	status = "okay";
-+};
-+
-+
-+// SOL Host Console
-+&uart2 {
-+	status = "okay";
-+	pinctrl-0 = <>;
-+
-+};
-+
-+// SOL BMC Console
-+&uart4 {
-+	status = "okay";
-+	pinctrl-0 = <>;
-+};
-+
-+// BMC Debug Console
-+&uart5 {
-+	status = "okay";
-+};
-+
-+//MTIA
-+&uart6 {
-+	status = "okay";
-+};
-+
-+&uart_routing {
-+	status = "okay";
-+};
-+
-+&vuart1 {
-+	status = "okay";
-+	virtual;
-+	port=<0x3e8>;
-+	sirq = <7>;
-+	sirq-polarity = <0>;
-+	dma-mode;
-+	dma-channel = <12>;
-+};
-+
-+&wdt1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_wdtrst1_default>;
-+	aspeed,reset-type = "soc";
-+	aspeed,external-signal;
-+	aspeed,ext-push-pull;
-+	aspeed,ext-active-high;
-+	aspeed,ext-pulse-duration = <256>;
-+};
-+
-+
-+&mac3 {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii4_default>;
-+	no-hw-checksum;
-+	use-ncsi;
-+	ncsi-ctrl,start-redo-probe;
-+	ncsi-ctrl,no-channel-monitor;
-+	mlx,multi-host;
-+	ncsi-package = <1>;
-+	ncsi-channel = <1>;
-+	ncsi-rexmit = <1>;
-+	ncsi-timeout = <2>;
-+};
-+
-+&rtc {
-+	status = "okay";
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout-128.dtsi"
-+	};
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "alt-bmc";
-+		spi-max-frequency = <50000000>;
-+	};
-+};
-+
-+
-+//BIOS Flash
-+&spi2 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi2_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "pnor";
-+		spi-max-frequency = <12000000>;
-+		spi-tx-bus-width = <2>;
-+		spi-rx-bus-width = <2>;
-+	};
-+};
-+
-+
-+&kcs2 {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0xca8>;
-+};
-+
-+&kcs3 {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0xca2>;
-+};
-+
-+
-+&lpc_snoop {
-+	status = "okay";
-+	snoop-ports = <0x80>;
-+};
-+
-+&peci0 {
-+	status = "okay";
-+	clock-frequency = <1000000>;
-+};
-+
-+&sgpiom0 {
-+	status = "okay";
-+	max-ngpios = <128>;
-+	ngpios = <128>;
-+	bus-frequency = <2000000>;
-+	gpio-line-names =
-+	/*in - out - in - out */
-+	/*A0-A7*/   "","","","","","enable_sensors","","",
-+	/*A0-A7*/   "","","","","","","","",
-+	/*B0-B7*/   "","","","","","","","",
-+	/*B0-B7*/   "","","","","","","","",
-+	/*C0-C7*/   "","","","","","","","",
-+	/*C0-C7*/   "","","","","","","","",
-+	/*D0-D7*/   "","","","","","","","",
-+	/*D0-D7*/   "","","","","","","","",
-+	/*E0-E7*/   "","","","","","","","",
-+	/*E0-E7*/   "","","","","","","","",
-+	/*F0-F7*/   "","","","","","","","",
-+	/*F0-F7*/   "","","","","","","","",
-+	/*G0-G7*/   "","","","","","","","",
-+	/*G0-G7*/   "","","","","","","","",
-+	/*H0-H7*/   "","","","","","","","",
-+	/*H0-H7*/   "","","","","","","","";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+	tmp75@4B {
-+		compatible = "ti,tmp75";
-+		reg = <0x4B>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+};
-+
-+// To Debug card
-+&i2c14 {
-+	status = "okay";
-+	multi-master;
-+	aspeed,hw-timeout-ms = <1000>;
-+};
-+
-+&i2c15 {
-+	status = "okay";
-+	// SCM FRU
-+	eeprom@50 {
-+		compatible = "atmel,24c64";
-+		reg = <0x50>;
-+	};
-+	// BSM FRU
-+	eeprom@56 {
-+		compatible = "atmel,24c64";
-+		reg = <0x56>;
-+	};
-+
-+};
-+
-+&adc0 {
-+	ref_voltage = <2500>;
-+	status = "okay";
-+
-+	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-+		&pinctrl_adc2_default &pinctrl_adc3_default
-+		&pinctrl_adc4_default &pinctrl_adc5_default
-+		&pinctrl_adc6_default &pinctrl_adc7_default>;
-+};
-+
-+&adc1 {
-+	ref_voltage = <2500>;
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc10_default>;
-+};
-+
-+&jtag1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_jtagm_default>;
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&gpio0 {
-+	pinctrl-names = "default";
-+	gpio-line-names =
-+	/*A0-A7*/	"","","","","","","","",
-+	/*B0-B7*/	"","","","","","","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"","","SOL_UART_SET","","","","","",
-+	/*E0-E7*/	"","","","","","","","",
-+	/*F0-F7*/	"","","","","","","","",
-+	/*G0-G7*/	"","","","","","","","",
-+	/*H0-H7*/	"","","","","","","","",
-+	/*I0-I7*/	"","","","","","","","",
-+	/*J0-J7*/	"","","","","","","","",
-+	/*K0-K7*/	"","","","","","","","",
-+	/*L0-L7*/	"","","","","","","","",
-+	/*M0-M7*/	"","","","","","","","",
-+	/*N0-N7*/	"LED_POSTCODE_0","LED_POSTCODE_1",
-+			"LED_POSTCODE_2","LED_POSTCODE_3",
-+			"LED_POSTCODE_4","LED_POSTCODE_5",
-+			"LED_POSTCODE_6","LED_POSTCODE_7",
-+	/*O0-O7*/	"","","","","","","","",
-+	/*P0-P7*/	"","","","","","","","",
-+	/*Q0-Q7*/	"","","","","","","","",
-+	/*R0-R7*/	"","","","","","","","",
-+	/*S0-S7*/	"","","","","","","","",
-+	/*T0-T7*/	"","","","","","","","",
-+	/*U0-U7*/	"","","","","","","","",
-+	/*V0-V7*/	"","","","","","","","",
-+	/*W0-W7*/	"","","","","","","","",
-+	/*X0-X7*/	"","","","","","","","",
-+	/*Y0-Y7*/	"","","","","","","","",
-+	/*Z0-Z7*/	"","","","","","","","";
-+};
-+
--- 
-2.25.1
+Ah, I didn't know it was a holy-warring topic.) My judgement was based
+on the vast majority of commits in the kernel git log and on my
+experience in the patches review. Anyway in order not to raise it
+again let's consider my comment as a general note with no obligation
+towards the patch author.)
 
+-Serge(y)
+
+> 
+> Jonathan
+> 
+> > 
+> > -Serge(y)
+> > 
+> > > ---
+> > > v1 -> v2: None
+> > > 
+> > >  drivers/spi/spi-dw-bt1.c | 23 +++++------------------
+> > >  1 file changed, 5 insertions(+), 18 deletions(-)
+> > > 
+> > > diff --git a/drivers/spi/spi-dw-bt1.c b/drivers/spi/spi-dw-bt1.c
+> > > index 5e1c01822967..5391bcac305c 100644
+> > > --- a/drivers/spi/spi-dw-bt1.c
+> > > +++ b/drivers/spi/spi-dw-bt1.c
+> > > @@ -269,43 +269,32 @@ static int dw_spi_bt1_probe(struct platform_device *pdev)
+> > >  
+> > >  	dws->paddr = mem->start;
+> > >  
+> > > -	dwsbt1->clk = devm_clk_get(&pdev->dev, NULL);
+> > > +	dwsbt1->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+> > >  	if (IS_ERR(dwsbt1->clk))
+> > >  		return PTR_ERR(dwsbt1->clk);
+> > >  
+> > > -	ret = clk_prepare_enable(dwsbt1->clk);
+> > > -	if (ret)
+> > > -		return ret;
+> > > -
+> > >  	dws->bus_num = pdev->id;
+> > >  	dws->reg_io_width = 4;
+> > >  	dws->max_freq = clk_get_rate(dwsbt1->clk);
+> > > -	if (!dws->max_freq) {
+> > > -		ret = -EINVAL;
+> > > -		goto err_disable_clk;
+> > > -	}
+> > > +	if (!dws->max_freq)
+> > > +		return -EINVAL;
+> > >  
+> > >  	init_func = device_get_match_data(&pdev->dev);
+> > >  	ret = init_func(pdev, dwsbt1);
+> > >  	if (ret)
+> > > -		goto err_disable_clk;
+> > > +		return ret;
+> > >  
+> > >  	pm_runtime_enable(&pdev->dev);
+> > >  
+> > >  	ret = dw_spi_add_host(&pdev->dev, dws);
+> > >  	if (ret) {
+> > >  		pm_runtime_disable(&pdev->dev);
+> > > -		goto err_disable_clk;
+> > > +		return ret;
+> > >  	}
+> > >  
+> > >  	platform_set_drvdata(pdev, dwsbt1);
+> > >  
+> > >  	return 0;
+> > > -
+> > > -err_disable_clk:
+> > > -	clk_disable_unprepare(dwsbt1->clk);
+> > > -
+> > > -	return ret;
+> > >  }
+> > >  
+> > >  static void dw_spi_bt1_remove(struct platform_device *pdev)
+> > > @@ -315,8 +304,6 @@ static void dw_spi_bt1_remove(struct platform_device *pdev)
+> > >  	dw_spi_remove_host(&dwsbt1->dws);
+> > >  
+> > >  	pm_runtime_disable(&pdev->dev);
+> > > -
+> > > -	clk_disable_unprepare(dwsbt1->clk);
+> > >  }
+> > >  
+> > >  static const struct of_device_id dw_spi_bt1_of_match[] = {
+> > > -- 
+> > > 2.34.1
+> > >   
+> 
