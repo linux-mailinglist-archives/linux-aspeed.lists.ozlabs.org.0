@@ -2,64 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AF478C70B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Aug 2023 16:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6981178D27C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Aug 2023 05:20:27 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=DJmUBh2x;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=crjy+4Ni;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RZqDq6wgwz3bhc
-	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Aug 2023 00:14:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rb8gY1fY4z3c13
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Aug 2023 13:20:25 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=DJmUBh2x;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=crjy+4Ni;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh+dt@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::535; helo=mail-pg1-x535.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RZqDg2Zc1z2xqH
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Aug 2023 00:14:27 +1000 (AEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id BC66065A2D
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Aug 2023 14:14:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07032C433CC
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Aug 2023 14:14:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693318462;
-	bh=YesSUKL10rxav1vM00LQmHJcdtQsxeVm8jbns6Hd2Y4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DJmUBh2x7jhQYWeh/ZCbPik06ez07pv+9W1pMXodVnBIqtF4yrrzCP/AfvzvtwA0d
-	 eoLHcLLp2+VK5dWP/xjhdj02EcQrA4uncedyoowPHv15y6eaqv3Vs8/erx7bbnzE7G
-	 IsnBKaYWdvgjUNCFbDShabuO2agvP3VGNPzeLC7AlGBLLo6zBw9CsQpYfjyX4/XDH4
-	 tFkPsdeDxlFEFzX8m4h8U9/+gC/1thLpHGnw3xwZ/7rFXm+grewuBfi+p+nE5rFHpy
-	 HAdarmaIN4efe231yXZoJ6orxbDn8HLHsMn/ejALu4e2CFmpT2aoRqNLcihXlmHjpz
-	 8AT/6/j1bnSlw==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2bceb02fd2bso65928231fa.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Aug 2023 07:14:21 -0700 (PDT)
-X-Gm-Message-State: AOJu0YywfvZv21WxxE1Oqga7n9r+ZLdqADW51UDKPpZ36iiCHoVPWVtK
-	beK1VG9uiMf5dezjFkq9hglIFl+krMHWuZl0BQ==
-X-Google-Smtp-Source: AGHT+IF5hqZns5MhjgglhLnAmqNK6PSIJxJhmxhwnEUQbXWqMiTURlrac8MQufEes7uZ+PBLIzrZgNAd5m9jeFL72bs=
-X-Received: by 2002:a05:651c:168d:b0:2bd:d31:95e7 with SMTP id
- bd13-20020a05651c168d00b002bd0d3195e7mr4627284ljb.18.1693318459918; Tue, 29
- Aug 2023 07:14:19 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RYwlJ5ShWz2yG9
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Aug 2023 13:19:23 +1000 (AEST)
+Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso1733946a12.3
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 27 Aug 2023 20:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693192760; x=1693797560;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SxV4l6mlHU3mQ/9fiFdjek9/eZeTL4eJfpQUf2P54nk=;
+        b=crjy+4Ni2Ghud4KSDqZ9Xh49ym3plna27hs3mhYzrf61xlv0dcU7SOMgs51cQk4Wg/
+         vAAG3teXVIX7JuSfkCyFO3JrsvcE0G4JkM9CHUWs2fsYLKftY69rSDEUpao5XVws/I0m
+         ufE5LVbMTav5ILfa/8NhUKDUWTwiqGbzZT5eH8QgN0KWgaC+4Ian1V/ZHSzwYu0wJ6Fs
+         6hGgj+8r0QvrGzJy91lARPsOJkZdmi+NupIhCtry0HekLhGCp90un9Xg9lvSI7WvmShc
+         cqXfESg16tnLeDjEVEqfx0q8RPlWZjLTdsRK74lJ0xCu3YdRgcY3d6X3H+SsmW19wCMf
+         1+tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693192760; x=1693797560;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SxV4l6mlHU3mQ/9fiFdjek9/eZeTL4eJfpQUf2P54nk=;
+        b=cA2Y/UgTphi/9+zhucIXm0LrgI/d7gUU8MUslBBUqKQW2UMwqUWk6IITsVgXPWj+Et
+         egenxksZZwtmsKMNHt03ktJNcOJ05Z75YJkFjVOspXJpvlfZOHHRaGSrSBjy1Zo+e4i8
+         VVylH8jsLEUlMN/tbvuThV9XiGqSj7oacHOXEjBOy7gnlQ6Fg+Wpg+OPbib7D1hRbEpj
+         vy5CioRUxA+01D5C0+BkY8FYgudMGKBElkv26CxFpckXnxQVCFbUtGFr0f6xNoHKj10i
+         qh5dKLTue9PpCLSOvH8ZWkwbPXC+zJgHswh3m0nEgqeCHIIk2EYg8xarwpYwIkZFpCMv
+         KFrQ==
+X-Gm-Message-State: AOJu0Yz75++sXFzuBuHTBr4vHJ1z/n48AvhOaDBv0hJORJyzwURchYvx
+	V0s9coLvY1QOViQbYesdR38=
+X-Google-Smtp-Source: AGHT+IH4xCHiRJskVFoI5Npu1Zt5yppOy1NybY7nXwk0lGL08sZgItveAfmQEBPVj7vF3uyK2fcF+A==
+X-Received: by 2002:a05:6a21:78a3:b0:14b:e604:9f0a with SMTP id bf35-20020a056a2178a300b0014be6049f0amr14214767pzc.20.1693192760545;
+        Sun, 27 Aug 2023 20:19:20 -0700 (PDT)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id c5-20020a170902d90500b001b9df8f14d7sm5967026plz.267.2023.08.27.20.19.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Aug 2023 20:19:19 -0700 (PDT)
+From: peteryin <peteryin.openbmc@gmail.com>
+To: robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	joel@jms.id.au,
+	andrew@aj.id.au,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Minerva: Add Meta openBMC Minerva dts file.
+Date: Mon, 28 Aug 2023 11:17:14 +0800
+Message-Id: <20230828031714.107382-1-peteryin.openbmc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230828065137.2332953-1-Delphine_CC_Chiu@wiwynn.com> <20230828065137.2332953-3-Delphine_CC_Chiu@wiwynn.com>
-In-Reply-To: <20230828065137.2332953-3-Delphine_CC_Chiu@wiwynn.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 29 Aug 2023 09:14:06 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKvZPSp3cHkxTq6Dq_djSoPSs6AueM2VF_UPz_gG8tVVA@mail.gmail.com>
-Message-ID: <CAL_JsqKvZPSp3cHkxTq6Dq_djSoPSs6AueM2VF_UPz_gG8tVVA@mail.gmail.com>
-Subject: Re: [PATCH v12 2/2] ARM: dts: aspeed: yosemite4: add Facebook
- Yosemite 4 BMC
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 30 Aug 2023 13:19:08 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,993 +83,393 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: potin.lai@quantatw.com, cosmo.chou@quantatw.com, daniel-hsu@quantatw.com, peteryin <peteryin.openbmc@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Aug 28, 2023 at 1:52=E2=80=AFAM Delphine CC Chiu
-<Delphine_CC_Chiu@wiwynn.com> wrote:
->
-> Add linux device tree entry for Yosemite 4 devices connected to BMC.
-> The Yosemite 4 is a Meta multi-node server platform, based on AST2600 SoC=
-.
+This is for Meta openBMC Minerva dts.
 
-This was already applied and sent upstream on Aug 10 by Joel. You'll
-need incremental patches.
+Kernel:dev-6.1
 
->
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> ---
-> Changelog:
-> v12 - Add spi gpio config
-> v11 - Add imux configs for i2c-mux
->     - Add gpio and eeprom devices
->     - Remove temperature-sensor 11-004a and 11-004b
->     - Change power-sensor ina230 to ina233
-> v10 - Change to 128MB flash layout from 64MB
->  v9 - Remove mac2/mac3 duplicated setting about no-hw-checksum
->  v8 - Add description of Yosemite 4
->     - Remove unsupported ncsi config
->     - Revise i2c-mux config
->     - Correct power sensor i2c address
->     - Restore i2c 11 bus-frequency to default
->  v7 - Revise changelog format
->  v6 - Change project name from yosemitev4 to yosemite4
->  v5 - Revise rtc setting
->     - Remove duplicated multi-master setting
->  v3 - Revise the bootargs to stdout-path
->     - Revise i2c devices
->  v2 - Revise the DTS node name
-> ---
->  arch/arm/boot/dts/aspeed/Makefile             |    1 +
->  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 1102 +++++++++++++++++
->  2 files changed, 1103 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite=
-4.dts
->
-> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed=
-/Makefile
-> index c68984322a86..5b9264b823f3 100644
-> --- a/arch/arm/boot/dts/aspeed/Makefile
-> +++ b/arch/arm/boot/dts/aspeed/Makefile
-> @@ -26,6 +26,7 @@ dtb-$(CONFIG_ARCH_ASPEED) +=3D \
->         aspeed-bmc-facebook-wedge400.dtb \
->         aspeed-bmc-facebook-yamp.dtb \
->         aspeed-bmc-facebook-yosemitev2.dtb \
-> +       aspeed-bmc-facebook-yosemite4.dtb \
->         aspeed-bmc-ibm-bonnell.dtb \
->         aspeed-bmc-ibm-everest.dtb \
->         aspeed-bmc-ibm-rainier.dtb \
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b=
-/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> new file mode 100644
-> index 000000000000..851091a512dd
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -0,0 +1,1102 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +// Copyright 2022 Facebook Inc.
-> +
-> +/dts-v1/;
-> +#include "aspeed-g6.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +#include <dt-bindings/leds/leds-pca955x.h>
-> +#include <dt-bindings/i2c/i2c.h>
-> +
-> +/ {
-> +       model =3D "Facebook Yosemite 4 BMC";
-> +       compatible =3D "facebook,yosemite4-bmc", "aspeed,ast2600";
-> +
-> +       aliases {
-> +               serial4 =3D &uart5;
-> +               serial5 =3D &uart6;
-> +               serial6 =3D &uart7;
-> +               serial7 =3D &uart8;
-> +               serial8 =3D &uart9;
-> +
-> +               i2c16 =3D &imux16;
-> +               i2c17 =3D &imux17;
-> +               i2c18 =3D &imux18;
-> +               i2c19 =3D &imux19;
-> +               i2c20 =3D &imux20;
-> +               i2c21 =3D &imux21;
-> +               i2c22 =3D &imux22;
-> +               i2c23 =3D &imux23;
-> +               i2c24 =3D &imux24;
-> +               i2c25 =3D &imux25;
-> +               i2c26 =3D &imux26;
-> +               i2c27 =3D &imux27;
-> +               i2c28 =3D &imux28;
-> +               i2c29 =3D &imux29;
-> +               i2c30 =3D &imux30;
-> +               i2c31 =3D &imux31;
-> +               i2c32 =3D &imux32;
-> +               i2c33 =3D &imux33;
-> +       };
-> +
-> +       chosen {
-> +               stdout-path =3D "serial4:57600n8";
-> +       };
-> +
-> +       memory@80000000 {
-> +               device_type =3D "memory";
-> +               reg =3D <0x80000000 0x80000000>;
-> +       };
-> +
-> +       iio-hwmon {
-> +               compatible =3D "iio-hwmon";
-> +               io-channels =3D <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3=
->,
-> +                               <&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7=
->,
-> +                               <&adc1 0>, <&adc1 1>;
-> +       };
-> +
-> +       spi_gpio: spi-gpio {
-> +               status =3D "okay";
-> +               compatible =3D "spi-gpio";
-> +               #address-cells =3D <1>;
-> +               #size-cells =3D <0>;
-> +
-> +               gpio-sck =3D <&gpio0 ASPEED_GPIO(X, 3) GPIO_ACTIVE_HIGH>;
-> +               gpio-mosi =3D <&gpio0 ASPEED_GPIO(X, 4) GPIO_ACTIVE_HIGH>=
-;
-> +               gpio-miso =3D <&gpio0 ASPEED_GPIO(X, 5) GPIO_ACTIVE_HIGH>=
-;
-> +               num-chipselects =3D <1>;
-> +               cs-gpios =3D <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
-> +
-> +               tpmdev@0 {
-> +                       compatible =3D "tcg,tpm_tis-spi";
-> +                       spi-max-frequency =3D <33000000>;
-> +                       reg =3D <0>;
-> +               };
-> +       };
-> +};
-> +
-> +&uart1 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart2 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart3 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart4 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart5 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart6 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart7 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart8 {
-> +       status =3D "okay";
-> +};
-> +
-> +&uart9 {
-> +       status =3D "okay";
-> +};
-> +
-> +&wdt1 {
-> +       status =3D "okay";
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&pinctrl_wdtrst1_default>;
-> +       aspeed,reset-type =3D "soc";
-> +       aspeed,external-signal;
-> +       aspeed,ext-push-pull;
-> +       aspeed,ext-active-high;
-> +       aspeed,ext-pulse-duration =3D <256>;
-> +};
-> +
-> +&mac2 {
-> +       status =3D "okay";
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&pinctrl_rmii3_default>;
-> +       use-ncsi;
-> +       mlx,multi-host;
-> +};
-> +
-> +&mac3 {
-> +       status =3D "okay";
-> +       pinctrl-names =3D "default";
-> +       pinctrl-0 =3D <&pinctrl_rmii4_default>;
-> +       use-ncsi;
-> +       mlx,multi-host;
-> +};
-> +
-> +&fmc {
-> +       status =3D "okay";
-> +       flash@0 {
-> +               status =3D "okay";
-> +               m25p,fast-read;
-> +               label =3D "bmc";
-> +               spi-rx-bus-width =3D <4>;
-> +               spi-max-frequency =3D <50000000>;
-> +#include "openbmc-flash-layout-128.dtsi"
-> +       };
-> +       flash@1 {
-> +               status =3D "okay";
-> +               m25p,fast-read;
-> +               label =3D "bmc2";
-> +               spi-rx-bus-width =3D <4>;
-> +               spi-max-frequency =3D <50000000>;
-> +       };
-> +};
-> +
-> +&i2c0 {
-> +       status =3D "okay";
-> +       mctp-controller;
-> +       bus-frequency =3D <400000>;
-> +       multi-master;
-> +
-> +       mctp@10 {
-> +               compatible =3D "mctp-i2c-controller";
-> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "adi,adm1278";
-> +               reg =3D <0x40>;
-> +       };
-> +};
-> +
-> +&i2c1 {
-> +       status =3D "okay";
-> +       mctp-controller;
-> +       bus-frequency =3D <400000>;
-> +       multi-master;
-> +
-> +       mctp@10 {
-> +               compatible =3D "mctp-i2c-controller";
-> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "adi,adm1278";
-> +               reg =3D <0x40>;
-> +       };
-> +};
-> +
-> +&i2c2 {
-> +       status =3D "okay";
-> +       mctp-controller;
-> +       bus-frequency =3D <400000>;
-> +       multi-master;
-> +
-> +       mctp@10 {
-> +               compatible =3D "mctp-i2c-controller";
-> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "adi,adm1278";
-> +               reg =3D <0x40>;
-> +       };
-> +};
-> +
-> +&i2c3 {
-> +       status =3D "okay";
-> +       mctp-controller;
-> +       bus-frequency =3D <400000>;
-> +       multi-master;
-> +
-> +       mctp@10 {
-> +               compatible =3D "mctp-i2c-controller";
-> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "adi,adm1278";
-> +               reg =3D <0x40>;
-> +       };
-> +};
-> +
-> +&i2c4 {
-> +       status =3D "okay";
-> +       mctp-controller;
-> +       bus-frequency =3D <400000>;
-> +       multi-master;
-> +
-> +       mctp@10 {
-> +               compatible =3D "mctp-i2c-controller";
-> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "adi,adm1278";
-> +               reg =3D <0x40>;
-> +       };
-> +};
-> +
-> +&i2c5 {
-> +       status =3D "okay";
-> +       mctp-controller;
-> +       bus-frequency =3D <400000>;
-> +       multi-master;
-> +
-> +       mctp@10 {
-> +               compatible =3D "mctp-i2c-controller";
-> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "adi,adm1278";
-> +               reg =3D <0x40>;
-> +       };
-> +};
-> +
-> +&i2c6 {
-> +       status =3D "okay";
-> +       mctp-controller;
-> +       bus-frequency =3D <400000>;
-> +       multi-master;
-> +
-> +       mctp@10 {
-> +               compatible =3D "mctp-i2c-controller";
-> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "adi,adm1278";
-> +               reg =3D <0x40>;
-> +       };
-> +};
-> +
-> +&i2c7 {
-> +       status =3D "okay";
-> +       mctp-controller;
-> +       bus-frequency =3D <400000>;
-> +       multi-master;
-> +
-> +       mctp@10 {
-> +               compatible =3D "mctp-i2c-controller";
-> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "adi,adm1278";
-> +               reg =3D <0x40>;
-> +       };
-> +};
-> +
-> +&i2c8 {
-> +       status =3D "okay";
-> +       bus-frequency =3D <400000>;
-> +       i2c-mux@70 {
-> +               compatible =3D "nxp,pca9544";
-> +               idle-state =3D <0>;
-> +               i2c-mux-idle-disconnect;
-> +               reg =3D <0x70>;
-> +
-> +               imux16: i2c@0 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <0>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@49 {
-> +                               compatible =3D "nxp,pca9537";
-> +                               reg =3D <0x49>;
-> +                       };
-> +
-> +                       eeprom@50 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x50>;
-> +                       };
-> +
-> +                       eeprom@51 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x51>;
-> +                       };
-> +
-> +                       eeprom@54 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x54>;
-> +                       };
-> +               };
-> +
-> +               imux17: i2c@1 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <1>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@49 {
-> +                               compatible =3D "nxp,pca9537";
-> +                               reg =3D <0x49>;
-> +                       };
-> +
-> +                       eeprom@50 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x50>;
-> +                       };
-> +
-> +                       eeprom@51 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x51>;
-> +                       };
-> +
-> +                       eeprom@54 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x54>;
-> +                       };
-> +               };
-> +
-> +               imux18: i2c@2 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <2>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@49 {
-> +                               compatible =3D "nxp,pca9537";
-> +                               reg =3D <0x49>;
-> +                       };
-> +
-> +                       eeprom@50 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x50>;
-> +                       };
-> +
-> +                       eeprom@51 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x51>;
-> +                       };
-> +
-> +                       eeprom@54 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x54>;
-> +                       };
-> +               };
-> +
-> +               imux19: i2c@3 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <3>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@49 {
-> +                               compatible =3D "nxp,pca9537";
-> +                               reg =3D <0x49>;
-> +                       };
-> +
-> +                       eeprom@50 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x50>;
-> +                       };
-> +
-> +                       eeprom@51 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x51>;
-> +                       };
-> +
-> +                       eeprom@54 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x54>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&i2c9 {
-> +       status =3D "okay";
-> +       bus-frequency =3D <400000>;
-> +       i2c-mux@71 {
-> +               compatible =3D "nxp,pca9544";
-> +               idle-state =3D <0>;
-> +               i2c-mux-idle-disconnect;
-> +               reg =3D <0x71>;
-> +
-> +               imux20: i2c@0 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <0>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@49 {
-> +                               compatible =3D "nxp,pca9537";
-> +                               reg =3D <0x49>;
-> +                       };
-> +
-> +                       eeprom@50 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x50>;
-> +                       };
-> +
-> +                       eeprom@51 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x51>;
-> +                       };
-> +
-> +                       eeprom@54 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x54>;
-> +                       };
-> +               };
-> +
-> +               imux21: i2c@1 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <1>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@49 {
-> +                               compatible =3D "nxp,pca9537";
-> +                               reg =3D <0x49>;
-> +                       };
-> +
-> +                       eeprom@50 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x50>;
-> +                       };
-> +
-> +                       eeprom@51 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x51>;
-> +                       };
-> +
-> +                       eeprom@54 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x54>;
-> +                       };
-> +               };
-> +
-> +               imux22: i2c@2 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <2>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@49 {
-> +                               compatible =3D "nxp,pca9537";
-> +                               reg =3D <0x49>;
-> +                       };
-> +
-> +                       eeprom@50 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x50>;
-> +                       };
-> +
-> +                       eeprom@51 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x51>;
-> +                       };
-> +
-> +                       eeprom@54 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x54>;
-> +                       };
-> +               };
-> +
-> +               imux23: i2c@3 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <3>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@49 {
-> +                               compatible =3D "nxp,pca9537";
-> +                               reg =3D <0x49>;
-> +                       };
-> +
-> +                       eeprom@50 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x50>;
-> +                       };
-> +
-> +                       eeprom@51 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x51>;
-> +                       };
-> +
-> +                       eeprom@54 {
-> +                               compatible =3D "atmel,24c128";
-> +                               reg =3D <0x54>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&i2c10 {
-> +       status =3D "okay";
-> +       bus-frequency =3D <400000>;
-> +       i2c-mux@74 {
-> +               compatible =3D "nxp,pca9544";
-> +               idle-state =3D <0>;
-> +               i2c-mux-idle-disconnect;
-> +               reg =3D <0x74>;
-> +
-> +               imux28: i2c@0 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <0>;
-> +               };
-> +
-> +               imux29: i2c@1 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <1>;
-> +                       gpio@20 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x20>;
-> +                       };
-> +
-> +                       gpio@21 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x21>;
-> +                       };
-> +
-> +                       gpio@22 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x22>;
-> +                       };
-> +
-> +                       gpio@23 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x23>;
-> +                       };
-> +
-> +                       gpio@24 {
-> +                               compatible =3D "nxp,pca9506";
-> +                               reg =3D <0x24>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&i2c11 {
-> +       status =3D "okay";
-> +       power-sensor@10 {
-> +               compatible =3D "adi, adm1272";
-> +               reg =3D <0x10>;
-> +       };
-> +
-> +       power-sensor@12 {
-> +               compatible =3D "adi, adm1272";
-> +               reg =3D <0x12>;
-> +       };
-> +
-> +       gpio@20 {
-> +               compatible =3D "nxp,pca9555";
-> +               reg =3D <0x20>;
-> +               gpio-controller;
-> +               #gpio-cells =3D <2>;
-> +       };
-> +
-> +       gpio@21 {
-> +               compatible =3D "nxp,pca9555";
-> +               reg =3D <0x21>;
-> +               gpio-controller;
-> +               #gpio-cells =3D <2>;
-> +       };
-> +
-> +       gpio@22 {
-> +               compatible =3D "nxp,pca9555";
-> +               reg =3D <0x22>;
-> +               gpio-controller;
-> +               #gpio-cells =3D <2>;
-> +       };
-> +
-> +       gpio@23 {
-> +               compatible =3D "nxp,pca9555";
-> +               reg =3D <0x23>;
-> +               gpio-controller;
-> +               #gpio-cells =3D <2>;
-> +       };
-> +
-> +       temperature-sensor@48 {
-> +               compatible =3D "ti,tmp75";
-> +               reg =3D <0x48>;
-> +       };
-> +
-> +       temperature-sensor@49 {
-> +               compatible =3D "ti,tmp75";
-> +               reg =3D <0x49>;
-> +       };
-> +
-> +       eeprom@54 {
-> +               compatible =3D "atmel,24c256";
-> +               reg =3D <0x54>;
-> +       };
-> +};
-> +
-> +&i2c12 {
-> +       status =3D "okay";
-> +       bus-frequency =3D <400000>;
-> +
-> +       temperature-sensor@48 {
-> +               compatible =3D "ti,tmp75";
-> +               reg =3D <0x48>;
-> +       };
-> +
-> +       eeprom@50 {
-> +               compatible =3D "atmel,24c128";
-> +               reg =3D <0x50>;
-> +       };
-> +
-> +       eeprom@54 {
-> +               compatible =3D "atmel,24c64";
-> +               reg =3D <0x54>;
-> +       };
-> +
-> +       rtc@6f {
-> +               compatible =3D "nuvoton,nct3018y";
-> +               reg =3D <0x6f>;
-> +       };
-> +};
-> +
-> +&i2c13 {
-> +       status =3D "okay";
-> +       bus-frequency =3D <400000>;
-> +       gpio@20 {
-> +               compatible =3D "nxp,pca9506";
-> +               reg =3D <0x20>;
-> +       };
-> +
-> +       gpio@21 {
-> +               compatible =3D "nxp,pca9506";
-> +               reg =3D <0x21>;
-> +       };
-> +
-> +       gpio@22 {
-> +               compatible =3D "nxp,pca9506";
-> +               reg =3D <0x22>;
-> +       };
-> +
-> +       gpio@23 {
-> +               compatible =3D "nxp,pca9506";
-> +               reg =3D <0x23>;
-> +       };
-> +};
-> +
-> +&i2c14 {
-> +       status =3D "okay";
-> +       bus-frequency =3D <400000>;
-> +       adc@1d {
-> +               compatible =3D "ti,adc128d818";
-> +               reg =3D <0x1d>;
-> +               ti,mode =3D /bits/ 8 <2>;
-> +       };
-> +
-> +       adc@35 {
-> +               compatible =3D "ti,adc128d818";
-> +               reg =3D <0x35>;
-> +               ti,mode =3D /bits/ 8 <2>;
-> +       };
-> +
-> +       adc@37 {
-> +               compatible =3D "ti,adc128d818";
-> +               reg =3D <0x37>;
-> +               ti,mode =3D /bits/ 8 <2>;
-> +       };
-> +
-> +       power-sensor@40 {
-> +               compatible =3D "ti,ina233";
-> +               reg =3D <0x40>;
-> +       };
-> +
-> +       power-sensor@41 {
-> +               compatible =3D "ti,ina233";
-> +               reg =3D <0x41>;
-> +       };
-> +
-> +       power-sensor@42 {
-> +               compatible =3D "ti,ina233";
-> +               reg =3D <0x42>;
-> +       };
-> +
-> +       power-sensor@43 {
-> +               compatible =3D "ti,ina233";
-> +               reg =3D <0x43>;
-> +       };
-> +
-> +       power-sensor@44 {
-> +               compatible =3D "ti,ina233";
-> +               reg =3D <0x44>;
-> +       };
-> +
-> +       temperature-sensor@4e {
-> +               compatible =3D "ti,tmp75";
-> +               reg =3D <0x4e>;
-> +       };
-> +
-> +       temperature-sensor@4f {
-> +               compatible =3D "ti,tmp75";
-> +               reg =3D <0x4f>;
-> +       };
-> +
-> +       eeprom@51 {
-> +               compatible =3D "atmel,24c128";
-> +               reg =3D <0x51>;
-> +       };
-> +
-> +       i2c-mux@71 {
-> +               compatible =3D "nxp,pca9846";
-> +               #address-cells =3D <1>;
-> +               #size-cells =3D <0>;
-> +
-> +               idle-state =3D <0>;
-> +               i2c-mux-idle-disconnect;
-> +               reg =3D <0x71>;
-> +
-> +               imux30: i2c@0 {
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <0>;
-> +                       reg =3D <0>;
-> +
-> +                       adc@1f {
-> +                               compatible =3D "ti,adc128d818";
-> +                               reg =3D <0x1f>;
-> +                               ti,mode =3D /bits/ 8 <2>;
-> +                       };
-> +
-> +                       pwm@20{
-> +                               compatible =3D "max31790";
+Signed-off-by: peteryin <peteryin.openbmc@gmail.com>
 
-This is not documented. It also needs a vendor prefix.
+---
+v1 link : https://lore.kernel.org/all/fb09f5e6-8381-312f-2f1e-f2b471cec68a@linaro.org/
 
-> +                               reg =3D <0x20>;
-> +                               #address-cells =3D <1>;
-> +                               #size-cells =3D <0>;
+Change log:
+v1:
+    1. Create minerva dts file.
+v2:
+    1.Add facebook,minerva-bmc in aspeed.yaml
+    2.use stdout-path
+    3.Add Makefile
+---
 
-These 2 are for child nodes, but you don't have any. And a PWM
-probably never will.
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../boot/dts/aspeed-bmc-facebook-minerva.dts  | 329 ++++++++++++++++++
+ 3 files changed, 331 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
 
-Rob
+diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+index fb4ce5df2fa0..9d1b26e7ca6b 100644
+--- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
++++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+@@ -79,6 +79,7 @@ properties:
+               - facebook,elbert-bmc
+               - facebook,fuji-bmc
+               - facebook,greatlakes-bmc
++              - facebook,minerva-bmc
+               - ibm,everest-bmc
+               - ibm,rainier-bmc
+               - ibm,tacoma-bmc
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 6a897ff40ff0..e7c00905a08b 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1603,6 +1603,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-facebook-wedge400.dtb \
+ 	aspeed-bmc-facebook-yamp.dtb \
+ 	aspeed-bmc-facebook-yosemitev2.dtb \
++	aspeed-bmc-facebook-minerva.dtb \
+ 	aspeed-bmc-ibm-bonnell.dtb \
+ 	aspeed-bmc-ibm-everest.dtb \
+ 	aspeed-bmc-ibm-rainier.dtb \
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
+new file mode 100644
+index 000000000000..fa4a803d68f2
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
+@@ -0,0 +1,329 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2023 Facebook Inc.
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++
++/ {
++	model = "Facebook Minerva";
++	compatible = "facebook,minerva-bmc", "aspeed,ast2600";
++
++	aliases {
++		serial0 = &uart1;
++		serial4 = &uart5;
++	};
++
++	chosen {
++		stdout-path = &uart5;
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x80000000>;
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
++			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
++			<&adc1 2>;
++	};
++
++};
++
++// HOST BIOS Debug
++&uart1 {
++	status = "okay";
++};
++
++
++// SOL Host Console
++&uart2 {
++	status = "okay";
++	pinctrl-0 = <>;
++
++};
++
++// SOL BMC Console
++&uart4 {
++	status = "okay";
++	pinctrl-0 = <>;
++};
++
++// BMC Debug Console
++&uart5 {
++	status = "okay";
++};
++
++//MTIA
++&uart6 {
++	status = "okay";
++};
++
++&uart_routing {
++	status = "okay";
++};
++
++&vuart1 {
++	status = "okay";
++	virtual;
++	port=<0x3e8>;
++	sirq = <7>;
++	sirq-polarity = <0>;
++	dma-mode;
++	dma-channel = <12>;
++};
++
++&wdt1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_wdtrst1_default>;
++	aspeed,reset-type = "soc";
++	aspeed,external-signal;
++	aspeed,ext-push-pull;
++	aspeed,ext-active-high;
++	aspeed,ext-pulse-duration = <256>;
++};
++
++
++&mac3 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii4_default>;
++	no-hw-checksum;
++	use-ncsi;
++	ncsi-ctrl,start-redo-probe;
++	ncsi-ctrl,no-channel-monitor;
++	mlx,multi-host;
++	ncsi-package = <1>;
++	ncsi-channel = <1>;
++	ncsi-rexmit = <1>;
++	ncsi-timeout = <2>;
++};
++
++&rtc {
++	status = "okay";
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout-128.dtsi"
++	};
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "alt-bmc";
++		spi-max-frequency = <50000000>;
++	};
++};
++
++
++//BIOS Flash
++&spi2 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi2_default>;
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "pnor";
++		spi-max-frequency = <12000000>;
++		spi-tx-bus-width = <2>;
++		spi-rx-bus-width = <2>;
++	};
++};
++
++
++&kcs2 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca8>;
++};
++
++&kcs3 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca2>;
++};
++
++
++&lpc_snoop {
++	status = "okay";
++	snoop-ports = <0x80>;
++};
++
++&peci0 {
++	status = "okay";
++	clock-frequency = <1000000>;
++};
++
++&sgpiom0 {
++	status = "okay";
++	max-ngpios = <128>;
++	ngpios = <128>;
++	bus-frequency = <2000000>;
++	gpio-line-names =
++	/*in - out - in - out */
++	/*A0-A7*/   "","","","","","enable_sensors","","",
++	/*A0-A7*/   "","","","","","","","",
++	/*B0-B7*/   "","","","","","","","",
++	/*B0-B7*/   "","","","","","","","",
++	/*C0-C7*/   "","","","","","","","",
++	/*C0-C7*/   "","","","","","","","",
++	/*D0-D7*/   "","","","","","","","",
++	/*D0-D7*/   "","","","","","","","",
++	/*E0-E7*/   "","","","","","","","",
++	/*E0-E7*/   "","","","","","","","",
++	/*F0-F7*/   "","","","","","","","",
++	/*F0-F7*/   "","","","","","","","",
++	/*G0-G7*/   "","","","","","","","",
++	/*G0-G7*/   "","","","","","","","",
++	/*H0-H7*/   "","","","","","","","",
++	/*H0-H7*/   "","","","","","","","";
++};
++
++&i2c0 {
++	status = "okay";
++};
++
++&i2c1 {
++	status = "okay";
++	tmp75@4B {
++		compatible = "ti,tmp75";
++		reg = <0x4B>;
++	};
++};
++
++&i2c2 {
++	status = "okay";
++};
++
++&i2c3 {
++	status = "okay";
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c9 {
++	status = "okay";
++};
++
++&i2c11 {
++	status = "okay";
++};
++
++&i2c12 {
++	status = "okay";
++};
++
++&i2c13 {
++	status = "okay";
++};
++
++// To Debug card
++&i2c14 {
++	status = "okay";
++	multi-master;
++	aspeed,hw-timeout-ms = <1000>;
++};
++
++&i2c15 {
++	status = "okay";
++	// SCM FRU
++	eeprom@50 {
++		compatible = "atmel,24c64";
++		reg = <0x50>;
++	};
++	// BSM FRU
++	eeprom@56 {
++		compatible = "atmel,24c64";
++		reg = <0x56>;
++	};
++};
++
++&adc0 {
++	ref_voltage = <2500>;
++	status = "okay";
++
++	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
++		&pinctrl_adc2_default &pinctrl_adc3_default
++		&pinctrl_adc4_default &pinctrl_adc5_default
++		&pinctrl_adc6_default &pinctrl_adc7_default>;
++};
++
++&adc1 {
++	ref_voltage = <2500>;
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc10_default>;
++};
++
++&jtag1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_jtagm_default>;
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&gpio0 {
++	pinctrl-names = "default";
++	gpio-line-names =
++	/*A0-A7*/	"","","","","","","","",
++	/*B0-B7*/	"","","","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","","SOL_UART_SET","","","","","",
++	/*E0-E7*/	"","","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","","","",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"LED_POSTCODE_0","LED_POSTCODE_1",
++			"LED_POSTCODE_2","LED_POSTCODE_3",
++			"LED_POSTCODE_4","LED_POSTCODE_5",
++			"LED_POSTCODE_6","LED_POSTCODE_7",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"","","","","","","","",
++	/*Q0-Q7*/	"","","","","","","","",
++	/*R0-R7*/	"","","","","","","","",
++	/*S0-S7*/	"","","","","","","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","","","","","",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","";
++};
++
+-- 
+2.25.1
+
