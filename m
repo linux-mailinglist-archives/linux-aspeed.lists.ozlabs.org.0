@@ -1,70 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E66778E643
-	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Aug 2023 08:21:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C62778E69B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Aug 2023 08:36:51 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=RL7Bjoh4;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=CWTjrNai;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rbrdz3P9Jz3bV7
-	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Aug 2023 16:21:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rbrzh6HgHz3bYc
+	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Aug 2023 16:36:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=RL7Bjoh4;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=CWTjrNai;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52b; helo=mail-ed1-x52b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62e; helo=mail-pl1-x62e.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rbrdr2wdHz300g
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 31 Aug 2023 16:21:20 +1000 (AEST)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-522bd411679so506657a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Aug 2023 23:21:20 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rbrzb573zz300g
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 31 Aug 2023 16:36:41 +1000 (AEST)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1bf1935f6c2so2810545ad.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Aug 2023 23:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1693462876; x=1694067676; darn=lists.ozlabs.org;
+        d=gmail.com; s=20221208; t=1693463799; x=1694068599; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=MN3/KIBcA6h9wGDVjzSLq0W+eq4AFp91etA4VWB8MhQ=;
-        b=RL7Bjoh4hlsHRlRqZYhw7dbKebIC4OW/xVCsHveUtu/6qZPJZn9MMMpQ/E6m/FkoQh
-         g/W6kH0TtX2duALjTvTV/o5oE8+sscsXTEZK2dJFpSVAPqxdKeAfSC+YRJAzzTQp0l0p
-         ZrRP/1QgwTnyuyeG1nQnwGAP6FhkciuvzqSKWBRB08EC6R53zz5iETJrn887xKvQtSNT
-         PFr6gr2ST/o0QBGAYXWy8LDfTQaeIp8LuxdXRhozQzjjsYAoIEXl/3NNyPTLLMWl9H16
-         dqiIdzRqZLQZFr5ye6AD5iIDsomKApQ2hPRBuVyidj4+hydwGPxb4B/xufiaxC838632
-         RXQA==
+        bh=/kyvkupLew9Yd6VCA9XQC4cAMSTlDnrwdbWSR056bSo=;
+        b=CWTjrNaiJfAfPKm2//tVCDIaVjOTet/DT1w350pcj2XQ5lWlFWutGCU+OkdTYTDH7T
+         ENV2u6SAGu2jrODJ2KC8ixL+84ySrHFccan3FiG5BOWd8oM/jBNneGEJ7SnZPDYGYUUK
+         9KQUPVt+RJQCmxAlzUU7Q14L2Pio4G4EgZcw5BTfdjjsZA/SsMz5A4YW1358Osx+nVzX
+         D0r7OlzHRWKtSYf21uRRPRaI//5zLcBakcUiJzokg3SwF9nLrPrtxApze6tYb9zVce7e
+         iS83eF20OYX1JAZTtmv8U7ulVbza7eHzBxiShoVUKSCPXFgsx35v2m49VbEt0MkAn6Px
+         Ra3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693462876; x=1694067676;
+        d=1e100.net; s=20221208; t=1693463799; x=1694068599;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MN3/KIBcA6h9wGDVjzSLq0W+eq4AFp91etA4VWB8MhQ=;
-        b=K5zqZK16PcSzpbGsomJZxmz+Zlk5hev3TO5F0kjvG9smmE7RsIXwQ3wn2BLztsXy/z
-         NoMZP6tGy+Js7G+ydc31prRMIxGcu8V3Orl2hkKDtG1jVYwTr+FCxmEEVjqIwC4QmoU3
-         Hr4WNKz7RzwjSPV82RoNwbdf6mP1lLqgMKoDimXYO5jlVAxjZ0upfFVsaP/NzRAeoaYd
-         A5NCjFSf41pWUodCJ0CLcbS0hjrKMKGnryAwvaWWLmwYgJ53d+mH/mP96NIG3mvNuH4M
-         RFW6Lre5kjnKRdePvU23eQcyAsZ7SkiLeb86WwPsSJPB+MJbQ3b6Zs838rZVrApwMZXL
-         95JA==
-X-Gm-Message-State: AOJu0Ywlr5P89cungy2Et9PKi0aWkVrcBoUQqiWXD/vbDOdBP5bp8T2t
-	codYwP0CaAv5xFK9fTrsO/24MA==
-X-Google-Smtp-Source: AGHT+IFB8UbQE1K/uA5hBzss6Ee3Nu+tw1dskpb+vfsEvF2olxJ5G/EiW5Bu7rju/ULP+GRYIIUK+w==
-X-Received: by 2002:a17:906:4e:b0:9a1:c659:7c56 with SMTP id 14-20020a170906004e00b009a1c6597c56mr3059069ejg.22.1693462876358;
-        Wed, 30 Aug 2023 23:21:16 -0700 (PDT)
-Received: from [192.168.0.22] (77-252-46-238.static.ip.netia.com.pl. [77.252.46.238])
-        by smtp.gmail.com with ESMTPSA id j6-20020a170906278600b00992b50fbbe9sm382001ejc.90.2023.08.30.23.21.15
+        bh=/kyvkupLew9Yd6VCA9XQC4cAMSTlDnrwdbWSR056bSo=;
+        b=PhRDoVQrkO7YiBkYXajP4YHMzdcAtK3nis/QIw98Cm5WPTV0U9hc26PYDlq6slMCbM
+         nnBuf/ga7nxynxW1xkJ5swrP+WMk93b6BFcB+TxKgau/Mo0t2Obm5EDEAn1lFXEYcz4d
+         ZVind+nxIYPh40cci9PgmGarBwB9NIpYdQ/jhw3iZaHgeznm4g48zfN+BjZX/92ckMHp
+         9SkU6v+HfPRihhRYpnzuUM2a260n3cGC1UxDfGIPp9wqLbFaiOtrGbqEToUkKe/Sfyw1
+         KWL+sfCKnksib7XWcOcZNEbSRcJteAx2ESvufWhecru5jAsS/IOnJsc9jtcZ5KVqZ7QE
+         OZSw==
+X-Gm-Message-State: AOJu0Yx1bfGtW4TXk50nZRrJ2KOjk8BFiPy6iQ55KKxBQjblWfhQrd9K
+	uoDFtBTxRfyvJXt1ZO/rfRg=
+X-Google-Smtp-Source: AGHT+IF/QcbvfmvsqDftpHC9Yc9k9k1Flp6pBjturyK95MU7VeorHlVJlOFx/tBxCTurN4IFl3DROQ==
+X-Received: by 2002:a17:903:18a:b0:1b7:ca9c:4f5c with SMTP id z10-20020a170903018a00b001b7ca9c4f5cmr2147913plg.28.1693463799233;
+        Wed, 30 Aug 2023 23:36:39 -0700 (PDT)
+Received: from [10.10.14.80] (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id l19-20020a170902eb1300b001bf00317a49sm552633plb.104.2023.08.30.23.36.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Aug 2023 23:21:15 -0700 (PDT)
-Message-ID: <3eaa444b-baca-1ae0-039e-94f7811d216e@linaro.org>
-Date: Thu, 31 Aug 2023 08:21:14 +0200
+        Wed, 30 Aug 2023 23:36:38 -0700 (PDT)
+Message-ID: <5347163b-c225-d805-d851-fe28e6b57c56@gmail.com>
+Date: Thu, 31 Aug 2023 14:34:24 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v5 2/2] dt-bindings: arm: aspeed: add Meta Minerva board
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 1/2] ARM: dts: aspeed: Minerva: Add Facebook Minerva
+ (AST2600) BMC
 Content-Language: en-US
-To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, patrick@stwcx.xyz,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
@@ -73,10 +74,11 @@ To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org
 References: <20230831055030.3958798-1-peteryin.openbmc@gmail.com>
- <20230831055030.3958798-3-peteryin.openbmc@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230831055030.3958798-3-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ <20230831055030.3958798-2-peteryin.openbmc@gmail.com>
+ <4cbe662d-cd20-ceef-e3e4-6608029f94b7@linaro.org>
+From: PeterYin <peteryin.openbmc@gmail.com>
+In-Reply-To: <4cbe662d-cd20-ceef-e3e4-6608029f94b7@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -93,14 +95,33 @@ Cc: potin.lai@quantatw.com, cosmo.chou@quantatw.com, daniel-hsu@quantatw.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 31/08/2023 07:50, Peter Yin wrote:
-> Document the new compatibles used on Meta Minerva.
-> 
-> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
-> ---
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+On 8/31/23 14:20, Krzysztof Kozlowski wrote:
+> On 31/08/2023 07:50, Peter Yin wrote:
+>> Add linux device tree entry related to
+>> Minerva specific devices connected to BMC SoC.
+>>
+>> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+>> ---
+>>   arch/arm/boot/dts/Makefile                    |   1 +
+>>   .../boot/dts/aspeed-bmc-facebook-minerva.dts  | 377 ++++++++++++++++++
+>>   2 files changed, 378 insertions(+)
+>>   create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-minerva.dts
+>>
+>> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+>> index 9e1d7bf3cff6..edb0b2105333 100644
+>> --- a/arch/arm/boot/dts/Makefile
+>> +++ b/arch/arm/boot/dts/Makefile
+>> @@ -1604,6 +1604,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>>   	aspeed-bmc-facebook-wedge400.dtb \
+>>   	aspeed-bmc-facebook-yamp.dtb \
+>>   	aspeed-bmc-facebook-yosemitev2.dtb \
+>> +	aspeed-bmc-facebook-minerva.dtb \
+> Third or fourth time: that's not a correct order. This is a nit, but
+> since you keep ignoring it, I don't believe any other feedback was
+> applied. Why you did not respond to my comments but just ignored them?
+Sorry, I don't notice this is different file.
+>
+> Best regards,
+> Krzysztof
+>
