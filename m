@@ -1,117 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D8378F7D4
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 07:11:12 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCE97902E0
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 22:43:22 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=ebK/5R63;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BiR6IIHU;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RcR2N2FBRz307h
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 15:11:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rcqjy5pvhz3c47
+	for <lists+linux-aspeed@lfdr.de>; Sat,  2 Sep 2023 06:43:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::727; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20727.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::727])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BiR6IIHU;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=134.134.136.31; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RcR1z2Xznz2ym1
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Sep 2023 15:10:46 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f/erDMKIe0619Y8pGLeK80XcNy9yFbxd9PvwyQdixyMhb4/ZeBUStI6095XjWZC9SbjWb8KxRUXkC16WZM52zsHzHLGGN2hiGJ4FXtBx5Swf9qHvSt6FwBs44U75TOWOAZ+Gczfwq1vE1kXSGQOOxJeJalHlpTrK7MCaCHIVGT8lAflMf2NOI8iNtpjXUVtqpP/JZnKHB2bxDWO3DBZcyZFu9lRUIV+qQ0HkVTKPiYpnrbljMDZ3IHn4N4BqHmaGvh1BhGY3zyD8IscmYLOYh2T1sjpXW+c82xkqpvcARLecQhRV0LNSu4adkulkaqP0Bpva2ERfxyx4vfPR7+8QJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7cfl9oB2+6vtLScSg5hdcWc6Wq3UBKIjtdV86sdmo2s=;
- b=T/cVKaSX3YcEixYRzhP3B0P0U2+RRpYsauAT4r/uVAB0zDTnDxEhkAtDx8IqewJ0qNhPqMjUp1hnT4XsX4ufg8ft9x5B1iQakeAFtdEbTyutPl55JOqDmkIFVjj3OPsksbFrY80XDIRcKJfGCz31ivEGILsFVgkjTFW2e0m+k3XUqoyjay94AwDoPWcL/TlxmRKYBnnYjjZvMQ9ioIeF4fKmBYHyUQxxeytlweGztWS6uRf2vyxdSvupFbEnZe0pLC0soNDs5ZBYFlHzBYPLfl8Lzpn6PcZFxBVCfNgUU7CU0EVTeBjxtGdu1n0qpo0lxDhlGqcrniM+XtBlYLPkmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7cfl9oB2+6vtLScSg5hdcWc6Wq3UBKIjtdV86sdmo2s=;
- b=ebK/5R63+shiRTQQ8hGaQHeLOM/+7OBlGdo8K+UK30A/HgzRcFHdnuPvSUON8qtmxNYVH7XE+aCgKOrvEt8JKKjbGzTrytpNgZDx1k7JaletArb/JsboWYML2EjXTQlqJWdtlw9p508JhEEJ3lwT7kt1iKBXeb6unu/tvdfqYNOUL1nRobRym7FRPGOvemz5KSv26KfV9uFD0ZS5HV2WvWBIGnxx+x59ZIMkHR+30kmeQSLkcxnUkvn42HzxccfnfBMzzJ0LmLItcy3D+lWE7dMMqrm7tcWlyi3jeDgo+Ft05hJ07XefIv70UFCbmTDp3snG+ZBmTc58LIA7P7Myfw==
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
- PSAPR06MB4456.apcprd06.prod.outlook.com (2603:1096:301:8e::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6745.23; Fri, 1 Sep 2023 05:10:20 +0000
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::791a:38e8:18cf:d205]) by SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::791a:38e8:18cf:d205%5]) with mapi id 15.20.6699.034; Fri, 1 Sep 2023
- 05:10:19 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Potin Lai <potin.lai.pt@gmail.com>
-Subject: Re: [PATCH v8 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED
- g6 PWM/Fan tach
-Thread-Topic: [PATCH v8 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED
- g6 PWM/Fan tach
-Thread-Index: AQHZ2z4DZH/d3xLyZk2OcsZGe60xdrAFalCAgAAEPKE=
-Date: Fri, 1 Sep 2023 05:10:19 +0000
-Message-ID:  <SG2PR06MB336524E341C2B621D09C7BA98BE4A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-References: <20230830123202.3408318-1-billy_tsai@aspeedtech.com>
- <20230830123202.3408318-4-billy_tsai@aspeedtech.com>
- <99ffd1fb-14ae-1c83-bc32-2d0aead4d696@gmail.com>
-In-Reply-To: <99ffd1fb-14ae-1c83-bc32-2d0aead4d696@gmail.com>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|PSAPR06MB4456:EE_
-x-ms-office365-filtering-correlation-id: cbbe7e38-7b1d-4d21-a29b-08dbaaa9bcc4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  eBCpPjCsnd8eqWuA5Mp9gmKO8iDLO4Bg7sZEwu2NG1XJMAgMp87x6JIEkEm7VLWpsttqiuetjeTj2S0yTHjKND0LKuuDcHQXclaM/XmO+GUYe8bzBqIW/CskTThNtSgB6dfFxq5XwO7K36X9jJOyot/4pB1Hcg0Ig7b/A/RlA0xRhJOyAD8KhEerV/DnFtjcawzSmI6XWLp0dib3Owchgiu6CGV/lHR3e/OTaTzNo39eWfal6ctguQ68KSgCOXqpGD6L1PI8rZtIh60dV6RH58LCIC03iIelCF5dsAblr6Vf6La/LNosr/QOSay+DK8oLjBb5d3mtzrajp1MlreRyW4Ld1LlK9jpZsrQtuoqoLGM16apTCPkvssXvPXNsHXNZz6Lsa1jzsilkbaN63N2IlDJlrHDrcMeqitG1Vl1kbhnUVJfi9vJFGrNT66NwZiTEgQUPYlauKAEoo4IiY1ZgFJSNLUd0WheqSU/l+YCdsIDqIH9X+/R9orymsii0ARuFmn/5g/9flY7GyeVK3hCoKLUU4vRi63/4i5cKnh/flmxdaXTbUsWCt7GXrOgcEyj143U9d2OIUE0BLZdrw+KSYNU7YHUI1TBwVIRlXU3QCvlPVnVEuyBoDPjbSJoZcpw
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39840400004)(396003)(366004)(376002)(346002)(136003)(1800799009)(186009)(451199024)(7416002)(55016003)(2906002)(6916009)(316002)(41300700001)(5660300002)(8676002)(4326008)(52536014)(33656002)(8936002)(86362001)(71200400001)(122000001)(478600001)(83380400001)(26005)(55236004)(53546011)(7696005)(6506007)(9686003)(76116006)(66946007)(38070700005)(38100700002)(66556008)(91956017)(66446008)(64756008)(54906003)(66476007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?sjVUJwQOXaeE/jII/asmBkSzu5eG8hFZTy8e1Ehfi2vYbQw+OPvV+0QAN/?=
- =?iso-8859-1?Q?qfVgq16/Vks8r49MIE0I1tsbypUh1AcfqbUyWu3EELeSIzGT3x+M+EYkwb?=
- =?iso-8859-1?Q?TCWsADDZLLND3ASkKfgQ419IlHmnDyAxepCYy0U0QGAwKmcUJlOEw61LSn?=
- =?iso-8859-1?Q?DFA06WeVm5yDS9bJ+qif0Bu11y7spcZtVoDQkpBGKAyLCQBDSF64uNG5sl?=
- =?iso-8859-1?Q?t0vlgBz3TQ1HfrztEYnOwaHmU/c9rSoqsL3Lkk3Sz5oM3EG489hVT3iqXT?=
- =?iso-8859-1?Q?1yce3Cz5FVIC47ckl2Of3IypzaxQ6PLUGMqOKv8UR37wCuK328xj7UJjsp?=
- =?iso-8859-1?Q?MUN0RPQrHWzEqmKZ2GH20mxg07TUUktrrYbuOXCfXJcN4f/h362YyfXUaN?=
- =?iso-8859-1?Q?bZgjAFebw4f1E43yciud4GS9/6caukxlV04+yEhxvski1dGyKFUl1GD5O5?=
- =?iso-8859-1?Q?ju/SJ3aiNXo9uV2W6CHWbWDxl7U98Xc3h9rKixfxeiWKaaVcEHPxb0i+iL?=
- =?iso-8859-1?Q?o5t120Ga/+6o5oHtVZVKgwpEV7oE3ph86lvWZT+VQzMdeNZmFajE3dJwte?=
- =?iso-8859-1?Q?AMlWzXZp6j8Ifm/2CuY0Ze7KE7m7fhig62t4UiwRr8Y5Gmpt6BrOr7f0c4?=
- =?iso-8859-1?Q?48hcEFFPujzIjCsjkwUSP+b2EdwI9+iwhjwihI2MPrqfkWTD5RCUzJ9evI?=
- =?iso-8859-1?Q?lPop+HpUw7LymL8asvfOW9npxkp37/dW3Zq1LlwJg84lO53A9ot8k1et0/?=
- =?iso-8859-1?Q?GTbu8ZUj0o7R4aftLLLOuSWGMnsPBJ4nCSlvZDBUnFAaOZPfjMSn325nDm?=
- =?iso-8859-1?Q?qqNczy9VCdh9uHiFoI30GcjrTKO7abuV429+r0oGJ5H9EAu0fk4LHIbKJR?=
- =?iso-8859-1?Q?IqqGR7IgVLoal49ip42rPDT+Ol9C6qtW8vAS4Ftshny3TWRaRnFUGW9JV2?=
- =?iso-8859-1?Q?s3eaSrmc67/OzHdxc1LSwTYBxQ0JYVatvr/xzSy974Syhz5uSe/wQnw0tV?=
- =?iso-8859-1?Q?l+Dh0dyjE8MGaCdrw/KzAxK2wcZ1oikORtCI50Ldx90c/t4C8LB5XwBauH?=
- =?iso-8859-1?Q?g/oGmlDCSeCOTTVtt5OK4jRcFmbrWcSCc+k6dXRnju/vpWqTdTqjlq6jrJ?=
- =?iso-8859-1?Q?WBsRRtm2ZRk4fFuYfFwsI5QCg9y9JWHtoSpb2i/wZZAvHdla0a6Me3gmnb?=
- =?iso-8859-1?Q?GMVOWwmkJs39e+D7bbulczFkPz/H5Y+kml7arsaKNwZUy+Uqa2wzRyxHPV?=
- =?iso-8859-1?Q?CJPJLB2XZquykkpPhMMieWE8QQteoYnTVrebGaRCZipI4zC+/uPcHYCzMt?=
- =?iso-8859-1?Q?NrEe0Fkk13Mt/JftPox59mdXo3Ns31r2W3roBF0nn5j5RAjLiys0Ks1fH9?=
- =?iso-8859-1?Q?Qre1gg/FvM9wOb0aso2w+9GOP/A09QtxmMT9y5KOnbCGtu5Ka5le3SJyvr?=
- =?iso-8859-1?Q?+KbW9m7jcmSpQcBDo7jMMeBad9dOL0/Lu6iEprdz4FYcNnbTgSUDiZCieA?=
- =?iso-8859-1?Q?c+x++qBfolwZ/LZY2P1X2dvXiBtS2buM7IITGMe+L8YAFtRw1vHGjji9Xm?=
- =?iso-8859-1?Q?tTqz1Am1emHTgn43PRAz/Ya2sHpKyb/WNJO4iHEkzypBhvBcu3jtX8Hjpq?=
- =?iso-8859-1?Q?wtbW1Nf/LroxHE47fAUu6M3v3dmtHMZOdB?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rcqjh2clwz307V
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  2 Sep 2023 06:43:00 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693600984; x=1725136984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CbVnfzwwwVoFn02TRV4AclDXNOSd+TrBbstsh2fLvjU=;
+  b=BiR6IIHU1QncBxs4SK06VoCLSBWEGKDw6srG1D0ROw09B83WLP96ubsX
+   mhBv7QeMxle4LaFiKffhfzGDtxZxtSa7vyA9p8N9Z6YlRVtdcZZgEyGqV
+   WhgO/KIy6aVnjZ0A1GeOeHX9DG0zxv7C9hGfar9wAjDSFFSFkBr0AgBEJ
+   eKxNbajBHSkfA+8gf+rCnITpyUHVOqJoObcC0dEFvx2EVFVP8BfGp5TT6
+   GDwS88k/idTe8fMg1QZYfhRIvI2Y+Wqe2E4G2uR8a35bRDsC2yZzhWLXb
+   U50NlngvM09P35gEyHUN+o/bLlj7XnONaXkolZYkj1A4cxMbka9AukeI6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="440275509"
+X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
+   d="scan'208";a="440275509"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 13:42:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="743245059"
+X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
+   d="scan'208";a="743245059"
+Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 01 Sep 2023 13:42:52 -0700
+Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qcAyg-0001cp-2n;
+	Fri, 01 Sep 2023 20:42:50 +0000
+Date: Sat, 2 Sep 2023 04:42:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ninad Palsule <ninad@linux.ibm.com>, joel@jms.id.au, andrew@aj.id.au,
+	eajames@linux.ibm.com
+Subject: Re: [PATCH v2 1/1] soc/aspeed: Add host side BMC device driver
+Message-ID: <202309020400.PQMeauEC-lkp@intel.com>
+References: <20230823173104.3219128-2-ninad@linux.ibm.com>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbbe7e38-7b1d-4d21-a29b-08dbaaa9bcc4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2023 05:10:19.6199
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hI4L987ucs+StLYAD7Djl8Vlqsd2jeSzaECneS6Wkb3eMamDsejF408k8IcDsmQbY3/uMNGXfCeagHzeolRNeurzNyEwZBq5uY2QZqocWE0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4456
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230823173104.3219128-2-ninad@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,76 +71,194 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "corbet@lwn.net" <corbet@lwn.net>, BMC-SW <BMC-SW@aspeedtech.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "naresh.solanki@9elements.com" <naresh.solanki@9elements.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, "linux@roeck-us.net" <linux@roeck-us.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, oe-kbuild-all@lists.linux.dev
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 8/30/23 20:32, Billy Tsai wrote:=0A=
->> +static int aspeed_tach_hwmon_write(struct device *dev,=0A=
->> +                                enum hwmon_sensor_types type, u32 attr,=
-=0A=
->> +                                int channel, long val)=0A=
->> +{=0A=
->> +     struct aspeed_pwm_tach_data *priv =3D dev_get_drvdata(dev);=0A=
->> +     u32 reg_val;=0A=
->> +=0A=
->> +     switch (attr) {=0A=
->> +     case hwmon_fan_div:=0A=
->> +             if (!is_power_of_2(val) || (ilog2(val) % 2) ||=0A=
->> +                 DIV_TO_REG(val) > 0xb)=0A=
->> +                     return -EINVAL;=0A=
->> +             priv->tach_divisor =3D val;=0A=
->> +             reg_val =3D readl(priv->base + TACH_ASPEED_CTRL(channel));=
-=0A=
->> +             reg_val &=3D ~TACH_ASPEED_CLK_DIV_T_MASK;=0A=
->> +             reg_val |=3D FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK,=0A=
->> +                                  DIV_TO_REG(priv->tach_divisor));=0A=
-=0A=
-> Hi Billy,=0A=
-> I notice the fanX_div is always shows 1 after I set 1024.=0A=
-> I think FIELD_GET() needs to replaced with FIELD_PREP().=0A=
-=0A=
->> +             writel(reg_val, priv->base + TACH_ASPEED_CTRL(channel));=
-=0A=
->> +             break;=0A=
->> +     default:=0A=
->> +             return -EOPNOTSUPP;=0A=
->> +     }=0A=
->> +=0A=
->> +     return 0;=0A=
->> +}=0A=
-=0A=
-=0A=
->> +static void aspeed_present_fan_tach(struct aspeed_pwm_tach_data *priv, =
-u32 tach_ch)=0A=
->> +{=0A=
->> +     u32 val;=0A=
->> +=0A=
->> +     priv->tach_present[tach_ch] =3D true;=0A=
->> +     priv->tach_divisor =3D DEFAULT_TACH_DIV;=0A=
->> +=0A=
->> +     val =3D readl(priv->base + TACH_ASPEED_CTRL(tach_ch));=0A=
->> +     val &=3D ~(TACH_ASPEED_INVERS_LIMIT | TACH_ASPEED_DEBOUNCE_MASK |=
-=0A=
->> +              TACH_ASPEED_IO_EDGE_MASK | TACH_ASPEED_CLK_DIV_T_MASK |=
-=0A=
->> +              TACH_ASPEED_THRESHOLD_MASK);=0A=
->> +     val |=3D (DEBOUNCE_3_CLK << TACH_ASPEED_DEBOUNCE_BIT) | F2F_EDGES =
-|=0A=
->> +            FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK,=0A=
->> +                      DIV_TO_REG(priv->tach_divisor));=0A=
-=0A=
-> And here as well.=0A=
-=0A=
->> +     writel(val, priv->base + TACH_ASPEED_CTRL(tach_ch));=0A=
->> +=0A=
->> +     aspeed_tach_ch_enable(priv, tach_ch, true);=0A=
->> +}=0A=
->> +=0A=
->>=0A=
-=0A=
-Hi Potin,=0A=
-=0A=
-I will fix it in next verison of the patch.=0A=
-=0A=
-Thanks for reviewing.=
+Hi Ninad,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.5 next-20230831]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ninad-Palsule/soc-aspeed-Add-host-side-BMC-device-driver/20230824-013703
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20230823173104.3219128-2-ninad%40linux.ibm.com
+patch subject: [PATCH v2 1/1] soc/aspeed: Add host side BMC device driver
+config: m68k-randconfig-r004-20230902 (https://download.01.org/0day-ci/archive/20230902/202309020400.PQMeauEC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020400.PQMeauEC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309020400.PQMeauEC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/soc/aspeed/aspeed-host-bmc-dev.c: In function 'aspeed_pci_host_bmc_device_probe':
+>> drivers/soc/aspeed/aspeed-host-bmc-dev.c:98:22: error: implicit declaration of function 'pci_request_region'; did you mean 'pci_request_regions'? [-Werror=implicit-function-declaration]
+      98 |                 rc = pci_request_region(pdev, i, DRIVER_NAME);
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      pci_request_regions
+>> drivers/soc/aspeed/aspeed-host-bmc-dev.c:176:17: error: implicit declaration of function 'pci_free_irq_vectors'; did you mean 'pci_alloc_irq_vectors'? [-Werror=implicit-function-declaration]
+     176 |                 pci_free_irq_vectors(pdev);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 pci_alloc_irq_vectors
+   cc1: some warnings being treated as errors
+
+
+vim +98 drivers/soc/aspeed/aspeed-host-bmc-dev.c
+
+    42	
+    43	static int aspeed_pci_host_bmc_device_probe(struct pci_dev *pdev,
+    44			const struct pci_device_id *ent)
+    45	{
+    46		struct uart_8250_port uart;
+    47		struct device *dev = &pdev->dev;
+    48		struct aspeed_pci_bmc_dev *pci_bmc_dev;
+    49		int rc = 0;
+    50		int i = 0;
+    51		int nr_entries;
+    52		u16 config_cmd_val;
+    53	
+    54		pci_bmc_dev = kzalloc(sizeof(*pci_bmc_dev), GFP_KERNEL);
+    55		if (!pci_bmc_dev) {
+    56			rc = -ENOMEM;
+    57			dev_err(dev, "kmalloc() returned NULL memory.\n");
+    58			goto out_err;
+    59		}
+    60	
+    61		rc = pcim_enable_device(pdev);
+    62		if (rc != 0) {
+    63			dev_err(dev, "pcim_enable_device() returned error %d\n", rc);
+    64			goto out_free0;
+    65		}
+    66	
+    67		/* set PCI host mastering  */
+    68		pci_set_master(pdev);
+    69	
+    70		/*
+    71		 * Try to allocate max MSI. If multiple MSI is not possible then use
+    72		 * the legacy interrupt. Note: PowerPC doesn't support multiple MSI.
+    73		 */
+    74		nr_entries = pci_alloc_irq_vectors(pdev, 1, BMC_MULTI_MSI,
+    75					PCI_IRQ_MSIX | PCI_IRQ_MSI);
+    76		if (nr_entries < 0) {
+    77			pci_bmc_dev->legacy_irq = 1;
+    78			pci_read_config_word(pdev, PCI_COMMAND, &config_cmd_val);
+    79			config_cmd_val &= ~PCI_COMMAND_INTX_DISABLE;
+    80			pci_write_config_word((struct pci_dev *)pdev, PCI_COMMAND, config_cmd_val);
+    81	
+    82		} else {
+    83			pci_bmc_dev->legacy_irq = 0;
+    84			pci_read_config_word(pdev, PCI_COMMAND, &config_cmd_val);
+    85			config_cmd_val |= PCI_COMMAND_INTX_DISABLE;
+    86			pci_write_config_word((struct pci_dev *)pdev, PCI_COMMAND, config_cmd_val);
+    87			rc = pci_irq_vector(pdev, BMC_MSI_IDX_BASE);
+    88			if (rc < 0) {
+    89				dev_err(dev, "pci_irq_vector() returned error %d msi=%u msix=%u\n",
+    90					-rc, pdev->msi_enabled, pdev->msix_enabled);
+    91				goto out_free1;
+    92			}
+    93			pdev->irq = rc;
+    94		}
+    95	
+    96		/* Get access to the BARs */
+    97		for (i = 0; i < BAR_MAX; i++) {
+  > 98			rc = pci_request_region(pdev, i, DRIVER_NAME);
+    99			if (rc < 0) {
+   100				dev_err(dev, "pci_request_region(%d) returned error %d\n", i, rc);
+   101				goto out_unreg;
+   102			}
+   103	
+   104			pci_bmc_dev->bars[i].bar_base = pci_resource_start(pdev, i);
+   105			pci_bmc_dev->bars[i].bar_size = pci_resource_len(pdev, i);
+   106			pci_bmc_dev->bars[i].bar_ioremap = pci_ioremap_bar(pdev, i);
+   107			if (pci_bmc_dev->bars[i].bar_ioremap == NULL) {
+   108				dev_err(dev, "pci_ioremap_bar(%d) failed\n", i);
+   109				rc = -ENOMEM;
+   110				goto out_unreg;
+   111			}
+   112		}
+   113	
+   114		/* ERRTA40: dummy read */
+   115		(void)__raw_readl((void __iomem *)pci_bmc_dev->bars[BAR_MSG].bar_ioremap);
+   116	
+   117		pci_set_drvdata(pdev, pci_bmc_dev);
+   118	
+   119		for (i = 0; i < VUART_MAX_PARMS; i++)
+   120			pci_bmc_dev->lines[i] = -1;
+   121	
+   122		/* setup VUART */
+   123		for (i = 0; i < VUART_MAX_PARMS; i++) {
+   124			memset(&uart, 0, sizeof(uart));
+   125			vuart_ioport[i] = 0x3F8 - (i * 0x100);
+   126			vuart_sirq[i] = 0x10 + 4 - i - BMC_MSI_IDX_BASE;
+   127			uart.port.flags = UPF_SKIP_TEST | UPF_BOOT_AUTOCONF | UPF_SHARE_IRQ;
+   128			uart.port.uartclk = 115200 * 16;
+   129	
+   130			if (pci_bmc_dev->legacy_irq) {
+   131				uart.port.irq = pdev->irq;
+   132			} else {
+   133				rc = pci_irq_vector(pdev, vuart_sirq[i]);
+   134				if (rc < 0) {
+   135					dev_err(dev,
+   136						"pci_irq_vector() returned error %d msi=%u msix=%u\n",
+   137						-rc, pdev->msi_enabled, pdev->msix_enabled);
+   138					goto out_unreg;
+   139				}
+   140				uart.port.irq = rc;
+   141			}
+   142			uart.port.dev = dev;
+   143			uart.port.iotype = UPIO_MEM32;
+   144			uart.port.iobase = 0;
+   145			uart.port.mapbase =
+   146					pci_bmc_dev->bars[BAR_MSG].bar_base + (vuart_ioport[i] << 2);
+   147			uart.port.membase =
+   148					pci_bmc_dev->bars[BAR_MSG].bar_ioremap + (vuart_ioport[i] << 2);
+   149			uart.port.type = PORT_16550A;
+   150			uart.port.flags |= (UPF_IOREMAP | UPF_FIXED_PORT | UPF_FIXED_TYPE);
+   151			uart.port.regshift = 2;
+   152	
+   153			rc = serial8250_register_8250_port(&uart);
+   154			if (rc < 0) {
+   155				dev_err(dev,
+   156					"cannot setup VUART@%xh over PCIe, rc=%d\n",
+   157					vuart_ioport[i], -rc);
+   158				goto out_unreg;
+   159			}
+   160			pci_bmc_dev->lines[i] = rc;
+   161		}
+   162	
+   163		return 0;
+   164	
+   165	out_unreg:
+   166		for (i = 0; i < VUART_MAX_PARMS; i++) {
+   167			if (pci_bmc_dev->lines[i] >= 0)
+   168				serial8250_unregister_port(pci_bmc_dev->lines[i]);
+   169		}
+   170	
+   171		pci_release_regions(pdev);
+   172	out_free1:
+   173		if (pci_bmc_dev->legacy_irq)
+   174			free_irq(pdev->irq, pdev);
+   175		else
+ > 176			pci_free_irq_vectors(pdev);
+   177	
+   178		pci_clear_master(pdev);
+   179	out_free0:
+   180		kfree(pci_bmc_dev);
+   181	out_err:
+   182	
+   183		return rc;
+   184	}
+   185	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
