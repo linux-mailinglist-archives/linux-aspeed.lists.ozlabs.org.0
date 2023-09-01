@@ -1,83 +1,76 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B234878F771
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 05:23:02 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C7378F7B9
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 06:57:04 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=hOQN+9/h;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=KwbBmhGx;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RcNdc4Cr0z3bxZ
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 13:23:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RcQk563fjz3byH
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 14:57:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=hOQN+9/h;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=KwbBmhGx;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RcNdX00QLz2yVT
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Sep 2023 13:22:54 +1000 (AEST)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-68a6f6a66e1so1263253b3a.2
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 31 Aug 2023 20:22:54 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RcQjy0pTWz2yVL
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Sep 2023 14:56:52 +1000 (AEST)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1bc63ef9959so12404295ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 31 Aug 2023 21:56:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693538572; x=1694143372; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=gmail.com; s=20221208; t=1693544207; x=1694149007; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:cc:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=qBLPQzPIWAWSC+qsvJbFVdMdGKth1jrainH5lRp8kgI=;
-        b=hOQN+9/hZA1w7tli2ywWbQtvv6HcOwNTw6LQBso0R0ShQUBJ8J1m85BmD/6sl/5NYl
-         3G6BS6US+FDxvxPArn/7Uvx49VSPfdqyQndfdoYzp4blxtkFiEWD+V+mqEN2vNq/QCPF
-         F7fZsG7a2U5FnoEsnK1TQ+1vCgyGzZ3Ym8Ww0IwzoOqJ172drlQr7nWW+BiOkbX+0TqU
-         kvieK9bdoc0TRf61xdVFypB8JCH+lNbdiwEGUWqp2IX+KX3W4gnUWdQAr2WrevYlL257
-         V7bzjjiYv7hY6IFKnZ2GbgLcuGzwtsfFUeMPIedQi0/bzCq1hE7JrK5Qlnwy2AdfnSep
-         Vibg==
+        bh=AxMAdQ9JHhbY/6XOYXhohZX4W0hkhsENsmdXA3joCPY=;
+        b=KwbBmhGxm6oPqj7Sp/S/jl1RRomJAQrUUdlV5a7v81M6Ht1JeP9kcY6iFuygGKCH//
+         JyRWBninvkLVcVdUvgLepY4NpjbbuugV687o3vi7twxvQQnM+KVZRU+lzHrE5xk3K1Z3
+         7PQcyIIR0hILFVpJUEl0NTbwsspl6fzWycAvlRXY3phmMK87o65Tw78AZE1VNKC7fUkj
+         WkUFVV0WiPUzrEGz9aGSQSKx5ip7RAk6t7NQK1jhAvI1/dEHg4nDcyIeub6Qif7nG43J
+         jGO77hmu23hW6elqhyVjvSdmUpAk+PMxcDkhtVsfUSdkZkgQsglE1i1c8wHKhwyasznk
+         c3Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693538572; x=1694143372;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20221208; t=1693544207; x=1694149007;
+        h=content-transfer-encoding:in-reply-to:cc:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qBLPQzPIWAWSC+qsvJbFVdMdGKth1jrainH5lRp8kgI=;
-        b=bDvGAvDAL7OYGUnG/xJZAIAsIsF+CeFSL8Hqe2U3kXkCtgNg+z7+CmmA7CJ5uwpbUO
-         eUx2RcsQ+YMFWLnad9rWAW6GwFcACu4m8zBbcf801PnaQp4l6UdqH5qG2OKht+8q8iZb
-         nsc65vPqc384obU0hYa6jy4JKLQIf57rx3G350JBxrcwHUo2PDlp+wjaN8JgMhNKMMQu
-         hnKFaoR8U5V34+5kWEpHmkCTj/rh0yqYH9t+YysYeFHk2lz78PCvmLFe8LvBsPLF/mNs
-         NGbS0WxrVdmZDP2r73u3iFMvQU83vAyfECnYS+Kf/lFtAhvI+AY/obHcgL7Fz0135jV3
-         KBkA==
-X-Gm-Message-State: AOJu0Yxu9uUrwmEo/lCatBUY1wM6wybxbGp0w0PSMZEedvFD+Wl3OfST
-	8JLkZPVBP/tRuNLsZM0b41c=
-X-Google-Smtp-Source: AGHT+IF5ywUa7Qg+xJbjyDPhgXCzWKPknLqcwuD2RE4g0BKWwqAHqS2Q0t52zJrFjKRYQwdObFdUrw==
-X-Received: by 2002:a05:6a20:6710:b0:14d:5580:8ff0 with SMTP id q16-20020a056a20671000b0014d55808ff0mr1193033pzh.25.1693538572050;
-        Thu, 31 Aug 2023 20:22:52 -0700 (PDT)
-Received: from [10.10.14.80] (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id x2-20020a170902fe8200b001bdf45eb5b6sm1908358plm.284.2023.08.31.20.22.48
+        bh=AxMAdQ9JHhbY/6XOYXhohZX4W0hkhsENsmdXA3joCPY=;
+        b=N9Rm7ZNdceBBg4YQfGT2ZutkZtSRRpyMxuHC2I5nnJQ1+r30bjq7ry6fYAKa/xVrSi
+         uJE408nbPhaZ0OIEVVCc96gzdtf077E4BU1zy+8t7Ijp1mPdaGvTSRCEcaFnoF97vdVS
+         uNmxkIqTVBdNX4E8wWoMumCvZ2LQjWCDLtBXAW9rUKiVL0udG+q2T6isqRDggZLYdJ1Q
+         QeLdktj0AkJw7CL7nGISawwCmBaWMIxIDV3jDscKvKytIpdI5HlZZJWe/H5cLE03nMpB
+         A04t0YL1xgaY8yWuVqtF745dhzO+GnGoxeYEpgj/mBQzny7LgiRPWbFmmp/Crqrjmyid
+         O52A==
+X-Gm-Message-State: AOJu0Yy9RoSJadrgOaNjQQHVkMXYgVE+JyC/97knwNZ6fGYLons+NTe/
+	7jkf46DIS54hvtDbDraci5k=
+X-Google-Smtp-Source: AGHT+IF6QDy3CuYUe+uak82ob23I21g9dB49A8IeXHA8TbCz/H5rYUS4VaHBNmXQXV04PA1Rwb8IDw==
+X-Received: by 2002:a17:902:c40b:b0:1b9:de75:d5bb with SMTP id k11-20020a170902c40b00b001b9de75d5bbmr2191573plk.7.1693544207479;
+        Thu, 31 Aug 2023 21:56:47 -0700 (PDT)
+Received: from [10.10.4.41] (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id e4-20020a170902d38400b001adf6b21c77sm2036354pld.107.2023.08.31.21.56.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Aug 2023 20:22:51 -0700 (PDT)
-Message-ID: <ffe1aff7-5216-ce3c-d57a-1163731d1158@gmail.com>
-Date: Fri, 1 Sep 2023 11:20:37 +0800
+        Thu, 31 Aug 2023 21:56:46 -0700 (PDT)
+Message-ID: <99ffd1fb-14ae-1c83-bc32-2d0aead4d696@gmail.com>
+Date: Fri, 1 Sep 2023 12:54:33 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v7 2/2] dt-bindings: arm: aspeed: add Meta Minerva board
+Subject: Re: [PATCH v8 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED
+ g6 PWM/Fan tach
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, patrick@stwcx.xyz,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
- soc@kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20230831082819.4000425-1-peteryin.openbmc@gmail.com>
- <20230831082819.4000425-3-peteryin.openbmc@gmail.com>
- <7b241edd-4775-afbc-e5a1-63f5ecfce331@linaro.org>
-From: PeterYin <peteryin.openbmc@gmail.com>
-In-Reply-To: <7b241edd-4775-afbc-e5a1-63f5ecfce331@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+References: <20230830123202.3408318-1-billy_tsai@aspeedtech.com>
+ <20230830123202.3408318-4-billy_tsai@aspeedtech.com>
+From: Potin Lai <potin.lai.pt@gmail.com>
+In-Reply-To: <20230830123202.3408318-4-billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -90,34 +83,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, jdelvare@suse.com, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org, corbet@lwn.net, BMC-SW@aspeedtech.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, naresh.solanki@9elements.com, patrick@stwcx.xyz, robh+dt@kernel.org, thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org, u.kleine-koenig@pengutronix.de, linux@roeck-us.net, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
-On 8/31/23 20:38, Krzysztof Kozlowski wrote:
-> On 31/08/2023 10:28, Peter Yin wrote:
->> Document the new compatibles used on Meta Minerva.
->>
->> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
-> This is a friendly reminder during the review process.
->
-> It looks like you received a tag and forgot to add it.
->
-> If you do not know the process, here is a short explanation:
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-> versions, under or above your Signed-off-by tag. Tag is "received", when
-> provided in a message replied to you on the mailing list. Tools like b4
-> can help here. However, there's no need to repost patches *only* to add
-> the tags. The upstream maintainer will do that for tags received on the
-> version they apply.
->
-> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
->
-> If a tag was not added on purpose, please state why and what changed.
 
-Thank you for kindly providing me with the information. It has been helpful.
+On 8/30/23 20:32, Billy Tsai wrote:
+> +static int aspeed_tach_hwmon_write(struct device *dev,
+> +				   enum hwmon_sensor_types type, u32 attr,
+> +				   int channel, long val)
+> +{
+> +	struct aspeed_pwm_tach_data *priv = dev_get_drvdata(dev);
+> +	u32 reg_val;
+> +
+> +	switch (attr) {
+> +	case hwmon_fan_div:
+> +		if (!is_power_of_2(val) || (ilog2(val) % 2) ||
+> +		    DIV_TO_REG(val) > 0xb)
+> +			return -EINVAL;
+> +		priv->tach_divisor = val;
+> +		reg_val = readl(priv->base + TACH_ASPEED_CTRL(channel));
+> +		reg_val &= ~TACH_ASPEED_CLK_DIV_T_MASK;
+> +		reg_val |= FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK,
+> +				     DIV_TO_REG(priv->tach_divisor));
+Hi Billy,
+I notice the fanX_div is always shows 1 after I set 1024.
+I think FIELD_GET() needs to replaced with FIELD_PREP().
+
+> +		writel(reg_val, priv->base + TACH_ASPEED_CTRL(channel));
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	return 0;
+> +}
 
 
-> Best regards,
-> Krzysztof
+> +static void aspeed_present_fan_tach(struct aspeed_pwm_tach_data *priv, u32 tach_ch)
+> +{
+> +	u32 val;
+> +
+> +	priv->tach_present[tach_ch] = true;
+> +	priv->tach_divisor = DEFAULT_TACH_DIV;
+> +
+> +	val = readl(priv->base + TACH_ASPEED_CTRL(tach_ch));
+> +	val &= ~(TACH_ASPEED_INVERS_LIMIT | TACH_ASPEED_DEBOUNCE_MASK |
+> +		 TACH_ASPEED_IO_EDGE_MASK | TACH_ASPEED_CLK_DIV_T_MASK |
+> +		 TACH_ASPEED_THRESHOLD_MASK);
+> +	val |= (DEBOUNCE_3_CLK << TACH_ASPEED_DEBOUNCE_BIT) | F2F_EDGES |
+> +	       FIELD_GET(TACH_ASPEED_CLK_DIV_T_MASK,
+> +			 DIV_TO_REG(priv->tach_divisor));
+And here as well.
+
+> +	writel(val, priv->base + TACH_ASPEED_CTRL(tach_ch));
+> +
+> +	aspeed_tach_ch_enable(priv, tach_ch, true);
+> +}
+> +
 >
+
