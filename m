@@ -2,68 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEB678EF8F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Aug 2023 16:26:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B234878F771
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 05:23:02 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QSL+K/1H;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=hOQN+9/h;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rc3Pb28Gtz3bxL
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 00:26:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RcNdc4Cr0z3bxZ
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Sep 2023 13:23:00 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QSL+K/1H;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=hOQN+9/h;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.126; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rc3PP393hz2ykV;
-	Fri,  1 Sep 2023 00:26:15 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693491978; x=1725027978;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7paPh2mF9Wy7OEwJY1d2GalGy2y7dQanY+hUyqVQRaU=;
-  b=QSL+K/1HCqcFFmk7aRz8sDfVdwAb5Fd6F6TLBInXaPkQaomghdPPdDON
-   sk5mBtwsJsXxA4Y1u3Au1k1Vfk0IX8J0JrJKagtSWMFwnzAH0XuY3HZmk
-   R3C/snX0DlmMwyjnQ/LRWn6uMqJp/7X8XLtJxmMf6WZEtxgWxDb93nMx0
-   g/EHk9fol1ZARVcecYCFy+5Wh+uP8GLqTfv3K5Lv+pYMOWuTvSlwFxnMl
-   YWEgcb6GgJ+IYJ3ETgDzmE49qj2EVuWIj5ZURyPsIcfcVn00zXQHYNP4O
-   NZ4sOS/CjiEh6zBGv+lU4hulxLjXc5trfztMwycsDbP3njxkxkyHzemRG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="360978695"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="360978695"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 07:18:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="689370098"
-X-IronPort-AV: E=Sophos;i="6.02,217,1688454000"; 
-   d="scan'208";a="689370098"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 07:18:31 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1qbiV9-005PI8-0Q;
-	Thu, 31 Aug 2023 17:18:27 +0300
-Date: Thu, 31 Aug 2023 17:18:26 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v12 2/2] i2c: aspeed: support ast2600 i2c new register
- mode driver
-Message-ID: <ZPChMrsKrOQppY1F@smile.fi.intel.com>
-References: <20230714074522.23827-1-ryan_chen@aspeedtech.com>
- <20230714074522.23827-3-ryan_chen@aspeedtech.com>
- <ZLENe5B3gi/oNTQp@smile.fi.intel.com>
- <SEZPR06MB5269A43F801EF04F39461174F2E5A@SEZPR06MB5269.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RcNdX00QLz2yVT
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Sep 2023 13:22:54 +1000 (AEST)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-68a6f6a66e1so1263253b3a.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 31 Aug 2023 20:22:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693538572; x=1694143372; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qBLPQzPIWAWSC+qsvJbFVdMdGKth1jrainH5lRp8kgI=;
+        b=hOQN+9/hZA1w7tli2ywWbQtvv6HcOwNTw6LQBso0R0ShQUBJ8J1m85BmD/6sl/5NYl
+         3G6BS6US+FDxvxPArn/7Uvx49VSPfdqyQndfdoYzp4blxtkFiEWD+V+mqEN2vNq/QCPF
+         F7fZsG7a2U5FnoEsnK1TQ+1vCgyGzZ3Ym8Ww0IwzoOqJ172drlQr7nWW+BiOkbX+0TqU
+         kvieK9bdoc0TRf61xdVFypB8JCH+lNbdiwEGUWqp2IX+KX3W4gnUWdQAr2WrevYlL257
+         V7bzjjiYv7hY6IFKnZ2GbgLcuGzwtsfFUeMPIedQi0/bzCq1hE7JrK5Qlnwy2AdfnSep
+         Vibg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693538572; x=1694143372;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qBLPQzPIWAWSC+qsvJbFVdMdGKth1jrainH5lRp8kgI=;
+        b=bDvGAvDAL7OYGUnG/xJZAIAsIsF+CeFSL8Hqe2U3kXkCtgNg+z7+CmmA7CJ5uwpbUO
+         eUx2RcsQ+YMFWLnad9rWAW6GwFcACu4m8zBbcf801PnaQp4l6UdqH5qG2OKht+8q8iZb
+         nsc65vPqc384obU0hYa6jy4JKLQIf57rx3G350JBxrcwHUo2PDlp+wjaN8JgMhNKMMQu
+         hnKFaoR8U5V34+5kWEpHmkCTj/rh0yqYH9t+YysYeFHk2lz78PCvmLFe8LvBsPLF/mNs
+         NGbS0WxrVdmZDP2r73u3iFMvQU83vAyfECnYS+Kf/lFtAhvI+AY/obHcgL7Fz0135jV3
+         KBkA==
+X-Gm-Message-State: AOJu0Yxu9uUrwmEo/lCatBUY1wM6wybxbGp0w0PSMZEedvFD+Wl3OfST
+	8JLkZPVBP/tRuNLsZM0b41c=
+X-Google-Smtp-Source: AGHT+IF5ywUa7Qg+xJbjyDPhgXCzWKPknLqcwuD2RE4g0BKWwqAHqS2Q0t52zJrFjKRYQwdObFdUrw==
+X-Received: by 2002:a05:6a20:6710:b0:14d:5580:8ff0 with SMTP id q16-20020a056a20671000b0014d55808ff0mr1193033pzh.25.1693538572050;
+        Thu, 31 Aug 2023 20:22:52 -0700 (PDT)
+Received: from [10.10.14.80] (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id x2-20020a170902fe8200b001bdf45eb5b6sm1908358plm.284.2023.08.31.20.22.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 31 Aug 2023 20:22:51 -0700 (PDT)
+Message-ID: <ffe1aff7-5216-ce3c-d57a-1163731d1158@gmail.com>
+Date: Fri, 1 Sep 2023 11:20:37 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SEZPR06MB5269A43F801EF04F39461174F2E5A@SEZPR06MB5269.apcprd06.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v7 2/2] dt-bindings: arm: aspeed: add Meta Minerva board
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, patrick@stwcx.xyz,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+ soc@kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+References: <20230831082819.4000425-1-peteryin.openbmc@gmail.com>
+ <20230831082819.4000425-3-peteryin.openbmc@gmail.com>
+ <7b241edd-4775-afbc-e5a1-63f5ecfce331@linaro.org>
+From: PeterYin <peteryin.openbmc@gmail.com>
+In-Reply-To: <7b241edd-4775-afbc-e5a1-63f5ecfce331@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,73 +90,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Brendan Higgins <brendan.higgins@linux.dev>, Conor Dooley <conor.dooley@microchip.com>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "jk@codeconstruct.com.au" <jk@codeconstruct.com.au>, Jean Delvare <jdelvare@suse.de>, Andi Shyti <andi.shyti@kernel.org>, Phil Edworthy <phil.edworthy@renesas.com>, Florian Fainelli <f.fainelli@gmail.com>, "=linux-kernel@vger.kernel.org" <=linux-kernel@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, William Zhang <william.zhang@broadcom.com>, Rob Herring <robh+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>, Wolfram Sang <wsa@kernel.org>, Tyrone Ting <kfting@nuvoton.com>, Philipp Zabel <p.zabel@pengutronix.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Aug 31, 2023 at 06:04:30AM +0000, Ryan Chen wrote:
-> > On Fri, Jul 14, 2023 at 03:45:22PM +0800, Ryan Chen wrote:
 
-Stop overquoting! Remove the context you are not answering to.
+On 8/31/23 20:38, Krzysztof Kozlowski wrote:
+> On 31/08/2023 10:28, Peter Yin wrote:
+>> Document the new compatibles used on Meta Minerva.
+>>
+>> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+> This is a friendly reminder during the review process.
+>
+> It looks like you received a tag and forgot to add it.
+>
+> If you do not know the process, here is a short explanation:
+> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+> versions, under or above your Signed-off-by tag. Tag is "received", when
+> provided in a message replied to you on the mailing list. Tools like b4
+> can help here. However, there's no need to repost patches *only* to add
+> the tags. The upstream maintainer will do that for tags received on the
+> version they apply.
+>
+> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+>
+> If a tag was not added on purpose, please state why and what changed.
 
-...
-
-> > > +				if (--i % 4 != 3)
-> > > +					writel(*(u32 *)wbuf, i2c_bus->buf_base + i - (i % 4));
-> > > +				writel(AST2600_I2CC_SET_TX_BUF_LEN(xfer_len),
-> > > +				       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-> > 
-> > Wrong memory accessors. You should use something from asm/byteorder.h
-> > which includes linux/byteorder/generic.h.
-> > 
-> 
-> Are you preferring add comment to explain more by following?
-> 				/*
-> 				 * The controller's buffer register supports dword writes only.
-> 				 * Therefore, write dwords to the buffer register in a 4-byte aligned,
-> 				 * and write the remaining unaligned data at the end.
-> 				 */
-
-This does not explain endianess bug (or feature) it has.
-You are using CPU side byteorder for the aligned data.
-This is not okay, on top of the code looking ugly and
-prone to errors. Note, that somebody may refer to your
-code, once accepted, in educational purposes, but since
-the code is not good written, it makes a false positive
-impression that this is the right thing to do in the similar
-case elsewhere.
-
-Please, fix this.
-
-> 				for (i = 0; i < xfer_len; i++) {
-> 					wbuf[i % 4] = msg->buf[i2c_bus->master_xfer_cnt + i];
-> 					/* accumulating 4 bytes of data, write as a Dword to the buffer register */
-> 					if (i % 4 == 3)
-> 						writel(*(u32 *)wbuf, i2c_bus->buf_base + i - 3);
-> 				}
-> 				/* less than 4 bytes of remaining data, write the remaining part as a Dword */
-> 				if (--i % 4 != 3)
-> 					writel(*(u32 *)wbuf, i2c_bus->buf_base + i - (i % 4));
-> 				writel(AST2600_I2CC_SET_TX_BUF_LEN(xfer_len),
-> 				       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-> 
-> Or more columns (use get_unaligned_le32(wbuf); ) by following.
-> 
-> 	for (i = 0; i < xfer_len; i++) {
-> 		wbuf[i % 4] = msg->buf[i2c_bus->master_xfer_cnt + i];
-> 		if (i % 4 == 3) {
-> 			wbuf_dword = get_unaligned_le32(wbuf);
-> 			writel(wbuf_dword, i2c_bus->buf_base + i - 3);
-> 		}
-> 	}
-> 
-> 	if (--i % 4 != 3) {
-> 		wbuf_dword = get_unaligned_le32(wbuf);
-> 		writel(wbuf_dword, i2c_bus->buf_base + i - (i % 4));
-> 	}
-
--- 
-With Best Regards,
-Andy Shevchenko
+Thank you for kindly providing me with the information. It has been helpful.
 
 
+> Best regards,
+> Krzysztof
+>
