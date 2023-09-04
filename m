@@ -1,37 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3030F790F9C
-	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Sep 2023 03:25:42 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEACF791303
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Sep 2023 10:10:13 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ka9xt4kM;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rf9tn4K9hz3bZr
-	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Sep 2023 11:25:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RfLsZ6hkhz3bhP
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Sep 2023 18:10:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx03.aspeed.com; envelope-from=tommy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX03.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ka9xt4kM;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=mripard@kernel.org; receiver=lists.ozlabs.org)
+X-Greylist: delayed 561 seconds by postgrey-1.37 at boromir; Mon, 04 Sep 2023 18:10:02 AEST
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rf9th5ZDzz2yD7;
-	Mon,  4 Sep 2023 11:25:30 +1000 (AEST)
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX03.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 4 Sep
- 2023 09:25:06 +0800
-Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 4 Sep 2023 09:25:06 +0800
-From: Tommy Huang <tommy_huang@aspeedtech.com>
-To: <brendan.higgins@linux.dev>, <andi.shyti@kernel.org>,
-	<p.zabel@pengutronix.de>, <linux-i2c@vger.kernel.org>,
-	<openbmc@lists.ozlabs.org>
-Subject: [PATCH] i2c: aspeed: Reset the i2c controller when timeout occurs
-Date: Mon, 4 Sep 2023 09:25:05 +0800
-Message-ID: <20230904012505.340455-1-tommy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RfLsQ3YQ2z2yh7
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  4 Sep 2023 18:10:02 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by sin.source.kernel.org (Postfix) with ESMTPS id A8395CE0E39;
+	Mon,  4 Sep 2023 08:00:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65D61C433C8;
+	Mon,  4 Sep 2023 08:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693814436;
+	bh=msH+AlW1tcnzrzUkcVH/Gu9dCYW/mw+O6xT2pWlSs9M=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=ka9xt4kMgaXoKCttn3PTsy/pLUsanMSnIUZu5nMztBnSY0Wdzf6Dew7ALC7I+Rqdb
+	 ZtFVsXZ0oRdRFZ097j4GXusIpKe6qP1i8uQ060FdShTuPNNV7+Cf12ScsnQLXx2O6k
+	 hJsXvyjbbEc/2PmpFJcdizh2eKOeUXKmg+lxtLBmnQvq4kDO7fATE0ZI5V/EbxvIeo
+	 /hf0eGtgU7PesSck8b14tvH1M2iSyEmpidZw0ou54S9x+U+JsZO8IozatJNez+bGKq
+	 Q2T9/AIU9uHcBmHafOGNfIuDXOb1yZhv58vQFjLoAjQ9cBhnENTAk6MAlYEO4zn25J
+	 RTzUxL16SoUBA==
+Message-ID: <1506b6324d05084097f1971520d76fa0.mripard@kernel.org>
+Date: Mon, 04 Sep 2023 08:00:34 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Douglas Anderson" <dianders@chromium.org>
+Subject: Re: [RFT PATCH 5/6] drm: Call drm_atomic_helper_shutdown() at
+ shutdown/remove time for misc drivers
+In-Reply-To: <20230901163944.RFT.5.I771eb4bd03d8772b19e7dcfaef3e2c167bce5846@changeid>
+References: <20230901163944.RFT.5.I771eb4bd03d8772b19e7dcfaef3e2c167bce5846@changeid>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,46 +61,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, jae.hyun.yoo@linux.intel.com, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, tomi.valkeinen@ideasonboard.com, linus.walleij@linaro.org, alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org, airlied@gmail.com, linux-stm32@st-md-mailman.stormreply.com, emma@anholt.net, airlied@redhat.com, daniel@ffwll.ch, raphael.gallais-pou@foss.st.com, Maxime
+ Ripard <mripard@kernel.org>, hdegoede@redhat.com, linux-arm-kernel@lists.infradead.org, jfalempe@redhat.com, tzimmermann@suse.de, yannick.fertre@foss.st.com, linux-kernel@vger.kernel.org, philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com, jyri.sarha@iki.fi
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Reset the i2c controller when an i2c transfer timeout occurs.
-The remaining interrupts and device should be reset to avoid
-unpredictable controller behavior.
+On Fri, 1 Sep 2023 16:39:56 -0700, Douglas Anderson wrote:
+> Based on grepping through the source code these drivers appear to be
+> missing a call to drm_atomic_helper_shutdown() at system shutdown time
+> and at driver remove (or unbind) time. Among other things, this means
+> that if a panel is in use that it won't be cleanly powered off at
+> system shutdown time.
+> 
+> [ ... ]
 
-Fixes: 2e57b7cebb98 ("i2c: aspeed: Add multi-master use case support")
-Cc: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc: <stable@vger.kernel.org> # v5.1+
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
----
- drivers/i2c/busses/i2c-aspeed.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 2e5acfeb76c8..5a416b39b818 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -698,13 +698,16 @@ static int aspeed_i2c_master_xfer(struct i2c_adapter *adap,
- 
- 	if (time_left == 0) {
- 		/*
--		 * If timed out and bus is still busy in a multi master
--		 * environment, attempt recovery at here.
-+		 * In a multi-master setup, if a timeout occurs, attempt
-+		 * recovery. But if the bus is idle, we still need to reset the
-+		 * i2c controller to clear the remaining interrupts.
- 		 */
- 		if (bus->multi_master &&
- 		    (readl(bus->base + ASPEED_I2C_CMD_REG) &
- 		     ASPEED_I2CD_BUS_BUSY_STS))
- 			aspeed_i2c_recover_bus(bus);
-+		else
-+			aspeed_i2c_reset(bus);
- 
- 		/*
- 		 * If timed out and the state is still pending, drop the pending
--- 
-2.25.1
-
+Thanks!
+Maxime
