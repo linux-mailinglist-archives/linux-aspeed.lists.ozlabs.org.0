@@ -1,61 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F275792083
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Sep 2023 08:24:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D81C4792084
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Sep 2023 08:24:50 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=HQgFyF53;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=n8CQmFHM;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RfwTQ2rC4z30h5
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Sep 2023 16:24:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RfwTX5T63z3bbW
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Sep 2023 16:24:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=HQgFyF53;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=n8CQmFHM;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42b; helo=mail-pf1-x42b.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RfwTJ1xVYz2yDS
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  5 Sep 2023 16:24:34 +1000 (AEST)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-68a520dba33so1691055b3a.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 04 Sep 2023 23:24:34 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RfwTP1VSYz3bjc
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  5 Sep 2023 16:24:40 +1000 (AEST)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1c1e128135aso12120085ad.3
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 04 Sep 2023 23:24:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693895071; x=1694499871; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iZe9XtPeDijJTfBrAmZ3rs+0VNHgiBDEk7wGRdjI3c4=;
-        b=HQgFyF53dR9O+Ep/piJEA+iBPr1V2z/ok+CRVuA/9GSBkXSqSEYgqd5pCER24C6P0i
-         Su+olVQpfOcqRUb7BJYHGqmOEi3mcUazFVc+srw/quz7jnjs8oDSha4rlN+xMCtmGddh
-         zQmrpSd0RLaxJWUdyDio2HHdDDNOfW+zSVYTcNG+GKAF4f4r53MPz99Np88kTrz0WCsU
-         eCsPpveIuFxhgQubMOTwLF9/KSLL8qoHMZU7NFZevEXSGt48B0T4nzVprIjPIWH4HqXA
-         tKWnQsnwJlUpOJFwJq4xVpCrSqmqutVcwrxmC8Qb+kW+heQrKTtpclG7w+JJGIIE8Acs
-         CU5A==
+        d=gmail.com; s=20221208; t=1693895078; x=1694499878; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tgPxtoZNb7d2yFvEYd9XD+RxqO3GDREIKuCKzOPCBOU=;
+        b=n8CQmFHMoKdjLBfBEjEqwio7RZ7rzBMMEWocUtbNBht6OAcfdv79l0W9TwNL1pOYVj
+         1r4UuJND7eQdl1HhO810uDxWFxa/8aerW5WzJZHsw6Y/ifrVYTqPQHYtiVU/c13WFQqx
+         U3pJ+o3aF4t0btwQMZ8l8C00SgJP9ROvFAQ37tZcBc3aGVivfherlsEZFBycUIuCruq3
+         W8e4HXnlo7VfSFWZ5s7VKhw6AdIYmHoBOmabkhGYPeD5QgPl43URTwOwiEQ5wNdAqQgS
+         u+OvhzbLyvykN+rfdulNr1tI0E/3KVX3a+dCarsx+fpDEvtptpn2ek7nUjDBE4IodOF+
+         Q4rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693895071; x=1694499871;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iZe9XtPeDijJTfBrAmZ3rs+0VNHgiBDEk7wGRdjI3c4=;
-        b=FCRV5GDBph6MCCcuTWXlEEYDLU3ORANf61xDGYaTyYthpU3eVZoGo7TPaNR1KXNHc7
-         ZubnmFsNYSCeffUCR8J63Ktu0gARAUv0aZh1QJx4DtVfuQzjZzbKFLmnyy0vxdsHY1+C
-         qIOq8hmXGYficd2tRuKkNUK1mC+iD5niF8MQ101Fm8CA2/g4olB4ddz67i80yaTZ3en2
-         gDpiRxDF5t2R/2+mzUoaurMarEVQky1ruH5e1pG1HtPXk18OHCwFQ+nq2Q/fP89d8Ntn
-         DM15iNUNJXwQ4KA0ZvWV92G7wQ8JYx1YLJWuKn2GIQbNW/A6hdvprBUxyYacl/RAPHQc
-         /7NQ==
-X-Gm-Message-State: AOJu0YyHir/ajY/R/TeUiBacTtvLxPxNVK80VTxdnD6+SIGIqxREdtLf
-	tCqWOy0IurkVuu2IQz3hraE=
-X-Google-Smtp-Source: AGHT+IF+MDQa2Y721EGnUs4M/DkAWziEdIlV8HdGxLhcRV71seoYweMUgY5Oosud0dFN4iHAX6FM+A==
-X-Received: by 2002:a05:6a20:7491:b0:12e:73bb:cbb6 with SMTP id p17-20020a056a20749100b0012e73bbcbb6mr15530522pzd.14.1693895071456;
-        Mon, 04 Sep 2023 23:24:31 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1693895078; x=1694499878;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tgPxtoZNb7d2yFvEYd9XD+RxqO3GDREIKuCKzOPCBOU=;
+        b=aitHhlHwD5xAWcL7ySai6K8qJbAbLSb9gAYHyR5sUEfpEsjUr5XD2OHS7/+RcAoUwF
+         4xfAC8WS5ZRA6qbMMf3Zvccgz2acA8GmQSXNZHJrtd/SLxa3hWvdtCnWkYgcSFdgYH7J
+         cAvR0FuvlKR9yC6DIO/h6B+p6xG/NTBU5rhg03tvPLjWYjyjnz14ejaAmpSVitHNx2M0
+         ITt0Hfj+jcxSqg9MpjtJd+Lo+C3q2jM5q7FhnoAojK3JQexiGF2NThsKdwoU41D7VMLR
+         ZSN7w/4Lgw1wzak8UkzYj1hnH2WwfgiC95wIFdFGeLqyEcpn5YtEIYiNZGuUMZEhGQDn
+         Xlzg==
+X-Gm-Message-State: AOJu0YxvTk0srgxX6wa7i7NAWen4PG3/Xmf9rC9OCPObPwq9Twm1Kp8R
+	7jc8uOm+VucAfUaQ7+UcAmc=
+X-Google-Smtp-Source: AGHT+IFm0nWQ1HLUwpTafEoE36bgB0rFu4+ZEzJADlm47chpF6kQmUKqA0TP1RJ7sr3h/tk+WBjNYQ==
+X-Received: by 2002:a17:902:f807:b0:1b9:e937:9763 with SMTP id ix7-20020a170902f80700b001b9e9379763mr9422259plb.12.1693895078377;
+        Mon, 04 Sep 2023 23:24:38 -0700 (PDT)
 Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id e18-20020a17090301d200b001bd41b70b60sm8526721plh.45.2023.09.04.23.24.29
+        by smtp.gmail.com with ESMTPSA id e18-20020a17090301d200b001bd41b70b60sm8526721plh.45.2023.09.04.23.24.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 23:24:31 -0700 (PDT)
+        Mon, 04 Sep 2023 23:24:38 -0700 (PDT)
 From: Peter Yin <peteryin.openbmc@gmail.com>
 To: patrick@stwcx.xyz,
 	Rob Herring <robh+dt@kernel.org>,
@@ -67,10 +68,12 @@ To: patrick@stwcx.xyz,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 0/2] Add Facebook Minerva (AST2600) BMC
-Date: Tue,  5 Sep 2023 14:22:20 +0800
-Message-Id: <20230905062223.774871-1-peteryin.openbmc@gmail.com>
+Subject: [PATCH v8 1/2] ARM: dts: aspeed: Minerva: Add Facebook Minerva (AST2600) BMC
+Date: Tue,  5 Sep 2023 14:22:21 +0800
+Message-Id: <20230905062223.774871-2-peteryin.openbmc@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230905062223.774871-1-peteryin.openbmc@gmail.com>
+References: <20230905062223.774871-1-peteryin.openbmc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -88,59 +91,411 @@ Cc: peter.yin@quantatw.com, Peter Yin <peteryin.openbmc@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Summary:
-Correcting the arrangement order in Makefile.
-  +	aspeed-bmc-facebook-greatlakes.dtb \
-  +	aspeed-bmc-facebook-minerva.dtb \
-  +	aspeed-bmc-facebook-minipack.dtb \
+Add linux device tree entry related to Minerva
+specific devices connected to BMC SoC.
 
-Correcting the arrangement order in Document
-  +            - facebook,greatlakes-bmc
-  +            - facebook,minerva-bmc
-  +            - facebook,yosemite4-bmc
-
-Remove redundant blank line.
-1.
-  +	/*P4-P7 line 248-255*/
-  +	"","","","","","","","";
-  +};
-
-2.
-  +
-  +// SOL Host Console
-
-3.
-  +
-  +//BIOS Flash
-
-4.
-  +&uart2 {
-  +	status = "okay";
-  +	pinctrl-0 = <>;
-  +};
-
-Use stdout-path.
-  +	chosen {
-  +		stdout-path = &uart5;
-  +	};
-
-Fix dts path.
-  old:arch/arm/boot/dts/
-  new:arch/arm/boot/dts/aspeed
-
-
-*** BLURB HERE ***
-
-Peter Yin (2):
-  ARM: dts: aspeed: Minerva: Add Facebook Minerva (AST2600) BMC
-  dt-bindings: arm: aspeed: add Meta Minerva board
-
- .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+---
  arch/arm/boot/dts/aspeed/Makefile             |   1 +
  .../aspeed/aspeed-bmc-facebook-minerva.dts    | 377 ++++++++++++++++++
- 3 files changed, 379 insertions(+)
+ 2 files changed, 378 insertions(+)
  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
 
+diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
+index 23cbc7203a8e..b1da302dbcd6 100644
+--- a/arch/arm/boot/dts/aspeed/Makefile
++++ b/arch/arm/boot/dts/aspeed/Makefile
+@@ -19,6 +19,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-facebook-fuji.dtb \
+ 	aspeed-bmc-facebook-galaxy100.dtb \
+ 	aspeed-bmc-facebook-greatlakes.dtb \
++	aspeed-bmc-facebook-minerva.dtb \
+ 	aspeed-bmc-facebook-minipack.dtb \
+ 	aspeed-bmc-facebook-tiogapass.dtb \
+ 	aspeed-bmc-facebook-wedge40.dtb \
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
+new file mode 100644
+index 000000000000..0bf4e4a7a16c
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
+@@ -0,0 +1,377 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2023 Facebook Inc.
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++#include <dt-bindings/i2c/i2c.h>
++
++/ {
++	model = "Facebook Minerva";
++	compatible = "facebook,minerva-bmc", "aspeed,ast2600";
++
++	aliases {
++		serial0 = &uart1;
++		serial4 = &uart5;
++	};
++
++	chosen {
++		stdout-path = &uart5;
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x80000000>;
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
++			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
++			<&adc1 2>;
++	};
++};
++
++// HOST BIOS Debug
++&uart1 {
++	status = "okay";
++};
++
++// SOL Host Console
++&uart2 {
++	status = "okay";
++	pinctrl-0 = <>;
++};
++
++// SOL BMC Console
++&uart4 {
++	status = "okay";
++	pinctrl-0 = <>;
++};
++
++// BMC Debug Console
++&uart5 {
++	status = "okay";
++};
++
++//MTIA
++&uart6 {
++	status = "okay";
++};
++
++&uart_routing {
++	status = "okay";
++};
++
++&vuart1 {
++	status = "okay";
++	virtual;
++	port=<0x3e8>;
++	sirq = <7>;
++	sirq-polarity = <0>;
++	dma-mode;
++	dma-channel = <12>;
++};
++
++&wdt1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_wdtrst1_default>;
++	aspeed,reset-type = "soc";
++	aspeed,external-signal;
++	aspeed,ext-push-pull;
++	aspeed,ext-active-high;
++	aspeed,ext-pulse-duration = <256>;
++};
++
++&mac3 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii4_default>;
++	no-hw-checksum;
++	use-ncsi;
++	ncsi-ctrl,start-redo-probe;
++	ncsi-ctrl,no-channel-monitor;
++	mlx,multi-host;
++	ncsi-package = <1>;
++	ncsi-channel = <1>;
++	ncsi-rexmit = <1>;
++	ncsi-timeout = <2>;
++};
++
++&rtc {
++	status = "okay";
++};
++
++&fmc {
++	status = "okay";
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout-128.dtsi"
++	};
++
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "alt-bmc";
++		spi-max-frequency = <50000000>;
++	};
++};
++
++//BIOS Flash
++&spi2 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi2_default>;
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "pnor";
++		spi-max-frequency = <12000000>;
++		spi-tx-bus-width = <2>;
++		spi-rx-bus-width = <2>;
++	};
++};
++
++&kcs2 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca8>;
++};
++
++&kcs3 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca2>;
++};
++
++&lpc_snoop {
++	status = "okay";
++	snoop-ports = <0x80>;
++};
++
++&peci0 {
++	status = "okay";
++	clock-frequency = <1000000>;
++};
++
++&i2c0 {
++	status = "okay";
++};
++
++&i2c1 {
++	status = "okay";
++
++	tmp75@4B {
++		compatible = "ti,tmp75";
++		reg = <0x4B>;
++	};
++};
++
++&i2c2 {
++	status = "okay";
++};
++
++&i2c3 {
++	status = "okay";
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c9 {
++	status = "okay";
++};
++
++&i2c11 {
++	status = "okay";
++};
++
++&i2c12 {
++	status = "okay";
++};
++
++&i2c13 {
++	status = "okay";
++};
++
++// To Debug card
++&i2c14 {
++	status = "okay";
++	multi-master;
++
++	ipmb@10 {
++		compatible = "ipmb-dev";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
++	};
++};
++
++&i2c15 {
++	status = "okay";
++
++	// SCM FRU
++	eeprom@50 {
++		compatible = "atmel,24c64";
++		reg = <0x50>;
++	};
++	// BSM FRU
++	eeprom@56 {
++		compatible = "atmel,24c64";
++		reg = <0x56>;
++	};
++};
++
++&adc0 {
++	ref_voltage = <2500>;
++	status = "okay";
++	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
++		&pinctrl_adc2_default &pinctrl_adc3_default
++		&pinctrl_adc4_default &pinctrl_adc5_default
++		&pinctrl_adc6_default &pinctrl_adc7_default>;
++};
++
++&adc1 {
++	ref_voltage = <2500>;
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc10_default>;
++};
++
++&jtag1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_jtagm_default>;
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&gpio0 {
++	pinctrl-names = "default";
++	gpio-line-names =
++	/*A0-A7*/	"","","","","","","","",
++	/*B0-B7*/	"","","","","","FM_ID_LED_N","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","","SOL_UART_SET","","","","","",
++	/*E0-E7*/	"","","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","","","",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"LED_POSTCODE_0","LED_POSTCODE_1",
++			"LED_POSTCODE_2","LED_POSTCODE_3",
++			"LED_POSTCODE_4","LED_POSTCODE_5",
++			"LED_POSTCODE_6","LED_POSTCODE_7",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"FP_SYS_PWRBTN_IN_N","BMC_SYS_PWRBTN_OUT_N",
++			"FP_RST_BTN_IN_N","","","","","",
++	/*Q0-Q7*/	"","","","","","","","",
++	/*R0-R7*/	"","","","","","","","",
++	/*S0-S7*/	"","","","","","","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","","","","","",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","";
++};
++
++&sgpiom0 {
++	status = "okay";
++	max-ngpios = <128>;
++	ngpios = <128>;
++	bus-frequency = <2000000>;
++	gpio-line-names =
++	/*in - out - in - out */
++	/*A0-A3 line 0-7*/
++	"","","","","","ENABLE_SENSORS","","",
++	/*A4-A7 line 8-15*/
++	"","","","","","","","",
++	/*B0-B3 line 16-23*/
++	"","","","","","BMC_RST_BTN_OUT_N","","",
++	/*B4-B7 line 24-31*/
++	"","","","","","","","",
++	/*C0-C3 line 32-39*/
++	"","","","","","","","",
++	/*C4-C7 line 40-47*/
++	"","","","","","","","",
++	/*D0-D3 line 48-55*/
++	"","","","","","","","",
++	/*D4-D7 line 56-63*/
++	"","","","","","","","",
++	/*E0-E3 line 64-71*/
++	"","","","","","","","",
++	/*E4-E7 line 72-79*/
++	"","","","","","","","",
++	/*F0-F3 line 80-87*/
++	"","","","","","","","",
++	/*F4-F7 line 88-95*/
++	"","","","","","","","",
++	/*G0-G3 line 96-103*/
++	"","","","","","","","",
++	/*G4-G7 line 104-111*/
++	"","","","","","","","",
++	/*H0-H3 line 112-119*/
++	"","","","","PLD_SYS_POWER_GOOD","","","",
++	/*H4-H7 line 120-127*/
++	"","","","","","","","",
++	/*I0-I3 line 128-135*/
++	"","","","","","","","",
++	/*I4-I7 line 136-143*/
++	"","","","","","","","",
++	/*J0-J3 line 144-151*/
++	"","","PLD_BIOS_POST_CMPLT_N","","","","","",
++	/*J4-J7 line 152-159*/
++	"","","","","","","","",
++	/*K0-K3 line 160-167*/
++	"","","","","","","","",
++	/*K4-K7 line 168-175*/
++	"","","","","","","","",
++	/*L0-L3 line 176-183*/
++	"","","","","","","","",
++	/*L4-L7 line 184-191*/
++	"","","","","","","","",
++	/*M0-M3 line 192-199*/
++	"","","","","","","","",
++	/*M4-M7 line 200-207*/
++	"","","","","","","","",
++	/*N0-N3 line 208-215*/
++	"","","","","","","","",
++	/*N4-N7 line 216-223*/
++	"","","","","","","","",
++	/*O0-O3 line 224-231*/
++	"","","","","","","","",
++	/*O4-O7 line 232-239*/
++	"","","","","","","","",
++	/*P0-P3 line 240-247*/
++	"","","","","","","","",
++	/*P4-P7 line 248-255*/
++	"","","","","","","","";
++};
 -- 
 2.25.1
 
