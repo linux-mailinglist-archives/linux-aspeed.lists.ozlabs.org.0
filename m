@@ -1,58 +1,56 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5158792D48
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Sep 2023 20:16:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D223C793281
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Sep 2023 01:25:13 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BvR15sG5;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=u6NcJsYZ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RgDH92xj8z3c03
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Sep 2023 04:16:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RgM6t6pFdz3c13
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Sep 2023 09:25:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BvR15sG5;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=u6NcJsYZ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=srs0=6yhg=ev=robh_at_kernel.org=rob@kernel.org; receiver=lists.ozlabs.org)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
+X-Greylist: delayed 338 seconds by postgrey-1.37 at boromir; Wed, 06 Sep 2023 09:25:02 AEST
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RgDH06n9qz2ykZ
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Sep 2023 04:16:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RgM6k2Gtqz2xm3;
+	Wed,  6 Sep 2023 09:25:02 +1000 (AEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id C13C9CE1282;
-	Tue,  5 Sep 2023 18:16:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D97BC4339A;
-	Tue,  5 Sep 2023 18:16:38 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTPS id 6B5AECE11D9;
+	Tue,  5 Sep 2023 23:19:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1757BC433C8;
+	Tue,  5 Sep 2023 23:19:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1693937800;
-	bh=eE6iIeJVyd5A3sLT9gWxdxdxpP7Nmi6eTWp1cJDxjV0=;
+	s=k20201202; t=1693955959;
+	bh=tkLbpV5CYYO3vwi6utL6T6ePfooLRu8OIzUvsyy5lUw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BvR15sG5UVzUcajsRUOMr5AwbM9zRPQZRjn+B0gUL8f1aU//0yQbqrFn8Ej1pYlxE
-	 3ephHqQeEHUsLGc7PP02lE+ZVADCl/pTnmp13VdDOOBlkQSHIPJP6Nj2H+zOjL7rJz
-	 SxiKt9R4U/piA/nBrKwKx+bVjBZtbsF98ZXBLUfwNT5uiXQwDc0Mz2oIwMunLEXug8
-	 OZiD5HkqVXY3wosa2vgNHxvO3wzLewk7AeoBDoiZW24YDCnVqmSKRiuodfjGUduz2X
-	 mlwn/1zElcaCU2u7O/0+GYROTeHpvgPAnVc6/KYWwhWyBx+tF4nyyI28IFB8v9VKHO
-	 Wvoq5zvgQL49A==
-Received: (nullmailer pid 3743858 invoked by uid 1000);
-	Tue, 05 Sep 2023 18:16:37 -0000
-Date: Tue, 5 Sep 2023 13:16:37 -0500
-From: Rob Herring <robh@kernel.org>
-To: Peter Yin <peteryin.openbmc@gmail.com>
-Subject: Re: [PATCH v8 2/2] dt-bindings: arm: aspeed: add Meta Minerva board
-Message-ID: <20230905181637.GA3742088-robh@kernel.org>
-References: <20230905062223.774871-1-peteryin.openbmc@gmail.com>
- <20230905062223.774871-3-peteryin.openbmc@gmail.com>
+	b=u6NcJsYZn2RyIAvQigeFmahcfloKDTk7xZoLkOrk1UmsjkW6yHUSfdAEiGeOa8BQO
+	 usPjt9dvhzbV5AnjFq/p1CyiZdZl8vzXfS+ZLM0HDi3zdsDNAmbzFp7xz0Kg7f1fEx
+	 TRD9p/tvbbyIw8kmHYcEDCX/JhDDVkjbvoH4jn34Y3U/TKpOCNq4PoDbOO6329Yf4G
+	 N4yDzef4zY/eg4Tr4jpkG90tHwY4AoK03DZBhFcgYPDTpJiO9+x7ui1RcyVvRHjV3h
+	 /9R+PI2dI6qobu60856oGC1ytxE4XZ0EkqdrS4zBtGrkDgQxdwBXEDeL1dfgtWm4lB
+	 qtBXT/gKuedFg==
+Date: Wed, 6 Sep 2023 01:19:15 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Tommy Huang <tommy_huang@aspeedtech.com>
+Subject: Re: [PATCH] i2c: aspeed: Reset the i2c controller when timeout occurs
+Message-ID: <20230905231915.rv2ysvxa3bshekjq@zenone.zhora.eu>
+References: <20230904012505.340455-1-tommy_huang@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230905062223.774871-3-peteryin.openbmc@gmail.com>
+In-Reply-To: <20230904012505.340455-1-tommy_huang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,35 +62,86 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, peter.yin@quantatw.com, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: BMC-SW@aspeedtech.com, jae.hyun.yoo@linux.intel.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, brendan.higgins@linux.dev, p.zabel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Sep 05, 2023 at 02:22:22PM +0800, Peter Yin wrote:
-> Document the new compatibles used on Meta Minerva.
-> 
-> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
-> 
+Hi Tommy,
 
-You should not have blank lines between tags. 
+Thanks for fixing what I asked, I'm going to review here:
 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org> 
+
+But still there are 3 things I will ask you for your next
+patches:
+
+  1. Please add a version to the patch, this is patch version 2,
+     so that the title should be "[PATCH v2] i2c...."
+
+     You can have that with git-format-patch:
+
+        git format-patch -v 2 ....
+
+On Mon, Sep 04, 2023 at 09:25:05AM +0800, Tommy Huang wrote:
+> Reset the i2c controller when an i2c transfer timeout occurs.
+> The remaining interrupts and device should be reset to avoid
+> unpredictable controller behavior.
+> 
+> Fixes: 2e57b7cebb98 ("i2c: aspeed: Add multi-master use case support")
+> Cc: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v5.1+
+> 
+> Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
+
+  2. Don't leave blank lines between tags. But I think Wolfram
+     can fix this before pushing.
+
 > ---
->  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
->  1 file changed, 1 insertion(+)
+
+  3. After the '---' it comes the freedom of speach section where
+     you can write anything. Please add the changelog, something
+     like:
+
+       v1 -> v2
+        - Fixed comment...
+	- Fixed commit log...
+	- etc.
+
+     This is important for reviewers in order to understand what
+     has changed from patch v1 to patch v2.
+
+Please, before your next patch, read first the
+Documentation/process/submitting-patches.rst document.
+
+Thanks,
+Andi
+
+>  drivers/i2c/busses/i2c-aspeed.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> index 68f717670f78..32582ee56264 100644
-> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> @@ -79,6 +79,7 @@ properties:
->                - facebook,elbert-bmc
->                - facebook,fuji-bmc
->                - facebook,greatlakes-bmc
-> +              - facebook,minerva-bmc
->                - facebook,yosemite4-bmc
->                - ibm,everest-bmc
->                - ibm,rainier-bmc
+> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+> index 2e5acfeb76c8..5a416b39b818 100644
+> --- a/drivers/i2c/busses/i2c-aspeed.c
+> +++ b/drivers/i2c/busses/i2c-aspeed.c
+> @@ -698,13 +698,16 @@ static int aspeed_i2c_master_xfer(struct i2c_adapter *adap,
+>  
+>  	if (time_left == 0) {
+>  		/*
+> -		 * If timed out and bus is still busy in a multi master
+> -		 * environment, attempt recovery at here.
+> +		 * In a multi-master setup, if a timeout occurs, attempt
+> +		 * recovery. But if the bus is idle, we still need to reset the
+> +		 * i2c controller to clear the remaining interrupts.
+>  		 */
+>  		if (bus->multi_master &&
+>  		    (readl(bus->base + ASPEED_I2C_CMD_REG) &
+>  		     ASPEED_I2CD_BUS_BUSY_STS))
+>  			aspeed_i2c_recover_bus(bus);
+> +		else
+> +			aspeed_i2c_reset(bus);
+>  
+>  		/*
+>  		 * If timed out and the state is still pending, drop the pending
 > -- 
 > 2.25.1
 > 
