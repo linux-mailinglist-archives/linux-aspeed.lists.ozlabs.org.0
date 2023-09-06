@@ -1,62 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF05793393
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Sep 2023 04:10:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98141793390
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Sep 2023 04:10:27 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=XlI+vgvk;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=DwTUpQZN;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RgQp52bwHz2ydR
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Sep 2023 12:10:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RgQnQ6cPqz3c1P
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Sep 2023 12:10:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=XlI+vgvk;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=DwTUpQZN;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::430; helo=mail-pf1-x430.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RgQnx3G27z2ydR
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Sep 2023 12:10:45 +1000 (AEST)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1bd9b4f8e0eso16949325ad.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Sep 2023 19:10:45 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RgQnF5DLFz2ygX
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Sep 2023 12:10:08 +1000 (AEST)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-68a56401c12so2178398b3a.2
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Sep 2023 19:10:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693966242; x=1694571042; darn=lists.ozlabs.org;
+        d=gmail.com; s=20221208; t=1693966204; x=1694571004; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
         bh=sGpPqAvRxHlO49Def4EkEw3YsTe5pPmN/itzaU5IvZg=;
-        b=XlI+vgvkdHX75ZaXpajOm5LJ4QM5oRSnapVccAFzxY7QSZJUuzGcOb7pEtfGmYQki1
-         d5ngdOP4ceuqF2RiGBdVKP3ymvZZPoa0QTxP+ZAGHq/jfkJPR7gT+6O6mqXhbtugwo0R
-         Iffz06lXQButJgiLc+tmzz5c5Jwc5TWcgtdmBTBPQeSEL8IY9c23ovXQhLRpfxjsQQaj
-         lxcKb8xSs5EwFMOStMdZzo4mDTgMagApHsvfpYUoxhSmkV5YA+53lCqXV9T1GcHpNSZp
-         qLkMh/7Bwuy4j2X1N12fevnOnf7XaoN5QAMe9MVv7ldCpFMr2VR6AfKKZAXJ5CSHY8LC
-         pYIw==
+        b=DwTUpQZN0gNBfv8f5JBsOgPWI9or1Hu/3ipdpTWIddi11MICNFNO/ZgsnOnmWo6km+
+         jB+w71b0TLQsvGZSAsIXXydQzAjWttnunO0drFHkMoLaORT50nrDm56z18kug2l3Fc8q
+         7MlVgndBqrIDFJMIf2GDtaG6t5IoqMGNCrGrgH6Hau9ixU/i8AQci2TWvF1XpsDLAQQ9
+         IeEUE6wACXbh+//I9EOhEboxfZFjPkyk93nv8sDvEL/i0enJLcA3gxIP7mJod/m6WC5S
+         E/E8sYXLNJGohVAH6ju43b4e1rbBHlmXihd3qCzlN/8R07qtnQOKJqhLwsvDd5wzKoig
+         hNtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693966242; x=1694571042;
+        d=1e100.net; s=20221208; t=1693966204; x=1694571004;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=sGpPqAvRxHlO49Def4EkEw3YsTe5pPmN/itzaU5IvZg=;
-        b=LAB4WeQmBb4vVCBJ8qRw5aao3X05jB4DPo1k9SbYbTNlQrPx5RKZQmaCXdsknXDdW4
-         DEoswJv5zTCOocOeugwc7S/iKqM+GE2Xrt1j/VMzBsQz05NiKt11H81x6YCtqdTULJv+
-         GOd6IJU6zuid7NY9FqcX5zb4k+cIaFgwpnT88MLgDhVUaOXAL7OcmSHrplND2kx49s4n
-         ovgnisgFUVhhzxoLKAvfD8knTqijDkiNR5IvsrlWPJc+tSr9B0em+hGHDEZEAH/SUtuK
-         i3RU3mwpEQaN1irtxvbLoEgPROjg9y/+mwmpxQ+hh5ktKmO7cVtFLfA5eGBsWtVeecoX
-         n6uA==
-X-Gm-Message-State: AOJu0Yxq/Z3B57IuTMTZl0ReBM+w5yVBUDiNj+H05sbRXM3v9QpKyRr7
-	6OG5O1i30Ro1QtUdf27Xzgg=
-X-Google-Smtp-Source: AGHT+IEgV8v1lML7K5Idv9fbc1OQl1SVxmSAvxGgeshwDMiW/8Y6q23nw0dvdS8QB052XzI/K5+dhA==
-X-Received: by 2002:a17:902:6a86:b0:1bf:3c10:1d72 with SMTP id n6-20020a1709026a8600b001bf3c101d72mr10633510plk.66.1693966242433;
-        Tue, 05 Sep 2023 19:10:42 -0700 (PDT)
+        b=Ryu0vuja8O5tGnhjHKgiArqqrsNMm5kn+uzCcRvXjxvma5T1cTAHqprpWSe5eJqUfs
+         4BnqW9oHOutxNU5qnxDxnibjCAO6fT+de0HwIyXyr8uu+UBnYXqhiliv/lLIKEw/1C+I
+         wmYmcl8sht3xEdGyAMLeVqDa00mN5eBhRfvT4WsEqk8hTODSowzMxlcmsAEOdGszIvuC
+         lH0bJ4+IAmIhxW6UHywS7iSn/topSryQ9UIdcIEdOQcvnZxVU4pUZw2vrK2OM5hMLQQi
+         PyYkgHGCk4e5MKfSGapnR+Xd7nqj85hPztX3HuoZgAaE8fhQAYQNZ5+3HNkkJhC4ijDQ
+         amrA==
+X-Gm-Message-State: AOJu0Yx6DIJIPFmDdSP+nsxxauJI6TxUJV1viZlnSIG/sJ3uTMB/5Fg9
+	W738sOoeddv/0NcFfygwtkM=
+X-Google-Smtp-Source: AGHT+IFHi8yS62mJScVTCGYXqkYmPO0vzOrPlYOFM6ccgBgCL/6i5bn5+f46O0/s+HcPNHrWgPjdeA==
+X-Received: by 2002:a05:6a21:81a7:b0:14c:ee61:139a with SMTP id pd39-20020a056a2181a700b0014cee61139amr12186302pzb.27.1693966203870;
+        Tue, 05 Sep 2023 19:10:03 -0700 (PDT)
 Received: from [10.10.14.80] (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id l5-20020a170902eb0500b001bf846dd2ebsm9902527plb.303.2023.09.05.19.10.40
+        by smtp.gmail.com with ESMTPSA id h9-20020a170902748900b001c3267ae314sm6532575pll.156.2023.09.05.19.10.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Sep 2023 19:10:42 -0700 (PDT)
+        Tue, 05 Sep 2023 19:10:03 -0700 (PDT)
 Message-ID: <136c0434-a588-877e-54e5-dd1078ff94a3@gmail.com>
 Date: Wed, 6 Sep 2023 10:08:29 +0800
 MIME-Version: 1.0
