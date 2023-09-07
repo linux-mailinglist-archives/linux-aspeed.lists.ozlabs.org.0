@@ -2,119 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5B679707E
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Sep 2023 09:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A0C797CF6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Sep 2023 21:44:14 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=Har3VgFv;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LBkzCyN6;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rh9kY5p9wz3c09
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Sep 2023 17:25:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RhV6w2ttzz3c4M
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Sep 2023 05:44:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=Har3VgFv;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LBkzCyN6;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::729; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20729.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::729])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=srs0=rign=ex=robh_at_kernel.org=rob@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rh9kQ5g00z3bYx
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Sep 2023 17:25:17 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U2dzY5m6BF6ZOLJhBZlRrkcv3/fY0WoD/8BRAdI17+a56TLCBVue2WuHYyf0tyQg6o4W9yd862woDX+iW/RsZ/+m+6o6aw5XyvdlnnMeWAiXGE8dGq2vxJY3DGF+TZXFpfj85Ui6SQ/v4DAZuGIA3C4VpPr/VqtG9vBBE4nQy7MyZJHXzSenlKx7OEJo7esoKpUlopfsKBqRInFABj8lT9+STWBdHwx8dSyM//fvnxVD3RNz94xJrcflVfLaCRFu7xOzvoenlKCPVXJrLVDoPQxM0XsYJQAvTPlecnA31J9uaRso/RU10v+Tyo+T5kuQ/Xolt3S0URp1eZBlw3MjPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NxTLc5Dvxkf2F33/rb3bvJy7VuNTg288G5SlQBiMfdk=;
- b=kYo+byUqoczPk8w2eASBydv6iuiYv5KXn35oX4eOa6TByWZz9JeS2XjPduPAtXb8SasMNDaQcmSKDsNeY9hJpKjiPNoUDL/tsmiz+COPbxS1V3WtJ3pz4UchG4TYu+GkzcDgwqYZWBLs53VOA7LnXq3cuUp/IqVmvPM4L6kVo2bdTwdiLSKqxhkoYH22YwFZvJBVrxVd27gWTPe9WLTt8i+Aa+KLwXFFa0b/MTN2cBl/MJtGNxvNSarTSlPYzGb/o0JPh2S2y1wFXtamn3EGTAbvNEckkegaQ+SVBi1/cWc5/ti6HZ8FA7CiZ61bwFlfwZEqfBSI98KrkTdP4JcDrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NxTLc5Dvxkf2F33/rb3bvJy7VuNTg288G5SlQBiMfdk=;
- b=Har3VgFvwtx5gcBzU2KASWfkXMxgrro+O18g+JWHYuGp/Lg7JcZQbNn5ttsZT6uqEJdt4uea3gE0qI6lgIfF2FkV/EEwx14dG2fw3jayZevvnP11qzw8a9APXHqfZSqpYsRIqhfvPSWreA426UW9+LH6LxtHz1zm7XvJRMs0YYyEn98LkdhRI2U/KdFPoJRfUXWdaU1V6yWom6styXkExuwMO6mx/QwHuxXF89KmmTPPiKfqj48hz39ub1di4Pj9A9llb+DElIn1NYWts93kHxWnHT8bL67HUSz2V3ELnV5ZO6LI9hrNYhJMu/scJ0yOBPOXcjhloai3+o9m14ghuA==
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
- SEYPR06MB5038.apcprd06.prod.outlook.com (2603:1096:101:52::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6745.34; Thu, 7 Sep 2023 07:24:56 +0000
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::791a:38e8:18cf:d205]) by SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::791a:38e8:18cf:d205%5]) with mapi id 15.20.6745.030; Thu, 7 Sep 2023
- 07:24:56 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v8 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM TACH
- Control
-Thread-Topic: [PATCH v8 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM TACH
- Control
-Thread-Index: AQHZ2z4BCgYXyLFfhU2TpGaED9fRsbAMgHKAgAKBe+4=
-Date: Thu, 7 Sep 2023 07:24:56 +0000
-Message-ID:  <SG2PR06MB3365982279825C98859FF1768BEEA@SG2PR06MB3365.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RhV6l5RWXz3c1H
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  8 Sep 2023 05:43:59 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id B447361365;
+	Thu,  7 Sep 2023 19:43:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5F7C433C7;
+	Thu,  7 Sep 2023 19:43:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1694115834;
+	bh=XNJ6eaiy6oOw6b1KlAbPBrj8EtJk96f0FRUMDyQiiPw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LBkzCyN6TBJDyL3szlqcxnUz72Sedly9MEc8nJDUoDQRryvSruVBTgamW/W2No+3a
+	 PP+prYSndor/ivzTvcAhKwJjvhGbQbfB+i/ROmxf5MjZZ6oZDEt9kg6NKR3k+zd89f
+	 aPkYv6BJfJbgqJMlDCKSt/MSP2b83tJBOSL4vwEpHuVaVq8YO9o5oR991tFG+rf8Q5
+	 YUD/zqAq8N9lkT0GyBdHvuAbeDH6IeBZA1GEhg5JRk9r+Xagqzv0bLjaMKnptFVG+T
+	 qsx5821KeoE6/HPF+iR0oRIIuUj1FsMP2rUCKGh2xlT6BVfw5J8Qz/oHF7V5Q9Gm9e
+	 E1HoIz9ceZQFQ==
+Received: (nullmailer pid 2204967 invoked by uid 1000);
+	Thu, 07 Sep 2023 19:43:51 -0000
+Date: Thu, 7 Sep 2023 14:43:51 -0500
+From: Rob Herring <robh@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [PATCH v8 1/3] dt-bindings: hwmon: fan: Add fan binding to schema
+Message-ID: <20230907194351.GA2033402-robh@kernel.org>
 References: <20230830123202.3408318-1-billy_tsai@aspeedtech.com>
- <20230830123202.3408318-3-billy_tsai@aspeedtech.com>
- <20230905170735.GA3528724-robh@kernel.org>
-In-Reply-To: <20230905170735.GA3528724-robh@kernel.org>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|SEYPR06MB5038:EE_
-x-ms-office365-filtering-correlation-id: 0478c14c-c563-4c09-5b06-08dbaf73894f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  v0ivBwBj9/ddv3jhq+VyRpmP1EwFSq9Lu0ctkjWkMnSnluP92uazF+4SQEzZs0avdWUiBQ4xmibyUjxAwyfBqkrkJl5FBNCoODS/6cqrdtffyf9Zrn79gXzzMH4mrMr7aDxeGy+h7pxgHvRa/y0fvBtyZbNgyma409GfIjfgLi8nsx7LcnhVFOlh73jkOFd6CtDqQCYQcXnvhX9nTXeg2/K9/LcoyvhsdtXM0mzPPo23aUMmu73AMOViARO2XZ5GQ69W7jKYmbf6cEEwq3YVHGhQul1iMc3s9fjCZ08O4vowYmQ9+D8Zp1DIT5bSgSaYWMLtrexx7MtMErJN0NB5PtgyIZSK84+NVwHY1MoJt+q3Yw/7MtYzi/8gO18sTwJCHeY9Ukh/XDdGV8rAo5SLH1OU+Qdi3d1P1tlZ8lvbImWIBt3Ys5wC48Vbo7k25GWE/p1pGnHRrrPbVfn+Ydxw8in+9L36UynO/8fOOvqSAGn/mj4/lyZrne4CgymmCHrDXvkhnCUf4S5shIXzBWbGZftCmFX3Yys8D+KeJu68rdztEY1shp6LLnGIkiZWo98CTI+cMlPiICbI4Z/At3pDhIa1YpM/4VV1anxvIJJuioH6uO91Sy1Uy6NrYPC+2Y+v
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(39850400004)(376002)(346002)(136003)(451199024)(1800799009)(186009)(4326008)(52536014)(8676002)(8936002)(6916009)(316002)(2906002)(66476007)(91956017)(4744005)(64756008)(66446008)(54906003)(66946007)(76116006)(66556008)(5660300002)(41300700001)(7416002)(26005)(55016003)(6506007)(9686003)(7696005)(55236004)(38100700002)(122000001)(71200400001)(38070700005)(478600001)(86362001)(83380400001)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?o2Hg9QJyumXkMfa8NUshFscUB9EMoPRhu62KFNYGg0hvOg5vITJT2iu4xm?=
- =?iso-8859-1?Q?yK8MYfOct8gxwY3jgI6iu9ZuglZgKhf86Lb6kbcwMIc1jHLVFrEN+OzBaD?=
- =?iso-8859-1?Q?KSkZFrwDmoyFzk+3qzCodKxE0TZBTtw7dbhEBkY4X1RBUUOrEha/Kzw6pD?=
- =?iso-8859-1?Q?gZ0N9+V0CUwiy+A5Sz7R6Lul7tryo0WKeBDwFBGkP3Oj4VsuMWI9FwDlWN?=
- =?iso-8859-1?Q?91f+2JMofKN0AxbfNRROYHrDNi466DhdlqUmKClVKyk8v0huUlat1++8Y0?=
- =?iso-8859-1?Q?obiMhMY4R9MimxRdjY+GutWaWdsCAm+2GmDhdS+FzwWErwIYRqKpnEEg28?=
- =?iso-8859-1?Q?uUC34LueFIicnoe83o3VVOBHNBZfws5NGhyipofDxTQC0j8/VT0/Bd/WxS?=
- =?iso-8859-1?Q?3hVQO7PlIlXphjX8zWnI4pNncGmXDYFJ5BTjoIaSiTU8rWGnbhhPPYQulq?=
- =?iso-8859-1?Q?buK6tT0QoWAqMicv6Xlsb5BaOGxHcBdBmFOpeeinfxTUUgVWKdKsM9tiEJ?=
- =?iso-8859-1?Q?rdoXcEaJAdE0kQIZ/UHmr8JYGPlWXJO7aLGzrzbTJhiwB3G8cyIfwyffbz?=
- =?iso-8859-1?Q?jTTRhReOlRYk5mKjXz85sreowOPXmdB+oppQztUXirx9a1XbqtjA29Rzik?=
- =?iso-8859-1?Q?aHDDXyBmZ4rz3R1bMJrJ/U9+lytNIq15G84NPSqWJhR5ZWUMViJLPnRfzh?=
- =?iso-8859-1?Q?w6BJ06IoVThiCaWEVPolXJ+YWv23SX2K/DmQJDHcvlvuhr3DhNm6wZW8u/?=
- =?iso-8859-1?Q?/4gcIdutg9lSQYjXZrQq9zZKWKj+SwquntRR8Dgzwt6LscZCd6GrC6llsE?=
- =?iso-8859-1?Q?G2+z8GwtFEkKUWdqkSNm7Bm+3Zlo3LfKfCQl44CwXK5gboJy1jEMX0dW5Q?=
- =?iso-8859-1?Q?SwsC9k1XdKiJgqk06tprxFKzXruxyHi32bqQTdqwXosJYILsisGIdxjhJF?=
- =?iso-8859-1?Q?st59TLjWMjYWiSjjKXYTcZ54w6EmurgzbyyQp8hs7JF7RMZnc7VH2Uyyfz?=
- =?iso-8859-1?Q?t7wNv9/U5mCHLJA+jvuUTAKX+7fwWEtePsDpPVFCr9w0FT4DKgzSkcDB3I?=
- =?iso-8859-1?Q?CVKizVsyjcOvOBg6JCjqkLFgjALVmPS7VGCgOooNWImIgT/0iqxKfneSRM?=
- =?iso-8859-1?Q?LURvyZ8w/N2iU21Q8sPfl06dnG1BXte3IOw96Dr/K2yksPZVhNfSKXc99P?=
- =?iso-8859-1?Q?YnwHYFMN6+8Opqdn8VZKBGeBYJsTe59Ggqv86zCG8bIrR8HuaX+yPcKtEl?=
- =?iso-8859-1?Q?IKK/kukLuPIT0NLfmalh/AlkXu/KGcY9ColcGF6+8RkJ2JR2bKntxB5ktv?=
- =?iso-8859-1?Q?08b3ztkrMKoVAjciqEz9CbvYA1JjdKFdKhEGIx4G1pN+U//EkBbhBgCvvl?=
- =?iso-8859-1?Q?/HKEOHeaHsvZf2DHS2efWlUu6Ur4ScRz7B82c9UCymFZ729qAyqIWGpBry?=
- =?iso-8859-1?Q?hOtJaY46Mf5AoBujDq18rJ7UEWo5IES089AzY7/PSTyx9Md9ltPD09bEdM?=
- =?iso-8859-1?Q?0btODF7tkSPyqaC5NxES0LLXJ2v8orWPxKTKfdQOvlBlFcf14x78I0su0o?=
- =?iso-8859-1?Q?vuZc4L6IXiASuEnP2eHwXx1kSLWkg+spnhMX7xR4pImkZu+9/27CLPJy93?=
- =?iso-8859-1?Q?2l8teYECabgd6eFskRhSNv/MDG5CmODMNJ?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ <20230830123202.3408318-2-billy_tsai@aspeedtech.com>
+ <20230905170010.GA3505375-robh@kernel.org>
+ <SG2PR06MB336567E43537C7F4947E342F8BEEA@SG2PR06MB3365.apcprd06.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0478c14c-c563-4c09-5b06-08dbaf73894f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2023 07:24:56.2281
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DmuBSMn1LhFFJi9Jq/amSVdDtXco2AUOO9myfwwZERvL36+l+5Yb4+LjRQSOhXWLgrbLwMgtZeHO25Yxw42SlTmitQlLvdLalcGXbTo3oEs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5038
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SG2PR06MB336567E43537C7F4947E342F8BEEA@SG2PR06MB3365.apcprd06.prod.outlook.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,24 +70,166 @@ Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vge
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
->> +=0A=
->> +examples:=0A=
->> +  - |=0A=
->> +    #include <dt-bindings/clock/aspeed-clock.h>=0A=
->> +    pwm_tach: pwm-tach-controller@1e610000 {=0A=
->> +      compatible =3D "aspeed,ast2600-pwm-tach";=0A=
->> +      reg =3D <0x1e610000 0x100>;=0A=
->> +      clocks =3D <&syscon ASPEED_CLK_AHB>;=0A=
->> +      resets =3D <&syscon ASPEED_RESET_PWM>;=0A=
->> +      #pwm-cells =3D <3>;=0A=
-=0A=
-> Blank line.=0A=
-=0A=
->> +      fan0_hwmon {=0A=
->> +        tach-ch =3D <0x0>;=0A=
-=0A=
-> Don't you need 'pwms'?=0A=
-=0A=
-Yes, I only want to create the fan monitor without fan control.=0A=
-=0A=
-> +      };=
+On Thu, Sep 07, 2023 at 07:17:55AM +0000, Billy Tsai wrote:
+> On Wed, Aug 30, 2023 at 08:32:00PM +0800, Billy Tsai wrote:
+> >> From: Naresh Solanki <naresh.solanki@9elements.com>
+> >> 
+> >> Add common fan properties bindings to a schema.
+> >> 
+> >> Bindings for fan controllers can reference the common schema for the
+> >> fan
+
+
+> >> +properties:
+> >> +  max-rpm:
+> >> +    description:
+> >> +      Max RPM supported by fan.
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> 
+> > Physics will limit this to something much less than 2^32. Add some 
+> > constraints. 10000?
+> 
+> 
+> >> +
+> >> +  min-rpm:
+> >> +    description:
+> >> +      Min RPM supported by fan.
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> 
+> > ditto
+> 
+> >> +
+> >> +  pulses-per-revolution:
+> >> +    description:
+> >> +      The number of pulse from fan sensor per revolution.
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> 
+> >Needs constraints. I assume this is never more than 4 (or 2 even)?
+> 
+> Do you think we should add the contraint in the common binding?
+> In my option, the limit of the max/min rpm should be declared by
+> the binding if necessary, because the usage of each fan monitor is
+> based on the connection of the tach pin.
+
+Yes, I think we should have default limits.
+
+Unless we go as far as a schema for every specific fan model, then there 
+is actually no way we can have specific limits unless the fan 
+controllers have some limits.
+
+The most I see in tree for pulses-per-revolution is 2. There's no value 
+in more. So set the max to 4 and then if anyone needs more they can bump 
+the value.
+
+Or maybe there's some electrical/mechanical design reason fans are 1 or 
+2 pulses and we'll never see anything else? This document[1] seems to 
+indicate that is indeed the case. (First hit googling "fan tach signal 
+pulses")
+
+> 
+> 
+> >> +  div:
+> 
+> > Too generic of a name.
+> 
+> >> +    description:
+> >> +      Fan clock divisor
+> 
+> > But what is a fan clock?
+> 
+> This is the divisor for the tachometer sampling clock, which determines the sensitivity of the tach pin.
+> So, if the name of the property changes to 'tach-div,' is it acceptable to you?
+
+That sounds like a property of the controller, not the fan, so it 
+belongs in the controller binding. Is this really a common thing?
+
+ 
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >> +
+> >> +  target-rpm:
+> >> +    description:
+> >> +      Target RPM the fan should be configured during driver probe.
+> 
+> > What driver? By the time the OS driver runs, a bunch of other boot 
+> > software has already run on modern systems. So this value would likely 
+> > be used much earlier. The point is that when exactly is outside the 
+> > scope of DT. This is "what RPM do I use in case of no other information 
+> > (e.g. temperature)".
+> 
+> So, the description should be changed to 'The default desired fan speed in RPM,'
+> and we shouldn't mention the timing of the property's operation in the DT, is that correct?
+
+Correct.
+
+> 
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >> +
+> >> +  mode:
+> 
+> > Too generic.
+> 
+> >> +    description:
+> >> +      Select the operational mode of the fan.
+> 
+> > What are modes? Spin and don't spin?
+> 
+> The mode is used to indicate the driving mode of the fan (DC, PWM and so on).
+> So, if the name of the property changes to 'fan-driving-mode,' is it acceptable to you?
+
+I tend to think that should be implied from the parent node and/or other 
+properties. PWM if "pwms" property is present. DC if the supply is 
+variable. We could also use compatible strings in the fan nodes if 
+there's a need.
+
+That reminds me, both of these modes probably need a table of 
+voltage/duty-cycle to RPMs. I imagine it's not always a linear response.  
+Naresh also privately sent me (don't do that) an updated common binding 
+which we discussed the need for this. I expect him to comment further 
+with details.
+
+
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> >> +
+> >> +  pwms:
+> >> +    description:
+> >> +      PWM provider.
+> 
+> > maxItems: 1
+> 
+> > I don't think there are fans with more than 1 PWM input?
+> 
+> Ok, I will add the constraint for the pwm input.
+> 
+> >> +
+> >> +  tach-ch:
+> >> +    description:
+> >> +      The tach channel used for the fan.
+> >> +    $ref: /schemas/types.yaml#/definitions/uint32
+> 
+> > The existing ASpeed version of this property allows more than 1 entry. I 
+> > don't understand how a fan would have 2 tach signals, but if so, the 
+> > generic property should allow for that.
+> 
+> Ok, I will modify it to the uint32-array
+
+Perhaps uint8-array to align with existing versions of the property.
+
+> 
+> > Perhaps 'reg' should be defined in here with some text saying 'reg' 
+> > corresponds to the fan controller specific id which may be the PWM+TACH 
+> > channel, PWM channel (deprecated), or TACH channel. I think there are 
+> > examples of all 3 of these cases.
+> 
+> I don't think it's necessary for the 'reg' because the case you mentioned is
+> already covered by the property 'tach-ch' and the 'pwms'.
+
+Yes, but when we have N child nodes of the same thing, we usually have 
+"reg" and its value corresponds to how the parent identifies each child. 
+We already have a mixture using PWM or tach channel. Yes, this can all 
+just be in the fan controllers binding, but putting it here would just 
+document the options.
+
+Rob
+
+
+[1] http://www.comairrotron.com/methods-monitoring-fan-performance
