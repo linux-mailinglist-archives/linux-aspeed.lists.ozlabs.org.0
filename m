@@ -1,62 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0129879705D
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Sep 2023 08:52:30 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C79C79705E
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Sep 2023 08:52:35 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Ul+R6/Xk;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=KnHO0pn7;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rh90W6J24z3bv2
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Sep 2023 16:52:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rh90d1HcTz3bYx
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Sep 2023 16:52:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Ul+R6/Xk;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=KnHO0pn7;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1033; helo=mail-pj1-x1033.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::232; helo=mail-oi1-x232.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rh90P6NkMz3bYx
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Sep 2023 16:52:21 +1000 (AEST)
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-27373f0916dso506928a91.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Sep 2023 23:52:21 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rh90X2fmGz3bts
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Sep 2023 16:52:28 +1000 (AEST)
+Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-3a751d2e6ecso436181b6e.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Sep 2023 23:52:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694069540; x=1694674340; darn=lists.ozlabs.org;
+        d=gmail.com; s=20221208; t=1694069544; x=1694674344; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o2XugRwlZRYmqsgoHMAm8IuduqZI16I/tW55UUsF/dQ=;
-        b=Ul+R6/XkkXFi/4l2oXxAcg8JCrnXck8FccbKobiNSiWDqWj/gqgfWkxuiOl1Id0vPy
-         NXBcySEZe6wOg8Wj5QWZt6zua7t0g7oOyPiUJMgsCPtQUZM6VmvoFbTx1LfdOBraVAH8
-         CEMiFBvJAKgkd5jKFCzfDjlE3J1s36FRO10Jlfj0RGKze9won97W4uen4uV2WoOBKyIW
-         SsB7Y9q/MXwzmxPlmYsjh/ZY9Gg89XlEKHF3sbeLiXyxzBXl3ivagvf3aswXHwhiR2is
-         f3s5Gx4hxbJx3nV3XaRp+rhStxNogBOfoLh9FzpH137S6u6XseoJAj/KfR47DpZMi7Ez
-         HMzw==
+        bh=DrZo7tIMdoMbzOPcfOzJ/GpkMVwTtgFYIxMTU1F66OU=;
+        b=KnHO0pn7cg/iJI+9PfaO3JHsGHe2cxHPH7hWsCzgGKSwrVTtVKdNxbEu3r807wcrvD
+         LPFJi0bXVtOTilXPeoeDWxIjLvDKuV2ecdiadOBNw+eLJDuJ5XBzsXnViWaWsdUEwI8b
+         B5rWZAleyWYJXNOw8t7pvXGj23RVsYNn+lykMoOxkbYmoNXhq7kUC4rzH8akoo0x7LjA
+         xAniuP3xGkckE+2iPZIJfy5A2o4XsuKaLVN2F0z16aZfw/aDVwxYfVofGgWg9ygCAanC
+         F2lETZVGusSnsirgnZiY4UNgVXLdIrmC6A6Z1tT5O3halFlvaNKiPcTGOZ96/ORUAQmH
+         F+eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694069540; x=1694674340;
+        d=1e100.net; s=20221208; t=1694069544; x=1694674344;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=o2XugRwlZRYmqsgoHMAm8IuduqZI16I/tW55UUsF/dQ=;
-        b=SNxRNXZxRpV5GVsm6IZDe/+6jY7Fd0MXOf52NQs2tTvt5r0nTuPCs2VQGaPoS2FfY2
-         6rWxhjhU/UXTvaGkvil4oyu8p489nMJy2OY0yBdnKj0LVIRc5YFHligaxK3Ha1jSpzTO
-         0PfNYXEQhIIFGGR387YNTX4/7Td+pFGhv0NxVeuOhOEvOkzmflgSjH6Nq4PtN+N3pv/R
-         +TZBXn1S7TKA3d9/4+eFRXsFg9krfKWBmaA1lhWYzhdpCKMNi6dd9vMhnrh5v7sFg8Rx
-         AT93enJFyrgrWSAG3Gj373BLdwNSrdDtg3QLqA3mr2tmu/B/QxE+jIFF6ipbkfKZJ8Rz
-         cIsA==
-X-Gm-Message-State: AOJu0Yzw7ercOtOFXxNH6hYT1Pr/JBEsDrhCpopad1SEXRGQbxwQCRV1
-	peqhdFVkPprwMCx1G9yl2Sg=
-X-Google-Smtp-Source: AGHT+IG6PECeX5uZWRVzD6VxPC+RR/RrRGPl8cncRmyvtxvFvbAgime6Zbeyj+tFwnqIJy70c94cUQ==
-X-Received: by 2002:a17:90a:cb0f:b0:271:ae4f:dd12 with SMTP id z15-20020a17090acb0f00b00271ae4fdd12mr15233936pjt.26.1694069539673;
-        Wed, 06 Sep 2023 23:52:19 -0700 (PDT)
+        bh=DrZo7tIMdoMbzOPcfOzJ/GpkMVwTtgFYIxMTU1F66OU=;
+        b=Jb6creJORgEr/SqpICN8unh/s++PLmwj0juG4x/WqHGy7lhirN3oMZbZ0WZLf3RnA6
+         OFhXurYjBGTIs5PdzgNGKTaX0UlrCAdt4uW0SQt4OABtE2U+q0b9vp4n3Ack+atEWGMh
+         e2yzVMHmocuW5RKbdFE+5/xCh41Cf6EHXuHuo8ghoQ5xeWmhQuesdEZRC2piQOSfNiCu
+         8eC7t5AoFnpkKC82630hh1OlfAct4gR2BOIFVH0kSYzwNgabdB5y6BNxlo0ZU3FHlIzy
+         gBg8+8lRCC/pnwWol33argQ4/b/lpZXK5sAphcEUSfEeLoH9x1++p2dZ/K1/oSpiiRvB
+         Dr3A==
+X-Gm-Message-State: AOJu0YxoOWxpY0/FWVZyG+/oaQDene9d8c5vkx1Bju4Bye0qPJaOpxkM
+	fhcheDz6qJNFVrhDmSoCmyI=
+X-Google-Smtp-Source: AGHT+IFNTrp0LllA/7YkJ8morIKFGIvz86ztT5BNjS92sj48mhb3ZjgnpTVnuat3lT8rvjyvzAuCDQ==
+X-Received: by 2002:a05:6808:192a:b0:3a8:6a4b:9e34 with SMTP id bf42-20020a056808192a00b003a86a4b9e34mr25886326oib.47.1694069544085;
+        Wed, 06 Sep 2023 23:52:24 -0700 (PDT)
 Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id f8-20020a17090ace0800b0026b55e28035sm800439pju.52.2023.09.06.23.52.17
+        by smtp.gmail.com with ESMTPSA id f8-20020a17090ace0800b0026b55e28035sm800439pju.52.2023.09.06.23.52.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Sep 2023 23:52:19 -0700 (PDT)
+        Wed, 06 Sep 2023 23:52:23 -0700 (PDT)
 From: Peter Yin <peteryin.openbmc@gmail.com>
 To: patrick@stwcx.xyz,
 	Rob Herring <robh+dt@kernel.org>,
@@ -67,9 +67,9 @@ To: patrick@stwcx.xyz,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v9 1/2] ARM: dts: aspeed: Minerva: Add Facebook Minerva (AST2600) BMC
-Date: Thu,  7 Sep 2023 14:45:12 +0800
-Message-Id: <20230907064514.1764010-2-peteryin.openbmc@gmail.com>
+Subject: [PATCH v9 2/2] dt-bindings: arm: aspeed: add Meta Minerva board
+Date: Thu,  7 Sep 2023 14:45:13 +0800
+Message-Id: <20230907064514.1764010-3-peteryin.openbmc@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230907064514.1764010-1-peteryin.openbmc@gmail.com>
 References: <20230907064514.1764010-1-peteryin.openbmc@gmail.com>
@@ -86,409 +86,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: peter.yin@quantatw.com, Peter Yin <peteryin.openbmc@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, peter.yin@quantatw.com, Peter Yin <peteryin.openbmc@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add linux device tree entry related to Minerva
-specific devices connected to BMC SoC.
+Document the new compatibles used on Meta Minerva.
 
 Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm/boot/dts/aspeed/Makefile             |   1 +
- .../aspeed/aspeed-bmc-facebook-minerva.dts    | 371 ++++++++++++++++++
- 2 files changed, 372 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
+ Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index 23cbc7203a8e..b1da302dbcd6 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -19,6 +19,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-facebook-fuji.dtb \
- 	aspeed-bmc-facebook-galaxy100.dtb \
- 	aspeed-bmc-facebook-greatlakes.dtb \
-+	aspeed-bmc-facebook-minerva.dtb \
- 	aspeed-bmc-facebook-minipack.dtb \
- 	aspeed-bmc-facebook-tiogapass.dtb \
- 	aspeed-bmc-facebook-wedge40.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-new file mode 100644
-index 000000000000..4834473c3c39
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-@@ -0,0 +1,371 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright (c) 2023 Facebook Inc.
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/i2c/i2c.h>
-+
-+/ {
-+	model = "Facebook Minerva";
-+	compatible = "facebook,minerva-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial0 = &uart1;
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		stdout-path = &uart5;
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x80000000>;
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
-+			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
-+			<&adc1 2>;
-+	};
-+};
-+
-+// HOST BIOS Debug
-+&uart1 {
-+	status = "okay";
-+};
-+
-+// SOL Host Console
-+&uart2 {
-+	status = "okay";
-+	pinctrl-0 = <>;
-+};
-+
-+// SOL BMC Console
-+&uart4 {
-+	status = "okay";
-+	pinctrl-0 = <>;
-+};
-+
-+// BMC Debug Console
-+&uart5 {
-+	status = "okay";
-+};
-+
-+// MTIA
-+&uart6 {
-+	status = "okay";
-+};
-+
-+&uart_routing {
-+	status = "okay";
-+};
-+
-+&vuart1 {
-+	status = "okay";
-+	virtual;
-+	port=<0x3e8>;
-+	sirq = <7>;
-+	sirq-polarity = <0>;
-+	dma-mode;
-+	dma-channel = <12>;
-+};
-+
-+&wdt1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_wdtrst1_default>;
-+	aspeed,reset-type = "soc";
-+	aspeed,external-signal;
-+	aspeed,ext-push-pull;
-+	aspeed,ext-active-high;
-+	aspeed,ext-pulse-duration = <256>;
-+};
-+
-+&mac3 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii4_default>;
-+	no-hw-checksum;
-+	use-ncsi;
-+	ncsi-ctrl,start-redo-probe;
-+	ncsi-ctrl,no-channel-monitor;
-+	mlx,multi-host;
-+	ncsi-package = <1>;
-+	ncsi-channel = <1>;
-+	ncsi-rexmit = <1>;
-+	ncsi-timeout = <2>;
-+};
-+
-+&rtc {
-+	status = "okay";
-+};
-+
-+&fmc {
-+	status = "okay";
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout-128.dtsi"
-+	};
-+
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "alt-bmc";
-+		spi-max-frequency = <50000000>;
-+	};
-+};
-+
-+// BIOS Flash
-+&spi2 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi2_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "pnor";
-+		spi-max-frequency = <12000000>;
-+		spi-tx-bus-width = <2>;
-+		spi-rx-bus-width = <2>;
-+	};
-+};
-+
-+&kcs2 {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0xca8>;
-+};
-+
-+&kcs3 {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0xca2>;
-+};
-+
-+&lpc_snoop {
-+	status = "okay";
-+	snoop-ports = <0x80>;
-+};
-+
-+&peci0 {
-+	status = "okay";
-+	clock-frequency = <1000000>;
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	tmp75@4B {
-+		compatible = "ti,tmp75";
-+		reg = <0x4B>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+};
-+
-+// To Debug card
-+&i2c14 {
-+	status = "okay";
-+	multi-master;
-+
-+	ipmb@10 {
-+		compatible = "ipmb-dev";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+		i2c-protocol;
-+	};
-+};
-+
-+&i2c15 {
-+	status = "okay";
-+
-+	// SCM FRU
-+	eeprom@50 {
-+		compatible = "atmel,24c64";
-+		reg = <0x50>;
-+	};
-+	// BSM FRU
-+	eeprom@56 {
-+		compatible = "atmel,24c64";
-+		reg = <0x56>;
-+	};
-+};
-+
-+&adc0 {
-+	ref_voltage = <2500>;
-+	status = "okay";
-+	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-+		&pinctrl_adc2_default &pinctrl_adc3_default
-+		&pinctrl_adc4_default &pinctrl_adc5_default
-+		&pinctrl_adc6_default &pinctrl_adc7_default>;
-+};
-+
-+&adc1 {
-+	ref_voltage = <2500>;
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc10_default>;
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&gpio0 {
-+	pinctrl-names = "default";
-+	gpio-line-names =
-+	/*A0-A7*/	"","","","","","","","",
-+	/*B0-B7*/	"","","","","","FM_ID_LED_N","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"","","SOL_UART_SET","","","","","",
-+	/*E0-E7*/	"","","","","","","","",
-+	/*F0-F7*/	"","","","","","","","",
-+	/*G0-G7*/	"","","","","","","","",
-+	/*H0-H7*/	"","","","","","","","",
-+	/*I0-I7*/	"","","","","","","","",
-+	/*J0-J7*/	"","","","","","","","",
-+	/*K0-K7*/	"","","","","","","","",
-+	/*L0-L7*/	"","","","","","","","",
-+	/*M0-M7*/	"","","","","","","","",
-+	/*N0-N7*/	"LED_POSTCODE_0","LED_POSTCODE_1",
-+			"LED_POSTCODE_2","LED_POSTCODE_3",
-+			"LED_POSTCODE_4","LED_POSTCODE_5",
-+			"LED_POSTCODE_6","LED_POSTCODE_7",
-+	/*O0-O7*/	"","","","","","","","",
-+	/*P0-P7*/	"FP_SYS_PWRBTN_IN_N","BMC_SYS_PWRBTN_OUT_N",
-+			"FP_RST_BTN_IN_N","","","","","",
-+	/*Q0-Q7*/	"","","","","","","","",
-+	/*R0-R7*/	"","","","","","","","",
-+	/*S0-S7*/	"","","","","","","","",
-+	/*T0-T7*/	"","","","","","","","",
-+	/*U0-U7*/	"","","","","","","","",
-+	/*V0-V7*/	"","","","","","","","",
-+	/*W0-W7*/	"","","","","","","","",
-+	/*X0-X7*/	"","","","","","","","",
-+	/*Y0-Y7*/	"","","","","","","","",
-+	/*Z0-Z7*/	"","","","","","","","";
-+};
-+
-+&sgpiom0 {
-+	status = "okay";
-+	max-ngpios = <128>;
-+	ngpios = <128>;
-+	bus-frequency = <2000000>;
-+	gpio-line-names =
-+	/*in - out - in - out */
-+	/*A0-A3 line 0-7*/
-+	"","","","","","ENABLE_SENSORS","","",
-+	/*A4-A7 line 8-15*/
-+	"","","","","","","","",
-+	/*B0-B3 line 16-23*/
-+	"","","","","","BMC_RST_BTN_OUT_N","","",
-+	/*B4-B7 line 24-31*/
-+	"","","","","","","","",
-+	/*C0-C3 line 32-39*/
-+	"","","","","","","","",
-+	/*C4-C7 line 40-47*/
-+	"","","","","","","","",
-+	/*D0-D3 line 48-55*/
-+	"","","","","","","","",
-+	/*D4-D7 line 56-63*/
-+	"","","","","","","","",
-+	/*E0-E3 line 64-71*/
-+	"","","","","","","","",
-+	/*E4-E7 line 72-79*/
-+	"","","","","","","","",
-+	/*F0-F3 line 80-87*/
-+	"","","","","","","","",
-+	/*F4-F7 line 88-95*/
-+	"","","","","","","","",
-+	/*G0-G3 line 96-103*/
-+	"","","","","","","","",
-+	/*G4-G7 line 104-111*/
-+	"","","","","","","","",
-+	/*H0-H3 line 112-119*/
-+	"","","","","PLD_SYS_POWER_GOOD","","","",
-+	/*H4-H7 line 120-127*/
-+	"","","","","","","","",
-+	/*I0-I3 line 128-135*/
-+	"","","","","","","","",
-+	/*I4-I7 line 136-143*/
-+	"","","","","","","","",
-+	/*J0-J3 line 144-151*/
-+	"","","PLD_BIOS_POST_CMPLT_N","","","","","",
-+	/*J4-J7 line 152-159*/
-+	"","","","","","","","",
-+	/*K0-K3 line 160-167*/
-+	"","","","","","","","",
-+	/*K4-K7 line 168-175*/
-+	"","","","","","","","",
-+	/*L0-L3 line 176-183*/
-+	"","","","","","","","",
-+	/*L4-L7 line 184-191*/
-+	"","","","","","","","",
-+	/*M0-M3 line 192-199*/
-+	"","","","","","","","",
-+	/*M4-M7 line 200-207*/
-+	"","","","","","","","",
-+	/*N0-N3 line 208-215*/
-+	"","","","","","","","",
-+	/*N4-N7 line 216-223*/
-+	"","","","","","","","",
-+	/*O0-O3 line 224-231*/
-+	"","","","","","","","",
-+	/*O4-O7 line 232-239*/
-+	"","","","","","","","",
-+	/*P0-P3 line 240-247*/
-+	"","","","","","","","",
-+	/*P4-P7 line 248-255*/
-+	"","","","","","","","";
-+};
+diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+index 68f717670f78..32582ee56264 100644
+--- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
++++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+@@ -79,6 +79,7 @@ properties:
+               - facebook,elbert-bmc
+               - facebook,fuji-bmc
+               - facebook,greatlakes-bmc
++              - facebook,minerva-bmc
+               - facebook,yosemite4-bmc
+               - ibm,everest-bmc
+               - ibm,rainier-bmc
 -- 
 2.25.1
 
