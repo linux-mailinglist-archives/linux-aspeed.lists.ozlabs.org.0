@@ -2,92 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DC87998E1
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Sep 2023 16:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C4B79D02A
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Sep 2023 13:38:28 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EQusGv7B;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EQusGv7B;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Qp5d0DmQ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RjbDc6TNdz3c3q
-	for <lists+linux-aspeed@lfdr.de>; Sun, 10 Sep 2023 00:37:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RlM6B0ssCz3cDN
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Sep 2023 21:38:26 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EQusGv7B;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EQusGv7B;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Qp5d0DmQ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=fmartine@redhat.com; receiver=lists.ozlabs.org)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=broonie@kernel.org; receiver=lists.ozlabs.org)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RjbDM0MVFz30Pn
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 10 Sep 2023 00:37:37 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694270253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eRcOkbLQiqXFau3Lzv+lkDuNMwp9k8LF7/IY5MKHdsU=;
-	b=EQusGv7BWplwlM0xP+Va8Cs2PqFzXCEjbMwSRK75faHTq6L3A8uXkd/7klwHlutG141gY1
-	/0B7qqzKf3vZlAZoh+okgTWVZfv5gLMgbDMObugR1dIX1DnTsUC4u4B7EgyMT/KbQ7+k13
-	FoDdziFaRbs4+wQsvVDt2bQFmz9PnvE=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694270253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eRcOkbLQiqXFau3Lzv+lkDuNMwp9k8LF7/IY5MKHdsU=;
-	b=EQusGv7BWplwlM0xP+Va8Cs2PqFzXCEjbMwSRK75faHTq6L3A8uXkd/7klwHlutG141gY1
-	/0B7qqzKf3vZlAZoh+okgTWVZfv5gLMgbDMObugR1dIX1DnTsUC4u4B7EgyMT/KbQ7+k13
-	FoDdziFaRbs4+wQsvVDt2bQFmz9PnvE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-313-t87g9KiwN6G20d5TOmvgQw-1; Sat, 09 Sep 2023 10:37:31 -0400
-X-MC-Unique: t87g9KiwN6G20d5TOmvgQw-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3fbdf341934so23534795e9.3
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 09 Sep 2023 07:37:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694270250; x=1694875050;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eRcOkbLQiqXFau3Lzv+lkDuNMwp9k8LF7/IY5MKHdsU=;
-        b=okkzRt0SLarcpu34S+JLfv0SK37yB8NfHYc9wo106A0kEU9zjvU3LoeBeHo9s/+RB8
-         A/3o7hj2HCqlrE0uhxKbUEve367KTMCuQrFmXAGdHoiZnSd/3MB6ZXSeZY91JqtaXeQb
-         J6N4XRD7GueW81wTF4M9DFc38T4WTW3yqbDQ77WVUIH69aADkwqHXO+rPcy1Yp/CEaa8
-         Bs+KkBI9AuzyIN9fOwzO+Q34D4ujRjnMgEFo3XGmD1AlC2dQidA0uVLItawN4yW6yuw0
-         xQVPYC7oD35itgwSXCCnaF6MQXaoSKZ4O5wDGVf3FanrQDP7HZNZZp6kJpRV+7ixZDm8
-         /a2w==
-X-Gm-Message-State: AOJu0Yx0dlIC/4URYeL0m95pbOZadCOo6c82c1C4g85wdNEndKFz/dUn
-	yKv3CDeZUIYIheGnjeJbxu9lXHaIqxCkXHOGN6kvhxb7Iu54KUpW53ZbDcflExiD6Kamct006LD
-	0vPWd6DFupDt/l09quAY/ShchwA==
-X-Received: by 2002:a05:600c:2483:b0:401:d2cb:e6f3 with SMTP id 3-20020a05600c248300b00401d2cbe6f3mr5088933wms.1.1694270250169;
-        Sat, 09 Sep 2023 07:37:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFuI0CHTrTRuHu7U+ySuZ17CrBG1YsmWNBf7nwWhsv6ytgzHpvaJlIL3zjF99nLHiP4wc2jkQ==
-X-Received: by 2002:a05:600c:2483:b0:401:d2cb:e6f3 with SMTP id 3-20020a05600c248300b00401d2cbe6f3mr5088899wms.1.1694270249806;
-        Sat, 09 Sep 2023 07:37:29 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id k20-20020a7bc414000000b003fd2e898aa3sm3071184wmi.0.2023.09.09.07.37.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Sep 2023 07:37:28 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 00/53] drm: Convert to platform remove callback
- returning void
-In-Reply-To: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
-References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
-Date: Sat, 09 Sep 2023 16:37:28 +0200
-Message-ID: <8734znjtuf.fsf@minerva.mail-host-address-is-not-set>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RlM5x4JN1z2xpx;
+	Tue, 12 Sep 2023 21:38:13 +1000 (AEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 85CC7B81CE1;
+	Tue, 12 Sep 2023 11:38:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574B7C433C7;
+	Tue, 12 Sep 2023 11:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1694518684;
+	bh=eC1SKY1lRRQfbXqU3JXJ7zM40IsYGNqnW2q2A+2NZbo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Qp5d0DmQi1Kak77khGdhzJq0maxBWwA/APer/0UA/i+af64CXkQNjok7OvrRZ9pcS
+	 kLDVlQ9CQ9CEOAL0v0gqLz4173DCXaRgmA9icAo9JLUZO/I/OM2PgeyMCFJvDf1eZD
+	 k5S25O93pmDhRwjJ24pvhiTzRpYNqDdNPu73DeQUDJ14o//hEscNy2REYwIqxzndtH
+	 BJZMmaqspVvTJgo/RRlX2FfGUht2Q2L6/n7MsHLh+eZXKRqLQRKyKyW5a357qExokc
+	 eSy1WIRjW0fKa1p0D4h0fnCKDLEZ954EF+7CRGG32wEiHOepDGjSSO7v+8PyiCE0fX
+	 Z5pM2Z4weq6Fg==
+From: Mark Brown <broonie@kernel.org>
+To: Li Zetao <lizetao1@huawei.com>
+In-Reply-To: <20230823133938.1359106-1-lizetao1@huawei.com>
+References: <20230822131237.1022815-1-lizetao1@huawei.com>
+ <20230823133938.1359106-1-lizetao1@huawei.com>
+Subject: Re: [PATCH -next v2 00/25] spi: Use devm_clk_get_*() helper
+ function to simplify the drivers.
+Message-Id: <169451867563.2398433.2879364442627175413.b4-ty@kernel.org>
+Date: Tue, 12 Sep 2023 12:37:55 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,58 +64,97 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Alim Akhtar <alim.akhtar@samsung.com>, Fabio Estevam <festevam@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org, Steven Price <steven.price@arm.com>, linux-rockchip@lists.infradead.org, Xinwei Kong <kong.kongxinwei@hisilicon.com>, Mali DP Maintainers <malidp@foss.arm.com>, NXP Linux Team <linux-imx@nxp.com>, Russell King <linux+etnaviv@armlinux.org.uk>, linux-sunxi@lists.linux.dev, Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, Jonas Karlman <jonas@kwiboo.se>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, etnaviv@lists.freedesktop.org, Christian Gmeiner <christian.gmeiner@gmail.com>, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, lin
- ux-amlogic@lists.infradead.org, Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-stm32@st-md-mailman.stormreply.com, linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de, Yongqin Liu <yongqin.liu@linaro.org>, freedreno@lists.freedesktop.org
+Cc: heiko@sntech.de, linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org, tali.perry1@gmail.com, conor.dooley@microchip.com, linux-riscv@lists.infradead.org, jbrunet@baylibre.com, florian.fainelli@broadcom.com, yuenn@google.com, khilman@baylibre.com, tmaimon77@gmail.com, linux-rockchip@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com, avifishman70@gmail.com, martin.blumenstingl@googlemail.com, rjui@broadcom.com, linux-mediatek@lists.infradead.org, clg@kaod.org, matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org, sbranden@broadcom.com, venture@google.com, fancer.lancer@gmail.com, linux-spi@vger.kernel.org, daire.mcnamara@microchip.com, olteanv@gmail.com, openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
+On Wed, 23 Aug 2023 21:39:13 +0800, Li Zetao wrote:
+> Commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prepared
+> and enabled clocks") provides a new helper function for prepared and
+> enabled clocks when a driver keeps a clock prepared (or enabled) during
+> the whole lifetime of the driver. So where drivers get clocks and enable
+> them immediately, it can be combined into a single function
+> devm_clk_get_*(). Moreover, the unprepare and disable function
+> has been registered to devm_clk_state, and before devm_clk_state is
+> released, the clocks will be unprepareed and disable, so it is unnecessary
+> to unprepare and disable clocks explicitly when remove drivers or in the
+> error handling path.
+> 
+> [...]
 
-Hello Uwe,
+Applied to
 
-> Hello,
->
-> this patch series adapts the platform drivers below drivers/gpu/drm
-> to use the .remove_new() callback. Compared to the traditional .remove()
-> callback .remove_new() returns no value. This is a good thing because
-> the driver core doesn't (and cannot) cope for errors during remove. The
-> only effect of a non-zero return value in .remove() is that the driver
-> core emits a warning. The device is removed anyhow and an early return
-> from .remove() usually yields a resource leak.
->
-> By changing the remove callback to return void driver authors cannot
-> reasonably (but wrongly) assume any more that there happens some kind of
-> cleanup later.
->
-> Best regards
-> Uwe
->
-> Uwe Kleine-K=C3=B6nig (53):
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-[...]
+Thanks!
 
->   drm/imx/ipuv3: Convert to platform remove callback returning void
->   drm/ingenic: Convert to platform remove callback returning void
+[01/25] spi: ar934x: Use helper function devm_clk_get_enabled()
+        commit: 1d3ea34b7b69b2cbdcc82f1d399705c06ea5f748
+[02/25] spi: armada-3700: Use helper function devm_clk_get_prepared()
+        commit: f918b3a67ccbcf326a80100c17e107eece5df868
+[03/25] spi: aspeed: Use helper function devm_clk_get_enabled()
+        commit: 9ee8fbc05ef0b69e8cb4295b2663e044dd3868a3
+[04/25] spi: ath79: Use helper function devm_clk_get_enabled()
+        commit: b3422ea3913e27fd43a7a1883f358cb20599289e
+[05/25] spi: spi-axi-spi-engine: Use helper function devm_clk_get_enabled()
+        commit: a08199b309f833fd4221ab5ee2391c791fe26385
+[06/25] spi: bcm2835: Use helper function devm_clk_get_enabled()
+        commit: ba85f5fad849821bfce0ee154a72df7e2376c5eb
+[07/25] spi: bcm2835aux: Use helper function devm_clk_get_enabled()
+        commit: 0135a38436111366bc2fe6d3cd82a9c2cc92ce7f
+[08/25] spi: spi-cadence: Use helper function devm_clk_get_enabled()
+        commit: f64b1600f92e786e502cc30d31d9e3c5f2f6d682
+[09/25] spi: spi-cavium-thunderx: Use helper function devm_clk_get_enabled()
+        commit: c32cb76e8d5e487698f8eceb5b53df95a33fe388
+[10/25] spi: davinci: Use helper function devm_clk_get_enabled()
+        commit: 9dc2aa96a3533215fbed9cf1297f7aa70dae840b
+[11/25] spi: dw-bt1: Use helper function devm_clk_get_enabled()
+        commit: 10c3937890be2c53bfa4aaf3b22a46749857f86a
+[12/25] spi: dw-mmio: Use helper function devm_clk_get_*()
+        commit: 349112b6769ec0018404f87dd4632f8ea393fcaf
+[13/25] spi: spi-fsl-dspi: Use helper function devm_clk_get_enabled()
+        commit: 4812bc31af2b523d4da8386a524a2cd2f6f5919b
+[14/25] spi: lantiq-ssc: Use helper function devm_clk_get_enabled()
+        commit: e2b9622b2a3d058e7d06827b99487b27f777b9c2
+[15/25] spi: meson-spicc: Use helper function devm_clk_get_enabled()
+        commit: 7ef51102d32ddc4776b2cdd583fe84afb84c823f
+[16/25] spi: spi-meson-spifc: Use helper function devm_clk_get_enabled()
+        commit: c45fd1217b38048332c4f5bff8bfb7c1fe6ab6dd
+[17/25] spi: microchip-core-qspi: Use helper function devm_clk_get_enabled()
+        commit: e922f3fff21445117e9196bd8e940ad8e15ca8c7
+[18/25] spi: microchip-core: Use helper function devm_clk_get_enabled()
+        commit: 605204fcb9c49818a8a7e533147061a305ac39e3
+[19/25] spi: mtk-snfi: Use helper function devm_clk_get_enabled()
+        commit: a06b6935f10267a300be724dca11226d6d519156
+[20/25] spi: npcm-fiu: Use helper function devm_clk_get_enabled()
+        commit: 82c4fadb0b957c817b5a3fcc05dc774bf32a4d07
+[21/25] spi: orion: Use helper function devm_clk_get_enabled()
+        commit: bbd0a66b85fe860e8b6acfb1739d15b517a4f6fb
+[22/25] spi: pic32-sqi: Use helper function devm_clk_get_enabled()
+        commit: 909d4cd6bc316e6cd7958832f3efe9e2fd51dcbf
+[23/25] spi: pic32: Use helper function devm_clk_get_enabled()
+        commit: 6b6cc88c4e5b42d2ba6af43152af6d9d96872ee8
+[24/25] spi: spl022: Use helper function devm_clk_get_enabled()
+        commit: 9351339c1a99cca47e6fbeef88b1ef6438d36127
+[25/25] spi: rockchip: Use helper function devm_clk_get_enabled()
+        commit: d6c612a34740118855cd1c8acc4339adea686266
 
-[...]
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
->   drm/mediatek: Convert to platform remove callback returning void
->   drm/mediatek: Convert to platform remove callback returning void
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-[...]
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
->   drm/msm: Convert to platform remove callback returning void
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-[...]
-
->   drm/shmobile: Convert to platform remove callback returning void
-
-Pushed these to drm-misc (drm-misc-next). Thanks!
-
---=20
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Thanks,
+Mark
 
