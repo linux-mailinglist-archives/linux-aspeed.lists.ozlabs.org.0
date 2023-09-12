@@ -1,64 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB8579D6F0
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Sep 2023 18:56:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC8E79DBA3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Sep 2023 00:09:54 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=csKOSLbO;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=f03n89EP;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RlV9148spz3cC7
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Sep 2023 02:56:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rld6l695gz3cNS
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Sep 2023 08:09:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=csKOSLbO;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=f03n89EP;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.24; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RlV8t53ZTz3bxL
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Sep 2023 02:56:12 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694537775; x=1726073775;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6oK3QKUyE2J6G3j5C3mGEJEaadkE/lTt0pjP5XqCoTA=;
-  b=csKOSLbOBvydDJS9JTQIAvOrGE4ynVs+/NxlnygXHD/kVn4SQ3NLINao
-   uahjPmHSePJnn1THYsuz754XjI9DRhX5H3SwIZXljeSIoSrin3Orb1MSJ
-   nzcaniCoFQs5XhQQjbWhZPx3fMgzH0r7gvvDeEUQWEiOz7tPdtvOoqWYe
-   3oHBdXtrPGx+5M/+NWzuDYzGg3FbNBWhixo4WjNOXgN1nxByRWHUcWKUP
-   yHe8yGKlRGPfsn8Pl6H6sBn09yX4wYLQ/oT/cKRdy/+JWpoYic2KbdCDW
-   QviUazDu7Jd95sfrybQUNCRfm9KUQ2oTzzATDELsHTWHaxV/a3ydAG5wO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="381135989"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="381135989"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2023 09:55:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="746968566"
-X-IronPort-AV: E=Sophos;i="6.02,139,1688454000"; 
-   d="scan'208";a="746968566"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 12 Sep 2023 09:55:46 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 76B6C248; Tue, 12 Sep 2023 19:55:45 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v1 1/1] serial: 8250_aspeed_vuart: Use dev_err_probe() instead of dev_err()
-Date: Tue, 12 Sep 2023 19:55:40 +0300
-Message-Id: <20230912165540.402504-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rld6b0Qq6z309t
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Sep 2023 08:09:42 +1000 (AEST)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38CM8n4U004028;
+	Tue, 12 Sep 2023 22:09:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Fmtr17vxfvAxr7b2eFqtCMkznpCwBpMbLf427hX+pdA=;
+ b=f03n89EPnp3SJ4kTeBj2ojmhKP5EFEMahYYTmhmqEBfCTu0asgipjFoMSujac1W2fqvf
+ mDV8V3rtS7K9Xo9Lj0gfri9uS2n7q/rA15ULe0UIkX6PL+vu4iC63Ybw+EZ4i78eTqLu
+ cD6nmp7fIhcLGg+cgvlq8wp9kualjLjpD2xdcM74XqD7op/OzwakF8+rW27ONljrAHQX
+ D9KM1ynBx5Y3Nr4SmKUlQLy+D/YSGeFh9SBYwSh85aHNV3DlBe5nzZMSU6HuObROYiSK
+ vjD6A7yg2HqlR+bxh095DNFKB55I3Drj+aD54gX6Ag7vRvK91MbdOFYxVwDGWLlVChQR Yg== 
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3t2ymgh3gf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Sep 2023 22:09:30 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38CJN5tO011942;
+	Tue, 12 Sep 2023 22:09:29 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3t15r1wxbc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Sep 2023 22:09:29 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38CM9RZA34210232
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 12 Sep 2023 22:09:28 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A90BA58052;
+	Tue, 12 Sep 2023 22:09:27 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 623145805A;
+	Tue, 12 Sep 2023 22:09:27 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 12 Sep 2023 22:09:27 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: joel@jms.id.au, andrew@aj.id.au, eajames@linux.ibm.com
+Subject: [PATCH v3 0/2] soc/aspeed: Add host side BMC device driver
+Date: Tue, 12 Sep 2023 17:09:21 -0500
+Message-Id: <20230912220923.3701688-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: d0fml4SP8ZwWFH_R5rCO1M3gg0WtpQLy
+X-Proofpoint-ORIG-GUID: d0fml4SP8ZwWFH_R5rCO1M3gg0WtpQLy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-12_21,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 phishscore=0 mlxlogscore=533 suspectscore=0 mlxscore=0
+ bulkscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2309120187
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,72 +86,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The probe process may generate EPROBE_DEFER. In this case
-dev_err_probe() can still record err information. Otherwise
-it may pollute logs on that occasion.
+Hello,
+Please review a version 3 of patchset.
+    - Fixed warning reported by kernel test robot.
+    - Added MAINTAINER for new file.
+    - Fixed check patch warning.
 
-This also helps simplifing code and standardizing the error output.
+Ninad Palsule (2):
+  soc/aspeed: Add host side BMC device driver
+  MAINTAINERS: Added maintainer for host bmc DD
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/tty/serial/8250/8250_aspeed_vuart.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ MAINTAINERS                              |   7 +
+ drivers/soc/aspeed/Kconfig               |  11 +
+ drivers/soc/aspeed/Makefile              |   1 +
+ drivers/soc/aspeed/aspeed-host-bmc-dev.c | 250 +++++++++++++++++++++++
+ 4 files changed, 269 insertions(+)
+ create mode 100644 drivers/soc/aspeed/aspeed-host-bmc-dev.c
 
-diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-index 4a9e71b2dbbc..7a4537a1d66c 100644
---- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
-+++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-@@ -415,6 +415,7 @@ static int aspeed_vuart_map_irq_polarity(u32 dt)
- static int aspeed_vuart_probe(struct platform_device *pdev)
- {
- 	struct of_phandle_args sirq_polarity_sense_args;
-+	struct device *dev = &pdev->dev;
- 	struct uart_8250_port port;
- 	struct aspeed_vuart *vuart;
- 	struct device_node *np;
-@@ -455,9 +456,8 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
- 	if (of_property_read_u32(np, "clock-frequency", &clk)) {
- 		vuart->clk = devm_clk_get(&pdev->dev, NULL);
- 		if (IS_ERR(vuart->clk)) {
--			dev_warn(&pdev->dev,
--				"clk or clock-frequency not defined\n");
--			rc = PTR_ERR(vuart->clk);
-+			rc = dev_err_probe(dev, PTR_ERR(vuart->clk),
-+					   "clk or clock-frequency not defined\n");
- 			goto err_sysfs_remove;
- 		}
- 
-@@ -533,7 +533,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
- 
- 	rc = aspeed_vuart_set_lpc_address(vuart, prop);
- 	if (rc < 0) {
--		dev_err(&pdev->dev, "invalid value in aspeed,lpc-io-reg property\n");
-+		dev_err_probe(dev, rc, "invalid value in aspeed,lpc-io-reg property\n");
- 		goto err_clk_disable;
- 	}
- 
-@@ -545,14 +545,14 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
- 
- 	rc = aspeed_vuart_set_sirq(vuart, sirq[0]);
- 	if (rc < 0) {
--		dev_err(&pdev->dev, "invalid sirq number in aspeed,lpc-interrupts property\n");
-+		dev_err_probe(dev, rc, "invalid sirq number in aspeed,lpc-interrupts property\n");
- 		goto err_clk_disable;
- 	}
- 
- 	sirq_polarity = aspeed_vuart_map_irq_polarity(sirq[1]);
- 	if (sirq_polarity < 0) {
--		dev_err(&pdev->dev, "invalid sirq polarity in aspeed,lpc-interrupts property\n");
--		rc = sirq_polarity;
-+		rc = dev_err_probe(dev, sirq_polarity,
-+				   "invalid sirq polarity in aspeed,lpc-interrupts property\n");
- 		goto err_clk_disable;
- 	}
- 
 -- 
-2.40.0.1.gaa8946217a0b
+2.39.2
 
