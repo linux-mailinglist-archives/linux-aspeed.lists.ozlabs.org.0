@@ -1,79 +1,59 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F321379ED7E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Sep 2023 17:42:16 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 098F37A0D73
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Sep 2023 20:46:47 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kZd8uRg1;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=xI67S1N4;
+	dkim=fail reason="signature verification failed" header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=EMockjhc;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rm4T26Sbbz3cFg
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Sep 2023 01:42:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RmmWS62TWz3dKt
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Sep 2023 04:46:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kZd8uRg1;
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=xI67S1N4;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=EMockjhc;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52e; helo=mail-ed1-x52e.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linutronix.de (client-ip=193.142.43.55; helo=galois.linutronix.de; envelope-from=john.ogness@linutronix.de; receiver=lists.ozlabs.org)
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rm4Sv0npnz3c9m
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Sep 2023 01:42:05 +1000 (AEST)
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-52a250aa012so8989756a12.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Sep 2023 08:42:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694619719; x=1695224519; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4tNjhlH206IzUUkrLOTH6KtlKVYXz/q75ZTuPPcqMFk=;
-        b=kZd8uRg1W0G3VLRGexNrjiiBmZ3EGpBRoGoaas6k9VpgFc8lOztBDGj3KWI9N6KmrK
-         6uBhYUKsx+v3tXIA4gbeDGFIcHFDPXniZb1c2MkO1qvIL5d68QyRkxosy+Z+5XyWG3PY
-         YxiQTUm3SR5INEWf3QZ84DXyNxALpX5nNaVuQeUDVATCHfvhMjMB416qWKRkTs1NYRDP
-         CctXkVU3PpZoWdgqJxQmydsOLS/jXzRwFwhULi0oY4BrppOWe8TNRRnkjKKLTO/TvuwZ
-         64tAv1Z38eiYNzdOduRaRE/td/Uw19MgU6/0gGQ9i7JvxfvsD6G57zr9IFNNRHK9EXI4
-         dWeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694619719; x=1695224519;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4tNjhlH206IzUUkrLOTH6KtlKVYXz/q75ZTuPPcqMFk=;
-        b=ejKuytiC8FLww8KI2ErRGceZrqYLa8K54YCQr4YR9GKmVj59ulRcY+ifWo7YA0oh6Y
-         IdWlZ8TPeusJ+BXz5kBgB5ZCCTJHDAJ9Aa5R6s+pWR+3Trpb5j+JKyGbNIT5IaFtlIbG
-         awM9pOc+5RY1ucwsqHOKxb7a7iWvBfmnPAP8PJ3s+hawSFFi6nFhkF80h1kvBg/K8lgv
-         UTzPnkkYkEGlTZAm4LBWkbrZ5CmUok69GkLCQnQjd411gWjVYdcUeGDmaVsSqojNB0RI
-         RO9Q1Wb9iTkpovf5B2l7eez+ddzGBuga2j4z7zeZoTMRI+6nM7KsQ6oh1StGiB7sPbsm
-         tsCQ==
-X-Gm-Message-State: AOJu0YyzW0VPcJqp70pusuV1HJkPFuRJuoq6k84AlwuW4Wq27C1pcaj6
-	fH2htIrQdXZua1dRxbzFjHdxFg==
-X-Google-Smtp-Source: AGHT+IE/Qamlm4QU08NosxmsDomDBqURds6+LWtMhxScI4jMdvKLNkx5zTwjQJgqvPSmZB1yXEVn4g==
-X-Received: by 2002:a17:906:5181:b0:9ad:7f8b:21b with SMTP id y1-20020a170906518100b009ad7f8b021bmr2468995ejk.13.1694619719145;
-        Wed, 13 Sep 2023 08:41:59 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.214.188])
-        by smtp.gmail.com with ESMTPSA id kf4-20020a17090776c400b0099c53c4407dsm8580766ejc.78.2023.09.13.08.41.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Sep 2023 08:41:58 -0700 (PDT)
-Message-ID: <11c822f3-96f1-17d6-6c2a-feaa950aeea1@linaro.org>
-Date: Wed, 13 Sep 2023 17:41:57 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RmmTP6lXgz3cBN
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Sep 2023 04:44:57 +1000 (AEST)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1694716720;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YzGTH7vi1woKgPlT+ew1GuAaXeqKELiHy4YX6FZB2Ws=;
+	b=xI67S1N4oC7yZQ9a9pniupQBCdXgHbJJUonVJdWsOkhhnFOa3cgAIkwfV4vuJtXSyJwzGS
+	ruLvaJ23/nSLO9Ctn9PW8PFVTJdY8yeVPHpSgQYp9ZF1TwlDTauZliU85WtWCbaMi3Rba5
+	Mts0uuFAMmVvXYE9ku+eTUZi159cnJ2SyratQjN1nGHBxeJKcn0vSj4TMO6ufnyaiVBCia
+	81rJQ7Sziv0cKeEYwa2pleTD3/xlhdfQVaC+br4A+ErFX3p2fkPjiXSkNPTpjycU317yLV
+	fMbzRFn+93V2pSpx/IXHoYVxiv8Q7qYIOtQ5MbR5aobUJbuT7RGBBVpUF5sMgw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1694716720;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YzGTH7vi1woKgPlT+ew1GuAaXeqKELiHy4YX6FZB2Ws=;
+	b=EMockjhcNy6AcG+UO3snhVjQB3YOEKFZrpHHn/aVPBYlDJ7RlYj5Zo30u0wb1oMlWhBLHQ
+	GJWHincAnGHiCdDA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH tty v1 04/74] serial: 8250_aspeed_vuart: Use port lock wrappers
+Date: Thu, 14 Sep 2023 20:43:21 +0206
+Message-Id: <20230914183831.587273-5-john.ogness@linutronix.de>
+In-Reply-To: <20230914183831.587273-1-john.ogness@linutronix.de>
+References: <20230914183831.587273-1-john.ogness@linutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 2/2] ARM: dts: aspeed: Minerva: Add Facebook Minerva CMC
- board
-Content-Language: en-US
-To: Yang Chen <yangchen.openbmc@gmail.com>
-References: <20230912140532.3797736-1-yangchen.openbmc@gmail.com>
- <20230912140532.3797736-3-yangchen.openbmc@gmail.com>
- <1bfdc230-e358-6aa4-7d60-03b5477a6be9@linaro.org>
- <CALFa7M_GvCgmEZxvo_ZSYoCPOe+9-tQt3KHn=_cu3n7psP+PTA@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CALFa7M_GvCgmEZxvo_ZSYoCPOe+9-tQt3KHn=_cu3n7psP+PTA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,55 +65,66 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jerry.Lin@quantatw.com, EasonChen1@quantatw.com, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Eddie.Chen@quantatw.com, patrick@stwcx.xyz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org
+Cc: Petr Mladek <pmladek@suse.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 13/09/2023 15:57, Yang Chen wrote:
-> Hi Krzysztof,
-> 
->> +
->> +&i2c15 {
->> +     status = "okay";
->> +
->> +     eeprom@50 {
->> +             compatible = "atmel,24c128";
->> +             reg = <0x50>;
->> +     };
->> +};
->> +
->> +&adc0 {
->> +     ref_voltage = <2500>;
-> 
-> There is no such property in the bindings.
+From: Thomas Gleixner <tglx@linutronix.de>
 
-Fix your email setup. This is my response, not yours.
+When a serial port is used for kernel console output, then all
+modifications to the UART registers which are done from other contexts,
+e.g. getty, termios, are interference points for the kernel console.
 
-> 
->> +     status = "okay";
->> +     pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
->> +             &pinctrl_adc2_default &pinctrl_adc3_default
->> +             &pinctrl_adc4_default &pinctrl_adc5_default
->> +             &pinctrl_adc6_default &pinctrl_adc7_default>;
->> +};
->> +
->> +&adc1 {
->> +     ref_voltage = <2500>;
-> 
-> NAK, there is no such property.
-> 
+So far this has been ignored and the printk output is based on the
+principle of hope. The rework of the console infrastructure which aims to
+support threaded and atomic consoles, requires to mark sections which
+modify the UART registers as unsafe. This allows the atomic write function
+to make informed decisions and eventually to restore operational state. It
+also allows to prevent the regular UART code from modifying UART registers
+while printk output is in progress.
 
-So who says what?
+All modifications of UART registers are guarded by the UART port lock,
+which provides an obvious synchronization point with the console
+infrastructure.
 
-> Thanks for your advice, I will change this property to
-> "aspeed,int-vref-microvolt" which is defined in the binding in the v2 patch.
+To avoid adding this functionality to all UART drivers, wrap the
+spin_[un]lock*() invocations for uart_port::lock into helper functions
+which just contain the spin_[un]lock*() invocations for now. In a
+subsequent step these helpers will gain the console synchronization
+mechanisms.
 
-No, why? Drop it. There is no user.
+Converted with coccinelle. No functional change.
 
-Also, do not top post.
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+---
+ drivers/tty/serial/8250/8250_aspeed_vuart.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-
-
-Best regards,
-Krzysztof
+diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+index 4a9e71b2dbbc..021949f252f8 100644
+--- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
++++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+@@ -288,9 +288,9 @@ static void aspeed_vuart_set_throttle(struct uart_port *port, bool throttle)
+ 	struct uart_8250_port *up = up_to_u8250p(port);
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&port->lock, flags);
++	uart_port_lock_irqsave(port, &flags);
+ 	__aspeed_vuart_set_throttle(up, throttle);
+-	spin_unlock_irqrestore(&port->lock, flags);
++	uart_port_unlock_irqrestore(port, flags);
+ }
+ 
+ static void aspeed_vuart_throttle(struct uart_port *port)
+@@ -340,7 +340,7 @@ static int aspeed_vuart_handle_irq(struct uart_port *port)
+ 	if (iir & UART_IIR_NO_INT)
+ 		return 0;
+ 
+-	spin_lock_irqsave(&port->lock, flags);
++	uart_port_lock_irqsave(port, &flags);
+ 
+ 	lsr = serial_port_in(port, UART_LSR);
+ 
+-- 
+2.39.2
 
