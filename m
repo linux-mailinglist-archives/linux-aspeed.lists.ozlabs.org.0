@@ -2,79 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214AA7A413A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Sep 2023 08:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 872267A4140
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Sep 2023 08:31:36 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Ei8AYa6K;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Z8UeMKj4;
+	dkim=fail reason="signature verification failed" header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=6i/Rykkl;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rpw100CnGz3c8W
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Sep 2023 16:31:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rpw1L1lM9z3ccS
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Sep 2023 16:31:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Ei8AYa6K;
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Z8UeMKj4;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=6i/Rykkl;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linutronix.de (client-ip=193.142.43.55; helo=galois.linutronix.de; envelope-from=john.ogness@linutronix.de; receiver=lists.ozlabs.org)
+X-Greylist: delayed 373 seconds by postgrey-1.37 at boromir; Fri, 15 Sep 2023 04:44:57 AEST
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RmcpC1zLyz30gH
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Sep 2023 22:58:59 +1000 (AEST)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1c397ed8681so7421745ad.2
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Sep 2023 05:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694696337; x=1695301137; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l3MGl7C5EjM9ttfGWxVFA90kZYQHBe9Ye5VWhldrIso=;
-        b=Ei8AYa6KufAfb2ZK5CpMa/Dgiota22I9dVKps5bTWwKXo8k03uiaWgs5kBEOUX5P+t
-         Hh3W9OTydUPPnBecd2e4AKjZ5eDnCt1ua+vU+e6WVofQtKd2+V/KHSav7MLPPD7STexk
-         KTXdXNoDJ9JDjnMP9WWADKPt9a3jhvEAt+PYJBSr83Dma53ah4aWLOAEgSzJuKxidCy+
-         f+h+NHrW0M2CtxmoFpAxM2IXo7b2fRWQVzAyP/IGiGbTpCdwQLWnpqUEPdIloswSA4Ka
-         O2k2VmZNgYNJP6Dcfn3rJI6JJ5cVm48z+z975FWvvLD5B5SfeqVhDLCG1PruCsYLIV+Q
-         OTog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694696337; x=1695301137;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l3MGl7C5EjM9ttfGWxVFA90kZYQHBe9Ye5VWhldrIso=;
-        b=l32hXA3/tnLcG2PhcieNgxwtJggbtGLKC7Hflu/RbpDBuqd52iCr4a6OEUAWZnV2ou
-         jq2vmqmunpQ/1b2yNrETsi0uarxX8E738IkzzgucvDNlFxda6eEO5Q1RRmE+yBW4YxaX
-         znagyG+IPpNQt1yT8iS+fO4vta1Ul6fF8UNEhz6lBGuGKq35WcfnBu+L02dbKTT+rYQ2
-         Xgeu/SitIiUdIuHVoY6Yuj5uUEh9havNmAskhnWY0zW6ooYTaeprqFHyE+dlZkn3cBHb
-         6tftsuIt/BM/argQVxSoL6oa1NjrPDHlZbJfb71QkZ4ufNPi47EPuGdR09z0VTsOAQUz
-         Te4w==
-X-Gm-Message-State: AOJu0Yzb0IpVPM9lnG5IgtI8KhDoG/NjSJGk45MKNiXj5qo/GbUFFfy3
-	tQwZ4BIsLeOcWv3qRZC8usE=
-X-Google-Smtp-Source: AGHT+IGoTGX55SvuPJvG5KNCZxjfgvAW1U8GTQz0U4GzYX80ErzgcFCKRYeqfGHK+nMHzYYsiA0A7w==
-X-Received: by 2002:a17:902:7084:b0:1c0:d17a:bfe9 with SMTP id z4-20020a170902708400b001c0d17abfe9mr4035605plk.46.1694696337546;
-        Thu, 14 Sep 2023 05:58:57 -0700 (PDT)
-Received: from obliging-System-Product-Name.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id c11-20020a170903234b00b001b8a3e2c241sm1535105plh.14.2023.09.14.05.58.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 05:58:57 -0700 (PDT)
-From: Yang Chen <yangchen.openbmc@gmail.com>
-To: robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	joel@jms.id.au,
-	andrew@aj.id.au,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ARM: dts: aspeed: Minerva: Add Facebook Minerva CMC board
-Date: Thu, 14 Sep 2023 20:56:48 +0800
-Message-Id: <20230914125648.3966519-3-yangchen.openbmc@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230914125648.3966519-1-yangchen.openbmc@gmail.com>
-References: <20230914125648.3966519-1-yangchen.openbmc@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RmmTP66Dvz3c9S;
+	Fri, 15 Sep 2023 04:44:57 +1000 (AEST)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1694716719;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=aQcu0Tj+ffJBWZVQ9fNZPj8/IhtyreTS7DJJKIPF900=;
+	b=Z8UeMKj4Fav9MLhk6d+JmpTi5nJHEpVJNO1ur5Ad3vBiVWCnoe9Eog0Qg33XlH6id3FWbz
+	S8l2Lt2jSbU2XHwf8xi9UIitF4+b8K7paGx1bjjYr5t2rdTDVV0Fim6UAKFi2CtuZ1mb3L
+	E0TJN4HYA+tWtKTLOiVDx3F+jVsGlfsYYAnFZvFt3iKUUrP7SkGJJcZ1UIkJ/UqIQ0831V
+	SMEuLB8ZIcl+FG04i7hT9/QWq5F02SyOTdFIc9j7ps1+LHHwMSHMPuADoGutw3ZHkUAICp
+	RXxdloN+Gh4cSEl07/GwEgsU+m8aqlGccQ2NbBYv7A5wSEzPoJaqC36jkiHDjg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1694716719;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=aQcu0Tj+ffJBWZVQ9fNZPj8/IhtyreTS7DJJKIPF900=;
+	b=6i/Rykkl4Rl5SBtIHP9RIQNQNOB8Crkkj2AcFISLN8Dmxq51odZMyUMI6Usmo7xHPgkuGu
+	8OGeRMSrDoYZsqCg==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH tty v1 00/74] serial: wrappers for uart port lock
+Date: Thu, 14 Sep 2023 20:43:17 +0206
+Message-Id: <20230914183831.587273-1-john.ogness@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 18 Sep 2023 16:30:23 +1000
+X-Mailman-Approved-At: Mon, 18 Sep 2023 16:30:49 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,303 +63,350 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: patrick@stwcx.xyz, Jerry.Lin@quantatw.com, EasonChen1@quantatw.com, Eddie.Chen@quantatw.com, yangchen.openbmc@gmail.com
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Alim Akhtar <alim.akhtar@samsung.com>, Peter Korsgaard <jacmet@sunsite.dk>, linux-stm32@st-md-mailman.stormreply.com, Karol Gugala <kgugala@antmicro.com>, Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Hammer Hsieh <hammerh0314@gmail.com>, Jiamei Xie <jiamei.xie@arm.com>, NXP Linux Team <linux-imx@nxp.com>, Vineet Gupta <vgupta@kernel.org>, Thierry Reding <treding@nvidia.com>, Petr Mladek <pmladek@suse.com>, Arend van Spriel <arend.vanspriel@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Nicholas Piggin <npiggin@gmail.com>, linux-unisoc@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, Samuel Holland <samuel.holland@sifive.com>, Richard Genoud <richard.genoud@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Andrew Morton <akp
+ m@linux-foundation.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Laxman Dewangan <ldewangan@nvidia.com>, Dmitry Rokosov <ddrokosov@sberdevices.ru>, Xiongfeng Wang <wangxiongfeng2@huawei.com>, Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, delisun <delisun@pateo.com.cn>, Fabio Estevam <festevam@gmail.com>, Ruan Jinjie <ruanjinjie@huawei.com>, Matthew Howell <matthew.howell@sealevel.com>, Jonathan Hunter <jonathanh@nvidia.com>, Gabriel Somlo <gsomlo@gmail.com>, Hongyu Xie <xiehongyu1@kylinos.cn>, Tobias Klauser <tklauser@distanz.ch>, Yangtao Li <frank.li@vivo.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>, linux-amlogic@lists.infradead.org, Michal Simek <michal.simek@amd.com>, Sherry Sun <sherry.sun@nxp.com>, Neil Armstrong <neil.armstrong@linaro.org>, Chunyan Zhang <zhang.lyr
+ a@gmail.com>, "David S. Miller" <davem@davemloft.net>, Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>, Lukas Wunner <lukas@wunner.de>, Sergey Organov <sorganov@gmail.com>, Mukesh Ojha <quic_mojha@quicinc.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>, Lino Sanfilippo <l.sanfilippo@kunbus.com>, Tom Rix <trix@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Al Cooper <alcooperx@gmail.com>, Yuan Can <yuancan@huawei.com>, Isaac True <isaac.true@canonical.com>, linux-tegra@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>, Mateusz Holenko <mholenko@antmicro.com>, Kevin Cernekee <cernekee@gmail.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Shenwei Wang <shenwei.wang@nxp.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai <wenst@chromium.org>, =?UTF-8?q?Ilpo=2
+ 0J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, linux-snps-arc@lists.infradead.org, Patrice Chotard <patrice.chotard@foss.st.com>, Jacky Huang <ychuang3@nuvoton.com>, Arnd Bergmann <arnd@arndb.de>, =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Vladimir Zapolskiy <vz@mleia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Orson Zhai <orsonzhai@gmail.com>, Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>, Timur Tabi <timur@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Konrad Dybcio <konrad.dybcio@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, Sudeep Holla <sudeep.holla@arm.com>, Shawn Guo <shawnguo@kernel.org>, =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>, Baruch Siach <baruch@tkos.co.il>, Valentin Caron <valentin.caron@foss.st.com>, Tony Lindgren <tony@atomide.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Liviu Dudau <liviu.dudau@arm.com>, Alexandre To
+ rgue <alexandre.torgue@foss.st.com>, sparclinux@vger.kernel.org, Shan-Chun Hung <schung@nuvoton.com>, linux-riscv@lists.infradead.org, Marek Vasut <marex@denx.de>, Lech Perczak <lech.perczak@camlingroup.com>, Russell King <linux@armlinux.org.uk>, Nick Hu <nick.hu@sifive.com>, Andy Gross <agross@kernel.org>, linux-serial@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Johan Hovold <johan@kernel.org>, linux-mediatek@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-arm-kernel@lists.infradead.org, Taichi Sugaya <sugaya.taichi@socionext.com>, Bjorn Andersson <andersson@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Lucas Tanure <tanure@linux.com>, Andrew Davis <afd@ti.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <p
+ almer@dabbelt.com>, Takao Orito <orito.takao@socionext.com>, linuxppc-dev@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add linux device tree entry related to the Minerva Chassis Management
-Controller (CMC) specific devices connected to the Aspeed SoC (AST2600).
+When a serial port is used for kernel console output, then all
+modifications to the UART registers which are done from other contexts,
+e.g. getty, termios, are interference points for the kernel console.
 
-Signed-off-by: Yang Chen <yangchen.openbmc@gmail.com>
----
- arch/arm/boot/dts/aspeed/Makefile             |   1 +
- .../aspeed-bmc-facebook-minerva-cmc.dts       | 265 ++++++++++++++++++
- 2 files changed, 266 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts
+So far this has been ignored and the printk output is based on the
+principle of hope. The rework of the console infrastructure which aims to
+support threaded and atomic consoles, requires to mark sections which
+modify the UART registers as unsafe. This allows the atomic write function
+to make informed decisions and eventually to restore operational state. It
+also allows to prevent the regular UART code from modifying UART registers
+while printk output is in progress.
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index 23cbc7203a8e..d3ac20e316d0 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -19,6 +19,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-facebook-fuji.dtb \
- 	aspeed-bmc-facebook-galaxy100.dtb \
- 	aspeed-bmc-facebook-greatlakes.dtb \
-+	aspeed-bmc-facebook-minerva-cmc.dtb \
- 	aspeed-bmc-facebook-minipack.dtb \
- 	aspeed-bmc-facebook-tiogapass.dtb \
- 	aspeed-bmc-facebook-wedge40.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts
-new file mode 100644
-index 000000000000..3c389fdf58a5
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts
-@@ -0,0 +1,265 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright (c) 2023 Facebook Inc.
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/i2c/i2c.h>
-+
-+/ {
-+	model = "Facebook Minerva CMC";
-+	compatible = "facebook,minerva-cmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial5 = &uart5;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial5:57600n8";
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x80000000>;
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
-+			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
-+			<&adc1 2>;
-+	};
-+};
-+
-+&uart6 {
-+	status = "okay";
-+};
-+
-+&wdt1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_wdtrst1_default>;
-+	aspeed,reset-type = "soc";
-+	aspeed,external-signal;
-+	aspeed,ext-push-pull;
-+	aspeed,ext-active-high;
-+	aspeed,ext-pulse-duration = <256>;
-+};
-+
-+&mac3 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii4_default>;
-+	use-ncsi;
-+	mlx,multi-host;
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout-128.dtsi"
-+	};
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "alt-bmc";
-+		spi-max-frequency = <50000000>;
-+	};
-+};
-+
-+&rtc {
-+	status = "okay";
-+};
-+
-+&sgpiom1 {
-+	status = "okay";
-+	ngpios = <128>;
-+	bus-frequency = <2000000>;
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	temperature-sensor@4B {
-+		compatible = "ti,tmp75";
-+		reg = <0x4B>;
-+	};
-+
-+	eeprom@51 {
-+		compatible = "atmel,24c128";
-+		reg = <0x51>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	i2c-mux@77 {
-+		compatible = "nxp,pca9548";
-+		reg = <0x77>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c-mux-idle-disconnect;
-+
-+		i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c128";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c128";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c128";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c128";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c@4 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <4>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c128";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c@5 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <5>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c128";
-+				reg = <0x50>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+};
-+
-+&i2c14 {
-+	status = "okay";
-+	multi-master;
-+
-+	ipmb@10 {
-+		compatible = "ipmb-dev";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+		i2c-protocol;
-+	};
-+};
-+
-+&i2c15 {
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c128";
-+		reg = <0x50>;
-+	};
-+};
-+
-+&adc0 {
-+	aspeed,int-vref-microvolt = <2500000>;
-+	status = "okay";
-+	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-+		&pinctrl_adc2_default &pinctrl_adc3_default
-+		&pinctrl_adc4_default &pinctrl_adc5_default
-+		&pinctrl_adc6_default &pinctrl_adc7_default>;
-+};
-+
-+&adc1 {
-+	aspeed,int-vref-microvolt = <2500000>;
-+	status = "okay";
-+	pinctrl-0 = <&pinctrl_adc10_default>;
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&uhci {
-+	status = "okay";
-+};
+All modifications of UART registers are guarded by the UART port lock,
+which provides an obvious synchronization point with the console
+infrastructure.
+
+Provide and use wrapper functions for spin_[un]lock*(port->lock)
+invocations so that the console mechanics can be applied later on at a
+single place and does not require to copy the same logic all over the
+drivers.
+
+Patch 1 adds the wrapper functions.
+
+Patches 2-74 switch all uart port locking call sites to use the new
+wrappers. These patches were automatically generated using coccinelle.
+The 2 used coccinelle scripts are included below and executed as
+follows:
+
+$ spatch --sp-file uartlock-1.cocci $FILE
+$ spatch --sp-file uartlock-2.cocci --recursive-includes $FILE
+
+This series brings no functional change.
+
+Patches 2-74 contain identical commit message bodies. Feel free to
+fold them into a single commit if that seems more reasonable.
+
+Thomas Gleixner (74):
+  serial: core: Provide port lock wrappers
+  serial: core: Use lock wrappers
+  serial: 21285: Use port lock wrappers
+  serial: 8250_aspeed_vuart: Use port lock wrappers
+  serial: 8250_bcm7271: Use port lock wrappers
+  serial: 8250: Use port lock wrappers
+  serial: 8250_dma: Use port lock wrappers
+  serial: 8250_dw: Use port lock wrappers
+  serial: 8250_exar: Use port lock wrappers
+  serial: 8250_fsl: Use port lock wrappers
+  serial: 8250_mtk: Use port lock wrappers
+  serial: 8250_omap: Use port lock wrappers
+  serial: 8250_pci1xxxx: Use port lock wrappers
+  serial: altera_jtaguart: Use port lock wrappers
+  serial: altera_uart: Use port lock wrappers
+  serial: amba-pl010: Use port lock wrappers
+  serial: amba-pl011: Use port lock wrappers
+  serial: apb: Use port lock wrappers
+  serial: ar933x: Use port lock wrappers
+  serial: arc_uart: Use port lock wrappers
+  serial: atmel: Use port lock wrappers
+  serial: bcm63xx-uart: Use port lock wrappers
+  serial: cpm_uart: Use port lock wrappers
+  serial: digicolor: Use port lock wrappers
+  serial: dz: Use port lock wrappers
+  serial: linflexuart: Use port lock wrappers
+  serial: fsl_lpuart: Use port lock wrappers
+  serial: icom: Use port lock wrappers
+  serial: imx: Use port lock wrappers
+  serial: ip22zilog: Use port lock wrappers
+  serial: jsm: Use port lock wrappers
+  serial: liteuart: Use port lock wrappers
+  serial: lpc32xx_hs: Use port lock wrappers
+  serial: ma35d1: Use port lock wrappers
+  serial: mcf: Use port lock wrappers
+  serial: men_z135_uart: Use port lock wrappers
+  serial: meson: Use port lock wrappers
+  serial: milbeaut_usio: Use port lock wrappers
+  serial: mpc52xx: Use port lock wrappers
+  serial: mps2-uart: Use port lock wrappers
+  serial: msm: Use port lock wrappers
+  serial: mvebu-uart: Use port lock wrappers
+  serial: omap: Use port lock wrappers
+  serial: owl: Use port lock wrappers
+  serial: pch: Use port lock wrappers
+  serial: pic32: Use port lock wrappers
+  serial: pmac_zilog: Use port lock wrappers
+  serial: pxa: Use port lock wrappers
+  serial: qcom-geni: Use port lock wrappers
+  serial: rda: Use port lock wrappers
+  serial: rp2: Use port lock wrappers
+  serial: sa1100: Use port lock wrappers
+  serial: samsung_tty: Use port lock wrappers
+  serial: sb1250-duart: Use port lock wrappers
+  serial: sc16is7xx: Use port lock wrappers
+  serial: tegra: Use port lock wrappers
+  serial: core: Use port lock wrappers
+  serial: mctrl_gpio: Use port lock wrappers
+  serial: txx9: Use port lock wrappers
+  serial: sh-sci: Use port lock wrappers
+  serial: sifive: Use port lock wrappers
+  serial: sprd: Use port lock wrappers
+  serial: st-asc: Use port lock wrappers
+  serial: stm32: Use port lock wrappers
+  serial: sunhv: Use port lock wrappers
+  serial: sunplus-uart: Use port lock wrappers
+  serial: sunsab: Use port lock wrappers
+  serial: sunsu: Use port lock wrappers
+  serial: sunzilog: Use port lock wrappers
+  serial: timbuart: Use port lock wrappers
+  serial: uartlite: Use port lock wrappers
+  serial: ucc_uart: Use port lock wrappers
+  serial: vt8500: Use port lock wrappers
+  serial: xilinx_uartps: Use port lock wrappers
+
+ drivers/tty/serial/21285.c                  |   8 +-
+ drivers/tty/serial/8250/8250_aspeed_vuart.c |   6 +-
+ drivers/tty/serial/8250/8250_bcm7271.c      |  28 +++---
+ drivers/tty/serial/8250/8250_core.c         |  12 +--
+ drivers/tty/serial/8250/8250_dma.c          |   8 +-
+ drivers/tty/serial/8250/8250_dw.c           |   8 +-
+ drivers/tty/serial/8250/8250_exar.c         |   4 +-
+ drivers/tty/serial/8250/8250_fsl.c          |   6 +-
+ drivers/tty/serial/8250/8250_mtk.c          |   8 +-
+ drivers/tty/serial/8250/8250_omap.c         |  52 +++++-----
+ drivers/tty/serial/8250/8250_pci1xxxx.c     |   8 +-
+ drivers/tty/serial/8250/8250_port.c         | 100 ++++++++++----------
+ drivers/tty/serial/altera_jtaguart.c        |  28 +++---
+ drivers/tty/serial/altera_uart.c            |  20 ++--
+ drivers/tty/serial/amba-pl010.c             |  20 ++--
+ drivers/tty/serial/amba-pl011.c             |  72 +++++++-------
+ drivers/tty/serial/apbuart.c                |   8 +-
+ drivers/tty/serial/ar933x_uart.c            |  26 ++---
+ drivers/tty/serial/arc_uart.c               |  16 ++--
+ drivers/tty/serial/atmel_serial.c           |  24 ++---
+ drivers/tty/serial/bcm63xx_uart.c           |  22 ++---
+ drivers/tty/serial/cpm_uart.c               |   8 +-
+ drivers/tty/serial/digicolor-usart.c        |  18 ++--
+ drivers/tty/serial/dz.c                     |  32 +++----
+ drivers/tty/serial/fsl_linflexuart.c        |  26 ++---
+ drivers/tty/serial/fsl_lpuart.c             |  88 ++++++++---------
+ drivers/tty/serial/icom.c                   |  26 ++---
+ drivers/tty/serial/imx.c                    |  84 ++++++++--------
+ drivers/tty/serial/ip22zilog.c              |  36 +++----
+ drivers/tty/serial/jsm/jsm_neo.c            |   4 +-
+ drivers/tty/serial/jsm/jsm_tty.c            |  16 ++--
+ drivers/tty/serial/liteuart.c               |  20 ++--
+ drivers/tty/serial/lpc32xx_hs.c             |  26 ++---
+ drivers/tty/serial/ma35d1_serial.c          |  22 ++---
+ drivers/tty/serial/mcf.c                    |  20 ++--
+ drivers/tty/serial/men_z135_uart.c          |   8 +-
+ drivers/tty/serial/meson_uart.c             |  30 +++---
+ drivers/tty/serial/milbeaut_usio.c          |  16 ++--
+ drivers/tty/serial/mpc52xx_uart.c           |  12 +--
+ drivers/tty/serial/mps2-uart.c              |  16 ++--
+ drivers/tty/serial/msm_serial.c             |  38 ++++----
+ drivers/tty/serial/mvebu-uart.c             |  18 ++--
+ drivers/tty/serial/omap-serial.c            |  38 ++++----
+ drivers/tty/serial/owl-uart.c               |  26 ++---
+ drivers/tty/serial/pch_uart.c               |  10 +-
+ drivers/tty/serial/pic32_uart.c             |  20 ++--
+ drivers/tty/serial/pmac_zilog.c             |  52 +++++-----
+ drivers/tty/serial/pxa.c                    |  30 +++---
+ drivers/tty/serial/qcom_geni_serial.c       |   8 +-
+ drivers/tty/serial/rda-uart.c               |  34 +++----
+ drivers/tty/serial/rp2.c                    |  20 ++--
+ drivers/tty/serial/sa1100.c                 |  20 ++--
+ drivers/tty/serial/samsung_tty.c            |  50 +++++-----
+ drivers/tty/serial/sb1250-duart.c           |  12 +--
+ drivers/tty/serial/sc16is7xx.c              |  40 ++++----
+ drivers/tty/serial/serial-tegra.c           |  32 +++----
+ drivers/tty/serial/serial_core.c            |  88 ++++++++---------
+ drivers/tty/serial/serial_mctrl_gpio.c      |   4 +-
+ drivers/tty/serial/serial_port.c            |   4 +-
+ drivers/tty/serial/serial_txx9.c            |  26 ++---
+ drivers/tty/serial/sh-sci.c                 |  68 ++++++-------
+ drivers/tty/serial/sifive.c                 |  16 ++--
+ drivers/tty/serial/sprd_serial.c            |  30 +++---
+ drivers/tty/serial/st-asc.c                 |  18 ++--
+ drivers/tty/serial/stm32-usart.c            |  38 ++++----
+ drivers/tty/serial/sunhv.c                  |  28 +++---
+ drivers/tty/serial/sunplus-uart.c           |  26 ++---
+ drivers/tty/serial/sunsab.c                 |  34 +++----
+ drivers/tty/serial/sunsu.c                  |  46 ++++-----
+ drivers/tty/serial/sunzilog.c               |  42 ++++----
+ drivers/tty/serial/timbuart.c               |   8 +-
+ drivers/tty/serial/uartlite.c               |  18 ++--
+ drivers/tty/serial/ucc_uart.c               |   4 +-
+ drivers/tty/serial/vt8500_serial.c          |   8 +-
+ drivers/tty/serial/xilinx_uartps.c          |  56 +++++------
+ include/linux/serial_core.h                 |  91 ++++++++++++++++--
+ 76 files changed, 1086 insertions(+), 1007 deletions(-)
+
+
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-2.34.1
+2.39.2
+
+--------------8<--------------
+// uartlock-1.cocci
+
+@r1@
+struct uart_port *U;
+@@
+
+-spin_lock(&U->lock)
++uart_port_lock(U)
+
+@r2@
+struct uart_port *U;
+@@
+
+-spin_lock_irq(&U->lock)
++uart_port_lock_irq(U)
+
+@r3@
+struct uart_port *U;
+identifier F;
+@@
+
+-spin_lock_irqsave(&U->lock, F)
++uart_port_lock_irqsave(U, &F)
+
+@r4@
+struct uart_port *U;
+@@
+
+-spin_unlock(&U->lock)
++uart_port_unlock(U)
+
+@r5@
+struct uart_port *U;
+@@
+
+-spin_unlock_irq(&U->lock)
++uart_port_unlock_irq(U)
+
+@r6@
+struct uart_port *U;
+identifier F;
+@@
+
+-spin_unlock_irqrestore(&U->lock, F)
++uart_port_unlock_irqrestore(U, F)
+
+@r7@
+struct uart_port *U;
+@@
+
+-spin_trylock(&U->lock)
++uart_port_trylock(U)
+
+@r8@
+struct uart_port *U;
+identifier F;
+@@
+
+-spin_trylock_irqsave(&U->lock, F)
++uart_port_trylock_irqsave(U, &F)
+
+--------------8<--------------
+// uartlock-2.cocci
+
+@r10@
+type T1;
+identifier U;
+@@
+
+T1 {
+   ...
+   struct uart_port U;
+   ...
+};
+
+@r11@
+r10.T1 *E;
+identifier r10.U;
+@@
+
+-spin_lock(&E->U.lock)
++uart_port_lock(&E->U)
+
+@r12@
+r10.T1 *E;
+identifier r10.U;
+@@
+
+-spin_lock_irq(&E->U.lock)
++uart_port_lock_irq(&E->U)
+
+@r13@
+r10.T1 *E;
+identifier r10.U;
+identifier F;
+@@
+
+-spin_lock_irqsave(&E->U.lock, F)
++uart_port_lock_irqsave(&E->U, &F)
+
+@r14@
+r10.T1 *E;
+identifier r10.U;
+@@
+
+-spin_unlock(&E->U.lock)
++uart_port_unlock(&E->U)
+
+@r15@
+r10.T1 *E;
+identifier r10.U;
+@@
+
+-spin_unlock_irq(&E->U.lock)
++uart_port_unlock_irq(&E->U)
+
+@r16@
+r10.T1 *E;
+identifier r10.U;
+identifier F;
+@@
+
+-spin_unlock_irqrestore(&E->U.lock, F)
++uart_port_unlock_irqrestore(&E->U, F)
+
+@r17@
+r10.T1 *E;
+identifier r10.U;
+@@
+
+-spin_trylock(&E->U.lock)
++uart_port_trylock(&E->U)
+
+@r18@
+r10.T1 *E;
+identifier r10.U;
+identifier F;
+@@
+
+-spin_trylock_irqsave(&E->U.lock, F)
++uart_port_trylock_irqsave(&E->U, &F)
 
