@@ -2,61 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68DB7A4139
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Sep 2023 08:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214AA7A413A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Sep 2023 08:31:18 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mCXXKZZV;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Ei8AYa6K;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rpw0v5W9Yz3cR9
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Sep 2023 16:31:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rpw100CnGz3c8W
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Sep 2023 16:31:16 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mCXXKZZV;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Ei8AYa6K;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rmcp95vxDz30gH
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Sep 2023 22:58:57 +1000 (AEST)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1c3d8fb23d9so7466965ad.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Sep 2023 05:58:57 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RmcpC1zLyz30gH
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Sep 2023 22:58:59 +1000 (AEST)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1c397ed8681so7421745ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Sep 2023 05:58:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694696335; x=1695301135; darn=lists.ozlabs.org;
+        d=gmail.com; s=20221208; t=1694696337; x=1695301137; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=54AxaIyODcmWfyJ8BtWPJ8cdzZB3lh3tOwv90coDpxQ=;
-        b=mCXXKZZVUHQ1I1jFnJfAJ94f2HLS36J8znDgvyOx+a9eOjl0+QefFB6Ihs/Ckyj8fa
-         voEt7gvQWkE0Y3OnVlVTuwsDn5RGkAgf59bAQX67MZ0lJwGi/Yeiu415QORJgW7/ByrG
-         FQxgZq6au3FbFcP7spNwaFZvBaINjUzfpp3kG8ysHXnUixVf8DqR4qIKQi5ctTCJKqAN
-         6GBcCyVTflthQKG1cLZjZslnZa6dCSEIp1mzQbyCyR4g5pKKhG5bXKzabJXUI0eXWnVb
-         yw0M4/rB9KGofSun5kGKw9d07Yuf4GLVA+cElGE31D/bG5bPWRrldOrICvl6lA5gtpI3
-         zekQ==
+        bh=l3MGl7C5EjM9ttfGWxVFA90kZYQHBe9Ye5VWhldrIso=;
+        b=Ei8AYa6KufAfb2ZK5CpMa/Dgiota22I9dVKps5bTWwKXo8k03uiaWgs5kBEOUX5P+t
+         Hh3W9OTydUPPnBecd2e4AKjZ5eDnCt1ua+vU+e6WVofQtKd2+V/KHSav7MLPPD7STexk
+         KTXdXNoDJ9JDjnMP9WWADKPt9a3jhvEAt+PYJBSr83Dma53ah4aWLOAEgSzJuKxidCy+
+         f+h+NHrW0M2CtxmoFpAxM2IXo7b2fRWQVzAyP/IGiGbTpCdwQLWnpqUEPdIloswSA4Ka
+         O2k2VmZNgYNJP6Dcfn3rJI6JJ5cVm48z+z975FWvvLD5B5SfeqVhDLCG1PruCsYLIV+Q
+         OTog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694696335; x=1695301135;
+        d=1e100.net; s=20230601; t=1694696337; x=1695301137;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=54AxaIyODcmWfyJ8BtWPJ8cdzZB3lh3tOwv90coDpxQ=;
-        b=mkB+toXBFiQVYRe/UJgXCLXWoEA4nujJVe16hAfIMQ8nuXOZx4okuYYMgcQGKSVgFw
-         TDA/3VPwg+TBjnPqtwoi4ylCimeZhcx6XQc4s0Un4nXhjPTtsk5TYmJRzX3v60i8X3kh
-         y+0seDutUnxF66euEGWCxBYe1LVhPrFrp7uTiM36+P4pN73R4D4F+kq0fN4UIAOcuxeQ
-         IOuN4Fqwln2WqCaPN0TEh3GtW2CjPjvt9EUQceyhObO0goo54yE/uLOH5pc2khFjfUII
-         VWkp0irbV49dmbHDTFADRb/Pslst7LxO8mucyN6RJVqXKYU8ycK7l+aoqnGNinNXk5/K
-         kUDQ==
-X-Gm-Message-State: AOJu0YwieAHxXlJDxO7gANjOKLekpA6+NslGLsGvXmvsMt8aMXGuQQkX
-	Wj2JAbGbTWm7tWrAuUEEsqI=
-X-Google-Smtp-Source: AGHT+IFah//muDrvYy1m+XUIOqGzm7lgQsEg90yqAqp+DU5qq/aboBQTSLPpCR9ilHKqK7TkkrpLBw==
-X-Received: by 2002:a17:902:dacb:b0:1c0:b8fd:9c7 with SMTP id q11-20020a170902dacb00b001c0b8fd09c7mr7201092plx.43.1694696334927;
-        Thu, 14 Sep 2023 05:58:54 -0700 (PDT)
+        bh=l3MGl7C5EjM9ttfGWxVFA90kZYQHBe9Ye5VWhldrIso=;
+        b=l32hXA3/tnLcG2PhcieNgxwtJggbtGLKC7Hflu/RbpDBuqd52iCr4a6OEUAWZnV2ou
+         jq2vmqmunpQ/1b2yNrETsi0uarxX8E738IkzzgucvDNlFxda6eEO5Q1RRmE+yBW4YxaX
+         znagyG+IPpNQt1yT8iS+fO4vta1Ul6fF8UNEhz6lBGuGKq35WcfnBu+L02dbKTT+rYQ2
+         Xgeu/SitIiUdIuHVoY6Yuj5uUEh9havNmAskhnWY0zW6ooYTaeprqFHyE+dlZkn3cBHb
+         6tftsuIt/BM/argQVxSoL6oa1NjrPDHlZbJfb71QkZ4ufNPi47EPuGdR09z0VTsOAQUz
+         Te4w==
+X-Gm-Message-State: AOJu0Yzb0IpVPM9lnG5IgtI8KhDoG/NjSJGk45MKNiXj5qo/GbUFFfy3
+	tQwZ4BIsLeOcWv3qRZC8usE=
+X-Google-Smtp-Source: AGHT+IGoTGX55SvuPJvG5KNCZxjfgvAW1U8GTQz0U4GzYX80ErzgcFCKRYeqfGHK+nMHzYYsiA0A7w==
+X-Received: by 2002:a17:902:7084:b0:1c0:d17a:bfe9 with SMTP id z4-20020a170902708400b001c0d17abfe9mr4035605plk.46.1694696337546;
+        Thu, 14 Sep 2023 05:58:57 -0700 (PDT)
 Received: from obliging-System-Product-Name.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id c11-20020a170903234b00b001b8a3e2c241sm1535105plh.14.2023.09.14.05.58.52
+        by smtp.gmail.com with ESMTPSA id c11-20020a170903234b00b001b8a3e2c241sm1535105plh.14.2023.09.14.05.58.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 05:58:54 -0700 (PDT)
+        Thu, 14 Sep 2023 05:58:57 -0700 (PDT)
 From: Yang Chen <yangchen.openbmc@gmail.com>
 To: robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org,
@@ -66,9 +66,9 @@ To: robh+dt@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: arm: aspeed: document board compatibles
-Date: Thu, 14 Sep 2023 20:56:47 +0800
-Message-Id: <20230914125648.3966519-2-yangchen.openbmc@gmail.com>
+Subject: [PATCH v2 2/2] ARM: dts: aspeed: Minerva: Add Facebook Minerva CMC board
+Date: Thu, 14 Sep 2023 20:56:48 +0800
+Message-Id: <20230914125648.3966519-3-yangchen.openbmc@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230914125648.3966519-1-yangchen.openbmc@gmail.com>
 References: <20230914125648.3966519-1-yangchen.openbmc@gmail.com>
@@ -90,27 +90,299 @@ Cc: patrick@stwcx.xyz, Jerry.Lin@quantatw.com, EasonChen1@quantatw.com, Eddie.Ch
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Document the new compatibles used on the Facebook Minerva Chassis
-Management Controller (CMC).
+Add linux device tree entry related to the Minerva Chassis Management
+Controller (CMC) specific devices connected to the Aspeed SoC (AST2600).
 
 Signed-off-by: Yang Chen <yangchen.openbmc@gmail.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../aspeed-bmc-facebook-minerva-cmc.dts       | 265 ++++++++++++++++++
+ 2 files changed, 266 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts
 
-diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-index 68f717670f78..749ee54a3ff8 100644
---- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-+++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-@@ -79,6 +79,7 @@ properties:
-               - facebook,elbert-bmc
-               - facebook,fuji-bmc
-               - facebook,greatlakes-bmc
-+              - facebook,minerva-cmc
-               - facebook,yosemite4-bmc
-               - ibm,everest-bmc
-               - ibm,rainier-bmc
+diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
+index 23cbc7203a8e..d3ac20e316d0 100644
+--- a/arch/arm/boot/dts/aspeed/Makefile
++++ b/arch/arm/boot/dts/aspeed/Makefile
+@@ -19,6 +19,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-facebook-fuji.dtb \
+ 	aspeed-bmc-facebook-galaxy100.dtb \
+ 	aspeed-bmc-facebook-greatlakes.dtb \
++	aspeed-bmc-facebook-minerva-cmc.dtb \
+ 	aspeed-bmc-facebook-minipack.dtb \
+ 	aspeed-bmc-facebook-tiogapass.dtb \
+ 	aspeed-bmc-facebook-wedge40.dtb \
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts
+new file mode 100644
+index 000000000000..3c389fdf58a5
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts
+@@ -0,0 +1,265 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2023 Facebook Inc.
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++#include <dt-bindings/i2c/i2c.h>
++
++/ {
++	model = "Facebook Minerva CMC";
++	compatible = "facebook,minerva-cmc", "aspeed,ast2600";
++
++	aliases {
++		serial5 = &uart5;
++	};
++
++	chosen {
++		stdout-path = "serial5:57600n8";
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x80000000>;
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
++			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
++			<&adc1 2>;
++	};
++};
++
++&uart6 {
++	status = "okay";
++};
++
++&wdt1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_wdtrst1_default>;
++	aspeed,reset-type = "soc";
++	aspeed,external-signal;
++	aspeed,ext-push-pull;
++	aspeed,ext-active-high;
++	aspeed,ext-pulse-duration = <256>;
++};
++
++&mac3 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii4_default>;
++	use-ncsi;
++	mlx,multi-host;
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout-128.dtsi"
++	};
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "alt-bmc";
++		spi-max-frequency = <50000000>;
++	};
++};
++
++&rtc {
++	status = "okay";
++};
++
++&sgpiom1 {
++	status = "okay";
++	ngpios = <128>;
++	bus-frequency = <2000000>;
++};
++
++&i2c0 {
++	status = "okay";
++};
++
++&i2c1 {
++	status = "okay";
++
++	temperature-sensor@4B {
++		compatible = "ti,tmp75";
++		reg = <0x4B>;
++	};
++
++	eeprom@51 {
++		compatible = "atmel,24c128";
++		reg = <0x51>;
++	};
++};
++
++&i2c2 {
++	status = "okay";
++
++	i2c-mux@77 {
++		compatible = "nxp,pca9548";
++		reg = <0x77>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		i2c-mux-idle-disconnect;
++
++		i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++
++			eeprom@50 {
++				compatible = "atmel,24c128";
++				reg = <0x50>;
++			};
++		};
++
++		i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++
++			eeprom@50 {
++				compatible = "atmel,24c128";
++				reg = <0x50>;
++			};
++		};
++
++		i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++
++			eeprom@50 {
++				compatible = "atmel,24c128";
++				reg = <0x50>;
++			};
++		};
++
++		i2c@3 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <3>;
++
++			eeprom@50 {
++				compatible = "atmel,24c128";
++				reg = <0x50>;
++			};
++		};
++
++		i2c@4 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <4>;
++
++			eeprom@50 {
++				compatible = "atmel,24c128";
++				reg = <0x50>;
++			};
++		};
++
++		i2c@5 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <5>;
++
++			eeprom@50 {
++				compatible = "atmel,24c128";
++				reg = <0x50>;
++			};
++		};
++	};
++};
++
++&i2c3 {
++	status = "okay";
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c9 {
++	status = "okay";
++};
++
++&i2c10 {
++	status = "okay";
++};
++
++&i2c11 {
++	status = "okay";
++};
++
++&i2c12 {
++	status = "okay";
++};
++
++&i2c13 {
++	status = "okay";
++};
++
++&i2c14 {
++	status = "okay";
++	multi-master;
++
++	ipmb@10 {
++		compatible = "ipmb-dev";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++		i2c-protocol;
++	};
++};
++
++&i2c15 {
++	status = "okay";
++
++	eeprom@50 {
++		compatible = "atmel,24c128";
++		reg = <0x50>;
++	};
++};
++
++&adc0 {
++	aspeed,int-vref-microvolt = <2500000>;
++	status = "okay";
++	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
++		&pinctrl_adc2_default &pinctrl_adc3_default
++		&pinctrl_adc4_default &pinctrl_adc5_default
++		&pinctrl_adc6_default &pinctrl_adc7_default>;
++};
++
++&adc1 {
++	aspeed,int-vref-microvolt = <2500000>;
++	status = "okay";
++	pinctrl-0 = <&pinctrl_adc10_default>;
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&uhci {
++	status = "okay";
++};
 -- 
 2.34.1
 
