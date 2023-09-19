@@ -1,53 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00F37AA7FE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 06:55:35 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F23FF7AA7FF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 06:55:40 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Z2XvmWco;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=TAiU38dd;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RsKhj4q1Pz3c8c
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 14:55:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RsKhp5hgcz3cDR
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 14:55:38 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Z2XvmWco;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=TAiU38dd;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linuxfoundation.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RpyZH715Tz2yG9;
-	Mon, 18 Sep 2023 18:26:46 +1000 (AEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ideasonboard.com (client-ip=2001:4b98:dc2:55:216:3eff:fef7:d647; helo=perceval.ideasonboard.com; envelope-from=tomi.valkeinen@ideasonboard.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 330 seconds by postgrey-1.37 at boromir; Tue, 19 Sep 2023 17:15:10 AEST
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by sin.source.kernel.org (Postfix) with ESMTPS id C1BEFCE0A7C;
-	Mon, 18 Sep 2023 08:26:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1362EC433C7;
-	Mon, 18 Sep 2023 08:26:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1695025603;
-	bh=sMXA/6fEari6gFcvN4K1t3oFk4UFIEvXkCv0bTqIj5w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z2XvmWcozWHkSw/N8sb8Ry+NwN7vHjaQPDv3sxyalk6XldCahUkcj1cgGARw0kkHz
-	 yKR/pNFJ9fM2gO4iQ63iJwfyjudX+nJreWAHWO/Y0KD87L4PsdK8/ClAb9aCu4qrBz
-	 XIHRzKPc76RORYHeobe15Z6xsHb2TSzbLBEp9zlA=
-Date: Mon, 18 Sep 2023 10:26:38 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: John Ogness <john.ogness@linutronix.de>
-Subject: Re: [PATCH tty v1 00/74] serial: wrappers for uart port lock
-Message-ID: <2023091826-seventy-opium-17b8@gregkh>
-References: <20230914183831.587273-1-john.ogness@linutronix.de>
- <87y1h3lwjh.fsf@jogness.linutronix.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RqXxB3myzz2xpp
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Sep 2023 17:15:10 +1000 (AEST)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 847C8FA2;
+	Tue, 19 Sep 2023 09:07:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1695107269;
+	bh=1mn0ySDXUgk/nzOh16Ww6lZfnBYBB/YyUmgjtm6Vro8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TAiU38ddH5DnwNaTDuK0Vfpkob+UnVlCddC5V875FkcekMoPLITOqPUPTlddvhEyl
+	 81To1hCOz2og7IpAv5MliZDfUya7Fv3zJHrfLrPgP2pRW+e2vrD6J187rl9JrfahPx
+	 /gqRjqQTv8pnQzwxrxh3YZgG++RmxLl3Tjroy824=
+Message-ID: <91956712-0bdf-c932-5f8f-e7bb911f8d9f@ideasonboard.com>
+Date: Tue, 19 Sep 2023 10:09:20 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87y1h3lwjh.fsf@jogness.linutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [RFT PATCH 5/6] drm: Call drm_atomic_helper_shutdown() at
+ shutdown/remove time for misc drivers
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+References: <20230901234015.566018-1-dianders@chromium.org>
+ <20230901163944.RFT.5.I771eb4bd03d8772b19e7dcfaef3e2c167bce5846@changeid>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230901163944.RFT.5.I771eb4bd03d8772b19e7dcfaef3e2c167bce5846@changeid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 22 Sep 2023 14:53:47 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -60,28 +61,299 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Alim Akhtar <alim.akhtar@samsung.com>, Peter Korsgaard <jacmet@sunsite.dk>, linux-stm32@st-md-mailman.stormreply.com, Karol Gugala <kgugala@antmicro.com>, Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>, Hugo Villeneuve <hvilleneuve@dimonoff.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Hammer Hsieh <hammerh0314@gmail.com>, Jiamei Xie <jiamei.xie@arm.com>, NXP Linux Team <linux-imx@nxp.com>, Vineet Gupta <vgupta@kernel.org>, Thierry Reding <treding@nvidia.com>, Petr Mladek <pmladek@suse.com>, Arend van Spriel <arend.vanspriel@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Nicholas Piggin <npiggin@gmail.com>, linux-unisoc@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, Samuel Holland <samuel.holland@sifive.com>, Richard Genoud <richard.genoud@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Andrew Morton <akp
- m@linux-foundation.org>, "Maciej W. Rozycki" <macro@orcam.me.uk>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Laxman Dewangan <ldewangan@nvidia.com>, Dmitry Rokosov <ddrokosov@sberdevices.ru>, Xiongfeng Wang <wangxiongfeng2@huawei.com>, Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, delisun <delisun@pateo.com.cn>, Fabio Estevam <festevam@gmail.com>, Ruan Jinjie <ruanjinjie@huawei.com>, Matthew Howell <matthew.howell@sealevel.com>, Jonathan Hunter <jonathanh@nvidia.com>, Gabriel Somlo <gsomlo@gmail.com>, Hongyu Xie <xiehongyu1@kylinos.cn>, Tobias Klauser <tklauser@distanz.ch>, Yangtao Li <frank.li@vivo.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>, linux-amlogic@lists.infradead.org, Michal Simek <michal.simek@amd.com>, Sherry Sun <sherry.sun@nxp.com>, Neil Armstrong <neil.armstrong@linaro.org>, Chunyan Zhang <zhang.lyr
- a@gmail.com>, "David S. Miller" <davem@davemloft.net>, Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>, Lukas Wunner <lukas@wunner.de>, Sergey Organov <sorganov@gmail.com>, Mukesh Ojha <quic_mojha@quicinc.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>, Lino Sanfilippo <l.sanfilippo@kunbus.com>, Tom Rix <trix@redhat.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, Al Cooper <alcooperx@gmail.com>, Yuan Can <yuancan@huawei.com>, Isaac True <isaac.true@canonical.com>, linux-tegra@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>, Mateusz Holenko <mholenko@antmicro.com>, Kevin Cernekee <cernekee@gmail.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Shenwei Wang <shenwei.wang@nxp.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai <wenst@chromium.org>, Ilpo =?iso-8859-
- 1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, linux-snps-arc@lists.infradead.org, Patrice Chotard <patrice.chotard@foss.st.com>, Jacky Huang <ychuang3@nuvoton.com>, Arnd Bergmann <arnd@arndb.de>, Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>, Vladimir Zapolskiy <vz@mleia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Orson Zhai <orsonzhai@gmail.com>, Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>, Timur Tabi <timur@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Konrad Dybcio <konrad.dybcio@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, Sudeep Holla <sudeep.holla@arm.com>, Shawn Guo <shawnguo@kernel.org>, Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>, Baruch Siach <baruch@tkos.co.il>, Valentin Caron <valentin.caron@foss.st.com>, Tony Lindgren <tony@atomide.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Liviu Dudau <liviu.dudau@arm.com>, Alexandre To
- rgue <alexandre.torgue@foss.st.com>, sparclinux@vger.kernel.org, Shan-Chun Hung <schung@nuvoton.com>, linux-riscv@lists.infradead.org, Marek Vasut <marex@denx.de>, Lech Perczak <lech.perczak@camlingroup.com>, Russell King <linux@armlinux.org.uk>, Nick Hu <nick.hu@sifive.com>, Andy Gross <agross@kernel.org>, linux-serial@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Johan Hovold <johan@kernel.org>, linux-mediatek@lists.infradead.org, Paul Walmsley <paul.walmsley@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-arm-kernel@lists.infradead.org, Taichi Sugaya <sugaya.taichi@socionext.com>, Bjorn Andersson <andersson@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Lucas Tanure <tanure@linux.com>, Andrew Davis <afd@ti.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <p
- almer@dabbelt.com>, Takao Orito <orito.takao@socionext.com>, linuxppc-dev@lists.ozlabs.org
+Cc: mcoquelin.stm32@gmail.com, jfalempe@redhat.com, yannick.fertre@foss.st.com, linux-aspeed@lists.ozlabs.org, emma@anholt.net, raphael.gallais-pou@foss.st.com, jyri.sarha@iki.fi, linus.walleij@linaro.org, alexandre.torgue@foss.st.com, linux-kernel@vger.kernel.org, hdegoede@redhat.com, daniel@ffwll.ch, tzimmermann@suse.de, airlied@redhat.com, airlied@gmail.com, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, philippe.cornu@foss.st.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Sep 18, 2023 at 10:29:30AM +0206, John Ogness wrote:
-> On 2023-09-14, John Ogness <john.ogness@linutronix.de> wrote:
-> > Provide and use wrapper functions for spin_[un]lock*(port->lock)
-> > invocations so that the console mechanics can be applied later on at a
-> > single place and does not require to copy the same logic all over the
-> > drivers.
+On 02/09/2023 02:39, Douglas Anderson wrote:
+> Based on grepping through the source code these drivers appear to be
+> missing a call to drm_atomic_helper_shutdown() at system shutdown time
+> and at driver remove (or unbind) time. Among other things, this means
+> that if a panel is in use that it won't be cleanly powered off at
+> system shutdown time.
 > 
-> For the full 74-patch series:
-> 
-> Signed-off-by: John Ogness <john.ogness@linutronix.de>
-> 
-> Sorry that my SoB was missing from the initial posting.
+> The fact that we should call drm_atomic_helper_shutdown() in the case
+> of OS shutdown/restart and at driver remove (or unbind) time comes
+> straight out of the kernel doc "driver instance overview" in
+> drm_drv.c.
 
-Thanks for this, I'll rebuild my tree with this added.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-greg k-h
+and tested on Beagle Bone Black (tilcdc):
+
+Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> # tilcdc
+
+  Tomi
+
+> 
+> A few notes about these fixes:
+> - I confirmed that these drivers were all DRIVER_MODESET type drivers,
+>    which I believe makes this relevant.
+> - I confirmed that these drivers were all DRIVER_ATOMIC.
+> - When adding drm_atomic_helper_shutdown() to the remove/unbind path,
+>    I added it after drm_kms_helper_poll_fini() when the driver had
+>    it. This seemed to be what other drivers did. If
+>    drm_kms_helper_poll_fini() wasn't there I added it straight after
+>    drm_dev_unregister().
+> - This patch deals with drivers using the component model in similar
+>    ways as the patch ("drm: Call drm_atomic_helper_shutdown() at
+>    shutdown time for misc drivers")
+> - These fixes rely on the patch ("drm/atomic-helper:
+>    drm_atomic_helper_shutdown(NULL) should be a noop") to simplify
+>    shutdown.
+> 
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> 
+>   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c |  7 +++++++
+>   drivers/gpu/drm/mgag200/mgag200_drv.c   |  8 ++++++++
+>   drivers/gpu/drm/pl111/pl111_drv.c       |  7 +++++++
+>   drivers/gpu/drm/stm/drv.c               |  7 +++++++
+>   drivers/gpu/drm/tilcdc/tilcdc_drv.c     | 11 ++++++++++-
+>   drivers/gpu/drm/tve200/tve200_drv.c     |  7 +++++++
+>   drivers/gpu/drm/vboxvideo/vbox_drv.c    | 10 ++++++++++
+>   7 files changed, 56 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> index d207b03f8357..78122b35a0cb 100644
+> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> @@ -358,11 +358,18 @@ static void aspeed_gfx_remove(struct platform_device *pdev)
+>   	sysfs_remove_group(&pdev->dev.kobj, &aspeed_sysfs_attr_group);
+>   	drm_dev_unregister(drm);
+>   	aspeed_gfx_unload(drm);
+> +	drm_atomic_helper_shutdown(drm);
+> +}
+> +
+> +static void aspeed_gfx_shutdown(struct platform_device *pdev)
+> +{
+> +	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
+>   }
+>   
+>   static struct platform_driver aspeed_gfx_platform_driver = {
+>   	.probe		= aspeed_gfx_probe,
+>   	.remove_new	= aspeed_gfx_remove,
+> +	.shutdown	= aspeed_gfx_shutdown,
+>   	.driver = {
+>   		.name = "aspeed_gfx",
+>   		.of_match_table = aspeed_gfx_match,
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> index abddf37f0ea1..2fb18b782b05 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> @@ -10,6 +10,7 @@
+>   #include <linux/pci.h>
+>   
+>   #include <drm/drm_aperture.h>
+> +#include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fbdev_generic.h>
+>   #include <drm/drm_file.h>
+> @@ -278,6 +279,12 @@ static void mgag200_pci_remove(struct pci_dev *pdev)
+>   	struct drm_device *dev = pci_get_drvdata(pdev);
+>   
+>   	drm_dev_unregister(dev);
+> +	drm_atomic_helper_shutdown(dev);
+> +}
+> +
+> +static void mgag200_pci_shutdown(struct pci_dev *pdev)
+> +{
+> +	drm_atomic_helper_shutdown(pci_get_drvdata(pdev));
+>   }
+>   
+>   static struct pci_driver mgag200_pci_driver = {
+> @@ -285,6 +292,7 @@ static struct pci_driver mgag200_pci_driver = {
+>   	.id_table = mgag200_pciidlist,
+>   	.probe = mgag200_pci_probe,
+>   	.remove = mgag200_pci_remove,
+> +	.shutdown = mgag200_pci_shutdown,
+>   };
+>   
+>   drm_module_pci_driver_if_modeset(mgag200_pci_driver, mgag200_modeset);
+> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+> index ba3b5b5f0cdf..02e6b74d5016 100644
+> --- a/drivers/gpu/drm/pl111/pl111_drv.c
+> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
+> @@ -323,12 +323,18 @@ static void pl111_amba_remove(struct amba_device *amba_dev)
+>   	struct pl111_drm_dev_private *priv = drm->dev_private;
+>   
+>   	drm_dev_unregister(drm);
+> +	drm_atomic_helper_shutdown(drm);
+>   	if (priv->panel)
+>   		drm_panel_bridge_remove(priv->bridge);
+>   	drm_dev_put(drm);
+>   	of_reserved_mem_device_release(dev);
+>   }
+>   
+> +static void pl111_amba_shutdown(struct amba_device *amba_dev)
+> +{
+> +	drm_atomic_helper_shutdown(amba_get_drvdata(amba_dev));
+> +}
+> +
+>   /*
+>    * This early variant lacks the 565 and 444 pixel formats.
+>    */
+> @@ -431,6 +437,7 @@ static struct amba_driver pl111_amba_driver __maybe_unused = {
+>   	},
+>   	.probe = pl111_amba_probe,
+>   	.remove = pl111_amba_remove,
+> +	.shutdown = pl111_amba_shutdown,
+>   	.id_table = pl111_id_table,
+>   };
+>   
+> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+> index c68c831136c9..e8523abef27a 100644
+> --- a/drivers/gpu/drm/stm/drv.c
+> +++ b/drivers/gpu/drm/stm/drv.c
+> @@ -114,6 +114,7 @@ static void drv_unload(struct drm_device *ddev)
+>   	DRM_DEBUG("%s\n", __func__);
+>   
+>   	drm_kms_helper_poll_fini(ddev);
+> +	drm_atomic_helper_shutdown(ddev);
+>   	ltdc_unload(ddev);
+>   }
+>   
+> @@ -225,6 +226,11 @@ static void stm_drm_platform_remove(struct platform_device *pdev)
+>   	drm_dev_put(ddev);
+>   }
+>   
+> +static void stm_drm_platform_shutdown(struct platform_device *pdev)
+> +{
+> +	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
+> +}
+> +
+>   static const struct of_device_id drv_dt_ids[] = {
+>   	{ .compatible = "st,stm32-ltdc"},
+>   	{ /* end node */ },
+> @@ -234,6 +240,7 @@ MODULE_DEVICE_TABLE(of, drv_dt_ids);
+>   static struct platform_driver stm_drm_platform_driver = {
+>   	.probe = stm_drm_platform_probe,
+>   	.remove_new = stm_drm_platform_remove,
+> +	.shutdown = stm_drm_platform_shutdown,
+>   	.driver = {
+>   		.name = "stm32-display",
+>   		.of_match_table = drv_dt_ids,
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> index fe56beea3e93..8ebd7134ee21 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> @@ -175,6 +175,7 @@ static void tilcdc_fini(struct drm_device *dev)
+>   		drm_dev_unregister(dev);
+>   
+>   	drm_kms_helper_poll_fini(dev);
+> +	drm_atomic_helper_shutdown(dev);
+>   	tilcdc_irq_uninstall(dev);
+>   	drm_mode_config_cleanup(dev);
+>   
+> @@ -389,6 +390,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+>   
+>   init_failed:
+>   	tilcdc_fini(ddev);
+> +	platform_set_drvdata(pdev, NULL);
+>   
+>   	return ret;
+>   }
+> @@ -537,7 +539,8 @@ static void tilcdc_unbind(struct device *dev)
+>   	if (!ddev->dev_private)
+>   		return;
+>   
+> -	tilcdc_fini(dev_get_drvdata(dev));
+> +	tilcdc_fini(ddev);
+> +	dev_set_drvdata(dev, NULL);
+>   }
+>   
+>   static const struct component_master_ops tilcdc_comp_ops = {
+> @@ -582,6 +585,11 @@ static int tilcdc_pdev_remove(struct platform_device *pdev)
+>   	return 0;
+>   }
+>   
+> +static void tilcdc_pdev_shutdown(struct platform_device *pdev)
+> +{
+> +	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
+> +}
+> +
+>   static const struct of_device_id tilcdc_of_match[] = {
+>   		{ .compatible = "ti,am33xx-tilcdc", },
+>   		{ .compatible = "ti,da850-tilcdc", },
+> @@ -592,6 +600,7 @@ MODULE_DEVICE_TABLE(of, tilcdc_of_match);
+>   static struct platform_driver tilcdc_platform_driver = {
+>   	.probe      = tilcdc_pdev_probe,
+>   	.remove     = tilcdc_pdev_remove,
+> +	.shutdown   = tilcdc_pdev_shutdown,
+>   	.driver     = {
+>   		.name   = "tilcdc",
+>   		.pm     = pm_sleep_ptr(&tilcdc_pm_ops),
+> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
+> index 0bb56d063536..acce210e2554 100644
+> --- a/drivers/gpu/drm/tve200/tve200_drv.c
+> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
+> @@ -242,6 +242,7 @@ static void tve200_remove(struct platform_device *pdev)
+>   	struct tve200_drm_dev_private *priv = drm->dev_private;
+>   
+>   	drm_dev_unregister(drm);
+> +	drm_atomic_helper_shutdown(drm);
+>   	if (priv->panel)
+>   		drm_panel_bridge_remove(priv->bridge);
+>   	drm_mode_config_cleanup(drm);
+> @@ -249,6 +250,11 @@ static void tve200_remove(struct platform_device *pdev)
+>   	drm_dev_put(drm);
+>   }
+>   
+> +static void tve200_shutdown(struct platform_device *pdev)
+> +{
+> +	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
+> +}
+> +
+>   static const struct of_device_id tve200_of_match[] = {
+>   	{
+>   		.compatible = "faraday,tve200",
+> @@ -263,6 +269,7 @@ static struct platform_driver tve200_driver = {
+>   	},
+>   	.probe = tve200_probe,
+>   	.remove_new = tve200_remove,
+> +	.shutdown = tve200_shutdown,
+>   };
+>   drm_module_platform_driver(tve200_driver);
+>   
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> index 4fee15c97c34..047b95812334 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> @@ -12,6 +12,7 @@
+>   #include <linux/vt_kern.h>
+>   
+>   #include <drm/drm_aperture.h>
+> +#include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fbdev_generic.h>
+>   #include <drm/drm_file.h>
+> @@ -97,11 +98,19 @@ static void vbox_pci_remove(struct pci_dev *pdev)
+>   	struct vbox_private *vbox = pci_get_drvdata(pdev);
+>   
+>   	drm_dev_unregister(&vbox->ddev);
+> +	drm_atomic_helper_shutdown(&vbox->ddev);
+>   	vbox_irq_fini(vbox);
+>   	vbox_mode_fini(vbox);
+>   	vbox_hw_fini(vbox);
+>   }
+>   
+> +static void vbox_pci_shutdown(struct pci_dev *pdev)
+> +{
+> +	struct vbox_private *vbox = pci_get_drvdata(pdev);
+> +
+> +	drm_atomic_helper_shutdown(&vbox->ddev);
+> +}
+> +
+>   static int vbox_pm_suspend(struct device *dev)
+>   {
+>   	struct vbox_private *vbox = dev_get_drvdata(dev);
+> @@ -165,6 +174,7 @@ static struct pci_driver vbox_pci_driver = {
+>   	.id_table = pciidlist,
+>   	.probe = vbox_pci_probe,
+>   	.remove = vbox_pci_remove,
+> +	.shutdown = vbox_pci_shutdown,
+>   	.driver.pm = pm_sleep_ptr(&vbox_pm_ops),
+>   };
+>   
+
