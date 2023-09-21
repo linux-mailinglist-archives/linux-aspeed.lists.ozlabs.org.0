@@ -2,63 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66B657A6BE1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Sep 2023 21:55:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 627DA7A9AC1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Sep 2023 20:48:30 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fPElZ9ed;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=OwTIagEy;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RqspN4yrjz3c2b
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Sep 2023 05:55:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rs4DD1Lgxz3cTK
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 04:48:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fPElZ9ed;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=OwTIagEy;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.65; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2a00:1450:4864:20::530; helo=mail-ed1-x530.google.com; envelope-from=dianders@chromium.org; receiver=lists.ozlabs.org)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rqsp85gnQz2ygy
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Sep 2023 05:55:10 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695153313; x=1726689313;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Bepkwmn/REb0biKQxCPTgmoT59eVotqTB0kTZUaw9lM=;
-  b=fPElZ9edhDgnhYF2dt2DmrVG/77UESU1XYzUEeJdLongIqWL6D3t6cbX
-   1RH97cQszW9f1f47i6KGlo+X1qBaHEX9A7nO4sw//rYHeFPRNzmaBW1a7
-   ZteHFCMpwn33Tg3l6zRI3Q5zdb+cvuWKxSVB86A2C5lywIB/fR0qL//uB
-   nLC1wf94z44dLl6uDRiuyseR9J2WVmhx5ugd/GIK1AgYZW1ev00LXTJxT
-   EzQToEKoXJCWl03a3AwqX3NrenXrJ0/oozAW1usDG6quHozUmWmDFdY1J
-   TMQ9xXldWM9MSfq22O8uj9Hd6025M0zgX/gpvfJlvJkp/gP/4DCr2Yy3q
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="383874535"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="383874535"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2023 12:54:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10838"; a="746354996"
-X-IronPort-AV: E=Sophos;i="6.02,160,1688454000"; 
-   d="scan'208";a="746354996"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 19 Sep 2023 12:54:54 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 9473545B; Tue, 19 Sep 2023 22:54:53 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v1 1/1] serial: 8250_aspeed_vuart: Use devm_clk_get_enabled()
-Date: Tue, 19 Sep 2023 22:54:50 +0300
-Message-Id: <20230919195450.3197881-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rs4D35WMJz3cGM
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Sep 2023 04:48:19 +1000 (AEST)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5335d9045b4so496709a12.3
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Sep 2023 11:48:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695322095; x=1695926895; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=brAzGA2XEfmHNJOmgEz0xYZn4CECqGMWBMjfuyGkpN0=;
+        b=OwTIagEyY3PwlSFauaE2DH+Mz7gWilWA6intrNOllsi6n+ynFfXaWzhewJrQkeDwb9
+         SpFcWIcNMz+GcYNkgl44cVnWa3lkNSrrAm0QIxyWkgpF2xtQHWEtHPmGW2Cde6X7O6Mg
+         7Zc996hS1mt0fJVbntpYcYwScDAlw1t5J5E8s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695322095; x=1695926895;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=brAzGA2XEfmHNJOmgEz0xYZn4CECqGMWBMjfuyGkpN0=;
+        b=Xa/dWoPN9m00qvZAGKyxzYyiSZroTU6vOyvRLrlbv/NxeJajRRLt4UawMeSU56iOeK
+         A6V08XA2KvjQde/ABps/W2rYjXH/It8zabK/7/tq2KefmCZLExGHIJGi7Q1O77e0hKVS
+         8KXEawI+IfiY3KI6q97Igu5NFYMomCsFBmbO0KkapNJPmdPpG0s8MrIPube4KuJL4XN6
+         SdPmdnwwAsA9fUnxm6Y5mHxPdk34z0atuHLtYFO9W0UHk1N54Hloq+seS2zT4DPEw5Kh
+         2wjTJSj/cWdTyDEcWpPEQOp/opkrPXpaMrFAFQ/D7KP9eeLulpZBiYuG8pV1mRP29rwk
+         CIXw==
+X-Gm-Message-State: AOJu0YyIqMo/Y4js411h1DOIS6PAVdt5SeWezXPy2QkYAQg5NPZHH5/y
+	vpvFdqFuV2KPBRT9bveCDezM+GLy6mNjfAavjFNmG5um
+X-Google-Smtp-Source: AGHT+IHXvXjN9vmBkK/KIzzjP+qRed9wIx8nsCligSn7jPGuc2+kpIq8lNtlKMy34p3xBejNXkh+xQ==
+X-Received: by 2002:aa7:d758:0:b0:522:3d36:ff27 with SMTP id a24-20020aa7d758000000b005223d36ff27mr5563409eds.31.1695322094724;
+        Thu, 21 Sep 2023 11:48:14 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com. [209.85.128.53])
+        by smtp.gmail.com with ESMTPSA id l14-20020aa7cace000000b0053331f9094dsm1193458edt.52.2023.09.21.11.48.14
+        for <linux-aspeed@lists.ozlabs.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Sep 2023 11:48:14 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4053a7b36b0so17255e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Sep 2023 11:48:14 -0700 (PDT)
+X-Received: by 2002:a05:600c:4c19:b0:3fe:d691:7d63 with SMTP id
+ d25-20020a05600c4c1900b003fed6917d63mr120103wmp.6.1695322093885; Thu, 21 Sep
+ 2023 11:48:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230901234015.566018-1-dianders@chromium.org> <20230901163944.RFT.5.I771eb4bd03d8772b19e7dcfaef3e2c167bce5846@changeid>
+In-Reply-To: <20230901163944.RFT.5.I771eb4bd03d8772b19e7dcfaef3e2c167bce5846@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 21 Sep 2023 11:48:01 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vvqd76m-i2vbpVoiTir18S4ceFTd17nGdH1yU+9jhfDw@mail.gmail.com>
+Message-ID: <CAD=FV=Vvqd76m-i2vbpVoiTir18S4ceFTd17nGdH1yU+9jhfDw@mail.gmail.com>
+Subject: Re: [RFT PATCH 5/6] drm: Call drm_atomic_helper_shutdown() at
+ shutdown/remove time for misc drivers
+To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,77 +83,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: mcoquelin.stm32@gmail.com, jfalempe@redhat.com, yannick.fertre@foss.st.com, linux-aspeed@lists.ozlabs.org, emma@anholt.net, raphael.gallais-pou@foss.st.com, jyri.sarha@iki.fi, linus.walleij@linaro.org, alexandre.torgue@foss.st.com, linux-kernel@vger.kernel.org, hdegoede@redhat.com, daniel@ffwll.ch, tomi.valkeinen@ideasonboard.com, tzimmermann@suse.de, airlied@redhat.com, airlied@gmail.com, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, philippe.cornu@foss.st.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Use devm_clk_get_enabled() to simplify the code.
+Hi,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/tty/serial/8250/8250_aspeed_vuart.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
+On Fri, Sep 1, 2023 at 4:41=E2=80=AFPM Douglas Anderson <dianders@chromium.=
+org> wrote:
+>
+> Based on grepping through the source code these drivers appear to be
+> missing a call to drm_atomic_helper_shutdown() at system shutdown time
+> and at driver remove (or unbind) time. Among other things, this means
+> that if a panel is in use that it won't be cleanly powered off at
+> system shutdown time.
+>
+> The fact that we should call drm_atomic_helper_shutdown() in the case
+> of OS shutdown/restart and at driver remove (or unbind) time comes
+> straight out of the kernel doc "driver instance overview" in
+> drm_drv.c.
+>
+> A few notes about these fixes:
+> - I confirmed that these drivers were all DRIVER_MODESET type drivers,
+>   which I believe makes this relevant.
+> - I confirmed that these drivers were all DRIVER_ATOMIC.
+> - When adding drm_atomic_helper_shutdown() to the remove/unbind path,
+>   I added it after drm_kms_helper_poll_fini() when the driver had
+>   it. This seemed to be what other drivers did. If
+>   drm_kms_helper_poll_fini() wasn't there I added it straight after
+>   drm_dev_unregister().
+> - This patch deals with drivers using the component model in similar
+>   ways as the patch ("drm: Call drm_atomic_helper_shutdown() at
+>   shutdown time for misc drivers")
+> - These fixes rely on the patch ("drm/atomic-helper:
+>   drm_atomic_helper_shutdown(NULL) should be a noop") to simplify
+>   shutdown.
+>
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c |  7 +++++++
+>  drivers/gpu/drm/mgag200/mgag200_drv.c   |  8 ++++++++
+>  drivers/gpu/drm/pl111/pl111_drv.c       |  7 +++++++
+>  drivers/gpu/drm/stm/drv.c               |  7 +++++++
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c     | 11 ++++++++++-
+>  drivers/gpu/drm/tve200/tve200_drv.c     |  7 +++++++
+>  drivers/gpu/drm/vboxvideo/vbox_drv.c    | 10 ++++++++++
+>  7 files changed, 56 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-index 7a4537a1d66c..270b3a710eb6 100644
---- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
-+++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-@@ -34,7 +34,6 @@
- 
- struct aspeed_vuart {
- 	struct device		*dev;
--	struct clk		*clk;
- 	int			line;
- 	struct timer_list	unthrottle_timer;
- 	struct uart_8250_port	*port;
-@@ -422,6 +421,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
- 	struct resource *res;
- 	u32 clk, prop, sirq[2];
- 	int rc, sirq_polarity;
-+	struct clk *vclk;
- 
- 	np = pdev->dev.of_node;
- 
-@@ -454,18 +454,13 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
- 		return rc;
- 
- 	if (of_property_read_u32(np, "clock-frequency", &clk)) {
--		vuart->clk = devm_clk_get(&pdev->dev, NULL);
--		if (IS_ERR(vuart->clk)) {
--			rc = dev_err_probe(dev, PTR_ERR(vuart->clk),
--					   "clk or clock-frequency not defined\n");
-+		vclk = devm_clk_get_enabled(dev, NULL);
-+		if (IS_ERR(vclk)) {
-+			rc = dev_err_probe(dev, PTR_ERR(vclk), "clk or clock-frequency not defined\n");
- 			goto err_sysfs_remove;
- 		}
- 
--		rc = clk_prepare_enable(vuart->clk);
--		if (rc < 0)
--			goto err_sysfs_remove;
--
--		clk = clk_get_rate(vuart->clk);
-+		clk = clk_get_rate(vclk);
- 	}
- 
- 	/* If current-speed was set, then try not to change it. */
-@@ -565,7 +560,6 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_clk_disable:
--	clk_disable_unprepare(vuart->clk);
- 	irq_dispose_mapping(port.port.irq);
- err_sysfs_remove:
- 	sysfs_remove_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
-@@ -580,7 +574,6 @@ static int aspeed_vuart_remove(struct platform_device *pdev)
- 	aspeed_vuart_set_enabled(vuart, false);
- 	serial8250_unregister_port(vuart->line);
- 	sysfs_remove_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
--	clk_disable_unprepare(vuart->clk);
- 
- 	return 0;
- }
--- 
-2.40.0.1.gaa8946217a0b
+Landed on drm-misc-next:
 
+3c4babae3c4a drm: Call drm_atomic_helper_shutdown() at shutdown/remove
+time for misc drivers
