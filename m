@@ -2,59 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA257AAFD9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 12:45:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF5A7AB3CF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 16:39:29 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=UGHTXYEs;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=TYiklTyw;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RsTSt1mVmz2xYt
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 20:45:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RsZfR1BYXz3cc1
+	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Sep 2023 00:39:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=UGHTXYEs;
+	dkim=pass (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=TYiklTyw;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=zhangjian.3032@bytedance.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RsTPT70nnz3cmB;
-	Fri, 22 Sep 2023 20:42:53 +1000 (AEST)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:7e5d:5300::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 81BE0E07;
-	Fri, 22 Sep 2023 03:42:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1695379371;
-	bh=JYm8BcM9/KAma3UN/bNDkHDqNyw66K9b6awe2AtcQjo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UGHTXYEs8gbpqvzfMndMgkQ9wWOq1AhrAGJjzFZ0nswSX1vxNIOrQqDM1Vb9BQAV7
-	 MTKYrynqAphAyL8XxfMfG3k+QtGytjBuU0AiBw0KNvJKlAjG7JsJo0yPKTRaqTinIp
-	 735t2vjgusXhwz8uTOUzCTZzv+jdsLrYmOpUo9BI=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Andrew Jeffery <andrew@aj.id.au>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Joel Stanley <joel@jms.id.au>,
-	"Milton D. Miller II" <mdmii@outlook.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	openbmc@lists.ozlabs.org
-Subject: [PATCH 2/2] watchdog: aspeed: Add support for aspeed,reset-mask DT property
-Date: Fri, 22 Sep 2023 03:42:34 -0700
-Message-ID: <20230922104231.1434-6-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230922104231.1434-4-zev@bewilderbeest.net>
-References: <20230922104231.1434-4-zev@bewilderbeest.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RsZfG3NR0z3bw3
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 23 Sep 2023 00:39:16 +1000 (AEST)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6910ea9cddbso1797223b3a.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Sep 2023 07:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1695393554; x=1695998354; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GDCW2U3ma3X57srmeQIvcOtqMW2EwlhtHdznihqOnWg=;
+        b=TYiklTywe84pSaRupoYeoJoxwp4S+xg8BTMxrRbcXiNGKo3xKhGzXqXEmG1Rlp2pyB
+         wFm/U0xmRbNCOh7BCr437kh2JUnNb8PGcy5kCgyjOFjgBqZj6PPsGbFY2GX1gKEGshS/
+         caqo7HONW6SMMfwJV4lQR190ZD2Lvo+T2FzekUdD2LiPtcNx4vxoADbJrSwJga0Qb2eS
+         cpQYViMOI3fFJ9GKyBfPBcFWayNvTL7e7NCEBdWo5OZQ0bhe2H1DaFx8T3TKwiFmZS9B
+         EMIVvO57SZxcSRg6LHt0QZX3Suz4MDVBXQ3oxqBrlgNqMS421wTcSwZdkeHHsIzTx0Vj
+         8ddw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695393554; x=1695998354;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GDCW2U3ma3X57srmeQIvcOtqMW2EwlhtHdznihqOnWg=;
+        b=m6AHxUJMKaSgEvE7gv15NjyvdbWWzc2ruJT2cbHoxMv0l1kpAfKbeWNzEDl4wM0gaQ
+         Amr9eaCNI3z0gvkOQGAE/kAt+sBuZyvl9MM4jiiMo8lUoZdKcdPUV9ExOF9nluMr4mgY
+         Uz7ewjrXABT/WCnDYLfVR7KEvy8T8088oKtEWVCPLqgLCHoJngm+z30YUtfGXBUZlyQ0
+         mE0wo6voxSp7T5wh6EWk47HMNndPMomA/flYM42tkRMMafe3KG8s6SmEMPvXH46IPJ+7
+         CzPR4GVp7qMxn2I3kMSpleIf9/CGtD6/0DqopxDEYf79uUwlpsKD5hfRjnhsgTlILy0r
+         LRTw==
+X-Gm-Message-State: AOJu0Yww1SDfne03E+1JTdCCG5Grq+k8lEiWRyN4NBA8jeAVQnNbqOBk
+	OBsdUwbGC+KyWIilq+6J85NyO295qjo7VYBQKyAhvg==
+X-Google-Smtp-Source: AGHT+IGSX2coFfnuBFC8yiNSrNUXsjDUYJpRoivmDrjqqsI1bp/3866wqzTiC/iIOogJ9xfcP/YSwQVE82FwHEwWHJw=
+X-Received: by 2002:a05:6a00:2389:b0:68a:5395:7aa5 with SMTP id
+ f9-20020a056a00238900b0068a53957aa5mr9664393pfc.17.1695393554057; Fri, 22 Sep
+ 2023 07:39:14 -0700 (PDT)
+Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
+ Fri, 22 Sep 2023 10:39:13 -0400
+Mime-Version: 1.0
+References: <20230810072155.3726352-1-zhangjian.3032@bytedance.com> <CACPK8XfWKLS_4nBC+NCSw=21iQeaHzBXOROmz9T+S0qZHCBKeg@mail.gmail.com>
+In-Reply-To: <CACPK8XfWKLS_4nBC+NCSw=21iQeaHzBXOROmz9T+S0qZHCBKeg@mail.gmail.com>
+From: Jian Zhang <zhangjian.3032@bytedance.com>
+Date: Fri, 22 Sep 2023 10:39:13 -0400
+Message-ID: <CA+J-oUtxiQBOT+VM3fbOUM8HL5TX-C4HqtbbT__b4_KsGAJy1w@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH] i2c: aspeed: Fix i2c bus hang in slave read
+To: Joel Stanley <joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,56 +77,130 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Ivan Mikhaylov <i.mikhaylov@yadro.com>, =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>, Zev Weiss <zev@bewilderbeest.net>
+Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, "moderated list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, "open list:ARM/ASPEED I2C DRIVER" <linux-i2c@vger.kernel.org>, brendan.higgins@linux.dev, zhangjian3032@gmail.com, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, xiexinnan@bytedance.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This property allows the device-tree to specify how the Aspeed
-watchdog timer's reset mask register(s) should be set, so that
-peripherals can be individually exempted from (or opted in to) being
-reset when the watchdog timer expires.
+> From: "Joel Stanley"<joel@jms.id.au>
+> Date:=C2=A0 Fri, Sep 22, 2023, 14:48
+> Subject:=C2=A0 [External] Re: [PATCH] i2c: aspeed: Fix i2c bus hang in sl=
+ave read
+> To: "Jian Zhang"<zhangjian.3032@bytedance.com>, "Tommy Huang"<tommy_huang=
+@aspeedtech.com>
+> Cc: <brendan.higgins@linux.dev>, <benh@kernel.crashing.org>, <andrew@aj.i=
+d.au>, <zhangjian3032@gmail.com>, <yulei.sh@bytedance.com>, <xiexinnan@byte=
+dance.com>, "open list:ARM/ASPEED I2C DRIVER"<linux-i2c@vger.kernel.org>, "=
+moderated list:ARM/ASPEED I2C DRIVER"<openbmc@lists.ozlabs.org>, "moderated=
+ list:ARM/ASPEED MACHINE SUPPORT"<linux-arm-kernel@lists.infradead.org>, "m=
+oderated list:ARM/ASPEED MACHINE SUPPORT"<linux-aspeed@lists.ozlabs.org>, "=
+open list"<linux-kernel@vger.kernel.org>
+> On Thu, 10 Aug 2023 at 07:22, Jian Zhang <zhangjian.3032@bytedance.com> w=
+rote:
+> >
+> > When the `CONFIG_I2C_SLAVE` option is enabled and the device operates
+> > as a slave, a situation arises where the master sends a START signal
+> > without the accompanying STOP signal. This action results in a
+> > persistent I2C bus timeout. The core issue stems from the fact that
+> > the i2c controller remains in a slave read state without a timeout
+> > mechanism. As a consequence, the bus perpetually experiences timeouts.
+> >
+> > This proposed patch addresses this problem by introducing a status
+> > check during i2c transmit timeouts. In the event that the controller
+> > is in a slave read state, the i2c controller will be reset to restore
+> > proper functionality and allow the I2C bus to resume normal operation.
+> >
+> > Signed-off-by: Jian Zhang <zhangjian.3032@bytedance.com>
+>
+> Tommy has submitted a similar fix:
+>
+>=C2=A0 https://lore.kernel.org/linux-i2c/20230906004910.4157305-1-tommy_hu=
+ang@aspeedtech.com/
+>
+> His change is very heavy handed; it reinitialises the bus including
+> re-parsing the device tree (!).
+>
+> Should we have merged this fix instead? If not, are you able to
+> confirm that his change fixes your issue?
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
----
- drivers/watchdog/aspeed_wdt.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+I feel it's for solving the same issue, but I think this patch is
+missing the action
+`bus->slave_state =3D ASPEED_I2C_SLAVE_INACTIVE;`,
+=C2=A0which means it can't resolve my problem. @Tommy, can you help confirm=
+ this?
 
-diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-index b72a858bbac7..b4773a6aaf8c 100644
---- a/drivers/watchdog/aspeed_wdt.c
-+++ b/drivers/watchdog/aspeed_wdt.c
-@@ -79,6 +79,8 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
- #define   WDT_TIMEOUT_STATUS_BOOT_SECONDARY	BIT(1)
- #define WDT_CLEAR_TIMEOUT_STATUS	0x14
- #define   WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION	BIT(0)
-+#define WDT_RESET_MASK1		0x1c
-+#define WDT_RESET_MASK2		0x20
- 
- /*
-  * WDT_RESET_WIDTH controls the characteristics of the external pulse (if
-@@ -402,6 +404,8 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
- 
- 	if ((of_device_is_compatible(np, "aspeed,ast2500-wdt")) ||
- 		(of_device_is_compatible(np, "aspeed,ast2600-wdt"))) {
-+		u32 reset_mask[2];
-+		size_t nrstmask = of_device_is_compatible(np, "aspeed,ast2600-wdt") ? 2 : 1;
- 		u32 reg = readl(wdt->base + WDT_RESET_WIDTH);
- 
- 		reg &= wdt->cfg->ext_pulse_width_mask;
-@@ -419,6 +423,13 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
- 			reg |= WDT_OPEN_DRAIN_MAGIC;
- 
- 		writel(reg, wdt->base + WDT_RESET_WIDTH);
-+
-+		ret = of_property_read_u32_array(np, "aspeed,reset-mask", reset_mask, nrstmask);
-+		if (!ret) {
-+			writel(reset_mask[0], wdt->base + WDT_RESET_MASK1);
-+			if (nrstmask > 1)
-+				writel(reset_mask[1], wdt->base + WDT_RESET_MASK2);
-+		}
- 	}
- 
- 	if (!of_property_read_u32(np, "aspeed,ext-pulse-duration", &duration)) {
--- 
-2.40.0.5.gf6e3b97ba6d2.dirty
+Thanks,
 
+Jian
+
+>
+> Cheers,
+>
+> Joel
+>
+> > ---
+> >=C2=A0 drivers/i2c/busses/i2c-aspeed.c | 17 +++++++++++++++++
+> >=C2=A0 1 file changed, 17 insertions(+)
+> >
+> > diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-a=
+speed.c
+> > index e76befe3f60f..1a95205fc946 100644
+> > --- a/drivers/i2c/busses/i2c-aspeed.c
+> > +++ b/drivers/i2c/busses/i2c-aspeed.c
+> > @@ -113,6 +113,7 @@
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ASPEED_I2=
+CD_M_RX_CMD | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=C2=A0 \
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ASPEED_I2=
+CD_M_TX_CMD | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=C2=A0 \
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ASPEED_I2=
+CD_M_START_CMD)
+> > +#define ASPEED_I2CD_SLAVE_CMDS_MASK =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 GENMASK(31, 29)
+> >
+> >=C2=A0 /* 0x18 : I2CD Slave Device Address Register =C2=A0 */
+> >=C2=A0 #define ASPEED_I2CD_DEV_ADDR_MASK =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 GENMASK(6, 0)
+> > @@ -706,6 +707,22 @@ static int aspeed_i2c_master_xfer(struct i2c_adapt=
+er *adap,
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=C2=A0 ASPEED_I2CD_BUS_BUSY_STS))
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 aspeed_i2c_recover_bus(bus);
+> >
+> > +#if IS_ENABLED(CONFIG_I2C_SLAVE)
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 * If master ti=
+med out and bus is in slave mode.
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 * reset the sl=
+ave mode.
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 */
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (readl(bus->base =
++ ASPEED_I2C_CMD_REG) & ASPEED_I2CD_SLAVE_CMDS_MASK) {
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 spin_lock_irqsave(&bus->lock, flags);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 u32 func_ctrl_reg_val =3D readl(bus->base + ASPEED_I2C_FUN_CTRL_REG=
+);
+> > +
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 writel(0, bus->base + ASPEED_I2C_FUN_CTRL_REG);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 writel(func_ctrl_reg_val, bus->base + ASPEED_I2C_FUN_CTRL_REG);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 bus->slave_state =3D ASPEED_I2C_SLAVE_INACTIVE;
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 spin_unlock_irqrestore(&bus->lock, flags);
+> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+> > +#endif
+> > +
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 * If time=
+d out and the state is still pending, drop the pending
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 * master =
+command.
+> > --
+> > 2.30.2
+> >
