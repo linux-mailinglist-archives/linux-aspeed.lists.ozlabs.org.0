@@ -1,70 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AB07AB9E2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 21:10:48 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B07B7ABBD1
+	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Sep 2023 00:34:28 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BlI2gvzK;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=ZpWXNwJy;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RshgT6bpjz3cBh
-	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Sep 2023 05:10:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RsnBV2BMpz2xdg
+	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Sep 2023 08:34:26 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BlI2gvzK;
+	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=ZpWXNwJy;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.115; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 66 seconds by postgrey-1.37 at boromir; Sat, 23 Sep 2023 05:10:39 AEST
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RshgM16smz3c2k
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 23 Sep 2023 05:10:38 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695409839; x=1726945839;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VYJY4FDZFMc6MaW1N7f842npIFM179p1eBa4lIdfLwo=;
-  b=BlI2gvzKi4fEUniptPoU7PI2q4jVseTK2XzVeV8ihklEMGIpyxe141kI
-   BbJden6pp3ngHaLySR/fj+mUJnSm7k1z0Dl8gA6TYQ2UVcQ5NBdiGqg3i
-   jtVh6HqRII/I1Yf0S2A3yog8FPkBasp9nX57YajjbFFHxwNR3ljGt1uzn
-   ybXTzTwnqM1CBp51EeXVcUGPqjMG6olXtNYVGiYnGHBzfc9b5P/xurc1V
-   JNwgVVIr4Xg+Adm2ZYqFl6g/Iz1yiT4ndw0Qvg3Y6SahNqiCXw7CaCk+8
-   SQ5KQzApoO0+HfqCM41QFKlWWc/kLHu36J+aQ+bg+cikiNJcWy25MJn67
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="380819089"
-X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="380819089"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 12:09:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="750939180"
-X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
-   d="scan'208";a="750939180"
-Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Sep 2023 12:09:16 -0700
-Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qjlWc-0001BA-2l;
-	Fri, 22 Sep 2023 19:09:14 +0000
-Date: Sat, 23 Sep 2023 03:08:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH v1 1/1] ARM: dts: aspeed: yosemite4: Add i2c-mux/eeprom
- devices
-Message-ID: <202309230217.cHc3qLuk-lkp@intel.com>
-References: <20230922064127.283625-2-Delphine_CC_Chiu@wiwynn.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RsnBL37yFz2xdg
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 23 Sep 2023 08:34:18 +1000 (AEST)
+Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:7e5d:5300::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: zev)
+	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id B1DAD2A7;
+	Fri, 22 Sep 2023 15:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+	s=thorn; t=1695422055;
+	bh=SR6ct5+JL0dEXT4O5ECDzYTJHdV/6UCZxQ2VxnCoFyc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZpWXNwJysebO4YbhezPo4NePDVw0cGmN71HnyVyHijGzAmRwPGLCM9DrB2pD6Fsey
+	 axp8JC3LWma82589HLLwwjpvjc7I91w1Fi7ExaTnhbwVJDyDlBKPV7l7Bz0SfqUFxz
+	 X59H1z2kOksBEDSX404RR43d5LqsP8EvzgIzr8fs=
+From: Zev Weiss <zev@bewilderbeest.net>
+To: soc@kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-aspeed@lists.ozlabs.org
+Subject: [PATCH RESEND] MAINTAINERS: aspeed: Update git tree URL
+Date: Fri, 22 Sep 2023 15:34:06 -0700
+Message-ID: <20230922223405.24717-2-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230922064127.283625-2-Delphine_CC_Chiu@wiwynn.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,38 +57,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Delphine,
+The description for joel/aspeed.git on git.kernel.org currently says:
 
-kernel test robot noticed the following build errors:
+    Old Aspeed tree. Please see joel/bmc.git
 
-[auto build test ERROR on krzk/for-next]
-[also build test ERROR on linus/master v6.6-rc2 next-20230921]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Let's update MAINTAINERS accordingly.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/ARM-dts-aspeed-yosemite4-Add-i2c-mux-eeprom-devices/20230922-144218
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230922064127.283625-2-Delphine_CC_Chiu%40wiwynn.com
-patch subject: [PATCH v1 1/1] ARM: dts: aspeed: yosemite4: Add i2c-mux/eeprom devices
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230923/202309230217.cHc3qLuk-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230217.cHc3qLuk-lkp@intel.com/reproduce)
+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+Acked-by: Joel Stanley <joel@jms.id.au>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309230217.cHc3qLuk-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1229.1-7 Label or path jtag1 not found
->> FATAL ERROR: Syntax error parsing input tree
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4b8a9749cb0b..b54f2a42a898 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1968,7 +1968,7 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Supported
+ Q:	https://patchwork.ozlabs.org/project/linux-aspeed/list/
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+ F:	Documentation/devicetree/bindings/arm/aspeed/
+ F:	arch/arm/boot/dts/aspeed/
+ F:	arch/arm/mach-aspeed/
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
