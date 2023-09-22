@@ -2,70 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF5A7AB3CF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 16:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AB07AB9E2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Sep 2023 21:10:48 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=TYiklTyw;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BlI2gvzK;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RsZfR1BYXz3cc1
-	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Sep 2023 00:39:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RshgT6bpjz3cBh
+	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Sep 2023 05:10:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=TYiklTyw;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BlI2gvzK;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=zhangjian.3032@bytedance.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.115; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 66 seconds by postgrey-1.37 at boromir; Sat, 23 Sep 2023 05:10:39 AEST
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RsZfG3NR0z3bw3
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 23 Sep 2023 00:39:16 +1000 (AEST)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6910ea9cddbso1797223b3a.0
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Sep 2023 07:39:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1695393554; x=1695998354; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GDCW2U3ma3X57srmeQIvcOtqMW2EwlhtHdznihqOnWg=;
-        b=TYiklTywe84pSaRupoYeoJoxwp4S+xg8BTMxrRbcXiNGKo3xKhGzXqXEmG1Rlp2pyB
-         wFm/U0xmRbNCOh7BCr437kh2JUnNb8PGcy5kCgyjOFjgBqZj6PPsGbFY2GX1gKEGshS/
-         caqo7HONW6SMMfwJV4lQR190ZD2Lvo+T2FzekUdD2LiPtcNx4vxoADbJrSwJga0Qb2eS
-         cpQYViMOI3fFJ9GKyBfPBcFWayNvTL7e7NCEBdWo5OZQ0bhe2H1DaFx8T3TKwiFmZS9B
-         EMIVvO57SZxcSRg6LHt0QZX3Suz4MDVBXQ3oxqBrlgNqMS421wTcSwZdkeHHsIzTx0Vj
-         8ddw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695393554; x=1695998354;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GDCW2U3ma3X57srmeQIvcOtqMW2EwlhtHdznihqOnWg=;
-        b=m6AHxUJMKaSgEvE7gv15NjyvdbWWzc2ruJT2cbHoxMv0l1kpAfKbeWNzEDl4wM0gaQ
-         Amr9eaCNI3z0gvkOQGAE/kAt+sBuZyvl9MM4jiiMo8lUoZdKcdPUV9ExOF9nluMr4mgY
-         Uz7ewjrXABT/WCnDYLfVR7KEvy8T8088oKtEWVCPLqgLCHoJngm+z30YUtfGXBUZlyQ0
-         mE0wo6voxSp7T5wh6EWk47HMNndPMomA/flYM42tkRMMafe3KG8s6SmEMPvXH46IPJ+7
-         CzPR4GVp7qMxn2I3kMSpleIf9/CGtD6/0DqopxDEYf79uUwlpsKD5hfRjnhsgTlILy0r
-         LRTw==
-X-Gm-Message-State: AOJu0Yww1SDfne03E+1JTdCCG5Grq+k8lEiWRyN4NBA8jeAVQnNbqOBk
-	OBsdUwbGC+KyWIilq+6J85NyO295qjo7VYBQKyAhvg==
-X-Google-Smtp-Source: AGHT+IGSX2coFfnuBFC8yiNSrNUXsjDUYJpRoivmDrjqqsI1bp/3866wqzTiC/iIOogJ9xfcP/YSwQVE82FwHEwWHJw=
-X-Received: by 2002:a05:6a00:2389:b0:68a:5395:7aa5 with SMTP id
- f9-20020a056a00238900b0068a53957aa5mr9664393pfc.17.1695393554057; Fri, 22 Sep
- 2023 07:39:14 -0700 (PDT)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 22 Sep 2023 10:39:13 -0400
-Mime-Version: 1.0
-References: <20230810072155.3726352-1-zhangjian.3032@bytedance.com> <CACPK8XfWKLS_4nBC+NCSw=21iQeaHzBXOROmz9T+S0qZHCBKeg@mail.gmail.com>
-In-Reply-To: <CACPK8XfWKLS_4nBC+NCSw=21iQeaHzBXOROmz9T+S0qZHCBKeg@mail.gmail.com>
-From: Jian Zhang <zhangjian.3032@bytedance.com>
-Date: Fri, 22 Sep 2023 10:39:13 -0400
-Message-ID: <CA+J-oUtxiQBOT+VM3fbOUM8HL5TX-C4HqtbbT__b4_KsGAJy1w@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH] i2c: aspeed: Fix i2c bus hang in slave read
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RshgM16smz3c2k
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 23 Sep 2023 05:10:38 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695409839; x=1726945839;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VYJY4FDZFMc6MaW1N7f842npIFM179p1eBa4lIdfLwo=;
+  b=BlI2gvzKi4fEUniptPoU7PI2q4jVseTK2XzVeV8ihklEMGIpyxe141kI
+   BbJden6pp3ngHaLySR/fj+mUJnSm7k1z0Dl8gA6TYQ2UVcQ5NBdiGqg3i
+   jtVh6HqRII/I1Yf0S2A3yog8FPkBasp9nX57YajjbFFHxwNR3ljGt1uzn
+   ybXTzTwnqM1CBp51EeXVcUGPqjMG6olXtNYVGiYnGHBzfc9b5P/xurc1V
+   JNwgVVIr4Xg+Adm2ZYqFl6g/Iz1yiT4ndw0Qvg3Y6SahNqiCXw7CaCk+8
+   SQ5KQzApoO0+HfqCM41QFKlWWc/kLHu36J+aQ+bg+cikiNJcWy25MJn67
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="380819089"
+X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
+   d="scan'208";a="380819089"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2023 12:09:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="750939180"
+X-IronPort-AV: E=Sophos;i="6.03,169,1694761200"; 
+   d="scan'208";a="750939180"
+Received: from lkp-server02.sh.intel.com (HELO 493f6c7fed5d) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 22 Sep 2023 12:09:16 -0700
+Received: from kbuild by 493f6c7fed5d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qjlWc-0001BA-2l;
+	Fri, 22 Sep 2023 19:09:14 +0000
+Date: Sat, 23 Sep 2023 03:08:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH v1 1/1] ARM: dts: aspeed: yosemite4: Add i2c-mux/eeprom
+ devices
+Message-ID: <202309230217.cHc3qLuk-lkp@intel.com>
+References: <20230922064127.283625-2-Delphine_CC_Chiu@wiwynn.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230922064127.283625-2-Delphine_CC_Chiu@wiwynn.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,130 +76,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, "moderated list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, "open list:ARM/ASPEED I2C DRIVER" <linux-i2c@vger.kernel.org>, brendan.higgins@linux.dev, zhangjian3032@gmail.com, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, xiexinnan@bytedance.com
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> From: "Joel Stanley"<joel@jms.id.au>
-> Date:=C2=A0 Fri, Sep 22, 2023, 14:48
-> Subject:=C2=A0 [External] Re: [PATCH] i2c: aspeed: Fix i2c bus hang in sl=
-ave read
-> To: "Jian Zhang"<zhangjian.3032@bytedance.com>, "Tommy Huang"<tommy_huang=
-@aspeedtech.com>
-> Cc: <brendan.higgins@linux.dev>, <benh@kernel.crashing.org>, <andrew@aj.i=
-d.au>, <zhangjian3032@gmail.com>, <yulei.sh@bytedance.com>, <xiexinnan@byte=
-dance.com>, "open list:ARM/ASPEED I2C DRIVER"<linux-i2c@vger.kernel.org>, "=
-moderated list:ARM/ASPEED I2C DRIVER"<openbmc@lists.ozlabs.org>, "moderated=
- list:ARM/ASPEED MACHINE SUPPORT"<linux-arm-kernel@lists.infradead.org>, "m=
-oderated list:ARM/ASPEED MACHINE SUPPORT"<linux-aspeed@lists.ozlabs.org>, "=
-open list"<linux-kernel@vger.kernel.org>
-> On Thu, 10 Aug 2023 at 07:22, Jian Zhang <zhangjian.3032@bytedance.com> w=
-rote:
-> >
-> > When the `CONFIG_I2C_SLAVE` option is enabled and the device operates
-> > as a slave, a situation arises where the master sends a START signal
-> > without the accompanying STOP signal. This action results in a
-> > persistent I2C bus timeout. The core issue stems from the fact that
-> > the i2c controller remains in a slave read state without a timeout
-> > mechanism. As a consequence, the bus perpetually experiences timeouts.
-> >
-> > This proposed patch addresses this problem by introducing a status
-> > check during i2c transmit timeouts. In the event that the controller
-> > is in a slave read state, the i2c controller will be reset to restore
-> > proper functionality and allow the I2C bus to resume normal operation.
-> >
-> > Signed-off-by: Jian Zhang <zhangjian.3032@bytedance.com>
->
-> Tommy has submitted a similar fix:
->
->=C2=A0 https://lore.kernel.org/linux-i2c/20230906004910.4157305-1-tommy_hu=
-ang@aspeedtech.com/
->
-> His change is very heavy handed; it reinitialises the bus including
-> re-parsing the device tree (!).
->
-> Should we have merged this fix instead? If not, are you able to
-> confirm that his change fixes your issue?
+Hi Delphine,
 
-I feel it's for solving the same issue, but I think this patch is
-missing the action
-`bus->slave_state =3D ASPEED_I2C_SLAVE_INACTIVE;`,
-=C2=A0which means it can't resolve my problem. @Tommy, can you help confirm=
- this?
+kernel test robot noticed the following build errors:
 
-Thanks,
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on linus/master v6.6-rc2 next-20230921]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Jian
+url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/ARM-dts-aspeed-yosemite4-Add-i2c-mux-eeprom-devices/20230922-144218
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230922064127.283625-2-Delphine_CC_Chiu%40wiwynn.com
+patch subject: [PATCH v1 1/1] ARM: dts: aspeed: yosemite4: Add i2c-mux/eeprom devices
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230923/202309230217.cHc3qLuk-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230923/202309230217.cHc3qLuk-lkp@intel.com/reproduce)
 
->
-> Cheers,
->
-> Joel
->
-> > ---
-> >=C2=A0 drivers/i2c/busses/i2c-aspeed.c | 17 +++++++++++++++++
-> >=C2=A0 1 file changed, 17 insertions(+)
-> >
-> > diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-a=
-speed.c
-> > index e76befe3f60f..1a95205fc946 100644
-> > --- a/drivers/i2c/busses/i2c-aspeed.c
-> > +++ b/drivers/i2c/busses/i2c-aspeed.c
-> > @@ -113,6 +113,7 @@
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ASPEED_I2=
-CD_M_RX_CMD | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=C2=A0 \
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ASPEED_I2=
-CD_M_TX_CMD | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=C2=A0 \
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 ASPEED_I2=
-CD_M_START_CMD)
-> > +#define ASPEED_I2CD_SLAVE_CMDS_MASK =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 GENMASK(31, 29)
-> >
-> >=C2=A0 /* 0x18 : I2CD Slave Device Address Register =C2=A0 */
-> >=C2=A0 #define ASPEED_I2CD_DEV_ADDR_MASK =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 GENMASK(6, 0)
-> > @@ -706,6 +707,22 @@ static int aspeed_i2c_master_xfer(struct i2c_adapt=
-er *adap,
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=C2=A0 ASPEED_I2CD_BUS_BUSY_STS))
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 aspeed_i2c_recover_bus(bus);
-> >
-> > +#if IS_ENABLED(CONFIG_I2C_SLAVE)
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 * If master ti=
-med out and bus is in slave mode.
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 * reset the sl=
-ave mode.
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 */
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (readl(bus->base =
-+ ASPEED_I2C_CMD_REG) & ASPEED_I2CD_SLAVE_CMDS_MASK) {
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 spin_lock_irqsave(&bus->lock, flags);
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 u32 func_ctrl_reg_val =3D readl(bus->base + ASPEED_I2C_FUN_CTRL_REG=
-);
-> > +
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 writel(0, bus->base + ASPEED_I2C_FUN_CTRL_REG);
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 writel(func_ctrl_reg_val, bus->base + ASPEED_I2C_FUN_CTRL_REG);
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 bus->slave_state =3D ASPEED_I2C_SLAVE_INACTIVE;
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 spin_unlock_irqrestore(&bus->lock, flags);
-> > + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
-> > +#endif
-> > +
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 * If time=
-d out and the state is still pending, drop the pending
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 * master =
-command.
-> > --
-> > 2.30.2
-> >
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309230217.cHc3qLuk-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> Error: arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1229.1-7 Label or path jtag1 not found
+>> FATAL ERROR: Syntax error parsing input tree
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
