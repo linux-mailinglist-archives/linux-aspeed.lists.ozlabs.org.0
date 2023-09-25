@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CAE7AD50B
-	for <lists+linux-aspeed@lfdr.de>; Mon, 25 Sep 2023 11:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DADFF7AD50C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 25 Sep 2023 11:57:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RvJFS1Cl9z3dhN
-	for <lists+linux-aspeed@lfdr.de>; Mon, 25 Sep 2023 19:57:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RvJFV5zydz3dhY
+	for <lists+linux-aspeed@lfdr.de>; Mon, 25 Sep 2023 19:57:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
@@ -14,32 +14,32 @@ Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de 
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RvJCm5qfgz3c3r
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 25 Sep 2023 19:55:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RvJCn03PTz3c3r
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 25 Sep 2023 19:55:49 +1000 (AEST)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qkiJV-0007m5-FZ; Mon, 25 Sep 2023 11:55:37 +0200
+	id 1qkiJV-0007m6-FY; Mon, 25 Sep 2023 11:55:37 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qkiJU-008pyh-5O; Mon, 25 Sep 2023 11:55:36 +0200
+	id 1qkiJU-008pyk-BA; Mon, 25 Sep 2023 11:55:36 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1qkiJT-004dkT-SK; Mon, 25 Sep 2023 11:55:35 +0200
+	id 1qkiJU-004dkX-1h; Mon, 25 Sep 2023 11:55:36 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Joel Stanley <joel@jms.id.au>
-Subject: [PATCH 02/40] soc/aspeed: aspeed-lpc-snoop: Convert to platform remove callback returning void
-Date: Mon, 25 Sep 2023 11:54:53 +0200
-Message-Id: <20230925095532.1984344-3-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 03/40] soc/aspeed: aspeed-p2a-ctrl: Convert to platform remove callback returning void
+Date: Mon, 25 Sep 2023 11:54:54 +0200
+Message-Id: <20230925095532.1984344-4-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230925095532.1984344-1-u.kleine-koenig@pengutronix.de>
 References: <20230925095532.1984344-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1980; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=s5OXo8IjgAIoOI++baFbct5qYs8LXAKnsMuTokxyM5s=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlEVhCYZmwTQwRwpaBlgiWgdCOR1poUdZzdTNfO 289e8PgCMWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRFYQgAKCRCPgPtYfRL+ TiiWCACkZztwtGfEP0fOadeVp7hs+MCNN6d4UUjfO6Zsy8gNVffQtSyDmsLykYeJXelouzQRYYb BV/LFAVygkQaOKh3jf5umpHqgvB/j+1p0WYnHMhgi/EzjsAblt3X7nhl+ehDVrNJiO+X1oe1LY2 yAFJr2tQ4/XNl4TrglNSENIWhYK7QbOeIhJrFyth0VFyPhSKPbI6YJUrMG5xQvQaVJDQzoQk61t Y+v5GPuJXG24/9N7pHC15ECE7JRkBQ7iNgQHlXOm7LKxrz7+HJODd0SeUVh6geBJRZQvFpEiV7X 1/nFgf9ZLG5LPLeKPdfK76vs5hzCWmvhi3ByV3saEVaOrmEu
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1788; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=JYd7Sr8gyXvahOZUF55RS3qSTMWxK0yiZV2LoWrIRh4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlEVhDt7MLlPVCMlc5EwxwPfLfsQHi2D7BV9Umr 6ddRvgar6GJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRFYQwAKCRCPgPtYfRL+ TgKiCACIh7XmaGJyFy8+QrCBtCeZjIbj+ZtRlu3PhdmHgeaBlv0tcSXFAae4Fbnojl3pzyNZoAJ bgUabIat4hinn9Js07ibum+hfiDMqS1if6TFl59yudRcUkh+CX2clUdaktJeMpaztFi5LPirA/A O9aX0d+hE34DqXN3Ae+BoXI3BYfvy/at5Ac+cFFSIIwqor0YUgTvJEWQFTM2pahmuUItQEAZ57V G6H4lEqjPWCR6WmQTlf8sgO1gWKSIV6rF7nMY1xAgy2R45wNfamUEir65knwrtBrq7PCgUOPC17 6d+yTejyr9HU4fXdv1YmO93SCDLzMlZrdRlp0/+raxHwmiGg
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -75,40 +75,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/soc/aspeed/aspeed-lpc-snoop.c | 6 ++----
+ drivers/soc/aspeed/aspeed-p2a-ctrl.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-index 773dbcbc03a6..888b5840c015 100644
---- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-+++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-@@ -331,7 +331,7 @@ static int aspeed_lpc_snoop_probe(struct platform_device *pdev)
+diff --git a/drivers/soc/aspeed/aspeed-p2a-ctrl.c b/drivers/soc/aspeed/aspeed-p2a-ctrl.c
+index 548f44da28a9..8610ddacc7bc 100644
+--- a/drivers/soc/aspeed/aspeed-p2a-ctrl.c
++++ b/drivers/soc/aspeed/aspeed-p2a-ctrl.c
+@@ -383,13 +383,11 @@ static int aspeed_p2a_ctrl_probe(struct platform_device *pdev)
  	return rc;
  }
  
--static int aspeed_lpc_snoop_remove(struct platform_device *pdev)
-+static void aspeed_lpc_snoop_remove(struct platform_device *pdev)
+-static int aspeed_p2a_ctrl_remove(struct platform_device *pdev)
++static void aspeed_p2a_ctrl_remove(struct platform_device *pdev)
  {
- 	struct aspeed_lpc_snoop *lpc_snoop = dev_get_drvdata(&pdev->dev);
+ 	struct aspeed_p2a_ctrl *p2a_ctrl = dev_get_drvdata(&pdev->dev);
  
-@@ -340,8 +340,6 @@ static int aspeed_lpc_snoop_remove(struct platform_device *pdev)
- 	aspeed_lpc_disable_snoop(lpc_snoop, 1);
- 
- 	clk_disable_unprepare(lpc_snoop->clk);
+ 	misc_deregister(&p2a_ctrl->miscdev);
 -
 -	return 0;
  }
  
- static const struct aspeed_lpc_snoop_model_data ast2400_model_data = {
-@@ -368,7 +366,7 @@ static struct platform_driver aspeed_lpc_snoop_driver = {
- 		.of_match_table = aspeed_lpc_snoop_match,
+ #define SCU2C_DRAM	BIT(25)
+@@ -433,7 +431,7 @@ static struct platform_driver aspeed_p2a_ctrl_driver = {
+ 		.of_match_table = aspeed_p2a_ctrl_match,
  	},
- 	.probe = aspeed_lpc_snoop_probe,
--	.remove = aspeed_lpc_snoop_remove,
-+	.remove_new = aspeed_lpc_snoop_remove,
+ 	.probe = aspeed_p2a_ctrl_probe,
+-	.remove = aspeed_p2a_ctrl_remove,
++	.remove_new = aspeed_p2a_ctrl_remove,
  };
  
- module_platform_driver(aspeed_lpc_snoop_driver);
+ module_platform_driver(aspeed_p2a_ctrl_driver);
 -- 
 2.40.1
 
