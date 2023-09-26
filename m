@@ -2,127 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D3E7AE218
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 01:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262D77AE2C2
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 02:04:33 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=jh8I8pi5;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=XUuchodB;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RvdpZ0MNwz300q
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 09:08:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rvg330hvdz3c5K
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 10:04:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=jh8I8pi5;
+	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=XUuchodB;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::536; helo=mail-ed1-x536.google.com; envelope-from=konrad.dybcio@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RvJHQ3ft2z2yWD
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 25 Sep 2023 19:58:58 +1000 (AEST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-52fe27898e9so7141327a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 25 Sep 2023 02:58:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695635933; x=1696240733; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=07uVGcYaT587O+lJP2m3ZC4n8yo7xprZQQOPVOh74lw=;
-        b=jh8I8pi53sAkOfsNqmHCsVsGw29104QU0OhEeRLrAcxS9Q85ER/R1vzxFtQybFfsoJ
-         BoLy6KD2MbvIwwuuTi0P2O0jIzuS5MOnvktULQ5k/rGiPBcNj27VbL6udLd7rUbcp3+3
-         M1qcNplES+1ppY2/1RseCWniDKCIg4R7bZExTILPsxNkPwRhbEOMC/KguRrwWEt1mUih
-         oWZ7yFoRxf8lH70//C47NPKFAR5r8in4b4g78TG3JsSlTJlxYgkNnKL75eZjHd0ZmvFB
-         ZES0zr2W+rb50W8NYQsSWo2ClbX279c1KxdcRTnq/EU/vrSCEqe1bYsylpMWGziRz/Kl
-         fkXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695635933; x=1696240733;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=07uVGcYaT587O+lJP2m3ZC4n8yo7xprZQQOPVOh74lw=;
-        b=cxjkVCKHwBUxEnD7mD9LddKwHghNYbVgHOcqY0PFqdRJvMvrbFcPq0/YxLCbnxOxP0
-         20hj64ztENNq1zaa/3DU3vp/IFt0FoUENxJ3gLD+q9q3Qd9f0dBX7TxJyV7w983b8htk
-         RN5HeLzFwuaCw2N1tm7RR5fb/l8TJFApC3xUI/VyVsuKOg6Ksg3bkdhPaF2K3T/5QqwL
-         9dcLMjWs7gPFpP6u7z+Jd0rfwizMR7vRRRna3Jk40gsKmTSzZPVT/FdW7mB280h4R/QD
-         UJQ2a3XPD0SkRFiMtwZxQwZ1PKr+Eq3AvqmC8UZtrdJd0BSqzZGq8jgz3urzgvu4/M+D
-         4a0w==
-X-Gm-Message-State: AOJu0Yys69FAQycJqFXUpWeiR4TaEHlEGStq5MBOTD1cym6oAgV3eeqj
-	VtnDMLX/VjHdndXDLQZtyJ0rhw==
-X-Google-Smtp-Source: AGHT+IGSfyahZeZWFSCp2lS84BASF/3XwkdnTR8ykM/qYp0D0Ky7td4khxNtqawySDMtRTwzWoBeZw==
-X-Received: by 2002:a17:907:2cc1:b0:9a1:f10d:9746 with SMTP id hg1-20020a1709072cc100b009a1f10d9746mr5022065ejc.20.1695635933026;
-        Mon, 25 Sep 2023 02:58:53 -0700 (PDT)
-Received: from [192.168.101.165] (178235177023.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.23])
-        by smtp.gmail.com with ESMTPSA id k3-20020a17090646c300b009ae57888718sm6040535ejs.207.2023.09.25.02.58.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Sep 2023 02:58:52 -0700 (PDT)
-Message-ID: <311837de-5acb-4b5b-b64d-9bdc1403a087@linaro.org>
-Date: Mon, 25 Sep 2023 11:58:48 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rvg2m48SFz3cWp;
+	Tue, 26 Sep 2023 10:04:16 +1000 (AEST)
+Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:7e5d:5300::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: zev)
+	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id C24E82A7;
+	Mon, 25 Sep 2023 17:04:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+	s=thorn; t=1695686652;
+	bh=XCm8ajSpNf9l45b3q9u9m3cq2MdqBWAUlbvBZoBXx7s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XUuchodBKWKfttbShooOtlfX91ngeii0suOR+k4PoXnxOIcrefe2KEks8L3z33nED
+	 tIYxKZna1veHLHSuimbpBPzwAbhJpYZSvor8cQZaDD3xhQKRwIK82fZqMqkMJcNLf+
+	 ZSsDq9URZrYRtclQyajjdtPV75VODKn5rUr+PQZg=
+Date: Mon, 25 Sep 2023 17:04:10 -0700
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Andrew Jeffery <andrew@aj.id.au>, g@hatter.bewilderbeest.net
+Subject: Re: [PATCH 1/2] dt-bindings: watchdog: aspeed-wdt: Add
+ aspeed,reset-mask property
+Message-ID: <6b0d4901-d543-4a06-a1e4-7f1558f5361f@hatter.bewilderbeest.net>
+References: <20230922104231.1434-4-zev@bewilderbeest.net>
+ <20230922104231.1434-5-zev@bewilderbeest.net>
+ <6df088a6-75ab-42f2-ba39-3f155714ed2d@app.fastmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/40] soc: Convert to platform remove callback returning
- void
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Joel Stanley <joel@jms.id.au>, Li Yang <leoyang.li@nxp.com>,
- Herve Codina <herve.codina@bootlin.com>, Qiang Zhao <qiang.zhao@nxp.com>,
- Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>,
- Huisong Li <lihuisong@huawei.com>, Krzysztof Halasa <khalasa@piap.pl>,
- Karol Gugala <kgugala@antmicro.com>, Mateusz Holenko
- <mholenko@antmicro.com>, Gabriel Somlo <gsomlo@gmail.com>,
- Yinbo Zhu <zhuyinbo@loongson.cn>, Matthias Brugger <matthias.bgg@gmail.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Sumit Gupta <sumitg@nvidia.com>,
- Shang XiaoJing <shangxiaojing@huawei.com>,
- Muhammad Usama Anjum <usama.anjum@collabora.com>,
- Rob Herring <robh@kernel.org>, Nishanth Menon <nm@ti.com>,
- Santosh Shilimkar <ssantosh@kernel.org>, Michal Simek <michal.simek@amd.com>
-References: <20230925095532.1984344-1-u.kleine-koenig@pengutronix.de>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20230925095532.1984344-1-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 26 Sep 2023 09:07:50 +1000
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <6df088a6-75ab-42f2-ba39-3f155714ed2d@app.fastmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,21 +60,154 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Zev Weiss <zev@bewilderbeest.net>, Alim Akhtar <alim.akhtar@samsung.com>, linux-riscv@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Ruan Jinjie <ruanjinjie@huawei.com>, linux-rockchip@lists.infradead.org, Yang Yingliang <yangyingliang@huawei.com>, Nick Alcock <nick.alcock@oracle.com>, Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>, linux-mediatek@lists.infradead.org, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-kernel@vger.kernel.org, kernel@pengutronix.de, zhang songyi <zhang.songyi@zte.com.cn>, linuxppc-dev@lists.ozlabs.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Ivan Mikhaylov <i.mikhaylov@yadro.com>, "Milton D. Miller II" <mdmii@outlook.com>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 25.09.2023 11:54, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this series converts all platform drivers below drivers/soc to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
-> 
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
+On Sun, Sep 24, 2023 at 07:42:45PM PDT, Andrew Jeffery wrote:
 >
-Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org> # qcom
+>
+>On Fri, 22 Sep 2023, at 20:12, Zev Weiss wrote:
+>> This property configures the Aspeed watchdog timer's reset mask, which
+>> controls which peripherals are reset when the watchdog timer expires.
+>> Some platforms require that certain devices be left untouched across a
+>> reboot; aspeed,reset-mask can now be used to express such constraints.
+>>
+>> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+>> ---
+>>  .../bindings/watchdog/aspeed-wdt.txt          | 18 +++-
+>>  include/dt-bindings/watchdog/aspeed-wdt.h     | 92 +++++++++++++++++++
+>>  2 files changed, 109 insertions(+), 1 deletion(-)
+>>  create mode 100644 include/dt-bindings/watchdog/aspeed-wdt.h
+>>
+>> diff --git a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+>> b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+>> index a8197632d6d2..3208adb3e52e 100644
+>> --- a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+>> +++ b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+>> @@ -47,7 +47,15 @@ Optional properties for AST2500-compatible watchdogs:
+>>  			   is configured as push-pull, then set the pulse
+>>  			   polarity to active-high. The default is active-low.
+>>
+>> -Example:
+>> +Optional properties for AST2500- and AST2600-compatible watchdogs:
+>> + - aspeed,reset-mask: A bitmask indicating which peripherals will be reset if
+>> +		      the watchdog timer expires.  On AST2500 this should be a
+>> +		      single word defined using the AST2500_WDT_RESET_* macros;
+>> +		      on AST2600 this should be a two-word array with the first
+>> +		      word defined using the AST2600_WDT_RESET1_* macros and the
+>> +		      second word defined using the AST2600_WDT_RESET2_* macros.
+>> +
+>> +Examples:
+>>
+>>  	wdt1: watchdog@1e785000 {
+>>  		compatible = "aspeed,ast2400-wdt";
+>> @@ -55,3 +63,11 @@ Example:
+>>  		aspeed,reset-type = "system";
+>>  		aspeed,external-signal;
+>>  	};
+>> +
+>> +	#include <dt-bindings/watchdog/aspeed-wdt.h>
+>> +	wdt2: watchdog@1e785040 {
+>> +		compatible = "aspeed,ast2600-wdt";
+>> +		reg = <0x1e785040 0x40>;
+>> +		aspeed,reset-mask = <AST2600_WDT_RESET1_DEFAULT
+>> +				     (AST2600_WDT_RESET2_DEFAULT & ~AST2600_WDT_RESET2_LPC)>;
+>> +	};
+>
+>Rob has acked your current approach already, but I do wonder about an 
+>alternative that aligns more with the clock/reset/interrupt properties. 
+>Essentially, define a new generic watchdog property that is specified 
+>on the controllers to be reset by the watchdog (or even on just the 
+>watchdog node itself, emulating what you've proposed here):
+>
+>watchdog-resets = <phandle index>;
+>
+>The phandle links to the watchdog of interest, and the index specifies 
+>the controller associated with the configuration. It might even be 
+>useful to do:
+>
+>watchdog-resets = <phandle index enable>;
+>
+>"enable" could provide explicit control over whether somethings should 
+>be reset or not (as a way to prevent reset if the controller targeted 
+>by the provided index would otherwise be reset in accordance with the 
+>default reset value in the watchdog controller).
+>
+>The macros from the dt-bindings header can then use macros to name the 
+>indexes rather than define a mask tied to the register layout. The 
+>index may still in some way represent the mask position. This has the 
+>benefit of hiding the issue of one vs two configuration registers 
+>between the AST2500 and AST2600 while also allowing other controllers 
+>to exploit the binding (Nuvoton BMCs? Though maybe it's generalising 
+>too early?).
+>
 
-Konrad
+Sorry, I'm having a bit of a hard time picturing exactly what you're 
+suggesting here...to start with:
+
+>property that is specified on the controllers to be reset by the
+>watchdog
+
+and
+
+>or even on just the watchdog node itself
+
+seem on the face of it like two fairly different approaches to me.  The 
+former sounds more like existing clock/reset/etc. stuff, where the 
+peripheral has a property describing its relationship to the "central" 
+subsystem, and various peripheral drivers are all individually 
+responsible for observing that property and calling in to the central 
+subsystem to configure things for that peripheral appropriately; if I'm 
+understanding you correctly, it might look something like:
+
+   &spi1 {
+     watchdog-resets = <&wdt1 WDT_INDEX_SPI1 0>;
+   };
+
+Or maybe something more like how pinctrl works, via phandles to subnodes 
+of the central device?
+
+   &wdt1 {
+     wdt1_spi1_reset: spi1_reset {
+       reg = <0x1c>;
+       bit = <24>;
+     };
+   };
+
+   &spi1 {
+     watchdog-resets = <&wdt1_spi1_reset 0>;
+   };
+
+Either way, it seems like it'd be complicated by any insufficient 
+granularity in the watchdog w.r.t. having independent control over the 
+individual devices represented by separate DT nodes (such as how the 
+AST2500 watchdog has a single SPI controller reset bit instead of one 
+per SPI interface, or its "misc SOC controller" bit governing all sorts 
+of odds and ends).
+
+In the latter case (property on the wdt node), would it essentially just 
+be kind of an indirection layer mapping hardware-independent device 
+indices to specific registers/bits?  It's not obvious to me what purpose 
+a phandle to the peripheral device node would serve (would the wdt 
+driver have a good way of identifying what specific peripheral it's 
+pointing to to know what bit to twiddle?), but maybe I'm 
+misunderstanding what you're suggesting...
+
+
+I guess my other uncertainty is the balance between generalization and 
+applicability -- how many other watchdog devices have sufficient 
+comparable configurability to make use of it?  I haven't pored over all 
+of them, but from a random sampling of 20 so of the other existing wdt 
+drivers I don't see any obvious candidates -- the closest I saw were 
+cpwd.c, which apparently can distinguish between a CPU reset and a 
+CPU/backplane/board reset, and realtek_otto_wdt.c, which can do a CPU or 
+a SOC reset (though I don't have any of the hardware docs to know what 
+capabilities other devices might provide that the drivers don't use).  
+Do the Nuvoton BMCs have watchdogs with peripheral-granularity reset 
+configuration?
+
+
+Thanks,
+Zev
+
