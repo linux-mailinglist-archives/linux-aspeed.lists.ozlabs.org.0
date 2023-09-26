@@ -2,90 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740C47AE35F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 03:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC3E7AEF2C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 17:05:38 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=hIuW4ymT;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=j4TqUsQR;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=e6Jv1KGi;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rvj272hdrz3c50
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 11:33:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rw32m4M2Tz3cLX
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Sep 2023 01:05:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=hIuW4ymT;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=j4TqUsQR;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=e6Jv1KGi;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=lists.ozlabs.org)
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::112d; helo=mail-yw1-x112d.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rvj2316lQz3c2b
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Sep 2023 11:33:46 +1000 (AEST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id E25A85C2686;
-	Mon, 25 Sep 2023 21:33:44 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
-  by compute6.internal (MEProxy); Mon, 25 Sep 2023 21:33:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-	1695692024; x=1695778424; bh=w4gsiSlns8NKzCbLupKqwoRRqRNO/EeFJL+
-	H/CZgEis=; b=hIuW4ymTKqQ4AcVsxoZIYE3WOO4oCddhfwnhBZHX0suyvfCdq5O
-	/UE8xYo17PaSaeQDBm99nGWhRh4fm/6bJ/neUWUM34Ut5qm3hqKDRM0l9HXMOA+j
-	j5cIgH+jelC7MQbtgciHSXW0auQ+JIRZ0CtG3cmxVsLFmS5yc2y6+b01cANHB6EE
-	DXoTa1TWVeZKj4fu8iL79lGMy6JgcW7icCGyecM9yjPtTbV+1u63Q0P7I6rauhhG
-	bvaIsWyHv7z5iB4AJ5kRVIeUEQoANEttIIucsdSreKwiw2Zoj5/DQKw5+U8FNtYO
-	I+pPvIK39aIZKGnncEajbgeyyLK2NBBUh8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1695692024; x=1695778424; bh=w4gsiSlns8NKzCbLupKqwoRRqRNO/EeFJL+
-	H/CZgEis=; b=j4TqUsQRKNKlyRbBubsg+GMJzT+6o+b+DJyngz+034OiFvn0/Jk
-	AmOnhI90UEQZu4Bnq4x8JHqah7VCxPJ5MYVylNb5/USXSoWeIuCgDd/FpgIKxMd1
-	8Y5u2V6JqvQVbj7AmYWYVYMNpbTCPiZOi65gFhoy7PiqrMOn8z8vmT1/nVmB114N
-	GO/gHeBIi6Cvm0RPtqo2RssIGjJxgmT2AxvG0IHLGTn4I3HvhGNtCfr61OcthTSd
-	q6mDPzQ2WZ0KD5e1lNP2MGilxQ5eCc4cKXgNxpoQIaWGBU5TARnaAxkw0DLrk81X
-	A2bN3vD9tsqfKsdw73MegshEYeFExy4UeAg==
-X-ME-Sender: <xms:-DQSZVnbdOA6QwqiLsmHdLusfTnCDRDYAC7aACMnpHCotjufhKaIfQ>
-    <xme:-DQSZQ131TqvzocHClzhBZQex1kmAWVTOOBeX1kKS8tnE8i-Nm2bd9w7d2q6A_Hzo
-    h5eHTNEBAampQkKag>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudelhedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    nhgurhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecugg
-    ftrfgrthhtvghrnhepgfeiieettdelkeehffevieetgeejgeffveefhfffkedvudefuddv
-    veejgeehheevnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrh
-    homheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:-DQSZbq2NdObvNPCY5iZt5h4yRJ6Lei1pnq_uCSzyV89cNk9SXn10w>
-    <xmx:-DQSZVlVZTS-kriRKXTOJnCzD4lVnZ0FFF-FJu9cVkZdKMKFI33_Jw>
-    <xmx:-DQSZT0RI3JmBKW3NaLDOw1HQ_hwN-NGyjwS_5IQ0xQrl1iNzRVELg>
-    <xmx:-DQSZUzl0oy8IwJIleKH-TJpLHn-IIH3Vsqk3uQcVEECZnMn_MslNQ>
-Feedback-ID: idfb84289:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 3A58A1700089; Mon, 25 Sep 2023 21:33:44 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-957-ga1ccdb4cff-fm-20230919.001-ga1ccdb4c
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rw31Y1J84z3cGW
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Sep 2023 01:04:31 +1000 (AEST)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-59c268676a9so110460917b3.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Sep 2023 08:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1695740668; x=1696345468; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XkQznAxnykGoHMZeYaAftpnWpVTscvRnJk62iXg78HM=;
+        b=e6Jv1KGiWG20LFROOSgy509dBFWDd7fR/ECAPkBzyHiZW3B21CPbWgL8hiI2LlWOX7
+         Gj1QdkS40Qq5RGe5OTocO0gRCWL5K5liFPLdWhiXXqjpaSItfiYPFFpLMEhtgyz/qsK9
+         G5g4YFMM7/lTwXzICcnEf6rwJ+d7iQNF2pEbZoG6ueKK+vqchEEuqHNJPpi2Qv2MlE+T
+         13EdRM97+ynLaZvaOnBikKoCGHXHpRNf9oqsw12/SIcv8tKtfRX14C7MZydazAfkgNjn
+         pn3GCIGMVEepTHtgQrel9KUiesiHxC/HRijq53aj6Ey0tIJUbAfghaSqIdyl8Hz9hmB8
+         8f5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695740668; x=1696345468;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XkQznAxnykGoHMZeYaAftpnWpVTscvRnJk62iXg78HM=;
+        b=tRaUGUYIRNPwoQkwHmXraa45u+zMw0KcuwNloSvd5g8DIdJeS8b0NM9A5OElBDB6IU
+         arjvu31dOA/bXKk76yM9zLCXxm6wQx826fDCZosrzYMpty1L65wVOo48Jrv1n2DVz5h5
+         S9rjipRcHad8dXlpjsCYCRiMpQtCW3z6FvDWewYsfITD7moqxzr9Vhr43XaoW72ALx+E
+         rwDO1OAwPggOXJs1MsC9EEoz+emVkP1SIAHwqmK95yO88TwSuxkbYiApjD12+1nhCfIV
+         UNZreuHAr9V3Y5pochItRK8TSjsjQR5ruASoDMGFJHEiLPPdHGY4fiSC42fxy9n4G3Gg
+         Yz1Q==
+X-Gm-Message-State: AOJu0Yxwxc6WuXUFbwKrs0IcCGPizBo/XMFPULkGflMrnuoKCUY9uPsb
+	JF3Ps24RnLW+LKbtJQ2rPZJnzwIpQPY+ILYPNrOnjw==
+X-Google-Smtp-Source: AGHT+IGROsfk06tbY4aJKZhfnAsRPVgtpSRAqvTPi3Sls9eZA1D2bKhA+BHNmXVH+vsas51sqXcQAJy04/XqDr1WP1M=
+X-Received: by 2002:a25:b11c:0:b0:d81:a0c5:f275 with SMTP id
+ g28-20020a25b11c000000b00d81a0c5f275mr9271834ybj.15.1695740668497; Tue, 26
+ Sep 2023 08:04:28 -0700 (PDT)
 MIME-Version: 1.0
-Message-Id: <97424091-2784-4daf-b7a2-062fde210c2d@app.fastmail.com>
-In-Reply-To: <20230925095532.1984344-2-u.kleine-koenig@pengutronix.de>
-References: <20230925095532.1984344-1-u.kleine-koenig@pengutronix.de>
- <20230925095532.1984344-2-u.kleine-koenig@pengutronix.de>
-Date: Tue, 26 Sep 2023 11:03:23 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "Joel Stanley" <joel@jms.id.au>
-Subject: Re: [PATCH 01/40] soc/aspeed: aspeed-lpc-ctrl: Convert to platform remove
- callback returning void
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20230925030647.40283-1-andrew@codeconstruct.com.au>
+In-Reply-To: <20230925030647.40283-1-andrew@codeconstruct.com.au>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 26 Sep 2023 17:03:52 +0200
+Message-ID: <CAPDyKFrFxYxSTa=z2VnCk4m_d-wEgd17wBokzyNCCRLtSUnFKw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: aspeed: Update Andrew's email address
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,26 +73,63 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Mon, 25 Sep 2023, at 19:24, Uwe Kleine-K=C3=B6nig wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling =
-by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new() which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
+On Mon, 25 Sept 2023 at 05:07, Andrew Jeffery
+<andrew@codeconstruct.com.au> wrote:
 >
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
+> I've changed employers, have company email that deals with patch-based
+> workflows without too much of a headache, and am trying to steer some
+> content out of my personal mail.
 >
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+I guess it doesn't really matter what tree this gets funneled through,
+so I decided to pick this up via my mmc tree.
+
+So, applied for next, thanks!
+
+Kind regards
+Uffe
+
+
+> ---
+>  MAINTAINERS | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b19995690904..1965cee433b0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1963,7 +1963,7 @@ F:        drivers/irqchip/irq-aspeed-i2c-ic.c
+>
+>  ARM/ASPEED MACHINE SUPPORT
+>  M:     Joel Stanley <joel@jms.id.au>
+> -R:     Andrew Jeffery <andrew@aj.id.au>
+> +R:     Andrew Jeffery <andrew@codeconstruct.com.au>
+>  L:     linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  L:     linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+>  S:     Supported
+> @@ -3058,7 +3058,7 @@ F:        Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+>  F:     drivers/peci/controller/peci-aspeed.c
+>
+>  ASPEED PINCTRL DRIVERS
+> -M:     Andrew Jeffery <andrew@aj.id.au>
+> +M:     Andrew Jeffery <andrew@codeconstruct.com.au>
+>  L:     linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+>  L:     openbmc@lists.ozlabs.org (moderated for non-subscribers)
+>  L:     linux-gpio@vger.kernel.org
+> @@ -3075,7 +3075,7 @@ F:        drivers/irqchip/irq-aspeed-scu-ic.c
+>  F:     include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
+>
+>  ASPEED SD/MMC DRIVER
+> -M:     Andrew Jeffery <andrew@aj.id.au>
+> +M:     Andrew Jeffery <andrew@codeconstruct.com.au>
+>  L:     linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+>  L:     openbmc@lists.ozlabs.org (moderated for non-subscribers)
+>  L:     linux-mmc@vger.kernel.org
+> --
+> 2.39.2
+>
