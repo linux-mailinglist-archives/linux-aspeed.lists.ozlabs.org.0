@@ -1,89 +1,88 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F09C7AE35C
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 03:32:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740C47AE35F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 03:33:53 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=iqFM2qdr;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=A9sS/MXG;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=hIuW4ymT;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=j4TqUsQR;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Rvj146WzKz3cCM
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 11:32:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rvj272hdrz3c50
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Sep 2023 11:33:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=iqFM2qdr;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=A9sS/MXG;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=hIuW4ymT;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=j4TqUsQR;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=lists.ozlabs.org)
-X-Greylist: delayed 93 seconds by postgrey-1.37 at boromir; Tue, 26 Sep 2023 11:32:45 AEST
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rvj0s5v4fz3c2b
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Sep 2023 11:32:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Rvj2316lQz3c2b
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Sep 2023 11:33:46 +1000 (AEST)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id DF2E35C0568;
-	Mon, 25 Sep 2023 21:32:43 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id E25A85C2686;
+	Mon, 25 Sep 2023 21:33:44 -0400 (EDT)
 Received: from imap50 ([10.202.2.100])
-  by compute6.internal (MEProxy); Mon, 25 Sep 2023 21:32:43 -0400
+  by compute6.internal (MEProxy); Mon, 25 Sep 2023 21:33:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-	1695691963; x=1695778363; bh=w4gsiSlns8NKzCbLupKqwoRRqRNO/EeFJL+
-	H/CZgEis=; b=iqFM2qdrwdtNuhzQ4HP+X2tJ4aPrgSuXnESCe4kabvf4tgeuSXG
-	IUQOdVRdzeATuztIh9yui6KA838SFU1N3/2h8xCycaThXuG9AMguZJ2d6dTIbOs2
-	IP31yp12JYAHcc2lDPg0arkshhIaWPktn1mu3bTV+2p2ISBd9pGDA6aDeSsaLENx
-	OPcxblSQrzZqaG1motcw0IuZlH06NlpKHcgGplBlI6ek4iCiq6YYqeL/w0C9Waib
-	X4WRGK+befqhNGeKMynyFgKiwdWIyZBtR6U0HrvcRRcT/5rPPXIvG84uwn4dupy+
-	YfvyZ3SVC300H5MxRjDAhsw1Ch8eY8wGrRA==
+	1695692024; x=1695778424; bh=w4gsiSlns8NKzCbLupKqwoRRqRNO/EeFJL+
+	H/CZgEis=; b=hIuW4ymTKqQ4AcVsxoZIYE3WOO4oCddhfwnhBZHX0suyvfCdq5O
+	/UE8xYo17PaSaeQDBm99nGWhRh4fm/6bJ/neUWUM34Ut5qm3hqKDRM0l9HXMOA+j
+	j5cIgH+jelC7MQbtgciHSXW0auQ+JIRZ0CtG3cmxVsLFmS5yc2y6+b01cANHB6EE
+	DXoTa1TWVeZKj4fu8iL79lGMy6JgcW7icCGyecM9yjPtTbV+1u63Q0P7I6rauhhG
+	bvaIsWyHv7z5iB4AJ5kRVIeUEQoANEttIIucsdSreKwiw2Zoj5/DQKw5+U8FNtYO
+	I+pPvIK39aIZKGnncEajbgeyyLK2NBBUh8Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1695691963; x=1695778363; bh=w4gsiSlns8NKzCbLupKqwoRRqRNO/EeFJL+
-	H/CZgEis=; b=A9sS/MXGzuXTVZNOK/xoupemIzzx8zkQ6LCm+LyJJXZ675lsGPG
-	F45lhCbPKE7gOsoQpPMDUOMuBZ8ft6zb/P750LAX+HVJ/zNdebIHWw1ZINv8eLy6
-	P4EuwMsrEscw0ulP8LqsThb3BG81f4vpAQdNTYFQYFnt68rgMOzCVeJJyrN4KiN4
-	nsQxMOGP6jJsNLjd2Tbc7yfkq8v/fSCqf19BtszNCtM+tO4Aeue0G2SUbX7ec6/Z
-	+N+2yANyP0eWhOey/2V5Mm4TkuptID8iv/VT2VhqmYT7Kzm5tXGL+1kBPjUPJryW
-	+NcQXd2CvJZMApE0MtYMN+Y+3qFg2xcdOHA==
-X-ME-Sender: <xms:uzQSZaiik_uOHbXBuo778rY44N4I3PwL5_gRMdsxEnc74c-cZWEkgA>
-    <xme:uzQSZbBN1azh8vkJgNhvM60G-il_hCR7p6iw-ZYpQjUjyppYWAeDg3JBssBC_zhog
-    RfZRQTguuCjDDLCXA>
+	1695692024; x=1695778424; bh=w4gsiSlns8NKzCbLupKqwoRRqRNO/EeFJL+
+	H/CZgEis=; b=j4TqUsQRKNKlyRbBubsg+GMJzT+6o+b+DJyngz+034OiFvn0/Jk
+	AmOnhI90UEQZu4Bnq4x8JHqah7VCxPJ5MYVylNb5/USXSoWeIuCgDd/FpgIKxMd1
+	8Y5u2V6JqvQVbj7AmYWYVYMNpbTCPiZOi65gFhoy7PiqrMOn8z8vmT1/nVmB114N
+	GO/gHeBIi6Cvm0RPtqo2RssIGjJxgmT2AxvG0IHLGTn4I3HvhGNtCfr61OcthTSd
+	q6mDPzQ2WZ0KD5e1lNP2MGilxQ5eCc4cKXgNxpoQIaWGBU5TARnaAxkw0DLrk81X
+	A2bN3vD9tsqfKsdw73MegshEYeFExy4UeAg==
+X-ME-Sender: <xms:-DQSZVnbdOA6QwqiLsmHdLusfTnCDRDYAC7aACMnpHCotjufhKaIfQ>
+    <xme:-DQSZQ131TqvzocHClzhBZQex1kmAWVTOOBeX1kKS8tnE8i-Nm2bd9w7d2q6A_Hzo
+    h5eHTNEBAampQkKag>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudelhedggeejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
     nhgurhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecugg
     ftrfgrthhtvghrnhepgfeiieettdelkeehffevieetgeejgeffveefhfffkedvudefuddv
-    veejgeehheevnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrh
+    veejgeehheevnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrh
     homheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:uzQSZSGMPnBpxE2FLuwPhejybGgZYc4ljo8wPyPU7aoSRTWskM85_Q>
-    <xmx:uzQSZTS81g2KeyQd4eJQio0m7GOm9fRRFnLSjIISZiymmiSvnr9snw>
-    <xmx:uzQSZXyeuKVB114erpw1liVOPuUOVWBcIrLyXIrD3ifOkZPfuTOrhA>
-    <xmx:uzQSZSq3-6NyOTYpKOPYawPpq7Bd0dUP2ROJZ0jmgt-eE2OoIsjjww>
+X-ME-Proxy: <xmx:-DQSZbq2NdObvNPCY5iZt5h4yRJ6Lei1pnq_uCSzyV89cNk9SXn10w>
+    <xmx:-DQSZVlVZTS-kriRKXTOJnCzD4lVnZ0FFF-FJu9cVkZdKMKFI33_Jw>
+    <xmx:-DQSZT0RI3JmBKW3NaLDOw1HQ_hwN-NGyjwS_5IQ0xQrl1iNzRVELg>
+    <xmx:-DQSZUzl0oy8IwJIleKH-TJpLHn-IIH3Vsqk3uQcVEECZnMn_MslNQ>
 Feedback-ID: idfb84289:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id EE4111700089; Mon, 25 Sep 2023 21:32:42 -0400 (EDT)
+	id 3A58A1700089; Mon, 25 Sep 2023 21:33:44 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.9.0-alpha0-957-ga1ccdb4cff-fm-20230919.001-ga1ccdb4c
 MIME-Version: 1.0
-Message-Id: <e447ec5b-ae06-42cb-957b-30442bf4d85f@app.fastmail.com>
-In-Reply-To: <20230925095532.1984344-4-u.kleine-koenig@pengutronix.de>
+Message-Id: <97424091-2784-4daf-b7a2-062fde210c2d@app.fastmail.com>
+In-Reply-To: <20230925095532.1984344-2-u.kleine-koenig@pengutronix.de>
 References: <20230925095532.1984344-1-u.kleine-koenig@pengutronix.de>
- <20230925095532.1984344-4-u.kleine-koenig@pengutronix.de>
-Date: Tue, 26 Sep 2023 11:02:21 +0930
+ <20230925095532.1984344-2-u.kleine-koenig@pengutronix.de>
+Date: Tue, 26 Sep 2023 11:03:23 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  "Joel Stanley" <joel@jms.id.au>
-Subject: Re: [PATCH 03/40] soc/aspeed: aspeed-p2a-ctrl: Convert to platform remove
+Subject: Re: [PATCH 01/40] soc/aspeed: aspeed-lpc-ctrl: Convert to platform remove
  callback returning void
 Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -98,7 +97,7 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>, linux-arm-kernel@lists.infradead.org
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
