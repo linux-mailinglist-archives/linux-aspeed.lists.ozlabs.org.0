@@ -1,67 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487997AF826
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Sep 2023 04:32:48 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFFF7AF846
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Sep 2023 04:43:10 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=WOBP2rXk;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=m/y+mwvY;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RwLHf120Qz3c8W
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Sep 2023 12:32:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RwLWc2FRLz2yt0
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Sep 2023 12:43:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=WOBP2rXk;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=m/y+mwvY;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::52f; helo=mail-ed1-x52f.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::22a; helo=mail-lj1-x22a.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RwL8B341lz3bwL;
-	Wed, 27 Sep 2023 12:26:16 +1000 (AEST)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5346b64f17aso2889892a12.2;
-        Tue, 26 Sep 2023 19:26:16 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RwLWW0KkYz2yt0;
+	Wed, 27 Sep 2023 12:43:01 +1000 (AEST)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2bb9a063f26so167510211fa.2;
+        Tue, 26 Sep 2023 19:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1695781568; x=1696386368; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=emIKXtRIs/yM2DWwZD9zMtoiHVTkPPbqlVWgbeCiXyc=;
-        b=WOBP2rXkDxl/2RLWZV0ykH5s5JAiA/xd+2OwZq68/tozjz0XNqdFFEFEVVBYPVwkt3
-         8QUl131F3X3ZKCUsW3RIrQFQulCHC9OkOLb+MwspupJUKcfRgRE0WwteU0DmQDq3qef3
-         Jk/arksThjoASPa5vnEwSzt1R93gYs/IgE9Ag=
+        d=jms.id.au; s=google; t=1695782578; x=1696387378; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VMinxs6nfn6iZUfMzZa2WeT44I91Ws9Lj88tZvpoGtU=;
+        b=m/y+mwvYU1PBJedo1i+/wMYDVALemrQYhf2QBu5qh+V14GNqa3QYpNUsf8ezHg01aw
+         UPFwHaQIoReM38OdG1q9P+lWQ26E+MlCineDEnZZBfBl4FR424Tx8DmtxFSTY5cqpH5K
+         7HEmQ5X/CcI4r0Ag1hRCVmdFmGydPIa4suy9U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695781568; x=1696386368;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=emIKXtRIs/yM2DWwZD9zMtoiHVTkPPbqlVWgbeCiXyc=;
-        b=C1OCF2Z/aYD/AEdzikl73zl2L2i3lAN041t9fG6/rTu8gHk5XuOiut0O+kdA9Cme+V
-         +ZfWRxNQuXhCkJ50cAhN/SIMRiyDyVXB+BuKHU7m40gwpJwOwPfoJrjCM8FtR3jA4RmG
-         kgGhfHhnV8iMa9yKrvlrvjCNndeL6e3j6gYzN3/Bsq9RrjLZivu3fHbzWESW9cGhNkPE
-         1YPp7FsZ3MIbo1G/LxDocBZMykVlXFg9kxnfcU+NUDwnzChB0YxlmO10FeVOIz1LQwxd
-         lQUkKoR0lB0GGpaovoGgHV1N2Nhda0x967hHs07V/qfExMxtCdIK83PRPsyeIdy4N3XB
-         Pufg==
-X-Gm-Message-State: AOJu0Ywxa7ZQd8TtBdZc3UpjNiuFq/wue75uR7W20N832C6GWlCVSkKn
-	6+oV+z41XbdmW5RfDXztO/zrNvt4MdEx+GwJuo4=
-X-Google-Smtp-Source: AGHT+IHCCOjXb8+6pc5O9HOXdlXxVDhFBKsFiifAI3BglZZL/BL8JlMYEB/1h28CGguKKA8HQFS3La5RDl0OFTUHTbc=
-X-Received: by 2002:a17:906:9a:b0:9b2:9d6f:2949 with SMTP id
- 26-20020a170906009a00b009b29d6f2949mr400624ejc.57.1695781568293; Tue, 26 Sep
- 2023 19:26:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695782578; x=1696387378;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VMinxs6nfn6iZUfMzZa2WeT44I91Ws9Lj88tZvpoGtU=;
+        b=hhHi/TeEulhbbNmXQ0EF0QUBZ2gZ8N/lhyysf/tv5n4HxdCBHgOSGapmmo5Z3kZFqJ
+         WlewaGS1z3xv0H5Hz0yLaUarKUTha/Ig1M/jDBIsTZQOYm/PsIWqknMJcOjtjtAtt17n
+         9cshZe6fVfrseRZPlOYym+6NLrkWuFUEqll1Lyzgzs5j5wFtWYAGz4tCXrIufaYwiQcW
+         KtOTVP4DC8JHeyhjZ73Qa7Ov13DFkl0Tt8fnl2xWTZwWz8shN9JBZ15ghHR71OIzI2No
+         U7Sfl8RAKjhQ4rzIKt31KOaXMtOyd91yaWE7FSowkN491FAr/jipPOL51//yTI2q/QCJ
+         3eBg==
+X-Gm-Message-State: AOJu0Yxrqx2nNEI7KCeiIKacx1k3l90ry/B7CGGWwDL72Nn8jCPD3WQC
+	M5QYhI4cEfnzp97zI2Vq38kpX8YCu3TYRgsCy8k=
+X-Google-Smtp-Source: AGHT+IEoGxjFIivq3ZMXhL6ZTDxnLdVcOLOzUHrNnMa0KFIxb8uxpmFj3uJhgYHyG7vXKUM/QD4YPpVc0zYFqvug4qM=
+X-Received: by 2002:a2e:808d:0:b0:2bf:f599:be63 with SMTP id
+ i13-20020a2e808d000000b002bff599be63mr681593ljg.41.1695782577775; Tue, 26 Sep
+ 2023 19:42:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230925095532.1984344-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230925095532.1984344-1-u.kleine-koenig@pengutronix.de>
+References: <20230810072155.3726352-1-zhangjian.3032@bytedance.com>
+ <CACPK8XfWKLS_4nBC+NCSw=21iQeaHzBXOROmz9T+S0qZHCBKeg@mail.gmail.com> <CA+J-oUtxiQBOT+VM3fbOUM8HL5TX-C4HqtbbT__b4_KsGAJy1w@mail.gmail.com>
+In-Reply-To: <CA+J-oUtxiQBOT+VM3fbOUM8HL5TX-C4HqtbbT__b4_KsGAJy1w@mail.gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 27 Sep 2023 02:25:56 +0000
-Message-ID: <CACPK8XeROYz_XaB3TvUhdXm7Vm8fjC8yU+mfvA58=_FiDrBy-g@mail.gmail.com>
-Subject: Re: [PATCH 00/40] soc: Convert to platform remove callback returning void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Date: Wed, 27 Sep 2023 02:42:46 +0000
+Message-ID: <CACPK8XeO404ok+B+k4U_bdFE3yYebzT-UNcTqcHStJfEnDh6jg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH] i2c: aspeed: Fix i2c bus hang in slave read
+To: Jian Zhang <zhangjian.3032@bytedance.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Wed, 27 Sep 2023 12:32:19 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,35 +71,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Herve Codina <herve.codina@bootlin.com>, Heiko Stuebner <heiko@sntech.de>, Mateusz Holenko <mholenko@antmicro.com>, Muhammad Usama Anjum <usama.anjum@collabora.com>, linux-tegra@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, linux-riscv@lists.infradead.org, Karol Gugala <kgugala@antmicro.com>, Qiang Zhao <qiang.zhao@nxp.com>, Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>, Rob Herring <robh@kernel.org>, linux-samsung-soc@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Ruan Jinjie <ruanjinjie@huawei.com>, Yinbo Zhu <zhuyinbo@loongson.cn>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org, Gabriel Somlo <gsomlo@gmail.com>, Andy Gross <agross@kernel.org>, Huisong Li <lihuisong@huawei.com>, Yang Yingliang <yangyingliang@huawei.com>, Sumit Gupta <sumitg@nvidia.com>, zhang songyi <zhang.songyi@zte.com.cn>, Zev Weiss <zev@bewilderbeest.net>, 
- Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>, Krzysztof Halasa <khalasa@piap.pl>, loongarch@lists.linux.dev, Santosh Shilimkar <ssantosh@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org, Shang XiaoJing <shangxiaojing@huawei.com>, Li Yang <leoyang.li@nxp.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, kernel@pengutronix.de, linux-mediatek@lists.infradead.org, Nick Alcock <nick.alcock@oracle.com>, linuxppc-dev@lists.ozlabs.org
+Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, "moderated list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, "open list:ARM/ASPEED I2C DRIVER" <linux-i2c@vger.kernel.org>, brendan.higgins@linux.dev, zhangjian3032@gmail.com, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, xiexinnan@bytedance.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 25 Sept 2023 at 09:55, Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
+On Fri, 22 Sept 2023 at 14:39, Jian Zhang <zhangjian.3032@bytedance.com> wrote:
+> >
+> > Tommy has submitted a similar fix:
+> >
+> >  https://lore.kernel.org/linux-i2c/20230906004910.4157305-1-tommy_huang@aspeedtech.com/
+> >
+> > His change is very heavy handed; it reinitialises the bus including
+> > re-parsing the device tree (!).
+> >
+> > Should we have merged this fix instead? If not, are you able to
+> > confirm that his change fixes your issue?
 >
-> Hello,
->
-> this series converts all platform drivers below drivers/soc to use
-> .remove_new(). The motivation is to get rid of an integer return code
-> that is (mostly) ignored by the platform driver core and error prone on
-> the driver side.
->
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
->
-> As there is no single maintainer team for drivers/soc, I suggest the
-> individual maintainers to pick up "their" patches.
+> I feel it's for solving the same issue, but I think this patch is
+> missing the action
+> `bus->slave_state = ASPEED_I2C_SLAVE_INACTIVE;`,
+>  which means it can't resolve my problem. @Tommy, can you help confirm this?
 
-I'd be happy if Arnd merged the lot at once. Arnd, what do you think?
+You're right, it doesn't change the slave_state at all.
 
-If that will be too messy then I understand. I have queued the aspeed
-ones locally and will push that out if we decide that's the best way
-to go.
-
-Thanks for doing this cleanup Uwe.
-
-Cheers,
-
-Joel
+Unfortunately, despite no acks from the maintainers, this patch has
+now been merged and backported to stable. We should complete the fix,
+or revert it asap.
