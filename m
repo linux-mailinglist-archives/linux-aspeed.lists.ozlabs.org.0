@@ -1,68 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107457B020C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Sep 2023 12:41:14 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 581B57B0915
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Sep 2023 17:44:01 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lA6R8AC0;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=g4sLXxsh;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RwY7922BNz3cBY
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Sep 2023 20:41:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Rwgrb16nGz3cF2
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Sep 2023 01:43:59 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lA6R8AC0;
+	dkim=pass (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=g4sLXxsh;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b2c; helo=mail-yb1-xb2c.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::42b; helo=mail-pf1-x42b.google.com; envelope-from=zhangjian.3032@bytedance.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RwY701RBWz3byL
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Sep 2023 20:40:58 +1000 (AEST)
-Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-d86a0c97ae6so7525084276.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Sep 2023 03:40:58 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RwgqN5TdZz3c8W
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Sep 2023 01:42:55 +1000 (AEST)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-690d2441b95so8721116b3a.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Sep 2023 08:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695811255; x=1696416055; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6nYXLxAB1G3fPQuWQuND+i8jMgLXF7y81yFurBOx7Q4=;
-        b=lA6R8AC0WtdX2wudonb/SOpzk9Lj3BOY+mnZbKXaB5BO4blPvma+oxo4Nrwy28qUoO
-         2+aNytlYFWj9fKFQzfVty2BsFqiP92/M1wVdoEKllFaQIzGplVAop9AqY1XlQP24IYUR
-         8KgSxIvCJRU5Osmy5SSIuEYDKkMJch1QzfdVAb9pb9pWCcStmbBelid5/AO2enpQdViz
-         oHi6FJwb1bQrr9tG88+BQaDh9A3twBtmGEtP9b+HfS660t/nOPLWaLx9ORvvvt7bKLPy
-         h1NMVkyI1ThBOK8JR0YYq1fm3SOeszc431kVmX5q7uHlSh6aWNE/gvhRkOJ+O6QJNYrv
-         YH6Q==
+        d=bytedance.com; s=google; t=1695829370; x=1696434170; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e+KczYJ63iTfnuMsHD4IMClJxOV5m4dNcMyA1mqDD9g=;
+        b=g4sLXxshYIcvDFVXgVFI65z8Fny+3aeUxj/t48w742pvpvRd5o+u7gkzSIxYd5yl7+
+         IwuT7Gh8DsRHE+sVsdBo59iWQTgmhYN3tbPchWCc6ugKS+zQv41BzxxPCwh2saYZ4kYZ
+         XV213pnF1T/on1dtOu2hV0MIDE6tLuPwGqRsk4lK1UtglRcjCEq2/FK2oCbf6EyTNDiB
+         NeyN82kjrbJZ4EDZO8y9lWgDKGpzMfcSJX/JHcuSgOgZ7d8EnmbPaPZ+BIs9O6yfuGjW
+         3d0tiIgZQywx1rsDl+YDS9sXpgN77f48ijXyOfboShS+m7/XGBlCbmp3GNijaml06EoW
+         LRIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695811255; x=1696416055;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1695829370; x=1696434170;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6nYXLxAB1G3fPQuWQuND+i8jMgLXF7y81yFurBOx7Q4=;
-        b=xCIPcmCXKja31ZmHzU/vNZKEiPqG4a/lOLHmKEAUDligkw4FWtWDnByBE6Qwd3Fumm
-         Ev5PaBAQ6XWccuUQAh0uY/jYCa0bjWAmUYeIZCLxFWzrIk7inSTDKTtlGC6M/M1AfxBy
-         K72mKzXdexWmt+UF1xI5XW1WqICxzVGIHoWMGaJFUPXwI45837PHBCbVJbaPW7qmclcc
-         km0TG3qqPtfgTBxgPp4ztmibCgscpZ994Hp9Y78jROIxXS/RGPcABhmNs/W7DbrWWrl0
-         9Yx6DkUu9xhqj/AcY+BMLC6l6E7Ywjhkq8RqXrokvL0PRGvWeYefBzWht8Aa8n9M72/+
-         1Dzw==
-X-Gm-Message-State: AOJu0YwoO8OvQS/oEXYTvOxhF6xElCzmu2/aMR5sDKEDj7ytQ5r2FtSI
-	OBGzr/OAtjqUwrbD3SDO39CW+PXyEidAtUTEvXBEQg==
-X-Google-Smtp-Source: AGHT+IGmun0NZIJ3+bBsQ7jBRBeKX3tnz5U8pzUprEmhy+ptbeVeqez+29jxHbg6q2orBUPijpNbYnhB12LG7S+EtJs=
-X-Received: by 2002:a25:ac1e:0:b0:d81:6344:540b with SMTP id
- w30-20020a25ac1e000000b00d816344540bmr1617296ybi.45.1695811254940; Wed, 27
- Sep 2023 03:40:54 -0700 (PDT)
+        bh=e+KczYJ63iTfnuMsHD4IMClJxOV5m4dNcMyA1mqDD9g=;
+        b=cWAOFpSp3rxRGowhNUw4R9fsqZwD8WE/ygGPuOi0deMgv1tzOKeJeySndHBieAeePc
+         zRvFbdMUTDMr42PQxfUYw57g+BSY5Yzx/p2sXMFycn2xEpgjlxOGZuT41rYxtJO6F+bl
+         Y+KbYsUWB5g35NsmYqlTkjd7vH7dpwZhw1G3oiU8EYgYDugaHnnui0xVCnyxs/SC9RzT
+         6gKssnjmQ6dzTMCZOY2KdFk5XYBY4rt90oJiKAO7agDg536fTA4Kk+EJOpu0MDkKO+VT
+         BHy8DB2/9z4N0KgCllbewkRk/KrKJPmObzbvv3ahozdSEbxIqi7cNfELEm4yeyyhVO5+
+         ZuLg==
+X-Gm-Message-State: AOJu0Ywl4rh7tLOqu2UNHaJNeEHzKoLzk+6AZIQUGo4NLqQcDwHJwOrq
+	t6jxGS6IJMVpvMRhzd+Pl1NFPA==
+X-Google-Smtp-Source: AGHT+IFRfQ/0KX1bSuu5UuM2JxSiQwHD4x642i16XMLdBILDBkTo7GJS+ledc4uHjgaqOgLCqUIbcg==
+X-Received: by 2002:a05:6a21:9983:b0:15d:1646:285a with SMTP id ve3-20020a056a21998300b0015d1646285amr3860484pzb.21.1695829370365;
+        Wed, 27 Sep 2023 08:42:50 -0700 (PDT)
+Received: from localhost ([49.7.199.230])
+        by smtp.gmail.com with ESMTPSA id v3-20020a655c43000000b005782ad723casm10120152pgr.27.2023.09.27.08.42.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Sep 2023 08:42:50 -0700 (PDT)
+From: Jian Zhang <zhangjian.3032@bytedance.com>
+To: brendan.higgins@linux.dev,
+	benh@kernel.crashing.org,
+	joel@jms.id.au,
+	andrew@aj.id.au
+Subject: [PATCH v2] i2c: aspeed: Fix i2c bus hang in slave read
+Date: Wed, 27 Sep 2023 23:42:43 +0800
+Message-Id: <20230927154244.3774670-1-zhangjian.3032@bytedance.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230925030647.40283-1-andrew@codeconstruct.com.au>
- <CAPDyKFrFxYxSTa=z2VnCk4m_d-wEgd17wBokzyNCCRLtSUnFKw@mail.gmail.com> <7a7d5a7f19fc793f157508fec7fbc09ca8c4cc4b.camel@codeconstruct.com.au>
-In-Reply-To: <7a7d5a7f19fc793f157508fec7fbc09ca8c4cc4b.camel@codeconstruct.com.au>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 27 Sep 2023 12:40:18 +0200
-Message-ID: <CAPDyKFquBkoA2NN7MLwkOeAsykUfp9q3RrbdnAFNNkErEiseMg@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: aspeed: Update Andrew's email address
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,41 +78,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Cc: Andi Shyti <andi.shyti@kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, "moderated list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, Wolfram Sang <wsa@kernel.org>, "open list:ARM/ASPEED I2C DRIVER" <linux-i2c@vger.kernel.org>, zhangjian3032@gmail.com, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, xiexinnan@bytedance.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 27 Sept 2023 at 01:22, Andrew Jeffery
-<andrew@codeconstruct.com.au> wrote:
->
-> On Tue, 2023-09-26 at 17:03 +0200, Ulf Hansson wrote:
-> > On Mon, 25 Sept 2023 at 05:07, Andrew Jeffery
-> > <andrew@codeconstruct.com.au> wrote:
-> > >
-> > > I've changed employers, have company email that deals with patch-based
-> > > workflows without too much of a headache, and am trying to steer some
-> > > content out of my personal mail.
-> > >
-> > > Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-> >
-> > I guess it doesn't really matter what tree this gets funneled through,
-> > so I decided to pick this up via my mmc tree.
-> >
-> > So, applied for next, thanks!
->
-> Ah, thanks for being so prompt! However, Joel has sent a PR to Arnd
-> with the patch:
->
-> https://lore.kernel.org/all/CACPK8Xc+D=YBc2Dhk-6-gOuvKN0xGgZYNop6oJVa=VNgaEYOHw@mail.gmail.com/
->
-> I thought I'd left a note under the fold asking Joel to do that so
-> people knew how it would get into the tree, but that clearly isn't the
-> case. Sorry about that, I must have rolled the patch off again after I
-> put the note into the original.
+When the `CONFIG_I2C_SLAVE` option is enabled and the device operates
+as a slave, a situation arises where the master sends a START signal
+without the accompanying STOP signal. This action results in a
+persistent I2C bus timeout. The core issue stems from the fact that
+the i2c controller remains in a slave read state without a timeout
+mechanism. As a consequence, the bus perpetually experiences timeouts.
 
-Np, I have dropped the patch from my tree now.
+In this case, the i2c bus will be reset, but the slave_state reset is
+missing.
 
-[...]
+Fixes: fee465150b45 ("i2c: aspeed: Reset the i2c controller when timeout occurs")
+Signed-off-by: Jian Zhang <zhangjian.3032@bytedance.com>
+---
+ drivers/i2c/busses/i2c-aspeed.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Kind regards
-Uffe
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index 5a416b39b818..18f618625472 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -933,6 +933,7 @@ static int aspeed_i2c_init(struct aspeed_i2c_bus *bus,
+ 	/* If slave has already been registered, re-enable it. */
+ 	if (bus->slave)
+ 		__aspeed_i2c_reg_slave(bus, bus->slave->addr);
++	bus->slave_state = ASPEED_I2C_SLAVE_INACTIVE;
+ #endif /* CONFIG_I2C_SLAVE */
+
+ 	/* Set interrupt generation of I2C controller */
+--
+2.30.2
+
