@@ -2,89 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65D27B10D9
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Sep 2023 04:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA267B1C7F
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Sep 2023 14:33:00 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=SQ2nVGTt;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=L8+e2d6P;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=IcBNUsXc;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RwyJ80Ft4z3c68
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Sep 2023 12:35:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RxCYk3pF2z3bbW
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Sep 2023 22:32:58 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=SQ2nVGTt;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=L8+e2d6P;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=IcBNUsXc;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=lists.ozlabs.org)
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::12c; helo=mail-lf1-x12c.google.com; envelope-from=aladyshev22@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RwyHt35Wvz3bT3
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Sep 2023 12:35:05 +1000 (AEST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id 055945C02CE;
-	Wed, 27 Sep 2023 22:35:00 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
-  by compute6.internal (MEProxy); Wed, 27 Sep 2023 22:35:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1695868499; x=1695954899; bh=iS
-	TyWKy6jHzp2yEuMg7z/XeSXxoGdDLI4fVW7YcOLY0=; b=SQ2nVGTtP8W5DSQoh/
-	f8bjebCiqtk7Y59Jh+ui894K9PQRg7gWcwjNkRoJi6fE0wUtytwScknIrZVr+Z1r
-	ZTMdHL2iNNCAt2JBB/QpOa+rdemU9I83kGcX6EYHBrftznGtj1YCrJSjtRbiqVUF
-	a5Un4O4ZR/SSDt60eSsu0/ytlMKBgSHFZ4OHv0brAW5O/lvaK42eUn2geAYxLk/c
-	46hVcfaOPMxJZ8rc3xRchU+fxgfSFoL2KNjh8Blm9ZEka1g7k64ge5YqKnr36G+E
-	TGzGEbJrkNInZ5pjd4MlbYcyJe1SHruDheuWOzi340M10cOwMTuZ67LBjwmGOABE
-	xRrw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1695868499; x=1695954899; bh=iSTyWKy6jHzp2
-	yEuMg7z/XeSXxoGdDLI4fVW7YcOLY0=; b=L8+e2d6PQCtLtvGY9enPwMqTXuf6Z
-	dNIxW0jVi4YnIiRFJcSB1fXvjKlsjDRDy9JZi7oj5+U4enoSpjXUr3fabKHMDwbw
-	hkD9JJPRIqSft11LcCTuujLGxmZ7YW4w8cl5oLSGKXDWqpPSXlliVlZqRxctYNtc
-	rgW3kc14YrctzpRzwqkgQLQGSAcBBQYaBJ+WF9ymyQ2frdsl/klJt0IByt+P/hBR
-	/t21lH3zdlF4CFDYbT9jx471Y7lrUFF9GG3ucaHbNWy8ufF/85S5OgAkTa8ocw7L
-	Wirf5dBvA/sauYuTa7oKiK90zuQgoCAjfn/QTWoJ+8NGTfvPO3RYSniXA==
-X-ME-Sender: <xms:U-YUZUE_VnsvjkKHYPybD_-XO3dBNuzm7s3CFCNmYBtrl-YnbjUcCQ>
-    <xme:U-YUZdVwb_ZA1d1yAR2OqCcic_tiIlVm5nFJ7oVYh_iuduSub__02IS2iwk3tHVa2
-    8myXL_yv6kHhnwQZg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvjedrtdehgdeiudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
-    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
-    htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
-    veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:U-YUZeLAjr6CaA1fBBiXVRo0SN6ENEBtJCWwnZkblcBbmH8cHeZL6w>
-    <xmx:U-YUZWGYTnWM7L6-EbExOXazcIFe5Ivk4kTdY0U0X3BxQVkDbP3Xsg>
-    <xmx:U-YUZaXLDWO0cz--J1e19lM9Bk7yJw5LdOyV-DrkfIe6Tz5Nxwtk0g>
-    <xmx:U-YUZVHaGmRKVhq8tA-eNq4HDnGIrCp5YTb8cHMWtjagqhNN_U0Ipw>
-Feedback-ID: idfb84289:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 742041700089; Wed, 27 Sep 2023 22:34:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-958-g1b1b911df8-fm-20230927.002-g1b1b911d
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RxCWB68WPz30MY;
+	Thu, 28 Sep 2023 22:30:45 +1000 (AEST)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-50435a9f800so19774715e87.2;
+        Thu, 28 Sep 2023 05:30:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695904236; x=1696509036; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Gm1ISeW+idItfKS/eOu6/qm0WSJn6LCWGU5CplrSsM=;
+        b=IcBNUsXcWxtNN+Y60nx0en7RGIKEgULIxJIodGDhmTUXCLvEAU+0PuNRvzwKTUi8sn
+         3cHLUlVQAwNZqiyB0JHuTtkvuBnqrrK4wXXpXWYCVXKHlL86h1OxiAXwE6W+SHu4nWNR
+         GA8HDJoLuJ+BUqCcnOgJThhECt2BmkE6ZOISq1rzONW9Pp4J5FsaYgdwbw0OsjzBegRF
+         Io29/3Ei2O3YHCbX9s5Z3FKUQ4bg2da632bfZM763eyP660Fyr6AuykFDNJM60GpAmL/
+         Gy4waqZv3Q8IJs+2PNK9MmeVHLrXkNh6IRxcfj5plc2dcA14ugqtY18RTK0u0ZEAaVR5
+         GdTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695904236; x=1696509036;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Gm1ISeW+idItfKS/eOu6/qm0WSJn6LCWGU5CplrSsM=;
+        b=gyOvTJQ9MS9ybs/O+vZfzzWKrI/k2rLua080ok3Q3EIn1kc7icgl6WhI5TIoKP8xeb
+         yPZMoFNsCAEndJKQXy3ak7wPpxPwjiCEweFNdXQgHfTRE1jV3AQemUB6+/AuoXHOsv9M
+         3JLQ/c7sg29bweN9A6DZVPYYOr+jlZ9rzeSQEedQ6O53r8r5JdEcGaWcSsd9779mhwAe
+         M3HjF6M6CWAQBjqPxtQPpirRijMelm7+v7whalT0wl+/JRl2oi+Oz/i+GbuHBi+hhne3
+         /HSYUjYpX2m145m4CALKz1eshXDfILbf/8CHvxZb1SM2PemxmpuSRQ/NVy6seW+ixQXK
+         RwJQ==
+X-Gm-Message-State: AOJu0YzMvH7msYQ0Uvhi7LNJr+Mdzd5l6GSS2PYubep+7GU4GeHClYYJ
+	YodlkGZ9aJncN5rL8iW5XQs=
+X-Google-Smtp-Source: AGHT+IELWBzD5+DshFb82aU+91c6MxU621XWEWP2vB5rQd9UYeEMJrPISaje63D4gQs+E+MgoEPD8w==
+X-Received: by 2002:a2e:2c16:0:b0:2bf:ff17:811e with SMTP id s22-20020a2e2c16000000b002bfff17811emr1044718ljs.14.1695904235857;
+        Thu, 28 Sep 2023 05:30:35 -0700 (PDT)
+Received: from PC10319.67 ([82.97.198.254])
+        by smtp.googlemail.com with ESMTPSA id x6-20020a2e9c86000000b002ba045496d0sm3588724lji.125.2023.09.28.05.30.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Sep 2023 05:30:35 -0700 (PDT)
+From: Konstantin Aladyshev <aladyshev22@gmail.com>
+To: 
+Subject: [PATCH 0/3] Add MCTP-over-KCS transport binding
+Date: Thu, 28 Sep 2023 15:30:06 +0300
+Message-Id: <20230928123009.2913-1-aladyshev22@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Message-Id: <a310aba3-0f04-4549-a776-36ff8cef736e@app.fastmail.com>
-In-Reply-To: <20230925081845.4147424-1-billy_tsai@aspeedtech.com>
-References: <20230925081845.4147424-1-billy_tsai@aspeedtech.com>
-Date: Thu, 28 Sep 2023 12:04:38 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Billy Tsai" <billy_tsai@aspeedtech.com>, jic23@kernel.org,
- lars@metafoo.de, "Joel Stanley" <joel@jms.id.au>, linux-iio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, "Potin Lai" <Potin.Lai@quantatw.com>,
- patrickw3@meta.com
-Subject: Re: [PATCH v1] iio: adc: aspeed: Support deglitch feature.
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,341 +75,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, tali.perry1@gmail.com, edumazet@google.com, jk@codeconstruct.com.au, matt@codeconstruct.com.au, openbmc@lists.ozlabs.org, yuenn@google.com, kuba@kernel.org, pabeni@redhat.com, minyard@acm.org, aladyshev22@gmail.com, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org, venture@google.com, linux-kernel@vger.kernel.org, avifishman70@gmail.com, netdev@vger.kernel.org, davem@davemloft.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Billy,
+This change adds a MCTP KCS transport binding, as defined by the DMTF
+specificiation DSP0254 - "MCTP KCS Transport Binding".
+A MCTP protocol network device is created for each KCS channel found in
+the system.
+The interrupt code for the KCS state machine is based on the current
+IPMI KCS driver.
+Since the KCS subsystem code is now used both in IPMI and MCTP drivers
+the separate patchsets move KCS subsystem includes to a common folder.
 
-On Mon, 25 Sep 2023, at 17:48, Billy Tsai wrote:
-> Create event sysfs for applying the deglitch condition. When
-> in_voltageY_thresh_rising_en/in_voltageY_thresh_falling_en is set to true,
-> the driver will use the in_voltageY_thresh_rising_value and
-> in_voltageY_thresh_falling_value as threshold values. If the ADC value
-> falls outside this threshold, the driver will wait for the ADC sampling
-> period and perform an additional read once to achieve the deglitching
-> purpose.
->
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  drivers/iio/adc/aspeed_adc.c | 193 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 189 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-> index 998e8bcc06e1..9e746c81d916 100644
-> --- a/drivers/iio/adc/aspeed_adc.c
-> +++ b/drivers/iio/adc/aspeed_adc.c
-> @@ -95,6 +95,7 @@ struct aspeed_adc_model_data {
->  	bool wait_init_sequence;
->  	bool need_prescaler;
->  	bool bat_sense_sup;
-> +	bool require_extra_eoc;
+Tested:
+PLDM communication between the HOST and BMC was tested with both
+components implemented via open-source software:
+- The HOST (UEFI firmware) part was based one the edk2 [1] and
+edk2-platforms [2] code,
+- The BMC part was based on the openbmc [3] distribution.
 
-What is "eoc"? Can we use a better name or add an explanatory comment?
+The testing process and all the necessary utilities are described in
+the [4] repository.
 
->  	u8 scaler_bit_width;
->  	unsigned int num_channels;
->  	const struct aspeed_adc_trim_locate *trim_locate;
-> @@ -120,6 +121,26 @@ struct aspeed_adc_data {
->  	int			cv;
->  	bool			battery_sensing;
->  	struct adc_gain		battery_mode_gain;
-> +	unsigned int		required_eoc_num;
-> +	u16			*upper_bound;
-> +	u16			*lower_bound;
-> +	bool			*upper_en;
-> +	bool			*lower_en;
+[1]: https://github.com/tianocore/edk2
+[2]: https://github.com/tianocore/edk2-platforms
+[3]: https://github.com/openbmc/openbmc
+[4]: https://github.com/Kostr/PLDM
 
-I wonder whether we should instead embed enough memory for these new properties directly into the struct. Take the upper bound on the number of channels across the supported SoCs (`#define ASPEED_ADC_MAX_CHANNELS 16`, from the values defined across the `struct aspeed_adc_model_data` instances down below). From there we could have `u16 upper_bound[ASPEED_ADC_MAX_CHANNELS]` etc instead of the extra allocations in probe(), which get a bit tedious. Also the channel `{upper,lower}_en` values can be bit-masked out of a u16, avoiding the dynamic allocations for those as well.
+Konstantin Aladyshev (3):
+  ipmi: Move KCS headers to common include folder
+  ipmi: Create header with KCS interface defines
+  mctp: Add MCTP-over-KCS transport binding
 
-> +};
-> +
-> +static const struct iio_event_spec aspeed_adc_events[] = {
-> +	{
-> +		.type = IIO_EV_TYPE_THRESH,
-> +		.dir = IIO_EV_DIR_RISING,
-> +		.mask_separate =
-> +			BIT(IIO_EV_INFO_VALUE) | BIT(IIO_EV_INFO_ENABLE),
-> +	},
-> +	{
-> +		.type = IIO_EV_TYPE_THRESH,
-> +		.dir = IIO_EV_DIR_FALLING,
-> +		.mask_separate =
-> +			BIT(IIO_EV_INFO_VALUE) | BIT(IIO_EV_INFO_ENABLE),
-> +	},
->  };
-> 
->  #define ASPEED_CHAN(_idx, _data_reg_addr) {			\
-> @@ -131,6 +152,8 @@ struct aspeed_adc_data {
->  	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE) |	\
->  				BIT(IIO_CHAN_INFO_SAMP_FREQ) |	\
->  				BIT(IIO_CHAN_INFO_OFFSET),	\
-> +	.event_spec = aspeed_adc_events,			\
-> +	.num_event_specs = ARRAY_SIZE(aspeed_adc_events),	\
->  }
-> 
->  static const struct iio_chan_spec aspeed_adc_iio_channels[] = {
-> @@ -277,6 +300,35 @@ static int aspeed_adc_set_sampling_rate(struct 
-> iio_dev *indio_dev, u32 rate)
->  	return 0;
->  }
-> 
-> +static int aspeed_adc_get_voltage_raw(struct aspeed_adc_data *data,
-> +				      struct iio_chan_spec const *chan)
-> +{
-> +	int val;
-> +
-> +	val = readw(data->base + chan->address);
-> +	dev_dbg(data->dev,
-> +		"%d upper_bound: %d %x, lower_bound: %d %x, delay: %d * %d ns",
-> +		chan->channel, data->upper_en[chan->channel],
-> +		data->upper_bound[chan->channel], data->lower_en[chan->channel],
-> +		data->lower_bound[chan->channel], data->sample_period_ns,
-> +		data->required_eoc_num);
-> +	if (data->upper_en[chan->channel]) {
-> +		if (val >= data->upper_bound[chan->channel]) {
-> +			ndelay(data->sample_period_ns *
-> +			       data->required_eoc_num);
-> +			val = readw(data->base + chan->address);
-> +		}
-> +	}
-> +	if (data->lower_en[chan->channel]) {
-> +		if (val <= data->lower_bound[chan->channel]) {
-> +			ndelay(data->sample_period_ns *
-> +			       data->required_eoc_num);
-> +			val = readw(data->base + chan->address);
-> +		}
-> +	}
+ drivers/char/ipmi/kcs_bmc.c                   |   8 +-
+ drivers/char/ipmi/kcs_bmc_aspeed.c            |   3 +-
+ drivers/char/ipmi/kcs_bmc_cdev_ipmi.c         |  73 +-
+ drivers/char/ipmi/kcs_bmc_npcm7xx.c           |   2 +-
+ drivers/char/ipmi/kcs_bmc_serio.c             |   2 +-
+ drivers/net/mctp/Kconfig                      |   8 +
+ drivers/net/mctp/Makefile                     |   1 +
+ drivers/net/mctp/mctp-kcs.c                   | 624 ++++++++++++++++++
+ include/linux/ipmi_kcs.h                      |  80 +++
+ .../char/ipmi => include/linux}/kcs_bmc.h     |   0
+ .../ipmi => include/linux}/kcs_bmc_client.h   |   3 +-
+ .../ipmi => include/linux}/kcs_bmc_device.h   |   3 +-
+ 12 files changed, 723 insertions(+), 84 deletions(-)
+ create mode 100644 drivers/net/mctp/mctp-kcs.c
+ create mode 100644 include/linux/ipmi_kcs.h
+ rename {drivers/char/ipmi => include/linux}/kcs_bmc.h (100%)
+ rename {drivers/char/ipmi => include/linux}/kcs_bmc_client.h (97%)
+ rename {drivers/char/ipmi => include/linux}/kcs_bmc_device.h (96%)
 
-Is the potential for a double delay if `data->lower_bound[chan->channel] >= data->upper_bound[chan->channel]` desirable?
+-- 
+2.25.1
 
-> +	return val;
-> +}
-> +
->  static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
->  			       struct iio_chan_spec const *chan,
->  			       int *val, int *val2, long mask)
-> @@ -299,14 +351,15 @@ static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
->  			 * Experiment result is 1ms.
->  			 */
->  			mdelay(1);
-> -			*val = readw(data->base + chan->address);
-> +			*val = aspeed_adc_get_voltage_raw(data, chan);
->  			*val = (*val * data->battery_mode_gain.mult) /
->  			       data->battery_mode_gain.div;
->  			/* Restore control register value */
->  			writel(adc_engine_control_reg_val,
->  			       data->base + ASPEED_REG_ENGINE_CONTROL);
-> -		} else
-> -			*val = readw(data->base + chan->address);
-> +		} else {
-> +			*val = aspeed_adc_get_voltage_raw(data, chan);
-> +		}
->  		return IIO_VAL_INT;
-> 
->  	case IIO_CHAN_INFO_OFFSET:
-> @@ -369,9 +422,106 @@ static int aspeed_adc_reg_access(struct iio_dev 
-> *indio_dev,
->  	return 0;
->  }
-> 
-> +static int aspeed_adc_read_event_config(struct iio_dev *indio_dev,
-> +					const struct iio_chan_spec *chan,
-> +					enum iio_event_type type,
-> +					enum iio_event_direction dir)
-> +{
-> +	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +
-> +	switch (dir) {
-> +	case IIO_EV_DIR_RISING:
-> +		return data->upper_en[chan->channel];
-> +	case IIO_EV_DIR_FALLING:
-> +		return data->lower_en[chan->channel];
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int aspeed_adc_write_event_config(struct iio_dev *indio_dev,
-> +					 const struct iio_chan_spec *chan,
-> +					 enum iio_event_type type,
-> +					 enum iio_event_direction dir,
-> +					 int state)
-> +{
-> +	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +
-> +	switch (dir) {
-> +	case IIO_EV_DIR_RISING:
-> +		data->upper_en[chan->channel] = state ? 1 : 0;
-> +		break;
-> +	case IIO_EV_DIR_FALLING:
-> +		data->lower_en[chan->channel] = state ? 1 : 0;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int aspeed_adc_write_event_value(struct iio_dev *indio_dev,
-> +					const struct iio_chan_spec *chan,
-> +					enum iio_event_type type,
-> +					enum iio_event_direction dir,
-> +					enum iio_event_info info, int val,
-> +					int val2)
-> +{
-> +	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +
-> +	if (info != IIO_EV_INFO_VALUE)
-> +		return -EINVAL;
-> +
-> +	switch (dir) {
-> +	case IIO_EV_DIR_RISING:
-> +		if (val >= BIT(ASPEED_RESOLUTION_BITS))
-> +			return -EINVAL;
-> +		data->upper_bound[chan->channel] = val;
-> +		break;
-> +	case IIO_EV_DIR_FALLING:
-> +		data->lower_bound[chan->channel] = val;
-
-Shouldn't we require the same test against BIT(ASPEED_RESOLUTION_BITS) here? Just because it should be low it doesn't mean that someone won't write a high value. If it is required then you could hoist the test in the IIO_EV_DIR_RISING case above the switch statement to cover both cases.
-
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int aspeed_adc_read_event_value(struct iio_dev *indio_dev,
-> +				       const struct iio_chan_spec *chan,
-> +				       enum iio_event_type type,
-> +				       enum iio_event_direction dir,
-> +				       enum iio_event_info info, int *val,
-> +				       int *val2)
-> +{
-> +	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +
-> +	if (info != IIO_EV_INFO_VALUE)
-> +		return -EINVAL;
-> +
-> +	switch (dir) {
-> +	case IIO_EV_DIR_RISING:
-> +		*val = data->upper_bound[chan->channel];
-> +		break;
-> +	case IIO_EV_DIR_FALLING:
-> +		*val = data->lower_bound[chan->channel];
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return IIO_VAL_INT;
-> +}
-> +
->  static const struct iio_info aspeed_adc_iio_info = {
->  	.read_raw = aspeed_adc_read_raw,
->  	.write_raw = aspeed_adc_write_raw,
-> +	.read_event_config = &aspeed_adc_read_event_config,
-> +	.write_event_config = &aspeed_adc_write_event_config,
-> +	.read_event_value = &aspeed_adc_read_event_value,
-> +	.write_event_value = &aspeed_adc_write_event_value,
->  	.debugfs_reg_access = aspeed_adc_reg_access,
->  };
-> 
-> @@ -502,6 +652,30 @@ static int aspeed_adc_probe(struct platform_device *pdev)
->  	if (IS_ERR(data->base))
->  		return PTR_ERR(data->base);
-> 
-> +	data->upper_bound = devm_kzalloc(&pdev->dev,
-> +					 sizeof(data->upper_bound) *
-> +						 data->model_data->num_channels,
-> +					 GFP_KERNEL);
-> +	if (!data->upper_bound)
-> +		return -ENOMEM;
-> +	data->upper_en = devm_kzalloc(&pdev->dev,
-> +				      sizeof(data->upper_en) *
-> +					      data->model_data->num_channels,
-> +				      GFP_KERNEL);
-> +	if (!data->upper_en)
-> +		return -ENOMEM;
-> +	data->lower_bound = devm_kzalloc(&pdev->dev,
-> +					 sizeof(data->lower_bound) *
-> +						 data->model_data->num_channels,
-> +					 GFP_KERNEL);
-> +	if (!data->lower_bound)
-> +		return -ENOMEM;
-> +	data->lower_en = devm_kzalloc(&pdev->dev,
-> +				      sizeof(data->lower_en) *
-> +					      data->model_data->num_channels,
-> +				      GFP_KERNEL);
-> +	if (!data->lower_en)
-> +		return -ENOMEM;
-
-See the commentary on the struct definition about potentially avoiding these extra dynamic allocations.
-
->  	/* Register ADC clock prescaler with source specified by device tree. 
-> */
->  	spin_lock_init(&data->clk_lock);
->  	snprintf(clk_parent_name, ARRAY_SIZE(clk_parent_name), "%s",
-> @@ -632,7 +806,14 @@ static int aspeed_adc_probe(struct platform_device 
-> *pdev)
->  	adc_engine_control_reg_val |= ASPEED_ADC_CTRL_CHANNEL;
->  	writel(adc_engine_control_reg_val,
->  	       data->base + ASPEED_REG_ENGINE_CONTROL);
-> -
-> +	adc_engine_control_reg_val =
-> +		FIELD_GET(ASPEED_ADC_CTRL_CHANNEL,
-> +			  readl(data->base + ASPEED_REG_ENGINE_CONTROL));
-> +	data->required_eoc_num = hweight_long(adc_engine_control_reg_val);
-> +	if (data->model_data->require_extra_eoc &&
-> +	    (adc_engine_control_reg_val &
-> +	     BIT(data->model_data->num_channels - 1)))
-> +		data->required_eoc_num += 12;
-
-Why 12? Why add a value to the number of engines enabled? Have I misunderstood?
-
-Andrew
-
->  	indio_dev->name = data->model_data->model_name;
->  	indio_dev->info = &aspeed_adc_iio_info;
->  	indio_dev->modes = INDIO_DIRECT_MODE;
-> @@ -668,6 +849,7 @@ static const struct aspeed_adc_model_data 
-> ast2400_model_data = {
->  	.need_prescaler = true,
->  	.scaler_bit_width = 10,
->  	.num_channels = 16,
-> +	.require_extra_eoc = 0,
->  };
-> 
->  static const struct aspeed_adc_model_data ast2500_model_data = {
-> @@ -680,6 +862,7 @@ static const struct aspeed_adc_model_data 
-> ast2500_model_data = {
->  	.scaler_bit_width = 10,
->  	.num_channels = 16,
->  	.trim_locate = &ast2500_adc_trim,
-> +	.require_extra_eoc = 0,
->  };
-> 
->  static const struct aspeed_adc_model_data ast2600_adc0_model_data = {
-> @@ -691,6 +874,7 @@ static const struct aspeed_adc_model_data 
-> ast2600_adc0_model_data = {
->  	.scaler_bit_width = 16,
->  	.num_channels = 8,
->  	.trim_locate = &ast2600_adc0_trim,
-> +	.require_extra_eoc = 1,
->  };
-> 
->  static const struct aspeed_adc_model_data ast2600_adc1_model_data = {
-> @@ -702,6 +886,7 @@ static const struct aspeed_adc_model_data 
-> ast2600_adc1_model_data = {
->  	.scaler_bit_width = 16,
->  	.num_channels = 8,
->  	.trim_locate = &ast2600_adc1_trim,
-> +	.require_extra_eoc = 1,
->  };
-> 
->  static const struct of_device_id aspeed_adc_matches[] = {
-> -- 
-> 2.25.1
