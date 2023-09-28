@@ -1,71 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37277B2065
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Sep 2023 17:05:36 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9B17B289B
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Sep 2023 00:59:04 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=iVn3Gzb7;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=K3lAOylf;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RxGxp6MNkz3cF2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Sep 2023 01:05:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RxTS56NpPz3cHc
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Sep 2023 08:59:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=google header.b=iVn3Gzb7;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=K3lAOylf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::102d; helo=mail-pj1-x102d.google.com; envelope-from=zhangjian.3032@bytedance.com; receiver=lists.ozlabs.org)
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.151; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RxGwY1fK2z3c3k
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 29 Sep 2023 01:04:27 +1000 (AEST)
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-27762a19386so6260119a91.2
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Sep 2023 08:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1695913464; x=1696518264; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
-         :references:mime-version:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hy+mCITxqUKHaf6v9YLMzBge8DV4xA0bJDOMHOLkflo=;
-        b=iVn3Gzb7ykKf6YEyWb0hSyVWpC1wdpjxAzUSjlC3Me35Mtg4eoq75ZZzYmIjaMeCFe
-         umaL1oA1AG8oVcRFNd+llMM92xHgFKHqoUR98rsDLlIKN5mBrBe79qNsnjKFTk9BPnDG
-         T49VU/VXfVd9fWb3P+UmkqdJdbND6bMk7OlM/j6gP1KDhAahV07dV7IpakIEMt+Wys5n
-         zA3AbFot7l5Z93DW6EuuHnQFOMiIUL6/W8geJ6RvcLJY4lTJNGP3YNY6W1Oei6aSu6Vp
-         6ENdeSvFQnyBN7pJxfCmRX0GtTWELlhdeQEDgbIib6dUOtI0sHIHsZ2in3xOWyeRaMb2
-         MCBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695913464; x=1696518264;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
-         :references:mime-version:from:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hy+mCITxqUKHaf6v9YLMzBge8DV4xA0bJDOMHOLkflo=;
-        b=Ig8EfXWzpP2Nm5wbPI7l7PokYHPoOfbmBLAZiLCfUVDE13TL2k6xSqcDbUPXe0ZLww
-         kIq/7TGFGpHwhhVeKd0y0OHyzYqf934Dx27s7WvkPDFOsrCIwPAfORBPH6SzqY2f5z9u
-         L0CDIfl+Y6AAtz2YHopFPS4dt3WGiaZ2rFW7Rer9A9VrN4k3C3tm6y5+qXUAZl0lmu9B
-         ZXdB2RdY8SOlvLO7YSWYLC63MNLPX9B/nzgP4HifrQMiYFCPeJpYO61LD7zYQeH2cNmq
-         3SJ3rBvGXwaxcruJsrBgabK6FJAJ3/lCZZJw6wvZvpVLUR3SLkUN21gDG+RtQDyj8ynW
-         YUrg==
-X-Gm-Message-State: AOJu0YxwciHZVNoEIcUZdlZaR6SAx0wmgJDLySnFMDKk0KQ+pozwiAIq
-	/DA+4D3uGrbHrSEgpOjLOzNzFO3OWBRBuIzCSbu1rA==
-X-Google-Smtp-Source: AGHT+IGHZkvDaSolxNVreDEYNnlm23eWGgLmXan2kef32Ucxd9qRSqygmSfVuYx7BSqrMRHdwnd8QSHBn0FnGfA1Tg4=
-X-Received: by 2002:a17:90a:b28b:b0:273:ed60:ad52 with SMTP id
- c11-20020a17090ab28b00b00273ed60ad52mr1367512pjr.37.1695913464408; Thu, 28
- Sep 2023 08:04:24 -0700 (PDT)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 28 Sep 2023 11:04:23 -0400
-From: Jian Zhang <zhangjian.3032@bytedance.com>
-Mime-Version: 1.0
-References: <20230927154244.3774670-1-zhangjian.3032@bytedance.com> <20230928145128.tjflbgvena4apivs@zenone.zhora.eu>
-In-Reply-To: <20230928145128.tjflbgvena4apivs@zenone.zhora.eu>
-Date: Thu, 28 Sep 2023 11:04:23 -0400
-Message-ID: <CA+J-oUsgZuFmKor_thfehf2T8Y9T4NHcDp713YHyZC=fQvvZgA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v2] i2c: aspeed: Fix i2c bus hang in slave read
-To: Andi Shyti <andi.shyti@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RxTRw5rh4z3c3g;
+	Fri, 29 Sep 2023 08:58:49 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695941933; x=1727477933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UbGttFfuP6lw+hHb/xkwIGlEdNBxv5J2I9w5oq0PHfc=;
+  b=K3lAOylf+FG712RfmqYD0YNVtsofM3XkWud/yFBncGNGOFM+8owLW6vW
+   LZl//5VihP+/8MB5BoBH70eCh+fE3NJjU7l4PmJLZ1Hdwe4Z4Y9SeU9/M
+   25N4LSIaW+lgxTphDOmtp+zipMvT/RsGvyHwxcQ8HNe4WLp+5Kpp8Rse3
+   Nm6UXfX+8ouJSN9OaWz9bfAC243Pcac5/IVgiosl5ZS00Yyzpb5DHatj0
+   w7T1jo6HvUnMSB9OClT+Qma7r+YJiFmLjNUHhQE9H9pD8gi2us9fDc0WK
+   Qq66+EgdgBTQByOG7hjWnG3DpXbOybUIWGTXMaFLkmHyqJTfuKhflBz2W
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="362443604"
+X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
+   d="scan'208";a="362443604"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2023 15:58:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10847"; a="923423965"
+X-IronPort-AV: E=Sophos;i="6.03,185,1694761200"; 
+   d="scan'208";a="923423965"
+Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 28 Sep 2023 15:58:38 -0700
+Received: from kbuild by c3b01524d57c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qlzxs-00026Y-0x;
+	Thu, 28 Sep 2023 22:58:36 +0000
+Date: Fri, 29 Sep 2023 06:58:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konstantin Aladyshev <aladyshev22@gmail.com>
+Subject: Re: [PATCH 3/3] mctp: Add MCTP-over-KCS transport binding
+Message-ID: <202309290613.qxRTI9f7-lkp@intel.com>
+References: <20230928123009.2913-4-aladyshev22@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230928123009.2913-4-aladyshev22@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,49 +70,110 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, "moderated list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, Wolfram Sang <wsa@kernel.org>, brendan.higgins@linux.dev, "open list:ARM/ASPEED I2C DRIVER" <linux-i2c@vger.kernel.org>, zhangjian3032@gmail.com, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, xiexinnan@bytedance.com
+Cc: tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, tali.perry1@gmail.com, edumazet@google.com, jk@codeconstruct.com.au, matt@codeconstruct.com.au, openbmc@lists.ozlabs.org, yuenn@google.com, kuba@kernel.org, pabeni@redhat.com, minyard@acm.org, aladyshev22@gmail.com, oe-kbuild-all@lists.linux.dev, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org, venture@google.com, linux-kernel@vger.kernel.org, avifishman70@gmail.com, netdev@vger.kernel.org, davem@davemloft.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> From: "Andi Shyti"<andi.shyti@kernel.org>
-> Date:=C2=A0 Thu, Sep 28, 2023, 22:51
-> Subject:=C2=A0 [External] Re: [PATCH v2] i2c: aspeed: Fix i2c bus hang in=
- slave read
-> To: "Jian Zhang"<zhangjian.3032@bytedance.com>
-> Cc: <brendan.higgins@linux.dev>, <benh@kernel.crashing.org>, <joel@jms.id=
-.au>, <andrew@aj.id.au>, <zhangjian3032@gmail.com>, <yulei.sh@bytedance.com=
->, <xiexinnan@bytedance.com>, "Tommy Huang"<tommy_huang@aspeedtech.com>, "W=
-olfram Sang"<wsa@kernel.org>, "open list:ARM/ASPEED I2C DRIVER"<linux-i2c@v=
-ger.kernel.org>, "moderated list:ARM/ASPEED I2C DRIVER"<openbmc@lists.ozlab=
-s.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT"<linux-arm-kernel@lists.=
-infradead.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT"<linux-aspeed@li=
-sts.ozlabs.org>, "open list"<linux-kernel@vger.kernel.org>
-> Hi Jian,
->
-> On Wed, Sep 27, 2023 at 11:42:43PM +0800, Jian Zhang wrote:
-> > When the `CONFIG_I2C_SLAVE` option is enabled and the device operates
-> > as a slave, a situation arises where the master sends a START signal
-> > without the accompanying STOP signal. This action results in a
-> > persistent I2C bus timeout. The core issue stems from the fact that
-> > the i2c controller remains in a slave read state without a timeout
-> > mechanism. As a consequence, the bus perpetually experiences timeouts.
-> >
-> > In this case, the i2c bus will be reset, but the slave_state reset is
-> > missing.
-> >
-> > Fixes: fee465150b45 ("i2c: aspeed: Reset the i2c controller when timeou=
-t occurs")
-> > Signed-off-by: Jian Zhang <zhangjian.3032@bytedance.com>
->
-> Why I'm failing to find your v1 patch? And where is the
-> changelog?
-Sorry, something was missing,
-v2:
-* remove the i2c slave reset and only move the `bus->slave_state =3D
-ASPEED_I2C_SLAVE_INACTIVE` to the aspeed_i2c_init
+Hi Konstantin,
 
-[0]: https://lore.kernel.org/linux-arm-kernel/20230810072155.3726352-1-zhan=
-gjian.3032@bytedance.com/T/
-Jian
->
-> Andi
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on cminyard-ipmi/for-next]
+[also build test WARNING on linus/master v6.6-rc3 next-20230928]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Aladyshev/ipmi-Move-KCS-headers-to-common-include-folder/20230928-203248
+base:   https://github.com/cminyard/linux-ipmi for-next
+patch link:    https://lore.kernel.org/r/20230928123009.2913-4-aladyshev22%40gmail.com
+patch subject: [PATCH 3/3] mctp: Add MCTP-over-KCS transport binding
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230929/202309290613.qxRTI9f7-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230929/202309290613.qxRTI9f7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309290613.qxRTI9f7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:8,
+                    from include/linux/skbuff.h:28,
+                    from include/linux/if_arp.h:22,
+                    from drivers/net/mctp/mctp-kcs.c:16:
+   drivers/net/mctp/mctp-kcs.c: In function 'mctp_kcs_validate_data':
+>> drivers/net/mctp/mctp-kcs.c:121:25: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'long unsigned int' [-Wformat=]
+     121 |                         "%s: KCS binding header error! len = 0x%02x, but should be 0x%02x",
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/net/mctp/mctp-kcs.c:120:17: note: in expansion of macro 'dev_err'
+     120 |                 dev_err(mkcs->client.dev->dev,
+         |                 ^~~~~~~
+   drivers/net/mctp/mctp-kcs.c:121:89: note: format string is defined here
+     121 |                         "%s: KCS binding header error! len = 0x%02x, but should be 0x%02x",
+         |                                                                                      ~~~^
+         |                                                                                         |
+         |                                                                                         unsigned int
+         |                                                                                      %02lx
+
+
+vim +121 drivers/net/mctp/mctp-kcs.c
+
+    95	
+    96	static int mctp_kcs_validate_data(struct mctp_kcs *mkcs,
+    97					  struct mctp_kcs_header *hdr, int len)
+    98	{
+    99		struct net_device *ndev = mkcs->netdev;
+   100		struct mctp_kcs_trailer *tlr;
+   101		u8 pec;
+   102	
+   103		if (hdr->netfn_lun != MCTP_KCS_NETFN_LUN) {
+   104			dev_err(mkcs->client.dev->dev,
+   105				"%s: KCS binding header error! netfn_lun = 0x%02x, but should be 0x%02x",
+   106				__func__, hdr->netfn_lun, MCTP_KCS_NETFN_LUN);
+   107			ndev->stats.rx_dropped++;
+   108			return -EINVAL;
+   109		}
+   110		if (hdr->defining_body != DEFINING_BODY_DMTF_PRE_OS_WORKING_GROUP) {
+   111			dev_err(mkcs->client.dev->dev,
+   112				"%s: KCS binding header error! defining_body = 0x%02x, but should be 0x%02x",
+   113				__func__, hdr->defining_body,
+   114				DEFINING_BODY_DMTF_PRE_OS_WORKING_GROUP);
+   115			ndev->stats.rx_dropped++;
+   116			return -EINVAL;
+   117		}
+   118		if (hdr->len != (len - sizeof(struct mctp_kcs_header) -
+   119				 sizeof(struct mctp_kcs_trailer))) {
+   120			dev_err(mkcs->client.dev->dev,
+ > 121				"%s: KCS binding header error! len = 0x%02x, but should be 0x%02x",
+   122				__func__, hdr->len,
+   123				(len - sizeof(struct mctp_kcs_header) -
+   124				 sizeof(struct mctp_kcs_trailer)));
+   125			ndev->stats.rx_length_errors++;
+   126			return -EINVAL;
+   127		}
+   128	
+   129		pec = generate_pec((u8 *)(hdr + 1), hdr->len);
+   130		tlr = (struct mctp_kcs_trailer *)((u8 *)(hdr + 1) + hdr->len);
+   131		if (pec != tlr->pec) {
+   132			dev_err(mkcs->client.dev->dev,
+   133				"%s: PEC error! Packet value=0x%02x, calculated value=0x%02x",
+   134				__func__, tlr->pec, pec);
+   135			ndev->stats.rx_crc_errors++;
+   136			return -EINVAL;
+   137		}
+   138		return 0;
+   139	}
+   140	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
