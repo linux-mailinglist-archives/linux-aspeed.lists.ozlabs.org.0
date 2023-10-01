@@ -2,52 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6155D7B424D
-	for <lists+linux-aspeed@lfdr.de>; Sat, 30 Sep 2023 18:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DA27B498E
+	for <lists+linux-aspeed@lfdr.de>; Sun,  1 Oct 2023 22:14:30 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=EBwUUWDe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=z24KQFyG;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RyY402Ql3z3cHf
-	for <lists+linux-aspeed@lfdr.de>; Sun,  1 Oct 2023 03:45:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RzFfm4sWqz3vXf
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Oct 2023 07:14:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=EBwUUWDe;
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=z24KQFyG;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=jic23@kernel.org; receiver=lists.ozlabs.org)
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2a00:1450:4864:20::32e; helo=mail-wm1-x32e.google.com; envelope-from=clabbe@baylibre.com; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RyY3n0LBlz2yQL
-	for <linux-aspeed@lists.ozlabs.org>; Sun,  1 Oct 2023 03:45:08 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 9FEBCB8095B;
-	Sat, 30 Sep 2023 16:45:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF69BC433C7;
-	Sat, 30 Sep 2023 16:44:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696092302;
-	bh=Gz+7G2+5nZU2Nq5I2T2NNYFPLkqQLetCmTTjTVkjliw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EBwUUWDe0vcE7YBMUJQqfBIIKCJIuV6q9acqDFHeiqM1HXOtvru9CTtq/W7pNzH84
-	 JkRNLGGwE/S3yUaHmdEqrutAssjZMvRrltR0H0Dfjq2+lbNEAHkBVNHEE0r6X21RFR
-	 IYqYI4ItO4gEY8+YWyaVqJ9sEvHea8Adw4NIuVjuseP27o1nWRncQ3mGX3Ejj+nHvm
-	 2nY+E+GaN0WgT87CfbBZmV5Zr6odusNT06X3Rls5v+vwT9ZrmO0xcCqPFybqV5cCIy
-	 Xz0n/p4j6MYKuhKyFMmw088ODWqwUj75n/LJKF/5wxY7bs108B0IrLNyXrwKWk9ccb
-	 CsWQPno6GNtMw==
-Date: Sat, 30 Sep 2023 17:45:01 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH v1] iio: adc: aspeed: Support deglitch feature.
-Message-ID: <20230930174501.039095da@jic23-huawei>
-In-Reply-To: <20230925081845.4147424-1-billy_tsai@aspeedtech.com>
-References: <20230925081845.4147424-1-billy_tsai@aspeedtech.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RzFfb4BQvz3c5L
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Oct 2023 07:14:12 +1100 (AEDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4066692ad35so12118295e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 01 Oct 2023 13:14:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696191244; x=1696796044; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S5gdKKBRI8HMjzMvfQFYDp6loku3qgrG9OQcfyEaG8Y=;
+        b=z24KQFyGNb/CnzaydCm5S/ccHpMRRS1h6G3/uRagwNVo9gvivIBP8mJZjhjqvcqRhL
+         o4qaMSgFa8HSr/TyHoNkmyLwicGHVZ4kdaWApRUY/d41T5gQ1j3D+CvVIGYCWNHlbWAP
+         +XZ/tgPq3MPFgbDIBxrom4nQwR+UmdYYQcCqfCRp1VYqOt15ngG65yUYWNadZ19uYXKb
+         bls1LVTPILsEBltTHuwZQx5UOg+b5VWynD+LKGkjJmQAVvo99rzdj/n1ocH2x8j4j/21
+         9iao/7MfINnnxPgi8MEwrSIv4diDcb0hE+AwedOg4LL2ouI7KSELxojKEK0+ZVAuut6b
+         J2pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696191244; x=1696796044;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S5gdKKBRI8HMjzMvfQFYDp6loku3qgrG9OQcfyEaG8Y=;
+        b=LBYXxPpsZBqFKtPj7rv8otsTLS/09jqA+ENYKVh+8NEl0CF4kr2SkA6m0+cbwVccek
+         JXf4yzEU4h9VLNbcZA/1T7RbZHnSrEl6z/puBzhLQqKGH+EoY/91tz5tXmdrrC2/dkRn
+         h9ceKHFKTwDg6RZqlnqIssbbW9/8M/MFdBtz6b955btaU013/iO/4s4wIAD/ihGnMX/l
+         QTo8tGHv8PuMl0axxbliXNd5znSpWQFuTXZY/+uJfY+8N8o4rOMKze7h5zlVq3NE+bcI
+         HhEjWk9HmIW7DdoCux1C/KfGHoFy3debSmNRtnvAh40EiS2UFRUdU1Zp8ac7cOElVh5y
+         EZng==
+X-Gm-Message-State: AOJu0YxAk6f1E7lYy2kUFrs3zVPwelUZYyp/enDcj6wM/OZaNINxi/4v
+	OpRBHb5Fh/6RBECtke2wMhOC5Q==
+X-Google-Smtp-Source: AGHT+IF8bQPLl/XkMjCK1GATpgLR3obNH1Yh0AnESH4KmxjbQ0tap497/YPYQvdhCNXwcL8NlYsgvQ==
+X-Received: by 2002:a5d:63cb:0:b0:319:6e3f:d5f0 with SMTP id c11-20020a5d63cb000000b003196e3fd5f0mr9162433wrw.44.1696191244674;
+        Sun, 01 Oct 2023 13:14:04 -0700 (PDT)
+Received: from arnold.baylibre (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id j6-20020a5d6046000000b003259b068ba6sm6141665wrt.7.2023.10.01.13.14.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Oct 2023 13:14:03 -0700 (PDT)
+From: Corentin Labbe <clabbe@baylibre.com>
+To: andrew@aj.id.au,
+	davem@davemloft.net,
+	herbert@gondor.apana.org.au,
+	joel@jms.id.au,
+	john.allen@amd.com,
+	neal_liu@aspeedtech.com,
+	thomas.lendacky@amd.com
+Subject: [PATCH] crypto: Move akcipher_request_cast helper to crypto header
+Date: Sun,  1 Oct 2023 20:13:57 +0000
+Message-Id: <20231001201357.2052949-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,325 +81,72 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: lars@metafoo.de, linux-aspeed@lists.ozlabs.org, Potin.Lai@quantatw.com, linux-kernel@vger.kernel.org, patrickw3@meta.com, linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 25 Sep 2023 16:18:45 +0800
-Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+There is already 2 driver implementing their own akcipher_request_cast.
+In the future there will be also rockchip and allwinner driver that will
+need this.
+This is sufficient to move it in crypto headers.
 
-> Create event sysfs for applying the deglitch condition. When
-> in_voltageY_thresh_rising_en/in_voltageY_thresh_falling_en is set to true,
-> the driver will use the in_voltageY_thresh_rising_value and
-> in_voltageY_thresh_falling_value as threshold values. If the ADC value
-> falls outside this threshold, the driver will wait for the ADC sampling
-> period and perform an additional read once to achieve the deglitching
-> purpose.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+---
+ drivers/crypto/aspeed/aspeed-acry.c | 6 ------
+ drivers/crypto/ccp/ccp-crypto-rsa.c | 6 ------
+ include/crypto/akcipher.h           | 7 +++++++
+ 3 files changed, 7 insertions(+), 12 deletions(-)
 
-Hi Billy
-
-This is pushing the meaning of the events interface too far.
-You can't use it to hide a value you don't like from userspace.
-
-If you can explain what the condition is that you are seeing
-and what you need to prevent happening if it is seen that would help
-us figure out if there is another way to do this.
-
-Jonathan
-
-> ---
->  drivers/iio/adc/aspeed_adc.c | 193 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 189 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-> index 998e8bcc06e1..9e746c81d916 100644
-> --- a/drivers/iio/adc/aspeed_adc.c
-> +++ b/drivers/iio/adc/aspeed_adc.c
-> @@ -95,6 +95,7 @@ struct aspeed_adc_model_data {
->  	bool wait_init_sequence;
->  	bool need_prescaler;
->  	bool bat_sense_sup;
-> +	bool require_extra_eoc;
->  	u8 scaler_bit_width;
->  	unsigned int num_channels;
->  	const struct aspeed_adc_trim_locate *trim_locate;
-> @@ -120,6 +121,26 @@ struct aspeed_adc_data {
->  	int			cv;
->  	bool			battery_sensing;
->  	struct adc_gain		battery_mode_gain;
-> +	unsigned int		required_eoc_num;
-> +	u16			*upper_bound;
-> +	u16			*lower_bound;
-> +	bool			*upper_en;
-> +	bool			*lower_en;
-> +};
-> +
-> +static const struct iio_event_spec aspeed_adc_events[] = {
-> +	{
-> +		.type = IIO_EV_TYPE_THRESH,
-> +		.dir = IIO_EV_DIR_RISING,
-> +		.mask_separate =
-> +			BIT(IIO_EV_INFO_VALUE) | BIT(IIO_EV_INFO_ENABLE),
-> +	},
-> +	{
-> +		.type = IIO_EV_TYPE_THRESH,
-> +		.dir = IIO_EV_DIR_FALLING,
-> +		.mask_separate =
-> +			BIT(IIO_EV_INFO_VALUE) | BIT(IIO_EV_INFO_ENABLE),
-> +	},
->  };
->  
->  #define ASPEED_CHAN(_idx, _data_reg_addr) {			\
-> @@ -131,6 +152,8 @@ struct aspeed_adc_data {
->  	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE) |	\
->  				BIT(IIO_CHAN_INFO_SAMP_FREQ) |	\
->  				BIT(IIO_CHAN_INFO_OFFSET),	\
-> +	.event_spec = aspeed_adc_events,			\
-> +	.num_event_specs = ARRAY_SIZE(aspeed_adc_events),	\
->  }
->  
->  static const struct iio_chan_spec aspeed_adc_iio_channels[] = {
-> @@ -277,6 +300,35 @@ static int aspeed_adc_set_sampling_rate(struct iio_dev *indio_dev, u32 rate)
->  	return 0;
->  }
->  
-> +static int aspeed_adc_get_voltage_raw(struct aspeed_adc_data *data,
-> +				      struct iio_chan_spec const *chan)
-> +{
-> +	int val;
-> +
-> +	val = readw(data->base + chan->address);
-> +	dev_dbg(data->dev,
-> +		"%d upper_bound: %d %x, lower_bound: %d %x, delay: %d * %d ns",
-> +		chan->channel, data->upper_en[chan->channel],
-> +		data->upper_bound[chan->channel], data->lower_en[chan->channel],
-> +		data->lower_bound[chan->channel], data->sample_period_ns,
-> +		data->required_eoc_num);
-> +	if (data->upper_en[chan->channel]) {
-> +		if (val >= data->upper_bound[chan->channel]) {
-> +			ndelay(data->sample_period_ns *
-> +			       data->required_eoc_num);
-> +			val = readw(data->base + chan->address);
-> +		}
-> +	}
-> +	if (data->lower_en[chan->channel]) {
-> +		if (val <= data->lower_bound[chan->channel]) {
-> +			ndelay(data->sample_period_ns *
-> +			       data->required_eoc_num);
-> +			val = readw(data->base + chan->address);
-> +		}
-> +	}
-> +	return val;
-> +}
-> +
->  static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
->  			       struct iio_chan_spec const *chan,
->  			       int *val, int *val2, long mask)
-> @@ -299,14 +351,15 @@ static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
->  			 * Experiment result is 1ms.
->  			 */
->  			mdelay(1);
-> -			*val = readw(data->base + chan->address);
-> +			*val = aspeed_adc_get_voltage_raw(data, chan);
->  			*val = (*val * data->battery_mode_gain.mult) /
->  			       data->battery_mode_gain.div;
->  			/* Restore control register value */
->  			writel(adc_engine_control_reg_val,
->  			       data->base + ASPEED_REG_ENGINE_CONTROL);
-> -		} else
-> -			*val = readw(data->base + chan->address);
-> +		} else {
-> +			*val = aspeed_adc_get_voltage_raw(data, chan);
-> +		}
->  		return IIO_VAL_INT;
->  
->  	case IIO_CHAN_INFO_OFFSET:
-> @@ -369,9 +422,106 @@ static int aspeed_adc_reg_access(struct iio_dev *indio_dev,
->  	return 0;
->  }
->  
-> +static int aspeed_adc_read_event_config(struct iio_dev *indio_dev,
-> +					const struct iio_chan_spec *chan,
-> +					enum iio_event_type type,
-> +					enum iio_event_direction dir)
-> +{
-> +	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +
-> +	switch (dir) {
-> +	case IIO_EV_DIR_RISING:
-> +		return data->upper_en[chan->channel];
-> +	case IIO_EV_DIR_FALLING:
-> +		return data->lower_en[chan->channel];
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int aspeed_adc_write_event_config(struct iio_dev *indio_dev,
-> +					 const struct iio_chan_spec *chan,
-> +					 enum iio_event_type type,
-> +					 enum iio_event_direction dir,
-> +					 int state)
-> +{
-> +	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +
-> +	switch (dir) {
-> +	case IIO_EV_DIR_RISING:
-> +		data->upper_en[chan->channel] = state ? 1 : 0;
-> +		break;
-> +	case IIO_EV_DIR_FALLING:
-> +		data->lower_en[chan->channel] = state ? 1 : 0;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int aspeed_adc_write_event_value(struct iio_dev *indio_dev,
-> +					const struct iio_chan_spec *chan,
-> +					enum iio_event_type type,
-> +					enum iio_event_direction dir,
-> +					enum iio_event_info info, int val,
-> +					int val2)
-> +{
-> +	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +
-> +	if (info != IIO_EV_INFO_VALUE)
-> +		return -EINVAL;
-> +
-> +	switch (dir) {
-> +	case IIO_EV_DIR_RISING:
-> +		if (val >= BIT(ASPEED_RESOLUTION_BITS))
-> +			return -EINVAL;
-> +		data->upper_bound[chan->channel] = val;
-> +		break;
-> +	case IIO_EV_DIR_FALLING:
-> +		data->lower_bound[chan->channel] = val;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int aspeed_adc_read_event_value(struct iio_dev *indio_dev,
-> +				       const struct iio_chan_spec *chan,
-> +				       enum iio_event_type type,
-> +				       enum iio_event_direction dir,
-> +				       enum iio_event_info info, int *val,
-> +				       int *val2)
-> +{
-> +	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +
-> +	if (info != IIO_EV_INFO_VALUE)
-> +		return -EINVAL;
-> +
-> +	switch (dir) {
-> +	case IIO_EV_DIR_RISING:
-> +		*val = data->upper_bound[chan->channel];
-> +		break;
-> +	case IIO_EV_DIR_FALLING:
-> +		*val = data->lower_bound[chan->channel];
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return IIO_VAL_INT;
-> +}
-> +
->  static const struct iio_info aspeed_adc_iio_info = {
->  	.read_raw = aspeed_adc_read_raw,
->  	.write_raw = aspeed_adc_write_raw,
-> +	.read_event_config = &aspeed_adc_read_event_config,
-> +	.write_event_config = &aspeed_adc_write_event_config,
-> +	.read_event_value = &aspeed_adc_read_event_value,
-> +	.write_event_value = &aspeed_adc_write_event_value,
->  	.debugfs_reg_access = aspeed_adc_reg_access,
->  };
->  
-> @@ -502,6 +652,30 @@ static int aspeed_adc_probe(struct platform_device *pdev)
->  	if (IS_ERR(data->base))
->  		return PTR_ERR(data->base);
->  
-> +	data->upper_bound = devm_kzalloc(&pdev->dev,
-> +					 sizeof(data->upper_bound) *
-> +						 data->model_data->num_channels,
-> +					 GFP_KERNEL);
-> +	if (!data->upper_bound)
-> +		return -ENOMEM;
-> +	data->upper_en = devm_kzalloc(&pdev->dev,
-> +				      sizeof(data->upper_en) *
-> +					      data->model_data->num_channels,
-> +				      GFP_KERNEL);
-> +	if (!data->upper_en)
-> +		return -ENOMEM;
-> +	data->lower_bound = devm_kzalloc(&pdev->dev,
-> +					 sizeof(data->lower_bound) *
-> +						 data->model_data->num_channels,
-> +					 GFP_KERNEL);
-> +	if (!data->lower_bound)
-> +		return -ENOMEM;
-> +	data->lower_en = devm_kzalloc(&pdev->dev,
-> +				      sizeof(data->lower_en) *
-> +					      data->model_data->num_channels,
-> +				      GFP_KERNEL);
-> +	if (!data->lower_en)
-> +		return -ENOMEM;
->  	/* Register ADC clock prescaler with source specified by device tree. */
->  	spin_lock_init(&data->clk_lock);
->  	snprintf(clk_parent_name, ARRAY_SIZE(clk_parent_name), "%s",
-> @@ -632,7 +806,14 @@ static int aspeed_adc_probe(struct platform_device *pdev)
->  	adc_engine_control_reg_val |= ASPEED_ADC_CTRL_CHANNEL;
->  	writel(adc_engine_control_reg_val,
->  	       data->base + ASPEED_REG_ENGINE_CONTROL);
-> -
-> +	adc_engine_control_reg_val =
-> +		FIELD_GET(ASPEED_ADC_CTRL_CHANNEL,
-> +			  readl(data->base + ASPEED_REG_ENGINE_CONTROL));
-> +	data->required_eoc_num = hweight_long(adc_engine_control_reg_val);
-> +	if (data->model_data->require_extra_eoc &&
-> +	    (adc_engine_control_reg_val &
-> +	     BIT(data->model_data->num_channels - 1)))
-> +		data->required_eoc_num += 12;
->  	indio_dev->name = data->model_data->model_name;
->  	indio_dev->info = &aspeed_adc_iio_info;
->  	indio_dev->modes = INDIO_DIRECT_MODE;
-> @@ -668,6 +849,7 @@ static const struct aspeed_adc_model_data ast2400_model_data = {
->  	.need_prescaler = true,
->  	.scaler_bit_width = 10,
->  	.num_channels = 16,
-> +	.require_extra_eoc = 0,
->  };
->  
->  static const struct aspeed_adc_model_data ast2500_model_data = {
-> @@ -680,6 +862,7 @@ static const struct aspeed_adc_model_data ast2500_model_data = {
->  	.scaler_bit_width = 10,
->  	.num_channels = 16,
->  	.trim_locate = &ast2500_adc_trim,
-> +	.require_extra_eoc = 0,
->  };
->  
->  static const struct aspeed_adc_model_data ast2600_adc0_model_data = {
-> @@ -691,6 +874,7 @@ static const struct aspeed_adc_model_data ast2600_adc0_model_data = {
->  	.scaler_bit_width = 16,
->  	.num_channels = 8,
->  	.trim_locate = &ast2600_adc0_trim,
-> +	.require_extra_eoc = 1,
->  };
->  
->  static const struct aspeed_adc_model_data ast2600_adc1_model_data = {
-> @@ -702,6 +886,7 @@ static const struct aspeed_adc_model_data ast2600_adc1_model_data = {
->  	.scaler_bit_width = 16,
->  	.num_channels = 8,
->  	.trim_locate = &ast2600_adc1_trim,
-> +	.require_extra_eoc = 1,
->  };
->  
->  static const struct of_device_id aspeed_adc_matches[] = {
+diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
+index 247c568aa8df..ecb6e984367b 100644
+--- a/drivers/crypto/aspeed/aspeed-acry.c
++++ b/drivers/crypto/aspeed/aspeed-acry.c
+@@ -137,12 +137,6 @@ enum aspeed_rsa_key_mode {
+ 	ASPEED_RSA_DATA_MODE,
+ };
+ 
+-static inline struct akcipher_request *
+-	akcipher_request_cast(struct crypto_async_request *req)
+-{
+-	return container_of(req, struct akcipher_request, base);
+-}
+-
+ static int aspeed_acry_do_fallback(struct akcipher_request *req)
+ {
+ 	struct crypto_akcipher *cipher = crypto_akcipher_reqtfm(req);
+diff --git a/drivers/crypto/ccp/ccp-crypto-rsa.c b/drivers/crypto/ccp/ccp-crypto-rsa.c
+index a14f85512cf4..32c9f524f3d5 100644
+--- a/drivers/crypto/ccp/ccp-crypto-rsa.c
++++ b/drivers/crypto/ccp/ccp-crypto-rsa.c
+@@ -19,12 +19,6 @@
+ 
+ #include "ccp-crypto.h"
+ 
+-static inline struct akcipher_request *akcipher_request_cast(
+-	struct crypto_async_request *req)
+-{
+-	return container_of(req, struct akcipher_request, base);
+-}
+-
+ static inline int ccp_copy_and_save_keypart(u8 **kpbuf, unsigned int *kplen,
+ 					    const u8 *buf, size_t sz)
+ {
+diff --git a/include/crypto/akcipher.h b/include/crypto/akcipher.h
+index 670508f1dca1..4b6e610db18d 100644
+--- a/include/crypto/akcipher.h
++++ b/include/crypto/akcipher.h
+@@ -498,4 +498,11 @@ static inline int crypto_akcipher_set_priv_key(struct crypto_akcipher *tfm,
+ 
+ 	return alg->set_priv_key(tfm, key, keylen);
+ }
++
++static inline struct akcipher_request *
++	akcipher_request_cast(struct crypto_async_request *req)
++{
++	return container_of(req, struct akcipher_request, base);
++}
++
+ #endif
+-- 
+2.41.0
 
