@@ -2,74 +2,116 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DA27B498E
-	for <lists+linux-aspeed@lfdr.de>; Sun,  1 Oct 2023 22:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760427B4ACC
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Oct 2023 04:31:43 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=z24KQFyG;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=Yjt4rRvF;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RzFfm4sWqz3vXf
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Oct 2023 07:14:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4RzQ222NGsz3cWp
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Oct 2023 13:31:38 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=z24KQFyG;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=Yjt4rRvF;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2a00:1450:4864:20::32e; helo=mail-wm1-x32e.google.com; envelope-from=clabbe@baylibre.com; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::706; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20706.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::706])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RzFfb4BQvz3c5L
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Oct 2023 07:14:12 +1100 (AEDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4066692ad35so12118295e9.1
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 01 Oct 2023 13:14:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696191244; x=1696796044; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S5gdKKBRI8HMjzMvfQFYDp6loku3qgrG9OQcfyEaG8Y=;
-        b=z24KQFyGNb/CnzaydCm5S/ccHpMRRS1h6G3/uRagwNVo9gvivIBP8mJZjhjqvcqRhL
-         o4qaMSgFa8HSr/TyHoNkmyLwicGHVZ4kdaWApRUY/d41T5gQ1j3D+CvVIGYCWNHlbWAP
-         +XZ/tgPq3MPFgbDIBxrom4nQwR+UmdYYQcCqfCRp1VYqOt15ngG65yUYWNadZ19uYXKb
-         bls1LVTPILsEBltTHuwZQx5UOg+b5VWynD+LKGkjJmQAVvo99rzdj/n1ocH2x8j4j/21
-         9iao/7MfINnnxPgi8MEwrSIv4diDcb0hE+AwedOg4LL2ouI7KSELxojKEK0+ZVAuut6b
-         J2pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696191244; x=1696796044;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S5gdKKBRI8HMjzMvfQFYDp6loku3qgrG9OQcfyEaG8Y=;
-        b=LBYXxPpsZBqFKtPj7rv8otsTLS/09jqA+ENYKVh+8NEl0CF4kr2SkA6m0+cbwVccek
-         JXf4yzEU4h9VLNbcZA/1T7RbZHnSrEl6z/puBzhLQqKGH+EoY/91tz5tXmdrrC2/dkRn
-         h9ceKHFKTwDg6RZqlnqIssbbW9/8M/MFdBtz6b955btaU013/iO/4s4wIAD/ihGnMX/l
-         QTo8tGHv8PuMl0axxbliXNd5znSpWQFuTXZY/+uJfY+8N8o4rOMKze7h5zlVq3NE+bcI
-         HhEjWk9HmIW7DdoCux1C/KfGHoFy3debSmNRtnvAh40EiS2UFRUdU1Zp8ac7cOElVh5y
-         EZng==
-X-Gm-Message-State: AOJu0YxAk6f1E7lYy2kUFrs3zVPwelUZYyp/enDcj6wM/OZaNINxi/4v
-	OpRBHb5Fh/6RBECtke2wMhOC5Q==
-X-Google-Smtp-Source: AGHT+IF8bQPLl/XkMjCK1GATpgLR3obNH1Yh0AnESH4KmxjbQ0tap497/YPYQvdhCNXwcL8NlYsgvQ==
-X-Received: by 2002:a5d:63cb:0:b0:319:6e3f:d5f0 with SMTP id c11-20020a5d63cb000000b003196e3fd5f0mr9162433wrw.44.1696191244674;
-        Sun, 01 Oct 2023 13:14:04 -0700 (PDT)
-Received: from arnold.baylibre (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id j6-20020a5d6046000000b003259b068ba6sm6141665wrt.7.2023.10.01.13.14.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 13:14:03 -0700 (PDT)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: andrew@aj.id.au,
-	davem@davemloft.net,
-	herbert@gondor.apana.org.au,
-	joel@jms.id.au,
-	john.allen@amd.com,
-	neal_liu@aspeedtech.com,
-	thomas.lendacky@amd.com
-Subject: [PATCH] crypto: Move akcipher_request_cast helper to crypto header
-Date: Sun,  1 Oct 2023 20:13:57 +0000
-Message-Id: <20231001201357.2052949-1-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4RzQ1s3mpQz3bT3
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Oct 2023 13:31:08 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JrygjNw7jhG+23s1p7oBw3oqru1XMyH82NhbvpKVvw6+9UpPYziaS66Z2ewU7IwvC2MDfloL3p0mwMCyBUEKYb1VSRXfBLtJiFW6UvCUynN7qCmr57njLMgU+Hf/4NQPrHNGQMhgjhGfbHMh26aZqsojC6YlIYqthNTwEZxaWa48RMb2FoZZ5mSPwKHW8k6GwCFDcDJ27agy0MaviKS0oCr+EFcOXkBl5ZzG469ZlRUaKsdLMzPKO+fINCPXQ5VwlTNOfxwHPaEIn5UJhyYX8T5cm1wDC3BkxzJbBoamtMMiIadksV5vzHRL6BuS3PusnTnJl6JLITA8edCTq0t5Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DJ17g/BqyVgQ76Nk/IP2YK7W2TXWpTYadijN1Lb/LLw=;
+ b=XPzij7AM/EQa9ege8fH8Yk87QIqL15pJZG08RAdd/rV62iJttM5rgsenltCyvMVxMs5ReVn/VrT+POX8ti6z31ap06e0PR2E8Q37I/xZMGMTp3ddcnwjWEw37qDROYGNd5zL97RYmRzmeV7rsllqIpAHT5Z0txi0263/CpKWnRThE0bPyz634I4n6uqPPt1fejPAwu0zjzG7LoXVyxEQ04aXWb+E2BXib4wnxzI5ifqt/hnrkGy33YY5o7QfuH7okcSrZfY6h8pLgyBW0RZ8QL9pncn4MdJ/DsO2De2kmULNUSX8tjFG3LPcz8PHsIpppa83YDSMYbMM0g3eayTesA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DJ17g/BqyVgQ76Nk/IP2YK7W2TXWpTYadijN1Lb/LLw=;
+ b=Yjt4rRvFgedrqcuqW7Evg/hsbA8C8CEYM8G9d2xtSHI5YEtUKC5IQboP3t4LIL5HK7rjp5n+FeTd/pIpxpu1vaHaAsiOZeZZEBOAB0nlTnCJRLZ/XTREdsXiR/YliSjFFOvcF5PRG+nbD+eDtUaZWlwOSSqrZvGUOZbVyM5z9dV9ILOQ5tlLMcmR1RU6nUTaARrs7qsWbbO8cfEo4bUqo4+kNOLu44iF0Zmq75bVHLAzHzEZDF29hHi+DUg6Xi0mpGf3KFonb4HB6mG/TiHAt06eBKCwttTkOGqHh7ZLJM+raSyTJVh76ptzzJ7BVN6teQxVkNrSkO4ySzPNR0ie3w==
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
+ TYZPR06MB4397.apcprd06.prod.outlook.com (2603:1096:400:73::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6838.28; Mon, 2 Oct 2023 02:30:44 +0000
+Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::956c:2f06:be93:fc3e]) by SG2PR06MB3365.apcprd06.prod.outlook.com
+ ([fe80::956c:2f06:be93:fc3e%5]) with mapi id 15.20.6838.030; Mon, 2 Oct 2023
+ 02:30:44 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v1] iio: adc: aspeed: Support deglitch feature.
+Thread-Topic: [PATCH v1] iio: adc: aspeed: Support deglitch feature.
+Thread-Index: AQHZ74jrjlOSMsUvo0yNgHQbGiIz5LAzm9aAgAIo4C8=
+Date: Mon, 2 Oct 2023 02:30:43 +0000
+Message-ID:  <SG2PR06MB3365E89B1543B770AC2EE7E78BC5A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+References: <20230925081845.4147424-1-billy_tsai@aspeedtech.com>
+ <20230930174501.039095da@jic23-huawei>
+In-Reply-To: <20230930174501.039095da@jic23-huawei>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|TYZPR06MB4397:EE_
+x-ms-office365-filtering-correlation-id: 2b017593-95cf-45de-811f-08dbc2ef93ee
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  PMrsKkeKSF8GhzKmEJaUs2i0QQsnPOat4Lk8ocC5nWbb3y0V3Ok5JPkK+8ZE0j35a5M1BlyQfnhDeRhUStQAWHi0NB1hjTYGEC9E/tEbg3YqWM+for1HjpETF0TN0MnM/7gI5Tj5WJYh67fAV9H3K2+LxgzlvSWhxkGY34r4nw17i3oEy60hHk9PAaRfm+yCQe3ShLNnc9h1qIc/67MFsVLt+g2aZUrKjgMwJxw+o/lZXPrc21pBBBW8bk8mLK81yz7xTiLSXUzYBgPkbr2vkbtY2pDLOCBG6fJMBEafsEYeziCb9Z6tqJn+m4my0mN7PxefwFdgUnJBhPoOTtNN5Xi7iNOv49yHI8pdHCB1+o/O6rZBoHzYYvt9ZpbYaWQ5VzIcDdqVxfha8+kBG7hkrb67+6IP3fzrvIPgIgtKN9pD+7kRqUoEBNjQUirB4D8JycfvHKoAushbojXw4t/z9hUMN3RXT/4pYjNtmZkMV3XWKMm3r+W5I4sudxqX6f7TngxGAipO1NlY5xjBxNqQcG79+sq4cAsyev7uNM73s8VJjlnR4J9+zqyi1deFUk1odnsGV5kPtxVovxRC34GXW6th2r5q+ryHivEnPmb0i9rO2nVvB3JOrsm6Adj9Dgh0
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(346002)(396003)(39840400004)(366004)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(33656002)(52536014)(41300700001)(8936002)(5660300002)(4326008)(8676002)(83380400001)(26005)(71200400001)(86362001)(9686003)(7696005)(6506007)(55016003)(7416002)(122000001)(2906002)(64756008)(54906003)(91956017)(38100700002)(38070700005)(66946007)(66446008)(66476007)(76116006)(66556008)(316002)(478600001)(6916009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?KGw/+fhA2tmoCZGOL8C3rkqfpMsm0cPxFCS/RYSbxQ97TZGs+u9+jDQllJ?=
+ =?iso-8859-1?Q?e/hNLgdGJIubSPriUWHF2CCtWJUWFCqbDNLZh6jVPsimsSMeY/6GJwAGR2?=
+ =?iso-8859-1?Q?FGDZUbesBaDwELcfFDDRL5S1SfmvfERZ5Tyk0US4DApNLZdiN20hFAAhdn?=
+ =?iso-8859-1?Q?Fi0LG/SyQ7D0cQAQLir3IdlBiHStWfsTGkURVEh+h8WyCvLfpgo4A/YTWr?=
+ =?iso-8859-1?Q?66XzNdVv516nK1w077eLTvLuOY0SsGXV/vLCF6wIelx2y1WaOdrctx/yhg?=
+ =?iso-8859-1?Q?cIBYa7aKDZJS770+aQm4fxIpJ0aYvk9Ro/t1wWhzYdWgAjH0iU5C2OUKfp?=
+ =?iso-8859-1?Q?f7pd5kZi8yLBdxRb6ENOTrxcoEKpLFdqK2El57/1SN/y2NwaiDtQQy9U5W?=
+ =?iso-8859-1?Q?UhyI6zB7r2RnFjO+3vFScvciQaBDvisLomV1m6s0kpDv/NMi8ZyC7ShqZ+?=
+ =?iso-8859-1?Q?C4w0yV7UN+s8UapmwN0XYP8kT3YE2OkqMLxRj6ny1xJlCPfwhyF+uLVKY5?=
+ =?iso-8859-1?Q?mOI3taeCudogSfjJVcnXcALAl4tDfaJ41LfL7D+EmmX0ytvCl5D4qYaaQh?=
+ =?iso-8859-1?Q?RCLWjM4JZ1LlBT2++1rdtazrE1suxA/uhyEttYeiBYqgfo5cPPEGzS8HNi?=
+ =?iso-8859-1?Q?oA6FZRwwXG1jYWjoNxl64mV1Y9vfxbM7oSoUuiN2s1c6hIkKFIRj24O+Vn?=
+ =?iso-8859-1?Q?+fFYdx9MvPLd/nqviBdXOSvpc/j6A5eHHBK+fL4wbAjuy5ILPw75ItkPkP?=
+ =?iso-8859-1?Q?OEwPFgUg82B3oWezbbnOi6KExVFh4H4P9rPqBJ8SwOsStvRftpST16CMS1?=
+ =?iso-8859-1?Q?xAOh1JZpsQ5Yfyj+8eS54ALyvoozxcaoTrgzXWat4gQYwrkUJjdjrkGMBu?=
+ =?iso-8859-1?Q?VzzeOlVb8L/oDMRsWxFzqJIX75G07DZ9dXsA5zvMU2/2DSbVB5RaE0GdEz?=
+ =?iso-8859-1?Q?cc5REHmHUFl6uhyZEoiBSG4tHxRjtbfhzBWSN9EgTt/te4teVAFbMUcK8S?=
+ =?iso-8859-1?Q?g/K/e/w2J7wzt5v3FYOP3yL/nxd/qIUMbVrD3i2WNQbiC+vtZbgd5jWoiu?=
+ =?iso-8859-1?Q?KomNrYeD1tIKIj1C4tx6ypKaU0MGs9GgAphBYe33ghuoUCANy8k0KKIg1T?=
+ =?iso-8859-1?Q?aKo19p7IkbInZ09CKIydXvbu5KciAWKpBqCJUFZqBZe6atUtshMFpnrkJF?=
+ =?iso-8859-1?Q?nRNqmIuJeOqe3P9iHKpluZPU8tDiwopekp3L5xjklzhb8vFpUnxFVSLRtv?=
+ =?iso-8859-1?Q?hfEmpeFf+tMXC9arnxNCgcbUjKu6u++I3ocVXxVArGXi+BhRLZXiwTfTn8?=
+ =?iso-8859-1?Q?19vo8NEzPe0C1t8YCsgX7cQml3Lo06IW1ItLmzlJMxc37xUEiOExQdJrN7?=
+ =?iso-8859-1?Q?K1BLxXHsuw7VbMLA3zoxRocNun1yu9/u2HSQ2H5/l92DEMM+TIK6fKZRDW?=
+ =?iso-8859-1?Q?gSqqHRTE89RnTK/KMjO8nuSniotbi60vs8s3OxzMlBi4+wY++PIFL51FSr?=
+ =?iso-8859-1?Q?3e+EEfLN2H98S4X4zJJnKH/wSbjKgeueutMCvucXx1+y1FlgRVuQMHlGfW?=
+ =?iso-8859-1?Q?Yer7WuTcxJnyIDSq47f5grCGwYpzQ+w/lwTt3OjV26MI7FmI60djb2lbJI?=
+ =?iso-8859-1?Q?CLYkg2iwQiJp527TTF5SdlV6nr9A0bN0TK?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b017593-95cf-45de-811f-08dbc2ef93ee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2023 02:30:43.7904
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QpoIkP3z+D4FcOeEOdQEHxb+pv8yZBUYDqrCayXtJ2qhxpuW+9jaC/W0G9RjDGKBKsj4P5LaSHKYt2wSL/zYG6Jrdh2xdJtMyGIF7vC8d0E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4397
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,72 +123,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
+Cc: "lars@metafoo.de" <lars@metafoo.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "Potin.Lai@quantatw.com" <Potin.Lai@quantatw.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "patrickw3@meta.com" <patrickw3@meta.com>, "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-There is already 2 driver implementing their own akcipher_request_cast.
-In the future there will be also rockchip and allwinner driver that will
-need this.
-This is sufficient to move it in crypto headers.
-
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
----
- drivers/crypto/aspeed/aspeed-acry.c | 6 ------
- drivers/crypto/ccp/ccp-crypto-rsa.c | 6 ------
- include/crypto/akcipher.h           | 7 +++++++
- 3 files changed, 7 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
-index 247c568aa8df..ecb6e984367b 100644
---- a/drivers/crypto/aspeed/aspeed-acry.c
-+++ b/drivers/crypto/aspeed/aspeed-acry.c
-@@ -137,12 +137,6 @@ enum aspeed_rsa_key_mode {
- 	ASPEED_RSA_DATA_MODE,
- };
- 
--static inline struct akcipher_request *
--	akcipher_request_cast(struct crypto_async_request *req)
--{
--	return container_of(req, struct akcipher_request, base);
--}
--
- static int aspeed_acry_do_fallback(struct akcipher_request *req)
- {
- 	struct crypto_akcipher *cipher = crypto_akcipher_reqtfm(req);
-diff --git a/drivers/crypto/ccp/ccp-crypto-rsa.c b/drivers/crypto/ccp/ccp-crypto-rsa.c
-index a14f85512cf4..32c9f524f3d5 100644
---- a/drivers/crypto/ccp/ccp-crypto-rsa.c
-+++ b/drivers/crypto/ccp/ccp-crypto-rsa.c
-@@ -19,12 +19,6 @@
- 
- #include "ccp-crypto.h"
- 
--static inline struct akcipher_request *akcipher_request_cast(
--	struct crypto_async_request *req)
--{
--	return container_of(req, struct akcipher_request, base);
--}
--
- static inline int ccp_copy_and_save_keypart(u8 **kpbuf, unsigned int *kplen,
- 					    const u8 *buf, size_t sz)
- {
-diff --git a/include/crypto/akcipher.h b/include/crypto/akcipher.h
-index 670508f1dca1..4b6e610db18d 100644
---- a/include/crypto/akcipher.h
-+++ b/include/crypto/akcipher.h
-@@ -498,4 +498,11 @@ static inline int crypto_akcipher_set_priv_key(struct crypto_akcipher *tfm,
- 
- 	return alg->set_priv_key(tfm, key, keylen);
- }
-+
-+static inline struct akcipher_request *
-+	akcipher_request_cast(struct crypto_async_request *req)
-+{
-+	return container_of(req, struct akcipher_request, base);
-+}
-+
- #endif
--- 
-2.41.0
-
+On Mon, 25 Sep 2023 16:18:45 +0800=0A=
+Billy Tsai <billy_tsai@aspeedtech.com> wrote:=0A=
+=0A=
+> > Create event sysfs for applying the deglitch condition. When=0A=
+> > in_voltageY_thresh_rising_en/in_voltageY_thresh_falling_en is set to tr=
+ue,=0A=
+> > the driver will use the in_voltageY_thresh_rising_value and=0A=
+> > in_voltageY_thresh_falling_value as threshold values. If the ADC value=
+=0A=
+> > falls outside this threshold, the driver will wait for the ADC sampling=
+=0A=
+> > period and perform an additional read once to achieve the deglitching=
+=0A=
+> > purpose.=0A=
+> >=0A=
+> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>=0A=
+=0A=
+> Hi Billy=0A=
+=0A=
+> This is pushing the meaning of the events interface too far.=0A=
+> You can't use it to hide a value you don't like from userspace.=0A=
+=0A=
+> If you can explain what the condition is that you are seeing=0A=
+> and what you need to prevent happening if it is seen that would help=0A=
+> us figure out if there is another way to do this.=0A=
+=0A=
+> Jonathan=0A=
+=0A=
+Hi Jonathan,=0A=
+=0A=
+Currently, we are experiencing some voltage glitches while reading from our=
+=0A=
+controller, but we do not wish to report these false alarms to the user spa=
+ce.=0A=
+Instead, we want to retry the operation as soon as possible. This is why th=
+e=0A=
+driver requires this patch to handle retries internally, rather than relyin=
+g on user=0A=
+space which could introduce unpredictable timing for retrying the reading p=
+rocess.=0A=
+This software approach aims to minimize the possibility of false alarms as =
+much as possible.=0A=
+=0A=
+If you have any suggestions or recommendations regarding this situation, pl=
+ease feel free to=0A=
+share them with me.=0A=
+=0A=
+Thanks =0A=
+=0A=
+> > ---=0A=
+> >  drivers/iio/adc/aspeed_adc.c | 193 ++++++++++++++++++++++++++++++++++-=
+=0A=
+> >  1 file changed, 189 insertions(+), 4 deletions(-)=0A=
+> >=
