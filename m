@@ -1,64 +1,96 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C3D7B5D86
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Oct 2023 01:05:20 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 319387B610C
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Oct 2023 08:53:28 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JZpwoCNj;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=eN2KXjNH;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Xfm66XNf;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4RzxPV1k4Vz30D2
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Oct 2023 10:05:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S07nf0cyHz3cJW
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Oct 2023 17:53:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JZpwoCNj;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=eN2KXjNH;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Xfm66XNf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=134.134.136.24; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.27; helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=lists.ozlabs.org)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4RzxPL1zTjz2xdV;
-	Tue,  3 Oct 2023 10:05:07 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696287911; x=1727823911;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W+wHs3ShPE3V3vqCEk3iLvApEclOhjapQFsJWjm31Jg=;
-  b=JZpwoCNjeay7XiV84pWP5p8nUTxH1iXox6rD2vn38L6nO6rFAr+GhQaB
-   jtEe5BIKLdVoV1ZOqtyFZk+2dJgorgs6o/+semO362xFcOfx4LLYcECF3
-   O9s1FHYct/QL/iJJAsFvb3F3KR9iDcTm/V6gfQUX1+fqmBa8krVwly/Ve
-   ympGfVr3lp+3fLEyLyn91mVz9OFc8I6+UC3mQiQar7gLU1Lg8FkhtuACu
-   3ROvW6OEUBKp+dsBDBAdOvLrK/+jrAK9cDCvBrO4WIunBgQALGWhSK6wf
-   nB3PjnSZ3KQ0N1K38CBVanGQ2c7Idp13tagX8fIUNqBjuPwBMkpFI+29t
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="385578740"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="385578740"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 16:05:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="821030060"
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="821030060"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Oct 2023 16:04:55 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qnRy9-0006Ud-2j;
-	Mon, 02 Oct 2023 23:04:53 +0000
-Date: Tue, 3 Oct 2023 07:04:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konstantin Aladyshev <aladyshev22@gmail.com>
-Subject: Re: [PATCH v2 3/3] mctp: Add MCTP-over-KCS transport binding
-Message-ID: <202310030640.tYeSJjeI-lkp@intel.com>
-References: <20231002143441.545-4-aladyshev22@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S07nN5bC0z2yVw
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Oct 2023 17:53:12 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 116305C02F9;
+	Tue,  3 Oct 2023 02:53:08 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute4.internal (MEProxy); Tue, 03 Oct 2023 02:53:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1696315988; x=1696402388; bh=DQ
+	9fnka5ezD2MosoIlfkv7KgG/vCuTqTaE7p+egKu68=; b=eN2KXjNHIYJbQgWGle
+	rlLQ7w3kLGnQyjyLU/OByRNITYptT+q/ecOtOeoMHSt/IYM6Ml7nMyXXfnQwKzB2
+	4OWQDI+0xrY455eK8tEEWntyOgHDGhhQZEtV7e9IZOHi26Wwrfr05KDiGkX6bBu0
+	MnI6jh1024OucjBiqF0xJcmYsN4W5mTkJHenVaE0A2L3JdEjPtvJg4H9bR1S6V81
+	2Q5XWxZDityvc54+joXw66sSHq0MgJdN05hLBpsJ2SqJuTf/kOJq1pD4aLZdDGOo
+	zvc32xd9qIkt2KB7J2m0Cwb4B9lF1Xivfk6V3ymPqQ/5+BMVoZc5aZvKFwOJFsIj
+	rNyQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1696315988; x=1696402388; bh=DQ9fnka5ezD2M
+	osoIlfkv7KgG/vCuTqTaE7p+egKu68=; b=Xfm66XNf66JzisjrpSREKJpPTffZ9
+	0BJDDCF7HeFd0JQgVt0EksolRz9oaXTaCOli1Au2qC9Vaz763j4lfXBqZKTOv0UM
+	dyxj0xjGLzBUd1+pd1FipUIG+8T03CiFaO4xJX6FO1E6sgjVcX/5tB0Jgi7v4qOP
+	Z50ZeTdXX7dzvuiUHH9tQpfXmcCbwc+LHblD/OQ9C5QmkZB2Q+vfaEE1ifD+0N73
+	v91cHlQ0MnzgCdd1Skg0fXop7cm0LwiT6/eEaZZlmWtpzeNrxnGYwXNS/uMtWxIW
+	0ImfeZ+zniypvEZOJLj5TRb2+TRiJkIRevte9EIlkm3SSOMYxX9XTSrYg==
+X-ME-Sender: <xms:UrobZSPogWQZp4XvkklxNgta43YSMuij42Y557ew1W8leDREAUrYnw>
+    <xme:UrobZQ9lGSTNF5QWcuIw6pANwVl-qlmAtX5xU1O1Vf9Nc_uO4HmaVvUfUKBQijFvi
+    0_KEzgbulZuY6Ojeg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfeehgddtkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+    htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+    veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:UrobZZTZz1Kri7_9m83dhS-pbB2hBr_MkiYMhCK821-K0C0aPwvumg>
+    <xmx:UrobZSsITjFDf-6sfVp1OVXge8Av-fQnSE2PZ1t83qU5n6NfldJ-BA>
+    <xmx:UrobZafgdyfD6QHIxz3qiAAssdgxDSHA3HOxLNBJHPufQqHD4YFZwA>
+    <xmx:VLobZQtRcrrazDs0uBaxrEJ0pEMJBuIfNb8Nr9pm-w-8Nggp6Cm5AQ>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id AFA081700089; Tue,  3 Oct 2023 02:53:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-958-g1b1b911df8-fm-20230927.002-g1b1b911d
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231002143441.545-4-aladyshev22@gmail.com>
+Message-Id: <4bee3205-212b-4032-a105-9b8f1fb1fa22@app.fastmail.com>
+In-Reply-To:  <SG2PR06MB336555C2C52E24FCCDE72C748BC5A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+References: <20230925081845.4147424-1-billy_tsai@aspeedtech.com>
+ <a310aba3-0f04-4549-a776-36ff8cef736e@app.fastmail.com>
+ <SG2PR06MB336555C2C52E24FCCDE72C748BC5A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+Date: Tue, 03 Oct 2023 17:22:45 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Billy Tsai" <billy_tsai@aspeedtech.com>,
+ "Jonathan Cameron" <jic23@kernel.org>, "lars@metafoo.de" <lars@metafoo.de>,
+ "Joel Stanley" <joel@jms.id.au>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Potin Lai" <Potin.Lai@quantatw.com>,
+ "patrickw3@meta.com" <patrickw3@meta.com>
+Subject: Re: [PATCH v1] iio: adc: aspeed: Support deglitch feature.
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,154 +102,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, tali.perry1@gmail.com, edumazet@google.com, jk@codeconstruct.com.au, matt@codeconstruct.com.au, openbmc@lists.ozlabs.org, yuenn@google.com, kuba@kernel.org, pabeni@redhat.com, minyard@acm.org, aladyshev22@gmail.com, oe-kbuild-all@lists.linux.dev, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org, venture@google.com, linux-kernel@vger.kernel.org, avifishman70@gmail.com, netdev@vger.kernel.org, davem@davemloft.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Konstantin,
+Hi Billy,
 
-kernel test robot noticed the following build warnings:
+On Mon, 2 Oct 2023, at 19:20, Billy Tsai wrote:
+> On Mon, 25 Sep 2023, at 17:48, Billy Tsai wrote:
+>> > Create event sysfs for applying the deglitch condition. When
+>> > in_voltageY_thresh_rising_en/in_voltageY_thresh_falling_en is set to true,
+>> > the driver will use the in_voltageY_thresh_rising_value and
+>> > in_voltageY_thresh_falling_value as threshold values. If the ADC value
+>> > falls outside this threshold, the driver will wait for the ADC sampling
+>> > period and perform an additional read once to achieve the deglitching
+>> > purpose.
+>> >
+>> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+>> > ---
+>> >  drivers/iio/adc/aspeed_adc.c | 193 ++++++++++++++++++++++++++++++++++-
+>> >  1 file changed, 189 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
+>> > index 998e8bcc06e1..9e746c81d916 100644
+>> > --- a/drivers/iio/adc/aspeed_adc.c
+>> > +++ b/drivers/iio/adc/aspeed_adc.c
+>> > @@ -95,6 +95,7 @@ struct aspeed_adc_model_data {
+>> >       bool wait_init_sequence;
+>> >       bool need_prescaler;
+>> >       bool bat_sense_sup;
+>> > +     bool require_extra_eoc;
+>
+>> What is "eoc"? Can we use a better name or add an explanatory comment?
+>
+> Hi Andrew,
+> This is the signal name for our ADC controller, it means "End Of 
+> Conversion".
+> The appearance of this signal period indicates that the ADC value is 
+> valid and being updated to the register.
 
-[auto build test WARNING on cminyard-ipmi/for-next]
-[also build test WARNING on linus/master v6.6-rc4 next-20230929]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Okay, searching for "conversion" in the datasheet didn't turn up anything like this. It seems I wasn't off-track with asking. If you go forward with the patch in some manner, can you add a comment to the code documenting the meaning of 'eoc'?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Aladyshev/ipmi-Move-KCS-headers-to-common-include-folder/20231002-223632
-base:   https://github.com/cminyard/linux-ipmi for-next
-patch link:    https://lore.kernel.org/r/20231002143441.545-4-aladyshev22%40gmail.com
-patch subject: [PATCH v2 3/3] mctp: Add MCTP-over-KCS transport binding
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231003/202310030640.tYeSJjeI-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310030640.tYeSJjeI-lkp@intel.com/reproduce)
+>
+>> >       /* Register ADC clock prescaler with source specified by device tree.
+>> > */
+>> >       spin_lock_init(&data->clk_lock);
+>> >       snprintf(clk_parent_name, ARRAY_SIZE(clk_parent_name), "%s",
+>> > @@ -632,7 +806,14 @@ static int aspeed_adc_probe(struct platform_device
+>> > *pdev)
+>> >       adc_engine_control_reg_val |= ASPEED_ADC_CTRL_CHANNEL;
+>> >       writel(adc_engine_control_reg_val,
+>> >              data->base + ASPEED_REG_ENGINE_CONTROL);
+>> > -
+>> > +     adc_engine_control_reg_val =
+>> > +             FIELD_GET(ASPEED_ADC_CTRL_CHANNEL,
+>> > +                       readl(data->base + ASPEED_REG_ENGINE_CONTROL));
+>> > +     data->required_eoc_num = hweight_long(adc_engine_control_reg_val);
+>> > +     if (data->model_data->require_extra_eoc &&
+>> > +         (adc_engine_control_reg_val &
+>> > +          BIT(data->model_data->num_channels - 1)))
+>> > +             data->required_eoc_num += 12;
+>
+>> Why 12? Why add a value to the number of engines enabled? Have I misunderstood?
+>
+> This behavior is specified by the hardware. In our ADC, it requires 12 
+> dummy sampling
+> periods to switch the sampling channel from CH7 to CH0. Hence, this 
+> condition checks
+> the enable status of channel 7 to determine the necessary delay period 
+> for obtaining the
+> updated ADC values for each channel.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310030640.tYeSJjeI-lkp@intel.com/
+Okay, I feel using a magic value '12' with what you wrote above as an explanation is asking a bit much of the reader. Again, if you go forward with this patch in some fashion, can you document the meaning of 12 in a comment (and possibly use a macro to name it)?
 
-All warnings (new ones prefixed by >>):
+Cheers,
 
-   drivers/net/mctp/mctp-kcs.c: In function 'kcs_bmc_mctp_add_device':
->> drivers/net/mctp/mctp-kcs.c:494:31: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
-     494 |                               "alloc_netdev failed for KCS channel %d\n",
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                               |
-         |                               char *
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from drivers/net/mctp/mctp-kcs.c:16:
-   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                            ~~~~^~~
->> drivers/net/mctp/mctp-kcs.c:495:38: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
-     495 |                               kcs_bmc->channel);
-         |                               ~~~~~~~^~~~~~~~~
-         |                                      |
-         |                                      u32 {aka unsigned int}
-   include/linux/dev_printk.h:277:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                     ~~~~~~~~~~~~^~~
-   drivers/net/mctp/mctp-kcs.c:507:25: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
-     507 |                         "failed to allocate data_in buffer for KCS channel %d\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         char *
-   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                            ~~~~^~~
-   drivers/net/mctp/mctp-kcs.c:508:32: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
-     508 |                         kcs_bmc->channel);
-         |                         ~~~~~~~^~~~~~~~~
-         |                                |
-         |                                u32 {aka unsigned int}
-   include/linux/dev_printk.h:277:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                     ~~~~~~~~~~~~^~~
-   drivers/net/mctp/mctp-kcs.c:516:25: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
-     516 |                         "failed to allocate data_out buffer for KCS channel %d\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         char *
-   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                            ~~~~^~~
-   drivers/net/mctp/mctp-kcs.c:517:32: warning: passing argument 3 of 'dev_err_probe' makes pointer from integer without a cast [-Wint-conversion]
-     517 |                         kcs_bmc->channel);
-         |                         ~~~~~~~^~~~~~~~~
-         |                                |
-         |                                u32 {aka unsigned int}
-   include/linux/dev_printk.h:277:81: note: expected 'const char *' but argument is of type 'u32' {aka 'unsigned int'}
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                                     ~~~~~~~~~~~~^~~
-
-
-vim +/dev_err_probe +494 drivers/net/mctp/mctp-kcs.c
-
-   481	
-   482	static int kcs_bmc_mctp_add_device(struct kcs_bmc_device *kcs_bmc)
-   483	{
-   484		struct mctp_kcs *mkcs;
-   485		struct net_device *ndev;
-   486		char name[32];
-   487		int rc;
-   488	
-   489		snprintf(name, sizeof(name), "mctpkcs%d", kcs_bmc->channel);
-   490	
-   491		ndev = alloc_netdev(sizeof(*mkcs), name, NET_NAME_ENUM, mctp_kcs_setup);
-   492		if (!ndev) {
-   493			dev_err_probe(kcs_bmc->dev,
- > 494				      "alloc_netdev failed for KCS channel %d\n",
- > 495				      kcs_bmc->channel);
-   496			return -ENOMEM;
-   497		}
-   498	
-   499		mkcs = netdev_priv(ndev);
-   500		mkcs->netdev = ndev;
-   501		mkcs->client.dev = kcs_bmc;
-   502		mkcs->client.ops = &kcs_bmc_mctp_client_ops;
-   503		mkcs->data_in = devm_kmalloc(kcs_bmc->dev, KCS_MSG_BUFSIZ, GFP_KERNEL);
-   504		if (!mkcs->data_in) {
-   505			dev_err_probe(
-   506				kcs_bmc->dev,
-   507				"failed to allocate data_in buffer for KCS channel %d\n",
-   508				kcs_bmc->channel);
-   509			rc = -ENOMEM;
-   510			goto free_netdev;
-   511		}
-   512		mkcs->data_out = devm_kmalloc(kcs_bmc->dev, KCS_MSG_BUFSIZ, GFP_KERNEL);
-   513		if (!mkcs->data_out) {
-   514			dev_err_probe(
-   515				kcs_bmc->dev,
-   516				"failed to allocate data_out buffer for KCS channel %d\n",
-   517				kcs_bmc->channel);
-   518			rc = -ENOMEM;
-   519			goto free_netdev;
-   520		}
-   521	
-   522		INIT_WORK(&mkcs->rx_work, mctp_kcs_rx_work);
-   523	
-   524		rc = register_netdev(ndev);
-   525		if (rc)
-   526			goto free_netdev;
-   527	
-   528		spin_lock_irq(&kcs_bmc_mctp_instances_lock);
-   529		list_add(&mkcs->entry, &kcs_bmc_mctp_instances);
-   530		spin_unlock_irq(&kcs_bmc_mctp_instances_lock);
-   531	
-   532		dev_info(kcs_bmc->dev, "Add MCTP client for the KCS channel %d",
-   533			 kcs_bmc->channel);
-   534		return 0;
-   535	
-   536	free_netdev:
-   537		free_netdev(ndev);
-   538	
-   539		return rc;
-   540	}
-   541	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Andrew
