@@ -2,94 +2,87 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319387B610C
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Oct 2023 08:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8ACE7B6273
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Oct 2023 09:23:28 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=eN2KXjNH;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Xfm66XNf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=YfWNxqdZ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=rYGAKl+a;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S07nf0cyHz3cJW
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Oct 2023 17:53:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S08SG3jPCz3cCH
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Oct 2023 18:23:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=eN2KXjNH;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Xfm66XNf;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=YfWNxqdZ;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=rYGAKl+a;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.27; helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=lists.ozlabs.org)
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aj.id.au (client-ip=66.111.4.230; helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au; receiver=lists.ozlabs.org)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S07nN5bC0z2yVw
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Oct 2023 17:53:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S08S94l3nz2y1b
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Oct 2023 18:23:21 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 116305C02F9;
-	Tue,  3 Oct 2023 02:53:08 -0400 (EDT)
+	by mailnew.nyi.internal (Postfix) with ESMTP id 97BC55801BC;
+	Tue,  3 Oct 2023 03:23:18 -0400 (EDT)
 Received: from imap50 ([10.202.2.100])
-  by compute4.internal (MEProxy); Tue, 03 Oct 2023 02:53:08 -0400
+  by compute4.internal (MEProxy); Tue, 03 Oct 2023 03:23:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:content-type:content-type:date:date:from:from:in-reply-to
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1696315988; x=1696402388; bh=DQ
-	9fnka5ezD2MosoIlfkv7KgG/vCuTqTaE7p+egKu68=; b=eN2KXjNHIYJbQgWGle
-	rlLQ7w3kLGnQyjyLU/OByRNITYptT+q/ecOtOeoMHSt/IYM6Ml7nMyXXfnQwKzB2
-	4OWQDI+0xrY455eK8tEEWntyOgHDGhhQZEtV7e9IZOHi26Wwrfr05KDiGkX6bBu0
-	MnI6jh1024OucjBiqF0xJcmYsN4W5mTkJHenVaE0A2L3JdEjPtvJg4H9bR1S6V81
-	2Q5XWxZDityvc54+joXw66sSHq0MgJdN05hLBpsJ2SqJuTf/kOJq1pD4aLZdDGOo
-	zvc32xd9qIkt2KB7J2m0Cwb4B9lF1Xivfk6V3ymPqQ/5+BMVoZc5aZvKFwOJFsIj
-	rNyQ==
+	:subject:subject:to:to; s=fm1; t=1696317798; x=1696324998; bh=FB
+	NoJn7AO+0RF4pMfQLchcmc4tGsm8rfO7xGbY+S0Rg=; b=YfWNxqdZbkMDRfT2pN
+	aP9ZdFgV/PhnUDdcIzqcFNMs9Ohj9BRGrJ5rTW/11qcH1XY2EyAYWrAlZhq1ip5i
+	6vQhyR1Jl8cE1JtXWBFViEuvY8EwwkgWgOo5gumWb7cpWKvh+DVfgibo7AS4um4J
+	g++GTdn1pv4EKJd8pjRzX/cZ1TM0TLhq2gvkjxB5DbEPZq01T/EU1nMDnw8pgiPJ
+	RXGzWC1w6a+sRE/5zLCH3ABDgvf+HSawQ/wr6F3qZDMHpAskRUnKAvc/uofBjEOK
+	dYcEb57Q4kulZpPIaqa690uY9/YFAmAMBdPyHc0kI+hjQReB+LS1q/e1tOikJnZJ
+	ImQA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:content-type:date:date
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1696315988; x=1696402388; bh=DQ9fnka5ezD2M
-	osoIlfkv7KgG/vCuTqTaE7p+egKu68=; b=Xfm66XNf66JzisjrpSREKJpPTffZ9
-	0BJDDCF7HeFd0JQgVt0EksolRz9oaXTaCOli1Au2qC9Vaz763j4lfXBqZKTOv0UM
-	dyxj0xjGLzBUd1+pd1FipUIG+8T03CiFaO4xJX6FO1E6sgjVcX/5tB0Jgi7v4qOP
-	Z50ZeTdXX7dzvuiUHH9tQpfXmcCbwc+LHblD/OQ9C5QmkZB2Q+vfaEE1ifD+0N73
-	v91cHlQ0MnzgCdd1Skg0fXop7cm0LwiT6/eEaZZlmWtpzeNrxnGYwXNS/uMtWxIW
-	0ImfeZ+zniypvEZOJLj5TRb2+TRiJkIRevte9EIlkm3SSOMYxX9XTSrYg==
-X-ME-Sender: <xms:UrobZSPogWQZp4XvkklxNgta43YSMuij42Y557ew1W8leDREAUrYnw>
-    <xme:UrobZQ9lGSTNF5QWcuIw6pANwVl-qlmAtX5xU1O1Vf9Nc_uO4HmaVvUfUKBQijFvi
-    0_KEzgbulZuY6Ojeg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfeehgddtkecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm2; t=1696317798; x=1696324998; bh=FBNoJn7AO+0RF
+	4pMfQLchcmc4tGsm8rfO7xGbY+S0Rg=; b=rYGAKl+ah5bkYCSUdgBSlEPNRmN3o
+	GYOHMi1vF2XXDnWMUHV1eZ8k/7zDqOmzWoG51bkQ2W5Yf3Q7++3kMtnSBVryqg5V
+	uOXwRjmAMCLXlCFHh/W9RgyH0SDkendigf1n0mTg2mL1zw1VhbROn2F6Xp3FOm0n
+	7juBU/3dZIksZjIRsENxsw41PgKywf5zdTRuSnBu9V9NB8/tIIdsR/rRMe4ZzfA+
+	mccAzQcHW5/yHl0d5YJmr88/cTwOqrETJDgHM2/h3djH2cpyI1XLxN/7Fy9Ow85x
+	BgWXv8J9WuDTKDM4lErgYUg7Og8YGA8lxtyUReovslfJkNWc54WPtzg/g==
+X-ME-Sender: <xms:ZsEbZQDBZDuJgxVMipqwASBeVRTdc7sAtICyeF7AZUR4LHHYmrI5OQ>
+    <xme:ZsEbZShJQgN0WquvZX9i79xygt5kvFCsIPa6uVBr9x9wFkL5yGQky_vJU0renSvaC
+    6fE8OGqnNDNvGy0xQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfeehgddugecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
-    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
-    htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
-    veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:UrobZZTZz1Kri7_9m83dhS-pbB2hBr_MkiYMhCK821-K0C0aPwvumg>
-    <xmx:UrobZSsITjFDf-6sfVp1OVXge8Av-fQnSE2PZ1t83qU5n6NfldJ-BA>
-    <xmx:UrobZafgdyfD6QHIxz3qiAAssdgxDSHA3HOxLNBJHPufQqHD4YFZwA>
-    <xmx:VLobZQtRcrrazDs0uBaxrEJ0pEMJBuIfNb8Nr9pm-w-8Nggp6Cm5AQ>
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+    rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+    grthhtvghrnhepvdevvdeiueetheeiffdthfejvedvteffvefghffhueduffehvdekfeev
+    ieeujeelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:ZsEbZTluMwmBanalFVR9Es_hYG-m0yKxiWo-9no_P9Wz95ReykreTg>
+    <xmx:ZsEbZWyQXG-D9tG2Hq4qLl-qfmqFQi20_kONolqa5rr9y2z4TTaDEA>
+    <xmx:ZsEbZVRK_pvaJI0_AcC7xXJiKogcdf-j4C0L6d7LnzGy3rcUPmeZow>
+    <xmx:ZsEbZWLdOdHexW-OiqofN5B-5_yQSHK9LLTs12xIdoVmo4SZnvrurQ>
 Feedback-ID: idfb84289:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id AFA081700089; Tue,  3 Oct 2023 02:53:06 -0400 (EDT)
+	id 054F51700089; Tue,  3 Oct 2023 03:23:18 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.9.0-alpha0-958-g1b1b911df8-fm-20230927.002-g1b1b911d
 MIME-Version: 1.0
-Message-Id: <4bee3205-212b-4032-a105-9b8f1fb1fa22@app.fastmail.com>
-In-Reply-To:  <SG2PR06MB336555C2C52E24FCCDE72C748BC5A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-References: <20230925081845.4147424-1-billy_tsai@aspeedtech.com>
- <a310aba3-0f04-4549-a776-36ff8cef736e@app.fastmail.com>
- <SG2PR06MB336555C2C52E24FCCDE72C748BC5A@SG2PR06MB3365.apcprd06.prod.outlook.com>
-Date: Tue, 03 Oct 2023 17:22:45 +1030
+Message-Id: <1fd97872-446e-42f3-84ad-6e490d63e12d@app.fastmail.com>
+In-Reply-To: <20230929120835.0000108e@Huawei.com>
+References: <20230928123009.2913-1-aladyshev22@gmail.com>
+ <20230928123009.2913-4-aladyshev22@gmail.com>
+ <20230929120835.0000108e@Huawei.com>
+Date: Tue, 03 Oct 2023 17:52:33 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Billy Tsai" <billy_tsai@aspeedtech.com>,
- "Jonathan Cameron" <jic23@kernel.org>, "lars@metafoo.de" <lars@metafoo.de>,
- "Joel Stanley" <joel@jms.id.au>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "Potin Lai" <Potin.Lai@quantatw.com>,
- "patrickw3@meta.com" <patrickw3@meta.com>
-Subject: Re: [PATCH v1] iio: adc: aspeed: Support deglitch feature.
+To: "Jonathan Cameron" <Jonathan.Cameron@Huawei.com>,
+ "Konstantin Aladyshev" <aladyshev22@gmail.com>
+Subject: Re: [PATCH 3/3] mctp: Add MCTP-over-KCS transport binding
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -102,78 +95,116 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, Tomer Maimon <tmaimon77@gmail.com>, Corey Minyard <minyard@acm.org>, David Miller <davem@davemloft.net>, Avi Fishman <avifishman70@gmail.com>, Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org, Jeremy Kerr <jk@codeconstruct.com.au>, linux-kernel@vger.kernel.org, Tali Perry <tali.perry1@gmail.com>, Eric Dumazet <edumazet@google.com>, netdev <netdev@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>, Matt Johnston <matt@codeconstruct.com.au>, Paolo Abeni <pabeni@redhat.com>, openipmi-developer@lists.sourceforge.net, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Billy,
+Hi Jonathan,
 
-On Mon, 2 Oct 2023, at 19:20, Billy Tsai wrote:
-> On Mon, 25 Sep 2023, at 17:48, Billy Tsai wrote:
->> > Create event sysfs for applying the deglitch condition. When
->> > in_voltageY_thresh_rising_en/in_voltageY_thresh_falling_en is set to true,
->> > the driver will use the in_voltageY_thresh_rising_value and
->> > in_voltageY_thresh_falling_value as threshold values. If the ADC value
->> > falls outside this threshold, the driver will wait for the ADC sampling
->> > period and perform an additional read once to achieve the deglitching
->> > purpose.
->> >
->> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
->> > ---
->> >  drivers/iio/adc/aspeed_adc.c | 193 ++++++++++++++++++++++++++++++++++-
->> >  1 file changed, 189 insertions(+), 4 deletions(-)
->> >
->> > diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
->> > index 998e8bcc06e1..9e746c81d916 100644
->> > --- a/drivers/iio/adc/aspeed_adc.c
->> > +++ b/drivers/iio/adc/aspeed_adc.c
->> > @@ -95,6 +95,7 @@ struct aspeed_adc_model_data {
->> >       bool wait_init_sequence;
->> >       bool need_prescaler;
->> >       bool bat_sense_sup;
->> > +     bool require_extra_eoc;
+On Fri, 29 Sep 2023, at 20:38, Jonathan Cameron wrote:
+> On Thu, 28 Sep 2023 15:30:09 +0300
+> Konstantin Aladyshev <aladyshev22@gmail.com> wrote:
 >
->> What is "eoc"? Can we use a better name or add an explanatory comment?
+>> This change adds a MCTP KCS transport binding, as defined by the DMTF
+>> specificiation DSP0254 - "MCTP KCS Transport Binding".
+>> A MCTP protocol network device is created for each KCS channel found in
+>> the system.
+>> The interrupt code for the KCS state machine is based on the current
+>> IPMI KCS driver.
+>> 
+>> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
 >
-> Hi Andrew,
-> This is the signal name for our ADC controller, it means "End Of 
-> Conversion".
-> The appearance of this signal period indicates that the ADC value is 
-> valid and being updated to the register.
+> Drive by review as I was curious and might as well comment whilst reading.
+> Some comments seem to equally apply to other kcs drivers so maybe I'm
+> missing something...
+>
 
-Okay, searching for "conversion" in the datasheet didn't turn up anything like this. It seems I wasn't off-track with asking. If you go forward with the patch in some manner, can you add a comment to the code documenting the meaning of 'eoc'?
+I doubt you're missing anything. I reworked the KCS stuff a while back to make it a bit more general. Prior to Konstantin's work here the subsystem lived in its own little dark corner and might have benefitted from broader review. Some of the concerns with Konstantin's work are likely concerns with what I'd done, which he probably used as a guide. For reference the rework series is here:
+
+https://lore.kernel.org/all/20210608104757.582199-1-andrew@aj.id.au/
+
+>> +
+>> +static DEFINE_SPINLOCK(kcs_bmc_mctp_instances_lock);
+>> +static LIST_HEAD(kcs_bmc_mctp_instances);
+> As mentioned below, this seems to be only used to find some data again
+> in remove. Lots of cleaner ways to do that than a list in the driver.
+> I'd explore the alternatives.
+
+Yeah, it's a little clumsy. I'll look into better ways to address the problem.
+
+> 
+>> +	if (!ndev) {
+>> +		dev_err(kcs_bmc->dev,
+>> +			"alloc_netdev failed for KCS channel %d\n",
+>> +			kcs_bmc->channel);
+> No idea if the kcs subsystem handles deferred probing right, but in general
+> anything called just in 'probe' routines can use dev_err_probe() to pretty
+> print errors and also register any deferred cases with the logging stuff that
+> lets you find out why they were deferred.
+
+Let me see if there's work to do in the KCS subsystem to deal with deferred probing. I expect that there is.
 
 >
->> >       /* Register ADC clock prescaler with source specified by device tree.
->> > */
->> >       spin_lock_init(&data->clk_lock);
->> >       snprintf(clk_parent_name, ARRAY_SIZE(clk_parent_name), "%s",
->> > @@ -632,7 +806,14 @@ static int aspeed_adc_probe(struct platform_device
->> > *pdev)
->> >       adc_engine_control_reg_val |= ASPEED_ADC_CTRL_CHANNEL;
->> >       writel(adc_engine_control_reg_val,
->> >              data->base + ASPEED_REG_ENGINE_CONTROL);
->> > -
->> > +     adc_engine_control_reg_val =
->> > +             FIELD_GET(ASPEED_ADC_CTRL_CHANNEL,
->> > +                       readl(data->base + ASPEED_REG_ENGINE_CONTROL));
->> > +     data->required_eoc_num = hweight_long(adc_engine_control_reg_val);
->> > +     if (data->model_data->require_extra_eoc &&
->> > +         (adc_engine_control_reg_val &
->> > +          BIT(data->model_data->num_channels - 1)))
->> > +             data->required_eoc_num += 12;
 >
->> Why 12? Why add a value to the number of engines enabled? Have I misunderstood?
+>> +	if (rc)
+>> +		goto free_netdev;
+>> +
+>> +	spin_lock_irq(&kcs_bmc_mctp_instances_lock);
+>> +	list_add(&mkcs->entry, &kcs_bmc_mctp_instances);
 >
-> This behavior is specified by the hardware. In our ADC, it requires 12 
-> dummy sampling
-> periods to switch the sampling channel from CH7 to CH0. Hence, this 
-> condition checks
-> the enable status of channel 7 to determine the necessary delay period 
-> for obtaining the
-> updated ADC values for each channel.
+> Add a callback and devm_add_action_or_reset() to unwind this as well.
 
-Okay, I feel using a magic value '12' with what you wrote above as an explanation is asking a bit much of the reader. Again, if you go forward with this patch in some fashion, can you document the meaning of 12 in a comment (and possibly use a macro to name it)?
+I'll check the other KCS users as well.
 
-Cheers,
+>
+>
+>
+>> +	devm_kfree(kcs_bmc->dev, mkcs->data_in);
+>> +	devm_kfree(kcs_bmc->dev, mkcs->data_out);
+>
+> Alarm bells occur whenever an explicit devm_kfree turns up in
+> except in complex corner cases. Please look at how devm based
+> resource management works. These should not be here.
+
+Ah, I think this was an oversight in how I reworked the drivers a while back. I changed the arrangement of the structures but retained the devm_* approach to resource management. Let me page the KCS stuff back in so I can clean that up.
+
+>
+> Also, remove_device should either do things in the opposite order
+> to add_device, or it should have comments saying why not!
+
++1
+
+>
+>
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct kcs_bmc_driver_ops kcs_bmc_mctp_driver_ops = {
+>> +	.add_device = kcs_bmc_mctp_add_device,
+>> +	.remove_device = kcs_bmc_mctp_remove_device,
+>> +};
+>> +
+>> +static struct kcs_bmc_driver kcs_bmc_mctp_driver = {
+>> +	.ops = &kcs_bmc_mctp_driver_ops,
+>> +};
+>> +
+>> +static int __init mctp_kcs_init(void)
+>> +{
+>> +	kcs_bmc_register_driver(&kcs_bmc_mctp_driver);
+>> +	return 0;
+>> +}
+>> +
+>> +static void __exit mctp_kcs_exit(void)
+>> +{
+>> +	kcs_bmc_unregister_driver(&kcs_bmc_mctp_driver);
+>> +}
+>
+> Hmm. So kcs is a very small subsystem hence no one has done the usual
+> module_kcs_driver() wrapper (see something like module_i2c_driver)
+> for an example. 
+
+I'll probably deal with this in the course of the rest of the poking around.
+
+Thanks for the drive-by comments!
 
 Andrew
