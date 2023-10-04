@@ -1,52 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9757B7883
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Oct 2023 09:17:49 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DD67B7F18
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Oct 2023 14:27:54 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=hadfSUMf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=kRDgIR6W;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S0mHH1pHQz3cBZ
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Oct 2023 18:17:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S0v941zDPz3cDN
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Oct 2023 23:27:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=hadfSUMf;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=kRDgIR6W;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=horms@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S0mG61Jsxz30P0;
-	Wed,  4 Oct 2023 18:16:46 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:7e5d:5300::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id DAF71DD9;
-	Wed,  4 Oct 2023 00:16:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1696403803;
-	bh=yFCKItcXGPE1Q+oFb43qALwVs7ooi/Pj1fioqFcF6gw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hadfSUMfsGJ2vkIP/x8ARWUdzgF/1O22W2p3kl7aFETYKCgQYjqWYD8dd+u5IMAAb
-	 QwIJfiO2YOrAUYq9LkkngRKjaINpWN+x9ECkRf7URPtuomY/zTeiNAxm2O2wvooZcE
-	 b7E7qQkbbCzfQW+29dD3HVZmiKypiBPXXo7HwIbY=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Joel Stanley <joel@jms.id.au>,
-	linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] pinctrl: aspeed: Allow changing hardware strap defaults
-Date: Wed,  4 Oct 2023 00:16:06 -0700
-Message-ID: <20231004071605.21323-2-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.42.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S0v8w1cDJz307y;
+	Wed,  4 Oct 2023 23:27:44 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 0371FCE1C17;
+	Wed,  4 Oct 2023 12:27:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 518ACC433C9;
+	Wed,  4 Oct 2023 12:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696422460;
+	bh=jLtpvUu3o2mCQfgfqelejQUPXc1SMpmQFBdmvnSadmQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kRDgIR6WXxZmRUOX9AEKsETpXqUxHBzUG3ZCxQNV3A7erIU9r4H3qNZEIpmsNZ6vd
+	 +YHymlJhFlVRq/pg0hiFAm2cc9E4cdWW3wZqZdKHxOAOZ1BlIYJiqkYttXL8/Kep6p
+	 MiReP0tpPrGNdcUMIoRYJZWGBtXFlMaTRItg1RyOX/sAVu/Lqvy9BKvV30ojNCVHgn
+	 aQcx+pXRM38ku9h0V2Acup8diwx67h2bgNr96QT+z0SUui2EcOK+dbzLcmsKo79S2E
+	 vH8GGZ7E49F7rpSxVAbzeKbw5xO07Ece7lYGYdFF1nL+T47G+Ux27S1d3AekE4fi6B
+	 I4VhYRuyZ9aXQ==
+Date: Wed, 4 Oct 2023 14:27:33 +0200
+From: Simon Horman <horms@kernel.org>
+To: Konstantin Aladyshev <aladyshev22@gmail.com>
+Subject: Re: [PATCH v3 3/3] mctp: Add MCTP-over-KCS transport binding
+Message-ID: <ZR1aNb0+D+uO+Qm8@kernel.org>
+References: <20231003131505.337-1-aladyshev22@gmail.com>
+ <20231003131505.337-4-aladyshev22@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231003131505.337-4-aladyshev22@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,107 +59,47 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-gpio@vger.kernel.org, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Zev Weiss <zev@bewilderbeest.net>, linux-kernel@vger.kernel.org
+Cc: tmaimon77@gmail.com, minyard@acm.org, yuenn@google.com, venture@google.com, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, tali.perry1@gmail.com, avifishman70@gmail.com, edumazet@google.com, netdev@vger.kernel.org, linux-aspeed@lists.ozlabs.org, kuba@kernel.org, jk@codeconstruct.com.au, matt@codeconstruct.com.au, pabeni@redhat.com, openipmi-developer@lists.sourceforge.net, davem@davemloft.net, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Previously we've generally assumed that the defaults in the hardware
-strapping register are in fact appropriate for the system and thus
-have avoided making any changes to its contents (with the exception of
-the bits controlling the GPIO passthrough feature).
+On Tue, Oct 03, 2023 at 04:15:05PM +0300, Konstantin Aladyshev wrote:
+> This change adds a MCTP KCS transport binding, as defined by the DMTF
+> specificiation DSP0254 - "MCTP KCS Transport Binding".
+> A MCTP protocol network device is created for each KCS channel found in
+> the system.
+> The interrupt code for the KCS state machine is based on the current
+> IPMI KCS driver.
+> 
+> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
 
-Unfortunately, on some platforms corrections from software are
-required as the hardware strapping is simply incorrect for the system
-(such as the SPI1 interface being configured for passthrough mode when
-master mode is in fact the only useful configuration for it).  We thus
-remove the checks preventing changes to the strap register so that the
-pinctrl subsystem can be used for such corrections.
+...
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
----
- drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c | 21 ---------------------
- drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 21 ---------------------
- drivers/pinctrl/aspeed/pinmux-aspeed.h     |  3 ---
- 3 files changed, 45 deletions(-)
+> diff --git a/drivers/net/mctp/mctp-kcs.c b/drivers/net/mctp/mctp-kcs.c
 
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
-index bfed0e274643..7ecfe3e4280e 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
-@@ -2556,27 +2556,6 @@ static int aspeed_g4_sig_expr_set(struct aspeed_pinmux_data *ctx,
- 		if (!ctx->maps[desc->ip])
- 			return -ENODEV;
- 
--		/*
--		 * Strap registers are configured in hardware or by early-boot
--		 * firmware. Treat them as read-only despite that we can write
--		 * them. This may mean that certain functions cannot be
--		 * deconfigured and is the reason we re-evaluate after writing
--		 * all descriptor bits.
--		 *
--		 * Port D and port E GPIO loopback modes are the only exception
--		 * as those are commonly used with front-panel buttons to allow
--		 * normal operation of the host when the BMC is powered off or
--		 * fails to boot. Once the BMC has booted, the loopback mode
--		 * must be disabled for the BMC to control host power-on and
--		 * reset.
--		 */
--		if (desc->ip == ASPEED_IP_SCU && desc->reg == HW_STRAP1 &&
--		    !(desc->mask & (BIT(21) | BIT(22))))
--			continue;
--
--		if (desc->ip == ASPEED_IP_SCU && desc->reg == HW_STRAP2)
--			continue;
--
- 		ret = regmap_update_bits(ctx->maps[desc->ip], desc->reg,
- 					 desc->mask, val);
- 
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-index 4c0d26606b6c..3e57e76c2eb7 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-@@ -2735,27 +2735,6 @@ static int aspeed_g5_sig_expr_set(struct aspeed_pinmux_data *ctx,
- 			return PTR_ERR(map);
- 		}
- 
--		/*
--		 * Strap registers are configured in hardware or by early-boot
--		 * firmware. Treat them as read-only despite that we can write
--		 * them. This may mean that certain functions cannot be
--		 * deconfigured and is the reason we re-evaluate after writing
--		 * all descriptor bits.
--		 *
--		 * Port D and port E GPIO loopback modes are the only exception
--		 * as those are commonly used with front-panel buttons to allow
--		 * normal operation of the host when the BMC is powered off or
--		 * fails to boot. Once the BMC has booted, the loopback mode
--		 * must be disabled for the BMC to control host power-on and
--		 * reset.
--		 */
--		if (desc->ip == ASPEED_IP_SCU && desc->reg == HW_STRAP1 &&
--		    !(desc->mask & (BIT(21) | BIT(22))))
--			continue;
--
--		if (desc->ip == ASPEED_IP_SCU && desc->reg == HW_STRAP2)
--			continue;
--
- 		/* On AST2500, Set bits in SCU70 are cleared from SCU7C */
- 		if (desc->ip == ASPEED_IP_SCU && desc->reg == HW_STRAP1) {
- 			u32 value = ~val & desc->mask;
-diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.h b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-index aaa78a613196..e9068acd5879 100644
---- a/drivers/pinctrl/aspeed/pinmux-aspeed.h
-+++ b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-@@ -16,9 +16,6 @@
-  * bits. Some difficulty arises as the pin's function bit masks for each
-  * priority level are frequently not the same (i.e. cannot just flip a bit to
-  * change from a high to low priority signal), or even in the same register.
-- * Further, not all signals can be unmuxed, as some expressions depend on
-- * values in the hardware strapping register (which may be treated as
-- * read-only).
-  *
-  * SoC Multi-function Pin Expression Examples
-  * ------------------------------------------
--- 
-2.42.0
+...
 
+> +static inline void set_state(struct mctp_kcs *mkcs, u8 state)
+
+Hi Konstantin,
+
+Please avoid the inline keyword in C files unless there is a demonstrable
+reason to use it. In general, the compiler should be left to decide.
+
+> +{
+> +	dev_dbg(mkcs->client.dev->dev, "%s: state=0x%02x", __func__, state);
+> +	kcs_bmc_update_status(mkcs->client.dev, KCS_STATUS_STATE_MASK,
+> +			      KCS_STATUS_STATE(state));
+> +}
+
+...
+
+> +static inline struct mctp_kcs *client_to_mctp_kcs(struct kcs_bmc_client *client)
+
+Ditto.
+
+> +{
+> +	return container_of(client, struct mctp_kcs, client);
+> +}
+
+...
