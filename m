@@ -1,81 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F14A7B769A
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Oct 2023 04:24:00 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D0F7B779F
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Oct 2023 08:09:52 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=e5TU+Fa4;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=UiS+P6bk;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S0dmG1gn4z3c3g
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Oct 2023 13:23:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S0kmt4qKcz3cDS
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Oct 2023 17:09:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=e5TU+Fa4;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=UiS+P6bk;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S0dm84g7tz3c09
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  4 Oct 2023 13:23:51 +1100 (AEDT)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-690d2441b95so361139b3a.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Oct 2023 19:23:51 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S0klh6m8dz30Ng;
+	Wed,  4 Oct 2023 17:08:48 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-190-253.adl-adc-lon-bras34.tpg.internode.on.net [118.210.190.253])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 90DDF20059;
+	Wed,  4 Oct 2023 14:08:41 +0800 (AWST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696386226; x=1696991026; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5AxRDVC6vFOTOhTeIWXyy4DMe0oh9ZHTrLAq3N1EqvU=;
-        b=e5TU+Fa4PUzXDaRB0zLQxhDMa7KLUqAbC2hi8HUNp9PmqlwV2nIAaxDv6F02rwOy9J
-         StkthCPH/b1bS8UKvGr9cqRu6DIINm4s2J3+pK+4q8WuXRad+AF09O6YpdyB+tViVHX4
-         flUkkvGZfvSqt44z/bIWuQuSYUjrecdopTuEjwwDHMrGu/X8mxc/4C3vFFMYt+64AzBz
-         WtVyaNyd+nD/PPZ1VweoTsCVZGGKsS2RQqAbKjdvpegue8YWkil1IlB26jjThFRK+GDa
-         bmkH+ilWqO+hKCWifXqptl4TS75qKEObRJeR68wyTmkxq1PKiQLGMrPqPZv/xgAZHUIX
-         HoQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696386226; x=1696991026;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5AxRDVC6vFOTOhTeIWXyy4DMe0oh9ZHTrLAq3N1EqvU=;
-        b=DB8emkhOvs5NbbvNT65gRrdmW65BraAWC5vAn0hgfJJw9M3LtatSP/BkY8cC3rzDLs
-         BgTXhKCEy4DsglzdJ0p+N58hdiiEBUu383EvBSM0c27T2tHNj4+j8N9KNGaZf4UwHgjY
-         gvPAZYvO9sskOcYEuakj1ZEhTx1MU2sEj2AHl1CaTEYBDDhnpVRAk/fhdtzBoZqYJai/
-         bDVRpml0/iou49RBB9YyIfP54GBGTr5tdc/hlwQPMzBF3mu+t8pUZqi1EpbwdBmUQboP
-         WaNqszOsUc9lILVsAju+Xq/dCfXWJA8YOdicE7I9HHHMV1bn3PaIf8qfw124p+FevLdx
-         VfEw==
-X-Gm-Message-State: AOJu0YzzkDlCyAJRfwbKEDH2AX2+DazLP1C0kq2ZgGpMWwMbTwZX0qIb
-	j2pAPufmC9kr0vlG7mFA84HWMdTWHNE=
-X-Google-Smtp-Source: AGHT+IHr43C9UpuPjijwGKWCPZ2JzQZLnm2P/0H9xaztkMXZt/aiLspYKZvNXILMFKzqzx2QCLK4GA==
-X-Received: by 2002:a05:6a00:15c5:b0:690:9a5a:e34e with SMTP id o5-20020a056a0015c500b006909a5ae34emr7938626pfu.12.1696386226465;
-        Tue, 03 Oct 2023 19:23:46 -0700 (PDT)
-Received: from [10.10.14.80] (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id s18-20020a62e712000000b006878cc942f1sm2046801pfh.54.2023.10.03.19.23.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 19:23:46 -0700 (PDT)
-Message-ID: <634eefdd-b3af-8f8b-ab43-6037194ad522@gmail.com>
-Date: Wed, 4 Oct 2023 10:22:03 +0800
+	d=codeconstruct.com.au; s=2022a; t=1696399727;
+	bh=U9qVTqbFIewKoAsLnFsdhiJGF9HS2KYiKRlGJluJu0Y=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=UiS+P6bky+a6ZVu7C+L1ig8dFGepNsZX+B9a26raR5D4qi7PJvyPkhdRYew2EDLy0
+	 sDd8p5jF5W4xtogGyCKDzdfUOz/KYLI3IpAxDj6J4uVJPes1x3SL/9rpED2hVTlb0A
+	 QaCPU36IOoMhtVPm9N8+W5cnJeXjBAM6K2K+h71mmmZxGp1z2SUbyO7vXTWbKh7uoK
+	 rC1qIm+XvfuBpB1RS2nN9izTm9IHqxUU0Y/VL9UmBNnBqJcHSi/eeMNPSgNNAXtYY7
+	 1pTBnTdljnRBfxWALVJVnR3qz/1NXYmHXW96Th3FsZ8kn3gSJ2OF+I8ijkO58cssim
+	 zpSKJblfsZCaA==
+Message-ID: <975c69de32eefb124fe668e921e8dbda86962deb.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v2] i2c: aspeed: Fix i2c bus hang in slave read
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Wolfram Sang <wsa@kernel.org>, Jian Zhang <zhangjian.3032@bytedance.com>
+Date: Wed, 04 Oct 2023 16:38:38 +1030
+In-Reply-To: <ZRZ/ObZmntMLw2r+@ninjato>
+References: <20230927154244.3774670-1-zhangjian.3032@bytedance.com>
+	 <ZRZ/ObZmntMLw2r+@ninjato>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v9 1/2] ARM: dts: aspeed: Minerva: Add Facebook Minerva
- (AST2600) BMC
-To: patrick@stwcx.xyz, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-References: <20230907064514.1764010-1-peteryin.openbmc@gmail.com>
- <20230907064514.1764010-2-peteryin.openbmc@gmail.com>
-Content-Language: en-US
-From: PeterYin <peteryin.openbmc@gmail.com>
-In-Reply-To: <20230907064514.1764010-2-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,415 +58,70 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: peter.yin@quantatw.com
+Cc: Andi Shyti <andi.shyti@kernel.org>, "moderated list:ARM/ASPEED MACHINE
+ SUPPORT" <linux-aspeed@lists.ozlabs.org>, "moderated list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, "open list:ARM/ASPEED I2C DRIVER" <linux-i2c@vger.kernel.org>, brendan.higgins@linux.dev, zhangjian3032@gmail.com, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, xiexinnan@bytedance.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Fri, 2023-09-29 at 09:39 +0200, Wolfram Sang wrote:
+> On Wed, Sep 27, 2023 at 11:42:43PM +0800, Jian Zhang wrote:
+> > When the `CONFIG_I2C_SLAVE` option is enabled and the device operates
+> > as a slave, a situation arises where the master sends a START signal
+> > without the accompanying STOP signal. This action results in a
+> > persistent I2C bus timeout. The core issue stems from the fact that
+> > the i2c controller remains in a slave read state without a timeout
+> > mechanism. As a consequence, the bus perpetually experiences timeouts.
+> >=20
+> > In this case, the i2c bus will be reset, but the slave_state reset is
+> > missing.
+> >=20
+> > Fixes: fee465150b45 ("i2c: aspeed: Reset the i2c controller when timeou=
+t occurs")
+> > Signed-off-by: Jian Zhang <zhangjian.3032@bytedance.com>
+>=20
+> Somebody wants to add tags here? I think it should go to my pull request
+> this week.
+>=20
 
+I've tested this patch applied on top of fee465150b45 on an AST2600 and
+the the system behaviour doesn't seem worse. However, I can still lock=20
+the bus up and trigger a hung task panic by surprise-unplugging things.
+I'll poke around to see if I can get to the bottom of that.
 
-Peter Yin 於 9/7/23 14:45 寫道:
-> Add linux device tree entry related to Minerva
-> specific devices connected to BMC SoC.
-> 
-> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
-> ---
->   arch/arm/boot/dts/aspeed/Makefile             |   1 +
->   .../aspeed/aspeed-bmc-facebook-minerva.dts    | 371 ++++++++++++++++++
->   2 files changed, 372 insertions(+)
->   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-> 
-> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-> index 23cbc7203a8e..b1da302dbcd6 100644
-> --- a/arch/arm/boot/dts/aspeed/Makefile
-> +++ b/arch/arm/boot/dts/aspeed/Makefile
-> @@ -19,6 +19,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
->   	aspeed-bmc-facebook-fuji.dtb \
->   	aspeed-bmc-facebook-galaxy100.dtb \
->   	aspeed-bmc-facebook-greatlakes.dtb \
-> +	aspeed-bmc-facebook-minerva.dtb \
->   	aspeed-bmc-facebook-minipack.dtb \
->   	aspeed-bmc-facebook-tiogapass.dtb \
->   	aspeed-bmc-facebook-wedge40.dtb \
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-> new file mode 100644
-> index 000000000000..4834473c3c39
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-> @@ -0,0 +1,371 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +// Copyright (c) 2023 Facebook Inc.
-> +/dts-v1/;
-> +
-> +#include "aspeed-g6.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +#include <dt-bindings/i2c/i2c.h>
-> +
-> +/ {
-> +	model = "Facebook Minerva";
-> +	compatible = "facebook,minerva-bmc", "aspeed,ast2600";
-> +
-> +	aliases {
-> +		serial0 = &uart1;
-> +		serial4 = &uart5;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = &uart5;
-> +	};
-> +
-> +	memory@80000000 {
-> +		device_type = "memory";
-> +		reg = <0x80000000 0x80000000>;
-> +	};
-> +
-> +	iio-hwmon {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
-> +			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
-> +			<&adc1 2>;
-> +	};
-> +};
-> +
-> +// HOST BIOS Debug
-> +&uart1 {
-> +	status = "okay";
-> +};
-> +
-> +// SOL Host Console
-> +&uart2 {
-> +	status = "okay";
-> +	pinctrl-0 = <>;
-> +};
-> +
-> +// SOL BMC Console
-> +&uart4 {
-> +	status = "okay";
-> +	pinctrl-0 = <>;
-> +};
-> +
-> +// BMC Debug Console
-> +&uart5 {
-> +	status = "okay";
-> +};
-> +
-> +// MTIA
-> +&uart6 {
-> +	status = "okay";
-> +};
-> +
-> +&uart_routing {
-> +	status = "okay";
-> +};
-> +
-> +&vuart1 {
-> +	status = "okay";
-> +	virtual;
-> +	port=<0x3e8>;
-> +	sirq = <7>;
-> +	sirq-polarity = <0>;
-> +	dma-mode;
-> +	dma-channel = <12>;
-> +};
-> +
-> +&wdt1 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_wdtrst1_default>;
-> +	aspeed,reset-type = "soc";
-> +	aspeed,external-signal;
-> +	aspeed,ext-push-pull;
-> +	aspeed,ext-active-high;
-> +	aspeed,ext-pulse-duration = <256>;
-> +};
-> +
-> +&mac3 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rmii4_default>;
-> +	no-hw-checksum;
-> +	use-ncsi;
-> +	ncsi-ctrl,start-redo-probe;
-> +	ncsi-ctrl,no-channel-monitor;
-> +	mlx,multi-host;
-> +	ncsi-package = <1>;
-> +	ncsi-channel = <1>;
-> +	ncsi-rexmit = <1>;
-> +	ncsi-timeout = <2>;
-> +};
-> +
-> +&rtc {
-> +	status = "okay";
-> +};
-> +
-> +&fmc {
-> +	status = "okay";
-> +
-> +	flash@0 {
-> +		status = "okay";
-> +		m25p,fast-read;
-> +		label = "bmc";
-> +		spi-max-frequency = <50000000>;
-> +#include "openbmc-flash-layout-128.dtsi"
-> +	};
-> +
-> +	flash@1 {
-> +		status = "okay";
-> +		m25p,fast-read;
-> +		label = "alt-bmc";
-> +		spi-max-frequency = <50000000>;
-> +	};
-> +};
-> +
-> +// BIOS Flash
-> +&spi2 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_spi2_default>;
-> +
-> +	flash@0 {
-> +		status = "okay";
-> +		m25p,fast-read;
-> +		label = "pnor";
-> +		spi-max-frequency = <12000000>;
-> +		spi-tx-bus-width = <2>;
-> +		spi-rx-bus-width = <2>;
-> +	};
-> +};
-> +
-> +&kcs2 {
-> +	status = "okay";
-> +	aspeed,lpc-io-reg = <0xca8>;
-> +};
-> +
-> +&kcs3 {
-> +	status = "okay";
-> +	aspeed,lpc-io-reg = <0xca2>;
-> +};
-> +
-> +&lpc_snoop {
-> +	status = "okay";
-> +	snoop-ports = <0x80>;
-> +};
-> +
-> +&peci0 {
-> +	status = "okay";
-> +	clock-frequency = <1000000>;
-> +};
-> +
-> +&i2c0 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c1 {
-> +	status = "okay";
-> +
-> +	tmp75@4B {
-> +		compatible = "ti,tmp75";
-> +		reg = <0x4B>;
-> +	};
-> +};
-> +
-> +&i2c2 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c3 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c4 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c5 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c6 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c7 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c8 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c9 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c11 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c12 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c13 {
-> +	status = "okay";
-> +};
-> +
-> +// To Debug card
-> +&i2c14 {
-> +	status = "okay";
-> +	multi-master;
-> +
-> +	ipmb@10 {
-> +		compatible = "ipmb-dev";
-> +		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +		i2c-protocol;
-> +	};
-> +};
-> +
-> +&i2c15 {
-> +	status = "okay";
-> +
-> +	// SCM FRU
-> +	eeprom@50 {
-> +		compatible = "atmel,24c64";
-> +		reg = <0x50>;
-> +	};
-> +	// BSM FRU
-> +	eeprom@56 {
-> +		compatible = "atmel,24c64";
-> +		reg = <0x56>;
-> +	};
-> +};
-> +
-> +&adc0 {
-> +	ref_voltage = <2500>;
-> +	status = "okay";
-> +	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-> +		&pinctrl_adc2_default &pinctrl_adc3_default
-> +		&pinctrl_adc4_default &pinctrl_adc5_default
-> +		&pinctrl_adc6_default &pinctrl_adc7_default>;
-> +};
-> +
-> +&adc1 {
-> +	ref_voltage = <2500>;
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_adc10_default>;
-> +};
-> +
-> +&ehci1 {
-> +	status = "okay";
-> +};
-> +
-> +&gpio0 {
-> +	pinctrl-names = "default";
-> +	gpio-line-names =
-> +	/*A0-A7*/	"","","","","","","","",
-> +	/*B0-B7*/	"","","","","","FM_ID_LED_N","","",
-> +	/*C0-C7*/	"","","","","","","","",
-> +	/*D0-D7*/	"","","SOL_UART_SET","","","","","",
-> +	/*E0-E7*/	"","","","","","","","",
-> +	/*F0-F7*/	"","","","","","","","",
-> +	/*G0-G7*/	"","","","","","","","",
-> +	/*H0-H7*/	"","","","","","","","",
-> +	/*I0-I7*/	"","","","","","","","",
-> +	/*J0-J7*/	"","","","","","","","",
-> +	/*K0-K7*/	"","","","","","","","",
-> +	/*L0-L7*/	"","","","","","","","",
-> +	/*M0-M7*/	"","","","","","","","",
-> +	/*N0-N7*/	"LED_POSTCODE_0","LED_POSTCODE_1",
-> +			"LED_POSTCODE_2","LED_POSTCODE_3",
-> +			"LED_POSTCODE_4","LED_POSTCODE_5",
-> +			"LED_POSTCODE_6","LED_POSTCODE_7",
-> +	/*O0-O7*/	"","","","","","","","",
-> +	/*P0-P7*/	"FP_SYS_PWRBTN_IN_N","BMC_SYS_PWRBTN_OUT_N",
-> +			"FP_RST_BTN_IN_N","","","","","",
-> +	/*Q0-Q7*/	"","","","","","","","",
-> +	/*R0-R7*/	"","","","","","","","",
-> +	/*S0-S7*/	"","","","","","","","",
-> +	/*T0-T7*/	"","","","","","","","",
-> +	/*U0-U7*/	"","","","","","","","",
-> +	/*V0-V7*/	"","","","","","","","",
-> +	/*W0-W7*/	"","","","","","","","",
-> +	/*X0-X7*/	"","","","","","","","",
-> +	/*Y0-Y7*/	"","","","","","","","",
-> +	/*Z0-Z7*/	"","","","","","","","";
-> +};
-> +
-> +&sgpiom0 {
-> +	status = "okay";
-> +	max-ngpios = <128>;
-> +	ngpios = <128>;
-> +	bus-frequency = <2000000>;
-> +	gpio-line-names =
-> +	/*in - out - in - out */
-> +	/*A0-A3 line 0-7*/
-> +	"","","","","","ENABLE_SENSORS","","",
-> +	/*A4-A7 line 8-15*/
-> +	"","","","","","","","",
-> +	/*B0-B3 line 16-23*/
-> +	"","","","","","BMC_RST_BTN_OUT_N","","",
-> +	/*B4-B7 line 24-31*/
-> +	"","","","","","","","",
-> +	/*C0-C3 line 32-39*/
-> +	"","","","","","","","",
-> +	/*C4-C7 line 40-47*/
-> +	"","","","","","","","",
-> +	/*D0-D3 line 48-55*/
-> +	"","","","","","","","",
-> +	/*D4-D7 line 56-63*/
-> +	"","","","","","","","",
-> +	/*E0-E3 line 64-71*/
-> +	"","","","","","","","",
-> +	/*E4-E7 line 72-79*/
-> +	"","","","","","","","",
-> +	/*F0-F3 line 80-87*/
-> +	"","","","","","","","",
-> +	/*F4-F7 line 88-95*/
-> +	"","","","","","","","",
-> +	/*G0-G3 line 96-103*/
-> +	"","","","","","","","",
-> +	/*G4-G7 line 104-111*/
-> +	"","","","","","","","",
-> +	/*H0-H3 line 112-119*/
-> +	"","","","","PLD_SYS_POWER_GOOD","","","",
-> +	/*H4-H7 line 120-127*/
-> +	"","","","","","","","",
-> +	/*I0-I3 line 128-135*/
-> +	"","","","","","","","",
-> +	/*I4-I7 line 136-143*/
-> +	"","","","","","","","",
-> +	/*J0-J3 line 144-151*/
-> +	"","","PLD_BIOS_POST_CMPLT_N","","","","","",
-> +	/*J4-J7 line 152-159*/
-> +	"","","","","","","","",
-> +	/*K0-K3 line 160-167*/
-> +	"","","","","","","","",
-> +	/*K4-K7 line 168-175*/
-> +	"","","","","","","","",
-> +	/*L0-L3 line 176-183*/
-> +	"","","","","","","","",
-> +	/*L4-L7 line 184-191*/
-> +	"","","","","","","","",
-> +	/*M0-M3 line 192-199*/
-> +	"","","","","","","","",
-> +	/*M4-M7 line 200-207*/
-> +	"","","","","","","","",
-> +	/*N0-N3 line 208-215*/
-> +	"","","","","","","","",
-> +	/*N4-N7 line 216-223*/
-> +	"","","","","","","","",
-> +	/*O0-O3 line 224-231*/
-> +	"","","","","","","","",
-> +	/*O4-O7 line 232-239*/
-> +	"","","","","","","","",
-> +	/*P0-P3 line 240-247*/
-> +	"","","","","","","","",
-> +	/*P4-P7 line 248-255*/
-> +	"","","","","","","","";
-> +};
-Hello Maintainer,
-  Are there any recommendations or modifications that you consider 
-necessary?
+Resetting the slave state makes sense, so with the above observation=20
+aside:
 
-Thanks.
+Tested-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+
+That said I do wonder whether we should update the slave state in the=20
+same place we're updating the hardware state. It would cover off the=20
+gap identified by Jian if it were to ever occur anywhere else.
+Something like:
+
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-
+aspeed.c
+index 5a416b39b818..28e2a5fc4528 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -749,6 +749,8 @@ static void __aspeed_i2c_reg_slave(struct
+aspeed_i2c_bus *bus, u16 slave_addr)
+        func_ctrl_reg_val =3D readl(bus->base + ASPEED_I2C_FUN_CTRL_REG);
+        func_ctrl_reg_val |=3D ASPEED_I2CD_SLAVE_EN;
+        writel(func_ctrl_reg_val, bus->base + ASPEED_I2C_FUN_CTRL_REG);
++
++       bus->slave_state =3D ASPEED_I2C_SLAVE_INACTIVE;
+ }
+=20
+ static int aspeed_i2c_reg_slave(struct i2c_client *client)
+@@ -765,7 +767,6 @@ static int aspeed_i2c_reg_slave(struct i2c_client
+*client)
+        __aspeed_i2c_reg_slave(bus, client->addr);
+=20
+        bus->slave =3D client;
+-       bus->slave_state =3D ASPEED_I2C_SLAVE_INACTIVE;
+        spin_unlock_irqrestore(&bus->lock, flags);
+=20
+        return 0;
+
 
