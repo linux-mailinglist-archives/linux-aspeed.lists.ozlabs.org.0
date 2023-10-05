@@ -2,119 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEAA77B996C
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Oct 2023 03:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B84B7B9976
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Oct 2023 03:12:27 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=T9YsBxV8;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=eoIzp3TL;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S1Cys2mjCz3cRk
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Oct 2023 12:05:09 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S1D7F24Z3z3cRF
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Oct 2023 12:12:25 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=T9YsBxV8;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=eoIzp3TL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::70b; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2070b.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::70b])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S1Cyf0H8Cz3c7C
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Oct 2023 12:04:56 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I/EmhfUX2powWP5tg0AuDybfqVLV5Hfzms+tYJ3Q3r2HwHI+mJnyTS4759y6lUnxRIT3/UqPRSiehzxZ6ySzozvqzjIWUdSaOycMx9iyyB8o9kHhIhSFVnkqqhJqB+XxBxrPQEUSxtZCKpBhDQr6wMWYeZFY+Koh/LajLopbJZxFjKYtuExFIaJhGfjJIIPNzNEqoFlhD5tKjNPA/8VkpXBEVE10d4bMv1nvzvGaep84YqCpjG5mKd9L2pwv0WwrAWl4g6ZYLeqQZdHGNCEn76Aknm0NYQpjyB+ugx4zMilQpJa3YSQsUF8nG/CZ2+wy2N78/2yn1TdPBJIbj1SyrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Aoe/12VPhXOcm7uv/lyfYCf6DGhIKDWB6AqNSrdewYc=;
- b=DQCSyDup6wcVnTDZe6K4F7PkzKs+/THaidczqh7CPgDhtTHzp+2rIbeaC5vGXlc+dbWWgrOfRpyi56O7JPOEuFrgd/ULhi1vC/Y7df4Yoqhc9041oPJxaEhXsVvn1fFXcJ+IBhBwoh16e4zH4OQU35IuKiK5d12UNkNcjBuJMBIk8r2ePyNDlcvXM4H6Hk4xLJaZJBESIcP8eE8z1imKVCI4jKdFbMBAdKPaG5pYExz68x0RwFTZwIZy/duaLfWJL5AgW4rl9v/zw+SWpdvxj7b4KKwAk95QKermrDad+UxmTT7Dft9EdDpQsp2d+46sy5nCGZ97qx6KN+AXOdWoDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Aoe/12VPhXOcm7uv/lyfYCf6DGhIKDWB6AqNSrdewYc=;
- b=T9YsBxV80WkUw06kCHq5wDOhMpiCnfERKHw3eMXlGt0e56I2y0ctkJiNVIABzuYwnL921D1+ndc/0/Eke0HJSEt0DUy8cLBGlCdZ/6YaTVe75ZX21Fb9YMzt1WEvPZGBbqroDra4+6seVfbHKUWjMsJk24eo0Ezl5ZkLhvtIbjLvzXjo/5FqHiaxs08Cx61fmrM/oSXjsCO3959MeqGBkwlBd+aSDcFIFNKZQOSa1FzNwwqyHawDPQro9/FwPmOovEEDbN7oV6HH080NhsZuEGPuvLMRgNMMJGH7LcMTGwMVkkFDGtcvT6VoZlq5uXLV36DayvQwlY8qIpvdCHGfMg==
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com (2603:1096:4:69::12) by
- KL1PR0601MB5629.apcprd06.prod.outlook.com (2603:1096:820:c0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.35; Thu, 5 Oct
- 2023 01:04:32 +0000
-Received: from SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::956c:2f06:be93:fc3e]) by SG2PR06MB3365.apcprd06.prod.outlook.com
- ([fe80::956c:2f06:be93:fc3e%5]) with mapi id 15.20.6838.033; Thu, 5 Oct 2023
- 01:04:32 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v9 1/3] dt-bindings: hwmon: fan: Add fan binding to schema
-Thread-Topic: [PATCH v9 1/3] dt-bindings: hwmon: fan: Add fan binding to
- schema
-Thread-Index: AQHZ6fsjVtlxp0NmkE+mROk4Sacr7bA2tOSAgAPGXcA=
-Date: Thu, 5 Oct 2023 01:04:32 +0000
-Message-ID:  <SG2PR06MB3365ED5D60E709045FD010F38BCAA@SG2PR06MB3365.apcprd06.prod.outlook.com>
-References: <20230918064111.2221594-1-billy_tsai@aspeedtech.com>
- <20230918064111.2221594-2-billy_tsai@aspeedtech.com>
- <20231002152343.GA1747496-robh@kernel.org>
-In-Reply-To: <20231002152343.GA1747496-robh@kernel.org>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR06MB3365:EE_|KL1PR0601MB5629:EE_
-x-ms-office365-filtering-correlation-id: 657cd138-2d22-4637-c640-08dbc53f08ec
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  yoAbZgxVJQv6zK6+mW6UYDEs1QgJYk1vbwqx/pwo7gw5OCRrI0NUP6/mx5WOyrIRitRjGjCyCKjvLyE642Mv59GZGShEf6zixUEd03yIKdTdSErzmiih2ZSyaAUCItj02jATHFWu+1ZPui2xGxd7WnuYqflDOxjR0skvKxJxk3QZ6dCvMsBtuooeCY240h7hz+Vt7i+gWigh+FrzlX8CT8YlLAqGGTcr0zXfvHqx6brRTxM6PegMVtBQ4+d5qYd5Y0ldLcYxr1V2wM/FqRxepTDljVDZoAXgJe2KVOkHYmG7g8nZD28iH0H6ST2G4k3xD4hEmZokCjQG/FRA13u9VApfKbtlWn36fgdmbmqXTpKNse8MIwIbBWKBD5ScqN/zg4vWwa+Dmd591a4Qhac1IQiNXPboCsieL9Lh3HQEaLZ6L9zev2CvX8QD590ki9tfsQI1YJKrZjlquDU9pGniEbrIxI5DnMUasWsOrMDl+WoJ8zoQBYZKRmM5FmbqVhNmE05kGCQRfGVbJSi18jA54qM6L6ewaBYx8zHIoQB8YUYmI21ppEMe5YEm5cAd+bI85ZHk6s2IhmHJSGZS9jFBYdJTL4Ae6IAlNdQ8j8lQ1y0=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3365.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(366004)(39850400004)(396003)(346002)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(478600001)(316002)(6916009)(76116006)(91956017)(64756008)(66476007)(66446008)(966005)(66556008)(54906003)(55016003)(66946007)(83380400001)(9686003)(7696005)(26005)(71200400001)(6506007)(7416002)(2906002)(41300700001)(38070700005)(5660300002)(52536014)(8676002)(4326008)(8936002)(38100700002)(122000001)(33656002)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?QGvAcZs0A9lETR2XW08iXuithq6uSbzbj6j0vH2/aeeHYkXKpErcj2h2O9?=
- =?iso-8859-1?Q?n7YpaxXG3+t6aIWDfXW9W2Q9/duqbBGHlsAhO9FlKhMrlkYNqE4hHRYpUH?=
- =?iso-8859-1?Q?ZtCKGbD+DNUZTNks1G7J4jz6svSJZvMZnbnRpwBN4vO/kMnbteHwSZSlZM?=
- =?iso-8859-1?Q?0O3SmcPCQQJt9Df/w/EqhJVlzislw99PWIysYmNRRrLmjM5IQJ0ZGFUvsi?=
- =?iso-8859-1?Q?sniH/vXPLlup6RoCTxzevDqMOgY8o9mLJWZb0opylwwFx4JpQs5O/Q0yzm?=
- =?iso-8859-1?Q?lPAjSJ8KlLamupjopSTN5+BUBgECYadJrXBtGIcHee+xVJStYQYtrgSMFF?=
- =?iso-8859-1?Q?v8JW7QgXKH5vH9+RHsqQdy9rtiSuTSXSt0MYpa4RR8xvZ+uWdKRlm5po7f?=
- =?iso-8859-1?Q?3oUmdlJ1wnXpC8KDhlnO9ZgXD0qCz+dpHu/DUOGSLNN7CBMiTCOqlOaNEC?=
- =?iso-8859-1?Q?02ZB3/2hC3RJw22VHwQLob98W0sTxAc4FEJ1d1JvnftaVGGk6LrO74ZLXU?=
- =?iso-8859-1?Q?hbvQa44jH2EaHfgLIpmnOD/MvAcVM/LtfJCpL1eSdBwl4s8lCae5zotCiU?=
- =?iso-8859-1?Q?8DHq46qNPkCMgfaPLCltLg1acp8GSHSABnTsIbE2R+9Kp83CB2I6O61QZ3?=
- =?iso-8859-1?Q?3WODngDzaybnVtep4k1SnnM1ynI3GKMGcpuWm8mhokA2dpw/IltmoNB6H2?=
- =?iso-8859-1?Q?mLVGAv7fW95W7FcvoQ2HMmzRPZ5LMCzHsYFEMpqYK3Bi2fYb7RnmUTJrZH?=
- =?iso-8859-1?Q?VNh2uQSXKiCFMOCUE+ogAeDVhplMx0ZP39gHc2ZOyw9xBcp06X85l1vrNU?=
- =?iso-8859-1?Q?MjZroshsK83PQZdF3e0ltQvy63wDzdo4zR9GosBIRRfUmICvBvI3M56xAG?=
- =?iso-8859-1?Q?/gxvRCClRNLodknpWn6DHRf+HjdWsa9PVSuPFhLRzZ0vPRP2YiXAdUMTPC?=
- =?iso-8859-1?Q?kSduoc657/Aa/W1alWzGpK6nCM2UQqmoVcEBBKz1yv8syL2wy5NSCHEoPB?=
- =?iso-8859-1?Q?PGBXpCtQmFbIOcBJj8OMpq+TBinJS6KXsInXWWxncmCUwz3BYfFRueHUh2?=
- =?iso-8859-1?Q?Tal956ivfuOjDRmyhli61RUT9pIdggIgD71stlyHv1voCblGer8xdUj2Fe?=
- =?iso-8859-1?Q?UXWD2uT6FBuf++NU5XZXOzqu8bkmku43m6IWDuGZnSlY7tMFjUXzWc95/W?=
- =?iso-8859-1?Q?S8m12VBb+2q1BsmloMQD3fmvK1Tx23thffp6Txuk1hy7rjGNNXH0bTlOhL?=
- =?iso-8859-1?Q?GDEL6YJW2/ykMS3HmwVH+eWg8ru4W4yh/a43stktt1XxObxOXgDfzPRqnV?=
- =?iso-8859-1?Q?WmnN7lgjc5bUY9L6c8E4ynWp1AXSkofjKak3eQOchbCn8qQzxl182EvZly?=
- =?iso-8859-1?Q?Y2ayt1wPsZ2UB5WOG+kkHtF7RxnJHd0UuRuMDD+GX19/JGF1UvpxgSqqGW?=
- =?iso-8859-1?Q?m48Ft8pX5XL1O7nNbA9sRAyh1pgJtpwgCKqkVHupI19DYgbZ2zA7bJKjhI?=
- =?iso-8859-1?Q?05bKBIlp2F7R818iLeNO1p6D0TeECAEKFAnGUBFKi3BBichgOQWnPdMdZP?=
- =?iso-8859-1?Q?dbCTzy1L2QKQQzLpSt+X0kMPzhIwTiQbPnrgP/gK4tJzFjJmauU/BQPg6S?=
- =?iso-8859-1?Q?ezReRZDCM72z8C76pv9T986AfVX3QntnNH?=
-Content-Type: text/plain; charset="iso-8859-1"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S1D780gKqz3c4R
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Oct 2023 12:12:19 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-84-62.adl-adc-lon-bras32.tpg.internode.on.net [118.210.84.62])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 22EBF200DB;
+	Thu,  5 Oct 2023 09:12:13 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1696468337;
+	bh=xAxBkEJVdrWYBdGjmgEXDdPp5zXscmuH8qacPOd7/ek=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=eoIzp3TLvlOLS2As2yWm6Y+lulUfPoFLMN47c8hyhA4en1MViwWxFtCxFb5CLJz+e
+	 ufeii4Unrj8ebwvcJ2VWtid0g87OtRmQTf4H26qSsbsd3QnDCSj0zWHiRJyCe6fOZr
+	 6sSsZtCjxR2ZctKxXpzuhGMdD2uL5x7Zr3Pr2Y/rmU7w0cllCW7X+JaQyspLJ15L2+
+	 diC9oBgd1ko/KUlqQIFpkDoYOxR4KmxscrR1sN82SL6TJua+G7QAl6w5d9wE8Ja294
+	 O6LfaLRSBm/8j/N4fx894/+5i2/yNSqL1W1EpbkdP50GL8nOFRme+uiW5lg3BIMQNk
+	 yYUeJkyzZgt1A==
+Message-ID: <b5b813d156c31d73baf1e153f495e69d3367718b.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] gpio: aspeed: fix the GPIO number passed to
+ pinctrl_gpio_set_config()
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij
+ <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+Date: Thu, 05 Oct 2023 11:42:12 +1030
+In-Reply-To: <20231003073926.10771-1-brgl@bgdev.pl>
+References: <20231003073926.10771-1-brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3365.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 657cd138-2d22-4637-c640-08dbc53f08ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2023 01:04:32.6018
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lYGE8FVdZiCBet5L3igrvOAprkkILIJevi7RUvGnglezy7d0ipocEq90jVMTvl84bqEJd0Lq9RWk7fYdY6eWz43nFf6+Fjsvb1JuRMxIs8E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB5629
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,92 +60,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "corbet@lwn.net" <corbet@lwn.net>, BMC-SW <BMC-SW@aspeedtech.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "naresh.solanki@9elements.com" <naresh.solanki@9elements.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, "linux@roeck-us.net" <linux@roeck-us.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-gpio@vger.kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
->> From: Naresh Solanki <naresh.solanki@9elements.com>=0A=
->>=0A=
->> Add common fan properties bindings to a schema.=0A=
->>=0A=
->> Bindings for fan controllers can reference the common schema for the=0A=
->> fan=0A=
->>=0A=
->> child nodes:=0A=
->>=0A=
->>   patternProperties:=0A=
->>     "^fan@[0-2]":=0A=
->>       type: object=0A=
->>       $ref: fan-common.yaml#=0A=
->>       unevaluatedProperties: false=0A=
->>=0A=
->> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>=0A=
->> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>=0A=
->> ---=0A=
->>  .../devicetree/bindings/hwmon/fan-common.yaml | 78 +++++++++++++++++++=
-=0A=
->>  1 file changed, 78 insertions(+)=0A=
->>  create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.y=
-aml=0A=
->>=0A=
->> diff --git a/Documentation/devicetree/bindings/hwmon/fan-common.yaml b/D=
-ocumentation/devicetree/bindings/hwmon/fan-common.yaml=0A=
->> new file mode 100644=0A=
->> index 000000000000..2bd2f57fc9d9=0A=
->> --- /dev/null=0A=
->> +++ b/Documentation/devicetree/bindings/hwmon/fan-common.yaml=0A=
->> @@ -0,0 +1,78 @@=0A=
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause=0A=
->> +%YAML 1.2=0A=
->> +---=0A=
->> +$id: http://devicetree.org/schemas/hwmon/fan-common.yaml#=0A=
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#=0A=
->> +=0A=
->> +title: Common Fan Properties=0A=
->> +=0A=
->> +maintainers:=0A=
->> +  - Naresh Solanki <naresh.solanki@9elements.com>=0A=
->> +  - Billy Tsai <billy_tsai@aspeedtech.com>=0A=
->> +=0A=
->> +properties:=0A=
->> +  max-rpm:=0A=
->> +    description:=0A=
->> +      Max RPM supported by fan.=0A=
->> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
->> +    maximum: 100000=0A=
->> +=0A=
->> +  min-rpm:=0A=
->> +    description:=0A=
->> +      Min RPM supported by fan.=0A=
->> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
->> +    maximum: 1000=0A=
->> +=0A=
->> +  pulses-per-revolution:=0A=
->> +    description:=0A=
->> +      The number of pulse from fan sensor per revolution.=0A=
->> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
->> +    maximum: 4=0A=
->> +=0A=
->> +  tach-div:=0A=
->> +    description:=0A=
->> +      Divisor for the tach sampling clock, which determines the sensiti=
-vity of the tach pin.=0A=
->> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
->> +=0A=
->> +  target-rpm:=0A=
->> +    description:=0A=
->> +      The default desired fan speed in RPM.=0A=
->> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
->> +=0A=
->> +  fan-driving-mode:=0A=
->> +    description:=0A=
->> +      Select the driving mode of the fan.(DC, PWM and so on)=0A=
->> +    $ref: /schemas/types.yaml#/definitions/uint32=0A=
-=0A=
-> What value corresponds to what mode? I'd do strings instead. 'dc',=0A=
-> 'pwm', etc.=0A=
-=0A=
-=0A=
-Ok, I will change the type to the string for next patch.=0A=
-=0A=
-Thanks=
+On Tue, 2023-10-03 at 09:39 +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>=20
+> pinctrl_gpio_set_config() expects the GPIO number from the global GPIO
+> numberspace, not the controller-relative offset, which needs to be added
+> to the chip base.
+>=20
+> Fixes: 5ae4cb94b313 ("gpio: aspeed: Add debounce support")
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
+Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+
+Thanks!
+
+> ---
+>  drivers/gpio/gpio-aspeed.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
+> index da33bbbdacb9..58f107194fda 100644
+> --- a/drivers/gpio/gpio-aspeed.c
+> +++ b/drivers/gpio/gpio-aspeed.c
+> @@ -973,7 +973,7 @@ static int aspeed_gpio_set_config(struct gpio_chip *c=
+hip, unsigned int offset,
+>  	else if (param =3D=3D PIN_CONFIG_BIAS_DISABLE ||
+>  			param =3D=3D PIN_CONFIG_BIAS_PULL_DOWN ||
+>  			param =3D=3D PIN_CONFIG_DRIVE_STRENGTH)
+> -		return pinctrl_gpio_set_config(offset, config);
+> +		return pinctrl_gpio_set_config(chip->base + offset, config);
+>  	else if (param =3D=3D PIN_CONFIG_DRIVE_OPEN_DRAIN ||
+>  			param =3D=3D PIN_CONFIG_DRIVE_OPEN_SOURCE)
+>  		/* Return -ENOTSUPP to trigger emulation, as per datasheet */
+
