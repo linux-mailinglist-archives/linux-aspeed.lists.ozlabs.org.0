@@ -2,70 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66867B9CD7
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Oct 2023 13:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63D67BAF8A
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Oct 2023 02:20:13 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TYVkM8ey;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RaIzrwLN;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S1VQf6bnXz3vjb
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Oct 2023 22:56:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S1pwW4T5Yz3bws
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Oct 2023 11:20:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TYVkM8ey;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RaIzrwLN;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=134.134.136.126; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S1VQW0Hj9z3dK7;
-	Thu,  5 Oct 2023 22:56:32 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696506995; x=1728042995;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tXYScCQloVsf+4gJdEXKIeLEpV9gui3O8J54Ug/L2KY=;
-  b=TYVkM8eyFdshy4dYGD9G6tYR2ApH5jILwfOpJ7B2mhQCxiscKqyNEP/2
-   bezugY5u1XdlUOqJS9ts/291TZcQUHJrEYI2dJQQ9PttLbvewXal3tRjJ
-   xFbptbYTBlvn6HJVT9vpbA5D0ftuwbqjBWRODMMYGMaDa+MkN0KG08gKo
-   aHroYdyskHnS2bQmgCrvkjfYqxxHiZEe2NCRQTU+ZJ/YxQxbdoGVizB81
-   Ie31OVmYIXdAXlvY0347vVbxzTsCHDucGHF1JTPaGw8M2dU5FACYBBX47
-   aZAQuMx3K8KUQ+b5gTwaQ0+3TStygXdnCY+vDHFDOhbGgIqqD9nW3+Vrj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="368546544"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="368546544"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 04:56:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="701629587"
-X-IronPort-AV: E=Sophos;i="6.03,203,1694761200"; 
-   d="scan'208";a="701629587"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2023 04:56:21 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC1)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1qoMxl-000000030t3-0Z6W;
-	Thu, 05 Oct 2023 14:56:17 +0300
-Date: Thu, 5 Oct 2023 14:56:16 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v12 2/2] i2c: aspeed: support ast2600 i2c new register
- mode driver
-Message-ID: <ZR6kYMOB67+WJonG@smile.fi.intel.com>
-References: <20230714074522.23827-1-ryan_chen@aspeedtech.com>
- <20230714074522.23827-3-ryan_chen@aspeedtech.com>
- <ZLENe5B3gi/oNTQp@smile.fi.intel.com>
- <SEZPR06MB5269831E049E2267661F181FF2E8A@SEZPR06MB5269.apcprd06.prod.outlook.com>
- <ZPcXJ4adUNMv4LDr@smile.fi.intel.com>
- <SEZPR06MB52699EC5463397F4BFF244DBF2CAA@SEZPR06MB5269.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S1pwM4xXTz3bq4;
+	Fri,  6 Oct 2023 11:20:03 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-84-62.adl-adc-lon-bras32.tpg.internode.on.net [118.210.84.62])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 3214D20059;
+	Fri,  6 Oct 2023 08:19:57 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1696551600;
+	bh=3sH1cC4T7Uxpkbo5Qenr+5cCv9WsbR2e9hfD400KTuo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=RaIzrwLNVT0wczma4nXdI8uzOys7yIcWc0tNsg6EH01Cmu22paNVn/DeDt08xzpwM
+	 6k/F+MybjfiauBnPzT4fxMomIejKYmSUxbjozPFXOT9DiDm/Eftj04RAqULlEqH+H8
+	 nChvGX13LaKYYZxqoudhOgVdG2qTW6f3cBc1LeKiQOcAIVRkQCY2va4xa3NVVXSStp
+	 MShkXmhpLyL+el3+FZDGqOnXT2i/p1WoTorByug64Uqu7JYQBEIGLO92j7g+tZ/hYy
+	 uTiO3B0Hb/o+RfhzlcIEfOnKOWSdnQTaolThdEcTIoj999+4PeH0iYDr3t+FW6gKVg
+	 fE5NHoUlNchlw==
+Message-ID: <9407cee639b3eeb715a953c33b26a9a3830a64f8.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v2] i2c: aspeed: Fix i2c bus hang in slave read
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Quan Nguyen <quan@os.amperecomputing.com>, Wolfram Sang
+ <wsa@kernel.org>,  Jian Zhang <zhangjian.3032@bytedance.com>
+Date: Fri, 06 Oct 2023 10:49:55 +1030
+In-Reply-To: <052ccd48-2541-1ef3-1f33-75b7d49611ad@os.amperecomputing.com>
+References: <20230927154244.3774670-1-zhangjian.3032@bytedance.com>
+	 <ZRZ/ObZmntMLw2r+@ninjato>
+	 <975c69de32eefb124fe668e921e8dbda86962deb.camel@codeconstruct.com.au>
+	 <052ccd48-2541-1ef3-1f33-75b7d49611ad@os.amperecomputing.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SEZPR06MB52699EC5463397F4BFF244DBF2CAA@SEZPR06MB5269.apcprd06.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,70 +61,108 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Brendan Higgins <brendan.higgins@linux.dev>, Conor Dooley <conor.dooley@microchip.com>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "jk@codeconstruct.com.au" <jk@codeconstruct.com.au>, Jean Delvare <jdelvare@suse.de>, Andi Shyti <andi.shyti@kernel.org>, Phil Edworthy <phil.edworthy@renesas.com>, Florian Fainelli <f.fainelli@gmail.com>, "=linux-kernel@vger.kernel.org" <=linux-kernel@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, William Zhang <william.zhang@broadcom.com>, Rob Herring <robh+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Tharun Kumar P <tharunkumar.pasumarthi@microchip.com>, Wolfram Sang <wsa@kernel.org>, Tyrone Ting <kfting@nuvoton.com>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Andi Shyti <andi.shyti@kernel.org>, "moderated list:ARM/ASPEED MACHINE
+ SUPPORT" <linux-aspeed@lists.ozlabs.org>, "moderated
+ list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>, brendan.higgins@linux.dev, zhangjian3032@gmail.com, xiexinnan@bytedance.com, "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, "open list:ARM/ASPEED I2C DRIVER" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Oct 05, 2023 at 06:21:35AM +0000, Ryan Chen wrote:
-> > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Sent: Tuesday, September 5, 2023 7:55 PM
-> > On Tue, Sep 05, 2023 at 06:52:37AM +0000, Ryan Chen wrote:
-> > > > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > Sent: Friday, July 14, 2023 4:55 PM
-> > > > On Fri, Jul 14, 2023 at 03:45:22PM +0800, Ryan Chen wrote:
+On Thu, 2023-10-05 at 14:55 +0700, Quan Nguyen wrote:
+>=20
+> On 04/10/2023 13:08, Andrew Jeffery wrote:
+> > On Fri, 2023-09-29 at 09:39 +0200, Wolfram Sang wrote:
+> > > On Wed, Sep 27, 2023 at 11:42:43PM +0800, Jian Zhang wrote:
+> > > > When the `CONFIG_I2C_SLAVE` option is enabled and the device operat=
+es
+> > > > as a slave, a situation arises where the master sends a START signa=
+l
+> > > > without the accompanying STOP signal. This action results in a
+> > > > persistent I2C bus timeout. The core issue stems from the fact that
+> > > > the i2c controller remains in a slave read state without a timeout
+> > > > mechanism. As a consequence, the bus perpetually experiences timeou=
+ts.
+> > > >=20
+> > > > In this case, the i2c bus will be reset, but the slave_state reset =
+is
+> > > > missing.
+> > > >=20
+> > > > Fixes: fee465150b45 ("i2c: aspeed: Reset the i2c controller when ti=
+meout occurs")
+> > > > Signed-off-by: Jian Zhang <zhangjian.3032@bytedance.com>
+> > >=20
+> > > Somebody wants to add tags here? I think it should go to my pull requ=
+est
+> > > this week.
+> > >=20
+> >=20
+> > I've tested this patch applied on top of fee465150b45 on an AST2600 and
+> > the the system behaviour doesn't seem worse. However, I can still lock
+> > the bus up and trigger a hung task panic by surprise-unplugging things.
+> > I'll poke around to see if I can get to the bottom of that.
+> >=20
+> > Resetting the slave state makes sense, so with the above observation
+> > aside:
+> >=20
+> > Tested-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+> > Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+> >=20
+> > That said I do wonder whether we should update the slave state in the
+> > same place we're updating the hardware state. It would cover off the
+> > gap identified by Jian if it were to ever occur anywhere else.
+> > Something like:
+> >=20
+> > diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-
+> > aspeed.c
+> > index 5a416b39b818..28e2a5fc4528 100644
+> > --- a/drivers/i2c/busses/i2c-aspeed.c
+> > +++ b/drivers/i2c/busses/i2c-aspeed.c
+> > @@ -749,6 +749,8 @@ static void __aspeed_i2c_reg_slave(struct
+> > aspeed_i2c_bus *bus, u16 slave_addr)
+> >          func_ctrl_reg_val =3D readl(bus->base + ASPEED_I2C_FUN_CTRL_RE=
+G);
+> >          func_ctrl_reg_val |=3D ASPEED_I2CD_SLAVE_EN;
+> >          writel(func_ctrl_reg_val, bus->base + ASPEED_I2C_FUN_CTRL_REG)=
+;
+> > +
+> > +       bus->slave_state =3D ASPEED_I2C_SLAVE_INACTIVE;
+> >   }
+> >  =20
+> >   static int aspeed_i2c_reg_slave(struct i2c_client *client)
+> > @@ -765,7 +767,6 @@ static int aspeed_i2c_reg_slave(struct i2c_client
+> > *client)
+> >          __aspeed_i2c_reg_slave(bus, client->addr);
+> >  =20
+> >          bus->slave =3D client;
+> > -       bus->slave_state =3D ASPEED_I2C_SLAVE_INACTIVE;
+> >          spin_unlock_irqrestore(&bus->lock, flags);
+> >  =20
+> >          return 0;
+> >=20
+> >=20
+>=20
+> We tested both Jian's patch and Andrew's patch on our MCTP-i2c bus=20
+> (ast2600 based BMC) and see both patches work well.
+>=20
+> We currently use upstream i2c-aspeed.c driver with the commit [1]=20
+> backported. Without that commit, we frequently experienced the bus hang=
+=20
+> (due to bus arbitration) and it is unable to recover.
+>=20
+> But, by reverting that commit and with Jian or Andrew's patch, we see=20
+> the bus could be able to recover so we think both changes are good.
+>=20
+> [1]=20
+> https://github.com/AspeedTech-BMC/linux/commit/11a94e5918aa0f87c828d63fd2=
+54dd60ab2505e5
+>=20
+> Anyway, I would prefer Andrew's way because the bus->slave_state must=20
+> always be reset to ASPEED_I2C_SLAVE_INACTIVE everytime=20
+> __aspeed_i2c_reg_slave() is called.
 
-...
+Jian, what's your preference? Are you happy to do a v3 along the lines
+of my suggestion above?
 
-> > > 			divisor = DIV_ROUND_UP(base_clk[3],
-> > i2c_bus->timing_info.bus_freq_hz);
-> > > 			for_each_set_bit(divisor, &divisor, 32) {
-> > 
-> > This is wrong.
-> > 
-> > > 				if ((divisor + 1) <= 32)
-> > > 					break;
-> > 
-> > > 				divisor >>= 1;
-> > 
-> > And this.
-> > 
-> > > 				baseclk_idx++;
-> > 
-> > > 			}
-> > 
-> > for_each_set_bit() should use two different variables.
-> 
-> Will update by following.
-> 
-> for_each_set_bit(bit, &divisor, 32) {
->     divisor >>= 1;
->     baseclk_idx++;
-> }
+Otherwise Wolfram can take v2 and we can always do the cleanup in a
+follow-up patch.
 
-It's unclear what you are trying to achieve here as the code is not equivalent
-to the above.
-
-> > > 		} else {
-> > > 			baseclk_idx = i + 1;
-> > > 			divisor = DIV_ROUND_UP(base_clk[i],
-> > i2c_bus->timing_info.bus_freq_hz);
-> > > 		}
-> > > 	}
-
-...
-
-> > > 	divisor = min_t(unsigned long, divisor, 32);
-> > 
-> > Can't you use min()? min_t is a beast with some subtle corner cases.
-> > 
-> Will update to 
-> divisor = min(divisor, (unsigned long)32);
-
-No, the idea behind min() is that _both_ arguments are of the same type,
-the proposed above is wrong.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Andrew
