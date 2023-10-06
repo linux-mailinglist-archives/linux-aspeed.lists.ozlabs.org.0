@@ -1,70 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6EC7BB4C3
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Oct 2023 12:05:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 258577BC14C
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Oct 2023 23:39:42 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OYNBYdLQ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=WtHKJAnu;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S23vz3hQPz3dF9
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Oct 2023 21:05:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S2MJq63rGz3fQR
+	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Oct 2023 08:39:39 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OYNBYdLQ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=WtHKJAnu;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::232; helo=mail-lj1-x232.google.com; envelope-from=aladyshev22@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=rob@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S23rR3H2bz3cNk;
-	Fri,  6 Oct 2023 21:02:29 +1100 (AEDT)
-Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b9c907bc68so22193811fa.2;
-        Fri, 06 Oct 2023 03:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696586543; x=1697191343; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Yp1yNMJhm0Xmlti2S7KpcZZ4ydY0GaIDDg/yGsmahK4=;
-        b=OYNBYdLQjloUvjgQQIWM6hMZt2G5HCblTGW7vQsZI0FzZifYgMoYm1CWbGk+ZCYGT5
-         7OTQxwP56zyWmx1ibjD3wvBrOue8b5Xc7KHJWpufq9GyYd7iEwmHDf1BYaMmDKXFSLgU
-         Hy49mlAcYiUEg0vBMRFI+fsZ+aRt3VVQOCPOtx+ChQHSSbotDyve0KZbQai/NGNH3kiH
-         b9n0uUZgwcaJfSsyqC3BSYY1CAOB93td1DRYDmbhJi26VFOJva1aR4SGMRbVKgZhzaQr
-         R3VAx0TjF/Mb1cKKIXFHNQOyCuHQ+5IZG5Byq2lh3PEJI12hcqu9YDj78IdLAcJ7mW1m
-         fpxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696586543; x=1697191343;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Yp1yNMJhm0Xmlti2S7KpcZZ4ydY0GaIDDg/yGsmahK4=;
-        b=n3kBZh0S+9JZbfhwN04BKuPD7TVb6HglFHeEsBJvIslhi8W+5Fjj4CaoigjverZEnW
-         NXcTzXzrWBqXsbywqAkZWvC3ANCpGK95V3lmQoDokqts2Ls1BVC81oigqnGc2mptAchP
-         ndVfu52a2OupQWRwA+fO/Lyfu7mexuirXXuEV6oSWvSHQgR+5d9PjlsEEJUp39knESnu
-         nCycHABtUci28+rO1y2qjzIHQjD6SK/epjsfHjhronXS4qrMgM5qCEvfbfDPBtO8/LjF
-         jbr0ffzWQ5nYWr0SL7e5rjBJOPml2KyEn/Kn6GhLn7EZSxwAIBsU0Qi1FsmevWDti7L2
-         tz5w==
-X-Gm-Message-State: AOJu0YwjPnfvRX8U1fdB8yiBCsF/fBnprp+rPQLt4qtOJfgTOxJkuyt8
-	79QdJHgUUDtoCFmwbJFk7RM=
-X-Google-Smtp-Source: AGHT+IEAw64ITGn8zD/hrRbeUOfr6CVBTtqOx2AytEM6FmJ0zbi/4CWzzukSKnh07psQlzMotc3J4g==
-X-Received: by 2002:a2e:9d83:0:b0:2bd:102c:4161 with SMTP id c3-20020a2e9d83000000b002bd102c4161mr7720596ljj.43.1696586543483;
-        Fri, 06 Oct 2023 03:02:23 -0700 (PDT)
-Received: from PC10319.67 ([82.97.198.254])
-        by smtp.googlemail.com with ESMTPSA id x12-20020a2e9dcc000000b002bcedacd726sm713674ljj.25.2023.10.06.03.02.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 03:02:23 -0700 (PDT)
-From: Konstantin Aladyshev <aladyshev22@gmail.com>
-To: 
-Subject: [PATCH v4 2/3] ipmi: Create header with KCS interface defines
-Date: Fri,  6 Oct 2023 13:02:13 +0300
-Message-Id: <20231006100214.396-3-aladyshev22@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231006100214.396-1-aladyshev22@gmail.com>
-References: <20231006100214.396-1-aladyshev22@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S2MJg46hSz3bPM
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  7 Oct 2023 08:39:31 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 6669461B53;
+	Fri,  6 Oct 2023 21:39:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD9BC433C9;
+	Fri,  6 Oct 2023 21:39:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696628368;
+	bh=2XziYcmjBQwlHQ8WEyRONsKUONRLFG9IYWm+kWdCfdQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WtHKJAnumyWwN6Ciax6SvYhzJ3vyq+rbg41/4VP1xSVJ+NxVzQTDBqaNxGZ/CHUVC
+	 F4fhrev+XNLFauaBsfhPEWAz9JxqCtVMe2QrrT6J5S0fjfpgMwdrO4mFuEZ2vvVA1r
+	 +rW+efnyEjSqtWic+5vfK3grmgwgkgh94fO2UFilHOx2FnXHX1xVIJ4feCeIohqbPy
+	 DRt4WjmxEjU4JS7mDmABQc/mioPuz38BsvFP/OxBKJZNt5jQwmOVPqlBRUspcYqfRe
+	 Nv2spYh1jdV9w0i3BOqNp9hQRfRWiprXa6QI8RgdRqtAC8hggmEW7cL5lLWkEfVjm/
+	 63N6yj698wwjg==
+Received: (nullmailer pid 333873 invoked by uid 1000);
+	Fri, 06 Oct 2023 21:39:26 -0000
+From: Rob Herring <robh@kernel.org>
+To: Neal Liu <neal_liu@aspeedtech.com>, Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH] crypto: aspeed-hace: Use device_get_match_data()
+Date: Fri,  6 Oct 2023 16:39:17 -0500
+Message-Id: <20231006213917.333702-1-robh@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -78,203 +58,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, tali.perry1@gmail.com, edumazet@google.com, jk@codeconstruct.com.au, matt@codeconstruct.com.au, openbmc@lists.ozlabs.org, yuenn@google.com, kuba@kernel.org, pabeni@redhat.com, minyard@acm.org, aladyshev22@gmail.com, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org, venture@google.com, linux-kernel@vger.kernel.org, avifishman70@gmail.com, netdev@vger.kernel.org, davem@davemloft.net
+Cc: linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Some definitions from the current kcs_bmc_cdev_ipmi driver can be also
-utilized by the MTCP KCS binding driver. Move such definitions to the
-common header file.
+Use preferred device_get_match_data() instead of of_match_device() to
+get the driver match data. With this, adjust the includes to explicitly
+include the correct headers.
 
-Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/char/ipmi/kcs_bmc_cdev_ipmi.c | 71 +-----------------------
- include/linux/ipmi_kcs.h              | 80 +++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+), 70 deletions(-)
- create mode 100644 include/linux/ipmi_kcs.h
+ drivers/crypto/aspeed/aspeed-hace.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/char/ipmi/kcs_bmc_cdev_ipmi.c b/drivers/char/ipmi/kcs_bmc_cdev_ipmi.c
-index bf1001130a6c..f158f676114c 100644
---- a/drivers/char/ipmi/kcs_bmc_cdev_ipmi.c
-+++ b/drivers/char/ipmi/kcs_bmc_cdev_ipmi.c
-@@ -8,6 +8,7 @@
- #include <linux/errno.h>
+diff --git a/drivers/crypto/aspeed/aspeed-hace.c b/drivers/crypto/aspeed/aspeed-hace.c
+index 8f7aab82e1d8..d9da04fb816e 100644
+--- a/drivers/crypto/aspeed/aspeed-hace.c
++++ b/drivers/crypto/aspeed/aspeed-hace.c
+@@ -12,11 +12,9 @@
  #include <linux/io.h>
- #include <linux/ipmi_bmc.h>
-+#include <linux/ipmi_kcs.h>
- #include <linux/kcs_bmc_client.h>
- #include <linux/list.h>
- #include <linux/miscdevice.h>
-@@ -19,53 +20,6 @@
- #include <linux/slab.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
+-#include <linux/of_irq.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
++#include <linux/property.h>
  
- 
--/* Different phases of the KCS BMC module.
-- *  KCS_PHASE_IDLE:
-- *            BMC should not be expecting nor sending any data.
-- *  KCS_PHASE_WRITE_START:
-- *            BMC is receiving a WRITE_START command from system software.
-- *  KCS_PHASE_WRITE_DATA:
-- *            BMC is receiving a data byte from system software.
-- *  KCS_PHASE_WRITE_END_CMD:
-- *            BMC is waiting a last data byte from system software.
-- *  KCS_PHASE_WRITE_DONE:
-- *            BMC has received the whole request from system software.
-- *  KCS_PHASE_WAIT_READ:
-- *            BMC is waiting the response from the upper IPMI service.
-- *  KCS_PHASE_READ:
-- *            BMC is transferring the response to system software.
-- *  KCS_PHASE_ABORT_ERROR1:
-- *            BMC is waiting error status request from system software.
-- *  KCS_PHASE_ABORT_ERROR2:
-- *            BMC is waiting for idle status afer error from system software.
-- *  KCS_PHASE_ERROR:
-- *            BMC has detected a protocol violation at the interface level.
-- */
--enum kcs_ipmi_phases {
--	KCS_PHASE_IDLE,
--
--	KCS_PHASE_WRITE_START,
--	KCS_PHASE_WRITE_DATA,
--	KCS_PHASE_WRITE_END_CMD,
--	KCS_PHASE_WRITE_DONE,
--
--	KCS_PHASE_WAIT_READ,
--	KCS_PHASE_READ,
--
--	KCS_PHASE_ABORT_ERROR1,
--	KCS_PHASE_ABORT_ERROR2,
--	KCS_PHASE_ERROR
--};
--
--/* IPMI 2.0 - Table 9-4, KCS Interface Status Codes */
--enum kcs_ipmi_errors {
--	KCS_NO_ERROR                = 0x00,
--	KCS_ABORTED_BY_COMMAND      = 0x01,
--	KCS_ILLEGAL_CONTROL_CODE    = 0x02,
--	KCS_LENGTH_ERROR            = 0x06,
--	KCS_UNSPECIFIED_ERROR       = 0xFF
--};
--
- struct kcs_bmc_ipmi {
- 	struct list_head entry;
- 
-@@ -95,29 +49,6 @@ struct kcs_bmc_ipmi {
- 
- #define KCS_MSG_BUFSIZ    1000
- 
--#define KCS_ZERO_DATA     0
--
--/* IPMI 2.0 - Table 9-1, KCS Interface Status Register Bits */
--#define KCS_STATUS_STATE(state) (state << 6)
--#define KCS_STATUS_STATE_MASK   GENMASK(7, 6)
--#define KCS_STATUS_CMD_DAT      BIT(3)
--#define KCS_STATUS_SMS_ATN      BIT(2)
--#define KCS_STATUS_IBF          BIT(1)
--#define KCS_STATUS_OBF          BIT(0)
--
--/* IPMI 2.0 - Table 9-2, KCS Interface State Bits */
--enum kcs_states {
--	IDLE_STATE  = 0,
--	READ_STATE  = 1,
--	WRITE_STATE = 2,
--	ERROR_STATE = 3,
--};
--
--/* IPMI 2.0 - Table 9-3, KCS Interface Control Codes */
--#define KCS_CMD_GET_STATUS_ABORT  0x60
--#define KCS_CMD_WRITE_START       0x61
--#define KCS_CMD_WRITE_END         0x62
--#define KCS_CMD_READ_BYTE         0x68
- 
- static inline void set_state(struct kcs_bmc_ipmi *priv, u8 state)
+ #ifdef CONFIG_CRYPTO_DEV_ASPEED_DEBUG
+ #define HACE_DBG(d, fmt, ...)	\
+@@ -101,7 +99,6 @@ static const struct of_device_id aspeed_hace_of_matches[] = {
+ static int aspeed_hace_probe(struct platform_device *pdev)
  {
-diff --git a/include/linux/ipmi_kcs.h b/include/linux/ipmi_kcs.h
-new file mode 100644
-index 000000000000..30c4b6e4d689
---- /dev/null
-+++ b/include/linux/ipmi_kcs.h
-@@ -0,0 +1,80 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2015-2018, Intel Corporation.
-+ */
-+
-+#ifndef __IPMI_KCS_H__
-+#define __IPMI_KCS_H__
-+
-+/* Different phases of the KCS BMC module.
-+ *  KCS_PHASE_IDLE:
-+ *            BMC should not be expecting nor sending any data.
-+ *  KCS_PHASE_WRITE_START:
-+ *            BMC is receiving a WRITE_START command from system software.
-+ *  KCS_PHASE_WRITE_DATA:
-+ *            BMC is receiving a data byte from system software.
-+ *  KCS_PHASE_WRITE_END_CMD:
-+ *            BMC is waiting a last data byte from system software.
-+ *  KCS_PHASE_WRITE_DONE:
-+ *            BMC has received the whole request from system software.
-+ *  KCS_PHASE_WAIT_READ:
-+ *            BMC is waiting the response from the upper IPMI service.
-+ *  KCS_PHASE_READ:
-+ *            BMC is transferring the response to system software.
-+ *  KCS_PHASE_ABORT_ERROR1:
-+ *            BMC is waiting error status request from system software.
-+ *  KCS_PHASE_ABORT_ERROR2:
-+ *            BMC is waiting for idle status afer error from system software.
-+ *  KCS_PHASE_ERROR:
-+ *            BMC has detected a protocol violation at the interface level.
-+ */
-+enum kcs_ipmi_phases {
-+	KCS_PHASE_IDLE,
-+
-+	KCS_PHASE_WRITE_START,
-+	KCS_PHASE_WRITE_DATA,
-+	KCS_PHASE_WRITE_END_CMD,
-+	KCS_PHASE_WRITE_DONE,
-+
-+	KCS_PHASE_WAIT_READ,
-+	KCS_PHASE_READ,
-+
-+	KCS_PHASE_ABORT_ERROR1,
-+	KCS_PHASE_ABORT_ERROR2,
-+	KCS_PHASE_ERROR
-+};
-+
-+/* IPMI 2.0 - Table 9-4, KCS Interface Status Codes */
-+enum kcs_ipmi_errors {
-+	KCS_NO_ERROR                = 0x00,
-+	KCS_ABORTED_BY_COMMAND      = 0x01,
-+	KCS_ILLEGAL_CONTROL_CODE    = 0x02,
-+	KCS_LENGTH_ERROR            = 0x06,
-+	KCS_UNSPECIFIED_ERROR       = 0xFF
-+};
-+
-+#define KCS_ZERO_DATA     0
-+
-+/* IPMI 2.0 - Table 9-1, KCS Interface Status Register Bits */
-+#define KCS_STATUS_STATE(state) (state << 6)
-+#define KCS_STATUS_STATE_MASK   GENMASK(7, 6)
-+#define KCS_STATUS_CMD_DAT      BIT(3)
-+#define KCS_STATUS_SMS_ATN      BIT(2)
-+#define KCS_STATUS_IBF          BIT(1)
-+#define KCS_STATUS_OBF          BIT(0)
-+
-+/* IPMI 2.0 - Table 9-2, KCS Interface State Bits */
-+enum kcs_states {
-+	IDLE_STATE  = 0,
-+	READ_STATE  = 1,
-+	WRITE_STATE = 2,
-+	ERROR_STATE = 3,
-+};
-+
-+/* IPMI 2.0 - Table 9-3, KCS Interface Control Codes */
-+#define KCS_CMD_GET_STATUS_ABORT  0x60
-+#define KCS_CMD_WRITE_START       0x61
-+#define KCS_CMD_WRITE_END         0x62
-+#define KCS_CMD_READ_BYTE         0x68
-+
-+#endif /* __IPMI_KCS_H__ */
+ 	struct aspeed_engine_crypto *crypto_engine;
+-	const struct of_device_id *hace_dev_id;
+ 	struct aspeed_engine_hash *hash_engine;
+ 	struct aspeed_hace_dev *hace_dev;
+ 	int rc;
+@@ -111,14 +108,13 @@ static int aspeed_hace_probe(struct platform_device *pdev)
+ 	if (!hace_dev)
+ 		return -ENOMEM;
+ 
+-	hace_dev_id = of_match_device(aspeed_hace_of_matches, &pdev->dev);
+-	if (!hace_dev_id) {
++	hace_dev->version = (uintptr_t)device_get_match_data(&pdev->dev);
++	if (!hace_dev->version) {
+ 		dev_err(&pdev->dev, "Failed to match hace dev id\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	hace_dev->dev = &pdev->dev;
+-	hace_dev->version = (unsigned long)hace_dev_id->data;
+ 	hash_engine = &hace_dev->hash_engine;
+ 	crypto_engine = &hace_dev->crypto_engine;
+ 
 -- 
-2.25.1
+2.40.1
 
