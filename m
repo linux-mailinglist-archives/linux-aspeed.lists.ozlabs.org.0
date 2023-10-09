@@ -1,45 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574397BC628
-	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Oct 2023 10:44:50 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB037BD779
+	for <lists+linux-aspeed@lfdr.de>; Mon,  9 Oct 2023 11:45:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S2f4F3Jkfz3dy3
-	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Oct 2023 19:44:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S3vKR0g08z3cCb
+	for <lists+linux-aspeed@lfdr.de>; Mon,  9 Oct 2023 20:45:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.188; helo=szxga02-in.huawei.com; envelope-from=ruanjinjie@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S2f413PwVz3c8x;
-	Sat,  7 Oct 2023 19:44:28 +1100 (AEDT)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4S2dzG24c5zNpCp;
-	Sat,  7 Oct 2023 16:40:26 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sat, 7 Oct
- 2023 16:44:20 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	Eddie James <eajames@linux.ibm.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
-	<andrew@codeconstruct.com.au>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Jammy
- Huang <jammy_huang@aspeedtech.com>
-Subject: [PATCH v2] media: aspeed: Drop unnecessary error check for debugfs_create_file()
-Date: Sat, 7 Oct 2023 16:43:39 +0800
-Message-ID: <20231007084339.3160130-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S3vKJ072Rz3c2K
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  9 Oct 2023 20:45:22 +1100 (AEDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qpmp1-0001tv-8c; Mon, 09 Oct 2023 11:45:07 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qpmp0-000NiB-0s; Mon, 09 Oct 2023 11:45:06 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qpmoz-00C5gK-Nc; Mon, 09 Oct 2023 11:45:05 +0200
+Date: Mon, 9 Oct 2023 11:45:05 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH 08/36] gpio: aspeed: use new pinctrl GPIO helpers
+Message-ID: <20231009094505.7dqr7bqchsfacob2@pengutronix.de>
+References: <20231003145114.21637-1-brgl@bgdev.pl>
+ <20231003145114.21637-9-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kdj4cj2zh6h5bonq"
+Content-Disposition: inline
+In-Reply-To: <20231003145114.21637-9-brgl@bgdev.pl>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,68 +56,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: ruanjinjie@huawei.com
+Cc: Andy Shevchenko <andy@kernel.org>, linux-aspeed@lists.ozlabs.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-debugfs_create_file() return ERR_PTR and never return NULL.
 
-When calling debugfs functions, there is no need to ever check the
-return value. The function can work or not, but the code logic should
-never do something different based on this.
+--kdj4cj2zh6h5bonq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 52fed10ad756 ("media: aspeed: add debugfs")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-v2:
-- Remove the err check instead of using IS_ERR to replace NULL check.
-- Add suggested-by.
-- Update the commit title and message.
----
- drivers/media/platform/aspeed/aspeed-video.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+On Tue, Oct 03, 2023 at 04:50:46PM +0200, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>=20
+> Replace the pinctrl helpers taking the global GPIO number as argument
+> with the improved variants that instead take a pointer to the GPIO chip
+> and the controller-relative offset.
+>=20
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index a9c2c69b2ed9..d08aa7f73d4f 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1970,22 +1970,15 @@ static void aspeed_video_debugfs_remove(struct aspeed_video *video)
- 	debugfs_entry = NULL;
- }
- 
--static int aspeed_video_debugfs_create(struct aspeed_video *video)
-+static void aspeed_video_debugfs_create(struct aspeed_video *video)
- {
- 	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
- 					    video,
- 					    &aspeed_video_debugfs_fops);
--	if (!debugfs_entry)
--		aspeed_video_debugfs_remove(video);
--
--	return !debugfs_entry ? -EIO : 0;
- }
- #else
- static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
--static int aspeed_video_debugfs_create(struct aspeed_video *video)
--{
--	return 0;
--}
-+static void aspeed_video_debugfs_create(struct aspeed_video *video) { }
- #endif /* CONFIG_DEBUG_FS */
- 
- static int aspeed_video_setup_video(struct aspeed_video *video)
-@@ -2198,9 +2191,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 		return rc;
- 	}
- 
--	rc = aspeed_video_debugfs_create(video);
--	if (rc)
--		dev_err(video->dev, "debugfs create failed\n");
-+	aspeed_video_debugfs_create(video);
- 
- 	return 0;
- }
--- 
-2.34.1
+LGTM,
 
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+Thanks
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--kdj4cj2zh6h5bonq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUjy6AACgkQj4D7WH0S
+/k6qoQf/QgX2VImQbcDP+Ep8LFEbx4XycgpkcFvRESPRn1tP2rs+Gdk1FY9VGEu6
+1h3n1+03hdOR0sFij5gcQVPRwc2Kf1j3UjEDV375o++yvqwhmrCEpnnGAYQkl4IQ
+/A3bg1hz0r4IsHORu4zPc1tt532WEPIaJj8uGmggTA4C0S7Ri/f6PRXJ8J6q0xPb
+yiLdz6kM/aFZBg9VD7IIa8KVP036aDL0N5Cxy6LInfdT7/73feIo5op61pHM9L+x
+ntoZxFV1ffx0FCutyq0SlD8rgtYSQNtm93r6pvLuBOaS8oISurvdU8ziTf9NXR7E
+F7/aguTCgLbW0xoWkj7s8nlboLkRIQ==
+=mzzj
+-----END PGP SIGNATURE-----
+
+--kdj4cj2zh6h5bonq--
