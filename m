@@ -1,94 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A887BE185
-	for <lists+linux-aspeed@lfdr.de>; Mon,  9 Oct 2023 15:51:09 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 738837BEF09
+	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Oct 2023 01:21:06 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=EZ0CRI7w;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=MDVFhqOU;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S40mq0x3Dz3cFq
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Oct 2023 00:51:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S4FQS0JH3z3cNk
+	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Oct 2023 10:21:04 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=EZ0CRI7w;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=MDVFhqOU;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S40mf3m32z3cBK;
-	Tue, 10 Oct 2023 00:50:58 +1100 (AEDT)
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 399DlQpn004790;
-	Mon, 9 Oct 2023 13:50:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=pw+QQksQadWIgnFZNk+Puxy7QV1QN65+aZdJTCJHqL0=;
- b=EZ0CRI7w68lI6zyNV88ta/P3spp/w3opYEhPt91FP+yxWfQ615I3XTiRKDmgAS0KqyDM
- 3udZ9apSxLuMPSmwJIa6ZE8hItLUbUUGdT7ekKS8GKXTRNIQXBErgzNeja0DOjaOvioN
- f+Gmh2vG4Uy8Dk+OA8iQPISl1YwAkF0bvWZ5DFM0tXlZIed/RoEqmZ1B7dxPFD3LnZmr
- ucmPSTpGtM84M+twdSOtNFLTRqThYb0VHVxJd7U/UuJz/in+gHuSP6ALpeeWx8KC8jDX
- tjw2UgKYWrkKTKsGeWI1gupsyGsTWfgFk4TqvZ4NBIQ0hivHpK5mUwoshi55NqSfzp4a Ig== 
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tmjq8840b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Oct 2023 13:50:25 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 399CkiDM000693;
-	Mon, 9 Oct 2023 13:50:24 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3tkk5k94xk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Oct 2023 13:50:24 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 399DoNNX63832530
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 9 Oct 2023 13:50:23 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 538C95806C;
-	Mon,  9 Oct 2023 13:50:23 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 15C425806E;
-	Mon,  9 Oct 2023 13:50:23 +0000 (GMT)
-Received: from [9.61.118.13] (unknown [9.61.118.13])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  9 Oct 2023 13:50:23 +0000 (GMT)
-Message-ID: <a606fd9a-5cc0-1158-e72e-f675f19c9dd8@linux.ibm.com>
-Date: Mon, 9 Oct 2023 08:50:22 -0500
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S4FQG184jz3cTc
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Oct 2023 10:20:53 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-84-62.adl-adc-lon-bras32.tpg.internode.on.net [118.210.84.62])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 829A220172;
+	Tue, 10 Oct 2023 07:20:45 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1696893649;
+	bh=JTRSLBNiIkCIhjXig6lczJ6V8eRPuYQWUv51vi2IL1I=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=MDVFhqOUc3knrJ+wCEcPV1zgCQWdqYPDsn0RyZ2HUGmkB+QKsr3n4wDaXO6aefpog
+	 D0GqC5qQqgaB0MOb4DBlXebh4rVmrTrGDOcOY/m8YcTpG8GACYECyqvqU45NrhRJmJ
+	 7yUIBIK6lJR3HljSrGWYe6NfnE5kYLv3fxEWdkGl2xqrR4KC3g/hnj88hZqsRtwfws
+	 oMdhcbHiATD0rT9kI6t7FgyDZhJDoLBovkRf0LH8o0BIQaRzxYZI48hdUXU6wpzv2u
+	 FnOyg44+Aw/GTbRaczc3FlDSut7uxTqIusCwwQy73k0TZ2Kmk0pKsBgRcQBzghR3IV
+	 lGErUHnepoE9w==
+Message-ID: <e303d57d5bac0bb8227e09ef6eea5867cf7866d9.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] crypto: aspeed-hace: Use device_get_match_data()
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Rob Herring <robh@kernel.org>, Neal Liu <neal_liu@aspeedtech.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>, Joel Stanley <joel@jms.id.au>
+Date: Tue, 10 Oct 2023 09:50:42 +1030
+In-Reply-To: <20231006213917.333702-1-robh@kernel.org>
+References: <20231006213917.333702-1-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2] media: aspeed: Drop unnecessary error check for
- debugfs_create_file()
-To: Jinjie Ruan <ruanjinjie@huawei.com>, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jammy Huang <jammy_huang@aspeedtech.com>
-References: <20231007084339.3160130-1-ruanjinjie@huawei.com>
-Content-Language: en-US
-From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <20231007084339.3160130-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: j128ooKeKZHll53gcka645iUhCJJqyIV
-X-Proofpoint-ORIG-GUID: j128ooKeKZHll53gcka645iUhCJJqyIV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-09_11,2023-10-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 spamscore=0 bulkscore=0 clxscore=1011 phishscore=0
- mlxlogscore=999 malwarescore=0 suspectscore=0 lowpriorityscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2310090113
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,73 +59,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Fri, 2023-10-06 at 16:39 -0500, Rob Herring wrote:
+> Use preferred device_get_match_data() instead of of_match_device() to
+> get the driver match data. With this, adjust the includes to explicitly
+> include the correct headers.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-On 10/7/23 03:43, Jinjie Ruan wrote:
-> debugfs_create_file() return ERR_PTR and never return NULL.
->
-> When calling debugfs functions, there is no need to ever check the
-> return value. The function can work or not, but the code logic should
-> never do something different based on this.
-
-
-Thanks!
-
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
-
-
->
-> Fixes: 52fed10ad756 ("media: aspeed: add debugfs")
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> v2:
-> - Remove the err check instead of using IS_ERR to replace NULL check.
-> - Add suggested-by.
-> - Update the commit title and message.
-> ---
->   drivers/media/platform/aspeed/aspeed-video.c | 15 +++------------
->   1 file changed, 3 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-> index a9c2c69b2ed9..d08aa7f73d4f 100644
-> --- a/drivers/media/platform/aspeed/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed/aspeed-video.c
-> @@ -1970,22 +1970,15 @@ static void aspeed_video_debugfs_remove(struct aspeed_video *video)
->   	debugfs_entry = NULL;
->   }
->   
-> -static int aspeed_video_debugfs_create(struct aspeed_video *video)
-> +static void aspeed_video_debugfs_create(struct aspeed_video *video)
->   {
->   	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
->   					    video,
->   					    &aspeed_video_debugfs_fops);
-> -	if (!debugfs_entry)
-> -		aspeed_video_debugfs_remove(video);
-> -
-> -	return !debugfs_entry ? -EIO : 0;
->   }
->   #else
->   static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
-> -static int aspeed_video_debugfs_create(struct aspeed_video *video)
-> -{
-> -	return 0;
-> -}
-> +static void aspeed_video_debugfs_create(struct aspeed_video *video) { }
->   #endif /* CONFIG_DEBUG_FS */
->   
->   static int aspeed_video_setup_video(struct aspeed_video *video)
-> @@ -2198,9 +2191,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
->   		return rc;
->   	}
->   
-> -	rc = aspeed_video_debugfs_create(video);
-> -	if (rc)
-> -		dev_err(video->dev, "debugfs create failed\n");
-> +	aspeed_video_debugfs_create(video);
->   
->   	return 0;
->   }
+Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
