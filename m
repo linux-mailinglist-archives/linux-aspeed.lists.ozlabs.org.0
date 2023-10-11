@@ -2,63 +2,116 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4667C4786
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Oct 2023 03:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAF07C4876
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Oct 2023 05:27:43 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=USJai6k6;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=mtDwDAsK;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S4wm95TJhz3c5c
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Oct 2023 12:53:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S4yrY166cz3cC3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Oct 2023 14:27:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=USJai6k6;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=mtDwDAsK;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::635; helo=mail-ej1-x635.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::70f; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=neal_liu@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2070f.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::70f])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S4wkx5Ks6z3vZg;
-	Wed, 11 Oct 2023 12:52:41 +1100 (AEDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9adca291f99so1062350866b.2;
-        Tue, 10 Oct 2023 18:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1696989158; x=1697593958; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=luUw5tqGQ3BU2f4zRF8kts9D/h2ull0YaqRJxHMMH9o=;
-        b=USJai6k6ubTwRbI+EfW8ty+50loRmBYC0KZ/HJHmkf3LLNn1oMeGxRRLmGXtrtg34w
-         BvvlLidIUX5PvYiPJnjPqrUB4s6tt+jHONkTdGpFnUMNOiYIRkgaNzvvq9hDc2BPJNro
-         R4DlUeZYrtF7hQR6BxFZ+F3e9KLDGMPBtq4Rs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696989158; x=1697593958;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=luUw5tqGQ3BU2f4zRF8kts9D/h2ull0YaqRJxHMMH9o=;
-        b=mbbDFeUsNfuKRC3sa7nzEXPrY2R0NjNhnzn+PpwxU3WcTU0ImTpIEd8OjnMdnnSstp
-         2s4DFhoil6w2Dkp2GynoFMNZW66H4E6wMIFU3Qz2Zuf+k9w1pa6KKdy+3V2v/C+7ujYg
-         LmbtbF/N7Et985yhYBroX7Phy9ca/Mk5oCX4oE3stzx2NopcSndZfatXRHg+6xhXz6wT
-         XuAei7IZE1zex/wK2hJpaHFELASEKHzV9UCb9tn1fRN/2v0H3+FMOFfhIlA+1C6e1yV0
-         ZjZkvkud6igBwsyP4NKq9pgCfA9+hmFfwu2phPBsgUeB5Gj2WEz759eAGNyN1Z87yLQm
-         KrNQ==
-X-Gm-Message-State: AOJu0YwmppceBVykVwMbmJOXmTcMPzus5riRAczc9sA0Ftl1UkFLl0ZB
-	sC+CuiQF1CuoM20NYu4L2tpsBMMJc1T30mdJ0xw=
-X-Google-Smtp-Source: AGHT+IF3xxxedApqqgkmd6UpoOa2FEJjAqgkiL1GacDU0VEwrkGybGeOFwHXsM6784ZOvbnnHBcngKb3QSFjnv4Wn8M=
-X-Received: by 2002:a17:907:2723:b0:9a5:d657:47ee with SMTP id
- d3-20020a170907272300b009a5d65747eemr16776999ejl.58.1696989158194; Tue, 10
- Oct 2023 18:52:38 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S4yrM6hJHz30Jc
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Oct 2023 14:27:11 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U+XIlDSPTLeOrlP+9czgVIXdRC9Ke8MF/xv8QCgqPoizVfcq/ZPPMGLwIpUgx2Bic/VF+pejbeqzmm+2sh7Uj+a3g9GMvlwJMHxeccelWpbKSv0NHpP8oMs6+YNPy9fCwDkRN/yDjR3ggsHIJC3FG1eadRq6zGVoTAW8jiQWpizAsotxFFeb/1ALZQF0YxdD77a3N2ArI6+J3gPhZkEciKOMe09UCpdWW7om+zyAbk77g1uFUgaa0vAz+35Urj/8GfkjoTDhmvq4alJ7HyZ6gakluUGOnkzLul82BkZA67UrwLH+02QH7pfmnX4oxQ7WmXK+GZw2TKRP3Tz2mde/qw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Romv5UKyhMV2yJCVrLi8rdpg4RqaqZ1hXBDLsxRRJmg=;
+ b=LrAyxkeHxjFGSzQZ/7ZKy4aHk+1DZNqq+hAhoy9YfpiptgtN9TNUH3123/t3hr9IXb3rVk+9636b+b+XPrcTOEAdw51eLy4ESt046Vw3Evl4+QFswsbqK35pr3dTYjsg32UAZSba9zdIEL/qgqqdWS/SLnJjc8YgGArn3hoW2FuVgvmCDCPHYUwL4zW+e2YY8DZmjZd+4ZGAlw0+v8XWs3uhi/kGmtZp3xpqkNCs/nCxY9hRBI7RZlGnddoMww9BQPF5QQtczHp+bwsVpC+wsNYQS5Sh1lr0XsF8YEgM7WGn9kUWXrk+impO7SzzQjbwhm/FCfzjk/Jxxjb58hLcCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Romv5UKyhMV2yJCVrLi8rdpg4RqaqZ1hXBDLsxRRJmg=;
+ b=mtDwDAsKBpPLbs3gGia3liOEVEYuiqiCj5A3P3xySWHuADUw46VfX32vU04rSoC+Qb1MUuXj1VYd99LdhsLUJf4oXeP005ZmqEhV1Ikf14R04JNTqKGPp0XWYT6yh5pY2dfz7t1yMJUMXd28fWP+6a+5IRA0c3kNg8B3/Qh9dOmU9sHUvE+GO+NoO0q+vRnTIv/t2oXfA7uHhfZy/2TRv3j/9NLIkO3eIFGCUtoEYFsc+yBlUmsDOWTVJJgNufuIsxqHaoH/v7vypICJemSvbSP3uNcdA28mgmlyklifNhBbf/LtlHHl2ZEiu8NAiHthNoxlC3SfUrH4N3yiZdKYQw==
+Received: from TYZPR06MB6770.apcprd06.prod.outlook.com (2603:1096:400:45e::12)
+ by PSAPR06MB4184.apcprd06.prod.outlook.com (2603:1096:301:36::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.42; Wed, 11 Oct
+ 2023 03:26:43 +0000
+Received: from TYZPR06MB6770.apcprd06.prod.outlook.com
+ ([fe80::1ed6:569e:e826:62c2]) by TYZPR06MB6770.apcprd06.prod.outlook.com
+ ([fe80::1ed6:569e:e826:62c2%4]) with mapi id 15.20.6863.040; Wed, 11 Oct 2023
+ 03:26:42 +0000
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Rob Herring <robh@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: RE: [PATCH] crypto: aspeed-hace: Use device_get_match_data()
+Thread-Topic: [PATCH] crypto: aspeed-hace: Use device_get_match_data()
+Thread-Index: AQHZ+J2crJyBQdSH9UyM9EfsuHkdSrBD8ykQ
+Date: Wed, 11 Oct 2023 03:26:42 +0000
+Message-ID:  <TYZPR06MB6770154F3A65CE1E6AF7283080CCA@TYZPR06MB6770.apcprd06.prod.outlook.com>
+References: <20231006213917.333702-1-robh@kernel.org>
+In-Reply-To: <20231006213917.333702-1-robh@kernel.org>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR06MB6770:EE_|PSAPR06MB4184:EE_
+x-ms-office365-filtering-correlation-id: c1e40ac5-ec17-4c47-3504-08dbca09e3d4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  v2bSIPmSvvIbxgk/CkVNq7YlKjngwCovHRNrILwoA+TWnkUjmD7l0YwY2G3Og2jEr0PLpRV5FLFvjRHzt4kvehkYV5T5R2KCtGmT0ShWc8gneJRt2KRHE85c+HBeTj6j3CRk821vZTwfC8ba13txQagIzn3OmXgQo91k9A37NJN9/f3knCREE+EQkIeAdRJhJgisA8+Y4H1AZKxAaSlLLpDB6eNx/DhCuOzPhFCYT1i11NqYIaIi9NnbrGZWEMAX8HXShmsxmlYkI7iGA+jMaXoP4ZXSgMdJvZBzE09y2JszmxuZte4j2Jb8ctrRLFoNA9fF7Oln8hqInsOCZgPqIR6w+l7mYujNOlfkdMxhDBAU3x9y0zOfpo575GTNF1jEULsj4VKaHkd2/d7qTDwMBjxjyptL9euR5yLHz/+a6xEaSdNAh25rbACsDZQkBqanhpnmv4W72+9YR/tDDciGM8D8Ww95IJXMVqa0UMKPPF1CbTvbAMDcfRVINrYc0qOif9AO85O4JRqQHkzhwZR4a8l3dXEHTS/y9ZDgi6D/eXATYmPa7CCZFk4ol6A7vRM51q07E3QjPkzcCKNgC11sCR9FVvz+m9W1Y/TtIY6i8Cc8orzI7wG+P/wfVnAbLVIm
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6770.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39840400004)(136003)(376002)(396003)(366004)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(55016003)(38100700002)(316002)(76116006)(52536014)(8676002)(8936002)(66946007)(4326008)(64756008)(54906003)(66446008)(66556008)(66476007)(41300700001)(5660300002)(478600001)(558084003)(71200400001)(2906002)(110136005)(33656002)(86362001)(6506007)(7696005)(122000001)(9686003)(38070700005)(26005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?jEllnyoFYtKisCeZAkBRnMJ6lG4qX3s6A2XrbqU8u7FVY/9kIcAihgFR+Zk2?=
+ =?us-ascii?Q?apooLk5N7FIbuh1AATUVe3e6J9LW8B8LUmwWJetLBVF4sRKojJw2x247HtYE?=
+ =?us-ascii?Q?k74gSaW+dz1zYY6WeDJs0MfPLZcGmVZDUeAPk6WRsVSEInh0FYJOiMPp5bhc?=
+ =?us-ascii?Q?s3lEsRS7hIMlYKoqEOz6ZS4BV3zLxIuMnO6s9L7iUMIinV2wpv2lOKuj7ir4?=
+ =?us-ascii?Q?IIiYuiDtWL0YDvaGy2bJ/1uCOaMlC/Amfgy8fECmd6i1gvZ+EAmPNUAZO376?=
+ =?us-ascii?Q?x3EwkEQuX2jg4amy68IOkKDzx8OxWiF9iOSQw6gjTWCzH7eucGm6vUnh+aKp?=
+ =?us-ascii?Q?Lo0cDLAbqnN8NFyB0ze49jyk4GpuvOMNcD6yyUEJ2a/zprKilkqG0Xys4L0g?=
+ =?us-ascii?Q?bgpHip3dxYaHy8zEor06skUyfeoPlE0G22M6nGWgcQS7nM4fuuSpXYs8VunW?=
+ =?us-ascii?Q?qr1vvVbw9V69EPFuuRivtE1Hr8BhO9epYfYTK/R54l9u0/oJRlw08+qlRtuN?=
+ =?us-ascii?Q?Y6lu7Es7kY0T995l8mvKdJqMGZcPfzpx9u3fvURBw/9/jTI/bikLz6PjAniP?=
+ =?us-ascii?Q?NN/yrB3t2ND+hi9lJSyNYXspK+M8m3wUlmFukVlCSQu+U5aBMyuEEb3H0Ciu?=
+ =?us-ascii?Q?2Eo+B858GvPMW2yGETrBrnfVAsOpb/zDJrs1wAa0APs72ot/pjA6vl6gloYB?=
+ =?us-ascii?Q?prFhE1tLTH1qskm2AVEVNejdG+VF2FqdYdbb/vIyOiJbJIroOUCStGT05vXx?=
+ =?us-ascii?Q?TpWVfH0/r9d2cFohr32bf9U/q5AelVNyLEpeBOJrDo5nhSHh0g/9IHtu2vO6?=
+ =?us-ascii?Q?6Xy3f8ZKe5t+P+jV1fj9O/mfNRxczwpS9Lc0DsP99vmPHXN5Y8yf2Ll2WnqN?=
+ =?us-ascii?Q?oY1xBXLCuMJnJPPrcnYg1f1fa6eVoRZNkK5bTbIEGULu8nzIZwU0olAyDUIs?=
+ =?us-ascii?Q?+qCSGJ0Q+hiIjCtv+rOsC+eqfWEOIXg97lrTiCAsbioT8WoyNAtb8nulfaRZ?=
+ =?us-ascii?Q?hUJ/B1pshfshCzo/9StqOr3SLeCOyMRIFrj2nEe7AeG2B3SwtcbSSVBCg8kl?=
+ =?us-ascii?Q?HSkMZ4tZtkWvKrm3IETwF5K2Qg2WykUZ5ACHMrQko2hbmoHTeg7Kcme3WH1e?=
+ =?us-ascii?Q?PtIAkLvbOZS8nWuJWRl2swjOS3P6EeKvSsdB+OQ0p8YBZecAVsoChxHzf0Cl?=
+ =?us-ascii?Q?hwGssTW/lIgekHEGBLOkrBCzxzYZLAfWhxnQ60Dr++ClMcW/lyC2f55O8RWf?=
+ =?us-ascii?Q?dU3cgL8f7hhUvSY/NSDgGi+VwvUlXVVCT2hErcPDNzBRE9Az2CMXBfj7hd4z?=
+ =?us-ascii?Q?Emn28NVXwyhpwVIx9lvAfou5i4oFVPvB6jy2ixxKcOQqH5pIDjQElXcGh7xE?=
+ =?us-ascii?Q?EwYrB5lzbKw6mLuFsn9gHubkl/Cja7L2yINkmBiUYFky7wWFO2ShVgjmaoDC?=
+ =?us-ascii?Q?DkfCr2h6iKCe0NFpaLmTxahxSRW6byTTuhcahyn5CjO7zDH7P5qabfkwquud?=
+ =?us-ascii?Q?RAaFYKJ1cHix/8/DE3NSFd8Yw+yNyp/1acipSoqjqDp/DTE/KCTzoPpDUyAQ?=
+ =?us-ascii?Q?rAVg5ExoqJzbtIxkdk316vIp3Qb6M9gwaV/L1mB3?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20231005035525.19036-1-chanh@os.amperecomputing.com> <20231005035525.19036-8-chanh@os.amperecomputing.com>
-In-Reply-To: <20231005035525.19036-8-chanh@os.amperecomputing.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 11 Oct 2023 12:22:26 +1030
-Message-ID: <CACPK8XehearTYQrmKTwwCB=Gvgur25Zr+UkgxzJW-7KKbJ9U7w@mail.gmail.com>
-Subject: Re: [PATCH 7/7] ARM: dts: aspeed: mtmitchell: Add I2C NVMe alias port
-To: Chanh Nguyen <chanh@os.amperecomputing.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6770.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1e40ac5-ec17-4c47-3504-08dbca09e3d4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2023 03:26:42.8710
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fJs4YPfGsnR9Uhj2hKsppl8AqbnjsDvR5obygThfP3+WXWn6AtO0qMrlsF26plf/eEgjjPsNNqDQkppwbBhepQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4184
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,311 +123,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 5 Oct 2023 at 14:26, Chanh Nguyen <chanh@os.amperecomputing.com> wrote:
->
-> Adds the I2C alias ports to each NVMe drive via the
-> backplane card.
->
-> Besides that, it also adds the eeprom and temperature sensor
-> on the backplane card.
->
-> Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
+> Use preferred device_get_match_data() instead of of_match_device() to get
+> the driver match data. With this, adjust the includes to explicitly inclu=
+de the
+> correct headers.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
-> ---
->  .../aspeed/aspeed-bmc-ampere-mtmitchell.dts   | 267 ++++++++++++++++++
->  1 file changed, 267 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
-> index eb8d5e367276..1f70e3e4e83b 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
-> @@ -14,6 +14,42 @@
->         aliases {
->                 serial7 = &uart8;
->                 serial8 = &uart9;
-> +
-> +               /*
-> +                *  I2C NVMe alias port
-> +                */
-> +               i2c100 = &backplane_0;
-> +               i2c48 = &nvmeslot_0;
-> +               i2c49 = &nvmeslot_1;
-> +               i2c50 = &nvmeslot_2;
-> +               i2c51 = &nvmeslot_3;
-> +               i2c52 = &nvmeslot_4;
-> +               i2c53 = &nvmeslot_5;
-> +               i2c54 = &nvmeslot_6;
-> +               i2c55 = &nvmeslot_7;
-> +
-> +               i2c101 = &backplane_1;
-> +               i2c56 = &nvmeslot_8;
-> +               i2c57 = &nvmeslot_9;
-> +               i2c58 = &nvmeslot_10;
-> +               i2c59 = &nvmeslot_11;
-> +               i2c60 = &nvmeslot_12;
-> +               i2c61 = &nvmeslot_13;
-> +               i2c62 = &nvmeslot_14;
-> +               i2c63 = &nvmeslot_15;
-> +
-> +               i2c102 = &backplane_2;
-> +               i2c64 = &nvmeslot_16;
-> +               i2c65 = &nvmeslot_17;
-> +               i2c66 = &nvmeslot_18;
-> +               i2c67 = &nvmeslot_19;
-> +               i2c68 = &nvmeslot_20;
-> +               i2c69 = &nvmeslot_21;
-> +               i2c70 = &nvmeslot_22;
-> +               i2c71 = &nvmeslot_23;
-> +
-> +               i2c80 = &nvme_m2_0;
-> +               i2c81 = &nvme_m2_1;
->         };
->
->         chosen {
-> @@ -534,6 +570,237 @@
->
->  &i2c9 {
->         status = "okay";
-> +       i2c-mux@70 {
-> +               compatible = "nxp,pca9548";
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +               reg = <0x70>;
-> +               i2c-mux-idle-disconnect;
-> +
-> +               backplane_1: i2c@0 {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +                       reg = <0x0>;
-> +
-> +                       eeprom@50 {
-> +                               compatible = "atmel,24c64";
-> +                               reg = <0x50>;
-> +                               pagesize = <32>;
-> +                       };
-> +
-> +                       i2c-mux@71 {
-> +                               compatible = "nxp,pca9548";
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +                               reg = <0x71>;
-> +                               i2c-mux-idle-disconnect;
-> +
-> +                               nvmeslot_8: i2c@0 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x0>;
-> +                               };
-> +                               nvmeslot_9: i2c@1 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x1>;
-> +                               };
-> +                               nvmeslot_10: i2c@2 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x2>;
-> +                               };
-> +                               nvmeslot_11: i2c@3 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x3>;
-> +                               };
-> +                               nvmeslot_12: i2c@4 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x4>;
-> +                               };
-> +                               nvmeslot_13: i2c@5 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x5>;
-> +                               };
-> +                               nvmeslot_14: i2c@6 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x6>;
-> +                               };
-> +                               nvmeslot_15: i2c@7 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x7>;
-> +                               };
-> +                       };
-> +
-> +                       tmp432@4c {
-> +                               compatible = "ti,tmp75";
-> +                               reg = <0x4c>;
-> +                       };
-> +               };
-> +
-> +               backplane_2: i2c@2 {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +                       reg = <0x2>;
-> +
-> +                       eeprom@50 {
-> +                               compatible = "atmel,24c64";
-> +                               reg = <0x50>;
-> +                               pagesize = <32>;
-> +                       };
-> +
-> +                       i2c-mux@71 {
-> +                               compatible = "nxp,pca9548";
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +                               reg = <0x71>;
-> +                               i2c-mux-idle-disconnect;
-> +
-> +                               nvmeslot_16: i2c@0 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x0>;
-> +                               };
-> +                               nvmeslot_17: i2c@1 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x1>;
-> +                               };
-> +                               nvmeslot_18: i2c@2 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x2>;
-> +                               };
-> +                               nvmeslot_19: i2c@3 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x3>;
-> +                               };
-> +                               nvmeslot_20: i2c@4 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x4>;
-> +                               };
-> +                               nvmeslot_21: i2c@5 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x5>;
-> +                               };
-> +                               nvmeslot_22: i2c@6 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x6>;
-> +                               };
-> +                               nvmeslot_23: i2c@7 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x7>;
-> +                               };
-> +                       };
-> +
-> +                       tmp432@4c {
-> +                               compatible = "ti,tmp75";
-> +                               reg = <0x4c>;
-> +                       };
-> +               };
-> +
-> +               backplane_0: i2c@4 {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +                       reg = <0x4>;
-> +
-> +                       eeprom@50 {
-> +                               compatible = "atmel,24c64";
-> +                               reg = <0x50>;
-> +                               pagesize = <32>;
-> +                       };
-> +
-> +                       i2c-mux@71 {
-> +                               compatible = "nxp,pca9548";
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +                               reg = <0x71>;
-> +                               i2c-mux-idle-disconnect;
-> +
-> +                               nvmeslot_0: i2c@0 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x0>;
-> +                               };
-> +                               nvmeslot_1: i2c@1 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x1>;
-> +                               };
-> +                               nvmeslot_2: i2c@2 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x2>;
-> +                               };
-> +                               nvmeslot_3: i2c@3 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x3>;
-> +                               };
-> +                               nvmeslot_4: i2c@4 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x4>;
-> +                               };
-> +                               nvmeslot_5: i2c@5 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x5>;
-> +                               };
-> +                               nvmeslot_6: i2c@6 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x6>;
-> +                               };
-> +                               nvmeslot_7: i2c@7 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x7>;
-> +                               };
-> +                       };
-> +
-> +                       tmp432@4c {
-> +                               compatible = "ti,tmp75";
-> +                               reg = <0x4c>;
-> +                       };
-> +               };
-> +
-> +               i2c@7 {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +                       reg = <0x7>;
-> +
-> +                       i2c-mux@71 {
-> +                               compatible = "nxp,pca9546";
-> +                               #address-cells = <1>;
-> +                               #size-cells = <0>;
-> +                               reg = <0x71>;
-> +                               i2c-mux-idle-disconnect;
-> +
-> +                               nvme_m2_0: i2c@0 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x0>;
-> +                               };
-> +
-> +                               nvme_m2_1: i2c@1 {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       reg = <0x1>;
-> +                               };
-> +                       };
-> +               };
-> +       };
->  };
->
->  &i2c11 {
-> --
-> 2.17.1
->
+Reviewed-by: Neal Liu <neal_liu@aspeedtech.com>
