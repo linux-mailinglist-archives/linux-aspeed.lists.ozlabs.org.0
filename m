@@ -2,58 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0257C9D0C
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Oct 2023 03:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC487C9D0D
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Oct 2023 03:48:49 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=c0huh/re;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=EBiSVi3F;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S80PV6c7Sz3c76
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Oct 2023 12:48:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S80Q735wqz3c2L
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Oct 2023 12:48:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=c0huh/re;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=EBiSVi3F;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62a; helo=mail-ej1-x62a.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62e; helo=mail-ej1-x62e.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S80PL5FYHz2yst
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Oct 2023 12:48:04 +1100 (AEDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-99357737980so651223366b.2
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 15 Oct 2023 18:48:04 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S80Pz74X4z2xpx
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Oct 2023 12:48:39 +1100 (AEDT)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9ba081173a3so652501066b.1
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 15 Oct 2023 18:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1697420877; x=1698025677; darn=lists.ozlabs.org;
+        d=jms.id.au; s=google; t=1697420916; x=1698025716; darn=lists.ozlabs.org;
         h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=2gi9c7eKRL4XqjpqT3Lj//N+9Q1k9fI+kzxaFF2cLfM=;
-        b=c0huh/reRjNqu+heOevoX9G0x/EPC25/aZJNQy8uQCnIGW2xsKRh+pD+iqc+CnlhfT
-         iSHX3fXG0tIOCfYhcbTwQoCt30b9lWvgn1F0BELW/TtUrkfFqnRIYXrVyO63C1HplVfR
-         2xUU0Y1C/ENJZspW6pcGWcYbRurk2/gC2PalM=
+        bh=MaAz3IyOUXaHfkCb9M3TM3RU1HBndDh170iebIaArlA=;
+        b=EBiSVi3FIu1sIGkuvTv9z1XS2ZtxdvBp8jiwcNRDsFr8kqBNmyaig45lcHqd8u98dQ
+         atpfc8pzN+RBKSl1BNG/d20gPUHqEhKYrcHL60Z/cI39NSwdg4h65DUWy/8wki+IXChO
+         BhD/O3A37YCBTyPagD41YJsWS+tC/pV52NiPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697420877; x=1698025677;
+        d=1e100.net; s=20230601; t=1697420916; x=1698025716;
         h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=2gi9c7eKRL4XqjpqT3Lj//N+9Q1k9fI+kzxaFF2cLfM=;
-        b=kkfR0QXkDRmpu2KteXZfA+eYhdno6R0vUhCqvpFR3qhSIx+gNhUojG6NEi310yebFG
-         oT0kXxkc5RlPrvbENiBSNWwPjw/ku7H09RCBaeA6oWwYsbqWKlco1x34LvboTFh99xPT
-         VOJiZ9RCeLsu3JL1AB9JqtPCnT0cDsiQLmMW+61nVqHVHJSxTwezjEgbZw9rnm9ZB4Sl
-         O5wTp5ahOqxWGaFzeUdrITkEMy1FtzVxbB3x0v69vm2tM9MZIHt3JI5N22jcoUP3wvch
-         DFTpZJBnlTqUUq/RS/iw2ZCbwR/vUtFq4IV2qC+rocFZkGO15AtJdeCBPxC4XPKeI9f7
-         F8Fw==
-X-Gm-Message-State: AOJu0YxvogNAQy/2YtR6EMy9bbJ5glSCqY/baHxC9qnsEl+2t5n3QQNY
-	3G3Czc1QuL8saTHShRTRFgXJJoAFNifWiUIn/kIMF+FqMTo=
-X-Google-Smtp-Source: AGHT+IEeNVVDtf63s6s5ORKap+0q4n2lmr+oL3UCh6TIq2jsgVIqT9pZ3aPv49+cZqQMMqe8NW6/XpdvZKFWgvQ6sQ0=
-X-Received: by 2002:a17:907:3e94:b0:9be:6ff7:1287 with SMTP id
- hs20-20020a1709073e9400b009be6ff71287mr5051490ejc.57.1697420877178; Sun, 15
- Oct 2023 18:47:57 -0700 (PDT)
+        bh=MaAz3IyOUXaHfkCb9M3TM3RU1HBndDh170iebIaArlA=;
+        b=ZWjr/pxnrJuSxHGzMv7OuBxksi47BnhJQxe7A/aZZruyjWToZuciuCru/YFofCNiHl
+         tUFA3H0bfmif6kHYcuvU64avS8j82XR1ljvBM7pc6UQcDK40uQ2PrM9DKOEkN0CXYv3p
+         RKSBSkKl28U3ZGSEuQK40KSId9/h1TyEStZGHS2+0f7yUe9FMj9tzLxYE6bHvZMGFc7z
+         2jpERjyayanDu2egMlx30CYKAkjOYbBRMvJlpk4DTO8C7mi60BtR9D3iwvWi56AYiN1T
+         SfEwyS8ZewsZLdRvI07jFumx5/tMhOzhjR8afpDhXdfdhtRObQPTPnbs/wRtQUANh6HS
+         5KeA==
+X-Gm-Message-State: AOJu0Yxn7IgevirShiqgtuhzJ6oq8MJMMWW2+e+dh76Aahfj977Y5val
+	MhIWowoOeAaNwgi1RU4GrcnACkHgbf/w2oYMC25qbLvE69A=
+X-Google-Smtp-Source: AGHT+IHEGjJacXRMU1XLaZB2mREtkfdGJtVOmgfTvoTxAq6OGMOerGwL0+89Rjxow8S2w/zOEOF1mMDJx/Mod++P2KI=
+X-Received: by 2002:a17:906:99c2:b0:9be:7b67:1674 with SMTP id
+ s2-20020a17090699c200b009be7b671674mr5282372ejn.3.1697420915880; Sun, 15 Oct
+ 2023 18:48:35 -0700 (PDT)
 MIME-Version: 1.0
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 16 Oct 2023 12:17:46 +1030
-Message-ID: <CACPK8XebMAQvgQTRH+KoaTFg7CzRkS79Fz3Kn8p4mbaezWGkUQ@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: devicetree changes for 6.7
+Date: Mon, 16 Oct 2023 12:18:24 +1030
+Message-ID: <CACPK8XezpL-4bx0S-9t999_qde5Hik9BnuUZHcnmDHTd0KWBLA@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: defconfig changes for 6.7
 To: SoC Team <soc@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -73,9 +73,6 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 
 Hello soc maintainers,
 
-I've rejigged my gpg setup and I'm now signing with a new sub-key. Let
-me know if that causes any issues.
-
 The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
 
   Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
@@ -83,45 +80,27 @@ The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
 are available in the Git repository at:
 
   git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-6.7-devicetree
+tags/aspeed-6.7-defconfig
 
-for you to fetch changes up to d024ca2792b17577c48f0cf23d648cea6f1a0b9a:
+for you to fetch changes up to f1538805cf9da7a1be38c78690a0d3809e330acd:
 
-  ARM: dts: aspeed: mtmitchell: Add I2C NVMe alias port (2023-10-13
-14:59:03 +1030)
-
-----------------------------------------------------------------
-ASPEED device tree updates for 6.7
-
- - New machine:
-
-  * Facebook's Minevra, as Chassis Management Controller using the
-    AST2600
-
- - Updates to Ampere's Mt Mitchell and Mt Jade systems, and IBM's
-   Bonnell
+  ARM: config: aspeed: Remove FIRMWARE_MEMMAP (2023-10-13 14:56:11 +1030)
 
 ----------------------------------------------------------------
-Chanh Nguyen (6):
-      ARM: dts: aspeed: mtjade, mtmitchell: Update gpio-line-names
-      ARM: dts: aspeed: mtjade, mtmitchell: Add new gpio-line-names
-      ARM: dts: aspeed: mtjade: Add the gpio-hog
-      ARM: dts: aspeed: mtmitchell: Add inlet temperature sensor
-      ARM: dts: aspeed: mtmitchell: Remove redundant ADC configurations
-      ARM: dts: aspeed: mtmitchell: Add I2C NVMe alias port
+ASPEED defconfig updates for 6.7
 
-Eddie James (1):
-      ARM: dts: aspeed: bonnell: Add reserved memory for TPM event log
+ * Enable SMPro and FSI drivers, the BMC to host interfaces for Ampere
+   and IBM's server processors
+ * Enable IPMI SSIF, the smbus transport for IPMI
+ * Disable FIRMWARE_MEMMAP, an x86 only thing
 
-Yang Chen (2):
-      dt-bindings: arm: aspeed: document board compatibles
-      ARM: dts: aspeed: Minerva: Add Facebook Minerva CMC board
+----------------------------------------------------------------
+Joel Stanley (4):
+      ARM: config: aspeed: Add new FSI drivers
+      ARM: config: aspeed: Add Ampere SMPro drivers
+      ARM: config: aspeed_g5: Enable SSIF BMC driver
+      ARM: config: aspeed: Remove FIRMWARE_MEMMAP
 
- .../devicetree/bindings/arm/aspeed/aspeed.yaml     |   1 +
- arch/arm/boot/dts/aspeed/Makefile                  |   1 +
- .../boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dts   |  66 +++--
- .../dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts    | 302 +++++++++++++++++++--
- .../dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts | 265 ++++++++++++++++++
- .../arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts |   8 +-
- 6 files changed, 595 insertions(+), 48 deletions(-)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts
+ arch/arm/configs/aspeed_g4_defconfig | 1 -
+ arch/arm/configs/aspeed_g5_defconfig | 8 +++++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
