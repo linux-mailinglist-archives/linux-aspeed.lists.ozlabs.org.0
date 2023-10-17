@@ -1,63 +1,59 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325427C9D0E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Oct 2023 03:49:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D947CCBFF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Oct 2023 21:15:39 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Cd5k8yD4;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=GP6aDR68;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4S80R874xDz3c5H
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Oct 2023 12:49:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4S93bT49Sxz3cF1
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Oct 2023 06:15:33 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Cd5k8yD4;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=GP6aDR68;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::631; helo=mail-ej1-x631.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=jic23@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4S80R406w6z2xwD
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Oct 2023 12:49:35 +1100 (AEDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-991c786369cso634678566b.1
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 15 Oct 2023 18:49:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1697420972; x=1698025772; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AygaYDzdNsfUrtMjI8jfJpMH6DIvJve2ndUz4ktc4vg=;
-        b=Cd5k8yD4GJTldt1okw/ReOfZCL65L4k62Pki6QwfVEJv7SVQL8/GqjGW8n9vD93PIa
-         1tBvQA3T7bcSZAnB2RDFxTTDLnxffUAXwTo2oIwdMAfONbSTfRDor+yNMVoHkWGcOiIf
-         Ron5P8ZQQYdFr9ywZZAKxbvoS7GbswLnrKMok=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697420972; x=1698025772;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AygaYDzdNsfUrtMjI8jfJpMH6DIvJve2ndUz4ktc4vg=;
-        b=Az2w7UYfRF5uPIFas+tmEYxTCYBwvPRw0Zgbz1HHGZMX73KGYlGy8FhdE8NkIRWmjW
-         /HXv8GfFACcRXLk/tHgjgAm3kVuHHXf5CkvfqeiS0nkBP6foXDvZIsIIWEC1kx8YFoeP
-         npuUEQO2xwIFu3Uj+7xUBnclQIdmWki2wrAts+nKyvNaxoFe4nX8rNs4SH+rNfRuMJJq
-         WNokn4CT0s67JVIsDH/46S+ziH9oUF1xIffgaiHEpWtdVI1IrYOJpPQZfcF+78VSWvRN
-         HHuDEbFTUSKlT4VraIRZ4JFHDqL08WJE8XlULNXkE7Lf0Mc4+w4MnsdteaM6TchQne2s
-         qvgQ==
-X-Gm-Message-State: AOJu0Ywuj9aIdFtu1cd6biofhU86YVuvHMWsesWAbSlmT9JKMTWKxyes
-	n7Sh5w8JdblSw7Vd4kAwy1YCBVsGoL4xwiF3pEw=
-X-Google-Smtp-Source: AGHT+IE1KgPX6n2bsIie/Z9urV9FH0YFU65DNEbPPc884bRzH9997J7lWjXzEqQfj9H1XbmsIZp7+BSlW8EYXZkSILg=
-X-Received: by 2002:a17:907:6e9f:b0:9be:7dd3:40ab with SMTP id
- sh31-20020a1709076e9f00b009be7dd340abmr4953225ejc.2.1697420972192; Sun, 15
- Oct 2023 18:49:32 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4S93bF06Bnz3c1L
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Oct 2023 06:15:20 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 9B987CE20E5;
+	Tue, 17 Oct 2023 19:15:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67603C433CB;
+	Tue, 17 Oct 2023 19:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697570115;
+	bh=1FH2NiT0/UIAW9o7PfkE2WEJ0KQQ/92RAQnCv8fQwU4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GP6aDR68d48jUNYRKmDRMWXr5sPPdyOqLEW+eRRXOP4EspT4tJvRHdvqYo2a05LKk
+	 w83cFu2uDn+3f3MiB3xgZT6fJEmbYr38RksEcy8/MPlYbQ2k91pdLYWNChkMr55KaV
+	 RAVBci/zZS7ToXiZh5Ydphq0gsKZDxXvnnEr3Byg/HNoQeQ4ZrPxegnwcP+kAbSybZ
+	 a8rtWGQivfZ6h0lc1H8Mih40VDdqxkaW36nT+g69xcVD7qZAEVlHOd77Q8czePIIju
+	 GCR6AJvfasZijj2KwMpZ4SCfTJ0W16yZtjefzYc+CsxKdTfWPHci5zTHw718OCaICl
+	 uTVnaRiLHbjig==
+Date: Tue, 17 Oct 2023 20:15:33 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [PATCH v1] iio: adc: aspeed: Support deglitch feature.
+Message-ID: <20231017201346.2f4f6b01@jic23-huawei>
+In-Reply-To: <SG2PR06MB33657B698EDFC3D6937997938BD6A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+References: <20230925081845.4147424-1-billy_tsai@aspeedtech.com>
+	<20230930174501.039095da@jic23-huawei>
+	<SG2PR06MB3365E89B1543B770AC2EE7E78BC5A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+	<20231002103940.00001dbd@Huawei.com>
+	<SG2PR06MB336557EDAAE2950D192E40838BCBA@SG2PR06MB3365.apcprd06.prod.outlook.com>
+	<20231005150753.38e79c20@jic23-huawei>
+	<SG2PR06MB33657B698EDFC3D6937997938BD6A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 16 Oct 2023 12:19:21 +1030
-Message-ID: <CACPK8XcTx9bd7DkguFOZ4qCxk8MJWm-yeNMLGDCnO+wv7dwa1g@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: soc changes for 6.7
-To: SoC Team <soc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +65,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: "lars@metafoo.de" <lars@metafoo.de>, linux-aspeed@lists.ozlabs.org, Potin.Lai@quantatw.com, linux-kernel@vger.kernel.org, patrickw3@meta.com, "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, Jonathan Cameron <Jonathan.Cameron@Huawei.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello soc maintainers,
+On Tue, 17 Oct 2023 11:10:54 +0000
+Billy Tsai <billy_tsai@aspeedtech.com> wrote:
 
-The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d=
-:
+> > > > > > > Create event sysfs for applying the deglitch condition. When
+> > > > > > > in_voltageY_thresh_rising_en/in_voltageY_thresh_falling_en is set to true,
+> > > > > > > the driver will use the in_voltageY_thresh_rising_value and
+> > > > > > > in_voltageY_thresh_falling_value as threshold values. If the ADC value
+> > > > > > > falls outside this threshold, the driver will wait for the ADC sampling
+> > > > > > > period and perform an additional read once to achieve the deglitching
+> > > > > > > purpose.
+> > > > > > >
+> > > > > > > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>  
+> > > > >  
+> > > > > > Hi Billy  
+> > > > >  
+> > > > > > This is pushing the meaning of the events interface too far.
+> > > > > > You can't use it to hide a value you don't like from userspace.  
+> > > > >  
+> > > > > > If you can explain what the condition is that you are seeing
+> > > > > > and what you need to prevent happening if it is seen that would help
+> > > > > > us figure out if there is another way to do this.  
+> > > > >  
+> > > > > > Jonathan  
+> > > > >
+> > > > > Hi Jonathan,
+> > > > >
+> > > > > Currently, we are experiencing some voltage glitches while reading from our
+> > > > > controller, but we do not wish to report these false alarms to the user space.
+> > > > > Instead, we want to retry the operation as soon as possible. This is why the
+> > > > > driver requires this patch to handle retries internally, rather than relying on user
+> > > > > space which could introduce unpredictable timing for retrying the reading process.
+> > > > > This software approach aims to minimize the possibility of false alarms as much as possible.  
+> > >  
+> > > > Thanks for the extra detail. Perhaps share more of that in the cover letter for v2.  
+> > >
+> > > Okay, I will incorporate more details into my commit message for v2.
+> > >  
+> > > > >
+> > > > > If you have any suggestions or recommendations regarding this situation, please feel free to
+> > > > > share them with me.  
+> > >  
+> > > > Why do you need userspace control for the thresholds?
+> > > > Perhaps this is something that belongs in DT for a particular board design?  
+> > >
+> > > If the input voltage remains constant, these settings can be incorporated into the DTS properties for configuring the threshold. However, if the input voltage is subject to change, adding user-space control may offer more flexibility.  
+> 
+> > My concern is that it's an interface userspace probably won't know how to use, or
+> > will misuse given this seems to be papering over bad hardware.  
+> 
+> > If there is a 'safe' value to put in DT I'd prefer to see that. I guess it might be per
+> > channel thing to adjust for different expected voltage ranges?  
+> 
+> Yes, the voltage ranges should be adjusted based on each individual channel.
+> I'm not entirely sure what you mean by the term 'safe' value. 
+> Are you suggesting that a DTS property should be used to constrain the threshold ranges? Or someting else?
+> From my point of view, I think misusing this feature will only increase the sampling period of the ADC values and decrease the sensitivity.
+> As the name of this feature , it is primarily used to eliminate or mitigate glitches in readings.
+> 
+Note a good choice of wording from me.  I meant, for a given design (and hence DTS)
+is there a reasonable value that will work for all instances of that design?
 
-  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
+If there is it is a characteristic of the board design and should be in DT.
+If there isn't, how do you calibrate it for individual devices?
 
-are available in the Git repository at:
+Jonathan
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git tags/aspeed-6.=
-7-soc
+> Thanks
+> 
+> 
+> 
 
-for you to fetch changes up to 0af9e89106c359e531791c3dc2422a16bd40d17f:
-
-  soc/aspeed: Convert to platform remove callback returning void
-(2023-10-13 15:04:12 +1030)
-
-----------------------------------------------------------------
-ASPEED soc updates for 6.7
-
- * Move all drivers to .remove_new callback
-
-----------------------------------------------------------------
-Uwe Kleine-K=C3=B6nig (1):
-      soc/aspeed: Convert to platform remove callback returning void
-
- drivers/soc/aspeed/aspeed-lpc-ctrl.c     | 6 ++----
- drivers/soc/aspeed/aspeed-lpc-snoop.c    | 6 ++----
- drivers/soc/aspeed/aspeed-p2a-ctrl.c     | 6 ++----
- drivers/soc/aspeed/aspeed-uart-routing.c | 6 ++----
- 4 files changed, 8 insertions(+), 16 deletions(-)
