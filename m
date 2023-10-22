@@ -2,53 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE627D0FEE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Oct 2023 14:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC067D2086
+	for <lists+linux-aspeed@lfdr.de>; Sun, 22 Oct 2023 02:17:01 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VH8AI3JJ;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SBkyQ11gSz3ck9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Oct 2023 23:52:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SCf5N4hNSz3cDV
+	for <lists+linux-aspeed@lfdr.de>; Sun, 22 Oct 2023 11:16:56 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.210.43; helo=mail-ot1-f43.google.com; envelope-from=robherring2@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VH8AI3JJ;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.120; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SBkyB69Hqz3cNN
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Oct 2023 23:52:33 +1100 (AEDT)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6ce2de8da87so513439a34.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Oct 2023 05:52:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697806351; x=1698411151;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xn9e38NL+2yw7cE8Hne2rqONLjHxjfyoCpZSa/4tQ4w=;
-        b=aKVHt5tRk78WIAL7nUrPa2JrJk5jsTKgpfKsIhy0LGneoI6//BhF6+qjZybB9nzK+Q
-         jsWuHHPkf2/i1W2XOvsFzGi9V5/UXQCaoj/Up0EdUQ8HNvC6MT5MmRjUMsfOTRLFufGh
-         hNBmvBxOq/CsA6iIR3c7R5nrqbCaQMO1iki2Ea2xmZT8Im8tW+Zq1GpJZ/8/hxPGMcvm
-         yYO25lp6OZYOJBJYONOd31s9yzSfsjo1pE5eDIQlMdSMmCs4uVjeWZV7/QUgpISbx3pn
-         nnELZsuxxcl4dkukjVCmHea+XYEhyo1vZQIiH/nTEJtGWT8nQdp/2brVnClw/z+k3luv
-         24pw==
-X-Gm-Message-State: AOJu0YyyTZtZPfQF5O97KMVLZsZkSb1/FVSY+OM+jqnJHj+Zj0iFd+py
-	hF0w+plpvUPicbPvvc3nkw==
-X-Google-Smtp-Source: AGHT+IFron30buBMuGXE9aKsFvb6BnHdDTlQ+OFGLIcRg4wTZiiSvINrW5JAcCDc1w70jnOFpuJgEw==
-X-Received: by 2002:a9d:63d9:0:b0:6c4:c026:a658 with SMTP id e25-20020a9d63d9000000b006c4c026a658mr1704794otl.26.1697806350742;
-        Fri, 20 Oct 2023 05:52:30 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id b15-20020a9d6b8f000000b006cd0aa45fb4sm306486otq.55.2023.10.20.05.52.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 05:52:30 -0700 (PDT)
-Received: (nullmailer pid 2930703 invoked by uid 1000);
-	Fri, 20 Oct 2023 12:52:28 -0000
-From: Rob Herring <robh@kernel.org>
-To: Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Joel Stanley <joel@jms.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Andrew Jeffery <andrew@codeconstruct.com.au>, Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH] drm: Use device_get_match_data()
-Date: Fri, 20 Oct 2023 07:52:13 -0500
-Message-ID: <20231020125214.2930329-1-robh@kernel.org>
-X-Mailer: git-send-email 2.42.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SCf59645Yz2yVv;
+	Sun, 22 Oct 2023 11:16:43 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697933806; x=1729469806;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1PiMnn0i3KT3YYOJNg9IYf4n+r48HTbs7kDucILde3I=;
+  b=VH8AI3JJ2ICIBOc2ZeV46dHwlhGAc9C9pCGZAvsVhDTPcNtriA8mQXEt
+   FNyd7mQJch7koK2VYE2AIqLWXx7qKZ+x9S/5k09gzZzbMBdokKl8faQgz
+   n11aG0GBhDlqO7UL+SCR3lBPuJOXzbf33kKEh2gHwdwE4WCOq+Cq23LSl
+   9pM6VoGmGU7Daw4pKTfWPAxG77DR8Zfw6wkL+SM6n6A0rxth2R/IBl0cK
+   asgEUjE9wpyMuIc6D4VWkoWKhXdb74LJTpym0q6Ep1gaTntceJFTwRef5
+   v8AmuZeyetuR4Je2nOdpFvCoaNsNgr8mwhRLLNd0w/H+5A5pzcD1+aqXl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="385554733"
+X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
+   d="scan'208";a="385554733"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 17:16:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="761389573"
+X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
+   d="scan'208";a="761389573"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 21 Oct 2023 17:16:31 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1quM8s-0005Py-24;
+	Sun, 22 Oct 2023 00:16:30 +0000
+Date: Sun, 22 Oct 2023 08:16:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konstantin Aladyshev <aladyshev22@gmail.com>
+Subject: Re: [PATCH v5 1/3] ipmi: Move KCS headers to common include folder
+Message-ID: <202310220806.BmOW2atE-lkp@intel.com>
+References: <20231010122321.823-2-aladyshev22@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231010122321.823-2-aladyshev22@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,289 +70,60 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, tali.perry1@gmail.com, edumazet@google.com, jk@codeconstruct.com.au, matt@codeconstruct.com.au, openbmc@lists.ozlabs.org, yuenn@google.com, kuba@kernel.org, pabeni@redhat.com, minyard@acm.org, aladyshev22@gmail.com, oe-kbuild-all@lists.linux.dev, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org, venture@google.com, linux-kernel@vger.kernel.org, avifishman70@gmail.com, netdev@vger.kernel.org, davem@davemloft.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Use preferred device_get_match_data() instead of of_match_device() to
-get the driver match data in a single step. With this, adjust the
-includes to explicitly include the correct headers. That also serves as
-preparation to remove implicit includes within the DT headers
-(of_device.h in particular).
+Hi Konstantin,
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/gpu/drm/armada/armada_crtc.c    | 24 +++++++-----------------
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 10 ++++------
- drivers/gpu/drm/exynos/exynos_drm_gsc.c |  9 +++++----
- drivers/gpu/drm/imx/ipuv3/imx-ldb.c     |  9 ++++-----
- drivers/gpu/drm/mxsfb/mxsfb_drv.c       | 10 +++-------
- drivers/gpu/drm/omapdrm/dss/dispc.c     |  4 ++--
- drivers/gpu/drm/omapdrm/dss/dss.c       |  5 +++--
- 7 files changed, 28 insertions(+), 43 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/armada/armada_crtc.c b/drivers/gpu/drm/armada/armada_crtc.c
-index 15dd667aa2e7..f2886e6f631b 100644
---- a/drivers/gpu/drm/armada/armada_crtc.c
-+++ b/drivers/gpu/drm/armada/armada_crtc.c
-@@ -7,8 +7,9 @@
- #include <linux/clk.h>
- #include <linux/component.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -1012,26 +1013,17 @@ armada_lcd_bind(struct device *dev, struct device *master, void *data)
- 	int irq = platform_get_irq(pdev, 0);
- 	const struct armada_variant *variant;
- 	struct device_node *port = NULL;
-+	struct device_node *np, *parent = dev->of_node;
- 
- 	if (irq < 0)
- 		return irq;
- 
--	if (!dev->of_node) {
--		const struct platform_device_id *id;
- 
--		id = platform_get_device_id(pdev);
--		if (!id)
--			return -ENXIO;
--
--		variant = (const struct armada_variant *)id->driver_data;
--	} else {
--		const struct of_device_id *match;
--		struct device_node *np, *parent = dev->of_node;
--
--		match = of_match_device(dev->driver->of_match_table, dev);
--		if (!match)
--			return -ENXIO;
-+	variant = device_get_match_data(dev);
-+	if (!variant)
-+		return -ENXIO;
- 
-+	if (parent) {
- 		np = of_get_child_by_name(parent, "ports");
- 		if (np)
- 			parent = np;
-@@ -1041,8 +1033,6 @@ armada_lcd_bind(struct device *dev, struct device *master, void *data)
- 			dev_err(dev, "no port node found in %pOF\n", parent);
- 			return -ENXIO;
- 		}
--
--		variant = match->data;
- 	}
- 
- 	return armada_drm_crtc_create(drm, dev, res, irq, variant, port);
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index 78122b35a0cb..a7a6b70220eb 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -6,10 +6,10 @@
- #include <linux/irq.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
--#include <linux/of.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/of_reserved_mem.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
- 
-@@ -143,7 +143,6 @@ static int aspeed_gfx_load(struct drm_device *drm)
- 	struct aspeed_gfx *priv = to_aspeed_gfx(drm);
- 	struct device_node *np = pdev->dev.of_node;
- 	const struct aspeed_gfx_config *config;
--	const struct of_device_id *match;
- 	struct resource *res;
- 	int ret;
- 
-@@ -152,10 +151,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
- 
--	match = of_match_device(aspeed_gfx_match, &pdev->dev);
--	if (!match)
-+	config = device_get_match_data(&pdev->dev);
-+	if (!config)
- 		return -EINVAL;
--	config = match->data;
- 
- 	priv->dac_reg = config->dac_reg;
- 	priv->int_clr_reg = config->int_clear_reg;
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-index 34cdabc30b4f..35771fb4e85d 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-@@ -11,9 +11,10 @@
- #include <linux/component.h>
- #include <linux/kernel.h>
- #include <linux/mfd/syscon.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/property.h>
- #include <linux/regmap.h>
- 
- #include <drm/drm_fourcc.h>
-@@ -103,7 +104,7 @@ struct gsc_context {
- 	unsigned int			num_formats;
- 
- 	void __iomem	*regs;
--	const char	**clk_names;
-+	const char	*const *clk_names;
- 	struct clk	*clocks[GSC_MAX_CLOCKS];
- 	int		num_clocks;
- 	struct gsc_scaler	sc;
-@@ -1217,7 +1218,7 @@ static const unsigned int gsc_tiled_formats[] = {
- static int gsc_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct gsc_driverdata *driver_data;
-+	const struct gsc_driverdata *driver_data;
- 	struct exynos_drm_ipp_formats *formats;
- 	struct gsc_context *ctx;
- 	int num_formats, ret, i, j;
-@@ -1226,7 +1227,7 @@ static int gsc_probe(struct platform_device *pdev)
- 	if (!ctx)
- 		return -ENOMEM;
- 
--	driver_data = (struct gsc_driverdata *)of_device_get_match_data(dev);
-+	driver_data = device_get_match_data(dev);
- 	ctx->dev = dev;
- 	ctx->num_clocks = driver_data->num_clocks;
- 	ctx->clk_names = driver_data->clk_names;
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
-index 989eca32d325..53840ab054c7 100644
---- a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
-@@ -12,8 +12,10 @@
- #include <linux/mfd/syscon.h>
- #include <linux/mfd/syscon/imx6q-iomuxc-gpr.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
-+#include <linux/of.h>
- #include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/regmap.h>
- #include <linux/videodev2.h>
- 
-@@ -617,7 +619,6 @@ static int imx_ldb_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *np = dev->of_node;
--	const struct of_device_id *of_id = of_match_device(imx_ldb_dt_ids, dev);
- 	struct device_node *child;
- 	struct imx_ldb *imx_ldb;
- 	int dual;
-@@ -638,9 +639,7 @@ static int imx_ldb_probe(struct platform_device *pdev)
- 	regmap_write(imx_ldb->regmap, IOMUXC_GPR2, 0);
- 
- 	imx_ldb->dev = dev;
--
--	if (of_id)
--		imx_ldb->lvds_mux = of_id->data;
-+	imx_ldb->lvds_mux = device_get_match_data(dev);
- 
- 	dual = of_property_read_bool(np, "fsl,dual-channel");
- 	if (dual)
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 625c1bfc4173..b483ef48216a 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -11,9 +11,10 @@
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
--#include <linux/of_device.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/pm_runtime.h>
- 
- #include <drm/drm_atomic_helper.h>
-@@ -346,18 +347,13 @@ MODULE_DEVICE_TABLE(of, mxsfb_dt_ids);
- static int mxsfb_probe(struct platform_device *pdev)
- {
- 	struct drm_device *drm;
--	const struct of_device_id *of_id =
--			of_match_device(mxsfb_dt_ids, &pdev->dev);
- 	int ret;
- 
--	if (!pdev->dev.of_node)
--		return -ENODEV;
--
- 	drm = drm_dev_alloc(&mxsfb_driver, &pdev->dev);
- 	if (IS_ERR(drm))
- 		return PTR_ERR(drm);
- 
--	ret = mxsfb_load(drm, of_id->data);
-+	ret = mxsfb_load(drm, device_get_match_data(&pdev->dev));
- 	if (ret)
- 		goto err_free;
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-index c26aab4939fa..993691b3cc7e 100644
---- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-@@ -22,11 +22,11 @@
- #include <linux/hardirq.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/property.h>
- #include <linux/sizes.h>
- #include <linux/mfd/syscon.h>
- #include <linux/regmap.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/component.h>
- #include <linux/sys_soc.h>
- #include <drm/drm_fourcc.h>
-@@ -4765,7 +4765,7 @@ static int dispc_bind(struct device *dev, struct device *master, void *data)
- 	if (soc)
- 		dispc->feat = soc->data;
- 	else
--		dispc->feat = of_match_device(dispc_of_match, &pdev->dev)->data;
-+		dispc->feat = device_get_match_data(&pdev->dev);
- 
- 	r = dispc_errata_i734_wa_init(dispc);
- 	if (r)
-diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-index 02955f976845..988888e164d7 100644
---- a/drivers/gpu/drm/omapdrm/dss/dss.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-@@ -22,12 +22,13 @@
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/property.h>
- #include <linux/gfp.h>
- #include <linux/sizes.h>
- #include <linux/mfd/syscon.h>
- #include <linux/regmap.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
-+#include <linux/of_platform.h>
- #include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/suspend.h>
-@@ -1445,7 +1446,7 @@ static int dss_probe(struct platform_device *pdev)
- 	if (soc)
- 		dss->feat = soc->data;
- 	else
--		dss->feat = of_match_device(dss_of_match, &pdev->dev)->data;
-+		dss->feat = device_get_match_data(&pdev->dev);
- 
- 	/* Map I/O registers, get and setup clocks. */
- 	dss->base = devm_platform_ioremap_resource(pdev, 0);
+[auto build test ERROR on cminyard-ipmi/for-next]
+[also build test ERROR on linus/master v6.6-rc6 next-20231020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Aladyshev/ipmi-Move-KCS-headers-to-common-include-folder/20231010-202425
+base:   https://github.com/cminyard/linux-ipmi for-next
+patch link:    https://lore.kernel.org/r/20231010122321.823-2-aladyshev22%40gmail.com
+patch subject: [PATCH v5 1/3] ipmi: Move KCS headers to common include folder
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231022/202310220806.BmOW2atE-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310220806.BmOW2atE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310220806.BmOW2atE-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/kcs_bmc_client.h:8,
+                    from drivers/char/ipmi/kcs_bmc_cdev_ipmi.c:11:
+>> include/linux/kcs_bmc.h:42:9: error: unknown type name 'spinlock_t'
+      42 |         spinlock_t lock;
+         |         ^~~~~~~~~~
+
+
+vim +/spinlock_t +42 include/linux/kcs_bmc.h
+
+faae6e391eda73 drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  31  
+d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  32  struct kcs_bmc_device {
+d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  33  	struct list_head entry;
+20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  34  
+d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  35  	struct device *dev;
+20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  36  	u32 channel;
+20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  37  
+20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  38  	struct kcs_ioreg ioreg;
+20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  39  
+d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  40  	const struct kcs_bmc_device_ops *ops;
+20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  41  
+d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08 @42  	spinlock_t lock;
+d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  43  	struct kcs_bmc_client *client;
+20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  44  };
+d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  45  
+
 -- 
-2.42.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
