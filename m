@@ -1,64 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC067D2086
-	for <lists+linux-aspeed@lfdr.de>; Sun, 22 Oct 2023 02:17:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C18947D2898
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Oct 2023 04:35:55 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VH8AI3JJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZfT0hYZY;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SCf5N4hNSz3cDV
-	for <lists+linux-aspeed@lfdr.de>; Sun, 22 Oct 2023 11:16:56 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SDK7F4p8Mz3cC9
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Oct 2023 13:35:53 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VH8AI3JJ;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZfT0hYZY;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.55.52.120; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SCf59645Yz2yVv;
-	Sun, 22 Oct 2023 11:16:43 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697933806; x=1729469806;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1PiMnn0i3KT3YYOJNg9IYf4n+r48HTbs7kDucILde3I=;
-  b=VH8AI3JJ2ICIBOc2ZeV46dHwlhGAc9C9pCGZAvsVhDTPcNtriA8mQXEt
-   FNyd7mQJch7koK2VYE2AIqLWXx7qKZ+x9S/5k09gzZzbMBdokKl8faQgz
-   n11aG0GBhDlqO7UL+SCR3lBPuJOXzbf33kKEh2gHwdwE4WCOq+Cq23LSl
-   9pM6VoGmGU7Daw4pKTfWPAxG77DR8Zfw6wkL+SM6n6A0rxth2R/IBl0cK
-   asgEUjE9wpyMuIc6D4VWkoWKhXdb74LJTpym0q6Ep1gaTntceJFTwRef5
-   v8AmuZeyetuR4Je2nOdpFvCoaNsNgr8mwhRLLNd0w/H+5A5pzcD1+aqXl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="385554733"
-X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="385554733"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2023 17:16:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10870"; a="761389573"
-X-IronPort-AV: E=Sophos;i="6.03,242,1694761200"; 
-   d="scan'208";a="761389573"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Oct 2023 17:16:31 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1quM8s-0005Py-24;
-	Sun, 22 Oct 2023 00:16:30 +0000
-Date: Sun, 22 Oct 2023 08:16:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konstantin Aladyshev <aladyshev22@gmail.com>
-Subject: Re: [PATCH v5 1/3] ipmi: Move KCS headers to common include folder
-Message-ID: <202310220806.BmOW2atE-lkp@intel.com>
-References: <20231010122321.823-2-aladyshev22@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SDK704XXKz3c3g
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Oct 2023 13:35:40 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-136-142.adl-adc-lon-bras33.tpg.internode.on.net [118.210.136.142])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 6060C20135;
+	Mon, 23 Oct 2023 10:35:32 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1698028538;
+	bh=ksZFs0+9URFXS1sX1+Yy7wy4eAGcVDR9NHIRtCYuewg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ZfT0hYZYms8spw6jXbPStQQlg52hfTGVHOUFxhjEkX8uRAjguFgFbTePOydMJjQH3
+	 xZegnqm5re/nlXNV3nydYmNyOuJJ98OwhDwZpeUd05tVttUvLdM1wH9puv+M5ZTzU4
+	 h0jCXfBSPdQEuMtlQp8YFVDkEtrLhbI+01N076TRLAUdiCP6p45Srbuj59aU3zM22J
+	 v9XghnLtItK9P9uyrvZdXLhR3KRpeAvGidMtkW31nycd95dsoaFN6kgdk1mnyk+JFk
+	 AruB1hA95UfWJmbtpmk5an6ZGJkL+10Mv88di0HdNcKexlNe7erTkVVIfBUrFine7Y
+	 D0N0SwzetRsCg==
+Message-ID: <5201a2fc9fc9bdbdc3f76e504b3a2a2d6d4d21d4.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 06/42] crypto: aspeed-acry - Convert to platform remove
+ callback returning void
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>
+Date: Mon, 23 Oct 2023 13:05:30 +1030
+In-Reply-To: <20231020075521.2121571-50-u.kleine-koenig@pengutronix.de>
+References: <20231020075521.2121571-44-u.kleine-koenig@pengutronix.de>
+	 <20231020075521.2121571-50-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231010122321.823-2-aladyshev22@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,60 +61,24 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: tmaimon77@gmail.com, linux-aspeed@lists.ozlabs.org, tali.perry1@gmail.com, edumazet@google.com, jk@codeconstruct.com.au, matt@codeconstruct.com.au, openbmc@lists.ozlabs.org, yuenn@google.com, kuba@kernel.org, pabeni@redhat.com, minyard@acm.org, aladyshev22@gmail.com, oe-kbuild-all@lists.linux.dev, openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org, venture@google.com, linux-kernel@vger.kernel.org, avifishman70@gmail.com, netdev@vger.kernel.org, davem@davemloft.net
+Cc: linux-aspeed@lists.ozlabs.org, Neal Liu <neal_liu@aspeedtech.com>, kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Konstantin,
+On Fri, 2023-10-20 at 09:55 +0200, Uwe Kleine-K=C3=B6nig wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+>=20
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+>=20
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cminyard-ipmi/for-next]
-[also build test ERROR on linus/master v6.6-rc6 next-20231020]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Konstantin-Aladyshev/ipmi-Move-KCS-headers-to-common-include-folder/20231010-202425
-base:   https://github.com/cminyard/linux-ipmi for-next
-patch link:    https://lore.kernel.org/r/20231010122321.823-2-aladyshev22%40gmail.com
-patch subject: [PATCH v5 1/3] ipmi: Move KCS headers to common include folder
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231022/202310220806.BmOW2atE-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231022/202310220806.BmOW2atE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310220806.BmOW2atE-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/kcs_bmc_client.h:8,
-                    from drivers/char/ipmi/kcs_bmc_cdev_ipmi.c:11:
->> include/linux/kcs_bmc.h:42:9: error: unknown type name 'spinlock_t'
-      42 |         spinlock_t lock;
-         |         ^~~~~~~~~~
-
-
-vim +/spinlock_t +42 include/linux/kcs_bmc.h
-
-faae6e391eda73 drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  31  
-d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  32  struct kcs_bmc_device {
-d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  33  	struct list_head entry;
-20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  34  
-d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  35  	struct device *dev;
-20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  36  	u32 channel;
-20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  37  
-20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  38  	struct kcs_ioreg ioreg;
-20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  39  
-d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  40  	const struct kcs_bmc_device_ops *ops;
-20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  41  
-d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08 @42  	spinlock_t lock;
-d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  43  	struct kcs_bmc_client *client;
-20d60f61c58e8c drivers/char/ipmi/kcs_bmc.h Haiyue Wang    2018-02-02  44  };
-d4e7ac68f771ad drivers/char/ipmi/kcs_bmc.h Andrew Jeffery 2021-06-08  45  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
