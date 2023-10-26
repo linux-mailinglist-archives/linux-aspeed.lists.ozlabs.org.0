@@ -2,92 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A2D7D7C86
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Oct 2023 07:52:47 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=BbntZ58q;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4067D8B8D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Oct 2023 00:17:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SGFM06Dr0z3c13
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Oct 2023 16:52:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SGgCN6B4jz3cM7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Oct 2023 09:17:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=BbntZ58q;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ideasonboard.com (client-ip=2001:4b98:dc2:55:216:3eff:fef7:d647; helo=perceval.ideasonboard.com; envelope-from=tomi.valkeinen@ideasonboard.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 440 seconds by postgrey-1.37 at boromir; Thu, 26 Oct 2023 16:52:33 AEDT
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SGFLn20Djz2yVv
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Oct 2023 16:52:33 +1100 (AEDT)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4808475B;
-	Thu, 26 Oct 2023 07:44:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1698299084;
-	bh=F61gyrqDirP+JCND20tgRzoVp5z4zN+HisVG9917ft8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BbntZ58q4/rUw2mWYoHoHvNRltSNczNUUSjBDjO9l9kWivVBIkXW06179jzSweO93
-	 vYecg06HpWOhJJcJv2634rv1zFnK+IUBUAeZJms1FkOIRgZ3uxHmz0T/boJ3i1Se0v
-	 6fr/dygiEsu691Drl/zOAx/Kx/Bnh+Wmj0p+ibzo=
-Message-ID: <d1da5acd-384f-4ddd-a721-ce677cc38a3d@ideasonboard.com>
-Date: Thu, 26 Oct 2023 08:44:52 +0300
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SGgCH6NJpz2yQ8
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Oct 2023 09:17:29 +1100 (AEDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qw8fC-0003bR-JJ; Fri, 27 Oct 2023 00:17:14 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qw8f7-004VM6-V6; Fri, 27 Oct 2023 00:17:09 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qw8f7-006suW-LB; Fri, 27 Oct 2023 00:17:09 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Neal Liu <neal_liu@aspeedtech.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] usb: gadget: aspeed_udc: Convert to platform remove callback returning void
+Date: Fri, 27 Oct 2023 00:17:02 +0200
+Message-ID: <20231026221701.2521483-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: Use device_get_match_data()
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20231020125214.2930329-1-robh@kernel.org>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231020125214.2930329-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3353; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=kjYgi1tNDpEkZXYfPpv9I42yC3H7lSh6O/o/Lny0Nk0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlOuVd9j1oolGO0ajvDjH/3NT7YvVEdY7WC+IZp Om2+o9OsWOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZTrlXQAKCRCPgPtYfRL+ TivmB/9F6ixFlAlLk+THbeGCiXxeqQ1ecBD4q89Fho0DoLLO+CdDTZm+j37YZpc75Ga7KFe+OOP zG+Z+2bOe/QkIVvjz/2u67ZDYAcu32pBEWHz3ZHgy+nRg9SF2HIi5yCq2GHin0H5+8ouGcxQF9j qgSbAcg4k3uKByFpDR73vqPv4G/WEPmCibvlXzmUQS4c+ntnjcSKgRLiMDhXRXBygamuPZv+owf sA06bxGTyVQmeaV/v4TP+jNoL8O4JwbJmejXp0XgV8Y5VnAFC5h2WHOXRmJZFMGSiV08mjlxgYs mUBRpUR21dGT5bdSw7IDs5EgRkXU0hSyrFVxXQmTWeHeylo/
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,31 +56,103 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, Alim Akhtar <alim.akhtar@samsung.com>, David Airlie <airlied@gmail.com>, Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, Russell King <linux@armlinux.org.uk>, Kyungmin Park <kyungmin.park@samsung.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, NXP Linux Team <linux-imx@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Inki Dae <inki.dae@samsung.com>, Stefan Agner <stefan@agner.ch>, Daniel Vetter <daniel@ffwll.ch>, linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Li Yang <leoyang.li@nxp.com>, linux-usb@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>, Haojian Zhuang <haojian.zhuang@gmail.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Vladimir Zapolskiy <vz@mleia.com>, kernel@pengutronix.de, Zhu Wang <wangzhu9@huawei.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Robert Jarzmik <robert.jarzmik@free.fr>, Daniel Mack <daniel@zonque.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 20/10/2023 15:52, Rob Herring wrote:
-> Use preferred device_get_match_data() instead of of_match_device() to
-> get the driver match data in a single step. With this, adjust the
-> includes to explicitly include the correct headers. That also serves as
-> preparation to remove implicit includes within the DT headers
-> (of_device.h in particular).
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->   drivers/gpu/drm/armada/armada_crtc.c    | 24 +++++++-----------------
->   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 10 ++++------
->   drivers/gpu/drm/exynos/exynos_drm_gsc.c |  9 +++++----
->   drivers/gpu/drm/imx/ipuv3/imx-ldb.c     |  9 ++++-----
->   drivers/gpu/drm/mxsfb/mxsfb_drv.c       | 10 +++-------
->   drivers/gpu/drm/omapdrm/dss/dispc.c     |  4 ++--
->   drivers/gpu/drm/omapdrm/dss/dss.c       |  5 +++--
->   7 files changed, 28 insertions(+), 43 deletions(-)
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
 
-For omapdrm:
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new(), which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ast_udc_remove() is one of these functions that return an error code
+after doing only a partial cleanup. Replace the core's error message by
+a more drastic one and still convert the driver to .remove_new().
+Note the only semantic change here is the changed error message.
 
-  Tomi
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+Hello,
+
+this driver is one of those that got the remove function wrong. This is
+a general problem of the udc drivers and also affects
+
+ drivers/usb/gadget/udc/at91_udc.c
+ drivers/usb/gadget/udc/fsl_udc_core.c
+ drivers/usb/gadget/udc/gr_udc.c
+ drivers/usb/gadget/udc/lpc32xx_udc.c
+ drivers/usb/gadget/udc/pxa25x_udc.c
+
+. For now I only converted the aspeed driver, but once this patch is in
+an acceptable state, I'd convert all these drivers in the same way.
+
+Fixing the resource leak and the oops is something I'll not address.
+This should be done by someone who cares for these drivers and has the
+actual hardware.
+
+Best regards
+Uwe
+
+ drivers/usb/gadget/udc/aspeed_udc.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+index 2ef89a442f50..3916c8e2ba01 100644
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -1432,15 +1432,24 @@ static void ast_udc_init_hw(struct ast_udc_dev *udc)
+ 	ast_udc_write(udc, 0, AST_UDC_EP0_CTRL);
+ }
+ 
+-static int ast_udc_remove(struct platform_device *pdev)
++static void ast_udc_remove(struct platform_device *pdev)
+ {
+ 	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
+ 	unsigned long flags;
+ 	u32 ctrl;
+ 
+ 	usb_del_gadget_udc(&udc->gadget);
+-	if (udc->driver)
+-		return -EBUSY;
++	if (udc->driver) {
++		/*
++		 * This is broken as only some cleanup is skipped, *udev is
++		 * freed and the register mapping goes away. Any further usage
++		 * probably crashes. Also the device is unbound, so the skipped
++		 * cleanup is never catched up later.
++		 */
++		dev_alert(&pdev->dev,
++			  "Driver is busy and still going away. Fasten your seat belts!\n");
++		return;
++	}
+ 
+ 	spin_lock_irqsave(&udc->lock, flags);
+ 
+@@ -1459,8 +1468,6 @@ static int ast_udc_remove(struct platform_device *pdev)
+ 				  udc->ep0_buf_dma);
+ 
+ 	udc->ep0_buf = NULL;
+-
+-	return 0;
+ }
+ 
+ static int ast_udc_probe(struct platform_device *pdev)
+@@ -1581,7 +1588,7 @@ MODULE_DEVICE_TABLE(of, ast_udc_of_dt_ids);
+ 
+ static struct platform_driver ast_udc_driver = {
+ 	.probe			= ast_udc_probe,
+-	.remove			= ast_udc_remove,
++	.remove_new		= ast_udc_remove,
+ 	.driver			= {
+ 		.name			= KBUILD_MODNAME,
+ 		.of_match_table		= ast_udc_of_dt_ids,
+
+base-commit: 2ef7141596eed0b4b45ef18b3626f428a6b0a822
+-- 
+2.42.0
 
