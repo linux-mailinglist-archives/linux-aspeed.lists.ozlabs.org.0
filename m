@@ -2,49 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4067D8B8D
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Oct 2023 00:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3F37D8F83
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Oct 2023 09:17:00 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=0nGMnJTi;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SGgCN6B4jz3cM7
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Oct 2023 09:17:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SGv9k4Tfxz3cC3
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Oct 2023 18:16:58 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=0nGMnJTi;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linuxfoundation.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SGgCH6NJpz2yQ8
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Oct 2023 09:17:29 +1100 (AEDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qw8fC-0003bR-JJ; Fri, 27 Oct 2023 00:17:14 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qw8f7-004VM6-V6; Fri, 27 Oct 2023 00:17:09 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qw8f7-006suW-LB; Fri, 27 Oct 2023 00:17:09 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Neal Liu <neal_liu@aspeedtech.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] usb: gadget: aspeed_udc: Convert to platform remove callback returning void
-Date: Fri, 27 Oct 2023 00:17:02 +0200
-Message-ID: <20231026221701.2521483-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SGv9Y4T88z2xl6
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Oct 2023 18:16:48 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 3E88BCE444F;
+	Fri, 27 Oct 2023 07:16:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5A3EC433C8;
+	Fri, 27 Oct 2023 07:16:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1698391004;
+	bh=CBkxV/uFvpzCOvXq/7DVXjOGLxxi3GTw/t/A+HTWNJE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0nGMnJTiNrrl2+rN9XPzMH2IcacHjDqVSv6UlJ/cULBbI+YiCV5QLG5YHCkoLKuZK
+	 eeItrfl/qeCk8SU0jS7rudj7Bw5yKwjE7UVm1sMMjxhAuaTUyeUJGdRosPS0Nhtjfx
+	 hoafJV4TNcsIqxE1mhrXswdKwYOML9x0OuA/Xw6c=
+Date: Fri, 27 Oct 2023 09:16:41 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Su Hui <suhui@nfschina.com>
+Subject: Re: [PATCH] soc: aspeed: lpc: Fix impossible judgment condition
+Message-ID: <2023102730-outmatch-rising-14f0@gregkh>
+References: <20231027020703.1231875-1-suhui@nfschina.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3353; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=kjYgi1tNDpEkZXYfPpv9I42yC3H7lSh6O/o/Lny0Nk0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlOuVd9j1oolGO0ajvDjH/3NT7YvVEdY7WC+IZp Om2+o9OsWOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZTrlXQAKCRCPgPtYfRL+ TivmB/9F6ixFlAlLk+THbeGCiXxeqQ1ecBD4q89Fho0DoLLO+CdDTZm+j37YZpc75Ga7KFe+OOP zG+Z+2bOe/QkIVvjz/2u67ZDYAcu32pBEWHz3ZHgy+nRg9SF2HIi5yCq2GHin0H5+8ouGcxQF9j qgSbAcg4k3uKByFpDR73vqPv4G/WEPmCibvlXzmUQS4c+ntnjcSKgRLiMDhXRXBygamuPZv+owf sA06bxGTyVQmeaV/v4TP+jNoL8O4JwbJmejXp0XgV8Y5VnAFC5h2WHOXRmJZFMGSiV08mjlxgYs mUBRpUR21dGT5bdSw7IDs5EgRkXU0hSyrFVxXQmTWeHeylo/
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+In-Reply-To: <20231027020703.1231875-1-suhui@nfschina.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,103 +56,50 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-aspeed@lists.ozlabs.org, Li Yang <leoyang.li@nxp.com>, linux-usb@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>, Haojian Zhuang <haojian.zhuang@gmail.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Vladimir Zapolskiy <vz@mleia.com>, kernel@pengutronix.de, Zhu Wang <wangzhu9@huawei.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Robert Jarzmik <robert.jarzmik@free.fr>, Daniel Mack <daniel@zonque.org>
+Cc: robh@kernel.org, linux-aspeed@lists.ozlabs.org, arnd@arndb.de, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, roblip@gmail.com, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
+On Fri, Oct 27, 2023 at 10:07:04AM +0800, Su Hui wrote:
+> smatch error：
+> drivers/soc/aspeed/aspeed-lpc-snoop.c:169
+> aspeed_lpc_snoop_config_irq() warn: platform_get_irq() does not return zero
+> 
+> platform_get_irq() return non-zero IRQ number or negative error code,
+> change '!lpc_snoop->irq' to 'lpc_snoop->irq < 0' to fix this.
+> 
+> Fixes: 9f4f9ae81d0a ("drivers/misc: add Aspeed LPC snoop driver")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
+> ---
+>  drivers/soc/aspeed/aspeed-lpc-snoop.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+Hi,
 
-ast_udc_remove() is one of these functions that return an error code
-after doing only a partial cleanup. Replace the core's error message by
-a more drastic one and still convert the driver to .remove_new().
-Note the only semantic change here is the changed error message.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-this driver is one of those that got the remove function wrong. This is
-a general problem of the udc drivers and also affects
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
 
- drivers/usb/gadget/udc/at91_udc.c
- drivers/usb/gadget/udc/fsl_udc_core.c
- drivers/usb/gadget/udc/gr_udc.c
- drivers/usb/gadget/udc/lpc32xx_udc.c
- drivers/usb/gadget/udc/pxa25x_udc.c
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-. For now I only converted the aspeed driver, but once this patch is in
-an acceptable state, I'd convert all these drivers in the same way.
+thanks,
 
-Fixing the resource leak and the oops is something I'll not address.
-This should be done by someone who cares for these drivers and has the
-actual hardware.
-
-Best regards
-Uwe
-
- drivers/usb/gadget/udc/aspeed_udc.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 2ef89a442f50..3916c8e2ba01 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1432,15 +1432,24 @@ static void ast_udc_init_hw(struct ast_udc_dev *udc)
- 	ast_udc_write(udc, 0, AST_UDC_EP0_CTRL);
- }
- 
--static int ast_udc_remove(struct platform_device *pdev)
-+static void ast_udc_remove(struct platform_device *pdev)
- {
- 	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
- 	unsigned long flags;
- 	u32 ctrl;
- 
- 	usb_del_gadget_udc(&udc->gadget);
--	if (udc->driver)
--		return -EBUSY;
-+	if (udc->driver) {
-+		/*
-+		 * This is broken as only some cleanup is skipped, *udev is
-+		 * freed and the register mapping goes away. Any further usage
-+		 * probably crashes. Also the device is unbound, so the skipped
-+		 * cleanup is never catched up later.
-+		 */
-+		dev_alert(&pdev->dev,
-+			  "Driver is busy and still going away. Fasten your seat belts!\n");
-+		return;
-+	}
- 
- 	spin_lock_irqsave(&udc->lock, flags);
- 
-@@ -1459,8 +1468,6 @@ static int ast_udc_remove(struct platform_device *pdev)
- 				  udc->ep0_buf_dma);
- 
- 	udc->ep0_buf = NULL;
--
--	return 0;
- }
- 
- static int ast_udc_probe(struct platform_device *pdev)
-@@ -1581,7 +1588,7 @@ MODULE_DEVICE_TABLE(of, ast_udc_of_dt_ids);
- 
- static struct platform_driver ast_udc_driver = {
- 	.probe			= ast_udc_probe,
--	.remove			= ast_udc_remove,
-+	.remove_new		= ast_udc_remove,
- 	.driver			= {
- 		.name			= KBUILD_MODNAME,
- 		.of_match_table		= ast_udc_of_dt_ids,
-
-base-commit: 2ef7141596eed0b4b45ef18b3626f428a6b0a822
--- 
-2.42.0
-
+greg k-h's patch email bot
