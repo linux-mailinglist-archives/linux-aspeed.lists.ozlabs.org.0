@@ -2,37 +2,90 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40BE7E7789
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Nov 2023 03:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077E47DDEEF
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Nov 2023 11:06:55 +0100 (CET)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=Idwo3CFF;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SRNB46czSz3cbl
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Nov 2023 13:31:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SL2jS6QBZz3cQD
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Nov 2023 21:06:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org)
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=Idwo3CFF;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feab::607; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20607.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::607])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SH00V19Wdz3cD7
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Oct 2023 21:54:16 +1100 (AEDT)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1qwKTD-00BeWq-N9; Fri, 27 Oct 2023 18:53:40 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 27 Oct 2023 18:53:45 +0800
-Date: Fri, 27 Oct 2023 18:53:45 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 00/42] crypto: Convert to platform remove callback
- returning void
-Message-ID: <ZTuWuZuNIE28O+4+@gondor.apana.org.au>
-References: <20231020075521.2121571-44-u.kleine-koenig@pengutronix.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SL2jC00QPz3bqW
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Nov 2023 21:06:37 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jGgTAfBhT5ZvDYt9boV8SC5QLR1nTB5imqc/0X9Vgj72gHTaH2nqzyArWRto5WW+RosODDbeGUDv47Uj9KwpMBOYRKyrElD4RNgIfg6o0xehxONQtmZKTK6ovmYo5eTZynZb/mUnprUl+f7MqjDYXLXfEPuF6KT2jxk4k/BNxCW9lOYvo9aERKg3A6Lze8GLr+ji1IElkY/9v98gTEw1QIYp0kmm1BA3DX63KKBNZxyvZK8rfDsPhETqy/Kvz2yK7f4OnreFH8rwVOL1lgY17plzipVoMLRDEw98jSfikj6I9ksCPOQbboEm55JjoJr4GBkjnClG6FyQdq51+FZcFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M/ObEuPvRMYrNY5HUJGE+LeMKxMiSngY3YxFSI9FQY8=;
+ b=hr52CEg7n2GLOzYQH62Q08XWYZ0hJrvgf3Qu8JhLITRo5uLDGfKMc3YBuBKGIC4Z5ouMjyNARhjyiCvZNWqdvy01IhFn6qNWehwBYEpuG2UWgdEYnVdSm8staYmz74KGmC6FKzLSFBwSFOzakk3npZRh0ws7WVgUVxrclZnNeEN6yRJWRHAFfni2ZKlwu14zZnxqTf6v5VKn27R0pFekIGANQ/pqKjynfJ4Nji6PNNhpkQFZFyDEtMZiwnC7Nr7YsOK1pKJoW9e+XcxL9yJCdVTR7sbRvC73uQTZHYSScVX1BXZmLV5LExKp1NXsoh/mqs2fZUzM/1SQimLXOEGx0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M/ObEuPvRMYrNY5HUJGE+LeMKxMiSngY3YxFSI9FQY8=;
+ b=Idwo3CFFA5Bq0ophONsmsw9vyYIMisjJxKDs+rBwIGLy8NrlKC+0A275RdoRegcXegITRsFNFVlY12HTD+kaObIzwjcqgKx32aMS4RFhGbtbRlTfkjjJOHPWFN6KlJyvPrHBBm3kpSZEOZb6Mlhbx/vBN3T0oDLTBHchQ5J6OvN65hORms2VX7bv53QW5LTv+BrZ4Fq3n2y3gJ1xqwUfDNJePxJC63tbQOlCBH8fq/pVch2OSX3aBdeiHhJ2jPqqT7wlXMpO8MGzhKZr5laBcQtZzSkHQcWBdX4HCLetSg8/GVPuIq9+pHqmG8/PQppB0n5W/q1NatMBDo4Nghl0rQ==
+Received: from PS2PR01CA0055.apcprd01.prod.exchangelabs.com
+ (2603:1096:300:57::19) by TYZPR04MB4285.apcprd04.prod.outlook.com
+ (2603:1096:400:2f::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Wed, 1 Nov
+ 2023 10:06:12 +0000
+Received: from HK3PEPF0000021C.apcprd03.prod.outlook.com
+ (2603:1096:300:57:cafe::16) by PS2PR01CA0055.outlook.office365.com
+ (2603:1096:300:57::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19 via Frontend
+ Transport; Wed, 1 Nov 2023 10:06:11 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ HK3PEPF0000021C.mail.protection.outlook.com (10.167.8.38) with Microsoft SMTP
+ Server id 15.20.6838.22 via Frontend Transport; Wed, 1 Nov 2023 10:06:10
+ +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz
+Subject: [PATCH v1 00/10] Add i2c-mux and eeprom devices for Meta Yosemite 4
+Date: Wed,  1 Nov 2023 18:05:57 +0800
+Message-Id: <20231101100609.2516844-1-Delphine_CC_Chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231020075521.2121571-44-u.kleine-koenig@pengutronix.de>
-X-Mailman-Approved-At: Fri, 10 Nov 2023 13:24:54 +1100
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF0000021C:EE_|TYZPR04MB4285:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 7dae28db-e80f-4511-9703-08dbdac22cbc
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	SCH302Sy2opdFpE9GPPnkOiuif+ccwR0DLcs7rI+g3tEqWCC1C53137TzB3OUJRhIinSRdX/+OJHTzLgqb4FhyGcMzXrd+FRxKz/bdlOR7hIp/jBqbCUWai7DKkxwl7axChvS+5P1/12XmNZHAnlfNrpExbIYkI18LKfu7RuZeOYzzXcmTYnh0u5LdZUiPkpBFByG1nxCn4a2Zzf0noSCxPn6Ki+4wF9VPPAXf2YICqT15EvhRLmaypg6YfnMDezoC8Kf1zlUlagj/EynVQZ4FZm8b9Yi+i0gytpaUV1OoJZpAQlQa1xItcsHb/X2PHd1KYfCg4m0XzQevq26R47ap0TVMxfp+sKdvxse4x+alTrJTkRohoPrOkj6KXfGcy6MPfXdXSraCvowhdQYBjpu6DWkSXKREEisUp+5/GCZMPjS2NCKAGoOAnhxMpnh4RunQIAoNJ2TOIGne8SpzNVnJ9LnK7VurS/4GWXCxBiuTTA4i8GALzbnBo7xgDm1G9cQe05eGcVK3MrrEUFwApI58pVgNy3xqXUkLu/S+UuLeeOCMUpucdTZFu19dil42emXhngHLeO998y6o/ru6GOEf81aXtFCHT2OElFwcQjNGPNkX3ccBV/vCCRQJ6vmMs2lydrV3ztVgV2XTIlXw+zAhyppM5NvkblPdzMX3FReyi2U6c0j/OWJU4Tb9l/AF/EubbLKQIUDdELwwnTEH5EJg==
+X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(39850400004)(376002)(396003)(136003)(346002)(64100799003)(451199024)(82310400011)(186009)(1800799009)(46966006)(36840700001)(1076003)(26005)(6512007)(6506007)(478600001)(6666004)(4326008)(9316004)(36860700001)(336012)(7416002)(956004)(8936002)(83380400001)(47076005)(41300700001)(5660300002)(36736006)(70206006)(70586007)(6486002)(2616005)(8676002)(316002)(6916009)(54906003)(82740400003)(81166007)(356005)(36756003)(86362001)(40480700001)(2906002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2023 10:06:10.9937
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7dae28db-e80f-4511-9703-08dbdac22cbc
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource: 	HK3PEPF0000021C.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR04MB4285
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,174 +97,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>, linux-aspeed@lists.ozlabs.org,
-	Gaurav Jain <gaurav.jain@nxp.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	linux-arm-kernel@axis.com, Alim Akhtar <alim.akhtar@samsung.com>,
-	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	linux-samsung-soc@vger.kernel.org,
-	Mark Gross <mgross@linux.intel.com>,
-	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ruan Jinjie <ruanjinjie@huawei.com>,
-	Srujana Challa <schalla@marvell.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-sunxi@lists.linux.dev, Declan Murphy <declan.murphy@intel.com>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>, Weili Qian <qianweili@huawei.com>,
-	Yu Zhe <yuzhe@nfschina.com>,
-	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
-	Arnaud Ebalard <arno@natisbad.org>,
-	Pankaj Gupta <pankaj.gupta@nxp.com>,
-	Gilad Ben-Yossef <gilad@benyossef.com>,
-	Lars Persson <lars.persson@axis.com>,
-	linux-amlogic@lists.infradead.org,
-	Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-	linux-arm-kernel@lists.infradead.org,
-	John Allen <john.allen@amd.com>,
-	Prabhjot Khurana <prabhjot.khurana@intel.com>, NXP@lists.ozlabs.org,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Neal Liu <neal_liu@aspeedtech.com>,
-	Antoine Tenart <atenart@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-crypto@vger.kernel.org, kernel@pengutronix.de,
-	Imre Kaloz <kaloz@openwrt.org>, Shawn Guo <shawnguo@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Oct 20, 2023 at 09:55:22AM +0200, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this series converts all platform drivers below drivers/crypto to use
-> .remove_new(). Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver
-> core doesn't (and cannot) cope for errors during remove. The only effect
-> of a non-zero return value in .remove() is that the driver core emits a
-> warning. The device is removed anyhow and an early return from .remove()
-> usually yields resource leaks and/or use-after-free bugs.
-> 
-> There are three drivers that got that wrong and potentially returned an
-> error code (caam/jr.c, stm32/stm32-crc32.c, stm32/stm32-cryp.c). These
-> are fixed accordingly. The other drivers could be transformed trivially.
-> 
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
-> 
-> There are no interdependencies in this series. As there are still quite
-> a few drivers to convert, I'm happy about every patch that makes it in.
-> So even if there is a merge conflict with one patch until you apply (or
-> a different concern that doesn't apply to all patches), please apply the
-> remainder of this series anyhow. I'll come back to the part that you
-> (maybe) skipped at a later point.
-> 
-> Best regards and thanks
-> Uwe
-> 
-> Uwe Kleine-König (42):
->   crypto: sun4i-ss - Convert to platform remove callback returning void
->   crypto: sun8i-ce - Convert to platform remove callback returning void
->   crypto: sun8i-ss - Convert to platform remove callback returning void
->   crypto: amcc/crypto4xx - Convert to platform remove callback returning void
->   crypto: amlogic-gxl-core - Convert to platform remove callback returning void
->   crypto: aspeed-acry - Convert to platform remove callback returning void
->   crypto: aspeed-hace - Convert to platform remove callback returning void
->   crypto: atmel-aes - Convert to platform remove callback returning void
->   crypto: atmel-sha - Convert to platform remove callback returning void
->   crypto: atmel-tdes - Convert to platform remove callback returning void
->   crypto: axis/artpec6 - Convert to platform remove callback returning void
->   crypto: bcm/cipher - Convert to platform remove callback returning void
->   crypto: caam/jr - Convert to platform remove callback returning void
->   crypto: ccp/sp - Convert to platform remove callback returning void
->   crypto: ccree/cc - Convert to platform remove callback returning void
->   crypto: exynos-rng - Convert to platform remove callback returning void
->   crypto: gemini/sl3516-ce - Convert to platform remove callback returning void
->   crypto: hisilicon/sec - Convert to platform remove callback returning void
->   crypto: hisilicon/trng - Convert to platform remove callback returning void
->   crypto: img-hash - Convert to platform remove callback returning void
->   crypto: inside-secure/safexcel - Convert to platform remove callback returning void
->   crypto: intel/ixp4xx-crypto - Convert to platform remove callback returning void
->   crypto: intel/keembay-ocs-aes - Convert to platform remove callback returning void
->   crypto: intel/keembay-ocs-ecc - Convert to platform remove callback returning void
->   crypto: intel/keembay-ocs-hcu - Convert to platform remove callback returning void
->   crypto: marvell/cesa - Convert to platform remove callback returning void
->   crypto: mxs-dcp - Convert to platform remove callback returning void
->   crypto: n2_core - Convert to platform remove callback returning void
->   crypto: omap-aes - Convert to platform remove callback returning void
->   crypto: omap-des - Convert to platform remove callback returning void
->   crypto: omap-sham - Convert to platform remove callback returning void
->   crypto: qce - Convert to platform remove callback returning void
->   crypto: qcom-rng - Convert to platform remove callback returning void
->   crypto: rockchip/rk3288 - Convert to platform remove callback returning void
->   crypto: s5p-sss - Convert to platform remove callback returning void
->   crypto: sa2ul - Convert to platform remove callback returning void
->   crypto: sahara - Convert to platform remove callback returning void
->   crypto: stm32/crc32 - Convert to platform remove callback returning void
->   crypto: stm32/cryp - Convert to platform remove callback returning void
->   crypto: talitos - Convert to platform remove callback returning void
->   crypto: xilinx/zynqmp-aes-gcm - Convert to platform remove callback returning void
->   crypto: xilinx/zynqmp-sha - Convert to platform remove callback returning void
-> 
->  .../crypto/allwinner/sun4i-ss/sun4i-ss-core.c |  5 ++---
->  .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c |  5 ++---
->  .../crypto/allwinner/sun8i-ss/sun8i-ss-core.c |  6 ++---
->  drivers/crypto/amcc/crypto4xx_core.c          |  6 ++---
->  drivers/crypto/amlogic/amlogic-gxl-core.c     |  5 ++---
->  drivers/crypto/aspeed/aspeed-acry.c           |  6 ++---
->  drivers/crypto/aspeed/aspeed-hace.c           |  6 ++---
->  drivers/crypto/atmel-aes.c                    |  6 ++---
->  drivers/crypto/atmel-sha.c                    |  6 ++---
->  drivers/crypto/atmel-tdes.c                   |  6 ++---
->  drivers/crypto/axis/artpec6_crypto.c          |  5 ++---
->  drivers/crypto/bcm/cipher.c                   |  5 ++---
->  drivers/crypto/caam/jr.c                      | 22 ++++++++-----------
->  drivers/crypto/ccp/sp-platform.c              |  6 ++---
->  drivers/crypto/ccree/cc_driver.c              |  6 ++---
->  drivers/crypto/exynos-rng.c                   |  6 ++---
->  drivers/crypto/gemini/sl3516-ce-core.c        |  6 ++---
->  drivers/crypto/hisilicon/sec/sec_drv.c        |  6 ++---
->  drivers/crypto/hisilicon/trng/trng.c          |  6 ++---
->  drivers/crypto/img-hash.c                     |  6 ++---
->  drivers/crypto/inside-secure/safexcel.c       |  6 ++---
->  drivers/crypto/intel/ixp4xx/ixp4xx_crypto.c   |  6 ++---
->  .../intel/keembay/keembay-ocs-aes-core.c      |  6 ++---
->  .../crypto/intel/keembay/keembay-ocs-ecc.c    |  6 ++---
->  .../intel/keembay/keembay-ocs-hcu-core.c      |  6 ++---
->  drivers/crypto/marvell/cesa/cesa.c            |  6 ++---
->  drivers/crypto/mxs-dcp.c                      |  6 ++---
->  drivers/crypto/n2_core.c                      | 12 ++++------
->  drivers/crypto/omap-aes.c                     |  6 ++---
->  drivers/crypto/omap-des.c                     |  6 ++---
->  drivers/crypto/omap-sham.c                    |  6 ++---
->  drivers/crypto/qce/core.c                     |  5 ++---
->  drivers/crypto/qcom-rng.c                     |  6 ++---
->  drivers/crypto/rockchip/rk3288_crypto.c       |  5 ++---
->  drivers/crypto/s5p-sss.c                      |  6 ++---
->  drivers/crypto/sa2ul.c                        |  6 ++---
->  drivers/crypto/sahara.c                       |  6 ++---
->  drivers/crypto/stm32/stm32-crc32.c            | 15 +++++--------
->  drivers/crypto/stm32/stm32-cryp.c             | 16 +++++---------
->  drivers/crypto/talitos.c                      |  6 ++---
->  drivers/crypto/xilinx/zynqmp-aes-gcm.c        |  6 ++---
->  drivers/crypto/xilinx/zynqmp-sha.c            |  6 ++---
->  42 files changed, 99 insertions(+), 187 deletions(-)
-> 
-> base-commit: 4230ea146b1e64628f11e44290bb4008e391bc24
-> -- 
-> 2.42.0
+Changelog:
+    - Add gpio and eeprom behind i2c-mux
+    - Remove redundant idle-state setting for i2c-mux
+    - Enable adc 15, wdt2,spi gpio for yosemite4 use
+    - Revise quad mode to dual mode to avoid WP pin influnece the SPI
+    - Revise power sensor adm1281 for yosemite4 schematic change
+    - Add gpio pca9506 I/O expander for yosemite4 use
+    - remove space for adm1272 compatible
+    - enable interrupt setting for pca9555
+    - add eeprom for yosemite4 medusa board/BSM use
+    - remove temperature sensor for yosemite4 schematic change
+    - add power sensor for power module reading
+    - Revise adc128d818 adc mode for yosemite4 schematic change
+    - Revise ina233 for yosemite4 schematic change
+    - Remove idle state setting for yosemite4 NIC connection
+    - Initialize bmc gpio state
 
-All applied.  Thanks.
+Delphine CC Chiu (10):
+  ARM: dts: aspeed: yosemite4: Revise i2c-mux devices
+  ARM: dts: aspeed: yosemite4: Enable adc15
+  ARM: dts: aspeed: yosemite4: Enable spi-gpio setting
+  ARM: dts: aspeed: yosemite4: Enable watchdog2
+  ARM: dts: aspeed: yosemite4: Revise quad mode to dual mode
+  ARM: dts: aspeed: yosemite4: Revise power sensor adm1281 for schematic
+    change
+  ARM: dts: aspeed: yosemite4: Add gpio pca9506
+  ARM: dts: aspeed: yosemite4: Revise i2c11 and i2c12 schematic change
+  ARM: dts: aspeed: yosemite4: Revise i2c14 and i2c15 schematic change
+  ARM: dts: aspeed: yosemite4: Initialize bmc gpio state
+
+ .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 1026 +++++++++++++++--
+ 1 file changed, 949 insertions(+), 77 deletions(-)
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.25.1
+
