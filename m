@@ -1,98 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B8C7DDF05
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Nov 2023 11:07:41 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 774197E778A
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Nov 2023 03:31:47 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=mWVztLnH;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=OEQkV68v;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SL2kM4BNsz3cWq
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Nov 2023 21:07:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SRNB92lkHz3cTp
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Nov 2023 13:31:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=mWVztLnH;
+	dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=OEQkV68v;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feab::60d; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2060d.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::60d])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=9elements.com (client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=alexander.hansen@9elements.com; receiver=lists.ozlabs.org)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SL2jj11gKz3cVH
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Nov 2023 21:07:05 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NXwZBp2bbazNWwbsgvb7gnAoKI+HxnWNhBAeLoxatG46h8O5peBv50iceYJ+dpLPSPTWjJXKDYOu1ljCnQy+pvXF99HasCfaZS5GVSTGOk+4/LYlQKothRYssAVYZDwliFJGtDwi3IvoF8am4iTrJJzsOS7b3te3yA+g2FbWQns31HwQKzjUrs55N1wJjlFiU/2uuotOdJVaEoBWZ4gW7htQZwytT6Ch7n2dEYvcbmHLqyl4tJvF1oAH1gNE3bd5AjdaY8Yvm7RPt9oHhtRzN0gUmMWtDI0UXPjs2DFG/CcQMQ6vIozDIaqIXL66xM4/fstKRluDeGVLX7NueDOiEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mslSkF+utcuvRraDkx+lR0DVTdVTo/DQ01oagSWGMgg=;
- b=QEUH/lSVIMOSCIiKafHRJlinM28pLnrvBX8j5zXkT7kNbOgZ5SCtKfFoknmQsKJSJCN7MmZQJLHPutX+qZKVAQo/oMXw8GmevbDp+nP4gMxZ9PxV++2loBnUEpUPQkzVT3bpHzRpKYCrCj7ozOzPQ0DlHxUB49YGYwBc+EegBIwH9N8KAMjV5EOKpkdD+/cAMRgPNyiI6zJn+wt348NqP9Nzkf+ex8L1movkgQcvq0Nc/C3vQGDl8I+XmtmWMt7kAuK5wOFNCkLmRCKwxlCU57m7gCu8WmBDPoXgJTwBcbunHWAAvdvRsD9UURcIcqzz0aHVGfL2uDuBQLTWrXuBTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
- (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mslSkF+utcuvRraDkx+lR0DVTdVTo/DQ01oagSWGMgg=;
- b=mWVztLnHK8bEZNxyftWf/gEvVaVKXkhTyXzpxBGWOFUeW1H/5jkiTP6iJqItrS/0dAR65JzsnsB1dFh4EmAXWX4eAPZoXeAz9wqUg/xyfRiZeXKG0uGFIV/JpAURL+GJMn/7NHMku6JaqXEL2uBFXTOzGOc8zPXnnylLPWeBHn9mrgK6bOIeIcDMgUrHZMkMx9cYCu8pZ8KCmqOJ7cvxStqOt0rJw1DndE+RGz+zmMDP/fQdlcezIbcUEjFMt09yZnav2nenzsjzOkf3X/2rZWpnq3abYofCq/5sJlSl6isiFkQOYO021c26T6umGUwduqZr8Y060AOwU1Rm6vLD2A==
-Received: from PS2PR01CA0056.apcprd01.prod.exchangelabs.com
- (2603:1096:300:57::20) by TYUPR04MB6640.apcprd04.prod.outlook.com
- (2603:1096:400:35e::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Wed, 1 Nov
- 2023 10:06:45 +0000
-Received: from HK3PEPF0000021C.apcprd03.prod.outlook.com
- (2603:1096:300:57:cafe::32) by PS2PR01CA0056.outlook.office365.com
- (2603:1096:300:57::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19 via Frontend
- Transport; Wed, 1 Nov 2023 10:06:45 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
- smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
-Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
- designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.20.1.79; helo=localhost.localdomain;
-Received: from localhost.localdomain (211.20.1.79) by
- HK3PEPF0000021C.mail.protection.outlook.com (10.167.8.38) with Microsoft SMTP
- Server id 15.20.6838.22 via Frontend Transport; Wed, 1 Nov 2023 10:06:45
- +0000
-From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-To: patrick@stwcx.xyz,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SMH9P0CTWz30fk
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Nov 2023 21:31:50 +1100 (AEDT)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-32f70391608so882908f8f.2
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 03 Nov 2023 03:31:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1699007503; x=1699612303; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KB8BFBrWt5cdMdMUbKVX9KzIODIdRsQC4ffz0FV6Nlo=;
+        b=OEQkV68v9WNzWWS9Hg0f/d//O62upI5gpkT96O4APAxL5l2hFlbAG42usbFk4jC+T2
+         wQYT1xADJP8rmSj0ZfsZQ9W3JIzBX0N+pjz0vM/yK44k/tEtxf2+GLfiAEf13NnIXv3r
+         YwJy8Z5bh4xcPMyoX07ntkQOCruGjWlT5xOlMQ3CMv4LqJ9R6yzyYfGNeUfTcRBYHpmq
+         6dwDzIuiCwGQ5nR4bbNXStouCiQL4yT4/MflF4gToN0Fjj+YoLEBoItEZI2J0cmmzzfL
+         I0QDr/weDm2bUle06zxo6lN0DSv7CUUXmavCjYbquQ86U/IUgNQeHBVuF6RKEik8+Tq/
+         Ol8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699007503; x=1699612303;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KB8BFBrWt5cdMdMUbKVX9KzIODIdRsQC4ffz0FV6Nlo=;
+        b=j9BIa5OwDJkUooUzKo8mT/pzwt1qTSyl8agL7aqp0LHq1KtwpNip04JgYblRkieLxQ
+         yDpmI1c8eKFXOcrmpW4prAKbamTWeOSEUjuoT6QfM3CW3DXvFSdKcbu7GTvQSqOFQgSz
+         GyuZ1pEPizZGJt959Ljkd+HTr5QOH3nVbfXfgTB9Z/jXnH0lxozGdEGkBtmuFKTjRHSv
+         WXswXzO6eHGX0FCgwqLBedaaaSpt2w9lvHKKwInE5ET0YGLhA0A4qDg0fruJXfsqkPFG
+         ASVwQ3vM1z5vr63QYNPn7kcP0qlHZOmeTxziuRIOcUMrfLkW7LLn2YNiqOi4MfszehXm
+         4XYw==
+X-Gm-Message-State: AOJu0YzvXfcxOiEoqx5yoyD4H09rBeVCQBTW/F25NKA7Dko/R3kmXeQv
+	QjmDJn5I5uwXkbXrJtuxhO6DYA==
+X-Google-Smtp-Source: AGHT+IEIlB2E3hb2daCNNGhpAtJIEYOq+xWyQtc40nSeuD54pfR8jsdJ3zTJksQ7asKTBUpW7gelFQ==
+X-Received: by 2002:adf:f390:0:b0:32d:a98c:aa1f with SMTP id m16-20020adff390000000b0032da98caa1fmr15069898wro.1.1699007503174;
+        Fri, 03 Nov 2023 03:31:43 -0700 (PDT)
+Received: from zbox.lab.9e.network (ip-078-094-000-051.um19.pools.vodafone-ip.de. [78.94.0.51])
+        by smtp.gmail.com with ESMTPSA id h17-20020adff4d1000000b0031c52e81490sm1511297wrp.72.2023.11.03.03.31.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Nov 2023 03:31:42 -0700 (PDT)
+From: Alexander Hansen <alexander.hansen@9elements.com>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: [PATCH v1 10/10] ARM: dts: aspeed: yosemite4: Initialize bmc gpio state
-Date: Wed,  1 Nov 2023 18:06:07 +0800
-Message-Id: <20231101100609.2516844-11-Delphine_CC_Chiu@wiwynn.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231101100609.2516844-1-Delphine_CC_Chiu@wiwynn.com>
-References: <20231101100609.2516844-1-Delphine_CC_Chiu@wiwynn.com>
+	Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH v1 1/1] hwmon: (aspeed-pwm-tacho) mutex for tach reading
+Date: Fri,  3 Nov 2023 11:30:55 +0100
+Message-ID: <121d888762a1232ef403cf35230ccf7b3887083a.1699007401.git.alexander.hansen@9elements.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK3PEPF0000021C:EE_|TYUPR04MB6640:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: f3c4b5db-08e6-4b7f-5d5f-08dbdac24124
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	v/HaZW4enfEKjFdimMDQm/V/xYJbLvy917B9nBaFF8rIFh99pRe+Eqa2haJWlRuqwADpxZF/rmgyeyCqL2uPSJg4lqSq2Xss4n6vKHsDSwZBFsQkJKVafgxn0WW4HE2ET4ROZf3zDvi+6RyKae9VeNNRPoBwtk1rbjz5bUrkfoVNsHY+7m+9WDbCvo3NjUedON68n9oxn0z63D8cDb3pD4R3TvuMEG/gnCN6IQuitn/6wozKuGgaQV8PsGJa3j3iXJwEJ4d8X0wYOg7Yu6QjRJhLigqORsRsD0iIdeIY/wyl2Ono7a2tn46UXZymKkWU+abZdaoCKM+pA973JQpkyuLkr53kfa3El5RCQTQYaYbFa0R2K23XTyx22+kxs05tXfRl23Z3Gn3DMBP3NvwOlvNvmTINd8dnJxCJU6+t4+ir2qL0tWwfMmeOdnYroYvpLYMW+dF44YNSl5rKpfDHZCptp1Z47NS1CZWyGWM2d616q8yY7lQ2fl3Xm/h+dIv5Y6WP96hn+XPgp7VRLoLlmS72mkiTfDERIgmAG8Pt31Uq8eUmXfE5Sa8NiJZb2CkejwnVrRqcjGMXRGvcY5bmWzOOOoXMh4zhZ8oRj32W7I4acLCcry6QiY5dEODSROk+vQgm3S7QHcGndJZkVFuGQXJtqxrBJ7oMHd6EtkkGSsotIOJM64HOULgmi+w9vU4YHzuVIuZwdxFe3t/Rjx9Xjw==
-X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(346002)(376002)(136003)(396003)(39860400002)(64100799003)(186009)(451199024)(1800799009)(82310400011)(46966006)(36840700001)(7416002)(5660300002)(316002)(41300700001)(36736006)(110136005)(70586007)(70206006)(2906002)(8936002)(4326008)(8676002)(6486002)(478600001)(40480700001)(6666004)(36860700001)(6512007)(47076005)(81166007)(36756003)(83380400001)(356005)(6506007)(26005)(336012)(9316004)(1076003)(956004)(2616005)(86362001)(82740400003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2023 10:06:45.2282
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3c4b5db-08e6-4b7f-5d5f-08dbdac24124
-X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource: 	HK3PEPF0000021C.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYUPR04MB6640
+X-Mailman-Approved-At: Fri, 10 Nov 2023 13:24:54 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,235 +79,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-kernel@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Loic Prylli <lprylli@netflix.com>, Alexander Hansen <alexander.hansen@9elements.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Initialize bmc gpio state
+From: Loic Prylli <lprylli@netflix.com>
 
-Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+the ASPEED_PTCR_RESULT Register can only hold the result for a
+single fan input. Adding a mutex to protect the register until the
+reading is done.
+
+Signed-off-by: Loic Prylli <lprylli@netflix.com>
+Signed-off-by: Alexander Hansen <alexander.hansen@9elements.com>
 ---
- .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 196 ++++++++++++++++++
- 1 file changed, 196 insertions(+)
+ drivers/hwmon/aspeed-pwm-tacho.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-index a0f0424457fa..2947abfb0b46 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-@@ -1271,6 +1271,7 @@ temperature-sensor@1f {
- 	};
+diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
+index 997df4b40509..b2ae2176f11f 100644
+--- a/drivers/hwmon/aspeed-pwm-tacho.c
++++ b/drivers/hwmon/aspeed-pwm-tacho.c
+@@ -193,6 +193,8 @@ struct aspeed_pwm_tacho_data {
+ 	u8 fan_tach_ch_source[16];
+ 	struct aspeed_cooling_device *cdev[8];
+ 	const struct attribute_group *groups[3];
++	/* protects access to shared ASPEED_PTCR_RESULT */
++	struct mutex tach_lock;
  };
  
-+
- &adc0 {
- 	ref_voltage = <2500>;
- 	status = "okay";
-@@ -1287,6 +1288,7 @@ &adc1 {
-             &pinctrl_adc15_default>;
- };
+ enum type { TYPEM, TYPEN, TYPEO };
+@@ -527,6 +529,8 @@ static int aspeed_get_fan_tach_ch_rpm(struct aspeed_pwm_tacho_data *priv,
+ 	u8 fan_tach_ch_source, type, mode, both;
+ 	int ret;
  
++	mutex_lock(&priv->tach_lock);
 +
- &ehci0 {
- 	status = "okay";
- };
-@@ -1298,3 +1300,197 @@ &ehci1 {
- &uhci {
- 	status = "okay";
- };
+ 	regmap_write(priv->regmap, ASPEED_PTCR_TRIGGER, 0);
+ 	regmap_write(priv->regmap, ASPEED_PTCR_TRIGGER, 0x1 << fan_tach_ch);
+ 
+@@ -544,6 +548,8 @@ static int aspeed_get_fan_tach_ch_rpm(struct aspeed_pwm_tacho_data *priv,
+ 		ASPEED_RPM_STATUS_SLEEP_USEC,
+ 		usec);
+ 
++	mutex_unlock(&priv->tach_lock);
 +
-+&sgpiom0 {
-+	status = "okay";
-+	ngpios = <128>;
-+	bus-frequency = <48000>;
-+};
-+
-+&gpio0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_gpiu2_default &pinctrl_gpiu3_default
-+		     &pinctrl_gpiu4_default &pinctrl_gpiu5_default
-+		     &pinctrl_gpiu6_default>;
-+	gpio-line-names =
-+	/*A0-A7*/       "","","","","","","","",
-+	/*B0-B7*/       "FLT_HSC_SERVER_SLOT8_N","AC_ON_OFF_BTN_CPLD_SLOT5_N",
-+			"PWRGD_SLOT1_STBY","PWRGD_SLOT2_STBY",
-+			"PWRGD_SLOT3_STBY","PWRGD_SLOT4_STBY","","",
-+	/*C0-C7*/       "PRSNT_NIC3_N","","","","FM_NIC0_WAKE_N",
-+			"FM_NIC1_WAKE_N","","RST_PCIE_SLOT2_N",
-+	/*D0-D7*/       "","","","","","","","",
-+	/*E0-E7*/       "PRSNT_NIC1_N","PRSNT_NIC2_N","","RST_PCIE_SLOT1_N",
-+			"","","","",
-+	/*F0-F7*/       "FM_RESBTN_SLOT1_BMC_N","FM_RESBTN_SLOT2_BMC_N",
-+			"FM_RESBTN_SLOT3_BMC_N","FM_RESBTN_SLOT4_BMC_N",
-+			"PRSNT_SB_SLOT1_N","PRSNT_SB_SLOT2_N",
-+			"PRSNT_SB_SLOT3_N","PRSNT_SB_SLOT4_N",
-+	/*G0-G7*/       "","","","","","","","",
-+	/*H0-H7*/       "","","","","","","","",
-+	/*I0-I7*/       "","","","","","ALT_MEDUSA_ADC_N",
-+			"ALT_SMB_BMC_CPLD2_N",
-+			"INT_SPIDER_ADC_R_N",
-+	/*J0-J7*/       "","","","","","","","",
-+	/*K0-K7*/       "","","","","","","","",
-+	/*L0-L7*/       "","","","","","","ALT_MEDUSA_P12V_EFUSE_N","",
-+	/*M0-M7*/       "EN_NIC0_POWER_BMC_R","EN_NIC1_POWER_BMC_R",
-+			"INT_MEDUSA_IOEXP_TEMP_N","FLT_P12V_NIC0_N",
-+			"INT_SMB_BMC_SLOT1_4_BMC_N",
-+			"AC_ON_OFF_BTN_CPLD_SLOT6_N","","",
-+	/*N0-N7*/       "FLT_HSC_SERVER_SLOT1_N","FLT_HSC_SERVER_SLOT2_N",
-+			"FLT_HSC_SERVER_SLOT3_N","FLT_HSC_SERVER_SLOT4_N",
-+			"FM_BMC_READY_R2","FLT_P12V_STBY_BMC_N","","",
-+	/*O0-O7*/       "AC_ON_OFF_BTN_CPLD_SLOT8_N","RST_SMB_NIC1_R_N",
-+			"RST_SMB_NIC2_R_N","RST_SMB_NIC3_R_N",
-+			"FLT_P3V3_NIC2_N","FLT_P3V3_NIC3_N",
-+			"","",
-+	/*P0-P7*/       "ALT_SMB_BMC_CPLD1_N","'BTN_BMC_R2_N",
-+			"EN_P3V_BAT_SCALED_R","PWRGD_P5V_USB_BMC",
-+			"FM_BMC_RTCRST_R","RST_USB_HUB_R_N",
-+			"FLAG_P5V_USB_BMC_N","",
-+	/*Q0-Q7*/       "AC_ON_OFF_BTN_CPLD_SLOT1_N","AC_ON_OFF_BTN_CPLD_SLOT2_N",
-+			"AC_ON_OFF_BTN_CPLD_SLOT3_N","AC_ON_OFF_BTN_CPLD_SLOT4_N",
-+			"PRSNT_SB_SLOT5_N","PRSNT_SB_SLOT6_N",
-+			"PRSNT_SB_SLOT7_N","PRSNT_SB_SLOT8_N",
-+	/*R0-R7*/       "AC_ON_OFF_BTN_CPLD_SLOT7_N","INT_SMB_BMC_SLOT5_8_BMC_N",
-+			"FM_PWRBRK_NIC_BMC_R2","RST_PCIE_SLOT4_N",
-+			"RST_PCIE_SLOT5_N","RST_PCIE_SLOT6_N",
-+			"RST_PCIE_SLOT7_N","RST_PCIE_SLOT8_N",
-+	/*S0-S7*/       "FM_NIC2_WAKE_N","FM_NIC3_WAKE_N",
-+			"EN_NIC3_POWER_BMC_R","SEL_BMC_JTAG_MUX_R",
-+			"","ALT_P12V_AUX_N","FAST_PROCHOT_N",
-+			"SPI_WP_DISABLE_STATUS_R_N",
-+	/*T0-T7*/       "","","","","","","","",
-+	/*U0-U7*/       "","","FLT_P3V3_NIC1_N","FLT_P12V_NIC1_N",
-+			"FLT_P12V_NIC2_N","FLT_P12V_NIC3_N",
-+			"FLT_P3V3_NIC0_N","",
-+	/*V0-V7*/       "FM_RESBTN_SLOT5_BMC_N","FM_RESBTN_SLOT6_BMC_N",
-+			"FM_RESBTN_SLOT7_BMC_N","FM_RESBTN_SLOT8_BMC_N",
-+			"","","","",
-+	/*W0-W7*/       "PRSNT_TPM_BMC_N","PRSNT_OCP_DEBUG_BMC_N","ALT_TEMP_BMC_N","ALT_RTC_BMC_N",
-+			"","","","",
-+	/*X0-X7*/       "","LT_HSC_SERVER_SLOT6_N","FLT_HSC_SERVER_SLOT7_N","","","",
-+			"PWRGD_SLOT5_STBY","PWRGD_SLOT6_STBY",
-+	/*Y0-Y7*/       "","","SPI_LOCK_REQ_BMC_N","PWRGD_SLOT7_STBY",
-+			"","","EN_NIC2_POWER_BMC_R","",
-+	/*Z0-Z7*/       "EN_P5V_USB_CPLD_R","'FLT_HSC_SERVER_SLOT5_N",
-+			"PWRGD_SLOT8_STBY","","","","","";
-+
-+	pin_gpio_b4 {
-+		gpios = <ASPEED_GPIO(B, 4) GPIO_ACTIVE_HIGH>;
-+		input;
-+	};
-+	pin_gpio_b5 {
-+		gpios = <ASPEED_GPIO(B, 5) GPIO_ACTIVE_HIGH>;
-+		input;
-+	};
-+	pin_gpio_f0 {
-+		gpios = <ASPEED_GPIO(F, 0) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_f1 {
-+		gpios = <ASPEED_GPIO(F, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_f2 {
-+		gpios = <ASPEED_GPIO(F, 2) GPIO_ACTIVE_LOW>;
-+		input;
-+		};
-+	pin_gpio_f3 {
-+		gpios = <ASPEED_GPIO(F, 3) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_f4 {
-+		gpios = <ASPEED_GPIO(F, 4) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_f5 {
-+		gpios = <ASPEED_GPIO(F, 5) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_f6 {
-+		gpios = <ASPEED_GPIO(F, 6) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_f7 {
-+		gpios = <ASPEED_GPIO(F, 7) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_l6 {
-+		gpios = <ASPEED_GPIO(L, 6) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_l7 {
-+		gpios = <ASPEED_GPIO(L, 7) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_s0 {
-+		gpios = <ASPEED_GPIO(S, 0) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_s1 {
-+		gpios = <ASPEED_GPIO(S, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_v0 {
-+		gpios = <ASPEED_GPIO(V, 0) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_v1 {
-+		gpios = <ASPEED_GPIO(V, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_v2 {
-+		gpios = <ASPEED_GPIO(V, 2) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_v3 {
-+		gpios = <ASPEED_GPIO(V, 3) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_w0 {
-+		gpios = <ASPEED_GPIO(W, 0) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_w1 {
-+		gpios = <ASPEED_GPIO(W, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_w2 {
-+		gpios = <ASPEED_GPIO(W, 2) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_w3 {
-+		gpios = <ASPEED_GPIO(W, 3) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_w4 {
-+		gpios = <ASPEED_GPIO(W, 4) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_w5 {
-+		gpios = <ASPEED_GPIO(W, 5) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_w6 {
-+		gpios = <ASPEED_GPIO(W, 6) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_w7 {
-+		gpios = <ASPEED_GPIO(W, 7) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_z3 {
-+		gpios = <ASPEED_GPIO(Z, 3) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_z4 {
-+		gpios = <ASPEED_GPIO(Z, 4) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_z5 {
-+		gpios = <ASPEED_GPIO(Z, 5) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+};
+ 	/* return -ETIMEDOUT if we didn't get an answer. */
+ 	if (ret)
+ 		return ret;
+@@ -903,6 +909,7 @@ static int aspeed_pwm_tacho_probe(struct platform_device *pdev)
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+ 	if (!priv)
+ 		return -ENOMEM;
++	mutex_init(&priv->tach_lock);
+ 	priv->regmap = devm_regmap_init(dev, NULL, (__force void *)regs,
+ 			&aspeed_pwm_tacho_regmap_config);
+ 	if (IS_ERR(priv->regmap))
 -- 
-2.25.1
+2.42.0
 
