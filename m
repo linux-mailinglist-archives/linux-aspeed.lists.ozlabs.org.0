@@ -2,72 +2,43 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774197E778A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Nov 2023 03:31:47 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=OEQkV68v;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id B21B97E3A16
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Nov 2023 11:42:22 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SRNB92lkHz3cTp
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Nov 2023 13:31:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SPlCX5y5Pz3cLQ
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Nov 2023 21:42:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=OEQkV68v;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=9elements.com (client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=alexander.hansen@9elements.com; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx03.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 84 seconds by postgrey-1.37 at boromir; Tue, 07 Nov 2023 21:42:05 AEDT
+Received: from TWMBX03.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SMH9P0CTWz30fk
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Nov 2023 21:31:50 +1100 (AEDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-32f70391608so882908f8f.2
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 03 Nov 2023 03:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1699007503; x=1699612303; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KB8BFBrWt5cdMdMUbKVX9KzIODIdRsQC4ffz0FV6Nlo=;
-        b=OEQkV68v9WNzWWS9Hg0f/d//O62upI5gpkT96O4APAxL5l2hFlbAG42usbFk4jC+T2
-         wQYT1xADJP8rmSj0ZfsZQ9W3JIzBX0N+pjz0vM/yK44k/tEtxf2+GLfiAEf13NnIXv3r
-         YwJy8Z5bh4xcPMyoX07ntkQOCruGjWlT5xOlMQ3CMv4LqJ9R6yzyYfGNeUfTcRBYHpmq
-         6dwDzIuiCwGQ5nR4bbNXStouCiQL4yT4/MflF4gToN0Fjj+YoLEBoItEZI2J0cmmzzfL
-         I0QDr/weDm2bUle06zxo6lN0DSv7CUUXmavCjYbquQ86U/IUgNQeHBVuF6RKEik8+Tq/
-         Ol8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699007503; x=1699612303;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KB8BFBrWt5cdMdMUbKVX9KzIODIdRsQC4ffz0FV6Nlo=;
-        b=j9BIa5OwDJkUooUzKo8mT/pzwt1qTSyl8agL7aqp0LHq1KtwpNip04JgYblRkieLxQ
-         yDpmI1c8eKFXOcrmpW4prAKbamTWeOSEUjuoT6QfM3CW3DXvFSdKcbu7GTvQSqOFQgSz
-         GyuZ1pEPizZGJt959Ljkd+HTr5QOH3nVbfXfgTB9Z/jXnH0lxozGdEGkBtmuFKTjRHSv
-         WXswXzO6eHGX0FCgwqLBedaaaSpt2w9lvHKKwInE5ET0YGLhA0A4qDg0fruJXfsqkPFG
-         ASVwQ3vM1z5vr63QYNPn7kcP0qlHZOmeTxziuRIOcUMrfLkW7LLn2YNiqOi4MfszehXm
-         4XYw==
-X-Gm-Message-State: AOJu0YzvXfcxOiEoqx5yoyD4H09rBeVCQBTW/F25NKA7Dko/R3kmXeQv
-	QjmDJn5I5uwXkbXrJtuxhO6DYA==
-X-Google-Smtp-Source: AGHT+IEIlB2E3hb2daCNNGhpAtJIEYOq+xWyQtc40nSeuD54pfR8jsdJ3zTJksQ7asKTBUpW7gelFQ==
-X-Received: by 2002:adf:f390:0:b0:32d:a98c:aa1f with SMTP id m16-20020adff390000000b0032da98caa1fmr15069898wro.1.1699007503174;
-        Fri, 03 Nov 2023 03:31:43 -0700 (PDT)
-Received: from zbox.lab.9e.network (ip-078-094-000-051.um19.pools.vodafone-ip.de. [78.94.0.51])
-        by smtp.gmail.com with ESMTPSA id h17-20020adff4d1000000b0031c52e81490sm1511297wrp.72.2023.11.03.03.31.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 03:31:42 -0700 (PDT)
-From: Alexander Hansen <alexander.hansen@9elements.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH v1 1/1] hwmon: (aspeed-pwm-tacho) mutex for tach reading
-Date: Fri,  3 Nov 2023 11:30:55 +0100
-Message-ID: <121d888762a1232ef403cf35230ccf7b3887083a.1699007401.git.alexander.hansen@9elements.com>
-X-Mailer: git-send-email 2.42.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SPlCL00T5z2xdh
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Nov 2023 21:42:05 +1100 (AEDT)
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX03.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 7 Nov
+ 2023 18:39:56 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 7 Nov 2023 18:39:56 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+	<corbet@lwn.net>, <thierry.reding@gmail.com>,
+	<u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+	<billy_tsai@aspeedtech.com>, <naresh.solanki@9elements.com>,
+	<linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-pwm@vger.kernel.org>, <BMC-SW@aspeedtech.com>, <patrick@stwcx.xyz>
+Subject: [PATCH v10 0/3] Support pwm/tach driver for aspeed ast26xx
+Date: Tue, 7 Nov 2023 18:39:52 +0800
+Message-ID: <20231107103955.1166655-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 10 Nov 2023 13:24:54 +1100
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,61 +50,108 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Loic Prylli <lprylli@netflix.com>, Alexander Hansen <alexander.hansen@9elements.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Loic Prylli <lprylli@netflix.com>
+Unlike the old design that the register setting of the TACH should based
+on the configure of the PWM. In ast26xx, the dependency between pwm and
+tach controller is eliminated and becomes a separate hardware block. One
+is used to provide pwm output and another is used to monitor the frequency
+of the input. This driver implements them by exposing two kernel
+subsystems: PWM and HWMON. The PWM subsystem can be utilized alongside
+existing drivers for controlling elements such as fans (pwm-fan.c),
+beepers (pwm-beeper.c) and so on. Through the HWMON subsystem, the driver
+provides sysfs interfaces for fan.
 
-the ASPEED_PTCR_RESULT Register can only hold the result for a
-single fan input. Adding a mutex to protect the register until the
-reading is done.
+Changes since v9:
+Change the type of fan-driving-mode to string
+Fix some typos and formatting issues.
 
-Signed-off-by: Loic Prylli <lprylli@netflix.com>
-Signed-off-by: Alexander Hansen <alexander.hansen@9elements.com>
----
- drivers/hwmon/aspeed-pwm-tacho.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Changes since v8:
+Fix the fail of fan div register setting. (FIELD_GET -> FIELD_PREP)
+Change the type of tach-ch from uint32_t to uint8-array
+Add additional properties and apply constraints to certain properties.
 
-diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
-index 997df4b40509..b2ae2176f11f 100644
---- a/drivers/hwmon/aspeed-pwm-tacho.c
-+++ b/drivers/hwmon/aspeed-pwm-tacho.c
-@@ -193,6 +193,8 @@ struct aspeed_pwm_tacho_data {
- 	u8 fan_tach_ch_source[16];
- 	struct aspeed_cooling_device *cdev[8];
- 	const struct attribute_group *groups[3];
-+	/* protects access to shared ASPEED_PTCR_RESULT */
-+	struct mutex tach_lock;
- };
- 
- enum type { TYPEM, TYPEN, TYPEO };
-@@ -527,6 +529,8 @@ static int aspeed_get_fan_tach_ch_rpm(struct aspeed_pwm_tacho_data *priv,
- 	u8 fan_tach_ch_source, type, mode, both;
- 	int ret;
- 
-+	mutex_lock(&priv->tach_lock);
-+
- 	regmap_write(priv->regmap, ASPEED_PTCR_TRIGGER, 0);
- 	regmap_write(priv->regmap, ASPEED_PTCR_TRIGGER, 0x1 << fan_tach_ch);
- 
-@@ -544,6 +548,8 @@ static int aspeed_get_fan_tach_ch_rpm(struct aspeed_pwm_tacho_data *priv,
- 		ASPEED_RPM_STATUS_SLEEP_USEC,
- 		usec);
- 
-+	mutex_unlock(&priv->tach_lock);
-+
- 	/* return -ETIMEDOUT if we didn't get an answer. */
- 	if (ret)
- 		return ret;
-@@ -903,6 +909,7 @@ static int aspeed_pwm_tacho_probe(struct platform_device *pdev)
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
-+	mutex_init(&priv->tach_lock);
- 	priv->regmap = devm_regmap_init(dev, NULL, (__force void *)regs,
- 			&aspeed_pwm_tacho_regmap_config);
- 	if (IS_ERR(priv->regmap))
+Changes since v7:
+Cherry-pick the fan-common.yaml and add the following properties:
+- min-rpm
+- div
+- mode
+- tach-ch
+Fix the warning which is reported by the kernel test robot.
+
+Changes since v6:
+Consolidate the PWM and TACH functionalities into a unified driver.
+
+Changes since v5:
+- pwm/tach:
+  - Remove the utilization of common resources from the parent node.
+  - Change the concept to 16 PWM/TACH controllers, each with one channel,
+  instead of 1 PWM/TACH controller with 16 channels.
+- dt-binding:
+  - Eliminate the usage of simple-mfd.
+
+Changes since v4:
+- pwm:
+  - Fix the return type of get_status function.
+- tach:
+  - read clk source once and re-use it
+  - Remove the constants variables
+  - Allocate tach_channel as array
+  - Use dev->parent
+- dt-binding:
+  - Fix the order of the patches
+  - Add example and description for tach child node
+  - Remove pwm extension property
+
+Changes since v3:
+- pwm:
+  - Remove unnecessary include header
+  - Fix warning Prefer "GPL" over "GPL v2"
+- tach:
+  - Remove the paremeter min_rpm and max_rpm and return the tach value 
+  directly without any polling or delay.
+  - Fix warning Prefer "GPL" over "GPL v2"
+- dt-binding:
+  - Replace underscore in node names with dashes
+  - Split per subsystem
+
+Changes since v2:
+- pwm:
+  - Use devm_* api to simplify the error cleanup
+  - Fix the multi-line alignment problem
+- tach:
+  - Add tach-aspeed-ast2600 to index.rst
+  - Fix the multi-line alignment problem
+  - Remove the tach enable/disable when read the rpm
+  - Fix some coding format issue
+
+Changes since v1:
+- tach:
+  - Add the document tach-aspeed-ast2600.rst
+  - Use devm_* api to simplify the error cleanup.
+  - Change hwmon register api to devm_hwmon_device_register_with_info
+
+Billy Tsai (2):
+  dt-bindings: hwmon: Support Aspeed g6 PWM TACH Control
+  hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
+
+Naresh Solanki (1):
+  dt-bindings: hwmon: fan: Add fan binding to schema
+
+ .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    |  69 +++
+ .../devicetree/bindings/hwmon/fan-common.yaml |  78 +++
+ Documentation/hwmon/aspeed-g6-pwm-tach.rst    |  26 +
+ Documentation/hwmon/index.rst                 |   1 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/aspeed-g6-pwm-tach.c            | 539 ++++++++++++++++++
+ 7 files changed, 725 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.yaml
+ create mode 100644 Documentation/hwmon/aspeed-g6-pwm-tach.rst
+ create mode 100644 drivers/hwmon/aspeed-g6-pwm-tach.c
+
 -- 
-2.42.0
+2.25.1
 
