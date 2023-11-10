@@ -1,121 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7444B7E5D60
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Nov 2023 19:38:45 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PLTpF1wj;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 616097EAA7E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Nov 2023 07:25:53 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SQYkq2SVFz3cT0
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Nov 2023 05:38:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4STxBP2ydKz3cT9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Nov 2023 17:25:49 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PLTpF1wj;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1133; helo=mail-yw1-x1133.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SQYkg4SH0z3cRF
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Nov 2023 05:38:33 +1100 (AEDT)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-5a7c08b7744so59557b3.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Nov 2023 10:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699468711; x=1700073511; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=gnRY8hgDaxFo76ZgJWjN69ov12zpJHTXkWZBmrfUhmM=;
-        b=PLTpF1wjjJyPBODrb593Xaync3daWjdNwknva3NK1WME2Q49Q0wO5slr/hWivJl5c4
-         kM8jr5TKT3pNf7RSUjWhnzprJgCRLaWX0d3Jc9luHkn7n9lGeNcoTg6dmTg0tHHT0YUG
-         t181hZ5IqZrDTGKX7fDFejN3RWZw/v8i7AoRKtsqfqL2h8S26fKtS3rsaLhLjGrpSTcd
-         UUj8BmXdAEzBwVRFTCttZFcSmiEck3BJeSpRfpNNZP54/5UkjDm+nTl3g6H7AxdEDMc5
-         OcxRkIxQa83n0+FFMS2DiTzLZ5Iz1PVsDKry90mySmg5aaMd4BiPw45hldPI67aWUgcN
-         khXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699468711; x=1700073511;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gnRY8hgDaxFo76ZgJWjN69ov12zpJHTXkWZBmrfUhmM=;
-        b=dXd0n0g40c3fyItetUNA5KRiDLa1h1iQlQj5N3dzlXeDXQ0HCLyAZtDBbE5iCVqTFz
-         yR0kkKp0sAHkcIbrIDcP1yrMDfVJ2g25xbQeLqEYWXLu6q6Q6O0wsmTZJmjp+s7UBtUB
-         OWRE4OtxbEZyON9XvScI3t5RcMqHOMaRO65WK2Ij6Ja7kRvvHUe7H8EPsFAld7XF2KLz
-         XxNzl2Vc1GRL3+XSCw/LBlQN+OrMqQBwdasIClVbDYbbCVn/YmvbMbKLd3Qd+b8xD7dg
-         lqwBGC7bIJVf9nlGJuHm+eWW11fLwFJjMlmp3RM0Wo0ySUh+wpxzGKcdjbJUL0pXUowB
-         Q4zw==
-X-Gm-Message-State: AOJu0YyRxtIYZK1IJXIOC8zfTB+zyCB+L4TXA0LJvfKBf1JpD7LeRaeD
-	hs2iKwRpiH3n52xlx1boSUo=
-X-Google-Smtp-Source: AGHT+IF5UCiZdRU27t6uGR6Xd3CxkQN829PGDg05me1nIK2Rmn3euTUJlk/yBnlm83LSrqEfb7D+wA==
-X-Received: by 2002:a0d:f301:0:b0:583:b186:d817 with SMTP id c1-20020a0df301000000b00583b186d817mr2454238ywf.27.1699468710710;
-        Wed, 08 Nov 2023 10:38:30 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x184-20020a814ac1000000b0057a8de72338sm7119235ywa.68.2023.11.08.10.38.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 10:38:30 -0800 (PST)
-Message-ID: <d3204361-2d4c-41f9-8365-5826195aa884@roeck-us.net>
-Date: Wed, 8 Nov 2023 10:38:27 -0800
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SRjTc1qtrz3cns
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Nov 2023 02:31:16 +1100 (AEDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r1TT0-00065Q-GG; Fri, 10 Nov 2023 16:30:42 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r1TSx-0083Id-UM; Fri, 10 Nov 2023 16:30:39 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r1TSx-00Gnuj-JI; Fri, 10 Nov 2023 16:30:39 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Alexander Shiyan <shc_work@mail.ru>
+Subject: [PATCH 00/52] serial: Convert to platform remove callback returning void
+Date: Fri, 10 Nov 2023 16:29:28 +0100
+Message-ID: <20231110152927.70601-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v10 1/3] dt-bindings: hwmon: fan: Add fan binding
- to schema
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Billy Tsai <billy_tsai@aspeedtech.com>
-References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
- <20231107105025.1480561-2-billy_tsai@aspeedtech.com>
- <20231108181654.GA2664986-robh@kernel.org>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20231108181654.GA2664986-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8575; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=uSjGK//3oFZ52v8CbMudZ2zWDpIf+rV/Bz06fMr6GWo=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlQ/nwgpw9SOtCV6v+pmM2qvy30b4Lq49LLWF9d7/DeVZ WUfT6vrZDRmYWDkYpAVU2Sxb1yTaVUlF9m59t9lmEGsTCBTGLg4BWAit63Y/3DeWbXNbsaN6owD v7zeKjbpJWlH1DLLuAtpXzizckMmx203llrb1/+nvTIsPrdq+5X595O9r7k579Bw9+82qJzub57 xYRLnlnOf3z5I0jkjI3+hnSlh3u7CZtWj17OsTwtF9Zh1VPec575QJnDf2cNMZ92auiNbfa0U1I K4NMS4nGKWL9M2r8plO87j5ygYa/6+RbEk4fm2VxMXr107Q7gswU3y947dArnBDXHf36sIsmiEc f/g4GZMEG/dF80S1BrAt/VW0ITwlZUaT7adCHP/6ih/oXzv47Wsk5b57sm0tYvXmXys/bGln80K A/VHR2RlH3V3/5h2e8W6Lbt3hnOZavQfU+68c0/+U304AA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+X-Mailman-Approved-At: Tue, 14 Nov 2023 17:25:47 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,110 +59,165 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, jdelvare@suse.com, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org, corbet@lwn.net, BMC-SW@aspeedtech.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, naresh.solanki@9elements.com, patrick@stwcx.xyz, thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org, u.kleine-koenig@pengutronix.de, linux-arm-kernel@lists.infradead.org
+Cc: Fabio Estevam <festevam@denx.de>, Geert Uytterhoeven <geert+renesas@glider.be>, Pavel Krasavin <pkrasavin@imaqliq.com>, Alim Akhtar <alim.akhtar@samsung.com>, Peter Korsgaard <jacmet@sunsite.dk>, linux-stm32@st-md-mailman.stormreply.com, Karol Gugala <kgugala@antmicro.com>, Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Hammer Hsieh <hammerh0314@gmail.com>, Jiamei Xie <jiamei.xie@arm.com>, Ben Dooks <ben.dooks@codethink.co.uk>, Geert Uytterhoeven <geert@linux-m68k.org>, NXP Linux Team <linux-imx@nxp.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Petr Mladek <pmladek@suse.com>, Arend van Spriel <arend.vanspriel@broadcom.com>, linux-serial@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, linux-unisoc@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>, Scott Branden <sbranden@broadcom.com>, Richard GENOUD <richard.genoud@gmail.com>, Samuel Holland <samuel
+ .holland@sifive.com>, Masami Hiramatsu <mhiramat@kernel.org>, kernel@pengutronix.de, "Maciej W. Rozycki" <macro@orcam.me.uk>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Max Filippov <jcmvbkbc@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, Dmitry Rokosov <ddrokosov@sberdevices.ru>, delisun <delisun@pateo.com.cn>, Chunyan Zhang <zhang.lyra@gmail.com>, Ruan Jinjie <ruanjinjie@huawei.com>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, Mateusz Holenko <mholenko@antmicro.com>, Jonathan Hunter <jonathanh@nvidia.com>, Gabriel Somlo <gsomlo@gmail.com>, Hongyu Xie <xiehongyu1@kylinos.cn>, Tobias Klauser <tklauser@distanz.ch>, =?utf-8?q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, John Ogness <john.ogness@linutronix.de>, Yangtao Li <frank.li@vivo.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, Biju Das
+  <biju.das.jz@bp.renesas.com>, linux-amlogic@lists.infradead.org, Michal Simek <michal.simek@amd.com>, Sherry Sun <sherry.sun@nxp.com>, Neil Armstrong <neil.armstrong@linaro.org>, Thomas Richard <thomas.richard@bootlin.com>, "David S. Miller" <davem@davemloft.net>, Sergey Organov <sorganov@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-mediatek@lists.infradead.org, Lino Sanfilippo <l.sanfilippo@kunbus.com>, Erwan Le Ray <erwan.leray@foss.st.com>, Tom Rix <trix@redhat.com>, Al Cooper <alcooperx@gmail.com>, Yuan Can <yuancan@huawei.com>, Matthias Brugger <matthias.bgg@gmail.com>, Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>, linux-aspeed@lists.ozlabs.org, Bernhard Seibold <mail@bernhard-seibold.de>, Shenwei Wang <shenwei.wang@nxp.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Chen-Yu Tsai <wenst@chromium.org>, Jacob Keller <jacob.e.keller@intel.com>, =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+ , Patrice Chotard <patrice.chotard@foss.st.com>, Jacky Huang <ychuang3@nuvoton.com>, Arnd Bergmann <arnd@arndb.de>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Orson Zhai <orsonzhai@gmail.com>, Thierry Reding <treding@nvidia.com>, Timur Tabi <timur@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Julien Malik <julien.malik@unseenlabs.fr>, Konrad Dybcio <konrad.dybcio@linaro.org>, Laxman Dewangan <ldewangan@nvidia.com>, Shawn Guo <shawnguo@kernel.org>, =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, Baruch Siach <baruch@tkos.co.il>, Valentin Caron <valentin.caron@foss.st.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, sparclinux@vger.kernel.org, Shan-Chun Hung <schung@nuvoton.com>, linux-riscv@lists.infradead.org, Zhang Shurong <zhang_shurong@foxmail.com>, Marek Vasut <marex@denx.de>, Fl
+ orian Fainelli <florian.fainelli@broadcom.com>, Russell King <linux@armlinux.org.uk>, Nick Hu <nick.hu@sifive.com>, Andy Gross <agross@kernel.org>, Martin Fuzzey <martin.fuzzey@flowbird.group>, Manivannan Sadhasivam <mani@kernel.org>, Takao Orito <orito.takao@socionext.com>, Johan Hovold <johan@kernel.org>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Paul Walmsley <paul.walmsley@sifive.com>, linux-tegra@vger.kernel.org, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-arm-kernel@lists.infradead.org, Taichi Sugaya <sugaya.taichi@socionext.com>, Bjorn Andersson <andersson@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Lucas Tanure <tanure@linux.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Palmer Dabbelt <palmer@dabbelt.com>, Andi Shyti <andi.shyti@linux.intel.com>, linuxppc-dev@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 11/8/23 10:16, Rob Herring wrote:
-> On Tue, Nov 07, 2023 at 06:50:23PM +0800, Billy Tsai wrote:
->> From: Naresh Solanki <naresh.solanki@9elements.com>
->>
->> Add common fan properties bindings to a schema.
->>
->> Bindings for fan controllers can reference the common schema for the
->> fan
->>
->> child nodes:
->>
->>    patternProperties:
->>      "^fan@[0-2]":
->>        type: object
->>        $ref: fan-common.yaml#
->>        unevaluatedProperties: false
->>
->> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
->> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
->> ---
->>   .../devicetree/bindings/hwmon/fan-common.yaml | 78 +++++++++++++++++++
->>   1 file changed, 78 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.yaml
-> 
-> Looking pretty good to me. It's disappointing that no one else
-> interested in upstreaming their fan controller can be bothered to
-> comment.
-> 
+Hello,
 
-FWIW, I declined to comment since it basically looks ok to me
-and because at this point I'd rather have something (whatever it is)
-instead of nothing.
+this series starts with two fixes. The first one fixes a resource leak
+and use after free. The second only improves error reporting. I added a
+Fixes: marker to these. I let you decide if you want to drop them (or
+the second only) or add a Cc: stable (to both or only the first one).
 
->>
->> diff --git a/Documentation/devicetree/bindings/hwmon/fan-common.yaml b/Documentation/devicetree/bindings/hwmon/fan-common.yaml
->> new file mode 100644
->> index 000000000000..be4ce3bd7f22
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hwmon/fan-common.yaml
->> @@ -0,0 +1,78 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/hwmon/fan-common.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Common Fan Properties
->> +
->> +maintainers:
->> +  - Naresh Solanki <naresh.solanki@9elements.com>
->> +  - Billy Tsai <billy_tsai@aspeedtech.com>
->> +
->> +properties:
->> +  max-rpm:
->> +    description:
->> +      Max RPM supported by fan.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    maximum: 100000
->> +
->> +  min-rpm:
->> +    description:
->> +      Min RPM supported by fan.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    maximum: 1000
->> +
->> +  pulses-per-revolution:
->> +    description:
->> +      The number of pulse from fan sensor per revolution.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    maximum: 4
->> +
->> +  tach-div:
->> +    description:
->> +      Divisor for the tach sampling clock, which determines the sensitivity of the tach pin.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +
->> +  target-rpm:
->> +    description:
->> +      The default desired fan speed in RPM.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +
->> +  fan-driving-mode:
->> +    description:
->> +      Select the driving mode of the fan.(DC, PWM and so on)
->> +    $ref: /schemas/types.yaml#/definitions/string
-> 
-> You need to define the possible values. I assume it's:
-> 
-> enum:
->    - dc
->    - pwm
->    - anything else???
-> 
+After that all drivers below drivers/tty/serial are converted to struct
+platform_driver::remove_new. See commit 5c5a7680e67b ("platform: Provide
+a remove callback that returns no value") for an extended explanation
+and the eventual goal. The TL;DR; is to prevent bugs like the two fixed
+here.
 
-I am not aware of any other possible method. dc and pwm is all
-I have ever seen.
+After these two fixes all conversations are trivial, because all
+.remove() callbacks returned zero unconditionally.
 
-Guenter
+The conversion patches are merge window material. The two fixes might go
+in also before v6.7, but given the fixed problems are already old
+(v6.1-rc6 + v3.10-rc1) there is probably no urge.
 
-> With that,
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Best regards
+Uwe
+
+Uwe Kleine-König (52):
+  serial: 8250: omap: Don't skip resource freeing if
+    pm_runtime_resume_and_get() failed
+  serial: sccnxp: Improve error message if regulator_disable() fails
+  serial: 8250: Convert to platform remove callback returning void
+  serial: altera_jtaguart: Convert to platform remove callback returning
+    void
+  serial: altera: Convert to platform remove callback returning void
+  serial: amba-pl011: Convert to platform remove callback returning void
+  serial: ar933x: Convert to platform remove callback returning void
+  serial: atmel: Convert to platform remove callback returning void
+  serial: bcm63xx: Convert to platform remove callback returning void
+  serial: clps711x: Convert to platform remove callback returning void
+  serial: cpm: Convert to platform remove callback returning void
+  serial: digicolor: Convert to platform remove callback returning void
+  serial: esp32_acm: Convert to platform remove callback returning void
+  serial: esp32: Convert to platform remove callback returning void
+  serial: fsl_linflexuart: Convert to platform remove callback returning
+    void
+  serial: fsl_lpuart: Convert to platform remove callback returning void
+  serial: imx: Convert to platform remove callback returning void
+  serial: lantiq: Convert to platform remove callback returning void
+  serial: liteuart: Convert to platform remove callback returning void
+  serial: lpc32xx_hs: Convert to platform remove callback returning void
+  serial: ma35d1: Convert to platform remove callback returning void
+  serial: mcf: Convert to platform remove callback returning void
+  serial: meson: Convert to platform remove callback returning void
+  serial: milbeaut_usio: Convert to platform remove callback returning
+    void
+  serial: mpc52xx: Convert to platform remove callback returning void
+  serial: msm: Convert to platform remove callback returning void
+  serial: mxs-auart: Convert to platform remove callback returning void
+  serial: omap: Convert to platform remove callback returning void
+  serial: owl: Convert to platform remove callback returning void
+  serial: pic32: Convert to platform remove callback returning void
+  serial: qcom_geni: Convert to platform remove callback returning void
+  serial: rda: Convert to platform remove callback returning void
+  serial: sa1100: Convert to platform remove callback returning void
+  serial: samsung: Convert to platform remove callback returning void
+  serial: sccnxp: Convert to platform remove callback returning void
+  serial: tegra: Convert to platform remove callback returning void
+  serial: txx9: Convert to platform remove callback returning void
+  serial: sh-sci: Convert to platform remove callback returning void
+  serial: sifive: Convert to platform remove callback returning void
+  serial: sprd: Convert to platform remove callback returning void
+  serial: st-asc: Convert to platform remove callback returning void
+  serial: stm32: Convert to platform remove callback returning void
+  serial: sunhv: Convert to platform remove callback returning void
+  serial: sunplus: Convert to platform remove callback returning void
+  serial: sunsab: Convert to platform remove callback returning void
+  serial: sunsu: Convert to platform remove callback returning void
+  serial: sunzilog: Convert to platform remove callback returning void
+  serial: tegra-tcu: Convert to platform remove callback returning void
+  serial: timbuart: Convert to platform remove callback returning void
+  serial: uartlite: Convert to platform remove callback returning void
+  serial: ucc: Convert to platform remove callback returning void
+  serial: xilinx_uartps: Convert to platform remove callback returning
+    void
+
+ drivers/tty/serial/8250/8250_aspeed_vuart.c |  6 ++----
+ drivers/tty/serial/8250/8250_bcm2835aux.c   |  6 ++----
+ drivers/tty/serial/8250/8250_bcm7271.c      |  5 ++---
+ drivers/tty/serial/8250/8250_core.c         |  5 ++---
+ drivers/tty/serial/8250/8250_dw.c           |  6 ++----
+ drivers/tty/serial/8250/8250_em.c           |  5 ++---
+ drivers/tty/serial/8250/8250_fsl.c          |  5 ++---
+ drivers/tty/serial/8250/8250_ingenic.c      |  5 ++---
+ drivers/tty/serial/8250/8250_ioc3.c         |  5 ++---
+ drivers/tty/serial/8250/8250_lpc18xx.c      |  6 ++----
+ drivers/tty/serial/8250/8250_mtk.c          |  6 ++----
+ drivers/tty/serial/8250/8250_of.c           |  5 ++---
+ drivers/tty/serial/8250/8250_omap.c         |  7 +++----
+ drivers/tty/serial/8250/8250_pxa.c          |  6 ++----
+ drivers/tty/serial/8250/8250_tegra.c        |  6 ++----
+ drivers/tty/serial/8250/8250_uniphier.c     |  6 ++----
+ drivers/tty/serial/altera_jtaguart.c        |  6 ++----
+ drivers/tty/serial/altera_uart.c            |  6 ++----
+ drivers/tty/serial/amba-pl011.c             |  5 ++---
+ drivers/tty/serial/ar933x_uart.c            |  6 ++----
+ drivers/tty/serial/atmel_serial.c           |  6 ++----
+ drivers/tty/serial/bcm63xx_uart.c           |  5 ++---
+ drivers/tty/serial/clps711x.c               |  6 ++----
+ drivers/tty/serial/cpm_uart.c               |  6 ++----
+ drivers/tty/serial/digicolor-usart.c        |  6 ++----
+ drivers/tty/serial/esp32_acm.c              |  5 ++---
+ drivers/tty/serial/esp32_uart.c             |  6 ++----
+ drivers/tty/serial/fsl_linflexuart.c        |  6 ++----
+ drivers/tty/serial/fsl_lpuart.c             |  5 ++---
+ drivers/tty/serial/imx.c                    |  6 ++----
+ drivers/tty/serial/lantiq.c                 |  6 ++----
+ drivers/tty/serial/liteuart.c               |  6 ++----
+ drivers/tty/serial/lpc32xx_hs.c             |  6 ++----
+ drivers/tty/serial/ma35d1_serial.c          |  5 ++---
+ drivers/tty/serial/mcf.c                    |  6 ++----
+ drivers/tty/serial/meson_uart.c             |  8 +++-----
+ drivers/tty/serial/milbeaut_usio.c          |  6 ++----
+ drivers/tty/serial/mpc52xx_uart.c           |  7 ++-----
+ drivers/tty/serial/msm_serial.c             |  6 ++----
+ drivers/tty/serial/mxs-auart.c              |  6 ++----
+ drivers/tty/serial/omap-serial.c            |  6 ++----
+ drivers/tty/serial/owl-uart.c               |  6 ++----
+ drivers/tty/serial/pic32_uart.c             |  7 ++-----
+ drivers/tty/serial/qcom_geni_serial.c       |  6 ++----
+ drivers/tty/serial/rda-uart.c               |  6 ++----
+ drivers/tty/serial/sa1100.c                 |  6 ++----
+ drivers/tty/serial/samsung_tty.c            |  6 ++----
+ drivers/tty/serial/sccnxp.c                 | 13 +++++++------
+ drivers/tty/serial/serial-tegra.c           |  5 ++---
+ drivers/tty/serial/serial_txx9.c            |  5 ++---
+ drivers/tty/serial/sh-sci.c                 |  6 ++----
+ drivers/tty/serial/sifive.c                 |  6 ++----
+ drivers/tty/serial/sprd_serial.c            |  6 ++----
+ drivers/tty/serial/st-asc.c                 |  6 ++----
+ drivers/tty/serial/stm32-usart.c            |  6 ++----
+ drivers/tty/serial/sunhv.c                  |  6 ++----
+ drivers/tty/serial/sunplus-uart.c           |  6 ++----
+ drivers/tty/serial/sunsab.c                 |  6 ++----
+ drivers/tty/serial/sunsu.c                  |  6 ++----
+ drivers/tty/serial/sunzilog.c               |  6 ++----
+ drivers/tty/serial/tegra-tcu.c              |  6 ++----
+ drivers/tty/serial/timbuart.c               |  6 ++----
+ drivers/tty/serial/uartlite.c               |  5 ++---
+ drivers/tty/serial/ucc_uart.c               |  6 ++----
+ drivers/tty/serial/xilinx_uartps.c          |  5 ++---
+ 65 files changed, 137 insertions(+), 249 deletions(-)
+
+
+base-commit: 8728c14129df7a6e29188a2e737b4774fb200953
+-- 
+2.42.0
 
