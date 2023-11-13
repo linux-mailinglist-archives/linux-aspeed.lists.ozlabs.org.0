@@ -2,62 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422D87EAA82
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Nov 2023 07:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5637EA3D7
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Nov 2023 20:38:35 +0100 (CET)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=GLS9dTAx;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4STxBh1C8sz3cVx
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Nov 2023 17:26:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4STfqW6shyz3bdm
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Nov 2023 06:38:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.167.169; helo=mail-oi1-f169.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=GLS9dTAx;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=gustavoars@kernel.org; receiver=lists.ozlabs.org)
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4STQLc1KBPz2xVW
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Nov 2023 21:16:08 +1100 (AEDT)
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3b4145e887bso2427171b6e.3
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Nov 2023 02:16:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699870565; x=1700475365;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uTO0ERk3BWfb6UISnsbuegKh0j43MXQ3l4j0lmIgta4=;
-        b=qwaXv3vjwfQwoi4bvRAzqKRXNb2jK0LhgwhJ/L4OuTYXAINZOaQum34ACf0OelkcxT
-         ULGn/GsiGBfrdEPWhGIGGqev8Ib5GmgiYmSvHUsvZG7MzpxgERUr2ZGTeYpV1UVp9lxd
-         UrNzItjOcMXCy33yl9UuKgEsMKKJEVEJnLdp+kyP9v36Tjs7Q6ljixO+AyPhf68nfVJY
-         tbBNGy75kUI0Kc7hApxowzZVV1Bi7pG67WTCKozZSf8X7xaakUrgXAb82XX0Jeg4Sv7q
-         acbIEWAeru/Rww5ligRorKoJAvLRvoVWvc5p0k4vKf+yx5zuHtjznkG/XIJ37Xo3TtQU
-         WCxA==
-X-Gm-Message-State: AOJu0YzOlTtj4LmRm62QmQ1/U7U+P5Sf56QdS+SIq/7Vy+oeoKAF0JGS
-	hlg/QoXpu8Ih22EtqopvbWbFHXgUam3KaA==
-X-Google-Smtp-Source: AGHT+IFZuhN+n6t2/z75FcZMsi4g9CMW16G7UEL7Sjrp3Y3+ckKNDnJUbP2gskbmcTqm47+MgiyN/w==
-X-Received: by 2002:a05:6808:3a19:b0:3b2:ef9c:d1b1 with SMTP id gr25-20020a0568083a1900b003b2ef9cd1b1mr8989986oib.6.1699870565488;
-        Mon, 13 Nov 2023 02:16:05 -0800 (PST)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com. [209.85.167.174])
-        by smtp.gmail.com with ESMTPSA id n7-20020a0568080a0700b003ae540759a0sm762141oij.40.2023.11.13.02.16.04
-        for <linux-aspeed@lists.ozlabs.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Nov 2023 02:16:04 -0800 (PST)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3b4145e887bso2427162b6e.3
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Nov 2023 02:16:04 -0800 (PST)
-X-Received: by 2002:a0d:d74d:0:b0:5a7:d86c:988 with SMTP id
- z74-20020a0dd74d000000b005a7d86c0988mr6382133ywd.28.1699870543575; Mon, 13
- Nov 2023 02:15:43 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4STfqM5M7hz2yVN
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Nov 2023 06:38:23 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id C513DB80ECE;
+	Mon, 13 Nov 2023 19:38:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16CCBC433C7;
+	Mon, 13 Nov 2023 19:38:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699904296;
+	bh=9ypxMPYW+WDYaCwDSx2ywc4K+xykb9J09UJjGSMapQ0=;
+	h=Date:From:To:Cc:Subject:From;
+	b=GLS9dTAxfC37erUQoZRNm07gmEetbMSbdz21/QTHmqATocVHj+fiVqy2wC74hZNmw
+	 7IFD8yZQ2cjRhShv6szxx/Dsami6m4C9f9Y+/TaGCEDXL6VCcL8DjEXAmcKtARaPjN
+	 mPC9+hLH+MPrqEJuEN4c21The29qeOsqCLDHaPXiEWEiZ+D4MQ8eykPD7XagFSK8W7
+	 255n+Dj8RfSUDZIs3BnheuHtBqGWvb4GTZLJ0TQQZiqdh944QE0w7XadC7qM5rIfRY
+	 XjdaZObL4CPLZLjtP1aaPCy0ei1f/Zu0w7mwrGPTuDaU97ZFmj7xIwNDzb7DBgqEAU
+	 8tmHHmYelCDxg==
+Date: Mon, 13 Nov 2023 13:38:12 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH][next] hwmon: (aspeed-pwm-tacho) Fix -Wstringop-overflow
+ warning in aspeed_create_fan_tach_channel()
+Message-ID: <ZVJ7JBFoULzY3VGx@work>
 MIME-Version: 1.0
-References: <20231110152927.70601-1-u.kleine-koenig@pengutronix.de> <20231110152927.70601-4-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20231110152927.70601-4-u.kleine-koenig@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 13 Nov 2023 11:15:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU8nCWzTuBeSTPkR=heWqdAYrhAJ9ZgydzWNRqkTuT+xg@mail.gmail.com>
-Message-ID: <CAMuHMdU8nCWzTuBeSTPkR=heWqdAYrhAJ9ZgydzWNRqkTuT+xg@mail.gmail.com>
-Subject: Re: [PATCH 03/52] serial: 8250: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 14 Nov 2023 17:25:47 +1100
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,43 +60,107 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Tony Lindgren <tony@atomide.com>, Al Cooper <alcooperx@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Biju Das <biju.das.jz@bp.renesas.com>, Thierry Reding <thierry.reding@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Florian Fainelli <florian.fainelli@broadcom.com>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, Jonathan Hunter <jonathanh@nvidia.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andi Shyti <andi.shyti@linux.intel.com>, Chen-Yu Tsai <wenst@chromium.org>, Jacob Keller <jacob.e.keller@intel.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Petr Mladek <pmladek@suse.com>, linux-tegra@vger.kernel.org, linux-serial@vger.kernel.org, John Ogness <john.ogness@linutronix.de>, Ray Jui <rjui@broadcom.com>, Johan Hovold <johan@ke
- rnel.org>, Vladimir Zapolskiy <vz@mleia.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-rpi-kernel@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, Scott Branden <sbranden@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>, kernel@pengutronix.de, Thomas Richard <thomas.richard@bootlin.com>, linux-mediatek@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org, linux-aspeed@lists.ozlabs.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Nov 10, 2023 at 4:31=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
->
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
->
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Based on the documentation below, the maximum number of Fan tach
+channels is 16:
 
->  drivers/tty/serial/8250/8250_dw.c           | 6 ++----
->  drivers/tty/serial/8250/8250_em.c           | 5 ++---
+Documentation/devicetree/bindings/hwmon/aspeed-pwm-tacho.txt:45:
+ 45 - aspeed,fan-tach-ch : should specify the Fan tach input channel.
+ 46                 integer value in the range 0 through 15, with 0 indicating
+ 47                 Fan tach channel 0 and 15 indicating Fan tach channel 15.
+ 48                 At least one Fan tach input channel is required.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+However, the compiler doesn't know that, and legitimaly warns about a potential
+overwrite in array `u8 fan_tach_ch_source[16]` in `struct aspeed_pwm_tacho_data`,
+in case `index` takes a value outside the boundaries of the array:
 
-Gr{oetje,eeting}s,
+drivers/hwmon/aspeed-pwm-tacho.c:
+179 struct aspeed_pwm_tacho_data {
+...
+184         bool fan_tach_present[16];
+...
+193         u8 fan_tach_ch_source[16];
+...
+196 };
 
-                        Geert
+In function ‘aspeed_create_fan_tach_channel’,
+    inlined from ‘aspeed_create_fan’ at drivers/hwmon/aspeed-pwm-tacho.c:877:2,
+    inlined from ‘aspeed_pwm_tacho_probe’ at drivers/hwmon/aspeed-pwm-tacho.c:936:9:
+drivers/hwmon/aspeed-pwm-tacho.c:751:49: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  751 |                 priv->fan_tach_ch_source[index] = pwm_source;
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+drivers/hwmon/aspeed-pwm-tacho.c: In function ‘aspeed_pwm_tacho_probe’:
+drivers/hwmon/aspeed-pwm-tacho.c:193:12: note: at offset [48, 255] into destination object ‘fan_tach_ch_source’ of size 16
+  193 |         u8 fan_tach_ch_source[16];
+      |            ^~~~~~~~~~~~~~~~~~
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Fix this by sanity checking `index` before using it to index arrays of
+size 16 elements in `struct aspeed_pwm_tacho_data`. Also, and just for
+completeness, add a `pr_err()` message to display in the unlikely case
+`0 > index >= 16`.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+This is probably the last remaining -Wstringop-overflow issue in the
+kernel, and this patch helps with the ongoing efforts to enable such
+compiler option globally.
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/hwmon/aspeed-pwm-tacho.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
+index 997df4b40509..092a81916325 100644
+--- a/drivers/hwmon/aspeed-pwm-tacho.c
++++ b/drivers/hwmon/aspeed-pwm-tacho.c
+@@ -166,6 +166,8 @@
+ 
+ #define MAX_CDEV_NAME_LEN 16
+ 
++#define MAX_ASPEED_FAN_TACH_CHANNELS 16
++
+ struct aspeed_cooling_device {
+ 	char name[16];
+ 	struct aspeed_pwm_tacho_data *priv;
+@@ -181,7 +183,7 @@ struct aspeed_pwm_tacho_data {
+ 	struct reset_control *rst;
+ 	unsigned long clk_freq;
+ 	bool pwm_present[8];
+-	bool fan_tach_present[16];
++	bool fan_tach_present[MAX_ASPEED_FAN_TACH_CHANNELS];
+ 	u8 type_pwm_clock_unit[3];
+ 	u8 type_pwm_clock_division_h[3];
+ 	u8 type_pwm_clock_division_l[3];
+@@ -190,7 +192,7 @@ struct aspeed_pwm_tacho_data {
+ 	u16 type_fan_tach_unit[3];
+ 	u8 pwm_port_type[8];
+ 	u8 pwm_port_fan_ctrl[8];
+-	u8 fan_tach_ch_source[16];
++	u8 fan_tach_ch_source[MAX_ASPEED_FAN_TACH_CHANNELS];
+ 	struct aspeed_cooling_device *cdev[8];
+ 	const struct attribute_group *groups[3];
+ };
+@@ -746,10 +748,14 @@ static void aspeed_create_fan_tach_channel(struct aspeed_pwm_tacho_data *priv,
+ 
+ 	for (val = 0; val < count; val++) {
+ 		index = fan_tach_ch[val];
+-		aspeed_set_fan_tach_ch_enable(priv->regmap, index, true);
+-		priv->fan_tach_present[index] = true;
+-		priv->fan_tach_ch_source[index] = pwm_source;
+-		aspeed_set_fan_tach_ch_source(priv->regmap, index, pwm_source);
++		if (index < MAX_ASPEED_FAN_TACH_CHANNELS) {
++			aspeed_set_fan_tach_ch_enable(priv->regmap, index, true);
++			priv->fan_tach_present[index] = true;
++			priv->fan_tach_ch_source[index] = pwm_source;
++			aspeed_set_fan_tach_ch_source(priv->regmap, index, pwm_source);
++		} else {
++			pr_err("Invalid Fan Tach input channel %u\n.", index);
++		}
+ 	}
+ }
+ 
+-- 
+2.34.1
+
