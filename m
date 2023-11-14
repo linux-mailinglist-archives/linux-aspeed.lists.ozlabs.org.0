@@ -2,73 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C897EB7E0
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Nov 2023 21:34:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA52F7EB7E3
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Nov 2023 21:35:02 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hsBexLkF;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ievV3XaH;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SVJ193wXVz3cLk
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Nov 2023 07:34:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SVJ2D55wNz3cc5
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Nov 2023 07:35:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hsBexLkF;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ievV3XaH;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::e34; helo=mail-vs1-xe34.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::f29; helo=mail-qv1-xf29.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SVJ105cbNz3c4M
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Nov 2023 07:33:55 +1100 (AEDT)
-Received: by mail-vs1-xe34.google.com with SMTP id ada2fe7eead31-45da75867d3so2176801137.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Nov 2023 12:33:54 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SVJ271LVDz2xdd
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Nov 2023 07:34:54 +1100 (AEDT)
+Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-677a12f1362so25357286d6.1
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Nov 2023 12:34:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699994031; x=1700598831; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1699994091; x=1700598891; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qp1zO5jx1PttOuB/MNI2YR6CHcSSCkeTGuKqGHT6Si8=;
-        b=hsBexLkF4+bl7a8yqdvJN4FwUboqlCb1dqzg1cdMObxlUPOW/R+IWkVFE4j9yk15BZ
-         2tht48yDWSUgfnKcfc8eljIiQ+IJYbBw3+FTQerrw3CUKpgJr5mkW9gPqKx3RjBUwMSS
-         9+IoGS1eFoyXnpy7sH28+auTUG2OnJ2YC8Nxpr4QyBz7khTAQ3n9tQtpD/pQzk1i1Z8l
-         8/CFLBGtefTqPtfSykSwwDG6XL8clD2tsS83jqx62PXbvGeAnMzSZQQQYCHnXk+f5Po6
-         ARdQc/XMyD5I2Bs9zCRPkxeiRQPXqax/PhKyZ77LLMpRbx1ERgr23ZYcB99EqsJkqvW0
-         zlGw==
+        bh=phkKYXQ8GVFwbXrMit8GR8BOhmt56OQ/T7n97lFji7s=;
+        b=ievV3XaHUDL3GPSeJ7Jj5n5f0MpfPS8tfWxqsfxf1+1qveKZMwC7aKVcFsVQ0131kn
+         u1uSwjnkiM+l10ez5Hr26D9DLec6PJQz8mt5mfJCmCFcJRcwLqPTHFUZS2nAWRmS+ein
+         MC0aPcPAh9UrtQuJRbOnRk7FbAfJB5wMEL2eW08GrMAPD7YcgQQagcP88AIlIsgAiMJE
+         8KjpuG8NaVLYepc2ahvOWNfaq/owe7+xart7IOb0E/rNmJkX4AhbmGKJg721AoChtIjb
+         oJWlEin2Igx5LcSQYhsVW7UEaUhktNA7hxxokb+ZSalDwaYfaHineoITZGpH36GnB690
+         HerQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699994031; x=1700598831;
+        d=1e100.net; s=20230601; t=1699994091; x=1700598891;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qp1zO5jx1PttOuB/MNI2YR6CHcSSCkeTGuKqGHT6Si8=;
-        b=vMR51mEjzPx8Fz71TvxP8qNt3jhweKNm/UFs45igjeiXXxH6rsTbPdZ4zmNXHocnyL
-         eVB2YIcCVBS+AosLXk+EUII2sWjkN12iovWwmcyON/4/dz7hau32xtks0gxyaslL/1UW
-         bCUJvciFkF+q5qSUHCY3SgDn9RnPob1EMva7TAS1hjQr4vvK130MJqBMPzuBGzhYiKcY
-         F7vT8mx54kKyJm7Ki38uuiF/thHLbDvUTieAAl3vrROLeAzDzPR8MmH2WXr0aB6p+VSG
-         Mz8eyFXBbbiJXAFtJE34BLa3xXBf+WqI0wdBDAJ2bQYI6PIwLb7MWlooU8xXpmyLenrW
-         PbHw==
-X-Gm-Message-State: AOJu0Yyq989rIZrfifQHXzxJbh5nMsf1vOiF/yyGtJXRxNsH+esK0vOn
-	mCCMk82lUM6BOnUXpfnEo9MHww==
-X-Google-Smtp-Source: AGHT+IFvtceCMA42IM+PRYwPCNHf0BYuhUN73Gk/fjPT+RF3DgcwqqkQRLjAewBDREcb3xQroPVg7g==
-X-Received: by 2002:a67:e00f:0:b0:457:c2ff:ad98 with SMTP id c15-20020a67e00f000000b00457c2ffad98mr9704727vsl.13.1699994031533;
-        Tue, 14 Nov 2023 12:33:51 -0800 (PST)
+        bh=phkKYXQ8GVFwbXrMit8GR8BOhmt56OQ/T7n97lFji7s=;
+        b=iU55kneOJfDqHOECglq2Gq4JyDqmG9yVzrMCNxyapKigi1Ghg+Q+ro23Yj7vI4ryIp
+         m5b4zkE+vuqowzm6Nn5FXyLPyqA50InH6eAjvv949JPGpeZLyLAW8Za/xehQ8/CMdEFO
+         xnjqJLV9C9XnFil/eCdj87XZHFuxkOFCl4vZQWBQD17Mhz/OoBWz2NEeEPX71CuwlWXY
+         BLy72m1RRxveLU2s904duZTpeNb5ustgJ+TyzPpnupg9hUjRJD0pApO+MxgWi+b7krRN
+         4Mg2384mY60lakdgq6b4155pfn2Tr9QcBaM6RaLwzoq/tRseVLjahM5EDSFVodHrl72I
+         Mg9Q==
+X-Gm-Message-State: AOJu0Yy0XYMnv47qOlMHFDn2XtF0ZzkOpCU+EPG8c0583lPdLeSYmFTL
+	LRtAGnXkIQEPiXUNIFWxo5Q7uA==
+X-Google-Smtp-Source: AGHT+IECVrJys6cTO7/sMlL8JmMLPshdA9G+D70qIJJdCicS4dUoKoFbio8OiuQoZeUncLquwHRA1w==
+X-Received: by 2002:ad4:5dc1:0:b0:66d:140a:18f3 with SMTP id m1-20020ad45dc1000000b0066d140a18f3mr3987205qvh.45.1699994091638;
+        Tue, 14 Nov 2023 12:34:51 -0800 (PST)
 Received: from [172.25.83.73] ([12.186.190.1])
-        by smtp.gmail.com with ESMTPSA id h13-20020a0ceecd000000b00671b009412asm3132110qvs.141.2023.11.14.12.33.50
+        by smtp.gmail.com with ESMTPSA id h13-20020a0ceecd000000b00671b009412asm3132110qvs.141.2023.11.14.12.34.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Nov 2023 12:33:51 -0800 (PST)
-Message-ID: <f6aade48-d885-4c27-8afc-f5381465580d@linaro.org>
-Date: Tue, 14 Nov 2023 21:33:50 +0100
+        Tue, 14 Nov 2023 12:34:51 -0800 (PST)
+Message-ID: <a988886c-a799-4dc2-81ba-eb3bd86438dd@linaro.org>
+Date: Tue, 14 Nov 2023 21:34:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: document ASRock SPC621D8HM3
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: Add ASRock SPC621D8HM3 BMC
 Content-Language: en-US
 To: Zev Weiss <zev@bewilderbeest.net>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
  Andrew Jeffery <andrew@codeconstruct.com.au>
 References: <20231114112819.28572-4-zev@bewilderbeest.net>
- <20231114112819.28572-5-zev@bewilderbeest.net>
+ <20231114112819.28572-6-zev@bewilderbeest.net>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -114,7 +114,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231114112819.28572-5-zev@bewilderbeest.net>
+In-Reply-To: <20231114112819.28572-6-zev@bewilderbeest.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -133,12 +133,86 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 14/11/2023 12:28, Zev Weiss wrote:
-> Document ASRock SPC621D8HM3 board compatible.
+> This is a Xeon board broadly similar (aside from CPU vendor) to the
+> already-support romed8hm3 (half-width, single-socket, ast2500).  It
+> doesn't require anything terribly special for OpenBMC support, so this
+> device-tree should provide everything necessary for basic
+> functionality with it.
 > 
 > Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 > ---
+>  arch/arm/boot/dts/aspeed/Makefile             |   1 +
+>  .../aspeed/aspeed-bmc-asrock-spc621d8hm3.dts  | 316 ++++++++++++++++++
+>  2 files changed, 317 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
+> 
+> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
+> index d3ac20e316d0..2df0a2e88df7 100644
+> --- a/arch/arm/boot/dts/aspeed/Makefile
+> +++ b/arch/arm/boot/dts/aspeed/Makefile
+> @@ -10,6 +10,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>  	aspeed-bmc-arm-stardragon4800-rep2.dtb \
+>  	aspeed-bmc-asrock-e3c246d4i.dtb \
+>  	aspeed-bmc-asrock-romed8hm3.dtb \
+> +	aspeed-bmc-asrock-spc621d8hm3.dtb \
+>  	aspeed-bmc-bytedance-g220a.dtb \
+>  	aspeed-bmc-delta-ahe50dc.dtb \
+>  	aspeed-bmc-facebook-bletchley.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
+> new file mode 100644
+> index 000000000000..95b440d90f56
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
+> @@ -0,0 +1,316 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/dts-v1/;
+> +
+> +#include "aspeed-g5.dtsi"
+> +#include <dt-bindings/gpio/aspeed-gpio.h>
+> +#include <dt-bindings/i2c/i2c.h>
+> +#include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +/{
+> +	model = "ASRock SPC621D8HM3 BMC";
+> +	compatible = "asrock,spc621d8hm3-bmc", "aspeed,ast2500";
+> +
+> +	aliases {
+> +		serial4 = &uart5;
+> +
+> +		i2c20 = &i2c1mux0ch0;
+> +		i2c21 = &i2c1mux0ch1;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = &uart5;
+> +		bootargs = "console=tty0 console=ttyS4,115200 earlycon";
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Drop bootargs. Serial (and rate) should be selected by stdout path.
+
+earlycon is for debug, not wide usage.
+
+> +	};
+> +
+> +	memory@80000000 {
+> +		reg = <0x80000000 0x20000000>;
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		heartbeat {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+It does not look like you tested the DTS against bindings. Please run
+`make dtbs_check W=1` (see
+Documentation/devicetree/bindings/writing-schema.rst or
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
+for instructions).
+
 
 Best regards,
 Krzysztof
