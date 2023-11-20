@@ -2,55 +2,52 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213897ED9A4
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Nov 2023 03:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C348B7F131C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Nov 2023 13:21:36 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=Ncnoulht;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=OpMdJlu+;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SW44Q4PdYz3cZn
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Nov 2023 13:39:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SYmp650vlz3cfB
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Nov 2023 23:21:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=Ncnoulht;
+	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=OpMdJlu+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
-X-Greylist: delayed 141113 seconds by postgrey-1.37 at boromir; Thu, 16 Nov 2023 13:39:27 AEDT
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SW44H4yr4z2yV3;
-	Thu, 16 Nov 2023 13:39:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SYmlm19YCz3c7q;
+	Mon, 20 Nov 2023 23:19:31 +1100 (AEDT)
 Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:7e5d:5300::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id C667442AF;
-	Wed, 15 Nov 2023 18:39:22 -0800 (PST)
+	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id E4C11DDF;
+	Mon, 20 Nov 2023 04:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1700102363;
-	bh=4q1q7lhezpq/0nWCFgR7MsiQUEeQlSbd2dM5jhV/qog=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NcnoulhtqbhUn5EZOFj7D+/JbKkpUwqvwcZxEHvD6aC/mZ341nKINT4OE0Eixip+T
-	 xZZNg47oC1rErtlZogQ5oequAzUi4qRH86nRuOsULxM+SxfE/sAaz6W88cBOxU9qzN
-	 iWBacofijjfo1Idm+DA2u1CNr2a6U9pT77cZ0KlA=
-Date: Wed, 15 Nov 2023 18:39:21 -0800
+	s=thorn; t=1700482760;
+	bh=rxT5SCkEHZIVph1Dy+GNIIiNXWAdKs0/dnGZ+QJ8QD0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OpMdJlu+8VOPG19ZpMSMmQwPpTR6HtU52UqqVoxqwVH5pNYMsr/AnBqPnOxu8ZBLL
+	 L4GYeGeN3OFDvxtQstYQrVTWL2stChWHJcAuwr5a+s7kMbC2Pe9U4XQ0IzTYEacCJi
+	 MSgSea2eYVDEASL4jmvhkiDiq/6hASYQtP/Nt04k=
 From: Zev Weiss <zev@bewilderbeest.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/2] ARM: dts: aspeed: Add ASRock E3C256D4I BMC
-Message-ID: <1e1c1493-d3f5-4c96-b85f-158d720b2ab5@hatter.bewilderbeest.net>
-References: <20231114112722.28506-4-zev@bewilderbeest.net>
- <20231114112722.28506-6-zev@bewilderbeest.net>
- <cde26249-1d47-496f-b198-a0c4c02bed5c@linaro.org>
- <e766e663-0985-4a2e-8023-26ad0228157d@hatter.bewilderbeest.net>
- <863a0fe2-c258-47d9-8563-6f12bb55b4ad@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH v2 0/2] ARM: dts: aspeed: Add ASRock E3C256D4I BMC
+Date: Mon, 20 Nov 2023 04:19:02 -0800
+Message-ID: <20231120121901.19817-4-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <863a0fe2-c258-47d9-8563-6f12bb55b4ad@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +59,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Nov 15, 2023 at 04:13:29AM PST, Krzysztof Kozlowski wrote:
->On 14/11/2023 23:37, Zev Weiss wrote:
->
->>
->>>> +	};
->>>> +
->>>> +	memory@80000000 {
->>>> +		reg = <0x80000000 0x20000000>;
->>>> +	};
->>>> +
->>>> +	leds {
->>>> +		compatible = "gpio-leds";
->>>> +
->>>> +		heartbeat {
->>>
->>> It does not look like you tested the DTS against bindings. Please run
->>> `make dtbs_check W=1` (see
->>> Documentation/devicetree/bindings/writing-schema.rst or
->>> https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
->>> for instructions).
->
->The node names are clearly wrong and you got output. It's easy to spot
->if your patch worked in the first place:
->
-> fatal error: dt-bindings/watchdog/aspeed-wdt.h: No such file or directory
->
+Hello,
 
-The patch series was based on Linus's tree at the time I sent it; that 
-file was added in commit 9931be2cfca3 ("dt-bindings: watchdog: 
-aspeed-wdt: Add aspeed,reset-mask property"), which was included in the 
-6.7-rc1 tag, FWIW.
+These patches add a device-tree (and a tiny bindings update) for the
+Aspeed BMC on the ASRock E3C256D4I, so that it can be added as a
+supported OpenBMC platform.
 
-After some debugging I discovered that the reason I wasn't getting any 
-output from dtbs_check was that I had neglected to specify ARCH=arm when 
-invoking it, and when that defaulted to x86 it silently did a whole 
-bunch of nothing.  It might be nice if something emitted some sort of 
-warning when invoked with nonsensical parameters (especially if I've 
-explicitly specified a dtstree=... argument pointing to arch/arm/...), 
-but oh well.
+Changes since v1 [0]:
+ - Removed bootargs [Krzysztof]
+ - Renamed LED nodes [Krzysztof]
+ - Added function & color properties to LED nodes
+ - Added #address-cells and #size-cells to FRU eeprom node
 
-After re-running it with ARCH=arm, it produced a fairly voluminous spew 
-of output, though after combing through it all as best I can tell only 
-one or two lines of it actually pertain to the .dts in question itself 
-(the vast majority being from a .dtsi it #includes).  I've fixed the one 
-remaining issue it reported (missing #address-cells and #size-cells on 
-the FRU eeprom node) and will post a v2 in the next few days (and 
-likewise on the spc621d8hm3 series).
+[0] https://lore.kernel.org/lkml/20231114112722.28506-4-zev@bewilderbeest.net/
 
-
+Thanks,
 Zev
+
+
+Zev Weiss (2):
+  dt-bindings: arm: aspeed: document ASRock E3C256D4I
+  ARM: dts: aspeed: Add ASRock E3C256D4I BMC
+
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../aspeed/aspeed-bmc-asrock-e3c256d4i.dts    | 322 ++++++++++++++++++
+ 3 files changed, 324 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts
+
+
+base-commit: 98b1cc82c4affc16f5598d4fa14b1858671b2263
+-- 
+2.42.0
 
