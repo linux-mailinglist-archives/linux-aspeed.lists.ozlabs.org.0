@@ -1,55 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11ABF806BB9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 11:18:09 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C31A806BBA
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 11:18:13 +0100 (CET)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UmMBEP+m;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SlYJG4D2Sz3d8d
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 21:18:06 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SlYJM0Gphz2xdd
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 21:18:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kylinos.cn (client-ip=124.126.103.232; helo=mailgw.kylinos.cn; envelope-from=chentao@kylinos.cn; receiver=lists.ozlabs.org)
-X-Greylist: delayed 367 seconds by postgrey-1.37 at boromir; Wed, 22 Nov 2023 12:49:37 AEDT
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UmMBEP+m;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.55.52.115; helo=mgamail.intel.com; envelope-from=andi.shyti@linux.intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SZkh15KJhz2ykc
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Nov 2023 12:49:36 +1100 (AEDT)
-X-UUID: 56764a2aa4d047c38f14754d997f3d46-20231122
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32,REQID:221a0807-ac66-439a-ba02-0d2e78cf7bc5,IP:15,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:25
-X-CID-INFO: VERSION:1.1.32,REQID:221a0807-ac66-439a-ba02-0d2e78cf7bc5,IP:15,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:25
-X-CID-META: VersionHash:5f78ec9,CLOUDID:0305ec72-1bd3-4f48-b671-ada88705968c,B
-	ulkID:231122094217U0J17LEI,BulkQuantity:0,Recheck:0,SF:66|38|24|17|19|44|1
-	02,TC:nil,Content:0,EDM:5,IP:-2,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,
-	COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,
-	TF_CID_SPAM_ULN
-X-UUID: 56764a2aa4d047c38f14754d997f3d46-20231122
-X-User: chentao@kylinos.cn
-Received: from vt.. [(116.128.244.169)] by mailgw
-	(envelope-from <chentao@kylinos.cn>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1824473249; Wed, 22 Nov 2023 09:42:17 +0800
-From: Kunwu Chan <chentao@kylinos.cn>
-To: gregkh@linuxfoundation.org,
-	joel@jms.id.au,
-	andrew@codeconstruct.com.au,
-	andriy.shevchenko@linux.intel.com
-Subject: [PATCH] usb: gadget: aspeed: Check return value of kasprintf in ast_vhub_alloc_epn
-Date: Wed, 22 Nov 2023 09:42:12 +0800
-Message-Id: <20231122014212.304254-1-chentao@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SbHPJ0yHSz3cR8
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Nov 2023 10:23:46 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700695428; x=1732231428;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=wLu90c2ONU3nwRPuECsbNVwdI6Y/3s1bCFsGjUjQWds=;
+  b=UmMBEP+m0KlVnCz5MQbFQsmqLO6g2FL71mXqPj96ZjPleT3JTz36Zcz2
+   TLA0oYfahvnlUsHJxVirDaaTMsN1a7lzTNM3n3xznvbE+aWSyLNl+rdl4
+   S+/xAbPJ91DNTBwXIYo3B6Aw6Zl/6jp1Ha/DWJ9e4Bj0rHETxOwSLMJpy
+   K5G303bvSJ10GGkS+FUfzGa02QmktsGjhGOmFFqlxMxUNzz19eG6uEpTm
+   /u/qXv/eotz1wm2Y0boLBfp5v2RmQEbsGnax5ZynT27Ktl+jHieM2SxUe
+   iPxTjiZGQFC2ytR+BA4Jh2jM51gmhGMdO+dviFA3K8JJMzHcE6nwcvs3o
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="391935071"
+X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
+   d="scan'208";a="391935071"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 15:23:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="760507612"
+X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
+   d="scan'208";a="760507612"
+Received: from amongesa-mobl.ger.corp.intel.com (HELO intel.com) ([10.252.57.132])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 15:23:31 -0800
+Date: Thu, 23 Nov 2023 00:23:28 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Uwe =?iso-8859-15?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 03/52] serial: 8250: Convert to platform remove callback
+ returning void
+Message-ID: <ZV6NcAXBUcj5wYx8@ashyti-mobl2.lan>
+References: <20231110152927.70601-1-u.kleine-koenig@pengutronix.de>
+ <20231110152927.70601-4-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231110152927.70601-4-u.kleine-koenig@pengutronix.de>
 X-Mailman-Approved-At: Wed, 06 Dec 2023 21:17:14 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -62,32 +70,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Kunwu Chan <chentao@kylinos.cn>, kunwu.chan@hotmail.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Tony Lindgren <tony@atomide.com>, Al Cooper <alcooperx@gmail.com>, Paul Cercueil <paul@crapouillou.net>, Biju Das <biju.das.jz@bp.renesas.com>, Thierry Reding <thierry.reding@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Florian Fainelli <florian.fainelli@broadcom.com>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, Jonathan Hunter <jonathanh@nvidia.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andi Shyti <andi.shyti@linux.intel.com>, Chen-Yu Tsai <wenst@chromium.org>, Jacob Keller <jacob.e.keller@intel.com>, Ilpo =?iso-8859-15?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Petr Mladek <pmladek@suse.com>, linux-tegra@vger.kernel.org, linux-serial@vger.kernel.org, John Ogness <john.ogness@linutronix.de>, Ray Jui <rjui@broadcom.com>, Johan Hovold <johan
+ @kernel.org>, Vladimir Zapolskiy <vz@mleia.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-rpi-kernel@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>, Scott Branden <sbranden@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>, Masami Hiramatsu <mhiramat@kernel.org>, kernel@pengutronix.de, Thomas Richard <thomas.richard@bootlin.com>, linux-mediatek@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-kasprintf() returns a pointer to dynamically allocated memory
-which can be NULL upon failure. Ensure the allocation was successful
-by checking the pointer validity.
+Hi Uwe,
 
-Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
----
- drivers/usb/gadget/udc/aspeed-vhub/epn.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, Nov 10, 2023 at 04:29:31PM +0100, Uwe Kleine-König wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+> 
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+> 
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-index 148d7ec3ebf4..e0854e878411 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-@@ -826,6 +826,8 @@ struct ast_vhub_ep *ast_vhub_alloc_epn(struct ast_vhub_dev *d, u8 addr)
- 	ep->vhub = vhub;
- 	ep->ep.ops = &ast_vhub_epn_ops;
- 	ep->ep.name = kasprintf(GFP_KERNEL, "ep%d", addr);
-+	if (!ep->ep.name)
-+		return NULL;
- 	d->epns[addr-1] = ep;
- 	ep->epn.g_idx = i;
- 	ep->epn.regs = vhub->regs + 0x200 + (i * 0x10);
--- 
-2.34.1
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
+Thanks,
+Andi
