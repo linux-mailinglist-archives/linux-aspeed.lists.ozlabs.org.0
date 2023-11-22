@@ -2,76 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAA77F260D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Nov 2023 08:02:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01DF7F3C5C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Nov 2023 04:24:55 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=C0Xva+9A;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=QfB8RZyK;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SZFgt1GYlz3c2L
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Nov 2023 18:02:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SZmnx4BSqz3bYx
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Nov 2023 14:24:53 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=C0Xva+9A;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=QfB8RZyK;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::533; helo=mail-pg1-x533.google.com; envelope-from=chou.cosmo@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SYhkC18fyz2xdd;
-	Mon, 20 Nov 2023 20:17:54 +1100 (AEDT)
-Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so3171467a12.1;
-        Mon, 20 Nov 2023 01:17:54 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SZmnm0Wd3z3c82
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Nov 2023 14:24:42 +1100 (AEDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6bee11456baso5591285b3a.1
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Nov 2023 19:24:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700471873; x=1701076673; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tdiBbtmZINpiK2wrkr8560HBNxLICLlfhPzVnTah2sg=;
-        b=C0Xva+9AMMa6ClGZlEbpXk61eOrKKHJqqxD3GfpWqQrbz7YtLn2qNV3ATMTe2Gboag
-         MTarGk8NmJMRbMzO015NFR96JzmUcNvXR1NZyOQdcNDcoDM6tDnpopU4qv/gjn+2Z1F0
-         GOz23MrK3OtEoD3TLKZd0aECGCqPEenANA8DM5IiivIDO7jT0p927PIjXvpk5qPyW7bA
-         bGip9rgyzn12dQHCeByVWOnaIOIbm5AU7Zhdt5KAIeed+X5J/dIYonLcR+tdtf9M9x1E
-         C0o+FP8fU6Wovjvk5h+QQMlW50qpGNeL+44T8ED+xaqkLN7Zo50M502mENvXSbtRb3eI
-         ggyg==
+        d=gmail.com; s=20230601; t=1700623478; x=1701228278; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gwnN5Mp60GbUqaJnJtdiPEfokf2xhEImDf6jAe/ZdME=;
+        b=QfB8RZyK0MwnGncrL6Osv2KRwdUDa+Yg7LCdvR7VIdSaL2LlsIOFoen9G/5u2Fmlgl
+         7YXcMUhGzm2yNuGw1hMvIKiekWLuC+FHBZO/dpGDFsFPlnO25V20gEWAzrFGKSiAYXNx
+         OEKnfSPOqAnIN+m1B75LlVjDDEXscrEJU3Ea0aoIyf8CylGS6bPxZAQcmQBrc5fGxcaU
+         czA1myc7wFgs2xyqgPEF9sdSsUeq678Y1uZBvoorwUuReyI5vLreGJzd1GpIsdECK8jI
+         UmDfqLHq9aNC9elw0kT6916ZEgymO8erxbYlBRmSxm7BAYr+G1IAvnHG9iS/vfj7UGV1
+         rq3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700471873; x=1701076673;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tdiBbtmZINpiK2wrkr8560HBNxLICLlfhPzVnTah2sg=;
-        b=vnrWZuUi7WMapQkuCjqojsXcPhBw+0b7heNDedPjMFYqYbZMj6mvPq2hfzRWPVRpRJ
-         nmS0Zo/JmZmt+pWePvzQj//D/m+XLuHDl7VbmLjhhBOVBgO+MdLxB9YaDfzAezdQlJ6q
-         mlISJlfpDEAdoduA+j0e/eBhDu7D/NdXYrY4nU7v0q5FwdwtCqvEdnfI/vJtwiOJM0Os
-         3ea4wTh7V56FFX2jLNhv/rN2cPwk5d8hzD/vV7O3V7l4LnZyHYAPceC/j8GbkdT8cBLl
-         AS0vwbuMuoXG6YpXbCEp8Gy8hnfS/lljMIsZl2aSQn+7OS2xPLx0R0Zzx7SFRDf95tKA
-         SRCQ==
-X-Gm-Message-State: AOJu0YxDSoOvfDnC6zx/lYvYwViscjWRCEqSAGnVSd9DiBQi0GspoZf1
-	ygPGIJeDMux05BVIhPhY2YM=
-X-Google-Smtp-Source: AGHT+IEp+cuTi7iFRTT+hATic2jTuRdHoJOGZ8nbXlJYs561PX9JAj/1CEyo7iX6uiwbF8PlbiVoTA==
-X-Received: by 2002:a05:6a20:4429:b0:188:75c:e69a with SMTP id ce41-20020a056a20442900b00188075ce69amr10006442pzb.4.1700471872866;
-        Mon, 20 Nov 2023 01:17:52 -0800 (PST)
-Received: from cosmo-ubuntu-2204.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id j12-20020a056a00130c00b0068fece22469sm5582116pfu.4.2023.11.20.01.17.50
+        d=1e100.net; s=20230601; t=1700623478; x=1701228278;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gwnN5Mp60GbUqaJnJtdiPEfokf2xhEImDf6jAe/ZdME=;
+        b=sELe9pMZYuYZHAbM0DU4D21VFLuntLtGabcqs63cXclLMuFQRtB+IHvwz5vxMvqjQv
+         2zku9IH0TsJnfLLm1AyjFpRFsvmn0+/4wpCqfmHeqMONACENYnHJOIB1jSv0sir6cbqo
+         IBE+T4zUTRMlma/f90HFY7TLhtu2CiQSyUMY9VOnuP49+4ZS85db6QNgwpshSQJqlJsd
+         nsIoJEkDREdx8JmhZ6cEtL41p1n0d94FwT8YoSpFD0zeTRl9QoCrvJg5WuAnVYq+3V6A
+         PPgjidtuXanjP1WT0JEjSBhJtV2HrIxMKnHJhFGikEytwOU0cESMscpm8hYguK6v5qla
+         XP2w==
+X-Gm-Message-State: AOJu0YwS3K1vRJt2NGSYRmDpiPwpUlhXbBXdh6S3Uz75Y6Y8sQDjY/VH
+	4/cUm4gJCerB5a9+iWWbA/ZrBDnqVhM=
+X-Google-Smtp-Source: AGHT+IFdDj8vN1C0M9rSgwZNk2buw3bn5CSJsGVqk6RpbHp0er3n8pMZyxFxiWR+rsYryxYnT5HX/A==
+X-Received: by 2002:a05:6a00:3a1d:b0:6cb:a1fe:18c0 with SMTP id fj29-20020a056a003a1d00b006cba1fe18c0mr1274579pfb.8.1700623478416;
+        Tue, 21 Nov 2023 19:24:38 -0800 (PST)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id s4-20020a056a00194400b0069323619f69sm8820110pfk.143.2023.11.21.19.24.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 01:17:52 -0800 (PST)
-From: Cosmo Chou <chou.cosmo@gmail.com>
-To: brendan.higgins@linux.dev,
-	benh@kernel.crashing.org,
-	joel@jms.id.au,
-	andi.shyti@kernel.org,
-	andrew@codeconstruct.com.au,
-	linux@roeck-us.net,
-	wsa@kernel.org,
-	jae.hyun.yoo@linux.intel.com
-Subject: [PATCH] i2c: aspeed: Acknowledge Tx ack late when in SLAVE_READ_PROCESSED
-Date: Mon, 20 Nov 2023 17:17:46 +0800
-Message-Id: <20231120091746.2866232-1-chou.cosmo@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 21 Nov 2023 19:24:38 -0800 (PST)
+From: Peter Yin <peteryin.openbmc@gmail.com>
+To: patrick@stwcx.xyz,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Add Facebook Minerva Harma (AST2600) BMC
+Date: Wed, 22 Nov 2023 11:22:32 +0800
+Message-Id: <20231122032234.744144-1-peteryin.openbmc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 21 Nov 2023 18:02:09 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,64 +83,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, chou.cosmo@gmail.com, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, cosmo.chou@quantatw.com, linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-commit 2be6b47211e1 ("i2c: aspeed: Acknowledge most interrupts early
-in interrupt handler") moved most interrupt acknowledgments to the
-start of the interrupt handler to avoid race conditions. However,
-slave Tx ack status shouldn't be cleared before SLAVE_READ_PROCESSED
-is handled.
+Summary:
+Add linux device tree entry related to Minerva Harma
+specific devices connected to BMC SoC.
 
-Acknowledge Tx ack status after handling SLAVE_READ_PROCESSED to fix
-the problem that the next byte is not sent correctly.
+Change log
+v1 -> v2:
+  - Add Power sensors
+  - Modify ehci number
+  - Add Led
+  - Modify SGPIO line-name
+v1:
+  - Create minerva harma dts file.
 
-Fixes: 2be6b47211e1 ("i2c: aspeed: Acknowledge most interrupts early in interrupt handler")
-Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
+Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 ---
- drivers/i2c/busses/i2c-aspeed.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+Peter Yin (2):
+  dt-bindings: arm: aspeed: add Meta Minerva Harma board
+  ARM: dts: aspeed: Minerva Harma: Add Facebook Minerva Harma (AST2600)
+    BMC
 
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 28e2a5fc4528..c2d74e4b7e50 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -337,6 +337,12 @@ static u32 aspeed_i2c_slave_irq(struct aspeed_i2c_bus *bus, u32 irq_status)
- 		break;
- 	}
- 
-+	/* Ack Tx ack */
-+	if (irq_handled & ASPEED_I2CD_INTR_TX_ACK) {
-+		writel(ASPEED_I2CD_INTR_TX_ACK, bus->base + ASPEED_I2C_INTR_STS_REG);
-+		readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-+	}
-+
- 	return irq_handled;
- }
- #endif /* CONFIG_I2C_SLAVE */
-@@ -602,13 +608,18 @@ static u32 aspeed_i2c_master_irq(struct aspeed_i2c_bus *bus, u32 irq_status)
- static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
- {
- 	struct aspeed_i2c_bus *bus = dev_id;
--	u32 irq_received, irq_remaining, irq_handled;
-+	u32 irq_received, irq_remaining, irq_handled, irq_acked;
- 
- 	spin_lock(&bus->lock);
- 	irq_received = readl(bus->base + ASPEED_I2C_INTR_STS_REG);
- 	/* Ack all interrupts except for Rx done */
--	writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
--	       bus->base + ASPEED_I2C_INTR_STS_REG);
-+	irq_acked = irq_received & ~ASPEED_I2CD_INTR_RX_DONE;
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+	/* shouldn't ack Slave Tx Ack before it's handled */
-+	if (bus->slave_state == ASPEED_I2C_SLAVE_READ_PROCESSED)
-+		irq_acked &= ~ASPEED_I2CD_INTR_TX_ACK;
-+#endif
-+	writel(irq_acked, bus->base + ASPEED_I2C_INTR_STS_REG);
- 	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
- 	irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
- 	irq_remaining = irq_received;
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../aspeed-bmc-facebook-minerva-harma.dts     | 533 ++++++++++++++++++
+ 3 files changed, 535 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-harma.dts
+
 -- 
-2.34.1
+2.25.1
 
