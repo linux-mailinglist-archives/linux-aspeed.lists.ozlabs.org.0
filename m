@@ -1,56 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A5F7FAE23
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Nov 2023 00:00:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C8A7FAFD4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Nov 2023 02:58:22 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=GcF5S01D;
+	dkim=pass (1024-bit key; unprotected) header.d=rnplus.nl header.i=@rnplus.nl header.a=rsa-sha256 header.s=dkim header.b=i3198qmd;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SfLdw2NQXz3cT7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Nov 2023 10:00:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SfQbH5bQcz3cQM
+	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Nov 2023 12:58:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=GcF5S01D;
+	dkim=pass (1024-bit key; unprotected) header.d=rnplus.nl header.i=@rnplus.nl header.a=rsa-sha256 header.s=dkim header.b=i3198qmd;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=rnplus.nl (client-ip=178.251.25.70; helo=mail.rnplus.nl; envelope-from=renze@rnplus.nl; receiver=lists.ozlabs.org)
+Received: from mail.rnplus.nl (mail.rnplus.nl [178.251.25.70])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SfLdm2SGZz3bYc;
-	Tue, 28 Nov 2023 10:00:12 +1100 (AEDT)
-Received: from [192.168.68.112] (ppp118-210-131-38.adl-adc-lon-bras33.tpg.internode.on.net [118.210.131.38])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DC2FB200EF;
-	Tue, 28 Nov 2023 07:00:02 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1701126006;
-	bh=jeaVBZ61hYUULmiG4P1ndu1Q2m319cZm4MzoynyxVlQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=GcF5S01D0K9OrzUP0huZxWEqVkzKv+ALVQNJLjU286ml3+TWPtHI2Zc8t6o8wULQk
-	 KqmZkOUx0cGc5393b6urtjElVwWj3lGCg4obKPoov+MkKuHgNZZMKJV/ofccGs7cFX
-	 RFwEHtRS1QEG1fEyjt7aZe/h33NCJjvIcqSNRTRoHy2/N4rEquFYON9Y1iqm0rzJEv
-	 C5nfRoagxZnIgxEWBCdb1IL9THFhXkg6oGh70riVnXa5jPtyduaH/9GenlWyUlxYKi
-	 kIKcmX/4E5/YnNDHVydkF6JAVm+AICdzgHsd4IY2w2/68iom6sRDaqwziTv7BzQsrw
-	 JBe2POQtO3KnA==
-Message-ID: <d0773df55a6fe8a5c9b1a3d7c8dd2e1343643272.camel@codeconstruct.com.au>
-Subject: Re: [PATCH] i2c: aspeed: Acknowledge Tx ack late when in
- SLAVE_READ_PROCESSED
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Quan Nguyen <quan@os.amperecomputing.com>, Cosmo Chou
- <chou.cosmo@gmail.com>
-Date: Tue, 28 Nov 2023 09:30:01 +1030
-In-Reply-To: <854762fb-1767-4208-a7fc-10580730c1f3@os.amperecomputing.com>
-References: <20231120091746.2866232-1-chou.cosmo@gmail.com>
-	 <fdd884426497486c6b17795b4edc66243bdc7350.camel@codeconstruct.com.au>
-	 <CAOeEDyumVdi-3O3apMUFJ695V3YcZqZQ7wvzYL2YfU88XJ3Dxw@mail.gmail.com>
-	 <854762fb-1767-4208-a7fc-10580730c1f3@os.amperecomputing.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SfQZx3VJqz2yNf
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Nov 2023 12:58:00 +1100 (AEDT)
+Received: from localhost (unknown [127.0.0.1])
+	by mail.rnplus.nl (Postfix) with ESMTP id C742E37943D
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Nov 2023 01:33:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at rnplus.nl
+Received: from mail.rnplus.nl ([127.0.0.1])
+	by localhost (mail.rnplus.nl [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cGPqgrV-Q8E6 for <linux-aspeed@lists.ozlabs.org>;
+	Tue, 28 Nov 2023 02:33:45 +0100 (CET)
+Received: from werkpc.lan (87-101-2-254.dsl.cambrium.nl [87.101.2.254])
+	by mail.rnplus.nl (Postfix) with ESMTPSA id 16404379432;
+	Tue, 28 Nov 2023 02:33:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rnplus.nl; s=dkim;
+	t=1701135224; bh=81KwltVxZAuMaWLnYPGe+jkgwQiKXhiV7pP19DaDTdw=;
+	h=From:To:Cc:Subject:Date;
+	b=i3198qmdu53X0lp5Stk2jvnw9k2rIjPPev7I0lZAzFHXk9+mVKhYtr3FKe+HNRAkW
+	 I/L/bghaqwsLHnpp5gMKNBEb6/jvwprHj0w4GAcb9SNQFuuH1SPCi4umFQdKDJdpGC
+	 GVDOwWS1/3IrJ/ZS58HmQewCJaeu0oUNIAGjSTyY=
+From: Renze Nicolai <renze@rnplus.nl>
+To: linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	arnd@arndb.de,
+	olof@lixom.net,
+	soc@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	joel@jms.id.au,
+	andrew@aj.id.au
+Subject: [PATCH 0/2] ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
+Date: Tue, 28 Nov 2023 02:30:15 +0100
+Message-ID: <20231128013136.2699317-1-renze@rnplus.nl>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,65 +68,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: jae.hyun.yoo@linux.intel.com, andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux@roeck-us.net, linux-kernel@vger.kernel.org, wsa@kernel.org, brendan.higgins@linux.dev, cosmo.chou@quantatw.com, linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: Renze Nicolai <renze@rnplus.nl>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 2023-11-27 at 15:08 +0700, Quan Nguyen wrote:
->=20
-> On 27/11/2023 14:04, Cosmo Chou wrote:
-> > Andrew Jeffery <andrew@codeconstruct.com.au> wrote on Mon, 2023-11-27
-> > at 11:23 AM:
-> > >=20
-> > > On Mon, 2023-11-20 at 17:17 +0800, Cosmo Chou wrote:
-> > > > commit 2be6b47211e1 ("i2c: aspeed: Acknowledge most interrupts earl=
-y
-> > > > in interrupt handler") moved most interrupt acknowledgments to the
-> > > > start of the interrupt handler to avoid race conditions. However,
-> > > > slave Tx ack status shouldn't be cleared before SLAVE_READ_PROCESSE=
-D
-> > > > is handled.
-> > > >=20
-> > > > Acknowledge Tx ack status after handling SLAVE_READ_PROCESSED to fi=
-x
-> > > > the problem that the next byte is not sent correctly.
-> > >=20
-> > > What does this mean in practice? Can you provide more details? It
-> > > sounds like you've seen concrete problems and it would be nice to
-> > > capture what it was that occurred.
-> > >=20
-> > > Andrew
-> >=20
-> > For a normal slave transaction, a master attempts to read out N bytes
-> > from BMC: (BMC addr: 0x20)
-> > [S] [21] [A] [1st_B] [1_ack] [2nd_B] [2_ack] ... [Nth_B] [N] [P]
-> >=20
-> > T1: when [21] [A]: Both INTR_SLAVE_MATCH and INTR_RX_DONE rise,
-> > INTR_RX_DONE is not cleared until BMC is ready to send the 1st_B:
-> > https://github.com/torvalds/linux/blob/master/drivers/i2c/busses/i2c-as=
-peed.c#L294
-> > That is, BMC stretches the SCL until ready to send the 1st_B.
-> >=20
-> > T2: when [1_ack]: INTR_TX_ACK rises, but it's cleared at the start of
-> > the ISR, so that BMC does not stretch the SCL, the master continues
-> > to read 2nd_B before BMC is ready to send the 2nd_B.
-> >=20
-> > To fix this, do not clear INTR_TX_ACK until BMC is ready to send data:
-> > https://github.com/torvalds/linux/blob/master/drivers/i2c/busses/i2c-as=
-peed.c#L302
-> >=20
->=20
-> This looks like the same issue, but we chose to ack them late. Same with=
-=20
-> INTR_RX_DONE.
->=20
-> https://lore.kernel.org/all/20210616031046.2317-3-quan@os.amperecomputing=
-.com/
+Hello,
 
-From a brief inspection I prefer the descriptions in your series Quan.
-Looks like we dropped the ball a bit there though on the review - can
-you resend your series based on 6.7-rc1 or so and Cc Cosmo?
+These patches add a device-tree (and a bindings update) for the
+Aspeed BMC on the ASRock X570D4U, so that it can be added as a
+supported OpenBMC platform.
 
-Cheers,
+Greetings,
+Renze Nicolai
 
-Andrew
+Renze Nicolai (2):
+  dt-bindings: arm: aspeed: add Asrock X570D4U board
+  ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
+
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../dts/aspeed/aspeed-bmc-asrock-x570d4u.dts  | 344 ++++++++++++++++++
+ 3 files changed, 346 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+
+-- 
+2.43.0
+
