@@ -1,67 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829F47FB2EA
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Nov 2023 08:38:37 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC5A7FB2ED
+	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Nov 2023 08:39:11 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Vkgluk/R;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=DND2WdN6;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SfZ7v0Jrzz30Q4
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Nov 2023 18:38:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SfZ8X5FMfz30Q4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Nov 2023 18:39:08 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Vkgluk/R;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=DND2WdN6;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::534; helo=mail-ed1-x534.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::633; helo=mail-ej1-x633.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SfZ7l3Cthz2xwD
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Nov 2023 18:38:25 +1100 (AEDT)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54af2498e85so5289525a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 27 Nov 2023 23:38:24 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SfZ8Q5fB8z30Q4
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Nov 2023 18:39:02 +1100 (AEDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9fffa4c4f43so697252766b.3
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 27 Nov 2023 23:39:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701157094; x=1701761894; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1701157139; x=1701761939; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+AI8L9Ek428OSQjeMbMrlQFghJGA+oT7iK0PaPpK+pA=;
-        b=Vkgluk/RTbjEEyVnlnWBztstVUTnQR9rjzxtsI1LDsuFuOjiQdqzoWja7YOjdxhdfo
-         G0sVaE/7H1LEJxl9E+d1U3Cj+54IgC7t40lJEAbzgwbdKZPeeqO39IW+sx/rMdNbBsbN
-         kzyxtkv3LDt9wvmaKo8WI+I+AwnrnSNcPasBbmERYjp9EFek+ZwYgqueH87fYxBe2ksk
-         idAWhwbXVZKbR/UMZZMUjWi7eG6dUlKKC7esT/T6P+ehGn+U4ASlTZ3lbMffO6NAYZ1m
-         19bz7Qwy5nPGFqS4lh8wsqIfFkSjJ6EFTzrqAco1G9UsUxCjZ2mUsarzPbHGwpRdc/5n
-         W0pQ==
+        bh=1xpWhdI1Pe1089vUOdBI66mS/Wx9VBdLigp8n4bIcBQ=;
+        b=DND2WdN6l/3jeDBgCq/eCtNTN+xBWkUj0059907hAOpcnWGWcOuLlROR3xYOXh+h20
+         BeXkcCAWjOQ73mLwe+Jr+jp80/RTBlntZF8HAfj050KjEpuzighM0ZGFsmTfk8OhsLp9
+         THWW3rqwenkgLjQyCWnOv+clK1C+32N1HQkM5CFaEqWICsKPamKCKrvMPqN2PYwfXD70
+         ULHLiqnJwsUCJrWmj9GBrDhHd01AFghlZcKuTzNUm1ilo4zG29hkdDUuCPIZybnjr9me
+         ZKLtwNveH0oepEoA6NcLt0NPk+N4JjAIvFl9ywy/6d82vBdVhjnEYU10705npmUSW+a2
+         SIGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701157094; x=1701761894;
+        d=1e100.net; s=20230601; t=1701157139; x=1701761939;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+AI8L9Ek428OSQjeMbMrlQFghJGA+oT7iK0PaPpK+pA=;
-        b=LlXFudcDcB0bm7CRHccTiUUt1RjISO7mDfx+t0tCqfQOpidtSmrkJ81qDNV2Rvw9ti
-         qUBcr3e3mADKX+qvDMg2gZaFvtYPbUMQw5ge0LY8tw9YBqdL/yNymXKofhJlyb4G7qAE
-         i3q5TWkt3+BUnq8lJqPHcOz0bDTojR+7YglqeHVNKpErIWAGzHYCbkGBKYbwnIM4vSh7
-         +EVRW6evCGJ/jEPzze6oL87TVpoB5ccSTpQqNK5FCMy6Jp3sAEWVubitIIh+fFmmn3Kv
-         9BUqi39zTJ/zwjfvYFiXOityc/zCPALcA9jhCfuh4T9w5m/XTIdxb1su/3TmUCRfayH5
-         sGNw==
-X-Gm-Message-State: AOJu0Yz8Wd5WA41L2sC0j3cBsq7XQlVllWEi7Nhesub55k03D44STSIi
-	c/k4puaFVr68pN4yIsPEsxvLXQ==
-X-Google-Smtp-Source: AGHT+IHEL2s/sF8eOedQswRuYaBd76Txot8PfPDF8jHLbInsrT+vjPkS+YKe/cGwulB4xa1yNNgdQg==
-X-Received: by 2002:a17:906:7c4d:b0:9fa:ca0c:ac42 with SMTP id g13-20020a1709067c4d00b009faca0cac42mr10894814ejp.64.1701157094621;
-        Mon, 27 Nov 2023 23:38:14 -0800 (PST)
+        bh=1xpWhdI1Pe1089vUOdBI66mS/Wx9VBdLigp8n4bIcBQ=;
+        b=dDYEJhmFTP4aPOu9IzgMgKPgLbHweepJGUj2NkpW5L7J9CctQZ/FKhnq79x+II2bOo
+         +WzUribZJi5yX92CMjoKuEYPon2q6j5DGy9n/2SjHBJ89CNlD0wQCkf7frjzuqZ22hMm
+         0ja5u2pdj2JdX6ET0mH/AF81blCDVcGDzVwBDbAsvZ09ytRTTbhtoBZiO/zX+QnB8PQb
+         GdZVefpcAznpI+wlfgb9uTvyR2o4uj07fQZJpxzhr+PVRkEGj3wImiYi4xg32n4jO5Rc
+         9Q3tq8477Js+HY1K5SRp5q0yTaS3vsTTP/bGZnUKRsRoV7XxngXNnoUoC8RsErU09WPa
+         Shvw==
+X-Gm-Message-State: AOJu0Ywawp2YFgIRlqnh1vID5fYKYYEekDitJNih1+xoI/o3niDF0rG9
+	3fSnKD+XOwQOI9+O0VqsDBm6eg==
+X-Google-Smtp-Source: AGHT+IEwCF3lvSZOgwGHlaziA4rCYoZBAn4V2HpUvlGg0w80wo/sXoP1wZ9X/0DJ/QkOxdcCvkCvJQ==
+X-Received: by 2002:a17:906:7c4d:b0:9fa:ca0c:ac42 with SMTP id g13-20020a1709067c4d00b009faca0cac42mr10896090ejp.64.1701157138796;
+        Mon, 27 Nov 2023 23:38:58 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id q23-20020a17090676d700b00a017da998bdsm6473249ejn.32.2023.11.27.23.38.12
+        by smtp.gmail.com with ESMTPSA id q23-20020a17090676d700b00a017da998bdsm6473249ejn.32.2023.11.27.23.38.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Nov 2023 23:38:14 -0800 (PST)
-Message-ID: <85e0b2eb-9a1b-4580-b6b0-c0dd4c6dd13b@linaro.org>
-Date: Tue, 28 Nov 2023 08:38:12 +0100
+        Mon, 27 Nov 2023 23:38:58 -0800 (PST)
+Message-ID: <c9f8c072-de00-4f4a-b675-b42a5cbd4922@linaro.org>
+Date: Tue, 28 Nov 2023 08:38:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: add Asrock X570D4U board
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
 Content-Language: en-US
 To: Renze Nicolai <renze@rnplus.nl>, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -69,7 +69,7 @@ To: Renze Nicolai <renze@rnplus.nl>, linux-arm-kernel@lists.infradead.org,
  soc@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
  joel@jms.id.au, andrew@aj.id.au
 References: <20231128013136.2699317-1-renze@rnplus.nl>
- <20231128013136.2699317-2-renze@rnplus.nl>
+ <20231128013136.2699317-3-renze@rnplus.nl>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -115,7 +115,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231128013136.2699317-2-renze@rnplus.nl>
+In-Reply-To: <20231128013136.2699317-3-renze@rnplus.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -133,12 +133,99 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 28/11/2023 02:30, Renze Nicolai wrote:
-> Document Asrock X570D4U compatible.
+> This is a relatively low-cost AST2500-based Amd Ryzen 5000 Series
+> micro-ATX board that we hope can provide a decent platform for OpenBMC
+> development.
+> 
+> This initial device-tree provides the necessary configuration for
+> basic BMC functionality such as serial console, KVM support
+> and POST code snooping.
 > 
 > Signed-off-by: Renze Nicolai <renze@rnplus.nl>
 > ---
+>  arch/arm/boot/dts/aspeed/Makefile             |   1 +
+>  .../dts/aspeed/aspeed-bmc-asrock-x570d4u.dts  | 344 ++++++++++++++++++
+>  2 files changed, 345 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+> 
+> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
+> index d3ac20e316d0..2205bd079d0c 100644
+> --- a/arch/arm/boot/dts/aspeed/Makefile
+> +++ b/arch/arm/boot/dts/aspeed/Makefile
+> @@ -10,6 +10,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>  	aspeed-bmc-arm-stardragon4800-rep2.dtb \
+>  	aspeed-bmc-asrock-e3c246d4i.dtb \
+>  	aspeed-bmc-asrock-romed8hm3.dtb \
+> +	aspeed-bmc-asrock-x570d4u.dtb \
+>  	aspeed-bmc-bytedance-g220a.dtb \
+>  	aspeed-bmc-delta-ahe50dc.dtb \
+>  	aspeed-bmc-facebook-bletchley.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+> new file mode 100644
+> index 000000000000..9fb1d76abacb
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+> @@ -0,0 +1,344 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/dts-v1/;
+> +#include "aspeed-g5.dtsi"
+> +#include <dt-bindings/gpio/aspeed-gpio.h>
+> +
+> +/ {
+> +	model = "Asrock Rack X570D4U BMC";
+> +	compatible = "asrock,x570d4u-bmc";
+> +
+> +	chosen {
+> +			stdout-path = &uart5;
+> +			bootargs = "console=ttyS4,115200 earlycon";
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Drop console. stdout-path defines the console and earlycon is for debugging.
+
+> +	};
+> +
+> +	memory@80000000 {
+> +			reg = <0x80000000 0x20000000>;
+
+You have messed up indentation everywhere.
+
+> +	};
+> +
+> +	reserved-memory {
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +			ranges;
+> +
+> +			pci_memory: region@9A000000 {
+> +				no-map;
+> +				reg = <0x9A000000 0x00010000>; /* 64K */
+> +			};
+> +
+> +			video_engine_memory: jpegbuffer {
+> +				size = <0x02800000>;	/* 40M */
+> +				alignment = <0x01000000>;
+> +				compatible = "shared-dma-pool";
+> +				reusable;
+> +			};
+> +
+> +			gfx_memory: framebuffer {
+> +				size = <0x01000000>;
+> +				alignment = <0x01000000>;
+> +				compatible = "shared-dma-pool";
+> +				reusable;
+> +			};
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		heartbeat {
+
+It does not look like you tested the DTS against bindings. Please run
+`make dtbs_check W=1` (see
+Documentation/devicetree/bindings/writing-schema.rst or
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
+for instructions).
+
 
 Best regards,
 Krzysztof
