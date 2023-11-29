@@ -2,64 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418247FCBA5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Nov 2023 01:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ECCA7FCB3F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Nov 2023 01:20:22 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rnplus.nl header.i=@rnplus.nl header.a=rsa-sha256 header.s=dkim header.b=bfnOerZq;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=GIAkYfOy;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Sg0tK521Sz3cbW
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Nov 2023 11:43:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Sg0Ml3R6Mz3cbB
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Nov 2023 11:20:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rnplus.nl header.i=@rnplus.nl header.a=rsa-sha256 header.s=dkim header.b=bfnOerZq;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=GIAkYfOy;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=rnplus.nl (client-ip=178.251.25.70; helo=mail.rnplus.nl; envelope-from=renze@rnplus.nl; receiver=lists.ozlabs.org)
-Received: from mail.rnplus.nl (mail.rnplus.nl [178.251.25.70])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sg0t60gfxz3c5K
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Nov 2023 11:43:05 +1100 (AEDT)
-Received: from localhost (unknown [127.0.0.1])
-	by mail.rnplus.nl (Postfix) with ESMTP id 7E6B637944F
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Nov 2023 23:26:49 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at rnplus.nl
-Received: from mail.rnplus.nl ([127.0.0.1])
-	by localhost (mail.rnplus.nl [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EAYvgeTDalZm for <linux-aspeed@lists.ozlabs.org>;
-	Wed, 29 Nov 2023 00:26:49 +0100 (CET)
-Received: from werkpc.lan (87-101-2-254.dsl.cambrium.nl [87.101.2.254])
-	by mail.rnplus.nl (Postfix) with ESMTPSA id 0112B379438;
-	Wed, 29 Nov 2023 00:26:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rnplus.nl; s=dkim;
-	t=1701214003; bh=MpiGutb6+GSzJVB8yxUmUfitstTt+BUk4i8k5MG9kY0=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=bfnOerZq9rK1a2AQ6mIfOmuWmdycAhmwd1rJo2Z2Xt8CLfvVy4BnMWKLT8tCkrz+i
-	 RgSyb/d4f5aaK2myrO6hxVqRa8/bFOfdE32kCuN8+M5sw4ZZS3dImBHq8O9PhVTNJD
-	 DGZjwzNZdXQGp4HA3fDg20NMMCBEREIiEV5nnw4M=
-From: Renze Nicolai <renze@rnplus.nl>
-To: linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	arnd@arndb.de,
-	olof@lixom.net,
-	soc@kernel.org,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	joel@jms.id.au,
-	andrew@aj.id.au,
-	renze@rnplus.nl
-Subject: [PATCH v2 2/2] ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
-Date: Wed, 29 Nov 2023 00:23:17 +0100
-Message-ID: <20231128232456.2932350-3-renze@rnplus.nl>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231128232456.2932350-1-renze@rnplus.nl>
-References: <20231128232456.2932350-1-renze@rnplus.nl>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sg0Lc1NWTz3cG6;
+	Wed, 29 Nov 2023 11:19:20 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-131-38.adl-adc-lon-bras33.tpg.internode.on.net [118.210.131.38])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id C8EB620173;
+	Wed, 29 Nov 2023 08:19:09 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1701217154;
+	bh=dk/ur1RQW3iSmbO2wQE4io8VUkp6+K+uoymueMamZHg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=GIAkYfOyibSsdEqnXCDSdp7D18aGaGAUgQIZUt1T7ELSgV6ttYVwpLxqwnWClUCvb
+	 V39xOaFy/s73LGvRAH3gSpAMiN2NVy5ivuP8FZEk3nRunQZUVagLBhTINw/2oW9Upr
+	 p1DhJ8skCfCFIJmAY+yeUFxDZwog8b+gvtu+DBOwsbuObxSFPy/6vng10+31GZGrV/
+	 LP5KlDGcC88/0tBcYb7Xd2EoNW6VNSZc8xV4F0gs/UMbSiNriwAmX9pBDrCMSCa0id
+	 3NAQPHgVxH8EQ+RqLsoqIJuYKpCNzXdZ0QijrjDRNABl6Hfy3TkqIOZ+12He4YsvD+
+	 bqgDHgnoJZOgw==
+Message-ID: <4a9fe86f0349106adaa4e0c04c5839bab631f26c.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v2 RESEND 1/2] i2c: aspeed: Fix unhandled Tx done with
+ NAK
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Quan Nguyen <quan@os.amperecomputing.com>, Brendan Higgins
+ <brendan.higgins@linux.dev>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>,  Joel Stanley <joel@jms.id.au>, Andi Shyti
+ <andi.shyti@kernel.org>, Wolfram Sang <wsa@kernel.org>, Jae Hyun Yoo
+ <jae.hyun.yoo@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, 
+ linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org, 
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org
+Date: Wed, 29 Nov 2023 10:49:08 +1030
+In-Reply-To: <20231128075236.2724038-2-quan@os.amperecomputing.com>
+References: <20231128075236.2724038-1-quan@os.amperecomputing.com>
+	 <20231128075236.2724038-2-quan@os.amperecomputing.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,401 +66,125 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Cosmo Chou <chou.cosmo@gmail.com>, Open Source Submission <patches@amperecomputing.com>, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is a relatively low-cost AST2500-based Amd Ryzen 5000 Series
-micro-ATX board that we hope can provide a decent platform for OpenBMC
-development.
+On Tue, 2023-11-28 at 14:52 +0700, Quan Nguyen wrote:
+> Under normal conditions, after the last byte is sent by the Slave, the
+> TX_NAK interrupt is raised.  However, it is also observed that
+> sometimes the Master issues the next transaction too quickly while the
+> Slave IRQ handler is not yet invoked and the TX_NAK interrupt for the
+> last byte of the previous READ_PROCESSED state has not been ack=E2=80=99e=
+d.
+> This TX_NAK interrupt is then raised together with SLAVE_MATCH interrupt
+> and RX_DONE interrupt of the next coming transaction from Master. The
+> Slave IRQ handler currently handles the SLAVE_MATCH and RX_DONE, but
+> ignores the TX_NAK, causing complaints such as
+> "aspeed-i2c-bus 1e78a040.i2c-bus: irq handled !=3D irq. Expected
+> 0x00000086, but was 0x00000084"
+>=20
+> This commit adds code to handle this case by emitting a SLAVE_STOP event
+> for the TX_NAK before processing the RX_DONE for the coming transaction
+> from the Master.
+>=20
+> Fixes: f9eb91350bb2 ("i2c: aspeed: added slave support for Aspeed I2C dri=
+ver")
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> ---
+> v2:
+>   + Split to separate series [Joel]
+>   + Added the Fixes line [Joel]
+>   + Revised commit message [Quan]
+>=20
+> v1:
+>   + First introduced in
+> https://lore.kernel.org/all/20210519074934.20712-1-quan@os.amperecomputin=
+g.com/
+> ---
+>  drivers/i2c/busses/i2c-aspeed.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-asp=
+eed.c
+> index 28e2a5fc4528..79476b46285b 100644
+> --- a/drivers/i2c/busses/i2c-aspeed.c
+> +++ b/drivers/i2c/busses/i2c-aspeed.c
+> @@ -253,6 +253,11 @@ static u32 aspeed_i2c_slave_irq(struct aspeed_i2c_bu=
+s *bus, u32 irq_status)
+> =20
+>  	/* Slave was requested, restart state machine. */
+>  	if (irq_status & ASPEED_I2CD_INTR_SLAVE_MATCH) {
+> +		if (irq_status & ASPEED_I2CD_INTR_TX_NAK &&
+> +		    bus->slave_state =3D=3D ASPEED_I2C_SLAVE_READ_PROCESSED) {
+> +			irq_handled |=3D ASPEED_I2CD_INTR_TX_NAK;
+> +			i2c_slave_event(slave, I2C_SLAVE_STOP, &value);
+> +		}
 
-This initial device-tree provides the necessary configuration for
-basic BMC functionality such as serial console, KVM support
-and POST code snooping.
+So we're already (partially) processing this a bit later on line 287:
 
-Signed-off-by: Renze Nicolai <renze@rnplus.nl>
----
- arch/arm/boot/dts/aspeed/Makefile             |   1 +
- .../dts/aspeed/aspeed-bmc-asrock-x570d4u.dts  | 359 ++++++++++++++++++
- 2 files changed, 360 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/i2c/busses/i2c-aspeed.c?h=3Dv6.7-rc3#n287
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index d3ac20e316d0..2205bd079d0c 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -10,6 +10,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
- 	aspeed-bmc-asrock-e3c246d4i.dtb \
- 	aspeed-bmc-asrock-romed8hm3.dtb \
-+	aspeed-bmc-asrock-x570d4u.dtb \
- 	aspeed-bmc-bytedance-g220a.dtb \
- 	aspeed-bmc-delta-ahe50dc.dtb \
- 	aspeed-bmc-facebook-bletchley.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
-new file mode 100644
-index 000000000000..b7c84188b405
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
-@@ -0,0 +1,359 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/dts-v1/;
-+#include "aspeed-g5.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/leds/common.h>
+From the description of the problem in the commit message it sounds
+like the ordering of the interrupt processing is incorrect. Prior to
+this patch we have the following abstract ordering of interrupt
+processing:
+
+1. Process ASPEED_I2CD_INTR_SLAVE_MATCH
+2. Process ASPEED_I2CD_INTR_TX_NAK when in ASPEED_I2C_SLAVE_READ_PROCESSED
+
+With this patch we have:
+
+1. If ASPEED_I2CD_INTR_SLAVE_MATCH then process ASPEED_I2CD_INTR_TX_NAK whe=
+n in ASPEED_I2C_SLAVE_READ_PROCESSED
+2. Process ASPEED_I2CD_INTR_SLAVE_MATCH
+3. Process ASPEED_I2CD_INTR_TX_NAK when in ASPEED_I2C_SLAVE_READ_PROCESSED
+
+That feels a bit complex and redundant. What I think we can have is:
+
+1. Process ASPEED_I2CD_INTR_TX_NAK when in ASPEED_I2C_SLAVE_READ_PROCESSED
+1. Process ASPEED_I2CD_INTR_SLAVE_MATCH
+
+Moving back from the abstract to the concrete, implementing what I
+believe we need would look something like this patch:
+
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspee=
+d.c
+index 28e2a5fc4528..98dd0f35c9d3 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -251,6 +251,14 @@ static u32 aspeed_i2c_slave_irq(struct aspeed_i2c_bus =
+*bus, u32 irq_status)
+=20
+        command =3D readl(bus->base + ASPEED_I2C_CMD_REG);
+=20
++       /* Complete any active read */
++       if (irq_status & ASPEED_I2CD_INTR_TX_NAK &&
++           bus->slave_state =3D=3D ASPEED_I2C_SLAVE_READ_PROCESSED) {
++               irq_handled |=3D ASPEED_I2CD_INTR_TX_NAK;
++               i2c_slave_event(slave, I2C_SLAVE_STOP, &value);
++               bus->slave_state =3D ASPEED_I2C_SLAVE_STOP;
++       }
 +
-+/ {
-+	model = "Asrock Rack X570D4U BMC";
-+	compatible = "asrock,x570d4u-bmc", "aspeed,ast2500";
-+
-+	chosen {
-+		stdout-path = &uart5;
-+	};
-+
-+	memory@80000000 {
-+		reg = <0x80000000 0x20000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		pci_memory: region@9a000000 {
-+			no-map;
-+			reg = <0x9a000000 0x00010000>; /* 64K */
-+		};
-+
-+		video_engine_memory: jpegbuffer {
-+			size = <0x02800000>;	/* 40M */
-+			alignment = <0x01000000>;
-+			compatible = "shared-dma-pool";
-+			reusable;
-+		};
-+
-+		gfx_memory: framebuffer {
-+			size = <0x01000000>;
-+			alignment = <0x01000000>;
-+			compatible = "shared-dma-pool";
-+			reusable;
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led0 {
-+			/* led-heartbeat-n */
-+			function = LED_FUNCTION_HEARTBEAT;
-+			color = <LED_COLOR_ID_GREEN>;
-+			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_LOW>;
-+			linux,default-trigger = "timer";
-+		};
-+
-+		led1 {
-+			/* led-fault-n */
-+			function = LED_FUNCTION_FAULT;
-+			color = <LED_COLOR_ID_AMBER>;
-+			gpios = <&gpio ASPEED_GPIO(Z, 2) GPIO_ACTIVE_LOW>;
-+			panic-indicator;
-+		};
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 0>, <&adc 1>, <&adc 2>, <&adc 3>, <&adc 4>,
-+			<&adc 5>, <&adc 6>, <&adc 7>, <&adc 8>, <&adc 9>,
-+			<&adc 10>, <&adc 11>, <&adc 12>;
-+	};
-+};
-+
-+&gpio {
-+	status = "okay";
-+	gpio-line-names =
-+	/*A0-A3*/       "status-locatorled-n",                    "",                      "button-nmi-n",          "",
-+	/*A4-A7*/       "",                                       "",                      "",                      "",
-+	/*B0-B3*/       "input-bios-post-cmplt-n",                "",                      "",                      "",
-+	/*B4-B7*/       "",                                       "",                      "",                      "",
-+	/*C0-C3*/       "",                                       "",                      "",                      "",
-+	/*C4-C7*/       "",                                       "",                      "control-locatorbutton", "",
-+	/*D0-D3*/       "button-power",                           "control-power",         "button-reset",          "control-reset",
-+	/*D4-D7*/       "",                                       "",                      "",                      "",
-+	/*E0-E3*/       "",                                       "",                      "",                      "",
-+	/*E4-E7*/       "",                                       "",                      "",                      "",
-+	/*F0-F3*/       "",                                       "",                      "",                      "",
-+	/*F4-F7*/       "",                                       "",                      "",                      "",
-+	/*G0-G3*/       "output-rtc-battery-voltage-read-enable", "input-id0",             "input-id1",             "input-id2",
-+	/*G4-G7*/       "input-alert1-n",                         "input-alert2-n",        "input-alert3-n",        "",
-+	/*H0-H3*/       "",                                       "",                      "",                      "",
-+	/*H4-H7*/       "input-mfg",                              "",                      "led-heartbeat-n",       "input-caseopen",
-+	/*I0-I3*/       "",                                       "",                      "",                      "",
-+	/*I4-I7*/       "",                                       "",                      "",                      "",
-+	/*J0-J3*/       "output-bmc-ready",                       "",                      "",                      "",
-+	/*J4-J7*/       "",                                       "",                      "",                      "",
-+	/*K0-K3*/       "",                                       "",                      "",                      "",
-+	/*K4-K7*/       "",                                       "",                      "",                      "",
-+	/*L0-L3*/       "",                                       "",                      "",                      "",
-+	/*L4-L7*/       "",                                       "",                      "",                      "",
-+	/*M0-M3*/       "",                                       "",                      "",                      "",
-+	/*M4-M7*/       "",                                       "",                      "",                      "",
-+	/*N0-N3*/       "",                                       "",                      "",                      "",
-+	/*N4-N7*/       "",                                       "",                      "",                      "",
-+	/*O0-O3*/       "",                                       "",                      "",                      "",
-+	/*O4-O7*/       "",                                       "",                      "",                      "",
-+	/*P0-P3*/       "",                                       "",                      "",                      "",
-+	/*P4-P7*/       "",                                       "",                      "",                      "",
-+	/*Q0-Q3*/       "",                                       "",                      "",                      "",
-+	/*Q4-Q7*/       "",                                       "",                      "",                      "",
-+	/*R0-R3*/       "",                                       "",                      "",                      "",
-+	/*R4-R7*/       "",                                       "",                      "",                      "",
-+	/*S0-S3*/       "input-bmc-pchhot-n",                     "",                      "",                      "",
-+	/*S4-S7*/       "",                                       "",                      "",                      "",
-+	/*T0-T3*/       "",                                       "",                      "",                      "",
-+	/*T4-T7*/       "",                                       "",                      "",                      "",
-+	/*U0-U3*/       "",                                       "",                      "",                      "",
-+	/*U4-U7*/       "",                                       "",                      "",                      "",
-+	/*V0-V3*/       "",                                       "",                      "",                      "",
-+	/*V4-V7*/       "",                                       "",                      "",                      "",
-+	/*W0-W3*/       "",                                       "",                      "",                      "",
-+	/*W4-W7*/       "",                                       "",                      "",                      "",
-+	/*X0-X3*/       "",                                       "",                      "",                      "",
-+	/*X4-X7*/       "",                                       "",                      "",                      "",
-+	/*Y0-Y3*/       "",                                       "",                      "",                      "",
-+	/*Y4-Y7*/       "",                                       "",                      "",                      "",
-+	/*Z0-Z3*/       "",                                       "",                      "led-fault-n",           "output-bmc-throttle-n",
-+	/*Z4-Z7*/       "",                                       "",                      "",                      "",
-+	/*AA0-AA3*/     "input-cpu1-thermtrip-latch-n",           "",                      "input-cpu1-prochot-n",  "",
-+	/*AA4-AC7*/     "",                                       "",                      "",                      "",
-+	/*AB0-AB3*/     "",                                       "",                      "",                      "",
-+	/*AB4-AC7*/     "",                                       "",                      "",                      "",
-+	/*AC0-AC3*/     "",                                       "",                      "",                      "",
-+	/*AC4-AC7*/     "",                                       "",                      "",                      "";
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		label = "bmc";
-+		m25p,fast-read;
-+		spi-max-frequency = <10000000>;
-+#include "openbmc-flash-layout-64.dtsi"
-+	};
-+};
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&vuart {
-+	status = "okay";
-+};
-+
-+&mac0 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii1_default &pinctrl_mdio1_default>;
-+
-+	nvmem-cells = <&eth0_macaddress>;
-+	nvmem-cell-names = "mac-address";
-+};
-+
-+&mac1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii2_default &pinctrl_mdio2_default>;
-+	use-ncsi;
-+
-+	nvmem-cells = <&eth1_macaddress>;
-+	nvmem-cell-names = "mac-address";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	w83773g@4c {
-+		compatible = "nuvoton,w83773g";
-+		reg = <0x4c>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+
-+	i2c-mux@70 {
-+		compatible = "nxp,pca9545";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		i2c4mux0ch0@0 {
-+			/* SMBus on PCI express 16x slot */
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+		};
-+
-+		i2c4mux0ch1@1 {
-+			/* SMBus on PCI express 8x slot */
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+		};
-+
-+		i2c4mux0ch2@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+		};
-+
-+		i2c4mux0ch3@3 {
-+			/* SMBus on PCI express 1x slot */
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+		};
-+	};
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+
-+	eeprom@57 {
-+		compatible = "st,24c128", "atmel,24c128";
-+		reg = <0x57>;
-+		pagesize = <16>;
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+
-+		eth0_macaddress: macaddress@3f80 {
-+			reg = <0x3f80 6>;
-+		};
-+
-+		eth1_macaddress: macaddress@3f88 {
-+			reg = <0x3f88 6>;
-+		};
-+	};
-+};
-+
-+&gfx {
-+	status = "okay";
-+};
-+
-+&pinctrl {
-+	aspeed,external-nodes = <&gfx &lhc>;
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+&uhci {
-+	status = "okay";
-+};
-+
-+&kcs3 {
-+	aspeed,lpc-io-reg = <0xca2>;
-+	status = "okay";
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+};
-+
-+&lpc_snoop {
-+	status = "okay";
-+	snoop-ports = <0x80>;
-+};
-+
-+&p2a {
-+	status = "okay";
-+	memory-region = <&pci_memory>;
-+};
-+
-+&video {
-+	status = "okay";
-+	memory-region = <&video_engine_memory>;
-+};
-+
-+&pwm_tacho {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm0_default
-+				&pinctrl_pwm1_default
-+				&pinctrl_pwm2_default
-+				&pinctrl_pwm3_default
-+				&pinctrl_pwm4_default
-+				&pinctrl_pwm5_default>;
-+
-+	fan@0 {
-+		reg = <0x00>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x00 0x01>;
-+	};
-+
-+	fan@1 {
-+		reg = <0x01>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x02 0x03>;
-+	};
-+
-+	fan@2 {
-+		reg = <0x02>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x04 0x05>;
-+	};
-+
-+	fan@3 {
-+		reg = <0x03>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x06 0x07>;
-+	};
-+
-+	fan@4 {
-+		reg = <0x04>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x08 0x09>;
-+	};
-+
-+	fan@5 {
-+		reg = <0x05>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x0a 0x0b>;
-+	};
-+};
-+
-+&adc {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc0_default
-+				&pinctrl_adc1_default
-+				&pinctrl_adc2_default
-+				&pinctrl_adc3_default
-+				&pinctrl_adc4_default
-+				&pinctrl_adc5_default
-+				&pinctrl_adc6_default
-+				&pinctrl_adc7_default
-+				&pinctrl_adc8_default
-+				&pinctrl_adc9_default
-+				&pinctrl_adc10_default
-+				&pinctrl_adc11_default
-+				&pinctrl_adc12_default
-+				&pinctrl_adc13_default
-+				&pinctrl_adc14_default
-+				&pinctrl_adc15_default>;
-+};
--- 
-2.43.0
+        /* Slave was requested, restart state machine. */
+        if (irq_status & ASPEED_I2CD_INTR_SLAVE_MATCH) {
+                irq_handled |=3D ASPEED_I2CD_INTR_SLAVE_MATCH;
+@@ -284,11 +292,6 @@ static u32 aspeed_i2c_slave_irq(struct aspeed_i2c_bus =
+*bus, u32 irq_status)
+                irq_handled |=3D ASPEED_I2CD_INTR_NORMAL_STOP;
+                bus->slave_state =3D ASPEED_I2C_SLAVE_STOP;
+        }
+-       if (irq_status & ASPEED_I2CD_INTR_TX_NAK &&
+-           bus->slave_state =3D=3D ASPEED_I2C_SLAVE_READ_PROCESSED) {
+-               irq_handled |=3D ASPEED_I2CD_INTR_TX_NAK;
+-               bus->slave_state =3D ASPEED_I2C_SLAVE_STOP;
+-       }
+=20
+        switch (bus->slave_state) {
+        case ASPEED_I2C_SLAVE_READ_REQUESTED:
+
+Thoughts? I haven't tested it, it's just something to throw darts at.
+
+Andrew
 
