@@ -2,57 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B2380191B
-	for <lists+linux-aspeed@lfdr.de>; Sat,  2 Dec 2023 01:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A49C802B66
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Dec 2023 06:43:53 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rnplus.nl header.i=@rnplus.nl header.a=rsa-sha256 header.s=dkim header.b=0W7GSsCG;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VEH4DunV;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ShrmC3Q94z3cVD
-	for <lists+linux-aspeed@lfdr.de>; Sat,  2 Dec 2023 11:44:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SkCJk4gf7z3cHF
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Dec 2023 16:43:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rnplus.nl header.i=@rnplus.nl header.a=rsa-sha256 header.s=dkim header.b=0W7GSsCG;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VEH4DunV;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=rnplus.nl (client-ip=178.251.25.70; helo=mail.rnplus.nl; envelope-from=renze@rnplus.nl; receiver=lists.ozlabs.org)
-Received: from mail.rnplus.nl (mail.rnplus.nl [178.251.25.70])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22c; helo=mail-oi1-x22c.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Shrm64kvMz3bxZ
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  2 Dec 2023 11:44:22 +1100 (AEDT)
-Received: from localhost (unknown [127.0.0.1])
-	by mail.rnplus.nl (Postfix) with ESMTP id 0FEA037943A
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  2 Dec 2023 00:45:57 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at rnplus.nl
-Received: from mail.rnplus.nl ([127.0.0.1])
-	by localhost (mail.rnplus.nl [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nAKLDXYu5PCu for <linux-aspeed@lists.ozlabs.org>;
-	Sat,  2 Dec 2023 01:45:56 +0100 (CET)
-Received: from werkpc.localnet (87-101-2-254.dsl.cambrium.nl [87.101.2.254])
-	by mail.rnplus.nl (Postfix) with ESMTPSA id B90863793AD;
-	Sat,  2 Dec 2023 01:45:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rnplus.nl; s=dkim;
-	t=1701477956; bh=yRBPEQxU6QTn7AumN8CC7LcN7WuQwY78yyLiGx2740g=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=0W7GSsCGwYC8FMG7Ils5SuWyAqyZJGF8bDINj62Wqb53kV2eBh6mstVrI+f4phf/I
-	 6FdLKR168fsp2mZBV1EVnedjh6vFwfmvY2DxrSpFNCbAI8h0q9V3+9AREQe7M4IlYx
-	 BYCR+gz0WJ2UOmyxJgVaMMPUQBUSTZuGEyDbk2Xg=
-From: Renze Nicolai <renze@rnplus.nl>
-To: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, arnd@arndb.de,
- olof@lixom.net, soc@kernel.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
- renze@rnplus.nl
-Subject: Re: [PATCH v3 0/2] ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
-Date: Sat, 02 Dec 2023 01:44:17 +0100
-Message-ID: <12332130.O9o76ZdvQC@werkpc>
-In-Reply-To: <20231202003908.3635695-1-renze@rnplus.nl>
-References: <20231202003908.3635695-1-renze@rnplus.nl>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SkCJY2BF3z2xm5
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  4 Dec 2023 16:43:40 +1100 (AEDT)
+Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3b84e328327so2117684b6e.2
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 03 Dec 2023 21:43:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701668615; x=1702273415; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dcCMUyyydpcNnF03FcPhsepyrQYojahu/1jDYu378E4=;
+        b=VEH4DunVwkYGIXHI0UWa6AkDq4N0xjf5ne3Oij0cBc/Dg/JMbOzcBaBuMB0zaArVYt
+         YorxOQoe0Vmc9wC1Ra/YsNMsgi4Xdgb+MAEiKo5MhtAq/AaZrrRPmsmwyir7JXYywbL0
+         K2E4KODbA4VQifMwufwMgHduAUCne1m1lrhSRz85+J9QAcPdsx9KwkNiaehK+KPCbGra
+         QoKhEqzjF+xhjN7cM/Qf7dX+zPQvTIMHVzB2QwXy6YmZTIOUVwwGqR2rb6GwnJmdC5J9
+         gJSJRHlg3PTzWWK31r4wNgSzYG4CLnm/rQymRp0/ttnZpLQ7vnQuzPvEkVOT5luVYxK8
+         z/mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701668615; x=1702273415;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dcCMUyyydpcNnF03FcPhsepyrQYojahu/1jDYu378E4=;
+        b=agAnff3+rnpJMUp4XJR8cTsy3ByULFfk7Spqa7v3tGksOTsNQnV6EYa7pnJZz+MDBr
+         Ee/5+sUjBSe3t4oeimZemAOUuU8puHD8qpVj6prdCpuFx4/8HF8QIfQvX7+9F42NXOzA
+         jk2g83QAoOroY4/dtJKRzWZwaZAHAfpKOpllfN3zLlfRleFMHY8f0oFK32TeLQlqbVzQ
+         W0tLU5RAcH76q0Lrx7fLHgCjNtJVMPu2L47UDL9nCV9eUqmvF7i18VKF2FTvikk36fqL
+         wiuS8oWVyt1y8MWd1pAsi4O8sz7c+mFMXURLzLcpBMd0YJSBvW7Dqog+DNGGTmYMBHxH
+         qE1g==
+X-Gm-Message-State: AOJu0Yx0Qr9hFS3A8e6GcV8Ds4ZerVAmyxCMouzKkKGaBJpqX7BK1BgV
+	iQbvINWTjCxB21PMwy+RUlQ=
+X-Google-Smtp-Source: AGHT+IFTOzBkVsPxCRaAgiG/sz4j3LTI9aTnCdfxa2sXDtV2sN9jZzX/bAv4WhcKefI3AGAPnJCNqw==
+X-Received: by 2002:a05:6808:128f:b0:3b8:b2cf:3106 with SMTP id a15-20020a056808128f00b003b8b2cf3106mr3844218oiw.25.1701668614921;
+        Sun, 03 Dec 2023 21:43:34 -0800 (PST)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id b24-20020aa78718000000b006cb60b188basm6706655pfo.206.2023.12.03.21.43.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Dec 2023 21:43:34 -0800 (PST)
+From: Peter Yin <peteryin.openbmc@gmail.com>
+X-Google-Original-From: Peter Yin <peter.yin@quantatw.com>
+To: patrick@stwcx.xyz,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] Add Facebook Minerva Harma (AST2600) BMC
+Date: Mon,  4 Dec 2023 13:41:29 +0800
+Message-Id: <20231204054131.1845775-1-peter.yin@quantatw.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,43 +87,46 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello again,
+From: Peter Yin <peteryin.openbmc@gmail.com>
 
-A small addition to my cover letter for v3 of the patch:
+Summary:
+Add linux device tree entry related to Minerva Harma
+specific devices connected to BMC SoC.
 
-I forgot to mention in the changelog from v2 to v3 that I also modified the 
-tachometer configuration to correctly map the tachometer inputs to the fan 
-headers on the board.
+v3:https://lore.kernel.org/all/20231123050415.3441429-3-peteryin.openbmc@gmail.com/
+v2:https://lore.kernel.org/all/cdbc75b9-3be1-4017-9bee-c8f161b6843c@linaro.org/
+v1:https://lore.kernel.org/all/20231024082404.735843-3-peteryin.openbmc@gmail.com/
 
-Greetings,
-Renze Nicolai
+Change log
+v3 -> v4
+  - Add SGPIO line name
 
-On Saturday, December 2, 2023 1:38:43 AM CET you wrote:
-> Hello,
-> 
-> These patches add a device-tree (and a bindings update) for the
-> Aspeed BMC on the ASRock X570D4U, so that it can be added as a
-> supported OpenBMC platform.
-> 
-> Changes since v2:
->   - Renamed leds to led-0 and led-1 to match
-> Documentation/devicetree/bindings/leds/leds-gpio.yaml - Added aliasses and
-> labels for the i2c-mux on i2c bus 4
->   - Added the missing blank line between the ehci1 and uhci nodes
-> 
-> Greetings,
-> Renze Nicolai
-> 
-> Renze Nicolai (2):
->   dt-bindings: arm: aspeed: add Asrock X570D4U board
->   ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
-> 
->  .../bindings/arm/aspeed/aspeed.yaml           |   1 +
->  arch/arm/boot/dts/aspeed/Makefile             |   1 +
->  .../dts/aspeed/aspeed-bmc-asrock-x570d4u.dts  | 377 ++++++++++++++++++
->  3 files changed, 379 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+v2 -> v3:
+  - Fixed led schema
+  - Fixed i2c mux schema
+  - Add BMC_READY and SGPIO_READY
 
+v1 -> v2:
+  - Add Power sensors
+  - Modify ehci number
+  - Add Led
+  - Modify SGPIO line-name
+v1:
+  - Create minerva harma dts file.
 
+Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+---
+Peter Yin (2):
+  dt-bindings: arm: aspeed: add Meta Minerva Harma board
+  ARM: dts: aspeed: Minerva Harma: Add Facebook Minerva Harma (AST2600)
+    BMC
 
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 595 ++++++++++++++++++
+ 3 files changed, 597 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
+
+-- 
+2.25.1
 
