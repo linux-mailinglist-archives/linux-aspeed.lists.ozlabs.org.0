@@ -2,68 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C813E802D0C
-	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Dec 2023 09:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE40802D87
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Dec 2023 09:49:07 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Gx+NDZI2;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LOGzU68Z;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SkGp823Xdz3cS0
-	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Dec 2023 19:21:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SkHQT2914z3cNt
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Dec 2023 19:49:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Gx+NDZI2;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LOGzU68Z;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32d; helo=mail-wm1-x32d.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::532; helo=mail-pg1-x532.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SkGny30Cvz2xdh
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  4 Dec 2023 19:20:54 +1100 (AEDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40b595bf5d2so43169685e9.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 04 Dec 2023 00:20:54 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SkHQK5CVHz2xdX
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  4 Dec 2023 19:48:56 +1100 (AEDT)
+Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso2217918a12.3
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 04 Dec 2023 00:48:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701678050; x=1702282850; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZKtYmfu/ir4pim6Zf16yJqD+hH1tQsEJXCNzC2yDjV4=;
-        b=Gx+NDZI2mcH8u6UcVltRHfAlldgFP4ZAjbBUzULEJRivzOWlXQI7nViqtRzS3Yz4nV
-         3vM7RiuOvyhH7dce9i+/ErcPv3XhyGkG+yPZET+a264UCyq9czGAklnY6oRQagwKMPky
-         ioG/iW28PocvuSv1y+Tw5i7EyOt/rLuvCAQB+5/3W+aj+vjrIeXa6X6jYWGMLNXZ4JiU
-         2nXvcJoTnfqe2JQWW12M3ZTtFaINrbztn5Zqkvd51aDs8mLpSn0aJVaXqFmWVi+AX77M
-         TBoG7lhsoXKWug8ev5Rh2zAhLN1NRWxBw4uPBsEkAjnMd4WvpdMg9Uf3jjh+OjVZ7q6e
-         rIZw==
+        d=gmail.com; s=20230601; t=1701679734; x=1702284534; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ST2h/PONfnZyu/0urr3vsm15K/qMqFc6bAJOz5sjZGk=;
+        b=LOGzU68ZTfl7hGMzo1xJbzLDnSVTM12PNRNqbX9gk2BZUPzFN6Z9Ti0ckac6g8c9NV
+         6z/VSc3rsnIQzL+ir2VyRAe37c+tLWyoOmPi3PfmT0WUBQIcuVDoy4BiOmX0gUoROSgb
+         bUUtumgx4e4ByAah+D1WGqeaSNbcLMtZgmHBq1eE0cTZKu/AJn5vTke8bM9alba6Uf6X
+         p7CAx/8sLd6XaaLwEVd2pNhbv4h4M3naED4Fb1Hi96dhf3M8pbm/GqkoKMzHQOHZP1mR
+         8HIAIc9fsMS69t0Blt64biThhCaC5smb3+vsRquV5XB+nw4sQDfMRrDP18bPUHmnJ9hZ
+         eEZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701678050; x=1702282850;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1701679734; x=1702284534;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZKtYmfu/ir4pim6Zf16yJqD+hH1tQsEJXCNzC2yDjV4=;
-        b=LVey5waJQNmoUleP7fZwz+N8WgsM/n+jOpRqqrNDIulre/8YH1cOB0p6/ceSwDFjDW
-         HHZIKhY64PKjD3PRNHwWYjNL96HwfgjPApVISuXhl/RDmUHmDB8X60+kYN5z9vY6A954
-         A+n9JV5rOfD334W0ehnDYd4ux4YfO4/6bJh37ad7ZEFE743q6tUgWRt+YJYxDPPWRf4E
-         bEE29iy7ERzFsKcPjvbHSnGbjQFVArWGTDCZwnFkQAtXNl8jHWR/ur+5TiB2geGmPcMc
-         +PGIHvdW1Yh0NJ8veGeK53gz65wwOMXonTsnSopV3f9fISG4QHFv9VZ8G4Eetxdnf5cQ
-         jWlw==
-X-Gm-Message-State: AOJu0YwKx20XpdXIO0P8wtuBV8yUUFPNW8fcCNRNEgcS15WY9tVPtPHy
-	y3RtkIqwSbLBRobh5ZZvQTfNLw==
-X-Google-Smtp-Source: AGHT+IE6J8a4d/Q0UeQ08q99d6kTQ168k6bGAyCkdesURfPQ9fAyeUeTL/ZqssjsPQt8eEl9s8BDAQ==
-X-Received: by 2002:a05:600c:45d0:b0:40b:5e1e:fb8c with SMTP id s16-20020a05600c45d000b0040b5e1efb8cmr1831591wmo.65.1701678050532;
-        Mon, 04 Dec 2023 00:20:50 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id t20-20020a05600c199400b0040b36ad5413sm14043246wmq.46.2023.12.04.00.20.48
+        bh=ST2h/PONfnZyu/0urr3vsm15K/qMqFc6bAJOz5sjZGk=;
+        b=Rmr6vMH0pFt3MGFXiRkoYOmwfJnaGqZjRBnqc/0zxwH2liFMtKKTvcUxquo7TpsATC
+         yDEsMc8qjPoTfn6Xr3d0HvMRaxURV+F8oOE3KgOMQJs3/qR6PqPHYgB9UiE1hVJ4j+ZV
+         PYEu31E0/fPznrCrbL07gTuaW9dx6XDYGzNjOViz5hHPQ1+AxRFEUMGR6MYeuOOtXMQB
+         0KbRZ0ZeshbuPvk1iOg9iy8D03DGHiI4TBdG/u806ePPfbGuexgzPLG9xmwduZLzlgMJ
+         z2dtFgs7c19gpN/E0lIcjJ/VQXi4JRfMWs9kV/BH6M/dsTg+M0kOFkN5p9sju958MqaK
+         BLJw==
+X-Gm-Message-State: AOJu0Yy/J3xTc+WZ2dSlqaN03dTSx7TxZQwituUiS9ZHtOT3k/nL4ksa
+	HXUq8IoAEVcbqn89KXgudZFFlI4iVp8=
+X-Google-Smtp-Source: AGHT+IFn9+aaDvJQIaTTT9fhCQOFpYf2DG2sHOPojRJV8T11hDylXF7KIzTFFXItytXtfbP6QIHFjw==
+X-Received: by 2002:a05:6a21:1cb0:b0:18f:97c:8a3a with SMTP id sf48-20020a056a211cb000b0018f097c8a3amr3614507pzb.101.1701679733801;
+        Mon, 04 Dec 2023 00:48:53 -0800 (PST)
+Received: from [10.10.14.80] (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id v4-20020a634644000000b0058901200bbbsm7186819pgk.40.2023.12.04.00.48.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Dec 2023 00:20:50 -0800 (PST)
-Message-ID: <64fe71a3-a106-4a23-acd6-a9a37bb0cd0f@linaro.org>
-Date: Mon, 4 Dec 2023 09:20:48 +0100
+        Mon, 04 Dec 2023 00:48:53 -0800 (PST)
+Message-ID: <3ff5dcd7-69a3-4098-92c6-ed1e8f0bd8f9@gmail.com>
+Date: Mon, 4 Dec 2023 16:46:41 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: arm: aspeed: add Meta Harma board
-Content-Language: en-US
-To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
+Subject: Re: [PATCH v5 0/2] Add Facebook Minerva Harma (AST2600) BMC
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, patrick@stwcx.xyz,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
@@ -71,55 +70,12 @@ To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org
 References: <20231204081029.2272626-1-peteryin.openbmc@gmail.com>
- <20231204081029.2272626-2-peteryin.openbmc@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231204081029.2272626-2-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <fddcbad4-5368-4c2a-ba87-f4c4326a8385@linaro.org>
+Content-Language: en-US
+From: PeterYin <peteryin.openbmc@gmail.com>
+In-Reply-To: <fddcbad4-5368-4c2a-ba87-f4c4326a8385@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,16 +90,29 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 04/12/2023 09:10, Peter Yin wrote:
-> Document the new compatibles used on Meta Harma.
+
+Krzysztof Kozlowski 於 12/4/23 16:20 寫道:
+> On 04/12/2023 09:10, Peter Yin wrote:
+>> Summary:
+>> Add linux device tree entry related to Minerva Harma
+>> specific devices connected to BMC SoC.
+>>
+>> v4:https://lore.kernel.org/all/20231204054131.1845775-3-peter.yin@quantatw.com/
+>> v3:https://lore.kernel.org/all/20231123050415.3441429-3-peteryin.openbmc@gmail.com/
+>> v2:https://lore.kernel.org/all/cdbc75b9-3be1-4017-9bee-c8f161b6843c@linaro.org/
+>> v1:https://lore.kernel.org/all/20231024082404.735843-3-peteryin.openbmc@gmail.com/
+>>
+>> Change log
+>> v4 -> v5
+>>    - Rename document and file from minerva-harma to harma.
 > 
-> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
-> ---
->  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> You must explain that you dropped people's review for some reason.
+> 
+> Best regards,
+> Krzysztof
+> 
+Due to changes in the project name and content, please assist in 
+reviewing it.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Thanks,
+Peter.
