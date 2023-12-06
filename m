@@ -2,63 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA628067B7
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 07:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4A380740F
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 16:55:37 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=YZHrcr5N;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ik7r9LMN;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SlScW56NVz3cZw
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 17:46:51 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Slhng02tzz3cT7
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Dec 2023 02:55:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=YZHrcr5N;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ik7r9LMN;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::534; helo=mail-ed1-x534.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::530; helo=mail-pg1-x530.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SlScH1ksFz3cDT
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Dec 2023 17:46:37 +1100 (AEDT)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54c967010b2so1126343a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Dec 2023 22:46:37 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SlhnT5yHsz30h0
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Dec 2023 02:55:24 +1100 (AEDT)
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5c68b5cf14bso2365507a12.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Dec 2023 07:55:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1701845188; x=1702449988; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7HVLCsTwM0AJQ7P3LEZ/Kcz/0E6qcEp8zHBIIWNc8vA=;
-        b=YZHrcr5N91hkZ/2ppwHfbu5Hw6/pJFd5HnX9lVwQQqyahtU5bcBNfxuGKrQLygXeZQ
-         uo9D9OEyNurhOh9fGvjcnqIonPFyT2hwELS7aPONr7uLlYFDMnEQujoqwV7OqfAUOxQx
-         4wh2NcqqDsYyD2jAwPkJsRRvRCa6L6ETNXsYI=
+        d=gmail.com; s=20230601; t=1701878120; x=1702482920; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DUpYtMlNxQPfOzxOCnWpcnmDSR+IsHfxAwKdMisAiWU=;
+        b=ik7r9LMNHEXWOnMSgKWfcifm+BTfDSepPvaQxNFMYRLszcpirzd+GojHQ7XUXkauOQ
+         vakM6cARggUD1bD6l3qnvXFUjgXHed0jHZ0HPMQkWh+A3c2neKEtwQQOpGpU9v6eJNNS
+         /KHRsaUrFz6VoKeEqXlrqwNeg1YKe2laPF4MmZ+9j+wpQ0bsLsLWmyei8s+SNur7rMBm
+         OvfhjM7dWrSuTOGedVYMhqcclc+xOcWp1CamqrE//z10H+L2SmXKGl9M+Yjhj612I8pI
+         j3URzAswLaG5wWa17fde4L3fdeDhJHnUORr9BZ7IOXUYzGzG6iU+aDOVgXUARRqKYJN2
+         MKBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701845188; x=1702449988;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7HVLCsTwM0AJQ7P3LEZ/Kcz/0E6qcEp8zHBIIWNc8vA=;
-        b=tc5YYSUKN76mmqzqC0S4THSPCoL6aT2kP8JQySvoCfC6IS0f6leUDQifv4vGpxvhw0
-         OznBz8+7ovJfAUFGPO3c72Dns878yg0gv/Ya5ED1UT3Q3cLo3UzDWjkn+lf/i/s4cP1R
-         A7kTlOpLjinf3gik5lGJEwgxFgnUsJTYVHzguEIONtN+FXnC7PC/8JGexzYdBeNMVX47
-         tDT55JqT3oR0Y+jd4FSPY2SPqbq33lrx0wYYjlfktNvoHUzm1GM/17r+F7+/GuWGVLOw
-         zRWKLQOJEUfZEJMAD2FGPmRNzcbgqo80GewGXSn3/hnrHci9navEQw59BuYo1myO5qX1
-         0dyA==
-X-Gm-Message-State: AOJu0YzOY9sLwPyryH8IOpYZMUNLBE83vAC0NOP0RF/2pgwuS+veg8o1
-	AOtp0qxJ0uYk7CnoSdirmg78h3tR8OeVQSqtfy0=
-X-Google-Smtp-Source: AGHT+IHk5A7B0U4wO24pz2HCwBWIvrSswHBxiBDm7juowHDhQdsr4u3Yd57RZEy+FbH8wjd9qhmCMTkRudGz8aw8gBA=
-X-Received: by 2002:a17:906:c292:b0:a1b:75f6:165c with SMTP id
- r18-20020a170906c29200b00a1b75f6165cmr2521102ejz.52.1701845187768; Tue, 05
- Dec 2023 22:46:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701878120; x=1702482920;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DUpYtMlNxQPfOzxOCnWpcnmDSR+IsHfxAwKdMisAiWU=;
+        b=eAWDMwuxEAexXmf9wIYPF8jAMh98Y5qPSdk+4H5oKBANgCY8IGyqVmQ9Fe6w66shzZ
+         FRU5HyW/Dp37lq7KJqeuVcG97b2kKiQTWSCsGkqAwVBX8aW1n/6KPvTZdqysAh2sHR89
+         BUPTE1jAtJ/Y0lFmn0FU5ar7pWs0j4U5Vft/x2ygb9hbUA8ehjtf38oZ9IyYLcikMlL/
+         5Egdelxtn9W6fuuaMyZksIjmB3Ai0sPbRWY/mLh2HIX+DlIeLCetIq3PVTiDzeRGL+Eq
+         ziVpJid2i0LRihq5HKTBvcZvu4DubN5xyJIh060LapXtz7uCYc8dcX6j37L49DcgCixe
+         +rQw==
+X-Gm-Message-State: AOJu0Yxiy7fG8D/Xw38BR9nGnUvY/b8AJMuKpVBvW18iC1w9dvcX4H0I
+	05QM4ltKehYT/axxViNqEKs=
+X-Google-Smtp-Source: AGHT+IF/hwdQAeKwXxZgHJD2ZuhMZBTgnDN1LF/oZsKXET9Mvdm4nje4XCYAICgG3G2R2vDdbrDSkA==
+X-Received: by 2002:a17:90a:19c5:b0:286:a2a3:1e56 with SMTP id 5-20020a17090a19c500b00286a2a31e56mr786838pjj.29.1701878120253;
+        Wed, 06 Dec 2023 07:55:20 -0800 (PST)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id sj16-20020a17090b2d9000b0028652f98978sm3451pjb.8.2023.12.06.07.55.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 07:55:19 -0800 (PST)
+From: Peter Yin <peteryin.openbmc@gmail.com>
+To: patrick@stwcx.xyz,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/2] Add Facebook Harma (AST2600) BMC
+Date: Wed,  6 Dec 2023 23:53:13 +0800
+Message-Id: <20231206155316.4181813-1-peteryin.openbmc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20231202003908.3635695-1-renze@rnplus.nl>
-In-Reply-To: <20231202003908.3635695-1-renze@rnplus.nl>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 6 Dec 2023 17:16:15 +1030
-Message-ID: <CACPK8XfhK8eSjYvEd=7WshOh+Sj6vrERxwgAYGitVALw0pUf8w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
-To: Renze Nicolai <renze@rnplus.nl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +83,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, arnd@arndb.de, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, soc@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, 2 Dec 2023 at 11:09, Renze Nicolai <renze@rnplus.nl> wrote:
->
-> Hello,
->
-> These patches add a device-tree (and a bindings update) for the
-> Aspeed BMC on the ASRock X570D4U, so that it can be added as a
-> supported OpenBMC platform.
+Summary:
+Add linux device tree entry related to Harma
+specific devices connected to BMC SoC.
 
-Looks great!
+v5:https://lore.kernel.org/all/20231204081029.2272626-3-peteryin.openbmc@gmail.com/
+v4:https://lore.kernel.org/all/20231204054131.1845775-3-peter.yin@quantatw.com/
+v3:https://lore.kernel.org/all/20231123050415.3441429-3-peteryin.openbmc@gmail.com/
+v2:https://lore.kernel.org/all/cdbc75b9-3be1-4017-9bee-c8f161b6843c@linaro.org/
+v1:https://lore.kernel.org/all/20231024082404.735843-3-peteryin.openbmc@gmail.com/
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Change log
+v5 -> v6
+  - Add Retimer eeprom
+  - Add Power Led
+  - Add GPIO/SGPIO Line Name
 
-I've also added this to the openbmc tree, so no need to send the patches there..
+v4 -> v5
+  - Rename document and file from minerva-harma to harma. 
+  - remove Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+v3 -> v4
+  - Add SGPIO line name.
 
->
-> Changes since v2:
->   - Renamed leds to led-0 and led-1 to match Documentation/devicetree/bindings/leds/leds-gpio.yaml
->   - Added aliasses and labels for the i2c-mux on i2c bus 4
->   - Added the missing blank line between the ehci1 and uhci nodes
->
-> Greetings,
-> Renze Nicolai
->
-> Renze Nicolai (2):
->   dt-bindings: arm: aspeed: add Asrock X570D4U board
->   ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
->
->  .../bindings/arm/aspeed/aspeed.yaml           |   1 +
->  arch/arm/boot/dts/aspeed/Makefile             |   1 +
->  .../dts/aspeed/aspeed-bmc-asrock-x570d4u.dts  | 377 ++++++++++++++++++
->  3 files changed, 379 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
->
-> --
-> 2.43.0
->
+v2 -> v3:
+  - Fixed led schema.
+  - Fixed i2c mux schema.
+  - Add BMC_READY and SGPIO_READY.
+
+v1 -> v2:
+  - Add Power sensors.
+  - Modify ehci number.
+  - Add Led.
+  - Modify SGPIO line-name.
+v1:
+  - Create minerva harma dts file.
+
+Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+---
+Peter Yin (2):
+  dt-bindings: arm: aspeed: add Meta Harma board
+  ARM: dts: aspeed: Harma: Add Facebook Harma (AST2600) BMC
+
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 607 ++++++++++++++++++
+ 3 files changed, 609 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
+
+-- 
+2.25.1
+
