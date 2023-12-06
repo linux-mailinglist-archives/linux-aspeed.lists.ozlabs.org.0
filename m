@@ -1,60 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4A380740F
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 16:55:37 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACC4807410
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 16:55:42 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ik7r9LMN;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jEdn5Qtv;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Slhng02tzz3cT7
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Dec 2023 02:55:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Slhnl3f4Wz3bPM
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Dec 2023 02:55:39 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ik7r9LMN;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jEdn5Qtv;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::530; helo=mail-pg1-x530.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::529; helo=mail-pg1-x529.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SlhnT5yHsz30h0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SlhnT610qz3bPM
 	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Dec 2023 02:55:24 +1100 (AEDT)
-Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5c68b5cf14bso2365507a12.0
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso4542714a12.3
         for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Dec 2023 07:55:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701878120; x=1702482920; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DUpYtMlNxQPfOzxOCnWpcnmDSR+IsHfxAwKdMisAiWU=;
-        b=ik7r9LMNHEXWOnMSgKWfcifm+BTfDSepPvaQxNFMYRLszcpirzd+GojHQ7XUXkauOQ
-         vakM6cARggUD1bD6l3qnvXFUjgXHed0jHZ0HPMQkWh+A3c2neKEtwQQOpGpU9v6eJNNS
-         /KHRsaUrFz6VoKeEqXlrqwNeg1YKe2laPF4MmZ+9j+wpQ0bsLsLWmyei8s+SNur7rMBm
-         OvfhjM7dWrSuTOGedVYMhqcclc+xOcWp1CamqrE//z10H+L2SmXKGl9M+Yjhj612I8pI
-         j3URzAswLaG5wWa17fde4L3fdeDhJHnUORr9BZ7IOXUYzGzG6iU+aDOVgXUARRqKYJN2
-         MKBA==
+        d=gmail.com; s=20230601; t=1701878123; x=1702482923; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F8GAW3TyMQDn0zU5OEduOYL67Qvlrqm9celtiaHSioM=;
+        b=jEdn5QtvcshPFXwQgT9/eVdXJtTk+q5Sygfd53uQxpv40kKlJmyeb0D8yDDEf/f0jt
+         uMMakzj+rAS0ZvlDpyCafBNL6LvZdqok4pjedK6ZjxXewNovIhaPsRHrLlryDR1k3fiz
+         0vSK/Ff4CjatG+t4Z+AyT5ksZIqnh6QtRRsYfBLYdJfz/xPEKqg1m7ANjQ1dloihbiqt
+         KulRhHpMLR/cwY4uSR7wK0Csix4f1BGwb+th8rCJrcm1MDOQRHdMhZt71+PO5rjfKSs4
+         ePe51Rv+x02AjPF4OJawjmiEZ+V521CKH2Jurq/os9Qi55Ui/uqwvNl/c9FAwkaR+AtL
+         rfog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701878120; x=1702482920;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DUpYtMlNxQPfOzxOCnWpcnmDSR+IsHfxAwKdMisAiWU=;
-        b=eAWDMwuxEAexXmf9wIYPF8jAMh98Y5qPSdk+4H5oKBANgCY8IGyqVmQ9Fe6w66shzZ
-         FRU5HyW/Dp37lq7KJqeuVcG97b2kKiQTWSCsGkqAwVBX8aW1n/6KPvTZdqysAh2sHR89
-         BUPTE1jAtJ/Y0lFmn0FU5ar7pWs0j4U5Vft/x2ygb9hbUA8ehjtf38oZ9IyYLcikMlL/
-         5Egdelxtn9W6fuuaMyZksIjmB3Ai0sPbRWY/mLh2HIX+DlIeLCetIq3PVTiDzeRGL+Eq
-         ziVpJid2i0LRihq5HKTBvcZvu4DubN5xyJIh060LapXtz7uCYc8dcX6j37L49DcgCixe
-         +rQw==
-X-Gm-Message-State: AOJu0Yxiy7fG8D/Xw38BR9nGnUvY/b8AJMuKpVBvW18iC1w9dvcX4H0I
-	05QM4ltKehYT/axxViNqEKs=
-X-Google-Smtp-Source: AGHT+IF/hwdQAeKwXxZgHJD2ZuhMZBTgnDN1LF/oZsKXET9Mvdm4nje4XCYAICgG3G2R2vDdbrDSkA==
-X-Received: by 2002:a17:90a:19c5:b0:286:a2a3:1e56 with SMTP id 5-20020a17090a19c500b00286a2a31e56mr786838pjj.29.1701878120253;
-        Wed, 06 Dec 2023 07:55:20 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701878123; x=1702482923;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F8GAW3TyMQDn0zU5OEduOYL67Qvlrqm9celtiaHSioM=;
+        b=LbH0UeY6PyIRJ16NHKvcu3ZtPIm/nxUalIwTDDsItXcA2ZkWtLIcsCtaEYZksK4rOv
+         1qLjwGMoOP0YC/6wq724NFq5/GEg5SzySCJHpiFg4AYZ869aCatvZvYj7njAVaAl8C+C
+         SM4SwNKgfV9arNLHGTZqhdaUXOBT+BZVv+baAYa2nmK2eXU97kp9H9rTQ4ELCY7Sljt7
+         70OrWXZQu1Gu8LfIV2A1OnjGMo2eXBrnTyIQBrgz5i+qXhikzvN7nGe7THXrImkMiR8F
+         86+8GI5PBBGuJFQeAnez30NEHk9aBApt8WwDsnLN2vjzWWIe6EvAtvWAMRvJ5SA286YQ
+         lnAQ==
+X-Gm-Message-State: AOJu0Yxj7dnM8au6oP+1cPTDe58B0aeNA5lQksf0e6Jys9d3wCox/4SD
+	n7VmD8eN/WQeOL/s1KAX2Ps=
+X-Google-Smtp-Source: AGHT+IHkcZjDQOAwHADh9ySrv8AZOUsLca6FBP2ogTSfxx5J3OTGLHGjNdk3BTo9WKhHMCRKl3QJyQ==
+X-Received: by 2002:a17:90b:3b52:b0:286:ad3e:dea6 with SMTP id ot18-20020a17090b3b5200b00286ad3edea6mr1119615pjb.25.1701878122939;
+        Wed, 06 Dec 2023 07:55:22 -0800 (PST)
 Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
-        by smtp.gmail.com with ESMTPSA id sj16-20020a17090b2d9000b0028652f98978sm3451pjb.8.2023.12.06.07.55.18
+        by smtp.gmail.com with ESMTPSA id sj16-20020a17090b2d9000b0028652f98978sm3451pjb.8.2023.12.06.07.55.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 07:55:19 -0800 (PST)
+        Wed, 06 Dec 2023 07:55:22 -0800 (PST)
 From: Peter Yin <peteryin.openbmc@gmail.com>
 To: patrick@stwcx.xyz,
 	Rob Herring <robh+dt@kernel.org>,
@@ -66,10 +68,12 @@ To: patrick@stwcx.xyz,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 0/2] Add Facebook Harma (AST2600) BMC
-Date: Wed,  6 Dec 2023 23:53:13 +0800
-Message-Id: <20231206155316.4181813-1-peteryin.openbmc@gmail.com>
+Subject: [PATCH v6 1/2] dt-bindings: arm: aspeed: add Meta Harma board
+Date: Wed,  6 Dec 2023 23:53:14 +0800
+Message-Id: <20231206155316.4181813-2-peteryin.openbmc@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231206155316.4181813-1-peteryin.openbmc@gmail.com>
+References: <20231206155316.4181813-1-peteryin.openbmc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -86,53 +90,26 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Summary:
-Add linux device tree entry related to Harma
-specific devices connected to BMC SoC.
+Document the new compatibles used on Meta Harma.
 
-v5:https://lore.kernel.org/all/20231204081029.2272626-3-peteryin.openbmc@gmail.com/
-v4:https://lore.kernel.org/all/20231204054131.1845775-3-peter.yin@quantatw.com/
-v3:https://lore.kernel.org/all/20231123050415.3441429-3-peteryin.openbmc@gmail.com/
-v2:https://lore.kernel.org/all/cdbc75b9-3be1-4017-9bee-c8f161b6843c@linaro.org/
-v1:https://lore.kernel.org/all/20231024082404.735843-3-peteryin.openbmc@gmail.com/
-
-Change log
-v5 -> v6
-  - Add Retimer eeprom
-  - Add Power Led
-  - Add GPIO/SGPIO Line Name
-
-v4 -> v5
-  - Rename document and file from minerva-harma to harma. 
-  - remove Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-v3 -> v4
-  - Add SGPIO line name.
-
-v2 -> v3:
-  - Fixed led schema.
-  - Fixed i2c mux schema.
-  - Add BMC_READY and SGPIO_READY.
-
-v1 -> v2:
-  - Add Power sensors.
-  - Modify ehci number.
-  - Add Led.
-  - Modify SGPIO line-name.
-v1:
-  - Create minerva harma dts file.
-
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 ---
-Peter Yin (2):
-  dt-bindings: arm: aspeed: add Meta Harma board
-  ARM: dts: aspeed: Harma: Add Facebook Harma (AST2600) BMC
+ Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../bindings/arm/aspeed/aspeed.yaml           |   1 +
- arch/arm/boot/dts/aspeed/Makefile             |   1 +
- .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 607 ++++++++++++++++++
- 3 files changed, 609 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-
+diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+index e17b3d66d6e55..fac3cda3f4870 100644
+--- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
++++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+@@ -79,6 +79,7 @@ properties:
+               - facebook,elbert-bmc
+               - facebook,fuji-bmc
+               - facebook,greatlakes-bmc
++              - facebook,harma-bmc
+               - facebook,yosemite4-bmc
+               - ibm,everest-bmc
+               - ibm,rainier-bmc
 -- 
 2.25.1
 
