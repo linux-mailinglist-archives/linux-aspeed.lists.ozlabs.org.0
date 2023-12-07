@@ -2,120 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4141A80771E
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Dec 2023 18:56:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4953807CC7
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Dec 2023 01:10:52 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=bfCbH8La;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=mjgtjf+t;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SllTf4zr8z3c1J
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Dec 2023 04:56:54 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Slvn62wVxz3cRy
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Dec 2023 11:10:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=bfCbH8La;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=mjgtjf+t;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::329; helo=mail-wm1-x329.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::52d; helo=mail-ed1-x52d.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SllTT6rnHz3c82
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Dec 2023 04:56:43 +1100 (AEDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-40c09b021daso968175e9.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Dec 2023 09:56:43 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Slvmx5kWFz30Q4
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Dec 2023 11:10:40 +1100 (AEDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-548ce39b101so452121a12.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Dec 2023 16:10:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701885400; x=1702490200; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TaIhvHz9yCo8CyoMAQ11L7EAilHwdFmwm4E4mbWRlrs=;
-        b=bfCbH8Lamud1tv3Eiqxi6bzDfz0jdZ+6kxcm+OeEh6Hl8LBmJUTn6GS2QJnth9KzA2
-         hjfIFYpfp+m+rqUy2IoDbToaBuJiYuqfoxiD6YrLq9zsvjTBIeGaKvvvfXxGs6o9q2jH
-         Kle/WfSgwZl1VBL+rHAPzBDrJXosA/M4B7or7Nh+bjy3ILM83125SCSsRk6zpj4q2J46
-         h7CH5sZkXl3EPUDma9wX5HHQr7hL3SkDHNJ9SqQiLwYP7ok2T17gUQr8E1m32DsMM3xJ
-         kFwLrGf5dRRD4d9/dpjbPupdLYSSxEvwZ+pAdLsODDWxMxng5sk6BG4sbouh3jO0t9lk
-         cf8w==
+        d=jms.id.au; s=google; t=1701907830; x=1702512630; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0yA9MR91ePkju7nca9/BkZnzwRCmKruvRUqc9sHYXbs=;
+        b=mjgtjf+tVkk3yK0oa2smP0epA5l06GWHpeS3Wms0kfcHmpOtbi7h87HOEmJiPnwq0r
+         gO1Mt6ri15kT3r2sW7ro/ah/RGc4XVZenyCsbYNdTlITfosR47o5C2kqP3FAN8HMjqHY
+         tCtzh4jURnejuVBiufAFPz/BO/5bjmvfbfguE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701885400; x=1702490200;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TaIhvHz9yCo8CyoMAQ11L7EAilHwdFmwm4E4mbWRlrs=;
-        b=S4mq/G6bEq2VyDE9kl5OSk/aBCfe6VuDrP9VD9Zq63YG7B2qfZ/OIyL+CLmX10UoUi
-         YgNrwiZjvFoGeMZi7MMhPfb3iNaFoFtafSz6HdKXIDqbJ4ULJ47/m/phj+XRxfPARoj8
-         FxdPR99uyp+0x5jo/5v7TF/KA52uvQ2k3KsicwNZrPrnuay7T9vbbvX6Abj2llBb6Y5N
-         uw/BzoRpbzw+kY+NSsy8Fgsy49oMfl+skXa5FWvaTVPAV+uX0mpjx3awGVfK2BMICUi4
-         jLJBx1/An8/U/1PyMDrTWaaBPJGJUZjecl7BkpUAy+4mrLvZuIdVe0B46kcLFHYCElXt
-         kUjg==
-X-Gm-Message-State: AOJu0YxcKIIJi55ontL304uCUmeH/92bvpirhOKY4Qd8FiY7u+U05B3p
-	PNMOhkEUwLoXOjFg7yIeV5X9gA==
-X-Google-Smtp-Source: AGHT+IGv6NYFQb9FHQR5aUi137tDn3sb+TKXGhvXnNfclmTDByVaf//DxhTizcfJR0pLjN6K7lcA9g==
-X-Received: by 2002:a05:600c:2986:b0:40b:5e4a:406c with SMTP id r6-20020a05600c298600b0040b5e4a406cmr802901wmd.140.1701885399676;
-        Wed, 06 Dec 2023 09:56:39 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id z20-20020a05600c0a1400b0040b34409d43sm327750wmp.11.2023.12.06.09.56.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 09:56:39 -0800 (PST)
-Message-ID: <ed9d28e0-f879-41f3-8679-7ed5e0eec7ce@linaro.org>
-Date: Wed, 6 Dec 2023 18:56:35 +0100
+        d=1e100.net; s=20230601; t=1701907830; x=1702512630;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0yA9MR91ePkju7nca9/BkZnzwRCmKruvRUqc9sHYXbs=;
+        b=jipA1yN/g5TVIhsnd8TWDfsh+21IthlFsofhG4rSsczdP9wrFd43iqGhgu4J/87372
+         bBnFqRpS8fzyeGQPpRaFxL7r0AlZKX28PWYjCN81djzdH2wMuyUiT25z6YZAhasatL4J
+         E8RSQJtWU6V6p83UyrogiMYGtHMizp1Y8iUGeAAzvOfJ4YFAfiyX7Yq2ZL9Cdw/S3R8r
+         5YHdU2N8/cWmYqBRbJ03ORRBmQf9wvu9PpqSd7MMdnvWRfJRuxOZlJn7Mx7k5uioUz6m
+         qzF0VYSwZtVV7rCRm7Pi0yMF9jwpiiqWiBtKWF31Hw+SZgz0h7nZ6xx/dfubHV+XgeA3
+         rBCg==
+X-Gm-Message-State: AOJu0Yy0hHb2Duw8S0tXiMlUn9AL/KsIXe/JQoOrMD1n6kUk8NuxTtj1
+	+Uj5/pCp6zHt4NTFICxlNMyfwy7ql2OZOxj3Mek=
+X-Google-Smtp-Source: AGHT+IEYmwT9MlyD95aEzDWmDlAFWtRHjJrEZFs5P5trbXnhy2s8EqkN0CnnoHwWcsvNS/RlitpXI3l8AyRaB8YCmZc=
+X-Received: by 2002:a17:906:d104:b0:a19:a19b:422f with SMTP id
+ b4-20020a170906d10400b00a19a19b422fmr730295ejz.154.1701907830244; Wed, 06 Dec
+ 2023 16:10:30 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v10 0/3] Support pwm/tach driver for aspeed ast26xx
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Guenter Roeck <linux@roeck-us.net>
-References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
- <3ea9ef0c-27c0-4304-8bf7-26710224c3b1@roeck-us.net>
- <20231206174823.ok6rrufhez33rte5@pengutronix.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231206174823.ok6rrufhez33rte5@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231206155316.4181813-1-peteryin.openbmc@gmail.com> <20231206155316.4181813-3-peteryin.openbmc@gmail.com>
+In-Reply-To: <20231206155316.4181813-3-peteryin.openbmc@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 7 Dec 2023 10:40:17 +1030
+Message-ID: <CACPK8XepWC+KUaYr8nQJ9ggkX5n=aQzT_U5+u_N86=LthkbwDw@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] ARM: dts: aspeed: Harma: Add Facebook Harma
+ (AST2600) BMC
+To: Peter Yin <peteryin.openbmc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,40 +71,73 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, jdelvare@suse.com, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org, corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, naresh.solanki@9elements.com, patrick@stwcx.xyz, robh+dt@kernel.org, thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org, BMC-SW@aspeedtech.com, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 06/12/2023 18:48, Uwe Kleine-König wrote:
-> On Tue, Nov 07, 2023 at 11:02:43AM -0800, Guenter Roeck wrote:
->> On 11/7/23 02:50, Billy Tsai wrote:
->>> Unlike the old design that the register setting of the TACH should based
->>> on the configure of the PWM. In ast26xx, the dependency between pwm and
->>> tach controller is eliminated and becomes a separate hardware block. One
->>> is used to provide pwm output and another is used to monitor the frequency
->>> of the input. This driver implements them by exposing two kernel
->>> subsystems: PWM and HWMON. The PWM subsystem can be utilized alongside
->>> existing drivers for controlling elements such as fans (pwm-fan.c),
->>> beepers (pwm-beeper.c) and so on. Through the HWMON subsystem, the driver
->>> provides sysfs interfaces for fan.
->>>
->>> Changes since v9:
->>> Change the type of fan-driving-mode to string
->>> Fix some typos and formatting issues.
->>>
->>
->> What is the resend about ?
-> 
-> And to the original v10 there is a reply by Krzysztof;
-> see https://lore.kernel.org/linux-pwm/3d9e50db-19f0-43b3-8042-2f80a1e7b79e@linaro.org/ .
-> 
-> I'll mark the original and this resend as "changes-requested" in our
-> patchwork. Probably the most cooperative way to object is to send a v11
-> and point out the changes compared to v10.
+On Thu, 7 Dec 2023 at 02:25, Peter Yin <peteryin.openbmc@gmail.com> wrote:
+>
+> Add linux device tree entry related to
+> Harma specific devices connected to BMC SoC.
 
-The resend might be fixing issues from v10, but who knows which and how
-many. In any case it should be v11, not a resend.
+This isn't a very helpful commit message. Convention is to mention
+what the system is to give context; eg "The SuperCorp Machine1
+multi-node server system uses an AST2600 BMC".
 
-Best regards,
-Krzysztof
+> +&mac3 {
+> +       status = "okay";
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_rmii4_default>;
+> +       no-hw-checksum;
+> +       use-ncsi;
+> +       ncsi-ctrl,start-redo-probe;
+> +       ncsi-ctrl,no-channel-monitor;
+> +       mlx,multi-host;
+> +       ncsi-package = <1>;
+> +       ncsi-channel = <1>;
+> +       ncsi-rexmit = <1>;
+> +       ncsi-timeout = <2>;
 
+These properties are not supported by the kernel. It seems Facebook
+uses them in their machines, it would be great if you contributed
+support for them to mainline.
+
+If not, please drop the properties.
+
+> +
+> +&gpio0 {
+> +       pinctrl-names = "default";
+> +       gpio-line-names =
+> +       /*A0-A7*/       "","","","","","","","",
+> +       /*B0-B7*/       "","","","",
+> +                       "FM_BMC_MUX_CS_SPI_SEL_0","FM_ID_LED_N","","",
+> +       /*C0-C7*/       "","","","","","","","",
+> +       /*D0-D7*/       "","","SOL_UART_SET","","","","","",
+> +       /*E0-E7*/       "","","","","","","","",
+> +       /*F0-F7*/       "","","","","","","","",
+> +       /*G0-G7*/       "","","","","","","","",
+> +       /*H0-H7*/       "","","","","","","","",
+> +       /*I0-I7*/       "","","","","","","","",
+> +       /*J0-J7*/       "","","","","","","","",
+> +       /*K0-K7*/       "","","","","","","","",
+> +       /*L0-L7*/       "","","","","","","","",
+> +       /*M0-M7*/       "","","","","","","","",
+> +       /*N0-N7*/       "LED_POSTCODE_0","LED_POSTCODE_1",
+> +                       "LED_POSTCODE_2","LED_POSTCODE_3",
+> +                       "LED_POSTCODE_4","LED_POSTCODE_5",
+> +                       "LED_POSTCODE_6","LED_POSTCODE_7",
+> +       /*O0-O7*/       "","","","","","","","",
+> +       /*P0-P7*/       "FP_SYS_PWRBTN_IN_N","BMC_SYS_PWRBTN_OUT_N",
+
+Is this machine going to run openbmc?
+
+We have a set of documented properties for GPIOs such as the power button:
+
+https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md
+
+If you intentionally do not want to follow this scheme, please mention
+why in your commit message.
+
+Cheers,
+
+Joel
