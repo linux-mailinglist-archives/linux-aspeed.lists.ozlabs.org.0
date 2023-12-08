@@ -2,64 +2,122 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4953807CC7
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Dec 2023 01:10:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8325C809A6A
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Dec 2023 04:32:41 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=mjgtjf+t;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=gZVuvMGJ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Slvn62wVxz3cRy
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Dec 2023 11:10:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SmcCV5QG3z3cdM
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Dec 2023 14:32:38 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=mjgtjf+t;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=gZVuvMGJ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::52d; helo=mail-ed1-x52d.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:7e8d::710; helo=nam04-bn8-obe.outbound.protection.outlook.com; envelope-from=quan@os.amperecomputing.com; receiver=lists.ozlabs.org)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on20710.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e8d::710])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Slvmx5kWFz30Q4
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Dec 2023 11:10:40 +1100 (AEDT)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-548ce39b101so452121a12.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Dec 2023 16:10:40 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SmcCJ70RLz2ytN;
+	Fri,  8 Dec 2023 14:32:26 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nqE0mp5M5tXq36mV/G9bswn9WAnp6dW4FGpD3mOx/wzPglpH09xhmPB4a+wlCj89D28HuV91KEr9nxIEEDcxoHWu5XBQ6U6UCOCILY90ltmDx7R0tNLVDO7yq4+Z7RVaP9VkKIOvPTzgfThvIrF/oFC+3Fu1KavJYAGW2euIEiVGAcQvnWmn5GHgWGL077v2fHRAVIxVO+WV9CoewvAnbGiEMpNT+qcSw6RPaeamql6WLC69WE+wQaG2WV9MOfzwAGKkWjcApbqXMZq/oDsau35DyGbrYIRH2kwT5KRdg+lW6EeBhpkSNNZ0IBkrDNT+jX5lP2EnE7ed369uuAKyeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bajVwD4ZdB8aHc53zXPQvLjOm7ZP5I+zY7TytJ7jANY=;
+ b=X9VPOnCTTF8hFjuzd8PvsX62qd7l7YOXcGaJPwBEMIBBWCIGD/qz/evz81VGMjISEiQ5icmRZBbuarEUwmnuOJ1EbRWNxH05Su+E005oUqt3QiO/0UNGO0/Di/sX2YrzVjNEWjtLxNE1794zxiN1u8XGjwswkObBrIi4BR+V/zGbXtBCOJdjM5bysqOkdp9RbuU99QXOBElZX/k6jgolfQLKAuxWwMxroZP0Dov+2xeQtfP9X/MKK3so37A5TeHlCBn8Nbe0aKEHMOrYgOOzmwhYr9VSh1orZvYjBRrh1TqCxalHPnTnbYo6PEnbO9lnj3teTkFDUTxoU820OT41UQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1701907830; x=1702512630; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0yA9MR91ePkju7nca9/BkZnzwRCmKruvRUqc9sHYXbs=;
-        b=mjgtjf+tVkk3yK0oa2smP0epA5l06GWHpeS3Wms0kfcHmpOtbi7h87HOEmJiPnwq0r
-         gO1Mt6ri15kT3r2sW7ro/ah/RGc4XVZenyCsbYNdTlITfosR47o5C2kqP3FAN8HMjqHY
-         tCtzh4jURnejuVBiufAFPz/BO/5bjmvfbfguE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701907830; x=1702512630;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0yA9MR91ePkju7nca9/BkZnzwRCmKruvRUqc9sHYXbs=;
-        b=jipA1yN/g5TVIhsnd8TWDfsh+21IthlFsofhG4rSsczdP9wrFd43iqGhgu4J/87372
-         bBnFqRpS8fzyeGQPpRaFxL7r0AlZKX28PWYjCN81djzdH2wMuyUiT25z6YZAhasatL4J
-         E8RSQJtWU6V6p83UyrogiMYGtHMizp1Y8iUGeAAzvOfJ4YFAfiyX7Yq2ZL9Cdw/S3R8r
-         5YHdU2N8/cWmYqBRbJ03ORRBmQf9wvu9PpqSd7MMdnvWRfJRuxOZlJn7Mx7k5uioUz6m
-         qzF0VYSwZtVV7rCRm7Pi0yMF9jwpiiqWiBtKWF31Hw+SZgz0h7nZ6xx/dfubHV+XgeA3
-         rBCg==
-X-Gm-Message-State: AOJu0Yy0hHb2Duw8S0tXiMlUn9AL/KsIXe/JQoOrMD1n6kUk8NuxTtj1
-	+Uj5/pCp6zHt4NTFICxlNMyfwy7ql2OZOxj3Mek=
-X-Google-Smtp-Source: AGHT+IEYmwT9MlyD95aEzDWmDlAFWtRHjJrEZFs5P5trbXnhy2s8EqkN0CnnoHwWcsvNS/RlitpXI3l8AyRaB8YCmZc=
-X-Received: by 2002:a17:906:d104:b0:a19:a19b:422f with SMTP id
- b4-20020a170906d10400b00a19a19b422fmr730295ejz.154.1701907830244; Wed, 06 Dec
- 2023 16:10:30 -0800 (PST)
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bajVwD4ZdB8aHc53zXPQvLjOm7ZP5I+zY7TytJ7jANY=;
+ b=gZVuvMGJ+WsNomkHO/cvWuHU8Ox4KNF9zAQ267wpUe2oBDMFUNXGZqW4GWrfeEtngYDosLjkXgNOSV0GLG6ZNaqmU81Gnp5crCidem5ABYFthCmpmBZxF6iYVDVfXJ/wA6sWFORqeRHQiRQVyroBKfsGCf5U8IR8blgHjMPINlo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from SN4PR01MB7455.prod.exchangelabs.com (2603:10b6:806:202::11) by
+ DS7PR01MB7784.prod.exchangelabs.com (2603:10b6:8:7f::22) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7068.27; Fri, 8 Dec 2023 03:32:03 +0000
+Received: from SN4PR01MB7455.prod.exchangelabs.com
+ ([fe80::5682:1d84:171a:1d68]) by SN4PR01MB7455.prod.exchangelabs.com
+ ([fe80::5682:1d84:171a:1d68%3]) with mapi id 15.20.7068.028; Fri, 8 Dec 2023
+ 03:32:03 +0000
+From: Quan Nguyen <quan@os.amperecomputing.com>
+To: Brendan Higgins <brendan.higgins@linux.dev>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Wolfram Sang <wsa@kernel.org>,
+	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-i2c@vger.kernel.org,
+	openbmc@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] i2c: aspeed: Late ack Tx done irqs and handle coalesced start with stop conditions
+Date: Fri,  8 Dec 2023 10:31:40 +0700
+Message-Id: <20231208033142.1673232-1-quan@os.amperecomputing.com>
+X-Mailer: git-send-email 2.35.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SGAP274CA0014.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::26)
+ To SN4PR01MB7455.prod.exchangelabs.com (2603:10b6:806:202::11)
 MIME-Version: 1.0
-References: <20231206155316.4181813-1-peteryin.openbmc@gmail.com> <20231206155316.4181813-3-peteryin.openbmc@gmail.com>
-In-Reply-To: <20231206155316.4181813-3-peteryin.openbmc@gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 7 Dec 2023 10:40:17 +1030
-Message-ID: <CACPK8XepWC+KUaYr8nQJ9ggkX5n=aQzT_U5+u_N86=LthkbwDw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] ARM: dts: aspeed: Harma: Add Facebook Harma
- (AST2600) BMC
-To: Peter Yin <peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR01MB7455:EE_|DS7PR01MB7784:EE_
+X-MS-Office365-Filtering-Correlation-Id: be53e5db-e957-4c65-4f3f-08dbf79e3ed8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	18Pn6TKD6ak7Zhp+wWSSQ6OU40KmzlFjG/niXRfh/vkarDdKMKuHfNOW58dq2ZG9/vSeRM9OfY/Aa3lUpnlxC1dlB2I5h7Z2b8VxWBItFddUEjbgB+CYhaIUgOIpLGv+dxTYMRmoODnyqaow4DMg309cwX6n41a1vZBJ0Awsq/i38D9qVqyE/1DdLokzoHlwXGWEJWwX7LYWHdOqLUmkRpa/KX+mYYCiVsvCsp7NOwZvvFDQEdnFgxuncGXmNOz0ZLQYfCS/4ahSsuBdBJhN9MflQ+7jqT5/aDt1V1OuDborvJa45vJuGaio7KQG18312rxjwwBEsx56DgJTYRNyeh2wcVkcImNKmEH70thq37erqe5e/rpFDncZWk3wA8qbsT2NKTxX1EOTj/kal4OKkIIg83FaIMaebnEspkXzlNroego9wWjRlOgUUodyKfLYwfM4j+YJMX5I3/1TSLRstGwYp1decqUg37RkDuO9edg9Aeq13rOBtGgJXUlTPpB1s8LsXRb1vvFKXmLEMNGVo10HIUH113kAl7NnxVChVA2EAJekhdEHH5J2QK3i9yKfs5Sp5mKuN/FDf8FAoUqyypQP30RLv1V6Z8xcunqrPBpW00y0JZgZ9a21y/QaAjFXniWuYeXjw9LP5bTKwYzduVO5vCOY9S6Y5ZKlFfgnMOA=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR01MB7455.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(366004)(39850400004)(136003)(396003)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(38100700002)(41300700001)(7416002)(5660300002)(2906002)(8676002)(38350700005)(316002)(4326008)(921008)(1076003)(110136005)(478600001)(6512007)(6666004)(6506007)(52116002)(2616005)(66476007)(86362001)(66556008)(54906003)(26005)(66946007)(107886003)(8936002)(83380400001)(966005)(6486002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?X1xR5eN0pHZh1uAhSSyXy0A5LWj7k4hl7WRijPJlme6viubNkPgymyHLtvbC?=
+ =?us-ascii?Q?Ur9x/9tVF7PuE3UfM39W8HnmJPAaAcOiTLx0+mB7Vx1zSYqT6bsh8x+lqOtA?=
+ =?us-ascii?Q?UjojgQ6djk36tFulp0FlgAmHiI4ayDXNPMUmCXhsBW5kewOzFS+1O/rrp9Kk?=
+ =?us-ascii?Q?pti3ct6cVGG7SYAmrePej5ZzExMfqvMXFn+Kluw501cny8ukfvkOw758zte6?=
+ =?us-ascii?Q?hfXO2xgYCLCBBj2jbseuDpnDpxrhfPwsyc3HXbsdVWj+TK4ymuf5TdqGo9El?=
+ =?us-ascii?Q?o4xX/dR9L3B4ZFCBEigbB6sWPHUjZvRym/3DPbwKS98yF013k/oK6+VvizHn?=
+ =?us-ascii?Q?Iw2nu/W96UPsAY8cic0Ke/TwbsOkJK2yyKbDg9xE9aISK+hH3JbYrDDiy+TV?=
+ =?us-ascii?Q?vElGtPPXE+y7Uj7OFXv/DL2dBrgIntORT+yB86sgKIeIsVoHsxIydfJNP48v?=
+ =?us-ascii?Q?tju6spFWhns61icoZcoX0dY7xHeIiP68CMFPRXuAlYoUKPn4tYmI2Ng4ALcb?=
+ =?us-ascii?Q?jLC0cX+LKTQVqf9Oxy61sfd13AU5lgNPmQol0i3AwfyWa7g3DI4M79cQhA5J?=
+ =?us-ascii?Q?loZCOItp1AsTHTlW7VEHLrxOOgSZCDHK0QbhpQ0v8FYNM7AhI1HB4QUKW/nl?=
+ =?us-ascii?Q?Ptagz0d4TvCnPRxn9TCtESUaV7HHPRTzXkVXbybf6KwnoWSt4VrATRTG3xJx?=
+ =?us-ascii?Q?dlX77/ESgdMjV2UTG3EtIHClwuGonSWz16o4FyOcpasKib8tYy7tWtKRJiul?=
+ =?us-ascii?Q?9VNPITtIPnGrCa+0M1Zj3Jho12x5K0ga1WsSHhDuUPH1EL7HD4yUEIa0TLkQ?=
+ =?us-ascii?Q?VN+XD8RyUkDL5NPtPZmLL61SeMmJlsRTjOrbCx80Lw8DYvjYtmy7OVqJIBXD?=
+ =?us-ascii?Q?vwmK9/3gtShffMm61zekUtpscxO00vDSn8o/16kho70jN9tKjjerl3pwWhPn?=
+ =?us-ascii?Q?Q4icBy8Fq+LvpfqhyI/hUlJ2c2Aye20Lr1uOdl/559TsHmUucNfnwVOL0YdN?=
+ =?us-ascii?Q?QoDXkllQ15ywZEnG5ppgeMESqPOvIcay7A047sXd14lBpnkDbJc22Rfv6DyO?=
+ =?us-ascii?Q?XoleG35HnCPIIFLWV1tGl5BTZaJ9NAlNuP1WaiwKOrBJ2gTCD5GsCbp7G4bj?=
+ =?us-ascii?Q?6b2TG/DnfggrHG+nntSztjJoasHAiuVRsLfXH+F6Qe6Jj5sWIRr3VHQgiwwv?=
+ =?us-ascii?Q?JNuQjuws/f00lwmS00qBZgMP+48nLM/kQ84BZvI00KzPut31cyAMYEfbrBoi?=
+ =?us-ascii?Q?vLazwEqYg7hCu6ZuUAqldEH1AZr0GeNGQsWZot3fSUKygVu3I5V/Esbms14D?=
+ =?us-ascii?Q?m0yLgJiqgDWvp7EJdQQ6tC73t84A9SHIsfIiCh742ol+D44mgi/j9OCGlQy9?=
+ =?us-ascii?Q?fRfgJ4az3YByOLbmnjXZPmkpdfOcJOmxsrGO3SPNXZg2ZcMiRaHjnnzrqi22?=
+ =?us-ascii?Q?lBLB7hYiFJRpxdrkd7o7PV49T0VUbxjJ/q9BjDFiXlXm/ufWvtaVqZPKANS6?=
+ =?us-ascii?Q?Qb65RO5wKX8ga5WXf8rnLmJr+WvviBC28jxzUN2YQ4rV3g+nddu7xicVpk8a?=
+ =?us-ascii?Q?Thy3tihiN8ai1bh5YxdecgB+4J9JHiFh2z3G4BHjbnViC4AKi+kqLUX6AqMu?=
+ =?us-ascii?Q?pMKa/jr2s1/Gj3AqEj7fGr0=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be53e5db-e957-4c65-4f3f-08dbf79e3ed8
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR01MB7455.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 03:32:03.7359
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: reYVh9vf0Ut9jJckx0NRMM/OP1S08MqYWorP4HMiT7wpxEoxRDltJ1p3rckgmPjzGA10Im3YF/bb4XOA+aFV9m8/p47GGX+ECkVbWfVkVs0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR01MB7784
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,73 +129,47 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: Cosmo Chou <chou.cosmo@gmail.com>, Open Source Submission <patches@amperecomputing.com>, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>, Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 7 Dec 2023 at 02:25, Peter Yin <peteryin.openbmc@gmail.com> wrote:
->
-> Add linux device tree entry related to
-> Harma specific devices connected to BMC SoC.
+This series consists of two patches to handle the below issues observed
+when testing with slave mode:
+  + The coalesced stop condition with the start conditions
+  + Early ack'ed of Tx done (ACK and NAK) causing "Unexpected Ack on
+  read request".
 
-This isn't a very helpful commit message. Convention is to mention
-what the system is to give context; eg "The SuperCorp Machine1
-multi-node server system uses an AST2600 BMC".
+This series was verified with ast2500 and ast2600.
 
-> +&mac3 {
-> +       status = "okay";
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_rmii4_default>;
-> +       no-hw-checksum;
-> +       use-ncsi;
-> +       ncsi-ctrl,start-redo-probe;
-> +       ncsi-ctrl,no-channel-monitor;
-> +       mlx,multi-host;
-> +       ncsi-package = <1>;
-> +       ncsi-channel = <1>;
-> +       ncsi-rexmit = <1>;
-> +       ncsi-timeout = <2>;
+The prior discussion could be found at:
+https://lore.kernel.org/all/20231128075236.2724038-1-quan@os.amperecomputing.com/
 
-These properties are not supported by the kernel. It seems Facebook
-uses them in their machines, it would be great if you contributed
-support for them to mainline.
+v3:
+  + Fix the unconditional write when ack the irqs              [Andrew]
+  + Handle the coalesced stop condition with the
+start conditions                                               [Andrew]
+  + Refactor the code to enhance code readability                [Quan]
+  + Revised commit message                                       [Quan]
 
-If not, please drop the properties.
+v2:
+  + Split these patches to separate series                       [Joel]
+  + Added the Fixes lines                                        [Joel]
+  + Fixed multiline comment                                      [Joel]
+  + Refactor irq clearing code                          [Joel, Guenter]
+  + Revised commit message                                 [Joel, Quan]
 
-> +
-> +&gpio0 {
-> +       pinctrl-names = "default";
-> +       gpio-line-names =
-> +       /*A0-A7*/       "","","","","","","","",
-> +       /*B0-B7*/       "","","","",
-> +                       "FM_BMC_MUX_CS_SPI_SEL_0","FM_ID_LED_N","","",
-> +       /*C0-C7*/       "","","","","","","","",
-> +       /*D0-D7*/       "","","SOL_UART_SET","","","","","",
-> +       /*E0-E7*/       "","","","","","","","",
-> +       /*F0-F7*/       "","","","","","","","",
-> +       /*G0-G7*/       "","","","","","","","",
-> +       /*H0-H7*/       "","","","","","","","",
-> +       /*I0-I7*/       "","","","","","","","",
-> +       /*J0-J7*/       "","","","","","","","",
-> +       /*K0-K7*/       "","","","","","","","",
-> +       /*L0-L7*/       "","","","","","","","",
-> +       /*M0-M7*/       "","","","","","","","",
-> +       /*N0-N7*/       "LED_POSTCODE_0","LED_POSTCODE_1",
-> +                       "LED_POSTCODE_2","LED_POSTCODE_3",
-> +                       "LED_POSTCODE_4","LED_POSTCODE_5",
-> +                       "LED_POSTCODE_6","LED_POSTCODE_7",
-> +       /*O0-O7*/       "","","","","","","","",
-> +       /*P0-P7*/       "FP_SYS_PWRBTN_IN_N","BMC_SYS_PWRBTN_OUT_N",
+v1:
+  + These patches are first introduced from this disscusstion
+https://lore.kernel.org/all/20210519074934.20712-1-quan@os.amperecomputing.com/
 
-Is this machine going to run openbmc?
+Quan Nguyen (2):
+  i2c: aspeed: Handle the coalesced stop conditions with the start
+    conditions.
+  i2c: aspeed: Acknowledge Tx done with and without ACK irq late
 
-We have a set of documented properties for GPIOs such as the power button:
+ drivers/i2c/busses/i2c-aspeed.c | 68 +++++++++++++++++++++------------
+ 1 file changed, 44 insertions(+), 24 deletions(-)
 
-https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md
+-- 
+2.35.1
 
-If you intentionally do not want to follow this scheme, please mention
-why in your commit message.
-
-Cheers,
-
-Joel
