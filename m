@@ -1,127 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BCC80B3AD
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 11:39:56 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F24E80B3BC
+	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 11:44:29 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=o04aIai2;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=yMS4Oa+o;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SnPdv62Llz3cBV
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 21:39:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SnPlD5nydz3cTH
+	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 21:44:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=o04aIai2;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=yMS4Oa+o;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::534; helo=mail-ed1-x534.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SnPdj6vZXz3bw8
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Dec 2023 21:39:35 +1100 (AEDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40c3f68b649so2541565e9.0
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 09 Dec 2023 02:39:35 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SnPl76zD1z3cBV
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Dec 2023 21:44:19 +1100 (AEDT)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54c79968ffbso3838972a12.3
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 09 Dec 2023 02:44:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702118369; x=1702723169; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=3A9KBI2OGN1Pl4lBDK8C36QaojUwvAjMDhDDFl3YeK0=;
-        b=o04aIai2Iys7WVmiWDiMvmig4A3k8nWFHIqwpBKGFgSiovwZImnrAG6SeeVmbXPvL9
-         72GVi06buhphF7o5CR54OtrVS9zMcHynHRhD6VmT/VOhCJkmPzpVM+YLV6AjcZyToLHL
-         LuboljB1hNXuihln2D+3DpfJBYBKCBSD6o9650uZk7TXB5eLw3fmsTpn7p74zcZ3gNyg
-         clHfx+a9IhXqxDmlTej/8YPVHyhgYE3SZBu7ehpq0qDfqUvrtFQQFiQiM8Id28zUD3r9
-         /mVorPOqLx7fF3FQnmnW+hj17945LMTzUaazLAHkQKV2ZwbOLqY9R6+Li9wpRuc2sDZj
-         qhfw==
+        d=linaro.org; s=google; t=1702118656; x=1702723456; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jtN/02LS5E97y/eNJTai0WYBoLVbIzeuypbCd6U1aWQ=;
+        b=yMS4Oa+ojoOL99VTvMJ/CM9xNHI2PmwFCk0QpfNuvYAhwPAIqVyEP4kivXrO/sYT4B
+         G4vBfeImTptHLBGaEgfrCR4gG0sdFQQBMDkK425zbY4XoYo9oJBTiEmas1fWrjDBiXWV
+         BUJ8MMKR87WP1ry3p7euA2yJeOX7WO9M8zD8yXUNahXb9fz/LPirIJlhhS3QrJ8OvEmU
+         g4xJ2CCZR86COJarkKcalEGb9on77hoH13t6USA66CaSE8N6BCOKQabm9enwibeLUmyP
+         dtP8n+VfwinldDynECyW3MeGaA+EsgXXgEKeatV6pt9D+m0AAI2PadnXY9zGoKJq6Q3t
+         xRsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702118369; x=1702723169;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1702118656; x=1702723456;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3A9KBI2OGN1Pl4lBDK8C36QaojUwvAjMDhDDFl3YeK0=;
-        b=csk/T0DSiaJB2xBW2W3IXsqC8eoAMS2iQTAxqN6vAxw/v4ufkdsmZhFcLkJUZG6LdT
-         G0z4tb7Ij7p4VLURLPTZPNkTWPBnTnDTmrdJRDgKm6/mt/7LaYaDIUzZpfvnmBl6Jnrm
-         eTR8AGF4R9oqbujO+b7liONjVNY8+bXG3v985yHo0k6baY+nJyk1UHTNNw216F/0C11m
-         T0vRQicjlERBL/8ETVeN1pt3zLl06qKwWlHDPqz5ISfrot3r9HUheUD8I2LmhMj9YZl0
-         g0AE7v8sYU+SaktQ1UgofZ3Lp7FGwMYkmTM3U8GE1GvpEGpUo/t6KgvZhOoVLgEP78ZU
-         +1Rw==
-X-Gm-Message-State: AOJu0YwEPJqcvNTTf3n833sKkBbI0yXXHUZPl/kSsvPHxrdJYVkdDgj6
-	hIIxvCsDPCz5UzwwVXbVE6dXrA==
-X-Google-Smtp-Source: AGHT+IHrY/lfZZZnH/WwX1SDBc2ofG1ZUj0QjwW0vZ4/PFYjfDDu8R46NI4Bs8vKzdl2NzwxcgK3/g==
-X-Received: by 2002:a7b:c857:0:b0:40c:260d:4527 with SMTP id c23-20020a7bc857000000b0040c260d4527mr560333wml.236.1702118368561;
-        Sat, 09 Dec 2023 02:39:28 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id vk2-20020a170907cbc200b00a1f76acb08fsm1258531ejc.134.2023.12.09.02.39.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Dec 2023 02:39:28 -0800 (PST)
-Message-ID: <390187fb-4ab4-49e6-b382-7be1fa117f01@linaro.org>
-Date: Sat, 9 Dec 2023 11:39:26 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] ARM: dts: aspeed: Harma: Add Facebook Harma
- (AST2600) BMC
-To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20231206155316.4181813-1-peteryin.openbmc@gmail.com>
- <20231206155316.4181813-3-peteryin.openbmc@gmail.com>
-Content-Language: en-US
+        bh=jtN/02LS5E97y/eNJTai0WYBoLVbIzeuypbCd6U1aWQ=;
+        b=Jfaz47/dufhkUtakmXVRuApyCKfTDpsO5si43y3NXZo9S9b2VqD/ugZYmVyUbrtFjw
+         et8IfhPqo26guacAg2bSKoQaVClGE6zvXsFSvckChqk0KanzpZfUeWMj//lMAvTHuyl2
+         jXLU37Nsn0Gy/g7Wdhxc8mVzgGThHG1DSUGHHXNpy/jac5AV1zSpLI6Pq4B8MF4STvBP
+         n3sdrGV45bBD1sY15x9ooIfcjAsxQgLG2TOTJ0DhzmO9G5bepsT9lhXlbm8ODjP5F7Cb
+         05kSj71UzzMbvsXbSSjs5uKva1ydKk6qhQYBkryecfy4c9NC1hsRAjnLw2A9qJ1+ny3f
+         9/Tw==
+X-Gm-Message-State: AOJu0YxAH8Oc0mZIH4FvopTo9zp1CxzeKS8VajvTseBbPWCB/YKMUH5o
+	Fgqro/uhnaJsMc4TGvvmgRwp8Q==
+X-Google-Smtp-Source: AGHT+IG0NrZS0c4C0ix0b3pjL98TjBc1sefC79SI5ddIN36Yx4a1EYmrZ64aGRIjRluE67nicf7OAw==
+X-Received: by 2002:a50:aa8f:0:b0:54c:4837:7587 with SMTP id q15-20020a50aa8f000000b0054c48377587mr948749edc.51.1702118656099;
+        Sat, 09 Dec 2023 02:44:16 -0800 (PST)
+Received: from krzk-bin.. ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id eh12-20020a0564020f8c00b00550e21a4f76sm349604edb.8.2023.12.09.02.44.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Dec 2023 02:44:15 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231206155316.4181813-3-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] ARM: dts: aspeed: greatlakes: correct Mellanox multi-host property
+Date: Sat,  9 Dec 2023 11:44:09 +0100
+Message-Id: <20231209104412.12916-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,31 +83,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 06/12/2023 16:53, Peter Yin wrote:
-> Add linux device tree entry related to
-> Harma specific devices connected to BMC SoC.
-> 
-> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
-> ---
+"mlx,multi-host" is using incorrect vendor prefix and is not documented.
 
-...
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +&mac3 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rmii4_default>;
-> +	no-hw-checksum;
-> +	use-ncsi;
-> +	ncsi-ctrl,start-redo-probe;
-> +	ncsi-ctrl,no-channel-monitor;
-> +	mlx,multi-host;
-
-There is no such property. Please stop copying downstream code into
-upstream.
-
-Best regards,
-Krzysztof
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+index 7a53f54833a0..9a6757dd203f 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+@@ -66,7 +66,7 @@ &mac3 {
+ 	pinctrl-0 = <&pinctrl_rmii4_default>;
+ 	no-hw-checksum;
+ 	use-ncsi;
+-	mlx,multi-host;
++	mellanox,multi-host;
+ 	ncsi-ctrl,start-redo-probe;
+ 	ncsi-ctrl,no-channel-monitor;
+ 	ncsi-package = <1>;
+-- 
+2.34.1
 
