@@ -2,59 +2,126 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE6C809AC0
-	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Dec 2023 05:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BCC80B3AD
+	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 11:39:56 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=kuPvuuYQ;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=o04aIai2;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SmcqX66c8z3cZ5
-	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Dec 2023 15:00:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SnPdv62Llz3cBV
+	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 21:39:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=kuPvuuYQ;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=o04aIai2;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SmcqS2z9yz2ytN;
-	Fri,  8 Dec 2023 15:00:20 +1100 (AEDT)
-Received: from [192.168.68.112] (ppp118-210-181-59.adl-adc-lon-bras34.tpg.internode.on.net [118.210.181.59])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id A9E6D20016;
-	Fri,  8 Dec 2023 12:00:18 +0800 (AWST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SnPdj6vZXz3bw8
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Dec 2023 21:39:35 +1100 (AEDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40c3f68b649so2541565e9.0
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 09 Dec 2023 02:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1702008019;
-	bh=6g1gg4ODYQHLBaloxEIVH+B88/pEH5RLfLJX0MQ0iPk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=kuPvuuYQxgat5rpGJsEfXAPhzGJuzhJ2gy1NNdBDywTsALSlK+y5+LJJrfM67Cf/N
-	 pWYRPPWFtmBhxmcueYYwlJgeflZkijiXUyk57+6+ccSB9MpLhmEUFob3tvyTWOp2qY
-	 cfe1lzES+DvX3b8f3u0kq84I/X4t6z/R4g+IFy0GJoBGzEbe5ogR/jAVyzbz42UPsc
-	 XMdVxIGceJzbhow79nOdKbD1F87BbNHz+VSuPg/Ox/zfaSp9UgWK/cpYUj19stXq8Y
-	 sh5ezvwsWrbuJg8B9kHzOIiHqTwRMbqKMbx2WF3RZVNsDcjS3FAB6ZCIPMyvqARxGh
-	 HgJy677d6fiYA==
-Message-ID: <dc36d61aedd2b2389eb366b27436f19d934fc93b.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v3 2/2] i2c: aspeed: Acknowledge Tx done with and
- without ACK irq late
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Quan Nguyen <quan@os.amperecomputing.com>, Brendan Higgins
- <brendan.higgins@linux.dev>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>,  Joel Stanley <joel@jms.id.au>, Andi Shyti
- <andi.shyti@kernel.org>, Wolfram Sang <wsa@kernel.org>, Jae Hyun Yoo
- <jae.hyun.yoo@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, 
- linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org
-Date: Fri, 08 Dec 2023 14:30:18 +1030
-In-Reply-To: <20231208033142.1673232-3-quan@os.amperecomputing.com>
-References: <20231208033142.1673232-1-quan@os.amperecomputing.com>
-	 <20231208033142.1673232-3-quan@os.amperecomputing.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+        d=linaro.org; s=google; t=1702118369; x=1702723169; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=3A9KBI2OGN1Pl4lBDK8C36QaojUwvAjMDhDDFl3YeK0=;
+        b=o04aIai2Iys7WVmiWDiMvmig4A3k8nWFHIqwpBKGFgSiovwZImnrAG6SeeVmbXPvL9
+         72GVi06buhphF7o5CR54OtrVS9zMcHynHRhD6VmT/VOhCJkmPzpVM+YLV6AjcZyToLHL
+         LuboljB1hNXuihln2D+3DpfJBYBKCBSD6o9650uZk7TXB5eLw3fmsTpn7p74zcZ3gNyg
+         clHfx+a9IhXqxDmlTej/8YPVHyhgYE3SZBu7ehpq0qDfqUvrtFQQFiQiM8Id28zUD3r9
+         /mVorPOqLx7fF3FQnmnW+hj17945LMTzUaazLAHkQKV2ZwbOLqY9R6+Li9wpRuc2sDZj
+         qhfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702118369; x=1702723169;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3A9KBI2OGN1Pl4lBDK8C36QaojUwvAjMDhDDFl3YeK0=;
+        b=csk/T0DSiaJB2xBW2W3IXsqC8eoAMS2iQTAxqN6vAxw/v4ufkdsmZhFcLkJUZG6LdT
+         G0z4tb7Ij7p4VLURLPTZPNkTWPBnTnDTmrdJRDgKm6/mt/7LaYaDIUzZpfvnmBl6Jnrm
+         eTR8AGF4R9oqbujO+b7liONjVNY8+bXG3v985yHo0k6baY+nJyk1UHTNNw216F/0C11m
+         T0vRQicjlERBL/8ETVeN1pt3zLl06qKwWlHDPqz5ISfrot3r9HUheUD8I2LmhMj9YZl0
+         g0AE7v8sYU+SaktQ1UgofZ3Lp7FGwMYkmTM3U8GE1GvpEGpUo/t6KgvZhOoVLgEP78ZU
+         +1Rw==
+X-Gm-Message-State: AOJu0YwEPJqcvNTTf3n833sKkBbI0yXXHUZPl/kSsvPHxrdJYVkdDgj6
+	hIIxvCsDPCz5UzwwVXbVE6dXrA==
+X-Google-Smtp-Source: AGHT+IHrY/lfZZZnH/WwX1SDBc2ofG1ZUj0QjwW0vZ4/PFYjfDDu8R46NI4Bs8vKzdl2NzwxcgK3/g==
+X-Received: by 2002:a7b:c857:0:b0:40c:260d:4527 with SMTP id c23-20020a7bc857000000b0040c260d4527mr560333wml.236.1702118368561;
+        Sat, 09 Dec 2023 02:39:28 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id vk2-20020a170907cbc200b00a1f76acb08fsm1258531ejc.134.2023.12.09.02.39.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Dec 2023 02:39:28 -0800 (PST)
+Message-ID: <390187fb-4ab4-49e6-b382-7be1fa117f01@linaro.org>
+Date: Sat, 9 Dec 2023 11:39:26 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] ARM: dts: aspeed: Harma: Add Facebook Harma
+ (AST2600) BMC
+To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+References: <20231206155316.4181813-1-peteryin.openbmc@gmail.com>
+ <20231206155316.4181813-3-peteryin.openbmc@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231206155316.4181813-3-peteryin.openbmc@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,71 +133,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Cosmo Chou <chou.cosmo@gmail.com>, Open Source Submission <patches@amperecomputing.com>, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 2023-12-08 at 10:31 +0700, Quan Nguyen wrote:
-> Commit 2be6b47211e1 ("i2c: aspeed: Acknowledge most interrupts early in
-> interrupt handler") acknowledges most interrupts early before the slave
-> irq handler is executed, except for the "Receive Done Interrupt status"
-> which is acknowledged late in the interrupt.
-> However, it has been observed that the early acknowledgment of "Transmit
-> Done Interrupt Status" (with ACK or NACK) often causes the interrupt to
-> be raised in READ REQUEST state, that shows the
-> "Unexpected ACK on read request." complaint messages.
->=20
-> Assuming that the "Transmit Done" interrupt should only be acknowledged
-> once it is truly processed, this commit fixes that issue by acknowledging
-> interrupts for both ACK and NACK cases late in the interrupt handler.
->=20
-> Fixes: 2be6b47211e1 ("i2c: aspeed: Acknowledge most interrupts early in i=
-nterrupt handler")
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+On 06/12/2023 16:53, Peter Yin wrote:
+> Add linux device tree entry related to
+> Harma specific devices connected to BMC SoC.
+> 
+> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 > ---
-> v3:
->   + Fix the unconditinal write when ack the irqs               [Andrew]
->   + Refactor the code to enhance code readability                [Quan]
->   + Fix grammar in commit message                                [Quan]
->=20
-> v2:
->   + Split to separate series                                     [Joel]
->   + Added the Fixes line                                         [Joel]
->   + Fixed multiline comment                                      [Joel]
->   + Refactor irq clearing code                          [Joel, Guenter]
->   + Revised commit message                                       [Joel]
->   + Revised commit message                                       [Quan]
->   + About a note to remind why the readl() should immediately follow the
-> writel() to fix the race condition when clearing irq status from commit
-> c926c87b8e36 ("i2c: aspeed: Avoid i2c interrupt status clear race
-> condition"), I think it looks straight forward in this patch and decided
-> not to add that note.                                            [Joel]
->=20
-> v1:
->   + First introduced in
-> https://lore.kernel.org/all/20210519074934.20712-1-quan@os.amperecomputin=
-g.com/
-> ---
->  drivers/i2c/busses/i2c-aspeed.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-asp=
-eed.c
-> index 1c2a4f4c4e1b..967a26dd4ffa 100644
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -617,13 +617,19 @@ static u32 aspeed_i2c_master_irq(struct aspeed_i2c_=
-bus *bus, u32 irq_status)
->  static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
->  {
->  	struct aspeed_i2c_bus *bus =3D dev_id;
-> -	u32 irq_received, irq_remaining, irq_handled;
-> +	u32 irq_received, irq_remaining, irq_handled, irq_ack_last;
 
-`irq_ack_last` might be better as a macro, but you're probably saved by
-the optimiser anyway. If there's another reason to do a v4 or others
-are unhappy with it then consider fixing it, otherwise:
+...
 
-Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+> +&mac3 {
+> +	status = "okay";
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_rmii4_default>;
+> +	no-hw-checksum;
+> +	use-ncsi;
+> +	ncsi-ctrl,start-redo-probe;
+> +	ncsi-ctrl,no-channel-monitor;
+> +	mlx,multi-host;
 
-Thanks.
+There is no such property. Please stop copying downstream code into
+upstream.
+
+Best regards,
+Krzysztof
+
