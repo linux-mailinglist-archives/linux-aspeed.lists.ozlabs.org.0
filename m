@@ -1,80 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982C180B3C0
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 11:44:40 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A29880B63A
+	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 21:28:39 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=xloxyzJe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PzxK6iBL;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SnPlV0gxhz3cQ4
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Dec 2023 21:44:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SnfjG1bMYz3cVR
+	for <lists+linux-aspeed@lfdr.de>; Sun, 10 Dec 2023 07:28:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=xloxyzJe;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PzxK6iBL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52a; helo=mail-ed1-x52a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SnPlC3gc4z3d87
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Dec 2023 21:44:23 +1100 (AEDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-54dccf89cfdso3535390a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 09 Dec 2023 02:44:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702118660; x=1702723460; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WlRF5ESN+8f4udkYKhzr8luKmrU8RaKXvO/JYQMW7WI=;
-        b=xloxyzJeIXlPmiuskSyXd0b4eNC64yq/qZ1TuIlB+bjSQhFeP0EHwQM+qc97w9OVM7
-         wf7ABt9Ij4wUNVwhA429TK2U3zMTuUN7zlS6FrJDmQluM6xZ26zTWSOYlG6wwrGkbe3C
-         v0o7VbV3WLXbmn/fkFQ5D1X8sGO65MeJjuj0EntLgBVUCi8PnVa76Zsn9K592u7uovyt
-         VDDbChSU8zGHreANQrX9QhY+WD+KnqNjdql1SVIZdc+Q6oWwomjoHGJAQRlKlfgu3KTv
-         SSs9s4XJmWG79x+ZV9ixAvPG+pkTS/pkuuer1kS991/5mrszxf6FgzPNoli7C5bbxagQ
-         MLvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702118660; x=1702723460;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WlRF5ESN+8f4udkYKhzr8luKmrU8RaKXvO/JYQMW7WI=;
-        b=EQFtQ/xLGq5F6dEWReHF7nycdHPCnu/XVGHrJRRcbQEHj09Mgslw62ahvmR/F9Smer
-         NErnCCsWGN/QHqVJa8CrJjpQ3/ZCztx59qDgb1ObW0POcnd7WwKqmdl72zeje3m3ogXq
-         HRTOYYMiB8BUL5sGPCxt/AGyWvXmTDYUTpKeCZxrInItNeIT/8XkwNqVJvRrea45H5DE
-         hO1FrHY5JVLSqEecgX4QQ3C8HywvApKh8sz5HhAdYxC6wfpxEfW5npHYq+x7ms1QEc8i
-         f8YTd570/i1BDbjymbYcveQfJS4xpfq9uTF4Bq/OxPe8+fld2sKrm3fcd/QCp+JMIQVt
-         +xMA==
-X-Gm-Message-State: AOJu0YysZZOyvj96qhTRZNNcay9rBuNoIaX1XaPY8kEzqbpvI/FB6aXN
-	hDBLHdiXK1UZW7xg8+3L+lDKfw==
-X-Google-Smtp-Source: AGHT+IHda76JkbbrEN5rBMhtlIG3Ox0CJOlh8Z2lE6T50ouOps31F6tLOfl570vTj7LIB2OLM+9I/A==
-X-Received: by 2002:a05:6402:2152:b0:54d:412:c8f4 with SMTP id bq18-20020a056402215200b0054d0412c8f4mr705393edb.84.1702118660737;
-        Sat, 09 Dec 2023 02:44:20 -0800 (PST)
-Received: from krzk-bin.. ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id eh12-20020a0564020f8c00b00550e21a4f76sm349604edb.8.2023.12.09.02.44.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Dec 2023 02:44:20 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] ARM: dts: aspeed: yosemitev2: correct Mellanox multi-host property
-Date: Sat,  9 Dec 2023 11:44:12 +0100
-Message-Id: <20231209104412.12916-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231209104412.12916-1-krzysztof.kozlowski@linaro.org>
-References: <20231209104412.12916-1-krzysztof.kozlowski@linaro.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Snfj5019Hz3bWH;
+	Sun, 10 Dec 2023 07:28:24 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id D2207B803F3;
+	Sat,  9 Dec 2023 20:28:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC43C433C8;
+	Sat,  9 Dec 2023 20:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702153698;
+	bh=rslBYi0BViswbTgH93m6HMfXVxguyYBllIpDJEbGmY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PzxK6iBLgBu0UDJZ5PDebxoB2/rmQ9/0kO+w7tV/H/fCrrgYe1Ag+jo+7XrTon596
+	 Xsp75wGvG91ldzPwNe8XC7BF0M9Y2ac27ZkjPozdeC1grIQVQpwclyg1xKHLz72rLb
+	 OsPDi4flg4Dd63wZh5kOfS8Hq5E6alekoMGJZ9Aef2WzfqRR9z0UKQs+8RaDIveLQk
+	 qpgSShjeZl0a8hNMDdE/JjmyzBVyuT0Hi57k2ngyCzbwI7H6+Gy/NMq3Rj7/L/gfus
+	 +SGuJ3Zzg5VxmI1npvnQAXlTvzFq29Slgi/3xfK3hESpslB0u3TUsk3A1D/z9AeddD
+	 ZPQ5WavzE6mFg==
+Date: Sat, 9 Dec 2023 21:28:10 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v3 1/2] i2c: aspeed: Handle the coalesced stop conditions
+ with the start conditions.
+Message-ID: <20231209202810.r7kkz2hlaonyibha@zenone.zhora.eu>
+References: <20231208033142.1673232-1-quan@os.amperecomputing.com>
+ <20231208033142.1673232-2-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231208033142.1673232-2-quan@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,30 +60,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-arm-kernel@lists.infradead.org, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Wolfram Sang <wsa@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, Cosmo Chou <chou.cosmo@gmail.com>, Open Source Submission <patches@amperecomputing.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Guenter Roeck <linux@roeck-us.net>, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-"mlx,multi-host" is using incorrect vendor prefix and is not documented.
+Hi Quan,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev2.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Dec 08, 2023 at 10:31:41AM +0700, Quan Nguyen wrote:
+> Some masters may drive the transfers with low enough latency between
+> the nak/stop phase of the current command and the start/address phase
+> of the following command that the interrupts are coalesced by the
+> time we process them.
+> Handle the stop conditions before processing SLAVE_MATCH to fix the
+> complaints that sometimes occur below.
+> 
+> "aspeed-i2c-bus 1e78a040.i2c-bus: irq handled != irq. Expected
+> 0x00000086, but was 0x00000084"
+> 
+> Fixes: f9eb91350bb2 ("i2c: aspeed: added slave support for Aspeed I2C driver")
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev2.dts
-index 6bf2ff85a40e..5143f85fbd70 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev2.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemitev2.dts
-@@ -95,7 +95,7 @@ &mac0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_rmii1_default>;
- 	use-ncsi;
--	mlx,multi-host;
-+	mellanox,multi-host;
- };
- 
- &adc {
--- 
-2.34.1
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 
+Thanks,
+Andi
