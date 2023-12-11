@@ -1,68 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1414380C2AA
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Dec 2023 09:05:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9518E80C2B0
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Dec 2023 09:05:58 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=qm9sT65f;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=KDHJ6xhv;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SpZ6l3xzHz30Pp
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Dec 2023 19:05:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SpZ7R70kDz30Yb
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Dec 2023 19:05:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=qm9sT65f;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=KDHJ6xhv;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::435; helo=mail-wr1-x435.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::130; helo=mail-lf1-x130.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SpZ6d0KKqz30PD
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Dec 2023 19:05:12 +1100 (AEDT)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-33334480eb4so4776178f8f.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Dec 2023 00:05:12 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SpZ7J5qKnz30Pp
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Dec 2023 19:05:48 +1100 (AEDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-50c02628291so4267306e87.0
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Dec 2023 00:05:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702281909; x=1702886709; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1702281944; x=1702886744; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XiW6stVK+zCl5jjYuv+6r3x3fHHtlp11nkTseHtSQGc=;
-        b=qm9sT65frRuTqbncxsCZ0Bn6xclkuZhJ9VQmon9ByHOU2u5GzZT+8HjOt7vGdZVMVG
-         74f7TaUDLGNXyQwaIrH4mRZSyynvl/BH3O7AROx9abmxKDaSm5NnWGU7lZtXPmVS36++
-         /lComl879U8D0Z7Q8lpHTt+He6QoLmUBjGFaIEznyt/v6CPq5QNkRnafnrnNPX9jIm98
-         oEAZm7TvAqTCyOZ0XhXkhj5qU5CB5MArRvEOnxqDxdbhlHZX84QG1IU+t2yaIiIbFcTG
-         nSNr0VKFnrpT+sFJgPjy2Nsnmv9tUCNHU41Q5X1r8bHw626G06+uG2Ak4iTYM5LcGfjv
-         aWOA==
+        bh=wNPZaTasmc8CuxFkkaS5L6K3bALK4MtqBs37cfOdsxE=;
+        b=KDHJ6xhvrbsE/9m1qHrDZPYz1mgd8367aUIyxu9eiIvo5xWKsMT874ZXzGT1+5ilre
+         GrcmZ32bKZ7cyxHPNekEBf3sQQmCzu6CzhKu0cOFVpGxIw2Qf+pT07mqw1TWVLlU6WFs
+         IUw+/fEYBxYRBv1o4VLkZg/l5/FQPL3pzIxAdihcPOKH5exDuKa4Ek2aYyZA8V803jCL
+         9r1hcj5ER86HPrZRK+nH4UrcZyi6JSWyC31PArZ9lfKvaB0ucKuJbEoNK5M9BH1laPLX
+         yEtR1rk+HyIMLzXWMkQCS0HgwhyMyVfhr8+uwOuJSTPIWxAkzHlj5rQ8tTBj4UuBbxxR
+         zXlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702281909; x=1702886709;
+        d=1e100.net; s=20230601; t=1702281944; x=1702886744;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XiW6stVK+zCl5jjYuv+6r3x3fHHtlp11nkTseHtSQGc=;
-        b=SlNrbPgj78aDwXzyNNK/JRpNBEj0cCTsIrTeAIsYyZbZechHWoAQSMFjt6yaN+4jzy
-         RTIkKWPP30YPvF3VqJ3uiPuKRk9+agy1t3TBN6Ai4kUVKWAb5/XWABIhvcg+bA6nBtq2
-         jneRwj9cQ2c4k7P/DB/cPKjf2I4w4uVkt3Q2DnO5HRZ65QYkTmTstSC8KzKii9+z2iBs
-         HY/mxv2Px/qOpqcL0mkRTBzKGeaPWNa2itu0OGwzk0U35uQiIKhkjqvFPJhe7tnp+VjO
-         T17vk39gED6GKF/u+YZdqqD1/sBjw0yw0LJbJ2bUR+3Psf1kr/Z79oZux/BkloFpSk5S
-         Ismw==
-X-Gm-Message-State: AOJu0YyzXjlo2iZ7BhTRnQpLO1C8cLBuSzbZWRsqNlpesOR9D83xiMX1
-	1BFPCv9ZBit/ljdr1quCyRYBHHuGDFd6s2ReAjM=
-X-Google-Smtp-Source: AGHT+IFvn6SovSKo7ry0mbHdc2tkznCZvQmATivqpNIRsCe+HI/+/lUTdwxkVpUaAeYKHOjfJ4ZbRw==
-X-Received: by 2002:adf:e306:0:b0:332:e337:7c5f with SMTP id b6-20020adfe306000000b00332e3377c5fmr1704125wrj.61.1702281909038;
-        Mon, 11 Dec 2023 00:05:09 -0800 (PST)
+        bh=wNPZaTasmc8CuxFkkaS5L6K3bALK4MtqBs37cfOdsxE=;
+        b=Zs7pfX8PzLBh3cHeIBCegKESRurMWRRQ85/v1nUbYLyRktkXmux0gTUCwnOd5YvCtl
+         mTiOTaj8KapP0EEVLozUULos+ejPMqBWX9qyEskcxqwNEHY2y1je0MJC6/UcVLwhbJE3
+         uhLycXirhe5YR4w4MXVRNu/v2j/pl7pIWO7LlFCR6OpFN2rDuoVswfTdRIQxfgFg0XdU
+         s0CuiRlhYtTxewI00XUMoDrdvhLJxJnKiqBMVpdlBRjlC3WiwKaT/N7p5a4pcbgcaSzm
+         i6yDYXF5FSseACjRQYLQNfON70k8Ttn4LEV0i3dEnc8MAmHfXXpbhEfshkiDLcX4+VdB
+         mIYQ==
+X-Gm-Message-State: AOJu0Yza/+b0gIU8PEVkJKz5xGu8aad/j65OiBu4k3mI+lqLOQgkGUy9
+	1KplZWoK9xOyt8i19JMxz33dg+dL6NJDi5x0BrI=
+X-Google-Smtp-Source: AGHT+IGbVB+A8GFrEJYCPFlMShab2kZxpMqdwKhUN6ANAcPYrl+nu3ptzEFOQkjMiOJuEpYMFLxSGA==
+X-Received: by 2002:a05:6512:3d06:b0:50b:e9c0:d08c with SMTP id d6-20020a0565123d0600b0050be9c0d08cmr2243835lfv.100.1702281944556;
+        Mon, 11 Dec 2023 00:05:44 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id s18-20020adfea92000000b0033342d2bf02sm7857177wrm.25.2023.12.11.00.05.07
+        by smtp.gmail.com with ESMTPSA id s18-20020adfea92000000b0033342d2bf02sm7857177wrm.25.2023.12.11.00.05.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 00:05:08 -0800 (PST)
-Message-ID: <2339a35d-270f-4a55-a2fe-191dec44aa5b@linaro.org>
-Date: Mon, 11 Dec 2023 09:05:07 +0100
+        Mon, 11 Dec 2023 00:05:44 -0800 (PST)
+Message-ID: <415438f8-04fe-4e30-a643-ca13278987a0@linaro.org>
+Date: Mon, 11 Dec 2023 09:05:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/14] ARM: dts: aspeed: yosemite4: Initialize bmc gpio
- state
+Subject: Re: [PATCH v2 12/14] ARM: dts: aspeed: yosemite4: add mctp config for
+ NIC
 Content-Language: en-US
 To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
  Rob Herring <robh+dt@kernel.org>,
@@ -70,7 +70,7 @@ To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
  Andrew Jeffery <andrew@codeconstruct.com.au>
 References: <20231211024947.3990898-1-Delphine_CC_Chiu@wiwynn.com>
- <20231211024947.3990898-11-Delphine_CC_Chiu@wiwynn.com>
+ <20231211024947.3990898-13-Delphine_CC_Chiu@wiwynn.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -116,7 +116,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231211024947.3990898-11-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20231211024947.3990898-13-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -135,113 +135,58 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 11/12/2023 03:49, Delphine CC Chiu wrote:
-> Initialize bmc gpio state
+> add mctp config for NIC
 > 
 > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
 > ---
->  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 195 ++++++++++++++++++
->  1 file changed, 195 insertions(+)
+>  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 24 +++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 > 
 > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index ed2b1200603d..eb3687bfd632 100644
+> index 073f27f1e35f..c8e3a85b7a11 100644
 > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
 > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -1271,6 +1271,7 @@ temperature-sensor@1f {
->  	};
->  };
+> @@ -1273,40 +1273,64 @@ imux24: i2c@0 {
+>  			#address-cells = <1>;
+>  			#size-cells = <0>;
+>  			reg = <0>;
+> +			mctp-controller;
+>  			temperature-sensor@1f {
+>  				compatible = "ti,tmp421";
+>  				reg = <0x1f>;
+>  			};
+> +
+> +			emc1403@3c {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> +				compatible = "smsc,emc1403";
+> +				reg = <0x3c>;
+> +			};
+>  		};
 >  
+>  		imux25: i2c@1 {
+>  			#address-cells = <1>;
+>  			#size-cells = <0>;
+>  			reg = <1>;
+> +			mctp-controller;
+>  			temperature-sensor@1f {
+>  				compatible = "ti,tmp421";
+>  				reg = <0x1f>;
+>  			};
 > +
+> +			emc1403@3c {
 
-Drop
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
->  &adc0 {
->  	ref_voltage = <2500>;
->  	status = "okay";
-> @@ -1298,3 +1299,197 @@ &ehci1 {
->  &uhci {
->  	status = "okay";
->  };
-> +
-> +&sgpiom0 {
-> +	status = "okay";
-> +	ngpios = <128>;
-> +	bus-frequency = <48000>;
-> +};
-> +
-> +&gpio0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_gpiu2_default &pinctrl_gpiu3_default
-> +		     &pinctrl_gpiu4_default &pinctrl_gpiu5_default
-> +		     &pinctrl_gpiu6_default>;
-> +	gpio-line-names =
-> +	/*A0-A7*/       "","","","","","","","",
-> +	/*B0-B7*/       "FLT_HSC_SERVER_SLOT8_N","AC_ON_OFF_BTN_CPLD_SLOT5_N",
-> +			"PWRGD_SLOT1_STBY","PWRGD_SLOT2_STBY",
-> +			"PWRGD_SLOT3_STBY","PWRGD_SLOT4_STBY","","",
-> +	/*C0-C7*/       "PRSNT_NIC3_N","","","","FM_NIC0_WAKE_N",
-> +			"FM_NIC1_WAKE_N","","RST_PCIE_SLOT2_N",
-> +	/*D0-D7*/       "","","","","","","","",
-> +	/*E0-E7*/       "PRSNT_NIC1_N","PRSNT_NIC2_N","","RST_PCIE_SLOT1_N",
-> +			"","","","",
-> +	/*F0-F7*/       "FM_RESBTN_SLOT1_BMC_N","FM_RESBTN_SLOT2_BMC_N",
-> +			"FM_RESBTN_SLOT3_BMC_N","FM_RESBTN_SLOT4_BMC_N",
-> +			"PRSNT_SB_SLOT1_N","PRSNT_SB_SLOT2_N",
-> +			"PRSNT_SB_SLOT3_N","PRSNT_SB_SLOT4_N",
-> +	/*G0-G7*/       "","","","","","","","",
-> +	/*H0-H7*/       "","","","","","","","",
-> +	/*I0-I7*/       "","","","","","ALT_MEDUSA_ADC_N",
-> +			"ALT_SMB_BMC_CPLD2_N",
-> +			"INT_SPIDER_ADC_R_N",
-> +	/*J0-J7*/       "","","","","","","","",
-> +	/*K0-K7*/       "","","","","","","","",
-> +	/*L0-L7*/       "","","","","","","ALT_MEDUSA_P12V_EFUSE_N","",
-> +	/*M0-M7*/       "EN_NIC0_POWER_BMC_R","EN_NIC1_POWER_BMC_R",
-> +			"INT_MEDUSA_IOEXP_TEMP_N","FLT_P12V_NIC0_N",
-> +			"INT_SMB_BMC_SLOT1_4_BMC_N",
-> +			"AC_ON_OFF_BTN_CPLD_SLOT6_N","","",
-> +	/*N0-N7*/       "FLT_HSC_SERVER_SLOT1_N","FLT_HSC_SERVER_SLOT2_N",
-> +			"FLT_HSC_SERVER_SLOT3_N","FLT_HSC_SERVER_SLOT4_N",
-> +			"FM_BMC_READY_R2","FLT_P12V_STBY_BMC_N","","",
-> +	/*O0-O7*/       "AC_ON_OFF_BTN_CPLD_SLOT8_N","RST_SMB_NIC1_R_N",
-> +			"RST_SMB_NIC2_R_N","RST_SMB_NIC3_R_N",
-> +			"FLT_P3V3_NIC2_N","FLT_P3V3_NIC3_N",
-> +			"","",
-> +	/*P0-P7*/       "ALT_SMB_BMC_CPLD1_N","'BTN_BMC_R2_N",
-> +			"EN_P3V_BAT_SCALED_R","PWRGD_P5V_USB_BMC",
-> +			"FM_BMC_RTCRST_R","RST_USB_HUB_R_N",
-> +			"FLAG_P5V_USB_BMC_N","",
-> +	/*Q0-Q7*/       "AC_ON_OFF_BTN_CPLD_SLOT1_N","AC_ON_OFF_BTN_CPLD_SLOT2_N",
-> +			"AC_ON_OFF_BTN_CPLD_SLOT3_N","AC_ON_OFF_BTN_CPLD_SLOT4_N",
-> +			"PRSNT_SB_SLOT5_N","PRSNT_SB_SLOT6_N",
-> +			"PRSNT_SB_SLOT7_N","PRSNT_SB_SLOT8_N",
-> +	/*R0-R7*/       "AC_ON_OFF_BTN_CPLD_SLOT7_N","INT_SMB_BMC_SLOT5_8_BMC_N",
-> +			"FM_PWRBRK_NIC_BMC_R2","RST_PCIE_SLOT4_N",
-> +			"RST_PCIE_SLOT5_N","RST_PCIE_SLOT6_N",
-> +			"RST_PCIE_SLOT7_N","RST_PCIE_SLOT8_N",
-> +	/*S0-S7*/       "FM_NIC2_WAKE_N","FM_NIC3_WAKE_N",
-> +			"EN_NIC3_POWER_BMC_R","SEL_BMC_JTAG_MUX_R",
-> +			"","ALT_P12V_AUX_N","FAST_PROCHOT_N",
-> +			"SPI_WP_DISABLE_STATUS_R_N",
-> +	/*T0-T7*/       "","","","","","","","",
-> +	/*U0-U7*/       "","","FLT_P3V3_NIC1_N","FLT_P12V_NIC1_N",
-> +			"FLT_P12V_NIC2_N","FLT_P12V_NIC3_N",
-> +			"FLT_P3V3_NIC0_N","",
-> +	/*V0-V7*/       "FM_RESBTN_SLOT5_BMC_N","FM_RESBTN_SLOT6_BMC_N",
-> +			"FM_RESBTN_SLOT7_BMC_N","FM_RESBTN_SLOT8_BMC_N",
-> +			"","","","",
-> +	/*W0-W7*/       "PRSNT_TPM_BMC_N","PRSNT_OCP_DEBUG_BMC_N","ALT_TEMP_BMC_N","ALT_RTC_BMC_N",
-> +			"","","","",
-> +	/*X0-X7*/       "","LT_HSC_SERVER_SLOT6_N","FLT_HSC_SERVER_SLOT7_N","","","",
-> +			"PWRGD_SLOT5_STBY","PWRGD_SLOT6_STBY",
-> +	/*Y0-Y7*/       "","","SPI_LOCK_REQ_BMC_N","PWRGD_SLOT7_STBY",
-> +			"","","EN_NIC2_POWER_BMC_R","",
-> +	/*Z0-Z7*/       "EN_P5V_USB_CPLD_R","'FLT_HSC_SERVER_SLOT5_N",
-> +			"PWRGD_SLOT8_STBY","","","","","";
-> +
-> +	pin_gpio_b4 {
 
-No underscores in node names.
 
+In other places as well.
 
 Best regards,
 Krzysztof
