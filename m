@@ -2,96 +2,123 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0711B80C0F8
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Dec 2023 06:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34D980C2A6
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Dec 2023 09:04:24 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=34veCkmB;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hypGOD6/;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SpW5c3Y9Hz3c30
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Dec 2023 16:49:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SpZ5d2qz1z30gm
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Dec 2023 19:04:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=34veCkmB;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hypGOD6/;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feab::62d; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2062d.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::62d])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::336; helo=mail-wm1-x336.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SpW5L0s3Wz3cKN
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Dec 2023 16:48:54 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kUP8tcK5L+I+ATUWl0smHVE+EGplk/FYSWL+x1KI2NwzyleTAkGl7q6O0ucw2TlHV/zS6l3MZQ3LL+o/nAAxA7jTbc9/xAKePA7NWTY1rySKuXLQ/22fasGUo98OxA3uDxTc0UDxZzCpA9bPeiiZiXDdV5exMjh07O+t0uJ3YmtLPlLPKyqZei/mn5w84HIrNn14MjYUF/GOnIeraITu4iTnF83lhmZG7OK9c2Dvg6JwxMolTXtHEy7OYtrSMWATEDYA04fTXuUEhvpe1f7bdtpLiPKhRjPHiK0vWs+FdlZU+NDMTBI/XAlyuVVZVa+/8n1n3CGlmPlGyJepKLm5zQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BjXjpmhQSh+Q1/LQSzTEFjTUT2q5oHytWtDAaWRNQxg=;
- b=PHQg81jr15QdM58gvlnWcK5j/IDpRhduG4SRyzd13NCMdLQATbOOkA7qoLWKDu9zlzo8A7GNvPZcZKH7tOkHLOs2jsknzpO7v1KKmX7spZjQ43PJ2q3Fh7cCmGZX48PBnM8r9G6kkHaAGEVoTRhCMsAIhK5cvbKBBqR+jJFGUaRHvhxUC6NQPNXNmX89/j7V4JmxoJpXdZbfG6BnRB5XBEyR6+CBfo/5ExRHmtTFtL9Kp/2uxPYXKYHgUYXqY7ZuxrTP4e1uTKXVs9OToV3oMiHfIMdggCMXMdrB/oVAzWp4oWj4N012ccqxFJB2AxiO0WP7j8dwms0KfmiFXGpqPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
- (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BjXjpmhQSh+Q1/LQSzTEFjTUT2q5oHytWtDAaWRNQxg=;
- b=34veCkmBXorTOC8kQllnKMUQr8TGWq9QzMyOdvLzPMnx1CjOgRFxri32Ibc/JyU1QsQ8wtIBlN2FYVu4ghH4z03jz5bXKoIyAnCMYm7pncQ0voGqZ16xgfYxWqzNyajm+i6J30FWfEj0WfwtsDeDGXqu1HxsCHqEzQHTOMigdEY5kPAf+VBGItJBmDzPn2KF+1IfU85kNBKH1jkptbri54UhqS2LrnS+T83QElqKjq8gg+wbUqlT3jtz5ZH2RbGdKN3F5EOh+OvrvHbKe+ljIelRKXbsm203YRz7oaeWfXCNh9DDi7Zm/Blth6TBbQ+uG6ebH0oP4UIu9Q900qwfow==
-Received: from SG2PR02CA0060.apcprd02.prod.outlook.com (2603:1096:4:54::24) by
- SEZPR04MB7166.apcprd04.prod.outlook.com (2603:1096:101:17d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32; Mon, 11 Dec
- 2023 05:48:33 +0000
-Received: from HK2PEPF00006FAF.apcprd02.prod.outlook.com
- (2603:1096:4:54:cafe::71) by SG2PR02CA0060.outlook.office365.com
- (2603:1096:4:54::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32 via Frontend
- Transport; Mon, 11 Dec 2023 05:48:32 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
- smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
-Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
- designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.20.1.79; helo=localhost.localdomain;
-Received: from localhost.localdomain (211.20.1.79) by
- HK2PEPF00006FAF.mail.protection.outlook.com (10.167.8.5) with Microsoft SMTP
- Server id 15.20.7091.18 via Frontend Transport; Mon, 11 Dec 2023 05:48:32
- +0000
-From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-To: patrick@stwcx.xyz,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: [PATCH v3 14/14] ARM: dts: aspeed: yosemite4: Revise gpio name
-Date: Mon, 11 Dec 2023 13:47:29 +0800
-Message-Id: <20231211054730.208588-15-Delphine_CC_Chiu@wiwynn.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231211054730.208588-1-Delphine_CC_Chiu@wiwynn.com>
-References: <20231211054730.208588-1-Delphine_CC_Chiu@wiwynn.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SpZ5S3MCVz30MD
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Dec 2023 19:04:09 +1100 (AEDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40c4846847eso5538885e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Dec 2023 00:04:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702281844; x=1702886644; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4X844S4gQ3q6FO7d+ISC3qroJ9OqVpigsE30Kp2i1EI=;
+        b=hypGOD6/0BkZQR5giTWcL5gHhihBCwga6FOs6mE8XvBKHXRMu8s/43Mcz3HTX1r49s
+         bVLccqpAu1qguxwxRK0A83zKsmwiX0KGaDgie9/hnCGO+5GYMskp+fT+yrR+3Pefl4fA
+         +hR3WKQ90K9NAGGSmkRroW+a29Qw3xxrYr3jNJgQ5qtg7Jker9BtEb9sg07pjDLAD5we
+         Jm3EClHfQipcMpgyKN8zcUvvQUeHzrrpuNGDqYzBOqzxFMFvNMQisbvysWWzaxAvDMi9
+         dGFSrpF6khxKIvlQWc167cXIQs03YJI7cdnOXtQBFdG8xDkQs68PhYCEoRjBCLASV5OM
+         S9Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702281844; x=1702886644;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4X844S4gQ3q6FO7d+ISC3qroJ9OqVpigsE30Kp2i1EI=;
+        b=FGlgsaEtZtAqXednbJQ0XOLmbopX7WrGWTectB0KtFkFdexgSP3zewYzdJz8zUFBTH
+         EXpR235xp1nH/T3ywkmDWApTcjnI+F3tR9Q9FkXPd0/zLgQpgt9/xxOHKiQaIdive+a5
+         6FJXidf9h9ElxMr8Oe3X97srHQENMYu7pv0fVUBRTFDD2+q0gd/hVAr+cqf5+XEos7zB
+         9q8SjWClDoV/IY8Z6pmE9eQh1WjcX9nXkJ9cLuqzG8YhKTlWlayves2Hoze8YcFU7wsc
+         9dlym2/X90f1PNiD9Lfr3tv7i46+D4OIaSnDDLU8jRQ7aQWPvLnzV7vgC3AhbzjExXsH
+         IOIw==
+X-Gm-Message-State: AOJu0YxlijuXDUFkB1BhHiCxs7k8RYwH52Ox2/QocC21Z5ISmQ0TlOcK
+	5kwuLOelgmtWn+G15YU4E4q7bg==
+X-Google-Smtp-Source: AGHT+IGWl4ZndXMqtUrJiuOaCIcekxuZKSwk43cQUeMDLX00AtYT07c82Zs4ZMrVYTwV3quRfG7JOg==
+X-Received: by 2002:a05:600c:141:b0:40c:426b:fd22 with SMTP id w1-20020a05600c014100b0040c426bfd22mr965958wmm.135.1702281843606;
+        Mon, 11 Dec 2023 00:04:03 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id s18-20020adfea92000000b0033342d2bf02sm7857177wrm.25.2023.12.11.00.04.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 00:04:03 -0800 (PST)
+Message-ID: <1f59a4f5-7082-4a36-806e-2fff4d1e5d7d@linaro.org>
+Date: Mon, 11 Dec 2023 09:04:02 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK2PEPF00006FAF:EE_|SEZPR04MB7166:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: c7eece12-fd09-49a0-707d-08dbfa0ccf45
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	VVPqT+NiOHLcL2WHagtKNmPCfxY06Oi3vzBmAvE7oql1WBZ8V4A5E0z1gsT8JXJNwR1iSQtP2jiW+an1F4aAvw07dRwdbGwjK0ItAgHHxHLzOTXj9GTjSTv1KomxUnelc0qX7zmKbIomHXUsL7vchr2ay/EKy0Fti1wXisXLO148dErQk7s+FIuaOsAixYXVflQPeSNR4CxGLPd9Xck/6ICS4begadUxhBcXyrYmqX6o/SnJvvVDK4JUucVxsIKmqODFrzS8SEDVe8qUhRSe0dqyjlaUIyAMHGNfqdYMkSG62BZVOsm0d0jYmXToraS4/WWf4QBmLmARfTeSfLpAGrntezNjuzFTsh+oN+YURpSqQpVoD5bIIsiDV1mEQEwqGzXUWd9WmEqmhp1pMBWso8QtDCevfn+I+VegTQ5PPWS0PLKgay4i7htSUE6PzW6zQiRmQBl1Ny06b2nD3poftYcVhO1Y8cTj18U4g/cmcWWhvJ93B9Bqp3zgIOt6Ta4ZfTlUR56WsluBGZajXY+HDRPy/svzLYNJqxjnQDvt6qSdt5Ta+U/9loiThBIUyzZ6P2FWHp3kl7ZnmvgqDEA87Sfa/A9gOP6mV6eynHST1qvbb2m4ZWtH8uj1ka+vxLVBqyqb9si0fVzaSaL+1C7GBQWmgEKomIO28ZjsN6wUVzEsUq8tsRpEFnlm83HJQ39kt4jds1uOIWe1RfUnDrk7JQ==
-X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(39850400004)(396003)(376002)(346002)(136003)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(82310400011)(36840700001)(46966006)(1076003)(26005)(956004)(2616005)(336012)(6506007)(6666004)(6512007)(36860700001)(83380400001)(47076005)(5660300002)(7416002)(41300700001)(2906002)(4326008)(478600001)(9316004)(6486002)(8676002)(8936002)(70206006)(70586007)(110136005)(316002)(36736006)(82740400003)(81166007)(86362001)(356005)(36756003)(40480700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2023 05:48:32.4855
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7eece12-fd09-49a0-707d-08dbfa0ccf45
-X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource: 	HK2PEPF00006FAF.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB7166
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/14] ARM: dts: aspeed: yosemite4: Revise i2c11 and
+ i2c12 schematic change
+Content-Language: en-US
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+References: <20231211024947.3990898-1-Delphine_CC_Chiu@wiwynn.com>
+ <20231211024947.3990898-9-Delphine_CC_Chiu@wiwynn.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231211024947.3990898-9-Delphine_CC_Chiu@wiwynn.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,68 +130,131 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Revise gpio name for EVT schematic changes
+On 11/12/2023 03:49, Delphine CC Chiu wrote:
+> Revise i2c11 and i2c12 schematic change:
+> - remove space for adm1272 compatible
+> - enable interrupt setting for pca9555
+> - add eeprom for yosemite4 medusa board/BSM use
+> - remove temperature sensor for yosemite4 schematic change
+> - add power sensor for power module reading
 
-Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
----
-Changelog:
-  - v3
-    - Correct patch for revising gpio name
-  - v2
-    - Add patch for revising gpio name
----
- .../dts/aspeed/aspeed-bmc-facebook-yosemite4.dts   | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+You should split your patch into several, per one logical change.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-index fdc33bffd467..8b258b128cfe 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-@@ -1414,7 +1414,7 @@ &pinctrl_gpiu4_default &pinctrl_gpiu5_default
- 	/*B0-B7*/       "FLT_HSC_SERVER_SLOT8_N","AC_ON_OFF_BTN_CPLD_SLOT5_N",
- 			"PWRGD_SLOT1_STBY","PWRGD_SLOT2_STBY",
- 			"PWRGD_SLOT3_STBY","PWRGD_SLOT4_STBY","","",
--	/*C0-C7*/       "PRSNT_NIC3_N","","","","FM_NIC0_WAKE_N",
-+	/*C0-C7*/       "","","","","FM_NIC0_WAKE_N",
- 			"FM_NIC1_WAKE_N","","RST_PCIE_SLOT2_N",
- 	/*D0-D7*/       "","","","","","","","",
- 	/*E0-E7*/       "PRSNT_NIC1_N","PRSNT_NIC2_N","","RST_PCIE_SLOT1_N",
-@@ -1432,16 +1432,15 @@ &pinctrl_gpiu4_default &pinctrl_gpiu5_default
- 	/*K0-K7*/       "","","","","","","","",
- 	/*L0-L7*/       "","","","","","","ALT_MEDUSA_P12V_EFUSE_N","",
- 	/*M0-M7*/       "EN_NIC0_POWER_BMC_R","EN_NIC1_POWER_BMC_R",
--			"INT_MEDUSA_IOEXP_TEMP_N","FLT_P12V_NIC0_N",
-+			"INT_MEDUSA_IOEXP_TEMP_N","PRSNT_NIC3_N",
- 			"INT_SMB_BMC_SLOT1_4_BMC_N",
- 			"AC_ON_OFF_BTN_CPLD_SLOT6_N","","",
- 	/*N0-N7*/       "FLT_HSC_SERVER_SLOT1_N","FLT_HSC_SERVER_SLOT2_N",
- 			"FLT_HSC_SERVER_SLOT3_N","FLT_HSC_SERVER_SLOT4_N",
--			"FM_BMC_READY_R2","FLT_P12V_STBY_BMC_N","","",
-+			"FM_BMC_READY_R2","RST_SMB_NIC0_R_N","","",
- 	/*O0-O7*/       "AC_ON_OFF_BTN_CPLD_SLOT8_N","RST_SMB_NIC1_R_N",
- 			"RST_SMB_NIC2_R_N","RST_SMB_NIC3_R_N",
--			"FLT_P3V3_NIC2_N","FLT_P3V3_NIC3_N",
--			"","",
-+			"","","","",
- 	/*P0-P7*/       "ALT_SMB_BMC_CPLD1_N","'BTN_BMC_R2_N",
- 			"EN_P3V_BAT_SCALED_R","PWRGD_P5V_USB_BMC",
- 			"FM_BMC_RTCRST_R","RST_USB_HUB_R_N",
-@@ -1459,9 +1458,8 @@ &pinctrl_gpiu4_default &pinctrl_gpiu5_default
- 			"","ALT_P12V_AUX_N","FAST_PROCHOT_N",
- 			"SPI_WP_DISABLE_STATUS_R_N",
- 	/*T0-T7*/       "","","","","","","","",
--	/*U0-U7*/       "","","FLT_P3V3_NIC1_N","FLT_P12V_NIC1_N",
--			"FLT_P12V_NIC2_N","FLT_P12V_NIC3_N",
--			"FLT_P3V3_NIC0_N","",
-+	/*U0-U7*/       "","","RST_PCIE_SLOT3_N","",
-+			"","PRSNT_NIC0_N","","",
- 	/*V0-V7*/       "FM_RESBTN_SLOT5_BMC_N","FM_RESBTN_SLOT6_BMC_N",
- 			"FM_RESBTN_SLOT7_BMC_N","FM_RESBTN_SLOT8_BMC_N",
- 			"","","","",
--- 
-2.25.1
+
+> 
+> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+> ---
+>  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 118 ++++++++++++++----
+>  1 file changed, 93 insertions(+), 25 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+> index da413325ce30..ccb5ecd8d9a6 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+> @@ -821,41 +821,94 @@ imux29: i2c@1 {
+>  &i2c11 {
+>  	status = "okay";
+>  	power-sensor@10 {
+> -		compatible = "adi, adm1272";
+> +		compatible = "adi,adm1272";
+>  		reg = <0x10>;
+>  	};
+>  
+>  	power-sensor@12 {
+> -		compatible = "adi, adm1272";
+> +		compatible = "adi,adm1272";
+>  		reg = <0x12>;
+>  	};
+>  
+> -	gpio@20 {
+> +	gpio_ext1: pca9555@20 {
+
+That's not a correct change. You replace good code with bad.
+
+>  		compatible = "nxp,pca9555";
+> -		reg = <0x20>;
+> +		pinctrl-names = "default";
+>  		gpio-controller;
+>  		#gpio-cells = <2>;
+> -	};
+> -
+> -	gpio@21 {
+> +		reg = <0x20>;
+> +		interrupt-parent = <&gpio0>;
+> +		interrupts = <94 IRQ_TYPE_LEVEL_LOW>;
+> +		gpio-line-names =
+> +		"P48V_OCP_GPIO1","P48V_OCP_GPIO2",
+> +		"P48V_OCP_GPIO3","FAN_BOARD_0_REVISION_0_R",
+> +		"FAN_BOARD_0_REVISION_1_R","FAN_BOARD_1_REVISION_0_R",
+> +		"FAN_BOARD_1_REVISION_1_R","RST_MUX_R_N",
+> +		"RST_LED_CONTROL_FAN_BOARD_0_N","RST_LED_CONTROL_FAN_BOARD_1_N",
+> +		"RST_IOEXP_FAN_BOARD_0_N","RST_IOEXP_FAN_BOARD_1_N",
+> +		"PWRGD_LOAD_SWITCH_FAN_BOARD_0_R","PWRGD_LOAD_SWITCH_FAN_BOARD_1_R",
+> +		"","";
+> +	};
+> +
+> +	gpio_ext2: pca9555@21 {
+
+Nope
+
+>  		compatible = "nxp,pca9555";
+> -		reg = <0x21>;
+> +		pinctrl-names = "default";
+>  		gpio-controller;
+>  		#gpio-cells = <2>;
+> -	};
+> -
+> -	gpio@22 {
+> +		reg = <0x21>;
+> +		interrupt-parent = <&gpio0>;
+> +		interrupts = <94 IRQ_TYPE_LEVEL_LOW>;
+> +		gpio-line-names =
+> +		"DELTA_MODULE_TYPE","VSENSE_ERR_VDROP_R",
+> +		"EN_P48V_AUX_0","EN_P48V_AUX_1",
+> +		"MEDUSA_BOARD_REV_0","MEDUSA_BOARD_REV_1",
+> +		"MEDUSA_BOARD_REV_2","MEDUSA_BOARD_TYPE",
+> +		"HSC_OCP_SLOT_ODD_GPIO1","HSC_OCP_SLOT_ODD_GPIO2",
+> +		"HSC_OCP_SLOT_ODD_GPIO3","HSC_OCP_SLOT_EVEN_GPIO1",
+> +		"HSC_OCP_SLOT_EVEN_GPIO2","HSC_OCP_SLOT_EVEN_GPIO3",
+> +		"ADC_TYPE_0_R","ADC_TYPE_1_R";
+> +	};
+> +
+> +	gpio_ext3: pca9555@22 {
+
+Nope
+
+>  		compatible = "nxp,pca9555";
+> -		reg = <0x22>;
+> +		pinctrl-names = "default";
+>  		gpio-controller;
+>  		#gpio-cells = <2>;
+> -	};
+> -
+> -	gpio@23 {
+> +		reg = <0x22>;
+> +		interrupt-parent = <&gpio0>;
+> +		interrupts = <94 IRQ_TYPE_LEVEL_LOW>;
+> +		gpio-line-names =
+> +		"CARD_TYPE_SLOT1","CARD_TYPE_SLOT2",
+> +		"CARD_TYPE_SLOT3","CARD_TYPE_SLOT4",
+> +		"CARD_TYPE_SLOT5","CARD_TYPE_SLOT6",
+> +		"CARD_TYPE_SLOT7","CARD_TYPE_SLOT8",
+> +		"OC_P48V_HSC_0_N","FLT_P48V_HSC_0_N",
+> +		"PWRGD_P12V_AUX_1","OC_P48V_HSC_1_N",
+> +		"FLT_P48V_HSC_1_N","PWRGD_P12V_AUX_1",
+> +		"MEDUSA_ADC_EFUSE_TYPE_R","P12V_HSC_TYPE";
+> +	};
+> +
+> +	gpio_ext4: pca9555@23 {
+
+Nope
+
+
+
+Best regards,
+Krzysztof
 
