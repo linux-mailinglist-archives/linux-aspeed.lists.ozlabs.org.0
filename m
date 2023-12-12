@@ -1,67 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE09180F7CF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Dec 2023 21:22:55 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4CD80F7D7
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Dec 2023 21:25:19 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=gpb81jE2;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ajiY3DfP;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SqVRG2Smmz2yLr
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 07:22:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SqVV45z63z3cPN
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 07:25:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=gpb81jE2;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ajiY3DfP;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::135; helo=mail-lf1-x135.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SqVR72CdNz307y
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 07:22:43 +1100 (AEDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-50bffb64178so7253006e87.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Dec 2023 12:22:43 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SqVTw5xN8z3c1g
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 07:25:08 +1100 (AEDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40c29f7b068so57853915e9.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Dec 2023 12:25:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702412559; x=1703017359; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1702412705; x=1703017505; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xuNzKiLraPrIuS1goHgIt7bHljtI9RX7C3sKU6VhhOE=;
-        b=gpb81jE2De5MDHdYeydeTlC6NcSttWkqEiDzzsJWWb0Jhcdy4KpcfRzfAZ2ysR3KOB
-         mXZa9C1za2KAoX5KsVW3pVnZZt01+pVI7mYn+1co/hietzWnvVQ8kiaMW6sHE/dMgmM/
-         Jsf9jKRLTpQPEctHu7uU2NPPzf0fqh6Gb3Du+Fd6wgHdzP+ggrvOd+sB5znysQy47I7s
-         Qpu+vaVMSOb7P1o/YKBRe2fzdCnK+sm7911QQToqXPWtEcWEm/rBxbenKJ41RFLUIDH+
-         DxAnere0ysEXWvVxFWJGfrwEy3xgd2mHxCBL7A6MuuqusotmkdZ5EqBdr2poDi+Rt0tD
-         gWEw==
+        bh=Gg2VhOkDAyFX8Rm+h8gLNSLn5Q4DtPM59iL23zDHgQs=;
+        b=ajiY3DfPeSrCDrEEoR6HCtfbs5125d9jDeom5vfWfV0SSMynJUskjIGbm36zqrvzKD
+         o6j59neyEdEyVQEO6jcQQ3sJQ9AV5qbDbUXs5GoqQDJWNFjHKLsn0FanuGUP6weXrkKG
+         Pdqhx3ip5Cvi6CSUxLiJ2hll1NwFjumNJZeMZK1QMe+ZsnSoOgWVSFEfY+Vs6be7rqzl
+         GQGU8VfYTpt9qtKb/LPqod1ic6tg9Tc5ompqaPj9BPr63w+0Sqd1d2gqq/0UJdWObTQA
+         lVqxRqCFFqgau4U7afQ/dZV+9xzmhl3B40QiNXXaNXgPEIlBRKQhep4xIbHYl7JpkuV6
+         TkVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702412559; x=1703017359;
+        d=1e100.net; s=20230601; t=1702412705; x=1703017505;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xuNzKiLraPrIuS1goHgIt7bHljtI9RX7C3sKU6VhhOE=;
-        b=r5ggm41Am+ZR6ByzbOun/u/hfqpLWM9GC4D+ugWqtNDS3juA6LpQKNO5abAdRN2nB0
-         ebqeB1vX+D8RX4rjXj20R04XV+zfVCdrd6HRK5/0oX6A+Fd+kcLCbqHn5AICqeUrmxGQ
-         H1lOOwWgIsZ5IkMvy0xFKajcwYgVaerdFmtYw52svGlVrTCrfln4OntlOshWIe2p39Fe
-         F8+PWhOcPAeFtgcPUaPyVwuAQHxCxHuZzxuz16Ia04vq9H55pwZxMfKLuZ+Y+LfgxfC/
-         Vogqwtf/2Ezicg/6AKNddnbXXoo7vQHWYlCuOfwUUmnSdyrMFop/RJWY7/sHnt2OGxFz
-         d2Xw==
-X-Gm-Message-State: AOJu0Ywpu3CU5l/MJyli5mxLc3LWwhPW1axXgFEJJV3yzrorHAtqHflc
-	aJJ8GV+pixZhlfyB6tyBVj0tdw==
-X-Google-Smtp-Source: AGHT+IES0k6YYyk2hoPP+SRjXnjQtNDkCUnv5imzN76RfFL40qTM72hPddzSkHxtjlR8lxL7KVD9yA==
-X-Received: by 2002:a05:6512:3146:b0:50b:fadc:dddb with SMTP id s6-20020a056512314600b0050bfadcdddbmr2979783lfi.93.1702412558918;
-        Tue, 12 Dec 2023 12:22:38 -0800 (PST)
+        bh=Gg2VhOkDAyFX8Rm+h8gLNSLn5Q4DtPM59iL23zDHgQs=;
+        b=RTl+lZ3Qm8Rpg8gOkOhZGpomN0+FNvk/9tePcnAdZUQpaY5Xtgs/zHnI8B8+1nBSos
+         Kh2TyKgLERRyfXQ1fQLG890hvR+21f3MvLZjlUu8QN4LIC10jA7s75G2QI2MbcVgfYax
+         1hJSaRzy9d+QGZ24Ni83opBaIeITT5U3bAdDo5yyEEpJcLCq6TsXYTfj92QwAKZlV6oS
+         wD+RMO7z5yOVxu35BvDqQuWLLoAX79Q1YPzOzGKeBE52obHMCGYvLp1FS48oaYEoIoUc
+         CDytJuQrqmNXikRu+nARVc1OF0N7j2WailK3CSlBdu2BzZlE0Mbf5KYPnVNWkex8jkr4
+         5whA==
+X-Gm-Message-State: AOJu0Ywew3xDtYeHULkLQACADAAt1aasNhe//2VpiOsxx/0PCZRTJUej
+	WQEKjDBgMqAl5Gaf18iJ8HyGkg==
+X-Google-Smtp-Source: AGHT+IFQ06+o3v5U4i6nHVsfc7/wjTk6EGqq94+TOdJn7emzkIZzmR60D09Xdf40+S0+UEH+AGjfQQ==
+X-Received: by 2002:a7b:c44b:0:b0:40c:3751:b661 with SMTP id l11-20020a7bc44b000000b0040c3751b661mr3360042wmi.61.1702412705095;
+        Tue, 12 Dec 2023 12:25:05 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id li14-20020a170907198e00b00a1f738318a5sm6178368ejc.155.2023.12.12.12.22.36
+        by smtp.gmail.com with ESMTPSA id w6-20020a5d6806000000b00336103442d2sm10177965wru.76.2023.12.12.12.25.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Dec 2023 12:22:38 -0800 (PST)
-Message-ID: <6a3d4551-66a2-411a-9d5f-cffb57ee0ce2@linaro.org>
-Date: Tue, 12 Dec 2023 21:22:35 +0100
+        Tue, 12 Dec 2023 12:25:04 -0800 (PST)
+Message-ID: <1b19af6f-645a-4913-b9db-49b1f3ad54f9@linaro.org>
+Date: Tue, 12 Dec 2023 21:25:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/8] ARM: dts: aspeed: System1: Voltage regulators
+Subject: Re: [PATCH v1 6/8] ARM: dts: aspeed: System1: GPIO, Fan ctrl, Led
 Content-Language: en-US
 To: Ninad Palsule <ninad@linux.ibm.com>, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, joel@jms.id.au,
@@ -70,7 +70,7 @@ To: Ninad Palsule <ninad@linux.ibm.com>, robh+dt@kernel.org,
  gpiccoli@igalia.com, johannes.holland@infineon.com, linux@roeck-us.net,
  broonie@kernel.org
 References: <20231212164004.1683589-1-ninad@linux.ibm.com>
- <20231212164004.1683589-6-ninad@linux.ibm.com>
+ <20231212164004.1683589-7-ninad@linux.ibm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -116,7 +116,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231212164004.1683589-6-ninad@linux.ibm.com>
+In-Reply-To: <20231212164004.1683589-7-ninad@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -135,50 +135,225 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 12/12/2023 17:40, Ninad Palsule wrote:
-> This commit adds different voltage regulators.
+> This commit adds following devices to the device tree.
+> - GPIO pin assignements, GPIO expansion devices
+> - LED brinker devices
+> - Fan controllers
 > 
 > Tested:
 >     This board is tested using the simics simulator.
 > 
 > Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 > ---
->  .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 266 ++++++++++++++++++
+>  .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 547 +++++++++++++++++-
 
 Squash it.
 
->  1 file changed, 266 insertions(+)
+>  1 file changed, 542 insertions(+), 5 deletions(-)
 > 
 > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-> index 0557bff9f36a..b8e7e52d4600 100644
+> index b8e7e52d4600..75562aa63701 100644
 > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
 > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-> @@ -114,10 +114,127 @@ vga_memory: region@bf000000 {
+> @@ -114,6 +114,99 @@ vga_memory: region@bf000000 {
 >  		};
 >  	};
 >  
-> +	iio-hwmon {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&p12v_vd 0>, <&p5v_aux_vd 0>,
-> +			<&p5v_bmc_aux_vd 0>, <&p3v3_aux_vd 0>,
-> +			<&p3v3_bmc_aux_vd 0>, <&p1v8_bmc_aux_vd 0>,
-> +			<&adc1 4>, <&adc0 2>, <&adc1 0>,
-> +			<&p2V5_aux_vd 0>, <&adc1 7>;
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		bmc-ready {
+
+It does not look like you tested the DTS against bindings. Please run
+`make dtbs_check W=1` (see
+Documentation/devicetree/bindings/writing-schema.rst or
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
+for instructions).
+
+> +			gpios = <&gpio0 ASPEED_GPIO(L, 7) GPIO_ACTIVE_HIGH>;
+> +		};
+> +
+> +		bmc-hb {
+
+None of these were tested.
+
+
+>  	/*A0-A7*/	"","","","","","","","",
+> -	/*B0-B7*/	"","","","","","","","",
+> +	/*B0-B7*/	"","","","","bmc-tpm-reset","","","",
+
+Really? You just added these lines. There is no point in adding a new
+line and immediately changing it.
+
+This points how your split is artificial and not helpful.
+...
+
+
+>  &i2c2 {
+> @@ -486,6 +744,20 @@ regulator@43 {
+>  &i2c6 {
+>  	status = "okay";
+>  
+> +	fan-controller@52 {
+> +		compatible = "maxim,max31785a";
+> +		reg = <0x52>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+
+Why do you need cells?
+
 > +	};
 > +
-> +	p12v_vd: voltage_divider1 {
+> +	fan-controller@54 {
+> +		compatible = "maxim,max31785a";
+> +		reg = <0x54>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
 
-Same comments as in other patches.
+Why do you need cells?
 
-> +		compatible = "voltage-divider";
-> +		io-channels = <&adc1 3>;
-> +		#io-channel-cells = <1>;
+> +	};
 > +
-> +		/* Scale the system voltage by 1127/127 to fit the ADC range.
+>  	i2c-mux@70 {
+>  		compatible = "nxp,pca9548";
+>  		reg = <0x70>;
+> @@ -522,6 +794,48 @@ i2c6mux0chn4: i2c@4 {
+>  			#address-cells = <1>;
+>  			#size-cells = <0>;
+>  			reg = <4>;
+> +
+> +			led-controller@60 {
+> +				compatible = "nxp,pca9551";
+> +				reg = <0x60>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				gpio-controller;
+> +				#gpio-cells = <2>;
+> +
+> +				led@0 {
+> +					label = "enclosure-id-led";
+> +					reg = <0>;
+> +					retain-state-shutdown;
+> +					default-state = "keep";
+> +					type = <PCA955X_TYPE_LED>;
+> +				};
+> +
+> +				led@1 {
+> +					label = "attention-led";
+> +					reg = <1>;
+> +					retain-state-shutdown;
+> +					default-state = "keep";
+> +					type = <PCA955X_TYPE_LED>;
+> +				};
+> +
+> +				led@2 {
+> +					label = "enclosure-fault-rollup-led";
+> +					reg = <2>;
+> +					retain-state-shutdown;
+> +					default-state = "keep";
+> +					type = <PCA955X_TYPE_LED>;
+> +				};
+> +
+> +				led@3 {
+> +					label = "power-on-led";
+> +					reg = <3>;
+> +					retain-state-shutdown;
+> +					default-state = "keep";
+> +					type = <PCA955X_TYPE_LED>;
+> +				};
+> +			};
+>  		};
+>  
+>  		i2c6mux0chn5: i2c@5 {
+> @@ -542,6 +856,44 @@ i2c6mux0chn7: i2c@7 {
+>  			reg = <7>;
+>  		};
+>  	};
+> +
+> +	pca3: pca9539@74 {
 
-Use Linux coding style comments. /* and blank line
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
 
-....
+> +		compatible = "nxp,pca9539";
+> +		reg = <0x74>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		gpio-controller;
+> +		#gpio-cells = <2>;
+> +	};
+> +
+> +	pca4: pca9539@77 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+> +		compatible = "nxp,pca9539";
+> +		reg = <0x77>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		gpio-controller;
+> +		#gpio-cells = <2>;
+> +
+> +		gpio-line-names =
+> +			"PE_NVMED0_EXP_PRSNT_N",
+> +			"PE_NVMED1_EXP_PRSNT_N",
+> +			"PE_NVMED2_EXP_PRSNT_N",
+> +			"PE_NVMED3_EXP_PRSNT_N",
+> +			"LED_FAULT_NVMED0",
+> +			"LED_FAULT_NVMED1",
+> +			"LED_FAULT_NVMED2",
+> +			"LED_FAULT_NVMED3",
+> +			"FAN0_PRESENCE_R_N",
+> +			"FAN1_PRESENCE_R_N",
+> +			"FAN2_PRESENCE_R_N",
+> +			"FAN3_PRESENCE_R_N",
+> +			"FAN4_PRESENCE_R_N",
+> +			"FAN5_PRESENCE_N",
+> +			"FAN6_PRESENCE_N",
+> +			"";
+> +	};
+>  };
+>  
+>  &i2c7 {
+> @@ -809,6 +1161,191 @@ regulator@41 {
+>  		compatible = "infineon,ir38263";
+>  		reg = <0x41>;
+>  	};
+> +
+> +	led-controller@61 {
+> +		compatible = "nxp,pca9552";
+> +		reg = <0x61>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+
+...
+
+> +		led@15 {
+> +			label = "pe-cp-drv3-perst";
+> +			reg = <15>;
+> +			retain-state-shutdown;
+> +			default-state = "keep";
+> +			type = <PCA955X_TYPE_LED>;
+> +		};
+> +	};
+> +
+> +	pca1: pca9539@75 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+
 
 Best regards,
 Krzysztof
