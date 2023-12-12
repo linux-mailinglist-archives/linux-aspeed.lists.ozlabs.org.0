@@ -1,44 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113B781D330
-	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Dec 2023 09:36:53 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5368269A4
+	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Jan 2024 09:40:43 +0100 (CET)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HKjopVXe;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SxyFW62Vtz3cSv
-	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Dec 2023 19:36:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T7nZc4V4Mz3br3
+	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Jan 2024 19:40:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=h08.hostsharing.net (client-ip=176.9.242.62; helo=bmailout3.hostsharing.net; envelope-from=foo00@h08.hostsharing.net; receiver=lists.ozlabs.org)
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HKjopVXe;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SxyFR3d67z30YR
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 23 Dec 2023 19:36:43 +1100 (AEDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout3.hostsharing.net (Postfix) with ESMTPS id 19E69100D9414;
-	Sat, 23 Dec 2023 09:36:24 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id DBDE35119; Sat, 23 Dec 2023 09:36:23 +0100 (CET)
-Date: Sat, 23 Dec 2023 09:36:23 +0100
-From: Lukas Wunner <lukas@wunner.de>
-To: Patrick Williams <patrick@stwcx.xyz>
-Subject: Re: [PATCH v8] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Message-ID: <20231223083623.GA17734@wunner.de>
-References: <20231220080733.GA30641@wunner.de>
- <F444BFCC-1D44-4AF6-A0E1-B153A217FFE3@stwcx.xyz>
- <20231220170012.GA10387@wunner.de>
- <ZYYP1C0h4ms9kEjA@heinlein.vulture-banana.ts.net>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SqQ8x2QkYz3vcf
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 04:10:09 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id 58466B817DA;
+	Tue, 12 Dec 2023 17:10:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D7CFC433C8;
+	Tue, 12 Dec 2023 17:09:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702401004;
+	bh=yjoopt9NEDUJBXYr+uh0GurA19bZL/znMFFec8DNFHU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HKjopVXeO6JVxx8562Q1lAsjA3jLS9Lrq37LUVv/9vpA/h4L49qsljC4USp3nIwKv
+	 wmp89DWIDumgmnSah7+tF4tfl/a9iZ7zkwZK5mcLWXS+lrQTEZ5X2aXuv9bwqT6fzH
+	 y2/5Lybl5TsflSGLcFCIfaRXroO9XKBtVpZA+5x91ophu6Q13pvLRM4VfBE5+TW2Fn
+	 bhlQstwmM50jkVhnlqPxT24RWqgS/ZlS33sPgFiFCJo+u50ZvA9SWyr9EYcu83sm/j
+	 0jt35PpifPlW5KwJp7yaxVF4Wa4gu+oJuW4b4gzlmobPImpcV4Rzv0cE8TqtIQrj9y
+	 yhBvAVAnrZzZw==
+Date: Tue, 12 Dec 2023 17:09:57 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Ninad Palsule <ninad@linux.ibm.com>
+Subject: Re: [PATCH v1 1/8] dt-bindings: arm: aspeed: add IBM system1-bmc
+Message-ID: <20231212-thrower-ebook-d29a85a6ed96@spud>
+References: <20231212164004.1683589-1-ninad@linux.ibm.com>
+ <20231212164004.1683589-2-ninad@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="55umEabtpNwX1lRu"
 Content-Disposition: inline
-In-Reply-To: <ZYYP1C0h4ms9kEjA@heinlein.vulture-banana.ts.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20231212164004.1683589-2-ninad@linux.ibm.com>
+X-Mailman-Approved-At: Mon, 08 Jan 2024 19:40:35 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,75 +61,77 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Howard Chiu <howard10703049@gmail.com>, potin.lai@quantatw.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org, Howard Chiu <howard.chiu@quantatw.com>, linux-integrity@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, alexander.stein@ew.tq-group.com, naresh.solanki@9elements.com, johannes.holland@infineon.com, linux-hardening@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, peterhuewe@gmx.de, patrick.rudolph@9elements.com, peteryin.openbmc@gmail.com, jgg@ziepe.ca, andrew@codeconstruct.com.au, linux@roeck-us.net, devicetree@vger.kernel.org, conor+dt@kernel.org, keescook@chromium.org, broonie@kernel.org, lakshmiy@us.ibm.com, bhelgaas@google.com, geissonator@yahoo.com, linux-arm-kernel@lists.infradead.org, tony.luck@intel.com, linux-kernel@vger.kernel.org, gpiccoli@igalia.com, jarkko@kernel.org, robh+dt@kernel.org, vincent@vtremblay.dev, linux-integrity@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Dec 22, 2023 at 04:38:12PM -0600, Patrick Williams wrote:
-> On Wed, Dec 20, 2023 at 06:00:12PM +0100, Lukas Wunner wrote:
-> > If chips are dual-sourced or triple-sourced, as you say, and they
-> > behave identically, then I think it is fine to specify all of their
-> > compatible strings plus the generic compatible.  
-> 
-> This has explicitly been rejected before; having multiple incompatible
-> chips listed in the same compatible.  I've tried to search lore but I
-> can't find a reference unfortunately.
 
-I'll let devicetree maintainers comment on that.
+--55umEabtpNwX1lRu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Dec 12, 2023 at 10:39:57AM -0600, Ninad Palsule wrote:
+> Document the new compatibles used on IBM system1-bmc
+>=20
+> Tested:
+>     This board is tested using the simics simulator.
 
-> Furthermore, what you're suggesting does not jive with what is in the
-> devicetree binding documentation for tpm_tis-spi [2]:
-> 
-> - compatible: should be **one** of the following (emphasis mine)
+I don't see how this is relevant to dt-bindings patches.
 
-That's superseded by:
+>=20
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+> ---
+>  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+>  Documentation/devicetree/bindings/trivial-devices.yaml   | 2 ++
 
-https://lore.kernel.org/all/cover.1702806810.git.lukas@wunner.de/
+IMO these should be split into two patches.
 
-I don't really have a dog in this fight, I merely stepped up to
-convert TPM DT bindings to YAML.  There have been multiple attempts
-to convert them in the past but none of them have been pursued into
-mainline.
+Cheers,
+Conor.
 
-I looked at compatible string usage in arch/arm{,64}/boot/dts
-and was under the impression that the majority of devicetrees
-use a combo matching this pattern:
-"vendor,chip", "tcg,tpm[_-]tis-{spi,i2c,mmio}"
+>  2 files changed, 3 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/D=
+ocumentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> index 6f7543463d89..ebebe14c42aa 100644
+> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> @@ -85,6 +85,7 @@ properties:
+>                - facebook,yosemite4-bmc
+>                - ibm,everest-bmc
+>                - ibm,rainier-bmc
+> +              - ibm,system1-bmc
+>                - ibm,tacoma-bmc
+>                - inventec,starscream-bmc
+>                - inventec,transformer-bmc
+> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Doc=
+umentation/devicetree/bindings/trivial-devices.yaml
+> index 441b55723675..b12a60d2eb0f 100644
+> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+> @@ -135,6 +135,8 @@ properties:
+>            - ibm,cffps1
+>              # IBM Common Form Factor Power Supply Versions 2
+>            - ibm,cffps2
+> +            # Infineon barometric pressure and temperature sensor
+> +          - infineon,dps310
+>              # Infineon IR36021 digital POL buck controller
+>            - infineon,ir36021
+>              # Infineon IR38060 Voltage Regulator
+> --=20
+> 2.39.2
+>=20
 
-So that's what I went for in the conversion.  It would be inconsistent
-to enforce a generic compatible for i2c and mmio, but not for spi.
+--55umEabtpNwX1lRu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I ran the validator against all arm/arm64 devicetrees and there are
-four devicetrees which only use a generic compatible and not a
-"vendor,chip" compatible:
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-bletchley.dts
-arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi
-arch/arm/boot/dts/aspeed-bmc-facebook-wedge400.dts
-arch/arm/boot/dts/am335x-moxa-uc-2100-common.dtsi
+-----BEGIN PGP SIGNATURE-----
 
-So, three Aspeed Facebook and one Moxa.  There's a fifth case (phyTEC)
-but the devicetree author clarified it's an Infineon SLB9670.
-The authors of the other four devicetrees listed above did not respond.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXiT5AAKCRB4tDGHoIJi
+0pd1AQCSwXdC8RYV745T9gVdIrlReCQJoSuD6J0vvr2NN2/3iAD+Mfx6pgKRXZWu
+G9C1EwvFHJ7rMpBCulVDOhFTvdQLUAA=
+=0EQF
+-----END PGP SIGNATURE-----
 
-Patches to fix up schema violations are here:
-https://github.com/l1k/linux/commit/7813a455ed15393df7d9d353173635b98ae23387
-https://github.com/l1k/linux/commit/a958be44952b1de170100be1007780a72ce7d861
-
-
-> As I said,
-> these are pluggable modules and not simply second-source builds.  There
-> are a collection of modules that can all be plugged into the same header.
-> They might not even be shipped with the device...
-
-If those TPM modules might not even be plugged in or are interchangeable,
-I think they ought to be represented as DT overlays.
-
-Honestly I'm wondering how common the scenario you're describing is.
-If it's an edge case, it might not be worth holding up the YAML
-conversion because of it.  The missing YAML conversion is a constant
-cause of pain for a lot of people.
-
-Thanks,
-
-Lukas
+--55umEabtpNwX1lRu--
