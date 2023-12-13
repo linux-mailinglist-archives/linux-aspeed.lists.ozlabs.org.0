@@ -2,56 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF3F8118DE
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 17:14:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C87811C2E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 19:18:57 +0100 (CET)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=X2P92Cgd;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Sr0sm3gsSz3cCn
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 03:14:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Sr3dp52cYz3cC7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 05:18:54 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.167.170; helo=mail-oi1-f170.google.com; envelope-from=robherring2@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=X2P92Cgd;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=jarkko@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sr0sZ5GY8z2yQL
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Dec 2023 03:13:53 +1100 (AEDT)
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3b9f8c9307dso4043284b6e.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 08:13:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702484030; x=1703088830;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yKFwCtE90EPD9y2XJTF44lWNSwXrZ/Ik0w5o/94t9wo=;
-        b=i6LKsEnHmLSui5jEAlVbzZiB/iojBAts2444eGaWVyyFMMu8ELG3m4w+T7V1AjZ446
-         BPqZ6HSqOUoKSrqZ6mFXOmnZISf25pTicSDuzM7DZZxA8Ep3GOGsWvsIvEnnlok3+3ya
-         4kman3nxekq5NwMtXTs1bpEOrGcfTrxtEGociiioBUkhaRiM2K+ZXFcrotNqOay4J1Ee
-         0bPkGR804JWJj239yRI0s4Bf6lSKq9+F6dPHRxg8IzPuHDvBGazpQxJQIwyxpd5Dt6G0
-         izr1COqKrd6kQdw43Wzla5cD8q9L7CZJYTq3CibnlIC5y29cTcRL0eZZ9aYBldpFmRQb
-         n29A==
-X-Gm-Message-State: AOJu0YyCYtVkrIKsf1d5AN7HsHH/3Wi+6Z+gxSyrZoYux0z6vF2FYpGc
-	CYpbchlp01MQ2V1Tzp3ZaQ==
-X-Google-Smtp-Source: AGHT+IHvwtas0Wz/5QoHKT/kRL+DgeC/VW8MvnUtSILOIvJ0GIakLipYqdQA3Ql3Vum+yJU0aDi0bQ==
-X-Received: by 2002:a05:6871:6b90:b0:1fa:ff63:2d3b with SMTP id zh16-20020a0568716b9000b001faff632d3bmr7032507oab.44.1702484029822;
-        Wed, 13 Dec 2023 08:13:49 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id zl10-20020a0568716d8a00b001fb42001fa7sm3978002oab.36.2023.12.13.08.13.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 08:13:49 -0800 (PST)
-Received: (nullmailer pid 1207750 invoked by uid 1000);
-	Wed, 13 Dec 2023 16:13:47 -0000
-Date: Wed, 13 Dec 2023 10:13:47 -0600
-From: Rob Herring <robh@kernel.org>
-To: Ninad Palsule <ninad@linux.ibm.com>
-Subject: Re: [PATCH v1 2/8] dt-bindings: tpm: Add schema for TIS I2C devices
-Message-ID: <20231213161347.GA1204384-robh@kernel.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sr3dh53TRz2xpx
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Dec 2023 05:18:48 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 593D861EF3;
+	Wed, 13 Dec 2023 18:18:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 670E5C433C7;
+	Wed, 13 Dec 2023 18:18:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702491524;
+	bh=VmD4PSEal/Oz36jy5f+5kaRai9u7pyp8fynzdDmI2do=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=X2P92CgdOxQRlOF6Y/p2g5JD1pkpHumiiu9p5GDFPCiLmujjHvpYytSN41+m+dFbM
+	 LPf5Fcv5lFuMzDJb7YIYytx5y3jShptvJAUD3lox1shQM+eGRGvAK/IWDCNsbqpKCq
+	 nF191Vv4/8qxf+i5UjcXUNEjGbZqMPoLzvXAQpnbV9BFN7vlzDMtZMVx4SMZ8fIuNs
+	 Ffws+/iE/wjlT7ufm7QnqblkO7NomQZk22M6/MWNlp0dgUgn1EbrPkfoFgtuWTTx/2
+	 oSb2w4EBkFOXrY4I/yfFIbRQ5KloinB/P3cxzOrlhbN+W5DKTgSPHVLlw1RzW6T92Q
+	 +o/7nl5bbZt8A==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 13 Dec 2023 20:18:35 +0200
+Message-Id: <CXNEVH8BZUJT.1UHVUI66SZMTE@suppilovahvero>
+Subject: Re: [PATCH v1 1/8] dt-bindings: arm: aspeed: add IBM system1-bmc
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Ninad Palsule" <ninad@linux.ibm.com>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+ <joel@jms.id.au>, <andrew@codeconstruct.com.au>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <keescook@chromium.org>, <tony.luck@intel.com>,
+ <gpiccoli@igalia.com>, <johannes.holland@infineon.com>,
+ <linux@roeck-us.net>, <broonie@kernel.org>
+X-Mailer: aerc 0.15.2
 References: <20231212164004.1683589-1-ninad@linux.ibm.com>
- <20231212164004.1683589-3-ninad@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231212164004.1683589-3-ninad@linux.ibm.com>
+ <20231212164004.1683589-2-ninad@linux.ibm.com>
+In-Reply-To: <20231212164004.1683589-2-ninad@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,22 +65,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, alexander.stein@ew.tq-group.com, naresh.solanki@9elements.com, johannes.holland@infineon.com, linux-hardening@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, peterhuewe@gmx.de, patrick.rudolph@9elements.com, peteryin.openbmc@gmail.com, jgg@ziepe.ca, andrew@codeconstruct.com.au, linux@roeck-us.net, devicetree@vger.kernel.org, conor+dt@kernel.org, keescook@chromium.org, broonie@kernel.org, lakshmiy@us.ibm.com, bhelgaas@google.com, geissonator@yahoo.com, linux-arm-kernel@lists.infradead.org, tony.luck@intel.com, linux-kernel@vger.kernel.org, gpiccoli@igalia.com, jarkko@kernel.org, vincent@vtremblay.dev, linux-integrity@vger.kernel.org
+Cc: devicetree@vger.kernel.org, festevam@denx.de, linux-aspeed@lists.ozlabs.org, peteryin.openbmc@gmail.com, alexander.stein@ew.tq-group.com, linux-kernel@vger.kernel.org, naresh.solanki@9elements.com, linux-arm-kernel@lists.infradead.org, lakshmiy@us.ibm.com, bhelgaas@google.com, vincent@vtremblay.dev, linux-integrity@vger.kernel.org, geissonator@yahoo.com, patrick.rudolph@9elements.com, linux-hardening@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Dec 12, 2023 at 10:39:58AM -0600, Ninad Palsule wrote:
-> From: Johannes Holland <johannes.holland@infineon.com>
-> 
-> Add a dt schema to support device tree bindings for the generic I2C
-> physical layer. Refer to the TCG PC Client Platform TPM Profile (PTP)
-> Specification for TPM 2.0 v1.04 Revision 14.
-> 
-> This includes descriptions for the Nuvoton and Infineon devices.
+On Tue Dec 12, 2023 at 6:39 PM EET, Ninad Palsule wrote:
+> Document the new compatibles used on IBM system1-bmc
+>
+> Tested:
 
-This is incomplete and conflicts with this series[1]. Please help 
-review and make sure it works for the cases you care about.
+this not very useful line :-) (nit)
 
-Rob
+>     This board is tested using the simics simulator.
 
-[1] https://lore.kernel.org/all/cover.1701093036.git.lukas@wunner.de/
+Just leave this (w/o indentation)
+
+>
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+> ---
+>  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+>  Documentation/devicetree/bindings/trivial-devices.yaml   | 2 ++
+>  2 files changed, 3 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/D=
+ocumentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> index 6f7543463d89..ebebe14c42aa 100644
+> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> @@ -85,6 +85,7 @@ properties:
+>                - facebook,yosemite4-bmc
+>                - ibm,everest-bmc
+>                - ibm,rainier-bmc
+> +              - ibm,system1-bmc
+>                - ibm,tacoma-bmc
+>                - inventec,starscream-bmc
+>                - inventec,transformer-bmc
+> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Doc=
+umentation/devicetree/bindings/trivial-devices.yaml
+> index 441b55723675..b12a60d2eb0f 100644
+> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+> @@ -135,6 +135,8 @@ properties:
+>            - ibm,cffps1
+>              # IBM Common Form Factor Power Supply Versions 2
+>            - ibm,cffps2
+> +            # Infineon barometric pressure and temperature sensor
+> +          - infineon,dps310
+>              # Infineon IR36021 digital POL buck controller
+>            - infineon,ir36021
+>              # Infineon IR38060 Voltage Regulator
+
+BR, Jarkko
