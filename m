@@ -2,58 +2,97 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7424B811C38
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 19:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707C1811CCC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 19:39:39 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mw0teAqi;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lW/icCEX;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Sr3gp10Zkz3c3x
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 05:20:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Sr45j0clyz3cCt
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 05:39:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mw0teAqi;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lW/icCEX;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=jarkko@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sr3gh5v12z3bTn
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Dec 2023 05:20:32 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id C099FCE0B04;
-	Wed, 13 Dec 2023 18:20:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72ACDC433C8;
-	Wed, 13 Dec 2023 18:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702491628;
-	bh=E7gw62n1LDAJ7vitrWM+l8KMqj5eHgf90P0t36MY0qI=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=mw0teAqiVeqH6qo2z0IwO3wiu/K7o8qi0urNuTjzFFVZpBUO/kmOqFYQ5LazNq7OY
-	 tNSrinvTT5bosg6isbrg/KqhCPdehaSUPlGrmuDDiFlFrwNgp4o9PMkKR5Cnh+NmAX
-	 6bzV4YnQjvoL0Wb3+vF6e/wSy9c4bVWozF0Aw2l5UerkpvDjg+Od8WviNBFMz7ClzL
-	 OfrTpBihUhQ+rLvoSqRgh4TU4DQ/JgyEFrUrGiAvreQtB2i2//MeCI5Tqerh+nXMiC
-	 K2h4JPEOgOUfDoGTOX7f+zrTtMHpWNiPBH13Zpty7mK+D1XKYiN3MQGEq6xQd2Lt3f
-	 ZF6DZz3j3/EFw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 13 Dec 2023 20:20:20 +0200
-Message-Id: <CXNEWTC7G66C.8KM5X4BWMK7P@suppilovahvero>
-Subject: Re: [PATCH v1 2/8] dt-bindings: tpm: Add schema for TIS I2C devices
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Ninad Palsule" <ninad@linux.ibm.com>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
- <joel@jms.id.au>, <andrew@codeconstruct.com.au>, <peterhuewe@gmx.de>,
- <jgg@ziepe.ca>, <keescook@chromium.org>, <tony.luck@intel.com>,
- <gpiccoli@igalia.com>, <johannes.holland@infineon.com>,
- <linux@roeck-us.net>, <broonie@kernel.org>
-X-Mailer: aerc 0.15.2
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sr45V63zpz3bfK
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Dec 2023 05:39:26 +1100 (AEDT)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDIGSU5031388;
+	Wed, 13 Dec 2023 18:36:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=0f3eS2dKAg8fw7ia5UFHTP28ocE3TQ9LjwcT23r6pfM=;
+ b=lW/icCEXESFZaYr1QCrwQh6OSm78r80I+o62gx7b+YTjdV61hHFi4y4C/L1YiLg+q3g3
+ HAsGt3kfmccvSbcQCee/VL6wdc47zMA6kM9gQnr/wCIvhYiItK1S3pKZWVwc30/wxmxv
+ KvpxJBLXZfvcSlUH7APBD9O/zUBCBB0rQ4y3koIf1CCvr0xQD3Snnfwp+PNqVJyKCV6E
+ hzNW495m0LetMsKGRWFJCmbtRI++Z7dyIpVVgHRWSIvowbg2dqNNozYrAEBrMF2PokxJ
+ NN0NervjqMD2QwArQUSpvSd09GK9ce/odq72A/vcEWE1k73x7/l6gTh1ZBB570Uvx3kA VA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uyeahq9g6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Dec 2023 18:36:53 +0000
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BDIUVVw017657;
+	Wed, 13 Dec 2023 18:36:53 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uyeahq9fe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Dec 2023 18:36:53 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDGogMG012588;
+	Wed, 13 Dec 2023 18:36:51 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uw3jp2xpf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Dec 2023 18:36:51 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3BDIao8F40698204
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 13 Dec 2023 18:36:50 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3ED6958054;
+	Wed, 13 Dec 2023 18:36:50 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F147158056;
+	Wed, 13 Dec 2023 18:36:48 +0000 (GMT)
+Received: from [9.24.12.86] (unknown [9.24.12.86])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 13 Dec 2023 18:36:48 +0000 (GMT)
+Message-ID: <6e1a7f5d-c15f-4938-893b-0aa77ef9fcfc@linux.ibm.com>
+Date: Wed, 13 Dec 2023 12:36:48 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/8] dt-bindings: arm: aspeed: add IBM system1-bmc
+Content-Language: en-US
+To: Jarkko Sakkinen <jarkko@kernel.org>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, joel@jms.id.au,
+        andrew@codeconstruct.com.au, peterhuewe@gmx.de, jgg@ziepe.ca,
+        keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
+        johannes.holland@infineon.com, linux@roeck-us.net, broonie@kernel.org
 References: <20231212164004.1683589-1-ninad@linux.ibm.com>
- <20231212164004.1683589-3-ninad@linux.ibm.com>
-In-Reply-To: <20231212164004.1683589-3-ninad@linux.ibm.com>
+ <20231212164004.1683589-2-ninad@linux.ibm.com>
+ <CXNEVH8BZUJT.1UHVUI66SZMTE@suppilovahvero>
+From: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <CXNEVH8BZUJT.1UHVUI66SZMTE@suppilovahvero>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 5kq0bIMe7CgVmBlyTgG4FKZr25jLiE3U
+X-Proofpoint-GUID: klWOiAxxw_I9AuxkGpEXwLWNyobuFlN9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-13_12,2023-12-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
+ mlxscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 impostorscore=0 priorityscore=1501 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312130133
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,85 +108,56 @@ Cc: devicetree@vger.kernel.org, festevam@denx.de, linux-aspeed@lists.ozlabs.org,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue Dec 12, 2023 at 6:39 PM EET, Ninad Palsule wrote:
-> From: Johannes Holland <johannes.holland@infineon.com>
->
-> Add a dt schema to support device tree bindings for the generic I2C
-> physical layer. Refer to the TCG PC Client Platform TPM Profile (PTP)
-> Specification for TPM 2.0 v1.04 Revision 14.
->
-> This includes descriptions for the Nuvoton and Infineon devices.
->
-> OpenBMC-Staging-Count: 3
+Hello Jarkko,
 
-Please don't invent your own tags.
-
-> Signed-off-by: Johannes Holland <johannes.holland@infineon.com>
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> ---
->  .../bindings/security/tpm/tpm-tis-i2c.yaml    | 50 +++++++++++++++++++
->  1 file changed, 50 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/security/tpm/tpm-ti=
-s-i2c.yaml
+On 12/13/23 12:18, Jarkko Sakkinen wrote:
+> On Tue Dec 12, 2023 at 6:39 PM EET, Ninad Palsule wrote:
+>> Document the new compatibles used on IBM system1-bmc
+>>
+>> Tested:
+> this not very useful line :-) (nit)
 >
-> diff --git a/Documentation/devicetree/bindings/security/tpm/tpm-tis-i2c.y=
-aml b/Documentation/devicetree/bindings/security/tpm/tpm-tis-i2c.yaml
-> new file mode 100644
-> index 000000000000..de1e34065748
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/security/tpm/tpm-tis-i2c.yaml
-> @@ -0,0 +1,50 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/security/tpm/tpm-tis-i2c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: I2C PTP based TPM Devices
-> +
-> +maintainers:
-> +  - Johannes Holland <johannes.holland@infineon.com>
-> +
-> +description:
-> +  Device Tree Bindings for I2C based Trusted Platform Module (TPM).
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^tpm(@[0-9a-f]+)?$"
-> +
-> +  compatible:
-> +    oneOf:
-> +      - description: Infineon's Trusted Platform Module (TPM) (SLB9673).
-> +        items:
-> +          - const: infineon,slb9673
-> +          - const: tcg,tpm-tis-i2c
-> +      - description: Nuvoton's Trusted Platform Module (TPM) (NPCT75x).
-> +        items:
-> +          - const: nuvoton,npct75x
-> +          - const: tcg,tpm-tis-i2c
-> +      - const: tcg,tpm-tis-i2c
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells =3D <1>;
-> +      #size-cells =3D <0>;
-> +
-> +      tpm@2e {
-> +        compatible =3D "nuvoton,npct75x", "tcg,tpm-tis-i2c";
-> +        reg =3D <0x2e>;
-> +      };
-> +    };
-> +...
+>>      This board is tested using the simics simulator.
+> Just leave this (w/o indentation)
 
+Based on Conor's suggestion, I have removed both lines.
 
-BR, Jarkko
+Thanks for the review.
+
+Thanks & Regards,
+
+Ninad
+
+>
+>> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+>> ---
+>>   Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+>>   Documentation/devicetree/bindings/trivial-devices.yaml   | 2 ++
+>>   2 files changed, 3 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+>> index 6f7543463d89..ebebe14c42aa 100644
+>> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+>> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+>> @@ -85,6 +85,7 @@ properties:
+>>                 - facebook,yosemite4-bmc
+>>                 - ibm,everest-bmc
+>>                 - ibm,rainier-bmc
+>> +              - ibm,system1-bmc
+>>                 - ibm,tacoma-bmc
+>>                 - inventec,starscream-bmc
+>>                 - inventec,transformer-bmc
+>> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+>> index 441b55723675..b12a60d2eb0f 100644
+>> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+>> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+>> @@ -135,6 +135,8 @@ properties:
+>>             - ibm,cffps1
+>>               # IBM Common Form Factor Power Supply Versions 2
+>>             - ibm,cffps2
+>> +            # Infineon barometric pressure and temperature sensor
+>> +          - infineon,dps310
+>>               # Infineon IR36021 digital POL buck controller
+>>             - infineon,ir36021
+>>               # Infineon IR38060 Voltage Regulator
+> BR, Jarkko
