@@ -2,122 +2,123 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480868108C8
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 04:38:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50DA810B65
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 08:20:46 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=NbxUT3J0;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=cTl+tMJf;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Sqh6P6yGKz3c3H
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 14:38:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Sqn2L3Wknz3c4P
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 18:20:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=NbxUT3J0;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=cTl+tMJf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::703; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20703.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::703])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32e; helo=mail-wm1-x32e.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sqh6D4XN5z3bTn
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 14:38:43 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a9Fx1rr6eClJccGQT+aUH6MEy5YnOqDqZ7HfmF0mb7KSVDg+bECizb6kErD4bn4gRQ4WoGRUER5SD/DOMwkxA7HxhuuRP59+xDax3eAAOLCn8nfHoJqzE9zQnJGOFT03jm3eAo1jiIe1C/RBoz+RuHalvveNfYQTJHAr6aKQCPeQu8JuDP99eovaq9hMEs8EdRDL5siTlmXYIDin+oHkwCntANT5OAUDBiAJuhWar1TdRkZaseZ8dryHaUWs6kEoAyQEbCRIjsOOdraU3+NSP53Af0yvdWJznmYWzBo2A8njppeK6bCCSshmC5BuHfwB+6cUKaPAp+SF4TTGFKLxzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j+vN2/9Jan56PwObpWXGtQzwfz7wH6YKNRyc7th54Fs=;
- b=gynVzRWcHLfC3wDJZ7x1CsH5WoOqoOXfdBdSG8BWVWSREniyLLoRraZh89lGMqRd+nPSaxhF0x6rKzSldw06byZ3MBphmT10uyj6DTKe9EWKafQeoHIihFUswlpOWBNeA64HTs3QfZaN1DYP216Rpp7lAzX72fTQ9ekrCrV6HLXZIdoCMUBOwibGwtXQTzNX+83GZ/rRF6li0szoSjs5/2V8I8FOH82QXzvV+FJJKQgUn2YgBMi6fkf/7PbabQJswfPcR6l/I9NkDxElkTtY2Obsv606FccQTuL1+ctAV05cBqdA0J6h+57Gt+yNZgx7IeM+1f9r0VFPl59B/g53tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j+vN2/9Jan56PwObpWXGtQzwfz7wH6YKNRyc7th54Fs=;
- b=NbxUT3J0FyggAGWhcnBqtmPP5OGcwgrWTuhHq8wWXFd58vGC7J/pD3pYKJuayNCN+sT0XvjNL/JkHPRWTgZcH+JAf8g/imhZmB9et7vWiCJ5vi6mqDof+p68hn8myQQeSscbQB5VnLWfw0s204qpY4J0B38nQUsyEUnatYSjhVjL9uIZoZtPkw/9TBtHqd9xWNdcaERDntjT96ExAsSW9W4POuvsr/8oWyJRdlGhS0YDkMeOQLbUi2W2qzsGVzHzO59wO85MIQWWt+nf4GDhGKvplUtTSonv6ySMghlTglLPUztexg79ybS/8a+hOtN7+JDG1UGkMuGdfNaigcoKlg==
-Received: from OSQPR06MB7252.apcprd06.prod.outlook.com (2603:1096:604:29c::6)
- by SEZPR06MB5667.apcprd06.prod.outlook.com (2603:1096:101:9f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
- 2023 03:23:23 +0000
-Received: from OSQPR06MB7252.apcprd06.prod.outlook.com
- ([fe80::36df:4bd:1991:976b]) by OSQPR06MB7252.apcprd06.prod.outlook.com
- ([fe80::36df:4bd:1991:976b%5]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
- 03:23:23 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	=?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, Guenter
- Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH RESEND v10 0/3] Support pwm/tach driver for aspeed ast26xx
-Thread-Topic: [PATCH RESEND v10 0/3] Support pwm/tach driver for aspeed
- ast26xx
-Thread-Index: AQHaEWg7S/NllT0hPE+qUe52iPc027BvNyiAgC1+14CAAAJLgIAKCWl7
-Date: Wed, 13 Dec 2023 03:23:23 +0000
-Message-ID:  <OSQPR06MB72529B0769B89A21DDFB8B1F8B8DA@OSQPR06MB7252.apcprd06.prod.outlook.com>
-References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
- <3ea9ef0c-27c0-4304-8bf7-26710224c3b1@roeck-us.net>
- <20231206174823.ok6rrufhez33rte5@pengutronix.de>
- <ed9d28e0-f879-41f3-8679-7ed5e0eec7ce@linaro.org>
-In-Reply-To: <ed9d28e0-f879-41f3-8679-7ed5e0eec7ce@linaro.org>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSQPR06MB7252:EE_|SEZPR06MB5667:EE_
-x-ms-office365-filtering-correlation-id: f6d86246-0c1b-482e-517e-08dbfb8adcd5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  wvpeZwR5TL/jWvm/Tl14W4H08+JMxVCBmpADWSZ0nGlTV5xQO15iO9TkmsKXOHzuTPE44peoU2yPRKDoVCDJM+K6U/WsRoGQmEEOam2oSHsHAP+ZoLBOzmsI0ON5I3af/L6Ok68MpcsLYtSDjrOqcOAYFSjPFLeTqZTJqqnHmJFkcpJbAVgckJABl4CgaXyfKsaol4HzEg7WJDhWJTHEZ8Kk+D4rwbLOR3F6CDlc8ISbzWukXkW47wZ8mBoeLJQu1je+bktcYnElFtEfc67ViDo6sWU9nxXUCsd42wbhowktqvKpKckTBGvFZcc6DMG6e5ggpI/xIKGS79mmUhmMLvucW8csRViW0yzpGzKcT+4pb03ZyCi1HvSubU9NE4GfQLvDyNxQLL+W711uVVeNDWzgXMmsNiTA2wLFK/iF0GHw29qLCF/rrZXGaF6S04JmKx1vMzdjtq8qYyCBFuSRzz6V5C6q7OaAUc4IWV85T4EqR1clUqSMBp8E859BCyFqbNXepE6ltO9wzvgCN/XTGKJoJGIj/fJISRAHfyuwhRzBseD4Dxa7y1OejnVonqVIY0EvonR4KYrP1d0BP65sEuSzsih7iwzWRJQ74HfliHM=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSQPR06MB7252.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(39850400004)(376002)(346002)(366004)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(38070700009)(41300700001)(7416002)(5660300002)(33656002)(2906002)(26005)(53546011)(55236004)(7696005)(9686003)(83380400001)(55016003)(6506007)(71200400001)(478600001)(966005)(122000001)(38100700002)(86362001)(52536014)(8936002)(8676002)(4326008)(64756008)(54906003)(110136005)(316002)(66556008)(66476007)(66446008)(76116006)(66946007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?Az2o7Ae0WZHT1PVD5xu1XnPkWGuMxKwGvgMn6dTL0IJg1Q64ORAZr44EOH?=
- =?iso-8859-1?Q?EYj2VQz70IyESiIw8JTN/oFZ5uEc8u6xliaKB3vcGiWhxXckPhc3rUq2/B?=
- =?iso-8859-1?Q?uOR1ypDwZcbZb62A/B0+hs8a6Va7BqqQAP4aA2PBHubZtRTOmazMENcMGa?=
- =?iso-8859-1?Q?g6cEUBxEQsGz21fqZ3RuB4oFzyS2G9A/zgQTyYaJZbEtfSAXiJmhw49NOS?=
- =?iso-8859-1?Q?vBAXETZKjzTnSbn7XEnnAUFXJFKftOVHDDgBwQXY60ycKJOv5AH91LXu6R?=
- =?iso-8859-1?Q?W5jWo6aP1QJbKbVW5xuZZ8o6vSC4Tsp7xFwIKRqG2ZIxcdlO7+GUdaGQyL?=
- =?iso-8859-1?Q?iAdeZKqRpcyc4muZgzlZgcXauD2aKhQ0YVJlzAdtV10ekvN1j/KK06/uBg?=
- =?iso-8859-1?Q?v+15ooXFGnWeUoL63+YBfE3hOpI1RstyuplT9jmBLekZrleHZWneOWas1H?=
- =?iso-8859-1?Q?f8ACCVY1BV/pDBfOx4hyNEK3VFOn68AUH1ZBysLsr/4/Qq0xmem1Y6oYQd?=
- =?iso-8859-1?Q?BaXtoB8AWXAIG11k0f0dR1mX1KYY23r/bfPeLKSfYg/UQ3wDo5iT72tPZn?=
- =?iso-8859-1?Q?7Mw+xgKsNFUZTYlHhn2gHzthReBM7VeMbKZk7Hh1IMYI6y6HRUwJ6ZAH/i?=
- =?iso-8859-1?Q?e0l/AWXmu5Js//f1OinDtK7wGoYL03ILigrvtCzOXsPF1d1dD1hA7cXCh4?=
- =?iso-8859-1?Q?lydJhdv+h/TbOfsgkk851MHorwytZCGK2WwtP3HirqcfmSnw53lHmY6wm3?=
- =?iso-8859-1?Q?dnqMAXEl+aWs2xMy2z56i3b9PoETHMULhwp5I+WvR/d66120xVRStagnUE?=
- =?iso-8859-1?Q?sIm6UTG92Qer8Y5XqtAnrw0GDouJ78i6v8Tyn5Uk2lw4n3MXW0IP8m8VVF?=
- =?iso-8859-1?Q?YrskQb+oKmdAB/j/2qqDUntUBLowH22sjvLB2ollEf0tqwjiM9RMmHC2PP?=
- =?iso-8859-1?Q?gqCM8TG1UEZKdI77aiVihXYoMyiVJJLJTVTa4wlgb2MLmN5kzRrWIZS55B?=
- =?iso-8859-1?Q?Klkx5+mbbvecIOXLOqjqw2pIzjK0HmUmsU6uxM0I3pV/Ro4krzhqLKj0uK?=
- =?iso-8859-1?Q?p64/6Qy0COjZvBTws1AyDQJ786ABVXcGQ2zwU1nLiY1OVkBvqwPRUVYJzE?=
- =?iso-8859-1?Q?V8L7pmtV92nzpcXmo/fdI0bd0Z7zZoPvXWrqjsfWOzReoAoYndWi9GwYPR?=
- =?iso-8859-1?Q?KjLogHrWHXzNhFXCWPDaD93F2gTJqnPuTHqyV3fgQ43zvOEFpE/KnNMWFa?=
- =?iso-8859-1?Q?5lj5RR13w1APd7auvXEJFQ+/VDoKeQbm6LVr7RwmOzNJjZf1YqR5N8CZNp?=
- =?iso-8859-1?Q?SviU+ZUfa0r1NtGB5b+SuLcHeyYiwEV9opFoM6g6HeJHf+9CdVj448Df+m?=
- =?iso-8859-1?Q?IY5LJHDwfCa4ecoE3sCUkxlR3jkUnxdJkFYePSA21D0NM/KZu2LUktXZ47?=
- =?iso-8859-1?Q?cVEk2ePYJJcCaAxdicEu/N643jY4uahlZXToJn+0Ol/ANTDuBLZGs0IkQe?=
- =?iso-8859-1?Q?YJyRyUoJrDFPwgvw1I1B3AyOSVWLMUL60qi/Uy7B21EdVHxkoHlBMAnWV6?=
- =?iso-8859-1?Q?JwuW/mS77UYpmUjnR0fQvVtz+/u32a9P0OAO2JX1A/69tS96bIzgEDs0AL?=
- =?iso-8859-1?Q?eZCxrGhzEGCT1BMhDLXrccAFG7GoRacNJf?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sqn2B3GX7z3bX9
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 18:20:32 +1100 (AEDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40c39e936b4so42098105e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Dec 2023 23:20:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702452028; x=1703056828; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Us9O2E/EOp4LFGB3r3Xwg2utQcDrwWyTbikZ6MeUl7c=;
+        b=cTl+tMJfG6BambY45Baw09THsIwsHkbMZvBD2H0LYDrh9SOPHyvhWROR+BM1cf8PyY
+         dPmoQpILRL2z0UrBmy3By3YONgTxrStzcThFO6AiYKPNxBzpEf8++XLqRAU/XPUhMhsh
+         zklFTZ/nnG+qne5P82rcbnmcyta9riF4TX3MggT529gxBJCoSTSGFtpDklWj7bs657Bg
+         +usdlZgrZG9xow/kfni0TZOZ4zbPOSORjV3FrMTOqAFaSXWWQdA/mGEgDB02yoJclmK4
+         AJ2MmrHIU3ajEQJLmdi8gPbptBmsfeYiBCDrhsLEEpOn4weOFIOPh7uqlPXdE8whNFBb
+         7xuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702452028; x=1703056828;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Us9O2E/EOp4LFGB3r3Xwg2utQcDrwWyTbikZ6MeUl7c=;
+        b=Vd8gyAFUTwmNvuSbxHc6hagVtxJC8TivxKsQzOnRbJRd/mQ1XmMHMO8/eIN0vXD4Et
+         PMOqHWBi0wN3UKDy5AscUJWhN3KN9wYns0NwJaPwmZknqK7SMzdVsVoFKXIjuX95fqyk
+         lnMHeNMPBlMozAejpZ9DxCWQ/gVfJiJqT4Ej/LifkcneSYEfssRtk81Jnx7PawIJj4Tw
+         GOo8ft0vTEWW/TGf3BcBDKppZTzBrfojEDfIiQvm2SVV3IM32wf9sthmgrLP5qEpPBw4
+         U+gdPKC/3egHkZKc8LieEXb3+y1Shgv15pSeq9EFoF9YnPyaiPTrT69QRkx4ccqBlydc
+         tE5Q==
+X-Gm-Message-State: AOJu0YzpkaEsVOzSskFFpPpIEMcaS4ofAhCsbcKr9laeY8YWJsGusyWg
+	+X2UkwNcDQRfq35R7LTXxz7YTw==
+X-Google-Smtp-Source: AGHT+IFnYbsnPgurOdTobqAW6rgnVn4pCHJbup6+4UWOncRw7IIXI3nkeqXeJ2pgEbyYzuFNd4d5Fg==
+X-Received: by 2002:a05:600c:548a:b0:40c:28fa:a630 with SMTP id iv10-20020a05600c548a00b0040c28faa630mr2057579wmb.218.1702452027884;
+        Tue, 12 Dec 2023 23:20:27 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id v6-20020a05600c444600b0040c4886f254sm9332771wmn.13.2023.12.12.23.20.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Dec 2023 23:20:27 -0800 (PST)
+Message-ID: <ae52b0d3-84a4-4c78-97e0-e5b479b54f16@linaro.org>
+Date: Wed, 13 Dec 2023 08:20:25 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSQPR06MB7252.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6d86246-0c1b-482e-517e-08dbfb8adcd5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2023 03:23:23.1813
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: m59l02BNGgtk+Wvaw72k8j5W8vzb+S7q4axxvNaBtFh6uAeAfRfCgXV6mUDVXqSCxFdmQTeNoVT13VjR5Mccg5MTttZD1x3xAIG7fUCJ1CU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5667
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 08/14] ARM: dts: aspeed: yosemite4: Revise i2c11 and
+ i2c12 schematic change
+Content-Language: en-US
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+References: <20231211054730.208588-1-Delphine_CC_Chiu@wiwynn.com>
+ <20231211054730.208588-9-Delphine_CC_Chiu@wiwynn.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231211054730.208588-9-Delphine_CC_Chiu@wiwynn.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,58 +130,111 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "corbet@lwn.net" <corbet@lwn.net>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "naresh.solanki@9elements.com" <naresh.solanki@9elements.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, BMC-SW <BMC-SW@aspeedtech.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 06/12/2023 18:48, Uwe Kleine-K=F6nig wrote:=0A=
->> On Tue, Nov 07, 2023 at 11:02:43AM -0800, Guenter Roeck wrote:=0A=
->>> On 11/7/23 02:50, Billy Tsai wrote:=0A=
->>>> Unlike the old design that the register setting of the TACH should bas=
-ed=0A=
->>>> on the configure of the PWM. In ast26xx, the dependency between pwm an=
-d=0A=
->>>> tach controller is eliminated and becomes a separate hardware block. O=
-ne=0A=
->>>> is used to provide pwm output and another is used to monitor the frequ=
-ency=0A=
->>>> of the input. This driver implements them by exposing two kernel=0A=
->>>> subsystems: PWM and HWMON. The PWM subsystem can be utilized alongside=
-=0A=
->>>> existing drivers for controlling elements such as fans (pwm-fan.c),=0A=
->>>> beepers (pwm-beeper.c) and so on. Through the HWMON subsystem, the dri=
-ver=0A=
->>>> provides sysfs interfaces for fan.=0A=
->>>>=0A=
->>>> Changes since v9:=0A=
->>>> Change the type of fan-driving-mode to string=0A=
->>>> Fix some typos and formatting issues.=0A=
->>>>=0A=
->>>=0A=
->>> What is the resend about ?=0A=
->>=0A=
->> And to the original v10 there is a reply by Krzysztof;=0A=
->> see https://lore.kernel.org/linux-pwm/3d9e50db-19f0-43b3-8042-2f80a1e7b7=
-9e@linaro.org/ .=0A=
->>=0A=
->> I'll mark the original and this resend as "changes-requested" in our=0A=
->> patchwork. Probably the most cooperative way to object is to send a v11=
-=0A=
->> and point out the changes compared to v10.=0A=
-=0A=
-> The resend might be fixing issues from v10, but who knows which and how=
-=0A=
-> many. In any case it should be v11, not a resend.=0A=
-=0A=
-I apologize for responding to this question inappropriately. I only replied=
- to Guenter and removed=0A=
-the others.=0A=
-The reason for the resend is simply to remove the 'Change-Id' in the commit=
- log, which triggers an=0A=
-error when running scripts/checkpatch.pl. =0A=
-It's a minor issue, and I forgot to mention this change in the cover letter=
-.=0A=
-I sincerely apologize for any confusion.=0A=
-=0A=
-Best regards,=0A=
-Billy Tsai=0A=
+On 11/12/2023 06:47, Delphine CC Chiu wrote:
+> Revise i2c11 and i2c12 schematic change:
+> - remove space for adm1272 compatible
+> - enable interrupt setting for pca9555
+> - add eeprom for yosemite4 medusa board/BSM use
+> - remove temperature sensor for yosemite4 schematic change
+> - add power sensor for power module reading
+
+Way too many changes in one patch. Especially mixing fixes and new
+features is bad. Please don't.
+
+> 
+> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+> ---
+>  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 118 ++++++++++++++----
+>  1 file changed, 93 insertions(+), 25 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+> index da413325ce30..ccb5ecd8d9a6 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+> @@ -821,41 +821,94 @@ imux29: i2c@1 {
+>  &i2c11 {
+>  	status = "okay";
+>  	power-sensor@10 {
+> -		compatible = "adi, adm1272";
+> +		compatible = "adi,adm1272";
+>  		reg = <0x10>;
+>  	};
+>  
+>  	power-sensor@12 {
+> -		compatible = "adi, adm1272";
+> +		compatible = "adi,adm1272";
+>  		reg = <0x12>;
+>  	};
+>  
+> -	gpio@20 {
+> +	gpio_ext1: pca9555@20 {
+
+That's wrong name.
+
+
+>  		compatible = "nxp,pca9555";
+> -		reg = <0x20>;
+> +		pinctrl-names = "default";
+>  		gpio-controller;
+>  		#gpio-cells = <2>;
+> -	};
+> -
+> -	gpio@21 {
+> +		reg = <0x20>;
+> +		interrupt-parent = <&gpio0>;
+> +		interrupts = <94 IRQ_TYPE_LEVEL_LOW>;
+> +		gpio-line-names =
+> +		"P48V_OCP_GPIO1","P48V_OCP_GPIO2",
+> +		"P48V_OCP_GPIO3","FAN_BOARD_0_REVISION_0_R",
+> +		"FAN_BOARD_0_REVISION_1_R","FAN_BOARD_1_REVISION_0_R",
+> +		"FAN_BOARD_1_REVISION_1_R","RST_MUX_R_N",
+> +		"RST_LED_CONTROL_FAN_BOARD_0_N","RST_LED_CONTROL_FAN_BOARD_1_N",
+> +		"RST_IOEXP_FAN_BOARD_0_N","RST_IOEXP_FAN_BOARD_1_N",
+> +		"PWRGD_LOAD_SWITCH_FAN_BOARD_0_R","PWRGD_LOAD_SWITCH_FAN_BOARD_1_R",
+> +		"","";
+> +	};
+> +
+> +	gpio_ext2: pca9555@21 {
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
+>  		compatible = "nxp,pca9555";
+> -		reg = <0x21>;
+> +		pinctrl-names = "default";
+>  		gpio-controller;
+>  		#gpio-cells = <2>;
+> -	};
+> -
+> -	gpio@22 {
+> +		reg = <0x21>;
+> +		interrupt-parent = <&gpio0>;
+> +		interrupts = <94 IRQ_TYPE_LEVEL_LOW>;
+> +		gpio-line-names =
+> +		"DELTA_MODULE_TYPE","VSENSE_ERR_VDROP_R",
+> +		"EN_P48V_AUX_0","EN_P48V_AUX_1",
+> +		"MEDUSA_BOARD_REV_0","MEDUSA_BOARD_REV_1",
+> +		"MEDUSA_BOARD_REV_2","MEDUSA_BOARD_TYPE",
+> +		"HSC_OCP_SLOT_ODD_GPIO1","HSC_OCP_SLOT_ODD_GPIO2",
+> +		"HSC_OCP_SLOT_ODD_GPIO3","HSC_OCP_SLOT_EVEN_GPIO1",
+> +		"HSC_OCP_SLOT_EVEN_GPIO2","HSC_OCP_SLOT_EVEN_GPIO3",
+> +		"ADC_TYPE_0_R","ADC_TYPE_1_R";
+> +	};
+> +
+> +	gpio_ext3: pca9555@22 {
+
+Please fix it everywhere.
+
+In this patch and all your future patches. I keep repeating the same
+feedback...
+
+
+Best regards,
+Krzysztof
+
