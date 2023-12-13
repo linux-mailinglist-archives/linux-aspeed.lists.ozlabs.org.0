@@ -1,124 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50DA810B65
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 08:20:46 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=cTl+tMJf;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF3F8118DE
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 17:14:06 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Sqn2L3Wknz3c4P
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 18:20:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Sr0sm3gsSz3cCn
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 03:14:04 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=cTl+tMJf;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32e; helo=mail-wm1-x32e.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.167.170; helo=mail-oi1-f170.google.com; envelope-from=robherring2@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sqn2B3GX7z3bX9
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 18:20:32 +1100 (AEDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40c39e936b4so42098105e9.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Dec 2023 23:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702452028; x=1703056828; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Us9O2E/EOp4LFGB3r3Xwg2utQcDrwWyTbikZ6MeUl7c=;
-        b=cTl+tMJfG6BambY45Baw09THsIwsHkbMZvBD2H0LYDrh9SOPHyvhWROR+BM1cf8PyY
-         dPmoQpILRL2z0UrBmy3By3YONgTxrStzcThFO6AiYKPNxBzpEf8++XLqRAU/XPUhMhsh
-         zklFTZ/nnG+qne5P82rcbnmcyta9riF4TX3MggT529gxBJCoSTSGFtpDklWj7bs657Bg
-         +usdlZgrZG9xow/kfni0TZOZ4zbPOSORjV3FrMTOqAFaSXWWQdA/mGEgDB02yoJclmK4
-         AJ2MmrHIU3ajEQJLmdi8gPbptBmsfeYiBCDrhsLEEpOn4weOFIOPh7uqlPXdE8whNFBb
-         7xuA==
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sr0sZ5GY8z2yQL
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Dec 2023 03:13:53 +1100 (AEDT)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3b9f8c9307dso4043284b6e.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 08:13:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702452028; x=1703056828;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Us9O2E/EOp4LFGB3r3Xwg2utQcDrwWyTbikZ6MeUl7c=;
-        b=Vd8gyAFUTwmNvuSbxHc6hagVtxJC8TivxKsQzOnRbJRd/mQ1XmMHMO8/eIN0vXD4Et
-         PMOqHWBi0wN3UKDy5AscUJWhN3KN9wYns0NwJaPwmZknqK7SMzdVsVoFKXIjuX95fqyk
-         lnMHeNMPBlMozAejpZ9DxCWQ/gVfJiJqT4Ej/LifkcneSYEfssRtk81Jnx7PawIJj4Tw
-         GOo8ft0vTEWW/TGf3BcBDKppZTzBrfojEDfIiQvm2SVV3IM32wf9sthmgrLP5qEpPBw4
-         U+gdPKC/3egHkZKc8LieEXb3+y1Shgv15pSeq9EFoF9YnPyaiPTrT69QRkx4ccqBlydc
-         tE5Q==
-X-Gm-Message-State: AOJu0YzpkaEsVOzSskFFpPpIEMcaS4ofAhCsbcKr9laeY8YWJsGusyWg
-	+X2UkwNcDQRfq35R7LTXxz7YTw==
-X-Google-Smtp-Source: AGHT+IFnYbsnPgurOdTobqAW6rgnVn4pCHJbup6+4UWOncRw7IIXI3nkeqXeJ2pgEbyYzuFNd4d5Fg==
-X-Received: by 2002:a05:600c:548a:b0:40c:28fa:a630 with SMTP id iv10-20020a05600c548a00b0040c28faa630mr2057579wmb.218.1702452027884;
-        Tue, 12 Dec 2023 23:20:27 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id v6-20020a05600c444600b0040c4886f254sm9332771wmn.13.2023.12.12.23.20.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Dec 2023 23:20:27 -0800 (PST)
-Message-ID: <ae52b0d3-84a4-4c78-97e0-e5b479b54f16@linaro.org>
-Date: Wed, 13 Dec 2023 08:20:25 +0100
+        d=1e100.net; s=20230601; t=1702484030; x=1703088830;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yKFwCtE90EPD9y2XJTF44lWNSwXrZ/Ik0w5o/94t9wo=;
+        b=i6LKsEnHmLSui5jEAlVbzZiB/iojBAts2444eGaWVyyFMMu8ELG3m4w+T7V1AjZ446
+         BPqZ6HSqOUoKSrqZ6mFXOmnZISf25pTicSDuzM7DZZxA8Ep3GOGsWvsIvEnnlok3+3ya
+         4kman3nxekq5NwMtXTs1bpEOrGcfTrxtEGociiioBUkhaRiM2K+ZXFcrotNqOay4J1Ee
+         0bPkGR804JWJj239yRI0s4Bf6lSKq9+F6dPHRxg8IzPuHDvBGazpQxJQIwyxpd5Dt6G0
+         izr1COqKrd6kQdw43Wzla5cD8q9L7CZJYTq3CibnlIC5y29cTcRL0eZZ9aYBldpFmRQb
+         n29A==
+X-Gm-Message-State: AOJu0YyCYtVkrIKsf1d5AN7HsHH/3Wi+6Z+gxSyrZoYux0z6vF2FYpGc
+	CYpbchlp01MQ2V1Tzp3ZaQ==
+X-Google-Smtp-Source: AGHT+IHvwtas0Wz/5QoHKT/kRL+DgeC/VW8MvnUtSILOIvJ0GIakLipYqdQA3Ql3Vum+yJU0aDi0bQ==
+X-Received: by 2002:a05:6871:6b90:b0:1fa:ff63:2d3b with SMTP id zh16-20020a0568716b9000b001faff632d3bmr7032507oab.44.1702484029822;
+        Wed, 13 Dec 2023 08:13:49 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id zl10-20020a0568716d8a00b001fb42001fa7sm3978002oab.36.2023.12.13.08.13.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 08:13:49 -0800 (PST)
+Received: (nullmailer pid 1207750 invoked by uid 1000);
+	Wed, 13 Dec 2023 16:13:47 -0000
+Date: Wed, 13 Dec 2023 10:13:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Ninad Palsule <ninad@linux.ibm.com>
+Subject: Re: [PATCH v1 2/8] dt-bindings: tpm: Add schema for TIS I2C devices
+Message-ID: <20231213161347.GA1204384-robh@kernel.org>
+References: <20231212164004.1683589-1-ninad@linux.ibm.com>
+ <20231212164004.1683589-3-ninad@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/14] ARM: dts: aspeed: yosemite4: Revise i2c11 and
- i2c12 schematic change
-Content-Language: en-US
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>
-References: <20231211054730.208588-1-Delphine_CC_Chiu@wiwynn.com>
- <20231211054730.208588-9-Delphine_CC_Chiu@wiwynn.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231211054730.208588-9-Delphine_CC_Chiu@wiwynn.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212164004.1683589-3-ninad@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,111 +63,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, alexander.stein@ew.tq-group.com, naresh.solanki@9elements.com, johannes.holland@infineon.com, linux-hardening@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, peterhuewe@gmx.de, patrick.rudolph@9elements.com, peteryin.openbmc@gmail.com, jgg@ziepe.ca, andrew@codeconstruct.com.au, linux@roeck-us.net, devicetree@vger.kernel.org, conor+dt@kernel.org, keescook@chromium.org, broonie@kernel.org, lakshmiy@us.ibm.com, bhelgaas@google.com, geissonator@yahoo.com, linux-arm-kernel@lists.infradead.org, tony.luck@intel.com, linux-kernel@vger.kernel.org, gpiccoli@igalia.com, jarkko@kernel.org, vincent@vtremblay.dev, linux-integrity@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 11/12/2023 06:47, Delphine CC Chiu wrote:
-> Revise i2c11 and i2c12 schematic change:
-> - remove space for adm1272 compatible
-> - enable interrupt setting for pca9555
-> - add eeprom for yosemite4 medusa board/BSM use
-> - remove temperature sensor for yosemite4 schematic change
-> - add power sensor for power module reading
-
-Way too many changes in one patch. Especially mixing fixes and new
-features is bad. Please don't.
-
+On Tue, Dec 12, 2023 at 10:39:58AM -0600, Ninad Palsule wrote:
+> From: Johannes Holland <johannes.holland@infineon.com>
 > 
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> ---
->  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 118 ++++++++++++++----
->  1 file changed, 93 insertions(+), 25 deletions(-)
+> Add a dt schema to support device tree bindings for the generic I2C
+> physical layer. Refer to the TCG PC Client Platform TPM Profile (PTP)
+> Specification for TPM 2.0 v1.04 Revision 14.
 > 
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index da413325ce30..ccb5ecd8d9a6 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -821,41 +821,94 @@ imux29: i2c@1 {
->  &i2c11 {
->  	status = "okay";
->  	power-sensor@10 {
-> -		compatible = "adi, adm1272";
-> +		compatible = "adi,adm1272";
->  		reg = <0x10>;
->  	};
->  
->  	power-sensor@12 {
-> -		compatible = "adi, adm1272";
-> +		compatible = "adi,adm1272";
->  		reg = <0x12>;
->  	};
->  
-> -	gpio@20 {
-> +	gpio_ext1: pca9555@20 {
+> This includes descriptions for the Nuvoton and Infineon devices.
 
-That's wrong name.
+This is incomplete and conflicts with this series[1]. Please help 
+review and make sure it works for the cases you care about.
 
+Rob
 
->  		compatible = "nxp,pca9555";
-> -		reg = <0x20>;
-> +		pinctrl-names = "default";
->  		gpio-controller;
->  		#gpio-cells = <2>;
-> -	};
-> -
-> -	gpio@21 {
-> +		reg = <0x20>;
-> +		interrupt-parent = <&gpio0>;
-> +		interrupts = <94 IRQ_TYPE_LEVEL_LOW>;
-> +		gpio-line-names =
-> +		"P48V_OCP_GPIO1","P48V_OCP_GPIO2",
-> +		"P48V_OCP_GPIO3","FAN_BOARD_0_REVISION_0_R",
-> +		"FAN_BOARD_0_REVISION_1_R","FAN_BOARD_1_REVISION_0_R",
-> +		"FAN_BOARD_1_REVISION_1_R","RST_MUX_R_N",
-> +		"RST_LED_CONTROL_FAN_BOARD_0_N","RST_LED_CONTROL_FAN_BOARD_1_N",
-> +		"RST_IOEXP_FAN_BOARD_0_N","RST_IOEXP_FAN_BOARD_1_N",
-> +		"PWRGD_LOAD_SWITCH_FAN_BOARD_0_R","PWRGD_LOAD_SWITCH_FAN_BOARD_1_R",
-> +		"","";
-> +	};
-> +
-> +	gpio_ext2: pca9555@21 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
->  		compatible = "nxp,pca9555";
-> -		reg = <0x21>;
-> +		pinctrl-names = "default";
->  		gpio-controller;
->  		#gpio-cells = <2>;
-> -	};
-> -
-> -	gpio@22 {
-> +		reg = <0x21>;
-> +		interrupt-parent = <&gpio0>;
-> +		interrupts = <94 IRQ_TYPE_LEVEL_LOW>;
-> +		gpio-line-names =
-> +		"DELTA_MODULE_TYPE","VSENSE_ERR_VDROP_R",
-> +		"EN_P48V_AUX_0","EN_P48V_AUX_1",
-> +		"MEDUSA_BOARD_REV_0","MEDUSA_BOARD_REV_1",
-> +		"MEDUSA_BOARD_REV_2","MEDUSA_BOARD_TYPE",
-> +		"HSC_OCP_SLOT_ODD_GPIO1","HSC_OCP_SLOT_ODD_GPIO2",
-> +		"HSC_OCP_SLOT_ODD_GPIO3","HSC_OCP_SLOT_EVEN_GPIO1",
-> +		"HSC_OCP_SLOT_EVEN_GPIO2","HSC_OCP_SLOT_EVEN_GPIO3",
-> +		"ADC_TYPE_0_R","ADC_TYPE_1_R";
-> +	};
-> +
-> +	gpio_ext3: pca9555@22 {
-
-Please fix it everywhere.
-
-In this patch and all your future patches. I keep repeating the same
-feedback...
-
-
-Best regards,
-Krzysztof
-
+[1] https://lore.kernel.org/all/cover.1701093036.git.lukas@wunner.de/
