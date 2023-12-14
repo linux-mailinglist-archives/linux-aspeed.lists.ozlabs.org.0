@@ -1,74 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AA8813652
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 17:33:26 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D49813A09
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 19:35:08 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=WbnAA5Ni;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=IYgjFJMm;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SrdFb2g5yz3cXq
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Dec 2023 03:33:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Srgy22BL1z3cSC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Dec 2023 05:35:06 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=WbnAA5Ni;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=IYgjFJMm;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SrdFV1zW9z30fF
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Dec 2023 03:33:17 +1100 (AEDT)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BEGNpfb010000;
-	Thu, 14 Dec 2023 16:32:47 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Srgxr4Swjz3bq4
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Dec 2023 05:34:56 +1100 (AEDT)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BEIVkrm012030;
+	Thu, 14 Dec 2023 18:34:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=k0KaS28pCt49kw9+p3L44QcYWFnIp+iPqyK7JQMB9g8=;
- b=WbnAA5NiNCBVwTq/DRIYImrYFEPSxxVbIoEeLXgDg52nN3jp3kXnLiVm2CfnCh/xC0XS
- uqs4M2/57DXguWWOAHtgWlmqGaA9hSlPoxgHvOtYEessd/axv6/g2QbqQ4pLd50W3BLR
- nJRDs41b8XU6a4fOOlrte6HQ7ygk2NAyhXkvD7fCuw2ZNTdawzqataNh/UdXhQ0tzCpT
- uxllSKmVqsvpmtaig+gq/UrTa0/WQ9f8+oW9p10hz0N2UFOM+YfAt3EjDH/37KDGLcTh
- YtsqXqHX/YDEXd+Nxb7KXcxXDlPjXBSguoe82WDU97HldaVhWfjENixBjMyjS+IbOQ+n hQ== 
+ bh=aZfItAC16OpY8Y87+kaxK+6Wy7sVgwOm4UYAmq8AAhc=;
+ b=IYgjFJMmcgD3ceQdzJU0wRBQXHCOT3CZX9YgqKWvOo2vanSnqkOdQ67Dq92BaM5Z5R5W
+ g+e6Rz6YlNVck/VPwy5TxxfLvpYS9XNJA7brDMhS4aUjfUz5NC/hD5WMntYoTbDZxNj2
+ 81vMhGfewItxp+nBfugU4UA/Zw9DM/e8zhi5aOvwgafkZL+kj2vBFuu73GJKwUrntaIY
+ RhbG9AGLb9LC9aKOdVfMMKojC2NPcnwgMxFdpwab8bbKitz4zZAegcYiLCzqwzeqAVVX
+ 4nBv4FPhaeAyb4fnlaV+Kbltiuu3q46uQgQjLUkiwiOmdYpfG0lSZgl0hWjmK3cyMsME uA== 
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3v03b34rc8-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3v072ag26k-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Dec 2023 16:32:47 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BEGO45B012186;
-	Thu, 14 Dec 2023 16:32:46 GMT
+	Thu, 14 Dec 2023 18:34:22 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BEIXAjM016214;
+	Thu, 14 Dec 2023 18:34:21 GMT
 Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3v03b34qmg-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3v072ag264-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Dec 2023 16:32:45 +0000
+	Thu, 14 Dec 2023 18:34:21 +0000
 Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3BECe18w014799;
-	Thu, 14 Dec 2023 16:31:00 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uw42khd6b-1
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3BECe1XP014799;
+	Thu, 14 Dec 2023 18:34:20 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uw42khrus-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Dec 2023 16:31:00 +0000
+	Thu, 14 Dec 2023 18:34:20 +0000
 Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3BEGUxZf10551814
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3BEIYJq69830950
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 14 Dec 2023 16:30:59 GMT
+	Thu, 14 Dec 2023 18:34:20 GMT
 Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9026358065;
-	Thu, 14 Dec 2023 16:30:59 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id D07D65805D;
+	Thu, 14 Dec 2023 18:34:19 +0000 (GMT)
 Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BC26458052;
-	Thu, 14 Dec 2023 16:30:55 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 254E358056;
+	Thu, 14 Dec 2023 18:34:16 +0000 (GMT)
 Received: from [9.67.23.198] (unknown [9.67.23.198])
 	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 14 Dec 2023 16:30:55 +0000 (GMT)
-Message-ID: <e1ec02cf-072b-4678-8986-336c1cb8ca92@linux.ibm.com>
-Date: Thu, 14 Dec 2023 10:30:55 -0600
+	Thu, 14 Dec 2023 18:34:15 +0000 (GMT)
+Message-ID: <8cdadff2-055a-48ab-8495-45c8285d3d8f@linux.ibm.com>
+Date: Thu, 14 Dec 2023 12:34:14 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/8] ARM: dts: aspeed: System1: Voltage regulators
+Subject: Re: [PATCH v1 4/8] ARM: dts: aspeed: System1: Add i2c and muxes
 Content-Language: en-US
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, joel@jms.id.au,
@@ -77,23 +77,23 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
         gpiccoli@igalia.com, johannes.holland@infineon.com, linux@roeck-us.net,
         broonie@kernel.org
 References: <20231212164004.1683589-1-ninad@linux.ibm.com>
- <20231212164004.1683589-6-ninad@linux.ibm.com>
- <6a3d4551-66a2-411a-9d5f-cffb57ee0ce2@linaro.org>
+ <20231212164004.1683589-5-ninad@linux.ibm.com>
+ <72a749b9-b9be-4496-9bcc-37519044c109@linaro.org>
 From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <6a3d4551-66a2-411a-9d5f-cffb57ee0ce2@linaro.org>
+In-Reply-To: <72a749b9-b9be-4496-9bcc-37519044c109@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: kuNvJNdtavC_dao6iJnMFctwdS96DrLO
-X-Proofpoint-GUID: Tzj1hExUyDRdIPxL0IVPxnja4Z1KmH3A
+X-Proofpoint-ORIG-GUID: KIu3tM4aH2p_1s1TvaCGkUi7cGT1eyM9
+X-Proofpoint-GUID: 7-F53l8el8CAhlx9LMigtTCwyZjJNqJO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-14_11,2023-12-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 malwarescore=0
- impostorscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2312140117
+ definitions=2023-12-14_13,2023-12-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ malwarescore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 spamscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2312140131
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,50 +111,215 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 
 Hello Krzysztof,
 
-On 12/12/23 14:22, Krzysztof Kozlowski wrote:
+On 12/12/23 14:21, Krzysztof Kozlowski wrote:
 > On 12/12/2023 17:40, Ninad Palsule wrote:
->> This commit adds different voltage regulators.
+>> This commit adds i2c devices and muxes.
 >>
 >> Tested:
 >>      This board is tested using the simics simulator.
 >>
 >> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 >> ---
->>   .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 266 ++++++++++++++++++
-> Squash it.
-Done.
->
->>   1 file changed, 266 insertions(+)
+>>   .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 577 ++++++++++++++++++
+>>   1 file changed, 577 insertions(+)
 >>
+> Why do you split new submission into multiple chunks? The logical
+> feature here is new board, so all your DTS patches adding new board
+> should be in one patch.
+Oh,ok. I thought it might be easier to review but now I squashed them 
+together.
+>
 >> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
->> index 0557bff9f36a..b8e7e52d4600 100644
+>> index 01291b407f59..0557bff9f36a 100644
 >> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
 >> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
->> @@ -114,10 +114,127 @@ vga_memory: region@bf000000 {
->>   		};
->>   	};
+>> @@ -11,6 +11,65 @@ / {
+>>   	model = "System1";
+>>   	compatible = "ibm,system1-bmc", "aspeed,ast2600";
 >>   
->> +	iio-hwmon {
->> +		compatible = "iio-hwmon";
->> +		io-channels = <&p12v_vd 0>, <&p5v_aux_vd 0>,
->> +			<&p5v_bmc_aux_vd 0>, <&p3v3_aux_vd 0>,
->> +			<&p3v3_bmc_aux_vd 0>, <&p1v8_bmc_aux_vd 0>,
->> +			<&adc1 4>, <&adc0 2>, <&adc1 0>,
->> +			<&p2V5_aux_vd 0>, <&adc1 7>;
+>> +	aliases {
+>> +		i2c16 = &i2c8mux1chn0;
+>> +		i2c17 = &i2c8mux1chn1;
+>> +		i2c18 = &i2c8mux1chn2;
+>> +		i2c19 = &i2c8mux1chn3;
+>> +		i2c20 = &i2c8mux1chn4;
+>> +		i2c21 = &i2c8mux1chn5;
+>> +		i2c22 = &i2c8mux1chn6;
+>> +		i2c23 = &i2c8mux1chn7;
+>> +		i2c24 = &i2c3mux0chn0;
+>> +		i2c25 = &i2c3mux0chn1;
+>> +		i2c26 = &i2c3mux0chn2;
+>> +		i2c27 = &i2c3mux0chn3;
+>> +		i2c28 = &i2c3mux0chn4;
+>> +		i2c29 = &i2c3mux0chn5;
+>> +		i2c30 = &i2c3mux0chn6;
+>> +		i2c31 = &i2c3mux0chn7;
+>> +		i2c32 = &i2c6mux0chn0;
+>> +		i2c33 = &i2c6mux0chn1;
+>> +		i2c34 = &i2c6mux0chn2;
+>> +		i2c35 = &i2c6mux0chn3;
+>> +		i2c36 = &i2c6mux0chn4;
+>> +		i2c37 = &i2c6mux0chn5;
+>> +		i2c38 = &i2c6mux0chn6;
+>> +		i2c39 = &i2c6mux0chn7;
+>> +		i2c40 = &i2c7mux0chn0;
+>> +		i2c41 = &i2c7mux0chn1;
+>> +		i2c42 = &i2c7mux0chn2;
+>> +		i2c43 = &i2c7mux0chn3;
+>> +		i2c44 = &i2c7mux0chn4;
+>> +		i2c45 = &i2c7mux0chn5;
+>> +		i2c46 = &i2c7mux0chn6;
+>> +		i2c47 = &i2c7mux0chn7;
+>> +		i2c48 = &i2c8mux0chn0;
+>> +		i2c49 = &i2c8mux0chn1;
+>> +		i2c50 = &i2c8mux0chn2;
+>> +		i2c51 = &i2c8mux0chn3;
+>> +		i2c52 = &i2c8mux0chn4;
+>> +		i2c53 = &i2c8mux0chn5;
+>> +		i2c54 = &i2c8mux0chn6;
+>> +		i2c55 = &i2c8mux0chn7;
+>> +		i2c56 = &i2c14mux0chn0;
+>> +		i2c57 = &i2c14mux0chn1;
+>> +		i2c58 = &i2c14mux0chn2;
+>> +		i2c59 = &i2c14mux0chn3;
+>> +		i2c60 = &i2c14mux0chn4;
+>> +		i2c61 = &i2c14mux0chn5;
+>> +		i2c62 = &i2c14mux0chn6;
+>> +		i2c63 = &i2c14mux0chn7;
+>> +		i2c64 = &i2c15mux0chn0;
+>> +		i2c65 = &i2c15mux0chn1;
+>> +		i2c66 = &i2c15mux0chn2;
+>> +		i2c67 = &i2c15mux0chn3;
+>> +		i2c68 = &i2c15mux0chn4;
+>> +		i2c69 = &i2c15mux0chn5;
+>> +		i2c70 = &i2c15mux0chn6;
+>> +		i2c71 = &i2c15mux0chn7;
 >> +	};
 >> +
->> +	p12v_vd: voltage_divider1 {
-> Same comments as in other patches.
-Fixed.
->
->> +		compatible = "voltage-divider";
->> +		io-channels = <&adc1 3>;
->> +		#io-channel-cells = <1>;
+>>   	chosen {
+>>   		stdout-path = &uart5;
+>>   		bootargs = "console=ttyS4,115200n8 earlycon";
+>> @@ -54,10 +113,12 @@ vga_memory: region@bf000000 {
+>>   			reg = <0xbf000000 0x01000000>;  /* 16M */
+>>   		};
+>>   	};
 >> +
->> +		/* Scale the system voltage by 1127/127 to fit the ADC range.
-> Use Linux coding style comments. /* and blank line
+> You need to clean your patchset...
+I made changes about the stdout-path, is that what you mean?
+>
+>
+>>   };
+>>   
+>>   &adc1 {
+>>   	status = "okay";
+>> +
+> Really.
+I need to add "status = okay" otherwise its not instantiated.
+>
+>>   	aspeed,int-vref-microvolt = <2500000>;
+>>   	pinctrl-names = "default";
+>>   	pinctrl-0 = <&pinctrl_adc8_default
+>> @@ -186,3 +247,519 @@ &kcs3 {
+>>   	aspeed,lpc-io-reg = <0xca2>;
+>>   	aspeed,lpc-interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
+>>   };
+>> +
+>> +&i2c0 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&i2c1 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&i2c2 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&i2c3 {
+>> +	status = "okay";
+>> +
+>> +	i2c-mux@70 {
+>> +		compatible = "nxp,pca9548";
+>> +		reg = <0x70>;
+>> +		#address-cells = <1>;
+>> +		#size-cells = <0>;
+>> +		status = "okay";
+> Drop
+Done.
+>
+>> +		i2c-mux-idle-disconnect;
+>> +
+>> +		i2c3mux0chn0: i2c@0 {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			reg = <0>;
+>> +		};
+>> +
+>> +		i2c3mux0chn1: i2c@1 {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			reg = <1>;
+>> +		};
+>> +
+>> +		i2c3mux0chn2: i2c@2 {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			reg = <2>;
+>> +		};
+>> +
+>> +		i2c3mux0chn3: i2c@3 {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			reg = <3>;
+>> +		};
+>> +
+>> +		i2c3mux0chn4: i2c@4 {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			reg = <4>;
+>> +		};
+>> +
+>> +		i2c3mux0chn5: i2c@5 {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			reg = <5>;
+>> +		};
+>> +
+>> +		i2c3mux0chn6: i2c@6 {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			reg = <6>;
+>> +		};
+>> +
+>> +		i2c3mux0chn7: i2c@7 {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			reg = <7>;
+>> +		};
+>> +	};
+>> +};
+>> +
+>> +&i2c4 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&i2c5 {
+>> +	status = "okay";
+>> +};
+>> +
+>> +&i2c6 {
+>> +	status = "okay";
+>> +
+>> +	i2c-mux@70 {
+>> +		compatible = "nxp,pca9548";
+>> +		reg = <0x70>;
+>> +		#address-cells = <1>;
+>> +		#size-cells = <0>;
+>> +		status = "okay";
+> Drop
 
-Fixed.
+Done
 
 Thanks for the review.
 
@@ -163,8 +328,8 @@ Regards,
 Ninad
 
 >
+> Other places as well.
 >
-> ....
 >
 > Best regards,
 > Krzysztof
