@@ -2,100 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74065811F54
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Dec 2023 20:50:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1E2812404
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 01:43:59 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=FaBbWCzk;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=E/Dw4uGk;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Sr5gb0yT4z3cNC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 06:50:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SrDB51yJlz3bd6
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 11:43:57 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=FaBbWCzk;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=E/Dw4uGk;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::536; helo=mail-ed1-x536.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sr5gQ3gCgz3c3n
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Dec 2023 06:50:26 +1100 (AEDT)
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDJ7B7j012884;
-	Wed, 13 Dec 2023 19:49:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=L1dGX3bAr3L6MVW5M70dQtsQ2pdKDwOrjjPgZmZ9Nss=;
- b=FaBbWCzkxjdeqtrv+Eyh6JPEdTAC1incrbMiODjMZ5LdIgkOMSg0aM8wu118JoB+uF0g
- yVPGPG92U7Y2OZZmQLpfngXLAZ39HYBmh4u4zWOk7h62WpQyYAQ1zMoviixSGClP7BQh
- tkuvQZ6c3VzW+6D3FPnZ0KGdfe14nsTIGurBgbWGI2gmqi3ItvMApMj0pOYFuVzOqEBw
- 6U0HOfxk1PLvGnTTBMCKoeIi1MV2rodl2/wpia1G4XKZ+ddhjOW5GKuwkaQkNcFlnGGq
- w6v9P03ZlrS8zfR6FNRTxwsn7K0dgplQ2nNUHYCVHTCpaa/gK41ekqj5l7nyObynANoE KQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uyjg30xdy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Dec 2023 19:49:26 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BDJmEa8010165;
-	Wed, 13 Dec 2023 19:49:25 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uyjg30xdb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Dec 2023 19:49:25 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDI0FAI004101;
-	Wed, 13 Dec 2023 19:49:24 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3uw4skk2au-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Dec 2023 19:49:24 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3BDJnNYp27591270
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Dec 2023 19:49:23 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8138F58055;
-	Wed, 13 Dec 2023 19:49:23 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0FAA45803F;
-	Wed, 13 Dec 2023 19:49:22 +0000 (GMT)
-Received: from [9.24.12.86] (unknown [9.24.12.86])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 13 Dec 2023 19:49:21 +0000 (GMT)
-Message-ID: <edcdcea2-febc-4859-9ccf-b8c59b794f01@linux.ibm.com>
-Date: Wed, 13 Dec 2023 13:49:21 -0600
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SrD9w55hWz30fk
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Dec 2023 11:43:46 +1100 (AEDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-551f9ca15b4so1766109a12.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Dec 2023 16:43:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google; t=1702514622; x=1703119422; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RLpB5md1tEE7IuK+B3sruEQW7P8lycC54rVRstoSoLw=;
+        b=E/Dw4uGkJfRiA9ZXRTWmDdRGYA7p6olS7eRjOo5c6k7JQNyuXrhBtEhDaKbhqodoeg
+         IU5xUCjfZujLesI6qAU5wBgjwAloZIH3w5fFt7QFW/MG0t8VKTdm2j5xYvRrOaR71/x2
+         hlJ+pjnAGWRG9+6MopqwWvUkcHTYb5wtUNSFc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702514622; x=1703119422;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RLpB5md1tEE7IuK+B3sruEQW7P8lycC54rVRstoSoLw=;
+        b=rEWzGc5yaR6mJwfrfRV0bc4tJUtivkPKUm2Pqxqq0hM/TjVXmf9G1KtoahVp/O4H7M
+         hgJeGt6fmvpfCX4QAKGGxJuu7tLcnIvE8/OivRwrNkBijY122vqFWy5P6uVdrz7+sob/
+         P7HcpOOhzTsqcqBKmHqDMnYSIeFSQxhDm/TwbVKTjk6jpfFVv9Y+IHDCuLFwY3xPfue4
+         0xvufhL8cJy5QzFUSooHPxc6H5gGdffKX+9lkaNHAEYb/BLZaofwIMUQBpPBVL2k+O3h
+         RkNm2OSWADyiXGfwk+IZdAZjaQGs4AyHCMwPXq3l+4/eeVRwTMFxvMr+wgPuttuCUXuW
+         DwfA==
+X-Gm-Message-State: AOJu0YwlunHi7iMwJflbN/HaRhobUkcPumrZjnSexdhb0GIzEgzQcZ9T
+	utG4Vk6c5E7mRaAeEwZrsfzKceTDSkVJlwwCpcY=
+X-Google-Smtp-Source: AGHT+IFa9Zm+LfMZFPUZavztuLcHzT2Ycn1Vj82hIrX/b4xCeE4xJgbmsr48xQ/aHgS2Y86FFkv1fdkhWTwCmE5Nadc=
+X-Received: by 2002:a17:906:1750:b0:a19:a19b:c746 with SMTP id
+ d16-20020a170906175000b00a19a19bc746mr3703966eje.150.1702514622267; Wed, 13
+ Dec 2023 16:43:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 8/8] ARM: dts: aspeed: System1: PS, sensor and more
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, joel@jms.id.au,
-        andrew@codeconstruct.com.au, peterhuewe@gmx.de, jarkko@kernel.org,
-        jgg@ziepe.ca, keescook@chromium.org, tony.luck@intel.com,
-        gpiccoli@igalia.com, johannes.holland@infineon.com, linux@roeck-us.net,
-        broonie@kernel.org
-References: <20231212164004.1683589-1-ninad@linux.ibm.com>
- <20231212164004.1683589-9-ninad@linux.ibm.com>
- <5b98538a-8ffe-42ec-b020-514dcfcebba3@linaro.org>
- <44abff4a-0a8e-499b-8b98-a4a1680cb431@linux.ibm.com>
- <427fa99c-764c-4d6a-b9f1-cd9089710d5e@linaro.org>
-From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <427fa99c-764c-4d6a-b9f1-cd9089710d5e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -lbtKMmRARtMlAJmbObK1QI6-3y3Nw92
-X-Proofpoint-GUID: HhWJUytBbixy7UlL0_Fe2zPrr42jTffk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-13_13,2023-12-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- priorityscore=1501 suspectscore=0 spamscore=0 phishscore=0 bulkscore=0
- lowpriorityscore=0 mlxscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312130141
+References: <20231212075200.983536-1-yangchen.openbmc@gmail.com>
+In-Reply-To: <20231212075200.983536-1-yangchen.openbmc@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 14 Dec 2023 11:13:30 +1030
+Message-ID: <CACPK8Xc7XjgBj-SQH45=omjEXd-BpXgcQDp6s8UkJ8QsbnYSPg@mail.gmail.com>
+Subject: Re: [PATCH 00/11] Modify DTS of META Minerva CMM BMC(AST2600)
+To: Yang Chen <yangchen.openbmc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,56 +70,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, festevam@denx.de, linux-aspeed@lists.ozlabs.org, peteryin.openbmc@gmail.com, alexander.stein@ew.tq-group.com, linux-kernel@vger.kernel.org, naresh.solanki@9elements.com, linux-arm-kernel@lists.infradead.org, lakshmiy@us.ibm.com, bhelgaas@google.com, vincent@vtremblay.dev, linux-integrity@vger.kernel.org, geissonator@yahoo.com, patrick.rudolph@9elements.com, linux-hardening@vger.kernel.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, Jerry.Lin@quantatw.com, EasonChen1@quantatw.com, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, robh+dt@kernel.org, Leslie.Tong@quantatw.com, krzysztof.kozlowski+dt@linaro.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Krzysztof,
-
-On 12/13/23 13:37, Krzysztof Kozlowski wrote:
-> On 13/12/2023 20:02, Ninad Palsule wrote:
->> Hello Krzysztof,
->>
->> On 12/12/23 14:26, Krzysztof Kozlowski wrote:
->>> On 12/12/2023 17:40, Ninad Palsule wrote:
->>>> This drop adds following devices in the device tree.
->>>> - EEPROM/VPD
->>>> - Power supplies
->>>> - Humidity, pressure and temperature sensors.
->>>> - Trusted platform module(TPM) chip
->>>>
->>>> Tested:
->>>>       This board is tested using the simics simulator.
->>>>
->>>> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
->>>> ---
->>> Don't mix DTS with drivers. DTS and drivers go via different subsystems
->>> and cannot have dependencies, so why DTS is patch #6, then driver #7 and
->>> now again DTS #7?
->> There is a dependency on driver code as patch #8 uses the compatibility
->> string added in driver patch #7.  I have now moved driver patch at the
->> start. Is that ok? OR you are suggesting something else?
-> First, there is no dependency. Second, except confusing order anyway DTS
-> will go via separate trees. Third, again, there is no dependency. If
-> there is, your patchset is broken and this needs to be fixed. Although I
-> don't understand how new hardware can depend on driver... it's really odd.
-
-Thanks for the quick response.
-
-This board uses the nuvoton TPM device. The tpm devices uses 
-"nuvoton,npct75x" driver hence we added it in the device tree. If the 
-driver doesn't have this compatibility string then it won't load. So if 
-someone tries to use this board then tpm won't work unless the 
-compatibility string is added in the driver. That is the dependency I am 
-talking about.
-
-Please let me know.
-
-Regards,
-
-Ninad
-
+On Tue, 12 Dec 2023 at 18:24, Yang Chen <yangchen.openbmc@gmail.com> wrote:
 >
-> Best regards,
-> Krzysztof
->
+> This series modifies the DTS of the Minerva CMM which is the board on the
+> META platform that uses the ASPEED SoC(AST2600).
+
+Looks good. I've merged this for submission in v6.8.
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
