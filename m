@@ -2,73 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123188133EB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 16:05:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3280C813403
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Dec 2023 16:07:48 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ENKU07zS;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KLaU5YH4;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SrbJB3djMz3cXY
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Dec 2023 02:05:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4SrbLn5wyjz3cXj
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Dec 2023 02:07:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ENKU07zS;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KLaU5YH4;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SrbJ21gdYz3cSN
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Dec 2023 02:05:21 +1100 (AEDT)
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BEEKh64011902;
-	Thu, 14 Dec 2023 15:04:49 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SrbLh0cxkz3cBG
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Dec 2023 02:07:39 +1100 (AEDT)
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BEF39YV007104;
+	Thu, 14 Dec 2023 15:07:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=CnQ9D6K8j+9V+7Ny5qvGgp4y21wkyRuwKdCuqX5clT4=;
- b=ENKU07zSPWdPX/ia5fKhd0ZpdMEHc09q3ICEecOa5vECU5CQEpW9uRGUrh/JO2ynfXEA
- QpsoPEuCjioHRjZ/nlTgsyrUsGeyoX0srCwHqupHqmL6RzvOCGD/CGMeZD+Z1d2mI0aZ
- 9+KoDE14e0D08RJL40moW+sy31aMkeC3qZCTw+ZDit1WrncWo9B1AvwYHJuVrdNAbi/Z
- 85AdDB3steOZ7NjkqdtmFAkqoWTrJ8uK3LlYE7lyS1hI1X2NjQV5v5h8mGr+33QIfhof
- 4IKslR42odeq8HBRNsPsv+SV1Z6xwIBeFhIffd6V9XiDwKNMpnp+MsGVhjE5rmTpYIqv 4w== 
+ bh=XLAPwt/xKWgpqNhyPSWPN7P7tLR1EqSOMV1/eU72kZ4=;
+ b=KLaU5YH4YiELCKICEf6K/5bLMvFEaMfWy1cnmB2yq3w8r32Z2207faBJ99fMOlgpvaLi
+ lSmrFCKOLHBgpOpR/jh3cFVMEeJFoXn7qEuZkR4d7ttuRQwUrTUsJ7YN8oRG/LopdHZw
+ kLh6mbwtH9wfR7poABQXYdiVTxTK/JzMBXiZlFCjg+CmTLrGf+OusrAsLv5bgKvIBNJw
+ zUIfUs42ethQ4EAr0SQ+iASDmXSIrC0VycYkO1rdV4PbK1l6Ik7TDSdgJQmMvVN11eWn
+ 8iGaBIYxtSNMJsMM4YOQc2wdTlNCd5/I4zqsmVvXxwAIFOP7l/7W/3u+avcw9rpanlrD NA== 
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3v0342t91u-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3v040j04vg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Dec 2023 15:04:48 +0000
-Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BEEKlFg012425;
-	Thu, 14 Dec 2023 15:04:47 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3v0342t90s-1
+	Thu, 14 Dec 2023 15:07:02 +0000
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BEF434O009478;
+	Thu, 14 Dec 2023 15:07:00 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3v040j04u1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Dec 2023 15:04:47 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3BEEn5HH028212;
-	Thu, 14 Dec 2023 15:04:45 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uw2y01bq6-1
+	Thu, 14 Dec 2023 15:07:00 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3BEDnVYD005049;
+	Thu, 14 Dec 2023 15:06:59 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3uw4skrwca-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Dec 2023 15:04:45 +0000
+	Thu, 14 Dec 2023 15:06:58 +0000
 Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3BEF4jBk25494126
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3BEF6vqJ26215096
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 14 Dec 2023 15:04:45 GMT
+	Thu, 14 Dec 2023 15:06:58 GMT
 Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2EDCA58056;
-	Thu, 14 Dec 2023 15:04:45 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id D9B785805D;
+	Thu, 14 Dec 2023 15:06:57 +0000 (GMT)
 Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1513A58065;
-	Thu, 14 Dec 2023 15:04:42 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id D145458069;
+	Thu, 14 Dec 2023 15:06:54 +0000 (GMT)
 Received: from [9.67.23.198] (unknown [9.67.23.198])
 	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 14 Dec 2023 15:04:41 +0000 (GMT)
-Message-ID: <7b14aa01-24c2-425c-8bf3-48e5b7890b95@linux.ibm.com>
-Date: Thu, 14 Dec 2023 09:04:41 -0600
+	Thu, 14 Dec 2023 15:06:54 +0000 (GMT)
+Message-ID: <e8e4e5fe-5fa6-4098-97fc-7c6a48da9c4e@linux.ibm.com>
+Date: Thu, 14 Dec 2023 09:06:54 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 8/8] ARM: dts: aspeed: System1: PS, sensor and more
+Subject: Re: [PATCH v1 3/8] ARM: dts: aspeed: System1: IBM system1 BMC board
 Content-Language: en-US
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, joel@jms.id.au,
@@ -77,21 +77,21 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
         gpiccoli@igalia.com, johannes.holland@infineon.com, linux@roeck-us.net,
         broonie@kernel.org
 References: <20231212164004.1683589-1-ninad@linux.ibm.com>
- <20231212164004.1683589-9-ninad@linux.ibm.com>
- <5b98538a-8ffe-42ec-b020-514dcfcebba3@linaro.org>
+ <20231212164004.1683589-4-ninad@linux.ibm.com>
+ <81d90c0d-9d7e-43a9-ade8-16b85a242b48@linaro.org>
 From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <5b98538a-8ffe-42ec-b020-514dcfcebba3@linaro.org>
+In-Reply-To: <81d90c0d-9d7e-43a9-ade8-16b85a242b48@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: n-TQSUgUvZvnK5-cY9SuRnUFBpR_mlmX
-X-Proofpoint-GUID: ty9tpSxPLVfl3i-yx9m0bT9DVfWxaj8t
+X-Proofpoint-GUID: _0Y2OpjlnhnlX4ia8j9LaXeQCu3ERE6u
+X-Proofpoint-ORIG-GUID: 1pWyN-yfwi67Cf8clBBDrf-toaFCfvnp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-14_09,2023-12-14_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- bulkscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
- impostorscore=0 adultscore=0 clxscore=1015 suspectscore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ malwarescore=0 clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
  definitions=main-2312140105
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -105,73 +105,84 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, festevam@denx.de, linux-aspeed@lists.ozlabs.org, peteryin.openbmc@gmail.com, alexander.stein@ew.tq-group.com, linux-kernel@vger.kernel.org, naresh.solanki@9elements.com, linux-arm-kernel@lists.infradead.org, lakshmiy@us.ibm.com, bhelgaas@google.com, vincent@vtremblay.dev, linux-integrity@vger.kernel.org, geissonator@yahoo.com, patrick.rudolph@9elements.com, linux-hardening@vger.kernel.org
+Cc: devicetree@vger.kernel.org, festevam@denx.de, linux-aspeed@lists.ozlabs.org, peteryin.openbmc@gmail.com, alexander.stein@ew.tq-group.com, linux-kernel@vger.kernel.org, naresh.solanki@9elements.com, linux-arm-kernel@lists.infradead.org, lakshmiy@us.ibm.com, bhelgaas@google.com, vincent@vtremblay.dev, linux-integrity@vger.kernel.org, Andrew Geissler <geissonator@yahoo.com>, patrick.rudolph@9elements.com, linux-hardening@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 Hello Krzysztof,
 
-On 12/12/23 14:26, Krzysztof Kozlowski wrote:
-> On 12/12/2023 17:40, Ninad Palsule wrote:
->> This drop adds following devices in the device tree.
->> - EEPROM/VPD
->> - Power supplies
->> - Humidity, pressure and temperature sensors.
->> - Trusted platform module(TPM) chip
+
+On 12/12/23 14:20, Krzysztof Kozlowski wrote:
+> On 12/12/2023 17:39, Ninad Palsule wrote:
+>> From: Andrew Geissler <geissonator@yahoo.com>
+>>
+>> Add a device tree for IBM system1 BMC board. It uses AST2600 SOC.
 >>
 >> Tested:
 >>      This board is tested using the simics simulator.
 >>
+>> Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
 >> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 >> ---
-> Don't mix DTS with drivers. DTS and drivers go via different subsystems
-> and cannot have dependencies, so why DTS is patch #6, then driver #7 and
-> now again DTS #7?
-I have sent a driver patch as a separate patchset and removed it from 
-this patchset.
->
->
->>   .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 76 +++++++++++++++++++
->>   1 file changed, 76 insertions(+)
+>>   arch/arm/boot/dts/aspeed/Makefile             |   1 +
+>>   .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 188 ++++++++++++++++++
+>>   2 files changed, 189 insertions(+)
+>>   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
 >>
+>> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
+>> index 3e3e6b96cb79..6f7ed11978ff 100644
+>> --- a/arch/arm/boot/dts/aspeed/Makefile
+>> +++ b/arch/arm/boot/dts/aspeed/Makefile
+>> @@ -35,6 +35,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>>   	aspeed-bmc-ibm-rainier.dtb \
+>>   	aspeed-bmc-ibm-rainier-1s4u.dtb \
+>>   	aspeed-bmc-ibm-rainier-4u.dtb \
+>> +	aspeed-bmc-ibm-system1.dtb \
+>>   	aspeed-bmc-intel-s2600wf.dtb \
+>>   	aspeed-bmc-inspur-fp5280g2.dtb \
+>>   	aspeed-bmc-inspur-nf5280m6.dtb \
 >> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
->> index 75562aa63701..d960b938fe8d 100644
->> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+>> new file mode 100644
+>> index 000000000000..01291b407f59
+>> --- /dev/null
 >> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
->> @@ -461,6 +461,11 @@ &kcs3 {
->>   &i2c0 {
->>   	status = "okay";
->>   
->> +	eeprom@50 {
->> +		compatible = "atmel,24c64";
->> +		reg = <0x50>;
+>> @@ -0,0 +1,188 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +// Copyright 2023 IBM Corp.
+>> +/dts-v1/;
+>> +
+>> +#include "aspeed-g6.dtsi"
+>> +#include <dt-bindings/gpio/aspeed-gpio.h>
+>> +#include <dt-bindings/i2c/i2c.h>
+>> +#include <dt-bindings/leds/leds-pca955x.h>
+>> +
+>> +/ {
+>> +	model = "System1";
+>> +	compatible = "ibm,system1-bmc", "aspeed,ast2600";
+>> +
+>> +	chosen {
+>> +		stdout-path = &uart5;
+>> +		bootargs = "console=ttyS4,115200n8 earlycon";
+> Drop early con, debugging feature not release. Then use stdout path
+> alone, so drop console as well.
+Fixed as per your suggestion.
+>
 >> +	};
 >> +
->>   	regulator@60 {
->>   		compatible = "maxim,max8952";
->>   		reg = <0x60>;
->> @@ -655,6 +660,25 @@ pca0: pca9539@74 {
->>   
->>   &i2c2 {
->>   	status = "okay";
->> +
->> +	power-supply@58 {
->> +		compatible = "ibm,cffps";
->> +		reg = <0x58>;
+>> +	memory@80000000 {
+>> +		device_type = "memory";
+>> +		reg = <0x80000000 0x40000000>;
 >> +	};
 >> +
->> +	power-supply@59 {
->> +		compatible = "ibm,cffps";
->> +		reg = <0x59>;
->> +	};
+>> +	reserved-memory {
+>> +		#address-cells = <1>;
+>> +		#size-cells = <1>;
+>> +		ranges;
 >> +
->> +	power-supply@5a {
->> +		compatible = "ibm,cffps";
->> +		reg = <0x5a>;
->> +	};
-> Missing blank line
+>> +		event_log: tcg_event_log@b3d00000 {
+> No underscores in node names.
 
-Fixed it.
+Fixed.
 
 Thanks for the review.
 
@@ -180,10 +191,6 @@ Regards,
 Ninad
 
 >
->> +	power-supply@5b {
->> +		compatible = "ibm,cffps";
->> +		reg = <0x5b>;
->> +	};
 >
 > Best regards,
 > Krzysztof
