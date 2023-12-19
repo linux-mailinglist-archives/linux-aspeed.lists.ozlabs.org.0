@@ -1,63 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF1E817DCE
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Dec 2023 00:03:07 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFDB88191C8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Dec 2023 21:56:21 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=WPpwQ9xu;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NRTNu4af;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4SvFjN6cwkz3bv8
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Dec 2023 10:03:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Svprd2rFqz3cPl
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Dec 2023 07:56:17 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=WPpwQ9xu;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NRTNu4af;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=wsa@kernel.org; receiver=lists.ozlabs.org)
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SvFjD6M2Qz2xQC;
-	Tue, 19 Dec 2023 10:02:56 +1100 (AEDT)
-Received: from [192.168.68.112] (ppp118-210-80-147.adl-adc-lon-bras32.tpg.internode.on.net [118.210.80.147])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 0D8F72014F;
-	Tue, 19 Dec 2023 07:02:47 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1702940572;
-	bh=YJxqecOL6R6o6l2AGHwi7QgNX0u29B+GDnVZRFgkI+k=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=WPpwQ9xuCxjzJXTUKiuwMsoVkjUOhqrT6gnnb+LZcvdi72ZyLxsdejy13T3hs6sJn
-	 jec0d5Yk7/2oi6H9++Tf2QiyR2h/vHmi1wIH91bYIFfcc9CVWxGyIlJswVcVgmvrdG
-	 aQHnrOaw1d9VThcRuYhLTvTqr1q2qch4DLthL4XtR1PqjhgVw5TWULqAKdTkUc14mg
-	 vJjWfXN1VFaLe6mLftYRcg2sz8Kpue0Z4pU6DtLCkYRXKq9Yc8hBsQaWwQXfZzUlae
-	 Zz9md12KBZIi1UpqHb7lMHQA9Zl/6UKbC2FOyGuxuWTZjkk1LkZ/Nyx9j70mgR/Bgk
-	 htzkxxHW79TMQ==
-Message-ID: <477f1e8fbed91cc1160086af1f20030e7a6d853b.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v4 2/2] i2c: aspeed: Acknowledge Tx done with and
- without ACK irq late
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Quan Nguyen <quan@os.amperecomputing.com>, Brendan Higgins
- <brendan.higgins@linux.dev>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>,  Joel Stanley <joel@jms.id.au>, Andi Shyti
- <andi.shyti@kernel.org>, Wolfram Sang <wsa@kernel.org>, Jae Hyun Yoo
- <jae.hyun.yoo@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, 
- linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org
-Date: Tue, 19 Dec 2023 09:32:45 +1030
-In-Reply-To: <7dfc99e5-4c76-413b-aabc-81b26e26249e@os.amperecomputing.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4SvprR6hVtz2ykw;
+	Wed, 20 Dec 2023 07:56:07 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id E83AFB81AA4;
+	Tue, 19 Dec 2023 20:56:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3859C433C7;
+	Tue, 19 Dec 2023 20:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703019362;
+	bh=bI7eRgyy5+ORKYRMoLdIMmfFqNe12oOLtPUfljOSAyw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NRTNu4afzfmyVVxHDtB7hzC5xvReRXGZC3oX6gzfNCDxJV9dmI0Qx+K0XKecETC6y
+	 9maVdCXBahsp2UOvHWiQgrzHt+9fpBmshww7mD0gGSvxXCWp0Xv5XgCVzUsiX4unQb
+	 2jBBsQt7f1jfU+bT93hf+je1VMnkQW0WB9vvhxYHmdvkEQi7T91f4xG3JHbB7j3nMb
+	 fJlzoDmOzMJaFsMA7u9vMZC04S37LRZKw9bf+rGzR/YkAYlPbVIuQ67tCmFSCE3yFp
+	 xuaoo0xRMCxtVl/p/82ntXh2VNF1URJ6GVGAvtqZiWPC/UOx1qq1dM+8LSEq5dGQbO
+	 HP0GDTKTyR+Qg==
+Date: Tue, 19 Dec 2023 21:55:58 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v4 1/2] i2c: aspeed: Handle the coalesced stop conditions
+ with the start conditions.
+Message-ID: <ZYIDXru48jqk6MH0@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Joel Stanley <joel@jms.id.au>, Andi Shyti <andi.shyti@kernel.org>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+	Guenter Roeck <linux@roeck-us.net>, linux-i2c@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	Cosmo Chou <chou.cosmo@gmail.com>,
+	Open Source Submission <patches@amperecomputing.com>,
+	Phong Vo <phong@os.amperecomputing.com>,
+	"Thang Q . Nguyen" <thang@os.amperecomputing.com>
 References: <20231211102217.2436294-1-quan@os.amperecomputing.com>
-	 <20231211102217.2436294-3-quan@os.amperecomputing.com>
-	 <2eab42cde34723a195e7a0287db08b25f8388a3b.camel@codeconstruct.com.au>
-	 <54cba87a0df233b8762e43b742afe8e44a77a60c.camel@codeconstruct.com.au>
-	 <7dfc99e5-4c76-413b-aabc-81b26e26249e@os.amperecomputing.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+ <20231211102217.2436294-2-quan@os.amperecomputing.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EnB+dRLs7i+8f3ip"
+Content-Disposition: inline
+In-Reply-To: <20231211102217.2436294-2-quan@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,109 +75,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Cosmo Chou <chou.cosmo@gmail.com>, Open Source Submission <patches@amperecomputing.com>, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>
+Cc: linux-arm-kernel@lists.infradead.org, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Brendan Higgins <brendan.higgins@linux.dev>, Cosmo Chou <chou.cosmo@gmail.com>, Open Source Submission <patches@amperecomputing.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Guenter Roeck <linux@roeck-us.net>, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 2023-12-18 at 15:45 +0700, Quan Nguyen wrote:
+
+--EnB+dRLs7i+8f3ip
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Dec 11, 2023 at 05:22:16PM +0700, Quan Nguyen wrote:
+> Some masters may drive the transfers with low enough latency between
+> the nak/stop phase of the current command and the start/address phase
+> of the following command that the interrupts are coalesced by the
+> time we process them.
+> Handle the stop conditions before processing SLAVE_MATCH to fix the
+> complaints that sometimes occur below.
 >=20
-> On 15/12/2023 05:21, Andrew Jeffery wrote:
-> >=20
-> > ```
-> > $ qemu-system-arm \
-> > 	-M ast2600-evb \
-> > 	-kernel build.aspeed_g5/arch/arm/boot/zImage \
-> > 	-dtb build.aspeed_g5/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dtb \
-> > 	-initrd ~/src/buildroot.org/buildroot/output/images/rootfs.cpio.xz \
-> > 	-nographic 2>&1 \
-> > 	| ts -s
-> > ...
-> > 00:00:03 [    1.089187] Freeing initrd memory: 3308K
-> > 00:00:05 smbus: error: Unexpected send start condition in state 1
-> > 00:00:05 smbus: error: Unexpected write in state -1
-> > 00:00:06 [    3.685731] aspeed-i2c-bus 1e78a400.i2c-bus: i2c bus 7 regi=
-stered, irq 48
-> > 00:00:06 [    3.688918] aspeed-i2c-bus 1e78a480.i2c-bus: i2c bus 8 regi=
-stered, irq 49
-> > 00:00:06 [    3.692326] aspeed-i2c-bus 1e78a500.i2c-bus: i2c bus 9 regi=
-stered, irq 50
-> > 00:00:06 [    3.693757] aspeed-i2c-bus 1e78a680.i2c-bus: i2c bus 12 reg=
-istered, irq 51
-> > 00:00:06 [    3.695070] aspeed-i2c-bus 1e78a700.i2c-bus: i2c bus 13 reg=
-istered, irq 52
-> > 00:00:06 [    3.696184] aspeed-i2c-bus 1e78a780.i2c-bus: i2c bus 14 reg=
-istered, irq 53
-> > 00:00:06 [    3.697144] aspeed-i2c-bus 1e78a800.i2c-bus: i2c bus 15 reg=
-istered, irq 54
-> > 00:00:06 [    3.699061] aspeed-video 1e700000.video: irq 55
-> > 00:00:06 [    3.699254] aspeed-video 1e700000.video: assigned reserved =
-memory node video
-> > 00:00:06 [    3.702755] aspeed-video 1e700000.video: alloc mem size(245=
-76) at 0xbc000000 for jpeg header
-> > 00:00:06 [    3.706139] Driver for 1-wire Dallas network protocol.
-> > 00:00:07 smbus: error: Unexpected send start condition in state -1
-> > 00:00:07 smbus: error: Unexpected write in state -1
-> > 00:00:10 smbus: error: Unexpected send start condition in state -1
-> > 00:00:10 smbus: error: Unexpected write in state -1
-> > 00:00:12 smbus: error: Unexpected send start condition in state -1
-> > 00:00:12 smbus: error: Unexpected write in state -1
-> > 00:00:14 smbus: error: Unexpected send start condition in state -1
-> > 00:00:14 smbus: error: Unexpected write in state -1
-> > 00:00:17 smbus: error: Unexpected send start condition in state -1
-> > 00:00:17 smbus: error: Unexpected write in state -1
-> > 00:00:18 [   14.080141] adt7475 7-002e: Error configuring attenuator by=
-pass
-> > 00:00:19 smbus: error: Unexpected send start condition in state -1
-> > 00:00:19 smbus: error: Unexpected write in state -1
-> > 00:00:21 smbus: error: Unexpected send start condition in state -1
-> > 00:00:21 smbus: error: Unexpected write in state -1
-> > 00:00:24 smbus: error: Unexpected send start condition in state -1
-> > 00:00:24 smbus: error: Unexpected write in state -1
-> > ```
-> >=20
-> > The smbus errors do not occur if I revert this patch.
-> >=20
-> > Can you look into qemu to see if it's a bug in the aspeed i2c
-> > controller model's state machine?
-> >=20
+> "aspeed-i2c-bus 1e78a040.i2c-bus: irq handled !=3D irq. Expected
+> 0x00000086, but was 0x00000084"
 >=20
-> Thanks, Andrew, for testing these patches on qemu.
->=20
-> I'll try to look into it to see if anything can be improved, but I have=
-=20
-> to admit that I'm not so familiar with it. This is my first time trying=
-=20
-> it on qemu. Just did these tests on real HW with waveform captured=20
-> sometimes.
->=20
-> So far I could be able to reproduce the issue and start playing around=
-=20
-> trying to understand the model.
->=20
+> Fixes: f9eb91350bb2 ("i2c: aspeed: added slave support for Aspeed I2C dri=
+ver")
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+> Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 
-So `$ git grep -lF 'Unexpected write in state'` leads us to
-hw/i2c/smbus_slave.c:193. From the switch statement there and the log
-output above dev->mode must be SMBUS_CONFUSED:
+Applied to for-current, thanks!
+
+I'll wait with patch 2. It seems there are issues to be solved before.
 
 
-https://gitlab.com/qemu-project/qemu/-/blob/039afc5ef7367fbc8fb475580c291c2=
-655e856cb/hw/i2c/smbus_slave.c#L35-L41
+--EnB+dRLs7i+8f3ip
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The prior log message was:
+-----BEGIN PGP SIGNATURE-----
 
-```
-00:00:05 smbus: error: Unexpected send start condition in state 1
-```
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWCA14ACgkQFA3kzBSg
+KbZyCA//ccM+CCktAPNx6R6VzRFUXc9PKW3sgI5UZ6kuiBU+ntqHpNArrKZRxWFj
+owkYvvBdo2tg1YZQWQOAEwdzOz3mEQ2py3faQRIEL08bihsZhgSR43jR/D2d9fpI
+tssJghX3Hu3VMt1m0O2PUqX+20IJhYxjuQIVB5VEm7gSvlRoDcl+nqps/xEyICv5
+A+Uftt2ZWHRGVgQ+RZB98BSsfFbPIgw64BfG0iKUF2bVqjPBCAMfPs2bZUSoGdxl
+I9cSyIzWqKmQ3R2R84S+tJw6xCy1aENHHXAaXHDFLtiXieoZrcBSvs3U2YaBcFeA
+VvZNMxPnGETYPsn8Hze1En1wJFimMzxEcpRRu380W+GphZa38oJyfadRh38oh8yf
+pYgu9hsL4vAUefT28PvBTC75T9AabggQifj3KqdxAEWfolcsB219lDgsC8qPnOKI
+IhU4bbtgGNM2z8pUN8zvFxWx9oJGONR8yibrkWhpSAsM1Wi1JREvxfdhOhlJ+84Y
+8j5AhARou0HEOb0mtaIBAT37UWyBX9/HlZatXFeSi4p9AktTpKS9A014Zw5rp3OS
+rZci0/iUupGoc7tg9KkbTQ0Oc4zMA9FhGKnWb+gXFw6lZPVs6w9O+EidfBCKG7iq
+mgpWX0bhPwIsr7IKgR29OeKEbWiD2Uye033m5dfBTQ8cnaL0yuc=
+=mbba
+-----END PGP SIGNATURE-----
 
-So we entered SMBUS_CONFUSED from SMBUS_WRITE_DATA. Given the log
-output above it suggests the master model is failing to send an
-I2C_FINISH prior to I2C_START_SEND, as that log message is emitted from
-`dev->mode !=3D SMBUS_IDLE` when the slave sees an `I2C_START_SEND`.
-
-Perhaps the M_STOP_CMD handling needs to go above the M_START_CMD
-handling in aspeed_i2c_bus_handle_cmd()?
-
-https://gitlab.com/qemu-project/qemu/-/blob/039afc5ef7367fbc8fb475580c291c2=
-655e856cb/hw/i2c/aspeed_i2c.c#L450
-
-Andrew
+--EnB+dRLs7i+8f3ip--
