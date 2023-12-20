@@ -1,69 +1,42 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDB88191C8
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Dec 2023 21:56:21 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NRTNu4af;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED81819A3C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Dec 2023 09:14:38 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Svprd2rFqz3cPl
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Dec 2023 07:56:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Sw5vJ1j96z3bcH
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Dec 2023 19:14:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NRTNu4af;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=wsa@kernel.org; receiver=lists.ozlabs.org)
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=h08.hostsharing.net (client-ip=176.9.242.62; helo=bmailout3.hostsharing.net; envelope-from=foo00@h08.hostsharing.net; receiver=lists.ozlabs.org)
+X-Greylist: delayed 401 seconds by postgrey-1.37 at boromir; Wed, 20 Dec 2023 19:14:31 AEDT
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4SvprR6hVtz2ykw;
-	Wed, 20 Dec 2023 07:56:07 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id E83AFB81AA4;
-	Tue, 19 Dec 2023 20:56:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3859C433C7;
-	Tue, 19 Dec 2023 20:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703019362;
-	bh=bI7eRgyy5+ORKYRMoLdIMmfFqNe12oOLtPUfljOSAyw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NRTNu4afzfmyVVxHDtB7hzC5xvReRXGZC3oX6gzfNCDxJV9dmI0Qx+K0XKecETC6y
-	 9maVdCXBahsp2UOvHWiQgrzHt+9fpBmshww7mD0gGSvxXCWp0Xv5XgCVzUsiX4unQb
-	 2jBBsQt7f1jfU+bT93hf+je1VMnkQW0WB9vvhxYHmdvkEQi7T91f4xG3JHbB7j3nMb
-	 fJlzoDmOzMJaFsMA7u9vMZC04S37LRZKw9bf+rGzR/YkAYlPbVIuQ67tCmFSCE3yFp
-	 xuaoo0xRMCxtVl/p/82ntXh2VNF1URJ6GVGAvtqZiWPC/UOx1qq1dM+8LSEq5dGQbO
-	 HP0GDTKTyR+Qg==
-Date: Tue, 19 Dec 2023 21:55:58 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v4 1/2] i2c: aspeed: Handle the coalesced stop conditions
- with the start conditions.
-Message-ID: <ZYIDXru48jqk6MH0@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Quan Nguyen <quan@os.amperecomputing.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Joel Stanley <joel@jms.id.au>, Andi Shyti <andi.shyti@kernel.org>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-	Guenter Roeck <linux@roeck-us.net>, linux-i2c@vger.kernel.org,
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Cosmo Chou <chou.cosmo@gmail.com>,
-	Open Source Submission <patches@amperecomputing.com>,
-	Phong Vo <phong@os.amperecomputing.com>,
-	"Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20231211102217.2436294-1-quan@os.amperecomputing.com>
- <20231211102217.2436294-2-quan@os.amperecomputing.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Sw5vC1gqdz2ykw
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Dec 2023 19:14:31 +1100 (AEDT)
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout3.hostsharing.net (Postfix) with ESMTPS id D4F7B10096644;
+	Wed, 20 Dec 2023 09:07:33 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 81B894F3E; Wed, 20 Dec 2023 09:07:33 +0100 (CET)
+Date: Wed, 20 Dec 2023 09:07:33 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Howard Chiu <howard10703049@gmail.com>
+Subject: Re: [PATCH v8] ARM: dts: aspeed: Adding Facebook Bletchley BMC
+Message-ID: <20231220080733.GA30641@wunner.de>
+References: <20211207094923.422422-1-howard.chiu@quantatw.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="EnB+dRLs7i+8f3ip"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231211102217.2436294-2-quan@os.amperecomputing.com>
+In-Reply-To: <20211207094923.422422-1-howard.chiu@quantatw.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,56 +48,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Brendan Higgins <brendan.higgins@linux.dev>, Cosmo Chou <chou.cosmo@gmail.com>, Open Source Submission <patches@amperecomputing.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Guenter Roeck <linux@roeck-us.net>, linux-i2c@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin.Lai@quantatw.com, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, robh+dt@kernel.org, Howard Chiu <howard.chiu@quantatw.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Tue, Dec 07, 2021 at 05:49:24PM +0800, Howard Chiu wrote:
+> Initial introduction of Facebook Bletchley equipped with
+> Aspeed 2600 BMC SoC.
+[...]
+> +		tpmdev@0 {
+> +			compatible = "tcg,tpm_tis-spi";
 
---EnB+dRLs7i+8f3ip
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Dec 11, 2023 at 05:22:16PM +0700, Quan Nguyen wrote:
-> Some masters may drive the transfers with low enough latency between
-> the nak/stop phase of the current command and the start/address phase
-> of the following command that the interrupts are coalesced by the
-> time we process them.
-> Handle the stop conditions before processing SLAVE_MATCH to fix the
-> complaints that sometimes occur below.
->=20
-> "aspeed-i2c-bus 1e78a040.i2c-bus: irq handled !=3D irq. Expected
-> 0x00000086, but was 0x00000084"
->=20
-> Fixes: f9eb91350bb2 ("i2c: aspeed: added slave support for Aspeed I2C dri=
-ver")
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-> Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
-
-Applied to for-current, thanks!
-
-I'll wait with patch 2. It seems there are issues to be solved before.
+What's the chip used on this board?  Going forward, the DT schema for TPMs
+requires the exact chip name in addition to the generic "tcg,tpm_tis-spi".
 
 
---EnB+dRLs7i+8f3ip
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWCA14ACgkQFA3kzBSg
-KbZyCA//ccM+CCktAPNx6R6VzRFUXc9PKW3sgI5UZ6kuiBU+ntqHpNArrKZRxWFj
-owkYvvBdo2tg1YZQWQOAEwdzOz3mEQ2py3faQRIEL08bihsZhgSR43jR/D2d9fpI
-tssJghX3Hu3VMt1m0O2PUqX+20IJhYxjuQIVB5VEm7gSvlRoDcl+nqps/xEyICv5
-A+Uftt2ZWHRGVgQ+RZB98BSsfFbPIgw64BfG0iKUF2bVqjPBCAMfPs2bZUSoGdxl
-I9cSyIzWqKmQ3R2R84S+tJw6xCy1aENHHXAaXHDFLtiXieoZrcBSvs3U2YaBcFeA
-VvZNMxPnGETYPsn8Hze1En1wJFimMzxEcpRRu380W+GphZa38oJyfadRh38oh8yf
-pYgu9hsL4vAUefT28PvBTC75T9AabggQifj3KqdxAEWfolcsB219lDgsC8qPnOKI
-IhU4bbtgGNM2z8pUN8zvFxWx9oJGONR8yibrkWhpSAsM1Wi1JREvxfdhOhlJ+84Y
-8j5AhARou0HEOb0mtaIBAT37UWyBX9/HlZatXFeSi4p9AktTpKS9A014Zw5rp3OS
-rZci0/iUupGoc7tg9KkbTQ0Oc4zMA9FhGKnWb+gXFw6lZPVs6w9O+EidfBCKG7iq
-mgpWX0bhPwIsr7IKgR29OeKEbWiD2Uye033m5dfBTQ8cnaL0yuc=
-=mbba
------END PGP SIGNATURE-----
-
---EnB+dRLs7i+8f3ip--
+> +			spi-max-frequency = <33000000>;
+> +			reg = <0>;
+> +		};
+> +	};
