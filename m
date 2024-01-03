@@ -1,73 +1,88 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E040822836
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jan 2024 07:05:02 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09249822CCE
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jan 2024 13:17:23 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OzQWPv/+;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=Ok9yJgrr;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=0o4Fwpm1;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T4fMH58Rdz3bnL
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jan 2024 17:04:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T4pcw5406z2ysD
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jan 2024 23:17:20 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OzQWPv/+;
+	dkim=pass (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=Ok9yJgrr;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=0o4Fwpm1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1031; helo=mail-pj1-x1031.google.com; envelope-from=rentao.bupt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.28; helo=out4-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz; receiver=lists.ozlabs.org)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T4fMC2P2Jz2ydW;
-	Wed,  3 Jan 2024 17:04:53 +1100 (AEDT)
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-28bc7155755so4071344a91.2;
-        Tue, 02 Jan 2024 22:04:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704261891; x=1704866691; darn=lists.ozlabs.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RADEDc9Gi3yeGmgXekpn/ZMo5Gqri1fLzJEVnaWXUjc=;
-        b=OzQWPv/+7qSquoYkIpurVzKceQl0D0wMtGlUuwR1CrT5LZi4ja2qEjeWZ+B1xskL/U
-         gUmlOJMYbpV2lXZUfbrpc0vPr94esbLK7q3nXxM8z0JAX+7MGTF8zegg2JFos/w/b2x9
-         9Q5RNnWx3pJ8vQ4ApkvqKCgc72p4kM1xvPfy5KU/Uy5XVpgSRbyO/CugUHVC1OC1nwrG
-         O6a50RR3N2TRjjDlnAZE9My639BXZ1nUh0W+zPJN9G76pR1FHYtmYJowAxgwloRK5atb
-         QXQATFqKzlHKXS1kVo4iFyBKLLasK+1BgpJdKK6xzL2fQkSsTGh0LKrCqaTwGNa+84Jq
-         b+VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704261891; x=1704866691;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RADEDc9Gi3yeGmgXekpn/ZMo5Gqri1fLzJEVnaWXUjc=;
-        b=T1CMAWmzq4lv+KWRpDvCWAHspZc6Ub8Hx9P0C5rNnoahaLi7IHt/1gCmr2mSxfXrac
-         7bWvVpKPTQ3+upLHMILQBg4W5lfZcgACBkJudhI9pl2375R6tDKKsnW66BZo/u3XyvWv
-         yEZ3E98J4+PqqLH6tOV7Y+8LAc/+7ORkd/HbEBekSqSt78CGiy23MIi47Wv2ZxGHv6fd
-         EdpleuUo5IdxHrXCUrpQ4oM9bPSm0BrrJCJ2/eJDob8KoLuEc9eju0gSjfrIpnN+sj2f
-         Ls17u4jSb48hnyfSu7S/BmX7LILBKI35aSatXrotPoR4kHCVyhn59ZXs4ky5kcus9UI7
-         co+A==
-X-Gm-Message-State: AOJu0YzXlOyt10Zri28tnh01a2Ia8YCLB0hJ2BqAkTHHiRdOFzVBq2Dx
-	/2Y6g3ijeVZ+lCnNjQsqS3M=
-X-Google-Smtp-Source: AGHT+IFqHi+Z9RaxmTv01e7Lhq19U4PDLeD1/DLeP/+2Nj+9uvZb6Eflr8CAJzBj7s8A4fjMAeUQ9w==
-X-Received: by 2002:a17:90a:4701:b0:28c:b90c:9fb8 with SMTP id h1-20020a17090a470100b0028cb90c9fb8mr2128463pjg.28.1704261890733;
-        Tue, 02 Jan 2024 22:04:50 -0800 (PST)
-Received: from fedora (c-24-4-59-2.hsd1.ca.comcast.net. [24.4.59.2])
-        by smtp.gmail.com with ESMTPSA id x8-20020a17090a46c800b0028caac8d061sm665404pjg.12.2024.01.02.22.04.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jan 2024 22:04:50 -0800 (PST)
-Date: Tue, 2 Jan 2024 22:04:47 -0800
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH 5/5] ARM: dts: aspeed: Add Facebook Wedge400 BMC
-Message-ID: <ZZT4/w2eVzMhtsPx@fedora>
-References: <20200824211948.12852-1-rentao.bupt@gmail.com>
- <20200824211948.12852-6-rentao.bupt@gmail.com>
- <20231220082714.GA17989@wunner.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T4pcn40yMz3btj
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Jan 2024 23:17:13 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id DED985C01B4;
+	Wed,  3 Jan 2024 07:17:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 03 Jan 2024 07:17:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1704284231; x=1704370631; bh=tO+/ZwtPBh
+	TkBucL3MQP+jVMBKPcHDEPNI5yeaQsy0g=; b=Ok9yJgrrQNbTqq1quT9+5hA9+9
+	ydSTtfAOHyLVi+qmv0dvTmu+QSc5/94mxZ+UYSbZdYgRaPC5r3Jq7JqzXnX33CER
+	OtZI/9s73E4+reNJJBcYui8BoEHTPdg0+05JeJ+aHESkRsMWC+/q0ETzYXdWVBDy
+	/DFzr2K0R6ZRk7wdEEnPxLOa+K8Q20AgxW9j9QPt6PZCRDA9z3ZNnrWOwD+NwMYP
+	8hu2zhp8FnOIcOsCCMOx07i3t5YVPr+OoR1TkvNAbN7JgglBjY4F1iJz3IMrhh+7
+	rNHpfVotDWGP3qnrMrS5LsA5Bw1FQlwpi5FQbHJcF0k5akyIlG1XOt9fTR0A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704284231; x=1704370631; bh=tO+/ZwtPBhTkBucL3MQP+jVMBKPc
+	HDEPNI5yeaQsy0g=; b=0o4Fwpm1z94GqyybFh7C7kMVDnibVGf34jRMCs7y9Dum
+	yg/uaRM5JfDCeFkqYy8kO7OzUT8s9zDNCs/ArtPhotFL2oo3lI8lLgwnimhgM/y9
+	b0jokNtFJDGpBLyoT+laIs4PAOa1pj1RGOIYiaINu59wyZuydPjxRiBLZ91ljQ70
+	0LJVduSR7EM7k+/YWSrcKd7RO757sZ3/LlGDrn6jWF1h7Py85X0MGQ8190mgmtEe
+	0ZLkh1iUR5aP4ZpJMpsd7UDcbmmDADpoXAOlZ3TAEf3zMZRx/SUSlwPEAa8VJN3y
+	7JGpRyeXIhr1VaM9NTA2TzaIIHvGjoXaZKWGJwQXxQ==
+X-ME-Sender: <xms:R1CVZW25N90Vuj1NwQ1w7qYIYK9CitGwxTL_ZFSjyXsrqgYdbL-RGQ>
+    <xme:R1CVZZH9w_9vGC8uIK-jGS3SeZ7zrE8H-RKTD3oi1a4pY6pnooIm9NsyezhmqrrnV
+    TyOnLYPusRK8hngayE>
+X-ME-Received: <xmr:R1CVZe6UT3ObH9HkHENiPVRFWfVc-4YYkkcleqOn2bvCjYkbrLw2_XKe0o6Lalv4aELxkXQ3SgjSzOD8sfBZ6ES2LQmNbA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeghedgfeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    gfrhhlucfvnfffucdludejmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredt
+    tddvnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
+    hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpeejgfdtleelvdeftdeggefffeeu
+    feevgeejkeelgeeujeevveeufeeigfeivdejjeenucffohhmrghinhepkhgvrhhnvghlrd
+    horhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    phgrthhrihgtkhesshhtfigtgidrgiihii
+X-ME-Proxy: <xmx:R1CVZX2p-4zlfpUjMW-3DGP8_Zhc3ShVJ-JLjM9MeM_jnZ-jNseA5w>
+    <xmx:R1CVZZE87QIkubNdFBGcxvuD76HyP1qotBCCLXaRHjuF9IghO8f_bA>
+    <xmx:R1CVZQ-s_3fl7A0xVz1h1dMrDE99g4vYxbueZNlJPs9k4ZzSTWLrNw>
+    <xmx:R1CVZfaU5dnwr5OUeDnEQvd0oJ3hPmmku6rXhfAd-hPyMyFMlIK9cA>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Jan 2024 07:17:11 -0500 (EST)
+Date: Wed, 3 Jan 2024 06:17:10 -0600
+From: Patrick Williams <patrick@stwcx.xyz>
+To: Peter Yin <peteryin.openbmc@gmail.com>
+Subject: Re: [PATCH v1 5/5] ARM: dts: aspeed: Harma: Add spi-gpio
+Message-ID: <ZZVQRgTe57G4Tc_w@heinlein.vulture-banana.ts.net>
+References: <20240102044409.3810873-1-peteryin.openbmc@gmail.com>
+ <20240102044409.3810873-6-peteryin.openbmc@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4MieZFNir6FV4A2x"
 Content-Disposition: inline
-In-Reply-To: <20231220082714.GA17989@wunner.de>
+In-Reply-To: <20240102044409.3810873-6-peteryin.openbmc@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,28 +94,98 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Lukas,
 
-On Wed, Dec 20, 2023 at 09:27:14AM +0100, Lukas Wunner wrote:
-> On Mon, Aug 24, 2020 at 02:19:48PM -0700, rentao.bupt@gmail.com wrote:
-> > Add initial version of device tree for Facebook Wedge400 (AST2500) BMC.
-> [...]
-> > --- /dev/null
-> > +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge400.dts
-> [...]
-> > +		tpmdev@0 {
-> > +			compatible = "tcg,tpm_tis-spi";
-> 
-> What's the chip used on this board?  Going forward, the DT schema for TPMs
-> requires the exact chip name in addition to the generic "tcg,tpm_tis-spi".
+--4MieZFNir6FV4A2x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Most likely it is "infineon,slb9670", but let me double confirm and will
-prepare a patch for fix later.
+On Tue, Jan 02, 2024 at 12:44:09PM +0800, Peter Yin wrote:
+> Add spi-gpio for tpm device.
+>=20
+> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+> ---
+>  .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 21 +++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts b/arc=
+h/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
+> index 36aad01dda20..25ae044cd176 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
+> @@ -28,6 +28,8 @@ aliases {
+>  		i2c29 =3D &imux29;
+>  		i2c30 =3D &imux30;
+>  		i2c31 =3D &imux31;
+> +
+> +		spi1 =3D &spi_gpio;
+>  	};
+> =20
+>  	chosen {
+> @@ -67,6 +69,25 @@ led-2 {
+>  			gpios =3D <&gpio0 124 GPIO_ACTIVE_HIGH>;
+>  		};
+>  	};
+> +
+> +	spi_gpio: spi-gpio {
+> +		status =3D "okay";
+> +		compatible =3D "spi-gpio";
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <0>;
+> +
+> +		gpio-sck =3D <&gpio0 ASPEED_GPIO(Z, 3) GPIO_ACTIVE_HIGH>;
+> +		gpio-mosi =3D <&gpio0 ASPEED_GPIO(Z, 4) GPIO_ACTIVE_HIGH>;
+> +		gpio-miso =3D <&gpio0 ASPEED_GPIO(Z, 5) GPIO_ACTIVE_HIGH>;
+> +		num-chipselects =3D <1>;
+> +		cs-gpios =3D <&gpio0 ASPEED_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
+> +
+> +		tpmdev@0 {
+> +			compatible =3D "tcg,tpm_tis-spi";
 
-Cheers,
+Due to other pending changes, there is a request that all tpm_tis-spi
+also contain a compatible with a chip vendor.  Please add
+"infineon,slb9670".
 
-- Tao
+See https://lore.kernel.org/lkml/ZZTS0p1hdAchIbKp@heinlein.vulture-banana.t=
+s.net/
+for more context.
+
+> +			spi-max-frequency =3D <33000000>;
+> +			reg =3D <0>;
+> +		};
+> +	};
+>  };
+> =20
+>  // HOST BIOS Debug
+> --=20
+> 2.25.1
+>=20
+
+--=20
+Patrick Williams
+
+--4MieZFNir6FV4A2x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmWVUEYACgkQqwNHzC0A
+wRlu0Q/+JCxoappGQgYN8XwykKfMvTqOKTOoH56HMD4//s7BZSAqhc663TqU+iSk
+GdF5fU6nXjga9rM/eh5t4HPBmptag+RnUIAYolxL3G5UoRaJs0Mk6k2qQzCUheZv
++aIo5H1NDzurnUt4WXhpc07nVwQRlsu/q6+xPLrLfd2sVnHLRbGjfo9T+Q1w+9P7
+bKsSfO8dqtfxIvHc4GRqQTJTprzpyJd9X3WC6PmeS5PEWuLzG5JDK4LzEjGHpEno
+ldZKmO7TNInpLA4TbeLzS3O1dHSPIGcqwAAzrkgZ1pJUZaTmpdoHKFgpIeYq5p+b
+INHCEaBukf20jwjC04FQaF3dif+zMlMUiRkDdZIQmc4RatAVWv5pkfj4hRqbnDk3
+/1VOY6C3NKtu+1v7MOQsfuxwNrbrb20TQu5LWco9z1ENsbW5ngr6iHU/yx164UDs
+xy1HPRm7Y9wJUz3VmvQmvdUHNIQ6gAMGMnrk+4F69pUR5drmUtgDAxc1TTsUBklV
+MCj47BP+o1PNwT/UaScuQorCS8ffxk7tGOT4zfKLqQghEpLO/aKzaSk+V8k8hoRC
+pXbBmjXtyuYEp50RG5Uim4/PdoWX6Dm1Vfz6pE7t0XzcntXgwzPNgWYBiGwamhEL
+ajhb2hf4aXXIyutOcF+F2g/VSpRh1cJ8AFomfqW+CSLRWn9zXAY=
+=ZFb5
+-----END PGP SIGNATURE-----
+
+--4MieZFNir6FV4A2x--
