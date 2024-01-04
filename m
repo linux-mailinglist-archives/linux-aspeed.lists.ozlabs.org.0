@@ -1,76 +1,48 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3688A82342B
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jan 2024 19:16:56 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mA+qEwiH;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAD5823B40
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Jan 2024 04:43:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T4ybm0Zdsz3Wtt
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Jan 2024 05:16:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T5C9t6gLPz3cGY
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Jan 2024 14:43:46 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mA+qEwiH;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62f; helo=mail-pl1-x62f.google.com; envelope-from=rentao.bupt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx02.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 88 seconds by postgrey-1.37 at boromir; Thu, 04 Jan 2024 14:43:35 AEDT
+Received: from TWMBX02.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T4ybf5G9Cz30hF;
-	Thu,  4 Jan 2024 05:16:44 +1100 (AEDT)
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1d409bcb0e7so38294315ad.1;
-        Wed, 03 Jan 2024 10:16:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704305801; x=1704910601; darn=lists.ozlabs.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uumraeqLsr2lYf5i74U7JAgU/UNRCFo3U3jeL0oqQzo=;
-        b=mA+qEwiHtojYns/wa0+F+JoAHNNGighP+SqicmgyC2r2hwhxhwz/Uk4u/QAvUNLt7d
-         I7K+2E5XNFqqZgYLDCdWS2wWbSXiCxkOEO7FAjWtVnZSE1SMcAnVeac7pOtJ2Dv/dSZH
-         cwede6I7h82Q+/y7RW8qcPoxHoQCOoNHSLSHWDkTAzLuSFnBxCCvECM7oNXPiIWpt0kb
-         in/I7x+UTpiFfsoFnqV81jmdwdsETphn9vdKZCIOmf++w7RPQzp4kT0JPVXNLHm28dra
-         7+KpWk/3RDqXIWdS2LBaqfCXQfJPBVNY+O1AR84JQDYJfOR6Tycc8fbvYyx+zfROzcl5
-         xjwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704305801; x=1704910601;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uumraeqLsr2lYf5i74U7JAgU/UNRCFo3U3jeL0oqQzo=;
-        b=wdxlhjlyOtY2MF+hXqPtMOS73+tTwKLOdTe0HZE7/P7++HeO6/26SCNBhs9Kn4/oF4
-         yd2GCSdHdnGLsLXogqTxoXctyc/UB0Jfr1NcSlOgSn0FJDzwwwO54/v8vD2fVmorzn2/
-         BgtxyEGrroxjuYOhoeiWstUwnSTjerfTZfOksDVNHZhFx+2cElHnpRwZonP8G1app5oq
-         3n4DvNIRDJwrQq63h7n9/uA6CapRwtWfIx7N1wxZnKSPuZ8Og8GlBjHpqclWiMCN7guS
-         SytZec/grvbZBint8XkrVaC1mcxwYxzJa2VV9RhY11TIBL2s44nHI6uwNQpMusf3JLF8
-         d4hg==
-X-Gm-Message-State: AOJu0Yy6Ac4rco5335w13wifJByhKQQ3fNCuc3p3aEL2IGaUb3AJEq7D
-	HEPCptrGAcvvjIFD5HFPBAQ=
-X-Google-Smtp-Source: AGHT+IFbrNrWh744ukhvuIJvNBRk8q07YX7qKiTp8NDJFFroVwlad6rHVCsw6FswhMTHaFTSu5rf5g==
-X-Received: by 2002:a17:903:645:b0:1d3:68ee:d958 with SMTP id kh5-20020a170903064500b001d368eed958mr8544492plb.107.1704305800708;
-        Wed, 03 Jan 2024 10:16:40 -0800 (PST)
-Received: from fedora (c-24-4-59-2.hsd1.ca.comcast.net. [24.4.59.2])
-        by smtp.gmail.com with ESMTPSA id o24-20020a170902779800b001d46b2ec6a5sm15809732pll.192.2024.01.03.10.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 10:16:40 -0800 (PST)
-Date: Wed, 3 Jan 2024 10:16:37 -0800
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v2 3/6] ARM: dts: aspeed: Common dtsi for Facebook
- AST2600 Network BMCs
-Message-ID: <ZZWkhaiDFOGvcPQy@fedora>
-References: <20210805222818.8391-1-rentao.bupt@gmail.com>
- <20210805222818.8391-4-rentao.bupt@gmail.com>
- <20231220081402.GA3831@wunner.de>
- <ZZSmMJ//l972Qbxu@fedora>
- <20240103124502.GB23899@wunner.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T5C9g5kfZz2xTN
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  4 Jan 2024 14:43:34 +1100 (AEDT)
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Jan
+ 2024 11:41:21 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 4 Jan 2024 11:41:21 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+	<corbet@lwn.net>, <thierry.reding@gmail.com>,
+	<u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+	<billy_tsai@aspeedtech.com>, <naresh.solanki@9elements.com>,
+	<linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-pwm@vger.kernel.org>, <BMC-SW@aspeedtech.com>, <patrick@stwcx.xyz>
+Subject: [PATCH v11 0/3] Support pwm/tach driver for aspeed ast26xx
+Date: Thu, 4 Jan 2024 11:41:17 +0800
+Message-ID: <20240104034120.3516290-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240103124502.GB23899@wunner.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: Fail (TWMBX02.aspeed.com: domain of billy_tsai@aspeedtech.com
+ does not designate 192.168.10.10 as permitted sender)
+ receiver=TWMBX02.aspeed.com; client-ip=192.168.10.10;
+ helo=twmbx02.aspeed.com;
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,65 +54,112 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Lukas,
+Unlike the old design that the register setting of the TACH should based
+on the configure of the PWM. In ast26xx, the dependency between pwm and
+tach controller is eliminated and becomes a separate hardware block. One
+is used to provide pwm output and another is used to monitor the frequency
+of the input. This driver implements them by exposing two kernel
+subsystems: PWM and HWMON. The PWM subsystem can be utilized alongside
+existing drivers for controlling elements such as fans (pwm-fan.c),
+beepers (pwm-beeper.c) and so on. Through the HWMON subsystem, the driver
+provides sysfs interfaces for fan.
 
-On Wed, Jan 03, 2024 at 01:45:02PM +0100, Lukas Wunner wrote:
-> On Tue, Jan 02, 2024 at 04:11:28PM -0800, Tao Ren wrote:
-> > On Wed, Dec 20, 2023 at 09:14:02AM +0100, Lukas Wunner wrote:
-> > > On Thu, Aug 05, 2021 at 03:28:15PM -0700, rentao.bupt@gmail.com wrote:
-> > > > This common descirption is included by all Facebook AST2600 Network BMC
-> > > > platforms to minimize duplicated device entries across Facebook Network
-> > > > BMC device trees.
-> > > [...]
-> > > > --- /dev/null
-> > > > +++ b/arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi
-> > > [...]
-> > > > +		tpmdev@0 {
-> > > > +			compatible = "tcg,tpm_tis-spi";
-> > > 
-> > > What's the chip used on this board?  Going forward, the DT schema for TPMs
-> > > requires the exact chip name in addition to the generic "tcg,tpm_tis-spi".
-> > 
-> > Sorry about the late response. It's "infineon,slb9670", and I will
-> > submit a patch for fix it soon.
-> 
-> Thank you Tao and Patrick for the replies.  I've prepared two commits
-> to fix all violations of the TPM schema on this branch:
-> 
->   https://github.com/l1k/linux/commits/tpm-dt3
-> 
-> The commits are named:
-> 
->   e95bdbc arm64: dts: Fix TPM schema violations
->   63e5dfd ARM: dts: Fix TPM schema violations
-> 
-> I've now amended the ARM commit to use "infineon,slb9670" for:
-> 
->   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-bletchley.dts
->   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-wedge400.dts
->   arch/arm/boot/dts/aspeed/ast2600-facebook-netbmc-common.dtsi
-> 
-> I intend to submit the two commits once the TPM schema is applied
-> either to Jarkko's or Rob's tree:
-> 
->   https://lore.kernel.org/all/20231220160422.GA282877-robh@kernel.org/
-> 
-> Thanks,
-> 
-> Lukas
+Changes since v10:
+Add the enum for the 'fan-driving-mode' properties in the fan-common.yaml.
 
-I've confirmed it's "infineon,slb9670" for both wedge400 and
-ast2600-facebook-netbmc-common.
+Changes since v9:
+Change the type of fan-driving-mode to string
+Fix some typos and formatting issues.
 
-Pleasr free to add to "63e5dfd (ARM: dts: Fix TPM schema violations)":
+Changes since v8:
+Fix the fail of fan div register setting. (FIELD_GET -> FIELD_PREP)
+Change the type of tach-ch from uint32_t to uint8-array
+Add additional properties and apply constraints to certain properties.
 
-Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
+Changes since v7:
+Cherry-pick the fan-common.yaml and add the following properties:
+- min-rpm
+- div
+- mode
+- tach-ch
+Fix the warning which is reported by the kernel test robot.
+
+Changes since v6:
+Consolidate the PWM and TACH functionalities into a unified driver.
+
+Changes since v5:
+- pwm/tach:
+  - Remove the utilization of common resources from the parent node.
+  - Change the concept to 16 PWM/TACH controllers, each with one channel,
+  instead of 1 PWM/TACH controller with 16 channels.
+- dt-binding:
+  - Eliminate the usage of simple-mfd.
+
+Changes since v4:
+- pwm:
+  - Fix the return type of get_status function.
+- tach:
+  - read clk source once and re-use it
+  - Remove the constants variables
+  - Allocate tach_channel as array
+  - Use dev->parent
+- dt-binding:
+  - Fix the order of the patches
+  - Add example and description for tach child node
+  - Remove pwm extension property
+
+Changes since v3:
+- pwm:
+  - Remove unnecessary include header
+  - Fix warning Prefer "GPL" over "GPL v2"
+- tach:
+  - Remove the paremeter min_rpm and max_rpm and return the tach value 
+  directly without any polling or delay.
+  - Fix warning Prefer "GPL" over "GPL v2"
+- dt-binding:
+  - Replace underscore in node names with dashes
+  - Split per subsystem
+
+Changes since v2:
+- pwm:
+  - Use devm_* api to simplify the error cleanup
+  - Fix the multi-line alignment problem
+- tach:
+  - Add tach-aspeed-ast2600 to index.rst
+  - Fix the multi-line alignment problem
+  - Remove the tach enable/disable when read the rpm
+  - Fix some coding format issue
+
+Changes since v1:
+- tach:
+  - Add the document tach-aspeed-ast2600.rst
+  - Use devm_* api to simplify the error cleanup.
+  - Change hwmon register api to devm_hwmon_device_register_with_info
 
 
-Cheers,
+Billy Tsai (2):
+  dt-bindings: hwmon: Support Aspeed g6 PWM TACH Control
+  hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
 
-- Tao
+Naresh Solanki (1):
+  dt-bindings: hwmon: fan: Add fan binding to schema
+
+ .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    |  69 +++
+ .../devicetree/bindings/hwmon/fan-common.yaml |  79 +++
+ Documentation/hwmon/aspeed-g6-pwm-tach.rst    |  26 +
+ Documentation/hwmon/index.rst                 |   1 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/aspeed-g6-pwm-tach.c            | 539 ++++++++++++++++++
+ 7 files changed, 726 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.yaml
+ create mode 100644 Documentation/hwmon/aspeed-g6-pwm-tach.rst
+ create mode 100644 drivers/hwmon/aspeed-g6-pwm-tach.c
+
+-- 
+2.25.1
+
