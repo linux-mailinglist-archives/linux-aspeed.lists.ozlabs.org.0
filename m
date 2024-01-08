@@ -2,74 +2,46 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C44382488A
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Jan 2024 20:03:49 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UNpXUTyR;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id 5420F8268C5
+	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Jan 2024 08:44:26 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T5bbQ06cDz3cTN
-	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Jan 2024 06:03:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T7mKg6Yr0z30gs
+	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Jan 2024 18:44:23 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UNpXUTyR;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.12; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 64 seconds by postgrey-1.37 at boromir; Fri, 05 Jan 2024 06:03:36 AEDT
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx02.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX02.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T5bbD5T0Dz2xdp
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jan 2024 06:03:36 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1704395017; x=1735931017;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3rUMvGvL6YB+Sg9CHINyeLAItR2uRWwb2yiVVnAXKvo=;
-  b=UNpXUTyRcoF8LNiohuZeYs474KmljfWwOW8o5tuj6dGJwnCwRpxkP/9d
-   aTfyBY6HalXTRXNuiTGVUqBa74SaUWkB2cgjV84VloTDqa2rRPGSa7Udi
-   9egzQcHuUb0t5HEjLg0JopTjSAXzhHTATOs+CvjNQWI6BafOar7LFlqsr
-   jgJndUuHwj+HtDQtrCWdySBPsD/IjDC+EO9Jb208GJW/Rkq0P1Ruuw5vJ
-   LyBtj8dgfNl1ZWykgYdbkxnrA0YbpmBeUSMbl2pHEZWkrhzDQkfrpIdu2
-   hgamXAMAOp5uJ82Uy6xBMLmljTlE94LZ3/GWbVJIzTCplQHtSrd6OAMe2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4707786"
-X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="4707786"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2024 11:02:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="1111857269"
-X-IronPort-AV: E=Sophos;i="6.04,331,1695711600"; 
-   d="scan'208";a="1111857269"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Jan 2024 11:02:12 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rLSyo-0000LI-1z;
-	Thu, 04 Jan 2024 19:02:10 +0000
-Date: Fri, 5 Jan 2024 03:01:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
-	linux@roeck-us.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, joel@jms.id.au, andrew@aj.id.au,
-	corbet@lwn.net, thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
-	naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	BMC-SW@aspeedtech.com, patrick@stwcx.xyz
-Subject: Re: [PATCH v11 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED
- g6 PWM/Fan tach
-Message-ID: <202401050234.nDBceclJ-lkp@intel.com>
-References: <20240104034120.3516290-4-billy_tsai@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T7mKY2HRzz30MQ
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  8 Jan 2024 18:44:15 +1100 (AEDT)
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 8 Jan
+ 2024 15:43:50 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 8 Jan 2024 15:43:50 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <jdelvare@suse.com>, <linux@roeck-us.net>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+	<corbet@lwn.net>, <thierry.reding@gmail.com>,
+	<u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+	<billy_tsai@aspeedtech.com>, <naresh.solanki@9elements.com>,
+	<linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-pwm@vger.kernel.org>, <BMC-SW@aspeedtech.com>, <patrick@stwcx.xyz>
+Subject: [PATCH v12 0/3] Support pwm/tach driver for aspeed ast26xx
+Date: Mon, 8 Jan 2024 15:43:45 +0800
+Message-ID: <20240108074348.735014-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240104034120.3516290-4-billy_tsai@aspeedtech.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: Fail (TWMBX02.aspeed.com: domain of billy_tsai@aspeedtech.com
+ does not designate 192.168.10.10 as permitted sender)
+ receiver=TWMBX02.aspeed.com; client-ip=192.168.10.10;
+ helo=twmbx02.aspeed.com;
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,51 +53,115 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Billy,
+Unlike the old design that the register setting of the TACH should based
+on the configure of the PWM. In ast26xx, the dependency between pwm and
+tach controller is eliminated and becomes a separate hardware block. One
+is used to provide pwm output and another is used to monitor the frequency
+of the input. This driver implements them by exposing two kernel
+subsystems: PWM and HWMON. The PWM subsystem can be utilized alongside
+existing drivers for controlling elements such as fans (pwm-fan.c),
+beepers (pwm-beeper.c) and so on. Through the HWMON subsystem, the driver
+provides sysfs interfaces for fan.
 
-kernel test robot noticed the following build errors:
+Changes since v11:
+Fix the compiler error of the driver.
+The owner member has to be moved to struct pwm_chip.
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.7-rc8 next-20240104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Changes since v10:
+Add the enum for the 'fan-driving-mode' properties in the fan-common.yaml.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-hwmon-fan-Add-fan-binding-to-schema/20240104-114552
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240104034120.3516290-4-billy_tsai%40aspeedtech.com
-patch subject: [PATCH v11 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240105/202401050234.nDBceclJ-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240105/202401050234.nDBceclJ-lkp@intel.com/reproduce)
+Changes since v9:
+Change the type of fan-driving-mode to string
+Fix some typos and formatting issues.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401050234.nDBceclJ-lkp@intel.com/
+Changes since v8:
+Fix the fail of fan div register setting. (FIELD_GET -> FIELD_PREP)
+Change the type of tach-ch from uint32_t to uint8-array
+Add additional properties and apply constraints to certain properties.
 
-All errors (new ones prefixed by >>):
+Changes since v7:
+Cherry-pick the fan-common.yaml and add the following properties:
+- min-rpm
+- div
+- mode
+- tach-ch
+Fix the warning which is reported by the kernel test robot.
 
->> drivers/hwmon/aspeed-g6-pwm-tach.c:270:3: error: field designator 'owner' does not refer to any field in type 'const struct pwm_ops'
-     270 |         .owner = THIS_MODULE,
-         |         ~^~~~~~~~~~~~~~~~~~~
-   1 error generated.
+Changes since v6:
+Consolidate the PWM and TACH functionalities into a unified driver.
 
+Changes since v5:
+- pwm/tach:
+  - Remove the utilization of common resources from the parent node.
+  - Change the concept to 16 PWM/TACH controllers, each with one channel,
+  instead of 1 PWM/TACH controller with 16 channels.
+- dt-binding:
+  - Eliminate the usage of simple-mfd.
 
-vim +270 drivers/hwmon/aspeed-g6-pwm-tach.c
+Changes since v4:
+- pwm:
+  - Fix the return type of get_status function.
+- tach:
+  - read clk source once and re-use it
+  - Remove the constants variables
+  - Allocate tach_channel as array
+  - Use dev->parent
+- dt-binding:
+  - Fix the order of the patches
+  - Add example and description for tach child node
+  - Remove pwm extension property
 
-   266	
-   267	static const struct pwm_ops aspeed_pwm_ops = {
-   268		.apply = aspeed_pwm_apply,
-   269		.get_state = aspeed_pwm_get_state,
- > 270		.owner = THIS_MODULE,
-   271	};
-   272	
+Changes since v3:
+- pwm:
+  - Remove unnecessary include header
+  - Fix warning Prefer "GPL" over "GPL v2"
+- tach:
+  - Remove the paremeter min_rpm and max_rpm and return the tach value 
+  directly without any polling or delay.
+  - Fix warning Prefer "GPL" over "GPL v2"
+- dt-binding:
+  - Replace underscore in node names with dashes
+  - Split per subsystem
+
+Changes since v2:
+- pwm:
+  - Use devm_* api to simplify the error cleanup
+  - Fix the multi-line alignment problem
+- tach:
+  - Add tach-aspeed-ast2600 to index.rst
+  - Fix the multi-line alignment problem
+  - Remove the tach enable/disable when read the rpm
+  - Fix some coding format issue
+
+Changes since v1:
+- tach:
+  - Add the document tach-aspeed-ast2600.rst
+  - Use devm_* api to simplify the error cleanup.
+  - Change hwmon register api to devm_hwmon_device_register_with_info
+
+Billy Tsai (2):
+  dt-bindings: hwmon: Support Aspeed g6 PWM TACH Control
+  hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
+
+Naresh Solanki (1):
+  dt-bindings: hwmon: fan: Add fan binding to schema
+
+ .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    |  69 +++
+ .../devicetree/bindings/hwmon/fan-common.yaml |  79 +++
+ Documentation/hwmon/aspeed-g6-pwm-tach.rst    |  26 +
+ Documentation/hwmon/index.rst                 |   1 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/aspeed-g6-pwm-tach.c            | 538 ++++++++++++++++++
+ 7 files changed, 725 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.yaml
+ create mode 100644 Documentation/hwmon/aspeed-g6-pwm-tach.rst
+ create mode 100644 drivers/hwmon/aspeed-g6-pwm-tach.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
