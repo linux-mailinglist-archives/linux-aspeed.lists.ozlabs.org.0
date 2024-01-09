@@ -1,71 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC9982910B
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 00:56:06 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D010829111
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 00:56:26 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ZpfH1gCD;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KWHdhVHj;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T8nrN2VT2z3bYQ
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 10:56:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T8nrm1CXgz307V
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 10:56:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ZpfH1gCD;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KWHdhVHj;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T8nrD1lHPz2xm5
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jan 2024 10:55:55 +1100 (AEDT)
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 409NgGId025342;
-	Tue, 9 Jan 2024 23:55:13 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T8nrc4HB4z2xm5
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jan 2024 10:56:16 +1100 (AEDT)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 409NbJm3009737;
+	Tue, 9 Jan 2024 23:55:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=pp1;
- bh=coUqhojDtCV+5O9qYrOFzPaaw+yGNGV3C/Tk6YzwbEk=;
- b=ZpfH1gCDhl18K1vnq7dBH8+NvpklpA4kdXEbayxSsvfy5q3uPKm8ybb7b8fnalMD9cpP
- uKM4xajmkEVv+Rf3EdaA74nLP1ujzslGxM+2kNQufEoiuxNEfqNwTl57jyuX1W9V6rHZ
- HKnCXgIvfBe1/bWBK1Pt5Ek+gJVZBng8VGDhHDuY8mNRqfo1uwdemxfq8ua6VzOhpeZK
- TDc0PeTC6FI+k+QPsrnHqP1vDJxOZMqo4iTotzp4SEKbqOPDRhRJnjSuEr2U5juWqmZy
- ZDT0/jHCEJlGcyMW3GPj8LCvkt92OmiafbiZ0A9awGLWv8P/wRcE8ptS11C4CWw1lzo7 lg== 
+ bh=pIGSxdBl3VdFv5WEtQLCwxeYviazI+Eu7DuRMU0A1oc=;
+ b=KWHdhVHj3VKfhziPmSNboFMdSDTaDFdLW9viw4pwp+QoBg7IuvRsRZuBcpZ+5BKqjB1S
+ YxCZHa2zuCxWE1AIkjMAWV6GWaGLNqWJ6DrCLkB+Swv5oV2mLt6pjON0FGbYvdlMHCL0
+ Fw0Teabh/rqsdHAoSOWJNmHl+VdlRDUNITOjysUl8mx7ThdTaHRnZnVHvnwL3vGvfXWT
+ MUblorRxuY30v2EQtSkhaGmFX0J5k5LC5pcAX1z2+vuZso0zkGh9NKLSoqIfshoRUWD+
+ SWjUURc4e6D6M3MAwEtmlG5l/G/o0pynqHjVIfE79Qxy/Nzzev61BFdo7JSbu3aGoSwi 9A== 
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vhg21g5qk-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vhfykrcf4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 23:55:13 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 409NtCKj020726;
-	Tue, 9 Jan 2024 23:55:12 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vhg21g5pu-1
+	Tue, 09 Jan 2024 23:55:48 +0000
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 409NdZhO015894;
+	Tue, 9 Jan 2024 23:55:47 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vhfykrce5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 23:55:12 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 409LfTKQ022787;
-	Tue, 9 Jan 2024 23:55:10 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3vfhjyj2yj-1
+	Tue, 09 Jan 2024 23:55:47 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 409MFg0l022877;
+	Tue, 9 Jan 2024 23:55:45 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3vfj6nhvxk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 23:55:10 +0000
+	Tue, 09 Jan 2024 23:55:45 +0000
 Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 409NtABQ18023082
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 409Nti5113042216
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 9 Jan 2024 23:55:10 GMT
+	Tue, 9 Jan 2024 23:55:45 GMT
 Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 143EA58052;
-	Tue,  9 Jan 2024 23:55:10 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id E2BA658052;
+	Tue,  9 Jan 2024 23:55:44 +0000 (GMT)
 Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 381C05805D;
-	Tue,  9 Jan 2024 23:55:09 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id BB20458065;
+	Tue,  9 Jan 2024 23:55:43 +0000 (GMT)
 Received: from [9.61.145.235] (unknown [9.61.145.235])
 	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  9 Jan 2024 23:55:09 +0000 (GMT)
-Message-ID: <43a9b568-69b3-4f59-9f7b-c85880a55929@linux.ibm.com>
-Date: Tue, 9 Jan 2024 17:55:08 -0600
+	Tue,  9 Jan 2024 23:55:43 +0000 (GMT)
+Message-ID: <01974929-dfbf-4989-ba39-369e521827d0@linux.ibm.com>
+Date: Tue, 9 Jan 2024 17:55:43 -0600
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 7/8] tpm: tis-i2c: Add more compatible strings
 Content-Language: en-US
@@ -82,19 +82,19 @@ From: Ninad Palsule <ninad@linux.ibm.com>
 In-Reply-To: <20240109-pep-coerce-2a86ae88753d@spud>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Uf48EK8vqPqZj9oX-j3Y7eL_vKoKWJRq
-X-Proofpoint-ORIG-GUID: xBvSjs4MU-BP-LVxs0ZB4SKLCJ5sCMLR
+X-Proofpoint-GUID: EkkFGVaYhXbBhJlALwA8NDTvgmLdFbqX
+X-Proofpoint-ORIG-GUID: RWeIWYqaZ-TKAU0q3z3TP5Kvth-CNNwp
 Content-Transfer-Encoding: 7bit
 X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-01-09_11,2024-01-09_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 malwarescore=0 adultscore=0 clxscore=1011
- priorityscore=1501 mlxscore=0 phishscore=0 spamscore=0 bulkscore=0
- suspectscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2311290000 definitions=main-2401090192
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ impostorscore=0 spamscore=0 mlxlogscore=999 adultscore=0 clxscore=1015
+ priorityscore=1501 phishscore=0 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401090192
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,7 +110,7 @@ Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, alexander.stein@ew.tq-group
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Conor,
+Hello Conor,
 
 On 1/9/24 11:14, Conor Dooley wrote:
 > On Mon, Jan 08, 2024 at 02:05:53PM -0600, Ninad Palsule wrote:
@@ -147,6 +147,4 @@ Regards,
 
 Ninad
 
->
-> Thanks,
-> Conor.
+
