@@ -2,67 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06C282A257
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 21:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F334082A262
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 21:37:05 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=FtkeHSD4;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=QKKR1WfN;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T9KL70h6Wz3cM7
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 07:35:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T9KNH3lZhz3cQD
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 07:37:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=FtkeHSD4;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=QKKR1WfN;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::631; helo=mail-ej1-x631.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::230; helo=mail-lj1-x230.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9KL15glXz30gs
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 07:35:03 +1100 (AEDT)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-a28bd9ca247so511510566b.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jan 2024 12:35:03 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9KN63jtqz30gs
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 07:36:54 +1100 (AEDT)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2cd853c159eso157961fa.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jan 2024 12:36:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704918898; x=1705523698; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cG5TS7jiRBzka4KOCkj5yKF26OcvPSo8/7HLaJO0co4=;
-        b=FtkeHSD46lTN0PBRsBtJzK6XAIBsOB1Ac9EqojuZSDk8MwUlORX/ws1j6s1pb+T+Xc
-         hlQNsFGsMDjKUAVCxaxzGu1Bwo80ChYMviotzoEshP+efz7pJzEdwDw2WRnINrR+Rrez
-         LBS0UYJNnw4PYj24qKANosWRZ07wsVy0bf84TA0f8usVQnbfg5NptS9Au4yzeKFNdvOh
-         IcTWZIzNmIX+n/Rjex6laLVfgNLMRoWnhha/lzNlbs5azGCFpwRZXM5pv1kCmLckiknO
-         sVg/jzztOtHrUped3bPTzHceACU+ZiZ6m8JHOsnjhhmdPLQpF+HJnxr6QTNFDcXTXIuG
-         Doiw==
+        d=linaro.org; s=google; t=1704919010; x=1705523810; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=vF5tupcUeWkTYyiJxCJd6V7g3X/1lq74f/KLJG4DSME=;
+        b=QKKR1WfN5zUsOuV97FHf8Bgcjbi6MGfWf52OHEM22OV/XLK2dljc1/dBbxaYsEt9U9
+         Elakgb2QKZwfUF1rm9qAi3Um9EIU9kXTedDrfEe9vIOkuu0+9phZdDNmpCw1YUMiY9eo
+         9DmruhAENV0BmYbMJdBjixtcgGW2oh6CDUdtMT6vWR8VePbGW3FyyIltU1JKsse2dYzh
+         cQCqehf28WMGDaR2l76sBm2EjcgpYQRXlPknbWYLF7e1n3TLM23ebZcPPfNSbsjVkyAA
+         o81G2ItTL5SwradXj3SrgBQFcj3yCzvzegpre2HSLptv2yipTzeNAZoB4K2Q59e1vcsK
+         C8Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704918898; x=1705523698;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cG5TS7jiRBzka4KOCkj5yKF26OcvPSo8/7HLaJO0co4=;
-        b=eU9qWLyFne7nsYBSDs/uG6npcOqj7widHewq5EUbRUd1C+KY7Vl6jm9kQ1wbonq9wr
-         NOL4JIvPE7mnd/T5o/oiRs0y/QfnjUTRhoDHdwQRS6Qc3FSKGve4IsRX2B6ewGpQh1k9
-         Mof01mk9u86wdzpLD1dA2zrl/axQMd7T12vcd+dzz6Xv7jr4oQA1i34hnZK9JhTWxL/Y
-         T9VOoAhW9Knn5S1SU8+d22HzZ/GkIfOzHg9B75g7kqTCUuliQ1a21iAWTkZQPg0W4cnj
-         Cl0O3POm2gjsJwDaDnn+xcau+T89g0EVtNpafC5de74cjrDqcVFATEmIvcptk/dH5x77
-         WXaw==
-X-Gm-Message-State: AOJu0YwVIbPczjFhFcZ1auG7XAP3nDuDRR12RH8tH0mMdgB1f+cMssx8
-	86Lhd1nhtlWRqSJr6JG1dU4ezhh7S+ZDvw==
-X-Google-Smtp-Source: AGHT+IF9i+Vzo/TCYeq0AMp4Pyqei21onU9Y0fXaMJ34FS3LZjw+khtv4F7nGHJr7Mn1p1DXuAnh4g==
-X-Received: by 2002:a17:907:6d10:b0:a2c:17cb:8f21 with SMTP id sa16-20020a1709076d1000b00a2c17cb8f21mr51828ejc.145.1704918897787;
-        Wed, 10 Jan 2024 12:34:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704919010; x=1705523810;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vF5tupcUeWkTYyiJxCJd6V7g3X/1lq74f/KLJG4DSME=;
+        b=GfhhIqMaQgp4a/mENBXhs8ZEwmee3TSKN8sjICU9zkiceCmyE8l3wR1C51vzuBh24G
+         pzP7y+yFvPuYCmp3FrpX8LbT4WV66Q7muIezdkNHi6sZfIGcNVeJRSOiX3Cv3+Dz3MLi
+         TYPCjb9LdiKMthP1FuyzTv8dfJiOqI8Lnme1CILEajSIri2bxYgco3+/YDxK2tZjU8SX
+         XG9k7RRlzolINwRZXuJrrY6Zfc8jOMpKBu3ldVmuHrNtvqIqQTo06fJ7j4a/6IQkFguI
+         tcuXTOc6q1Q5fhCNNBtJZIM4aSQl0yjmfrm/r3LzY12en36kBq3S7ONgtF/crzZxMZqv
+         woWg==
+X-Gm-Message-State: AOJu0YzxxOY7gDgFaAMMjcSnk7HeFa4RiIRG0CwGU4etEKgGRRbPbhOJ
+	JAonNpMn4HihDVnTiKFEk9XAx62icnVfuQ==
+X-Google-Smtp-Source: AGHT+IF5zSjWoDPn7CNER2fBW1ddHR+9FT1AiH7W996NoEg1yiOxXBFr3ZSsVpapQPPyOnMTjKVqGA==
+X-Received: by 2002:a2e:8205:0:b0:2cd:690d:5d37 with SMTP id w5-20020a2e8205000000b002cd690d5d37mr76802ljg.29.1704919009786;
+        Wed, 10 Jan 2024 12:36:49 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id dt13-20020a170906b78d00b00a26b057df46sm2392480ejb.126.2024.01.10.12.34.54
+        by smtp.gmail.com with ESMTPSA id x17-20020aa7d391000000b00556cf695da0sm2310685edq.78.2024.01.10.12.36.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 12:34:56 -0800 (PST)
-Message-ID: <32d46b64-d4a5-437a-8737-c2d172608559@linaro.org>
-Date: Wed, 10 Jan 2024 21:34:53 +0100
+        Wed, 10 Jan 2024 12:36:48 -0800 (PST)
+Message-ID: <eef0aa5a-a9bb-43e4-9066-febf48fce46d@linaro.org>
+Date: Wed, 10 Jan 2024 21:36:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 7/8] tpm: tis-i2c: Add more compatible strings
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Guenter Roeck <linux@roeck-us.net>, Ninad Palsule <ninad@linux.ibm.com>,
  Conor Dooley <conor@kernel.org>
 References: <20231212164004.1683589-1-ninad@linux.ibm.com>
@@ -80,8 +82,7 @@ References: <20231212164004.1683589-1-ninad@linux.ibm.com>
  <385b06e9-1daa-408a-a0ed-7b09d7d539df@linux.ibm.com>
  <d56b1e3e-72c4-427f-937d-8c8146bf5b28@linaro.org>
  <3830c26d-96be-4084-a04d-8edb9ccbab5e@roeck-us.net>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <32d46b64-d4a5-437a-8737-c2d172608559@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -126,7 +127,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <3830c26d-96be-4084-a04d-8edb9ccbab5e@roeck-us.net>
+In-Reply-To: <32d46b64-d4a5-437a-8737-c2d172608559@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -144,116 +145,60 @@ Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, alexander.stein@ew.tq-group
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/01/2024 20:06, Guenter Roeck wrote:
-> On 1/10/24 09:54, Krzysztof Kozlowski wrote:
->> On 10/01/2024 16:54, Ninad Palsule wrote:
->>> Hello Krzysztof,
+On 10/01/2024 21:34, Krzysztof Kozlowski wrote:
+>>>>>>>>>> I have send it as a separate commit. https://lore.kernel.org/linux-kernel/20231214144954.3833998-1-ninad@linux.ibm.com/
+>>>>>>>>> Why did you do that? It now just adds undocumented compatibles to the
+>>>>>>>>> driver. Please, as Rob requested, work with Lukas on his series to make
+>>>>>>>>> sure that these devices are documented.
+>>>>>>>> I think krzysztof kozlowski suggested to send these patches separately:
+>>>>>>>> https://lore.kernel.org/linux-kernel/1c5ace65-2fd8-4503-b22f-e0f564d1c83f@linaro.org/
+>>>>>>>>
+>>>>>>>> Did I misunderstood it? Do you guys want me to include that commit again?
+>>>>>>> My comment was in DTS thread under specific DTS patch. How did you
+>>>>>>> figure out it applies to driver and bindings? This does not make sense.
+>>>>>> Sorry for the misunderstanding. Where do you want me to add driver
+>>>>>> patch? Before all DTS patches or after all DTS patches?
+>>>>> Does not matter, why do you insist on combining them with DTS? Drivers
+>>>>> and bindings are going together. DTS better separate, although depending
+>>>>> on the case can be together.
+>>>>>
+>>>> I have combined DTS and Driver because DTS was using compatibility
+>>>> string which is not upstream yet hence I thought it is logical to send
+>>>> it under same patchset.
 >>>
+>>> Sometimes yes, sometimes not. DTS must not go via driver subsystem, so
+>>> sending it in the same patchset has implications on maintainers applying
+>>> it. Some like it, some don't and you will be nagged for combining them.
 >>>
->>> On 1/10/24 09:37, Krzysztof Kozlowski wrote:
->>>> On 10/01/2024 15:31, Ninad Palsule wrote:
->>>>> Hello Krzysztof,
->>>>>
->>>>>
->>>>>
->>>>>>>>> I have send it as a separate commit. https://lore.kernel.org/linux-kernel/20231214144954.3833998-1-ninad@linux.ibm.com/
->>>>>>>> Why did you do that? It now just adds undocumented compatibles to the
->>>>>>>> driver. Please, as Rob requested, work with Lukas on his series to make
->>>>>>>> sure that these devices are documented.
->>>>>>> I think krzysztof kozlowski suggested to send these patches separately:
->>>>>>> https://lore.kernel.org/linux-kernel/1c5ace65-2fd8-4503-b22f-e0f564d1c83f@linaro.org/
->>>>>>>
->>>>>>> Did I misunderstood it? Do you guys want me to include that commit again?
->>>>>> My comment was in DTS thread under specific DTS patch. How did you
->>>>>> figure out it applies to driver and bindings? This does not make sense.
->>>>> Sorry for the misunderstanding. Where do you want me to add driver
->>>>> patch? Before all DTS patches or after all DTS patches?
->>>> Does not matter, why do you insist on combining them with DTS? Drivers
->>>> and bindings are going together. DTS better separate, although depending
->>>> on the case can be together.
->>>>
->>> I have combined DTS and Driver because DTS was using compatibility
->>> string which is not upstream yet hence I thought it is logical to send
->>> it under same patchset.
 >>
->> Sometimes yes, sometimes not. DTS must not go via driver subsystem, so
->> sending it in the same patchset has implications on maintainers applying
->> it. Some like it, some don't and you will be nagged for combining them.
+>> "DTS must not go via driver subsystem"
 >>
+>> I always thought the guideline was to submit separate _patches_ for dts
+>> and driver changes, but as part of a single series. I didn't know that
+>> there is a rule to submit separate patch _series_. I also didn't know
+>> (and as far as I know no one called me on it) that I am not supposed
+>> to _apply_ dts changes. So far, I typically applied dts changes together
+>> with driver patches after receiving an Acked-by: or Reviewed-by:
+>> from a devicetree maintainer.
 > 
-> "DTS must not go via driver subsystem"
+> I did not notice you applying them, but such guideline - DTS must go via
+> respective SoC tree - was always repeated by me and SoC maintainers.
+> Just like gazillion other things probably was not documented... or even
+> if it was documented, it would be so deep among hundreds of other rules
+> nobody would find it. :)
 > 
-> I always thought the guideline was to submit separate _patches_ for dts
-> and driver changes, but as part of a single series. I didn't know that
-> there is a rule to submit separate patch _series_. I also didn't know
-> (and as far as I know no one called me on it) that I am not supposed
-> to _apply_ dts changes. So far, I typically applied dts changes together
-> with driver patches after receiving an Acked-by: or Reviewed-by:
-> from a devicetree maintainer.
-
-I did not notice you applying them, but such guideline - DTS must go via
-respective SoC tree - was always repeated by me and SoC maintainers.
-Just like gazillion other things probably was not documented... or even
-if it was documented, it would be so deep among hundreds of other rules
-nobody would find it. :)
-
+>>
+>> This exchange suggests that I did it all wrong. Should I reject devicetree
+>> patches submitted as part of a driver patch series going forward ?
 > 
-> This exchange suggests that I did it all wrong. Should I reject devicetree
-> patches submitted as part of a driver patch series going forward ?
-
-I propose: just ignore them. The SoC maintainer will pick them up.
-
-> Should I not apply dts patches submitted as part of a patch series ?
-
-No, please do not apply them.
-
-> If so, it would help to have some documentation I can point to to explain
-> the rationale to submitters (and myself). Also, in that case, how is the
-
-Yes, it would. I can try to create something.
-
-> synchronization between device tree patches and driver patches supposed
-> to happen ?
-
-There should not be synchronization. Just to remind: we talk about DTS
-(so also DTSI and DTSO), thus everything being in arch/*/boot/dts/. We
-do not talk about DT bindings, right? The bindings are obvious (and
-documented): preferably go via driver subsystem, with fallback/special
-cases via SoC tree and fallback to Rob.
-
-The DTS must be independent from driver changes. If synchronization is
-needed, it means it is not independent. It happens from time to time,
-kind of expected exception, with proper justifications. In such case,
-recommendation is to send DTS for the next kernel release, so after the
-driver changes hit rc1.
-
+> I propose: just ignore them. The SoC maintainer will pick them up.
 > 
-> FWIW, if dts changes are sent as separate series, I don't know how I would
-> be able to review driver changes/submissions without being copied on the
-> associated dts changes.
+>> Should I not apply dts patches submitted as part of a patch series ?
+> 
+> No, please do not apply them.
 
-People are also encouraged to provide links between them. One lore link
-is required: the DTS patchset, if sent in parallel, should have a link
-to the thread with the bindings being reviewed on the list. Of course if
-bindings are already accepted (in linux-next), then it's not necessary.
-We all know how to use git grep.
-
-Now about your specific question:
-
-As a driver subsystem maintainer you are not expected, as a requirement,
-to review DTS code. You can, you are welcomed, but don't you have
-already too much stuff to review? Why would like to jump to DTS? If you
-do, your help is appreciated, though. However think for a sec how would
-it even work? Imagine we send new driver + bindings + DTS for OMAP in
-one thread, so you see the DTS for your review. Now 2 months later I
-send DTS for Qualcomm using that driver. You would never be Cc-ed on
-this second submission. It wouldn't be even possible: get_maintainers.pl
-would not print your email. Why would you be expected to be CCed on
-first DTS to review and not on all others/further ones? This does not
-make sense, really.
-
-BTW, I am not saying here anything new. I was babbling about this every
-second month since few years. :)
+Eh, English can be confusing. Let's make it easier to grasp:
+"Please do not apply DTS patches to a driver subsystem."
 
 Best regards,
 Krzysztof
