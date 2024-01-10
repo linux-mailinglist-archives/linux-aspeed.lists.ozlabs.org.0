@@ -2,71 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F334082A262
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 21:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FB782A37D
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 22:42:03 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=QKKR1WfN;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JwAjDec1;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T9KNH3lZhz3cQD
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 07:37:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T9LqD1XfCz3cMH
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 08:42:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=QKKR1WfN;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JwAjDec1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::230; helo=mail-lj1-x230.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9KN63jtqz30gs
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 07:36:54 +1100 (AEDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2cd853c159eso157961fa.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jan 2024 12:36:54 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9Lq54q1Dz2xYk
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 08:41:51 +1100 (AEDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1d3ed1ca402so42090075ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jan 2024 13:41:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704919010; x=1705523810; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
-         :from:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=vF5tupcUeWkTYyiJxCJd6V7g3X/1lq74f/KLJG4DSME=;
-        b=QKKR1WfN5zUsOuV97FHf8Bgcjbi6MGfWf52OHEM22OV/XLK2dljc1/dBbxaYsEt9U9
-         Elakgb2QKZwfUF1rm9qAi3Um9EIU9kXTedDrfEe9vIOkuu0+9phZdDNmpCw1YUMiY9eo
-         9DmruhAENV0BmYbMJdBjixtcgGW2oh6CDUdtMT6vWR8VePbGW3FyyIltU1JKsse2dYzh
-         cQCqehf28WMGDaR2l76sBm2EjcgpYQRXlPknbWYLF7e1n3TLM23ebZcPPfNSbsjVkyAA
-         o81G2ItTL5SwradXj3SrgBQFcj3yCzvzegpre2HSLptv2yipTzeNAZoB4K2Q59e1vcsK
-         C8Cw==
+        d=gmail.com; s=20230601; t=1704922909; x=1705527709; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HId8f3hkvGtnDismZhBcVXhWd29HmilwtOOYjG3JP0w=;
+        b=JwAjDec1VpBcVz9FfUSmADsLu+K4oXQpZ8d0ylQZbrIjBYcLhKbXm+yTB0GjWfdJl6
+         7u3erWY9QJUPtItOoq7cd+CAhke6zyYo0eY6RjeUSh+ApP1gGWo/i2327wPEbXAm9THl
+         A+7tXmTwx62xtVsOrWs2l5FbB+h1sb5v9r4dhzaapD7TEpfE7bnfEp1cYvK5ssb7O0RY
+         MZ3ekXlJthUW2Jfb2iA+ZEA2T5h9yFtTD7HB5Zx791br3bC1SvlSTYtxGDfcb0wWWk4x
+         NSomp1GxvxB3h8cjepX4vPL6DqZEotveSVYwEJfWNWMkzB3ehnnrU7LJZo+i9/6U0Zo2
+         cEFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704919010; x=1705523810;
-        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
-         :from:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1704922909; x=1705527709;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vF5tupcUeWkTYyiJxCJd6V7g3X/1lq74f/KLJG4DSME=;
-        b=GfhhIqMaQgp4a/mENBXhs8ZEwmee3TSKN8sjICU9zkiceCmyE8l3wR1C51vzuBh24G
-         pzP7y+yFvPuYCmp3FrpX8LbT4WV66Q7muIezdkNHi6sZfIGcNVeJRSOiX3Cv3+Dz3MLi
-         TYPCjb9LdiKMthP1FuyzTv8dfJiOqI8Lnme1CILEajSIri2bxYgco3+/YDxK2tZjU8SX
-         XG9k7RRlzolINwRZXuJrrY6Zfc8jOMpKBu3ldVmuHrNtvqIqQTo06fJ7j4a/6IQkFguI
-         tcuXTOc6q1Q5fhCNNBtJZIM4aSQl0yjmfrm/r3LzY12en36kBq3S7ONgtF/crzZxMZqv
-         woWg==
-X-Gm-Message-State: AOJu0YzxxOY7gDgFaAMMjcSnk7HeFa4RiIRG0CwGU4etEKgGRRbPbhOJ
-	JAonNpMn4HihDVnTiKFEk9XAx62icnVfuQ==
-X-Google-Smtp-Source: AGHT+IF5zSjWoDPn7CNER2fBW1ddHR+9FT1AiH7W996NoEg1yiOxXBFr3ZSsVpapQPPyOnMTjKVqGA==
-X-Received: by 2002:a2e:8205:0:b0:2cd:690d:5d37 with SMTP id w5-20020a2e8205000000b002cd690d5d37mr76802ljg.29.1704919009786;
-        Wed, 10 Jan 2024 12:36:49 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id x17-20020aa7d391000000b00556cf695da0sm2310685edq.78.2024.01.10.12.36.46
+        bh=HId8f3hkvGtnDismZhBcVXhWd29HmilwtOOYjG3JP0w=;
+        b=OhwDFSARRXq7vDDYFbzUDHv7+IjkmyUui9q/6G8EkfSrDdnTYwKXAydm9LRSQJuESx
+         iPV2b6ray7l4JQ6NkvPCQOYHmu+Vc8GeiRrhs4hwA9nTwGcdKWkiRr5Fn2xdzGFW6u1X
+         wC2e+hG7cws3i7nrUOpobslTFIHn2lTPawYR+9vXv1O0I5Dq0LENtTyECwkBGjlexwgp
+         kvY+5oUWFDrALRuvHqb6J/EQs0d/qplouPXP45IPFm891Lpwlt91W9HI3tFCGyMrQahF
+         xcwLJqH0xVVunkAEvNOPjoZef7p6xdxX993DfIALJEuRsfD63vfWYLXPHxG6LgeHhWAU
+         jPMw==
+X-Gm-Message-State: AOJu0YzdQCb3rkUU8bnbNDIQMERatQE6Tb06w8RFlKEEKhHdAgAnVjEJ
+	9Sq9w2QX6cUiesfF0FfcTNo=
+X-Google-Smtp-Source: AGHT+IEUyQyYeicmT88yj9ZQjWF+5ZnzsbxcWV9NwQBfyw8mdjrtSspcwIBzY9L+4XjDdlhnLm20WQ==
+X-Received: by 2002:a17:902:f54a:b0:1d0:7535:8b94 with SMTP id h10-20020a170902f54a00b001d075358b94mr231266plf.97.1704922908844;
+        Wed, 10 Jan 2024 13:41:48 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q22-20020a170902789600b001cfcc10491fsm4121526pll.161.2024.01.10.13.41.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 12:36:48 -0800 (PST)
-Message-ID: <eef0aa5a-a9bb-43e4-9066-febf48fce46d@linaro.org>
-Date: Wed, 10 Jan 2024 21:36:45 +0100
+        Wed, 10 Jan 2024 13:41:47 -0800 (PST)
+Message-ID: <92625821-d79d-4aba-9bef-148f154be427@roeck-us.net>
+Date: Wed, 10 Jan 2024 13:41:45 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 7/8] tpm: tis-i2c: Add more compatible strings
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Guenter Roeck <linux@roeck-us.net>, Ninad Palsule <ninad@linux.ibm.com>,
- Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Ninad Palsule <ninad@linux.ibm.com>, Conor Dooley <conor@kernel.org>
 References: <20231212164004.1683589-1-ninad@linux.ibm.com>
  <20231212164004.1683589-8-ninad@linux.ibm.com>
  <20231212-avid-grill-dbead068fac8@spud>
@@ -83,52 +82,52 @@ References: <20231212164004.1683589-1-ninad@linux.ibm.com>
  <d56b1e3e-72c4-427f-937d-8c8146bf5b28@linaro.org>
  <3830c26d-96be-4084-a04d-8edb9ccbab5e@roeck-us.net>
  <32d46b64-d4a5-437a-8737-c2d172608559@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
 In-Reply-To: <32d46b64-d4a5-437a-8737-c2d172608559@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -145,7 +144,19 @@ Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, alexander.stein@ew.tq-group
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/01/2024 21:34, Krzysztof Kozlowski wrote:
+On 1/10/24 12:34, Krzysztof Kozlowski wrote:
+> On 10/01/2024 20:06, Guenter Roeck wrote:
+>> On 1/10/24 09:54, Krzysztof Kozlowski wrote:
+>>> On 10/01/2024 16:54, Ninad Palsule wrote:
+>>>> Hello Krzysztof,
+>>>>
+>>>>
+>>>> On 1/10/24 09:37, Krzysztof Kozlowski wrote:
+>>>>> On 10/01/2024 15:31, Ninad Palsule wrote:
+>>>>>> Hello Krzysztof,
+>>>>>>
+>>>>>>
+>>>>>>
 >>>>>>>>>> I have send it as a separate commit. https://lore.kernel.org/linux-kernel/20231214144954.3833998-1-ninad@linux.ibm.com/
 >>>>>>>>> Why did you do that? It now just adds undocumented compatibles to the
 >>>>>>>>> driver. Please, as Rob requested, work with Lukas on his series to make
@@ -196,10 +207,26 @@ On 10/01/2024 21:34, Krzysztof Kozlowski wrote:
 >> Should I not apply dts patches submitted as part of a patch series ?
 > 
 > No, please do not apply them.
+> 
+>> If so, it would help to have some documentation I can point to to explain
+>> the rationale to submitters (and myself). Also, in that case, how is the
+> 
+> Yes, it would. I can try to create something.
+> 
+>> synchronization between device tree patches and driver patches supposed
+>> to happen ?
+> 
+> There should not be synchronization. Just to remind: we talk about DTS
+> (so also DTSI and DTSO), thus everything being in arch/*/boot/dts/. We
+> do not talk about DT bindings, right? The bindings are obvious (and
+> documented): preferably go via driver subsystem, with fallback/special
+> cases via SoC tree and fallback to Rob.
+> 
 
-Eh, English can be confusing. Let's make it easier to grasp:
-"Please do not apply DTS patches to a driver subsystem."
+Sorry, misunderstanding on my side. I do not and never did apply patches
+in arch/*/boot/dts/. I referred to patches in Documentation/devicetree/
 
-Best regards,
-Krzysztof
+Sorry, I though you also referred to bindings. My bad.
+
+Guenter
 
