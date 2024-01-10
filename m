@@ -1,100 +1,99 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D010829111
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 00:56:26 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4801A8292CF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 04:36:43 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KWHdhVHj;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=kCaEGGcM;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T8nrm1CXgz307V
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 10:56:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T8tkw5s7kz3bnk
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 14:36:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KWHdhVHj;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=kCaEGGcM;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=amd.com (client-ip=2a01:111:f400:7eae::601; helo=nam11-bn8-obe.outbound.protection.outlook.com; envelope-from=supreeth.venkatesh@amd.com; receiver=lists.ozlabs.org)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on20601.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eae::601])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T8nrc4HB4z2xm5
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jan 2024 10:56:16 +1100 (AEDT)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 409NbJm3009737;
-	Tue, 9 Jan 2024 23:55:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=pIGSxdBl3VdFv5WEtQLCwxeYviazI+Eu7DuRMU0A1oc=;
- b=KWHdhVHj3VKfhziPmSNboFMdSDTaDFdLW9viw4pwp+QoBg7IuvRsRZuBcpZ+5BKqjB1S
- YxCZHa2zuCxWE1AIkjMAWV6GWaGLNqWJ6DrCLkB+Swv5oV2mLt6pjON0FGbYvdlMHCL0
- Fw0Teabh/rqsdHAoSOWJNmHl+VdlRDUNITOjysUl8mx7ThdTaHRnZnVHvnwL3vGvfXWT
- MUblorRxuY30v2EQtSkhaGmFX0J5k5LC5pcAX1z2+vuZso0zkGh9NKLSoqIfshoRUWD+
- SWjUURc4e6D6M3MAwEtmlG5l/G/o0pynqHjVIfE79Qxy/Nzzev61BFdo7JSbu3aGoSwi 9A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vhfykrcf4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 23:55:48 +0000
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 409NdZhO015894;
-	Tue, 9 Jan 2024 23:55:47 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vhfykrce5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 23:55:47 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 409MFg0l022877;
-	Tue, 9 Jan 2024 23:55:45 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3vfj6nhvxk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jan 2024 23:55:45 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 409Nti5113042216
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 9 Jan 2024 23:55:45 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E2BA658052;
-	Tue,  9 Jan 2024 23:55:44 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BB20458065;
-	Tue,  9 Jan 2024 23:55:43 +0000 (GMT)
-Received: from [9.61.145.235] (unknown [9.61.145.235])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  9 Jan 2024 23:55:43 +0000 (GMT)
-Message-ID: <01974929-dfbf-4989-ba39-369e521827d0@linux.ibm.com>
-Date: Tue, 9 Jan 2024 17:55:43 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 7/8] tpm: tis-i2c: Add more compatible strings
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-References: <20231212164004.1683589-1-ninad@linux.ibm.com>
- <20231212164004.1683589-8-ninad@linux.ibm.com>
- <20231212-avid-grill-dbead068fac8@spud>
- <73381bb0-7fa7-4a9e-88df-ab0063058e26@roeck-us.net>
- <20231212-mouth-choice-40a83caa34ec@spud>
- <2946fbb1-2a47-4d21-83dc-8e45bf6ba5a9@roeck-us.net>
- <60c8bbdb-4e08-44f0-88d4-ab164d4843b5@linux.ibm.com>
- <20240109-pep-coerce-2a86ae88753d@spud>
-From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <20240109-pep-coerce-2a86ae88753d@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: EkkFGVaYhXbBhJlALwA8NDTvgmLdFbqX
-X-Proofpoint-ORIG-GUID: RWeIWYqaZ-TKAU0q3z3TP5Kvth-CNNwp
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T8tkl4FHGz30fm;
+	Wed, 10 Jan 2024 14:36:27 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nBZV8J4PQWS5pwGLvUefhqbPb1RWBfDxlr6ZJSxxeAZukkbdsvsB3YteE3PFmidH5yVxeHx/LmYAbXCBzxLh4tji8y6xg1jBNQGmCA7chEdcL45BZppbaTqgQT4WmYwk0FBYyTUs9w+fhXk1cXTqXd+mVnxa1fGChJkTnmxxuMbbUj3mdIJ197KDfiKd4dqcUTfQ30IeK2Nh8lITkouA7J0qT5xYUl7MV1dbHCQqKcOD2FfhGbudDU6jyPl1traps8m2oHPOPAmA21pdtoYRyt5BFaXw9mXCXzxALrBpaDiOkIiPm+zqolztQTTM6atDZfD/zVGWCR6YFSZUCzAMeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pVk2yMJOhPcCnt14t6HVc9NiSyloWmEKGkCzLOTgEMs=;
+ b=JrioeC7tF4UJm5E9BAnyMQxuiRWu5IZvTdxhcZdgZKhGw+BPFVN2CSlRKofTqMlks2zvWR2lXSzt4EPkn5nfX933GxRWy5PGhdC0mwRYjtYhjBT5STFhqI7fSsrhOLD0172AhrN8tO0HTEHTtyj6lrBQYZeeqUjPoeO+uyfG1VHYJ9atiHpBYqN9PuG/+gHk3CXUO/AhyY0wW5XRlALg1bboPLi64vx4xedTNWrY8CV/apu0ns8G0NKpeD2v7xeshRU/B+RAC0cU7qros2eowduEeGxPqQWnrVfolHQppghu5ZPvrDHflSKt+e3WbuHo8n7O/sztA/iuUmN0snI0lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=jms.id.au smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pVk2yMJOhPcCnt14t6HVc9NiSyloWmEKGkCzLOTgEMs=;
+ b=kCaEGGcMDdvVP+f8lPX1817oRdK7HkUwZ2kU6DW2faVIE3GjVtQ7716bvnH4wSVVHtC9ZPVC9vuq78tLZ+jmB2gYecRh38gnMo9AALqFQYQInlLM2LNldb/4u1pMz5MqSeFC9Tu/q4ylZe40Fku96uMukV/0c9RsQhQnymTR2r4=
+Received: from MW3PR06CA0019.namprd06.prod.outlook.com (2603:10b6:303:2a::24)
+ by SA3PR12MB9092.namprd12.prod.outlook.com (2603:10b6:806:37f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.17; Wed, 10 Jan
+ 2024 03:36:05 +0000
+Received: from MWH0EPF000971E6.namprd02.prod.outlook.com
+ (2603:10b6:303:2a:cafe::9e) by MW3PR06CA0019.outlook.office365.com
+ (2603:10b6:303:2a::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23 via Frontend
+ Transport; Wed, 10 Jan 2024 03:36:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MWH0EPF000971E6.mail.protection.outlook.com (10.167.243.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7181.14 via Frontend Transport; Wed, 10 Jan 2024 03:36:05 +0000
+Received: from BMCDEV-TH3.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 9 Jan
+ 2024 21:36:04 -0600
+From: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+To: <joel@jms.id.au>, <andrew@aj.id.au>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+	<robh+dt@kernel.org>
+Subject: [PATCH 1/1] ARM:dts:aspeed: Initial device tree for AMD Onyx Platform
+Date: Tue, 9 Jan 2024 21:35:43 -0600
+Message-ID: <20240110033543.799919-1-supreeth.venkatesh@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-09_11,2024-01-09_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- impostorscore=0 spamscore=0 mlxlogscore=999 adultscore=0 clxscore=1015
- priorityscore=1501 phishscore=0 mlxscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2401090192
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E6:EE_|SA3PR12MB9092:EE_
+X-MS-Office365-Filtering-Correlation-Id: 441f3d2f-5ba6-4237-21a6-08dc118d46ab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	7R3XIU4j9APp/3biogsosMeewQnIrOzsWUxlM0UilR7A7OPh0Iieev7VgXZ3sRaR99eNb/SLpMGoNVybzsClSEKu3FISOHy2gJaRMhBo/sr2BrrYigjPJ4+zW8M762p5/omRI8IZjYCamoDgRYV1ZRV5PVcwURQSfmFCURqB/IruuwNtLSpMZAcBkxP9uzaaHCDXgz7BUzs5v1uHAddPVgopb2WVI7DD1d68Iy6wIZLvZkVjpmJvCtZwCgIP8vhfv7Gfnl/pu/PkjYIsRylTuXre0Cx4DjK33AVxvoCBhtuqZ8vlybGddOyD9voH23pebLd8zWgVG+p4kUzLe5qB/9v4KtcGZR3OjSQUCvxqBHKwe3lJSphW72+tZzx4vVTiR1f1YxW6h0Apnu28dJF5VGWizgG3a/iiFWj02EuNnz+e7ANohW0giSvDQecN7bMddbxnOPq0i++Y78/Wmo975t+K6QA38RX9SD9joA6y7cWaZrY9OyS8L9ntcKWXs8rzppl+xyp+KFl4erxLTtizefPoNNLeoSTS5dz6gmCeINA/yrDYDIYGHTZwyuN7IR4HBFbSiHm0vmbbxpBKOt3AzE3AglyuuikCRrwYzAGtIkam88JLKDFof/Njdrc8ff11ahk7SkDPxmIJi012x0yoWUlI5GcWQ92DvGVtCiRW2VzSk8C71x8B7QcdafDL8XESydI3v+zKupL3jqFqMoEA5JnyDWKBTLMyiuT4g7o2E8pMCB/R2oQ6PxfnKuwXAWf7Xkgav+RcC960PH3tUuIrjVj7GRhQ95zyXE/CmQ49dAE=
+X-Forefront-Antispam-Report: 	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(376002)(39860400002)(396003)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(82310400011)(36840700001)(40470700004)(46966006)(2906002)(5660300002)(41300700001)(478600001)(40460700003)(83380400001)(40480700001)(16526019)(426003)(1076003)(26005)(2616005)(336012)(36860700001)(47076005)(7696005)(6666004)(86362001)(81166007)(356005)(44832011)(8936002)(8676002)(4326008)(36756003)(82740400003)(70206006)(70586007)(110136005)(316002)(36900700001)(2101003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2024 03:36:05.1886
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 441f3d2f-5ba6-4237-21a6-08dc118d46ab
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: 	MWH0EPF000971E6.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9092
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,45 +105,141 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, alexander.stein@ew.tq-group.com, naresh.solanki@9elements.com, johannes.holland@infineon.com, linux-hardening@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, peterhuewe@gmx.de, patrick.rudolph@9elements.com, peteryin.openbmc@gmail.com, jgg@ziepe.ca, andrew@codeconstruct.com.au, Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org, conor+dt@kernel.org, keescook@chromium.org, broonie@kernel.org, lakshmiy@us.ibm.com, bhelgaas@google.com, geissonator@yahoo.com, linux-arm-kernel@lists.infradead.org, tony.luck@intel.com, linux-kernel@vger.kernel.org, gpiccoli@igalia.com, jarkko@kernel.org, robh+dt@kernel.org, vincent@vtremblay.dev, linux-integrity@vger.kernel.org
+Cc: supreeth.venkatesh@amd.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Conor,
+This patch adds initial device tree and makefile updates for
+AMD Onyx platform.
 
-On 1/9/24 11:14, Conor Dooley wrote:
-> On Mon, Jan 08, 2024 at 02:05:53PM -0600, Ninad Palsule wrote:
->> Hello Guenter,
->>
->> On 12/12/23 13:50, Guenter Roeck wrote:
->>> On 12/12/23 10:51, Conor Dooley wrote:
->>>> On Tue, Dec 12, 2023 at 10:00:39AM -0800, Guenter Roeck wrote:
->>>>> On Tue, Dec 12, 2023 at 05:15:51PM +0000, Conor Dooley wrote:
->>>>>> On Tue, Dec 12, 2023 at 10:40:03AM -0600, Ninad Palsule wrote:
->>>>>>> From: Joel Stanley <joel@jms.id.au>
->>>>>>>
->>>>>>> The NPCT75x TPM is TIS compatible. It has an I2C and SPI interface.
->>>>>>>
->>>>>>> https://www.nuvoton.com/products/cloud-computing/security/trusted-platform-module-tpm/
->>>>>>>
->>>>>>>
->>>>>>> Add a compatible string for it, and the generic compatible.
->>>>>>>
->>>>>>> OpenBMC-Staging-Count: 3
->>>>>> Delete this from every patch that it appears from.
->>
->> I have send it as a separate commit. https://lore.kernel.org/linux-kernel/20231214144954.3833998-1-ninad@linux.ibm.com/
-> Why did you do that? It now just adds undocumented compatibles to the
-> driver. Please, as Rob requested, work with Lukas on his series to make
-> sure that these devices are documented.
+AMD Onyx platform is an AMD customer reference board with an Aspeed
+ast2600 BMC manufactured by AMD.
+It describes I2c devices, Fans, Kcs devices, Uarts, Mac, LEDs, etc.
+present on AMD Onyx platform.
 
-I think krzysztof kozlowski suggested to send these patches separately: 
-https://lore.kernel.org/linux-kernel/1c5ace65-2fd8-4503-b22f-e0f564d1c83f@linaro.org/
+Signed-off-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+---
+ arch/arm/boot/dts/aspeed/Makefile             |  1 +
+ .../boot/dts/aspeed/aspeed-bmc-amd-onyx.dts   | 98 +++++++++++++++++++
+ 2 files changed, 99 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dts
 
-Did I misunderstood it? Do you guys want me to include that commit again?
-
-Regards,
-
-Ninad
-
+diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
+index fb9cc95f1b60..2b27d377aae2 100644
+--- a/arch/arm/boot/dts/aspeed/Makefile
++++ b/arch/arm/boot/dts/aspeed/Makefile
+@@ -5,6 +5,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-ast2600-evb.dtb \
+ 	aspeed-bmc-amd-daytonax.dtb \
+ 	aspeed-bmc-amd-ethanolx.dtb \
++	aspeed-bmc-amd-onyx.dtb \
+ 	aspeed-bmc-ampere-mtjade.dtb \
+ 	aspeed-bmc-ampere-mtmitchell.dtb \
+ 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dts
+new file mode 100644
+index 000000000000..a7056cd29553
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dts
+@@ -0,0 +1,98 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2021 - 2024 AMD Inc.
++// Author: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
++
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++
++/ {
++       model = "AMD Onyx BMC";
++       compatible = "amd,onyx-bmc", "aspeed,ast2600";
++
++       aliases {
++               serial0 = &uart1;
++               serial4 = &uart5;
++      };
++
++       chosen {
++               stdout-path = &uart5;
++               bootargs = "console=ttyS4,115200 earlyprintk vmalloc=512MB";
++       };
++
++       memory@80000000 {
++               device_type = "memory";
++               reg = <0x80000000 0x80000000>;
++       };
++
++};
++
++&mdio0 {
++       status = "okay";
++
++       ethphy0: ethernet-phy@0 {
++               compatible = "ethernet-phy-ieee802.3-c22";
++               reg = <0>;
++       };
++};
++
++&mac3 {
++       status = "okay";
++       phy-mode = "rgmii";
++       phy-handle = <&ethphy0>;
++
++       pinctrl-names = "default";
++       pinctrl-0 = <&pinctrl_rgmii4_default>;
++};
++
++
++
++&fmc {
++       status = "okay";
++       flash@0 {
++               compatible = "jedec,spi-nor";
++               status = "okay";
++               #include "openbmc-flash-layout-128.dtsi"
++       };
++};
++
++//Host Console
++&uart1 {
++       status = "okay";
++};
++
++//BMC Console
++&uart5 {
++       status = "okay";
++};
++
++&gpio0 {
++        gpio-line-names =
++        /*A0-A7*/       "","","","","","","","",
++        /*B0-B7*/       "","","","","MON_POST_COMPLETE","P0_PRESENT_L","","",
++        /*C0-C7*/       "","","","","","","","",
++        /*D0-D7*/       "","","","","","","","",
++        /*E0-E7*/       "","","","","","","","",
++        /*F0-F7*/       "","","","","","","","",
++        /*G0-G7*/       "","","","","","","","",
++        /*H0-H7*/       "","ASSERT_WARM_RST_BTN_L","ASSERT_SOC_RST_BTN_L","","","","","",
++        /*I0-I7*/       "","","","","","","","P0_I3C_APML_ALERT_L",
++        /*J0-J7*/       "","","","","","","","",
++        /*K0-K7*/       "","","","","","","","",
++        /*L0-L7*/       "","","","","","","","",
++        /*M0-M7*/       "","","","","","","","",
++        /*N0-N7*/       "","","","","","","PSP_SOFT_FUSE_NOTIFY","ASSERT_BMC_READY",
++        /*O0-O7*/       "","","HDT_SEL","HDT_XTRIG5","HDT_XTRIG6","JTAG_TRST_N","","",
++        /*P0-P7*/       "MON_RST_BTN_L","ASSERT_RST_BTN_L","MON_PWR_BTN_L","ASSERT_PWR_BTN_L","HPM_FPGA_LOCKOUT","ASSERT_NMI_BTN_L","MON_PWR_GOOD","",
++        /*Q0-Q7*/       "","","HDT_DBREQ_L","","BIOS_SPD_MUX_CTRL_RELEASED_L","","","",
++        /*R0-R7*/       "","","","","","","","",
++        /*S0-S7*/       "","","","","","","P0_DIMM_AF_ERROR","P0_DIMM_GL_ERROR",
++        /*T0-T7*/       "","","","","","","","",
++        /*U0-U7*/       "","","","","","","","",
++        /*V0-V7*/       "","","","","","","","",
++        /*W0-W7*/       "","","","","","","","",
++        /*X0-X7*/       "","","","","","","","",
++        /*Y0-Y7*/       "","","","","","","","",
++        /*Z0-Z7*/       "","","","","","","","";
++};
+-- 
+2.34.1
 
