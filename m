@@ -2,66 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7949B82B55C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 20:41:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B649B82B55B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 20:41:13 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Lo1g6nFM;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UtSfIC5m;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T9w5G5x9nz3cSS
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jan 2024 06:41:06 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T9w5M1lkCz3cVg
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jan 2024 06:41:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Lo1g6nFM;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UtSfIC5m;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::336; helo=mail-wm1-x336.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9w564n5yz3cVk
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jan 2024 06:40:57 +1100 (AEDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40e60e135a7so8081945e9.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 11:40:58 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9w5G0gnPz3cYv
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jan 2024 06:41:05 +1100 (AEDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40e5a5b0fb5so17876435e9.3
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 11:41:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705002055; x=1705606855; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1705002061; x=1705606861; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ReaiaKhGMpLyq0G0+kbbV2BQXgDy5aBIFU7RUhXOGuI=;
-        b=Lo1g6nFMVJK7/Bns+uUZLEejkqRDkgTilcTo18U4qb0v+cK4ht+Z8gAsy3alZCbAO8
-         xx1cilZ3FRyQTY9xBficA/+uUaNXG0Z04V4MVYVkq9iFeujNsKwEGzjg/z+ahX3jTHFm
-         /+OUOpi1q8wF3Mq1iHytEZJgy5iSDgN1lp8dOPWwlD3+qS2n9rsGlYCdP22Kh1ZyDI9f
-         yGfnrqyFzb4vZBJGB6bUPvxhrYwIWf1mU1L9PXKpzCBFmRc+B3MQTBGM00cXlTTD636P
-         LxJbFBG9ZcBQJvOqdaRCbWF9i0X5G1hw8DHObYFJOOIzgp9GVk1CfuNkibXIuIHvG43X
-         apRQ==
+        bh=yhQg7lFsbSLOoxrpLGlEOB06G2WaPmqtANz9+CdTLcM=;
+        b=UtSfIC5mWPqVypYYcpVLdy2pggCIH4H4Fley66Vmf65flufvAYcf+LoHSCGR5ExGGp
+         IppIlt45YKMRgi4lOVA4N3dgHOMsdn7az2dcArltOUz+I+98mKRLqTvOM/+qPgbdgV/h
+         aZs3Hudjw/erQ6/PrL/c4PUEXu7pzM9N90P9cQ0KO6iINB03XIafhrCWVwSyUrj99qvX
+         //g/1irNeyR1rWzjEjYe6x0soFQ2tAEucvu67xASRmWHD92NbeMP8NJWI5S9PU5PJHWL
+         2OpKC7nshk3AxAuOuSprXPtyW3gD6Se70TS2f1jF8lwcbXvkEVghZWi4qcTnSsWpgTiq
+         ALHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705002055; x=1705606855;
+        d=1e100.net; s=20230601; t=1705002061; x=1705606861;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ReaiaKhGMpLyq0G0+kbbV2BQXgDy5aBIFU7RUhXOGuI=;
-        b=FMiptnMm5hhX7qIZItid+SRX0lcjoZHunL1UhWdW24vGd7XetRg3pvzCBAnu2FIbtG
-         nn0MkiJg9b6oruJf+V/wk7MBTwXMtDC+STitNuxM793/bC10PFnbbrcb/9XcH7h7PaLK
-         Pbgk+7/JJB2Qf0wraYh+UsynY3CdjnDJzQBYyu9SIkCQ9rOcncDF38J70jau94poPs3l
-         D7Y2AY2By1x7SMbfR9hwy0MaOB86I2D2l0HDpZazMKrx3+AsoZgL/0lxO9TxUoityLK0
-         xPy2ffU6+zm0vFv8kqVYKI4uEq399PY4zE+hTTZ98HtVKxgyIRu8zMPVoqkFs1U6k4RA
-         Wymg==
-X-Gm-Message-State: AOJu0Ywr7kgZRy5ostH04sA/9ZsAFeDdi6L/jwHviqORIC0q5OorSzy3
-	8+G4qxYk/0sm2GNlXvWJjKBdeJUpo3j2Gg==
-X-Google-Smtp-Source: AGHT+IFpgPp6+TFS8mqJ0figBJ6oUJNk53x5VYzpAL9vQ53okPO+Tp97swVXaqXCuX0AVXBpuw9mKQ==
-X-Received: by 2002:a05:600c:340a:b0:40d:560c:eeab with SMTP id y10-20020a05600c340a00b0040d560ceeabmr207276wmp.58.1705002054975;
-        Thu, 11 Jan 2024 11:40:54 -0800 (PST)
+        bh=yhQg7lFsbSLOoxrpLGlEOB06G2WaPmqtANz9+CdTLcM=;
+        b=rvrCGMGcwCpwDWECro6Wjuq53Xop2dIRdu+zSqvi38tB9MZZphqfMthgmlGDJ6cWuA
+         z1XRIQbjQ2ExORI9cpmoSpjy7obRnEKfzlKM5ZR4hMJ1Q2nuvY6YRkuqWOQPH7Qlq11j
+         DZ8VVWFdHkEuwwXgz3VNywXRE3LobOcPmN+ffRZOyR3PrV+AvM8bNk6T0/iX5etpFljF
+         Gn4/InfC+AKXI1GDb6hzFgU5zieIzhMzkejU9zg0RWmfPqUXMsfNuUr5FjfVuQ/Lanmw
+         j7PKqNBF385a1qcmGwuwqDHjkiWFfCtIitgsTc/LrmRazvhwm782FWpRoZmZuo4W4Xik
+         O3/w==
+X-Gm-Message-State: AOJu0Yz3Kk6WgMWYcInIRgmgFYsnN/xcDcBMHkX4MHG5E1D8/Z10fQoV
+	/FmTv3QU3iJsifyuKfGaC2I5I6lEv/eCiw==
+X-Google-Smtp-Source: AGHT+IHBSJkGZ3FZyaLcawqklbZ73eTvHFb0Vrv8g6ZWD8TQbgZOpziGnkN1kzMB4gK7ps8wLeZDEA==
+X-Received: by 2002:a05:600c:332a:b0:40e:42e7:4c42 with SMTP id q42-20020a05600c332a00b0040e42e74c42mr172537wmp.60.1705002060691;
+        Thu, 11 Jan 2024 11:41:00 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id j8-20020a05600c190800b0040d7b340e07sm3019771wmq.45.2024.01.11.11.40.52
+        by smtp.gmail.com with ESMTPSA id j8-20020a05600c190800b0040d7b340e07sm3019771wmq.45.2024.01.11.11.40.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jan 2024 11:40:54 -0800 (PST)
-Message-ID: <709a516c-d843-4ed3-8e41-468933f4a022@linaro.org>
-Date: Thu, 11 Jan 2024 20:40:52 +0100
+        Thu, 11 Jan 2024 11:41:00 -0800 (PST)
+Message-ID: <1cf1f0dd-c453-4733-a5f4-0d2cc22498e2@linaro.org>
+Date: Thu, 11 Jan 2024 20:40:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] dt-bindings: arm: aspeed: add IBM system1-bmc
+Subject: Re: [PATCH v3 2/3] dt-bindings: Add DPS310 as trivial device
 Content-Language: en-US
 To: Ninad Palsule <ninad@linux.ibm.com>, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, joel@jms.id.au,
@@ -70,7 +70,7 @@ To: Ninad Palsule <ninad@linux.ibm.com>, robh+dt@kernel.org,
  gpiccoli@igalia.com, johannes.holland@infineon.com, linux@roeck-us.net,
  broonie@kernel.org, andre.werner@systec-electronic.com
 References: <20240111181251.1817582-1-ninad@linux.ibm.com>
- <20240111181251.1817582-2-ninad@linux.ibm.com>
+ <20240111181251.1817582-3-ninad@linux.ibm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -116,7 +116,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240111181251.1817582-2-ninad@linux.ibm.com>
+In-Reply-To: <20240111181251.1817582-3-ninad@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -135,12 +135,9 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 11/01/2024 19:12, Ninad Palsule wrote:
-> Document the new compatibles used on IBM system1-bmc
+> Infineon DPS310 is a barometric pressure and temperature sensor.
 > 
 > Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> ---
->  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
->  1 file changed, 1 insertion(+)
 
 This is a friendly reminder during the review process.
 
