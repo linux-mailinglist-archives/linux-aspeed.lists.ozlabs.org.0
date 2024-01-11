@@ -1,52 +1,89 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B1F82AB83
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 11:03:32 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CA382B2DA
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 17:23:54 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=vE1AA7fU;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Ppfd7wav;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T9gGm3kVpz3cVZ
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 21:03:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T9qjg6QK1z3cS3
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jan 2024 03:23:51 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=vE1AA7fU;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Ppfd7wav;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linuxfoundation.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9gGf0V1hz3020
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 21:03:20 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id E0CC4CE1DA0;
-	Thu, 11 Jan 2024 10:03:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE793C433C7;
-	Thu, 11 Jan 2024 10:03:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1704967397;
-	bh=XKju82+bUIQUC2/IEKI3rWnSmsS5G+w7eqtJG86hh90=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vE1AA7fUthH45yZcRUBa4OzJIYWGm2k2UED9/2miba5n74LCLpqMXf3CcA56sdNwd
-	 RIjFQwZwSuqpk/s6FCLAQSGE9bEsCRc9uq0drr43QB+1NTB5heMTEzweqs+s0U1WMV
-	 INM5Zrvf1NpL4bcpYm9UnSqoHRliv8nfYP8xIl50=
-Date: Thu, 11 Jan 2024 11:03:14 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kunwu Chan <chentao@kylinos.cn>
-Subject: Re: [PATCH] usb: gadget: aspeed: Check return value of kasprintf in
- ast_vhub_alloc_epn
-Message-ID: <2024011132-gigolo-cornmeal-844f@gregkh>
-References: <20231122014212.304254-1-chentao@kylinos.cn>
- <2023112236-bullseye-pranker-491e@gregkh>
- <346b631c-8b46-4b41-9188-8cbaaa1ff178@kylinos.cn>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9qjY67fKz30gJ
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jan 2024 03:23:45 +1100 (AEDT)
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40BEsRr0030404;
+	Thu, 11 Jan 2024 16:23:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=yvEoKVrxCx84Qso2ZKN68nnOcsKKBjWqodWTF4MPK2Y=;
+ b=Ppfd7wav0FWB0+C05oE/+mZBq6q/VsxjP8wCJOGitOhvDYAAtJZSBZZEzj5sQfZMcuPJ
+ zPyc0td38+BO9hcWGT7hJ7VIp7NerKEbo/i2oiaAxp3DwvRgCf7kwLVBIZq53F6BXOnB
+ aRW0+JKpsgAodCSroB+tiX90OiBw6ReTwgbYbt5d1mEXBQWyO/cjN/qG8ftyicNKShwE
+ PIQQ7NOuolKYJDawchgEQDuIZ1I4t9HynPGVnTi8mz8Kcw205QuMoofOgHyiilyl0RU8
+ 8qS9MZFdWmF/WdOe15IGsMjBXP70/R3Jor5BqhKiN5hLWlmvx13/js2Ff60CIvs9voGi 0w== 
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vjjghap60-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Jan 2024 16:23:32 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 40BDjbfp026992;
+	Thu, 11 Jan 2024 16:23:31 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3vfkw2c1x8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Jan 2024 16:23:31 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 40BGNU1a17564308
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 11 Jan 2024 16:23:31 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9FD5158068;
+	Thu, 11 Jan 2024 16:23:30 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 36C6458062;
+	Thu, 11 Jan 2024 16:23:30 +0000 (GMT)
+Received: from [9.24.12.86] (unknown [9.24.12.86])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 11 Jan 2024 16:23:30 +0000 (GMT)
+Message-ID: <c5a4cde9-cc30-48f7-8da0-7c0e71d7d2aa@linux.ibm.com>
+Date: Thu, 11 Jan 2024 10:23:29 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <346b631c-8b46-4b41-9188-8cbaaa1ff178@kylinos.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] soc/aspeed: Add host side BMC device driver
+Content-Language: en-US
+To: Ninad Palsule <ninad@linux.vnet.ibm.com>, Andrew Lunn <andrew@lunn.ch>
+References: <20230821183525.3427144-1-ninad@linux.ibm.com>
+ <20230821183525.3427144-2-ninad@linux.ibm.com>
+ <5159abb8-1b4c-4576-b370-4dd9db142beb@lunn.ch>
+ <6cea8ee7-f845-6ef3-631f-3f252ff5e949@linux.vnet.ibm.com>
+ <5c918888-6933-7661-45f0-32ae4521aa2c@linux.vnet.ibm.com>
+From: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <5c918888-6933-7661-45f0-32ae4521aa2c@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: AVbA9MnxxCVVkGqCoodM0HqcSyFelbg7
+X-Proofpoint-ORIG-GUID: AVbA9MnxxCVVkGqCoodM0HqcSyFelbg7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-11_09,2024-01-11_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 mlxscore=0 bulkscore=0 adultscore=0 impostorscore=0
+ phishscore=0 clxscore=1011 mlxlogscore=999 priorityscore=1501 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401110128
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,52 +95,69 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: andriy.shevchenko@linux.intel.com, linux-aspeed@lists.ozlabs.org, kunwu.chan@hotmail.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jan 11, 2024 at 05:31:35PM +0800, Kunwu Chan wrote:
-> Sorry, I didn't find out about this email until now because it was
-> intercepted by my company's email server.
-> 
-> On 2023/11/22 20:10, Greg KH wrote:
-> > On Wed, Nov 22, 2023 at 09:42:12AM +0800, Kunwu Chan wrote:
-> > > kasprintf() returns a pointer to dynamically allocated memory
-> > > which can be NULL upon failure. Ensure the allocation was successful
-> > > by checking the pointer validity.
-> > > 
-> > > Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
-> > > ---
-> > >   drivers/usb/gadget/udc/aspeed-vhub/epn.c | 2 ++
-> > >   1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-> > > index 148d7ec3ebf4..e0854e878411 100644
-> > > --- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-> > > +++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-> > > @@ -826,6 +826,8 @@ struct ast_vhub_ep *ast_vhub_alloc_epn(struct ast_vhub_dev *d, u8 addr)
-> > >   	ep->vhub = vhub;
-> > >   	ep->ep.ops = &ast_vhub_epn_ops;
-> > >   	ep->ep.name = kasprintf(GFP_KERNEL, "ep%d", addr);
-> > > +	if (!ep->ep.name)
-> > > +		return NULL;
-> > 
-> > This will break things if this ever triggers.  How was this tested?  The
-> It's my fault, I think it's too simplistic. Compiled test only.
-> Cause I don't know how to test effectively. I didn't find a way to test this
-> in 'Documentation/usb/gadget-testing.rst'.
-> > "slot" for this device will still be seen as used and so the resources
-> > never freed and then you can run out of space for real devices, right?
-> > 
-> > Looks like the other error handling in this function below this call is
-> > also broken, can you fix that up too?Yes, after reading the relevant code, I found that this is indeed a problem.
-> So I write the v2 patch below, but the same question bothering me, about how
-> to test effectively and what hardware equipment is needed? I'm new to this
-> area, do you have any suggestions?
+Hello Andrew,
 
-That is up to you, but you need to test stuff like this if you wish to
-change it as your previous patch obviously would have broken things.
+On 8/23/23 12:32, Ninad Palsule wrote:
+> Hello Andrew,
+>
+> On 8/22/23 11:14 AM, Ninad Palsule wrote:
+>> Hello Andrew,
+>>
+>> Thanks for the review.
+>>
+>> On 8/21/23 2:29 PM, Andrew Lunn wrote:
+>>>> Testing:
+>>>>    - This is tested on IBM rainier system with BMC. It requires BMC 
+>>>> side
+>>>>      BMC device driver which is available in the ASPEED's 5.15 SDK
+>>>>      kernel.
+>>> How relevant is that? To the host side, it just appears to be an
+>>> 16550A. Is the SDK emulating an 16550A? If you where to use a
+>>> different kernel, is it still guaranteed to be an 16550A? I also
+>>> notice there is a mainline
+>>> drivers/tty/serial/8250/8250_aspeed_vuart.c. Could that be used on the
+>>> BMC? That would be a better testing target than the vendor kernel.
+>>
+>> This is just to indicate how I tested my code.
+>>
+>> Yes, aspeed chip (in this case ast2600) is compatible with 16550 UART.
+>>
+>> I am guessing it should work with different kernel too as 16550 
+>> standard is used.
+>>
+>> The 8250_aspeed_vuart.c is a BMC side driver for accessing VUART over 
+>> LPC bus and
+>>
+>> this is a host side driver to access VUART over PCIe bus.
+>>
+>>>> +config ASPEED_HOST_BMC_DEV
+>>>> +    bool "ASPEED SoC Host BMC device driver"
+>>>> +    default ARCH_ASPEED
+>>>> +    select SOC_BUS
+>>>> +    default ARCH_ASPEED
+>>> same default twice?
+>> Removed.
+>>
+>>>> +late_initcall(aspeed_host_bmc_device_init);
+>>>> +module_exit(aspeed_host_bmc_device_exit);
+>>> It looks like you can use module_pci_driver() ?
+>> yes, It should work unless the late initcall is important. I will 
+>> test it and see.
+>
+> I will not be able to use module_pci_driver() as it doesn't support 
+> late initcall which is required otherwise
+>
+> 8250 registration fails. So I am not making this change.
 
-good luck!
+Please let me know if you are fine with this.
 
-greg k-h
+Thanks for the review.
+
+Regards,
+
+Ninad
+
