@@ -2,131 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FB782A37D
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jan 2024 22:42:03 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JwAjDec1;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A0C82AB1A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 10:37:12 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T9LqD1XfCz3cMH
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 08:42:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T9fhP62Qpz3cWq
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 20:37:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JwAjDec1;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kylinos.cn (client-ip=124.126.103.232; helo=mailgw.kylinos.cn; envelope-from=chentao@kylinos.cn; receiver=lists.ozlabs.org)
+X-Greylist: delayed 305 seconds by postgrey-1.37 at boromir; Thu, 11 Jan 2024 20:37:04 AEDT
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9Lq54q1Dz2xYk
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 08:41:51 +1100 (AEDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1d3ed1ca402so42090075ad.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jan 2024 13:41:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704922909; x=1705527709; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=HId8f3hkvGtnDismZhBcVXhWd29HmilwtOOYjG3JP0w=;
-        b=JwAjDec1VpBcVz9FfUSmADsLu+K4oXQpZ8d0ylQZbrIjBYcLhKbXm+yTB0GjWfdJl6
-         7u3erWY9QJUPtItOoq7cd+CAhke6zyYo0eY6RjeUSh+ApP1gGWo/i2327wPEbXAm9THl
-         A+7tXmTwx62xtVsOrWs2l5FbB+h1sb5v9r4dhzaapD7TEpfE7bnfEp1cYvK5ssb7O0RY
-         MZ3ekXlJthUW2Jfb2iA+ZEA2T5h9yFtTD7HB5Zx791br3bC1SvlSTYtxGDfcb0wWWk4x
-         NSomp1GxvxB3h8cjepX4vPL6DqZEotveSVYwEJfWNWMkzB3ehnnrU7LJZo+i9/6U0Zo2
-         cEFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704922909; x=1705527709;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HId8f3hkvGtnDismZhBcVXhWd29HmilwtOOYjG3JP0w=;
-        b=OhwDFSARRXq7vDDYFbzUDHv7+IjkmyUui9q/6G8EkfSrDdnTYwKXAydm9LRSQJuESx
-         iPV2b6ray7l4JQ6NkvPCQOYHmu+Vc8GeiRrhs4hwA9nTwGcdKWkiRr5Fn2xdzGFW6u1X
-         wC2e+hG7cws3i7nrUOpobslTFIHn2lTPawYR+9vXv1O0I5Dq0LENtTyECwkBGjlexwgp
-         kvY+5oUWFDrALRuvHqb6J/EQs0d/qplouPXP45IPFm891Lpwlt91W9HI3tFCGyMrQahF
-         xcwLJqH0xVVunkAEvNOPjoZef7p6xdxX993DfIALJEuRsfD63vfWYLXPHxG6LgeHhWAU
-         jPMw==
-X-Gm-Message-State: AOJu0YzdQCb3rkUU8bnbNDIQMERatQE6Tb06w8RFlKEEKhHdAgAnVjEJ
-	9Sq9w2QX6cUiesfF0FfcTNo=
-X-Google-Smtp-Source: AGHT+IEUyQyYeicmT88yj9ZQjWF+5ZnzsbxcWV9NwQBfyw8mdjrtSspcwIBzY9L+4XjDdlhnLm20WQ==
-X-Received: by 2002:a17:902:f54a:b0:1d0:7535:8b94 with SMTP id h10-20020a170902f54a00b001d075358b94mr231266plf.97.1704922908844;
-        Wed, 10 Jan 2024 13:41:48 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q22-20020a170902789600b001cfcc10491fsm4121526pll.161.2024.01.10.13.41.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 13:41:47 -0800 (PST)
-Message-ID: <92625821-d79d-4aba-9bef-148f154be427@roeck-us.net>
-Date: Wed, 10 Jan 2024 13:41:45 -0800
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9fhJ1vGvz3cV2
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jan 2024 20:37:03 +1100 (AEDT)
+X-UUID: b6140aa2ba57407db9211ebcb797b455-20240111
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35,REQID:93e3ff86-4419-43b1-b776-baafee3f628e,IP:20,
+	URL:0,TC:0,Content:11,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:16
+X-CID-INFO: VERSION:1.1.35,REQID:93e3ff86-4419-43b1-b776-baafee3f628e,IP:20,UR
+	L:0,TC:0,Content:11,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:16
+X-CID-META: VersionHash:5d391d7,CLOUDID:54c4bc82-8d4f-477b-89d2-1e3bdbef96d1,B
+	ulkID:240111173139SFQXI8WX,BulkQuantity:0,Recheck:0,SF:17|19|44|64|66|24|1
+	02,TC:nil,Content:3,EDM:-3,IP:-2,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil
+	,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_ULN,
+	TF_CID_SPAM_SNR
+X-UUID: b6140aa2ba57407db9211ebcb797b455-20240111
+Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
+	(envelope-from <chentao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1387183627; Thu, 11 Jan 2024 17:31:38 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 7E03FE000EB9;
+	Thu, 11 Jan 2024 17:31:38 +0800 (CST)
+X-ns-mid: postfix-659FB57A-437709967
+Received: from [172.20.15.234] (unknown [172.20.15.234])
+	by mail.kylinos.cn (NSMail) with ESMTPA id CC01CE000EB9;
+	Thu, 11 Jan 2024 17:31:35 +0800 (CST)
+Message-ID: <346b631c-8b46-4b41-9188-8cbaaa1ff178@kylinos.cn>
+Date: Thu, 11 Jan 2024 17:31:35 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 7/8] tpm: tis-i2c: Add more compatible strings
+Subject: Re: [PATCH] usb: gadget: aspeed: Check return value of kasprintf in
+ ast_vhub_alloc_epn
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Ninad Palsule <ninad@linux.ibm.com>, Conor Dooley <conor@kernel.org>
-References: <20231212164004.1683589-1-ninad@linux.ibm.com>
- <20231212164004.1683589-8-ninad@linux.ibm.com>
- <20231212-avid-grill-dbead068fac8@spud>
- <73381bb0-7fa7-4a9e-88df-ab0063058e26@roeck-us.net>
- <20231212-mouth-choice-40a83caa34ec@spud>
- <2946fbb1-2a47-4d21-83dc-8e45bf6ba5a9@roeck-us.net>
- <60c8bbdb-4e08-44f0-88d4-ab164d4843b5@linux.ibm.com>
- <20240109-pep-coerce-2a86ae88753d@spud>
- <01974929-dfbf-4989-ba39-369e521827d0@linux.ibm.com>
- <3d194e84-bf1a-48e4-a376-e5c327c6508d@linaro.org>
- <2dd37d2b-28da-4e73-9047-61ec5d64bdb5@linux.ibm.com>
- <edbefdfd-eb59-4d86-ad07-feb066a21082@linaro.org>
- <385b06e9-1daa-408a-a0ed-7b09d7d539df@linux.ibm.com>
- <d56b1e3e-72c4-427f-937d-8c8146bf5b28@linaro.org>
- <3830c26d-96be-4084-a04d-8edb9ccbab5e@roeck-us.net>
- <32d46b64-d4a5-437a-8737-c2d172608559@linaro.org>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <32d46b64-d4a5-437a-8737-c2d172608559@linaro.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20231122014212.304254-1-chentao@kylinos.cn>
+ <2023112236-bullseye-pranker-491e@gregkh>
+From: Kunwu Chan <chentao@kylinos.cn>
+In-Reply-To: <2023112236-bullseye-pranker-491e@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -140,93 +69,107 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, alexander.stein@ew.tq-group.com, naresh.solanki@9elements.com, johannes.holland@infineon.com, linux-hardening@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, peterhuewe@gmx.de, patrick.rudolph@9elements.com, peteryin.openbmc@gmail.com, jgg@ziepe.ca, andrew@codeconstruct.com.au, devicetree@vger.kernel.org, conor+dt@kernel.org, keescook@chromium.org, broonie@kernel.org, lakshmiy@us.ibm.com, bhelgaas@google.com, geissonator@yahoo.com, linux-arm-kernel@lists.infradead.org, tony.luck@intel.com, linux-kernel@vger.kernel.org, gpiccoli@igalia.com, jarkko@kernel.org, robh+dt@kernel.org, vincent@vtremblay.dev, linux-integrity@vger.kernel.org
+Cc: andriy.shevchenko@linux.intel.com, linux-aspeed@lists.ozlabs.org, kunwu.chan@hotmail.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 1/10/24 12:34, Krzysztof Kozlowski wrote:
-> On 10/01/2024 20:06, Guenter Roeck wrote:
->> On 1/10/24 09:54, Krzysztof Kozlowski wrote:
->>> On 10/01/2024 16:54, Ninad Palsule wrote:
->>>> Hello Krzysztof,
->>>>
->>>>
->>>> On 1/10/24 09:37, Krzysztof Kozlowski wrote:
->>>>> On 10/01/2024 15:31, Ninad Palsule wrote:
->>>>>> Hello Krzysztof,
->>>>>>
->>>>>>
->>>>>>
->>>>>>>>>> I have send it as a separate commit. https://lore.kernel.org/linux-kernel/20231214144954.3833998-1-ninad@linux.ibm.com/
->>>>>>>>> Why did you do that? It now just adds undocumented compatibles to the
->>>>>>>>> driver. Please, as Rob requested, work with Lukas on his series to make
->>>>>>>>> sure that these devices are documented.
->>>>>>>> I think krzysztof kozlowski suggested to send these patches separately:
->>>>>>>> https://lore.kernel.org/linux-kernel/1c5ace65-2fd8-4503-b22f-e0f564d1c83f@linaro.org/
->>>>>>>>
->>>>>>>> Did I misunderstood it? Do you guys want me to include that commit again?
->>>>>>> My comment was in DTS thread under specific DTS patch. How did you
->>>>>>> figure out it applies to driver and bindings? This does not make sense.
->>>>>> Sorry for the misunderstanding. Where do you want me to add driver
->>>>>> patch? Before all DTS patches or after all DTS patches?
->>>>> Does not matter, why do you insist on combining them with DTS? Drivers
->>>>> and bindings are going together. DTS better separate, although depending
->>>>> on the case can be together.
->>>>>
->>>> I have combined DTS and Driver because DTS was using compatibility
->>>> string which is not upstream yet hence I thought it is logical to send
->>>> it under same patchset.
->>>
->>> Sometimes yes, sometimes not. DTS must not go via driver subsystem, so
->>> sending it in the same patchset has implications on maintainers applying
->>> it. Some like it, some don't and you will be nagged for combining them.
->>>
->>
->> "DTS must not go via driver subsystem"
->>
->> I always thought the guideline was to submit separate _patches_ for dts
->> and driver changes, but as part of a single series. I didn't know that
->> there is a rule to submit separate patch _series_. I also didn't know
->> (and as far as I know no one called me on it) that I am not supposed
->> to _apply_ dts changes. So far, I typically applied dts changes together
->> with driver patches after receiving an Acked-by: or Reviewed-by:
->> from a devicetree maintainer.
-> 
-> I did not notice you applying them, but such guideline - DTS must go via
-> respective SoC tree - was always repeated by me and SoC maintainers.
-> Just like gazillion other things probably was not documented... or even
-> if it was documented, it would be so deep among hundreds of other rules
-> nobody would find it. :)
-> 
->>
->> This exchange suggests that I did it all wrong. Should I reject devicetree
->> patches submitted as part of a driver patch series going forward ?
-> 
-> I propose: just ignore them. The SoC maintainer will pick them up.
-> 
->> Should I not apply dts patches submitted as part of a patch series ?
-> 
-> No, please do not apply them.
-> 
->> If so, it would help to have some documentation I can point to to explain
->> the rationale to submitters (and myself). Also, in that case, how is the
-> 
-> Yes, it would. I can try to create something.
-> 
->> synchronization between device tree patches and driver patches supposed
->> to happen ?
-> 
-> There should not be synchronization. Just to remind: we talk about DTS
-> (so also DTSI and DTSO), thus everything being in arch/*/boot/dts/. We
-> do not talk about DT bindings, right? The bindings are obvious (and
-> documented): preferably go via driver subsystem, with fallback/special
-> cases via SoC tree and fallback to Rob.
-> 
+Sorry, I didn't find out about this email until now because it was 
+intercepted by my company's email server.
 
-Sorry, misunderstanding on my side. I do not and never did apply patches
-in arch/*/boot/dts/. I referred to patches in Documentation/devicetree/
+On 2023/11/22 20:10, Greg KH wrote:
+> On Wed, Nov 22, 2023 at 09:42:12AM +0800, Kunwu Chan wrote:
+>> kasprintf() returns a pointer to dynamically allocated memory
+>> which can be NULL upon failure. Ensure the allocation was successful
+>> by checking the pointer validity.
+>>
+>> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+>> ---
+>>   drivers/usb/gadget/udc/aspeed-vhub/epn.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+>> index 148d7ec3ebf4..e0854e878411 100644
+>> --- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+>> +++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+>> @@ -826,6 +826,8 @@ struct ast_vhub_ep *ast_vhub_alloc_epn(struct ast_vhub_dev *d, u8 addr)
+>>   	ep->vhub = vhub;
+>>   	ep->ep.ops = &ast_vhub_epn_ops;
+>>   	ep->ep.name = kasprintf(GFP_KERNEL, "ep%d", addr);
+>> +	if (!ep->ep.name)
+>> +		return NULL;
+> 
+> This will break things if this ever triggers.  How was this tested?  The
+It's my fault, I think it's too simplistic. Compiled test only.
+Cause I don't know how to test effectively. I didn't find a way to test 
+this in 'Documentation/usb/gadget-testing.rst'.
+> "slot" for this device will still be seen as used and so the resources
+> never freed and then you can run out of space for real devices, right?
+> 
+> Looks like the other error handling in this function below this call is
+> also broken, can you fix that up too?Yes, after reading the relevant code, I found that this is indeed a problem.
+So I write the v2 patch below, but the same question bothering me, about 
+how to test effectively and what hardware equipment is needed? I'm new 
+to this area, do you have any suggestions?
 
-Sorry, I though you also referred to bindings. My bad.
+The v2 patch look like:
+@@ -826,6 +826,9 @@ struct ast_vhub_ep *ast_vhub_alloc_epn(struct 
+ast_vhub_dev *d, u8 addr)
+  	ep->vhub = vhub;
+  	ep->ep.ops = &ast_vhub_epn_ops;
+  	ep->ep.name = kasprintf(GFP_KERNEL, "ep%d", addr);
++	if (!ep->ep.name)
++		goto fail_name;
++
+  	d->epns[addr-1] = ep;
+  	ep->epn.g_idx = i;
+  	ep->epn.regs = vhub->regs + 0x200 + (i * 0x10);
+@@ -834,11 +837,9 @@ struct ast_vhub_ep *ast_vhub_alloc_epn(struct 
+ast_vhub_dev *d, u8 addr)
+  				     AST_VHUB_EPn_MAX_PACKET +
+  				     8 * AST_VHUB_DESCS_COUNT,
+  				     &ep->buf_dma, GFP_KERNEL);
+-	if (!ep->buf) {
+-		kfree(ep->ep.name);
+-		ep->ep.name = NULL;
+-		return NULL;
+-	}
++	if (!ep->buf)
++		goto fail_dma;
++
+  	ep->epn.descs = ep->buf + AST_VHUB_EPn_MAX_PACKET;
+  	ep->epn.descs_dma = ep->buf_dma + AST_VHUB_EPn_MAX_PACKET;
 
-Guenter
+@@ -851,4 +852,21 @@ struct ast_vhub_ep *ast_vhub_alloc_epn(struct 
+ast_vhub_dev *d, u8 addr)
+  	ep->ep.caps.dir_out = true;
+
+  	return ep;
++
++/* Free name & DMA buffers */
++fail_dma:
++	dma_free_coherent(&vhub->pdev->dev,
++				     AST_VHUB_EPn_MAX_PACKET +
++				     8 * AST_VHUB_DESCS_COUNT,
++				     ep->buf, ep->buf_dma);
++	ep->buf = NULL;
++	kfree(ep->ep.name);
++	ep->ep.name = NULL;
++
++/* Mark free */
++fail_name:
++	ep->dev->epns[ep->d_idx - 1] = NULL;
++	ep->dev = NULL;
++
++	return NULL;
+  }
+
+
+
+> 
+> thanks,
+> 
+> greg k-h
+-- 
+Thanks,
+   Kunwu
 
