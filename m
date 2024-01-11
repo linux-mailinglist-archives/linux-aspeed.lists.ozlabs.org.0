@@ -1,89 +1,92 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CA382B2DA
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 17:23:54 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4400982B497
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 19:13:58 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Ppfd7wav;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lazd7iY1;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T9qjg6QK1z3cS3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jan 2024 03:23:51 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4T9t8g5RRFz3cP7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jan 2024 05:13:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Ppfd7wav;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lazd7iY1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9qjY67fKz30gJ
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jan 2024 03:23:45 +1100 (AEDT)
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40BEsRr0030404;
-	Thu, 11 Jan 2024 16:23:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=yvEoKVrxCx84Qso2ZKN68nnOcsKKBjWqodWTF4MPK2Y=;
- b=Ppfd7wav0FWB0+C05oE/+mZBq6q/VsxjP8wCJOGitOhvDYAAtJZSBZZEzj5sQfZMcuPJ
- zPyc0td38+BO9hcWGT7hJ7VIp7NerKEbo/i2oiaAxp3DwvRgCf7kwLVBIZq53F6BXOnB
- aRW0+JKpsgAodCSroB+tiX90OiBw6ReTwgbYbt5d1mEXBQWyO/cjN/qG8ftyicNKShwE
- PIQQ7NOuolKYJDawchgEQDuIZ1I4t9HynPGVnTi8mz8Kcw205QuMoofOgHyiilyl0RU8
- 8qS9MZFdWmF/WdOe15IGsMjBXP70/R3Jor5BqhKiN5hLWlmvx13/js2Ff60CIvs9voGi 0w== 
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vjjghap60-1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9t8J1s49z3bnc
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jan 2024 05:13:36 +1100 (AEDT)
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40BHlYFO027149;
+	Thu, 11 Jan 2024 18:12:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=KbA8fUghNegdNz8qV2FPqCaGstjZbFKzL3CS5UYc0uE=;
+ b=lazd7iY1xqjHdxtGJQXEh9nvzizY9ta0m+To8rbqthWUPfDVVF/tySMncbFyTxg6RCRW
+ 3L8wTTygCtFUCsT1pBYmEjMjvLj91hzPid5gEQ+Y9YRjC2O5DZtr4Nf+RXMFQXL+Y2wc
+ IeYV19ea/nsWQtJGNUsU6VobInfHC9uBGdPZcNd67RzmOqc95gCWD5IlAgiPZ8UMrI2k
+ 9r5shYbFzeStS5PnRY/eMMKYq5kPD4Mue44ejzUYpihXq+9Apkkse+1JwWSGQXnRe3f6
+ TFLhud9H1USD/LpfZLeqFA4DMa4Np+x6FcbbyvyOJkLs0Ylx3vcbJ+3Ma+CIAUaha2UT 5A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vjgmxgfj4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jan 2024 16:23:32 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 40BDjbfp026992;
-	Thu, 11 Jan 2024 16:23:31 GMT
+	Thu, 11 Jan 2024 18:12:57 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40BH5aFR019543;
+	Thu, 11 Jan 2024 18:12:56 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vjgmxgfh5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 Jan 2024 18:12:56 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 40BHvNHX004427;
+	Thu, 11 Jan 2024 18:12:54 GMT
 Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3vfkw2c1x8-1
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3vfjpm5170-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jan 2024 16:23:31 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 40BGNU1a17564308
+	Thu, 11 Jan 2024 18:12:54 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 40BICrjK25297484
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 11 Jan 2024 16:23:31 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9FD5158068;
-	Thu, 11 Jan 2024 16:23:30 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 36C6458062;
-	Thu, 11 Jan 2024 16:23:30 +0000 (GMT)
-Received: from [9.24.12.86] (unknown [9.24.12.86])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 11 Jan 2024 16:23:30 +0000 (GMT)
-Message-ID: <c5a4cde9-cc30-48f7-8da0-7c0e71d7d2aa@linux.ibm.com>
-Date: Thu, 11 Jan 2024 10:23:29 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] soc/aspeed: Add host side BMC device driver
-Content-Language: en-US
-To: Ninad Palsule <ninad@linux.vnet.ibm.com>, Andrew Lunn <andrew@lunn.ch>
-References: <20230821183525.3427144-1-ninad@linux.ibm.com>
- <20230821183525.3427144-2-ninad@linux.ibm.com>
- <5159abb8-1b4c-4576-b370-4dd9db142beb@lunn.ch>
- <6cea8ee7-f845-6ef3-631f-3f252ff5e949@linux.vnet.ibm.com>
- <5c918888-6933-7661-45f0-32ae4521aa2c@linux.vnet.ibm.com>
+	Thu, 11 Jan 2024 18:12:54 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DAA1A58061;
+	Thu, 11 Jan 2024 18:12:53 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 536DA58059;
+	Thu, 11 Jan 2024 18:12:53 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 11 Jan 2024 18:12:53 +0000 (GMT)
 From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <5c918888-6933-7661-45f0-32ae4521aa2c@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        joel@jms.id.au, andrew@codeconstruct.com.au, peterhuewe@gmx.de,
+        jarkko@kernel.org, jgg@ziepe.ca, keescook@chromium.org,
+        tony.luck@intel.com, gpiccoli@igalia.com, ninad@linux.ibm.com,
+        johannes.holland@infineon.com, linux@roeck-us.net, broonie@kernel.org,
+        andre.werner@systec-electronic.com
+Subject: [PATCH v3 0/3] Add device tree for IBM system1 BMC
+Date: Thu, 11 Jan 2024 12:12:48 -0600
+Message-Id: <20240111181251.1817582-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: AVbA9MnxxCVVkGqCoodM0HqcSyFelbg7
-X-Proofpoint-ORIG-GUID: AVbA9MnxxCVVkGqCoodM0HqcSyFelbg7
+X-Proofpoint-GUID: JLhqlni5dtEYabxMgRDTa2ke1IAmGzeV
+X-Proofpoint-ORIG-GUID: nLuN1-pDqxsZMHKgrzN0hNH7Tj55L6qQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-01-11_09,2024-01-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 mlxscore=0 bulkscore=0 adultscore=0 impostorscore=0
- phishscore=0 clxscore=1011 mlxlogscore=999 priorityscore=1501 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2401110128
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
+ malwarescore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401110143
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,69 +98,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, festevam@denx.de, geert+renesas@glider.be, linux-aspeed@lists.ozlabs.org, peteryin.openbmc@gmail.com, alexander.stein@ew.tq-group.com, luca.ceresoli@bootlin.com, linux-kernel@vger.kernel.org, naresh.solanki@9elements.com, linux-arm-kernel@lists.infradead.org, lakshmiy@us.ibm.com, bhelgaas@google.com, vincent@vtremblay.dev, linux-integrity@vger.kernel.org, geissonator@yahoo.com, patrick.rudolph@9elements.com, linux-hardening@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Andrew,
+This patchset adds device tree for IBM system1 bmc board.
 
-On 8/23/23 12:32, Ninad Palsule wrote:
-> Hello Andrew,
->
-> On 8/22/23 11:14 AM, Ninad Palsule wrote:
->> Hello Andrew,
->>
->> Thanks for the review.
->>
->> On 8/21/23 2:29 PM, Andrew Lunn wrote:
->>>> Testing:
->>>>    - This is tested on IBM rainier system with BMC. It requires BMC 
->>>> side
->>>>      BMC device driver which is available in the ASPEED's 5.15 SDK
->>>>      kernel.
->>> How relevant is that? To the host side, it just appears to be an
->>> 16550A. Is the SDK emulating an 16550A? If you where to use a
->>> different kernel, is it still guaranteed to be an 16550A? I also
->>> notice there is a mainline
->>> drivers/tty/serial/8250/8250_aspeed_vuart.c. Could that be used on the
->>> BMC? That would be a better testing target than the vendor kernel.
->>
->> This is just to indicate how I tested my code.
->>
->> Yes, aspeed chip (in this case ast2600) is compatible with 16550 UART.
->>
->> I am guessing it should work with different kernel too as 16550 
->> standard is used.
->>
->> The 8250_aspeed_vuart.c is a BMC side driver for accessing VUART over 
->> LPC bus and
->>
->> this is a host side driver to access VUART over PCIe bus.
->>
->>>> +config ASPEED_HOST_BMC_DEV
->>>> +    bool "ASPEED SoC Host BMC device driver"
->>>> +    default ARCH_ASPEED
->>>> +    select SOC_BUS
->>>> +    default ARCH_ASPEED
->>> same default twice?
->> Removed.
->>
->>>> +late_initcall(aspeed_host_bmc_device_init);
->>>> +module_exit(aspeed_host_bmc_device_exit);
->>> It looks like you can use module_pci_driver() ?
->> yes, It should work unless the late initcall is important. I will 
->> test it and see.
->
-> I will not be able to use module_pci_driver() as it doesn't support 
-> late initcall which is required otherwise
->
-> 8250 registration fails. So I am not making this change.
+Change log:
+v1:
+ - Added device binding for IBM system1-bmc
+ - Added device binding for TIS I2C devices
+ - Added device tree for IBM system1 BMC board
+ - Added i2c and muxes
+ - Added voltage regulators
+ - Added GPIO, Fan ctrl, Led
+ - Added more compatible strings for tpm_tis_i2c
+ - Added power supplies, sensors, EEPROMS, TPM and more
 
-Please let me know if you are fine with this.
+v2:
+ - Incorporated review comments from Conor Dooley, Jarkko Sakkinen,
+   Guenter Roeck, Rob Herring, Krzysztof Kozlowski
+ - Merge all patches into single patch.
+ - Split the trivial device patch.
+ - Cleanup commit messages.
+ - Fixed bootargs string.
+ - Fixed node names.
+ - Dropped tpm schema patch as it is covered by Lukas's patch.
+ - Dropped "tpm: tis-i2c: Add more compatible strings" patch and
+   send it as a separate patch.
 
-Thanks for the review.
+v3:
+ - Fixed voltage-regulators names.
+ - Updated commit message about TPM compatibility string.
 
-Regards,
+Andrew Geissler (1):
+  ARM: dts: aspeed: System1: IBM system1 BMC board
 
-Ninad
+Ninad Palsule (2):
+  dt-bindings: arm: aspeed: add IBM system1-bmc
+  dt-bindings: Add DPS310 as trivial device
+
+ .../bindings/arm/aspeed/aspeed.yaml           |    1 +
+ .../devicetree/bindings/trivial-devices.yaml  |    2 +
+ arch/arm/boot/dts/aspeed/Makefile             |    1 +
+ .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 1623 +++++++++++++++++
+ 4 files changed, 1627 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+
+-- 
+2.39.2
 
