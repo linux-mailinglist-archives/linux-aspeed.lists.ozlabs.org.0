@@ -1,100 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB3E82B574
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jan 2024 20:51:01 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07EB582C8F3
+	for <lists+linux-aspeed@lfdr.de>; Sat, 13 Jan 2024 02:54:21 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=F2NOUJ1I;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=S3eiiwlN;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4T9wJf6Xryz3cQD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jan 2024 06:50:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TBhKN0w7Lz3brl
+	for <lists+linux-aspeed@lfdr.de>; Sat, 13 Jan 2024 12:54:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=F2NOUJ1I;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=S3eiiwlN;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4T9wJY6k7cz3bp1
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jan 2024 06:50:53 +1100 (AEDT)
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40BJf4qh020558;
-	Thu, 11 Jan 2024 19:50:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=m/WaWO4axy/JtRTQr7uYXMu/rUmUqtk8HnB0BQW4Frs=;
- b=F2NOUJ1IKJ1mN0+QQlt6IuYNqWMxpMi4miGI+IkcsxMJyUCO2ULkRNLcFg1Kz5LJEN3j
- uHKDDPEZkkgE2IRBHvFzVNB+Jvc25hWY8AXfim/mV5mxQJvfKpzlt36xHEB5ya+D3s6L
- Pt+LZvRcHmwgIrgy5Lu19xytZVQO50VeId0Sk1Ib2pnX7e9EakbykL0BL+h8BWG2Dhwe
- lrqvyCQYsnl7Q+0YS+FJv3uavDz0lllI6/UN3Rdj1TO/giQm2QsbRuo8lRCBZrsdeCJR
- 6v635k3hGFCgZOkfin4RYCAhhvgqxuGcm35gpuuix+BzfzpCeyGgPPJl7ft+yc61/ebA Dw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vjgmxjyam-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jan 2024 19:50:16 +0000
-Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40BJkNOO003717;
-	Thu, 11 Jan 2024 19:50:15 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3vjgmxjy8y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jan 2024 19:50:15 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 40BIw03p026992;
-	Thu, 11 Jan 2024 19:50:13 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3vfkw2d843-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jan 2024 19:50:13 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 40BJoCR510289860
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 11 Jan 2024 19:50:12 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6E78B5805E;
-	Thu, 11 Jan 2024 19:50:12 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 98FCA5805D;
-	Thu, 11 Jan 2024 19:50:10 +0000 (GMT)
-Received: from [9.24.12.86] (unknown [9.24.12.86])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 11 Jan 2024 19:50:10 +0000 (GMT)
-Message-ID: <f21d5e90-7da1-4f65-819d-a02bede53597@linux.ibm.com>
-Date: Thu, 11 Jan 2024 13:50:10 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] dt-bindings: Add DPS310 as trivial device
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, joel@jms.id.au,
-        andrew@codeconstruct.com.au, peterhuewe@gmx.de, jarkko@kernel.org,
-        jgg@ziepe.ca, keescook@chromium.org, tony.luck@intel.com,
-        gpiccoli@igalia.com, johannes.holland@infineon.com, linux@roeck-us.net,
-        broonie@kernel.org, andre.werner@systec-electronic.com
-References: <20240111181251.1817582-1-ninad@linux.ibm.com>
- <20240111181251.1817582-3-ninad@linux.ibm.com>
- <1cf1f0dd-c453-4733-a5f4-0d2cc22498e2@linaro.org>
-From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <1cf1f0dd-c453-4733-a5f4-0d2cc22498e2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: gUJOibKBjrq0VnV4zYK43mC0gXX2H04W
-X-Proofpoint-ORIG-GUID: LMps6aI9GatP4j4NlnHlsUSl3zJggUgE
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TBhKD5GFqz30Kd
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 13 Jan 2024 12:54:08 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id E1AE1B82427
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 13 Jan 2024 01:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C81EAC43399
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 13 Jan 2024 01:54:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705110842;
+	bh=53lTNv4PeoQS9hGdvt7a6AGwPPIeogMIRbF8hzV8nkE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=S3eiiwlNzsctXVIF62MT+kIY1V/yTE6D1xnutGJ+7CZJ+qo/yuArq32XtsVgPQ3c/
+	 755L1V3m3iltNsUdRdWj72MdVbaQQRmCszRc5pe/jPOmtQC0Wvay5mULriNeTtV2HQ
+	 V99+NBoK3gbYNelt4c6xFJ6Fp4r+pWcSCAub6MiFYVtQjUDH0NiETsZ7Mnmo9ec76D
+	 n3pv17ka8B446M9Yv3SPgHoDeRFEWOKoKIMRdDV+aSMyLpaYZwoEEDCB2LNINxeyID
+	 hOnYgDAx3gtgyQZ1m3aoDkEJ+O4WXckBptjeGqzHB9PbLktxiEnbrNAoPKcZZvR67w
+	 cYqEkHJpMAzww==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2cd64022164so72340481fa.3
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jan 2024 17:54:02 -0800 (PST)
+X-Gm-Message-State: AOJu0YxT2sfZ7otQWcBTLZxNSXKSUBT8pgFolc/rS/w4Opd2Jm6iq5JL
+	bw7ucfqeGT8aaIPnnySUah0pFa4zyNkABnQxig==
+X-Google-Smtp-Source: AGHT+IGLBs7HKlazVnBbtBDn3wYjGagxFmxJfGVSZIxV0OlBGYvLM3MWroGVHD/fsJpgnLQPzGBhX3YmqV5PfJGV/9c=
+X-Received: by 2002:ac2:57cd:0:b0:50b:e713:574d with SMTP id
+ k13-20020ac257cd000000b0050be713574dmr1044659lfo.75.1705110840895; Fri, 12
+ Jan 2024 17:54:00 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-11_11,2024-01-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
- malwarescore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2401110154
+References: <20231107105025.1480561-1-billy_tsai@aspeedtech.com>
+ <20231107105025.1480561-3-billy_tsai@aspeedtech.com> <20231108182135.GA2698015-robh@kernel.org>
+ <SG2PR06MB33655734700697E8F6FD0D1B8BB2A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+ <CAL_JsqL=2-dD5yFWWDDHu1svcCF-EMZqcYz92Pr7L5ntppNQVA@mail.gmail.com> <SG2PR06MB3365CAEE9CE3F691DA1CA1E28BB9A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+In-Reply-To: <SG2PR06MB3365CAEE9CE3F691DA1CA1E28BB9A@SG2PR06MB3365.apcprd06.prod.outlook.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 12 Jan 2024 19:53:48 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJrqOZ9nYrWUkuRVyY0OkJG6m-YY45f1ZeYKNAyYv_tMQ@mail.gmail.com>
+Message-ID: <CAL_JsqJrqOZ9nYrWUkuRVyY0OkJG6m-YY45f1ZeYKNAyYv_tMQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v10 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM
+ TACH Control
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,37 +71,161 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, festevam@denx.de, geert+renesas@glider.be, linux-aspeed@lists.ozlabs.org, peteryin.openbmc@gmail.com, alexander.stein@ew.tq-group.com, luca.ceresoli@bootlin.com, linux-kernel@vger.kernel.org, naresh.solanki@9elements.com, linux-arm-kernel@lists.infradead.org, lakshmiy@us.ibm.com, bhelgaas@google.com, vincent@vtremblay.dev, linux-integrity@vger.kernel.org, geissonator@yahoo.com, patrick.rudolph@9elements.com, linux-hardening@vger.kernel.org
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "corbet@lwn.net" <corbet@lwn.net>, BMC-SW <BMC-SW@aspeedtech.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "naresh.solanki@9elements.com" <naresh.solanki@9elements.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, "linux@roeck-us.net" <linux@roeck-us.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Krzysztof,
-
-On 1/11/24 13:40, Krzysztof Kozlowski wrote:
-> On 11/01/2024 19:12, Ninad Palsule wrote:
->> Infineon DPS310 is a barometric pressure and temperature sensor.
->>
->> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> This is a friendly reminder during the review process.
+On Sun, Nov 26, 2023 at 11:45=E2=80=AFPM Billy Tsai <billy_tsai@aspeedtech.=
+com> wrote:
 >
-> It looks like you received a tag and forgot to add it.
+> > > > > Document the compatible for aspeed,ast2600-pwm-tach device, which=
+ can
+> > > > > support up to 16 PWM outputs and 16 fan tach input.
+> > > > >
+> > > > > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> > > > > ---
+> > > > >  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 69 +++++++++++++=
+++++++
+> > > > >  1 file changed, 69 insertions(+)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspee=
+d,g6-pwm-tach.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,g6-pw=
+m-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.ya=
+ml
+> > > > > new file mode 100644
+> > > > > index 000000000000..c615fb10705c
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.=
+yaml
+> > > > > @@ -0,0 +1,69 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +# Copyright (C) 2023 Aspeed, Inc.
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml=
+#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: ASPEED G6 PWM and Fan Tach controller
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Billy Tsai <billy_tsai@aspeedtech.com>
+> > > > > +
+> > > > > +description: |
+> > > > > +  The ASPEED PWM controller can support up to 16 PWM outputs.
+> > > > > +  The ASPEED Fan Tacho controller can support up to 16 fan tach =
+input.
+> > > > > +  They are independent hardware blocks, which are different from=
+ the
+> > > > > +  previous version of the ASPEED chip.
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    enum:
+> > > > > +      - aspeed,ast2600-pwm-tach
+> > > > > +
+> > > > > +  reg:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  clocks:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  resets:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  "#pwm-cells":
+> > > > > +    const: 3
+> > > > > +
+> > > > > +patternProperties:
+> > > > > +  "^fan-[0-9]+$":
+> > > > > +    $ref: fan-common.yaml#
+> > > > > +    unevaluatedProperties: false
+> > > > > +    required:
+> > > > > +      - tach-ch
+> > > > > +
+> > > > > +required:
+> > > > > +  - reg
+> > > > > +  - clocks
+> > > > > +  - resets
+> > > > > +  - "#pwm-cells"
+> > > > > +  - compatible
+> > > > > +
+> > > > > +additionalProperties: false
+> > > > > +
+> > > > > +examples:
+> > > > > +  - |
+> > > > > +    #include <dt-bindings/clock/aspeed-clock.h>
+> > > > > +    pwm_tach: pwm-tach-controller@1e610000 {
+> > > > > +      compatible =3D "aspeed,ast2600-pwm-tach";
+> > > > > +      reg =3D <0x1e610000 0x100>;
+> > > > > +      clocks =3D <&syscon ASPEED_CLK_AHB>;
+> > > > > +      resets =3D <&syscon ASPEED_RESET_PWM>;
+> > > > > +      #pwm-cells =3D <3>;
+> > > > > +
+> > > > > +      fan-0 {
+> > >
+> > > > I assume there's a PWM connection here? How do you know which PWM? =
+You
+> > > > said the tach channel is independent, so it is not that.
+> > >
+> > > > It should not be 0 from 'fan-0' because that's just a meaningless i=
+ndex.
+> > >
+> > > > You either need 'pwms' here or you can use 'reg' and the reg value =
+is
+> > > > the PWM channel.
+> > >
+> > > Hi Rob, this binding is used to export the PWM provider and the Fan m=
+onitor (i.e., Tach).
+> > > If the user wants to add the PWM connection for the fan, it can be do=
+ne as follows:
+> > >
+> > > fan0: pwm-fan0 {
+> > >         compatible =3D "pwm-fan";
+> > >         pwms =3D <&pwm_tach 0 40000 0>;
+> > >         cooling-min-state =3D <0>;
+> > >         cooling-max-state =3D <3>;
+> > >         #cooling-cells =3D <2>;
+> > >         cooling-levels =3D <0 15 128 255>;
+> > > };
+> > >
+> > > This will reuse the existing PWM fan driver (e.g., pwm-fan.c).
 >
-> If you do not know the process, here is a short explanation:
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-> versions, under or above your Signed-off-by tag. Tag is "received", when
-> provided in a message replied to you on the mailing list. Tools like b4
-> can help here. However, there's no need to repost patches *only* to add
-> the tags. The upstream maintainer will do that for tags received on the
-> version they apply.
+> > I'm confused now. So what are the child nodes you have? You are
+> > defining the fan in 2 places? The "pwm-fan" driver supports a tach via
+> > an interrupt, so how would this work in your case?
 >
-> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+> Hi Rob,
 >
-> If a tag was not added on purpose, please state why and what changed.
+> The tach interrupt for the pwm-fan is option. In our case, the dts just r=
+euse the pwm control function
+> of the pwm-fan, and the part of the tach monitor will be created by our f=
+an child nodes.
+> So the dts will like followings:
+>
+> // Use to declare the tach monitor for fan.
+> &pwm_tach {
+>         fan-0 {
+>                 tach-ch =3D /bits/ 8 <0x0>;
+>         };
+>         fan-1 {
+>                 tach-ch =3D /bits/ 8 <0x1>;
+>         };
+>         ...
+> }
+>
+> // Reuse the pwm-fan.c to control the behavior of the PWM for fan.
+> fan0: pwm-fan0 {
+>         compatible =3D "pwm-fan";
+>         pwms =3D <&pwm_tach 0 40000 0>;   /* Target freq:25 kHz */
+>         cooling-min-state =3D <0>;
+>         cooling-max-state =3D <3>;
+>         #cooling-cells =3D <2>;
+>         cooling-levels =3D <0 15 128 255>;
+> };
 
-This is a mistake from my side. Sorry about that. I will remember it 
-next time.
+No, you can't have a fan described by 2 different nodes. Can't you
+just merge everything from the pwm-fan0 node into the fan-0 node?
 
-Thanks & Regards,
-
-Ninad
-
+Rob
