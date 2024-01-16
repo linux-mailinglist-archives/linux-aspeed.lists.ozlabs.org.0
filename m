@@ -1,124 +1,135 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6CF82D5DF
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Jan 2024 10:26:57 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8232582E83A
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jan 2024 04:27:54 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=aOVM9q5u;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=GNwfxIOK;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TD6Gl4nhlz3bWH
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Jan 2024 20:26:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TDZG03G5mz3btZ
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jan 2024 14:27:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=aOVM9q5u;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::62d; helo=mail-ej1-x62d.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::72a; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2072a.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::72a])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TD6Gb6HXXz30RS
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Jan 2024 20:26:47 +1100 (AEDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-a2d348d213dso168414466b.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Jan 2024 01:26:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705310804; x=1705915604; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YHhsOVyVdum5BvTOU6puggsd8m+EmQHCPAae0qxBHok=;
-        b=aOVM9q5uZdOia4Wihfyaa+TTLfETFRv3G624DurToTsvc6c188LhQO1ho1IWuvZQhP
-         6KV90BpT57WCZhhVQe3OJCQ8GrnsPbR06DQ5gFEgY72ip6b5sLn8HF2MugaNWhS97HmP
-         meVtse81E5/HuMZDJyCNgIk6MEvY6CCllPTgdgKqDHxudlcAQaEGc++v4pwdQ8PxhYTD
-         w/eprbj1yhVBU85TuIucvAK7BvoAgboW4iE5nTHinA7R5H0MouwdyebrXyVNul4aaoiB
-         NmE9RqqIVyZ+Fo7RTIoiHN673JJkDizyiBVwDClnsWwyGfvXo42Sur3rMDA8qwr5G4v7
-         kNwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705310804; x=1705915604;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YHhsOVyVdum5BvTOU6puggsd8m+EmQHCPAae0qxBHok=;
-        b=fxtDkLo6APxJXB1jR7ud+vG1ODop5+u1uBEYeLWTwel0Q3/rQVopNQdKnhpSt3UZa7
-         F8yP9nHClxNybqDb5xVo2KnEc70RNkl/PN3JJCQoZaBiMEA1WWjGTFCvtfDvn/vDlrB3
-         IfgLZpAdhS9xdF9jJSN12fPlgH6aNItWs1rnZP1T3boCFdHvsrr007Flm9gcM4Qnlw0S
-         kdS56Ch8brUIMCO8jNaKeyoBIQt3UVwcNIpDBt/GupMZTG8l7sb+NiUA81g4PMBsXKQ2
-         Tb7bOCuy9X6DZGYb5h5c2iZO5hErtLX7V5MdLzSgCAYXAcFXV8kA6OUgKNwYfS6Wms3w
-         lFwQ==
-X-Gm-Message-State: AOJu0YxQ1imZP7Q0KfVN0ugr47m99uMge/8ApoRtZdkMM+AExmHS7xwK
-	S6vlp4rE+Hpbug8+SHcQOS5CW9QOrgdYw12U42+PryMQz8s=
-X-Google-Smtp-Source: AGHT+IH7cZL8diFYSaoGSTkZ0mpTzMbH5ut90Gi/coaMPo1tndTeyRADHfIre2mkNCxz1dCGRtEkYQ==
-X-Received: by 2002:a17:906:360a:b0:a2c:55f1:ca14 with SMTP id q10-20020a170906360a00b00a2c55f1ca14mr2020858ejb.119.1705310804110;
-        Mon, 15 Jan 2024 01:26:44 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id ks19-20020a170906f85300b00a2b086c29e1sm5049162ejb.127.2024.01.15.01.26.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jan 2024 01:26:43 -0800 (PST)
-Message-ID: <c4550e34-17c8-4c67-9483-d654aa051d2d@linaro.org>
-Date: Mon, 15 Jan 2024 10:26:41 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM TACH
- Control
-Content-Language: en-US
-To: Billy Tsai <billy_tsai@aspeedtech.com>, Rob Herring <robh@kernel.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TDZFb3NTVz3bXv
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jan 2024 14:27:29 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b0McGYmicZUc2ylPR4cinID7aZi3hRcIuHb4HTHKoydIruRs1YgRhCWhUiP06hF1ACe8dzU3CKP/60szXACmkZ3YkRfhC9PsgtZDwXBN+fAsoZZVsT4JUDb/ReS34Able9IJM5BFAEa5Fw0gdhM9/G3dVbB4Pe1ITUOhGjh9eS7h/sM3hagpI6lE8Y1l/QQ4SDLKBm8uSDS1D149cedkKNFH6WFzkLdNsQGMiURcLyUQ2xBGPsKRnX3DOHrpznLIoHDcUoIdR81OLZ8U3iilRH76t4xEEMcZrGfKVvcyONhB+qIe5bo46ifvYtkmPiA2gdR7/Xh/YEllktrn7SZgmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AB/UIKajGKhyCkanyKdU+bx3DrAHiicmMJi4QCuHaRc=;
+ b=Hjp9OvpbuQsiw1iZ6rFKVbMFLmqWovWcK9PU67A6VxC7Y3Ax0dEOAtFN3v9Cxo0qNIAotNbwySdw4pSMiwzRxzfg2kOj/RcK1VzU9uNDmsIQjEGdxDq9cVTc/zqZ8sFJZFqUeDJJ/WbcSh2N3we5685VMbEHluZ+LG9mcQz5ls/wQFkSgDgbhgCiIeeWIDw0C7WE4e/iPVQFnjBgeqx52SYA7iwW0ydFmz+iV70xbcR5x0b+XXPrPbOdE0bbW3UAW/3uyBZXRz/mMwssN7jxWdoDGVZu40mPQhIIMCMAwEkF7OERlrTTSEtB4QgMVfgyo9aZz2VyyxLdNL4jIg8qdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AB/UIKajGKhyCkanyKdU+bx3DrAHiicmMJi4QCuHaRc=;
+ b=GNwfxIOK1iL3LkUk5VAPc+l7JBLdZL9JL0emJ4lu9/9kd8lG07eSCW7nSIE67aPm6CmG2reWwAEc4fY047wUNshpMv7zoxuFK5MSyozxiqaeyxf5VKHN9u7FbfdoXtH/k547nN3j0g8YGgYknGQR16dyGCarrOWLnLIncYzg5y9MFhKT3DZSUs3MooiUyNsRM5ezdHRr5VvYCrRDEe5kEtF5EAe2ETP34EMhimMRlvABrV19h9X78iuygLkjPLPSZA28zIGsu/BqjGlRIg4Y2O5t2R0DEGGZ7GSd5PaxJbDNnAgEYKGzDF9NvH4Eq2fvyitudfkD4yMzCAPRMTcu9g==
+Received: from OSQPR06MB7252.apcprd06.prod.outlook.com (2603:1096:604:29c::6)
+ by OSQPR06MB7153.apcprd06.prod.outlook.com (2603:1096:604:298::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.23; Tue, 16 Jan
+ 2024 03:10:00 +0000
+Received: from OSQPR06MB7252.apcprd06.prod.outlook.com
+ ([fe80::36df:4bd:1991:976b]) by OSQPR06MB7252.apcprd06.prod.outlook.com
+ ([fe80::36df:4bd:1991:976b%5]) with mapi id 15.20.7181.026; Tue, 16 Jan 2024
+ 03:09:59 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, "jdelvare@suse.com"
+	<jdelvare@suse.com>, "linux@roeck-us.net" <linux@roeck-us.net>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
+	"corbet@lwn.net" <corbet@lwn.net>, "thierry.reding@gmail.com"
+	<thierry.reding@gmail.com>, "u.kleine-koenig@pengutronix.de"
+	<u.kleine-koenig@pengutronix.de>, "p.zabel@pengutronix.de"
+	<p.zabel@pengutronix.de>, "naresh.solanki@9elements.com"
+	<naresh.solanki@9elements.com>, "linux-hwmon@vger.kernel.org"
+	<linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-pwm@vger.kernel.org"
+	<linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>,
+	"patrick@stwcx.xyz" <patrick@stwcx.xyz>
+Subject: Re: [PATCH v12 1/3] dt-bindings: hwmon: fan: Add fan binding to
+ schema
+Thread-Topic: [PATCH v12 1/3] dt-bindings: hwmon: fan: Add fan binding to
+ schema
+Thread-Index: AQHaQgZu5E6zHIhZfEy632aEYqumvLDapZqAgAEmR1s=
+Date: Tue, 16 Jan 2024 03:09:59 +0000
+Message-ID:  <OSQPR06MB72520F546A22DE55532A33E78B732@OSQPR06MB7252.apcprd06.prod.outlook.com>
 References: <20240108074348.735014-1-billy_tsai@aspeedtech.com>
- <20240108074348.735014-3-billy_tsai@aspeedtech.com>
- <20240113015556.GA3829553-robh@kernel.org>
- <OSQPR06MB725208AEF8779B0BC971DFF48B6C2@OSQPR06MB7252.apcprd06.prod.outlook.com>
- <40210196-3852-4c8b-94e6-e744890f003f@linaro.org>
- <OSQPR06MB72520BD77D68B7940273F2498B6C2@OSQPR06MB7252.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <OSQPR06MB72520BD77D68B7940273F2498B6C2@OSQPR06MB7252.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20240108074348.735014-2-billy_tsai@aspeedtech.com>
+ <54929342-7e06-4e39-a7e9-e5dc787406ce@linaro.org>
+In-Reply-To: <54929342-7e06-4e39-a7e9-e5dc787406ce@linaro.org>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSQPR06MB7252:EE_|OSQPR06MB7153:EE_
+x-ms-office365-filtering-correlation-id: b3d79ad6-a9b7-4746-2096-08dc1640a010
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  3mXcEnYPgpcmqgiUtrRwGPQx4k2lKgXVASAiuwWM2+oTqIJQFCesvj6BcNn6iOhT3aaK/QTj9DF4DY17pjMZjZAjvcHwSvMciCnMa3mODu4lz5JKzhgBVVBSsgwyMnba7E5aWDbe/qRCw7w4jDHcQbs9XBFDniU9lIrX4yNi8wrzTMz8N5dIBDqZCqvMVtO5/tmFIlzVIkJvDufUVOt7/w7QP0rGoDS/IlZl7057/ujK9HKcyZTPjJvmSo3pv60pOnW/hQwVFItlxg3qumZsOd3Ss7T+NtncEMSSV/bv3V8+fCV2S9GosQv57v4KTF/ueoGs5sdpBvZF982dQgXqlVK+7gEXB6dI1HLu2SMa54s5mk34vCDXetzA0e1w7mpbzTwlRC4cwy+EAeQipVbfC1K/auk7QY3whZBoou4lsXtT4bvghVPGzYwFY4h48MYkMiDCuTrz7RYXLYHLYbnpnuaIo6zyO3AQZZmS5B3Xi14BI2P3FWED2i4QMYK6Q/1w6xURoWu4cfJ25OlQhFa1YtKvaw+0DAg0U3xQL+gm76+YqsvsdHuFy38353FhOmRGzvtW645McBknTj5kv31m1gbOgZ8kA0maMZTwgMkYZVlfs0bPiXJcuz1IHq+v2mLM
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSQPR06MB7252.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(366004)(39850400004)(136003)(346002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(122000001)(38070700009)(38100700002)(55016003)(26005)(86362001)(33656002)(921011)(76116006)(9686003)(71200400001)(7696005)(66946007)(66556008)(66476007)(66446008)(110136005)(6506007)(55236004)(64756008)(316002)(7416002)(5660300002)(52536014)(8936002)(8676002)(2906002)(4744005)(41300700001)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?xkhvC97KVRpdSM/sJjVrrj4RJlBhDGzGLnI33Al7oT+KRRpPn+cA6Bum5w?=
+ =?iso-8859-1?Q?n1vxs4hRYm+igJke1Fai+tOt0PEA7DYGUexmSaOx9avmokD/WQLxen31Ko?=
+ =?iso-8859-1?Q?VGu8jUbcSl+lqNmO5r+FOebbV0km50TyGvi7Oo+xNB3+E5yDr3Byr9Hs8z?=
+ =?iso-8859-1?Q?P8AbSlY7GAXAZ1bQsaRvNWy4T30fVeO2zrFe1QFisDTkfj02iBEvHgSM0j?=
+ =?iso-8859-1?Q?C4Xgi3pBag1qMtW3SlFsYP8X1KKVMdn60y2buZr6Fg/RCqj6OhzeTl30ah?=
+ =?iso-8859-1?Q?z6pD50UVvoWcYX2LrxSTXFyug0k+Gb/pYxKNYCLFpAibiuI1o1byMo2VgJ?=
+ =?iso-8859-1?Q?23/0bpo2dS4lPeaTRR839crZG8kbj2zQ+klCtsIl9jDpzAgpp8hxbGvsJP?=
+ =?iso-8859-1?Q?/sO5/NJc8WmQmZn3V3cqHKugFETLuuElAtPgkp/3SxOVKBQQSIMGHz3hEY?=
+ =?iso-8859-1?Q?jyBc6BsudDomQ6k2QB1Imjo7pX8+zMxF73P0euXNtg0uaJrvxStF/4Cn+e?=
+ =?iso-8859-1?Q?baQqzAzmi7Ham17TnFpk4o2t2Z9ChK5yCifwBskHD/zBsQqyoVHvoKUPus?=
+ =?iso-8859-1?Q?8GiV/9sLsv1Q0OneKi7MyGSeAHWzc79lz1TsJxUOEz9vTRHVskkkTMVLYd?=
+ =?iso-8859-1?Q?XelSlOU4z8aSNY3+rc7s8HensB25O+XHuD8cHodEw4VWA8S4ZFyBhztw0L?=
+ =?iso-8859-1?Q?8RmYsSFPGg6J+oekSCtTJohD/zv+gwLZempRdDm9Djc1URdFEmzvx/M15Q?=
+ =?iso-8859-1?Q?UsuRgt52aengXHBECmvLu6Fc8KuvvZshvVQWFFItux9kttSvQbprnTN9sP?=
+ =?iso-8859-1?Q?C9IhJ0o6ztYDt/aMev3+IW5d4r7fqRhn01dpaW3a3CPKEoSOrJlc5pRDcl?=
+ =?iso-8859-1?Q?MNk5ef4sa0vkLBsXBLnJ+LMmN0OSK6/NWlDJoZDG6YmuLVVhQFV971p19+?=
+ =?iso-8859-1?Q?HVO32K6zw0FgEKawOGOgB/V6m+Ivr/aQquHQTBqRfnMetkDI4FG/ufWXFW?=
+ =?iso-8859-1?Q?bkLVRsFEutButxPmNrTPiRsP8lSxeHa4mkf8YPx15tSbfA+Nvtj5PC5fgd?=
+ =?iso-8859-1?Q?Jbs+gcAL18JmojFUQ1SeNSVHrqnqNO+4ddH2mQEHlW/U7Sz+MVk7FLnQda?=
+ =?iso-8859-1?Q?b6SmZIosbttqlevkaHZsopYSqJ7C8IQUJ3GcMXYYb6YMqg6gie0lL/z80T?=
+ =?iso-8859-1?Q?TBDeRORY+ahlNF5CBUEY4Eyr9wZpqxr2O2uxXN8fQMmr82pSS+Ahdsf40s?=
+ =?iso-8859-1?Q?ZM8HFC3AADv1in2r6aItnc7mGtR6HIQ1wrS6zjcFms6r7wK+SG2N2gTnH0?=
+ =?iso-8859-1?Q?fwG6e0k4b5XkJHuRv/qgnyD2bvUXfV0G/I3WDH/vkyLrFI4Q2OK5yMbgZZ?=
+ =?iso-8859-1?Q?yYqf775168RHLzLWaxaPhV10pUlbzS4b9vVsP6NQA3++qXpZlBR45OmIB4?=
+ =?iso-8859-1?Q?ongsUCK+nMj+ImNnxVABwryE+Wyo4u2yZwjgfjr9ZrYBn5bENdlDdKjoXq?=
+ =?iso-8859-1?Q?HFbQoPda1JK9H4QQvLd7Lt6t1Bw152Af/m0D4yAdFmj6K5MpKctQ+8zgjn?=
+ =?iso-8859-1?Q?GFA/e2VKh1K37nVsJnm6JrW5kckJqtcXHUYbIXK+y/3ZRlrKAcnve+1gEu?=
+ =?iso-8859-1?Q?vTVNAnz7tLgJZluZo9TZolEMJfWODjVmzL?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSQPR06MB7252.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3d79ad6-a9b7-4746-2096-08dc1640a010
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2024 03:09:59.8568
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EPmaDbZ8gLFB/D3fi0VFxrTKxrneAUAP8RnYOiNPgc+GHsmV2gjIc7h7TGi/W1o9WgHBWFFDqSIXiuLHbHJxxnrQK67g/fRh1ftxllog2iQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR06MB7153
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,79 +141,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "jdelvare@suse.com" <jdelvare@suse.com>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "corbet@lwn.net" <corbet@lwn.net>, BMC-SW <BMC-SW@aspeedtech.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "naresh.solanki@9elements.com" <naresh.solanki@9elements.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>, "linux@roeck-us.net" <linux@roeck-us.net>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 15/01/2024 09:43, Billy Tsai wrote:
->>>>> +examples:
->>>>> +  - |
->>>>> +    #include <dt-bindings/clock/aspeed-clock.h>
->>>>> +    pwm_tach: pwm-tach-controller@1e610000 {
->>>>> +      compatible = "aspeed,ast2600-pwm-tach";
->>>>> +      reg = <0x1e610000 0x100>;
->>>>> +      clocks = <&syscon ASPEED_CLK_AHB>;
->>>>> +      resets = <&syscon ASPEED_RESET_PWM>;
->>>>> +      #pwm-cells = <3>;
->>>>> +
->>>>> +      fan-0 {
->>>>> +        tach-ch = /bits/ 8 <0x0>;
->>>>> +      };
->>>>> +
->>>>> +      fan-1 {
->>>>> +        tach-ch = /bits/ 8 <0x1 0x2>;
->>>>> +      };
->>>
->>>> NAK on this based on how you are using pwm-fan in v10 discussion. See my
->>>> comments there.
->>>
->>> Okay, I will merge everything from the pwm-fan0 node into the fan-0 node
->>> and add the 'simple-bus' to the compatible string of the pwm_tach node.
-> 
->> What simple-bus has anything to do with it? This is not a bus. Just to
->> remind: we talk about bindings, not driver.
-> 
-> Hi Krzysztof,
-> 
-> If I want to create a dt-binding to indicate that the child nodes
-> should be treated as platform devices, which will be probed based on the
-
-probed? Bindings do not probe. You ignored:
-"we talk about bindings, not driver."
-
-> compatible string, can I add "simple-bus" for our pwm_tach node like the
-> following?
-
-No, because this is not a bus.
-
-> pwm_tach: pwm-tach-controller@1e610000 {
->         compatible = "aspeed,ast2600-pwm-tach", "simple-bus";
->         reg = <0x1e610000 0x100>;
->         clocks = <&syscon ASPEED_CLK_AHB>;
->         resets = <&syscon ASPEED_RESET_PWM>;
->         #pwm-cells = <3>;
->   
->         fan-0 {
->           tach-ch = /bits/ 8 <0x0>;
->           compatible = "pwm-fan";
->           pwms = <&pwm_tach 0 40000 0>;
->         };
->   
->         fan-1 {
->           tach-ch = /bits/ 8 <0x1 0x2>;
->           compatible = "pwm-fan";
->           pwms = <&pwm_tach 1 40000 0>;
->         };
->       };
-> Or do you have any other suggestions for describing this in the dt-bindings?
-
-
-There is no need to describe it in the bindings. The existing compatible
-describes it sufficiently. Your pwms now duplicate the tach-ch... I
-don't understand what you want to achieve here in terms of hardware
-description (again, please steer away from talking about Linux drivers
-and probing, it's not related).
-
-Best regards,
-Krzysztof
-
+> > +  pwms:=0A=
+> > +    description:=0A=
+> > +      PWM provider.=0A=
+> > +    maxItems: 1=0A=
+> > +=0A=
+> > +  "#cooling-cells":=0A=
+> > +    const: 2=0A=
+> > +=0A=
+> > +  cooling-levels:=0A=
+> > +    description:=0A=
+> > +      The control value which correspond to thermal cooling states.=0A=
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array=0A=
+> > +=0A=
+> > +  tach-ch:=0A=
+> > +    description:=0A=
+> > +      The tach channel used for the fan.=0A=
+> > +    $ref: /schemas/types.yaml#/definitions/uint8-array=0A=
+=0A=
+> What is the tach-channel and why is it different from pwm specifier?=0A=
+=0A=
+Hi Krzysztof,=0A=
+=0A=
+Using the Aspeed SoC as an example, our SoC features 16 PWMs and 16 tachome=
+ter channels that can be employed to control and monitor fans.=0A=
+The "tach-ch" parameter is utilized to specify which tachometer channel is =
+being used to monitor a specific fan.=0A=
+The "pwms" parameter is utilized to specify which pwm channel is being used=
+ to control a specific fan.=0A=
+=0A=
+Thanks=0A=
+Best regards,=0A=
+Billy Tsai=0A=
