@@ -1,135 +1,95 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8232582E83A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jan 2024 04:27:54 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C32C182E9B1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jan 2024 07:51:26 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=GNwfxIOK;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=LsOdtJrH;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TDZG03G5mz3btZ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jan 2024 14:27:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TDfmr56hCz3cTM
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jan 2024 17:51:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::72a; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2072a.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::72a])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=LsOdtJrH;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feab::631; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20631.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::631])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TDZFb3NTVz3bXv
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jan 2024 14:27:29 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TDfmh673Lz3c5R
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jan 2024 17:51:15 +1100 (AEDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b0McGYmicZUc2ylPR4cinID7aZi3hRcIuHb4HTHKoydIruRs1YgRhCWhUiP06hF1ACe8dzU3CKP/60szXACmkZ3YkRfhC9PsgtZDwXBN+fAsoZZVsT4JUDb/ReS34Able9IJM5BFAEa5Fw0gdhM9/G3dVbB4Pe1ITUOhGjh9eS7h/sM3hagpI6lE8Y1l/QQ4SDLKBm8uSDS1D149cedkKNFH6WFzkLdNsQGMiURcLyUQ2xBGPsKRnX3DOHrpznLIoHDcUoIdR81OLZ8U3iilRH76t4xEEMcZrGfKVvcyONhB+qIe5bo46ifvYtkmPiA2gdR7/Xh/YEllktrn7SZgmg==
+ b=bFLJ8dkCpZYm1Vs5i4Hm0zFdVuLldLl+0JAqNQlPN46+MAud/4ZK2XYBLbltg9u6GbDQw5m/lP7cPutf8cN97Dah9u0Zy67gASIysa4jcSQ1bxfgtpUj9VM/eZ9o6pQ/661UppZP4vI3siqRFUn2ZrMi2ozn7BzlnfVRfEsb5nmOio4ycVSnWdii+C4VFOyx4CayqX5EASd7HkUt5Y25EPLvM2f+1+6B2H0jTRxuumZVXami7mPq0msSIfn5Rk6yRd6Luu8i/IbGrzylMEm8FRLjcXVq1TuJXhfDjdblC9A5tiit+LsNwcGRjxJ99RvbRLuPO24UQuNiWE4Kf93I6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AB/UIKajGKhyCkanyKdU+bx3DrAHiicmMJi4QCuHaRc=;
- b=Hjp9OvpbuQsiw1iZ6rFKVbMFLmqWovWcK9PU67A6VxC7Y3Ax0dEOAtFN3v9Cxo0qNIAotNbwySdw4pSMiwzRxzfg2kOj/RcK1VzU9uNDmsIQjEGdxDq9cVTc/zqZ8sFJZFqUeDJJ/WbcSh2N3we5685VMbEHluZ+LG9mcQz5ls/wQFkSgDgbhgCiIeeWIDw0C7WE4e/iPVQFnjBgeqx52SYA7iwW0ydFmz+iV70xbcR5x0b+XXPrPbOdE0bbW3UAW/3uyBZXRz/mMwssN7jxWdoDGVZu40mPQhIIMCMAwEkF7OERlrTTSEtB4QgMVfgyo9aZz2VyyxLdNL4jIg8qdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ bh=NZVJ3RffjKNtjEyF9SPH85azrY49mwId68lPlv3KDCc=;
+ b=CPWD6oISNC54tNwAaH/UsywukqOl0TKXM9nWuK7UJ/HH1zr8IPvx5y1w4qqGbrWQcOUChYFwp8QQB1vljuaDeXTXPYANQer0BE5Qh1xQCKl7vbyZ3TBYnmjcthN3CeUtBKSegSbfiS48bjKGODekA7QYzbPBvQEfnlakZi7hPMguCejI8Oqdfx0Mf1nHGnbgGJ8bpOV1gTD9zgDDLjCZxUifG2gVuNSSb9XCqDHc0eBOJjfymAgSCF7lUifdIosau6p7ETXeDXhBA2bgTFfOSIF0MM/9b4kCqzxlxzBxmbK4WCX32LdXMbpMoxuiejlcXqxugxIdrjcjJt1vRhCRXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AB/UIKajGKhyCkanyKdU+bx3DrAHiicmMJi4QCuHaRc=;
- b=GNwfxIOK1iL3LkUk5VAPc+l7JBLdZL9JL0emJ4lu9/9kd8lG07eSCW7nSIE67aPm6CmG2reWwAEc4fY047wUNshpMv7zoxuFK5MSyozxiqaeyxf5VKHN9u7FbfdoXtH/k547nN3j0g8YGgYknGQR16dyGCarrOWLnLIncYzg5y9MFhKT3DZSUs3MooiUyNsRM5ezdHRr5VvYCrRDEe5kEtF5EAe2ETP34EMhimMRlvABrV19h9X78iuygLkjPLPSZA28zIGsu/BqjGlRIg4Y2O5t2R0DEGGZ7GSd5PaxJbDNnAgEYKGzDF9NvH4Eq2fvyitudfkD4yMzCAPRMTcu9g==
-Received: from OSQPR06MB7252.apcprd06.prod.outlook.com (2603:1096:604:29c::6)
- by OSQPR06MB7153.apcprd06.prod.outlook.com (2603:1096:604:298::13) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=NZVJ3RffjKNtjEyF9SPH85azrY49mwId68lPlv3KDCc=;
+ b=LsOdtJrHMkNdstkOQ+Z+r4opXW1I82HURnvDpvDxzrtdf3jHayNOI2qADgvvyWb+k7DeNJomkpaDsxNBkgu//ms6hvjbrhld2OSnvUyMDJYKjwqNnfQIKKc5L6CjfU5hEQ1K6pbIP9AMhGfBxi5vqMfRMTImtpBroptiPdDZgMJZYnT+DUPnkKapkznI74DabYZwjND1UsYVJzOOGT0eyZKxIUpgnWw9PvZPEAO1FzS1ZmqYq3EWlhP6rlt83rfQgHerTO/3/lUoy5WwZxfaWzoruHM86WeZoGncDaDMWoLbNt3op0viJoLWdpNpIPWN1ZZI15X8olDNPSUCTagtMA==
+Received: from SG2PR01CA0159.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:28::15) by KL1PR0401MB4417.apcprd04.prod.outlook.com
+ (2603:1096:820:2c::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.23; Tue, 16 Jan
- 2024 03:10:00 +0000
-Received: from OSQPR06MB7252.apcprd06.prod.outlook.com
- ([fe80::36df:4bd:1991:976b]) by OSQPR06MB7252.apcprd06.prod.outlook.com
- ([fe80::36df:4bd:1991:976b%5]) with mapi id 15.20.7181.026; Tue, 16 Jan 2024
- 03:09:59 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, "jdelvare@suse.com"
-	<jdelvare@suse.com>, "linux@roeck-us.net" <linux@roeck-us.net>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
-	"corbet@lwn.net" <corbet@lwn.net>, "thierry.reding@gmail.com"
-	<thierry.reding@gmail.com>, "u.kleine-koenig@pengutronix.de"
-	<u.kleine-koenig@pengutronix.de>, "p.zabel@pengutronix.de"
-	<p.zabel@pengutronix.de>, "naresh.solanki@9elements.com"
-	<naresh.solanki@9elements.com>, "linux-hwmon@vger.kernel.org"
-	<linux-hwmon@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-pwm@vger.kernel.org"
-	<linux-pwm@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>,
-	"patrick@stwcx.xyz" <patrick@stwcx.xyz>
-Subject: Re: [PATCH v12 1/3] dt-bindings: hwmon: fan: Add fan binding to
- schema
-Thread-Topic: [PATCH v12 1/3] dt-bindings: hwmon: fan: Add fan binding to
- schema
-Thread-Index: AQHaQgZu5E6zHIhZfEy632aEYqumvLDapZqAgAEmR1s=
-Date: Tue, 16 Jan 2024 03:09:59 +0000
-Message-ID:  <OSQPR06MB72520F546A22DE55532A33E78B732@OSQPR06MB7252.apcprd06.prod.outlook.com>
-References: <20240108074348.735014-1-billy_tsai@aspeedtech.com>
- <20240108074348.735014-2-billy_tsai@aspeedtech.com>
- <54929342-7e06-4e39-a7e9-e5dc787406ce@linaro.org>
-In-Reply-To: <54929342-7e06-4e39-a7e9-e5dc787406ce@linaro.org>
-Accept-Language: en-US, zh-TW
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSQPR06MB7252:EE_|OSQPR06MB7153:EE_
-x-ms-office365-filtering-correlation-id: b3d79ad6-a9b7-4746-2096-08dc1640a010
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:  3mXcEnYPgpcmqgiUtrRwGPQx4k2lKgXVASAiuwWM2+oTqIJQFCesvj6BcNn6iOhT3aaK/QTj9DF4DY17pjMZjZAjvcHwSvMciCnMa3mODu4lz5JKzhgBVVBSsgwyMnba7E5aWDbe/qRCw7w4jDHcQbs9XBFDniU9lIrX4yNi8wrzTMz8N5dIBDqZCqvMVtO5/tmFIlzVIkJvDufUVOt7/w7QP0rGoDS/IlZl7057/ujK9HKcyZTPjJvmSo3pv60pOnW/hQwVFItlxg3qumZsOd3Ss7T+NtncEMSSV/bv3V8+fCV2S9GosQv57v4KTF/ueoGs5sdpBvZF982dQgXqlVK+7gEXB6dI1HLu2SMa54s5mk34vCDXetzA0e1w7mpbzTwlRC4cwy+EAeQipVbfC1K/auk7QY3whZBoou4lsXtT4bvghVPGzYwFY4h48MYkMiDCuTrz7RYXLYHLYbnpnuaIo6zyO3AQZZmS5B3Xi14BI2P3FWED2i4QMYK6Q/1w6xURoWu4cfJ25OlQhFa1YtKvaw+0DAg0U3xQL+gm76+YqsvsdHuFy38353FhOmRGzvtW645McBknTj5kv31m1gbOgZ8kA0maMZTwgMkYZVlfs0bPiXJcuz1IHq+v2mLM
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSQPR06MB7252.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(366004)(39850400004)(136003)(346002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(122000001)(38070700009)(38100700002)(55016003)(26005)(86362001)(33656002)(921011)(76116006)(9686003)(71200400001)(7696005)(66946007)(66556008)(66476007)(66446008)(110136005)(6506007)(55236004)(64756008)(316002)(7416002)(5660300002)(52536014)(8936002)(8676002)(2906002)(4744005)(41300700001)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?iso-8859-1?Q?xkhvC97KVRpdSM/sJjVrrj4RJlBhDGzGLnI33Al7oT+KRRpPn+cA6Bum5w?=
- =?iso-8859-1?Q?n1vxs4hRYm+igJke1Fai+tOt0PEA7DYGUexmSaOx9avmokD/WQLxen31Ko?=
- =?iso-8859-1?Q?VGu8jUbcSl+lqNmO5r+FOebbV0km50TyGvi7Oo+xNB3+E5yDr3Byr9Hs8z?=
- =?iso-8859-1?Q?P8AbSlY7GAXAZ1bQsaRvNWy4T30fVeO2zrFe1QFisDTkfj02iBEvHgSM0j?=
- =?iso-8859-1?Q?C4Xgi3pBag1qMtW3SlFsYP8X1KKVMdn60y2buZr6Fg/RCqj6OhzeTl30ah?=
- =?iso-8859-1?Q?z6pD50UVvoWcYX2LrxSTXFyug0k+Gb/pYxKNYCLFpAibiuI1o1byMo2VgJ?=
- =?iso-8859-1?Q?23/0bpo2dS4lPeaTRR839crZG8kbj2zQ+klCtsIl9jDpzAgpp8hxbGvsJP?=
- =?iso-8859-1?Q?/sO5/NJc8WmQmZn3V3cqHKugFETLuuElAtPgkp/3SxOVKBQQSIMGHz3hEY?=
- =?iso-8859-1?Q?jyBc6BsudDomQ6k2QB1Imjo7pX8+zMxF73P0euXNtg0uaJrvxStF/4Cn+e?=
- =?iso-8859-1?Q?baQqzAzmi7Ham17TnFpk4o2t2Z9ChK5yCifwBskHD/zBsQqyoVHvoKUPus?=
- =?iso-8859-1?Q?8GiV/9sLsv1Q0OneKi7MyGSeAHWzc79lz1TsJxUOEz9vTRHVskkkTMVLYd?=
- =?iso-8859-1?Q?XelSlOU4z8aSNY3+rc7s8HensB25O+XHuD8cHodEw4VWA8S4ZFyBhztw0L?=
- =?iso-8859-1?Q?8RmYsSFPGg6J+oekSCtTJohD/zv+gwLZempRdDm9Djc1URdFEmzvx/M15Q?=
- =?iso-8859-1?Q?UsuRgt52aengXHBECmvLu6Fc8KuvvZshvVQWFFItux9kttSvQbprnTN9sP?=
- =?iso-8859-1?Q?C9IhJ0o6ztYDt/aMev3+IW5d4r7fqRhn01dpaW3a3CPKEoSOrJlc5pRDcl?=
- =?iso-8859-1?Q?MNk5ef4sa0vkLBsXBLnJ+LMmN0OSK6/NWlDJoZDG6YmuLVVhQFV971p19+?=
- =?iso-8859-1?Q?HVO32K6zw0FgEKawOGOgB/V6m+Ivr/aQquHQTBqRfnMetkDI4FG/ufWXFW?=
- =?iso-8859-1?Q?bkLVRsFEutButxPmNrTPiRsP8lSxeHa4mkf8YPx15tSbfA+Nvtj5PC5fgd?=
- =?iso-8859-1?Q?Jbs+gcAL18JmojFUQ1SeNSVHrqnqNO+4ddH2mQEHlW/U7Sz+MVk7FLnQda?=
- =?iso-8859-1?Q?b6SmZIosbttqlevkaHZsopYSqJ7C8IQUJ3GcMXYYb6YMqg6gie0lL/z80T?=
- =?iso-8859-1?Q?TBDeRORY+ahlNF5CBUEY4Eyr9wZpqxr2O2uxXN8fQMmr82pSS+Ahdsf40s?=
- =?iso-8859-1?Q?ZM8HFC3AADv1in2r6aItnc7mGtR6HIQ1wrS6zjcFms6r7wK+SG2N2gTnH0?=
- =?iso-8859-1?Q?fwG6e0k4b5XkJHuRv/qgnyD2bvUXfV0G/I3WDH/vkyLrFI4Q2OK5yMbgZZ?=
- =?iso-8859-1?Q?yYqf775168RHLzLWaxaPhV10pUlbzS4b9vVsP6NQA3++qXpZlBR45OmIB4?=
- =?iso-8859-1?Q?ongsUCK+nMj+ImNnxVABwryE+Wyo4u2yZwjgfjr9ZrYBn5bENdlDdKjoXq?=
- =?iso-8859-1?Q?HFbQoPda1JK9H4QQvLd7Lt6t1Bw152Af/m0D4yAdFmj6K5MpKctQ+8zgjn?=
- =?iso-8859-1?Q?GFA/e2VKh1K37nVsJnm6JrW5kckJqtcXHUYbIXK+y/3ZRlrKAcnve+1gEu?=
- =?iso-8859-1?Q?vTVNAnz7tLgJZluZo9TZolEMJfWODjVmzL?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ 2024 06:50:53 +0000
+Received: from SG1PEPF000082E5.apcprd02.prod.outlook.com
+ (2603:1096:4:28:cafe::69) by SG2PR01CA0159.outlook.office365.com
+ (2603:1096:4:28::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.23 via Frontend
+ Transport; Tue, 16 Jan 2024 06:50:53 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ SG1PEPF000082E5.mail.protection.outlook.com (10.167.240.8) with Microsoft
+ SMTP Server id 15.20.7202.16 via Frontend Transport; Tue, 16 Jan 2024
+ 06:50:51 +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH v1] ARM: dts: aspeed-g6: Add I3C controller nodes
+Date: Tue, 16 Jan 2024 14:50:49 +0800
+Message-Id: <20240116065050.3657049-1-Delphine_CC_Chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSQPR06MB7252.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3d79ad6-a9b7-4746-2096-08dc1640a010
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2024 03:09:59.8568
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG1PEPF000082E5:EE_|KL1PR0401MB4417:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 960d0c13-2eb4-4af5-6731-08dc165f7b4f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	71Evxm0J6B9miGKh1F2cdsRPGqPtppxP1E27FMOWO3goRaJYL42+gAMO2Gmzb99mJHNOM5Mxyt9LKYfEG2j/eg4fDxVEE5f7R2VUULnkqzIRHLNMYGH08s8SOisF8ylrXR2qh0dLw2U/UKgepAfr1+9B7TRyhD+e5cevMdRHMO0ldNHBcQAy9Xj7ckE9DOEsCKrLdbCjn0cnIE1vKLMZpay7reqTCd+0EB7Gmo6Nc5CDGdKK4eVQjSP56tyL1p4blQyQ5tT5LTs/u30e15fSAohrUA7bXAt9wQ5DppxkeJKU2GRtO4TDfwbNOyBBCgnKurkTQBVJ4Wsmc8Ot0th4dvxvWSVODgt/7p8mRtHgPxxTAW/zSz2tq5sMpwJAv03vDtDYMxOIM9CLlhfv+/a9CfZO+bcsCPSP0T0qY30Bunrm0/aekBv5/Xxdep4QzA09yeCtgYX0l7cQP8XgdKo+OrbDJP9NYjfqhEFs9/OV2cP6A9BE1xLuRFvZDnymoEvDKY5Te4Zplp1lKsmTS27LxMgsn3xnr/Uf62M5cJwahrtVrdmTl+nlQx2q9hMt3kkwbxz3tHHxS31680KiFLDtNYQqQKZt/bEJ6+D9XuiU6p5VUKxzmZtEYZc9tywd9svFs1z/0lob6Y5o3Sui4oe0wQCbjgPcrUYXoVAbE5SbNPgk7z6HTKsRHo7d2OGic6qDzTvH/JDpaoEdwXZsA0+vrA==
+X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(6069001)(4636009)(39860400002)(136003)(396003)(346002)(376002)(230922051799003)(186009)(82310400011)(64100799003)(451199024)(1800799012)(46966006)(36840700001)(6506007)(956004)(2616005)(70586007)(36736006)(316002)(6512007)(6486002)(478600001)(47076005)(70206006)(83380400001)(36860700001)(26005)(9316004)(110136005)(41300700001)(5660300002)(2906002)(8676002)(7416002)(8936002)(4326008)(336012)(1076003)(36756003)(356005)(82740400003)(81166007)(86362001)(40480700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2024 06:50:51.9554
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EPmaDbZ8gLFB/D3fi0VFxrTKxrneAUAP8RnYOiNPgc+GHsmV2gjIc7h7TGi/W1o9WgHBWFFDqSIXiuLHbHJxxnrQK67g/fRh1ftxllog2iQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR06MB7153
+X-MS-Exchange-CrossTenant-Network-Message-Id: 960d0c13-2eb4-4af5-6731-08dc165f7b4f
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource: 	SG1PEPF000082E5.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0401MB4417
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,38 +101,188 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> > +  pwms:=0A=
-> > +    description:=0A=
-> > +      PWM provider.=0A=
-> > +    maxItems: 1=0A=
-> > +=0A=
-> > +  "#cooling-cells":=0A=
-> > +    const: 2=0A=
-> > +=0A=
-> > +  cooling-levels:=0A=
-> > +    description:=0A=
-> > +      The control value which correspond to thermal cooling states.=0A=
-> > +    $ref: /schemas/types.yaml#/definitions/uint32-array=0A=
-> > +=0A=
-> > +  tach-ch:=0A=
-> > +    description:=0A=
-> > +      The tach channel used for the fan.=0A=
-> > +    $ref: /schemas/types.yaml#/definitions/uint8-array=0A=
-=0A=
-> What is the tach-channel and why is it different from pwm specifier?=0A=
-=0A=
-Hi Krzysztof,=0A=
-=0A=
-Using the Aspeed SoC as an example, our SoC features 16 PWMs and 16 tachome=
-ter channels that can be employed to control and monitor fans.=0A=
-The "tach-ch" parameter is utilized to specify which tachometer channel is =
-being used to monitor a specific fan.=0A=
-The "pwms" parameter is utilized to specify which pwm channel is being used=
- to control a specific fan.=0A=
-=0A=
-Thanks=0A=
-Best regards,=0A=
-Billy Tsai=0A=
+Add default device tree settings for the 6 I3C controllers embedded in
+the aspeed-g6 family SOCs.
+
+Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+---
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 148 ++++++++++++++++++++++++
+ 1 file changed, 148 insertions(+)
+
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+index c4d1faade8be..ed5021001e7f 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+@@ -13,6 +13,12 @@ / {
+ 	interrupt-parent = <&gic>;
+ 
+ 	aliases {
++		i3c0 = &i3c0;
++		i3c1 = &i3c1;
++		i3c2 = &i3c2;
++		i3c3 = &i3c3;
++		i3c4 = &i3c4;
++		i3c5 = &i3c5;
+ 		i2c0 = &i2c0;
+ 		i2c1 = &i2c1;
+ 		i2c2 = &i2c2;
+@@ -577,6 +583,13 @@ wdt4: watchdog@1e7850c0 {
+ 				status = "disabled";
+ 			};
+ 
++			i3c: bus@1e7a0000 {
++				compatible = "simple-bus";
++				#address-cells = <1>;
++				#size-cells = <1>;
++				ranges = <0 0x1e7a0000 0x8000>;
++			};
++
+ 			peci0: peci-controller@1e78b000 {
+ 				compatible = "aspeed,ast2600-peci";
+ 				reg = <0x1e78b000 0x100>;
+@@ -1139,3 +1152,138 @@ i2c15: i2c-bus@800 {
+ 		status = "disabled";
+ 	};
+ };
++
++&i3c {
++	i3c_global: i3cg@0 {
++		reg = <0x0 0x1000>;
++		compatible = "aspeed,ast2600-i3c-global", "syscon";
++	};
++
++	i3c0: i3c0@2000 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		#interrupt-cells = <1>;
++
++		reg = <0x2000 0x1000>;
++		compatible = "aspeed,ast2600-i3c", "syscon";
++		clocks = <&syscon ASPEED_CLK_GATE_I3C0CLK>;
++		resets = <&syscon ASPEED_RESET_I3C0>, <&syscon ASPEED_RESET_I3C>;
++		reset-names = "core_rst", "global_rst";
++		interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_i3c1_default>;
++
++		i2c-scl-hz = <1000000>;
++		i3c-scl-hz = <12500000>;
++		aspeed,global-regs = <&i3c_global 0>;
++		sda-pullup-ohms = <2000>;
++
++		status = "disabled";
++	};
++
++	i3c1: i3c1@3000 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		#interrupt-cells = <1>;
++
++		reg = <0x3000 0x1000>;
++		compatible = "aspeed,ast2600-i3c", "syscon";
++		clocks = <&syscon ASPEED_CLK_GATE_I3C1CLK>;
++		resets = <&syscon ASPEED_RESET_I3C1>, <&syscon ASPEED_RESET_I3C>;
++		reset-names = "core_rst", "global_rst";
++		interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_i3c2_default>;
++
++		i2c-scl-hz = <1000000>;
++		i3c-scl-hz = <12500000>;
++		aspeed,global-regs = <&i3c_global 1>;
++		sda-pullup-ohms = <2000>;
++
++		status = "disabled";
++	};
++
++	i3c2: i3c2@4000 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		#interrupt-cells = <1>;
++
++		reg = <0x4000 0x1000>;
++		compatible = "aspeed,ast2600-i3c", "syscon";
++		clocks = <&syscon ASPEED_CLK_GATE_I3C2CLK>;
++		resets = <&syscon ASPEED_RESET_I3C2>, <&syscon ASPEED_RESET_I3C>;
++		reset-names = "core_rst", "global_rst";
++		interrupts = <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>;
++
++		i2c-scl-hz = <1000000>;
++		i3c-scl-hz = <12500000>;
++		aspeed,global-regs = <&i3c_global 2>;
++		sda-pullup-ohms = <2000>;
++
++		status = "disabled";
++	};
++
++	i3c3: i3c3@5000 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		#interrupt-cells = <1>;
++
++		reg = <0x5000 0x1000>;
++		compatible = "aspeed,ast2600-i3c", "syscon";
++		clocks = <&syscon ASPEED_CLK_GATE_I3C3CLK>;
++		resets = <&syscon ASPEED_RESET_I3C3>, <&syscon ASPEED_RESET_I3C>;
++		reset-names = "core_rst", "global_rst";
++		interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
++
++		i2c-scl-hz = <1000000>;
++		i3c-scl-hz = <12500000>;
++		aspeed,global-regs = <&i3c_global 3>;
++		sda-pullup-ohms = <2000>;
++
++		status = "disabled";
++	};
++
++	i3c4: i3c4@6000 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		#interrupt-cells = <1>;
++
++		reg = <0x6000 0x1000>;
++		compatible = "aspeed,ast2600-i3c", "syscon";
++		clocks = <&syscon ASPEED_CLK_GATE_I3C4CLK>;
++		resets = <&syscon ASPEED_RESET_I3C4>, <&syscon ASPEED_RESET_I3C>;
++		reset-names = "core_rst", "global_rst";
++		interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_i3c5_default>;
++
++		i2c-scl-hz = <1000000>;
++		i3c-scl-hz = <12500000>;
++		aspeed,global-regs = <&i3c_global 4>;
++		sda-pullup-ohms = <2000>;
++
++		status = "disabled";
++	};
++
++	i3c5: i3c5@7000 {
++		#address-cells = <1>;
++		#size-cells = <0>;
++		#interrupt-cells = <1>;
++
++		reg = <0x7000 0x1000>;
++		compatible = "aspeed,ast2600-i3c", "syscon";
++		clocks = <&syscon ASPEED_CLK_GATE_I3C5CLK>;
++		resets = <&syscon ASPEED_RESET_I3C5>, <&syscon ASPEED_RESET_I3C>;
++		reset-names = "core_rst", "global_rst";
++		interrupts = <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&pinctrl_i3c6_default>;
++
++		i2c-scl-hz = <1000000>;
++		i3c-scl-hz = <12500000>;
++		aspeed,global-regs = <&i3c_global 5>;
++		sda-pullup-ohms = <2000>;
++
++		status = "disabled";
++	};
++};
+-- 
+2.25.1
+
