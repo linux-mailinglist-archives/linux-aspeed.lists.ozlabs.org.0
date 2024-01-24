@@ -1,54 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9577F83A321
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jan 2024 08:40:01 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UHLsnCQ1;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDC183A647
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jan 2024 11:02:39 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TKbTB5XY4z3c2V
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jan 2024 18:39:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TKfdn3lVTz3c9l
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jan 2024 21:02:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UHLsnCQ1;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=p.zabel@pengutronix.de; receiver=lists.ozlabs.org)
+X-Greylist: delayed 952 seconds by postgrey-1.37 at boromir; Wed, 24 Jan 2024 21:02:29 AEDT
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TKbT33KXwz2xQG
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jan 2024 18:39:51 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id B0E2FCE2F29;
-	Wed, 24 Jan 2024 07:39:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F3E6C433F1;
-	Wed, 24 Jan 2024 07:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706081986;
-	bh=91grIYIx9OkFtRlDhcvytYmNOKGOQX3yknnlFt+vEew=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=UHLsnCQ1dUShb1uVeOf7TkGdla3aigkHLEvLXzWs42kwKOTgVFt2D1NWvBsm4WO3X
-	 H5k/EQg5Px4owCmhHLRBNGwlw4mmPQ+XdwWow9DNqNBijEnlCvhuVWxViCyAvDUdl6
-	 TfScqKcste9zFamQJs0/AV0Yv4acCb7nNWvakLWgjKcQas/vzZ/INICfFG97v+htT5
-	 cmAIu4A2ApnTcoREmT+wAy1VgsHIHCWVTKoknVHXvVgNkYju1K+TgWsqFikALl0301
-	 MpkcmybZR9mY4KlUuPprphfjD2HbEiPWmQJpkkbBk10qXOqFOvhXj0O3Q+d0qsI5MO
-	 mYGQi0CH3g03Q==
-Date: Wed, 24 Jan 2024 01:39:45 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-In-Reply-To: <20240124060705.1342461-3-billy_tsai@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TKfdd6BWtz3btJ
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jan 2024 21:02:29 +1100 (AEDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rSZpc-0003zO-ML; Wed, 24 Jan 2024 10:46:04 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rSZpX-0021gf-GI; Wed, 24 Jan 2024 10:45:59 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1rSZpX-00064D-1N;
+	Wed, 24 Jan 2024 10:45:59 +0100
+Message-ID: <dccb808a2ba6ccb0fd0b4e7ccfe40cd871886b6b.camel@pengutronix.de>
+Subject: Re: [PATCH v13 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for
+ ASPEED g6 PWM/Fan tach
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com, 
+ linux@roeck-us.net, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
+ corbet@lwn.net,  u.kleine-koenig@pengutronix.de,
+ naresh.solanki@9elements.com,  linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org,  linux-pwm@vger.kernel.org,
+ BMC-SW@aspeedtech.com, patrick@stwcx.xyz
+Date: Wed, 24 Jan 2024 10:45:59 +0100
+In-Reply-To: <20240124060705.1342461-4-billy_tsai@aspeedtech.com>
 References: <20240124060705.1342461-1-billy_tsai@aspeedtech.com>
- <20240124060705.1342461-3-billy_tsai@aspeedtech.com>
-Message-Id: <170608198415.3412038.3874422575074669118.robh@kernel.org>
-Subject: Re: [PATCH v13 2/3] dt-bindings: hwmon: Support Aspeed g6 PWM TACH
- Control
+	 <20240124060705.1342461-4-billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,51 +67,95 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, jdelvare@suse.com, krzysztof.kozlowski+dt@linaro.org, linux-aspeed@lists.ozlabs.org, linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, naresh.solanki@9elements.com, patrick@stwcx.xyz, robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org, p.zabel@pengutronix.de, BMC-SW@aspeedtech.com, u.kleine-koenig@pengutronix.de, corbet@lwn.net, andrew@codeconstruct.com.au, linux@roeck-us.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Mi, 2024-01-24 at 14:07 +0800, Billy Tsai wrote:
+[...]
+> +static int aspeed_pwm_tach_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev, *hwmon;
+> +	int ret;
+> +	struct device_node *child;
+> +	struct aspeed_pwm_tach_data *priv;
+> +
+> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +	priv->dev =3D dev;
+> +	priv->base =3D devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(priv->base))
+> +		return PTR_ERR(priv->base);
+> +
+> +	priv->clk =3D devm_clk_get_enabled(dev, NULL);
+> +	if (IS_ERR(priv->clk))
+> +		return dev_err_probe(dev, PTR_ERR(priv->clk),
+> +				     "Couldn't get clock\n");
+> +	priv->clk_rate =3D clk_get_rate(priv->clk);
+> +	priv->reset =3D devm_reset_control_get_exclusive(dev, NULL);
+> +	if (IS_ERR(priv->reset))
+> +		return dev_err_probe(dev, PTR_ERR(priv->reset),
+> +				     "Couldn't get reset control\n");
+> +
+> +	ret =3D reset_control_deassert(priv->reset);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "Couldn't deassert reset control\n");
 
-On Wed, 24 Jan 2024 14:07:04 +0800, Billy Tsai wrote:
-> Document the compatible for aspeed,ast2600-pwm-tach device, which can
-> support up to 16 PWM outputs and 16 fan tach input.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  .../bindings/hwmon/aspeed,g6-pwm-tach.yaml    | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
-> 
+Consider using devm_add_action_or_reset() to assert the reset in the
+error paths and on driver unbind.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> +
+> +	priv->chip.dev =3D dev;
+> +	priv->chip.ops =3D &aspeed_pwm_ops;
+> +	priv->chip.npwm =3D PWM_ASPEED_NR_PWMS;
+> +
+> +	ret =3D devm_pwmchip_add(dev, &priv->chip);
+> +	if (ret < 0) {
+> +		reset_control_assert(priv->reset);
 
-yamllint warnings/errors:
+Then this ...
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.example.dtb: pwm-tach-controller@1e610000: fan-0: Unevaluated properties are not allowed ('compatible' was unexpected)
-	from schema $id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.example.dtb: pwm-tach-controller@1e610000: fan-1: Unevaluated properties are not allowed ('compatible' was unexpected)
-	from schema $id: http://devicetree.org/schemas/hwmon/aspeed,g6-pwm-tach.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.example.dtb: fan-0: 'tach-ch' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.example.dtb: fan-1: 'tach-ch' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
+> +		return dev_err_probe(dev, ret, "Failed to add PWM chip\n");
+> +	}
+> +
+> +	for_each_child_of_node(dev->of_node, child) {
+> +		ret =3D aspeed_tach_create_fan(dev, child, priv);
+> +		if (ret < 0) {
+> +			of_node_put(child);
+> +			dev_warn(dev, "Failed to create fan %d", ret);
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	of_platform_populate(dev->of_node, NULL, NULL, dev);
+> +
+> +	hwmon =3D devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv=
+,
+> +						     &aspeed_tach_chip_info, NULL);
+> +	ret =3D PTR_ERR_OR_ZERO(hwmon);
+> +	if (ret) {
+> +		reset_control_assert(priv->reset);
 
-doc reference errors (make refcheckdocs):
+... and this ...
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240124060705.1342461-3-billy_tsai@aspeedtech.com
+> +		return dev_err_probe(dev, ret,
+> +				     "Failed to register hwmon device\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int aspeed_pwm_tach_remove(struct platform_device *pdev)
+> +{
+> +	struct aspeed_pwm_tach_data *priv =3D platform_get_drvdata(pdev);
+> +
+> +	reset_control_assert(priv->reset);
+> +
+> +	return 0;
+> +}
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+... and this could be dropped.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+regards
+Philipp
