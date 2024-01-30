@@ -1,73 +1,119 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FB3840AF7
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Jan 2024 17:12:12 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 090E784215D
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jan 2024 11:35:32 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=V2fWy4RG;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=uh/R7Rm+;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TNtbt17nqz3c9l
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jan 2024 03:12:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TPM4x1S1Lz3bw9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jan 2024 21:35:29 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=V2fWy4RG;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=uh/R7Rm+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.10; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::629; helo=mail-ej1-x629.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TNtbj2NbGz2ykn
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jan 2024 03:11:58 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706544722; x=1738080722;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EJuKz+rDfnnrgz4jtF7KK8M8+lKo37WzgpZ8fWKe+go=;
-  b=V2fWy4RGAZY99igc0yLcb4DzYayzXCyiaqzfiEu9TScj16nNOpfufkUg
-   CBrG+S1kIiock4ZvW31yYVVzMWFHMvwqkDlQUZTAP0Se2s+M/L0BCKCgb
-   HK8mZuZKeyrAZ4YaAVFBH86nTRyrtwpxJaFXxD5JGznT7ji7LbKVWOV9r
-   pDDaoS1zV4V64ue/XepGVBJkVCYW2tESmSDXqK47cIQsBEPRE3YdfeomU
-   VVedRrgt1qz1gvmMUKRraIfkYrdqW0lXOU88x1Na2aeeDVU7gTw6wDKND
-   p4sYt2P+F4tSqrroAhHPh1K5i6/h3gim1sN768sKTHnZU21uRfGScLjXw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="16359737"
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="16359737"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 08:02:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,227,1701158400"; 
-   d="scan'208";a="3342415"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Jan 2024 08:02:44 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rUU5q-0004Oq-0h;
-	Mon, 29 Jan 2024 16:02:42 +0000
-Date: Tue, 30 Jan 2024 00:02:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com,
-	linux@roeck-us.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	joel@jms.id.au, andrew@codeconstruct.com.au, corbet@lwn.net,
-	u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
-	naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
-	BMC-SW@aspeedtech.com, patrick@stwcx.xyz
-Subject: Re: [PATCH v13 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED
- g6 PWM/Fan tach
-Message-ID: <202401292303.6SVAncvn-lkp@intel.com>
-References: <20240124060705.1342461-4-billy_tsai@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TPM4n1F7yz2xcw
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jan 2024 21:35:20 +1100 (AEDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-a2f22bfb4e6so537415966b.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jan 2024 02:35:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706610917; x=1707215717; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=AMi4b5Ak22PpQ67EGYecW13Xx2snvSQCaMqbqJtOtdI=;
+        b=uh/R7Rm+s4Bzw9F9fQsNJo+OHosVljLoyc3b3itoefZkbDUWi6gekd4jOSSrRWbjAs
+         CPCjJ9tOO83Iwy6M+2sy4eYX7Oz0GIDChe+zYKMeA/PEdDTAYmDb2I4spQU9B++8u8Hc
+         CXS0+wx24oE2y+PgbcLmaN9MYkdFNbAeRMdKUqfPfjI4hQTj4i/vvRKfwIJHXFDvLPvm
+         lyKcgTQQ0MaCY9NXd8g2qlO4wgXcNMRFEmCOm4YkILd1g6CocBc6FhzLFkZcBbgUcRBl
+         r1/wmLBNxPmv6j2jQ5z6MwVb+0danEcxxI46HaSE/mYSITA+knpEIDiY/lNOenyVhlFv
+         Cn/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706610917; x=1707215717;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AMi4b5Ak22PpQ67EGYecW13Xx2snvSQCaMqbqJtOtdI=;
+        b=BkX2ynjZtRqdI+Cz98Cy3TynRkOrAw+laARCE8CNjXuiiUjP84BuUdOcZs1ASa6JE2
+         3yeAmLpy//eilwXdbbPeuhlJaRTMG68LPKLwg1y5KLfRsyXisJ7znHCnyw9eGJioUwHr
+         1szPMDoDCNEzCYjFStVf4JxPmvAWiEjKiBZ5rWu3ht8r/BnI4xcJDEpXS5QmiO9fXIIz
+         +Fj44I7iVLDkcnLHR9litCJ8moIF0hA48A0DWsM76remWRfxUDhjGWF4F+JIBzpvrZ1U
+         av93YUp2Kk+VJaH2EgdOSu9Pnn7aUEx6AuIsk85xtu7h+XbALlAuXnFguns8wQ24XBN6
+         mCmw==
+X-Gm-Message-State: AOJu0Yy3Qtz5ZLjxlnV7H3m0KsFzOnofBXtZlE0uSdBvuPI5jnRccHUE
+	4p7NZ3WggN+g+Xb+Mlt8Q6ZN3Fn9kTLgvBK4bRNJ/fmwRPT824hDR5xOLGQBY+8=
+X-Google-Smtp-Source: AGHT+IHUCpKn8WxC2QWKuUPnzs6VDaaxUtxhmf/3CMQp8fArugjUF8qn/EOhgbbZ1rIDKkXDuqXQeA==
+X-Received: by 2002:a17:906:f2c7:b0:a35:c92f:7e66 with SMTP id gz7-20020a170906f2c700b00a35c92f7e66mr3322641ejb.10.1706610917379;
+        Tue, 30 Jan 2024 02:35:17 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id m18-20020a170906235200b00a35cffe3ee0sm1798469eja.0.2024.01.30.02.35.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 02:35:16 -0800 (PST)
+Message-ID: <57419138-9c80-46c3-9341-b55576a3f7d2@linaro.org>
+Date: Tue, 30 Jan 2024 11:35:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240124060705.1342461-4-billy_tsai@aspeedtech.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ARM: dts: aspeed: asus: Add ASUS X4TF BMC
+To: Kelly Hung <ppighouse@gmail.com>, robh+dt@kernel.org
+References: <20240130085652.198010-1-Kelly_Hung@asus.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240130085652.198010-1-Kelly_Hung@asus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,108 +125,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, kelly_hung@asus.com, krzysztof.kozlowski+dt@linaro.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Billy,
+On 30/01/2024 09:56, Kelly Hung wrote:
+> This initial device-tree provides the necessary configuration for
+> basic BMC functionality and work on ASUS X4TF production.
+> 
+> Signed-off-by: Kelly Hung <Kelly_Hung@asus.com>
 
-kernel test robot noticed the following build errors:
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching.
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.8-rc2 next-20240129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Best regards,
+Krzysztof
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-hwmon-fan-Add-fan-binding-to-schema/20240124-141405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240124060705.1342461-4-billy_tsai%40aspeedtech.com
-patch subject: [PATCH v13 3/3] hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach
-config: riscv-randconfig-r071-20240129 (https://download.01.org/0day-ci/archive/20240129/202401292303.6SVAncvn-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240129/202401292303.6SVAncvn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202401292303.6SVAncvn-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/hwmon/aspeed-g6-pwm-tach.c:496:2: error: implicit declaration of function 'of_platform_populate' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           of_platform_populate(dev->of_node, NULL, NULL, dev);
-           ^
-   1 error generated.
-
-
-vim +/of_platform_populate +496 drivers/hwmon/aspeed-g6-pwm-tach.c
-
-   446	
-   447	static int aspeed_pwm_tach_probe(struct platform_device *pdev)
-   448	{
-   449		struct device *dev = &pdev->dev, *hwmon;
-   450		int ret;
-   451		struct device_node *child;
-   452		struct aspeed_pwm_tach_data *priv;
-   453	
-   454		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   455		if (!priv)
-   456			return -ENOMEM;
-   457		priv->dev = dev;
-   458		priv->base = devm_platform_ioremap_resource(pdev, 0);
-   459		if (IS_ERR(priv->base))
-   460			return PTR_ERR(priv->base);
-   461	
-   462		priv->clk = devm_clk_get_enabled(dev, NULL);
-   463		if (IS_ERR(priv->clk))
-   464			return dev_err_probe(dev, PTR_ERR(priv->clk),
-   465					     "Couldn't get clock\n");
-   466		priv->clk_rate = clk_get_rate(priv->clk);
-   467		priv->reset = devm_reset_control_get_exclusive(dev, NULL);
-   468		if (IS_ERR(priv->reset))
-   469			return dev_err_probe(dev, PTR_ERR(priv->reset),
-   470					     "Couldn't get reset control\n");
-   471	
-   472		ret = reset_control_deassert(priv->reset);
-   473		if (ret)
-   474			return dev_err_probe(dev, ret,
-   475					     "Couldn't deassert reset control\n");
-   476	
-   477		priv->chip.dev = dev;
-   478		priv->chip.ops = &aspeed_pwm_ops;
-   479		priv->chip.npwm = PWM_ASPEED_NR_PWMS;
-   480	
-   481		ret = devm_pwmchip_add(dev, &priv->chip);
-   482		if (ret < 0) {
-   483			reset_control_assert(priv->reset);
-   484			return dev_err_probe(dev, ret, "Failed to add PWM chip\n");
-   485		}
-   486	
-   487		for_each_child_of_node(dev->of_node, child) {
-   488			ret = aspeed_tach_create_fan(dev, child, priv);
-   489			if (ret < 0) {
-   490				of_node_put(child);
-   491				dev_warn(dev, "Failed to create fan %d", ret);
-   492				return 0;
-   493			}
-   494		}
-   495	
- > 496		of_platform_populate(dev->of_node, NULL, NULL, dev);
-   497	
-   498		hwmon = devm_hwmon_device_register_with_info(dev, "aspeed_tach", priv,
-   499							     &aspeed_tach_chip_info, NULL);
-   500		ret = PTR_ERR_OR_ZERO(hwmon);
-   501		if (ret) {
-   502			reset_control_assert(priv->reset);
-   503			return dev_err_probe(dev, ret,
-   504					     "Failed to register hwmon device\n");
-   505		}
-   506	
-   507		return 0;
-   508	}
-   509	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
