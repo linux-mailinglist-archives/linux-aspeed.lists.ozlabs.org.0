@@ -1,49 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84D9957A06
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 912549578C9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:56:06 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqL3137nz3wSs
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqHR1H4Tz30Ss
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:03 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=VaDXIcsg;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SihN0Jpx;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=helgaas@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=ppighouse@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TDz1V5xm5z3cTF
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Jan 2024 06:03:26 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 83A23CE1AD6;
-	Tue, 16 Jan 2024 19:03:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE70C433B2;
-	Tue, 16 Jan 2024 19:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705431802;
-	bh=O97xKl3K/JtNvHQ+44OKckuR3Pp75TXib8o3WdXgsus=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=VaDXIcsgPU2HcWZ7gq00FVh03mn2KgTtLHehEQ4XaZuvq9AcUZKwE/E/YIKBPnAR+
-	 8JQOKTCPO/ZCvOrmI/L8S3uhC0x9GOG/35KX6GFud+O6wk83cD+hgToCSIfIq3xXvV
-	 YpsuQvUfyyG3W8y5zaBmmRdWMiq4oELhjY1wvWQPSNDZL4CtVwPdO8+HJIaNg77iV8
-	 G3XEEbPw9YyTJbgVbiPBWWpfaPehq85FkAcEUIpHbuTcTp5lRLF5qSOBEjtl5p/vHb
-	 4FI/dNyCUUJnNpnk7hvW86QD9TjUkgES9bCkParwNUcyGr1FJ/MYPIjiqhPOh6kksL
-	 Kx/fMh+u9cLOA==
-Date: Tue, 16 Jan 2024 13:03:21 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Ninad Palsule <ninad@linux.ibm.com>
-Subject: Re: [PATCH v4 3/3] ARM: dts: aspeed: System1: IBM system1 BMC board
-Message-ID: <20240116190321.GA102334@bhelgaas>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TPJvK3kzCz2yVT
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jan 2024 19:57:00 +1100 (AEDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6ddc1b30458so3272374b3a.1
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jan 2024 00:57:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706605018; x=1707209818; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=csHtYc18T35qzB25mdonMqPpqm2KB0P8ynV8OZQpVBc=;
+        b=SihN0JpxxJXbU6iHHsGuMqCo1v1aDWtfN7K+q5v2GG7G7K9h6H8iSbikcxf7bB2E+s
+         zbmz4WFRyGpHRoYHK58+TPrweejhH5e9tK1D/Rr4ONbXgpams4751cUpcTnEyCd8sr0V
+         yKMiV6Enktm16LBh5rXi8mELjozgTNCKLxsIAQWcKvjBu9KPrsJZ2Z4rqgDYIF5NLYM0
+         Yr/Ec9mV+Blf982usdPMRtu/72stCmYdZkJnsrgvEGBSd+6/bTjXP08oR1UT/G6cNlfe
+         8sviFd/WipphqW7+kiCLSELdC9r1Y1t9tKxgfTOQTCcs5BNEo6fBPN5a0rwjztuU/+iB
+         xwmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706605018; x=1707209818;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=csHtYc18T35qzB25mdonMqPpqm2KB0P8ynV8OZQpVBc=;
+        b=rWwanmG8oU3PU8Jq9F68Z1HSDiBqiJyLof0y0JD943XVdYYN/SXn43DrDlMbpvgUHK
+         vB03HWAWTa7xdZobrlSgzH3KIWMZGGzYi2qNC2hpIW1bL9PYyRK5wySMXEBG8Ych4bv4
+         uSZwpJIkw4/e7a1VM0cNQayqXQS2NXsl2763wgk5LK6xdnV0/0Y/NoyiV11C0uN3MVFM
+         NTj7zysl8nJYD7yTcFUZjoLr5TbphK+j42XatVPlhNgNw3ksmrNBhs5KF0yLHby89rL7
+         njxTcEev57fgMOBBqEtlIG+8NfedhlXhBvwZ+DDmW8OzPy2P9OB1CNYj0jVJDAiDz7CU
+         H2BQ==
+X-Gm-Message-State: AOJu0YzqaKf2veAesPZZ4E2tPJAQ7O5KGWfuxICcq3VuOhiwfUv76xiJ
+	l5VImJ2VzgCVywnLIZXIHXcp6X4xe8nx31rZuVtvU9OuHltrYss4
+X-Google-Smtp-Source: AGHT+IEeEh9/BgmgK6L5VDqDZJ/c+zKQ+BgD48oiN1HRyxWZSnWDQGOjvUOykG0CouswggmIuzdQRw==
+X-Received: by 2002:a05:6a00:2d05:b0:6db:cd50:a716 with SMTP id fa5-20020a056a002d0500b006dbcd50a716mr7165222pfb.1.1706605018330;
+        Tue, 30 Jan 2024 00:56:58 -0800 (PST)
+Received: from localhost.localdomain ([124.218.12.74])
+        by smtp.gmail.com with ESMTPSA id gx20-20020a056a001e1400b006dde04c10dasm7188623pfb.217.2024.01.30.00.56.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jan 2024 00:56:57 -0800 (PST)
+From: Kelly Hung <ppighouse@gmail.com>
+X-Google-Original-From: Kelly Hung <Kelly_Hung@asus.com>
+To: robh+dt@kernel.org
+Subject: [PATCH] ARM: dts: aspeed: asus: Add ASUS X4TF BMC
+Date: Tue, 30 Jan 2024 16:56:51 +0800
+Message-Id: <20240130085652.198010-1-Kelly_Hung@asus.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240116183734.3944028-4-ninad@linux.ibm.com>
-X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:27 +1000
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,48 +74,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: festevam@denx.de, linux-aspeed@lists.ozlabs.org, andre.werner@systec-electronic.com, naresh.solanki@9elements.com, johannes.holland@infineon.com, linux-hardening@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, peterhuewe@gmx.de, patrick.rudolph@9elements.com, geert+renesas@glider.be, peteryin.openbmc@gmail.com, jgg@ziepe.ca, andrew@codeconstruct.com.au, luca.ceresoli@bootlin.com, linux@roeck-us.net, devicetree@vger.kernel.org, conor+dt@kernel.org, keescook@chromium.org, alexander.stein@ew.tq-group.com, broonie@kernel.org, lakshmiy@us.ibm.com, bhelgaas@google.com, Andrew Geissler <geissonator@yahoo.com>, linux-arm-kernel@lists.infradead.org, tony.luck@intel.com, linux-kernel@vger.kernel.org, gpiccoli@igalia.com, jarkko@kernel.org, robh+dt@kernel.org, vincent@vtremblay.dev, linux-integrity@vger.kernel.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Kelly Hung <Kelly_Hung@asus.com>, krzysztof.kozlowski+dt@linaro.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Jan 16, 2024 at 12:37:34PM -0600, Ninad Palsule wrote:
-> From: Andrew Geissler <geissonator@yahoo.com>
-> 
-> Add a device tree for IBM system1 BMC board. It uses AST2600 SOC.
-> - Added base board
+This initial device-tree provides the necessary configuration for
+basic BMC functionality and work on ASUS X4TF production.
 
-s/Added/Add/ to match first sentence.
+Signed-off-by: Kelly Hung <Kelly_Hung@asus.com>
+---
+ Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-> - Added i2c devices and muxes.
-> - Added different voltage regulators.
-> - Added GPIO pin assignements, GPIO expansion devices
-> - Added LED brinker devices
+diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+index 749ee54a3ff8..80009948e14a 100644
+--- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
++++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+@@ -74,6 +74,7 @@ properties:
+               - ampere,mtmitchell-bmc
+               - aspeed,ast2600-evb
+               - aspeed,ast2600-evb-a1
++              - asus,x4tf
+               - facebook,bletchley-bmc
+               - facebook,cloudripper-bmc
+               - facebook,elbert-bmc
+-- 
+2.25.1
 
-"brinker"?  "blinker" maybe (no idea what it actually is).
-
-> - Added Fan controllers
-
-s/Fan/fan/
-
-> - Added EEPROM/VPD
-> - Added Power supplies
-
-s/Power/power/
-
-> - Added Humidity, pressure and temperature sensors.
-
-s/Humidity/humidity/
-
-> - Added Trusted platform module(TPM) chip.
-
-s/Trusted platform module/Trusted Platform Module /
-
-> Tested:
->     This board is tested using the simics simulator.
-> 
-> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
-
-Your sign-off should be last since you are sending the series.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?id=v6.6#n396
