@@ -1,55 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125C48477C8
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Feb 2024 19:40:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 463338477D5
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Feb 2024 19:40:57 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cJ+KZ62z;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=s+C+aGCr;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TRPhs5Zbqz3cHS
-	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Feb 2024 05:40:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TRPjg1C9Mz3cC5
+	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Feb 2024 05:40:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cJ+KZ62z;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=s+C+aGCr;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=sashal@kernel.org; receiver=lists.ozlabs.org)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TRPhj3TvSz3c9G
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  3 Feb 2024 05:40:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TRPjZ0frFz3c8H
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  3 Feb 2024 05:40:50 +1100 (AEDT)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DA6CD627F7;
-	Fri,  2 Feb 2024 18:40:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB8C5C43390;
-	Fri,  2 Feb 2024 18:39:58 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 65042627E7;
+	Fri,  2 Feb 2024 18:40:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F07C433B1;
+	Fri,  2 Feb 2024 18:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706899200;
-	bh=VisnG48v7H1BKRcG6W8u+lL8vcrOmwwqiTIoVM7Yz70=;
+	s=k20201202; t=1706899248;
+	bh=XDGChs3C5gdoEueI7oNpmXwNAkZhxRdlIIfIwPywzJI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cJ+KZ62zGeiSTxNsm1rY8V86LysMUeO4Whx5bBHlCII8q6kuzvvZNQoU5hEx+i1ik
-	 Aumo8kuU4/TyzQkS51k7FeiGMi3lQMyT9cUb9TLMCvXu1R7jAweUWSEgASgXF88N+1
-	 ABVBaUPB5oPjB2P+pLbIxYT6M57KLOsJSGPiBv01Q9y+6Bz8JRG4CFBmROm8BVPtwX
-	 FfO7GDGYGJRWj3LmBcUtBy1QO1064hInPkisJ6vV5bYJyyMLyJYE7TDeD+LCrEU6Ww
-	 UMO4koAJq6MWvNa1VE2XcLQHvOHYCO+PoirK5ZmIkDFBSBkxKInKW0hH+jNXEqphKK
-	 KCQu2dbgG893g==
+	b=s+C+aGCrVGjp0yP+0eBsWgPUoa9PrpWUo1fF69o2Dicr8OoJ+s/7DqR77fZ2DXpzH
+	 5K5Hkl3lAU5hP1FpZxy3YpVuIznssWVl8k3TTAhHYdvl/UxN/n5EU3hYXsqA96T8il
+	 MtCuNWLruyq0Q8vpQYxagUmtO0h3mOgtZv1B6CpXnTOcU4299vYSpT9CJpq+RsBkDk
+	 vN6Co7Loac9Re1+VVUqpxDNQ/5kjMh3FVbbat6zLbGfGxneC7FXwMnIzAOI7Mu46Uk
+	 6IiB9ZCESH1y5okeK2sn4JyD1fYWsWJzxtNZ+CDWyGPU/uEzcYxbKguE9QrpoyUXWs
+	 Pq5D/0ijqTh8A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 20/23] ARM: dts: Fix TPM schema violations
-Date: Fri,  2 Feb 2024 13:39:16 -0500
-Message-ID: <20240202183926.540467-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 19/21] ARM: dts: Fix TPM schema violations
+Date: Fri,  2 Feb 2024 13:40:06 -0500
+Message-ID: <20240202184015.540966-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240202183926.540467-1-sashal@kernel.org>
-References: <20240202183926.540467-1-sashal@kernel.org>
+In-Reply-To: <20240202184015.540966-1-sashal@kernel.org>
+References: <20240202184015.540966-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.3
+X-stable-base: Linux 6.6.15
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -177,10 +177,10 @@ index 31590d3186a2..00e5887c926f 100644
  			reg = <0>;
  		};
 diff --git a/arch/arm/boot/dts/nxp/imx/imx6ull-phytec-tauri.dtsi b/arch/arm/boot/dts/nxp/imx/imx6ull-phytec-tauri.dtsi
-index 44cc4ff1d0df..d12fb44aeb14 100644
+index ea627638e40c..7dd1fe5a2fb7 100644
 --- a/arch/arm/boot/dts/nxp/imx/imx6ull-phytec-tauri.dtsi
 +++ b/arch/arm/boot/dts/nxp/imx/imx6ull-phytec-tauri.dtsi
-@@ -116,7 +116,7 @@ &ecspi1 {
+@@ -121,7 +121,7 @@ &ecspi1 {
  	tpm_tis: tpm@1 {
  		pinctrl-names = "default";
  		pinctrl-0 = <&pinctrl_tpm>;
