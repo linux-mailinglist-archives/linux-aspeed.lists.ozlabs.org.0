@@ -1,43 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E908479AD
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Feb 2024 20:29:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7548848708
+	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Feb 2024 16:13:23 +0100 (CET)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Q32zfoQi;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TRQnr33Rrz3cJ0
-	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Feb 2024 06:29:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TRx3j326Hz3cBZ
+	for <lists+linux-aspeed@lfdr.de>; Sun,  4 Feb 2024 02:13:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=h08.hostsharing.net (client-ip=2a01:37:1000::53df:5f64:0; helo=bmailout1.hostsharing.net; envelope-from=foo00@h08.hostsharing.net; receiver=lists.ozlabs.org)
-X-Greylist: delayed 509 seconds by postgrey-1.37 at boromir; Sat, 03 Feb 2024 06:29:29 AEDT
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [IPv6:2a01:37:1000::53df:5f64:0])
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Q32zfoQi;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TRQnj5WYXz3c8H
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  3 Feb 2024 06:29:29 +1100 (AEDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout1.hostsharing.net (Postfix) with ESMTPS id 5D9DD3000C980;
-	Fri,  2 Feb 2024 20:20:48 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 4DDF8406333; Fri,  2 Feb 2024 20:20:48 +0100 (CET)
-Date: Fri, 2 Feb 2024 20:20:48 +0100
-From: Lukas Wunner <lukas@wunner.de>
-To: Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH AUTOSEL 6.7 20/23] ARM: dts: Fix TPM schema violations
-Message-ID: <20240202192048.GA22666@wunner.de>
-References: <20240202183926.540467-1-sashal@kernel.org>
- <20240202183926.540467-20-sashal@kernel.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TRx3Z2B3vz2xFt
+	for <linux-aspeed@lists.ozlabs.org>; Sun,  4 Feb 2024 02:13:12 +1100 (AEDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6de3141f041so2275129b3a.0
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 03 Feb 2024 07:13:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706973190; x=1707577990; darn=lists.ozlabs.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xN9WkJF6hYDK+c2hghOyEcly1TR1Vl/4IjxK+gN4NfY=;
+        b=Q32zfoQi4aD/MEnvMXZWHEhim+BqwfZJm6+FITAvJLzlv23c8A1XJqLSbZk7i1rN9B
+         7DNB7vihk4dNx9xa7OYm1HpXfJDL+GLc1UnMgpIuHeUH/+w/dIWoyUHOzXk01k7nZwoP
+         SCPhKZR0PCpqWau9GwRS7rsppq4Ka80wZ1qtjSMakWtoSz75F07Mvo99Ke5p3ZM/K9G4
+         Nb40lmGVSahb4lYayOTwZQCd0LaBm9CBvsdi5malTLml02T900sBn46mp3mreMLF3fB/
+         o0HpysSFVauZWFyITuBqiAzs9G4FMe+PVxk/5FrRGWptpv9IDovsQnrgvNMhmkDhAcIp
+         sS+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706973190; x=1707577990;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xN9WkJF6hYDK+c2hghOyEcly1TR1Vl/4IjxK+gN4NfY=;
+        b=avTxtChglqWM8roePn0qmgnDFl6w+G9Ygwoc276LOUGdX93IipEon3H6pESPYJgFHn
+         WIcVhJRQon9pCYwaAEk0vQJj5w4sEO1X+Xxy8EIH85SfEhx0v8TsmScK2zlZjL0KPr6L
+         5IXgFCbQnOp5BZpbSxZEvHzmyUlMGDaU/NQ7FWhuSahY3mC6HJCJXRl4C4VSgWMkml46
+         ETBuBgNSrckkbGlAiSnvDG6G3Y+grqv124JrH6cHno30UwMEgi287YhdfjJTPinshJ89
+         JwS6EjDJcUDhwjFjGDHEqY5VGVzPBpiix/5rLbvyGe3qNyPKGS75JJsK+uTiRTMv0ITh
+         7D7A==
+X-Gm-Message-State: AOJu0Yysy1L/QHUwJ3SCRFY8IssEKU/R0B+6ix9+JkkdVofFrFaPQ+56
+	fmPyZkGGrChQtbsQoQbC3E59LiLfeREbLi+qFDIBj0l0IOWbCJbx
+X-Google-Smtp-Source: AGHT+IGzclwUEWMRrB7qUW7wMZUYvN4KbDaWuMK5T/g9+YsyjQ0OdD5a6sVLWIN+82c2yQmSgWYBeQ==
+X-Received: by 2002:a05:6a00:1407:b0:6df:f634:4f83 with SMTP id l7-20020a056a00140700b006dff6344f83mr6028980pfu.2.1706973189541;
+        Sat, 03 Feb 2024 07:13:09 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUqYJZtF0397o79UzP467rq+EAXWG13ZCkuGdHXaZvG71bKhtaZ87yr7V3NXIZ4NLnCp5BZJCtLrJoXZAvzCQja+f1KOfybqtNT3eANB/oh3C1NGHWrKwehgCcO1ZoJWFzCG8l9NENaMXsUitkqyCf+tBUR8DPmy0MzKRMF+fceGoyC07gWeQIC/+j8+A9AY2PUVsF/oR5RJG2OiYXEtUeAn9txBrXtmxbbctnYemk8oyh5Ds1FoopUbq8VbebCQlvPAMdoP1SL+8aMgJzY4bn8Y906L7Ln31LNTfXN32Y/7cLg/RtQN54lUDUCa59F9HSRZWMxOvy/E5NQf9HvxxK8wFMxgvAksmEkf59tqFRV3Z2NYW+G73xa3vhzLN3x8wMHUy36RY81K4pEVeHwaPF2m3jCz70uno3P3cGWYzD7w6WbTsfyh5+Y4k1QcnWMyTsaTp214+GkWDcqFV0LYvNpHTpn028grAIXbj05NYX5kjklvxeBjCPgndBnHoKVcRCDnnRqSzIUu51mTEdzgvI1Q2nZjBdDxkTvpNq07AsalOaiJ1/HqSt0PGeI1zEQOfauB6xDTFgRiBP1M4kuWN+uKOY4VEfi4oA22jZ4Cmb+NicUk9EJt4J85246qjNKaH1aRLitgP0sJQ4VlP8CuzyKJtZ91RcILRYmL1NxX7ZW0w0nuBUyRqKtYA==
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id b129-20020a62cf87000000b006dfe45dfdb4sm3671627pfg.74.2024.02.03.07.13.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Feb 2024 07:13:09 -0800 (PST)
+Date: Sat, 3 Feb 2024 07:13:08 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [PATCH v13 1/3] dt-bindings: hwmon: fan: Add fan binding to
+ schema
+Message-ID: <e1b1c69f-a2ff-4fa5-80a6-3ff0a3de6ce6@roeck-us.net>
+References: <20240124060705.1342461-1-billy_tsai@aspeedtech.com>
+ <20240124060705.1342461-2-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240202183926.540467-20-sashal@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20240124060705.1342461-2-billy_tsai@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,38 +81,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, bcousson@baylibre.com, linux-aspeed@lists.ozlabs.org, tony@atomide.com, Bruno Thomsen <bruno.thomsen@gmail.com>, linux-kernel@vger.kernel.org, stable@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-omap@vger.kernel.org, shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, jdelvare@suse.com, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org, corbet@lwn.net, BMC-SW@aspeedtech.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, naresh.solanki@9elements.com, patrick@stwcx.xyz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, u.kleine-koenig@pengutronix.de, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Sasha,
-
-On Fri, Feb 02, 2024 at 01:39:16PM -0500, Sasha Levin wrote:
-> [ Upstream commit 8412c47d68436b9f9a260039a4a773daa6824925 ]
+On Wed, Jan 24, 2024 at 02:07:03PM +0800, Billy Tsai wrote:
+> From: Naresh Solanki <naresh.solanki@9elements.com>
 > 
-> Since commit 26c9d152ebf3 ("dt-bindings: tpm: Consolidate TCG TIS
-> bindings"), several issues are reported by "make dtbs_check" for ARM
-> devicetrees:
-
-You've auto-selected this commit for backporting to v6.6 and v6.7
-stable kernels, but it's only really needed for v6.8 to avoid
-issues reported by "make dtbs_check".
-
-So IMO this commit can be dropped from the v6.6 and v6.7 patch queues.
-
-Thanks,
-
-Lukas
-
-> The nodename needs to be "tpm@0" rather than "tpmdev@0" and the
-> compatible property needs to contain the chip's name in addition to the
-> generic "tcg,tpm_tis-spi" or "tcg,tpm-tis-i2c":
+> Add common fan properties bindings to a schema.
 > 
->   tpmdev@0: $nodename:0: 'tpmdev@0' does not match '^tpm(@[0-9a-f]+)?$'
->         from schema $id: http://devicetree.org/schemas/tpm/tcg,tpm_tis-spi.yaml#
+> Bindings for fan controllers can reference the common schema for the
+> fan
 > 
->   tpm@2e: compatible: 'oneOf' conditional failed, one must be fixed:
->         ['tcg,tpm-tis-i2c'] is too short
->         from schema $id: http://devicetree.org/schemas/tpm/tcg,tpm-tis-i2c.yaml#
+> child nodes:
 > 
-> Fix these schema violations.
+>   patternProperties:
+>     "^fan@[0-2]":
+>       type: object
+>       $ref: fan-common.yaml#
+>       unevaluatedProperties: false
+> 
+> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+
+v12 of this patch got a Reviewed-by: tag from Rob.
+The tag is gone in this version, presumably meaning that there
+was a substantial change.
+
+I don't normally do this, but I downloaded v12 and v13 and did not
+find a single change. Why did you drop Rob's Reviewed-by: tag ?
+
+Guenter
