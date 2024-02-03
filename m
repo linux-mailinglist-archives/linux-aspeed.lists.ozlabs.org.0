@@ -1,75 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7548848708
-	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Feb 2024 16:13:23 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4005184870B
+	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Feb 2024 16:15:13 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Q32zfoQi;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DmxLkjCQ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TRx3j326Hz3cBZ
-	for <lists+linux-aspeed@lfdr.de>; Sun,  4 Feb 2024 02:13:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TRx5m2QKyz3cKV
+	for <lists+linux-aspeed@lfdr.de>; Sun,  4 Feb 2024 02:15:08 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Q32zfoQi;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DmxLkjCQ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22d; helo=mail-oi1-x22d.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TRx3Z2B3vz2xFt
-	for <linux-aspeed@lists.ozlabs.org>; Sun,  4 Feb 2024 02:13:12 +1100 (AEDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6de3141f041so2275129b3a.0
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 03 Feb 2024 07:13:12 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TRx5g5xhgz3bs2
+	for <linux-aspeed@lists.ozlabs.org>; Sun,  4 Feb 2024 02:15:03 +1100 (AEDT)
+Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-3bbb4806f67so2300557b6e.3
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 03 Feb 2024 07:15:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706973190; x=1707577990; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1706973300; x=1707578100; darn=lists.ozlabs.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xN9WkJF6hYDK+c2hghOyEcly1TR1Vl/4IjxK+gN4NfY=;
-        b=Q32zfoQi4aD/MEnvMXZWHEhim+BqwfZJm6+FITAvJLzlv23c8A1XJqLSbZk7i1rN9B
-         7DNB7vihk4dNx9xa7OYm1HpXfJDL+GLc1UnMgpIuHeUH/+w/dIWoyUHOzXk01k7nZwoP
-         SCPhKZR0PCpqWau9GwRS7rsppq4Ka80wZ1qtjSMakWtoSz75F07Mvo99Ke5p3ZM/K9G4
-         Nb40lmGVSahb4lYayOTwZQCd0LaBm9CBvsdi5malTLml02T900sBn46mp3mreMLF3fB/
-         o0HpysSFVauZWFyITuBqiAzs9G4FMe+PVxk/5FrRGWptpv9IDovsQnrgvNMhmkDhAcIp
-         sS+g==
+        bh=cFuXP3UV1xnywaTqFOinvyF6IAzq5e2/c/XsGf493CE=;
+        b=DmxLkjCQwjSHlfInW9S9gDZQhG/u2o+51ZQO6mXEOAIwoIY+fO5YK2NWyeNCKkGfJR
+         3dP/vxAGIQXVX6UQyxbm6shkmTwp256G5LjBNihLQBBDwRPUfVpDoXShFJHGmEgR6I4m
+         imn73MITcMU8BY7StrEtHXSwgz4gLWmtoQWAW0CeP+Y2it6GODrk4ZeKJKDYoa2yq57g
+         PEw0UDZ2GHiKxTR8gMM2S9kSc+JlDHNjP1QKwjVDy5m/SblKf01TVQqA+WWquKsyQhCf
+         68Qwh99Gqv0UX2ZhxHHDvABlTZyr8YeHRsnMjOV5/wURorEshKCzTuYrZEJf8EV9Ko5u
+         iYPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706973190; x=1707577990;
+        d=1e100.net; s=20230601; t=1706973300; x=1707578100;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xN9WkJF6hYDK+c2hghOyEcly1TR1Vl/4IjxK+gN4NfY=;
-        b=avTxtChglqWM8roePn0qmgnDFl6w+G9Ygwoc276LOUGdX93IipEon3H6pESPYJgFHn
-         WIcVhJRQon9pCYwaAEk0vQJj5w4sEO1X+Xxy8EIH85SfEhx0v8TsmScK2zlZjL0KPr6L
-         5IXgFCbQnOp5BZpbSxZEvHzmyUlMGDaU/NQ7FWhuSahY3mC6HJCJXRl4C4VSgWMkml46
-         ETBuBgNSrckkbGlAiSnvDG6G3Y+grqv124JrH6cHno30UwMEgi287YhdfjJTPinshJ89
-         JwS6EjDJcUDhwjFjGDHEqY5VGVzPBpiix/5rLbvyGe3qNyPKGS75JJsK+uTiRTMv0ITh
-         7D7A==
-X-Gm-Message-State: AOJu0Yysy1L/QHUwJ3SCRFY8IssEKU/R0B+6ix9+JkkdVofFrFaPQ+56
-	fmPyZkGGrChQtbsQoQbC3E59LiLfeREbLi+qFDIBj0l0IOWbCJbx
-X-Google-Smtp-Source: AGHT+IGzclwUEWMRrB7qUW7wMZUYvN4KbDaWuMK5T/g9+YsyjQ0OdD5a6sVLWIN+82c2yQmSgWYBeQ==
-X-Received: by 2002:a05:6a00:1407:b0:6df:f634:4f83 with SMTP id l7-20020a056a00140700b006dff6344f83mr6028980pfu.2.1706973189541;
-        Sat, 03 Feb 2024 07:13:09 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUqYJZtF0397o79UzP467rq+EAXWG13ZCkuGdHXaZvG71bKhtaZ87yr7V3NXIZ4NLnCp5BZJCtLrJoXZAvzCQja+f1KOfybqtNT3eANB/oh3C1NGHWrKwehgCcO1ZoJWFzCG8l9NENaMXsUitkqyCf+tBUR8DPmy0MzKRMF+fceGoyC07gWeQIC/+j8+A9AY2PUVsF/oR5RJG2OiYXEtUeAn9txBrXtmxbbctnYemk8oyh5Ds1FoopUbq8VbebCQlvPAMdoP1SL+8aMgJzY4bn8Y906L7Ln31LNTfXN32Y/7cLg/RtQN54lUDUCa59F9HSRZWMxOvy/E5NQf9HvxxK8wFMxgvAksmEkf59tqFRV3Z2NYW+G73xa3vhzLN3x8wMHUy36RY81K4pEVeHwaPF2m3jCz70uno3P3cGWYzD7w6WbTsfyh5+Y4k1QcnWMyTsaTp214+GkWDcqFV0LYvNpHTpn028grAIXbj05NYX5kjklvxeBjCPgndBnHoKVcRCDnnRqSzIUu51mTEdzgvI1Q2nZjBdDxkTvpNq07AsalOaiJ1/HqSt0PGeI1zEQOfauB6xDTFgRiBP1M4kuWN+uKOY4VEfi4oA22jZ4Cmb+NicUk9EJt4J85246qjNKaH1aRLitgP0sJQ4VlP8CuzyKJtZ91RcILRYmL1NxX7ZW0w0nuBUyRqKtYA==
+        bh=cFuXP3UV1xnywaTqFOinvyF6IAzq5e2/c/XsGf493CE=;
+        b=F8sUMmkIpyxRnfFQmBtSmYWtQr50heETZhsdAssxHoevSyiCD6YvVeT8YtK0xDL/zX
+         D3DcgVOy0xCmy4Q/aaeHsnp69ws2d0OZ/ZLTgeUVuvW8Kh/YjBFPPGxRG1v4DBWZkhV7
+         K9mJqk47yJnFEfBVCaj+B8ggOHFseYs/HlwA8SF5ToMb3g08uBJ43brHJI9h49PSMb90
+         N9YlJVt2XaoYVNdxG2g5C64psTDupeSoqW8tJyyY9K5POAlk8PPVkkdyFtfaqFfMgRaa
+         0AaFkj2qWHfWIIc+123CreNp6+rr7oRi+ZuivKYY4myZE70HO9Dcu+r8oxDjqvAXd5DW
+         y2TQ==
+X-Gm-Message-State: AOJu0Yz5vk/457mpdMEZuMY4evhuOhAGMP4L1SWW0FsdR1tfbS/iliwh
+	hUzxVuWB6f08dABtf3ZgF5lDUL2JXdUslqrbvp1e6StNp05iquY3
+X-Google-Smtp-Source: AGHT+IF40Z0pjbJVzRvxEw7OzgOmlZu9RvZZEAgaSfdBvk8bmmqKo0Aew1Kh+sLESnM1+9BvKO/F3g==
+X-Received: by 2002:a05:6358:3a0a:b0:178:99cc:e52e with SMTP id g10-20020a0563583a0a00b0017899cce52emr11976858rwe.20.1706973300201;
+        Sat, 03 Feb 2024 07:15:00 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXTS+Z3mcZ6h5OmaPznlOk7RjwoMElBSaLMG1YBYjQQ6o4PoiF+thK+DxD6vnP0WDdwlJcYAacZ070/13N631A0eQ13jBD3PxkyosoPkmu1XM8Q6IxFJXbbBwWEgmlQqoKVsOinluo6CwyRfvX0cjnAdzdzJrEGArzZVF9UWlrXf8/Ny2jMytCD4ORWzgFw1PtTati5JUiT3q+HCu0raH2R5Bu0CD4ctRKqPRl846UVu/0ji9It8ABe6m1Dmy1pu2x9BJTORKcrgrA3LOVGSY705xu9UchNnkG4By/PJuFFfogeb4k=
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b129-20020a62cf87000000b006dfe45dfdb4sm3671627pfg.74.2024.02.03.07.13.08
+        by smtp.gmail.com with ESMTPSA id bs10-20020a63280a000000b005bd2b3a03eesm3658342pgb.6.2024.02.03.07.14.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 07:13:09 -0800 (PST)
-Date: Sat, 3 Feb 2024 07:13:08 -0800
+        Sat, 03 Feb 2024 07:14:59 -0800 (PST)
+Date: Sat, 3 Feb 2024 07:14:58 -0800
 From: Guenter Roeck <linux@roeck-us.net>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH v13 1/3] dt-bindings: hwmon: fan: Add fan binding to
- schema
-Message-ID: <e1b1c69f-a2ff-4fa5-80a6-3ff0a3de6ce6@roeck-us.net>
-References: <20240124060705.1342461-1-billy_tsai@aspeedtech.com>
- <20240124060705.1342461-2-billy_tsai@aspeedtech.com>
+To: Alexander Hansen <alexander.hansen@9elements.com>
+Subject: Re: [PATCH v1 1/1] hwmon: (aspeed-pwm-tacho) mutex for tach reading
+Message-ID: <a70d020a-6289-4087-81eb-a4d6ea339b92@roeck-us.net>
+References: <121d888762a1232ef403cf35230ccf7b3887083a.1699007401.git.alexander.hansen@9elements.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240124060705.1342461-2-billy_tsai@aspeedtech.com>
+In-Reply-To: <121d888762a1232ef403cf35230ccf7b3887083a.1699007401.git.alexander.hansen@9elements.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,34 +79,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, jdelvare@suse.com, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org, corbet@lwn.net, BMC-SW@aspeedtech.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, naresh.solanki@9elements.com, patrick@stwcx.xyz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, u.kleine-koenig@pengutronix.de, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Loic Prylli <lprylli@netflix.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jan 24, 2024 at 02:07:03PM +0800, Billy Tsai wrote:
-> From: Naresh Solanki <naresh.solanki@9elements.com>
+On Fri, Nov 03, 2023 at 11:30:55AM +0100, Alexander Hansen wrote:
+> From: Loic Prylli <lprylli@netflix.com>
 > 
-> Add common fan properties bindings to a schema.
+> the ASPEED_PTCR_RESULT Register can only hold the result for a
+> single fan input. Adding a mutex to protect the register until the
+> reading is done.
 > 
-> Bindings for fan controllers can reference the common schema for the
-> fan
-> 
-> child nodes:
-> 
->   patternProperties:
->     "^fan@[0-2]":
->       type: object
->       $ref: fan-common.yaml#
->       unevaluatedProperties: false
-> 
-> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> Signed-off-by: Loic Prylli <lprylli@netflix.com>
+> Signed-off-by: Alexander Hansen <alexander.hansen@9elements.com>
 
-v12 of this patch got a Reviewed-by: tag from Rob.
-The tag is gone in this version, presumably meaning that there
-was a substantial change.
-
-I don't normally do this, but I downloaded v12 and v13 and did not
-find a single change. Why did you drop Rob's Reviewed-by: tag ?
+Somehow this patch got lost. Sorry for that. Applied.
 
 Guenter
