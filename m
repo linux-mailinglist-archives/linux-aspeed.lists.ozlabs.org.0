@@ -2,71 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401B084ACBE
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Feb 2024 04:11:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B4084EAD3
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Feb 2024 22:49:59 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gmDxqupA;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZfWN5SAa;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TTSvG0zRHz3bwj
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Feb 2024 14:11:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TW9d12FtLz3brZ
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Feb 2024 08:49:57 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gmDxqupA;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZfWN5SAa;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=dinguyen@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TTSv55kHtz2xX4
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  6 Feb 2024 14:11:13 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 1F0B76132D;
-	Tue,  6 Feb 2024 03:11:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64E16C433C7;
-	Tue,  6 Feb 2024 03:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707189068;
-	bh=JBbzQiMIyRNQkHSvJ9vi5exp7CSEo5Z8O7BLUiZ/mBU=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=gmDxqupApi+IvheVBPHwfgCZY+3FTaeC4+Or0OO611MjRbNGbFvWIRWP528mtnX/r
-	 eNphy238xKie014dn6UoEmVSiMctMho9mRKLRi65CW1BK5opN525Ju0SV84/SeuBET
-	 EPpp36CB08qqpZgpkzESn0TThsoJ6mCyKlOr5VFp1BLAHn4+nZtT0EbwFav7o2xgkx
-	 Iy+dEdip3+FZS7aKtqcIcaTsMenicIxdeoQdxCcTF7O1JVoX3K5lVPwiew9kyNzZ55
-	 UxaEmcmCy0BB7+yzDDFpGapr1AJP7J3GHCtUCgJ4lMGTc5FXUV+79BVr7+9Ojm+ZII
-	 z7VXBYOxWMR2g==
-Message-ID: <f3ae2e5a-1850-461f-aa9c-2c7bceac8318@kernel.org>
-Date: Mon, 5 Feb 2024 21:11:03 -0600
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TW9bv4WFmz30hF;
+	Fri,  9 Feb 2024 08:48:59 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-182-175.adl-adc-lon-bras34.tpg.internode.on.net [118.210.182.175])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DA2DA200DB;
+	Fri,  9 Feb 2024 05:48:55 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1707428937;
+	bh=78OlWKA8etugimLgU7LOFg8JohEzP01qVuc5Gal/3PE=;
+	h=Subject:From:To:Date:In-Reply-To:References;
+	b=ZfWN5SAaLQLAwMnWoCYSgD6iqURUOgdTNIkdCkqNrx5U5B80lHFXAJIzRb+qn1jc7
+	 K3rm2BEm1lTXvVe5zgsXUp3APyUZzLVm4dNJThFG2vOuksDysx5EhSIWcfZ0Ex3nTn
+	 m+nm06OKO4Oa7LEInZDnLb0LT/DsdjWDQ+BzMUOsGLS7fKDk4Ps+37g2aQpNBQgD7d
+	 RSiGYlsmA257KG7mh9H5TacHKhg3moWEwC/MT7Xwg7ynnMiQOrPxICLzFgXFZCC70s
+	 v7kRnz+bQ1yx0A45B0n72yT2dPXPCsK5IsHdmDDciTD1+aSZDxUYLgEXUpkytrgTGK
+	 btQfOFzoRcgLw==
+Message-ID: <d5d488f2777b34d744d07fbd94f525ae381dca44.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/1] ARM:dts:aspeed: Initial device tree for AMD Onyx
+ Platform
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Supreeth Venkatesh <supvenka@amd.com>, Supreeth Venkatesh
+	 <supreeth.venkatesh@amd.com>, joel@jms.id.au, andrew@aj.id.au, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, robh+dt@kernel.org
+Date: Fri, 09 Feb 2024 08:18:54 +1030
+In-Reply-To: <d4fe8b55-a1ea-4ce7-89ac-ce17e8ff4e45@amd.com>
+References: <20240110033543.799919-1-supreeth.venkatesh@amd.com>
+	 <d4fe8b55-a1ea-4ce7-89ac-ce17e8ff4e45@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] arm64: dts: intel: agilex5: drop "master" I3C node
- name suffix
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Jeremy Kerr <jk@codeconstruct.com.au>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- =?UTF-8?Q?Przemys=C5=82aw_Gaj?= <pgaj@cadence.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Conor Culhane <conor.culhane@silvaco.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Nicolas Pitre
- <npitre@baylibre.com>, linux-i3c@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-References: <20240117075618.81932-1-krzysztof.kozlowski@linaro.org>
- <20240117075618.81932-3-krzysztof.kozlowski@linaro.org>
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20240117075618.81932-3-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,25 +66,15 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 1/17/24 01:56, Krzysztof Kozlowski wrote:
-> Following change in the I3C bindings, the "master" suffix in I3C
-> controller node name is discouraged (it is "controller" now) and not
-> accurate (if device supports also target mode).
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> The change can be applied through independent trees, if the I3C bindings
-> change is applied.  Therefore please take it once I3C bindings is
-> applied.
-> ---
->   arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+On Thu, 2024-02-08 at 08:57 -0600, Supreeth Venkatesh wrote:
+> This patch is pending for a month now.
+>=20
+> Can DT maintainers please help review this and provide feedback?
 
-Applied.
+Joel's on leave and I'm having to manage some personal concerns as well
+as other professional priorities.
 
-Thanks,
-Dinh
+I'm trying to find time to address the BMC patch backlog but it really
+is a best-effort thing at the moment.
 
+Andrew
