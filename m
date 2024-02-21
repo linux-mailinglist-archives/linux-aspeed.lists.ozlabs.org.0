@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B5685E63C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Feb 2024 19:35:34 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A914F85E636
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Feb 2024 19:35:30 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RgeCDOlO;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VkMNtAxh;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tg4hh5T0kz3cZH
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 05:35:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tg4hc4Cc4z3d4H
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 05:35:28 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RgeCDOlO;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VkMNtAxh;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.7; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tg4h83LLWz3cZL
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Feb 2024 05:35:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tg4h82mHLz3cZD
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Feb 2024 05:35:03 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1708540505; x=1740076505;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=4UcL4BkrrA48FaRG5BWoOyofknmODC7RJONPDVqFX3k=;
-  b=RgeCDOlO353p59o8SPQt+igQIkANA64s7h/ttHCPTlXRxrPiDQv0kNB2
-   RakbV70vYQ6xGx5eRzsBenUwpqV+AYj6MrCan50lcJAQKEw9NCJ8ROwjY
-   T248M9kQLUyLWFLhxVe7G1q8bwaXkDbZu1mG/oS8CGDMPy4Ut9/RpJm63
-   7yd/1+GJMtPmjcU3nSen5bj3E+t5OPNhBnNzGdJko/XX3IGBaolCeTmKR
-   cbWWCXFPRaH9R03FKTrL0Z07QjZkGm3LOYRFSLIvagDWftuJF6QsBrHeE
-   wKI4Hg8QpK/7dkTruJt/sXtZXr0TaDm8vq9qyrsaz3Qi6mYr1jPAYg8JL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="28164763"
+  bh=n8M+Zxd5EsI5el7vSlKXZtzNU2WwNtafBo9TBX3vAmw=;
+  b=VkMNtAxhnjeGvAIXS9RL2yvzwnQy0MiSybvqT66sZ3xUTVsiCktQbkwf
+   466XlbIPMItuy27FWzN+SOnXT2AS2atazKeFuqMVRB0vJaOIA4enZPEMJ
+   9NWT6YapuqQsEWpwnLUcvslZS0HFW2FDHuOOa+KGcK4vEJ6M1VNe8CK0T
+   QaVTdo6/SIf9iIk6F5Ua/iWDUMnYFJqF2a95smB309xpQAADNAlzqjDYq
+   z9csyTgbB3bzWn8/rrCzr6s2K/7jwipeuRyFnXRWv58yxu8S11TRKclS6
+   lCHx6fgR7FgnAq+ViMQrVM6dZI6wcsyk92rtO6trWfhb+3M0yVf16paUw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="28164775"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="28164763"
+   d="scan'208";a="28164775"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2024 10:35:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="936684750"
+X-IronPort-AV: E=McAfee;i="6600,9927,10991"; a="936684752"
 X-IronPort-AV: E=Sophos;i="6.06,176,1705392000"; 
-   d="scan'208";a="936684750"
+   d="scan'208";a="936684752"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmsmga001.fm.intel.com with ESMTP; 21 Feb 2024 10:34:55 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 1A0CF49C; Wed, 21 Feb 2024 20:34:47 +0200 (EET)
+	id 2890D4A5; Wed, 21 Feb 2024 20:34:47 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -58,9 +58,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-rpi-kernel@lists.infradead.org,
 	linux-mips@vger.kernel.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH v1 06/14] serial: 8250_bcm7271: Switch to use uart_read_port_properties()
-Date: Wed, 21 Feb 2024 20:31:22 +0200
-Message-ID: <20240221183442.4124354-7-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 07/14] serial: 8250_dw: Switch to use uart_read_port_properties()
+Date: Wed, 21 Feb 2024 20:31:23 +0200
+Message-ID: <20240221183442.4124354-8-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 In-Reply-To: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
 References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
@@ -77,109 +77,150 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Scott Branden <sbranden@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, Al Cooper <alcooperx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Vladimir Zapolskiy <vz@mleia.com>, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Jiri Slaby <jirislaby@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Scott Branden <sbranden@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, Al Cooper <alcooperx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Vladimir Zapolskiy <vz@mleia.com>, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andi Shyti <andi.shyti@linux.intel.com>, =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Jiri Slaby <jirislaby@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 Since we have now a common helper to read port properties
 use it instead of sparse home grown solution.
 
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/tty/serial/8250/8250_bcm7271.c | 53 +++++++++-----------------
- 1 file changed, 18 insertions(+), 35 deletions(-)
+ drivers/tty/serial/8250/8250_dw.c | 67 +++++++++++++------------------
+ 1 file changed, 27 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/tty/serial/8250/8250_bcm7271.c b/drivers/tty/serial/8250/8250_bcm7271.c
-index 1532fa2e8ec4..5a25e78857f7 100644
---- a/drivers/tty/serial/8250/8250_bcm7271.c
-+++ b/drivers/tty/serial/8250/8250_bcm7271.c
-@@ -942,10 +942,8 @@ static int brcmuart_probe(struct platform_device *pdev)
- 	struct brcmuart_priv *priv;
- 	struct clk *baud_mux_clk;
- 	struct uart_8250_port up;
--	int irq;
- 	void __iomem *membase = NULL;
- 	resource_size_t mapbase = 0;
--	u32 clk_rate = 0;
- 	int ret;
- 	int x;
- 	int dma_irq;
-@@ -953,9 +951,6 @@ static int brcmuart_probe(struct platform_device *pdev)
- 		"uart", "dma_rx", "dma_tx", "dma_intr2", "dma_arb"
- 	};
+diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
+index 2d1f350a4bea..a1825e83231f 100644
+--- a/drivers/tty/serial/8250/8250_dw.c
++++ b/drivers/tty/serial/8250/8250_dw.c
+@@ -17,7 +17,6 @@
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/notifier.h>
+-#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/property.h>
+@@ -449,12 +448,7 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
  
--	irq = platform_get_irq(pdev, 0);
+ 	if (np) {
+ 		unsigned int quirks = data->pdata->quirks;
+-		int id;
+ 
+-		/* get index of serial line, if found in DT aliases */
+-		id = of_alias_get_id(np, "serial");
+-		if (id >= 0)
+-			p->line = id;
+ #ifdef CONFIG_64BIT
+ 		if (quirks & DW_UART_QUIRK_OCTEON) {
+ 			p->serial_in = dw8250_serial_inq;
+@@ -465,12 +459,6 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
+ 		}
+ #endif
+ 
+-		if (of_device_is_big_endian(np)) {
+-			p->iotype = UPIO_MEM32BE;
+-			p->serial_in = dw8250_serial_in32be;
+-			p->serial_out = dw8250_serial_out32be;
+-		}
+-
+ 		if (quirks & DW_UART_QUIRK_ARMADA_38X)
+ 			p->serial_out = dw8250_serial_out38x;
+ 		if (quirks & DW_UART_QUIRK_SKIP_SET_RATE)
+@@ -510,39 +498,21 @@ static int dw8250_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct dw8250_data *data;
+ 	struct resource *regs;
+-	int irq;
+ 	int err;
+-	u32 val;
+ 
+ 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!regs)
+ 		return dev_err_probe(dev, -EINVAL, "no registers defined\n");
+ 
+-	irq = platform_get_irq_optional(pdev, 0);
+-	/* no interrupt -> fall back to polling */
+-	if (irq == -ENXIO)
+-		irq = 0;
 -	if (irq < 0)
 -		return irq;
- 	priv = devm_kzalloc(dev, sizeof(struct brcmuart_priv),
- 			GFP_KERNEL);
- 	if (!priv)
-@@ -1011,7 +1006,23 @@ static int brcmuart_probe(struct platform_device *pdev)
- 		}
+-
+ 	spin_lock_init(&p->lock);
+-	p->mapbase	= regs->start;
+-	p->irq		= irq;
+ 	p->handle_irq	= dw8250_handle_irq;
+ 	p->pm		= dw8250_do_pm;
+ 	p->type		= PORT_8250;
+-	p->flags	= UPF_SHARE_IRQ | UPF_FIXED_PORT;
++	p->flags	= UPF_FIXED_PORT;
+ 	p->dev		= dev;
+-	p->iotype	= UPIO_MEM;
+-	p->serial_in	= dw8250_serial_in;
+-	p->serial_out	= dw8250_serial_out;
+ 	p->set_ldisc	= dw8250_set_ldisc;
+ 	p->set_termios	= dw8250_set_termios;
+ 
+-	p->membase = devm_ioremap(dev, regs->start, resource_size(regs));
+-	if (!p->membase)
+-		return -ENOMEM;
+-
+ 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+@@ -554,15 +524,35 @@ static int dw8250_probe(struct platform_device *pdev)
+ 	data->uart_16550_compatible = device_property_read_bool(dev,
+ 						"snps,uart-16550-compatible");
+ 
+-	err = device_property_read_u32(dev, "reg-shift", &val);
+-	if (!err)
+-		p->regshift = val;
++	p->mapbase = regs->start;
++	p->mapsize = resource_size(regs);
+ 
+-	err = device_property_read_u32(dev, "reg-io-width", &val);
+-	if (!err && val == 4) {
+-		p->iotype = UPIO_MEM32;
++	p->membase = devm_ioremap(dev, p->mapbase, p->mapsize);
++	if (!p->membase)
++		return -ENOMEM;
++
++	err = uart_read_port_properties(p, true);
++	/* no interrupt -> fall back to polling */
++	if (err == -ENXIO)
++		err = 0;
++	if (err)
++		return err;
++
++	switch (p->iotype) {
++	case UPIO_MEM:
++		p->serial_in = dw8250_serial_in;
++		p->serial_out = dw8250_serial_out;
++		break;
++	case UPIO_MEM32:
+ 		p->serial_in = dw8250_serial_in32;
+ 		p->serial_out = dw8250_serial_out32;
++		break;
++	case UPIO_MEM32BE:
++		p->serial_in = dw8250_serial_in32be;
++		p->serial_out = dw8250_serial_out32be;
++		break;
++	default:
++		return -ENODEV;
  	}
  
--	of_property_read_u32(np, "clock-frequency", &clk_rate);
-+	dev_dbg(dev, "DMA is %senabled\n", priv->dma_enabled ? "" : "not ");
-+
-+	memset(&up, 0, sizeof(up));
-+	up.port.type = PORT_BCM7271;
-+	up.port.dev = dev;
-+	up.port.mapbase = mapbase;
-+	up.port.membase = membase;
-+	up.port.handle_irq = brcmuart_handle_irq;
-+	up.port.flags = UPF_BOOT_AUTOCONF | UPF_FIXED_PORT | UPF_FIXED_TYPE;
-+	up.port.private_data = priv;
-+
-+	ret = uart_read_port_properties(&up.port, true);
-+	if (ret)
-+		goto release_dma;
-+
-+	up.port.regshift = 2;
-+	up.port.iotype = device_is_big_endian(dev) ? UPIO_MEM32BE : UPIO_MEM32;
- 
- 	/* See if a Baud clock has been specified */
- 	baud_mux_clk = devm_clk_get_optional_enabled(dev, "sw_baud");
-@@ -1023,39 +1034,11 @@ static int brcmuart_probe(struct platform_device *pdev)
- 
- 		priv->baud_mux_clk = baud_mux_clk;
- 		init_real_clk_rates(dev, priv);
--		clk_rate = priv->default_mux_rate;
-+		up.port.uartclk = priv->default_mux_rate;
- 	} else {
- 		dev_dbg(dev, "BAUD MUX clock not specified\n");
+ 	if (device_property_read_bool(dev, "dcd-override")) {
+@@ -589,9 +579,6 @@ static int dw8250_probe(struct platform_device *pdev)
+ 		data->msr_mask_off |= UART_MSR_TERI;
  	}
  
--	if (clk_rate == 0) {
--		ret = dev_err_probe(dev, -EINVAL, "clock-frequency or clk not defined\n");
--		goto release_dma;
--	}
+-	/* Always ask for fixed clock rate from a property. */
+-	device_property_read_u32(dev, "clock-frequency", &p->uartclk);
 -
--	dev_dbg(dev, "DMA is %senabled\n", priv->dma_enabled ? "" : "not ");
--
--	memset(&up, 0, sizeof(up));
--	up.port.type = PORT_BCM7271;
--	up.port.uartclk = clk_rate;
--	up.port.dev = dev;
--	up.port.mapbase = mapbase;
--	up.port.membase = membase;
--	up.port.irq = irq;
--	up.port.handle_irq = brcmuart_handle_irq;
--	up.port.regshift = 2;
--	up.port.iotype = of_device_is_big_endian(np) ?
--		UPIO_MEM32BE : UPIO_MEM32;
--	up.port.flags = UPF_SHARE_IRQ | UPF_BOOT_AUTOCONF
--		| UPF_FIXED_PORT | UPF_FIXED_TYPE;
--	up.port.dev = dev;
--	up.port.private_data = priv;
--
--	/* Check for a fixed line number */
--	ret = of_alias_get_id(np, "serial");
--	if (ret >= 0)
--		up.port.line = ret;
--
- 	/* setup HR timer */
- 	hrtimer_init(&priv->hrt, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
- 	priv->hrt.function = brcmuart_hrtimer_func;
+ 	/* If there is separate baudclk, get the rate from it. */
+ 	data->clk = devm_clk_get_optional_enabled(dev, "baudclk");
+ 	if (data->clk == NULL)
 -- 
 2.43.0.rc1.1.gbec44491f096
 
