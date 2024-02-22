@@ -2,123 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E0385F293
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 09:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D31985F3A9
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 09:58:12 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=WDciNpce;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AUl8Y3d8;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TgQrK06gTz3cy9
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 19:13:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TgRr23kM7z30Q3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 19:58:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=WDciNpce;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AUl8Y3d8;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::634; helo=mail-ej1-x634.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TgQr46vJFz30f5
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Feb 2024 19:13:07 +1100 (AEDT)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-a3f4464c48dso174595766b.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Feb 2024 00:13:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708589583; x=1709194383; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tyk4T9TEQQ5JCsQPipNXRMcoozCsfh8H/KvBrA5AA4w=;
-        b=WDciNpceV1eqfBOcvrbu3bbK3Mkqep3buGT6vEQO+nscZekeCq6knZwHwhE5oT3Eb2
-         h911uI4kR9ysHPCGdup628eKWZtS7mdIIZoZPLs7ksoOKnyO7Q29Bmblsx+EC89m4AyO
-         +rRy8IuJqp/0/S7vU1nvkvGhPPwnYMZTh15U81/fLkGvSatdMW5eiPXUpJiHv+nutn0H
-         9+et5uT8pRQjcJN0vaBU/s3OM8dFBwkQFVSjGS9Zgz4G+kB1B3EAwvmGwBepNNCxrcUj
-         ojayiKnIclyH8upOCQ0JwXHaxANA77dx3QQBWCjZQAFoylOsr8MUFlQUzCTdQU2JrIfa
-         JHaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708589583; x=1709194383;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tyk4T9TEQQ5JCsQPipNXRMcoozCsfh8H/KvBrA5AA4w=;
-        b=a9fXN22N0WV3xzr41ijMBzTV2gpkZKb2HzBmA2sutRcwzqw0226zOchPSGrt58/JHA
-         V0wlPFkk4VV2KONvqTTiKC8pjPUxlzZDfgp8Ml+6Fc7dYVEkuSwH2uDUsrIP48Gv/G/c
-         QbcDGwUwsseMWWUP+nvOAqR1PCEPyabNTQ6uoO0ioLbOh8X52pc/v3CxxLUy1tv/vk1I
-         x56kR2QIf+92VnUExqzkFby0fvd6Vtx5+87/1C1XM80pWmPtzboTyg5SH1L5D3yYmSpr
-         L5UnB+IpJ0qHXa7fjy38JOJpcsLrXSDLHEfm1O8UVXG2ABtE6N+eKtK5RdxoR92nIN59
-         jJeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX/gUxCL9WCqNNb+U0eqZ5p4HeVMyW5NA/ZVWRjfqImmAAJyrC7gNf1rkyIBuZSjykYppMHzivccE+39ge5xPeAOQPSxv3epIsRZ3QhHQ==
-X-Gm-Message-State: AOJu0YxCRgAUnSuNgUKTXE6h7ET7yQjoj5fXIIUxAZKmlOCbhdP/Gz4B
-	1INxgvN6/MA594GawZj2ukyZqhOE9JMT0GnEHkf65uuW0Fgke75e4uoKN+x/fG8=
-X-Google-Smtp-Source: AGHT+IE7h9IG5FIFdz3wdDPelpfZgYLAu2HWcBxgqx1uOiDdqh6RLg7kAgabuJC7rQSpFc1G3w9lZw==
-X-Received: by 2002:a17:906:1698:b0:a3f:86ca:ed2f with SMTP id s24-20020a170906169800b00a3f86caed2fmr705637ejd.49.1708589583095;
-        Thu, 22 Feb 2024 00:13:03 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id m12-20020a170906160c00b00a3d0a094574sm5683084ejd.66.2024.02.22.00.13.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Feb 2024 00:13:02 -0800 (PST)
-Message-ID: <40925c33-0b1d-4eb7-8f83-85efb6aeae4d@linaro.org>
-Date: Thu, 22 Feb 2024 09:13:00 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TgRqs6kBqz3bWn;
+	Thu, 22 Feb 2024 19:58:01 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0EA8E61771;
+	Thu, 22 Feb 2024 08:57:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1E9DC433C7;
+	Thu, 22 Feb 2024 08:57:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708592278;
+	bh=th7l9GDlitBQrVNcZgGUJYqJa0Nwh+9KQ0v3uwoZ/rg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AUl8Y3d8UX/Rj84fOlyp+s0kCjjZ3xD4t+Uxpb5sH5slYu7KIzraPk+76C0R1qGhv
+	 W8/jQRxpmx2XRb1jyY2dNBoT+YB9ue5JdbCLJPQS5QPd0O9mevjqCjKBPWq4Q4ql5t
+	 POjLZRefaF26ZQIo4U7W6g+QrceUaur4c1cdgmBtHYKeaiF6jEkYh6skGVzVTqJThe
+	 hhPsOLDtWaF9K48vjEXDoLbMiTtsRiVXYWPydAgXuUIB1pMbNVKK5hEjaTJ51LMU1T
+	 7Zn8+Pb1i5bneZMBEAJQvOCu8PEyn6iZ1+tc3AAkpz0WXgUA1/eHTGuyXr7nT096xK
+	 bh9ZLjdi5WdLQ==
+Date: Thu, 22 Feb 2024 09:57:54 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Tommy Huang <tommy_huang@aspeedtech.com>
+Subject: Re: [PATCH] i2c: aspeed: Fix the dummy irq expected print
+Message-ID: <v4nawwb4rwjiy2g7xv2sfyhc545mhk4izb3g22f7jupcevjuzb@nxmqgf2zjyqs>
+References: <20240216120455.4138642-1-tommy_huang@aspeedtech.com>
+ <nbkkaktcozbhly44hii3zwie7ivsra3qxzdibyzhyhooxrudvb@zik6skmkki2c>
+ <TYZPR06MB61911F076C8719C6A7D57B97E1562@TYZPR06MB6191.apcprd06.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: arm: aspeed: add ASUS X4TF board
-Content-Language: en-US
-To: =?UTF-8?B?S2VsbHkgSHVuZyjmtKrlmInojokp?= <Kelly_Hung@asus.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Kelly Hung <ppighouse@gmail.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>
-References: <20240222032504.1147489-1-Kelly_Hung@asus.com>
- <20240222032504.1147489-2-Kelly_Hung@asus.com>
- <2ab9b3924dbe07039e934d4580ab7dd397a31728.camel@codeconstruct.com.au>
- <TYZPR04MB6596F2EBAF65F7F53809C2259D562@TYZPR04MB6596.apcprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <TYZPR04MB6596F2EBAF65F7F53809C2259D562@TYZPR04MB6596.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYZPR06MB61911F076C8719C6A7D57B97E1562@TYZPR06MB6191.apcprd06.prod.outlook.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,38 +60,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, =?UTF-8?B?QWxsZW5ZWSBIc3Uo6Kix5bm85bKzKQ==?= <AllenYY_Hsu@asus.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: BMC-SW <BMC-SW@aspeedtech.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 22/02/2024 08:32, Kelly Hung(洪嘉莉) wrote:
-> External email : Ensure your email is secure before opening links and attachments.
+Hi Tommy,
 
-Please send proper patchsets. Patchset includes all necessary patches:
-First binding then DTS.
-
-Version your patches and provide changelog under ---.
-
+On Thu, Feb 22, 2024 at 01:10:39AM +0000, Tommy Huang wrote:
+> > On Fri, Feb 16, 2024 at 08:04:55PM +0800, Tommy Huang wrote:
+> > > When the i2c error condition occurred and master state was not idle,
+> > > the master irq function will goto complete state without any other
+> > > interrupt handling. It would cause dummy irq expected print. Under
+> > > this condition, assign the irq_status into irq_handle.
+> > 
+> > I'm sorry, but I don't understand much from your log here.
+> > 
+> > Do you mean that irq_handled in aspeed_i2c_master_irq() is left with some
+> > states that is not supposed to have and then you end up printing here:
+> > 
+> > 	dev_err(bus->dev,
+> > 		"irq handled != irq. expected 0x%08x, but was 0x%08x\n",
+> > 		irq_received, irq_handled);
+> > 
+> > Can you please explain better?
+> > 
 > 
-> Document the new compatibles used on ASUS X4TF.
+> Yes. If the platform met any irq error condition and the i2c wasn't stated under ASPEED_I2C_MASTER_INACTIVE.
+> Then the code flow would goto the end of aspeed_i2c_master_irq.
 > 
-> Signed-off-by: Kelly Hung <Kelly_Hung@asus.com>
-
-...
-
+> 	ret = aspeed_i2c_is_irq_error(irq_status);
+> 	if (ret) {
+> 		...
+> 		irq_handled |= (irq_status & ASPEED_I2CD_INTR_MASTER_ERRORS);
+> 		if (bus->master_state != ASPEED_I2C_MASTER_INACTIVE) {
+> 			bus->cmd_err = ret;
+> 			bus->master_state = ASPEED_I2C_MASTER_INACTIVE;
+> 			goto out_complete;
+> 		}
+> 	}
 > 
-> Andrew
+> Some master interrupt states were not handled under this situation.
+> The fake irq not equaled message would be filled into whole of demsg.
+> It's most like below example.
 > 
-> <p></p>
-> ===================================================================================================================================
-> This email and any attachments to it contain confidential information and are intended solely for the use of the individual to whom it is addressed. If you are not the 
+> ...
+> aspeed-i2c-bus 1e78a780. i2c-bus: irq handled != irq. expected 0x00000030, but was 0x00000020
+> aspeed-i2c-bus 1e78a780. i2c-bus: irq handled != irq. expected 0x00000030, but was 0x00000020
+> aspeed-i2c-bus 1e78a780. i2c-bus: irq handled != irq. expected 0x00000030, but was 0x00000020
+> ...
+> 
+> I thought the bus->cmd_err has been filled error reason and it would be returned to upper layer.
+> So, I didn't think the print should be existed.
 
-Sorry, we cannot work with confidential information.
+thanks! Can you please write a commit that explains better the
+fix you are doing?
 
+> > If that's the case, wouldn't it make more sense to check for
+> > bus->master_state != ASPEED_I2C_MASTER_INACTIVE) earlier?
+> 
+> Did you suggest to add "bus->master_state != ASPEED_I2C_MASTER_INACTIVE" judgement before print the irq not equal print?
 
-If you do not understand why, please also see:
-https://www.youtube.com/live/fMeH7wqOwXA?si=GY7igfbda6vnjXlJ&t=835
+no, not really, but nevermind, on a second look, what I'm
+suggesting doesn't make much sense.
 
-Best regards,
-Krzysztof
+If you want, please reword the commit message as reply to this
+e-mail and I will take care of it.
 
+> > And, still, If that's the case, I believe you might need the Fixes tag. It's true that
+> > you are not really failing, but you are not reporting a failure by mistake.
+
+Please, also consider adding the Fixes tag if you see it
+necessary; I think you should, but it's borderline.
+
+Andi
