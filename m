@@ -1,58 +1,114 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6831B85EE1C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 01:37:25 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7647285EE78
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 02:11:46 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=CmmEc1xT;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=mpblMqMu;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TgDk900Rzz3cnv
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 11:37:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TgFTr2fkjz3bsw
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 12:11:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=CmmEc1xT;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::726; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=tommy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20726.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::726])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TgDk30q5Sz3byT
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Feb 2024 11:37:14 +1100 (AEDT)
-Received: from [192.168.68.112] (ppp118-210-142-230.adl-adc-lon-bras33.tpg.internode.on.net [118.210.142.230])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 6CD8920075;
-	Thu, 22 Feb 2024 08:37:08 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1708562233;
-	bh=Tp6DArOflTs0IxRQ/vtC4XqHHWEiEpMTXjecUx41ktE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=CmmEc1xTLF/47r0FbvgXVMfG/s0UF5gFIXu0OQi+0aGHqpxv9o4fLPpjZt7unPgk9
-	 QjjYzFS9F9NpwaiyRJkfTCCRy0r3ebcPw2NdJ8midm71ShT/oFgQSugG5pHldiZrSs
-	 448/E0cB5PG1P5uUYW1Pwnbi4NNBPIIb1675kLOttyiSU0tqQX9EUX8xLksNBpvRhH
-	 5qzDXeTHTKEMj8zyLbfIqqCqFcp3m/NPW8611Gz89SxaUgJ88DWfSENa00b6U+CJg0
-	 FUP3rEezZXwhY+mbtulKfbHhMULDahRTmP623sTfJ2br6vHr/7djx5soQ3xxdeAR+b
-	 NVDF2j7A4rCsw==
-Message-ID: <0a828f2c50de712940fb9a881702ac1678a35b7c.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v1 10/14] serial: 8250_of: Switch to use
- uart_read_port_properties()
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-tegra@vger.kernel.org
-Date: Thu, 22 Feb 2024 11:07:05 +1030
-In-Reply-To: <20240221183442.4124354-11-andriy.shevchenko@linux.intel.com>
-References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
-	 <20240221183442.4124354-11-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TgFTT1dTTz30Pp;
+	Thu, 22 Feb 2024 12:11:04 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cWFP9k2eFNMEmFuUJugMNxSrFfrVZadNZ2TqNy+aA8A2x+fdh6+BtBQCMjJFKqSEYceaScrIv11bK0H5an6/LnkMjh8pmKZmLDu8s+4UWKQ23qXj66VeR2+v3ISIye2XNbNc4SwnjrdXSBs8ZnQNA8lb7AAXfuQVBcLcYw0w9ct/rJgXCcZRx4TfSnkthOln6zA+qV5QU1g+NrMNXrCPiGMGyE8qeEN9vEWVxcn1nBli5UrfrhSX8eiX6Ngd23kSRCPR+/SC0L/vyBi+tMbcVK9E8XkE7EqCZYbHCmYhVl1ww7/AvLXISzy2w8ofuzQv0z0aDHPlONEeO7SNeoJqiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TgSv/N9GYGctwQzkz4soPBAdJVH3d6F2hasa0gC1Q8s=;
+ b=E8fzcfiKv29MNEvy75hVmsP44R8JSD+1+kZwxZTIhhmSwLTh1EST3o1VHxyrZUJe0dCSvbqg3uDZp5dUmk3WvCfOnpzAcdBRENtSn0mcv8duiNqNc5p60XKB8UMBx5+PpZYigHdhy4mucsrXIB9Y0ymBQTedM+1boC72oYtcpadgRa0qNX0iEQmBXUZRcDIG0w92/ScNP96sAx4wrdnQbbspSRY8N9qcz5FY1ziTLdIc60EBe2Zcm1r4Qotu3FxVVhJlT0XGYBnSAoX/sPApU8lFoQjca7K8Xjy2DXLWq9+UWKtSDk7VgaNopG0KJ2IlLYVAOfDuKKpW6B4IYPV/bg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TgSv/N9GYGctwQzkz4soPBAdJVH3d6F2hasa0gC1Q8s=;
+ b=mpblMqMu0emOtyrBuik9lXJgPXJgK9nIZEV+0bL+akJSMk8Rb2lYjo0KMoKzFNEPgnhPTwVfcsLuay0ghI+9fnZK4zFvOssAl5jfI9//9GPx8NKOcmWFdEszrhN81nsq5JM2CGS9YuY/N28YWmfuSbbKCFuxgetHmWw/+QOw2eqR1HOgzzjDHGbb81wd8dC+LNeOszJAHyDefaMK95QW14sEAXpzL9LeyDySf/DcsL+litE4PpXV6Py3iKciebmJBxujcm0yjmZqFwtm5nEo2CxzrqvvWgQhJDZoDKwsCgkSWmug2tu7xxBSss3EwTmSMaMZWSd0n8M/IPccHNu65w==
+Received: from TYZPR06MB6191.apcprd06.prod.outlook.com (2603:1096:400:33d::12)
+ by TY0PR06MB5471.apcprd06.prod.outlook.com (2603:1096:400:265::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Thu, 22 Feb
+ 2024 01:10:40 +0000
+Received: from TYZPR06MB6191.apcprd06.prod.outlook.com
+ ([fe80::e10a:d9a2:5070:6903]) by TYZPR06MB6191.apcprd06.prod.outlook.com
+ ([fe80::e10a:d9a2:5070:6903%5]) with mapi id 15.20.7292.036; Thu, 22 Feb 2024
+ 01:10:39 +0000
+From: Tommy Huang <tommy_huang@aspeedtech.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Subject: RE: [PATCH] i2c: aspeed: Fix the dummy irq expected print
+Thread-Topic: [PATCH] i2c: aspeed: Fix the dummy irq expected print
+Thread-Index: AQHaYNBg0EEa3X7oHECRXZPcHJI3VbEVVFwAgAA4R6A=
+Date: Thu, 22 Feb 2024 01:10:39 +0000
+Message-ID:  <TYZPR06MB61911F076C8719C6A7D57B97E1562@TYZPR06MB6191.apcprd06.prod.outlook.com>
+References: <20240216120455.4138642-1-tommy_huang@aspeedtech.com>
+ <nbkkaktcozbhly44hii3zwie7ivsra3qxzdibyzhyhooxrudvb@zik6skmkki2c>
+In-Reply-To: <nbkkaktcozbhly44hii3zwie7ivsra3qxzdibyzhyhooxrudvb@zik6skmkki2c>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR06MB6191:EE_|TY0PR06MB5471:EE_
+x-ms-office365-filtering-correlation-id: d8820bd0-5a2c-42f3-ce93-08dc3343159c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  waqxLIgI1RWo/Ls2AmYPiPkv8mR8IT+xAd3wXM3MpIfIZfUVonYtOhSF812eqyT30/F8dce6SHqUKK/7O6/WDPTdty2fFAeZAYT/ItgRkYONav7MJHUkkdJxHpipEn82O4u4nFsb45Wwx9LTz1zswKHlQxoBQt/AMbwWGtRW8/QOkmoukJHYuC97KaNLJVMTsK0sXgBz1dLyF/gVlQd3J1rfWLbHKrWvlHTmFMSdmwD5uLA8xrY4BVwWm+oOBpmNmLuQRIOh7jIGxwnGHnZ4R5gZs0iuYsoITgem5PM4aYnt1hneEtQKLOyUStvLMqjKbpNG4fHXjBZOLFlIMOwClFKlf24kCqxtV0Gi2DXxiCCaOcmL65Mtb21BbAUKll0ugS7e+6W59bQCAjdiw8iClsAQZKxiyoeUrz68RdDem4FD7KmUBLj+x4rjPz2CoRvpz2m4w/lWcwwJhDmUFHLx13X8hq7qAfSusY4JaAdRRxxXI0eL5iGcWZjM+cmFxWLsQ0QgIWWJdVDat6LNPh8sUdoHr99W9iacSabSm02Br5YHLIrErH5UdZFj4qFG/BL58tW3grBK4Nj7zlKzhmH4Ny4w3tpg5UKdOowvbZEXu4pgbj149oMvBmIi+sD04XLG
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6191.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?f9HL50F3UvtPozuC8hLj4ns8McsfcLm5ovag2Dbd3Yx2SNqmya5g2DFZtyLk?=
+ =?us-ascii?Q?YZQzNhP284jTE1cY3Hn/8QvZ60GtorvPN2AWMid16fURcqYxbxJLuwjA9MM0?=
+ =?us-ascii?Q?q5DZpk2eW8nrDm8LD7g/i2kU3n/CPVqj0ZCxr4rbHacwonaVL3dvqtXhScKu?=
+ =?us-ascii?Q?uSVvxwkDleUCWpGtTPeM2Ih3LA3o23uGg5g4CDJ8mprAIAbf+6JJYYMqqkAP?=
+ =?us-ascii?Q?Vpk3VBruzgDVmbb/xwlKBu8F3oUVhLCYSQ9svgOBxj9GRaYFeUwneRIRPJlC?=
+ =?us-ascii?Q?pr7TYesmlkpCf5raHlj1jPqnDkzQWEOhJBuz/twzR405goYJWUOQck5+hLxn?=
+ =?us-ascii?Q?dylHHHe7DIsRVYNEXmq011TAPx5xWvQ0SIqGe+7cQuALXyIbdYhP5YN0h40E?=
+ =?us-ascii?Q?6mWPfkHPtW1U+Wgf7X7LElzSPBeAo0bkKMGObIvHDkjEMYB7cCwgU91cdOUI?=
+ =?us-ascii?Q?e2vLptTJhy+XaO/+MNEhSPL4bvYLnmHpmEPbQb16c2COBLaySsd7KxZAK4LE?=
+ =?us-ascii?Q?kg80TVd7aZ1dPTx3RqEbr6av+UD0L/i121fF8bB9a9rKNfPC4w4HGXmRDsNK?=
+ =?us-ascii?Q?gqncGgoJS0V13gXCfzExyDn+YEX4YNNom0THhw9Kjohsqoh0z3W3roUO561c?=
+ =?us-ascii?Q?hMgaKe2drH94MbAvulKBuHeYscT3/20A62F442q9ZqcdLsUVbwBsMzDqnMus?=
+ =?us-ascii?Q?1R6oD8D7aH9qatXBoaSlypAEn8S0e+Y2OH9knW/Gf8J7OELFCWNBIJ3PMNw1?=
+ =?us-ascii?Q?K7May5lz86jqeJpZoNLrFzgK8TOufIfEVa4YFOBFCuk11z2NCTNr9fQ94H6G?=
+ =?us-ascii?Q?fYd3yGA3R0e6TaB7EOT1XeeJdrmT1qGhDt6BzNAH20K9TrEwu0AYHPiAwytg?=
+ =?us-ascii?Q?GYiDYlYPrnL07oRnDRsbV/gdrBd+1e8W0+bAHFtJ2oPIlalj+LWFVZn/J26H?=
+ =?us-ascii?Q?q5hyn8pPvDG+vLVXve8mTVEPAJoQxze2r46YB2RiVb54mdy42GdU//2+aIgY?=
+ =?us-ascii?Q?kzy+aZQktr98PljOTLBmvgyfkqmvtUg3yYxnJvFWr8rfV02a4jsKtg5MEbUI?=
+ =?us-ascii?Q?q6eRbGhRHMn3aMKc0cg0xm179x4+VOlQ3ZbkI9MFde44kPj5eEygVTHKFu8N?=
+ =?us-ascii?Q?kc+s5e9mEDSJTlaBYlvpaw4Gr5oe5P7GJQo5eZxdfFMDG8y7UEur4H+vHirE?=
+ =?us-ascii?Q?WHuJuNW2s2+TDm9yHJSqter3NXj2R1h5NS7L9eFHq1EmYBMokQuTsvqW68fu?=
+ =?us-ascii?Q?mWE7yryxiU0n+NNn/A714idZ3rGxHztlHjak6y9bXTzVJHV0CdhqSD+GxPbw?=
+ =?us-ascii?Q?6TlFOwCB1bteLLx8X9m3MfdECZr4AUxgSOl16uYJf3DesLCYlHmEle6OiKwi?=
+ =?us-ascii?Q?Dja1U3CTJi+WU6UQWQuusI80n6/ZezSqunVIJlV8iDwlH4ZH0tWBG9P3slM/?=
+ =?us-ascii?Q?SJlGMjMtctoZNBNE8vl0xcg5bmEzB7rwRiL42FSnmfT7EeWMBnUh7HjE/SRT?=
+ =?us-ascii?Q?hL8eqLRtcmF4h6kOgmBiClA+GOdwSYuaEtRzE0vZkBKPjSFWrIX6plDvdqmM?=
+ =?us-ascii?Q?t8349FEgP1eC3k+u4QMFReXh4nBQ4qgk+C/IiKBoOHH8CjGFTpPMBPHzs9NS?=
+ =?us-ascii?Q?RQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6191.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8820bd0-5a2c-42f3-ce93-08dc3343159c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2024 01:10:39.8079
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fjlo6n68PIu8T6ZuEifCMasBn5ESt02J1FIhKXFzbRwF17Q4l2SUbyX/zgVjeonPzQqt3oW3XmkfsyFcdwPLmCAQKz0QzcxDaqwX8bG9uMw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5471
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,172 +120,111 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>, Al Cooper <alcooperx@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Vladimir Zapolskiy <vz@mleia.com>, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andi Shyti <andi.shyti@linux.intel.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Jonathan Hunter <jonathanh@nvidia.com>, Jiri Slaby <jirislaby@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>
+Cc: BMC-SW <BMC-SW@aspeedtech.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2024-02-21 at 20:31 +0200, Andy Shevchenko wrote:
-> Since we have now a common helper to read port properties
-> use it instead of sparse home grown solution.
+Hi Andy,
 
-I did some brief testing of the series for the Aspeed machines under
-qemu, building them on top of v6.8-rc5:
+	Thanks for your comment.
 
-export ARCH=3Darm
-export CROSS_COMPILE=3Darm-linux-gnueabihf-
-make aspeed_g5_defconfig
-make -j$(nproc)
-qemu-system-arm -M rainier-bmc -nographic -no-reboot -kernel arch/arm/boot/=
-zImage -dtb arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb -initrd ...
+> -----Original Message-----
+> From: Andi Shyti <andi.shyti@kernel.org>
+> Sent: Thursday, February 22, 2024 5:15 AM
+> To: Tommy Huang <tommy_huang@aspeedtech.com>
+> Cc: brendan.higgins@linux.dev; p.zabel@pengutronix.de;
+> linux-i2c@vger.kernel.org; openbmc@lists.ozlabs.org;
+> benh@kernel.crashing.org; joel@jms.id.au; andrew@aj.id.au;
+> linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org;
+> linux-kernel@vger.kernel.org; BMC-SW <BMC-SW@aspeedtech.com>
+> Subject: Re: [PATCH] i2c: aspeed: Fix the dummy irq expected print
+>=20
+> Hi Tommy,
+>=20
+> On Fri, Feb 16, 2024 at 08:04:55PM +0800, Tommy Huang wrote:
+> > When the i2c error condition occurred and master state was not idle,
+> > the master irq function will goto complete state without any other
+> > interrupt handling. It would cause dummy irq expected print. Under
+> > this condition, assign the irq_status into irq_handle.
+>=20
+> I'm sorry, but I don't understand much from your log here.
+>=20
+> Do you mean that irq_handled in aspeed_i2c_master_irq() is left with some
+> states that is not supposed to have and then you end up printing here:
+>=20
+> 	dev_err(bus->dev,
+> 		"irq handled !=3D irq. expected 0x%08x, but was 0x%08x\n",
+> 		irq_received, irq_handled);
+>=20
+> Can you please explain better?
+>=20
 
-I got an oops during boot, which bisected to this change:
+Yes. If the platform met any irq error condition and the i2c wasn't stated =
+under ASPEED_I2C_MASTER_INACTIVE.
+Then the code flow would goto the end of aspeed_i2c_master_irq.
 
-[    0.314946] 8<--- cut here ---
-[    0.315051] Unable to handle kernel paging request at virtual address fe=
-e00000 when write
-[    0.315201] [fee00000] *pgd=3D00000000
-[    0.315593] Internal error: Oops: 805 [#1] SMP ARM
-[    0.315847] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 6.8.0-rc5-00010-g8=
-a2c8fe174cf #13
-[    0.316071] Hardware name: Generic DT based system
-[    0.316216] PC is at io_serial_out+0x18/0x20
-[    0.316677] LR is at serial8250_do_set_mctrl+0x54/0x90
-[    0.316781] pc : [<8060eea8>]    lr : [<806108b0>]    psr: 40000093
-[    0.316891] sp : bf815b08  ip : 00000000  fp : 00000026
-[    0.316987] r10: 81698240  r9 : 40000013  r8 : 81cae600
-[    0.317087] r7 : 81d7d1a8  r6 : 81d7d110  r5 : 81008158  r4 : 00000000
-[    0.317197] r3 : fee00000  r2 : 00000000  r1 : 00000004  r0 : 81008158
-[    0.317350] Flags: nZcv  IRQs off  FIQs on  Mode SVC_32  ISA ARM  Segmen=
-t none
-[    0.317471] Control: 10c5387d  Table: 8000406a  DAC: 00000051
-[    0.317593] Register r0 information: non-slab/vmalloc memory
-[    0.317892] Register r1 information: non-paged memory
-[    0.317996] Register r2 information: NULL pointer
-[    0.318080] Register r3 information: vmalloc memory
-[    0.318176] Register r4 information: NULL pointer
-[    0.318264] Register r5 information: non-slab/vmalloc memory
-[    0.318362] Register r6 information: slab kmalloc-2k start 81d7d000 poin=
-ter offset 272 size 2048
-[    0.318701] Register r7 information: slab kmalloc-2k start 81d7d000 poin=
-ter offset 424 size 2048
-[    0.318860] Register r8 information: slab kmalloc-512 start 81cae600 poi=
-nter offset 0 size 512
-[    0.319095] Register r9 information: non-paged memory
-[    0.319194] Register r10 information: slab kmalloc-64 start 81698240 poi=
-nter offset 0 size 64
-[    0.319266] Freeing initrd memory: 13684K
-[    0.319384] Register r11 information: non-paged memory
-[    0.319593] Register r12 information: NULL pointer
-[    0.319703] Process swapper/0 (pid: 1, stack limit =3D 0x(ptrval))
-[    0.320006] Stack: (0xbf815b08 to 0xbf816000)
-[    0.320157] 5b00:                   81008158 80f85a88 81d7d110 8060cb78 =
-bf815b34 00000026
-[    0.320313] 5b20: 0016e360 80cba110 81e65e80 80cfcdf4 00000003 204f2f49 =
-00307830 00000000
-[    0.320457] 5b40: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.320600] 5b60: 00000000 00000000 00000000 00000000 00000000 ed1677db =
-81008158 81008158
-[    0.320744] 5b80: bf815c00 81e5c5c0 81008304 81007f58 bf815d2c bf815dac =
-00000000 8060e1f4
-[    0.320890] 5ba0: 80cba4ec 8081e2c4 bf815dfc 00000001 00000000 81cf5400 =
-81cf5410 81e65e00
-[    0.321030] 5bc0: 00000004 00000000 00000001 80616538 00000000 00000000 =
-00000000 00000000
-[    0.321176] 5be0: 1e784000 1e784fff bd7c1a94 00000200 00000000 00000000 =
-00000000 00000000
-[    0.321325] 5c00: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.321469] 5c20: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.321624] 5c40: 00000000 00000000 8060fb34 00000000 00000000 00000000 =
-00000026 00000000
-[    0.321777] 5c60: 016e3600 00000000 00000200 00000000 00000000 00000000 =
-00000000 00000000
-[    0.321920] 5c80: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.322063] 5ca0: 00000000 00000000 b9000040 00000000 00000000 00000000 =
-00000000 00000000
-[    0.322204] 5cc0: 00000004 00000000 00000000 00000004 00000000 1e784000 =
-00001000 81cf5410
-[    0.322347] 5ce0: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.322492] 5d00: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000037
-[    0.322640] 5d20: 00000001 00000001 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.322800] 5d40: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.322957] 5d60: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.323114] 5d80: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.323271] 5da0: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.323422] 5dc0: 00000000 00000000 806111c8 80610eb4 00000000 00000000 =
-00000000 00000000
-[    0.323573] 5de0: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.323723] 5e00: 00000000 ed1677db 00000000 81cf5410 80f85cf8 00000000 =
-00000000 81e5c638
-[    0.323878] 5e20: 80e66f48 8067f888 81cf5410 00000000 80f85cf8 00000000 =
-00000000 8067ca08
-[    0.324029] 5e40: 81cf5410 00000000 81cf5410 81cf5410 80f85cf8 81cf5454 =
-81cf5410 8067cda8
-[    0.324181] 5e60: 60000013 81e5c638 81008d4c 81008d54 81cf5454 81cf5410 =
-00000000 8067cf3c
-[    0.324337] 5e80: 81cf5410 80f85cf8 81cf5454 814cec00 00000000 8067d21c =
-00000000 80f85cf8
-[    0.324494] 5ea0: 8067d11c 8067aa04 814cec00 814cec58 816a4bb4 ed1677db =
-814cec00 81e5c600
-[    0.324646] 5ec0: 00000000 80f85cf8 814cec00 8067bc6c 80cba524 00000000 =
-00000006 80f85cf8
-[    0.324795] 5ee0: 8158b480 00000006 bf815f14 00000000 80d19438 8067e284 =
-80e221c4 8158b480
-[    0.324945] 5f00: 00000006 80e01414 80d2d3b0 000000db 8173ad17 00000000 =
-00000000 00000000
-[    0.325096] 5f20: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.325247] 5f40: 00000000 00000000 00000000 00000000 00000000 ed1677db =
-8173ad00 00000020
-[    0.325403] 5f60: 00000006 80e3b83c 80e3b860 80e01750 00000006 00000006 =
-00000000 80e004f8
-[    0.325553] 5f80: 80f05cc0 80a50e18 00000000 00000000 00000000 00000000 =
-00000000 80a50e34
-[    0.325699] 5fa0: 00000000 80a50e18 00000000 8010016c 00000000 00000000 =
-00000000 00000000
-[    0.325848] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.325995] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000 =
-00000000 00000000
-[    0.326531]  io_serial_out from serial8250_do_set_mctrl+0x54/0x90
-[    0.326761]  serial8250_do_set_mctrl from serial_core_register_port+0x4c=
-4/0x694
-[    0.326917]  serial_core_register_port from serial8250_register_8250_por=
-t+0x310/0x4bc
-[    0.327063]  serial8250_register_8250_port from of_platform_serial_probe=
-+0x300/0x45c
-[    0.327242]  of_platform_serial_probe from platform_probe+0x60/0xb8
-[    0.327367]  platform_probe from really_probe+0xd4/0x3e4
-[    0.327471]  really_probe from __driver_probe_device+0x90/0x1ec
-[    0.327568]  __driver_probe_device from driver_probe_device+0x38/0xd0
-[    0.327674]  driver_probe_device from __driver_attach+0x100/0x1dc
-[    0.327793]  __driver_attach from bus_for_each_dev+0x84/0xd4
-[    0.327906]  bus_for_each_dev from bus_add_driver+0xec/0x1f0
-[    0.328015]  bus_add_driver from driver_register+0x84/0x11c
-[    0.328126]  driver_register from do_one_initcall+0x84/0x1c8
-[    0.328297]  do_one_initcall from kernel_init_freeable+0x19c/0x22c
-[    0.328419]  kernel_init_freeable from kernel_init+0x1c/0x138
-[    0.328534]  kernel_init from ret_from_fork+0x14/0x28
-[    0.328656] Exception stack(0xbf815fb0 to 0xbf815ff8)
-[    0.328755] 5fa0:                                     00000000 00000000 =
-00000000 00000000
-[    0.328901] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    0.329112] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[    0.329413] Code: e3a03000 ee073f9a e2433612 e6ef2072 (e5c32000)
-[    0.329824] ---[ end trace 0000000000000000 ]---
-[    0.336692] Kernel panic - not syncing: Fatal exception
+	ret =3D aspeed_i2c_is_irq_error(irq_status);
+	if (ret) {
+		...
+		irq_handled |=3D (irq_status & ASPEED_I2CD_INTR_MASTER_ERRORS);
+		if (bus->master_state !=3D ASPEED_I2C_MASTER_INACTIVE) {
+			bus->cmd_err =3D ret;
+			bus->master_state =3D ASPEED_I2C_MASTER_INACTIVE;
+			goto out_complete;
+		}
+	}
 
-Andrew
+Some master interrupt states were not handled under this situation.
+The fake irq not equaled message would be filled into whole of demsg.
+It's most like below example.
 
+...
+aspeed-i2c-bus 1e78a780. i2c-bus: irq handled !=3D irq. expected 0x00000030=
+, but was 0x00000020
+aspeed-i2c-bus 1e78a780. i2c-bus: irq handled !=3D irq. expected 0x00000030=
+, but was 0x00000020
+aspeed-i2c-bus 1e78a780. i2c-bus: irq handled !=3D irq. expected 0x00000030=
+, but was 0x00000020
+...
+
+I thought the bus->cmd_err has been filled error reason and it would be ret=
+urned to upper layer.
+So, I didn't think the print should be existed.
+
+> If that's the case, wouldn't it make more sense to check for
+> bus->master_state !=3D ASPEED_I2C_MASTER_INACTIVE) earlier?
+>=20
+
+Did you suggest to add "bus->master_state !=3D ASPEED_I2C_MASTER_INACTIVE" =
+judgement before print the irq not equal print?
+
+> And, still, If that's the case, I believe you might need the Fixes tag. I=
+t's true that
+> you are not really failing, but you are not reporting a failure by mistak=
+e.
+>=20
+> Thanks,
+> Andi
+>=20
+> > Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
+> > ---
+> >  drivers/i2c/busses/i2c-aspeed.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/i2c/busses/i2c-aspeed.c
+> > b/drivers/i2c/busses/i2c-aspeed.c index 5511fd46a65e..ce8c4846b7fa
+> > 100644
+> > --- a/drivers/i2c/busses/i2c-aspeed.c
+> > +++ b/drivers/i2c/busses/i2c-aspeed.c
+> > @@ -445,6 +445,7 @@ static u32 aspeed_i2c_master_irq(struct
+> aspeed_i2c_bus *bus, u32 irq_status)
+> >  			irq_status);
+> >  		irq_handled |=3D (irq_status & ASPEED_I2CD_INTR_MASTER_ERRORS);
+> >  		if (bus->master_state !=3D ASPEED_I2C_MASTER_INACTIVE) {
+> > +			irq_handled =3D irq_status;
+> >  			bus->cmd_err =3D ret;
+> >  			bus->master_state =3D ASPEED_I2C_MASTER_INACTIVE;
+> >  			goto out_complete;
+> > --
+> > 2.25.1
+> >
