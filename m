@@ -2,65 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D7085FF90
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 18:39:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4988A86034E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 20:55:16 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=TDJmeV2o;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=HWaxfdcU;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TggPX09rKz3dWS
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Feb 2024 04:39:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TgkQ85Pdmz3dXC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Feb 2024 06:55:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=TDJmeV2o;
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=HWaxfdcU;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::431; helo=mail-pf1-x431.google.com; envelope-from=florian.fainelli@broadcom.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::734; helo=mail-qk1-x734.google.com; envelope-from=florian.fainelli@broadcom.com; receiver=lists.ozlabs.org)
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TggPP3SkGz2yk8
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Feb 2024 04:39:17 +1100 (AEDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6e435542d41so3468587b3a.1
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Feb 2024 09:39:17 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TgkPz6bNwz3bNs
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Feb 2024 06:54:59 +1100 (AEDT)
+Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-787a2a14d9cso4696685a.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Feb 2024 11:54:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1708623552; x=1709228352; darn=lists.ozlabs.org;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
+        d=broadcom.com; s=google; t=1708631695; x=1709236495; darn=lists.ozlabs.org;
+        h=in-reply-to:autocrypt:references:cc:to:from:subject:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=de7KCNiI+E4YiNMnAJGMRdMrS60UIyiDPBUVAY8tVDs=;
-        b=TDJmeV2ovX9R/RY57cR7tfBRMIQYbsEsIISJHZ12orJUnBwoSIKCYK7YGu/Nr1wdo8
-         sPkqv+Pxd6JTHtq0UJ0nav0ZEyAP+7hHYYQC6tOutq/Q2uM8MmRYhljZPGCrWccB6bmz
-         thsyPbn2ffg0LE2+Nxd/DimJy75kByKWl8Rmg=
+        bh=JwW4ebfFBazZbfz6/TjyirUZAnI16Y0eCbxnkWgJ8wk=;
+        b=HWaxfdcUT3/40B57HtAM/kav5jWVzQHJ2ueRmLoJDUJhjqeccA1BhM+bl/B83MwszP
+         UR8hst4OlB6JsWcRdap2509S7U1FCF5AKCHGXATU/Hw36La4ontH5LOsNx+n4e6xx9ye
+         VtWDjX6U6ERcFa/itEw94v50wha4GvwGewv3s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708623552; x=1709228352;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
+        d=1e100.net; s=20230601; t=1708631695; x=1709236495;
+        h=in-reply-to:autocrypt:references:cc:to:from:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=de7KCNiI+E4YiNMnAJGMRdMrS60UIyiDPBUVAY8tVDs=;
-        b=OVEIrxcqLY2mBbK8B7sCTEljCOCLD8awbWlAHVy7+mGymLgbRpkA4tT4BwwLHoG1cd
-         ZVEOpg/7G0MRBIhDAQI0UtB4iHesjQ5uZcAhocmcU2/fIDPhkIAdUXvvALIBTQeUpWaU
-         LjciThxXfPXQGq33zs0CKVFjnzxTWKGjsJGclmI03TuhKrpCZLtgxG25OWSydMKaAMoe
-         x+1xi+3l7Zytz/f9uDBlKEkk49blvpjohyWwcTR4vFaKJwB8QCnWB2g96q852HJCyXJ8
-         RPlREQNYd5vezVsOcCU+5fjS0H6kQ6YM9LzLKb7am89kfV9KfAAMPBu7CrlvAsL/bhJK
-         j9Ww==
-X-Forwarded-Encrypted: i=1; AJvYcCVHMcXnv1RvGYBoChCqNYyisvwh3INzadR+dIynsF3b0HWRJTGSR12APaK8Q/qckIWvk7Xhc7jIt+s9u+VEN1bF8OM6ZcosbnNTOmy8yQ==
-X-Gm-Message-State: AOJu0Yy4BQKnHet1JjcNA2b6w1fP/SgMTTaZ/KZdtoUyOx9utN4+lB+Y
-	80m5TAoMHIt9UKZjYw9TzR4XGMZKDxdCniqP1aLQ9QoY9A46jPt/bK7VdW/pog==
-X-Google-Smtp-Source: AGHT+IEbjgQpsX3eY+Hkb05waAD9L6tnVKUQ83TsLtgdBmsSihLgzLKmnVUUjkbCGFyqHSVFt5Dc4A==
-X-Received: by 2002:aa7:864d:0:b0:6e3:9176:5c2c with SMTP id a13-20020aa7864d000000b006e391765c2cmr12870182pfo.0.1708623552110;
-        Thu, 22 Feb 2024 09:39:12 -0800 (PST)
+        bh=JwW4ebfFBazZbfz6/TjyirUZAnI16Y0eCbxnkWgJ8wk=;
+        b=OiZTIIpE++OcyRuiHukqkXiYZA73QtQ+KMN32dO6iy49Sz2WOtoT2hnjH9Q5YngM5j
+         8XRbc3wGY3Ere1vmpzkJ5cF3cll0fZil63bjtAXHA/eoINqZQ0MENvu0/w+pBpO1q7id
+         0eSwNXGku4c6jSlC0MywvP4pR9kFh05rA5vreucc3ovL/RYQtdCEnxG4rX1fJFYs2IW4
+         UJ2CrB+rE7FPxazydUCb44m/9nvBysW7VK9gELKEB9eGGhTkJlHN+mSAWKxj4oc/D+kF
+         W0+1QPqbJFPvJby+eXQBZAAhmMPSGJ40uqSIGmHeDKrUjc0o5GqcQB4zD4zBOfo2aj1g
+         QtFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2ZDmkNP/G46elNHweWNnGe1UFfXL+aeARvTBFOGZ6P8vU9Yp2q4xKzYDEcN6uIrUZl5krnLJSBGaqUMJo5byFLsgYv1urWiDdQ+I4+A==
+X-Gm-Message-State: AOJu0Yz0eUNw7x2QIiyP40tl2vBCSql+5veL/RXz+YX/a18p5TAJMhvt
+	9oc5h4CaqP8I9uyZlF1yu+woxHSN0XK2xe3moIroP3oImewX3iqNv7Jt0U4Vcw==
+X-Google-Smtp-Source: AGHT+IG+02QW+qSSWAfjP4Uo/K7FcJoXi4dz8dc67dCLdJEgoxZW8p1RnFAR5+Smi7h+fcujupYPHw==
+X-Received: by 2002:a05:620a:1124:b0:787:1571:1ff8 with SMTP id p4-20020a05620a112400b0078715711ff8mr47062qkk.53.1708631695360;
+        Thu, 22 Feb 2024 11:54:55 -0800 (PST)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id z1-20020a63ac41000000b005d880b41598sm10701437pgn.94.2024.02.22.09.39.07
+        by smtp.gmail.com with ESMTPSA id bl5-20020a05620a1a8500b007879e6fea9fsm892629qkb.14.2024.02.22.11.54.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Feb 2024 09:39:10 -0800 (PST)
-Message-ID: <e5fd9d8b-84eb-4ef9-82ab-ff4ecc41c0d5@broadcom.com>
-Date: Thu, 22 Feb 2024 09:39:06 -0800
+        Thu, 22 Feb 2024 11:54:52 -0800 (PST)
+Message-ID: <ad91eec0-39da-4b9c-8da7-f1e98bb4565b@broadcom.com>
+Date: Thu, 22 Feb 2024 11:54:46 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 10/14] serial: 8250_of: Switch to use
  uart_read_port_properties()
+From: Florian Fainelli <florian.fainelli@broadcom.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Andrew Jeffery <andrew@codeconstruct.com.au>
 References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
@@ -68,7 +69,7 @@ References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
  <0a828f2c50de712940fb9a881702ac1678a35b7c.camel@codeconstruct.com.au>
  <ZddKzHplwOX7naLv@smile.fi.intel.com> <Zdd5m2xIPlGI0_Qv@smile.fi.intel.com>
  <Zdd6lnXwvpPPUhRR@smile.fi.intel.com>
-From: Florian Fainelli <florian.fainelli@broadcom.com>
+ <e5fd9d8b-84eb-4ef9-82ab-ff4ecc41c0d5@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
  M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
@@ -101,9 +102,9 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <Zdd6lnXwvpPPUhRR@smile.fi.intel.com>
+In-Reply-To: <e5fd9d8b-84eb-4ef9-82ab-ff4ecc41c0d5@broadcom.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000e7e5790611fbeb34"
+	boundary="00000000000046d3400611fdd1bc"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,55 +120,62 @@ Cc: linux-aspeed@lists.ozlabs.org, Al Cooper <alcooperx@gmail.com>, linux-mips@v
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---000000000000e7e5790611fbeb34
+--00000000000046d3400611fdd1bc
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/22/24 08:47, Andy Shevchenko wrote:
-> On Thu, Feb 22, 2024 at 06:43:08PM +0200, Andy Shevchenko wrote:
->> On Thu, Feb 22, 2024 at 03:23:24PM +0200, Andy Shevchenko wrote:
->>> On Thu, Feb 22, 2024 at 11:07:05AM +1030, Andrew Jeffery wrote:
->>>> On Wed, 2024-02-21 at 20:31 +0200, Andy Shevchenko wrote:
->>>>> Since we have now a common helper to read port properties
->>>>> use it instead of sparse home grown solution.
+On 2/22/24 09:39, Florian Fainelli wrote:
+> On 2/22/24 08:47, Andy Shevchenko wrote:
+>> On Thu, Feb 22, 2024 at 06:43:08PM +0200, Andy Shevchenko wrote:
+>>> On Thu, Feb 22, 2024 at 03:23:24PM +0200, Andy Shevchenko wrote:
+>>>> On Thu, Feb 22, 2024 at 11:07:05AM +1030, Andrew Jeffery wrote:
+>>>>> On Wed, 2024-02-21 at 20:31 +0200, Andy Shevchenko wrote:
+>>>>>> Since we have now a common helper to read port properties
+>>>>>> use it instead of sparse home grown solution.
+>>>>>
+>>>>> I did some brief testing of the series for the Aspeed machines under
+>>>>> qemu, building them on top of v6.8-rc5:
+>>>>>
+>>>>> export ARCH=arm
+>>>>> export CROSS_COMPILE=arm-linux-gnueabihf-
+>>>>> make aspeed_g5_defconfig
+>>>>> make -j$(nproc)
+>>>>> qemu-system-arm -M rainier-bmc -nographic -no-reboot -kernel 
+>>>>> arch/arm/boot/zImage -dtb 
+>>>>> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb -initrd ...
+>>>>>
+>>>>> I got an oops during boot, which bisected to this change:
 >>>>
->>>> I did some brief testing of the series for the Aspeed machines under
->>>> qemu, building them on top of v6.8-rc5:
->>>>
->>>> export ARCH=arm
->>>> export CROSS_COMPILE=arm-linux-gnueabihf-
->>>> make aspeed_g5_defconfig
->>>> make -j$(nproc)
->>>> qemu-system-arm -M rainier-bmc -nographic -no-reboot -kernel arch/arm/boot/zImage -dtb arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb -initrd ...
->>>>
->>>> I got an oops during boot, which bisected to this change:
+>>>> Thank you for prompt testing! I will look at it.
 >>>
->>> Thank you for prompt testing! I will look at it.
+>>> I found the issue, will be fixed in next version.
 >>
->> I found the issue, will be fixed in next version.
+>> Whoever is going to test this series, the
+>>
+>> -        port->iotype = use_defaults ? UPIO_MEM : port->iotype;
+>> +        port->iotype = UPIO_MEM;
+>>
+>> should be applied to uart_read_port_properties() implementation.
+>>
 > 
-> Whoever is going to test this series, the
+> Thanks, on 8250_bcm7271.c with the above hunk applied, I did not spot 
+> any differences between the values returned by stty or a cat 
+> /sys/class/tty/ttyS0/* before or after, the console remained fully 
+> functional. I will see if I can run an additional test where I removed 
+> the DT's "clocks" property and confirm that the fall back to 
+> "clock-frequency" works.
 > 
-> -		port->iotype = use_defaults ? UPIO_MEM : port->iotype;
-> +		port->iotype = UPIO_MEM;
-> 
-> should be applied to uart_read_port_properties() implementation.
-> 
+> Thanks Andy!
 
-Thanks, on 8250_bcm7271.c with the above hunk applied, I did not spot 
-any differences between the values returned by stty or a cat 
-/sys/class/tty/ttyS0/* before or after, the console remained fully 
-functional. I will see if I can run an additional test where I removed 
-the DT's "clocks" property and confirm that the fall back to 
-"clock-frequency" works.
-
-Thanks Andy!
+Also appears to work properly on a Raspberry Pi 4 with the console using 
+the bcm2835-aux driver, will provide Tested-by tags on the next 
+submission, thanks!
 -- 
 Florian
 
 
---000000000000e7e5790611fbeb34
+--00000000000046d3400611fdd1bc
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -238,14 +246,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIOvdhbC0f9bdBKDd
-nSsfq8nfBYeoIlbNLSfBdp/XckuAMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDIyMjE3MzkxMlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIIrCd38u/oVscFAk
+fpw+Yp/ecbqnJ7cSOMWoDk2QBR7jMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDIyMjE5NTQ1NVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQDzaNg3x1GgqfWcmgwE4YdhBtB+jfOo1h92
-ge9P9fpGU477OGyF8xlL24P8bTU5Ok3+xnqsfvCA6mbdIkaQ8a58fMj3Y2B9ixyeF1oySHLJXgZI
-cfY0K8oQbahZP7mOXseSy0FdQEbdp3Q6cMKXYDfKBHwOVAc52JOgDUyAfAV20o1i6sYqxaoG1UfC
-XxF3MVVoV2XIGPsr9QoJOa7g89OHbd9CImz40fmAtEoH4mYhYHGxWcmeINmy5XE6SPMrivI2258U
-Q+UDww04Q93MAMH0DE0LN3EPSDYLO6hm9I9AhLyBl2RpLWfzIyQzPjSQzxisr+GQ8B4kBamIDnS8
-I1z3
---000000000000e7e5790611fbeb34--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAT7pkvO4yFP+2tyXNfIDklnHDJSIXVP9U8
+9s8a5pzyL0iXM+bVInLBMsNX4O1oD6vpi5LC82oJxc6VMTab+H/AtSvLYg/Ydot62HUXUX+Epuyp
+caucTG4rQNl6lJlq1U9bfHIw6rOojpmG/KjnGGPIVvd4H7ZuD3WWXXy92t4MezuVQm2j5WW0dBM/
+lJEX51xnPcP3Dq9ZE3Sg84vlHh1UMEk4WlZ+uKS4K95m5qubao+XuhT+TAl7RVnQq3bkJMyAK0FY
+8pGd8NksNWE7iknQOxkl2B9lOBE5JenTOkkpn2FlGWjcVp0A1JMnx3pJTd1enOch9hKM/QMrX8Os
+AOo8
+--00000000000046d3400611fdd1bc--
