@@ -2,72 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBED861514
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Feb 2024 16:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62410861C29
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Feb 2024 19:51:48 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FwaxGmGn;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ezUa7WaV;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ThCvP5KD4z3vY1
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Feb 2024 02:03:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ThJyV1qQlz3vXt
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Feb 2024 05:51:46 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FwaxGmGn;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ezUa7WaV;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=198.175.65.15; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ThCvH6tVNz3dVx
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 24 Feb 2024 02:03:39 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708700620; x=1740236620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XJ4uK049YbYNUUHoL7aPqziogI3mOCKCzfvXZt0+OhQ=;
-  b=FwaxGmGnrS015iq4ia3WxqqZJc3JuTmh+fKqIguZAaL3NHIdj1sHlvcH
-   nHj5aQxzuSzdLTjeeY9VHxmoR/QKIPldsa2BWbaYf9336ZupJlpB7pw/y
-   pwY2i1j8X694OOhLFfZKsOn4e3AJlUnqbkhnEXbUgNWtsN+Npqvjsk/Ak
-   Ql02VkicGqy2d3zfW4V7aQFjoV8Z0/XkF/dhV0WCdCQ5MELii8yGwwEw+
-   CNJrfko65utxmzIXkyHtcNLylDkzrA+ZhNLJvQM3f9qTkykfTiDOK4A8n
-   nQtMN4kmw3HZGx/6tTS2jVgKW8fuBn14Ab78udz59yn1QeXas/n0DBRzl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6833943"
-X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="6833943"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 07:02:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="913748390"
-X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="913748390"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 07:02:33 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rdX4H-00000006vhH-3v03;
-	Fri, 23 Feb 2024 17:02:29 +0200
-Date: Fri, 23 Feb 2024 17:02:29 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: Re: [PATCH v1 10/14] serial: 8250_of: Switch to use
- uart_read_port_properties()
-Message-ID: <ZdizhVPfwFp72ioI@smile.fi.intel.com>
-References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
- <20240221183442.4124354-11-andriy.shevchenko@linux.intel.com>
- <0a828f2c50de712940fb9a881702ac1678a35b7c.camel@codeconstruct.com.au>
- <ZddKzHplwOX7naLv@smile.fi.intel.com>
- <Zdd5m2xIPlGI0_Qv@smile.fi.intel.com>
- <Zdd6lnXwvpPPUhRR@smile.fi.intel.com>
- <e5fd9d8b-84eb-4ef9-82ab-ff4ecc41c0d5@broadcom.com>
- <ad91eec0-39da-4b9c-8da7-f1e98bb4565b@broadcom.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ThJyN21xFz3dW7;
+	Sat, 24 Feb 2024 05:51:40 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 1E8D3CE2E1B;
+	Fri, 23 Feb 2024 18:51:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6557C433F1;
+	Fri, 23 Feb 2024 18:51:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708714296;
+	bh=FO7BdQ8U8hk1Y0sbXcP0MfCgm4tIizQxDb2XU/U2g4M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ezUa7WaVWWaEBWN4K67za3YyrYXeUmASX5LyFjacCmS+ub+3SXmzngSPhhuh00jGj
+	 GGf3WcSfOgXD2wQOHB+kKn+7uIv1+ByU5MLkk5jq0Udl71uNjtuqhMSEq+0Ny88rdy
+	 vu7eYxQW6IsuqaBBjmyCx78eYD3aW8EbYiT+7uEGTpHSJQToEPl00iqq+3PEngvwbh
+	 WcCC44Ls7rMZBGW3Za3U9aJsKbnyI9nPluVuAxIXCKPWhF11BUBVHXgQJiFOy0C3qv
+	 1709HCmYwxmCfINroI8cXo3ZNlsgfYi9ayQkobUGG1jB+MIXd5h0f5vwcB06hFsFJZ
+	 IBhyY4YIPGUBA==
+Date: Fri, 23 Feb 2024 18:51:31 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Kelly =?utf-8?B?SHVuZyjmtKrlmInojokp?= <Kelly_Hung@asus.com>
+Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: add ASUS X4TF board
+Message-ID: <20240223-sprang-rework-4b0fb07ccc98@spud>
+References: <20240222085914.1218037-1-Kelly_Hung@asus.com>
+ <20240222-getting-nebulizer-8f75ba8063b1@spud>
+ <TYZPR04MB6596ED7F905CB53191F48A289D552@TYZPR04MB6596.apcprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ryaepkQT1Q7qbbw9"
 Content-Disposition: inline
-In-Reply-To: <ad91eec0-39da-4b9c-8da7-f1e98bb4565b@broadcom.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <TYZPR04MB6596ED7F905CB53191F48A289D552@TYZPR04MB6596.apcprd04.prod.outlook.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,31 +61,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Al Cooper <alcooperx@gmail.com>, linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Jonathan Hunter <jonathanh@nvidia.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-serial@vger.kernel.org, Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Andi Shyti <andi.shyti@linux.intel.com>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, Kelly Hung <ppighouse@gmail.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, AllenYY =?utf-8?B?SHN1KOioseW5vOWysyk=?= <AllenYY_Hsu@asus.com>, "andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Feb 22, 2024 at 11:54:46AM -0800, Florian Fainelli wrote:
-> On 2/22/24 09:39, Florian Fainelli wrote:
-> > On 2/22/24 08:47, Andy Shevchenko wrote:
 
-...
+--ryaepkQT1Q7qbbw9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> > Thanks, on 8250_bcm7271.c with the above hunk applied, I did not spot
-> > any differences between the values returned by stty or a cat
-> > /sys/class/tty/ttyS0/* before or after, the console remained fully
-> > functional. I will see if I can run an additional test where I removed
-> > the DT's "clocks" property and confirm that the fall back to
-> > "clock-frequency" works.
-> 
-> Also appears to work properly on a Raspberry Pi 4 with the console using the
-> bcm2835-aux driver, will provide Tested-by tags on the next submission,
-> thanks!
+I have no idea what his email is meant to mean, it just looks like a
+copy of your original patch. That said, you have a footer about the mail
+contents of being confidential, so please fix that too.
 
-Thank you for prompt testing on real HW!
+Thanks,
+Conor.
 
--- 
-With Best Regards,
-Andy Shevchenko
+--ryaepkQT1Q7qbbw9
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZdjpMwAKCRB4tDGHoIJi
+0qaFAQD5taRnu/02nJkNtw7fgfQfgtOsbXKXvPhgWUxdfZVWxAD+LF4RgECksW1C
+QZifqbegVd+Ek4Jw/1lWJUwbT+vW+gM=
+=dc6a
+-----END PGP SIGNATURE-----
+
+--ryaepkQT1Q7qbbw9--
