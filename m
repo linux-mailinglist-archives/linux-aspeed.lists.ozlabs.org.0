@@ -2,109 +2,118 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4988A86034E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Feb 2024 20:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B957860993
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Feb 2024 04:50:15 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=HWaxfdcU;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=q69aQJku;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TgkQ85Pdmz3dXC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Feb 2024 06:55:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tgwy96wgKz3dXB
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Feb 2024 14:50:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=HWaxfdcU;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=q69aQJku;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::734; helo=mail-qk1-x734.google.com; envelope-from=florian.fainelli@broadcom.com; receiver=lists.ozlabs.org)
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::703; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=tommy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20703.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::703])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TgkPz6bNwz3bNs
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Feb 2024 06:54:59 +1100 (AEDT)
-Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-787a2a14d9cso4696685a.2
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Feb 2024 11:54:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1708631695; x=1709236495; darn=lists.ozlabs.org;
-        h=in-reply-to:autocrypt:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JwW4ebfFBazZbfz6/TjyirUZAnI16Y0eCbxnkWgJ8wk=;
-        b=HWaxfdcUT3/40B57HtAM/kav5jWVzQHJ2ueRmLoJDUJhjqeccA1BhM+bl/B83MwszP
-         UR8hst4OlB6JsWcRdap2509S7U1FCF5AKCHGXATU/Hw36La4ontH5LOsNx+n4e6xx9ye
-         VtWDjX6U6ERcFa/itEw94v50wha4GvwGewv3s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708631695; x=1709236495;
-        h=in-reply-to:autocrypt:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JwW4ebfFBazZbfz6/TjyirUZAnI16Y0eCbxnkWgJ8wk=;
-        b=OiZTIIpE++OcyRuiHukqkXiYZA73QtQ+KMN32dO6iy49Sz2WOtoT2hnjH9Q5YngM5j
-         8XRbc3wGY3Ere1vmpzkJ5cF3cll0fZil63bjtAXHA/eoINqZQ0MENvu0/w+pBpO1q7id
-         0eSwNXGku4c6jSlC0MywvP4pR9kFh05rA5vreucc3ovL/RYQtdCEnxG4rX1fJFYs2IW4
-         UJ2CrB+rE7FPxazydUCb44m/9nvBysW7VK9gELKEB9eGGhTkJlHN+mSAWKxj4oc/D+kF
-         W0+1QPqbJFPvJby+eXQBZAAhmMPSGJ40uqSIGmHeDKrUjc0o5GqcQB4zD4zBOfo2aj1g
-         QtFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2ZDmkNP/G46elNHweWNnGe1UFfXL+aeARvTBFOGZ6P8vU9Yp2q4xKzYDEcN6uIrUZl5krnLJSBGaqUMJo5byFLsgYv1urWiDdQ+I4+A==
-X-Gm-Message-State: AOJu0Yz0eUNw7x2QIiyP40tl2vBCSql+5veL/RXz+YX/a18p5TAJMhvt
-	9oc5h4CaqP8I9uyZlF1yu+woxHSN0XK2xe3moIroP3oImewX3iqNv7Jt0U4Vcw==
-X-Google-Smtp-Source: AGHT+IG+02QW+qSSWAfjP4Uo/K7FcJoXi4dz8dc67dCLdJEgoxZW8p1RnFAR5+Smi7h+fcujupYPHw==
-X-Received: by 2002:a05:620a:1124:b0:787:1571:1ff8 with SMTP id p4-20020a05620a112400b0078715711ff8mr47062qkk.53.1708631695360;
-        Thu, 22 Feb 2024 11:54:55 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id bl5-20020a05620a1a8500b007879e6fea9fsm892629qkb.14.2024.02.22.11.54.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Feb 2024 11:54:52 -0800 (PST)
-Message-ID: <ad91eec0-39da-4b9c-8da7-f1e98bb4565b@broadcom.com>
-Date: Thu, 22 Feb 2024 11:54:46 -0800
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tgwy23lqrz3cM4;
+	Fri, 23 Feb 2024 14:49:41 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yg950ouvx1WjNpCP1clyKtNInAyLcDkgW+Nteoi9HHrbIhePcDI7Ioc5aJrL9s5zmhIB8bh8pmp3/nj3lTiEyQeteZzFWrXKK71zxS4sekdNVSurRKK8P9469OBkxGAFQVcfX/0GYlL+8TCSYjAO5XdNZSESscksbvYgu7k7d3ib9htimI7awGG7HQW5ZyNaCo+JYKwDtEZ2S7QuWQcnAtawxCidAjN2WOAnGTPP4j7P+57PqhewOypkq99kZXcdR7x7Miy+E+B/5yNkWMwTSTcHmhsclf8OqDbAb5Be3qYa9GhXSRu4c461Z6sQNsY2SuVFmaUdbiPDmyRbHgj6Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UhT5Jglo9eajC1MtBF2LOaR4J/dQPutJITGmsH95r18=;
+ b=euONYUYATW14N5VC8ymbp10E5JR2cR7jXp56Qyd+502ps3s1rGjQumkmMZIoig8/lejipHgYVJMIElkteicCGB2FRIxE4MGMiiOrIQJOJwbSj6WqoTvDLAxUPAZFFHvNvG5NVhu+acgjBrjlP1L2ma5HAzvycUdVP0MSzvvwL0nGUOafL8Tr50miXk6mzSq46ZU8HFsBXSMMTNKZkxq1qJX9pg4LEmssfLP2GgFtsIMWTGPjtE1w5nuVXUxePQvEZA/dDPZYikex2zSAxe8apfjndGAbCV8FK3hPyeXhBw6RuJDAThyWWjSodm3FokTeiJtQEdq9aNX8W9MjQtDNAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UhT5Jglo9eajC1MtBF2LOaR4J/dQPutJITGmsH95r18=;
+ b=q69aQJkuvPhpllidfujK4e5Gm4OQym0rSZGFa/E7/R/np+CgIGxECqOyTVw9gc2E6kJBqsA+uKaagTnOf5ifbLvxU/LDOtY01JYtyzktZYWDgWX4VpkpB2Wyp039Oao3efV8fhOBNsAPIASj0VLKdvk4BMAGRzh/WGT3m+wxeDV3GjCocoSMwoxSYSRQUtcNcFOlBkNCQLGOm4YOuK5bXv6aXGFj4nyMsf53O3fF+FO8qt48u9+c+Aiepk3+2H8PdhGMM/gtL/qaj8RMZ2PCp/p0nnwoU/OchdTyET/aX3Vwuyh7D2ddfhd6MYwFFAHmHWOmWB4SvrE0TaHA0WYHJg==
+Received: from TYZPR06MB6191.apcprd06.prod.outlook.com (2603:1096:400:33d::12)
+ by PUZPR06MB5585.apcprd06.prod.outlook.com (2603:1096:301:e9::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.24; Fri, 23 Feb
+ 2024 03:49:17 +0000
+Received: from TYZPR06MB6191.apcprd06.prod.outlook.com
+ ([fe80::e10a:d9a2:5070:6903]) by TYZPR06MB6191.apcprd06.prod.outlook.com
+ ([fe80::e10a:d9a2:5070:6903%5]) with mapi id 15.20.7292.036; Fri, 23 Feb 2024
+ 03:49:17 +0000
+From: Tommy Huang <tommy_huang@aspeedtech.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Subject: RE: [PATCH] i2c: aspeed: Fix the dummy irq expected print
+Thread-Topic: [PATCH] i2c: aspeed: Fix the dummy irq expected print
+Thread-Index: AQHaYNBg0EEa3X7oHECRXZPcHJI3VbEVVFwAgAA4R6CAAIwtAIABM1cg
+Date: Fri, 23 Feb 2024 03:49:17 +0000
+Message-ID:  <TYZPR06MB61912715EE2869DDB7C3763DE1552@TYZPR06MB6191.apcprd06.prod.outlook.com>
+References: <20240216120455.4138642-1-tommy_huang@aspeedtech.com>
+ <nbkkaktcozbhly44hii3zwie7ivsra3qxzdibyzhyhooxrudvb@zik6skmkki2c>
+ <TYZPR06MB61911F076C8719C6A7D57B97E1562@TYZPR06MB6191.apcprd06.prod.outlook.com>
+ <v4nawwb4rwjiy2g7xv2sfyhc545mhk4izb3g22f7jupcevjuzb@nxmqgf2zjyqs>
+In-Reply-To: <v4nawwb4rwjiy2g7xv2sfyhc545mhk4izb3g22f7jupcevjuzb@nxmqgf2zjyqs>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR06MB6191:EE_|PUZPR06MB5585:EE_
+x-ms-office365-filtering-correlation-id: 24e1dc8c-477e-4a4c-8f3f-08dc342268f9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:  2cEFO/Ns/jyTKVK6b3AShK7EQ4FudoSO+1qoQfMr8atutRZqvSBohSHG2geisIdhGDgcF4eYdYBBuINDrlyYvBIE4eIoYro6Ii/FCN9cL+TMXvHOlcm41ULEVtGBCVU6upuxUqPgusO5uYSRWoPElClPSfh4TJJb8qZ+C0TgFVph4YGh87zjqVpNYke9iqw9v9NsOCUmbhcvKZPwyhp70x2/bGm6k/57dDLLIIzA/01A5Vq/swqK7sH2RNbbWSFQTAKLnIFglLzYlnYymqkXOxSYZy2VM43Wydo5yalnufup245SLzCKdwA8h2gQwTGVD0gBUEchHUTFSZO1x7neI2sGrKeBKtevJpuCLKzQXNXITcZf+lQeHSI44EBFDDJyjWgU1985xmtWFYonUKaszmPQuUIFie+bYFRhdN/0zn56GszY5cHx46HTqM39nN7zjvUfsh5Mp4ZV3Wotwl/Jukv4b306fJBTnIiYxr47iqcTLqhMJ435f7nEl13JK4sw5aDnRVcFoI48zlvQLumQ23wMOzf1FsTOYPLRRfAXELppxy33MK/Sm8O71Cd5TCbMrRHbcxtMFQDT/MUtWoV/WK9d1fcE6Sh/Oww/fzF8nl9Jkry1M4UTVr0KM97tdEHk
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6191.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?RQ/iP1ovrQvLx9MtJZ+PU0pTCBfdhYSuh+l/cKaNGRZWpS+i25YaSPq61bwb?=
+ =?us-ascii?Q?/XDhmfkWMQx3OhBU2OnrXlgOQWWIW+ytcPGw9H6RLjzqVTrV2lJCj79MYJE1?=
+ =?us-ascii?Q?l+dnJh7evAO0D+2jPjmNeTWduVTLf2T8/NcgHuRUFtr42v6ghOMit45/ZvZ6?=
+ =?us-ascii?Q?LuGiGYBBjrdWl/iKG3SsyCdLLagS9NiYCtKe1t0Sesb/USNGrb/Uo2HpwpXE?=
+ =?us-ascii?Q?dg6+K9cXnh1irpt5gba97gHAAHiQKWaZYaYII3+pubBRgnzli4Z5grnh2USW?=
+ =?us-ascii?Q?hNe7cXDg8++z6FjJouO5HvUlsCUAZ1qMxFFNVvoWe7o1agnq2/jqLM3uEBK5?=
+ =?us-ascii?Q?qMi4YlNERCtzTunVoywBRE8ssPahrTs4ezo2WNOJ7vCPEhs5OYdTNEQsdtaW?=
+ =?us-ascii?Q?Xjr2JXYUXBc79nIJZOOgUx5UqMh1kMiuSs/rFXjje7T2hSzZpNMiv6b7SiIG?=
+ =?us-ascii?Q?4NSuXrLUnCuYsidmbsVfBZhOLqQEmfTzTf+HwOeve182ZE1w/1OLIVZDPvzm?=
+ =?us-ascii?Q?LMi1C4KsqwpoJi8QXj050eI2ywHH3UxjKK+gNQcO8ei5kJIgg0BY1ibU98LR?=
+ =?us-ascii?Q?X2rxVdZSG99k4mdfqWxY4wNvRTO2ZsarV/ktZMgLoG8zDwP0vI7jxeTD5pG5?=
+ =?us-ascii?Q?LvyprxIfi3dYelo0cqmP9F/nUJyx98pxL3WZYwqo3vv8RpKaXw34MnG/OI7h?=
+ =?us-ascii?Q?Zn6Yf/OJJOqhxsGrIXMw+AozL+51Bw3fNj8DUASbYfYyBsH9lFiUU8EOzVSU?=
+ =?us-ascii?Q?HWRZZh2nbJ+fduiFAtf9zS3B8MMNjzFBj45svnXoy31ykq4N3GNYgOYYPHc+?=
+ =?us-ascii?Q?kzGCtiI9U13LxK30VUXiuEe8ZevvvOl0C1w89mz9EZhxK0S8XcEl1e+ctl7K?=
+ =?us-ascii?Q?FEkI8JPa5Yf8Smsvf2ZpvOTRvcMNXekoV+w6KxV0WIOIRkUJdTXHX1kZ4OFw?=
+ =?us-ascii?Q?Ipdzb8y+dWoiUsJmuRHtt3eLL3fCM18Ct5Wl968Hi+R5p3HAGQEBH3UJe4WJ?=
+ =?us-ascii?Q?foR6UsZx9YRlFLiqWzVibPCBe9QQbL4oUkTdui4zfHbRLl1l2mqtOFdWNSvr?=
+ =?us-ascii?Q?JG8tGtXUTiWot29SQ93X7Xz6S0NNDICwf+2jB9BQgsM0qknp6oOjwDdmdUYr?=
+ =?us-ascii?Q?D6713RI9XF6CH/m5ke241LsYtX7fZ7U6nBpeHbWjdX1hsakd9G9CNHJ3Rnlw?=
+ =?us-ascii?Q?G58JB3lD77A1BY8Fjpy4omUn2q0SGHziF0XTWkauTCrDcvbhe+8PjGJc+U2I?=
+ =?us-ascii?Q?MzquyFrNcjgqQmy9MQuE1c6wrm714fl5RHysmfRpZcoNsX8jyZ8ZaAT23KC0?=
+ =?us-ascii?Q?mqaJhKVeo+XmNkS8eEjsNFJCcHcTr+lL3BsCC66kfjAz8gOTAb4uHD3nZWip?=
+ =?us-ascii?Q?4E/KQIIpUaVS5/kPu1mn4OMtNYN/Dv6B64ui0eQVYjl9sRgx3SpgJKP9wePV?=
+ =?us-ascii?Q?+9yA5s3qtUjG3LziCEHGjRkMDTwGiCUerz9aYCmj/aoylpsRWtenRY0Xcw60?=
+ =?us-ascii?Q?08eRkgOPD/plcjmx3W6xEfhQk7FJKlPWkAPKsFmB6O0tUJeD6cu4Sk3XxbFz?=
+ =?us-ascii?Q?mFFInGt3ikOcKY7zFCAoAvbE+fPRTaUTPGV8mf4pmicTCWgvYaeDV8hUWEtI?=
+ =?us-ascii?Q?Kg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 10/14] serial: 8250_of: Switch to use
- uart_read_port_properties()
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>
-References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
- <20240221183442.4124354-11-andriy.shevchenko@linux.intel.com>
- <0a828f2c50de712940fb9a881702ac1678a35b7c.camel@codeconstruct.com.au>
- <ZddKzHplwOX7naLv@smile.fi.intel.com> <Zdd5m2xIPlGI0_Qv@smile.fi.intel.com>
- <Zdd6lnXwvpPPUhRR@smile.fi.intel.com>
- <e5fd9d8b-84eb-4ef9-82ab-ff4ecc41c0d5@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- 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
-In-Reply-To: <e5fd9d8b-84eb-4ef9-82ab-ff4ecc41c0d5@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000046d3400611fdd1bc"
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6191.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24e1dc8c-477e-4a4c-8f3f-08dc342268f9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2024 03:49:17.3927
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GYHVUIN+3itbPP/SihXlxAi3PvAGjKEJWzxXGcGY/DMRBn9s4MYJM8KXgPY1gdajXvH6+BtjM7L6s9Gy0p4mi0Tnnt27Pn5zL6RK/+gWKWg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5585
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,144 +125,128 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Al Cooper <alcooperx@gmail.com>, linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Jonathan Hunter <jonathanh@nvidia.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-serial@vger.kernel.org, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andi Shyti <andi.shyti@linux.intel.com>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
+Cc: BMC-SW <BMC-SW@aspeedtech.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---00000000000046d3400611fdd1bc
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi Andi,
 
-On 2/22/24 09:39, Florian Fainelli wrote:
-> On 2/22/24 08:47, Andy Shevchenko wrote:
->> On Thu, Feb 22, 2024 at 06:43:08PM +0200, Andy Shevchenko wrote:
->>> On Thu, Feb 22, 2024 at 03:23:24PM +0200, Andy Shevchenko wrote:
->>>> On Thu, Feb 22, 2024 at 11:07:05AM +1030, Andrew Jeffery wrote:
->>>>> On Wed, 2024-02-21 at 20:31 +0200, Andy Shevchenko wrote:
->>>>>> Since we have now a common helper to read port properties
->>>>>> use it instead of sparse home grown solution.
->>>>>
->>>>> I did some brief testing of the series for the Aspeed machines under
->>>>> qemu, building them on top of v6.8-rc5:
->>>>>
->>>>> export ARCH=arm
->>>>> export CROSS_COMPILE=arm-linux-gnueabihf-
->>>>> make aspeed_g5_defconfig
->>>>> make -j$(nproc)
->>>>> qemu-system-arm -M rainier-bmc -nographic -no-reboot -kernel 
->>>>> arch/arm/boot/zImage -dtb 
->>>>> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb -initrd ...
->>>>>
->>>>> I got an oops during boot, which bisected to this change:
->>>>
->>>> Thank you for prompt testing! I will look at it.
->>>
->>> I found the issue, will be fixed in next version.
->>
->> Whoever is going to test this series, the
->>
->> -        port->iotype = use_defaults ? UPIO_MEM : port->iotype;
->> +        port->iotype = UPIO_MEM;
->>
->> should be applied to uart_read_port_properties() implementation.
->>
-> 
-> Thanks, on 8250_bcm7271.c with the above hunk applied, I did not spot 
-> any differences between the values returned by stty or a cat 
-> /sys/class/tty/ttyS0/* before or after, the console remained fully 
-> functional. I will see if I can run an additional test where I removed 
-> the DT's "clocks" property and confirm that the fall back to 
-> "clock-frequency" works.
-> 
-> Thanks Andy!
+	Sure~
+	Below is my re-word commit and fixes tag.
 
-Also appears to work properly on a Raspberry Pi 4 with the console using 
-the bcm2835-aux driver, will provide Tested-by tags on the next 
-submission, thanks!
--- 
-Florian
+	When the i2c error condition occurred and master state was not
+	idle, the master irq function will goto complete state without any
+    other interrupt handling. It would cause dummy irq expected print.
+    Under this condition, assign the irq_status into irq_handle.
 
+	For example, when the abnormal start / stop occurred (bit 5) with normal s=
+top
+	status (bit 4) at same time. Then the normal stop status would not be hand=
+led=20
+	and it would cause irq expected print in the aspeed_i2c_bus_irq.
 
---00000000000046d3400611fdd1bc
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+	...
+	aspeed-i2c-bus xxxxxxxx. i2c-bus: irq handled !=3D irq. Expected 0x0000003=
+0, but was 0x00000020
+	...
+=20
+	Fixes: 3e9efc3299dd ("i2c: aspeed: Handle master/slave combined irq events=
+ properly")
+	Cc: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 
-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
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
-9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
-AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
-UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
-KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
-nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
-Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
-VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
-ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
-CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
-MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
-d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
-hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
-bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
-BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
-KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
-kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
-2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
-3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
-NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
-AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
-LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIIrCd38u/oVscFAk
-fpw+Yp/ecbqnJ7cSOMWoDk2QBR7jMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDIyMjE5NTQ1NVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
-AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAT7pkvO4yFP+2tyXNfIDklnHDJSIXVP9U8
-9s8a5pzyL0iXM+bVInLBMsNX4O1oD6vpi5LC82oJxc6VMTab+H/AtSvLYg/Ydot62HUXUX+Epuyp
-caucTG4rQNl6lJlq1U9bfHIw6rOojpmG/KjnGGPIVvd4H7ZuD3WWXXy92t4MezuVQm2j5WW0dBM/
-lJEX51xnPcP3Dq9ZE3Sg84vlHh1UMEk4WlZ+uKS4K95m5qubao+XuhT+TAl7RVnQq3bkJMyAK0FY
-8pGd8NksNWE7iknQOxkl2B9lOBE5JenTOkkpn2FlGWjcVp0A1JMnx3pJTd1enOch9hKM/QMrX8Os
-AOo8
---00000000000046d3400611fdd1bc--
+	Tommy
+
+> -----Original Message-----
+> From: Andi Shyti <andi.shyti@kernel.org>
+> Sent: Thursday, February 22, 2024 4:58 PM
+> To: Tommy Huang <tommy_huang@aspeedtech.com>
+> Cc: brendan.higgins@linux.dev; p.zabel@pengutronix.de;
+> linux-i2c@vger.kernel.org; openbmc@lists.ozlabs.org;
+> benh@kernel.crashing.org; joel@jms.id.au; andrew@aj.id.au;
+> linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org;
+> linux-kernel@vger.kernel.org; BMC-SW <BMC-SW@aspeedtech.com>
+> Subject: Re: [PATCH] i2c: aspeed: Fix the dummy irq expected print
+>=20
+> Hi Tommy,
+>=20
+> On Thu, Feb 22, 2024 at 01:10:39AM +0000, Tommy Huang wrote:
+> > > On Fri, Feb 16, 2024 at 08:04:55PM +0800, Tommy Huang wrote:
+> > > > When the i2c error condition occurred and master state was not
+> > > > idle, the master irq function will goto complete state without any
+> > > > other interrupt handling. It would cause dummy irq expected print.
+> > > > Under this condition, assign the irq_status into irq_handle.
+> > >
+> > > I'm sorry, but I don't understand much from your log here.
+> > >
+> > > Do you mean that irq_handled in aspeed_i2c_master_irq() is left with
+> > > some states that is not supposed to have and then you end up printing
+> here:
+> > >
+> > > 	dev_err(bus->dev,
+> > > 		"irq handled !=3D irq. expected 0x%08x, but was 0x%08x\n",
+> > > 		irq_received, irq_handled);
+> > >
+> > > Can you please explain better?
+> > >
+> >
+> > Yes. If the platform met any irq error condition and the i2c wasn't sta=
+ted
+> under ASPEED_I2C_MASTER_INACTIVE.
+> > Then the code flow would goto the end of aspeed_i2c_master_irq.
+> >
+> > 	ret =3D aspeed_i2c_is_irq_error(irq_status);
+> > 	if (ret) {
+> > 		...
+> > 		irq_handled |=3D (irq_status & ASPEED_I2CD_INTR_MASTER_ERRORS);
+> > 		if (bus->master_state !=3D ASPEED_I2C_MASTER_INACTIVE) {
+> > 			bus->cmd_err =3D ret;
+> > 			bus->master_state =3D ASPEED_I2C_MASTER_INACTIVE;
+> > 			goto out_complete;
+> > 		}
+> > 	}
+> >
+> > Some master interrupt states were not handled under this situation.
+> > The fake irq not equaled message would be filled into whole of demsg.
+> > It's most like below example.
+> >
+> > ...
+> > aspeed-i2c-bus 1e78a780. i2c-bus: irq handled !=3D irq. expected
+> > 0x00000030, but was 0x00000020 aspeed-i2c-bus 1e78a780. i2c-bus: irq
+> > handled !=3D irq. expected 0x00000030, but was 0x00000020 aspeed-i2c-bu=
+s
+> > 1e78a780. i2c-bus: irq handled !=3D irq. expected 0x00000030, but was
+> 0x00000020 ...
+> >
+> > I thought the bus->cmd_err has been filled error reason and it would be
+> returned to upper layer.
+> > So, I didn't think the print should be existed.
+>=20
+> thanks! Can you please write a commit that explains better the fix you ar=
+e
+> doing?
+>=20
+> > > If that's the case, wouldn't it make more sense to check for
+> > > bus->master_state !=3D ASPEED_I2C_MASTER_INACTIVE) earlier?
+> >
+> > Did you suggest to add "bus->master_state !=3D
+> ASPEED_I2C_MASTER_INACTIVE" judgement before print the irq not equal
+> print?
+>=20
+> no, not really, but nevermind, on a second look, what I'm suggesting does=
+n't
+> make much sense.
+>=20
+> If you want, please reword the commit message as reply to this e-mail and=
+ I
+> will take care of it.
+>=20
+> > > And, still, If that's the case, I believe you might need the Fixes
+> > > tag. It's true that you are not really failing, but you are not repor=
+ting a
+> failure by mistake.
+>=20
+> Please, also consider adding the Fixes tag if you see it necessary; I thi=
+nk you
+> should, but it's borderline.
+>=20
+> Andi
