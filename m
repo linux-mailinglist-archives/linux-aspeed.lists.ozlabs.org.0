@@ -2,51 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C232866E13
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 10:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D317786780B
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 15:17:29 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=ZXxvFiTr;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WeqmG7xp;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tjw601PRJz3bxZ
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 20:18:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk2kb0H0vz3vfK
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 01:17:27 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=ZXxvFiTr;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WeqmG7xp;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=198.175.65.14; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tjw5w0Yg1z2y1Y
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 20:18:44 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:712b:6300::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 618F442D0;
-	Mon, 26 Feb 2024 01:18:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1708939116;
-	bh=gzTjQUu0dObSt10SZKcdNKoLWfM0zbCV3RKhSxsSPq8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZXxvFiTr5xOW2Y311ZVhtKPovu4hZqyoQl1/TtGUUC1hcFdl0EwBA8isXTKOSCP3p
-	 6t5D40EcDe3jD5sDzq3zBCHo+uLyMPc4RdhaerEp6qldfB7MIfUnm9jWzRUiM2kAk4
-	 EAK0gx/r0xKgrmHiOTEK+OVa+6RNfzuymNg2skf8=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>
-Subject: [PATCH] ARM: dts: aspeed: ahe50dc: Update lm25066 regulator name
-Date: Mon, 26 Feb 2024 01:17:53 -0800
-Message-ID: <20240226091754.16027-2-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.43.2
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk2kP6sMJz3vZt
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 01:17:16 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708957039; x=1740493039;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HZlXZGpEZ0auGfIkoqRiKy72XZYfKXmXVmc4SJZWGJo=;
+  b=WeqmG7xpd31JcYRAK415r1+mYqt5fadbZShvafapB5CmXVFY/u4dJknl
+   H/4VgJgWRHmQADxOrMQ4Jizce0WR93NasKiony2h6H9zk5vZqk8cUsGj7
+   tIGNRLLsAT7s+mTrYgJ2vaJulORlWpA+XMBIg1eQjUKCcB+VNL8QySiRe
+   3NhRi0jd4k0EuO3urwpMiddYVr1bUSV1hfpXZe2Bn3zctFT0bCtGHhNY0
+   /6OqbDnd5+5Ks/b5Lua3RFU6NkwUW+SjV/ql/i/kBvlYbL656+aCDZtRn
+   30T20L0k4QB2yKhZzMjBMJP2ECbm+fs6k3nkqNETHIUh7sPm1BXCjJo9M
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="7047441"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="7047441"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:17:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="913872291"
+X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
+   d="scan'208";a="913872291"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:17:07 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rebmx-00000007hRa-3oE3;
+	Mon, 26 Feb 2024 16:17:03 +0200
+Date: Mon, 26 Feb 2024 16:17:03 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH v1 02/14] serial: core: Add UPIO_UNSET constant for unset
+ port type
+Message-ID: <ZdydX79GBaedFqku@smile.fi.intel.com>
+References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
+ <20240221183442.4124354-3-andriy.shevchenko@linux.intel.com>
+ <5aeee02f-45a6-48e5-a6f4-e55b76d4b959@kernel.org>
+ <ZddKaaB7HO0CyldD@smile.fi.intel.com>
+ <fa46f220-a1c4-43f4-91e1-5929ff335be0@kernel.org>
+ <ZdiyzKMZPlkN462G@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZdiyzKMZPlkN462G@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,35 +77,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, Al Cooper <alcooperx@gmail.com>, linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Jonathan Hunter <jonathanh@nvidia.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-serial@vger.kernel.org, Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-A recent change to the lm25066 driver changed the name of its
-regulator from vout0 to vout; device-tree users of lm25066's regulator
-functionality (of which ahe50dc is the only one) thus require a
-corresponding update.
+On Fri, Feb 23, 2024 at 04:59:25PM +0200, Andy Shevchenko wrote:
+> On Fri, Feb 23, 2024 at 06:42:15AM +0100, Jiri Slaby wrote:
+> > On 22. 02. 24, 14:21, Andy Shevchenko wrote:
+> > > On Thu, Feb 22, 2024 at 07:58:32AM +0100, Jiri Slaby wrote:
+> > > > On 21. 02. 24, 19:31, Andy Shevchenko wrote:
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+...
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
-index 6600f7e9bf5e..93f3be849071 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
-@@ -18,7 +18,7 @@ efuse@##hexaddr {							\
- 		reg = <0x##hexaddr>;						\
- 		shunt-resistor-micro-ohms = <675>;				\
- 		regulators {							\
--			efuse##num: vout0 {					\
-+			efuse##num: vout {					\
- 				regulator-name = __stringify(efuse##num##-reg);	\
- 			};							\
- 		};								\
+> > > > >    	unsigned char		iotype;			/* io access style */
+> > > > > +#define UPIO_UNSET		((unsigned char)~0U)	/* UCHAR_MAX */
+> > > > 
+> > > > Perhaps making the var u8 and this U8_MAX then? It would make more sense to
+> > > > me.
+> > > 
+> > > WFM, should it be a separate change?
+> > 
+> > Likely.
+> 
+> Then I need a commit message, because I'm unable to justify this change myself.
+> 
+> > > Btw, how can I justify it?
+> > 
+> > Hmm, thinking about it, why is it not an enum?
+> 
+> Maybe, but it is a replica of UAPI definitions, do we want to see it as a enum?
+> To me it will be a bit ugly looking.
+> 
+> > But it could be also an u8 because you want it be exactly 8 bits as you want
+> > to be sure values up to 255 fit.
+> 
+> Depends on what we assume UAPI does with those flags. It maybe even less than
+> 8 bits, or great than, currently 8 bits is enough...
+> 
+> TL;DR: I would rather take a patch from you and incorporate into the series
+> than trying hard to invent a justification and proper type.
+
+Okay, I want to send a new version, for now I leave the type change for
+the next time. It looks that quirks as well will benefit from type clarifying.
+
 -- 
-2.43.2
+With Best Regards,
+Andy Shevchenko
+
 
