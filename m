@@ -1,71 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D317786780B
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 15:17:29 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4345686782F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 15:25:48 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WeqmG7xp;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Dh82Kid1;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk2kb0H0vz3vfK
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 01:17:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk2w970hvz3vfH
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 01:25:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WeqmG7xp;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Dh82Kid1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=198.175.65.14; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=198.175.65.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk2kP6sMJz3vZt
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 01:17:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk2vr6MF8z3c1g
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 01:25:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708957039; x=1740493039;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HZlXZGpEZ0auGfIkoqRiKy72XZYfKXmXVmc4SJZWGJo=;
-  b=WeqmG7xpd31JcYRAK415r1+mYqt5fadbZShvafapB5CmXVFY/u4dJknl
-   H/4VgJgWRHmQADxOrMQ4Jizce0WR93NasKiony2h6H9zk5vZqk8cUsGj7
-   tIGNRLLsAT7s+mTrYgJ2vaJulORlWpA+XMBIg1eQjUKCcB+VNL8QySiRe
-   3NhRi0jd4k0EuO3urwpMiddYVr1bUSV1hfpXZe2Bn3zctFT0bCtGHhNY0
-   /6OqbDnd5+5Ks/b5Lua3RFU6NkwUW+SjV/ql/i/kBvlYbL656+aCDZtRn
-   30T20L0k4QB2yKhZzMjBMJP2ECbm+fs6k3nkqNETHIUh7sPm1BXCjJo9M
+  t=1708957529; x=1740493529;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=74CnFkZQ38BEQwdCa2/x1RRI0t/N2qwbGFXvoSq90DY=;
+  b=Dh82Kid1sPeslAKt7toB5lZK9VZ4F0167/dhZCHhh0ujN/ey+bInd5uE
+   sT1RzZ5DOmBF4c2bJAbSTS6wy3U8/7eEhasp1rh1tpJyJGxBGFOMIReXU
+   ai9v1EllEkDd5sJr5xkY7PBzUsExWk+hA7M3BUFhN5TacZztsO8cLXi3p
+   CXubIDg4xy0LNe6UZFeDsN/fU9WBcIN/+Z+kT8KS/mr+jVGV9vno75C6d
+   X9rHlgHVuYzJV3hZGWLOEoOhOIUsfM/VcKeQ/cWLxjGRwqe393ogO+FjY
+   gGCUuvgyCLBxzw1MUogPYdnR5zBEO1Na7b51fxR/7vBLnPLSNiJFftPOz
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="7047441"
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="3375123"
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="7047441"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:17:14 -0800
+   d="scan'208";a="3375123"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:25:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="913872291"
+X-IronPort-AV: E=McAfee;i="6600,9927,10995"; a="937030139"
 X-IronPort-AV: E=Sophos;i="6.06,185,1705392000"; 
-   d="scan'208";a="913872291"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 06:17:07 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rebmx-00000007hRa-3oE3;
-	Mon, 26 Feb 2024 16:17:03 +0200
-Date: Mon, 26 Feb 2024 16:17:03 +0200
+   d="scan'208";a="937030139"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 26 Feb 2024 06:25:17 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id E5EA8213; Mon, 26 Feb 2024 16:25:15 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jiri Slaby <jirislaby@kernel.org>
-Subject: Re: [PATCH v1 02/14] serial: core: Add UPIO_UNSET constant for unset
- port type
-Message-ID: <ZdydX79GBaedFqku@smile.fi.intel.com>
-References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
- <20240221183442.4124354-3-andriy.shevchenko@linux.intel.com>
- <5aeee02f-45a6-48e5-a6f4-e55b76d4b959@kernel.org>
- <ZddKaaB7HO0CyldD@smile.fi.intel.com>
- <fa46f220-a1c4-43f4-91e1-5929ff335be0@kernel.org>
- <ZdiyzKMZPlkN462G@smile.fi.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH v2 00/14] serial: Add a helper to parse device properties and more
+Date: Mon, 26 Feb 2024 16:19:16 +0200
+Message-ID: <20240226142514.1485246-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZdiyzKMZPlkN462G@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +75,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Al Cooper <alcooperx@gmail.com>, linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Jonathan Hunter <jonathanh@nvidia.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-serial@vger.kernel.org, Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Scott Branden <sbranden@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, Al Cooper <alcooperx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Vladimir Zapolskiy <vz@mleia.com>, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Jiri Slaby <jirislaby@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Feb 23, 2024 at 04:59:25PM +0200, Andy Shevchenko wrote:
-> On Fri, Feb 23, 2024 at 06:42:15AM +0100, Jiri Slaby wrote:
-> > On 22. 02. 24, 14:21, Andy Shevchenko wrote:
-> > > On Thu, Feb 22, 2024 at 07:58:32AM +0100, Jiri Slaby wrote:
-> > > > On 21. 02. 24, 19:31, Andy Shevchenko wrote:
+I have noticed that many drivers are using the subset of the common
+properties and IRQ retrieval code. With the moving it to one place
+we have got a common parser one for many.
 
-...
+Tested on Intel Apollo Lake with DesingWare 8250 UARTs (clang compiled)
+and in QEMU for Aspeed configuration (gcc compiled). The rest has been
+compile tested on x86_64 with clang.
 
-> > > > >    	unsigned char		iotype;			/* io access style */
-> > > > > +#define UPIO_UNSET		((unsigned char)~0U)	/* UCHAR_MAX */
-> > > > 
-> > > > Perhaps making the var u8 and this U8_MAX then? It would make more sense to
-> > > > me.
-> > > 
-> > > WFM, should it be a separate change?
-> > 
-> > Likely.
-> 
-> Then I need a commit message, because I'm unable to justify this change myself.
-> 
-> > > Btw, how can I justify it?
-> > 
-> > Hmm, thinking about it, why is it not an enum?
-> 
-> Maybe, but it is a replica of UAPI definitions, do we want to see it as a enum?
-> To me it will be a bit ugly looking.
-> 
-> > But it could be also an u8 because you want it be exactly 8 bits as you want
-> > to be sure values up to 255 fit.
-> 
-> Depends on what we assume UAPI does with those flags. It maybe even less than
-> 8 bits, or great than, currently 8 bits is enough...
-> 
-> TL;DR: I would rather take a patch from you and incorporate into the series
-> than trying hard to invent a justification and proper type.
+In v2:
+- fixed typo (Hugo)
+- renamed UPIO_UNSET --> UPIO_UNKNOWN (Florian)
+- fixed 8250_of not working (Andrew)
+- dropped unused variable in 8250_bcm7271 (LKP)
+- added tag to 8250_aspeed_vuart (Andrew)
 
-Okay, I want to send a new version, for now I leave the type change for
-the next time. It looks that quirks as well will benefit from type clarifying.
+Andy Shevchenko (14):
+  serial: core: Move struct uart_port::quirks closer to possible values
+  serial: core: Add UPIO_UNKNOWN constant for unknown port type
+  serial: port: Introduce a common helper to read properties
+  serial: 8250_aspeed_vuart: Switch to use uart_read_port_properties()
+  serial: 8250_bcm2835aux: Switch to use uart_read_port_properties()
+  serial: 8250_bcm7271: Switch to use uart_read_port_properties()
+  serial: 8250_dw: Switch to use uart_read_port_properties()
+  serial: 8250_ingenic: Switch to use uart_read_port_properties()
+  serial: 8250_lpc18xx: Switch to use uart_read_port_properties()
+  serial: 8250_of: Switch to use uart_read_port_properties()
+  serial: 8250_omap: Switch to use uart_read_port_properties()
+  serial: 8250_pxa: Switch to use uart_read_port_properties()
+  serial: 8250_tegra: Switch to use uart_read_port_properties()
+  serial: 8250_uniphier: Switch to use uart_read_port_properties()
+
+ drivers/tty/serial/8250/8250_aspeed_vuart.c |  50 +++-----
+ drivers/tty/serial/8250/8250_bcm2835aux.c   |  92 ++++++--------
+ drivers/tty/serial/8250/8250_bcm7271.c      |  56 +++-----
+ drivers/tty/serial/8250/8250_dw.c           |  67 ++++------
+ drivers/tty/serial/8250/8250_ingenic.c      |  20 +--
+ drivers/tty/serial/8250/8250_lpc18xx.c      |  20 ++-
+ drivers/tty/serial/8250/8250_of.c           | 105 ++++-----------
+ drivers/tty/serial/8250/8250_omap.c         |  29 ++---
+ drivers/tty/serial/8250/8250_pxa.c          |  22 ++--
+ drivers/tty/serial/8250/8250_tegra.c        |  26 ++--
+ drivers/tty/serial/8250/8250_uniphier.c     |  17 +--
+ drivers/tty/serial/serial_port.c            | 134 ++++++++++++++++++++
+ include/linux/serial_core.h                 |  10 +-
+ 13 files changed, 313 insertions(+), 335 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0.rc1.1.gbec44491f096
 
