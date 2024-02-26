@@ -1,65 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC82867FC6
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 19:23:59 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF53B867FC7
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 19:24:02 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=REPV7qSh;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CivFcWwZ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk8Bz6pgGz3dV7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 05:23:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk8C42tFcz3d2w
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 05:24:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=REPV7qSh;
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CivFcWwZ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::f2a; helo=mail-qv1-xf2a.google.com; envelope-from=florian.fainelli@broadcom.com; receiver=lists.ozlabs.org)
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::236; helo=mail-oi1-x236.google.com; envelope-from=florian.fainelli@broadcom.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk8Br6pbjz3cQr
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 05:23:44 +1100 (AEDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-686a92a8661so21341906d6.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 10:23:44 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk8Bt0Gqmz3cVd
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 05:23:48 +1100 (AEDT)
+Received: by mail-oi1-x236.google.com with SMTP id 5614622812f47-3c19bc08f96so1539158b6e.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 10:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1708971821; x=1709576621; darn=lists.ozlabs.org;
+        d=broadcom.com; s=google; t=1708971825; x=1709576625; darn=lists.ozlabs.org;
         h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eZEI5NVhaM1kVCsEvefQpLtQuqfUIJprCJEBavGyS/o=;
-        b=REPV7qShJaC4HvB1U3vVOXSJdHj6HSlH4sLOWaYQjJjzdADGZ5n0NQrCPi10INmot1
-         6+2IGIsH4A6Kteg2WGuba0oJacYbHSwsfliYL82Ws9//CzTX0GmYB7Yk64Gk9zvorlo0
-         Pe4co0/N9Iq5tto4esezSekJPLQp0Io3/0c5g=
+        bh=TXYoUD55LSttn7myAGo+O4fF4DVdJ0vBLtvGwc2GHBg=;
+        b=CivFcWwZNpQ8PnDf5azgM9qOuukOF5ZNpXdib7CCZx8gQVVoQvAL3+d4V1QFCWcFXe
+         O2UN1hREFn9ucZV8tZAKAsbcryljgzc9IVHBwMCSaGhMCIhEMK+dlnEYbjZFulvuh3dZ
+         58lzkbZmfbHOR8hMDX7sxvpKHnGvA7uhpX9SM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708971821; x=1709576621;
+        d=1e100.net; s=20230601; t=1708971825; x=1709576625;
         h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=eZEI5NVhaM1kVCsEvefQpLtQuqfUIJprCJEBavGyS/o=;
-        b=NKOMMEeo2maMThVNVObH8N+5wttsAsZegCQ7dxWdkDZvw3K15/7zJ5XqKcyZUBJO/f
-         FZ3/EfGcDIhKwuBY7ofp7kKbB1A4bnlO8omlP1RHexsuzYPBMATOtyAjf6neF+B6o4LF
-         XLPchvoynalDB+S3Tpy5gScAKxPM4yOmE2VUtunNW68GeL3IVRlBbJmxdc8+iFB/1Ttd
-         9PNZ8PG/9Y1p1ts4zawVvkqm90Q4aTrACyakGNO8ZOA6R3BsW8I6xBHoDCPj0+lzsipK
-         eevGAsRrhV88UY3FaJxe4Dmv0tif9YYf97xgCOOWO64MWKrIoRCNp4l5RfQ+XydcL/aS
-         0IsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWI8ovS64LSSpP0CyEANkNSkJa/Jtr1IuRUGN3dvIxgFq6R9aqgF0t6esY3XkSPngSIDpJrxohWhO8mtE1rTI/eYzbXMPw6cbAcxiqYjQ==
-X-Gm-Message-State: AOJu0Yz5boWOMv1nSOkhj2za4wUtELS7JJRgA7rd7PS2X0l6goOqHBQM
-	yg3f2XEZf0bnrgxJjqu1qhWy21ILBlQOWmcH4qgu+cNsxPHnVbnHYSRLY6LnwA==
-X-Google-Smtp-Source: AGHT+IHE2Ity3gHuZFLlvbVlzWZC4oAla/6yP0LkwdZcFRzn9vHbya4bbz/hlLhpr4bcbPJcZP1Xlg==
-X-Received: by 2002:a0c:970a:0:b0:68f:8bff:f0bc with SMTP id k10-20020a0c970a000000b0068f8bfff0bcmr8112294qvd.63.1708971821270;
-        Mon, 26 Feb 2024 10:23:41 -0800 (PST)
+        bh=TXYoUD55LSttn7myAGo+O4fF4DVdJ0vBLtvGwc2GHBg=;
+        b=BhtsQ2XALE8AFwQN6Z8D0U71YopHOml+wqbXFexJo3T6Vf7RZf20+V1arXgeTfYppy
+         5d8m87K90GMD1iKPivp0HFDveK35+HvGzpyOrdtWYXemM8LIqeeL/bRjnTStYVsrRnnf
+         s3Zf2ri14YLFLzCe9hbkALtJMW1hUWLoKk4nfpLSEGbtsl2SHPjGLbY2KGF0thphphXs
+         M6e4qAQkyI10jgSlGQogJpZ4vlxfSlL63nX74C1UnauGwH+BDGud0MjdFe2uSLq4FnTA
+         REgY1IQWIYOIaGnNRoQZMKYCDp4tJmpgLTwf8JiOJMyFu77j/qxllBPIGk1rr3AzOEhV
+         2Pyg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhIGwVHjSISMZ+8NGg+NZdrzYJVPxHlRbWKo3Q/o8Rub/ZWWhVonwEqz26zi2TsEnZ4Kuh2GQgoryGUu69+HQ6Q5aGoDa7Z0wV+BBugQ==
+X-Gm-Message-State: AOJu0YwYjfquM+icJHqpMfY9NBoo3zcw+YIWLSbbR+XY2mzjYUtvxFen
+	7hjmjhB5ZaIgASbmLK5KE8zafsAWY/KVLDTZOczyMyRRNSctz44jusMZj7MQMA==
+X-Google-Smtp-Source: AGHT+IHlcIPe4sf8o039gNNExfAXlHM4zWb5bITpryamjwKwRAsIARWgsK0U971/O2IZ8ZtkS7w0Gg==
+X-Received: by 2002:a05:6808:21a4:b0:3c1:533b:55f9 with SMTP id be36-20020a05680821a400b003c1533b55f9mr9436565oib.5.1708971825322;
+        Mon, 26 Feb 2024 10:23:45 -0800 (PST)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id nw3-20020a0562143a0300b0068f54ed22b2sm3218681qvb.0.2024.02.26.10.23.34
+        by smtp.gmail.com with ESMTPSA id md18-20020a056214589200b0068f75622543sm3211766qvb.1.2024.02.26.10.23.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 10:23:40 -0800 (PST)
-Message-ID: <b4773e16-6f06-4c62-bd6f-1f2cae7d5e98@broadcom.com>
-Date: Mon, 26 Feb 2024 10:23:33 -0800
+        Mon, 26 Feb 2024 10:23:42 -0800 (PST)
+Message-ID: <9150b77d-5677-4b6a-8c62-b5af29cd23a3@broadcom.com>
+Date: Mon, 26 Feb 2024 10:23:35 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/14] serial: 8250_bcm7271: Switch to use
+Subject: Re: [PATCH v2 05/14] serial: 8250_bcm2835aux: Switch to use
  uart_read_port_properties()
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -68,7 +68,7 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-mips@vger.kernel.org, linux-tegra@vger.kernel.org
 References: <20240226142514.1485246-1-andriy.shevchenko@linux.intel.com>
- <20240226142514.1485246-7-andriy.shevchenko@linux.intel.com>
+ <20240226142514.1485246-6-andriy.shevchenko@linux.intel.com>
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -102,9 +102,9 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20240226142514.1485246-7-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240226142514.1485246-6-andriy.shevchenko@linux.intel.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000005c3b2806124d02c0"
+	boundary="000000000000996dac06124d0249"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,7 +120,7 @@ Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Scott Branden <sbranden@b
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---0000000000005c3b2806124d02c0
+--000000000000996dac06124d0249
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -137,7 +137,7 @@ Tested-by: Florian Fainelli <florian.fainelli@broadcom.com>
 Florian
 
 
---0000000000005c3b2806124d02c0
+--000000000000996dac06124d0249
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -210,12 +210,12 @@ AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
 /D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIO1W0w+dP8eEezr8
 d4ifucp+CGaCPXQF3OPZMUeU6MPoMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDIyNjE4MjM0MVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+AQkFMQ8XDTI0MDIyNjE4MjM0NVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQDXiAWqPa14Guf6IUTF0meA+Q9sZsWJAKz7
-x1ITSjB+0H4JRDw/oys9oPE8jgN4X7uJR2EOI/4ULDmjz/2RNpEVWSUArBlJBeCTkeKDmBVX56Ss
-3+nz4skfCy8NVKMLqVGN1o7QttYfgXXpgk5ToAM5oSk9Re6lEqACRgEojniMmoNsoSJNUAZGHk3e
-Yul8xw6D9O8CNiVPOv4w3w1LonwY+srZG8dPgrzKnCxVSlLylAH8xweAY5LBfgF6GfI0GntuMgxs
-l78diHucYMoRtsxJcGNQUiZIrUmTrtYpML1sjq9gjILoE1Xc4qKlALEB0YKuExNjV7EzrTPlDckv
-1zc0
---0000000000005c3b2806124d02c0--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAESSWwbkydxcKePNgHXK3TOJQj6RLtRdsM
+TLgboirlZ1tEaLqWdBO3xJwzQ94g++zdmtB9r/wGFU6AHCOEMekuXikjm37nU6PFAvKs95TfZVwW
+SdGhriia+hsgktIKqTNk5AnYkvIKHgDFVnCL0YWDsoWn91JfpnJMZPl63Whpd+X+MtNL4Va1l8PJ
+q5N4SrJK7lAJGD0m1P+wkw9kdDb4CMZx5U9dcP23mwIUV/TMzWgvAJzXgKnJv3nr/i8ZEhf/W5h7
+Za0pNsDd5Nc98n8qKLWX8ss+iK6BPIi/mWHcOLtrKnw2foP0C+WE+dG8Nm1DfEz/qVRlltEf3xW2
+Lzsu
+--000000000000996dac06124d0249--
