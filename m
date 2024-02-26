@@ -2,49 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE8E866891
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 04:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C03866940
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 05:12:39 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=lO5wNnL/;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=mrK4AxRc;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tjm8T6Sl5z3cHN
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 14:20:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TjnJj5LZWz3cHN
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 15:12:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=lO5wNnL/;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=mrK4AxRc;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tjm8J40PXz3bX3
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 14:20:16 +1100 (AEDT)
-Received: from localhost.localdomain (ppp118-210-168-240.adl-adc-lon-bras34.tpg.internode.on.net [118.210.168.240])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id C384A2014E;
-	Mon, 26 Feb 2024 11:20:10 +0800 (AWST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TjnJd0H1Jz3bq0
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 15:12:33 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-168-240.adl-adc-lon-bras34.tpg.internode.on.net [118.210.168.240])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 85F5A2014E;
+	Mon, 26 Feb 2024 12:12:28 +0800 (AWST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1708917614;
-	bh=LNLPAUiRFnZl/7VHr8STDz7uh32Y54i1QIk4cgSLlRM=;
-	h=From:To:Cc:Subject:Date;
-	b=lO5wNnL/oJkFpK7pr0cijMRFZxr4Dnou6xRPTIB7bjv+v5iAQtbt2mAZw7TkqZadJ
-	 C9/nLWyAw8QBnFfpkAMkNrLQT+jKY1WvOJ4skySh4O/lCXze70qwc9kjkjjKag2Kce
-	 Sjs1rvcK8IBcbmp3YZus2BD8ppszTSt0U6sIWZ2oXJNZtkU5BgXZ+XP/OUIkQtJyMh
-	 FzsFfRaJiwd+ET6IT536vzo3BM7qUqP5ifDmp3G+Kj/Att/olv8rpwouOHvCaCos4D
-	 R7Vm7DskK1PBOELGnpFUkEkog9MEG/Mr4udmfZf6q/U+dKf5++ifyrghgvsoWRY8LP
-	 opkZEfKKS4gdA==
+	d=codeconstruct.com.au; s=2022a; t=1708920752;
+	bh=XXRWq9LzaWJldDlLUORe5CRUYm2s2hhDXWkS7OTa4Lg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=mrK4AxRcBQAiIKCOPTCJmIVgne/8nIuXIhpXuCDvYKC2xvr/0qonrkIXrDVMHnkfV
+	 SJpQ4glDbG8r8ZjSpRe+DY6Ey7JhHXhfcfOaTTqNev7gE4fsswYgJPcRwqQuMxQUhh
+	 BRsglrzdRY+rIyDxyE3sHLuSt/KMh5558ntUPdudvw3DoZIN56Eblru48iBTPsNITc
+	 /m0B0b/q1uA3uO0RcplIh/4kxIWbI6pxJ4/lCg3g7iwcqHbLU8D7m5H3O8ChcCltuz
+	 o55K+LzKWT+TD7MkYpfONNShG2JzgYB31QHJBUSVedDncb82YdRV5cKQoSRMIq7zBB
+	 //zPm9ZLM1GHg==
+Message-ID: <ab237d0e08b6919d29f25d89ec34d149341f4c57.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v1 10/14] serial: 8250_of: Switch to use
+ uart_read_port_properties()
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: linus.walleij@linaro.org,
-	brgl@bgdev.pl,
-	krzysztof.kozlowski+dt@linaro.org
-Subject: [PATCH v2] dt-bindings: gpio: aspeed,ast2400-gpio: Convert to DT schema
-Date: Mon, 26 Feb 2024 13:49:51 +1030
-Message-Id: <20240226031951.284847-1-andrew@codeconstruct.com.au>
-X-Mailer: git-send-email 2.39.2
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date: Mon, 26 Feb 2024 14:42:27 +1030
+In-Reply-To: <Zdd6lnXwvpPPUhRR@smile.fi.intel.com>
+References: <20240221183442.4124354-1-andriy.shevchenko@linux.intel.com>
+	 <20240221183442.4124354-11-andriy.shevchenko@linux.intel.com>
+	 <0a828f2c50de712940fb9a881702ac1678a35b7c.camel@codeconstruct.com.au>
+	 <ZddKzHplwOX7naLv@smile.fi.intel.com> <Zdd5m2xIPlGI0_Qv@smile.fi.intel.com>
+	 <Zdd6lnXwvpPPUhRR@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,153 +62,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, robh+dt@kernel.org, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, Al Cooper <alcooperx@gmail.com>, linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Jonathan Hunter <jonathanh@nvidia.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-serial@vger.kernel.org, Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andi Shyti <andi.shyti@linux.intel.com>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Squash warnings such as:
+On Thu, 2024-02-22 at 18:47 +0200, Andy Shevchenko wrote:
+> On Thu, Feb 22, 2024 at 06:43:08PM +0200, Andy Shevchenko wrote:
+> > On Thu, Feb 22, 2024 at 03:23:24PM +0200, Andy Shevchenko wrote:
+> > > On Thu, Feb 22, 2024 at 11:07:05AM +1030, Andrew Jeffery wrote:
+> > > > On Wed, 2024-02-21 at 20:31 +0200, Andy Shevchenko wrote:
+> > > > > Since we have now a common helper to read port properties
+> > > > > use it instead of sparse home grown solution.
+> > > >=20
+> > > > I did some brief testing of the series for the Aspeed machines unde=
+r
+> > > > qemu, building them on top of v6.8-rc5:
+> > > >=20
+> > > > export ARCH=3Darm
+> > > > export CROSS_COMPILE=3Darm-linux-gnueabihf-
+> > > > make aspeed_g5_defconfig
+> > > > make -j$(nproc)
+> > > > qemu-system-arm -M rainier-bmc -nographic -no-reboot -kernel arch/a=
+rm/boot/zImage -dtb arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb -in=
+itrd ...
+> > > >=20
+> > > > I got an oops during boot, which bisected to this change:
+> > >=20
+> > > Thank you for prompt testing! I will look at it.
+> >=20
+> > I found the issue, will be fixed in next version.
+>=20
+> Whoever is going to test this series, the
+>=20
+> -		port->iotype =3D use_defaults ? UPIO_MEM : port->iotype;
+> +		port->iotype =3D UPIO_MEM;
+>=20
+> should be applied to uart_read_port_properties() implementation.
+>=20
 
-```
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/apb@1e600000/gpio@1e780000: failed to match any schema with compatible: ['aspeed,ast2400-gpio']
-```
+Thanks, with that fix applied it works fine for me also.
 
-Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
----
-v2: Address feedback from Krzysztof:
-    https://lore.kernel.org/all/0d1dd262-b6dd-4d71-9239-8b0aec8cceff@linaro.org/
-
-v1: https://lore.kernel.org/all/20240220052918.742793-1-andrew@codeconstruct.com.au/
-
- .../bindings/gpio/aspeed,ast2400-gpio.yaml    | 73 +++++++++++++++++++
- .../devicetree/bindings/gpio/gpio-aspeed.txt  | 39 ----------
- 2 files changed, 73 insertions(+), 39 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
- delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
-
-diff --git a/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml b/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
-new file mode 100644
-index 000000000000..74d376567dfc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
-@@ -0,0 +1,73 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Aspeed GPIO controller
-+
-+maintainers:
-+  - Andrew Jeffery <andrew@codeconstruct.com.au>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2400-gpio
-+      - aspeed,ast2500-gpio
-+      - aspeed,ast2600-gpio
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+    description: The clock to use for debounce timings
-+
-+  "#gpio-cells":
-+    const: 2
-+
-+  gpio-controller: true
-+  gpio-line-names: true
-+  gpio-ranges: true
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  interrupt-controller: true
-+
-+  "#interrupt-cells":
-+    const: 2
-+
-+  ngpios: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-controller
-+  - "#interrupt-cells"
-+  - "#gpio-cells"
-+  - gpio-controller
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: aspeed,ast2600-gpio
-+    then:
-+      required:
-+        - ngpios
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    gpio@1e780000 {
-+        compatible = "aspeed,ast2400-gpio";
-+        reg = <0x1e780000 0x1000>;
-+        interrupts = <20>;
-+        interrupt-controller;
-+        #gpio-cells = <2>;
-+        gpio-controller;
-+    };
-diff --git a/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt b/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
-deleted file mode 100644
-index b2033fc3a71a..000000000000
---- a/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
-+++ /dev/null
-@@ -1,39 +0,0 @@
--Aspeed GPIO controller Device Tree Bindings
---------------------------------------------
--
--Required properties:
--- compatible		: Either "aspeed,ast2400-gpio", "aspeed,ast2500-gpio",
--					or "aspeed,ast2600-gpio".
--
--- #gpio-cells 		: Should be two
--			  - First cell is the GPIO line number
--			  - Second cell is used to specify optional
--			    parameters (unused)
--
--- reg			: Address and length of the register set for the device
--- gpio-controller	: Marks the device node as a GPIO controller.
--- interrupts		: Interrupt specifier (see interrupt bindings for
--			  details)
--- interrupt-controller	: Mark the GPIO controller as an interrupt-controller
--
--Optional properties:
--
--- clocks		: A phandle to the clock to use for debounce timings
--- ngpios		: Number of GPIOs controlled by this controller. Should	be set
--				  when there are multiple GPIO controllers on a SoC (ast2600).
--
--The gpio and interrupt properties are further described in their respective
--bindings documentation:
--
--- Documentation/devicetree/bindings/gpio/gpio.txt
--- Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
--
--  Example:
--	gpio@1e780000 {
--		#gpio-cells = <2>;
--		compatible = "aspeed,ast2400-gpio";
--		gpio-controller;
--		interrupts = <20>;
--		reg = <0x1e780000 0x1000>;
--		interrupt-controller;
--	};
--- 
-2.39.2
-
+Andrew
