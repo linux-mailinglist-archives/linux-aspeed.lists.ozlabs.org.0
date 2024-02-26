@@ -1,65 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF53B867FC7
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 19:24:02 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA50C867FCD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 19:24:48 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CivFcWwZ;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=V3ZfEwQJ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk8C42tFcz3d2w
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 05:24:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk8Cy4sjrz3dRs
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 05:24:46 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CivFcWwZ;
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=V3ZfEwQJ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::236; helo=mail-oi1-x236.google.com; envelope-from=florian.fainelli@broadcom.com; receiver=lists.ozlabs.org)
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=broadcom.com (client-ip=2607:f8b0:4864:20::22e; helo=mail-oi1-x22e.google.com; envelope-from=florian.fainelli@broadcom.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk8Bt0Gqmz3cVd
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 05:23:48 +1100 (AEDT)
-Received: by mail-oi1-x236.google.com with SMTP id 5614622812f47-3c19bc08f96so1539158b6e.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 10:23:48 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk8Cs63Btz30Np
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 05:24:40 +1100 (AEDT)
+Received: by mail-oi1-x22e.google.com with SMTP id 5614622812f47-3bba50cd318so2535102b6e.0
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 10:24:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1708971825; x=1709576625; darn=lists.ozlabs.org;
+        d=broadcom.com; s=google; t=1708971877; x=1709576677; darn=lists.ozlabs.org;
         h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TXYoUD55LSttn7myAGo+O4fF4DVdJ0vBLtvGwc2GHBg=;
-        b=CivFcWwZNpQ8PnDf5azgM9qOuukOF5ZNpXdib7CCZx8gQVVoQvAL3+d4V1QFCWcFXe
-         O2UN1hREFn9ucZV8tZAKAsbcryljgzc9IVHBwMCSaGhMCIhEMK+dlnEYbjZFulvuh3dZ
-         58lzkbZmfbHOR8hMDX7sxvpKHnGvA7uhpX9SM=
+        bh=IaXNqZKuglQ8sHm7u/MYJ2UE7O22VDCNnRxPSQUTrek=;
+        b=V3ZfEwQJQRF79ApEhcKCnqUdQzPmTrOe40e9CDjtg4aqKRF9cgfIn1mBWSCb5hoy7Q
+         NsUvLZyY39iw2Wp5jWtfGRanw452ZBaedpH/Cyvm/PotrqiA+2zfAsi1IQXkkhOnoDuQ
+         lmXqskTuHidX8XJdQqG99RniWNrvpktwgmAV4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708971825; x=1709576625;
+        d=1e100.net; s=20230601; t=1708971877; x=1709576677;
         h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=TXYoUD55LSttn7myAGo+O4fF4DVdJ0vBLtvGwc2GHBg=;
-        b=BhtsQ2XALE8AFwQN6Z8D0U71YopHOml+wqbXFexJo3T6Vf7RZf20+V1arXgeTfYppy
-         5d8m87K90GMD1iKPivp0HFDveK35+HvGzpyOrdtWYXemM8LIqeeL/bRjnTStYVsrRnnf
-         s3Zf2ri14YLFLzCe9hbkALtJMW1hUWLoKk4nfpLSEGbtsl2SHPjGLbY2KGF0thphphXs
-         M6e4qAQkyI10jgSlGQogJpZ4vlxfSlL63nX74C1UnauGwH+BDGud0MjdFe2uSLq4FnTA
-         REgY1IQWIYOIaGnNRoQZMKYCDp4tJmpgLTwf8JiOJMyFu77j/qxllBPIGk1rr3AzOEhV
-         2Pyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhIGwVHjSISMZ+8NGg+NZdrzYJVPxHlRbWKo3Q/o8Rub/ZWWhVonwEqz26zi2TsEnZ4Kuh2GQgoryGUu69+HQ6Q5aGoDa7Z0wV+BBugQ==
-X-Gm-Message-State: AOJu0YwYjfquM+icJHqpMfY9NBoo3zcw+YIWLSbbR+XY2mzjYUtvxFen
-	7hjmjhB5ZaIgASbmLK5KE8zafsAWY/KVLDTZOczyMyRRNSctz44jusMZj7MQMA==
-X-Google-Smtp-Source: AGHT+IHlcIPe4sf8o039gNNExfAXlHM4zWb5bITpryamjwKwRAsIARWgsK0U971/O2IZ8ZtkS7w0Gg==
-X-Received: by 2002:a05:6808:21a4:b0:3c1:533b:55f9 with SMTP id be36-20020a05680821a400b003c1533b55f9mr9436565oib.5.1708971825322;
-        Mon, 26 Feb 2024 10:23:45 -0800 (PST)
+        bh=IaXNqZKuglQ8sHm7u/MYJ2UE7O22VDCNnRxPSQUTrek=;
+        b=f3pLnM05++EfArUnKAE7cZduguAJ4xwSCt6wwfG27FiQQgSEZxHYr6OWZ35YJPn08c
+         EbT+YcMuFIHrbsGlKDtRjlyetRvaqczofvz2UoNAK2vedUbKBTzVmIl55BLrj75OD7jH
+         gt29tMPfv2TdBfbIO0yIrcN4QlwTefE6Ua668372Bdc9RR2twFS+eFmQPHLSn/6I1EkU
+         U00KzPWv0GsBFNNOHnWa4M2mUq+cQz6ZUK+hLQ4RGg4UDBQ7WmabqNdmlixaF19+vMbt
+         6V2rbjsHE2jE8JFRJ25KrDzjnkzqUS4UV+UQKc5s4VNtQFk71Q250OASgLzC6yvcGe7b
+         CCNg==
+X-Forwarded-Encrypted: i=1; AJvYcCX4sgv67pIqc4gGgBtXc/eUWF6AeR1UJ6MIpZb8W0mkL2ckvrcyhv3Ve+aQ5FWXKArpNDTqSM5QKl9GU5xtCg0bg9WCLcXLK/5E6c26vg==
+X-Gm-Message-State: AOJu0YxEOYdPlNPXChJTHBdcUxX/+AEhN9LmlYx3AD5+GvZQPa/lnvRP
+	ri/F0DViQW5X8To2n4CNK7aC/L9E9oaBCfdesKlK24MUFoCXNGnBkWZGdrrevQ==
+X-Google-Smtp-Source: AGHT+IFMBkN2FETUgeVsOh9vguFpvMND/+SGXlzh6ejC1MFbZQZ7t0SOzvegtYpdAd9RPY1XUVkbfA==
+X-Received: by 2002:a05:6808:14c9:b0:3c1:aac3:644a with SMTP id f9-20020a05680814c900b003c1aac3644amr1230085oiw.5.1708971877045;
+        Mon, 26 Feb 2024 10:24:37 -0800 (PST)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id md18-20020a056214589200b0068f75622543sm3211766qvb.1.2024.02.26.10.23.37
+        by smtp.gmail.com with ESMTPSA id md18-20020a056214589200b0068f75622543sm3211766qvb.1.2024.02.26.10.24.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 10:23:42 -0800 (PST)
-Message-ID: <9150b77d-5677-4b6a-8c62-b5af29cd23a3@broadcom.com>
-Date: Mon, 26 Feb 2024 10:23:35 -0800
+        Mon, 26 Feb 2024 10:24:36 -0800 (PST)
+Message-ID: <caa79772-6a54-48fd-ada2-5e7647b597ba@broadcom.com>
+Date: Mon, 26 Feb 2024 10:24:30 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/14] serial: 8250_bcm2835aux: Switch to use
+Subject: Re: [PATCH v2 10/14] serial: 8250_of: Switch to use
  uart_read_port_properties()
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -68,7 +68,7 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
  linux-mips@vger.kernel.org, linux-tegra@vger.kernel.org
 References: <20240226142514.1485246-1-andriy.shevchenko@linux.intel.com>
- <20240226142514.1485246-6-andriy.shevchenko@linux.intel.com>
+ <20240226142514.1485246-11-andriy.shevchenko@linux.intel.com>
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
@@ -102,9 +102,9 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20240226142514.1485246-6-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240226142514.1485246-11-andriy.shevchenko@linux.intel.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000996dac06124d0249"
+	boundary="000000000000af0df806124d058d"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,11 +116,11 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>, Al Cooper <alcooperx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Vladimir Zapolskiy <vz@mleia.com>, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Jiri Slaby <jirislaby@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>, Al Cooper <alcooperx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Vladimir Zapolskiy <vz@mleia.com>, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andi Shyti <andi.shyti@linux.intel.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Jiri Slaby <jirislaby@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---000000000000996dac06124d0249
+--000000000000af0df806124d058d
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -129,6 +129,7 @@ On 2/26/24 06:19, Andy Shevchenko wrote:
 > Since we have now a common helper to read port properties
 > use it instead of sparse home grown solution.
 > 
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
@@ -137,7 +138,7 @@ Tested-by: Florian Fainelli <florian.fainelli@broadcom.com>
 Florian
 
 
---000000000000996dac06124d0249
+--000000000000af0df806124d058d
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -208,14 +209,14 @@ kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
 NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
 AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIO1W0w+dP8eEezr8
-d4ifucp+CGaCPXQF3OPZMUeU6MPoMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDIyNjE4MjM0NVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
+/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIEbNkl0X5Sclwxid
+64mS9xbWJ2he9PVGhJcz7yArvhDJMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
+AQkFMQ8XDTI0MDIyNjE4MjQzN1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
 AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAESSWwbkydxcKePNgHXK3TOJQj6RLtRdsM
-TLgboirlZ1tEaLqWdBO3xJwzQ94g++zdmtB9r/wGFU6AHCOEMekuXikjm37nU6PFAvKs95TfZVwW
-SdGhriia+hsgktIKqTNk5AnYkvIKHgDFVnCL0YWDsoWn91JfpnJMZPl63Whpd+X+MtNL4Va1l8PJ
-q5N4SrJK7lAJGD0m1P+wkw9kdDb4CMZx5U9dcP23mwIUV/TMzWgvAJzXgKnJv3nr/i8ZEhf/W5h7
-Za0pNsDd5Nc98n8qKLWX8ss+iK6BPIi/mWHcOLtrKnw2foP0C+WE+dG8Nm1DfEz/qVRlltEf3xW2
-Lzsu
---000000000000996dac06124d0249--
+MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCFPLaKD6dtw5MzhrjF7bEXQ5UcqbDWJYPZ
+cbskHfigTA+rHzpP+ylii0Nz4y31mpp1oXgDuTlykNZqFypjfWqRdlcW63dCqByo09uhGgFXoJ4q
+K5vKwO+OXZP5sN9/LJR05ZdQxnFnmpI26KfJ1cMKOiuzOp0vrv3vY9CgFgooX5e1Ot8VgMFclXQw
+97lnFwdu3aqFAByH6VNWqIf6w3bAFbEb3jRBHtN2m5haC1gMjeb7pRyfIsrsXPWGW00NC4jMtU8U
+djyrmkf3y5WxyujXzmGO9gG6RT54UaVxm95dKA0UMbfIVPvlDFsGdWZZ8TOdbSzUCixHVPjiF2w+
+9F4c
+--000000000000af0df806124d058d--
