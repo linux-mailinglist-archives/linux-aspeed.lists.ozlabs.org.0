@@ -2,120 +2,52 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7FF867882
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 15:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B10867CD8
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Feb 2024 17:54:53 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=WobrB4Ku;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cHsf+QmE;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk32h1bv9z3vfQ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 01:31:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tk6DC1p2mz3vgn
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 03:54:51 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=WobrB4Ku;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cHsf+QmE;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42b; helo=mail-pf1-x42b.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk32b09bZz3btm
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 01:31:17 +1100 (AEDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6e4c359e48aso1837964b3a.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 06:31:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708957875; x=1709562675; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=LWWuiJoTDaQBVsd81KE3QCvkjLb2V6msKrjw0bQgEd0=;
-        b=WobrB4Kuttk+3J3hRPjPg9LeEiCujdH2/t4Um9m9NvKaps759BT9+Y4CPdZ215tJIn
-         1xMJJK+WOqpLvAe/Wxx6nWz8Z2pdit77Y1sfX+GhM7qLgQqbojtCWY0kJ4KW4T8jXCVo
-         ZnBPTMEGT/KA0uIgvgXjImQN2HgNm+Yo5Uj3I7U08wn4dxSVy0Ffgbu1dmPtO12EmzCt
-         0gkTbeLJ8ppYaSDyRK1tXJkRvE3ozwP+fIRfwEVCV53PDqs4Gw9K1ktBasim65w9qdZ8
-         DKM54ReGMUeTCQKepJai1gwjQPd824WszVO8XYsVuNZJbKedY87tt0xOYjW3GlPtY9tm
-         43tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708957875; x=1709562675;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LWWuiJoTDaQBVsd81KE3QCvkjLb2V6msKrjw0bQgEd0=;
-        b=Rht+qw4BBlzajeVVDJfFTv2cEMOXjQwhDSv5jIeHrXqDDOqBwm6mlb/E49ULPz+cPf
-         6k9gbr8wuQ7oxC0DzQKQBvcGmOc+3XFWlz9Omdjnt1f0uvfqw1XxH50Snq4gUWfDN8JQ
-         2fqFXL99hd+HrEzKww+seAKV8rsARQyABLdNtLSD0zKazdqsNpzHcgcuNfZVL12K3mNs
-         Ifj1atRnFaHnkMYPu4/mtOWZMtkL+APAuoH1siGUIyqOtPNew2MFQ2S87l/5VBueTRqt
-         rX8QQeZf2vSaSUiT/6oupFJmxlxgxd/Js4lxsAj2ZblSdNnLU9RNQPbSp6Z/oWMG2E1z
-         Xc1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUogdKFuzZ9KAZDvBBWEUq+yL06X6V1pUhyDRuWiCw1jQNc1sio2wRf28KGBs4Az0wk4Gyjbc4VeGar2ZZlZl6cBdQFkiAk9TKkvUHv9Q==
-X-Gm-Message-State: AOJu0YzIxt50IliVJeu8Yx8alanMlxjJ3N2pAEMh4B3ay7N62bABH8TX
-	mLE0JdIYUlKNAElfkPWbqytsC4ogCS6KnJCFtrs3jrLGHzQWaMAg
-X-Google-Smtp-Source: AGHT+IFqyi3o6xHZkdxbBtLmmrIbIjgmkd3NDPjnXdABZL53amIBVS9EAjjWzBiDxTZ/1NmSAKrTDA==
-X-Received: by 2002:a05:6a21:3183:b0:1a0:ea31:c34f with SMTP id za3-20020a056a21318300b001a0ea31c34fmr9507014pzb.38.1708957875058;
-        Mon, 26 Feb 2024 06:31:15 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id c2-20020a63a402000000b005e45b337b34sm4028346pgf.0.2024.02.26.06.31.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 06:31:14 -0800 (PST)
-Message-ID: <da20a51f-bf6a-466a-b4ab-401f831182c3@roeck-us.net>
-Date: Mon, 26 Feb 2024 06:31:14 -0800
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tk6Cx5L9Qz3vbp
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 03:54:37 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id BB57C61214;
+	Mon, 26 Feb 2024 16:54:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29539C433F1;
+	Mon, 26 Feb 2024 16:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708966475;
+	bh=KGjLGeRBLcDhrAjcwZ6uCmxmGzHwCCXg366IMJ3f9Hk=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=cHsf+QmE6jddSTAcCG6fQcqQWK29+p34aKmuKM2SmsV2k9Hkvf+Z+SjkqzGIcg7eA
+	 IIHOsz0MznwbPxmlsfI6hCaheBgBxIZYX8keLCX6xUmEP0oFlMmklieZO9Ug5rA7fO
+	 /jCvX70a51H6LIJadbJVJm09sRliu+9R0SYVHE9YnajxJ770gcodJ+r6R1PIDqYUBh
+	 9MRj1t30uJY5zuNHRIGHhLD8X7ARBAHU5DzvSnb4pHGUdBjyhfVJHhm44PZB+igh4u
+	 ElUNLtx+INgfwuT1w7+t8YrCuan4rO5cOsHYtpzHjNBfW/+hJjepiNp24+dSm3GJwn
+	 C1y0+B9XGf12Q==
+Date: Mon, 26 Feb 2024 10:54:34 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ARM: dts: aspeed: ahe50dc: Update lm25066 regulator name
-Content-Language: en-US
-To: Zev Weiss <zev@bewilderbeest.net>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-References: <20240226091754.16027-2-zev@bewilderbeest.net>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+From: Rob Herring <robh@kernel.org>
+To: Zev Weiss <zev@bewilderbeest.net>
 In-Reply-To: <20240226091754.16027-2-zev@bewilderbeest.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240226091754.16027-2-zev@bewilderbeest.net>
+Message-Id: <170896502304.859066.13236138723073669130.robh@kernel.org>
+Subject: Re: [PATCH] ARM: dts: aspeed: ahe50dc: Update lm25066 regulator
+ name
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,11 +59,12 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 2/26/24 01:17, Zev Weiss wrote:
+
+On Mon, 26 Feb 2024 01:17:53 -0800, Zev Weiss wrote:
 > A recent change to the lm25066 driver changed the name of its
 > regulator from vout0 to vout; device-tree users of lm25066's regulator
 > functionality (of which ahe50dc is the only one) thus require a
@@ -140,24 +73,62 @@ On 2/26/24 01:17, Zev Weiss wrote:
 > Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 > Cc: Conor Dooley <conor+dt@kernel.org>
 > Cc: Guenter Roeck <linux@roeck-us.net>
-
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-
 > ---
->   arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
-> index 6600f7e9bf5e..93f3be849071 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
-> @@ -18,7 +18,7 @@ efuse@##hexaddr {							\
->   		reg = <0x##hexaddr>;						\
->   		shunt-resistor-micro-ohms = <675>;				\
->   		regulators {							\
-> -			efuse##num: vout0 {					\
-> +			efuse##num: vout {					\
->   				regulator-name = __stringify(efuse##num##-reg);	\
->   			};							\
->   		};								\
+
+
+My bot found new DT warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y aspeed/aspeed-bmc-delta-ahe50dc.dtb' for 20240226091754.16027-2-zev@bewilderbeest.net:
+
+arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dtb: ahb: apb: {'compatible': ['simple-bus'], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': True, 'syscon@1e6e2000': {'compatible': ['aspeed,ast2400-scu', 'syscon', 'simple-mfd'], 'reg': [[510533632, 424]], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[0, 510533632, 4096]], '#clock-cells': [[1]], '#reset-cells': [[1]], 'phandle': [[2]], 'p2a-control@2c': {'reg': [[44, 4]], 'compatible': ['aspeed,ast2400-p2a-ctrl'], 'status': ['disabled']}, 'silicon-id@7c': {'compatible': ['aspeed,ast2400-silicon-id', 'aspeed,silicon-id'], 'reg': [[124, 4]]}, 'pinctrl@80': {'reg': [[128, 24], [160, 16]], 'compatible': ['aspeed,ast2400-pinctrl'], 'phandle': [[17]], 'acpi_default': {'function': ['ACPI'], 'groups': ['ACPI']}, 'adc0_default': {'function': ['ADC0'], 'groups': ['ADC0'], 'phandle': [[7]]}, 'adc1_default': {'function': ['ADC1'], 'groups': ['ADC1'], 'phandle': [[8]]}, 'adc10_default': {'function': ['ADC10'], 'groups': ['
+ ADC10']}, 'adc11_default': {'function': ['ADC11'], 'groups': ['ADC11']}, 'adc12_default': {'function': ['ADC12'], 'groups': ['ADC12']}, 'adc13_default': {'function': ['ADC13'], 'groups': ['ADC13']}, 'adc14_default': {'function': ['ADC14'], 'groups': ['ADC14']}, 'adc15_default': {'function': ['ADC15'], 'groups': ['ADC15']}, 'adc2_default': {'function': ['ADC2'], 'groups': ['ADC2'], 'phandle': [[9]]}, 'adc3_default': {'function': ['ADC3'], 'groups': ['ADC3'], 'phandle': [[10]]}, 'adc4_default': {'function': ['ADC4'], 'groups': ['ADC4'], 'phandle': [[11]]}, 'adc5_default': {'function': ['ADC5'], 'groups': ['ADC5'], 'phandle': [[12]]}, 'adc6_default': {'function': ['ADC6'], 'groups': ['ADC6'], 'phandle': [[13]]}, 'adc7_default': {'function': ['ADC7'], 'groups': ['ADC7'], 'phandle': [[14]]}, 'adc8_default': {'function': ['ADC8'], 'groups': ['ADC8'], 'phandle': [[15]]}, 'adc9_default': {'function': ['ADC9'], 'groups': ['ADC9'], 'phandle': [[16]]}, 'bmcint_default': {'function': ['BMCINT']
+ , 'groups': ['BMCINT']}, 'ddcclk_default': {'function': ['DDCCLK'], 'groups': ['DDCCLK']}, 'ddcdat_default': {'function': ['DDCDAT'], 'groups': ['DDCDAT']}, 'extrst_default': {'function': ['EXTRST'], 'groups': ['EXTRST']}, 'flack_default': {'function': ['FLACK'], 'groups': ['FLACK']}, 'flbusy_default': {'function': ['FLBUSY'], 'groups': ['FLBUSY']}, 'flwp_default': {'function': ['FLWP'], 'groups': ['FLWP']}, 'gpid_default': {'function': ['GPID'], 'groups': ['GPID']}, 'gpid0_default': {'function': ['GPID0'], 'groups': ['GPID0']}, 'gpid2_default': {'function': ['GPID2'], 'groups': ['GPID2']}, 'gpid4_default': {'function': ['GPID4'], 'groups': ['GPID4']}, 'gpid6_default': {'function': ['GPID6'], 'groups': ['GPID6']}, 'gpie0_default': {'function': ['GPIE0'], 'groups': ['GPIE0']}, 'gpie2_default': {'function': ['GPIE2'], 'groups': ['GPIE2']}, 'gpie4_default': {'function': ['GPIE4'], 'groups': ['GPIE4']}, 'gpie6_default': {'function': ['GPIE6'], 'groups': ['GPIE6']}, 'i2c10_default': {'fu
+ nction': ['I2C10'], 'groups': ['I2C10'], 'phandle': [[27]]}, 'i2c11_default': {'function': ['I2C11'], 'groups': ['I2C11'], 'phandle': [[28]]}, 'i2c12_default': {'function': ['I2C12'], 'groups': ['I2C12'], 'phandle': [[29]]}, 'i2c13_default': {'function': ['I2C13'], 'groups': ['I2C13'], 'phandle': [[30]]}, 'i2c14_default': {'function': ['I2C14'], 'groups': ['I2C14'], 'phandle': [[31]]}, 'i2c3_default': {'function': ['I2C3'], 'groups': ['I2C3'], 'phandle': [[20]]}, 'i2c4_default': {'function': ['I2C4'], 'groups': ['I2C4'], 'phandle': [[21]]}, 'i2c5_default': {'function': ['I2C5'], 'groups': ['I2C5'], 'phandle': [[22]]}, 'i2c6_default': {'function': ['I2C6'], 'groups': ['I2C6'], 'phandle': [[23]]}, 'i2c7_default': {'function': ['I2C7'], 'groups': ['I2C7'], 'phandle': [[24]]}, 'i2c8_default': {'function': ['I2C8'], 'groups': ['I2C8'], 'phandle': [[25]]}, 'i2c9_default': {'function': ['I2C9'], 'groups': ['I2C9'], 'phandle': [[26]]}, 'lpcpd_default': {'function': ['LPCPD'], 'groups': ['LP
+ CPD']}, 'lpcpme_default': {'function': ['LPCPME'], 'groups': ['LPCPME']}, 'lpcrst_default': {'function': ['LPCRST'], 'groups': ['LPCRST']}, 'lpcsmi_default': {'function': ['LPCSMI'], 'groups': ['LPCSMI']}, 'mac1link_default': {'function': ['MAC1LINK'], 'groups': ['MAC1LINK']}, 'mac2link_default': {'function': ['MAC2LINK'], 'groups': ['MAC2LINK']}, 'mdio1_default': {'function': ['MDIO1'], 'groups': ['MDIO1']}, 'mdio2_default': {'function': ['MDIO2'], 'groups': ['MDIO2'], 'phandle': [[4]]}, 'ncts1_default': {'function': ['NCTS1'], 'groups': ['NCTS1']}, 'ncts2_default': {'function': ['NCTS2'], 'groups': ['NCTS2']}, 'ncts3_default': {'function': ['NCTS3'], 'groups': ['NCTS3']}, 'ncts4_default': {'function': ['NCTS4'], 'groups': ['NCTS4']}, 'ndcd1_default': {'function': ['NDCD1'], 'groups': ['NDCD1']}, 'ndcd2_default': {'function': ['NDCD2'], 'groups': ['NDCD2']}, 'ndcd3_default': {'function': ['NDCD3'], 'groups': ['NDCD3']}, 'ndcd4_default': {'function': ['NDCD4'], 'groups': ['NDCD4']},
+  'ndsr1_default': {'function': ['NDSR1'], 'groups': ['NDSR1']}, 'ndsr2_default': {'function': ['NDSR2'], 'groups': ['NDSR2']}, 'ndsr3_default': {'function': ['NDSR3'], 'groups': ['NDSR3']}, 'ndsr4_default': {'function': ['NDSR4'], 'groups': ['NDSR4']}, 'ndtr1_default': {'function': ['NDTR1'], 'groups': ['NDTR1']}, 'ndtr2_default': {'function': ['NDTR2'], 'groups': ['NDTR2']}, 'ndtr3_default': {'function': ['NDTR3'], 'groups': ['NDTR3']}, 'ndtr4_default': {'function': ['NDTR4'], 'groups': ['NDTR4']}, 'ndts4_default': {'function': ['NDTS4'], 'groups': ['NDTS4']}, 'nri1_default': {'function': ['NRI1'], 'groups': ['NRI1']}, 'nri2_default': {'function': ['NRI2'], 'groups': ['NRI2']}, 'nri3_default': {'function': ['NRI3'], 'groups': ['NRI3']}, 'nri4_default': {'function': ['NRI4'], 'groups': ['NRI4']}, 'nrts1_default': {'function': ['NRTS1'], 'groups': ['NRTS1']}, 'nrts2_default': {'function': ['NRTS2'], 'groups': ['NRTS2']}, 'nrts3_default': {'function': ['NRTS3'], 'groups': ['NRTS3']}, 
+ 'oscclk_default': {'function': ['OSCCLK'], 'groups': ['OSCCLK']}, 'pwm0_default': {'function': ['PWM0'], 'groups': ['PWM0']}, 'pwm1_default': {'function': ['PWM1'], 'groups': ['PWM1']}, 'pwm2_default': {'function': ['PWM2'], 'groups': ['PWM2']}, 'pwm3_default': {'function': ['PWM3'], 'groups': ['PWM3']}, 'pwm4_default': {'function': ['PWM4'], 'groups': ['PWM4']}, 'pwm5_default': {'function': ['PWM5'], 'groups': ['PWM5']}, 'pwm6_default': {'function': ['PWM6'], 'groups': ['PWM6']}, 'pwm7_default': {'function': ['PWM7'], 'groups': ['PWM7']}, 'rgmii1_default': {'function': ['RGMII1'], 'groups': ['RGMII1']}, 'rgmii2_default': {'function': ['RGMII2'], 'groups': ['RGMII2'], 'phandle': [[3]]}, 'rmii1_default': {'function': ['RMII1'], 'groups': ['RMII1']}, 'rmii2_default': {'function': ['RMII2'], 'groups': ['RMII2']}, 'rom16_default': {'function': ['ROM16'], 'groups': ['ROM16']}, 'rom8_default': {'function': ['ROM8'], 'groups': ['ROM8']}, 'romcs1_default': {'function': ['ROMCS1'], 'groups':
+  ['ROMCS1']}, 'romcs2_default': {'function': ['ROMCS2'], 'groups': ['ROMCS2']}, 'romcs3_default': {'function': ['ROMCS3'], 'groups': ['ROMCS3']}, 'romcs4_default': {'function': ['ROMCS4'], 'groups': ['ROMCS4']}, 'rxd1_default': {'function': ['RXD1'], 'groups': ['RXD1']}, 'rxd2_default': {'function': ['RXD2'], 'groups': ['RXD2']}, 'rxd3_default': {'function': ['RXD3'], 'groups': ['RXD3']}, 'rxd4_default': {'function': ['RXD4'], 'groups': ['RXD4']}, 'salt1_default': {'function': ['SALT1'], 'groups': ['SALT1']}, 'salt2_default': {'function': ['SALT2'], 'groups': ['SALT2']}, 'salt3_default': {'function': ['SALT3'], 'groups': ['SALT3']}, 'salt4_default': {'function': ['SALT4'], 'groups': ['SALT4']}, 'sd1_default': {'function': ['SD1'], 'groups': ['SD1']}, 'sd2_default': {'function': ['SD2'], 'groups': ['SD2']}, 'sgpmck_default': {'function': ['SGPMCK'], 'groups': ['SGPMCK']}, 'sgpmi_default': {'function': ['SGPMI'], 'groups': ['SGPMI']}, 'sgpmld_default': {'function': ['SGPMLD'], 'groups
+ ': ['SGPMLD']}, 'sgpmo_default': {'function': ['SGPMO'], 'groups': ['SGPMO']}, 'sgpsck_default': {'function': ['SGPSCK'], 'groups': ['SGPSCK']}, 'sgpsi0_default': {'function': ['SGPSI0'], 'groups': ['SGPSI0']}, 'sgpsi1_default': {'function': ['SGPSI1'], 'groups': ['SGPSI1']}, 'sgpsld_default': {'function': ['SGPSLD'], 'groups': ['SGPSLD']}, 'sioonctrl_default': {'function': ['SIOONCTRL'], 'groups': ['SIOONCTRL']}, 'siopbi_default': {'function': ['SIOPBI'], 'groups': ['SIOPBI']}, 'siopbo_default': {'function': ['SIOPBO'], 'groups': ['SIOPBO']}, 'siopwreq_default': {'function': ['SIOPWREQ'], 'groups': ['SIOPWREQ']}, 'siopwrgd_default': {'function': ['SIOPWRGD'], 'groups': ['SIOPWRGD']}, 'sios3_default': {'function': ['SIOS3'], 'groups': ['SIOS3']}, 'sios5_default': {'function': ['SIOS5'], 'groups': ['SIOS5']}, 'siosci_default': {'function': ['SIOSCI'], 'groups': ['SIOSCI']}, 'spi1_default': {'function': ['SPI1'], 'groups': ['SPI1']}, 'spi1debug_default': {'function': ['SPI1DEBUG'], 'g
+ roups': ['SPI1DEBUG']}, 'spi1passthru_default': {'function': ['SPI1PASSTHRU'], 'groups': ['SPI1PASSTHRU']}, 'spics1_default': {'function': ['SPICS1'], 'groups': ['SPICS1']}, 'timer3_default': {'function': ['TIMER3'], 'groups': ['TIMER3']}, 'timer4_default': {'function': ['TIMER4'], 'groups': ['TIMER4']}, 'timer5_default': {'function': ['TIMER5'], 'groups': ['TIMER5']}, 'timer6_default': {'function': ['TIMER6'], 'groups': ['TIMER6']}, 'timer7_default': {'function': ['TIMER7'], 'groups': ['TIMER7']}, 'timer8_default': {'function': ['TIMER8'], 'groups': ['TIMER8']}, 'txd1_default': {'function': ['TXD1'], 'groups': ['TXD1']}, 'txd2_default': {'function': ['TXD2'], 'groups': ['TXD2']}, 'txd3_default': {'function': ['TXD3'], 'groups': ['TXD3']}, 'txd4_default': {'function': ['TXD4'], 'groups': ['TXD4']}, 'uart6_default': {'function': ['UART6'], 'groups': ['UART6']}, 'usbcki_default': {'function': ['USBCKI'], 'groups': ['USBCKI']}, 'usb2h_default': {'function': ['USB2H1'], 'groups': ['USB2
+ H1'], 'phandle': [[5]]}, 'usb2d_default': {'function': ['USB2D1'], 'groups': ['USB2D1'], 'phandle': [[6]]}, 'vgabios_rom_default': {'function': ['VGABIOS_ROM'], 'groups': ['VGABIOS_ROM']}, 'vgahs_default': {'function': ['VGAHS'], 'groups': ['VGAHS']}, 'vgavs_default': {'function': ['VGAVS'], 'groups': ['VGAVS']}, 'vpi18_default': {'function': ['VPI18'], 'groups': ['VPI18']}, 'vpi24_default': {'function': ['VPI24'], 'groups': ['VPI24']}, 'vpi30_default': {'function': ['VPI30'], 'groups': ['VPI30']}, 'vpo12_default': {'function': ['VPO12'], 'groups': ['VPO12']}, 'vpo24_default': {'function': ['VPO24'], 'groups': ['VPO24']}, 'wdtrst1_default': {'function': ['WDTRST1'], 'groups': ['WDTRST1']}, 'wdtrst2_default': {'function': ['WDTRST2'], 'groups': ['WDTRST2']}}}, 'hwrng@1e6e2078': {'compatible': ['timeriomem_rng'], 'reg': [[510533752, 4]], 'period': [[1]], 'quality': [[100]]}, 'adc@1e6e9000': {'compatible': ['aspeed,ast2400-adc'], 'reg': [[510562304, 176]], 'clocks': [[2, 26]], 'resets'
+ : [[2, 2]], '#io-channel-cells': [[1]], 'status': ['okay'], 'pinctrl-names': ['default'], 'pinctrl-0': [[7, 8, 9, 10, 11, 12, 13, 14, 15, 16]], 'phandle': [[33]]}, 'sram@1e720000': {'compatible': ['mmio-sram'], 'reg': [[510787584, 32768]]}, 'video@1e700000': {'compatible': ['aspeed,ast2400-video-engine'], 'reg': [[510656512, 4096]], 'clocks': [[2, 3], [2, 0]], 'clock-names': ['vclk', 'eclk'], 'interrupts': [[7]], 'status': ['disabled']}, 'sd-controller@1e740000': {'compatible': ['aspeed,ast2400-sd-controller'], 'reg': [[510918656, 256]], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[0, 510918656, 65536]], 'clocks': [[2, 22]], 'status': ['disabled'], 'sdhci@100': {'compatible': ['aspeed,ast2400-sdhci'], 'reg': [[256, 256]], 'interrupts': [[26]], 'sdhci,auto-cmd12': True, 'clocks': [[2, 28]], 'status': ['disabled']}, 'sdhci@200': {'compatible': ['aspeed,ast2400-sdhci'], 'reg': [[512, 256]], 'interrupts': [[26]], 'sdhci,auto-cmd12': True, 'clocks': [[2, 28]], 'status': ['d
+ isabled']}}, 'gpio@1e780000': {'#gpio-cells': [[2]], 'gpio-controller': True, 'compatible': ['aspeed,ast2400-gpio'], 'reg': [[511180800, 4096]], 'interrupts': [[20]], 'gpio-ranges': [[17, 0, 0, 220]], 'clocks': [[2, 26]], 'interrupt-controller': True, '#interrupt-cells': [[2]], 'status': ['okay'], 'gpio-line-names': ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'RESET_PEER_N', 'HEARTBEAT_OUT', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'DOOM_N', '', '', '', '', 'LED_PWR_BLUE', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'BMC_ID', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'LED_GREEN', '', 'LED_RED', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '
+ ', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'HEARTBEAT_IN', 'BOARDREV0', 'BOARDREV1', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''], 'phandle': [[32]], 'doom-guardrail': {'gpio-hog': True, 'gpios': [[32, 1]], 'output-low': True}}, 'timer@1e782000': {'compatible': ['aspeed,ast2400-timer'], 'reg': [[511188992, 144]], 'interrupts': [[16], [17], [18], [35], [36], [37], [38], [39]], 'clocks': [[2, 26]], 'clock-names': ['PCLK']}, 'rtc@1e781000': {'compatible': ['aspeed,ast2400-rtc'], 'reg': [[511184896, 24]], 'status': ['disabled']}, 'serial@1e783000': {'compatible': ['ns16550a'], 'reg': [[511193088, 32]], 'reg-shift': [[2]], 'interrupts': [[9]], 'clocks': [[2, 13]], 'resets': [[18, 4]], 'no-loopback-test': True, 'status': ['disabled']}, 'serial@1e784000': {'compatible': ['ns16550a'], 'reg': [[511197184, 32]], 'reg-shift': [[2]], 'interrupts'
+ : [[10]], 'clocks': [[2, 15]], 'no-loopback-test': True, 'status': ['disabled']}, 'watchdog@1e785000': {'compatible': ['aspeed,ast2400-wdt'], 'reg': [[511201280, 28]], 'clocks': [[2, 26]]}, 'watchdog@1e785020': {'compatible': ['aspeed,ast2400-wdt'], 'reg': [[511201312, 28]], 'clocks': [[2, 26]]}, 'pwm-tacho-controller@1e786000': {'compatible': ['aspeed,ast2400-pwm-tacho'], '#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[511205376, 4096]], 'clocks': [[2, 35]], 'resets': [[2, 5]], 'status': ['disabled']}, 'serial@1e787000': {'compatible': ['aspeed,ast2400-vuart'], 'reg': [[511209472, 64]], 'reg-shift': [[2]], 'interrupts': [[8]], 'clocks': [[2, 26]], 'no-loopback-test': True, 'status': ['disabled']}, 'lpc@1e789000': {'compatible': ['aspeed,ast2400-lpc-v2', 'simple-mfd', 'syscon'], 'reg': [[511217664, 4096]], 'reg-io-width': [[4]], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[0, 511217664, 4096]], 'lpc-ctrl@80': {'compatible': ['aspeed,ast2400-lpc-ctrl'], 'reg': [
+ [128, 16]], 'clocks': [[2, 8]], 'status': ['disabled']}, 'lpc-snoop@90': {'compatible': ['aspeed,ast2400-lpc-snoop'], 'reg': [[144, 8]], 'interrupts': [[8]], 'clocks': [[2, 8]], 'status': ['disabled']}, 'lhc@a0': {'compatible': ['aspeed,ast2400-lhc'], 'reg': [[160, 36], [200, 8]]}, 'reset-controller@98': {'compatible': ['aspeed,ast2400-lpc-reset'], 'reg': [[152, 4]], '#reset-cells': [[1]], 'phandle': [[18]]}, 'ibt@140': {'compatible': ['aspeed,ast2400-ibt-bmc'], 'reg': [[320, 24]], 'interrupts': [[8]], 'clocks': [[2, 8]], 'status': ['disabled']}, 'uart-routing@9c': {'compatible': ['aspeed,ast2400-uart-routing'], 'reg': [[156, 4]], 'status': ['disabled']}}, 'peci-controller@1e78b000': {'compatible': ['aspeed,ast2400-peci'], 'reg': [[511225856, 96]], 'interrupts': [[15]], 'clocks': [[2, 6]], 'resets': [[2, 6]], 'cmd-timeout-ms': [[1000]], 'clock-frequency': [[1000000]], 'status': ['disabled']}, 'serial@1e78d000': {'compatible': ['ns16550a'], 'reg': [[511234048, 32]], 'reg-shift': [[2]
+ ], 'interrupts': [[32]], 'clocks': [[2, 14]], 'resets': [[18, 5]], 'no-loopback-test': True, 'status': ['disabled']}, 'serial@1e78e000': {'compatible': ['ns16550a'], 'reg': [[511238144, 32]], 'reg-shift': [[2]], 'interrupts': [[33]], 'clocks': [[2, 20]], 'resets': [[18, 6]], 'no-loopback-test': True, 'status': ['okay']}, 'serial@1e78f000': {'compatible': ['ns16550a'], 'reg': [[511242240, 32]], 'reg-shift': [[2]], 'interrupts': [[34]], 'clocks': [[2, 21]], 'resets': [[18, 7]], 'no-loopback-test': True, 'status': ['disabled']}, 'bus@1e78a000': {'compatible': ['simple-bus'], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[0, 511221760, 4096]], 'interrupt-controller@0': {'#interrupt-cells': [[1]], 'compatible': ['aspeed,ast2400-i2c-ic'], 'reg': [[0, 64]], 'interrupts': [[12]], 'interrupt-controller': True, 'phandle': [[19]]}, 'i2c-bus@40': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[64, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets'
+ : [[2, 7]], 'bus-frequency': [[200000]], 'interrupts': [[0]], 'interrupt-parent': [[19]], 'status': ['okay'], 'pca9541@79': {'compatible': ['nxp,pca9541'], 'reg': [[121]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]], 'efuse@10': {'compatible': ['lm25066'], 'reg': [[16]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse03-reg'], 'phandle': [[36]]}}}, 'efuse@11': {'compatible': ['lm25066'], 'reg': [[17]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse04-reg'], 'phandle': [[37]]}}}, 'efuse@12': {'compatible': ['lm25066'], 'reg': [[18]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse01-reg'], 'phandle': [[34]]}}}, 'efuse@13': {'compatible': ['lm25066'], 'reg': [[19]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse02-reg'], 'phandle': [[35]]}}}, 'efuse@14': {'compatible': ['lm25066'], 'reg': [[20]], 'shunt-resistor
+ -micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse13-reg'], 'phandle': [[46]]}}}, 'efuse@15': {'compatible': ['lm25066'], 'reg': [[21]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse14-reg'], 'phandle': [[47]]}}}, 'efuse@16': {'compatible': ['lm25066'], 'reg': [[22]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse15-reg'], 'phandle': [[48]]}}}, 'efuse@17': {'compatible': ['lm25066'], 'reg': [[23]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse16-reg'], 'phandle': [[49]]}}}, 'efuse@40': {'compatible': ['lm25066'], 'reg': [[64]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse12-reg'], 'phandle': [[45]]}}}, 'efuse@41': {'compatible': ['lm25066'], 'reg': [[65]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse11-reg'], 'phandle': [[44]]}}}, 'efuse@42': {'compatibl
+ e': ['lm25066'], 'reg': [[66]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse10-reg'], 'phandle': [[43]]}}}, 'efuse@43': {'compatible': ['lm25066'], 'reg': [[67]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse09-reg'], 'phandle': [[42]]}}}, 'efuse@44': {'compatible': ['lm25066'], 'reg': [[68]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse08-reg'], 'phandle': [[41]]}}}, 'efuse@45': {'compatible': ['lm25066'], 'reg': [[69]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse07-reg'], 'phandle': [[40]]}}}, 'efuse@46': {'compatible': ['lm25066'], 'reg': [[70]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse05-reg'], 'phandle': [[38]]}}}, 'efuse@47': {'compatible': ['lm25066'], 'reg': [[71]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse06-reg']
+ , 'phandle': [[39]]}}}, 'efuse@50': {'compatible': ['lm25066'], 'reg': [[80]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse17-reg'], 'phandle': [[50]]}}}, 'efuse@51': {'compatible': ['lm25066'], 'reg': [[81]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse18-reg'], 'phandle': [[51]]}}}, 'efuse@52': {'compatible': ['lm25066'], 'reg': [[82]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse20-reg'], 'phandle': [[53]]}}}, 'efuse@53': {'compatible': ['lm25066'], 'reg': [[83]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse19-reg'], 'phandle': [[52]]}}}, 'efuse@54': {'compatible': ['lm25066'], 'reg': [[84]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse22-reg'], 'phandle': [[55]]}}}, 'efuse@55': {'compatible': ['lm25066'], 'reg': [[85]], 'shunt-resistor-micro-ohms': [[675]], 'regulator
+ s': {'vout': {'regulator-name': ['efuse21-reg'], 'phandle': [[54]]}}}, 'efuse@56': {'compatible': ['lm25066'], 'reg': [[86]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse24-reg'], 'phandle': [[57]]}}}, 'efuse@57': {'compatible': ['lm25066'], 'reg': [[87]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse23-reg'], 'phandle': [[56]]}}}}}}, 'i2c-bus@80': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[128, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[200000]], 'interrupts': [[1]], 'interrupt-parent': [[19]], 'status': ['okay'], 'pca9541@72': {'compatible': ['nxp,pca9541'], 'reg': [[114]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]]}}}, 'i2c-bus@c0': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[192, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[2000
+ 00]], 'interrupts': [[2]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[20]], 'status': ['okay'], 'pca9541@73': {'compatible': ['nxp,pca9541'], 'reg': [[115]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]]}}}, 'i2c-bus@100': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[256, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[200000]], 'interrupts': [[3]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[21]], 'status': ['okay'], 'pca9541@74': {'compatible': ['nxp,pca9541'], 'reg': [[116]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]]}}}, 'i2c-bus@140': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[320, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[200000]], 'interrupts': [[4]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[22]], 'status': ['o
+ kay'], 'pca9541@7a': {'compatible': ['nxp,pca9541'], 'reg': [[122]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]], 'gpio@20': {'compatible': ['nxp,pca9534'], 'reg': [[32]], 'gpio-controller': True, '#gpio-cells': [[2]]}, 'efuse@10': {'compatible': ['lm25066'], 'reg': [[16]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse27-reg'], 'phandle': [[60]]}}}, 'efuse@11': {'compatible': ['lm25066'], 'reg': [[17]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse28-reg'], 'phandle': [[61]]}}}, 'efuse@12': {'compatible': ['lm25066'], 'reg': [[18]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse25-reg'], 'phandle': [[58]]}}}, 'efuse@13': {'compatible': ['lm25066'], 'reg': [[19]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse26-reg'], 'phandle': [[59]]}}}, 'efuse@14': {'compatible': ['lm25066'], 'reg': [[20]], 'shunt-resis
+ tor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse37-reg'], 'phandle': [[70]]}}}, 'efuse@15': {'compatible': ['lm25066'], 'reg': [[21]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse38-reg'], 'phandle': [[71]]}}}, 'efuse@16': {'compatible': ['lm25066'], 'reg': [[22]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse39-reg'], 'phandle': [[72]]}}}, 'efuse@17': {'compatible': ['lm25066'], 'reg': [[23]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse40-reg'], 'phandle': [[73]]}}}, 'efuse@40': {'compatible': ['lm25066'], 'reg': [[64]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse36-reg'], 'phandle': [[69]]}}}, 'efuse@41': {'compatible': ['lm25066'], 'reg': [[65]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse35-reg'], 'phandle': [[68]]}}}, 'efuse@42': {'compat
+ ible': ['lm25066'], 'reg': [[66]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse34-reg'], 'phandle': [[67]]}}}, 'efuse@43': {'compatible': ['lm25066'], 'reg': [[67]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse33-reg'], 'phandle': [[66]]}}}, 'efuse@44': {'compatible': ['lm25066'], 'reg': [[68]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse32-reg'], 'phandle': [[65]]}}}, 'efuse@45': {'compatible': ['lm25066'], 'reg': [[69]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse31-reg'], 'phandle': [[64]]}}}, 'efuse@46': {'compatible': ['lm25066'], 'reg': [[70]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse29-reg'], 'phandle': [[62]]}}}, 'efuse@47': {'compatible': ['lm25066'], 'reg': [[71]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse30-re
+ g'], 'phandle': [[63]]}}}, 'efuse@50': {'compatible': ['lm25066'], 'reg': [[80]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse41-reg'], 'phandle': [[74]]}}}, 'efuse@51': {'compatible': ['lm25066'], 'reg': [[81]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse42-reg'], 'phandle': [[75]]}}}, 'efuse@52': {'compatible': ['lm25066'], 'reg': [[82]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse44-reg'], 'phandle': [[77]]}}}, 'efuse@53': {'compatible': ['lm25066'], 'reg': [[83]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse43-reg'], 'phandle': [[76]]}}}, 'efuse@54': {'compatible': ['lm25066'], 'reg': [[84]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse46-reg'], 'phandle': [[79]]}}}, 'efuse@55': {'compatible': ['lm25066'], 'reg': [[85]], 'shunt-resistor-micro-ohms': [[675]], 'regula
+ tors': {'vout': {'regulator-name': ['efuse45-reg'], 'phandle': [[78]]}}}, 'efuse@56': {'compatible': ['lm25066'], 'reg': [[86]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse48-reg'], 'phandle': [[81]]}}}, 'efuse@57': {'compatible': ['lm25066'], 'reg': [[87]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse47-reg'], 'phandle': [[80]]}}}, 'efuse@59': {'compatible': ['lm25066'], 'reg': [[89]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse49-reg'], 'phandle': [[82]]}}}, 'efuse@5a': {'compatible': ['lm25066'], 'reg': [[90]], 'shunt-resistor-micro-ohms': [[675]], 'regulators': {'vout': {'regulator-name': ['efuse50-reg'], 'phandle': [[83]]}}}}}}, 'i2c-bus@180': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[384, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[5]], 'interru
+ pt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[23]], 'status': ['disabled']}, 'i2c-bus@1c0': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[448, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[200000]], 'interrupts': [[6]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[24]], 'status': ['okay'], 'pca9541@75': {'compatible': ['nxp,pca9541'], 'reg': [[117]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]]}}}, 'i2c-bus@300': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[768, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[200000]], 'interrupts': [[7]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[25]], 'status': ['okay'], 'pca9541@76': {'compatible': ['nxp,pca9541'], 'reg': [[118]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]]}}}, 'i2c-bus@340': {'#addre
+ ss-cells': [[1]], '#size-cells': [[0]], 'reg': [[832, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[200000]], 'interrupts': [[8]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[26]], 'status': ['okay'], 'pca9541@7c': {'compatible': ['nxp,pca9541'], 'reg': [[124]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]], 'fancontrol@30': {'compatible': ['delta,ahe50dc-fan'], 'reg': [[48]]}, 'eeprom@50': {'compatible': ['atmel,24c02'], 'reg': [[80]]}}}}, 'i2c-bus@380': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[896, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[9]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[27]], 'status': ['disabled']}, 'i2c-bus@3c0': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[960, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clo
+ cks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[10]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[28]], 'status': ['disabled']}, 'i2c-bus@400': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[1024, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[11]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[29]], 'status': ['disabled']}, 'i2c-bus@440': {'#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[1088, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[200000]], 'interrupts': [[12]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[30]], 'status': ['okay'], 'pca9541@71': {'compatible': ['nxp,pca9541'], 'reg': [[113]], 'i2c-arb': {'#address-cells': [[1]], '#size-cells': [[0]]}}}, 'i2c-bus@480': {'#address-cells': [[1]], '
+ #size-cells': [[0]], 'reg': [[1152, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[13]], 'interrupt-parent': [[19]], 'pinctrl-names': ['default'], 'pinctrl-0': [[31]], 'status': ['disabled']}}} should not be valid under {'type': 'object'}
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+
+
+
+
 
