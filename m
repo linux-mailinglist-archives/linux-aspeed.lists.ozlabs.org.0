@@ -1,68 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E18C869933
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 15:55:47 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E721869A48
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 16:25:21 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=evodVOok;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IU0v42dM;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TkgXK0zfpz3dVx
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Feb 2024 01:55:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TkhBQ5n53z3cgk
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Feb 2024 02:25:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=evodVOok;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IU0v42dM;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=198.175.65.13; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::1131; helo=mail-yw1-x1131.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TkgXC5rb6z3dVB
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Feb 2024 01:55:39 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709045740; x=1740581740;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oDC1PgzmL9mgKX+1+lda1htyATJjhYL0q5N6OZj/SJY=;
-  b=evodVOokAKtIqFWVr4N2beSfFKJqG2GSB1MTBGRfSQOrbUlPe7eNyV9Z
-   2iGo1riZII0mHvhIvsqJOcy+vAweHLBcbC0GkaqfI0vSIiqvELLGTTgYP
-   cmpkB2f21w/QQeHf99NqdYN2JwRfRzwlaPzCXFNr66cSuP2FHflym8t6G
-   YzstYxvsKE+3LaU8ciXouRBOhREbWhueJ6bCptcHVVW+br7VCQlvqS6At
-   +nJ7JGgmeg+eCMOwOvUpNGT6r5IMFHV9yPvcDiSif5Lf1mvHcCWAS9qdt
-   y8g/Fywdq0hktdf5IbOXaYbz/a9Wbp/yJihLehcbWixKUHtZJ3NyOR8rt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="14537602"
-X-IronPort-AV: E=Sophos;i="6.06,188,1705392000"; 
-   d="scan'208";a="14537602"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2024 06:55:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="913914293"
-X-IronPort-AV: E=Sophos;i="6.06,188,1705392000"; 
-   d="scan'208";a="913914293"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2024 06:55:33 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1reyri-00000007yFl-0rGB;
-	Tue, 27 Feb 2024 16:55:30 +0200
-Date: Tue, 27 Feb 2024 16:55:29 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Subject: Re: [PATCH v2 14/14] serial: 8250_uniphier: Switch to use
- uart_read_port_properties()
-Message-ID: <Zd334bOasYXT37gW@smile.fi.intel.com>
-References: <20240226142514.1485246-1-andriy.shevchenko@linux.intel.com>
- <20240226142514.1485246-15-andriy.shevchenko@linux.intel.com>
- <2cb457a6-0039-e4fe-3668-690e6355771d@socionext.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tkh9J2HXmz3dRl
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Feb 2024 02:24:20 +1100 (AEDT)
+Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-608841dfcafso40089747b3.2
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 07:24:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709047457; x=1709652257; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XFZm/dQSg9/X/SHxcG6EeAuyboOmUCrzOisf7px9NRM=;
+        b=IU0v42dM3GdEgJmtKN4YPLrMi3YDktIq/4nw9eabtvOP60+KkggU8mw4oG2eYAKFIC
+         GWK/RytAdzKvk03ig8rMNFv5zjm+HqeLVtBw0hv6fwbwyO+FpHjgWsK4VAhO86MsxFyA
+         VfThgVGrFXidWQwx70odNikCPxkvqKLd61NwuwgA5K3AbEf+8V51esFRHCdqX8LooSo9
+         SSFOaFESUBIDPNx87lpRMTM/cj8xh6cGZqVa0RqTo1QqKrrE4p27/92ArPc05VZZMzI1
+         s4mLeJ2hZnyQAU9numQ1C+2SNq/X5SbUbudje3eRf8PK3/s8n6opm23AGsQMMHDkURae
+         FcpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709047457; x=1709652257;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XFZm/dQSg9/X/SHxcG6EeAuyboOmUCrzOisf7px9NRM=;
+        b=RVPDwkaD1Sc9xjN0vpvCTY3yfFTDIIpQNYeIKeL7/R7SLGnGjV9xbJB+q5I387vqFF
+         ipwb4NUqi9N0uez/a1v/nzLtMTgHEu6UHAhFIIt2g4zg5euRVmypmzE4jJFUy2hmtwVN
+         N/UVYXcs4hVxnp/8T/n36t/4tApj+vjlHChXJG41sEKg9rI8wYUeKgnDMGv1gXsj01NB
+         rAotGDpsFnB9BokWdS3XXW+ouLFS0PC3sQd44TwULyNaWeCGmnoUlsH+rvBeqQZMZzcm
+         XZHeT6rvPPC1Z1BP4ZLR8SedAN1BfSHTDMwaOc6taIdYWkwhgfUoQPxKisjl+6DT4Hvv
+         jV5A==
+X-Forwarded-Encrypted: i=1; AJvYcCU6sFl3f+NLP5AgsH+D20UP1mwlPoKLTYnIFyQInHPkxt6UGNKWO91TNlYGFNzFuwwEMJdNCxAQMzlLeGtJrannGJ1UcQbpWxWLbM9i2A==
+X-Gm-Message-State: AOJu0YwE6f0bMqOw02qnjMpqHcLs0rDaT2IVhwTKCBfMhlUAYYTfaaHK
+	aL4Jasusvp9FJQ3c9XWEq1ZCfk2LsIks1fBxdCp0d8CVaqWUW6ArZj+1s66xvvsHj8LDMkRTamM
+	BWEHuDkHYeNHWrfO6grOQ9Ng20BWSBsyx/ya6KyDQU6wKfDQltI0=
+X-Google-Smtp-Source: AGHT+IFXRkh4i/Gr+X+CNCwM+eiQfh5vWcQsfkjYhIrr0Xb0TkLC7JjlBRtlrrUjA+ojEUJ9UftFZVpafbLrXYMOvoU=
+X-Received: by 2002:a25:824e:0:b0:dca:c369:fac2 with SMTP id
+ d14-20020a25824e000000b00dcac369fac2mr2406508ybn.3.1709047014409; Tue, 27 Feb
+ 2024 07:16:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2cb457a6-0039-e4fe-3668-690e6355771d@socionext.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240221-b4-mmc-hi3798mv200-v6-0-bc41bf6a9769@outlook.com> <20240221-b4-mmc-hi3798mv200-v6-3-bc41bf6a9769@outlook.com>
+In-Reply-To: <20240221-b4-mmc-hi3798mv200-v6-3-bc41bf6a9769@outlook.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 27 Feb 2024 16:16:18 +0100
+Message-ID: <CAPDyKFosUX7giCYbFJpKRjSDHKEyO6FATna5VnDg7tHEzagWBg@mail.gmail.com>
+Subject: Re: [PATCH v6 3/5] mmc: dw_mmc: add support for hi3798mv200
+To: forbidden405@outlook.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,28 +75,322 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Al Cooper <alcooperx@gmail.com>, linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, Thierry Reding <thierry.reding@gmail.com>, Jiri Slaby <jirislaby@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, Jonathan Hunter <jonathanh@nvidia.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-serial@vger.kernel.org, Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>, linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-mmc@vger.kernel.org, openbmc@lists.ozlabs.org, Igor Opaniuk <igor.opaniuk@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org, Jaehoon Chung <jh80.chung@samsung.com>, tianshuliang <tianshuliang@hisilicon.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, David Yang <mmyangfl@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Feb 27, 2024 at 06:43:51PM +0900, Kunihiko Hayashi wrote:
-> Hi,
-> 
-> On 2024/02/26 23:19, Andy Shevchenko wrote:
-> > Since we have now a common helper to read port properties
-> > use it instead of sparse home grown solution.
-> > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> I confirmed that it works properly.
-> 
-> Reviewed-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-> Tested-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+On Wed, 21 Feb 2024 at 13:45, Yang Xiwen via B4 Relay
+<devnull+forbidden405.outlook.com@kernel.org> wrote:
+>
+> From: Yang Xiwen <forbidden405@outlook.com>
+>
+> Add support for Hi3798MV200 specific extension.
+>
+> Signed-off-by: Yang Xiwen <forbidden405@outlook.com>
+> ---
+>  drivers/mmc/host/Kconfig              |   9 ++
+>  drivers/mmc/host/Makefile             |   1 +
+>  drivers/mmc/host/dw_mmc-hi3798mv200.c | 239 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 249 insertions(+)
+>
+> diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
+> index 81f2c4e05287..aebc587f77a7 100644
+> --- a/drivers/mmc/host/Kconfig
+> +++ b/drivers/mmc/host/Kconfig
+> @@ -798,6 +798,15 @@ config MMC_DW_HI3798CV200
+>           Synopsys DesignWare Memory Card Interface driver. Select this option
+>           for platforms based on HiSilicon Hi3798CV200 SoC.
+>
+> +config MMC_DW_HI3798MV200
+> +       tristate "Hi3798MV200 specific extensions for Synopsys DW Memory Card Interface"
+> +       depends on MMC_DW
+> +       select MMC_DW_PLTFM
+> +       help
+> +         This selects support for HiSilicon Hi3798MV200 SoC specific extensions to the
+> +         Synopsys DesignWare Memory Card Interface driver. Select this option
+> +         for platforms based on HiSilicon Hi3798MV200 SoC.
+> +
+>  config MMC_DW_K3
+>         tristate "K3 specific extensions for Synopsys DW Memory Card Interface"
+>         depends on MMC_DW
+> diff --git a/drivers/mmc/host/Makefile b/drivers/mmc/host/Makefile
+> index d0be4465f3ec..f53f86d200ac 100644
+> --- a/drivers/mmc/host/Makefile
+> +++ b/drivers/mmc/host/Makefile
+> @@ -51,6 +51,7 @@ obj-$(CONFIG_MMC_DW_PLTFM)    += dw_mmc-pltfm.o
+>  obj-$(CONFIG_MMC_DW_BLUEFIELD) += dw_mmc-bluefield.o
+>  obj-$(CONFIG_MMC_DW_EXYNOS)    += dw_mmc-exynos.o
+>  obj-$(CONFIG_MMC_DW_HI3798CV200) += dw_mmc-hi3798cv200.o
+> +obj-$(CONFIG_MMC_DW_HI3798MV200) += dw_mmc-hi3798mv200.o
+>  obj-$(CONFIG_MMC_DW_K3)                += dw_mmc-k3.o
+>  obj-$(CONFIG_MMC_DW_PCI)       += dw_mmc-pci.o
+>  obj-$(CONFIG_MMC_DW_ROCKCHIP)  += dw_mmc-rockchip.o
+> diff --git a/drivers/mmc/host/dw_mmc-hi3798mv200.c b/drivers/mmc/host/dw_mmc-hi3798mv200.c
+> new file mode 100644
+> index 000000000000..73aaa21040ea
+> --- /dev/null
+> +++ b/drivers/mmc/host/dw_mmc-hi3798mv200.c
+> @@ -0,0 +1,239 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Modified from dw_mmc-hi3798cv200.c
+> + *
+> + * Copyright (c) 2024 Yang Xiwen <forbidden405@outlook.com>
+> + * Copyright (c) 2018 HiSilicon Technologies Co., Ltd.
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/mmc/host.h>
+> +#include <linux/module.h>
+> +#include <linux/of_address.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +
+> +#include "dw_mmc.h"
+> +#include "dw_mmc-pltfm.h"
+> +
+> +#define SDMMC_TUNING_CTRL      0x118
+> +#define SDMMC_TUNING_FIND_EDGE BIT(5)
+> +
+> +#define ALL_INT_CLR            0x1ffff
+> +
+> +/* DLL ctrl reg */
+> +#define SAP_DLL_CTRL_DLLMODE   BIT(16)
+> +
+> +struct dw_mci_hi3798mv200_priv {
+> +       struct clk *sample_clk;
+> +       struct clk *drive_clk;
+> +       struct regmap *crg_reg;
+> +       u32 sap_dll_offset;
+> +       struct mmc_clk_phase_map phase_map;
+> +};
+> +
+> +static void dw_mci_hi3798mv200_set_ios(struct dw_mci *host, struct mmc_ios *ios)
+> +{
+> +       struct dw_mci_hi3798mv200_priv *priv = host->priv;
+> +       struct mmc_clk_phase phase = priv->phase_map.phase[ios->timing];
+> +       u32 val;
+> +
+> +       val = mci_readl(host, ENABLE_SHIFT);
+> +       if (ios->timing == MMC_TIMING_MMC_DDR52
+> +           || ios->timing == MMC_TIMING_UHS_DDR50)
+> +               val |= SDMMC_ENABLE_PHASE;
+> +       else
+> +               val &= ~SDMMC_ENABLE_PHASE;
+> +       mci_writel(host, ENABLE_SHIFT, val);
+> +
+> +       val = mci_readl(host, DDR_REG);
+> +       if (ios->timing == MMC_TIMING_MMC_HS400)
+> +               val |= SDMMC_DDR_HS400;
+> +       else
+> +               val &= ~SDMMC_DDR_HS400;
+> +       mci_writel(host, DDR_REG, val);
+> +
+> +       if (clk_set_rate(host->ciu_clk, ios->clock))
+> +               dev_warn(host->dev, "Failed to set rate to %u\n", ios->clock);
+> +       else
+> +               // CLK_MUX_ROUND_NEAREST is enabled for this clock
+> +               // The actual clock rate is not what we setted, but a rounded value
+> +               // so we should get the rate once again
 
-Thank you for testing!
+Please use proper comments sections (/* .... */) and not "//".
 
--- 
-With Best Regards,
-Andy Shevchenko
+> +               host->bus_hz = clk_get_rate(host->ciu_clk);
+> +
+> +       if (phase.valid) {
+> +               clk_set_phase(priv->drive_clk, phase.out_deg);
+> +               clk_set_phase(priv->sample_clk, phase.in_deg);
+> +       } else {
+> +               dev_warn(host->dev,
+> +                        "The phase entry for timing mode %d is missing in device tree.\n",
+> +                        ios->timing);
+> +       }
+> +}
+> +
+> +static inline int dw_mci_hi3798mv200_enable_tuning(struct dw_mci_slot *slot)
+> +{
+> +       struct dw_mci_hi3798mv200_priv *priv = slot->host->priv;
+> +
+> +       return regmap_clear_bits(priv->crg_reg, priv->sap_dll_offset, SAP_DLL_CTRL_DLLMODE);
+> +}
+> +
+> +static inline int dw_mci_hi3798mv200_disable_tuning(struct dw_mci_slot *slot)
+> +{
+> +       struct dw_mci_hi3798mv200_priv *priv = slot->host->priv;
+> +
+> +       return regmap_set_bits(priv->crg_reg, priv->sap_dll_offset, SAP_DLL_CTRL_DLLMODE);
+> +}
+> +
+> +static int dw_mci_hi3798mv200_execute_tuning_mix_mode(struct dw_mci_slot *slot,
+> +                                            u32 opcode)
+> +{
+> +       static const int degrees[] = { 0, 45, 90, 135, 180, 225, 270, 315 };
+> +       struct dw_mci *host = slot->host;
+> +       struct dw_mci_hi3798mv200_priv *priv = host->priv;
+> +       int raise_point = -1, fall_point = -1;
+> +       int err, prev_err = -1;
+> +       int found = 0;
+> +       int regval;
+> +       int i;
+> +       int ret;
+> +
+> +       // enable tuning
 
+Looks like a redundant comment, please drop it.
 
+> +       ret = dw_mci_hi3798mv200_enable_tuning(slot);
+> +       if (ret < 0)
+> +               return ret;
+
+A newline here would improve the readability I think.
+
+> +       for (i = 0; i < ARRAY_SIZE(degrees); i++) {
+> +               clk_set_phase(priv->sample_clk, degrees[i]);
+> +               mci_writel(host, RINTSTS, ALL_INT_CLR);
+> +
+> +               err = mmc_send_tuning(slot->mmc, opcode, NULL);
+> +               if (!err) {
+> +                       regval = mci_readl(host, TUNING_CTRL);
+> +                       if (regval & SDMMC_TUNING_FIND_EDGE)
+> +                               err = 1;
+> +                       else
+> +                               found = 1;
+> +               };
+> +
+> +               if (i > 0) {
+> +                       if (err && !prev_err)
+> +                               fall_point = i - 1;
+> +                       if (!err && prev_err)
+> +                               raise_point = i;
+> +               }
+> +
+> +               if (raise_point != -1 && fall_point != -1)
+> +                       goto tuning_out;
+> +
+> +               prev_err = err;
+> +               err = 0;
+> +       }
+> +
+> +tuning_out:
+> +       ret = dw_mci_hi3798mv200_disable_tuning(slot);
+> +       if (ret < 0)
+> +               return ret;
+> +       if (found) {
+> +               if (raise_point == -1)
+> +                       raise_point = 0;
+> +               if (fall_point == -1)
+> +                       fall_point = ARRAY_SIZE(degrees) - 1;
+> +               if (fall_point < raise_point) {
+> +                       if ((raise_point + fall_point) >
+> +                           (ARRAY_SIZE(degrees) - 1))
+> +                               i = fall_point / 2;
+> +                       else
+> +                               i = (raise_point + ARRAY_SIZE(degrees) - 1) / 2;
+> +               } else {
+> +                       i = (raise_point + fall_point) / 2;
+> +               }
+> +
+> +               // use the same phase table for both HS200 and HS400
+
+Don't use "//" for comments.
+
+> +               priv->phase_map.phase[MMC_TIMING_MMC_HS200].in_deg = degrees[i];
+> +               priv->phase_map.phase[MMC_TIMING_MMC_HS400].in_deg = degrees[i];
+> +
+> +               clk_set_phase(priv->sample_clk, degrees[i]);
+> +               dev_dbg(host->dev, "Tuning clk_sample[%d, %d], set[%d]\n",
+> +                       raise_point, fall_point, degrees[i]);
+> +               err = 0;
+> +       } else {
+> +               dev_err(host->dev, "No valid clk_sample shift! use default\n");
+> +               err = -EINVAL;
+> +       }
+> +
+> +       mci_writel(host, RINTSTS, ALL_INT_CLR);
+> +       return err;
+
+The entire code in dw_mci_hi3798mv200_execute_tuning_mix_mode() looks
+rather messy to me. A lot of variables are being used, set and reset
+from everywhere.
+
+Would you mind having a closer look and try to improve it a bit, so it
+becomes easier to follow what is going on?
+
+> +}
+> +
+> +static int dw_mci_hi3798mv200_init(struct dw_mci *host)
+> +{
+> +       struct dw_mci_hi3798mv200_priv *priv;
+> +       struct device_node *np = host->dev->of_node;
+> +       int ret;
+> +
+> +       priv = devm_kzalloc(host->dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
+> +
+> +       priv->sample_clk = devm_clk_get_enabled(host->dev, "ciu-sample");
+> +       if (IS_ERR(priv->sample_clk))
+> +               return dev_err_probe(host->dev, PTR_ERR(priv->sample_clk),
+> +                                    "failed to get enabled ciu-sample clock\n");
+> +
+> +       priv->drive_clk = devm_clk_get_enabled(host->dev, "ciu-drive");
+> +       if (IS_ERR(priv->drive_clk))
+> +               return dev_err_probe(host->dev, PTR_ERR(priv->drive_clk),
+> +                                    "failed to get enabled ciu-drive clock\n");
+> +
+> +       priv->crg_reg = syscon_regmap_lookup_by_phandle(np, "hisilicon,sap-dll-reg");
+> +       if (IS_ERR(priv->crg_reg))
+> +               return dev_err_probe(host->dev, PTR_ERR(priv->crg_reg),
+> +                                    "failed to get CRG reg\n");
+> +
+> +       ret = of_property_read_u32_index(np, "hisilicon,sap-dll-reg", 1, &priv->sap_dll_offset);
+> +       if (ret)
+> +               return dev_err_probe(host->dev, ret, "failed to get sample DLL register offset\n");
+> +
+> +       host->priv = priv;
+> +       return 0;
+> +}
+> +
+> +static const struct dw_mci_drv_data hi3798mv200_data = {
+> +       .common_caps = MMC_CAP_CMD23,
+> +       .init = dw_mci_hi3798mv200_init,
+> +       .set_ios = dw_mci_hi3798mv200_set_ios,
+> +       .execute_tuning = dw_mci_hi3798mv200_execute_tuning_mix_mode,
+> +};
+> +
+> +static const struct of_device_id dw_mci_hi3798mv200_match[] = {
+> +       { .compatible = "hisilicon,hi3798mv200-dw-mshc" },
+> +       {},
+> +};
+> +
+> +static int dw_mci_hi3798mv200_probe(struct platform_device *pdev)
+> +{
+> +       return dw_mci_pltfm_register(pdev, &hi3798mv200_data);
+> +}
+> +
+> +static void dw_mci_hi3798mv200_remove(struct platform_device *pdev)
+> +{
+> +       dw_mci_pltfm_remove(pdev);
+> +}
+> +
+> +MODULE_DEVICE_TABLE(of, dw_mci_hi3798mv200_match);
+> +static struct platform_driver dw_mci_hi3798mv200_driver = {
+> +       .probe = dw_mci_hi3798mv200_probe,
+> +       .remove_new = dw_mci_hi3798mv200_remove,
+> +       .driver = {
+> +               .name = "dwmmc_hi3798mv200",
+> +               .probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> +               .of_match_table = dw_mci_hi3798mv200_match,
+> +       },
+> +};
+> +module_platform_driver(dw_mci_hi3798mv200_driver);
+> +
+> +MODULE_DESCRIPTION("HiSilicon Hi3798MV200 Specific DW-MSHC Driver Extension");
+> +MODULE_LICENSE("GPL");
+>
+
+Kind regards
+Uffe
