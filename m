@@ -1,63 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98346868654
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 02:48:12 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id B716E868656
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 02:48:16 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ty0a3EMq;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TBiTQ8h7;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TkL3Z2MTDz3vYn
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 12:48:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TkL3f3kwnz3vY8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 12:48:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ty0a3EMq;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TBiTQ8h7;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TkL392167z3cVd
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 12:47:49 +1100 (AEDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1dba177c596so23679435ad.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 17:47:49 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TkL3D1JtCz3dXP
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 12:47:52 +1100 (AEDT)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1dc09556599so32668245ad.1
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Feb 2024 17:47:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708998467; x=1709603267; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1708998470; x=1709603270; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Hs0kTt521WxQulVTrFgJYAGsV52YNUczVxWl9CdT+ko=;
-        b=Ty0a3EMqJl1bb0FHACGUt1KZiZAb0wN+emNd3w0CFLzTaMBO5gsDUhCbnJaePqdqa2
-         MK4PmTmymro49Ht6/xnOFUxBttY/yAFFKBF7IOICXo9M5aE2NGM0SpsGNZBPzaDmeAC7
-         Mb4gIbLHbRasDrJdESZkxN+BL1ONWhNSaE03IsVspPNXomEvF5qY8yD+Dy8+nMARl7Mo
-         UvCNkxZX7mytpYQ4W+nyAHgfxaHdPpXFBvnQNaJGsbT14tDk3DoSfZojSGnqo5ZqTMSV
-         tMKoXXXMZ95k4p7gR4lfGGBGgrOyjTEvebNeJHI81fBmj+tQlpiBATXlrQSkWCPKWxO1
-         6+mg==
+        bh=aW3rP8p4z3TO0Ihdn0FuHfBWSAl8GOUADIxx8TKfnls=;
+        b=TBiTQ8h7qpWyBxNvVCSbM0Tt0Kp24jIJXbnp1NXmo8tGlj2uvKct0KckYRCCmMsixM
+         osEpYLBtwAVdSubu5sZtT92HfeEujOAvORF+D5wzWqRgvCJEvWYKeqwhPm0+AUojPmNn
+         8A26gxKe4QCn8syALmIbnd3IYEvRUueO7/1EdLoiGtImTcuOITVAw1Wn49bTfl0mVUey
+         OI2xCZyCC/DNf0gWWSDCL3Cqd6vDStjZkLhzXvxxLY3HfdWLMH2wustI1us9efMpodYU
+         BeedPBiVBs/kBe6NaiJvjhIuVloOQTwe1CYgDFPIbvryuQFh8lyrXXaaJMlZ7Wwtrgbm
+         MGPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708998467; x=1709603267;
+        d=1e100.net; s=20230601; t=1708998470; x=1709603270;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hs0kTt521WxQulVTrFgJYAGsV52YNUczVxWl9CdT+ko=;
-        b=sX2SLOh6gF7ax6ZpWRqogmQppM/SPlJH4jlk4WvJiGxjr+LFHSTZyDMa0qqJDcy43d
-         S7OMHqOjQtT8yOX4pEAcYYGwACPu/1QFy23FQNxHFt2yBmTsca8n/zzC5iUsmf+7nP+L
-         rD/kR/VnfAQJ9npW8qV97xyTj025DCtOjrNOYYjkW3ReJMM7riPOWw5HWArQzuLxuwgO
-         hT+Py6F63k8pbOuz86aCsje4sa0jTtqqT2hGTseX0YkTvH2+oM+Ztiy4mT2s9lTnnop7
-         uVeIg3+ejyV/T3ezOvpqDwsUUeEvoKQcbrvFcrdXjAV1kGmCbiHSy5UY89ONIQxoLKNv
-         D27A==
-X-Forwarded-Encrypted: i=1; AJvYcCUMf4VCtfu2bsDmxZqIAzKdkSAlglLqN2pLEgdOZRpGuNEWaMThNKP3Nq6IAkHEDfEayHR/lgi3fsC3fDkffgVH0inAEnxmDw2DWFSwBg==
-X-Gm-Message-State: AOJu0YxCAb65Yb1Q+IUuj55n19xIWd5fNS4LQSJ/3i/48lAo0CJKEr+9
-	ORzri51QeZ7I223IPHWTnR66e2W+LsPHeoqJiJ+IUybm60NDPaEf
-X-Google-Smtp-Source: AGHT+IGuCy8bpvvHRwtyY97TpNDqZJzgeQPnK+BX4u53CAN/uvQNpPDyoQQPZHSXZR3chccrAq0OwA==
-X-Received: by 2002:a17:902:654f:b0:1dc:15f5:fde3 with SMTP id d15-20020a170902654f00b001dc15f5fde3mr8724505pln.4.1708998467634;
-        Mon, 26 Feb 2024 17:47:47 -0800 (PST)
+        bh=aW3rP8p4z3TO0Ihdn0FuHfBWSAl8GOUADIxx8TKfnls=;
+        b=LJSrUrAPuos6ogtbV7vyaA+lqfYNRBXN7H0Usa9SuCdtckNRqF93LNciaMmtXwFzNl
+         h6gm4Sn9BHR5b0t1VgApEDhdM/XLGmmaQY8uAFFw/lJZ07N+Ykfvo5GcsbNe1FEAf64Y
+         9q4vBduXdhUXh+2qiRoQh33tm759PqTkDJ6UUjOuAPChfsIufMCy3zyj4Y7zuhA7WOF1
+         LapPRG+uYdyVMvGJYS7T8XJxHqNTWNnH+J9KeJLZEtdDrZWUbKMURgvllWZLqbTWrB35
+         fRZ3akxjV9ngw8A5jCbj/UHrX0/nGygQFD3d8FVHr+ci0lxEtCcXQJEL8IJrm1ch8FEh
+         Tsng==
+X-Forwarded-Encrypted: i=1; AJvYcCXU3FU4IHM2K8Py/4Dl0guI4KWb47xnaqUpJAWn/bGK/BWinX4+RMK4Q6i9LkGSLFIw1MN6pGkZQQjMAmkTJcRBb+iXhRNjEz7oI8ZOow==
+X-Gm-Message-State: AOJu0YyQn1LW0luda3ZRKxPHlJJ+IuAPvJm522Lkxuzf5Ox98LlY+v2g
+	cIxZJIrVH7d9eo9HL8YHoHoP3GOgoaw9d3H+h6l1xmKvCXxAvyCQ
+X-Google-Smtp-Source: AGHT+IEBX4FYb4gOFGZPwQ743sNbT9oZl7lMS6oM4vUbM7iuca8bfrna2+jJ549qvM3NYZaT4J9nHA==
+X-Received: by 2002:a17:902:7613:b0:1dc:63a0:8c6d with SMTP id k19-20020a170902761300b001dc63a08c6dmr9180109pll.40.1708998470559;
+        Mon, 26 Feb 2024 17:47:50 -0800 (PST)
 Received: from localhost.localdomain (2001-b400-e381-af24-f369-7cbc-56bf-1d54.emome-ip6.hinet.net. [2001:b400:e381:af24:f369:7cbc:56bf:1d54])
-        by smtp.gmail.com with ESMTPSA id kl14-20020a170903074e00b001db4b3769f6sm318893plb.280.2024.02.26.17.47.45
+        by smtp.gmail.com with ESMTPSA id kl14-20020a170903074e00b001db4b3769f6sm318893plb.280.2024.02.26.17.47.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 17:47:47 -0800 (PST)
+        Mon, 26 Feb 2024 17:47:50 -0800 (PST)
 From: Peter Yin <peteryin.openbmc@gmail.com>
 To: patrick@stwcx.xyz,
 	Rob Herring <robh+dt@kernel.org>,
@@ -69,9 +69,9 @@ To: patrick@stwcx.xyz,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 08/10] ARM: dts: aspeed: Harma: Add NIC Fru device
-Date: Tue, 27 Feb 2024 09:47:17 +0800
-Message-Id: <20240227014719.3037588-9-peteryin.openbmc@gmail.com>
+Subject: [PATCH v4 09/10] ARM: dts: aspeed: Harma: Add ltc4286 device
+Date: Tue, 27 Feb 2024 09:47:18 +0800
+Message-Id: <20240227014719.3037588-10-peteryin.openbmc@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240227014719.3037588-1-peteryin.openbmc@gmail.com>
 References: <20240227014719.3037588-1-peteryin.openbmc@gmail.com>
@@ -91,30 +91,31 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add MB NIC Device
+Add ltc4286 device.
 
 Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-index 7e98af5836cf..6e9e6e559838 100644
+index 6e9e6e559838..7dd48c384a4d 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-@@ -207,6 +207,12 @@ temperature-sensor@4b {
+@@ -271,6 +271,13 @@ temperature-sensor@49 {
  		compatible = "ti,tmp75";
- 		reg = <0x4b>;
+ 		reg = <0x49>;
  	};
 +
-+	// MB NIC FRU
-+	eeprom@50 {
-+		compatible = "atmel,24c64";
-+		reg = <0x50>;
++	power-monitor@22 {
++		compatible = "lltc,ltc4286";
++		reg = <0x22>;
++		adi,vrange-low-enable;
++		shunt-resistor-micro-ohms = <500>;
 +	};
  };
  
- &i2c2 {
+ &i2c5 {
 -- 
 2.25.1
 
