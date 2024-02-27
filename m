@@ -2,70 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4AEF868BDB
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 10:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F75868CD0
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 11:01:53 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lHiFxZEm;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hZwLyXiv;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TkWwh4F60z3cXY
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 20:12:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TkY1C0Db5z3dRl
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Feb 2024 21:01:51 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lHiFxZEm;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=hZwLyXiv;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::62e; helo=mail-ej1-x62e.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::630; helo=mail-ej1-x630.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TkWwS6s8Zz3cGc
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 20:12:39 +1100 (AEDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a3f5808b0dfso546285166b.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 01:12:39 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TkY1331XHz3cWR
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 21:01:41 +1100 (AEDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a3566c0309fso443734766b.1
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Feb 2024 02:01:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709025154; x=1709629954; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1709028098; x=1709632898; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=noyYY3Gfx3pR2gEQGXou1lh0FPp5xaoQVBZrG/2rV+k=;
-        b=lHiFxZEmKcBFBlFg+MoQmW+ZxNVuk0+PzBqFE2b4Jiy7InTiBUsZDp8VL47yZK0oCC
-         MANZ1S2xnbYcNZ5AKHqBbVZ1em00WKQDZ6DfBTjpPo0ApKFPhI+9FhpK0Kl0N3sIz+aC
-         dwc3oi08UHOPlqVdHyM14LsGNa1Nzi0ittUUm7nSQMRz6XyidISdfXgE2qKpYZnqOZvk
-         sjNcol3JlWWisPnviwkmkY45VmLT+BeXXXCMXBQXKqEsb5+vmRg8uo1Ze4elCIYv/XGc
-         EvSsNfa+klvHqAvMcLQOce1/D5KnmJjuxsXSI9+HuZGYoyDqeQdu87xnuC+EeKu+maU9
-         1buQ==
+        bh=aZZM4NSq/nxmGUIAt4bTEVFN1OMhtQBGxzph/8BH01M=;
+        b=hZwLyXiv+WKwkbQb2PqgwcH0OooWihyZzcfXt4JyIus6S4SCo7ALz4kaJQyNEtxi2Z
+         YT39SF1dMQvqsbCnUeG0c71HOYPTWaa+U+zYzGZDuIuW3ZywaJmnNXZwS7vnK0iy+uOg
+         kptYqhuVD0oKvDVXVoGJ00lnjBxk+cIn9Jf6BLehNOMLoIPkaeKR2A1lrbybg8jxZdYg
+         jxUNMhAnpj5DAdcdfJBIg9mP3Bik4GDP6u1xY6EdsQNvp/VnnMaYbrIfV9oIoVWxtmKM
+         kl3e+LEzBn5pGMuLvD7dfc9bzURhpRcLvp8qMzrK+J0ymCe0ZWyDiHaNSqTN0RvUlfV+
+         7q0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709025154; x=1709629954;
+        d=1e100.net; s=20230601; t=1709028098; x=1709632898;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=noyYY3Gfx3pR2gEQGXou1lh0FPp5xaoQVBZrG/2rV+k=;
-        b=uJhjnezg41UM3Mhx7eS9sR7OR9lvKLSAM1LrFbatqhvo51tCnADjlaBcrB+S5sHYuv
-         7iMYXYk1rBZWurKPcTYGBMHsc8OH+WmzL2AK1WbTM/73Cmk/nwcW4KwoWD2F9/iRZf8h
-         PT+n77XRgmjm5DtHX3fGwoBqUJNLj39EGChDqWL18ODeUa0HLA2DFpIb6c8/Sa1jMTAN
-         LFT8cnzdC4jtzs+QzIQsxdKcksjFuGS2waAfKKiYtP1pUSgdE22Z/SbocJ93yIM+M1g3
-         dP7wshXRZbn9ns7DTs+xy06LhJxW+BFZyzMfYEdPEZAbIGS/bjORm+8uHlOi6CMKpjLo
-         9itw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlefdlDwvO7Tb1gfrsCuShJdOGJdzMdzy0aO5kEIpU388B6bDaG7YrzjFYXcXGWlwrvdQrn34MdZ5yCAC+BNIgevJEch1yYmDjVvjY0w==
-X-Gm-Message-State: AOJu0Yy2x3+oh1fwzrm7UKkmOvUikTdI08cRmgTYq2SgtBkT5K4kq1fA
-	kf0hv/v0GsvMLvfWmUZsObm76aeAtbeI7QVcaE5TsJn6WVrhO2FB9icDeNdHgj8=
-X-Google-Smtp-Source: AGHT+IGzf/LPIh7sQZ8sP/iXtmh3RQl0WN6D3f2Wk7At5USPEo9zIhQr/VzsJdOzpH5kabUcc1UIaA==
-X-Received: by 2002:a17:906:528c:b0:a3f:db30:872a with SMTP id c12-20020a170906528c00b00a3fdb30872amr6026550ejm.66.1709025154206;
-        Tue, 27 Feb 2024 01:12:34 -0800 (PST)
+        bh=aZZM4NSq/nxmGUIAt4bTEVFN1OMhtQBGxzph/8BH01M=;
+        b=dzrTRjEti1nVBZuJBkuaXhMd8BNIMV/WxMRUrp/zfJ7aN7CR+uqPmjMI2ikP2X47bb
+         ud494BZz/KSnNcVdG+CAuvczglxX93t+V+BRwcL+2TqjC7xTsJfiVEnEvtC1v9ObId6z
+         rh6KaqgQm8Uz6hVM+IEhNYo6lOJ1WF64rnRWHGKFaxWDzzmVtdbPep6mLwe7dpQtYTIv
+         6DMsTusLRqR9yrNvjU2UJiDyS10RN3jywKWmuPGq5RJws74hvoaCg4jbmwbb4fTluIb+
+         A8qHp9+JrtAbAqmI+JVbkU+E/Rsd+S7O5X2hXG7QdbJKudOAQUj7ebTtyt/IBqeDFN14
+         VGNw==
+X-Forwarded-Encrypted: i=1; AJvYcCVym54S0kDfH6694C82+pPtnRwHsnwrDK0jRq3dPR6KuGfoIfoVTDrXo+vtEuWvJGeQADFwaDBWwck5tD8zmlkDFyAw+ruj3U2TNrC0Kw==
+X-Gm-Message-State: AOJu0YzY81j3zpqn5xGpRpDw9bQxjihoZd/J4b9bVUW8eljbMbI6TskF
+	W28AO2lUEP8I8YNfA128Dfl6jQfV04Ba1DUWZkRNK0DlnaVXlV3oXoAqgjjcpMg=
+X-Google-Smtp-Source: AGHT+IFVT8Rj6Mzy8Y1fsiWH9oHDcxshYtN/fUBKkNV3LoZCiFUJHD/sJiFq4K0ZD19FWwQ+UB5N3g==
+X-Received: by 2002:a17:907:20ee:b0:a3f:8925:50bb with SMTP id rh14-20020a17090720ee00b00a3f892550bbmr6184136ejb.76.1709028098129;
+        Tue, 27 Feb 2024 02:01:38 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id kt3-20020a170906aac300b00a3e70fec6a0sm559461ejb.171.2024.02.27.01.12.32
+        by smtp.gmail.com with ESMTPSA id x5-20020a170906710500b00a3e4673e7dbsm597176ejj.38.2024.02.27.02.01.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 01:12:33 -0800 (PST)
-Message-ID: <27a2ebb8-cfed-471b-89bc-62442bb0118a@linaro.org>
-Date: Tue, 27 Feb 2024 10:12:31 +0100
+        Tue, 27 Feb 2024 02:01:37 -0800 (PST)
+Message-ID: <60d048df-9a54-4239-8a8b-a8eb9a59dde9@linaro.org>
+Date: Tue, 27 Feb 2024 11:01:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/2] dt-bindings: arm: aspeed: add ASUS X4TF board
 Content-Language: en-US
 To: Kelly Hung <ppighouse@gmail.com>, robh+dt@kernel.org
-References: <20240227075051.1577877-1-Kelly_Hung@asus.com>
+References: <20240227092922.1734998-1-Kelly_Hung@asus.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -111,7 +111,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240227075051.1577877-1-Kelly_Hung@asus.com>
+In-Reply-To: <20240227092922.1734998-1-Kelly_Hung@asus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -129,16 +129,18 @@ Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.o
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 27/02/2024 08:50, Kelly Hung wrote:
+On 27/02/2024 10:29, Kelly Hung wrote:
 > Document the new compatibles used on ASUS X4TF.
 > 
-> Signed-off-by: Kelly Hung <Kelly_Hung@asus.com>
-> ---
+> Changelog
+> Changes in v3
+> - correct string to asus,x4tf-bmc
 
-No changelog, no explanation what happened with reviews or with this
-patchset.
+Changelog goes after ---.
 
-I am confused.
+Again: what happened with the tags? Why aren't you responding to
+comments you receive?
+
 
 Best regards,
 Krzysztof
