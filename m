@@ -2,111 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74A5957932
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4F8957935
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJ30ZYrz3gMj
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJ36Vy3z3vXp
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=unLw8Bi4;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=txjeDK0+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=outlook.com (client-ip=2a01:111:f403:280c::801; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=forbidden405@outlook.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01olkn20801.outbound.protection.outlook.com [IPv6:2a01:111:f403:280c::801])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=devnull+forbidden405.outlook.com@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tkww83hzcz3bX5;
-	Wed, 28 Feb 2024 11:58:46 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VrvtlQGPKdIQPqypfuUKLDJEqFmHBr59gEU44KNPZL3MGsIvtNMugkcIk/RTqOJ5R7aiD2bEW8jbiW6cQt0N1/EMfmGAnZ9/rYlYDusJo82ZqBWJbzR3v88zDJiZnAtvqju/dQ63IDX3PmtRKCo54pRRzDOMOGsSzlesApXppW/wcikE2Wp9g4QXFIXtqbfrW3uoxG+QWzLzYYPfTV/BhyfjyLV0oP7nD78GOhK1YTV6Fd8dWwpTSV/vjF7aLE4JZ6Qh0+GY9NmrSL8L2SjRQ8Aw/Jgm0hGDqMZL7uAH5nxucdip+fKJIh1oeVaB/W7yN69A16AWt68XaWFYdYW/yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UgvQP/pt91j6Pi+4m/Juod8yAbz2fcKZkmnddFhjfm0=;
- b=P4QsuIcS7fGLGRmEv96LOYsF2aQzliNyrVahK6E3qmNKE9Zz1gOrYB1HOwgkR/Zr16hM8ZwRJKYY1xrUnAhkssyyQ0xTHYy/0eeM3Y9gueqTycf1i41gYZ5w5pZT4cafotwqA7hIdKFHOsTQmWdELUddWtSjmriR1N8EiPzki9beYteb386VS+IUH1BjPvSWj0xB/mfHoxwjrR0FzN+y8WuevyxtWY/a3snnjVXAG3YFsNBhaKrMf6zn+b1S0rANQXaI4Qa9dzD06XN/DBZ45gndKUcRMUd607gEn4NAiRjZ/AAXLIuhiDGLQK3m3UJafP6KSssQ79GJVR1eftHHIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UgvQP/pt91j6Pi+4m/Juod8yAbz2fcKZkmnddFhjfm0=;
- b=unLw8Bi49yzUQw/Qz6Byt249fJgplLAvuNSu6PW6cO1o9mWLNMNAGbj7nYT5Mob/hSI8k5UKpo1CZdxETcE4yUZLIJrfd8yzi02vncZZIEWNJUKdySjQNtZxp0O9Xa1VfMJ3nSrc8brHIt045JlhHytOGEA9fKzknUkj6mOJriaRo4jeCPm6CCeJa0khWmvRPUhdgIgSzpa1P/5TYufE1E7le7dgHeRBBlZ5Ld+CUFyN/0uKHABzCFa2ED2EWuSD3oXUu3Lvs6nwKJ6hpJpBeVKlmy8lqKRNzPzwdLxjJEkCVlAuRnsiyS+j0bqBB8RN1yP5DEYnvmp5N2zFlSWEWg==
-Received: from SEZPR06MB6959.apcprd06.prod.outlook.com (2603:1096:101:1ed::14)
- by TYSPR06MB6338.apcprd06.prod.outlook.com (2603:1096:400:433::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.36; Wed, 28 Feb
- 2024 00:58:25 +0000
-Received: from SEZPR06MB6959.apcprd06.prod.outlook.com
- ([fe80::53da:a8a:83cb:b9ad]) by SEZPR06MB6959.apcprd06.prod.outlook.com
- ([fe80::53da:a8a:83cb:b9ad%4]) with mapi id 15.20.7316.035; Wed, 28 Feb 2024
- 00:58:25 +0000
-Message-ID:  <SEZPR06MB6959E0E07423A82DEF133CCB96582@SEZPR06MB6959.apcprd06.prod.outlook.com>
-Date: Wed, 28 Feb 2024 08:58:15 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/5] mmc: dw_mmc: add support for hi3798mv200
-Content-Language: en-US
-To: Ulf Hansson <ulf.hansson@linaro.org>
-References: <20240221-b4-mmc-hi3798mv200-v6-0-bc41bf6a9769@outlook.com>
- <20240221-b4-mmc-hi3798mv200-v6-3-bc41bf6a9769@outlook.com>
- <CAPDyKFosUX7giCYbFJpKRjSDHKEyO6FATna5VnDg7tHEzagWBg@mail.gmail.com>
-From: Yang Xiwen <forbidden405@outlook.com>
-In-Reply-To: <CAPDyKFosUX7giCYbFJpKRjSDHKEyO6FATna5VnDg7tHEzagWBg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TMN: [ZgIm6KRo4+x9BsYGTwbEEr1fV2qkA2H9BgZ+Tr6OdVFEbUzyHP8beFN7z6pGLWPU]
-X-ClientProxiedBy: KL1PR01CA0015.apcprd01.prod.exchangelabs.com
- (2603:1096:820::27) To SEZPR06MB6959.apcprd06.prod.outlook.com
- (2603:1096:101:1ed::14)
-X-Microsoft-Original-Message-ID:  <743b8a86-6790-4282-9da0-331d54283ace@outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TlYjm4hfVz3c9N;
+	Thu, 29 Feb 2024 12:37:00 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 265FC619BA;
+	Thu, 29 Feb 2024 01:36:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B5E50C433C7;
+	Thu, 29 Feb 2024 01:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709170616;
+	bh=DbESgbLm8iXZ1xAIRzvPJVCUiiqIdNKZWaT+1vVOvZ0=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=txjeDK0+8//21KLVNW5XiKexTTpb8rf/pX9PHaEyX2JsA0MpqAvGt/cmD/87zCcKa
+	 n7UeeNR0K3BbMJslRkxAcV4Ga9jiX3vS5/iPTkMXvvZMyBHZpeUbiSkecumViBLSv+
+	 4AmADfW6qYbF9KEaNZ03vs0jwIbmocoZN2SwxqxOlzs9JlTSKkBVdoFZx2jol8GBUy
+	 IAWRUeOg9oASxvm+e3OgKY0vWWQN0glQRTwVA8mD3Y5qp5KV1pxhlessNq2slppbkj
+	 VSU8JFzVs82UPdeJ1A55MeEj5Oq+32lD6Z8uyZfww1Cm+uV98Q/JQCR7QxA/1QemjJ
+	 bohqSH5IgfHyg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B2CC5475B;
+	Thu, 29 Feb 2024 01:36:56 +0000 (UTC)
+From: Yang Xiwen via B4 Relay <devnull+forbidden405.outlook.com@kernel.org>
+Subject: [PATCH v7 0/5] mmc: add hi3798mv200 specific extensions of DWMMC
+Date: Thu, 29 Feb 2024 09:36:18 +0800
+Message-Id: <20240229-b4-mmc-hi3798mv200-v7-0-10c03f316285@outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB6959:EE_|TYSPR06MB6338:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7354d83b-c927-47b6-772e-08dc37f85ddb
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 	VJyBjNGoV5WdGO8UGOgiTiW5lu+dQtb+q3HHMwBIgIRLqXw61SfK65Fx4Tffzge06HkLaKt5ZX458AXUULLN4bSqxhkVwgk3Bu7L+ifxac5hM17AeeRx9BkdZ0OQf1mVHg+HxIPrXsT+E+G3sxJXhE+RJOoLHZJ6kYs+YR+Q1i0dvfkqf5lFwJOaxX0Wu1fHYwlzax/g6CiY4oeQW/3ss/aC2VBGK7P3RKTSyl9CoUrIUm2UKX+M7lCFNNNu4xO+EKJ5aAhTlLjZTzVZaprRXNcFuqpUfvQS0F3iRJiIyq95VEheFcVyThaCnAt8OrxA4vsadNaogmRe5sYF7hJweqVcn9tcYDBsl8kTtZAHK1rJV0l/fH/fvlVHn1cYy+OPJmLxw7j66YNwdxVUZjik/lEuHC0T7a6nJUVSCq5Oyt+SXT1R683iqdvr78PTPdVNT381sKQDqKvp+ESAIXPU+sgTQtVzM9Nt3p9B2JJ4r1oSEq9QcmJs82y4PvytpUocmaziiWJaXE8Aj/fFmwYdZL+ZCtlBRI7QRMStBAyDZV//qBgUVQCogtPLIp2xQ8RF
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?utf-8?B?S2V6cXBmR3JOUG41SEYvWFZRYzk0dnZIYW0yMnduZHBMc1VtYWpKTDRibndt?=
- =?utf-8?B?TTdkWjYvM0ZMS2U4UFlDOGIzSVlIS2pnMlpGMTc4RjRsZTRrTDE2dVhCYTZV?=
- =?utf-8?B?YlgxVWR0eXZaenoxdWRMdjZXcFc2a3BMcXlEN25jTnUzdEUrM2hVZE1lcFp1?=
- =?utf-8?B?YkgzTEkzREZFTzcyUzFmK1pLdUxkNW0xRlQrQkQ5YnR6ZFpXSXdIVnhIam9s?=
- =?utf-8?B?K1lBdm82eUlzUWJOcmZ5SVJ6cTJ5QTMybUY1U2V0YTNyZTk0KytBejBNNmh2?=
- =?utf-8?B?TzhnSUJxclBwaWdyRGJZeXRGR3M5THdWcEUzaXluWFpvanVkQ1Q0NEVsSUQ4?=
- =?utf-8?B?TjVQVXVmeGE0OWtRZTJBSjExL2FwZHVOZXRHNzh5U0h1bHhJYlUvWXZQNDhs?=
- =?utf-8?B?YmFJaG9VWUV1UlBYQTRxVkhBR3RaeHNOVWUvaGo0RVBFMEo4bmdjN0VMNEhF?=
- =?utf-8?B?MVh1NWxobGM3bFd1dmRSNzRMc0pKV2dIY1pERVBZTm5kYjIvUGdabEdBVFVp?=
- =?utf-8?B?UE9HaE9HWi9pSFpLVFV2ZVpsVkI5cW5NSTFVd2l1d2hYdWlwalp4WjRrLzBS?=
- =?utf-8?B?MTA0bTZOaVlhWURUOGVPNk9ONlJyN0xCUS8vL2xLVlJwWWhCMzN6UXloWUxS?=
- =?utf-8?B?NTJlc2F3WUE5V0Z2NTZ0WW5PQklkQzBGMEZ2RlYwd0hvNm1oem5nZ0NJZkQw?=
- =?utf-8?B?QVQ4b2VmUGsrZytkblJKU0FRbFJYYjRTRW1YaXNGSjVhbzlYaFZ2eXBZOFBj?=
- =?utf-8?B?dWJnZGs3U0lIcGlJQTA1YnFxZFhNRWNnN2x2WTNVcjQ5bW1oeURwekFWMVI0?=
- =?utf-8?B?dTZDT2RZYVM3OWttVjJNVHVTWlJraWtieG1qdlVYbUIvdzJPSEFOVVhBOG8w?=
- =?utf-8?B?aGR3RWpYU0xOdC9UK3ltVklBelVSK2hxRkpidy9scWFyZUpXZ2YycGFVZXNG?=
- =?utf-8?B?SWhXdmdVNllycjhadmx2VmYxZS8wT2szRjBicEZPVTkwcmk2b1Q1VnhUaUJF?=
- =?utf-8?B?bVZQMzZlVFhQQVZ1RElNMmEyeWlQNWR6ZWdtejZTL0Z1RGNKdWl0NUJWTDdw?=
- =?utf-8?B?dmdMVkkwNHZiZHhjU3FZTklDZGhSQmpuRDZ5YUw4ZmVVeGtQZUZLWWxEVnZl?=
- =?utf-8?B?Y0RXeFFiSUhzUHhxMmI5c1daQ2I4YmZMYkZrWTZsaWJ1Z1hEU0hhOUFaZ2FW?=
- =?utf-8?B?RFc3eEdmR1JiR2JwREV2L0hsME9ObUpBMDN4MlZYcjkvWTVsNThMODNDV0p5?=
- =?utf-8?B?eG9DU3RNNEJkeml6ZmJ0MytVdk10L0dySHFYTlArUWtaRGFZTU92WE1MRXN2?=
- =?utf-8?B?UEpVYTRseENadW0yeXlXV3krT3ZFSGpiZWNTUmg3bmxjb3kwd3BTZTRxOWdD?=
- =?utf-8?B?Z0M0emg5a0VkN014Qzh1SFNudGc5UUtCSjVWUWVvYkFSdHBLdm91VHVVT0Jy?=
- =?utf-8?B?cy9HeVpGK09SUFJxWDBhQ0hpT0E4VlRnRGVoOFpZM1NMTVZyaHFWTVBZTzRs?=
- =?utf-8?B?aDlqSG5hRXkrVlQ1R0owODJSaktmZHNkbFdJSXJ0czJ4WjVrZXUzUEl3STJ6?=
- =?utf-8?B?clhvYjRGV01haGVkSUFzWjJCMFRQZko1TnpPU0x3a29DNHJhck54VldjaWRi?=
- =?utf-8?B?UU4xVzZSR1hHWVpTRU0vWFJBVm1ndlVESnRGYW1rZ1FEMnp6TzRWVjZKaTBs?=
- =?utf-8?B?NGFRV0ovRkNEdGJHWEh6Y1FqbG5Ja0ZtKzFiMjRkb2Y3aEcyczBlNUI5aExD?=
- =?utf-8?Q?NIHxyavCux7G7kCqjq3G2vIc7F54+n5VXKQ+slH?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7354d83b-c927-47b6-772e-08dc37f85ddb
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB6959.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 00:58:25.1806
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR06MB6338
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJLf32UC/4XRS07EMAwG4KuMsiYodhynZcU9EIs2DxpBJ6gdI
+ tCodycdNkWtNMvfkj/b8lXMYUphFk+nq5hCSXPK5xrsw0m4oTu/BZl8zQIVkgIE2ZMcRyeHpG3
+ bjAWVkp2xWgUfAdGJ2vg5hZi+b+jLa81Dmi95+rnNKLBW/zgEPuIKSCWtJ/Z9Q6YL/Jy/Lh85v
+ z+6PIoVLHgfwYooUJ514A682SN6i9hDRFckgiEmsNyS3SN0H6F1k+h923tqjMY9YjYIqkPErJs
+ Yxc6Y2ATSe4S3yOGfClekdwR95K6tB/1HlmX5BeEHM1kPAgAA
+To: Ulf Hansson <ulf.hansson@linaro.org>, 
+ Jaehoon Chung <jh80.chung@samsung.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1709170614; l=3128;
+ i=forbidden405@outlook.com; s=20240228; h=from:subject:message-id;
+ bh=DbESgbLm8iXZ1xAIRzvPJVCUiiqIdNKZWaT+1vVOvZ0=;
+ b=lqJUGZQRau+vHK8zzfG0TQhZLe44ISqDiBVhDKit2Z7lPJv2XYc1hzqzRZs3Sl3dKFjfCV0AH
+ GbgNgWa0197D8TwR67DQTdMBcMSbYcKtgLGGRTvSOOwNH86bhNe27/E
+X-Developer-Key: i=forbidden405@outlook.com; a=ed25519;
+ pk=KAWv6ZzFsT54MGllOczJgFiWB+DuayEmyn24iiVVThU=
+X-Endpoint-Received:  by B4 Relay for forbidden405@outlook.com/20240228 with auth_id=136
+X-Original-From: Yang Xiwen <forbidden405@outlook.com>
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -119,332 +76,74 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, linux-mmc@vger.kernel.org, openbmc@lists.ozlabs.org, Igor Opaniuk <igor.opaniuk@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org, Jaehoon Chung <jh80.chung@samsung.com>, tianshuliang <tianshuliang@hisilicon.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, David Yang <mmyangfl@gmail.com>
+Reply-To: forbidden405@outlook.com
+Cc: devicetree@vger.kernel.org, tianshuliang <tianshuliang@hisilicon.com>, linux-aspeed@lists.ozlabs.org, Paul Menzel <pmenzel@molgen.mpg.de>, Igor Opaniuk <igor.opaniuk@linaro.org>, openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-arm-kernel@lists.infradead.org, Yang Xiwen <forbidden405@outlook.com>, David Yang <mmyangfl@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 2/27/2024 11:16 PM, Ulf Hansson wrote:
-> On Wed, 21 Feb 2024 at 13:45, Yang Xiwen via B4 Relay
-> <devnull+forbidden405.outlook.com@kernel.org> wrote:
->>
->> From: Yang Xiwen <forbidden405@outlook.com>
->>
->> Add support for Hi3798MV200 specific extension.
->>
->> Signed-off-by: Yang Xiwen <forbidden405@outlook.com>
->> ---
->>  drivers/mmc/host/Kconfig              |   9 ++
->>  drivers/mmc/host/Makefile             |   1 +
->>  drivers/mmc/host/dw_mmc-hi3798mv200.c | 239 ++++++++++++++++++++++++++++++++++
->>  3 files changed, 249 insertions(+)
->>
->> diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
->> index 81f2c4e05287..aebc587f77a7 100644
->> --- a/drivers/mmc/host/Kconfig
->> +++ b/drivers/mmc/host/Kconfig
->> @@ -798,6 +798,15 @@ config MMC_DW_HI3798CV200
->>           Synopsys DesignWare Memory Card Interface driver. Select this option
->>           for platforms based on HiSilicon Hi3798CV200 SoC.
->>
->> +config MMC_DW_HI3798MV200
->> +       tristate "Hi3798MV200 specific extensions for Synopsys DW Memory Card Interface"
->> +       depends on MMC_DW
->> +       select MMC_DW_PLTFM
->> +       help
->> +         This selects support for HiSilicon Hi3798MV200 SoC specific extensions to the
->> +         Synopsys DesignWare Memory Card Interface driver. Select this option
->> +         for platforms based on HiSilicon Hi3798MV200 SoC.
->> +
->>  config MMC_DW_K3
->>         tristate "K3 specific extensions for Synopsys DW Memory Card Interface"
->>         depends on MMC_DW
->> diff --git a/drivers/mmc/host/Makefile b/drivers/mmc/host/Makefile
->> index d0be4465f3ec..f53f86d200ac 100644
->> --- a/drivers/mmc/host/Makefile
->> +++ b/drivers/mmc/host/Makefile
->> @@ -51,6 +51,7 @@ obj-$(CONFIG_MMC_DW_PLTFM)    += dw_mmc-pltfm.o
->>  obj-$(CONFIG_MMC_DW_BLUEFIELD) += dw_mmc-bluefield.o
->>  obj-$(CONFIG_MMC_DW_EXYNOS)    += dw_mmc-exynos.o
->>  obj-$(CONFIG_MMC_DW_HI3798CV200) += dw_mmc-hi3798cv200.o
->> +obj-$(CONFIG_MMC_DW_HI3798MV200) += dw_mmc-hi3798mv200.o
->>  obj-$(CONFIG_MMC_DW_K3)                += dw_mmc-k3.o
->>  obj-$(CONFIG_MMC_DW_PCI)       += dw_mmc-pci.o
->>  obj-$(CONFIG_MMC_DW_ROCKCHIP)  += dw_mmc-rockchip.o
->> diff --git a/drivers/mmc/host/dw_mmc-hi3798mv200.c b/drivers/mmc/host/dw_mmc-hi3798mv200.c
->> new file mode 100644
->> index 000000000000..73aaa21040ea
->> --- /dev/null
->> +++ b/drivers/mmc/host/dw_mmc-hi3798mv200.c
->> @@ -0,0 +1,239 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Modified from dw_mmc-hi3798cv200.c
->> + *
->> + * Copyright (c) 2024 Yang Xiwen <forbidden405@outlook.com>
->> + * Copyright (c) 2018 HiSilicon Technologies Co., Ltd.
->> + */
->> +
->> +#include <linux/clk.h>
->> +#include <linux/mfd/syscon.h>
->> +#include <linux/mmc/host.h>
->> +#include <linux/module.h>
->> +#include <linux/of_address.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/regmap.h>
->> +
->> +#include "dw_mmc.h"
->> +#include "dw_mmc-pltfm.h"
->> +
->> +#define SDMMC_TUNING_CTRL      0x118
->> +#define SDMMC_TUNING_FIND_EDGE BIT(5)
->> +
->> +#define ALL_INT_CLR            0x1ffff
->> +
->> +/* DLL ctrl reg */
->> +#define SAP_DLL_CTRL_DLLMODE   BIT(16)
->> +
->> +struct dw_mci_hi3798mv200_priv {
->> +       struct clk *sample_clk;
->> +       struct clk *drive_clk;
->> +       struct regmap *crg_reg;
->> +       u32 sap_dll_offset;
->> +       struct mmc_clk_phase_map phase_map;
->> +};
->> +
->> +static void dw_mci_hi3798mv200_set_ios(struct dw_mci *host, struct mmc_ios *ios)
->> +{
->> +       struct dw_mci_hi3798mv200_priv *priv = host->priv;
->> +       struct mmc_clk_phase phase = priv->phase_map.phase[ios->timing];
->> +       u32 val;
->> +
->> +       val = mci_readl(host, ENABLE_SHIFT);
->> +       if (ios->timing == MMC_TIMING_MMC_DDR52
->> +           || ios->timing == MMC_TIMING_UHS_DDR50)
->> +               val |= SDMMC_ENABLE_PHASE;
->> +       else
->> +               val &= ~SDMMC_ENABLE_PHASE;
->> +       mci_writel(host, ENABLE_SHIFT, val);
->> +
->> +       val = mci_readl(host, DDR_REG);
->> +       if (ios->timing == MMC_TIMING_MMC_HS400)
->> +               val |= SDMMC_DDR_HS400;
->> +       else
->> +               val &= ~SDMMC_DDR_HS400;
->> +       mci_writel(host, DDR_REG, val);
->> +
->> +       if (clk_set_rate(host->ciu_clk, ios->clock))
->> +               dev_warn(host->dev, "Failed to set rate to %u\n", ios->clock);
->> +       else
->> +               // CLK_MUX_ROUND_NEAREST is enabled for this clock
->> +               // The actual clock rate is not what we setted, but a rounded value
->> +               // so we should get the rate once again
-> 
-> Please use proper comments sections (/* .... */) and not "//".
-> 
->> +               host->bus_hz = clk_get_rate(host->ciu_clk);
->> +
->> +       if (phase.valid) {
->> +               clk_set_phase(priv->drive_clk, phase.out_deg);
->> +               clk_set_phase(priv->sample_clk, phase.in_deg);
->> +       } else {
->> +               dev_warn(host->dev,
->> +                        "The phase entry for timing mode %d is missing in device tree.\n",
->> +                        ios->timing);
->> +       }
->> +}
->> +
->> +static inline int dw_mci_hi3798mv200_enable_tuning(struct dw_mci_slot *slot)
->> +{
->> +       struct dw_mci_hi3798mv200_priv *priv = slot->host->priv;
->> +
->> +       return regmap_clear_bits(priv->crg_reg, priv->sap_dll_offset, SAP_DLL_CTRL_DLLMODE);
->> +}
->> +
->> +static inline int dw_mci_hi3798mv200_disable_tuning(struct dw_mci_slot *slot)
->> +{
->> +       struct dw_mci_hi3798mv200_priv *priv = slot->host->priv;
->> +
->> +       return regmap_set_bits(priv->crg_reg, priv->sap_dll_offset, SAP_DLL_CTRL_DLLMODE);
->> +}
->> +
->> +static int dw_mci_hi3798mv200_execute_tuning_mix_mode(struct dw_mci_slot *slot,
->> +                                            u32 opcode)
->> +{
->> +       static const int degrees[] = { 0, 45, 90, 135, 180, 225, 270, 315 };
->> +       struct dw_mci *host = slot->host;
->> +       struct dw_mci_hi3798mv200_priv *priv = host->priv;
->> +       int raise_point = -1, fall_point = -1;
->> +       int err, prev_err = -1;
->> +       int found = 0;
->> +       int regval;
->> +       int i;
->> +       int ret;
->> +
->> +       // enable tuning
-> 
-> Looks like a redundant comment, please drop it.
-> 
->> +       ret = dw_mci_hi3798mv200_enable_tuning(slot);
->> +       if (ret < 0)
->> +               return ret;
-> 
-> A newline here would improve the readability I think.
-> 
->> +       for (i = 0; i < ARRAY_SIZE(degrees); i++) {
->> +               clk_set_phase(priv->sample_clk, degrees[i]);
->> +               mci_writel(host, RINTSTS, ALL_INT_CLR);
->> +
->> +               err = mmc_send_tuning(slot->mmc, opcode, NULL);
->> +               if (!err) {
->> +                       regval = mci_readl(host, TUNING_CTRL);
->> +                       if (regval & SDMMC_TUNING_FIND_EDGE)
->> +                               err = 1;
->> +                       else
->> +                               found = 1;
->> +               };
->> +
->> +               if (i > 0) {
->> +                       if (err && !prev_err)
->> +                               fall_point = i - 1;
->> +                       if (!err && prev_err)
->> +                               raise_point = i;
->> +               }
->> +
->> +               if (raise_point != -1 && fall_point != -1)
->> +                       goto tuning_out;
->> +
->> +               prev_err = err;
->> +               err = 0;
->> +       }
->> +
->> +tuning_out:
->> +       ret = dw_mci_hi3798mv200_disable_tuning(slot);
->> +       if (ret < 0)
->> +               return ret;
->> +       if (found) {
->> +               if (raise_point == -1)
->> +                       raise_point = 0;
->> +               if (fall_point == -1)
->> +                       fall_point = ARRAY_SIZE(degrees) - 1;
->> +               if (fall_point < raise_point) {
->> +                       if ((raise_point + fall_point) >
->> +                           (ARRAY_SIZE(degrees) - 1))
->> +                               i = fall_point / 2;
->> +                       else
->> +                               i = (raise_point + ARRAY_SIZE(degrees) - 1) / 2;
->> +               } else {
->> +                       i = (raise_point + fall_point) / 2;
->> +               }
->> +
->> +               // use the same phase table for both HS200 and HS400
-> 
-> Don't use "//" for comments.
-> 
->> +               priv->phase_map.phase[MMC_TIMING_MMC_HS200].in_deg = degrees[i];
->> +               priv->phase_map.phase[MMC_TIMING_MMC_HS400].in_deg = degrees[i];
->> +
->> +               clk_set_phase(priv->sample_clk, degrees[i]);
->> +               dev_dbg(host->dev, "Tuning clk_sample[%d, %d], set[%d]\n",
->> +                       raise_point, fall_point, degrees[i]);
->> +               err = 0;
->> +       } else {
->> +               dev_err(host->dev, "No valid clk_sample shift! use default\n");
->> +               err = -EINVAL;
->> +       }
->> +
->> +       mci_writel(host, RINTSTS, ALL_INT_CLR);
->> +       return err;
-> 
-> The entire code in dw_mci_hi3798mv200_execute_tuning_mix_mode() looks
-> rather messy to me. A lot of variables are being used, set and reset
-> from everywhere.
-> 
-> Would you mind having a closer look and try to improve it a bit, so it
-> becomes easier to follow what is going on?
+it's modified from hi3798cv200 driver, but quite a lot of code gets
+rewritten because of the hardware differences. Actually cv200 DWMMC core
+is called HIMCIV200 while mv200 DWMMC core is called HIMCIV300 in
+downstream.
 
-That might because the code here is modified from dw-mmc_hi3798cv200.c.
-And That file is already a mess. I'll try to improve it soon.
+Signed-off-by: Yang Xiwen <forbidden405@outlook.com>
+---
+Changes in v7:
+- driver: simplify tuning logic (Ulf Hansson)
+- bindings: fix patch order (Ulf Hansson)
+- Link to v6: https://lore.kernel.org/r/20240221-b4-mmc-hi3798mv200-v6-0-bc41bf6a9769@outlook.com
 
-> 
->> +}
->> +
->> +static int dw_mci_hi3798mv200_init(struct dw_mci *host)
->> +{
->> +       struct dw_mci_hi3798mv200_priv *priv;
->> +       struct device_node *np = host->dev->of_node;
->> +       int ret;
->> +
->> +       priv = devm_kzalloc(host->dev, sizeof(*priv), GFP_KERNEL);
->> +       if (!priv)
->> +               return -ENOMEM;
->> +
->> +       mmc_of_parse_clk_phase(host->dev, &priv->phase_map);
->> +
->> +       priv->sample_clk = devm_clk_get_enabled(host->dev, "ciu-sample");
->> +       if (IS_ERR(priv->sample_clk))
->> +               return dev_err_probe(host->dev, PTR_ERR(priv->sample_clk),
->> +                                    "failed to get enabled ciu-sample clock\n");
->> +
->> +       priv->drive_clk = devm_clk_get_enabled(host->dev, "ciu-drive");
->> +       if (IS_ERR(priv->drive_clk))
->> +               return dev_err_probe(host->dev, PTR_ERR(priv->drive_clk),
->> +                                    "failed to get enabled ciu-drive clock\n");
->> +
->> +       priv->crg_reg = syscon_regmap_lookup_by_phandle(np, "hisilicon,sap-dll-reg");
->> +       if (IS_ERR(priv->crg_reg))
->> +               return dev_err_probe(host->dev, PTR_ERR(priv->crg_reg),
->> +                                    "failed to get CRG reg\n");
->> +
->> +       ret = of_property_read_u32_index(np, "hisilicon,sap-dll-reg", 1, &priv->sap_dll_offset);
->> +       if (ret)
->> +               return dev_err_probe(host->dev, ret, "failed to get sample DLL register offset\n");
->> +
->> +       host->priv = priv;
->> +       return 0;
->> +}
->> +
->> +static const struct dw_mci_drv_data hi3798mv200_data = {
->> +       .common_caps = MMC_CAP_CMD23,
->> +       .init = dw_mci_hi3798mv200_init,
->> +       .set_ios = dw_mci_hi3798mv200_set_ios,
->> +       .execute_tuning = dw_mci_hi3798mv200_execute_tuning_mix_mode,
->> +};
->> +
->> +static const struct of_device_id dw_mci_hi3798mv200_match[] = {
->> +       { .compatible = "hisilicon,hi3798mv200-dw-mshc" },
->> +       {},
->> +};
->> +
->> +static int dw_mci_hi3798mv200_probe(struct platform_device *pdev)
->> +{
->> +       return dw_mci_pltfm_register(pdev, &hi3798mv200_data);
->> +}
->> +
->> +static void dw_mci_hi3798mv200_remove(struct platform_device *pdev)
->> +{
->> +       dw_mci_pltfm_remove(pdev);
->> +}
->> +
->> +MODULE_DEVICE_TABLE(of, dw_mci_hi3798mv200_match);
->> +static struct platform_driver dw_mci_hi3798mv200_driver = {
->> +       .probe = dw_mci_hi3798mv200_probe,
->> +       .remove_new = dw_mci_hi3798mv200_remove,
->> +       .driver = {
->> +               .name = "dwmmc_hi3798mv200",
->> +               .probe_type = PROBE_PREFER_ASYNCHRONOUS,
->> +               .of_match_table = dw_mci_hi3798mv200_match,
->> +       },
->> +};
->> +module_platform_driver(dw_mci_hi3798mv200_driver);
->> +
->> +MODULE_DESCRIPTION("HiSilicon Hi3798MV200 Specific DW-MSHC Driver Extension");
->> +MODULE_LICENSE("GPL");
->>
-> 
-> Kind regards
-> Uffe
+Changes in v6:
+- apply the comments to the first patch, add their trailers
+- Link to v5: https://lore.kernel.org/r/20240220-b4-mmc-hi3798mv200-v5-0-f506c55f8e43@outlook.com
 
--- 
+Changes in v5:
+- pick the dependant patch: https://lore.kernel.org/all/20240215-mmc_phase-v1-1-f27644ee13e4@outlook.com/
+  to fix the bot build error.
+- edit the semantic meaning of hisilicon,sap-dll-reg property (Rob Herring)
+  The suggestion is from the CRG driver side:
+  https://lore.kernel.org/all/20240218205741.GA1561527-robh@kernel.org/
+- Link to v4: https://lore.kernel.org/r/20240217-b4-mmc-hi3798mv200-v4-0-0fdd9bd48532@outlook.com
+
+Changes in v4:
+- rename dw_mmc-hi3798 back to hi3798cv200 - Suggested by Krzysztof Kozlowski.
+- add r-bs to patch 1 and 2 - Reviewed by Krzysztof Kozlowski.
+- Link to v3: https://lore.kernel.org/r/20240217-b4-mmc-hi3798mv200-v3-0-f15464176947@outlook.com
+
+Changes in v3:
+- dw_mmc-hi3798: fix bot error (Rob Herring)
+- Link to v2: https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v2-0-010d63e6a1d5@outlook.com
+
+Changes in v2:
+- dw_mmc-hi3798mv200: use dev_err_probe() helper - Suggested by Krzysztof Kozlowski.
+- dw_mmc-hi3798mv200: add missing err=0;
+- dw_mmc-hi3798c(m)v200: remove unused MODULE_ALIAS() - Suggested by Krzysztof Kozlowski.
+- binding: rename the binding, a lot of tweaks suggested by Krzysztof Kozlowski.
+- Link to v1: https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v1-0-7d46db845ae6@outlook.com
+
+---
+Yang Xiwen (5):
+      mmc: host: mmc_of_parse_clk_phase(): Pass struct device * instead of mmc_host *
+      mmc: dw_mmc-hi3798cv200: remove MODULE_ALIAS()
+      dt-bindings: mmc: dw-mshc-hi3798cv200: convert to YAML
+      dt-bindings: mmc: hisilicon,hi3798cv200-dw-mshc: add Hi3798MV200 binding
+      mmc: dw_mmc: add support for hi3798mv200
+
+ .../bindings/mmc/hi3798cv200-dw-mshc.txt           |  40 ----
+ .../mmc/hisilicon,hi3798cv200-dw-mshc.yaml         |  97 ++++++++
+ drivers/mmc/core/host.c                            |   4 +-
+ drivers/mmc/host/Kconfig                           |   9 +
+ drivers/mmc/host/Makefile                          |   1 +
+ drivers/mmc/host/dw_mmc-hi3798cv200.c              |   1 -
+ drivers/mmc/host/dw_mmc-hi3798mv200.c              | 251 +++++++++++++++++++++
+ drivers/mmc/host/sdhci-of-aspeed.c                 |   2 +-
+ include/linux/mmc/host.h                           |   2 +-
+ 9 files changed, 361 insertions(+), 46 deletions(-)
+---
+base-commit: d206a76d7d2726f3b096037f2079ce0bd3ba329b
+change-id: 20240121-b4-mmc-hi3798mv200-a5730edf122c
+
 Best regards,
-Yang Xiwen
+-- 
+Yang Xiwen <forbidden405@outlook.com>
 
