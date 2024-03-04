@@ -2,53 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3EB870B7B
-	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Mar 2024 21:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF53E870BF3
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Mar 2024 21:57:00 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BcPo69xN;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=q7ur/Atm;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TpVX04CWhz3dC0
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 07:23:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TpWGL3QWkz2yt0
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 07:56:58 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BcPo69xN;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=q7ur/Atm;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=wsa@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TpVWs1Qprz3brc
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  5 Mar 2024 07:23:37 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TpWGB0rBFz2yk5;
+	Tue,  5 Mar 2024 07:56:50 +1100 (AEDT)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 76BB8CE1386;
-	Mon,  4 Mar 2024 20:23:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46DD4C433F1;
-	Mon,  4 Mar 2024 20:23:30 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 5AAF160C41;
+	Mon,  4 Mar 2024 20:56:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D3ACC433C7;
+	Mon,  4 Mar 2024 20:56:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709583812;
-	bh=V1Qaqr+cyN7FZy2RgN8ZX4Ee45PfginbyyRueKS1KDA=;
+	s=k20201202; t=1709585807;
+	bh=PGm7I2xBC8apFwuKMKOhBF/0kgBpWxKJP5GaEquNHBk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BcPo69xNTWbhO57HEa1G617Db21l02p4Gon6X7YSOl6YpywckluTFZMgliFwCSsqJ
-	 FA0NwdejFMI7Zi2a48kyI+PWD3ui+zH0dO0QOqJnsPpgDbZkAAA1EBdr/b4/uJds2O
-	 H3RKJ9Y2r2o8QI8YgRQKFmSbOS/QXtHmtutMoc5fvU3+/iomuQiDLv/tOClrGnTgxu
-	 S4PJz4ULuXdurrE78SviCipbqX1LCpeIEoIUQ5T6bqFXsZHKdTIN+HW8xdYCL8BPPe
-	 1C0g5Dfh8CcQDO5tvJoDF5nkDCwPeo/84jiwr7keVuO/wLeCL1BaArsBcWXwznUDca
-	 y6J5OCU48OMsA==
-Date: Mon, 4 Mar 2024 20:23:27 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: Re: [PATCH v2] dt-bindings: gpio: aspeed,ast2400-gpio: Convert to DT
- schema
-Message-ID: <20240304-radio-urban-9843704f374e@spud>
-References: <20240226031951.284847-1-andrew@codeconstruct.com.au>
+	b=q7ur/Atm+F0BRx2XjbW/RLO681jkixxNDlhtmnW7AaqfZK5wOt2MFIoSLzPfIvTrZ
+	 Zi+nwZHsw3Bcbh+Es7vhBqmOGVB4apczXij+ftNj6iUdqhxQ4MHDeKR5HuQdWZ8KSj
+	 KxBU3C08oPCt1+UeaFrru0GO2FL3YnxlGHRBY3Oe18D8eS9ANJ1b0LMJ0Z2as/AyS5
+	 NF514VkFKLg9TMBJ2WS63FZ83dOisQ029009jUSYccwpubO86aWLatNTLgqxsmlRdP
+	 jAqVWw/BQx/Gr2CRvhmXq9PEUey6KArf0gc9eRC3gDG7KsVrXvwUQdgn66nzNP5HX7
+	 EVrWQeLBkZNHA==
+Date: Mon, 4 Mar 2024 21:56:43 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Tommy Huang <tommy_huang@aspeedtech.com>
+Subject: Re: [PATCH] i2c: aspeed: Fix the dummy irq expected print
+Message-ID: <ZeY1i9_liCIjqNYL@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Tommy Huang <tommy_huang@aspeedtech.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	"brendan.higgins@linux.dev" <brendan.higgins@linux.dev>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+	"benh@kernel.crashing.org" <benh@kernel.crashing.org>,
+	"joel@jms.id.au" <joel@jms.id.au>,
+	"andrew@aj.id.au" <andrew@aj.id.au>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	BMC-SW <BMC-SW@aspeedtech.com>
+References: <20240216120455.4138642-1-tommy_huang@aspeedtech.com>
+ <nbkkaktcozbhly44hii3zwie7ivsra3qxzdibyzhyhooxrudvb@zik6skmkki2c>
+ <TYZPR06MB61911F076C8719C6A7D57B97E1562@TYZPR06MB6191.apcprd06.prod.outlook.com>
+ <v4nawwb4rwjiy2g7xv2sfyhc545mhk4izb3g22f7jupcevjuzb@nxmqgf2zjyqs>
+ <TYZPR06MB61912715EE2869DDB7C3763DE1552@TYZPR06MB6191.apcprd06.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="WBinYbWIzry76kSg"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="avejMe9/B1mBt2nB"
 Content-Disposition: inline
-In-Reply-To: <20240226031951.284847-1-andrew@codeconstruct.com.au>
+In-Reply-To: <TYZPR06MB61912715EE2869DDB7C3763DE1552@TYZPR06MB6191.apcprd06.prod.outlook.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,194 +77,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, brgl@bgdev.pl, linux-arm-kernel@lists.infradead.org
+Cc: BMC-SW <BMC-SW@aspeedtech.com>, Andi Shyti <andi.shyti@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
---WBinYbWIzry76kSg
+--avejMe9/B1mBt2nB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 26, 2024 at 01:49:51PM +1030, Andrew Jeffery wrote:
-> Squash warnings such as:
->=20
-> ```
-> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/apb@1e60=
-0000/gpio@1e780000: failed to match any schema with compatible: ['aspeed,as=
-t2400-gpio']
-> ```
->=20
-> Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-> ---
-> v2: Address feedback from Krzysztof:
->     https://lore.kernel.org/all/0d1dd262-b6dd-4d71-9239-8b0aec8cceff@lina=
-ro.org/
->=20
-> v1: https://lore.kernel.org/all/20240220052918.742793-1-andrew@codeconstr=
-uct.com.au/
->=20
->  .../bindings/gpio/aspeed,ast2400-gpio.yaml    | 73 +++++++++++++++++++
->  .../devicetree/bindings/gpio/gpio-aspeed.txt  | 39 ----------
->  2 files changed, 73 insertions(+), 39 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/gpio/aspeed,ast2400=
--gpio.yaml
->  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
->=20
-> diff --git a/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.y=
-aml b/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
-> new file mode 100644
-> index 000000000000..74d376567dfc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aspeed GPIO controller
-> +
-> +maintainers:
-> +  - Andrew Jeffery <andrew@codeconstruct.com.au>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2400-gpio
-> +      - aspeed,ast2500-gpio
-> +      - aspeed,ast2600-gpio
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: The clock to use for debounce timings
 
-The original binding does not require this clock, but I can't help but
-wonder if it should be required. I suspect that this peripheral does
-not actually work if a clock is not provided to it. Whether or not the
-rate of the clock is then used by the driver for debounce timings or
-whatever is a different question.
+> 	Sure~
+> 	Below is my re-word commit and fixes tag.
 
-Otherwise though, this looks fine to me.
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Please resend the patch with the reworded commit and the fixes tag
+added.
 
-Cheers,
-Conor.
 
-> +  "#gpio-cells":
-> +    const: 2
-> +
-> +  gpio-controller: true
-> +  gpio-line-names: true
-> +  gpio-ranges: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-controller: true
-> +
-> +  "#interrupt-cells":
-> +    const: 2
-> +
-> +  ngpios: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-controller
-> +  - "#interrupt-cells"
-> +  - "#gpio-cells"
-> +  - gpio-controller
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: aspeed,ast2600-gpio
-> +    then:
-> +      required:
-> +        - ngpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    gpio@1e780000 {
-> +        compatible =3D "aspeed,ast2400-gpio";
-> +        reg =3D <0x1e780000 0x1000>;
-> +        interrupts =3D <20>;
-> +        interrupt-controller;
-> +        #gpio-cells =3D <2>;
-> +        gpio-controller;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt b/Doc=
-umentation/devicetree/bindings/gpio/gpio-aspeed.txt
-> deleted file mode 100644
-> index b2033fc3a71a..000000000000
-> --- a/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
-> +++ /dev/null
-> @@ -1,39 +0,0 @@
-> -Aspeed GPIO controller Device Tree Bindings
-> --------------------------------------------
-> -
-> -Required properties:
-> -- compatible		: Either "aspeed,ast2400-gpio", "aspeed,ast2500-gpio",
-> -					or "aspeed,ast2600-gpio".
-> -
-> -- #gpio-cells 		: Should be two
-> -			  - First cell is the GPIO line number
-> -			  - Second cell is used to specify optional
-> -			    parameters (unused)
-> -
-> -- reg			: Address and length of the register set for the device
-> -- gpio-controller	: Marks the device node as a GPIO controller.
-> -- interrupts		: Interrupt specifier (see interrupt bindings for
-> -			  details)
-> -- interrupt-controller	: Mark the GPIO controller as an interrupt-contro=
-ller
-> -
-> -Optional properties:
-> -
-> -- clocks		: A phandle to the clock to use for debounce timings
-> -- ngpios		: Number of GPIOs controlled by this controller. Should	be set
-> -				  when there are multiple GPIO controllers on a SoC (ast2600).
-> -
-> -The gpio and interrupt properties are further described in their respect=
-ive
-> -bindings documentation:
-> -
-> -- Documentation/devicetree/bindings/gpio/gpio.txt
-> -- Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
-> -
-> -  Example:
-> -	gpio@1e780000 {
-> -		#gpio-cells =3D <2>;
-> -		compatible =3D "aspeed,ast2400-gpio";
-> -		gpio-controller;
-> -		interrupts =3D <20>;
-> -		reg =3D <0x1e780000 0x1000>;
-> -		interrupt-controller;
-> -	};
-> --=20
-> 2.39.2
->=20
-
---WBinYbWIzry76kSg
+--avejMe9/B1mBt2nB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeYtvwAKCRB4tDGHoIJi
-0sA/AQC/NSqxk+gOMc2YKFuxBEmSMAC+J4rmo8SMcdjAjYJccwD8DNJO0vzMwQ7l
-7ZJZiqqGTf2fmGaQkS/nuX0wdNesOQ0=
-=jXZ8
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXmNYsACgkQFA3kzBSg
+Kbbq4Q//W482FjqPLlxS98dtd5kekeRzwCXdh6wotwierJKOu6De5uec93delN3u
+JurwdgVTBV6vASmQSt5Ljl+JsKvRGL44fBLWeItzhTKgnEcUfF5rETgNTXbtiN0U
+uMhIcys10oiWK+68nzbycbiIdxU3hdP14TsDn2JI6h4QSqA8H6zJa6u2Cwff19AP
+eglXzL0/XxyyUL4wxjSk7Mq7KPql02xZq+S1zw50kaMTiNA28iXOh7zv7MXXMbe9
+TK/f5iXsijAhjt3MhkBIvQM9O+0Q3NcDS5P0ByVte3QDv34mHkdS7srfmkrN4d9M
+7mHlg0Nqbbst9sRHJXzfqyXrkEciOtIVPw1/03/wYDY4A6r0RxTQwFhXdkT1OgYo
+q+ejx44+jXLdAQ/t5qmlG28FNSybIyzSIqE5J85jWnMXdqcv2ulBC7oJJPk/hy/L
+IxDwUhgUvVySHyP2gx6M4GBrcGAIQcNedmoGQr5ymo4Kw7zJHru1fnG2cuBMEasv
+YeSWQOd6TKoPgmTtA/66i09gem/vzJbyK08JWElhqQZjowmiRwLoztZtTdQ9t4PJ
+J1KJkt8EwBPdD43kmPpm5khvU53z6zc0pHZ5T/x36++E5neY/S1O4R/HVKl2VTkM
+g8NqxMuMSpawebBzjtH7Klgu8TYAN/csxSuvUjLtTvAqzYVvbCw=
+=U+OC
 -----END PGP SIGNATURE-----
 
---WBinYbWIzry76kSg--
+--avejMe9/B1mBt2nB--
