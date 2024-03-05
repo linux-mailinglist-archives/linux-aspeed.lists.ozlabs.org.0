@@ -1,41 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53877871246
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 02:19:34 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2FE871EC5
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 13:15:26 +0100 (CET)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mvlvl0P+;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tpd5J0dFlz3d4D
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 12:19:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tpvf43Mgqz3dX2
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 23:15:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.70; helo=twmbx01.aspeed.com; envelope-from=tommy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (211-20-114-70.hinet-ip.hinet.net [211.20.114.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mvlvl0P+;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b2b; helo=mail-yb1-xb2b.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tpd593Dlzz30fh;
-	Tue,  5 Mar 2024 12:19:22 +1100 (AEDT)
-Received: from TWMBX03.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.124) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 5 Mar
- 2024 09:20:08 +0800
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX03.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 5 Mar
- 2024 09:20:08 +0800
-Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 5 Mar 2024 09:19:08 +0800
-From: Tommy Huang <tommy_huang@aspeedtech.com>
-To: <brendan.higgins@linux.dev>, <benh@kernel.crashing.org>, <joel@jms.id.au>,
-	<andi.shyti@kernel.org>, <andrew@codeconstruct.com.au>,
-	<jae.hyun.yoo@linux.intel.com>, <wsa@kernel.org>
-Subject: [PATCH v2] i2c: aspeed: Fix the dummy irq expected print
-Date: Tue, 5 Mar 2024 09:19:06 +0800
-Message-ID: <20240305011906.2745639-1-tommy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tpvdy6krSz3cPX
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  5 Mar 2024 23:15:18 +1100 (AEDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso566822276.1
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Mar 2024 04:15:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709640914; x=1710245714; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=D6ktVqDmV7ss5l9SPN0xrD5/Tg3eFMGNcebSziUH+H4=;
+        b=mvlvl0P+eu5vyugteNaiOK8kEzbz1ZnCArG5Ljb0pgJ02boej3Mmwep+J8TW2Aa2pA
+         I84Xnl/MFu9MJYYu546x51dCfaXOCmDxx5BO3TOXTA/fnvXL0US8A08G5A1haLePggW0
+         KhECeW/z71Y3PE1E5gpm4vtRhh1Zq6Mp2oCJX7tZVxztdeRvwIIWFwzV67AIN6tlcjbE
+         dtcDaTqhjMMf13ORPw/WxL14GeKzWch4t1EEAu8hfJ36bs+DCm5kNEbYyvOp/fs3WEo1
+         2SM2/ruIJ6rLBkHiuiF+a1YQiVtP0twXKgF9TBM6eAuKL1CLJ6AY78du2SLxH8jK+yKe
+         CvQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709640914; x=1710245714;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D6ktVqDmV7ss5l9SPN0xrD5/Tg3eFMGNcebSziUH+H4=;
+        b=g0PagpgjOjS6pgY8tomBXeYxYlYLkpmS6FHCtrUvOqXHbw8CJCN/WeoL9c25tq4gq/
+         W8+7hytngKBnwciCrVg1lrMGF2JFu4rI8WmJHUmka+RJEOf02rlBbE5L/IdphJhPrgPW
+         KBITLzza78Vmbxx/SNBE6TQzXsnqBCWlS6x8aX/yEHqbr9YCqjcmPHd55zTZufPa47+0
+         0qMeeI5vPRluBF8owzXO37GPH0VcbYdDXgBzFrrz1iNNOE2CiY8SwsWeL1KCdD8dn2nb
+         vfxQzpW7YFc+HCXj+q4FgKOlOGsFhAZwFnLx5mzoMT4qEp2dHbZs4e8vK/PBqTCWR28I
+         jxfw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGxUXSdfAYOnepU2+SxMfuOr1iisxGNp1hGlL1IGThTOr4Wpw4SXbG2Joti4H2pNyY9/DYr/f8oOJVIMuU6zvnKBl3HwCNU3AcVDd17A==
+X-Gm-Message-State: AOJu0Yy73Ofj46rknVyRiWGBj6RkcXDKsDSpcWJnyCMWLJpBRwzLR2/k
+	gMm3PDc6hZ/6x1ji4pzQnLoTELz1gA1Tfd9B1aNGBr3ldyciPPxnqru7L+6nfzN+b5nFKu6FGec
+	WyD6GbQwoU0FYc0Bqjq/a+empeIAfeF0GpU+1iA==
+X-Google-Smtp-Source: AGHT+IHJmE+6b6Odnde6C3f/sbKVeXzyy1wl+EKNqVOXCbMbm3t6RelV+5/PPHkUcAMaI42bBn2Jf21OcLZDfzyvrZM=
+X-Received: by 2002:a25:d883:0:b0:dcc:e9d:4a22 with SMTP id
+ p125-20020a25d883000000b00dcc0e9d4a22mr8993815ybg.12.1709640913987; Tue, 05
+ Mar 2024 04:15:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20240229-b4-mmc-hi3798mv200-v7-0-10c03f316285@outlook.com>
+In-Reply-To: <20240229-b4-mmc-hi3798mv200-v7-0-10c03f316285@outlook.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 5 Mar 2024 13:14:38 +0100
+Message-ID: <CAPDyKFrKiJBONLhOj2KDWZug_BSZngUUxtrEnF+H+imfEctETg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/5] mmc: add hi3798mv200 specific extensions of DWMMC
+To: forbidden405@outlook.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,45 +75,87 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Paul Menzel <pmenzel@molgen.mpg.de>, linux-mmc@vger.kernel.org, openbmc@lists.ozlabs.org, Igor Opaniuk <igor.opaniuk@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org, Jaehoon Chung <jh80.chung@samsung.com>, tianshuliang <tianshuliang@hisilicon.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, David Yang <mmyangfl@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-When the i2c error condition occurred and master state was not
-idle, the master irq function will goto complete state without any
-other interrupt handling. It would cause dummy irq expected print.
-Under this condition, assign the irq_status into irq_handle.
+On Thu, 29 Feb 2024 at 02:36, Yang Xiwen via B4 Relay
+<devnull+forbidden405.outlook.com@kernel.org> wrote:
+>
+> it's modified from hi3798cv200 driver, but quite a lot of code gets
+> rewritten because of the hardware differences. Actually cv200 DWMMC core
+> is called HIMCIV200 while mv200 DWMMC core is called HIMCIV300 in
+> downstream.
+>
+> Signed-off-by: Yang Xiwen <forbidden405@outlook.com>
 
-For example, when the abnormal start / stop occurred (bit 5) with
-normal stop status (bit 4) at same time. Then the normal stop status
-would not be handled and it would cause irq expected print in
-the aspeed_i2c_bus_irq.
+The series, applied for next, thanks!
 
-...
-aspeed-i2c-bus x. i2c-bus: irq handled != irq.
-Expected 0x00000030, but was 0x00000020
-...
+Note that, I took the liberty of updating/clarifying the commit
+message of patch1, please let me know if there is anything you don't
+like with that.
 
-Fixes: 3e9efc3299dd ("i2c: aspeed: Handle master/slave combined irq events properly")
-Cc: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Kind regards
+Uffe
 
-Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
----
- drivers/i2c/busses/i2c-aspeed.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 5511fd46a65e..ce8c4846b7fa 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -445,6 +445,7 @@ static u32 aspeed_i2c_master_irq(struct aspeed_i2c_bus *bus, u32 irq_status)
- 			irq_status);
- 		irq_handled |= (irq_status & ASPEED_I2CD_INTR_MASTER_ERRORS);
- 		if (bus->master_state != ASPEED_I2C_MASTER_INACTIVE) {
-+			irq_handled = irq_status;
- 			bus->cmd_err = ret;
- 			bus->master_state = ASPEED_I2C_MASTER_INACTIVE;
- 			goto out_complete;
--- 
-2.25.1
-
+> ---
+> Changes in v7:
+> - driver: simplify tuning logic (Ulf Hansson)
+> - bindings: fix patch order (Ulf Hansson)
+> - Link to v6: https://lore.kernel.org/r/20240221-b4-mmc-hi3798mv200-v6-0-bc41bf6a9769@outlook.com
+>
+> Changes in v6:
+> - apply the comments to the first patch, add their trailers
+> - Link to v5: https://lore.kernel.org/r/20240220-b4-mmc-hi3798mv200-v5-0-f506c55f8e43@outlook.com
+>
+> Changes in v5:
+> - pick the dependant patch: https://lore.kernel.org/all/20240215-mmc_phase-v1-1-f27644ee13e4@outlook.com/
+>   to fix the bot build error.
+> - edit the semantic meaning of hisilicon,sap-dll-reg property (Rob Herring)
+>   The suggestion is from the CRG driver side:
+>   https://lore.kernel.org/all/20240218205741.GA1561527-robh@kernel.org/
+> - Link to v4: https://lore.kernel.org/r/20240217-b4-mmc-hi3798mv200-v4-0-0fdd9bd48532@outlook.com
+>
+> Changes in v4:
+> - rename dw_mmc-hi3798 back to hi3798cv200 - Suggested by Krzysztof Kozlowski.
+> - add r-bs to patch 1 and 2 - Reviewed by Krzysztof Kozlowski.
+> - Link to v3: https://lore.kernel.org/r/20240217-b4-mmc-hi3798mv200-v3-0-f15464176947@outlook.com
+>
+> Changes in v3:
+> - dw_mmc-hi3798: fix bot error (Rob Herring)
+> - Link to v2: https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v2-0-010d63e6a1d5@outlook.com
+>
+> Changes in v2:
+> - dw_mmc-hi3798mv200: use dev_err_probe() helper - Suggested by Krzysztof Kozlowski.
+> - dw_mmc-hi3798mv200: add missing err=0;
+> - dw_mmc-hi3798c(m)v200: remove unused MODULE_ALIAS() - Suggested by Krzysztof Kozlowski.
+> - binding: rename the binding, a lot of tweaks suggested by Krzysztof Kozlowski.
+> - Link to v1: https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v1-0-7d46db845ae6@outlook.com
+>
+> ---
+> Yang Xiwen (5):
+>       mmc: host: mmc_of_parse_clk_phase(): Pass struct device * instead of mmc_host *
+>       mmc: dw_mmc-hi3798cv200: remove MODULE_ALIAS()
+>       dt-bindings: mmc: dw-mshc-hi3798cv200: convert to YAML
+>       dt-bindings: mmc: hisilicon,hi3798cv200-dw-mshc: add Hi3798MV200 binding
+>       mmc: dw_mmc: add support for hi3798mv200
+>
+>  .../bindings/mmc/hi3798cv200-dw-mshc.txt           |  40 ----
+>  .../mmc/hisilicon,hi3798cv200-dw-mshc.yaml         |  97 ++++++++
+>  drivers/mmc/core/host.c                            |   4 +-
+>  drivers/mmc/host/Kconfig                           |   9 +
+>  drivers/mmc/host/Makefile                          |   1 +
+>  drivers/mmc/host/dw_mmc-hi3798cv200.c              |   1 -
+>  drivers/mmc/host/dw_mmc-hi3798mv200.c              | 251 +++++++++++++++++++++
+>  drivers/mmc/host/sdhci-of-aspeed.c                 |   2 +-
+>  include/linux/mmc/host.h                           |   2 +-
+>  9 files changed, 361 insertions(+), 46 deletions(-)
+> ---
+> base-commit: d206a76d7d2726f3b096037f2079ce0bd3ba329b
+> change-id: 20240121-b4-mmc-hi3798mv200-a5730edf122c
+>
+> Best regards,
+> --
+> Yang Xiwen <forbidden405@outlook.com>
+>
