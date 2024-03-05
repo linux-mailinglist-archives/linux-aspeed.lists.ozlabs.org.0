@@ -2,68 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2FE871EC5
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 13:15:26 +0100 (CET)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mvlvl0P+;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id 98648872497
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 17:44:40 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tpvf43Mgqz3dX2
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Mar 2024 23:15:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Tq1ck2TMZz3cKN
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Mar 2024 03:44:38 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mvlvl0P+;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b2b; helo=mail-yb1-xb2b.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
+X-Greylist: delayed 995 seconds by postgrey-1.37 at boromir; Wed, 06 Mar 2024 03:44:31 AEDT
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tpvdy6krSz3cPX
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  5 Mar 2024 23:15:18 +1100 (AEDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso566822276.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Mar 2024 04:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709640914; x=1710245714; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=D6ktVqDmV7ss5l9SPN0xrD5/Tg3eFMGNcebSziUH+H4=;
-        b=mvlvl0P+eu5vyugteNaiOK8kEzbz1ZnCArG5Ljb0pgJ02boej3Mmwep+J8TW2Aa2pA
-         I84Xnl/MFu9MJYYu546x51dCfaXOCmDxx5BO3TOXTA/fnvXL0US8A08G5A1haLePggW0
-         KhECeW/z71Y3PE1E5gpm4vtRhh1Zq6Mp2oCJX7tZVxztdeRvwIIWFwzV67AIN6tlcjbE
-         dtcDaTqhjMMf13ORPw/WxL14GeKzWch4t1EEAu8hfJ36bs+DCm5kNEbYyvOp/fs3WEo1
-         2SM2/ruIJ6rLBkHiuiF+a1YQiVtP0twXKgF9TBM6eAuKL1CLJ6AY78du2SLxH8jK+yKe
-         CvQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709640914; x=1710245714;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D6ktVqDmV7ss5l9SPN0xrD5/Tg3eFMGNcebSziUH+H4=;
-        b=g0PagpgjOjS6pgY8tomBXeYxYlYLkpmS6FHCtrUvOqXHbw8CJCN/WeoL9c25tq4gq/
-         W8+7hytngKBnwciCrVg1lrMGF2JFu4rI8WmJHUmka+RJEOf02rlBbE5L/IdphJhPrgPW
-         KBITLzza78Vmbxx/SNBE6TQzXsnqBCWlS6x8aX/yEHqbr9YCqjcmPHd55zTZufPa47+0
-         0qMeeI5vPRluBF8owzXO37GPH0VcbYdDXgBzFrrz1iNNOE2CiY8SwsWeL1KCdD8dn2nb
-         vfxQzpW7YFc+HCXj+q4FgKOlOGsFhAZwFnLx5mzoMT4qEp2dHbZs4e8vK/PBqTCWR28I
-         jxfw==
-X-Forwarded-Encrypted: i=1; AJvYcCWGxUXSdfAYOnepU2+SxMfuOr1iisxGNp1hGlL1IGThTOr4Wpw4SXbG2Joti4H2pNyY9/DYr/f8oOJVIMuU6zvnKBl3HwCNU3AcVDd17A==
-X-Gm-Message-State: AOJu0Yy73Ofj46rknVyRiWGBj6RkcXDKsDSpcWJnyCMWLJpBRwzLR2/k
-	gMm3PDc6hZ/6x1ji4pzQnLoTELz1gA1Tfd9B1aNGBr3ldyciPPxnqru7L+6nfzN+b5nFKu6FGec
-	WyD6GbQwoU0FYc0Bqjq/a+empeIAfeF0GpU+1iA==
-X-Google-Smtp-Source: AGHT+IHJmE+6b6Odnde6C3f/sbKVeXzyy1wl+EKNqVOXCbMbm3t6RelV+5/PPHkUcAMaI42bBn2Jf21OcLZDfzyvrZM=
-X-Received: by 2002:a25:d883:0:b0:dcc:e9d:4a22 with SMTP id
- p125-20020a25d883000000b00dcc0e9d4a22mr8993815ybg.12.1709640913987; Tue, 05
- Mar 2024 04:15:13 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tq1cb609rz3dTr
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Mar 2024 03:44:31 +1100 (AEDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhXde-0003TE-Di; Tue, 05 Mar 2024 17:27:34 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhXdb-004aQ6-BQ; Tue, 05 Mar 2024 17:27:31 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rhXdb-000BLT-0m;
+	Tue, 05 Mar 2024 17:27:31 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Corey Minyard <minyard@acm.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Joel Stanley <joel@jms.id.au>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>
+Subject: [PATCH 0/6] ipmi: Convert to platform remove callback returning void
+Date: Tue,  5 Mar 2024 17:26:57 +0100
+Message-ID: <cover.1709655755.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240229-b4-mmc-hi3798mv200-v7-0-10c03f316285@outlook.com>
-In-Reply-To: <20240229-b4-mmc-hi3798mv200-v7-0-10c03f316285@outlook.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 5 Mar 2024 13:14:38 +0100
-Message-ID: <CAPDyKFrKiJBONLhOj2KDWZug_BSZngUUxtrEnF+H+imfEctETg@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] mmc: add hi3798mv200 specific extensions of DWMMC
-To: forbidden405@outlook.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1423; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=akuyQtqoo/B3hV/chnHG5wVOgTCyAThdceXHF/fH15A=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl50fRz5wnO886UiVtmDZppCw512REhKLTJ37/R cjMJ8BIAQOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZedH0QAKCRCPgPtYfRL+ Tt0QCACfWXFQXGllPYlGx99A5WMWmjUJ3qKWPt2/V2+WSj9FOOD4XPVrXQIzPGNpJtaU9YA3azZ TDx31hB9G1IrJRDVStMpNcrqzVTCqVkez6rIqv71yrq9Nkkzm+ljiiwUbpg3q2tXh+g+DwA75b4 +h2OsgZmurirtKIn6Y4bosTeQXrPut2pfqGguD//L/QXtr932vSPJHNsBLXRpmx/kzgiPTV4iWY KQRXsODp+dMAsCr5bF2w3YmA6DV/qfLu/ET6bpsNg7S4KRY8limLnmvP1/gvjyAtrf0x9uNcY4Z ieCRCLSfiQ2a4cy8NcK+q0LYg0TiPcZY4OKxt916rKV9TFrS
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,87 +62,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Paul Menzel <pmenzel@molgen.mpg.de>, linux-mmc@vger.kernel.org, openbmc@lists.ozlabs.org, Igor Opaniuk <igor.opaniuk@linaro.org>, Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org, Jaehoon Chung <jh80.chung@samsung.com>, tianshuliang <tianshuliang@hisilicon.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, David Yang <mmyangfl@gmail.com>
+Cc: linux-aspeed@lists.ozlabs.org, Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org, Christophe Leroy <christophe.leroy@csgroup.eu>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nancy Yuen <yuenn@google.com>, Nicholas Piggin <npiggin@gmail.com>, kernel@pengutronix.de, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, openipmi-developer@lists.sourceforge.net, Andrew Jeffery <andrew@codeconstruct.com.au>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 29 Feb 2024 at 02:36, Yang Xiwen via B4 Relay
-<devnull+forbidden405.outlook.com@kernel.org> wrote:
->
-> it's modified from hi3798cv200 driver, but quite a lot of code gets
-> rewritten because of the hardware differences. Actually cv200 DWMMC core
-> is called HIMCIV200 while mv200 DWMMC core is called HIMCIV300 in
-> downstream.
->
-> Signed-off-by: Yang Xiwen <forbidden405@outlook.com>
+Hello,
 
-The series, applied for next, thanks!
+this series converts all drivers below drivers/char/ipmi to struct
+platform_driver::remove_new(). See commit 5c5a7680e67b ("platform: Provide a
+remove callback that returns no value") for an extended explanation and the
+eventual goal.
 
-Note that, I took the liberty of updating/clarifying the commit
-message of patch1, please let me know if there is anything you don't
-like with that.
+All conversations are trivial, because their .remove() callbacks
+returned zero unconditionally.
 
-Kind regards
-Uffe
+There are no interdependencies between these patches, so they could be
+picked up individually. But I'd hope that they get picked up all
+together by Corey.
 
+Best regards
+Uwe
 
-> ---
-> Changes in v7:
-> - driver: simplify tuning logic (Ulf Hansson)
-> - bindings: fix patch order (Ulf Hansson)
-> - Link to v6: https://lore.kernel.org/r/20240221-b4-mmc-hi3798mv200-v6-0-bc41bf6a9769@outlook.com
->
-> Changes in v6:
-> - apply the comments to the first patch, add their trailers
-> - Link to v5: https://lore.kernel.org/r/20240220-b4-mmc-hi3798mv200-v5-0-f506c55f8e43@outlook.com
->
-> Changes in v5:
-> - pick the dependant patch: https://lore.kernel.org/all/20240215-mmc_phase-v1-1-f27644ee13e4@outlook.com/
->   to fix the bot build error.
-> - edit the semantic meaning of hisilicon,sap-dll-reg property (Rob Herring)
->   The suggestion is from the CRG driver side:
->   https://lore.kernel.org/all/20240218205741.GA1561527-robh@kernel.org/
-> - Link to v4: https://lore.kernel.org/r/20240217-b4-mmc-hi3798mv200-v4-0-0fdd9bd48532@outlook.com
->
-> Changes in v4:
-> - rename dw_mmc-hi3798 back to hi3798cv200 - Suggested by Krzysztof Kozlowski.
-> - add r-bs to patch 1 and 2 - Reviewed by Krzysztof Kozlowski.
-> - Link to v3: https://lore.kernel.org/r/20240217-b4-mmc-hi3798mv200-v3-0-f15464176947@outlook.com
->
-> Changes in v3:
-> - dw_mmc-hi3798: fix bot error (Rob Herring)
-> - Link to v2: https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v2-0-010d63e6a1d5@outlook.com
->
-> Changes in v2:
-> - dw_mmc-hi3798mv200: use dev_err_probe() helper - Suggested by Krzysztof Kozlowski.
-> - dw_mmc-hi3798mv200: add missing err=0;
-> - dw_mmc-hi3798c(m)v200: remove unused MODULE_ALIAS() - Suggested by Krzysztof Kozlowski.
-> - binding: rename the binding, a lot of tweaks suggested by Krzysztof Kozlowski.
-> - Link to v1: https://lore.kernel.org/r/20240216-b4-mmc-hi3798mv200-v1-0-7d46db845ae6@outlook.com
->
-> ---
-> Yang Xiwen (5):
->       mmc: host: mmc_of_parse_clk_phase(): Pass struct device * instead of mmc_host *
->       mmc: dw_mmc-hi3798cv200: remove MODULE_ALIAS()
->       dt-bindings: mmc: dw-mshc-hi3798cv200: convert to YAML
->       dt-bindings: mmc: hisilicon,hi3798cv200-dw-mshc: add Hi3798MV200 binding
->       mmc: dw_mmc: add support for hi3798mv200
->
->  .../bindings/mmc/hi3798cv200-dw-mshc.txt           |  40 ----
->  .../mmc/hisilicon,hi3798cv200-dw-mshc.yaml         |  97 ++++++++
->  drivers/mmc/core/host.c                            |   4 +-
->  drivers/mmc/host/Kconfig                           |   9 +
->  drivers/mmc/host/Makefile                          |   1 +
->  drivers/mmc/host/dw_mmc-hi3798cv200.c              |   1 -
->  drivers/mmc/host/dw_mmc-hi3798mv200.c              | 251 +++++++++++++++++++++
->  drivers/mmc/host/sdhci-of-aspeed.c                 |   2 +-
->  include/linux/mmc/host.h                           |   2 +-
->  9 files changed, 361 insertions(+), 46 deletions(-)
-> ---
-> base-commit: d206a76d7d2726f3b096037f2079ce0bd3ba329b
-> change-id: 20240121-b4-mmc-hi3798mv200-a5730edf122c
->
-> Best regards,
-> --
-> Yang Xiwen <forbidden405@outlook.com>
->
+Uwe Kleine-König (6):
+  ipmi: bt-bmc: Convert to platform remove callback returning void
+  ipmi: ipmi_powernv: Convert to platform remove callback returning void
+  ipmi: ipmi_si_platform: Convert to platform remove callback returning void
+  ipmi: ipmi_ssif: Convert to platform remove callback returning void
+  ipmi: kcs_bmc_aspeed: Convert to platform remove callback returning void
+  ipmi: kcs_bmc_npcm7xx: Convert to platform remove callback returning void
+
+ drivers/char/ipmi/bt-bmc.c           | 5 ++---
+ drivers/char/ipmi/ipmi_powernv.c     | 6 ++----
+ drivers/char/ipmi/ipmi_si_platform.c | 6 ++----
+ drivers/char/ipmi/ipmi_ssif.c        | 5 ++---
+ drivers/char/ipmi/kcs_bmc_aspeed.c   | 6 ++----
+ drivers/char/ipmi/kcs_bmc_npcm7xx.c  | 6 ++----
+ 6 files changed, 12 insertions(+), 22 deletions(-)
+
+base-commit: 11afac187274a6177a7ac82997f8691c0f469e41
+-- 
+2.43.0
+
