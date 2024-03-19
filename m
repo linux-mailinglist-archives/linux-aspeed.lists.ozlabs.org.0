@@ -2,57 +2,124 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FB587FB57
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 10:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D4B87FB46
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 10:56:55 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=LyzUosUW;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IFs8PTsW;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TzRyG6PrVz3d44
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 20:59:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TzRvn3rVPz3dTs
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 20:56:53 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=LyzUosUW;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IFs8PTsW;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::240; helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::636; helo=mail-ej1-x636.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TzRy80Q3cz3cVv;
-	Tue, 19 Mar 2024 20:58:55 +1100 (AEDT)
-Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 482DBC3985;
-	Tue, 19 Mar 2024 09:53:33 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B3CB1FF80D;
-	Tue, 19 Mar 2024 09:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1710841993;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+EBDDiNG/eNmY+ueIncptOoRVdMb4em3Z5Wr8wvDjWc=;
-	b=LyzUosUWbZmhrAA4qvwA0ojyg9rDBL6yH+R73/Cl/AGOQYhPpeDYpbVg1jJWu+O1/a6MiY
-	GBtEWVlXLRdBYAfeMbmpOHGLpgAKW+VDmM+X3OTurys03prNWASCLdD7QloxLQT5lWKEcK
-	Jwor7i4jxb3XKQjqvKriBWQQpRtMnJVJicefmt3ecDm2AlHMHsSaMVfI95oAdTr03N/yRg
-	+qp5UgKZGXIpdlewjym3wvEOhprR6T9pCv9wPgYXSxkC5i1o17+vt8Cbj0CF15sCTGTSpK
-	SRTtIkMjzAFEMh75v0eGJSLFpvSufCkkMYqFgr3oJdm08AfYkBdvYQMPZiXCvw==
-Date: Tue, 19 Mar 2024 10:53:09 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 2/4] mtd: Replace module_init with subsys_initcall
-Message-ID: <20240319105309.7cdfe106@xps-13>
-In-Reply-To: <4e3fbff7-6edc-4196-bc72-1095f14d0dfa@linaro.org>
-References: <20240319093405.39833-1-manojkiran.eda@gmail.com>
-	<20240319093405.39833-3-manojkiran.eda@gmail.com>
-	<4e3fbff7-6edc-4196-bc72-1095f14d0dfa@linaro.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TzRvg22dtz3bTt
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Mar 2024 20:56:46 +1100 (AEDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-a467d8efe78so562093766b.3
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Mar 2024 02:56:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710842202; x=1711447002; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=AS/cPgoMWn3JAoH60GCWZa9D3Pqyi0ONOw1eWx4Iybo=;
+        b=IFs8PTsWcYgNnIDGtnOabQ/DXuIPa31snP4rv9ATudOO+IpAmaftwuNL7xKB2nFs0D
+         5Z97qLCKBOSjg5C9AeITNW5WtFZoSk5pG61qdXYipIMPNEa77UaDZU/9VnIo7SJES2ca
+         oQh4nAcv0rN2acw0YPiTneYUilxwsMfYVDJB9SbMTPEpLLjtiRRsh2rJ9fuHXtcB4tJH
+         ZmK6lAadVSrrZdC2kcEUw5IxBGqqwbfxIvhHvedfWLXRfriX7U+gHmCVdcpz5E+wkYj3
+         PAiKcpERurwDK5ZLmhwdFYao1dJEii6JIo/ltfyFn9RXpQgGfPNi1C/ZutGgSM55i+g0
+         2wPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710842202; x=1711447002;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AS/cPgoMWn3JAoH60GCWZa9D3Pqyi0ONOw1eWx4Iybo=;
+        b=rw9clLswDZToMOeduUTbTWZ4kutHcq2RRHfBHnq51BMdlaqkr3/GpYnBJPRbyhPcyT
+         oSObqx4zM5o37djPAnPRWsgOVoGjAvbG1zLpeTXzfJ00Vb7EgGNnW2FMiGViDWot5OjE
+         5niLQcPJwWwqpAVS39KHC5d39XBuKoon7yU4umzOgenYs7qoqtW/9+NYK1cMbNMBlbpC
+         38AJjKYGVUrDYAe0QWZhDJDEYi8bXA2gk+VL0kYrzLeM3oAdohyGcAtwUE6ycQV4f91N
+         ofU4V8Y/iAlhEmZkMwKA7rRB6IZSdcmdE4bBBBpg5NbzE2TEKcgpG9nav3EUzc1jsPX4
+         3fcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVTs65u0P2INxarqJIa2429m9Xk8ozpTp50stGI3N5PhDqMFB7gASJcIoRLRRs0QlOCmOauDHy5ACAqkaojKG6uuFtqK4Lm2AGz+3ccOQ==
+X-Gm-Message-State: AOJu0Yy+CJisedcIbrOHMPbmR3ZAkxkOL2303O5R6v9YcWtZpmAVYU2l
+	vrzAjLhsdnj48QpLj41c+zkduVrPKu5De6E2QFujrgEuo//VmQlZiHymk/n7hsQ=
+X-Google-Smtp-Source: AGHT+IH6QxuKQDs1dmD0MxMhAH0Rms/7V/LdF5xNvrXW4SyLdJchixR2Shz1zdbIqB9LOVFovu0V8g==
+X-Received: by 2002:a17:906:6817:b0:a46:bab3:e9e6 with SMTP id k23-20020a170906681700b00a46bab3e9e6mr1455041ejr.1.1710842202110;
+        Tue, 19 Mar 2024 02:56:42 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id jx25-20020a170907761900b00a4661f0f1e7sm5867045ejc.205.2024.03.19.02.56.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Mar 2024 02:56:41 -0700 (PDT)
+Message-ID: <bad5df79-e040-4868-9db6-701110894ea3@linaro.org>
+Date: Tue, 19 Mar 2024 10:56:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] dt-bindings: aspeed: Add eSPI controller
+To: Manojkiran Eda <manojkiran.eda@gmail.com>, patrick.rudolph@9elements.com,
+ chiawei_wang@aspeedtech.com, ryan_chen@aspeedtech.com,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-mtd@lists.infradead.org
+References: <20240319093405.39833-1-manojkiran.eda@gmail.com>
+ <20240319093405.39833-5-manojkiran.eda@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240319093405.39833-5-manojkiran.eda@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,27 +131,159 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, vigneshr@ti.com, linux-aspeed@lists.ozlabs.org, richard@nod.at, linux-kernel@vger.kernel.org, robh+dt@kernel.org, linux-mtd@lists.infradead.org, patrick.rudolph@9elements.com, krzysztof.kozlowski+dt@linaro.org, jk@codeconstruct.com.au, andrew@codeconstruct.com.au, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Manojkiran Eda <manojkiran.eda@gmail.com>
+Cc: conor+dt@kernel.org, vigneshr@ti.com, richard@nod.at, openbmc@lists.ozlabs.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, miquel.raynal@bootlin.com, jk@codeconstruct.com.au, andrew@codeconstruct.com.au
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi,
+On 19/03/2024 10:34, Manojkiran Eda wrote:
+> This commit adds the device tree bindings for aspeed eSPI
+> controller.
+> 
+> Although aspeed eSPI hardware supports 4 different channels,
+> this commit only adds the support for flash channel, the
+> bindings for other channels could be upstreamed when the driver
+> support for those are added.
+> 
+> Signed-off-by: Manojkiran Eda <manojkiran.eda@gmail.com>
+> ---
+>  .../bindings/soc/aspeed/aspeed,espi.yaml      | 94 +++++++++++++++++++
+>  1 file changed, 94 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/aspeed,espi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/aspeed/aspeed,espi.yaml b/Documentation/devicetree/bindings/soc/aspeed/aspeed,espi.yaml
+> new file mode 100644
+> index 000000000000..3d3ad528e3b3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/soc/aspeed/aspeed,espi.yaml
 
-krzysztof.kozlowski@linaro.org wrote on Tue, 19 Mar 2024 10:51:00 +0100:
+Why Rob's comments got ignored?
 
-> On 19/03/2024 10:34, Manojkiran Eda wrote:
-> > While engaged in development on the espi kernel device driver[1],
-> > I noticed that the espi flash driver, utilizing the mtd subsystem,
-> > appears to initialize before the mtdcore subsystem registers the =20
->=20
-> NAK
->=20
-> You incorrectly ordered your call, so now to fix this you incorrectly
-> re-order rest of kernel. No. Fix your code to handle modules, probe
-> deferrals and device links.
+This is not a soc component.
 
-Agreed. You shall not need this. Maybe just moving the driver to the
-right location (spi) might fix it.
+> @@ -0,0 +1,94 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# # Copyright (c) 2024 IBM Corporation.
+> +# # Copyright (c) 2021 Aspeed Technology Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/soc/aspeed/aspeed,espi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Aspeed eSPI Controller
+> +
+> +maintainers:
+> +  - Manojkiran Eda <manojkiran.eda@gmail.com>
+> +  - Patrick Rudolph <patrick.rudolph@9elements.com>
+> +  - Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> +  - Ryan Chen <ryan_chen@aspeedtech.com>
+> +
+> +description:
+> +  Aspeed eSPI controller implements a device side eSPI endpoint device
+> +  supporting the flash channel.
 
-Thanks,
-Miqu=C3=A8l
+Explain what is eSPI.
+
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - aspeed,ast2500-espi
+> +          - aspeed,ast2600-espi
+> +      - const: simple-mfd
+
+
+That's not simple-mfd. You have driver for this. Drop.
+
+> +      - const: syscon
+
+That's not syscon. Why do you have ranges then? Where is any explanation
+of hardware which would justify such combination?
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 1
+> +
+> +  ranges: true
+> +
+> +patternProperties:
+> +  "^espi-ctrl@[0-9a-f]+$":
+> +    type: object
+> +
+> +    description: Controls the flash channel of eSPI hardware
+
+That explains nothing. Unless you wanted to use here MTD bindings.
+
+This binding did not improve much. I don't understand why this is not
+SPI (nothing in commit msg, nothing in description), what is eSPI, why
+do you need child device, what are other children (commit msg is quite
+vague here). Why there is no MTD bindings here?
+
+All this looks like crafted for your driver, instead of using existing
+DT bindings like SPI or MTD/NAND. This is a strong no-go.
+
+> +
+> +    properties:
+> +      compatible:
+> +        items:
+
+No items, just use enum.
+
+> +          - enum:
+> +              - aspeed,ast2500-espi-ctrl
+> +              - aspeed,ast2600-espi-ctrl
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      clocks:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - interrupts
+> +      - clocks
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/ast2600-clock.h>
+> +
+> +    espi: espi@1e6ee000 {
+> +        compatible = "aspeed,ast2600-espi", "simple-mfd", "syscon";
+> +        reg = <0x1e6ee000 0x1000>;
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges = <0x0 0x1e6ee000 0x1000>;
+> +
+> +        espi_ctrl: espi-ctrl@0 {
+> +            compatible = "aspeed,ast2600-espi-ctrl";
+> +            reg = <0x0 0x800>,<0x0 0x4000000>;
+
+Fix your style in DTS. There is always a space after ','.
+
+> +            reg-names = "espi_ctrl","espi_flash";
+> +            interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&syscon ASPEED_CLK_GATE_ESPICLK>;
+> +        };
+> +    };
+
+Best regards,
+Krzysztof
+
