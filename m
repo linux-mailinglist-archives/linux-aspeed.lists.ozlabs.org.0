@@ -1,75 +1,79 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD8287EDCB
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Mar 2024 17:45:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4578087F4BE
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 01:47:06 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Fr1VNzXl;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gDWsMn4u;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Tz1203cwSz3vkF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 03:45:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TzCjM2Bb4z3d2B
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 11:47:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Fr1VNzXl;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gDWsMn4u;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1031; helo=mail-pj1-x1031.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
 Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Tz11t3Ytbz3cp1
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Mar 2024 03:45:38 +1100 (AEDT)
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-29f749b6667so1425515a91.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 18 Mar 2024 09:45:38 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TzCjB376Jz3bvW
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Mar 2024 11:46:53 +1100 (AEDT)
+Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-29b7164eef6so3867998a91.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 18 Mar 2024 17:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710780336; x=1711385136; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1710809211; x=1711414011; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=RIAmxMfGxmKF/2fO5lCEP9y+H3IyDxkrQtEBRJf8D24=;
-        b=Fr1VNzXl82a+pGXquj664OoY4Z8o7S4ex/EXfAiRIyiQs6B/SSM7FCXuIud366wi3c
-         u27qC8wImUdU2y59nxvyWV9Yk1uo/4z8C2LlRb5wBi/Cp4R7+/3FRoq+e0qrphxwRAuf
-         9yQPTQsFvyCKexFebHMoKxuDSLSjKBErQW9ZryZe4eXlmFwU4GnvT0j/ImC75N73oBLD
-         T4pO3qQrsoEVlyGNr6sYjFL4GQph/Mi/vXZhs1xGWTxVmYH/v5cDYRo+MytY/ElYxXco
-         kaP2ks8utxNJJUgTDbakd5RbT7FZq0cVXWtD8Vn383HxRLnH2XwcrJL5X6aorEZflpEG
-         S6xA==
+        bh=EjEMCCW1c1Px24P8oKOq8kx+pFZ93LBk8LEdii5izfs=;
+        b=gDWsMn4uQbYUsUGjATdmFFMo1m0CxP5fCNL+Pdh+h+DzGSsOLY8ZQpePhY8UWRW6np
+         TSz9ZG7LNWRu/OZmQU2oev4y3Afjlsr2Y6zNk1SefV7M4mueO32l1V5kiesrp93vomEs
+         PbkYcqnXyrJ3FYhnFpgdDeDDezebL4edyUrle1EXaUBktohC0XI45+H8GDF8hcuiSrKG
+         u/wka7wyXgotMtiVbW8GKL0rHlQXOZ23aVPk5zUlaQHcL9nXX6ZT4Efk897oYrSMQZ56
+         lE4kohPLF2uFmNySc+ZUCZcHulWKL0K+hLqtO7GM7kJMR4WXreS4c/IjlDpbRwP7K4eQ
+         5Lyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710780336; x=1711385136;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1710809211; x=1711414011;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :sender:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RIAmxMfGxmKF/2fO5lCEP9y+H3IyDxkrQtEBRJf8D24=;
-        b=VXYJN0XO5F0VQezAct8tccmmy5dnV0URKSgEbFFCr9NYawaD7owG7hXRw984t4AKMB
-         yl1dEKKBeDQLxTQTFH2+WpFNxHSoaItNK5QIBGb7JPJmYOlk3zEeSyxBJUu/PmkdsSd8
-         nCwsu5ooQ9IigYoebO9C0swCJRdT+80tyI4JtAUViXFAj5VGf+gJVjbrSAmkey9ZYpK8
-         k7L4d5T0p4n8gqdKg6HEhp8mOlNHQjwDcsqelVm2f/zPXEJ0yl7sV128LbzQ0YaDjtbI
-         c2eBHRJ0f9X1CcuMIWPr+giNu4/u7/xn7v27N+x/9CcsG/lOqSVrBHg1k7U7OaBIdYhR
-         9y0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXN9h6IHDn2S3QSCTX5/7O97eNUYqpMuxD/3QA4dmgFp3Y7enfy8AdgPve58ZRXy8kRYZQu8Gl7j7ibIkhMb6XXnxlduNbQo3fVPsMp6w==
-X-Gm-Message-State: AOJu0Yw9exdIV+opGMd1g3FbglE+UhLCWmHcMoeIEat4S3/ZTVqDfVNF
-	7d9oA6d+DDXw8MneyYPikY0ya0cxIYGMl2aJ5L6F6JGoV3xVUfda
-X-Google-Smtp-Source: AGHT+IGgowlilkJ3K7SQPHRQGwkmCkG6yPMWjsZrl6pn2FQFmDC8YkOEad9BoD7RmztczbFttM0yhg==
-X-Received: by 2002:a17:90a:8044:b0:29e:5c51:28c5 with SMTP id e4-20020a17090a804400b0029e5c5128c5mr119719pjw.44.1710780335817;
-        Mon, 18 Mar 2024 09:45:35 -0700 (PDT)
+        bh=EjEMCCW1c1Px24P8oKOq8kx+pFZ93LBk8LEdii5izfs=;
+        b=ipj9Wv8NFugvmhz2OJfq1UqnNUxg+yiaKuN1452dCuzo13GmZ8mXho2nPKc24Qa9hp
+         az4F2WmlenN6JzC8zKxkmZQsdEYI/mbORXdK+w3jrDaJZ/I+ppBg+NsE+C5yvnlLADw0
+         w5/puNK1QUPKTFR76hd8px3gGnSj4Mt9rdfctU8AaYsURt+07MH0v3vIDVWMULLjFi+c
+         GSLjYdexeL8ajupWmus6f9v7k1R7QNumAokF0/D567qYgiM+r+6FzrNlRByD/7+svSRw
+         00PQA4KsU9mYzlgLEdYlf6WOt74pYrTgm8w488T8BSLwb6/3SM7E4qM5O5rxsB3i2FMa
+         gdCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWXdxrDSiwMo3tNquFknxCDiC5XiZNW3NiYydDmQpiaZKM1ZmOHlDhLJf8C/TejjpFcFiJmrDgj0ANkOHADV91hYkk/yzUwV2zbDY1kxw==
+X-Gm-Message-State: AOJu0Yz9aETW+izK7TD5SfOKdVCY8M6BCEB8TFUSANicT0uVeazmNwm7
+	QqQpfShrsYjw7qQfSq+qs5HCplZ+38Si047Cafq+4MqejDH1Ao3N
+X-Google-Smtp-Source: AGHT+IEEGfj1yEeiLgflaQdMDDUqa1AXEmOMueS1c1+sZSozyjSdkxlrhu3MhCy7IfdLKw8unXiCKw==
+X-Received: by 2002:a17:90a:420a:b0:29b:36a8:4742 with SMTP id o10-20020a17090a420a00b0029b36a84742mr11291099pjg.13.1710809211210;
+        Mon, 18 Mar 2024 17:46:51 -0700 (PDT)
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r91-20020a17090a43e400b0029c14758eb4sm8859430pjg.8.2024.03.18.09.45.34
+        by smtp.gmail.com with ESMTPSA id l5-20020a170902e2c500b001db8145a1a2sm9932093plc.274.2024.03.18.17.46.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 09:45:35 -0700 (PDT)
-Message-ID: <b07680fe-969a-49aa-9995-aa51261f1bee@roeck-us.net>
-Date: Mon, 18 Mar 2024 09:45:34 -0700
+        Mon, 18 Mar 2024 17:46:50 -0700 (PDT)
+Message-ID: <13640a07-7395-4521-9c5d-748599202361@roeck-us.net>
+Date: Mon, 18 Mar 2024 17:46:48 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: (aspeed-g6-pwm-tacho): Make use of
- devm_pwmchip_alloc() function
+Subject: Re: [PATCH v2] drivers: watchdog: ast2600 support bootstatus
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Jean Delvare <jdelvare@suse.com>, Joel Stanley <joel@jms.id.au>
-References: <cover.1710777536.git.u.kleine-koenig@pengutronix.de>
- <e95e41eea5a138ae206c9116ba3cb1d9e0178284.1710777536.git.u.kleine-koenig@pengutronix.de>
+To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org
+References: <20240318055219.3460121-1-peteryin.openbmc@gmail.com>
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
@@ -114,9 +118,9 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <e95e41eea5a138ae206c9116ba3cb1d9e0178284.1710777536.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20240318055219.3460121-1-peteryin.openbmc@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,69 +132,173 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, linux-pwm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, kernel@pengutronix.de, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 3/18/24 09:09, Uwe Kleine-König wrote:
-> This prepares the aspeed-g6-pwm-tacho driver to further changes of the
-> pwm core outlined in the commit introducing devm_pwmchip_alloc(). There
-> is no intended semantical change and the driver should behave as before.
+On 3/17/24 22:52, Peter Yin wrote:
+> Add WDIOF_EXTERN1 and WDIOF_CARDRESET bootstatus in ast2600
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Regarding the AST2600 specification, the WDTn Timeout Status Register
+> (WDT10) has bit 1 reserved. To verify the second boot source,
+> we need to check SEC14 bit 12 and bit 13.
+> The bits 8-23 in the WDTn Timeout Status Register are the Watchdog
+> Event Count, which we can use to verify WDIOF_EXTERN1.
+> 
+> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+You'll have to separate dts and yaml file changes from driver changes.
 
 > ---
->   drivers/hwmon/aspeed-g6-pwm-tach.c | 15 +++++++++------
->   1 file changed, 9 insertions(+), 6 deletions(-)
+> Change log:
 > 
-> diff --git a/drivers/hwmon/aspeed-g6-pwm-tach.c b/drivers/hwmon/aspeed-g6-pwm-tach.c
-> index 64def5e4cdf6..332c02216668 100644
-> --- a/drivers/hwmon/aspeed-g6-pwm-tach.c
-> +++ b/drivers/hwmon/aspeed-g6-pwm-tach.c
-> @@ -136,7 +136,6 @@ struct aspeed_pwm_tach_data {
->   	struct clk *clk;
->   	struct reset_control *reset;
->   	unsigned long clk_rate;
-> -	struct pwm_chip chip;
->   	bool tach_present[TACH_ASPEED_NR_TACHS];
->   	u32 tach_divisor;
+> v1 -> v2
+>    - Add comment and support WDIOF_CARDRESET in ast2600
+> 
+> v1
+>    - Patch 0001 - Add WDIOF_EXTERN1 bootstatus
+> ---
+>   arch/arm/boot/dts/aspeed/aspeed-g6.dtsi |  8 ++---
+>   drivers/watchdog/aspeed_wdt.c           | 45 ++++++++++++++++++++++---
+>   2 files changed, 44 insertions(+), 9 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> index e0b44498269f..23ae7f0430e9 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> @@ -556,24 +556,24 @@ uart5: serial@1e784000 {
+>   
+>   			wdt1: watchdog@1e785000 {
+>   				compatible = "aspeed,ast2600-wdt";
+> -				reg = <0x1e785000 0x40>;
+> +				reg = <0x1e785000 0x40>, <0x1e6f2000 0x20>;
+>   			};
+>   
+>   			wdt2: watchdog@1e785040 {
+>   				compatible = "aspeed,ast2600-wdt";
+> -				reg = <0x1e785040 0x40>;
+> +				reg = <0x1e785040 0x40>, <0x1e6f2000 0x020>;
+>   				status = "disabled";
+>   			};
+>   
+>   			wdt3: watchdog@1e785080 {
+>   				compatible = "aspeed,ast2600-wdt";
+> -				reg = <0x1e785080 0x40>;
+> +				reg = <0x1e785080 0x40>, <0x1e6f2000 0x020>;
+>   				status = "disabled";
+>   			};
+>   
+>   			wdt4: watchdog@1e7850c0 {
+>   				compatible = "aspeed,ast2600-wdt";
+> -				reg = <0x1e7850C0 0x40>;
+> +				reg = <0x1e7850C0 0x40>, <0x1e6f2000 0x020>;
+>   				status = "disabled";
+>   			};
+>   
+> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
+> index b4773a6aaf8c..65118e461130 100644
+> --- a/drivers/watchdog/aspeed_wdt.c
+> +++ b/drivers/watchdog/aspeed_wdt.c
+> @@ -33,6 +33,7 @@ struct aspeed_wdt {
+>   	void __iomem		*base;
+>   	u32			ctrl;
+>   	const struct aspeed_wdt_config *cfg;
+> +	void __iomem		*sec_base;
 >   };
-> @@ -144,7 +143,7 @@ struct aspeed_pwm_tach_data {
->   static inline struct aspeed_pwm_tach_data *
->   aspeed_pwm_chip_to_data(struct pwm_chip *chip)
->   {
-> -	return container_of(chip, struct aspeed_pwm_tach_data, chip);
-> +	return pwmchip_get_drvdata(chip);
->   }
 >   
->   static int aspeed_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-> @@ -459,6 +458,7 @@ static int aspeed_pwm_tach_probe(struct platform_device *pdev)
->   	int ret;
->   	struct device_node *child;
->   	struct aspeed_pwm_tach_data *priv;
-> +	struct pwm_chip *chip;
+>   static const struct aspeed_wdt_config ast2400_config = {
+> @@ -82,6 +83,15 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
+>   #define WDT_RESET_MASK1		0x1c
+>   #define WDT_RESET_MASK2		0x20
 >   
->   	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->   	if (!priv)
-> @@ -487,11 +487,14 @@ static int aspeed_pwm_tach_probe(struct platform_device *pdev)
->   	if (ret)
->   		return ret;
->   
-> -	priv->chip.dev = dev;
-> -	priv->chip.ops = &aspeed_pwm_ops;
-> -	priv->chip.npwm = PWM_ASPEED_NR_PWMS;
-> +	chip = devm_pwmchip_alloc(dev, PWM_ASPEED_NR_PWMS, 0);
-> +	if (IS_ERR(chip))
-> +		return PTR_ERR(chip);
->   
-> -	ret = devm_pwmchip_add(dev, &priv->chip);
-> +	pwmchip_set_drvdata(chip, priv);
-> +	chip->ops = &aspeed_pwm_ops;
+> +/*
+> + * Only Ast2600 support
+> + */
+> +#define   WDT_EVENT_COUNTER_MASK	(0xFFF << 8)
+> +#define   WDT_SECURE_ENGINE_STATUS	(0x14)
+> +#define   ABR_IMAGE_SOURCE		BIT(12)
+> +#define   ABR_IMAGE_SOURCE_SPI		BIT(13)
+> +#define   SECOND_BOOT_ENABLE		BIT(14)
 > +
-> +	ret = devm_pwmchip_add(dev, chip);
->   	if (ret)
->   		return dev_err_probe(dev, ret, "Failed to add PWM chip\n");
+>   /*
+>    * WDT_RESET_WIDTH controls the characteristics of the external pulse (if
+>    * enabled), specifically:
+> @@ -313,6 +323,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
+>   	const char *reset_type;
+>   	u32 duration;
+>   	u32 status;
+> +	u32 sec_st;
+>   	int ret;
 >   
+>   	wdt = devm_kzalloc(dev, sizeof(*wdt), GFP_KERNEL);
+> @@ -330,6 +341,12 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
+>   	if (IS_ERR(wdt->base))
+>   		return PTR_ERR(wdt->base);
+>   
+> +	if (of_device_is_compatible(np, "aspeed,ast2600-wdt")) {
+> +		wdt->sec_base = devm_platform_ioremap_resource(pdev, 1);
+> +		if (IS_ERR(wdt->sec_base))
+> +			return PTR_ERR(wdt->sec_base);
+> +	}
+> +
+>   	wdt->wdd.info = &aspeed_wdt_info;
+>   
+>   	if (wdt->cfg->irq_mask) {
+> @@ -459,12 +476,30 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
+>   	}
+>   
+>   	status = readl(wdt->base + WDT_TIMEOUT_STATUS);
+> -	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY) {
+> -		wdt->wdd.bootstatus = WDIOF_CARDRESET;
+>   
+> -		if (of_device_is_compatible(np, "aspeed,ast2400-wdt") ||
+> -		    of_device_is_compatible(np, "aspeed,ast2500-wdt"))
+> -			wdt->wdd.groups = bswitch_groups;
+> +	if (of_device_is_compatible(np, "aspeed,ast2600-wdt")) {
+> +		/*
+> +		 * The WDTn Timeout Status Register bit 1 is reserved.
+> +		 * To verify the second boot source,
+> +		 * we need to check SEC14 bit 12 and bit 13.
+> +		 */
+> +		sec_st = readl(wdt->sec_base + WDT_SECURE_ENGINE_STATUS);
+> +		if( sec_st & SECOND_BOOT_ENABLE)
+> +			if (sec_st & ABR_IMAGE_SOURCE ||
+> +			    sec_st & ABR_IMAGE_SOURCE_SPI)
+
+I am sure that checkpatch as something to say here. Either case, I would very
+much prefer a single if() statement such as
+
+		if (sec_st & SECOND_BOOT_ENABLE &&
+		    sec_st & (ABR_IMAGE_SOURCE | ABR_IMAGE_SOURCE_SPI))
+
+> +				wdt->wdd.bootstatus |= WDIOF_CARDRESET;
+> +
+> +		/*
+> +		 * To check Watchdog Event Count for WDIOF_EXTERN1
+> +		 */
+> +		if (status & WDT_EVENT_COUNTER_MASK) {
+> +			wdt->wdd.bootstatus |= WDIOF_EXTERN1;
+> +		}
+
+Unnecessary { }
+
+... but does this really indicate that there was a reset due to some event ?
+This reads three 8-bit counters. Wouldn't it make more sense to check bit 0
+instead ?
+
+I am also not sure if reading the watchdog status from WDT_SECURE_ENGINE_STATUS
+adds any value over the status reported in the watchdog status register.
+You'll have to explain why the added complexity is necessary or even adds
+value.
+
+Never mind, though ...
+
+Looking into the datasheets, the current code is quite completely wrong anyway.
+Bit 1 of the status register indicates on ast2500 if the boot was from the second
+boot source. It does not indicate that the most recent reset was triggered by
+the watchdog. The code should just be changed to set WDIOF_CARDRESET if bit 0
+of the status register is set. The boot source is out of scope for the watchdog
+status bits.
+
+Thanks,
+Guenter
 
