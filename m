@@ -2,75 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BED87FB0F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 10:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219DA87FB11
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 10:50:17 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=asomFJW/;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=CspxZyGS;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4TzRlS4pYCz3d2x
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 20:49:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4TzRm669VGz3d2x
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Mar 2024 20:50:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=asomFJW/;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=CspxZyGS;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52a; helo=mail-ed1-x52a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::531; helo=mail-ed1-x531.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4TzRlG0t9Zz3cZJ
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Mar 2024 20:49:28 +1100 (AEDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-56829f41f81so7333628a12.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Mar 2024 02:49:28 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4TzRm11LW9z3d2x
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Mar 2024 20:50:08 +1100 (AEDT)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-5684db9147dso6883024a12.2
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Mar 2024 02:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710841764; x=1711446564; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1710841805; x=1711446605; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Vw3KjgS782wX4cjsT0ZyCV8eiyep4xMafh2tE0txz0=;
-        b=asomFJW/HJ1AUOS8uy6OkeEVv4+rditqckS6EerpyRI9cMwNK/teBjDUjZQv4lEJ5c
-         PVEqH1KNR2wR+JQS4N3E/KXCYUbJjoslf7MeVxOMOUEM+sWjqMSoWhYBHRXeh8I0MU1b
-         IntsvUSxrU3R5Lrz4W0OEcYVoFEe+xHLuQUoOIeyBwbRcM4geehvy2dCwAVZWu30VTan
-         aX7EYhBvhyLX4vUJ+i7dIIWauMkpOhQ7PBzMzhIYyhLmmbp1GNzSvxey0ZgLn+cI8JFI
-         TSgIBcZK54Y1U44b/3ugU/b4A24ZCkkefvBfaOMzMJL9V/aMCjekc0SGaBMbaQ0rEP3a
-         00dw==
+        bh=/3djFcV85FlUlQbj3yunmUo0E6cySmtvMQYg/G6jYmk=;
+        b=CspxZyGSPqYP42GYKGDejqNXuPJWc8hHS2DEbMU7PMrBGos1+/pOnM7gE/vWp39CRZ
+         TrObaz9V93b+aTTmRoNpr4ZF+7wGvvMpBe0PCMqgxjObSsVVJcNLo5bKKtGoh2sF87Ax
+         3nCuQK1z0vwTrmHRuRqi2CdFD7t23pb2oQivY/oytDj87IXepvEekTRH3qMlS+wCZKzY
+         CvyPJ0AEbP1zi1FsqPbC1ViyyrtsTSxLCT49XVXgMtwf40lCxDLZot6BS95R6RAGtN14
+         y2O96gCo+Ec1x0YZpbI2WgIX6KfBHB+HmObWxD+bAhOlCUEVAZtc1xsPcokvtFsTuH30
+         27Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710841764; x=1711446564;
+        d=1e100.net; s=20230601; t=1710841805; x=1711446605;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3Vw3KjgS782wX4cjsT0ZyCV8eiyep4xMafh2tE0txz0=;
-        b=DTvLx5e/jXUvrPMSJDdsmyFd2Oy8DWx0m+KHk0YxtOuXxoIPsDyTjrdsokVgsmJyf/
-         ahyts1/B7uVbewFw9bOGQzZVyB9SLdWeliov+JxhXreYOTImxiZJyLsnrY6iO1lItloJ
-         ZRjWo88syOQCnD4QfgZ+WF/aWdp/ugIq5WjReCvOVHRQO42kJXeSp6S0c8xS+mbUHLSk
-         KC6VdyvTWw3c1BZ8vJvR1ajf4UO/U28/wYIZFPyPdRQvADnYt6/TvS2iBVocXzhlbC0L
-         2f/PHrTG55LQC2WPerN09cheO+gOjhsdcS5B8BerqTsi71zvybPPZe6Fc9hs0zEkLtwm
-         X/QA==
-X-Forwarded-Encrypted: i=1; AJvYcCWEaoolbFSgKRK+aWuzrvGVkn0/qIb/TJhBtk3rI2chSfw3aVSy885T6yK9Z0g/tkI22igvlYBhVWGH1HhqaQidJo3p8H3TnBVLz32VkQ==
-X-Gm-Message-State: AOJu0YwEG4w8WTcDrPcNRm6CA6SqZOord2PVzzbAAr6H7xDhl2lL4XJY
-	Fi3QvS6AbHLwtG7ITGIC+lg/uBEJ95V6P9SeMGk0O7Y94CQ1M9gfiEbG0fWSyjM=
-X-Google-Smtp-Source: AGHT+IHPJsITMU7LOWi8sZ3BEoORdt63XwYZlXUWAxb844DmrvhQoMc+QVFINgFzprc0INkf5SZERg==
-X-Received: by 2002:a05:6402:1943:b0:568:d7c0:eb10 with SMTP id f3-20020a056402194300b00568d7c0eb10mr5042331edz.3.1710841763577;
-        Tue, 19 Mar 2024 02:49:23 -0700 (PDT)
+        bh=/3djFcV85FlUlQbj3yunmUo0E6cySmtvMQYg/G6jYmk=;
+        b=i0THBBdMvym74QKARDRnurAPzQwLfNDF9Unkok8KImqc95ir0izZSMAuHspus2vyYA
+         wOrvt9SomDfrpHCVyC7EvZ8iNrG6JJdoBodNcsEj+6oItKMk0rM8PIPF0FNEntwfXM9C
+         AcsMj5NfplOweym8P06IudMxCt81SBnqXPPsBf2XqFC9OWFMy0qo1mGNmVyx2QW7Zkm4
+         ANrY6Wz1NPQcvHFnjRc4WAJGfnvupfC3/oEd1igAR2KtZEaws8YmQEygdkDRw82nfn47
+         DZAj9QqSB4mzHeC2pZcZVr3b+MgsSpSJLkjcJLMD9twnigYDes4nULx5u66hwvMuRYXX
+         7g5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUIUn43sM4BRCwG6HNed5MUX/TnWO5+u3RnaLti98DPt0Zcz7iif4khL0r0Q1sPE+0lI4iBXI4RirGeii3Ck6/faNpzqKUBde8KPrmjzg==
+X-Gm-Message-State: AOJu0YyQ+qiN7fzhzaPcJbP8zh7Dh4eWmsiCm+UyMOeASJ09T4IMdj9i
+	4ohiG0IL6so8OqMJqkouQQ6PoEgXHI/yT0HwIpkFQQdVXEmrFuxPk17KTeg/YZ0=
+X-Google-Smtp-Source: AGHT+IHub3GerXpEi0+h2eEzC/rsUiII/Qbh7o0i096OhIsOQOgoPcmYiKDyB+SU92D5RtOm8jHkvA==
+X-Received: by 2002:a17:906:5913:b0:a46:9cc5:c3b4 with SMTP id h19-20020a170906591300b00a469cc5c3b4mr5464869ejq.76.1710841805472;
+        Tue, 19 Mar 2024 02:50:05 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id c12-20020a0564021f8c00b005682f8b62a6sm5578150edc.97.2024.03.19.02.49.21
+        by smtp.gmail.com with ESMTPSA id v15-20020a1709061dcf00b00a46cf83216csm1345710ejh.120.2024.03.19.02.50.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Mar 2024 02:49:23 -0700 (PDT)
-Message-ID: <fdb557a6-f505-487b-899b-3b794f9dbaf0@linaro.org>
-Date: Tue, 19 Mar 2024 10:49:20 +0100
+        Tue, 19 Mar 2024 02:50:05 -0700 (PDT)
+Message-ID: <b238d70e-0361-4f3c-ae6a-4e6497b95d75@linaro.org>
+Date: Tue, 19 Mar 2024 10:50:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] Add eSPI device driver (flash channel)
+Subject: Re: [PATCH v2 3/4] ARM: dts: aspeed: Add eSPI node
 To: Manojkiran Eda <manojkiran.eda@gmail.com>, patrick.rudolph@9elements.com,
  chiawei_wang@aspeedtech.com, ryan_chen@aspeedtech.com,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-mtd@lists.infradead.org
 References: <20240319093405.39833-1-manojkiran.eda@gmail.com>
- <20240319093405.39833-2-manojkiran.eda@gmail.com>
+ <20240319093405.39833-4-manojkiran.eda@gmail.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -117,7 +117,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240319093405.39833-2-manojkiran.eda@gmail.com>
+In-Reply-To: <20240319093405.39833-4-manojkiran.eda@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -136,427 +136,44 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 19/03/2024 10:34, Manojkiran Eda wrote:
-> This patch adds the driver support for the eSPI controller of
-> Aspeed 5/6th generation SoCs. This controller is a slave device
-> communicating with a master over Enhanced Serial Peripheral
-> Interface (eSPI).
-> 
-> eSPI supports 4 channels, namely peripheral, virtual wire,
-> out-of-band, and flash, and operates at max frequency of 66MHz.
-> 
-> But at the moment, this patch set only supports the mafs mode
-> (master attached flash sharing mode) in the flash channel.
+> This commit adds eSPI to the device tree for aspeed 5/6th
+> generation SoCs.
 > 
 > Signed-off-by: Manojkiran Eda <manojkiran.eda@gmail.com>
 > ---
->  drivers/soc/aspeed/Kconfig                  |  38 ++
->  drivers/soc/aspeed/Makefile                 |   2 +
->  drivers/soc/aspeed/aspeed-espi-ctrl.c       | 197 +++++++++
->  drivers/soc/aspeed/aspeed-espi-ctrl.h       | 169 +++++++
->  drivers/soc/aspeed/aspeed-espi-flash-mafs.c | 467 ++++++++++++++++++++
->  drivers/soc/aspeed/aspeed-espi-flash.h      |  71 +++
->  6 files changed, 944 insertions(+)
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-ctrl.c
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-ctrl.h
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-flash-mafs.c
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-flash.h
+>  arch/arm/boot/dts/aspeed/aspeed-g5.dtsi | 19 +++++++++++++++++++
+>  arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 20 ++++++++++++++++++++
+>  2 files changed, 39 insertions(+)
 > 
-> diff --git a/drivers/soc/aspeed/Kconfig b/drivers/soc/aspeed/Kconfig
-> index f579ee0b5afa..c300ee8fe33a 100644
-> --- a/drivers/soc/aspeed/Kconfig
-> +++ b/drivers/soc/aspeed/Kconfig
-> @@ -52,6 +52,44 @@ config ASPEED_SOCINFO
->  	help
->  	  Say yes to support decoding of ASPEED BMC information.
->  
-> +menu "ASPEED eSPI Support"
-> +
-> +config ASPEED_ESPI
-> +	bool "ASPEED eSPI slave driver"
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+> index 04f98d1dbb97..eaf7d82b6f46 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+> @@ -343,6 +343,25 @@ sdhci1: sdhci@200 {
+>  					status = "disabled";
+>  				};
+>  			};
+> +			espi: espi@1e6ee000 {
 
-Why this is not tristate?
+spi or syscon
 
-> +	select REGMAP
-> +	select MFD_SYSCON
-> +	depends on ASPEED_ESPI_FLASH
-> +	default n
-> +	help
-> +	  Enable driver support for the Aspeed eSPI engine. The eSPI engine
-> +	  plays as a slave device in BMC to communicate with the Host over
-> +	  the eSPI interface.
-> +
-> +menu "ASPEED eSPI Flash channel support"
-
-You have way too many menus...
-
-> +
-> +config  ASPEED_ESPI_FLASH
-
-This is not used, drop.
-
-> +	bool "ASPEED eSPI flash channel support"
-> +	default n
-> +	depends on ASPEED_ESPI_FLASH_MAFS
-> +	select ASPEED_ESPI
-> +	help
-> +	  Enable eSPI flash channel support.
-> +
-> +menu "ASPEED eSPI flash modes"
-> +
-> +config ASPEED_ESPI_FLASH_MAFS
-> +	bool "Master attached flash sharing (MAFS) support in eSPI"
-
-Why this is not tristate?
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
 
 
-> +	default n
-> +	select ASPEED_ESPI_FLASH
-> +	help
-> +	  Select this option if you have a Master attached flash connected to
-> +	  the eSPI controller.
+> +				compatible = "aspeed,ast2500-espi", "simple-mfd", "syscon";
+> +				reg = <0x1e6ee000 0x1000>;
 > +
-> +endmenu # eSPI Flash Modes
-> +endmenu # eSPI Flash Channel support
-> +endmenu # eSPI Support
+> +				#address-cells = <1>;
+> +				#size-cells = <1>;
+> +				ranges = <0x0 0x1e6ee000 0x1000>;
 > +
-> +
->  endmenu
->  
->  endif
-> diff --git a/drivers/soc/aspeed/Makefile b/drivers/soc/aspeed/Makefile
-> index b35d74592964..cecbba700071 100644
-> --- a/drivers/soc/aspeed/Makefile
-> +++ b/drivers/soc/aspeed/Makefile
-> @@ -4,3 +4,5 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)		+= aspeed-lpc-snoop.o
->  obj-$(CONFIG_ASPEED_UART_ROUTING)	+= aspeed-uart-routing.o
->  obj-$(CONFIG_ASPEED_P2A_CTRL)		+= aspeed-p2a-ctrl.o
->  obj-$(CONFIG_ASPEED_SOCINFO)		+= aspeed-socinfo.o
-> +obj-$(CONFIG_ASPEED_ESPI)               += aspeed-espi-ctrl.o
-> +obj-$(CONFIG_ASPEED_ESPI_FLASH_MAFS)    += aspeed-espi-flash-mafs.o
+> +				espi_ctrl: espi-ctrl@0 {
 
-Why did you put spi drivers in soc? SPI drivers usually go to spi, don't
-they?
+What is this device? If parent is espi, then what is this?
 
-
-
-> diff --git a/drivers/soc/aspeed/aspeed-espi-ctrl.c b/drivers/soc/aspeed/aspeed-espi-ctrl.c
-> new file mode 100644
-> index 000000000000..7e2b86849fd0
-> --- /dev/null
-> +++ b/drivers/soc/aspeed/aspeed-espi-ctrl.c
-> @@ -0,0 +1,197 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright 2024 Aspeed Technology Inc.
-> + */
-> +#include <linux/io.h>
-> +#include <linux/irq.h>
-> +#include <linux/clk.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/regmap.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/vmalloc.h>
-> +
-> +#include "aspeed-espi-ctrl.h"
-> +#include "aspeed-espi-flash.h"
-> +
-> +/**
-
-No need for kerneldoc for private functions.
-
-> + * aspeed_espi_ctrl_isr - function to handle various interrupts
-> + * @irq: interrupt line
-> + * @arg: pointer to access device registers
-> + *
-> + * Returns IRQ_HANDLED
-> + */
-> +static irqreturn_t aspeed_espi_ctrl_isr(int irq, void *arg)
-> +{
-> +	uint32_t sts;
-> +	struct aspeed_espi_ctrl *espi_ctrl = (struct aspeed_espi_ctrl *)arg;
-> +
-> +	regmap_read(espi_ctrl->map, ESPI_INT_STS, &sts);
-> +
-> +	if (sts & ESPI_INT_STS_FLASH_BITS) {
-> +		aspeed_espi_flash_event(sts, espi_ctrl->flash);
-> +		regmap_write(espi_ctrl->map, ESPI_INT_STS,
-> +			     sts & ESPI_INT_STS_FLASH_BITS);
-> +	}
-> +
-> +	if (sts & ESPI_INT_STS_HW_RST_DEASSERT) {
-> +		aspeed_espi_flash_enable(espi_ctrl->flash);
-> +
-> +		regmap_write(espi_ctrl->map, ESPI_SYSEVT_INT_T0, 0x0);
-> +		regmap_write(espi_ctrl->map, ESPI_SYSEVT_INT_T1, 0x0);
-> +		regmap_write(espi_ctrl->map, ESPI_SYSEVT_INT_EN, 0xffffffff);
-> +
-> +		regmap_write(espi_ctrl->map, ESPI_SYSEVT1_INT_T0, 0x1);
-> +		regmap_write(espi_ctrl->map, ESPI_SYSEVT1_INT_EN, 0x1);
-> +
-> +		regmap_update_bits(espi_ctrl->map, ESPI_INT_EN,
-> +				   ESPI_INT_EN_HW_RST_DEASSERT,
-> +				   ESPI_INT_EN_HW_RST_DEASSERT);
-> +
-> +		regmap_update_bits(
-> +			espi_ctrl->map, ESPI_SYSEVT,
-> +			ESPI_SYSEVT_SLV_BOOT_STS | ESPI_SYSEVT_SLV_BOOT_DONE,
-> +			ESPI_SYSEVT_SLV_BOOT_STS | ESPI_SYSEVT_SLV_BOOT_DONE);
-> +
-> +		regmap_write(espi_ctrl->map, ESPI_INT_STS,
-> +			     ESPI_INT_STS_HW_RST_DEASSERT);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +/**
-> + * aspeed_espi_ctrl_probe - function to probe the platform driver
-> + * @pdev: platform device
-> + *
-> + * Returns 0 on success, -ENOMEM on error
-
-Drop useless kerneldoc / entire function comment. That's just probe...
-
-> + */
-> +static int aspeed_espi_ctrl_probe(struct platform_device *pdev)
-> +{
-> +	int rc = 0;
-> +	struct aspeed_espi_ctrl *espi_ctrl;
-> +	struct device *dev = &pdev->dev;
-> +
-> +	espi_ctrl = devm_kzalloc(dev, sizeof(*espi_ctrl), GFP_KERNEL);
-> +	if (!espi_ctrl)
-> +		return -ENOMEM;
-> +
-> +	espi_ctrl->model = of_device_get_match_data(dev);
-> +
-> +	espi_ctrl->map = syscon_node_to_regmap(dev->parent->of_node);
-> +	if (IS_ERR(espi_ctrl->map)) {
-> +		dev_err(dev, "cannot get remap\n");
-> +		return PTR_ERR(espi_ctrl->map);
-
-return dev_err_probe
-
-> +	}
-> +
-> +	espi_ctrl->irq = platform_get_irq(pdev, 0);
-> +	if (espi_ctrl->irq < 0)
-> +		return espi_ctrl->irq;
-> +
-> +	espi_ctrl->clk = devm_clk_get(dev, NULL);
-> +	if (IS_ERR(espi_ctrl->clk)) {
-> +		dev_err(dev, "cannot get clock\n");
-> +		return PTR_ERR(espi_ctrl->clk);
-
-return dev_err_probe
-
-> +	}
-> +
-> +	rc = clk_prepare_enable(espi_ctrl->clk);
-> +	if (rc) {
-> +		dev_err(dev, "cannot enable clock\n");
-> +		return rc;
-> +	}
-> +
-> +	/*
-> +	 * This takes care of deferred probe , incase the mtd core
-> +	 * subsystem is not probed yet.
-> +	 */
-> +	espi_ctrl->flash = aspeed_espi_flash_alloc(dev, espi_ctrl);
-> +	if (IS_ERR(espi_ctrl->flash)) {
-> +		dev_err(dev, "failed to allocate flash channel\n");
-> +		pr_info("flash alloc failed with return code %ld\n",
-> +			PTR_ERR(espi_ctrl->flash));
-
-Please clean up the code. Drop.
-
-> +		return PTR_ERR(espi_ctrl->flash);
-> +	}
-> +
-> +	regmap_write(espi_ctrl->map, ESPI_SYSEVT_INT_T0, 0x0);
-> +	regmap_write(espi_ctrl->map, ESPI_SYSEVT_INT_T1, 0x0);
-> +	regmap_write(espi_ctrl->map, ESPI_SYSEVT_INT_EN, 0xffffffff);
-> +
-> +	regmap_write(espi_ctrl->map, ESPI_SYSEVT1_INT_T0, 0x1);
-> +	regmap_write(espi_ctrl->map, ESPI_SYSEVT1_INT_EN, 0x1);
-> +
-> +	rc = devm_request_irq(dev, espi_ctrl->irq, aspeed_espi_ctrl_isr, 0,
-> +			      DEVICE_NAME, espi_ctrl);
-> +	if (rc) {
-> +		dev_err(dev, "failed to request IRQ\n");
-> +		return rc;
-> +	}
-> +
-> +	// clear the interrupt enable register
-> +	regmap_write(espi_ctrl->map, ESPI_INT_EN_CLR, 0x7fffffff);
-> +
-> +	// Disable the interrupts in all channels except flash channel
-> +	regmap_update_bits(espi_ctrl->map, ESPI_INT_EN,
-> +			   ESPI_INT_EN_FLASH_BITS | ESPI_INT_EN_HW_RST_DEASSERT,
-> +			   ESPI_INT_EN_FLASH_BITS |
-> +				   ESPI_INT_STS_HW_RST_DEASSERT);
-
-Why do you first request interrupt and then disable them? What if it
-fires earlier?
-
-> +
-> +	dev_set_drvdata(dev, espi_ctrl);
-> +
-> +	dev_info(dev, "module loaded\n");
-
-No, drop such simple function success statements.
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * aspeed_espi_ctrl_remove - Release the driver
-> + * @pdev: the platform device
-> + *
-> + * Returns 0
-> + */
-
-Drop entire comment, useless.
-
-
-...
-
-> +
-> +void *aspeed_espi_flash_alloc(struct device *dev,
-> +			      struct aspeed_espi_ctrl *espi_ctrl)
-> +{
-> +	int ret, index;
-> +	struct aspeed_espi_flash_dma *dma;
-> +	struct mtd_info *mtd;
-> +	struct aspeed_espi_flash *espi_flash;
-> +	struct resource res;
-> +	u32 reg;
-> +
-> +	espi_flash =
-> +		devm_kzalloc(dev, sizeof(struct aspeed_espi_flash), GFP_KERNEL);
-
-sizeof(*)
-
-> +	if (!espi_flash)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	espi_flash->ctrl = espi_ctrl;
-> +
-> +	/* Bus lock */
-> +	mutex_init(&espi_flash->lock);
-> +
-> +	init_waitqueue_head(&espi_flash->wq);
-> +
-> +	spin_lock_init(&espi_flash->spinlock);
-> +
-> +	dma = &espi_flash->dma;
-> +
-> +	dma->tx_virt =
-> +		dma_alloc_coherent(dev, PAGE_SIZE, &dma->tx_addr, GFP_KERNEL);
-
-Wrong wrapping.
-
-> +	if (!dma->tx_virt) {
-> +		dev_err(dev, "cannot allocate DMA TX buffer\n");
-
-Do not print anything on allocation failures.
-
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	dma->rx_virt =
-> +		dma_alloc_coherent(dev, PAGE_SIZE, &dma->rx_addr, GFP_KERNEL);
-> +	if (!dma->rx_virt) {
-> +		dev_err(dev, "cannot allocate DMA RX buffer\n");
-
-Drop
-
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +	index = of_property_match_string(dev->of_node, "reg-names",
-> +					 "espi_flash");
-> +	ret = of_address_to_resource(dev->of_node, index, &res);
-
-Why such unusual code? Why you cannot just map the io space?
-
-> +	if (ret < 0) {
-> +		dev_err(dev,
-> +			"Could not find espi_flash resource block size in devtree\n");
-> +		return ERR_PTR(-ENODEV);
-> +	}
-> +	reg = resource_size(&res);
-> +	mtd = &espi_flash->mtd;
-> +	mtd->dev.parent = dev;
-> +	mtd->size = reg;
-> +	mtd->flags = MTD_CAP_NORFLASH;
-> +	mtd->_erase = aspeed_espi_flash_erase;
-> +	mtd->_read = aspeed_espi_flash_read;
-> +	mtd->_write = aspeed_espi_flash_write;
-> +	mtd->type = MTD_NORFLASH;
-> +	mtd->name = "espi-flash-mafs";
-> +
-> +	regmap_read(espi_ctrl->map, ESPI_CH3_CAP_N_CONF, &reg);
-> +	reg = (reg & ESPI_CH3_CAP_N_CONF_ERASE_MASK) >>
-> +	      ESPI_CH3_CAP_N_CONF_ERASE_SHIFT;
-> +	espi_flash->erase_mask = reg;
-> +	switch (reg) {
-> +	case ESPI_CH3_CAP_N_CONF_ERASE_SIZE_4KB:
-> +	case ESPI_CH3_CAP_N_CONF_ERASE_SIZE_4KB_64KB:
-> +		mtd->erasesize = 0x1000;
-> +		espi_flash->erase_mask = 1;
-> +		break;
-> +	case ESPI_CH3_CAP_N_CONF_ERASE_SIZE_64KB:
-> +		mtd->erasesize = 0x10000;
-> +		break;
-> +	case ESPI_CH3_CAP_N_CONF_ERASE_SIZE_128KB:
-> +		mtd->erasesize = 0x20000;
-> +		break;
-> +	case ESPI_CH3_CAP_N_CONF_ERASE_SIZE_256KB:
-> +		mtd->erasesize = 0x40000;
-> +		break;
-> +	default:
-> +		dev_notice(dev, "Unknown erase size %x\n", reg);
-> +		return ERR_PTR(-ENODEV);
-> +	}
-> +
-> +	mtd->writesize = 1;
-> +	mtd->owner = THIS_MODULE;
-> +	mtd->priv = espi_flash;
-> +
-> +	ret = mtd_device_register(mtd, NULL, 0);
-> +	if (ret) {
-> +		dev_notice(dev, "aspeed-espi-mtd: Failed to register mtd device\n");
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	aspeed_espi_flash_enable(espi_flash);
-> +	return espi_flash;
-> +}
-
-Missing export as GPL
-
-
-> +
-> +void aspeed_espi_flash_free(struct device *dev,
-> +			    struct aspeed_espi_flash *espi_flash)
-> +{
-> +	struct aspeed_espi_flash_dma *dma = &espi_flash->dma;
-> +
-> +	dma_free_coherent(dev, PAGE_SIZE, dma->tx_virt, dma->tx_addr);
-> +	dma_free_coherent(dev, PAGE_SIZE, dma->rx_virt, dma->rx_addr);
-> +
-> +	mtd_device_unregister(&espi_flash->mtd);
-> +}
-
-Missing export as GPL
-
-
+Where is the binding?
 
 
 Best regards,
