@@ -1,55 +1,90 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE8D8814C1
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Mar 2024 16:41:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CF9881AE3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Mar 2024 03:13:17 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jY37uWiq;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=e57m5gcX;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V0CVP1WS7z3dVL
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Mar 2024 02:41:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V0TWq28rqz3dTx
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Mar 2024 13:13:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jY37uWiq;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=e57m5gcX;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feab::627; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20627.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::627])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V0CVG0HM9z3cTT;
-	Thu, 21 Mar 2024 02:40:53 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 456F36100C;
-	Wed, 20 Mar 2024 15:40:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF305C433F1;
-	Wed, 20 Mar 2024 15:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710949251;
-	bh=KlXhLA7jIC561PndfhSf5vnkReqlBqG0xxTFqREv5dg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jY37uWiqccKwyj18FIwjJkrXWW35vH2u+7rWTyhP/OGKf7P6TEtT+696WF989/cmj
-	 kbVLQ9v1N+g0OpW6EwZ4bD7ytJwkhuMXJ0MNfk+INVj/8KkzA8y0T6wSvenVT/UGn6
-	 t//2ht6oFHVqHZufIv1ORUPpSqnMQsj+zztLBjkhbtVs4BFHWzOiHnz80RNUhOMMUL
-	 odmRPmh5tSCWi35gd/3tNJdU+fxqUbLobDIppOAKWNYmrYEHLOsZiw/HpNNCvCzJo4
-	 QqIhR3Qkuim8RBkGl7WcjqDv9ynfdfP4elOhpl0cslA00gTGdMZzFknKndW4vu3BHb
-	 Z8Za8tp1lnVJA==
-Date: Wed, 20 Mar 2024 10:40:48 -0500
-From: Rob Herring <robh@kernel.org>
-To: Manojkiran Eda <manojkiran.eda@gmail.com>
-Subject: Re: [PATCH v2 4/4] dt-bindings: aspeed: Add eSPI controller
-Message-ID: <20240320154048.GA1777957-robh@kernel.org>
-References: <20240319093405.39833-1-manojkiran.eda@gmail.com>
- <20240319093405.39833-5-manojkiran.eda@gmail.com>
- <bad5df79-e040-4868-9db6-701110894ea3@linaro.org>
- <a9faa9b4-9bf6-49b6-b7eb-f642e2d261c3@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V0TWg1pPDz2y71
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Mar 2024 13:13:02 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DUwTo3MUMNJ7ojnEf+vj5H6iQRSqwcdfJn6kOV6lQiRTfvSTzIjFueZCk9Mby76LtSHgCEU5YF9Yqita/wkBpqRdnRI1dCWoymcBYvNDIfAVBuwkghxzypQ98+n8lgjfxiZcNdoORcrR7gSKKrYiCZitayezh0sCEp7v471hKG/+CG7ui3tlKQd18DGb0vgGofPzDvWcbmYpd1aZjNo7F9FNVuRazJFrrPjNi6VscAfO81MpUErzQQE97gDa8GuPmSbBApO0fHBctwRWlrmtPnkO7qXnn08QLXmAmkEdWutyBR9p5NxriULuBQa3gnLwu7l0uSPmT7KQ31N/OifE3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RwllaVZrK3Z03jlhItgA6A0K4JF92EcjWplkQCYFA5w=;
+ b=iPWOc+LfwFyGWSS7NGqfS/UnPHOhsGvGv7l6nd8T6INZTLLPjQglrs5TlmkNkv4EGMrTvMSDjOfdtnqWysbkXsD/DJOtkRW5/GeXoup8fIdRNS10lxLw5blEsRNUrOFXfngHDh6EIUrLV7wNk6dBq0AoL+HwyVz91GB7nwWS/g0xo+ktdhJ+3/HAz411c6qdvOTlEIROa/P6VO157dNWroAjx3g9WEjyMUh+141m0PDcl5qmohm1BVgcoBUISs/6A27JJ8pfqUdZRbAfHLZD9gwg7aHlvgrpBx2WquTEsJ9SpPuTUH6EtmylrGjP64URdPaa94L5BoJIY5/OtA0a3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RwllaVZrK3Z03jlhItgA6A0K4JF92EcjWplkQCYFA5w=;
+ b=e57m5gcXKLxjCGqnOX+unkyuZYFXrBT9sTeTeZrGl+LTS5uhMSOdsr7KQkASNEf+lE8tHUmQ3kSn7QWifKK3/gbfpVC6i5Ei09Y5IkF1W1d9zcvn3ZC8bvdp8B2QY+TJbWLohCjmJbTcVOb8b6J1wiZpVjA8SJrVvCfxGid+v+QKmYDYncsPdSJ/l50ArkfmctCXzMatqpmC9FQla0a7MIkA8bxSB5v4ivStojN//zColkhtSBIzfse0+IahzoktiVpu364Tjg4inOzjP69mbUkeQu3mbkKi59kubFO3Qy12Jr/Nhnd/ggHYQpWdSzaIOkuO+nDWs/tuZaoy7xddBw==
+Received: from PU1PR01CA0007.apcprd01.prod.exchangelabs.com
+ (2603:1096:803:15::19) by TYZPR04MB7235.apcprd04.prod.outlook.com
+ (2603:1096:400:45d::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.30; Thu, 21 Mar
+ 2024 02:12:39 +0000
+Received: from HK3PEPF0000021F.apcprd03.prod.outlook.com
+ (2603:1096:803:15:cafe::e) by PU1PR01CA0007.outlook.office365.com
+ (2603:1096:803:15::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.28 via Frontend
+ Transport; Thu, 21 Mar 2024 02:12:38 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ HK3PEPF0000021F.mail.protection.outlook.com (10.167.8.41) with Microsoft SMTP
+ Server id 15.20.7409.10 via Frontend Transport; Thu, 21 Mar 2024 02:12:37
+ +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz
+Subject: [PATCH v7 00/22] Add i2c-mux and eeprom devices for Meta Yosemite 4
+Date: Thu, 21 Mar 2024 10:12:12 +0800
+Message-Id: <20240321021236.1823693-1-Delphine_CC_Chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a9faa9b4-9bf6-49b6-b7eb-f642e2d261c3@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF0000021F:EE_|TYZPR04MB7235:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: f79a2b0e-f197-44e7-235c-08dc494c6148
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	JhBEbcQc73lwS7erGUvts4E4N7lXtDb70tIe3Zz97xme4bT/+UNq8PkdcCCRspbnEkpinnkUQq7lG07NcihHmrfOrUFIWfiy2eDnBetIey9U9bNOyWgOYTQ9TuEcER7fLcvrAU4OHy1Hs6hyMRc9lHQ00kvJ3BX/PNNybH1HlCPV6SxI1F6LSk7qs5uExtkiI9jCuzI2kHY/wWbAQMPh3FpgqQnSWmmxmto85b7+5VKJlHI9wRKqPs+xkUSEUOB9SQQxjWjAkn9zIIE6VzvXMQlHVZrKXXvWwHaEydxuKb9p7+xZ0zL9Jk11pbcp//8UhsJ7JkRE4Pa/hhB5y+ryw7MiobKwDujGjwuBajYcTVBhhcmosdQmkT+ARX0PPTL1doyw5Sy7ynyS/HNbarw22JgjM5/Jv0WMav/obLwsiKAtUm5re2XO2OJK6EP6aJvwkqWwVtfUhsXXETigjzX0NlUyOubOoIfhO2LUWl3+uPs10W8ixqVP1Bm6MIkKyqc43tyOB1KQ8qt+eaQyDMlzDS5R99v6/nFe8PIDQBUMHCAlCtrCn4yJBLzZ7zPGfvrJxhOsbI79vpE785kT1nODyHIKTaHlDSumT8z9Gy6QgIUFo97jCjX9lM95nNkATVyanRK6WmUepbzS1zpIZcqKCFqhKEAT4aqqtfAFjTUWyJYSMXJUuBeG0ipdfVkwvHrStaiBiYf1nL2quuxZhVaAhxsgzaQRvB1Y+SrVa5Wq++EDO8ozuTU40A7AgbVvhnP/
+X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(7416005)(36860700004)(376005)(82310400014)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2024 02:12:37.6040
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f79a2b0e-f197-44e7-235c-08dc494c6148
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource: 	HK3PEPF0000021F.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR04MB7235
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +96,82 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, vigneshr@ti.com, linux-aspeed@lists.ozlabs.org, richard@nod.at, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-mtd@lists.infradead.org, patrick.rudolph@9elements.com, krzysztof.kozlowski+dt@linaro.org, miquel.raynal@bootlin.com, jk@codeconstruct.com.au, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Mar 20, 2024 at 03:29:15PM +0530, Manojkiran Eda wrote:
->    On 19/03/24 3:26 pm, Krzysztof Kozlowski wrote:
-> 
-> On 19/03/2024 10:34, Manojkiran Eda wrote:
-> 
-> This commit adds the device tree bindings for aspeed eSPI
-> controller.
-> 
-> Although aspeed eSPI hardware supports 4 different channels,
-> this commit only adds the support for flash channel, the
-> bindings for other channels could be upstreamed when the driver
-> support for those are added.
-> 
-> Signed-off-by: Manojkiran Eda [1]<manojkiran.eda@gmail.com>
-> ---
->  .../bindings/soc/aspeed/aspeed,espi.yaml      | 94 +++++++++++++++++++
->  1 file changed, 94 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/aspeed,espi.yam
-> l
-> 
-> diff --git a/Documentation/devicetree/bindings/soc/aspeed/aspeed,espi.yaml b/Doc
-> umentation/devicetree/bindings/soc/aspeed/aspeed,espi.yaml
-> new file mode 100644
-> index 000000000000..3d3ad528e3b3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/aspeed/aspeed,espi.yaml
-> 
-> Why Rob's comments got ignored?
-> 
-> This is not a soc component.
-> 
->    I did not mean to ignore, i have few reasons listed below that provides
->    information on why i felt this belongs into soc.
+Changelog:
+  - v7
+    - Revise pca9506 i2c address
+  - v6
+    - Revise i2c duty-cycle for meeting 400khz spec
+  - v5
+    - Support medusa board adc sensors
+    - support NIC eeprom
+  - v4
+    - Re-format gpio linename
+    - Revise i2c device node names
+    - Split patches by logic changes
+  - v3
+    - Correct patch for revising gpio name
+  - v2
+    - Revise mx31790 fan tach config
+    - Add mctp config for NIC
+    - Support mux to cpld
+    - Revise gpio name
+  - v1
+    - Add gpio and eeprom behind i2c-mux
+    - Remove redundant idle-state setting for i2c-mux
+    - Enable adc 15, wdt2,spi gpio for yosemite4 use
+    - Revise quad mode to dual mode to avoid WP pin influnece the SPI
+    - Revise power sensor adm1281 for yosemite4 schematic change
+    - Add gpio pca9506 I/O expander for yosemite4 use
+    - remove space for adm1272 compatible
+    - enable interrupt setting for pca9555
+    - add eeprom for yosemite4 medusa board/BSM use
+    - remove temperature sensor for yosemite4 schematic change
+    - add power sensor for power module reading
+    - Revise adc128d818 adc mode for yosemite4 schematic change
+    - Revise ina233 for yosemite4 schematic change
+    - Remove idle state setting for yosemite4 NIC connection
+    - Initialize bmc gpio state
+    - Revise mx31790 fan tach config
+    - Add mctp config for NIC
+    - Support mux to cpld
+    - Revise gpio name
 
-Fix you email program to not send multi-part (txt plus html) emails. 
-Plain text only on maillists.
+Delphine CC Chiu (22):
+  ARM: dts: aspeed: yosemite4: Revise i2c-mux devices
+  ARM: dts: aspeed: yosemite4: Enable adc15
+  ARM: dts: aspeed: yosemite4: Enable spi-gpio setting
+  ARM: dts: aspeed: yosemite4: Enable watchdog2
+  ARM: dts: aspeed: yosemite4: Revise quad mode to dual mode
+  ARM: dts: aspeed: yosemite4: Revise power sensor adm1281 for schematic
+    change
+  ARM: dts: aspeed: yosemite4: Add gpio pca9506
+  ARM: dts: aspeed: yosemite4: Remove space for adm1272 compatible
+  ARM: dts: aspeed: yosemite4: Enable interrupt setting for pca9555
+  ARM: dts: aspeed: yosemite4: Add power sensor for power module reading
+  ARM: dts: aspeed: yosemite4: Add eeprom for yosemite4 use
+  ARM: dts: aspeed: yosemite4: Remove temperature sensor for yosemite4
+    schematic change
+  ARM: dts: aspeed: yosemite4: Revise adc128d818 adc mode for yosemite4
+    schematic change
+  ARM: dts: aspeed: yosemite4: Revise ina233 config for yosemite4
+    schematic change
+  ARM: dts: aspeed: yosemite4: Remove idle state setting for yosemite4
+    NIC connection
+  ARM: dts: aspeed: yosemite4: Initialize bmc gpio state
+  ARM: dts: aspeed: yosemite4: Revise mx31790 fan tach config
+  ARM: dts: aspeed: yosemite4: add mctp config for NIC
+  ARM: dts: aspeed: yosemite4: support mux to cpld
+  ARM: dts: aspeed: yosemite4: support medusa board adc sensors
+  ARM: dts: aspeed: yosemite4: support NIC eeprom
+  ARM: dts: aspeed: yosemite4: Revise i2c duty-cycle
 
-Rob
+ .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 1258 +++++++++++++++--
+ 1 file changed, 1151 insertions(+), 107 deletions(-)
+
+-- 
+2.25.1
+
