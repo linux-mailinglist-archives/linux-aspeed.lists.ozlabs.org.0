@@ -1,72 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8491D88C0DC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Mar 2024 12:37:14 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3570788C0F3
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Mar 2024 12:39:22 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=uNigKinp;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mEBAer8H;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V3npJ2CxKz3vlR
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Mar 2024 22:37:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V3nrk6GNMz3vYN
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Mar 2024 22:39:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=uNigKinp;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mEBAer8H;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::633; helo=mail-ej1-x633.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
 Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V3np45r5dz3dSL
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Mar 2024 22:36:58 +1100 (AEDT)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a4a3a5e47baso233590766b.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Mar 2024 04:36:58 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V3nrd6MwTz3dS4
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Mar 2024 22:39:13 +1100 (AEDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a45f257b81fso626839866b.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 26 Mar 2024 04:39:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711453015; x=1712057815; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1711453151; x=1712057951; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=/MO23cTCZl2VkaX9Q4Bf8Z+K1+W2X16adrpEco2FUHY=;
-        b=uNigKinpodwJ3Lx6T8aQ3QyJwHbqWz38LXKQBENcRf7Lw/ldE+iiPcCD097B/kN33U
-         9zZhfyC0rZKJ23feIotdIO4ZYCjjUij/qG19cB38Jhokm77NoETNLYYifsQnjnMSod/1
-         IbxdNtOGNs/2dFHMUjKAEk5E6Wyc5gzvwko7H0bTBB7fZ5cdd9PkLWfjSLXUHZ77+iCB
-         pIqON9oasnniwqF+7YaI4F4K/wbvbxsJxGo3XHbiVYW7EfnEmnZdMcDNTKajbjo942b/
-         J8/V4roQsJ42x1i2GF+Te2tM5flXYtze6panzZH0d4Sk/Ujg77xoMR/WcT3Ss8QYZcEO
-         Q1vQ==
+        bh=d1Q5QgxbARJF+JHP2BJShFIUe5IajvFjJe+6m/Xo/mg=;
+        b=mEBAer8HeHEgjD40Mi7saxu0KOQ3Y7m6W00BaqBbzIxRL/xNx5Cq/XNBVO+lPv8Nh9
+         rOK1hMCctgt2A0nCcmOBN0VCLzvskC00Dj0OsPqhyYitNn2sU/+CsRkmWOrTDz+QDI7C
+         MfOVrR1qOSjuHdjR0DcJdPeX7VLiISZAWjQaKzUn29YbMEpKMNhutcHDffAm3lT1Aahb
+         j5BRoJfr+ZZWKz4ZO9gDsrLifGM/czAgA1IEDI4WYZ4YDcdlO45JALv/+TwPEV5o95Aq
+         vbEo6p94UVnjx+AivBaMQowdRnXI6JLj031RvD3iGSTJF/m4AjFE/ntAboTWJ20b8Egr
+         xtmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711453015; x=1712057815;
+        d=1e100.net; s=20230601; t=1711453151; x=1712057951;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/MO23cTCZl2VkaX9Q4Bf8Z+K1+W2X16adrpEco2FUHY=;
-        b=EK24fHoOSQqdGdqnuqKNoMX4wCqDGVExm3ewjzO6ywB4Xw7sktSSn08Qzc4bA84+Ks
-         ULY724i0EOxXPyZZyK2HD/sYK/aRlNEwLIPUG8m/YAoP4b3eqPuIJVJTM9WlfNnSVGb5
-         lcXZjTfEW1ZJhcutnGSJRvHB0OwqCOSH24Svews2MG9f6vSrSx8w6om1RR/oIx9eZ0uW
-         3vkSrfBtNLt2Osw6c4Gx+AG+qgRJwZQ0cgivY9CI38cXFcK3sbTXzW2Vxit8ddHc8R53
-         3CizoiIwGdLE4EHbsYH8g6iuekPntg4H3VvgyQzq0zmBzcAllVGtKD+kfKgYdEmpGd5S
-         49yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVL7xwiZEm5SblSUDkJ2H1yUgYjehX5p0e8UgCyuJEKDrFI+so45671mUE+sn6aAbGvqR8pei083qPQV9ZdazXilsUXK23qHPOXcWcRYQ==
-X-Gm-Message-State: AOJu0YyG587D+bYlEqphuzST3+oEpjhoAN2iLxh2XZjngVKk6rEuFFo+
-	eIOA/HpnUarNaREnoUHCphs6mxq2sALLdW0h96/oB7Sst2mrv1qq/8h6FwzGmQU=
-X-Google-Smtp-Source: AGHT+IGsaCkiFSAJXRsLHPZz4DsVmUb3tHnSVxaNfe9BxvlYFvb/PqEId/8gllBS0u5njxDw5d+rhw==
-X-Received: by 2002:a17:906:a94d:b0:a46:36ee:cfac with SMTP id hh13-20020a170906a94d00b00a4636eecfacmr6440245ejb.77.1711453014298;
-        Tue, 26 Mar 2024 04:36:54 -0700 (PDT)
+        bh=d1Q5QgxbARJF+JHP2BJShFIUe5IajvFjJe+6m/Xo/mg=;
+        b=sgbAql1pHqdAYtQKZ5N/H1ANEMQx0L2BuTDMSMZ+t+4mTFREdEIFFL+knSKlw2UnRa
+         T4mS2N3SdOyMTa8bFxxLwzR/oJrzYZCO+sAlbP03ij7LPJLC3bLUKfMDy7SxmGaU8hkL
+         /j7Zisg9QvOztz/5rhLrpeI+mOG3Fx01V0IgmWBo9oJUMzX5lycTBmrBdCz3jfafty8X
+         Oz+r6EFuxqF71PNNVYfY3G3Ks8UAbA3BAL5lwTlfTKMe1Zt4TrpYrWaFfdCNaZhX7cnc
+         Rd1SmYcWhc4mVbRagDTw2WAZ6xowpD5fHqDZoSGUC8rPkkMNTv7zlhuttqUUxWh/3Joc
+         5M2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWkwIIp4V1BiWu0MFOOiv1QoDkBbadK0SQVgDlLKfDhPBzh4irMiyGJj1d6G9PxsxTc3eKHiEMmbMFXVWzCgRpd8WxtKTFlBLzc3xt7Qg==
+X-Gm-Message-State: AOJu0YwQqiBSd+WphvTFMYGZ9HKZ4iGvF1f3HJcLLjvQB9x2UwWZyfbP
+	TRG21Z7IQ3awd8MvcjGqnOWxDm1zmCr0AHJHW92XwB1D1bbp/P6/rMO+KSTtSlU=
+X-Google-Smtp-Source: AGHT+IEa2Un7kY9XZeTWpXUi5moO74Uk0Nkpf5fzgte8eD1i5gZwTX5dTQH5elrRUtqyDHio98LcyQ==
+X-Received: by 2002:a17:907:7d8e:b0:a4d:f901:477d with SMTP id oz14-20020a1709077d8e00b00a4df901477dmr767810ejc.19.1711453150719;
+        Tue, 26 Mar 2024 04:39:10 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.44])
-        by smtp.gmail.com with ESMTPSA id lv16-20020a170906bc9000b00a464f709687sm4116229ejb.59.2024.03.26.04.36.51
+        by smtp.gmail.com with ESMTPSA id xj8-20020a170906db0800b00a4a33a9f077sm2344211ejb.11.2024.03.26.04.39.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Mar 2024 04:36:53 -0700 (PDT)
-Message-ID: <32cd6f33-b4e9-4b7a-bcea-b1f2e421d67e@linaro.org>
-Date: Tue, 26 Mar 2024 12:36:50 +0100
+        Tue, 26 Mar 2024 04:39:10 -0700 (PDT)
+Message-ID: <79ba66c5-a564-416d-b7bf-747422803aa6@linaro.org>
+Date: Tue, 26 Mar 2024 12:39:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] dt-bindings: arm: aspeed: add ASUS X4TF board
+Subject: Re: [PATCH v6 2/2] ARM: dts: aspeed: x4tf: Add dts for asus x4tf
+ project
 To: Kelly Hung <ppighouse@gmail.com>, robh+dt@kernel.org
 References: <20240326103549.2413515-1-Kelly_Hung@asus.com>
- <20240326103549.2413515-2-Kelly_Hung@asus.com>
+ <20240326103549.2413515-3-Kelly_Hung@asus.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -113,7 +114,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240326103549.2413515-2-Kelly_Hung@asus.com>
+In-Reply-To: <20240326103549.2413515-3-Kelly_Hung@asus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -127,27 +128,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, Rob Herring <robh@kernel.org>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, kelly_hung@asus.com, krzysztof.kozlowski+dt@linaro.org, Allenyy_Hsu@asus.com, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org, Zev Weiss <zweiss@equinix.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, kelly_hung@asus.com, krzysztof.kozlowski+dt@linaro.org, Allenyy_Hsu@asus.com, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 26/03/2024 11:35, Kelly Hung wrote:
-> Document the new compatibles used on ASUS X4TF.
+> Base on aspeed-g6.dtsi and can boot into BMC console.
 > 
 > Signed-off-by: Kelly Hung <Kelly_Hung@asus.com>
 > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Where did it happen? Where did you receive this tag? Please provide link
-to lore.
+That's not true.
 
+Please provide a link to lore.kernel.org which will prove that you
+received this tag.
 
-> Reviewed-by: Zev Weiss <zweiss@equinix.com>
+> Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
-Where did it happen? Where did you receive this tag? Please provide link
-to lore.
+Please provide a link to lore.kernel.org which will prove that you
+received this tag.
 
-
+Did you read the documentation I was sharing with you?
 
 Best regards,
 Krzysztof
