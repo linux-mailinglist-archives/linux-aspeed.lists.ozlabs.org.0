@@ -1,84 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A72388F5CC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 04:17:18 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD7688FAE6
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 10:15:28 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fpKgLw2N;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lQWtoEzo;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V4pcW3hpwz3vXk
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 14:17:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V4yYn6CNtz3vZY
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 20:15:25 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fpKgLw2N;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lQWtoEzo;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b29; helo=mail-yb1-xb29.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V4pcP65Gjz3cVG
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Mar 2024 14:17:07 +1100 (AEDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1dddbe47ac1so10764635ad.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Mar 2024 20:17:07 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V4yYh2KfHz3cRd
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Mar 2024 20:15:19 +1100 (AEDT)
+Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-dc6dcd9124bso704611276.1
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Mar 2024 02:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711595826; x=1712200626; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aIic1Gjzm4RHTASBVGxTr3rcD5mx/7GlOl+VtL8tSQM=;
-        b=fpKgLw2NJnIe13IQEgg0DOA7wflXcTvk7WW9nwui47NplFk7fAC/uyait4UlcCySzj
-         kVUS3iqvf2ExlDOQwIDCv0T0YbhWF/gCrJPjmTmqb4PBLi70aI3g1zhS240OImM0RJww
-         AEDqgMZPSqzPyp+QsmBpqphuQnwkOCheuxr43QJ45oxhCfYsJwf122iKyykC0ohZq7QD
-         HyB4UN7s+561h/Hc/RC7OXO/Y0yg96lILYepIYeo2KmG2s8YF98zghZnD/ulZ1eB9z96
-         o/YHg8X5vGTlfzvWUur2SV0DcFY1IAIVOj64WU04hDFpu8CkBeA3BUqRXFYfuz3e4wZI
-         T3LA==
+        d=linaro.org; s=google; t=1711617316; x=1712222116; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DK3WWLpghCazhNxnzpVoeZ6lBHInJGjDV4FWurbpgm0=;
+        b=lQWtoEzoGMnYwaSg8arTvt5x8utpanevB5ab5WdKapltwE9HI+air0DXF/Lb+oGE5f
+         +7HfDmXAK51gMn5kb9bSqPlpkI+7ZhqZKhFE1/vHaN5W3ilZl3OGJ9GXTbbw3MbRnyGv
+         ejOIDL0suYfOetvTOQgRBHy0hCe13zWjDpPf6aWi8E9txPgnkt4M9vHgW9Q8xoFbg0C4
+         Yxs2e3cDYhm6mS15u+r61RNQxBfi0lfRhZY8qfenqv10b3RgQBvK57MGhknwHhiTHReK
+         OxSM31YeeKikJN8+Kxki+rH7ivtPNBtPYEcWh/mV1rUrvHzA4SG+SkdKoNkLBBzg1jNf
+         sdpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711595826; x=1712200626;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aIic1Gjzm4RHTASBVGxTr3rcD5mx/7GlOl+VtL8tSQM=;
-        b=w4i8PTZvryG6sKxkt/tunQ/GV08gK3Y7C1PTAos1GqbXFfEWrpz9etzS7KUUTGayzJ
-         GSHUwkssjuXMZOGWDgQj57djNsx8gk2rUdKZsfegFkoTGj93Ud4dYpcbXIHBTyTzei6H
-         upRqbu99D2kd0Jv1216ml+HOS+3HGSKU9yGdRWuz5UVlmjuZJZO0wcIyjqYsY4er1YkX
-         ru74d0oR6t66smpY84ZSYPGqdBVHNlOUOuQPyPwbAS5jQaRyQX8o2EXkz+lUi+SFEBs6
-         iXlY0DX9LsBZe00rGxhcwg39/rtzDD69pen5fXRHdLfnjd8rHakzHRM1eyZfxGeOFbMV
-         f2NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0SXQTW1RzYUiDVstgTem+GUyfYpvnWuEvC/8YIT4L/OXEq+y8RdckM7A7YphvwfKhHtYOo4foGiMrh0kUxPEn+g00ihUh6pk/RtX6fA==
-X-Gm-Message-State: AOJu0Yxrsux9bEuCsL+60yMWEOATd6IActIC88RuI5xMlbv9yc57uRgB
-	D3E6ZMpMA2eFBv9HVY1sB7gy3A/4q5AZuVrPIUaxtz1IReRPHdmX
-X-Google-Smtp-Source: AGHT+IHPDlU0Hkncg5/5xwbzTu/Vk2SkkvwQsfse7RZqRzoporjOd6tmpv21FcCQ1w5TOTD1jZJJHQ==
-X-Received: by 2002:a17:903:446:b0:1e0:cea:257e with SMTP id iw6-20020a170903044600b001e00cea257emr1359031plb.2.1711595825766;
-        Wed, 27 Mar 2024 20:17:05 -0700 (PDT)
-Received: from ?IPV6:2001:b400:e355:7eb0:17c6:c47d:d4ee:f9e8? (2001-b400-e355-7eb0-17c6-c47d-d4ee-f9e8.emome-ip6.hinet.net. [2001:b400:e355:7eb0:17c6:c47d:d4ee:f9e8])
-        by smtp.gmail.com with ESMTPSA id y2-20020a17090264c200b001e20b3ccdc2sm303861pli.285.2024.03.27.20.17.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Mar 2024 20:17:05 -0700 (PDT)
-Message-ID: <9dca6a69-5fa2-4184-8e18-f5fa1c17f3c3@gmail.com>
-Date: Thu, 28 Mar 2024 11:17:01 +0800
+        d=1e100.net; s=20230601; t=1711617316; x=1712222116;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DK3WWLpghCazhNxnzpVoeZ6lBHInJGjDV4FWurbpgm0=;
+        b=CpgEILfiQ6FMMJsjEF2NKha0CJxh8IA1A7Ok0m6W08oU+F9smuMdSSIMhmdwJ9pq+M
+         NhBUvfW9VozIfRDpFt3J0u5ZKToGU2OIPNVxn7k/6TNWnQzJLKC+pkHq3vPoNnPh5vXA
+         0tFFJjjyIIXmdYDYOz24Q1haCPciB004910ltdfnwp9CDABxq20j3wOH303+ppKJbz2j
+         sXcFV/9OB5QWe4V/miIrARlGaw2dNtvDwvdx4XlTafbD4Ba8YOvJsNcPDBe3DW5GLdji
+         7gOFKkZbBC119BYGk9F1v2A2SHmrDQmJJQweeN0KLcWnwElOdxu2MBqagJCOsJlDMLdQ
+         Dw+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXsQKX1InZz/3iCt+E4YlSp/uo+P1idozBoRp7+utiT+W75gHP49LvLVVMeIrG1hYJTeRBj+qYmu8B1i47TmLiXqegoLwzPRheoh7YoQA==
+X-Gm-Message-State: AOJu0YwBoErMCEuFWQVFEaQMDGVQ6mNIZAPvGTtWq9FGQp74o/38BUx6
+	VOCsdIaJQJG5XwphI3JVvLv//Vg//G4E7BKgXJyEBKajLw2sTRvnuVbYRR9aWT5nqk2grkPym50
+	Js8KyQce+ScTj+j7Hcv4ohu956kmnzA4ynWcPuw==
+X-Google-Smtp-Source: AGHT+IG4UAVC7NGDGidRJtRNWZfYlG/8nA0Xwk+zw0p4efi6wDiAGEzLWglCyWj8gtQ9WRg5ukXUl7W+4wfTKJP4AgI=
+X-Received: by 2002:a25:9b85:0:b0:dd0:39a0:a998 with SMTP id
+ v5-20020a259b85000000b00dd039a0a998mr2199704ybo.6.1711617316176; Thu, 28 Mar
+ 2024 02:15:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] drivers: watchdog: ast2500 and ast2600 support
- bootstatus
-From: PeterYin <peteryin.openbmc@gmail.com>
-To: patrick@stwcx.xyz, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20240328013303.3609385-1-peteryin.openbmc@gmail.com>
- <20240328013303.3609385-5-peteryin.openbmc@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20240328013303.3609385-5-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240313092809.2596644-1-billy_tsai@aspeedtech.com>
+In-Reply-To: <20240313092809.2596644-1-billy_tsai@aspeedtech.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 28 Mar 2024 10:15:05 +0100
+Message-ID: <CACRpkdaxekb_E4ttW5XfRUa+srkjOzUaVXRAtHMYjkVir7R7xQ@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: pinctrl-aspeed-g6: Fix register offset for
+ pinconf of GPIOR-T
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,103 +78,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: BMC-SW@aspeedtech.com, johnny_huang@aspeedtech.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, Ricky_CX_Wu@wiwynn.com, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Peter Yin 於 3/28/24 09:33 寫道:
-> Add WDIOF_EXTERN1 and WDIOF_CARDRESET bootstatus in ast2600
-> 
-> Regarding the AST2600 specification, the WDTn Timeout Status Register
-> (WDT10) has bit 1 reserved. Bit 1 of the status register indicates
-> on ast2500 if the boot was from the second boot source.
-> It does not indicate that the most recent reset was triggered by
-> the watchdog. The code should just be changed to set WDIOF_CARDRESET
-> if bit 0 of the status register is set.
-> 
-> Include SCU register to veriy WDIOF_EXTERN1 in ast2600 SCU74 or
-> ast2500 SCU3C when bit1 is set.
-> 
-> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
-> ---
->   drivers/watchdog/aspeed_wdt.c | 34 ++++++++++++++++++++++++++++++----
->   1 file changed, 30 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-> index b4773a6aaf8c..c3c8098c035d 100644
-> --- a/drivers/watchdog/aspeed_wdt.c
-> +++ b/drivers/watchdog/aspeed_wdt.c
-> @@ -11,10 +11,12 @@
->   #include <linux/io.h>
->   #include <linux/kernel.h>
->   #include <linux/kstrtox.h>
-> +#include <linux/mfd/syscon.h>
->   #include <linux/module.h>
->   #include <linux/of.h>
->   #include <linux/of_irq.h>
->   #include <linux/platform_device.h>
-> +#include <linux/regmap.h>
->   #include <linux/watchdog.h>
->   
->   static bool nowayout = WATCHDOG_NOWAYOUT;
-> @@ -82,6 +84,13 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
->   #define WDT_RESET_MASK1		0x1c
->   #define WDT_RESET_MASK2		0x20
->   
-> +/*
-> + * Ast2600 SCU74 bit1 is External reset flag
-> + * Ast2500 SCU3C bit1 is External reset flag
-> + */
-> +#define AST2500_SYSTEM_RESET_EVENT	0x3C
-> +#define AST2600_SYSTEM_RESET_EVENT	0x74
-> +#define   EXTERN_RESET_FLAG		BIT(1)
->   /*
->    * WDT_RESET_WIDTH controls the characteristics of the external pulse (if
->    * enabled), specifically:
-> @@ -330,6 +339,11 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->   	if (IS_ERR(wdt->base))
->   		return PTR_ERR(wdt->base);
->   
-> +	struct regmap *scu_base = syscon_regmap_lookup_by_phandle(dev->of_node,
-> +							     "aspeed,scu");
-> +	if (IS_ERR(scu_base))
-> +		return PTR_ERR(scu_base);
-> +
->   	wdt->wdd.info = &aspeed_wdt_info;
->   
->   	if (wdt->cfg->irq_mask) {
-> @@ -459,14 +473,26 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->   	}
->   
->   	status = readl(wdt->base + WDT_TIMEOUT_STATUS);
-> -	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY) {
-> +	if (status & WDT_TIMEOUT_STATUS_EVENT)
->   		wdt->wdd.bootstatus = WDIOF_CARDRESET;
->   
-> -		if (of_device_is_compatible(np, "aspeed,ast2400-wdt") ||
-> -		    of_device_is_compatible(np, "aspeed,ast2500-wdt"))
-> -			wdt->wdd.groups = bswitch_groups;
-> +	if (of_device_is_compatible(np, "aspeed,ast2600-wdt")) {
-> +		ret = regmap_read(scu_base,
-> +				  AST2600_SYSTEM_RESET_EVENT,
-> +				  &status);
-> +	} else {
-> +		ret = regmap_read(scu_base,
-> +				  AST2500_SYSTEM_RESET_EVENT,
-> +				  &status);
-> +		wdt->wdd.groups = bswitch_groups;
->   	}
->   
-> +	/*
-> +	 * Reset cause by Extern Reset
-> +	 */
-> +	if (status & EXTERN_RESET_FLAG && !ret)
-> +		wdt->wdd.bootstatus |= WDIOF_EXTERN1;
-> +
->   	dev_set_drvdata(dev, wdt);
->   
->   	return devm_watchdog_register_device(dev, &wdt->wdd);
-Please ignore this version, as I lost the definition for 
-WDT_TIMEOUT_STATUS_EVENT.
+On Wed, Mar 13, 2024 at 10:28=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.=
+com> wrote:
 
+> The register offset to disable the internal pull-down of GPIOR~T is 0x630
+> instead of 0x620, as specified in the Ast2600 datasheet v15
+> The datasheet can download from the official Aspeed website.
+>
+> Fixes: 15711ba6ff19 ("pinctrl: aspeed-g6: Add AST2600 pinconf support")
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 
-Thanks.
+Patch applied.
+I recorded Delphine's similar patch as "reported-by".
+
+Yours,
+Linus Walleij
