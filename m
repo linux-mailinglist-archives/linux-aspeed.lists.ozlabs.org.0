@@ -2,60 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A312888F4AC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 02:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E557688F4AF
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 02:33:24 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TT0MIXMR;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SmoppO6P;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V4mJZ304Wz3dhR
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 12:33:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V4mJf4yGGz3dWg
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 12:33:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TT0MIXMR;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SmoppO6P;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52a; helo=mail-pg1-x52a.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V4mJT4DsPz3c12
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Mar 2024 12:33:13 +1100 (AEDT)
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-5d8ddbac4fbso298459a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Mar 2024 18:33:13 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V4mJV3q2wz3c12
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Mar 2024 12:33:14 +1100 (AEDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1e0bec01232so4201705ad.3
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Mar 2024 18:33:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711589588; x=1712194388; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RwzVZ+IWpczySSp2ln+6XuuWUjbpq64nflGUKemUacE=;
-        b=TT0MIXMR4eiESYkiTnSdNhx+yMl8UOUHFTOfhJhtxcmCWpknHnd9EetRVpvVjBiA0M
-         DiscJoazhI9i0E3KKPs4hmPSQ/lHtxY1fOPbRNl/sLvkiFICwwb7h62YXZc8AQMjHHV4
-         hrarubsgBRa39C1LbPW3zFt0OBJIq7Yzn8OJOFQUs8qlXbj4vEJOcjSha2B4OR7OWF6+
-         6tsSCcFH/eCqaRJMTri97J9/Cp5KNoMrqKhuF8dYlDu/Nl4L7MUIIKxjoMJ67tZGh7IS
-         4mE1eL2P2YxZSkVwCKlb/g90XDfcv4CAYo+8XSLwG934LawEJgeayVm6hWFi029/zfa+
-         TiSg==
+        d=gmail.com; s=20230601; t=1711589592; x=1712194392; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=axYCeiGWmH5zGIGoROlm87X0Iv4FCoHgVdnjtyDTc9Q=;
+        b=SmoppO6P29KsksEWu5Q73xABh0CXSjGs3xK0v7qz9629BM4IXE3YBoicJ8IzZ2pZXW
+         Puw+iknABh9EIAg71aGiaGadNE6QLmjLU7XD19LJu0ntwt6YWYUSsovmhz4CEC/i/Ep8
+         UuOVgOtzS+SutLBBd4jIQ+QIfHmtq42H8TvZbt0KoOxqm5L06Xt/AuPLfPc4IqZ7yhit
+         2w1/UVcuUIKcfE0AQr25c2y1E5vlaO+N/oc4uJIIlbC9phf7brF0LBnvYxe627X5ZnCR
+         xcsublyE3Xny4M5tBEt4MBGYYMn4a4rNCe8Sqg1GUNYEmVu0kQ+pzW2GupRyZmfFl6Ux
+         0axw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711589588; x=1712194388;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RwzVZ+IWpczySSp2ln+6XuuWUjbpq64nflGUKemUacE=;
-        b=CTDy3KoKJkqpUbvpyD8d76CZ8KBDYSkk96/fUM7hZxdXm/6z1EDHxDmnZTIX+pQZOA
-         t2q1vGu5cLkBdYQDqHs8ByyzF//4OhYsoZs7XU0G4Il2HO2RhgNbsKjOeyI7xWjvEhTk
-         XKxH8ik/roKooSJ0frvs6eOLjV7AyOimZqtttlrHQPCXmp1z9g0zNEZSlwd5w9qRDsrh
-         R+6HRMOKDS8alzzD0bqmJqXlfxYDTu8qbhx/r3XfisUMG8uS+ENvAr9cD9dvWSXLZuW1
-         l02n0ZIMjyyQ5xbVXyv3O137sbdpONapdnvuaydiyacRmnfpi3Lkj8YSxTx7KvbmaWvi
-         hhfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhLmCDqpztiKWOjwGPy3Nmmq7bZ9IKJ4npnnmhGN+4jCQLjZSaCk2qyZ7JOiUwxrYJh2ltM+z6AYmPK3Q8sH7E5h/PcvrT/WR1CQca4Q==
-X-Gm-Message-State: AOJu0YzBWqNq4YwtBdlUaa1aL33AP+pPpd+x2JMTuRqLzovGI/xOt5Vz
-	CDzLe6IRa0YT1KZWnwlP0a1kXoy8j4lKcwNrE/rBShEEw7KiXftF
-X-Google-Smtp-Source: AGHT+IFuuOxiVIqTtkjpl1E/e0b+0s1F3aV7PFkrdsx5dIaIXuKhPY9sIiffaQCR380fHvq1VgjLeQ==
-X-Received: by 2002:a05:6a21:398b:b0:1a3:4e31:ab8f with SMTP id ad11-20020a056a21398b00b001a34e31ab8fmr2153722pzc.17.1711589588358;
-        Wed, 27 Mar 2024 18:33:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711589592; x=1712194392;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=axYCeiGWmH5zGIGoROlm87X0Iv4FCoHgVdnjtyDTc9Q=;
+        b=uf9wHjnU5HtaV6vnMqE//Edf/a/HfieCUt4uYlwdxYVdyKEXoIR0vF3GZrVGVuLDw+
+         igOs4csllIX2vXmHMqAL3WH+6ikrdW33Siz+QIoKA6BPM5O47rwY3avPdXlZE/xQyTHJ
+         MEbEqJTl4MoV2E0wOyZ/IMGpvIceJTKlB1aTlcQBSOHaLusznL2/m1Mlq9AC/zyJWHiN
+         FJ/zXrV8hSImw/X74I5qW6G71PwcQsFAi2kLA5SFEZxJJnVQxoLieAqAy7+9bn+dd4UX
+         iycjfSZC3AGrr608VkUHWj9vojmEKewp236or06au/1pv4piAmn+zkwAbGcPETZc0Pkr
+         xjKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEC1ZY42+T+racKh628QetjSc+owwSjH1qsOfsfnJgYlmecWBdwgVjYDQiH717UCsSrLprk39xfL6v5DynomTluyTsJTtGV03XXnRZxQ==
+X-Gm-Message-State: AOJu0Yxh5W4MRG5s0YJ7iiZB6xkhZ36hT19Od3B/1Z6KfMHUtY1F3xD/
+	KgoaXMk8o9ih1Ef6spGBvRbgoCsHkCLIgPWmISwxeIRyufYn5o/m
+X-Google-Smtp-Source: AGHT+IEZEoeW2NdDTGEuRTb0RH18Hq2hYgJ7S9WDoccBaiJjGZNW9oQwol0ryh3GxnsQsqJ4xh8gVQ==
+X-Received: by 2002:a17:902:cf4b:b0:1dc:418f:890b with SMTP id e11-20020a170902cf4b00b001dc418f890bmr1550409plg.40.1711589592392;
+        Wed, 27 Mar 2024 18:33:12 -0700 (PDT)
 Received: from peter-bmc.dhcpserver.bu9bmc.local (2001-b400-e355-7eb0-b4d0-66d2-2269-ef6c.emome-ip6.hinet.net. [2001:b400:e355:7eb0:b4d0:66d2:2269:ef6c])
-        by smtp.gmail.com with ESMTPSA id g5-20020a170902c38500b001e0e85a21f5sm201338plg.32.2024.03.27.18.33.05
+        by smtp.gmail.com with ESMTPSA id g5-20020a170902c38500b001e0e85a21f5sm201338plg.32.2024.03.27.18.33.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 18:33:08 -0700 (PDT)
+        Wed, 27 Mar 2024 18:33:12 -0700 (PDT)
 From: Peter Yin <peteryin.openbmc@gmail.com>
 To: patrick@stwcx.xyz,
 	Wim Van Sebroeck <wim@linux-watchdog.org>,
@@ -70,10 +72,12 @@ To: patrick@stwcx.xyz,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 0/4] drivers: watchdog: ast2500 and ast2600 support bootstatus
-Date: Thu, 28 Mar 2024 09:32:58 +0800
-Message-Id: <20240328013303.3609385-1-peteryin.openbmc@gmail.com>
+Subject: [PATCH v5 1/4] ARM: dts: aspeed: Add the AST2500 WDT with SCU register
+Date: Thu, 28 Mar 2024 09:32:59 +0800
+Message-Id: <20240328013303.3609385-2-peteryin.openbmc@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240328013303.3609385-1-peteryin.openbmc@gmail.com>
+References: <20240328013303.3609385-1-peteryin.openbmc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -90,48 +94,41 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add WDIOF_EXTERN1 and WDIOF_CARDRESET bootstatus in ast2500/ast2600
+The AST2500 WDT references the System Control Unit
+register for its operation.
 
-Regarding the AST2600 specification, the WDTn Timeout Status Register
-(WDT10) has bit 1 reserved. Bit 1 of the status register indicates
-on ast2500 if the boot was from the second boot source.
-It does not indicate that the most recent reset was triggered by
-the watchdog. The code should just be changed to set WDIOF_CARDRESET
-if bit 0 of the status register is set.
-
-Include SCU register to veriy WDIOF_EXTERN1 in ast2600 SCU74 or
-ast2500 SCU3C when bit1 is set.
-
-v4 -> v5
-  - Revert indentation. 
-
-v3 -> v4
-  - Add error handling for syscon_regmap_lookup_by_phandle and
-  regmap_read.
-
-v2 -> v3
-  - Fixed WDIOF_CARDRESET status bit check and added support
-  for WDIOF_EXTERN1 on ast2500 and ast2600.
-
-v1 -> v2
-  - Add comment and support WDIOF_CARDRESET in ast2600
-
-v1
-  - Patch 0001 - Add WDIOF_EXTERN1 bootstatus
+Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 ---
+ arch/arm/boot/dts/aspeed/aspeed-g5.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Peter Yin (4):
-  ARM: dts: aspeed: Add the AST2500 WDT with SCU register
-  ARM: dts: aspeed: Add the AST2600 WDT with SCU register
-  dt-bindings: watchdog: aspeed-wdt: Add aspeed,scu
-  drivers: watchdog: ast2500 and ast2600 support bootstatus
-
- .../bindings/watchdog/aspeed-wdt.txt          |  4 +++
- arch/arm/boot/dts/aspeed/aspeed-g5.dtsi       |  3 ++
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |  4 +++
- drivers/watchdog/aspeed_wdt.c                 | 34 ++++++++++++++++---
- 4 files changed, 41 insertions(+), 4 deletions(-)
-
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+index 04f98d1dbb97..5fd12c057c31 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+@@ -410,12 +410,14 @@ wdt1: watchdog@1e785000 {
+ 				compatible = "aspeed,ast2500-wdt";
+ 				reg = <0x1e785000 0x20>;
+ 				clocks = <&syscon ASPEED_CLK_APB>;
++				aspeed,scu = <&syscon>;
+ 			};
+ 
+ 			wdt2: watchdog@1e785020 {
+ 				compatible = "aspeed,ast2500-wdt";
+ 				reg = <0x1e785020 0x20>;
+ 				clocks = <&syscon ASPEED_CLK_APB>;
++				aspeed,scu = <&syscon>;
+ 			};
+ 
+ 			wdt3: watchdog@1e785040 {
+@@ -423,6 +425,7 @@ wdt3: watchdog@1e785040 {
+ 				reg = <0x1e785040 0x20>;
+ 				clocks = <&syscon ASPEED_CLK_APB>;
+ 				status = "disabled";
++				aspeed,scu = <&syscon>;
+ 			};
+ 
+ 			pwm_tacho: pwm-tacho-controller@1e786000 {
 -- 
 2.25.1
 
