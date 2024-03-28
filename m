@@ -2,60 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5194D88F4A8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 02:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A312888F4AC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 02:33:20 +0100 (CET)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZwuSzKtc;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TT0MIXMR;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V4mJK0LlDz3vXW
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 12:33:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V4mJZ304Wz3dhR
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Mar 2024 12:33:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZwuSzKtc;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TT0MIXMR;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52a; helo=mail-pg1-x52a.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V4mJC0PDDz3cB2
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Mar 2024 12:32:56 +1100 (AEDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1e0ae065d24so4136795ad.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Mar 2024 18:32:56 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V4mJT4DsPz3c12
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Mar 2024 12:33:13 +1100 (AEDT)
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-5d8ddbac4fbso298459a12.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Mar 2024 18:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711589575; x=1712194375; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1711589588; x=1712194388; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
         bh=RwzVZ+IWpczySSp2ln+6XuuWUjbpq64nflGUKemUacE=;
-        b=ZwuSzKtcA1kgp4dHQQw88Ye5KbBvJUTKR5Zs20UJv4EIBYayI4LBS9c+PxfRberHnd
-         FWvx8EaEdMXUe1yShVYQi/EUcU8U2sojfa5p9jhm7qQz1OC+8M6rEKhbrPLvpXVFd8cL
-         s8PpFpdnc0SO3J6D25E03lGujmyX6vBxf61ytPk9cDeHNusrMe3jV6m2c3ueTfu1rtLD
-         yHZtWXuu17DegEVOETGsnvWhR5fL5nUO1+ld6QcW64X+Z4wtI1DDRAH++p9LVg0GAJWb
-         ou06OrEic5fHtSstHXImGX2lB7juDXAm8kRZU6sCuRhDrYpz4HV9YXtTmEuehUhD4zGU
-         yFRQ==
+        b=TT0MIXMR4eiESYkiTnSdNhx+yMl8UOUHFTOfhJhtxcmCWpknHnd9EetRVpvVjBiA0M
+         DiscJoazhI9i0E3KKPs4hmPSQ/lHtxY1fOPbRNl/sLvkiFICwwb7h62YXZc8AQMjHHV4
+         hrarubsgBRa39C1LbPW3zFt0OBJIq7Yzn8OJOFQUs8qlXbj4vEJOcjSha2B4OR7OWF6+
+         6tsSCcFH/eCqaRJMTri97J9/Cp5KNoMrqKhuF8dYlDu/Nl4L7MUIIKxjoMJ67tZGh7IS
+         4mE1eL2P2YxZSkVwCKlb/g90XDfcv4CAYo+8XSLwG934LawEJgeayVm6hWFi029/zfa+
+         TiSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711589575; x=1712194375;
+        d=1e100.net; s=20230601; t=1711589588; x=1712194388;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=RwzVZ+IWpczySSp2ln+6XuuWUjbpq64nflGUKemUacE=;
-        b=CLM9bTZbja5+k4CdmxPk3pkhg6jzNZ2QxjLmpAE++xIwEREKk47zHQxbhKf9SSehwi
-         z61PZCS1dpGKSMBIfk8ls1U2NLwZPhkr6cwLEM2QzlVLv5ZovISMyNikpyRnSGF6Y2s4
-         kXsRY87yPhbHBNXk2QoKlOQcesPqcolSSyD4U/4UxpXkod6oBsL+UlDfjYkXBGETUlGc
-         DbciEUnS60OizJePD8b9PCn4vmGtmfw52dIkhzLiZgjJtignJUhktAMlOYk+tetn2mfw
-         ZUN4O86rj9OiCxA7cEDevtx9reOB4z9jSpUUieIGVnXaogbdtF+E9HR+2vDSSt48DWbU
-         ktzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ/6/Y4VLXJiHojaBGsCLJMhDnvwpou0+aq/rN2xFb2TvXq2Fqy/P5FQ7l/0fAN8jMxvm72ffFp0fm8Po7m2NJiUdVLE9bwTzSS1ogHw==
-X-Gm-Message-State: AOJu0Yy4q0WCwMUmSm7lG8cIf/qO1Tm1r8ZD36CM1N/enhfReSs+/baf
-	joR8a15StnGeeNRw7WXPCdz40HKc3vsibefLpbZ6ah0yUnIsPIaB
-X-Google-Smtp-Source: AGHT+IGJiNm3BXlzN6cmEh56HkRazQmE2ErJ3ixpcojiNRSHT7tBktTULxMZ3pGOAZ0k6cV3jsh6qQ==
-X-Received: by 2002:a17:903:24d:b0:1e0:f5df:277c with SMTP id j13-20020a170903024d00b001e0f5df277cmr1426217plh.69.1711589574850;
-        Wed, 27 Mar 2024 18:32:54 -0700 (PDT)
+        b=CTDy3KoKJkqpUbvpyD8d76CZ8KBDYSkk96/fUM7hZxdXm/6z1EDHxDmnZTIX+pQZOA
+         t2q1vGu5cLkBdYQDqHs8ByyzF//4OhYsoZs7XU0G4Il2HO2RhgNbsKjOeyI7xWjvEhTk
+         XKxH8ik/roKooSJ0frvs6eOLjV7AyOimZqtttlrHQPCXmp1z9g0zNEZSlwd5w9qRDsrh
+         R+6HRMOKDS8alzzD0bqmJqXlfxYDTu8qbhx/r3XfisUMG8uS+ENvAr9cD9dvWSXLZuW1
+         l02n0ZIMjyyQ5xbVXyv3O137sbdpONapdnvuaydiyacRmnfpi3Lkj8YSxTx7KvbmaWvi
+         hhfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhLmCDqpztiKWOjwGPy3Nmmq7bZ9IKJ4npnnmhGN+4jCQLjZSaCk2qyZ7JOiUwxrYJh2ltM+z6AYmPK3Q8sH7E5h/PcvrT/WR1CQca4Q==
+X-Gm-Message-State: AOJu0YzBWqNq4YwtBdlUaa1aL33AP+pPpd+x2JMTuRqLzovGI/xOt5Vz
+	CDzLe6IRa0YT1KZWnwlP0a1kXoy8j4lKcwNrE/rBShEEw7KiXftF
+X-Google-Smtp-Source: AGHT+IFuuOxiVIqTtkjpl1E/e0b+0s1F3aV7PFkrdsx5dIaIXuKhPY9sIiffaQCR380fHvq1VgjLeQ==
+X-Received: by 2002:a05:6a21:398b:b0:1a3:4e31:ab8f with SMTP id ad11-20020a056a21398b00b001a34e31ab8fmr2153722pzc.17.1711589588358;
+        Wed, 27 Mar 2024 18:33:08 -0700 (PDT)
 Received: from peter-bmc.dhcpserver.bu9bmc.local (2001-b400-e355-7eb0-b4d0-66d2-2269-ef6c.emome-ip6.hinet.net. [2001:b400:e355:7eb0:b4d0:66d2:2269:ef6c])
-        by smtp.gmail.com with ESMTPSA id q6-20020a170902dac600b001e0a2cf62bfsm191904plx.201.2024.03.27.18.32.51
+        by smtp.gmail.com with ESMTPSA id g5-20020a170902c38500b001e0e85a21f5sm201338plg.32.2024.03.27.18.33.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 18:32:54 -0700 (PDT)
+        Wed, 27 Mar 2024 18:33:08 -0700 (PDT)
 From: Peter Yin <peteryin.openbmc@gmail.com>
 To: patrick@stwcx.xyz,
 	Wim Van Sebroeck <wim@linux-watchdog.org>,
@@ -71,8 +71,8 @@ To: patrick@stwcx.xyz,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
 Subject: [PATCH v5 0/4] drivers: watchdog: ast2500 and ast2600 support bootstatus
-Date: Thu, 28 Mar 2024 09:32:45 +0800
-Message-Id: <20240328013249.3609225-1-peteryin.openbmc@gmail.com>
+Date: Thu, 28 Mar 2024 09:32:58 +0800
+Message-Id: <20240328013303.3609385-1-peteryin.openbmc@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
