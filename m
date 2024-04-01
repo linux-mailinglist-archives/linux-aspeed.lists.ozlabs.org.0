@@ -2,128 +2,94 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C303892C95
-	for <lists+linux-aspeed@lfdr.de>; Sat, 30 Mar 2024 19:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0EA5893935
+	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Apr 2024 11:05:47 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=JE3IrALs;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=KJ/RMJWN;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V6Qx12Rwjz3d4D
-	for <lists+linux-aspeed@lfdr.de>; Sun, 31 Mar 2024 05:37:09 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V7Q8m3C4rz3dSn
+	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Apr 2024 20:05:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=JE3IrALs;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=KJ/RMJWN;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:2011::601; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20601.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::601])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V6Qwv3LHpz3cDk
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 31 Mar 2024 05:37:01 +1100 (AEDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4154614b47eso13742215e9.1
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 30 Mar 2024 11:37:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711823815; x=1712428615; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=2epNLcqYlDDxFlqorb7Cjat3BktL4sasPGtCRb+vLrQ=;
-        b=JE3IrALs856F5vHCQRXDF1zcWULUyY3ZZV8ewS+1iPvuo+QzVBcEe22c8qDhtK7fdL
-         IrU31mZn3FjIN3NGfgjZZ6PlfZNaXi6JownlUlYLhyHFsktF4q4ibYwxEtpEJqeuBVzs
-         o7Qm2OltrQxLOuqtVBOCiOAAQw31edNbzgykpOJFG9yiY/TVRNqONEQmDOvGNMfNSmoC
-         JsIANrCqdmSl6fOLBM8zi+ZFwFBbPg6G8qYgI4QjP7MgPJkg4mEe+Bcxr+cVriZVVKR5
-         qm/zfmj8unViuq94X3VfdKYO+uImvqVxrxDXoxIVVMgjZeWo1xu3GKpCnV8ZN79joG0t
-         35iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711823815; x=1712428615;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2epNLcqYlDDxFlqorb7Cjat3BktL4sasPGtCRb+vLrQ=;
-        b=DmhPINjabs/4alCrrCVga9xF5S/Kb0AYJ5V2M4bDRoShsBeOjSiRGFqEdXQl31ktvZ
-         hDx0zNvXimWH8GLzqYPMevGFo5I2fosZuIFxbWT6VrenPJx00LbMMIHt+BRsLIYdc/CS
-         8MVg64kQZ0/GPk3m4yvm/9g08NRraQwaoDfqIIa500kZpty2wMk46lbopZMXNmMlTEJT
-         /SNpgxJmhZzSJ49lfHxvAPoS1yiB9brYcENaEhdCU/eiT9bGK6GWqYAb3Gr5gknG48Y7
-         aSfYQixiNC+TtO3zdK/x/Yxu+qIPBu0fgd9cOe0s1eryRREQxeMNXb4WSp+3PNTlQYqw
-         Za2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVm0AwgxUd+gGOwDEVVtVSvXjfJ9hyZET3yIbI9yFoUYIfetPSQdB1N+ZvXMS8KppsnvfGooNJl2ninqMKu7XLss/XBmnMpfEe8sL5YFQ==
-X-Gm-Message-State: AOJu0YykRQ2mM4jbvvyF8okgVHaCxepT5zfdOEN1TYCLuLsfn7/Po0Sf
-	yFIjan2vzEwOXpagn9WDEBiUREYPl4ZRb1JNkcxD27FpsNl5jZqgPofG/D/8at4=
-X-Google-Smtp-Source: AGHT+IFnVFj7i3GEZdjCS5RRUzI2AJw0B5Vjpn+qZ4xY+uoBiHeOJ0ETODeVEXt0VqNUBa9c3fyCAw==
-X-Received: by 2002:a05:600c:1c27:b0:414:37f:18dc with SMTP id j39-20020a05600c1c2700b00414037f18dcmr7990830wms.1.1711823814939;
-        Sat, 30 Mar 2024 11:36:54 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id h9-20020a05600c314900b004147b824b08sm9302259wmo.7.2024.03.30.11.36.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Mar 2024 11:36:54 -0700 (PDT)
-Message-ID: <98a5c1b4-b508-45ed-8719-149ec960250c@linaro.org>
-Date: Sat, 30 Mar 2024 19:36:52 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V7Q8c5yH6z3bqC
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  1 Apr 2024 20:05:35 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q1zWC3qntVl8UxJN4QTSlYJ891mYJ8wKOr9QVlHYaODlZaW/sYsp5OnDh6e23yBqzphRDeZAWYyOpVkX2dkmAorF+/MFCYr9yL+EwosbnzdpuQasxE8BO58d7BqrT0r5dSAWPZFMIgNUNg7wN+A7iYyoNk9rPgcn7+uSDibY/MICLywAVNP4cAdYIIibmaVMLVeCf53ckxGVXhIy/V2zAa1lwrG2mp4LGTgqZjqwouZBcD3LTq7FmtFDDeMNFPBiuPvCDfJiS/0D5c/tfmq6HP1X0u5dmUnTxD7043Rz8NfYfTReThpuL12mtdBxBZlQY+0TkPWiZhCXWu5Qf34xGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LNaTRdZSUzm2QXrYxi3weRbkR/sAovtVLZcT9wPZtwQ=;
+ b=LueT6kYDcZUuQB7PU2UeYNb2wRLE1sw7HkCEt3KvmzvYycwqyGGZwtVdhZBeY3G+sr4cHWfuz4nGu5OOgGbtXi583Q4z6VixLh9X5C8d9MdzMkuFWiR2i4MeYOcZBgFFyTGbPUItuysvZUaKvGToSHdwrCUMFQyNqHWExMGR4gQmZBjWcIGYsoFGraadb9+cRAk2QT7BHOqjD9x2i2ZriTcAIEDofZ1k2gPviBXMIEv+cBWr6v/GuHj37WsBzX4N21W0Icqj0OJAObfOHa7jMp4PJaFDLmzMOMXX0BL4w8+fFtNf382opHgXeC6GJ16PFnJ2DfVpnWt0A082KYnaMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LNaTRdZSUzm2QXrYxi3weRbkR/sAovtVLZcT9wPZtwQ=;
+ b=KJ/RMJWNVEEVPdoN46LClsx3tYkT57hiTQ1o65MaVrxxUOBM327tkdc0G6e1WrCYqakTKpwIMKq6UpKghdlMMhNvm+WVM1UpmGxpykeRO3l6hKsYH9+6ZcTmXu/FYo1zAXmPOoxnahy7U+J68llZXjq3lNZ+3DSReV134q1JzoQCGJleb/MWDFzjZZFAGn0dY7Hm+bE1irb8RVTKj0SFSE/rYKPeyNtV3LYzXu5b+MZWaj+b9qnMPeNCXnzfzhaxs+u3PlBgvCi3DKDEIOY+aXy+zWFZQs3RHdSzTc7yQ0OdeYiOWKSilVbqcLMIbMHMOd/FPlC4iRw9QPNdixkZ5Q==
+Received: from PS2PR02CA0026.apcprd02.prod.outlook.com (2603:1096:300:59::14)
+ by TYSPR04MB7237.apcprd04.prod.outlook.com (2603:1096:400:470::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.45; Mon, 1 Apr
+ 2024 09:05:13 +0000
+Received: from HK2PEPF00006FB3.apcprd02.prod.outlook.com
+ (2603:1096:300:59:cafe::4a) by PS2PR02CA0026.outlook.office365.com
+ (2603:1096:300:59::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46 via Frontend
+ Transport; Mon, 1 Apr 2024 09:05:13 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=Wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=Wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of Wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ HK2PEPF00006FB3.mail.protection.outlook.com (10.167.8.9) with Microsoft SMTP
+ Server id 15.20.7452.22 via Frontend Transport; Mon, 1 Apr 2024 09:05:12
+ +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+To: patrick@stwcx.xyz,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH v1] Revise duty cycle for SMB9 and SMB10
+Date: Mon,  1 Apr 2024 17:05:09 +0800
+Message-Id: <20240401090509.2338027-1-Delphine_CC_Chiu@Wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] dt-bindings: aspeed: Add eSPI controller
-To: Manojkiran Eda <manojkiran.eda@gmail.com>, patrick.rudolph@9elements.com,
- chiawei_wang@aspeedtech.com, ryan_chen@aspeedtech.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-mtd@lists.infradead.org
-References: <20240319093405.39833-1-manojkiran.eda@gmail.com>
- <20240319093405.39833-5-manojkiran.eda@gmail.com>
- <bad5df79-e040-4868-9db6-701110894ea3@linaro.org>
- <a9faa9b4-9bf6-49b6-b7eb-f642e2d261c3@gmail.com>
- <f2a487c4-eba3-4a78-9a14-67c8754c8b61@linaro.org>
- <582c276c-ea2f-456c-9bf9-47e39289a0b6@gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <582c276c-ea2f-456c-9bf9-47e39289a0b6@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK2PEPF00006FB3:EE_|TYSPR04MB7237:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 59b18d5c-b658-492f-f709-08dc522ad699
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 	8MLNlkeVbdHWI8Vz7S1WUYF1PY2IaPpPLsz2/3J/7Hsrnd2SSZYZA9TL3Nr6+j/ySk48LxH6peUXtuR6ajbigC1UvUcpJ9IDdMFfUnxfQtsIx172bz7IqsaN8+hv+S4W7Cfpo1TjYo+NK+sZrm80rupexoUmcu3M7yk+f28JwSmsp1DtPlucy8r3iqjQnCs1tpffj+X81WZmacgaf3tLobLz7EcvSz4L6VcsenZzTd3aOMJjq26Jb3VzIZQmwaTqM8HMcRXrN5mnqDPH7DGW84lIB+pwbZp1CJXj5Ei6kqey1rv8j9iMCs86Q8pHB0d73gqbyaKwX/9oYF+pADMzE7vaH1WAQ7PA/+aze7fIQDpQlC3Jv42WIOaJrdYnOwASnQCRIO3Ul28OE1cCFw8hA+e5W6kZP7OcNx8llY6csy0lDJoSta3I59eJKFaZMZfdzkrZ287WOJv9X1g3Jh+cFQBXw7/zv1XvmP4i3qMENDCcw11ueD54L0QbX5/M8++IaI5l3VL+POqEmnlWU8HX3q6fE9aw9MqWtBBeXBWOFSW/7WjBhIVZy5wy6BwL9h1DwqTdl4DAZrSjHdUV07gepqPyvVm7Y+e59shAWNXTsu8y84yAg6cR6ocYn8lRtxh/d+KIypF8qd+yyDoMrmR/CoMVyMNSusmUWJYa0Pux4PZJTMPdst1XHDRoO58R2ttIooyd9Nk/Oyd4xSTwf5L+GvIrun9Buxk2uxlEQwoN1UgzbV0IsitEoVhlQ1DIUxEH
+X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(7416005)(376005)(82310400014)(36860700004)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 09:05:12.0255
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59b18d5c-b658-492f-f709-08dc522ad699
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource: 	HK2PEPF00006FB3.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB7237
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,108 +101,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: conor+dt@kernel.org, vigneshr@ti.com, richard@nod.at, openbmc@lists.ozlabs.org, linux-spi@vger.kernel.org, robh+dt@kernel.org, broonie@kernel.org, krzysztof.kozlowski+dt@linaro.org, miquel.raynal@bootlin.com, jk@codeconstruct.com.au, andrew@codeconstruct.com.au
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 28/03/2024 12:33, Manojkiran Eda wrote:
->>>>> +    description: Controls the flash channel of eSPI hardware
->>>> That explains nothing. Unless you wanted to use here MTD bindings.
->>>>
->>>> This binding did not improve much. I don't understand why this is not
->>>> SPI (nothing in commit msg, nothing in description), what is eSPI,
->>>
->>> eSPI uses Peripheral, Virtual Wire, Out of Band, and Flash Access
->>> channels to communicate different sets of data.
->>
->> And what are these channels? What does it mean a "channel"? Is it just
->> how you organize transfers and classes of devices? Or some sort of
->> addressable instance on the bus?
->>
-> 
-> Yes, an espi channel provides a means to allow multiple independent 
-> flows of traffic to share the same physical bus. Each of the channels 
-> has its own dedicated resources such as queue and flow control.
+ARM: dts: aspeed: yosemite4:
+Revise duty cycle for SMB9 and SMB10 to 40:60
+To meet 400kHz-i2c clock low time spec (> 1.3 us).
 
-Resources as queue and flow-control? Where are they defined in
-Devicetree? Which binding?
+Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+---
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> 
->> The channels feel like some sort of software or logical concept, not
->> physical. Physical would be endpoint with peripheral. Or flash memory.
-> 
-> A channel is a logical communication pathway or interface between the 
-> chipset and peripheral devices. The concept of channels in the ESPI 
-> protocol helps organize and manage different types of communication 
-> between the chipset and peripherals. Each channel may have its own set 
-> of protocols, data transfer rates, and supported features, tailored to 
-> the requirements of the devices it serves.
-> 
->> How do they fit here?
-> 
-> I am not sure I understand, can you please elaborate ?
-
-All this suggests channel is programming aspect of your device thus does
-not have to be represented in DT. I don't know, come with any DT
-property to back up your case...
-
-So far I see only interrupts and clocks, but then I would claim these
-could be part of parent node.
-
-Rob said it last time: your split of nodes looks artificial and it all
-looks like one node.
-
-Your DTS reg like:
-	reg = <0x0 0x800>,<0x0 0x4000000>;
-proves it. I don't know if this is just bug in your code or some silly
-DTS just to create fake children. :/
-
-> 
->>>
->>>    * The *Peripheral* Channel is used for communication between eSPI host
->>>      bridge located on the master side and eSPI endpoints located on the
->>>      slave side. LPC Host and LPC Peripherals are an example of eSPI host
->>>      bridge and eSPI endpoints respectively.
->>>    * *Virtual Wire* Channel: The Virtual Wire channel is used to
->>>      communicate the state of sideband pins or GPIO tunneled through eSPI
->>>      as in-band messages. Serial IRQ interrupts are communicated through
->>>      this channel as in-band messages.
->>>    * *OOB* Channel: The SMBus packets are tunneled through eSPI as
->>>      Out-Of-Band (OOB) messages. The whole SMBus packet is embedded
->>>      inside the eSPI OOB message as data.
->>>    * *Flash Access* Channel: The Flash Access channel provides a path
->>>      allowing the flash components to be shared run-time between chipset
->>>      and the eSPI slaves that require flash accesses such as EC (Embedded
->>>      Controller) and BMC.
->>
->> Please make binding complete, so define all of the channels.
-> 
-> 
-> I would like to inquire about the rationale behind this request. Based 
-
-Rationale - writing bindings document.
-https://elixir.bootlin.com/linux/v6.9-rc1/source/Documentation/devicetree/bindings/writing-bindings.rst#L17
-
-
-> on previous feedback received from the upstream efforts 
-> [https://lore.kernel.org/openbmc/HK0PR06MB37798462D17443C697433D7191D09@HK0PR06MB3779.apcprd06.prod.outlook.com/], 
-> suggestions were made to model the flash channel by utilizing the mtd 
-> subsystem, the virtual wire channel by utilizing the GPIO subsystem, and 
-> to consider the OOB channel as a type of i2c device, thereby allowing it 
-> to be utilized by the existing in-kernel MCTP subsystem, among others. 
-> My intention was to prioritize upstreaming the flash channel binding, 
-> along with its driver code, before proceeding to address other channels. 
-
-Just to clarify: I don't care about drivers and we do not talk about
-them here.
-
-> I am curious to understand if it is a strict requirement to have the 
-> complete binding upstreamed before addressing the device drivers code.
-
-What if your other "devices" or "channels" are entirely different and
-binding would just not work? Or how can we understand the design if you
-upstream only part of it?
-
-Best regards,
-Krzysztof
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+index 64075cc41d92..b3a2aa8f53a5 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+@@ -257,6 +257,7 @@ power-sensor@40 {
+ &i2c8 {
+ 	status = "okay";
+ 	bus-frequency = <400000>;
++	i2c-clk-high-min-percent = <40>;
+ 	i2c-mux@70 {
+ 		compatible = "nxp,pca9544";
+ 		idle-state = <0>;
+@@ -268,6 +269,7 @@ i2c-mux@70 {
+ &i2c9 {
+ 	status = "okay";
+ 	bus-frequency = <400000>;
++	i2c-clk-high-min-percent = <40>;
+ 	i2c-mux@71 {
+ 		compatible = "nxp,pca9544";
+ 		idle-state = <0>;
+-- 
+2.25.1
 
