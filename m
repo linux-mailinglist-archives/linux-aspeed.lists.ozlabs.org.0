@@ -1,53 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DC489604F
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 01:40:02 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD8789604B
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 01:39:47 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=aiGqJ/ZD;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZXHLJUfK;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V8PW35J2rz3vnF
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 10:39:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V8PVn1Dbdz3vYq
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 10:39:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=aiGqJ/ZD;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZXHLJUfK;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
-X-Greylist: delayed 547 seconds by postgrey-1.37 at boromir; Wed, 03 Apr 2024 10:39:53 AEDT
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V8PVx2RyDz2xTl
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Apr 2024 10:39:53 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:712b:6300::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 4FCB3634;
-	Tue,  2 Apr 2024 16:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1712100638;
-	bh=4U8xqwY5U+BvijTvs9foSSCeaMMprSgbvDP6CtRfqd0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aiGqJ/ZD20iv4mVGF5l+BNy2lgszhmXCBQMW5/x3kuebd+BGAa7gKQ8f3oOonzG/w
-	 qklknmlA9tw+zi0VMenVdtIM2FljaBCMFk4A6ByMIUD7hZhc5UzCGOD99HwJoayBk5
-	 tA03W84mzVS7Jq8sCUuqv6BCFhHAQ+EKCUEz4eSU=
-Date: Tue, 2 Apr 2024 16:30:37 -0700
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V8PVh2vBMz2xTl
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Apr 2024 10:39:40 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-182-70.adl-adc-lon-bras34.tpg.internode.on.net [118.210.182.70])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 806F420075;
+	Wed,  3 Apr 2024 07:39:38 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1712101179;
+	bh=TYTY5ED6B4EfxtLOSSjN5VvpvocVSJ4sFiS7mfpMhBs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ZXHLJUfKEfTPo/L5jQPCZ2RoFiql/3S//f0byjixfY7jvhq3TUlwuUCEv504O1Pnz
+	 GU3oWpyf9rtcRApqMsANR9qfcPAHakXe233AWncmTBYt1rCNzgBFw6jWlFf30CHwKI
+	 U2HTxNYc9mVrs30mOx1fI9xcm/NAxlJ9+dXwTRr5/8mr5zliRxw6wp++iUTFwnuq06
+	 Qi8Gc5XjjzBKjMeX+9iuE9Ozn/CoV1x1TXlFyowx6iJNby/0ng74NBlMkLQvyF9n0w
+	 ZzWop2iZlpYwO4f8U2Vk1nnJr20/9DT03gq0hD0l2K++SexJY2T4jlocIiZwgUtYs8
+	 P/ZJCSDEyICkA==
+Message-ID: <99fa05be32787c88150c6df2f882e31582aebf90.camel@codeconstruct.com.au>
 Subject: Re: [PATCH] dt-bindings: watchdog: Convert Aspeed binding to DT
  schema
-Message-ID: <65722a59-2e94-4616-81e1-835615b0e600@hatter.bewilderbeest.net>
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Zev Weiss <zev@bewilderbeest.net>
+Date: Wed, 03 Apr 2024 10:09:37 +1030
+In-Reply-To: <65722a59-2e94-4616-81e1-835615b0e600@hatter.bewilderbeest.net>
 References: <20240402120118.282035-1-andrew@codeconstruct.com.au>
+	 <65722a59-2e94-4616-81e1-835615b0e600@hatter.bewilderbeest.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240402120118.282035-1-andrew@codeconstruct.com.au>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,247 +63,152 @@ Cc: linux-arm-kernel@lists.infradead.org, robh@kernel.org, conor+dt@kernel.org, 
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Apr 02, 2024 at 05:01:18AM PDT, Andrew Jeffery wrote:
->Squash warnings such as:
->
->```
->arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/apb@1e600000/watchdog@1e785000: failed to match any schema with compatible: ['aspeed,ast2400-wdt']
->```
->
->Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
->---
-> .../bindings/watchdog/aspeed,ast2400-wdt.yaml | 130 ++++++++++++++++++
-> .../bindings/watchdog/aspeed-wdt.txt          |  73 ----------
-> 2 files changed, 130 insertions(+), 73 deletions(-)
-> create mode 100644 Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
-> delete mode 100644 Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
->
->diff --git a/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
->new file mode 100644
->index 000000000000..10fcb50c4051
->--- /dev/null
->+++ b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
->@@ -0,0 +1,130 @@
->+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->+%YAML 1.2
->+---
->+$id: http://devicetree.org/schemas/watchdog/aspeed,ast2400-wdt.yaml#
->+$schema: http://devicetree.org/meta-schemas/core.yaml#
->+
->+title: Aspeed watchdog timer controllers
->+
->+maintainers:
->+  - Andrew Jeffery <andrew@codeconstruct.com.au>
->+
->+properties:
->+  compatible:
->+    enum:
->+      - aspeed,ast2400-wdt
->+      - aspeed,ast2500-wdt
->+      - aspeed,ast2600-wdt
->+
->+  reg:
->+    maxItems: 1
->+
->+  clocks: true
->+
->+  aspeed,reset-type:
->+    enum:
->+      - cpu
->+      - soc
->+      - system
->+      - none
->+    description: |
->+      Reset behaviour - The watchdog can be programmed to generate one of three
->+      different types of reset when a timeout occcurs.
->+
->+      Specifying 'cpu' will only reset the processor on a timeout event.
->+
->+      Specifying 'soc' will reset a configurable subset of the SoC's controllers
+On Tue, 2024-04-02 at 16:30 -0700, Zev Weiss wrote:
+> On Tue, Apr 02, 2024 at 05:01:18AM PDT, Andrew Jeffery wrote:
+> > Squash warnings such as:
+> >=20
+> > ```
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/apb@1e=
+600000/watchdog@1e785000: failed to match any schema with compatible: ['asp=
+eed,ast2400-wdt']
+> > ```
+> >=20
+> > Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+> > ---
+> > .../bindings/watchdog/aspeed,ast2400-wdt.yaml | 130 ++++++++++++++++++
+> > .../bindings/watchdog/aspeed-wdt.txt          |  73 ----------
+> > 2 files changed, 130 insertions(+), 73 deletions(-)
+> > create mode 100644 Documentation/devicetree/bindings/watchdog/aspeed,as=
+t2400-wdt.yaml
+> > delete mode 100644 Documentation/devicetree/bindings/watchdog/aspeed-wd=
+t.txt
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-=
+wdt.yaml b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.ya=
+ml
+> > new file mode 100644
+> > index 000000000000..10fcb50c4051
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yam=
+l
+> > @@ -0,0 +1,130 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/watchdog/aspeed,ast2400-wdt.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Aspeed watchdog timer controllers
+> > +
+> > +maintainers:
+> > +  - Andrew Jeffery <andrew@codeconstruct.com.au>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - aspeed,ast2400-wdt
+> > +      - aspeed,ast2500-wdt
+> > +      - aspeed,ast2600-wdt
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks: true
+> > +
+> > +  aspeed,reset-type:
+> > +    enum:
+> > +      - cpu
+> > +      - soc
+> > +      - system
+> > +      - none
+> > +    description: |
+> > +      Reset behaviour - The watchdog can be programmed to generate one=
+ of three
+> > +      different types of reset when a timeout occcurs.
+> > +
+> > +      Specifying 'cpu' will only reset the processor on a timeout even=
+t.
+> > +
+> > +      Specifying 'soc' will reset a configurable subset of the SoC's c=
+ontrollers
+>=20
+> Might be worth clarifying that it's configurable only on ast2500 &=20
+> ast2600, and which property (aspeed,reset-mask) configures it?
 
-Might be worth clarifying that it's configurable only on ast2500 & 
-ast2600, and which property (aspeed,reset-mask) configures it?
+Good point, will do.
 
->+      on a timeout event. Controllers critical to the SoC's operation may remain untouched.
->+
->+      Specifying 'system' will reset all controllers on a timeout event, as if EXTRST had been asserted.
->+      Specifying "none" will cause the timeout event to have no reset effect.
+>=20
+> > +      on a timeout event. Controllers critical to the SoC's operation =
+may remain untouched.
+> > +
+> > +      Specifying 'system' will reset all controllers on a timeout even=
+t, as if EXTRST had been asserted.
+> > +      Specifying "none" will cause the timeout event to have no reset =
+effect.
+>=20
+> Tiny nit: quoting (single vs. double) is slightly inconsistent between=
+=20
+> values here.
 
-Tiny nit: quoting (single vs. double) is slightly inconsistent between 
-values here.
+Ack.
 
->+      Another watchdog engine on the chip must be used for chip reset operations.
->+
->+      The default reset type is "system"
->+
->+  aspeed,alt-boot:
->+    $ref: /schemas/types.yaml#/definitions/flag
->+    description: |
->+      Direct the watchdog to configure the SoC to boot from the alternative boot
->+      region if a timeout occurs.
->+
->+  aspeed,external-signal:
->+    $ref: /schemas/types.yaml#/definitions/flag
->+    description: |
->+      Assert the timeout event on an external signal pin associated with the
->+      watchdog controller instance. The pin must be muxed appropriately.
->+
->+  aspeed,ext-pulse-duration:
->+    $ref: /schemas/types.yaml#/definitions/uint32
->+    description: |
->+      The duration, in microseconds, of the pulse emitted on the external signal pin
->+
->+  aspeed,ext-push-pull:
->+    $ref: /schemas/types.yaml#/definitions/flag
->+    description: |
->+      If aspeed,external-signal is specified in the node, set the external
->+      signal pin's drive type to push-pull. If aspeed,ext-push-pull is not
->+      specified then the pin is configured as open-drain.
->+
->+  aspeed,ext-active-high:
->+    $ref: /schemas/types.yaml#/definitions/flag
->+    description: |
->+      If both aspeed,external-signal and aspeed,ext-push-pull are specified in
->+      the node, set the pulse polarity to active-high. If aspeed,ext-active-high
->+      is not specified then the pin is configured as active-low.
->+
->+  aspeed,reset-mask:
->+    $ref: /schemas/types.yaml#/definitions/uint32-array
->+    minItems: 1
->+    maxItems: 2
->+    description: |
->+      A bitmaks indicating which peripherals will be reset if the watchdog
+>=20
+> > +      Another watchdog engine on the chip must be used for chip reset =
+operations.
+> > +
+> > +      The default reset type is "system"
+> > +
+> > +  aspeed,alt-boot:
+> > +    $ref: /schemas/types.yaml#/definitions/flag
+> > +    description: |
+> > +      Direct the watchdog to configure the SoC to boot from the altern=
+ative boot
+> > +      region if a timeout occurs.
+> > +
+> > +  aspeed,external-signal:
+> > +    $ref: /schemas/types.yaml#/definitions/flag
+> > +    description: |
+> > +      Assert the timeout event on an external signal pin associated wi=
+th the
+> > +      watchdog controller instance. The pin must be muxed appropriatel=
+y.
+> > +
+> > +  aspeed,ext-pulse-duration:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description: |
+> > +      The duration, in microseconds, of the pulse emitted on the exter=
+nal signal pin
+> > +
+> > +  aspeed,ext-push-pull:
+> > +    $ref: /schemas/types.yaml#/definitions/flag
+> > +    description: |
+> > +      If aspeed,external-signal is specified in the node, set the exte=
+rnal
+> > +      signal pin's drive type to push-pull. If aspeed,ext-push-pull is=
+ not
+> > +      specified then the pin is configured as open-drain.
+> > +
+> > +  aspeed,ext-active-high:
+> > +    $ref: /schemas/types.yaml#/definitions/flag
+> > +    description: |
+> > +      If both aspeed,external-signal and aspeed,ext-push-pull are spec=
+ified in
+> > +      the node, set the pulse polarity to active-high. If aspeed,ext-a=
+ctive-high
+> > +      is not specified then the pin is configured as active-low.
+> > +
+> > +  aspeed,reset-mask:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    minItems: 1
+> > +    maxItems: 2
+> > +    description: |
+> > +      A bitmaks indicating which peripherals will be reset if the watc=
+hdog
+>=20
+> Typo: "bitmask"
 
-Typo: "bitmask"
+Good catch.
 
->+      timer expires. On AST2500 SoCs this should be a single word defined using
->+      the AST2500_WDT_RESET_* macros; on AST2600 SoCs this should be a two-word
->+      array with the first word defined using the AST2600_WDT_RESET1_* macros,
->+      and the second word defined using the AST2600_WDT_RESET2_* macros.
->+
->+required:
->+  - compatible
->+  - reg
->+
->+allOf:
->+  - if:
->+      anyOf:
->+        - required:
->+            - aspeed,ext-push-pull
->+        - required:
->+            - aspeed,ext-active-high
->+        - required:
->+            - aspeed,reset-mask
->+    then:
->+      properties:
->+        compatible:
->+          enum:
->+            - aspeed,ast2500-wdt
->+            - aspeed,ast2600-wdt
->+  - if:
->+      required:
->+        - aspeed,ext-active-high
->+    then:
->+      required:
->+        - aspeed,ext-push-pull
->+
->+additionalProperties: false
->+
->+examples:
->+  - |
->+    wdt1: watchdog@1e785000 {
->+        compatible = "aspeed,ast2400-wdt";
->+        reg = <0x1e785000 0x1c>;
->+        aspeed,reset-type = "system";
->+        aspeed,external-signal;
->+    };
->+  - |
->+    #include <dt-bindings/watchdog/aspeed-wdt.h>
->+    wdt2: watchdog@1e785040 {
->+        compatible = "aspeed,ast2600-wdt";
->+        reg = <0x1e785040 0x40>;
->+        aspeed,reset-mask = <AST2600_WDT_RESET1_DEFAULT
->+                            (AST2600_WDT_RESET2_DEFAULT & ~AST2600_WDT_RESET2_LPC)>;
->+    };
->diff --git a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
->deleted file mode 100644
->index 3208adb3e52e..000000000000
->--- a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
->+++ /dev/null
->@@ -1,73 +0,0 @@
->-Aspeed Watchdog Timer
->-
->-Required properties:
->- - compatible: must be one of:
->-	- "aspeed,ast2400-wdt"
->-	- "aspeed,ast2500-wdt"
->-	- "aspeed,ast2600-wdt"
->-
->- - reg: physical base address of the controller and length of memory mapped
->-   region
->-
->-Optional properties:
->-
->- - aspeed,reset-type = "cpu|soc|system|none"
->-
->-   Reset behavior - Whenever a timeout occurs the watchdog can be programmed
->-   to generate one of three different, mutually exclusive, types of resets.
->-
->-   Type "none" can be specified to indicate that no resets are to be done.
->-   This is useful in situations where another watchdog engine on chip is
->-   to perform the reset.
->-
->-   If 'aspeed,reset-type=' is not specified the default is to enable system
->-   reset.
->-
->-   Reset types:
->-
->-        - cpu: Reset CPU on watchdog timeout
->-
->-        - soc: Reset 'System on Chip' on watchdog timeout
->-
->-        - system: Reset system on watchdog timeout
->-
->-        - none: No reset is performed on timeout. Assumes another watchdog
->-                engine is responsible for this.
->-
->- - aspeed,alt-boot:    If property is present then boot from alternate block.
->- - aspeed,external-signal: If property is present then signal is sent to
->-			external reset counter (only WDT1 and WDT2). If not
->-			specified no external signal is sent.
->- - aspeed,ext-pulse-duration: External signal pulse duration in microseconds
->-
->-Optional properties for AST2500-compatible watchdogs:
->- - aspeed,ext-push-pull: If aspeed,external-signal is present, set the pin's
->-			 drive type to push-pull. The default is open-drain.
->- - aspeed,ext-active-high: If aspeed,external-signal is present and and the pin
->-			   is configured as push-pull, then set the pulse
->-			   polarity to active-high. The default is active-low.
->-
->-Optional properties for AST2500- and AST2600-compatible watchdogs:
->- - aspeed,reset-mask: A bitmask indicating which peripherals will be reset if
->-		      the watchdog timer expires.  On AST2500 this should be a
->-		      single word defined using the AST2500_WDT_RESET_* macros;
->-		      on AST2600 this should be a two-word array with the first
->-		      word defined using the AST2600_WDT_RESET1_* macros and the
->-		      second word defined using the AST2600_WDT_RESET2_* macros.
->-
->-Examples:
->-
->-	wdt1: watchdog@1e785000 {
->-		compatible = "aspeed,ast2400-wdt";
->-		reg = <0x1e785000 0x1c>;
->-		aspeed,reset-type = "system";
->-		aspeed,external-signal;
->-	};
->-
->-	#include <dt-bindings/watchdog/aspeed-wdt.h>
->-	wdt2: watchdog@1e785040 {
->-		compatible = "aspeed,ast2600-wdt";
->-		reg = <0x1e785040 0x40>;
->-		aspeed,reset-mask = <AST2600_WDT_RESET1_DEFAULT
->-				     (AST2600_WDT_RESET2_DEFAULT & ~AST2600_WDT_RESET2_LPC)>;
->-	};
->-- 
->2.39.2
->
+Thanks,
+
+Andrew
