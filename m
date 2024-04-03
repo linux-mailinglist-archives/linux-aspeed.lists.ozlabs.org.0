@@ -2,44 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669C0896B85
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 12:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332598975FC
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 19:10:58 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=rnplus.nl header.i=@rnplus.nl header.a=rsa-sha256 header.s=dkim header.b=Wdbmf0PS;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V8gP81ZJ3z3vlt
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 21:05:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V8rqg70wkz3dRs
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Apr 2024 04:10:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=srs0=9tg9=li=linaro.org=krzysztof.kozlowski@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=rnplus.nl (client-ip=178.251.25.70; helo=mail.rnplus.nl; envelope-from=renze@rnplus.nl; receiver=lists.ozlabs.org)
+Received: from mail.rnplus.nl (mail.rnplus.nl [178.251.25.70])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V8gML1BZlz3dh2
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Apr 2024 21:04:14 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id A4BCECE21FC;
-	Wed,  3 Apr 2024 10:04:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C4C4C433C7;
-	Wed,  3 Apr 2024 10:04:07 +0000 (UTC)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org,
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V8rqL6QT5z3cJl
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  4 Apr 2024 04:10:33 +1100 (AEDT)
+Received: from localhost (unknown [127.0.0.1])
+	by mail.rnplus.nl (Postfix) with ESMTP id 2C890379481
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Apr 2024 13:37:34 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at rnplus.nl
+Received: from mail.rnplus.nl ([127.0.0.1])
+	by localhost (mail.rnplus.nl [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id X9JbVPhdv_Pn for <linux-aspeed@lists.ozlabs.org>;
+	Wed,  3 Apr 2024 15:37:33 +0200 (CEST)
+Received: from localhost.localdomain (184-179-179-143.ftth.glasoperator.nl [143.179.179.184])
+	by mail.rnplus.nl (Postfix) with ESMTPSA id 7CD69379443;
+	Wed,  3 Apr 2024 15:37:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rnplus.nl; s=dkim;
+	t=1712151450; bh=FqNyiUeqU0Pi3/GSVu8yFgj/1p765NCY3NVehafqT10=;
+	h=From:To:Subject:Date;
+	b=Wdbmf0PSAjMBK1k8e50gyXubKjLSTqiAFqXXSasBGIjuLMSPlTy+wci0jMXX9dca3
+	 ph80GzB/yb8rBfheED55l2O8AqLrCVDLyKbKV61Wso338InwQE+/8SuclWq0XlBwkh
+	 NCTS69t5KOjgsy6YSVZjIqukolrdEoNo+XWz7bLw=
+From: Renze Nicolai <renze@rnplus.nl>
+To: renze@rnplus.nl,
 	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/4] ARM: dts: aspeed: greatlakes: correct Mellanox multi-host property
-Date: Wed,  3 Apr 2024 12:04:04 +0200
-Message-Id: <171213860535.16780.4635499105199545058.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231209104412.12916-1-krzysztof.kozlowski@linaro.org>
-References: <20231209104412.12916-1-krzysztof.kozlowski@linaro.org>
+	linux-aspeed@lists.ozlabs.org,
+	arnd@arndb.de,
+	olof@lixom.net,
+	soc@kernel.org,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	joel@jms.id.au,
+	andrew@aj.id.au
+Subject: [PATCH v2 0/3] ARM: dts: Update devicetree of Asrock X570D4U BMC
+Date: Wed,  3 Apr 2024 15:28:50 +0200
+Message-ID: <20240403133037.37782-1-renze@rnplus.nl>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -55,26 +69,27 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+These patches change the GPIO table, ADC channel configuration and
+I2C bus configuration of the devicetree for the X570D4U BMC as part of
+ongoing efforts to support OpenBMC on this platform.
 
-On Sat, 09 Dec 2023 11:44:09 +0100, Krzysztof Kozlowski wrote:
-> "mlx,multi-host" is using incorrect vendor prefix and is not documented.
-> 
-> 
-
-These wait for ~4 months and they were not picked up. Let me know if anyone
-else wants to take these.
-
-Applied, thanks!
-
-[1/4] ARM: dts: aspeed: greatlakes: correct Mellanox multi-host property
-      https://git.kernel.org/krzk/linux-dt/c/7da85354c4fa35b862294dbbb450baeb405b5a92
-[2/4] ARM: dts: aspeed: minerva-cmc: correct Mellanox multi-host property
-      https://git.kernel.org/krzk/linux-dt/c/e515719c17beb9625a90039f6c45fa36d58bdda2
-[3/4] ARM: dts: aspeed: yosemite4: correct Mellanox multi-host property
-      https://git.kernel.org/krzk/linux-dt/c/af3deaf9bcb4571feb89a4050c7ad75de9aa8e1e
-[4/4] ARM: dts: aspeed: yosemitev2: correct Mellanox multi-host property
-      https://git.kernel.org/krzk/linux-dt/c/cac1c1dda6130771e06ace030b1b0ed62096a912
+Changes since v1:
+ - Fixed warnings indicated by checkpatch.pl
+ - Change commit message of ADC channels commit to match imperative mood
+ - Restructure GPIO table to better match other ASPEED devices
+ - Clarify naming scheme better
 
 Best regards,
+Renze Nicolai
+
+Renze Nicolai (3):
+  ARM: dts: Modify GPIO table for Asrock X570D4U BMC
+  ARM: dts: Disable unused ADC channels for Asrock X570D4U BMC
+  ARM: dts: Modify I2C bus configuration
+
+ .../dts/aspeed/aspeed-bmc-asrock-x570d4u.dts  | 131 ++++++++----------
+ 1 file changed, 57 insertions(+), 74 deletions(-)
+
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.44.0
+
