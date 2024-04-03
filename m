@@ -1,49 +1,56 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07D289624C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 04:05:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4EA8962E5
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 05:21:30 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=h2JCCK1U;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=NpflSBWd;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V8SkL4N9Dz30N8
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 13:04:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V8VQb6lD3z3d2S
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Apr 2024 14:21:27 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=h2JCCK1U;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=NpflSBWd;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V8SkC54cZz301T
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Apr 2024 13:04:51 +1100 (AEDT)
-Received: from localhost.localdomain (ppp118-210-182-70.adl-adc-lon-bras34.tpg.internode.on.net [118.210.182.70])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 78DE920075;
-	Wed,  3 Apr 2024 10:04:47 +0800 (AWST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V8VQT5wGlz30N8
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Apr 2024 14:21:21 +1100 (AEDT)
+Received: from [192.168.68.112] (ppp118-210-182-70.adl-adc-lon-bras34.tpg.internode.on.net [118.210.182.70])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 1806420075;
+	Wed,  3 Apr 2024 11:21:07 +0800 (AWST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1712109889;
-	bh=CHtl7bWOPaZNTF6/vPau0ikdHIEDo+eVR2BRd+QNipc=;
-	h=From:To:Cc:Subject:Date;
-	b=h2JCCK1UiiDcyJg4DhhddJ1AEGre8Z0Wt4UJPXPxaOlOw0RcsmJ9xxIy+trwNDGJ0
-	 dOp0JE76UyotLGcZ7FYl5hY0SKZ0IhO+sRA/GGCR3KW1J11dCfMtEQ6CemtmCIGWZa
-	 cAioct+O/kcLkXHJDzLe4c9ECiPo2e6+4tgkHXKd2+snYlEgXBcorkTJ9qWIALYim7
-	 weGb5qpMQgMY71Ys61A1rHRpLLUmkRHIa9rU8eXNJ7uOH9g4Vdk5vYbE2vjtjT0WlL
-	 AligKszqy0ktKNNNtuBloGsyC7nMfYDV+VYKi+caDcq1mrOr7XTLQMHeSaKSb9fgEx
-	 bpUPEwDEdNsFQ==
+	d=codeconstruct.com.au; s=2022a; t=1712114479;
+	bh=ihCa6WKSA/WbdOR35DutY2Up4nYKVpfJqb5uMJHHlDg=;
+	h=Subject:From:To:Date:In-Reply-To:References;
+	b=NpflSBWdGcgyEymG4qxPXgsd6Po5FikbCaLFEFc+dFj6qiCmHRtAelZtJOC6mtkOT
+	 XoqEuPXAcdkwvNtRTbCZDNk5jwT3HVPEAWXTkJ+MQLXuX7zqy61sHBmCty1Vy+nUHS
+	 Xizu2sPyHorbKBXLiCqUY4XOwdv4VvN1UeJ9yExMJWiDk5OrqZrLIuCdKVACeRQQJy
+	 rH+iNXy6DY/hgdxtHGqzdzywjfvWY3wjC2zmYD66Vn51kjRnO6MYhz7gsH/uLwVeol
+	 a26xaqyKvPMfiukImhUYN07ZoAzeWxoKcTsEkkMxhWbdcCJi+cTMEV4onc1IAb0SgC
+	 FcMZp7vi8ouug==
+Message-ID: <5f1c7ac66f0ae68bbab0011c1ab5b020ecdb16b6.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/3] ARM: dts: Modify GPIO table for Asrock X570D4U BMC
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: wim@linux-watchdog.org,
-	linux@roeck-us.net
-Subject: [PATCH v2] dt-bindings: watchdog: aspeed,ast2400-wdt: Convert to DT schema
-Date: Wed,  3 Apr 2024 12:34:39 +1030
-Message-Id: <20240403020439.418788-1-andrew@codeconstruct.com.au>
-X-Mailer: git-send-email 2.39.2
+To: Renze Nicolai <renze@rnplus.nl>, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-aspeed@lists.ozlabs.org, arnd@arndb.de, olof@lixom.net,
+ soc@kernel.org,  robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ joel@jms.id.au,  andrew@aj.id.au
+Date: Wed, 03 Apr 2024 13:51:06 +1030
+In-Reply-To: <20240329130152.878944-2-renze@rnplus.nl>
+References: <20240329130152.878944-1-renze@rnplus.nl>
+	 <20240329130152.878944-2-renze@rnplus.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,261 +62,304 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: robh@kernel.org, conor+dt@kernel.org, linux-watchdog@vger.kernel.org, zev@bewilderbeest.net, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, krzysztof.kozlowski+dt@linaro.org, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Squash warnings such as:
+Hi Renze,
 
-```
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/apb@1e600000/watchdog@1e785000: failed to match any schema with compatible: ['aspeed,ast2400-wdt']
-```
+Do you mind running this patch and the others in the series through
+./scripts/checkpatch.pl? Generally patches sent to the list should not
+generate warnings.
 
-The schema binding additionally defines the clocks property over the
-prose binding to align with use of the node in the DTS files.
+It looks like these patches are generated against Joel's bmc/for-next
+branch. He's applied your original X570D4U devicetree patch there,
+(though that also causes checkpatch warnings).
 
-Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
----
-v2: Address feedback from Rob and Zev
+On Fri, 2024-03-29 at 14:01 +0100, Renze Nicolai wrote:
+> This commit removes button-nmi-n, this board does not have support for an=
+ NMI button.
+> Input status-locatorled-n has been renamed to input-locatorled-n to bette=
+r indicate the signal type.
+> The suffix -n has been appended to the name of control-locatorbutton, but=
+ton-power, control-power, button-reset, control-reset, input-id0, input-id1=
+, input-id2, output-bmc-ready to reflect the inverted signal polarity.
+> GPIO output-rtc-battery-voltage-read-enable has been renamed to output-hw=
+m-vbat-enable, input-alert1-n to input-aux-smb-alert-n, input-alert3-n to i=
+nput-psu-smb-alert-n, input-mfg to input-mfg-mode-n and input-caseopen to i=
+nput-case-open-n.
+> And GPIOs input-bmc-smb-present-n, input-pcie-wake-n, input-sleep-s3-n, i=
+nput-sleep-s5-n and input-power-good have been added.
+>=20
 
-    - Rob: https://lore.kernel.org/linux-watchdog/20240402180718.GA358505-robh@kernel.org/
-    - Zev: https://lore.kernel.org/linux-watchdog/65722a59-2e94-4616-81e1-835615b0e600@hatter.bewilderbeest.net/
+For instance, checkpatch warns about these lines in the commit message
+being too long. They should be wrapped at 72 characters.
 
-v1: https://lore.kernel.org/linux-watchdog/20240402120118.282035-1-andrew@codeconstruct.com.au/
+Additionally, the description forms a bit of a list of things the patch
+is doing. Patches are easier to review when they only do one thing, as
+it removes the need to assess whether there are subtle interactions
+between the several things, and if so, whether they're expected and
+correct.
 
- .../bindings/watchdog/aspeed,ast2400-wdt.yaml | 142 ++++++++++++++++++
- .../bindings/watchdog/aspeed-wdt.txt          |  73 ---------
- 2 files changed, 142 insertions(+), 73 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
- delete mode 100644 Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+I'd prefer this change be split up so there's no need for such
+concerns.
 
-diff --git a/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
-new file mode 100644
-index 000000000000..be78a9865584
---- /dev/null
-+++ b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
-@@ -0,0 +1,142 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/watchdog/aspeed,ast2400-wdt.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Aspeed watchdog timer controllers
-+
-+maintainers:
-+  - Andrew Jeffery <andrew@codeconstruct.com.au>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2400-wdt
-+      - aspeed,ast2500-wdt
-+      - aspeed,ast2600-wdt
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+    description: >
-+      The clock used to drive the watchdog counter. From the AST2500 no source
-+      other than the 1MHz clock can be selected, so the clocks property is
-+      optional.
-+
-+  aspeed,reset-type:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    enum:
-+      - cpu
-+      - soc
-+      - system
-+      - none
-+    default: system
-+    description: >
-+      The watchdog can be programmed to generate one of three different types of
-+      reset when a timeout occcurs.
-+
-+      Specifying 'cpu' will only reset the processor on a timeout event.
-+
-+      Specifying 'soc' will reset a configurable subset of the SoC's controllers
-+      on a timeout event. Controllers critical to the SoC's operation may remain
-+      untouched. The set of SoC controllers to reset may be specified via the
-+      aspeed,reset-mask property if the node has the aspeed,ast2500-wdt or
-+      aspeed,ast2600-wdt compatible.
-+
-+      Specifying 'system' will reset all controllers on a timeout event, as if
-+      EXTRST had been asserted.
-+
-+      Specifying 'none' will cause the timeout event to have no reset effect.
-+      Another watchdog engine on the chip must be used for chip reset operations.
-+
-+  aspeed,alt-boot:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: >
-+      Direct the watchdog to configure the SoC to boot from the alternative boot
-+      region if a timeout occurs.
-+
-+  aspeed,external-signal:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: >
-+      Assert the timeout event on an external signal pin associated with the
-+      watchdog controller instance. The pin must be muxed appropriately.
-+
-+  aspeed,ext-pulse-duration:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: >
-+      The duration, in microseconds, of the pulse emitted on the external signal
-+      pin.
-+
-+  aspeed,ext-push-pull:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: >
-+      If aspeed,external-signal is specified in the node, set the external
-+      signal pin's drive type to push-pull. If aspeed,ext-push-pull is not
-+      specified then the pin is configured as open-drain.
-+
-+  aspeed,ext-active-high:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: >
-+      If both aspeed,external-signal and aspeed,ext-push-pull are specified in
-+      the node, set the pulse polarity to active-high. If aspeed,ext-active-high
-+      is not specified then the pin is configured as active-low.
-+
-+  aspeed,reset-mask:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 1
-+    maxItems: 2
-+    description: >
-+      A bitmask indicating which peripherals will be reset if the watchdog
-+      timer expires. On AST2500 SoCs this should be a single word defined using
-+      the AST2500_WDT_RESET_* macros; on AST2600 SoCs this should be a two-word
-+      array with the first word defined using the AST2600_WDT_RESET1_* macros,
-+      and the second word defined using the AST2600_WDT_RESET2_* macros.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+allOf:
-+  - if:
-+      anyOf:
-+        - required:
-+            - aspeed,ext-push-pull
-+        - required:
-+            - aspeed,ext-active-high
-+        - required:
-+            - aspeed,reset-mask
-+    then:
-+      properties:
-+        compatible:
-+          enum:
-+            - aspeed,ast2500-wdt
-+            - aspeed,ast2600-wdt
-+  - if:
-+      required:
-+        - aspeed,ext-active-high
-+    then:
-+      required:
-+        - aspeed,ext-push-pull
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    watchdog@1e785000 {
-+        compatible = "aspeed,ast2400-wdt";
-+        reg = <0x1e785000 0x1c>;
-+        aspeed,reset-type = "system";
-+        aspeed,external-signal;
-+    };
-+  - |
-+    #include <dt-bindings/watchdog/aspeed-wdt.h>
-+    watchdog@1e785040 {
-+        compatible = "aspeed,ast2600-wdt";
-+        reg = <0x1e785040 0x40>;
-+        aspeed,reset-type = "soc";
-+        aspeed,reset-mask = <AST2600_WDT_RESET1_DEFAULT
-+                            (AST2600_WDT_RESET2_DEFAULT & ~AST2600_WDT_RESET2_LPC)>;
-+    };
-diff --git a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
-deleted file mode 100644
-index 3208adb3e52e..000000000000
---- a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
-+++ /dev/null
-@@ -1,73 +0,0 @@
--Aspeed Watchdog Timer
--
--Required properties:
-- - compatible: must be one of:
--	- "aspeed,ast2400-wdt"
--	- "aspeed,ast2500-wdt"
--	- "aspeed,ast2600-wdt"
--
-- - reg: physical base address of the controller and length of memory mapped
--   region
--
--Optional properties:
--
-- - aspeed,reset-type = "cpu|soc|system|none"
--
--   Reset behavior - Whenever a timeout occurs the watchdog can be programmed
--   to generate one of three different, mutually exclusive, types of resets.
--
--   Type "none" can be specified to indicate that no resets are to be done.
--   This is useful in situations where another watchdog engine on chip is
--   to perform the reset.
--
--   If 'aspeed,reset-type=' is not specified the default is to enable system
--   reset.
--
--   Reset types:
--
--        - cpu: Reset CPU on watchdog timeout
--
--        - soc: Reset 'System on Chip' on watchdog timeout
--
--        - system: Reset system on watchdog timeout
--
--        - none: No reset is performed on timeout. Assumes another watchdog
--                engine is responsible for this.
--
-- - aspeed,alt-boot:    If property is present then boot from alternate block.
-- - aspeed,external-signal: If property is present then signal is sent to
--			external reset counter (only WDT1 and WDT2). If not
--			specified no external signal is sent.
-- - aspeed,ext-pulse-duration: External signal pulse duration in microseconds
--
--Optional properties for AST2500-compatible watchdogs:
-- - aspeed,ext-push-pull: If aspeed,external-signal is present, set the pin's
--			 drive type to push-pull. The default is open-drain.
-- - aspeed,ext-active-high: If aspeed,external-signal is present and and the pin
--			   is configured as push-pull, then set the pulse
--			   polarity to active-high. The default is active-low.
--
--Optional properties for AST2500- and AST2600-compatible watchdogs:
-- - aspeed,reset-mask: A bitmask indicating which peripherals will be reset if
--		      the watchdog timer expires.  On AST2500 this should be a
--		      single word defined using the AST2500_WDT_RESET_* macros;
--		      on AST2600 this should be a two-word array with the first
--		      word defined using the AST2600_WDT_RESET1_* macros and the
--		      second word defined using the AST2600_WDT_RESET2_* macros.
--
--Examples:
--
--	wdt1: watchdog@1e785000 {
--		compatible = "aspeed,ast2400-wdt";
--		reg = <0x1e785000 0x1c>;
--		aspeed,reset-type = "system";
--		aspeed,external-signal;
--	};
--
--	#include <dt-bindings/watchdog/aspeed-wdt.h>
--	wdt2: watchdog@1e785040 {
--		compatible = "aspeed,ast2600-wdt";
--		reg = <0x1e785040 0x40>;
--		aspeed,reset-mask = <AST2600_WDT_RESET1_DEFAULT
--				     (AST2600_WDT_RESET2_DEFAULT & ~AST2600_WDT_RESET2_LPC)>;
--	};
--- 
-2.39.2
+> Signed-off-by: Renze Nicolai <renze@rnplus.nl>
+> ---
+>  .../dts/aspeed/aspeed-bmc-asrock-x570d4u.dts  | 116 +++++++++---------
+>  1 file changed, 58 insertions(+), 58 deletions(-)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts b/arc=
+h/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+> index 3c975bc41ae7..34bc382bf492 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
+> @@ -79,64 +79,64 @@ iio-hwmon {
+>  &gpio {
+>  	status =3D "okay";
+>  	gpio-line-names =3D
+> -	/*A0-A3*/       "status-locatorled-n",                    "",          =
+            "button-nmi-n",          "",
+> -	/*A4-A7*/       "",                                       "",          =
+            "",                      "",
+> -	/*B0-B3*/       "input-bios-post-cmplt-n",                "",          =
+            "",                      "",
+> -	/*B4-B7*/       "",                                       "",          =
+            "",                      "",
+> -	/*C0-C3*/       "",                                       "",          =
+            "",                      "",
+> -	/*C4-C7*/       "",                                       "",          =
+            "control-locatorbutton", "",
+> -	/*D0-D3*/       "button-power",                           "control-powe=
+r",         "button-reset",          "control-reset",
+> -	/*D4-D7*/       "",                                       "",          =
+            "",                      "",
+> -	/*E0-E3*/       "",                                       "",          =
+            "",                      "",
+> -	/*E4-E7*/       "",                                       "",          =
+            "",                      "",
+> -	/*F0-F3*/       "",                                       "",          =
+            "",                      "",
+> -	/*F4-F7*/       "",                                       "",          =
+            "",                      "",
+> -	/*G0-G3*/       "output-rtc-battery-voltage-read-enable", "input-id0", =
+            "input-id1",             "input-id2",
+> -	/*G4-G7*/       "input-alert1-n",                         "input-alert2=
+-n",        "input-alert3-n",        "",
+> -	/*H0-H3*/       "",                                       "",          =
+            "",                      "",
+> -	/*H4-H7*/       "input-mfg",                              "",          =
+            "led-heartbeat-n",       "input-caseopen",
+> -	/*I0-I3*/       "",                                       "",          =
+            "",                      "",
+> -	/*I4-I7*/       "",                                       "",          =
+            "",                      "",
+> -	/*J0-J3*/       "output-bmc-ready",                       "",          =
+            "",                      "",
+> -	/*J4-J7*/       "",                                       "",          =
+            "",                      "",
+> -	/*K0-K3*/       "",                                       "",          =
+            "",                      "",
+> -	/*K4-K7*/       "",                                       "",          =
+            "",                      "",
+> -	/*L0-L3*/       "",                                       "",          =
+            "",                      "",
+> -	/*L4-L7*/       "",                                       "",          =
+            "",                      "",
+> -	/*M0-M3*/       "",                                       "",          =
+            "",                      "",
+> -	/*M4-M7*/       "",                                       "",          =
+            "",                      "",
+> -	/*N0-N3*/       "",                                       "",          =
+            "",                      "",
+> -	/*N4-N7*/       "",                                       "",          =
+            "",                      "",
+> -	/*O0-O3*/       "",                                       "",          =
+            "",                      "",
+> -	/*O4-O7*/       "",                                       "",          =
+            "",                      "",
+> -	/*P0-P3*/       "",                                       "",          =
+            "",                      "",
+> -	/*P4-P7*/       "",                                       "",          =
+            "",                      "",
+> -	/*Q0-Q3*/       "",                                       "",          =
+            "",                      "",
+> -	/*Q4-Q7*/       "",                                       "",          =
+            "",                      "",
+> -	/*R0-R3*/       "",                                       "",          =
+            "",                      "",
+> -	/*R4-R7*/       "",                                       "",          =
+            "",                      "",
+> -	/*S0-S3*/       "input-bmc-pchhot-n",                     "",          =
+            "",                      "",
+> -	/*S4-S7*/       "",                                       "",          =
+            "",                      "",
+> -	/*T0-T3*/       "",                                       "",          =
+            "",                      "",
+> -	/*T4-T7*/       "",                                       "",          =
+            "",                      "",
+> -	/*U0-U3*/       "",                                       "",          =
+            "",                      "",
+> -	/*U4-U7*/       "",                                       "",          =
+            "",                      "",
+> -	/*V0-V3*/       "",                                       "",          =
+            "",                      "",
+> -	/*V4-V7*/       "",                                       "",          =
+            "",                      "",
+> -	/*W0-W3*/       "",                                       "",          =
+            "",                      "",
+> -	/*W4-W7*/       "",                                       "",          =
+            "",                      "",
+> -	/*X0-X3*/       "",                                       "",          =
+            "",                      "",
+> -	/*X4-X7*/       "",                                       "",          =
+            "",                      "",
+> -	/*Y0-Y3*/       "",                                       "",          =
+            "",                      "",
+> -	/*Y4-Y7*/       "",                                       "",          =
+            "",                      "",
+> -	/*Z0-Z3*/       "",                                       "",          =
+            "led-fault-n",           "output-bmc-throttle-n",
+> -	/*Z4-Z7*/       "",                                       "",          =
+            "",                      "",
+> -	/*AA0-AA3*/     "input-cpu1-thermtrip-latch-n",           "",          =
+            "input-cpu1-prochot-n",  "",
+> -	/*AA4-AC7*/     "",                                       "",          =
+            "",                      "",
+> -	/*AB0-AB3*/     "",                                       "",          =
+            "",                      "",
+> -	/*AB4-AC7*/     "",                                       "",          =
+            "",                      "",
+> -	/*AC0-AC3*/     "",                                       "",          =
+            "",                      "",
+> -	/*AC4-AC7*/     "",                                       "",          =
+            "",                      "";
+> +	/*A0-A3*/       "input-locatorled-n",                     "",          =
+            "",                        "",
+> +	/*A4-A7*/       "",                                       "",          =
+            "",                        "",
+> +	/*B0-B3*/       "input-bios-post-cmplt-n",                "",          =
+            "",                        "",
+> +	/*B4-B7*/       "",                                       "",          =
+            "",                        "",
+> +	/*C0-C3*/       "",                                       "",          =
+            "",                        "",
+> +	/*C4-C7*/       "",                                       "",          =
+            "control-locatorbutton-n", "",
+> +	/*D0-D3*/       "button-power-n",                         "control-powe=
+r-n",       "button-reset-n",          "control-reset-n",
+> +	/*D4-D7*/       "",                                       "",          =
+            "",                        "",
+> +	/*E0-E3*/       "",                                       "",          =
+            "",                        "",
+> +	/*E4-E7*/       "",                                       "",          =
+            "",                        "",
+> +	/*F0-F3*/       "",                                       "",          =
+            "",                        "",
+> +	/*F4-F7*/       "",                                       "",          =
+            "",                        "",
+> +	/*G0-G3*/       "output-hwm-vbat-enable",                 "input-id0-n"=
+,           "input-id1-n",             "input-id2-n",
+> +	/*G4-G7*/       "input-aux-smb-alert-n",                  "",          =
+            "input-psu-smb-alert-n",   "",
+> +	/*H0-H3*/       "",                                       "",          =
+            "",                        "",
+> +	/*H4-H7*/       "input-mfg-mode-n",                       "",          =
+            "led-heartbeat-n",         "input-case-open-n",
+> +	/*I0-I3*/       "",                                       "",          =
+            "",                        "",
+> +	/*I4-I7*/       "",                                       "",          =
+            "",                        "",
+> +	/*J0-J3*/       "output-bmc-ready-n",                     "",          =
+            "",                        "",
+> +	/*J4-J7*/       "",                                       "",          =
+            "",                        "",
+> +	/*K0-K3*/       "",                                       "",          =
+            "",                        "",
+> +	/*K4-K7*/       "",                                       "",          =
+            "",                        "",
+> +	/*L0-L3*/       "",                                       "",          =
+            "",                        "",
+> +	/*L4-L7*/       "",                                       "",          =
+            "",                        "",
+> +	/*M0-M3*/       "",                                       "",          =
+            "",                        "",
+> +	/*M4-M7*/       "",                                       "",          =
+            "",                        "",
+> +	/*N0-N3*/       "",                                       "",          =
+            "",                        "",
+> +	/*N4-N7*/       "",                                       "",          =
+            "",                        "",
+> +	/*O0-O3*/       "",                                       "",          =
+            "",                        "",
+> +	/*O4-O7*/       "",                                       "",          =
+            "",                        "",
+> +	/*P0-P3*/       "",                                       "",          =
+            "",                        "",
+> +	/*P4-P7*/       "",                                       "",          =
+            "",                        "",
+> +	/*Q0-Q3*/       "",                                       "",          =
+            "",                        "",
+> +	/*Q4-Q7*/       "input-bmc-smb-present-n",                "",          =
+            "",                        "input-pcie-wake-n",
+> +	/*R0-R3*/       "",                                       "",          =
+            "",                        "",
+> +	/*R4-R7*/       "",                                       "",          =
+            "",                        "",
+> +	/*S0-S3*/       "input-bmc-pchhot-n",                     "",          =
+            "",                        "",
+> +	/*S4-S7*/       "",                                       "",          =
+            "",                        "",
+> +	/*T0-T3*/       "",                                       "",          =
+            "",                        "",
+> +	/*T4-T7*/       "",                                       "",          =
+            "",                        "",
+> +	/*U0-U3*/       "",                                       "",          =
+            "",                        "",
+> +	/*U4-U7*/       "",                                       "",          =
+            "",                        "",
+> +	/*V0-V3*/       "",                                       "",          =
+            "",                        "",
+> +	/*V4-V7*/       "",                                       "",          =
+            "",                        "",
+> +	/*W0-W3*/       "",                                       "",          =
+            "",                        "",
+> +	/*W4-W7*/       "",                                       "",          =
+            "",                        "",
+> +	/*X0-X3*/       "",                                       "",          =
+            "",                        "",
+> +	/*X4-X7*/       "",                                       "",          =
+            "",                        "",
+> +	/*Y0-Y3*/       "input-sleep-s3-n",                       "input-sleep-=
+s5-n",      "",                        "",
+> +	/*Y4-Y7*/       "",                                       "",          =
+            "",                        "",
+> +	/*Z0-Z3*/       "",                                       "",          =
+            "led-fault-n",             "output-bmc-throttle-n",
+> +	/*Z4-Z7*/       "",                                       "",          =
+            "",                        "",
+> +	/*AA0-AA3*/     "input-cpu1-thermtrip-latch-n",           "",          =
+            "input-cpu1-prochot-n",    "",
+> +	/*AA4-AC7*/     "",                                       "",          =
+            "",                        "",
+> +	/*AB0-AB3*/     "",                                       "input-power-=
+good",      "",                        "",
+> +	/*AB4-AC7*/     "",                                       "",          =
+            "",                        "",
+> +	/*AC0-AC3*/     "",                                       "",          =
+            "",                        "",
+> +	/*AC4-AC7*/     "",                                       "",          =
+            "",                        "";
+>  };
+> =20
 
+I'd like some discussion in the commit message of whether these names
+align with net names in the schematic, follow the OpenBMC GPIO naming
+guidelines, or use some other strategy entirely.
+
+Also, the columnisation of the names leads to more warnings from
+checkpatch (due to line length). Other Aspeed-based devicetrees tend
+not to make the whitespace so significant, and generally group the
+GPIOs by complete banks. I prefer that the X570D4U devicetree is
+consistent with the others.
+
+Andrew
