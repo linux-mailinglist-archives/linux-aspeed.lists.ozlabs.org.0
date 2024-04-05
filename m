@@ -2,59 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0D689920D
-	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Apr 2024 01:22:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F728995C5
+	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Apr 2024 08:46:52 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Q9fzQBfV;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pSG4dqm4;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4V9d1g2lsBz3dXZ
-	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Apr 2024 10:22:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4V9ptf2p0Lz3vXG
+	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Apr 2024 17:46:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Q9fzQBfV;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pSG4dqm4;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::52d; helo=mail-ed1-x52d.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4V9d1X01TPz3d2K
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Apr 2024 10:22:07 +1100 (AEDT)
-Received: from [192.168.68.112] (ppp118-210-182-70.adl-adc-lon-bras34.tpg.internode.on.net [118.210.182.70])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 17A952009F;
-	Fri,  5 Apr 2024 07:22:03 +0800 (AWST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4V9ptN43QBz3bqh
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Apr 2024 17:46:34 +1100 (AEDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-56e2393b073so1799733a12.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 04 Apr 2024 23:46:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1712272926;
-	bh=DeXkWmpOi6oUYa3S4c0rBgKp2W+RLiC/o+BtoZVa4y0=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=Q9fzQBfV+G1TSrVUb3PfB6R/0M7livAjsMyuXMMDxwzmzFUV70CAnhtF/QjKDfVTR
-	 7OxiMJbtBUeUSRelXxt/hJY8qQHz1UBq2hm2nv1qe11cbfNYlRqiToGkBvXpX1j0Bo
-	 JBgxIKoqYMkyWVNfHRPoG7DSth+2TYkdmISGREiWsC07KpLPAkFV0EqL/nPZgCXISX
-	 lBEv3OoPYQAPNwnQQMi3cYQL7iucQm2uz8byiGrKlPiyn7lDpWW247halIBInp0lR2
-	 cxzheewfll+rzFBi2ekKZPkqScxPtzNUstslOOfrObc/lquKY68lBSDZMv1LJAA/NV
-	 zNt3hz5K9a41Q==
-Message-ID: <65060691d4649c4a8da46e5ba762a3c905ade690.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 1/4] ARM: dts: aspeed: greatlakes: correct Mellanox
- multi-host property
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org
-Date: Fri, 05 Apr 2024 09:51:59 +1030
-In-Reply-To: <c3902c6e-c38e-4604-b79e-2b5406274d8f@linaro.org>
-References: <20231209104412.12916-1-krzysztof.kozlowski@linaro.org>
-	 <171213860535.16780.4635499105199545058.b4-ty@linaro.org>
-	 <8610e0a8aa5c2916fa04292a10e8a843862ff0ee.camel@codeconstruct.com.au>
-	 <c3902c6e-c38e-4604-b79e-2b5406274d8f@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+        d=linaro.org; s=google; t=1712299589; x=1712904389; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C88NRL8nmY+MoIB7uTpD++kTTD8uuIo9qZUpVy3NKUM=;
+        b=pSG4dqm4j7qTKWKs85ibhR1D/JSM+sH+6F0NpuY0d1Gk8c2qsQfViiUT7q7kM7w0gi
+         E8ebspPPTrvUc7rnif/E7VLlGcOnDUIxmK7umPeA3f5SaB8zvZnlq2yKamz8nr8EEnGe
+         JxenMaE0521GTcGksP4kse38MC5bjCW+4M3lD1KHO3OyKkrq6NPnJlQ4UJKdSLHLPAab
+         lJJhGrx2Bw+eYtRqKCCp+EEHGWoDIU6oNLsm67QNGQyvUGC+Tx8hzDMJ56TG++qL6zl1
+         fGS+5/tyerf4jwm30rHRQQHKS2NjaGHdO+gW9JnhVk3bKdhTyc2PJDwImymYVnZhuH8t
+         FJxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712299589; x=1712904389;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C88NRL8nmY+MoIB7uTpD++kTTD8uuIo9qZUpVy3NKUM=;
+        b=Ap8/gN5SZmGy4GfDFSZSekMaldjowRklUGH6iAN8VZ2QM4Mkf53tDvJLS5CXj8+4zI
+         D8hEvRJNYoQnTc5iglyeZUkJIGylzLodt4dhHkWbdQtmAFlOA9PNLoJghOt81TXKlHw8
+         a94BQ4h1ccaTqgi0DdOqU8vRPlozNtwz61jmN7XOw6giGXn9xk/ggtsDuma/fRHNpfSg
+         K3uYzeTOHT7mLtoJ09hS2j1WNN/6WbbMyjvhvH54Iv9er+guLlrvv5Vy1kw9N16qyRUQ
+         ojt9Q0YifiSGjxEplbLC5gycfE8yIkh9Gpb3xzVfa2hGRkFgyvugt7C2rOSG6kjvqFD4
+         nziw==
+X-Forwarded-Encrypted: i=1; AJvYcCVO6wH3u1JTugajkzVfHjagOgpaiPAPU1mPBy0BstNUp0R+8QThhbQOAjJ3JzpcqTL6KUJuOWBM45sFw7Sb3Nz3SPZyX4dXNKRV+XU9nw==
+X-Gm-Message-State: AOJu0Yz7bB0ki9eW1Bvtj9h0bbsg9yNoR/6EF62kuB+WGiEtiwYq2VSY
+	ScVFn0veuVqokJqeyY7c4OPaSaHi961fCN4BlOzbWlNDeI5khedgpayFwRO91YU=
+X-Google-Smtp-Source: AGHT+IG1ynomuaxg2OaBpcGgD2b1Fq8zJ4ThG3lqY51F73zTrc0Y14wcLKO2TbXNzANaGR5Nd5O8Ag==
+X-Received: by 2002:a05:6402:e81:b0:56c:292f:84da with SMTP id h1-20020a0564020e8100b0056c292f84damr1254405eda.17.1712299589341;
+        Thu, 04 Apr 2024 23:46:29 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id en16-20020a056402529000b0056e310e6655sm278888edb.68.2024.04.04.23.46.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Apr 2024 23:46:28 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/5] ARM: dts: aspeed: greatlakes: correct Mellanox multi-host property
+Date: Fri,  5 Apr 2024 08:46:20 +0200
+Message-Id: <20240405064624.18997-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,65 +84,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 2024-04-04 at 08:13 +0200, Krzysztof Kozlowski wrote:
-> On 04/04/2024 03:41, Andrew Jeffery wrote:
-> > On Wed, 2024-04-03 at 12:04 +0200, Krzysztof Kozlowski wrote:
-> > > On Sat, 09 Dec 2023 11:44:09 +0100, Krzysztof Kozlowski wrote:
-> > > > "mlx,multi-host" is using incorrect vendor prefix and is not docume=
-nted.
-> > > >=20
-> > > >=20
-> > >=20
-> > > These wait for ~4 months and they were not picked up. Let me know if =
-anyone
-> > > else wants to take these.
-> > >=20
-> > > Applied, thanks!
-> > >=20
-> > > [1/4] ARM: dts: aspeed: greatlakes: correct Mellanox multi-host prope=
-rty
-> > >       https://git.kernel.org/krzk/linux-dt/c/7da85354c4fa35b862294dbb=
-b450baeb405b5a92
-> > > [2/4] ARM: dts: aspeed: minerva-cmc: correct Mellanox multi-host prop=
-erty
-> > >       https://git.kernel.org/krzk/linux-dt/c/e515719c17beb9625a90039f=
-6c45fa36d58bdda2
-> > > [3/4] ARM: dts: aspeed: yosemite4: correct Mellanox multi-host proper=
-ty
-> > >       https://git.kernel.org/krzk/linux-dt/c/af3deaf9bcb4571feb89a405=
-0c7ad75de9aa8e1e
-> > > [4/4] ARM: dts: aspeed: yosemitev2: correct Mellanox multi-host prope=
-rty
-> > >       https://git.kernel.org/krzk/linux-dt/c/cac1c1dda6130771e06ace03=
-0b1b0ed62096a912
-> > >=20
-> > > Best regards,
-> >=20
-> > Ah, my apologies. Joel's on leave and I'm accumulating patches in a
-> > tree for him in the mean time. I've had some things going on
-> > professionally (changed jobs) and personally, and these fell into a bit
-> > of a hole.
-> >=20
-> > I'm okay for these patches to be integrated through your tree, given
-> > you've already applied them. Feel free to add acks if your branch
-> > allows:
-> >=20
-> > Acked-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-> >=20
-> > I'm working to stay on top of things a bit more now than I have in the
-> > recent past, so hopefully I won't miss patches again in the future.
->=20
-> Stephen reported conflict, although trivial, but maybe better if you
-> take them?
->=20
+"mlx,multi-host" is using incorrect vendor prefix and is not documented.
 
-Yeah, happy to.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> I can rebase and resend.
+---
 
-Thanks.
+Changes in v2:
+1. None
+---
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Andrew
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+index 7a53f54833a0..9a6757dd203f 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+@@ -66,7 +66,7 @@ &mac3 {
+ 	pinctrl-0 = <&pinctrl_rmii4_default>;
+ 	no-hw-checksum;
+ 	use-ncsi;
+-	mlx,multi-host;
++	mellanox,multi-host;
+ 	ncsi-ctrl,start-redo-probe;
+ 	ncsi-ctrl,no-channel-monitor;
+ 	ncsi-package = <1>;
+-- 
+2.34.1
+
