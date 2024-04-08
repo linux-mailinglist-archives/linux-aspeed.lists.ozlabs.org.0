@@ -2,66 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C459957900
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:56:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A25A957905
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:56:45 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqHp1YWtz3fln
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqHq0h4wz3bkf
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=L2deLbk2;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DhZ6ealC;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::132; helo=mail-lf1-x132.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::633; helo=mail-ej1-x633.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VCtsq4KbPz3dSL
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Apr 2024 01:53:19 +1000 (AEST)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-516d1ecaf25so4632691e87.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Apr 2024 08:53:19 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VCtsr66bFz3dBn
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Apr 2024 01:53:20 +1000 (AEST)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a47385a4379so1039944066b.0
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Apr 2024 08:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712591595; x=1713196395; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1712591597; x=1713196397; darn=lists.ozlabs.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OZNPSolpsyW2BBt4Cv9G0c69Pzyf7OGHTEy9xs9+O7A=;
-        b=L2deLbk2a1YeMXSuU/3SFun0mm1pRDK9I/wlhufhHw1RDV5YZ5uyst80DYT4FoMerp
-         RZ5kQzNapJTBRol1IoKAz2dgKMWGGhS5XSUgYlAKIS4N2P4D+cUy9GG+ospiHlhVH3Ta
-         bM99SWcIb6sFbawz0ZvaBldrZe+l0Z7sHw8YLil37YNBcjA81BBhNfrkkBbMWtg5F6bn
-         WGXBdsyoJmnDhOaH0UqVPlqy3c5z/y5jI0fu3qPDnPLF9erG5j//3Ok25raZNmXml4of
-         VFlB2y/fVsb/c007TCsptS6rC74//yegGdgaHBM9YkjtYp3RSJybIeS86CZeQRxPLdxN
-         6KcA==
+        bh=pSuQkBcadOBIFzAv5VWT53mPgt24650g8Yc46Jnu+po=;
+        b=DhZ6ealCVz4t/CyeIcpSzUSiEVUIEr4VI+cCYtm1OQgyZ3XJ/OBhiM/qzSNXt8UU1S
+         f/iK6xBa6zSf7oljp0cOD9ziufG6PYzDIVrGD+KXNMmvSQw6HVH3KUqi9t6Ch/aAJ29g
+         SUBkg2VqmL7EuUQWuR6COxnQfNnq0GwOkhwBnZY75Mv9uWgDfekLa8pRJI5lViT7xxEu
+         LGg7CywT0Q6kaK4WpNX70ikAYq1LXcHKR9bYELcX/8p57qYznRY1CgICm7730jYymUXL
+         Y32kaWvMLGXDgwXjLle9Uwe8w2nDUmF2Shj1/dYOkSaV7Wlr4SDVXaH/QRggTTbVgIWc
+         xQjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712591595; x=1713196395;
+        d=1e100.net; s=20230601; t=1712591597; x=1713196397;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OZNPSolpsyW2BBt4Cv9G0c69Pzyf7OGHTEy9xs9+O7A=;
-        b=RIgdtWVHhEUDGI+hpMGDzrEwTnGkIhnNngpG+boF+h3lVbX69qEEcKgoW6SBShbF5L
-         FeKRe8b3rDxIlx2gLrjF1PqlkxZksruBv3ZSGylFG1DSaItNcdnhVNNIdtYIUB3xo9rv
-         ZkPLx0YbI2XLtrE3fntlr28N1qjY0I64lEWz5LTS4Mdc/SZjdbnoQnGeWyyJFBSiiFjP
-         AgX4vNOvKHPvhNOBpdIdNOizNwD8bi8bWBNs13129TB55XghG7XDm64zvTmJ5c0tbLH8
-         GPmp8AW5Vz90O/JYEf8M5L6XX07/xwGHJwrFFqiy/6FEv/zF9335jYkUfXPUKRU13ezp
-         jETw==
-X-Forwarded-Encrypted: i=1; AJvYcCVbsWexPEfXFNgt/dOH3NrNY0VInHWtyADwV0vYAsNw7p6DdarnDXahQBP3dGS6Qo3RBZRV8e8zy6wC3LVZwoSUVmD2FLCy3/5ipOjaIg==
-X-Gm-Message-State: AOJu0YwH1kp1rjk5eEUsUyECwcfTudsHjk8ncNd4ze8/3T6IektC5zRG
-	cvohCN+IXwWQIgxgsubbVzdFNLqpYdcceKF+EhVQKjV08JApZ3r+
-X-Google-Smtp-Source: AGHT+IHHjnlpbYGoVoRBTjaLp6Pq3A5BQFRFuLX80oSlH+nvQTdtLncSAg4Fv6oSY2gm4yEe75RZ0g==
-X-Received: by 2002:ac2:5f1c:0:b0:516:ce06:ac8e with SMTP id 28-20020ac25f1c000000b00516ce06ac8emr5820717lfq.51.1712591595088;
-        Mon, 08 Apr 2024 08:53:15 -0700 (PDT)
+        bh=pSuQkBcadOBIFzAv5VWT53mPgt24650g8Yc46Jnu+po=;
+        b=ge3SyKHrXq30v1YI+KE9qObPtmoPK9lsHjeepJq8EeazTyqcZSNtYuo2s7PT1QI//4
+         FDc6iSqSnlapHShlWwFWr1u6xPuxrLkE8BKXVJwTYbNznW2EBsza++cAi9gsINFE6tYg
+         otWVVA8dDKa5Pp40CmObQNtDoN2Fewr5ZEI6pfw1MJK0pHUv2JDwkp2GBL4MVV2xx+jv
+         n6B6PGseiv0ulj8rn2XdfAmfVqtp8TLGzF9vTFb/H0Q8magAxet/Oiy4M2cIpwZQPebM
+         rMEQnk8UzOYHJOZmvS1sqU/SARF6kfodpCxMZnNHSZqOwDvM9uCBGjvkLz8lH2nYMSM8
+         RG7g==
+X-Forwarded-Encrypted: i=1; AJvYcCX5NjdGx1MBj7Suw2gXhOpF6M5klISgZHKdG2xG7wG8cg6egvGe5yFL4YN6ElyLSzEfx+846RFBAhX10UxCY2dWBcjvhuXcNLJFn6ayWw==
+X-Gm-Message-State: AOJu0YzX04r0ScfoCHbeoh+Am3V4xu3dzz/JHK4cdKQ47Hd9Tc1qGsOS
+	XCiqXPMOlykBmbji99FDivuA641+btt2GI1SDb7PrCwOwt11faYk
+X-Google-Smtp-Source: AGHT+IG+xooPJVfqxdhFca/m9VCSLYMJBFoaSR9jS3Fdk4ttcukr9i773eeoHIdSGYXmNnF/nymuPQ==
+X-Received: by 2002:a17:906:fd8d:b0:a51:e188:bced with SMTP id xa13-20020a170906fd8d00b00a51e188bcedmr48379ejb.37.1712591596913;
+        Mon, 08 Apr 2024 08:53:16 -0700 (PDT)
 Received: from [127.0.1.1] ([213.208.157.67])
-        by smtp.gmail.com with ESMTPSA id l13-20020a170906794d00b00a46a2779475sm4547849ejo.101.2024.04.08.08.53.13
+        by smtp.gmail.com with ESMTPSA id l13-20020a170906794d00b00a46a2779475sm4547849ejo.101.2024.04.08.08.53.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 08:53:14 -0700 (PDT)
+        Mon, 08 Apr 2024 08:53:16 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 08 Apr 2024 17:53:03 +0200
-Subject: [PATCH 3/9] dt-bindings: rtc: lpc32xx-rtc: move to trivial-rtc
+Date: Mon, 08 Apr 2024 17:53:04 +0200
+Subject: [PATCH 4/9] dt-bindings: rtc: maxim,ds1742: move to trivial-rtc
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240408-rtc_dtschema-v1-3-c447542fc362@gmail.com>
+Message-Id: <20240408-rtc_dtschema-v1-4-c447542fc362@gmail.com>
 References: <20240408-rtc_dtschema-v1-0-c447542fc362@gmail.com>
 In-Reply-To: <20240408-rtc_dtschema-v1-0-c447542fc362@gmail.com>
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
@@ -73,11 +73,11 @@ To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
  Alexandre Torgue <alexandre.torgue@foss.st.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1712591586; l=1653;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1712591586; l=1594;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=oXF0IOpDbbU06OjI6OgtSVdRvz0EfEWAr+7KUKC2fPo=;
- b=cXwmCtklzwmwm52UDPVuk6WWDHgL1i0zzCtfIEhsTmu1EI8lNZwtM2+GXUd9vnJCrPPqUZ8mZ
- dM7tV4/p9z9AnwXdlchsL+guM1nOVq79TSHnwxlzcL0CuAAe0Fn8NP7
+ bh=zOZomgntzrvpzwsWCTBIKhRP00SpDrEpbkluseuFse8=;
+ b=VG/4RZspITvXhEWAGam4EeebdbdnRgZkL5lRkdQjPLh+WlxRCuzFnJI7lPUjmco9VoyuOiVXq
+ akjKl/hvaUaBliOoiWRR9Z/+c9DEfQXxUVCqUVbp5NFNzefeTmLd4wH
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
@@ -96,49 +96,46 @@ Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.oz
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This RTC requires a compatible, a reg and a single interrupt,
+This RTC only requires the compatible a reg and properties,
 which makes it suitable for a direct conversion into trivial-rtc.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt  | 15 ---------------
+ Documentation/devicetree/bindings/rtc/maxim,ds1742.txt | 12 ------------
  Documentation/devicetree/bindings/rtc/trivial-rtc.yaml |  2 ++
- 2 files changed, 2 insertions(+), 15 deletions(-)
+ 2 files changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt b/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt
+diff --git a/Documentation/devicetree/bindings/rtc/maxim,ds1742.txt b/Documentation/devicetree/bindings/rtc/maxim,ds1742.txt
 deleted file mode 100644
-index a87a1e9bc060..000000000000
---- a/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt
+index d0f937c355b5..000000000000
+--- a/Documentation/devicetree/bindings/rtc/maxim,ds1742.txt
 +++ /dev/null
-@@ -1,15 +0,0 @@
--* NXP LPC32xx SoC Real Time Clock controller
+@@ -1,12 +0,0 @@
+-* Maxim (Dallas) DS1742/DS1743 Real Time Clock
 -
 -Required properties:
--- compatible: must be "nxp,lpc3220-rtc"
--- reg: physical base address of the controller and length of memory mapped
--  region.
--- interrupts: The RTC interrupt
+-- compatible: Should contain "maxim,ds1742".
+-- reg: Physical base address of the RTC and length of memory
+-  mapped region.
 -
 -Example:
--
--	rtc@40024000 {
--		compatible = "nxp,lpc3220-rtc";
--		reg = <0x40024000 0x1000>;
--		interrupts = <52 0>;
+-	rtc: rtc@10000000 {
+-		compatible = "maxim,ds1742";
+-		reg = <0x10000000 0x800>;
 -	};
 diff --git a/Documentation/devicetree/bindings/rtc/trivial-rtc.yaml b/Documentation/devicetree/bindings/rtc/trivial-rtc.yaml
-index b889b9317a41..d6ce7ac29033 100644
+index d6ce7ac29033..710b096fe6f7 100644
 --- a/Documentation/devicetree/bindings/rtc/trivial-rtc.yaml
 +++ b/Documentation/devicetree/bindings/rtc/trivial-rtc.yaml
-@@ -55,6 +55,8 @@ properties:
-       - microcrystal,rv3029
-       # Real Time Clock
-       - microcrystal,rv8523
-+      # NXP LPC32xx SoC Real-time Clock
-+      - nxp,lpc3220-rtc
-       # Real-time Clock Module
-       - pericom,pt7c4338
-       # I2C bus SERIAL INTERFACE REAL-TIME CLOCK IC
+@@ -49,6 +49,8 @@ properties:
+       - isil,isl1218
+       # Mvebu Real-time Clock
+       - marvell,orion-rtc
++      # Maxim DS1742/DS1743 Real-time Clock
++      - maxim,ds1742
+       # SPI-BUS INTERFACE REAL TIME CLOCK MODULE
+       - maxim,mcp795
+       # Real Time Clock Module with I2C-Bus
 
 -- 
 2.40.1
