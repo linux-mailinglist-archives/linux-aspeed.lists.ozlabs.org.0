@@ -1,70 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE35789D31C
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 09:32:27 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 163A589D33A
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 09:34:55 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=vSNOWv9Z;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=inLKFkgI;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VDHjP4BbSz3d2B
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 17:32:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VDHmC19QDz3dJ0
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 17:34:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=vSNOWv9Z;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=inLKFkgI;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::229; helo=mail-lj1-x229.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VDHjH6LF0z3cS3
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Apr 2024 17:32:19 +1000 (AEST)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-4169e385760so4375915e9.0
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Apr 2024 00:32:19 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VDHm50ggKz3cS3
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Apr 2024 17:34:44 +1000 (AEST)
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2d485886545so92210921fa.2
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Apr 2024 00:34:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712647936; x=1713252736; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1712648080; x=1713252880; darn=lists.ozlabs.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=JcKLq+h2VRxcp5j0C5QpnMBMoKeTmaLDiCy4fm7zkuA=;
-        b=vSNOWv9ZO2ZUfOkG8uFXY24PuRw1W7aVdnuWvfmTWH1As2DEqODCP/xynM4IUc9IE8
-         kEtLRK3dh85Ve6w6F5SfPvbaboFlXzXAmr5FZqQKUMnK91EcMPd8CVesJ4FGG/S8j78E
-         I6ICAUeH3HjIW/LWLXMz5F0dVUen/yWALsKGKt4CJ7/6rr1AAwJaTD09gu2KwmzHqGlZ
-         yeSGEIpJmnpBRHgy/4+/UVFZT7gdReSKWpyMtef0B703IOYtBtpSnO6b2gs125Ox69Vd
-         8c9Z03Babsp1mg19SDzSwYt3JPMma8yOpKgEA2aTmj31w5wcspq//PT187gMwRjJ0B9I
-         QzjQ==
+        bh=FRyTTwxxanlSdbeoIwcG1rBViaA/BhY0KriVB+zcm+Q=;
+        b=inLKFkgIKFsC9DYHDdebeFJ8hqDDMa3Hluxwfc26Xq3L2253hFH2rDzGs3a4kiwhJg
+         g7wduM7Hjlz8/4sG4rr/Uqmf3zIWx8Y9LU2HvfzpwnV8m3zhIXi28Co0668vfNDLOn1U
+         QmwrDAPSuVyYgx/smqhv00yXBNprO6AiyuaiMah44R1SrxV1+wUDXRsawNKqL0BqK03z
+         ix/BNuA1IXKMr2o0PXnIrW62xCP2Roq0KLdYcLC2lkrmHic1IKdopdesHjhSaU3ZJ9eB
+         5gAFBPCEdcr2F/hcVjoa8mGeJYKHLSUB91gExLSVRipFd1+5FAHEcOFlEhvCC7kOwc6s
+         1+8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712647936; x=1713252736;
+        d=1e100.net; s=20230601; t=1712648080; x=1713252880;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JcKLq+h2VRxcp5j0C5QpnMBMoKeTmaLDiCy4fm7zkuA=;
-        b=oo0vMYE5gOeDIEWLDD5cmbunILS5ciQzEGTR77NNmceMN0i1d042GIy9GCHyUTpseJ
-         7uYtWM4i4f+bD7mOAy8/vQQJx73IXjJljxrq4f3ip5j+h7Qg5Fsbt+yjL96vFcz9PsS4
-         XUZUeqvhVTh1yrk61wJY9pz0whadXWIpHwttmmUAVHABvyPqGerQB9CqlYMzZR6uC5eF
-         s0YAsHUZ8yBSkBPnxKc482AUvWhVXL6h6Syk7ChuFNZV0e4mGopBQT7xfUykZZZqg4Qp
-         zuql6L4eEnIXD+PBl8jXpMKHIDCrEaqqD7zYCuIK6ErQtoablvcIevh5x+pMHuVLz2HF
-         +lNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKlaH5iIrE4GmT++B2+FcOyl1XMrxPdmJS5ozpVzGhlKUEo6p/+Fr9Ku5eNWOKgM/ZBuVgbiHrAePLCWVojRUocRZF7Miq4GkCOf4TzQ==
-X-Gm-Message-State: AOJu0Yx/Gux7suQ9/ifKecV8sisui70bjyd8j64Ij6HPeOyoVlz3KZgO
-	Z88H72JtzLWtwXdjwXQbbpbLDfRyc2sqR0Rc+ppFa0kZWS5DWZXVZOEuZuxZDzg=
-X-Google-Smtp-Source: AGHT+IFYZ0jKKIbYfXJG0Mfu3MU7xhzeJxa2QZQQDFvIfMGB2fvFZUtf46CwkaE4PjgQ6n0QS2YPeg==
-X-Received: by 2002:a5d:4f88:0:b0:343:dc46:bb4b with SMTP id d8-20020a5d4f88000000b00343dc46bb4bmr7843006wru.59.1712647935980;
-        Tue, 09 Apr 2024 00:32:15 -0700 (PDT)
+        bh=FRyTTwxxanlSdbeoIwcG1rBViaA/BhY0KriVB+zcm+Q=;
+        b=IdOqT0hc4gdunMgsOi2/obf4dXgVZnCVbmjUvY9y1hOphsm+iMCBe9GNaUVpv5dP3F
+         rm2K0d3mn7jBorkLz8xpGdDCob83gr/OD+WmEUsLCX/OYl7/Hdehy+WmClNCWw5JUEa8
+         0sQ0AN43BXAEI47wQOFJUmL+Fe/reiWG0mM97Rsh76CGNaNvcMnqWtMf9pT0eRIkRiCd
+         ngKhLXSi8vFStkuPW7ZFdZAqfK84bA/v6d3rT5rVpV6xDKJR35OA9ZqSJSJ0yyOmpQa8
+         n87INvmnpx1C4ewEB2zvww0KI4tIAS62CQku5F0CIni5GGvYUcaMeoM8ElrW0UqAuoVj
+         Vg7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXDTChLfnUy91hklIGGsdOK2SQUB8lcIl8fQwKI1Jn/N3+tWRqXoxyKC2hfpGX9gyTO8ngzSEk8KXV1LOTbubXKeFstEH9UgFpopswE4Q==
+X-Gm-Message-State: AOJu0YwbESAW80h0x5qrgkCxpEIFsdZj1MbvLOm5p+PQx6WunNX/eH4H
+	unwg6d40MJdRha3jG87zbim5DTPRFJ3/0XVGym6lkw4WzxFg6+7aBgVV8cJQAAk=
+X-Google-Smtp-Source: AGHT+IHXrvYECgBV0YpuV401AjDDvmT4ubIU0z0vmHPZPHrU28LFcflkZb0oiqFQzeddYLz/BYBx1w==
+X-Received: by 2002:a2e:854c:0:b0:2d6:f5c6:e5a1 with SMTP id u12-20020a2e854c000000b002d6f5c6e5a1mr8618580ljj.12.1712648080467;
+        Tue, 09 Apr 2024 00:34:40 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id k7-20020a5d5187000000b003434c764f01sm10718687wrv.107.2024.04.09.00.32.14
+        by smtp.gmail.com with ESMTPSA id n30-20020a05600c3b9e00b0041690a1c9desm3780342wms.30.2024.04.09.00.34.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 00:32:15 -0700 (PDT)
-Message-ID: <d20986fc-34de-4431-969a-ad1fc46d3321@linaro.org>
-Date: Tue, 9 Apr 2024 09:32:13 +0200
+        Tue, 09 Apr 2024 00:34:39 -0700 (PDT)
+Message-ID: <dd5e9837-0dcf-4b0e-8d11-f8bed868cdf2@linaro.org>
+Date: Tue, 9 Apr 2024 09:34:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] dt-bindings: rtc: google,goldfish-rtc: move to
- trivial-rtc
+Subject: Re: [PATCH 3/9] dt-bindings: rtc: lpc32xx-rtc: move to trivial-rtc
 To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Rob Herring <robh@kernel.org>,
@@ -75,7 +74,7 @@ To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>
 References: <20240408-rtc_dtschema-v1-0-c447542fc362@gmail.com>
- <20240408-rtc_dtschema-v1-2-c447542fc362@gmail.com>
+ <20240408-rtc_dtschema-v1-3-c447542fc362@gmail.com>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -122,7 +121,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240408-rtc_dtschema-v1-2-c447542fc362@gmail.com>
+In-Reply-To: <20240408-rtc_dtschema-v1-3-c447542fc362@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -146,8 +145,22 @@ On 08/04/2024 17:53, Javier Carrasco wrote:
 > 
 > Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 > ---
+>  Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt  | 15 ---------------
+>  Documentation/devicetree/bindings/rtc/trivial-rtc.yaml |  2 ++
+>  2 files changed, 2 insertions(+), 15 deletions(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This one no... and if you tested DTS you would see errors, although you
+need to test specific lpc config, not multi_v7.
+
+It does not look like you tested the DTS against bindings. Please run
+`make dtbs_check W=1` (see
+Documentation/devicetree/bindings/writing-schema.rst or
+https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
+for instructions).
+
+Anyway, you *must* check all DTS before moving anything to trivial.
+
+Does it mean all other bindings were not checked against DTS at all?
 
 Best regards,
 Krzysztof
