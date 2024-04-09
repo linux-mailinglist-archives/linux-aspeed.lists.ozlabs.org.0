@@ -1,129 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D05D89D36B
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 09:40:55 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=loif2b9e;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C2889D4F1
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 10:56:47 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VDHv86GKjz3bs2
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 17:40:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VDKZh6Rfkz3dVR
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 18:56:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=loif2b9e;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::112a; helo=mail-yw1-x112a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VDHv23Xs3z30f8
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Apr 2024 17:40:46 +1000 (AEST)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-61518d33293so61526587b3.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Apr 2024 00:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712648442; x=1713253242; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=0SutRrQ2/RDl/4P5RLYeODS7wwVRNYiZ5onRrG788J8=;
-        b=loif2b9e8NNKACBgnpcL3q0C9xIWEh/813fc12OegYUCqzxOmKchTz2nDgxGtgu2N4
-         JWFsnkj63MFAzFIw7ayTUGQ/G7spV/fcndII6WtKeHe16RCTvH5BamD6UiQwgf9Zb4l9
-         /XWyunL8JsC08n1FSv+UtOc9IQCPJ+KpoSGwyKIdmMOEQqc0J70Mh6Fqnx8ohVA4nN6G
-         WXJ3KD93ZAeOA+c59T6ltX8KLyWxPjk14P0TxwQ1d9LRGYFveiXbD+hiDiifgOuCn5OU
-         TTmCN/Znncg1MihgexD+1fxC/RRXbRSSQW+3fmfNXfNi1ZnSbIvyhJNQQhWBihn09qbP
-         /F+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712648442; x=1713253242;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0SutRrQ2/RDl/4P5RLYeODS7wwVRNYiZ5onRrG788J8=;
-        b=PB/GdwiWgMWH3Si83zfsBmH8sNGjJjkTkq5c1c6jzsdeOEF5gelAZHw+VZri5m3qMV
-         5Np/TOEV73nFtyvgWWP1HQHEKBfLShcSjQtqGf7tsjWj5RI1oxW5/1R5Y/4285QJeQ8f
-         CVNrhPGjaLeeFYGlK1mM5aXOseutAPocOR9KLdHEnVuwAw3Qo/tq1rFliDsTnOdePiHN
-         tRp2vjVoKCv4WQuOD4vTEAMCKiMbNm5cro4CkzM3r5YcTAKtEG77LyGzy/nZR2eILpoK
-         9tzZREPbDZBdVDl2Jq6KwIV/VAd5ucY74oe0fXgQLr0mqbnHBp3K0mNiXreQyT+rZyF6
-         6fjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMqPMClD38YLEUHqcB2p85sWGaU7UwUlJt+VGn8Q3SDYrdhll4uA00Wp/BvgnrdvjvcHtMWSTGtLmGc3MtS5/MveP2hwZMh+CnpWDICQ==
-X-Gm-Message-State: AOJu0Yx4EmyK1sozwOrWLxPq+gwhra364IuzZgLuIJVnoYwuE5jTAoq2
-	1H2KeHkJzNkoM2hoLkYp1GXpzcKmK8n+EY5rYerumU7TsHHo0YyY4GPwhC8o5Uk=
-X-Google-Smtp-Source: AGHT+IHUkOG3ivg8lSHz+pv015puHpSrnr85s+2pJTKfno+b5XzFFdcrS8yArA32113fMjcIiq4uPQ==
-X-Received: by 2002:a05:6902:20c1:b0:dc6:7e7b:4797 with SMTP id dj1-20020a05690220c100b00dc67e7b4797mr10843195ybb.4.1712648441657;
-        Tue, 09 Apr 2024 00:40:41 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id 187-20020a2515c4000000b00dc7622402b9sm1712954ybv.43.2024.04.09.00.40.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 00:40:41 -0700 (PDT)
-Message-ID: <ba35f6e4-a83d-4460-9670-a8c2c3331472@linaro.org>
-Date: Tue, 9 Apr 2024 09:40:36 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VDKZc5txPz30fh
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Apr 2024 18:56:38 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ru7H0-0008Kq-EC; Tue, 09 Apr 2024 10:56:10 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ru7Gw-00BGxQ-Ah; Tue, 09 Apr 2024 10:56:06 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ru7Gw-00Gq4L-0l;
+	Tue, 09 Apr 2024 10:56:06 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] hwmon: (aspeed-g6-pwm-tach) Convert to platform remove callback returning void
+Date: Tue,  9 Apr 2024 10:55:53 +0200
+Message-ID: <20240409085552.19868-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] dt-bindings: rtc: via,vt8500-rtc: move to trivial-rtc
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-References: <20240408-rtc_dtschema-v1-0-c447542fc362@gmail.com>
- <20240408-rtc_dtschema-v1-9-c447542fc362@gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240408-rtc_dtschema-v1-9-c447542fc362@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2265; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=aHzCEVenPD6LDlpB4fQUhAUL68h+LfvzUA8jXran0Ng=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmFQKZL2uQsG6ftU5XCongRswdbltwSL2K/H8TR O8eBTSbgYGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZhUCmQAKCRCPgPtYfRL+ TtyNB/sEa9UAGiJ9lPOa5Gh9NXqQgSDOd7XFXQHoz+ByOCG5V5JvBnpUjW4/f9DwsRLMcHGrVEK vRACS86djo3hz0d6upH18Lds6VMGERxLGCikhj/49bEBvnzRE1+LCGPSqL+1lyqggsEcjAnbIlo VvnHaH7VqzU3V4zh4oFutW8scsTdnsr9lFUH5z6nROdbu7qgq3PObayu28sIe0fAX7V3QNv/3Io kM2IDgOSBI0QZt0jfKKkB0jgnOBTYQUdbQWXZmtjItFldXzq1Q85Y+ErvjngNJNl8No36tjw36Q UJZNJUNIFj0eMuOZpfMMPFbZsvNysxZNoO/yA26Kroj0e3aA
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,22 +57,69 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org, linux-aspeed@lists.ozlabs.org, kernel@pengutronix.de, Andrew Jeffery <andrew@codeconstruct.com.au>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 08/04/2024 17:53, Javier Carrasco wrote:
-> The RTC documented in this binding requires a compatible, a reg
-> and a single interrupt, which makes it suitable for a direct
-> conversion into trivial-rtc.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> ---
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new() which already returns void. Eventually after all drivers
+are converted, .remove_new() is renamed to .remove().
 
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+Hello,
 
+most of drivers/hwmon was already converted to struct
+platform_driver::remove_new during the v6.7 development cycle. This
+driver was added for v6.9-rc1 still using the old prototype.
 
-Best regards,
-Krzysztof
+There are still more drivers to be converted, so there is from my side
+no need to get this into v6.9, but the next merge window would be nice.
+
+Best regards
+Uwe
+
+ drivers/hwmon/aspeed-g6-pwm-tach.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/hwmon/aspeed-g6-pwm-tach.c b/drivers/hwmon/aspeed-g6-pwm-tach.c
+index 597b3b019d49..262d46fed3aa 100644
+--- a/drivers/hwmon/aspeed-g6-pwm-tach.c
++++ b/drivers/hwmon/aspeed-g6-pwm-tach.c
+@@ -516,13 +516,11 @@ static int aspeed_pwm_tach_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int aspeed_pwm_tach_remove(struct platform_device *pdev)
++static void aspeed_pwm_tach_remove(struct platform_device *pdev)
+ {
+ 	struct aspeed_pwm_tach_data *priv = platform_get_drvdata(pdev);
+ 
+ 	reset_control_assert(priv->reset);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id aspeed_pwm_tach_match[] = {
+@@ -535,7 +533,7 @@ MODULE_DEVICE_TABLE(of, aspeed_pwm_tach_match);
+ 
+ static struct platform_driver aspeed_pwm_tach_driver = {
+ 	.probe = aspeed_pwm_tach_probe,
+-	.remove = aspeed_pwm_tach_remove,
++	.remove_new = aspeed_pwm_tach_remove,
+ 	.driver	= {
+ 		.name = "aspeed-g6-pwm-tach",
+ 		.of_match_table = aspeed_pwm_tach_match,
+
+base-commit: 4cece764965020c22cff7665b18a012006359095
+-- 
+2.43.0
 
