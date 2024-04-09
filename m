@@ -2,55 +2,128 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5138989CF4D
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 02:24:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3A489D316
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 09:32:01 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=OiVgccSa;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IDjf2XHc;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VD6Cg0CjJz3dSp
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 10:24:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VDHhv12Gxz3dSv
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Apr 2024 17:31:59 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=OiVgccSa;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=IDjf2XHc;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::335; helo=mail-wm1-x335.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VD6CR3bw5z2yPq
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Apr 2024 10:24:19 +1000 (AEST)
-Received: from [192.168.68.112] (ppp118-210-182-70.adl-adc-lon-bras34.tpg.internode.on.net [118.210.182.70])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id A5E392012B;
-	Tue,  9 Apr 2024 08:24:14 +0800 (AWST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VDHhk3GjZz30f8
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Apr 2024 17:31:48 +1000 (AEST)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4166d6dab3dso13690665e9.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Apr 2024 00:31:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1712622257;
-	bh=TDqjYQpAoBvvxb2GvP4NCr3jQj38qfOgENS8D5J1+hM=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=OiVgccSanJ+IFa3zzeSMINjq9hzETr6UDaT41Y4dk/scogRYDcAdUply26E3036Rt
-	 0Wt9hLdPJPTbiMlvAZ1YphBdgEXkifqtpR5aC2P+x8E2UUCV5RFAzVVCPYiwfEM/2K
-	 oPmLTU8hQcPrVjtNiqfBg4GHShfIs/LCWO9Y3Tsngh//cGU3OAAO7jAfqdtc0lHznm
-	 FxuyAC/zfarqWt/6cNWWaRHuDVFiPz4Z6ZJFIwKTs8+ApTcds+cOIiEcWPSH8lC4RQ
-	 A99RDm8cRZH85GrqGEd2Jekkhr3rjcn2E+E9znXYOM97nD/S7d+1su4Qp2gp09jjVl
-	 ZIupyup7lZoXw==
-Message-ID: <3f440c4347dd04c79969cc9fb16254146ef202b1.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v2 1/5] ARM: dts: aspeed: greatlakes: correct Mellanox
- multi-host property
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	 <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Date: Tue, 09 Apr 2024 09:54:10 +0930
-In-Reply-To: <20240405064624.18997-1-krzysztof.kozlowski@linaro.org>
-References: <20240405064624.18997-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+        d=linaro.org; s=google; t=1712647904; x=1713252704; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=XodvKHmeivrTAnWcFQmCBIvpL3LJnIspAQXrfoilb6o=;
+        b=IDjf2XHcOu3DXrjhVEd6RtU5j4LAErmSok67/a5jVugl6E8Mg6MoNiwUrZDLCGnzMx
+         bb6O1e6JXFJocsTJgInr+TYNKl5UjH69kREkeoDmoUPjc8N+bbrdIP3I2ehoSflPBXMd
+         RsdRThsoZ4y0IL/LsFlQ7zFxYT7W6s4PKqzw2T/fwhYbdVbGPPGRrfc7v6KZ40iCnH9r
+         RS51MYNB67HuVpNVuCPTDO62lgPC8/tjLn/3htmXRMyJ/K5c6bDwSRbbc7RV7ne9LCuN
+         x/a4JMbgIQYmbR4JEBsG16wN9aIMK/WjA0qchqqYlZd67BEx5NZERpegNrXsMgnNY/Pd
+         p4hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712647904; x=1713252704;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XodvKHmeivrTAnWcFQmCBIvpL3LJnIspAQXrfoilb6o=;
+        b=u5qIG4RpvfldDa/n9JCE0ydO4E1hqf0p+btlNa2+/uB8CLgvl7c/6+aGQzvuc7ui+P
+         hYXrX34q5y3V/EMPrUvNVNO/qSy0W9gj/x1D8YfwJYFEeRVKkgbl4waGhs3UFcAvamZi
+         6ohMp4VPhWlS2bKeahTQ/Bz9tv66GgCTk3+1GIwnpTYifXOe6QTrIC/C47MFdQxCfMeH
+         j6p+t8X2cQd/1C1NWuw0Kf5SHHmHeMegYsUDt6Q/iF3gVrLEF9ugtBCCIeGdspgQ6exO
+         1KIxmE8is5zX+JTqIepimyqqaM50oPnDLHXGahNHQJBwgU2e8oFUpQoZanUPiNMNBynp
+         G/mw==
+X-Forwarded-Encrypted: i=1; AJvYcCUABYDuHEq5uqOsC68qzF1YcKQaKSp9qgnn/MMwCognT3rVFHASG4nv2y9atHj8oyD5ZAmcmKP107dRLI6HfB3T43Dy0sMMmDeugIX40A==
+X-Gm-Message-State: AOJu0Yy68WPeBo3qNYMtW26tD1in7kJAII5f7RFoBAsLQj23C+ALoaXI
+	fUREBBRUDupCb4MLUilCNTlDXtK8lSpErhlJK+GhSjmVoyOvt6RWNpOuGq0GYtI=
+X-Google-Smtp-Source: AGHT+IHtlbvg+rc7iLhLk4eBnCt0v60AAV8s8p2cpNnLl+PHZN2yZ6/Iuf0hcbczXexSE6Q2g1a7MQ==
+X-Received: by 2002:a05:600c:4f83:b0:416:9aa9:ca3f with SMTP id n3-20020a05600c4f8300b004169aa9ca3fmr1357057wmq.21.1712647904399;
+        Tue, 09 Apr 2024 00:31:44 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id be9-20020a05600c1e8900b004163ee3922csm11364127wmb.38.2024.04.09.00.31.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Apr 2024 00:31:43 -0700 (PDT)
+Message-ID: <0bb1e7d3-ff2e-40c3-84cf-67f36278d2e2@linaro.org>
+Date: Tue, 9 Apr 2024 09:31:41 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] dt-bindings: rtc: orion-rtc: move to trivial-rtc
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+References: <20240408-rtc_dtschema-v1-0-c447542fc362@gmail.com>
+ <20240408-rtc_dtschema-v1-1-c447542fc362@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240408-rtc_dtschema-v1-1-c447542fc362@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,15 +135,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 2024-04-05 at 08:46 +0200, Krzysztof Kozlowski wrote:
-> "mlx,multi-host" is using incorrect vendor prefix and is not documented.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->=20
+On 08/04/2024 17:53, Javier Carrasco wrote:
+> This RTC requires a compatible, a reg and a single interrupt,
+> which makes it suitable for a direct conversion into trivial-rtc.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/rtc/orion-rtc.txt    | 18 ------------------
+>  Documentation/devicetree/bindings/rtc/trivial-rtc.yaml |  2 ++
+>  2 files changed, 2 insertions(+), 18 deletions(-)
 
-Thanks, I've applied these to my tree to be picked up by Joel.
+I assume you checked if any entry in MAINTAINERS needs updating.
 
-Andrew
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
