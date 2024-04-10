@@ -2,84 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828F8957911
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06AEE957912
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:56:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqHs5cwLz3bWd
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqHt03rzz3g2L
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:26 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=YKeXRMc9;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ak0f7HuY;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62f; helo=mail-ej1-x62f.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::130; helo=mail-lf1-x130.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VF6qv3gG6z3d2Y
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Apr 2024 01:55:55 +1000 (AEST)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a51c8274403so497201266b.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Apr 2024 08:55:55 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VFFVv2Vf5z2xFt
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Apr 2024 06:56:38 +1000 (AEST)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-516d0c004b1so8519635e87.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Apr 2024 13:56:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712764552; x=1713369352; darn=lists.ozlabs.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bf5pKtth7HyQMR2CRAxRCRRYX77dJfg+HACjzgrcpPA=;
-        b=YKeXRMc96lmicSzNz9j+P3dWSX63LpSg1i/ye/N9C5XLBWxFCki6BPzZa4WoPZXI/R
-         BoQVZXFKDTb2eQZENkn6xdxy40m/mTXxVZKpOtw2LdHSb+k2PVK9sljeVekbNElj4H//
-         CjljJqX9w5b1IEVB2jaCfjFAvTL2eZW9wKXbvIUFOsgmG+Utzhk9pkiIdbumCzPuB92B
-         sKTCT/911Zdyx7KsE1gbrmt12ZIRCI7D2QBBIV6mMZwyyTv26slb4snwn5FqbHZwSd+u
-         LszJpCQVtBjr0bEpUEJERe+Qk/UfaseMCsc/1CW4D8mc+Cyct68aPO785WIpwI4Bx13o
-         k6mA==
+        d=gmail.com; s=20230601; t=1712782592; x=1713387392; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=velTxyDyUhfVt0WKozw2xszoAn3uVnpWZ/SVMLGjm+c=;
+        b=Ak0f7HuYG71LaZ1cxb3jgZu64D02Cyzf+C5naELzeCEZAsz6yB32BvZ36SIRfTTiuY
+         uHN0LkD3BcZQec1q7oDV5fA06X0jSksOcrxtejbM8jyLZ0cCi0RveaqDfVQA0keMAlkz
+         FjX2SJMi7KkDqgKGdPfp4heW/lqB3Lm4CgZdXU/O0GoDkfzEQw3ywSRDxqYmyk8ooy5S
+         U7W94PwRsrc4GS/1EuSqJ2S9fq7mlMReog5jYIPPHXr+IO4+xfEz2TBQuqc2vD2UJen3
+         z6Uj6NBUru3KmNJLbsh5bw27yQvJycJZ0hT0AqNVkC5aG9cawvVqqvP41qtPUpHxeejr
+         bIpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712764552; x=1713369352;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bf5pKtth7HyQMR2CRAxRCRRYX77dJfg+HACjzgrcpPA=;
-        b=MMc90rpQv/WfZkhQvvDyrw2rDoG2HcBw4g42VOGZ05fJTwSjns0TOUpk02JwqOlh5U
-         s2jqOtMxkTnRoe1yNRhMTOrf9AdwMb77VbEFQBhmeYJAs6nwH1kUPwi5eKtKecMq6WQQ
-         UkHDdM5Lb9P9TjtuoocOjgYwO1hWiUgM9CLxPpABlQNhbmaqj5GkR0aj2Uzl0itoS3bH
-         gLi4SOswUNVK2AjjNaUvri1p3i9kJCnbzsDiFAG4Ldj/xfhiCb/JKvevjjMhbgLNbr1y
-         lL51eIMGqDbMXIkWxazSLpgeb4EFeck5mr1fqLcLWwbr5dkTNY+wEqbUCfPixMvZWaL9
-         JAVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVD2B0rf0uLf7WRiQTHklUZS0KJVmUY2i+fz+yQmtEBLGWCvo6YNfQAniVq29ZWlZHZSbsGH+cV7wKM4oN+yHw+LAtEUBbYuZ1w4OFijQ==
-X-Gm-Message-State: AOJu0YxFSGcTIAlb9j8FLe7aGoWOE+DMtbneFZai2Kl/k2P8oGj+lzF8
-	nxr6lGIYQGHWDAaVcwjJ8bK5wgHZjS0dDM1sgRkHD9wKlbDuM6pA
-X-Google-Smtp-Source: AGHT+IH9ECOyJ4wkkOwf2xtDjNIpUsIMg8Pw0iVdXkQDB4YvgTtP4jNyI9hrkYj+EGDElqvho8fUmA==
-X-Received: by 2002:a17:907:368e:b0:a51:d605:49e6 with SMTP id bi14-20020a170907368e00b00a51d60549e6mr2268733ejc.10.1712764551807;
-        Wed, 10 Apr 2024 08:55:51 -0700 (PDT)
-Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id qw6-20020a1709066a0600b00a52172808c9sm279884ejc.56.2024.04.10.08.55.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Apr 2024 08:55:51 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Wed, 10 Apr 2024 17:55:36 +0200
-Subject: [PATCH v2 4/4] dt-bindings: rtc: stmp3xxx-rtc: convert to dtschema
+        d=1e100.net; s=20230601; t=1712782592; x=1713387392;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=velTxyDyUhfVt0WKozw2xszoAn3uVnpWZ/SVMLGjm+c=;
+        b=t+90vo/nXvNKsQVKcKiGhtspNyhLmY5w0SfahJ/ZbrOWMeI91TP23a37ENtJ3sF5Rn
+         6TdpSZ1Edl2JNO3okr4dsYz7jaFe4mN6px2hI/ysuUSzT8Wan3vXBz1CsoWu56sYn5yS
+         2TcBf1mYDwBXrFh+ESxfj7rljyb4xbQ5Y6Aq7suU3V6OgNqsvR79BrewFZUzsuXaYdKr
+         7S209/UL8cqLOwtNOiSHkVRLwWs5Tg20Qn3bqPLASSxG7pKIiAikZAmgbJV4ndqmsjam
+         SXLpoxX9r0uFe3UfN7RqxEsU2swy6pnHNt5fKAEP80FVdXm2/dorwA9c+YpdhUQQgSyZ
+         Wong==
+X-Forwarded-Encrypted: i=1; AJvYcCXqd8vDGAF5NGlLwGFBpvPTWbchpfx2fwI9OPMSEJ8G9YZzJSZmKuB+eh4dD/Z7YscdmTJ6fInW5NUjTHX9ApHhf0W1+k/7+l997sNCCA==
+X-Gm-Message-State: AOJu0YzlhNdSIzqeI2d3xWRemIsrNlZXOz8/3GHPXBZc1KRy2FeUiUcq
+	NgkEvON1EvYwnfaNjaMcp/a9Up/AOYe3vpjgFabyMNOEZWyj1oPU
+X-Google-Smtp-Source: AGHT+IHU+2lp+CqY9Y0dbETJpEetgTV/6YxYcG7h5rkJpRV4Z3ndf35dDAQDagEP9Qz4ZQNHrtFv9w==
+X-Received: by 2002:a19:f50b:0:b0:513:aef9:7159 with SMTP id j11-20020a19f50b000000b00513aef97159mr2555020lfb.39.1712782592156;
+        Wed, 10 Apr 2024 13:56:32 -0700 (PDT)
+Received: from [192.168.0.31] (84-115-213-64.cable.dynamic.surfer.at. [84.115.213.64])
+        by smtp.gmail.com with ESMTPSA id gv15-20020a170906f10f00b00a517995c070sm51166ejb.33.2024.04.10.13.56.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 13:56:31 -0700 (PDT)
+Message-ID: <6d1f0fbf-ea53-47e2-92e5-131da010be0b@gmail.com>
+Date: Wed, 10 Apr 2024 22:56:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240410-rtc_dtschema-v2-4-d32a11ab0745@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] dt-bindings: rtc: lpc32xx-rtc: convert to dtschema
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
 References: <20240410-rtc_dtschema-v2-0-d32a11ab0745@gmail.com>
-In-Reply-To: <20240410-rtc_dtschema-v2-0-d32a11ab0745@gmail.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1712764543; l=2723;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=BajpLIZvweL+aLqlkIOgDvaU5J35KCKUJstIeHQsxoU=;
- b=pHkT9z1UD5fi/tDYwREkpPZ6fWm/TGqk61RmoCGhwk+BHlwI0iLZdJFdVAqFoKOsy/rcgBj0N
- Wk7MHzYGe96AFVsO8eT0lvMCZduQXAoKHmPHQxBN9O9UBFkbRd66w35
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+ <20240410-rtc_dtschema-v2-2-d32a11ab0745@gmail.com>
+ <202404102043571b7450b5@mail.local>
+Content-Language: en-US, de-AT
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <202404102043571b7450b5@mail.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -92,104 +81,92 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Vladimir Zapolskiy <vz@mleia.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Convert existing binding to dtschema to support validation and
-add the undocumented compatible 'fsl,imx23-rtc'.
+On 4/10/24 22:43, Alexandre Belloni wrote:
+> On 10/04/2024 17:55:34+0200, Javier Carrasco wrote:
+>> Convert existing binding to dtschema to support validation.
+>>
+>> Add the undocumented 'clocks' property.
+>>
+>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>> ---
+>>  .../devicetree/bindings/rtc/lpc32xx-rtc.txt        | 15 --------
+>>  .../devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml   | 41 ++++++++++++++++++++++
+>>  2 files changed, 41 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt b/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt
+>> deleted file mode 100644
+>> index a87a1e9bc060..000000000000
+>> --- a/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt
+>> +++ /dev/null
+>> @@ -1,15 +0,0 @@
+>> -* NXP LPC32xx SoC Real Time Clock controller
+>> -
+>> -Required properties:
+>> -- compatible: must be "nxp,lpc3220-rtc"
+>> -- reg: physical base address of the controller and length of memory mapped
+>> -  region.
+>> -- interrupts: The RTC interrupt
+>> -
+>> -Example:
+>> -
+>> -	rtc@40024000 {
+>> -		compatible = "nxp,lpc3220-rtc";
+>> -		reg = <0x40024000 0x1000>;
+>> -		interrupts = <52 0>;
+>> -	};
+>> diff --git a/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml b/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml
+>> new file mode 100644
+>> index 000000000000..62ddeef961e9
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml
+>> @@ -0,0 +1,41 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/rtc/nxp,lpc32xx-rtc.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: NXP LPC32xx SoC Real Time Clock
+>> +
+>> +maintainers:
+>> +  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>> +
+>> +allOf:
+>> +  - $ref: rtc.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: nxp,lpc3220-rtc
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+> 
+> As I explained the clock doesn't really exist, there is no control over
+> it, it is a fixed 32768 Hz crystal, there is no point in describing it
+> as this is already the input clock of the SoC.
+> 
+> 
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- .../devicetree/bindings/rtc/fsl,stmp3xxx-rtc.yaml  | 51 ++++++++++++++++++++++
- .../devicetree/bindings/rtc/stmp3xxx-rtc.txt       | 21 ---------
- 2 files changed, 51 insertions(+), 21 deletions(-)
+In that case the first approach was right, and it should be moved to
+trivial-rtc.
+I made the mistake of mentioning the driver and what it does not
+support, but strictly talking about the device description, the 'clocks'
+property was pointless in the dts where it was added.
 
-diff --git a/Documentation/devicetree/bindings/rtc/fsl,stmp3xxx-rtc.yaml b/Documentation/devicetree/bindings/rtc/fsl,stmp3xxx-rtc.yaml
-new file mode 100644
-index 000000000000..534de4196a4f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/rtc/fsl,stmp3xxx-rtc.yaml
-@@ -0,0 +1,51 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/rtc/fsl,stmp3xxx-rtc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: STMP3xxx/i.MX28 Time Clock Controller
-+
-+maintainers:
-+  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
-+
-+allOf:
-+  - $ref: rtc.yaml#
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - fsl,imx28-rtc
-+              - fsl,imx23-rtc
-+          - const: fsl,stmp3xxx-rtc
-+      - const: fsl,stmp3xxx-rtc
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  stmp,crystal-freq:
-+    description:
-+      Override crystal frequency as determined from fuse bits.
-+      Use <0> for "no crystal".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 32000, 32768]
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    rtc@80056000 {
-+        compatible = "fsl,imx28-rtc", "fsl,stmp3xxx-rtc";
-+        reg = <0x80056000 2000>;
-+        interrupts = <29>;
-+    };
-diff --git a/Documentation/devicetree/bindings/rtc/stmp3xxx-rtc.txt b/Documentation/devicetree/bindings/rtc/stmp3xxx-rtc.txt
-deleted file mode 100644
-index fa6a94226669..000000000000
---- a/Documentation/devicetree/bindings/rtc/stmp3xxx-rtc.txt
-+++ /dev/null
-@@ -1,21 +0,0 @@
--* STMP3xxx/i.MX28 Time Clock controller
--
--Required properties:
--- compatible: should be one of the following.
--    * "fsl,stmp3xxx-rtc"
--- reg: physical base address of the controller and length of memory mapped
--  region.
--- interrupts: rtc alarm interrupt
--
--Optional properties:
--- stmp,crystal-freq: override crystal frequency as determined from fuse bits.
--  Only <32000> and <32768> are possible for the hardware.  Use <0> for
--  "no crystal".
--
--Example:
--
--rtc@80056000 {
--	compatible = "fsl,imx28-rtc", "fsl,stmp3xxx-rtc";
--	reg = <0x80056000 2000>;
--	interrupts = <29>;
--};
+If we leave it undocumented, the error I discussed with Krzysztof will
+have to stay unless the 'clocks' property gets removed from the dts.
 
--- 
-2.40.1
+Best regards,
+Javier Carrasco
+
 
