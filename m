@@ -2,79 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39988A1847
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Apr 2024 17:11:44 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lHVb/POe;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E1A8A1952
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Apr 2024 18:05:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VFjpP4ckBz3vXd
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Apr 2024 01:11:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VFl0R4VZHz3vrb
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Apr 2024 02:05:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lHVb/POe;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::c2d; helo=mail-oo1-xc2d.google.com; envelope-from=tcminyard@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VFjp91ZKcz3dS8;
-	Fri, 12 Apr 2024 01:11:27 +1000 (AEST)
-Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-5aa2bd6f651so3528933eaf.0;
-        Thu, 11 Apr 2024 08:11:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712848284; x=1713453084; darn=lists.ozlabs.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+zFEYcFGgbVYjM4vgY3BN6Q53qllrvkhMJ4PRExZuo=;
-        b=lHVb/POekJVyhuNq0qLqCjCKeYGbbf1kXK0nMxBa+I+6OQ+0ONyJf76uGtL+qFYqdL
-         yvjDqMDF7Hr+caU9g9AZ9BinvLkajWehQs4bULu82h2TqYqDuWSaDrI4jIMo5wXPqoWN
-         y5v+DjmbrgLcVl/U54BY0w3IXeDzSfSXMNZl2iaLVnzs7QTzmJn8/jhRpK4kaaoO49Ub
-         p1TI8eb+E+zZRL7aQQ7hlNtnaIZBB8Ee1axWuDLPn+JJBhcW2wM4/E/E+LXvWN2Hwnzd
-         Cj9XjNY+iCME43UGWPHrdP5NL9y0lW7kel8ENa5Hrc+b1Y+iWDkdgnWh4KApvqba176z
-         bDyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712848284; x=1713453084;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5+zFEYcFGgbVYjM4vgY3BN6Q53qllrvkhMJ4PRExZuo=;
-        b=o6XNoWdhsPzqDoaiU2FbqRvg0O34y3stWITu93Rh1RbaH1Mx79iIFQYOK/lknwoXei
-         9PV4p7hLJfHfIVmAEteCci7o4SsINur8Kd0rCbeL4Rk9n3xPhVpn/qpdVSOeDMRPXh/g
-         mGSIIrsAxIAILX4IdNP29y4f93R+hSQNPyEJcMRQP6ZcWgR1Hexf7FRlcVqlKESI/KO4
-         Pi0BdyPgtCPuNUz+b6iuP3j3HaoYoQj/0jNJhf/QAgQSWjdngziLyPtXwZwlMiqb/evu
-         v8zTluCtZXQZxP+kZLgWbie2QYHym/fkyYkiSgfEo2gCpLrmEwV/l3A8Z92bp0nLn8Xs
-         bHtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVb73gG24K9XG/d5Du+mLUpgK9DlXcsjM16q5SbBNDqNTUOaR6yuNUm8DL7c7hbnJlXBminDSb9xif8iB+/Ft3WhDw6shsFbKXB5d+jRcaPLdBrr7CVZNEK7rhVmMLmIahuxfce4aTz0DdMECFRVyGKDZB04KLnPvWcPSMdfJK0N8Kr43H4g==
-X-Gm-Message-State: AOJu0YzgCDKxJZxGYB69yopfGNVyCC9nxLZBe5zzdpY4afR6wAFGrCWX
-	zjMN5MFsVEPA9ZWC+EF22gw1auGaikKPDltQbQuIXyp+fSHqq3M=
-X-Google-Smtp-Source: AGHT+IFB6Cokk57WMCZhgqg113k9hoFMhs9i+078DRUKacemNlRQbXO4GTcI3zUnKw7d8YHw3vLDpA==
-X-Received: by 2002:a05:6820:1391:b0:5aa:3b8a:b491 with SMTP id i17-20020a056820139100b005aa3b8ab491mr6964498oow.4.1712848283554;
-        Thu, 11 Apr 2024 08:11:23 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.173.124])
-        by smtp.gmail.com with ESMTPSA id ev8-20020a056820310800b005a9c8091580sm353207oob.22.2024.04.11.08.11.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 08:11:22 -0700 (PDT)
-Received: from mail.minyard.net (unknown [IPv6:2001:470:b8f6:1b:e322:3bf8:f626:ba3a])
-	by serve.minyard.net (Postfix) with ESMTPSA id 22476180011;
-	Thu, 11 Apr 2024 15:11:22 +0000 (UTC)
-Date: Thu, 11 Apr 2024 10:11:21 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 0/6] ipmi: Convert to platform remove callback returning
- void
-Message-ID: <Zhf9mQx/KgXOzPTs@mail.minyard.net>
-References: <cover.1709655755.git.u.kleine-koenig@pengutronix.de>
- <3uhfeeahn2u23mxyumyxcyx4kmcxzczipkan7eqh4aslsmhxyz@zgsmwj2jvb2v>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VFkxB06D9z3vZx
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Apr 2024 02:02:35 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ruwsI-0004zD-Ph; Thu, 11 Apr 2024 18:02:06 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ruwsF-00Bid0-Bp; Thu, 11 Apr 2024 18:02:03 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ruwsF-000gE1-0s;
+	Thu, 11 Apr 2024 18:02:03 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Joel Stanley <joel@jms.id.au>
+Subject: [PATCH] hwmon: (aspeed-g6-pwm-tacho): Drop cpp define only used once
+Date: Thu, 11 Apr 2024 18:01:36 +0200
+Message-ID: <20240411160136.247138-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1433; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=/vF4zARYuqqbDhTcjAm8UsZUNA5qZUsN0fu/StnCQWU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmGAlgXwk656AgEYUnUaDxpizHFTADWVOyf8hGP CR3wgvRxq2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZhgJYAAKCRCPgPtYfRL+ Ti9UB/0djClWTX8zt9z0cf0OzRiWlLj+0C/40DKe0qcTYTcEWyl8D6prcyKRMOr4dqnB7NlqVBs 6M4bBcwsiGLtl3Ght7jvlhr+ECswtPKKNEw1e0CQYW36hNEmWa/hnXfPedWH5xqBtDSW0su6H2q /Jbwd1y8cd+7cMufUOYUurSN4+ftvdgrCQy+20X0f8xKoTHrvT8Pnt+c/HWLCuycCP1ssKQCFEl Yv+o/+E5ffgPy2hXbU5g2oJZ9gMA10kF+TLojJ9GaGFhZnwa0juodBF6u1ww5nTfI4PaeN7E6iU zsfugocSo4jvBnTVcu0F9lzWF8pQvFLZXNv8HUlt/RONjwR4
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3uhfeeahn2u23mxyumyxcyx4kmcxzczipkan7eqh4aslsmhxyz@zgsmwj2jvb2v>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +58,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, openbmc@lists.ozlabs.org, Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Tali Perry <tali.perry1@gmail.com>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nancy Yuen <yuenn@google.com>, kernel@pengutronix.de, Patrick Venture <venture@google.com>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, openipmi-developer@lists.sourceforge.net, Andrew Jeffery <andrew@codeconstruct.com.au>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Tomer Maimon <tmaimon77@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, linux-pwm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, kernel@pengutronix.de, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Apr 11, 2024 at 09:15:03AM +0200, Uwe Kleine-König wrote:
-> Hello,
-> 
-> On Tue, Mar 05, 2024 at 05:26:57PM +0100, Uwe Kleine-König wrote:
-> > this series converts all drivers below drivers/char/ipmi to struct
-> > platform_driver::remove_new(). See commit 5c5a7680e67b ("platform: Provide a
-> > remove callback that returns no value") for an extended explanation and the
-> > eventual goal.
-> > 
-> > All conversations are trivial, because their .remove() callbacks
-> > returned zero unconditionally.
-> > 
-> > There are no interdependencies between these patches, so they could be
-> > picked up individually. But I'd hope that they get picked up all
-> > together by Corey.
+The macro PWM_ASPEED_NR_PWMS is only used once, just use it's value in
+this single code line.
 
-Yeah, I was kind of waiting for more reviews, but this is pretty
-straightforward.  I've pulled this into my tree.
+Having the number of PWM lines explictly in the call to
+devm_pwmchip_alloc() also has the advantage to be easily greppable.
 
--corey
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+Hello,
 
-> 
-> Apart from a (positive) review reply I didn't get any feedback to this
-> series. My quest to change the prototype of struct
-> platform_driver::remove depends on these patches, so it would be great
-> if they made it in during the next merge window.
-> 
-> Best regards
-> Uwe
-> 
-> -- 
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+note this patch depends on commit 2c56fedef8c9 (hwmon: (aspeed-g6-pwm-tacho):
+Make use of devm_pwmchip_alloc() function) that currently sits in pwm/for-next.
 
+Best regards
+Uwe
+
+ drivers/hwmon/aspeed-g6-pwm-tach.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/hwmon/aspeed-g6-pwm-tach.c b/drivers/hwmon/aspeed-g6-pwm-tach.c
+index 08a2ded95e45..706c344b181b 100644
+--- a/drivers/hwmon/aspeed-g6-pwm-tach.c
++++ b/drivers/hwmon/aspeed-g6-pwm-tach.c
+@@ -59,8 +59,6 @@
+ #include <linux/reset.h>
+ #include <linux/sysfs.h>
+ 
+-/* The channel number of Aspeed pwm controller */
+-#define PWM_ASPEED_NR_PWMS			16
+ /* PWM Control Register */
+ #define PWM_ASPEED_CTRL(ch)			((ch) * 0x10 + 0x00)
+ #define PWM_ASPEED_CTRL_LOAD_SEL_RISING_AS_WDT	BIT(19)
+@@ -487,7 +485,7 @@ static int aspeed_pwm_tach_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	chip = devm_pwmchip_alloc(dev, PWM_ASPEED_NR_PWMS, 0);
++	chip = devm_pwmchip_alloc(dev, 16, 0);
+ 	if (IS_ERR(chip))
+ 		return PTR_ERR(chip);
+ 
+base-commit: 4118d9533ff3a5d16efb476a0d00afceecd92cf5
+-- 
+2.43.0
 
