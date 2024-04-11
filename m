@@ -2,78 +2,122 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BDB8A0762
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Apr 2024 06:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454BB8A0851
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Apr 2024 08:18:22 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Oa+aRwB6;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lxP3s8bs;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VFS8r2CL4z3dWv
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Apr 2024 14:56:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VFTyv490tz3vY0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Apr 2024 16:18:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Oa+aRwB6;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lxP3s8bs;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::535; helo=mail-pg1-x535.google.com; envelope-from=rentao.bupt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VFS8k4qs2z3dX4
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Apr 2024 14:56:37 +1000 (AEST)
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-5dbf7b74402so4574479a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Apr 2024 21:56:37 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VFTyl6vdDz3cRB
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Apr 2024 16:18:05 +1000 (AEST)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-346b94fa7ecso314977f8f.3
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Apr 2024 23:18:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712811393; x=1713416193; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wHTNrwtVfB656IwmijcBPMC2ZgOyFKP3zBvEDwvoMC8=;
-        b=Oa+aRwB6DcqSRrtbymzfNSY72UydcA6U65Ka5EBgwZGvsB2p+qaQGKUiW8aLEhhR2t
-         3C4pTj7CbkQcoqD19l/p4fyDWNTvSDKXk43khcklBUy0RvmVpxqSMFRHuqR8cBTiCGH6
-         mkZODWQmdqQ6Q/W9UON3Xm6m8dsGz7W4bU5rmBshW5KcBg9M4NBvhjichUu3vo+k5tK5
-         PQ4T3Lowi+4Nc2J+6G1Tuj2/ds13RYnvj51Dti3qKjYosm0UKycX5dn6oHPzyn38mqnI
-         2SqzWJTanmDlgM2RUYJ0nITYuW1+kyUe8X2ZvlJbbd3dGMzskKK4gm9BF+Tip2Zhnbbs
-         HOtA==
+        d=linaro.org; s=google; t=1712816278; x=1713421078; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=dIqGBLkwho0VDUiHAkhF1AiHua3U+TbpGgqUfassRGY=;
+        b=lxP3s8bszQxMhjNb9WK/3HogLIeOra1gSxh74Ir06UX+paoZTOw4dpp1ajrOcz/Sn5
+         r2xvFkNaouOM0CxNbc0qqRR+qNgyHP58VU5+Ym2CS7G6GHLozYEqK6GO8rxZL9Bob88h
+         DeoL5ulYl5LpqNySwEHHDLHRuPC8vPlC1oR9C9m4R8pRXKD9LlUaJi6VMEDMvWq3XYaR
+         5uvMremzD8FMnwMZDaKk5YqbG2w13HY/Osql0boxFABsfySxYFEzX0WmpvnSzQj/sUrA
+         yjzu3u7ON98aHmKiaCJXSCFOhxMU+77Y9lg8IYfrHAxP/kXGLxHbGgBpnSM/memYkI9k
+         Prpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712811393; x=1713416193;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wHTNrwtVfB656IwmijcBPMC2ZgOyFKP3zBvEDwvoMC8=;
-        b=hNp2qr0zulhug5RmQZ8UhoJOcpgznG1jl+JhLfzoC2pUcnB+uN92yE21u8rJcsC6oE
-         mijSghoQQrscV6xQcqUZOigqoLcgDiG2SAmElAwfOqV8d4ZXCDYJ1O8zuSkSlazS3rj+
-         h0AF3U384xADMxqdGz+zdWr591lTQbB4KMfDXVEV3XJiGCUueNuTbKmMvJTdXH4TM3g7
-         wWDFj/fc0hpOx05pH0ddUPMx4mP7xeiCR9szVDTaa2XlAHahk1F1BpTk0bEifVmlxy1+
-         Xz/Df5wrlB2Jk6fecsIxvWtAjkSvEbeShuG2G+SuAn6AG2R70qj47h1qn9d2Qt3XRqB+
-         6uzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVWi/0D+CkBbR9rJj/g7CXlz+97x11tEy+rn6BWf4v+V2AUnTUdOsnhh+jUWaHZc2KPEDsoiah73FUL7eJsJ9SQR05Av+8ZoyoW/0V4EQ==
-X-Gm-Message-State: AOJu0YyF09WahdKKnjOCmlAKJLhi5C5gulTJum8N7Kp6bguvtPD1UhEH
-	M+D8dqvWDvIHP8Q0Lddksn4mNtpjg/oXvbk2vxaB9eU3sKQR8KA/
-X-Google-Smtp-Source: AGHT+IHtf+Wl4dhvIBwFO5quw26YDztgDGpa8JMW+Q3uEfK/tNr4QU1WIV2KNcjoDf4O75QBFns8wQ==
-X-Received: by 2002:a05:6a21:8806:b0:1a7:9476:6cb9 with SMTP id ta6-20020a056a21880600b001a794766cb9mr6205729pzc.32.1712811392865;
-        Wed, 10 Apr 2024 21:56:32 -0700 (PDT)
-Received: from localhost.localdomain (c-24-6-195-222.hsd1.ca.comcast.net. [24.6.195.222])
-        by smtp.gmail.com with ESMTPSA id c9-20020a17090abf0900b002a610ef880bsm809998pjs.6.2024.04.10.21.56.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Apr 2024 21:56:32 -0700 (PDT)
-From: rentao.bupt@gmail.com
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	taoren@meta.com
-Subject: [PATCH] ARM: dts: aspeed: Remove Facebook Cloudripper dts
-Date: Wed, 10 Apr 2024 21:56:18 -0700
-Message-ID: <20240411045622.7915-1-rentao.bupt@gmail.com>
-X-Mailer: git-send-email 2.44.0
+        d=1e100.net; s=20230601; t=1712816278; x=1713421078;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dIqGBLkwho0VDUiHAkhF1AiHua3U+TbpGgqUfassRGY=;
+        b=OgPeKRUntb3Xycm+7uG77ahxw6m/h79NBrS4Q8kpjcJ5VUFTOZGn2MI3N1WsTjELeu
+         KL4fHWBkkGKDsAm/SIwl/xDbucxIaNiGduY3NNUoEgrvtoz5kbQumjvekqL+wzi+PXHC
+         QoDno64Yp8URuZWCmb4hvbO3QtmEKtXUS92OkuWMMVFhaBf23XKLliZnXtX1OMUm7N/0
+         LA9zYZPsDTV7PsXnWg0yhWFwZ0Xfj4aEHde0rO4VimXXSsZ3dgTRNjrs2gIREJTnopTd
+         8M8AqbT4wdLGtjJ5GqJ4/0X4o1nEy4iQyah73o4G4Z4+XVufpZ+qPEzju7PilySbKz9L
+         gnBw==
+X-Forwarded-Encrypted: i=1; AJvYcCVvAJ7Udr0O8IoYirISDrstVEDH2YhK0xsjXWuxK2++m/HJ6voIXaiKT+pg1ItygkXE9NKgfh7cgfn47Vidbanj6R7nmngbDOQ7BspfdQ==
+X-Gm-Message-State: AOJu0YxGot/FG3vkpISdoOEIotpa93rQOkMj8rZFyyB3Uc1pAggxk57r
+	ttX5muojG+1xcZsSIcEkXuoqhnyN/TC0HQ1EyBfQtuOq6pECoaB/MTdadvba1G4=
+X-Google-Smtp-Source: AGHT+IEJxgJl8yVXSeIGYg35EweCjbaFB2dDJFg8DQCcoBybET4ev5s9QxHjmm6Hc4tA0Ocqh3UGjw==
+X-Received: by 2002:adf:fc46:0:b0:33e:cf4d:c583 with SMTP id e6-20020adffc46000000b0033ecf4dc583mr3434952wrs.16.1712816277879;
+        Wed, 10 Apr 2024 23:17:57 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id s19-20020adfe013000000b00346bb778e8bsm769518wrh.5.2024.04.10.23.17.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 23:17:57 -0700 (PDT)
+Message-ID: <130d47d8-3294-44be-9a8c-8474d342cb12@linaro.org>
+Date: Thu, 11 Apr 2024 08:17:55 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] dt-bindings: rtc: lpc32xx-rtc: convert to dtschema
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+References: <20240410-rtc_dtschema-v2-0-d32a11ab0745@gmail.com>
+ <20240410-rtc_dtschema-v2-2-d32a11ab0745@gmail.com>
+ <202404102043571b7450b5@mail.local>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <202404102043571b7450b5@mail.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,583 +129,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Vladimir Zapolskiy <vz@mleia.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Tao Ren <rentao.bupt@gmail.com>
+On 10/04/2024 22:43, Alexandre Belloni wrote:
+> On 10/04/2024 17:55:34+0200, Javier Carrasco wrote:
+>> Convert existing binding to dtschema to support validation.
+>>
+>> Add the undocumented 'clocks' property.
+>>
+>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>> ---
+>>  .../devicetree/bindings/rtc/lpc32xx-rtc.txt        | 15 --------
+>>  .../devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml   | 41 ++++++++++++++++++++++
+>>  2 files changed, 41 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt b/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt
+>> deleted file mode 100644
+>> index a87a1e9bc060..000000000000
+>> --- a/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt
+>> +++ /dev/null
+>> @@ -1,15 +0,0 @@
+>> -* NXP LPC32xx SoC Real Time Clock controller
+>> -
+>> -Required properties:
+>> -- compatible: must be "nxp,lpc3220-rtc"
+>> -- reg: physical base address of the controller and length of memory mapped
+>> -  region.
+>> -- interrupts: The RTC interrupt
+>> -
+>> -Example:
+>> -
+>> -	rtc@40024000 {
+>> -		compatible = "nxp,lpc3220-rtc";
+>> -		reg = <0x40024000 0x1000>;
+>> -		interrupts = <52 0>;
+>> -	};
+>> diff --git a/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml b/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml
+>> new file mode 100644
+>> index 000000000000..62ddeef961e9
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml
+>> @@ -0,0 +1,41 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/rtc/nxp,lpc32xx-rtc.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: NXP LPC32xx SoC Real Time Clock
+>> +
+>> +maintainers:
+>> +  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
+>> +
+>> +allOf:
+>> +  - $ref: rtc.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: nxp,lpc3220-rtc
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+> 
+> As I explained the clock doesn't really exist, there is no control over
+> it, it is a fixed 32768 Hz crystal, there is no point in describing it
+> as this is already the input clock of the SoC.
 
-Remove Facebook Cloudripper dts because the switch platform is not
-actively maintained (all the units are deprecated).
+That's common for many SoCs but it is still (at least for them) input to
+the RTC. On some SoC boards 32 kHz is controllable.
 
-Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
----
- arch/arm/boot/dts/aspeed/Makefile             |   1 -
- .../aspeed-bmc-facebook-cloudripper.dts       | 544 ------------------
- 2 files changed, 545 deletions(-)
- delete mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-cloudripper.dts
+But if you think it is not correct here, then we should drop it from DTS.
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index d3ac20e316d0..1c0e08c9ed3e 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -13,7 +13,6 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-bytedance-g220a.dtb \
- 	aspeed-bmc-delta-ahe50dc.dtb \
- 	aspeed-bmc-facebook-bletchley.dtb \
--	aspeed-bmc-facebook-cloudripper.dtb \
- 	aspeed-bmc-facebook-cmm.dtb \
- 	aspeed-bmc-facebook-elbert.dtb \
- 	aspeed-bmc-facebook-fuji.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-cloudripper.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-cloudripper.dts
-deleted file mode 100644
-index d49328fa487a..000000000000
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-cloudripper.dts
-+++ /dev/null
-@@ -1,544 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0+
--// Copyright (c) 2020 Facebook Inc.
--
--/dts-v1/;
--
--#include <dt-bindings/leds/common.h>
--#include "ast2600-facebook-netbmc-common.dtsi"
--
--/ {
--	model = "Facebook Cloudripper BMC";
--	compatible = "facebook,cloudripper-bmc", "aspeed,ast2600";
--
--	aliases {
--		/*
--		 * PCA9548 (1-0070) provides 8 channels connecting to
--		 * SMB (Switch Main Board).
--		 */
--		i2c16 = &imux16;
--		i2c17 = &imux17;
--		i2c18 = &imux18;
--		i2c19 = &imux19;
--		i2c20 = &imux20;
--		i2c21 = &imux21;
--		i2c22 = &imux22;
--		i2c23 = &imux23;
--
--		/*
--		 * PCA9548 (2-0070) provides 8 channels connecting to
--		 * SCM (System Controller Module).
--		 */
--		i2c24 = &imux24;
--		i2c25 = &imux25;
--		i2c26 = &imux26;
--		i2c27 = &imux27;
--		i2c28 = &imux28;
--		i2c29 = &imux29;
--		i2c30 = &imux30;
--		i2c31 = &imux31;
--
--		/*
--		 * PCA9548 (3-0070) provides 8 channels connecting to
--		 * SMB (Switch Main Board).
--		 */
--		i2c32 = &imux32;
--		i2c33 = &imux33;
--		i2c34 = &imux34;
--		i2c35 = &imux35;
--		i2c36 = &imux36;
--		i2c37 = &imux37;
--		i2c38 = &imux38;
--		i2c39 = &imux39;
--
--		/*
--		 * PCA9548 (8-0070) provides 8 channels connecting to
--		 * PDB (Power Delivery Board).
--		 */
--		i2c40 = &imux40;
--		i2c41 = &imux41;
--		i2c42 = &imux42;
--		i2c43 = &imux43;
--		i2c44 = &imux44;
--		i2c45 = &imux45;
--		i2c46 = &imux46;
--		i2c47 = &imux47;
--
--		/*
--		 * PCA9548 (15-0076) provides 8 channels connecting to
--		 * FCM (Fan Controller Module).
--		 */
--		i2c48 = &imux48;
--		i2c49 = &imux49;
--		i2c50 = &imux50;
--		i2c51 = &imux51;
--		i2c52 = &imux52;
--		i2c53 = &imux53;
--		i2c54 = &imux54;
--		i2c55 = &imux55;
--	};
--
--	spi_gpio: spi {
--		num-chipselects = <2>;
--		cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>,
--			   <&gpio0 ASPEED_GPIO(X, 1) GPIO_ACTIVE_HIGH>;
--
--		eeprom@1 {
--			compatible = "atmel,at93c46d";
--			spi-max-frequency = <250000>;
--			data-size = <16>;
--			spi-cs-high;
--			reg = <1>;
--		};
--	};
--};
--
--&ehci1 {
--	status = "okay";
--};
--
--/*
-- * "mdio1" is connected to the MDC/MDIO interface of the on-board
-- * management switch (whose ports are connected to BMC, Host and front
-- * panel ethernet port).
-- */
--&mdio1 {
--	status = "okay";
--};
--
--&mdio3 {
--	status = "okay";
--
--	ethphy1: ethernet-phy@13 {
--		compatible = "ethernet-phy-ieee802.3-c22";
--		reg = <0x0d>;
--	};
--};
--
--&mac3 {
--	status = "okay";
--	phy-mode = "rgmii";
--	phy-handle = <&ethphy1>;
--	pinctrl-names = "default";
--	pinctrl-0 = <&pinctrl_rgmii4_default>;
--};
--
--&i2c0 {
--	multi-master;
--	bus-frequency = <1000000>;
--};
--
--&i2c1 {
--	/*
--	 * PCA9548 (1-0070) provides 8 channels connecting to SMB (Switch
--	 * Main Board).
--	 */
--	i2c-mux@70 {
--		compatible = "nxp,pca9548";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x70>;
--		i2c-mux-idle-disconnect;
--
--		imux16: i2c@0 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <0>;
--		};
--
--		imux17: i2c@1 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <1>;
--		};
--
--		imux18: i2c@2 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <2>;
--		};
--
--		imux19: i2c@3 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <3>;
--		};
--
--		imux20: i2c@4 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <4>;
--		};
--
--		imux21: i2c@5 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <5>;
--		};
--
--		imux22: i2c@6 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <6>;
--		};
--
--		imux23: i2c@7 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <7>;
--		};
--	};
--};
--
--&i2c2 {
--	/*
--	 * PCA9548 (2-0070) provides 8 channels connecting to SCM (System
--	 * Controller Module).
--	 */
--	i2c-mux@70 {
--		compatible = "nxp,pca9548";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x70>;
--		i2c-mux-idle-disconnect;
--
--		imux24: i2c@0 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <0>;
--		};
--
--		imux25: i2c@1 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <1>;
--		};
--
--		imux26: i2c@2 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <2>;
--		};
--
--		imux27: i2c@3 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <3>;
--		};
--
--		imux28: i2c@4 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <4>;
--		};
--
--		imux29: i2c@5 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <5>;
--		};
--
--		imux30: i2c@6 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <6>;
--		};
--
--		imux31: i2c@7 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <7>;
--		};
--	};
--};
--
--&i2c3 {
--	/*
--	 * PCA9548 (3-0070) provides 8 channels connecting to SMB (Switch
--	 * Main Board).
--	 */
--	i2c-mux@70 {
--		compatible = "nxp,pca9548";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x70>;
--		i2c-mux-idle-disconnect;
--
--		imux32: i2c@0 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <0>;
--		};
--
--		imux33: i2c@1 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <1>;
--		};
--
--		imux34: i2c@2 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <2>;
--		};
--
--		imux35: i2c@3 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <3>;
--		};
--
--		imux36: i2c@4 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <4>;
--		};
--
--		imux37: i2c@5 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <5>;
--		};
--
--		imux38: i2c@6 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <6>;
--		};
--
--		imux39: i2c@7 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <7>;
--		};
--	};
--};
--
--&i2c6 {
--	lp5012@14 {
--		compatible = "ti,lp5012";
--		reg = <0x14>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		multi-led@0 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <0>;
--			color = <LED_COLOR_ID_MULTI>;
--			function = LED_FUNCTION_ACTIVITY;
--			label = "sys";
--
--			led@0 {
--				reg = <0>;
--				color = <LED_COLOR_ID_RED>;
--			};
--
--			led@1 {
--				reg = <1>;
--				color = <LED_COLOR_ID_BLUE>;
--			};
--
--			led@2 {
--				reg = <2>;
--				color = <LED_COLOR_ID_GREEN>;
--			};
--		};
--
--		multi-led@1 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <1>;
--			color = <LED_COLOR_ID_MULTI>;
--			function = LED_FUNCTION_ACTIVITY;
--			label = "fan";
--
--			led@0 {
--				reg = <0>;
--				color = <LED_COLOR_ID_RED>;
--			};
--
--			led@1 {
--				reg = <1>;
--				color = <LED_COLOR_ID_BLUE>;
--			};
--
--			led@2 {
--				reg = <2>;
--				color = <LED_COLOR_ID_GREEN>;
--			};
--		};
--
--		multi-led@2 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <2>;
--			color = <LED_COLOR_ID_MULTI>;
--			function = LED_FUNCTION_ACTIVITY;
--			label = "psu";
--
--			led@0 {
--				reg = <0>;
--				color = <LED_COLOR_ID_RED>;
--			};
--
--			led@1 {
--				reg = <1>;
--				color = <LED_COLOR_ID_BLUE>;
--			};
--
--			led@2 {
--				reg = <2>;
--				color = <LED_COLOR_ID_GREEN>;
--			};
--		};
--
--		multi-led@3 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <3>;
--			color = <LED_COLOR_ID_MULTI>;
--			function = LED_FUNCTION_ACTIVITY;
--			label = "scm";
--
--			led@0 {
--				reg = <0>;
--				color = <LED_COLOR_ID_RED>;
--			};
--
--			led@1 {
--				reg = <1>;
--				color = <LED_COLOR_ID_BLUE>;
--			};
--
--			led@2 {
--				reg = <2>;
--				color = <LED_COLOR_ID_GREEN>;
--			};
--		};
--	};
--};
--
--&i2c8 {
--	/*
--	 * PCA9548 (8-0070) provides 8 channels connecting to PDB (Power
--	 * Delivery Board).
--	 */
--	i2c-mux@70 {
--		compatible = "nxp,pca9548";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x70>;
--		i2c-mux-idle-disconnect;
--
--		imux40: i2c@0 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <0>;
--		};
--
--		imux41: i2c@1 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <1>;
--		};
--
--		imux42: i2c@2 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <2>;
--		};
--
--		imux43: i2c@3 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <3>;
--		};
--
--		imux44: i2c@4 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <4>;
--		};
--
--		imux45: i2c@5 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <5>;
--		};
--
--		imux46: i2c@6 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <6>;
--		};
--
--		imux47: i2c@7 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <7>;
--		};
--
--	};
--};
--
--&i2c15 {
--	/*
--	 * PCA9548 (15-0076) provides 8 channels connecting to FCM (Fan
--	 * Controller Module).
--	 */
--	i2c-mux@76 {
--		compatible = "nxp,pca9548";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x76>;
--		i2c-mux-idle-disconnect;
--
--		imux48: i2c@0 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <0>;
--		};
--
--		imux49: i2c@1 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <1>;
--		};
--
--		imux50: i2c@2 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <2>;
--		};
--
--		imux51: i2c@3 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <3>;
--		};
--
--		imux52: i2c@4 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <4>;
--		};
--
--		imux53: i2c@5 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <5>;
--		};
--
--		imux54: i2c@6 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <6>;
--		};
--
--		imux55: i2c@7 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <7>;
--		};
--	};
--};
--- 
-2.44.0
+Best regards,
+Krzysztof
 
