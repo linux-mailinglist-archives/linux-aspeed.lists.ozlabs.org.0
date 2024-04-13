@@ -2,54 +2,97 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFE38A3808
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Apr 2024 23:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481328A3B82
+	for <lists+linux-aspeed@lfdr.de>; Sat, 13 Apr 2024 09:47:53 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=DUsOkhGf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Su00PqHH;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VGVRr6bXyz3vZC
-	for <lists+linux-aspeed@lfdr.de>; Sat, 13 Apr 2024 07:43:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VGlsL2MNCz3vXd
+	for <lists+linux-aspeed@lfdr.de>; Sat, 13 Apr 2024 17:47:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=DUsOkhGf;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Su00PqHH;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=217.70.183.201; helo=relay8-d.mail.gandi.net; envelope-from=alexandre.belloni@bootlin.com; receiver=lists.ozlabs.org)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VGVRg512Hz3bv8
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 13 Apr 2024 07:43:08 +1000 (AEST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 73CB91BF204;
-	Fri, 12 Apr 2024 21:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712958183;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tMFYGKt8Bu7x5uUg4ZkcdxFN8tZOkh1RWzacUVnLx1k=;
-	b=DUsOkhGfs+S2lL7ghtnZAlYaMa/6YzxDPAfXVDsfCduvFfqDAn1+oFwiLOwhRa+G0iYJ4R
-	FBqhmwxd0i05VS21hI6J2WpEuWVxQbIjR8/p1nM2pUZJXmlaiTvZV1FpHt+TJFcOlgZ85d
-	p+e+CPOWYZoisQg0bgLRMjPVwJMKp2DCmOBAcZnyOKU8nJD21FwHCKIR8H/UA1wE02SBMu
-	pyRpXCEhR9h22YYQLOnXy4UWMoKl4SR3P970yt2wpWhaw4649CAhRRFPdjOhlL2fZeK7mL
-	ylZGNopM3wEuBSQN9J2L+B0PA3csLYO/8sf+MrZ/6qMaHtGRBv8ZM3/OWZo4vA==
-Date: Fri, 12 Apr 2024 23:43:00 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 2/4] dt-bindings: rtc: lpc32xx-rtc: convert to dtschema
-Message-ID: <20240412214300a31799c2@mail.local>
-References: <20240410-rtc_dtschema-v2-0-d32a11ab0745@gmail.com>
- <20240410-rtc_dtschema-v2-2-d32a11ab0745@gmail.com>
- <202404102043571b7450b5@mail.local>
- <130d47d8-3294-44be-9a8c-8474d342cb12@linaro.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VGlsB51tpz2yG9;
+	Sat, 13 Apr 2024 17:47:42 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 27F49CE1906;
+	Sat, 13 Apr 2024 07:47:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF77C113CD;
+	Sat, 13 Apr 2024 07:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712994458;
+	bh=NE/Dj9e6pUZKcTLWph4JFJHFVhf5t1nSl7AieWnTNCI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Su00PqHHy5fTFztHVReRFuH5YwReYulEdku7EM5ACmkstgpIPZfriwJ4SdaOe3hvk
+	 6QrED9NjSmOFIxnH5PlcxJMYJjiJxbIpYTIB8YWOGTnhDxYaP8qZ5wQUd31Bs00OE3
+	 HzYCmh66ew6vmWUOgg2Fi+wkmW6TpVS9P6d4NW6L5mwPqk613oUrWw3gmfr471CIfu
+	 FKMZuvROdEDqyJBkGcZ+vZOx9r+W96pnyF9hK3K6fGbdYpN+BZIQOiwgfplEqn8OHv
+	 AB9F3JZI8rfDIG6zfE385MAG7d1Hg2A25nMjyMUKT+GDBSTcvCS4VkUvFMpWm2aNlQ
+	 Ae/nmRg5qcWgw==
+Message-ID: <2a3e4ef9-1e4b-4f9e-a2f3-0ac95db42fdf@kernel.org>
+Date: Sat, 13 Apr 2024 09:47:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <130d47d8-3294-44be-9a8c-8474d342cb12@linaro.org>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: fsi: Document the IBM SBEFIFO engine
+To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
+References: <20240412144358.204129-1-eajames@linux.ibm.com>
+ <20240412144358.204129-2-eajames@linux.ibm.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <20240412144358.204129-2-eajames@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,102 +104,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-kernel@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Vladimir Zapolskiy <vz@mleia.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, alistair@popple.id.au, jk@ozlabs.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 11/04/2024 08:17:55+0200, Krzysztof Kozlowski wrote:
-> On 10/04/2024 22:43, Alexandre Belloni wrote:
-> > On 10/04/2024 17:55:34+0200, Javier Carrasco wrote:
-> >> Convert existing binding to dtschema to support validation.
-> >>
-> >> Add the undocumented 'clocks' property.
-> >>
-> >> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> >> ---
-> >>  .../devicetree/bindings/rtc/lpc32xx-rtc.txt        | 15 --------
-> >>  .../devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml   | 41 ++++++++++++++++++++++
-> >>  2 files changed, 41 insertions(+), 15 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt b/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt
-> >> deleted file mode 100644
-> >> index a87a1e9bc060..000000000000
-> >> --- a/Documentation/devicetree/bindings/rtc/lpc32xx-rtc.txt
-> >> +++ /dev/null
-> >> @@ -1,15 +0,0 @@
-> >> -* NXP LPC32xx SoC Real Time Clock controller
-> >> -
-> >> -Required properties:
-> >> -- compatible: must be "nxp,lpc3220-rtc"
-> >> -- reg: physical base address of the controller and length of memory mapped
-> >> -  region.
-> >> -- interrupts: The RTC interrupt
-> >> -
-> >> -Example:
-> >> -
-> >> -	rtc@40024000 {
-> >> -		compatible = "nxp,lpc3220-rtc";
-> >> -		reg = <0x40024000 0x1000>;
-> >> -		interrupts = <52 0>;
-> >> -	};
-> >> diff --git a/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml b/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml
-> >> new file mode 100644
-> >> index 000000000000..62ddeef961e9
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/rtc/nxp,lpc32xx-rtc.yaml
-> >> @@ -0,0 +1,41 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/rtc/nxp,lpc32xx-rtc.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: NXP LPC32xx SoC Real Time Clock
-> >> +
-> >> +maintainers:
-> >> +  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> >> +
-> >> +allOf:
-> >> +  - $ref: rtc.yaml#
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: nxp,lpc3220-rtc
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +
-> >> +  interrupts:
-> >> +    maxItems: 1
-> >> +
-> >> +  clocks:
-> >> +    maxItems: 1
-> > 
-> > As I explained the clock doesn't really exist, there is no control over
-> > it, it is a fixed 32768 Hz crystal, there is no point in describing it
-> > as this is already the input clock of the SoC.
+On 12/04/2024 16:43, Eddie James wrote:
+> The SBEFIFO engine provides an interface to the POWER processor
+> Self Boto Engine (SBE).
+
+Boot?
+
 > 
-> That's common for many SoCs but it is still (at least for them) input to
-> the RTC. On some SoC boards 32 kHz is controllable.
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  .../devicetree/bindings/fsi/ibm,sbefifo.yaml  | 39 +++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,sbefifo.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/fsi/ibm,sbefifo.yaml b/Documentation/devicetree/bindings/fsi/ibm,sbefifo.yaml
+> new file mode 100644
+> index 000000000000..d70012e42d79
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/fsi/ibm,sbefifo.yaml
+> @@ -0,0 +1,39 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/fsi/ibm,sbefifo.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: IBM FSI-attached SBEFIFO engine
+> +
+> +maintainers:
+> +  - Eddie James <eajames@linux.ibm.com>
+> +
+> +description: |
+> +  This binding describes an FSI CFAM engine called the SBEFIFO. Therefore this
 
-There is n way this can be controlled at the board level as the soc
-mandates a crystal. There is a control for the oscillator but it is not
-functional. This would be bit 5 of RTC_CTRL which is documented as such:
+Don't describe the binding, but the hardware. Drop redundant "This
+binding" and say what is the hardware here.
 
-"5 Not used. Write is don’t care, Read returns random value."
+> +  node will always be a child of an FSI CFAM node; see fsi.txt for details on
+> +  FSI slave and CFAM nodes. This SBEFIFO engine provides an interface to the
+> +  POWER processor Self Boot Engine (SBE).
+> +
 
-Even so, the clock wouldn't be an input to the RTC but it is provided by
-the RTC.
+With these two changes:
 
-I guess because it was easer to d so, the clock is defined in the clock
-controller driver:
-https://elixir.bootlin.com/linux/latest/source/drivers/clk/nxp/clk-lpc32xx.c#L1222
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-but, from an HW point of view, this is not correct.
+Best regards,
+Krzysztof
 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
