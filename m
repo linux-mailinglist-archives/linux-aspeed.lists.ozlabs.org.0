@@ -2,84 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11CF957919
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E43295791A
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:56:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqHv5lDZz3g6q
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqHw0FHhz3g7S
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dhDGRsKe;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=iCU8sGkO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::22e; helo=mail-lj1-x22e.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::632; helo=mail-ej1-x632.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VH4cb3stjz3vhk
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 14 Apr 2024 06:22:55 +1000 (AEST)
-Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2d8863d8a6eso24366601fa.3
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 13 Apr 2024 13:22:55 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VHy8b5v3Rz3bmN
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Apr 2024 16:35:11 +1000 (AEST)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-a44f2d894b7so286446966b.1
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 14 Apr 2024 23:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713039771; x=1713644571; darn=lists.ozlabs.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bf5pKtth7HyQMR2CRAxRCRRYX77dJfg+HACjzgrcpPA=;
-        b=dhDGRsKegR6cWv2xPQMKNRYG+KfkQGM16TTkm09rn4oUIeoUD2c8o8gISSy2eXxxl8
-         By93t31VSQTTELstiDREmA1LzJ0btRF8HzOmkdVnAa3NFqp4K5A+hgvdhgDD4StulwKc
-         PO6R3yovhp4rpqM1V3UCThTBFR2SkanExkf+urCMippakogtk/MZLj07kRHjlVgZ8txO
-         bF2PzIvPJeXlq+lqvzeo+sRW0nWQ1ETfnebygoWntL8bflnnFdKpQVwsv7dWDpxNKNyu
-         HHn3OAFoiJrSMIxTw9NEINQOU1lhBCtpLHA9xk+vWDkJGNWRXqSiphyCEYxLDtMbY4HZ
-         WvzA==
+        d=gmail.com; s=20230601; t=1713162907; x=1713767707; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eO+zx6q8xRqWwJnnrLSN3wSPdu79Tj6Uc62vZSkTLvo=;
+        b=iCU8sGkOGJ6kfFe4niVeJU+2NXhEI+xtHfUIxL40FlzSQENY5ARorWcoqkTth8RTTO
+         0LHnkbMt3Z5UCu68pmLA1MW8USzpRZj5nqJwWU8MGNUHF43llM5/s6I3iiBiPtM5drK/
+         S327fkJP6Enw1Iurstum2B6egKAOvn0Ws7DXewihIhVve680kwKtLGQMe8Ro1B9quMNo
+         eF0DyuxF/Dpo20bEDWTJ1Z1wFEIG0DIpYYpt4L2SRTIwBcqsaS5vhx68iNNrAsS5x0zs
+         HkFmiDOz+N8z9A0uoeTWYj3EyEkjB64QB+NMpPqikZz3mpvU1chDTpoFOoxFKGkqWR6m
+         6ffQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713039771; x=1713644571;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bf5pKtth7HyQMR2CRAxRCRRYX77dJfg+HACjzgrcpPA=;
-        b=es2DP6ZcwMTBG2NCxY9vFqN+MuiI2eStLJBX1XAhobACNtjbJiSlqIgoe8UaK2+tQN
-         D3AKOr3DPENot1Nv1HM/AkjTI6rKnWjI6MMVo9iqgSvAlhr4TGoXwDaux1ftO9Z0GypF
-         s/wnRMNdd9Oh1llUcubMpV5TWO0cogPKF2ZIKUlUCYekUmUdld9SfRaO2rhcr1qEaDYH
-         2Y6auR6Idrj6TdVwxlE92TCT7aH6TG4OIBQKsgxn8SvYGXaslJX3DrM+xWFwFKnRfoEs
-         yJHPL6Luq9YZsySpxc+XBaTvNFgt29LMCj9hi3MUadKK7r5RVvTYeBnVMCM4xTDIdT9a
-         fqFA==
-X-Forwarded-Encrypted: i=1; AJvYcCVuBQssF22X5FGUilMP4ictwVTh9OCm6uxLzwQzcsI7d3bh5tHnZvQQ+IOuheS2SQuN/TrgktLrPvtEhjoe0XLWukeFWbS+PTDzxytgjw==
-X-Gm-Message-State: AOJu0YzcvPjt5lWEzPziiSKRyA8DxIUXs+5cpgwjGHTz4NpPSIp246RK
-	cn0tucUblx99WqvwYXpNLQkVX+SzXztYBSqPEfU0C3H1KGOVPa7s
-X-Google-Smtp-Source: AGHT+IH8pm98C+MIRAOaUO30GuhCqlA7nqVnCkzi+qWv1twrQuvRXLCHEscsJF51tgcr39Bl8I72wA==
-X-Received: by 2002:a2e:b98a:0:b0:2d8:7320:e36a with SMTP id p10-20020a2eb98a000000b002d87320e36amr3641252ljp.17.1713039771430;
-        Sat, 13 Apr 2024 13:22:51 -0700 (PDT)
-Received: from [127.0.1.1] (84-115-213-64.cable.dynamic.surfer.at. [84.115.213.64])
-        by smtp.gmail.com with ESMTPSA id f16-20020a056402161000b0056e2f1d9152sm2881222edv.93.2024.04.13.13.22.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Apr 2024 13:22:51 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Sat, 13 Apr 2024 22:22:19 +0200
-Subject: [PATCH v3 4/4] dt-bindings: rtc: stmp3xxx-rtc: convert to dtschema
+        d=1e100.net; s=20230601; t=1713162907; x=1713767707;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eO+zx6q8xRqWwJnnrLSN3wSPdu79Tj6Uc62vZSkTLvo=;
+        b=xR3PrS4v90NMou7ps1faNOq0WSTsyjJ1VK9EK7GifmXsRctXC+NDjm2fa53oKka7ZD
+         vtGrejHliIJNKMv31sA0Bm9F2/CntFgTfBORxdw+hFZnRybwHkLzkAktRQXqu/PwKhGE
+         0HkvmAPowhFV+HW+8zZ1fwJOi1esmAjVBgPsUAxdKGdqvQTV84ZCwNUfgaOW8t62rSoJ
+         KJw6i/6k5AXPpXdtfVjuA0GfHO7UmaCfrBg9xUYW0oebtmM0NzWLjHZ399EOP9YP+oKH
+         p+feK4/vBpFxY6qzHgo7ptiNqKgVosnGPZ+aFMM+YslD9/JPrRGCnADlr/YW5jvdS7JB
+         t7Og==
+X-Forwarded-Encrypted: i=1; AJvYcCXGoSzAYJ6ZAlMwWzAj6MTfIEmgs3TcuZwkmb6T5NL+vF3YlJGYiir1evStQCpZknb+oqWl6ptZE1fnKxwJ3OllQX6gJs63iXZxIDB5Kg==
+X-Gm-Message-State: AOJu0YyUY1CcJyM2zGW69VeZoYKBVPsyWknI8z2PCJPx6a6I6rmNEBft
+	atEWtAtT5wW/3YKBQzkTjymyg8bzczR4+MIwlxIEDepOdg3hK77i
+X-Google-Smtp-Source: AGHT+IFBOaepaDHEEJj8Porx550BDTPgEDltcVsWd0z0QitZDRqQ83vy5NmfqW3SvdZYQ/SrAz8Q5A==
+X-Received: by 2002:a17:906:b80c:b0:a54:3e6c:c9d7 with SMTP id dv12-20020a170906b80c00b00a543e6cc9d7mr271692ejb.65.1713162907275;
+        Sun, 14 Apr 2024 23:35:07 -0700 (PDT)
+Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id ae12-20020a17090725cc00b00a529aeb4eccsm412271ejc.140.2024.04.14.23.35.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Apr 2024 23:35:06 -0700 (PDT)
+Message-ID: <9b33192d-6245-45e1-bcba-c2339e18f77c@gmail.com>
+Date: Mon, 15 Apr 2024 08:35:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240413-rtc_dtschema-v3-4-eff368bcc471@gmail.com>
-References: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
-In-Reply-To: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] dt-bindings: rtc: convert trivial devices into
+ dtschema
+To: Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1713039763; l=2723;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=BajpLIZvweL+aLqlkIOgDvaU5J35KCKUJstIeHQsxoU=;
- b=S/47bucyIciRGwOyIDM4sCMC2ax8kTneRsSd1bLRdQE94vG3Y0Nxyh/wm8FM1t7r6CkFTA87M
- btFBUkYaNdOD81nx3eSUsBIfPwCF1xZL4/z7cQjrzsUTpq8WroVMQuO
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+References: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
+ <20240413-rtc_dtschema-v3-2-eff368bcc471@gmail.com>
+ <82fcd7a4532df119f82ea55208f592460ba5358e.camel@codeconstruct.com.au>
+Content-Language: en-US, de-AT
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <82fcd7a4532df119f82ea55208f592460ba5358e.camel@codeconstruct.com.au>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -92,104 +89,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Convert existing binding to dtschema to support validation and
-add the undocumented compatible 'fsl,imx23-rtc'.
+On 4/15/24 02:09, Andrew Jeffery wrote:
+> On Sat, 2024-04-13 at 22:22 +0200, Javier Carrasco wrote:
+>> These RTCs meet the requirements for a direct conversion into
+>> trivial-rtc:
+>>
+>> - google,goldfish-rtc
+>> - maxim,ds1742
+>> - lpc32xx-rtc
+>> - orion-rtc
+>> - rtc-aspeed
+>> - spear-rtc
+>> - via,vt8500-rtc
+>>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> 
+> We have trailers above but then there's more commit message content
+> below. Looks like what's below should be trimmed out (bad squash)?
+> Maybe the trimming could be done as its applied?
+> 
+>>
+>> dt-bindings: rtc: lpc32xx-rtc: convert to dtschema
+>>
+>> Convert existing binding to dtschema to support validation.
+>>
+>> Add the undocumented 'clocks' property.
+>>
+>> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> 
+> Andrew
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- .../devicetree/bindings/rtc/fsl,stmp3xxx-rtc.yaml  | 51 ++++++++++++++++++++++
- .../devicetree/bindings/rtc/stmp3xxx-rtc.txt       | 21 ---------
- 2 files changed, 51 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/rtc/fsl,stmp3xxx-rtc.yaml b/Documentation/devicetree/bindings/rtc/fsl,stmp3xxx-rtc.yaml
-new file mode 100644
-index 000000000000..534de4196a4f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/rtc/fsl,stmp3xxx-rtc.yaml
-@@ -0,0 +1,51 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/rtc/fsl,stmp3xxx-rtc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: STMP3xxx/i.MX28 Time Clock Controller
-+
-+maintainers:
-+  - Javier Carrasco <javier.carrasco.cruz@gmail.com>
-+
-+allOf:
-+  - $ref: rtc.yaml#
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - fsl,imx28-rtc
-+              - fsl,imx23-rtc
-+          - const: fsl,stmp3xxx-rtc
-+      - const: fsl,stmp3xxx-rtc
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  stmp,crystal-freq:
-+    description:
-+      Override crystal frequency as determined from fuse bits.
-+      Use <0> for "no crystal".
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [0, 32000, 32768]
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    rtc@80056000 {
-+        compatible = "fsl,imx28-rtc", "fsl,stmp3xxx-rtc";
-+        reg = <0x80056000 2000>;
-+        interrupts = <29>;
-+    };
-diff --git a/Documentation/devicetree/bindings/rtc/stmp3xxx-rtc.txt b/Documentation/devicetree/bindings/rtc/stmp3xxx-rtc.txt
-deleted file mode 100644
-index fa6a94226669..000000000000
---- a/Documentation/devicetree/bindings/rtc/stmp3xxx-rtc.txt
-+++ /dev/null
-@@ -1,21 +0,0 @@
--* STMP3xxx/i.MX28 Time Clock controller
--
--Required properties:
--- compatible: should be one of the following.
--    * "fsl,stmp3xxx-rtc"
--- reg: physical base address of the controller and length of memory mapped
--  region.
--- interrupts: rtc alarm interrupt
--
--Optional properties:
--- stmp,crystal-freq: override crystal frequency as determined from fuse bits.
--  Only <32000> and <32768> are possible for the hardware.  Use <0> for
--  "no crystal".
--
--Example:
--
--rtc@80056000 {
--	compatible = "fsl,imx28-rtc", "fsl,stmp3xxx-rtc";
--	reg = <0x80056000 2000>;
--	interrupts = <29>;
--};
+You are right, the commit message content below your comment should not
+be there. I can send a new version to trim it away if that is preferred.
 
--- 
-2.40.1
-
+Best regards,
+Javier Carrasc
