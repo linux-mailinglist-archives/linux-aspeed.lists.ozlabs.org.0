@@ -1,56 +1,89 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FCE8A46AE
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Apr 2024 04:00:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 233838A55CA
+	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Apr 2024 16:59:55 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=hBy7g+t/;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KCh//Y+M;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VHr3n5xYNz3cQm
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Apr 2024 12:00:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VJ9Lx03lQz3dVX
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Apr 2024 00:59:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=hBy7g+t/;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KCh//Y+M;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VHr3T5zQnz3dWC
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Apr 2024 12:00:21 +1000 (AEST)
-Received: from [192.168.68.112] (ppp14-2-127-66.adl-apt-pir-bras32.tpg.internode.on.net [14.2.127.66])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 02EBF20178;
-	Mon, 15 Apr 2024 10:00:16 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1713146421;
-	bh=4JN0tAr608v0a3WDiRHuCB76k+2EG5tPDD9zb/YKbbI=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=hBy7g+t/Ktc0HAQjVZsZridZcZqOWWQUY7N0QVUIDq3zNeN4Im8BKMf0qtOycLPXi
-	 xBq4fpA/kaZH5goAwfoueX3uRkyimqDvxdbM52pyC3hfSDatmoJe1kl6ozjBTPs4CY
-	 c60IMdkEeknajh1SnLUfVkJQrpEkaCyTofYpfp0oMJX/cwBmLOrAuJiLWp835MUUpJ
-	 ky9NnYGT7Tkl/mHVXIXEA+ckKd7KWMT8CPcjfWmwy9gvqx2ln6DKxj5Yequ0yDiPAP
-	 XDn7sDcV0z7drPRCSMhIljXQ+BFp5phmwfcxiysZD70PCq7vWWJT5pSfkNhcv/YCEG
-	 p4cShrTqagJSg==
-Message-ID: <3eb80a2f21a96cc0fc275db60631f673bb14e77f.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v5 00/12] Revise Meta(Facebook) Harma BMC(AST2600)
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Date: Mon, 15 Apr 2024 11:30:14 +0930
-In-Reply-To: <20240412091600.2534693-1-peteryin.openbmc@gmail.com>
-References: <20240412091600.2534693-1-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VJ9Lk6l15z3cGM;
+	Tue, 16 Apr 2024 00:59:42 +1000 (AEST)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43FETkQu011449;
+	Mon, 15 Apr 2024 14:59:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ANpJKg4fSvv7T8IJ3z3Xv+8MFN7yFYbJ/uNg2e5H7YI=;
+ b=KCh//Y+MVcCEuPCfzf0qwOuWIGSaK8siSAEG8QWvvTozFhUt/5NpADUOQZzFGzkam2oQ
+ 1j99C1egg22xw+oj799ApaoYZw1ITXZDMi3k5IauWPhFjWc+JqgXc/IrJQxhQlshKOHq
+ WSgqNw21LChm7PAZ89x8H9psxsaOshdmtPGiTwHQvJKXlNVfbAEtA88Sb+aQoak/eJN0
+ fcP9vtJsyoeAkS+jQgMv6QT4sylg3/mlidajn9Ff3Vy8b4FpXlx/nrQEw32IwAz3y+jE
+ Hc7i/77g9cGekmHNKHL3lUAsc5sdtn2HxJHWBuoFVcuwpwHNZjSjq+jdUTSk2LMrb/BB xg== 
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xfj6gv322-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Apr 2024 14:59:31 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43FEF9ht021350;
+	Mon, 15 Apr 2024 14:59:30 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xg6kk847a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 15 Apr 2024 14:59:30 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43FExRmV17498822
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 15 Apr 2024 14:59:29 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 911BE58065;
+	Mon, 15 Apr 2024 14:59:27 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 528DF5805E;
+	Mon, 15 Apr 2024 14:59:27 +0000 (GMT)
+Received: from [9.61.157.174] (unknown [9.61.157.174])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 15 Apr 2024 14:59:27 +0000 (GMT)
+Message-ID: <0363badd-f5b0-42bd-bdd5-de6e7b5ee8c6@linux.ibm.com>
+Date: Mon, 15 Apr 2024 09:59:27 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] ARM: dts: aspeed: Update Odyssey SBEFIFO compatible
+ strings
+To: Andrew Jeffery <andrew@codeconstruct.com.au>,
+        linux-aspeed@lists.ozlabs.org
+References: <20240412144358.204129-1-eajames@linux.ibm.com>
+ <20240412144358.204129-4-eajames@linux.ibm.com>
+ <5c6f58cc13492988d307504d55cc5d31a512ab8c.camel@codeconstruct.com.au>
+Content-Language: en-US
+From: Eddie James <eajames@linux.ibm.com>
+In-Reply-To: <5c6f58cc13492988d307504d55cc5d31a512ab8c.camel@codeconstruct.com.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Mmzb_TfijQ4ZpDE3zFyVGlCbblj5bn5R
+X-Proofpoint-ORIG-GUID: Mmzb_TfijQ4ZpDE3zFyVGlCbblj5bn5R
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-15_12,2024-04-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ adultscore=0 mlxscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2404010000
+ definitions=main-2404150097
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,68 +95,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, alistair@popple.id.au, jk@ozlabs.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 2024-04-12 at 17:15 +0800, Peter Yin wrote:
-> Summary:
-> Revise linux device tree entry related to Meta(Facebook) Harma
-> specific devices connected to BMC(AST2600) SoC.
->=20
-> Base on : https://lore.kernel.org/all/CACPK8XePx+PvDKzPMjPRn_g9z8yrtAmLvP=
-8Qbepm1AVjuCbaKw@mail.gmail.com/
->=20
-> Change log:
->=20
-> v4 -> v5
->   - Patch 0011 - Add retimer device
->   - Patch 0012 - Modify gpio line name
->=20
-> v3 -> v4
->   - Patch 0010 - Revise node name
->   - fixed PDB temperature node name in Patch 0006
->=20
-> v2 -> v3
->   - Patch 0007 - Revise max31790 address
->   - Patch 0008 - Harma: Add NIC Fru device
->   - Patch 0009 - Add ltc4286 device
->=20
-> v1 -> v2
->   - Add infineon,slb9670 information for tpm.
->   - Patch 0006 - Add PDB temperature.
->=20
-> v1
->   - Patch 0001 - Revise SGPIO line name.
->   - Patch 0002 - Mapping ttyS2 to UART4.
->   - Patch 0003 - Remove Vuart.
->   - Patch 0004 - Add cpu power good line name.
->   - Patch 0005 - Add spi-gpio.
->=20
-> Peter Yin (12):
->   ARM: dts: aspeed: Harma: Revise SGPIO line name.
->   ARM: dts: aspeed: Harma: mapping ttyS2 to UART4.
->   ARM: dts: aspeed: Harma: Remove Vuart
->   ARM: dts: aspeed: Harma: Add cpu power good line name
->   ARM: dts: aspeed: Harma: Add spi-gpio
->   ARM: dts: aspeed: Harma: Add PDB temperature
->   ARM: dts: aspeed: Harma: Revise max31790 address
->   ARM: dts: aspeed: Harma: Add NIC Fru device
->   ARM: dts: aspeed: Harma: Add ltc4286 device
->   ARM: dts: aspeed: Harma: Revise node name
->   ARM: dts: aspeed: Harma: Add retimer device
->   ARM: dts: aspeed: Harma: Modify GPIO line name
->=20
->  .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 107 ++++++++++++++----
->  1 file changed, 85 insertions(+), 22 deletions(-)
->=20
 
-Joel had applied an earlier version of this series to his for-next
-branch. I'm collecting patches targeting it while he's on leave. I've
-updated the series he'd applied to the v5 you've posted here.
+On 4/14/24 19:54, Andrew Jeffery wrote:
+> On Fri, 2024-04-12 at 09:43 -0500, Eddie James wrote:
+>> Set the new compatible string for Odyssey SBEFIFOs so that they
+>> don't collect async FFDC.
+>>
+>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>> ---
+>>   .../dts/aspeed/aspeed-bmc-ibm-everest.dts     | 64 +++++++++----------
+>>   .../arm/boot/dts/aspeed/ibm-power10-quad.dtsi | 64 +++++++++----------
+>>   2 files changed, 64 insertions(+), 64 deletions(-)
+>>
+>> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+>> index 214b2e6a4c6d..3a2bfdf035cb 100644
+>> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+>> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+>> @@ -2545,7 +2545,7 @@ scom500: scom@1000 {
+>>   						};
+>>   
+>>   						sbefifo500: sbefifo@2400 {
+>> -							compatible = "ibm,p9-sbefifo";
+>> +							compatible = "ibm,ody-sbefifo";
+>>   							reg = <0x2400 0x400>;
+>>   							#address-cells = <1>;
+>>   							#size-cells = <0>;
+>
+> Bit of a drive-by comment as I'm not really holding any stakes here,
+> but did the hardware actually change?
 
-Can you please post any further changes as patches on top? You can find
-my branch here:
 
-https://github.com/amboar/linux/tree/for/bmc/dt-6.10
+Yes, the hardware did change in the Odyssey version.
 
-Andrew
+>
+> Would it be better to request the behaviour by a property rather than
+> changing the compatible?
+
+
+I'm not sure! In the past devicetree maintainers have objected to 
+behavioral type properties, like the FSI scan behavior one...
+
+
+Thanks for the review!
+
+Eddie
+
+
+>
+> Andrew
