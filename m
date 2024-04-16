@@ -1,54 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF598A7235
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Apr 2024 19:25:50 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DDB8A7805
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 00:47:35 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=R1MQ0yXd;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fDY7FhvJ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VJrXq6tV8z3h05
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 03:25:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VJzh539Ztz3vXd
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 08:47:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=R1MQ0yXd;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fDY7FhvJ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.11; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 64 seconds by postgrey-1.37 at boromir; Wed, 17 Apr 2024 08:47:27 AEST
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VJrXf5ZqGz30Np;
-	Wed, 17 Apr 2024 03:25:38 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 05C226125F;
-	Tue, 16 Apr 2024 17:25:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B64C32783;
-	Tue, 16 Apr 2024 17:25:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713288334;
-	bh=SAa9s3VJpC0ue6WJQEp5gjjZX/3kAnQf4xSZ8MArlO4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R1MQ0yXdgMP7a9GSZTNHVYo8piid3ASYxDLSjEJUL/kOnd24CQB4qd81mSGI2c8fj
-	 nDB2W3o8qjhdPEoCD3Ws9AUpXM+HgXpVe3vz1hpWFoi+U/mFEHuoANJ67xxGKklrr9
-	 WgOx0Q1EERTaV79CMuj+RlVdq4fflk5jFmYsdkmpe/tFAQgNavNRsqxEgE0P3IY7Sg
-	 JCqE2Cmiw/X6PGbNFleYVa9OWgCYb7+Lv4FAAlI1bIvpE5tqvjiZf71x/7ml9Z9ONa
-	 3QGPSq1eYpS1U+WjWNKic2PjbIPb7nsJJgGF2EQ1p5w4Rp5m/JZedSN+MdiDuqjslq
-	 TLoE3V95zThGQ==
-Date: Tue, 16 Apr 2024 18:25:30 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Eddie James <eajames@linux.ibm.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: fsi: Document the IBM SBEFIFO engine
-Message-ID: <20240416-askew-slapstick-994453ecbf73@spud>
-References: <20240415153907.10051-1-eajames@linux.ibm.com>
- <20240415153907.10051-2-eajames@linux.ibm.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VJzgz0D9yz3c9N
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Apr 2024 08:47:26 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713307647; x=1744843647;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ruPLZtboEM5XulxQNfwB0Bs5ITsVQhPBESRc6EcWqdU=;
+  b=fDY7FhvJQ5bYTZxwr1GN73UfYHQ8ozWlbGZ8eRfj4T/5eIi8Jps+Qrmi
+   2G5/RoTe8x0WxsCk/d2wN9hnhhu5VGEs3NVC06cjBYGW657mW+jFwnzVs
+   OK37zA4STpdta4VPs55wIsEeov/gcQ9PKifkxW73/8SHuAsI3N1CtzS2N
+   dUjQlUtxE/qzN/FzTtq5Mack4evJY5tseqgri5k+fz0ZFV3mgGthae5+R
+   6f+T4m4eSQa3g8OOc7x/+A5MXUxyTG+jUufI6Nm57sV3utvldof013nwE
+   d76dXJVSVsR5PAPrk31RMP/OtFY5RjKWZgnmsPi0DqSHrHezXBKVkkOa/
+   g==;
+X-CSE-ConnectionGUID: WkK3uB8BT367PwndHHexoQ==
+X-CSE-MsgGUID: euU7ZzrSRZKpTQms7weAkQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="19336469"
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="19336469"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 15:46:17 -0700
+X-CSE-ConnectionGUID: XGtGOWL5S2adDgWQ0szi3g==
+X-CSE-MsgGUID: ljDqj6luS4yibYyUZCSvJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="53381544"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 16 Apr 2024 15:46:13 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwrZ5-0005nw-0D;
+	Tue, 16 Apr 2024 22:46:11 +0000
+Date: Wed, 17 Apr 2024 06:45:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Subject: Re: [PATCH 2/9] dt-bindings: rtc: google,goldfish-rtc: move to
+ trivial-rtc
+Message-ID: <202404170656.LoL9eBYs-lkp@intel.com>
+References: <20240408-rtc_dtschema-v1-2-c447542fc362@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="MSKVpxQ0QimsDgBf"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240415153907.10051-2-eajames@linux.ibm.com>
+In-Reply-To: <20240408-rtc_dtschema-v1-2-c447542fc362@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,104 +84,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, alistair@popple.id.au, jk@ozlabs.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
+Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Javier,
 
---MSKVpxQ0QimsDgBf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Mon, Apr 15, 2024 at 10:39:05AM -0500, Eddie James wrote:
-> The SBEFIFO engine provides an interface to the POWER processor
-> Self Boot Engine (SBE).
->=20
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> ---
-> Changes since v1:
->  - Chance "ody" to "odyssey"
->  - Fix typo in commit message
->  - Reword description to describe the hardware only
->=20
->  .../devicetree/bindings/fsi/ibm,sbefifo.yaml  | 39 +++++++++++++++++++
->  1 file changed, 39 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,sbefifo.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/fsi/ibm,sbefifo.yaml b/Doc=
-umentation/devicetree/bindings/fsi/ibm,sbefifo.yaml
-> new file mode 100644
-> index 000000000000..69521b1cfb25
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/fsi/ibm,sbefifo.yaml
+[auto build test WARNING on fec50db7033ea478773b159e0e2efb135270e3b7]
 
-Filename matching a compatible please.
+url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Carrasco/dt-bindings-rtc-orion-rtc-move-to-trivial-rtc/20240408-235612
+base:   fec50db7033ea478773b159e0e2efb135270e3b7
+patch link:    https://lore.kernel.org/r/20240408-rtc_dtschema-v1-2-c447542fc362%40gmail.com
+patch subject: [PATCH 2/9] dt-bindings: rtc: google,goldfish-rtc: move to trivial-rtc
+reproduce: (https://download.01.org/0day-ci/archive/20240417/202404170656.LoL9eBYs-lkp@intel.com/reproduce)
 
-> @@ -0,0 +1,39 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/fsi/ibm,sbefifo.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: IBM FSI-attached SBEFIFO engine
-> +
-> +maintainers:
-> +  - Eddie James <eajames@linux.ibm.com>
-> +
-> +description: |
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170656.LoL9eBYs-lkp@intel.com/
 
-This | should not be needed, there's no formatting to preserve.
+All warnings (new ones prefixed by >>):
 
-> +  The SBEFIFO is an FSI CFAM engine that provides an interface to the
-> +  POWER processor Self Boot Engine (SBE). This node will always be a chi=
-ld
-> +  of an FSI CFAM node; see fsi.txt for details on FSI slave and CFAM
-> +  nodes.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ibm,p9-sbefifo
-> +      - ibm,odyssey-sbefifo
-> +
-> +  reg:
-> +    items:
-> +      - description: FSI slave address
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    sbefifo@2400 {
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
+   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/rtc/google,goldfish-rtc.txt
+   Using alabaster theme
 
-Per fsi.txt, the generic node name looks like it should be
-"fsi-slave-engine"?
-
-Cheers,
-Conor.
-
-> +        compatible =3D "ibm,p9-sbefifo";
-> +        reg =3D <0x2400 0x400>;
-> +    };
-> --=20
-> 2.39.3
->=20
-
---MSKVpxQ0QimsDgBf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh60igAKCRB4tDGHoIJi
-0riyAP9Y7YRTnsQXUck7bocG8d1Z6DOgkf6/GdAs2Q40yO93dQD/Ssb64e2hbTr4
-L5rS5qThpe1oEpcgL5WCoik0TlQLeQ0=
-=9qd6
------END PGP SIGNATURE-----
-
---MSKVpxQ0QimsDgBf--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
