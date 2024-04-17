@@ -2,62 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251808A8C35
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 21:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA94E8A8F91
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Apr 2024 01:42:12 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=ghgGf2f4;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=JbP2WTgy;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VKWPp2tL0z3cQX
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Apr 2024 05:37:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VKcrf3Dx9z3cTd
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Apr 2024 09:42:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=ghgGf2f4;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=JbP2WTgy;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::225; helo=relay5-d.mail.gandi.net; envelope-from=alexandre.belloni@bootlin.com; receiver=lists.ozlabs.org)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VKWPZ3ZYGz3cG6
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Apr 2024 05:36:47 +1000 (AEST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 897C81C0004;
-	Wed, 17 Apr 2024 19:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713382596;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X7evEF4M6GPcsPmLEVtaklRbN3oddZv23iJJ5uZYo1w=;
-	b=ghgGf2f45IeZTXjBpsGdPMuWd1ncRBP1tqlf2U9a+XPR5jSAhD4+4upvFNHMlyVPsCQSXS
-	ZPMUAxlsZe3Poc2g1mfKVxsHZjKyzZcY/CSKtT+wx13A8fDkhPEb5OBekyEVmGq2Vi3IxQ
-	HkCZ1eX5JNxCCh2Bx2gfvDdeI4XIxZrWbMKh9s1R/eoKAqhaZteRCf7jhRvpDk00wfo9fL
-	ukWFfn4bFOfXq8NxS4XWkIaJFfj9dArEtefST2GeJiGv6jbjmWvlpWehVC+fM9nTM62le2
-	vhXQnW/jGpc9fBEz0qUqKZHeEmP0LtHv/0qxVErouShhNPVwHO3jsflfEiWGeQ==
-Date: Wed, 17 Apr 2024 21:36:31 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Subject: Re: (subset) [PATCH v3 0/4] rtc: convert multiple bindings into
- dtschema
-Message-ID: <171338250318.37347.8193747079895691565.b4-ty@bootlin.com>
-References: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VKcrS5v7cz30PD;
+	Thu, 18 Apr 2024 09:42:00 +1000 (AEST)
+Received: from [192.168.68.112] (ppp14-2-127-66.adl-apt-pir-bras32.tpg.internode.on.net [14.2.127.66])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 5185E20157;
+	Thu, 18 Apr 2024 07:41:52 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1713397315;
+	bh=d/AzyoJNXW+kEe+3Im15qH+BP+LWLSajKmHbYzbPun0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=JbP2WTgygM6dBAHFoxSdQ6T212Uf4v+Ybq4wDbS0DSrHZeSt7LdobuhADZU0LIOuu
+	 hKJCcA+xcCQFvu9kiLAMB+u2aSjNCVCLl+/tYrIjdQNg/JfZ4oY8Z74kP1TVvrvdaE
+	 sP5pD5es95wkSXN7dX1UMQXOz7Sl65UwHMJVNpKdXpIqU0l0qVa4Szo+/Q74adprb+
+	 bZYKBXWOpB6sIVnjGSfwEAv3DOcV5CbxUAsMTiF8r7Gj/3CVHpPSRJC8ObCp6cvTVJ
+	 l5RfLEroZqsEiE+dNjV2cUhX3vtTXJkQAwgyx2xjrMFuH+aCF9BNhMdwZ/r1mC11ZN
+	 K3jtG3p2kqiOQ==
+Message-ID: <7b0ef5c90138e8c1d1829de249a480709170141b.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] peci: aspeed: Clear clock_divider value before setting
+ it
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Iwona Winiarska <iwona.winiarska@intel.com>, openbmc@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org
+Date: Thu, 18 Apr 2024 09:11:47 +0930
+In-Reply-To: <20240417134849.5793-1-iwona.winiarska@intel.com>
+References: <20240417134849.5793-1-iwona.winiarska@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
-X-Spam-Flag: yes
-X-Spam-Level: **************************
-X-GND-Spam-Score: 400
-X-GND-Status: SPAM
-X-GND-Sasl: alexandre.belloni@bootlin.com
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +60,19 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, 13 Apr 2024 22:22:15 +0200, Javier Carrasco wrote:
-> This series converts the following bindings into dtschema, moving them
-> to trivial-rtc whenever possible:
-> 
-> - google,goldfish-rtc: trivial-rtc, referenced in mips arch.
-> - lpc32xx-rtc: trivial-rtc, referenced in arm arch.
-> - maxim,ds1742: trivial-rtc, not referenced in arch, cheap conversion.
-> - orion-rtc: trival-rtc, referenced in arm arch.
-> - pxa-rtc: add missing properties and convert. Referenced in arm arch.
-> - rtc-aspeed: 3 devices to trivial-rtc, all referenced in arm arch.
-> - st,spear600-rtc: trivial-rtc, referenced in arm arch.
-> - stmp3xxx-rtc: add compatibles and convert, referenced in arm arch.
-> - via,vt8500-rtc: trivial-rtc, referenced in arm arch.
-> 
-> [...]
+Hi Iwona,
 
-Applied, thanks!
+On Wed, 2024-04-17 at 15:48 +0200, Iwona Winiarska wrote:
+> PECI clock divider is programmed on 10:8 bits of PECI Control register.
+> Before setting a new value, clear bits read from hardware.
+>=20
+> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
 
-[3/4] dt-bindings: rtc: pxa-rtc: convert to dtschema
-      https://git.kernel.org/abelloni/c/bbd3e43662d7
-[4/4] dt-bindings: rtc: stmp3xxx-rtc: convert to dtschema
-      https://git.kernel.org/abelloni/c/c3a0ee85f6e3
-[2/4] dt-bindings: rtc: convert trivial devices into dtschema
-      https://git.kernel.org/abelloni/c/1c431b92e21b
+I think it would be best to add a Fixes: tag and Cc: stable in
+accordance with the stable tree rules. Are you happy to do so?
 
-Best regards,
+Andrew
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
