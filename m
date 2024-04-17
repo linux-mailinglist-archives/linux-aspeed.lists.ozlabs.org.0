@@ -1,78 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DDB8A7805
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 00:47:35 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 436578A7CA8
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 09:02:29 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fDY7FhvJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=IhnlJG9Q;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VJzh539Ztz3vXd
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 08:47:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VKBg70LjQz3dwG
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 17:02:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fDY7FhvJ;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=IhnlJG9Q;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.11; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 64 seconds by postgrey-1.37 at boromir; Wed, 17 Apr 2024 08:47:27 AEST
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VJzgz0D9yz3c9N
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Apr 2024 08:47:26 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713307647; x=1744843647;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ruPLZtboEM5XulxQNfwB0Bs5ITsVQhPBESRc6EcWqdU=;
-  b=fDY7FhvJQ5bYTZxwr1GN73UfYHQ8ozWlbGZ8eRfj4T/5eIi8Jps+Qrmi
-   2G5/RoTe8x0WxsCk/d2wN9hnhhu5VGEs3NVC06cjBYGW657mW+jFwnzVs
-   OK37zA4STpdta4VPs55wIsEeov/gcQ9PKifkxW73/8SHuAsI3N1CtzS2N
-   dUjQlUtxE/qzN/FzTtq5Mack4evJY5tseqgri5k+fz0ZFV3mgGthae5+R
-   6f+T4m4eSQa3g8OOc7x/+A5MXUxyTG+jUufI6Nm57sV3utvldof013nwE
-   d76dXJVSVsR5PAPrk31RMP/OtFY5RjKWZgnmsPi0DqSHrHezXBKVkkOa/
-   g==;
-X-CSE-ConnectionGUID: WkK3uB8BT367PwndHHexoQ==
-X-CSE-MsgGUID: euU7ZzrSRZKpTQms7weAkQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="19336469"
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="19336469"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 15:46:17 -0700
-X-CSE-ConnectionGUID: XGtGOWL5S2adDgWQ0szi3g==
-X-CSE-MsgGUID: ljDqj6luS4yibYyUZCSvJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="53381544"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 16 Apr 2024 15:46:13 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwrZ5-0005nw-0D;
-	Tue, 16 Apr 2024 22:46:11 +0000
-Date: Wed, 17 Apr 2024 06:45:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Subject: Re: [PATCH 2/9] dt-bindings: rtc: google,goldfish-rtc: move to
- trivial-rtc
-Message-ID: <202404170656.LoL9eBYs-lkp@intel.com>
-References: <20240408-rtc_dtschema-v1-2-c447542fc362@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VKBfm35bxz3d2S;
+	Wed, 17 Apr 2024 17:02:07 +1000 (AEST)
+Received: from [192.168.68.112] (ppp14-2-127-66.adl-apt-pir-bras32.tpg.internode.on.net [14.2.127.66])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id AD9D62014E;
+	Wed, 17 Apr 2024 15:02:03 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1713337326;
+	bh=ZxepRbuU81znKKBJUp2an9YnHRJEcdcrvB5/JBfkBzc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=IhnlJG9QuuY++62V4r6ZIvAabso2ciO40kxF5/EipC4mSAph3Yo6yuvZNTSOH27Nu
+	 80qpLqBSdJtHHvytffJeIZRufLdXguUy0PMwzM5fwBGRYyalXiOWuTPdPiqtJ2VpMh
+	 9WjT0HZAyTSzDTbi6VfQdTaT/MryGKNeNBS+z/24icWi3TDbv2QcfOmcIO3B6StNe7
+	 aT3msUfqQUfqL72SIV5XjwRlHbE1P3yXLex9EoSN7uZkk7/sgxADyulPs3r9CWDjCV
+	 MdiXt57U6zhI/xbfDzT4NI384gsv6HCNzv4Is3o6sRTsUMLL+MhDtQJKkLQbp+IO8h
+	 6GKSbvqUCgmrw==
+Message-ID: <a935d2a6ec3b0ab847b662d05bcea8408077511d.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 3/3] ARM: dts: aspeed: Update Odyssey SBEFIFO compatible
+ strings
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
+Date: Wed, 17 Apr 2024 16:32:01 +0930
+In-Reply-To: <2ee4084d-1891-4ea4-ba3d-b99ee1d7b5fb@linux.ibm.com>
+References: <20240412144358.204129-1-eajames@linux.ibm.com>
+	 <20240412144358.204129-4-eajames@linux.ibm.com>
+	 <5c6f58cc13492988d307504d55cc5d31a512ab8c.camel@codeconstruct.com.au>
+	 <0363badd-f5b0-42bd-bdd5-de6e7b5ee8c6@linux.ibm.com>
+	 <90ced7e271213da481f7c0ec883d0189671563e8.camel@codeconstruct.com.au>
+	 <2ee4084d-1891-4ea4-ba3d-b99ee1d7b5fb@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240408-rtc_dtschema-v1-2-c447542fc362@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,36 +63,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, alistair@popple.id.au, jk@ozlabs.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Javier,
+On Tue, 2024-04-16 at 09:48 -0500, Eddie James wrote:
+> On 4/15/24 19:06, Andrew Jeffery wrote:
+> > On Mon, 2024-04-15 at 09:59 -0500, Eddie James wrote:
+> > > On 4/14/24 19:54, Andrew Jeffery wrote:
+> > > > On Fri, 2024-04-12 at 09:43 -0500, Eddie James wrote:
+> > > > > Set the new compatible string for Odyssey SBEFIFOs so that they
+> > > > > don't collect async FFDC.
+> > > > >=20
+> > > > > Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> > > > > ---
+> > > > >    .../dts/aspeed/aspeed-bmc-ibm-everest.dts     | 64 +++++++++--=
+--------
+> > > > >    .../arm/boot/dts/aspeed/ibm-power10-quad.dtsi | 64 +++++++++--=
+--------
+> > > > >    2 files changed, 64 insertions(+), 64 deletions(-)
+> > > > >=20
+> > > > > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts =
+b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+> > > > > index 214b2e6a4c6d..3a2bfdf035cb 100644
+> > > > > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+> > > > > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+> > > > > @@ -2545,7 +2545,7 @@ scom500: scom@1000 {
+> > > > >    						};
+> > > > >   =20
+> > > > >    						sbefifo500: sbefifo@2400 {
+> > > > > -							compatible =3D "ibm,p9-sbefifo";
+> > > > > +							compatible =3D "ibm,ody-sbefifo";
+> > > > >    							reg =3D <0x2400 0x400>;
+> > > > >    							#address-cells =3D <1>;
+> > > > >    							#size-cells =3D <0>;
+> > > > Bit of a drive-by comment as I'm not really holding any stakes here=
+,
+> > > > but did the hardware actually change?
+> > >=20
+> > > Yes, the hardware did change in the Odyssey version.
+> > Should there not be a new platform DTS then? Seems a bit puzzling, but
+> > again this is a bit of a drive-by comment.
+>=20
+>=20
+> Ah, I should clarify. The SBE hardware was changed between P9/P10 and=20
+> Odyssey versions. The Odyssey hasn't changed. The difference in the SBE=
+=20
+> wasn't apparent when we initially added support for Odyssey, so this is=
+=20
+> effectively a bug fix on the new hardware. There is no new platform.
 
-kernel test robot noticed the following build warnings:
+That sounds like good info for the commit message. Do you mind updating
+it?
 
-[auto build test WARNING on fec50db7033ea478773b159e0e2efb135270e3b7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Carrasco/dt-bindings-rtc-orion-rtc-move-to-trivial-rtc/20240408-235612
-base:   fec50db7033ea478773b159e0e2efb135270e3b7
-patch link:    https://lore.kernel.org/r/20240408-rtc_dtschema-v1-2-c447542fc362%40gmail.com
-patch subject: [PATCH 2/9] dt-bindings: rtc: google,goldfish-rtc: move to trivial-rtc
-reproduce: (https://download.01.org/0day-ci/archive/20240417/202404170656.LoL9eBYs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404170656.LoL9eBYs-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
-   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/rtc/google,goldfish-rtc.txt
-   Using alabaster theme
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Andrew
