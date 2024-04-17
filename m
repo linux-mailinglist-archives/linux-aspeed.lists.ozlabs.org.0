@@ -1,65 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9768A853E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 15:50:32 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 251808A8C35
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 21:37:07 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TlKqbo6J;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=ghgGf2f4;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VKMjx6kLvz3cPf
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Apr 2024 23:50:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VKWPp2tL0z3cQX
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Apr 2024 05:37:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TlKqbo6J;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=ghgGf2f4;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.10; helo=mgamail.intel.com; envelope-from=iwona.winiarska@intel.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 64 seconds by postgrey-1.37 at boromir; Wed, 17 Apr 2024 23:50:24 AEST
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::225; helo=relay5-d.mail.gandi.net; envelope-from=alexandre.belloni@bootlin.com; receiver=lists.ozlabs.org)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VKMjr4nYRz3bjK
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Apr 2024 23:50:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713361825; x=1744897825;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ltyfGUT+Q1+XHGbLf8LZqsmChBW2AZtse+4kwOov8BQ=;
-  b=TlKqbo6Jjc7BNP6MHATW7rFik/TafrWrNlxA+Ixfvb3c/CpHwrtj4FwQ
-   UexsVCw7UU6wrW9YMT2wGpvaleexkftWNznibZliRBwutSdZgqkYtIdFF
-   o3EnOIPmpQkw5JuHh/Y4HSzxUsVw5hQP/mdKnBLJ4SLmS5FV6435SVs2y
-   ohyyVO5zEsDqpkZFNsGdgxCMYy7wvWlEkXbLG21IJ8VtGzcQT41e+bMYN
-   PnZ0aRpYNObaQpOOn1wzAB0WdfMUrDjrTQuM//ogONdpCh6zBlFsMl75/
-   SyCZLy1fQg0xTbWgXJvDt0Z4RZsm30a75BoeOVH+v7hOuUqRx4lpWrKSS
-   g==;
-X-CSE-ConnectionGUID: QaQQ7Qa6Qy+mC1We1z5gkg==
-X-CSE-MsgGUID: nbAwK24nQUifGhvhtBqf7g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="20243258"
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="20243258"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 06:49:13 -0700
-X-CSE-ConnectionGUID: 15UkjXbFQ0yniwze6OGHzw==
-X-CSE-MsgGUID: lHfY7O6WRHO4OiRM3eJPng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,209,1708416000"; 
-   d="scan'208";a="23059043"
-Received: from molech-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.62.36])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 06:49:12 -0700
-From: Iwona Winiarska <iwona.winiarska@intel.com>
-To: openbmc@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] peci: aspeed: Clear clock_divider value before setting it
-Date: Wed, 17 Apr 2024 15:48:49 +0200
-Message-ID: <20240417134849.5793-1-iwona.winiarska@intel.com>
-X-Mailer: git-send-email 2.44.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VKWPZ3ZYGz3cG6
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Apr 2024 05:36:47 +1000 (AEST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 897C81C0004;
+	Wed, 17 Apr 2024 19:36:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713382596;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X7evEF4M6GPcsPmLEVtaklRbN3oddZv23iJJ5uZYo1w=;
+	b=ghgGf2f45IeZTXjBpsGdPMuWd1ncRBP1tqlf2U9a+XPR5jSAhD4+4upvFNHMlyVPsCQSXS
+	ZPMUAxlsZe3Poc2g1mfKVxsHZjKyzZcY/CSKtT+wx13A8fDkhPEb5OBekyEVmGq2Vi3IxQ
+	HkCZ1eX5JNxCCh2Bx2gfvDdeI4XIxZrWbMKh9s1R/eoKAqhaZteRCf7jhRvpDk00wfo9fL
+	ukWFfn4bFOfXq8NxS4XWkIaJFfj9dArEtefST2GeJiGv6jbjmWvlpWehVC+fM9nTM62le2
+	vhXQnW/jGpc9fBEz0qUqKZHeEmP0LtHv/0qxVErouShhNPVwHO3jsflfEiWGeQ==
+Date: Wed, 17 Apr 2024 21:36:31 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: Re: (subset) [PATCH v3 0/4] rtc: convert multiple bindings into
+ dtschema
+Message-ID: <171338250318.37347.8193747079895691565.b4-ty@bootlin.com>
+References: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
+X-Spam-Flag: yes
+X-Spam-Level: **************************
+X-GND-Spam-Score: 400
+X-GND-Status: SPAM
+X-GND-Sasl: alexandre.belloni@bootlin.com
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,29 +69,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PECI clock divider is programmed on 10:8 bits of PECI Control register.
-Before setting a new value, clear bits read from hardware.
+On Sat, 13 Apr 2024 22:22:15 +0200, Javier Carrasco wrote:
+> This series converts the following bindings into dtschema, moving them
+> to trivial-rtc whenever possible:
+> 
+> - google,goldfish-rtc: trivial-rtc, referenced in mips arch.
+> - lpc32xx-rtc: trivial-rtc, referenced in arm arch.
+> - maxim,ds1742: trivial-rtc, not referenced in arch, cheap conversion.
+> - orion-rtc: trival-rtc, referenced in arm arch.
+> - pxa-rtc: add missing properties and convert. Referenced in arm arch.
+> - rtc-aspeed: 3 devices to trivial-rtc, all referenced in arm arch.
+> - st,spear600-rtc: trivial-rtc, referenced in arm arch.
+> - stmp3xxx-rtc: add compatibles and convert, referenced in arm arch.
+> - via,vt8500-rtc: trivial-rtc, referenced in arm arch.
+> 
+> [...]
 
-Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
----
- drivers/peci/controller/peci-aspeed.c | 1 +
- 1 file changed, 1 insertion(+)
+Applied, thanks!
 
-diff --git a/drivers/peci/controller/peci-aspeed.c b/drivers/peci/controller/peci-aspeed.c
-index 7fdc25afcf2f..de7046e6b9c4 100644
---- a/drivers/peci/controller/peci-aspeed.c
-+++ b/drivers/peci/controller/peci-aspeed.c
-@@ -351,6 +351,7 @@ static int clk_aspeed_peci_set_rate(struct clk_hw *hw, unsigned long rate,
- 	clk_aspeed_peci_find_div_values(this_rate, &msg_timing, &clk_div_exp);
- 
- 	val = readl(aspeed_peci->base + ASPEED_PECI_CTRL);
-+	val &= ~ASPEED_PECI_CTRL_CLK_DIV_MASK;
- 	val |= FIELD_PREP(ASPEED_PECI_CTRL_CLK_DIV_MASK, clk_div_exp);
- 	writel(val, aspeed_peci->base + ASPEED_PECI_CTRL);
- 
+[3/4] dt-bindings: rtc: pxa-rtc: convert to dtschema
+      https://git.kernel.org/abelloni/c/bbd3e43662d7
+[4/4] dt-bindings: rtc: stmp3xxx-rtc: convert to dtschema
+      https://git.kernel.org/abelloni/c/c3a0ee85f6e3
+[2/4] dt-bindings: rtc: convert trivial devices into dtschema
+      https://git.kernel.org/abelloni/c/1c431b92e21b
+
+Best regards,
+
 -- 
-2.44.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
