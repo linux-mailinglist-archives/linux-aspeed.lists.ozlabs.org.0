@@ -2,80 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529398B1D71
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Apr 2024 11:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CEC98B2ADC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Apr 2024 23:37:47 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gn4rilKM;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=sOQ7fJ4y;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VQ9455rTYz3dRY
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Apr 2024 19:07:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VQTjP153Rz3dTL
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 07:37:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gn4rilKM;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=sOQ7fJ4y;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::530; helo=mail-pg1-x530.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQ93v2cxxz3dJ5
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Apr 2024 19:07:39 +1000 (AEST)
-Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5dcc4076c13so580358a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Apr 2024 02:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714036055; x=1714640855; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+4wTUU05Xd7j3sy440urBnEwP2fHUD5P7kgF0xvHMjc=;
-        b=gn4rilKMZS8uk0RQBSQbSoKhExWFRXCBebrckFIf0oPYM6bFGBjyGnv8B6dZGeepPW
-         aliauPvZG5ouoV/3tJEIS2vYHX6vZAWBq86ATpjU4zdf0qN8IcJ2Q9wbwjS5UyhGoHsp
-         5gLl3iUbFvirDhrVQYdK7oxTbLfomgfhiIOb0NbzjOLyE6DKQMcjNjJkxwWnSNtXYswH
-         TavZR7zS1ngdNEqqawbiEWRMZIQVjFRBDxIITDeQDe6l3iQqorTOOYw3m92iVzD2ZhyB
-         Fo+lWXQyJ2xgiWZe1cUt4H93fn6KlPV9ICKdu03VTgeWqICeNaXMlOWJbbWF+g3L/ci6
-         1p5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714036055; x=1714640855;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+4wTUU05Xd7j3sy440urBnEwP2fHUD5P7kgF0xvHMjc=;
-        b=c0uacQzrtaV1V5grehACDp0WKLwUIpCqfV72eBQjN6jrn+FPJfK7quom2BKVQUolD+
-         pN4MLvE9AybtWLDbtdv9igAEdIjIbQHV34bhrNHjF4o+bACPDqHRZcjtKOxnkrg64b3y
-         4HL2hE+fBtTjDgWUbXGPhk0/QexKHF10vGssh8Nvyt+JTprUPM190Wg9PXzMmUJBsSIe
-         dkt+j8Itid19DkjSeltpKfo0tB/cePOoKroZVy6hdKU1kTwqUSJ030xcxeJtu2CCemI+
-         851V57qzPQPlSk8hUioHpyuUyZXFxXlgMeOlF1BGBsb36xCZGLLFM/SzaorJpNjqh71z
-         YiHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVWZW3MN3FmFIsCcf06cYpBr396FgfEAk9jukg1mXTIFe2lvRRhiRusHAgEF4Dgim0p02n5ADOnWn8ZzieD7Xqi6/jUzdUhcMMxoUHo4g==
-X-Gm-Message-State: AOJu0YziPGHuKn3ffdp3Bjx7B70W2UZn53kkUQfjkEDCi8lwYXauFh6c
-	ZKzB+zo4wfQBSrq2sc6LB8AyEAdg4QrDpTnGaSMe1jJFnf9nb+PG
-X-Google-Smtp-Source: AGHT+IH00G50r60em0IVFLInu1mkzKCgJhWo7ypEjI8FeXomqiULAZ2cCuQIn+gE3UsYxotvJkPddw==
-X-Received: by 2002:a17:90a:7306:b0:2a2:9e5d:9bf9 with SMTP id m6-20020a17090a730600b002a29e5d9bf9mr3363222pjk.8.1714036055337;
-        Thu, 25 Apr 2024 02:07:35 -0700 (PDT)
-Received: from peter-bmc.dhcpserver.bu9bmc.local (2001-b400-e339-24b8-1743-5d70-cc45-1c02.emome-ip6.hinet.net. [2001:b400:e339:24b8:1743:5d70:cc45:1c02])
-        by smtp.gmail.com with ESMTPSA id g21-20020a17090a7d1500b002a574ab7f5esm12489938pjl.53.2024.04.25.02.07.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Apr 2024 02:07:34 -0700 (PDT)
-From: Peter Yin <peteryin.openbmc@gmail.com>
-To: patrick@stwcx.xyz,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-watchdog@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 1/1] drivers: watchdog: revise watchdog bootstatus
-Date: Thu, 25 Apr 2024 17:07:26 +0800
-Message-Id: <20240425090727.3787160-2-peteryin.openbmc@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240425090727.3787160-1-peteryin.openbmc@gmail.com>
-References: <20240425090727.3787160-1-peteryin.openbmc@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQThw4btKz3dLd;
+	Fri, 26 Apr 2024 07:37:20 +1000 (AEST)
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43PLXAcP009121;
+	Thu, 25 Apr 2024 21:37:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=bCX+HklUSQAeEPRI2uM06FpOeqoNmDjqmZeTZLpAINg=;
+ b=sOQ7fJ4yMQHC1thOQovP88AF6IOR+nsbc4kWD1asM4x7h9l6uDnyVOJ9C+7C5E8U1QN4
+ xFWIs7ozJ+BeDE/u8U/6i1DVJR2nfDTmeFjfv3LcVvaa8KRxK3MmR7cZTEKaVxmxJIrF
+ L94+QTt6BueGFzODpVjSix63DnpyXOnLI2+LpRvQi4gKpjMuH8QHDNj+w4BrXARUJ9yp
+ DJGsi8uAdcz3Va1PhGdRYZEGK5v9uI+DAn/3FJ7QiI83eWiBRogrw49HxPciXs5CGyQb
+ MksIyrZzz3eUOn+FZl4w37arSSuA5f+cko4MIvdSnfSuELyIseUh56G5c++aPCRthA9R xQ== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xqy66r06p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 21:37:07 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43PKtDqF020886;
+	Thu, 25 Apr 2024 21:37:06 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xmre0c9ub-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 21:37:06 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43PLb3bA43188650
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 25 Apr 2024 21:37:05 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E6CE058056;
+	Thu, 25 Apr 2024 21:37:02 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3DF3658050;
+	Thu, 25 Apr 2024 21:37:02 +0000 (GMT)
+Received: from slate16.aus.stglabs.ibm.com (unknown [9.61.133.34])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 25 Apr 2024 21:37:02 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH v3 00/14] ARM: dts: aspeed: Add IBM P11 BMC Boards
+Date: Thu, 25 Apr 2024 16:36:47 -0500
+Message-Id: <20240425213701.655540-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: iBqmoEe0BOw1ccHXKf33Ao58oqNwxgPw
+X-Proofpoint-ORIG-GUID: iBqmoEe0BOw1ccHXKf33Ao58oqNwxgPw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-25_21,2024-04-25_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
+ mlxscore=0 lowpriorityscore=0 mlxlogscore=693 phishscore=0 impostorscore=0
+ spamscore=0 priorityscore=1501 adultscore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2404010000
+ definitions=main-2404250157
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,172 +86,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Regarding the AST2600 specification, the WDTn Timeout Status Register
-(WDT10) has bit 1 reserved. Bit 1 of the status register indicates
-on ast2500 if the boot was from the second boot source.
-It does not indicate that the most recent reset was triggered by
-the watchdog. The code should just be changed to set WDIOF_CARDRESET
-if bit 0 of the status register is set. However, this bit can be clear when
-watchdog register 0x0c bit1(Reset System after timeout) is enabled.
-Thereforce include SCU register to veriy WDIOF_EXTERN1 and WDIOF_CARDRESET
-in ast2600 SCU74 or ast2400/ast2500 SCU3C.
+Add the Blueridge and Fuji BMC systems. Document many missing FSI related
+properties, and fix existing warnings.
 
-Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
----
- drivers/watchdog/aspeed_wdt.c | 109 ++++++++++++++++++++++++++++++++--
- 1 file changed, 103 insertions(+), 6 deletions(-)
+Changes since v2:
+ - Split up the DTS patches
+ - Add documentation patches
 
-diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-index b4773a6aaf8c..4c58593658bc 100644
---- a/drivers/watchdog/aspeed_wdt.c
-+++ b/drivers/watchdog/aspeed_wdt.c
-@@ -11,10 +11,12 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/kstrtox.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
-+#include <linux/regmap.h>
- #include <linux/watchdog.h>
- 
- static bool nowayout = WATCHDOG_NOWAYOUT;
-@@ -82,6 +84,16 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
- #define WDT_RESET_MASK1		0x1c
- #define WDT_RESET_MASK2		0x20
- 
-+//AST SCU Register
-+#define AST2400_AST2500_SYSTEM_RESET_EVENT	0x3C
-+#define   AST2400_WATCHDOG_RESET_FLAG	BIT(1)
-+#define   AST2400_RESET_FLAG_CLEAR	GENMASK(2, 0)
-+#define   AST2500_WATCHDOG_RESET_FLAG	GENMASK(4, 2)
-+#define AST2600_SYSTEM_RESET_EVENT	0x74
-+#define   POWERON_RESET_FLAG		BIT(0)
-+#define   EXTERN_RESET_FLAG		BIT(1)
-+#define   AST2600_WATCHDOG_RESET_FLAG   GENMASK(31, 16)
-+
- /*
-  * WDT_RESET_WIDTH controls the characteristics of the external pulse (if
-  * enabled), specifically:
-@@ -310,6 +322,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
- 	const struct of_device_id *ofdid;
- 	struct aspeed_wdt *wdt;
- 	struct device_node *np;
-+	struct regmap *scu_base;
- 	const char *reset_type;
- 	u32 duration;
- 	u32 status;
-@@ -458,15 +471,99 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
- 		writel(duration - 1, wdt->base + WDT_RESET_WIDTH);
- 	}
- 
--	status = readl(wdt->base + WDT_TIMEOUT_STATUS);
--	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY) {
--		wdt->wdd.bootstatus = WDIOF_CARDRESET;
-+	/*
-+	 * Power on reset is set when triggered by AC or SRSRST.
-+	 * Thereforce, we clear flag to ensure
-+	 * next boot cause is a real watchdog case.
-+	 * We use the external reset flag to determine
-+	 * if it is an external reset or card reset
-+	 */
-+	if (of_device_is_compatible(np, "aspeed,ast2600-wdt")) {
-+		scu_base = syscon_regmap_lookup_by_compatible(
-+							"aspeed,ast2600-scu");
-+		if (IS_ERR(scu_base))
-+			return PTR_ERR(scu_base);
-+
-+		ret = regmap_read(scu_base,
-+				  AST2600_SYSTEM_RESET_EVENT,
-+				  &status);
-+		if (ret)
-+			return ret;
-+
-+		if ((status & POWERON_RESET_FLAG) == 0 &&
-+		     status & AST2600_WATCHDOG_RESET_FLAG) {
-+			if(status & EXTERN_RESET_FLAG)
-+				wdt->wdd.bootstatus = WDIOF_EXTERN1;
-+			else
-+				wdt->wdd.bootstatus = WDIOF_CARDRESET;
-+		}
-+		status = AST2600_WATCHDOG_RESET_FLAG |
-+			 POWERON_RESET_FLAG |
-+			 EXTERN_RESET_FLAG;
-+
-+		ret = regmap_write(scu_base,
-+				  AST2600_SYSTEM_RESET_EVENT,
-+				  status);
-+	} else if (of_device_is_compatible(np, "aspeed,ast2500-wdt")) {
-+		scu_base = syscon_regmap_lookup_by_compatible(
-+							"aspeed,ast2500-scu");
-+		if (IS_ERR(scu_base))
-+			return PTR_ERR(scu_base);
-+
-+		ret = regmap_read(scu_base,
-+				  AST2400_AST2500_SYSTEM_RESET_EVENT,
-+				  &status);
-+		if (ret)
-+			return ret;
-+
-+		if ((status & POWERON_RESET_FLAG) == 0 &&
-+		     status & AST2500_WATCHDOG_RESET_FLAG) {
-+			if(status & EXTERN_RESET_FLAG)
-+				wdt->wdd.bootstatus = WDIOF_EXTERN1;
-+			else
-+				wdt->wdd.bootstatus = WDIOF_CARDRESET;
-+		}
-+
-+		status = AST2500_WATCHDOG_RESET_FLAG |
-+			 POWERON_RESET_FLAG |
-+			 EXTERN_RESET_FLAG;
-+
-+		ret = regmap_write(scu_base,
-+				  AST2400_AST2500_SYSTEM_RESET_EVENT,
-+				  status);
- 
--		if (of_device_is_compatible(np, "aspeed,ast2400-wdt") ||
--		    of_device_is_compatible(np, "aspeed,ast2500-wdt"))
--			wdt->wdd.groups = bswitch_groups;
-+		wdt->wdd.groups = bswitch_groups;
-+	} else {
-+		scu_base = syscon_regmap_lookup_by_compatible(
-+							"aspeed,ast2400-scu");
-+		if (IS_ERR(scu_base))
-+			return PTR_ERR(scu_base);
-+
-+		ret = regmap_read(scu_base,
-+				  AST2400_AST2500_SYSTEM_RESET_EVENT,
-+				  &status);
-+		if (ret)
-+			return ret;
-+		/*
-+		 * Ast2400 external reset can clear watdog dog rest flag, so
-+		 * only support WDIOF_CARDRESET
-+		 */
-+		if ((status & POWERON_RESET_FLAG) == 0 &&
-+		     status & AST2400_WATCHDOG_RESET_FLAG)
-+			wdt->wdd.bootstatus = WDIOF_CARDRESET;
-+
-+		status = AST2400_RESET_FLAG_CLEAR;
-+
-+		ret = regmap_write(scu_base,
-+				  AST2400_AST2500_SYSTEM_RESET_EVENT,
-+				  status);
-+
-+		wdt->wdd.groups = bswitch_groups;
- 	}
- 
-+	if (ret)
-+		return ret;
-+
- 	dev_set_drvdata(dev, wdt);
- 
- 	return devm_watchdog_register_device(dev, &wdt->wdd);
+Eddie James (14):
+  dt-bindings: spi: Document the IBM Power SPI controller
+  dt-bindings: fsi: fsi2spi: Document SPI controller child nodes
+  dt-bindings: fsi: Document the FSI2PIB engine
+  dt-bindings: fsi: p9-occ: Switch to yaml format
+  dt-bindings: fsi: Document the IBM SBEFIFO engine
+  dt-bindings: fsi: Document the FSI controller common properties
+  dt-bindings: fsi: ibm,i2cr-fsi-master: Reference common FSI controller
+  dt-bindings: fsi: ast2600-fsi-master: Switch to yaml format
+  dt-bindings: fsi: Document the FSI Hub Controller
+  dt-bindings: i2c: i2c-fsi: Switch to yaml format
+  dt-bindings: arm: aspeed: add IBM P11 BMC boards
+  ARM: dts: aspeed: Add IBM P11 FSI devices
+  ARM: dts: aspeed: Add IBM P11 Blueridge BMC system
+  ARM: dts: aspeed: Add IBM P11 Fuji BMC system
+
+ .../bindings/arm/aspeed/aspeed.yaml           |    2 +
+ .../fsi/aspeed,ast2600-fsi-master.yaml        |   72 +
+ .../bindings/fsi/fsi-controller.yaml          |   65 +
+ .../bindings/fsi/fsi-master-aspeed.txt        |   36 -
+ .../devicetree/bindings/fsi/ibm,fsi2pib.yaml  |   38 +
+ .../devicetree/bindings/fsi/ibm,fsi2spi.yaml  |   11 +
+ .../bindings/fsi/ibm,hub-fsi-controller.yaml  |   44 +
+ .../bindings/fsi/ibm,i2cr-fsi-master.yaml     |    5 +-
+ .../devicetree/bindings/fsi/ibm,p9-occ.txt    |   16 -
+ .../devicetree/bindings/fsi/ibm,p9-occ.yaml   |   41 +
+ .../bindings/fsi/ibm,p9-sbefifo.yaml          |   50 +
+ .../devicetree/bindings/i2c/i2c-fsi.txt       |   40 -
+ .../devicetree/bindings/i2c/ibm,i2c-fsi.yaml  |   59 +
+ .../devicetree/bindings/spi/ibm,p10-spi.yaml  |   56 +
+ arch/arm/boot/dts/aspeed/Makefile             |    2 +
+ .../dts/aspeed/aspeed-bmc-ibm-blueridge.dts   | 1711 +++++++
+ .../boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts   | 3984 +++++++++++++++++
+ .../arm/boot/dts/aspeed/ibm-power11-quad.dtsi | 1696 +++++++
+ 18 files changed, 7835 insertions(+), 93 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
+ create mode 100644 Documentation/devicetree/bindings/fsi/fsi-controller.yaml
+ delete mode 100644 Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt
+ create mode 100644 Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml
+ create mode 100644 Documentation/devicetree/bindings/fsi/ibm,hub-fsi-controller.yaml
+ delete mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+ create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.yaml
+ create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-sbefifo.yaml
+ delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-fsi.txt
+ create mode 100644 Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
+ create mode 100644 Documentation/devicetree/bindings/spi/ibm,p10-spi.yaml
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts
+ create mode 100644 arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
+
 -- 
-2.25.1
+2.39.3
 
