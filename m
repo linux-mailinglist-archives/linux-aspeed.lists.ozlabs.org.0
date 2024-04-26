@@ -2,49 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFCD8B3068
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D106D8B3070
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:31:15 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qtsEeGb2;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=DcLg5mmy;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjVj5lXtz3cnT
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:29:17 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjXx3b2rz3fCg
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:31:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qtsEeGb2;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=DcLg5mmy;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjVc1Yjfz3dJs;
-	Fri, 26 Apr 2024 16:29:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjXr6wgyz3cXm;
+	Fri, 26 Apr 2024 16:31:08 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id D1D3ECE1B9B;
-	Fri, 26 Apr 2024 06:29:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 327DEC113CD;
-	Fri, 26 Apr 2024 06:29:05 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 78A3161FEB;
+	Fri, 26 Apr 2024 06:31:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3140AC113CD;
+	Fri, 26 Apr 2024 06:31:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714112950;
-	bh=4CQoFlhLhffMTsY0rsNnaIaGxRBofPimKkWVrHIcRhE=;
+	s=k20201202; t=1714113066;
+	bh=EhSzvAHE8U0qvjOPlUInGj3l/8H0bs70oiNagANMIAU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qtsEeGb2dmmH55O0LsAYhbYWrpk0KeohUl7zVpgarL/UQVo30y43QXQjJIGfan7qt
-	 cn4drmYdD8EfiRWKf6cRbdY/ndX4MQxLvjWMaQOSBuAd6mV4BgPGfmfly8Aox5eIC8
-	 qDverUDZvh1LUqx6k/NPcwqiuoqBOyTmqu1nmIc00oKdalS2j1LC39wb8GdfqFWuoa
-	 xDmvWYaijsmEjHFVk+cUxuPaKblg5TrfF18X7NSCr43UlFMNCEC1+r2mnjxToQJNJc
-	 FbLvBWLYdnLTJ1VUqTNsqpXP3emuhG4tRva1zphtUPmUIBtR6dZH+s7QCHgYW10IrT
-	 2AgqDVSf8IXqQ==
-Message-ID: <f84ddcdb-8f8a-4cf6-a851-243baa1745ac@kernel.org>
-Date: Fri, 26 Apr 2024 08:29:03 +0200
+	b=DcLg5mmy6eE1v46cWCirxj8KD3hoxwTo8pzp+w/teWNmBrMDDQj80OT0ueJlCuOgJ
+	 wYoA9q0/GvEFmPMFpZRQd5/9a40qkRh3tBJ2jIB9GGFE3v2kJyKkJ7UPt1nKGcFWfp
+	 KvJI1lcnwa3cEYLuqgK+NW83FJuc2cQBD1O64b3UuIndXxyvzkVNPz4kKklp82h0dT
+	 KtYkLBgWRvmrxCv8RkHyVsOJ4tSDyNcWA4IzLfvRuuwvXg3wpkJcYVyCKjijHUsVV8
+	 IaD+mnFQRbxnoCZTATv1u/uW7j2gFyDeQdntrHL0xzWKFjdJCDLRTpVj44zRiPCDG+
+	 7s31EYqPWcdew==
+Message-ID: <dc106aa2-8f69-4f71-ad9f-6dfb97c63a50@kernel.org>
+Date: Fri, 26 Apr 2024 08:31:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/14] dt-bindings: i2c: i2c-fsi: Switch to yaml format
+Subject: Re: [PATCH v3 12/14] ARM: dts: aspeed: Add IBM P11 FSI devices
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-11-eajames@linux.ibm.com>
+ <20240425213701.655540-13-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,7 +90,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240425213701.655540-11-eajames@linux.ibm.com>
+In-Reply-To: <20240425213701.655540-13-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -109,83 +109,104 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 25/04/2024 23:36, Eddie James wrote:
-> Switch to yaml for the FSI-attached I2C controller.
+> Add the P11 FSI device tree for use in upcoming BMC systems.
+> Unlike P10, there is no system with only two processors, so
+> only the quad processor FSI layout is necessary.
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
-
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC (and consider --no-git-fallback argument). It might
-happen, that command when run on an older kernel, gives you outdated
-entries. Therefore please be sure you base your patches on recent Linux
-kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline), work on fork of kernel
-(don't, instead use mainline) or you ignore some maintainers (really
-don't). Just use b4 and everything should be fine, although remember
-about `b4 prep --auto-to-cc` if you added new patches to the patchset.
-
 > ---
->  .../devicetree/bindings/i2c/i2c-fsi.txt       | 40 -------------
->  .../devicetree/bindings/i2c/ibm,i2c-fsi.yaml  | 59 +++++++++++++++++++
->  2 files changed, 59 insertions(+), 40 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-fsi.txt
->  create mode 100644 Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
+>  .../arm/boot/dts/aspeed/ibm-power11-quad.dtsi | 1696 +++++++++++++++++
+>  1 file changed, 1696 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
 > 
-
-
-> -    };
-> diff --git a/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml b/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
+> diff --git a/arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi b/arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
 > new file mode 100644
-> index 000000000000..473a45de1b6c
+> index 000000000000..c3a0ecf12aa0
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/i2c/ibm,i2c-fsi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
+> @@ -0,0 +1,1696 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +// Copyright 2024 IBM Corp.
 > +
-> +title: IBM FSI-attached I2C controller
-> +
-> +maintainers:
-> +  - Eddie James <eajames@linux.ibm.com>
-> +
-> +description:
-> +  This I2C controller is an FSI CFAM engine, providing access to a number of
-> +  I2C busses. Therefore this node will always be a child of an FSI CFAM node;
-> +  see fsi.txt for details on FSI slave and CFAM nodes.
+> +&fsim0 {
 
-Here and in all other schemas - remove reference to fsi.txt. You are
-going to drop this file once you convert everything, right?
+This does not make sense. You do not include any file here, so what do
+you want to override?
+
+How can you even test this file?
+
+> +	status = "okay";
+> +
+> +	#address-cells = <2>;
+> +	#size-cells = <0>;
+> +
+> +	cfam-reset-gpios = <&gpio0 ASPEED_GPIO(Q, 0) GPIO_ACTIVE_HIGH>;
+> +
+
 
 > +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ibm,i2c-fsi
+> +&cfam3_i2c16 {
+> +	fsi-i2cr@20 {
+> +		compatible = "ibm,i2cr-fsi-master";
+> +		reg = <0x20>;
+> +		#address-cells = <2>;
+> +		#size-cells = <0>;
 > +
-> +  reg:
-> +    items:
-> +      - description: FSI slave address
+> +		cfam@0,0 {
+> +			reg = <0 0>;
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+> +			chip-id = <0>;
 > +
-> +required:
-> +  - compatible
-> +  - reg
+> +			scom416: scom@1000 {
+> +				compatible = "ibm,i2cr-scom";
+> +				reg = <0x1000 0x400>;
+> +			};
 > +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-controller.yaml#
+> +			sbefifo416: sbefifo@2400 {
+> +				compatible = "ibm,odyssey-sbefifo";
+> +				reg = <0x2400 0x400>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +	};
+> +};
 > +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c@1800 {
+> +&cfam3_i2c17 {
 
-So no wrapper node is needed. Drop the wrapper node in previous patchset
-where you introduced one with warning.
+This looks randomly ordered.
+
+
+> +&fsi_occ1 {
+> +	reg = <2>;
+> +};
+> +
+> +&fsi_occ2 {
+> +	reg = <3>;
+> +};
+> +
+> +&fsi_occ3 {
+> +	reg = <4>;
+> +};
+> +
+> +/ {
+
+Nope. Root node never goes to end of file. Look at all modern DTS.
+
+> +	aliases {
+> +		i2c100 = &cfam0_i2c0;
+> +		i2c101 = &cfam0_i2c1;
+> +		i2c110 = &cfam0_i2c10;
+> +		i2c111 = &cfam0_i2c11;
+> +		i2c112 = &cfam0_i2c12;
+> +		i2c113 = &cfam0_i2c13;
+> +		i2c114 = &cfam0_i2c14;
+> +		i2c115 = &cfam0_i2c15;
+> +		i2c202 = &cfam1_i2c2;
+> +		i2c203 = &cfam1_i2c3;
+> +		i2c210 = &cfam1_i2c10;
+
 
 
 Best regards,
