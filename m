@@ -1,51 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D513B8B3020
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:15:22 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 046D98B3025
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:17:26 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YwKw7Ws3;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qFn07a4r;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjBc3lqDz3vgP
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:15:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjDz4mtzz3dSd
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:17:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YwKw7Ws3;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qFn07a4r;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjBP6pJqz3cX7;
-	Fri, 26 Apr 2024 16:15:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjDv05kyz2xPd;
+	Fri, 26 Apr 2024 16:17:19 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7DC3561FCB;
-	Fri, 26 Apr 2024 06:15:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8022C113CD;
-	Fri, 26 Apr 2024 06:15:02 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 00284CE1B9B;
+	Fri, 26 Apr 2024 06:17:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FCB1C113CE;
+	Fri, 26 Apr 2024 06:17:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714112106;
-	bh=2zMjsUSfslciVWlXYRwI/HomcPgj2FUOtYL/1gugbYw=;
+	s=k20201202; t=1714112234;
+	bh=Kyg1CztQ3JrcI+QF2gyuzG9xXs2XGKVQrTPd53DuGPo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YwKw7Ws3nJqXx95A035lnkvAL+lLCnq33LBDNlXhHW3n0K4ReQJsZRQqtGixyvgOk
-	 cMMlXKEsEH2/3Y2cnbqrWUMaiePoU6CBxD3QlbvgubjWt5JT0LjzpiPxlGA75lgPni
-	 y+T3wx/4VPktiDD6mK1G8m3z6ZfjAK6w7S6ntTDXr4KhKJCFQDd/e8GpyTtJ4ahIF+
-	 3bzJTu5FlPcPpH8KvtNIgzQsryn4jo/HSUnvW7yMe3K3lTZs5tEnQExUZHmiGijJEm
-	 3lJu4M5ohUyBvL0nuFuMPA3WFPDP9/W0OMgoYOyiSrlhf4Su4U2bkzsoxi5L33LZCL
-	 e4n45cCcP27cA==
-Message-ID: <e2b52bfb-0742-4baf-8269-86075b5cc54e@kernel.org>
-Date: Fri, 26 Apr 2024 08:15:00 +0200
+	b=qFn07a4rb1R/DKgZVgGYvSEZGZUTwA0XYNg6OKtOQu847NVXKlNpD2JntbhExeOGM
+	 UPyD+hQ+NWWHCa0KjiI5e4oQEuU64iMnY+Ir0mrDMz1OrdG0OmXbPaU6GyQAIaM13O
+	 NAdvDwuqoX7RumwJiW3xvAcoXQxpWmzvIIMaW2wAzs3297KjoCuiuO6vHeCW5Cg/jG
+	 o21WwYC1zmVYUn+r/ja8rbjaXq+/mCIY/aXFgV1FTUuV2Px+maAMD5soANpna+iKzv
+	 eIcD9gw/VOzEyOjKcGyuUOSvWS9VaqxyFyZAn0rl/GHtTsfSE6HLjVGQcqEVqYJmAj
+	 s/I9wQGwxBntQ==
+Message-ID: <39bdf357-76c8-4ae4-9a06-d00ba9ce16e3@kernel.org>
+Date: Fri, 26 Apr 2024 08:17:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/14] dt-bindings: spi: Document the IBM Power SPI
- controller
+Subject: Re: [PATCH v3 03/14] dt-bindings: fsi: Document the FSI2PIB engine
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-2-eajames@linux.ibm.com>
+ <20240425213701.655540-4-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +90,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240425213701.655540-2-eajames@linux.ibm.com>
+In-Reply-To: <20240425213701.655540-4-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -110,72 +109,31 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 25/04/2024 23:36, Eddie James wrote:
-> The IBM Power chips have a basic SPI controller. Document it.
-
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching.
-
+> The FSI2PIB or SCOM engine provides an interface to the POWER processor
+> PIB (Pervasive Interconnect Bus).
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
 > ---
->  .../devicetree/bindings/spi/ibm,p10-spi.yaml  | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/spi/ibm,p10-spi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/spi/ibm,p10-spi.yaml b/Documentation/devicetree/bindings/spi/ibm,p10-spi.yaml
-> new file mode 100644
-> index 000000000000..9bf57b621c1f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/spi/ibm,p10-spi.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/spi/ibm,p10-spi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: IBM SPI Controller
-
-IBM P10 SPI Controller
-
-> +
-> +maintainers:
-> +  - Eddie James <eajames@linux.ibm.com>
-> +
-> +description:
-> +  A basic SPI controller found on IBM Power chips, accessed over FSI. This
-> +  node will always be a child node of an ibm,fsi2spi node.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ibm,p10-spi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +allOf:
-> +  - $ref: spi-controller.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    fsi2spi@1c00 {
-> +        compatible = "ibm,fsi2spi";
-> +        reg = <0x1c00 0x400>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-
-Use rather some simple wrapper instead of node causing warnings, e.g.
-fsi {} with only address/size cells.
 
 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+---
+
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
 
 Best regards,
 Krzysztof
