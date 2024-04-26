@@ -2,50 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC7B8B305D
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DFCD8B3068
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:29:20 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=neajuBIY;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qtsEeGb2;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjRW69zzz3dKy
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:26:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjVj5lXtz3cnT
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:29:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=neajuBIY;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qtsEeGb2;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjRR1v1Pz3bTt;
-	Fri, 26 Apr 2024 16:26:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjVc1Yjfz3dJs;
+	Fri, 26 Apr 2024 16:29:12 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id DEAF2CE1BC9;
-	Fri, 26 Apr 2024 06:26:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D1BBC2BD10;
-	Fri, 26 Apr 2024 06:26:21 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id D1D3ECE1B9B;
+	Fri, 26 Apr 2024 06:29:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 327DEC113CD;
+	Fri, 26 Apr 2024 06:29:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714112785;
-	bh=VMSMuTg/vYtpyljf1BbVvEzGLevkd6xbbLdOV49YwEs=;
+	s=k20201202; t=1714112950;
+	bh=4CQoFlhLhffMTsY0rsNnaIaGxRBofPimKkWVrHIcRhE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=neajuBIYbN5WMN6U92MAYoMuizkKarWb+AAc/5SeHIxzJTTJbimh6Kckiepo3S/vk
-	 lskNcxeenLg2kyD5pmflRoJmdNwrGyqmFd2WGG4uiO6/tuIN4rJTj4avx5vIEyAJJy
-	 r4/hrVtOsklCPZL8b0bb1/IjYlFa8nnuRxjPtyGIY2tAagmuiL9tVMglwL/UEToZ5v
-	 b+m7uF13RxZIAUv4Mcp/r16NijHkWgnTh6U4NukHguvpA3aj6IdwXnde4hSiFDQfNj
-	 ha2F4D8dFpA5BW/X2WalKyoQ3SNrD4x62yLRliHrZZaDzgZFxJhMWwDqTj2eJ3dKsF
-	 dfV+beA189tdA==
-Message-ID: <91d5683b-17a2-466c-ab3d-baf216c97fa3@kernel.org>
-Date: Fri, 26 Apr 2024 08:26:19 +0200
+	b=qtsEeGb2dmmH55O0LsAYhbYWrpk0KeohUl7zVpgarL/UQVo30y43QXQjJIGfan7qt
+	 cn4drmYdD8EfiRWKf6cRbdY/ndX4MQxLvjWMaQOSBuAd6mV4BgPGfmfly8Aox5eIC8
+	 qDverUDZvh1LUqx6k/NPcwqiuoqBOyTmqu1nmIc00oKdalS2j1LC39wb8GdfqFWuoa
+	 xDmvWYaijsmEjHFVk+cUxuPaKblg5TrfF18X7NSCr43UlFMNCEC1+r2mnjxToQJNJc
+	 FbLvBWLYdnLTJ1VUqTNsqpXP3emuhG4tRva1zphtUPmUIBtR6dZH+s7QCHgYW10IrT
+	 2AgqDVSf8IXqQ==
+Message-ID: <f84ddcdb-8f8a-4cf6-a851-243baa1745ac@kernel.org>
+Date: Fri, 26 Apr 2024 08:29:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/14] dt-bindings: fsi: Document the FSI Hub
- Controller
+Subject: Re: [PATCH v3 10/14] dt-bindings: i2c: i2c-fsi: Switch to yaml format
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-10-eajames@linux.ibm.com>
+ <20240425213701.655540-11-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +90,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240425213701.655540-10-eajames@linux.ibm.com>
+In-Reply-To: <20240425213701.655540-11-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -110,47 +109,83 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 25/04/2024 23:36, Eddie James wrote:
-> Document the FSI Hub Controller CFAM engine.
+> Switch to yaml for the FSI-attached I2C controller.
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
+
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC (and consider --no-git-fallback argument). It might
+happen, that command when run on an older kernel, gives you outdated
+entries. Therefore please be sure you base your patches on recent Linux
+kernel.
+
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline), work on fork of kernel
+(don't, instead use mainline) or you ignore some maintainers (really
+don't). Just use b4 and everything should be fine, although remember
+about `b4 prep --auto-to-cc` if you added new patches to the patchset.
+
 > ---
->  .../bindings/fsi/ibm,hub-fsi-controller.yaml  | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,hub-fsi-controller.yaml
+>  .../devicetree/bindings/i2c/i2c-fsi.txt       | 40 -------------
+>  .../devicetree/bindings/i2c/ibm,i2c-fsi.yaml  | 59 +++++++++++++++++++
+>  2 files changed, 59 insertions(+), 40 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-fsi.txt
+>  create mode 100644 Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/fsi/ibm,hub-fsi-controller.yaml b/Documentation/devicetree/bindings/fsi/ibm,hub-fsi-controller.yaml
+
+
+> -    };
+> diff --git a/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml b/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
 > new file mode 100644
-> index 000000000000..d96d777d4d9f
+> index 000000000000..473a45de1b6c
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/fsi/ibm,hub-fsi-controller.yaml
-> @@ -0,0 +1,44 @@
+> +++ b/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
+> @@ -0,0 +1,59 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/fsi/ibm,hub-fsi-controller.yaml#
+> +$id: http://devicetree.org/schemas/i2c/ibm,i2c-fsi.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: IBM FSI-attached FSI Hub Controller
+> +title: IBM FSI-attached I2C controller
 > +
 > +maintainers:
 > +  - Eddie James <eajames@linux.ibm.com>
 > +
-> +description: |
+> +description:
+> +  This I2C controller is an FSI CFAM engine, providing access to a number of
+> +  I2C busses. Therefore this node will always be a child of an FSI CFAM node;
+> +  see fsi.txt for details on FSI slave and CFAM nodes.
 
-Do not need '|' unless you need to preserve formatting.
+Here and in all other schemas - remove reference to fsi.txt. You are
+going to drop this file once you convert everything, right?
 
-> +  The FSI Hub Controller is an FSI controller, providing a number of FSI links,
-> +  located on a CFAM. Therefore this node will always be a child of an FSI CFAM
-> +  node.
 > +
 > +properties:
 > +  compatible:
 > +    enum:
-> +      - ibm,hub-fsi-controller
+> +      - ibm,i2c-fsi
+> +
+> +  reg:
+> +    items:
+> +      - description: FSI slave address
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +allOf:
+> +  - $ref: /schemas/i2c/i2c-controller.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c@1800 {
 
-Again, is it for specific chip? SoC? Aren't you using generic
-compatibles (not allowed)?
-
+So no wrapper node is needed. Drop the wrapper node in previous patchset
+where you introduced one with warning.
 
 
 Best regards,
