@@ -1,88 +1,123 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81948B3B35
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 17:23:53 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6C08B3CB3
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 18:23:52 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=iOoM7OFA;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dLs46Zpf;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VQxMW297Pz3cYl
-	for <lists+linux-aspeed@lfdr.de>; Sat, 27 Apr 2024 01:23:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VQyhj537Cz3cY8
+	for <lists+linux-aspeed@lfdr.de>; Sat, 27 Apr 2024 02:23:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=iOoM7OFA;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dLs46Zpf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::529; helo=mail-pg1-x529.google.com; envelope-from=groeck7@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQxMN1QcNz3cXQ;
-	Sat, 27 Apr 2024 01:23:43 +1000 (AEST)
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43QFMHT8016235;
-	Fri, 26 Apr 2024 15:23:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=CViDKwrvpIv+cpI7v9ixPLgnbdWhkWZcrv5mb1eXGAg=;
- b=iOoM7OFA7Sckze2DMu6kLFQI/KSC236JyAMdQRD/jxA7fBFSMiEs6sokjWJuDIHp3Q+C
- hbYHvNnqOuzDWswN2T+i9hXI/tqP6sHp3g6in9Z8LRMSqK9fBqno5yVddiRTc4PMKTV5
- 2gImlAcvTVZvo9I5s9G6kiyWROO4j4tZa4KF0kpNU7BT2TOIMyIiOwY6Ms3EnbiPVYrC
- P4Wazhs7XsVMVgKMYC6CbUc38bVe/MQERKHZRPK277rBRlhgiN8u/lOmNgnD7CHCNeYr
- o76nVriHSuB+NZ6HTzovKWM+iMm/B29EK1438FdtcnsTjpYvHdfQYf5zVhnxvhY56XzD Tg== 
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xreuj003j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 15:23:34 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43QCCfr9023065;
-	Fri, 26 Apr 2024 15:23:33 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xms1pgemr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 15:23:33 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43QFNUgm34668922
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Apr 2024 15:23:32 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 93CAF58060;
-	Fri, 26 Apr 2024 15:23:30 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4A11558059;
-	Fri, 26 Apr 2024 15:23:30 +0000 (GMT)
-Received: from [9.61.156.17] (unknown [9.61.156.17])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 26 Apr 2024 15:23:30 +0000 (GMT)
-Message-ID: <bc58a063-9eaf-4bcb-b538-a95d8d03ea24@linux.ibm.com>
-Date: Fri, 26 Apr 2024 10:23:30 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/14] dt-bindings: i2c: i2c-fsi: Switch to yaml format
-To: Krzysztof Kozlowski <krzk@kernel.org>, linux-aspeed@lists.ozlabs.org
-References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-11-eajames@linux.ibm.com>
- <f84ddcdb-8f8a-4cf6-a851-243baa1745ac@kernel.org>
-Content-Language: en-US
-From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <f84ddcdb-8f8a-4cf6-a851-243baa1745ac@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QQf-aFXFgQZ_OsX9OStiFZp3OJntPtn8
-X-Proofpoint-ORIG-GUID: QQf-aFXFgQZ_OsX9OStiFZp3OJntPtn8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQyhW4czwz3cXW
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 27 Apr 2024 02:23:37 +1000 (AEST)
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-5f7fc45fe1bso1829385a12.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Apr 2024 09:23:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714148613; x=1714753413; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=EMeUZZZDlIQWmNIrPUN8CtDV/8ZMq8tMUD3l5agRi0E=;
+        b=dLs46ZpfTGudRpKxytxJAkCD7WH+8IIqbhheBNJZk/67i/h+feQdVx5z73hakx6tZ0
+         hjSayoc31U24mQkc+VlXnFM3KXfxslCg1ARdO8u5nonxXgkzkjf2Z9ZzLepXhxGa5KNV
+         cpqIqi5MqUPZBOmhvO4pyBdwaaizyxH7LSBNlN1HtzfKWsR3WTw5C8MtfRVBtBHofulD
+         pPYMiPRGxsgIp3MCAWNVjydZpHd03uXUEPoorPTJ8O3BKz9sjsMeg+AFLCXiwEO4VdR1
+         CdAhXk18ZsRtWUR7OIjF8Sap0pQYZM5z5FCNGTpAxRWc1sOkV7J+TfuHHGksskLtbAQV
+         GrqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714148613; x=1714753413;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EMeUZZZDlIQWmNIrPUN8CtDV/8ZMq8tMUD3l5agRi0E=;
+        b=gFvRT6tGSsAkcGzu5y77cSjQumXKvfVNuXkF0Xziac7P0eKA24hhzARWcIdZLXbKWn
+         a0Nv5vS8lI4RspcwNbzI3SrNyZcSbUCsYcxmvBlZ2pygt0X41V655CLyJWm+Myv8fqE7
+         0jMw5d21iRs2jaZRErV7gff681/95oREEYVf5/2tt5CPj1k9Yaen+SB04Q/yFLUUKm29
+         /cBCZhQMRJcIN3j66RYDW9oxtCD9U5BMteW4qdNgWERG6IOxtYns1R3ZswqPoxnLjYXK
+         QLCajWE6PnKnWZZVlxOMeQc38qPTH69a+/Cd7LqlDktWIAO1jvqEvLVLAVD4/08dik2k
+         5f9A==
+X-Forwarded-Encrypted: i=1; AJvYcCV7ENVAoizur8yUhg9X0wUYnmPSQhVqcbQo7/Mfa5jTNLvECGCxlnJqcXrRWddq5ZTTINv1ziPdIlpCMWxhLDBmEdnjDV4Oi8hnibCF0Q==
+X-Gm-Message-State: AOJu0YxH+ClwnjaagsdnJJrqctoEz3dipWZfCINCOKFJHN6iq9yEe4KJ
+	FsB234DWDjn3fRuB8sLofszXL3T9jfNaa4dW+8wdnXQluXp3OPsz
+X-Google-Smtp-Source: AGHT+IGttw1/Ym8lgAQrBRqQL5SAqRbELE2358Ab1/ryDW9+Vo1fnYJWcfD3Waq47xByyEnSyCotBw==
+X-Received: by 2002:a17:90a:bb84:b0:2a7:4e38:70e9 with SMTP id v4-20020a17090abb8400b002a74e3870e9mr3043278pjr.13.1714148613562;
+        Fri, 26 Apr 2024 09:23:33 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s22-20020a17090aa11600b002ab664e5e17sm14695585pjp.1.2024.04.26.09.23.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Apr 2024 09:23:32 -0700 (PDT)
+Message-ID: <cb473967-5cd7-44fd-99ea-fd5572e5963d@roeck-us.net>
+Date: Fri, 26 Apr 2024 09:23:30 -0700
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-26_12,2024-04-26_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- spamscore=0 priorityscore=1501 impostorscore=0 mlxscore=0 adultscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404260103
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/1] drivers: watchdog: revise watchdog bootstatus
+To: Chia Hsing Yin <peteryin.openbmc@gmail.com>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+References: <20240425090727.3787160-1-peteryin.openbmc@gmail.com>
+ <20240425090727.3787160-2-peteryin.openbmc@gmail.com>
+ <5ed8bfd6ce559a7d00ec89f1bd7ae1aea90e3ae7.camel@codeconstruct.com.au>
+ <CAPSyxFTa6k3FzUmDoZ6HMpAfwZGK_yPrQKGSvSdtj_JqsnMVrA@mail.gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <CAPSyxFTa6k3FzUmDoZ6HMpAfwZGK_yPrQKGSvSdtj_JqsnMVrA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,100 +129,73 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
+Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, Wim Van Sebroeck <wim@linux-watchdog.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On 4/26/24 07:45, Chia Hsing Yin wrote:
+> I can include reset condition in struct maybe like this
+> 
+> static const struct aspeed_wdt_config ast2600_config = {
+> .ext_pulse_width_mask = 0xfffff,
+> .irq_shift = 0,
+> .irq_mask = GENMASK(31, 10),
+> .compatible = "aspeed,ast2600-scu",
+> .reset_event = AST2600_SYSTEM_RESET_EVENT,
+> .watchdog_reset_flag = AST2600_WATCHDOG_RESET_FLAG,
+> .extern_reset_flag = EXTERN_RESET_FLAG,
+> .reset_flag_clear = AST2600_RESET_FLAG_CLEAR,
+> };
+> 
+> in probe( ) we  just call
+> 
+> scu_base = syscon_regmap_lookup_by_compatible(wdt->cfg->compatible);
+> if (IS_ERR(scu_base))
+>      return PTR_ERR(scu_base);
+> 
+> ret = regmap_read(scu_base, wdt->cfg->reset_event, &status);
+> if (ret)
+>      return ret;
+> 
+> if ((status & POWERON_RESET_FLAG) == 0 &&
 
-On 4/26/24 01:29, Krzysztof Kozlowski wrote:
-> On 25/04/2024 23:36, Eddie James wrote:
->> Switch to yaml for the FSI-attached I2C controller.
+If you do that, please use
+	if (!(status & POWERON_RESET_FLAG) && ...
+
+>       status & wdt->cfg->watchdog_reset_flag)
+>      wdt->wdd.bootstatus = (status & wdt->cfg->extern_reset_flag) ?
+>      WDIOF_EXTERN1 : WDIOF_CARDRESET;
+> 
+> status = wdt->cfg->watchdog_reset_flag | POWERON_RESET_FLAG |
+> wdt->cfg->extern_reset_flag;
+> 
+> ret = regmap_write(scu_base, wdt->cfg->reset_event, status);
+> 
+> Does this meet your expectations?
+> 
+> On Fri, Apr 26, 2024 at 8:42 AM Andrew Jeffery
+> <andrew@codeconstruct.com.au> wrote:
 >>
->> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Please use scripts/get_maintainers.pl to get a list of necessary people
-> and lists to CC (and consider --no-git-fallback argument). It might
-> happen, that command when run on an older kernel, gives you outdated
-> entries. Therefore please be sure you base your patches on recent Linux
-> kernel.
->
-> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-> people, so fix your workflow. Tools might also fail if you work on some
-> ancient tree (don't, instead use mainline), work on fork of kernel
-> (don't, instead use mainline) or you ignore some maintainers (really
-> don't). Just use b4 and everything should be fine, although remember
-> about `b4 prep --auto-to-cc` if you added new patches to the patchset.
->
->> ---
->>   .../devicetree/bindings/i2c/i2c-fsi.txt       | 40 -------------
->>   .../devicetree/bindings/i2c/ibm,i2c-fsi.yaml  | 59 +++++++++++++++++++
->>   2 files changed, 59 insertions(+), 40 deletions(-)
->>   delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-fsi.txt
->>   create mode 100644 Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
+>> On Thu, 2024-04-25 at 17:07 +0800, Peter Yin wrote:
+>>> Regarding the AST2600 specification, the WDTn Timeout Status Register
+>>> (WDT10) has bit 1 reserved. Bit 1 of the status register indicates
+>>> on ast2500 if the boot was from the second boot source.
+>>> It does not indicate that the most recent reset was triggered by
+>>> the watchdog. The code should just be changed to set WDIOF_CARDRESET
+>>> if bit 0 of the status register is set. However, this bit can be clear when
+>>> watchdog register 0x0c bit1(Reset System after timeout) is enabled.
+>>> Thereforce include SCU register to veriy WDIOF_EXTERN1 and WDIOF_CARDRESET
+>>> in ast2600 SCU74 or ast2400/ast2500 SCU3C.
+>>>
+>>> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
+>>> ---
+>>>   drivers/watchdog/aspeed_wdt.c | 109 ++++++++++++++++++++++++++++++++--
+>>>   1 file changed, 103 insertions(+), 6 deletions(-)
 >>
->
->> -    };
->> diff --git a/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml b/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
->> new file mode 100644
->> index 000000000000..473a45de1b6c
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
->> @@ -0,0 +1,59 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/i2c/ibm,i2c-fsi.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: IBM FSI-attached I2C controller
->> +
->> +maintainers:
->> +  - Eddie James <eajames@linux.ibm.com>
->> +
->> +description:
->> +  This I2C controller is an FSI CFAM engine, providing access to a number of
->> +  I2C busses. Therefore this node will always be a child of an FSI CFAM node;
->> +  see fsi.txt for details on FSI slave and CFAM nodes.
-> Here and in all other schemas - remove reference to fsi.txt. You are
-> going to drop this file once you convert everything, right?
+>> After this patch the probe() implementation is ~250loc with a whole
+>> bunch of conditional behaviours based on the SoC version. Maybe it's
+>> time to break it up into version-specific functions that are called
+>> from the probe() implementation?
+>>
+>> Andrew
 
-
-Good point, yes.
-
-
->
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ibm,i2c-fsi
->> +
->> +  reg:
->> +    items:
->> +      - description: FSI slave address
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +
->> +allOf:
->> +  - $ref: /schemas/i2c/i2c-controller.yaml#
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    i2c@1800 {
-> So no wrapper node is needed. Drop the wrapper node in previous patchset
-> where you introduced one with warning.
-
-
-The other one is actually a child node of the equivalent spi controller, 
-so it does need some sort of wrapper (address-cells and size-cells don't 
-match).
-
-
->
->
-> Best regards,
-> Krzysztof
->
