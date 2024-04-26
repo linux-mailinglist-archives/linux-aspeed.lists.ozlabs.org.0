@@ -1,51 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC88E8B3040
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:20:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 986718B304B
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:23:41 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dROt7lg7;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oahcaZI7;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjJl32B0z3vgn
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:20:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjNC264Rz3dmy
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:23:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dROt7lg7;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oahcaZI7;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjJf0HL5z30Kd;
-	Fri, 26 Apr 2024 16:20:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjN555dsz3cSX;
+	Fri, 26 Apr 2024 16:23:33 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 823D5CE1A15;
-	Fri, 26 Apr 2024 06:20:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492C0C113CD;
-	Fri, 26 Apr 2024 06:20:26 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id B0732CE1BC7;
+	Fri, 26 Apr 2024 06:23:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB951C113CD;
+	Fri, 26 Apr 2024 06:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714112431;
-	bh=uc8nBsRy/kKS7/y9JmVjEpVkj3GTeWLiH1Uq9RjTRSg=;
+	s=k20201202; t=1714112610;
+	bh=YtshXLNHd+oeMo09vvuPVWrGyeKWyQJGrt5mDGX3NiM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dROt7lg7029qLIS8L7ypl6PN61foHuRZFD899GApJeMjOWlm5obMGgugU25T8OPaK
-	 8XFXabfYlUdD/doJiPSSc1Vr80oOaaSbl1yayBGAUEiKFNye4OQHtJlOOkZQORx+dC
-	 nd0zNyl3/Y/c4axqYQZ5LgMuFEv8P+zK/3IXuoYjbZIIAo2Zi3e1naUu0ejloMR2H2
-	 FIKSz1Sqc4xgXIoO9MdUeVPJNUnx9ti3c4bN50pD0GM/7Vsxtjt8Zh+IjF7b19M4oa
-	 dVdIHrzw7WHZO6em3YLwzKefjnBa6EWa62fik+cj9zxQlNc7D2iwwQqn6UpJzEC1X1
-	 GrA8PQqOYHZRA==
-Message-ID: <5fb62fcf-36a8-4efa-9387-d0af8fcafb18@kernel.org>
-Date: Fri, 26 Apr 2024 08:20:24 +0200
+	b=oahcaZI7flfMnYzZIhm0Js0aQL7aZzyH/L68wKC+ovfKl6M3RyLA1jSMUup6zaZTU
+	 G+NVs+03/Egrn8xU/GvpMirylgYrAeZspGiEhnnIZZsm2I5c6S7RhYfuVjgo3o77bs
+	 pvnrul04Sq6Oqc1LVi4WJeTXzVfrsHwmhN76XHxq0iBOAAzBKvI45yHQuWcUZgpC0h
+	 tPQAkRvyMAOspuMJdSyiB9rAiT0tV3gzw40B5aiuGLpVSmLT5BgoId2wzB6AcODisc
+	 +VoMS3xUnJrFQVlB0zoRLNhWw6LvHsTvHlO1GVCL5lYMT4saK+K+3/hDwlKGRY12ZA
+	 VmB9cZq5o9uYQ==
+Message-ID: <3f381a54-49ce-4a45-a960-00cf2e91b044@kernel.org>
+Date: Fri, 26 Apr 2024 08:23:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/14] dt-bindings: fsi: Document the IBM SBEFIFO
- engine
+Subject: Re: [PATCH v3 06/14] dt-bindings: fsi: Document the FSI controller
+ common properties
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-6-eajames@linux.ibm.com>
+ <20240425213701.655540-7-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240425213701.655540-6-eajames@linux.ibm.com>
+In-Reply-To: <20240425213701.655540-7-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -110,42 +110,59 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 25/04/2024 23:36, Eddie James wrote:
-> The SBEFIFO engine provides an interface to the POWER processor
-> Self Boot Engine (SBE).
+> Since there are multiple FSI controllers documented, the common
+> properties should be documented separately and then referenced
+> from the specific controller documentation.
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 > ---
 
 
-> +description:
-> +  The SBEFIFO is an FSI CFAM engine that provides an interface to the
-> +  POWER processor Self Boot Engine (SBE). This node will always be a child
-> +  of an FSI CFAM node; see fsi.txt for details on FSI slave and CFAM
-> +  nodes.
 > +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ibm,p9-sbefifo
-> +      - ibm,odyssey-sbefifo
-> +
-> +  reg:
-> +    items:
-> +      - description: FSI slave address
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
+> +  no-scan-on-init:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      The FSI controller cannot scan the bus during initialization.
 > +
 > +patternProperties:
-> +  "^occ(@.*)?":
+> +  "cfam@[0-9a-f],[0-9a-f]":
+> +    type: object
+> +    properties:
+> +      chip-id:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
 
-Why unit address is optional?
+Missing description
 
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 1
+> +
+> +    required:
+> +      - reg
+> +
+> +    additionalProperties: true> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    fsi@3400 {
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +        compatible = "fsi-controller";
+
+No, there is no such compatible here.
+
+> +        reg = <0x3400 0x400>;
+
+Neither reg.
+
+Also, keep order of properties matching DTS coding style.
 
 
 Best regards,
