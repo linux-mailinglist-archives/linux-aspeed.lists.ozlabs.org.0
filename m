@@ -1,44 +1,44 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046D98B3025
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:17:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A04148B3030
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 08:18:24 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qFn07a4r;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nP49z1B7;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjDz4mtzz3dSd
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:17:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VQjG62LTFz3c5J
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 16:18:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qFn07a4r;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nP49z1B7;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjDv05kyz2xPd;
-	Fri, 26 Apr 2024 16:17:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQjG20G9lz2xPd;
+	Fri, 26 Apr 2024 16:18:18 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 00284CE1B9B;
-	Fri, 26 Apr 2024 06:17:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FCB1C113CE;
-	Fri, 26 Apr 2024 06:17:09 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 9C430CE1B9B;
+	Fri, 26 Apr 2024 06:18:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 978BDC113CD;
+	Fri, 26 Apr 2024 06:18:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714112234;
-	bh=Kyg1CztQ3JrcI+QF2gyuzG9xXs2XGKVQrTPd53DuGPo=;
+	s=k20201202; t=1714112295;
+	bh=TkzXZHSau1pHlNzNIZUdLGqxZ+qZ0oi0PrH5UqDNTvk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qFn07a4rb1R/DKgZVgGYvSEZGZUTwA0XYNg6OKtOQu847NVXKlNpD2JntbhExeOGM
-	 UPyD+hQ+NWWHCa0KjiI5e4oQEuU64iMnY+Ir0mrDMz1OrdG0OmXbPaU6GyQAIaM13O
-	 NAdvDwuqoX7RumwJiW3xvAcoXQxpWmzvIIMaW2wAzs3297KjoCuiuO6vHeCW5Cg/jG
-	 o21WwYC1zmVYUn+r/ja8rbjaXq+/mCIY/aXFgV1FTUuV2Px+maAMD5soANpna+iKzv
-	 eIcD9gw/VOzEyOjKcGyuUOSvWS9VaqxyFyZAn0rl/GHtTsfSE6HLjVGQcqEVqYJmAj
-	 s/I9wQGwxBntQ==
-Message-ID: <39bdf357-76c8-4ae4-9a06-d00ba9ce16e3@kernel.org>
-Date: Fri, 26 Apr 2024 08:17:07 +0200
+	b=nP49z1B7UjhZaSMgIvCsgHYL2oxCp2smBQ0fEUPIFEInloWPEj/gizGbYA06Oj3nn
+	 QtQRqv7cDfEZu7MvLXIVUnefjlc3W2YJcBxs1s+r64jRMuIJiRuiElnJLstf6oNIij
+	 L/47o9w6zRE/izvhF0bzu2rv34WcY3L1yv4fjqiv5s1iZcWWwnVldIfdnNJxRrfNZf
+	 a/2FDTgW8f512x1bZzeeW1xGL3wsaMbASmqM9+N7Om0Q5GS7xENyR+Ke5Kb8Q+gvvV
+	 DO3pKV110vcVtFvOMfAx+zYP9S60LlSKl+duacp+pAMP0Y3tIdxGHg3n/JDKR2jsI3
+	 UJIx0k6xo2RQA==
+Message-ID: <3f822b56-8e6a-43e4-afb0-15c964f9474e@kernel.org>
+Date: Fri, 26 Apr 2024 08:18:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 03/14] dt-bindings: fsi: Document the FSI2PIB engine
@@ -114,26 +114,41 @@ On 25/04/2024 23:36, Eddie James wrote:
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
 > ---
+>  .../devicetree/bindings/fsi/ibm,fsi2pib.yaml  | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml b/Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml
+> new file mode 100644
+> index 000000000000..4d557150c2e3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/fsi/ibm,fsi2pib.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: IBM FSI-attached SCOM engine
+> +
+> +maintainers:
+> +  - Eddie James <eajames@linux.ibm.com>
+> +
+> +description:
+> +  The SCOM engine is an interface to the POWER processor PIB (Pervasive
+> +  Interconnect Bus). This node will always be a child of an FSI CFAM node;
+> +  see fsi.txt for details on FSI slave and CFAM nodes.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ibm,fsi2pib
+> +      - ibm,i2cr-scom
 
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
----
-
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+Sometimes you call these p9, sometimes p10... what is the system or SoC
+here? Aren't you adding some generic compatibles? writing-bindings and
+numerous guides are clear on that.
 
 Best regards,
 Krzysztof
