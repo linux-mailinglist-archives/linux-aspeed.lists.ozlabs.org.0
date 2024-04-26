@@ -2,88 +2,89 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1728B3842
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 15:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE208B3879
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 15:32:39 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=e1NpjMIX;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=j6TIJZJX;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VQthL4njZz3cW8
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 23:23:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VQtv85fscz3cXW
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 23:32:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=e1NpjMIX;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=j6TIJZJX;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQthD1vNGz3cW1;
-	Fri, 26 Apr 2024 23:23:07 +1000 (AEST)
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43QD4OkI021284;
-	Fri, 26 Apr 2024 13:22:49 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VQtv26nkGz3cWk
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Apr 2024 23:32:30 +1000 (AEST)
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43QDRP9P027305;
+	Fri, 26 Apr 2024 13:32:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=pp1;
- bh=5sPoxtulQ7cFa0vgq7qqWjU5XaiBnaPCViXmi0y4pFs=;
- b=e1NpjMIXGH4nNJU1Xi6PnEs7Lp7vblsGhT2gw2Kik2zYLo9kPoBFFWZaJQic3uiAtlKy
- JfGy8kkDx3Mr5RUo5Sf5rZX2SX8NzZtqqbIVBitAGCVW8cx1HuyIzVuuLnGQqStpTSgU
- nE6wTSg/YVJotjGCt4K22BnsBrJVDQE2hP48YmxgtxE9YpG3QQn6GL7+TPf1zgmtm7q4
- fLqTXej3A/hAFFXzxCn9An1AV2av1TSCRf4ke85/oijJPqhh8TOvjyUM6S/FVlfwzrcS
- Cu4uQkzjUQg8WW/97Guo8L3DFV1M2rSWosl9ztzSiBrw7gvN155mnDFEztrNP8FdrVKQ Gw== 
+ bh=68d1wHYr0THvLHrFqO+EQYeAxXsNOhERLZBrbFoMOLc=;
+ b=j6TIJZJXO7GOuzE2lEQrrkpspBICAfpwo+XFBP6dRpJ4GM7NdJO8YIHY47Y+kcodlu4k
+ zT/NN/Z5KY9Nv7rUTop7n1n5bG/vNNcBi/O4bwrveY3u2jc0ffxrFoVrszpAQBmuxFMU
+ Gj0udE8D2cTzVYTNJHLBYTHgCvQb+SuuG1en2m6UiKex51YZxM6qdfO/wzMoi6rQkuZJ
+ ZgPUk3E9/uDKdGapLSwG+RR/PjeiiFMwxl73kFtktp7LbtWiYt8jpLKisrMzZNgnqIHe
+ 4TffVKAETUMLuHSLJ+MPTg9UaB/sD+PxBXlxvRnoP+eAMdb7clpIPkFlHm++aNeF3fQr Ng== 
 Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xrctg817j-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xrd5qg0gr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 13:22:49 +0000
+	Fri, 26 Apr 2024 13:32:23 +0000
 Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43QBGxuU028315;
-	Fri, 26 Apr 2024 13:22:48 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xmtr2ye9w-1
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43QAm19H028653;
+	Fri, 26 Apr 2024 13:32:22 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3xmtr2yfp1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 13:22:48 +0000
+	Fri, 26 Apr 2024 13:32:22 +0000
 Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43QDMjnf37028298
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43QDWJcV42533302
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 26 Apr 2024 13:22:47 GMT
+	Fri, 26 Apr 2024 13:32:21 GMT
 Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 978D558059;
-	Fri, 26 Apr 2024 13:22:45 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id B577558061;
+	Fri, 26 Apr 2024 13:32:19 +0000 (GMT)
 Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 49AC358043;
-	Fri, 26 Apr 2024 13:22:45 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 861E05805F;
+	Fri, 26 Apr 2024 13:32:19 +0000 (GMT)
 Received: from [9.61.156.17] (unknown [9.61.156.17])
 	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 26 Apr 2024 13:22:45 +0000 (GMT)
-Message-ID: <1d236c82-f335-43ad-878d-20a1cafccf81@linux.ibm.com>
-Date: Fri, 26 Apr 2024 08:22:45 -0500
+	Fri, 26 Apr 2024 13:32:19 +0000 (GMT)
+Message-ID: <da7bd5a5-6795-4ac9-8529-7dc3596061f9@linux.ibm.com>
+Date: Fri, 26 Apr 2024 08:32:19 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/14] ARM: dts: aspeed: Add IBM P11 Blueridge BMC
- system
-To: Krzysztof Kozlowski <krzk@kernel.org>, linux-aspeed@lists.ozlabs.org
-References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-14-eajames@linux.ibm.com>
- <b6c54d2e-9906-4607-bc19-e0de077c25b9@kernel.org>
+Subject: Re: [PATCH v2] ARM: dts: aspeed: Add IBM P11 BMC boards
+To: Andrew Jeffery <andrew@codeconstruct.com.au>,
+        linux-aspeed@lists.ozlabs.org
+References: <20240415154931.10775-1-eajames@linux.ibm.com>
+ <48ad6bcccae315e68bc0aa10669eed645c495139.camel@codeconstruct.com.au>
+ <7dd9ba1b-6477-4c09-a571-57002cbfa8b7@linux.ibm.com>
+ <6357235a4a42e889a2b6d7d7ad5511ded4cc29d8.camel@codeconstruct.com.au>
 Content-Language: en-US
 From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <b6c54d2e-9906-4607-bc19-e0de077c25b9@kernel.org>
+In-Reply-To: <6357235a4a42e889a2b6d7d7ad5511ded4cc29d8.camel@codeconstruct.com.au>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: huckSBBMeBLdF50cFa6Degttx0zdQ3Qp
-X-Proofpoint-GUID: huckSBBMeBLdF50cFa6Degttx0zdQ3Qp
-Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: O93TGq3cb5fRchxfObB7xzkNaGqHiDnQ
+X-Proofpoint-GUID: O93TGq3cb5fRchxfObB7xzkNaGqHiDnQ
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
  definitions=2024-04-26_12,2024-04-26_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- malwarescore=0 impostorscore=0 clxscore=1015 lowpriorityscore=0
- adultscore=0 spamscore=0 mlxscore=0 bulkscore=0 priorityscore=1501
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2404010000 definitions=main-2404260089
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 mlxlogscore=999 adultscore=0
+ priorityscore=1501 mlxscore=0 phishscore=0 spamscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2404010000
+ definitions=main-2404260090
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,584 +96,240 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
+Cc: lakshmiy@us.ibm.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
-On 4/26/24 01:35, Krzysztof Kozlowski wrote:
-> On 25/04/2024 23:37, Eddie James wrote:
->> Add the device tree for the new BMC system. The Blueridge is a
->> P11 system with four processors.
+On 4/25/24 19:03, Andrew Jeffery wrote:
+> On Thu, 2024-04-25 at 16:41 -0500, Eddie James wrote:
+>> On 4/15/24 19:02, Andrew Jeffery wrote:
+>>> On Mon, 2024-04-15 at 10:49 -0500, Eddie James wrote:
+>>>> Add the Blueridge and Fuji BMC systems.
+>>>>
+>>>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>>>> ---
+>>>> Changes since v1:
+>>>>    - Change "ody" to "odyssey"
+>>>>
+>>>>    arch/arm/boot/dts/aspeed/Makefile             |    2 +
+>>>>    .../dts/aspeed/aspeed-bmc-ibm-blueridge.dts   | 1752 +++++++
+>>>>    .../boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts   | 4016 +++++++++++++++++
+>>>>    .../arm/boot/dts/aspeed/ibm-power11-quad.dtsi | 1704 +++++++
+>>>>    4 files changed, 7474 insertions(+)
+>>> A few points:
+>>>
+>>> - Altogether this patch is pretty large. Can we do one for each of the
+>>> FSI topology and the platforms?
+>>>
+>>> - The only list to which you've sent the patch is linux-aspeed, which
+>>> doesn't appear to be archived on lore. Can you please add at least one
+>>> that is? There are a few that should probably be included regardless.
+>>>
+>>> - I don't plan to merge the patch until it has had review from ideally
+>>> more than one other IBMer
+>>>
+>>> On the review front:
+>>>
+>>> It looks like you still need to update
+>>> Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml with the new
+>>> platform compatible strings.
+>>>
+>>> Also, can you please run
+>>>
+>>> ```
+>>> make CHECK_DTBS=y aspeed/aspeed-bmc-ibm-{blueridge,fuji}.dtb
+>>> ```
+>>>
+>>> and address the warnings? This is best done by first applying the patch
+>>> on top of my tree below. It goes some way to eliminating many of the
+>>> warnings currently produced for the Aspeed BMC SoCs:
+>>>
+>>> https://github.com/amboar/linux/tree/dt-warnings/all
 >>
->> Signed-off-by: Eddie James <eajames@linux.ibm.com>
->> ---
->>   .../dts/aspeed/aspeed-bmc-ibm-blueridge.dts   | 1711 +++++++++++++++++
->>   1 file changed, 1711 insertions(+)
->>   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts
+>> Thanks, I've sent v3. One patch has turned into 14 to address the
+>> warnings...
 >>
->> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts
->> new file mode 100644
->> index 000000000000..8503ce2480b5
->> --- /dev/null
->> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts
->> @@ -0,0 +1,1711 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +// Copyright 2024 IBM Corp.
->> +/dts-v1/;
->> +
->> +#include "aspeed-g6.dtsi"
->> +#include <dt-bindings/gpio/aspeed-gpio.h>
->> +#include <dt-bindings/i2c/i2c.h>
->> +#include <dt-bindings/leds/leds-pca955x.h>
->> +
->> +/ {
->> +	model = "Blueridge";
->> +	compatible = "ibm,blueridge-bmc", "aspeed,ast2600";
->> +
->> +	aliases {
->> +		serial4 = &uart5;
->> +		i2c16 = &i2c2mux0;
->> +		i2c17 = &i2c2mux1;
->> +		i2c18 = &i2c2mux2;
->> +		i2c19 = &i2c2mux3;
->> +		i2c20 = &i2c4mux0chn0;
->> +		i2c21 = &i2c4mux0chn1;
->> +		i2c22 = &i2c4mux0chn2;
->> +		i2c23 = &i2c5mux0chn0;
->> +		i2c24 = &i2c5mux0chn1;
->> +		i2c25 = &i2c6mux0chn0;
->> +		i2c26 = &i2c6mux0chn1;
->> +		i2c27 = &i2c6mux0chn2;
->> +		i2c28 = &i2c6mux0chn3;
->> +		i2c29 = &i2c11mux0chn0;
->> +		i2c30 = &i2c11mux0chn1;
->> +	};
->> +
->> +	chosen {
->> +		stdout-path = &uart5;
->> +		bootargs = "console=ttyS4,115200n8 earlycon";
-> Drop bootargs. ALWAYS.
+> Super work, thanks for that.
 >
->
->> +	};
->> +
->> +	memory@80000000 {
->> +		device_type = "memory";
->> +		reg = <0x80000000 0x40000000>;
->> +	};
->> +
->> +	reserved-memory {
->> +		#address-cells = <1>;
->> +		#size-cells = <1>;
->> +		ranges;
->> +
->> +		event_log: tcg_event_log@b3d00000 {
-> No underscores.
->
-> Didn't you already received such basic review?
+>>   There were still many but they're almost all from
+>> aspeed-g6.dtsi.
+>>
+> This is based on top of my WIP series fixing a bunch of warnings, or on
+> top of an upstream tag for submission? Admittedly I didn't fix them all
+> but I did clean up a decent chunk of what was there.
 
 
-Thanks for your detailed review Krzysztof. These device trees are based 
-off 5 year old device trees that were merged when the rules were much 
-less strict. I will attempt to address all of your comments for these 
-new dts.
+For submission I rebased on next, but when checking warnings I used your 
+tree. Here's my output:
 
 
-Thanks,
+DTC_CHK arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+timer: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+     from schema $id: 
+http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+sdram@1e6e0000: compatible: ['aspeed,ast2600-sdram-edac', 'syscon'] is 
+too long
+     from schema $id: 
+http://devicetree.org/schemas/edac/aspeed,ast2400-sdram-edac.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+ahb: apb: { ... } should not be valid under {'type': 'object'}
+     from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+bus@1e600000: compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+     from schema $id: 
+http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+ethernet@1e670000: Unevaluated properties are not allowed 
+('#address-cells', '#size-cells' were unexpected)
+     from schema $id: 
+http://devicetree.org/schemas/net/faraday,ftgmac100.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+ethernet@1e690000: Unevaluated properties are not allowed 
+('#address-cells', '#size-cells' were unexpected)
+     from schema $id: 
+http://devicetree.org/schemas/net/faraday,ftgmac100.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+syscon@1e6e2000: 'smp-memram@180' does not match any of the regexes: 
+'^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', 
+'^pinctrl(@[0-9a-f]+)?$', '^silicon-id@[0-9a-f]+$', 'pinctrl-[0-9]+'
+     from schema $id: 
+http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with 
+compatible: ['aspeed,ast2600-smpmem']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/display@1e6e6000: failed to match any schema with compatible: 
+['aspeed,ast2600-gfx', 'syscon']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/xdma@1e6e7000: failed to match any schema with compatible: 
+['aspeed,ast2600-xdma']
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+adc@1e6e9000: 'interrupts' does not match any of the regexes: 
+'pinctrl-[0-9]+'
+     from schema $id: 
+http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+adc@1e6e9100: 'interrupts' does not match any of the regexes: 
+'pinctrl-[0-9]+'
+     from schema $id: 
+http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+crypto@1e6fa000: 'aspeed,ahbc' does not match any of the regexes: 
+'pinctrl-[0-9]+'
+     from schema $id: 
+http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+gpio@1e780000: 'i2c3_mux_oe_n-hog', 'usb_power-hog' do not match any of 
+the regexes: 'pinctrl-[0-9]+'
+     from schema $id: 
+http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with 
+compatible: ['aspeed,ast2600-lhc']
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+sdc@1e750000: sdhci@1e750100: Unevaluated properties are not allowed 
+('compatible' was unexpected)
+     from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+sdc@1e750000: sdhci@1e750100:compatible: ['aspeed,ast2600-sdhci'] is too 
+short
+     from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@200/pca9552@61: failed to match any schema 
+with compatible: ['nxp,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@280/i2c-mux@70/i2c@0/pca9551@60: failed to 
+match any schema with compatible: ['nxp,pca9551']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@300/i2c-mux@70/i2c@0/pca9551@60: failed to 
+match any schema with compatible: ['nxp,pca9551']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@300/i2c-mux@70/i2c@1/pca9551@61: failed to 
+match any schema with compatible: ['nxp,pca9551']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@400/pca9552@30: failed to match any schema 
+with compatible: ['ibm,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@400/pca9552@31: failed to match any schema 
+with compatible: ['ibm,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@400/pca9552@32: failed to match any schema 
+with compatible: ['ibm,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@400/pca9552@33: failed to match any schema 
+with compatible: ['ibm,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@400/max31785@52: failed to match any 
+schema with compatible: ['maxim,max31785a']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@400/pca9551@60: failed to match any schema 
+with compatible: ['nxp,pca9551']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@400/pca9552@61: failed to match any schema 
+with compatible: ['nxp,pca9552']
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+dps310@76: '#io-channel-cells' does not match any of the regexes: 
+'pinctrl-[0-9]+'
+     from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@480/pca9552@60: failed to match any schema 
+with compatible: ['nxp,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@480/pca9552@61: failed to match any schema 
+with compatible: ['nxp,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@600/i2c-mux@70/i2c@0/pca9551@60: failed to 
+match any schema with compatible: ['nxp,pca9551']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@700/pca9552@60: failed to match any schema 
+with compatible: ['nxp,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@780/pca9552@60: failed to match any schema 
+with compatible: ['nxp,pca9552']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/bus@1e78a000/i2c-bus@800/pca9552@60: failed to match any schema 
+with compatible: ['nxp,pca9552']
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+fsi@1e79b000: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is 
+too long
+     from schema $id: 
+http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+fsi@1e79b000: Unevaluated properties are not allowed ('compatible' was 
+unexpected)
+     from schema $id: 
+http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/fsi@1e79b000: failed to match any schema with compatible: 
+['aspeed,ast2600-fsi-master', 'fsi-master']
+/home/eajames/devel/linux-2/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+fsi@1e79b100: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is 
+too long
+     from schema $id: 
+http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/fsi@1e79b100: failed to match any schema with compatible: 
+['aspeed,ast2600-fsi-master', 'fsi-master']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: 
+/ahb/apb/dma-controller@1e79e000: failed to match any schema with 
+compatible: ['aspeed,ast2600-udma']
 
-Eddie
-
 
 >
+>>   The only remaining ones from Blueridge/Fuji that I saw
+>> were for undocumented compatibles for max31785 and pca955x.
+>>
+> Fantastic.
 >
->> +			no-map;
->> +			reg = <0xb3d00000 0x100000>;
->> +		};
->> +
->> +		ramoops@b3e00000 {
->> +			compatible = "ramoops";
->> +			reg = <0xb3e00000 0x200000>; /* 16 * (4 * 0x8000) */
->> +			record-size = <0x8000>;
->> +			console-size = <0x8000>;
->> +			ftrace-size = <0x8000>;
->> +			pmsg-size = <0x8000>;
->> +			max-reason = <3>; /* KMSG_DUMP_EMERG */
->> +		};
->> +
->> +		/* LPC FW cycle bridge region requires natural alignment */
->> +		flash_memory: region@b4000000 {
->> +			no-map;
->> +			reg = <0xb4000000 0x04000000>; /* 64M */
->> +		};
->> +
->> +		/* VGA region is dictated by hardware strapping */
->> +		vga_memory: region@bf000000 {
->> +			no-map;
->> +			compatible = "shared-dma-pool";
->> +			reg = <0xbf000000 0x01000000>;  /* 16M */
->> +		};
->> +	};
->> +
->> +	i2c2mux: i2cmux {
->> +		compatible = "i2c-mux-gpio";
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->> +		status = "okay";
-> ??? Drop
+>> Those
+>> bindings exist but are not in yaml format so the tool doesn't pick them
+>> up. I'm sure those can be addressed at another time...
+> Yep, sounds good.
 >
+> Thanks for your efforts.
 >
->> +
->> +		i2c-parent = <&i2c2>;
->> +		mux-gpios = <&gpio0 ASPEED_GPIO(G, 4) GPIO_ACTIVE_HIGH>,
->> +			    <&gpio0 ASPEED_GPIO(G, 5) GPIO_ACTIVE_HIGH>;
->> +		idle-state = <0>;
->> +
->> +		i2c2mux0: i2c@0 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <0>;
->> +		};
->> +
->> +		i2c2mux1: i2c@1 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <1>;
->> +		};
->> +
->> +		i2c2mux2: i2c@2 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <2>;
->> +		};
->> +
->> +		i2c2mux3: i2c@3 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <3>;
->> +		};
->> +	};
->> +
->> +	leds {
->> +		compatible = "gpio-leds";
->> +
->> +		/* BMC Card fault LED at the back */
->> +		led-bmc-ingraham0 {
->> +			gpios = <&gpio0 ASPEED_GPIO(H, 1) GPIO_ACTIVE_LOW>;
->> +		};
->> +
->> +		/* Enclosure ID LED at the back */
->> +		led-rear-enc-id0 {
->> +			gpios = <&gpio0 ASPEED_GPIO(H, 2) GPIO_ACTIVE_LOW>;
->> +		};
->> +
->> +		/* Enclosure fault LED at the back */
->> +		led-rear-enc-fault0 {
->> +			gpios = <&gpio0 ASPEED_GPIO(H, 3) GPIO_ACTIVE_LOW>;
->> +		};
->> +
->> +		/* PCIE slot power LED */
->> +		led-pcieslot-power {
->> +			gpios = <&gpio0 ASPEED_GPIO(P, 4) GPIO_ACTIVE_LOW>;
->> +		};
->> +	};
->> +
->> +	gpio-keys-polled {
->> +		compatible = "gpio-keys-polled";
->> +		poll-interval = <1000>;
->> +
->> +		event-fan0-presence {
->> +			label = "fan0-presence";
->> +			gpios = <&pca0 6 GPIO_ACTIVE_LOW>;
->> +			linux,code = <6>;
->> +		};
->> +
->> +		event-fan1-presence {
->> +			label = "fan1-presence";
->> +			gpios = <&pca0 7 GPIO_ACTIVE_LOW>;
->> +			linux,code = <7>;
->> +		};
->> +
->> +		event-fan2-presence {
->> +			label = "fan2-presence";
->> +			gpios = <&pca0 8 GPIO_ACTIVE_LOW>;
->> +			linux,code = <8>;
->> +		};
->> +
->> +		event-fan3-presence {
->> +			label = "fan3-presence";
->> +			gpios = <&pca0 9 GPIO_ACTIVE_LOW>;
->> +			linux,code = <9>;
->> +		};
->> +
->> +		event-fan4-presence {
->> +			label = "fan4-presence";
->> +			gpios = <&pca0 10 GPIO_ACTIVE_LOW>;
->> +			linux,code = <10>;
->> +		};
->> +
->> +		event-fan5-presence {
->> +			label = "fan5-presence";
->> +			gpios = <&pca0 11 GPIO_ACTIVE_LOW>;
->> +			linux,code = <11>;
->> +		};
->> +	};
->> +
->> +	iio-hwmon {
->> +		compatible = "iio-hwmon";
->> +		io-channels = <&adc1 7>;
->> +	};
->> +};
->> +
->> +&adc1 {
->> +	status = "okay";
->> +	aspeed,int-vref-microvolt = <2500000>;
->> +	pinctrl-names = "default";
->> +	pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default
->> +		&pinctrl_adc10_default &pinctrl_adc11_default
->> +		&pinctrl_adc12_default &pinctrl_adc13_default
->> +		&pinctrl_adc14_default &pinctrl_adc15_default>;
->> +};
->> +
->> +&ehci1 {
->> +	status = "okay";
->> +};
->> +
->> +&uhci {
->> +	status = "okay";
->> +};
->> +
->> +&gpio0 {
->> +	gpio-line-names =
->> +	/*A0-A7*/	"","","","","","","","",
->> +	/*B0-B7*/	"","","","","","","checkstop","",
->> +	/*C0-C7*/	"","","","","","","","",
->> +	/*D0-D7*/	"","","","","","","","",
->> +	/*E0-E7*/	"","","","","","","","",
->> +	/*F0-F7*/	"","","rtc-battery-voltage-read-enable","reset-cause-pinhole","","","factory-reset-toggle","",
->> +	/*G0-G7*/	"","","","","","","","",
->> +	/*H0-H7*/	"","bmc-ingraham0","rear-enc-id0","rear-enc-fault0","","","","",
->> +	/*I0-I7*/	"","","","","","","bmc-secure-boot","",
->> +	/*J0-J7*/	"","","","","","","","",
->> +	/*K0-K7*/	"","","","","","","","",
->> +	/*L0-L7*/	"","","","","","","","",
->> +	/*M0-M7*/	"","","","","","","","",
->> +	/*N0-N7*/	"","","","","","","","",
->> +	/*O0-O7*/	"","","","usb-power","","","","",
->> +	/*P0-P7*/	"","","","","pcieslot-power","","","",
->> +	/*Q0-Q7*/	"cfam-reset","","regulator-standby-faulted","","","","","",
->> +	/*R0-R7*/	"bmc-tpm-reset","power-chassis-control","power-chassis-good","","","","","",
->> +	/*S0-S7*/	"presence-ps0","presence-ps1","presence-ps2","presence-ps3",
->> +	"power-ffs-sync-history","","","",
->> +	/*T0-T7*/	"","","","","","","","",
->> +	/*U0-U7*/	"","","","","","","","",
->> +	/*V0-V7*/	"","","","","","","","",
->> +	/*W0-W7*/	"","","","","","","","",
->> +	/*X0-X7*/	"","","","","","","","",
->> +	/*Y0-Y7*/	"","","","","","","","",
->> +	/*Z0-Z7*/	"","","","","","","","";
->> +
->> +	i2c3_mux_oe_n-hog {
->> +		gpio-hog;
->> +		gpios = <ASPEED_GPIO(G, 6) GPIO_ACTIVE_LOW>;
->> +		output-high;
->> +		line-name = "I2C3_MUX_OE_N";
->> +	};
->> +
->> +	usb_power-hog {
->> +		gpio-hog;
->> +		gpios = <ASPEED_GPIO(O, 3) GPIO_ACTIVE_LOW>;
->> +		output-high;
->> +	};
->> +};
->> +
->> +&emmc_controller {
->> +	status = "okay";
->> +};
->> +
->> +&pinctrl_emmc_default {
->> +	bias-disable;
->> +};
->> +
->> +&emmc {
->> +	status = "okay";
->> +	clk-phase-mmc-hs200 = <180>, <180>;
->> +};
->> +
->> +&ibt {
->> +	status = "okay";
->> +};
->> +
->> +&i2c0 {
->> +	status = "okay";
->> +
->> +	eeprom@51 {
->> +		compatible = "atmel,24c64";
->> +		reg = <0x51>;
->> +	};
->> +
->> +	tca_pres1: tca9554@20{
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->
-> Also missing space before {
->
->
->> +		compatible = "ti,tca9554";
->> +		reg = <0x20>;
->> +		gpio-controller;
->> +		#gpio-cells = <2>;
->> +
->> +		gpio-line-names = "",
->> +			"RUSSEL_FW_I2C_ENABLE_N",
->> +			"RUSSEL_OPPANEL_PRESENCE_N",
->> +			"BLYTH_OPPANEL_PRESENCE_N",
->> +			"CPU_TPM_CARD_PRESENT_N",
->> +			"DASD_BP2_PRESENT_N",
->> +			"DASD_BP1_PRESENT_N",
->> +			"DASD_BP0_PRESENT_N";
->> +	};
->> +};
->> +
->> +&i2c1 {
->> +	status = "okay";
->> +};
->> +
->> +&i2c2 {
->> +	status = "okay";
->> +};
->> +
->> +&i2c3 {
->> +	status = "okay";
->> +
->> +	power-supply@68 {
->> +		compatible = "ibm,cffps";
->> +		reg = <0x68>;
->> +	};
->> +
->> +	power-supply@69 {
->> +		compatible = "ibm,cffps";
->> +		reg = <0x69>;
->> +	};
->> +
->> +	pca_pres1: pca9552@61 {
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->
->
->> +		compatible = "nxp,pca9552";
->> +		reg = <0x61>;
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->> +
->> +		gpio-controller;
->> +		#gpio-cells = <2>;
->> +
->> +		gpio-line-names =
->> +			"SLOT0_PRSNT_EN_RSVD", "SLOT1_PRSNT_EN_RSVD",
->> +			"SLOT2_PRSNT_EN_RSVD", "SLOT3_PRSNT_EN_RSVD",
->> +			"SLOT4_PRSNT_EN_RSVD", "SLOT0_EXPANDER_PRSNT_N",
->> +			"SLOT1_EXPANDER_PRSNT_N", "SLOT2_EXPANDER_PRSNT_N",
->> +			"SLOT3_EXPANDER_PRSNT_N", "SLOT4_EXPANDER_PRSNT_N",
->> +			"", "", "", "", "", "";
->> +	};
->> +};
->> +
->> +&i2c4 {
->> +	status = "okay";
->> +
->> +	tmp275@48 {
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->
->
->
->> +		compatible = "ti,tmp275";
->> +		reg = <0x48>;
->> +	};
->> +
->> +	tmp275@49 {
-> So it's everywhere...
->
->> +		compatible = "ti,tmp275";
->> +		reg = <0x49>;
->> +	};
->> +
->> +	tmp275@4a {
->> +		compatible = "ti,tmp275";
->> +		reg = <0x4a>;
->> +	};
->> +
->> +	i2c-mux@70 {
->> +		compatible = "nxp,pca9546";
->> +		reg = <0x70>;
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->> +		status = "okay";
-> Why? Drop
->
->> +		i2c-mux-idle-disconnect;
->> +
->> +		i2c4mux0chn0: i2c@0 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <0>;
->> +
->> +			eeprom@50 {
->> +				compatible = "atmel,24c64";
->> +				reg = <0x50>;
->> +			};
->> +
->> +			pca9551@60 {
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->
->
->> +				compatible = "nxp,pca9551";
->> +				reg = <0x60>;
->> +				#address-cells = <1>;
->> +				#size-cells = <0>;
->> +
->> +				gpio-controller;
->> +				#gpio-cells = <2>;
->> +
->> +				led@0 {
->> +					label = "cablecard0-cxp-top";
->> +					reg = <0>;
->> +					retain-state-shutdown;
->> +					default-state = "keep";
->> +					type = <PCA955X_TYPE_LED>;
->> +				};
->> +
->> +				led@1 {
->> +					label = "cablecard0-cxp-bot";
->> +					reg = <1>;
->> +					retain-state-shutdown;
->> +					default-state = "keep";
->> +					type = <PCA955X_TYPE_LED>;
->> +				};
->> +			};
->> +		};
->> +
->> +		i2c4mux0chn1: i2c@1 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <1>;
-> reg is after compatible, which means if there is no compatible, reg is
-> always first. This applies you all your DTS patches. This patchset and
-> future.
->
->
->> +
->> +			eeprom@51 {
->> +				compatible = "atmel,24c64";
->> +				reg = <0x51>;
->> +			};
->> +		};
->> +
->> +		i2c4mux0chn2: i2c@2 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <2>;
->> +
->> +			eeprom@52 {
->> +				compatible = "atmel,24c64";
->> +				reg = <0x52>;
->> +			};
->> +		};
->> +	};
->> +};
->> +
->> +&i2c5 {
->> +	status = "okay";
->> +
->> +	tmp275@48 {
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
->
->
->> +		compatible = "ti,tmp275";
->> +		reg = <0x48>;
->> +	};
->> +
->> +	tmp275@49 {
->> +		compatible = "ti,tmp275";
->> +		reg = <0x49>;
->> +	};
->> +
->> +	i2c-mux@70 {
->> +		compatible = "nxp,pca9546";
->> +		reg = <0x70>;
->> +		#address-cells = <1>;
->> +		#size-cells = <0>;
->> +		status = "okay";
-> Drop
->
->
->> +		i2c-mux-idle-disconnect;
->> +
->> +		i2c5mux0chn0: i2c@0 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <0>;
->> +
->> +			eeprom@50 {
->> +				compatible = "atmel,24c64";
->> +				reg = <0x50>;
->> +			};
->> +
->> +			pca9551@60 {
->> +				compatible = "nxp,pca9551";
->> +				reg = <0x60>;
->> +				#address-cells = <1>;
->> +				#size-cells = <0>;
->> +
->> +				gpio-controller;
->> +				#gpio-cells = <2>;
->> +
->> +				led@0 {
->> +					label = "cablecard3-cxp-top";
->> +					reg = <0>;
->> +					retain-state-shutdown;
->> +					default-state = "keep";
->> +					type = <PCA955X_TYPE_LED>;
->> +				};
->> +
->> +				led@1 {
->> +					label = "cablecard3-cxp-bot";
->> +					reg = <1>;
->> +					retain-state-shutdown;
->> +					default-state = "keep";
->> +					type = <PCA955X_TYPE_LED>;
->> +				};
->> +			};
->> +		};
->> +
->> +		i2c5mux0chn1: i2c@1 {
->> +			#address-cells = <1>;
->> +			#size-cells = <0>;
->> +			reg = <1>;
->> +
->> +			eeprom@51 {
->> +				compatible = "atmel,24c64";
->> +				reg = <0x51>;
->> +			};
->> +
->> +			pca9551@61 {
->> +				compatible = "nxp,pca9551";
->> +				reg = <0x61>;
->> +				#address-cells = <1>;
->> +				#size-cells = <0>;
->
-> And here you have correct order of properties...
->
->
->
-> Best regards,
-> Krzysztof
+> Andrew
 >
