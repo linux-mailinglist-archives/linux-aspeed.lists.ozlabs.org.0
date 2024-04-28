@@ -1,56 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42998B3F87
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Apr 2024 20:43:47 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BEF8B4C30
+	for <lists+linux-aspeed@lfdr.de>; Sun, 28 Apr 2024 16:32:03 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pEpZMXqu;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HorQVCLT;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VR1p075htz3cZn
-	for <lists+linux-aspeed@lfdr.de>; Sat, 27 Apr 2024 04:43:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VS86m4Q9bz3cRy
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 00:32:00 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pEpZMXqu;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HorQVCLT;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52b; helo=mail-pg1-x52b.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VR1nq455Mz3cY6;
-	Sat, 27 Apr 2024 04:43:27 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 89D2862101;
-	Fri, 26 Apr 2024 18:43:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E04B0C113CD;
-	Fri, 26 Apr 2024 18:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714157002;
-	bh=//roZ7d56KeyEoiiQbKnxou+fpOtupIebykulRJaAnk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pEpZMXquU9zZvYVZjS04pb+WnKxoGkbsYMhf9/TGM5BvUTar3e6Lvy52Q748UiPXi
-	 +YMQeYBpomVn/1IK01fDbkBHSwj9PEbMomSkc1J0HisKywT/2EHN6jEPmlQCM0DD5U
-	 y48DtWApNH3E3nHltE3hWBZErpw92MHtOvP/TVTYrxQcbufqXZEdzZcqbQqdG8JniR
-	 vlQQoapcuHOqFyaged4CjkUOwro5cofI1yDjSbICZ7+2TysZw1F6CJp7d/38MsFFAX
-	 rG7xFLtvuKBUcY8ZBh2yWPjubCehAQlfrJOGRB0Vet5TkWuFDEKiP14HcEY96EqFAY
-	 ydH4x1g3aF2Dw==
-Date: Fri, 26 Apr 2024 13:43:19 -0500
-From: Rob Herring <robh@kernel.org>
-To: Eddie James <eajames@linux.ibm.com>
-Subject: Re: [PATCH v3 08/14] dt-bindings: fsi: ast2600-fsi-master: Switch to
- yaml format
-Message-ID: <20240426184319.GA2558853-robh@kernel.org>
-References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-9-eajames@linux.ibm.com>
- <5822e000-01d3-442c-bb52-04fab87cb3da@kernel.org>
- <24e7644e-f9ff-4a4b-8883-33b2f69b36cf@linux.ibm.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VS86W2ll2z3bjK
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2024 00:31:46 +1000 (AEST)
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-5f7a42bf0adso2565487a12.1
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 28 Apr 2024 07:31:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714314701; x=1714919501; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=59EuPpmQZ2ij22OGvTjuvfEIHIx/+kEAdk6lJgaolM0=;
+        b=HorQVCLTidrKoMEhUWdPwQokPTqj7CgBvxFRSdHDEtwfuF/2/qMiqksWmfQk6FfwXC
+         6bfsm0wzfvt0VWTllfxem2n6Z+NiWi6oKNSbgtNkr51EmI1O0tEYmWBgilMseDnGymsW
+         Z4CPFtLvcYlYB7bTuvhqKwy2hqogJQ4RYv2O7FMrZFhLLEggirMlrS36VxSdM+kh2qI5
+         S9p68ccWgCmjxNO0P1YlBpDGCEVVIbmXnvqrXQl++yikZh6y7pDmI3u4QuodN5lsT1+O
+         echxg8om4Zb8KAy3RXmb49JBay6Ns4Fn9AAjX3XltOVv/ogLH8Hxy+7meuFFUMc3I+p7
+         FfUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714314701; x=1714919501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=59EuPpmQZ2ij22OGvTjuvfEIHIx/+kEAdk6lJgaolM0=;
+        b=ARj1ZVi2dKuA+LpA89V8rky8ANyP26WXU2hYdnbX98U9KuMcIiDNCFMe00uMbfXCOz
+         5JDrIIPToN22J/JVwnQex+VfurWsm/qmx85h19xSt+DLjgMI7uV5aO9uV0tjYct6w0CA
+         DEJRuP2ZOUK9sOmqRH7YgPa4I6mb5pED7k1ppCLp1U8RTLZDknwAjrzE1n8bxYchmQWN
+         LRe8LDgmO0aWjfhKVDZFzcdYCg9dgcEOO7iLRe+3BGqlWJUqBruubpew3LXnkaGrJuA2
+         P6NDa/KpATmp/4CJMStHCQuzPHZQfGRBhbUqccUqBmXL5aOO6uH5Cyg7QzdgN7U10efA
+         vBqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWwIkP3OWuGeAPtewvd0biAFJSRRiRPV3cyFtRKhbCnC0KFdNCxdXw3nSRUh1qAx16J2mSQJgLXuMMCm04/0hdK5KLSnUVTitBxPOoNEQ==
+X-Gm-Message-State: AOJu0Yy5qXnjn3+VZ3GzdArsyMUU0rHuqmEdAUBFkeG3jTJvy4stYSF6
+	b2xPhlgp8mCPA0Tsw7YKOuEL6ksVoEipf9ZX2NdQw/+NZJzItL63
+X-Google-Smtp-Source: AGHT+IF8P9xi3Y/OKCRwo4517T0rc2kzeu7K9T9yHbVaapsQ6rwWWUZLFHeMRWJrF/Apg+3rTcbhgA==
+X-Received: by 2002:a05:6a20:5528:b0:1aa:a421:4239 with SMTP id ko40-20020a056a20552800b001aaa4214239mr6779394pzb.15.1714314700978;
+        Sun, 28 Apr 2024 07:31:40 -0700 (PDT)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id h6-20020a636c06000000b00612dc2ec375sm1034834pgc.16.2024.04.28.07.31.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Apr 2024 07:31:40 -0700 (PDT)
+From: Peter Yin <peteryin.openbmc@gmail.com>
+To: patrick@stwcx.xyz,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	linux-watchdog@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v8 0/1] drivers: watchdog: revise watchdog bootstatus
+Date: Sun, 28 Apr 2024 22:29:35 +0800
+Message-Id: <20240428142937.785925-1-peteryin.openbmc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <24e7644e-f9ff-4a4b-8883-33b2f69b36cf@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +83,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Apr 26, 2024 at 10:13:52AM -0500, Eddie James wrote:
-> 
-> On 4/26/24 01:25, Krzysztof Kozlowski wrote:
-> > On 25/04/2024 23:36, Eddie James wrote:
-> > > Switch to yaml for the AST2600 FSI master documentation.
-> > > 
-> > > Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> > > ---
-> > >   .../fsi/aspeed,ast2600-fsi-master.yaml        | 72 +++++++++++++++++++
-> > >   .../bindings/fsi/fsi-master-aspeed.txt        | 36 ----------
-> > >   2 files changed, 72 insertions(+), 36 deletions(-)
-> > >   create mode 100644 Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
-> > >   delete mode 100644 Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml b/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
-> > > new file mode 100644
-> > > index 000000000000..f053e3e1d259
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
-> > > @@ -0,0 +1,72 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Aspeed FSI master
-> > > +
-> > > +maintainers:
-> > > +  - Eddie James <eajames@linux.ibm.com>
-> > > +
-> > > +description:
-> > > +  The AST2600 and later contain two identical FSI masters. They share a
-> > > +  clock and have a separate interrupt line and output pins.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - "aspeed,ast2600-fsi-master"
-> > > +      - "aspeed,ast2700-fsi-master"
-> > This wasn't tested. No quotes. Do you see any other example like this?
-> 
-> 
-> Strangely this passes make dt_binding_check for me... And Rob's bot didn't
-> seem to catch it either. Just an oversight, I'll fix it.
+Regarding the AST2600 specification, the WDTn Timeout Status Register
+(WDT10) has bit 1 reserved. Bit 1 of the status register indicates
+on ast2500 if the boot was from the second boot source.
+It does not indicate that the most recent reset was triggered by
+the watchdog. The code should just be changed to set WDIOF_CARDRESET
+if bit 0 of the status register is set. However, this bit can be clear when
+watchdog register 0x0c bit1(Reset System after timeout) is enabled.
+Thereforce include SCU register to veriy WDIOF_EXTERN1 and WDIOF_CARDRESET
+in ast2600 SCU74 or ast2400/ast2500 SCU3C.
 
-Disabled due to yamllint bug. The fix is now released, so that reminds 
-me to go enable it.
+Change Log:
 
-Rob
+v7 -> v8
+   - Simplify the code.
+
+v6 -> v7
+   - To use syscon_regmap_lookup_by_compatibleys to get scu base
+   - Power on reset is set when triggered by AC or SRSRST.
+     Thereforce, we clear flag to ensure next boot cause is a real watchdog case.
+     We use the external reset flag to determine
+     if it is an external reset or card reset.
+
+v5 -> v6
+  - Fixed missing WDT_TIMEOUT_STATUS_EVENT.
+
+v4 -> v5
+  - Revert indentation.
+
+v3 -> v4
+  - Add error handling for syscon_regmap_lookup_by_phandle and
+  regmap_read.
+
+v2 -> v3
+  - Fixed WDIOF_CARDRESET status bit check and added support
+  for WDIOF_EXTERN1 on ast2500 and ast2600.
+
+v1 -> v2
+  - Add comment and support WDIOF_CARDRESET in ast2600
+
+v1
+  - Patch 0001 - Add WDIOF_EXTERN1 bootstatus
+---
+
+ drivers/watchdog/aspeed_wdt.c | 109 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 103 insertions(+), 6 deletions(-)
+
+-- 
+2.25.1
+
