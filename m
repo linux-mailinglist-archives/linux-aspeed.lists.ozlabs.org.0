@@ -1,52 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2888B4CC6
-	for <lists+linux-aspeed@lfdr.de>; Sun, 28 Apr 2024 18:39:46 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A70D8B4CCC
+	for <lists+linux-aspeed@lfdr.de>; Sun, 28 Apr 2024 18:40:20 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YMhhfGfr;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KHBh1FTK;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VSBy742Rcz3cSM
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 02:39:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VSByk13bJz3cP3
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 02:40:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YMhhfGfr;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KHBh1FTK;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VSBxz0P0Tz3bZ3;
-	Mon, 29 Apr 2024 02:39:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VSByd355Pz3cP7;
+	Mon, 29 Apr 2024 02:40:09 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id DB1B26023F;
-	Sun, 28 Apr 2024 16:39:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E47C113CC;
-	Sun, 28 Apr 2024 16:39:26 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 0A453CE068F;
+	Sun, 28 Apr 2024 16:40:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EEA6C113CC;
+	Sun, 28 Apr 2024 16:40:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714322370;
-	bh=SIZKViSNjizw0o7ThbfK+/r8xNr2Wxhp6xFyqgOjvEA=;
+	s=k20201202; t=1714322406;
+	bh=wcZXzp1unBcXAtg2siwCaomY/RhuI58GhgkmQuCmIH4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YMhhfGfr8dqc5oSubxEB3Ui5hDl31xRjNiv1N6q+/wM/nZiCCeX1xnm1gKJzLR5/f
-	 Gp3v0qbXvA9pvgSySw1KVA/YAGHU9kIn6oPSEJwp1N6OCp9stdknV25ZWl5b5GRWMl
-	 o5stou5Pm82HkP3LtoKEayagUCN8NgB6vMEbs+afDGt6lEDRfoToqGRnP5JqX8Huzt
-	 RGnjBemiNj8F3PE2lfeX/uHCKJ6Qdhj9uF+SbpPOtrQPGaOkppH3xDd3Dud3wsm85t
-	 SXhnnawuM2ZiP4vRHcz/MVLO8klw5G1I99akcfjPr/BHTe5lMwyLi6DMa140GeoPW7
-	 QdtOSqY1qsBrA==
-Message-ID: <1d82580c-43fb-4510-8eb3-585007fba430@kernel.org>
-Date: Sun, 28 Apr 2024 18:39:24 +0200
+	b=KHBh1FTK0WGwiIEBnU9Rtp+4VqFKv8xjwWoXuRZWBLmO6gvqraefRKYh/p+NiadPU
+	 gfZWIG/IeHHLvdbQxL+iBCxEfiQTkTlA8RjPg2yeTVPE74r2JddAQyqnmmrijCbYqe
+	 6lTb6yg9RWc+iEhNL1wtk8Kha2kBbFS9rxSnpLCJlsBkv7iWvjZTrk6S7Oft1IRI8H
+	 8b8vMj/bzP/AjE55w14Ko/q3ENI1JGOWK/0rSNRREC7s4JiYaFZsk34g57c4Zbs8FB
+	 c/d0RQ756YuPGX2FPpbdavWRKpc3Y95q+jC8IiTmriBdyz3Z3McIRJlZRPQ7cQ9TQi
+	 NhRYXEWdZ7Gzg==
+Message-ID: <992317a7-2606-404c-bc62-4d181ea9e147@kernel.org>
+Date: Sun, 28 Apr 2024 18:39:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/14] ARM: dts: aspeed: Add IBM P11 FSI devices
+Subject: Re: [PATCH v3 01/14] dt-bindings: spi: Document the IBM Power SPI
+ controller
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-13-eajames@linux.ibm.com>
- <dc106aa2-8f69-4f71-ad9f-6dfb97c63a50@kernel.org>
- <a608377b-3e51-4b59-bdab-8c4e9938f086@linux.ibm.com>
+ <20240425213701.655540-2-eajames@linux.ibm.com>
+ <e2b52bfb-0742-4baf-8269-86075b5cc54e@kernel.org>
+ <f1c3947c-e1c8-4dac-bbf7-e9c0dc9c27e9@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -92,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <a608377b-3e51-4b59-bdab-8c4e9938f086@linux.ibm.com>
+In-Reply-To: <f1c3947c-e1c8-4dac-bbf7-e9c0dc9c27e9@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -110,90 +111,21 @@ Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-kern
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 26/04/2024 15:18, Eddie James wrote:
+On 26/04/2024 16:49, Eddie James wrote:
 > 
-> On 4/26/24 01:31, Krzysztof Kozlowski wrote:
+> On 4/26/24 01:15, Krzysztof Kozlowski wrote:
 >> On 25/04/2024 23:36, Eddie James wrote:
->>> Add the P11 FSI device tree for use in upcoming BMC systems.
->>> Unlike P10, there is no system with only two processors, so
->>> only the quad processor FSI layout is necessary.
->>>
->>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
->>> ---
->>>   .../arm/boot/dts/aspeed/ibm-power11-quad.dtsi | 1696 +++++++++++++++++
->>>   1 file changed, 1696 insertions(+)
->>>   create mode 100644 arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
->>>
->>> diff --git a/arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi b/arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
->>> new file mode 100644
->>> index 000000000000..c3a0ecf12aa0
->>> --- /dev/null
->>> +++ b/arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
->>> @@ -0,0 +1,1696 @@
->>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>> +// Copyright 2024 IBM Corp.
->>> +
->>> +&fsim0 {
->> This does not make sense. You do not include any file here, so what do
->> you want to override?
->>
->> How can you even test this file?
+>>> The IBM Power chips have a basic SPI controller. Document it.
+>> Please use subject prefixes matching the subsystem. You can get them for
+>> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+>> your patch is touching.
 > 
 > 
-> This is an include file, to be included in the new device tree files in 
-> the next two patches. It will be tested as part of those. Andrew 
-> requested I split this up, and I have to add this one first, even though 
-> nothing is referencing it yet. The same model is used for the P10 FSI 
-> devices.
-> 
-> 
->>
->>> +	status = "okay";
->>> +
->>> +	#address-cells = <2>;
->>> +	#size-cells = <0>;
->>> +
->>> +	cfam-reset-gpios = <&gpio0 ASPEED_GPIO(Q, 0) GPIO_ACTIVE_HIGH>;
->>> +
->>
->>> +
->>> +&cfam3_i2c16 {
->>> +	fsi-i2cr@20 {
->>> +		compatible = "ibm,i2cr-fsi-master";
->>> +		reg = <0x20>;
->>> +		#address-cells = <2>;
->>> +		#size-cells = <0>;
->>> +
->>> +		cfam@0,0 {
->>> +			reg = <0 0>;
->>> +			#address-cells = <1>;
->>> +			#size-cells = <1>;
->>> +			chip-id = <0>;
->>> +
->>> +			scom416: scom@1000 {
->>> +				compatible = "ibm,i2cr-scom";
->>> +				reg = <0x1000 0x400>;
->>> +			};
->>> +
->>> +			sbefifo416: sbefifo@2400 {
->>> +				compatible = "ibm,odyssey-sbefifo";
->>> +				reg = <0x2400 0x400>;
->>> +				#address-cells = <1>;
->>> +				#size-cells = <0>;
->>> +			};
->>> +		};
->>> +	};
->>> +};
->>> +
->>> +&cfam3_i2c17 {
->> This looks randomly ordered.
-> 
-> 
-> Not sure what you mean. Everything is sequentially ordered?
+> Isn't spi the right subsystem here?
 
-So what is the order for all Aspeed DTS? Is it sequential like in DTSI?
-What does it even mean sequential?  There are two preferred orderings,
-as expressed in DTS coding style.
+And what prefix shall be for SPI bindings? Did you run the command or
+just replying to disagree with me?
+
 
 Best regards,
 Krzysztof
