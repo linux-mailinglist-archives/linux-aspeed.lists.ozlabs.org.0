@@ -1,53 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A70D8B4CCC
-	for <lists+linux-aspeed@lfdr.de>; Sun, 28 Apr 2024 18:40:20 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB96F8B4CD1
+	for <lists+linux-aspeed@lfdr.de>; Sun, 28 Apr 2024 18:41:38 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KHBh1FTK;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=JwqSkNv7;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VSByk13bJz3cP3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 02:40:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VSC0J4S3vz3cTD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 02:41:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KHBh1FTK;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=JwqSkNv7;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VSByd355Pz3cP7;
-	Mon, 29 Apr 2024 02:40:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VSC0D0Ps2z3cCn;
+	Mon, 29 Apr 2024 02:41:32 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 0A453CE068F;
-	Sun, 28 Apr 2024 16:40:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EEA6C113CC;
-	Sun, 28 Apr 2024 16:40:01 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id AAC0ECE068F;
+	Sun, 28 Apr 2024 16:41:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F16B5C113CC;
+	Sun, 28 Apr 2024 16:41:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714322406;
-	bh=wcZXzp1unBcXAtg2siwCaomY/RhuI58GhgkmQuCmIH4=;
+	s=k20201202; t=1714322489;
+	bh=Lv37Gg/npKIgGnyNYYv9foJSbP38xlfXbSo0dGpIkVg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KHBh1FTK0WGwiIEBnU9Rtp+4VqFKv8xjwWoXuRZWBLmO6gvqraefRKYh/p+NiadPU
-	 gfZWIG/IeHHLvdbQxL+iBCxEfiQTkTlA8RjPg2yeTVPE74r2JddAQyqnmmrijCbYqe
-	 6lTb6yg9RWc+iEhNL1wtk8Kha2kBbFS9rxSnpLCJlsBkv7iWvjZTrk6S7Oft1IRI8H
-	 8b8vMj/bzP/AjE55w14Ko/q3ENI1JGOWK/0rSNRREC7s4JiYaFZsk34g57c4Zbs8FB
-	 c/d0RQ756YuPGX2FPpbdavWRKpc3Y95q+jC8IiTmriBdyz3Z3McIRJlZRPQ7cQ9TQi
-	 NhRYXEWdZ7Gzg==
-Message-ID: <992317a7-2606-404c-bc62-4d181ea9e147@kernel.org>
-Date: Sun, 28 Apr 2024 18:39:59 +0200
+	b=JwqSkNv7BLw9SFwlgFoNeAtv1rwZZ5Jp234UkBz2nsHrKPCVytptg1KKOb2FEqky+
+	 dZIS3nGkLt1y9KDvKAtcGiQDv6YgAzEIC3v3392RaxW5Ts2KVHwq/froYagP62lHKw
+	 VaITJZ4btJLK3BsUNSVjm5tZetIz6hzsmuzK0pkvLOuBdH9nPtguwASFbhvXbZO6jn
+	 t3RmfyHecx2sdd7KiktAz/wCbMPdZ/zJVh8TxmxFIywBYA1HbRV4HDNrmer4iV3L4U
+	 Fo/1QOseFRv6wf7wW649u16q9kdR5IV4WM4qy1+dLGFvFMiahtuzvCQqY0THD0p7ZJ
+	 BaKHXhHy7vMLw==
+Message-ID: <5ef318a3-7fc9-47e8-9944-07365c9e377f@kernel.org>
+Date: Sun, 28 Apr 2024 18:41:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/14] dt-bindings: spi: Document the IBM Power SPI
- controller
+Subject: Re: [PATCH v3 03/14] dt-bindings: fsi: Document the FSI2PIB engine
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240425213701.655540-1-eajames@linux.ibm.com>
- <20240425213701.655540-2-eajames@linux.ibm.com>
- <e2b52bfb-0742-4baf-8269-86075b5cc54e@kernel.org>
- <f1c3947c-e1c8-4dac-bbf7-e9c0dc9c27e9@linux.ibm.com>
+ <20240425213701.655540-4-eajames@linux.ibm.com>
+ <3f822b56-8e6a-43e4-afb0-15c964f9474e@kernel.org>
+ <b89d39d2-ec54-4a88-aee5-7b5c95b3fca7@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +92,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <f1c3947c-e1c8-4dac-bbf7-e9c0dc9c27e9@linux.ibm.com>
+In-Reply-To: <b89d39d2-ec54-4a88-aee5-7b5c95b3fca7@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -111,21 +110,65 @@ Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-kern
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 26/04/2024 16:49, Eddie James wrote:
+On 26/04/2024 17:00, Eddie James wrote:
 > 
-> On 4/26/24 01:15, Krzysztof Kozlowski wrote:
+> On 4/26/24 01:18, Krzysztof Kozlowski wrote:
 >> On 25/04/2024 23:36, Eddie James wrote:
->>> The IBM Power chips have a basic SPI controller. Document it.
->> Please use subject prefixes matching the subsystem. You can get them for
->> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
->> your patch is touching.
+>>> The FSI2PIB or SCOM engine provides an interface to the POWER processor
+>>> PIB (Pervasive Interconnect Bus).
+>>>
+>>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>>> ---
+>>>   .../devicetree/bindings/fsi/ibm,fsi2pib.yaml  | 38 +++++++++++++++++++
+>>>   1 file changed, 38 insertions(+)
+>>>   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml b/Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml
+>>> new file mode 100644
+>>> index 000000000000..4d557150c2e3
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/fsi/ibm,fsi2pib.yaml
+>>> @@ -0,0 +1,38 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/fsi/ibm,fsi2pib.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: IBM FSI-attached SCOM engine
+>>> +
+>>> +maintainers:
+>>> +  - Eddie James <eajames@linux.ibm.com>
+>>> +
+>>> +description:
+>>> +  The SCOM engine is an interface to the POWER processor PIB (Pervasive
+>>> +  Interconnect Bus). This node will always be a child of an FSI CFAM node;
+>>> +  see fsi.txt for details on FSI slave and CFAM nodes.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - ibm,fsi2pib
+>>> +      - ibm,i2cr-scom
+>> Sometimes you call these p9, sometimes p10... what is the system or SoC
+>> here? Aren't you adding some generic compatibles? writing-bindings and
+>> numerous guides are clear on that.
 > 
 > 
-> Isn't spi the right subsystem here?
+> Open source FSI support started with P9 chips so we initially added 
+> p9-sbefifo, p9-occ, etc. P10 has all of the same engines as P9 plus the 
+> SPI controller, so that's why SPI is p10-spi. P11 has the same engines 
+> as P10. For scom/fsi2pib we could call it p9-scom I suppose... This 
+> series isn't just documentation for a new system, I'm adding 
+> documentation that should have been added for P9. Anyway I'm not sure 
+> what you mean about generic compatibles? You mean just add a "scom" or 
+> "fsi2pib" compatible? writing-bindings says "DO make 'compatible' 
+> properties specific"
 
-And what prefix shall be for SPI bindings? Did you run the command or
-just replying to disagree with me?
-
+Usually it means that parts of SoC must have the name of the SoC, as
+first component of the name. Your boards are a bit different here,
+because I suppose no one will ever make a product except you, but still
+code could follow same set of rules.
 
 Best regards,
 Krzysztof
