@@ -1,56 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EA18B4F4D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 03:50:15 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=jZpQYljd;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 775FA8B523D
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 09:22:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VSR9H3kMHz3cSt
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 11:50:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VSZXV0mPpz3cT7
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 17:22:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=jZpQYljd;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VSR970H5vz30gp
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2024 11:50:02 +1000 (AEST)
-Received: from [192.168.68.112] (ppp14-2-127-66.adl-apt-pir-bras32.tpg.internode.on.net [14.2.127.66])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 177562012A;
-	Mon, 29 Apr 2024 09:49:57 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1714355401;
-	bh=fW7TDqW/JWuLZi/1JzQzm9k+gq4/M8LUsR6rg8cfq/4=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=jZpQYljdIEhLKdS2flf7FPGA3AiPsZcGTztc0/0T9Ywojfx9J118PhLBFUm37LIvg
-	 g7vCxJyluqrzSQ6ej00koBxYGs5uli2i+uiothyECrXkxrKI0w0tZetHXns+SLIWhm
-	 0hEKmip+L8etRdbq5ZhkZ1XY9w8PKLVNU99LEu04VzzsB1VCXGAtV6RG4zAslgFEsY
-	 y1PZ/lV/Oi3sYsri6A8UDiiO+zfnhWsrk5pMPxAm3KwjkjnAPykjy8JaDFDwJ4CNL9
-	 Ys4agRzeuQd0x2t70a9MTQTYvkYk3BUj8s8D3NWFcosniVYdRBc1iRRBvo13jEVAke
-	 p7ut3OdU/QgBw==
-Message-ID: <d231737bfa9f3dd3c0a4370ab2e86557a407980d.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v8 1/1] drivers: watchdog: revise watchdog bootstatus
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz, Wim Van
- Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, Joel
- Stanley <joel@jms.id.au>, linux-watchdog@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org
-Date: Mon, 29 Apr 2024 11:19:54 +0930
-In-Reply-To: <20240428142937.785925-2-peteryin.openbmc@gmail.com>
-References: <20240428142937.785925-1-peteryin.openbmc@gmail.com>
-	 <20240428142937.785925-2-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VSZXG70dfz3cP3
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2024 17:22:04 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1LKX-0004dA-5o; Mon, 29 Apr 2024 09:21:41 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1LKV-00Ew7e-95; Mon, 29 Apr 2024 09:21:39 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1LKV-00BDtm-0b;
+	Mon, 29 Apr 2024 09:21:39 +0200
+Date: Mon, 29 Apr 2024 09:21:39 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jeremy Kerr <jk@ozlabs.org>, Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH 0/4] fsi: Convert to platform remove callback returning
+ void
+Message-ID: <c62jfobjeuvjopxt4mdcgpp2eawesp6il2iz3izc3azvutzfxl@ztzhkw6eyd4o>
+References: <cover.1709673414.git.u.kleine-koenig@pengutronix.de>
+ <pd2qn2zqhdd4hv2vn6g3p6kzcer343f6xm75tcj2xi5qgk7h5l@uv6uaa7zj7mu>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="agklkj7ej2tetqfa"
+Content-Disposition: inline
+In-Reply-To: <pd2qn2zqhdd4hv2vn6g3p6kzcer343f6xm75tcj2xi5qgk7h5l@uv6uaa7zj7mu>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,233 +58,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-aspeed@lists.ozlabs.org, Alistar Popple <alistair@popple.id.au>, kernel@pengutronix.de, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Peter,
 
-Thanks for reworking the patch to reduce the branching in probe(), it
-looks a lot tidier.
+--agklkj7ej2tetqfa
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-First, regarding the patch subject, looking at recent changes to the
-watchdog subsystem the desired pattern appears to be `watchdog:
-<controller>: <description>`. I expect you should change it to
-`watchdog: aspeed: Revise handling of bootstatus`. Currently the
-subject contains `drivers: ` which feels a bit redundant, and fails to
-mention `aspeed`, which will bound the scope of the patch for people
-skimming the mailing list.
+Hello,
 
-I have a bit of feedback below. It looks like a lot but mostly it's
-nitpicking at how we're naming things. Maybe the comments are a bit
-subjective but I think addressing them will help provide consistency
-for readers of the code.
-
-On Sun, 2024-04-28 at 22:29 +0800, Peter Yin wrote:
-> Regarding the AST2600 specification, the WDTn Timeout Status Register
-> (WDT10) has bit 1 reserved. Bit 1 of the status register indicates
-> on ast2500 if the boot was from the second boot source.
-> It does not indicate that the most recent reset was triggered by
-> the watchdog. The code should just be changed to set WDIOF_CARDRESET
-> if bit 0 of the status register is set. However, this bit can be clear wh=
-en
-> watchdog register 0x0c bit1(Reset System after timeout) is enabled.
-> Thereforce include SCU register to veriy WDIOF_EXTERN1 and WDIOF_CARDRESE=
-T
-> in ast2600 SCU74 or ast2400/ast2500 SCU3C.
+On Thu, Apr 11, 2024 at 09:13:38AM +0200, Uwe Kleine-K=F6nig wrote:
+> On Tue, Mar 05, 2024 at 10:20:56PM +0100, Uwe Kleine-K=F6nig wrote:
+> > this series converts all drivers below drivers/fsi to struct
+> > platform_driver::remove_new(). See commit 5c5a7680e67b ("platform:
+> > Provide a remove callback that returns no value") for an extended
+> > explanation and the eventual goal.
+> >=20
+> > All conversations are trivial, because their .remove() callbacks
+> > returned zero unconditionally.
+> >=20
+> > There are no interdependencies between these patches, so they could be
+> > picked up individually. But I'd hope that they get picked up all
+> > together.
 >=20
-> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
-> ---
->  drivers/watchdog/aspeed_wdt.c | 78 +++++++++++++++++++++++++++++++----
->  1 file changed, 70 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.=
-c
-> index b4773a6aaf8c..4393625c2e96 100644
-> --- a/drivers/watchdog/aspeed_wdt.c
-> +++ b/drivers/watchdog/aspeed_wdt.c
-> @@ -11,10 +11,12 @@
->  #include <linux/io.h>
->  #include <linux/kernel.h>
->  #include <linux/kstrtox.h>
-> +#include <linux/mfd/syscon.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_irq.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regmap.h>
->  #include <linux/watchdog.h>
-> =20
->  static bool nowayout =3D WATCHDOG_NOWAYOUT;
-> @@ -22,10 +24,32 @@ module_param(nowayout, bool, 0);
->  MODULE_PARM_DESC(nowayout, "Watchdog cannot be stopped once started (def=
-ault=3D"
->  				__MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
-> =20
-> +//AST SCU Register
+> I didn't get any feedback on this patch set. As the conversion of
+> platform_driver::remove depends on these, it would be great if they made
+> it in during the next merge window.
 
-Can you unpack in the comment which register this refers to? Also I
-have a mild preference for `/* */-style comments and against the `//`-
-style comments, but I won't hold the patch up on it.
+I intend to change platform_driver::remove soon after the next merge
+window to let it cook in next for a while. If this patch set doesn't
+make it in before, I'll send it together with the patch changing
+platform_driver::remove to Greg.
 
-> +#define POWERON_RESET_FLAG		BIT(0)
-> +#define EXTERN_RESET_FLAG		BIT(1)
+Best regards
+Uwe
 
-IMO an `AST_` prefix would be helpful. At least, it would help me
-orient myself when reading use of the macro in the code.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-Further, can we include `SCU` in the symbol name to indicate we're not
-actually referring to a register in the WDT controller (and update the
-register and flag macros below as well)?
+--agklkj7ej2tetqfa
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Finally, including an indication of the register name (System Reset
-Control/Status Register for the AST2500, System Reset Status Register
-for the AST2600) is helpful too:
+-----BEGIN PGP SIGNATURE-----
 
-Perhaps:
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYvSoIACgkQj4D7WH0S
+/k47xAf+NRmcil3gbsqcK2sVms0ndQGYC0CP+xFBQAslMZ7cQhpUvlpQnYOP/sjJ
+ot9RW/0PbIBFxajIPoz4hRLrX9dTt/fpLC85GbmxtR2p7LzJnnhphbAHTQdN/Vga
+2LOV+5uUl8EtkugNzHnM1lnkNrJV3yktC6e8SdldYOFtKWkXj1VrF9EOXsGmRF9I
+OWTrSCKwa/vQ4QiH8hEquQPsfcFluRXkv1ypCpt1gXfaHinFO8JY40v4LqVTwBCE
+TxI1IIbahLQXFmzNc2Gmx4/HP2xn69/VEvLVGD8+N9TVUt4Tv+QOqkn/nUVL+nv7
+amfH4F3UMVlveTR1pbqp5hBbgPVqXw==
+=IEEp
+-----END PGP SIGNATURE-----
 
-```
-#define AST_SCU_SYS_RESET_POWERON_FLAG ...
-#define AST_SCU_SYS_RESET_EXTERN_FLAG ...
-```
-
-I'd like to see these approaches applied to the other macros you've
-introduced as well.
-
-> +
-> +#define AST2400_AST2500_SYSTEM_RESET_EVENT	0x3C
-
-If the AST2500 register offset is compatible with the AST2400 then IMO
-you can drop `_AST2500` from the macro name. The location of relevance
-for a potential bug is the assignment into the `reset_event` struct
-member below, which is straight-forward to inspect for correctness.
-
-With the prior requests in mind I'd propose:
-
-```
-#define AST2400_SCU_SYS_RESET_STATUS ...
-```
-
-> +#define   AST2400_WATCHDOG_RESET_FLAG	BIT(1)
-> +#define   AST2400_RESET_FLAG_CLEAR	GENMASK(2, 0)
-> +
-> +#define   AST2500_WATCHDOG_RESET_FLAG	GENMASK(4, 2)
-
-While the individual bits in the register are flags, we're extracting a
-collection of the bits from the register. My feeling is that we should
-s/_FLAG/_MASK/ in the macro names, including
-`AST2400_WATCHDOG_RESET_FLAG` for consistency (even though it is only a
-single-bit mask).
-
-> +#define   AST2500_RESET_FLAG_CLEAR	(AST2500_WATCHDOG_RESET_FLAG | \
-> +					 POWERON_RESET_FLAG | EXTERN_RESET_FLAG)
-> +
-> +#define AST2600_SYSTEM_RESET_EVENT	0x74
-> +#define   AST2600_WATCHDOG_RESET_FLAG   GENMASK(31, 16)
-> +#define   AST2600_RESET_FLAG_CLEAR	(AST2600_WATCHDOG_RESET_FLAG | \
-> +					 POWERON_RESET_FLAG | EXTERN_RESET_FLAG)
-> +
->  struct aspeed_wdt_config {
->  	u32 ext_pulse_width_mask;
->  	u32 irq_shift;
->  	u32 irq_mask;
-> +	const char *compatible;
-
-Hmm, a compatible string for what though? From the looks of the code,
-this is for the SCU. I think it would be be helpful to prefix this with
-`scu_` to make it clear, though see the struct-style consideration
-below.
-
-> +	u32 reset_event;
-
-The datasheets refer to the register as 'status' and not 'event', so I
-suggest we use `reset_status` here. I also prefer we suffix this with
-`_reg` to actively differentiate it from the other field types (_flag)
-we're defining (so `reset_status_reg`.
-
-> +	u32 watchdog_reset_flag;
-> +	u32 extern_reset_flag;
-
-s/_flag/_mask/ if we have consensus on that macro name discussion
-above.
-
-> +	u32 reset_flag_clear;
-
-I'd prefix these with `scu_` as well. Or perhaps a nested struct?
-
-struct aspeed_wdt_config {
-    ...
-    struct {
-        const char *compatible;
-        u32 reset_event_reg;
-        u32 watchdog_reset_mask;
-        u32 extern_reset_mask;
-        u32 reset_flag_clear;
-   } scu;
-
-That way the accesses look like wdt->cfg->scu.reset_event_reg` and
-provide some context via the type system instead of deferring to object
-naming convention.
-
->  };
-> =20
->  struct aspeed_wdt {
-> @@ -39,18 +63,33 @@ static const struct aspeed_wdt_config ast2400_config =
-=3D {
->  	.ext_pulse_width_mask =3D 0xff,
->  	.irq_shift =3D 0,
->  	.irq_mask =3D 0,
-> +	.compatible =3D "aspeed,ast2400-scu",
-> +	.reset_event =3D AST2400_AST2500_SYSTEM_RESET_EVENT,
-> +	.watchdog_reset_flag =3D AST2400_WATCHDOG_RESET_FLAG,
-> +	.extern_reset_flag =3D 0,
-> +	.reset_flag_clear =3D AST2400_RESET_FLAG_CLEAR,
->  };
-> =20
->  static const struct aspeed_wdt_config ast2500_config =3D {
->  	.ext_pulse_width_mask =3D 0xfffff,
->  	.irq_shift =3D 12,
->  	.irq_mask =3D GENMASK(31, 12),
-> +	.compatible =3D "aspeed,ast2500-scu",
-> +	.reset_event =3D AST2400_AST2500_SYSTEM_RESET_EVENT,
-> +	.watchdog_reset_flag =3D AST2500_WATCHDOG_RESET_FLAG,
-> +	.extern_reset_flag =3D EXTERN_RESET_FLAG,
-> +	.reset_flag_clear =3D AST2500_RESET_FLAG_CLEAR,
->  };
-> =20
->  static const struct aspeed_wdt_config ast2600_config =3D {
->  	.ext_pulse_width_mask =3D 0xfffff,
->  	.irq_shift =3D 0,
->  	.irq_mask =3D GENMASK(31, 10),
-> +	.compatible =3D "aspeed,ast2600-scu",
-> +	.reset_event =3D AST2600_SYSTEM_RESET_EVENT,
-> +	.watchdog_reset_flag =3D AST2600_WATCHDOG_RESET_FLAG,
-> +	.extern_reset_flag =3D EXTERN_RESET_FLAG,
-> +	.reset_flag_clear =3D AST2600_RESET_FLAG_CLEAR,
->  };
-> =20
->  static const struct of_device_id aspeed_wdt_of_table[] =3D {
-> @@ -310,6 +349,7 @@ static int aspeed_wdt_probe(struct platform_device *p=
-dev)
->  	const struct of_device_id *ofdid;
->  	struct aspeed_wdt *wdt;
->  	struct device_node *np;
-> +	struct regmap *scu_base;
-
-I don't think it's necessary to have the `_base` suffix as we're not
-dealing directly with a mapped address.
-
->  	const char *reset_type;
->  	u32 duration;
->  	u32 status;
-> @@ -458,14 +498,36 @@ static int aspeed_wdt_probe(struct platform_device =
-*pdev)
->  		writel(duration - 1, wdt->base + WDT_RESET_WIDTH);
->  	}
-> =20
-> -	status =3D readl(wdt->base + WDT_TIMEOUT_STATUS);
-> -	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY) {
-
-Dropping this condition suggests the patch is a fix. Has there been any
-discussion of adding a Fixes: tag?
-
-Andrew
+--agklkj7ej2tetqfa--
