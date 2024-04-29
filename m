@@ -1,57 +1,91 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263A68B524D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 09:26:03 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C08B8B5B85
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 16:39:01 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=ozlabs.org header.i=@ozlabs.org header.a=rsa-sha256 header.s=201707 header.b=yXFdsJkT;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=XkzW4Gv2;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VSZcm5YXZz3cTl
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2024 17:26:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VSmDH1HPFz3cZs
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 00:38:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=ozlabs.org header.i=@ozlabs.org header.a=rsa-sha256 header.s=201707 header.b=yXFdsJkT;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=XkzW4Gv2;
 	dkim-atps=neutral
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VSZcf18X6z3cPW;
-	Mon, 29 Apr 2024 17:25:54 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
-	s=201707; t=1714375551;
-	bh=aMtf7sZWIA9NYNNihpVIGT39sRqE803C8mH+SyphSB8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=yXFdsJkT9LJI8bThh90WPxZlWBrz9GKubk0ihS2aJ9s4L8/wwezpS1dHPjlRRtCg/
-	 1RZibvf+2C2XAXmSD4idjwtDXiI4v3hVa76I0wHWWghU4wr+5Us66hdPm6nf8/u8gI
-	 rW4pnnpFjQGGRDPZYRjgjxWQ8k6G1B+OdFex8jJNaULTD/xT2nqzgbKLJutPR2tAz/
-	 qcwIRr8YuG03+0G4+PBxvxRAaxTwU9ayl+s+fgnTIKAJv3CewwasmaCzXpZ8wyYcP3
-	 GWXiXerOoIzDiz04Q0Gy9eZr03SEg9TuGFZAQi0jJUXhY3FZtsSBU/vKDIq61T2uhU
-	 NSASg6tm7bYNg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VSZcZ212dz4wck;
-	Mon, 29 Apr 2024 17:25:50 +1000 (AEST)
-Message-ID: <d516da3ccaff1c6653a1978d714941542eb4af73.camel@ozlabs.org>
-Subject: Re: [PATCH 0/4] fsi: Convert to platform remove callback returning
- void
-From: Jeremy Kerr <jk@ozlabs.org>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Joel Stanley <joel@jms.id.au>
-Date: Mon, 29 Apr 2024 15:25:48 +0800
-In-Reply-To: <c62jfobjeuvjopxt4mdcgpp2eawesp6il2iz3izc3azvutzfxl@ztzhkw6eyd4o>
-References: <cover.1709673414.git.u.kleine-koenig@pengutronix.de>
-	 <pd2qn2zqhdd4hv2vn6g3p6kzcer343f6xm75tcj2xi5qgk7h5l@uv6uaa7zj7mu>
-	 <c62jfobjeuvjopxt4mdcgpp2eawesp6il2iz3izc3azvutzfxl@ztzhkw6eyd4o>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VSmD721R7z3cXd;
+	Tue, 30 Apr 2024 00:38:46 +1000 (AEST)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 43TEYTqU031754;
+	Mon, 29 Apr 2024 14:38:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=aX+pLyMEaPhNXR7d2ERuJVDwyZzOSEXqi/pX/qY6RN8=;
+ b=XkzW4Gv2BlAY7l0Qk9/ti96bKkO9LihT7qAyZaesUCrGt4SQT4OZLyF8UTivNKCpQlwx
+ kFpaZn65N6Br6WWT0iGMIUC5hHm9wtE6gZ10JfULT1fVXmSJkTqhOOdiuPRHsdne4vBE
+ sHthlMxRsCgKx9cekD8dr8rzKEMTW84AX0h+eddIhcJAGpzOrxYZNUMb7TD8sChUWzJ5
+ sujYomrK1eEx7G6vGWGJd3lPfDvU1NLczD5prSyt6VhNOkXy+eiLHm0ZqscZ5lUxDve/
+ 5uY7Utd4s2rvDDKx1cntpQVjCEpGJzvLLjOXhILQuiYaOBoyvA2eNAgFXt0kiZssMrb9 mw== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xtbq9rc7y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Apr 2024 14:38:34 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 43TELAul027546;
+	Mon, 29 Apr 2024 14:38:33 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xsc307xqf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 29 Apr 2024 14:38:33 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 43TEcUnh23200382
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 29 Apr 2024 14:38:32 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0C8805806D;
+	Mon, 29 Apr 2024 14:38:30 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2E28958059;
+	Mon, 29 Apr 2024 14:38:29 +0000 (GMT)
+Received: from [9.61.151.254] (unknown [9.61.151.254])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 29 Apr 2024 14:38:29 +0000 (GMT)
+Message-ID: <b2bdae97-7cd5-4961-9cd4-1142a862d55f@linux.ibm.com>
+Date: Mon, 29 Apr 2024 09:38:28 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/14] dt-bindings: spi: Document the IBM Power SPI
+ controller
+To: Krzysztof Kozlowski <krzk@kernel.org>, linux-aspeed@lists.ozlabs.org
+References: <20240425213701.655540-1-eajames@linux.ibm.com>
+ <20240425213701.655540-2-eajames@linux.ibm.com>
+ <e2b52bfb-0742-4baf-8269-86075b5cc54e@kernel.org>
+ <f1c3947c-e1c8-4dac-bbf7-e9c0dc9c27e9@linux.ibm.com>
+ <992317a7-2606-404c-bc62-4d181ea9e147@kernel.org>
+Content-Language: en-US
+From: Eddie James <eajames@linux.ibm.com>
+In-Reply-To: <992317a7-2606-404c-bc62-4d181ea9e147@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: pbxTbTYYe8HvxHZMsyvvrZLJm0VEvl2p
+X-Proofpoint-ORIG-GUID: pbxTbTYYe8HvxHZMsyvvrZLJm0VEvl2p
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-29_12,2024-04-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 malwarescore=0
+ impostorscore=0 bulkscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2404010000 definitions=main-2404290092
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,26 +97,100 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Alistar Popple <alistair@popple.id.au>, kernel@pengutronix.de, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Uwe,
 
-> I intend to change platform_driver::remove soon after the next merge
-> window to let it cook in next for a while. If this patch set doesn't
-> make it in before, I'll send it together with the patch changing
-> platform_driver::remove to Greg.
-
-
-Joel is somewhat-off at present, and the FSI changes typically go
-through Greg anyway, so this all sounds fine to me.
-
-In case it helps:
-
-Acked-by: Jeremy Kerr <jk@ozlabs.org>
-
-Cheers,
+On 4/28/24 11:39, Krzysztof Kozlowski wrote:
+> On 26/04/2024 16:49, Eddie James wrote:
+>> On 4/26/24 01:15, Krzysztof Kozlowski wrote:
+>>> On 25/04/2024 23:36, Eddie James wrote:
+>>>> The IBM Power chips have a basic SPI controller. Document it.
+>>> Please use subject prefixes matching the subsystem. You can get them for
+>>> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+>>> your patch is touching.
+>>
+>> Isn't spi the right subsystem here?
+> And what prefix shall be for SPI bindings? Did you run the command or
+> just replying to disagree with me?
 
 
-Jeremy
+The correct prefix is either dt-bindings: spi or spi: dt-bindings. I 
+used the former. Would you prefer I use the latter? I followed your 
+instructions but you see the results are mixed, which is why I asked for 
+clarification, wondering if you meant something else, since I already 
+used one of the two apparently correct options.
+
+
+53df0409b59b Merge branch 'for-next' of 
+git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git
+f63175733f91 spi: dt-bindings: armada-3700: convert to dtschema
+1f48cbd6f00f spi: renesas,sh-msiof: Add r8a779h0 support
+eb4fdb4bf46f spi: dt-bindings: cdns,qspi-nor: make cdns,fifo-depth optional
+52826aee484b spi: dt-bindings: cdns,qspi-nor: add mobileye,eyeq5-ospi 
+compatible
+002514d91fcc spi: dt-bindings: cdns,qspi-nor: sort compatibles 
+alphabetically
+02ec75edaa94 dt-bindings: treewide: add access-controllers description
+80a38bfbbd59 spi: dt-bindings: introduce FIFO depth properties
+ee09bb727bff spi: dt-bindings: samsung: make dma properties not required
+666db8fd4265 spi: dt-bindings: atmel,at91rm9200-spi: remove 9x60 
+compatible from list
+ff690e75d64b spi: dt-bindings: samsung: add google,gs101-spi compatible
+737cf74b3800 spi: dt-bindings: samsung: Add Exynos850 SPI
+18ab9e9e8889 dt-bindings: spi: nxp-fspi: support i.MX93 and i.MX95
+6685d552a0cc dt-bindings: spi: fsl-lpspi: support i.MX95 LPSPI
+f034a151059a dt-bindings: spi: stm32: add st,stm32mp25-spi compatible
+e1fca6957f19 spi: dw: Remove Intel Thunder Bay SOC support
+4c3ff31a85e3 spi: axi-spi-engine improvements
+252eafe11ffc dt-bindings: spi: axi-spi-engine: convert to yaml
+54a1dc08e173 spi: dt-bindings: renesas,rspi: Document RZ/Five SoC
+09388379b6d7 spi: add stm32f7-spi compatible
+1b2e883e1af8 spi: Merge up fix
+4056d88866e5 spi: renesas,rzv2m-csi: Add CSI (SPI) target related property
+9f778f377cd3 spi: dt-bindings: Make "additionalProperties: true" explicit
+da6de6d3ecc1 spi: qup: Allow scaling power domains and
+0fc57bf1b2ff spi: dt-bindings: st,stm32-spi: Move "st,spi-midi-ns" to 
+spi-peripheral-props.yaml
+d15befc0cef4 spi: dt-bindings: qup: Document interconnects
+e6419c35f0d9 spi: dt-bindings: qup: Document power-domains and OPP
+3b4e5194138b dt-bindings: spi: fsl-imx-cspi: Document missing entries
+b0ef97ac89a7 spi: dt-bindings: arm,pl022: Move child node properties to 
+separate schema
+8f447694c23a Merge tag 'devicetree-for-6.6' of 
+git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux
+47aab53331ef dt-bindings: Fix typos
+0e19118ab24b dt-bindings: spi: convert spi-brcm63xx.txt to YAML
+0d2b6a1b8515 dt-bindings: qspi: cdns,qspi-nor: Add clocks for StarFive 
+JH7110 SoC
+ffae65fb1ae4 dt-bindings: spi: spi-cadence: Add label property
+883622752403 dt-bindings: spi: spi-cadence: Describe power-domains property
+b350e6c6297a spi: dt-bindings: add loongson spi
+026badeb7055 spi: fspi: Add power-domains to the DT bindings
+49aa77165c00 spi: lpspi: Add power-domains to the DT bindings
+8858babff615 dt-bindings: spi: add reference file to YAML
+b8968c388b69 dt-bindings: spi: Convert Tegra114 SPI to json-schema
+17a9ab02f72c dt-bindings: spi: tegra-sflash: Convert to json-schema
+8c87a46e2ce3 dt-bindings: spi: tegra-slink: Convert to json-schema
+6c1561fb9005 Merge tag 'soc-dt-6.5' of 
+git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+e884a133340a spi: dt-bindings: atmel,at91rm9200-spi: fix broken sam9x7 
+compatible
+a3eb95484f27 spi: dt-bindings: atmel,at91rm9200-spi: add sam9x7 compatible
+14dde0746e67 spi: dt-bindings: Add bindings for RZ/V2M CSI
+01fa9edd8bcf spi: dt-bindings: stm32: do not disable spi-slave property 
+for stm32f4-f7
+e6afe03351ac spi: stm32: disable spi-slave property for stm32f4-f7
+7bac98a338d6 spi: dt-bindings: snps,dw-apb-ssi: Add compatible for Intel 
+Mount Evans SoC
+d5c421d24d7e dt-bindings: xilinx: Switch xilinx.com emails to amd.com
+34fcc0f0a410 spi: dt-bindings: socionext,uniphier: drop address/size-cells
+bbd25f1ae8bf spi: dt-bindings: samsung: drop cs-gpios
+
+
+>
+>
+> Best regards,
+> Krzysztof
+>
