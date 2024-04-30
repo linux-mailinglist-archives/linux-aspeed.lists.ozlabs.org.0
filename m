@@ -2,49 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A397C8B6BF4
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 09:35:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C7B8B6BFE
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 09:37:46 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=OaThDulk;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=CBVKNDlR;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VTBnG2LJdz3cRt
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 17:35:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VTBqr1TKVz3cS5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 17:37:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=OaThDulk;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=CBVKNDlR;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VTBn93yMQz3btX;
-	Tue, 30 Apr 2024 17:35:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VTBql207Hz2xbC;
+	Tue, 30 Apr 2024 17:37:39 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 35798CE0284;
-	Tue, 30 Apr 2024 07:35:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1906C2BBFC;
-	Tue, 30 Apr 2024 07:35:19 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4C08360F92;
+	Tue, 30 Apr 2024 07:37:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5DD5C2BBFC;
+	Tue, 30 Apr 2024 07:37:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714462523;
-	bh=6nsio7mbfMnOGQIRKl59cP00GjIv8aY3kARWMRMlnI8=;
+	s=k20201202; t=1714462656;
+	bh=krPJeBCTuBz1aWldMqdexquKCcUfoDQsCJfqOk4ydOU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OaThDulkO/9pUMW0MQ4y2R5uvE8Zt3lqAbYLUnQa5fyoLsxXpMP8vv25mum97BkP+
-	 RrKypoyUQT9L/gqINk6lsyx8klHNB8eLJH45qd/N5KP5Rw4v7JIo+l01WEeC4X0bU3
-	 7sBtYU7+198oyPn9f2UKSgU43SNuqoj9n8v1K2C0om7XB53y6eOs9qTfXk2a5jQj9r
-	 1P7+Y5QIgyUelRJyheNID87YtNJUpOdnxUkbMTrMype0H1MqbHfFs3/eKyQWnXAH7y
-	 z4GUUfbbYYGkGDXmuh8GylbZBgfplBn1mQlAv3sOavteztAJVu/PxnHZsC01i+I1w0
-	 hEUy9A5xqUVZQ==
-Message-ID: <a78b125e-7f9e-40c2-bb1c-29ef83f1153f@kernel.org>
-Date: Tue, 30 Apr 2024 09:35:17 +0200
+	b=CBVKNDlRT/H9+nTjaIvp/4Kfs7GOGznhW+JsLqWqtnYWCZuqyw/F5HTmmPouDNeOC
+	 mceznabUuXWFBooVSyOUVijqNDBOsDg7nkN1kP5AuFyMX3G6VzqpUlkrrCITjvi3/u
+	 fPC/LDN/xwvkhFT6bmAFX5b+mmpIzhZdvP1TmMiNIcomcF0Sj+G+7Wkt7k2CW79rYj
+	 JFZy+4pizK2VDS1txnXi3j/La0ILi0Qyg+sWXMB7YwPMa/so2mG4H0X9K/jY+fPR7w
+	 mLDOXHJX1EcQKdMmOnQM+/GHNo3iI6u76mq1PBe6Samwrb2M9zy9DNnqqJi5Me09fb
+	 ZJMWk41z/lgfw==
+Message-ID: <c722d3d6-2acb-4669-b541-eebaf71b3a04@kernel.org>
+Date: Tue, 30 Apr 2024 09:37:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 11/17] dt-bindings: arm: aspeed: add IBM P11 BMC boards
+Subject: Re: [PATCH v4 17/17] fsi: scom: Update compatible string to match
+ documentation
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240429210131.373487-1-eajames@linux.ibm.com>
- <20240429210131.373487-12-eajames@linux.ibm.com>
+ <20240429210131.373487-18-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240429210131.373487-12-eajames@linux.ibm.com>
+In-Reply-To: <20240429210131.373487-18-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -109,12 +110,28 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 29/04/2024 23:01, Eddie James wrote:
-> Document two new AST2600 BMC boards for IBM P11 systems.
+> Use p9-scom instead of fsi2pib.
+
+Why? Commits must *always* say why you are doing it. What is easy to see.
+
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
 > ---
+>  drivers/fsi/fsi-scom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/fsi/fsi-scom.c b/drivers/fsi/fsi-scom.c
+> index 61dbda9dbe2b..18ca213fdc7e 100644
+> --- a/drivers/fsi/fsi-scom.c
+> +++ b/drivers/fsi/fsi-scom.c
+> @@ -589,7 +589,7 @@ static int scom_remove(struct device *dev)
+>  }
+>  
+>  static const struct of_device_id scom_of_ids[] = {
+> -	{ .compatible = "ibm,fsi2pib" },
+> +	{ .compatible = "ibm,p9-scom" },
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This breaks all users without any explanation in the commit!
 
 Best regards,
 Krzysztof
