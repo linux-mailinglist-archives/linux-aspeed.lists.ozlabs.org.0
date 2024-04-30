@@ -1,51 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15FF8B6B00
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 09:02:08 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6378B6B04
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 09:02:40 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gNqKfn2H;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AcckXu+E;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VTB2h10LHz3cRq
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 17:02:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VTB3K6hPqz3cRJ
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 17:02:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gNqKfn2H;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AcckXu+E;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VTB2b1Hn2z3bZN;
-	Tue, 30 Apr 2024 17:01:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VTB3F3lG4z3bZN;
+	Tue, 30 Apr 2024 17:02:33 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 1EF35CE0EB2;
-	Tue, 30 Apr 2024 07:01:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6741C2BBFC;
-	Tue, 30 Apr 2024 07:01:52 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 77B6BCE013B;
+	Tue, 30 Apr 2024 07:02:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43DDC2BBFC;
+	Tue, 30 Apr 2024 07:02:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714460516;
-	bh=fCPTaBfcKbGKLE037h0ONS7UWVgKa1jbbDt/3YYljzQ=;
+	s=k20201202; t=1714460551;
+	bh=O59eyLa7MJFhtixOochUuqDfITN4cQyyHA6j3hZmAms=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gNqKfn2Hp2553c2aUvBZWs5HQE2cinHXoVgOXQJqxwpLGuuRE5PpzR2E+A6GAxMBN
-	 /AIvjDC8JQcj1pa8IaEANn6fbbLbAyXmabe8Ku2DCruB/6jTv8jWuUUuXeL+X8ERo9
-	 jC9XzC1E4lGZr+DYQxjaXaUmCfYtntIeYFDzB5Pm8SoaCh9+PiGaJloWfNcNBmn24y
-	 XGHIA2SW+lceyXcmmiVMQrwz8zXqSkHu75KhE1ckoWSoh0WuBKL7ywNlfMs391y0kz
-	 HXuYxnU8eWU3XLaTseaULC3TfCVBK2t2Crh81ItPfaPEpwDUN8vdRiJVBibD9BAH7w
-	 bte/SUWXkEvdg==
-Message-ID: <3bcc9143-6896-496b-aa30-7ac0fc2d8e51@kernel.org>
-Date: Tue, 30 Apr 2024 09:01:50 +0200
+	b=AcckXu+EA2sZLPtmTz2bdG4gEG6pkC/ojvQeWvxtWSvy0QM+Ztl8rQxT1kRoPEhka
+	 SfxFxeOr5iH6w1OyT9hZV8mOvICjOLtMfyN81aHr1LOgUunBozqKLfkLUAdh61iGaX
+	 ljJzXBO7+wtAa2jiVrPHkQTW+vI4+qy9IwvZT/s4fQloo19ce64gPG/uYOHa1YSuGc
+	 /qyfA4njE6vN6j2PWhCS+bmZrTo37Uh/7PybZjkiBgi/VhHKBtRtB5PFja8zrCBYz7
+	 oLv1vgI7/GKR/CGWXcSAp0pww+FNqDRnzlHChGGviLu4YYZQPSuHslWXHOh5VE/qw7
+	 F0GEi7aBPmEJA==
+Message-ID: <9bd12b77-f4c6-4da5-b491-3c00742f6137@kernel.org>
+Date: Tue, 30 Apr 2024 09:02:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/17] dt-bindings: fsi: Document the FSI controller
- common properties
+Subject: Re: [PATCH v4 07/17] dt-bindings: fsi: ibm,i2cr-fsi-master: Reference
+ common FSI controller
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240429210131.373487-1-eajames@linux.ibm.com>
- <20240429210131.373487-7-eajames@linux.ibm.com>
+ <20240429210131.373487-8-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240429210131.373487-7-eajames@linux.ibm.com>
+In-Reply-To: <20240429210131.373487-8-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -110,51 +110,16 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 29/04/2024 23:01, Eddie James wrote:
-> +
-> +patternProperties:
-> +  "cfam@[0-9a-f],[0-9a-f]":
-> +    type: object
-> +    properties:
-> +      chip-id:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Processor index
+> Remove the common properties from the I2CR documentation and instead
+> point to the common FSI controller documentation.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+> Changes since v3:
+>  - Re-order allOf to below required
+> 
 
-fsi.txt tells a bit more about it, so extend the description.
-
-
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 1
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: true
-> +
-> +additionalProperties: true
-> +
-> +examples:
-> +  - |
-> +    fsi {
-> +        #address-cells = <2>;
-> +        #size-cells = <0>;
-> +
-> +        cfam@0,0 {
-> +            reg = <0 0>;
-> +            #address-cells = <1>;
-> +            #size-cells = <1>;
-> +            chip-id = <0>;
-> +        };
-> +    };
-
-Drop the example, it's not being validated/used.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
