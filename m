@@ -2,50 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4868B6B19
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 09:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FAC28B6BC2
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 09:31:44 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qAMT0q0C;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Ca+0Nzhm;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VTB653vdrz3cRr
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 17:05:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VTBhs4yMsz3cS5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2024 17:31:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qAMT0q0C;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Ca+0Nzhm;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VTB5z4wqyz3c5Y;
-	Tue, 30 Apr 2024 17:04:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VTBhn1hFhz3btX;
+	Tue, 30 Apr 2024 17:31:37 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E614D61403;
-	Tue, 30 Apr 2024 07:04:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45957C4AF17;
-	Tue, 30 Apr 2024 07:04:48 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id EF2C6CE0E2A;
+	Tue, 30 Apr 2024 07:31:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC226C2BBFC;
+	Tue, 30 Apr 2024 07:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714460693;
-	bh=mcz2/Q81yT9vrk8cGiRkt9TAFhI/j9Ey1olliE1SaGg=;
+	s=k20201202; t=1714462295;
+	bh=INlw0TqjaaI+AbkPu4uKLcP5p0WoCUaYrEKzHtKAngs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qAMT0q0Cgst/8yZpbSQMrtXMRCJq95QVky43kU1Ne0z94w/OpECHh/P9g5g/hG2bo
-	 0L69xd8tfhwqEH/azJO4BcY2zSWbMfDZJLj1Cs70+m3MzmK/qLDsKm7YoR7n3ldjIm
-	 dcyFfyuAY+iRtWzyzXvYb7lKlSA1SHQptAvRG9UrnVoyv5kkhzOHgQfn3at7/97r79
-	 oymNdR0HUhXz6bj6XOaT1uArFl5DAK9Ny8q6rPHAUbH9U7GA/udYtGxT18mXil0zmm
-	 tslUb9MXnHT6xdjLev0fkCQ1FqkeZRAjh7lSqUFgw/R4h0URKH+FHVvCLmrOvZ5G70
-	 7whpYv0wXNs6g==
-Message-ID: <af51132f-e4a3-4f45-b066-24b8c348eb28@kernel.org>
-Date: Tue, 30 Apr 2024 09:04:47 +0200
+	b=Ca+0NzhmJ2/zp9OBXsCQlHhA1ZS67lXZtcDZBD2ZQmPfRHdSmMYGkoO952OZuZFaJ
+	 19cWef8iD28NI+HocfiFbrZxY4TUWeKa07ewohrx7JOTgRpw3WzMzMN5b5VVEzklvL
+	 lFZ3fGvsRV/xngEfqF4gRVCPbofuSQ9RWmh3ql5MOFbNi1sAUFdIroD84NyVegAifI
+	 huu78E6RK5irabREm6KZ0+alsjbxSzMBaT7db30+XjvvLX0iYWpyO0rlIE/pm0If5l
+	 Um4vBL3zBlMlS6awXH4fwkh5d2Te0XbaMNE250f3MgO/v/2G5l1Vt7pGEblI1kVMOE
+	 FMywhbICRDCDg==
+Message-ID: <3544b83e-f441-4d1e-9794-21dd637b898d@kernel.org>
+Date: Tue, 30 Apr 2024 09:31:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/17] dt-bindings: fsi: ast2600-fsi-master: Convert to
- json-schema
+Subject: Re: [PATCH v4 09/17] dt-bindings: fsi: Document the FSI Hub
+ Controller
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240429210131.373487-1-eajames@linux.ibm.com>
- <20240429210131.373487-9-eajames@linux.ibm.com>
+ <20240429210131.373487-10-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240429210131.373487-9-eajames@linux.ibm.com>
+In-Reply-To: <20240429210131.373487-10-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -110,65 +110,15 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 29/04/2024 23:01, Eddie James wrote:
-> Convert to json-schema for the AST2600 FSI master documentation.
-
-Please mention all the changes from pure conversion.
-
+> Document the FSI Hub Controller CFAM engine.
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
 > ---
 > Changes since v3:
->  - Remove quotes around compatible strings
->  - Re-order allOf to below required
->  - Add child node in the example
->  - Change commit message to match similar commits
+>  - Change name from ibm,hub-fsi-controller to ibm,p9-fsi-controller
 > 
->  .../fsi/aspeed,ast2600-fsi-master.yaml        | 81 +++++++++++++++++++
->  .../bindings/fsi/fsi-master-aspeed.txt        | 36 ---------
->  2 files changed, 81 insertions(+), 36 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
->  delete mode 100644 Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml b/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
-> new file mode 100644
-> index 000000000000..fcf7c4b93b78
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
-> @@ -0,0 +1,81 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aspeed FSI master
-> +
-> +maintainers:
-> +  - Eddie James <eajames@linux.ibm.com>
-> +
-> +description:
-> +  The AST2600 and later contain two identical FSI masters. They share a
-> +  clock and have a separate interrupt line and output pins.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-fsi-master
-> +      - aspeed,ast2700-fsi-master
 
-There was no such compatible before.
-
-How does this even validate? Where is fsi-master? You dropped a
-compatible without any explanation.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
