@@ -1,97 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255B28B888F
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2024 12:24:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB0B8B891B
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2024 13:17:43 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZKSJT6Tf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=OJXyxVaI;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VTtVC3SvVz3cRt
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2024 20:24:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VTvg83lmfz3cRr
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2024 21:17:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZKSJT6Tf;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=OJXyxVaI;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VTtV55b6wz3bvJ
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 May 2024 20:24:45 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 19A55CE12AA;
-	Wed,  1 May 2024 10:24:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0BACC113CC;
-	Wed,  1 May 2024 10:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714559082;
-	bh=pUE6MZ0QkfS0ZSevFuwaGYHP0xaz3DhCJD24vWNTLKU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZKSJT6TfRLmXs3JdmpD2lLhxhU44sNj5chx0TkoNNTWV1VzId/o40yfUu/1BjYSvP
-	 FPLV3qpFh6iDDIvZnpFU6QvOIOKUfHag1jsQO9i+D2NjQ33qeXiNTy8dAOPiZQ9H7Q
-	 StOksUbivLxk5f4m8Wb2VIf/n8xkIcWclb5Aov1Ll8m2CkfRGg7PtXceZQ9W5TwDS5
-	 PrqEpzA1zeeCGr3gV44x8sHTKyf2syXU0fyfdhKxRzHIpLlRGmosfO8/H43C21Jr0u
-	 TA79O+oWo0D7G3h/bd0C29g+FT/VIZ9l5QtGvej+fW/YDes7ihirpdXiwEkN3UQL5D
-	 5EjB4BptehsRg==
-Message-ID: <65af46c3-e48f-4eae-8390-2bc01332ccbf@kernel.org>
-Date: Wed, 1 May 2024 12:24:37 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VTvg12Bsxz2xPZ
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 May 2024 21:17:33 +1000 (AEST)
+Received: from sparky.lan (unknown [159.196.93.152])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id B9CE720018;
+	Wed,  1 May 2024 19:17:29 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1714562250;
+	bh=3QoSGzlC8U/rzZfHOorehFaN/GCXjRJ7jH7TIi1poEI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=OJXyxVaI4mvceq/2q4AwyI8m3zAEOHJ8spq7XZ0JFjm2UDMYSgV2KIWynpBWn/08K
+	 rAnNoez1ftcYsilfLKlkvTw2L4AIAEWUXtnOCDDI1v9nnVUVEyj77w9sT78BBSgvkb
+	 k8ICI3poEOolgCeJxKHIAobb1K4HruZvMix+Vl3cTv4s+7pCUWSVfeQK83lFpfwaLe
+	 Af5pjiD3R+e3QIWlgntXvOmQsQMQDEYEcZxtyZ/6NT0wIsUFb9kPwQANy6hU9AdEgg
+	 9oYhuDwNeEHd/sKtEd2dqTqe5S1dvMGjCwY7DybS1LhQsw6gms/cTuG1yhz9NUaK/N
+	 hNuYzUR309O7w==
+Message-ID: <09ed10182e2282d7e408a4fef7994da010fe058e.camel@codeconstruct.com.au>
 Subject: Re: [PATCH] ARM: dts: aspeed-g6: Add nodes for i3c controllers
-To: Jeremy Kerr <jk@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Krzysztof Kozlowski <krzk@kernel.org>, linux-aspeed@lists.ozlabs.org
+Date: Wed, 01 May 2024 19:17:29 +0800
+In-Reply-To: <65af46c3-e48f-4eae-8390-2bc01332ccbf@kernel.org>
 References: <20240501033832.1529340-1-jk@codeconstruct.com.au>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240501033832.1529340-1-jk@codeconstruct.com.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+	 <65af46c3-e48f-4eae-8390-2bc01332ccbf@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.4-2 
+MIME-Version: 1.0
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,52 +62,43 @@ Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Rob Herring 
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 01/05/2024 05:38, Jeremy Kerr wrote:
-> Add the i3c controller devices to the ast2600 g6 common dts. We add all
-> 6 busses to the common g6 definition, but leave disabled through the
-> status property, to be enabled per-platform.
-> 
-> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
-> ---
->  arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 93 +++++++++++++++++++++++++
->  1 file changed, 93 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-> index 29f94696d8b1..f9d01599a965 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-> @@ -866,6 +866,13 @@ i2c: bus@1e78a000 {
->  				ranges = <0 0x1e78a000 0x1000>;
->  			};
->  
-> +			i3c: bus@1e7a0000 {
-> +				compatible = "simple-bus";
-
-What bus is it? Why is it even needed? If it is i3c, then for sure
-compatible is wrong.
-
-> +				#address-cells = <1>;
-> +				#size-cells = <1>;
-> +				ranges = <0 0x1e7a0000 0x8000>;
-> +			};
-> +
->  			fsim0: fsi@1e79b000 {
->  				compatible = "aspeed,ast2600-fsi-master", "fsi-master";
->  				reg = <0x1e79b000 0x94>;
-> @@ -1125,3 +1132,89 @@ i2c15: i2c-bus@800 {
->  		status = "disabled";
->  	};
->  };
-> +
-> +&i3c {
-
-????
-
-That's not how we construct DTS.  Overrides/extends of nodes are for
-boards, not within DTSI.
-
-Please provide full correct definition IN ONE place. See DTS coding style.
-
-Best regards,
-Krzysztof
+SGkgS3J6eXN6dG9mLAoKPiA+IC0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC9hc3BlZWQt
+ZzYuZHRzaQo+ID4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1nNi5kdHNp
+Cj4gPiBAQCAtODY2LDYgKzg2NiwxMyBAQCBpMmM6IGJ1c0AxZTc4YTAwMCB7Cj4gPiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+cmFuZ2VzID0gPDAgMHgxZTc4YTAwMCAweDEwMDA+Owo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfTsKPiA+IMKgCj4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGkzYzogYnVzQDFlN2EwMDAwIHsKPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGNvbXBhdGlibGUgPSAic2ltcGxlLWJ1cyI7Cj4gCj4gV2hhdCBidXMgaXMgaXQ/IFdoeSBp
+cyBpdCBldmVuIG5lZWRlZD8gSWYgaXQgaXMgaTNjLCB0aGVuIGZvciBzdXJlCj4gY29tcGF0aWJs
+ZSBpcyB3cm9uZy4KClRoaXMgaXMgbm90IHRoZSBpM2MgYnVzLCBpdCdzIHRoZSBNTUlPIG1hcHBp
+bmcgdGhhdCBhbGxvd3MgdXMgdG8gc3BlY2lmeQp0aGUgaW5kaXZpZHVhbCBpM2MgY29udHJvbGxl
+ciBtYXBwaW5ncyBhcyBzZW5zaWJsZSBvZmZzZXRzIGludG8gdGhlIG1haW4KYWRkcmVzcyBzcGFj
+ZS4gRGlkIHlvdSBtaXNzIHRoZSByYW5nZXMgcHJvcGVydHkgdGhlcmU/CgpUaGlzIGlzIGZvbGxv
+d2luZyB0aGUgZXhpc3RpbmcgZGVzaWduIGZvciB0aGUgaTJjIGNvbnRyb2xsZXJzLgoKPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCNhZGRyZXNzLWNlbGxzID0gPDE+Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgI3NpemUtY2VsbHMgPSA8MT47Cj4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqByYW5nZXMgPSA8MCAweDFlN2EwMDAwIDB4ODAwMD47Cj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH07Cj4gPiArCj4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBmc2ltMDogZnNpQDFlNzliMDAw
+IHsKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNjAwLWZzaS1tYXN0ZXIiLCAi
+ZnNpLW1hc3RlciI7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDB4MWU3OWIwMDAgMHg5ND47Cj4gPiBAQCAt
+MTEyNSwzICsxMTMyLDg5IEBAIGkyYzE1OiBpMmMtYnVzQDgwMCB7Cj4gPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoHN0YXR1cyA9ICJkaXNhYmxlZCI7Cj4gPiDCoMKgwqDCoMKgwqDC
+oMKgfTsKPiA+IMKgfTsKPiA+ICsKPiA+ICsmaTNjIHsKPiAKPiA/Pz8/Cj4gCj4gVGhhdCdzIG5v
+dCBob3cgd2UgY29uc3RydWN0IERUUy7CoCBPdmVycmlkZXMvZXh0ZW5kcyBvZiBub2RlcyBhcmUg
+Zm9yCj4gYm9hcmRzLCBub3Qgd2l0aGluIERUU0kuCgpUaGUgb3ZlcnJpZGVzIGFyZSBvY2N1cnJp
+bmcgYXQgdGhlICZpM2NYIGxhYmVscywgbm90ICZpM2MuIFBsYXRmb3JtCmxldmVsIGR0cyBqdXN0
+IGNvbm5lY3QgYXQgdGhvc2UgbGFiZWxzIHRvIGRlZmluZSBvdmVycmlkZXMgZm9yIGVhY2ggYnVz
+OgoKICAgICZpM2MwIHsKICAgICAgICAgICAgc3RhdHVzID0gIm9rYXkiOwogICAgICAgICAgICBt
+Y3RwLWNvbnRyb2xsZXI7CiAgICB9OwoKICAgICZpM2MxIHsKICAgICAgICAgICAgc3RhdHVzID0g
+Im9rYXkiOwogICAgICAgICAgICBtY3RwLWNvbnRyb2xsZXI7CiAgICB9OwoKVGhlcmUgaXMgZXhp
+c3RpbmcgcHJlY2VkZW5jZSBmb3IgdGhpcyBsYXlvdXQ7IHRoZSBpMmMgYW5kIHBpbmN0cmwKbWFw
+cGluZ3MgYWxyZWFkeSB1c2UgZHRzaS1pbnRlcm5hbCBsYWJlbHMuIEl0IGtlZXBzIHRoZSBidXMg
+ZGVmaW5pdGlvbnMKbW9yZSBtYW5hZ2VhYmxlLgoKQ2hlZXJzLAoKCkplcmVteQo=
 
