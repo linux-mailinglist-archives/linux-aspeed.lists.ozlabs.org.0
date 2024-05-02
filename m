@@ -1,53 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF91F8B9224
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 01:16:46 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A8A8B92D0
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 02:30:22 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=cfBYHfFj;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=jfpHIffg;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VVCcr2VyNz3cV6
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 09:16:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VVFFm2rmDz3cS0
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 10:30:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=cfBYHfFj;
+	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=jfpHIffg;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [71.19.156.171])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
+X-Greylist: delayed 4418 seconds by postgrey-1.37 at boromir; Thu, 02 May 2024 10:29:20 AEST
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VVCbh6dPjz3cRK
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2024 09:15:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VVFDc48w5z3bsj;
+	Thu,  2 May 2024 10:29:20 +1000 (AEST)
 Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:712b:6300::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 36D3A1E4;
-	Wed,  1 May 2024 16:15:37 -0700 (PDT)
+	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 3C8AD1E4;
+	Wed,  1 May 2024 17:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1714605337;
-	bh=LA75uaniDW9QbvPNlFYPb/h62PSnV3LT98zz/24EjcM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cfBYHfFjUj9spCXIvTPWoe0grN9GBk4zZD9EBNPT87kJNyFwebFs8KOjPnsicacQr
-	 3gKXWVTe/LlFNeucZ4NxYj9sGXdQ6ORmlSWWuH+Q8qoCq/4fkVB1dnYiEjfLgPkRok
-	 PV+61sd320i63fCX0lJIFAdzcI561zcirWD1SKvo=
-Date: Wed, 1 May 2024 16:15:35 -0700
+	s=thorn; t=1714609758;
+	bh=BBF/i8p7QfyiL3Ij46FTmQUncBo1M1iWRiQsSyVShEc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jfpHIffgCrkjoX36/CZ+AxSHvpwFskxPuYdjR+N5cWXDG1RyXwnDgrXI8RKrkbG+v
+	 P7nHyZDzdFNfUUgDgBeRU797IolND9ZE9Y9uJ0BKB+WkI7wkDKhZqUkuaE8UF9lIlP
+	 TTf/U9vdg1XDg5GBbzKaVt5DwnZs1HllRsnWf4ZU=
 From: Zev Weiss <zev@bewilderbeest.net>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: Add ASRock SPC621D8HM3 BMC
-Message-ID: <561b69da-f4e4-49df-ac3e-db0003d549e0@hatter.bewilderbeest.net>
-References: <20231120121954.19926-4-zev@bewilderbeest.net>
- <20231120121954.19926-6-zev@bewilderbeest.net>
- <CACPK8Xf6vRKJZHuovMXd2h=nnuKW4m5mcRrfZaTsY987Ai6huQ@mail.gmail.com>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 0/3] ARM: dts: aspeed: Add ASRock E3C256D4I BMC
+Date: Wed,  1 May 2024 17:28:30 -0700
+Message-ID: <20240502002836.17862-5-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CACPK8Xf6vRKJZHuovMXd2h=nnuKW4m5mcRrfZaTsY987Ai6huQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,60 +60,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Apr 29, 2024 at 06:23:27PM PDT, Joel Stanley wrote:
->Hi Zev,
->
->On Mon, 20 Nov 2023 at 22:50, Zev Weiss <zev@bewilderbeest.net> wrote:
->>
->> This is a Xeon board broadly similar (aside from CPU vendor) to the
->> already-support romed8hm3 (half-width, single-socket, ast2500).  It
->> doesn't require anything terribly special for OpenBMC support, so this
->> device-tree should provide everything necessary for basic
->> functionality with it.
->
->We've had these in the aspeed tree for a while, but as I was on leave
->there was no pull request. I'm just putting one together now and
->noticed some unusual looking device tree compatibles:
->
->WARNING: DT compatible string "renesas,isl69269" appears un-documented
->-- check ./Documentation/devicetree/bindings/
->#220: FILE: arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts:181:
->+        compatible = "renesas,isl69269", "isl69269";
->
->WARNING: DT compatible string "isl69269" appears un-documented --
->check ./Documentation/devicetree/bindings/
->#220: FILE: arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts:181:
->+        compatible = "renesas,isl69269", "isl69269";
->
->WARNING: DT compatible string "st,24c128" appears un-documented --
->check ./Documentation/devicetree/bindings/
->#230: FILE: arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts:191:
->+        compatible = "st,24c128", "atmel,24c128";
->
->
->Can you update the patch to be checkpatch clean when applied to v6.9?
->
->Cheers,
->
->Joel
+Hello,
 
-Hi Joel,
+These patches add a device-tree (and a couple tiny bindings updates)
+for the Aspeed BMC on the ASRock E3C256D4I, so that it can be added as
+a supported OpenBMC platform.
 
-After looking at it a bit, I *think* the third warning above (st,24c128) 
-is a false positive due to the checkpatch script's ad-hoc grep of the DT 
-binding files not picking up on the regex-based compatible definition in 
-Documentation/devicetree/bindings/eeprom/at24.yaml -- AFAICT, the 
-compatible strings match what's described in the comment in that file 
-(and the actual regex itself I believe).
+Changes since v2 [1]:
+ - Added patch 1 adding isl69269 to trivial-devices.yml
+ - Adjusted isl69269 compat string to use isil vendor prefix instead
+   of renesas, dropped unprefixed entry
 
-The isl69269 warnings are certainly legitimate though; I'll submit a v3 
-with that added to trivial-devices.yml.
+Changes since v1 [0]:
+ - Removed bootargs [Krzysztof]
+ - Renamed LED nodes [Krzysztof]
+ - Added function & color properties to LED nodes
+ - Added #address-cells and #size-cells to FRU eeprom node
 
+[0] https://lore.kernel.org/lkml/20231114112722.28506-4-zev@bewilderbeest.net/
+[1] https://lore.kernel.org/lkml/20231120121954.19926-4-zev@bewilderbeest.net/
 
 Thanks,
 Zev
+
+
+Zev Weiss (3):
+  dt-bindings: trivial-devices: add isil,isl69269
+  dt-bindings: arm: aspeed: document ASRock E3C256D4I
+  ARM: dts: aspeed: Add ASRock E3C256D4I BMC
+
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ .../devicetree/bindings/trivial-devices.yaml  |   2 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../aspeed/aspeed-bmc-asrock-e3c256d4i.dts    | 322 ++++++++++++++++++
+ 4 files changed, 326 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts
+
+-- 
+2.44.0
 
