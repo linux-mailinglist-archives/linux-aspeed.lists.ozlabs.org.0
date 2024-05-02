@@ -1,55 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC02B8B92D9
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 02:33:20 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1958B930F
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 03:16:32 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=nw9XPRtH;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=jRQ9UR1Z;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VVFKB2Vdmz3cb8
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 10:33:18 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VVGH211ZPz3bwL
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 11:16:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=nw9XPRtH;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=jRQ9UR1Z;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VVFDd1Y25z3btX;
-	Thu,  2 May 2024 10:29:21 +1000 (AEST)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:712b:6300::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 7EF9B43FA;
-	Wed,  1 May 2024 17:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1714609759;
-	bh=45Dv04icT8AaPzWT2HEdAqaXcoII+i9PD1RJizAq29k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nw9XPRtHMXKSrU/GyiR98Qav579JQCp0WPhZVl11rHKHYwi5e3gYw1Myb8OLCTf5o
-	 vObdO3MmORAyleIdEAw5qVK87X51mYar5CVIacIALnhXYXd429aEzkhd0D21YedCym
-	 y4ngFeRz94g/qkidaM2kFxk0+Ddhl3vqosZmSrpU=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 3/3] ARM: dts: aspeed: Add ASRock E3C256D4I BMC
-Date: Wed,  1 May 2024 17:28:33 -0700
-Message-ID: <20240502002836.17862-8-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240502002836.17862-5-zev@bewilderbeest.net>
-References: <20240502002836.17862-5-zev@bewilderbeest.net>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VVGGx1Mg0z3btk
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2024 11:16:25 +1000 (AEST)
+Received: from [192.168.148.88] (unknown [120.20.105.107])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id AF26D20009;
+	Thu,  2 May 2024 09:16:23 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1714612584;
+	bh=I1H2b5dmLu+h090Wf3JV8wPJG4mgtbGH1NdOaoBnM7U=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=jRQ9UR1ZZ2FVs0XozVicmEwg1CRNhSKmKccCABEs31nGicFn/2prKvEeQ2rbh+rWa
+	 WAaWf/S4eh7Lp/yTx0jVmqReJh/6AlvwZAFcK/6YQ0uAo/NfkeUqNEAxQQ76DSIHdS
+	 HUzavRDOacprdfMmSg0DbVM7TTH/3qWIL2E69NZwhYRo6bexYncEA03PzojNt2gCaQ
+	 kchPJIOrTNKRxid89ZHpzHIVThucjhfR7q/y5kkaxLOja2otHPXBjoFCoevzrcNSUF
+	 9rf2y4Dkp1mgEwkaDZp44VxNdZrn+ev3hdWMwvdOt8ytjK/6LOLPUhbUJV1FlTMzS4
+	 aHu5HfKEy+b4A==
+Message-ID: <73284390fda1971eb6727102eba75324a1886a2a.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] dt-bindings: mfd: aspeed: Drop 'oneOf' for pinctrl node
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Rob Herring <robh@kernel.org>
+Date: Thu, 02 May 2024 10:46:23 +0930
+In-Reply-To: <CAL_JsqJmciSKp4H2KXcqv78Vga5gDi0JU_PY4Dth7LJrq6swMA@mail.gmail.com>
+References: <20240430172520.535179-1-robh@kernel.org>
+	 <4f3ce3439e3d996471085e906902e508528308d3.camel@codeconstruct.com.au>
+	 <CAL_JsqJmciSKp4H2KXcqv78Vga5gDi0JU_PY4Dth7LJrq6swMA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,363 +59,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Like the E3C246D4I, this is a reasonably affordable off-the-shelf
-mini-ITX AST2500/Xeon motherboard with good potential as an OpenBMC
-development platform.  Booting the host requires a modicum of eSPI
-support that's not yet in the mainline kernel, but most other basic
-BMC functionality is available with this device-tree.
+On Wed, 2024-05-01 at 07:39 -0500, Rob Herring wrote:
+> On Tue, Apr 30, 2024 at 7:40=E2=80=AFPM Andrew Jeffery
+> <andrew@codeconstruct.com.au> wrote:
+> >=20
+> > On Tue, 2024-04-30 at 12:25 -0500, Rob Herring (Arm) wrote:
+> > > The use of 'oneOf' to include 1 of 3 possible child node schemas resu=
+lts
+> > > in error messages containing the actual error message(s) for the corr=
+ect
+> > > SoC buried in the tons of error messages from the 2 schemas that don'=
+t
+> > > apply. It also causes the pinctrl schema to be applied twice as it wi=
+ll
+> > > be applied when the compatible matches.
+> > >=20
+> > > All that's really needed in the parent schema is to ensure one of the
+> > > possible compatible strings is present in the pinctrl node so that it=
+s
+> > > schema will be applied separately.
+> >=20
+> > Thanks, I think it improves the readability of intent in the binding as
+> > well.
+> >=20
+> > To understand the impact better I grabbed the patch and diffed the
+> > output of `make CHECK_DTBS=3Dy aspeed/aspeed-ast2600-evb.dtb` before an=
+d
+> > after applying it, but there was no significant difference in output.
+> > Should that not demonstrate the errors being cleaned up? If not, what
+> > should?
+>=20
+> Try it on one of the new boards posted in the last 1-2 days. It showed
+> up on my testing dtbs_check on patches. I didn't send a report because
+> there was so much noise in it.
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
----
- arch/arm/boot/dts/aspeed/Makefile             |   1 +
- .../aspeed/aspeed-bmc-asrock-e3c256d4i.dts    | 322 ++++++++++++++++++
- 2 files changed, 323 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts
+I tried with aspeed/aspeed-bmc-ibm-blueridge.dtb and yeah, it does
+clean up a lot of barf. Nice. Thanks.
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index d3ac20e316d0..3398ee53f034 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -9,6 +9,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-ampere-mtmitchell.dtb \
- 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
- 	aspeed-bmc-asrock-e3c246d4i.dtb \
-+	aspeed-bmc-asrock-e3c256d4i.dtb \
- 	aspeed-bmc-asrock-romed8hm3.dtb \
- 	aspeed-bmc-bytedance-g220a.dtb \
- 	aspeed-bmc-delta-ahe50dc.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts
-new file mode 100644
-index 000000000000..9d00ce9475f2
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts
-@@ -0,0 +1,322 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/dts-v1/;
-+
-+#include "aspeed-g5.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/i2c/i2c.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
-+#include <dt-bindings/watchdog/aspeed-wdt.h>
-+
-+/{
-+	model = "ASRock E3C256D4I BMC";
-+	compatible = "asrock,e3c256d4i-bmc", "aspeed,ast2500";
-+
-+	aliases {
-+		serial4 = &uart5;
-+
-+		i2c20 = &i2c2mux0ch0;
-+		i2c21 = &i2c2mux0ch1;
-+		i2c22 = &i2c2mux0ch2;
-+		i2c23 = &i2c2mux0ch3;
-+	};
-+
-+	chosen {
-+		stdout-path = &uart5;
-+	};
-+
-+	memory@80000000 {
-+		reg = <0x80000000 0x20000000>;
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		/* BMC heartbeat */
-+		led-0 {
-+			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_LOW>;
-+			function = LED_FUNCTION_HEARTBEAT;
-+			color = <LED_COLOR_ID_GREEN>;
-+			linux,default-trigger = "timer";
-+		};
-+
-+		/* system fault */
-+		led-1 {
-+			gpios = <&gpio ASPEED_GPIO(Z, 2) GPIO_ACTIVE_LOW>;
-+			function = LED_FUNCTION_FAULT;
-+			color = <LED_COLOR_ID_RED>;
-+			panic-indicator;
-+		};
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 0>, <&adc 1>, <&adc 2>, <&adc 3>,
-+			<&adc 4>, <&adc 5>, <&adc 6>, <&adc 7>,
-+			<&adc 8>, <&adc 9>, <&adc 10>, <&adc 11>,
-+			<&adc 12>, <&adc 13>, <&adc 14>, <&adc 15>;
-+	};
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <100000000>; /* 100 MHz */
-+#include "openbmc-flash-layout-64.dtsi"
-+	};
-+};
-+
-+&uart1 {
-+	status = "okay";
-+};
-+
-+&uart2 {
-+	status = "okay";
-+};
-+
-+&uart3 {
-+	status = "okay";
-+};
-+
-+&uart4 {
-+	status = "okay";
-+};
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&uart_routing {
-+	status = "okay";
-+};
-+
-+&mac0 {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii1_default &pinctrl_mdio1_default>;
-+
-+	nvmem-cells = <&eth0_macaddress>;
-+	nvmem-cell-names = "mac-address";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	i2c-mux@70 {
-+		compatible = "nxp,pca9545";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		i2c2mux0ch0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+		};
-+
-+		i2c2mux0ch1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+		};
-+
-+		i2c2mux0ch2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+		};
-+
-+		i2c2mux0ch3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+		};
-+	};
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+
-+	vrm@60 {
-+		compatible = "isil,isl69269";
-+		reg = <0x60>;
-+	};
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+
-+	/* FRU eeprom */
-+	eeprom@57 {
-+		compatible = "st,24c128", "atmel,24c128";
-+		reg = <0x57>;
-+		pagesize = <16>;
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+
-+		eth0_macaddress: macaddress@3f80 {
-+			reg = <0x3f80 6>;
-+		};
-+	};
-+};
-+
-+&video {
-+	status = "okay";
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+};
-+
-+&lpc_snoop {
-+	status = "okay";
-+	snoop-ports = <0x80>;
-+};
-+
-+&kcs3 {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0xca2>;
-+};
-+
-+&peci0 {
-+	status = "okay";
-+};
-+
-+&wdt1 {
-+	aspeed,reset-mask = <(AST2500_WDT_RESET_DEFAULT & ~AST2500_WDT_RESET_LPC)>;
-+};
-+
-+&wdt2 {
-+	aspeed,reset-mask = <(AST2500_WDT_RESET_DEFAULT & ~AST2500_WDT_RESET_LPC)>;
-+};
-+
-+&pwm_tacho {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm0_default /* CPU */
-+		&pinctrl_pwm2_default      /* rear */
-+		&pinctrl_pwm4_default>;    /* front */
-+
-+	/* CPU */
-+	fan@0 {
-+		reg = <0x00>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
-+	};
-+
-+	/* rear */
-+	fan@2 {
-+		reg = <0x02>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x02>;
-+	};
-+
-+	/* front */
-+	fan@4 {
-+		reg = <0x04>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x04>;
-+	};
-+};
-+
-+&gpio {
-+	status = "okay";
-+	gpio-line-names =
-+		/*  A */ "", "", "NMI_BTN_N", "BMC_NMI", "", "", "", "",
-+		/*  B */ "", "", "", "", "", "", "", "",
-+		/*  C */ "", "", "", "", "", "", "", "",
-+		/*  D */ "BMC_PSIN", "BMC_PSOUT", "BMC_RESETCON", "RESETCON",
-+			"", "", "", "",
-+		/*  E */ "", "", "", "", "", "", "", "",
-+		/*  F */ "LOCATORLED_STATUS_N", "LOCATORBTN", "", "",
-+			"", "", "BMC_PCH_SCI_LPC", "BMC_NCSI_MUX_CTL",
-+		/*  G */ "HWM_BAT_EN", "CHASSIS_ID0", "CHASSIS_ID1", "CHASSIS_ID2",
-+			"", "", "", "",
-+		/*  H */ "FM_ME_RCVR_N", "O_PWROK", "", "D4_DIMM_EVENT_3V_N",
-+			"MFG_MODE_N", "BMC_RTCRST", "BMC_HB_LED_N", "BMC_CASEOPEN",
-+		/*  I */ "", "", "", "", "", "", "", "",
-+		/*  J */ "BMC_READY", "BMC_PCH_BIOS_CS_N", "BMC_SMI", "", "", "", "", "",
-+		/*  K */ "", "", "", "", "", "", "", "",
-+		/*  L */ "", "", "", "", "", "", "", "",
-+		/*  M */ "", "", "", "", "", "", "", "",
-+		/*  N */ "", "", "", "", "", "", "", "",
-+		/*  O */ "", "", "", "", "", "", "", "",
-+		/*  P */ "", "", "", "", "", "", "", "",
-+		/*  Q */ "", "", "", "", "", "", "", "",
-+		/*  R */ "", "", "", "", "", "", "", "",
-+		/*  S */ "PCHHOT_BMC_N", "", "RSMRST", "", "", "", "", "",
-+		/*  T */ "", "", "", "", "", "", "", "",
-+		/*  U */ "", "", "", "", "", "", "", "",
-+		/*  V */ "", "", "", "", "", "", "", "",
-+		/*  W */ "", "", "", "", "", "", "", "",
-+		/*  X */ "", "", "", "", "", "", "", "",
-+		/*  Y */ "SLP_S3", "SLP_S5", "", "", "", "", "", "",
-+		/*  Z */ "CPU_CATERR_BMC_N", "", "SYSTEM_FAULT_LED_N", "BMC_THROTTLE_N",
-+			"", "", "", "",
-+		/* AA */ "CPU1_THERMTRIP_LATCH_N", "", "CPU1_PROCHOT_N", "",
-+			"", "", "IRQ_SMI_ACTIVE_N", "FM_BIOS_POST_CMPLT_N",
-+		/* AB */ "", "", "ME_OVERRIDE", "BMC_DMI_MODIFY", "", "", "", "",
-+		/* AC */ "", "", "", "", "", "", "", "";
-+};
-+
-+&adc {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc0_default /* 3VSB */
-+		&pinctrl_adc1_default	   /* 5VSB */
-+		&pinctrl_adc2_default	   /* CPU1 */
-+		&pinctrl_adc3_default	   /* VCCSA */
-+		&pinctrl_adc4_default	   /* VCCM */
-+		&pinctrl_adc5_default	   /* V10M */
-+		&pinctrl_adc6_default	   /* VCCIO */
-+		&pinctrl_adc7_default	   /* VCCGT */
-+		&pinctrl_adc8_default	   /* VPPM */
-+		&pinctrl_adc9_default	   /* BAT */
-+		&pinctrl_adc10_default	   /* 3V */
-+		&pinctrl_adc11_default	   /* 5V */
-+		&pinctrl_adc12_default	   /* 12V */
-+		&pinctrl_adc13_default	   /* GND */
-+		&pinctrl_adc14_default	   /* GND */
-+		&pinctrl_adc15_default>;   /* GND */
-+};
--- 
-2.44.0
+Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
+[1]: https://lore.kernel.org/lkml/20240429210131.373487-14-eajames@linux.ib=
+m.com/
