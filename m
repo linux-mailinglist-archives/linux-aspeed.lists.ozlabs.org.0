@@ -1,49 +1,101 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21008B99CE
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 13:10:58 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C388B9B33
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 14:59:01 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=KovtREGb;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RXAHvlTp;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VVWSw3WjSz3cW3
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 21:10:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VVYsY5fSZz3cXR
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2024 22:58:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=KovtREGb;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RXAHvlTp;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VVWSq5vP8z2yGk
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2024 21:10:51 +1000 (AEST)
-Received: by codeconstruct.com.au (Postfix, from userid 10000)
-	id 5882D20179; Thu,  2 May 2024 19:10:51 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1714648251;
-	bh=pzjwr6sAiFLElksw1HzusJ+TA1ufzUQRI7ekIHV8muw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=KovtREGb7H/zxtM7ce2TSigrTq7su7V5xR+JwqxVir0h0WsZOOmY0K5HOkjcFARqs
-	 s0N0HodhVKtlgNVX1i5Q01Uhu0ol9DiVmjSy1DyIWqoyrSSJ4p0+9X5g7rIgOdtig+
-	 YFRVDFmYv97WrJRxgvj2gH+XydhDZVU0kCBMMrf6xrvqP7bwnHDUS5KWZrOnNE2f/M
-	 XRdx5/DfwoPrfAdh5Kq5fosS8TBaEvKwxWCNbp7hfhnqRGZP1hGPw+eQkKVMNT8tPb
-	 hWQCLfNtiN9U1z+F9OII50xpq7IiQhiVkr0UlbMGjWUlSaMP/b9fwH4is9f9st7UGx
-	 SxqRo7klnVzQQ==
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v2 2/2] arm: dts: aspeed-g6: Add nodes for i3c controllers
-Date: Thu,  2 May 2024 19:10:25 +0800
-Message-Id: <85fa87f3b75eb1d0796925f2f4b92ddef7464971.1714647917.git.jk@codeconstruct.com.au>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <9d8c03d742fa9767f30e23d75ddf0baf4296c88e.1714647917.git.jk@codeconstruct.com.au>
-References: <9d8c03d742fa9767f30e23d75ddf0baf4296c88e.1714647917.git.jk@codeconstruct.com.au>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VVYsN1fsjz3cG6;
+	Thu,  2 May 2024 22:58:48 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2F4B561A8A;
+	Thu,  2 May 2024 12:58:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93977C113CC;
+	Thu,  2 May 2024 12:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714654725;
+	bh=d5lIMO407MDnIQ9/e79pnEoYgUg36/5ZYRteDB8/LzI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RXAHvlTpuULfleDV9iketGFXPT6pbR60YDBiVvOqF9bUgBAW+dxymgKhIqXjbaiN3
+	 3+Ixu+Vt/U8w1ZX6IMprYSkHBSd4qoSkHvR4Eifa1Q8jV8HfoKoYHN9Wbq26qU7pJA
+	 dsAtSag72IDUrYruCrxb2H2cMY29ANlylCokpF+iPtBPovQT7KmNw857QpX0xKZpzB
+	 7061dyk2a0L8fAvA0DYgNYwZmwNGeYGJiq9YjaVWVeBT1AniSjRpVToOZrtA0tlJml
+	 HbYn1gFXFC/om3b67m/Or8S3lFonLuXcuJdUs/gbOsp/eYAFdYg65563pDXbWyOnN5
+	 MFqH+aQ6xxeNw==
+Message-ID: <59cdb557-cffd-41f3-b487-2f1890e7cac3@kernel.org>
+Date: Thu, 2 May 2024 14:58:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 10/17] dt-bindings: i2c: i2c-fsi: Convert to
+ json-schema
+To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
+References: <20240429210131.373487-1-eajames@linux.ibm.com>
+ <20240429210131.373487-11-eajames@linux.ibm.com>
+ <bbf12675-e0f5-4150-96d1-097eb7abd81a@kernel.org>
+ <1ebaaa48-9812-467e-9189-c1cd3369b6cb@linux.ibm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <1ebaaa48-9812-467e-9189-c1cd3369b6cb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,128 +107,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add the i3c controller devices to the ast2600 g6 common dts. We add all
-6 busses to the common g6 definition, but leave disabled through the
-status property, to be enabled per-platform.
+On 01/05/2024 18:16, Eddie James wrote:
+> 
+> On 4/30/24 02:35, Krzysztof Kozlowski wrote:
+>> On 29/04/2024 23:01, Eddie James wrote:
+>>> Convert to json-schema for the FSI-attached I2C controller.
+>>>
+>>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>>> ---
+>>> Changes since v3:
+>>>   - Update MAINTAINERS
+>>>   - Change commit message to match similar commits
+>>>
+>>>   .../devicetree/bindings/i2c/i2c-fsi.txt       | 40 -------------
+>>>   .../devicetree/bindings/i2c/ibm,i2c-fsi.yaml  | 58 +++++++++++++++++++
+>>
+>> Please split independent patches to separate patchsets, so they can be
+>> reviewed and picked up by respective maintainers.
+>>
+>> I don't see any dependency here. Neither in 1st patch.
+> 
+> 
+> OK, I guess that makes it complicated for Andrew to pull together with 
+> the device tree changes in a way that avoids warnings, but I agree there 
+> is no direct dependency.
 
-Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+SoC tree should not pull subsystem patches. Plus DTS must be separate
+from drivers...
 
---
-v2:
- - use inline bus representation, without the i3c: label
----
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 94 +++++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-index 96ceb08cf0cb..5d8f4e752912 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-@@ -1092,6 +1092,100 @@ i2c15: i2c-bus@800 {
- 				};
- 			};
- 
-+			/* i3c mapping, containing global & per-controller
-+			 * register sets */
-+			bus@1e7a0000 {
-+				compatible = "simple-bus";
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x1e7a0000 0x8000>;
-+
-+				i3c_global: i3c-global {
-+					compatible = "aspeed,ast2600-i3c-global",
-+						   "syscon", "simple-mfd";
-+					reg = <0x0 0x1000>;
-+					resets = <&syscon ASPEED_RESET_I3C_DMA>;
-+				};
-+
-+				i3c0: i3c@2000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x2000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C0CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c1_default>;
-+					interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 0>;
-+					status = "disabled";
-+				};
-+
-+				i3c1: i3c@3000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x3000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C1CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c2_default>;
-+					interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 1>;
-+					status = "disabled";
-+				};
-+
-+				i3c2: i3c@4000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x4000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C2CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c3_default>;
-+					interrupts = <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 2>;
-+					status = "disabled";
-+				};
-+
-+				i3c3: i3c@5000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x5000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C3CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c4_default>;
-+					interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 3>;
-+					status = "disabled";
-+				};
-+
-+				i3c4: i3c@6000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x6000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C4CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c5_default>;
-+					interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 4>;
-+					status = "disabled";
-+				};
-+
-+				i3c5: i3c@7000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x7000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C5CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c6_default>;
-+					interrupts = <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 5>;
-+					status = "disabled";
-+				};
-+			};
-+
- 			fsim0: fsi@1e79b000 {
- 				compatible = "aspeed,ast2600-fsi-master", "fsi-master";
- 				reg = <0x1e79b000 0x94>;
--- 
-2.39.2
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    i2c@1800 {
+>>> +        compatible = "ibm,i2c-fsi";
+>>> +        reg = <0x1800 0x400>;
+>>> +        #address-cells = <1>;
+>>> +        #size-cells = <0>;
+>>> +
+>>> +        i2c-bus@0 {
+>>> +            reg = <0>;
+>>> +            #address-cells = <1>;
+>>> +            #size-cells = <0>;
+>> This does not look right. Why do you have multiple i2c-bus children? I
+>> do not think i2c-controller.yaml schema allows this.
+> 
+> 
+> It does seem to allow it, as this validates here and in the device tree. 
+
+Only because children are treated as I2C devices.
+
+> It is this way because the I2C controller provides multiple busses. 
+
+It does not look like I2C controller anymore. I think I2C controller
+sits on the bus, not on multiple busses. How are SDA/SCL lines connected?
+
+This looks like you are describing something which is not I2C bus
+controller as I2C bus controller...
+
+I'll let I2C maintainer comment on that - is this real I2C bus which
+consists of multiple buses.
+
+
+> Should I change it so to add "bus" pattern properties that reference 
+> i2c-controller.yaml?
+
+Not sure if I get it right... whatever is the I2C bus controller, should
+reference i2c-controller.yaml. Not some other entity.
+
+Best regards,
+Krzysztof
 
