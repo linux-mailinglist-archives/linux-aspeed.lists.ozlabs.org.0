@@ -1,66 +1,152 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22116957946
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B48957995
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:12 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJ80Cbxz30VL
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqK45dJVz3w5l
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=zICI3+6j;
+	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector2 header.b=G22qLQx8;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b32; helo=mail-yb1-xb32.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=permerror (SPF Permanent Error: Void lookup limit of 2 exceeded) smtp.mailfrom=nxp.com (client-ip=2a01:111:f403:2613::600; helo=eur05-vi1-obe.outbound.protection.outlook.com; envelope-from=peng.fan@nxp.com; receiver=lists.ozlabs.org)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on20600.outbound.protection.outlook.com [IPv6:2a01:111:f403:2613::600])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VW2JH68zLz3bPM
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 May 2024 17:20:14 +1000 (AEST)
-Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-de5b1e6beceso8567603276.0
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 03 May 2024 00:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714720810; x=1715325610; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9wIaPeFAaUloh+tV0Kf/Zmc8dIfcbAIB89NynZIAYBA=;
-        b=zICI3+6j5TibS1e+rowD8ZA1DqPnkp3ljLAPhJUi0MQuXOZBfRZIiKe+PLz1pCS6Bm
-         LdQ2uTC4g65N9Aujjo/uMm8Rd3Ky4tvYVPWIOk1fR3BwkrdqPVBBZtdraNAmbnufVki8
-         WAZsOd0dNi9/G4Aot4exMi9l3yTcGcDS+YWzba3jD5pDhdsj2KYmiDXBJaHxWXSv9Or0
-         0/O277nrwo6oooGscYLtpT2v8l3dGunVncEfWjlyfhyL03/bJTWRZlLzQl48kcSLFZDH
-         94DjblTnkwc2ytKVRiZQbJteSphcyM/IoBbpDRR9FFRd9FIlRsASnDBclCsu2BGR9Ux1
-         JyOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714720810; x=1715325610;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9wIaPeFAaUloh+tV0Kf/Zmc8dIfcbAIB89NynZIAYBA=;
-        b=UrhUvV6lJGzQRWAmTqQzX47enesJ+ynytlRo5kCq6v4i1P+Zc2I3O1KNNxrdBeU5+4
-         DNpdNfHQiOAGuCQTwfN/VROEZ3wAgZImUiUwfaeVjJuKAKNTeBqRxQLQxlbQnPux0ylw
-         lHtKSZ7gYGdXoIqf+kwS5dRuSzIzMg2rxuUd8Vx4u8DCJWZdvB+mJaAu8NBRv9nYx4yk
-         RtLSjaAXKjz6zH64yUdzUq9HqRKBVcKKB7I/5is1EGiM8MlnYzj0bxzKR3iWF20rfeyt
-         bwZrNTEXabf08yRsPHPAe6GjnalYqVc3rrYfbQ/yroFbA28yaBxaMKUbex8or7E6pqBo
-         Do4w==
-X-Forwarded-Encrypted: i=1; AJvYcCWrd8puS4YcyElAbUrGT99La24BWe+fmLP6lmmKNvNbPmv0wHImWW7wIsEKXagC5GHUtqZPqsc3eNVGc0rLiS7hz2lC5A2hQa3d2L98qA==
-X-Gm-Message-State: AOJu0Yxd39R4ZlGeAWC2CM79qbSJHHI6OIwIbR9GSxmZtpIBQoBrIcXh
-	ulQ/+YhWosIC3batq3v+isFuDAnnAvASoUdbHMbF6GgSxhXCH5qBxdNXeUkTtpCqIvQMeqo2lgN
-	NKIQxBGJcjXOE9ACTmEQXFao1WhwSWjqMhveuHg==
-X-Google-Smtp-Source: AGHT+IG2e9YB/XnLTQbvqj0kK4ATPxoJ7R6aIP282PPsbZXF297lXvACY/w/LCEjCFtAwBrhBmRU/mc6jno/5QoxHeQ=
-X-Received: by 2002:a05:6902:2203:b0:dc2:2b0d:613e with SMTP id
- dm3-20020a056902220300b00dc22b0d613emr2388159ybb.10.1714720809843; Fri, 03
- May 2024 00:20:09 -0700 (PDT)
-MIME-Version: 1.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VWRQX4Cvfz3vht;
+	Sat,  4 May 2024 09:12:02 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QruS0Pr3MAIRkYTY3dwrfSBOboBgpOvCcgLQ5x8SFl/FRn+qfVvMDtyt/ATqgYqDHYl26SI0w0DHOb8kIPkesmDyeLmTqxF4k/HFWpMYbsYPeI25SqIL2hbEWljv+aFLs9qZbguWR54ZtRHcYD5c1OEEvRF54Jh1dHWHuFgy/ub9lcbNIyN/hiYqmSeMmvzp6gUv1U6ybK9MIkG21AyH6qfLBSiileu7m5LFo73fhzaZHjfhpjauLCcSQI/KiG7RKuQD27zxSIiHqC1FlPnenvsW+3EIgIuGnraZuS6F0+0h3kgRlGoEWvBxQfMwNslx4hNAdP10CjfeEzOBQKqR/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yLHFXL6d71G9zA6ggjpyU+QaC8aUhPbADtwjXl05o7E=;
+ b=I9pChR+xiqZG/1InktnyptN0tWaIlLq6/OYRKpHoOVAp45XDfxZuNmYARNpiWOVBM1SnvSa++O1DxuxRn4fOqtx+pXL8W9dNsqAdHNA7YgBzEEvNmL7ha1PD7XaZVCE9NIaLGrtwQjclzdtM5+GEukOK7X22Cma+N9kKAah4ninyoGf+JOuuwJTY2E43F+SRD2a7EfV1nGeKNw77hhNaefEJfIV4n1RK8ih0ko1EyGt81V+QpGVm2CkLgfq6jdxilIiaZ9hE3/tgOTqn/AJtkha6Bn2F1HFCnixpUgm/KYF8bbJ4HRgg2FobwVjotk1kONLGXYFnOzpBK3uTGue1gA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yLHFXL6d71G9zA6ggjpyU+QaC8aUhPbADtwjXl05o7E=;
+ b=G22qLQx8wAIGJg3gYaSJatPdN6sKdslMnL/kTsIw2pnLdH+MVskXbKAV8LtVWPrpx+hHvpC+5c5N6c1Gq2sK5K35R94lRpJYAN44ptBONA75mapxlChMZmKHVaJcR1eOjRdSE4vaQ3T9g4KuuzvFKBCNU2zQjManNyuAyTLC0DY=
+Received: from DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
+ by AS8PR04MB9191.eurprd04.prod.outlook.com (2603:10a6:20b:44e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.36; Fri, 3 May
+ 2024 23:11:40 +0000
+Received: from DU0PR04MB9417.eurprd04.prod.outlook.com
+ ([fe80::d30b:44e7:e78e:662d]) by DU0PR04MB9417.eurprd04.prod.outlook.com
+ ([fe80::d30b:44e7:e78e:662d%4]) with mapi id 15.20.7544.029; Fri, 3 May 2024
+ 23:11:40 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: Linus Walleij <linus.walleij@linaro.org>, "Peng Fan (OSS)"
+	<peng.fan@oss.nxp.com>
+Subject: RE: [PATCH 00/21] pinctrl: Use scope based of_node_put() cleanups
+Thread-Topic: [PATCH 00/21] pinctrl: Use scope based of_node_put() cleanups
+Thread-Index: AQHam8XZF+hoIEqtO0+ph11dwkNN67GFHQ8AgAEJP+A=
+Date: Fri, 3 May 2024 23:11:40 +0000
+Message-ID:  <DU0PR04MB9417D5D76707C413ABC0BAC0881F2@DU0PR04MB9417.eurprd04.prod.outlook.com>
 References: <20240501-pinctrl-cleanup-v1-0-797ceca46e5c@nxp.com>
-In-Reply-To: <20240501-pinctrl-cleanup-v1-0-797ceca46e5c@nxp.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 3 May 2024 09:19:58 +0200
-Message-ID: <CACRpkdaRpJw=kHtya2iww7vvm+Bt6-oPMmz-6VzfhZniSoMP3w@mail.gmail.com>
-Subject: Re: [PATCH 00/21] pinctrl: Use scope based of_node_put() cleanups
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CACRpkdaRpJw=kHtya2iww7vvm+Bt6-oPMmz-6VzfhZniSoMP3w@mail.gmail.com>
+In-Reply-To:  <CACRpkdaRpJw=kHtya2iww7vvm+Bt6-oPMmz-6VzfhZniSoMP3w@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU0PR04MB9417:EE_|AS8PR04MB9191:EE_
+x-ms-office365-filtering-correlation-id: 5b44d46e-9f13-438a-f5ee-08dc6bc66415
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:  BCL:0;ARA:13230031|376005|7416005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info:  =?utf-8?B?QzZwOUVoYzJXWTBHNzY5T1RYYkNJMXA4OUlJRy9VeitoRy9IMHJJejJFZSs1?=
+ =?utf-8?B?NjJsQnhmUUZ6Sjk0b2g3MFRPaDVaY3MwSUZyQVRudU5jUU1XV3ZWRmpkNkdK?=
+ =?utf-8?B?QS9OZnczZXlFMzhiNFZTNXpWbGJSQUVMOGVqZ3dGaE5IbGRRdDR2K2gzVmI5?=
+ =?utf-8?B?bC81WlJaZ0hYTEU5YnVJd2ZKclBZRlYyWitVOUM4ZnllWDZFNFcyZnRzamFE?=
+ =?utf-8?B?OFRBWE82bTBUVjk0KzJSWlp0STdCcWxjY1Rha09oOUFYMyttL2E5Yzl3N2Ew?=
+ =?utf-8?B?UmVrM0R2endLTUYxaWNwMHhTU1pJM1VJS3NPVUZjQ0pscVNoVHNrWGJSemZ0?=
+ =?utf-8?B?NUExUTdBUnZaQjB4MmxkWFoxbGJKL3pBVmRVOUMwcis4djdlVEJ6NXJUZEtl?=
+ =?utf-8?B?TFZMbHFEVTFUSHMwc0lZYWNTNk9BWXQ2N05MYWREYnMxclVVT2lYM2Y2UjdS?=
+ =?utf-8?B?aXE3NDE3Yi9iRk1vUDRzeDhic1h4OXpwdjNpODZodDJJcmJDR2lOU0MwSDZB?=
+ =?utf-8?B?OTA3YkVMK21ldVVOSHhlQVlGSGFpcmN4ZE55ZXdwa05LdkZYNTIyWlE3aGh6?=
+ =?utf-8?B?Mk9zek94UXFEOXM5d1NzUXA0THZuMTBYNDBhYWs2elVsZ0FURWRRR1YwVFFq?=
+ =?utf-8?B?czIzNndVQWFWVk92clNxYW5MY3JpUjlkQTNqYlpMSXF3emViblFya3FZTnJF?=
+ =?utf-8?B?MWJyQ09JVndlRVNpd0ZteXFybW53b203d0tsZXBwUUlQMGNXMzl1cHBpZTlF?=
+ =?utf-8?B?U21LR1l1RGpiSGd4bFkvbk15cXFGM0NPNDJyaksrbmRpdS8zY0Vad0hhdHl0?=
+ =?utf-8?B?aFhDQ01QN04vRkpjQlowMUcyMzM3d2xHeXp5Q2czaG9yblJkOHloUHV5Vi9w?=
+ =?utf-8?B?aGhleFNURHhvaGtEK2trdVpwcndDSmhtVldUNUJVSzdhNzJuc3I0Mnd6RWFj?=
+ =?utf-8?B?dVltenZpWUdEYVdSSjI5dDlaTmN0UTVpNU84cUtLVUFxenZlK0hmcHA4ZGpW?=
+ =?utf-8?B?Q3VNQTc1dE1DSTErVmh4YWdGRWpSZWlWWDFQUXR2c3dzTUd2cTFOUVkzTmND?=
+ =?utf-8?B?cGRtWGpPY2sybVRtaXFQdmVQUEFMWWVodUpscnZEeW1IKzJrc2hCNjZNd013?=
+ =?utf-8?B?RW5NRUltcC9tc0FVUzRKYXVKUG9aZkduZVd6cTgwQ2ZIdTVqdXlReHlvTUZM?=
+ =?utf-8?B?c1JXdEdBMWMxWW9IeER5ai9aT3F3QTJ1RExrazI2R29NdFRFVXZxYjFlV2xY?=
+ =?utf-8?B?bzZDb1BTYkRIOGw2b2gya3Q1OElENVE2Y09pSGZ2cnZ2eDVOYjk1Smw4Rnpj?=
+ =?utf-8?B?cnhSNFRhM2Q5ZVk4dU5PeWdza01ET1E1dWQvNzNqZi9oTE5aY05ZeDNoMUVm?=
+ =?utf-8?B?cFRwWnA4RFluSUFFelgwTCtaMmZZZWp4cDNTeFR4anAyT0oxQWdHd3hJcDlM?=
+ =?utf-8?B?NWVLeHlja1FnN1YxcVY3anNJc2NicWRMRkhhTW5WdHJHaDJMUXF2Q3FLOVRM?=
+ =?utf-8?B?dWRHNkpuMWllNWZScGFkUlM2VWlXcDJaWXpuc3hXTlpLdmdEWHAyemMrbnk3?=
+ =?utf-8?B?T2FYTnVSdHJ3azJZMXd0TjVPRVdrOGl0UC9rN3lzYW9HRDh6OGFlYXFqQnk1?=
+ =?utf-8?B?bm0zSjNENW9TcTFuWWY3N1BLVklyem1qb1diVHdId2JoYkpxMkJPbDRUb2tO?=
+ =?utf-8?B?T0dsU0ZsRnVvMWtkS0lZYmN2VStLUFdqUC9WWERqUWhndm1NZGFLSXBEbW5t?=
+ =?utf-8?B?bTUvVTBPem5ub1liZU9DLy82bHphTHlHUzdwalpYR1VuTXluNytTTDA4N29R?=
+ =?utf-8?B?QVo5cXlKS0pObHdMUk1Udz09?=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9417.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?MmhUU2hwU3BRSWozZDRDMkl6VW1oR1AzUUNwS2FTb2VOSzFNRmE5Z1JqWEc0?=
+ =?utf-8?B?Zm1tdjJVZzBzRElSMnJhWWdsTG1UT0hXRENZVU5zNVhjaDhjUk1GcFlLMzdn?=
+ =?utf-8?B?dnNuWFQ0eCtvNDZEU25nTWJqek5sa0xKUmhpU21SZ0VMcldubS9aTUNVdHF1?=
+ =?utf-8?B?U2VBelNjcVR1UkF3QnF6MmhWdmZ2c2YwUUpPT0dQSm0wamtVWVpFSEZHSFhM?=
+ =?utf-8?B?NE90NzhlWWV0b1p0eFJuQjA3Yk93V1NLZVZjeW95U1VoZStWbFo3YjJZQVhB?=
+ =?utf-8?B?OGtJTXNHZ3l3OGdVeFljWjluRXpJbE9rdUtYcWN6UXFPUm03SXdpRituS1hp?=
+ =?utf-8?B?bktOSGg4ZjREUGVLV28xV1VRT0gvcDZLVy9TVmNmczRsaWR3dkxnc2kvMGlV?=
+ =?utf-8?B?T0lBSHgzaG1Vd2gwU2ZuUXUwV2lSVEoxbi9qOVlNVExrN2ZiTHBPOUpjZWcr?=
+ =?utf-8?B?K0xWd2ErMGVTSkFhSmR1dm9yRWUvQ0VncUptalJlQ2JkYjJWQjlpaktvTHAy?=
+ =?utf-8?B?K1RSVzdORVo5b2dhTlJQbDdmOHdab25WMG5lejNBY3BSUklnMjNySDBaT2M4?=
+ =?utf-8?B?dEFhanFTa2QwR2pBU29Vc1p2ajhrRXZ1U0lROUhsTXJ4bFFrZ01xRFR4TWlL?=
+ =?utf-8?B?a1dzMkxLZnA4Y25SbVhuRGY3WEdnbUdVRkIrY0hhdy9QM21wYWFQU2RWWTlM?=
+ =?utf-8?B?aUdQeHB6c2pHRzhDS0FxVG4wZEFEWmliL3crWDlOMDlPMWkvZkFrSEhtS01F?=
+ =?utf-8?B?eEY5NlFPMWVsWHJEeG5ZZWMrNE4ySkx5UHo5eFRUNHFhYkJVSWNtdjNETTdW?=
+ =?utf-8?B?RVdMaTcxN005dmMxZmQ2c2ZvcFFGZjBHdFdKNE9NWUVGV3FOMFpKSVRSVE9Q?=
+ =?utf-8?B?ZURZMmgzdjdNajRoWGVIU2tiV3dXK1RnODFSZ284Smx5ZllhS0dVNGVqc0M1?=
+ =?utf-8?B?YzBjUzNHTHVOMEp3Nm5iU3RieGE0Smh0cG51VVUzaTJjZDAwc2p2RWhJS2ht?=
+ =?utf-8?B?bytaeFBDMG8zeVZ6dDZYWGpwSlVSZFlqNjdNclpvYi9rMGZZb25qcVQ3czZR?=
+ =?utf-8?B?Vm1LQWJ6T0gxL3NYYUR5Z3RDVlhoTzBFWHdVT3daSEpNZmh4NGNsdndlWmVR?=
+ =?utf-8?B?ZXh0V3RGb3c3b2FGcTBiajJkR1ZROVRDY3NETjJpUjc0ZmpQUzhnWENQTFo3?=
+ =?utf-8?B?L0dTOS9zTlZPSmdDbnREbHRHWC80a2NOWCs1ajNuYWZ2T2pzT0RoNVY0R25S?=
+ =?utf-8?B?VjR3elluS0ZYRTU4M0tTcmRma3NGa2JtTkl3eUpFRzB3NTkrakNON0dOUjFq?=
+ =?utf-8?B?ZWQrRGc3eStheG1VS2FBNVAyNGY3a3BBWHg0WmtpZmZLa1ZYZVo2eWpyeFdy?=
+ =?utf-8?B?azUwVkY2a05NSngxWkVuTTJISWYvN29KRk5HTXFhenQ4MXFMRklUSWFzYnhN?=
+ =?utf-8?B?Zk1lUkFTL1ZQNUNueEI1RHpoc1RyOGc5Nkh1R0pDMDUwdHFOU3M5c21IRWRa?=
+ =?utf-8?B?c2hBNXRwckxYWFhrTmVIbWVwM2ZkZ0phQXlMdndUWGtNeE5LRTNUN0JKcnhO?=
+ =?utf-8?B?UmdtNUJZZ01vMHRLcmVEVzZhUGpuT0MxNlZzRzZlTzNpeTNwMlZSUWtYTmpt?=
+ =?utf-8?B?TVUzZ0RVMjNCdXB2dm1wVDFKemJNRlI4WkplSVVoNVdsNWdLK3g3RHJIK0FB?=
+ =?utf-8?B?akVueHpXK3kvamlRSjBseDBKT2piU00vK0dwbHVna1JxeDIrdkYyRFp4a3R6?=
+ =?utf-8?B?STRabEt6K0VlYWVwLzVwN2Z6U0VFVmpOY29hbUEwSXExRm9MVU5MaHVuSVRV?=
+ =?utf-8?B?Sk1hZXpqOVk0ODZpdnd4azFZVUZmZW5wbEVQL0xDNThRRm1iSUJWSDh4VGZp?=
+ =?utf-8?B?NjJBNXRQck5RMGR2WENCczdaYlVMSk1Mb1J3NVlaRG5qbmU4ajY2UkI3R0ph?=
+ =?utf-8?B?SHhFTWwxdkZqbTZEQklzZkNxR2FSWVV6bkpRRGZmYnZqbnEvMHRSRjZlc3VP?=
+ =?utf-8?B?QkszSG1BSlMwMWJHTFZadlZ0bjRYZmFXOEJTMlFjN2hpOEVOQno3OUFWZTNJ?=
+ =?utf-8?B?SUdISVpBNWw3c3ZFblRZYVZYWDQwdnRCVXZJSVQwUDd4enlxQWxWeDBTMU50?=
+ =?utf-8?Q?lbyQ=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9417.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b44d46e-9f13-438a-f5ee-08dc6bc66415
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2024 23:11:40.6410
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XWzUJl2JaHLV99jsMXx0K2J7ZLDHv9l3R3NjqLiga1b4fp0hG0yFwEEW2Oz1wVjKHKLFyXgaIIj61nL5nHeH+g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9191
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -73,26 +159,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: imx@lists.linux.dev, Alexandre Belloni <alexandre.belloni@bootlin.com>, Peng Fan <peng.fan@nxp.com>, Emil Renner Berthing <kernel@esmil.dk>, Geert Uytterhoeven <geert+renesas@glider.be>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Shawn Guo <shawnguo@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Hal Feng <hal.feng@starfivetech.com>, Fabio Estevam <festevam@gmail.com>, Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, Dan Carpenter <dan.carpenter@linaro.org>, Heiko Stuebner <heiko@sntech.de>, linux-samsung-soc@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Chunyan Zhang <zhang.lyra@gmail.com>, openbmc@lists.ozlabs.org, Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org, Ludovic Desroches <ludovic.desroches@microchip.com>, Jacky Bai <ping.bai@nxp.com>, Orson Zhai <orsonzhai@gmail.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Patrice Chotard <patrice.chotard@foss.st.com>, Chester Lin <chester62515@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, linux-gpio@vger.kernel.org, soc@kernel.org, Damien Le Moal <dlemoal@kernel.org>, linux-mediatek@lists.infradead.org, Baolin Wang <baolin.wang@linux.alibaba.com>, Matthias Brugger <matthias.bgg@gmail.com>, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Dong Aisheng <aisheng.dong@nxp.com>, Matthias Brugger <mbrugger@suse.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, Sean Wang <sean.wang@kernel.org>, linux-stm32@st-md-mailman.stormreply.com, Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Jianlong Huang <jianlong.huang@starfivetech.com>, linux-riscv@lists.infradead.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Wells Lu <wellslutw@gmail.com>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>
+Cc: "imx@lists.linux.dev" <imx@lists.linux.dev>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Emil Renner Berthing <kernel@esmil.dk>, Geert Uytterhoeven <geert+renesas@glider.be>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Thierry Reding <thierry.reding@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Shawn Guo <shawnguo@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Hal Feng <hal.feng@starfivetech.com>, Fabio Estevam <festevam@gmail.com>, "Ghennadi Procopciuc \(OSS\)" <ghennadi.procopciuc@oss.nxp.com>, Dan Carpenter <dan.carpenter@linaro.org>, Heiko Stuebner <heiko@sntech.de>, "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Chunyan Zhang <zhang.lyra@gmail.com>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, Ludovic Desroches <ludovic.desroches@microchip.com>, Jacky Bai <ping.bai@nxp.com>, Orson Zhai <orsonzhai@gmail.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Patrice Chotard <patrice.chotard@foss.st.com>, Chester Lin <chester62515@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "soc@kernel.org" <soc@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, Matthias Brugger <matthias.bgg@gmail.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Aisheng Dong <aisheng.dong@nxp.com>, Matthias Brugger <mbrugger@suse.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, Sean Wang <sean.wang@kernel.org>, "linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Jianlong Huang <jianlong.huang@starfivetech.com>, "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Wells Lu <wellslutw@gmail.com>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Peng,
-
-thanks for doing this! I am very much in favor of using
-scoped management of resources where it makes it easier to
-do the right thing.
-
-I agree with Krzysztof's comment that we should avoid scoping
-in cases where there is a clear path grab/use/release so the
-code is easy to read already as it is. Let's drop those.
-
-I saw there was some patch that was even a fix, perhaps I
-should pick that one separately for fixes, but probably it is
-non-urgent.
-
-I suppose we will just apply v2 after people had some time to
-look at it!
-
-Yours,
-Linus Walleij
+SGkgTGludXMsDQoNCj4gU3ViamVjdDogUmU6IFtQQVRDSCAwMC8yMV0gcGluY3RybDogVXNlIHNj
+b3BlIGJhc2VkIG9mX25vZGVfcHV0KCkgY2xlYW51cHMNCj4gDQo+IEhpIFBlbmcsDQo+IA0KPiB0
+aGFua3MgZm9yIGRvaW5nIHRoaXMhIEkgYW0gdmVyeSBtdWNoIGluIGZhdm9yIG9mIHVzaW5nIHNj
+b3BlZCBtYW5hZ2VtZW50DQo+IG9mIHJlc291cmNlcyB3aGVyZSBpdCBtYWtlcyBpdCBlYXNpZXIg
+dG8gZG8gdGhlIHJpZ2h0IHRoaW5nLg0KPiANCj4gSSBhZ3JlZSB3aXRoIEtyenlzenRvZidzIGNv
+bW1lbnQgdGhhdCB3ZSBzaG91bGQgYXZvaWQgc2NvcGluZyBpbiBjYXNlcyB3aGVyZQ0KPiB0aGVy
+ZSBpcyBhIGNsZWFyIHBhdGggZ3JhYi91c2UvcmVsZWFzZSBzbyB0aGUgY29kZSBpcyBlYXN5IHRv
+IHJlYWQgYWxyZWFkeSBhcyBpdA0KPiBpcy4gTGV0J3MgZHJvcCB0aG9zZS4NClllYWgsIHdpbGwg
+ZHJvcCB0aGVtIGluIHYyLg0KDQo+IA0KPiBJIHNhdyB0aGVyZSB3YXMgc29tZSBwYXRjaCB0aGF0
+IHdhcyBldmVuIGEgZml4LCBwZXJoYXBzIEkgc2hvdWxkIHBpY2sgdGhhdA0KPiBvbmUgc2VwYXJh
+dGVseSBmb3IgZml4ZXMsIGJ1dCBwcm9iYWJseSBpdCBpcyBub24tdXJnZW50Lg0KDQpOb3QgdXJn
+ZW50LCBJIHdpbGwgYWRkIGZpeCB0YWcgaW4gdjIuDQoNClRoYW5rcywNClBlbmcuDQo+IA0KPiBJ
+IHN1cHBvc2Ugd2Ugd2lsbCBqdXN0IGFwcGx5IHYyIGFmdGVyIHBlb3BsZSBoYWQgc29tZSB0aW1l
+IHRvIGxvb2sgYXQgaXQhDQo+IA0KPiBZb3VycywNCj4gTGludXMgV2FsbGVpag0K
