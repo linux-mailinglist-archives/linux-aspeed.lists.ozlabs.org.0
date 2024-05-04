@@ -1,62 +1,101 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890038BAB86
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2024 13:23:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC4E8BBAF6
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 May 2024 13:50:45 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=WklTGSaZ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jdh6kJvj;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VW7jB10Zvz3chL
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2024 21:23:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VWmFv14jBz30TZ
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 May 2024 21:50:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=WklTGSaZ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jdh6kJvj;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::633; helo=mail-ej1-x633.google.com; envelope-from=joel.stan@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VW7j11pVDz3cZd
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  3 May 2024 21:23:31 +1000 (AEST)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a599c55055dso33729766b.0
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 03 May 2024 04:23:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google; t=1714735404; x=1715340204; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=R+1IKXv/OZSXxG3m940o49kC0CNjH3iNdy76Z/a3dsM=;
-        b=WklTGSaZz2YqBh0tAjYUR6ON4dMhP0ZbW7oaK1Rf0TzcKBPLSJsy+BPg+gP++tH2Pv
-         4JJuA1zF6nJeWNgIQh9YtVy4YvPK++bei8zLbJOXzDYsxTrNCPOAD9xqBTp99WlDlDEx
-         m/6z8gW/tWT7U4JkXKul9Tqlbt77zuF2ASP0Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714735404; x=1715340204;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R+1IKXv/OZSXxG3m940o49kC0CNjH3iNdy76Z/a3dsM=;
-        b=TjeDFEaK+qV4wT3G3bcBO5yXeMciPR/daKwDlsCL51qblV/iv0FPlckAwf7pDpVD5/
-         dQVGkkHh2zWv03yaqLE77DzqQxQLNQBjUxJfkNcz47slwySd6/qonFFaWCFfDjCijhoc
-         vlaXvcSTzd+Pm3+mwwjKPhS2/pZhNbezljqjkpvO0PDETfDoaIkgDoQRoonZUcRJ8TfC
-         kCMGq8cWWxRfnEDguXlp66r9IDLBn8L1SH2EOd4aZ16Jw9otc/MYoN8Y9ZLa4m9I18cK
-         /nhKF7yBCxyEYPfjkzRf/tMCdWHk9M3fg9nROh/rK2R7nMzzZjLUKnChzu2Sdu1L4r1X
-         vTQQ==
-X-Gm-Message-State: AOJu0YySw7FMmBmBIPFAgZ/lHuY6eZ086voni/G019JguU9TEL0mD6fG
-	u8LRDsJus5mkHy8hZZKc2a6X3VsoFi1WoMF5QyzIrs+2vJnuVQzXWBF8SOpupTkMeNNmiHFFtBf
-	ba/eBXv4w/rxViMDhlq6OUiuO4M4=
-X-Google-Smtp-Source: AGHT+IF2HiAsSB7nvhSgmkq3UxH39sAbU3Gg3QDWl9FZyADcdhsRlEGNq8GtPY3FVHPtpRfyPmydswOZnsRyZW7iZ3M=
-X-Received: by 2002:a17:906:ae8b:b0:a52:30d3:41dd with SMTP id
- md11-20020a170906ae8b00b00a5230d341ddmr1617971ejb.41.1714735403495; Fri, 03
- May 2024 04:23:23 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VWmFh4p7qz2yvv;
+	Sat,  4 May 2024 21:50:32 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 5AB51CE0613;
+	Sat,  4 May 2024 11:50:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A850C072AA;
+	Sat,  4 May 2024 11:50:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714823428;
+	bh=dq8QtycUf+wkQxrsoNbONtWcPfDnxfNHqIFbsIOuZEk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jdh6kJvjTYBynzpzQN7moyxVLm3dZ7tmkxjfREYMS/6Ad6NdcVwkgY8UQ2DgBgrx7
+	 +m5RLs2ZY/bj6ILCJET3a8LXjVjI3p3t46QaL5jeGrmcdFgE3bGeHlUDow1G0Y7WUE
+	 wY/jZykqJUydPDJs8CrRQPSZPQbokSrFbLAHEMUubgVxDf7S9BtPYvRvtzzyAzdLhr
+	 UFax9vUd9zstdkLUeTh035sjDYsVggpuGkP9VdXgBflO3o6JrsB4rgRyxfYEWBFsw8
+	 vCyU9Yf/N7vJMN4oE0WHIFfNfoa83jSS2fmy6ViuRgc76zPc1P0dAtO8J3Pd6DBJGM
+	 XWq/zYcDYOdjg==
+Message-ID: <e98ade57-0646-49d4-8b41-ab6f936bb1f0@kernel.org>
+Date: Sat, 4 May 2024 13:50:22 +0200
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 3 May 2024 20:53:11 +0930
-Message-ID: <CACPK8Xd2Qc9MQUJ-8GuRjmyU50oMHpmmHPHLqAh9W_1Gyqi2ug@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: devicetree changes for 6.10
-To: SoC Team <soc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 04/17] dt-bindings: fsi: p9-occ: Convert to json-schema
+To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
+References: <20240429210131.373487-1-eajames@linux.ibm.com>
+ <20240429210131.373487-5-eajames@linux.ibm.com>
+ <0fcadbe6-7615-498e-89c0-e3b072c4828c@kernel.org>
+ <e3601656-84d3-47e1-9cbd-d2cb0dde5f51@linux.ibm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <e3601656-84d3-47e1-9cbd-d2cb0dde5f51@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,150 +107,105 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Soc maintainers,
+On 01/05/2024 17:59, Eddie James wrote:
+> 
+> On 4/30/24 01:53, Krzysztof Kozlowski wrote:
+>> On 29/04/2024 23:01, Eddie James wrote:
+>>> Conver to json-schema for the OCC documentation. Also document the fact
+>>> that the OCC "bridge" device will often have the hwmon node as a
+>>> child.
+>>>
+>>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>>> ---
+>>> Changes since v3:
+>>>   - Move required below other properties
+>>>   - Drop "occ-" in child node
+>>>   - Drop hwmon unit address
+>>>   - Complete example
+>>>   - Change commit message to match similar commits
+>>>
+>>>   .../devicetree/bindings/fsi/ibm,p9-occ.txt    | 16 --------
+>>>   .../devicetree/bindings/fsi/ibm,p9-occ.yaml   | 41 +++++++++++++++++++
+>>>   2 files changed, 41 insertions(+), 16 deletions(-)
+>>>   delete mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+>>>   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+>>> deleted file mode 100644
+>>> index e73358075a90..000000000000
+>>> --- a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
+>>> +++ /dev/null
+>>> @@ -1,16 +0,0 @@
+>>> -Device-tree bindings for FSI-attached POWER9/POWER10 On-Chip Controller (OCC)
+>>> ------------------------------------------------------------------------------
+>>> -
+>>> -This is the binding for the P9 or P10 On-Chip Controller accessed over FSI from
+>>> -a service processor. See fsi.txt for details on bindings for FSI slave and CFAM
+>>> -nodes. The OCC is not an FSI slave device itself, rather it is accessed
+>>> -through the SBE FIFO.
+>>> -
+>>> -Required properties:
+>>> - - compatible = "ibm,p9-occ" or "ibm,p10-occ"
+>>> -
+>>> -Examples:
+>>> -
+>>> -    occ {
+>>> -        compatible = "ibm,p9-occ";
+>>> -    };
+>>> diff --git a/Documentation/devicetree/bindings/fsi/ibm,p9-occ.yaml b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.yaml
+>>> new file mode 100644
+>>> index 000000000000..3ab2582cb8a0
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/fsi/ibm,p9-occ.yaml
+>>> @@ -0,0 +1,41 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/fsi/ibm,p9-occ.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: IBM FSI-attached On-Chip Controller (OCC)
+>>> +
+>>> +maintainers:
+>>> +  - Eddie James <eajames@linux.ibm.com>
+>>> +
+>>> +description:
+>>> +  The POWER processor On-Chip Controller (OCC) helps manage power and
+>>> +  thermals for the system, accessed through the FSI-attached SBEFIFO
+>>> +  from a service processor.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - ibm,p9-occ
+>>> +      - ibm,p10-occ
+>>> +
+>>> +patternProperties:
+>>> +  "^hwmon":
+>> And now it raises questions:
+>> 1. Other devices on FSI bus have unit addresses, so why this does not?
+>> 2. This suggest only one hwmon, so ^hwmon$, which is then not a
+>> patternProperty but property.
+>> 3. But the true problem why do you even need two empty nodes? These
+>> should be combined into one node.
+> 
+> 
+> 1. This is not truly on the FSI bus. It is on the SBEFIFO "bus"
+> 
+> 2. True enough, I'll change it to property.
+> 
+> 3. If this binding was being designed now, I'd agree with you, but the 
+> two nodes (occ and occ-hwmon) are already documented, I'm just changing 
+> to yaml here... Changing that would require a lot of changes and would 
+> break the two drivers.
 
-Here are the ASPEED device tree changes for 6.10. I've missed a few
-releases as I was
-on leave. Andrew Jeffery has stepped up and helped this cycle, some of the
-patches were committed by him this time around.
+No child was documented before and documenting things post-factum does
+not allow to bypass regular review rules.
 
-The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+Best regards,
+Krzysztof
 
-  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-6.10-devicetree
-
-for you to fetch changes up to c44211af1aa9c6b93178a3993e18a7ebffab7488:
-
-  ARM: dts: aspeed: Add ASRock E3C256D4I BMC (2024-05-02 17:57:16 +0930)
-
-----------------------------------------------------------------
-ASPEED device tree updates for 6.10
-
- - New and removed machines:
-
-  * IBM System1 AST2600 BMC, a x86 server
-  * ASUS X4TF AST2600 BMC, a x86 server
-  * ASRock SPC621D8HM3 AST2500 BMC, a Intel Xeon system
-  * ASRock E3C256D4I AST2500 BMC, a Intel Xeon system
-  * Add ASRock X570D4U's AST2500 BMC, an AMD Ryzen 5000 system
-  * Facebook Harma's AST2600 BMC
-  * Facebook Cloudripper is removed
-
- - Updates to machines merged this cycle, as well as bonnell,
-   yosemite4, minerva and others
-
-----------------------------------------------------------------
-Andrew Geissler (1):
-      ARM: dts: aspeed: system1: IBM System1 BMC board
-
-Delphine CC Chiu (2):
-      ARM: dts: aspeed: yosemite4: Enable ipmb device for OCP debug card
-      ARM: dts: aspeed: yosemite4: set bus13 frequency to 100k
-
-Eddie James (2):
-      ARM: dts: aspeed: FSI interrupt support
-      ARM: dts: Aspeed: Bonnell: Fix NVMe LED labels
-
-Kelly Hung (2):
-      dt-bindings: arm: aspeed: add ASUS X4TF board
-      ARM: dts: aspeed: x4tf: Add dts for asus x4tf project
-
-Krzysztof Kozlowski (5):
-      ARM: dts: aspeed: greatlakes: correct Mellanox multi-host property
-      ARM: dts: aspeed: yosemite4: correct Mellanox multi-host property
-      ARM: dts: aspeed: yosemitev2: correct Mellanox multi-host property
-      ARM: dts: aspeed: harma: correct Mellanox multi-host property
-      ARM: dts: aspeed: drop unused ref_voltage ADC property
-
-Ninad Palsule (1):
-      dt-bindings: arm: aspeed: add IBM system1-bmc
-
-Peter Yin (14):
-      dt-bindings: arm: aspeed: add Meta Harma board
-      ARM: dts: aspeed: Harma: Add Meta Harma (AST2600) BMC
-      ARM: dts: aspeed: Harma: Revise SGPIO line name.
-      ARM: dts: aspeed: Harma: mapping ttyS2 to UART4.
-      ARM: dts: aspeed: Harma: Remove Vuart
-      ARM: dts: aspeed: Harma: Add cpu power good line name
-      ARM: dts: aspeed: Harma: Add spi-gpio
-      ARM: dts: aspeed: Harma: Add PDB temperature
-      ARM: dts: aspeed: Harma: Revise max31790 address
-      ARM: dts: aspeed: Harma: Add NIC Fru device
-      ARM: dts: aspeed: Harma: Add ltc4286 device
-      ARM: dts: aspeed: Harma: Revise node name
-      ARM: dts: aspeed: Harma: Add retimer device
-      ARM: dts: aspeed: Harma: Modify GPIO line name
-
-Renze Nicolai (5):
-      dt-bindings: arm: aspeed: add Asrock X570D4U board
-      ARM: dts: aspeed: asrock: Add ASRock X570D4U BMC
-      ARM: dts: aspeed: Modify GPIO table for Asrock X570D4U BMC
-      ARM: dts: aspeed: Disable unused ADC channels for Asrock X570D4U BMC
-      ARM: dts: aspeed: Modify I2C bus configuration
-
-Tao Ren (1):
-      ARM: dts: aspeed: Remove Facebook Cloudripper dts
-
-Yang Chen (11):
-      ARM: dts: aspeed: minerva: Revise the name of DTS
-      ARM: dts: aspeed: minerva: Modify mac3 setting
-      ARM: dts: aspeed: minerva: Change sgpio use
-      ARM: dts: aspeed: minerva: Enable power monitor device
-      ARM: dts: aspeed: minerva: Add temperature sensor
-      ARM: dts: aspeed: minerva: correct the address of eeprom
-      ARM: dts: aspeed: minerva: add bus labels and aliases
-      ARM: dts: aspeed: minerva: add fan rpm controller
-      ARM: dts: aspeed: minerva: Add led-fan-fault gpio
-      ARM: dts: aspeed: minerva: add gpio line name
-      ARM: dts: aspeed: minerva: add sgpio line name
-
-Zev Weiss (8):
-      dt-bindings: arm: aspeed: document ASRock SPC621D8HM3
-      ARM: dts: aspeed: Add ASRock SPC621D8HM3 BMC
-      ARM: dts: aspeed: asrock: Use MAC address from FRU EEPROM
-      ARM: dts: aspeed: Add vendor prefixes to lm25066 compat strings
-      ARM: dts: aspeed: ahe50dc: Update lm25066 regulator name
-      dt-bindings: trivial-devices: add isil,isl69269
-      dt-bindings: arm: aspeed: document ASRock E3C256D4I
-      ARM: dts: aspeed: Add ASRock E3C256D4I BMC
-
- .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    6 +
- .../devicetree/bindings/trivial-devices.yaml       |    2 +
- arch/arm/boot/dts/aspeed/Makefile                  |    9 +-
- .../dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts    |    1 -
- .../dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dts     |    9 +
- .../dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts     |  322 ++++
- .../dts/aspeed/aspeed-bmc-asrock-romed8hm3.dts     |   13 +-
- .../dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts   |  324 ++++
- .../boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts  |  360 +++++
- arch/arm/boot/dts/aspeed/aspeed-bmc-asus-x4tf.dts  |  581 +++++++
- .../boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts   |    4 +-
- .../dts/aspeed/aspeed-bmc-facebook-cloudripper.dts |  544 -------
- .../dts/aspeed/aspeed-bmc-facebook-greatlakes.dts  |    4 +-
- .../boot/dts/aspeed/aspeed-bmc-facebook-harma.dts  |  648 ++++++++
- .../dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts |  265 ----
- .../dts/aspeed/aspeed-bmc-facebook-minerva.dts     |  543 +++++++
- .../dts/aspeed/aspeed-bmc-facebook-yosemite4.dts   |   15 +-
- .../dts/aspeed/aspeed-bmc-facebook-yosemitev2.dts  |    2 +-
- .../arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts |    8 +-
- .../arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts | 1623 ++++++++++++++++++++
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi            |    4 +
- arch/arm/boot/dts/aspeed/ibm-power10-dual.dtsi     |    2 +
- 22 files changed, 4460 insertions(+), 829 deletions(-)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c256d4i.dts
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dts
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asus-x4tf.dts
- delete mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-cloudripper.dts
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
- delete mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva-cmc.dts
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
