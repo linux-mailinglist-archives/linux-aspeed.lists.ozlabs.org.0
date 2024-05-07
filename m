@@ -1,101 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300FD8BD1A0
-	for <lists+linux-aspeed@lfdr.de>; Mon,  6 May 2024 17:38:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 311B78BE1C3
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 May 2024 14:13:49 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=n7Zj3Awx;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PtXR1lB9;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VY5Cm4D3Cz3bqP
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 May 2024 01:38:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VYcd65QHlz3cQs
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 May 2024 22:13:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=n7Zj3Awx;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PtXR1lB9;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.18; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VY5Cd4wKmz30Vr;
-	Tue,  7 May 2024 01:38:21 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 7BCA4CE0F76;
-	Mon,  6 May 2024 15:38:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36911C4AF65;
-	Mon,  6 May 2024 15:38:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715009897;
-	bh=lq8TajzvkOy47+/9bqCVcmF6c929YJyj/nUUZTCovm4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n7Zj3AwxmJwLMch2uiuWHfIw/+RCg28CT2orj1uvNh5BdrjxqjNIzFWH6d8I42SZf
-	 6we56ge5QdhaRdhYlF8jnXomD8zp9h8BdHC2rAo2hrEOx5HpiLUX3vftCzp+Q1iRJ4
-	 01Fd7xzg+0ftVm5WygjFyLdgKUFm6YFX1eSZCRdqcypOCCwMRZDOXER1gUX86ZjO+E
-	 DunEI8syC+HcF04aT6GYGUIFG47KS0cAQkqF4nlo7UjglQGAg/rxD/7iwuGbjEG9Gn
-	 au+UhFluNtFayIwLkbf1eI+hdwwvmYUWan7HSZzqKGZI+83BU/bkbjgJAIligbdd7K
-	 Xe07H9RFYSnrA==
-Message-ID: <3903300d-9d5b-44b3-95fa-0579e5421071@kernel.org>
-Date: Mon, 6 May 2024 17:38:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ARM: dts: aspeed: yosemite4: add I3C config in DTS
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VYcd06lQ9z30T0
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 May 2024 22:13:38 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715084022; x=1746620022;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nqDTDgzKgA9YqyhlTfPzGqvHKL1Og1Kte7O7JbMHNCc=;
+  b=PtXR1lB990WufifR59kBk0JvuXoLygqE9WWDcHDOeD1dkaXiEvHdsyEW
+   EahGa1GBMoDJ+CLCIS8cL3dB8/kXvcLeqEHuEMUoH7SAeWGpZ/azwjCZl
+   HM+6iGvGBhnzdgcuZMuJcZTsVesrSuDwezQQFx+cGOvuyVvLoq6JoZ57h
+   M7Sisb+gcJkUT7kdbbDst100cydJhge3HiexLZrPLOhaRGXciRNlSckwG
+   MUzEvRKPKiqVp4E2xCPBh6bAJE36EWSuUrFntjEx84NhwXZ0WjxBY4VkG
+   NGsjsmz6496MeYY4sHPHFwlcbFXoIfJgILF7MCuoFoYoVSctGLkUWP1aK
+   A==;
+X-CSE-ConnectionGUID: 3rf5UohDR/GEEvig1KDHJQ==
+X-CSE-MsgGUID: I9T0ZQWpTgGSrIbw7WrBrA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="11030613"
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="scan'208";a="11030613"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 05:13:37 -0700
+X-CSE-ConnectionGUID: bawRtxXyRCm4hOPqu9/ehg==
+X-CSE-MsgGUID: aM4VgwM0THCU0CBfg14nhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="scan'208";a="28582421"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 07 May 2024 05:13:34 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s4JhK-0001tQ-2i;
+	Tue, 07 May 2024 12:13:30 +0000
+Date: Tue, 7 May 2024 20:12:51 +0800
+From: kernel test robot <lkp@intel.com>
 To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
- joel@jms.id.au, openbmc@lists.ozlabs.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Andrew Jeffery <andrew@codeconstruct.com.au>
+	joel@jms.id.au, openbmc@lists.ozlabs.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: Re: [PATCH v1] ARM: dts: aspeed: yosemite4: add I3C config in DTS
+Message-ID: <202405072003.qTcMKOm3-lkp@intel.com>
 References: <20240506113306.1283179-1-Delphine_CC_Chiu@wiwynn.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20240506113306.1283179-1-Delphine_CC_Chiu@wiwynn.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,61 +79,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 06/05/2024 13:33, Delphine CC Chiu wrote:
-> Set I3C config in yosemite4 DTS.
-> 
-> Test plan:
-> Tested with aspeed I3C patches and I3C hub driver.
-> 
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> ---
->  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 86 +++++++++++++++++++
->  1 file changed, 86 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index 64075cc41d92..6a30c424d745 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -595,6 +595,92 @@ i2c-mux@72 {
->  	};
->  };
->  
-> +&i3c0 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_i3c1_default>;
-> +	i3c-pp-scl-hi-period-ns = <40>;
-> +	i3c-pp-scl-lo-period-ns = <40>;
-> +	i3c-od-scl-hi-period-ns = <380>;
-> +	i3c-od-scl-lo-period-ns = <620>;
-> +	sda-tx-hold-ns = <10>;
-> +
-> +	mctp-controller;
-> +	hub@0x70 {
+Hi Delphine,
 
-That's not a valid unit address.
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.9-rc7 next-20240507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> +		reg = <0x70 0x3c0 0x00700000>;
-> +		cp0-ldo-en = "enabled";
-> +		cp1-ldo-en = "enabled";
-> +		cp0-ldo-volt = "1.2V";
-> +		cp1-ldo-volt = "1.2V";
-> +		tp0145-ldo-en = "enabled";
-> +		tp2367-ldo-en = "enabled";
-> +		tp0145-ldo-volt = "1.2V";
-> +		tp2367-ldo-volt = "1.2V";
-> +		tp0145-pullup = "2k";
-> +		tp2367-pullup = "2k";
+url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/ARM-dts-aspeed-yosemite4-add-I3C-config-in-DTS/20240506-193458
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240506113306.1283179-1-Delphine_CC_Chiu%40wiwynn.com
+patch subject: [PATCH v1] ARM: dts: aspeed: yosemite4: add I3C config in DTS
+config: arm-multi_v5_defconfig (https://download.01.org/0day-ci/archive/20240507/202405072003.qTcMKOm3-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240507/202405072003.qTcMKOm3-lkp@intel.com/reproduce)
 
-Where are bindings for all this?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405072003.qTcMKOm3-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
 
+>> Error: arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:598.1-6 Label or path i3c0 not found
+>> Error: arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:641.1-6 Label or path i3c1 not found
+   FATAL ERROR: Syntax error parsing input tree
 
-Best regards,
-Krzysztof
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
