@@ -2,51 +2,91 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC098BF3E9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 May 2024 03:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C338C58E6
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 May 2024 17:39:28 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=BFGjaM/D;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ER4cPBLa;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VYxg023snz3bl6
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 May 2024 11:01:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vf0s945x0z3c4P
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 May 2024 01:39:25 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=BFGjaM/D;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ER4cPBLa;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VYxdv0Tfnz30TP;
-	Wed,  8 May 2024 11:00:34 +1000 (AEST)
-Received: from [192.168.68.112] (ppp14-2-82-209.adl-apt-pir-bras31.tpg.internode.on.net [14.2.82.209])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id CC19A20016;
-	Wed,  8 May 2024 09:00:30 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1715130033;
-	bh=kMjFTG/O0qrpfW1eF1AuxbXY76Q+hOssQVvDEfpATf4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=BFGjaM/DkrZvajCW6PMQ18HRX7vtyY7LVGbeDxBsQQcUCM0C3AtkktGVqvLIwxoLS
-	 cVE0p/hjrNyGMSgR8TThdds+fLF8whBw4153a6VXRLArCIJj5dNAZIeqa1QgYx0s0s
-	 P0su5qGrayeU6BCvf41pGwDnau0r3tl9qO16melnWDK6WjF0LoTs05ib6+pHcDBAHA
-	 J++C3ZfBln93RL/Yp2QAB8w40vMPaeJ80gaKoYPfV/IPX1NTLrgpSd8dLRKl8ArAjr
-	 2vX0QvWNdR9sRl3uS9064m2PEaSTysxSJ8ixQD8npnROaMI/on6jWvJO8MJh1Pd/Cj
-	 Qdio8kWqNb+ag==
-Message-ID: <db966c501288c73ac50a86aa2e5884e6cfc28715.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v8 0/2] Change email sender
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Kelly Hung <KellyHung@asus.com>, robh+dt@kernel.org
-Date: Wed, 08 May 2024 10:30:28 +0930
-In-Reply-To: <20240507092109.6018-1-KellyHung@asus.com>
-References: <20240507092109.6018-1-KellyHung@asus.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vf0ry5Qdtz2yvv;
+	Wed, 15 May 2024 01:39:14 +1000 (AEST)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44EDaZ8m005782;
+	Tue, 14 May 2024 15:38:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=QUu8bBw94LTXyX9BD3qDzghP2sdLwyB4xSVozL91ThY=;
+ b=ER4cPBLauHTpdppQycxSKBvBBRVLfIWPWDKeDq7NNCH/nPJ4BASf2gwN5/ARyqP+6HXK
+ oH/Ivp8fHZ1mm8vdhIn3F1o+J4yYspSdlIxK735RQ0vodUtfb013IFvChbh4OQivV/d3
+ nx1GYPwvMw9qlOmjsY1yQeDkKNRkJMnsgUhaaDkAfGXoB9eWzXEG335mBouEwfPuHdD/
+ 9jGwfYdjs4KKg4VkxHzqBlqWBKclNHhb0RHYEYJUoKyhTdPe7NITP8w92zJm8aYrxORR
+ zjGoFBOgoQpQw/3Dk/a2a6az8j7yH0Zn4OSL5vPENaNx6BdEcOfMXpXj5Px+Q+EWTkMf 4Q== 
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y48dngeqw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 May 2024 15:38:57 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44EFTFdl002273;
+	Tue, 14 May 2024 15:38:56 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3y2m0p66f2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 May 2024 15:38:56 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44EFcrN448562508
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 May 2024 15:38:55 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 86A9D5805D;
+	Tue, 14 May 2024 15:38:53 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C2ABC5805C;
+	Tue, 14 May 2024 15:38:52 +0000 (GMT)
+Received: from [9.61.107.19] (unknown [9.61.107.19])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 14 May 2024 15:38:52 +0000 (GMT)
+Message-ID: <18011b0e-a479-4d93-947a-a71fe4efdcb5@linux.ibm.com>
+Date: Tue, 14 May 2024 10:38:52 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/17] dt-bindings: fsi: ast2600-fsi-master: Convert to
+ json-schema
+To: Krzysztof Kozlowski <krzk@kernel.org>, linux-aspeed@lists.ozlabs.org
+References: <20240429210131.373487-1-eajames@linux.ibm.com>
+ <20240429210131.373487-9-eajames@linux.ibm.com>
+ <af51132f-e4a3-4f45-b066-24b8c348eb28@kernel.org>
+ <a7ca71c0-971c-49ab-b9f3-f6e6b32e9567@linux.ibm.com>
+ <0a43b522-7c07-43a0-b4b0-155c3cf94177@kernel.org>
+Content-Language: en-US
+From: Eddie James <eajames@linux.ibm.com>
+In-Reply-To: <0a43b522-7c07-43a0-b4b0-155c3cf94177@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 0rbf2XRZiQi425DQQIeCERRgFQxutBWq
+X-Proofpoint-GUID: 0rbf2XRZiQi425DQQIeCERRgFQxutBWq
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-14_08,2024-05-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1015
+ impostorscore=0 malwarescore=0 priorityscore=1501 mlxscore=0 bulkscore=0
+ spamscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2405010000
+ definitions=main-2405140110
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,66 +98,98 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, kelly_hung@asus.com, krzysztof.kozlowski+dt@linaro.org, Allenyy_Hsu@asus.com, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Kelly,
 
-On Tue, 2024-05-07 at 17:21 +0800, Kelly Hung wrote:
-> Requesting assistance from ASUS IT, I obtained a new smtp account.
-> So send the patch again using new smtp account.
+On 5/4/24 06:55, Krzysztof Kozlowski wrote:
+> On 01/05/2024 18:12, Eddie James wrote:
+>> On 4/30/24 02:04, Krzysztof Kozlowski wrote:
+>>> On 29/04/2024 23:01, Eddie James wrote:
+>>>> Convert to json-schema for the AST2600 FSI master documentation.
+>>> Please mention all the changes from pure conversion.
+>>
+>> Sure.
+>>
+>>
+>>>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>>>> ---
+>>>> Changes since v3:
+>>>>    - Remove quotes around compatible strings
+>>>>    - Re-order allOf to below required
+>>>>    - Add child node in the example
+>>>>    - Change commit message to match similar commits
+>>>>
+>>>>    .../fsi/aspeed,ast2600-fsi-master.yaml        | 81 +++++++++++++++++++
+>>>>    .../bindings/fsi/fsi-master-aspeed.txt        | 36 ---------
+>>>>    2 files changed, 81 insertions(+), 36 deletions(-)
+>>>>    create mode 100644 Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
+>>>>    delete mode 100644 Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml b/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..fcf7c4b93b78
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
+>>>> @@ -0,0 +1,81 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Aspeed FSI master
+>>>> +
+>>>> +maintainers:
+>>>> +  - Eddie James <eajames@linux.ibm.com>
+>>>> +
+>>>> +description:
+>>>> +  The AST2600 and later contain two identical FSI masters. They share a
+>>>> +  clock and have a separate interrupt line and output pins.
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    enum:
+>>>> +      - aspeed,ast2600-fsi-master
+>>>> +      - aspeed,ast2700-fsi-master
+>>> There was no such compatible before.
+>>>
+>>> How does this even validate? Where is fsi-master? You dropped a
+>>> compatible without any explanation.
+>>
+>> I can make it a separate change to add ast2700.
+>>
+>>
+>> I suppose I don't understand having two compatibles... Aspeed master
+>> shouldn't use "fsi-master" as that is too generic, right? Why wouldn't
+> Not necessarily, depends. Dropping it silently is confusing. What about
+> other users? firmware, bootloaders, out-of-tree, other OS? Did you
+> investigate all of them?
 
-Ah, thanks, however Joel's already sent a PR to the ARM SoC maintainers
-with your patches. Sorry that we didn't communicate that too well.
-Here's the PR:
 
-https://lore.kernel.org/lkml/CACPK8Xd2Qc9MQUJ-8GuRjmyU50oMHpmmHPHLqAh9W_1Gy=
-qi2ug@mail.gmail.com/
+The old format file actually only used fsi-master in the example, not in 
+the actual properties description. So I didn't really drop a compatible. 
+Device trees using "fsi-master" are just buggy and should be fixed 
+eventually, but I don't think it needs to be part of this series.
 
->=20
-> Kelly Hung (2):
->   dt-bindings: arm: aspeed: add ASUS X4TF board
->   ARM: dts: aspeed: x4tf: Add dts for asus x4tf project
->=20
->  .../bindings/arm/aspeed/aspeed.yaml           |   1 +
->  arch/arm/boot/dts/aspeed/Makefile             |   1 +
->  .../boot/dts/aspeed/aspeed-bmc-asus-x4tf.dts  | 581 ++++++++++++++++++
->  3 files changed, 583 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asus-x4tf.dts
->=20
-> --
-> 2.25.1
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> This email and any attachments to it contain confidential information and=
- are intended solely for the use of the individual to whom it is addressed.=
- If you are not the intended recipient or receive it accidentally, please i=
-mmediately notify the sender by e-mail and delete the message and any attac=
-hments from your computer system, and destroy all hard copies. Please be ad=
-vised that any unauthorized disclosure, copying, distribution or any action=
- taken or omitted in reliance on this, is illegal and prohibited. Any views=
- or opinions expressed are solely those of the author and do not represent =
-those of ASUSTeK.
->=20
-> For pricing information, ASUS is only entitled to set a recommendation re=
-sale price. All customers are free to set their own price as they wish.
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
 
-Unfortunately these footers aren't helpful. The kernel's mailing list
-etiquette documentation has more info:
+Thanks,
 
-https://subspace.kernel.org/etiquette.html#do-not-include-confidentiality-d=
-isclaimers
+Eddie
 
-Andrew
+
+
+>
+>> it validate? Devicetrees using "fsi-master" also use
+>> "aspeed,ast2600-fsi-master" so they should be OK...
+> No, because the compatibles do not match. Run validation and you will
+> see the errors.
+>
+> I am fine with dropping such compatible, which is not used by current
+> kernel ABI, but first DTS must be fixed and second some explanation and
+> justification is needed.
+>
+> Best regards,
+> Krzysztof
+>
