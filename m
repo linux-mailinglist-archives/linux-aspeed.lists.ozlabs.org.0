@@ -2,49 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462788C6852
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 May 2024 16:10:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A96B98C685D
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 May 2024 16:14:37 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nSJEefZH;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mD5EHj9x;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VfZrL4w9pz3fpC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 May 2024 00:10:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VfZwq17R7z3dWb
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 May 2024 00:14:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nSJEefZH;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mD5EHj9x;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VfZrG1Snsz3cPf
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 May 2024 00:10:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VfZwl3Ftmz2ygY
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 May 2024 00:14:31 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 553B76140B;
-	Wed, 15 May 2024 14:10:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0AFAC116B1;
-	Wed, 15 May 2024 14:10:33 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 5A187CE1682;
+	Wed, 15 May 2024 14:11:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E707C116B1;
+	Wed, 15 May 2024 14:11:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715782236;
-	bh=2iZbsSMpK18XkU5G9j3RLS8TjIj91E2Mq6HqBzYe3rc=;
+	s=k20201202; t=1715782285;
+	bh=8Vrsgs+N8SbeNlOuPZmcFi6AXV1dFq4kf7hvf3cFv6M=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nSJEefZHSZ5MatIZTMrfRMA8CyInT8G5NTYaWlWFJvKi0qicpYgs9tG6K4x0Sj76N
-	 lqbL4yesAiPr3dSuJ2rmcYoiN4sJ6ZnQF+aYC6JNbtzkbtph5h9GGZzwe7ZZG9NpQz
-	 A8tIi1C988jJKmlggiXZStlf0usEseFoagaA9ehdy9oyNVCfTVgISfR0SxVVgAa7MP
-	 6Mh18R/bsw3/9SulsmilzikywgJaENvfz8TojhyXC04PwMVS/ZOKs8WfL2imFnrDGo
-	 rot9HE+nRjA7aabeWeeSPBE0eLutqZ56uDsk9DcWWf7WSBVXFcVbKceB8+nMzpTjuJ
-	 JNPTmYVV0TpoA==
-Message-ID: <b99b61bd-a271-4dc8-b8fc-ab72df65dc1b@kernel.org>
-Date: Wed, 15 May 2024 16:10:32 +0200
+	b=mD5EHj9x9WrXzrxOD+DggbIJfZkOSIxpNmYvAu7TiGt6xZAfFChNG9jiuqSknoamC
+	 qtq0Z7BbJ+RDaCNJBgmu9e3ZZNGSwTZ3hedHzC9DP6HsHxL9w4Ekcl1fbwVYsIWhx9
+	 aEen3oDbM+vGUGfi81iW8fMRGf8o35cqd+igLNrX+VYr47dKo8kHIlVPbtQrzFXTtq
+	 G7BEVa1qo19wdL7HUCDuS3spUY8pAyjE+x28HxOh4SIKl2etd7jc5lQt+lZIfAHI/Z
+	 qBLoQ0fVWP9HRvOa9mVsqYlusL81z7M8ji+4g0kDNoDWaodg7qA5EytURkvk3TSMkf
+	 Q3RH8dOJL4dPQ==
+Message-ID: <52bf83a5-f62a-4758-999b-9245d4a0ceab@kernel.org>
+Date: Wed, 15 May 2024 16:11:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/4] ARM: dts: aspeed: Add IBM P11 BMC systems
+Subject: Re: [PATCH v5 2/4] ARM: dts: aspeed: Add IBM P11 Blueridge BMC system
 To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
 References: <20240514213510.159144-1-eajames@linux.ibm.com>
+ <20240514213510.159144-3-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240514213510.159144-1-eajames@linux.ibm.com>
+In-Reply-To: <20240514213510.159144-3-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -109,14 +110,50 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 14/05/2024 23:35, Eddie James wrote:
-> This series was previously included in
-> https://lore.kernel.org/all/20240429210131.373487-1-eajames@linux.ibm.com/
-> The series now depends on
-> https://lore.kernel.org/all/20240514212555.158788-1-eajames@linux.ibm.com/
+> Add the device tree for the new BMC system. The Blueridge is a
+> P11 system with four processors.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  arch/arm/boot/dts/aspeed/Makefile             |    1 +
+>  .../dts/aspeed/aspeed-bmc-ibm-blueridge.dts   | 1691 +++++++++++++++++
+>  2 files changed, 1692 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts
+> 
+> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
+> index e51c6d2037255..f3db9ee156429 100644
+> --- a/arch/arm/boot/dts/aspeed/Makefile
+> +++ b/arch/arm/boot/dts/aspeed/Makefile
+> @@ -32,6 +32,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>  	aspeed-bmc-facebook-yamp.dtb \
+>  	aspeed-bmc-facebook-yosemitev2.dtb \
+>  	aspeed-bmc-facebook-yosemite4.dtb \
+> +	aspeed-bmc-ibm-blueridge.dtb \
+>  	aspeed-bmc-ibm-bonnell.dtb \
+>  	aspeed-bmc-ibm-everest.dtb \
+>  	aspeed-bmc-ibm-rainier.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts
+> new file mode 100644
+> index 0000000000000..418eaf0a46146
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts
+> @@ -0,0 +1,1691 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +// Copyright 2024 IBM Corp.
+> +/dts-v1/;
+> +
+> +#include <dt-bindings/gpio/aspeed-gpio.h>
+> +#include <dt-bindings/i2c/i2c.h>
+> +#include <dt-bindings/leds/leds-pca955x.h>
+> +#include "aspeed-g6.dtsi"
+> +#include "ibm-power11-quad.dtsi"
+> +
+> +/ {
+> +	model = "Blueridge";
+> +	compatible = "ibm,blueridge-bmc", "aspeed,ast2600";
 
-No, it does not work like this. Bindings come with the user. Do not
-create fake dependencies and DTS must be send TOGETHER with the board
-binding.
+Undocumented binding.
+
 
 Best regards,
 Krzysztof
