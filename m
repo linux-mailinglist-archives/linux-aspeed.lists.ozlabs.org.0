@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTP id 756FF8CCCB7
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTP id 8AFBC8CCCB8
 	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 09:06:38 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FKg+weSe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LE1xf5D0;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VlJs057KWz78vH
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 16:57:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VlJty6DwKz78xc
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 16:59:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FKg+weSe;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LE1xf5D0;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VlJrs1sv0z78tc;
-	Thu, 23 May 2024 16:57:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VlJtt3zx8z78wp;
+	Thu, 23 May 2024 16:59:18 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 1C770CE13C3;
-	Thu, 23 May 2024 06:57:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 187B3C3277B;
-	Thu, 23 May 2024 06:57:25 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 824A862C00;
+	Thu, 23 May 2024 06:59:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5F5FC2BD10;
+	Thu, 23 May 2024 06:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716447451;
-	bh=UYzoSAzsU1pdZKLX/c0g2El/HBiC0+HyRz2pdnKMrTM=;
+	s=k20201202; t=1716447555;
+	bh=WM9VZvT6psnncb0R2JtKrNnNDKmSFiLbkX9y2eMucI8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FKg+weSeP/XAp0Df8KCgYmhRRIvL3iz+dB95H5J3IoQljCvLh5NIzo5pSCRhotsts
-	 PnpQ+GQcxhE0UAaB8cyN2z94i0ONW4Bp54BVEu8AvgDcvoXkPqRunBIVPJxBx6yZhh
-	 oeuBnCQYfS1m9AYhmWnhRQPvC7bQAmBlMHzbDqXJM2ZylaNDXWF5MB0VOtyOc/YJ0d
-	 RukXGCig7pbn5Sc6oJMB5+NjoJRx7/Ns+vB5hPSo8tswWHbuU11/WogtBm2al2rt9r
-	 4/D1u+0OPH1jc1jcBgsYOap3yVxiHi0sm03FFZCdJ+Jn109cZNJeFIuY1uDR2VEv40
-	 J/MP8OvGMM1tA==
-Message-ID: <c86add8e-8e6a-4dab-ba33-8c090371089d@kernel.org>
-Date: Thu, 23 May 2024 08:57:23 +0200
+	b=LE1xf5D0PPiCNGhCLKqVk3KZmSm1c/mJ2jivvqigGpq1ueF4kIjNUKTZarH5olskr
+	 +N/wkHm98SA6X364wNkVtMEh96tlCmEDsEJROTRK8HqHYKOfR8a6VVHNttyvkhK8Kt
+	 gF4VzCc0Y1Zg1XWFRV+vOiHwuT/4uc/PKL9yMYEM9BZXOiaYq0kzBOGhn8gtCJGxnL
+	 LHkJdptsw7jDOL0m9duZ2s7P1D4B57Z5G2+rJ0IhIPk4VhW3hgfJYo/haGhR3jwwUG
+	 u8AIBNSzGjlHjulNHnbcbBOc17At3VyO+5+99/EXuxq5kXE7at86LHb+lLsCzs8GXz
+	 N//qMM5mEXe4g==
+Message-ID: <eb1b596f-f3cc-44e2-9e4f-e5e1dbff6467@kernel.org>
+Date: Thu, 23 May 2024 08:59:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/20] dt-bindings: fsi: Document the FSI controller
- common properties
+Subject: Re: [PATCH v6 11/20] dt-bindings: i2c: i2c-fsi: Convert to
+ json-schema
 To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
 References: <20240522192524.3286237-1-eajames@linux.ibm.com>
- <20240522192524.3286237-7-eajames@linux.ibm.com>
+ <20240522192524.3286237-12-eajames@linux.ibm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -92,7 +92,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240522192524.3286237-7-eajames@linux.ibm.com>
+In-Reply-To: <20240522192524.3286237-12-eajames@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -111,14 +111,13 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 22/05/2024 21:25, Eddie James wrote:
-> Since there are multiple FSI controllers documented, the common
-> properties should be documented separately and then referenced
-> from the specific controller documentation. Add bus-frequency for
-> the FSI bus and CFAM local bus frequencies. Add interrupt
-> controller properties.
+> Convert to json-schema for the FSI-attached I2C controller.
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
 > ---
+> Changes since v5:
+>  - Use more specific regex for node names
+> 
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
