@@ -2,81 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id 18B0D8CD0EE
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 13:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E55988CD2E2
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 14:56:47 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=LpLtzae7;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PZBk/B4H;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VlQN55Tqcz78sr
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 21:06:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VlSg01rxwz3vkn
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 22:49:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=LpLtzae7;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PZBk/B4H;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=212.227.17.12; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.13; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VlQMx0Gmjz78nN;
-	Thu, 23 May 2024 21:06:19 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1716462329; x=1717067129; i=markus.elfring@web.de;
-	bh=gYGpWw1dwKwYXbTMuHWCYz3vW9FamyeQy+MaNMDyXQk=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=LpLtzae7k7PGKt5CH/219ViPUnt0svgwRR965UkDeNCI5x1p1CkiWMongjV5X+lY
-	 i5DLXwXw31baly1omeTzIDsy9UYDSoceCL5dbspMZPG7TFfUTsknbQeQ1KNvkU6SJ
-	 yi9lG2RDA/RNG+MWsUNgWqQllc4FiJC1b++c1C4iJrWLCmYh1myPcBHEnwyVIxqR9
-	 lOJbOw3GrW+GroY1xZrn4Eur4sZOVicyLx003vjF1JMYI1Xd/R3DPFqDZiDr5D9KO
-	 FBQkZqS4eTLU3vTyl7iN8tCR2AgVENT46IVX9/hrRdDVEUEn3M6NQc51NsTqpR7Wv
-	 sc++cHwgmJ1ixNYMzQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N8Vsx-1seoPp3Rq5-00sRYp; Thu, 23
- May 2024 13:05:28 +0200
-Message-ID: <8fb9a0ce-0a25-4fbe-9a8f-c2789c1553fa@web.de>
-Date: Thu, 23 May 2024 13:05:26 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VlSfp3xT4z3vdx;
+	Thu, 23 May 2024 22:49:19 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716468564; x=1748004564;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e1/5ituq3BLc4p6hJQCp0rH729ZvAK/JPQCVOmmZpdg=;
+  b=PZBk/B4HMaB491GhXr9X6XolB/gkl0d6ynK4XeB33wPxcNF5qnr95Chs
+   PWF7NOK0kcFmESWtIvK1YsSqBrVwm5NwF38mbpHVJUvRWNEqEgJ1OoqRs
+   gDg1W5jbkHJNJMq0DgJ1Yo4Y5mxTlE+ctYUCJvIx8e8LP33kaxmTM5O6B
+   +0AxbTYS5NZiHAXKCqPhqbvP7eLBmKog7mdgx17n1jMGb2raX+Uf7vV35
+   NjfpMFhN6WzdngIPY9849omXR3FeN3pjAMcoWhSr+Np5Zl/ol2vRvy9pe
+   Luet25ZT9hgOpS02j1FC79Syn1aorrHH0DdNKaBQK4564BzU4lTX7UgD/
+   Q==;
+X-CSE-ConnectionGUID: 3dJ33gllRqOB4GIKHn3oKw==
+X-CSE-MsgGUID: iik9zJ3tR6e9dBjgoTtF0Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="23915453"
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
+   d="scan'208";a="23915453"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 05:49:16 -0700
+X-CSE-ConnectionGUID: SjSzpwZNR5OHnoz4eUBT7g==
+X-CSE-MsgGUID: ZdOLjEcxRHGI3Jt0zs7NxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
+   d="scan'208";a="56886990"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 23 May 2024 05:49:12 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sA7sZ-0002rl-2g;
+	Thu, 23 May 2024 12:49:08 +0000
+Date: Thu, 23 May 2024 20:48:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
+Subject: Re: [PATCH v6 17/20] ARM: dts: aspeed: Add IBM Huygens BMC system
+Message-ID: <202405232008.olE9azVd-lkp@intel.com>
+References: <20240522192524.3286237-18-eajames@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v6 03/20] dt-bindings: fsi: Document the IBM SCOM engine
-To: Conor Dooley <conor.dooley@microchip.com>,
- Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org,
- linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <20240522192524.3286237-4-eajames@linux.ibm.com>
- <bee0888c-f81b-46c8-8a1c-802d108dc0c0@web.de>
- <20240523-armband-utopia-66892e08b90d@wendy>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240523-armband-utopia-66892e08b90d@wendy>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:o7i1z0ffw/sWelUqhm9HyOezHTgMOzYA8t77RncB11/ez3M/wDb
- UuHT8Lnovhq4bgS/KpsKcRxPEEVZN7YohbH5GTBSvC68ZjsJ5nlLiIth8Bi6K/J1+s7AYyP
- udETwbHCI0hsTmNHARRG8rN1YNiNf6d8Y1WYuTQxLOA6N/1dndf0oX/ayLfD7WUvt92/d9F
- rNyB2ahjl/3ti347klAOg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:KI+1kjpW9rI=;+qnjuxKLSMLhUuyHZ0TmL5l93GY
- OvI2k30qXI+RE+3HDSUwIoGgElWYXIK7FEEkTBEVlHxW1SiyCCs0BTNcVxn/l3Zq8Ws0CeIEp
- QZINKzZcaKn9eNu2Dz1kxEyuKrDPbu5c+Efj8DLZ/L6esJAhBn6LmkCwkfa+zQVEG13tJqNXU
- kSFF/zcKybqlqXCZVpYPxAclkNySRHgD4Al8iOHz2gyWwK08M6YLR9e8BBnv6ZJJkqK/UhwcY
- xMwgwZ5J11M8iMXAwLUTLmgZqlpHe8r5DwrQ8P965i7Ref2UBf5X3K6rxXiLcwTLX0oSDlbct
- tCduY4v6XpLjf5YCdSRPTXKozh4bjVqGD6WQYl1G98oSYMdTKDEmr5bcmiSDBjdvRUD1muufR
- vMjFEJa+D3F8t/QZd1CgqwYWaEdHx2Ljz+ROCADzwyOW4WZmyYBlmfyoYlYHlxpgeHFfEiUts
- 1Uc1PYCd4gP2ATAudVgf6jhNFAM/K3JshCsb3FsCio+W5dyRrE7plE3ZmU8JBAk5aKhAn7KHO
- ZxzBvSQaCnYpXLePWBdRnq72MYcj3m/UMiCKcUp1id7vlts78exdPIp3ExK7eT2KQuX8OxJ5r
- kzMQpHCO89zrjba8ILgnGZMXhwHWNj/r1spWpImwLdQyDVWadzx1NJrAt9TxXC+8ZwpEZtlgz
- zWmEpkdGa0bXePLcD1v6WYHzRE+AGQVW1GpGu9vh5z4nX831O+Zv8X55N1Cqz+IInTsx0JDkH
- wxuVPJAHDrcpk5AQ/YTteexE7tK8yMP9vYS4hl+mnJBR6xLo8CReXEro9WmY8WDIW+o2XzDj6
- 2xQNJRNo3NOosW4TSbQJsHJGB8/OljHJn5LkTaw3lHaHI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240522192524.3286237-18-eajames@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,22 +74,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, LKML <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Mark Brown <broonie@kernel.org>, Lakshmi Yadlapati <lakshmiy@us.ibm.com>, Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, broonie@kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, oe-kbuild-all@lists.linux.dev, krzk+dt@kernel.org, andrew@codeconstruct.com.au
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
->>> The SCOM engine provides an interface to the POWER processor PIB
->>> (Pervasive Interconnect Bus).
->>
->> Please improve this change description with a corresponding imperative =
-wording.
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/Documentation/process/submitting-patches.rst?h=3Dv6.9#n94
->
-> The tense used here is fine.
+Hi Eddie,
 
-Is the imperative mood preferred for the final commit message (besides the=
- summary phrase)?
+kernel test robot noticed the following build errors:
 
-Regards,
-Markus
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v6.9 next-20240523]
+[cannot apply to robh/for-next broonie-spi/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/spi-dt-bindings-Document-the-IBM-FSI-attached-SPI-controller/20240523-033334
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240522192524.3286237-18-eajames%40linux.ibm.com
+patch subject: [PATCH v6 17/20] ARM: dts: aspeed: Add IBM Huygens BMC system
+config: arm-randconfig-001-20240523 (https://download.01.org/0day-ci/archive/20240523/202405232008.olE9azVd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405232008.olE9azVd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405232008.olE9azVd-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> Error: arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-huygens.dts:13.2-37 Properties must precede subnodes
+   FATAL ERROR: Unable to parse input tree
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
