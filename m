@@ -2,120 +2,78 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F868CCF3B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 11:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4BD28CCFAA
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 11:51:37 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=IM4qHXcL;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=dqWzZrD2;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VlN205v6dz79Q8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 19:20:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VlNYk0LJ9z3vct
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 19:44:42 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=IM4qHXcL;
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=dqWzZrD2;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:c400::; helo=hk2pr02cu002.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from HK2PR02CU002.outbound.protection.outlook.com (mail-eastasiaazlp170100000.outbound.protection.outlook.com [IPv6:2a01:111:f403:c400::])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=212.227.17.11; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
+X-Greylist: delayed 527 seconds by postgrey-1.37 at boromir; Thu, 23 May 2024 19:44:31 AEST
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VlN172nCpz794j
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 May 2024 19:19:55 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O8S4BGC3UVcEdQUsItsXemDqyvN1E8ubamKruyY/Wui06flMteExlXx0QX45ow5Dyqta6d+IUEjpfyG/QbnJ0oC4LCpJXpJ/Hq5RgJ/uwHWfJCNiG3pGxHm64RQF+0jESrnfWVdFF27i46NcJBVWmSs1jugKWo/0YMWjEmJ9jmIAO20/WrYC/kkRb8aqQO71yV5abOGcrEjnSzkdJwJ8d3yXxqqAzY/cfcl8AD4v9TsEUxGLo5rbAx6b8LQHrvd3LLQEyy5V+D6LsaFSK/aM0f1L4MTQTcorgcFGMk7uc8pv9GmwjPcDcQ04d6sD9hD12uUJ8caq3oJY2ZpvDp1A9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pycQ4ax5A44iPL+OokI9fmS5xofqcN1wFPCwCzTXGbQ=;
- b=ZRNoEtDrlUJFkpLhYtg+zdDjcoLEcjNh4WILK/a0D2oTIA9Z8JSuJunJ54doazvJ8NqhmQgcIlSaqaoKnMNREQQiAhFn5pNjCznzJWWbemucdMzNjvnoUR5vkQH3aQZmTNfPmCwVFp57LPdI8XidS83nffVY2I3KNZ2cqEp9fOZ3gSJTPwiflYoMyYEW02PXzcyzFqg4ykIOsEmGH7gUW8jVmI8t57q2JC3RjRwGkkV4lLRAXqF8UXq/uOk1Xja4qvEjzYrF4w78Jyw7ddFQTMl6xyJV3K5EsOdk1dNhyN+edgyZdRPv5FhInlarMkTyRO7ER0+LjrkLkilydyi1+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
- (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pycQ4ax5A44iPL+OokI9fmS5xofqcN1wFPCwCzTXGbQ=;
- b=IM4qHXcL2sAihIRjmAPf4J9vlZWZKMI3Qp0WVPVV+FeRGU/gl9x49jA9rnq6+UQKFLuT95MB9Fqfd3QX0PH3mjQ5scvrpEDsMY7xCryoMMyagNY7ld0t9pPVcJSPvsgfhP8q8tDcHWejmIPRkDiC6NegY9pxllWms0MoX+cr8w6HtjOefIqi4L+q4VUv4/Uk2xUFTq7CXMl4RpKA4tGumQWh8bCktgIhU5LCZvnjHvSrkcVEVDICMU8Oas+sIFnTfnJZdMJXv8RixjwpOeI2Ke5gazn8PHku7qkyATag9wWG+8NtdpQFIB76+Jh7cJ/vKKbh+XCQwjCBszavyYcj2A==
-Received: from PS2PR03CA0001.apcprd03.prod.outlook.com (2603:1096:300:5b::13)
- by SEZPR04MB6455.apcprd04.prod.outlook.com (2603:1096:101:9f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.22; Thu, 23 May
- 2024 09:19:30 +0000
-Received: from HK3PEPF0000021E.apcprd03.prod.outlook.com
- (2603:1096:300:5b:cafe::35) by PS2PR03CA0001.outlook.office365.com
- (2603:1096:300:5b::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.19 via Frontend
- Transport; Thu, 23 May 2024 09:19:30 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
- smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
-Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
- designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.20.1.79; helo=localhost.localdomain;
-Received: from localhost.localdomain (211.20.1.79) by
- HK3PEPF0000021E.mail.protection.outlook.com (10.167.8.40) with Microsoft SMTP
- Server id 15.20.7611.14 via Frontend Transport; Thu, 23 May 2024 09:19:29
- +0000
-From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-To: patrick@stwcx.xyz,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: [PATCH v8 23/23] ARM: dts: aspeed: yosemite4: add fan led config
-Date: Thu, 23 May 2024 17:18:10 +0800
-Message-Id: <20240523091812.2032933-24-Delphine_CC_Chiu@wiwynn.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240523091812.2032933-1-Delphine_CC_Chiu@wiwynn.com>
-References: <20240523091812.2032933-1-Delphine_CC_Chiu@wiwynn.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VlNYW2qftz3gD1;
+	Thu, 23 May 2024 19:44:29 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1716457460; x=1717062260; i=markus.elfring@web.de;
+	bh=0uGdwFo2ctk4FML8FdSGhBHGQUtdWc4iJ2oydYFMsa4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=dqWzZrD2Re9BR7mAuoaj0DZb3LzSGQ1r/ALqJk9vgtCdV68nxGt10nPlvNfSPBQQ
+	 l0dtWuqP0RlqOALe/yS8xV9vvwVHsU8Gnze1hhzy2J0DlZq1h5aMzod+jlGg9EIVg
+	 XPPAjeZ41/eCCnKQKNrqjw4uf3APPWvCGxQqEP5xW7NM2L7neuuLbnz2yB9q2ePO7
+	 FWps3cdoah/AZB/St/hhn7h+6pj5P9tDIgSGYVh/wVI9NUHG9zk5DZ24KgInbhaT3
+	 p/driJ+6Xv/AwHrKakfdHXNkUe7pPxOsYYESaFyd0vaZ0U76p1BxMMRffkBBryp8s
+	 WnZWVUDssWNTtFFRaw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MlsKH-1srQK80XwJ-00j1C2; Thu, 23
+ May 2024 11:28:35 +0200
+Message-ID: <bee0888c-f81b-46c8-8a1c-802d108dc0c0@web.de>
+Date: Thu, 23 May 2024 11:28:13 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK3PEPF0000021E:EE_|SEZPR04MB6455:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 28c74036-1f35-44ea-b115-08dc7b097379
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 	BCL:0;ARA:13230031|82310400017|376005|36860700004|7416005|1800799015;
-X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?jqOOOYTHQoj42yn1v2xkiEUTOpcSreTvC4m89m+KhQp+CeQh40pL3fP9f+2K?=
- =?us-ascii?Q?c4moz2bhmZPZhntw96FPmoruKZ+ua3t9Pd49/Rdzn5DmlrVuO3BL0ZnX6z3g?=
- =?us-ascii?Q?l2CdmL2eOhtcFZqahGRX6M+lGdtkcAno8XSirJgqxkY8R+N2HpiOSzo9jrwv?=
- =?us-ascii?Q?mAKV7qLrI5PLtzloUdkxonEVbAr5tO0A8P3Dyr9nQhO+uwoSrESCI/89H02t?=
- =?us-ascii?Q?jEHYrPEQsXNd3nuz2yEh+TaWIYNOcELzqXoHmEu+aGY5iVAMA4KVFfzeMcfR?=
- =?us-ascii?Q?tnz21gzLbBUMXf+8nG/LYIHcpRYqCfJL8pHgjwQgSvStqd78Qmi/IqhOgtBe?=
- =?us-ascii?Q?zDU4sYQwnoOU6WOxKo/xZdZurHHE5VdJ14m77yzdRYpI9Wm9VpkNyJy1WdQJ?=
- =?us-ascii?Q?lcnxsQrlMloBpYlnfohYQ1phzdwIqD5rZOrKgfAS4kA4V5FGkSKqM7Qfn8oG?=
- =?us-ascii?Q?/4TbA+ACZ9OuRzgGwX5OeT/0dcFia28TmRXHQkBAgQ10+RRyVotrnYQEjpsr?=
- =?us-ascii?Q?RYNvSaAcaXnUvb1EVwX/31YitpNPH0NqShNHfGdd10zAdwwLLAThEzt/6RlH?=
- =?us-ascii?Q?Ge2Z0vcOvlQEPu+qbYfdu2g5rLHnvRSr50mOpuQQLpe8++3oKd7LjaZypb3K?=
- =?us-ascii?Q?huJhoi0JIsMu8Bb0Jncce6DtRwzZnyutvGDUbJ3Kxsk8zKpEwhNZBS25Sx38?=
- =?us-ascii?Q?7DNPSndckqd5Mdj3lhb6EugO/Y3quzONgmRiFJC5TecvLsxXcs2dN+sAFlGu?=
- =?us-ascii?Q?s9MtqjotMUShd43NTvUaV5oF8feMtEDuCBoQ/MSGEZZD5QqePbXy1Uc+51RP?=
- =?us-ascii?Q?2D5YLRr9pqozvnnK0l54YuYCE6/QypWQr344A7cWjHq3g38Mn5EEyPiB5HK3?=
- =?us-ascii?Q?QqzwSFur+rVbMvb7G7LxjkXIzt9P/OOTgZ/QPXGcMajzjyODtjFNTIxL8Ot9?=
- =?us-ascii?Q?+DQ8hEWQCylG9x6wRtAm+QvTeIIU65Rz3fB0UBKHu56oA1IlGiVxBBQ8qKDO?=
- =?us-ascii?Q?+rdHYQPyry6JB67f1ofA5emg+V+BjHBk80DlBU097po/Z3vVYMpGhrhCKuHW?=
- =?us-ascii?Q?nnTztvGlshjQoVUruqZe0au/o161cB+wGMrvdTH/Ze0IudhdQ9if79DB5Mnp?=
- =?us-ascii?Q?zj766C/t7pu1+tzpXsaqhq0ISevXPx/AuH5Wg8YlxVDoQvhj/Bj1wKN8zI2g?=
- =?us-ascii?Q?ybf/EzAMaZ12Tmg83w6dQxJrOhF4Ow4Jc+ja8P+GPAlEWMgDUtOlFw7j9khY?=
- =?us-ascii?Q?zwcf3muLD28akZsanojOIaa4m/vvcr7LhBHWhhZYQrlXWxl6hIKyLGeFnDTj?=
- =?us-ascii?Q?Yn/WIHDID0fhW8Bise21zxn1bWDY/1AtefllaFXjZbJjDoMdAQ5VOdNcNip0?=
- =?us-ascii?Q?gXWwffs=3D?=
-X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230031)(82310400017)(376005)(36860700004)(7416005)(1800799015);DIR:OUT;SFP:1101;
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2024 09:19:29.9857
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28c74036-1f35-44ea-b115-08dc7b097379
-X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource: 	HK3PEPF0000021E.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB6455
+User-Agent: Mozilla Thunderbird
+To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org,
+ linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <20240522192524.3286237-4-eajames@linux.ibm.com>
+Subject: Re: [PATCH v6 03/20] dt-bindings: fsi: Document the IBM SCOM engine
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240522192524.3286237-4-eajames@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:cfQr83D1oKR1K1NDJlowB6vfMcdr960N+SAU9f1dz0d6+hwSiTb
+ MA4DYIyXKvGsh6W4yZTbt40KcDLzNPCtGhr5SbA1zZh/b53pGXMq35QTAQjVaBgs/qxHQ4K
+ dSBkMwOZKquaoxw07GODYUJhnLWk/5y9wK28ZohLGzwbQbbgMVsBob90mit+EvdyO21gWYS
+ zogPGGr0Cem2+krxYe2Sg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:7HtMtDbzxJY=;JwXsrg0JfVCAflHNY4kR/dll9Mr
+ /Lul+xHbV2Vah9PrQ96V7/n5o5Y+CY4716u6XDbPtebze+bi7dRuaYB36m3TuQJ1UJaVa1OW0
+ C+QyGYPDO50gRgRysz7MTilOeAO61wH5HOkDHsSK05hg+HpsZYRUWNlvHT9Vm6+jGM9nq6Ujx
+ zSMODwFfeI8NyGpmApWBSfNDIQTYlqsT/6r3D12xBSEXtiJQT3z6OaSGw75UxzOiZTntvY6Np
+ EkvqpSHOdU0xJDQ+rUz9sx+9NiYLh81QdbwmPcIEB4HIoNcuBVsa2KL/LRCyW/ZOY2k4tDkPz
+ NyNelSvs1zTCdgtopLrvboWMARsGOCQf13MPVwUCMam6qRWGNykKYy88IBN0oP9obRVhLyMXx
+ llyoyeWriYuupVzSj9pUYj90khXo05pg4lQkkRKmfvvVSm3G6GHle72RxD4wl8O5zpmWI0wCJ
+ z/vhzUzFbl00xg+Y/hHqgvhilfV4CJRsIZi5lfxa4kaRk20lGiqLblJQg9fjv6y8YB2ITn8J7
+ /aIhgLCXgBCYNi0FA6XmbK4EvGtbCAjRTvyiCjnQj63nFLzhcgD5IEClZmt/jLs5kWAnKdhkp
+ J9ExFd8FsL6WarXN/xxzQeZ3bNdpLV+HhQGVxh6uC+k133h6Cl7UFq5r2iqMDhU81DHd75Vvg
+ tnbsuFIw8ma5QZN5WFfajrh2bxoaLHpe5ITX/VOhAlivg8YZb2me0hFQE9+nODi/SYMiFHvWO
+ v87wcvPsx6k+zJ/8mrIocIVIYI0b6MiT2Q330MY7Gen4EK/WN/2wt7DcVOl5CwWZyGqRJ+WRR
+ LKvRPVyLaU4/7HIeCyCgmycruS20DWbTaxMz/fvoul5YQ=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,194 +85,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-kernel@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, LKML <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Mark Brown <broonie@kernel.org>, Lakshmi Yadlapati <lakshmiy@us.ibm.com>, Andrew Jeffery <andrew@codeconstruct.com.au>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Set fan led config in yosemite4 DTS.
+> The SCOM engine provides an interface to the POWER processor PIB
+> (Pervasive Interconnect Bus).
 
-Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
----
- .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 152 +++++++++++++++++-
- 1 file changed, 150 insertions(+), 2 deletions(-)
+Please improve this change description with a corresponding imperative wording.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.9#n94
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-index 21ca22281ef8..2cbb210ed53e 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-@@ -75,6 +75,154 @@ tpmdev@0 {
- 			reg = <0>;
- 		};
- 	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		fan0_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 4 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan0_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 5 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan1_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 10 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan1_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 11 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan2_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 4 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan2_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 5 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan3_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 10 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan3_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 11 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan4_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 2 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan4_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 3 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan5_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 8 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan5_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 9 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan6_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 2 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan6_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 3 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan7_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 8 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan7_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 9 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan8_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 0 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan8_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 1 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan9_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 6 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan9_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 7 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan10_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 0 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan10_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 1 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan11_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 6 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		fan11_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 7 GPIO_ACTIVE_HIGH>;
-+		};
-+	};
- };
- 
- &uart1 {
-@@ -1198,7 +1346,7 @@ eeprom@52 {
- 				reg = <0x52>;
- 			};
- 
--			gpio@61 {
-+			led_gpio0: gpio@61 {
- 				compatible = "nxp,pca9552";
- 				reg = <0x61>;
- 				#address-cells = <1>;
-@@ -1268,7 +1416,7 @@ eeprom@52 {
- 				reg = <0x52>;
- 			};
- 
--			gpio@61 {
-+			led_gpio1: gpio@61 {
- 				compatible = "nxp,pca9552";
- 				reg = <0x61>;
- 				#address-cells = <1>;
--- 
-2.25.1
-
+Regards,
+Markus
