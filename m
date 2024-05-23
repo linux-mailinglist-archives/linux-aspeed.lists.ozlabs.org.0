@@ -2,78 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id E4BD28CCFAA
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 11:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18B0D8CD0EE
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 13:11:44 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=dqWzZrD2;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=LpLtzae7;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VlNYk0LJ9z3vct
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 19:44:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VlQN55Tqcz78sr
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 May 2024 21:06:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=dqWzZrD2;
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=LpLtzae7;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=212.227.17.11; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
-X-Greylist: delayed 527 seconds by postgrey-1.37 at boromir; Thu, 23 May 2024 19:44:31 AEST
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=212.227.17.12; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VlNYW2qftz3gD1;
-	Thu, 23 May 2024 19:44:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VlQMx0Gmjz78nN;
+	Thu, 23 May 2024 21:06:19 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1716457460; x=1717062260; i=markus.elfring@web.de;
-	bh=0uGdwFo2ctk4FML8FdSGhBHGQUtdWc4iJ2oydYFMsa4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=dqWzZrD2Re9BR7mAuoaj0DZb3LzSGQ1r/ALqJk9vgtCdV68nxGt10nPlvNfSPBQQ
-	 l0dtWuqP0RlqOALe/yS8xV9vvwVHsU8Gnze1hhzy2J0DlZq1h5aMzod+jlGg9EIVg
-	 XPPAjeZ41/eCCnKQKNrqjw4uf3APPWvCGxQqEP5xW7NM2L7neuuLbnz2yB9q2ePO7
-	 FWps3cdoah/AZB/St/hhn7h+6pj5P9tDIgSGYVh/wVI9NUHG9zk5DZ24KgInbhaT3
-	 p/driJ+6Xv/AwHrKakfdHXNkUe7pPxOsYYESaFyd0vaZ0U76p1BxMMRffkBBryp8s
-	 WnZWVUDssWNTtFFRaw==
+	s=s29768273; t=1716462329; x=1717067129; i=markus.elfring@web.de;
+	bh=gYGpWw1dwKwYXbTMuHWCYz3vW9FamyeQy+MaNMDyXQk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=LpLtzae7k7PGKt5CH/219ViPUnt0svgwRR965UkDeNCI5x1p1CkiWMongjV5X+lY
+	 i5DLXwXw31baly1omeTzIDsy9UYDSoceCL5dbspMZPG7TFfUTsknbQeQ1KNvkU6SJ
+	 yi9lG2RDA/RNG+MWsUNgWqQllc4FiJC1b++c1C4iJrWLCmYh1myPcBHEnwyVIxqR9
+	 lOJbOw3GrW+GroY1xZrn4Eur4sZOVicyLx003vjF1JMYI1Xd/R3DPFqDZiDr5D9KO
+	 FBQkZqS4eTLU3vTyl7iN8tCR2AgVENT46IVX9/hrRdDVEUEn3M6NQc51NsTqpR7Wv
+	 sc++cHwgmJ1ixNYMzQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MlsKH-1srQK80XwJ-00j1C2; Thu, 23
- May 2024 11:28:35 +0200
-Message-ID: <bee0888c-f81b-46c8-8a1c-802d108dc0c0@web.de>
-Date: Thu, 23 May 2024 11:28:13 +0200
+Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N8Vsx-1seoPp3Rq5-00sRYp; Thu, 23
+ May 2024 13:05:28 +0200
+Message-ID: <8fb9a0ce-0a25-4fbe-9a8f-c2789c1553fa@web.de>
+Date: Thu, 23 May 2024 13:05:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org,
+Subject: Re: [v6 03/20] dt-bindings: fsi: Document the IBM SCOM engine
+To: Conor Dooley <conor.dooley@microchip.com>,
+ Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org,
  linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
  linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
  kernel-janitors@vger.kernel.org
 References: <20240522192524.3286237-4-eajames@linux.ibm.com>
-Subject: Re: [PATCH v6 03/20] dt-bindings: fsi: Document the IBM SCOM engine
+ <bee0888c-f81b-46c8-8a1c-802d108dc0c0@web.de>
+ <20240523-armband-utopia-66892e08b90d@wendy>
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240522192524.3286237-4-eajames@linux.ibm.com>
+In-Reply-To: <20240523-armband-utopia-66892e08b90d@wendy>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:cfQr83D1oKR1K1NDJlowB6vfMcdr960N+SAU9f1dz0d6+hwSiTb
- MA4DYIyXKvGsh6W4yZTbt40KcDLzNPCtGhr5SbA1zZh/b53pGXMq35QTAQjVaBgs/qxHQ4K
- dSBkMwOZKquaoxw07GODYUJhnLWk/5y9wK28ZohLGzwbQbbgMVsBob90mit+EvdyO21gWYS
- zogPGGr0Cem2+krxYe2Sg==
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:o7i1z0ffw/sWelUqhm9HyOezHTgMOzYA8t77RncB11/ez3M/wDb
+ UuHT8Lnovhq4bgS/KpsKcRxPEEVZN7YohbH5GTBSvC68ZjsJ5nlLiIth8Bi6K/J1+s7AYyP
+ udETwbHCI0hsTmNHARRG8rN1YNiNf6d8Y1WYuTQxLOA6N/1dndf0oX/ayLfD7WUvt92/d9F
+ rNyB2ahjl/3ti347klAOg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:7HtMtDbzxJY=;JwXsrg0JfVCAflHNY4kR/dll9Mr
- /Lul+xHbV2Vah9PrQ96V7/n5o5Y+CY4716u6XDbPtebze+bi7dRuaYB36m3TuQJ1UJaVa1OW0
- C+QyGYPDO50gRgRysz7MTilOeAO61wH5HOkDHsSK05hg+HpsZYRUWNlvHT9Vm6+jGM9nq6Ujx
- zSMODwFfeI8NyGpmApWBSfNDIQTYlqsT/6r3D12xBSEXtiJQT3z6OaSGw75UxzOiZTntvY6Np
- EkvqpSHOdU0xJDQ+rUz9sx+9NiYLh81QdbwmPcIEB4HIoNcuBVsa2KL/LRCyW/ZOY2k4tDkPz
- NyNelSvs1zTCdgtopLrvboWMARsGOCQf13MPVwUCMam6qRWGNykKYy88IBN0oP9obRVhLyMXx
- llyoyeWriYuupVzSj9pUYj90khXo05pg4lQkkRKmfvvVSm3G6GHle72RxD4wl8O5zpmWI0wCJ
- z/vhzUzFbl00xg+Y/hHqgvhilfV4CJRsIZi5lfxa4kaRk20lGiqLblJQg9fjv6y8YB2ITn8J7
- /aIhgLCXgBCYNi0FA6XmbK4EvGtbCAjRTvyiCjnQj63nFLzhcgD5IEClZmt/jLs5kWAnKdhkp
- J9ExFd8FsL6WarXN/xxzQeZ3bNdpLV+HhQGVxh6uC+k133h6Cl7UFq5r2iqMDhU81DHd75Vvg
- tnbsuFIw8ma5QZN5WFfajrh2bxoaLHpe5ITX/VOhAlivg8YZb2me0hFQE9+nODi/SYMiFHvWO
- v87wcvPsx6k+zJ/8mrIocIVIYI0b6MiT2Q330MY7Gen4EK/WN/2wt7DcVOl5CwWZyGqRJ+WRR
- LKvRPVyLaU4/7HIeCyCgmycruS20DWbTaxMz/fvoul5YQ=
+UI-OutboundReport: notjunk:1;M01:P0:KI+1kjpW9rI=;+qnjuxKLSMLhUuyHZ0TmL5l93GY
+ OvI2k30qXI+RE+3HDSUwIoGgElWYXIK7FEEkTBEVlHxW1SiyCCs0BTNcVxn/l3Zq8Ws0CeIEp
+ QZINKzZcaKn9eNu2Dz1kxEyuKrDPbu5c+Efj8DLZ/L6esJAhBn6LmkCwkfa+zQVEG13tJqNXU
+ kSFF/zcKybqlqXCZVpYPxAclkNySRHgD4Al8iOHz2gyWwK08M6YLR9e8BBnv6ZJJkqK/UhwcY
+ xMwgwZ5J11M8iMXAwLUTLmgZqlpHe8r5DwrQ8P965i7Ref2UBf5X3K6rxXiLcwTLX0oSDlbct
+ tCduY4v6XpLjf5YCdSRPTXKozh4bjVqGD6WQYl1G98oSYMdTKDEmr5bcmiSDBjdvRUD1muufR
+ vMjFEJa+D3F8t/QZd1CgqwYWaEdHx2Ljz+ROCADzwyOW4WZmyYBlmfyoYlYHlxpgeHFfEiUts
+ 1Uc1PYCd4gP2ATAudVgf6jhNFAM/K3JshCsb3FsCio+W5dyRrE7plE3ZmU8JBAk5aKhAn7KHO
+ ZxzBvSQaCnYpXLePWBdRnq72MYcj3m/UMiCKcUp1id7vlts78exdPIp3ExK7eT2KQuX8OxJ5r
+ kzMQpHCO89zrjba8ILgnGZMXhwHWNj/r1spWpImwLdQyDVWadzx1NJrAt9TxXC+8ZwpEZtlgz
+ zWmEpkdGa0bXePLcD1v6WYHzRE+AGQVW1GpGu9vh5z4nX831O+Zv8X55N1Cqz+IInTsx0JDkH
+ wxuVPJAHDrcpk5AQ/YTteexE7tK8yMP9vYS4hl+mnJBR6xLo8CReXEro9WmY8WDIW+o2XzDj6
+ 2xQNJRNo3NOosW4TSbQJsHJGB8/OljHJn5LkTaw3lHaHI=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,11 +92,18 @@ Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andi Shyt
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> The SCOM engine provides an interface to the POWER processor PIB
-> (Pervasive Interconnect Bus).
+>>> The SCOM engine provides an interface to the POWER processor PIB
+>>> (Pervasive Interconnect Bus).
+>>
+>> Please improve this change description with a corresponding imperative =
+wording.
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/process/submitting-patches.rst?h=3Dv6.9#n94
+>
+> The tense used here is fine.
 
-Please improve this change description with a corresponding imperative wording.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.9#n94
+Is the imperative mood preferred for the final commit message (besides the=
+ summary phrase)?
 
 Regards,
 Markus
