@@ -1,87 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTP id 332BA8CEC87
-	for <lists+linux-aspeed@lfdr.de>; Sat, 25 May 2024 00:56:38 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=HVnfUsoH;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTP id 5903C8CEE78
+	for <lists+linux-aspeed@lfdr.de>; Sat, 25 May 2024 12:21:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VmKvR0kyfz79RB
-	for <lists+linux-aspeed@lfdr.de>; Sat, 25 May 2024 08:48:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vmd4N39Svz79mH
+	for <lists+linux-aspeed@lfdr.de>; Sat, 25 May 2024 20:12:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=HVnfUsoH;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VmKvF1lHXz79Nr;
-	Sat, 25 May 2024 08:48:08 +1000 (AEST)
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44OMf8Q1007804;
-	Fri, 24 May 2024 22:48:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=content-type :
- message-id : date : mime-version : subject : to : cc : references : from :
- in-reply-to; s=pp1; bh=mhbBQ+85RV9y7E+fb0dyxwUOMN7Byx+BVqUy0+Mwf4s=;
- b=HVnfUsoH4a3Vp/ZRFDICpqdEgv+ONA5kRGYJZ9D48NW5Cs0vepXn9MM7LcPuDMgTx05b
- vAj2UcbbKLPfWOuoihByGcrlTGLAmOMTdaGzEpXetZUUgNxJnHECadMe0PcO8+8Jj4kO
- 3vD79t4jQ3v5R8Hfm3+Qz3Jbe7Vd41MBtR12NSY5Tk1Qr/+9bybjD7ZcbUsBst5r1eK5
- m02pLLmMZhnIBmrhxxNMql9QM+PwlWsC1mgSr6cOLA3ZQkVXtdGpm3TjYsHuWTSbu+DI
- K4kgD6L3EAkMPGzjqzOyEUat0C1J0+dKR7J1pC/WXdZ7Kl5wSpwFItSUWGfjDN4F5o86 Ww== 
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yb3ufg17k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 May 2024 22:48:00 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44OKEN13007424;
-	Fri, 24 May 2024 22:47:59 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3y79c3k1fs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 May 2024 22:47:59 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44OMluSN44368156
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 24 May 2024 22:47:58 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F25C15805C;
-	Fri, 24 May 2024 22:47:55 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6826758054;
-	Fri, 24 May 2024 22:47:54 +0000 (GMT)
-Received: from [9.61.107.154] (unknown [9.61.107.154])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 24 May 2024 22:47:54 +0000 (GMT)
-Content-Type: multipart/alternative;
- boundary="------------08ML0l6qf0iVkTgnQk4XFX8u"
-Message-ID: <dca4ac91-c18b-4271-a3f9-fbf3b5a3c43d@linux.ibm.com>
-Date: Fri, 24 May 2024 17:47:53 -0500
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vmd3k1s05z79Gm
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 25 May 2024 20:11:28 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1sAoMN-0005QQ-16; Sat, 25 May 2024 12:10:43 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1sAoMI-002uS7-MQ; Sat, 25 May 2024 12:10:38 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1sAoMI-00Bs4j-1u;
+	Sat, 25 May 2024 12:10:38 +0200
+Date: Sat, 25 May 2024 12:10:38 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Corey Minyard <minyard@acm.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 0/6] ipmi: Convert to platform remove callback returning
+ void
+Message-ID: <sjgseqireuaswtbuwl3rvcszpsjzph4opq52x2kbudczxutz7o@2tua2oueufdd>
+References: <cover.1709655755.git.u.kleine-koenig@pengutronix.de>
+ <3uhfeeahn2u23mxyumyxcyx4kmcxzczipkan7eqh4aslsmhxyz@zgsmwj2jvb2v>
+ <Zhf9mQx/KgXOzPTs@mail.minyard.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 14/20] ARM: dts: aspeed: Add IBM P11 Blueridge BMC
- system
-To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
-References: <20240522192524.3286237-1-eajames@linux.ibm.com>
- <20240522192524.3286237-15-eajames@linux.ibm.com>
-Content-Language: en-US
-From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <20240522192524.3286237-15-eajames@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: kM9TbIap5j0zdomURdGLwBRfGRMQtDT3
-X-Proofpoint-GUID: kM9TbIap5j0zdomURdGLwBRfGRMQtDT3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-24_08,2024-05-24_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- lowpriorityscore=0 mlxlogscore=919 suspectscore=0 phishscore=0
- adultscore=0 impostorscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2405240165
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ajph324orx2jafee"
+Content-Disposition: inline
+In-Reply-To: <Zhf9mQx/KgXOzPTs@mail.minyard.net>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,81 +61,66 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, broonie@kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au
+Cc: linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, openbmc@lists.ozlabs.org, Tomer Maimon <tmaimon77@gmail.com>, Nicholas Piggin <npiggin@gmail.com>, Tali Perry <tali.perry1@gmail.com>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nancy Yuen <yuenn@google.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, kernel@pengutronix.de, Patrick Venture <venture@google.com>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, openipmi-developer@lists.sourceforge.net, Andrew Jeffery <andrew@codeconstruct.com.au>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is a multi-part message in MIME format.
---------------08ML0l6qf0iVkTgnQk4XFX8u
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-> +		led@6 {
-> +			reg = <6>;
-> +			default-state = "keep";
-> +			label = "cpu-vrm1";
-> +			retain-state-shutdown;
-> +			type = <PCA955X_TYPE_LED>;
-> +		};
-> +
-Is there a specific reason for skipping led@7? Its not connected?
-> +		led@8 {
-> +			reg = <8>;
-> +			default-state = "keep";
-> +			label = "lcd-russel";
-> +			retain-state-shutdown;
-> +			type = <PCA955X_TYPE_LED>;
-> +		};
-> +	};
-> +
+--ajph324orx2jafee
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Ninad Palsule <ninad@linux.ibm.com>
+Hello Corey,
 
+On Thu, Apr 11, 2024 at 10:11:21AM -0500, Corey Minyard wrote:
+> On Thu, Apr 11, 2024 at 09:15:03AM +0200, Uwe Kleine-K=F6nig wrote:
+> > Hello,
+> >=20
+> > On Tue, Mar 05, 2024 at 05:26:57PM +0100, Uwe Kleine-K=F6nig wrote:
+> > > this series converts all drivers below drivers/char/ipmi to struct
+> > > platform_driver::remove_new(). See commit 5c5a7680e67b ("platform: Pr=
+ovide a
+> > > remove callback that returns no value") for an extended explanation a=
+nd the
+> > > eventual goal.
+> > >=20
+> > > All conversations are trivial, because their .remove() callbacks
+> > > returned zero unconditionally.
+> > >=20
+> > > There are no interdependencies between these patches, so they could be
+> > > picked up individually. But I'd hope that they get picked up all
+> > > together by Corey.
+>=20
+> Yeah, I was kind of waiting for more reviews, but this is pretty
+> straightforward.  I've pulled this into my tree.
 
---------------08ML0l6qf0iVkTgnQk4XFX8u
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+These changes are in next since a while but didn't land in Linus tree
+for v6.10-rc1. I intend to send a PR to Greg early next week changing
+platform_driver::remove to match remove_new. If these commits don't make
+it in in time, I'll be so bold and just include the commits from your
+for-next branch in my PR.
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <span style="white-space: pre-wrap">
-</span>
-    <blockquote type="cite"
-      cite="mid:20240522192524.3286237-15-eajames@linux.ibm.com">
-      <pre class="moz-quote-pre" wrap="">+		led@6 {
-+			reg = &lt;6&gt;;
-+			default-state = "keep";
-+			label = "cpu-vrm1";
-+			retain-state-shutdown;
-+			type = &lt;PCA955X_TYPE_LED&gt;;
-+		};
-+</pre>
-    </blockquote>
-    Is there a specific reason for skipping led@7? Its not connected?<br>
-    <blockquote type="cite"
-      cite="mid:20240522192524.3286237-15-eajames@linux.ibm.com">
-      <pre class="moz-quote-pre" wrap="">
-+		led@8 {
-+			reg = &lt;8&gt;;
-+			default-state = "keep";
-+			label = "lcd-russel";
-+			retain-state-shutdown;
-+			type = &lt;PCA955X_TYPE_LED&gt;;
-+		};
-+	};
-+
-</pre>
-    </blockquote>
-    <p>Reviewed-by: Ninad Palsule <a class="moz-txt-link-rfc2396E" href="mailto:ninad@linux.ibm.com">&lt;ninad@linux.ibm.com&gt;</a><br>
-    </p>
-    <p><br>
-    </p>
-  </body>
-</html>
+Best regards
+Uwe
 
---------------08ML0l6qf0iVkTgnQk4XFX8u--
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
+--ajph324orx2jafee
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmZRuR0ACgkQj4D7WH0S
+/k7iXQf+JY2QTPcPdx/jTOE0dUvCeBEjZ4bRh4mIpawNO0kdNbwYcQUVpo5OrDQ8
+qnEQRMBPPam51IgxAWEEO1+xa86RbYUrSqNsVQn+chiBr+EQHeAXYpGKuHK8STRO
+8Mg38AeS0M4k35+W9RE5WdQQRPbVv/SvIZIWHvqnK7unCaCJmWxbL6LHj6Vy5cR/
+BMMd87EEIR+dBbK1EvHqJgKqrtlF58qBMWWiIA9N67SdRSE96WXwRffe+o63evky
+YHUl2bvlEn3uwDDwLyFUV6Inqu0RR8YLCS1M2nYpGZE91xQFN9DG7AyXEKMPbXyD
+nAHcivIcWONurbCNqax3/T91fn8ftA==
+=mxtd
+-----END PGP SIGNATURE-----
+
+--ajph324orx2jafee--
