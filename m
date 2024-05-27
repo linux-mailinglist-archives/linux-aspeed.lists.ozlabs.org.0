@@ -2,65 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B181795794E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B169957951
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:28 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJD1fspz3wNh
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJD40Csz3wTq
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LimzA/61;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SJVE7IGM;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b32; helo=mail-yb1-xb32.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b31; helo=mail-yb1-xb31.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vnwf05gJhz3g25
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 27 May 2024 22:57:10 +1000 (AEST)
-Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-df7607785e9so3463626276.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 27 May 2024 05:57:11 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vnwfj1k9rz3g3y
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 27 May 2024 22:57:49 +1000 (AEST)
+Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-df4e5b89e49so5153619276.0
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 27 May 2024 05:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716814624; x=1717419424; darn=lists.ozlabs.org;
+        d=linaro.org; s=google; t=1716814666; x=1717419466; darn=lists.ozlabs.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pJJyP+9frURhdd/ZV2qsiiwzKPVnn0nUZRG4Ztdu5Ds=;
-        b=LimzA/61P9pm/9cZa6fIxqc0LnLNzTRBQWKY5KndKUxX70TvfwR/aM93LwtUxc9H4r
-         GCGQi+SBIUrPRDioA0+K3LGl37NRKKSQlMnUt895ZeeQAF3TwCkAgshJJKesj10yFj/h
-         uMe37RkxRIhzQG1PIDwmXSeTeyVyrJOWUiADe5ZCaJdNBbq/Jhw6wd/ZsxVARTu6djxs
-         MnTO1aAWzdG1Tb5K37L3TQGKWuH+90+mdboEh4qYHWWQHWk/TMWoYcr/YXBj/22BjouD
-         5avxARb2RJ8r3Mrx981n0OMPOWiOPrB45LEwkqdumD5KmX4fhKv6KcnBf61TipDwXNu0
-         H/qg==
+        bh=rNZ98tycbIm8gHCECF6fFAUqvVWA7Py4cjGRVlBtUzM=;
+        b=SJVE7IGMQg46D654EVQR4jSJSWVnWelXFuHFsBXwhMmmJm9orI9Gs4atGRpiiuHLYg
+         YND7rOGkliXFbS+L5iwTyt8PUJsCgv6j65u0R0VyT4gOP2156HnxHGPKvbxT9GfaO8T3
+         LLHzPbWztM7iDAi3ZwA1Ev4T06dxOoYIyeKz4xRlQvDPwud1Ru12L96QAZUdsNi6RpqN
+         XVMywg9F8OPTrHMm9Y7yHLlOk1Kw/u5gnhlc4w/yL7FIkDsbDRG7baqwbZKp6xds4n53
+         L7f3SF9tmlmo0Xoh3kEGocKujwRaVvYGgP9J2tua8CLlHMCQvAdxHLsC8rltMFFiDhwV
+         q3Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716814624; x=1717419424;
+        d=1e100.net; s=20230601; t=1716814666; x=1717419466;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pJJyP+9frURhdd/ZV2qsiiwzKPVnn0nUZRG4Ztdu5Ds=;
-        b=YIJLaeeQG3TfOmhA4Gj65wFLEQGPnJ0axAtOeZe+yfezoVco0zg2nJvhe18So4dWtw
-         653j8PqWmqc7hLExUEaEvMnp5vV5P9S8hrlkOoCxM19dGWHsHRVd0a73K1togsQ8YWYe
-         jFZQv2RsZzk7gdQ7331o2YNrQHMWxtLPxYSmhwKErJyvPMm6lfOB4B3TImdm1K40TbKM
-         /UpfKYFheo/pRUJfruVSnyt0bGkgEylZTkyKKi19aKO17ohx+aQQwL8r65Wv27w2y3vn
-         I8sekGxx4b+GVBaOm6fAnM/RWhdxjQ2N/DUZz19pjLgOTUL5zNlR7eSLaoPe5g9NuMID
-         fdmA==
-X-Forwarded-Encrypted: i=1; AJvYcCUm21meTAOo/WUHJxYl8Uj2OShnA67Blsl7fb6m2u0h8TTcSjPZyo4nOeqm2vvzOG/oGmfnSSx9lLRiRPvzRsmLDwZSXLGrqz+ckTeJ8Q==
-X-Gm-Message-State: AOJu0YyjZULVgsOophDdIyLCP9eZroOC/K2ac7aNwzyR71OFZgqy48XZ
-	4b/2QFiIHWi50Kyr3a+K9SsbWMnOysz0/hmuAI6POi2O4a93CY/TLHNfL8FbbWDiFuausNBkyfr
-	oN364QW+W1rWICbQ9Vb15AHrsb9/swLnqRrrswQ==
-X-Google-Smtp-Source: AGHT+IHtuitKU1in514NtpJEfJGREAKzOXikcv6xhBvHaqSAyXXF4vYDUv/B437jXNYfH7CNGKFQFe5YOvThvoGTSqk=
-X-Received: by 2002:a25:7486:0:b0:dc2:3f75:1f79 with SMTP id
- 3f1490d57ef6-df772184c54mr8792593276.23.1716814624064; Mon, 27 May 2024
- 05:57:04 -0700 (PDT)
+        bh=rNZ98tycbIm8gHCECF6fFAUqvVWA7Py4cjGRVlBtUzM=;
+        b=UQUjU3A4cwQomwfEdWVXOvy0q8OL24wK0NmW6npCob/oT/qnX3Go8dHX7gKl2XW3w7
+         tPmNbOx8hMGH9vrZJzsPhIZE9hKCu8zxCvUyccznP4LG3wb14krq1a/NYh4/K3P6STMY
+         rUAMEBorSCeuSsPQ2hJysfuBBEhRv9PNv7LU1mrGyyeq19siu8WplNignuCLAvh9rPVR
+         RUg0AhN+AF3bcGs7XZlZWZpNW4mG1Bo8mVR8ZO2b4L1HPNT+eKxzI0tMNbJcp8k3yhWe
+         jACHIVgUbPuuO53UCy8mjnIpnvX7TYV8i4qQ7RH5AjD4xZBKLssE84LQVZs/EflBrD05
+         n4Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCUVXSKJqli5o3uieUz+T9N8CkfhFAQxpTAKLIK0MTGMZVY9tvyqsXobXXIrMdWfTzOvn3YosBumI93spl/2McqS8OaZLfL7CS+vJtYfpQ==
+X-Gm-Message-State: AOJu0YylkM0Fob4RgGaUtyIrsqZsAFko1w//KgW7IkQEkr2ZXIg1PQqz
+	ozmZha+6Yxu1W9Wsx4RxxeG++kd5ywllJg9BzmGRdtj8Zx0bfZytO/K9IzTlS+3opSBSSTijZNz
+	1pmWw3uMjwSZdLs+BRcLiJypgPgLEf6GhO7Fq8A==
+X-Google-Smtp-Source: AGHT+IGPHGbdeDgQwNEq4mWXFwTqV0k8iDBOK2TyTZ4utk5viKokv4dr91DnLp+C01zzJZrl1Jzg3NthvUqaC/NhrDk=
+X-Received: by 2002:a05:6902:70a:b0:df7:9946:b32c with SMTP id
+ 3f1490d57ef6-df79946bc95mr6983978276.29.1716814666366; Mon, 27 May 2024
+ 05:57:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com> <20240504-pinctrl-cleanup-v2-3-26c5f2dc1181@nxp.com>
-In-Reply-To: <20240504-pinctrl-cleanup-v2-3-26c5f2dc1181@nxp.com>
+References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com> <20240504-pinctrl-cleanup-v2-8-26c5f2dc1181@nxp.com>
+In-Reply-To: <20240504-pinctrl-cleanup-v2-8-26c5f2dc1181@nxp.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 27 May 2024 14:56:53 +0200
-Message-ID: <CACRpkdZ+YPAXTNU-kaA8ywBLW0RpGJBpXJqPD7aJ+B1V=axPrg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/20] pinctrl: stm32: Use scope based of_node_put() cleanups
+Date: Mon, 27 May 2024 14:57:35 +0200
+Message-ID: <CACRpkdbt0kE6VP3O+63U1rmJ_JKRvWENCnETT4f+mvNMMphLeA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/20] pinctrl: st: Use scope based of_node_put() cleanups
 To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -80,7 +80,7 @@ Cc: imx@lists.linux.dev, Alexandre Belloni <alexandre.belloni@bootlin.com>, Peng
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, May 4, 2024 at 3:13=E2=80=AFPM Peng Fan (OSS) <peng.fan@oss.nxp.com=
+On Sat, May 4, 2024 at 3:14=E2=80=AFPM Peng Fan (OSS) <peng.fan@oss.nxp.com=
 > wrote:
 
 > From: Peng Fan <peng.fan@nxp.com>
