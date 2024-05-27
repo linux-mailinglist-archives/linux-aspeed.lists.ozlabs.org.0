@@ -2,75 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D239579B1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B181795794E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:27 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKP3ZxKz3bmJ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJD1fspz3wNh
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=minyard.net
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=tivBEOZc;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=LimzA/61;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=minyard.net (client-ip=2607:f8b0:4864:20::32a; helo=mail-ot1-x32a.google.com; envelope-from=corey@minyard.net; receiver=lists.ozlabs.org)
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b32; helo=mail-yb1-xb32.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vml1H4hJKz3gKK
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 26 May 2024 00:39:46 +1000 (AEST)
-Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6f8d0a215deso832773a34.0
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 25 May 2024 07:39:46 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vnwf05gJhz3g25
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 27 May 2024 22:57:10 +1000 (AEST)
+Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-df7607785e9so3463626276.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 27 May 2024 05:57:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=minyard-net.20230601.gappssmtp.com; s=20230601; t=1716647979; x=1717252779; darn=lists.ozlabs.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2ijbRL5KgMxfBrVDKaGT/ZS1YTwf/exNuTTCo0hJfeM=;
-        b=tivBEOZcHsIaGg5PcrCR7rTOyMOtFPCAu+H/Tc2UfcZYZOyfnPOPYUy/UScoTtWo9z
-         7pMRNj2jcIbcBTLfKu8LgbAnYjE4nbC4mXH9IL6wI7o2xKHt5P4+ARbkVT6M1wwZRSDc
-         8tzFOx6tJAoJEi5PMaoyFPq9dY/vwq7dVtlUqie8Oq6KbHC5eJtdhTwftpHRv3EObzcb
-         aeNbtPhSURzRJWDeW89s48vh/4935rUDRK4MeRHszO5LDQsBYS6kgJBsE1p0YqCx2Ntt
-         LTD1hlAGdUL8E1MCo8lKypoc9RGSPK19Zxd9ZIxc1VZqzjYJjiIv22y8akqmmhnXG4Nn
-         9Dng==
+        d=linaro.org; s=google; t=1716814624; x=1717419424; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pJJyP+9frURhdd/ZV2qsiiwzKPVnn0nUZRG4Ztdu5Ds=;
+        b=LimzA/61P9pm/9cZa6fIxqc0LnLNzTRBQWKY5KndKUxX70TvfwR/aM93LwtUxc9H4r
+         GCGQi+SBIUrPRDioA0+K3LGl37NRKKSQlMnUt895ZeeQAF3TwCkAgshJJKesj10yFj/h
+         uMe37RkxRIhzQG1PIDwmXSeTeyVyrJOWUiADe5ZCaJdNBbq/Jhw6wd/ZsxVARTu6djxs
+         MnTO1aAWzdG1Tb5K37L3TQGKWuH+90+mdboEh4qYHWWQHWk/TMWoYcr/YXBj/22BjouD
+         5avxARb2RJ8r3Mrx981n0OMPOWiOPrB45LEwkqdumD5KmX4fhKv6KcnBf61TipDwXNu0
+         H/qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716647979; x=1717252779;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ijbRL5KgMxfBrVDKaGT/ZS1YTwf/exNuTTCo0hJfeM=;
-        b=snx1W+Bx0eBps7XALu8veCa/rUVYcDtIiH+2wpY6qcuMYyCpbvzNI/q515n63r/9L6
-         FCGWuXf6lIC1c8ruhRaT3nYbKT4Sr5QM1A+1WgjC5E54nOAvmlbjigKz9dXm4++ykOaM
-         EBOS51Gk/0g8QOkmZIkroVRdhZoqx+e1yii5DCP9LQ05/uXBFjhf51TCmO9fm9Fc5Xlj
-         L/uydsJ6rfikj1UEGbRQY5i1pmKExMWuxZDY4dLiUONb3Cg5SSGzLgLew9xfb6QlwHZW
-         skGZnSfkpjz/wy5JrSUoSX9RtaXpaQyseXQJhtXqxF5dE5DiO18VizwG5Y+jZuUj9GPO
-         I4yg==
-X-Forwarded-Encrypted: i=1; AJvYcCXKUPPzAcV62sRDuj8ptMkshDSnjaQ4Xci26hhGR3c9Z58Fn9yxJgsw3JHwX3fLzLZcBjLpd5k8lcUB4alk3KteIQyOTJ8NKRnY2XokgA==
-X-Gm-Message-State: AOJu0YzC8wjzYA1GcH53INI7Yk2DdKazdXBqd+W+siGNJQBpHXIlvCka
-	eTpH35vWS+t1DlFgoMolAR0KYUi6j4r7MRRbtjCcPMNDDfRPVTMV1rLEO9Ky4d0=
-X-Google-Smtp-Source: AGHT+IF0BZKLWwLOASvb2XVCtA5cGrrbycBktJDxiP8zfqL1QN+0/jXbjbKfObTeb3B2Xr8wgSINVg==
-X-Received: by 2002:a05:6830:f96:b0:6f1:248a:b5ba with SMTP id 46e09a7af769-6f7d65af20bmr3958986a34.18.1716647979022;
-        Sat, 25 May 2024 07:39:39 -0700 (PDT)
-Received: from mail.minyard.net ([2001:470:b8f6:1b:b41a:8a2e:362d:fa53])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-6f8d0e61558sm768131a34.51.2024.05.25.07.39.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 May 2024 07:39:38 -0700 (PDT)
-Date: Sat, 25 May 2024 09:39:36 -0500
-From: Corey Minyard <corey@minyard.net>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 0/6] ipmi: Convert to platform remove callback returning
- void
-Message-ID: <ZlH4KFZ3MYzelzZK@mail.minyard.net>
-References: <cover.1709655755.git.u.kleine-koenig@pengutronix.de>
- <3uhfeeahn2u23mxyumyxcyx4kmcxzczipkan7eqh4aslsmhxyz@zgsmwj2jvb2v>
- <Zhf9mQx/KgXOzPTs@mail.minyard.net>
- <sjgseqireuaswtbuwl3rvcszpsjzph4opq52x2kbudczxutz7o@2tua2oueufdd>
+        d=1e100.net; s=20230601; t=1716814624; x=1717419424;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pJJyP+9frURhdd/ZV2qsiiwzKPVnn0nUZRG4Ztdu5Ds=;
+        b=YIJLaeeQG3TfOmhA4Gj65wFLEQGPnJ0axAtOeZe+yfezoVco0zg2nJvhe18So4dWtw
+         653j8PqWmqc7hLExUEaEvMnp5vV5P9S8hrlkOoCxM19dGWHsHRVd0a73K1togsQ8YWYe
+         jFZQv2RsZzk7gdQ7331o2YNrQHMWxtLPxYSmhwKErJyvPMm6lfOB4B3TImdm1K40TbKM
+         /UpfKYFheo/pRUJfruVSnyt0bGkgEylZTkyKKi19aKO17ohx+aQQwL8r65Wv27w2y3vn
+         I8sekGxx4b+GVBaOm6fAnM/RWhdxjQ2N/DUZz19pjLgOTUL5zNlR7eSLaoPe5g9NuMID
+         fdmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUm21meTAOo/WUHJxYl8Uj2OShnA67Blsl7fb6m2u0h8TTcSjPZyo4nOeqm2vvzOG/oGmfnSSx9lLRiRPvzRsmLDwZSXLGrqz+ckTeJ8Q==
+X-Gm-Message-State: AOJu0YyjZULVgsOophDdIyLCP9eZroOC/K2ac7aNwzyR71OFZgqy48XZ
+	4b/2QFiIHWi50Kyr3a+K9SsbWMnOysz0/hmuAI6POi2O4a93CY/TLHNfL8FbbWDiFuausNBkyfr
+	oN364QW+W1rWICbQ9Vb15AHrsb9/swLnqRrrswQ==
+X-Google-Smtp-Source: AGHT+IHtuitKU1in514NtpJEfJGREAKzOXikcv6xhBvHaqSAyXXF4vYDUv/B437jXNYfH7CNGKFQFe5YOvThvoGTSqk=
+X-Received: by 2002:a25:7486:0:b0:dc2:3f75:1f79 with SMTP id
+ 3f1490d57ef6-df772184c54mr8792593276.23.1716814624064; Mon, 27 May 2024
+ 05:57:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <sjgseqireuaswtbuwl3rvcszpsjzph4opq52x2kbudczxutz7o@2tua2oueufdd>
+References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com> <20240504-pinctrl-cleanup-v2-3-26c5f2dc1181@nxp.com>
+In-Reply-To: <20240504-pinctrl-cleanup-v2-3-26c5f2dc1181@nxp.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 27 May 2024 14:56:53 +0200
+Message-ID: <CACRpkdZ+YPAXTNU-kaA8ywBLW0RpGJBpXJqPD7aJ+B1V=axPrg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/20] pinctrl: stm32: Use scope based of_node_put() cleanups
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -83,50 +76,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: corey@minyard.net
-Cc: Corey Minyard <minyard@acm.org>, linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org, Tomer Maimon <tmaimon77@gmail.com>, Nicholas Piggin <npiggin@gmail.com>, Tali Perry <tali.perry1@gmail.com>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nancy Yuen <yuenn@google.com>, Patrick Venture <venture@google.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, kernel@pengutronix.de, Michael Ellerman <mpe@ellerman.id.au>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, openipmi-developer@lists.sourceforge.net, Andrew Jeffery <andrew@codeconstruct.com.au>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: imx@lists.linux.dev, Alexandre Belloni <alexandre.belloni@bootlin.com>, Peng Fan <peng.fan@nxp.com>, Emil Renner Berthing <kernel@esmil.dk>, Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Shawn Guo <shawnguo@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Hal Feng <hal.feng@starfivetech.com>, Fabio Estevam <festevam@gmail.com>, Ghennadi Procopciuc <ghennadi.procopciuc@oss.nxp.com>, Dan Carpenter <dan.carpenter@linaro.org>, Heiko Stuebner <heiko@sntech.de>, linux-samsung-soc@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Chunyan Zhang <zhang.lyra@gmail.com>, openbmc@lists.ozlabs.org, Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org, Ludovic Desroches <ludovic.desroches@microchip.com>, Jacky Bai <ping.bai@nxp.com>, Orson Zhai <orsonzhai@gmail.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Patrice Chotard <patrice.chotard@foss.st.com>, Chester Lin <chester62515@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Stephen Warren <swarren@wwwdotorg.org>, Sascha Hauer <s.hauer@pengutronix.de>, linux-gpio@vger.kernel.org, soc@kernel.org, Damien Le Moal <dlemoal@kernel.org>, linux-mediatek@lists.infradead.org, Baolin Wang <baolin.wang@linux.alibaba.com>, Matthias Brugger <matthias.bgg@gmail.com>, linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Dong Aisheng <aisheng.dong@nxp.com>, Matthias Brugger <mbrugger@suse.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, Sean Wang <sean.wang@kernel.org>, linux-stm32@st-md-mailman.stormreply.com, Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Jianlong Huang <jianlong.huang@starfivetech.com>, linux-riscv@lists.infradead.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Wells Lu <wellslutw@gmail.com>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, May 25, 2024 at 12:10:38PM +0200, Uwe Kleine-König wrote:
-> Hello Corey,
-> 
-> On Thu, Apr 11, 2024 at 10:11:21AM -0500, Corey Minyard wrote:
-> > On Thu, Apr 11, 2024 at 09:15:03AM +0200, Uwe Kleine-König wrote:
-> > > Hello,
-> > > 
-> > > On Tue, Mar 05, 2024 at 05:26:57PM +0100, Uwe Kleine-König wrote:
-> > > > this series converts all drivers below drivers/char/ipmi to struct
-> > > > platform_driver::remove_new(). See commit 5c5a7680e67b ("platform: Provide a
-> > > > remove callback that returns no value") for an extended explanation and the
-> > > > eventual goal.
-> > > > 
-> > > > All conversations are trivial, because their .remove() callbacks
-> > > > returned zero unconditionally.
-> > > > 
-> > > > There are no interdependencies between these patches, so they could be
-> > > > picked up individually. But I'd hope that they get picked up all
-> > > > together by Corey.
-> > 
-> > Yeah, I was kind of waiting for more reviews, but this is pretty
-> > straightforward.  I've pulled this into my tree.
-> 
-> These changes are in next since a while but didn't land in Linus tree
-> for v6.10-rc1. I intend to send a PR to Greg early next week changing
-> platform_driver::remove to match remove_new. If these commits don't make
-> it in in time, I'll be so bold and just include the commits from your
-> for-next branch in my PR.
+On Sat, May 4, 2024 at 3:13=E2=80=AFPM Peng Fan (OSS) <peng.fan@oss.nxp.com=
+> wrote:
 
-I sent them to Linus right after 6.9 dropped, let me resend...
+> From: Peng Fan <peng.fan@nxp.com>
+>
+> Use scope based of_node_put() cleanup to simplify code.
+>
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
 
--corey
+Patch applied.
 
-> 
-> Best regards
-> Uwe
-> 
-> -- 
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
-
+Yours,
+Linus Walleij
