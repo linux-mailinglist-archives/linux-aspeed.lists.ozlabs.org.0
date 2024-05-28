@@ -1,56 +1,86 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id A7C1D8CF3ED
-	for <lists+linux-aspeed@lfdr.de>; Sun, 26 May 2024 12:31:49 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTP id 0A9B08D1E4B
+	for <lists+linux-aspeed@lfdr.de>; Tue, 28 May 2024 16:16:45 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Zz6MeVHO;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VnFLY2jydz79fF
-	for <lists+linux-aspeed@lfdr.de>; Sun, 26 May 2024 20:26:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VpZ9n05DCz79TK
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 00:08:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=ukl@pengutronix.de; receiver=lists.ozlabs.org)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Zz6MeVHO;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VnFKv5kbCz3gHl
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 26 May 2024 20:25:54 +1000 (AEST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1sBB3o-0002ub-4H; Sun, 26 May 2024 12:25:04 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1sBB3i-0032ch-Nm; Sun, 26 May 2024 12:24:58 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1sBB3i-00CPaP-22;
-	Sun, 26 May 2024 12:24:58 +0200
-Date: Sun, 26 May 2024 12:24:58 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Corey Minyard <corey@minyard.net>
-Subject: Re: [PATCH 0/6] ipmi: Convert to platform remove callback returning
- void
-Message-ID: <nkhpr2ddrc4i7ai6gwamxrednx327atigoaxmamwq763bgpi46@fghhdinrqda7>
-References: <cover.1709655755.git.u.kleine-koenig@pengutronix.de>
- <3uhfeeahn2u23mxyumyxcyx4kmcxzczipkan7eqh4aslsmhxyz@zgsmwj2jvb2v>
- <Zhf9mQx/KgXOzPTs@mail.minyard.net>
- <sjgseqireuaswtbuwl3rvcszpsjzph4opq52x2kbudczxutz7o@2tua2oueufdd>
- <ZlH4KFZ3MYzelzZK@mail.minyard.net>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VpZ9g1W60z79Rl;
+	Wed, 29 May 2024 00:08:22 +1000 (AEST)
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44SDkCCF020629;
+	Tue, 28 May 2024 14:08:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc : content-type : date
+ : from : in-reply-to : message-id : mime-version : references : subject :
+ to; s=pp1; bh=lWIMffnrRym7lthZshb5Xf1FQB1FEORLfXmQXGWGktM=;
+ b=Zz6MeVHOhmDIbKwO10xp6W5bwhsmVcacoUj3e+HkEB7ofPwxpMNajcC/EL8V0LKBMqvS
+ ciU+60BG0AsscHG3Z4zEB5m3X+ArSfd0uCpK3fQz0534rOyRyqn3bh/Na8Ov26CEbgW3
+ GiyXKQPCmFAXdd4nmGDvoeNgM8D/XvtkBx6pLOaL4l2cyJgPlVzgJSiRhdSgRj5hT06J
+ IMtoeI+HTn9YlaYQ6nvxDQwg1R/nP89B6IS0UkGiizLeM0lzdxcUN1lFXxMTYxopvyN0
+ bw0vg9iIGTwwSUspXgvBMktLJ2GpNRLjJvSG040hSK/GEtdS2eD/sGZ8XMP7NUfw2x2b 9g== 
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ydf6jgavy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 May 2024 14:08:07 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44SC0AfC006684;
+	Tue, 28 May 2024 14:08:06 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ybtatffya-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 May 2024 14:08:06 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44SE83EC37093662
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 28 May 2024 14:08:05 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A044B58063;
+	Tue, 28 May 2024 14:08:03 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0A82658067;
+	Tue, 28 May 2024 14:08:03 +0000 (GMT)
+Received: from [9.24.12.86] (unknown [9.24.12.86])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 28 May 2024 14:08:02 +0000 (GMT)
+Content-Type: multipart/alternative;
+ boundary="------------vJ7uAXedVsqwd4eG70aPp9ug"
+Message-ID: <3ac517f0-0394-4310-8840-d806de5ec082@linux.ibm.com>
+Date: Tue, 28 May 2024 09:08:02 -0500
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iom6itn46xokgfg6"
-Content-Disposition: inline
-In-Reply-To: <ZlH4KFZ3MYzelzZK@mail.minyard.net>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 16/20] ARM: dts: aspeed: Add IBM P11 Fuji BMC system
+To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
+References: <20240522192524.3286237-1-eajames@linux.ibm.com>
+ <20240522192524.3286237-17-eajames@linux.ibm.com>
+Content-Language: en-US
+From: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <20240522192524.3286237-17-eajames@linux.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: wF5Lhm_U45_VCP1HApXu1a9W-za7S4wn
+X-Proofpoint-GUID: wF5Lhm_U45_VCP1HApXu1a9W-za7S4wn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-28_10,2024-05-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
+ clxscore=1015 malwarescore=0 suspectscore=0 impostorscore=0 phishscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2405010000
+ definitions=main-2405280106
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,51 +92,173 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Corey Minyard <minyard@acm.org>, linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org, Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Tali Perry <tali.perry1@gmail.com>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nancy Yuen <yuenn@google.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, kernel@pengutronix.de, Patrick Venture <venture@google.com>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, openipmi-developer@lists.sourceforge.net, Andrew Jeffery <andrew@codeconstruct.com.au>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Tomer Maimon <tmaimon77@gmail.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, broonie@kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+This is a multi-part message in MIME format.
+--------------vJ7uAXedVsqwd4eG70aPp9ug
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---iom6itn46xokgfg6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Eddie,
 
-Hello Corey,
+> +
+> +		led@6 {
+> +			reg = <6>;
+> +			default-state = "keep";
+> +			label = "opencapi-connector5";
+> +			retain-state-shutdown;
+> +			type = <PCA955X_TYPE_LED>;
+> +		};
+is led@7 not connected?
+> +
+> +		led@8 {
+> +			reg = <8>;
+> +			default-state = "keep";
+> +			label = "vrm4";
+> +			retain-state-shutdown;
+> +			type = <PCA955X_TYPE_LED>;
+> +		};
+> +
+> +		led@9 {
+> +			reg = <9>;
+> +			default-state = "keep";
+> +			label = "vrm5";
+> +			retain-state-shutdown;
+> +			type = <PCA955X_TYPE_LED>;
+> +		};
+> +
+> +		led@10 {
+> +			reg = <10>;
+> +			default-state = "keep";
+> +			label = "vrm6";
+> +			retain-state-shutdown;
+> +			type = <PCA955X_TYPE_LED>;
+> +		};
+> +
+> +		led@11 {
+> +			reg = <11>;
+> +			default-state = "keep";
+> +			label = "vrm7";
+> +			retain-state-shutdown;
+> +			type = <PCA955X_TYPE_LED>;
+> +		};
+> +
+> +		led@12 {
+> +			reg = <12>;
+> +			default-state = "keep";
+> +			label = "vrm12";
+> +			retain-state-shutdown;
+> +			type = <PCA955X_TYPE_LED>;
+> +		};
+curious about label jump from vrm7 to vrm12.
+>
+> +			cfam4_i2c10: i2c-bus@a {
+> +				reg = <10>;	/* OP3A */
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> It will be more readable to have "reg" value in hex too. I have seen similar stuff in this FSI nodes. It will be consistent with other places.
+> +
 
-On Sat, May 25, 2024 at 09:39:36AM -0500, Corey Minyard wrote:
-> On Sat, May 25, 2024 at 12:10:38PM +0200, Uwe Kleine-K=F6nig wrote:
-> > These changes are in next since a while but didn't land in Linus tree
-> > for v6.10-rc1. I intend to send a PR to Greg early next week changing
-> > platform_driver::remove to match remove_new. If these commits don't make
-> > it in in time, I'll be so bold and just include the commits from your
-> > for-next branch in my PR.
->=20
-> I sent them to Linus right after 6.9 dropped, let me resend...
+Reviewed-by: Ninad Palsule <ninad@linux.ibm.com>
 
-That worked, they landed now in Linus' tree. Thanks, that makes it a bit
-less ugly for me.
 
-Best regards
-Uwe
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---iom6itn46xokgfg6
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------vJ7uAXedVsqwd4eG70aPp9ug
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><span style="white-space: pre-wrap">Hi Eddie,</span></p>
+    <p><span style="white-space: pre-wrap">
+</span></p>
+    <blockquote type="cite"
+      cite="mid:20240522192524.3286237-17-eajames@linux.ibm.com">
+      <pre class="moz-quote-pre" wrap="">+
++		led@6 {
++			reg = &lt;6&gt;;
++			default-state = "keep";
++			label = "opencapi-connector5";
++			retain-state-shutdown;
++			type = &lt;PCA955X_TYPE_LED&gt;;
++		};</pre>
+    </blockquote>
+    is led@7 not connected?<br>
+    <blockquote type="cite"
+      cite="mid:20240522192524.3286237-17-eajames@linux.ibm.com">
+      <pre class="moz-quote-pre" wrap="">
++
++		led@8 {
++			reg = &lt;8&gt;;
++			default-state = "keep";
++			label = "vrm4";
++			retain-state-shutdown;
++			type = &lt;PCA955X_TYPE_LED&gt;;
++		};
++
++		led@9 {
++			reg = &lt;9&gt;;
++			default-state = "keep";
++			label = "vrm5";
++			retain-state-shutdown;
++			type = &lt;PCA955X_TYPE_LED&gt;;
++		};
++
++		led@10 {
++			reg = &lt;10&gt;;
++			default-state = "keep";
++			label = "vrm6";
++			retain-state-shutdown;
++			type = &lt;PCA955X_TYPE_LED&gt;;
++		};
++
++		led@11 {
++			reg = &lt;11&gt;;
++			default-state = "keep";
++			label = "vrm7";
++			retain-state-shutdown;
++			type = &lt;PCA955X_TYPE_LED&gt;;
++		};
++
++		led@12 {
++			reg = &lt;12&gt;;
++			default-state = "keep";
++			label = "vrm12";
++			retain-state-shutdown;
++			type = &lt;PCA955X_TYPE_LED&gt;;
++		};</pre>
+    </blockquote>
+    curious about label jump from vrm7 to vrm12.<br>
+    <blockquote type="cite"
+      cite="mid:20240522192524.3286237-17-eajames@linux.ibm.com">
+      <pre class="moz-quote-pre" wrap="">
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmZTDfkACgkQj4D7WH0S
-/k7BPwgAr6xD+4ieftmbUYTU20hpTMCFNQIGMGywkgy6RQbW9ETmo4DTqDfVVtQw
-rOTCz1AIpQXqREfEmaf6Z+mUHHXwl3+9M1H0VdEnDQXJNbGTEpoL7hW5fBNXeBEw
-t5OnxEpvcN3nggHf8XRynW9SSgnw7RMepD0veOWeUxe76AmJZrYOTNwgYwp61ade
-7vOgwlSmPQ6s5ygQ0YJCckbVxfthPXBwMHFmdu1NcBDIzXz+b0jYwe2ixKfZEXZz
-N8Ti522H4WgTjtr9TMXXNkQd3cjLmBMdbFLr6xtKpxrsvJKkjOlJhm+irzw+Mhgj
-b04pbiT3qFEfsmSj+LMFKeWPl29liw==
-=Qytg
------END PGP SIGNATURE-----
++			cfam4_i2c10: i2c-bus@a {
++				reg = &lt;10&gt;;	/* OP3A */
++				#address-cells = &lt;1&gt;;
++				#size-cells = &lt;0&gt;;
++
+It will be more readable to have "reg" value in hex too. I have seen similar stuff in this FSI nodes. It will be consistent with other places. 
++
+</pre>
+    </blockquote>
+    <p>Reviewed-by: Ninad Palsule <a class="moz-txt-link-rfc2396E" href="mailto:ninad@linux.ibm.com">&lt;ninad@linux.ibm.com&gt;</a></p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+  </body>
+</html>
 
---iom6itn46xokgfg6--
+--------------vJ7uAXedVsqwd4eG70aPp9ug--
+
