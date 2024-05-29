@@ -1,48 +1,48 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id 19B2B8D2E5B
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 09:36:47 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTP id 8AAB48D2E5A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 09:36:45 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=syoZjgjN;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZKbZikdO;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Vq1Fy12Q2z3wBj
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 17:28:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vq1GY3bpCz3wWj
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 17:29:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=syoZjgjN;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZKbZikdO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vq1Fs6WPQz3vx3
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2024 17:28:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vq1GS3TnZz3wM3
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2024 17:29:04 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 6F312626B8;
-	Wed, 29 May 2024 07:28:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A761AC2BD10;
-	Wed, 29 May 2024 07:28:29 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 0C847CE1185;
+	Wed, 29 May 2024 07:29:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1AD5C2BD10;
+	Wed, 29 May 2024 07:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716967712;
-	bh=KZ9GjB/xKdhFascLXvvrn/XFXsL822Oj9fyfJPoRlwQ=;
+	s=k20201202; t=1716967739;
+	bh=EoXu23rHRqFy4FBXCw2C4NbFeyQXb8OE3dkXMkUZuXY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=syoZjgjNaQzVVNQPHxNaIx4ojTvTRBEIOxxX5VqtPsGjqR/3z2onK8lcukrrGqCQF
-	 hMnhISM5t4H+uw1cKsWPr/RUyyHfnCiOJ9t1u3SI/auz9kQpNUIWVSfXigGXcMw2WR
-	 c4bDyY+q3FXD39/rgXfXsX2VNmmOVxYGestBvOn1Eq/tsAPW7DaNwEYVY9MVG5GLM0
-	 dFJH6IpFD54wGzvKoRveMaTdgnS3F4r3letEGhVwO6Q/5Lbs3+VDp3ek7oakUXuxVC
-	 N1GSXucgYvOxE1lPreyeuKIKaEWJjtf/S7U2HBw8/GTHETUFMikgVa6uh/e2gpuc/h
-	 Y6cH3XkT28LpA==
-Message-ID: <e40041ef-fb1e-4348-97b5-64487859a7f9@kernel.org>
-Date: Wed, 29 May 2024 09:28:27 +0200
+	b=ZKbZikdOAr4ICVAim/CBqcc/7xMPE7Fl8PVA18BUZpAeqk26yAtJMGngcUIg7qXQb
+	 faFerXVYyvBE4OCc603hxPgLccOCp9/PvTUe/m9c5DHzlgQRvna8dcNGn686ucCfz+
+	 4umCZ3YK1+mXEVL5t9Enxv7HDF21q++i4xDHG/i/LCM2JN4MAmTVDNJxsV4EAg2OPx
+	 /CpikfEvuRhtYX+8eJXmawGB60k6zyi+gJin0fNR5DABL8snU9vatuV/UVVCMSM5SC
+	 /G2x1ZqjonJcJMJF8Uh0IyPxpIH3PWr3Okb585RkNyTR/8FBqOZq5Vkd5bO6ztsrFY
+	 v8rmxh2OoBG6A==
+Message-ID: <35b39da8-4efd-44ae-bcc1-7f4d501e0873@kernel.org>
+Date: Wed, 29 May 2024 09:28:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dt-bindings: gpio: aspeed,sgpio: Specify
+Subject: Re: [PATCH 4/4] dt-bindings: gpio: aspeed,sgpio: Require
  #interrupt-cells
 To: Andrew Jeffery <andrew@codeconstruct.com.au>,
  Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
@@ -50,7 +50,7 @@ To: Andrew Jeffery <andrew@codeconstruct.com.au>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
 References: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-0-91c42976833b@codeconstruct.com.au>
- <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-3-91c42976833b@codeconstruct.com.au>
+ <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-4-91c42976833b@codeconstruct.com.au>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-3-91c42976833b@codeconstruct.com.au>
+In-Reply-To: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-4-91c42976833b@codeconstruct.com.au>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -115,12 +115,13 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 29/05/2024 07:13, Andrew Jeffery wrote:
-> Squash warnings such as:
+> It shouldn't have been the case that it wasn't required. The kernel
+> devicetrees already specified it where compatible nodes were defined,
+> and u-boot pulls in the kernel devicetrees, so this should have minimal
+> practical impact.
 > 
-> ```
-> /home/andrew/src/kernel.org/linux/build.aspeed_g5/arch/arm/boot/dts/aspeed/aspeed-ast2500-evb.dtb: sgpio@1e780200: '#interrupt-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
 
-Please trim the log from unnecessary path components.
+This should be squashed with previous patch.
 
 Best regards,
 Krzysztof
