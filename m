@@ -2,87 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id 67BF78D1F9D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 May 2024 17:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E02A8D2C5B
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 07:21:48 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Z/J4OL5B;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=cBCP8gOa;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VpbHY5ZWsz79XM
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 00:58:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VpyGf2W9dz3fs7
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 15:14:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Z/J4OL5B;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=cBCP8gOa;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VpbHS4WRVz3w9v;
-	Wed, 29 May 2024 00:58:28 +1000 (AEST)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44SEvZ1D016803;
-	Tue, 28 May 2024 14:58:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc : content-type : date
- : from : in-reply-to : message-id : mime-version : references : subject :
- to; s=pp1; bh=DZa9m4TzXvPaoKCrZGYgr4IIhWIR4xMd0CO8XHPIZ0Y=;
- b=Z/J4OL5BmRGCi//eVFvj1DRGmABMReB/UH/CvB8wgqmapNHoRLdI623HjjOmFCm4t5wV
- c6WCAMsOEY+4gbWeJVRY9e/CMepM8RE1xB5KWVvGwegYriCE6HPdtjn4wfGOxA4X4pCX
- E1D8me2eXOmgs8No0+8V5pSr9sXmtPexEFfmlB+GTeUMScKR7rUi7o0R8B9NUMIeMo5i
- wpMXChcnP/lFz4PlzqbjlD56YQKKbeGGvliW5RqXdVLRN2Naz54kkgKMk4V42GF4aSnV
- 6GLcQBsV7Ouxw/PcZ6TyutHq/hs6tGmRG8tSfIi/6JCfG8KGDU8nP3/DBK7hIEIPFgC6 IA== 
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ydhg0r02f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 May 2024 14:58:16 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44SC4XeR011107;
-	Tue, 28 May 2024 14:58:15 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ybtq07ktr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 May 2024 14:58:15 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44SEwCar18285216
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 May 2024 14:58:14 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 05A2E58063;
-	Tue, 28 May 2024 14:58:12 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ABA3758052;
-	Tue, 28 May 2024 14:58:11 +0000 (GMT)
-Received: from [9.24.12.86] (unknown [9.24.12.86])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 28 May 2024 14:58:11 +0000 (GMT)
-Content-Type: multipart/alternative;
- boundary="------------eTX35vjxkYI1Y4RDzyt6RYZ0"
-Message-ID: <b7270092-c1f8-4343-a564-84116b1046c7@linux.ibm.com>
-Date: Tue, 28 May 2024 09:58:11 -0500
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VpyGP4Dgrz3fmX
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2024 15:13:49 +1000 (AEST)
+Received: from [127.0.1.1] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 354BC2014A;
+	Wed, 29 May 2024 13:13:43 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1716959627;
+	bh=h4M8rZbowMLRerjP3q6tibaxSn7JV3KdcB7/Gsd+7Sg=;
+	h=From:Subject:Date:To:Cc;
+	b=cBCP8gOaeRVNkWdCtFQ7WeZ9NFuk53Mx0bIwLpK+nUMuLbR9+YC260XEDN0pyOtkV
+	 WM41jOPl5V+cuTf5P5Gdq0LCD2IIjzAbtcqyPhdfCr4OIdz9kyfxPWzCGs24Y3hBGW
+	 ZvA7L0tBX8sCwGMWnotaDdUIptUkoKLmiAHqY/XwV5aBtnY7N7MpWuMO14TExcM0dG
+	 afMnV6n5tZkIN/ANFVZ1FEFD/jw3tnBng22BejSAI/Hr2WbT4ORO+G0j1hWvUH0XpF
+	 uRM2vQjV3+RxF8a6uJrvPwWidNTsZNYv7sRmpv6dIm0Yz8Ph+MnwsPaz5byrJjAX0Z
+	 xO70/T6yc/bIg==
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH 0/4] dt-bindings: gpio: aspeed,sgpio: Miscellaneous
+ cleanups
+Date: Wed, 29 May 2024 14:43:19 +0930
+Message-Id: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-0-91c42976833b@codeconstruct.com.au>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 10/20] dt-bindings: fsi: Document the FSI Hub
- Controller
-To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
-References: <20240522192524.3286237-1-eajames@linux.ibm.com>
- <20240522192524.3286237-11-eajames@linux.ibm.com>
-Content-Language: en-US
-From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <20240522192524.3286237-11-eajames@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LkuIf9CjiphnOU9H4k0PJkVIPXOIEgiA
-X-Proofpoint-ORIG-GUID: LkuIf9CjiphnOU9H4k0PJkVIPXOIEgiA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-28_11,2024-05-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 mlxscore=0 suspectscore=0 bulkscore=0
- lowpriorityscore=0 mlxlogscore=922 phishscore=0 impostorscore=0
- clxscore=1015 adultscore=0 malwarescore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2405010000
- definitions=main-2405280112
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG+5VmYC/x2NQQqDMBAAvyJ77kIaahG/Ij2kyZouyBp2Uy2If
+ 2/wMjCXmQOMlMlg7A5Q2th4lSb3WwfxEyQTcmoO3vmH6/2AqeIeVFiyYS68ol1kqaT6LRUjLYv
+ hc+iDozn56N7QYkVp5t81ml7n+QeTDH4eeAAAAA==
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+X-Mailer: b4 0.13.0
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,44 +64,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, broonie@kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is a multi-part message in MIME format.
---------------eTX35vjxkYI1Y4RDzyt6RYZ0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hello,
 
-Hi Eddie,
+This short series fixes some SGPIO-related devicetree warnings currently
+emitted by `make dtbs_check` for Aspeed devicetrees.
 
-Reviewed-by: Ninad Palsule <ninad@linux.ibm.com>
+One change documents `#interrupt-cells` and a subseqent change makes
+it required. The property should have been both documented and marked
+as required from the start. As the change is technically not backwards
+compatible, I've split it such that we can debate the required status
+separately.
 
-Thanks & Regards,
-Ninad
+Please review!
 
+Andrew
 
---------------eTX35vjxkYI1Y4RDzyt6RYZ0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+---
+Andrew Jeffery (4):
+      dt-bindings: gpio: aspeed,sgpio: Order properties by DTS style
+      dt-bindings: gpio: aspeed,sgpio: Specify gpio-line-names
+      dt-bindings: gpio: aspeed,sgpio: Specify #interrupt-cells
+      dt-bindings: gpio: aspeed,sgpio: Require #interrupt-cells
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi Eddie,</p>
-    <p>Reviewed-by: Ninad Palsule <a class="moz-txt-link-rfc2396E" href="mailto:ninad@linux.ibm.com">&lt;ninad@linux.ibm.com&gt;</a><br>
-      <br>
-      Thanks &amp; Regards,<br>
-      Ninad<br>
-      <br>
-    </p>
-    <span style="white-space: pre-wrap">
-</span><br>
-  </body>
-</html>
+ .../devicetree/bindings/gpio/aspeed,sgpio.yaml     | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+---
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+change-id: 20240528-dt-warnings-gpio-sgpio-interrupt-cells-685a0efd2c0b
 
---------------eTX35vjxkYI1Y4RDzyt6RYZ0--
+Best regards,
+-- 
+Andrew Jeffery <andrew@codeconstruct.com.au>
 
