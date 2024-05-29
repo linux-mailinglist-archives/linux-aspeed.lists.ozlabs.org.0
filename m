@@ -2,57 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FD2D8D2E5C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 09:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12FC18D2E5D
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 09:36:50 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=je673Etj;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O3mPUk74;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Vq1DD4nlDz3vcH
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 17:27:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vq1FL5ppMz3vhc
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 17:28:06 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=je673Etj;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O3mPUk74;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vq1D43FbYz3gDK
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2024 17:27:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vq1FC451Zz3vfY
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2024 17:27:59 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 4EF18626B8;
-	Wed, 29 May 2024 07:26:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88078C2BD10;
-	Wed, 29 May 2024 07:26:54 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 46687CE16D8;
+	Wed, 29 May 2024 07:27:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E108AC32789;
+	Wed, 29 May 2024 07:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716967618;
-	bh=7rrG1rJKUVNczGau5dyk9TuLGcfgsrCcrXb8cFo1LMQ=;
+	s=k20201202; t=1716967672;
+	bh=/PDtNByBs4ZFNDB9S5UffsbT2dqU3IHApnVnLAw/iTA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=je673Etj8yHcqijlAvaeRB3ePWC7uvP0tlrCApZ2shO0+StOhoS8ROJFHPtQ4f1x3
-	 KR7R34NXamjUDvD/6/PqxYw6oSv2iOO3XJrX1aRYX2x9gJimfAp5G0trzQifZ9TemA
-	 0uPkoejD9u/2C+lsw1vHlkKdYCtZ2mAHdec3M8QWUuRXaPbtxjYuw5imB0WyZkiONb
-	 aiaVu18Weh0mgkYfnYpYqb3n7IVlp4lyW4B68+L2+nj4bL68moH8Yr8zo0J2xF9sgT
-	 PI/TuPjnKAAp4d+P/x9DVV55f1yACnsBDOzzH4AW4ZgFQCepwWQxf99ktgbaykDhKa
-	 bKCwTOGY3fDNg==
-Message-ID: <080c4c05-e795-49d8-a547-d39d10ed8333@kernel.org>
-Date: Wed, 29 May 2024 09:26:52 +0200
+	b=O3mPUk74HVM8AbJZnpZ9TumvY4eEixxkWmeLl/RAzEIA6VJO+dgMQOzNedWEWY/5d
+	 09OLjBGHq+MaQCJR1PdvLEN9p/b4/0uyn7U9X30f+5O/zh0I/8ER4+UiKOqBQW9Cbs
+	 e2trzRsz4HMwVdLzkz72jVlUM5Fnje9nJDiaGFe4RCnFRaeYHfNgLml8AlO4XeoenY
+	 SXTIFkPa9fg9XBku/cmaVYuHynm4uoC2eG8x0jMLL/OnNDU9cs4pdI/wXC8jZE6/rk
+	 FCJfbr1e0+6Fby1GZhkJDnyP4KjNEt1dJcLA4OcpwXDDv91Nocn7hPuO4HPvY0/jBy
+	 w3MGYPIa0eEfg==
+Message-ID: <5d0016f1-ccdc-4645-9840-6f8c2870ef6c@kernel.org>
+Date: Wed, 29 May 2024 09:27:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: gpio: aspeed,sgpio: Order properties by
- DTS style
+Subject: Re: [PATCH 2/4] dt-bindings: gpio: aspeed,sgpio: Specify
+ gpio-line-names
 To: Andrew Jeffery <andrew@codeconstruct.com.au>,
  Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
  <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
 References: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-0-91c42976833b@codeconstruct.com.au>
- <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-1-91c42976833b@codeconstruct.com.au>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-2-91c42976833b@codeconstruct.com.au>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -96,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-1-91c42976833b@codeconstruct.com.au>
+In-Reply-To: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-2-91c42976833b@codeconstruct.com.au>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -115,55 +115,19 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 29/05/2024 07:13, Andrew Jeffery wrote:
-> Tidy up the list of required properties and the example node by ordering
-> the properties in terms of the DTS coding style.
+> Some devicetrees specify gpio-line-names in the sgpio node despite it
+> not being defined by the binding. It's a reasonable thing to do, so
+> define the property to squash warnings such as:
 > 
-> Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-> ---
->  Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> index 46bb121360dc..6b15a3a3fb66 100644
-> --- a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> @@ -51,12 +51,12 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - gpio-controller
-> -  - '#gpio-cells'
-> +  - clocks
->    - interrupts
->    - interrupt-controller
-> +  - gpio-controller
-> +  - '#gpio-cells'
->    - ngpios
-> -  - clocks
->    - bus-frequency
+> ```
 
-No, this should have the same order as properties are listed.
+No need for ```
 
-Don't change it.
+This is just commit log. Not markdown.
 
->  
->  additionalProperties: false
-> @@ -65,13 +65,13 @@ examples:
->    - |
->      #include <dt-bindings/clock/aspeed-clock.h>
->      sgpio: sgpio@1e780200 {
-> -        #gpio-cells = <2>;
->          compatible = "aspeed,ast2500-sgpio";
-> -        gpio-controller;
-> -        interrupts = <40>;
->          reg = <0x1e780200 0x0100>;
->          clocks = <&syscon ASPEED_CLK_APB>;
-> +        interrupts = <40>;
->          interrupt-controller;
-> +        gpio-controller;
-> +        #gpio-cells = <2>;
 
-That's just example. I don't find this change useful but churn.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 
 Best regards,
 Krzysztof
