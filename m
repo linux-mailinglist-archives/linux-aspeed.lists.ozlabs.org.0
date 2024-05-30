@@ -2,48 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id 08BEB8D431F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 03:46:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3CE8D431E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 03:46:44 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RWjkJhrx;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=GJCyeMjh;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VqTTm1pBDz79CZ
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 11:40:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VqTTr4SHNz79JL
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 11:40:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RWjkJhrx;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=GJCyeMjh;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VqTTb3jjqz796s
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2024 11:40:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VqTTc19Lcz796s
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2024 11:40:20 +1000 (AEST)
 Received: from [127.0.1.1] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id AC7D12012B;
-	Thu, 30 May 2024 09:40:18 +0800 (AWST)
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 67395201EE;
+	Thu, 30 May 2024 09:40:19 +0800 (AWST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1717033219;
-	bh=1SCvZYb3nhOKFCGFtjKWFoOu9SXIs+4ZnQMej0UWIdI=;
+	d=codeconstruct.com.au; s=2022a; t=1717033220;
+	bh=ErLapQqkYUF70ZPHEVqq7CYbi3OWaCay12uuoAyOF+o=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=RWjkJhrxwBcBObJ0K8kU8WL58ykxTlzxaP4Kv/nhclY8RSr0aRrt1m9cIB6vlC5Xb
-	 lew55Xvs39WtfhzH/1NjMe0Bi+2fEQ0QVOMN6ybsdChDIf9rwiFcE/kQGMdGFJgspI
-	 Wy5wV/47vRSPlF3y2fZpwWeUotNpqvYIBNonZ+G217GZSkX8/VFGm2SqE8kKXriv40
-	 pjUvUSQ2pmlkHRkkAup7FWcqT0Gt958UTtHcY2zsM4MU570RH3ud8ZPMIVyCRw5/+v
-	 ILaiFKoeKfeNjFS7f0rQNv9RckE7fU54n3yOnbHFql5x4XJYHVX8b6qTPnIrTVEFQz
-	 tF8UXvIKeQRyA==
+	b=GJCyeMjhaKZQp+DVyfyn+RCjNQk5fZnevTUN4H4qvXsc9qwy5dtqaJiNzHgi2eDBt
+	 NcHGJA0u5NKxi9LuO010j1YdBnRPcS0zVTN3/TZbEjtNbkfdw0denWFu63IWIiOpuv
+	 B19qQMDM2i8KAzpVRzuwy8aTUO7/kMqGrsfnvSoeZiPiv5O+Z09dQ2cN/9onQaz3cH
+	 GBdiSRbcLUqtw/Ped02fX8RD9Qot/OmMz+ZD3wrTGrzxigVKA2JAz4xtZmOjGyv0FI
+	 aXs8cU6YRZ6hrJEt5FFllY14G5bZEDa61U2MKNJ4HhD5o8cf8z46VO6bBJ6rcH1n0k
+	 8DHVJ+NwCmwDA==
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-Date: Thu, 30 May 2024 11:09:48 +0930
-Subject: [PATCH v2 1/2] dt-bindings: gpio: aspeed,sgpio: Specify
- gpio-line-names
+Date: Thu, 30 May 2024 11:09:49 +0930
+Subject: [PATCH v2 2/2] dt-bindings: gpio: aspeed,sgpio: Specify
+ #interrupt-cells
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-1-912cd16e641f@codeconstruct.com.au>
+Message-Id: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-2-912cd16e641f@codeconstruct.com.au>
 References: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-0-912cd16e641f@codeconstruct.com.au>
 In-Reply-To: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-0-912cd16e641f@codeconstruct.com.au>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -63,38 +63,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Some devicetrees specify gpio-line-names in the sgpio node despite it
-not being defined by the binding. It's a reasonable thing to do, so
-define the property to squash warnings such as:
+Squash warnings such as:
 
-    arch/arm/boot/dts/aspeed/aspeed-bmc-vegman-rx20.dtb: sgpio@1e780200: 'gpio-line-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+    arch/arm/boot/dts/aspeed/aspeed-ast2500-evb.dtb: sgpio@1e780200: '#interrupt-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Also, mark #interrupt-cells as required. The kernel devicetrees already
+specified it where compatible nodes were defined, and u-boot pulls in
+the kernel devicetrees, so this should have minimal practical impact.
+
 Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 ---
  Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml | 5 +++++
  1 file changed, 5 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-index 46bb121360dc..34cdf1ad9c73 100644
+index 34cdf1ad9c73..1046f0331c09 100644
 --- a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
 +++ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-@@ -33,6 +33,11 @@ properties:
+@@ -46,6 +46,9 @@ properties:
  
-   gpio-controller: true
+   interrupt-controller: true
  
-+  # Each SGPIO is represented as a pair of input and output GPIOs
-+  gpio-line-names:
-+    minItems: 160
-+    maxItems: 256
++  '#interrupt-cells':
++    const: 2
 +
-   '#gpio-cells':
-     const: 2
+   clocks:
+     maxItems: 1
  
+@@ -60,6 +63,7 @@ required:
+   - '#gpio-cells'
+   - interrupts
+   - interrupt-controller
++  - '#interrupt-cells'
+   - ngpios
+   - clocks
+   - bus-frequency
+@@ -77,6 +81,7 @@ examples:
+         reg = <0x1e780200 0x0100>;
+         clocks = <&syscon ASPEED_CLK_APB>;
+         interrupt-controller;
++        #interrupt-cells = <2>;
+         ngpios = <80>;
+         bus-frequency = <12000000>;
+     };
 
 -- 
 2.39.2
