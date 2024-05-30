@@ -2,179 +2,102 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FDE95795D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED3795795E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:34 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJJ4Py1z7BWV
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJJ6rWCz7BX5
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector2 header.b=qrcxz7FQ;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mBZgYDuD;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=permerror (SPF Permanent Error: Void lookup limit of 2 exceeded) smtp.mailfrom=nxp.com (client-ip=2a01:111:f400:fe0c::630; helo=eur04-db3-obe.outbound.protection.outlook.com; envelope-from=peng.fan@nxp.com; receiver=lists.ozlabs.org)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on0630.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe0c::630])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::12b; helo=mail-lf1-x12b.google.com; envelope-from=thierry.reding@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VqhSB6vT8z3cVM;
-	Thu, 30 May 2024 19:54:48 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tl5M/t3u8+BD+1n7srhkihuQnzBNfsSuDqemyxcczZ6qmEdrj1mRIFdhCtNr0jWR2X5r0e+Y/73lYQUVdvJcAmYigBjECWqWxs91Q0t5fDdzC1bkPGwqhxWiMloaZQ7MchqrMVHRWwWqmqVBl1AVlKTlaqBzNWI1+86fhUF+0U0mv9E0WOIRpL2/eXZySgEGKehdQuCgE70pH2Ln6lqaerIq06l2iu8qVh1i1ViYT82bS7UioSSDQgsjC/0mVdbel/vRr4ynteNI1IqQdPYgQh7z5nMEZQLtC4o6P3i9BUFgDOb7DFpChe/zNkYtI15jUrT6MivrpHms9fh9ZyZyAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aVBMVA75AFMIO1svCaZQxOytIMz5WusV8uuGlLldlpk=;
- b=JeGx7uamHulWBURe0PtO9Cv9EFCJwvGW6YPXPepiVhQRsgc+RkgMPyZVB/8TNEMFwU1o6rJjTa1xJ9oYOy1gOFpo6egvU0dNU3cmCGm6hE2hOKqttH7OFrlIfXcTEJ7Du43IvINQfSvqHbwcEG4JEafiOw1B786TPZ/UunC3xOm7YWrWcSHkxoY7VJTYA/X692WeY2V9fcijmRRXRUkoMY3At36xpBKn9DtUK5wJeQFhTmJbNkVyENS5ikDMQIbPL3gJ/rmQMnRhWhJH3W0MBoXSjfdyCi/dGZ556EhUb4ipDON5bx3FIjvLKdECJ192rxqqqTVXje7hVwYiCypCKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aVBMVA75AFMIO1svCaZQxOytIMz5WusV8uuGlLldlpk=;
- b=qrcxz7FQfrrgeMH+LKEksrU6dI+FP0Cjbs0VSFFNbwkENqL9paCA2KXc0s79wNj7sBN4IxxTVwEo7tq/bODcdTIZGRgGFhSyQw5tyw3s5+CTLTE6wNNuF232pCVueBAwpo5wGcW2Fe+hrrvjc+5f4ptGahuTuQawUVAJHzr2GlY=
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
- by GVXPR04MB9831.eurprd04.prod.outlook.com (2603:10a6:150:11c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.32; Thu, 30 May
- 2024 09:54:23 +0000
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::557f:6fcf:a5a7:981c]) by DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::557f:6fcf:a5a7:981c%7]) with mapi id 15.20.7633.018; Thu, 30 May 2024
- 09:54:23 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: Markus Elfring <Markus.Elfring@web.de>, "soc@kernel.org" <soc@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Alim Akhtar <alim.akhtar@samsung.com>, Andrew
- Jeffery <andrew@codeconstruct.com.au>, Angelo Gioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, Chester Lin <chester62515@gmail.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Claudiu Beznea
-	<claudiu.beznea@tuxon.dev>, Damien Le Moal <dlemoal@kernel.org>, Dan
- Carpenter <dan.carpenter@linaro.org>, Aisheng Dong <aisheng.dong@nxp.com>,
-	Dvorkin Dmitry <dvorkin@tibbo.com>, Emil Renner Berthing <kernel@esmil.dk>,
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, "Ghennadi Procopciuc (OSS)"
-	<ghennadi.procopciuc@oss.nxp.com>, Hal Feng <hal.feng@starfivetech.com>,
-	=?utf-8?B?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, Jacky Bai
-	<ping.bai@nxp.com>, Jianlong Huang <jianlong.huang@starfivetech.com>, Joel
- Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>, Krzysztof
- Kozlowski <krzk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>, Matthias Brugger
-	<matthias.bgg@gmail.com>, Matthias Brugger <mbrugger@suse.com>, Maxime
- Coquelin <mcoquelin.stm32@gmail.com>, Nicolas Ferre
-	<nicolas.ferre@microchip.com>, Orson Zhai <orsonzhai@gmail.com>, Patrice
- Chotard <patrice.chotard@foss.st.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Sean Wang <sean.wang@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Shiraz
- Hashim <shiraz.linux.kernel@gmail.com>, Stephen Warren
-	<swarren@wwwdotorg.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Thierry
- Reding <thierry.reding@gmail.com>, Tony Lindgren <tony@atomide.com>, Viresh
- Kumar <vireshk@kernel.org>, Wells Lu <wellslutw@gmail.com>
-Subject: RE: [v2 18/20] pinctrl: freescale: mxs: Fix refcount of child
-Thread-Topic: [v2 18/20] pinctrl: freescale: mxs: Fix refcount of child
-Thread-Index: AQHasnbfxjMqW6dTMUak/dMe9Bcf87GviTCw
-Date: Thu, 30 May 2024 09:54:23 +0000
-Message-ID:  <DU0PR04MB94176E5675F443199330960888F32@DU0PR04MB9417.eurprd04.prod.outlook.com>
-References: <20240504-pinctrl-cleanup-v2-18-26c5f2dc1181@nxp.com>
- <aa58efd3-b502-4bed-8c84-e5d78da23fbe@web.de>
- <DU0PR04MB941783DEB48C73844CD3FDBF88F32@DU0PR04MB9417.eurprd04.prod.outlook.com>
- <1f40d455-556e-4ba8-96dd-40b49f8cc3b7@web.de>
-In-Reply-To: <1f40d455-556e-4ba8-96dd-40b49f8cc3b7@web.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU0PR04MB9417:EE_|GVXPR04MB9831:EE_
-x-ms-office365-filtering-correlation-id: 403ae6b2-94a9-483f-9d72-08dc808e7be3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230031|376005|366007|7416005|1800799015|921011|38070700009;
-x-microsoft-antispam-message-info:  =?utf-8?B?VENJZUFMUSs3U1ZwZzJrbkMxemhTZnlmM2UyajIwMGp0V2FBZWpjUXpBL0dJ?=
- =?utf-8?B?dERnaVBLa0xTRXVzOXJ2a1BVWkpTUXMxd3pLczNQVzd6RzErVUNjVlBoR01G?=
- =?utf-8?B?U291cnFDV0tndVJnTm1lUEdxSUpRbjh3d2g1Tkx3dE03eUR3MXM4V1J2VU5J?=
- =?utf-8?B?YWFKQnV2ZTVIL0VLWVlPNEovSU1rNGZVMXZnL0VtYUJrOURKZlA2SkV1N3M5?=
- =?utf-8?B?MWtEdEhYUmJrTk05LzJGVHEvN0lWU0w2NWJiSnBaL2U3b1Vkb1JNa3BQL3Nh?=
- =?utf-8?B?YVR6OVRJVEszVTU2MmpzV2VlUFN5U2ZscTJ3YlhUREl2Z3RPTWg2bmZZRWNq?=
- =?utf-8?B?NUdIVHRkQTBkOHNab29lc0V1VjR1MUxXV2NBdDdnMFdxa2UyYjFQMUlRRmZ6?=
- =?utf-8?B?Yno0WU9udzZoa3lSNUY3ZUprTUg2TFkwSzRobkNJQko2YjVkUlV1UjB0M0RQ?=
- =?utf-8?B?d0Fnd3lpZzdBOGFkQmgxSVB3K2hPL2ZaWkx2TVlGQWZQeTVVU0kyY1Brb0cr?=
- =?utf-8?B?d2pPOTZUZkZ1N3NlTmkvWm1sOHdBZ2xoM3kzN3Q3eHp0bnA5TU9MTnlnTTNj?=
- =?utf-8?B?cnRXRGVlazFrNTRXdGhxNlZPL1h2U0MzVTlXbVA4RjN2QngwcG4xMFFENGc5?=
- =?utf-8?B?dzJmZDZuKzdRT3daZUwvWm5kdG1wT2tmL3NBY01La3F1cVlmVm0rc1JLWUNh?=
- =?utf-8?B?T3UxZXd3OG1TRlRQNnlXOWZrRjlHb2Q5dDhXQ2ZGdU5vKzBWOEtpVG44ZVlJ?=
- =?utf-8?B?ajRsekVsU3Q5Q2k1MjE1SmhwVjBXaDZKZ1YvanhUZFlXOHRCRGI2TWlMNzVG?=
- =?utf-8?B?K0FBSDJUMGduRk5ua1ZaOGp0dTdtNHdHbmFia1JSbHZkcHErQitwcjNTdEgv?=
- =?utf-8?B?b0VMbTZKaldCa0EvWFpPU3NicTI2ZGFucDhPYWt0VmZCQmVMQjB2SjBSWHM4?=
- =?utf-8?B?QmJZNmZLcFdpL3VpR2lxZGFXdUtqL1NJYU5KZW1BeEZ2WnkzRGVXL2psZ0k0?=
- =?utf-8?B?QjVzdXJYWFgrVHh2NlZtNWE1MFFjeEVpQXBObDY2RmwrVXJ5dTVSZ29kZUYy?=
- =?utf-8?B?bDlkWFhwMDNCSDFHY3hMZXNMNU9mVm9UeUV6eHNXNE5PdXJqVnVxYk5iUWts?=
- =?utf-8?B?YnR1Y3AyYkFMd2l2RHVPeXZmbXpRNjZicUs3U2VCbE1NY05zeUxKTTZsa1RF?=
- =?utf-8?B?dzB2M3hwSXZjdmlPTUpJKzZPVVQ4SDRoL3V6c2dnemdZcDcvMVlmQkZFeTNz?=
- =?utf-8?B?S08vc1lxZlFobHZjT3puaTN3UWhxOFRjem5hVk5JWU5zY2ZFYm84WjlDeEhm?=
- =?utf-8?B?dGxqdUhJWC9IL2wvSnk1RGVnM3g2V0czcFBkQ3ZFeWVyZy9YQWVXUVBueFc2?=
- =?utf-8?B?WFNBUTFIdURlbi83Y1k0YW1Ia2hqMkU4dlpGQ0JuenRZb0tiaWk1eHNCV0VG?=
- =?utf-8?B?QXZzQmREODRuNm8rb28wZk5ZSnZCM2d2UGxJY0x5b0xJRUdXb3JJWnp1NGxv?=
- =?utf-8?B?RkxOb1dlckxoaFJHZ0kwU2wyWk5yT2dUVXVCa3ZwQjBldmhJS0V1bVVTMk53?=
- =?utf-8?B?bG5Xenl5TWo0L0NXSUJyUTVoOEZqdXA3U3hXN2l4SFlNd3NJTTkxQmhyR2xo?=
- =?utf-8?B?bGFHQm01MEJKcUhGaDdsTTVnQ0RsL1VWUTE3MDc2RXVSR3BGUHoyMURlbjht?=
- =?utf-8?B?SzlRejlEdThhODQyYlNZdkh4ek0wVWVwak5TdWZ5N3ZGUHpVSTBDY3IyL2lQ?=
- =?utf-8?B?TmZoY1JDWFhWTFNzT0cydWEzL0trZWpwVml5UWsrakpjL00wWGxjRnpLSzRt?=
- =?utf-8?Q?uNoVhqt/zaHRRtIgjgxHAu4xGOJz0q20XnGe0=3D?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9417.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(7416005)(1800799015)(921011)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?anZiSy9NNitpcDh3RE1PV3BIQ2drL3RhNjFNd0NWTHNSbEMrOGhERll2T3I2?=
- =?utf-8?B?d0h6MHk4SmkvOUEyT1hRNGFxVVJmRmE3T2hGbUNZMTIxdUNyU3RDR1Q0NWRM?=
- =?utf-8?B?WktyRUszRitDRithOFlkT3pEcVlEbi9ucWNjcEdNdzlFZ0Mrb3JpUUtQemMz?=
- =?utf-8?B?V2NBSWF5aXFVbjJVOHphR2lYTHI2WUNkWlZaMll4NDRseDhqNjBXQ00rbUpF?=
- =?utf-8?B?NUdHdnJFV2lZYVZwWTdvWjNOMkF6R2lsb01uL1BVZkpJMnBIUDhpWlN5M29p?=
- =?utf-8?B?SzBKOEtXenBZQTRRK0I3NHJxZ1ZkMnBpaU9NZ2Y1VXVjNllrOU1hU3NMSGpY?=
- =?utf-8?B?QzMvazJGTEVpQnd5Nm1nSnlkWGZ4aTUzV1VYcVhrU2VwbjY1MGhqaDd3T1cr?=
- =?utf-8?B?ckJmaFVtUVZkRTAwOVlYYWtmb0NiTEtWbTIrTnFWV0k4SWsxUlAxMzlpcVBn?=
- =?utf-8?B?Yk8vc3I4Tms0YjJMS2N4RjZNZWNTQVRVUzJiYXVZUnpQWGI0N2R0VmZYdWlU?=
- =?utf-8?B?TXlDd2lRYmxORExqdmlpMEdHV2E3ZlJwejlBV1Q3Y1ZzQzZPR3EycFNPQm8v?=
- =?utf-8?B?ZzBzMm1UVFVOaWFVdGdVREw0VTU5OTBTUDVMUXFVUlNQVnU4WElZU3VWRUsz?=
- =?utf-8?B?aWxxQ2RibytJTXRuOFFBR0c5NlF6Zjcxc1hNR2hzOFI0UVEySWh4bVk0MFJI?=
- =?utf-8?B?Y0c4cjk1M1Q5d3RZd2lYaFptZGYraFBPeHhsSXlnUkhLdURoc1l4OS95b3hn?=
- =?utf-8?B?QTBYK21HbzBEdnNIS0xJL3FqMUxSMzlJVDNZbjNQSFNYc3dGM3RkNTNEQ0Vx?=
- =?utf-8?B?cHhPTVVkNjU0RlJ1WGplUXFtYndsaThYVDNGeWhhWkZWSGVteGRSSUFJTlVH?=
- =?utf-8?B?b2V6c3UwQmdNL01MSHJnUERNY1VCR2sxc1RDUTlrOEpReHhaZHR4REF5dk5n?=
- =?utf-8?B?YjdsaHlzcyt0UVhIZkpUZUlGRHRMUnV5dmZpVVoyem04S0VRUWZyZk94VVhL?=
- =?utf-8?B?OXRIOURyeVV6ZFJoalpBUTAyOWhhSFJYdHhsV2hlamp1SmU5WFVzMEtnak82?=
- =?utf-8?B?ZkxkVFN0bDdzTkh2YkpDWk4xTUtTblFmZDdUMkVyNlR4K0ltWjV5Q0czZFlz?=
- =?utf-8?B?YnlkRHJDNGIwcWg4MGN3aHIrTGY5TklBamY1RVc3QTVsOERWTEp1RWc0bUI2?=
- =?utf-8?B?U2VoUjROWloydDdTeW9TMEg1ZEpCdnlKbk1tR21XS2FLMFJzaGRGaDVwVHg1?=
- =?utf-8?B?Qk8wVmxLWS9hOXZ5M0xHK0I1Z1VkSjQ0ZWZRb3d1akxyTTdJNW1aOVJ4bk5T?=
- =?utf-8?B?a1RDbWQ2QThlSmRrYVB6ckNRN09vY3pYRjhiUUZqZlpRdEMyTUhJdUU5UEpX?=
- =?utf-8?B?WXNsTXQzVDNvTG9TaXVKOUNic2RHUlVwNGZnR1RyL08yZWw1VUJrRmxpdTcy?=
- =?utf-8?B?NHRlYk1ReXpxdysyMjgwSitxYUwyZzNzUXFWMmVKTTB2SUN3QjNyUVNkMmNW?=
- =?utf-8?B?SzFncHo1OVQySmxrUlBGdGw3WVVmWmJyK2xoSEVPUVVrRDFYVVJxVkRoNmNS?=
- =?utf-8?B?ZCtMZEtJMlZLMU9yZllzZXRyQlc0QmZvamtIVjZXOGJVVlROSlQ3QS9EbDBV?=
- =?utf-8?B?QkkybkpSV2xteUs3ekxGL2J1YXNObkhiYWVNVmoxVFhqUW1uQXFPb2NLRGpn?=
- =?utf-8?B?ZmZlRlprVzRYMnYxaERlMXlRQTUzcEZmSGFSMG1EUEkwNjh1RmtWSVlvTGhF?=
- =?utf-8?B?Y2RtWnZYQSs0QkZJcElpU0lOL0Z5Q1NKZzF1NkNXSWozTVpaRER4aDFhdUJm?=
- =?utf-8?B?bjYzV0FzL2doQ05HTDNsNWwzVkttMW1zdE4xWDlzNzk2ZnFUYTduR3o1Sk13?=
- =?utf-8?B?QzF3eDhUUHU3bG5TeXRPT05nSFQvNHFGQlB5MEtJTGFmSDNSN2ZibUNDVlA0?=
- =?utf-8?B?R0FWOTRVRHBhQ0t0MjFobWYrNzB5RE4zSmdxWE42V2ZKSmlYSXNoZDVwL0ds?=
- =?utf-8?B?Z3FFOEdGaDJyQUdKY3Q1SmJZNXYrWHo5ZmFoU2x1UTU3cU9Zd3ZITjloK1FZ?=
- =?utf-8?B?RkpUZnpwOGhZQlU1ckN0RlFwNWc1a1JBVkVZMHg3bHdBM3VVQnpsSEp6c1ln?=
- =?utf-8?Q?vGFI=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9417.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 403ae6b2-94a9-483f-9d72-08dc808e7be3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2024 09:54:23.1447
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tCkwz/WjwRery8Uw5tOjY2qvgf8dF7wRvgZdU7tGGJblRrhlZlyo56ALhUif7v/18g4xkiBTwnSp1M+vhf1Aiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB9831
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VqjcC4svhz3bsT;
+	Thu, 30 May 2024 20:46:49 +1000 (AEST)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-52b7ebb2668so632267e87.2;
+        Thu, 30 May 2024 03:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717065997; x=1717670797; darn=lists.ozlabs.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kz3V9iZ9GUeS/4lYsW1iAj8Ti45jGQbQe9Z5iScKCj8=;
+        b=mBZgYDuDx0JzuFXMMXN2ZnC6VGWfxsQSD+JFzV4O7DnhPW4S6UugkFDvvWPCzwesja
+         FQ+NqUt6oiDg/mUgJgWypT/gF6gjB2EwALJS5ka6qDUTJvtOje01PYzB2SKmPgyRR5Z0
+         9Na/Mg2+9ahkf1jyxMUhyvtj+ikOG/i717oZhAn1FS1tljQMN0X47Iagyqi3aajU7lZW
+         UC3ZhQ5VvHYLfUFV/lrGDKzSKhBdBXf7HIbDsQq6zaBf19q0AKVHP3shT7Z8UQKLohXI
+         tuuFYXf38X3GKpfOTPh7Iq6b2U0VBAjyWh9RxI4L1p9uMBNSjYDG15OJ4d8Ape/K6e7O
+         cRsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717065997; x=1717670797;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Kz3V9iZ9GUeS/4lYsW1iAj8Ti45jGQbQe9Z5iScKCj8=;
+        b=lKIxfg0NbFHUidJhMzKk08iW8FCO0QGsorQY7SmhMolJlBMNLVSU3bJCBbsqHCLyMo
+         OTBVjIj5G0MBFlWGWbMQFfgWZoVXtHq1TB+MIZon1nM6mQVgTF5QxkSXf58tCvPQp1hz
+         0coBQmhg3Z8QTgceB1oIDf/VHU74nH4vXn/UPf4Dh5YP/9hbCWgEpL4dwczcIZ2HB9Ga
+         jDVRYXbswuWTfMGWZ5qjOPKPz3AKNS5xSsP84L3myHIZoUoNX+OmCPhyCV0Y0V2yCLgF
+         98CC2FhTXn8k4oHjgU5RwCvNnhnQZxab/m3Iy/sXv+k4XNKFD4K2gz7s6NsHQcAknPA3
+         uApg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8NYPhUqNAKekubw4gROeBaFS2wQXpBqI1xNPsaEZ6K+85/2+Ttv6LXl3N/hEhVGc7hNqZ5srm4TVB3WaTHxXhNT2VIC2QD3FDwZTfqHlXrqHz18GPAeduBlESTIIhokW7vAqNvTX9
+X-Gm-Message-State: AOJu0YxmZeXXGrI8p1v735cbFHxjpkBF8K3jcMkDtrgqKIRsfNegoUtZ
+	dgrpcCiVOLXIzY1kSJbU1DzklZ552Trjj9yd5EV5X4/LEAyQT7V+
+X-Google-Smtp-Source: AGHT+IF8HtLfN2jy2u5b6qrXpWEdw3o5ChBVoUHw6Bx6hyhWP9jrTNwrZOX6TBLkr1VZDWVNaz6SDA==
+X-Received: by 2002:ac2:5979:0:b0:51a:c3b8:b9cf with SMTP id 2adb3069b0e04-52b7d4b1c97mr1485781e87.69.1717065996469;
+        Thu, 30 May 2024 03:46:36 -0700 (PDT)
+Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626c9376dasm807478466b.54.2024.05.30.03.46.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 May 2024 03:46:36 -0700 (PDT)
+Content-Type: multipart/signed;
+ boundary=0af7656c2f06897086bd91562b0d7ec8235257f5e63bfa8c4a36e7a56c11;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Mime-Version: 1.0
+Date: Thu, 30 May 2024 12:46:34 +0200
+Message-Id: <D1MX3G6VN849.WKRMI0MU71Q@gmail.com>
+Subject: Re: [PATCH v2 02/20] pinctrl: tegra: Use scope based of_node_put()
+ cleanups
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, "Linus Walleij"
+ <linus.walleij@linaro.org>, "Jonathan Hunter" <jonathanh@nvidia.com>,
+ "Dvorkin Dmitry" <dvorkin@tibbo.com>, "Wells Lu" <wellslutw@gmail.com>,
+ "Maxime Coquelin" <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
+ <alexandre.torgue@foss.st.com>, "Emil Renner Berthing" <kernel@esmil.dk>,
+ "Jianlong Huang" <jianlong.huang@starfivetech.com>, "Hal Feng"
+ <hal.feng@starfivetech.com>, "Orson Zhai" <orsonzhai@gmail.com>, "Baolin
+ Wang" <baolin.wang@linux.alibaba.com>, "Chunyan Zhang"
+ <zhang.lyra@gmail.com>, "Viresh Kumar" <vireshk@kernel.org>, "Shiraz
+ Hashim" <shiraz.linux.kernel@gmail.com>, <soc@kernel.org>, "Krzysztof
+ Kozlowski" <krzk@kernel.org>, "Sylwester Nawrocki"
+ <s.nawrocki@samsung.com>, "Alim Akhtar" <alim.akhtar@samsung.com>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>, "Patrice Chotard"
+ <patrice.chotard@foss.st.com>, "Heiko Stuebner" <heiko@sntech.de>, "Damien
+ Le Moal" <dlemoal@kernel.org>, "Ludovic Desroches"
+ <ludovic.desroches@microchip.com>, "Nicolas Ferre"
+ <nicolas.ferre@microchip.com>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
+ <claudiu.beznea@tuxon.dev>, "Dong Aisheng" <aisheng.dong@nxp.com>, "Fabio
+ Estevam" <festevam@gmail.com>, "Shawn Guo" <shawnguo@kernel.org>, "Jacky
+ Bai" <ping.bai@nxp.com>, "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+ "Chester Lin" <chester62515@gmail.com>, "Matthias Brugger"
+ <mbrugger@suse.com>, "Ghennadi Procopciuc"
+ <ghennadi.procopciuc@oss.nxp.com>, "Sean Wang" <sean.wang@kernel.org>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Andrew Jeffery" <andrew@codeconstruct.com.au>,
+ "Joel Stanley" <joel@jms.id.au>, "Dan Carpenter"
+ <dan.carpenter@linaro.org>, "Tony Lindgren" <tony@atomide.com>, "Stephen
+ Warren" <swarren@wwwdotorg.org>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com>
+ <20240504-pinctrl-cleanup-v2-2-26c5f2dc1181@nxp.com>
+In-Reply-To: <20240504-pinctrl-cleanup-v2-2-26c5f2dc1181@nxp.com>
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -187,20 +110,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "imx@lists.linux.dev" <imx@lists.linux.dev>, "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>, "Peng Fan \(OSS\)" <peng.fan@oss.nxp.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, LKML <linux-kernel@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, "kernel@pengutronix.de" <kernel@pengutronix.de>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, "linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: imx@lists.linux.dev, Peng Fan <peng.fan@nxp.com>, linux-samsung-soc@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiBTdWJqZWN0OiBSZTogW3YyIDE4LzIwXSBwaW5jdHJsOiBmcmVlc2NhbGU6IG14czogRml4IHJl
-ZmNvdW50IG9mIGNoaWxkDQo+IA0KPiA+PiBIb3cgZG8geW91IHRoaW5rIGFib3V0IHRvIHVzZSB0
-aGUgc3VtbWFyeSBwaHJhc2Ug4oCcRml4IHJlZmVyZW5jZQ0KPiA+PiBjb3VudGluZyBmb3IgY2hp
-bGRyZW4gaW4gbXhzX3BpbmN0cmxfcHJvYmVfZHQoKeKAnT8NCj4gPg0KPiA+IFRoYW5rcyBmb3Ig
-cmV2aWV3aW5nLiBJIGhhdmUgbm8gcGxhbiB0byByZXdvcmsgdGhpcyBzZXJpZXMgZm9yIG5vbi1h
-Y2NlcHRlZA0KPiBwYXRjaGVzLg0KPiDigKYNCj4gDQo+IFdpbGwgZGV2ZWxvcG1lbnQgaW50ZXJl
-c3RzIGdyb3cgdG8gdGFrZSBwYXRjaCByZXZpZXcgY29uY2VybnMgYmV0dGVyIGludG8NCj4gYWNj
-b3VudCBzbyB0aGF0IGNvbW1pdCBtZXNzYWdlcyBjYW4gYmUgaW1wcm92ZWQgYW5vdGhlciBiaXQ/
-DQoNClllcy4gSSBoYWQgcmVhZCB5b3VyIGNvbW1lbnRzLCBzaW5jZSBJIG5vdCBwbGFuIHRvIHJl
-ZG8gdGhpcyBzZXJpZXMsIHNvIG5vdCByZXBseQ0KZXZlcnkgY29tbWVudC4NCg0KWW91ciBzdWdn
-ZXN0aW9ucyBhcmUgZ29vZCwgSSB3aWxsIGltcHJvdmUgaW4gbXkgZnV0dXJlIHBhdGNoIGNvbW1p
-dCBtZXNzYWdlcy4NCg0KVGhhbmtzIHZlcnkgbXVjaCENClBlbmcNCj4gDQo+IFJlZ2FyZHMsDQo+
-IE1hcmt1cw0K
+--0af7656c2f06897086bd91562b0d7ec8235257f5e63bfa8c4a36e7a56c11
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+On Sat May 4, 2024 at 3:20 PM CEST, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
+>
+> Use scope based of_node_put() cleanup to simplify code.
+>
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/pinctrl/tegra/pinctrl-tegra-xusb.c | 7 ++-----
+>  drivers/pinctrl/tegra/pinctrl-tegra.c      | 4 +---
+>  2 files changed, 3 insertions(+), 8 deletions(-)
+
+Looks good to me:
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--0af7656c2f06897086bd91562b0d7ec8235257f5e63bfa8c4a36e7a56c11
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYWQsACgkQ3SOs138+
+s6H2yBAAgeFKUkMlk3cWjVf9KNcypicIrr3j8r7LwohalNat613qoJ9YbzqqhwI4
+Gz6WRZUeiS7foiJu4a7gpc+lM2BsBe1fH2Qp8quSuXvd3qUCG7X5x3lf3NKsgqTY
+cXTyByotLJvYp5A/oUqWp1lwEyHec33GjJhuUzl7SD/HXun7zOdGWkBDonQJBlLj
+Bs5fE7wt9ekYvMAU7EHBDbIg10fvay+qWs4EJoqxhFgSgnmFSK9NrRZIW8IpWcU+
+AYMf2SPzWXdNPHij0BrXcWhV94d+XhSjSk1ERGByH2AOAr9WJ2YtrZm/W+7KVHXe
+G/4DE+Ss2wpYr6d4kAVn9GEDwH21w3DBKY38Ah/0B2SE1Nv1LXdaPD2m4SiNSIMb
+X55kEyxnrVPM9TTH9LlMKeJBwUDqohmQ9vYKDVuTVGO6Kdu3fc8euMIjCaWW7RkA
+lbmgGT83eBp279Bw72mbM83wtPgVvBY9ufV0oy6Ox8cY7D0pDOFCCxLhxYld7XT1
+7Sqg9E9rNlM/OX0QBFtCqcx/RtAY6ILPMioWUfFOS6FX8JjA9hviTvPYGNrSdvRl
+ZC6LcNmGEY9OjNMxft3NCl+kjz3fkiYyd9UglVHjAi+q4odk2HFwg93bVAEC705u
+xsy5uZQ96h1OIwzr643CV9p79G4CjuxDndqb4RfPWrnW3Dkw0iY=
+=tJx3
+-----END PGP SIGNATURE-----
+
+--0af7656c2f06897086bd91562b0d7ec8235257f5e63bfa8c4a36e7a56c11--
