@@ -2,56 +2,38 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B3CE8D431E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 03:46:44 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=GJCyeMjh;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A628D45D3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 09:12:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VqTTr4SHNz79JL
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 11:40:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vqcs45KvNz3cdV
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 17:12:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=GJCyeMjh;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=tommy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 316 seconds by postgrey-1.37 at boromir; Thu, 30 May 2024 17:12:33 AEST
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VqTTc19Lcz796s
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2024 11:40:20 +1000 (AEST)
-Received: from [127.0.1.1] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 67395201EE;
-	Thu, 30 May 2024 09:40:19 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1717033220;
-	bh=ErLapQqkYUF70ZPHEVqq7CYbi3OWaCay12uuoAyOF+o=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=GJCyeMjhaKZQp+DVyfyn+RCjNQk5fZnevTUN4H4qvXsc9qwy5dtqaJiNzHgi2eDBt
-	 NcHGJA0u5NKxi9LuO010j1YdBnRPcS0zVTN3/TZbEjtNbkfdw0denWFu63IWIiOpuv
-	 B19qQMDM2i8KAzpVRzuwy8aTUO7/kMqGrsfnvSoeZiPiv5O+Z09dQ2cN/9onQaz3cH
-	 GBdiSRbcLUqtw/Ped02fX8RD9Qot/OmMz+ZD3wrTGrzxigVKA2JAz4xtZmOjGyv0FI
-	 aXs8cU6YRZ6hrJEt5FFllY14G5bZEDa61U2MKNJ4HhD5o8cf8z46VO6bBJ6rcH1n0k
-	 8DHVJ+NwCmwDA==
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-Date: Thu, 30 May 2024 11:09:49 +0930
-Subject: [PATCH v2 2/2] dt-bindings: gpio: aspeed,sgpio: Specify
- #interrupt-cells
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vqcrx3X2mz3cZy;
+	Thu, 30 May 2024 17:12:32 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Thu, 30 May
+ 2024 15:06:56 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Thu, 30 May 2024 15:06:56 +0800
+From: Tommy Huang <tommy_huang@aspeedtech.com>
+To: <brendan.higgins@linux.dev>, <benh@kernel.crashing.org>, <joel@jms.id.au>,
+	<andi.shyti@kernel.org>, <andrew@codeconstruct.com.au>, <wsa@kernel.org>
+Subject: [PATCH] i2c: aspeed: Update the stop sw state when the bus recovry occurs
+Date: Thu, 30 May 2024 15:06:56 +0800
+Message-ID: <20240530070656.3841066-1-tommy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-2-912cd16e641f@codeconstruct.com.au>
-References: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-0-912cd16e641f@codeconstruct.com.au>
-In-Reply-To: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-0-912cd16e641f@codeconstruct.com.au>
-To: Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,54 +45,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Cc: BMC-SW@aspeedtech.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Squash warnings such as:
+When the i2c bus recovey occurs, driver will send i2c stop command
+in the scl low condition. In this case the sw state will still keep
+original situation. Under multi-master usage, i2c bus recovery will
+be called when i2c transfer timeout occurs. Update the stop command
+calling with aspeed_i2c_do_stop function to update master_state.
 
-    arch/arm/boot/dts/aspeed/aspeed-ast2500-evb.dtb: sgpio@1e780200: '#interrupt-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+Fixes: f327c686d3ba ("i2c: aspeed: added driver for Aspeed I2C")
 
-Also, mark #interrupt-cells as required. The kernel devicetrees already
-specified it where compatible nodes were defined, and u-boot pulls in
-the kernel devicetrees, so this should have minimal practical impact.
-
-Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
 ---
- Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/i2c/busses/i2c-aspeed.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-index 34cdf1ad9c73..1046f0331c09 100644
---- a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-@@ -46,6 +46,9 @@ properties:
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index ce8c4846b7fa..32f8b0c1c174 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -169,6 +169,7 @@ struct aspeed_i2c_bus {
+ };
  
-   interrupt-controller: true
+ static int aspeed_i2c_reset(struct aspeed_i2c_bus *bus);
++static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
  
-+  '#interrupt-cells':
-+    const: 2
-+
-   clocks:
-     maxItems: 1
+ static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
+ {
+@@ -187,7 +188,7 @@ static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
+ 			command);
  
-@@ -60,6 +63,7 @@ required:
-   - '#gpio-cells'
-   - interrupts
-   - interrupt-controller
-+  - '#interrupt-cells'
-   - ngpios
-   - clocks
-   - bus-frequency
-@@ -77,6 +81,7 @@ examples:
-         reg = <0x1e780200 0x0100>;
-         clocks = <&syscon ASPEED_CLK_APB>;
-         interrupt-controller;
-+        #interrupt-cells = <2>;
-         ngpios = <80>;
-         bus-frequency = <12000000>;
-     };
-
+ 		reinit_completion(&bus->cmd_complete);
+-		writel(ASPEED_I2CD_M_STOP_CMD, bus->base + ASPEED_I2C_CMD_REG);
++		aspeed_i2c_do_stop(bus);
+ 		spin_unlock_irqrestore(&bus->lock, flags);
+ 
+ 		time_left = wait_for_completion_timeout(
 -- 
-2.39.2
+2.25.1
 
