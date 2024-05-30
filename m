@@ -1,104 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AAB48D2E5A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 09:36:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTP id B5AD78D4299
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 02:56:44 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZKbZikdO;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=DcdFYA/Z;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Vq1GY3bpCz3wWj
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2024 17:29:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VqSKm2kw3z79rg
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 10:48:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZKbZikdO;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=DcdFYA/Z;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vq1GS3TnZz3wM3
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2024 17:29:04 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 0C847CE1185;
-	Wed, 29 May 2024 07:29:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1AD5C2BD10;
-	Wed, 29 May 2024 07:28:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716967739;
-	bh=EoXu23rHRqFy4FBXCw2C4NbFeyQXb8OE3dkXMkUZuXY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZKbZikdOAr4ICVAim/CBqcc/7xMPE7Fl8PVA18BUZpAeqk26yAtJMGngcUIg7qXQb
-	 faFerXVYyvBE4OCc603hxPgLccOCp9/PvTUe/m9c5DHzlgQRvna8dcNGn686ucCfz+
-	 4umCZ3YK1+mXEVL5t9Enxv7HDF21q++i4xDHG/i/LCM2JN4MAmTVDNJxsV4EAg2OPx
-	 /CpikfEvuRhtYX+8eJXmawGB60k6zyi+gJin0fNR5DABL8snU9vatuV/UVVCMSM5SC
-	 /G2x1ZqjonJcJMJF8Uh0IyPxpIH3PWr3Okb585RkNyTR/8FBqOZq5Vkd5bO6ztsrFY
-	 v8rmxh2OoBG6A==
-Message-ID: <35b39da8-4efd-44ae-bcc1-7f4d501e0873@kernel.org>
-Date: Wed, 29 May 2024 09:28:55 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VqSKX6dDfz79q8
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2024 10:48:16 +1000 (AEST)
+Received: from [192.168.68.112] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id A76CF2012A;
+	Thu, 30 May 2024 08:48:11 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1717030094;
+	bh=BL3VSBZFjB9LfmhW9pMux5iQFs+tV59KattgzjY68gk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=DcdFYA/ZptlfMYfcV4NO4o+KF/gifV+wKQ4sSxRqP95G0dKtp6DtmTY41Wz+SekIB
+	 zftLO4U3716/mBRT/9X8IImKRWNy04vYIW+Y/0sz3vRYh5qEJqHBimFY7UOUsOIino
+	 XNu+eOmv869hLH0yeykwSsFuOdcjqZ4JB7rWds0rVlB79n6pTjqTZ7pfbaisT6MI30
+	 cb95f+y96/sp3CGwy7yyGJ2II3Um1HJQFjDYHLgq5sbUOZb+BUkom92ufY+eIVG11E
+	 2Si31f036oeodXxYnt82tZwX+adjOU11ZohZFf9MjlQIfcU5PB9Yavnz9DK+z0353e
+	 Vh5I59nlhomyg==
+Message-ID: <1bcaba5063820df7fd87d887835c42e2faad9d86.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/4] dt-bindings: gpio: aspeed,sgpio: Order properties
+ by DTS style
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
+Date: Thu, 30 May 2024 10:18:10 +0930
+In-Reply-To: <080c4c05-e795-49d8-a547-d39d10ed8333@kernel.org>
+References: 	<20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-0-91c42976833b@codeconstruct.com.au>
+	 <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-1-91c42976833b@codeconstruct.com.au>
+	 <080c4c05-e795-49d8-a547-d39d10ed8333@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] dt-bindings: gpio: aspeed,sgpio: Require
- #interrupt-cells
-To: Andrew Jeffery <andrew@codeconstruct.com.au>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-References: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-0-91c42976833b@codeconstruct.com.au>
- <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-4-91c42976833b@codeconstruct.com.au>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240529-dt-warnings-gpio-sgpio-interrupt-cells-v1-4-91c42976833b@codeconstruct.com.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,15 +68,66 @@ Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-aspeed@lists
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 29/05/2024 07:13, Andrew Jeffery wrote:
-> It shouldn't have been the case that it wasn't required. The kernel
-> devicetrees already specified it where compatible nodes were defined,
-> and u-boot pulls in the kernel devicetrees, so this should have minimal
-> practical impact.
-> 
+On Wed, 2024-05-29 at 09:26 +0200, Krzysztof Kozlowski wrote:
+> On 29/05/2024 07:13, Andrew Jeffery wrote:
+> > Tidy up the list of required properties and the example node by orderin=
+g
+> > the properties in terms of the DTS coding style.
+> >=20
+> > Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+> > ---
+> >  Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml | 12 ++++++--=
+----
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml b=
+/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+> > index 46bb121360dc..6b15a3a3fb66 100644
+> > --- a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+> > +++ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+> > @@ -51,12 +51,12 @@ properties:
+> >  required:
+> >    - compatible
+> >    - reg
+> > -  - gpio-controller
+> > -  - '#gpio-cells'
+> > +  - clocks
+> >    - interrupts
+> >    - interrupt-controller
+> > +  - gpio-controller
+> > +  - '#gpio-cells'
+> >    - ngpios
+> > -  - clocks
+> >    - bus-frequency
+>=20
+> No, this should have the same order as properties are listed.
+>=20
+> Don't change it.
 
-This should be squashed with previous patch.
+Ack.
 
-Best regards,
-Krzysztof
+>=20
+> > =20
+> >  additionalProperties: false
+> > @@ -65,13 +65,13 @@ examples:
+> >    - |
+> >      #include <dt-bindings/clock/aspeed-clock.h>
+> >      sgpio: sgpio@1e780200 {
+> > -        #gpio-cells =3D <2>;
+> >          compatible =3D "aspeed,ast2500-sgpio";
+> > -        gpio-controller;
+> > -        interrupts =3D <40>;
+> >          reg =3D <0x1e780200 0x0100>;
+> >          clocks =3D <&syscon ASPEED_CLK_APB>;
+> > +        interrupts =3D <40>;
+> >          interrupt-controller;
+> > +        gpio-controller;
+> > +        #gpio-cells =3D <2>;
+>=20
+> That's just example. I don't find this change useful but churn.
 
+Sure, I'll drop the patch.
+
+Thanks,
+
+Andrew
