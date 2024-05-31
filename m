@@ -1,56 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302F48D4FE1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2024 18:32:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E25CD8D58D8
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2024 05:06:03 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eKvxHvoM;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=BokKH45L;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VqsHH026Sz3ckg
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2024 02:32:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vr7L10wLTz3cYK
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2024 13:06:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eKvxHvoM;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=BokKH45L;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VqsH361f0z30TX
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 31 May 2024 02:32:31 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 873F5CE0BDA;
-	Thu, 30 May 2024 16:32:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E210C2BBFC;
-	Thu, 30 May 2024 16:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717086743;
-	bh=OTxGST8XNys/EMwG0Pwv+gYvKJ4FkO3COc6Hrnsr/N0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eKvxHvoM9L970qC3PjwvD1ebAgB5Vi646X7qIhRXWCXnd7/3doEc1y4ujhtgFhD8g
-	 l/+ReQeD5E/fcCAcUmTpGfT4opDuTSLFcSruguuvMC20E2PxjrvBlCSHqAAV9KTboJ
-	 dTJxgTFwui+e9wwVabEhdQbSGfESq48OKRRZ6BRylIv2I4EFhOrnU29AX5zdhZTFYk
-	 b6jz8MQnCMTZJ4+SHtGwNLT+xHsvrlG7ulQQyTZ/iPaRv7ILgPVeA/JjQ2K/fdiTEz
-	 ZcW0g3k43jd/iDhQanVRc/ABP4L7qbWHWj4qkbQZ76cFI2baA3NQNWGz9tQAdUrT0j
-	 8qBv6ZvTLmf1w==
-Date: Thu, 30 May 2024 17:32:19 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: Re: [PATCH v2 2/2] dt-bindings: gpio: aspeed,sgpio: Specify
- #interrupt-cells
-Message-ID: <20240530-italics-ultra-6322f9475567@spud>
-References: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-0-912cd16e641f@codeconstruct.com.au>
- <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-2-912cd16e641f@codeconstruct.com.au>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vr7Gp2v09z30Vl;
+	Fri, 31 May 2024 13:03:13 +1000 (AEST)
+Received: from [127.0.1.1] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 97782200E0;
+	Fri, 31 May 2024 11:03:06 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1717124591;
+	bh=KcNJCLwnq4RAZ/qwQckgdLlOAEGHpzhWwOSzLGWplOk=;
+	h=From:Subject:Date:To:Cc;
+	b=BokKH45LooJ+L8pFLyk2x6SZnVKAuyBU+wMXbLJMDLigf4A8uxI2bMP+q8FGxgTuG
+	 SJT9EkAbkhLUd+lYfeXrInmK4XavfFBhwq8lSSOeECK4GvqV2XOfE0ytgOhhP8LC0T
+	 0jXzTaXvAMhQCQBkpqKHzf8wFdlHcClGY6wVutk4FHDskhkcdEaCTHZy6N/jN6PDGF
+	 5a49/bchnLENwDWKdbhEk06SpBaF84JWfA1S1Ypb5uEREKBGtseWVZVWEKRLwC8aUB
+	 jr+UkUjWXPN7/4au7Dg2WQkd5L0JzxW/zxYsXk/Csft/zFCDbCqRWNBCh6ZWqjakcD
+	 5hNzfUPJVCUSQ==
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH 0/3] dt-bindings: pinctrl: aspeed: Define missing functions
+ and groups
+Date: Fri, 31 May 2024 12:32:46 +0930
+Message-Id: <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-0-a6fe2281a1b8@codeconstruct.com.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xWG7h6S3iMDrMBsD"
-Content-Disposition: inline
-In-Reply-To: <20240530-dt-warnings-gpio-sgpio-interrupt-cells-v2-2-912cd16e641f@codeconstruct.com.au>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANY9WWYC/x2N0QoCIRAAf+XY5xbU7Ip+JXow3bOFWMX1Kjju3
+ 5Meh4GZDZQak8J12qDRm5WLDLCHCeIzSCbkNBiccd6cjhZTx09owpIVc+WCQbubjcHKEnt74bJ
+ KHKqVtSqS9bMPZ5cu/gGjWRst/P3/bvd9/wFsjBL1fwAAAA==
+To: Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
+X-Mailer: b4 0.13.0
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +63,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hello,
 
---xWG7h6S3iMDrMBsD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This short series cleans up a collection of binding warnings concerning
+use of undefined pinctrl functions and groups. Together they make a
+reasonable dent in the volume of output from `make dtbs_check` for the
+Aspeed devicetrees.
 
-On Thu, May 30, 2024 at 11:09:49AM +0930, Andrew Jeffery wrote:
-> Squash warnings such as:
->=20
->     arch/arm/boot/dts/aspeed/aspeed-ast2500-evb.dtb: sgpio@1e780200: '#in=
-terrupt-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
->=20
-> Also, mark #interrupt-cells as required. The kernel devicetrees already
-> specified it where compatible nodes were defined, and u-boot pulls in
-> the kernel devicetrees, so this should have minimal practical impact.
->=20
-> Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Please review!
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Andrew
 
-Thanks,
-Conor.
+---
+Andrew Jeffery (3):
+      dt-bindings: pinctrl: aspeed: Use block syntax for function and groups
+      dt-bindings: pinctrl: aspeed,ast2500-pinctrl: Describe SGPM
+      dt-bindings: pinctrl: aspeed,ast2600-pinctrl: Describe I3C, USB
 
---xWG7h6S3iMDrMBsD
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml   | 169 ++++++-
+ .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml   | 188 +++++++-
+ .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml   | 507 +++++++++++++++++++--
+ 3 files changed, 781 insertions(+), 83 deletions(-)
+---
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+change-id: 20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-e1464a72d84b
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+-- 
+Andrew Jeffery <andrew@codeconstruct.com.au>
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZliqEwAKCRB4tDGHoIJi
-0qKtAQDGasgNuDwkEHMlzMlvShE+BwoFZbZJcIXDNIgOUmaUgAEAvGgvfp+FbII6
-TqchReUrnKMkeo00YnftuwduREe17gk=
-=emAm
------END PGP SIGNATURE-----
-
---xWG7h6S3iMDrMBsD--
