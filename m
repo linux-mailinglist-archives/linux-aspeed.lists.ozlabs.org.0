@@ -2,55 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C508D58D3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2024 05:04:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404E68D69C6
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2024 21:32:11 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ShTKNhQn;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=C3l0Dp+k;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Vr7Hy5pNSz3cVq
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2024 13:04:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VrYCr3cxBz3dV9
+	for <lists+linux-aspeed@lfdr.de>; Sat,  1 Jun 2024 05:32:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ShTKNhQn;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=C3l0Dp+k;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vr7Gp0synz30Tt;
-	Fri, 31 May 2024 13:03:14 +1000 (AEST)
-Received: from [127.0.1.1] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 79F58203FE;
-	Fri, 31 May 2024 11:03:12 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1717124593;
-	bh=k1N7e/FjyGAeYdRbAGj1Fx0zqCZhv/g+FUwcaumYRs4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ShTKNhQnRUthkyPyWHBC1uP/46XIhgrddJloKwMvOfVX9Nj1zArKcGV2jxfz4jmGm
-	 iYAGbiDTC1ZfSxUqOe0uKxSgH22IzXLUgn6Q65rxKPW7NKysvcZ2pwl8h41WKWveCW
-	 nJlGcG87ika31jj0wSUIApQ5txiOTrn6JUC6GkfVCCuQQC1jSKenYqzatQhMHe3fwu
-	 4OBNZWD0m85FXjiVYpFT8TrRtETaflznIWl7MlbpvYSlUrAmI4cS4y12PDKWgQYHiL
-	 c4jkT5WOIKwjI5jgxbThLR/TdXO6mVo0L0LkPEoqvV3JnHYPMvuEJ4wJ6vVSbBw5Ka
-	 ML+9Z2Uw52+HA==
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-Date: Fri, 31 May 2024 12:32:49 +0930
-Subject: [PATCH 3/3] dt-bindings: pinctrl: aspeed,ast2600-pinctrl: Describe
- I3C, USB
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VrYBz3lgCz3dwG
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  1 Jun 2024 05:31:23 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 6640FCE1CC2;
+	Fri, 31 May 2024 19:31:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D735C32786;
+	Fri, 31 May 2024 19:31:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717183879;
+	bh=O2WoFSMavx99jPJmo7ZaJnxp5DHusm4ofbYWWbFHvU4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=C3l0Dp+knX1MUgyZyPf8tm0zg81p+2torVq7r9ADrEkhOAJXdZtk3Rge/SMVdbyPE
+	 g3pMOWihlXbizVZ6AiZdx5TrrRymmJYIJ8RTK/KPFGAifnhbKiEgat4EiW0Mrd9s8t
+	 Gr3OrxuVQ8THufSzUPowZk1oH7B/d0r7T68gatJH4Y5KtpSUzF004WXinbtcu2Kr7Q
+	 i4eDwvme7xU/PEwGkVDfgUvQ4nU5cQ/seHOqOkm7tSN65NYMhipbMYThassDUUrW0T
+	 E806BwsSehy9oFuO+qntFr6GI9giGa14eCGxjPOC56YValxYtpPMynUkZUwgi4K3u1
+	 l6Gejf7CoylPg==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH] arm: dts: aspeed: Use standard 'i2c' bus node name
+Date: Fri, 31 May 2024 14:31:14 -0500
+Message-ID: <20240531193115.3814887-1-robh@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-3-a6fe2281a1b8@codeconstruct.com.au>
-References: <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-0-a6fe2281a1b8@codeconstruct.com.au>
-In-Reply-To: <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-0-a6fe2281a1b8@codeconstruct.com.au>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +60,427 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-I3C1 and I3C2 become muxed functions in the mass production release of
-the AST2600. Also document the USB2A device and USB2B HID mux options.
+The standard node name for I2C buses is 'i2c'.
 
-Squash warnings such as:
-
-    arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-elbert.dtb: pinctrl: usb2ad_default:function:0: 'USB2AD' is not one of ['ADC0', 'ADC1', 'ADC10', 'ADC11', 'ADC12', 'ADC13', 'ADC14', 'ADC15', 'ADC2', 'ADC3', 'ADC4', 'ADC5', 'ADC6', 'ADC7', 'ADC8', 'ADC9', 'BMCINT', 'EMMC', 'ESPI', 'ESPIALT', 'FSI1', 'FSI2', 'FWQSPI', 'FWSPIABR', 'FWSPID', 'FWSPIWP', 'GPIT0', 'GPIT1', 'GPIT2', 'GPIT3', 'GPIT4', 'GPIT5', 'GPIT6', 'GPIT7', 'GPIU0', 'GPIU1', 'GPIU2', 'GPIU3', 'GPIU4', 'GPIU5', 'GPIU6', 'GPIU7', 'I2C1', 'I2C10', 'I2C11', 'I2C12', 'I2C13', 'I2C14', 'I2C15', 'I2C16', 'I2C2', 'I2C3', 'I2C4', 'I2C5', 'I2C6', 'I2C7', 'I2C8', 'I2C9', 'I3C3', 'I3C4', 'I3C5', 'I3C6', 'JTAGM', 'LHPD', 'LHSIRQ', 'LPC', 'LPCHC', 'LPCPD', 'LPCPME', 'LPCSMI', 'LSIRQ', 'MACLINK1', 'MACLINK2', 'MACLINK3', 'MACLINK4', 'MDIO1', 'MDIO2', 'MDIO3', 'MDIO4', 'NCTS1', 'NCTS2', 'NCTS3', 'NCTS4', 'NDCD1', 'NDCD2', 'NDCD3', 'NDCD4', 'NDSR1', 'NDSR2', 'NDSR3', 'NDSR4', 'NDTR1', 'NDTR2', 'NDTR3', 'NDTR4', 'NRI1', 'NRI2', 'NRI3', 'NR
- I4', 'NRTS1', 'NRTS2', 'NRTS3', 'NRTS4', 'OSCCLK', 'PEWAKE', 'PWM0', 'PWM1', 'PWM10', 'PWM11', 'PWM12', 'PWM13', 'PWM14', 'PWM15', 'PWM2', 'PWM3', 'PWM4', 'PWM5', 'PWM6', 'PWM7', 'PWM8', 'PWM9', 'RGMII1', 'RGMII2', 'RGMII3', 'RGMII4', 'RMII1', 'RMII2', 'RMII3', 'RMII4', 'RXD1', 'RXD2', 'RXD3', 'RXD4', 'SALT1', 'SALT10', 'SALT11', 'SALT12', 'SALT13', 'SALT14', 'SALT15', 'SALT16', 'SALT2', 'SALT3', 'SALT4', 'SALT5', 'SALT6', 'SALT7', 'SALT8', 'SALT9', 'SD1', 'SD2', 'SGPM1', 'SGPM2', 'SGPS1', 'SGPS2', 'SIOONCTRL', 'SIOPBI', 'SIOPBO', 'SIOPWREQ', 'SIOPWRGD', 'SIOS3', 'SIOS5', 'SIOSCI', 'SPI1', 'SPI1ABR', 'SPI1CS1', 'SPI1WP', 'SPI2', 'SPI2CS1', 'SPI2CS2', 'TACH0', 'TACH1', 'TACH10', 'TACH11', 'TACH12', 'TACH13', 'TACH14', 'TACH15', 'TACH2', 'TACH3', 'TACH4', 'TACH5', 'TACH6', 'TACH7', 'TACH8', 'TACH9', 'THRU0', 'THRU1', 'THRU2', 'THRU3', 'TXD1', 'TXD2', 'TXD3', 'TXD4', 'UART10', 'UART11', 'UART12', 'UART13', 'UART6', 'UART7', 'UART8', 'UART9', 'USBAD', 'USBADP', 'USB2AH', 'USB2AHP', 'USB
- 2BD', 'USB2BH', 'VB', 'VGAHS', 'VGAVS', 'WDTRST1', 'WDTRST2', 'WDTRST3', 'WDTRST4']
-
-Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- .../devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml         | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/arm/boot/dts/aspeed/aspeed-g4.dtsi | 28 +++++++++++-----------
+ arch/arm/boot/dts/aspeed/aspeed-g5.dtsi | 28 +++++++++++-----------
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 32 ++++++++++++-------------
+ 3 files changed, 44 insertions(+), 44 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
-index d0a9cc2027f8..00b6974a5ed3 100644
---- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
-@@ -88,6 +88,8 @@ additionalProperties:
-         - I2C7
-         - I2C8
-         - I2C9
-+        - I3C1
-+        - I3C2
-         - I3C3
-         - I3C4
-         - I3C5
-@@ -232,6 +234,8 @@ additionalProperties:
-         - UART7
-         - UART8
-         - UART9
-+        - USB11BHID
-+        - USB2AD
-         - USB2AH
-         - USB2AHP
-         - USB2BD
-@@ -310,6 +314,8 @@ additionalProperties:
-         - I2C7
-         - I2C8
-         - I2C9
-+        - I3C1
-+        - I3C2
-         - I3C3
-         - I3C4
-         - I3C5
-
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
+index 857cb26ed6d7..c669ec202085 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
+@@ -463,7 +463,7 @@ i2c_ic: interrupt-controller@0 {
+ 		interrupt-controller;
+ 	};
+ 
+-	i2c0: i2c-bus@40 {
++	i2c0: i2c@40 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -478,7 +478,7 @@ i2c0: i2c-bus@40 {
+ 		/* Does not need pinctrl properties */
+ 	};
+ 
+-	i2c1: i2c-bus@80 {
++	i2c1: i2c@80 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -493,7 +493,7 @@ i2c1: i2c-bus@80 {
+ 		/* Does not need pinctrl properties */
+ 	};
+ 
+-	i2c2: i2c-bus@c0 {
++	i2c2: i2c@c0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -509,7 +509,7 @@ i2c2: i2c-bus@c0 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c3: i2c-bus@100 {
++	i2c3: i2c@100 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -525,7 +525,7 @@ i2c3: i2c-bus@100 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c4: i2c-bus@140 {
++	i2c4: i2c@140 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -541,7 +541,7 @@ i2c4: i2c-bus@140 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c5: i2c-bus@180 {
++	i2c5: i2c@180 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -557,7 +557,7 @@ i2c5: i2c-bus@180 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c6: i2c-bus@1c0 {
++	i2c6: i2c@1c0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -573,7 +573,7 @@ i2c6: i2c-bus@1c0 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c7: i2c-bus@300 {
++	i2c7: i2c@300 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -589,7 +589,7 @@ i2c7: i2c-bus@300 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c8: i2c-bus@340 {
++	i2c8: i2c@340 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -605,7 +605,7 @@ i2c8: i2c-bus@340 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c9: i2c-bus@380 {
++	i2c9: i2c@380 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -621,7 +621,7 @@ i2c9: i2c-bus@380 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c10: i2c-bus@3c0 {
++	i2c10: i2c@3c0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -637,7 +637,7 @@ i2c10: i2c-bus@3c0 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c11: i2c-bus@400 {
++	i2c11: i2c@400 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -653,7 +653,7 @@ i2c11: i2c-bus@400 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c12: i2c-bus@440 {
++	i2c12: i2c@440 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -669,7 +669,7 @@ i2c12: i2c-bus@440 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c13: i2c-bus@480 {
++	i2c13: i2c@480 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+index e6f3cf3c721e..6e05cbcce49c 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+@@ -592,7 +592,7 @@ i2c_ic: interrupt-controller@0 {
+ 		interrupt-controller;
+ 	};
+ 
+-	i2c0: i2c-bus@40 {
++	i2c0: i2c@40 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -607,7 +607,7 @@ i2c0: i2c-bus@40 {
+ 		/* Does not need pinctrl properties */
+ 	};
+ 
+-	i2c1: i2c-bus@80 {
++	i2c1: i2c@80 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -622,7 +622,7 @@ i2c1: i2c-bus@80 {
+ 		/* Does not need pinctrl properties */
+ 	};
+ 
+-	i2c2: i2c-bus@c0 {
++	i2c2: i2c@c0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -638,7 +638,7 @@ i2c2: i2c-bus@c0 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c3: i2c-bus@100 {
++	i2c3: i2c@100 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -654,7 +654,7 @@ i2c3: i2c-bus@100 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c4: i2c-bus@140 {
++	i2c4: i2c@140 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -670,7 +670,7 @@ i2c4: i2c-bus@140 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c5: i2c-bus@180 {
++	i2c5: i2c@180 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -686,7 +686,7 @@ i2c5: i2c-bus@180 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c6: i2c-bus@1c0 {
++	i2c6: i2c@1c0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -702,7 +702,7 @@ i2c6: i2c-bus@1c0 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c7: i2c-bus@300 {
++	i2c7: i2c@300 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -718,7 +718,7 @@ i2c7: i2c-bus@300 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c8: i2c-bus@340 {
++	i2c8: i2c@340 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -734,7 +734,7 @@ i2c8: i2c-bus@340 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c9: i2c-bus@380 {
++	i2c9: i2c@380 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -750,7 +750,7 @@ i2c9: i2c-bus@380 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c10: i2c-bus@3c0 {
++	i2c10: i2c@3c0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -766,7 +766,7 @@ i2c10: i2c-bus@3c0 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c11: i2c-bus@400 {
++	i2c11: i2c@400 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -782,7 +782,7 @@ i2c11: i2c-bus@400 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c12: i2c-bus@440 {
++	i2c12: i2c@440 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -798,7 +798,7 @@ i2c12: i2c-bus@440 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c13: i2c-bus@480 {
++	i2c13: i2c@480 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+index 7fb421153596..0c00882f111a 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+@@ -905,7 +905,7 @@ udma: dma-controller@1e79e000 {
+ #include "aspeed-g6-pinctrl.dtsi"
+ 
+ &i2c {
+-	i2c0: i2c-bus@80 {
++	i2c0: i2c@80 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x80 0x80>;
+@@ -919,7 +919,7 @@ i2c0: i2c-bus@80 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c1: i2c-bus@100 {
++	i2c1: i2c@100 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x100 0x80>;
+@@ -933,7 +933,7 @@ i2c1: i2c-bus@100 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c2: i2c-bus@180 {
++	i2c2: i2c@180 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x180 0x80>;
+@@ -947,7 +947,7 @@ i2c2: i2c-bus@180 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c3: i2c-bus@200 {
++	i2c3: i2c@200 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x200 0x80>;
+@@ -961,7 +961,7 @@ i2c3: i2c-bus@200 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c4: i2c-bus@280 {
++	i2c4: i2c@280 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x280 0x80>;
+@@ -975,7 +975,7 @@ i2c4: i2c-bus@280 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c5: i2c-bus@300 {
++	i2c5: i2c@300 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x300 0x80>;
+@@ -989,7 +989,7 @@ i2c5: i2c-bus@300 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c6: i2c-bus@380 {
++	i2c6: i2c@380 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x380 0x80>;
+@@ -1003,7 +1003,7 @@ i2c6: i2c-bus@380 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c7: i2c-bus@400 {
++	i2c7: i2c@400 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x400 0x80>;
+@@ -1017,7 +1017,7 @@ i2c7: i2c-bus@400 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c8: i2c-bus@480 {
++	i2c8: i2c@480 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x480 0x80>;
+@@ -1031,7 +1031,7 @@ i2c8: i2c-bus@480 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c9: i2c-bus@500 {
++	i2c9: i2c@500 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x500 0x80>;
+@@ -1045,7 +1045,7 @@ i2c9: i2c-bus@500 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c10: i2c-bus@580 {
++	i2c10: i2c@580 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x580 0x80>;
+@@ -1059,7 +1059,7 @@ i2c10: i2c-bus@580 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c11: i2c-bus@600 {
++	i2c11: i2c@600 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x600 0x80>;
+@@ -1073,7 +1073,7 @@ i2c11: i2c-bus@600 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c12: i2c-bus@680 {
++	i2c12: i2c@680 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x680 0x80>;
+@@ -1087,7 +1087,7 @@ i2c12: i2c-bus@680 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c13: i2c-bus@700 {
++	i2c13: i2c@700 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x700 0x80>;
+@@ -1101,7 +1101,7 @@ i2c13: i2c-bus@700 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c14: i2c-bus@780 {
++	i2c14: i2c@780 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x780 0x80>;
+@@ -1115,7 +1115,7 @@ i2c14: i2c-bus@780 {
+ 		status = "disabled";
+ 	};
+ 
+-	i2c15: i2c-bus@800 {
++	i2c15: i2c@800 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x800 0x80>;
 -- 
-2.39.2
+2.43.0
 
