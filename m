@@ -2,63 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFE6957961
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48906957962
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJK6qRXz3bfj
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJL1dQkz7BZQ
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.210.175; helo=mail-pf1-f175.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lcUGcWY+;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62e; helo=mail-ej1-x62e.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VrDhG2jhVz30Tp;
-	Fri, 31 May 2024 17:07:09 +1000 (AEST)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6f693fb0ad4so1511019b3a.1;
-        Fri, 31 May 2024 00:07:09 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vt8x561gDz30ft
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Jun 2024 20:24:56 +1000 (AEST)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a62ef52e837so542955366b.3
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Jun 2024 03:24:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717410288; x=1718015088; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AqA1PXrwcCN98Nii3x8SpO9ZeqKqzlhOVt86I0o4hY8=;
+        b=lcUGcWY+v9mV2nSP/aMfdWXA3ZgjQZhbKiKF2hnWdu4nlKPteKb/CwNKMLYnkZbt47
+         JHIdpz1tT7keSpYYVkQXJgUeTh59B4YXBsjAgI9HYoVRl8KWWet/CyBrZRg5DvRkBor/
+         ++JTOJ5ysnDSxy5jY1zmfVH0N/efKKu5eD9aM65ptV5WXpHoABjGg6xVM9fFN0KbRMP2
+         yggBpwrfasQxrI30/cLQZxlckRTOev4KE5ChJv4fSQ7+hB9yxX6nqBGPSoaEfwIkT6vu
+         ZECi9Ed/XY+bXa/9/9APMdBzDMnV2S9SVjWDCAVu3vsDCyzrkzGRY3UgszV+et00lkpw
+         aTjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717139224; x=1717744024;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ayp9OTJcx8xBTEOWGr76ffez+fesdX+4XqGBVIDxEaQ=;
-        b=PRMruP+9VDGeslMNjSQEtqgmziweHpK/0dFwpvL1tT9G4az1JrCe7k3lP3ro7hGeac
-         xKD8hs7wURH+4+k/R5Qc1Wv+d6OARlaltATM/rRnzLWKqv9kWNZqaZaNaiupTDlLjXXU
-         S61l6gnk1m9xGyq9kPZRSVpi0Ss/RmDh3ZoMHwMgAdrd5qrxDVQYanFpYDMXpoF3/dWh
-         CLIpGlwlhk9q/+eOrcE/NtVGtxnmUYN43Aw0sNEQ2jcB6x2bVLopG0EJ69NqBbAI/ESi
-         H4r6FNT4c9w0s/OMhizeeZYmXic7uaMJM/Y9jiYpuv/rYUSNGIbFX/F8DbSu7xMwd7mQ
-         DQTA==
-X-Forwarded-Encrypted: i=1; AJvYcCXpGliRecPufBUxw/ewUgGR9zFowlsSSz3lZ+CdYYX5soa7bhQFgsWV3kk5aVSOqxfxIYpp0BMxyYiHcXojUyVsXXrL8TEGvI5FtAfKfxZ8aPDO6FgmOl4PUqVFL7GBwfCp/ww/yo1q
-X-Gm-Message-State: AOJu0YztrHe3j3w20aG58pjPD73JBrujS+g7TYdg/kDwwKTNe+wt4zOi
-	qdzk/1gUzjXXnq9eAfxBlS37mnrb+YUR7nCnGu1a/yJwbw1p11IFvzT142IW
-X-Google-Smtp-Source: AGHT+IEz0P/L6La8j5qGAIV5BAQNd6LPUpQvC4JVv6mTZ1rNlDPlo8okClld9ijFBupqxNgJgAUt2Q==
-X-Received: by 2002:a05:6a00:2da4:b0:6ec:da6c:fc2d with SMTP id d2e1a72fcca58-7024789b2d0mr1156208b3a.23.1717139224336;
-        Fri, 31 May 2024 00:07:04 -0700 (PDT)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com. [209.85.210.173])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702425da465sm790539b3a.73.2024.05.31.00.07.03
+        d=1e100.net; s=20230601; t=1717410288; x=1718015088;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AqA1PXrwcCN98Nii3x8SpO9ZeqKqzlhOVt86I0o4hY8=;
+        b=SxYOsDW4mzCE9ze3SszOwrU9tWbyyW55o7pcuJYOYcDOJLSolljY9/AEZJhTD1kkQ0
+         rGcU659s0LQC4wRpXX/92G6HIwFqbjG5wqs/HJcuEGf5lrsiNJQANqS48zjufpIv7N/R
+         bWpWyxC6tn9u4x0l3wGaEYk+dfO5cUDQaTG03CtMdu9aUUFN53qhKbxWwQKLQTvI7PQc
+         JZ0EkWOXewVKSbYR03M7jZTPh1VANDS0W2EKmjd5etjVGYmvKNzFeCMZ4cZC1nRcSWqZ
+         GDk1ttjS8DAs4SzEBttqRTLBDgH5v9iUfSDDN77X9VRo3M0yAGx7IazuIh09Y+gcWuxz
+         3O3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVcnm8vvNv8bpuqPl+cy+JaHsUtntY0JRyUqtWtKG3hX6/sZs5C49Jbsy83OObKpUqWv3y/xUzlJYXhCXvGnBQ0n18PmIHvq+8M+SClNA==
+X-Gm-Message-State: AOJu0YwwT8PFDggY+F00+YRv6BNIYgrDzvDb6PwJ6m0sQlIjnO1zGmpl
+	n5Ym5QQxCE/ob1llX3M0o65/sgEq2fAeITsiweRKWLshWYv9RAoS
+X-Google-Smtp-Source: AGHT+IF1CtcgDyhj37LHv92BCOpjLvOTVmffDU90JlA3fyLw8/2VlZTAH8nbqfafha5QeK5FmMjkNQ==
+X-Received: by 2002:a17:906:da89:b0:a59:a85d:31c6 with SMTP id a640c23a62f3a-a68224460b9mr684563466b.66.1717410287636;
+        Mon, 03 Jun 2024 03:24:47 -0700 (PDT)
+Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a68b6ef0d8esm328804366b.105.2024.06.03.03.24.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 May 2024 00:07:04 -0700 (PDT)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6f693fb0ad4so1511003b3a.1;
-        Fri, 31 May 2024 00:07:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU9XH+Ln7vpTwTvkmgJRQ7LvVf7fTS8Yfhsl83Xi2WvmJF6MOx8jVfj31pJYBZaPzPiR3tBChyliEuTX7+sYKrL59Gj+ZJ6iVcpXtw9vYZ1ejN4yZ7QqYwTMJBS+a1Q+he6sJ9DmdXR
-X-Received: by 2002:a25:5f46:0:b0:df4:f149:1fc7 with SMTP id
- 3f1490d57ef6-dfa73dc4a2dmr974775276.58.1717139203004; Fri, 31 May 2024
- 00:06:43 -0700 (PDT)
+        Mon, 03 Jun 2024 03:24:47 -0700 (PDT)
+Message-ID: <a61bb06d-bb06-49d3-82e8-7262fdbb0031@gmail.com>
+Date: Mon, 3 Jun 2024 12:24:43 +0200
 MIME-Version: 1.0
-References: <20240504-pinctrl-cleanup-v2-0-26c5f2dc1181@nxp.com>
- <CAMuHMdVprgpjDP6PDn7appofJv8Tv30nRA4+7n4sR8n6n4qy+g@mail.gmail.com> <DU0PR04MB9417FF2632A278BF6605AE1F88FC2@DU0PR04MB9417.eurprd04.prod.outlook.com>
-In-Reply-To: <DU0PR04MB9417FF2632A278BF6605AE1F88FC2@DU0PR04MB9417.eurprd04.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 31 May 2024 09:06:30 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW01HtY7d+L=44czH_dqV6bresLeF=SRqyn9p=jk3MTAw@mail.gmail.com>
-Message-ID: <CAMuHMdW01HtY7d+L=44czH_dqV6bresLeF=SRqyn9p=jk3MTAw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/20] pinctrl: Use scope based of_node_put() cleanups
-To: Peng Fan <peng.fan@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] arm: dts: nxp: lpc: lpc32xx: drop 'clocks' form
+ rtc
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+References: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
+ <20240413-rtc_dtschema-v3-1-eff368bcc471@gmail.com>
+Content-Language: en-US, de-AT
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+In-Reply-To: <20240413-rtc_dtschema-v3-1-eff368bcc471@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -71,61 +89,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "imx@lists.linux.dev" <imx@lists.linux.dev>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>, Linus Walleij <linus.walleij@linaro.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Thierry Reding <thierry.reding@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>, Shawn Guo <shawnguo@kernel.org>, "Ghennadi Procopciuc \(OSS\)" <ghennadi.procopciuc@oss.nxp.com>, Hal Feng <hal.feng@starfivetech.com>, Fabio Estevam <festevam@gmail.com>, "linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, Dan Carpenter <dan.carpenter@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>, "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Chunyan Zhang <zhang.lyra@gmail.com>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, Ludovic Desroches <ludovic.desroches@microchip.com>, Jacky Bai <ping.bai@nxp.com>, Orson Zhai <orsonzhai@gmail.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Patrice Chotard <patrice.chotard@foss.st.com>, Chester Lin <chester62515@gmail.com>, "Peng Fan \(OSS\)" <peng.fan@oss.nxp.com>, Stephen Warren <swarren@wwwdotorg.org>, Sascha Hauer <s.hauer@pengutronix.de>, "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "soc@kernel.org" <soc@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, Matthias Brugger <matthias.bgg@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Aisheng Dong <aisheng.dong@nxp.com>, Matthias Brugger <mbrugger@suse.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, Sean Wang <sean.wang@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Nicolas Ferre <nicolas.ferre@microchip.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Jianlong Huang <jianlong.huang@starfivetech.com>, "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Viresh Kumar <vireshk@kernel.org>, Wells Lu <wellslutw@gmail.com>, Emil Renner Berthing <emil.renner.berthing@canonical.com>, Shiraz Hashim <shiraz.linux.kernel@gmail.com>
+Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Javier Carrasco Cruz <javier.carrasco.cruz@gmail.com>, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Peng,
+On 13/04/2024 22:22, Javier Carrasco wrote:
+> The RTC does not provide a controllable clock signal (it uses a fixed
+> 32768 Hz crystal, the input clock of the SoC). Remove the 'clocks'
+> property to better describe the device and avoid errors when checking
+> the dts against the nxp,lpc3220-rtc binding.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> ---
+>  arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi b/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
+> index 974410918f35..f78d67e672b4 100644
+> --- a/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
+> +++ b/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
+> @@ -384,7 +384,6 @@ rtc: rtc@40024000 {
+>  				reg = <0x40024000 0x1000>;
+>  				interrupt-parent = <&sic1>;
+>  				interrupts = <20 IRQ_TYPE_LEVEL_HIGH>;
+> -				clocks = <&clk LPC32XX_CLK_RTC>;
+>  			};
+>  
+>  			gpio: gpio@40028000 {
+> 
 
-On Fri, May 31, 2024 at 5:07=E2=80=AFAM Peng Fan <peng.fan@nxp.com> wrote:
-> > Subject: Re: [PATCH v2 00/20] pinctrl: Use scope based of_node_put()
-> > cleanups
-> > On Sat, May 4, 2024 at 3:12=E2=80=AFPM Peng Fan (OSS) <peng.fan@oss.nxp=
-.com>
-> > wrote:
-> > > Use scope based of_node_put() to simplify code. It reduces the chance
-> > > of forgetting of_node_put(), and also simplifies error handling path.
-> > > I not able to test the changes on all the hardwares, so driver owners=
-,
-> > > please help review when you have time.
-> > >
-> > > This patchset was inspired from Dan's comments on pinctrl-scmi-imx.c,
-> > > thanks.
-> > >
-> > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> >
-> > Andy's question about code generation on a related patch made me wonder=
-,
-> > too.
-> >
-> > On arm32, a conversion to for_each_child_of_node_scoped() seems to cost=
- ca.
-> > 48 bytes of additional code, regardless of whether there were explicit
-> > cleanups before or not.
-> >
-> > I checked "pinctrl: renesas: Use scope based of_node_put() cleanups", a=
-nd all
-> > but the conversions in *_dt_node_to_map() cost 48 bytes each.
->
-> I am not sure this is an issue or else. What would you suggest me to do?
-> If you think extra 48bytes consumption is not good here, feel free to dro=
-p the
-> patch.
+A little reminder: the rest of the series was applied, but this patch is
+still pending.The nxp,lpc3220-rtc binding was moved to trivial-rtc.yaml
+and it is already in the mainline kernel.
 
-I suggest doing nothing about this.  I just wanted people to be aware
-of the impact.  I guess it's just part of the slow but steady increase
-of kernel size (ca. 20-30 KiB/release)... ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Best regards,
+Javier Carrasco
