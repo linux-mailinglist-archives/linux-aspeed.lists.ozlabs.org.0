@@ -1,55 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E987F8FA80A
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2024 04:03:02 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B448FBC8A
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2024 21:28:59 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=dpLdVfSz;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dYJ8h9+r;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VtYlS0qc0z3dBr
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2024 12:03:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vv0yJ3npBz2xjM
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 05:28:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=dpLdVfSz;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dYJ8h9+r;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VtYlN0NDMz30TK
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Jun 2024 12:02:56 +1000 (AEST)
-Received: from [192.168.68.112] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id A5736201B6;
-	Tue,  4 Jun 2024 10:02:54 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1717466576;
-	bh=wWRmPcmFirZAAtih3AkzVHKsH5OIiMN68xLR8oBNnrw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=dpLdVfSzJPSFbaw7WOZX2/IyBbi7NtqcTPgi/yb6jsOKOzF6hZjibXlaravhzyjPe
-	 DD9Xk5t+cK8wKP4FSlPxWOx82EWORymqtyJDOV9wlG8m6EibEunNZ7G8mhZmfsPFqD
-	 uxx77xIUfnXVwqhu9XlXMO6cIh5orl3v7nA8gpHiKv7JF7EsFfs4YKsf2VsWTHj3AF
-	 QDd2HpviGUaCLcDX91bIQHnX3MUZhuZ/kfe96SCg29rIDseDO6axvI1C3i0W9y+9UN
-	 Q7JZ0p6XqYf/C8xEcLFPD03owuun1I2dLwPaLyRq7uc9X/cG75ayqeDdJ9hNSWW+lT
-	 JWM3g2Lo8MvVw==
-Message-ID: <f4a891a6548461935129bb8ef4bed68c265567a1.camel@codeconstruct.com.au>
-Subject: Re: [PATCH] ARM: dts: aspeed: convert ASRock SPC621D8HM3 NVMEM
- content to layout syntax
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Zev Weiss <zev@bewilderbeest.net>, =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=
-	 <zajec5@gmail.com>
-Date: Tue, 04 Jun 2024 11:32:54 +0930
-In-Reply-To: <11f0a9a0-967e-4971-8ca1-4730f2881ee1@hatter.bewilderbeest.net>
-References: <20240520063044.4885-1-zajec5@gmail.com>
-	 <11f0a9a0-967e-4971-8ca1-4730f2881ee1@hatter.bewilderbeest.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vv0xD1p6pz3cYl;
+	Wed,  5 Jun 2024 05:28:00 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id E0913614CC;
+	Tue,  4 Jun 2024 19:27:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4569CC4AF08;
+	Tue,  4 Jun 2024 19:27:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717529277;
+	bh=d9Fe7tsdBxmabskw4jQSMgO/96nul7G9e2ipoJZ2Z14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dYJ8h9+r7dRuZzMFMmZpu4AU+p1FyntdgM90/jCxP0PokkSTI9DkTdIokvmc+7S0U
+	 YteB3uCDBc3JbeZfi0SZVZeoapQlFXKk5TXoWKgiTu3pQBpRbMZndp+bw/HITpow3n
+	 ePfhCYnfOeu//6dy38b/K12uGRuACssydB6DhHxzkYUV6v32SZL4gzBAtaYGyzZ7qQ
+	 nbBs7InR1Y8WTz/PG9I6kthenMC5gDgX847nkNdtsg4ZsvXxvmQaFdt//04aLYcItI
+	 OxJS0cFdV+GYcdxgQnyjTtAUUbdBJeWj5ytmFSLZdToaBOFaBgCu4YuvoheCsv11Kz
+	 nmbMjkuR7/1Dg==
+Date: Tue, 4 Jun 2024 14:27:55 -0500
+From: Rob Herring <robh@kernel.org>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: Re: [PATCH 1/3] dt-bindings: pinctrl: aspeed: Use block syntax for
+ function and groups
+Message-ID: <20240604192755.GA1065421-robh@kernel.org>
+References: <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-0-a6fe2281a1b8@codeconstruct.com.au>
+ <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-1-a6fe2281a1b8@codeconstruct.com.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-1-a6fe2281a1b8@codeconstruct.com.au>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +61,19 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 2024-06-03 at 18:21 -0700, Zev Weiss wrote:
-> On Sun, May 19, 2024 at 11:30:44PM PDT, Rafa=C5=82 Mi=C5=82ecki wrote:
-> > From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> >=20
-> > Use cleaner (and non-deprecated) bindings syntax. See commit
-> > bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout") for
-> > details.
-> >=20
-> > Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> > ---
-> > .../dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts     | 12 ++++++++----
-> > 1 file changed, 8 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts=
- b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
-> > index 555485871e7a..c4097e4f2ca4 100644
-> > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
-> > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
-> > @@ -110,11 +110,15 @@ eeprom@50 {
-> > 		compatible =3D "st,24c128", "atmel,24c128";
-> > 		reg =3D <0x50>;
-> > 		pagesize =3D <16>;
-> > -		#address-cells =3D <1>;
-> > -		#size-cells =3D <1>;
-> >=20
-> > -		eth0_macaddress: macaddress@3f80 {
-> > -			reg =3D <0x3f80 6>;
-> > +		nvmem-layout {
-> > +			compatible =3D "fixed-layout";
-> > +			#address-cells =3D <1>;
-> > +			#size-cells =3D <1>;
-> > +
-> > +			eth0_macaddress: macaddress@3f80 {
-> > +				reg =3D <0x3f80 6>;
-> > +			};
-> > 		};
-> > 	};
-> >=20
-> > --=20
-> > 2.35.3
-> >=20
->=20
-> Acked-by: Zev Weiss <zev@bewilderbeest.net>
->=20
+On Fri, May 31, 2024 at 12:32:47PM +0930, Andrew Jeffery wrote:
+> The expansion makes the documents a lot longer, but it's easier to
+> review changes to functions and groups when we're not having to deal
+> with line wrapping.
 
-Thanks, I've applied this to a tree for Joel to pick up.
+Do you really expect to be updating this frequently? I would leave it 
+as-is, but whatever you decide.
 
-Andrew
+> Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+> ---
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
