@@ -1,54 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE788FA776
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2024 03:21:33 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF45D8FA7C3
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2024 03:54:07 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=ZWeHEbLL;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=N+2j7c4p;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VtXqZ4kBxz3dRZ
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2024 11:21:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VtYY83VNrz3dLh
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2024 11:54:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=bewilderbeest.net
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=ZWeHEbLL;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=N+2j7c4p;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab; helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net; receiver=lists.ozlabs.org)
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net [IPv6:2605:2700:0:5::4713:9cab])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VtXqM3V17z3d8D
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Jun 2024 11:21:19 +1000 (AEST)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2602:61:712b:6300::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: zev)
-	by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 3BA1BB32;
-	Mon,  3 Jun 2024 18:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
-	s=thorn; t=1717464072;
-	bh=P26lzOXZeM9yyamPYPesu/4Mm4BjUKJWIf+/Tw71P6E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZWeHEbLLGeX9vffAIldLbJiXgvD2N9gwDoTJIlOMaeo4UYxV5/zZbxGMOi3EDQVAn
-	 z3uHq3jDrxYLeyIysZjd4rB0Od4S1R2Gur4WgsI4xIcQbxXqwbW+QgM+Ont/WVtJag
-	 h2JC9W6kyIIImYwkXN1YQCe5Jc32jD7+ju+yTRS0=
-Date: Mon, 3 Jun 2024 18:21:10 -0700
-From: Zev Weiss <zev@bewilderbeest.net>
-To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: convert ASRock SPC621D8HM3 NVMEM
- content to layout syntax
-Message-ID: <11f0a9a0-967e-4971-8ca1-4730f2881ee1@hatter.bewilderbeest.net>
-References: <20240520063044.4885-1-zajec5@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VtYY01f0gz3d95
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Jun 2024 11:53:55 +1000 (AEST)
+Received: from [192.168.68.112] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 56C412013B;
+	Tue,  4 Jun 2024 09:53:51 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1717466033;
+	bh=8Myg52lLWrLZOLkXAsnAEtMJuwErLEP/S/CM0D8BeoI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=N+2j7c4pxg+RU3Ui5pOQmzKgoMYWUFKHKG3B7qXpkU9UWks8sRBiil4hs5fn0W+4f
+	 sBVA5EixdQawh0U4DWtncxYLquPSpBT4a12DwB0w5vgFeiidPfcJD6jdTwvVs/hQ0Q
+	 K3bu0pvugMEJoUdc3dmieC/uRvvWanFdFd7DkbHT+JT4pYx2+Bt3rVK1aoJHZAWSax
+	 2ZLzkCYRMNxzCZxq/LkuZr8Ta2gdHfN707jRuIfVnuj7v044T9SVnaRnyyhA11+bOz
+	 9LjNi54m5R2rVeebzxiH92jeTXqH3/92lZ/SOocCc6uFoOSoMOnjangCmJZ1WnzZfu
+	 DSjkFIgGgefWg==
+Message-ID: <9375ace675ef1a6bfb00c916c940fb839ed10289.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] arm: dts: aspeed: Use standard 'i2c' bus node name
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: "Rob Herring (Arm)" <robh@kernel.org>, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
+	 <joel@jms.id.au>
+Date: Tue, 04 Jun 2024 11:23:48 +0930
+In-Reply-To: <20240531193115.3814887-1-robh@kernel.org>
+References: <20240531193115.3814887-1-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240520063044.4885-1-zajec5@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,49 +60,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, May 19, 2024 at 11:30:44PM PDT, Rafał Miłecki wrote:
->From: Rafał Miłecki <rafal@milecki.pl>
->
->Use cleaner (and non-deprecated) bindings syntax. See commit
->bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout") for
->details.
->
->Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
->---
-> .../dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts     | 12 ++++++++----
-> 1 file changed, 8 insertions(+), 4 deletions(-)
->
->diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
->index 555485871e7a..c4097e4f2ca4 100644
->--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
->+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-spc621d8hm3.dts
->@@ -110,11 +110,15 @@ eeprom@50 {
-> 		compatible = "st,24c128", "atmel,24c128";
-> 		reg = <0x50>;
-> 		pagesize = <16>;
->-		#address-cells = <1>;
->-		#size-cells = <1>;
->
->-		eth0_macaddress: macaddress@3f80 {
->-			reg = <0x3f80 6>;
->+		nvmem-layout {
->+			compatible = "fixed-layout";
->+			#address-cells = <1>;
->+			#size-cells = <1>;
->+
->+			eth0_macaddress: macaddress@3f80 {
->+				reg = <0x3f80 6>;
->+			};
-> 		};
-> 	};
->
->-- 
->2.35.3
->
+On Fri, 2024-05-31 at 14:31 -0500, Rob Herring (Arm) wrote:
+> The standard node name for I2C buses is 'i2c'.
+>=20
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-Acked-by: Zev Weiss <zev@bewilderbeest.net>
+Thanks, I've applied this a tree for Joel to pick up.
 
+Andrew
