@@ -1,56 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2198FBC92
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2024 21:30:46 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 657A28FBE74
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 00:02:27 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=vK7F3jEG;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=i4q3cb+Y;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Vv10M2Nymz3cbL
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 05:30:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vv4MH6mczz3dBr
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 08:02:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=vK7F3jEG;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=i4q3cb+Y;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vv0y91TbYz3cjS;
-	Wed,  5 Jun 2024 05:28:49 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 126916142C;
-	Tue,  4 Jun 2024 19:28:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79729C4AF07;
-	Tue,  4 Jun 2024 19:28:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717529327;
-	bh=7/YcOy5Bf8pm94Kwy+b+flUypYkdMlrw6zcx/ybLGuU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vK7F3jEGOjMbKRZze0jBxvQ//AVTxTuyb+zDGaNWmASMZLHJSKK6opW4zt9ThqqGS
-	 YP8yXb6UeS+dNo9xrrMjsAXCpNnMMqShGQW+udQCzhEQ520sDsDy9fPNywWxypWEJY
-	 vANanpCnS9hhUCvb64WlYdqF4awaf3DskFK2+sPplxQtUFJHSR/ipnLLJaTybrnAD1
-	 CVj/6S1tEMJA+8J5Z890PfFpOUNJPi/X5JML9a0RrOzKGejMNbKK33y+gyYksBoF1M
-	 B4zQ4tPepefkaEY8ccktPzR4eFyvEoTT05NW9A64PE81KWhhGaJe1Xb4Nz8vSZGV3c
-	 EZeDWmIslG5xg==
-Date: Tue, 4 Jun 2024 14:28:45 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: Re: [PATCH 3/3] dt-bindings: pinctrl: aspeed,ast2600-pinctrl:
- Describe I3C, USB
-Message-ID: <171752932281.1150170.5170215514575189840.robh@kernel.org>
-References: <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-0-a6fe2281a1b8@codeconstruct.com.au>
- <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-3-a6fe2281a1b8@codeconstruct.com.au>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vv4M84x39z30Sx
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Jun 2024 08:02:12 +1000 (AEST)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 454LqCMp009352;
+	Tue, 4 Jun 2024 21:59:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc :
+ content-transfer-encoding : date : from : message-id : mime-version :
+ subject : to; s=pp1; bh=OHYuuKn8tJ7rSUbYgVXZpxWOnvGgk1aa1oTjRBRVGS4=;
+ b=i4q3cb+YDGF8VqB19V6IAhQpX61Nn7ZfC6yTCdM8yp2tgfOA6SYWRyoOPuxR1+inR5/1
+ wva8yBRXckEq7gm/WajmB8Vv4tji1gdXQp24O1Fx4wPzP6ebuT7O9TS3kyw+KuVKHttg
+ vN+VTMAkOIaeVQku5CtTpPYM8qSXCD5eSV4x+j29DbzEs9gIQJbQUJLfP4oNTdAUi9Hv
+ THTvcimKZH/sDzgwAVO52sSnEE36WdVeYrBKabFyBl1lyaxQT9EKK0SCZdbAyQJrk81w
+ 1xnnCJGoW0/D/A5OFa+VNiQhoDEz9u3QbXBDyQx7pwBY3VsgfcWMnzIJBS+43ror4sX9 Iw== 
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yjax7g1ej-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Jun 2024 21:59:48 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 454LjC1x008501;
+	Tue, 4 Jun 2024 21:59:47 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ygec0rq47-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Jun 2024 21:59:47 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 454Lxife15270642
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 4 Jun 2024 21:59:46 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3B2BF58064;
+	Tue,  4 Jun 2024 21:59:44 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F2F7858062;
+	Tue,  4 Jun 2024 21:59:43 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  4 Jun 2024 21:59:43 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+        andrew@codeconstruct.com.au
+Subject: [PATCH v1] ARM: dts: aspeed: System1: Updates to BMC board
+Date: Tue,  4 Jun 2024 16:59:39 -0500
+Message-Id: <20240604215939.1967329-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-3-a6fe2281a1b8@codeconstruct.com.au>
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: -Vetq6Mejqa7zfwIUkmji2p2f6zF51Xz
+X-Proofpoint-ORIG-GUID: -Vetq6Mejqa7zfwIUkmji2p2f6zF51Xz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-04_11,2024-06-04_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 clxscore=1011 lowpriorityscore=0 mlxlogscore=779 mlxscore=0
+ malwarescore=0 adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2406040177
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +88,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+- Added new power monitor device max5970
+- Changed temperature sensor monitor chip from tmp423 to tmp432
 
-On Fri, 31 May 2024 12:32:49 +0930, Andrew Jeffery wrote:
-> I3C1 and I3C2 become muxed functions in the mass production release of
-> the AST2600. Also document the USB2A device and USB2B HID mux options.
->=20
-> Squash warnings such as:
->=20
->     arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-elbert.dtb: pinctrl: usb=
-2ad_default:function:0: 'USB2AD' is not one of ['ADC0', 'ADC1', 'ADC10', 'A=
-DC11', 'ADC12', 'ADC13', 'ADC14', 'ADC15', 'ADC2', 'ADC3', 'ADC4', 'ADC5', =
-'ADC6', 'ADC7', 'ADC8', 'ADC9', 'BMCINT', 'EMMC', 'ESPI', 'ESPIALT', 'FSI1'=
-, 'FSI2', 'FWQSPI', 'FWSPIABR', 'FWSPID', 'FWSPIWP', 'GPIT0', 'GPIT1', 'GPI=
-T2', 'GPIT3', 'GPIT4', 'GPIT5', 'GPIT6', 'GPIT7', 'GPIU0', 'GPIU1', 'GPIU2'=
-, 'GPIU3', 'GPIU4', 'GPIU5', 'GPIU6', 'GPIU7', 'I2C1', 'I2C10', 'I2C11', 'I=
-2C12', 'I2C13', 'I2C14', 'I2C15', 'I2C16', 'I2C2', 'I2C3', 'I2C4', 'I2C5', =
-'I2C6', 'I2C7', 'I2C8', 'I2C9', 'I3C3', 'I3C4', 'I3C5', 'I3C6', 'JTAGM', 'L=
-HPD', 'LHSIRQ', 'LPC', 'LPCHC', 'LPCPD', 'LPCPME', 'LPCSMI', 'LSIRQ', 'MACL=
-INK1', 'MACLINK2', 'MACLINK3', 'MACLINK4', 'MDIO1', 'MDIO2', 'MDIO3', 'MDIO=
-4', 'NCTS1', 'NCTS2', 'NCTS3', 'NCTS4', 'NDCD1', 'NDCD2', 'NDCD3', 'NDCD4',=
- 'NDSR1', 'NDSR2', 'NDSR3', 'NDSR4', 'NDTR1', 'NDTR2', 'NDTR3', 'NDTR4', 'N=
-RI1', 'NRI2', 'NRI3', 'NR
->  I4', 'NRTS1', 'NRTS2', 'NRTS3', 'NRTS4', 'OSCCLK', 'PEWAKE', 'PWM0', 'PW=
-M1', 'PWM10', 'PWM11', 'PWM12', 'PWM13', 'PWM14', 'PWM15', 'PWM2', 'PWM3', =
-'PWM4', 'PWM5', 'PWM6', 'PWM7', 'PWM8', 'PWM9', 'RGMII1', 'RGMII2', 'RGMII3=
-', 'RGMII4', 'RMII1', 'RMII2', 'RMII3', 'RMII4', 'RXD1', 'RXD2', 'RXD3', 'R=
-XD4', 'SALT1', 'SALT10', 'SALT11', 'SALT12', 'SALT13', 'SALT14', 'SALT15', =
-'SALT16', 'SALT2', 'SALT3', 'SALT4', 'SALT5', 'SALT6', 'SALT7', 'SALT8', 'S=
-ALT9', 'SD1', 'SD2', 'SGPM1', 'SGPM2', 'SGPS1', 'SGPS2', 'SIOONCTRL', 'SIOP=
-BI', 'SIOPBO', 'SIOPWREQ', 'SIOPWRGD', 'SIOS3', 'SIOS5', 'SIOSCI', 'SPI1', =
-'SPI1ABR', 'SPI1CS1', 'SPI1WP', 'SPI2', 'SPI2CS1', 'SPI2CS2', 'TACH0', 'TAC=
-H1', 'TACH10', 'TACH11', 'TACH12', 'TACH13', 'TACH14', 'TACH15', 'TACH2', '=
-TACH3', 'TACH4', 'TACH5', 'TACH6', 'TACH7', 'TACH8', 'TACH9', 'THRU0', 'THR=
-U1', 'THRU2', 'THRU3', 'TXD1', 'TXD2', 'TXD3', 'TXD4', 'UART10', 'UART11', =
-'UART12', 'UART13', 'UART6', 'UART7', 'UART8', 'UART9', 'USBAD', 'USBADP', =
-'USB2AH', 'USB2AHP', 'USB
->  2BD', 'USB2BH', 'VB', 'VGAHS', 'VGAVS', 'WDTRST1', 'WDTRST2', 'WDTRST3',=
- 'WDTRST4']
->=20
-> Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-> ---
->  .../devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml         | 6 =
-++++++
->  1 file changed, 6 insertions(+)
->=20
+Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+---
+ arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+index dcbc16308ab50..e09a6b383ba49 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+@@ -753,6 +753,11 @@ &i2c4 {
+ &i2c5 {
+ 	status = "okay";
+ 
++	power-monitor@3a {
++		compatible = "maxim,max5970";
++		reg = <0x3a>;
++	};
++
+ 	regulator@42 {
+ 		compatible = "infineon,ir38263";
+ 		reg = <0x42>;
+@@ -1138,7 +1143,7 @@ i2c8mux0chn6: i2c@6 {
+ 			reg = <6>;
+ 
+ 			temperature-sensor@4c {
+-				compatible = "ti,tmp423";
++				compatible = "ti,tmp432";
+ 				reg = <0x4c>;
+ 			};
+ 		};
+@@ -1599,7 +1604,7 @@ i2c15mux0chn6: i2c@6 {
+ 			reg = <6>;
+ 
+ 			temperature-sensor@4c {
+-				compatible = "ti,tmp423";
++				compatible = "ti,tmp432";
+ 				reg = <0x4c>;
+ 			};
+ 		};
+@@ -1615,7 +1620,7 @@ regulator@40 {
+ 			};
+ 
+ 			temperature-sensor@4c {
+-				compatible = "ti,tmp423";
++				compatible = "ti,tmp432";
+ 				reg = <0x4c>;
+ 			};
+ 		};
+-- 
+2.40.1
 
