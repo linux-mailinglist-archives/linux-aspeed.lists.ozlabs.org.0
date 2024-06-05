@@ -2,83 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7788FD890
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 23:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BDA8FD8B7
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 23:26:04 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=oUef40pX;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Hnz9qoQf;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VvgTp19L7z3cWc
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 07:25:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VvgVy0w6Lz3cNc
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 07:26:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=oUef40pX;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Hnz9qoQf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VvgS66CpBz3cLk;
-	Thu,  6 Jun 2024 07:23:34 +1000 (AEST)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 455KuLSu008989;
-	Wed, 5 Jun 2024 21:23:24 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VvgS95SSFz3cTD;
+	Thu,  6 Jun 2024 07:23:37 +1000 (AEST)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 455KujBr001492;
+	Wed, 5 Jun 2024 21:23:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc :
  content-transfer-encoding : date : from : in-reply-to : message-id :
  mime-version : references : subject : to; s=pp1;
- bh=4QzZpzonx2C/GWGQRLgt495aUpGk9FXO31kMVCNBj/A=;
- b=oUef40pXu2VwbN+gnGv2CX56jn8pFY2xm7G+c8AYpNC0tN1y+hvhkaUQhnHRfBMoHdnt
- yJ0C+DJfY7bprR+k+LNI0uAAZ18fHhN69kX3Pl3yDGFasYh2xWyZzWTqnh4hH7zSVI7C
- 0xDEGXGhLSVbp2Hqdm31mblNWE9md8O+mGvakg9LAmJw1l0ZJLHmwxsK6VK4YjZ9oCSG
- N1pwz4mC3GiUfQfzuwBUtQOqMyFNKQQe/cozNcoFLLVsdHzwKm4h7bMztxMqmEn3JNn+
- qRV13Ed8wQNXjY0gJpk5LLSl+6H7RmupKlpjWogMOdQ/8lw2jEYMj37nLKNGWna/M2MB 8w== 
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yjy09g4hn-1
+ bh=7144/LG2eNgprd/415eaf17snNBOk8+YXJ4liDEExS4=;
+ b=Hnz9qoQfLlYK1z9pOG3ZjpNsxjMGqKoy5B44PYAjz19geFUXipws6KjO10JMJmM09rkb
+ hG+YYFzhFQrMUEB5Bo2Hfv9oYTIbJifbh4ZPHbd2/00bbUV+FAxadR7GbFzZsO3UM0ZS
+ Tkj+fzNwwLic/bGFn13YPugrKkLPQTsN/CYnlQBW3bmz4ugkq4+c0xH8rKAIfnNoy0y4
+ 5SLM3SA6OqBrQI7fSNK35QL4FVw+cImVNhStIn+lVpn9aF7VvuQm4C0iODqrbVfZj/bJ
+ W6ahSSwr5snqa5g3PJKz0nbNdG0/pE0KIxf+Zb6TuCGhGieandJ+KKx5rXRSFoZGrtAz ig== 
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yjwppgcg6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Jun 2024 21:23:24 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 455IKamw000800;
-	Wed, 5 Jun 2024 21:23:23 GMT
+	Wed, 05 Jun 2024 21:23:25 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 455LKarF026550;
+	Wed, 5 Jun 2024 21:23:25 GMT
 Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ygdyu6wsd-1
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3yggp366fh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Jun 2024 21:23:23 +0000
+	Wed, 05 Jun 2024 21:23:25 +0000
 Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 455LNJ3X35914296
+	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 455LNL6f40042806
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 5 Jun 2024 21:23:21 GMT
+	Wed, 5 Jun 2024 21:23:23 GMT
 Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3BD6F58043;
+	by IMSVA (Postfix) with ESMTP id 7F84358060;
 	Wed,  5 Jun 2024 21:23:19 +0000 (GMT)
 Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F3CFE58069;
-	Wed,  5 Jun 2024 21:23:18 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 423615806E;
+	Wed,  5 Jun 2024 21:23:19 +0000 (GMT)
 Received: from slate16.aus.stglabs.ibm.com (unknown [9.61.121.242])
 	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  5 Jun 2024 21:23:18 +0000 (GMT)
+	Wed,  5 Jun 2024 21:23:19 +0000 (GMT)
 From: Eddie James <eajames@linux.ibm.com>
 To: linux-fsi@lists.ozlabs.org
-Subject: [PATCH v4 19/40] fsi: aspeed: Only read result register for successful read
-Date: Wed,  5 Jun 2024 16:22:51 -0500
-Message-Id: <20240605212312.349188-20-eajames@linux.ibm.com>
+Subject: [PATCH v4 20/40] fsi: aspeed: Switch to spinlock
+Date: Wed,  5 Jun 2024 16:22:52 -0500
+Message-Id: <20240605212312.349188-21-eajames@linux.ibm.com>
 X-Mailer: git-send-email 2.39.3
 In-Reply-To: <20240605212312.349188-1-eajames@linux.ibm.com>
 References: <20240605212312.349188-1-eajames@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: WyZUdmPUEFb-KTk3rBj0-JV6II_TORz0
-X-Proofpoint-GUID: WyZUdmPUEFb-KTk3rBj0-JV6II_TORz0
+X-Proofpoint-ORIG-GUID: tUwL7hjLp28dY9WByyu26kuCsCiScvUz
+X-Proofpoint-GUID: tUwL7hjLp28dY9WByyu26kuCsCiScvUz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-05_02,2024-06-05_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- priorityscore=1501 adultscore=0 mlxlogscore=999 impostorscore=0
- suspectscore=0 clxscore=1015 spamscore=0 phishscore=0 bulkscore=0
- lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2405010000 definitions=main-2406050160
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ adultscore=0 mlxlogscore=988 malwarescore=0 mlxscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2406050160
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,62 +94,129 @@ Cc: andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, jk@ozlabs.org, alistai
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-No reason to read the result in the error path, and remove the
-null pointer check on the output, as it should never be null.
+In preparation for interrupt support, switch to a spinlock rather
+than a mutex.
 
 Signed-off-by: Eddie James <eajames@linux.ibm.com>
 ---
- drivers/fsi/fsi-master-aspeed.c | 29 +++++++++++++----------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+ drivers/fsi/fsi-master-aspeed.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-index f840c7c4a56b9..10ca23cf58c2e 100644
+index 10ca23cf58c2e..176e596b4391b 100644
 --- a/drivers/fsi/fsi-master-aspeed.c
 +++ b/drivers/fsi/fsi-master-aspeed.c
-@@ -181,8 +181,6 @@ static int __opb_read(struct fsi_master_aspeed *aspeed, uint32_t addr,
- 	writel(OPB0_XFER_ACK_EN, base + OPB_IRQ_STATUS);
- 	status = readl(base + OPB0_STATUS);
+@@ -8,11 +8,11 @@
+ #include <linux/io.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+-#include <linux/mutex.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
++#include <linux/spinlock.h>
+ #include <linux/iopoll.h>
+ #include <linux/gpio/consumer.h>
  
--	result = readl(base + OPB0_FSI_DATA_R);
--
- 	/* Return error when poll timed out */
- 	if (ret) {
- 		trace_fsi_master_aspeed_timeout(reg, status, true);
-@@ -193,21 +191,20 @@ static int __opb_read(struct fsi_master_aspeed *aspeed, uint32_t addr,
- 	if (status & STATUS_ERR_ACK)
- 		return -EIO;
+@@ -24,7 +24,7 @@ struct fsi_master_aspeed_data {
  
--	if (out) {
--		switch (transfer_size) {
--		case XFER_BYTE:
--			*(u8 *)out = result;
--			break;
--		case XFER_HALFWORD:
--			*(u16 *)out = result;
--			break;
--		case XFER_FULLWORD:
--			*(u32 *)out = result;
--			break;
--		default:
--			return -EINVAL;
--		}
-+	result = readl(base + OPB0_FSI_DATA_R);
+ struct fsi_master_aspeed {
+ 	struct fsi_master	master;
+-	struct mutex		lock;	/* protect HW access */
++	spinlock_t		lock;	/* protect HW access */
+ 	struct device		*dev;
+ 	void __iomem		*base;
+ 	void __iomem		*ctrl;
+@@ -251,6 +251,7 @@ static int aspeed_master_read(struct fsi_master *master, int link,
+ 			uint8_t id, uint32_t addr, void *val, size_t size)
+ {
+ 	struct fsi_master_aspeed *aspeed = to_fsi_master_aspeed(master);
++	unsigned long flags;
+ 	int ret;
  
-+	switch (transfer_size) {
-+	case XFER_BYTE:
-+		*(u8 *)out = result;
-+		break;
-+	case XFER_HALFWORD:
-+		*(u16 *)out = result;
-+		break;
-+	case XFER_FULLWORD:
-+		*(u32 *)out = result;
-+		break;
-+	default:
-+		return -EINVAL;
- 	}
+ 	if (id > 0x3)
+@@ -259,7 +260,7 @@ static int aspeed_master_read(struct fsi_master *master, int link,
+ 	addr |= id << 21;
+ 	addr += link * FSI_HUB_LINK_SIZE;
  
- 	trace_fsi_master_aspeed_opb_xfer(addr, transfer_size + 1, result, true);
+-	mutex_lock(&aspeed->lock);
++	spin_lock_irqsave(&aspeed->lock, flags);
+ 
+ 	switch (size) {
+ 	case 1:
+@@ -278,7 +279,7 @@ static int aspeed_master_read(struct fsi_master *master, int link,
+ 
+ 	ret = check_errors(aspeed, ret);
+ done:
+-	mutex_unlock(&aspeed->lock);
++	spin_unlock_irqrestore(&aspeed->lock, flags);
+ 	return ret;
+ }
+ 
+@@ -286,6 +287,7 @@ static int aspeed_master_write(struct fsi_master *master, int link,
+ 			uint8_t id, uint32_t addr, const void *val, size_t size)
+ {
+ 	struct fsi_master_aspeed *aspeed = to_fsi_master_aspeed(master);
++	unsigned long flags;
+ 	int ret;
+ 
+ 	if (id > 0x3)
+@@ -294,7 +296,7 @@ static int aspeed_master_write(struct fsi_master *master, int link,
+ 	addr |= id << 21;
+ 	addr += link * FSI_HUB_LINK_SIZE;
+ 
+-	mutex_lock(&aspeed->lock);
++	spin_lock_irqsave(&aspeed->lock, flags);
+ 
+ 	switch (size) {
+ 	case 1:
+@@ -313,7 +315,7 @@ static int aspeed_master_write(struct fsi_master *master, int link,
+ 
+ 	ret = check_errors(aspeed, ret);
+ done:
+-	mutex_unlock(&aspeed->lock);
++	spin_unlock_irqrestore(&aspeed->lock, flags);
+ 	return ret;
+ }
+ 
+@@ -396,15 +398,16 @@ static ssize_t cfam_reset_store(struct device *dev, struct device_attribute *att
+ 				const char *buf, size_t count)
+ {
+ 	struct fsi_master_aspeed *aspeed = dev_get_drvdata(dev);
++	unsigned long flags;
+ 
+ 	trace_fsi_master_aspeed_cfam_reset(true);
+-	mutex_lock(&aspeed->lock);
++	spin_lock_irqsave(&aspeed->lock, flags);
+ 	gpiod_set_value(aspeed->cfam_reset_gpio, 1);
+-	usleep_range(900, 1000);
++	udelay(900);
+ 	gpiod_set_value(aspeed->cfam_reset_gpio, 0);
+-	usleep_range(900, 1000);
++	udelay(900);
+ 	regmap_write(aspeed->master.map, FSI_MRESP0, FSI_MRESP_RST_ALL_MASTER);
+-	mutex_unlock(&aspeed->lock);
++	spin_unlock_irqrestore(&aspeed->lock, flags);
+ 	trace_fsi_master_aspeed_cfam_reset(false);
+ 
+ 	return count;
+@@ -498,6 +501,7 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	aspeed->dev = &pdev->dev;
++	spin_lock_init(&aspeed->lock);
+ 
+ 	aspeed->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(aspeed->base)) {
+@@ -583,7 +587,6 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
+ 
+ 	dev_set_drvdata(&pdev->dev, aspeed);
+ 
+-	mutex_init(&aspeed->lock);
+ 	rc = fsi_master_init(&aspeed->master, clk_get_rate(aspeed->clk));
+ 	if (rc)
+ 		goto err_regmap;
 -- 
 2.39.3
 
