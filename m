@@ -2,81 +2,80 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48906957962
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FBE9579B2
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJL1dQkz7BZQ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKP57slz7Bxy
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lcUGcWY+;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=B6XjT51P;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::62e; helo=mail-ej1-x62e.google.com; envelope-from=javier.carrasco.cruz@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=quicinc.com (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=quic_jjohnson@quicinc.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 2648 seconds by postgrey-1.37 at boromir; Thu, 06 Jun 2024 09:24:01 AEST
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vt8x561gDz30ft
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Jun 2024 20:24:56 +1000 (AEST)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a62ef52e837so542955366b.3
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Jun 2024 03:24:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717410288; x=1718015088; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AqA1PXrwcCN98Nii3x8SpO9ZeqKqzlhOVt86I0o4hY8=;
-        b=lcUGcWY+v9mV2nSP/aMfdWXA3ZgjQZhbKiKF2hnWdu4nlKPteKb/CwNKMLYnkZbt47
-         JHIdpz1tT7keSpYYVkQXJgUeTh59B4YXBsjAgI9HYoVRl8KWWet/CyBrZRg5DvRkBor/
-         ++JTOJ5ysnDSxy5jY1zmfVH0N/efKKu5eD9aM65ptV5WXpHoABjGg6xVM9fFN0KbRMP2
-         yggBpwrfasQxrI30/cLQZxlckRTOev4KE5ChJv4fSQ7+hB9yxX6nqBGPSoaEfwIkT6vu
-         ZECi9Ed/XY+bXa/9/9APMdBzDMnV2S9SVjWDCAVu3vsDCyzrkzGRY3UgszV+et00lkpw
-         aTjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717410288; x=1718015088;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AqA1PXrwcCN98Nii3x8SpO9ZeqKqzlhOVt86I0o4hY8=;
-        b=SxYOsDW4mzCE9ze3SszOwrU9tWbyyW55o7pcuJYOYcDOJLSolljY9/AEZJhTD1kkQ0
-         rGcU659s0LQC4wRpXX/92G6HIwFqbjG5wqs/HJcuEGf5lrsiNJQANqS48zjufpIv7N/R
-         bWpWyxC6tn9u4x0l3wGaEYk+dfO5cUDQaTG03CtMdu9aUUFN53qhKbxWwQKLQTvI7PQc
-         JZ0EkWOXewVKSbYR03M7jZTPh1VANDS0W2EKmjd5etjVGYmvKNzFeCMZ4cZC1nRcSWqZ
-         GDk1ttjS8DAs4SzEBttqRTLBDgH5v9iUfSDDN77X9VRo3M0yAGx7IazuIh09Y+gcWuxz
-         3O3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVcnm8vvNv8bpuqPl+cy+JaHsUtntY0JRyUqtWtKG3hX6/sZs5C49Jbsy83OObKpUqWv3y/xUzlJYXhCXvGnBQ0n18PmIHvq+8M+SClNA==
-X-Gm-Message-State: AOJu0YwwT8PFDggY+F00+YRv6BNIYgrDzvDb6PwJ6m0sQlIjnO1zGmpl
-	n5Ym5QQxCE/ob1llX3M0o65/sgEq2fAeITsiweRKWLshWYv9RAoS
-X-Google-Smtp-Source: AGHT+IF1CtcgDyhj37LHv92BCOpjLvOTVmffDU90JlA3fyLw8/2VlZTAH8nbqfafha5QeK5FmMjkNQ==
-X-Received: by 2002:a17:906:da89:b0:a59:a85d:31c6 with SMTP id a640c23a62f3a-a68224460b9mr684563466b.66.1717410287636;
-        Mon, 03 Jun 2024 03:24:47 -0700 (PDT)
-Received: from [10.10.12.27] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a68b6ef0d8esm328804366b.105.2024.06.03.03.24.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jun 2024 03:24:47 -0700 (PDT)
-Message-ID: <a61bb06d-bb06-49d3-82e8-7262fdbb0031@gmail.com>
-Date: Mon, 3 Jun 2024 12:24:43 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vvk754Pnsz30TR;
+	Thu,  6 Jun 2024 09:24:00 +1000 (AEST)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 455L7NTJ016716;
+	Wed, 5 Jun 2024 22:39:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=IBSEFFyozq9AP7T7zCoic6
+	K0+Ab6heDxsdmmvN5PFPw=; b=B6XjT51P9u+kbYTJzFe+Mrs5LsvjlAFD9ZLhvW
+	Qt7+WPZK+GWEcnNR4iQGIqcXnCJllSIyKapSQfEWhf/Uiyzk+zFPvMrTtECDs/xi
+	8Vexs+0TAlGP4GkcXjvUTCCkCPCLGKI6lIeYBEKJyR4ZpV39uoOmMtAsKLKoHfiR
+	TmlKz3pRtVrKMs2KQvxRuNrKwv3HOzXH9zoGo6zwQuhjQAdJca9N7PgzIdNtEIm3
+	T1TrE6BUX3tvMTIfCSy1srodvwF5J3hIcSO/baCULFCMzXpUjlamhQ3ulcUdUw1H
+	c7oAli9MOt8EY+lLi8U1SbESvxtKRYKwPUeWQV/H8R4knUIA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yjan2k1en-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Jun 2024 22:39:36 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 455MdZjb031482
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 5 Jun 2024 22:39:35 GMT
+Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 5 Jun 2024
+ 15:39:35 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Wed, 5 Jun 2024 15:39:34 -0700
+Subject: [PATCH] fsi: add missing MODULE_DESCRIPTION() macros
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] arm: dts: nxp: lpc: lpc32xx: drop 'clocks' form
- rtc
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Vladimir Zapolskiy <vz@mleia.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-References: <20240413-rtc_dtschema-v3-0-eff368bcc471@gmail.com>
- <20240413-rtc_dtschema-v3-1-eff368bcc471@gmail.com>
-Content-Language: en-US, de-AT
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-In-Reply-To: <20240413-rtc_dtschema-v3-1-eff368bcc471@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-ID: <20240605-md-drivers-fsi-v1-1-fefc82d81b12@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIACXpYGYC/x3MQQqDQAxA0atI1g2MoxbpVaSLaGIN1FGSVgTx7
+ k67fIv/D3AxFYdHcYDJpq5LyihvBQwTpZegcjbEEOtwDw3OjGy6iTmOrhioqrmN1DZMkKPVZNT
+ 9P+ye2T25YG+Uhum3eWv67jiTf8TgPC/Xjxl4fwAAAA==
+To: Jeremy Kerr <jk@ozlabs.org>, Joel Stanley <joel@jms.id.au>,
+        Alistar Popple
+	<alistair@popple.id.au>,
+        Eddie James <eajames@linux.ibm.com>,
+        Andrew Jeffery
+	<andrew@codeconstruct.com.au>
+X-Mailer: b4 0.13.0
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 4YyMX5gMIkxoGAUWDq0Ghiv32UuU6_8N
+X-Proofpoint-ORIG-GUID: 4YyMX5gMIkxoGAUWDq0Ghiv32UuU6_8N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-05_02,2024-06-05_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 adultscore=0 spamscore=0 clxscore=1011 mlxscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=856 bulkscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406050170
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -89,38 +88,104 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Javier Carrasco Cruz <javier.carrasco.cruz@gmail.com>, linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Jeff Johnson <quic_jjohnson@quicinc.com>, linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 13/04/2024 22:22, Javier Carrasco wrote:
-> The RTC does not provide a controllable clock signal (it uses a fixed
-> 32768 Hz crystal, the input clock of the SoC). Remove the 'clocks'
-> property to better describe the device and avoid errors when checking
-> the dts against the nxp,lpc3220-rtc binding.
-> 
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-> ---
->  arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi b/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
-> index 974410918f35..f78d67e672b4 100644
-> --- a/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
-> +++ b/arch/arm/boot/dts/nxp/lpc/lpc32xx.dtsi
-> @@ -384,7 +384,6 @@ rtc: rtc@40024000 {
->  				reg = <0x40024000 0x1000>;
->  				interrupt-parent = <&sic1>;
->  				interrupts = <20 IRQ_TYPE_LEVEL_HIGH>;
-> -				clocks = <&clk LPC32XX_CLK_RTC>;
->  			};
->  
->  			gpio: gpio@40028000 {
-> 
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
 
-A little reminder: the rest of the series was applied, but this patch is
-still pending.The nxp,lpc3220-rtc binding was moved to trivial-rtc.yaml
-and it is already in the mainline kernel.
+Add the missing invocations of the MODULE_DESCRIPTION() macro, and fix the
+copy/paste of the module description comment in fsi-master-ast-cf.c.
 
-Best regards,
-Javier Carrasco
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+ drivers/fsi/fsi-core.c          | 1 +
+ drivers/fsi/fsi-master-aspeed.c | 1 +
+ drivers/fsi/fsi-master-ast-cf.c | 3 ++-
+ drivers/fsi/fsi-master-gpio.c   | 1 +
+ drivers/fsi/fsi-master-hub.c    | 1 +
+ drivers/fsi/fsi-scom.c          | 1 +
+ 6 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/fsi/fsi-core.c b/drivers/fsi/fsi-core.c
+index 097d5a780264..716a924269ee 100644
+--- a/drivers/fsi/fsi-core.c
++++ b/drivers/fsi/fsi-core.c
+@@ -1444,5 +1444,6 @@ static void fsi_exit(void)
+ }
+ module_exit(fsi_exit);
+ module_param(discard_errors, int, 0664);
++MODULE_DESCRIPTION("FSI core driver");
+ MODULE_LICENSE("GPL");
+ MODULE_PARM_DESC(discard_errors, "Don't invoke error handling on bus accesses");
+diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
+index f0a19cd451a0..b454587790a2 100644
+--- a/drivers/fsi/fsi-master-aspeed.c
++++ b/drivers/fsi/fsi-master-aspeed.c
+@@ -672,4 +672,5 @@ static struct platform_driver fsi_master_aspeed_driver = {
+ };
+ 
+ module_platform_driver(fsi_master_aspeed_driver);
++MODULE_DESCRIPTION("FSI master driver for AST2600");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/fsi/fsi-master-ast-cf.c b/drivers/fsi/fsi-master-ast-cf.c
+index 812dfa9a9140..85096559dda3 100644
+--- a/drivers/fsi/fsi-master-ast-cf.c
++++ b/drivers/fsi/fsi-master-ast-cf.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ // Copyright 2018 IBM Corp
+ /*
+- * A FSI master controller, using a simple GPIO bit-banging interface
++ * A FSI master based on Aspeed ColdFire coprocessor
+  */
+ 
+ #include <linux/crc4.h>
+@@ -1440,5 +1440,6 @@ static struct platform_driver fsi_master_acf = {
+ };
+ 
+ module_platform_driver(fsi_master_acf);
++MODULE_DESCRIPTION("A FSI master based on Aspeed ColdFire coprocessor");
+ MODULE_LICENSE("GPL");
+ MODULE_FIRMWARE(FW_FILE_NAME);
+diff --git a/drivers/fsi/fsi-master-gpio.c b/drivers/fsi/fsi-master-gpio.c
+index ed03da4f2447..d32dcc98e85b 100644
+--- a/drivers/fsi/fsi-master-gpio.c
++++ b/drivers/fsi/fsi-master-gpio.c
+@@ -894,4 +894,5 @@ static struct platform_driver fsi_master_gpio_driver = {
+ };
+ 
+ module_platform_driver(fsi_master_gpio_driver);
++MODULE_DESCRIPTION("A FSI master controller, using a simple GPIO bit-banging interface");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/fsi/fsi-master-hub.c b/drivers/fsi/fsi-master-hub.c
+index 6d8b6e8854e5..6568fed7db3c 100644
+--- a/drivers/fsi/fsi-master-hub.c
++++ b/drivers/fsi/fsi-master-hub.c
+@@ -295,4 +295,5 @@ static struct fsi_driver hub_master_driver = {
+ };
+ 
+ module_fsi_driver(hub_master_driver);
++MODULE_DESCRIPTION("FSI hub master driver");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/fsi/fsi-scom.c b/drivers/fsi/fsi-scom.c
+index 61dbda9dbe2b..411ddc018cd8 100644
+--- a/drivers/fsi/fsi-scom.c
++++ b/drivers/fsi/fsi-scom.c
+@@ -625,4 +625,5 @@ static void scom_exit(void)
+ 
+ module_init(scom_init);
+ module_exit(scom_exit);
++MODULE_DESCRIPTION("SCOM FSI Client device driver");
+ MODULE_LICENSE("GPL");
+
+---
+base-commit: 19ca0d8a433ff37018f9429f7e7739e9f3d3d2b4
+change-id: 20240605-md-drivers-fsi-0a34d82a85da
+
