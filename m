@@ -1,55 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD6C8FC0E9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 02:47:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3C78FCE97
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 15:12:10 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=kP8qrqGF;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AxCXSDuI;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Vv81h0jqkz3dL2
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 10:47:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VvSY370yHz30W2
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 23:12:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=kP8qrqGF;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AxCXSDuI;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vv81b4Fjbz2xb2;
-	Wed,  5 Jun 2024 10:47:15 +1000 (AEST)
-Received: from [192.168.68.112] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DBD032009F;
-	Wed,  5 Jun 2024 08:47:13 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1717548435;
-	bh=ANXb6zc3UuSOyX6FxuEvTkWNM9eC6npStLm/IruWE68=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=kP8qrqGFDNRLThPf7QY2mccgHy7qaTo0F9H6onVvhw3Bll10+LvUt/xZHTaGwhRFd
-	 FkCyVVh2EZ4k/nTG0FgLSkZhXqMDmNP81hUXuZWMN9qgiEL1724OhCIioAvYGBf5tJ
-	 ol61Gx0duyW5kbktYsE/UQ2jdzS0KCKAJuFU9UyjqrBavlAV8K/CPUlkHCAo7zlG8L
-	 DheyAK0GqUPhpqqQ0cO0BgVW7khE0vzcO2AEMiy4n4vrQiOvTA4TBaneVkkUlMJ8nc
-	 nLriEZvSjEeUtCCUvFf/TWjsI4F3aXkYfNCOFlhve96arT+AcfBZJZkgS4PUKrAOGi
-	 tOtafZ0wA/TqQ==
-Message-ID: <0908995dfd2181e687181bd1b075c4cb27624e94.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 1/3] dt-bindings: pinctrl: aspeed: Use block syntax for
- function and groups
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Rob Herring <robh@kernel.org>
-Date: Wed, 05 Jun 2024 10:17:13 +0930
-In-Reply-To: <20240604192755.GA1065421-robh@kernel.org>
-References: 	<20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-0-a6fe2281a1b8@codeconstruct.com.au>
-	 <20240531-dt-warnings-gpio-ast2600-pinctrl-funcs-groups-v1-1-a6fe2281a1b8@codeconstruct.com.au>
-	 <20240604192755.GA1065421-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VvSXV3z8Gz3cMQ
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Jun 2024 23:11:38 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 7C5FBCE17D4;
+	Wed,  5 Jun 2024 13:11:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E70C3277B;
+	Wed,  5 Jun 2024 13:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717593094;
+	bh=p1Mf5DG1LhyqB8wXqkjnzUXqy6sag24Z+F1LZfH0pEQ=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=AxCXSDuIbI9ABphc+MtPB9Swb+NEhUSK4Setoo6PWjDy2kz9THhj9T83HAtduj5zD
+	 zCb7UnP/FU46eA80JDJX5jkXO+nn4E+Bx5gFgXIi773vzBj0Q4uwRDSa39NAcb4zcA
+	 WuItGcB2a/CHQtIBreJsKho8GZV4Yu04JhhDzudISPRA2Z8BU2Kj0nAJ3X5GuWQhRa
+	 RzeMIxE5DmeFsvAh8g8wMpuQ9WbXCdJQDiv7ooeaQcSt91KfgSNxHbo4RNgi3Y+ArJ
+	 s+KEhHh4FIk/bEH++xMbh04Xy9iR/Ex2/0jNnHfbjehFDxgsAtwNOrmYN0WAVf8gHv
+	 qJ3E5DTkPFSUw==
+Date: Wed, 05 Jun 2024 07:11:32 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <20240604215939.1967329-1-ninad@linux.ibm.com>
+References: <20240604215939.1967329-1-ninad@linux.ibm.com>
+Message-Id: <171759284804.2200781.9915039390039475490.robh@kernel.org>
+Subject: Re: [PATCH v1] ARM: dts: aspeed: System1: Updates to BMC board
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,29 +59,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 2024-06-04 at 14:27 -0500, Rob Herring wrote:
-> On Fri, May 31, 2024 at 12:32:47PM +0930, Andrew Jeffery wrote:
-> > The expansion makes the documents a lot longer, but it's easier to
-> > review changes to functions and groups when we're not having to deal
-> > with line wrapping.
->=20
-> Do you really expect to be updating this frequently? I would leave it=20
-> as-is, but whatever you decide.
 
-I don't expect to be updating it frequently. However it's happened
-occasionally in the past and the diff chaos irks me. So I prefer we
-explode it.
+On Tue, 04 Jun 2024 16:59:39 -0500, Ninad Palsule wrote:
+> - Added new power monitor device max5970
+> - Changed temperature sensor monitor chip from tmp423 to tmp432
+> 
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+> ---
+>  arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
 
->=20
-> > Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-> > ---
->=20
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Thanks.
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Andrew
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y aspeed/aspeed-bmc-ibm-system1.dtb' for 20240604215939.1967329-1-ninad@linux.ibm.com:
+
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: power-monitor@3a: 'regulators' is a required property
+	from schema $id: http://devicetree.org/schemas/mfd/maxim,max5970.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: power-monitor@3a: 'vss1-supply' is a required property
+	from schema $id: http://devicetree.org/schemas/mfd/maxim,max5970.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: power-monitor@3a: 'vss2-supply' is a required property
+	from schema $id: http://devicetree.org/schemas/mfd/maxim,max5970.yaml#
+
+
+
+
+
