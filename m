@@ -1,86 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9C78FD204
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 17:47:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 921968FD276
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2024 18:06:38 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=soKB6x2i;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lyht5d96;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VvX0X3BJDz30Tr
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 01:47:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VvXQL2l5Lz30Tr
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 02:06:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=soKB6x2i;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=lyht5d96;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VvX0M75blz30Tr;
-	Thu,  6 Jun 2024 01:47:31 +1000 (AEST)
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 455FlKLX002551;
-	Wed, 5 Jun 2024 15:47:20 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VvXQB2wrfz30Tr
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Jun 2024 02:06:25 +1000 (AEST)
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 455FLLtb001160;
+	Wed, 5 Jun 2024 16:06:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc :
- content-transfer-encoding : content-type : date : from : in-reply-to :
- message-id : mime-version : references : subject : to; s=pp1;
- bh=4gv5PMq9+JRTPv/J+O9ju3Syd3C4Lij/iT1Nkb6JJV8=;
- b=soKB6x2im4c4+3I+9RsAcfBRYMts/PKnTlKH7/wDDlqd9FExa5T4xYfUdg9NCOJFE6N4
- Oc1UpdVC/A61E/pG8koYM84RTKGAeuugamCE3tvchB6D6YObAEs/WLpVfPw/hhdRJLWL
- 48aVd/3QmRXXtzsChJHrHwgwSpRXEfdZIRU2ES5ShfK0atcXE91ry6fzdykqHxXaDrba
- 0sr8DUrxvt/PIJ2+TgZC0cR/tARH190sVR/zjjI1AXe0zZXaL/aSPgUFsSUNKqEzovkk
- 3p+CWmdzwlGToWxAvX0lVE6L3tv0AaLMJo/sEWWaqPGh2VcryDWPZgaAyTw16T5disdq lg== 
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yjtyd800b-1
+ content-transfer-encoding : date : from : message-id : mime-version :
+ subject : to; s=pp1; bh=v+Cqnls3yUZrDxsNB2rWFncZXsXnB7uHdf9VD8hEsY0=;
+ b=lyht5d96JASQPfISXc+mnGdxkM0CUCo3xOeooBfLIk9yEw2hAQUxesQ+hGZ2JQl8/Qm0
+ K1RhBosoHbYLtNIPRimhunmlC0KFaa2tyArmuXebAlIy/fswZjSh/Tdi5uyIRoz6qBKy
+ w6wijkffTFur2A5kTUgYvebCaoLkxXdEVrKcEQ0GA04vLpYE0ZGSFJTBOPkOsJKpvd9x
+ jUaFXGtjWjBzZZKCD7eugv8g7D5aYOsK1IKnG8RudaTy8Bys2KmY7d+2cIjuqQerbAmB
+ gdR0LRz0RPWZ7fg8JTPBcPZIYm4mYuGXkT2YkR1x5T6ahTczbFMmQFBve+kx3BpvJ5RE ng== 
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yjrdw8m5r-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Jun 2024 15:47:19 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 455DssTD026694;
-	Wed, 5 Jun 2024 15:47:18 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ygffn4ud1-1
+	Wed, 05 Jun 2024 16:06:11 +0000
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 455Ew2SN026588;
+	Wed, 5 Jun 2024 16:06:10 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3yggp34mg9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Jun 2024 15:47:18 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 455FlEsv63635782
+	Wed, 05 Jun 2024 16:06:10 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 455G669q26673716
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 5 Jun 2024 15:47:17 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BF9D958052;
-	Wed,  5 Jun 2024 15:47:14 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F1E6F58050;
-	Wed,  5 Jun 2024 15:47:13 +0000 (GMT)
-Received: from [9.61.121.242] (unknown [9.61.121.242])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  5 Jun 2024 15:47:13 +0000 (GMT)
-Message-ID: <f2f70d62-3edb-4273-b40e-430d789f19dc@linux.ibm.com>
-Date: Wed, 5 Jun 2024 10:47:13 -0500
+	Wed, 5 Jun 2024 16:06:08 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AFDDA5805D;
+	Wed,  5 Jun 2024 16:06:06 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F262A58053;
+	Wed,  5 Jun 2024 16:06:05 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  5 Jun 2024 16:06:05 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+        andrew@codeconstruct.com.au
+Subject: [PATCH v2] ARM: dts: aspeed: System1: Updates to BMC board
+Date: Wed,  5 Jun 2024 11:06:03 -0500
+Message-Id: <20240605160604.2135840-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 00/20] ARM: dts: aspeed: Add IBM P11 BMC systems
-To: linux-fsi@lists.ozlabs.org
-References: <20240522192524.3286237-1-eajames@linux.ibm.com>
-Content-Language: en-US
-From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <20240522192524.3286237-1-eajames@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 4kspnDFwQMw0M2A4UVLGjkS7ewv-6qeA
-X-Proofpoint-GUID: 4kspnDFwQMw0M2A4UVLGjkS7ewv-6qeA
+X-Proofpoint-GUID: hM30ZomYcFZDZdrHlvxUQsvKPqP2flZC
+X-Proofpoint-ORIG-GUID: hM30ZomYcFZDZdrHlvxUQsvKPqP2flZC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-05_02,2024-06-05_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- malwarescore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 clxscore=1015 mlxlogscore=810
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2406050120
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=682 spamscore=0 mlxscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2405010000 definitions=main-2406050121
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,98 +88,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, broonie@kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+- Changed temperature sensor monitor chip from tmp423 to tmp432
 
-On 5/22/24 14:25, Eddie James wrote:
-> Add the Blueridge and Fuji BMC systems. Document many missing FSI related
-> properties, and fix existing warnings. Make some minor fixes in OCC and
-> SCOM drivers for the updated bindings.
+Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+---
+ arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+index dcbc16308ab50..f3efecc7eb8d0 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+@@ -1138,7 +1138,7 @@ i2c8mux0chn6: i2c@6 {
+ 			reg = <6>;
+ 
+ 			temperature-sensor@4c {
+-				compatible = "ti,tmp423";
++				compatible = "ti,tmp432";
+ 				reg = <0x4c>;
+ 			};
+ 		};
+@@ -1599,7 +1599,7 @@ i2c15mux0chn6: i2c@6 {
+ 			reg = <6>;
+ 
+ 			temperature-sensor@4c {
+-				compatible = "ti,tmp423";
++				compatible = "ti,tmp432";
+ 				reg = <0x4c>;
+ 			};
+ 		};
+@@ -1615,7 +1615,7 @@ regulator@40 {
+ 			};
+ 
+ 			temperature-sensor@4c {
+-				compatible = "ti,tmp423";
++				compatible = "ti,tmp432";
+ 				reg = <0x4c>;
+ 			};
+ 		};
+-- 
+2.40.1
 
-Hi Joel/Andrew, what else needs to be fixed before this can be merged 
-(minus Huygens patch which I will resend)? I believe all the patches 
-have been reviewed.
-
-
-Thanks,
-
-Eddie
-
-
->
-> Changes since v5:
->   - Switch from clock-frequency to bus-frequency for common FSI controller
->     properties
->   - Add reg properties for AST2700 FSI controller
->   - Fix patternProperties for i2c bus nodes under FSI-based I2C controller
->   - Add bus-frequency for P11 FSI device tree node
->   - Change model name from Blueridge to Blueridge 2U
->   - Add missing reset gpio to led controller on Fuji
->   - Add Huygens (Rainier with modified FSI wiring)
->
-> Eddie James (20):
->    spi: dt-bindings: Document the IBM FSI-attached SPI controller
->    dt-bindings: fsi: fsi2spi: Document SPI controller child nodes
->    dt-bindings: fsi: Document the IBM SCOM engine
->    dt-bindings: fsi: p9-occ: Convert to json-schema
->    dt-bindings: fsi: Document the IBM SBEFIFO engine
->    dt-bindings: fsi: Document the FSI controller common properties
->    dt-bindings: fsi: ibm,i2cr-fsi-master: Reference common FSI controller
->    dt-bindings: fsi: ast2600-fsi-master: Convert to json-schema
->    dt-bindings: fsi: Document the AST2700 FSI controller
->    dt-bindings: fsi: Document the FSI Hub Controller
->    dt-bindings: i2c: i2c-fsi: Convert to json-schema
->    dt-bindings: arm: aspeed: add IBM P11 BMC boards
->    ARM: dts: aspeed: Add IBM P11 FSI devices
->    ARM: dts: aspeed: Add IBM P11 Blueridge BMC system
->    ARM: dts: aspeed: Add IBM P11 Blueridge 4U BMC system
->    ARM: dts: aspeed: Add IBM P11 Fuji BMC system
->    ARM: dts: aspeed: Add IBM Huygens BMC system
->    fsi: occ: Get device number from FSI minor number API
->    fsi: occ: Find next available child rather than node name match
->    fsi: scom: Update compatible string to match documentation
->
->   .../bindings/arm/aspeed/aspeed.yaml           |    2 +
->   .../fsi/aspeed,ast2600-fsi-master.yaml        |  121 +
->   .../bindings/fsi/fsi-controller.yaml          |   66 +
->   .../bindings/fsi/fsi-master-aspeed.txt        |   36 -
->   .../devicetree/bindings/fsi/ibm,fsi2spi.yaml  |   36 +-
->   .../bindings/fsi/ibm,i2cr-fsi-master.yaml     |    5 +-
->   .../bindings/fsi/ibm,p9-fsi-controller.yaml   |   45 +
->   .../devicetree/bindings/fsi/ibm,p9-occ.txt    |   16 -
->   .../devicetree/bindings/fsi/ibm,p9-occ.yaml   |   40 +
->   .../bindings/fsi/ibm,p9-sbefifo.yaml          |   46 +
->   .../devicetree/bindings/fsi/ibm,p9-scom.yaml  |   37 +
->   .../devicetree/bindings/i2c/i2c-fsi.txt       |   40 -
->   .../devicetree/bindings/i2c/ibm,i2c-fsi.yaml  |   76 +
->   .../devicetree/bindings/spi/ibm,spi-fsi.yaml  |   55 +
->   MAINTAINERS                                   |    2 +-
->   arch/arm/boot/dts/aspeed/Makefile             |    3 +
->   .../aspeed/aspeed-bmc-ibm-blueridge-4u.dts    |   21 +
->   .../dts/aspeed/aspeed-bmc-ibm-blueridge.dts   | 1691 +++++++
->   .../boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts   | 3881 +++++++++++++++++
->   .../dts/aspeed/aspeed-bmc-ibm-huygens.dts     |   23 +
->   .../arm/boot/dts/aspeed/ibm-power11-quad.dtsi | 1539 +++++++
->   drivers/fsi/fsi-occ.c                         |   49 +-
->   drivers/fsi/fsi-scom.c                        |    1 +
->   23 files changed, 7694 insertions(+), 137 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
->   create mode 100644 Documentation/devicetree/bindings/fsi/fsi-controller.yaml
->   delete mode 100644 Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt
->   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-fsi-controller.yaml
->   delete mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.txt
->   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.yaml
->   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-sbefifo.yaml
->   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-scom.yaml
->   delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-fsi.txt
->   create mode 100644 Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.yaml
->   create mode 100644 Documentation/devicetree/bindings/spi/ibm,spi-fsi.yaml
->   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge-4u.dts
->   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dts
->   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts
->   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-huygens.dts
->   create mode 100644 arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
->
