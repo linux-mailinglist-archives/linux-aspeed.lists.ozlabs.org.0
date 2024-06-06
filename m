@@ -1,55 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458F78FDC1C
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 03:23:16 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 756D88FDC22
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 03:27:58 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=IU0jUGdO;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=K/jWDVwm;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Vvmmc56zrz3cVG
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 11:23:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Vvmt3414pz3cVn
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 11:27:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=IU0jUGdO;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=K/jWDVwm;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VvmmX32zwz3cCb
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Jun 2024 11:23:08 +1000 (AEST)
-Received: from [192.168.68.112] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id D323820154;
-	Thu,  6 Jun 2024 09:23:06 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1717636988;
-	bh=UjCQkvI4M26je9HMZzMsWZBh+I8xIGggZ70FgnVDcQc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=IU0jUGdOLenpD5F3uv+BbB0xNmgwD9pDNkrGQLceE8Ldb66Gq1wG/pbcllTuMpFDt
-	 jhHjXkTsVGb8alZKkTLPcTzXLFMoN+y+PI/SUV7t9VwKgD92UjacWT/kH0x/aEJDK3
-	 RvJiGbUactTxrRhTLRIdM6jgvKenN2TQf9FzK0GsJoU6XLEtVfzgeZLfzigoc8WZFi
-	 abArJYOQMkiknuOGYoj94Wh3t2eZo4b1WGWlC7t5b37zjnP7+K9e8IZEO8MPukbHJr
-	 lQLl1pWX6lUxNS5xbF1aNfiJ2E7rHRNTWodaGwDqaxB8b1tv+DpitRWjWuTqDpowKn
-	 +X7H1mKKf9smQ==
-Message-ID: <4faf9b73f1d896b5c65c1934c6f6b95051b49b31.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v2] ARM: dts: aspeed: System1: Updates to BMC board
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Eddie James <eajames@linux.ibm.com>, Ninad Palsule
- <ninad@linux.ibm.com>,  robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, joel@jms.id.au
-Date: Thu, 06 Jun 2024 10:53:06 +0930
-In-Reply-To: <4c0eddbf-5397-490c-8c70-a581c7949b49@linux.ibm.com>
-References: <20240605160604.2135840-1-ninad@linux.ibm.com>
-	 <4c0eddbf-5397-490c-8c70-a581c7949b49@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vvms25Dmcz30f8;
+	Thu,  6 Jun 2024 11:27:02 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 15D4C614A4;
+	Thu,  6 Jun 2024 01:27:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6354C2BD11;
+	Thu,  6 Jun 2024 01:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717637219;
+	bh=hXn+odQqb9ycP7ylEs86A0/+bXD9RU1Tq6JA4ws0mxY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K/jWDVwmXLfu9EKZyPkMPbGlChXCRH9hOYb7kYUBcg8t2ylmiG78N6sjy11HCBDSq
+	 CcizWLwQOlXpplGIMUiIhrfuOL/YNuQ+u+RQZnjsIGvucMXlJtG3N2js1GByT/4Ngv
+	 QZPnGTk0Xqbsi4FpHLXbe00o6yxeJKJjsGIb4X09hYL6AvQ+ZnPeUpF7uYcygfOGhM
+	 5J4hm3ugv4YRnF8doOCgjP3lS34+HNwW2vYavpfzN9LZKNCARwEROxfQYrGCqdxPOc
+	 1qXLtE8vHtc68RZH2Mx+7XEtcqI3+y4b6buhEaoHsZeacHh4231DMi3K3ojLP2JaRB
+	 G9z651baDhqWQ==
+Date: Thu, 6 Jun 2024 02:26:55 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Tommy Huang <tommy_huang@aspeedtech.com>
+Subject: Re: [PATCH] i2c: aspeed: Update the stop sw state when the bus
+ recovry occurs
+Message-ID: <kts7ib2rxq4g26ayumcyaohs37zl43qo66gok3vae3reyabobe@nbbborkf2eow>
+References: <20240530070656.3841066-1-tommy_huang@aspeedtech.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240530070656.3841066-1-tommy_huang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,18 +60,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: BMC-SW@aspeedtech.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, wsa@kernel.org, brendan.higgins@linux.dev, linux-i2c@vger.kernel.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2024-06-05 at 11:29 -0500, Eddie James wrote:
-> On 6/5/24 11:06, Ninad Palsule wrote:
-> > - Changed temperature sensor monitor chip from tmp423 to tmp432
->=20
->=20
-> Reviewed-by: Eddie James <eajames@linux.ibm.com>
+Hi Tommy,
 
-Thanks, I've applied this to a tree for Joel to pick up.
+On Thu, May 30, 2024 at 03:06:56PM +0800, Tommy Huang wrote:
+> When the i2c bus recovey occurs, driver will send i2c stop command
+> in the scl low condition. In this case the sw state will still keep
+> original situation. Under multi-master usage, i2c bus recovery will
+> be called when i2c transfer timeout occurs. Update the stop command
+> calling with aspeed_i2c_do_stop function to update master_state.
+> 
+> Fixes: f327c686d3ba ("i2c: aspeed: added driver for Aspeed I2C")
+> 
+> Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
 
-Andrew
+Can you please add:
 
+Cc: <stable@vger.kernel.org> # v4.13+
+
+> ---
+>  drivers/i2c/busses/i2c-aspeed.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+> index ce8c4846b7fa..32f8b0c1c174 100644
+> --- a/drivers/i2c/busses/i2c-aspeed.c
+> +++ b/drivers/i2c/busses/i2c-aspeed.c
+> @@ -169,6 +169,7 @@ struct aspeed_i2c_bus {
+>  };
+>  
+>  static int aspeed_i2c_reset(struct aspeed_i2c_bus *bus);
+> +static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
+
+Can you please move aspeed_i2c_do_stop() on top? Doesn't make
+much sense to add the prototype here as there is no dependencies.
+
+It's different the case of aspeed_i2c_reset() because it needs
+aspeed_i2c_init().
+
+>  static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
+>  {
+> @@ -187,7 +188,7 @@ static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
+>  			command);
+>  
+>  		reinit_completion(&bus->cmd_complete);
+> -		writel(ASPEED_I2CD_M_STOP_CMD, bus->base + ASPEED_I2C_CMD_REG);
+> +		aspeed_i2c_do_stop(bus);
+
+The patch is good, though!
+
+Thanks,
+Andi
