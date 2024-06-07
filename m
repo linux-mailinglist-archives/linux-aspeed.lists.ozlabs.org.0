@@ -1,53 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F6E8FDC27
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 03:31:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D7D8FFFD6
+	for <lists+linux-aspeed@lfdr.de>; Fri,  7 Jun 2024 11:45:11 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=cfhxf0BR;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QmLNjru1;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VvmyY0PDwz3cVW
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2024 11:31:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VwbsJ1R3Nz2yvp
+	for <lists+linux-aspeed@lfdr.de>; Fri,  7 Jun 2024 19:45:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=cfhxf0BR;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QmLNjru1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.14; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VvmyQ6C46z30Vp;
-	Thu,  6 Jun 2024 11:31:42 +1000 (AEST)
-Received: from [192.168.68.112] (ppp118-210-171-248.adl-adc-lon-bras34.tpg.internode.on.net [118.210.171.248])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id AE9EB20154;
-	Thu,  6 Jun 2024 09:31:41 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1717637502;
-	bh=7Y+Fi/S9iFVYn77ci9owMZTSbegdzVDaxHeOlwRPaGs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=cfhxf0BRfejrV5lGw89SKoK1CFwOsuKcHCvYL51e3sedQbbXH7LkO2OVLK18OfMbA
-	 PEruDGnP2IC12lpC9J2m9GGQiCn78Xzv4YXrO2sOuDr59rNv/w+WWX50Q7KN04ekul
-	 ioLz+hMseo7hu5KR2i93Kj85l0zwr5C3EfgaM+j2zUgrDR8owgcc4cDvX16/dgqwIM
-	 l+2A7fmAo5e7DYHZNwToQyGhwPcaHpfoPVcBt2rcPW3mcujn3aEiEcP/tFoXABXcQn
-	 QQy1CMxr2LBL/LqCUh9qj1HtEgbjrwaP24ZkU/ZTwusVkfs8mWVK6OKEm1i+jdd/lv
-	 o8FLgQ3gr/LXg==
-Message-ID: <b40486cf90de44bad177f034d13d8ab69ad9aac8.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v6 00/20] ARM: dts: aspeed: Add IBM P11 BMC systems
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Eddie James <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org
-Date: Thu, 06 Jun 2024 11:01:41 +0930
-In-Reply-To: <f2f70d62-3edb-4273-b40e-430d789f19dc@linux.ibm.com>
-References: <20240522192524.3286237-1-eajames@linux.ibm.com>
-	 <f2f70d62-3edb-4273-b40e-430d789f19dc@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Vwbs42m6Qz30VT
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Jun 2024 19:44:54 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717753498; x=1749289498;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=voo+058tPlgVMfI1TZTTzr4t/Aowjlk+5Zt2NGckp00=;
+  b=QmLNjru1G6Eaw9VWDIOC2iKpQ30Nc303nP6Fbcaa2RmcsKSmMxpnnI+W
+   DDydSToJyRCqUl/4cJd7OUjvQfb4eH01FPUhjuFoyUcpMF33eTzVqlFr4
+   btqx9DQKKaME8TMhyENGC/yAidADQty4VyRblQpjUoMvJ/VL7p8BEy0Jj
+   hQV0X7LYELjBxFELbPVnQe4C1SNvfHPRpAGoyki33mU6Ibjho+qzx4U8t
+   5y6lKb/hVptTlLsgMjWDmf3CxgBZY9m2viAdFD0Rl+5XoMW68gF7uoQha
+   5Eo3dpFMbc+Ykw9oeTbpp7FRx2MgQ4hBAdO3wHdEdENuiEA5otGtSwcf+
+   Q==;
+X-CSE-ConnectionGUID: rGfMastJQAWvKbpK23dvwA==
+X-CSE-MsgGUID: +BiL3/GFSUu6tCeauyWdSQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="18294761"
+X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
+   d="scan'208";a="18294761"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 02:44:50 -0700
+X-CSE-ConnectionGUID: 8ZQlJrjIRZii1uvJWoEVGA==
+X-CSE-MsgGUID: UsrlsgBJRDKUnLDBbEx3qA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
+   d="scan'208";a="61472308"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 07 Jun 2024 02:44:47 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sFW9M-0004Z5-1b;
+	Fri, 07 Jun 2024 09:44:44 +0000
+Date: Fri, 7 Jun 2024 17:44:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: Re: [PATCH] arm: dts: aspeed: Use standard 'i2c' bus node name
+Message-ID: <202406071717.2B7aM49z-lkp@intel.com>
+References: <20240531193115.3814887-1-robh@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240531193115.3814887-1-robh@kernel.org>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,140 +77,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, robh@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, broonie@kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Eddie,
+Hi Rob,
 
-On Wed, 2024-06-05 at 10:47 -0500, Eddie James wrote:
-> On 5/22/24 14:25, Eddie James wrote:
-> > Add the Blueridge and Fuji BMC systems. Document many missing FSI relat=
-ed
-> > properties, and fix existing warnings. Make some minor fixes in OCC and
-> > SCOM drivers for the updated bindings.
->=20
->=20
-> Hi Joel/Andrew, what else needs to be fixed before this can be merged=20
-> (minus Huygens patch which I will resend)? I believe all the patches=20
-> have been reviewed.
->=20
+kernel test robot noticed the following build warnings:
 
-Firstly, thanks for your work here on the FSI bindings.
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk/for-next linus/master v6.10-rc2 next-20240607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-However, the series is a bit awkward, as it sandwiches Aspeed
-devicetree patches that should go through Joel's bmc tree between the
-bindings and driver fixes that should go through the FSI tree.
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/arm-dts-aspeed-Use-standard-i2c-bus-node-name/20240601-033514
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240531193115.3814887-1-robh%40kernel.org
+patch subject: [PATCH] arm: dts: aspeed: Use standard 'i2c' bus node name
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071717.2B7aM49z-lkp@intel.com/reproduce)
 
-This is potentially less of a problem for Joel as he's the maintainer
-for both, but it's not my place to be touching the FSI tree.=20
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406071717.2B7aM49z-lkp@intel.com/
 
-For now I've applied the dts patches and pushed them here after
-dropping the Huygens patch:
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts:541.10-555.4: Warning (avoid_unnecessary_addr_size): /ahb/apb/bus@1e78a000/i2c@480/gpio@77: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
-https://github.com/amboar/linux/commits/for/bmc/dt-6.11/
+vim +541 arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
 
-But I would appreciate it if you split series by subsystem in the
-future (see my comments on the other FSI series you have out for
-review).
+36d96827f480e9 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Quan Nguyen  2022-08-17  532  
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  533  &i2c8 {
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  534  	status = "okay";
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  535  
+e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  536  	temperature-sensor@48 {
+e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  537  		compatible = "ti,tmp112";
+e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  538  		reg = <0x48>;
+e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  539  	};
+e998856086a41d arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts Chanh Nguyen 2023-10-05  540  
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28 @541  	gpio@77 {
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  542  		compatible = "nxp,pca9539";
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  543  		reg = <0x77>;
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  544  		gpio-controller;
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  545  		#address-cells = <1>;
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  546  		#size-cells = <0>;
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  547  		#gpio-cells = <2>;
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  548  
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  549  		bmc-ocp0-en-hog {
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  550  			gpio-hog;
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  551  			gpios = <7 GPIO_ACTIVE_LOW>;
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  552  			output-high;
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  553  			line-name = "bmc-ocp0-en-n";
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  554  		};
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  555  	};
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  556  };
+695cb117ac2a36 arch/arm/boot/dts/aspeed-bmc-ampere-mtmitchell.dts        Chanh Nguyen 2023-02-28  557  
 
-Andrew
-
->=20
-> Thanks,
->=20
-> Eddie
->=20
->=20
-> >=20
-> > Changes since v5:
-> >   - Switch from clock-frequency to bus-frequency for common FSI control=
-ler
-> >     properties
-> >   - Add reg properties for AST2700 FSI controller
-> >   - Fix patternProperties for i2c bus nodes under FSI-based I2C control=
-ler
-> >   - Add bus-frequency for P11 FSI device tree node
-> >   - Change model name from Blueridge to Blueridge 2U
-> >   - Add missing reset gpio to led controller on Fuji
-> >   - Add Huygens (Rainier with modified FSI wiring)
-> >=20
-> > Eddie James (20):
-> >    spi: dt-bindings: Document the IBM FSI-attached SPI controller
-> >    dt-bindings: fsi: fsi2spi: Document SPI controller child nodes
-> >    dt-bindings: fsi: Document the IBM SCOM engine
-> >    dt-bindings: fsi: p9-occ: Convert to json-schema
-> >    dt-bindings: fsi: Document the IBM SBEFIFO engine
-> >    dt-bindings: fsi: Document the FSI controller common properties
-> >    dt-bindings: fsi: ibm,i2cr-fsi-master: Reference common FSI controll=
-er
-> >    dt-bindings: fsi: ast2600-fsi-master: Convert to json-schema
-> >    dt-bindings: fsi: Document the AST2700 FSI controller
-> >    dt-bindings: fsi: Document the FSI Hub Controller
-> >    dt-bindings: i2c: i2c-fsi: Convert to json-schema
-> >    dt-bindings: arm: aspeed: add IBM P11 BMC boards
-> >    ARM: dts: aspeed: Add IBM P11 FSI devices
-> >    ARM: dts: aspeed: Add IBM P11 Blueridge BMC system
-> >    ARM: dts: aspeed: Add IBM P11 Blueridge 4U BMC system
-> >    ARM: dts: aspeed: Add IBM P11 Fuji BMC system
-> >    ARM: dts: aspeed: Add IBM Huygens BMC system
-> >    fsi: occ: Get device number from FSI minor number API
-> >    fsi: occ: Find next available child rather than node name match
-> >    fsi: scom: Update compatible string to match documentation
-> >=20
-> >   .../bindings/arm/aspeed/aspeed.yaml           |    2 +
-> >   .../fsi/aspeed,ast2600-fsi-master.yaml        |  121 +
-> >   .../bindings/fsi/fsi-controller.yaml          |   66 +
-> >   .../bindings/fsi/fsi-master-aspeed.txt        |   36 -
-> >   .../devicetree/bindings/fsi/ibm,fsi2spi.yaml  |   36 +-
-> >   .../bindings/fsi/ibm,i2cr-fsi-master.yaml     |    5 +-
-> >   .../bindings/fsi/ibm,p9-fsi-controller.yaml   |   45 +
-> >   .../devicetree/bindings/fsi/ibm,p9-occ.txt    |   16 -
-> >   .../devicetree/bindings/fsi/ibm,p9-occ.yaml   |   40 +
-> >   .../bindings/fsi/ibm,p9-sbefifo.yaml          |   46 +
-> >   .../devicetree/bindings/fsi/ibm,p9-scom.yaml  |   37 +
-> >   .../devicetree/bindings/i2c/i2c-fsi.txt       |   40 -
-> >   .../devicetree/bindings/i2c/ibm,i2c-fsi.yaml  |   76 +
-> >   .../devicetree/bindings/spi/ibm,spi-fsi.yaml  |   55 +
-> >   MAINTAINERS                                   |    2 +-
-> >   arch/arm/boot/dts/aspeed/Makefile             |    3 +
-> >   .../aspeed/aspeed-bmc-ibm-blueridge-4u.dts    |   21 +
-> >   .../dts/aspeed/aspeed-bmc-ibm-blueridge.dts   | 1691 +++++++
-> >   .../boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts   | 3881 ++++++++++++++++=
-+
-> >   .../dts/aspeed/aspeed-bmc-ibm-huygens.dts     |   23 +
-> >   .../arm/boot/dts/aspeed/ibm-power11-quad.dtsi | 1539 +++++++
-> >   drivers/fsi/fsi-occ.c                         |   49 +-
-> >   drivers/fsi/fsi-scom.c                        |    1 +
-> >   23 files changed, 7694 insertions(+), 137 deletions(-)
-> >   create mode 100644 Documentation/devicetree/bindings/fsi/aspeed,ast26=
-00-fsi-master.yaml
-> >   create mode 100644 Documentation/devicetree/bindings/fsi/fsi-controll=
-er.yaml
-> >   delete mode 100644 Documentation/devicetree/bindings/fsi/fsi-master-a=
-speed.txt
-> >   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-fsi-c=
-ontroller.yaml
-> >   delete mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.t=
-xt
-> >   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-occ.y=
-aml
-> >   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-sbefi=
-fo.yaml
-> >   create mode 100644 Documentation/devicetree/bindings/fsi/ibm,p9-scom.=
-yaml
-> >   delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-fsi.txt
-> >   create mode 100644 Documentation/devicetree/bindings/i2c/ibm,i2c-fsi.=
-yaml
-> >   create mode 100644 Documentation/devicetree/bindings/spi/ibm,spi-fsi.=
-yaml
-> >   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge-=
-4u.dts
-> >   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.=
-dts
-> >   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts
-> >   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-huygens.dt=
-s
-> >   create mode 100644 arch/arm/boot/dts/aspeed/ibm-power11-quad.dtsi
-> >=20
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
