@@ -1,71 +1,141 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692369012E9
-	for <lists+linux-aspeed@lfdr.de>; Sat,  8 Jun 2024 19:04:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F670902DB8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2024 02:35:14 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BFXmwB93;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=mTkir/+Q;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4VxPYg0DQFz3cTc
-	for <lists+linux-aspeed@lfdr.de>; Sun,  9 Jun 2024 03:04:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4VyqSv1L74z3cDt
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2024 10:35:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BFXmwB93;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.12; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::727; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=tommy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20727.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::727])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4VxPYX3r8Rz2ypm;
-	Sun,  9 Jun 2024 03:04:14 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717866257; x=1749402257;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z6hcz0F9fMtfnwiX+iUxiM8f8ZduXCkVg0g5hvHDMMo=;
-  b=BFXmwB93OHiCe86iGNJl2w5HN94dH/DniVIT8uNv2J7dCDGNNMAX0i4l
-   nCvKvukzbWfWXIdhqvWV1aGL8RTet2lVkDoC45/UZ6gEb7Iw1htb73RsQ
-   4J73Nh5O0ZHzeKqC/3G2iA/O+vtzN7lFSA8vI6S+nW9EJFS5SwdL9bgdL
-   hcQl5cqgucoNIRwLrsl64r2/qeeWdLmn9uFZn7jwJ8tCVjv3yTZIB4DMt
-   kllo0GiQpipXYq1pLa7Xg1JmPECwUOhLR4POPeR9NXoUm0KfAjStl3QE5
-   bbjzaTGsMTvQL13H0/xWxaMRUJba3UKVng/bwSl3r5CRsDl/R1x3EoA57
-   g==;
-X-CSE-ConnectionGUID: VkgtPpFgQXeVJ1YEWQd/pw==
-X-CSE-MsgGUID: /7p5iBAOQZWxy4wGiO7huA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="18434305"
-X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="18434305"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 10:04:12 -0700
-X-CSE-ConnectionGUID: sW2ik39mR3KX67iTdnaFag==
-X-CSE-MsgGUID: 9HMY1i4sQTWyuPB9hzziWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,223,1712646000"; 
-   d="scan'208";a="38630148"
-Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 08 Jun 2024 10:04:08 -0700
-Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sFzU6-0000G4-0n;
-	Sat, 08 Jun 2024 17:04:06 +0000
-Date: Sun, 9 Jun 2024 01:03:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tommy Huang <tommy_huang@aspeedtech.com>, brendan.higgins@linux.dev,
-	benh@kernel.crashing.org, joel@jms.id.au, andi.shyti@kernel.org,
-	andrew@codeconstruct.com.au, wsa@kernel.org
-Subject: Re: [PATCH v2] i2c: aspeed: Update the stop sw state when the bus
- recovery occurs
-Message-ID: <202406090027.3FWHQLNi-lkp@intel.com>
-References: <20240608043653.4086647-1-tommy_huang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4VyqSW1dkmz2ykt
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 11 Jun 2024 10:34:18 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JjZe20hLpXg9zBIgiejhxm6p2bCuJKptckZ0ZXHrOL7a8rN7zAl28eaM6CRjGYuH5ydoR2Jjcf1CQlkus0CI2SlF98HzaCaMchinoEVPb9SqqyptjgU0yUPN7gT8ZpINCBir+ocn/ObYHnBK5UlapbbuGhjI2WmmQVGh+ZRWP8anv2Vlb2Unl4tFa8Gn/rMnLxdPCk/A7vekEHHK+qsWeoeunP6aJI32X/kDLdv7KsOkdR3M/mr3qQK/eA1YuOlVXLpimMjgPe+zcryg5qu0w6LFk+4XQWLjKi1FOOp50e8C3aFlPSjCM0+pAXdTd6+qeIZuVHy6nEbwGJwEHzSEpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=65tq8HCRxnWnu8/ZbAKN1V1DC4hzc4Hz02V3fipdovI=;
+ b=XnfC1KZBzCjzQKtAX18MfRv65fBKqx+VuOgodTkx4H4P/99/1dlghrchD1b0rp+koPM2UAI2rIurE2YyzqKGKZDRJHRSg0AAU8Doi8++3tqEM4RAnc84u6sYhPYL5wmYAo2UVrYI4GMnLN0V0wPlF36qC4uevzCaMdon9fFqVmRfjrzBIuI6AhdZomZinDyjKBPooMgJRgN7sJIGOUJVYBR+6SmWGOTj/2mQ54kXV48Wk9EWckkNYiPy1+M/0Wrg/CRrtWQcpb2Y3RuvyJxKpn420vkIuWPwn1coMWRd/0lHdoGrA7MVWBncZZf+0JmdbMLr8rP5fS8SvLN27JxoSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=65tq8HCRxnWnu8/ZbAKN1V1DC4hzc4Hz02V3fipdovI=;
+ b=mTkir/+Qb4f87E6REDK9pOJkHXm3weTQ3kMYXc1YMOFwSKet+bCivZlFDaCPcOgG1fBe1WIfhip15EwV8bgPJoFVhQSZsyCDXdBcEZR8tJlB1p8MBRcD88UxjZF63LnS554XHmpFw6M5xBL3uxFQYMMO6OT2T9eZpkyiHPFPO9BvK5LATI3++NB/Yk6t/C092kLehai2M28Qckt8DzAdurBVdeKiNiwUhsH4Z7bpXu/H9WYSJV6EYHeG7XNFqnSOO39rW3V5oUiHsTPNjNouiPxxH48Qp6tj2+vKEHTR3+LyH77oAZgpcEnVwkURp+aWCLxfbW95+VcuUKl+AZo5XQ==
+Received: from TYZPR06MB6191.apcprd06.prod.outlook.com (2603:1096:400:33d::12)
+ by SEYPR06MB6635.apcprd06.prod.outlook.com (2603:1096:101:177::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.34; Tue, 11 Jun
+ 2024 00:33:50 +0000
+Received: from TYZPR06MB6191.apcprd06.prod.outlook.com
+ ([fe80::cc07:35e3:9143:c8e2]) by TYZPR06MB6191.apcprd06.prod.outlook.com
+ ([fe80::cc07:35e3:9143:c8e2%5]) with mapi id 15.20.7633.036; Tue, 11 Jun 2024
+ 00:33:50 +0000
+From: Tommy Huang <tommy_huang@aspeedtech.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Subject: RE: [PATCH] i2c: aspeed: Update the stop sw state when the bus
+ recovry occurs
+Thread-Topic: [PATCH] i2c: aspeed: Update the stop sw state when the bus
+ recovry occurs
+Thread-Index: AQHasl/7kNWQnBw5T0ayJZ/33ciwnbG5/HuAgANZ04CABHIQ4A==
+Date: Tue, 11 Jun 2024 00:33:50 +0000
+Message-ID:  <TYZPR06MB61918DCE07E61B6FB9D3BCD1E1C72@TYZPR06MB6191.apcprd06.prod.outlook.com>
+References: <20240530070656.3841066-1-tommy_huang@aspeedtech.com>
+ <kts7ib2rxq4g26ayumcyaohs37zl43qo66gok3vae3reyabobe@nbbborkf2eow>
+ <TYZPR06MB6191C0769400FF03412E56F2E1C42@TYZPR06MB6191.apcprd06.prod.outlook.com>
+In-Reply-To:  <TYZPR06MB6191C0769400FF03412E56F2E1C42@TYZPR06MB6191.apcprd06.prod.outlook.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR06MB6191:EE_|SEYPR06MB6635:EE_
+x-ms-office365-filtering-correlation-id: eba0cc6d-9940-4193-0b3c-08dc89ae2a44
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:  BCL:0;ARA:13230031|376005|366007|1800799015|7416005|38070700009;
+x-microsoft-antispam-message-info:  =?us-ascii?Q?y3anJAzoWdiBB3OILlvy77kjKLVLcYTUOlUoJk6jYudFS/xV8GyBDWJN8eA9?=
+ =?us-ascii?Q?M9/lxHkZ78SDCAm3Lt1FyKW7e/iC4bt7xoe5uy6ho0RF1xehVTeYUScgewmf?=
+ =?us-ascii?Q?uQvyXpycYCy0eY2AlWRrj4oS4oBOSClbME1cmU/PK9nhP7RiXG36RXnfy0yv?=
+ =?us-ascii?Q?Lt1vS7pPtZ+mau2FkQqVui/zVLz3ByIUDpmXmWp9JLoVkPyNSwK+fmslXrtz?=
+ =?us-ascii?Q?9N++/9Y+V1DEz93A7yZaY3kc+v1hJRKXviKPZbblQyApdcNjUQiCZRreJC74?=
+ =?us-ascii?Q?kmjV2UQB8aelHfHJCZwZlq2GmUYPA66gw9HkxwelZomsYfGtOPqT0AHq89FX?=
+ =?us-ascii?Q?PI4s5vv1j3Wtf9sKaIRbjVkDBk69Mssb1B8oHjmCLFs22NyuJDNMQZi21W06?=
+ =?us-ascii?Q?ZJ7ZaRj4YWO5mhuNyuzXgsQn4nPk+/yCLMHjpG5yVazsHTJOw06Zzdv6+igv?=
+ =?us-ascii?Q?JycEXkkJ8PbYEusxhel6QwjPYbJTBdCJYB/SbJYlZs6EAT2en/ltoNqwY3RT?=
+ =?us-ascii?Q?fxe6gl6eKKcZI5i/bIU2wveclaa8sAa4ybYL9rJ5B5xJHzziJkN7nxfaeRaC?=
+ =?us-ascii?Q?WpMgN8iYnX0/iNJt10CPg0QYBVxA/RPiAE1CVUGTMYqtof9mKECDX/rjesjg?=
+ =?us-ascii?Q?RRDozjbkOjqB23f0F8JZsJ1gWL+z/H5mGFToeFDzNmj0ffMBb/RRhYOFB0Xz?=
+ =?us-ascii?Q?DqfNVoVes7kx+GAKcIc2wgJr9FuBwfRmPGx4fQAuSfe+nUkhu40k3x/3ShGK?=
+ =?us-ascii?Q?C37/5GBYhCPanA1gNGRBdAiwK3a+oSpc624AsP76BfrYiB2suTXZxDTGgR0k?=
+ =?us-ascii?Q?EPQVydQhX/2dzLhoNoazcr0zZdmZ9o8kEDKq/qMntWwCF4loAzNOKxkzzoT6?=
+ =?us-ascii?Q?ArBbn8dDWovFRAay+BQtOLRsDHwa6m8xw83kySlDbO8HK3nzvLnll225Rxbi?=
+ =?us-ascii?Q?uRi2VzGUkk1KJn0pgOuxfH4uBkjhdt1+IicAI9NlfMAKlmF/2KFHSkYOl5a1?=
+ =?us-ascii?Q?336ifcqhZjR0Jcxi6CppPjeUjr4c0AOOlXy/GNiKl+yxj4E1evrTArhcr8XU?=
+ =?us-ascii?Q?jFzBfAJ/tpchQDsvJ3imdCjkKIkxgbuUu3vxBbpauO5gJCyf5WI5nAnaZVR9?=
+ =?us-ascii?Q?VtRjrk7o07b30gZi2qoxCKmG7lbS743JudwYaN6/A9FhST5nxZeYMhczsRky?=
+ =?us-ascii?Q?LOu56LAgMykQ6aw9ham0i5XVEBce2ykkFT61Z/v5Hu0iaMQtWth5pMiyjhuS?=
+ =?us-ascii?Q?VAVngoRLuAygBP4rxC2CDf2un6QV94qjlg7yvVgcTcxmj9Mu5lBj5zN1Kxjg?=
+ =?us-ascii?Q?gyCvaieRMnFGAkU8AtsFQq/IyayIp1edyOElyQ8ezadQZCMruaCL8b9zGwes?=
+ =?us-ascii?Q?1SRTg4o=3D?=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6191.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(7416005)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?XJcmNePDsP/Ki2SSoguvQKitkUo10mR3AHkRFUrOvuxjld/y27bhpT+NzjFa?=
+ =?us-ascii?Q?+JGXiTDzq528se1aBJ1yYUsz1rkd8P57s5GLoXH0PTotY+dm4z9LJnGYGeyI?=
+ =?us-ascii?Q?x6+Rd+uyCdVDbmlm9uqhhA810mKaL+laTPCk+b04kTLBZMvwvhy8jQSyR/s+?=
+ =?us-ascii?Q?QY3cYeO18LAIu7Ocnnoh7v2Bam/cZpFkSfakZ7BlRG2Bn9jEeyD2ZFHKbFA6?=
+ =?us-ascii?Q?qJ8/oiKnXC4DNHz8BP6MaNPjXMNAU73c0MxYwFrvNu5t0BhrF5V6CEVjO/2b?=
+ =?us-ascii?Q?P8fVihfGpkWYgSjn+s+H2Yz52oHXcQZLX78Ca1MwLl7qaTVE4SP0GWfWbUig?=
+ =?us-ascii?Q?d82bOHvUae4S0WvIGcoUxT8QBpA7as4vtv33z6f2bBQoL+tYyOe9srBJ6Wx6?=
+ =?us-ascii?Q?5hXkWAjQEVTw55FADVOKPFRbe5qXv+g6sYNQYfLE1b0S7UkF+slssqOHhnyq?=
+ =?us-ascii?Q?LtRHh8QFCq5ZzItbdhmPz47O4d4E2hnmfDSWjLdBld2Hb7oYOEAnSM1dJBa6?=
+ =?us-ascii?Q?2S1dSbfG91jZAVgLMDJm4RneXUMrb2cYhT7cf9ORxjXqaSz3e9gQHP3boq/I?=
+ =?us-ascii?Q?gvn7bjVRfD6kEkjTDoVbILUrlJjj41vWP/ue4sw4G8aaONrdjL1Ow3fOKCqE?=
+ =?us-ascii?Q?PnD7a4jCV41xIkg6/FtMkfR0f5yuGJN2YMUFnB2eBE/um1oyhp9EGQJXDbjm?=
+ =?us-ascii?Q?Vb5kGOtRg/h26DbzpycZjUeVBcvcwWcrQk1OBzxpi4rH+lWXZp1st1sz4HTm?=
+ =?us-ascii?Q?lB5HEzyVIGBRSJ7hKbiNSB/bO/XnYMeC5d5Viw4hRgeSwkKaTe+xsn5iuBY2?=
+ =?us-ascii?Q?v6JH9mPEU3nbv062VbxCZQlwzDF6x3uqzuA2UnHl38ZKuxJQEc4ls6C+JMtW?=
+ =?us-ascii?Q?YkapThWgF1G3vL0OWH9RiN+7zMLsOqF3iVvGNT4j3yPN0efPd4lMGdA7Ell4?=
+ =?us-ascii?Q?5i9aa15tLPMKke0k7iIfam0OJisOT+sGdA5QVr8c20uP/kEoYXIN/RDohN3y?=
+ =?us-ascii?Q?ijrqj10K/aTjkntC4U1SevkR+hlEzXRrCpmhRn0v0ArWV71Gd79uz6WrrF2o?=
+ =?us-ascii?Q?H8GsiJ3ggWwwj0w6I0iXCoL9JNJV169HrnUi8dnS6fPxH1qXTgEGaQgmN9Ow?=
+ =?us-ascii?Q?YoOjgXvEoz07LIt5Rns6ljfpxxWqoocuHzMWBYIpZW7USJBozLGV+MnWsMRb?=
+ =?us-ascii?Q?kbS0uVzvMqRWyGvp0sQmMrBa7qdkE9tbUkUFqDyro17cSLXbI+h1xJpQkv38?=
+ =?us-ascii?Q?zeivrLBxscnZni2OTOXl3QbmnOCJ0+hMEegIR6CEFIBQWbrjmjWoyAHbpHMH?=
+ =?us-ascii?Q?EweihtOr+RxsHhcu8Enp+AltO16L3vgokYjjoY4Ntlv59z0fjVgfSWK/xnQF?=
+ =?us-ascii?Q?xt6zz5/hA9Fy7px5WdPysiAPpnT+NQ5ovug38iww1u16x7pdcX5xJhRTL+c0?=
+ =?us-ascii?Q?kd6lUHYfo8i2oZSugWG1zu7ICvgudUucGgHHhKkDmv9G+omam4KgZSFMSY6S?=
+ =?us-ascii?Q?EmASPRpjkGQ4gLhp9owQuao57ZEJgtrnjfIPIk9qjUswdA2+A1kt6zQiit3e?=
+ =?us-ascii?Q?mhe04AYI+h39Y2LYoFpsFshiK9PoKWx4+n89sJ5bPpKuCuP4NZgUNOPows1w?=
+ =?us-ascii?Q?SQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240608043653.4086647-1-tommy_huang@aspeedtech.com>
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6191.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eba0cc6d-9940-4193-0b3c-08dc89ae2a44
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2024 00:33:50.6114
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /oj8X3aVMHSQV1/H8Mv26wtlqRzu8sQDwbaUw74v9cs/98wCBMg524Yzn+enAkVAdXjkykta3G0LjTAAa0EbZzcxXExyI3Yr91jLaaeBY8g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6635
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,387 +147,105 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org, linux-i2c@vger.kernel.org, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: BMC-SW <BMC-SW@aspeedtech.com>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "wsa@kernel.org" <wsa@kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, "andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Tommy,
+Hi Andi,
 
-kernel test robot noticed the following build errors:
+	There is a problem to move aspeed_i2c_do_stop() on top.
+	This function is like with aspeed_i2c_reset function needs the aspeed_i2c_=
+bus structure definition.
 
-[auto build test ERROR on andi-shyti/i2c/i2c-host]
-[also build test ERROR on linus/master v6.10-rc2 next-20240607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+	BR,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tommy-Huang/i2c-aspeed-Update-the-stop-sw-state-when-the-bus-recovery-occurs/20240608-124429
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240608043653.4086647-1-tommy_huang%40aspeedtech.com
-patch subject: [PATCH v2] i2c: aspeed: Update the stop sw state when the bus recovery occurs
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240609/202406090027.3FWHQLNi-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406090027.3FWHQLNi-lkp@intel.com/reproduce)
+	By Tommy
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406090027.3FWHQLNi-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/i2c/busses/i2c-aspeed.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/i2c/busses/i2c-aspeed.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/i2c/busses/i2c-aspeed.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/i2c/busses/i2c-aspeed.c:14:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/i2c/busses/i2c-aspeed.c:28:39: warning: declaration of 'struct aspeed_i2c_bus' will not be visible outside of this function [-Wvisibility]
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |                                       ^
->> drivers/i2c/busses/i2c-aspeed.c:192:22: error: incompatible pointer types passing 'struct aspeed_i2c_bus *' to parameter of type 'struct aspeed_i2c_bus *' [-Werror,-Wincompatible-pointer-types]
-     192 |                 aspeed_i2c_do_stop(bus);
-         |                                    ^~~
-   drivers/i2c/busses/i2c-aspeed.c:28:55: note: passing argument to parameter 'bus' here
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |                                                       ^
->> drivers/i2c/busses/i2c-aspeed.c:396:13: error: conflicting types for 'aspeed_i2c_do_stop'
-     396 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus)
-         |             ^
-   drivers/i2c/busses/i2c-aspeed.c:28:13: note: previous declaration is here
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |             ^
-   drivers/i2c/busses/i2c-aspeed.c:409:22: error: incompatible pointer types passing 'struct aspeed_i2c_bus *' to parameter of type 'struct aspeed_i2c_bus *' [-Werror,-Wincompatible-pointer-types]
-     409 |                 aspeed_i2c_do_stop(bus);
-         |                                    ^~~
-   drivers/i2c/busses/i2c-aspeed.c:28:55: note: passing argument to parameter 'bus' here
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |                                                       ^
-   drivers/i2c/busses/i2c-aspeed.c:469:23: error: incompatible pointer types passing 'struct aspeed_i2c_bus *' to parameter of type 'struct aspeed_i2c_bus *' [-Werror,-Wincompatible-pointer-types]
-     469 |                         aspeed_i2c_do_stop(bus);
-         |                                            ^~~
-   drivers/i2c/busses/i2c-aspeed.c:28:55: note: passing argument to parameter 'bus' here
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |                                                       ^
-   drivers/i2c/busses/i2c-aspeed.c:507:23: error: incompatible pointer types passing 'struct aspeed_i2c_bus *' to parameter of type 'struct aspeed_i2c_bus *' [-Werror,-Wincompatible-pointer-types]
-     507 |                         aspeed_i2c_do_stop(bus);
-         |                                            ^~~
-   drivers/i2c/busses/i2c-aspeed.c:28:55: note: passing argument to parameter 'bus' here
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |                                                       ^
-   drivers/i2c/busses/i2c-aspeed.c:512:23: error: incompatible pointer types passing 'struct aspeed_i2c_bus *' to parameter of type 'struct aspeed_i2c_bus *' [-Werror,-Wincompatible-pointer-types]
-     512 |                         aspeed_i2c_do_stop(bus);
-         |                                            ^~~
-   drivers/i2c/busses/i2c-aspeed.c:28:55: note: passing argument to parameter 'bus' here
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |                                                       ^
-   drivers/i2c/busses/i2c-aspeed.c:562:24: error: incompatible pointer types passing 'struct aspeed_i2c_bus *' to parameter of type 'struct aspeed_i2c_bus *' [-Werror,-Wincompatible-pointer-types]
-     562 |                                 aspeed_i2c_do_stop(bus);
-         |                                                    ^~~
-   drivers/i2c/busses/i2c-aspeed.c:28:55: note: passing argument to parameter 'bus' here
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |                                                       ^
-   drivers/i2c/busses/i2c-aspeed.c:608:21: error: incompatible pointer types passing 'struct aspeed_i2c_bus *' to parameter of type 'struct aspeed_i2c_bus *' [-Werror,-Wincompatible-pointer-types]
-     608 |         aspeed_i2c_do_stop(bus);
-         |                            ^~~
-   drivers/i2c/busses/i2c-aspeed.c:28:55: note: passing argument to parameter 'bus' here
-      28 | static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-         |                                                       ^
-   8 warnings and 8 errors generated.
-
-
-vim +192 drivers/i2c/busses/i2c-aspeed.c
-
-    27	
-  > 28	static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
-    29	
-    30	/* I2C Register */
-    31	#define ASPEED_I2C_FUN_CTRL_REG				0x00
-    32	#define ASPEED_I2C_AC_TIMING_REG1			0x04
-    33	#define ASPEED_I2C_AC_TIMING_REG2			0x08
-    34	#define ASPEED_I2C_INTR_CTRL_REG			0x0c
-    35	#define ASPEED_I2C_INTR_STS_REG				0x10
-    36	#define ASPEED_I2C_CMD_REG				0x14
-    37	#define ASPEED_I2C_DEV_ADDR_REG				0x18
-    38	#define ASPEED_I2C_BYTE_BUF_REG				0x20
-    39	
-    40	/* Global Register Definition */
-    41	/* 0x00 : I2C Interrupt Status Register  */
-    42	/* 0x08 : I2C Interrupt Target Assignment  */
-    43	
-    44	/* Device Register Definition */
-    45	/* 0x00 : I2CD Function Control Register  */
-    46	#define ASPEED_I2CD_MULTI_MASTER_DIS			BIT(15)
-    47	#define ASPEED_I2CD_SDA_DRIVE_1T_EN			BIT(8)
-    48	#define ASPEED_I2CD_M_SDA_DRIVE_1T_EN			BIT(7)
-    49	#define ASPEED_I2CD_M_HIGH_SPEED_EN			BIT(6)
-    50	#define ASPEED_I2CD_SLAVE_EN				BIT(1)
-    51	#define ASPEED_I2CD_MASTER_EN				BIT(0)
-    52	
-    53	/* 0x04 : I2CD Clock and AC Timing Control Register #1 */
-    54	#define ASPEED_I2CD_TIME_TBUF_MASK			GENMASK(31, 28)
-    55	#define ASPEED_I2CD_TIME_THDSTA_MASK			GENMASK(27, 24)
-    56	#define ASPEED_I2CD_TIME_TACST_MASK			GENMASK(23, 20)
-    57	#define ASPEED_I2CD_TIME_SCL_HIGH_SHIFT			16
-    58	#define ASPEED_I2CD_TIME_SCL_HIGH_MASK			GENMASK(19, 16)
-    59	#define ASPEED_I2CD_TIME_SCL_LOW_SHIFT			12
-    60	#define ASPEED_I2CD_TIME_SCL_LOW_MASK			GENMASK(15, 12)
-    61	#define ASPEED_I2CD_TIME_BASE_DIVISOR_MASK		GENMASK(3, 0)
-    62	#define ASPEED_I2CD_TIME_SCL_REG_MAX			GENMASK(3, 0)
-    63	/* 0x08 : I2CD Clock and AC Timing Control Register #2 */
-    64	#define ASPEED_NO_TIMEOUT_CTRL				0
-    65	
-    66	/* 0x0c : I2CD Interrupt Control Register &
-    67	 * 0x10 : I2CD Interrupt Status Register
-    68	 *
-    69	 * These share bit definitions, so use the same values for the enable &
-    70	 * status bits.
-    71	 */
-    72	#define ASPEED_I2CD_INTR_RECV_MASK			0xf000ffff
-    73	#define ASPEED_I2CD_INTR_SDA_DL_TIMEOUT			BIT(14)
-    74	#define ASPEED_I2CD_INTR_BUS_RECOVER_DONE		BIT(13)
-    75	#define ASPEED_I2CD_INTR_SLAVE_MATCH			BIT(7)
-    76	#define ASPEED_I2CD_INTR_SCL_TIMEOUT			BIT(6)
-    77	#define ASPEED_I2CD_INTR_ABNORMAL			BIT(5)
-    78	#define ASPEED_I2CD_INTR_NORMAL_STOP			BIT(4)
-    79	#define ASPEED_I2CD_INTR_ARBIT_LOSS			BIT(3)
-    80	#define ASPEED_I2CD_INTR_RX_DONE			BIT(2)
-    81	#define ASPEED_I2CD_INTR_TX_NAK				BIT(1)
-    82	#define ASPEED_I2CD_INTR_TX_ACK				BIT(0)
-    83	#define ASPEED_I2CD_INTR_MASTER_ERRORS					       \
-    84			(ASPEED_I2CD_INTR_SDA_DL_TIMEOUT |			       \
-    85			 ASPEED_I2CD_INTR_SCL_TIMEOUT |				       \
-    86			 ASPEED_I2CD_INTR_ABNORMAL |				       \
-    87			 ASPEED_I2CD_INTR_ARBIT_LOSS)
-    88	#define ASPEED_I2CD_INTR_ALL						       \
-    89			(ASPEED_I2CD_INTR_SDA_DL_TIMEOUT |			       \
-    90			 ASPEED_I2CD_INTR_BUS_RECOVER_DONE |			       \
-    91			 ASPEED_I2CD_INTR_SCL_TIMEOUT |				       \
-    92			 ASPEED_I2CD_INTR_ABNORMAL |				       \
-    93			 ASPEED_I2CD_INTR_NORMAL_STOP |				       \
-    94			 ASPEED_I2CD_INTR_ARBIT_LOSS |				       \
-    95			 ASPEED_I2CD_INTR_RX_DONE |				       \
-    96			 ASPEED_I2CD_INTR_TX_NAK |				       \
-    97			 ASPEED_I2CD_INTR_TX_ACK)
-    98	
-    99	/* 0x14 : I2CD Command/Status Register   */
-   100	#define ASPEED_I2CD_SCL_LINE_STS			BIT(18)
-   101	#define ASPEED_I2CD_SDA_LINE_STS			BIT(17)
-   102	#define ASPEED_I2CD_BUS_BUSY_STS			BIT(16)
-   103	#define ASPEED_I2CD_BUS_RECOVER_CMD			BIT(11)
-   104	
-   105	/* Command Bit */
-   106	#define ASPEED_I2CD_M_STOP_CMD				BIT(5)
-   107	#define ASPEED_I2CD_M_S_RX_CMD_LAST			BIT(4)
-   108	#define ASPEED_I2CD_M_RX_CMD				BIT(3)
-   109	#define ASPEED_I2CD_S_TX_CMD				BIT(2)
-   110	#define ASPEED_I2CD_M_TX_CMD				BIT(1)
-   111	#define ASPEED_I2CD_M_START_CMD				BIT(0)
-   112	#define ASPEED_I2CD_MASTER_CMDS_MASK					       \
-   113			(ASPEED_I2CD_M_STOP_CMD |				       \
-   114			 ASPEED_I2CD_M_S_RX_CMD_LAST |				       \
-   115			 ASPEED_I2CD_M_RX_CMD |					       \
-   116			 ASPEED_I2CD_M_TX_CMD |					       \
-   117			 ASPEED_I2CD_M_START_CMD)
-   118	
-   119	/* 0x18 : I2CD Slave Device Address Register   */
-   120	#define ASPEED_I2CD_DEV_ADDR_MASK			GENMASK(6, 0)
-   121	
-   122	enum aspeed_i2c_master_state {
-   123		ASPEED_I2C_MASTER_INACTIVE,
-   124		ASPEED_I2C_MASTER_PENDING,
-   125		ASPEED_I2C_MASTER_START,
-   126		ASPEED_I2C_MASTER_TX_FIRST,
-   127		ASPEED_I2C_MASTER_TX,
-   128		ASPEED_I2C_MASTER_RX_FIRST,
-   129		ASPEED_I2C_MASTER_RX,
-   130		ASPEED_I2C_MASTER_STOP,
-   131	};
-   132	
-   133	enum aspeed_i2c_slave_state {
-   134		ASPEED_I2C_SLAVE_INACTIVE,
-   135		ASPEED_I2C_SLAVE_START,
-   136		ASPEED_I2C_SLAVE_READ_REQUESTED,
-   137		ASPEED_I2C_SLAVE_READ_PROCESSED,
-   138		ASPEED_I2C_SLAVE_WRITE_REQUESTED,
-   139		ASPEED_I2C_SLAVE_WRITE_RECEIVED,
-   140		ASPEED_I2C_SLAVE_STOP,
-   141	};
-   142	
-   143	struct aspeed_i2c_bus {
-   144		struct i2c_adapter		adap;
-   145		struct device			*dev;
-   146		void __iomem			*base;
-   147		struct reset_control		*rst;
-   148		/* Synchronizes I/O mem access to base. */
-   149		spinlock_t			lock;
-   150		struct completion		cmd_complete;
-   151		u32				(*get_clk_reg_val)(struct device *dev,
-   152								   u32 divisor);
-   153		unsigned long			parent_clk_frequency;
-   154		u32				bus_frequency;
-   155		/* Transaction state. */
-   156		enum aspeed_i2c_master_state	master_state;
-   157		struct i2c_msg			*msgs;
-   158		size_t				buf_index;
-   159		size_t				msgs_index;
-   160		size_t				msgs_count;
-   161		bool				send_stop;
-   162		int				cmd_err;
-   163		/* Protected only by i2c_lock_bus */
-   164		int				master_xfer_result;
-   165		/* Multi-master */
-   166		bool				multi_master;
-   167	#if IS_ENABLED(CONFIG_I2C_SLAVE)
-   168		struct i2c_client		*slave;
-   169		enum aspeed_i2c_slave_state	slave_state;
-   170	#endif /* CONFIG_I2C_SLAVE */
-   171	};
-   172	
-   173	static int aspeed_i2c_reset(struct aspeed_i2c_bus *bus);
-   174	
-   175	static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
-   176	{
-   177		unsigned long time_left, flags;
-   178		int ret = 0;
-   179		u32 command;
-   180	
-   181		spin_lock_irqsave(&bus->lock, flags);
-   182		command = readl(bus->base + ASPEED_I2C_CMD_REG);
-   183	
-   184		if (command & ASPEED_I2CD_SDA_LINE_STS) {
-   185			/* Bus is idle: no recovery needed. */
-   186			if (command & ASPEED_I2CD_SCL_LINE_STS)
-   187				goto out;
-   188			dev_dbg(bus->dev, "SCL hung (state %x), attempting recovery\n",
-   189				command);
-   190	
-   191			reinit_completion(&bus->cmd_complete);
- > 192			aspeed_i2c_do_stop(bus);
-   193			spin_unlock_irqrestore(&bus->lock, flags);
-   194	
-   195			time_left = wait_for_completion_timeout(
-   196					&bus->cmd_complete, bus->adap.timeout);
-   197	
-   198			spin_lock_irqsave(&bus->lock, flags);
-   199			if (time_left == 0)
-   200				goto reset_out;
-   201			else if (bus->cmd_err)
-   202				goto reset_out;
-   203			/* Recovery failed. */
-   204			else if (!(readl(bus->base + ASPEED_I2C_CMD_REG) &
-   205				   ASPEED_I2CD_SCL_LINE_STS))
-   206				goto reset_out;
-   207		/* Bus error. */
-   208		} else {
-   209			dev_dbg(bus->dev, "SDA hung (state %x), attempting recovery\n",
-   210				command);
-   211	
-   212			reinit_completion(&bus->cmd_complete);
-   213			/* Writes 1 to 8 SCL clock cycles until SDA is released. */
-   214			writel(ASPEED_I2CD_BUS_RECOVER_CMD,
-   215			       bus->base + ASPEED_I2C_CMD_REG);
-   216			spin_unlock_irqrestore(&bus->lock, flags);
-   217	
-   218			time_left = wait_for_completion_timeout(
-   219					&bus->cmd_complete, bus->adap.timeout);
-   220	
-   221			spin_lock_irqsave(&bus->lock, flags);
-   222			if (time_left == 0)
-   223				goto reset_out;
-   224			else if (bus->cmd_err)
-   225				goto reset_out;
-   226			/* Recovery failed. */
-   227			else if (!(readl(bus->base + ASPEED_I2C_CMD_REG) &
-   228				   ASPEED_I2CD_SDA_LINE_STS))
-   229				goto reset_out;
-   230		}
-   231	
-   232	out:
-   233		spin_unlock_irqrestore(&bus->lock, flags);
-   234	
-   235		return ret;
-   236	
-   237	reset_out:
-   238		spin_unlock_irqrestore(&bus->lock, flags);
-   239	
-   240		return aspeed_i2c_reset(bus);
-   241	}
-   242	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> -----Original Message-----
+> From: Tommy Huang <tommy_huang@aspeedtech.com>
+> Sent: Saturday, June 8, 2024 12:38 PM
+> To: Andi Shyti <andi.shyti@kernel.org>
+> Cc: brendan.higgins@linux.dev; benh@kernel.crashing.org; joel@jms.id.au;
+> andrew@codeconstruct.com.au; wsa@kernel.org; linux-i2c@vger.kernel.org;
+> openbmc@lists.ozlabs.org; linux-arm-kernel@lists.infradead.org;
+> linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org; BMC-SW
+> <BMC-SW@aspeedtech.com>
+> Subject: RE: [PATCH] i2c: aspeed: Update the stop sw state when the bus
+> recovry occurs
+>=20
+> Hi Andi,
+>=20
+> > -----Original Message-----
+> > From: Andi Shyti <andi.shyti@kernel.org>
+> > Sent: Thursday, June 6, 2024 9:27 AM
+> > To: Tommy Huang <tommy_huang@aspeedtech.com>
+> > Cc: brendan.higgins@linux.dev; benh@kernel.crashing.org;
+> > joel@jms.id.au; andrew@codeconstruct.com.au; wsa@kernel.org;
+> > linux-i2c@vger.kernel.org; openbmc@lists.ozlabs.org;
+> > linux-arm-kernel@lists.infradead.org;
+> > linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org; BMC-SW
+> > <BMC-SW@aspeedtech.com>
+> > Subject: Re: [PATCH] i2c: aspeed: Update the stop sw state when the
+> > bus recovry occurs
+> >
+> > Hi Tommy,
+> >
+> > On Thu, May 30, 2024 at 03:06:56PM +0800, Tommy Huang wrote:
+> > > When the i2c bus recovey occurs, driver will send i2c stop command
+> > > in the scl low condition. In this case the sw state will still keep
+> > > original situation. Under multi-master usage, i2c bus recovery will
+> > > be called when i2c transfer timeout occurs. Update the stop command
+> > > calling with aspeed_i2c_do_stop function to update master_state.
+> > >
+> > > Fixes: f327c686d3ba ("i2c: aspeed: added driver for Aspeed I2C")
+> > >
+> > > Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
+> >
+> > Can you please add:
+> >
+> > Cc: <stable@vger.kernel.org> # v4.13+
+>=20
+> Got it. I will add it.
+>=20
+> >
+> > > ---
+> > >  drivers/i2c/busses/i2c-aspeed.c | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/i2c/busses/i2c-aspeed.c
+> > > b/drivers/i2c/busses/i2c-aspeed.c index ce8c4846b7fa..32f8b0c1c174
+> > > 100644
+> > > --- a/drivers/i2c/busses/i2c-aspeed.c
+> > > +++ b/drivers/i2c/busses/i2c-aspeed.c
+> > > @@ -169,6 +169,7 @@ struct aspeed_i2c_bus {  };
+> > >
+> > >  static int aspeed_i2c_reset(struct aspeed_i2c_bus *bus);
+> > > +static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus);
+> >
+> > Can you please move aspeed_i2c_do_stop() on top? Doesn't make much
+> > sense to add the prototype here as there is no dependencies.
+>=20
+> Sure. I will update it.
+>=20
+> >
+> > It's different the case of aspeed_i2c_reset() because it needs
+> aspeed_i2c_init().
+> >
+> > >  static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)  { @@
+> > > -187,7 +188,7 @@ static int aspeed_i2c_recover_bus(struct
+> > > aspeed_i2c_bus
+> > *bus)
+> > >  			command);
+> > >
+> > >  		reinit_completion(&bus->cmd_complete);
+> > > -		writel(ASPEED_I2CD_M_STOP_CMD, bus->base +
+> > ASPEED_I2C_CMD_REG);
+> > > +		aspeed_i2c_do_stop(bus);
+> >
+> > The patch is good, though!
+> >
+>=20
+> Thanks for your commects.
+>=20
+> > Thanks,
+> > Andi
