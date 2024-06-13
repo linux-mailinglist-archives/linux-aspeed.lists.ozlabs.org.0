@@ -1,64 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F127907695
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jun 2024 17:27:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A072907696
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jun 2024 17:27:08 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DJgJjJrv;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PP3/Zk81;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W0R906lsHz3cTS
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jun 2024 01:27:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W0R95123kz3cZs
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jun 2024 01:27:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DJgJjJrv;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PP3/Zk81;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::334; helo=mail-ot1-x334.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::c36; helo=mail-oo1-xc36.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com [IPv6:2607:f8b0:4864:20::c36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W0R8c3TxLz3cVG
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jun 2024 01:26:40 +1000 (AEST)
-Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6f95be3d4c4so439862a34.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Jun 2024 08:26:40 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W0R8g0wG5z3cVG
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jun 2024 01:26:42 +1000 (AEST)
+Received: by mail-oo1-xc36.google.com with SMTP id 006d021491bc7-5b970e90ab8so606260eaf.3
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Jun 2024 08:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718292398; x=1718897198; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1718292400; x=1718897200; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+iX8aCdLeiSd9q28ms9w1B6bv8MCufq0seR2PtHpfUk=;
-        b=DJgJjJrvyBD3gFcjfqLrBo8dlxyNMd9KRLvmEvpPmqlbBrj4mmofMy3LtfTUynOkbU
-         inzzYAhUCmkJfWwM5Z4UB3gCR4A5OVpj1rFGlAh6SflFoO6A4XXUWIs1jPhD1E/r2tc4
-         xhgTusAlCmZ8+0an99QjY2TPgjusDYbLHvqSo/HsYWE0Yc7C6IoQf7c1ZuAS01BhCFpb
-         W+Qc+Cpa8iPRxbA7C4nSeYu1QcCKYy7HF967sOAg6t55CwwtArd5PCVskH992Rp48Elq
-         VlrmzVTtWJYzFdLupZrnCR1QbRJC8tlCEgmM1yAmroRwbE4rZRuKVVCU1HH7GIIcRHeR
-         vztQ==
+        bh=uN0iVbvUCtHrusvPM7j5d8Cr0NiexIYpDbZftj2H28Y=;
+        b=PP3/Zk81Dx5TaS99wCZhT+oL9plnOU/vfZK0VI5ntIV4Md6JQx4LTvSaS4tWotN6qP
+         n8OI7fU+kBLFwYvA7ESImGQulTf+9eFtIFe8momsKIUZkfqf7gOBAAj5lnw3wVlEJugH
+         E4MPe0QWPA9xOGR7WoW/M1tW8AHxabxNKGLrVZBfOzoVLee6MW5gvA9/fw2wWdWhmkaC
+         bkoBwYziawCLIMo6459WVdKuRJWxcBLC301wrlXEVgHKWBNfVl6cqtSkjJsMkdCxPqj7
+         +L7IfMJ6KQt8MeAyJyXIsB+5CuoaWhSNWH7xqS7Ub8MQwi/12axYGnx80VT2HQHScU8g
+         Ud1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718292398; x=1718897198;
+        d=1e100.net; s=20230601; t=1718292400; x=1718897200;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+iX8aCdLeiSd9q28ms9w1B6bv8MCufq0seR2PtHpfUk=;
-        b=wyEEX5JHbvNlON5ihypN66JYevUYjevhTDljDnyrKOx+MIQTJ5Ydw/dUhw7/4y7/N7
-         NWUggYgNUNdEsZoAvN4clOj9T+jKru87dNMEQxGcg/NUCI1HzydTyRkWvoOryOV6rd+/
-         /PHJx+Su4fE/jGZCM/TT9lbtLAJOKltdllv2qgiaGNRdjOjQBPbwrRO+yppl6hjHECF0
-         eh0+WIkbCvU1AEmLlbbT1fVmLcBM0DWIExFnHc7g1fu4lhhuk9Vh7Vb6vAauMwzS+KLE
-         hLKdHOpAc8WoHlDfa4lptlvVKcqa+3N/DmuCW8deNK9bcQKrh6jchfcKfOzC23uixFR7
-         Shcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVK7QVO5O9dzkpxnqBkrpMueY3WSdvmiwFe2IOdDl2QSO9SYLZSWel0sb5aT3wXHgAIU+eIOrESobAtlRIv32YAAdDV8/jP5r+QR6hZdg==
-X-Gm-Message-State: AOJu0YzuiRnAAV6db5CRhnax3dq5dT8bdd6KYqGlPHB2MyUqbVFnnzty
-	ZohNH18CF76f/70eOVCrLnAm7cf0vDTAUGeTvMW4OvKcWj1QUGtx
-X-Google-Smtp-Source: AGHT+IEj3DrHn3ST/RUxDPjwBzLIUyUdRzaBpzGlYtxwv9jX4plp5kdttH1p22qdwS0sdbs8pkEyzw==
-X-Received: by 2002:a05:6358:7e0e:b0:19f:174c:7fa0 with SMTP id e5c5f4694b2df-19fb500f43fmr7937055d.24.1718292397778;
-        Thu, 13 Jun 2024 08:26:37 -0700 (PDT)
+        bh=uN0iVbvUCtHrusvPM7j5d8Cr0NiexIYpDbZftj2H28Y=;
+        b=Z9ibqiH8wrJY+ArOwiJb5kJQ2Ahd6xq62c7YoDxpvRMYrshRdX9iE22QEmyWSDW4ZH
+         RyjPqZYn8AosU4Ip5kgKNfjY6KzRhOP6sqKen17UnK55rKRPyeq13fLqHCQjXtdXhHU7
+         UMK3mEAzqWtOKepx6Gv+RbvgtXoe7jkFHRB5n8HY04axrbY+AJ5sc9MOhNh9dXmwNky0
+         7zzEQQsPr9KujC3lmnl6LN8Gj7q2SUB/KzAXFNEelj1rn1e+EsYYbh+ZU+tE8APmVuKn
+         sU2lo1t7mEZCO3AWLSxr57ppn5pcsEkSDPdD7J7s9zk2uvz5Au/9Kdc5/UhV7nrw8Qp4
+         ZCEw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZPTmiWYqrGDlX8TcXPR6h+LpULhYuYCW++pj86hSTjFm67flr1AmBEKVXHEf/QmaLpUIAj9CzkoivAChS8G1pGvgBCVNTO50M5j5++Q==
+X-Gm-Message-State: AOJu0YwJ2+yRQYM8HlHFzsElcDiZHr2i2wbdfEX3FNo7YVmmrBaa9VEo
+	9ikbFPPMY4HVLN+WccMHy0PHuQrW7tKmoNqBcrdD92F4IXszvS2z
+X-Google-Smtp-Source: AGHT+IEf10NElgIFM/CEvfdR+k7HaTuO6/i/+QFJcKhnj7u317VP70MArazE03nYYpgOWFTfeto06g==
+X-Received: by 2002:a05:6358:5328:b0:19e:fa9c:5ec9 with SMTP id e5c5f4694b2df-19fa9e5c31dmr11451155d.9.1718292400375;
+        Thu, 13 Jun 2024 08:26:40 -0700 (PDT)
 Received: from peter-bmc.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6fee41663d2sm1198183a12.92.2024.06.13.08.26.35
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6fee41663d2sm1198183a12.92.2024.06.13.08.26.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 08:26:37 -0700 (PDT)
+        Thu, 13 Jun 2024 08:26:40 -0700 (PDT)
 From: Peter Yin <peteryin.openbmc@gmail.com>
 To: patrick@stwcx.xyz,
 	Rob Herring <robh@kernel.org>,
@@ -70,9 +70,9 @@ To: patrick@stwcx.xyz,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/7] ARM: dts: aspeed: Harma: add sgpio name
-Date: Thu, 13 Jun 2024 23:24:21 +0800
-Message-Id: <20240613152425.1582059-4-peteryin.openbmc@gmail.com>
+Subject: [PATCH v1 4/7] ARM: dts: aspeed: Harma: add ina238
+Date: Thu, 13 Jun 2024 23:24:22 +0800
+Message-Id: <20240613152425.1582059-5-peteryin.openbmc@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240613152425.1582059-1-peteryin.openbmc@gmail.com>
 References: <20240613152425.1582059-1-peteryin.openbmc@gmail.com>
@@ -92,35 +92,79 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add power-chassis-control and power-chassis-power
-for phosphor-power
+Add INA238 power monitor for Harma fan board.
 
 Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 48 +++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-index ef5ffe190445..06c8b5ff1125 100644
+index 06c8b5ff1125..05020e23a901 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-@@ -520,13 +520,14 @@ &gpio0 {
- 	/*O0-O7*/	"","","","","","","","",
- 	/*P0-P7*/	"power-button","power-host-control",
- 			"reset-button","","led-power","","","",
--	/*Q0-Q7*/	"","","","","","","","",
-+	/*Q0-Q7*/	"","","","","","power-chassis-control","","",
- 	/*R0-R7*/	"","","","","","","","",
- 	/*S0-S7*/	"","","","","","","","",
- 	/*T0-T7*/	"","","","","","","","",
- 	/*U0-U7*/	"","","","","","","led-identify-gate","",
- 	/*V0-V7*/	"","","","",
--			"rtc-battery-voltage-read-enable","","","",
-+			"rtc-battery-voltage-read-enable","",
-+			"power-chassis-good","",
- 	/*W0-W7*/	"","","","","","","","",
- 	/*X0-X7*/	"","","","","","","","",
- 	/*Y0-Y7*/	"","","","","","","","",
+@@ -198,6 +198,30 @@ pwm@5e{
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 	};
++
++	power-sensor@40 {
++		compatible = "ti,ina238";
++		reg = <0x40>;
++		shunt-resistor = <1000>;
++	};
++
++	power-sensor@41 {
++		compatible = "ti,ina238";
++		reg = <0x41>;
++		shunt-resistor = <1000>;
++	};
++
++	power-sensor@44 {
++		compatible = "ti,ina238";
++		reg = <0x44>;
++		shunt-resistor = <1000>;
++	};
++
++	power-sensor@45 {
++		compatible = "ti,ina238";
++		reg = <0x45>;
++		shunt-resistor = <1000>;
++	};
+ };
+ 
+ &i2c1 {
+@@ -224,6 +248,30 @@ pwm@5e{
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 	};
++
++	power-sensor@40 {
++		compatible = "ti,ina238";
++		reg = <0x40>;
++		shunt-resistor = <1000>;
++	};
++
++	power-sensor@41 {
++		compatible = "ti,ina238";
++		reg = <0x41>;
++		shunt-resistor = <1000>;
++	};
++
++	power-sensor@44 {
++		compatible = "ti,ina238";
++		reg = <0x44>;
++		shunt-resistor = <1000>;
++	};
++
++	power-sensor@45 {
++		compatible = "ti,ina238";
++		reg = <0x45>;
++		shunt-resistor = <1000>;
++	};
+ };
+ 
+ &i2c3 {
 -- 
 2.25.1
 
