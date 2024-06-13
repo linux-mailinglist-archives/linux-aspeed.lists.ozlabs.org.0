@@ -2,55 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DB990630E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jun 2024 06:21:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9FC90663A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jun 2024 10:10:53 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=KSBMEN3g;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PAS1P5yX;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W08PP6DVcz3cVS
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jun 2024 14:21:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W0FTf14gFz3cQ7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jun 2024 18:10:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=KSBMEN3g;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PAS1P5yX;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W08PH6cK0z30WX
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Jun 2024 14:21:39 +1000 (AEST)
-Received: by codeconstruct.com.au (Postfix, from userid 10000)
-	id E484E2018F; Thu, 13 Jun 2024 12:21:35 +0800 (AWST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W0FTX4M28z3bpN;
+	Thu, 13 Jun 2024 18:10:38 +1000 (AEST)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1f65a3abd01so6582835ad.3;
+        Thu, 13 Jun 2024 01:10:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1718252495;
-	bh=S+YHJgRM035nLxthI4G82gaHJgS6T+YR08kZw9KBQvs=;
-	h=From:Date:Subject:To:Cc;
-	b=KSBMEN3gaumaS04MngmkQj7Idqi2x305ZiqlvpkV5RiN6bOsFjMuzkuT0BixzjFdQ
-	 lRfWAk44G1P29/xZqyLDMbDSOhXAw+yEV+mvgc6/bMYeHkvo0OKMMwO4sdOwmhaSTn
-	 rp+RCGTY0qdfEpIN8Z42TqkRFS0zM7HyDL4/vjPnsPTkxCISS+wCJ2RHdlIGG4nRIU
-	 1Hz/Qxs0p0xRVbERsUPvG2ptffaVD3Ge4GYleH9RpjnKrtGytOKrQo0e7pgyrjJsZn
-	 GM5iA5shjX7ecyjl3YL1vMsEeq7t3qM2N5/8eRxk5CvCDUjAA8guqiBLaeBTO3vysI
-	 UpwOdDbRdA6CA==
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-Date: Thu, 13 Jun 2024 12:20:47 +0800
-Subject: [PATCH v2] usb: gadget: aspeed_udc: fix device address
- configuration
+        d=gmail.com; s=20230601; t=1718266234; x=1718871034; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u6rW4gRbF4g9rE66bFyc4+9ecA/29lBg9GnRQwb9/4M=;
+        b=PAS1P5yXa//wvoTx45g3n7EuH0IW/d+NBwOUJY/1BASVA6WHIRRmJikUOnV93Yt7Dk
+         elkNIryv+8YKnQjtVGg2UhJ2BckgVW8CF2WaMrp+kzoO/XMH4hu8kNCTJEkcYCIIFkrq
+         Ix5nT3qOTX9QXX10bLvlgddiQ0TQAdZGgnavAYPGx4uguEE/JgieMyVdiBZXZkZPDCNH
+         iSSn1NDN/ByX8IGoSinetqTqFhB1UuLZHgRne0F42KNZeLrLuYzfASgN/qbPZ/qmZob5
+         +XWbMbknec6/hRaRUQKAgzn6lzE3HSyOxfWVQgSyK2LS18ecFa561LCpsqyA+5/tClC4
+         YFfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718266234; x=1718871034;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u6rW4gRbF4g9rE66bFyc4+9ecA/29lBg9GnRQwb9/4M=;
+        b=bhVhK7gKK4d4vjP/EHzWi9cE9hu5vHCaHqT8bVTTAyVuJcqyJqjwm2zT5Yx1b/e1vg
+         BBAWXSyRd/1oDIK8toDjlKAvMd97QyrzkT/cLSQmLz1jyY+kiwxuG0FFHvzUDdl2xOYw
+         r5j2QhBbjJQ5SGhVIjLQK2rZrxcmlMWHFhoY06TJJpmxH5IkUd7rZ49gXq4YQ/zlzaTZ
+         dbv/2+Zape5yHFv+d2HyRWPkGFFXGjX7mPGHyblhGBkW87sj8wJT/w5kX/2J4a5562J1
+         93Nn6YXTn8kPOqDuYEnn8U2zqwf/7OVbvlY9fnZTA8HXjFlDuA2Pk4vUgPvqR6UbkdIw
+         moqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWJj2UwidTyEUCwWvHwLNfGVvLnbHeaZYWflz7PgvA0U9TTrpmw3bS4CWii22l7bWz7g1k6RMhTt0fF7aa1jh3JSPmHkR4wdYM=
+X-Gm-Message-State: AOJu0YwvR4TR1++nu/LNQWSDpHMpC/T5VdhHAxmQjb2LI1rUB2byM6ZQ
+	pouQyDzLamV1ZyS4NMIdwTQpru71QMVeeWqooNy4zwlNV6ifTT9c
+X-Google-Smtp-Source: AGHT+IFLEywWphtgn3X1PQp/3zfnSwArZcK1HQZIowNQFjRIz2BcmZ5KhpvO9dq6/2QAxDHqyog4wA==
+X-Received: by 2002:a17:902:ccc2:b0:1f7:2135:ce71 with SMTP id d9443c01a7336-1f83b566d82mr47972065ad.11.1718266234189;
+        Thu, 13 Jun 2024 01:10:34 -0700 (PDT)
+Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e74c49sm7572965ad.104.2024.06.13.01.10.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jun 2024 01:10:33 -0700 (PDT)
+From: Potin Lai <potin.lai.pt@gmail.com>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Joel Stanley <joel@jms.id.au>
+Subject: [PATCH 1/1] pinctrl: aspeed-g6: Add NCSI pin group config
+Date: Thu, 13 Jun 2024 16:07:25 +0800
+Message-Id: <20240613080725.2531580-1-potin.lai.pt@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240613-aspeed-udc-v2-1-29501ce9cb7a@codeconstruct.com.au>
-X-B4-Tracking: v=1; b=H4sIAJ5zamYC/03MQQqDMBCF4avIrDuSpFWhq95DXKQzY82iRpIYW
- sS7NxUKXf4P3rdBlOAkwrXaIEh20fm5hDlVQJOdH4KOS4NR5qJardHGRYRxZULVMbGo1hCNUA5
- LkNG9DqwfSk8uJh/eh531d/0x5p/JGjWy6bp705yt0Hgjz0J+jimslGryz9quMOz7/gFjxalFr
- wAAAA==
-To: Neal Liu <neal_liu@aspeedtech.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,70 +79,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-usb@vger.kernel.org, linux-aspeed@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, Patrick Williams <patrick@stwcx.xyz>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Potin Lai <potin.lai.pt@gmail.com>, linux-gpio@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-In the aspeed UDC setup, we configure the UDC hardware with the assigned
-USB device address.
+In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is not
+needed on the management controller side.
 
-However, we have an off-by-one in the bitmask, so we're only setting the
-lower 6 bits of the address (USB addresses being 7 bits, and the
-hardware bitmask being bits 0:6).
+To optimize pin usage, add new NCSI pin groupis that excludes RMIIXRCLKO,
+reducing the number of required pins.
 
-This means that device enumeration fails if the assigned address is
-greater than 64:
-
-[  344.607255] usb 1-1: new high-speed USB device number 63 using ehci-platform
-[  344.808459] usb 1-1: New USB device found, idVendor=cc00, idProduct=cc00, bcdDevice= 6.10
-[  344.817684] usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[  344.825671] usb 1-1: Product: Test device
-[  344.831075] usb 1-1: Manufacturer: Test vendor
-[  344.836335] usb 1-1: SerialNumber: 00
-[  349.917181] usb 1-1: USB disconnect, device number 63
-[  352.036775] usb 1-1: new high-speed USB device number 64 using ehci-platform
-[  352.249432] usb 1-1: device descriptor read/all, error -71
-[  352.696740] usb 1-1: new high-speed USB device number 65 using ehci-platform
-[  352.909431] usb 1-1: device descriptor read/all, error -71
-
-Use the correct mask of 0x7f (rather than 0x3f), and generate this
-through the GENMASK macro, so we have numbers that correspond exactly
-to the hardware register definition.
-
-Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
-Cc: stable@vger.kernel.org
-Reviewed-by: Neal Liu <neal_liu@aspeedtech.com>
-Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
 ---
-v2:
-- Add Cc: stable@ tag
-- v1: https://lore.kernel.org/r/20240612-aspeed-udc-v1-1-d277b553aecf@codeconstruct.com.au
----
- drivers/usb/gadget/udc/aspeed_udc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 3916c8e2ba01..821a6ab5da56 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -66,8 +66,8 @@
- #define USB_UPSTREAM_EN			BIT(0)
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+index 7938741136a2c..31e4e0b342a00 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+@@ -249,7 +249,9 @@ PIN_DECL_2(E26, GPIOD3, RGMII3RXD3, RMII3RXER);
  
- /* Main config reg */
--#define UDC_CFG_SET_ADDR(x)		((x) & 0x3f)
--#define UDC_CFG_ADDR_MASK		(0x3f)
-+#define UDC_CFG_SET_ADDR(x)		((x) & UDC_CFG_ADDR_MASK)
-+#define UDC_CFG_ADDR_MASK		GENMASK(6, 0)
+ FUNC_GROUP_DECL(RGMII3, H24, J22, H22, H23, G22, F22, G23, G24, F23, F26, F25,
+ 		E26);
+-FUNC_GROUP_DECL(RMII3, H24, J22, H22, H23, G23, F23, F26, F25, E26);
++GROUP_DECL(RMII3, H24, J22, H22, H23, G23, F23, F26, F25, E26);
++GROUP_DECL(NCSI3, J22, H22, H23, G23, F23, F26, F25, E26);
++FUNC_DECL_2(RMII3, RMII3, NCSI3);
  
- /* Interrupt ctrl & status reg */
- #define UDC_IRQ_EP_POOL_NAK		BIT(17)
-
----
-base-commit: 32f88d65f01bf6f45476d7edbe675e44fb9e1d58
-change-id: 20240611-aspeed-udc-07dcde062ccf
-
-Best regards,
+ #define F24 28
+ SIG_EXPR_LIST_DECL_SESG(F24, NCTS3, NCTS3, SIG_DESC_SET(SCU410, 28));
+@@ -355,7 +357,9 @@ FUNC_GROUP_DECL(NRTS4, B24);
+ 
+ FUNC_GROUP_DECL(RGMII4, F24, E23, E24, E25, D26, D24, C25, C26, C24, B26, B25,
+ 		B24);
+-FUNC_GROUP_DECL(RMII4, F24, E23, E24, E25, C25, C24, B26, B25, B24);
++GROUP_DECL(RMII4, F24, E23, E24, E25, C25, C24, B26, B25, B24);
++GROUP_DECL(NCSI4, E23, E24, E25, C25, C24, B26, B25, B24);
++FUNC_DECL_2(RMII4, RMII4, NCSI4);
+ 
+ #define D22 40
+ SIG_EXPR_LIST_DECL_SESG(D22, SD1CLK, SD1, SIG_DESC_SET(SCU414, 8));
+@@ -1976,6 +1980,8 @@ static const struct aspeed_pin_group aspeed_g6_groups[] = {
+ 	ASPEED_PINCTRL_GROUP(MDIO2),
+ 	ASPEED_PINCTRL_GROUP(MDIO3),
+ 	ASPEED_PINCTRL_GROUP(MDIO4),
++	ASPEED_PINCTRL_GROUP(NCSI3),
++	ASPEED_PINCTRL_GROUP(NCSI4),
+ 	ASPEED_PINCTRL_GROUP(NCTS1),
+ 	ASPEED_PINCTRL_GROUP(NCTS2),
+ 	ASPEED_PINCTRL_GROUP(NCTS3),
 -- 
-Jeremy Kerr <jk@codeconstruct.com.au>
+2.31.1
 
