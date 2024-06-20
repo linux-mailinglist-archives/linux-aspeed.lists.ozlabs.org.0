@@ -1,41 +1,125 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DE790FC84
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 08:09:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6858C90FD64
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 09:15:45 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fJHZWQgW;
+	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W4VSZ2hBZz3cCb
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 16:09:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W4Wws11mbz3cF1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 17:15:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=molgen.mpg.de (client-ip=141.14.17.11; helo=mx3.molgen.mpg.de; envelope-from=pmenzel@molgen.mpg.de; receiver=lists.ozlabs.org)
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fJHZWQgW;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::432; helo=mail-wr1-x432.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W4VSS6nrtz30T3;
-	Thu, 20 Jun 2024 16:09:28 +1000 (AEST)
-Received: from [192.168.0.2] (ip5f5af485.dynamic.kabel-deutschland.de [95.90.244.133])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id AA01E61E5FE01;
-	Thu, 20 Jun 2024 08:08:24 +0200 (CEST)
-Message-ID: <10ada752-f464-4d3d-aeb2-9c63ebff121a@molgen.mpg.de>
-Date: Thu, 20 Jun 2024 08:08:23 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W4Wwl0Xkjz30Vl
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2024 17:15:33 +1000 (AEST)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3632a6437d7so315873f8f.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2024 00:15:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718867725; x=1719472525; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=YOQPbikfuVDQuYYOBMdu0+m07SFpdwRjMBfJOBJZzTY=;
+        b=fJHZWQgWKMwCnvbYZh5MY9VcZdgSVBZ4kCfJ9KuuC6wNBOPgRRJlXBHKSz232ghJWv
+         rqTmpS3ZEVlYzLGAxC3roqaQbYBiSjGQnI9Ouq9R4666MXr6up701dV41y/IVQB6OGiR
+         g5U+akBexvTKtczJ7RYgQL7IHAMfykYNGNLArTMNWqNNEVpwhibl8iD7G17LkHEOsYn0
+         mH8gzw/0+UywjSf5ulD5qDYGDXCOAGxVahiJ5PSFS7nfvsrfX+E65X6tg60YyvNrD6Nc
+         v7h1C3iIVLeSnT7tdyCvXcYQLZq4+6v+mrKMunNPiw5NppVJKiE4DQ+Nmu69fNAgu6XO
+         zqMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718867725; x=1719472525;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YOQPbikfuVDQuYYOBMdu0+m07SFpdwRjMBfJOBJZzTY=;
+        b=EnxFZfOuqfWuiUc9a8dzAcWBrpGVkdOOb021lxuujFedkTFRTJsKXOMel0LJSzCptl
+         AVJz9JPjh/IqIgPu4tOpE5KWLKf2s7OVSFtF+lIev4qySb4aTVHdlzrsmAvZpAOxEqcf
+         wc8OZpphK/vY7Jxo7r5Hz6QD1nH1JnoFsCAApcIwt1L3WsuGANh+nsP3kgK6JnZAELe5
+         8GONEEnjteg5WI66tgrw8sjnbsxTe0jXfiuiemEPnefgFaAfjGWAqv7sbj0/JYiE9h6w
+         hmd6XzGNiobBOnTOD6ksGXZCBC3Ka9b8J6klRYEYDsZkfUqY6Q3fuNbZuwbkMIUdNEv4
+         wT/Q==
+X-Gm-Message-State: AOJu0Yy93LRxW6j4JPbhv1WM2YL9UwGASo5zekNffGcUPHZxtIx1+AOj
+	ne5iteCAfiMEgurvyihAnD8k7Bdhgv08Czmo/232yMfDLnoNo8RcKrF3n1M0MR8=
+X-Google-Smtp-Source: AGHT+IEGQyEXaoW5eLHwTmEBudyzkdUgYkrq1xqgYSqKziMbPzOY4Yr8g/vysNLPiNBdD2QRTxrCVQ==
+X-Received: by 2002:adf:db49:0:b0:362:56c2:adb4 with SMTP id ffacd0b85a97d-36256c2ba0amr6300681f8f.18.1718867725501;
+        Thu, 20 Jun 2024 00:15:25 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d0ca20esm14782095e9.27.2024.06.20.00.15.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jun 2024 00:15:24 -0700 (PDT)
+Message-ID: <21320239-2991-4ec8-97a9-f1e6da249685@linaro.org>
+Date: Thu, 20 Jun 2024 09:15:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] pinctrl: aspeed-g6: Add NCSI pin group config
-To: Potin Lai <potin.lai.pt@gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: pinctrl: aspeed,ast2600-pinctrl: add
+ NCSI group
+To: Potin Lai <potin.lai.pt@gmail.com>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
 References: <20240620012512.3109518-1-potin.lai.pt@gmail.com>
- <20240620012512.3109518-2-potin.lai.pt@gmail.com>
+ <20240620012512.3109518-3-potin.lai.pt@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20240620012512.3109518-2-potin.lai.pt@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240620012512.3109518-3-potin.lai.pt@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -48,69 +132,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Cosmo Chou <cosmo.chou@quantatw.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Patrick Williams <patrick@stwcx.xyz>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Potin,
-
-
-Thank you for your patch.
-
-Am 20.06.24 um 03:25 schrieb Potin Lai:
+On 20/06/2024 03:25, Potin Lai wrote:
 > In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is not
 > needed on the management controller side.
-
-Please add a reference to the source for this statement.
-
-> To optimize pin usage, add new NCSI pin groupis that excludes RMIIXRCLKO,
-
-groupis? Do you mean group?
-
-> reducing the number of required pins.
 > 
-> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
-> ---
->   drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-> index 7938741136a2c..31e4e0b342a00 100644
-> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-> @@ -249,7 +249,9 @@ PIN_DECL_2(E26, GPIOD3, RGMII3RXD3, RMII3RXER);
->   
->   FUNC_GROUP_DECL(RGMII3, H24, J22, H22, H23, G22, F22, G23, G24, F23, F26, F25,
->   		E26);
-> -FUNC_GROUP_DECL(RMII3, H24, J22, H22, H23, G23, F23, F26, F25, E26);
-> +GROUP_DECL(RMII3, H24, J22, H22, H23, G23, F23, F26, F25, E26);
-> +GROUP_DECL(NCSI3, J22, H22, H23, G23, F23, F26, F25, E26);
-> +FUNC_DECL_2(RMII3, RMII3, NCSI3);
->   
->   #define F24 28
->   SIG_EXPR_LIST_DECL_SESG(F24, NCTS3, NCTS3, SIG_DESC_SET(SCU410, 28));
-> @@ -355,7 +357,9 @@ FUNC_GROUP_DECL(NRTS4, B24);
->   
->   FUNC_GROUP_DECL(RGMII4, F24, E23, E24, E25, D26, D24, C25, C26, C24, B26, B25,
->   		B24);
-> -FUNC_GROUP_DECL(RMII4, F24, E23, E24, E25, C25, C24, B26, B25, B24);
-> +GROUP_DECL(RMII4, F24, E23, E24, E25, C25, C24, B26, B25, B24);
-> +GROUP_DECL(NCSI4, E23, E24, E25, C25, C24, B26, B25, B24);
-> +FUNC_DECL_2(RMII4, RMII4, NCSI4);
->   
->   #define D22 40
->   SIG_EXPR_LIST_DECL_SESG(D22, SD1CLK, SD1, SIG_DESC_SET(SCU414, 8));
-> @@ -1976,6 +1980,8 @@ static const struct aspeed_pin_group aspeed_g6_groups[] = {
->   	ASPEED_PINCTRL_GROUP(MDIO2),
->   	ASPEED_PINCTRL_GROUP(MDIO3),
->   	ASPEED_PINCTRL_GROUP(MDIO4),
-> +	ASPEED_PINCTRL_GROUP(NCSI3),
-> +	ASPEED_PINCTRL_GROUP(NCSI4),
->   	ASPEED_PINCTRL_GROUP(NCTS1),
->   	ASPEED_PINCTRL_GROUP(NCTS2),
->   	ASPEED_PINCTRL_GROUP(NCTS3),
+> Add NCSI group to distinguish the pin group between RMII and NCSI.
+
+Bindings go before users.
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
-Kind regards,
+---
 
-Paul
+<form letter>
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+</form letter>
+
+Best regards,
+Krzysztof
+
