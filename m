@@ -1,79 +1,42 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEAF90FAEF
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 03:28:31 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MSgjhN8V;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DE790FC84
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 08:09:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W4NDC5716z3dBt
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 11:28:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W4VSZ2hBZz3cCb
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 16:09:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MSgjhN8V;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62c; helo=mail-pl1-x62c.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=molgen.mpg.de (client-ip=141.14.17.11; helo=mx3.molgen.mpg.de; envelope-from=pmenzel@molgen.mpg.de; receiver=lists.ozlabs.org)
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W4NC94wGTz3cT1;
-	Thu, 20 Jun 2024 11:27:32 +1000 (AEST)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1f9aeb96b93so2642515ad.3;
-        Wed, 19 Jun 2024 18:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718846850; x=1719451650; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mAvyobvqI2HxWlvdnAeJsCk7w3GvVzpbdy8jdNQhefo=;
-        b=MSgjhN8Vg6gb5AJiDbpWwHyOfYWoOAdX+hB+LvHu90es4EgFMJzbAnWTZHZCtaJafD
-         wUHfi0urtHb+FhEn/EKZQN8rDYUU0jUUQOKGKI8VtIZ7CB1Wznq6vPkogaealYu1mMww
-         /oX6zKuwWI8jKEXDcB4U26jbBPaxOuhD5xrTykjDUFqzrOcOiDJRwfc8zyvpmnOdoIs7
-         zs3ZERurN5g8lSJlELq+rL9rrCh5avfIZw/HWlLFVbAtBnAh2hKPSI1DfzpCU1e7mbLX
-         OuCGPmceZPqMBCoWUbqSxH5dZ8qwWEnO5q0ZMF+w7A23cmP3u/+XrbasigLMPIZxv7Ny
-         /15Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718846850; x=1719451650;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mAvyobvqI2HxWlvdnAeJsCk7w3GvVzpbdy8jdNQhefo=;
-        b=EKD1hYQIwapq48sbzi2PuTltY/CdRumakWneGmWvKJlVddDfj9DKE8dc1h1P/5Miei
-         E2COrL7P/xg5f4tDYtITyfODyXYinZqMICGIAM9ymhL1EpDrcuCd78FerlQobjQCIkif
-         pqlEpEl3mGQDZzXFliGJQLD7U1OsTpH8qD4v65J6PLnQX9Gx5fZaCJG6zRsD/8L5b6Bk
-         ahpKua0shvzt+WOlWyL+Vd0uEsyl+hE7PiOvveA7tbDHq8aZzcA7DyCi/5GF4tijcw7o
-         KWff3rJD+eT4zRhhKrFsaRLjHtxbQfxL9FeAFg4BkTVCNZBCIZfXYgxUy9hTfoeF4TYR
-         tHAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSvw/xI58aUPp7F7bpBJZwKsemhcIMrTHvQGwTa11TjYb6BK1nX4LSw8YOBj0y+oA97IFh1RFa+LQFvyC0Qlj3Z2hBDNiZZuo=
-X-Gm-Message-State: AOJu0YyQQ6NoBTNaJf8Nx4h4Ybg04lFxwwT2I/zBzbpQq6iR92qpQsRo
-	JYvBpxYA+0M+5nJDaY6WZleuUHyPy4j4TzXwq64J1wBuSSkXMN0Q
-X-Google-Smtp-Source: AGHT+IHTJJRiCMllRxkLRs+jMBPLwCcjfhogsXVOVPuvtCI4VC6AcvlRfF/4zLL0cmyB5XBOJCHl4g==
-X-Received: by 2002:a17:902:c40d:b0:1f7:126:5bab with SMTP id d9443c01a7336-1f9aa41228fmr47535535ad.40.1718846850068;
-        Wed, 19 Jun 2024 18:27:30 -0700 (PDT)
-Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9d021b98fsm105855ad.33.2024.06.19.18.27.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 18:27:29 -0700 (PDT)
-From: Potin Lai <potin.lai.pt@gmail.com>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>
-Subject: [PATCH v2 2/2] dt-bindings: pinctrl: aspeed,ast2600-pinctrl: add NCSI group
-Date: Thu, 20 Jun 2024 09:25:12 +0800
-Message-Id: <20240620012512.3109518-3-potin.lai.pt@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20240620012512.3109518-1-potin.lai.pt@gmail.com>
-References: <20240620012512.3109518-1-potin.lai.pt@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W4VSS6nrtz30T3;
+	Thu, 20 Jun 2024 16:09:28 +1000 (AEST)
+Received: from [192.168.0.2] (ip5f5af485.dynamic.kabel-deutschland.de [95.90.244.133])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id AA01E61E5FE01;
+	Thu, 20 Jun 2024 08:08:24 +0200 (CEST)
+Message-ID: <10ada752-f464-4d3d-aeb2-9c63ebff121a@molgen.mpg.de>
+Date: Thu, 20 Jun 2024 08:08:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] pinctrl: aspeed-g6: Add NCSI pin group config
+To: Potin Lai <potin.lai.pt@gmail.com>
+References: <20240620012512.3109518-1-potin.lai.pt@gmail.com>
+ <20240620012512.3109518-2-potin.lai.pt@gmail.com>
+Content-Language: en-US
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20240620012512.3109518-2-potin.lai.pt@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,54 +48,69 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Patrick Williams <patrick@stwcx.xyz>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Potin Lai <potin.lai.pt@gmail.com>, linux-gpio@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Cosmo Chou <cosmo.chou@quantatw.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is not
-needed on the management controller side.
+Dear Potin,
 
-Add NCSI group to distinguish the pin group between RMII and NCSI.
 
-- RMII pins:
-  - RMIIXRCLKI
-  - RMIIXRXD0
-  - RMIIXRXD1
-  - RMIIXCRSDV
-  - RMIIXRXER
-  - RMIIXRCLKO
-  - RMIIXTXEN
-  - RMIIXTXD0
-  - RMIIXTXD1
+Thank you for your patch.
 
-- NCSI pins:
-  - RMIIXRCLKI
-  - RMIIXRXD0
-  - RMIIXRXD1
-  - RMIIXCRSDV
-  - RMIIXRXER
-  - RMIIXTXEN
-  - RMIIXTXD0
-  - RMIIXTXD1
+Am 20.06.24 um 03:25 schrieb Potin Lai:
+> In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is not
+> needed on the management controller side.
 
-Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
----
- .../devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml     | 2 ++
- 1 file changed, 2 insertions(+)
+Please add a reference to the source for this statement.
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
-index 00b6974a5ed3d..3f02dc94a7ce2 100644
---- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
-@@ -337,6 +337,8 @@ additionalProperties:
-         - MDIO2
-         - MDIO3
-         - MDIO4
-+        - NCSI3
-+        - NCSI4
-         - NCTS1
-         - NCTS2
-         - NCTS3
--- 
-2.31.1
+> To optimize pin usage, add new NCSI pin groupis that excludes RMIIXRCLKO,
 
+groupis? Do you mean group?
+
+> reducing the number of required pins.
+> 
+> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+> ---
+>   drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+> index 7938741136a2c..31e4e0b342a00 100644
+> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+> @@ -249,7 +249,9 @@ PIN_DECL_2(E26, GPIOD3, RGMII3RXD3, RMII3RXER);
+>   
+>   FUNC_GROUP_DECL(RGMII3, H24, J22, H22, H23, G22, F22, G23, G24, F23, F26, F25,
+>   		E26);
+> -FUNC_GROUP_DECL(RMII3, H24, J22, H22, H23, G23, F23, F26, F25, E26);
+> +GROUP_DECL(RMII3, H24, J22, H22, H23, G23, F23, F26, F25, E26);
+> +GROUP_DECL(NCSI3, J22, H22, H23, G23, F23, F26, F25, E26);
+> +FUNC_DECL_2(RMII3, RMII3, NCSI3);
+>   
+>   #define F24 28
+>   SIG_EXPR_LIST_DECL_SESG(F24, NCTS3, NCTS3, SIG_DESC_SET(SCU410, 28));
+> @@ -355,7 +357,9 @@ FUNC_GROUP_DECL(NRTS4, B24);
+>   
+>   FUNC_GROUP_DECL(RGMII4, F24, E23, E24, E25, D26, D24, C25, C26, C24, B26, B25,
+>   		B24);
+> -FUNC_GROUP_DECL(RMII4, F24, E23, E24, E25, C25, C24, B26, B25, B24);
+> +GROUP_DECL(RMII4, F24, E23, E24, E25, C25, C24, B26, B25, B24);
+> +GROUP_DECL(NCSI4, E23, E24, E25, C25, C24, B26, B25, B24);
+> +FUNC_DECL_2(RMII4, RMII4, NCSI4);
+>   
+>   #define D22 40
+>   SIG_EXPR_LIST_DECL_SESG(D22, SD1CLK, SD1, SIG_DESC_SET(SCU414, 8));
+> @@ -1976,6 +1980,8 @@ static const struct aspeed_pin_group aspeed_g6_groups[] = {
+>   	ASPEED_PINCTRL_GROUP(MDIO2),
+>   	ASPEED_PINCTRL_GROUP(MDIO3),
+>   	ASPEED_PINCTRL_GROUP(MDIO4),
+> +	ASPEED_PINCTRL_GROUP(NCSI3),
+> +	ASPEED_PINCTRL_GROUP(NCSI4),
+>   	ASPEED_PINCTRL_GROUP(NCTS1),
+>   	ASPEED_PINCTRL_GROUP(NCTS2),
+>   	ASPEED_PINCTRL_GROUP(NCTS3),
+
+
+Kind regards,
+
+Paul
