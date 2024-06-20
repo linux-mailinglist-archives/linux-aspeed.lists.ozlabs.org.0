@@ -1,126 +1,76 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6858C90FD64
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 09:15:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2180390FF3C
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 10:47:01 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fJHZWQgW;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LeVLeBxd;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W4Wws11mbz3cF1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 17:15:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W4Yy962JJz3cYY
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2024 18:46:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fJHZWQgW;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LeVLeBxd;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::432; helo=mail-wr1-x432.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2001:4860:4864:20::2f; helo=mail-oa1-x2f.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W4Wwl0Xkjz30Vl
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2024 17:15:33 +1000 (AEST)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3632a6437d7so315873f8f.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2024 00:15:34 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W4Yx071x5z30T0;
+	Thu, 20 Jun 2024 18:45:55 +1000 (AEST)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-250ca14422aso364750fac.0;
+        Thu, 20 Jun 2024 01:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718867725; x=1719472525; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=YOQPbikfuVDQuYYOBMdu0+m07SFpdwRjMBfJOBJZzTY=;
-        b=fJHZWQgWKMwCnvbYZh5MY9VcZdgSVBZ4kCfJ9KuuC6wNBOPgRRJlXBHKSz232ghJWv
-         rqTmpS3ZEVlYzLGAxC3roqaQbYBiSjGQnI9Ouq9R4666MXr6up701dV41y/IVQB6OGiR
-         g5U+akBexvTKtczJ7RYgQL7IHAMfykYNGNLArTMNWqNNEVpwhibl8iD7G17LkHEOsYn0
-         mH8gzw/0+UywjSf5ulD5qDYGDXCOAGxVahiJ5PSFS7nfvsrfX+E65X6tg60YyvNrD6Nc
-         v7h1C3iIVLeSnT7tdyCvXcYQLZq4+6v+mrKMunNPiw5NppVJKiE4DQ+Nmu69fNAgu6XO
-         zqMw==
+        d=gmail.com; s=20230601; t=1718873152; x=1719477952; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=43KWYYRyoYmhNOn4BNyMreQoj2jRjYHSjwBPqztaSRQ=;
+        b=LeVLeBxdC+/nPGIe+wvUjQuZV6d4oZ5Yt4k5dKcroHCg3WxzVbSuIRNoKzz8rmlByi
+         fb44neAo3SId2nADCx0cs4mRwqYdCXiVD02tZBtt86dID1k6BQDZu8/j7op+/83U/BSG
+         947Hrm0mENASqTkUncLpIC/JApdDimeZuNi6X0vzLnpAC6TOrZjMoFnNYDxNTAT1YcBF
+         NiLH+YQyIHQ47Y26/VdDdq5CPvW0cnp1jhObyiHPVuR8Ipk0a41rjCJR6BtQ6VQjaGUw
+         2aIF3XxjlRc0NGAbFOnnTq8tmw+HOOGsuN9Cbsg1kiD7G2ME5OnuwKWte61Sup4xzahq
+         nDnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718867725; x=1719472525;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1718873152; x=1719477952;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YOQPbikfuVDQuYYOBMdu0+m07SFpdwRjMBfJOBJZzTY=;
-        b=EnxFZfOuqfWuiUc9a8dzAcWBrpGVkdOOb021lxuujFedkTFRTJsKXOMel0LJSzCptl
-         AVJz9JPjh/IqIgPu4tOpE5KWLKf2s7OVSFtF+lIev4qySb4aTVHdlzrsmAvZpAOxEqcf
-         wc8OZpphK/vY7Jxo7r5Hz6QD1nH1JnoFsCAApcIwt1L3WsuGANh+nsP3kgK6JnZAELe5
-         8GONEEnjteg5WI66tgrw8sjnbsxTe0jXfiuiemEPnefgFaAfjGWAqv7sbj0/JYiE9h6w
-         hmd6XzGNiobBOnTOD6ksGXZCBC3Ka9b8J6klRYEYDsZkfUqY6Q3fuNbZuwbkMIUdNEv4
-         wT/Q==
-X-Gm-Message-State: AOJu0Yy93LRxW6j4JPbhv1WM2YL9UwGASo5zekNffGcUPHZxtIx1+AOj
-	ne5iteCAfiMEgurvyihAnD8k7Bdhgv08Czmo/232yMfDLnoNo8RcKrF3n1M0MR8=
-X-Google-Smtp-Source: AGHT+IEGQyEXaoW5eLHwTmEBudyzkdUgYkrq1xqgYSqKziMbPzOY4Yr8g/vysNLPiNBdD2QRTxrCVQ==
-X-Received: by 2002:adf:db49:0:b0:362:56c2:adb4 with SMTP id ffacd0b85a97d-36256c2ba0amr6300681f8f.18.1718867725501;
-        Thu, 20 Jun 2024 00:15:25 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d0ca20esm14782095e9.27.2024.06.20.00.15.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jun 2024 00:15:24 -0700 (PDT)
-Message-ID: <21320239-2991-4ec8-97a9-f1e6da249685@linaro.org>
-Date: Thu, 20 Jun 2024 09:15:22 +0200
+        bh=43KWYYRyoYmhNOn4BNyMreQoj2jRjYHSjwBPqztaSRQ=;
+        b=KUme7aorQ9HSaQM0njJm0BFUesqYAmytplDKWheJrcTAEQCXXObbgU4p5kdG3LTVvI
+         GRC2PL8ouGd7Lx09dImk6qIq/SNLkjg5VWBV6WmZDF2IFpgpxlIC9+EeT1MUvFtUT4aQ
+         PluOP7Y9Q4L+zQQ16kGsMebqRPhJ98GJjXPgi3qKclU3GSsofLcwAfyEq0FqVwYAEToD
+         GKOmoIH7zf9/X6FO+TrC4Dvry/3j6tpDkSaxIZT0+JmzlE1lGP1Ljrb6SW5AuAxXcpXo
+         uwrjXTt/9zw2uz40ONte2f1vCZok+vT6EIxszl+Q+8oskv8AFyw9CG7BhRvYxAh/yY9q
+         tP5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXBxYKvD1zFyiMBllY23HSvD9c2rMjIwx80QcB1z7BIdQ70zC79mGxHUVktBxGlWZSTWQGlLlhz0MsXXgo4nrAY6unTfv0rVNU=
+X-Gm-Message-State: AOJu0YwjkueNQBAc6NViMnEULRIlAMYtn0TZo84Ndic7/UfTHeRAgI7Z
+	0GngnCkLUHUBfwdws920XgTZ+7IES6Oqc49BZbmSS9YIe+yw3eVQ
+X-Google-Smtp-Source: AGHT+IHUTewqsAsKC5xSUqbLqUEneEIJJdmKam3OZ0MLUfraam+NlYP/6BgrAchuTs1OQ6A+N03g8Q==
+X-Received: by 2002:a05:6870:b50f:b0:255:1819:b458 with SMTP id 586e51a60fabf-25c948f70cfmr4718438fac.8.1718873151683;
+        Thu, 20 Jun 2024 01:45:51 -0700 (PDT)
+Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705ccb6b9besm11895592b3a.165.2024.06.20.01.45.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jun 2024 01:45:51 -0700 (PDT)
+From: Potin Lai <potin.lai.pt@gmail.com>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>
+Subject: [PATCH v3 0/2] add ast2600 NCSI pin group
+Date: Thu, 20 Jun 2024 16:43:35 +0800
+Message-Id: <20240620084337.3525690-1-potin.lai.pt@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] dt-bindings: pinctrl: aspeed,ast2600-pinctrl: add
- NCSI group
-To: Potin Lai <potin.lai.pt@gmail.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-References: <20240620012512.3109518-1-potin.lai.pt@gmail.com>
- <20240620012512.3109518-3-potin.lai.pt@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240620012512.3109518-3-potin.lai.pt@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,39 +82,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Patrick Williams <patrick@stwcx.xyz>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Patrick Williams <patrick@stwcx.xyz>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Potin Lai <potin.lai.pt@gmail.com>, linux-gpio@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 20/06/2024 03:25, Potin Lai wrote:
-> In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is not
-> needed on the management controller side.
-> 
-> Add NCSI group to distinguish the pin group between RMII and NCSI.
+In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is not
+needed on the management controller side.
 
-Bindings go before users.
+LINK: [v1] https://lore.kernel.org/all/20240613080725.2531580-1-potin.lai.pt@gmail.com/
+LINK: [v2] https://lore.kernel.org/all/20240620012512.3109518-1-potin.lai.pt@gmail.com/
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+changes v2 --> v3:
+- fix commit message typo
+- move dt-bindings patch forward
 
+changes v1 --> v2:
+- add NCSI pin group in dt-bindings document
 
----
+Potin Lai (2):
+  dt-bindings: pinctrl: aspeed,ast2600-pinctrl: add NCSI group
+  pinctrl: aspeed-g6: Add NCSI pin group config
 
-<form letter>
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
+ .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml       |  2 ++
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c             | 10 ++++++++--
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-</form letter>
-
-Best regards,
-Krzysztof
+-- 
+2.31.1
 
