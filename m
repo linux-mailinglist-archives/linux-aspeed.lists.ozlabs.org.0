@@ -2,56 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDCB9117C3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 21 Jun 2024 02:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AECA911F78
+	for <lists+linux-aspeed@lfdr.de>; Fri, 21 Jun 2024 10:54:53 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=NcKP2jFD;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jeU59NxV;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W4zF26PTjz3cYh
-	for <lists+linux-aspeed@lfdr.de>; Fri, 21 Jun 2024 10:46:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W5B4m575vz3cfK
+	for <lists+linux-aspeed@lfdr.de>; Fri, 21 Jun 2024 18:54:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=NcKP2jFD;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jeU59NxV;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::12e; helo=mail-lf1-x12e.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W4zDx5skvz3cQf;
-	Fri, 21 Jun 2024 10:46:09 +1000 (AEST)
-Received: from [192.168.68.112] (ppp118-210-79-194.adl-adc-lon-bras32.tpg.internode.on.net [118.210.79.194])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 2CAFB200DD;
-	Fri, 21 Jun 2024 08:46:05 +0800 (AWST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W5B3k6V0Pz2xFn;
+	Fri, 21 Jun 2024 18:53:54 +1000 (AEST)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-52cd80e55efso577717e87.0;
+        Fri, 21 Jun 2024 01:53:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1718930767;
-	bh=h5dRVJQy35axM2JOoP1ujWmkMFeh76MXxL7uKyuYIiQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=NcKP2jFDsy3aMiuCUjlJitK0s9yShifLgb5vm28MeUlTnqmsgIp2/PB/VucMSCcam
-	 rahb68dvUNUlRGuJLadUjLmlZyg5/xoUVx5+1fonqn74wt+ZNf6Pv4cC6jg+SbFsG0
-	 9tBbVGebycFgyuWCj8qS7N+BEDOXWYM2ZaLNjWxFcmQRnED1f90H7bjWCtby4463L5
-	 wYLVxi8+FCcI31bL1vNMRorlVeZUg1cO4UskuRdTP6KT/0dN6oWOM267KRvzkQ25C6
-	 bTBAbXaNEcm60jQWPg7NbyZJ+twyZH+VQZrw6MBmjZAMWhhagHHjZqNQbMtlT5xrbC
-	 JuOc4S7LikPEA==
-Message-ID: <cb55efedaef63e4580c11415aa2e29606edcaf9f.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v3 1/2] dt-bindings: pinctrl: aspeed,ast2600-pinctrl:
- add NCSI group
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Potin Lai <potin.lai.pt@gmail.com>, Linus Walleij
- <linus.walleij@linaro.org>,  Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-Date: Fri, 21 Jun 2024 10:16:04 +0930
-In-Reply-To: <20240620084337.3525690-2-potin.lai.pt@gmail.com>
+        d=gmail.com; s=20230601; t=1718960032; x=1719564832; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C2NbmAeSPtr+VJPCDZGzIPSzbzCrEPpKv2Ul8cjGJpg=;
+        b=jeU59NxV/eHzY1NfGjJ13EtTqbbMwQD65WeLvRPFWvok9WHUlw1ahIIXN8cbLRzOn7
+         tRh8r15p/UBCQZJh0EcXxP8Xaa09o/5LcPAdD0jh02aUlXWAr8eJTtFTXJhRRiJOHLi5
+         RizBrzJeiwu4dCrS2L5+qIZ1Rcm4N7OAEIcypX87bEvIQ/cEjJxPIYFkCiAbjmJzqCZl
+         mb2aARk3hbExlIpekIhjdJ41syBqh4lfLsID+dO7lEqdy7U1nLPy+230xu8fsWi3wfMP
+         CRigVf7ujjUbVrzcHlu5bSKMn8a43ZyAcGAkxRaxpEmejqb30DkFv1c7FMR8tvVPdMdL
+         L9yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718960032; x=1719564832;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C2NbmAeSPtr+VJPCDZGzIPSzbzCrEPpKv2Ul8cjGJpg=;
+        b=tUQs+ZO8wTe7fOIT6hoSjwvnYnH2pa+wITcdDb0fpomKombTk6qgXptw9jFP6aZAok
+         3KjEh6BcVyhhALp/S78Bnh8a+hqOkh1B2n9yeTWcrevnRTQP9qE8JUrHfMGFMNAcf9pU
+         UW9ncm78IxkBV0vRi13rbsj3Cjamm7diD6KT5f44yHBIAAeh34B2FYnCSsUUR0p8Kd6K
+         i3y6tZgfGQiPac1fBm+7i9qtSgaEpsuzcpRlP2V4cCuLC7voACRuVsJO8mSJzmUhJ1Hw
+         6TgE8Vfu5NcWDdu3CSKKHcDcPLbs4jwKwtwST/K0ZCnNsk4M+qb8nfzeY75+5g04GWE9
+         f/+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVVsivTDjqFY0suu0W+paV0zWVmvn2Aru/JBy5AUB1Z8bSxp/60MyCVYtKD2azAnj4xAslQus2TGzXQDBWK4Wa8m1mYsCqWRJKM9C7SceSYn2iogT++DyrnSHRaaoIpjCfoTXjgWztU
+X-Gm-Message-State: AOJu0YzcKAEv7VLY69LlD/4PtpLg05wqs1j7OBXfynRcZN7dgCZp+Oqd
+	yFSwGYLga2qx6XM0nC7lSn6m3VajdYsqwJ9fwZjKpNgHiGZrlIv0bOog5li35fgb3eFKTYUfcj4
+	WVYSw1tO/CkKjf9oLpO8EUfUUj5Y=
+X-Google-Smtp-Source: AGHT+IFACBZJL/JrK568qW0O9LvAd+FrY4FSuAOLFmRWXPL7E3VDBY2O378p7oDlZU5U3E2pPeP3u6Glqf31Mu/d0J0=
+X-Received: by 2002:a05:6512:4ca:b0:52c:d5e4:9a99 with SMTP id
+ 2adb3069b0e04-52cd5e49ccfmr1025377e87.17.1718960031907; Fri, 21 Jun 2024
+ 01:53:51 -0700 (PDT)
+MIME-Version: 1.0
 References: <20240620084337.3525690-1-potin.lai.pt@gmail.com>
-	 <20240620084337.3525690-2-potin.lai.pt@gmail.com>
+ <20240620084337.3525690-2-potin.lai.pt@gmail.com> <cb55efedaef63e4580c11415aa2e29606edcaf9f.camel@codeconstruct.com.au>
+In-Reply-To: <cb55efedaef63e4580c11415aa2e29606edcaf9f.camel@codeconstruct.com.au>
+From: Potin Lai <potin.lai.pt@gmail.com>
+Date: Fri, 21 Jun 2024 16:53:40 +0800
+Message-ID: <CAGfYmwWp2dayGvySdYvU+nmtxZ-x3PPW_j69ZoBD4mxzPMQAzg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: pinctrl: aspeed,ast2600-pinctrl: add
+ NCSI group
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
-MIME-Version: 1.0
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,88 +80,98 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Patrick Williams <patrick@stwcx.xyz>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Patrick Williams <patrick@stwcx.xyz>, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Potin Lai <potin.lai@quantatw.com>, openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Cosmo Chou <cosmo.chou@quantatw.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Potin,
+On Fri, Jun 21, 2024 at 8:46=E2=80=AFAM Andrew Jeffery
+<andrew@codeconstruct.com.au> wrote:
+>
+> Hi Potin,
+>
+> On Thu, 2024-06-20 at 16:43 +0800, Potin Lai wrote:
+> > In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is n=
+ot
+> > needed on the management controller side.
+> >
+> > Add NCSI group to distinguish the pin group between RMII and NCSI.
+> >
+> > - RMII pins:
+> >   - RMIIXRCLKI
+> >   - RMIIXRXD0
+> >   - RMIIXRXD1
+> >   - RMIIXCRSDV
+> >   - RMIIXRXER
+> >   - RMIIXRCLKO
+> >   - RMIIXTXEN
+> >   - RMIIXTXD0
+> >   - RMIIXTXD1
+> >
+> > - NCSI pins:
+> >   - RMIIXRCLKI
+> >   - RMIIXRXD0
+> >   - RMIIXRXD1
+> >   - RMIIXCRSDV
+> >   - RMIIXRXER
+> >   - RMIIXTXEN
+> >   - RMIIXTXD0
+> >   - RMIIXTXD1
+>
+> I think listing all the pins for both groups obscures the fact that
+> there aren't more changes than removing RMIIXRCLKO.
+>
+> Can we instead drop these lists and replace
+>
+> > Add NCSI group to distinguish the pin group between RMII and NCSI.
+>
+> With:
+>
+> > Add "NCSI" pin groups that are equivalent to the RMII pin groups,
+> > but without the RMIIXRCLKO pin
+>
+> ?
+>
+Got it, will update it in the next version.
 
-On Thu, 2024-06-20 at 16:43 +0800, Potin Lai wrote:
-> In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is not
-> needed on the management controller side.
->=20
-> Add NCSI group to distinguish the pin group between RMII and NCSI.
->=20
-> - RMII pins:
->   - RMIIXRCLKI
->   - RMIIXRXD0
->   - RMIIXRXD1
->   - RMIIXCRSDV
->   - RMIIXRXER
->   - RMIIXRCLKO
->   - RMIIXTXEN
->   - RMIIXTXD0
->   - RMIIXTXD1
->=20
-> - NCSI pins:
->   - RMIIXRCLKI
->   - RMIIXRXD0
->   - RMIIXRXD1
->   - RMIIXCRSDV
->   - RMIIXRXER
->   - RMIIXTXEN
->   - RMIIXTXD0
->   - RMIIXTXD1
+> >
+> > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+> > ---
+> >  .../devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml     | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-p=
+inctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinc=
+trl.yaml
+> > index 00b6974a5ed3d..3f02dc94a7ce2 100644
+> > --- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.=
+yaml
+> > +++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.=
+yaml
+> > @@ -337,6 +337,8 @@ additionalProperties:
+> >          - MDIO2
+> >          - MDIO3
+> >          - MDIO4
+> > +        - NCSI3
+> > +        - NCSI4
+>
+> Can we also do this for RMII{1,2}RCLKO (and in the driver patch as
+> well)?
+>
+The power of RMII{1,2} is 1.8v, which does not meet NCSI requirements.
 
-I think listing all the pins for both groups obscures the fact that
-there aren't more changes than removing RMIIXRCLKO.
+> >          - NCTS1
+> >          - NCTS2
+> >          - NCTS3
+>
+> Overall, what I was hoping for with the comment on the earlier patch
+> was that you would add the discussion in the commit message to the
+> "description" entry in the binding YAML. Can you please do so? That way
+> the information is always present for people reading the binding
+> without them having to look at the binding's change history.
+>
+Got it, I will add note into aspeed,ast2600-pinctrl.yaml.
 
-Can we instead drop these lists and replace
-
-> Add NCSI group to distinguish the pin group between RMII and NCSI.
-
-With:
-
-> Add "NCSI" pin groups that are equivalent to the RMII pin groups,
-> but without the RMIIXRCLKO pin
-
-?
-
->=20
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
-> ---
->  .../devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml     | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pin=
-ctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctr=
-l.yaml
-> index 00b6974a5ed3d..3f02dc94a7ce2 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.ya=
-ml
-> @@ -337,6 +337,8 @@ additionalProperties:
->          - MDIO2
->          - MDIO3
->          - MDIO4
-> +        - NCSI3
-> +        - NCSI4
-
-Can we also do this for RMII{1,2}RCLKO (and in the driver patch as
-well)?
-
->          - NCTS1
->          - NCTS2
->          - NCTS3
-
-Overall, what I was hoping for with the comment on the earlier patch
-was that you would add the discussion in the commit message to the
-"description" entry in the binding YAML. Can you please do so? That way
-the information is always present for people reading the binding
-without them having to look at the binding's change history.
-
-Thanks,
-
-Andrew
+> Thanks,
+>
+> Andrew
