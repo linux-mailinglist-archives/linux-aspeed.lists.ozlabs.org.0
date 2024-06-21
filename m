@@ -2,65 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7FF957964
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DC69579B6
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJL5ycvz7Bbc
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKQ3lvBz7C1p
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=CpJXgrqU;
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=TD+GfSFp;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::c2b; helo=mail-oo1-xc2b.google.com; envelope-from=dlechner@baylibre.com; receiver=lists.ozlabs.org)
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::c2d; helo=mail-oo1-xc2d.google.com; envelope-from=dlechner@baylibre.com; receiver=lists.ozlabs.org)
+Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W5Wmq0RTZz3cQx
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Jun 2024 08:12:09 +1000 (AEST)
-Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-5bad217c51aso1329285eaf.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Jun 2024 15:12:10 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W5Wmq08T8z3cM2
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Jun 2024 08:12:10 +1000 (AEST)
+Received: by mail-oo1-xc2d.google.com with SMTP id 006d021491bc7-5b5254f9c32so1170882eaf.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Jun 2024 15:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719007928; x=1719612728; darn=lists.ozlabs.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719007929; x=1719612729; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x480k30HvbgguxGycHu5EFcSQYfeSDwQqt26z/bkWhw=;
-        b=CpJXgrqUz50O2Fdw8JE/qy39m1J+6i1oD2zZNAajc+IEzfASraq52WqJNokFi+829/
-         RUEbZ1HBWIdM/eAqIWoF4n8oXPAzXKlxBfZ/UqvNGsERKSAQ72rz3mZ9jbSU8O7hNGke
-         LzIHplEn0mEvXLgSczH0+yF/sR9NaKgTmwL3wuFIsAUAGodiL9OjLGp7FdzH3jqJTXqC
-         ZJYpwewziHdsC3CMjeYXFc7iVQTvVapKDUYNWs/bIUYrVXPvBqotmcjNYpQ4+Sh65PLZ
-         FPlUTLOMhASx/p8YdMeR2Klm36ksF3Wa1DpZhKECCe9XtNss5pQGhvhld08sGahGKxie
-         rgQg==
+        bh=so6aBU+eDqnCDSaguZCLxm5y7z6KxLSHynmcPlHhQSc=;
+        b=TD+GfSFpcwBipS26ZxKyUoNKFG7zVzzVGsiQcG+wdBs1AOTwhihdlVkyvuHoTfYpD9
+         /fDpQcK9PDur0Lp4Z/sw/KifpPIb5Ajd0jtX2O5e8Q/p7JVzVjzgbI87RwssbQO8mJX2
+         zLOIM+g3UlZNCqmjAbCweIegWuZNat8ytY/VIkNtIoQzLZTD33sWq+dBIm/nt8eaag4Y
+         dlC2J2/oOee90HbaD6WUgmdJOt3C/RCDs8RnwZrUXaG2I6nNsFk6owbgzIiJQNbBFBo9
+         v1m+WjaWPjiC94y7XBV8/KYhrqQxuuEIUXs8/OCxGdtX0HKeLgQcwLXwuG8i0vJFOIqn
+         IXaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719007928; x=1719612728;
+        d=1e100.net; s=20230601; t=1719007929; x=1719612729;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x480k30HvbgguxGycHu5EFcSQYfeSDwQqt26z/bkWhw=;
-        b=MAL5SYwkRZQiJZx3a4u95NRH+8hMK8CoNc0lyrWVhWtzsiuR2L9OBPG1YSXvcLCaG9
-         UzMCL918pqWEfHpjjgK2I8wmCozV7fr2c2L5vX3x+CKpo7VIH6H+1rV1JWfvcTnLDbNd
-         3V2n11cBe+drpJtn8NMsicNO32yKy6DrELlaAIqtB7pHfeBNoeGZmuqxew+OuXoh+lMA
-         gib7JjJBM4wdK3klwDU8uMvwWdaRM1Z/pfJYYh7qNIM2oxlQ6CfaH+Pfnx+QnDxtHwcM
-         ph9NNm0ijZo70NXWz5DdLte+JG+5HXtKcmXRZ2jZf3mt7P9a0RGqErt9G3dCO3jqom1w
-         kxXw==
-X-Forwarded-Encrypted: i=1; AJvYcCWu87a8zxajmEIU0B4QdJm9bLe68+fE8us3f4DbYywOlv06cTT5r2VEoy3AcvFWCeF8kgMOnUieIM/lP8j4mdutRvMgRp/9/dzkmABA7g==
-X-Gm-Message-State: AOJu0Yy7/vYnAqpAC0XmIXyyBHoyeSfaoM9oZnBwEBegMVtxGDf8fL2y
-	SOL2J/WGTUoDZ2oSmumXTG82sHp+z5/pGXUfI+wc59/tJgeAgN+j9NrawL4VO4Q=
-X-Google-Smtp-Source: AGHT+IG+VM3BqlCHEFeC4J9E/NMCgNrxfHHKT6M7Y8Cy0YuF/8Q782d8FLdKsjcTjtElrN8SZRNxMQ==
-X-Received: by 2002:a4a:3c1e:0:b0:5bd:b100:8ab1 with SMTP id 006d021491bc7-5c1adbeb0e3mr9929583eaf.7.1719007927729;
-        Fri, 21 Jun 2024 15:12:07 -0700 (PDT)
+        bh=so6aBU+eDqnCDSaguZCLxm5y7z6KxLSHynmcPlHhQSc=;
+        b=QBPr/1N5u1oG1jr0Qxa8w862EXC/20+WbkxBKvc49zmhbz19Os54EalUCN1tluXvtd
+         cryNqRJ6YgwnBwdLE9b4CRlH7xppXgOtkreIYFu1kJArznerHLlIJSnstRhUDE4wSdYj
+         V4V/tnwkgIDDAG6s3xJ3Fi0O832tWNRDtVv3q9IBzFQqXnBJrh3YRVWEP6J/5IUMU6cJ
+         3HO+o8I1pW6cj7o+majSwdLxF7HhooQa4KfAiiW60HHKYrGWFexWdd5tGI4Vhm4xvhPA
+         IClxDQclp6hwFXsf57+vzcjRTeRg8LT5qonU3t9a1w7BJ9qqQUykBrfSps3EUI4iJqw+
+         Ha/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWRLN7sgfphPM6jhWSRWoR639TnrgcWmcn1d1dw+nh/ez5Mkt/c5mps4IGmhzVrlFY7fK5ELYJtnAXgRMRc0GJ5rzh1n6QdVrDulQB9dg==
+X-Gm-Message-State: AOJu0YwzsFIoKYw6CSuRwKyc/r6YWrNueLP/nnFV3Prpf8wwmE3qI5T8
+	BaBH+7HtdnjIVK2uCnXX+AYOkc/MWwd2dC6okyKFy8ZiDtAvEuCNvBJgLnsoPUQ=
+X-Google-Smtp-Source: AGHT+IGCM/8sRsLCLqFNICTMywqS3PsKIuS/B/sed5essCH1YgcxL2TzQancR7MJmS3Wfz2Pkd4FGg==
+X-Received: by 2002:a4a:3c5b:0:b0:5bb:294a:cb90 with SMTP id 006d021491bc7-5c1adbf1d68mr9897886eaf.5.1719007928519;
+        Fri, 21 Jun 2024 15:12:08 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
         by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c1d94fb2a4sm329837eaf.10.2024.06.21.15.12.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 15:12:07 -0700 (PDT)
+        Fri, 21 Jun 2024 15:12:08 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH 06/10] iio: adc: max1363: use devm_regulator_get_enable_read_voltage()
-Date: Fri, 21 Jun 2024 17:11:53 -0500
-Message-ID: <20240621-iio-regulator-refactor-round-2-v1-6-49e50cd0b99a@baylibre.com>
+Subject: [PATCH 07/10] iio: adc: ti-adc108s102: use devm_regulator_get_enable_read_voltage()
+Date: Fri, 21 Jun 2024 17:11:54 -0500
+Message-ID: <20240621-iio-regulator-refactor-round-2-v1-7-49e50cd0b99a@baylibre.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240621-iio-regulator-refactor-round-2-v1-0-49e50cd0b99a@baylibre.com>
 References: <20240621-iio-regulator-refactor-round-2-v1-0-49e50cd0b99a@baylibre.com>
@@ -88,63 +88,62 @@ Use devm_regulator_get_enable_read_voltage() to simplify the code.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/iio/adc/max1363.c | 28 ++++------------------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
+ drivers/iio/adc/ti-adc108s102.c | 28 +++-------------------------
+ 1 file changed, 3 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/iio/adc/max1363.c b/drivers/iio/adc/max1363.c
-index 8b5bc96cb9fb..bf4b6dc53fd2 100644
---- a/drivers/iio/adc/max1363.c
-+++ b/drivers/iio/adc/max1363.c
-@@ -1561,18 +1561,12 @@ static const struct of_device_id max1363_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, max1363_of_match);
+diff --git a/drivers/iio/adc/ti-adc108s102.c b/drivers/iio/adc/ti-adc108s102.c
+index 69fcbbc7e418..9758ac801310 100644
+--- a/drivers/iio/adc/ti-adc108s102.c
++++ b/drivers/iio/adc/ti-adc108s102.c
+@@ -58,7 +58,6 @@
  
--static void max1363_reg_disable(void *reg)
+ struct adc108s102_state {
+ 	struct spi_device		*spi;
+-	struct regulator		*reg;
+ 	u32				va_millivolt;
+ 	/* SPI transfer used by triggered buffer handler*/
+ 	struct spi_transfer		ring_xfer;
+@@ -216,11 +215,6 @@ static const struct iio_info adc108s102_info = {
+ 	.update_scan_mode	= &adc108s102_update_scan_mode,
+ };
+ 
+-static void adc108s102_reg_disable(void *reg)
 -{
 -	regulator_disable(reg);
 -}
 -
- static int max1363_probe(struct i2c_client *client)
+ static int adc108s102_probe(struct spi_device *spi)
  {
- 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
- 	int ret;
- 	struct max1363_state *st;
- 	struct iio_dev *indio_dev;
--	struct regulator *vref;
- 
- 	indio_dev = devm_iio_device_alloc(&client->dev,
- 					  sizeof(struct max1363_state));
-@@ -1589,26 +1583,12 @@ static int max1363_probe(struct i2c_client *client)
- 	st->chip_info = i2c_get_match_data(client);
- 	st->client = client;
- 
--	st->vref_uv = st->chip_info->int_vref_mv * 1000;
--	vref = devm_regulator_get_optional(&client->dev, "vref");
--	if (!IS_ERR(vref)) {
--		int vref_uv;
+ 	struct adc108s102_state *st;
+@@ -236,25 +230,9 @@ static int adc108s102_probe(struct spi_device *spi)
+ 	if (ACPI_COMPANION(&spi->dev)) {
+ 		st->va_millivolt = ADC108S102_VA_MV_ACPI_DEFAULT;
+ 	} else {
+-		st->reg = devm_regulator_get(&spi->dev, "vref");
+-		if (IS_ERR(st->reg))
+-			return PTR_ERR(st->reg);
 -
--		ret = regulator_enable(vref);
+-		ret = regulator_enable(st->reg);
+-		if (ret < 0) {
+-			dev_err(&spi->dev, "Cannot enable vref regulator\n");
+-			return ret;
+-		}
+-		ret = devm_add_action_or_reset(&spi->dev, adc108s102_reg_disable,
+-					       st->reg);
 -		if (ret)
 -			return ret;
 -
--		ret = devm_add_action_or_reset(&client->dev, max1363_reg_disable, vref);
--		if (ret)
+-		ret = regulator_get_voltage(st->reg);
+-		if (ret < 0) {
+-			dev_err(&spi->dev, "vref get voltage failed\n");
 -			return ret;
-+	ret = devm_regulator_get_enable_read_voltage(&client->dev, "vref");
-+	if (ret < 0 && ret != -ENODEV)
-+		return ret;
+-		}
++		ret = devm_regulator_get_enable_read_voltage(&spi->dev, "vref");
++		if (ret < 0)
++			return dev_err_probe(&spi->dev, ret, "failed get vref voltage\n");
  
--		st->vref = vref;
--		vref_uv = regulator_get_voltage(vref);
--		if (vref_uv <= 0)
--			return -EINVAL;
- 
--		st->vref_uv = vref_uv;
--	}
-+	st->vref_uv = ret == -ENODEV ? st->chip_info->int_vref_mv * 1000 : ret;
- 
- 	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
- 		st->send = i2c_master_send;
+ 		st->va_millivolt = ret / 1000;
+ 	}
 
 -- 
 2.45.2
