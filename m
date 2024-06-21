@@ -2,65 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6FCC9579B4
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CB49579B8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKQ0pp2z7C0P
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKQ6dMrz3cfg
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=LBeCihzM;
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=tg4NTKVF;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::c2c; helo=mail-oo1-xc2c.google.com; envelope-from=dlechner@baylibre.com; receiver=lists.ozlabs.org)
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::c2b; helo=mail-oo1-xc2b.google.com; envelope-from=dlechner@baylibre.com; receiver=lists.ozlabs.org)
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W5Wmq0Ps3z3cQs
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W5Wmp6rqsz3cGM
 	for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Jun 2024 08:12:08 +1000 (AEST)
-Received: by mail-oo1-xc2c.google.com with SMTP id 006d021491bc7-5ba33b08550so1134561eaf.2
+Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-5b5254f9c32so1170850eaf.0
         for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Jun 2024 15:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719007923; x=1719612723; darn=lists.ozlabs.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719007924; x=1719612724; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hVRdFKhvRMw+/o8IRTEZqQPsLylWpccjPYBus1uBROU=;
-        b=LBeCihzMaAbYz9nRrmt/y404wv5MZXpK4wR/5UoQrm4lYitpEC2U+RDwJa38mczWQE
-         bpLjMju2NN/M116a+9YfldHf/MwVFIlp7JscihmRXWYh3JK0pHGDo21lRjHYL8ggZHIK
-         Dj0MJzMQ2lJAnCwK1QTrPML9U5l9nk3G0W12QcA+nX5BOVdi4jbNarvdMg6yS2o/B51i
-         RXH6iZXNG9Efa0738h2as4ZE/H034xAfSA2wu0JQl+vistZDGGLCVEFtG00CwyKtJNDQ
-         uPSDuY0bkT7xgvOzE9Knfuyfu8ax5F2/o1nbmg7bXWQhOjmOklXJqLlAZJZWVtFFlTVU
-         4F7Q==
+        bh=cA2vZ5H4zhrRVMGC41BbSeo0sgv1/DHDpLqlssCbQtI=;
+        b=tg4NTKVFaQNKgDEQjccZDm2CUrBREoqmXybqX+Uzeb9KbLBZPbItsdmb5V11FLmfte
+         RtDEAJAvPpGFRtTsvTJkvJ0weZX9IzcM/YtlYFTEtkd8xkrEAwONgCqX0bMWV5qd9HEH
+         FBZlpGCx9SBAX08whsWNvqiwh++9lfIO5GVoNB5lo+9DGyJ95WTYC7oJpGSAz836p3NJ
+         ZfslKNbcAx1FltFf4dIBS+vxagfPJNExxTdK9NAm6OUKTkNv+4ZXrLbnynfvPUuIFVKZ
+         sHy5jqRQQ1LFrq8rOtneGlSfDG4znZFkc1QvzavXusO6gA03+R7JmQufrWyNGIKVsDCc
+         7YYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719007923; x=1719612723;
+        d=1e100.net; s=20230601; t=1719007924; x=1719612724;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hVRdFKhvRMw+/o8IRTEZqQPsLylWpccjPYBus1uBROU=;
-        b=JI4Rrs7uSRJZ7SGU36nWb1KlON3wkacjcgKtq9/puGtNHTI/L3JMTRGNGJg/IS/UV7
-         o2Agv/SXrfwpvh6Wq2v5tjG96PFiqaHmQsFmmLStCAwalIx0KoEs7ui3Ad9ghXDvIOo4
-         Ko9iVFnGCPiBdgM/F0TqdbolvpvXcvdd/kjOQpTrlw8OmJ/n0PiXHZsgSWfB7QQWs4K6
-         Rme1asQf/ChXCP9zdW8REBs+NZ0SusnB1zby07AFnHqUuV72cLCoBqD09wyI9ImOlql3
-         PLPpyWwxdzvQOCzZ9PT+/p9L3yEnjaKD4wQMt4Nf+EEkDjgHTs2sRcle+LLP9wFUhdjx
-         9u4g==
-X-Forwarded-Encrypted: i=1; AJvYcCWTI0FqFWX1ed0oplSyDIVy4zAfYkZ/+RDb/UTUAdxh2Y3ySTnXh2cf2Mgw3k4p9rVUGtcsKRke3vi+/r867q8F9EtZ9GxtRo9QjftxdQ==
-X-Gm-Message-State: AOJu0YyEsCYgvPpMW2R/XC9oAVEqJ/uv6VAoy1236WBxW97YGTczHM4+
-	1FViVKb7gBZhcoW/eS+1rNVyxhW9656SzAo039TXxYtl8bUOySbnnFSlbEK/xl8=
-X-Google-Smtp-Source: AGHT+IEAf590qHVXQF6WIVmoewi4OMSB/t6gCupkb1CE8LPyqCFfpCApy+8JHvS/R19jM823AhGK8A==
-X-Received: by 2002:a4a:ea0a:0:b0:5c1:b998:a861 with SMTP id 006d021491bc7-5c1b998a905mr8204856eaf.5.1719007923356;
-        Fri, 21 Jun 2024 15:12:03 -0700 (PDT)
+        bh=cA2vZ5H4zhrRVMGC41BbSeo0sgv1/DHDpLqlssCbQtI=;
+        b=WPHW1ebHC81+RUQ/c/Vv3b3fEbJt50zXo6wpILffWgCjKQ7ouKLRQFi/xHlJSKBUpX
+         eu0VwI81JlpvSMggvPX9Azb/Uj9WAEyh42YJ5sUQmajjAFK0cMEL2PPrQrQZkfLd4h43
+         C/zGlG+uneeTlm9C4homMQ80q2EfDAWiN8pEs5HR6YI3aO7UfoGdpozyf7UkpuhdHU1v
+         rj8BUVzyqPQR5rbQRVePzi8+8nhJ7twZby8SjeaVq6vvIUtGKz/u83O03Q4AFoF45sfm
+         h6JbJ+yGnXhBqHvo+FJ/JDet3KFTWtbBgObq9ziqUKUVqGdxUqFw1O5bq2vEQDjvy8AH
+         uCHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUiHrnpqYHiKgrlm/+xV2+32zoR385LoyBYgQ8XET5zNd/44Zlc61yNE+a5AGKVJfkAXtDPYs/6O7jSHPryTN6OmxEzmmnU7PdfEU5EgA==
+X-Gm-Message-State: AOJu0YyaVPr0QNazOouo9nxGv25Uv+5zaDirnrZbf/881Nvs0woX7j0O
+	K9QWVj+xYFxzUIJHy6GjapPsYzZERsjc0cTiO2Ny/WufRO4kPKJYu/nna3+FbbQ=
+X-Google-Smtp-Source: AGHT+IGPEjYzZuYy0PUyybo/Jr5W5tkGRhnX5VFZ0jGpJucieHOIXpFu0GRrOvhhGuVkoDgVWKm7XQ==
+X-Received: by 2002:a4a:7619:0:b0:5bb:288:e955 with SMTP id 006d021491bc7-5c1adc6fb4emr9863944eaf.8.1719007924414;
+        Fri, 21 Jun 2024 15:12:04 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c1d94fb2a4sm329837eaf.10.2024.06.21.15.12.02
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c1d94fb2a4sm329837eaf.10.2024.06.21.15.12.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 15:12:03 -0700 (PDT)
+        Fri, 21 Jun 2024 15:12:04 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH 01/10] iio: adc: aspeed_adc: use devm_regulator_get_enable_read_voltage()
-Date: Fri, 21 Jun 2024 17:11:48 -0500
-Message-ID: <20240621-iio-regulator-refactor-round-2-v1-1-49e50cd0b99a@baylibre.com>
+Subject: [PATCH 02/10] iio: adc: hx711: use devm_regulator_get_enable_read_voltage()
+Date: Fri, 21 Jun 2024 17:11:49 -0500
+Message-ID: <20240621-iio-regulator-refactor-round-2-v1-2-49e50cd0b99a@baylibre.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240621-iio-regulator-refactor-round-2-v1-0-49e50cd0b99a@baylibre.com>
 References: <20240621-iio-regulator-refactor-round-2-v1-0-49e50cd0b99a@baylibre.com>
@@ -84,79 +84,84 @@ Cc: David Lechner <dlechner@baylibre.com>, linux-aspeed@lists.ozlabs.org, Michae
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This makes use of the devm_regulator_get_enable_read_voltage() helper
-function to simplify the code.
-
-The error return is moved closer to the function call to make it easier
-to follow the logic. And a few blank lines are added for readability.
+Use the devm_regulator_get_enable_read_voltage() helper to simplify the
+code.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/iio/adc/aspeed_adc.c | 30 ++++++++----------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
+ drivers/iio/adc/hx711.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index 998e8bcc06e1..090416c0d622 100644
---- a/drivers/iio/adc/aspeed_adc.c
-+++ b/drivers/iio/adc/aspeed_adc.c
-@@ -108,7 +108,6 @@ struct adc_gain {
- struct aspeed_adc_data {
+diff --git a/drivers/iio/adc/hx711.c b/drivers/iio/adc/hx711.c
+index fef97c1d226a..6efdc971689c 100644
+--- a/drivers/iio/adc/hx711.c
++++ b/drivers/iio/adc/hx711.c
+@@ -80,7 +80,6 @@ struct hx711_data {
  	struct device		*dev;
- 	const struct aspeed_adc_model_data *model_data;
--	struct regulator	*regulator;
- 	void __iomem		*base;
- 	spinlock_t		clk_lock;
- 	struct clk_hw		*fixed_div_clk;
-@@ -404,13 +403,6 @@ static void aspeed_adc_power_down(void *data)
- 	       priv_data->base + ASPEED_REG_ENGINE_CONTROL);
+ 	struct gpio_desc	*gpiod_pd_sck;
+ 	struct gpio_desc	*gpiod_dout;
+-	struct regulator	*reg_avdd;
+ 	int			gain_set;	/* gain set on device */
+ 	int			gain_chan_a;	/* gain for channel A */
+ 	struct mutex		lock;
+@@ -497,11 +496,7 @@ static int hx711_probe(struct platform_device *pdev)
+ 		return PTR_ERR(hx711_data->gpiod_dout);
+ 	}
+ 
+-	hx711_data->reg_avdd = devm_regulator_get(dev, "avdd");
+-	if (IS_ERR(hx711_data->reg_avdd))
+-		return PTR_ERR(hx711_data->reg_avdd);
+-
+-	ret = regulator_enable(hx711_data->reg_avdd);
++	ret = devm_regulator_get_enable_read_voltage(dev, "avdd");
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -517,9 +512,6 @@ static int hx711_probe(struct platform_device *pdev)
+ 	 * approximately to fit into a 32 bit number:
+ 	 * 1 LSB = (AVDD * 100) / GAIN / 1678 [10^-9 mV]
+ 	 */
+-	ret = regulator_get_voltage(hx711_data->reg_avdd);
+-	if (ret < 0)
+-		goto error_regulator;
+ 
+ 	/* we need 10^-9 mV */
+ 	ret *= 100;
+@@ -559,7 +551,7 @@ static int hx711_probe(struct platform_device *pdev)
+ 							hx711_trigger, NULL);
+ 	if (ret < 0) {
+ 		dev_err(dev, "setup of iio triggered buffer failed\n");
+-		goto error_regulator;
++		return ret;
+ 	}
+ 
+ 	ret = iio_device_register(indio_dev);
+@@ -573,25 +565,17 @@ static int hx711_probe(struct platform_device *pdev)
+ error_buffer:
+ 	iio_triggered_buffer_cleanup(indio_dev);
+ 
+-error_regulator:
+-	regulator_disable(hx711_data->reg_avdd);
+-
+ 	return ret;
  }
  
--static void aspeed_adc_reg_disable(void *data)
--{
--	struct regulator *reg = data;
--
--	regulator_disable(reg);
--}
--
- static int aspeed_adc_vref_config(struct iio_dev *indio_dev)
+ static void hx711_remove(struct platform_device *pdev)
  {
- 	struct aspeed_adc_data *data = iio_priv(indio_dev);
-@@ -423,18 +415,14 @@ static int aspeed_adc_vref_config(struct iio_dev *indio_dev)
- 	}
- 	adc_engine_control_reg_val =
- 		readl(data->base + ASPEED_REG_ENGINE_CONTROL);
--	data->regulator = devm_regulator_get_optional(data->dev, "vref");
--	if (!IS_ERR(data->regulator)) {
--		ret = regulator_enable(data->regulator);
--		if (ret)
--			return ret;
--		ret = devm_add_action_or_reset(
--			data->dev, aspeed_adc_reg_disable, data->regulator);
--		if (ret)
--			return ret;
--		data->vref_mv = regulator_get_voltage(data->regulator);
--		/* Conversion from uV to mV */
--		data->vref_mv /= 1000;
-+
-+	ret = devm_regulator_get_enable_read_voltage(data->dev, "vref");
-+	if (ret < 0 && ret != -ENODEV)
-+		return ret;
-+
-+	if (ret != -ENODEV) {
-+		data->vref_mv = ret / 1000;
-+
- 		if ((data->vref_mv >= 1550) && (data->vref_mv <= 2700))
- 			writel(adc_engine_control_reg_val |
- 				FIELD_PREP(
-@@ -453,8 +441,6 @@ static int aspeed_adc_vref_config(struct iio_dev *indio_dev)
- 			return -EOPNOTSUPP;
- 		}
- 	} else {
--		if (PTR_ERR(data->regulator) != -ENODEV)
--			return PTR_ERR(data->regulator);
- 		data->vref_mv = 2500000;
- 		of_property_read_u32(data->dev->of_node,
- 				     "aspeed,int-vref-microvolt",
+-	struct hx711_data *hx711_data;
+ 	struct iio_dev *indio_dev;
+ 
+ 	indio_dev = platform_get_drvdata(pdev);
+-	hx711_data = iio_priv(indio_dev);
+ 
+ 	iio_device_unregister(indio_dev);
+-
+ 	iio_triggered_buffer_cleanup(indio_dev);
+-
+-	regulator_disable(hx711_data->reg_avdd);
+ }
+ 
+ static const struct of_device_id of_hx711_match[] = {
 
 -- 
 2.45.2
