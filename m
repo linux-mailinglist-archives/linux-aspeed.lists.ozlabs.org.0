@@ -2,65 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CB49579B8
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2B9957965
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKQ6dMrz3cfg
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJM0FPXz3bkX
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=tg4NTKVF;
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=Zj5ST7UV;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::c2b; helo=mail-oo1-xc2b.google.com; envelope-from=dlechner@baylibre.com; receiver=lists.ozlabs.org)
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::c33; helo=mail-oo1-xc33.google.com; envelope-from=dlechner@baylibre.com; receiver=lists.ozlabs.org)
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W5Wmp6rqsz3cGM
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Jun 2024 08:12:08 +1000 (AEST)
-Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-5b5254f9c32so1170850eaf.0
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Jun 2024 15:12:09 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W5Wmq1BGnz3cRJ
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 22 Jun 2024 08:12:09 +1000 (AEST)
+Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-5b96a78639aso976352eaf.1
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Jun 2024 15:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719007924; x=1719612724; darn=lists.ozlabs.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719007925; x=1719612725; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cA2vZ5H4zhrRVMGC41BbSeo0sgv1/DHDpLqlssCbQtI=;
-        b=tg4NTKVFaQNKgDEQjccZDm2CUrBREoqmXybqX+Uzeb9KbLBZPbItsdmb5V11FLmfte
-         RtDEAJAvPpGFRtTsvTJkvJ0weZX9IzcM/YtlYFTEtkd8xkrEAwONgCqX0bMWV5qd9HEH
-         FBZlpGCx9SBAX08whsWNvqiwh++9lfIO5GVoNB5lo+9DGyJ95WTYC7oJpGSAz836p3NJ
-         ZfslKNbcAx1FltFf4dIBS+vxagfPJNExxTdK9NAm6OUKTkNv+4ZXrLbnynfvPUuIFVKZ
-         sHy5jqRQQ1LFrq8rOtneGlSfDG4znZFkc1QvzavXusO6gA03+R7JmQufrWyNGIKVsDCc
-         7YYQ==
+        bh=TqnA463lWGmo1DkYd27gIKH1c3eeWL6q+1Fm9JrS/t8=;
+        b=Zj5ST7UVg5KTMvAgQSnCgHnE0SCk1SlA8a/VD/v91N6GlyCe0RmC8F7UgrO26w+OJl
+         6DDUoAy7QrcdL9zbe2EPkQt0hEodHbcsLSQK4qqjLrkQMo6a3Lx85zX1OlJyqS/C2PHQ
+         5/53gsiwOVogZbiZra9sijqlK4PaZoqq8PlpvyoCLfXT8uRfcqms6pPNbEG0dKcZ0MXn
+         1tkoqW88tDk1cA61Bn3anHTqwVvF9RxHQc1YlYPxvBWP7tI6QN1WzO3XipfLfwnJNzKA
+         g3EKnEw/vZEkAZjY7BNv8IMt3f7kf87YV9E8O24NJ2nRqg576yXxMFhXYmDS81SbpCGR
+         Rwvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719007924; x=1719612724;
+        d=1e100.net; s=20230601; t=1719007925; x=1719612725;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cA2vZ5H4zhrRVMGC41BbSeo0sgv1/DHDpLqlssCbQtI=;
-        b=WPHW1ebHC81+RUQ/c/Vv3b3fEbJt50zXo6wpILffWgCjKQ7ouKLRQFi/xHlJSKBUpX
-         eu0VwI81JlpvSMggvPX9Azb/Uj9WAEyh42YJ5sUQmajjAFK0cMEL2PPrQrQZkfLd4h43
-         C/zGlG+uneeTlm9C4homMQ80q2EfDAWiN8pEs5HR6YI3aO7UfoGdpozyf7UkpuhdHU1v
-         rj8BUVzyqPQR5rbQRVePzi8+8nhJ7twZby8SjeaVq6vvIUtGKz/u83O03Q4AFoF45sfm
-         h6JbJ+yGnXhBqHvo+FJ/JDet3KFTWtbBgObq9ziqUKUVqGdxUqFw1O5bq2vEQDjvy8AH
-         uCHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUiHrnpqYHiKgrlm/+xV2+32zoR385LoyBYgQ8XET5zNd/44Zlc61yNE+a5AGKVJfkAXtDPYs/6O7jSHPryTN6OmxEzmmnU7PdfEU5EgA==
-X-Gm-Message-State: AOJu0YyaVPr0QNazOouo9nxGv25Uv+5zaDirnrZbf/881Nvs0woX7j0O
-	K9QWVj+xYFxzUIJHy6GjapPsYzZERsjc0cTiO2Ny/WufRO4kPKJYu/nna3+FbbQ=
-X-Google-Smtp-Source: AGHT+IGPEjYzZuYy0PUyybo/Jr5W5tkGRhnX5VFZ0jGpJucieHOIXpFu0GRrOvhhGuVkoDgVWKm7XQ==
-X-Received: by 2002:a4a:7619:0:b0:5bb:288:e955 with SMTP id 006d021491bc7-5c1adc6fb4emr9863944eaf.8.1719007924414;
-        Fri, 21 Jun 2024 15:12:04 -0700 (PDT)
+        bh=TqnA463lWGmo1DkYd27gIKH1c3eeWL6q+1Fm9JrS/t8=;
+        b=CkvxwSo28CMU4V+89R/cTFXInWBnky/PnierqbRKkJteCPOvljl0nvY+RYEVoHAvTD
+         CyWvO/6lJLhplwOPBvh0Bjw09VamLhs9ENebry8aDl5zPoj5i69lVf9Lrc+3X5QsJ1wq
+         nWaMCu/rH1WfABTrs6jOxPtXgPRcPNoUQNj9LRpzLFEW0mga0Y9ileq/Rr3rZj+2A7JA
+         /Kf9C+bMWsquomc+QgvOLoQn0x2Char/yykLucv58FG/rQ+WSdSVZx1fzM1xOwNfLin+
+         iv2/IGHpbiuZzeEMmHoo+eDfi90Cpp1lqiPyVD4gTnuXeEEbe2hcSXpGsbPasyAJ959J
+         Akwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVls+jqxg7rNzjGdk+WMnKDQGIPkIiCc4gjF0RJfdL8cU1Jy4Y/7/CVtG22MF7cpBpsrw0cbQdTOSPEuTJrP2WWbHkR/yH6S/Ooh0BRjw==
+X-Gm-Message-State: AOJu0YzUcN7V4PYRiHgcy9dVLgBUT/VKVdyCcMXUFFa5aBuEG7jj0g11
+	DO1eD49D4Tb9LkPQVLT55mpvowcspQ6/q4vxfy2TWk2XZ2EcS35YRXcPTYk3ibg=
+X-Google-Smtp-Source: AGHT+IGyOuPixSMNWTrgJ93EOZnRr5Mc7Ev97HbXaH84J6/Bv30RS8z/PVagDiDtAkY5vq1kH6S7MA==
+X-Received: by 2002:a4a:6251:0:b0:5bf:aa53:2de7 with SMTP id 006d021491bc7-5c1adbca083mr9462944eaf.5.1719007925247;
+        Fri, 21 Jun 2024 15:12:05 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c1d94fb2a4sm329837eaf.10.2024.06.21.15.12.03
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c1d94fb2a4sm329837eaf.10.2024.06.21.15.12.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 21 Jun 2024 15:12:04 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH 02/10] iio: adc: hx711: use devm_regulator_get_enable_read_voltage()
-Date: Fri, 21 Jun 2024 17:11:49 -0500
-Message-ID: <20240621-iio-regulator-refactor-round-2-v1-2-49e50cd0b99a@baylibre.com>
+Subject: [PATCH 03/10] iio: adc: hx711: remove hx711_remove()
+Date: Fri, 21 Jun 2024 17:11:50 -0500
+Message-ID: <20240621-iio-regulator-refactor-round-2-v1-3-49e50cd0b99a@baylibre.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240621-iio-regulator-refactor-round-2-v1-0-49e50cd0b99a@baylibre.com>
 References: <20240621-iio-regulator-refactor-round-2-v1-0-49e50cd0b99a@baylibre.com>
@@ -84,84 +84,78 @@ Cc: David Lechner <dlechner@baylibre.com>, linux-aspeed@lists.ozlabs.org, Michae
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Use the devm_regulator_get_enable_read_voltage() helper to simplify the
-code.
+By using a few more devm_ functions, we can remove the hx711_remove()
+function in the hx711 driver.
+
+platform_set_drvdata() is also removed since there are no more
+callers of platform_get_drvdata().
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- drivers/iio/adc/hx711.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+ drivers/iio/adc/hx711.c | 27 +++++----------------------
+ 1 file changed, 5 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/iio/adc/hx711.c b/drivers/iio/adc/hx711.c
-index fef97c1d226a..6efdc971689c 100644
+index 6efdc971689c..8461b1fe6bad 100644
 --- a/drivers/iio/adc/hx711.c
 +++ b/drivers/iio/adc/hx711.c
-@@ -80,7 +80,6 @@ struct hx711_data {
- 	struct device		*dev;
- 	struct gpio_desc	*gpiod_pd_sck;
- 	struct gpio_desc	*gpiod_dout;
--	struct regulator	*reg_avdd;
- 	int			gain_set;	/* gain set on device */
- 	int			gain_chan_a;	/* gain for channel A */
- 	struct mutex		lock;
-@@ -497,11 +496,7 @@ static int hx711_probe(struct platform_device *pdev)
- 		return PTR_ERR(hx711_data->gpiod_dout);
- 	}
+@@ -539,43 +539,27 @@ static int hx711_probe(struct platform_device *pdev)
+ 	hx711_data->data_ready_delay_ns =
+ 				1000000000 / hx711_data->clock_frequency;
  
--	hx711_data->reg_avdd = devm_regulator_get(dev, "avdd");
--	if (IS_ERR(hx711_data->reg_avdd))
--		return PTR_ERR(hx711_data->reg_avdd);
+-	platform_set_drvdata(pdev, indio_dev);
 -
--	ret = regulator_enable(hx711_data->reg_avdd);
-+	ret = devm_regulator_get_enable_read_voltage(dev, "avdd");
- 	if (ret < 0)
- 		return ret;
+ 	indio_dev->name = "hx711";
+ 	indio_dev->info = &hx711_iio_info;
+ 	indio_dev->modes = INDIO_DIRECT_MODE;
+ 	indio_dev->channels = hx711_chan_spec;
+ 	indio_dev->num_channels = ARRAY_SIZE(hx711_chan_spec);
  
-@@ -517,9 +512,6 @@ static int hx711_probe(struct platform_device *pdev)
- 	 * approximately to fit into a 32 bit number:
- 	 * 1 LSB = (AVDD * 100) / GAIN / 1678 [10^-9 mV]
- 	 */
--	ret = regulator_get_voltage(hx711_data->reg_avdd);
--	if (ret < 0)
--		goto error_regulator;
- 
- 	/* we need 10^-9 mV */
- 	ret *= 100;
-@@ -559,7 +551,7 @@ static int hx711_probe(struct platform_device *pdev)
- 							hx711_trigger, NULL);
+-	ret = iio_triggered_buffer_setup(indio_dev, iio_pollfunc_store_time,
+-							hx711_trigger, NULL);
++	ret = devm_iio_triggered_buffer_setup(dev, indio_dev,
++					      iio_pollfunc_store_time,
++					      hx711_trigger, NULL);
  	if (ret < 0) {
  		dev_err(dev, "setup of iio triggered buffer failed\n");
--		goto error_regulator;
+ 		return ret;
+ 	}
+ 
+-	ret = iio_device_register(indio_dev);
++	ret = devm_iio_device_register(dev, indio_dev);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Couldn't register the device\n");
+-		goto error_buffer;
 +		return ret;
  	}
  
- 	ret = iio_device_register(indio_dev);
-@@ -573,25 +565,17 @@ static int hx711_probe(struct platform_device *pdev)
- error_buffer:
- 	iio_triggered_buffer_cleanup(indio_dev);
- 
--error_regulator:
--	regulator_disable(hx711_data->reg_avdd);
+ 	return 0;
 -
- 	return ret;
- }
- 
- static void hx711_remove(struct platform_device *pdev)
- {
--	struct hx711_data *hx711_data;
- 	struct iio_dev *indio_dev;
- 
- 	indio_dev = platform_get_drvdata(pdev);
--	hx711_data = iio_priv(indio_dev);
- 
- 	iio_device_unregister(indio_dev);
+-error_buffer:
+-	iio_triggered_buffer_cleanup(indio_dev);
 -
- 	iio_triggered_buffer_cleanup(indio_dev);
+-	return ret;
+-}
 -
--	regulator_disable(hx711_data->reg_avdd);
+-static void hx711_remove(struct platform_device *pdev)
+-{
+-	struct iio_dev *indio_dev;
+-
+-	indio_dev = platform_get_drvdata(pdev);
+-
+-	iio_device_unregister(indio_dev);
+-	iio_triggered_buffer_cleanup(indio_dev);
  }
  
  static const struct of_device_id of_hx711_match[] = {
+@@ -587,7 +571,6 @@ MODULE_DEVICE_TABLE(of, of_hx711_match);
+ 
+ static struct platform_driver hx711_driver = {
+ 	.probe		= hx711_probe,
+-	.remove_new	= hx711_remove,
+ 	.driver		= {
+ 		.name		= "hx711-gpio",
+ 		.of_match_table	= of_hx711_match,
 
 -- 
 2.45.2
