@@ -2,43 +2,44 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6269579BF
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC919579BE
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKS39Myz7C7j
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKS1mLnz7C70
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=it-klinger.de
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=it-klinger.de (client-ip=78.46.3.230; helo=www571.your-server.de; envelope-from=ak@it-klinger.de; receiver=lists.ozlabs.org)
+X-Greylist: delayed 67 seconds by postgrey-1.37 at boromir; Mon, 24 Jun 2024 16:05:14 AEST
 Received: from www571.your-server.de (www571.your-server.de [78.46.3.230])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W6yPC1kdcz3cXD
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jun 2024 16:15:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W6y9k6g33z30Th
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jun 2024 16:05:14 +1000 (AEST)
 Received: from sslproxy02.your-server.de ([78.47.166.47])
 	by www571.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.96.2)
 	(envelope-from <ak@it-klinger.de>)
-	id 1sLcoQ-000N3v-1z;
-	Mon, 24 Jun 2024 08:04:22 +0200
+	id 1sLcpC-000N8W-3D;
+	Mon, 24 Jun 2024 08:05:11 +0200
 Received: from [31.220.119.164] (helo=mail.your-server.de)
 	by sslproxy02.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ak@it-klinger.de>)
-	id 1sLcoQ-0005xR-2g;
-	Mon, 24 Jun 2024 08:04:22 +0200
-Date: Mon, 24 Jun 2024 08:04:20 +0200
+	id 1sLcpD-000AOA-0m;
+	Mon, 24 Jun 2024 08:05:10 +0200
+Date: Mon, 24 Jun 2024 08:05:09 +0200
 From: Andreas Klinger <ak@it-klinger.de>
 To: David Lechner <dlechner@baylibre.com>
-Subject: Re: [PATCH 03/10] iio: adc: hx711: remove hx711_remove()
-Message-ID: <ZnkMZIKpmn8HOKN8@mail.your-server.de>
+Subject: Re: [PATCH 04/10] iio: adc: hx711: use dev_err_probe()
+Message-ID: <ZnkMlWIewq8s_XeS@mail.your-server.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="REpzHSWIu3PPM3Ri"
+	protocol="application/pgp-signature"; boundary="NPQkkl0HGmmU9H1y"
 Content-Disposition: inline
-In-Reply-To: <20240621-iio-regulator-refactor-round-2-v1-3-49e50cd0b99a@baylibre.com>
+In-Reply-To: <20240621-iio-regulator-refactor-round-2-v1-4-49e50cd0b99a@baylibre.com>
 X-Authenticated-Sender: ak@it-klinger.de
 X-Virus-Scanned: Clear (ClamAV 1.0.3/27315/Sun Jun 23 10:23:58 2024)
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
@@ -58,39 +59,35 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
---REpzHSWIu3PPM3Ri
+--NPQkkl0HGmmU9H1y
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, 2024-06-21 at 22:11 +0000, David Lechner wrote:
-> By using a few more devm_ functions, we can remove the hx711_remove()
-> function in the hx711 driver.
->=20
-> platform_set_drvdata() is also removed since there are no more
-> callers of platform_get_drvdata().
+> Use dev_err_probe() to simplify error returns in the probe function.
 > Signed-off-by: David Lechner <dlechner@baylibre.com>
 
 Reviewed-by: Andreas Klinger <ak@it-klinger.de>
 
 --=20
 
---REpzHSWIu3PPM3Ri
+--NPQkkl0HGmmU9H1y
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAABCgAdFiEE7/NrAFtB/Pj7rTUyyHDM+xwPAVEFAmZ5DGQACgkQyHDM+xwP
-AVGUzAv/R+Kp1tZQvHmNgF6j1nIL6ZcD2WW4RaDqTbEY9EllGV7UJ4bLmF4ZbPvX
-dpsNoyNdv9RPd8vOArWgwy8u6nU+LksOKqUB+flj0mkIR92SOgcOSr/KfzqsleaM
-zrPw0h8Ez14MYi/DAkw53oiAjekA7dFiUlyaaHCjAenRYXbyR2HJhfAMHCnn9/q8
-5C/hafg5YF3DgvgBcp5P4UoVaeqJX7SCa3RCUfpjFhicuxljjqFEamhfA72OeIT8
-20XJL0e/VDWKU+xXU8lr8k8sQb07G4jY1c7brLbQxDj2Svy9Mts2FE5k2QgaVNTo
-yegqb8E0KvSwOO2vBT+Sp4axHfKwReD+ZJuZtlWY9DMptYh0if7Rnuc8Xu0QlJkI
-Q8UrrW9t4fxtiXZprKzExSt0alge1KjZT9TswcM4xNMiJ71nYh0vuyJkF3L0rzFZ
-NSZHw7VRTK1dFRFoAJXfElaWIP5fnv9hcWHdRo2CuEoj2dm6IYH0lvKlRjWanUzz
-fEC7SshG
-=d+/F
+iQGzBAABCgAdFiEE7/NrAFtB/Pj7rTUyyHDM+xwPAVEFAmZ5DJQACgkQyHDM+xwP
+AVHJ3gv+PRSmvwbaW2ps2R6YXJOC29aMqR0YVYDpdDqIf3xvOIhYnprCAA7bcXC+
+OX/Rs0lUvs1HwTDFrrF2jXesHX88JYQoB591HXOje5Hi4quzkyZcow3kRdV9AyQo
+3r4Y5X3M73ywkTrn4Xx+oFewOVo0TQflZdxl9YBzcOFkIZPh8d8p3B/eTII/n1Pr
+BartrbGrHK8pBu5pOPzLxJKQoDXqbAkV8sAGbBGm33Ow/Y+X2TA10VylOmi1FGlZ
+YmVcyA9zQlXy9zy4zZpOyX9awx7trBJAcaHCVu7pwNlaleGwbQZSiycBzrYOyOi2
+VBH9GXchSoyECiz+1bmqdKuGebpJMCvHq1DPeT4oCBftE1MGRz035qU6o2+7RvQW
+iEhzKLo8wXBrOwmCOjTrCOsX76Uycbp50vjhuqsqpDHlpA2oJKIMT6hoOVlCnL41
+CM58is3YqqssMMaE7XaiwGsCqZ6annaoIrQY/PdtGtw8L4x4UNmTE1OV4szDejAO
+FZwXdwBE
+=Py/z
 -----END PGP SIGNATURE-----
 
---REpzHSWIu3PPM3Ri--
+--NPQkkl0HGmmU9H1y--
