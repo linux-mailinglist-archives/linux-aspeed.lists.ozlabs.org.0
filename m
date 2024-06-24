@@ -2,54 +2,46 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F059579BD
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785E99579C0
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKS0L0jz7C6D
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKS4Xm5z7C8T
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=iscas.ac.cn (client-ip=159.226.251.81; helo=cstnet.cn; envelope-from=make24@iscas.ac.cn; receiver=lists.ozlabs.org)
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=it-klinger.de
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=it-klinger.de (client-ip=78.46.3.230; helo=www571.your-server.de; envelope-from=ak@it-klinger.de; receiver=lists.ozlabs.org)
+Received: from www571.your-server.de (www571.your-server.de [78.46.3.230])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W6rbP1kY4z30Tt
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jun 2024 11:53:34 +1000 (AEST)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
-	by APP-03 (Coremail) with SMTP id rQCowACnrpqL0XhmqEYjEg--.64990S2;
-	Mon, 24 Jun 2024 09:53:22 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: neal_liu@aspeedtech.com,
-	gregkh@linuxfoundation.org,
-	joel@jms.id.au,
-	andrew@codeconstruct.com.au
-Subject: [PATCH v2] usb: gadget: aspeed_udc: validate endpoint index for ast udc
-Date: Mon, 24 Jun 2024 09:53:13 +0800
-Message-Id: <20240624015314.2249128-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W6yPG491Xz3cJl
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jun 2024 16:15:14 +1000 (AEST)
+Received: from sslproxy02.your-server.de ([78.47.166.47])
+	by www571.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <ak@it-klinger.de>)
+	id 1sLcny-000N1i-1N;
+	Mon, 24 Jun 2024 08:03:54 +0200
+Received: from [31.220.119.164] (helo=mail.your-server.de)
+	by sslproxy02.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ak@it-klinger.de>)
+	id 1sLcny-00038L-27;
+	Mon, 24 Jun 2024 08:03:54 +0200
+Date: Mon, 24 Jun 2024 08:03:52 +0200
+From: Andreas Klinger <ak@it-klinger.de>
+To: David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH 02/10] iio: adc: hx711: use
+ devm_regulator_get_enable_read_voltage()
+Message-ID: <ZnkMSO_dPWNY712F@mail.your-server.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowACnrpqL0XhmqEYjEg--.64990S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruFy7urW5GFW3Zw1UJr4xWFg_yoW3ZrcE93
-	WUur43Wr12g3yIqr1UZ34a9ry29a4kW3WkuF1DtryayFyUXa4xZw18WrWkJw4UZF47uF9x
-	C3yDK343C34FqjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6r106r1rM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
-	0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
-	Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
-	W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
-	0VAGYxC7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUOlksUU
-	UUU
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="N0AifF9IzWj2884v"
+Content-Disposition: inline
+In-Reply-To: <20240621-iio-regulator-refactor-round-2-v1-2-49e50cd0b99a@baylibre.com>
+X-Authenticated-Sender: ak@it-klinger.de
+X-Virus-Scanned: Clear (ClamAV 1.0.3/27315/Sun Jun 23 10:23:58 2024)
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -62,33 +54,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Ma Ke <make24@iscas.ac.cn>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, Nuno Sa <nuno.sa@analog.com>, Mark Brown <broonie@kernel.org>, Andreas Klinger <ak@it-klinger.de>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-We should verify the bound of the array to assure that host
-may not manipulate the index to point past endpoint array.
 
-Found by static analysis.
+--N0AifF9IzWj2884v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
- drivers/usb/gadget/udc/aspeed_udc.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, 2024-06-21 at 22:11 +0000, David Lechner wrote:
+> Use the devm_regulator_get_enable_read_voltage() helper to simplify the
+> code.
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 3916c8e2ba01..d972ef4644bc 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1009,6 +1009,8 @@ static void ast_udc_getstatus(struct ast_udc_dev *udc)
- 		break;
- 	case USB_RECIP_ENDPOINT:
- 		epnum = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
-+		if (epnum >= AST_UDC_NUM_ENDPOINTS)
-+			goto stall;
- 		status = udc->ep[epnum].stopped;
- 		break;
- 	default:
--- 
-2.25.1
+Reviewed-by: Andreas Klinger <ak@it-klinger.de>
 
+--=20
+
+--N0AifF9IzWj2884v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEE7/NrAFtB/Pj7rTUyyHDM+xwPAVEFAmZ5DEgACgkQyHDM+xwP
+AVE47Av7BUpI4xHaIMA7TiHs6JARgCK+wBtJWrS4/DxpJ8GsTmhhP5wZ6TC96nHL
+FtJH828ECT8BBgmkpoFYqLwiSdncLwUBAkQ36MukVjzIBXDYlyJRHHRbZb33NRGK
+v0xL0Fxhv6u5oh8uvwmJjfTFBvx98TQkLdcUbfkQ2R8P7oPHN1q9AVybLlQIGSe7
+/YEuHN7eLODtfGwxqhnhXFDXaSdLyjgK0xXOfaCgE925fBZd8t/fnJnXWQWdH5k+
+1+TzAFV7/kQiQpfnefQDhMaAFNmmpbDpIaiwXTWW5C7D94acGZBFYWibOfCU/MsY
+LEGsB99G24vtqUAjTofGQO5c8f3RaU7Q8TSBcQ1gtuEDXDT9T7fOoqJ6xTfRDb2i
+p8bJMTO28RdnAh32lKS1BdnRywk7i458mTQcT6ZSoumKaCr8qLrn9A27uzwmlnIo
+NFfNC8bLiVdk5WuS90o2zGZ3/hVuNWw8RjQNb8boUnDrzkQeY1JbSFma0KfayEzs
+NcnAWhsO
+=U+8T
+-----END PGP SIGNATURE-----
+
+--N0AifF9IzWj2884v--
