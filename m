@@ -1,80 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A539166CA
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2024 14:01:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8DE916777
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2024 14:20:52 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=sFBk7ez+;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=F47BFQAg;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W7k276525z3dLK
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2024 22:01:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W7kSc54DXz3dTf
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2024 22:20:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=sFBk7ez+;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=F47BFQAg;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=212.227.15.14; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::d29; helo=mail-io1-xd29.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W7k205phJz3d2x
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2024 22:01:10 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1719316820; x=1719921620; i=markus.elfring@web.de;
-	bh=nV8EQhdVfjwA7JCFBgocPJknEFZBPmI8Rb4r1ePjiDE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=sFBk7ez+UH1rLu5gwotCV36zUpmzQDQm/amBjsErRIlbuQQVbxmAXUU7PXVb2xKf
-	 Ofj+x/BYAo2gNc0Y2r3HqgfdbgbzkLQ1NtIFnwtL0LR1T2gK/saI5Wv0vaxJZ8AEu
-	 IX7P+lOQtr+4ECDgR1p7/Advch3l8qEcIs03Gf6AVCSEeTdIxRmJHp9DR9u9QDFFN
-	 gwctNoIo/eBngu3ioKjwretwW8tFJ4IMUbhKcutb1z2RfNcMY4yAh6vMH2+h3ndbR
-	 P8VAexRePjAH2G+MsqHT8SxgAOE31rnXKakFgKnObWhmcqznwvPdE7cPjA7/6Ud5Q
-	 /G7TKXS0hCw0tJrNMA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MYLmo-1rqkSH3yJ0-00OW46; Tue, 25
- Jun 2024 14:00:20 +0200
-Message-ID: <edeaa699-7cfe-44ed-abde-7cf3d3efe3bf@web.de>
-Date: Tue, 25 Jun 2024 14:00:15 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W7kSW1JMdz3d9b
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2024 22:20:41 +1000 (AEST)
+Received: by mail-io1-xd29.google.com with SMTP id ca18e2360f4ac-7eb895539e3so216107939f.2
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2024 05:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719318039; x=1719922839; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=56OHLeHM6KGxfr/ZiEEzO7pNMBMtLebkNfQmQtaAVfM=;
+        b=F47BFQAgMh8+IfjZWLNoIcU8LUVj6TEOtHyXaAXBUSREa5QsjOiP0Wy4kXXAzPvZoS
+         Ep9lkfkzRGju5eN2ThjuE1mBkvomeeizv8g/8kuZdzE6xCI0VMMmrcVw+2iYdh7KZxQ3
+         RN7dVSz0LO5MHF/WVn8ro/Y4OkCUs3rQ/ocP1AV1udGxsiMWm0q6j7SQXusjq1aEKbI3
+         5Nkle8O3yeNzDfiFDdGVgFx1NQSrSmZMafT5zn1P9tNWPizLpohTj4k58N3IH+y/f9ch
+         vMfzBJX+aypcYJWy1U5uj+Hqgn3mXYqslDlUElQDjoPs3NAGYD8uVKolZiM2WZgcjMq0
+         i94g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719318039; x=1719922839;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=56OHLeHM6KGxfr/ZiEEzO7pNMBMtLebkNfQmQtaAVfM=;
+        b=nRiIMduKmO6FFSbcf8sIoQ2a4k67rs4Idpp54rpTdFlAkvA4h/JElsFC+3RFTW+3l4
+         IbPP/49VRKatmwcNrAwSeqhPk1EZAuBgYcWqA5a4aLG8QVsCKBzld2mcAyuGwMP9Mq0R
+         BydmYwI90DNrdENX2qVFXMdHJ9SovLjwKDgK6v0rRcPEzTPqJpjsZZrMGIuPQpiYa+k6
+         PVbB0gRgtokJZVx3STk1PVX33fKvTFTAjsAhWcKSbNefrjOIxUeD/1PaJphvmAIQEyba
+         gZl/o5j++hoNCLXsjABv2XgFAZYU8wFjDqi39oiMAA8gsgtX9kUPucy+O0WlD0lguxwY
+         2rpw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6NpEVFlZb3a6Vw+56vIGHG8/Ss9WOKJbq4z7bOYuEmY2QlMOBOvu0WmP/r+a9t5H36r1p/FeBFCaIJI7E5FTPwu3RtjpbEnK2fHB7DQ==
+X-Gm-Message-State: AOJu0YzWrTk2NV4UfY6xYX9NclKaeunnFejMaGY50XNdEc4jMMBQQRaY
+	9FqdHxrzBVe3JEjxFauQGIxzokkyoor8wC6/CGQdj1y6H1SMz5tf
+X-Google-Smtp-Source: AGHT+IGUQpFqlrYS/f5s9ricWY0f00ekN6AAhWQ5FiP2pjk95LET46rRUpw9FfLv5J/yfG8zjaH5IA==
+X-Received: by 2002:a05:6602:6421:b0:7eb:97a0:8226 with SMTP id ca18e2360f4ac-7f3a4e36b74mr1028971639f.13.1719318039091;
+        Tue, 25 Jun 2024 05:20:39 -0700 (PDT)
+Received: from obliging-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70650e312e4sm7978146b3a.0.2024.06.25.05.20.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jun 2024 05:20:38 -0700 (PDT)
+From: Yang Chen <yangchen.openbmc@gmail.com>
+To: joel@jms.id.au,
+	andrew@codeconstruct.com.au,
+	patrick@stwcx.xyz,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH 00/17] Revise Facebook Minerva BMC DTS
+Date: Tue, 25 Jun 2024 20:18:18 +0800
+Message-Id: <20240625121835.751013-1-yangchen.openbmc@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Ma Ke <make24@iscas.ac.cn>, linux-aspeed@lists.ozlabs.org,
- linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joel Stanley <joel@jms.id.au>, Neal Liu <neal_liu@aspeedtech.com>
-References: <20240625022306.2568122-1-make24@iscas.ac.cn>
-Subject: Re: [PATCH v4] usb: gadget: aspeed_udc: validate endpoint index for
- ast udc
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240625022306.2568122-1-make24@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:WVa6AenrwtXGDQwCcWoxbgw+LKV4V+A6XRWd/cms6/7gM3UruC2
- W55cgmEsHf7rJ1egtv/DYzxyxmf+mpE8zVssjVA8cWkJFSGeJ3PJn6wgm3LE7L2TtykeJ0V
- qXFcrr192CZEI7PseoDPhr7Bb0KI4eo7LboXxYefkvv8YJyHngnLmFnxdDdKMk5uHoSesPx
- f87llrL1qknVoUE5h52FA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:d0DxsRFHnpM=;39WEZlnVUSXcpVzJf2TNAjcfdTC
- qneCOiATJ2Eo+K8g5pM0CXNFoJlCvei3fCDXmuQdnaw8nZo+SToG5+j2wm7ZBApJ/V0QX64j0
- InGaZZVLjL85xlguXXTMxenwE3fs8mGQLbRaZLqHG1OxAhODpY1mTSUaiOFLEapoL94Xhj20l
- T+ngoClCO3fKRCxHuDKmVJfgvll+Cd62pdwsZdtqpbZ7pv5Qz2b1gWgJWaUJOaOFgoL5ESBkV
- NCC5o5NWSBcFJDzmMuY2MY1SR7Sr+xQpFcdNNj5Jyh/sd64NFPB9kOfscGPr5E7OFG3XVW2My
- /9LWVu5IxyB3Mh0aWAeB8ZXHxVHfl15pHXrbQOrqSw7MLsrgL5q3WqgO6mnI+1cL5EGLQ1nyf
- jMv5aFHf6YDc5N4bZS6h4Azl4i3Fzj+dWisc2adb7tHkNjYtM/EbsxQ56+NeSJsZVypqb7MhA
- Ad1nPkUhiHV0OVwGm0s6ZlDsFwNB0ImN6Jr9VrPWFfbIOu3Jdb6sLA+RxAD+kCCH3AW9vVfEp
- dAr8B+ciUWVn5/tfSCO19EBQYzcEdQr3RtntscSmW6ZEjn6r71H+udqcMLTXr+4Fw9Wx/PWrf
- ezvN8Crzo4DPMd0ZPqmIIadSMd98mFokyZk2u1ORjcdyUA5uK1tWGX7YsGvnbuq5KBkSfusUr
- qKHrwelFrpRFqXzJYA3KrhMguT8trK4/nc3LsiaDjqxjj6MdwfOXAyQ8HLz1xJ5r5OgNa/svI
- WzsnjC2cFnWxnK+tQ2y+nhJaQA9eICw56MTmjgK7fze611FTkBd+qm7G9K3gvT4RypL2K4LRP
- S3KMvS6na6fjJlVDncunwRs+UsWouhnyEImat1RWXmayc=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,25 +83,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>
+Cc: Jerry.Lin@quantatw.com, yangchen.openbmc@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> We should verify the bound of the array to assure that host
-> may not manipulate the index to point past endpoint array.
+Revise the Linux device tree entry related to Facebook platform Minerva
+specific devices connected to the Aspeed AST2600 BMC.
 
-Why did you not choose an imperative wording for your change description?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.10-rc5#n94
+Yang Chen (17):
+  ARM: dts: aspeed: minerva: change the address of tmp75
+  ARM: dts: aspeed: minerva: Add spi-gpio
+  ARM: dts: aspeed: minerva: change aliases for uart
+  ARM: dts: aspeed: minerva: add eeprom on i2c bus
+  ARM: dts: aspeed: minerva: change RTC reference
+  ARM: dts: aspeed: minerva: enable mdio3
+  ARM: dts: aspeed: minerva: remove unused bus and device
+  ARM: dts: aspeed: minerva: Define the LEDs node name
+  ARM: dts: aspeed: minerva: Add adc sensors for fan board
+  ARM: dts: aspeed: minerva: add linename of two pins
+  ARM: dts: aspeed: minerva: enable ehci0 for USB
+  ARM: dts: aspeed: minerva: add tmp75 sensor
+  ARM: dts: minerva: add power monitor xdp710
+  ARM: dts: aspeed: minerva: revise sgpio line name
+  ARM: dts: aspeed: minerva: Switch the i2c bus number
+  ARM: dts: aspeed: minerva: remove unused power device
+  ARM: dts: aspeed: minerva: add ltc4287 device
 
+ .../aspeed/aspeed-bmc-facebook-minerva.dts    | 516 +++++++++++++-----
+ 1 file changed, 373 insertions(+), 143 deletions(-)
 
-> Found by static analysis.
+-- 
+2.34.1
 
-Were any special tools involved?
-
-
-How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
-=E2=80=9CCc=E2=80=9D) accordingly?
-
-Regards,
-Markus
