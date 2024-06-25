@@ -2,63 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA684916790
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2024 14:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2407A916792
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2024 14:21:58 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kPyeuMaQ;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZGsIpkPD;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W7kTp1tNHz3d2x
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2024 22:21:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W7kTt4b5lz3d2x
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2024 22:21:54 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kPyeuMaQ;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZGsIpkPD;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42b; helo=mail-pf1-x42b.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W7kT35f5Dz3dXW
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2024 22:21:11 +1000 (AEST)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-706683e5249so2313398b3a.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2024 05:21:12 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W7kT46kvJz3dFH
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2024 22:21:12 +1000 (AEST)
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-70671ecd334so2104178b3a.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2024 05:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719318070; x=1719922870; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1719318072; x=1719922872; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hhha6JRCOb6gAYDBXV6ZgA+HlrZsYEj5qiTcZBstJAM=;
-        b=kPyeuMaQkKFklHze6lC8oCXX/w3Tj8FKMAmHg2XPs6Fu4XtyfvXkM7H/R/9FYGXh9m
-         7zgxNWTBTb8Zg/HKAt5f0DQyTNjOzp/ycsCYO4mFpKiQhN71KMkdHFsl/hBM8yWGMZ9h
-         1E9vZc4T/LXGaSDeSasq2nszAz+OiCZa3DG09mqpBVCMMuuYjJ5VJ4sCWj42N/DMzkxz
-         gmsQ8FFFGhKVakh/Cig1e9ez2SXPT2PPR+uh+2FUiCvxz+tZ/jXE1G77J3NQu1WKfvVH
-         6lYp6XKyWEDdUZy0J2lXotF+dJdp3cEyejHekOoUiwpLIj2kjb0tWZyJPriDJ2flOJBa
-         NUTA==
+        bh=R1+ZY9MnH9MSIo3P/myoXe4SqRYQt+K5cKi8iBD/pYg=;
+        b=ZGsIpkPDnCCaeo9iiH9CwLJKGVWdc3NLt2xzmLp2GFGc1ijwzUBm40+18yeiYuJz6P
+         52RODlNPFqQJ6Maz+xd1PnPPpW967wWPdezzXh5V7pphnWVNVNUjl6I9N/Zr7H8Cyuw5
+         Qyo8+SF8XZOoOqWYLMDFvCEagBK/Mv0/SBC9iEXND3W2DYU8lxVPyvwSCrXuMKR0Zjkd
+         Bww5qndAVsFgw7WcaL6Honr38ZWKPrskiEUHgXIPsvoy8jIRzOId8l88mivh12gM8vED
+         NUn9Qi7lzTBTDBCBHrg6cY/PEGV9u65UWrkaK41UhmbC9Wn76hMcIvz7O48jdrknjlZ1
+         e80g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719318070; x=1719922870;
+        d=1e100.net; s=20230601; t=1719318072; x=1719922872;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hhha6JRCOb6gAYDBXV6ZgA+HlrZsYEj5qiTcZBstJAM=;
-        b=ZABtz3V3zb0YQy/B2sdoVSqi4v6/HTGmNn4ZMrSyeeJbOg8F0rmee84uYNn8mp5dia
-         1z+RLS99OgnC92Ms87WXANKJHWyW6O2DLvJR2isOf+Ap/NVR2s21ZE/SyJiyH6ryciH+
-         txwW5C87SCmzOpXzLz+XUT6dNRLbe7ayXjbxIcO2iq6gvq5xooKTiQCJuK0CHqZGZoId
-         Tht9/HLbaqaj4KYblV5Nn3I4cM3JlNYrMLlGtc/2wwW54vrMKm+wo0NYDLloM2hOliCv
-         xvgAbrjoZt5A5o640aeEWmNaaJCnswvE58w85nKcbeSA6N0MZK8GqdGKgkmsCmqN2VWr
-         JtSw==
-X-Forwarded-Encrypted: i=1; AJvYcCV33TWkhWprLsOEOOdl1lIID0kJvQZb0rzr/7HIY+ZquHaRcFM3yLa4FXz4tyiQC/HMIV0aFu+R7SbGFAgAdGm1ioLKZtLSVzvSf6HZqw==
-X-Gm-Message-State: AOJu0YxvHhD3bnLpJYb21nxhxW3vaq4LRMmJo1T7J2lyD5LiceYQ37FV
-	wGH6ARWezQq0CeyMlIPZ1/Rjfw/NRBvy/cfVNT+sdOZ6xvJTS4H3
-X-Google-Smtp-Source: AGHT+IEATxWX60+S/t29A6gaD3hFuKNO4FWD3WqY/9HHqHsltkiigWrM9ekGL/OuPuROE4zT90sa4g==
-X-Received: by 2002:a05:6a00:18a3:b0:706:616d:2216 with SMTP id d2e1a72fcca58-706745a9f0fmr7509334b3a.17.1719318069998;
-        Tue, 25 Jun 2024 05:21:09 -0700 (PDT)
+        bh=R1+ZY9MnH9MSIo3P/myoXe4SqRYQt+K5cKi8iBD/pYg=;
+        b=osi1ZoDmWCIbmc0+LT94GwCU17xa//+FzcFkZWiBzMsxGWDM27WkNB0v6YAo73qpZN
+         iFGzGr93FXZjEoJDv2Zq82EQrLK4MuKyywtQeBh6+a3T34hylhl8XjL4Y0xt7wCNYRsM
+         TbUl46nPSLDC6/RTCnDF7emcFLKHJwZtHEx0PaW0O/urvz1hXj9f5qv0H1iXqunujRCk
+         TYsCYCz1F/UJKAWy7pdk2/y8/FmI1IrR6D7Ez1+jzwrB9WGisg2gv/4DnRgVEYCS6lBq
+         Fpt77Z/pmGF1TAEj8BtvA4rDWrZQnGb+8okWc46/pf57bhX8DU4slhVhwcEKxB2L8NK4
+         p2xA==
+X-Forwarded-Encrypted: i=1; AJvYcCVOu1aHJEfCHQCJG7sw8O71ODcHwasota0ay/kIrAHAVZmm2JJeL3xynDdG3ySq7X1dr62iRxfVvk8KxrdX31gCFuHyUFbFJsnJLmnIwA==
+X-Gm-Message-State: AOJu0Yy9wSxAkky6thC3OdKgiwIFix8PFX3GmRSa+Jx/8wBz5rogCyMI
+	IaJ9uq3gkQlfGgrkQLhxlSC1fAZVWAUv3Ck/NCw8hTZjymC2jyPo
+X-Google-Smtp-Source: AGHT+IFHqLhGUImj+b/k14mrq94/fo0odtjnw+y814qaRfArf+OENLnysBYzvY6GBeeoij1w+51Yqw==
+X-Received: by 2002:a05:6a00:180c:b0:704:1ac0:bf16 with SMTP id d2e1a72fcca58-70670e8fc2bmr9825666b3a.5.1719318072233;
+        Tue, 25 Jun 2024 05:21:12 -0700 (PDT)
 Received: from obliging-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70650e312e4sm7978146b3a.0.2024.06.25.05.21.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70650e312e4sm7978146b3a.0.2024.06.25.05.21.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 05:21:09 -0700 (PDT)
+        Tue, 25 Jun 2024 05:21:11 -0700 (PDT)
 From: Yang Chen <yangchen.openbmc@gmail.com>
 To: joel@jms.id.au,
 	andrew@codeconstruct.com.au,
@@ -67,9 +67,9 @@ To: joel@jms.id.au,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH 14/17] ARM: dts: aspeed: minerva: revise sgpio line name
-Date: Tue, 25 Jun 2024 20:18:32 +0800
-Message-Id: <20240625121835.751013-15-yangchen.openbmc@gmail.com>
+Subject: [PATCH 15/17] ARM: dts: aspeed: minerva: Switch the i2c bus number
+Date: Tue, 25 Jun 2024 20:18:33 +0800
+Message-Id: <20240625121835.751013-16-yangchen.openbmc@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240625121835.751013-1-yangchen.openbmc@gmail.com>
 References: <20240625121835.751013-1-yangchen.openbmc@gmail.com>
@@ -92,283 +92,35 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 
 From: Yang Chen <yang.chen@quantatw.com>
 
-Revise the SGPIO naming to mapping the SGPIO from the CPLD.
+Switch the i2c bus number to map the i2c tag according to the hardware design.
 
 Signed-off-by: Yang Chen <yang.chen@quantatw.com>
 ---
- .../aspeed/aspeed-bmc-facebook-minerva.dts    | 236 +++++++++---------
- 1 file changed, 118 insertions(+), 118 deletions(-)
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-index dd8240279ed4..ba67422a49b2 100644
+index ba67422a49b2..8dd2bbb15576 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-@@ -631,118 +631,118 @@ &sgpiom0 {
- 	gpio-line-names =
- 	/*"input pin","output pin"*/
- 	/*A0 - A7*/
--	"PRSNT_MTIA_BLADE0_N","PWREN_MTIA_BLADE0_EN",
--	"PRSNT_MTIA_BLADE1_N","PWREN_MTIA_BLADE1_EN",
--	"PRSNT_MTIA_BLADE2_N","PWREN_MTIA_BLADE2_EN",
--	"PRSNT_MTIA_BLADE3_N","PWREN_MTIA_BLADE3_EN",
--	"PRSNT_MTIA_BLADE4_N","PWREN_MTIA_BLADE4_EN",
--	"PRSNT_MTIA_BLADE5_N","PWREN_MTIA_BLADE5_EN",
--	"PRSNT_MTIA_BLADE6_N","PWREN_MTIA_BLADE6_EN",
--	"PRSNT_MTIA_BLADE7_N","PWREN_MTIA_BLADE7_EN",
-+	"PRSNT_MTIA_BLADE0_N","PWREN_MTIA_BLADE0_EN_N",
-+	"PRSNT_MTIA_BLADE1_N","PWREN_MTIA_BLADE1_EN_N",
-+	"PRSNT_MTIA_BLADE2_N","PWREN_MTIA_BLADE2_EN_N",
-+	"PRSNT_MTIA_BLADE3_N","PWREN_MTIA_BLADE3_EN_N",
-+	"PRSNT_MTIA_BLADE4_N","PWREN_MTIA_BLADE4_EN_N",
-+	"PRSNT_MTIA_BLADE5_N","PWREN_MTIA_BLADE5_EN_N",
-+	"PRSNT_MTIA_BLADE6_N","PWREN_MTIA_BLADE6_EN_N",
-+	"PRSNT_MTIA_BLADE7_N","PWREN_MTIA_BLADE7_EN_N",
- 	/*B0 - B7*/
--	"PRSNT_MTIA_BLADE8_N","PWREN_MTIA_BLADE8_EN",
--	"PRSNT_MTIA_BLADE9_N","PWREN_MTIA_BLADE9_EN",
--	"PRSNT_MTIA_BLADE10_N","PWREN_MTIA_BLADE10_EN",
--	"PRSNT_MTIA_BLADE11_N","PWREN_MTIA_BLADE11_EN",
--	"PRSNT_MTIA_BLADE12_N","PWREN_MTIA_BLADE12_EN",
--	"PRSNT_MTIA_BLADE13_N","PWREN_MTIA_BLADE13_EN",
--	"PRSNT_MTIA_BLADE14_N","PWREN_MTIA_BLADE14_EN",
--	"PRSNT_MTIA_BLADE15_N","PWREN_MTIA_BLADE15_EN",
-+	"PRSNT_MTIA_BLADE8_N","PWREN_MTIA_BLADE8_EN_N",
-+	"PRSNT_MTIA_BLADE9_N","PWREN_MTIA_BLADE9_EN_N",
-+	"PRSNT_MTIA_BLADE10_N","PWREN_MTIA_BLADE10_EN_N",
-+	"PRSNT_MTIA_BLADE11_N","PWREN_MTIA_BLADE11_EN_N",
-+	"PRSNT_MTIA_BLADE12_N","PWREN_MTIA_BLADE12_EN_N",
-+	"PRSNT_MTIA_BLADE13_N","PWREN_MTIA_BLADE13_EN_N",
-+	"PRSNT_MTIA_BLADE14_N","PWREN_MTIA_BLADE14_EN_N",
-+	"PRSNT_MTIA_BLADE15_N","PWREN_MTIA_BLADE15_EN_N",
- 	/*C0 - C7*/
--	"PRSNT_NW_BLADE0_N","PWREN_NW_BLADE0_EN",
--	"PRSNT_NW_BLADE1_N","PWREN_NW_BLADE1_EN",
--	"PRSNT_NW_BLADE2_N","PWREN_NW_BLADE2_EN",
--	"PRSNT_NW_BLADE3_N","PWREN_NW_BLADE3_EN",
--	"PRSNT_NW_BLADE4_N","PWREN_NW_BLADE4_EN",
--	"PRSNT_NW_BLADE5_N","PWREN_NW_BLADE5_EN",
--	"PRSNT_FCB_TOP_0_N","PWREN_MTIA_BLADE0_HSC_EN",
--	"PRSNT_FCB_TOP_1_N","PWREN_MTIA_BLADE1_HSC_EN",
-+	"PRSNT_NW_BLADE0_N","PWREN_NW_BLADE0_EN_N",
-+	"PRSNT_NW_BLADE1_N","PWREN_NW_BLADE1_EN_N",
-+	"PRSNT_NW_BLADE2_N","PWREN_NW_BLADE2_EN_N",
-+	"PRSNT_NW_BLADE3_N","PWREN_NW_BLADE3_EN_N",
-+	"PRSNT_NW_BLADE4_N","PWREN_NW_BLADE4_EN_N",
-+	"PRSNT_NW_BLADE5_N","PWREN_NW_BLADE5_EN_N",
-+	"PRSNT_FCB_TOP_0_N","PWREN_MTIA_BLADE0_HSC_EN_N",
-+	"PRSNT_FCB_TOP_1_N","PWREN_MTIA_BLADE1_HSC_EN_N",
- 	/*D0 - D7*/
--	"PRSNT_FCB_MIDDLE_0_N","PWREN_MTIA_BLADE2_HSC_EN",
--	"PRSNT_FCB_MIDDLE_1_N","PWREN_MTIA_BLADE3_HSC_EN",
--	"PRSNT_FCB_BOTTOM_0_N","PWREN_MTIA_BLADE4_HSC_EN",
--	"PRSNT_FCB_BOTTOM_1_N","PWREN_MTIA_BLADE5_HSC_EN",
--	"PWRGD_MTIA_BLADE0_PWROK_L_BUF","PWREN_MTIA_BLADE6_HSC_EN",
--	"PWRGD_MTIA_BLADE1_PWROK_L_BUF","PWREN_MTIA_BLADE7_HSC_EN",
--	"PWRGD_MTIA_BLADE2_PWROK_L_BUF","PWREN_MTIA_BLADE8_HSC_EN",
--	"PWRGD_MTIA_BLADE3_PWROK_L_BUF","PWREN_MTIA_BLADE9_HSC_EN",
-+	"PRSNT_FCB_MIDDLE_0_N","PWREN_MTIA_BLADE2_HSC_EN_N",
-+	"PRSNT_FCB_MIDDLE_1_N","PWREN_MTIA_BLADE3_HSC_EN_N",
-+	"PRSNT_FCB_BOTTOM_1_N","PWREN_MTIA_BLADE4_HSC_EN_N",
-+	"PRSNT_FCB_BOTTOM_0_N","PWREN_MTIA_BLADE5_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE0_PWROK_N","PWREN_MTIA_BLADE6_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE1_PWROK_N","PWREN_MTIA_BLADE7_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE2_PWROK_N","PWREN_MTIA_BLADE8_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE3_PWROK_N","PWREN_MTIA_BLADE9_HSC_EN_N",
- 	/*E0 - E7*/
--	"PWRGD_MTIA_BLADE4_PWROK_L_BUF","PWREN_MTIA_BLADE10_HSC_EN",
--	"PWRGD_MTIA_BLADE5_PWROK_L_BUF","PWREN_MTIA_BLADE11_HSC_EN",
--	"PWRGD_MTIA_BLADE6_PWROK_L_BUF","PWREN_MTIA_BLADE12_HSC_EN",
--	"PWRGD_MTIA_BLADE7_PWROK_L_BUF","PWREN_MTIA_BLADE13_HSC_EN",
--	"PWRGD_MTIA_BLADE8_PWROK_L_BUF","PWREN_MTIA_BLADE14_HSC_EN",
--	"PWRGD_MTIA_BLADE9_PWROK_L_BUF","PWREN_MTIA_BLADE15_HSC_EN",
--	"PWRGD_MTIA_BLADE10_PWROK_L_BUF","PWREN_NW_BLADE0_HSC_EN",
--	"PWRGD_MTIA_BLADE11_PWROK_L_BUF","PWREN_NW_BLADE1_HSC_EN",
-+	"PWRGD_MTIA_BLADE4_PWROK_N","PWREN_MTIA_BLADE10_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE5_PWROK_N","PWREN_MTIA_BLADE11_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE6_PWROK_N","PWREN_MTIA_BLADE12_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE7_PWROK_N","PWREN_MTIA_BLADE13_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE8_PWROK_N","PWREN_MTIA_BLADE14_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE9_PWROK_N","PWREN_MTIA_BLADE15_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE10_PWROK_N","PWREN_NW_BLADE0_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE11_PWROK_N","PWREN_NW_BLADE1_HSC_EN_N",
- 	/*F0 - F7*/
--	"PWRGD_MTIA_BLADE12_PWROK_L_BUF","PWREN_NW_BLADE2_HSC_EN",
--	"PWRGD_MTIA_BLADE13_PWROK_L_BUF","PWREN_NW_BLADE3_HSC_EN",
--	"PWRGD_MTIA_BLADE14_PWROK_L_BUF","PWREN_NW_BLADE4_HSC_EN",
--	"PWRGD_MTIA_BLADE15_PWROK_L_BUF","PWREN_NW_BLADE5_HSC_EN",
--	"PWRGD_NW_BLADE0_PWROK_L_BUF","PWREN_FCB_TOP_L_EN",
--	"PWRGD_NW_BLADE1_PWROK_L_BUF","PWREN_FCB_TOP_R_EN",
--	"PWRGD_NW_BLADE2_PWROK_L_BUF","PWREN_FCB_MIDDLE_L_EN",
--	"PWRGD_NW_BLADE3_PWROK_L_BUF","PWREN_FCB_MIDDLE_R_EN",
-+	"PWRGD_MTIA_BLADE12_PWROK_N","PWREN_NW_BLADE2_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE13_PWROK_N","PWREN_NW_BLADE3_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE14_PWROK_N","PWREN_NW_BLADE4_HSC_EN_N",
-+	"PWRGD_MTIA_BLADE15_PWROK_N","PWREN_NW_BLADE5_HSC_EN_N",
-+	"PWRGD_NW_BLADE0_PWROK_N","PWREN_FCB_TOP_0_EN_N",
-+	"PWRGD_NW_BLADE1_PWROK_N","PWREN_FCB_TOP_1_EN_N",
-+	"PWRGD_NW_BLADE2_PWROK_N","PWREN_FCB_MIDDLE_0_EN_N",
-+	"PWRGD_NW_BLADE3_PWROK_N","PWREN_FCB_MIDDLE_1_EN_N",
- 	/*G0 - G7*/
--	"PWRGD_NW_BLADE4_PWROK_L_BUF","PWREN_FCB_BOTTOM_L_EN",
--	"PWRGD_NW_BLADE5_PWROK_L_BUF","PWREN_FCB_BOTTOM_R_EN",
--	"PWRGD_FCB_TOP_0_PWROK_L_BUF","FM_CMM_AC_CYCLE_N",
--	"PWRGD_FCB_TOP_1_PWROK_L_BUF","MGMT_SFP_TX_DIS",
--	"PWRGD_FCB_MIDDLE_0_PWROK_L_BUF","",
--	"PWRGD_FCB_MIDDLE_1_PWROK_L_BUF","RST_I2CRST_MTIA_BLADE0_1_N",
--	"PWRGD_FCB_BOTTOM_0_PWROK_L_BUF","RST_I2CRST_MTIA_BLADE2_3_N",
--	"PWRGD_FCB_BOTTOM_1_PWROK_L_BUF","RST_I2CRST_MTIA_BLADE4_5_N",
-+	"PWRGD_NW_BLADE4_PWROK_N","PWREN_FCB_BOTTOM_1_EN_N",
-+	"PWRGD_NW_BLADE5_PWROK_N","PWREN_FCB_BOTTOM_0_EN_N",
-+	"PWRGD_FCB_TOP_0_PWROK_N","FM_CMM_AC_CYCLE_N",
-+	"PWRGD_FCB_TOP_1_PWROK_N","MGMT_SFP_TX_DIS",
-+	"PWRGD_FCB_MIDDLE_0_PWROK_N","FM_MDIO_SW_SEL",
-+	"PWRGD_FCB_MIDDLE_1_PWROK_N","FM_P24V_SMPWR_EN",
-+	"PWRGD_FCB_BOTTOM_1_PWROK_N","",
-+	"PWRGD_FCB_BOTTOM_0_PWROK_N","",
- 	/*H0 - H7*/
--	"LEAK_DETECT_MTIA_BLADE0_N_BUF","RST_I2CRST_MTIA_BLADE6_7_N",
--	"LEAK_DETECT_MTIA_BLADE1_N_BUF","RST_I2CRST_MTIA_BLADE8_9_N",
--	"LEAK_DETECT_MTIA_BLADE2_N_BUF","RST_I2CRST_MTIA_BLADE10_11_N",
--	"LEAK_DETECT_MTIA_BLADE3_N_BUF","RST_I2CRST_MTIA_BLADE12_13_N",
--	"LEAK_DETECT_MTIA_BLADE4_N_BUF","RST_I2CRST_MTIA_BLADE14_15_N",
--	"LEAK_DETECT_MTIA_BLADE5_N_BUF","RST_I2CRST_NW_BLADE0_1_2_N",
--	"LEAK_DETECT_MTIA_BLADE6_N_BUF","RST_I2CRST_NW_BLADE3_4_5_N",
--	"LEAK_DETECT_MTIA_BLADE7_N_BUF","RST_I2CRST_FCB_N",
-+	"LEAK_DETECT_MTIA_BLADE0_N","",
-+	"LEAK_DETECT_MTIA_BLADE1_N","",
-+	"LEAK_DETECT_MTIA_BLADE2_N","",
-+	"LEAK_DETECT_MTIA_BLADE3_N","",
-+	"LEAK_DETECT_MTIA_BLADE4_N","",
-+	"LEAK_DETECT_MTIA_BLADE5_N","",
-+	"LEAK_DETECT_MTIA_BLADE6_N","",
-+	"LEAK_DETECT_MTIA_BLADE7_N","",
- 	/*I0 - I7*/
--	"LEAK_DETECT_MTIA_BLADE8_N_BUF","RST_I2CRST_FCB_B_L_N",
--	"LEAK_DETECT_MTIA_BLADE9_N_BUF","RST_I2CRST_FCB_B_R_N",
--	"LEAK_DETECT_MTIA_BLADE10_N_BUF","RST_I2CRST_FCB_M_L_N",
--	"LEAK_DETECT_MTIA_BLADE11_N_BUF","RST_I2CRST_FCB_M_R_N",
--	"LEAK_DETECT_MTIA_BLADE12_N_BUF","RST_I2CRST_FCB_T_L_N",
--	"LEAK_DETECT_MTIA_BLADE13_N_BUF","RST_I2CRST_FCB_T_R_N",
--	"LEAK_DETECT_MTIA_BLADE14_N_BUF","BMC_READY",
--	"LEAK_DETECT_MTIA_BLADE15_N_BUF","wFM_88E6393X_BIN_UPDATE_EN_N",
-+	"LEAK_DETECT_MTIA_BLADE8_N","RST_I2CRST_FCB_BOTTOM_1_N",
-+	"LEAK_DETECT_MTIA_BLADE9_N","RST_I2CRST_FCB_BOTTOM_0_N",
-+	"LEAK_DETECT_MTIA_BLADE10_N","RST_I2CRST_FCB_MIDDLE_0_N",
-+	"LEAK_DETECT_MTIA_BLADE11_N","RST_I2CRST_FCB_MIDDLE_1_N",
-+	"LEAK_DETECT_MTIA_BLADE12_N","RST_I2CRST_FCB_TOP_0_N",
-+	"LEAK_DETECT_MTIA_BLADE13_N","RST_I2CRST_FCB_TOP_1_N",
-+	"LEAK_DETECT_MTIA_BLADE14_N","BMC_READY",
-+	"LEAK_DETECT_MTIA_BLADE15_N","FM_88E6393X_BIN_UPDATE_EN_N",
- 	/*J0 - J7*/
--	"LEAK_DETECT_NW_BLADE0_N_BUF","WATER_VALVE_CLOSED_N",
--	"LEAK_DETECT_NW_BLADE1_N_BUF","",
--	"LEAK_DETECT_NW_BLADE2_N_BUF","",
--	"LEAK_DETECT_NW_BLADE3_N_BUF","",
--	"LEAK_DETECT_NW_BLADE4_N_BUF","",
--	"LEAK_DETECT_NW_BLADE5_N_BUF","",
--	"MTIA_BLADE0_STATUS_LED","",
--	"MTIA_BLADE1_STATUS_LED","",
-+	"LEAK_DETECT_NW_BLADE0_N","WATER_VALVE_CLOSED_N",
-+	"LEAK_DETECT_NW_BLADE1_N","",
-+	"LEAK_DETECT_NW_BLADE2_N","",
-+	"LEAK_DETECT_NW_BLADE3_N","",
-+	"LEAK_DETECT_NW_BLADE4_N","",
-+	"LEAK_DETECT_NW_BLADE5_N","",
-+	"PWRGD_MTIA_BLADE0_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE1_HSC_PWROK_N","",
- 	/*K0 - K7*/
--	"MTIA_BLADE2_STATUS_LED","",
--	"MTIA_BLADE3_STATUS_LED","",
--	"MTIA_BLADE4_STATUS_LED","",
--	"MTIA_BLADE5_STATUS_LED","",
--	"MTIA_BLADE6_STATUS_LED","",
--	"MTIA_BLADE7_STATUS_LED","",
--	"MTIA_BLADE8_STATUS_LED","",
--	"MTIA_BLADE9_STATUS_LED","",
-+	"PWRGD_MTIA_BLADE2_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE3_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE4_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE5_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE6_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE7_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE8_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE9_HSC_PWROK_N","",
- 	/*L0 - L7*/
--	"MTIA_BLADE10_STATUS_LED","",
--	"MTIA_BLADE11_STATUS_LED","",
--	"MTIA_BLADE12_STATUS_LED","",
--	"MTIA_BLADE13_STATUS_LED","",
--	"MTIA_BLADE14_STATUS_LED","",
--	"MTIA_BLADE15_STATUS_LED","",
--	"NW_BLADE0_STATUS_LED","",
--	"NW_BLADE1_STATUS_LED","",
-+	"PWRGD_MTIA_BLADE10_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE11_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE12_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE13_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE14_HSC_PWROK_N","",
-+	"PWRGD_MTIA_BLADE15_HSC_PWROK_N","",
-+	"PWRGD_NW_BLADE0_HSC_PWROK_N","",
-+	"PWRGD_NW_BLADE1_HSC_PWROK_N","",
- 	/*M0 - M7*/
--	"NW_BLADE2_STATUS_LED","",
--	"NW_BLADE3_STATUS_LED","",
--	"NW_BLADE4_STATUS_LED","",
--	"NW_BLADE5_STATUS_LED","",
-+	"PWRGD_NW_BLADE2_HSC_PWROK_N","",
-+	"PWRGD_NW_BLADE3_HSC_PWROK_N","",
-+	"PWRGD_NW_BLADE4_HSC_PWROK_N","",
-+	"PWRGD_NW_BLADE5_HSC_PWROK_N","",
- 	"RPU_READY","",
- 	"IT_GEAR_RPU_LINK_N","",
- 	"IT_GEAR_LEAK","",
-@@ -750,28 +750,28 @@ &sgpiom0 {
- 	/*N0 - N7*/
- 	"VALVE_STS0","",
- 	"VALVE_STS1","",
--	"VALVE_STS2","",
--	"VALVE_STS3","",
--	"CR_TOGGLE_BOOT_BUF_N","",
--	"CMM_LC_RDY_LED_N","",
--	"CMM_LC_UNRDY_LED_N","",
-+	"PCA9555_IRQ0_N","",
-+	"PCA9555_IRQ1_N","",
-+	"CR_TOGGLE_BOOT_N","",
-+	"IRQ_FCB_TOP0_N","",
-+	"IRQ_FCB_TOP1_N","",
- 	"CMM_CABLE_CARTRIDGE_PRSNT_BOT_N","",
- 	/*O0 - O7*/
- 	"CMM_CABLE_CARTRIDGE_PRSNT_TOP_N","",
- 	"BOT_BCB_CABLE_PRSNT_N","",
- 	"TOP_BCB_CABLE_PRSNT_N","",
--	"CHASSIS0_LEAK_Q_N","",
--	"CHASSIS1_LEAK_Q_N","",
--	"LEAK0_DETECT","",
--	"LEAK1_DETECT","",
--	"MGMT_SFP_PRSNT_N","",
-+	"IRQ_FCB_MID0_N","",
-+	"IRQ_FCB_MID1_N","",
-+	"CHASSIS_LEAK0_DETECT_N","",
-+	"CHASSIS_LEAK1_DETECT_N","",
-+	"VALVE_RMON_A_1","",
- 	/*P0 - P7*/
--	"MGMT_SFP_TX_FAULT","",
--	"MGMT_SFP_RX_LOS","",
--	"","",
--	"","",
--	"","",
--	"","",
--	"","",
--	"","";
-+	"VALVE_RMON_A_2","",
-+	"VALVE_RMON_B_1","",
-+	"VALVE_RMON_B_2","",
-+	"RPU_READY_SPARE","",
-+	"IT_GEAR_LEAK_SPARE","",
-+	"IT_GEAR_RPU_LINK_SPARE_N","",
-+	"IRQ_FCB_BOT0_N","",
-+	"IRQ_FCB_BOT0_N","";
- };
+@@ -405,7 +405,7 @@ temperature-sensor@4b {
+ 			};
+ 		};
+ 
+-		imux20: i2c@4 {
++		imux20: i2c@5 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <4>;
+@@ -451,7 +451,7 @@ temperature-sensor@4b {
+ 			};
+ 		};
+ 
+-		imux21: i2c@5 {
++		imux21: i2c@4 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <5>;
 -- 
 2.34.1
 
