@@ -1,72 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F64917D60
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 12:11:30 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C639181A0
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 15:05:49 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=dZwIFgDA;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=awxLFtdN;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W8HXt6GcDz30VS
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 20:11:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W8MQ20Fmqz3cV5
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 23:05:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=dZwIFgDA;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=awxLFtdN;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12f; helo=mail-lf1-x12f.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62f; helo=mail-pl1-x62f.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W8HWv0S6bz30VM
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 20:10:34 +1000 (AEST)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-52cdb9526e2so392498e87.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 03:10:35 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W8MPw1Rs8z3c5J
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 23:05:38 +1000 (AEST)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1f9c6e59d34so55099835ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 06:05:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719396627; x=1720001427; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CODmxJ7WAi/9W5Zp49KBekEucUyPOe+eyV9ajXeTHL4=;
-        b=dZwIFgDAk6OrKTzWyIAPmquaHdykmMZS/FEQAl49JR/QGy1OxMc0hm63bzSB5q0eLA
-         idek97eNuYJXmqXOf3jTQQ24Bo4Crlz521I5uqgIukDU+cBvnVWHgTy7wqy9SHh2xYge
-         Lycmv5tTFMko3w32/BpU+sdcHSVYDFwfYkCMlo+oa40GUTJEi4O7JRVMMwPj3tySLdZ6
-         xUwI1B1rhAlzHFl/NDpcSb1PCAWFkYT767wKZIeaMH9DIK7ob0ZNeoUv1R0sufz21FOw
-         DJqyWcUbMAvsqWrsuJ6vxUkr0NkLLeYH1Jg4QfAEeLRElBR/mFFLQ0rj83r36IxZ6Q4s
-         +YQQ==
+        d=gmail.com; s=20230601; t=1719407138; x=1720011938; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SZEw1g07ZLnQvFZWEHxbSy8GeOHnIuAb8MiyryT0YbU=;
+        b=awxLFtdNUUc05ENCPf9yzPONsJjVV5VOmGbwpcCDbn7eGd/C9ybhmN520oZHI0CBoD
+         lymPm/xxzS45gkB3AYVQ4D4MAtdG5lfQPyiqpJhsVKiLyxRfTulBT8csx2ITdaP2sdzb
+         O0EyYG1ZBaxvQQQnCzKHydthZJgrGKoxJvG+MuUqlN+4IUflE03xQiSQxQuG1C7R2UMt
+         r05Iz40V8Wo9q4g76/8h3XeBYFFOxV4RibQjEXSlT3Ca5jWi8lvrlyVkGUPmwv1OjEfq
+         DcG/wk+8d/t3T4Xy5Tpy8z84KpvccZrZXtNT2C5Nhgz4C+Iiqhz0tgA7tMP6x9uScz0J
+         MaHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719396627; x=1720001427;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CODmxJ7WAi/9W5Zp49KBekEucUyPOe+eyV9ajXeTHL4=;
-        b=f0U5gYo9wc4AGbMcI5puDMpmqaUq6tDxyfmwa/oyDAMCvp7JGtu4/sWemHs7F6rZFr
-         6wS375ihBVsb3xUEuJfvOPaO6Lp4aTXuto5IWS9JPz36Tu22MBVa4L7QrYH/grPrJx/L
-         bFFbPIG1ES3y36xNV1/AFWovXmkN5l9z8bFozfZpifctDpPp9uD3qwVkid6ZobJO7rPx
-         MK5s6Hyx+80esEsGtMgKwyEgGztUVsoTrDIi7OOuXkf/PrJHP1SZsjLv95R9fv7rZVxH
-         wgYyhqgn6SzR18jXZs/wSz/rQ+XDNgOuCwcpXUqUA1CDdRaAkLQLUagTPMAFMGDkJnFJ
-         QC/A==
-X-Forwarded-Encrypted: i=1; AJvYcCX0Tc/wrVkC8G1g9VACd9tF7sB6qNJtci4dle1KC1wqX95rRmmRn5vd+r0ThezsqH+izRIxfV2VBxuyv/ZTk3jNjNzD0nNMTJi+zMNVBA==
-X-Gm-Message-State: AOJu0Yw0/opRvNMa/sok7IUYsdo31KzfbVF6rHYdWeMp+whcfwNRa5qR
-	VPvdlYTbxCuH5RSVutmMK6CHQeS4J7taYalXYOgIJ9sp7v0bgMWlfq6J1nzqh7Zom9uJCnO6j4r
-	VP8AhaXSdmgKROe4AnVKX4uncooXjgJ68kH7DEw==
-X-Google-Smtp-Source: AGHT+IF3lbTV0RYBiE7R5YSmwxSMLcsLF95dsDrDNlAyhnScJgGvl/+e2exCY3OLJZIBn9r5xOXG/EzI6V9+H38zQ2A=
-X-Received: by 2002:a19:f618:0:b0:52c:dba9:55ff with SMTP id
- 2adb3069b0e04-52cdf15b006mr3296922e87.25.1719396626376; Wed, 26 Jun 2024
- 03:10:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719407138; x=1720011938;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SZEw1g07ZLnQvFZWEHxbSy8GeOHnIuAb8MiyryT0YbU=;
+        b=XFzUl0ASWOEEqHOXySTo3A5toHkIRsYwwli2HnniiInaD3TW8NNFRW2XR9JF38h2yA
+         859DQiKYL/tXdQGL8ia62WlNzkXdl62EZtaphzmgWU5ZfP3Vh8ZXuVKbPYqbsHG5s8+M
+         uVjSjnuQ+AYMnH1qXhSzBP/VYL1UY7xtvB/tfOCzxpVCzWiCYFDfnnVFbLaBeoN5Y9d+
+         RHk78jtnajNCjGAxrvHx5p9mbOQleazWAHeuH/Fr4CgAQuGLyuJ3Lw+BP/H/jgY1JmLx
+         d/OZFI1a7SrkWTAf0Dp1+VlGFmuYhSw3J21GpnipxWCrH1L8w31sx2O3FFBup4rPezCj
+         PGpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWhCsCxvy06sGp0IxQgvTo0CulbcS70kHpqc/cg/RYK4ZSsMfm6SD1XQS+WWmTKF2n6JCmEBjSZzj8gbJUyMYpD20FulVhLsbdZI47e3g==
+X-Gm-Message-State: AOJu0YzD1F7WvkKaFkkyoNL68jmCWZ9RMzExia+zIC01ijaROucDH234
+	1+WHj3Bbk3NomEIzaqkGTST23RihCURKMuKs0ASQf0yMRPVSJVOm
+X-Google-Smtp-Source: AGHT+IEu3J9iziZNrqrOUblp2zL7pUOD6XFZ8442+63lf5VR1h/a0E2Ilv1q41eUPQoLZyYHEBSiBA==
+X-Received: by 2002:a17:902:c40c:b0:1f8:66fb:1677 with SMTP id d9443c01a7336-1fa1d3de606mr131873165ad.14.1719407137507;
+        Wed, 26 Jun 2024 06:05:37 -0700 (PDT)
+Received: from obliging-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb7cf885sm99112395ad.224.2024.06.26.06.05.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 06:05:37 -0700 (PDT)
+From: Yang Chen <yangchen.openbmc@gmail.com>
+To: joel@jms.id.au,
+	andrew@codeconstruct.com.au,
+	patrick@stwcx.xyz,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v1 00/17] Revise Facebook Minerva BMC DTS
+Date: Wed, 26 Jun 2024 21:03:15 +0800
+Message-Id: <20240626130332.929534-1-yangchen.openbmc@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240621093142.698529-1-potin.lai.pt@gmail.com>
-In-Reply-To: <20240621093142.698529-1-potin.lai.pt@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 26 Jun 2024 12:10:15 +0200
-Message-ID: <CACRpkdZ4+pJTSu+GZ=BSfY6G-3Pj=81275AMEewAvoDFpACYMw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] add ast2600 NCSI pin groups
-To: Potin Lai <potin.lai.pt@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,17 +83,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Patrick Williams <patrick@stwcx.xyz>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, Potin Lai <potin.lai@quantatw.com>, linux-arm-kernel@lists.infradead.org, Cosmo Chou <cosmo.chou@quantatw.com>
+Cc: Jerry.Lin@quantatw.com, yangchen.openbmc@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Jun 21, 2024 at 11:33=E2=80=AFAM Potin Lai <potin.lai.pt@gmail.com>=
- wrote:
+Revise the Linux device tree entry related to Facebook platform Minerva
+specific devices connected to the Aspeed AST2600 BMC.
 
-> In the NCSI pin table, the reference clock output pin (RMIIXRCLKO) is not
-> needed on the management controller side.
+Changelog:
+- v1:
+  - Modify the properties of spi to match the schema.
 
-This v4 patch set applied!
+Yang Chen (17):
+  ARM: dts: aspeed: minerva: change the address of tmp75
+  ARM: dts: aspeed: minerva: change aliases for uart
+  ARM: dts: aspeed: minerva: add eeprom on i2c bus
+  ARM: dts: aspeed: minerva: change RTC reference
+  ARM: dts: aspeed: minerva: enable mdio3
+  ARM: dts: aspeed: minerva: remove unused bus and device
+  ARM: dts: aspeed: minerva: Define the LEDs node name
+  ARM: dts: aspeed: minerva: Add adc sensors for fan board
+  ARM: dts: aspeed: minerva: add linename of two pins
+  ARM: dts: aspeed: minerva: enable ehci0 for USB
+  ARM: dts: aspeed: minerva: add tmp75 sensor
+  ARM: dts: aspeed: minerva: add power monitor xdp710
+  ARM: dts: aspeed: minerva: revise sgpio line name
+  ARM: dts: aspeed: minerva: Switch the i2c bus number
+  ARM: dts: aspeed: minerva: remove unused power device
+  ARM: dts: aspeed: minerva: add ltc4287 device
+  ARM: dts: aspeed: minerva: Add spi-gpio
 
-Yours,
-Linus Walleij
+ .../aspeed/aspeed-bmc-facebook-minerva.dts    | 516 +++++++++++++-----
+ 1 file changed, 373 insertions(+), 143 deletions(-)
+
+-- 
+2.34.1
+
