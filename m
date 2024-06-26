@@ -2,54 +2,80 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A9E9579C5
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4599579C6
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKT4d9Lz7CCm
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKT69bWz304f
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=iscas.ac.cn (client-ip=159.226.251.21; helo=cstnet.cn; envelope-from=make24@iscas.ac.cn; receiver=lists.ozlabs.org)
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=QpVxPWum;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=quicinc.com (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=quic_jjohnson@quicinc.com; receiver=lists.ozlabs.org)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W7TC773Wvz3cDt
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2024 12:23:15 +1000 (AEST)
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
-	by APP-01 (Coremail) with SMTP id qwCowAC3vhIMKnpmXuiVDA--.13743S2;
-	Tue, 25 Jun 2024 10:23:10 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: neal_liu@aspeedtech.com,
-	gregkh@linuxfoundation.org,
-	joel@jms.id.au,
-	andrew@codeconstruct.com.au
-Subject: [PATCH v4] usb: gadget: aspeed_udc: validate endpoint index for ast udc
-Date: Tue, 25 Jun 2024 10:23:06 +0800
-Message-Id: <20240625022306.2568122-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W88zv4z70z30Vb;
+	Wed, 26 Jun 2024 15:15:54 +1000 (AEST)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45PHiafG009016;
+	Wed, 26 Jun 2024 05:15:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	NwTtCl3iJT3YitwFW8p6dlka2tHgHpGQkCLhbInxWTk=; b=QpVxPWumFllrEba5
+	J63sQKI0Ckj8s1X8i5XaPhdYpOTUaN5qE14LOu3v6MNhPSwBZ0njKirkwEd9tib5
+	M3kyfkbC1/ZDxvCIG+kaxrGjWDFabLeMJoE1dNEn3EtSpxi8M3Hv/yml0580TELM
+	rsH2m7RVEb17ACqKPYtueOK+bkNnXyveuei9KWXYV1bp+M5RkLBM8jmIPXG9a4oF
+	t+r/OECUQiGka0AR+dTct6+/4s97mWIYtu0TC9woqvKfLQMsAeMw0t2J5euEvkMG
+	oFt4fAtiW/5QrqOcVhc5tErygYUz81WBugVJ8L+nwXrkhwTwRIRj2odaIe0BTVN8
+	l5r0lA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywqcegjk6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 26 Jun 2024 05:15:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45Q5FN3J014103
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 26 Jun 2024 05:15:23 GMT
+Received: from [10.48.244.230] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 25 Jun
+ 2024 22:15:22 -0700
+Message-ID: <4d1276a3-ef4a-4c84-8d09-d1613f311a28@quicinc.com>
+Date: Tue, 25 Jun 2024 22:15:21 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAC3vhIMKnpmXuiVDA--.13743S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruFy7urW5GFW7Kr4rtF1DWrg_yoWDKFXE9a
-	48ursxuw17KayI9r1UZ3W3Xr1j9a4kW3WDuF1DtFyay34UXF47XrykWrW8ta15ZFW7uF9x
-	C398Kw13u34aqjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbx8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6r1F6r1fM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
-	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr
-	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
-	x2IErcIFxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
-	0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
-	IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
-	AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
-	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUAku
-	cUUUUU=
-X-Originating-IP: [183.174.60.14]
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fsi: add missing MODULE_DESCRIPTION() macros
+Content-Language: en-US
+To: Jeremy Kerr <jk@ozlabs.org>, Joel Stanley <joel@jms.id.au>,
+        Alistar Popple
+	<alistair@popple.id.au>,
+        Eddie James <eajames@linux.ibm.com>,
+        Andrew Jeffery
+	<andrew@codeconstruct.com.au>
+References: <20240605-md-drivers-fsi-v1-1-fefc82d81b12@quicinc.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <20240605-md-drivers-fsi-v1-1-fefc82d81b12@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 5tURQ12dorLWZ9yS2q27DoMKcY5u3HyZ
+X-Proofpoint-ORIG-GUID: 5tURQ12dorLWZ9yS2q27DoMKcY5u3HyZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-26_03,2024-06-25_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1011
+ mlxscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 spamscore=0
+ suspectscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406260039
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -62,41 +88,109 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Ma Ke <make24@iscas.ac.cn>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-We should verify the bound of the array to assure that host
-may not manipulate the index to point past endpoint array.
+On 6/5/2024 3:39 PM, Jeff Johnson wrote:
+> make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+> 
+> Add the missing invocations of the MODULE_DESCRIPTION() macro, and fix the
+> copy/paste of the module description comment in fsi-master-ast-cf.c.
+> 
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> ---
+>  drivers/fsi/fsi-core.c          | 1 +
+>  drivers/fsi/fsi-master-aspeed.c | 1 +
+>  drivers/fsi/fsi-master-ast-cf.c | 3 ++-
+>  drivers/fsi/fsi-master-gpio.c   | 1 +
+>  drivers/fsi/fsi-master-hub.c    | 1 +
+>  drivers/fsi/fsi-scom.c          | 1 +
+>  6 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/fsi/fsi-core.c b/drivers/fsi/fsi-core.c
+> index 097d5a780264..716a924269ee 100644
+> --- a/drivers/fsi/fsi-core.c
+> +++ b/drivers/fsi/fsi-core.c
+> @@ -1444,5 +1444,6 @@ static void fsi_exit(void)
+>  }
+>  module_exit(fsi_exit);
+>  module_param(discard_errors, int, 0664);
+> +MODULE_DESCRIPTION("FSI core driver");
+>  MODULE_LICENSE("GPL");
+>  MODULE_PARM_DESC(discard_errors, "Don't invoke error handling on bus accesses");
+> diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
+> index f0a19cd451a0..b454587790a2 100644
+> --- a/drivers/fsi/fsi-master-aspeed.c
+> +++ b/drivers/fsi/fsi-master-aspeed.c
+> @@ -672,4 +672,5 @@ static struct platform_driver fsi_master_aspeed_driver = {
+>  };
+>  
+>  module_platform_driver(fsi_master_aspeed_driver);
+> +MODULE_DESCRIPTION("FSI master driver for AST2600");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/fsi/fsi-master-ast-cf.c b/drivers/fsi/fsi-master-ast-cf.c
+> index 812dfa9a9140..85096559dda3 100644
+> --- a/drivers/fsi/fsi-master-ast-cf.c
+> +++ b/drivers/fsi/fsi-master-ast-cf.c
+> @@ -1,7 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>  // Copyright 2018 IBM Corp
+>  /*
+> - * A FSI master controller, using a simple GPIO bit-banging interface
+> + * A FSI master based on Aspeed ColdFire coprocessor
+>   */
+>  
+>  #include <linux/crc4.h>
+> @@ -1440,5 +1440,6 @@ static struct platform_driver fsi_master_acf = {
+>  };
+>  
+>  module_platform_driver(fsi_master_acf);
+> +MODULE_DESCRIPTION("A FSI master based on Aspeed ColdFire coprocessor");
+>  MODULE_LICENSE("GPL");
+>  MODULE_FIRMWARE(FW_FILE_NAME);
+> diff --git a/drivers/fsi/fsi-master-gpio.c b/drivers/fsi/fsi-master-gpio.c
+> index ed03da4f2447..d32dcc98e85b 100644
+> --- a/drivers/fsi/fsi-master-gpio.c
+> +++ b/drivers/fsi/fsi-master-gpio.c
+> @@ -894,4 +894,5 @@ static struct platform_driver fsi_master_gpio_driver = {
+>  };
+>  
+>  module_platform_driver(fsi_master_gpio_driver);
+> +MODULE_DESCRIPTION("A FSI master controller, using a simple GPIO bit-banging interface");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/fsi/fsi-master-hub.c b/drivers/fsi/fsi-master-hub.c
+> index 6d8b6e8854e5..6568fed7db3c 100644
+> --- a/drivers/fsi/fsi-master-hub.c
+> +++ b/drivers/fsi/fsi-master-hub.c
+> @@ -295,4 +295,5 @@ static struct fsi_driver hub_master_driver = {
+>  };
+>  
+>  module_fsi_driver(hub_master_driver);
+> +MODULE_DESCRIPTION("FSI hub master driver");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/fsi/fsi-scom.c b/drivers/fsi/fsi-scom.c
+> index 61dbda9dbe2b..411ddc018cd8 100644
+> --- a/drivers/fsi/fsi-scom.c
+> +++ b/drivers/fsi/fsi-scom.c
+> @@ -625,4 +625,5 @@ static void scom_exit(void)
+>  
+>  module_init(scom_init);
+>  module_exit(scom_exit);
+> +MODULE_DESCRIPTION("SCOM FSI Client device driver");
+>  MODULE_LICENSE("GPL");
+> 
+> ---
+> base-commit: 19ca0d8a433ff37018f9429f7e7739e9f3d3d2b4
+> change-id: 20240605-md-drivers-fsi-0a34d82a85da
+> 
+Following up to see if anything else is needed from me.
+Hoping to see this in linux-next :)
 
-Found by static analysis.
-
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
----
-Changes in v4:
-- used a consistent email address to send patches, sorry for my negligence.
-Changes in v3:
-- added the changelog as suggested.
-Changes in v2:
-- used the correct macro-defined constants as suggested;
-- explained the method for finding and testing vulnerabilities.
----
- drivers/usb/gadget/udc/aspeed_udc.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 3916c8e2ba01..d972ef4644bc 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1009,6 +1009,8 @@ static void ast_udc_getstatus(struct ast_udc_dev *udc)
- 		break;
- 	case USB_RECIP_ENDPOINT:
- 		epnum = crq.wIndex & USB_ENDPOINT_NUMBER_MASK;
-+		if (epnum >= AST_UDC_NUM_ENDPOINTS)
-+			goto stall;
- 		status = udc->ep[epnum].stopped;
- 		break;
- 	default:
--- 
-2.25.1
-
+/jeff
