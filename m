@@ -2,63 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B45C9181B9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 15:06:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2AF19181BB
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 15:07:00 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=GD/bIhAa;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eVTt2XFI;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W8MRJ6pHLz3dBM
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 23:06:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W8MRP0xVjz3dBX
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 23:06:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=GD/bIhAa;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eVTt2XFI;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W8MQb2wv2z3cbd
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 23:06:15 +1000 (AEST)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1fa07e4f44eso37477465ad.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 06:06:16 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W8MQc2zQFz3cfQ
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 23:06:16 +1000 (AEST)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1f9ffd24262so35490885ad.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 06:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719407174; x=1720011974; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1719407176; x=1720011976; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zhe6DN+SBff5XTkDHWzhpS9fEwRiEep85mCGDZa7d1w=;
-        b=GD/bIhAaAMHLLerzW1IoNGjAaq7WEJibe+PT8KMNHrIn5nCTpU2fDACZiR3mqd37iX
-         Mlb8RrB13WvEFmKSpDsnoFzTZNulXrChKExfx9iHxurg8KLkPYPb6QfEzbiYwAhmev6E
-         Dy969Vc6hIpl8GbIwsOQ0Lrll/B8bZHNCX0kIWWbYuOpcAdg/9DeKuZUwDVhHPwqLceW
-         kMNpiQkKP4cmVRqh39g/12kmEAuRHLI6Pw1JUW8auzYGxIPCnc+RJu5jAkkjDwww7qB3
-         kVx8DbgpCREBdf/4muIiv2cBV1A7z9el4JF+2+IVet2O787UryWc6wVA4qTOIgc20fxu
-         b+LQ==
+        bh=770f2s193tecuqJzO0rEDeOzzz/M/ipXn0oDb/92wqA=;
+        b=eVTt2XFIYF4QGJnEyurPgo/shcDIM8T3MY/mE33nE+kgzplrPrphacysv1Ooddk3Ut
+         8yCzxhxMfBD0pdo5xEVun/5dgJLdjose+Xs6no6X/AshaJT0YeI9U1wo3Z8n61yhq0RQ
+         xP06PH5dZ5UlPmpeRrhTWT7LC9p65hQ9PY4Blrf8isghqQA+ryF0IFZzWYPW9+S4k4zH
+         73o9DY3f4GeC5JhQLflalz8YgcCMIVWhZvPfstCu7NZ+4Kqy+s71Ps2E+eutFZmJdOS1
+         GS9IJNcy5bpMIP1pxj9Njjwtwc7xlaQ7Z64tp0nnu44CguWPgnWt0DJ01yKQvjP6oVxZ
+         Y7Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719407174; x=1720011974;
+        d=1e100.net; s=20230601; t=1719407176; x=1720011976;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zhe6DN+SBff5XTkDHWzhpS9fEwRiEep85mCGDZa7d1w=;
-        b=fSlO8FQzO5wdVXm4E1PbkVi5eO1IC0Kh9lzqt6WYdUQS04YWP+xokY7d0Ncgj493/N
-         WArv2r7l6A5FnkPLVli/CHaR0uqSPmJcyNvK9cJcO74fR6UswK47Zy3u2hwR3jJWk4l8
-         YsPdARVxXF1Rlpwj1RgP6kx/2vvYy6uQvv5vxaZOoQepIitS3Wnm2/93xMnjg5Ql8fn+
-         kr+aJZ5N33xS2VaYi2L4X6cS7XNXSr64Y8jropFAV2/mUFGQSx3yEuslQExYL0G2bTDp
-         tDh9ZLrM0ySpy0njL6koHiOaXfrcmfI86bvSk4uaAge6E/zd9K8ShqAUYr7p3VlvFLSo
-         l/UA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIkOFVH8pC5j3I66u4aE75SmwUlxJNKp5BUNpTFxQJHi0RcpvXoqkJZv834q5sr+kGHTvlZ0UU07roOLb5rbXkbbHE9e0OuE0v1hTBTQ==
-X-Gm-Message-State: AOJu0YwNZbzLInZtarDlHrOm7N0VTV2pURIybbPpjTBsJyObduD0HBRR
-	ZzyX4VLCDP6OOJjyQ9R6swZyIw8WuTJh+N2sUfwAQ0azxjGKSPWGTd2cK5I3
-X-Google-Smtp-Source: AGHT+IEnvR79PM2kbP19MxXJTGNCuQmeLblT5t4YPlM/FBhWqr94KqmbokkHoLxtV/Dx2zTKyZtTEg==
-X-Received: by 2002:a17:903:2291:b0:1f9:f3a0:62a5 with SMTP id d9443c01a7336-1fa23ef7dfamr123367765ad.53.1719407173429;
-        Wed, 26 Jun 2024 06:06:13 -0700 (PDT)
+        bh=770f2s193tecuqJzO0rEDeOzzz/M/ipXn0oDb/92wqA=;
+        b=Nma8MhA15EFd6Kl29KODicIh5bLXPocm835RUr7TLhp51NpcSiwTH1tb5C2S1Wuj8g
+         RL4WRXXm395VZC50hkYc1UNR26Lfd+CL9j+OfOtlhOAnljAYwueDD2oX8GFUneadbPiT
+         GcpNeQE6zdB0FT8FMg1mO6uzmHlmAIT69qErDUPuhYDI7KTFCkHl6KzWipG3uWEq9CSn
+         b6tw1JyTmQlROhEsehcoMwsybSBwpBsb3/3EmxuuaIPVjflTia2HzWVdjw24SeSImpGj
+         Y3KI1KtEzxEMym0w/qtu2urxCMY49kpvNtHESfAVNnTMwGEs+M1C603RnQQ4Kh0RdPVn
+         YQLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxUYbK7mD4VzGDSb3CXy6MpXUbr7kVxfNzkOdXNoVMc5ZedY3iDAtofDc7uVpftGfMUJlQS+B7wdfiCbCIKIcLmdtVjtFYTVEo2vv3TQ==
+X-Gm-Message-State: AOJu0Yy+MYtzJeIcKT8o16o4uK2mcJCiMSSZ8V1YOSZS26mnuXxlicZp
+	9ZaK1pc4oW3Z0cKo5cRVJxSCKPHdQWl6OS299GhSy6nHaMO8rE5S
+X-Google-Smtp-Source: AGHT+IFpFuRVXmzDU+6hiLsXKZf0R17rd/F3pxpvF8hL9473AzT35b5mBF8q9rmvLOIWAt7I6H0XhA==
+X-Received: by 2002:a17:902:d4cc:b0:1f9:9d40:c9bf with SMTP id d9443c01a7336-1fa23f610b3mr120876115ad.18.1719407175639;
+        Wed, 26 Jun 2024 06:06:15 -0700 (PDT)
 Received: from obliging-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb7cf885sm99112395ad.224.2024.06.26.06.06.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb7cf885sm99112395ad.224.2024.06.26.06.06.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jun 2024 06:06:13 -0700 (PDT)
+        Wed, 26 Jun 2024 06:06:15 -0700 (PDT)
 From: Yang Chen <yangchen.openbmc@gmail.com>
 To: joel@jms.id.au,
 	andrew@codeconstruct.com.au,
@@ -67,9 +67,9 @@ To: joel@jms.id.au,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v1 15/17] ARM: dts: aspeed: minerva: remove unused power device
-Date: Wed, 26 Jun 2024 21:03:30 +0800
-Message-Id: <20240626130332.929534-16-yangchen.openbmc@gmail.com>
+Subject: [PATCH v1 16/17] ARM: dts: aspeed: minerva: add ltc4287 device
+Date: Wed, 26 Jun 2024 21:03:31 +0800
+Message-Id: <20240626130332.929534-17-yangchen.openbmc@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240626130332.929534-1-yangchen.openbmc@gmail.com>
 References: <20240626130332.929534-1-yangchen.openbmc@gmail.com>
@@ -90,31 +90,27 @@ Cc: Jerry.Lin@quantatw.com, yangchen.openbmc@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Remove unused power device.
+Enable LTC4287 device on i2c-0.
 
 Signed-off-by: Yang Chen <yangchen.openbmc@gmail.com>
 ---
- .../boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts    | 10 ----------
- 1 file changed, 10 deletions(-)
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-index 8f3f15a5c148..093305b598dc 100644
+index 093305b598dc..8180fa5c1854 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-@@ -144,16 +144,6 @@ power-monitor@41 {
+@@ -144,6 +144,12 @@ power-monitor@41 {
  		shunt-resistor = <1000>;
  	};
  
--	power-monitor@67 {
--		compatible = "adi,ltc2945";
--		reg = <0x67>;
--	};
--
--	power-monitor@68 {
--		compatible = "adi,ltc2945";
--		reg = <0x68>;
--	};
--
++	power-monitor@44 {
++		compatible = "lltc,ltc4287";
++		reg = <0x44>;
++		shunt-resistor-micro-ohms = <2000>;
++	};
++
  	power-monitor@43 {
  		compatible = "infineon,xdp710";
  		reg = <0x43>;
