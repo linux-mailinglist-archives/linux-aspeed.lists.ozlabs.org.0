@@ -1,56 +1,84 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480C59175A7
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 03:30:50 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46070917B81
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 10:57:17 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=h8tBGxgR;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=UtBMb89y;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4W84064rgQz3fnS
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 11:30:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4W8FvF3XKXz3cSL
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2024 18:57:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=h8tBGxgR;
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=UtBMb89y;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=212.227.17.12; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4W84011wK2z3fm4
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 11:30:40 +1000 (AEST)
-Received: from [192.168.68.112] (ppp118-210-79-194.adl-adc-lon-bras32.tpg.internode.on.net [118.210.79.194])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 673A820009;
-	Wed, 26 Jun 2024 09:30:36 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1719365438;
-	bh=X7FD5oPv28K3sYjsKRmxtB3gZH81Qm9pRxGi9lHMBZI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=h8tBGxgRPSDXyEaS+3XN2CMKE6rsFD+erg3JYsLIiR2ICZ5WkHG/t4Ufi4P5BH9/4
-	 Wo5AHi/oSm9GHwzc3EvzMh+wjC23WbywSwe3mY1g7ZpBO9dbD+gUpgtE7S41Fr4vG+
-	 1x9bKnuITzfo0t0s1OPlwTqDDETsJ5h66HkNHbA77cC9x2amCOhSrkR7Wm2eSXOAT2
-	 PdJBMVK35Hmd1qCQs93gcHZGYKc9tOTerrR6/I+2V6bFXdP0CMOF3Hf8Ofu6rAWSMB
-	 Wbj7jSPSjeUK/ZNazF8PVCYy0qTh8D8dg1GpK6zo1Wiowmh4rCgeiBd9dsa9sFkEer
-	 yHMvBHsH/JLHA==
-Message-ID: <4391083991a16c435c5d8849eb5ee2be2f03793c.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 02/17] ARM: dts: aspeed: minerva: Add spi-gpio
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Yang Chen <yangchen.openbmc@gmail.com>, joel@jms.id.au,
- patrick@stwcx.xyz,  linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Date: Wed, 26 Jun 2024 11:00:35 +0930
-In-Reply-To: <20240625121835.751013-3-yangchen.openbmc@gmail.com>
-References: <20240625121835.751013-1-yangchen.openbmc@gmail.com>
-	 <20240625121835.751013-3-yangchen.openbmc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4W8Fv53jVlz3bpN
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2024 18:57:03 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1719392168; x=1719996968; i=markus.elfring@web.de;
+	bh=uHpBbe5Y1ciXIOpkMuiiWV5X9R8Qj10UQWwEFWd/0kc=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=UtBMb89yxkN/4fE8WTQmaHr1dsRFCz7YlpxKHXzi2hhw87EZD0QXvHczGoC8zK4C
+	 bxs46Sx5ME/30TY1yXnx+GcDfBczARqfuq9n0tEbyeP9bjUuzSyhlkqA+zgxyNmKV
+	 hfINLFpKAcaA9arKRjXzuoHhFVd/JQQSjDbjFcy+QPxTNAGV6Tr+jSWK+01Vl8q5y
+	 aBGGij92NgG7FWoSlpwutJHawlqIr5hv621j6s5SmNC3b2Y0UzRWajL3kB50o2/W9
+	 j8bvh+dtxuN9TdbbNO6WhvKysawYc2TMuBeMnhba9RKQg99wja4JwPGFwQxAg9XCk
+	 2A2DwGsVEei87pFdYQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MODiN-1rxqFd2O8P-00V3Tx; Wed, 26
+ Jun 2024 10:56:08 +0200
+Message-ID: <95612a56-63ee-4ba8-beaa-4b773ccca5e8@web.de>
+Date: Wed, 26 Jun 2024 10:55:38 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] usb: Patch review processes?
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20240625022306.2568122-1-make24@iscas.ac.cn>
+ <edeaa699-7cfe-44ed-abde-7cf3d3efe3bf@web.de>
+ <2024062556-ladder-canister-1ab1@gregkh>
+ <ff2aaf0d-5456-43d1-af52-78986b3401f9@web.de>
+ <2024062532-strep-president-44d7@gregkh>
+ <5fa430f5-3e18-4c20-93d4-6733afd6bdcf@web.de>
+ <2024062553-koala-granddad-50f1@gregkh>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <2024062553-koala-granddad-50f1@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:01Zgw4SpZxal5aX+cdD8nOTCspwL5KOnoabCgPJR2tnzNKav2ey
+ kY81u5ra8MXgMOxtiZZXjPFI8MKtKPtnTNvanxr3aMrubDK53O5Q6lSYjFBWX1oD6o/QsQ/
+ ftgq9FJV0X2wtZ5m2KTV2zcl4yJrdgwpm4E1Enl7Cdz0yfBdQO2N2lhvZFHzDtIdhINqskr
+ POn2J1dxCNUh+sBbgoPPg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:gfrLLhDtPD0=;UlbLOaeVxgTqqoy5hNUBJ8gBGCp
+ vnSvPRqj7AtVm2SCQt8tVy4oNIw3HPJfJdNp6DTZsXaQCyDzJHJtJkHrl4lNR2YrTg2gHLJaj
+ VBjz2dCD8QXbthggUT1rffygNJm8L6SsgL7eBQkJ1OXI2IJfJ9vP39oJHNQZB+B7yO+KzSPuD
+ 70Jd4fp/wP+9Sw5zHI3Eb2ZNo28MXO+BTRQVXz2qoUCEsmBVXq75RSCMCHCNgRGQtpOqA+cb3
+ XaMn69X30IdlbPA3JaCUb/2Wa4XVNFKaAi6yJytX6XjRH4gZlZVMTmw1QQnx5D2v8vbBl0RLb
+ +IAiqXDSTXHNoOPDS/kjEfHvziRfKdJETXzkfla/K43mRNADraVPhMoU7EFql/KJ4ceuB7W0K
+ Wob7idlraKRvfThiNUA6s0vfh8kttP3KcfuGWDpcgUbtds1RY+8L8VXYKuNd0DXG6ycHBv6CM
+ yWag7wrDclPLugGnlfkAcpm4LhvkyyEHqtEFpEkrwf0Dpg3OFX1SBuiomX2Ig3HdMjlgKzGlm
+ dLWTn7jO1BQMq34P8fqTfKxXKkpbELQxqZcgSGCVq5c11n6jW1JKYeapPN14783isi4ldaW89
+ xJ616XTleXAi0PBWoJVEvJYWmLtan7rz9MVNSSEuZpukcjjrsC09riSDH/W8L6dz9h9OFR8rz
+ CuqVYp8bnvdrqSMvL3mNI+4DHfZgqsRc6KtYKm8YVhsbZOXztXzgk7cFl7apeGr0EjfN7t/NH
+ sVZ0X49TPfZuHqnxoasaTFvlXG5QHrV/X4YIDTpNG4oWME+B1a1WQ/m42mp9okc4jdDXK+Zxw
+ CTCNxvLaXxOY5R335wGi0XnPLfkCLULuEZW7YkSp8IqV0=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,146 +90,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Jerry.Lin@quantatw.com
+Cc: linux-aspeed@lists.ozlabs.org, Ma Ke <make24@iscas.ac.cn>, Neal Liu <neal_liu@aspeedtech.com>, LKML <linux-kernel@vger.kernel.org>, Julia Lawall <julia.lawall@inria.fr>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 2024-06-25 at 20:18 +0800, Yang Chen wrote:
-> From: Yang Chen <yang.chen@quantatw.com>
->=20
-> Add spi-gpio for TPM device.
->=20
-> Signed-off-by: Yang Chen <yang.chen@quantatw.com>
-> ---
->  .../aspeed/aspeed-bmc-facebook-minerva.dts    | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts b/a=
-rch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-> index e20e31917d6c..7d96a3638448 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts
-> @@ -22,6 +22,8 @@ aliases {
->  		i2c19 =3D &imux19;
->  		i2c20 =3D &imux20;
->  		i2c21 =3D &imux21;
-> +
-> +		spi1 =3D &spi_gpio;
->  	};
-> =20
->  	chosen {
-> @@ -49,6 +51,25 @@ led-fan-fault {
->  			default-state =3D "off";
->  		};
->  	};
-> +
-> +	spi_gpio: spi-gpio {
-> +		status =3D "okay";
-> +		compatible =3D "spi-gpio";
-> +		#address-cells =3D <1>;
-> +		#size-cells =3D <0>;
-> +
-> +		gpio-sck =3D <&gpio0 ASPEED_GPIO(Z, 3) GPIO_ACTIVE_HIGH>;
-> +		gpio-mosi =3D <&gpio0 ASPEED_GPIO(Z, 4) GPIO_ACTIVE_HIGH>;
-> +		gpio-miso =3D <&gpio0 ASPEED_GPIO(Z, 5) GPIO_ACTIVE_HIGH>;
-> +		num-chipselects =3D <1>;
-> +		cs-gpios =3D <&gpio0 ASPEED_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
-> +
-> +		tpmdev@0 {
-> +			compatible =3D "infineon,slb9670", "tcg,tpm_tis-spi";
-> +			spi-max-frequency =3D <33000000>;
-> +			reg =3D <0>;
-> +		};
-> +	};
+>> You indicated concerns according to patch review processes,
+>> didn't you?
+>>
+>> See also:
+>> * Patch submission notes
+>>   https://elixir.bootlin.com/linux/v6.10-rc5/source/Documentation/proce=
+ss/maintainer-tip.rst#L100
+>
+> This is not the tip tree.
 
-I poked at your series with the following script:
+Would you eventually like to support the creation and maintenance of a doc=
+ument
+like =E2=80=9CDocumentation/process/maintainer-usb.rst=E2=80=9D?
 
-```
-$ cat dtb-check
-#!/usr/bin/bash
-
-set -euo pipefail
-
-DTB=3D"$1"
-
-rm -f arch/arm/boot/dts/"$DTB"
-make CHECK_DTBS=3Dy "$DTB" 2>&1 |
-    sed "/should not be valid under {'type': 'object'}/d" > curr.log
-diff -u ref.log curr.log
-```
-
-I ran this after creating a reference output prior to your series using
-the same `make CHECK_DTBS=3Dy` command.
-
-This patch gave the following output (which I expect Rob's bot will
-follow up with at some point as well):
-
-```
---- ref.log     2024-06-26 10:48:23.767078834 +0930
-+++ curr.log    2024-06-26 10:55:56.857034132 +0930
-@@ -1,4 +1,6 @@
-   DTC_CHK arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dtb
-+/home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: /: spi-gpio: {'status': ['okay'], =
-'compatible': ['spi-gpio'], '#address-cells': [[1]], '#size-cells': [[0]], =
-'gpio-sck': [[62, 203, 0]], 'gpio-mosi': [[62, 204, 0]], 'gpio-miso': [[62,=
- 205, 0]], 'num-chipselects': [[1]], 'cs-gpios': [[62, 200, 1]], 'tpmdev@0'=
-: {'compatible': ['infineon,slb9670', 'tcg,tpm_tis-spi'], 'spi-max-frequenc=
-y': [[33000000]], 'reg': [[0]]}} is not of type 'array'
-+       from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.y=
-aml#
- /home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: timer: 'clocks' does not match any=
- of the regexes: 'pinctrl-[0-9]+'
-        from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer=
-.yaml#
- /home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: sdram@1e6e0000: compatible: ['aspe=
-ed,ast2600-sdram-edac', 'syscon'] is too long
-@@ -38,3 +40,17 @@
-        from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-f=
-si-master.yaml#
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dtb: /ahb/apb/fsi@1e7=
-9b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-mas=
-ter', 'fsi-master']
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dtb: /ahb/apb/dma-con=
-troller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2=
-600-udma']
-+/home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: spi-gpio: $nodename:0: 'spi-gpio' =
-does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
-+       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-+/home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: spi-gpio: gpio-sck: False schema d=
-oes not allow [[62, 203, 0]]
-+       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-+/home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: spi-gpio: gpio-miso: False schema =
-does not allow [[62, 205, 0]]
-+       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-+/home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: spi-gpio: gpio-mosi: False schema =
-does not allow [[62, 204, 0]]
-+       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-+/home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: spi-gpio: 'sck-gpios' is a require=
-d property
-+       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-+/home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: spi-gpio: Unevaluated properties a=
-re not allowed ('#address-cells', '#size-cells', 'gpio-miso', 'gpio-mosi', =
-'gpio-sck', 'tpmdev@0' were unexpected)
-+       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-+/home/andrew/src/kernel.org/linux/origin/build.aspeed_g5/arch/arm/boot/dts=
-/aspeed/aspeed-bmc-facebook-minerva.dtb: tpmdev@0: $nodename:0: 'tpmdev@0' =
-does not match '^tpm(@[0-9a-f]+)?$'
-+       from schema $id: http://devicetree.org/schemas/tpm/tcg,tpm_tis-spi.=
-yaml#
-```
-
-Can you please address these and go over the rest of the patches to
-shore them up against the current bindings?
-
-Thanks,
-
-Andrew
+Regards,
+Markus
