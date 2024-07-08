@@ -1,121 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A04E92A058
-	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Jul 2024 12:39:19 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9088292A401
+	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Jul 2024 15:47:47 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=xIIjgjS1;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YJmTuOFz;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WHgbS6crlz3cSd
-	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Jul 2024 20:39:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WHlmx2Xhfz3cVH
+	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Jul 2024 23:47:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=xIIjgjS1;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YJmTuOFz;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::62b; helo=mail-ej1-x62b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WHgbM5W32z3bhD
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  8 Jul 2024 20:39:11 +1000 (AEST)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a77d9217e6fso261221166b.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Jul 2024 03:39:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720435148; x=1721039948; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=9jxzyIxqTABgkhjm6R4qxSzR4yYlT0nTZszB5SrFD9s=;
-        b=xIIjgjS15tgfBfnB5N8c0hEJj5nSm4ovoupoT2qvpgC6Ts2wObpRvuS7MR0QE+B9ls
-         3o/BYvIc/phlAOyZvXSl4w6w9wOPmfkjhLphDEQ1edzYDna44A2q/KcUYcLlAWqPBuCr
-         UOexLh1dKqDFIoU2dDLm/FBZL42wXKNpChaXIkCcbK40ZI3dty8GaEJYtvhU2jhQ1Y46
-         pswmtenI0tt5xlNJxZZsIaW6Y1WXku6Yw+6FwSmwbVrnvLednU/6Hte9Ph5sgZkRAeEv
-         hg4RJCh1v+GgzQE9SGTIZBCns3HUIpXpCKtN1wc4Fj92mVFaE0MkPm3SeASn3B6yWcSc
-         AHKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720435148; x=1721039948;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9jxzyIxqTABgkhjm6R4qxSzR4yYlT0nTZszB5SrFD9s=;
-        b=Sa2G93aNrREpsSP5fvmzGi3JN8+5I4hIaU5lUokhO4wz+oeP/uHa0rmS/f98kcLmV0
-         OvV5qnfj1N4/09OYerIjTh5gULcGjbHjRSYMIx4iYFhrY8Lu6oTSXkBotOD54/PLNSP9
-         +4TqbH48M3bZ9lBLNhbEoghy32knkplHJR5bqaPgIDYt2tC3aACh78Fds8SnL8lKaPun
-         H5t8feXi96o1fTeLoX8HzLOIfCqtWIQT7pXBrTIMxWaxIZSw1gaLdtMmOQWOBeAyGwNp
-         72iuiFrKe3y1clPBxZdBgPYvCvtPihoKfo4CEJdFcLEGquN3d/W+GtImU88HQwQ4hs/Z
-         7rmw==
-X-Forwarded-Encrypted: i=1; AJvYcCVrIFjhBDybsk9AUZ10eRvzTeVvzCJSWnD9QzuunDZ7nVILge27HN/iIibLHT4fpz2ZaITQaXyxszPFxh0yGnbAhHnhAuewsrgLtsJ+fQ==
-X-Gm-Message-State: AOJu0YxdPZQMSuWizvLtOX9d2jP5ESZTVK68GyLA5HwxyB08bVbCElnm
-	T7hfh6d987NqC9/JB4gNs1ry9VEYN25lZa2T7fh2KuGLTHOZlfAc0DYIh8Zf4uI=
-X-Google-Smtp-Source: AGHT+IGDO+mSbeS1LZffv7q+j89FCECA4eSRvjqLw9Nh91QptkKNmlQCCH9zQz3ZWo4gZH60p/amvA==
-X-Received: by 2002:a17:906:fa0e:b0:a72:8d2f:859c with SMTP id a640c23a62f3a-a77ba48deb1mr726233466b.33.1720435147450;
-        Mon, 08 Jul 2024 03:39:07 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77c0117b15sm356874666b.43.2024.07.08.03.39.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 03:39:06 -0700 (PDT)
-Message-ID: <a049486a-0ec6-4e12-afbf-7c0def8ef23b@linaro.org>
-Date: Mon, 8 Jul 2024 12:39:05 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WHlml6cHvz301T;
+	Mon,  8 Jul 2024 23:47:35 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 51014CE0BAE;
+	Mon,  8 Jul 2024 13:47:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68E71C116B1;
+	Mon,  8 Jul 2024 13:47:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720446451;
+	bh=7hu3e9/Hj8XC7xexm2FHFjZJcixRqYd55unsbK3uK94=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YJmTuOFz9YUaZVvSbeZHVgmn99MOvvOkPPiu3F3d7+5/m5qwDzOZPIyuVKx4O3U1p
+	 1FfRqxlNExaCIF0AtJa8O8k8vDj4tqtbl/7XsHVFb8iuTuGwXU50sMnr/skst8U8Vs
+	 TMuSFeqpmtLZZ+nFYW7bh2UrvJXdFnyUaHV4PQKhhuZxD38t2kmzvfFrWjIQ2HPimE
+	 CQGsCDfOF7yWoRatQHQByGWHGUerIz+V1thfMUIFmJhwJK+k9Ujnun0xRrnU5KByBr
+	 UUA7ivjC8UF8z4BtLu8yQnTNVwlZKOyi9I+ge5s6ZnR4YU88xqTXFsY8vRw2kGgY4r
+	 LOKXviKqq9olw==
+Date: Mon, 8 Jul 2024 07:47:30 -0600
+From: Rob Herring <robh@kernel.org>
+To: Eddie James <eajames@linux.ibm.com>
+Subject: Re: [PATCH v6 00/20] ARM: dts: aspeed: Add IBM P11 BMC systems
+Message-ID: <20240708134730.GA2916637-robh@kernel.org>
+References: <20240522192524.3286237-1-eajames@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ARM: dts: aspeed: Add IEISystems NF5280M7 BMC machine
-To: George Liu <liuxiwei1013@gmail.com>, linux-aspeed@lists.ozlabs.org
-References: <20240708062316.208383-1-liuxiwei@ieisystem.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240708062316.208383-1-liuxiwei@ieisystem.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240522192524.3286237-1-eajames@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,384 +59,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, andi.shyti@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, broonie@kernel.org, linux-i2c@vger.kernel.org, lakshmiy@us.ibm.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 08/07/2024 08:23, George Liu wrote:
-> The IEISystems NF5280M7 is an x86 platform server with an
-> AST2600-based BMC.
-> This dts file provides a basic configuration for its OpenBMC
-> development.
+On Wed, May 22, 2024 at 02:25:04PM -0500, Eddie James wrote:
+> Add the Blueridge and Fuji BMC systems. Document many missing FSI related
+> properties, and fix existing warnings. Make some minor fixes in OCC and
+> SCOM drivers for the updated bindings.
 > 
-> Signed-off-by: George Liu <liuxiwei@ieisystem.com>
-> ---
-
-No changelog, so did you just ignore all feedback?
-
->  arch/arm/boot/dts/aspeed/Makefile             |   1 +
->  .../aspeed/aspeed-bmc-ieisystems-nf5280m7.dts | 697 ++++++++++++++++++
->  2 files changed, 698 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ieisystems-nf5280m7.dts
+> Changes since v5:
+>  - Switch from clock-frequency to bus-frequency for common FSI controller
+>    properties
+>  - Add reg properties for AST2700 FSI controller
+>  - Fix patternProperties for i2c bus nodes under FSI-based I2C controller
+>  - Add bus-frequency for P11 FSI device tree node
+>  - Change model name from Blueridge to Blueridge 2U
+>  - Add missing reset gpio to led controller on Fuji
+>  - Add Huygens (Rainier with modified FSI wiring)
 > 
-> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-> index 5e3392621697..51531d494415 100644
-> --- a/arch/arm/boot/dts/aspeed/Makefile
-> +++ b/arch/arm/boot/dts/aspeed/Makefile
-> @@ -40,6 +40,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
->  	aspeed-bmc-ibm-rainier-1s4u.dtb \
->  	aspeed-bmc-ibm-rainier-4u.dtb \
->  	aspeed-bmc-ibm-system1.dtb \
-> +	aspeed-bmc-ieisystems-nf5280m7.dtb \
->  	aspeed-bmc-intel-s2600wf.dtb \
->  	aspeed-bmc-inspur-fp5280g2.dtb \
->  	aspeed-bmc-inspur-nf5280m6.dtb \
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ieisystems-nf5280m7.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ieisystems-nf5280m7.dts
-> new file mode 100644
-> index 000000000000..d706b4f64f6c
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ieisystems-nf5280m7.dts
-> @@ -0,0 +1,697 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +// Copyright (c) 2023 IEISystems Corporation
-> +
-> +/dts-v1/;
-> +
-> +#include "aspeed-g6.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +#include <dt-bindings/leds/leds-pca955x.h>
-> +#include <dt-bindings/i2c/i2c.h>
-> +
-> +/ {
-> +	model = "NF5280M7 BMC";
-> +	compatible = "ieisystems,nf5280m7-bmc", "aspeed,ast2600";
-> +	aliases {
-> +		i2c200 = &bus2_mux70_0;
-> +		i2c500 = &bus5_mux00;
-> +		i2c501 = &bus5_mux01;
-> +		i2c600 = &i2c6s0ch0;
-> +		i2c601 = &i2c6s0ch1;
-> +		i2c602 = &i2c6s0ch2;
-> +		i2c603 = &i2c6s0ch3;
-> +		i2c604 = &i2c6s0ch4;
-> +		i2c605 = &i2c6s0ch5;
-> +		i2c606 = &i2c6s0ch6;
-> +		i2c607 = &i2c6s0ch7;
-> +		i2c610 = &i2c6s1ch0;
-> +		i2c611 = &i2c6s1ch1;
-> +		i2c612 = &i2c6s1ch2;
-> +		i2c613 = &i2c6s1ch3;
-> +		i2c614 = &i2c6s1ch4;
-> +		i2c615 = &i2c6s1ch5;
-> +		i2c616 = &i2c6s1ch6;
-> +		i2c617 = &i2c6s1ch7;
-> +		i2c620 = &i2c6s2ch0;
-> +		i2c621 = &i2c6s2ch1;
-> +		i2c622 = &i2c6s2ch2;
-> +		i2c623 = &i2c6s2ch3;
-> +		i2c624 = &i2c6s2ch4;
-> +		i2c625 = &i2c6s2ch5;
-> +		i2c626 = &i2c6s2ch6;
-> +		i2c627 = &i2c6s2ch7;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = &uart5;
-> +		bootargs = "console=ttyS4,115200n8";
+> Eddie James (20):
+>   spi: dt-bindings: Document the IBM FSI-attached SPI controller
+>   dt-bindings: fsi: fsi2spi: Document SPI controller child nodes
+>   dt-bindings: fsi: Document the IBM SCOM engine
+>   dt-bindings: fsi: p9-occ: Convert to json-schema
+>   dt-bindings: fsi: Document the IBM SBEFIFO engine
+>   dt-bindings: fsi: Document the FSI controller common properties
+>   dt-bindings: fsi: ibm,i2cr-fsi-master: Reference common FSI controller
+>   dt-bindings: fsi: ast2600-fsi-master: Convert to json-schema
+>   dt-bindings: fsi: Document the AST2700 FSI controller
+>   dt-bindings: fsi: Document the FSI Hub Controller
+>   dt-bindings: i2c: i2c-fsi: Convert to json-schema
 
-Not much improved.
+Looks like these haven't been applied, so I applied patches 2-11.
 
-> +	};
-> +
-> +	memory@80000000 {
-> +		device_type = "memory";
-> +		reg = <0x80000000 0x80000000>;
-> +	};
-> +
-> +	reserved-memory {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges;
-> +
-> +		video_engine_memory: jpegbuffer {
-> +			size = <0x02000000>;	/* 32M */
-> +			alignment = <0x01000000>;
-> +			compatible = "shared-dma-pool";
-> +			reusable;
-> +		};
-> +
-> +		vga_memory: frammebuffer {
-> +			no-map;
-> +			reg = <0x9ff00000 0x01000000>; /* 16M */
-> +		};
-> +	};
-> +
-> +	iio-hwmon {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
-> +                      <&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
-> +                      <&adc1 0>, <&adc1 1>, <&adc1 2>, <&adc1 3>,
-> +                      <&adc1 4>, <&adc1 5>, <&adc1 6>, <&adc1 7>;
-> +	};
-> +
-> +	gpio-keys {
-> +		compatible = "gpio-keys";
-> +
-> +		cpld {
-
-It does not look like you tested the DTS against bindings. Please run
-`make dtbs_check W=1` (see
-Documentation/devicetree/bindings/writing-schema.rst or
-https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-for instructions).
-
-> +			label = "cpld";
-> +			gpios = <&gpio0 ASPEED_GPIO(N, 2) GPIO_ACTIVE_HIGH>;
-> +			linux,code = <ASPEED_GPIO(N, 2)>;
-> +		};
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		fan-fault {
-
-It does not look like you tested the DTS against bindings. Please run
-`make dtbs_check W=1` (see
-Documentation/devicetree/bindings/writing-schema.rst or
-https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/
-for instructions).
-
-> +			label = "fan-fault";
-> +			gpios = <&gpio0 ASPEED_GPIO(B, 0) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		system-hot {
-> +			label = "system-hot";
-> +			gpios = <&gpio0 ASPEED_GPIO(B, 1) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		psu-fault {
-> +			label = "psu-fault";
-> +			gpios = <&gpio0 ASPEED_GPIO(B, 2) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		heartbeat {
-> +			label = "heartbeat";
-> +			gpios = <&gpio0 ASPEED_GPIO(P, 7) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		memory-fault {
-> +			label = "memory-fault";
-> +			gpios = <&gpio0 ASPEED_GPIO(Y, 2) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		system-fault {
-> +			label = "system-fault";
-> +			gpios = <&gpio0 ASPEED_GPIO(Y, 3) GPIO_ACTIVE_LOW>;
-> +		};
-> +	};
-> +};
-> +
-> +&fmc {
-> +	status = "okay";
-> +
-> +	flash@0 {
-> +		status = "okay";
-> +
-> +		m25p,fast-read;
-> +		label = "bmc";
-> +		spi-max-frequency = <50000000>;
-> +#include "openbmc-flash-layout-64.dtsi"
-> +	};
-> +	flash@1 {
-> +		status = "okay";
-> +
-> +		m25p,fast-read;
-> +		label = "alt-bmc";
-> +		spi-max-frequency = <50000000>;
-> +#include "openbmc-flash-layout-64-alt.dtsi"
-> +	};
-> +};
-> +
-> +
-> +&spi1 {
-> +	status = "okay";
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_spi1_default>;
-> +
-> +	flash@0 {
-> +		status = "okay";
-> +
-> +		m25p,fast-read;
-> +		label = "bios";
-> +		spi-max-frequency = <50000000>;
-> +	};
-> +};
-> +
-> +&peci0 {
-> +	status = "okay";
-> +
-> +	gpios = <&gpio0 ASPEED_GPIO(F, 6) 0>;
-> +
-> +	peci-client@30 {
-> +		compatible = "intel,peci-client";
-> +		reg = <0x30>;
-> +	};
-> +
-> +	peci-client@31 {
-> +		compatible = "intel,peci-client";
-> +		reg = <0x31>;
-> +	};
-> +};
-> +
-> +&gpio0 {
-> +	status = "okay";
-> +
-> +	gpio-line-names =
-> +	/*A0-A7*/	"","","","","","","","",
-> +	/*B0-B7*/	"","","","","","","","",
-> +	/*C0-C7*/	"","","","","","","","",
-> +	/*D0-D7*/	"","","","","","","","",
-> +	/*E0-E7*/	"","","","","","","","",
-> +	/*F0-F7*/	"","","","","","","","",
-> +	/*G0-G7*/	"","","","","","","","",
-> +	/*H0-H7*/	"","","","","","","","",
-> +	/*I0-I7*/	"","","","","","POWER_OUT","RESET_OUT","",
-> +	/*J0-J7*/	"","","","","","","","",
-> +	/*K0-K7*/	"","","","","","","","",
-> +	/*L0-L7*/	"","","","","","","","",
-> +	/*M0-M7*/	"","","","","","","","",
-> +	/*N0-N7*/	"","","","","","","","",
-> +	/*O0-O7*/	"","","","","","","","",
-> +	/*P0-P7*/	"RESET_BUTTON","","","NMI_BUTTON","NMI_OUT","","","",
-> +	/*Q0-Q7*/	"","","","","","","","",
-> +	/*R0-R7*/	"","","","","","","","",
-> +	/*S0-S7*/	"","","","SIO_ONCONTROL","","","","",
-> +	/*T0-T7*/	"","","","","","","","",
-> +	/*U0-U7*/	"","","","","","","","",
-> +	/*V0-V7*/	"","SIO_S5","POWER_BUTTON","","PS_PWROK","","","",
-> +	/*W0-W7*/	"","","","","","","","",
-> +	/*X0-X7*/	"","","POST_COMPLETE","","","","","",
-> +	/*Y0-Y7*/	"","","","","","","","",
-> +	/*Z0-Z7*/	"","","","","","","","";
-> +};
-> +
-> +&kcs3 {
-> +	aspeed,lpc-io-reg = <0xCA2>;
-> +	status = "okay";
-> +};
-> +
-> +&kcs4 {
-> +	aspeed,lpc-io-reg = <0xCA4>;
-> +	status = "okay";
-> +};
-> +
-> +&lpc_snoop {
-> +	snoop-ports = <0x80>;
-> +	status = "okay";
-> +};
-> +
-> +&mdio1 {
-> +	status = "okay";
-> +
-> +	ethphy1: ethernet-phy@0 {
-> +		compatible = "ethernet-phy-ieee802.3-c22";
-> +		reg = <0>;
-> +	};
-> +};
-> +
-> +&mac2 {
-> +	status = "okay";
-> +
-> +	phy-mode = "rgmii";
-> +	phy-handle = <&ethphy1>;
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rgmii3_default>;
-> +};
-> +
-> +&mac3 {
-> +	status = "okay";
-> +
-> +	phy-mode = "rmii";
-> +	use-ncsi;
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rmii4_default>;
-> +};
-> +
-> +&adc0 {
-> +	status = "okay";
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-> +		&pinctrl_adc2_default &pinctrl_adc3_default
-> +		&pinctrl_adc4_default &pinctrl_adc5_default
-> +		&pinctrl_adc6_default &pinctrl_adc7_default>;
-> +};
-> +
-> +&adc1 {
-> +	status = "okay";
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default
-> +		&pinctrl_adc10_default &pinctrl_adc11_default
-> +		&pinctrl_adc12_default &pinctrl_adc13_default
-> +		&pinctrl_adc14_default &pinctrl_adc15_default>;
-> +};
-> +
-> +&uart1 {
-> +	status = "okay";
-> +};
-> +
-> +&uart3 {
-> +	status = "okay";
-> +};
-> +
-> +&uart4 {
-> +	status = "okay";
-> +};
-> +
-> +&uart5 {
-> +	status = "okay";
-> +};
-> +
-> +&vuart1 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c0 {
-> +	multi-master;
-> +	status = "okay";
-> +};
-> +
-> +&i2c1 {
-> +	multi-master;
-> +	status = "okay";
-> +
-> +	eeprom@50 {
-> +		compatible = "atmel,24c256";
-> +		reg = <0x50>;
-> +	};
-> +};
-> +
-> +&i2c2 {
-> +	status = "okay";
-> +
-> +	i2c-mux@70 {
-> +		compatible = "nxp,pca9546";
-> +		reg = <0x70>;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		bus2_mux70_0:i2c@2 {
-
-Why did you change the format and dropped the space after :?
-
-Please respond to previous feedback and acknowledge each comment.
-
-Best regards,
-Krzysztof
-
+>   dt-bindings: arm: aspeed: add IBM P11 BMC boards
+>   ARM: dts: aspeed: Add IBM P11 FSI devices
+>   ARM: dts: aspeed: Add IBM P11 Blueridge BMC system
+>   ARM: dts: aspeed: Add IBM P11 Blueridge 4U BMC system
+>   ARM: dts: aspeed: Add IBM P11 Fuji BMC system
+>   ARM: dts: aspeed: Add IBM Huygens BMC system
+>   fsi: occ: Get device number from FSI minor number API
+>   fsi: occ: Find next available child rather than node name match
+>   fsi: scom: Update compatible string to match documentation
