@@ -2,115 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7325D95796C
+	by mail.lfdr.de (Postfix) with ESMTPS id E68AF95796D
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJP0jFdz7Bh9
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJP2hNTz7Bhm
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=teTIciYZ;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=azzoWZRU;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=aNlY30uM;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=arndb.de (client-ip=103.168.172.136; helo=flow1-smtp.messagingengine.com; envelope-from=arnd@arndb.de; receiver=lists.ozlabs.org)
-X-Greylist: delayed 374 seconds by postgrey-1.37 at boromir; Wed, 10 Jul 2024 22:56:12 AEST
-Received: from flow1-smtp.messagingengine.com (flow1-smtp.messagingengine.com [103.168.172.136])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::232; helo=mail-lj1-x232.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WJyXX289bz30Sv;
-	Wed, 10 Jul 2024 22:56:12 +1000 (AEST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailflow.nyi.internal (Postfix) with ESMTP id E33CC20042D;
-	Wed, 10 Jul 2024 08:49:54 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 10 Jul 2024 08:49:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1720615794; x=1720622994; bh=j8Mj9dw1Fm
-	/JtEgtuTD5TSV9xTAWODaAOo5fjhNJeMk=; b=teTIciYZjvnAmtCaBvfsvRNjup
-	wfCqM8oj1NVTM4jQ8jo5sskqJd9CXNwzX82No3oPh2ILjs4uutrlschv4dsLphU3
-	DoHiZabk+5RNoNoz0INCQm1A/q0azsdpIKZ40BSY9zzvhrlrJsyAZoIB+AdhjZSM
-	pglEr9LbbW0omvvUOv9xqemh9id/jhlr5i0OZnHACguZQxkJK5xIIlZPHl7qxIZi
-	W18h/fh2fJqcEc9Qy9KDPKHfa/hVK9NfMC964RoDdIGpXNYZKvQ3LTPV8BpbXyRq
-	/YSFUKn6ydo2t/RPLCAoY+yDhYs54/3qhWLzotGyYi2xcf1uXo+GhSqGYN6Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1720615794; x=1720622994; bh=j8Mj9dw1Fm/JtEgtuTD5TSV9xTAW
-	ODaAOo5fjhNJeMk=; b=azzoWZRU5IySoav5jThTxI4/AKjfG7wh/UAeG5Y0yp/7
-	pSjbpcVBoFNXfnK1AoPP/qA9CqwrRF8Dry0A37SxJCpk4Z5ullPkhy+gC2T5PlNW
-	qtHzAzk/b8G5f3Tag6CJRkj0grWKT3j9AAJUB+sBlye1xyej0B+45sVmj7pFPIT0
-	0C8phEMHJHLEtbkJkAqgb4SfK8Mg1xM0BHjBi1UepOwgPEnmdulrH+N+Got5FU1k
-	1RVQ/Fe3Nc6RoIgAiYJC5LjOoh+Fk0b7Imsv7vkFNEtN+B28lrOP2iHu73sBprCP
-	xkZ00fMz0ava03lyq9Jugs0eBmn8yWi7qreY8Gmasw==
-X-ME-Sender: <xms:b4OOZh0Add5PpRvK-JwSRnx3M8MLRjt6lQVSLPf8bA1FKB4pYvBGow>
-    <xme:b4OOZoE2nV6HZMpoyEVk3eDfC7dus2QqobaL3YCy7l8HFtBHVk97Nwkt_A9WozDEc
-    C4EVANiB042rUeaNJQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfedugdehjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:b4OOZh5zNJxlOfPHh0-H8WYSyelbHHrXbP1YSq7BCS2SyJWdegrqqQ>
-    <xmx:b4OOZu1jTQpah1fyyddzLy-SSEDaDFK_TWeDgISB8kW5bliLViVMcg>
-    <xmx:b4OOZkE-est_ti1vs2CHielhfk6js_rK4NVMMPgNmJ_Fck8MCdzLbg>
-    <xmx:b4OOZv-Dzbnlfj9JbL0x2Cl3B8vEn5obOKRlDMYB5cv0l5MtlBW17Q>
-    <xmx:coOOZviKtDwt5hZt1uJ3U9a5Mli5qRUVB721KXhKKAyxK8Y3E3_QlGxR>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id D5425B60089; Wed, 10 Jul 2024 08:49:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WJycy2zvFz30Wf
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2024 23:00:01 +1000 (AEST)
+Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2ee90f56e02so62129531fa.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2024 06:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1720616398; x=1721221198; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VGdJpvqIEQU8RX9NGwZGOHnsVHJRF022GnfIot2nots=;
+        b=aNlY30uMeH5EGrccUZw9Fq5LaSNgt/aYMSFxGEleqKzrWZzLlBNPVs9PaDq5Q/KX7P
+         lTE0RoBoufGgWuJExmK4JnMNAtk4GgE7HDKLCyOGDjqCXp6NRDos9EuEFCV0ZgItbmMb
+         CYlU8UkkoUUADy2/XtrUn+mW74ADwaZEiMQuGv2BXf9AJ63Q9zq/A3tM+Yr4dz4MT88A
+         HEwX4QKvbhY2iXPGHWxkONg0swCQE8Z7DcfSIySuOiC3kAh7ICeuAdJ0gozcnB5xoVkn
+         iTZgPtne7nbmE//RoW+vPU0+Fx2pTtBBmzKzAcUM1XCJ5ubbtAv20nremoT2tsdpeFNF
+         qrcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720616398; x=1721221198;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VGdJpvqIEQU8RX9NGwZGOHnsVHJRF022GnfIot2nots=;
+        b=mV/BbUnesF1e3lcng1uNwy5vQZ/wa2YKFVQYmxi47IrgJzC/E3t67U9TKTlYZBs0+U
+         +bYt7XjrlGG/JnUaaZ1JFiZEmNVZX50NsEhAP33zH7YGrnHKpYB3vI68T63oNr06lweQ
+         UmMJRC/dnaP+SRdBdEZzK0/MHeJQHIcfx0Gd6iS+4Nk54aB5u0mBrys5Wh1aeeixxPfq
+         z4a0gbwKP8WFVnU1Yt/ncfEad5VwTFfs7oo6N0p5jlbyScU8rkfPWCuhOBWmT0pHAgf1
+         ZGnBodox2p/jL3DFLXIGbj2E8yhbZo5nURMCJAaiSRj+4XYmn7LyBsCbkAcOjCvFem/k
+         ZUSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDZdiprUMLOJbk4ZQd5YWVhwJHV5aEiNj3Z3lpYkkdoOByWG0embDDJOIZsPOFeqnvHhW053/VMliRoCWpSS6DnYoRGfMbvZKb3bESrA==
+X-Gm-Message-State: AOJu0YxQMMzVbCDV3sh0szD7Fy1LUsmQ/3nIcOgN4Xd+mzrP53nVfR1U
+	zxQrJDFDXQVGvlROaVDEB0YCIggqCrw8FFluGfnMvgLq1aYbBdNvgYKEcDjh8/rmzfc4KQOAnRi
+	SNvbzbSiyRy/sC66eCgnBigWVR8xO6HU9RvH5LA==
+X-Google-Smtp-Source: AGHT+IH/j0tB3q6Oob0h+dYBea8dzUqqOODjZONtdFvf3j/P6dPoyQJkhUenc2mYLdwUqlwO12I2J5bpi1srvsWqmLs=
+X-Received: by 2002:a2e:b046:0:b0:2ee:83f7:8b32 with SMTP id
+ 38308e7fff4ca-2eeb30dc45amr34980521fa.21.1720616398404; Wed, 10 Jul 2024
+ 05:59:58 -0700 (PDT)
 MIME-Version: 1.0
-Message-Id: <27cf3056-5c7b-4759-b03a-1fa9b785611e@app.fastmail.com>
-In-Reply-To:  <20240701-b4-v6-10-topic-usbc-tcpci-v1-5-3fd5f4a193cc@pengutronix.de>
-References:  <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
- <20240701-b4-v6-10-topic-usbc-tcpci-v1-5-3fd5f4a193cc@pengutronix.de>
-Date: Wed, 10 Jul 2024 14:48:20 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Marco Felsch" <m.felsch@pengutronix.de>,
- "Miquel Raynal" <miquel.raynal@bootlin.com>,
- "Richard Weinberger" <richard@nod.at>,
- "Vignesh Raghavendra" <vigneshr@ti.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>,
- "Russell King" <linux@armlinux.org.uk>, "Joel Stanley" <joel@jms.id.au>,
- "Andrew Jeffery" <andrew@codeconstruct.com.au>,
- "Nicolas Ferre" <nicolas.ferre@microchip.com>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
- "Shawn Guo" <shawnguo@kernel.org>,
- "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>,
- "Fabio Estevam" <festevam@gmail.com>,
- "Vladimir Zapolskiy" <vz@mleia.com>, "Andrew Lunn" <andrew@lunn.ch>,
- "Gregory Clement" <gregory.clement@bootlin.com>,
- "Sebastian Hesselbarth" <sebastian.hesselbarth@gmail.com>,
- "Tony Lindgren" <tony@atomide.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Magnus Damm" <magnus.damm@gmail.com>,
- "Dinh Nguyen" <dinguyen@kernel.org>,
- "Thierry Reding" <thierry.reding@gmail.com>,
- "Jon Hunter" <jonathanh@nvidia.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Huacai Chen" <chenhuacai@kernel.org>,
- "WANG Xuerui" <kernel@xen0n.name>
+References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
+ <20240701-b4-v6-10-topic-usbc-tcpci-v1-5-3fd5f4a193cc@pengutronix.de> <27cf3056-5c7b-4759-b03a-1fa9b785611e@app.fastmail.com>
+In-Reply-To: <27cf3056-5c7b-4759-b03a-1fa9b785611e@app.fastmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 10 Jul 2024 14:59:47 +0200
+Message-ID: <CAMRc=McvRLeCTTXgC_OD5z5OAxQ0pZ46dTKP8XO+T-LkXKgRfQ@mail.gmail.com>
 Subject: Re: [PATCH 5/9] ARM: defconfig: convert to MTD_EEPROM_AT24
-Content-Type: text/plain
+To: Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -123,27 +77,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: imx@lists.linux.dev, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, Linux-OMAP <linux-omap@vger.kernel.org>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, Geert Uytterhoeven <geert+renesas@glider.be>, imx@lists.linux.dev, Tony Lindgren <tony@atomide.com>, Marco Felsch <m.felsch@pengutronix.de>, Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>, WANG Xuerui <kernel@xen0n.name>, Fabio Estevam <festevam@gmail.com>, linux-aspeed@lists.ozlabs.org, Richard Weinberger <richard@nod.at>, Gregory Clement <gregory.clement@bootlin.com>, Huacai Chen <chenhuacai@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>, Christophe Leroy <christophe.leroy@csgroup.eu>, Jon Hunter <jonathanh@nvidia.com>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Nicholas Piggin <npiggin@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, Linux-OMAP <linux-omap@vger.kernel.org>, linux-arm-kernel@lists.infradead.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-kernel@vger.kernel.org, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Dinh Nguyen <dinguyen@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Michael Ellerman <mpe@ellerman.id.au>, Shawn Guo <shawnguo@kernel.org>, openbmc@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Jul 1, 2024, at 15:53, Marco Felsch wrote:
-> The EEPROM_AT24 Kconfig symbol is marked as deprecated. Make use of the
-> new Kconfig symbol to select the I2C EEPROM driver support.
+On Wed, Jul 10, 2024 at 2:49=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
 >
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> ---
->  arch/arm/configs/aspeed_g4_defconfig   | 2 +-
->  arch/arm/configs/aspeed_g5_defconfig   | 2 +-
->  arch/arm/configs/at91_dt_defconfig     | 2 +-
->  arch/arm/configs/axm55xx_defconfig     | 2 +-
->  arch/arm/configs/davinci_all_defconfig | 2 +-
->  arch/arm/configs/imx_v4_v5_defconfig   | 2 +-
->  arch/arm/configs/imx_v6_v7_defconfig   | 2 +-
->  arch/arm/configs/ixp4xx_defconfig      | 2 +-
->  arch/arm/configs/keystone_defconfig    | 2 +-
->  arch/arm/configs/lpc18xx_defconfig     | 2 +-
+> On Mon, Jul 1, 2024, at 15:53, Marco Felsch wrote:
+> > The EEPROM_AT24 Kconfig symbol is marked as deprecated. Make use of the
+> > new Kconfig symbol to select the I2C EEPROM driver support.
+> >
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> >  arch/arm/configs/aspeed_g4_defconfig   | 2 +-
+> >  arch/arm/configs/aspeed_g5_defconfig   | 2 +-
+> >  arch/arm/configs/at91_dt_defconfig     | 2 +-
+> >  arch/arm/configs/axm55xx_defconfig     | 2 +-
+> >  arch/arm/configs/davinci_all_defconfig | 2 +-
+> >  arch/arm/configs/imx_v4_v5_defconfig   | 2 +-
+> >  arch/arm/configs/imx_v6_v7_defconfig   | 2 +-
+> >  arch/arm/configs/ixp4xx_defconfig      | 2 +-
+> >  arch/arm/configs/keystone_defconfig    | 2 +-
+> >  arch/arm/configs/lpc18xx_defconfig     | 2 +-
+>
+> Applied to soc/defconfig, thanks
+>
+>    Arnd
 
-Applied to soc/defconfig, thanks
+No! Why? This is still being discussed and it's not clear it will even
+make it upstream.
 
-   Arnd
+Bart
