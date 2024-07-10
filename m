@@ -1,71 +1,121 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FD692C86A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2024 04:23:10 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 413A392CD00
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2024 10:29:06 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=T1budagm;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=PhonDL6R;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WJhV36pqpz3cF1
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2024 12:23:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WJrcJ0J6Nz3cYx
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2024 18:29:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=T1budagm;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=PhonDL6R;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::542; helo=mail-pg1-x542.google.com; envelope-from=liuxiwei1013@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::334; helo=mail-wm1-x334.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WJhTw1zDlz3c3W
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2024 12:22:58 +1000 (AEST)
-Received: by mail-pg1-x542.google.com with SMTP id 41be03b00d2f7-78006198aeeso210007a12.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jul 2024 19:22:58 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WJrc66TQQz3c3l
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2024 18:28:52 +1000 (AEST)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-4267345e746so10883655e9.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2024 01:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720578173; x=1721182973; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O+ZDbVG/Y99+yBdm+TuUFC2L8LW4XjvaG/3/t0EYbiw=;
-        b=T1budagmwPiJEsasjPH4q66BEZbrWvWh+DCRaElAsPs6eba5KqKYd2u3iSrQk9rRVd
-         D74oV15Yu9CtfEVk1uDt8xcyUF6gZyv9cLi/Z7/r6B//5gbQuuoy0KGT4MjTQMfHk8+z
-         5yzBW3bCsjkWTIreb/3wx3ynVYAKQJ10U7MVGn1bVx4I9+oTal9tC56UZ1kibs5BJiQn
-         /svUgKE6s3b9CmXpTbtq7TkLkzWVIt9EykaVmTf+h5XuuOdXIXctGCqBNtdAhuwwyqJ5
-         WEbJ8DwPiPukmkkjDItzmgXDanrNum/85BZIMsoIGWDedHfplRHOm1/KLHeueByBYLUs
-         r76A==
+        d=linaro.org; s=google; t=1720600126; x=1721204926; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bhm4SUC7M8IaWsq3QX9Mamybj7gciSYDDw1dyMvrue8=;
+        b=PhonDL6RkixQxm0mVMtrymjYQ/HVCQ/breb4Cg4SgoNUSrQPbJzkpoWdEgPS74Qtof
+         8DunTPiKjxOOuJlAOYa2k915PJ5gliJec7zlik1o332cbC5UUlnlYc4lD39mb/xuHaxA
+         AcoHGY6KONGZDy+/KQt/+kgX2byHYW33lQMrvndIomSA2bG4ljg4FAFS9+4Rhh3Qz6/C
+         /Tb1i0Z30PohltG/dCrsdp5mt1oMepen1MCpxhCYmnX8jWNzxFPjgtLUU5uAs6TRkrd3
+         yGR7Z4PYNU5qRtCD+NnP0BpbKV75JQRlec7iIWjexWSAJdF0Na+YtDSSlbXwy5MgyqRI
+         HoSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720578173; x=1721182973;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1720600126; x=1721204926;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=O+ZDbVG/Y99+yBdm+TuUFC2L8LW4XjvaG/3/t0EYbiw=;
-        b=X9PhcSeke7S/f/knVq0iqCbeVztYnJlWMNhETtZFEUXT1RS0vkL2i03BtD6MGaUJc6
-         H0c3cmW+WVPMUQPS4rHGpul3WxD2oCwzgyn2nvrsS1F85APyn8kouoUJ4ZNI1VMXh94r
-         qzRgjmIwk4cl7cQZs6T76e9dN/aOIs62fscK7egKrJkoNQz9wgvnokUTEX7eJJgsAHct
-         iNMVmoexCG/7UYo30LlS6jNHtPTHrmDviQLAoS4rATniBVWFj2KeEDw7GqaJmB2Jm15C
-         FmTc0rpIgOKEQ/LyWwlJmRNxyGmkxSpFbX2WPZTughKE2ihAL4aTS6x1xxNMILqLzU/d
-         oIPQ==
-X-Gm-Message-State: AOJu0Yw/HuT4zjZQkDXPbNdr1XLZs8Zggnj8Zxzmhb68lT5tu3vxoSRD
-	kCN5089Yz2WA5iqGTaEzc6Zx2KY+OkO+0kAmNkstuvnTMFJGsXsGTZTF1Yfg
-X-Google-Smtp-Source: AGHT+IHD9dgbyjWPV3/KHG/FDuQ2ePIegEDkKiEL+FqpDRfaDvYtCr6tfTfiokeMU1yy66lxZcBokw==
-X-Received: by 2002:a05:6a20:8423:b0:1c2:a29b:efb4 with SMTP id adf61e73a8af0-1c2a29bf269mr3912393637.24.1720578172878;
-        Tue, 09 Jul 2024 19:22:52 -0700 (PDT)
-Received: from localhost (66.112.216.249.16clouds.com. [66.112.216.249])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b439678e9sm2539162b3a.137.2024.07.09.19.22.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 19:22:52 -0700 (PDT)
-From: George Liu <liuxiwei1013@gmail.com>
-X-Google-Original-From: George Liu <liuxiwei@ieisystem.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v4] dt-bindings: vendor-prefixes: Add prefix for ieisystem
-Date: Wed, 10 Jul 2024 10:22:49 +0800
-Message-Id: <20240710022249.72234-1-liuxiwei@ieisystem.com>
-X-Mailer: git-send-email 2.34.1
+        bh=Bhm4SUC7M8IaWsq3QX9Mamybj7gciSYDDw1dyMvrue8=;
+        b=UljXmpZtXYlIXpVt33d44do88OWNqQ8f7ZPOiy1XTln+oGFNN/1k5ziZW4GbXN5KcH
+         142jIS+53qtScy/G7z/c5YukjY2+aykDLKtPPWj1KkKTu5DQ1XeipK7F7zNkFuXY/X/N
+         dKdMvlJ8rrTHehGMu030Yq/1zE2o6hbGAWDe2gfNBM1hTKO1UKhQlCo3Y3rJ+O51FX+S
+         LkPC69BnaG1owcDhW6oBVVAAovf/1xMerMoXE/FWoUD7hMqvawzYatY7JWHTVMGFYTqa
+         FIVMlGBjUvCW9o20GBooovxaPm2Kb6zYRWd//gZfqTNBcH+quMAjgwuENaj7dG2jD8lb
+         cT8A==
+X-Forwarded-Encrypted: i=1; AJvYcCVUZu2xuidS2LoeshBlfSoMsn9N2OJ6MvjTHBfN6+TK8ncXzER4jnsHypeXhm1/eHOgg1HU1aRaKWGJ20YM1tsPJtA1HMo+wq3f7m8Ptg==
+X-Gm-Message-State: AOJu0YztZ0BeRy3xprmGU/Ux8UPX9SBHsaAYb8Av5FNNfWqLHtMVJfbx
+	ShkB3yB4YTe9JwyeoUTMdDT77AY58cwujG8QrQCykLOwYi2idMtBa5IphMC5l8Q=
+X-Google-Smtp-Source: AGHT+IFeJQ3CMZpKaDVdi0EjzQJuAYOzhFvg/4gX3us3SYhZG+FJ409lF5Yrdo/pzbtpLUfr60MDGw==
+X-Received: by 2002:a05:600c:4d0d:b0:426:6e8b:3dc5 with SMTP id 5b1f17b1804b1-426708f1fb7mr29693945e9.32.1720600126455;
+        Wed, 10 Jul 2024 01:28:46 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4267257f1aasm33408345e9.0.2024.07.10.01.28.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jul 2024 01:28:45 -0700 (PDT)
+Message-ID: <56042a1c-074c-42b4-9ede-1b9927e5199a@linaro.org>
+Date: Wed, 10 Jul 2024 10:28:43 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] dt-bindings: vendor-prefixes: Add prefix for ieisystem
+To: George Liu <liuxiwei1013@gmail.com>, linux-aspeed@lists.ozlabs.org
+References: <20240710022249.72234-1-liuxiwei@ieisystem.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240710022249.72234-1-liuxiwei@ieisystem.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,37 +127,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, George Liu <liuxiwei1013@gmail.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh+dt@kernel.org, linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add a vendor prefix entry for ieisystem
+On 10/07/2024 04:22, George Liu wrote:
+> Add a vendor prefix entry for ieisystem
+> 
+> Link: https://en.ieisystem.com/
+> 
+> Signed-off-by: George Liu <liuxiwei1013@gmail.com>
+> ---
+> v2 -> v3
+>  - match Signed-off-by email
+> v3 -> v4
+>  - add link
 
-Link: https://en.ieisystem.com/
+For the third time: please thread your patches correctly. You have one
+patchset, not three. git format-patch -3 -v4 && git send-email.
 
-Signed-off-by: George Liu <liuxiwei1013@gmail.com>
----
-v2 -> v3
- - match Signed-off-by email
-v3 -> v4
- - add link
----
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Or just use b4.
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 573578db9509..a559ac5789ae 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -609,6 +609,8 @@ patternProperties:
-     description: IC Plus Corp.
-   "^idt,.*":
-     description: Integrated Device Technologies, Inc.
-+  "^ieisystem,.*":
-+    description: IEIT SYSTEMS Co.,Ltd.
-   "^ifi,.*":
-     description: Ingenieurburo Fur Ic-Technologie (I/F/I)
-   "^ilitek,.*":
--- 
-2.34.1
+Best regards,
+Krzysztof
 
