@@ -2,82 +2,115 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E11B9579DE
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7325D95796C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKc52xGz7CVt
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJP0jFdz7Bh9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=arndb.de
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=hx0COoAK;
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=teTIciYZ;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=azzoWZRU;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=quicinc.com (client-ip=205.220.180.131; helo=mx0b-0031df01.pphosted.com; envelope-from=quic_jjohnson@quicinc.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 456 seconds by postgrey-1.37 at boromir; Wed, 10 Jul 2024 06:11:58 AEST
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=arndb.de (client-ip=103.168.172.136; helo=flow1-smtp.messagingengine.com; envelope-from=arnd@arndb.de; receiver=lists.ozlabs.org)
+X-Greylist: delayed 374 seconds by postgrey-1.37 at boromir; Wed, 10 Jul 2024 22:56:12 AEST
+Received: from flow1-smtp.messagingengine.com (flow1-smtp.messagingengine.com [103.168.172.136])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WJXFp0BBqz3cF4;
-	Wed, 10 Jul 2024 06:11:57 +1000 (AEST)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 469AaFTD003666;
-	Tue, 9 Jul 2024 20:03:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zP7sQqPEBj92a4s3LSeDCL3HKNLXBrQAZfBTvIb5o6s=; b=hx0COoAKiItsHlpc
-	XI/O/g8KBt2jauxtDXKJOuHVgImEjzpKR6OhhewHd2vpIa0sOoY5r2IQzd7F1Yiq
-	jXxfjWy5CoQCZWznc8kkvMEu/uxW0uAcKwHClRCzPV1+ZFdfl4D8j2S4xnOnKlmg
-	nkCI8iCcw8UARzTFoi+7JesepVHUC/w03rQJFAfAjXdm2S9dj4K8eRKTxvDLhJuE
-	MUQsVMspnx4LRMwBKg0pjVKP7rHxkRfeEsImXanJRhdzDuItDNGM4uX1dIkS2h3B
-	37AoHIjB75ncL8giYg66+mZVBMyLuKq6gtksOROyKGgAUP/74DFbzsBzVVW9OG0Z
-	9uTs0g==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 406wgwqfbh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jul 2024 20:03:44 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 469K3gGn030620
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 9 Jul 2024 20:03:42 GMT
-Received: from [10.48.245.228] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 9 Jul 2024
- 13:03:42 -0700
-Message-ID: <1f167dbf-9744-433c-aa5c-a35b66b79dde@quicinc.com>
-Date: Tue, 9 Jul 2024 13:03:41 -0700
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WJyXX289bz30Sv;
+	Wed, 10 Jul 2024 22:56:12 +1000 (AEST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.nyi.internal (Postfix) with ESMTP id E33CC20042D;
+	Wed, 10 Jul 2024 08:49:54 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 10 Jul 2024 08:49:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1720615794; x=1720622994; bh=j8Mj9dw1Fm
+	/JtEgtuTD5TSV9xTAWODaAOo5fjhNJeMk=; b=teTIciYZjvnAmtCaBvfsvRNjup
+	wfCqM8oj1NVTM4jQ8jo5sskqJd9CXNwzX82No3oPh2ILjs4uutrlschv4dsLphU3
+	DoHiZabk+5RNoNoz0INCQm1A/q0azsdpIKZ40BSY9zzvhrlrJsyAZoIB+AdhjZSM
+	pglEr9LbbW0omvvUOv9xqemh9id/jhlr5i0OZnHACguZQxkJK5xIIlZPHl7qxIZi
+	W18h/fh2fJqcEc9Qy9KDPKHfa/hVK9NfMC964RoDdIGpXNYZKvQ3LTPV8BpbXyRq
+	/YSFUKn6ydo2t/RPLCAoY+yDhYs54/3qhWLzotGyYi2xcf1uXo+GhSqGYN6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1720615794; x=1720622994; bh=j8Mj9dw1Fm/JtEgtuTD5TSV9xTAW
+	ODaAOo5fjhNJeMk=; b=azzoWZRU5IySoav5jThTxI4/AKjfG7wh/UAeG5Y0yp/7
+	pSjbpcVBoFNXfnK1AoPP/qA9CqwrRF8Dry0A37SxJCpk4Z5ullPkhy+gC2T5PlNW
+	qtHzAzk/b8G5f3Tag6CJRkj0grWKT3j9AAJUB+sBlye1xyej0B+45sVmj7pFPIT0
+	0C8phEMHJHLEtbkJkAqgb4SfK8Mg1xM0BHjBi1UepOwgPEnmdulrH+N+Got5FU1k
+	1RVQ/Fe3Nc6RoIgAiYJC5LjOoh+Fk0b7Imsv7vkFNEtN+B28lrOP2iHu73sBprCP
+	xkZ00fMz0ava03lyq9Jugs0eBmn8yWi7qreY8Gmasw==
+X-ME-Sender: <xms:b4OOZh0Add5PpRvK-JwSRnx3M8MLRjt6lQVSLPf8bA1FKB4pYvBGow>
+    <xme:b4OOZoE2nV6HZMpoyEVk3eDfC7dus2QqobaL3YCy7l8HFtBHVk97Nwkt_A9WozDEc
+    C4EVANiB042rUeaNJQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfedugdehjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:b4OOZh5zNJxlOfPHh0-H8WYSyelbHHrXbP1YSq7BCS2SyJWdegrqqQ>
+    <xmx:b4OOZu1jTQpah1fyyddzLy-SSEDaDFK_TWeDgISB8kW5bliLViVMcg>
+    <xmx:b4OOZkE-est_ti1vs2CHielhfk6js_rK4NVMMPgNmJ_Fck8MCdzLbg>
+    <xmx:b4OOZv-Dzbnlfj9JbL0x2Cl3B8vEn5obOKRlDMYB5cv0l5MtlBW17Q>
+    <xmx:coOOZviKtDwt5hZt1uJ3U9a5Mli5qRUVB721KXhKKAyxK8Y3E3_QlGxR>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id D5425B60089; Wed, 10 Jul 2024 08:49:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fsi: add missing MODULE_DESCRIPTION() macros
-Content-Language: en-US
-To: Eddie James <eajames@linux.ibm.com>, Jeremy Kerr <jk@ozlabs.org>,
-        Joel
- Stanley <joel@jms.id.au>, Alistar Popple <alistair@popple.id.au>,
-        Andrew
- Jeffery <andrew@codeconstruct.com.au>
-References: <20240605-md-drivers-fsi-v1-1-fefc82d81b12@quicinc.com>
- <4d1276a3-ef4a-4c84-8d09-d1613f311a28@quicinc.com>
- <3edca7a4-361b-4381-8b13-70584a30e2b1@linux.ibm.com>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <3edca7a4-361b-4381-8b13-70584a30e2b1@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: VMiwqcJLZgNeAMQCjEju4tHyS8x4Kkr2
-X-Proofpoint-ORIG-GUID: VMiwqcJLZgNeAMQCjEju4tHyS8x4Kkr2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-09_08,2024-07-09_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=939 mlxscore=0
- adultscore=0 malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407090135
+Message-Id: <27cf3056-5c7b-4759-b03a-1fa9b785611e@app.fastmail.com>
+In-Reply-To:  <20240701-b4-v6-10-topic-usbc-tcpci-v1-5-3fd5f4a193cc@pengutronix.de>
+References:  <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
+ <20240701-b4-v6-10-topic-usbc-tcpci-v1-5-3fd5f4a193cc@pengutronix.de>
+Date: Wed, 10 Jul 2024 14:48:20 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Marco Felsch" <m.felsch@pengutronix.de>,
+ "Miquel Raynal" <miquel.raynal@bootlin.com>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Vignesh Raghavendra" <vigneshr@ti.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Russell King" <linux@armlinux.org.uk>, "Joel Stanley" <joel@jms.id.au>,
+ "Andrew Jeffery" <andrew@codeconstruct.com.au>,
+ "Nicolas Ferre" <nicolas.ferre@microchip.com>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Claudiu Beznea" <claudiu.beznea@tuxon.dev>,
+ "Shawn Guo" <shawnguo@kernel.org>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+ "Fabio Estevam" <festevam@gmail.com>,
+ "Vladimir Zapolskiy" <vz@mleia.com>, "Andrew Lunn" <andrew@lunn.ch>,
+ "Gregory Clement" <gregory.clement@bootlin.com>,
+ "Sebastian Hesselbarth" <sebastian.hesselbarth@gmail.com>,
+ "Tony Lindgren" <tony@atomide.com>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ "Magnus Damm" <magnus.damm@gmail.com>,
+ "Dinh Nguyen" <dinguyen@kernel.org>,
+ "Thierry Reding" <thierry.reding@gmail.com>,
+ "Jon Hunter" <jonathanh@nvidia.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Huacai Chen" <chenhuacai@kernel.org>,
+ "WANG Xuerui" <kernel@xen0n.name>
+Subject: Re: [PATCH 5/9] ARM: defconfig: convert to MTD_EEPROM_AT24
+Content-Type: text/plain
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -90,31 +123,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
+Cc: imx@lists.linux.dev, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, Linux-OMAP <linux-omap@vger.kernel.org>, linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 7/1/2024 8:00 AM, Eddie James wrote:
-> 
-> On 6/26/24 00:15, Jeff Johnson wrote:
->> On 6/5/2024 3:39 PM, Jeff Johnson wrote:
->>> make allmodconfig && make W=1 C=1 reports:
->>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
->>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
->>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
->>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
->>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
->>> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
->>>
->>> Add the missing invocations of the MODULE_DESCRIPTION() macro, and fix the
->>> copy/paste of the module description comment in fsi-master-ast-cf.c.
-> 
-> 
-> Thanks!
-> 
-> Reviewed-by: Eddie James <eajames@linux.ibm.com>
+On Mon, Jul 1, 2024, at 15:53, Marco Felsch wrote:
+> The EEPROM_AT24 Kconfig symbol is marked as deprecated. Make use of the
+> new Kconfig symbol to select the I2C EEPROM driver support.
+>
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+>  arch/arm/configs/aspeed_g4_defconfig   | 2 +-
+>  arch/arm/configs/aspeed_g5_defconfig   | 2 +-
+>  arch/arm/configs/at91_dt_defconfig     | 2 +-
+>  arch/arm/configs/axm55xx_defconfig     | 2 +-
+>  arch/arm/configs/davinci_all_defconfig | 2 +-
+>  arch/arm/configs/imx_v4_v5_defconfig   | 2 +-
+>  arch/arm/configs/imx_v6_v7_defconfig   | 2 +-
+>  arch/arm/configs/ixp4xx_defconfig      | 2 +-
+>  arch/arm/configs/keystone_defconfig    | 2 +-
+>  arch/arm/configs/lpc18xx_defconfig     | 2 +-
 
-I still don't see this in linux-next yet so following up again to see if
-anything else is needed to get this merged.
+Applied to soc/defconfig, thanks
 
-
+   Arnd
