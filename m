@@ -2,120 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413A392CD00
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2024 10:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93A192E8D7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2024 15:07:26 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=PhonDL6R;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lpsckmK8;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WJrcJ0J6Nz3cYx
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2024 18:29:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WKZl03bKhz3cZ6
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2024 23:07:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=PhonDL6R;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lpsckmK8;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::334; helo=mail-wm1-x334.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::533; helo=mail-pg1-x533.google.com; envelope-from=yangchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WJrc66TQQz3c3l
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2024 18:28:52 +1000 (AEST)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-4267345e746so10883655e9.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2024 01:28:52 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WKZkl1vb0z30Wc
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jul 2024 23:07:09 +1000 (AEST)
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-75c3acf90f0so590473a12.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jul 2024 06:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720600126; x=1721204926; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bhm4SUC7M8IaWsq3QX9Mamybj7gciSYDDw1dyMvrue8=;
-        b=PhonDL6RkixQxm0mVMtrymjYQ/HVCQ/breb4Cg4SgoNUSrQPbJzkpoWdEgPS74Qtof
-         8DunTPiKjxOOuJlAOYa2k915PJ5gliJec7zlik1o332cbC5UUlnlYc4lD39mb/xuHaxA
-         AcoHGY6KONGZDy+/KQt/+kgX2byHYW33lQMrvndIomSA2bG4ljg4FAFS9+4Rhh3Qz6/C
-         /Tb1i0Z30PohltG/dCrsdp5mt1oMepen1MCpxhCYmnX8jWNzxFPjgtLUU5uAs6TRkrd3
-         yGR7Z4PYNU5qRtCD+NnP0BpbKV75JQRlec7iIWjexWSAJdF0Na+YtDSSlbXwy5MgyqRI
-         HoSQ==
+        d=gmail.com; s=20230601; t=1720703226; x=1721308026; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rfcikbn6aIkgCMZzgFg/rRrOdrcIMJdb5nB1Tqsn+HQ=;
+        b=lpsckmK8txLbGHwCgisjLnZfyRSeZTrh5a4FYwslmrnkvDl7Ffds9oFbgY54aaNiGE
+         jnZCmLnd/6mSRn6s5j6r0EZ4YSi7exW6WwCDYu5jeubgM7TxShKpKiiflt3G6mAhYmDB
+         3OLxCurgmGqzUDJ8IQSROB003oPWN0glsl6PhL3O9UcHcl0GMSSsq7Q9bbJTFHoPRHoV
+         dTqNXEZhpceCtp4JgK0eEmvCMC3R202HGNOjKG9hvlMK4zW5YRw/7W8Ts+JmhLdJaGa8
+         RF5t6pnFtyhTOiT1it1fkXbLXnUtbmKoXr3RR3Cso9Y+FVqpWemYAz1DC0vciz7ghVEu
+         kGQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720600126; x=1721204926;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1720703226; x=1721308026;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Bhm4SUC7M8IaWsq3QX9Mamybj7gciSYDDw1dyMvrue8=;
-        b=UljXmpZtXYlIXpVt33d44do88OWNqQ8f7ZPOiy1XTln+oGFNN/1k5ziZW4GbXN5KcH
-         142jIS+53qtScy/G7z/c5YukjY2+aykDLKtPPWj1KkKTu5DQ1XeipK7F7zNkFuXY/X/N
-         dKdMvlJ8rrTHehGMu030Yq/1zE2o6hbGAWDe2gfNBM1hTKO1UKhQlCo3Y3rJ+O51FX+S
-         LkPC69BnaG1owcDhW6oBVVAAovf/1xMerMoXE/FWoUD7hMqvawzYatY7JWHTVMGFYTqa
-         FIVMlGBjUvCW9o20GBooovxaPm2Kb6zYRWd//gZfqTNBcH+quMAjgwuENaj7dG2jD8lb
-         cT8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVUZu2xuidS2LoeshBlfSoMsn9N2OJ6MvjTHBfN6+TK8ncXzER4jnsHypeXhm1/eHOgg1HU1aRaKWGJ20YM1tsPJtA1HMo+wq3f7m8Ptg==
-X-Gm-Message-State: AOJu0YztZ0BeRy3xprmGU/Ux8UPX9SBHsaAYb8Av5FNNfWqLHtMVJfbx
-	ShkB3yB4YTe9JwyeoUTMdDT77AY58cwujG8QrQCykLOwYi2idMtBa5IphMC5l8Q=
-X-Google-Smtp-Source: AGHT+IFeJQ3CMZpKaDVdi0EjzQJuAYOzhFvg/4gX3us3SYhZG+FJ409lF5Yrdo/pzbtpLUfr60MDGw==
-X-Received: by 2002:a05:600c:4d0d:b0:426:6e8b:3dc5 with SMTP id 5b1f17b1804b1-426708f1fb7mr29693945e9.32.1720600126455;
-        Wed, 10 Jul 2024 01:28:46 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4267257f1aasm33408345e9.0.2024.07.10.01.28.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jul 2024 01:28:45 -0700 (PDT)
-Message-ID: <56042a1c-074c-42b4-9ede-1b9927e5199a@linaro.org>
-Date: Wed, 10 Jul 2024 10:28:43 +0200
+        bh=Rfcikbn6aIkgCMZzgFg/rRrOdrcIMJdb5nB1Tqsn+HQ=;
+        b=Y4sF/79SND27IPTjK4MsS90thCxO123FBUfgRFSLOPEeraCuqd9VkOaKI4V+36heS6
+         yc20xtBOwmD0R9bPJuQI/y24pc/dT5WvQNv2IRWol1W844MsbXgNSCS/FIwDqkIZ6xLG
+         FhG7QKxh03nMRnn70VhSlLFnyVeuqYzJYOIWylDbDPc1WqYae1bspKHO4C2xeeoaYPO4
+         z0UKeePdoHrAWmRA8Ji3Dk70vWk5kvXd1vqGo9quYJ4OiIbKzniHHNgeUm1XXF1yL8Ek
+         DInkDDSPj5XJaDqXNbJf0eWv4eV4MYkplwlTZ0irzfy2/qiDGGaWDPR+sdPNYwY3nsov
+         A8TA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtYAJt9X9a1EjCEgwL0u1ub27d9RbY9x6P+fUor6xtNKqKUEotmqD53ni1w78WFat/jl0GKcpi6m/fTLYlERgdXUlZEQH63e+BAChXrg==
+X-Gm-Message-State: AOJu0YwDKreEYnDdEE+sh3bDPEbRepuOyih9K4fsFR5YmABjdzcwtBx6
+	dE+ESo/XkOaT7urHThnqGryvOPOrtqovCVXTrsxKIanlKzBU/ra2
+X-Google-Smtp-Source: AGHT+IFKPXUr1OLuiftkz50lboHtjDhk7taX+ATRjV0+GBPX70PqRG6CCAlN4MArjw88NEwHKiUM+A==
+X-Received: by 2002:a17:902:fc88:b0:1f9:9221:6c2d with SMTP id d9443c01a7336-1fbb6ec1c52mr55718315ad.53.1720703225500;
+        Thu, 11 Jul 2024 06:07:05 -0700 (PDT)
+Received: from obliging-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6a10868sm50188305ad.9.2024.07.11.06.07.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jul 2024 06:07:05 -0700 (PDT)
+From: Yang Chen <yangchen.openbmc@gmail.com>
+To: joel@jms.id.au,
+	andrew@codeconstruct.com.au,
+	patrick@stwcx.xyz,
+	amithash@meta.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v1 0/1] Add gpio line name in Meta Minerva BMC(AST2600)
+Date: Thu, 11 Jul 2024 21:05:00 +0800
+Message-Id: <20240711130501.2900301-1-yangchen.openbmc@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] dt-bindings: vendor-prefixes: Add prefix for ieisystem
-To: George Liu <liuxiwei1013@gmail.com>, linux-aspeed@lists.ozlabs.org
-References: <20240710022249.72234-1-liuxiwei@ieisystem.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240710022249.72234-1-liuxiwei@ieisystem.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,27 +84,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh+dt@kernel.org, linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc: Jerry.Lin@quantatw.com, yangchen.openbmc@gmail.com, yang.chen@quantatw.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/07/2024 04:22, George Liu wrote:
-> Add a vendor prefix entry for ieisystem
-> 
-> Link: https://en.ieisystem.com/
-> 
-> Signed-off-by: George Liu <liuxiwei1013@gmail.com>
-> ---
-> v2 -> v3
->  - match Signed-off-by email
-> v3 -> v4
->  - add link
+Based on: https://lore.kernel.org/all/f7412b65e1844ea9f3ad9fe5825e5d1da422ad69.camel@codeconstruct.com.au/
 
-For the third time: please thread your patches correctly. You have one
-patchset, not three. git format-patch -3 -v4 && git send-email.
+Change log:
 
-Or just use b4.
+v1
+  Patch 0001 - Add host0-ready pin.
 
-Best regards,
-Krzysztof
+Yang Chen (1):
+  ARM: dts: aspeed: minerva: add host0-ready pin
+
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.34.1
 
