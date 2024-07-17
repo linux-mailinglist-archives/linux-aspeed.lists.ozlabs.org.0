@@ -2,88 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856EF95796E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C4E95796F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJP4t2Pz7BjC
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJP70KKz7Bjn
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=b1QSu0yR;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=l/UJxZbD;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=Q8RMbd3X;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=arndb.de (client-ip=103.168.172.137; helo=flow2-smtp.messagingengine.com; envelope-from=arnd@arndb.de; receiver=lists.ozlabs.org)
-Received: from flow2-smtp.messagingengine.com (flow2-smtp.messagingengine.com [103.168.172.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::229; helo=relay9-d.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WK05h1b3Hz3cb7;
-	Thu, 11 Jul 2024 00:06:31 +1000 (AEST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailflow.nyi.internal (Postfix) with ESMTP id B9B1820041E;
-	Wed, 10 Jul 2024 10:06:28 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 10 Jul 2024 10:06:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1720620388;
-	 x=1720627588; bh=FPzIeyUoxgy/zsvmREOhCT66sbHOjXoV3rwrfvjo/oM=; b=
-	b1QSu0yRwxmUk4T9e11CNmCLrSiiiDvCTM+p6gNGgF4NyrNSLVIOHkUZBUOxpgxl
-	d9vXjGnvw1RIRFEnGbndv/NcsmA2GLHmGzS5rJQPxTUIVRHIc5YsWzN3YlDlG8/w
-	vwY2PFDGlan7ERoJa/sElHU/md+4c0p5HPfL6l9s8ZmMuKw48t/vLeQtyNT7xGQA
-	08JzF7ADIoyXkY9zBh7hy27GqOe5iBkl5T6KQBAg4I7sSnV3Bx0wxfh4IffSCDrD
-	EIVAL8hHH2Si9T8S7nGauN4LncCjezn9OQ+3j17vNfQLsEMR2BpYb0oenTLEqeam
-	BkMUq/IWBWnOKLgWug2rTQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1720620388; x=
-	1720627588; bh=FPzIeyUoxgy/zsvmREOhCT66sbHOjXoV3rwrfvjo/oM=; b=l
-	/UJxZbDwRbte/g2yuSkS7yviFUoG8LxQcRmLaiOWFtKAn6XFD9z5i8BhgFiwj0y8
-	29JjOMIc2w4FtrW9IR6h2qT2CtX2uPI+r/FHtrpLoTkSoPbJe3J1cehcgwZANS3t
-	XYMJKq7TPb5u/bjrOem4WITUkAc4LfU2b5bDaz8AwaT3QByZ35D8ZMjHSS1yi35y
-	36/dyXCkN+nwX8HvtBeT3ddkLpikQS8EZ4XXcTy6LBfF5l17hW9zP7dZMzOmMwhD
-	XVJREG2So1zHmWfmY5D9lvTGvCqcKkIECCEfL0l0Epvm0v8FzfUmUtTmU/hw+Ez6
-	qJJNz78tvzr+wlzfmgwog==
-X-ME-Sender: <xms:YZWOZnV51EQeUhqFAlZ7tF76IbGPDn0AZ7wRftLLqANLQ8M0Tit2-g>
-    <xme:YZWOZvnwaOkIlW8JDpVJ4uVPdX-o79KWjlklZpPYf1atbq30ICIdwRgOUhrJ5p-D2
-    Q0py9B8mmaXogLqMVM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrfedvgdduvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfg
-    jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:YZWOZjaoGrXUw2M4_1y1ixokbMZsjZ3j3fcIkHhdLxC9KxWjE7s4BQ>
-    <xmx:YZWOZiWPJTo6_33m1wPp7E5VWb0uw6xuIw-rKVLCCKI-iKqUbc-UEw>
-    <xmx:YZWOZhn1-MjLOZ3xu0SsbEEBMly36iOA_myUgrsipjQv0pKFdaMeCQ>
-    <xmx:YZWOZvdtJ2DdefwHMUz8i_IkZzQem-fWQbBtb87UMDnBEk3or4GmNA>
-    <xmx:ZJWOZilNKpqeyxqgV0ZboZyCiXV66jXIKgbBPX_yaK6wioTafD0Okj0c>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 213BBB6008F; Wed, 10 Jul 2024 10:06:25 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WP84w0pGRz30Ss;
+	Wed, 17 Jul 2024 18:20:15 +1000 (AEST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 255A8FF803;
+	Wed, 17 Jul 2024 08:19:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1721204394;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vYy4jlSppC2pcc6cg+3nF/8GvPZv6nmewlb2L7o9Nw8=;
+	b=Q8RMbd3XCm3mkOoSML4rikXKiJwOmxmdsX2NkXlZwRplYxuKqVu6DdyLJ7G/4YQS4TR3e0
+	tQ9HYyVU0QaJ7mJKdjZ58+NY03/Y4pQSR1nheyy9/gpjRgXyPcN/SYNbnfEvcXYx78cKK1
+	DspBdEnmtUUE2Vh7fB3axwb52s022qgb/fQK8B7JQxuL+DVdX8knHLZC7Oxu4B+r0HSgWa
+	t6AmHSpNSofRHkmWqrwexOh4wFUvNGOiGe2R2Gz1nk0z8FDgM9iuuAszfZbHO/r1L/BknS
+	0yhBDc0k6PoqJGn8/jBTZsc9id1S9XZ4jdCo9jE7HgZr9sw+Ct/c9wyvI/5QfA==
+Date: Wed, 17 Jul 2024 10:19:48 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH 4/9] mtd: devices: add AT24 eeprom support
+Message-ID: <20240717101948.2e99f472@xps-13>
+In-Reply-To: <20240709103841.7x7n4hdtqrunyoc3@pengutronix.de>
+References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
+	<20240701-b4-v6-10-topic-usbc-tcpci-v1-4-3fd5f4a193cc@pengutronix.de>
+	<07b701a9-7b52-45b7-8dba-1c25d77cbf15@linaro.org>
+	<mafs0ikxnykpr.fsf@kernel.org>
+	<20240702-congenial-vigilant-boar-aeae44@houat>
+	<mafs0ed8byj5z.fsf@kernel.org>
+	<20240702-mighty-brilliant-eel-b0d9fa@houat>
+	<20240708084440.70186564@xps-13>
+	<20240709092214.omr7ccphdzdk7z7j@pengutronix.de>
+	<20240709114302.3c604ef3@xps-13>
+	<20240709103841.7x7n4hdtqrunyoc3@pengutronix.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Message-Id: <64662665-929e-4d95-a9ac-c8f66bd83168@app.fastmail.com>
-In-Reply-To:  <CAMRc=McvRLeCTTXgC_OD5z5OAxQ0pZ46dTKP8XO+T-LkXKgRfQ@mail.gmail.com>
-References:  <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
- <20240701-b4-v6-10-topic-usbc-tcpci-v1-5-3fd5f4a193cc@pengutronix.de>
- <27cf3056-5c7b-4759-b03a-1fa9b785611e@app.fastmail.com>
- <CAMRc=McvRLeCTTXgC_OD5z5OAxQ0pZ46dTKP8XO+T-LkXKgRfQ@mail.gmail.com>
-Date: Wed, 10 Jul 2024 16:06:03 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Bartosz Golaszewski" <brgl@bgdev.pl>
-Subject: Re: [PATCH 5/9] ARM: defconfig: convert to MTD_EEPROM_AT24
-Content-Type: text/plain;charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -96,37 +68,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, Geert Uytterhoeven <geert+renesas@glider.be>, imx@lists.linux.dev, Tony Lindgren <tony@atomide.com>, Marco Felsch <m.felsch@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>, Shawn Guo <shawnguo@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Fabio Estevam <festevam@gmail.com>, linux-aspeed@lists.ozlabs.org, Richard Weinberger <richard@nod.at>, Gregory Clement <gregory.clement@bootlin.com>, Huacai Chen <chenhuacai@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>, Christophe Leroy <christophe.leroy@csgroup.eu>, Jon Hunter <jonathanh@nvidia.com>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Nicholas Piggin <npiggin@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, Linux-OMAP <linux-omap@vger.kernel.org>, linux-arm-kernel@lists.infradead.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Dinh Nguyen <dinguyen@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org, openbmc@lists.ozlabs.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, Geert Uytterhoeven <geert+renesas@glider.be>, imx@lists.linux.dev, Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>, Fabio Estevam <festevam@gmail.com>, linux-aspeed@lists.ozlabs.org, Richard Weinberger <richard@nod.at>, Gregory Clement <gregory.clement@bootlin.com>, Huacai Chen <chenhuacai@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>, Christophe Leroy <christophe.leroy@csgroup.eu>, Jonathan Hunter <jonathanh@nvidia.com>, Tudor Ambarus <tudor.ambarus@linaro.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>, Maxime Ripard <mripard@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>, Nicholas Piggin <npiggin@gmail.com>, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Michael Ellerman <mpe@ellerman.id.au>, Shawn Guo <shawnguo@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Pratyush Yadav <pratyush@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jul 10, 2024, at 14:59, Bartosz Golaszewski wrote:
-> On Wed, Jul 10, 2024 at 2:49=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
-wrote:
->>
->> On Mon, Jul 1, 2024, at 15:53, Marco Felsch wrote:
->> > The EEPROM_AT24 Kconfig symbol is marked as deprecated. Make use of=
- the
->> > new Kconfig symbol to select the I2C EEPROM driver support.
->> >
->> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
->> > ---
->> >  arch/arm/configs/aspeed_g4_defconfig   | 2 +-
->> >  arch/arm/configs/aspeed_g5_defconfig   | 2 +-
->> >  arch/arm/configs/at91_dt_defconfig     | 2 +-
->> >  arch/arm/configs/axm55xx_defconfig     | 2 +-
->> >  arch/arm/configs/davinci_all_defconfig | 2 +-
->> >  arch/arm/configs/imx_v4_v5_defconfig   | 2 +-
->> >  arch/arm/configs/imx_v6_v7_defconfig   | 2 +-
->> >  arch/arm/configs/ixp4xx_defconfig      | 2 +-
->> >  arch/arm/configs/keystone_defconfig    | 2 +-
->> >  arch/arm/configs/lpc18xx_defconfig     | 2 +-
->>
->> Applied to soc/defconfig, thanks
->
-> No! Why? This is still being discussed and it's not clear it will even
-> make it upstream.
+Hi Marco,
 
-Ok, dropped again, thanks for catching this.
+> > > > Overall I think the idea of getting rid of these misc/ drivers is g=
+oes
+> > > > into the right direction, but registering directly into NVMEM makes
+> > > > more sense IMO.   =20
+> > >=20
+> > > So you propose to have two places for the partition handling (one for
+> > > MTD and one for NVMEM) instead of one and moving the code into NVMEM
+> > > directly? =20
+> >=20
+> > Why two places for the partitions handling? Just one, in NVMEM. Also =20
+>=20
+> Without checking the details I think that converting the MTD
+> partitioning code into NVMEM partitioning code is a bigger task. As you
+> said below there are many legacy code paths you need to consider so they
+> still work afterwards as well.
+>=20
+> > usually EEPROMs don't require very advanced partitioning schemes,
+> > unlike flashes (which are the most common MTD devices today). =20
+>=20
+> As said in my cover letter EEPROMs can become quite large and MTD
+> supports partitioning storage devices which is very handy for large
+> EEPROMs as well.
 
-     Arnd
+Did you had a look at nvmem-layouts ? In particular the fixed-layout.
+
+Is there anything you would like to achieve already that is not
+possible with nvmem but is with mtd?
+
+Thanks,
+Miqu=C3=A8l
