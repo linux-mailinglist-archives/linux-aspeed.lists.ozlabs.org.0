@@ -2,102 +2,84 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDD793ADA5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2024 10:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E633E93B4DA
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2024 18:21:58 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=r6wv3NVt;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ao9Spajt;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WTRJz26xwz3d2d
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2024 18:00:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WTfRR1yM2z3cWY
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Jul 2024 02:21:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=r6wv3NVt;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ao9Spajt;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WTRJL4bXWz3cmr
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jul 2024 18:00:02 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D5DFE6119D;
-	Wed, 24 Jul 2024 07:59:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF1BEC32782;
-	Wed, 24 Jul 2024 07:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721807998;
-	bh=IjuTkJhCw81PAd9KDNT6mnbK3s+zrbCvxVA902U/124=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r6wv3NVtHBHYudAuW/gutqLLIVaQH31qc7we1h9quyUTEL0DNWiUIrEFVSCNUemX6
-	 Ly1uvKhxt9ZnNxpQXXDooGJJpoxxltwigoiW4gBPANyIXFaWg9id+1+oOW8EG4lXhz
-	 IAAdFUQ5YNIr9GtfR8z0wiKGRD/A2shC71hYhc8CdTEh6K84GWZd0sl2E0tQF04pKs
-	 i58SqGx6WJTxXmdCFZxmzAAbIO4fVFvkfai/gxbCWTxJwfCPZklBsQm5Vq2H1ZV27D
-	 03KMoqPPPvpyjMbmB+QiNiQlZmxBtf5rXRrMpQQtDR5rkXLoPYC588hzKbeED/kpMD
-	 885hKe6fGp/WA==
-Message-ID: <f691d555-839c-4f80-9097-eac27823a35c@kernel.org>
-Date: Wed, 24 Jul 2024 09:59:51 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WTfRK12b7z3c9c
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Jul 2024 02:21:47 +1000 (AEST)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1fc611a0f8cso10237525ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jul 2024 09:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721838105; x=1722442905; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jCjlyepMSMynmD+rlgKER3fIjctnf991YR04zeZ0yNQ=;
+        b=Ao9Spajtw05KzxNHHzssKQUSANA3dW0R2XpEYKvVw2++krLeeduzHn9D3ukWMpZxd8
+         1ol4hZJRNYZ1EzH1l25hJazkNRawzUcPfU2f9/W3X68VJO2D8UyIXdGRaftnCagupNcB
+         22u5qlCN0mxrQSfJkITEV4dS+i4wQw0MBQZIYSN42BSz12cz1dFvnt+Gzwv2xaxJZWcM
+         FAq3/e35GRvNtqpbLQmqPNtbX6emFhPkIJhfT7vgfBlIAiJoLoQqu1AB3pCS0e4KePO1
+         AvuHIC0cPLp6tbxoChx8H6JMw0RYYKXSS+nNoAMwgapT/c2pz5CF7ckT+ObO5p+VvspR
+         /SYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721838105; x=1722442905;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jCjlyepMSMynmD+rlgKER3fIjctnf991YR04zeZ0yNQ=;
+        b=wkwG2TTLm0X9XqxDSzaq+jykUKrHIPOd2raFqdSJEjhOUPapT4ARIZNWUIaTYiJ8DL
+         kszMZBGMmQ/ctD28e9FYtctHUOKawqjvhqOyba7KO3WU0AXytRwuCv4EsIeZIeJ5DxTD
+         h6z9HXVS3ugbers6z0U901xJpp+F+P1QUdYVsa2kIdfDD+k2AxFyFZIcg3IdZKBQDJbt
+         nQFYpnUcTpNPeHTPOPadkxTK5uYXMZ/rtR5nFJ+lKC8wYvqGGqTEVWtJzGLgY/PGpZvY
+         7GKZSkXVr/MeQuiU7+ZVThVwYHGwjn+d3fGZhRXfrHPCbZP4CM+4K9cH5KO6BIEhDKMH
+         culg==
+X-Forwarded-Encrypted: i=1; AJvYcCWOvGCmkSaNIgOsAGupZClxj1tX2EYfKVVtEZ48SuuvzsXqY5KfpS4RlY1+wx3/HqLV3CjNhd164Bk92OG6nfFDehrGLoa/bLuOSAW7oA==
+X-Gm-Message-State: AOJu0YwzLkX0UOPXVWxq9DkxeKICEZ//u2pNgjtcL/1Z/FAL+Jq5v5jT
+	0JfbOahJQSjK0nXG0c8msJvYOfo63e4YFpCwSvEkuOp7KPKd8KpU
+X-Google-Smtp-Source: AGHT+IEaHyX4rKl7ZB80zmsR5sXUua2/ZJvAuV4RsfEazSnJ/eAErqgeZOPe0vCi037qpxQzPdbjfA==
+X-Received: by 2002:a17:902:dace:b0:1fb:5574:7554 with SMTP id d9443c01a7336-1fed38a191amr563385ad.28.1721838104565;
+        Wed, 24 Jul 2024 09:21:44 -0700 (PDT)
+Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fd6f31bd9bsm96159635ad.157.2024.07.24.09.21.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jul 2024 09:21:44 -0700 (PDT)
+From: Potin Lai <potin.lai.pt@gmail.com>
+Subject: [PATCH v3 0/2] Add Meta(Facebook) Catalina BMC(AST2600)
+Date: Thu, 25 Jul 2024 00:19:17 +0800
+Message-Id: <20240725-potin-catalina-dts-v3-0-3a5b5d9e6dbc@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: catalina: add Meta Catalina BMC
-To: Potin Lai <potin.lai.pt@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Patrick Williams <patrick@stwcx.xyz>
-References: <20240724-potin-catalina-dts-v2-0-ba8d475c4073@gmail.com>
- <20240724-potin-catalina-dts-v2-2-ba8d475c4073@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240724-potin-catalina-dts-v2-2-ba8d475c4073@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIYpoWYC/32NQQ6DIBBFr2Jm3WkUaWi78h6NixFQJ1EwQEwbw
+ 91LPUCX7+f/9w+INrCN8KwOCHbnyN4VaC8V6JncZJFNYRC1kLUSEjef2KGmRAs7QpMijoYaS61
+ 4qKGBMtyCHfl9Sl994Zlj8uFzfuzil/7V7QJrHOhupLrp0mq7aSVertqv0Oecv3Y22fK0AAAA
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Patrick Williams <patrick@stwcx.xyz>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721838101; l=1010;
+ i=potin.lai.pt@gmail.com; s=20240724; h=from:subject:message-id;
+ bh=u+8sQaElmmUTGYE88vHZLs/dmfNY6c2B4ktHc+O+ePA=;
+ b=sE4zAb8myOf5e2jTC2Cd+B6ZFVvenRADe5LixLy60a3S7vSr9j1xAlWNiu/fkq3Y7MKlPOVLo
+ D9esJbmXWoqDKvJepurspIR8QHM+BaCxKAmYYFmQ4RWeZw6Gn1ndbnN
+X-Developer-Key: i=potin.lai.pt@gmail.com; a=ed25519;
+ pk=6Z4H4V4fJwLteH/WzIXSsx6TkuY5FOcBBP+4OflJ5gM=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,65 +91,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Potin Lai <potin.lai.pt@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, Cosmo Chou <cosmo.chou@quantatw.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 24/07/2024 09:41, Potin Lai wrote:
-> Add linux device tree entry for Meta(Facebook) Catalina compute-tray
-> BMC using AT2600 SoC.
-> 
-> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
+Add Linux device tree entry related to Meta(Facebook) Catalina specific
+devices connected to BMC(AST2600) SoC.
 
-Thank you for your patch. There is something to discuss/improve.
+Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+---
+Changes in v3:
+- rename tmp75 nodes to temperature-sensor
+- rename tmp421 nodes to temperature-sensor
+- rename ina230 nodes to power-sensor
+- rename io_expanderX nodes to io-expanderX
+- Link to v2: https://lore.kernel.org/r/20240724-potin-catalina-dts-v2-0-ba8d475c4073@gmail.com
 
-> +		i2c1mux0ch4: i2c@4 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <0x4>;
-> +
-> +			power-monitor@42 {
-> +				compatible = "lltc,ltc4287";
-> +				reg = <0x42>;
-> +				shunt-resistor-micro-ohms = <200>;
-> +			};
-> +			power-monitor@43 {
-> +				compatible = "lltc,ltc4287";
-> +				reg = <0x43>;
-> +				shunt-resistor-micro-ohms = <200>;
-> +			};
-> +		};
-> +		i2c1mux0ch5: i2c@5 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <0x5>;
-> +
-> +			// PDB FRU EEPROM
-> +			eeprom@54 {
-> +				compatible = "atmel,24c64";
-> +				reg = <0x54>;
-> +			};
-> +
-> +			// PDB TEMP SENSOR
-> +			tmp75@4f {
+---
+Potin Lai (2):
+      dt-bindings: arm: aspeed: add Meta Catalina board
+      ARM: dts: aspeed: catalina: add Meta Catalina BMC
 
-<form letter>
-This is a friendly reminder during the review process.
-
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Thank you.
-</form letter>
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+ arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+ .../dts/aspeed/aspeed-bmc-facebook-catalina.dts    | 1020 ++++++++++++++++++++
+ 3 files changed, 1022 insertions(+)
+---
+base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
+change-id: 20240724-potin-catalina-dts-fda1ea3297b1
 
 Best regards,
-Krzysztof
+-- 
+Potin Lai <potin.lai.pt@gmail.com>
 
