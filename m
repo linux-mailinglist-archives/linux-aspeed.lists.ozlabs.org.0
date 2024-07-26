@@ -2,52 +2,52 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A923393D3C2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 15:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2142993D3C5
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 15:10:03 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jwuOjQTf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nG3ah4p4;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WVp504G0Bz3dLn
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 23:09:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WVp550RqPz3dKV
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 23:10:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jwuOjQTf;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nG3ah4p4;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVp4r5MZtz3cK8
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 23:09:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVp4w0LNKz3cK8
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 23:09:51 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 1AF7DCE1748;
+	by sin.source.kernel.org (Postfix) with ESMTP id 8D482CE17BE;
+	Fri, 26 Jul 2024 13:09:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDCB4C4AF09;
 	Fri, 26 Jul 2024 13:09:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B1CEC32782;
-	Fri, 26 Jul 2024 13:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721999385;
-	bh=iAGrV52cHbMBboTdMq+gQQiOugUcN8ulkje4eUWYYyA=;
-	h=Date:From:To:List-Id:Cc:In-Reply-To:References:Subject:From;
-	b=jwuOjQTfOTALWQKlNPyD+08Hxfy0tgwRB+EgBd3M3sinbPmynriEgYq5+4ElVcZgk
-	 Thk51IQCg9IsD7xNwbAljuKoxIqGoo+OF5TbXF1nEcyod/IQrIJ7ryCAEy3XmNmukv
-	 Y6t3J2FFTF/qFNWqgr5KcMhlakDydgU/YiX81uHfDlvkg3ydt1WCxh/CqPXEZ6Y/rR
-	 cOGZyWS8I4owxuAHLIPJKZ1JGptEAmRCVmXzUjLP6fiHQTPi0lbinTVonh3mj9dG/E
-	 tkfMaCTAmDS1AwrU/MJI/2SvopiOkDWkG7MqqMIXtixC9zSTgqY1nR3XtoDqnHxkNj
-	 zA0UB/ogwaD/Q==
-Date: Fri, 26 Jul 2024 08:09:43 -0500
+	s=k20201202; t=1721999387;
+	bh=m16SHb6+ZqjMIk/VB8thzx94l0dEIIpowFhPWl6yAdM=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=nG3ah4p4yi6Yn2v0gF2rHAz3r+rTMOQcqlL8n4l8dbwzs9MnqrvRmgNhK8g9j+IRi
+	 Ot6l4p7cl+P4OPR5+i0euE5wTCjgrVVdjsEXCgUGr+9ByC048hwx8OHMwvbJDmE2Es
+	 kTS+8k+W8D4lfiO2th60mBOzvEpdrmByYAYhwo4jCoLTL0OOHFl6pBNHsF+jOxVGu1
+	 ojuaAVIaPTqRFX6dIsJ/REeIIPUPR7+bmLlhFSxnMEWiBP6KH4Dp9eIZxog/QPQa1Q
+	 Awt31mXUylPb9RZ3qC24SCRZ2xL74PcNL0pMTQV2sY5pFt85csdj1Kqbay/1eELiYr
+	 FzaZXB3DWPqHg==
+Date: Fri, 26 Jul 2024 08:09:45 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Kevin Chen <kevin_chen@aspeedtech.com>
-In-Reply-To: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
-References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
-Message-Id: <172199921352.1507193.4411331020670815695.robh@kernel.org>
-Subject: Re: [PATCH v1 00/10] Introduce ASPEED AST27XX BMC SoC
+To: Potin Lai <potin.lai.pt@gmail.com>
+In-Reply-To: <20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com>
+References: <20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com>
+Message-Id: <172199921421.1507234.14901757413141840919.robh@kernel.org>
+Subject: Re: [PATCH v5 0/2] Add Meta(Facebook) Catalina BMC(AST2600)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,60 +59,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, catalin.marinas@arm.com, mturquette@baylibre.com, will@kernel.org, linux-clk@vger.kernel.org, m.szyprowski@samsung.com, quic_bjorande@quicinc.com, arnd@arndb.de, u-kumar1@ti.com, lee@kernel.org, geert+renesas@glider.be, andrew@codeconstruct.com.au, devicetree@vger.kernel.org, conor+dt@kernel.org, nfraprado@collabora.com, dmitry.baryshkov@linaro.org, soc@kernel.org, linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org, sboyd@kernel.org, linux-kernel@vger.kernel.org, p.zabel@pengutronix.de, olof@lixom.net, krzk+dt@kernel.org, shawnguo@kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>, Conor Dooley <conor.dooley@microchip.com>, Cosmo Chou <cosmo.chou@quantatw.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
-On Fri, 26 Jul 2024 19:03:45 +0800, Kevin Chen wrote:
-> This patchset adds initial support for the ASPEED.
-> AST27XX Board Management controller (BMC) SoC family.
+On Fri, 26 Jul 2024 18:26:48 +0800, Potin Lai wrote:
+> Add Linux device tree entry related to Meta(Facebook) Catalina specific
+> devices connected to BMC(AST2600) SoC.
 > 
-> AST2700 is ASPEED's 8th-generation server management processor.
-> Featuring a quad-core ARM Cortex A35 64-bit processor and two
-> independent ARM Cortex M4 processors
+> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+> ---
+> Changes in v5:
+> - fix spi1_gpio node name and properties
+> - remove undefind properties in mac3, i2c7 & i2c11
+> - Link to v4: https://lore.kernel.org/r/20240725-potin-catalina-dts-v4-0-aa6f235a2e78@gmail.com
 > 
-> This patchset adds minimal architecture and drivers such as:
-> Clocksource, Clock and Reset
+> Changes in v4:
+> - change back io_expanderX due to parser error, build passed in v4 version.
+> - Link to v3: https://lore.kernel.org/r/20240725-potin-catalina-dts-v3-0-3a5b5d9e6dbc@gmail.com
 > 
-> This patchset was tested on the ASPEED AST2700 evaluation board.
+> Changes in v3:
+> - rename tmp75 nodes to temperature-sensor
+> - rename tmp421 nodes to temperature-sensor
+> - rename ina230 nodes to power-sensor
+> - rename io_expanderX nodes to io-expanderX
+> - Link to v2: https://lore.kernel.org/r/20240724-potin-catalina-dts-v2-0-ba8d475c4073@gmail.com
 > 
-> Kevin Chen (10):
->   dt-binding: mfd: aspeed,ast2x00-scu: Add binding for ASPEED AST2700
->     SCU
->   dt-binding: clk: ast2700: Add binding for Aspeed AST27xx Clock
->   clk: ast2700: add clock controller
->   dt-bindings: reset: ast2700: Add binding for ASPEED AST2700 Reset
->   dt-bindings: arm: aspeed: Add maintainer
->   dt-bindings: arm: aspeed: Add aspeed,ast2700-evb compatible string
->   arm64: aspeed: Add support for ASPEED AST2700 BMC SoC
->   arm64: dts: aspeed: Add initial AST27XX device tree
->   arm64: dts: aspeed: Add initial AST2700 EVB device tree
->   arm64: defconfig: Add ASPEED AST2700 family support
+> Changes in v2:
+> - drop commented code in dts
+> - rename i2c-mux channel nodes as i2c1muxXchY
+> - rename gpio expander as io_expanderX
+> - use "stdout-path" instead of "bootargs"
+> - Link to v1: https://lore.kernel.org/all/20240722145857.2131100-1-potin.lai.pt@gmail.com/
 > 
->  .../bindings/arm/aspeed/aspeed.yaml           |    6 +
->  .../bindings/mfd/aspeed,ast2x00-scu.yaml      |    3 +
->  MAINTAINERS                                   |    3 +
->  arch/arm64/Kconfig.platforms                  |   14 +
->  arch/arm64/boot/dts/Makefile                  |    1 +
->  arch/arm64/boot/dts/aspeed/Makefile           |    4 +
->  arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi     |  217 +++
->  arch/arm64/boot/dts/aspeed/ast2700-evb.dts    |   50 +
->  arch/arm64/configs/defconfig                  |    1 +
->  drivers/clk/Makefile                          |    1 +
->  drivers/clk/clk-ast2700.c                     | 1166 +++++++++++++++++
->  .../dt-bindings/clock/aspeed,ast2700-clk.h    |  180 +++
->  .../dt-bindings/reset/aspeed,ast2700-reset.h  |  126 ++
->  13 files changed, 1772 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
->  create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
->  create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
->  create mode 100644 drivers/clk/clk-ast2700.c
->  create mode 100644 include/dt-bindings/clock/aspeed,ast2700-clk.h
->  create mode 100644 include/dt-bindings/reset/aspeed,ast2700-reset.h
+> ---
+> Potin Lai (2):
+>       dt-bindings: arm: aspeed: add Meta Catalina board
+>       ARM: dts: aspeed: catalina: add Meta Catalina BMC
 > 
+>  .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+>  arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+>  .../dts/aspeed/aspeed-bmc-facebook-catalina.dts    | 1016 ++++++++++++++++++++
+>  3 files changed, 1018 insertions(+)
+> ---
+> base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
+> change-id: 20240724-potin-catalina-dts-fda1ea3297b1
+> 
+> Best regards,
 > --
-> 2.34.1
+> Potin Lai <potin.lai.pt@gmail.com>
 > 
 > 
 > 
@@ -132,36 +128,73 @@ make sure dt-schema is up to date:
   pip3 install dtschema --upgrade
 
 
-New warnings running 'make CHECK_DTBS=y aspeed/ast2700-evb.dtb' for 20240726110355.2181563-1-kevin_chen@aspeedtech.com:
+New warnings running 'make CHECK_DTBS=y aspeed/aspeed-bmc-facebook-catalina.dtb' for 20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com:
 
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /: failed to match any schema with compatible: ['aspeed,ast2700a1-evb', 'aspeed,ast2700']
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /: failed to match any schema with compatible: ['aspeed,ast2700a1-evb', 'aspeed,ast2700']
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: 'cache-unified' is a dependency of 'cache-size'
-	from schema $id: http://devicetree.org/schemas/cache.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: 'cache-unified' is a dependency of 'cache-sets'
-	from schema $id: http://devicetree.org/schemas/cache.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: 'cache-unified' is a dependency of 'cache-line-size'
-	from schema $id: http://devicetree.org/schemas/cache.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: 'cache-unified' is a required property
-	from schema $id: http://devicetree.org/schemas/cache.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: Unevaluated properties are not allowed ('cache-level', 'cache-line-size', 'cache-sets', 'cache-size' were unexpected)
-	from schema $id: http://devicetree.org/schemas/cache.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: sram@10000000: #address-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: sram@10000000: #size-cells: 1 was expected
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: sram@10000000: 'exported@0' does not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /soc@10000000/syscon@12c02000: failed to match any schema with compatible: ['aspeed,ast2700-scu0', 'syscon', 'simple-mfd']
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /soc@10000000/syscon@12c02000/interrupt-controller@1D0: failed to match any schema with compatible: ['aspeed,ast2700-scu-ic0']
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /soc@10000000/syscon@12c02000/interrupt-controller@1E0: failed to match any schema with compatible: ['aspeed,ast2700-scu-ic1']
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /soc@14000000/syscon@14c02000: failed to match any schema with compatible: ['aspeed,ast2700-scu1', 'syscon', 'simple-mfd']
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: serial@14c33b00: 'oneOf' conditional failed, one must be fixed:
-	'interrupts' is a required property
-	'interrupts-extended' is a required property
-	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: serial@14c33b00: 'pinctrl-0' is a dependency of 'pinctrl-names'
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: timer: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: bus@1e600000: compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e660000: $nodename:0: 'ftgmac@1e660000' does not match '^ethernet(@.*)?$'
+	from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac100.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e680000: $nodename:0: 'ftgmac@1e680000' does not match '^ethernet(@.*)?$'
+	from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac100.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e670000: $nodename:0: 'ftgmac@1e670000' does not match '^ethernet(@.*)?$'
+	from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac100.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e690000: $nodename:0: 'ftgmac@1e690000' does not match '^ethernet(@.*)?$'
+	from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac100.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e690000: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+	from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac100.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: syscon@1e6e2000: 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^silicon-id@[0-9a-f]+$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@560: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic0']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@570: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic1']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/xdma@1e6e7000: failed to match any schema with compatible: ['aspeed,ast2600-xdma']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: adc@1e6e9000: 'interrupts', 'vref' do not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: adc@1e6e9100: 'interrupts', 'vref' do not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: crypto@1e6fa000: 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/video@1e700000: failed to match any schema with compatible: ['aspeed,ast2600-video-engine']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: gpio@1e780000: 'pinctrl-0' is a dependency of 'pinctrl-names'
 	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: lpc@1e789000: lpc-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: lpc@1e789000: reg-io-width: 4 is not of type 'object'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: kcs@24: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: sdc@1e740000: sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: sdc@1e740000: sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@2/pwm@21: failed to match any schema with compatible: ['maxim,max31790']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@2/pwm@27: failed to match any schema with compatible: ['maxim,max31790']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@3/vrm@60: failed to match any schema with compatible: ['isil,raa228004']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@3/vrm@61: failed to match any schema with compatible: ['isil,raa228004']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@3/vrm@62: failed to match any schema with compatible: ['isil,raa228004']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@400/ipmb@10: failed to match any schema with compatible: ['ipmb-dev']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: fsi@1e79b000: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: fsi@1e79b100: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 
 
