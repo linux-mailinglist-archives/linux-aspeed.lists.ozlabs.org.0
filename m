@@ -1,103 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB4D93D237
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 13:26:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A923393D3C2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 15:09:58 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BJoVgG61;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jwuOjQTf;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WVlnb4wHQz3dDn
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 21:26:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WVp504G0Bz3dLn
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 23:09:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BJoVgG61;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jwuOjQTf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlnW2Vzhz30Wg
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:26:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVp4r5MZtz3cK8
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 23:09:48 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 15A1CCE11A3;
-	Fri, 26 Jul 2024 11:26:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83355C32782;
-	Fri, 26 Jul 2024 11:26:16 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 1AF7DCE1748;
+	Fri, 26 Jul 2024 13:09:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B1CEC32782;
+	Fri, 26 Jul 2024 13:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721993180;
-	bh=88v3/9z4T868/Ez3TdBKIeUtjOglxDeCYcedMsjAw/g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BJoVgG611Iw9ZXW9nJqIC3dWy8nhr6oM1FkqRqfdFhwv8E5WO7EwgX+0iSKgRDdAf
-	 j0gNN9U3eGRd2Kel9ghMc216SXqfkfoU2Gt0j9rZ3ZNU6Np895HfStxkmjcd1gPDkv
-	 d6l7nkM14Dcqy6LNQCYKdQxKMhLoim/my0JFINAf+pNMtqsBe3a8M+yPEGYkhWjwGu
-	 BRc0VBlOFK7s2hZ/Qs8ruOlND7OZpCesLS7SeuXqWt11UXSSDJDWuIROBiz6gGGmIL
-	 jIFwBwQWqQVRl5b2B/nUxrq2M50gfd9mSaAsEQItD861XiFomP4IiXP6P1dInbnOjS
-	 SR7NxTGC1jMLw==
-Message-ID: <e7536c91-ea81-49df-838d-6627301c81e7@kernel.org>
-Date: Fri, 26 Jul 2024 13:26:13 +0200
+	s=k20201202; t=1721999385;
+	bh=iAGrV52cHbMBboTdMq+gQQiOugUcN8ulkje4eUWYYyA=;
+	h=Date:From:To:List-Id:Cc:In-Reply-To:References:Subject:From;
+	b=jwuOjQTfOTALWQKlNPyD+08Hxfy0tgwRB+EgBd3M3sinbPmynriEgYq5+4ElVcZgk
+	 Thk51IQCg9IsD7xNwbAljuKoxIqGoo+OF5TbXF1nEcyod/IQrIJ7ryCAEy3XmNmukv
+	 Y6t3J2FFTF/qFNWqgr5KcMhlakDydgU/YiX81uHfDlvkg3ydt1WCxh/CqPXEZ6Y/rR
+	 cOGZyWS8I4owxuAHLIPJKZ1JGptEAmRCVmXzUjLP6fiHQTPi0lbinTVonh3mj9dG/E
+	 tkfMaCTAmDS1AwrU/MJI/2SvopiOkDWkG7MqqMIXtixC9zSTgqY1nR3XtoDqnHxkNj
+	 zA0UB/ogwaD/Q==
+Date: Fri, 26 Jul 2024 08:09:43 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] ARM: dts: aspeed: catalina: add Meta Catalina BMC
-To: Potin Lai <potin.lai.pt@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Patrick Williams <patrick@stwcx.xyz>
-References: <20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com>
- <20240726-potin-catalina-dts-v5-2-8f02305af527@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240726-potin-catalina-dts-v5-2-8f02305af527@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Kevin Chen <kevin_chen@aspeedtech.com>
+In-Reply-To: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
+References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
+Message-Id: <172199921352.1507193.4411331020670815695.robh@kernel.org>
+Subject: Re: [PATCH v1 00/10] Introduce ASPEED AST27XX BMC SoC
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,21 +59,111 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, catalin.marinas@arm.com, mturquette@baylibre.com, will@kernel.org, linux-clk@vger.kernel.org, m.szyprowski@samsung.com, quic_bjorande@quicinc.com, arnd@arndb.de, u-kumar1@ti.com, lee@kernel.org, geert+renesas@glider.be, andrew@codeconstruct.com.au, devicetree@vger.kernel.org, conor+dt@kernel.org, nfraprado@collabora.com, dmitry.baryshkov@linaro.org, soc@kernel.org, linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org, sboyd@kernel.org, linux-kernel@vger.kernel.org, p.zabel@pengutronix.de, olof@lixom.net, krzk+dt@kernel.org, shawnguo@kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 26/07/2024 12:26, Potin Lai wrote:
-> Add linux device tree entry for Meta(Facebook) Catalina compute-tray
-> BMC using AT2600 SoC.
+
+On Fri, 26 Jul 2024 19:03:45 +0800, Kevin Chen wrote:
+> This patchset adds initial support for the ASPEED.
+> AST27XX Board Management controller (BMC) SoC family.
 > 
-> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
-> ---
+> AST2700 is ASPEED's 8th-generation server management processor.
+> Featuring a quad-core ARM Cortex A35 64-bit processor and two
+> independent ARM Cortex M4 processors
+> 
+> This patchset adds minimal architecture and drivers such as:
+> Clocksource, Clock and Reset
+> 
+> This patchset was tested on the ASPEED AST2700 evaluation board.
+> 
+> Kevin Chen (10):
+>   dt-binding: mfd: aspeed,ast2x00-scu: Add binding for ASPEED AST2700
+>     SCU
+>   dt-binding: clk: ast2700: Add binding for Aspeed AST27xx Clock
+>   clk: ast2700: add clock controller
+>   dt-bindings: reset: ast2700: Add binding for ASPEED AST2700 Reset
+>   dt-bindings: arm: aspeed: Add maintainer
+>   dt-bindings: arm: aspeed: Add aspeed,ast2700-evb compatible string
+>   arm64: aspeed: Add support for ASPEED AST2700 BMC SoC
+>   arm64: dts: aspeed: Add initial AST27XX device tree
+>   arm64: dts: aspeed: Add initial AST2700 EVB device tree
+>   arm64: defconfig: Add ASPEED AST2700 family support
+> 
+>  .../bindings/arm/aspeed/aspeed.yaml           |    6 +
+>  .../bindings/mfd/aspeed,ast2x00-scu.yaml      |    3 +
+>  MAINTAINERS                                   |    3 +
+>  arch/arm64/Kconfig.platforms                  |   14 +
+>  arch/arm64/boot/dts/Makefile                  |    1 +
+>  arch/arm64/boot/dts/aspeed/Makefile           |    4 +
+>  arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi     |  217 +++
+>  arch/arm64/boot/dts/aspeed/ast2700-evb.dts    |   50 +
+>  arch/arm64/configs/defconfig                  |    1 +
+>  drivers/clk/Makefile                          |    1 +
+>  drivers/clk/clk-ast2700.c                     | 1166 +++++++++++++++++
+>  .../dt-bindings/clock/aspeed,ast2700-clk.h    |  180 +++
+>  .../dt-bindings/reset/aspeed,ast2700-reset.h  |  126 ++
+>  13 files changed, 1772 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
+>  create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
+>  create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
+>  create mode 100644 drivers/clk/clk-ast2700.c
+>  create mode 100644 include/dt-bindings/clock/aspeed,ast2700-clk.h
+>  create mode 100644 include/dt-bindings/reset/aspeed,ast2700-reset.h
+> 
+> --
+> 2.34.1
+> 
+> 
+> 
 
-Style review:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Best regards,
-Krzysztof
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y aspeed/ast2700-evb.dtb' for 20240726110355.2181563-1-kevin_chen@aspeedtech.com:
+
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /: failed to match any schema with compatible: ['aspeed,ast2700a1-evb', 'aspeed,ast2700']
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /: failed to match any schema with compatible: ['aspeed,ast2700a1-evb', 'aspeed,ast2700']
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: 'cache-unified' is a dependency of 'cache-size'
+	from schema $id: http://devicetree.org/schemas/cache.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: 'cache-unified' is a dependency of 'cache-sets'
+	from schema $id: http://devicetree.org/schemas/cache.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: 'cache-unified' is a dependency of 'cache-line-size'
+	from schema $id: http://devicetree.org/schemas/cache.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: 'cache-unified' is a required property
+	from schema $id: http://devicetree.org/schemas/cache.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: l2-cache0: Unevaluated properties are not allowed ('cache-level', 'cache-line-size', 'cache-sets', 'cache-size' were unexpected)
+	from schema $id: http://devicetree.org/schemas/cache.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: sram@10000000: #address-cells: 1 was expected
+	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: sram@10000000: #size-cells: 1 was expected
+	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: sram@10000000: 'exported@0' does not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /soc@10000000/syscon@12c02000: failed to match any schema with compatible: ['aspeed,ast2700-scu0', 'syscon', 'simple-mfd']
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /soc@10000000/syscon@12c02000/interrupt-controller@1D0: failed to match any schema with compatible: ['aspeed,ast2700-scu-ic0']
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /soc@10000000/syscon@12c02000/interrupt-controller@1E0: failed to match any schema with compatible: ['aspeed,ast2700-scu-ic1']
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: /soc@14000000/syscon@14c02000: failed to match any schema with compatible: ['aspeed,ast2700-scu1', 'syscon', 'simple-mfd']
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: serial@14c33b00: 'oneOf' conditional failed, one must be fixed:
+	'interrupts' is a required property
+	'interrupts-extended' is a required property
+	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: serial@14c33b00: 'pinctrl-0' is a dependency of 'pinctrl-names'
+	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+
+
+
+
 
