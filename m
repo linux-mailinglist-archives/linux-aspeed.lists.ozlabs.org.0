@@ -1,73 +1,110 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA12693D142
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 12:38:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F8293D1C3
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 13:10:37 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JdWXGNU9;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=tRN+WeYJ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WVkkR4WlYz3cdy
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 20:38:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WVlRH4L4Jz3dF9
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 21:10:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JdWXGNU9;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=tRN+WeYJ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::12a; helo=mail-lf1-x12a.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVkkL01yXz3bqP
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 20:38:33 +1000 (AEST)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-52f008aa351so1638228e87.0
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 03:38:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721990306; x=1722595106; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F0OaS0paPYhFO0t77yCq8rfIjJPFMslvhkVqEseloHs=;
-        b=JdWXGNU97asgL5o3NOd0K+Y5TTD7p1GK/RvirjqmYACl2vEfp8VHRH9uxK9cruzc04
-         KTAMmaOWOzCzHfak7+H5/YW/OxUFYbUvzmaoTFkWIqDZPAabDoQ2YQSqFEpCW0Qyz7+m
-         C1+hprnSZv3Xitl3T9nM5VH+t6Z/NSKcUpJon8JY4w+kLt0VytEhFPS+Y+eoL52VEFYR
-         h+YVHCBiiAOLuJMhN3mwbm7Jbswuqe1FeyeAqKgSBTAHU5SvdoaBUwaYwlONXg2p4bZh
-         jmSZigz+FZDNKo3k3UJZtGfy2Bo5Qf35wMY5DbeomuOrkkm5Dp4q/V7ecXs5LdFSsBmD
-         Yl0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721990306; x=1722595106;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F0OaS0paPYhFO0t77yCq8rfIjJPFMslvhkVqEseloHs=;
-        b=YzwsD8rkV+bodQA7mvrPn+ATp2CLsVaYQzmkSOOss1lJIHe/EBzrIBnybOxnyF6hF1
-         tL3v3/KfRiMUo9N1DVaCgNmVNFUxGzJBCS2lzZ48FdVJ5hMYYpo+sc5bM0o82Yu7DoAZ
-         CfyDjVyKIzJH4imDFgaXBfboXpnA36NBMDfoSZe+SWvhUKJYBtx1n6IwvR2dQzJNPLGy
-         EZd53u6Pwq9MQcpnJznNuJEjEo0IFofGIsbrm1aHgmpaWHH7td8tPxo1NKLDFXesFGCc
-         hLjjC5sBis3R8pn0dJ+Sh2fX6HElkdqVIL3bOTr3NDm95QabFqRIFbo9EPhslp+zARyk
-         TzcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXa4V97lURyebISzN6jDeTAA9XCeo/tOKGoXct4rHz8Xf2OYj4+ZPqLH0znJwOcF8r7WphY06j+YK+EkruR/Uxo+qtTdLieSDNeaIzfDw==
-X-Gm-Message-State: AOJu0YyfnmAOZSwpSw4IQ/l/Klos5WjD5s7x4bZquYCyw5lrC0sCk+RP
-	MQzq1zV+aqm+SaIATzkIPKBy6NEPl8p9oq8ZHoKYnmVcfqlIOtZFme/AIImoIAzEWifqQUBKvDs
-	DpQFPhai82+D5R0aw1wAZWleIS4s=
-X-Google-Smtp-Source: AGHT+IHOrnXHGO1rzKe+sJlrvmpQR0SEA5YUiuEBEXcIeaAjmZ6rlsRAHqi+lUZKHd4hV+GVeu1lbaNlV63k8HW88V8=
-X-Received: by 2002:a05:6512:39d3:b0:52d:b0a5:cf3c with SMTP id
- 2adb3069b0e04-52fd60843d1mr3684046e87.40.1721990305709; Fri, 26 Jul 2024
- 03:38:25 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlR96r2Hz3cK8
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:10:29 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id E895F61451;
+	Fri, 26 Jul 2024 11:10:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073D6C32782;
+	Fri, 26 Jul 2024 11:10:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721992226;
+	bh=+EAwi1gqPbbkqWMdFpWlW4xjFm/kUHBQaYtn6UFQVxM=;
+	h=Date:Subject:List-Id:To:References:From:In-Reply-To:From;
+	b=tRN+WeYJOPpXbVyEurbIF0U9isYsfrPsvJdzckOo8qao/UY7WS+JIPPkqR8/hCPOV
+	 1vkOm1tscAJycetC5Ep2V5Mk2Kh0UhO0hKkZOqPazm/6DK73nPO24UADdqjTOc8jh/
+	 cbmmtDjTdAxA/JR65q2rosG407Gy4FnAoDsxjobudTh1WJ0Me6VPdFklx2yaD2yyXX
+	 hjVS4Aq7eYGC7GTBnoJqGt21c9/41bnmlX/5bidmgqqRkTHapBCapFY7XnZ9e+dYKR
+	 VK9DucKCE96WH7rTRVO0X1M7GwQb3qFTlcaZ2t9rPzw1AIg9F7MREAUCVifhQPQkxT
+	 zdEXasxDH7N7g==
+Message-ID: <e6cb6f26-fef2-49bc-ab25-fdc9a659f593@kernel.org>
+Date: Fri, 26 Jul 2024 13:10:16 +0200
 MIME-Version: 1.0
-References: <20240725-potin-catalina-dts-v4-0-aa6f235a2e78@gmail.com>
- <172194566710.4001436.1410948302471443496.robh@kernel.org> <64131f6cd5ca03bb9cb52b6caa6a4416b825241b.camel@codeconstruct.com.au>
-In-Reply-To: <64131f6cd5ca03bb9cb52b6caa6a4416b825241b.camel@codeconstruct.com.au>
-From: Potin Lai <potin.lai.pt@gmail.com>
-Date: Fri, 26 Jul 2024 18:38:14 +0800
-Message-ID: <CAGfYmwX7cz_WDiOoX2QUmDJ2UwReqk+WZy-AL26hX6pmg-cE7g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Add Meta(Facebook) Catalina BMC(AST2600)
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 01/10] dt-binding: mfd: aspeed,ast2x00-scu: Add binding
+ for ASPEED AST2700 SCU
+To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+ andrew@codeconstruct.com.au, lee@kernel.org, catalin.marinas@arm.com,
+ will@kernel.org, arnd@arndb.de, olof@lixom.net, soc@kernel.org,
+ mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
+ quic_bjorande@quicinc.com, geert+renesas@glider.be,
+ dmitry.baryshkov@linaro.org, shawnguo@kernel.org, neil.armstrong@linaro.org,
+ m.szyprowski@samsung.com, nfraprado@collabora.com, u-kumar1@ti.com,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
+ <20240726110355.2181563-2-kevin_chen@aspeedtech.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240726110355.2181563-2-kevin_chen@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,648 +116,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "Rob Herring \(Arm\)" <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>, Conor Dooley <conor.dooley@microchip.com>, Cosmo Chou <cosmo.chou@quantatw.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Jul 26, 2024 at 1:11=E2=80=AFPM Andrew Jeffery
-<andrew@codeconstruct.com.au> wrote:
->
-> Hi Potin,
->
-> On Thu, 2024-07-25 at 17:20 -0500, Rob Herring (Arm) wrote:
-> > On Thu, 25 Jul 2024 00:48:16 +0800, Potin Lai wrote:
-> > > Add Linux device tree entry related to Meta(Facebook) Catalina specif=
-ic
-> > > devices connected to BMC(AST2600) SoC.
-> > >
-> > > Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
-> > > ---
-> > > Changes in v4:
-> > > - change back io_expanderX due to parser error, build passed in v4 ve=
-rsion.
-> > > - Link to v3: https://lore.kernel.org/r/20240725-potin-catalina-dts-v=
-3-0-3a5b5d9e6dbc@gmail.com
-> > >
-> > > Changes in v3:
-> > > - rename tmp75 nodes to temperature-sensor
-> > > - rename tmp421 nodes to temperature-sensor
-> > > - rename ina230 nodes to power-sensor
-> > > - rename io_expanderX nodes to io-expanderX
-> > > - Link to v2: https://lore.kernel.org/r/20240724-potin-catalina-dts-v=
-2-0-ba8d475c4073@gmail.com
-> > >
-> > > Changes in v2:
-> > > - drop commented code in dts
-> > > - rename i2c-mux channel nodes as i2c1muxXchY
-> > > - rename gpio expander as io_expanderX
-> > > - use "stdout-path" instead of "bootargs"
-> > > - Link to v1: https://lore.kernel.org/all/20240722145857.2131100-1-po=
-tin.lai.pt@gmail.com/
-> > >
-> > > ---
-> > > Potin Lai (2):
-> > >       dt-bindings: arm: aspeed: add Meta Catalina board
-> > >       ARM: dts: aspeed: catalina: add Meta Catalina BMC
-> > >
-> > >  .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
-> > >  arch/arm/boot/dts/aspeed/Makefile                  |    1 +
-> > >  .../dts/aspeed/aspeed-bmc-facebook-catalina.dts    | 1020 ++++++++++=
-++++++++++
-> > >  3 files changed, 1022 insertions(+)
-> > > ---
-> > > base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
-> > > change-id: 20240724-potin-catalina-dts-fda1ea3297b1
-> > >
-> > > Best regards,
-> > > --
-> > > Potin Lai <potin.lai.pt@gmail.com>
-> > >
-> > >
-> > >
-> >
-> >
-> > My bot found new DTB warnings on the .dts files added or changed in thi=
-s
-> > series.
-> >
-> > Some warnings may be from an existing SoC .dtsi. Or perhaps the warning=
-s
-> > are fixed by another series. Ultimately, it is up to the platform
-> > maintainer whether these warnings are acceptable or not. No need to rep=
-ly
-> > unless the platform maintainer has comments.
-> >
-> > If you already ran DT checks and didn't see these error(s), then
-> > make sure dt-schema is up to date:
-> >
-> >   pip3 install dtschema --upgrade
-> >
-> >
-> > New warnings running 'make CHECK_DTBS=3Dy aspeed/aspeed-bmc-facebook-ca=
-talina.dtb' for 20240725-potin-catalina-dts-v4-0-aa6f235a2e78@gmail.com:
-> >
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /: spi1-gpio=
-: {'compatible': ['spi-gpio'], '#address-cells': 1, '#size-cells': 0, 'gpio=
--sck': [44, 203, 0], 'gpio-mosi': [44, 204, 0], 'gpio-miso': [44, 205, 0], =
-'num-chipselects': 1, 'cs-gpios': [[44, 200, 1]], 'tpm@0': {'compatible': [=
-'infineon,slb9670', 'tcg,tpm_tis-spi'], 'spi-max-frequency': 33000000, 'reg=
-': [[0]]}} is not of type 'array'
-> >       from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer=
-.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: timer: 'cloc=
-ks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/timer/arm,arch_tim=
-er.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /sdram@1e6e0=
-000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-eda=
-c', 'syscon']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: bus@1e600000=
-: compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-> >       from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600=
--ahbc.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e660=
-000: $nodename:0: 'ftgmac@1e660000' does not match '^ethernet(@.*)?$'
-> >       from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac=
-100.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e680=
-000: $nodename:0: 'ftgmac@1e680000' does not match '^ethernet(@.*)?$'
-> >       from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac=
-100.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e670=
-000: $nodename:0: 'ftgmac@1e670000' does not match '^ethernet(@.*)?$'
-> >       from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac=
-100.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e690=
-000: $nodename:0: 'ftgmac@1e690000' does not match '^ethernet(@.*)?$'
-> >       from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac=
-100.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e690=
-000: Unevaluated properties are not allowed ('#address-cells', '#size-cells=
-', 'ncsi-ctrl,start-redo-probe', 'ncsi-package' were unexpected)
-> >       from schema $id: http://devicetree.org/schemas/net/faraday,ftgmac=
-100.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ftgmac@1e690=
-000: 'ncsi-ctrl,start-redo-probe' does not match any of the regexes: '^#.*'=
-, '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gpmc|h=
-dmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '^(pin=
-ctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rcar_sound|rotar=
-y-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|st-spics|ts),.=
-*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^GEFanuc,.*', '^IBM,.*', '^ORCL=
-,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-Z0-9+\-._@]{0,63}$', '^[a-zA-Z0-9+\-=
-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^abilis,.*', '^abracon,.*', '^abt,.*', '^=
-acbel,.*', '^acelink,.*', '^acer,.*', '^acme,.*', '^actions,.*', '^active-s=
-emi,.*', '^ad,.*', '^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*=
-', '^adi,.*', '^adieng,.*', '^admatec,.*', '^advantech,.*', '^aeroflexgaisl=
-er,.*', '^aesop,.*', '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^=
-alfa-network,.*', '^allegro
-> >  ,.*', '^alliedvision,.*', '^allo,.*', '^allwinner,.*', '^alphascale,.*=
-', '^alps,.*', '^alt,.*', '^altr,.*', '^amarula,.*', '^amazon,.*', '^amcc,.=
-*', '^amd,.*', '^amediatech,.*', '^amlogic,.*', '^ampere,.*', '^amphenol,.*=
-', '^ampire,.*', '^ams,.*', '^amstaos,.*', '^analogix,.*', '^anbernic,.*', =
-'^andestech,.*', '^anvo,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina=
-,.*', '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*'=
-, '^aries,.*', '^arm,.*', '^armadeus,.*', '^armsom,.*', '^arrow,.*', '^arte=
-syn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.*', '^aspeed,.*', '^asrock,.=
-*', '^asteralabs,.*', '^asus,.*', '^atheros,.*', '^atlas,.*', '^atmel,.*', =
-'^auo,.*', '^auvidea,.*', '^avago,.*', '^avia,.*', '^avic,.*', '^avnet,.*',=
- '^awinic,.*', '^axentia,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal=
-,.*', '^bananapi,.*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bhf,.*',=
- '^bigtreetech,.*', '^bitmain,.*', '^blutek,.*', '^boe,.*', '^bosch,.*', '^=
-boundary,.*', '^brcm,.*', '
-> >  ^broadmobi,.*', '^bsh,.*', '^bticino,.*', '^buffalo,.*', '^bur,.*', '^=
-bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*'=
-, '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', '=
-^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^cellwis=
-e,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*', '^chi=
-pidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chrontel,.*',=
- '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisco=
-,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', '^cnm,.*', '^cnxt,.=
-*', '^colorfly,.*', '^compulab,.*', '^congatec,.*', '^coolpi,.*', '^coreriv=
-er,.*', '^corpro,.*', '^cortina,.*', '^cosmic,.*', '^crane,.*', '^creative,=
-.*', '^crystalfontz,.*', '^csky,.*', '^csq,.*', '^ctera,.*', '^ctu,.*', '^c=
-ubietech,.*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.*',=
- '^dallas,.*', '^dataimage,.*', '^davicom,.*', '^dell,.*', '^delta,.*', '^d=
-ensitron,.*', '^denx,.*', '
-> >  ^devantech,.*', '^dfi,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digi=
-lent,.*', '^dimonoff,.*', '^diodes,.*', '^dioo,.*', '^dlc,.*', '^dlg,.*', '=
-^dlink,.*', '^dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '=
-^dragino,.*', '^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*=
-', '^ebang,.*', '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', =
-'^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^einfochips=
-,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '^elida,.*', '^=
-elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emcraft,.*', '^em=
-lid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*', '^enclustra=
-,.*', '^endless,.*', '^ene,.*', '^energymicro,.*', '^engicam,.*', '^englede=
-r,.*', '^epcos,.*', '^epfl,.*', '^epson,.*', '^esp,.*', '^est,.*', '^ettus,=
-.*', '^eukrea,.*', '^everest,.*', '^everspin,.*', '^evervision,.*', '^exar,=
-.*', '^excito,.*', '^exegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchild,=
-.*', '^fairphone,.*', '^far
-> >  aday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^f=
-eiyang,.*', '^fii,.*', '^firefly,.*', '^focaltech,.*', '^forlinx,.*', '^fre=
-ebox,.*', '^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujit=
-su,.*', '^fxtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*', '^ga=
-teway,.*', '^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*=
-', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^geniatech,.*', '^giantec,.*'=
-, '^giantplus,.*', '^glinet,.*', '^globalscale,.*', '^globaltop,.*', '^gmt,=
-.*', '^goldelico,.*', '^goodix,.*', '^google,.*', '^goramo,.*', '^gplus,.*'=
-, '^grinn,.*', '^grmn,.*', '^gumstix,.*', '^gw,.*', '^hannstar,.*', '^haoch=
-uangyi,.*', '^haoyu,.*', '^hardkernel,.*', '^hechuang,.*', '^hideep,.*', '^=
-himax,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', '^hite=
-x,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^hoperf,=
-.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huawei,.*'=
-, '^hugsun,.*', '^hwacom,.*
-> >  ', '^hxt,.*', '^hycon,.*', '^hydis,.*', '^hynitron,.*', '^hynix,.*', '=
-^hyundai,.*', '^i2se,.*', '^ibm,.*', '^icplus,.*', '^idt,.*', '^iei,.*', '^=
-ifi,.*', '^ilitek,.*', '^imagis,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^=
-incircuit,.*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,=
-.*', '^ingenic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^innol=
-ux,.*', '^inside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*', '^i=
-ntercontrol,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '^iom=
-,.*', '^irondevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^it=
-ead,.*', '^itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', =
-'^jdi,.*', '^jedec,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*', '^jide,=
-.*', '^joz,.*', '^kam,.*', '^karo,.*', '^keithkoep,.*', '^keymile,.*', '^kh=
-adas,.*', '^kiebackpeter,.*', '^kinetic,.*', '^kingdisplay,.*', '^kingnovel=
-,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '^koe,.*', '^kontron,.*', '^ko=
-sagi,.*', '^kvg,.*', '^kyo,
-> >  .*', '^lacie,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.=
-*', '^lctech,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^l=
-enovo,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^li=
-naro,.*', '^lincolntech,.*', '^lineartechnology,.*', '^linksprite,.*', '^li=
-nksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liteon,.*', '^litex=
-,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^longcheer,.*', '^lont=
-ium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*', '^lunzn,.*', '^luxul=
-,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.*', '^macnica,.*', '^mantix,.*', '^m=
-apleboard,.*', '^marantec,.*', '^marvell,.*', '^maxbotix,.*', '^maxim,.*', =
-'^maxlinear,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediat=
-ek,.*', '^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellano=
-x,.*', '^memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,=
-.*', '^merrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^microcry=
-stal,.*', '^micron,.*', '^m
-> >  icrosoft,.*', '^microsys,.*', '^microtips,.*', '^mikroe,.*', '^mikroti=
-k,.*', '^milkv,.*', '^miniand,.*', '^minix,.*', '^mips,.*', '^miramems,.*',=
- '^mitsubishi,.*', '^mitsumi,.*', '^mixel,.*', '^miyoo,.*', '^mntre,.*', '^=
-mobileye,.*', '^modtronix,.*', '^moortec,.*', '^mosaixtech,.*', '^motorcomm=
-,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '^mps,.*', '^mqmaker,.*', '^mr=
-vl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^mti,.*', '^multi-inno,.*', '^=
-mundoreader,.*', '^murata,.*', '^mxic,.*', '^mxicy,.*', '^myir,.*', '^natio=
-nal,.*', '^neardi,.*', '^nec,.*', '^neonode,.*', '^netgear,.*', '^netlogic,=
-.*', '^netron-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newha=
-ven,.*', '^newvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^ninten=
-do,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^novatek,.*', '^novtech,.*',=
- '^numonyx,.*', '^nutsboard,.*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^=
-nxp,.*', '^oceanic,.*', '^ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^oli=
-mex,.*', '^olpc,.*', '^onep
-> >  lus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly=
-,.*', '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora,.*',=
- '^openrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^orisetech,.*'=
-, '^ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*'=
-, '^ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', =
-'^parallax,.*', '^pda,.*', '^pericom,.*', '^pervasive,.*', '^phicomm,.*', '=
-^phytec,.*', '^picochip,.*', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '=
-^plantower,.*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*'=
-, '^pocketbook,.*', '^polaroid,.*', '^polyhex,.*', '^portwell,.*', '^poslab=
-,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^primeview=
-,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedlight,.*', '^purism,.=
-*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,.*', '^qiaodian,.*', '^qihua,.*=
-', '^qishenglong,.*', '^qnap,.*', '^quanta,.*', '^radxa,.*', '^raidsonic,.*=
-', '^ralink,.*', '^ramtron,
-> >  .*', '^raspberrypi,.*', '^raydium,.*', '^rda,.*', '^realtek,.*', '^rem=
-arkable,.*', '^renesas,.*', '^rervision,.*', '^revotics,.*', '^rex,.*', '^r=
-ichtek,.*', '^ricoh,.*', '^rikomagic,.*', '^riot,.*', '^riscv,.*', '^rockch=
-ip,.*', '^rocktech,.*', '^rohm,.*', '^ronbo,.*', '^roofull,.*', '^roseapple=
-pi,.*', '^rve,.*', '^saef,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*',=
- '^sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.*', '=
-^sciosense,.*', '^seagate,.*', '^seeed,.*', '^seirobotics,.*', '^semtech,.*=
-', '^senseair,.*', '^sensirion,.*', '^sensortek,.*', '^sercomm,.*', '^sff,.=
-*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^sharp,.*', '^shift,.*', '^shimaf=
-uji,.*', '^shineworld,.*', '^shiratech,.*', '^si-en,.*', '^si-linux,.*', '^=
-siemens,.*', '^sifive,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*',=
- '^silan,.*', '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconfi=
-le,.*', '^siliconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*', '^s=
-inovoip,.*', '^sinowealth,.
-> >  *', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^skov,.*', '=
-^skyworks,.*', '^smartlabs,.*', '^smartrg,.*', '^smi,.*', '^smsc,.*', '^snp=
-s,.*', '^sochip,.*', '^socionext,.*', '^solidrun,.*', '^solomon,.*', '^sony=
-,.*', '^sophgo,.*', '^sourceparts,.*', '^spansion,.*', '^sparkfun,.*', '^sp=
-inalhdl,.*', '^sprd,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '=
-^st,.*', '^st-ericsson,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^=
-starterkit,.*', '^ste,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '=
-^storopack,.*', '^summit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*',=
- '^supermicro,.*', '^swir,.*', '^syna,.*', '^synology,.*', '^synopsys,.*', =
-'^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*', '^tdo,.*'=
-, '^team-source-display,.*', '^technexion,.*', '^technologic,.*', '^techsta=
-r,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', '^tempo,.*', '^terasi=
-c,.*', '^tesla,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*', '^=
-thundercomm,.*', '^thwc,.*'
-> >  , '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.*', '^topic,=
-.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*', '^toshiba,.*', '^toumaz,.=
-*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*', '^transpeed,.*', '^traver=
-se,.*', '^tronfy,.*', '^tronsmart,.*', '^truly,.*', '^tsd,.*', '^turing,.*'=
-, '^tyan,.*', '^u-blox,.*', '^u-boot,.*', '^ubnt,.*', '^ucrobotics,.*', '^u=
-doo,.*', '^ufispace,.*', '^ugoos,.*', '^uni-t,.*', '^uniwest,.*', '^upisemi=
-,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala,.*',=
- '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^via,.*', '^via=
-lab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtual,.*', '^vis=
-hay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax,.*', '^vocor=
-e,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*', '^vxt,.*', '=
-^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '^wd,.*', '^we=
-,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*', '^wi2wi,.*',=
- '^widora,.*', '^wiligear,.
-> >  *', '^willsemi,.*', '^winbond,.*', '^wingtech,.*', '^winlink,.*', '^wi=
-nstar,.*', '^wirelesstag,.*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', =
-'^wolfvision,.*', '^x-powers,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xil=
-lybus,.*', '^xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xn=
-ano,.*', '^xunlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoe=
-lectronics,.*', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-topt=
-ech,.*', '^ys,.*', '^ysoft,.*', '^zarlink,.*', '^zealz,.*', '^zeitec,.*', '=
-^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', '^zte,.*', '^zyxel,.*'=
-, 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/vendor-prefixes.ya=
-ml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: syscon@1e6e2=
-000: 'smp-memram@180' does not match any of the regexes: '^interrupt-contro=
-ller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^si=
-licon-id@[0-9a-f]+$', 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00=
--scu.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/sys=
-con@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['=
-aspeed,ast2600-smpmem']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/sys=
-con@1e6e2000/interrupt-controller@560: failed to match any schema with comp=
-atible: ['aspeed,ast2600-scu-ic0']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/sys=
-con@1e6e2000/interrupt-controller@570: failed to match any schema with comp=
-atible: ['aspeed,ast2600-scu-ic1']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/dis=
-play@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600=
--gfx', 'syscon']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/xdm=
-a@1e6e7000: failed to match any schema with compatible: ['aspeed,ast2600-xd=
-ma']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: adc@1e6e9000=
-: 'interrupts', 'vref' do not match any of the regexes: 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast=
-2600-adc.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: adc@1e6e9100=
-: 'interrupts', 'vref' do not match any of the regexes: 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast=
-2600-adc.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: crypto@1e6fa=
-000: 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2=
-600-acry.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/vid=
-eo@1e700000: failed to match any schema with compatible: ['aspeed,ast2600-v=
-ideo-engine']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: gpio@1e78000=
-0: 'pinctrl-0' is a dependency of 'pinctrl-names'
-> >       from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-co=
-nsumer.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/tim=
-er@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-t=
-imer']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: lpc@1e789000=
-: lpc-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+=
-'
-> >       from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yam=
-l#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: lpc@1e789000=
-: reg-io-width: 4 is not of type 'object'
-> >       from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yam=
-l#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: kcs@24: 'clo=
-cks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast240=
-0-kcs-bmc.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: kcs@28: 'clo=
-cks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast240=
-0-kcs-bmc.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: kcs@2c: 'clo=
-cks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast240=
-0-kcs-bmc.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: kcs@114: 'cl=
-ocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast240=
-0-kcs-bmc.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/lpc=
-@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2=
-600-lhc']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/lpc=
-@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast=
-2600-ibt-bmc']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: sdc@1e740000=
-: sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-> >       from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.y=
-aml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: sdc@1e740000=
-: sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-> >       from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.y=
-aml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/sdc=
-@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['asp=
-eed,ast2600-sdhci', 'sdhci']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/sdc=
-@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['asp=
-eed,ast2600-sdhci', 'sdhci']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus=
-@1e78a000/i2c@100/i2c-mux@70/i2c@2/pwm@21: failed to match any schema with =
-compatible: ['maxim,max31790']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus=
-@1e78a000/i2c@100/i2c-mux@70/i2c@2/pwm@27: failed to match any schema with =
-compatible: ['maxim,max31790']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus=
-@1e78a000/i2c@100/i2c-mux@70/i2c@3/vrm@60: failed to match any schema with =
-compatible: ['isil,raa228004']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus=
-@1e78a000/i2c@100/i2c-mux@70/i2c@3/vrm@61: failed to match any schema with =
-compatible: ['isil,raa228004']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus=
-@1e78a000/i2c@100/i2c-mux@70/i2c@3/vrm@62: failed to match any schema with =
-compatible: ['isil,raa228004']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: i2c@400: Une=
-valuated properties are not allowed ('aspeed,hw-timeout-ms' was unexpected)
-> >       from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yam=
-l#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus=
-@1e78a000/i2c@400/ipmb@10: failed to match any schema with compatible: ['ip=
-mb-dev']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ssif-bmc@10:=
- 'arm-sbmr,skip-bootprogress-response' does not match any of the regexes: '=
-pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/ipmi/ssif-bmc.yaml=
-#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: ssif-bmc@10:=
- 'arm-sbmr,skip-bootprogress-response' does not match any of the regexes: '=
-^#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|g=
-pmc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '=
-^(pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rcar_sound|=
-rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|st-spics|=
-ts),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^GEFanuc,.*', '^IBM,.*', '=
-^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-Z0-9+\-._@]{0,63}$', '^[a-zA-Z0=
--9+\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^abilis,.*', '^abracon,.*', '^abt,.*=
-', '^acbel,.*', '^acelink,.*', '^acer,.*', '^acme,.*', '^actions,.*', '^act=
-ive-semi,.*', '^ad,.*', '^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^a=
-dh,.*', '^adi,.*', '^adieng,.*', '^admatec,.*', '^advantech,.*', '^aeroflex=
-gaisler,.*', '^aesop,.*', '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*=
-', '^alfa-network,.*', '^al
-> >  legro,.*', '^alliedvision,.*', '^allo,.*', '^allwinner,.*', '^alphasca=
-le,.*', '^alps,.*', '^alt,.*', '^altr,.*', '^amarula,.*', '^amazon,.*', '^a=
-mcc,.*', '^amd,.*', '^amediatech,.*', '^amlogic,.*', '^ampere,.*', '^amphen=
-ol,.*', '^ampire,.*', '^ams,.*', '^amstaos,.*', '^analogix,.*', '^anbernic,=
-.*', '^andestech,.*', '^anvo,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^a=
-ptina,.*', '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arc=
-x,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^armsom,.*', '^arrow,.*', '=
-^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.*', '^aspeed,.*', '^asr=
-ock,.*', '^asteralabs,.*', '^asus,.*', '^atheros,.*', '^atlas,.*', '^atmel,=
-.*', '^auo,.*', '^auvidea,.*', '^avago,.*', '^avia,.*', '^avic,.*', '^avnet=
-,.*', '^awinic,.*', '^axentia,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^b=
-aikal,.*', '^bananapi,.*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bhf=
-,.*', '^bigtreetech,.*', '^bitmain,.*', '^blutek,.*', '^boe,.*', '^bosch,.*=
-', '^boundary,.*', '^brcm,.
-> >  *', '^broadmobi,.*', '^bsh,.*', '^bticino,.*', '^buffalo,.*', '^bur,.*=
-', '^bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxed=
-a,.*', '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascoda,.=
-*', '^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^ce=
-llwise,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*', =
-'^chipidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chrontel=
-,.*', '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^=
-cisco,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', '^cnm,.*', '^c=
-nxt,.*', '^colorfly,.*', '^compulab,.*', '^congatec,.*', '^coolpi,.*', '^co=
-reriver,.*', '^corpro,.*', '^cortina,.*', '^cosmic,.*', '^crane,.*', '^crea=
-tive,.*', '^crystalfontz,.*', '^csky,.*', '^csq,.*', '^ctera,.*', '^ctu,.*'=
-, '^cubietech,.*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic=
-,.*', '^dallas,.*', '^dataimage,.*', '^davicom,.*', '^dell,.*', '^delta,.*'=
-, '^densitron,.*', '^denx,.
-> >  *', '^devantech,.*', '^dfi,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '=
-^digilent,.*', '^dimonoff,.*', '^diodes,.*', '^dioo,.*', '^dlc,.*', '^dlg,.=
-*', '^dlink,.*', '^dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.=
-*', '^dragino,.*', '^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^=
-ea,.*', '^ebang,.*', '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,=
-.*', '^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^einfo=
-chips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '^elida,.*=
-', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emcraft,.*',=
- '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*', '^encl=
-ustra,.*', '^endless,.*', '^ene,.*', '^energymicro,.*', '^engicam,.*', '^en=
-gleder,.*', '^epcos,.*', '^epfl,.*', '^epson,.*', '^esp,.*', '^est,.*', '^e=
-ttus,.*', '^eukrea,.*', '^everest,.*', '^everspin,.*', '^evervision,.*', '^=
-exar,.*', '^excito,.*', '^exegin,.*', '^ezchip,.*', '^facebook,.*', '^fairc=
-hild,.*', '^fairphone,.*',
-> >  '^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*'=
-, '^feiyang,.*', '^fii,.*', '^firefly,.*', '^focaltech,.*', '^forlinx,.*', =
-'^freebox,.*', '^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^=
-fujitsu,.*', '^fxtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*',=
- '^gateway,.*', '^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^g=
-ef,.*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^geniatech,.*', '^giante=
-c,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*', '^globaltop,.*', '=
-^gmt,.*', '^goldelico,.*', '^goodix,.*', '^google,.*', '^goramo,.*', '^gplu=
-s,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*', '^gw,.*', '^hannstar,.*', '^=
-haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*', '^hechuang,.*', '^hideep,.*=
-', '^himax,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', '=
-^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^ho=
-perf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huawe=
-i,.*', '^hugsun,.*', '^hwac
-> >  om,.*', '^hxt,.*', '^hycon,.*', '^hydis,.*', '^hynitron,.*', '^hynix,.=
-*', '^hyundai,.*', '^i2se,.*', '^ibm,.*', '^icplus,.*', '^idt,.*', '^iei,.*=
-', '^ifi,.*', '^ilitek,.*', '^imagis,.*', '^img,.*', '^imi,.*', '^inanbo,.*=
-', '^incircuit,.*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inf=
-orce,.*', '^ingenic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^=
-innolux,.*', '^inside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*'=
-, '^intercontrol,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', =
-'^iom,.*', '^irondevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*',=
- '^itead,.*', '^itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,=
-.*', '^jdi,.*', '^jedec,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*', '^=
-jide,.*', '^joz,.*', '^kam,.*', '^karo,.*', '^keithkoep,.*', '^keymile,.*',=
- '^khadas,.*', '^kiebackpeter,.*', '^kinetic,.*', '^kingdisplay,.*', '^king=
-novel,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '^koe,.*', '^kontron,.*',=
- '^kosagi,.*', '^kvg,.*', '
-> >  ^kyo,.*', '^lacie,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*', '^latt=
-ice,.*', '^lctech,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*'=
-, '^lenovo,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*',=
- '^linaro,.*', '^lincolntech,.*', '^lineartechnology,.*', '^linksprite,.*',=
- '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liteon,.*', '^=
-litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^longcheer,.*', '=
-^lontium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*', '^lunzn,.*', '^=
-luxul,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.*', '^macnica,.*', '^mantix,.*'=
-, '^mapleboard,.*', '^marantec,.*', '^marvell,.*', '^maxbotix,.*', '^maxim,=
-.*', '^maxlinear,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^m=
-ediatek,.*', '^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^me=
-llanox,.*', '^memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^me=
-raki,.*', '^merrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^mic=
-rocrystal,.*', '^micron,.*'
-> >  , '^microsoft,.*', '^microsys,.*', '^microtips,.*', '^mikroe,.*', '^mi=
-krotik,.*', '^milkv,.*', '^miniand,.*', '^minix,.*', '^mips,.*', '^miramems=
-,.*', '^mitsubishi,.*', '^mitsumi,.*', '^mixel,.*', '^miyoo,.*', '^mntre,.*=
-', '^mobileye,.*', '^modtronix,.*', '^moortec,.*', '^mosaixtech,.*', '^moto=
-rcomm,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '^mps,.*', '^mqmaker,.*',=
- '^mrvl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^mti,.*', '^multi-inno,.*=
-', '^mundoreader,.*', '^murata,.*', '^mxic,.*', '^mxicy,.*', '^myir,.*', '^=
-national,.*', '^neardi,.*', '^nec,.*', '^neonode,.*', '^netgear,.*', '^netl=
-ogic,.*', '^netron-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^=
-newhaven,.*', '^newvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^n=
-intendo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^novatek,.*', '^novtech=
-,.*', '^numonyx,.*', '^nutsboard,.*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*=
-', '^nxp,.*', '^oceanic,.*', '^ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', =
-'^olimex,.*', '^olpc,.*', '
-> >  ^oneplus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opal=
-kelly,.*', '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora=
-,.*', '^openrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^orisetec=
-h,.*', '^ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overki=
-z,.*', '^ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,=
-.*', '^parallax,.*', '^pda,.*', '^pericom,.*', '^pervasive,.*', '^phicomm,.=
-*', '^phytec,.*', '^picochip,.*', '^pine64,.*', '^pineriver,.*', '^pixcir,.=
-*', '^plantower,.*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pn=
-i,.*', '^pocketbook,.*', '^polaroid,.*', '^polyhex,.*', '^portwell,.*', '^p=
-oslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^prim=
-eview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedlight,.*', '^pur=
-ism,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,.*', '^qiaodian,.*', '^qih=
-ua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta,.*', '^radxa,.*', '^raidson=
-ic,.*', '^ralink,.*', '^ram
-> >  tron,.*', '^raspberrypi,.*', '^raydium,.*', '^rda,.*', '^realtek,.*', =
-'^remarkable,.*', '^renesas,.*', '^rervision,.*', '^revotics,.*', '^rex,.*'=
-, '^richtek,.*', '^ricoh,.*', '^rikomagic,.*', '^riot,.*', '^riscv,.*', '^r=
-ockchip,.*', '^rocktech,.*', '^rohm,.*', '^ronbo,.*', '^roofull,.*', '^rose=
-applepi,.*', '^rve,.*', '^saef,.*', '^samsung,.*', '^samtec,.*', '^sancloud=
-,.*', '^sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.=
-*', '^sciosense,.*', '^seagate,.*', '^seeed,.*', '^seirobotics,.*', '^semte=
-ch,.*', '^senseair,.*', '^sensirion,.*', '^sensortek,.*', '^sercomm,.*', '^=
-sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^sharp,.*', '^shift,.*', '^s=
-himafuji,.*', '^shineworld,.*', '^shiratech,.*', '^si-en,.*', '^si-linux,.*=
-', '^siemens,.*', '^sifive,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs=
-,.*', '^silan,.*', '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^sili=
-confile,.*', '^siliconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*'=
-, '^sinovoip,.*', '^sinowea
-> >  lth,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^skov,.=
-*', '^skyworks,.*', '^smartlabs,.*', '^smartrg,.*', '^smi,.*', '^smsc,.*', =
-'^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun,.*', '^solomon,.*', '=
-^sony,.*', '^sophgo,.*', '^sourceparts,.*', '^spansion,.*', '^sparkfun,.*',=
- '^spinalhdl,.*', '^sprd,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.=
-*', '^st,.*', '^st-ericsson,.*', '^starfive,.*', '^starry,.*', '^startek,.*=
-', '^starterkit,.*', '^ste,.*', '^stericsson,.*', '^storlink,.*', '^storm,.=
-*', '^storopack,.*', '^summit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus=
-,.*', '^supermicro,.*', '^swir,.*', '^syna,.*', '^synology,.*', '^synopsys,=
-.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*', '^td=
-o,.*', '^team-source-display,.*', '^technexion,.*', '^technologic,.*', '^te=
-chstar,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', '^tempo,.*', '^t=
-erasic,.*', '^tesla,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*=
-', '^thundercomm,.*', '^thw
-> >  c,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.*', '^t=
-opic,.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*', '^toshiba,.*', '^tou=
-maz,.*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*', '^transpeed,.*', '^t=
-raverse,.*', '^tronfy,.*', '^tronsmart,.*', '^truly,.*', '^tsd,.*', '^turin=
-g,.*', '^tyan,.*', '^u-blox,.*', '^u-boot,.*', '^ubnt,.*', '^ucrobotics,.*'=
-, '^udoo,.*', '^ufispace,.*', '^ugoos,.*', '^uni-t,.*', '^uniwest,.*', '^up=
-isemi,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala=
-,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^via,.*', =
-'^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtual,.*', =
-'^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax,.*', '^=
-vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*', '^vxt,.=
-*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '^wd,.*',=
- '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*', '^wi2wi=
-,.*', '^widora,.*', '^wilig
-> >  ear,.*', '^willsemi,.*', '^winbond,.*', '^wingtech,.*', '^winlink,.*',=
- '^winstar,.*', '^wirelesstag,.*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,=
-.*', '^wolfvision,.*', '^x-powers,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', =
-'^xillybus,.*', '^xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*',=
- '^xnano,.*', '^xunlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-=
-optoelectronics,.*', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones=
--toptech,.*', '^ys,.*', '^ysoft,.*', '^zarlink,.*', '^zealz,.*', '^zeitec,.=
-*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', '^zte,.*', '^zyxe=
-l,.*', 'pinctrl-[0-9]+'
-> >       from schema $id: http://devicetree.org/schemas/vendor-prefixes.ya=
-ml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: fsi@1e79b000=
-: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-> >       from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600=
--fsi-master.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/fsi=
-@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi=
--master', 'fsi-master']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: fsi@1e79b100=
-: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-> >       from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600=
--fsi-master.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/fsi=
-@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi=
--master', 'fsi-master']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/dma=
--controller@1e79e000: failed to match any schema with compatible: ['aspeed,=
-ast2600-udma']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: spi1-gpio: $=
-nodename:0: 'spi1-gpio' does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
-> >       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: spi1-gpio: g=
-pio-sck: False schema does not allow [44, 203, 0]
-> >       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: spi1-gpio: g=
-pio-miso: False schema does not allow [44, 205, 0]
-> >       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: spi1-gpio: g=
-pio-mosi: False schema does not allow [44, 204, 0]
-> >       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: spi1-gpio: '=
-sck-gpios' is a required property
-> >       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: spi1-gpio: U=
-nevaluated properties are not allowed ('#address-cells', '#size-cells', 'gp=
-io-miso', 'gpio-mosi', 'gpio-sck', 'tpm@0' were unexpected)
-> >       from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml#
->
-> Can you please clean these up as best you can?
->
-> Andrew
+On 26/07/2024 13:03, Kevin Chen wrote:
+> Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
 
-Hi Andrew,
+Missing commit msg.
 
-I have corrected the error in "aspeed-bmc-facebook-catalina.dts" in v5.
-https://lore.kernel.org/all/20240726-potin-catalina-dts-v5-2-8f02305af527@g=
-mail.com/
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
-It looks like most of the errors are from "aspeed-g6.dtsi".
+A nit, subject: drop second/last, redundant "bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
+
 
 Best regards,
-Potin
+Krzysztof
+
