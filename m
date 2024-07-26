@@ -2,10 +2,10 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC459579E4
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3609579E5
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKf24shz87W6
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKf3xYHz3g6f
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:58 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -14,7 +14,7 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlQ72smzz3dBp
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlQ75tZBz3dBp
 	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:09:35 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
@@ -35,9 +35,9 @@ To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
 	<kevin_chen@aspeedtech.com>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>
-Subject: [PATCH v1 04/10] dt-bindings: reset: ast2700: Add binding for ASPEED AST2700 Reset
-Date: Fri, 26 Jul 2024 19:03:49 +0800
-Message-ID: <20240726110355.2181563-5-kevin_chen@aspeedtech.com>
+Subject: [PATCH v1 05/10] dt-bindings: arm: aspeed: Add maintainer
+Date: Fri, 26 Jul 2024 19:03:50 +0800
+Message-ID: <20240726110355.2181563-6-kevin_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
 References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
@@ -60,142 +60,21 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 ---
- .../dt-bindings/reset/aspeed,ast2700-reset.h  | 126 ++++++++++++++++++
- 1 file changed, 126 insertions(+)
- create mode 100644 include/dt-bindings/reset/aspeed,ast2700-reset.h
+ Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/dt-bindings/reset/aspeed,ast2700-reset.h b/include/dt-bindings/reset/aspeed,ast2700-reset.h
-new file mode 100644
-index 000000000000..704cdaac3fdc
---- /dev/null
-+++ b/include/dt-bindings/reset/aspeed,ast2700-reset.h
-@@ -0,0 +1,126 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-+/*
-+ * Device Tree binding constants for AST2700 reset controller.
-+ *
-+ * Copyright (c) 2023 Aspeed Technology Inc.
-+ */
-+
-+#ifndef _MACH_ASPEED_AST2700_RESET_H_
-+#define _MACH_ASPEED_AST2700_RESET_H_
-+
-+/* SOC0 */
-+#define SCU0_RESET_SDRAM		(0)
-+#define SCU0_RESET_DDRPHY		(1)
-+#define SCU0_RESET_RSA		(2)
-+#define SCU0_RESET_SHA3		(3)
-+#define SCU0_RESET_HACE		(4)
-+#define SCU0_RESET_SOC		(5)
-+#define SCU0_RESET_VIDEO		(6)
-+#define SCU0_RESET_2D			(7)
-+#define SCU0_RESET_PCIS		(8)
-+#define SCU0_RESET_RVAS0		(9)
-+#define SCU0_RESET_RVAS1		(10)
-+#define SCU0_RESET_SM3		(11)
-+#define SCU0_RESET_SM4		(12)
-+#define SCU0_RESET_CRT0		(13)
-+#define SCU0_RESET_ECC		(14)
-+#define SCU0_RESET_DP_PCI		(15)
-+#define SCU0_RESET_UFS		(16)
-+#define SCU0_RESET_EMMC		(17)
-+#define SCU0_RESET_PCIE1RST		(18)
-+#define SCU0_RESET_PCIE1RSTOE		(19)
-+#define SCU0_RESET_PCIE0RST		(20)
-+#define SCU0_RESET_PCIE0RSTOE		(21)
-+#define SCU0_RESET_JTAG0		(22)
-+#define SCU0_RESET_MCTP0		(23)
-+#define SCU0_RESET_MCTP1		(24)
-+#define SCU0_RESET_XDMA0		(25)
-+#define SCU0_RESET_XDMA1		(26)
-+#define SCU0_RESET_H2X1		(27)
-+#define SCU0_RESET_DP			(28)
-+#define SCU0_RESET_DP_MCU		(29)
-+#define SCU0_RESET_GP_MCU		(30)
-+#define SCU0_RESET_H2X0		(31)
-+#define SCU0_RESET_P0_VHUB2		(32)
-+#define SCU0_RESET_P0_PHY3		(33)
-+#define SCU0_RESET_P0_XHCI		(34)
-+#define SCU0_RESET_P1_VHUB2		(35)
-+#define SCU0_RESET_P1_PHY3		(36)
-+#define SCU0_RESET_P1_XHCI		(37)
-+#define SCU0_RESET_P0_USB2		(38)
-+#define SCU0_RESET_P1_USB2		(39)
-+#define SCU0_RESET_USB11		(40)
-+#define SCU0_RESET_RESERVED		(41)
-+#define SCU0_RESET_E2M0		(42)
-+#define SCU0_RESET_E2M1		(43)
-+
-+#define SOC0_RESET_NUMS		(SCU0_RESET_E2M1 + 1)
-+
-+/* SOC1 */
-+#define SCU1_RESET_LPC0		(0)
-+#define SCU1_RESET_LPC1		(1)
-+#define SCU1_RESET_MII		(2)
-+#define SCU1_RESET_PECI		(3)
-+#define SCU1_RESET_PWM		(4)
-+#define SCU1_RESET_MAC0		(5)
-+#define SCU1_RESET_MAC1		(6)
-+#define SCU1_RESET_MAC2		(7)
-+#define SCU1_RESET_ADC		(8)
-+#define SCU1_RESET_SD			(9)
-+#define SCU1_RESET_ESPI0		(10)
-+#define SCU1_RESET_ESPI1		(11)
-+#define SCU1_RESET_JTAG1		(12)
-+#define SCU1_RESET_SPI0		(13)
-+#define SCU1_RESET_SPI1		(14)
-+#define SCU1_RESET_SPI2		(15)
-+#define SCU1_RESET_I3C0		(16)
-+#define SCU1_RESET_I3C1		(17)
-+#define SCU1_RESET_I3C2		(18)
-+#define SCU1_RESET_I3C3		(19)
-+#define SCU1_RESET_I3C4		(20)
-+#define SCU1_RESET_I3C5		(21)
-+#define SCU1_RESET_I3C6		(22)
-+#define SCU1_RESET_I3C7		(23)
-+#define SCU1_RESET_I3C8		(24)
-+#define SCU1_RESET_I3C9		(25)
-+#define SCU1_RESET_I3C10		(26)
-+#define SCU1_RESET_I3C11		(27)
-+#define SCU1_RESET_I3C12		(28)
-+#define SCU1_RESET_I3C13		(29)
-+#define SCU1_RESET_I3C14		(30)
-+#define SCU1_RESET_I3C15		(31)
-+/* reserved 32 */
-+#define SCU1_RESET_IOMCU		(33)
-+#define SCU1_RESET_H2A_SPI1		(34)
-+#define SCU1_RESET_H2A_SPI2		(35)
-+#define SCU1_RESET_UART0		(36)
-+#define SCU1_RESET_UART1		(37)
-+#define SCU1_RESET_UART2		(38)
-+#define SCU1_RESET_UART3		(39)
-+#define SCU1_RESET_I2C_FILTER		(40)
-+#define SCU1_RESET_CALIPTRA		(41)
-+/* reserved 42:43 */
-+#define SCU1_RESET_FSI		(44)
-+#define SCU1_RESET_CAN		(45)
-+#define SCU1_RESET_MCTP		(46)
-+#define SCU1_RESET_I2C		(47)
-+#define SCU1_RESET_UART6		(48)
-+#define SCU1_RESET_UART7		(49)
-+#define SCU1_RESET_UART8		(50)
-+#define SCU1_RESET_UART9		(51)
-+#define SCU1_RESET_LTPI		(52)
-+#define SCU1_RESET_VGAL		(53)
-+#define SCU1_RESET_LTPI1		(54)
-+#define SCU1_RESET_ACE		(55)
-+#define SCU1_RESET_E2M2		(56)
-+#define SCU1_RESET_UHCI		(57)
-+#define SCU1_RESET_PORTC_USB2H	(58)
-+#define SCU1_RESET_PORTC_USB2V	(59)
-+#define SCU1_RESET_PORTD_USB2H	(60)
-+#define SCU1_RESET_PORTD_USB2V	(61)
-+#define SCU1_RESET_H2X2		(62)
-+#define SCU1_RESET_I3CDMA             (63)
-+
-+#define SOC1_RESET_NUMS		(SCU1_RESET_I3CDMA + 1)
-+
-+#endif  /* _MACH_ASPEED_AST2700_RESET_H_ */
+diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+index 95113df178cc..71c31c08a8ad 100644
+--- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
++++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+@@ -8,6 +8,7 @@ title: Aspeed SoC based boards
+ 
+ maintainers:
+   - Joel Stanley <joel@jms.id.au>
++  - Kevin Chen <kevin_chen@aspeedtech.com>
+ 
+ properties:
+   $nodename:
 -- 
 2.34.1
 
