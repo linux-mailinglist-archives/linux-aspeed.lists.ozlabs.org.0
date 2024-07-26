@@ -2,58 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FCA9579DF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1527A9579E0
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:58:58 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKc6n84z7CWV
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKd1TFWz7CX4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=mfe@pengutronix.de; receiver=lists.ozlabs.org)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 316 seconds by postgrey-1.37 at boromir; Fri, 26 Jul 2024 21:09:33 AEST
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WPnMN6zFVz3brC
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Jul 2024 19:19:58 +1000 (AEST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sUNGz-0002U5-TA; Thu, 18 Jul 2024 11:18:01 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sUNGr-000PqF-MB; Thu, 18 Jul 2024 11:17:53 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1sUNGr-003zXS-1Y;
-	Thu, 18 Jul 2024 11:17:53 +0200
-Date: Thu, 18 Jul 2024 11:17:53 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH 4/9] mtd: devices: add AT24 eeprom support
-Message-ID: <20240718091753.apwsrvmekn2vvo4k@pengutronix.de>
-References: <07b701a9-7b52-45b7-8dba-1c25d77cbf15@linaro.org>
- <mafs0ikxnykpr.fsf@kernel.org>
- <20240702-congenial-vigilant-boar-aeae44@houat>
- <mafs0ed8byj5z.fsf@kernel.org>
- <20240702-mighty-brilliant-eel-b0d9fa@houat>
- <20240708084440.70186564@xps-13>
- <20240709092214.omr7ccphdzdk7z7j@pengutronix.de>
- <20240709114302.3c604ef3@xps-13>
- <20240709103841.7x7n4hdtqrunyoc3@pengutronix.de>
- <20240717101948.2e99f472@xps-13>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlQ52h92z3d95
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:09:32 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 26 Jul
+ 2024 19:03:56 +0800
+Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Fri, 26 Jul 2024 19:03:56 +0800
+From: Kevin Chen <kevin_chen@aspeedtech.com>
+To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+	<joel@jms.id.au>, <andrew@codeconstruct.com.au>, <lee@kernel.org>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <arnd@arndb.de>,
+	<olof@lixom.net>, <soc@kernel.org>, <mturquette@baylibre.com>,
+	<sboyd@kernel.org>, <p.zabel@pengutronix.de>, <quic_bjorande@quicinc.com>,
+	<geert+renesas@glider.be>, <dmitry.baryshkov@linaro.org>,
+	<shawnguo@kernel.org>, <neil.armstrong@linaro.org>,
+	<m.szyprowski@samsung.com>, <nfraprado@collabora.com>, <u-kumar1@ti.com>,
+	<kevin_chen@aspeedtech.com>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>
+Subject: [PATCH v1 00/10] Introduce ASPEED AST27XX BMC SoC
+Date: Fri, 26 Jul 2024 19:03:45 +0800
+Message-ID: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240717101948.2e99f472@xps-13>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -66,51 +55,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, Geert Uytterhoeven <geert+renesas@glider.be>, imx@lists.linux.dev, Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>, Fabio Estevam <festevam@gmail.com>, linux-aspeed@lists.ozlabs.org, Richard Weinberger <richard@nod.at>, Gregory Clement <gregory.clement@bootlin.com>, Huacai Chen <chenhuacai@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>, Christophe Leroy <christophe.leroy@csgroup.eu>, Jonathan Hunter <jonathanh@nvidia.com>, Tudor Ambarus <tudor.ambarus@linaro.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, Maxime Ripard <mripard@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>, Nicholas Piggin <npiggin@gmail.com>, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Michael Ellerman <mpe@ellerman.id.au>, Shawn Guo <shawnguo@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Pratyush Yadav <pratyush@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Miquel,
+This patchset adds initial support for the ASPEED.
+AST27XX Board Management controller (BMC) SoC family.
 
-On 24-07-17, Miquel Raynal wrote:
-> Hi Marco,
-> 
-> > > > > Overall I think the idea of getting rid of these misc/ drivers is goes
-> > > > > into the right direction, but registering directly into NVMEM makes
-> > > > > more sense IMO.    
-> > > > 
-> > > > So you propose to have two places for the partition handling (one for
-> > > > MTD and one for NVMEM) instead of one and moving the code into NVMEM
-> > > > directly?  
-> > > 
-> > > Why two places for the partitions handling? Just one, in NVMEM. Also  
-> > 
-> > Without checking the details I think that converting the MTD
-> > partitioning code into NVMEM partitioning code is a bigger task. As you
-> > said below there are many legacy code paths you need to consider so they
-> > still work afterwards as well.
-> > 
-> > > usually EEPROMs don't require very advanced partitioning schemes,
-> > > unlike flashes (which are the most common MTD devices today).  
-> > 
-> > As said in my cover letter EEPROMs can become quite large and MTD
-> > supports partitioning storage devices which is very handy for large
-> > EEPROMs as well.
-> 
-> Did you had a look at nvmem-layouts ? In particular the fixed-layout.
+AST2700 is ASPEED's 8th-generation server management processor.
+Featuring a quad-core ARM Cortex A35 64-bit processor and two
+independent ARM Cortex M4 processors
 
-Yes I had a look at nvmem-layouts and we use them within a
-mtd-partition. Using them instead of a mtd-partition is not sufficient
-since they:
- 1) don't support user-space write (I send a patch for it but it doesn't
-    seem to be accepted soon).
- 2) If write would be supported the user-space need to write the
-    complete cell e.g. no partial writes.
+This patchset adds minimal architecture and drivers such as:
+Clocksource, Clock and Reset
 
-> Is there anything you would like to achieve already that is not
-> possible with nvmem but is with mtd?
+This patchset was tested on the ASPEED AST2700 evaluation board.
 
-Please see above.
+Kevin Chen (10):
+  dt-binding: mfd: aspeed,ast2x00-scu: Add binding for ASPEED AST2700
+    SCU
+  dt-binding: clk: ast2700: Add binding for Aspeed AST27xx Clock
+  clk: ast2700: add clock controller
+  dt-bindings: reset: ast2700: Add binding for ASPEED AST2700 Reset
+  dt-bindings: arm: aspeed: Add maintainer
+  dt-bindings: arm: aspeed: Add aspeed,ast2700-evb compatible string
+  arm64: aspeed: Add support for ASPEED AST2700 BMC SoC
+  arm64: dts: aspeed: Add initial AST27XX device tree
+  arm64: dts: aspeed: Add initial AST2700 EVB device tree
+  arm64: defconfig: Add ASPEED AST2700 family support
 
-Regards,
-  Marco
+ .../bindings/arm/aspeed/aspeed.yaml           |    6 +
+ .../bindings/mfd/aspeed,ast2x00-scu.yaml      |    3 +
+ MAINTAINERS                                   |    3 +
+ arch/arm64/Kconfig.platforms                  |   14 +
+ arch/arm64/boot/dts/Makefile                  |    1 +
+ arch/arm64/boot/dts/aspeed/Makefile           |    4 +
+ arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi     |  217 +++
+ arch/arm64/boot/dts/aspeed/ast2700-evb.dts    |   50 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/clk/Makefile                          |    1 +
+ drivers/clk/clk-ast2700.c                     | 1166 +++++++++++++++++
+ .../dt-bindings/clock/aspeed,ast2700-clk.h    |  180 +++
+ .../dt-bindings/reset/aspeed,ast2700-reset.h  |  126 ++
+ 13 files changed, 1772 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
+ create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
+ create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
+ create mode 100644 drivers/clk/clk-ast2700.c
+ create mode 100644 include/dt-bindings/clock/aspeed,ast2700-clk.h
+ create mode 100644 include/dt-bindings/reset/aspeed,ast2700-reset.h
+
+-- 
+2.34.1
+
