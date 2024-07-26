@@ -2,10 +2,10 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3609579E5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B3C9579E6
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKf3xYHz3g6f
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKf5T4Rz87XP
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:57:58 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -14,8 +14,8 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlQ75tZBz3dBp
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:09:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlQ81ngCz3dBp
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:09:36 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 26 Jul
@@ -35,9 +35,9 @@ To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
 	<kevin_chen@aspeedtech.com>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>
-Subject: [PATCH v1 05/10] dt-bindings: arm: aspeed: Add maintainer
-Date: Fri, 26 Jul 2024 19:03:50 +0800
-Message-ID: <20240726110355.2181563-6-kevin_chen@aspeedtech.com>
+Subject: [PATCH v1 06/10] dt-bindings: arm: aspeed: Add aspeed,ast2700-evb compatible string
+Date: Fri, 26 Jul 2024 19:03:51 +0800
+Message-ID: <20240726110355.2181563-7-kevin_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
 References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
@@ -60,21 +60,23 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 ---
- Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-index 95113df178cc..71c31c08a8ad 100644
+index 71c31c08a8ad..b21551817f44 100644
 --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
 +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-@@ -8,6 +8,7 @@ title: Aspeed SoC based boards
+@@ -99,4 +99,9 @@ properties:
+               - ufispace,ncplite-bmc
+           - const: aspeed,ast2600
  
- maintainers:
-   - Joel Stanley <joel@jms.id.au>
-+  - Kevin Chen <kevin_chen@aspeedtech.com>
- 
- properties:
-   $nodename:
++      - description: AST2700 based boards
++        items:
++          - enum:
++              - aspeed,ast2700-evb
++
+ additionalProperties: true
 -- 
 2.34.1
 
