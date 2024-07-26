@@ -2,83 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535D193D124
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 12:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AED493D125
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 12:29:28 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SwVEZ5Ll;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Crv6X9IW;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WVkWh1p5mz3dDJ
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 20:29:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WVkWp2450z3dDT
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 20:29:26 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SwVEZ5Ll;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Crv6X9IW;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22e; helo=mail-oi1-x22e.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::133; helo=mail-il1-x133.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVkWZ5Gp9z3d8D
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 20:29:14 +1000 (AEST)
-Received: by mail-oi1-x22e.google.com with SMTP id 5614622812f47-3db18102406so546899b6e.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 03:29:13 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVkWc6PMFz3d8D
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 20:29:16 +1000 (AEST)
+Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-396eb81a1cfso6339545ab.2
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 03:29:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721989751; x=1722594551; darn=lists.ozlabs.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=taoLvNSxvJvDSIyoezhhEapktK4CQP/qTkZDErUBC00=;
-        b=SwVEZ5Ll1gJWKzTs+OEdMuMLppetG5kcRYz7t0Ht4TQi70RUKZ3ZYh4QThCavTF++w
-         2qBtVNmUiKlrDr6dtKrG9jbCGMSetSD1CrSUs1Lyj7ULpMalccOl7Jti/bVjrzXGDg7i
-         2icdwjyaO8PQJU4W/0Ve5yh+xy4d1LubeIuLLuTEgIy1Ffx2nfe2ijnYn4I2dC9gKovM
-         Ucwg1Ol3Si5/9iMl9f/GASmVKsPLNpO4NFyaccz5bGO4AxHHNs2qRjZ2wkTYUOnxPTLA
-         V8iTfjPJ2LCDV30dWFgscWys0quQzgLGdzDz+RDniNZSs0PrnvOg2gmssT9s/WGkyXPb
-         GYTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721989751; x=1722594551;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1721989754; x=1722594554; darn=lists.ozlabs.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=taoLvNSxvJvDSIyoezhhEapktK4CQP/qTkZDErUBC00=;
-        b=DTc7GfNeE0VIgNWsjUU3n16fO/HGyT95z3XKaoxf3faGDSyZI11SAgEHtePF4V9U0B
-         uEQBuc9L36OvweK/6/r//ZBvmN6Gsf60+zJQX/N/gg3OUgMn4QfFFL2Ujj60rwL8P3GV
-         2OMf3Gt4b36H3crgOHI70z3gtLff9J8mKPsrXE3zQLRqgOCUbV4J/yjPScC7RpY/ksWS
-         HD8xBajWUDurucG76yY9og9duOPyjSXjOwqAm+iJdTBv2oXXzeCHyUGApkJKmAINksFj
-         Ts4g1Q2oHPA1121lt/LomAki+9+n1/hR3YYFz3NH6joXqZVvjBNJwF3iSD6QklB4tOUR
-         079Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXxF8ol9P3PADDjo+bll/MLIuXeEjMo50Z6XANuFfWlgyuItjy7Vk7pemUj/DroukUmB4lAeVzVbVGDDzzyS04TCrJnj1Gz2ZwwTikYdg==
-X-Gm-Message-State: AOJu0YyGcaxnJESQdmXj6D3V1dRdStkROJYGY9gIMhYgMU69wnpH8tdX
-	PZlBMrrY09jioqGK4rqIPdjFlL/QdbqL5tuy0bEQytLwLV5RGb4+
-X-Google-Smtp-Source: AGHT+IG+DdKxRpU/fq6Ap6ktwC6YKBP8zhxIdBKlVK/dF6FJRoOcQcCcLikI4ou0llcy9suJ13nImA==
-X-Received: by 2002:a05:6808:2003:b0:3d9:244b:b9d3 with SMTP id 5614622812f47-3db140a4921mr5310951b6e.23.1721989751139;
-        Fri, 26 Jul 2024 03:29:11 -0700 (PDT)
+        bh=kzCkDzQg10EK8n1YgINi+79HQeehaLLCfYvwgSxxax8=;
+        b=Crv6X9IWac0jLdQw4LUdSHE507JUJ03evMT/vteNC3y+BzZrxbEks387QWbLZqSZnZ
+         +Ja8iwA1G0r3DOayhl4au1MkJ80v5MJxGaC3d8mGVPXG8gFPdY3tpTdrnV4hdOtOUhcA
+         8Mwp+VF8QzwydYy/P7CZpT38a7jHX6D3FBJKhljTHnKsS98HZ+uGec7CAHVbixn5Twwf
+         9OWo7v/2VAyZLDnBhS2lUrGGq3OC84Vys9Owltv8VuMGyBIImgZFknHkGvCD7h6u3RnB
+         4twZymAglJ/BKqDyafcwzgbxYoN6Qitz80es9RA9yckXns1Y7+xgquOgu850mNPt4Jny
+         Vb1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721989754; x=1722594554;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kzCkDzQg10EK8n1YgINi+79HQeehaLLCfYvwgSxxax8=;
+        b=LJ1JGLdJtfAxCc7LqbXYqdqVA/Cjf0e9lzEAaNC2yGrPX3VyYP4sHOzDvVctqBIffx
+         sZ+JUt77EvA1PqzG+Ps1ttOprlMbMEznTumy6onCLvADQfhCryTrjuZQ8vwiAm6o9wVP
+         DtvDNXIPcgw2tDdEjAOw7wtTD7j6MffXpO7K5kxwjUDP3A6VQzKX41MfZtpZr5UUzMpC
+         GYKCyN3OO1RAgHCSqe/jzAA8FY+s5St87wlU6ow2+rL+HBzS87yxl4Y88FkD7WWJAmTT
+         mE1c3IxOem0YYDzxzORmqJyv1KGOmpelxcimms+zWsKz3JRXQ9506wHy/hfhCAbZdJxM
+         MYiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX782wTbiaadyACb/9MjsNQzLKL6QiTAyvcnKVqMNcfFmQqWFh5c2yT9syQtJaKYtsNZtxd+toiGlsoBlFxrbB89uPt/S4aXzd9uPMlNg==
+X-Gm-Message-State: AOJu0Yx0LbnlH2aYZHEWFZUuPTrYV4aLzcobuFfl5w/tYZ75i7VcQxRX
+	ACpbBKejS2cGr9CoP3Sk5qIpbX9/wYKT6E7n3z3Zhcz1fIpq87vv
+X-Google-Smtp-Source: AGHT+IGL5Wz7SK5HnNaFxr4tWNWoZyb/iwi8Is28PgzJgfNiyQ2NMPaFHSayXINvdntswaZhn5+2ug==
+X-Received: by 2002:a92:cda6:0:b0:39a:e984:1caa with SMTP id e9e14a558f8ab-39ae9841e03mr8473545ab.21.1721989753838;
+        Fri, 26 Jul 2024 03:29:13 -0700 (PDT)
 Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead8116a4sm2406545b3a.130.2024.07.26.03.29.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead8116a4sm2406545b3a.130.2024.07.26.03.29.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jul 2024 03:29:10 -0700 (PDT)
+        Fri, 26 Jul 2024 03:29:13 -0700 (PDT)
 From: Potin Lai <potin.lai.pt@gmail.com>
-Subject: [PATCH v5 0/2] Add Meta(Facebook) Catalina BMC(AST2600)
-Date: Fri, 26 Jul 2024 18:26:48 +0800
-Message-Id: <20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com>
+Date: Fri, 26 Jul 2024 18:26:49 +0800
+Subject: [PATCH v5 1/2] dt-bindings: arm: aspeed: add Meta Catalina board
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOl5o2YC/4XNSw6CMBCA4auQrq3BPni48h7GxdAOMAlQ0hKiI
- dzdwooYo8t/MvPNwgJ6wsCuycI8zhTIDTH0KWGmhaFBTjY2E6lQaS4UH91EAzcwQUcDcDsFXlu
- 4IEhR5tWFxcPRY03PHb0/YrcUJudf+49ZbNOf3Cx4yisorMq1iVvy1vRA3dm4nm3cLI+E/krIS
- EjQlbYlZrYyn4T6T6hIAGS1kBoE5sWRWNf1DbDDNHE6AQAA
+Message-Id: <20240726-potin-catalina-dts-v5-1-8f02305af527@gmail.com>
+References: <20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com>
+In-Reply-To: <20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
  Andrew Jeffery <andrew@codeconstruct.com.au>, 
  Patrick Williams <patrick@stwcx.xyz>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721989748; l=1681;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721989748; l=879;
  i=potin.lai.pt@gmail.com; s=20240724; h=from:subject:message-id;
- bh=S8ZOFlqmcgPcpi9udVpIP3DnsEMtZDW/eFoHOzRFOjM=;
- b=7+JQIry5FaNhIM8qrgeiO9DO1/O3ekdaSP3aOVavYM+XGLff1kurGft6IBruHlbOCIcOXRIoE
- NaVkNb81cyHAZQaeb6Q5sv9BvFv2xnbtWP4eGpdn2lzOv0K58TrW6Vg
+ bh=wZM6LoO4PA/XB4ycTumABemVy7G9m8wLw28advUxNRg=;
+ b=5QKNyRNZt9BW6GvgGUgynM1cwzH/rsy/7kmWy8JPZpgpt3jKvQhpuHdYSk/z5KT6XLQVKGcqP
+ tFWXYBe5xlvDWJzEs0+3Qg+qyAeObNJJDMpdoXciLeeqpAhq8WAG21a
 X-Developer-Key: i=potin.lai.pt@gmail.com; a=ed25519;
  pk=6Z4H4V4fJwLteH/WzIXSsx6TkuY5FOcBBP+4OflJ5gM=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -96,48 +95,27 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add Linux device tree entry related to Meta(Facebook) Catalina specific
-devices connected to BMC(AST2600) SoC.
+Document the new compatibles used on Meta Catalina.
 
 Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-Changes in v5:
-- fix spi1_gpio node name and properties
-- remove undefind properties in mac3, i2c7 & i2c11
-- Link to v4: https://lore.kernel.org/r/20240725-potin-catalina-dts-v4-0-aa6f235a2e78@gmail.com
+ Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes in v4:
-- change back io_expanderX due to parser error, build passed in v4 version.
-- Link to v3: https://lore.kernel.org/r/20240725-potin-catalina-dts-v3-0-3a5b5d9e6dbc@gmail.com
+diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+index 95113df178cc..f1bc2bb7b670 100644
+--- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
++++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+@@ -79,6 +79,7 @@ properties:
+               - aspeed,ast2600-evb-a1
+               - asus,x4tf-bmc
+               - facebook,bletchley-bmc
++              - facebook,catalina-bmc
+               - facebook,cloudripper-bmc
+               - facebook,elbert-bmc
+               - facebook,fuji-bmc
 
-Changes in v3:
-- rename tmp75 nodes to temperature-sensor
-- rename tmp421 nodes to temperature-sensor
-- rename ina230 nodes to power-sensor
-- rename io_expanderX nodes to io-expanderX
-- Link to v2: https://lore.kernel.org/r/20240724-potin-catalina-dts-v2-0-ba8d475c4073@gmail.com
-
-Changes in v2:
-- drop commented code in dts
-- rename i2c-mux channel nodes as i2c1muxXchY
-- rename gpio expander as io_expanderX
-- use "stdout-path" instead of "bootargs"
-- Link to v1: https://lore.kernel.org/all/20240722145857.2131100-1-potin.lai.pt@gmail.com/
-
----
-Potin Lai (2):
-      dt-bindings: arm: aspeed: add Meta Catalina board
-      ARM: dts: aspeed: catalina: add Meta Catalina BMC
-
- .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
- arch/arm/boot/dts/aspeed/Makefile                  |    1 +
- .../dts/aspeed/aspeed-bmc-facebook-catalina.dts    | 1016 ++++++++++++++++++++
- 3 files changed, 1018 insertions(+)
----
-base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
-change-id: 20240724-potin-catalina-dts-fda1ea3297b1
-
-Best regards,
 -- 
-Potin Lai <potin.lai.pt@gmail.com>
+2.31.1
 
