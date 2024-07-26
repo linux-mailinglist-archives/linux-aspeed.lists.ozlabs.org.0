@@ -2,48 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F8293D1C3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 13:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5167693D1C7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 13:11:48 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=tRN+WeYJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=a8qVUKL2;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WVlRH4L4Jz3dF9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 21:10:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WVlSf1lXrz3dJV
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 21:11:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=tRN+WeYJ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=a8qVUKL2;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlR96r2Hz3cK8
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:10:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlSY38SHz30Vv
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:11:41 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E895F61451;
-	Fri, 26 Jul 2024 11:10:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073D6C32782;
-	Fri, 26 Jul 2024 11:10:18 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 8ED75CE14E7;
+	Fri, 26 Jul 2024 11:11:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE5B5C32782;
+	Fri, 26 Jul 2024 11:11:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721992226;
-	bh=+EAwi1gqPbbkqWMdFpWlW4xjFm/kUHBQaYtn6UFQVxM=;
+	s=k20201202; t=1721992297;
+	bh=Sh7X1lINTazHWZKt0CMgzCpSwuDELIvWLdHJIjtQG3o=;
 	h=Date:Subject:List-Id:To:References:From:In-Reply-To:From;
-	b=tRN+WeYJOPpXbVyEurbIF0U9isYsfrPsvJdzckOo8qao/UY7WS+JIPPkqR8/hCPOV
-	 1vkOm1tscAJycetC5Ep2V5Mk2Kh0UhO0hKkZOqPazm/6DK73nPO24UADdqjTOc8jh/
-	 cbmmtDjTdAxA/JR65q2rosG407Gy4FnAoDsxjobudTh1WJ0Me6VPdFklx2yaD2yyXX
-	 hjVS4Aq7eYGC7GTBnoJqGt21c9/41bnmlX/5bidmgqqRkTHapBCapFY7XnZ9e+dYKR
-	 VK9DucKCE96WH7rTRVO0X1M7GwQb3qFTlcaZ2t9rPzw1AIg9F7MREAUCVifhQPQkxT
-	 zdEXasxDH7N7g==
-Message-ID: <e6cb6f26-fef2-49bc-ab25-fdc9a659f593@kernel.org>
-Date: Fri, 26 Jul 2024 13:10:16 +0200
+	b=a8qVUKL2owWxSsrF+zPXD2OZdzXnehFR9grXYTgNVz6+AJ2ZdfqQN00rw7mfcE90L
+	 yx1HjKed4Tg3s5WomY10M45HcnwLDcpPGnrSZ18EL2CPgNGfRPWVk3lQzTnCtbla4X
+	 0kOp46mfasAdAHWomy+SBBbjyPOTyIq6J7u+F0tStXGQzZNhJ4oH3qykLxsmSFT6AT
+	 xFNbW8KOYkf5G+AcGNlnASLDbvow7dKHGy6DIEtkoP85OXC30fCG5d+gJm94t2PHUu
+	 2rZagHxRR9fAW/VEY1vzUoSi3ASP/vPqhvVIspJb6wymOYC3xzMnKCV9VFMcau8leD
+	 L0V4cyOMsGqcg==
+Message-ID: <e13c16db-e1a7-4ee0-867b-b184d421de7f@kernel.org>
+Date: Fri, 26 Jul 2024 13:11:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 01/10] dt-binding: mfd: aspeed,ast2x00-scu: Add binding
- for ASPEED AST2700 SCU
+Subject: Re: [PATCH v1 02/10] dt-binding: clk: ast2700: Add binding for Aspeed
+ AST27xx Clock
 To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
  andrew@codeconstruct.com.au, lee@kernel.org, catalin.marinas@arm.com,
@@ -56,7 +56,7 @@ To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
- <20240726110355.2181563-2-kevin_chen@aspeedtech.com>
+ <20240726110355.2181563-3-kevin_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +102,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240726110355.2181563-2-kevin_chen@aspeedtech.com>
+In-Reply-To: <20240726110355.2181563-3-kevin_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -124,18 +124,83 @@ On 26/07/2024 13:03, Kevin Chen wrote:
 
 Missing commit msg.
 
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
 Please use subject prefixes matching the subsystem. You can get them for
 example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
 your patch is touching. For bindings, the preferred subjects are
 explained here:
 https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
-A nit, subject: drop second/last, redundant "bindings for". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
 
+> ---
+>  .../dt-bindings/clock/aspeed,ast2700-clk.h    | 180 ++++++++++++++++++
+
+This is supposed to be part of bindings adding the clock controller.
+
+>  1 file changed, 180 insertions(+)
+>  create mode 100644 include/dt-bindings/clock/aspeed,ast2700-clk.h
+> 
+> diff --git a/include/dt-bindings/clock/aspeed,ast2700-clk.h b/include/dt-bindings/clock/aspeed,ast2700-clk.h
+> new file mode 100644
+> index 000000000000..5ca85503736d
+> --- /dev/null
+> +++ b/include/dt-bindings/clock/aspeed,ast2700-clk.h
+> @@ -0,0 +1,180 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> +/*
+> + * Device Tree binding constants for AST2700 clock controller.
+> + *
+> + * Copyright (c) 2023 Aspeed Technology Inc.
+> + */
+> +
+> +#ifndef __DT_BINDINGS_CLOCK_AST2700_H
+> +#define __DT_BINDINGS_CLOCK_AST2700_H
+> +
+> +/* SOC0 clk-gate */
+> +#define SCU0_CLK_GATE_MCLK	(0)
+> +#define SCU0_CLK_GATE_ECLK	(1)
+
+Drop all (). Not needed, not useful.
+
+> +#define SCU0_CLK_GATE_GCLK	(2)
+> +#define SCU0_CLK_GATE_VCLK	(3)
+> +#define SCU0_CLK_GATE_BCLK	(4)
+> +#define SCU0_CLK_GATE_D1CLK	(5)
+> +#define SCU0_CLK_GATE_REFCLK	(6)
+> +#define SCU0_CLK_GATE_USB0CLK	(7)
+> +#define SCU0_CLK_GATE_RSV8	(8)
+> +#define SCU0_CLK_GATE_USB1CLK	(9)
+> +#define SCU0_CLK_GATE_D2CLK	(10)
+> +#define SCU0_CLK_GATE_RSV11	(11)
+> +#define SCU0_CLK_GATE_RSV12	(12)
+> +#define SCU0_CLK_GATE_YCLK	(13)
+> +#define SCU0_CLK_GATE_USB2CLK	(14)
+> +#define SCU0_CLK_GATE_UART4CLK	(15)
+> +#define SCU0_CLK_GATE_SLICLK	(16)
+> +#define SCU0_CLK_GATE_DACCLK	(17)
+> +#define SCU0_CLK_GATE_DP	(18)
+> +#define SCU0_CLK_GATE_RSV19	(19)
+> +#define SCU0_CLK_GATE_CRT1CLK	(20)
+> +#define SCU0_CLK_GATE_CRT2CLK	(21)
+> +#define SCU0_CLK_GATE_VLCLK	(22)
+> +#define SCU0_CLK_GATE_ECCCLK	(23)
+> +#define SCU0_CLK_GATE_RSACLK	(24)
+> +#define SCU0_CLK_GATE_RVAS0CLK	(25)
+> +#define SCU0_CLK_GATE_UFSCLK	(26)
+> +#define SCU0_CLK_GATE_EMMCCLK	(27)
+> +#define SCU0_CLK_GATE_RVAS1CLK	(28)
+> +/* reserved 29 ~ 31*/
+
+IDs cannot be reserved. It is a binding, not a hardware number.
+
+> +#define SOC0_CLK_GATE_NUM	(SCU0_CLK_GATE_RVAS1CLK + 1)
+
+No drop. Others as well.
 
 Best regards,
 Krzysztof
