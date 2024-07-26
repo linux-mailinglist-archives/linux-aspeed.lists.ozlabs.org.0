@@ -2,61 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB6993D21E
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 13:20:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB4D93D237
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 13:26:29 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HOpz+coo;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BJoVgG61;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WVlfJ4qZkz3dKV
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 21:20:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WVlnb4wHQz3dDn
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 21:26:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HOpz+coo;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BJoVgG61;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlfC5RpZz30W0
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:20:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlnW2Vzhz30Wg
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:26:23 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 9A02661697;
-	Fri, 26 Jul 2024 11:20:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F9DBC4AF07;
-	Fri, 26 Jul 2024 11:19:52 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 15A1CCE11A3;
+	Fri, 26 Jul 2024 11:26:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83355C32782;
+	Fri, 26 Jul 2024 11:26:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721992801;
-	bh=JSPYffs55xXRqX4bf9t+uyKOhPgSMTwYlz+FFIt/4v8=;
-	h=Date:Subject:List-Id:To:References:From:In-Reply-To:From;
-	b=HOpz+cooQJHu8PFlXEjzy1VcLfdxSQZeESqN2hlEtpO6OY5ONBtss55HbKRfH9NOA
-	 YyicSxeqwzVz5ZX/mrbbhH6oOg2MizKmRCNEwQfU30DeZRzJELW+wJpzNn+cse22w/
-	 i8PIfUiNFoBJsn/kKtTQMcqscchv1QUbil+qZ1afEtc2U+pYW5lR4vM165I7D0OiX2
-	 dtl+bgz9zK6TGCsWPkYf7YvldK8TpeVYfzjWZvx/Cq4KnNVwi6RabJTGFlkRtCBvOz
-	 1hkiu9HefIaecs2tIrc+yVEFEeeUpEaH35aFuAM+yd6PBX20GSe4Twjb5NTTucvdkd
-	 yfTyG1XC+mx9g==
-Message-ID: <b6be1531-d8e2-44d1-a81a-6db8f9ae4ad4@kernel.org>
-Date: Fri, 26 Jul 2024 13:19:50 +0200
+	s=k20201202; t=1721993180;
+	bh=88v3/9z4T868/Ez3TdBKIeUtjOglxDeCYcedMsjAw/g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BJoVgG611Iw9ZXW9nJqIC3dWy8nhr6oM1FkqRqfdFhwv8E5WO7EwgX+0iSKgRDdAf
+	 j0gNN9U3eGRd2Kel9ghMc216SXqfkfoU2Gt0j9rZ3ZNU6Np895HfStxkmjcd1gPDkv
+	 d6l7nkM14Dcqy6LNQCYKdQxKMhLoim/my0JFINAf+pNMtqsBe3a8M+yPEGYkhWjwGu
+	 BRc0VBlOFK7s2hZ/Qs8ruOlND7OZpCesLS7SeuXqWt11UXSSDJDWuIROBiz6gGGmIL
+	 jIFwBwQWqQVRl5b2B/nUxrq2M50gfd9mSaAsEQItD861XiFomP4IiXP6P1dInbnOjS
+	 SR7NxTGC1jMLw==
+Message-ID: <e7536c91-ea81-49df-838d-6627301c81e7@kernel.org>
+Date: Fri, 26 Jul 2024 13:26:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 08/10] arm64: dts: aspeed: Add initial AST27XX device
- tree
-To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
- andrew@codeconstruct.com.au, lee@kernel.org, catalin.marinas@arm.com,
- will@kernel.org, arnd@arndb.de, olof@lixom.net, soc@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
- quic_bjorande@quicinc.com, geert+renesas@glider.be,
- dmitry.baryshkov@linaro.org, shawnguo@kernel.org, neil.armstrong@linaro.org,
- m.szyprowski@samsung.com, nfraprado@collabora.com, u-kumar1@ti.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
- <20240726110355.2181563-9-kevin_chen@aspeedtech.com>
+Subject: Re: [PATCH v5 2/2] ARM: dts: aspeed: catalina: add Meta Catalina BMC
+To: Potin Lai <potin.lai.pt@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Patrick Williams <patrick@stwcx.xyz>
+References: <20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com>
+ <20240726-potin-catalina-dts-v5-2-8f02305af527@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240726110355.2181563-9-kevin_chen@aspeedtech.com>
+In-Reply-To: <20240726-potin-catalina-dts-v5-2-8f02305af527@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -116,286 +109,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 26/07/2024 13:03, Kevin Chen wrote:
-> ---
->  arch/arm64/boot/dts/Makefile              |   1 +
->  arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi | 217 ++++++++++++++++++++++
->  2 files changed, 218 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
+On 26/07/2024 12:26, Potin Lai wrote:
+> Add linux device tree entry for Meta(Facebook) Catalina compute-tray
+> BMC using AT2600 SoC.
 > 
-> diff --git a/arch/arm64/boot/dts/Makefile b/arch/arm64/boot/dts/Makefile
-> index 21cd3a87f385..c909c19dc5dd 100644
-> --- a/arch/arm64/boot/dts/Makefile
-> +++ b/arch/arm64/boot/dts/Makefile
-> @@ -34,3 +34,4 @@ subdir-y += tesla
->  subdir-y += ti
->  subdir-y += toshiba
->  subdir-y += xilinx
-> +subdir-y += aspeed
-> diff --git a/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi b/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
-> new file mode 100644
-> index 000000000000..858ab95251e4
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
-> @@ -0,0 +1,217 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +#include <dt-bindings/clock/aspeed,ast2700-clk.h>
-> +#include <dt-bindings/reset/aspeed,ast2700-reset.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/interrupt-controller/aspeed-scu-ic.h>
-> +
-> +/ {
-> +	model = "Aspeed BMC";
+> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
+> ---
 
-Model of what? No, drop.
+Style review:
 
-> +	compatible = "aspeed,ast2700";
-
-Please run scripts/checkpatch.pl and fix reported warnings. Then please
-run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.
-Some warnings can be ignored, especially from --strict run, but the code
-here looks like it needs a fix. Feel free to get in touch if the warning
-is not clear.
-
-
-> +	#address-cells = <2>;
-> +	#size-cells = <2>;
-> +	interrupt-parent = <&gic>;
-> +
-> +	aliases {
-> +		serial12 = &uart12;
-
-Nope. Such aliases are board specific.
-
-> +	};
-> +
-> +	cpus {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		cpu@0 {
-> +			compatible = "arm,cortex-a35";
-> +			enable-method = "psci";
-> +			device_type = "cpu";
-> +			reg = <0>;
-> +			d-cache-size = <0x8000>;
-> +			d-cache-line-size = <64>;
-> +			d-cache-sets = <128>;
-> +			i-cache-size = <0x8000>;
-> +			i-cache-line-size = <64>;
-> +			i-cache-sets = <256>;
-> +			next-level-cache = <&l2>;
-> +		};
-> +
-> +		cpu@1 {
-> +			compatible = "arm,cortex-a35";
-> +			enable-method = "psci";
-> +			device_type = "cpu";
-> +			reg = <1>;
-> +			d-cache-size = <0x8000>;
-> +			d-cache-line-size = <64>;
-> +			d-cache-sets = <128>;
-> +			i-cache-size = <0x8000>;
-> +			i-cache-line-size = <64>;
-> +			i-cache-sets = <256>;
-> +			next-level-cache = <&l2>;
-> +		};
-> +
-> +		cpu@2 {
-> +			compatible = "arm,cortex-a35";
-> +			enable-method = "psci";
-> +			device_type = "cpu";
-> +			reg = <2>;
-> +			d-cache-size = <0x8000>;
-> +			d-cache-line-size = <64>;
-> +			d-cache-sets = <128>;
-> +			i-cache-size = <0x8000>;
-> +			i-cache-line-size = <64>;
-> +			i-cache-sets = <256>;
-> +			next-level-cache = <&l2>;
-> +		};
-> +
-> +		cpu@3 {
-> +			compatible = "arm,cortex-a35";
-> +			enable-method = "psci";
-> +			device_type = "cpu";
-> +			reg = <3>;
-> +			d-cache-size = <0x8000>;
-> +			d-cache-line-size = <64>;
-> +			d-cache-sets = <128>;
-> +			i-cache-size = <0x8000>;
-> +			i-cache-line-size = <64>;
-> +			i-cache-sets = <256>;
-> +			next-level-cache = <&l2>;
-> +		};
-> +
-> +		l2: l2-cache0 {
-> +			compatible = "cache";
-> +			cache-size = <0x80000>;
-> +			cache-line-size = <64>;
-> +			cache-sets = <1024>;
-> +			cache-level = <2>;
-> +		};
-> +	};
-> +
-> +	pmu {
-> +		compatible = "arm,cortex-a35-pmu";
-> +		interrupt-parent = <&gic>;
-> +		interrupts = <GIC_PPI 7 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>;
-> +	};
-> +
-> +	psci {
-
-Order the nodes according to DTS coding style.
-
-Fix all your patches:
-1. To pass flawlessly checkpatch (you did not run it)
-2. To pass dt_binding_check and dtbs_check (you did not run these)
-3. To adhere to kernel coding style
-4. To adhere to DTS coding style
-
-> +		compatible = "arm,psci-1.0";
-> +		method = "smc";
-> +	};
-> +
-> +	gic: interrupt-controller@12200000 {
-
-Nope, this cannot be outside of SoC.
-
-> +		compatible = "arm,gic-v3";
-> +		interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>;
-> +		#interrupt-cells = <3>;
-> +		interrupt-controller;
-> +		interrupt-parent = <&gic>;
-> +		#redistributor-regions = <1>;
-> +		reg =	<0 0x12200000 0 0x10000>,		//GICD
-> +			<0 0x12280000 0 0x80000>,		//GICR
-> +			<0 0x40440000 0 0x1000>;		//GICC
-
-Read DTS coding style and order this correctly.
-
-> +	};
-> +
-> +	timer {
-> +		compatible = "arm,armv8-timer";
-> +		interrupt-parent = <&gic>;
-> +		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
-> +				<GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
-> +				<GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
-> +				<GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
-> +		arm,cpu-registers-not-fw-configured;
-> +		always-on;
-> +	};
-> +
-> +	soc0: soc@10000000 {
-> +		compatible = "simple-bus";
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		ranges;
-> +
-> +		soc0_sram: sram@10000000 {
-> +			compatible = "mmio-sram";
-> +			reg = <0x0 0x10000000 0x0 0x20000>;	/* 128KiB SRAM on soc0 */
-> +			ranges = <0x0 0x0 0x0 0x10000000 0x0 0x20000>;
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +			no-memory-wc;
-> +
-> +			exported@0 {
-> +				reg = <0 0x0 0 0x20000>;
-> +				export;
-> +			};
-> +		};
-> +
-> +		syscon0: syscon@12c02000 {
-> +			compatible = "aspeed,ast2700-scu0", "syscon", "simple-mfd";
-> +			reg = <0x0 0x12c02000 0x0 0x1000>;
-> +			ranges = <0x0 0x0 0 0x12c02000 0 0x1000>;
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +			#clock-cells = <1>;
-> +			#reset-cells = <1>;
-> +
-> +			silicon-id@0 {
-> +				compatible = "aspeed,ast2700-silicon-id", "aspeed,silicon-id";
-> +				reg = <0 0x0 0 0x4>;
-> +			};
-> +
-> +			scu_ic0: interrupt-controller@1D0 {
-
-DTS coding style...
-
-> +				#interrupt-cells = <1>;
-> +				compatible = "aspeed,ast2700-scu-ic0";
-> +				reg = <0 0x1d0 0 0xc>;
-> +				interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
-> +				interrupt-controller;
-> +			};
-> +
-> +			scu_ic1: interrupt-controller@1E0 {
-> +				#interrupt-cells = <1>;
-> +				compatible = "aspeed,ast2700-scu-ic1";
-> +				reg = <0 0x1e0 0 0xc>;
-> +				interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-> +				interrupt-controller;
-> +			};
-> +
-> +			soc0_rst: reset-controller@200 {
-> +				reg = <0 0x200 0 0x40>;
-> +			};
-> +
-> +			soc0_clk: clock-controller@240 {
-> +				reg = <0 0x240 0 0x1c0>;
-> +			};
-> +		};
-> +
-> +	};
-> +
-> +	soc1: soc@14000000 {
-
-Wait, what, to socs?
-
-> +		compatible = "simple-bus";
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		ranges;
-> +
-> +		syscon1: syscon@14c02000 {
-> +			compatible = "aspeed,ast2700-scu1", "syscon", "simple-mfd";
-> +			reg = <0x0 0x14c02000 0x0 0x1000>;
-> +			ranges = <0x0 0x0 0x0 0x14c02000 0x0 0x1000>;
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +			#clock-cells = <1>;
-> +			#reset-cells = <1>;
-> +
-> +			soc1_rst: reset-controller@200 {
-> +				#reset-cells = <1>;
-> +			};
-> +
-> +			soc1_clk: clock-controller@240 {
-> +				reg = <0 0x240 0 0x1c0>;
-> +			};
-> +		};
-> +
-> +		uart12: serial@14c33b00 {
-> +			compatible = "ns16550a";
-> +			reg = <0x0 0x14c33b00 0x0 0x100>;
-> +			reg-shift = <2>;
-> +			reg-io-width = <4>;
-> +			clocks = <&syscon1 SCU1_CLK_GATE_UART12CLK>;
-> +			no-loopback-test;
-> +			pinctrl-names = "default";
-
-What is this?
-
-> +		};
-> +	};
-> +};
-> +
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
