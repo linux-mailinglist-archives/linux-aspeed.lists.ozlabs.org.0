@@ -1,49 +1,49 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FC793D1E1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 13:15:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2172993D1E9
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 13:16:32 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oybBgE4u;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XzVOd0AQ;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WVlXr3DXNz3dDT
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 21:15:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WVlZ60JLNz3dDn
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2024 21:16:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oybBgE4u;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XzVOd0AQ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlXm1bTcz3dDT
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:15:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WVlZ140ncz30Vy
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2024 21:16:25 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 77C1061302;
-	Fri, 26 Jul 2024 11:15:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41FE3C4AF09;
-	Fri, 26 Jul 2024 11:15:10 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 60547CE1346;
+	Fri, 26 Jul 2024 11:16:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9518C32782;
+	Fri, 26 Jul 2024 11:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721992518;
-	bh=FjhP1BmKaw1pB43Y33s8TCUw1kBylkxAqln41CYFyww=;
+	s=k20201202; t=1721992583;
+	bh=4PCK2sWpDnQVujtjG0OroqQcADHR9De9HxDlVfiJmqw=;
 	h=Date:Subject:List-Id:To:References:From:In-Reply-To:From;
-	b=oybBgE4uclllQTjEqtCvyxMRPuvm7XaI0rIKcen3PDP25MbZDdK4/Dpp1edo4e8Zb
-	 WbBjlRy7l5tpjHcO9huz27znwiawYdSxd/mZ/S/OkEBPY6hnxE56eZKqvBoSbJ2zpY
-	 dHyh/KWDv0rlo/slK2b3vEX/pTCDGJLthBl5Fd2E4EqP/Z0TjNZNN/XfP4PNCO17l0
-	 r9YSv56G+Je+ThJes0uGab+qZrXQfzeQYUK5WT+IpOD+7I97KWDd/cUjwf3iuIKkkZ
-	 E0oFKwwCc89UlkltTTfIbe+6TYgAt4NnQL7bOO8oo1ogqVycKmrg9X/jB8tFWysqnu
-	 YviW5/fO0GgNg==
-Message-ID: <371a7c7b-de32-4f97-b4c7-3c0ad0732e1a@kernel.org>
-Date: Fri, 26 Jul 2024 13:15:08 +0200
+	b=XzVOd0AQYRlKKur8YEeM0seW5HU6gSy2k8Xph54Lt8lP4jH4wuWE4z5ncL6kueATO
+	 9f0OUG4pEE8yIDnCElGn4Xs7Xts+4TaOPRq7+s8AQMJWsTCYMcZI8F8yIvwNDMWyPZ
+	 u0pqygxBUsAJ65j+Z/vgOoOdj4eiTGqJIwY3Ons2al8NnfTxiw1skFHP+kLmXp0eqz
+	 C6U1Cu52K9SZqZmbwt0bnDGvTKhyut9zkiA8R5ReKbLnOqoUEtmdNkdlbT5GAWmQAq
+	 p/cZQv00x+aIG8KfS6I8n0TcWd9MYkcfl8XzJvdh/kkwHWnBAAF7EAgagY1eHfCabo
+	 2hZyZ6Vv+txYA==
+Message-ID: <b7b3cbc2-5f20-4a78-b189-b509acfee3ac@kernel.org>
+Date: Fri, 26 Jul 2024 13:16:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 06/10] dt-bindings: arm: aspeed: Add aspeed,ast2700-evb
- compatible string
+Subject: Re: [PATCH v1 07/10] arm64: aspeed: Add support for ASPEED AST2700
+ BMC SoC
 To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
  andrew@codeconstruct.com.au, lee@kernel.org, catalin.marinas@arm.com,
@@ -56,7 +56,7 @@ To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
- <20240726110355.2181563-7-kevin_chen@aspeedtech.com>
+ <20240726110355.2181563-8-kevin_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +102,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240726110355.2181563-7-kevin_chen@aspeedtech.com>
+In-Reply-To: <20240726110355.2181563-8-kevin_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -121,24 +121,47 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 
 On 26/07/2024 13:03, Kevin Chen wrote:
 > ---
->  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
+>  MAINTAINERS                  |  3 +++
+>  arch/arm64/Kconfig.platforms | 14 ++++++++++++++
+>  2 files changed, 17 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> index 71c31c08a8ad..b21551817f44 100644
-> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> @@ -99,4 +99,9 @@ properties:
->                - ufispace,ncplite-bmc
->            - const: aspeed,ast2600
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c0a3d9e93689..08609430cfe0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2121,7 +2121,10 @@ Q:	https://patchwork.ozlabs.org/project/linux-aspeed/list/
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+>  F:	Documentation/devicetree/bindings/arm/aspeed/
+>  F:	arch/arm/boot/dts/aspeed/
+> +F:	arch/arm64/boot/dts/aspeed/
+>  F:	arch/arm/mach-aspeed/
+> +F:	include/dt-bindings/clock/aspeed,ast2700-clk.h
+> +F:	include/dt-bindings/reset/aspeed,ast2700-reset.h
+>  N:	aspeed
 >  
-> +      - description: AST2700 based boards
-> +        items:
-> +          - enum:
-> +              - aspeed,ast2700-evb
+>  ARM/AXM LSI SOC
+> diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
+> index 6c6d11536b42..1db7b6f1ee0a 100644
+> --- a/arch/arm64/Kconfig.platforms
+> +++ b/arch/arm64/Kconfig.platforms
+> @@ -40,6 +40,20 @@ config ARCH_APPLE
+>  	  This enables support for Apple's in-house ARM SoC family, starting
+>  	  with the Apple M1.
+>  
+> +config ARCH_ASPEED
+> +	bool "Aspeed SoC family"
+> +	select MACH_ASPEED_G7
+> +	help
+> +	  Say yes if you intend to run on an Aspeed ast2700 or similar
+> +	  seventh generation Aspeed BMCs.
+> +
+> +config MACH_ASPEED_G7
+> +	bool "Aspeed SoC AST2700"
 
-NAK, this cannot be alone. Look at all other examples. Why are you doing
-things differently?
+There are no MACHines for arm64. Look at this code. Do you see MACH
+anywhere else? No. Then why Aspeed must be different?
+
+No. Drop.
 
 Best regards,
 Krzysztof
