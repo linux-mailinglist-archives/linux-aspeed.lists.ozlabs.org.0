@@ -1,54 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E423944F31
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2024 17:29:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2EB944F3B
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2024 17:30:29 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QKg7xzN0;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=SkJwmeHj;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WZXvW1gX0z3dL2
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 01:29:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WZXwM08qmz3dRD
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 01:30:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QKg7xzN0;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=SkJwmeHj;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WZXvR2dmkz3cWN
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 01:29:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WZXvV053vz3dSG;
+	Fri,  2 Aug 2024 01:29:41 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 51C5A628FF;
-	Thu,  1 Aug 2024 15:29:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE5BFC4AF0C;
-	Thu,  1 Aug 2024 15:29:36 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 37E7F628F5;
+	Thu,  1 Aug 2024 15:29:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B5CC4AF0B;
+	Thu,  1 Aug 2024 15:29:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722526177;
-	bh=b0dKdpkls/xiHeq62dyi/20Z4CFMsm8c8psfqmbBiF4=;
+	s=k20201202; t=1722526180;
+	bh=Nyd4g5rhTQbe44jgfTOL5a3YHQWfVlAEm0eqKH+VvZ0=;
 	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=QKg7xzN0ALkHM98XOiofqigRpBDKQ+VWTKgqk7P4ndlaRxn9zFHZq2Qjvq9aGXS5Q
-	 3c0W8CtiiFOZ90XfItPioJBnv9L9RpvrEMIFudBJg+qgjnn26LwrbqLfiPsGfZXkUx
-	 aWzR4+vo13bTTEmPcMUV6+bRElohC+VKbkXqwu7pobbXHpZ6gMczJduUsYQLPMbUee
-	 UYejgKJKP4UqkNuX3xmUotbtMJeJmhxfiQbx/v3dzSYOAid1FtYopNhcrN05TTADf/
-	 iTsG5nJ2cibd6g4fz93ej+bKdKJHLScB76kABLjSqKgVtAWCSPsf2Zj1fRS23ZLW9x
-	 Tm7llWCtWFV9w==
-Date: Thu, 01 Aug 2024 09:29:35 -0600
+	b=SkJwmeHjFADZd6O4hfrUM5ED6u0ENUlkgkDi3LGm988eJgr6P5a4v/oJhAlmfv+5G
+	 C9I/3FPONFytE5XBLEo/FjEhxDR+vegIpVbQB+2SPPSvWGwj4tYlazHgPFIAOKZrPz
+	 9y/Il9xf1yzIDVvZeyabQrDeqRWzNG9KapfvbRd5zo3iB827zQL+L0W//BQTPsIOy/
+	 Gb7aHNQu78slFxgiAzEpgJp8BgaepD9cboxhP8ioEdmBZjdud7wcZQqB0D9/uP+vSi
+	 EiB3Tcn4H5WQALCO+4u/riraf7o04zTVQ12xlDNrDfDTiyU+Fig+lRySFgV1b2e+Zu
+	 9tXdndj4g+Wwg==
+Date: Thu, 01 Aug 2024 09:29:38 -0600
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <20240731214737.986010-1-ninad@linux.ibm.com>
-References: <20240731214737.986010-1-ninad@linux.ibm.com>
-Message-Id: <172252600790.120672.12772438670145461296.robh@kernel.org>
-Subject: Re: [PATCH v1 0/1] ARM: dts: aspeed: system1: IBM System1 BMC
- update
+To: Chanh Nguyen <chanh@os.amperecomputing.com>
+In-Reply-To: <20240801091217.1408809-1-chanh@os.amperecomputing.com>
+References: <20240801091217.1408809-1-chanh@os.amperecomputing.com>
+Message-Id: <172252600912.120761.16384387883905749466.robh@kernel.org>
+Subject: Re: [PATCH 0/6] Update the device tree for Ampere's BMC platform
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,23 +59,26 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Thang Nguyen <thang@os.amperecomputing.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
-On Wed, 31 Jul 2024 16:47:28 -0500, Ninad Palsule wrote:
-> Hello,
+On Thu, 01 Aug 2024 09:12:10 +0000, Chanh Nguyen wrote:
+> Updates the device tree to support some features on Ampere's
+> Mt.Mitchell BMC and Ampere's Mt.Jade BMC.
 > 
-> This patch only applies to openbmc/linux. The max31785 pmbus driver
-> changes are not available in the upstream yet. I will try to send those
-> changes upstream.
+> Chanh Nguyen (6):
+>   ARM: dts: aspeed: mtjade, mtmitchell: Add OCP temperature sensors
+>   ARM: dts: aspeed: mtmitchell: Add I2C temperature sensor alias ports
+>   ARM: dts: aspeed: mtmitchell: Add I2C Riser card alias ports
+>   ARM: dts: aspeed: mtmitchell: Enable i2c10 and i2c15
+>   ARM: dts: aspeed: mtmitchell: Add LEDs
+>   ARM: dts: aspeed: mtmitchell: Add I2C FAN controllers
 > 
-> Ninad Palsule (1):
->   ARM: dts: aspeed: system1: IBM System1 BMC update
-> 
->  .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 96 +++++++++++++++++++
->  1 file changed, 96 insertions(+)
+>  .../dts/aspeed/aspeed-bmc-ampere-mtjade.dts   |  16 ++
+>  .../aspeed/aspeed-bmc-ampere-mtmitchell.dts   | 152 ++++++++++++++++++
+>  2 files changed, 168 insertions(+)
 > 
 > --
 > 2.43.0
@@ -99,15 +101,10 @@ make sure dt-schema is up to date:
   pip3 install dtschema --upgrade
 
 
-New warnings running 'make CHECK_DTBS=y aspeed/aspeed-bmc-ibm-system1.dtb' for 20240731214737.986010-1-ninad@linux.ibm.com:
+New warnings running 'make CHECK_DTBS=y aspeed/aspeed-bmc-ampere-mtjade.dtb aspeed/aspeed-bmc-ampere-mtmitchell.dtb' for 20240801091217.1408809-1-chanh@os.amperecomputing.com:
 
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: /ahb/apb/bus@1e78a000/i2c@380/fan-controller@52/fan@0: failed to match any schema with compatible: ['pmbus-fan']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: /ahb/apb/bus@1e78a000/i2c@380/fan-controller@52/fan@1: failed to match any schema with compatible: ['pmbus-fan']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: /ahb/apb/bus@1e78a000/i2c@380/fan-controller@52/fan@2: failed to match any schema with compatible: ['pmbus-fan']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: /ahb/apb/bus@1e78a000/i2c@380/fan-controller@52/fan@3: failed to match any schema with compatible: ['pmbus-fan']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: /ahb/apb/bus@1e78a000/i2c@380/fan-controller@52/fan@4: failed to match any schema with compatible: ['pmbus-fan']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: /ahb/apb/bus@1e78a000/i2c@380/fan-controller@54/fan@0: failed to match any schema with compatible: ['pmbus-fan']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: /ahb/apb/bus@1e78a000/i2c@380/fan-controller@54/fan@1: failed to match any schema with compatible: ['pmbus-fan']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dtb: /ahb/apb/bus@1e78a000/i2c@480/fan-controller0@20: failed to match any schema with compatible: ['maxim,max31790']
+arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dtb: /ahb/apb/bus@1e78a000/i2c@480/fan-controller1@2f: failed to match any schema with compatible: ['maxim,max31790']
 
 
 
