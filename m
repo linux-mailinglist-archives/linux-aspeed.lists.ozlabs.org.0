@@ -1,64 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C532944FE6
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2024 18:03:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB799944FE7
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2024 18:04:00 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=CPfcI0cu;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jgAEmd5E;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WZYfx6SBCz3dKH
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 02:03:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WZYg24ZRPz3dLl
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 02:03:58 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=CPfcI0cu;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jgAEmd5E;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::431; helo=mail-pf1-x431.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WZYfq3Gbhz3dTC
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 02:03:47 +1000 (AEST)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-70eec5f2401so4460709b3a.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Aug 2024 09:03:47 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WZYfr3bGBz3dTb
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 02:03:48 +1000 (AEST)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1fc6a017abdso47878595ad.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Aug 2024 09:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722528222; x=1723133022; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1722528225; x=1723133025; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0oqZSVf3Pja7+3axQ7FhMBZCb9fhp3k28x1dNv+Nkh0=;
-        b=CPfcI0cuahWMiFWWpq+FcTg6K/u3C+F40Xm73ZJdrpqf2HWVX7xmUe4cvGKQwnXHdp
-         yt0kgbMIijfWYgsn8Rw+h53XKuEE0PgKipXm3CLfzv3nbnddds4g9Jr4k84RNaMkHVGr
-         nkH/QsFMbRxcr3vAOvmvxe45YWR4lVfpjB82UmSOUM3iDobtqtB13JixJdX7HKIA+DVD
-         nyJaGVFG0bGTzUwZCai5UAeDU+KK72eFaQmBI3DSIZjWLQgY4JQVYpKjgywfCFK1m951
-         gIFxQClorUAP07crUV39lVJkMFqcjORC5SPtRXkyahWLoLgvjseoL5Q0dDUgT6hXl3t0
-         jI8w==
+        bh=7Xvc/KjGA8csQnGpC5265d0N0RHT5WtgS5gajMnjS20=;
+        b=jgAEmd5E6PzZOAKtC+TKG0AncoauyWMKpJL39Yo26FvafYADddb9Y5WpaUyaDv/HMW
+         SsL+QWzoYVqNADjLuAH4dR4y4OlrOc/nKNcLO18/4N3dXRSzIMzeJ5rlj35mR1SL0bvL
+         VZ9vkAPIhzxqP0SeT+Npbomop/0xr0ArjIw093YnPLt5bhDa/OLa3CHJDS3hiBs8Jt+M
+         wdyKiy48xgR6EBRXeNLS0UqMfz+Pl8o2CGdaCeUbmk4pC2KpsbU6IYmUxyrz+vYKvo+L
+         W1bpETnR2p2u4Yc1G6LtUXLyDNJAmxT+5Ynq6ZtSh8IchI+FZjBnV0g6u3/YENp4EzZ3
+         RF4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722528222; x=1723133022;
+        d=1e100.net; s=20230601; t=1722528225; x=1723133025;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0oqZSVf3Pja7+3axQ7FhMBZCb9fhp3k28x1dNv+Nkh0=;
-        b=wXPUewOF2wwixLvZafNAIPiMMHgK2YVUC/S3Ifn2m0NQYaZRvuNckjUqM2znbipxZc
-         dikw3Jn9bBd4mhEsMW3mMZw3K4KUFUPD6vO325vsi9A2SgniQ8adcAkrtRMbHvj+fZRE
-         4+0Rg+VQLB3poBysBrFV4x6CIyUqKVJMJuqHDMXtY76M2Ak5LhV9cQo/98xmDfwLRPW7
-         Qbj16DRLEnhojJs68AkTt9G2vCW5YUucNZxVt4/heOSGMvjR50j0dKz3GH8grKVxeKYY
-         V5hwtHRDH9LeqaU3N2nv3cFaAeycriVoxONJBOrFYKCzCKAGowAC0PHcV4Pzt8kJ+6L1
-         DEfA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6lUpIVBUt5zo+24WqhwyWLR9bb3wJ3W4PaykhCobEK5BIcIBPpoyhT124RuvC4O/VE4/DijL7i/4jvCEOuW9tHvPJzz540s24HpWh7A==
-X-Gm-Message-State: AOJu0Yw5xu5/YAoVUluf2ngduL7wqxC0xEuf72ye+xUyd7ZbVN5oRmqB
-	wGI2LFUHWT83e4/l/hdFUXoRqr/xym3l5IlkP4Sg5fs0o4pR5cXT
-X-Google-Smtp-Source: AGHT+IG6tg51ynV80wHlsk0sv7Mrh3n5BGlH6OX14TfmA459p8pb2kTLYFECWUzhBXE/TS8GtQj3HQ==
-X-Received: by 2002:a17:90b:4b92:b0:2cf:f3e9:d5c8 with SMTP id 98e67ed59e1d1-2cff952e810mr843435a91.31.1722528222522;
-        Thu, 01 Aug 2024 09:03:42 -0700 (PDT)
+        bh=7Xvc/KjGA8csQnGpC5265d0N0RHT5WtgS5gajMnjS20=;
+        b=NoP1xeTw6phtcyUKH/wkrSuj/y1oa7rhKJpoqm/n8nWwLYtsvvBzZFM9F9AzAD74AS
+         xTrfITWZsv7Hf1dNfsHpbvz+lmyKd03G6nr+qmB72TtN8qff7J8gtNlb1d6Y2e0Kqvsu
+         3daYqRB3RmaoUQ2/Lx6Po+iLhNY0Ga3qtizLUtiL/UkoIPbEP1Foz0HUeiKvVXQPTj7D
+         UynZ3bZQB/pEyAj2LxZwhr3B5fDoqv5+1DoV1ZC8eL9tebGhUyfGi/bkh2QJFvd4uArF
+         Y3Zhs1ySiXpRROuoPPtIMR29DZ7nsNvB/2jLzW1+6gYsDlDYAjtuvbdpP2kvT7BiDAZR
+         2hew==
+X-Forwarded-Encrypted: i=1; AJvYcCVMJUii9A42UY9igRV0qwt1RXyQwQIlM3qShCFlGSuiLx0qLKFvw452ySqbxJZH53wkoRoGGc6ISVEVJQrMbmduMaIaUXxw5QNB2bX/Lg==
+X-Gm-Message-State: AOJu0Yx3T3AKepGNMYBaiRX+Ix9u1lLhuKOmYdlEBbYAwh/nmDBw0OKV
+	ZATa9okNMYhE1Nv4UNZu1e9jqx2YwhhVbu/paxeXcqxwRajgPodS
+X-Google-Smtp-Source: AGHT+IGlU2dt7pndOA3Re1nLJoWTvZUFUwdcLWsGa5x2aRYRnbOEpyrYhTN1gMD98bbpeN6JFr+Lig==
+X-Received: by 2002:a17:90a:a417:b0:2c9:6f8d:7270 with SMTP id 98e67ed59e1d1-2cff9544dc7mr680631a91.42.1722528225310;
+        Thu, 01 Aug 2024 09:03:45 -0700 (PDT)
 Received: from peter-bmc.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4cf181sm3535268a91.37.2024.08.01.09.03.40
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4cf181sm3535268a91.37.2024.08.01.09.03.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Aug 2024 09:03:42 -0700 (PDT)
+        Thu, 01 Aug 2024 09:03:44 -0700 (PDT)
 From: Peter Yin <peteryin.openbmc@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -69,9 +69,9 @@ To: Rob Herring <robh@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 01/11] ARM: dts: aspeed: Harma: revise hsc chip
-Date: Fri,  2 Aug 2024 00:01:25 +0800
-Message-Id: <20240801160136.1281291-2-peteryin.openbmc@gmail.com>
+Subject: [PATCH v3 02/11] ARM: dts: aspeed: Harma: add VR device
+Date: Fri,  2 Aug 2024 00:01:26 +0800
+Message-Id: <20240801160136.1281291-3-peteryin.openbmc@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240801160136.1281291-1-peteryin.openbmc@gmail.com>
 References: <20240801160136.1281291-1-peteryin.openbmc@gmail.com>
@@ -91,33 +91,48 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Revise HSC chip name and address to match LTC4287.
+Add isl69260, xdpe152c4 device
 
 Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-index c118d473a76f..d99fba321379 100644
+index d99fba321379..8fb30029e46c 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-@@ -276,11 +276,10 @@ temperature-sensor@49 {
- 		reg = <0x49>;
- 	};
- 
--	power-monitor@22 {
--		compatible = "lltc,ltc4286";
--		reg = <0x22>;
--		adi,vrange-low-enable;
--		shunt-resistor-micro-ohms = <500>;
-+	power-monitor@44 {
-+		compatible = "lltc,ltc4287";
-+		reg = <0x44>;
-+		shunt-resistor-micro-ohms = <250>;
- 	};
- };
- 
+@@ -398,6 +398,30 @@ imux28: i2c@0 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <0>;
++			power-monitor@61 {
++				compatible = "isil,isl69260";
++				reg = <0x61>;
++			};
++			power-monitor@62 {
++				compatible = "isil,isl69260";
++				reg = <0x62>;
++			};
++			power-monitor@63 {
++				compatible = "isil,isl69260";
++				reg = <0x63>;
++			};
++			power-monitor@64 {
++				compatible = "infineon,xdpe152c4";
++				reg = <0x64>;
++			};
++			power-monitor@66 {
++				compatible = "infineon,xdpe152c4";
++				reg = <0x66>;
++			};
++			power-monitor@68 {
++				compatible = "infineon,xdpe152c4";
++				reg = <0x68>;
++			};
+ 		};
+ 		imux29: i2c@1 {
+ 			#address-cells = <1>;
 -- 
 2.25.1
 
