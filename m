@@ -2,148 +2,89 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00119447F6
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2024 11:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B58F944E18
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2024 16:32:32 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=rX8oEnHS;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=SBjKG9mw;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WZNgt5PD8z3dS9
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2024 19:19:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WZWdV3Zgdz3dWv
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 00:32:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=rX8oEnHS;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=SBjKG9mw;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f403:c001::2; helo=sj2pr03cu001.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=lists.ozlabs.org)
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazlp170120002.outbound.protection.outlook.com [IPv6:2a01:111:f403:c001::2])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WZNYh30mwz3dSG;
-	Thu,  1 Aug 2024 19:13:44 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wTMUF0jR4OpsQkYYgGytLsWxArCJHeRB765EhXB80Ss+tLezKyTuxdT/+e6+Ja20hHgydfbJx7kyvW2kcaO2baSHOaD5SqfjDT1AZIGA1ZhwHiwQfbM8rF2YsRey7Fhs9wFiMZIQ3JccbutmudgFzZdYSzrzOWrHxEfUlpPVPxWVVWiQUNBzg/ipSVuuljrgnt7bGgFcLGFKwgH6Tm86zdYw0VKvMBHQxb9D1Rw739ipgD0rFQeiUukxLxY9awaM4kPbhQofksLFIa+fweOsExRAKJXyvFXcFnvDU/unttpWHUN089OzWfQscNJPkQTQwROPLgFum6kdX9VOtCbNow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0c/fcbXuJ95WK8ViA4Q5b5IphYpU8bZcqUT3kXw8pt4=;
- b=IYUdrM/G9P4uFAh+L9MoM/dvYOgyM/MltdOpwT+yWIW8rk6U6jJtUJXgVhV9LxOr1hNmekYrKaGSBxA1iv6qO4dCyxtOj/S1xpJWZlnKHdJoK5ThIm3605WsWzPpF1A0PMz0O46r08Oz27QOxovLH6b5AW+w1cfLjhjlx8RfUAxbFC2atAP0j1miyTpH37tX6Uh3PID0ZZT+MY1j0LN+uiP0IOMIkB7AD3k+yKZl21Lnspeg3ulUodZSLathkiZzvJ31rUZREirDRXnCHG5KNyzlGoTB+5nJTX3+Tfwvl2btssH5TruG9Ji6HskZpRvo6BfqWQBR3nUWo5rvQyQJ6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0c/fcbXuJ95WK8ViA4Q5b5IphYpU8bZcqUT3kXw8pt4=;
- b=rX8oEnHS+AVKey3jK0ywxs2DHhXwEIO78p7wXo34gZ2/t0PSfll201afaaddyc3F1Is1/fbgPR1tqD8eXq1xaEtQB/EBZpQiChwB3O2fg/ilBCqVof3aQc6FAcCIxYfrm11npqcb5kt+iOcQ+56adKkl+8dkWYsq54MJXMFNEkM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from BL3PR01MB7057.prod.exchangelabs.com (2603:10b6:208:35c::16) by
- SA1PR01MB6640.prod.exchangelabs.com (2603:10b6:806:1a4::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7807.28; Thu, 1 Aug 2024 09:13:39 +0000
-Received: from BL3PR01MB7057.prod.exchangelabs.com
- ([fe80::b69e:5684:ed7c:4d09]) by BL3PR01MB7057.prod.exchangelabs.com
- ([fe80::b69e:5684:ed7c:4d09%4]) with mapi id 15.20.7828.021; Thu, 1 Aug 2024
- 09:13:39 +0000
-From: Chanh Nguyen <chanh@os.amperecomputing.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-	Open Source Submission <patches@amperecomputing.com>
-Subject: [PATCH 6/6] ARM: dts: aspeed: mtmitchell: Add I2C FAN controllers
-Date: Thu,  1 Aug 2024 09:12:16 +0000
-Message-ID: <20240801091217.1408809-7-chanh@os.amperecomputing.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240801091217.1408809-1-chanh@os.amperecomputing.com>
-References: <20240801091217.1408809-1-chanh@os.amperecomputing.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: KL1PR01CA0105.apcprd01.prod.exchangelabs.com
- (2603:1096:820:3::21) To BL3PR01MB7057.prod.exchangelabs.com
- (2603:10b6:208:35c::16)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WZWdK0hZjz3dRB
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 00:32:20 +1000 (AEST)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 471ESZBc032072;
+	Thu, 1 Aug 2024 14:32:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:mime-version:subject:to:references:cc:from
+	:in-reply-to:content-type:content-transfer-encoding; s=pp1; bh=p
+	gYQ+qpZzf6i0f+qRPPCt7RFBjuEZ/Fslvazzs8UPPU=; b=SBjKG9mwC7xvaeAN6
+	D/1cvFNG5yE5NrnVNIWGp6q5eGs/yho/5UTAWI7dQNbFsxGmZpX47BviQ4qwo4sC
+	FCJu5Y4CG+HRNthyYX5x/kw9Y2AySDzwlpv3MeAc5PvFs5q5/9ZzuQsjkNRepFHZ
+	7VAZqFCklzfI73UJY5saBCHwcXD63cbX4ufQIzyJVpTmQ67JzuR8aK2j2AQD5l4Y
+	jIVf2D4/BBswVxMArfHfTPiNlBs9r2lLqNzcAqQ0tMYSOh+3U2eWi2nMCLShC9uH
+	1VHzmXTb4LRYN3yXbuqE+LiF0Zd/5zdGQ5uAz9kFhRzSlHIcZNEx/zFKiJQDrtbU
+	IgwBA==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 40rc5c80cf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 01 Aug 2024 14:32:12 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 471CfFHs009176;
+	Thu, 1 Aug 2024 14:32:11 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 40ndx39xjk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 01 Aug 2024 14:32:11 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 471EW8aN19006128
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 1 Aug 2024 14:32:10 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CF04058061;
+	Thu,  1 Aug 2024 14:32:08 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7E9555805F;
+	Thu,  1 Aug 2024 14:32:08 +0000 (GMT)
+Received: from [9.24.12.86] (unknown [9.24.12.86])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  1 Aug 2024 14:32:08 +0000 (GMT)
+Message-ID: <b7eeefed-8d84-4f14-9d72-ea16d4e1458f@linux.ibm.com>
+Date: Thu, 1 Aug 2024 09:32:08 -0500
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL3PR01MB7057:EE_|SA1PR01MB6640:EE_
-X-MS-Office365-Filtering-Correlation-Id: dbe69685-7027-4e73-86a1-08dcb20a3b13
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 	BCL:0;ARA:13230040|376014|7416014|366016|52116014|1800799024|38350700014|921020;
-X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?LWtS36GROvIKxGtMYQOvrRAdrgkVcxDi/2tWAT4RhFgLtnD5tRQSloF25m1M?=
- =?us-ascii?Q?hahYzJYu/GQ8WXwh6Nt/jYh6kMqDGXdE7Bey28EgYKUKPVxL1f1C1wLOcWqV?=
- =?us-ascii?Q?Taz4DP19y+GfOSdDXl+a9++3T/GfMuqFhTdNTpvO99IwA0Cf07ZekJbZI69F?=
- =?us-ascii?Q?B/rvyBD1G3mwdmtE8E3MvVgSndLgmjGY2MFVh1Dx9hn18Al+aNl28T2hAdbj?=
- =?us-ascii?Q?2XgWk5/Yxh4/IWgpXd3mgaWMUCEfa45lpJUD9OMQZMYWplv78dSL/QkZGOEg?=
- =?us-ascii?Q?13tdvDlTL2xt80s4CYzxsLcsapwWfUyVwW3T1UZjIr8BCtqZNqU992oskrGg?=
- =?us-ascii?Q?3rp/2J2gtJQccJy4I9w5Sl0cGbKrMVtDvBaMtYw/Gsd262sdgO11lyCMBy82?=
- =?us-ascii?Q?Yfiu9VEvNqijIBUWzDY208thzAMt/AKDUaA/jSOYjx0w4CE2rGxeDbfbSDQ8?=
- =?us-ascii?Q?8rXa7eHmindGaG/jijWEhcELVz5EqtiOPx4NPIDm7XhhlKmCaaWAuhe6MNGD?=
- =?us-ascii?Q?AH+mlH2s5WRh2YXEvCrAdHIGTuAyG2FNHfyp5IR8aEKjFGiAZoxfa/kVu1X/?=
- =?us-ascii?Q?sJKD8O4li0AMz8JRmmeJZd0p7Bz3yIPIN6TN+7BVyHOWrDhTyrPm4OiEBO+x?=
- =?us-ascii?Q?lN5FSZ6Aw3iqBaPQptFkpfhIFLIR6+q/9VY8UjILRsER+hKFvl+d8cckUMq+?=
- =?us-ascii?Q?MWQjPvU9d6TpoTTezy/9KIQXsz6fZEaLbeEI916zMVdHOJu9lyyoksb/yiQu?=
- =?us-ascii?Q?LlkbZzvwjamP+lclVHi9Qyi0ZMq/XT+O1eAEjuho4brE/J7tPeruHMunH4ba?=
- =?us-ascii?Q?0qZiN68WcTfpcgMEojeRXrE8z659TcLG41IZEtAeQRRCnxtiTE9DKJPeiPxy?=
- =?us-ascii?Q?Ih2j9mjttzfexYeO5IdhYTeMy64pRkRYwtpGhCw9o+LfbxAA2UMbgo0JrO1H?=
- =?us-ascii?Q?/p4uwRUvhl+hEPJSWKvVBFRkH6Kx2GKwAP0eeNuPGEMbWQdoyW4eNelOvU9I?=
- =?us-ascii?Q?Dzvn3Y6Jx93/xNu4TXLSAkwRgkWjd+C+aQqqrkOgutSoiOfofS2j/jvYl97U?=
- =?us-ascii?Q?6Dk+MuCvW+2zzINJNQo9db8kc7LT7Q9ZMFyh1q5+qTi+CDqTBGR1c2kpk23y?=
- =?us-ascii?Q?Y6fYybi4vWR70av92UHbyvt2KrofqIwXE4ilvEFOSz12pVKWsRJr90A9Atra?=
- =?us-ascii?Q?K0/1TORzKkdrt0UPXXI8i4GS97fzXrZ3s8WuVVZuedEk9kmPqWLCG2zbGDlp?=
- =?us-ascii?Q?6/vbozIqy70rDSydcZSOdmv/cPVA7a6rkAEXSIkBBZBcYQ28QRWMS0aDsyxi?=
- =?us-ascii?Q?G/HooDU4eUGWqfuqUititapvSvdspXqZmbWcmtCaEylFPbWGxL34PFaeNrfo?=
- =?us-ascii?Q?husSE+/LX77QKq+Xc70RWfcxEWZx+iFqxwl8pI5CpON5WXnC1wXRszctb4et?=
- =?us-ascii?Q?JJKMbH50uCs=3D?=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR01MB7057.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(52116014)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?zH2XYcExDtAnrdRqwmbj0So7jzomvCw6dRvZL6inmEG5GHedRrlx+LWmMajL?=
- =?us-ascii?Q?2wtYPZHfPBPZskyNW2mwnRys5WRMhSte5aoQokLVoj6E0tuiPCLruvArO90a?=
- =?us-ascii?Q?HvchXWbXtTkna90NMa14e36dWa5bmzQsgZt0eL+3UW1mxjB3+rDkV0r1TbZN?=
- =?us-ascii?Q?Jqfcl3wkoi8pChtNZYD1I+VTNB2NoPtZPw0X01CpLyjiN3EoSohnKuc9VW5o?=
- =?us-ascii?Q?Wd/LWa2gmNUfegePfeJzrxihWhGQJjbXNdaDDmDJwrp8106qR85m5c07eb41?=
- =?us-ascii?Q?ekx5CKk1RDNsHkCl3HEUQeybKg9tTR7J6U/1L85iVc5VByFpTIYeA3c90YR0?=
- =?us-ascii?Q?C6Sn6py3MwxUWbAGqALmqZk88F93sTsGYbkn6tsao1TRXcfCxEtr5FU+Fdo/?=
- =?us-ascii?Q?1yhLKIL2J+Qy95bQW3HxbEv+gt9h15Aqtjsgmd1qi0bq5LmvUNXV6+E85qNp?=
- =?us-ascii?Q?NjsKTzU7lv3XAJtMhxoTCuIrGCchbfOnW1/KAWwMPZP/KSns4lbM4QUqccNk?=
- =?us-ascii?Q?jXdsbb3ML3jWkPHzNMrEe7Rx4u9ZqIMqeJg3Dg10GthIkFIEtA9CeI0o7eJQ?=
- =?us-ascii?Q?iK0OdkCDAN/JhSnatWWagYbkSgFmoKBfbdFJ76xvhng491I/wyndQZPKzlD6?=
- =?us-ascii?Q?/LgouSq0a1tv/3DvK7UxVpBiCN6/lrQHtOWKt9yum3Fofp7aeilcHaSlna9o?=
- =?us-ascii?Q?Ndb97cSAuWQ1pTW0Fz6lYb1a/Wx+fFlWLLrIINDfoQX8d6v9qW/Bqrx5Wm9B?=
- =?us-ascii?Q?qylAvZRK09HeX1JWvNXkR5TvDeBP+O+eya+KqYIcG7fGnR2sFSRYrTDCFdFe?=
- =?us-ascii?Q?ZU1/DOG+hCknVV3kXld9BgYm4nlz876oRGZyThxC2zNpw6gn8HY0//WOpxgl?=
- =?us-ascii?Q?PcBDpWiXzVKqWe7Z5ftZ8N80ECME8tPXhvIm8Ncsrb9JTT4kwUzbT2Qaj6kB?=
- =?us-ascii?Q?zBrsVwRTgt4Zn0tVfIDZDmMLwJKXHrqQdbZhMAI8Jm28eaah76Ogspef6cYf?=
- =?us-ascii?Q?mdTDau+U9E0tG2uIgyb1WN0Ch1WyKhKMth3VpxOtaaRvcVW209Zgfp5h7GB9?=
- =?us-ascii?Q?v1rzhYQ75NHZFtNHs4fnQ51A1In6ipSp2qb+zMvI5xT5CVXlPetS6N0gzRPv?=
- =?us-ascii?Q?yN2KpQnVslfmJBM81AqEBlIwuaeA74tJfLJbtEHqGVTK35+KYKqltoOnEjDF?=
- =?us-ascii?Q?XFqNt02unx8rpkEyx/jct9oy3Bxl3UVyphmW0dOFb3skA482LQ9ABFMiwEed?=
- =?us-ascii?Q?oySq4TK3OvUpbwnnJrkP4wMj53IgU+CYafAqCRoPCqc4d7d7mCHt4DI6+Xsp?=
- =?us-ascii?Q?iFPb3bHcbCI2HMP8ovsP7P60J9P6NK1YTqk5PsUxSWmdGe0MoHbDE1jecSCC?=
- =?us-ascii?Q?gILbjziLIT+GKysDeHgWanVkBVCjc/P7YRTHojBJw+tDRQj/GT68Qf5m0Gu4?=
- =?us-ascii?Q?luonIdxOt++2SocI8a+1YNjPegN0SAG+DzTw05rP7x+atsGLNZHRWyRTSMnY?=
- =?us-ascii?Q?/aA+w9Nt3j9SntPY8qng48xUrrXHoXyYlNgH/I8oyqJzSoCWs8jRpbze1MhD?=
- =?us-ascii?Q?d2tfV9D4NcpKSMPqoggmeJCus4ffNNPTcitpIELu39r6GAIH7FF2tH57H3Ux?=
- =?us-ascii?Q?WpFmtuGvC4+f/38Q9bIJoQY=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbe69685-7027-4e73-86a1-08dcb20a3b13
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR01MB7057.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 09:13:39.4751
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hgL2TlKdaph/nBWgNPa9QEMcL2v7HK1NENukbeFSlNr7x2h2n/sDuQLADJaAoM5dbu+7BsDUtxoXALvT0z7FPUmRgZZp4NNJAvQdLjcDoT83wIyaFMKdToDJ3lgZhHFt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR01MB6640
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] ARM: dts: aspeed: system1: IBM System1 BMC update
+To: Eddie James <eajames@linux.ibm.com>, joel@jms.id.au,
+        andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org
+References: <20240731214737.986010-1-ninad@linux.ibm.com>
+ <20240731214737.986010-2-ninad@linux.ibm.com>
+ <5d86ab31-7b29-4f5e-9c9f-be904c128497@linux.ibm.com>
+Content-Language: en-US
+From: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <5d86ab31-7b29-4f5e-9c9f-be904c128497@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: d32dnhcNs2xVcOoi2GRxRGsQWptgn2q2
+X-Proofpoint-ORIG-GUID: d32dnhcNs2xVcOoi2GRxRGsQWptgn2q2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-01_12,2024-08-01_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=893
+ priorityscore=1501 malwarescore=0 suspectscore=0 bulkscore=0 phishscore=0
+ impostorscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408010093
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,38 +96,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Chanh Nguyen <chanh@os.amperecomputing.com>, Thang Nguyen <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>, Quan Nguyen <quan@os.amperecomputing.com>
+Cc: Ninad Palsule <ninad@linux.vnet.ibm.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add the MAX31790 nodes as fan I2C controllers.
+Hi Eddie,
 
-Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
----
- .../boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts   | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+On 7/31/24 16:57, Eddie James wrote:
+>
+>> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts 
+>> b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+>> index f3efecc7eb8d0..f96b299d743ba 100644
+>> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+>> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
+>> @@ -764,17 +764,113 @@ regulator@43 {
+>>       };
+>>   };
+>>   +
+>
+>
+> Don't really need the white space here, but no worries.
+I have fixed the whitespace in version 2.
+>
+>
+> Reviewed-by: Eddie James <eajames@linux.ibm.com>
+>
+>
+Thank you for the review!
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
-index 093b746c010f..b3e7a306901b 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
-@@ -672,6 +672,16 @@ bmc-ocp0-en-hog {
- 			line-name = "bmc-ocp0-en-n";
- 		};
- 	};
-+
-+	fan-controller0@20 {
-+		compatible = "maxim,max31790";
-+		reg = <0x20>;
-+	};
-+
-+	fan-controller1@2f {
-+		compatible = "maxim,max31790";
-+		reg = <0x2f>;
-+	};
- };
- 
- &i2c9 {
--- 
-2.43.0
+Regards,
+
+Ninad Palsule
 
