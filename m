@@ -1,49 +1,48 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA199945AC5
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 11:17:53 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6026945ACC
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 11:19:05 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AKdYcnLS;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=OMvNUwfE;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wb0bz4cfBz3dVC
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 19:17:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wb0dM62ywz3dV9
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 19:19:03 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AKdYcnLS;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=OMvNUwfE;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0bv3hnvz3dL2
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:17:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0dH331Vz3cW4
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:18:59 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 01ADFCE1AAA;
-	Fri,  2 Aug 2024 09:17:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 791DEC32782;
-	Fri,  2 Aug 2024 09:17:37 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id D83FDCE1AAD;
+	Fri,  2 Aug 2024 09:18:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDDB5C32782;
+	Fri,  2 Aug 2024 09:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722590265;
-	bh=GSu3k3pjNPPfYdvKG8us8Bm7TChoEA287efB6uq8KaQ=;
+	s=k20201202; t=1722590337;
+	bh=dbphdIVJqwevCp53CHXALfkGLRq+V/D3wbfxlX/nOyc=;
 	h=Date:Subject:List-Id:To:References:From:In-Reply-To:From;
-	b=AKdYcnLSxvInmtzheoqA0y+osKIThZbxOnk73m33UOCRLO/ztWXfD13yPj9nZBF++
-	 Q4xxWO/NdQLiJOgBsuX1eNdQE6kzSYpRgHODFrxAoru3XGRTi9J6VF7V6OYaAoJ8sk
-	 ict5SKd7HdVQPHt4w4CqPgKYop7wKsSZHNo4qjPobWWnlVrr806879OgX6B3uRSvvM
-	 fUfGG9s2iYla2otbp+/pxca7tJ0q0KIu0kbXuayU1LWh0DnBU9zTcUg4QE45C78XgP
-	 i+ve/2U10PlLvUihw6l8ChdG+cCuPc/QUGmfVyd9Y9wlL8F2W/SNA2HgtXEnv91rc8
-	 NuH3p8vic1VEg==
-Message-ID: <00cd1d9e-24ec-47c2-b88b-d585b10da7e5@kernel.org>
-Date: Fri, 2 Aug 2024 11:17:35 +0200
+	b=OMvNUwfE7uhLPAlBZMbpXpIg517Auxjx/N8Eg84WkQTZkHLgWWLF1j+yjDrgojyIs
+	 Jbh/CZEhwn/wozFgTap4PPRELgudYYSf0GfyUp01JfVUFvRiFyR41Y8t02kSd/4xJ0
+	 bc39EkYpWEmUH97rDnL6YBqXSafpOcWyfJReCMcI+XE/EazrC/i3vH1XUr844TKTjx
+	 GR4FqzK0TRg5EfVwEtCCDnA342/7XCaYwrnzEeADE4cp0KEHLZ6QSv3lA/gEL44gfz
+	 HVCADKE8y3Z8VAHlI9Ix1GD+2/ch6N7lScFKTv3ZqRnekbwgLNwCWfhohqPLcidtsh
+	 aKFMAgKF/WIlQ==
+Message-ID: <ba9cc5ea-4138-4e9c-b848-c7a3a070bd73@kernel.org>
+Date: Fri, 2 Aug 2024 11:18:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 9/9] arm64: dts: aspeed: Add initial AST2700 EVB device
- tree
+Subject: Re: [PATCH v2 0/9] Introduce ASPEED AST27XX BMC SoC
 To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
  andrew@codeconstruct.com.au, lee@kernel.org, catalin.marinas@arm.com,
@@ -56,7 +55,7 @@ To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20240802090544.2741206-1-kevin_chen@aspeedtech.com>
- <20240802090544.2741206-11-kevin_chen@aspeedtech.com>
+ <20240802090544.2741206-2-kevin_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +101,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240802090544.2741206-11-kevin_chen@aspeedtech.com>
+In-Reply-To: <20240802090544.2741206-2-kevin_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -120,61 +119,25 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 02/08/2024 11:05, Kevin Chen wrote:
-> Add EVB board of AST2700 in ASPEED G7 Architecture.
+> This patchset adds initial support for the ASPEED.
+> AST27XX Board Management controller (BMC) SoC family.
 > 
-> Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
-> ---
->  arch/arm64/boot/dts/aspeed/Makefile        |  4 ++
->  arch/arm64/boot/dts/aspeed/ast2700-evb.dts | 58 ++++++++++++++++++++++
->  2 files changed, 62 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
->  create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
+> AST2700 is ASPEED's 8th-generation server management processor.
+> Featuring a quad-core ARM Cortex A35 64-bit processor and two
+> independent ARM Cortex M4 processors
 > 
-> diff --git a/arch/arm64/boot/dts/aspeed/Makefile b/arch/arm64/boot/dts/aspeed/Makefile
-> new file mode 100644
-> index 000000000000..ffe7e15017cc
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/aspeed/Makefile
-> @@ -0,0 +1,4 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +dtb-$(CONFIG_ARCH_ASPEED) += \
-> +	ast2700-evb.dtb
-> diff --git a/arch/arm64/boot/dts/aspeed/ast2700-evb.dts b/arch/arm64/boot/dts/aspeed/ast2700-evb.dts
-> new file mode 100644
-> index 000000000000..09c9569c0f7b
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/aspeed/ast2700-evb.dts
-> @@ -0,0 +1,58 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +/dts-v1/;
-> +
-> +#include "aspeed-g7.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +
-> +/ {
-> +	model = "AST2700A1-EVB";
-> +	compatible = "aspeed,ast2700-evb", "aspeed,ast2700";
-> +
-> +	aliases {
-> +		serial4 = &uart4;
-> +	};
-> +
-> +	chosen {
-> +		bootargs = "console=ttyS4,115200n8";
-> +		stdout-path = &uart4;
+> This patchset adds minimal architecture and drivers such as:
+> Clocksource, Clock and Reset
+> 
+> This patchset was tested on the ASPEED AST2700 evaluation board.
 
-<form letter>
-This is a friendly reminder during the review process.
+Where is the changelog? You ignored several comments, did not bother to
+respond them, did not implement them.
 
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Thank you.
-</form letter>
+No changelog means you sent exactly the same? This is not how it works.
+Please read submitting patches, respond to all comments or implement
+them, provide *DETAILED* changelog in the cover letter or individual
+patches (---).
 
 Best regards,
 Krzysztof
