@@ -2,94 +2,46 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8726E957970
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB9C9579F2
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqJQ2J1Hz7BkR
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:56:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKj5Y70z87hj
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=IahUrh+D;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=IahUrh+D;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=longman@redhat.com; receiver=lists.ozlabs.org)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (unknown [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WYJ7S352pz3cY9
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Jul 2024 00:50:44 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722351042;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NVLJRQHMlCsfQmzGTIuyPKFprVeRYU/US7OJwd+v6WY=;
-	b=IahUrh+DHAHLEMfdlc/EWDrCafSGX8F4rZEqRfnZ/70+7FiPtoF3GvN57eHnkwZRxmb2Eh
-	J//acdpACwHzc0rJHTdOuoYBe8vX/MRyI1nBTdwH2w7quCl0I+1Y0YDm+DrYoDKQVxh5OD
-	5FVlAgGvdcBVi9tZcSv6xbZnwRWnPkc=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722351042;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NVLJRQHMlCsfQmzGTIuyPKFprVeRYU/US7OJwd+v6WY=;
-	b=IahUrh+DHAHLEMfdlc/EWDrCafSGX8F4rZEqRfnZ/70+7FiPtoF3GvN57eHnkwZRxmb2Eh
-	J//acdpACwHzc0rJHTdOuoYBe8vX/MRyI1nBTdwH2w7quCl0I+1Y0YDm+DrYoDKQVxh5OD
-	5FVlAgGvdcBVi9tZcSv6xbZnwRWnPkc=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-214-SgyaDlqZMdCfD5dwjWq_HQ-1; Tue,
- 30 Jul 2024 10:50:36 -0400
-X-MC-Unique: SgyaDlqZMdCfD5dwjWq_HQ-1
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F2D001955D52;
-	Tue, 30 Jul 2024 14:50:28 +0000 (UTC)
-Received: from [10.2.16.107] (unknown [10.2.16.107])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 68B6C19560AA;
-	Tue, 30 Jul 2024 14:50:19 +0000 (UTC)
-Message-ID: <5ecb4ac2-6204-4c20-b98d-9a0e1b33c5f0@redhat.com>
-Date: Tue, 30 Jul 2024 10:50:16 -0400
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0Lr3JGWz3cKV
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:06:17 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 2 Aug
+ 2024 17:05:51 +0800
+Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Fri, 2 Aug 2024 17:05:51 +0800
+From: Kevin Chen <kevin_chen@aspeedtech.com>
+To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+	<joel@jms.id.au>, <andrew@codeconstruct.com.au>, <lee@kernel.org>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <arnd@arndb.de>,
+	<olof@lixom.net>, <soc@kernel.org>, <mturquette@baylibre.com>,
+	<sboyd@kernel.org>, <p.zabel@pengutronix.de>, <quic_bjorande@quicinc.com>,
+	<geert+renesas@glider.be>, <dmitry.baryshkov@linaro.org>,
+	<shawnguo@kernel.org>, <neil.armstrong@linaro.org>,
+	<m.szyprowski@samsung.com>, <nfraprado@collabora.com>, <u-kumar1@ti.com>,
+	<kevin_chen@aspeedtech.com>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>
+Subject: [PATCH v1 00/10] Introduce ASPEED AST27XX BMC SoC
+Date: Fri, 2 Aug 2024 17:05:34 +0800
+Message-ID: <20240802090544.2741206-1-kevin_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] locking/ww_mutex/test: add MODULE_DESCRIPTION()
-To: Jeff Johnson <quic_jjohnson@quicinc.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Russell King <linux@armlinux.org.uk>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Karol Herbst
- <karolherbst@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, Andy Lutomirski
- <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Michael Ellerman
- <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
- Joel Stanley <joel@jms.id.au>, Alistar Popple <alistair@popple.id.au>,
- Eddie James <eajames@linux.ibm.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Will Deacon <will@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>
-References: <20240730-module_description_orphans-v1-0-7094088076c8@quicinc.com>
- <20240730-module_description_orphans-v1-5-7094088076c8@quicinc.com>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20240730-module_description_orphans-v1-5-7094088076c8@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -102,28 +54,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org, nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+This patchset adds initial support for the ASPEED.
+AST27XX Board Management controller (BMC) SoC family.
 
-On 7/30/24 10:43, Jeff Johnson wrote:
-> Fix the 'make W=1' warning:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
->
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
-> ---
->   kernel/locking/test-ww_mutex.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/kernel/locking/test-ww_mutex.c b/kernel/locking/test-ww_mutex.c
-> index 78719e1ef1b1..10a5736a21c2 100644
-> --- a/kernel/locking/test-ww_mutex.c
-> +++ b/kernel/locking/test-ww_mutex.c
-> @@ -697,3 +697,4 @@ module_exit(test_ww_mutex_exit);
->   
->   MODULE_LICENSE("GPL");
->   MODULE_AUTHOR("Intel Corporation");
-> +MODULE_DESCRIPTION("API test facility for ww_mutexes");
-Acked-by: Waiman Long <longman@redhat.com>
+AST2700 is ASPEED's 8th-generation server management processor.
+Featuring a quad-core ARM Cortex A35 64-bit processor and two
+independent ARM Cortex M4 processors
+
+This patchset adds minimal architecture and drivers such as:
+Clocksource, Clock and Reset
+
+This patchset was tested on the ASPEED AST2700 evaluation board.
+
+Kevin Chen (10):
+  dt-binding: mfd: aspeed,ast2x00-scu: Add binding for ASPEED AST2700
+    SCU
+  dt-binding: clk: ast2700: Add binding for Aspeed AST27xx Clock
+  clk: ast2700: add clock controller
+  dt-bindings: reset: ast2700: Add binding for ASPEED AST2700 Reset
+  dt-bindings: arm: aspeed: Add maintainer
+  dt-bindings: arm: aspeed: Add aspeed,ast2700-evb compatible string
+  arm64: aspeed: Add support for ASPEED AST2700 BMC SoC
+  arm64: dts: aspeed: Add initial AST27XX device tree
+  arm64: dts: aspeed: Add initial AST2700 EVB device tree
+  arm64: defconfig: Add ASPEED AST2700 family support
+
+ .../bindings/arm/aspeed/aspeed.yaml           |    6 +
+ .../bindings/mfd/aspeed,ast2x00-scu.yaml      |    3 +
+ MAINTAINERS                                   |    3 +
+ arch/arm64/Kconfig.platforms                  |   14 +
+ arch/arm64/boot/dts/Makefile                  |    1 +
+ arch/arm64/boot/dts/aspeed/Makefile           |    4 +
+ arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi     |  217 +++
+ arch/arm64/boot/dts/aspeed/ast2700-evb.dts    |   50 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/clk/Makefile                          |    1 +
+ drivers/clk/clk-ast2700.c                     | 1166 +++++++++++++++++
+ .../dt-bindings/clock/aspeed,ast2700-clk.h    |  180 +++
+ .../dt-bindings/reset/aspeed,ast2700-reset.h  |  126 ++
+ 13 files changed, 1772 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
+ create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
+ create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
+ create mode 100644 drivers/clk/clk-ast2700.c
+ create mode 100644 include/dt-bindings/clock/aspeed,ast2700-clk.h
+ create mode 100644 include/dt-bindings/reset/aspeed,ast2700-reset.h
+
+-- 
+2.34.1
 
