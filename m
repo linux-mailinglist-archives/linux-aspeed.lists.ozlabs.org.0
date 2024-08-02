@@ -2,20 +2,20 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5049579F1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7EEF9579F4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:08 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKj3xy2z87h2
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqKk1rHRz87k1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+Received: from TWMBX01.aspeed.com (unknown [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0Lr3LC0z3cWN
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:06:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0Ls1C8bz3cWN
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:06:29 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 2 Aug
@@ -35,9 +35,9 @@ To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
 	<kevin_chen@aspeedtech.com>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>
-Subject: [PATCH v2 0/9] Introduce ASPEED AST27XX BMC SoC
-Date: Fri, 2 Aug 2024 17:05:35 +0800
-Message-ID: <20240802090544.2741206-2-kevin_chen@aspeedtech.com>
+Subject: [PATCH v2 1/9] dt-bindings: mfd: aspeed,ast2x00-scu: Add ASPEED AST2700-SCUX schema
+Date: Fri, 2 Aug 2024 17:05:36 +0800
+Message-ID: <20240802090544.2741206-3-kevin_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240802090544.2741206-1-kevin_chen@aspeedtech.com>
 References: <20240802090544.2741206-1-kevin_chen@aspeedtech.com>
@@ -59,50 +59,108 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patchset adds initial support for the ASPEED.
-AST27XX Board Management controller (BMC) SoC family.
+Add compatible for two SCU of SCU0 and SCU1 in AST2700.
 
-AST2700 is ASPEED's 8th-generation server management processor.
-Featuring a quad-core ARM Cortex A35 64-bit processor and two
-independent ARM Cortex M4 processors
+Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
+---
+ .../bindings/mfd/aspeed,ast2x00-scu.yaml      | 70 +++++++++++++------
+ 1 file changed, 50 insertions(+), 20 deletions(-)
 
-This patchset adds minimal architecture and drivers such as:
-Clocksource, Clock and Reset
-
-This patchset was tested on the ASPEED AST2700 evaluation board.
-
-Kevin Chen (9):
-  dt-bindings: mfd: aspeed,ast2x00-scu: Add ASPEED AST2700-SCUX schema
-  dt-bindings: reset: ast2700: Add ASPEED AST27xx Reset schema
-  dt-bindings: clk: ast2700: Add ASPEED AST27XX Clock schema
-  clk: ast2700: add clock controller
-  dt-bindings: arm: aspeed: Add ASPEED AST27XX SoC
-  arm64: aspeed: Add support for ASPEED AST27XX BMC SoC
-  arm64: defconfig: Add ASPEED AST2700 family support
-  arm64: dts: aspeed: Add initial AST27XX device tree
-  arm64: dts: aspeed: Add initial AST2700 EVB device tree
-
- .../bindings/arm/aspeed/aspeed.yaml           |    7 +
- .../bindings/mfd/aspeed,ast2x00-scu.yaml      |   70 +-
- MAINTAINERS                                   |    3 +
- arch/arm64/Kconfig.platforms                  |   14 +
- arch/arm64/boot/dts/Makefile                  |    1 +
- arch/arm64/boot/dts/aspeed/Makefile           |    4 +
- arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi     |  185 +++
- arch/arm64/boot/dts/aspeed/ast2700-evb.dts    |   58 +
- arch/arm64/configs/defconfig                  |    1 +
- drivers/clk/Makefile                          |    1 +
- drivers/clk/clk-ast2700.c                     | 1173 +++++++++++++++++
- .../dt-bindings/clock/aspeed,ast2700-clk.h    |  175 +++
- .../dt-bindings/reset/aspeed,ast2700-reset.h  |  132 ++
- 13 files changed, 1804 insertions(+), 20 deletions(-)
- create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
- create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
- create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
- create mode 100644 drivers/clk/clk-ast2700.c
- create mode 100644 include/dt-bindings/clock/aspeed,ast2700-clk.h
- create mode 100644 include/dt-bindings/reset/aspeed,ast2700-reset.h
-
+diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+index 86ee69c0f45b..3426b1c84132 100644
+--- a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
++++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+@@ -13,33 +13,62 @@ description:
+ maintainers:
+   - Joel Stanley <joel@jms.id.au>
+   - Andrew Jeffery <andrew@aj.id.au>
++  - Kevin Chen <kevin_chen@aspeedtech.com>
+ 
+-properties:
+-  compatible:
+-    items:
+-      - enum:
+-          - aspeed,ast2400-scu
+-          - aspeed,ast2500-scu
+-          - aspeed,ast2600-scu
+-      - const: syscon
+-      - const: simple-mfd
++scu@ast2xx00-scu:
++  properties:
++    compatible:
++      items:
++        - enum:
++            - aspeed,ast2400-scu
++            - aspeed,ast2500-scu
++            - aspeed,ast2600-scu
++        - const: syscon
++        - const: simple-mfd
+ 
+-  reg:
+-    maxItems: 1
++    reg:
++      maxItems: 1
+ 
+-  ranges: true
++    ranges: true
+ 
+-  '#address-cells':
+-    const: 1
++    '#address-cells':
++      const: 1
+ 
+-  '#size-cells':
+-    const: 1
++    '#size-cells':
++      const: 1
+ 
+-  '#clock-cells':
+-    const: 1
++    '#clock-cells':
++      const: 1
+ 
+-  '#reset-cells':
+-    const: 1
++    '#reset-cells':
++      const: 1
++
++scu@ast2xx00-scux:
++  properties:
++    compatible:
++      items:
++        - enum:
++            - aspeed,ast2700-scu0
++            - aspeed,ast2700-scu1
++        - const: syscon
++        - const: simple-mfd
++
++    reg:
++      maxItems: 1
++
++    ranges: true
++
++    '#address-cells':
++      const: 2
++
++    '#size-cells':
++      const: 2
++
++    '#clock-cells':
++      const: 1
++
++    '#reset-cells':
++      const: 1
+ 
+ patternProperties:
+   '^p2a-control@[0-9a-f]+$':
+@@ -76,6 +105,7 @@ patternProperties:
+               - aspeed,ast2400-silicon-id
+               - aspeed,ast2500-silicon-id
+               - aspeed,ast2600-silicon-id
++              - aspeed,ast2700-silicon-id
+           - const: aspeed,silicon-id
+ 
+       reg:
 -- 
 2.34.1
 
