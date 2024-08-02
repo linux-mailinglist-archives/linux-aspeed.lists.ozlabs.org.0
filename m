@@ -2,48 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D355E945A97
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 11:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4C0945A9A
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 11:14:13 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YxugB+69;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KAamYZGk;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wb0Tp5W5Mz3dL2
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 19:12:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wb0Wl22tWz3dWv
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 19:14:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YxugB+69;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KAamYZGk;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0Tj5xxJz3cjX
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:12:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0Wf41Prz3dL2
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:14:06 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id BD21ECE1AC8;
-	Fri,  2 Aug 2024 09:12:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19DDCC32782;
-	Fri,  2 Aug 2024 09:12:12 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id A40EFCE1AB8;
+	Fri,  2 Aug 2024 09:14:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AAEFC32782;
+	Fri,  2 Aug 2024 09:13:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722589941;
-	bh=O3QeZ3rb5Th5OSoZS8M1Dtu9wC7+4c8jaezJAASXKTM=;
+	s=k20201202; t=1722590043;
+	bh=JdSEwhv2iJvNvHMqbO+om0ZEnZ7rNzgZ4clklHeSsKQ=;
 	h=Date:Subject:List-Id:To:References:From:In-Reply-To:From;
-	b=YxugB+699C23q50QqCZZfO0xlwtEaYZ0AtaYL9IiY3wY6clWjdWVDnLEBgTyyL02s
-	 PnKIqFK5UoulmU0bBYUHt8H3lU/PqYNgb+m7FuXc11yBMFuwBWah0q0FH3jmrmlUCp
-	 oAYOPz3HxRE+c+nT15eUT0uVTEbuCx6OF65uXcOIOp8MJK8wIUTwWUCLRw6edhF60C
-	 zlB+Y/S+nOSDsWiRj+3mPzKVOAUckQK1c8gj/ben3mpd+m5G/IviXf3UPxgS45fkvm
-	 3PNaMp9KC9KzUlZ3MEoOyg9vVV8J1WslYD0AT6PAV106itAVK/pcS7RI7rAcfrD51Q
-	 5AKXjQYZ/K9TA==
-Message-ID: <34d1b859-dfee-475a-8838-feb4907985c8@kernel.org>
-Date: Fri, 2 Aug 2024 11:12:10 +0200
+	b=KAamYZGkZbbxYCkmloakyXQidpirOdnHhwp2M+lhuW0omtc0XCDNnCh1+/NB/EE1F
+	 jgiQ+nffDa/LzswBjVgxnxqHcCioeXVKHtbcs+BX8sdnCfRYa9Ey7ZKum1hrTU2n+Q
+	 NCTPYnssA9cwQ7kyX1Gh0q9I+h4rDxtHFtMkTdwyceWlfJxkORrOvvti5s1tSRy9hB
+	 bOGdWdrNhx4WA9DsSrsP521z7/cnSEwCqw9oT6LGBbBwrOF4D8OjpGYYiF9VZlhb/b
+	 LWd+JAlF/JUUh765uSl30p3cPjmv/1H9XIyEk5hBh2ZjOQEATxgKncxEPFYeuh8ko5
+	 HwtoyhkyNp2RQ==
+Message-ID: <1b420e2e-6983-49fb-946c-a4bbf7fa54eb@kernel.org>
+Date: Fri, 2 Aug 2024 11:13:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] arm64: dts: aspeed: Add initial AST27XX device
- tree
+Subject: Re: [PATCH v2 1/9] dt-bindings: mfd: aspeed,ast2x00-scu: Add ASPEED
+ AST2700-SCUX schema
 To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
  andrew@codeconstruct.com.au, lee@kernel.org, catalin.marinas@arm.com,
@@ -56,7 +56,7 @@ To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20240802090544.2741206-1-kevin_chen@aspeedtech.com>
- <20240802090544.2741206-10-kevin_chen@aspeedtech.com>
+ <20240802090544.2741206-3-kevin_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +102,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240802090544.2741206-10-kevin_chen@aspeedtech.com>
+In-Reply-To: <20240802090544.2741206-3-kevin_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -120,50 +120,62 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 02/08/2024 11:05, Kevin Chen wrote:
-> Add aspeed-g7.dtsi to be AST27XX device tree.
-
-Hardware description is missing, e.g. answering why you have two "soc"
-nodes.
+> Add compatible for two SCU of SCU0 and SCU1 in AST2700.
 > 
 > Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
+> ---
+
+A nit, subject: drop second/last, redundant "schema". The "dt-bindings"
+prefix is already stating that these are bindings in the schema.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
 
+>  .../bindings/mfd/aspeed,ast2x00-scu.yaml      | 70 +++++++++++++------
+>  1 file changed, 50 insertions(+), 20 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> index 86ee69c0f45b..3426b1c84132 100644
+> --- a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> @@ -13,33 +13,62 @@ description:
+>  maintainers:
+>    - Joel Stanley <joel@jms.id.au>
+>    - Andrew Jeffery <andrew@aj.id.au>
+> +  - Kevin Chen <kevin_chen@aspeedtech.com>
+>  
+> -properties:
+> -  compatible:
+> -    items:
+> -      - enum:
+> -          - aspeed,ast2400-scu
+> -          - aspeed,ast2500-scu
+> -          - aspeed,ast2600-scu
+> -      - const: syscon
+> -      - const: simple-mfd
+> +scu@ast2xx00-scu:
+> +  properties:
+> +    compatible:
+> +      items:
+> +        - enum:
+> +            - aspeed,ast2400-scu
+> +            - aspeed,ast2500-scu
+> +            - aspeed,ast2600-scu
+> +        - const: syscon
+> +        - const: simple-mfd
 
-> +	soc0: soc@10000000 {
-> +		compatible = "simple-bus";
-> +		reg = <0x0 0x10000000 0x0 0x10000000>;
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		ranges;
-> +
-> +		gic: interrupt-controller@12200000 {
-> +			compatible = "arm,gic-v3";
-> +			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
-> +			#interrupt-cells = <3>;
-> +			interrupt-controller;
-> +			interrupt-parent = <&gic>;
-> +			reg = <0 0x12200000 0 0x10000>, /* GICD */
-> +				  <0 0x12280000 0 0x80000>, /* GICR */
-> +				  <0 0x40440000 0 0x1000>;  /* GICC */
+No, no, no, this code is neither correct nor makes any sense.
 
-Still the same things to fix... Please go to the DTS coding style and
-read what is the order of properties.
+>  
+> -  reg:
+> -    maxItems: 1
+> +    reg:
+> +      maxItems: 1
+>  
+> -  ranges: true
+> +    ranges: true
 
-<form letter>
-This is a friendly reminder during the review process.
-
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Thank you.
-</form letter>
-
-
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +		};
+What?
 
 
 Best regards,
