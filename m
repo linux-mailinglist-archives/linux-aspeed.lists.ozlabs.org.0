@@ -1,49 +1,49 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CFC945AA2
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 11:16:03 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C332945AA4
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 11:16:13 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UtKTriS9;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UldeP0aN;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wb0Ys5bFDz3dWv
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 19:16:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wb0Z315XMz3dX1
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 19:16:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UtKTriS9;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UldeP0aN;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0Yn2sbXz3dL2
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:15:57 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0Yy1hbHz3dL2
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:16:06 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id CC3F8CE1872;
+	by sin.source.kernel.org (Postfix) with ESMTP id 0D544CE1872;
+	Fri,  2 Aug 2024 09:16:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B9E6C4AF11;
 	Fri,  2 Aug 2024 09:15:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4BB3C32782;
-	Fri,  2 Aug 2024 09:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722590155;
-	bh=Frw/aKnT7fHBmc7Oh65zgDJ6VRU3OcJ9C3yXXcLORnY=;
+	s=k20201202; t=1722590164;
+	bh=G2tIOtTR1ZZWG3IUEsbOgof/if8cRi8NNdYkXmUdaZw=;
 	h=Date:Subject:List-Id:To:References:From:In-Reply-To:From;
-	b=UtKTriS9ejPE2TBDuw8wFEO1RgR/o0PVtjCN/p6yFfJXizz+3Jrq87N20UV5TOIc8
-	 IBofkW0TDnFcTS3ZFG/jcmzqPG9Ue34M34wcQI+JU1pXorouEY5WSg2QfCF+pmX0bv
-	 +9ca364EelxXF99lJOxmNBM0PsNY3vAvTzukJuCSNBgpeR5NL+PKgK48eTK2pGWs3t
-	 pOu2id4uGVngPm3epmfZJSJh5Ypx5CHU2lNxP16XzUfQikVbKysGYmY8JAM8mUfQO3
-	 rTFzsXvxoAhWBwO1lNnoGW0JyEO8GTPpUKCt4YKheO5Z3zUZxdDAmUUMm+BTzU8ROF
-	 ra2VYwDfMjFIQ==
-Message-ID: <77541300-5204-4d3f-b958-57cb1a67ac95@kernel.org>
-Date: Fri, 2 Aug 2024 11:15:44 +0200
+	b=UldeP0aNR8yeU91AY9Rq359SeHC8PJsbZT8UB+ZiT8pE9qhS7qXFauBe8ZgIhZLs1
+	 1KTGyUtA3G7Rnh+pYlgwMx6VblgUrwLELW4aOY5E8dnC7yiVC0a1gQ8H9Q2c1xUEvn
+	 PDSOJlRxMLP0m+QLEcEvnQ3Ta/MHwBKMwD1RH/2YP4h9ifdIzQDQgB9wvbjJx4/Erp
+	 E3J+IIqBWEZp4RVEhw/4I7d9gkjDS8zGaqtK8myEhjqIF54rP2+ZoYvwliAtJcT+rw
+	 lmTHUC3n1hjFImx9Yx4jD5GI3MOj3X0cfUfcc9y4qOI6BSViAXqUUuT5BMWUCNK0iX
+	 ijS+b5K7mbsQg==
+Message-ID: <f6823ec7-5a33-483b-ba95-6583d18281ff@kernel.org>
+Date: Fri, 2 Aug 2024 11:15:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/9] dt-bindings: reset: ast2700: Add ASPEED AST27xx
- Reset schema
+Subject: Re: [PATCH v2 3/9] dt-bindings: clk: ast2700: Add ASPEED AST27XX
+ Clock schema
 To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
  andrew@codeconstruct.com.au, lee@kernel.org, catalin.marinas@arm.com,
@@ -56,7 +56,7 @@ To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20240802090544.2741206-1-kevin_chen@aspeedtech.com>
- <20240802090544.2741206-4-kevin_chen@aspeedtech.com>
+ <20240802090544.2741206-5-kevin_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +102,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240802090544.2741206-4-kevin_chen@aspeedtech.com>
+In-Reply-To: <20240802090544.2741206-5-kevin_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -120,23 +120,9 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 02/08/2024 11:05, Kevin Chen wrote:
-> Add Reset schema for AST2700.
+> Add Clock schema for AST2700.
 > 
 > Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
-
-So you just ignored all the comments?
-
-No, respond to each of them so we will all know that you understood them.
-
-You already got this comment:
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
-and not much improved. Drop "schema".
-
-Anyway, rest was ignored:
 
 <form letter>
 This is a friendly reminder during the review process.
@@ -148,7 +134,6 @@ either implement all requested changes or keep discussing them.
 
 Thank you.
 </form letter>
-
 
 Best regards,
 Krzysztof
