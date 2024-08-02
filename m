@@ -1,49 +1,48 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C332945AA4
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 11:16:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6E4945AAB
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 11:16:36 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UldeP0aN;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=I6EOcVZW;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wb0Z315XMz3dX1
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 19:16:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wb0ZV3Z4kz3dWr
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2024 19:16:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UldeP0aN;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=I6EOcVZW;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0Yy1hbHz3dL2
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:16:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wb0ZQ1yHkz3cW4
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2024 19:16:30 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 0D544CE1872;
-	Fri,  2 Aug 2024 09:16:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B9E6C4AF11;
-	Fri,  2 Aug 2024 09:15:55 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 23C62629AC;
+	Fri,  2 Aug 2024 09:16:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D599C32782;
+	Fri,  2 Aug 2024 09:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722590164;
-	bh=G2tIOtTR1ZZWG3IUEsbOgof/if8cRi8NNdYkXmUdaZw=;
+	s=k20201202; t=1722590187;
+	bh=EJjZs91HeAXV13ZEk2XqpWMizAFAF5zD1DVpVpsGB6A=;
 	h=Date:Subject:List-Id:To:References:From:In-Reply-To:From;
-	b=UldeP0aNR8yeU91AY9Rq359SeHC8PJsbZT8UB+ZiT8pE9qhS7qXFauBe8ZgIhZLs1
-	 1KTGyUtA3G7Rnh+pYlgwMx6VblgUrwLELW4aOY5E8dnC7yiVC0a1gQ8H9Q2c1xUEvn
-	 PDSOJlRxMLP0m+QLEcEvnQ3Ta/MHwBKMwD1RH/2YP4h9ifdIzQDQgB9wvbjJx4/Erp
-	 E3J+IIqBWEZp4RVEhw/4I7d9gkjDS8zGaqtK8myEhjqIF54rP2+ZoYvwliAtJcT+rw
-	 lmTHUC3n1hjFImx9Yx4jD5GI3MOj3X0cfUfcc9y4qOI6BSViAXqUUuT5BMWUCNK0iX
-	 ijS+b5K7mbsQg==
-Message-ID: <f6823ec7-5a33-483b-ba95-6583d18281ff@kernel.org>
-Date: Fri, 2 Aug 2024 11:15:52 +0200
+	b=I6EOcVZWgkwu8RTtojmyRB4Txjrog/EzJVGsALHf2J4i//iMqkf+KFi7gkoE2v+JC
+	 XE0FZkTckPk8SGBLHfvU1BmgIMHlTP4I0hMwtJNGLEvcjKixEEnp3Nzy15ScqSk2ub
+	 oBX+Y7uRiSIBIV0FVvVkjTsqK4CzB9v6HDXjwEBhICcXfXTld0VD/52sfBEfqP1g3G
+	 A86K9CEKmthfrM1/KZHBPp+pdtvwq94vtMO5/Qeo0zuTzsJLjSOhc7GqbqMLTq5d05
+	 BumdL2d685iEHMdvh8mNMY4zw/MM8RM0t5yWLKL/qtU3QUdlIvfzXUu5/79e1eeixm
+	 Pv08CRPhDSEFQ==
+Message-ID: <7a1769a0-7273-4995-863a-5db9e201c4f0@kernel.org>
+Date: Fri, 2 Aug 2024 11:16:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/9] dt-bindings: clk: ast2700: Add ASPEED AST27XX
- Clock schema
+Subject: Re: [PATCH v2 4/9] clk: ast2700: add clock controller
 To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
  andrew@codeconstruct.com.au, lee@kernel.org, catalin.marinas@arm.com,
@@ -56,7 +55,7 @@ To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20240802090544.2741206-1-kevin_chen@aspeedtech.com>
- <20240802090544.2741206-5-kevin_chen@aspeedtech.com>
+ <20240802090544.2741206-6-kevin_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,7 +101,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240802090544.2741206-5-kevin_chen@aspeedtech.com>
+In-Reply-To: <20240802090544.2741206-6-kevin_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -120,20 +119,16 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 02/08/2024 11:05, Kevin Chen wrote:
-> Add Clock schema for AST2700.
+> Add support for ast2700 clock controller.
 > 
 > Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
+> ---
+>  drivers/clk/Makefile      |    1 +
+>  drivers/clk/clk-ast2700.c | 1173 +++++++++++++++++++++++++++++++++++++
+>  2 files changed, 1174 insertions(+)
+>  create mode 100644 drivers/clk/clk-ast2700.c
 
-<form letter>
-This is a friendly reminder during the review process.
-
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Thank you.
-</form letter>
+Missing bindings.
 
 Best regards,
 Krzysztof
