@@ -1,55 +1,87 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBD4947407
-	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Aug 2024 05:59:20 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBE9947E94
+	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Aug 2024 17:49:18 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=jKpbVW81;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RKGeob4t;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WcjP22VYfz3cYq
-	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Aug 2024 13:59:18 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wd18D3tf8z3cdM
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Aug 2024 01:49:16 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=jKpbVW81;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RKGeob4t;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WcjNx2rs4z3bVG;
-	Mon,  5 Aug 2024 13:59:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wd18334vjz3cXZ
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  6 Aug 2024 01:49:05 +1000 (AEST)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1fd70ba6a15so80222945ad.0
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 05 Aug 2024 08:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1722830352;
-	bh=d7cqJ0kpF2PLR8wzbhUuvv4itxL+jcNpSGFs0wo8FIA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=jKpbVW81a98xwODMB958yRYYc2dBMtGxp65ewCsq9fmeq0KgtqovpBqP4KfaMKAdv
-	 1BwEGbS21AWmCKgGCMSze9Cu4pmaEHm0aVBYZEqKQSd1wfGo/2XQPPgnjK5By74MiK
-	 xHD2kKHxDGxvGBxKkxx4+NgWk3DxSK0f50AhuDfjCluwiIsW7djpEL/71lTjLPyLIH
-	 nPDZK1o362Jao7aqT515HrPpSsn2hKOcBpMyZ2lnSNPA0fathsmQTC//ZdRlGhC2FU
-	 +5uu9Ff81V2w+8CFvEN9MEPldfc8bfgL0WSXBvM1jiWr2dbLjbFF2NEXigC8Xh39Ey
-	 Ml5qVM+lUXbNQ==
-Received: from [192.168.68.112] (ppp14-2-105-65.adl-apt-pir-bras32.tpg.internode.on.net [14.2.105.65])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id BCAD465665;
-	Mon,  5 Aug 2024 11:59:10 +0800 (AWST)
-Message-ID: <6171be101ee10aa2a11e021caafe877eb428412a.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 0/6] Update the device tree for Ampere's BMC platform
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Chanh Nguyen <chanh@amperemail.onmicrosoft.com>, "Rob Herring (Arm)"
-	 <robh@kernel.org>, Chanh Nguyen <chanh@os.amperecomputing.com>
-Date: Mon, 05 Aug 2024 13:29:09 +0930
-In-Reply-To: <1c2dca43-444d-44a7-b304-5fbd59b788a8@amperemail.onmicrosoft.com>
-References: <20240801091217.1408809-1-chanh@os.amperecomputing.com>
-	 <172252600912.120761.16384387883905749466.robh@kernel.org>
-	 <1c2dca43-444d-44a7-b304-5fbd59b788a8@amperemail.onmicrosoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+        d=gmail.com; s=20230601; t=1722872941; x=1723477741; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oFO+CKVP+ZX8YgWMyMZP5spz1xTqtwC+2nMhN7tO4+8=;
+        b=RKGeob4tGwNFGbZ2VrYOIYTTFEi3cE+Ltnc+Yqkn7sy09LiVabeFHeLZ7N3RIIPwXt
+         Q8oPbvs1/Xa0+PJ7QZdIzqKoC4hwFt2uz6gDJ+JrZbA5147x8cZumEbqKOXzO73wIPJf
+         z1FpogLwgIzkhzPHjMYcFD8vqu3dx5zc9JrvsnadZoy9BCLvbKWGbumi/Ohvfr8YWhVW
+         HaFbgoB54y8vVag/5TjqJGGMQ40m19N8Yq1jvhCNTmQVlAxQSfj+2Nc0YtRbn7zp87oE
+         m6E8zVgkHhDDc6b/FTRVAl/65kpxf8PMgKk+6FfnKnD0ecUSar9YrRyMuTRicknGU33z
+         AZ8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722872941; x=1723477741;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oFO+CKVP+ZX8YgWMyMZP5spz1xTqtwC+2nMhN7tO4+8=;
+        b=PDW+8HiRt0wYRlw7RAU/EyGkz8LUP9wLqQtPkxbH2plj3zDoHsU3d1oG0fe6feN303
+         mvQWR9CH1T/LZ4J4z0w84CSjNWmxMlpUB9fT9Qh1fI4+gF9OcbZa7RQ/FtkO2au6lIsi
+         LdzSD0YVaZNeMNyEwa08IllvJq4Q2/fHQOHMQqFetbQ345jzEAEkyGNa5XfiQp++Gdy7
+         qxkYAJHnbdHg2up6GZ5kfx683ImIyyyjuZb4AUoJRxBA3mRkSho6b+wqImq+j7g3xiWI
+         yY81nqNP9G6DNi2lcDER7kJsw96TdN8OSYt2OIGYa4seVdrKiHlTjZ3gFPBDwCiujJGS
+         AxSA==
+X-Forwarded-Encrypted: i=1; AJvYcCVc2QVvv6+TZ86ggvOMxOkcDv7YvBnWFrRZ4iMv3H0P0bo90zDoRhZrKWeVNd63JIvQ9jSOJdXRcJVchMwkpcYAuhTFl5/XX1DmhXsy1A==
+X-Gm-Message-State: AOJu0YwFYqsurcOP/FCIlRIiqekztpLP9y5wNaWv42g+Ep9Snv4JCZel
+	CWNyk4nNHrfgsU0NBpVap1xyQkbyycK1xuUbdafeUF0UsdmruEHE
+X-Google-Smtp-Source: AGHT+IFUAoOQv4oNDH8dPTJXHH3Zd1dU9RwQngBtYbSARcD+2Cq1wpgUNTOasLPOg0N3L133YCmqDQ==
+X-Received: by 2002:a17:902:d502:b0:1fb:d335:b0bf with SMTP id d9443c01a7336-1ff57296a09mr129426075ad.25.1722872940983;
+        Mon, 05 Aug 2024 08:49:00 -0700 (PDT)
+Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff5929ad84sm69478215ad.270.2024.08.05.08.48.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Aug 2024 08:49:00 -0700 (PDT)
+From: Potin Lai <potin.lai.pt@gmail.com>
+Subject: [PATCH v7 0/2] Add Meta(Facebook) Catalina BMC(AST2600)
+Date: Mon, 05 Aug 2024 23:46:26 +0800
+Message-Id: <20240805-potin-catalina-dts-v7-0-286bfd2ab93b@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANLzsGYC/4XOy2rDQAwF0F8Js+6UseaZrPofpQvNKxEkdvAY0
+ xL871WyaWpMu7xC90g30cpIpYnD7ibGMlOjoefgX3YinbA/FkmZswAFRnkw8jpM1MuEE56pR5m
+ nJmvGrqCGvY+d4OJ1LJU+H+j7B+cTtWkYvx43ZrhP/+RmkEpGDNl4m3hLvx0vSOfXNFzEnZv1M
+ 2E3Cc2ERhtt3heXY1oT5n/CMIHoKmiLUHxYE/aZcJuEZSJUBVpZrBb8mnA/RFCwSTgmVAzVdTE
+ oF359sSzLNyViZwPAAQAA
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Patrick Williams <patrick@stwcx.xyz>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722872938; l=2314;
+ i=potin.lai.pt@gmail.com; s=20240724; h=from:subject:message-id;
+ bh=3CsJgkR0mUZo4A/DQ7qYKhVfPLpEdxnVGjuyWySSv24=;
+ b=hausdzOF2/7qQgGbyl3yV2SIasHUc/BC1QZewv+iiwnk3n6vIPa0TdfQkFWGU66hh7LGuWPwK
+ eHwqG70SMmxD1ytwN016DVSlkDhZ4xDfcGEMEUtTSat5pc3tnOjIHXx
+X-Developer-Key: i=potin.lai.pt@gmail.com; a=ed25519;
+ pk=6Z4H4V4fJwLteH/WzIXSsx6TkuY5FOcBBP+4OflJ5gM=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,85 +93,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Thang Nguyen <thang@os.amperecomputing.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, Quan Nguyen <quan@os.amperecomputing.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org, Potin Lai <potin.lai.pt@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Conor Dooley <conor.dooley@microchip.com>, Cosmo Chou <cosmo.chou@quantatw.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, 2024-08-03 at 10:49 +0700, Chanh Nguyen wrote:
->=20
-> On 01/08/2024 22:29, Rob Herring (Arm) wrote:
-> >=20
-> > On Thu, 01 Aug 2024 09:12:10 +0000, Chanh Nguyen wrote:
-> > > Updates the device tree to support some features on Ampere's
-> > > Mt.Mitchell BMC and Ampere's Mt.Jade BMC.
-> > >=20
-> > > Chanh Nguyen (6):
-> > >    ARM: dts: aspeed: mtjade, mtmitchell: Add OCP temperature sensors
-> > >    ARM: dts: aspeed: mtmitchell: Add I2C temperature sensor alias por=
-ts
-> > >    ARM: dts: aspeed: mtmitchell: Add I2C Riser card alias ports
-> > >    ARM: dts: aspeed: mtmitchell: Enable i2c10 and i2c15
-> > >    ARM: dts: aspeed: mtmitchell: Add LEDs
-> > >    ARM: dts: aspeed: mtmitchell: Add I2C FAN controllers
-> > >=20
-> > >   .../dts/aspeed/aspeed-bmc-ampere-mtjade.dts   |  16 ++
-> > >   .../aspeed/aspeed-bmc-ampere-mtmitchell.dts   | 152 +++++++++++++++=
-+++
-> > >   2 files changed, 168 insertions(+)
-> > >=20
-> > > --
-> > > 2.43.0
-> > >=20
-> > >=20
-> > >=20
-> >=20
-> >=20
-> > My bot found new DTB warnings on the .dts files added or changed in thi=
-s
-> > series.
-> >=20
-> > Some warnings may be from an existing SoC .dtsi. Or perhaps the warning=
-s
-> > are fixed by another series. Ultimately, it is up to the platform
-> > maintainer whether these warnings are acceptable or not. No need to rep=
-ly
-> > unless the platform maintainer has comments.
-> >=20
-> > If you already ran DT checks and didn't see these error(s), then
-> > make sure dt-schema is up to date:
-> >=20
-> >    pip3 install dtschema --upgrade
-> >=20
-> >=20
-> > New warnings running 'make CHECK_DTBS=3Dy aspeed/aspeed-bmc-ampere-mtja=
-de.dtb aspeed/aspeed-bmc-ampere-mtmitchell.dtb' for 20240801091217.1408809-=
-1-chanh@os.amperecomputing.com:
-> >=20
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dtb: /ahb/apb/bus=
-@1e78a000/i2c@480/fan-controller0@20: failed to match any schema with compa=
-tible: ['maxim,max31790']
-> > arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dtb: /ahb/apb/bus=
-@1e78a000/i2c@480/fan-controller1@2f: failed to match any schema with compa=
-tible: ['maxim,max31790']
-> >=20
-> >=20
->=20
-> Thank Rob for your review!
->=20
-> I am aware of the new warnings you mentioned. For more information, the=
-=20
-> schema binding of "maxim,max31790" is being progressed by other series=C2=
-=A0=20
-> https://lore.kernel.org/lkml/20240414042246.8681-2-chanh@os.amperecomputi=
-ng.com/=20
->=20
+Add Linux device tree entry related to Meta(Facebook) Catalina specific
+devices connected to BMC(AST2600) SoC.
 
-For now can you please remove the `maxim,max31790` nodes from your
-devicetree and re-send? As it stands you've been asked to rework what
-you proposed in the thread that you linked, and a quick look at the
-hwmon trees suggests support for the max31790 hasn't been merged.
+Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+---
+Changes in v7:
+- drop 'pinctrl-names' in gpio0 node
+- change 'vref' to 'vref-supply' in adc0 & adc1 nodes
+- add p1v8_bmc_aux & p2v5_bmc_aux nodes
+- change Signed-off tag email as same as sender.
+- Link to v6: https://lore.kernel.org/r/20240802-potin-catalina-dts-v6-0-0b8f61b80688@gmail.com
 
-You can send a follow-up patch adding the nodes to your devicetree once
-the binding has been merged.
+Changes in v6:
+- move i2c-mux@70 node from 33-0070 to 30-0070 due to bus change
+- fix wrong gpio-line-names in io_expander6
+- remove all max31790 nodes
+- remove all raa228004 nodes
+- remove ipmb-dev node
+- remove unused mdio0 node
+- Link to v5: https://lore.kernel.org/r/20240726-potin-catalina-dts-v5-0-8f02305af527@gmail.com
 
-Andrew
+Changes in v5:
+- fix spi1_gpio node name and properties
+- remove undefind properties in mac3, i2c7 & i2c11
+- Link to v4: https://lore.kernel.org/r/20240725-potin-catalina-dts-v4-0-aa6f235a2e78@gmail.com
+
+Changes in v4:
+- change back io_expanderX due to parser error, build passed in v4 version.
+- Link to v3: https://lore.kernel.org/r/20240725-potin-catalina-dts-v3-0-3a5b5d9e6dbc@gmail.com
+
+Changes in v3:
+- rename tmp75 nodes to temperature-sensor
+- rename tmp421 nodes to temperature-sensor
+- rename ina230 nodes to power-sensor
+- rename io_expanderX nodes to io-expanderX
+- Link to v2: https://lore.kernel.org/r/20240724-potin-catalina-dts-v2-0-ba8d475c4073@gmail.com
+
+Changes in v2:
+- drop commented code in dts
+- rename i2c-mux channel nodes as i2c1muxXchY
+- rename gpio expander as io_expanderX
+- use "stdout-path" instead of "bootargs"
+- Link to v1: https://lore.kernel.org/all/20240722145857.2131100-1-potin.lai.pt@gmail.com/
+
+---
+Potin Lai (2):
+      dt-bindings: arm: aspeed: add Meta Catalina board
+      ARM: dts: aspeed: catalina: add Meta Catalina BMC
+
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |   1 +
+ arch/arm/boot/dts/aspeed/Makefile                  |   1 +
+ .../dts/aspeed/aspeed-bmc-facebook-catalina.dts    | 979 +++++++++++++++++++++
+ 3 files changed, 981 insertions(+)
+---
+base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
+change-id: 20240724-potin-catalina-dts-fda1ea3297b1
+
+Best regards,
+-- 
+Potin Lai <potin.lai.pt@gmail.com>
+
