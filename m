@@ -1,55 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325F994892A
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Aug 2024 08:08:11 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFFE948940
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Aug 2024 08:12:26 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=g+juzmeJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RgRbMqr9;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WdNCF0qrYz3cfB
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Aug 2024 16:08:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WdNJ864kgz3cgd
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Aug 2024 16:12:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=g+juzmeJ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RgRbMqr9;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WdNC84FXjz3cG5
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  6 Aug 2024 16:08:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WdNJ42ycfz3cG5
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  6 Aug 2024 16:12:20 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id D023760ED5;
-	Tue,  6 Aug 2024 06:08:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D860CC32786;
-	Tue,  6 Aug 2024 06:07:57 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id B195ECE0D6B;
+	Tue,  6 Aug 2024 06:12:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD22BC32786;
+	Tue,  6 Aug 2024 06:12:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722924481;
-	bh=mOzIDSoAAsLO7/601rZAJE7xHRiAlyD9Idw61008c7M=;
+	s=k20201202; t=1722924738;
+	bh=SklVUuAhXY+PsnnbLGAGBCzk9PJFBsWgkR90KoE1Mh4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=g+juzmeJ9lg65+ANKEEXUjJbUV/oK732V/qeGdzMKYAezNTxiskPZyZz+HFnsG1kv
-	 +wU9Y6RFZBOgFIzNGENsbIGFNBUcYNYEqNBseV0/HQfzdGmUXTzZiuPmtagAw1Rd4j
-	 ad7F0Et4q+/YNsjoi3BBhXUmsQa1iCSXKBaDXQioAtKYSJ7FEs1cd7UiTI8X566++l
-	 YE2CSna6TV1jLUrDI5hG4qn//SYN6jRSfh01mi8lMnwprNQNAZe1TmU7WTw/Pzp0CV
-	 ehU4l8ugbLx4+/3iNrA5Gze+PvfquDEFy6xe6YtudHhs4a0UO/pv6G46iuS2nJ7XH/
-	 w2IUf6aPhO2cg==
-Message-ID: <c51fb027-f8bd-4b10-b9c0-dbbe8e8cf4c1@kernel.org>
-Date: Tue, 6 Aug 2024 08:07:55 +0200
+	b=RgRbMqr9IVNNOWCEzeFM5PngY9oAU3YYfIRKzR4ylThnB8KQrWLLQ/7B43dTuOi5m
+	 AWGyJI3KQ+v0HQQwgPHbooQAc6ddNSs33YJa5bq1ECVi8bRWJXGm8Mf5NYBEXO5d00
+	 4m2yGKMBF3FM16kXBQpJ6lVcKn/LA2tKtGHLMf/dFepWhXe75Tiq9WNuhIt9J3zJO0
+	 V33EIdcGgCl0oA9Kj3aenn2kDsbgmGjRPGDCm2NCli0oD+M3aBF8pa+0IKIryd3EIH
+	 MDx2R6t9tNrKFDMbEQ9CePRG8h53qJ7OD1xF0CyMeYItwU2/Y+TxwZxXjPQGbHJjq0
+	 nVoJeHvqP052Q==
+Message-ID: <ec19fe07-84bd-4c32-a886-e6126af52f4c@kernel.org>
+Date: Tue, 6 Aug 2024 08:12:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: interrupt-controller:
- aspeed,ast2400-vic: Convert to DT schema
+Subject: Re: [PATCH 2/2] dt-bindings: misc: aspeed,ast2400-cvic: Convert to DT
+ schema
 To: Andrew Jeffery <andrew@codeconstruct.com.au>,
  Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
 References: <20240802-dt-warnings-irq-aspeed-dt-schema-v1-0-8cd4266d2094@codeconstruct.com.au>
- <20240802-dt-warnings-irq-aspeed-dt-schema-v1-1-8cd4266d2094@codeconstruct.com.au>
+ <20240802-dt-warnings-irq-aspeed-dt-schema-v1-2-8cd4266d2094@codeconstruct.com.au>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240802-dt-warnings-irq-aspeed-dt-schema-v1-1-8cd4266d2094@codeconstruct.com.au>
+In-Reply-To: <20240802-dt-warnings-irq-aspeed-dt-schema-v1-2-8cd4266d2094@codeconstruct.com.au>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -114,80 +114,62 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 02/08/2024 07:36, Andrew Jeffery wrote:
-> Squash warnings such as:
+> Address warnings such as:
 > 
->     arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/interrupt-controller@1e6c0080: failed to match any schema with compatible: ['aspeed,ast2400-vic']
-> 
-> The YAML DT schema defines an optional property, valid-sources, which
-> was not previously described in the prose binding. It is added to
-> document existing practice in the Aspeed devicetrees. Unfortunately
-> the property seems to predate the requirement that vendor-specific
-> properties be prefixed.
-> 
-> Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
 
-> +
 > +description:
-> +  The AST2400 and AST2500 SoC families include a legacy register layout before
-> +  a redesigned layout, but the bindings do not prescribe the use of one or the
-> +  other.
+> +  The Aspeed AST2400 and AST2500 SoCs have a controller that provides interrupts
+> +  to the ColdFire coprocessor. It's not a normal interrupt controller and it
+> +  would be rather inconvenient to create an interrupt tree for it, as it
+> +  somewhat shares some of the same sources as the main ARM interrupt controller
+> +  but with different numbers.
+> +
+> +  The AST2500 also supports a software generated interrupt.
 > +
 > +properties:
 > +  compatible:
-> +    enum:
-> +      - aspeed,ast2400-vic
-> +      - aspeed,ast2500-vic
+> +    items:
+> +      - enum:
+> +          - aspeed,ast2400-cvic
+> +          - aspeed,ast2500-cvic
+> +      - const: aspeed,cvic
 > +
-> +  interrupt-controller: true
-> +
-> +  "#interrupt-cells":
-> +    const: 1
-> +    description:
-> +      Specifies the number of cells needed to encode an interrupt source. It
-> +      must be 1 as the VIC has no configuration options for interrupt sources.
-> +      The single cell defines the interrupt number.
+> +  reg:
+> +    maxItems: 1
 > +
 > +  valid-sources:
 > +    $ref: /schemas/types.yaml#/definitions/uint32-array
 > +    description:
 > +      One cell, bitmap of support sources for the implementation.
 
-maxItems: 2
-What does "one cell" mean? uint32? DTS has two items.
+maxItems: 1
+(and drop "One cell" - no need to repeat constraints in free form text)
+
+BTW, for both bindings, I do not see any user in the kernel. Why is this
+property needed in the DTS?
 
 > +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
+> +  copro-sw-interrupts:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
 
-Is this correct? DTS does not have parent interrupt controller for this
-device.
+uint32? I do not see anywhere usage as an array. The in-kernel driver
+explicitly reads just uint32.
 
+Anyway, if this is supposed to stay as array, then min/maxItems.
+
+
+
+> +    description:
+> +      A list of interrupt numbers that can be used as software interrupts from
+> +      the ARM to the coprocessor.
 > +
 > +required:
 > +  - compatible
 > +  - reg
-> +  - interrupt-controller
-> +  - "#interrupt-cells"
-> +
+> +  - valid-sources> +
 > +allOf:
-> +  - $ref: /schemas/interrupt-controller.yaml
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    interrupt-controller@1e6c0080 {
-> +         compatible = "aspeed,ast2400-vic";
-> +         reg = <0x1e6c0080 0x80>;
-> +         interrupt-controller;
-> +         #interrupt-cells = <1>;
-
-Make the example complete - add valid-sources interupts.
-
+> +  - $ref: /schemas/interrupt-controller.yaml#
 
 
 Best regards,
