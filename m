@@ -1,55 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45F5949D98
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Aug 2024 04:09:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9A594B4CB
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 04:02:40 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=YIL0IZnG;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=hbNSVSS8;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wdtrt5T2Kz3cdn
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Aug 2024 12:09:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WfVfg3Bhzz3ck9
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 12:02:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=YIL0IZnG;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=hbNSVSS8;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wdtrm6N5qz2xPd;
-	Wed,  7 Aug 2024 12:08:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WfVfV0Y7fz3cjf
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Aug 2024 12:02:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1722996533;
-	bh=nDl2m8ByNTDL/Jr5G7cbij8hr6lhLY2gB+yNYJiRltw=;
+	d=codeconstruct.com.au; s=2022a; t=1723082527;
+	bh=xeBzGU5DTBwHDca/OreT1bQLesgiFRjH3NSbGQuJpLs=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=YIL0IZnGxDfFr3ZM+58Tsk19y7Rj68uU3RXsrtsbRCQa3ua0v5fiopzLvYjfGtn2w
-	 aFcnR7rxVQWcV0NiXZitMUTrNbhGn5rjoLiNop0XnWh2Oz2bHaomJBLeFjE+ndnq98
-	 op6C9BzJY/t4grLQ2FgAP/l9tRSQ2TUi5erxdycWREBhnu4+pb73l6/85Ii2GmxAQ5
-	 jlPxQvXnrWOq9+bwIrI95FdIyzpLle8yCGuXkKOhVZj2v6PFPBo67JfNAFFKrvfaSh
-	 1R+9tx2CwSKRBRQj7/geJxUxQeRemmcDmZsRyqhDFePlHGNGQ0+nk5vzzBXENp/Pfo
-	 xUkvAiIRayJ2w==
+	b=hbNSVSS8FuAodoVkZ0Ir/7WxJyNLX++H51FwksLk0g2vg35TWCVxko2msf1QFIE9G
+	 VVKVkTt1P+rlM5gSWQP33zTNY2wAxqHrqHobycDEKBTQq42NPHVEmcNzLD2IXJu5M9
+	 mwlJskVx3MisbQexHG4i9Lf/2WMPMtelC+INwEG3w81LgGZxJmXP/VJQxjlscmowxD
+	 FFKyLTXRjooNTBBg3udS7FIZY2n6bkQrOYCgO4yjgvZu5+tsVlWcNxNjnhUbRhL/Bo
+	 /ok4e7iWt5adUfNSZGoFnXOADNXDAkTmCqfM04ZyZmcquee6JOzQmAvrdWTMc7lK7w
+	 8WUuvlc1c6qKQ==
 Received: from [192.168.68.112] (203-57-213-111.dyn.iinet.net.au [203.57.213.111])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 9F099654E9;
-	Wed,  7 Aug 2024 10:08:49 +0800 (AWST)
-Message-ID: <5218da67149847bb803081b9f59ed031ffd7b43c.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v2 0/5] Update the device tree for Ampere's BMC platform
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 09C95656AB;
+	Thu,  8 Aug 2024 10:02:04 +0800 (AWST)
+Message-ID: <18a932d777d1b3b86af15e80af82b50d2189872f.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/2] dt-bindings: interrupt-controller:
+ aspeed,ast2400-vic: Convert to DT schema
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Chanh Nguyen <chanh@os.amperecomputing.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, OpenBMC
- Maillist <openbmc@lists.ozlabs.org>, Open Source Submission
- <patches@amperecomputing.com>
-Date: Wed, 07 Aug 2024 11:38:48 +0930
-In-Reply-To: <20240806071806.1666550-1-chanh@os.amperecomputing.com>
-References: <20240806071806.1666550-1-chanh@os.amperecomputing.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Thomas Gleixner
+ <tglx@linutronix.de>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Joel Stanley
+ <joel@jms.id.au>
+Date: Thu, 08 Aug 2024 11:32:04 +0930
+In-Reply-To: <c51fb027-f8bd-4b10-b9c0-dbbe8e8cf4c1@kernel.org>
+References: 	<20240802-dt-warnings-irq-aspeed-dt-schema-v1-0-8cd4266d2094@codeconstruct.com.au>
+	 <20240802-dt-warnings-irq-aspeed-dt-schema-v1-1-8cd4266d2094@codeconstruct.com.au>
+	 <c51fb027-f8bd-4b10-b9c0-dbbe8e8cf4c1@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -65,34 +64,105 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Thang Nguyen <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>, Quan Nguyen <quan@os.amperecomputing.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 2024-08-06 at 07:18 +0000, Chanh Nguyen wrote:
-> Updates the device tree to support some features on Ampere's
-> Mt.Mitchell BMC and Ampere's Mt.Jade BMC.
+On Tue, 2024-08-06 at 08:07 +0200, Krzysztof Kozlowski wrote:
+> On 02/08/2024 07:36, Andrew Jeffery wrote:
+> > Squash warnings such as:
+> >=20
+> >     arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/in=
+terrupt-controller@1e6c0080: failed to match any schema with compatible: ['=
+aspeed,ast2400-vic']
+> >=20
+> > The YAML DT schema defines an optional property, valid-sources, which
+> > was not previously described in the prose binding. It is added to
+> > document existing practice in the Aspeed devicetrees. Unfortunately
+> > the property seems to predate the requirement that vendor-specific
+> > properties be prefixed.
+> >=20
+> > Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 >=20
-> Changes in v2:
->  - Add eeprom nodes to the riser cards and update commit message   [Chanh=
-]
->  - Remove the "Add I2C Fan controllers"                            [Andre=
-w]
->   =20
-> Chanh Nguyen (5):
->   ARM: dts: aspeed: mtjade, mtmitchell: Add OCP temperature sensors
->   ARM: dts: aspeed: mtmitchell: Add I2C temperature sensor alias ports
->   ARM: dts: aspeed: mtmitchell: Add Riser cards
->   ARM: dts: aspeed: mtmitchell: Enable i2c10 and i2c15
->   ARM: dts: aspeed: mtmitchell: Add LEDs
 >=20
->  .../dts/aspeed/aspeed-bmc-ampere-mtjade.dts   |  16 ++
->  .../aspeed/aspeed-bmc-ampere-mtmitchell.dts   | 154 ++++++++++++++++++
->  2 files changed, 170 insertions(+)
+> > +
+> > +description:
+> > +  The AST2400 and AST2500 SoC families include a legacy register layou=
+t before
+> > +  a redesigned layout, but the bindings do not prescribe the use of on=
+e or the
+> > +  other.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - aspeed,ast2400-vic
+> > +      - aspeed,ast2500-vic
+> > +
+> > +  interrupt-controller: true
+> > +
+> > +  "#interrupt-cells":
+> > +    const: 1
+> > +    description:
+> > +      Specifies the number of cells needed to encode an interrupt sour=
+ce. It
+> > +      must be 1 as the VIC has no configuration options for interrupt =
+sources.
+> > +      The single cell defines the interrupt number.
+> > +
+> > +  valid-sources:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +    description:
+> > +      One cell, bitmap of support sources for the implementation.
+>=20
+> maxItems: 2
+
+Ack.
+
+> What does "one cell" mean? uint32? DTS has two items.
+
+Hah, I think that was a process error :) Two is correct here. I'll
+rework the description.
+
+>=20
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+>=20
+> Is this correct? DTS does not have parent interrupt controller for this
+> device.
+
+I'll removed it, it's not necessary.
+
+>=20
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupt-controller
+> > +  - "#interrupt-cells"
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/interrupt-controller.yaml
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    interrupt-controller@1e6c0080 {
+> > +         compatible =3D "aspeed,ast2400-vic";
+> > +         reg =3D <0x1e6c0080 0x80>;
+> > +         interrupt-controller;
+> > +         #interrupt-cells =3D <1>;
+>=20
+> Make the example complete - add valid-sources interupts.
 >=20
 
-I've applied these to be merged via the BMC tree.
+Ack.
 
-Thanks,
+Thanks for the review.
 
 Andrew
