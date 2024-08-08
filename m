@@ -2,54 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01C694BB97
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 12:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E82094BB9C
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 12:49:11 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=APZYVq+Y;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=MhONrxd1;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WfkL10MXxz2xrf
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 20:48:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WfkLY34GJz2xjv
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 20:49:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=APZYVq+Y;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=MhONrxd1;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WfkKx0pkgz2xCd
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Aug 2024 20:48:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WfkLT0GBfz2xjv
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Aug 2024 20:49:05 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id CDE4DCE12FA;
-	Thu,  8 Aug 2024 10:48:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3A02C4AF09;
-	Thu,  8 Aug 2024 10:48:31 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id A65F2CE131F;
+	Thu,  8 Aug 2024 10:49:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F3ECC4AF0E;
+	Thu,  8 Aug 2024 10:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723114115;
-	bh=06JKLLBSTblzHtiOx5e0iowMvxnqI1lBugrzskA8WGg=;
+	s=k20201202; t=1723114142;
+	bh=/bC1IqJacp3w9+CSOHYGfzeCrsJ+I9PC2x7fK+54vII=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=APZYVq+Yf4mdPZJpWifwY/pXerl7z8Ks2/puu2rn0meqR9lHOVGc+XK5psPcwmwAm
-	 L1zYYJoA7e+vwm9Rf7NS4+QKfrtr9osw7GkdgAgg7RhdarBOsRs1NxeGQemZR+kM+c
-	 tsYXwYEDQswI48m8dfE/D3UYzEryOubRjJ95ijK9NEGs9I1/337aQ3lsbdWULzF1BJ
-	 Mxs6/40d8iMcCTxWC9TS3xeykgltm0mjGSBrZC54gDgiYr0YiFgiQadTotMkcr8yuG
-	 Kr27zyP3r5K63zik6EBpTnUPTElGUqXlaxI9av8FQWlwOf7MdKtwNg04ujya6gsAyj
-	 NRyXCK6D0eJFg==
-Message-ID: <721f2102-0f2b-4d01-aadc-15aa6d1d837f@kernel.org>
-Date: Thu, 8 Aug 2024 12:48:29 +0200
+	b=MhONrxd1ix6A3TjLItwzxvnOGbXBdShcYq5W08JKduoIlcbGFb//OL11hmmFGLTc6
+	 B8eCAyskc2/UBw12jinuJQE99rA5mPsedJQwK2VK4mFGuald00gyuAYNcwhUkYfRze
+	 nNQ2cCFxrsBZbMYR1GOdaQJ4Oeo7oQc71v4NDg13M2zBEkozBUwPAR5cSAov7o/E+U
+	 LH4qQ1lN45oWfQ9aYaofsouK0ZdJ8+j/xr7LrnON55a/8PVMGRmORUFX/pJfYZmkkT
+	 345iUbkaSrW9EeEhBur4fp7Crur41SJWHwApYUsYvnd2PuGE/JHs/7+TFS7mghtsOF
+	 VKQYPeqVoxqOw==
+Message-ID: <ade9d7f3-a74d-4e64-8f9c-62e0678fcf03@kernel.org>
+Date: Thu, 8 Aug 2024 12:48:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: interrupt-controller:
- aspeed,ast2400-vic: Convert to DT schema
+Subject: Re: [PATCH v2 2/2] dt-bindings: misc: aspeed,ast2400-cvic: Convert to
+ DT schema
 To: Andrew Jeffery <andrew@codeconstruct.com.au>,
  Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
 References: <20240808-dt-warnings-irq-aspeed-dt-schema-v2-0-c2531e02633d@codeconstruct.com.au>
- <20240808-dt-warnings-irq-aspeed-dt-schema-v2-1-c2531e02633d@codeconstruct.com.au>
+ <20240808-dt-warnings-irq-aspeed-dt-schema-v2-2-c2531e02633d@codeconstruct.com.au>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240808-dt-warnings-irq-aspeed-dt-schema-v2-1-c2531e02633d@codeconstruct.com.au>
+In-Reply-To: <20240808-dt-warnings-irq-aspeed-dt-schema-v2-2-c2531e02633d@codeconstruct.com.au>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -114,15 +114,19 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 08/08/2024 06:14, Andrew Jeffery wrote:
-> Squash warnings such as:
+> Address warnings such as:
 > 
->     arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/interrupt-controller@1e6c0080: failed to match any schema with compatible: ['aspeed,ast2400-vic']
+>     arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: interrupt-controller@1e6c0080: 'valid-sources' does not match any of the regexes: 'pinctrl-[0-9]+'
 > 
-> The YAML DT schema defines an optional property, valid-sources, which
-> was not previously described in the prose binding. It is added to
-> document existing practice in the Aspeed devicetrees. Unfortunately
-> the property seems to predate the requirement that vendor-specific
-> properties be prefixed.
+> and
+> 
+>     arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: /ahb/copro-interrupt-controller@1e6c2000: failed to match any schema with compatible: ['aspeed,ast2400-cvic', 'aspeed-cvic']
+> 
+> Note that the conversion to DT schema causes some further warnings to
+> be emitted, because the Aspeed devicetrees are not in great shape. These
+> new warnings are resolved in a separate series:
+> 
+> https://lore.kernel.org/lkml/20240802-dt-warnings-bmc-dts-cleanups-v1-0-1cb1378e5fcd@codeconstruct.com.au/
 > 
 > Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
