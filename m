@@ -1,59 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE24194B5A4
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 05:53:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A36A794B5CF
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 06:14:58 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=l2Ksm/2O;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=AR/nq4T3;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WfY6Q4TRkz3dFS
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 13:53:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WfYbZ4Fyqz3dLB
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 14:14:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=l2Ksm/2O;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=AR/nq4T3;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WfY6L2b3rz3cWd
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Aug 2024 13:52:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WfYbV4XLbz3cRK
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Aug 2024 14:14:46 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1723089176;
-	bh=PosnylbE4Y7ewXvd+zX7wq2nvzxbsSbmn+ew7CfQ/SM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=l2Ksm/2O4zEyMfZ/Bqws1Ow6EYrwShNr+Mci1PzlplSz5cAZXnwPOZCOW7ge7ROFT
-	 Yn54QhVOOfirUObYnPi1ClLRGBiDVpV38wh9AKXoqmNGhL+erEGZV8xi5IxRJUbYQz
-	 tOFP1OLk5rLj3uTV09U2fGE59CuTH0L82y1ox88+74/r0/RXhGVCbZ/R9Mdfk5D9wD
-	 87XtbUIeP0LaGDqHbOG6qXD1R2c8KS3+hzxwU2HiCf4Y99t02xd9wv8IHVJKPsngFn
-	 SSL6McwgNZyoinMaYd/7mELVOzIPxWWFggu38V43zMr0laoex2QLyJKyRxZXYsuN48
-	 /Q9RHkFq+zVwg==
-Received: from [192.168.68.112] (203-57-213-111.dyn.iinet.net.au [203.57.213.111])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id EA77A654E9;
-	Thu,  8 Aug 2024 11:52:53 +0800 (AWST)
-Message-ID: <211294ed76c23c55518015f4beedeb6efa63d540.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 2/2] dt-bindings: misc: aspeed,ast2400-cvic: Convert to
- DT schema
+	d=codeconstruct.com.au; s=2022a; t=1723090486;
+	bh=n3sZ4FsOpgBw2cpkxzXazcULuROCyRckfFE8WrKc23c=;
+	h=From:Subject:Date:To:Cc;
+	b=AR/nq4T3O36j2aPSH1YxOzliZ0Qdgq9WcseuCgPmIupAGuOvs7srJsccs9k33u6Ie
+	 5vbN65GDaqWjfSoiCeNBdmbcRAT0wgJvHfYqonn6Dz1BPTsww7BuvDFEpMnwTmsth0
+	 od7cGfbOdG8EHRvatmlXdLtHFGHeAVERDJKHkVLti1A4oxCT29tNeBM0WfWJfUhX5L
+	 OPpJSqWN+dtEn15bpHag+HNMPW4rOkHyl9Y7SK2buA9CFAMyKJ7yyCCBXyEgFSr5Ih
+	 STAx3nryVgYzW2dnKMcCMNY72yisErw2BO/70gFlE63UU4PviL87REmXQjcKULHbg6
+	 VfcUOQdxSUKqQ==
+Received: from [127.0.1.1] (203-57-213-111.dyn.iinet.net.au [203.57.213.111])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 65FFE654E9;
+	Thu,  8 Aug 2024 12:14:45 +0800 (AWST)
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Thomas Gleixner
- <tglx@linutronix.de>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Joel Stanley
- <joel@jms.id.au>
-Date: Thu, 08 Aug 2024 13:22:53 +0930
-In-Reply-To: <4d26bde0bda7cb1d44958d967c4b0c2da5b2abc4.camel@codeconstruct.com.au>
-References: 	<20240802-dt-warnings-irq-aspeed-dt-schema-v1-0-8cd4266d2094@codeconstruct.com.au>
-	 <20240802-dt-warnings-irq-aspeed-dt-schema-v1-2-8cd4266d2094@codeconstruct.com.au>
-	 <ec19fe07-84bd-4c32-a886-e6126af52f4c@kernel.org>
-	 <4d26bde0bda7cb1d44958d967c4b0c2da5b2abc4.camel@codeconstruct.com.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Subject: [PATCH v2 0/2] dt-bindings: interrupt-controller: Convert Aspeed
+ (C)VIC to DT schema
+Date: Thu, 08 Aug 2024 13:44:23 +0930
+Message-Id: <20240808-dt-warnings-irq-aspeed-dt-schema-v2-0-c2531e02633d@codeconstruct.com.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB9GtGYC/5WNQQ6DIBAAv2I4dw1SNLan/qPxQNhV9yBYQNvG+
+ PeiP+hx5jCziUiBKYp7sYlAK0f2LoO6FMKOxg0EjJmFkkrLVirABG8THLshAocXmDgT4aGjHWk
+ yUPc19VijvlZG5MwcqOfPuXh2mUeOyYfveVyrw/4RXyuQ0FrUqmlQyZt+WI9kvYspLDaV1k+lW
+ US37/sPWyakwtsAAAA=
+To: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+X-Mailer: b4 0.14.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,85 +68,45 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 2024-08-08 at 11:36 +0930, Andrew Jeffery wrote:
-> On Tue, 2024-08-06 at 08:12 +0200, Krzysztof Kozlowski wrote:
-> > On 02/08/2024 07:36, Andrew Jeffery wrote:
-> > > Address warnings such as:
-> > >=20
-> >=20
-> >=20
-> > > +description:
-> > > +  The Aspeed AST2400 and AST2500 SoCs have a controller that provide=
-s interrupts
-> > > +  to the ColdFire coprocessor. It's not a normal interrupt controlle=
-r and it
-> > > +  would be rather inconvenient to create an interrupt tree for it, a=
-s it
-> > > +  somewhat shares some of the same sources as the main ARM interrupt=
- controller
-> > > +  but with different numbers.
-> > > +
-> > > +  The AST2500 also supports a software generated interrupt.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +          - aspeed,ast2400-cvic
-> > > +          - aspeed,ast2500-cvic
-> > > +      - const: aspeed,cvic
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  valid-sources:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +    description:
-> > > +      One cell, bitmap of support sources for the implementation.
-> >=20
-> > maxItems: 1
-> > (and drop "One cell" - no need to repeat constraints in free form text)
->=20
-> Ack to both.
->=20
-> >=20
-> > BTW, for both bindings, I do not see any user in the kernel. Why is thi=
-s
-> > property needed in the DTS?
->=20
-> Good question. This is a hangover from when benh was involved in the
-> Aspeed kernel port.
->=20
-> Given it's specified in the prose binding and the devicetrees contain
-> the property I'll leaving it in for now, but I think it's something we
-> could consider removing down the track.
->=20
-> >=20
-> > > +
-> > > +  copro-sw-interrupts:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> >=20
-> > uint32? I do not see anywhere usage as an array. The in-kernel driver
-> > explicitly reads just uint32.
->=20
-> You're right, and in the context of the hardware an array doesn't make
-> sense here. I'll switch it to a uint32.
->=20
+Hello,
 
-Actually, on further inspection, the description says the property
-should contain a list of interrupt _numbers_ (the hardware exposes 32
-software drive-able interrupt bits). Given aspeed-g5.dtsi only lists
-the single value '1' the intent feels somewhat murky. When I wrote the
-reply above I had in my head that it was a bitmask like valid-sources
-but the description suggests that's not true. I'm not sure the
-described behaviour was chosen to be different to valid-sources,
-however, for the co-processor, index 1 is an interrupt from the main
-ARM core. Perhaps it felt less tedious just to write the index and not
-the mask.
+This short series converts the Aspeed VIC and CVIC bindings over to DT
+schema. The CVIC has historically been documented under "misc" as it's
+the interrupt controller for the Coldfire co-processor embedded in the
+SoCs, and not for the main ARM core. Regardless, I've updated both in
+this series.
 
-I'm going to backtrack on my reply above leave this as uint32-array
-with `maxItems: 32` to meet the intent of the description. If there are
-problems down the track we can consider the driver to have a bug with
-respect to the binding (I don't think there's much risk there though).
+I tried to document the historical oddities and conversion quirks in the
+commit messages where appropriate.
+
+Please review!
 
 Andrew
+
+---
+Changes in v2:
+- Address feedback from Krzysztof
+  - https://lore.kernel.org/r/c51fb027-f8bd-4b10-b9c0-dbbe8e8cf4c1@kernel.org/
+  - https://lore.kernel.org/r/ec19fe07-84bd-4c32-a886-e6126af52f4c@kernel.org/
+- Address feedback from Rob
+  - https://lore.kernel.org/r/20240806172917.GA1836473-robh@kernel.org/
+- Link to v1: https://lore.kernel.org/r/20240802-dt-warnings-irq-aspeed-dt-schema-v1-0-8cd4266d2094@codeconstruct.com.au
+
+---
+Andrew Jeffery (2):
+      dt-bindings: interrupt-controller: aspeed,ast2400-vic: Convert to DT schema
+      dt-bindings: misc: aspeed,ast2400-cvic: Convert to DT schema
+
+ .../interrupt-controller/aspeed,ast2400-vic.txt    | 23 --------
+ .../interrupt-controller/aspeed,ast2400-vic.yaml   | 62 ++++++++++++++++++++++
+ .../bindings/misc/aspeed,ast2400-cvic.yaml         | 60 +++++++++++++++++++++
+ .../devicetree/bindings/misc/aspeed,cvic.txt       | 35 ------------
+ 4 files changed, 122 insertions(+), 58 deletions(-)
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20240802-dt-warnings-irq-aspeed-dt-schema-5f5efd5d431a
+
+Best regards,
+-- 
+Andrew Jeffery <andrew@codeconstruct.com.au>
+
