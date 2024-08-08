@@ -2,47 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518FF94BAA5
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 12:16:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9706F94BAAC
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 12:17:28 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fp6HRaaz;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=SA0oJfHE;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wfjd71kkWz2xb3
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 20:16:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wfjdy3lQ5z2xdY
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Aug 2024 20:17:26 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fp6HRaaz;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=SA0oJfHE;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wfjd200XFz2xdY
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Aug 2024 20:16:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wfjdt0rdvz2xb3
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Aug 2024 20:17:22 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 791676122F;
-	Thu,  8 Aug 2024 10:16:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1B6C4AF10;
-	Thu,  8 Aug 2024 10:16:28 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 6A5A3CE12B6;
+	Thu,  8 Aug 2024 10:17:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EAD8C4AF0D;
+	Thu,  8 Aug 2024 10:17:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723112194;
-	bh=hTCk4wpPzNUni6maFCT90aDu+9oeYO7rJkKxJ0gCKaY=;
+	s=k20201202; t=1723112239;
+	bh=nz42e52QYoi1xywHTSuTMApxBUp3t4qKujIq+/nNnfA=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=fp6HRaazTuZz4DwS2+M+WZXJp/6qPoCJM5AygmmHTNVJ2Gnb+JTNPRNz4DhFH5V9B
-	 ZRNj2wER0OMXRYYSTTUPb9ZmbslYitcAyNCX3EF2CLcokTDcMABHyGl3FHmTIC9P/A
-	 ys3iSIZrO4dGEwznuV9ZDRudghuXbiT13x5qsh3tVWk22jL22YhbjYbCUb+BfGTmpy
-	 BOFjl33m2hIDxdP/qCcurhBFdmRt1ZaXJ1btXzfovJMGyDY8kq005PdH5kdUdDFFbb
-	 aUvHODvDxlL23++F3gxF+2wMal6s7aBvAYoBUdglcrviRGTz0CZezfrfESqs7p0FdC
-	 Ye/jJ2f2gueYQ==
-Message-ID: <f12dd5c4-3b0f-4997-8368-1eef919d0cb0@kernel.org>
-Date: Thu, 8 Aug 2024 12:16:26 +0200
+	b=SA0oJfHEpsNSZASajrn2Hg6FCJUHrrgMd21OZAY3wSzeK/fKJaeyIdgExQAUBQJeM
+	 tQoHRQ+mVICU3LaiKSYQDfdM/A4WytNcZ82r/Tj/U1+ko9nABIbHZcnKjVCNOezW/y
+	 LCa0aBgXeuSAIsWCpwtr+21xyhCEBg0Dr4R/2mSkARlPpi0rGzxdT0SLuC+nqzhfyn
+	 +SGVKeVlEm+oNqktzjZtWqW942nLVyI6cJD6tv/Or0XGOmMGtLOl7QGqXOjqvkziUV
+	 1HPBD28dF90RQArA4HcEiezuKaFn5maubejcPZg7Om5ixq9lfoWY14OHeV6gYoG5uX
+	 vrNKyqJ7FDptw==
+Message-ID: <5d8dd391-fc6f-4133-86a1-d536416f9ae5@kernel.org>
+Date: Thu, 8 Aug 2024 12:17:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: reset Add AST2700 reset bindings
+Subject: Re: [PATCH 3/4] dt-bindings: clock: Add AST2700 clock bindings
 To: Ryan Chen <ryan_chen@aspeedtech.com>, Lee Jones <lee@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
@@ -53,7 +53,7 @@ To: Ryan Chen <ryan_chen@aspeedtech.com>, Lee Jones <lee@kernel.org>,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
 References: <20240808075937.2756733-1-ryan_chen@aspeedtech.com>
- <20240808075937.2756733-3-ryan_chen@aspeedtech.com>
+ <20240808075937.2756733-4-ryan_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240808075937.2756733-3-ryan_chen@aspeedtech.com>
+In-Reply-To: <20240808075937.2756733-4-ryan_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -117,19 +117,14 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 08/08/2024 09:59, Ryan Chen wrote:
-> Add dt bindings for AST2700 reset driver.
+> Add dt bindings for AST2700 clock controller
 > 
 > Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 
+NAK, why did you ignore all previous comments? Where is the changelog
+and proper versioning?
 
-No, that's not how it works. Aspeed already sent it and recieved
-feedback. Do not send duplicated patches, without history/changelog. You
-keep avoiding discussion, do not reply and then send something again
-without changes.
-
-Respond to feedback you got and implement it.
-
-NAK
+Is there total mess in Aspeed that you all do the same in the same time?
 
 Best regards,
 Krzysztof
