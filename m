@@ -1,53 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE3194CA18
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Aug 2024 08:07:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B23294CA1B
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Aug 2024 08:08:26 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rQn1rxhM;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rICicHVn;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WgD3H6Bdmz2ymb
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Aug 2024 16:07:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WgD4822ZQz2ymg
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Aug 2024 16:08:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rQn1rxhM;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rICicHVn;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WgD3B4pdQz2yRC
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Aug 2024 16:07:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WgD434lWnz2yRC
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Aug 2024 16:08:19 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 21B7761652;
-	Fri,  9 Aug 2024 06:07:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E60C32782;
-	Fri,  9 Aug 2024 06:07:26 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 9EEC661648;
+	Fri,  9 Aug 2024 06:08:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E49FBC32782;
+	Fri,  9 Aug 2024 06:08:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723183651;
-	bh=wDAmfxsF3PYpof4qs6rifDYJxZtm54/11qMW8srVW3o=;
+	s=k20201202; t=1723183697;
+	bh=Zy3p+scNC0PHTHJYY2MvS5uh0CnloE9e+bRNWm7Akn8=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=rQn1rxhM3fKq6PKWprHZZtEURIKHo26/GeyKDKqBFivZXlipRFU9MxM1REk0H5u6z
-	 ghgng4D6483kFKOsX+Wvj/8M8ms//dDdN+9kbEWtEqU6c1KMCM58+nIWL+JZjx7hqa
-	 eJLf63/5TV46XI8GcbqkzM7cXEeMU41wmo8QAvIOvLb9BsJFwUvmCJC4tW6SYvUVC8
-	 fy4wlMDXiLl2NQO9LF6GxLICdRZdHpdVGovfVb2idj8RnS0aTb+2HKT8mrqlMT11LB
-	 ErbHZLoYQDQ6iU6+lF4DCeEvmDbpKwJSg3Xs38B37hbnBXLVoN3jLRYTsnQueCIZ5C
-	 EjJjuT2BOFgPg==
-Message-ID: <4f1c275d-63bd-4649-9517-17ac4f20e3bf@kernel.org>
-Date: Fri, 9 Aug 2024 08:07:23 +0200
+	b=rICicHVnacx1shQfdaoukIr0CDx0u+SNQ5dIU7XvEFMmzOEP+/VP/JNEnAXJDagcn
+	 FBTnDKE5rGVGNBmYK6oFdUlolQWX7zxm65bjJBqlonyQ8zb+9UdD2G5ldc4VaaFQZx
+	 rUui3LBpC5TLweV1Zt+dp3xLxBwHcKHXreyIQ4lF4DimN21QQw3fOSPv1ziHNr6Zlc
+	 RbDYwOJFtME78B84EtqEp7+r9ZRFatZVhl5+z2QKsJcrPfAWRCPnMJYJ6VTosAMbKp
+	 y7MbfOcAEoXXR5H8JDRgYN/r/b4B9602pdOvNGL2yxoQYQyI//wWyW/yuunt3X0KQo
+	 UQTWgiMWbCJgg==
+Message-ID: <5b63ce40-780c-457a-a292-4e7b310c567f@kernel.org>
+Date: Fri, 9 Aug 2024 08:08:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/4] dt-bindings: reset Add AST2700 reset bindings
-To: Ryan Chen <ryan_chen@aspeedtech.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
  Andrew Jeffery <andrew@codeconstruct.com.au>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
  <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
@@ -59,8 +57,8 @@ To: Ryan Chen <ryan_chen@aspeedtech.com>,
  "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
 References: <20240808075937.2756733-1-ryan_chen@aspeedtech.com>
  <20240808075937.2756733-3-ryan_chen@aspeedtech.com>
- <0f227033-4818-4ff5-9140-851c6d802fb2@wanadoo.fr>
- <OS8PR06MB7541E0944EAD547DED2AE561F2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <f12dd5c4-3b0f-4997-8368-1eef919d0cb0@kernel.org>
+ <OS8PR06MB7541B5A820F68E2232377775F2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,7 +104,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <OS8PR06MB7541E0944EAD547DED2AE561F2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+In-Reply-To: <OS8PR06MB7541B5A820F68E2232377775F2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -123,20 +121,26 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 09/08/2024 07:42, Ryan Chen wrote:
->>> +#define SCU0_RESET_PORTA_EHCI              (38)
->>> +#define SCU0_RESET_PORTA_VHUB0             (38)
+On 09/08/2024 08:06, Ryan Chen wrote:
+>> Subject: Re: [PATCH 2/4] dt-bindings: reset Add AST2700 reset bindings
 >>
->> Is having 38 twice expected?
->> If not, why not use an enum, BTW?
+>> On 08/08/2024 09:59, Ryan Chen wrote:
+>>> Add dt bindings for AST2700 reset driver.
+>>>
+>>> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 >>
-> Yes, it is expected. Due to 38 is shared reset for 2 usb controller.
-> One for EHCI, another is for vhub0. So I do define the same value.
-> That I can do more clear in dtsi description.
-> The following will be expected dtsi file descript.
-
-No, that's confusing. Don't do this. You are hiding information that one
-reset is shared. Terrible idea.
+>>
+>> No, that's not how it works. Aspeed already sent it and recieved feedback. Do
+>> not send duplicated patches, without history/changelog. You keep avoiding
+>> discussion, do not reply and then send something again without changes.
+>>
+>> Respond to feedback you got and implement it.
+>>
+>> NAK
+> Apologize for your mis-lead, I do the internal discussion, it should not send "Introduce ASPEED AST27XX BMC SoC" series patch. it should be separate series patch.
+> Not mess together like previous "Introduce ASPEED AST27XX BMC SoC".
+> It should be bite by bite, example clk driver patches, platform patches, interrupt patches.
+> That the reason I send clk driver patch series in separate.
 
 Best regards,
 Krzysztof
