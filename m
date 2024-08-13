@@ -1,65 +1,112 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D28950175
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Aug 2024 11:44:33 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCA1950185
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Aug 2024 11:48:51 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=b5/TQWYH;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=Yo+CnOYr;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QiNAKkSK;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wjmgf6Vndz2yQ9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Aug 2024 19:44:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WjmmX0XHDz2xfR
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Aug 2024 19:48:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=b5/TQWYH;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=Yo+CnOYr;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QiNAKkSK;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linutronix.de (client-ip=2a0a:51c0:0:12e:550::1; helo=galois.linutronix.de; envelope-from=tglx@linutronix.de; receiver=lists.ozlabs.org)
-X-Greylist: delayed 530 seconds by postgrey-1.37 at boromir; Tue, 13 Aug 2024 19:44:25 AEST
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WjmgY6vwnz2xKg
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Aug 2024 19:44:25 +1000 (AEST)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1723541726;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sPWBBDJU7xycHw83tZfdCxw6fWdvqJgVNnPRw9B4yYQ=;
-	b=b5/TQWYHviQ+nW8b2BeGJJJa+nhVp9dMiGiVqEXbL6stHi4kqSjJV9+KD/yM22uLBuypv8
-	sxCkkqTcdTv3z/bNpVguXEppD0dghagT51vFwNh2Yij3nPNlBBMdGEiZwlYyQ/+WTP2Ltp
-	KgkOoA/SSxRVPqCPBT9bZqicmlgom2KDcfvVfrXvaSMP+n0IJkzzKUFzm1K6yZNGbTvCpn
-	oWcSNOrSERIcAF041nYr4qHMlNUNGtlRE67+7DrvkPpTDYzFQ8taO0Chl2gAvMy26G51zI
-	65FMDYJ95BhXaK1E7gsEuCmi/GoGE2HVrD6Ywq4e0H50qLmfnqasvsP4MRJZ1A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1723541726;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sPWBBDJU7xycHw83tZfdCxw6fWdvqJgVNnPRw9B4yYQ=;
-	b=Yo+CnOYrpmW3Yt1nO9Kha4AaH4X+qDnHwgTE6qp1Rz+M95+QVDhsKh0Z/K8f4WuGGZGnX9
-	9xjWE9A8/DOiS+CA==
-To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
- andrew@codeconstruct.com.au, kevin_chen@aspeedtech.com,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH v1 2/2] irqchip/aspeed-intc: Add support for 10 INTC
- interrupts on AST27XX platforms
-In-Reply-To: <20240813074338.969883-3-kevin_chen@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WjmmR0mCWz2xYc
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Aug 2024 19:48:39 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id AC908615D9;
+	Tue, 13 Aug 2024 09:48:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D7DC4AF09;
+	Tue, 13 Aug 2024 09:48:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723542516;
+	bh=dyRheu5fkc36+Z6U55nfDJfyAv0UpJ9ogHZFM42QJM4=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=QiNAKkSKIF0gzskpmY+GtpgZky72EAJhl9omsxNkvhqpMGKIunNW04TMZJ/z1jxr+
+	 mbjnbkxNxJ+9Z5YzaSz5VVWCV25iKn4iP3rAnly/60463oY7i5kHXdru2SokHUTNJ2
+	 Z+y/EfEyEtOcCl6rtxfXv/wPpQL8a+c3WTRyCqNPf4Z0gFgwGSbG3gBolKC3UkIZCM
+	 O+wf4dJ2j3T1LbZJ9fSn8kmaI4cPLR6oJrAWDso6XCLNK6l8y3QeYzf8D//SQ2C7Lp
+	 nlvefdp7BVEQZvOlaloxKy/ngP4IhxaU5BHu0+tu3ekPXCbtUlGhIuICxJx5ZdftAN
+	 GXa4lCyHGGlTA==
+Message-ID: <13e6625f-9f62-4973-b8f2-e825bd7665ee@kernel.org>
+Date: Tue, 13 Aug 2024 11:48:30 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?B?UmU6IOWbnuimhjogW1BBVENIIHYxIDIvMl0gaXJxY2hpcC9hc3BlZWQt?=
+ =?UTF-8?Q?intc=3A_Add_support_for_10_INTC_interrupts_on_AST27XX_platforms?=
+To: Kevin Chen <kevin_chen@aspeedtech.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, "robh@kernel.org"
+ <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, "joel@jms.id.au"
+ <joel@jms.id.au>, "andrew@codeconstruct.com.au"
+ <andrew@codeconstruct.com.au>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
 References: <20240813074338.969883-1-kevin_chen@aspeedtech.com>
  <20240813074338.969883-3-kevin_chen@aspeedtech.com>
-Date: Tue, 13 Aug 2024 11:35:25 +0200
-Message-ID: <87h6borciq.ffs@tglx>
-MIME-Version: 1.0
-Content-Type: text/plain
+ <315f9095-8928-44a9-bab7-a924a070eded@kernel.org>
+ <PSAPR06MB4949680EBF66DCD47F2B4CF889862@PSAPR06MB4949.apcprd06.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <PSAPR06MB4949680EBF66DCD47F2B4CF889862@PSAPR06MB4949.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,252 +121,111 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Aug 13 2024 at 15:43, Kevin Chen wrote:
-> There are 10 interrupt source of soc0_intc in CPU die INTC.
->   1. 6 interrupt sources in IO die of soc1_intc0~soc1_intc5.
->   2. 2 interrupt sources in LTPI of ltpi0_intc0 and ltpi0_intc1.
->   3. 2 interrupt sources in LTPI of ltpi1_intc0 and ltpi1_intc1.
-> Request GIC interrupt to check each bit in status register to do next
-> level INTC handler.
->
-> In next level INTC handler of IO die or LTPI INTC using soc1_intcX combining
-> 32 interrupt sources into soc0_intc11 in CPU die. In soc1_intcX, handler
-> would check 32 bit of status register to do the requested device
-> handler.
+On 13/08/2024 11:44, Kevin Chen wrote:
+> Hi Krzk,
+> 
+> In ASPEED, ast2400/2500/2600 use arm architecture with KCONFIG_ARCH_ASPEED which slect MACH_ASPEED_G4/G5/G6 in arch/arm/mach-aspeed/Kconfig.
+> In the fureture, there would be ast2800/2900/... using arm64. We need to clarify the IC generation between 7th/8th/9th/....
+> 
+> Maybe change ARCH_ASPEED/MACH_ASPEEDG7 to ARCH_ASPEED first.
+> Or, do you have better Kconfig usage?
 
-I can't figure out what this word salad is trying to tell me. Nothing in
-the code does any combining. The handler reads the very same
-INTC_INT_STATUS_REG.
+Fix your quotes and do not top-post.
 
->
+Please respond inline, instead of top-posting, because it makes your
+emails hard to follow.
+https://elixir.bootlin.com/linux/v6.8-rc7/source/Documentation/process/submitting-patches.rst#L340
 
-This lacks a Signed-off-by: tag. See Documentation/process/
+> 
+> 
+>> +config ARCH_ASPEED
+>> +     bool "Aspeed SoC family"
+>> +     select MACH_ASPEED_G7
+>> +     help
+>> +       Say yes if you intend to run on an Aspeed ast2700 or similar
+>> +       seventh generation Aspeed BMCs.
+>> +
+>> +config MACH_ASPEED_G7
+>> +     bool "Aspeed SoC AST2700"
+> 
+> There are no MACHines for arm64. Look at this code. Do you see MACH
+> anywhere else? No. Then why Aspeed must be different?
 
-> ---
->  drivers/irqchip/Makefile          |   1 +
->  drivers/irqchip/irq-aspeed-intc.c | 198 ++++++++++++++++++++++++++++++
-> +
-> +#define INTC_INT_ENABLE_REG	0x00
-> +#define INTC_INT_STATUS_REG	0x04
-> +
-> +struct aspeed_intc_ic {
-> +	void __iomem		*base;
-> +	raw_spinlock_t		gic_lock;
-> +	raw_spinlock_t		intc_lock;
-> +	struct irq_domain	*irq_domain;
-> +};
-> +
-> +static void aspeed_intc_ic_irq_handler(struct irq_desc *desc)
-> +{
-> +	struct aspeed_intc_ic *intc_ic = irq_desc_get_handler_data(desc);
-> +	struct irq_chip *chip = irq_desc_get_chip(desc);
-> +	unsigned long bit, status, flags;
-> +
-> +	chained_irq_enter(chip, desc);
-> +
-> +	raw_spin_lock_irqsave(&intc_ic->gic_lock, flags);
+What is this?
 
-There is no point for irqsave(). This code is invoked with interrupts
-disabled and please convert to:
+> 
+> --
+> Best Regards,
+> Kevin. Chen
+> 
+> ________________________________
+> 寄件者: Krzysztof Kozlowski <krzk@kernel.org>
+> 寄件日期: 2024年8月13日 下午 04:50
+> 收件者: Kevin Chen <kevin_chen@aspeedtech.com>; tglx@linutronix.de <tglx@linutronix.de>; robh@kernel.org <robh@kernel.org>; krzk+dt@kernel.org <krzk+dt@kernel.org>; conor+dt@kernel.org <conor+dt@kernel.org>; joel@jms.id.au <joel@jms.id.au>; andrew@codeconstruct.com.au <andrew@codeconstruct.com.au>; linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>; devicetree@vger.kernel.org <devicetree@vger.kernel.org>; linux-arm-kernel@lists.infradead.org <linux-arm-kernel@lists.infradead.org>; linux-aspeed@lists.ozlabs.org <linux-aspeed@lists.ozlabs.org>
+> 主旨: Re: [PATCH v1 2/2] irqchip/aspeed-intc: Add support for 10 INTC interrupts on AST27XX platforms
+> 
 
-        scoped_guard(raw_spinlock, &intc_ic->gic_lock) {
+...
 
-> +	status = readl(intc_ic->base + INTC_INT_STATUS_REG);
-> +	for_each_set_bit(bit, &status, 32) {
+>> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+>> index 15635812b2d6..d2fe686ae018 100644
+>> --- a/drivers/irqchip/Makefile
+>> +++ b/drivers/irqchip/Makefile
+>> @@ -84,6 +84,7 @@ obj-$(CONFIG_MVEBU_SEI)                     += irq-mvebu-sei.o
+>>  obj-$(CONFIG_LS_EXTIRQ)                      += irq-ls-extirq.o
+>>  obj-$(CONFIG_LS_SCFG_MSI)            += irq-ls-scfg-msi.o
+>>  obj-$(CONFIG_ARCH_ASPEED)            += irq-aspeed-vic.o irq-aspeed-i2c-ic.o irq-aspeed-scu-ic.o
+>> +obj-$(CONFIG_MACH_ASPEED_G7)         += irq-aspeed-intc.o
+> 
+> There is no such thing as CONFIG_MACH_ASPEED_G7. And there will never be.
+> 
+> You already received feedback on this, so why do you keep pushing your
+> solution? You did not respond to any feedback given, just send the same
+> and the same till we agree?
+> 
+> NAK.
 
-Please use a define and not a hardcoded number.
+And this?
 
-> +		generic_handle_domain_irq(intc_ic->irq_domain, bit);
-> +		writel(BIT(bit), intc_ic->base + INTC_INT_STATUS_REG);
-> +	}
+> 
+>>  obj-$(CONFIG_STM32MP_EXTI)           += irq-stm32mp-exti.o
+>>  obj-$(CONFIG_STM32_EXTI)              += irq-stm32-exti.o
+>>  obj-$(CONFIG_QCOM_IRQ_COMBINER)              += qcom-irq-combiner.o
+>> diff --git a/drivers/irqchip/irq-aspeed-intc.c b/drivers/irqchip/irq-aspeed-intc.c
+>> new file mode 100644
+>> index 000000000000..71407475fb27
+> 
 
-        }
+...
 
-> +	raw_spin_unlock_irqrestore(&intc_ic->gic_lock, flags);
-> +
-> +	chained_irq_exit(chip, desc);
-> +}
-> +
-> +static void aspeed_intc_irq_mask(struct irq_data *data)
-> +{
-> +	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
-> +	unsigned int mask = readl(intc_ic->base + INTC_INT_ENABLE_REG) & ~BIT(data->hwirq);
-> +	unsigned long flags;
+> 
+> ************* Email Confidentiality Notice ********************
+> 免責聲明:
+> 本信件(或其附件)可能包含機密資訊，並受法律保護。如 台端非指定之收件者，請以電子郵件通知本電子郵件之發送者, 並請立即刪除本電子郵件及其附件和銷毀所有複印件。謝謝您的合作!
+> 
+> DISCLAIMER:
+> This message (and any attachments) may contain legally privileged and/or other confidential information. If you have received it in error, please notify the sender by reply e-mail and immediately delete the e-mail and any attachments without copying or disclosing the contents. Thank you.
 
-Invoked with interrupts disabled too.
+Maybe I am the intended recipient of your message, maybe not. I don't
+want to have any legal questions regarding upstream, public
+collaboration, thus probably I should just remove your messages.
 
-> +	raw_spin_lock_irqsave(&intc_ic->intc_lock, flags);
-> +	writel(mask, intc_ic->base + INTC_INT_ENABLE_REG);
-> +	raw_spin_unlock_irqrestore(&intc_ic->intc_lock, flags);
+Please talk with your IT that such disclaimers in open-source are not
+desired (and maybe even harmful).
+If you do not understand why, please also see:
+https://www.youtube.com/live/fMeH7wqOwXA?si=GY7igfbda6vnjXlJ&t=835
 
-        guard(raw_spinlock)(&intc_ic->intc_lock);
-	writel(mask, intc_ic->base + INTC_INT_ENABLE_REG);
+If you need to go around company SMTP server, then consider using b4
+web-relay: https://b4.docs.kernel.org/en/latest/contributor/send.html
 
-> +}
-> +
-> +static void aspeed_intc_irq_unmask(struct irq_data *data)
-> +{
-> +	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
-> +	unsigned int unmask = readl(intc_ic->base + INTC_INT_ENABLE_REG) | BIT(data->hwirq);
-> +	unsigned long flags;
+Please be informed that by responding to this email you agree that all
+communications from you and/or your company is made public. In other
+words, all messages originating from you and/or your company will be
+made public.
 
-Ditto.
+You already received exactly this feedback. Around three times. If you
+keep ignoring feedback, I will keep NAKing your patches.
 
-> +	raw_spin_lock_irqsave(&intc_ic->intc_lock, flags);
-> +	writel(unmask, intc_ic->base + INTC_INT_ENABLE_REG);
-> +	raw_spin_unlock_irqrestore(&intc_ic->intc_lock, flags);
-> +}
-> +
-> +static int aspeed_intc_irq_set_affinity(struct irq_data *data, const struct cpumask *dest,
-> +					bool force)
-> +{
-> +	return -EINVAL;
-> +}
+Best regards,
+Krzysztof
 
-No point for this stub, just leave irq_set_affinity uninitialized. The
-core code checks that pointer for NULL. Aside of that this stub and the
-assignment would need a #ifdef CONFIG_SMP guard.
-
-> +static struct irq_chip aspeed_intc_chip = {
-> +	.name			= "ASPEED INTC",
-> +	.irq_mask		= aspeed_intc_irq_mask,
-> +	.irq_unmask		= aspeed_intc_irq_unmask,
-> +	.irq_set_affinity	= aspeed_intc_irq_set_affinity,
-> +};
-> +
-> +static int aspeed_intc_ic_map_irq_domain(struct irq_domain *domain, unsigned int irq,
-> +					 irq_hw_number_t hwirq)
-> +{
-> +	irq_set_chip_and_handler(irq, &aspeed_intc_chip, handle_level_irq);
-> +	irq_set_chip_data(irq, domain->host_data);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct irq_domain_ops aspeed_intc_ic_irq_domain_ops = {
-> +	.map = aspeed_intc_ic_map_irq_domain,
-
-	.map	= aspeed_intc_ic_map_irq_domain,
-
-> +};
-> +
-> +static int __init aspeed_intc_ic_of_init(struct device_node *node, struct device_node *parent)
-> +{
-> +	struct aspeed_intc_ic *intc_ic;
-> +	int ret = 0;
-> +	int irq;
-
-        int irq, ret;
-
-No point in initializing ret.
-
-> +	intc_ic = kzalloc(sizeof(*intc_ic), GFP_KERNEL);
-> +	if (!intc_ic)
-> +		return -ENOMEM;
-> +
-> +	intc_ic->base = of_iomap(node, 0);
-> +	if (!intc_ic->base) {
-> +		pr_err("Failed to iomap intc_ic base\n");
-> +		ret = -ENOMEM;
-> +		goto err_free_ic;
-> +	}
-> +	writel(0xffffffff, intc_ic->base + INTC_INT_STATUS_REG);
-> +	writel(0x0, intc_ic->base + INTC_INT_ENABLE_REG);
-> +
-> +	irq = irq_of_parse_and_map(node, 0);
-> +	if (!irq) {
-> +		pr_err("Failed to get irq number\n");
-> +		ret = -EINVAL;
-> +		goto err_iounmap;
-> +	}
-> +
-> +	intc_ic->irq_domain = irq_domain_add_linear(node, 32,
-> +						    &aspeed_intc_ic_irq_domain_ops, intc_ic);
-> +	if (!intc_ic->irq_domain) {
-> +		ret = -ENOMEM;
-> +		goto err_iounmap;
-> +	}
-> +
-> +	raw_spin_lock_init(&intc_ic->gic_lock);
-> +	raw_spin_lock_init(&intc_ic->intc_lock);
-> +
-> +	intc_ic->irq_domain->name = "aspeed-intc-domain";
-
-See above.
-
-> +	irq_set_chained_handler_and_data(irq,
-> +					 aspeed_intc_ic_irq_handler, intc_ic);
-> +
-> +	return 0;
-> +
-> +err_iounmap:
-> +	iounmap(intc_ic->base);
-> +err_free_ic:
-> +	kfree(intc_ic);
-> +	return ret;
-> +}
-> +
-> +static int __init aspeed_intc_ic_of_init_v2(struct device_node *node,
-> +					    struct device_node *parent)
-> +{
-> +	struct aspeed_intc_ic *intc_ic;
-> +	int ret = 0;
-> +	int irq, i;
-> +
-> +	intc_ic = kzalloc(sizeof(*intc_ic), GFP_KERNEL);
-> +	if (!intc_ic)
-> +		return -ENOMEM;
-> +
-> +	intc_ic->base = of_iomap(node, 0);
-> +	if (!intc_ic->base) {
-> +		pr_err("Failed to iomap intc_ic base\n");
-> +		ret = -ENOMEM;
-> +		goto err_free_ic;
-> +	}
-> +	writel(0xffffffff, intc_ic->base + INTC_INT_STATUS_REG);
-> +	writel(0x0, intc_ic->base + INTC_INT_ENABLE_REG);
-> +
-> +	intc_ic->irq_domain = irq_domain_add_linear(node, 32,
-> +						    &aspeed_intc_ic_irq_domain_ops, intc_ic);
-> +	if (!intc_ic->irq_domain) {
-> +		ret = -ENOMEM;
-> +		goto err_iounmap;
-> +	}
-> +
-> +	raw_spin_lock_init(&intc_ic->gic_lock);
-> +	raw_spin_lock_init(&intc_ic->intc_lock);
-> +
-> +	intc_ic->irq_domain->name = "aspeed-intc-domain";
-
-So up to this point aspeed_intc_ic_of_init_v2() is a verbatim copy of
-aspeed_intc_ic_of_init(). Why can't you reuse that function? It's not
-rocket science to make that work.
-
-> +	for (i = 0; i < of_irq_count(node); i++) {
-> +		irq = irq_of_parse_and_map(node, i);
-> +		if (!irq) {
-> +			pr_err("Failed to get irq number\n");
-> +			ret = -EINVAL;
-> +			goto err_iounmap;
-
-Assume #0 and #1 succeed. #2 fails and leaves the chained handlers and
-the irqdomain around, but then unmaps the base and frees the data which
-the handler and the domain code needs. Seriously?
-
-> +		} else {
-
-Pointless else as the if clause terminates with a goto.
-
-> +			irq_set_chained_handler_and_data(irq, aspeed_intc_ic_irq_handler, intc_ic);
-
-So if I understand the code correctly then the hardware coalesces the
-pending bits into a single status register, but depending on which part
-of the SoC raised the interrupt one of the demultiplex interrupts is
-raised in the GIC.
-
-Any of those demultiplex interrupt handles _all_ pending bits and
-therefore you need gic_lock to serialize them, right?
-
-Thanks,
-
-        tglx
