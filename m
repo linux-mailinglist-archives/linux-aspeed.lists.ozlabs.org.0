@@ -1,56 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1556951C80
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 16:05:09 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7115D951C8F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 16:06:14 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qC9FGlsJ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=f3a/Zer6;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WkVPt697rz2yYf
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 00:05:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WkVR82bbVz2yYd
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 00:06:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qC9FGlsJ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=f3a/Zer6;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkVPp3JJnz2yDx
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 00:05:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkVR355kjz2yQ9
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 00:06:07 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 6F984CE193C;
-	Wed, 14 Aug 2024 14:04:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872D1C116B1;
-	Wed, 14 Aug 2024 14:04:54 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 94E43CE19D6;
+	Wed, 14 Aug 2024 14:06:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32871C4AF0A;
+	Wed, 14 Aug 2024 14:06:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723644297;
-	bh=+TepEU5bEnldk5Y+bEQN4qmVYWp+D4d7TIaKavBZlhQ=;
+	s=k20201202; t=1723644365;
+	bh=xLol1eqv1rhFApu6lmi0mihWSj2o8Fw1p9cCZA0M3Z8=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=qC9FGlsJOOJpLB1OB562M1syJJSFv7ntlDrpind3M6AMMfr/zweDn1nQym5S/5dEY
-	 98OlX+JORBJVkyElq34Gmg/4EuI2eF5sNtWpzMVr/VGVPyt+hbXfzeZQgTyspwyAZk
-	 INwT+IO6ZxcfYAnjDZDxFbCgTWFTpu/pvQkeLAIFv05VX1/o+1+rU8cnPkadRtFTzt
-	 Vxy/RwZySE/AbxTAwZcAhH/g2nGG8fjZ+1Yrys+RD4obAPaEvFLUfAvb8q7v5IcDPw
-	 +cRhgU4UBMtleV0YeUT8gMpk6zhYcR2d28gALrxqyNttCiwzsrcH8H2/b+lB77rcA0
-	 O3+laQHvistRQ==
-Message-ID: <31635635-b743-446d-a94e-b3b8082c06a2@kernel.org>
-Date: Wed, 14 Aug 2024 16:04:51 +0200
+	b=f3a/Zer6CPD7aKn0bpoJ9zZIRQPqc3RQj1zNBoeUv4QOlEYATCPepmLAJ9AsbmJyI
+	 88GwhjoWHeF/tP1oZb1zSrfvoYb4QTA5hoTK56XdOp/xVtnDosKDLuVEN02rLxMgP+
+	 k48on+VfmZ8csX6hcD6gd/fM6V7bTCku1grgCkfe+pAbhicHK6zwwTr+0BuWhIVlia
+	 3vC51tbyfFq10DUiOJ4/xRCJTprZuE1V1Z09vsW8lsEb6f/hkDstdY8hgS6HW6HaCI
+	 ++mRur0200zFBA93CAGex3kuc8hKMERjRHqSjM1s1JVVAsfTreALmW8wvqabQYf9Gb
+	 CFOR55na7mTNA==
+Message-ID: <4817e23e-a726-4557-b756-e0cbc54eebaa@kernel.org>
+Date: Wed, 14 Aug 2024 16:06:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: interrupt-controller: Add support for
- ASPEED AST27XX INTC
+Subject: Re: [PATCH v2 2/2] irqchip/aspeed-intc: Add support for AST27XX INTC
 To: Kevin Chen <kevin_chen@aspeedtech.com>, tglx@linutronix.de,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
  andrew@codeconstruct.com.au, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org
 References: <20240814114106.2809876-1-kevin_chen@aspeedtech.com>
- <20240814114106.2809876-3-kevin_chen@aspeedtech.com>
+ <20240814114106.2809876-4-kevin_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240814114106.2809876-3-kevin_chen@aspeedtech.com>
+In-Reply-To: <20240814114106.2809876-4-kevin_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -114,66 +113,32 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 14/08/2024 13:41, Kevin Chen wrote:
-> The ASPEED AST27XX interrupt controller(INTC) contain second level and
-> third level interrupt controller. The third level INTC combines 32 interrupt
-> sources into 1 interrupt into parent interrupt controller. The second
-> level INTC doing hand shake with third level INTC.
+> Support for the Aspeed Interrupt Controller found on Aspeed Silicon SoCs,
+> such as the AST2700, which is arm64 architecture.
+> 
+> To support ASPEED interrupt controller(INTC) maps the internal interrupt
+> sources of the AST27XX device to an parent interrupt controller.
+> ---
+>  drivers/irqchip/Makefile          |   1 +
+>  drivers/irqchip/irq-aspeed-intc.c | 137 ++++++++++++++++++++++++++++++
+>  2 files changed, 138 insertions(+)
+>  create mode 100644 drivers/irqchip/irq-aspeed-intc.c
+> 
+> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+> index 15635812b2d6..5da3f2f4eede 100644
+> --- a/drivers/irqchip/Makefile
+> +++ b/drivers/irqchip/Makefile
+> @@ -84,6 +84,7 @@ obj-$(CONFIG_MVEBU_SEI)			+= irq-mvebu-sei.o
+>  obj-$(CONFIG_LS_EXTIRQ)			+= irq-ls-extirq.o
+>  obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
+>  obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o irq-aspeed-scu-ic.o
+> +obj-$(CONFIG_ASPEED_G7_INTC)		+= irq-aspeed-intc.o
 
 
-> +maintainers:
-> +  - Kevin Chen <kevin_chen@aspeedtech.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2700-intc-ic
-> +
-> +  reg:
-> +    minItems: 1
+There is no such config symbol.
 
-That's unconstrained. Instead: maxItems: 1
-
-> +
-> +  interrupt-controller: true
-> +
-> +  '#interrupt-cells':
-> +    const: 2
-> +
-> +  interrupts:
-> +    minItems: 1
-> +    maxItems: 10
-> +    description:
-> +      It contains two types of interrupt controller. The first type is multiple
-> +      interrupt sources into parent interrupt controller. The second type is 
-> +      1 interrupt source to parent interrupt controller.
-
-I think I asked already - list the items with description.
-
-Why the number is flexible?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupt-controller
-> +  - '#interrupt-cells'
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    bus {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +    
-> +        interrupt-controller@12101b00 {
-> +          compatible = "aspeed,ast2700-intc-ic";
-
-Messed indentation.
-
+You already got this exact comment. Replacing one broken code with other
+broken code is not the solution.
 
 
 Best regards,
