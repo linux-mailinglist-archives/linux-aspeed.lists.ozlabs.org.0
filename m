@@ -2,63 +2,102 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B4C951E15
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 17:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D32951E38
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 17:11:18 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=tAiYKLbk;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=j6DzcVXm;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ERMhxB5/;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WkWmc4lSBz2yQG
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 01:06:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WkWtD4F0Lz2ygB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 01:11:16 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=tAiYKLbk;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=j6DzcVXm;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ERMhxB5/;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linutronix.de (client-ip=193.142.43.55; helo=galois.linutronix.de; envelope-from=tglx@linutronix.de; receiver=lists.ozlabs.org)
-X-Greylist: delayed 106241 seconds by postgrey-1.37 at boromir; Thu, 15 Aug 2024 01:06:19 AEST
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkWmW2hQjz2yJL
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 01:06:19 +1000 (AEST)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1723647974;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kgBDpLd5CRpFg6iGANviJjQZYBMsab2XfI71ntFAp9M=;
-	b=tAiYKLbkjpo3vw7vm6WQ5c7NaedPhBkRMhEoTNaEjtTBNkJoxXr6ch7ieW7REJBS8Bs0bI
-	MFa+tPwBRX6tlTqzlOkNXKFJqYGmLWvZ9WDysaNEfAhIcaMlMI/3ygGfLmajWqPhFF0s1q
-	yT7MMOoKP/YEViRCuJ5mO2f4hMzUtha0fAnOq2umhbBZi0VcQ0vMSJrGAZoJytbmAFBTxB
-	Jo4QqrkLTErYRR4AuF56fvGbFdAjnb6Gdd9bnE0wb1Il1fxN7ZzfA3Pcy7BI+FfXzq+yTq
-	QSPBPJE2RvXKhiKEaXARp2eKHeRbb5B6myXbMlqM6stm/qlbobkrr8b1LuygZQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1723647974;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kgBDpLd5CRpFg6iGANviJjQZYBMsab2XfI71ntFAp9M=;
-	b=j6DzcVXm1ZA8IVRQAornEXvVYXU17kS2Dzdyv1mD/k0CSU+9aqtNO+Omhv5JKo36g68YUk
-	Me2HS01vDRJm2JAA==
-To: Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
- andrew@codeconstruct.com.au, kevin_chen@aspeedtech.com,
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkWt64Dq1z2yQG
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 01:11:10 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 98ECACE10C5;
+	Wed, 14 Aug 2024 15:11:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42EAC4AF0A;
+	Wed, 14 Aug 2024 15:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723648266;
+	bh=KdzHtgA1BGye4qxWY6NMb/TUCnAC1XU5Th2mqbjeY9g=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=ERMhxB5/8z1Z53a2ZPatuYrzFPtczZoZC2+5NNh4l+rm/ZYbbrTiznw79MPov8QcK
+	 F/Lb/9Ga4/1ShjNGK+nn9GNOC0gyAFyf5Q3A0Ln4wgwM+ExRIjq71MA1jHtr2lJv3I
+	 5zGLWbduyDL8QBI9L/PzBOTMJn2clEa2kuk8zutbPIRp0TAo2VvLKvzk4DXguAU3FX
+	 DP2oVyEvJ0kkLkDToJD0ju7lXOlBy34oUHHVzri3HeIx4Agyis1sQnGGcBYAizj9jO
+	 S7Yb69VVEtDtEAec5XEle2P0JarQL54spfwc1XOYcdLi6lT04kRaXm9Jk81ZXBkoH7
+	 FzRfGI9DGbcpQ==
+Message-ID: <71497232-71f0-4b51-95d8-e054ec87c479@kernel.org>
+Date: Wed, 14 Aug 2024 17:11:00 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] irqchip/aspeed-intc: Add support for AST27XX INTC
+To: Thomas Gleixner <tglx@linutronix.de>,
+ Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH v2 2/2] irqchip/aspeed-intc: Add support for AST27XX INTC
-In-Reply-To: <20240814114106.2809876-4-kevin_chen@aspeedtech.com>
 References: <20240814114106.2809876-1-kevin_chen@aspeedtech.com>
- <20240814114106.2809876-4-kevin_chen@aspeedtech.com>
-Date: Wed, 14 Aug 2024 17:06:14 +0200
-Message-ID: <87plqbnnyx.ffs@tglx>
-MIME-Version: 1.0
-Content-Type: text/plain
+ <20240814114106.2809876-4-kevin_chen@aspeedtech.com> <87plqbnnyx.ffs@tglx>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <87plqbnnyx.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,29 +112,32 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Aug 14 2024 at 19:41, Kevin Chen wrote:
-> Support for the Aspeed Interrupt Controller found on Aspeed Silicon SoCs,
-> such as the AST2700, which is arm64 architecture.
+On 14/08/2024 17:06, Thomas Gleixner wrote:
+> On Wed, Aug 14 2024 at 19:41, Kevin Chen wrote:
+>> Support for the Aspeed Interrupt Controller found on Aspeed Silicon SoCs,
+>> such as the AST2700, which is arm64 architecture.
+>>
+>> To support ASPEED interrupt controller(INTC) maps the internal interrupt
+>> sources of the AST27XX device to an parent interrupt controller.
+> 
+> This still lacks a Signed-off-by: tag and my comment about the error
+> path in the init function is still valid.
+> 
+> Do you think that addressing review feedback is optional?
+> 
+> Feel free to ignore it, but don't be surprised if I ignore further
+> patches from you.
+> 
+> Take your time and go through stuff properly and do not rush out half
+> baked patches in a frenzy.
 >
-> To support ASPEED interrupt controller(INTC) maps the internal interrupt
-> sources of the AST27XX device to an parent interrupt controller.
 
-This still lacks a Signed-off-by: tag and my comment about the error
-path in the init function is still valid.
+That's like fourth or fifth patchset for AST27xx within last week and
+all previous ones ignored given feedback. It's like sending almost the
+same stuff hoping maintainers will get bored and finally accept it.
 
-Do you think that addressing review feedback is optional?
+Tricky to say, maybe this works well in corporations?
 
-Feel free to ignore it, but don't be surprised if I ignore further
-patches from you.
-
-Take your time and go through stuff properly and do not rush out half
-baked patches in a frenzy.
-
-Thanks,
-
-        tglx
-
-
-
-
+Best regards,
+Krzysztof
 
