@@ -2,57 +2,37 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C66950CF9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Aug 2024 21:15:05 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dnk0fI1S;
-	dkim-atps=neutral
+	by mail.lfdr.de (Postfix) with ESMTPS id AF60C951138
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 02:55:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wk1Kz57TQz2yR1
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 05:15:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wk8tP4q32z2xDD
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 10:55:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dnk0fI1S;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jammy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wk1Kt6JL5z2xBb
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2024 05:14:58 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 32C7ECE0159;
-	Tue, 13 Aug 2024 19:14:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F82C32782;
-	Tue, 13 Aug 2024 19:14:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723576496;
-	bh=TFZ49Ns7Kf0xRnS/LrkyPrwzUsMYbfghsSEb2PzGBT0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dnk0fI1St0ZpMvptwuW4HlnIFE7UJY3sYdJ8s62UjJSMRmtKJAxfl5NIqVZrnaWet
-	 7c1ymTPG0F3kg8uKcEc9f1yrHxEHbHoLhHthsb26qCyoYDYSyRQCunU66s+VZrNjwX
-	 I+r2a3R4sFGqpA38mMRnJlp4djS/u60zR8IWFZhxZUsKd1S1+148k//9h719/1xQIU
-	 6LbBEVcHgcbyPe2WqL0asT3pgwRSiYg4rq2Uhc+fLlteKtID6Gk5003d4ci57adHkI
-	 ZZw8LWoVvPo/BiXpphFan8ZaVdLdZxl+Mfhp5E8Ryle9071cAnKGdL2Eby5ZWYc+ko
-	 k3GLg+vTNq1zA==
-Date: Tue, 13 Aug 2024 13:14:54 -0600
-From: Rob Herring <robh@kernel.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for AST2700
-Message-ID: <20240813191454.GA1570645-robh@kernel.org>
-References: <20240808075937.2756733-1-ryan_chen@aspeedtech.com>
- <20240808075937.2756733-2-ryan_chen@aspeedtech.com>
- <2f27285e-6aa5-4e42-b361-224d8d164113@kernel.org>
- <OS8PR06MB75416FAD2A1A16E7BE2D255DF2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <10809e91-31be-4110-86c1-1e1ccb05b664@kernel.org>
- <OS8PR06MB7541F4F740FDB17F50EBCACBF2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wk8sr14fjz2y8m;
+	Wed, 14 Aug 2024 10:54:37 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 14 Aug
+ 2024 08:54:21 +0800
+Received: from mail.aspeedtech.com (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Wed, 14 Aug 2024 08:54:21 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+	<andrew@aj.id.au>, <pmenzel@molgen.mpg.de>, <krzk@kernel.org>
+Subject: [PATCH v4 0/2] media: aspeed: Allow to capture from SoC display (GFX)
+Date: Wed, 14 Aug 2024 08:54:19 +0800
+Message-ID: <20240814005421.3362441-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OS8PR06MB7541F4F740FDB17F50EBCACBF2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +44,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Lee Jones <lee@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Aug 09, 2024 at 06:10:22AM +0000, Ryan Chen wrote:
-> > Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for AST2700
-> >
-> > On 09/08/2024 07:55, Ryan Chen wrote:
-> > >> Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for
-> > >> AST2700
-> > >>
-> > >> On 08/08/2024 09:59, Ryan Chen wrote:
-> > >>> Add compatible support for AST2700 clk, reset, pinctrl, silicon-id
-> > >>> and example for AST2700 scu.
-> > >>>
-> > >>> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> > >>> ---
-> > >>>  .../bindings/mfd/aspeed,ast2x00-scu.yaml      | 31
-> > >> +++++++++++++++++--
-> > >>>  1 file changed, 29 insertions(+), 2 deletions(-)
-> > >>>
-> > >>> diff --git
-> > >>> a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-> > >>> b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-> > >>> index 86ee69c0f45b..c0965f08ae8c 100644
-> > >>> --- a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-> > >>> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-> > >>> @@ -21,6 +21,8 @@ properties:
-> > >>>            - aspeed,ast2400-scu
-> > >>>            - aspeed,ast2500-scu
-> > >>>            - aspeed,ast2600-scu
-> > >>> +          - aspeed,ast2700-scu0
-> > >>> +          - aspeed,ast2700-scu1
-> > >>
-> > >> What are the differences between these two?
-> > >
-> > > The next [PATCH 4/4] is scu driver that include ast2700-scu0 and
-> > > ast2700-scu1 CLK_OF_DECLARE_DRIVER(ast2700_soc0,
-> > > "aspeed,ast2700-scu0", ast2700_soc0_clk_init);
-> > > CLK_OF_DECLARE_DRIVER(ast2700_soc1, "aspeed,ast2700-scu1",
-> > > ast2700_soc1_clk_init);
-> >
-> > What are hardware differences? Entirely different devices?
-> 
-> AST2700 have two soc die connected each other.
-> Each soc die have it own scu, so the naming is ast2700-scu0 for soc0, another is ast2700-scu1 for soc1.
+The aim of this series is to add another capture source, SoC
+Display(GFX), for video.
 
-Didn't I see in another patch one die is cpu and one is io? Use those in 
-the compatible rather than 0 and 1 if so.
+ v4 changes:
+  - Use scoped/cleanup to make aspeed_regmap_lookup simpler.
+  - Update dts
+ v3 changes:
+  - Update for enum_input.
+ v2 changes:
+  - Update patch subject and comments.
 
-Rob
+Jammy Huang (2):
+  ARM: dts: aspeed: Add properties of scu and gfx for video
+  media: aspeed: Allow to capture from SoC display (GFX)
+
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi      |   2 +
+ drivers/media/platform/aspeed/aspeed-video.c | 192 ++++++++++++++++---
+ include/uapi/linux/aspeed-video.h            |   7 +
+ 3 files changed, 173 insertions(+), 28 deletions(-)
+
+
+base-commit: e9d22f7a6655941fc8b2b942ed354ec780936b3e
+-- 
+2.25.1
 
