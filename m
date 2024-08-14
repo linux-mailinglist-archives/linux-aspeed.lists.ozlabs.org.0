@@ -2,100 +2,144 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B754951430
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 08:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7909514BE
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 08:36:30 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AY84MjRw;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=qYfXin9o;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WkHsq11S2z2yLV
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 16:10:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WkJSD3Y3vz2yV3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 16:36:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AY84MjRw;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=qYfXin9o;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:2011::701; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20701.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::701])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkHrp51NWz2xJF;
-	Wed, 14 Aug 2024 16:09:14 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 6C838CE13A8;
-	Wed, 14 Aug 2024 06:09:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8195C4AF09;
-	Wed, 14 Aug 2024 06:09:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723615752;
-	bh=8Vd1UIp+Mn1hETO/SezGviaXWz0T6IBnUJmfJCVzp8o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AY84MjRwi+bHHZxLk4DSnE7mm+zeKbb7X50Ab8GTHppMYxb7QrU+rs1jWZ9MalYMI
-	 ySfVpkF03qGvxasBAZ0p5WK58Arlp1L45MkatkNY6i4PjfQyibeQTUiVEA8aRsfOu+
-	 7y/SQJf8fZzYLaq0XLjWuRrGLY4fAVUmilnQs/8l2idkRlO6vrHWiMg4uYTKOplNFg
-	 kKSkCOOJ2RZik3b0lP6XdimHnovmoLDCvzN3n09Z779zwd4nvO8Ngt1kqKfs3Yc/t2
-	 3RQiBA5sblzdjP7lWccRsWIjNOJeQBJetWIPFCGEba2msjHENFPLu5aF7i6RkMATdU
-	 6ejv0LTMd/U5w==
-Message-ID: <003090ab-4ce2-4624-b5c5-33ceef521e9d@kernel.org>
-Date: Wed, 14 Aug 2024 08:09:06 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkJRm4sg7z2xJF
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2024 16:36:03 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wh0rWwJI/rmWXBiIB547ZQoxH1iJR/HRfny3zoiI/j/HEJq7HcC6ny5CRwppjXW62TV7kjrw26OnNWZqAAqt+qAuOavegj7eCb+wzd3wwmDVb42xyNSLfRgdT3opyCX40va1t6bYgDI6KIOxiuWEvq9dfkbX8OQ8vOGSkqO4gspil5UfK+GUGg1RzWFI/oclmaCJeMHbYq+1n0LKOyNzzHz5hAlTIDcJ/3dN0rVwa5lv4wieivrRCKEHIc9uxHewyc7dSCUB6lvCnK+8MuAHPwkn4+ubxUkjcTztBVO6NnUelUfXuLrXJouwM3GzfaCimTaLGUQwlOygW1lhCWqADw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GVkmv2kj2b5KAJ2inO2I5QDEHLuZYQm+madsOrVV0tg=;
+ b=ddEyjabNw2m2woYp1O/kVSZYQUk8HRuQf5SMLJXK0zXnlZbKU6lSLRAnpowcPB8WhYg1Mv8j1j4FcjWbD0aWCRo8YCS1xVY71gHfZR6oLqYBPznzNYPiTezrp5VLGhLZf22Xog2/uVzIKhBUAxH/pbAVlrjwWot04L3i5ab+6ngG73kgQVtXXc+6pAHKROEyBSLHahUmbffTlN0UNULi+7ehAyuRsIl+u4B3YBomUlW9crQZMLxh4ZmSlAw2SG18YrvXJNNKY8+VVzirVDWFcc1U8fyiOdK+KFmr6DffNnh2wZSMMfP9wONiF250RamhMS/Lk2yB/ZPEgSlk8R9FsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GVkmv2kj2b5KAJ2inO2I5QDEHLuZYQm+madsOrVV0tg=;
+ b=qYfXin9o2rLt7qw2oS7wdSBVY7cuKb8X6qeGyZm6bTHkO8jPm6iO1sftOfAEOAzdUf2rZ8GyN3y9ec0/pKKNSG7klbwMdM+BMSoIpYR4+KWq05+cGjdSgWLRjzDASD3JEDox6l00yUc66sahSkwnlPE9D7HT2GK5WfwKRMYp0M/g9At+GDlonMV6u6Wd4cB3eNi27DVw1d8oNJ/Wp3Yhkqwsd/ZAJ40SSFrndYlXTNy9XRMgAarOaeGCXnc/irU75qmkcq226MVSraoFTFiPs95lhbFUGeP9rbu8yw8I8CTOqpF8ljkM/VTenyTp8riSb2XVSGmJAToG9OudJqdsbw==
+Received: from OS8PR06MB7541.apcprd06.prod.outlook.com (2603:1096:604:2b1::11)
+ by SEYPR06MB6998.apcprd06.prod.outlook.com (2603:1096:101:1e2::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Wed, 14 Aug
+ 2024 06:35:38 +0000
+Received: from OS8PR06MB7541.apcprd06.prod.outlook.com
+ ([fe80::9f51:f68d:b2db:da11]) by OS8PR06MB7541.apcprd06.prod.outlook.com
+ ([fe80::9f51:f68d:b2db:da11%5]) with mapi id 15.20.7849.019; Wed, 14 Aug 2024
+ 06:35:38 +0000
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Rob Herring <robh@kernel.org>
+Subject: RE: [PATCH 1/4] dt-bindings: mfd: aspeed: support for AST2700
+Thread-Topic: [PATCH 1/4] dt-bindings: mfd: aspeed: support for AST2700
+Thread-Index:  AQHa6Wjwpmm6AqTUmky9VcIbkjW1JLIdJMiAgAFHtRCAAAQ8gIAAARxAgAclgACAAL3qcA==
+Date: Wed, 14 Aug 2024 06:35:37 +0000
+Message-ID:  <OS8PR06MB7541BB03AEE90B090AB990B3F2872@OS8PR06MB7541.apcprd06.prod.outlook.com>
+References: <20240808075937.2756733-1-ryan_chen@aspeedtech.com>
+ <20240808075937.2756733-2-ryan_chen@aspeedtech.com>
+ <2f27285e-6aa5-4e42-b361-224d8d164113@kernel.org>
+ <OS8PR06MB75416FAD2A1A16E7BE2D255DF2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <10809e91-31be-4110-86c1-1e1ccb05b664@kernel.org>
+ <OS8PR06MB7541F4F740FDB17F50EBCACBF2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <20240813191454.GA1570645-robh@kernel.org>
+In-Reply-To: <20240813191454.GA1570645-robh@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS8PR06MB7541:EE_|SEYPR06MB6998:EE_
+x-ms-office365-filtering-correlation-id: af10710c-1f2e-41a3-c714-08dcbc2b4f4e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:  BCL:0;ARA:13230040|376014|1800799024|7416014|366016|38070700018;
+x-microsoft-antispam-message-info:  =?us-ascii?Q?zhGjoiwSW76+mf9r9Vt00zuzqNahtaTZx0RqTVwlqsSeHSIMKXCld61q7Ty8?=
+ =?us-ascii?Q?uE2h/7FWlWDngXZNeStyETOpumjgtN74TdJ13Cw+V8jhvSmTdVQ0oDPiBdiC?=
+ =?us-ascii?Q?/vdKo9MhAtzpYs7+D5Lg4XEnq6VlQZDdZjWZBzVBnWQ1z0zfPZwV18BTXXTX?=
+ =?us-ascii?Q?dhlgIS0tVASjs3FQ61rwhWwpCa6fu+GBLRB5khXqItUlw0HaQRXp1CA+KPCW?=
+ =?us-ascii?Q?tfffHoRbM26Hzwzl4LNBr/CGbSpZuKGB13BnV6onwp70c8LqeU1heAV0z0WY?=
+ =?us-ascii?Q?oobG+C9P/6Ezms15RbZm+TklqWTcJH2IuSl7waodr/N+/TX8ZIpBPngsdDZA?=
+ =?us-ascii?Q?3uL8Af1XLtMf8O+4uJoBseXOyCmOxN0zNXOhnLWGBNAT84QN9XffGECLb/yo?=
+ =?us-ascii?Q?YPn2KC4+3TN3Z+8hP8vlthIcTqjIhslirKiEpp7wWl8/kAkY/0FhDJSLarSj?=
+ =?us-ascii?Q?K5jPpQxTyg/iFfLqv4z94VyzO9c/fPGw4IbcI5e2axEu9AbVP4TBDYqbIjkN?=
+ =?us-ascii?Q?Kztuk2vn9WoQ5bek3Za0BTj/N/3UX5yLKgSGW45XX5pg7DYGCNItz+ouuQBr?=
+ =?us-ascii?Q?O72q4ffEi5tLE5OnYxTnVBnArrEsvhzo2fX2jfAyPMzwn1xMJ8bJmfzGjniQ?=
+ =?us-ascii?Q?MBu49e77bkzsNnnBUkCN3muDoluunL0yvFidDfR7mNCE+VkQsvjG2cLAINGK?=
+ =?us-ascii?Q?AGbwUQUbgUgorgIk3iSrISX8JTI9CiRRJ5WgxZyzszotJLNSpCs9om1HEHRh?=
+ =?us-ascii?Q?OOoIolUNT9EZoieM+hadADr5bi0I2/1nb6G1tadcpwNuRKhZLFuPKOgG6m48?=
+ =?us-ascii?Q?2+igOV02FPNIN6X+OwAWT2X1m0WhiMbMoVG22EUiONtbYpEi/d4xXzVWztTE?=
+ =?us-ascii?Q?/n4q6gZ/7kfv8kvu9Y60theT2SW8jNTqsJJyiKyWUSLLd4UUehfAvHB6vIQK?=
+ =?us-ascii?Q?A8N4guqmGc0B7fWS5vJLFDwnEAJAZ1OeUTTz8U9l6JIG0gNQEZixTnRfW68q?=
+ =?us-ascii?Q?vXPVPyy2NjmV0YTCu3bSag3KycW4TTJ1Pq/TkylBT0yBrE2u5aNjgvv6C7Z3?=
+ =?us-ascii?Q?x0B03wH6hZYvFXEdYspA0WH4EVQgU9xQLa4Gkg/+MoJaSM1h9NANYra4gJ6c?=
+ =?us-ascii?Q?4+UyoW8U8YjBn69aqXSJ/86ZucEpzsO8jCFc+0Xb+cHYkaJ2eJFLKK0izMIt?=
+ =?us-ascii?Q?bsC0T8wjgOnV7eoHCIXoG53H79AzhZT+kTclbVKAgMRZ3kqEyWabwl7aNvy7?=
+ =?us-ascii?Q?FD4Wr8UT5bEn/ygaV0u3Jg5Tibqo3MLs+DgJHKhCoA8Nw5V0nsrUwCJc4Uep?=
+ =?us-ascii?Q?Sif3UyTvSAHPHEnWkauuGyV61ByczqsvG4vSeU7XxFoWuyZktakuaOmJX//l?=
+ =?us-ascii?Q?vyE94on4jIKiW4rlG5fWpS4l1azsB5nhHqY7FLagrrGS0c6Faw=3D=3D?=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS8PR06MB7541.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?cOWb+9ZsIW9gI5VJwc7Ul9WQSFX7ZcbopOqe4nhGHTj6BIrarLqKI//sHaid?=
+ =?us-ascii?Q?H80Z7CwnlWcU6aF3Cb8dX8mQPBxHKGjoaMyOmNqSNTDLpo9u9l5dCgcgeYIl?=
+ =?us-ascii?Q?eNVlSKL/kKxRuh/TGucEqrsz4L5h1uDyTFPF/ri/baOqoBl++RGGR0OYDZsH?=
+ =?us-ascii?Q?hhUxjC+cPDCTrXMsssqyWetS9qfMwUkzm1sl+gyEAsHNLiT5r/qqkpFShdjd?=
+ =?us-ascii?Q?MZyFxRaJBqPJVSDBh38uu+ZQnMWkH8Gm+LUqb+PuWoQaivHCaKlZBuOiLnYW?=
+ =?us-ascii?Q?Wsb/wKpqwQAmt3wdL01g8JJuCQ19gR8rsDSgOnjRBuLtJMlUr+wecH6ydZ0a?=
+ =?us-ascii?Q?Ogyqc9bfXeUbRPC4I1ejuHhSk8lIlAtLGUi1OdC9mgjG605pBpCeONkDGL4r?=
+ =?us-ascii?Q?OlibvTW74XnlU0aLQiTEPN3ph0/7gQYBqhUKCykBTgmyWibtG1T3lLDSgNG6?=
+ =?us-ascii?Q?G/ASmSZTxT+gcxsytyrJdSXTetwY1DPgQwerqj1fT0D99nWt2x2YGIrbICK4?=
+ =?us-ascii?Q?Ot9x+QCCuNQEiTLRqZ3jVPRSf7y/Ew5+csVccDHVqYzxXjq/dX1tHKrg+8XF?=
+ =?us-ascii?Q?zZvrEk/Kv8XYtUAtAVExPhGZXH7hz7fTqHpkkJJrZ8c+L9npOs08JvfWZ+Sy?=
+ =?us-ascii?Q?93Zh273xBupBVv+f7Hil8V/qBmyDuEVbk31gtygT2WrZzV5wd1WL6w5SPIlD?=
+ =?us-ascii?Q?xvtGe6NhhDsCc+9qGoGyd4wJ1aE1EGI8Ous+J4dRF+1wEqQgdjIMuUGBixop?=
+ =?us-ascii?Q?rU0bWA4+ZkzABF14ZfeP9LQIkHKUFqRubz51ZsG2unOMsGE9K7sT6CiLI/QL?=
+ =?us-ascii?Q?4ySutO70RhyT9cNu8fIYATHnf5fZhbklgELiSrJVW13r+xHqye0VhUy6u//E?=
+ =?us-ascii?Q?BkNjXUHLvYb4io8veS3QwztFm1vZotuYY/V/MmXLfsl088xoZ8jzpHAlJ78U?=
+ =?us-ascii?Q?OtbbtWCH0HEbzioVFkWYaOAWd6ksm7zSn4I47fL4/nPcBcbmQzukPqiAYQnK?=
+ =?us-ascii?Q?n64qHIghlbhCbK89o++95Wvr1YL9lo3xI8PGbQl3Angf9jUKNHVVsWKadGQG?=
+ =?us-ascii?Q?HfI9IadDl42DYloPjbPBDWsRNM1j7ASOWdPorxnML5/0CKas0TCCuuVwqV6Z?=
+ =?us-ascii?Q?PR4m2ac7+oeK+isU8C8D54JyycIrEfN/kzvfQ6BT1zxPM3vZJ6vv2ObDN84f?=
+ =?us-ascii?Q?bYZrZku1eK2FNfHVzo+fXon0Lr+qkBb2UnlCef5m45p38NLvYAvpll9C8mLO?=
+ =?us-ascii?Q?H1Pln8mAGc8bTgV1pOTSIGgGRQt0YRZ36fKq1aBKtFiO2qk0NVduqc+EK7nu?=
+ =?us-ascii?Q?5jvAfTconzzV5PF5OALo3bnuPqcY0EpPRqya5h5eorlL4Ye05dLJlKgnzVcL?=
+ =?us-ascii?Q?RUp+OlqdW7DEwanRpZ5fkoTDHbmxp5JMuCHVX0IU2PD6HtUinx55do+LufUs?=
+ =?us-ascii?Q?d73pO12t5d2oncg+8EAfWL5bxZ3KxBZvinWEcKzuIPKmL+pnrsYXDe75xNfj?=
+ =?us-ascii?Q?N4sdg+HheQDfsAkgZhc9pGPS8pNiG2ykflBSL9LZ3fR5CS71LiGAPnZWFjO4?=
+ =?us-ascii?Q?CGbluDPc4eYe/5vvnYkh3irX1nkwvmm+Er4tT4we?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] media: aspeed: Allow to capture from SoC display
- (GFX)
-To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
- mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au, pmenzel@molgen.mpg.de
-References: <20240814005421.3362441-1-jammy_huang@aspeedtech.com>
- <20240814005421.3362441-3-jammy_huang@aspeedtech.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240814005421.3362441-3-jammy_huang@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS8PR06MB7541.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af10710c-1f2e-41a3-c714-08dcbc2b4f4e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2024 06:35:37.9894
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RXANUK+hIYGvuPkG/aWmZ0Encas5IcPNCp3PH7/TV3OIs75dE/EtnEDqIXDVTBMLAOxU9gxlD4qpI2dXFP7qJisXBjtucvsXmE/194Mjv04=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6998
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,44 +151,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Lee Jones <lee@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Andrew Jeffery <andrew@codeconstruct.com.au>, "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 14/08/2024 02:54, Jammy Huang wrote:
-> +/*
-> + * Get regmap without checking res, such as clk/reset, that could lead to
-> + * conflict.
-> + */
-> +static struct regmap *aspeed_regmap_lookup(struct device_node *np, const char *property)
-> +{
-> +	struct device_node *syscon_np __free(device_node) = of_parse_phandle(np, property, 0);
-> +	struct regmap *regmap;
+> Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for AST2700
+>=20
+> On Fri, Aug 09, 2024 at 06:10:22AM +0000, Ryan Chen wrote:
+> > > Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for
+> > > AST2700
+> > >
+> > > On 09/08/2024 07:55, Ryan Chen wrote:
+> > > >> Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for
+> > > >> AST2700
+> > > >>
+> > > >> On 08/08/2024 09:59, Ryan Chen wrote:
+> > > >>> Add compatible support for AST2700 clk, reset, pinctrl,
+> > > >>> silicon-id and example for AST2700 scu.
+> > > >>>
+> > > >>> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> > > >>> ---
+> > > >>>  .../bindings/mfd/aspeed,ast2x00-scu.yaml      | 31
+> > > >> +++++++++++++++++--
+> > > >>>  1 file changed, 29 insertions(+), 2 deletions(-)
+> > > >>>
+> > > >>> diff --git
+> > > >>> a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> > > >>> b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> > > >>> index 86ee69c0f45b..c0965f08ae8c 100644
+> > > >>> ---
+> > > >>> a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> > > >>> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.y
+> > > >>> +++ aml
+> > > >>> @@ -21,6 +21,8 @@ properties:
+> > > >>>            - aspeed,ast2400-scu
+> > > >>>            - aspeed,ast2500-scu
+> > > >>>            - aspeed,ast2600-scu
+> > > >>> +          - aspeed,ast2700-scu0
+> > > >>> +          - aspeed,ast2700-scu1
+> > > >>
+> > > >> What are the differences between these two?
+> > > >
+> > > > The next [PATCH 4/4] is scu driver that include ast2700-scu0 and
+> > > > ast2700-scu1 CLK_OF_DECLARE_DRIVER(ast2700_soc0,
+> > > > "aspeed,ast2700-scu0", ast2700_soc0_clk_init);
+> > > > CLK_OF_DECLARE_DRIVER(ast2700_soc1, "aspeed,ast2700-scu1",
+> > > > ast2700_soc1_clk_init);
+> > >
+> > > What are hardware differences? Entirely different devices?
+> >
+> > AST2700 have two soc die connected each other.
+> > Each soc die have it own scu, so the naming is ast2700-scu0 for soc0,
+> another is ast2700-scu1 for soc1.
+>=20
+> Didn't I see in another patch one die is cpu and one is io? Use those in =
+the
+> compatible rather than 0 and 1 if so.
+>=20
+Sorry, I want to align with our datasheet description.=20
+It will but scu0 and scu1 register setting.=20
 
-Drop. The point of using __free was to make this very simple.
-
-> +
-> +	if (!syscon_np)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	regmap = device_node_to_regmap(syscon_np);
-> +
-> +	return regmap;
-> +}
-> +
->  static int aspeed_video_init(struct aspeed_video *video)
->  {
->  	int irq;
->  	int rc;
->  	struct device *dev = video->dev;
->  
-> +	video->scu = aspeed_regmap_lookup(dev->of_node, "aspeed,scu");
-> +	video->gfx = aspeed_regmap_lookup(dev->of_node, "aspeed,gfx");
-
-Still undocumented. Respond to previous comment and confirm that you
-understood it.
-
-
-Best regards,
-Krzysztof
+> Rob
 
