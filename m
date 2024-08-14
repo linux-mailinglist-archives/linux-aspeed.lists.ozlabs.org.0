@@ -1,55 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D32951E38
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 17:11:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 384FA951E46
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 17:14:35 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ERMhxB5/;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oumkvIra;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WkWtD4F0Lz2ygB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 01:11:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WkWy11F16z2yQG
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 01:14:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ERMhxB5/;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oumkvIra;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkWt64Dq1z2yQG
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 01:11:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkWxw5Vhcz2yQG
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 01:14:28 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 98ECACE10C5;
-	Wed, 14 Aug 2024 15:11:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42EAC4AF0A;
-	Wed, 14 Aug 2024 15:11:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 35DF961A5C;
+	Wed, 14 Aug 2024 15:14:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEFD0C116B1;
+	Wed, 14 Aug 2024 15:14:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723648266;
-	bh=KdzHtgA1BGye4qxWY6NMb/TUCnAC1XU5Th2mqbjeY9g=;
+	s=k20201202; t=1723648465;
+	bh=4Q00RGCTF5GDpOGhKM+Oj+is+jUI0FdH6CnteZN5WgA=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=ERMhxB5/8z1Z53a2ZPatuYrzFPtczZoZC2+5NNh4l+rm/ZYbbrTiznw79MPov8QcK
-	 F/Lb/9Ga4/1ShjNGK+nn9GNOC0gyAFyf5Q3A0Ln4wgwM+ExRIjq71MA1jHtr2lJv3I
-	 5zGLWbduyDL8QBI9L/PzBOTMJn2clEa2kuk8zutbPIRp0TAo2VvLKvzk4DXguAU3FX
-	 DP2oVyEvJ0kkLkDToJD0ju7lXOlBy34oUHHVzri3HeIx4Agyis1sQnGGcBYAizj9jO
-	 S7Yb69VVEtDtEAec5XEle2P0JarQL54spfwc1XOYcdLi6lT04kRaXm9Jk81ZXBkoH7
-	 FzRfGI9DGbcpQ==
-Message-ID: <71497232-71f0-4b51-95d8-e054ec87c479@kernel.org>
-Date: Wed, 14 Aug 2024 17:11:00 +0200
+	b=oumkvIraSVSOtie2QwrPbtCKRCG6HGlv9frRe8f6h2YDpHJsLXHrUACwuZtRzQiJN
+	 lI1BFe/4g8k71w5DZeULgz6YHM+VudrvLdqWEJM5xxbrq3VDdq5bUvVgxgy3IGEBO9
+	 Sc3PHC2uCtmnrGk2JrhtqcIi3vLhthr2HXH9FoOVRtLTVK5YSBWVGn5wwpknX5cldA
+	 0q4e77ifWzp3CyCqln1S1d++t8pt04ayqALHoAGzvhN5jcJYjBGj7zrIPJFrrhLhUb
+	 V2m0LKu87dbxOh+X8kinJcZL0D7L8tb/eJ2IIONvjvG35nF0DdXKivblAcgEnVMxqU
+	 McPGudXmrFEnw==
+Message-ID: <1bf9edfe-5b32-4382-83d4-5be91e6c036e@kernel.org>
+Date: Wed, 14 Aug 2024 17:14:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] irqchip/aspeed-intc: Add support for AST27XX INTC
-To: Thomas Gleixner <tglx@linutronix.de>,
- Kevin Chen <kevin_chen@aspeedtech.com>, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v2 0/2] Add support for AST2700 INTC
+To: Kevin Chen <kevin_chen@aspeedtech.com>, tglx@linutronix.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+ andrew@codeconstruct.com.au, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org
 References: <20240814114106.2809876-1-kevin_chen@aspeedtech.com>
- <20240814114106.2809876-4-kevin_chen@aspeedtech.com> <87plqbnnyx.ffs@tglx>
+ <20240814114106.2809876-2-kevin_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <87plqbnnyx.ffs@tglx>
+In-Reply-To: <20240814114106.2809876-2-kevin_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -112,31 +112,36 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 14/08/2024 17:06, Thomas Gleixner wrote:
-> On Wed, Aug 14 2024 at 19:41, Kevin Chen wrote:
->> Support for the Aspeed Interrupt Controller found on Aspeed Silicon SoCs,
->> such as the AST2700, which is arm64 architecture.
->>
->> To support ASPEED interrupt controller(INTC) maps the internal interrupt
->> sources of the AST27XX device to an parent interrupt controller.
+On 14/08/2024 13:41, Kevin Chen wrote:
+> Support for the Aspeed Interrupt Controller found on Aspeed 7th Geration Silicon
+> SoCs.
 > 
-> This still lacks a Signed-off-by: tag and my comment about the error
-> path in the init function is still valid.
+> ASPEED interrupt controller(INTC) maps the internal interrupt sources of
+> the AST27XX devices to an parent interrupt controller.
 > 
-> Do you think that addressing review feedback is optional?
-> 
-> Feel free to ignore it, but don't be surprised if I ignore further
-> patches from you.
-> 
-> Take your time and go through stuff properly and do not rush out half
-> baked patches in a frenzy.
->
+> Changes since v2:
+> Combine the aspeed_intc_ic_of_init and aspeed_intc_ic_of_init_v2.
+> Switch raw_spin_lock_irqsave to scoped_guard and guard.
+> Fix the error of make dt_binding_check.
+> Refine the aspeed,ast2700-intc.yaml.
 
-That's like fourth or fifth patchset for AST27xx within last week and
-all previous ones ignored given feedback. It's like sending almost the
-same stuff hoping maintainers will get bored and finally accept it.
+It seems that entire Aspeed has troubles working with people in the
+community. You do not address feedback, you ignore it and asks us to
+re-review the same crap.
 
-Tricky to say, maybe this works well in corporations?
+Before we proceed further:
+1. Answer, inline, without confidentiality notice (after asking you this
+5 times, I think you should fix it finally) that you:
+ - agree (ack/ok/agree)
+ - disagree with explanation why
+
+2. Then double check that your new version implements everything above.
+
+3. Then send new version (max once per 24h) with changelog and
+versioning (just use `b4`).
+
+If you keep ignoring step 1 and 2, you will annoy reviewers up to the
+point of automatic NAK or being ignored.
 
 Best regards,
 Krzysztof
