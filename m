@@ -2,47 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC41957A10
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8FB957A11
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqL616Vdz3vkv
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqL63f8cz87xw
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=I3A96dBO;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=OAqawjOd;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::702; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20702.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::702])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkvPN3yPmz2yQJ
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkvPN6J5lz2yQJ
 	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 15:51:04 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IS5ryUmp1h9x5txfkhtSn559JwUsj1xP74LqkT6rmSqCMUfbE1WjqKb3QcwCRtwgNQ9lsi0jAqj0AwoC77XnNIvE8v76mlK6EcL3mEI1GtqnUQuw6ABOhxdj9AW9ZwUFbcSR8n/G3dwlzvct9GCgNPxWbnBzcXL+Qlh3mbAHvU1+H4enKcT+sV5koB1yEWMS58qj6Jhb2r3QZ4zW8/mZ23MYMQIzLimiidwvghn58rsUCTCdy6Gq0bTPM7y2rd2DELNUCQOId9k8aqRn/nLmq2QUJqitwzpWvvGOHHfI9RHV4Mkld72mSNoDodx9z8ebLf6zpN+E2QxxjoJQHSOwrw==
+ b=cLy7qLuSBG2vEz+Y9icSakNt7bLGTYyH0V/KgcvUWr7iY+FAVbH/2IHY4Oec+eZYrak4OwQ/JKyguVK8m8xE9kgtF4KpuUDV7NTaQaKfcD/nEAqJXUEKFKnCXMZ2ZW9IaTNRpq4xF6oXXsr6SQEZawNa6ET2JEsX53VbKFVgziE3GbYqw6SYMEGKvy4aESVORVDTH7zLk/yQhsU8P0wxyZT+6sGuX6Ryk3LM/+6u+qZs8gdZ1tBKh8lSIeeOS9La/3/sS69bOuAk3FpbftA+0AbgsyHytkdz+q+7ox1sG7xQA4g9vapvzEfzdaYiSzzGG/c59Eh411berFGRFdoXrg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=09G/w6tGfhhcVevLCPaunD3UfBWyMmtA9PW7fw5VQK8=;
- b=nqh98NWijGsgI72nTAxAUak/pXnJ4OQEPGhiS89NaYmiPMlOkCvENE6TYn5Aexv84B4mor2DXGHaERLcyEyJo2x1WL6mJuT8yeW+js6z/+0+4JOWvfjiGv5rdZLgOuzC+axPEP4x0FSmRoVYGfVQ/q3J/+ir6Csz7bYzy5/i0ux+YzXLP59YoWAiR1z6ox7TP0kFQZlrlQ/sVHeIM+zxW9xePf773ylIc+anKqDOlSiI9PaN1gPpZqej5Y8BvRXv+9dt/yeUx1gNgQF7/CYLzK7HhcS8pTn6nm5MeZuoPW4aPwIDXcRDzqm3gZV9XsFWBX35Fb56R3UCzD4haWdIAg==
+ bh=sNTQo8cUaJtkeewsMtft+oLrLFqrhA1jozg13IIGV3I=;
+ b=RfTwyywdCO9lywkb4FjdGAHJOS9D7BsJLBCR2uhVbmTGucbAQAeQbchBWqQxXfN+pH78RkuQfo5a0b/svi1UwKMwxG81AVOoB8Lw3k1ZOvQ3wUZcHMY8rj+QONT7nLAZ65lxaYGUO0uo6cSeSClD8zyVzMmty4jcqPXjBRrQQltgqgZvmpb0kWy19/7M/kpEB7go+QSI3WfkUr73hS0tfeXmG5yZruAbPMZ/ECKgXuLmju6YkEdQNNXTNS4LEJpMkyfZwnsBIG9LkDWhdFb+vEfGHNL2S7NWPzOTui80iPMXit69nVvn/uj8ipEywf8ikigqjmq++lDQ3AsscD0dYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
  header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=09G/w6tGfhhcVevLCPaunD3UfBWyMmtA9PW7fw5VQK8=;
- b=I3A96dBO7qm/WnRHG5nCFvkZR/JTlP1SwQ/gj4gx/0jLAG1QZsW4H2+SUijkEUn85otqXWXg+fFJUXy1CmbMMDz9U8eARXIU4gB7/AxcEo7t8iS0HGbf04QB5WEtcXXuB7AGPp4gX1q03Ad/IXVkf/0pwLcZeTY5Y2ArI3BsvIec+PmOLLwA4vljE8tWcv802jBBsG3ftnc2y/c1Q6OPiJ8uDg1ZDCVDLSbU4Nk4gRjqsDwM7vCLLX2tj3awrosA1bYCau0/oPqLjEWR7HLItj3hILoE5wgkh9Y3Y7TGph3P+72mfAEwS0mwKIMOh2pMUXLZkF1VtAIJtseRFcbswA==
+ bh=sNTQo8cUaJtkeewsMtft+oLrLFqrhA1jozg13IIGV3I=;
+ b=OAqawjOd0JhrD4j/PQ8ukGVN9vJyAz+ynN3UErvk6KD1G0Q1Wnweao22LrUUr3Y0KoWscQriGzu7VrNWPJwWJLEtMzG0DKoXTkPZEhmiCfZ1MdZymfDSoC5q0v2+/AHBWFVQ4kyvdloos6HEQA3vtKKezY9Ra+epp9lYx5CplZyVNuQAube9vbbe5cfkUVT+PCIiwwemT+LP5F9QvrNHxabqr2oGdTjbNSHo+f/euBqd3RBNFl7LXz/sAcBCb4m1CRB6L07KqJplim+70L/GX6hZl0EY6oGvA1alKB9zWerNacWePL9pMwTuCSNiZlN8NQhFL50ENtw+QBwvhElzHg==
 Received: from PSAPR06MB4949.apcprd06.prod.outlook.com (2603:1096:301:ad::9)
  by SEYPR06MB7000.apcprd06.prod.outlook.com (2603:1096:101:1e3::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.16; Thu, 15 Aug
- 2024 05:50:39 +0000
+ 2024 05:50:41 +0000
 Received: from PSAPR06MB4949.apcprd06.prod.outlook.com
  ([fe80::7bdd:639a:6b94:37bf]) by PSAPR06MB4949.apcprd06.prod.outlook.com
  ([fe80::7bdd:639a:6b94:37bf%7]) with mapi id 15.20.7875.016; Thu, 15 Aug 2024
- 05:50:39 +0000
+ 05:50:41 +0000
 From: Kevin Chen <kevin_chen@aspeedtech.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>, "robh@kernel.org"
 	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
@@ -67,17 +67,17 @@ To: Krzysztof Kozlowski <krzk@kernel.org>, "robh@kernel.org"
 	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
 	<linux-kernel@vger.kernel.org>, "linux-clk@vger.kernel.org"
 	<linux-clk@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>
-Subject:  =?big5?B?pl7C0DogW1BBVENIIHYxIDA2LzEwXSBkdC1iaW5kaW5nczogYXJtOiBhc3BlZWQ6?=
- =?big5?Q?_Add_aspeed,ast2700-evb_compatible_string?=
-Thread-Topic: [PATCH v1 06/10] dt-bindings: arm: aspeed: Add
- aspeed,ast2700-evb compatible string
-Thread-Index: AQHa30uNq/e/f5bPiEuBrDgfXf+vPLII244AgB7wUUQ=
-Date: Thu, 15 Aug 2024 05:50:39 +0000
-Message-ID:  <PSAPR06MB4949967385040FAC98C809D789802@PSAPR06MB4949.apcprd06.prod.outlook.com>
+Subject:  =?big5?B?pl7C0DogW1BBVENIIHYxIDA5LzEwXSBhcm02NDogZHRzOiBhc3BlZWQ6IEFkZCBp?=
+ =?big5?Q?nitial_AST2700_EVB_device_tree?=
+Thread-Topic: [PATCH v1 09/10] arm64: dts: aspeed: Add initial AST2700 EVB
+ device tree
+Thread-Index: AQHa30uPDJPGKhP2w02fD585UynZDLII3BKAgB7zCjA=
+Date: Thu, 15 Aug 2024 05:50:41 +0000
+Message-ID:  <PSAPR06MB4949AE344C9386123AC2145F89802@PSAPR06MB4949.apcprd06.prod.outlook.com>
 References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
- <20240726110355.2181563-7-kevin_chen@aspeedtech.com>
- <371a7c7b-de32-4f97-b4c7-3c0ad0732e1a@kernel.org>
-In-Reply-To: <371a7c7b-de32-4f97-b4c7-3c0ad0732e1a@kernel.org>
+ <20240726110355.2181563-10-kevin_chen@aspeedtech.com>
+ <79d13e65-ca4a-461f-9888-9664e204f2ed@kernel.org>
+In-Reply-To: <79d13e65-ca4a-461f-9888-9664e204f2ed@kernel.org>
 Accept-Language: zh-TW, en-US
 Content-Language: zh-TW
 X-MS-Has-Attach: 
@@ -87,90 +87,90 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=aspeedtech.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PSAPR06MB4949:EE_|SEYPR06MB7000:EE_
-x-ms-office365-filtering-correlation-id: a320b15f-6f85-47d7-7740-08dcbcee3115
+x-ms-office365-filtering-correlation-id: f2698c49-0bf5-440f-0328-08dcbcee3293
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:  BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020|38070700018;
-x-microsoft-antispam-message-info:  =?big5?B?am4xaE1kQjc3dXc4OU95YnUzMHZRRElNZ2NYSks0eWl5UzdKNHhKWll3SnJxUm54?=
- =?big5?B?SS82KzBYak1ERDVaaXlXcThEbWpCV05iYkQyZTF6SXlmZUdETEJ4QjEzbXk0MC9T?=
- =?big5?B?cjNyL2lMaEFOUkR5QS9FVCtSU1BkSjE4R2phaVJzNzl4bk9oKzMzVXFzRTNkbmNv?=
- =?big5?B?V0lDQzZ1RU9nZVhWZFJmeTgxYUd2akR0L1oxVVB3dWN3SUNLUEUxbm43ejQzS3Rh?=
- =?big5?B?NGJ1aENMeXlmQXpDRUlGa3lpcWl5RGwwT2RxOXlmUFdYMFBvaUh4aWFQdVR3ajZT?=
- =?big5?B?SFhqOXR5REQwOWgweUU5QXpDNWFJSzZINDF5UGl1N3hMK29pSnl1SDdKWXJiYVAz?=
- =?big5?B?L1NKamllQnNDcEpBZCsvYlJ6ano4WXJ1d3ByVGxjNVhRMWpma0J1cWpQd283NWxO?=
- =?big5?B?UHpqb1g5U0ZVNGlYcCtGdlhVMVBUdjlFVkNEWDduZXMyL2pnTDBpUWN1WWNpRXBO?=
- =?big5?B?blNaTUFjTXNnQ2pTeFp6WjFkdllORTdBZzdqdkhneWZLbWJvYW9PYmdNWm5pNzVW?=
- =?big5?B?cmJ5YzNTRENyWjdtWkt5b2gvcnZxc0ZMbjhnb3M1QXZDNXJMSzZwMDJ1RnBoVm9V?=
- =?big5?B?ajhDbEtiSC9PSm5sRjlEaTlnaTc4RVZ3TTVITWxPMXhWWDIxam9GOEhkZDZsMXZR?=
- =?big5?B?d2Q1ejJhWmtnZW4yTk5ibWZBVjFjeUxCblFITFdad0xHZXArYWpoT1BCZXFZTUN5?=
- =?big5?B?czJBY3RYMS9qWkE0WC9kTWVQcHV3SjZhbFdIcitCUTFBY1VZQXNGWGRXYjA3RXpU?=
- =?big5?B?L1JOekVLeHYyeExjdmJtU005N09wT09ma0VXWkJCWkxUV0FodG5lZGgwVXQrcFNJ?=
- =?big5?B?ZkpQYnQwNlNhOHE3Zm1kcFFSb3NVMjEydjNuU0VPeXVyVkNUeTR5MDBWUm9ZY0Jq?=
- =?big5?B?cWIxVDlRd1pIQVVWOU5LalNrZmUyT2QwT2MrUDFKVUJDaUFTNVZjQTFJTE5DYTRL?=
- =?big5?B?SGx2ajgzWHV5cTI0VGtHdzFNbS9EdE1Gd01yb3FzTlFlOThOVDdTemdHQmI5dXJt?=
- =?big5?B?bTEwZnowalNSSmI4eU5IMDJwUW1rL0ViaEc5TTdkTE1UdDk0VjBqMGJQams3dW5T?=
- =?big5?B?RnBCRjNBRFBKRkdtRktkL0xYQVYyYWZIR2pDMXQybHRFZGQvcXFDU0NUQnhyQXFy?=
- =?big5?B?VnR0R1pkWC9NRUE3MGVaRjVIcmJqRDJtRVRmd3lqblBsc2lVaXBDbG9sZ001VE9m?=
- =?big5?B?NWdBb29WWjBVQ0dKc2ozQUVNMlVJWGt0a1JObWRRcGY2WWpNeGxIOW41bnliazhw?=
- =?big5?B?RDFIV0tnR3RtbVlsVjJxdU5PNjZBV1pQcW1GaUJBa0tNNnlFWWlWT09EblJpK0V1?=
- =?big5?B?K3BNOVYrQnVmeFFMZmRPbG5DMlFqYUtyUHNSRnZRS3pFaDdMQzA0ZE1zbWZlS294?=
- =?big5?B?Y04xRjBrZVZhWTYwTVo1ZXM0MGQzbWFaaXR4TURJZ1l4MEN6VnZyMUlRc01na1Fw?=
- =?big5?B?UFhvekRnbVlFNTIwOU84VEgxbjRmRDlNYjN2VWw1RE52UzJ6dEwwRStYVkRINFF1?=
- =?big5?B?Nlc1ZnRDQURhNDF0TlgvRGF0M1NEa0JaMHBJNFUraW1JTzVFU1lUN3Avc1FUZXd5?=
- =?big5?B?bFZLWkNheFM0VWxrRk5FYnN6ZGJpTjNNR1gyVlhrT1NySTV0TG9QTkdremNWdjBL?=
- =?big5?B?WUMzWnByMXo2ZlQ5NWRhaDJuSVhrLzRtaG50UVcrbUZUZVd2d3E1cEhRc0liWm9V?=
- =?big5?B?RkNydW4ybTNUOG80S0hQR2YwRGE5eWdWdTFXN0hHTmpwNkJ0cTlXUXNKSWJmU0hp?=
- =?big5?B?d3NXb1ZhYjZkdk9EK3JZdjJxc0FrVmluc3ZydTBvanQrOUdNd2k1cHdxcTdPUVBX?=
- =?big5?Q?cUZHLvRnvYE=3D?=
+x-microsoft-antispam-message-info:  =?big5?B?bytZY1ZRaWVIUjJCclVydi9DRk5Ma2piTEc2Sll2K0RvZkFta2x4UXlDOC9OajRu?=
+ =?big5?B?MGQ4a1FpOEVGS1UwMlpySHFLZm43L3R2c2d3aTFhWCtRbzlWVndvR1RHZGdBMTRz?=
+ =?big5?B?eWRHZkdUNk4xc3FyZDJIQkRJN09waVRWdjZ6UWNjL1lxT1dMYTNyRGlXQjhiZ1Z3?=
+ =?big5?B?Z3d2NUplaVFKMWlJb2o3b3M5R1dIa2N5V0Z5QXI5dExqTDJSV2ZXRmJ0YVdvK3FX?=
+ =?big5?B?NklObXp4aHZYS0VEcTJrakl5OUpkQXhJM0VRa3R6USt0Z1hiMS8zMkNEQjBmSnJs?=
+ =?big5?B?V3kxeCtQOC9Od0tLV1lHKzZqVDVXSm1VMytIc1lqV1JwVXFaWE1UTlVnQlk2a2Vn?=
+ =?big5?B?d2d3RjFIbGRiMjdDYzQvZDZyYVlwa0s2UTBuK3paR05ndm5TbWUrUFdQQ28rWEpH?=
+ =?big5?B?dmI3OW5tbzRCd0JqNHpGdm05TUhLTituajJPa2VjN2tvT1drcVNaaEdOWmlHV0JS?=
+ =?big5?B?YjZmYTFaM3Y4VmwrMWxiVHRONVV2STVJZmtZWEsxb3BhSG8vTEsvUDVHcVZhRWNv?=
+ =?big5?B?akkxUkhCR0VRdzZ1d29aQk1DQTlVN0FpZTRMTmc3ZjNHZnJnZmZFd1ZYcnk5R2Zy?=
+ =?big5?B?cjNqZ3pvSG9yVW5zcGR5YWZtc21CZGdPRnVVcEE5SE5peHgrZng5dFpTamJlQWxp?=
+ =?big5?B?OXROUUxoTDJxakFqMnM0bjh5dnVnU0J2dEtSSmdnd0oxWnhTWHEveGRvSUhnSDhF?=
+ =?big5?B?YVJ4QmZwdnU2SFVKYUVUeFN0N3d0S2gxK0tlUlhzTitEYXVxVDlXd1JyTGJ2RDdR?=
+ =?big5?B?aDZndEVQa1BIT2VZNSt3aUpRZE9aWDFtaS8zdEswVW14VU5JMHpTMVVvSTRJR1Jy?=
+ =?big5?B?RTh3alhkbjIvT2VwNmNyV2JTYW5HMTArc1RBNU1ONUg3akRod3NQYTF2T1A2eWFL?=
+ =?big5?B?VFNlaEhyMjV6K09pWUZsYlYvMEtBSnJxUDJnNG5rZXRFdzFOZmxXU1V0VFpiYzRO?=
+ =?big5?B?SElJcXIvMWFES0JtZ2lPYjVVODVOYkh2cStBT0piazZMMy9lQXd1NGluNUE0aTJ3?=
+ =?big5?B?V0V5clpiQmpTVzVVVys4Rm02T3JDMjRPMnBYK29udGRCQmpFY0FyeDNEUFJuYklu?=
+ =?big5?B?OHNzS1FDMVBHUExsSVVwcUF2UkdaTG9UdytsVjlFMDRQbTF3U1dGK2xpcGFxTEFh?=
+ =?big5?B?Ri9RSXVlL2xvK1dsNU4vcDFudEdpdkVDalE2c09qRHlibXJoeTN0cG04N2JWV3ZR?=
+ =?big5?B?cSs0bDRFM1NkWGVOSjkzWTA4Q0wzQkllYWxhN1hPVERMNVc3RVR5U1ZEZGNSOEhJ?=
+ =?big5?B?RXpSUjBGMXFsRGRuak9RVHJ5WSs5TVFlZDVoaVMrTEZLcVVaOHB1T0E3MkFpVDFG?=
+ =?big5?B?QTRaei9ZalFEZmprYU9ZMzJWN3FSQkx4TzJPalh2ZVV2V3NHWEc1cnNrUGRabEpI?=
+ =?big5?B?SHk5NUJPaEphcHN6L1RBbVFpalU5LzkxRlgwa3hxQjBKbHo3YitmRmM4VXdmclJz?=
+ =?big5?B?RjBFUEI4VU1NdUNwc3VaS0FQWHZNd3ZLb3VDcGczWHlQYWFZTGxDOXFqN1NrQ0pw?=
+ =?big5?B?QUt4OG9lMWNVUXZiSXlNOVA0VEpwOXp0bHpFZkhhZWxmeWt2Z2t4eWtrb1JTMjNY?=
+ =?big5?B?eDB5NHgxZ1hoOFVmRXY0QXZuN2xXNWtIOWRyTllZMDB0U3JSdFREU0VJMnRvNHAv?=
+ =?big5?B?QXd3YVNNdU43bWVwMkZTdDFsVWhSVjJFNjZUaHNOU1YzblpmTWd4ZXRLOWtXb2RK?=
+ =?big5?B?SVIrRG1nQVo4TG1Ob3NkWStHOU1wNVd4UXZyS1U1YnlwWXMvUG9WL1lHOEl5T1hh?=
+ =?big5?B?YlJmcFRHUWJDeTA5dzRFVmdkSmZvSGV5Q0lHZWpHRzdLTko2VnlOZUIxNVY2S1Nt?=
+ =?big5?Q?qRdWrDCe4wk=3D?=
 x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PSAPR06MB4949.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020)(38070700018);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?big5?B?cUx3MXVFNmZrRXlCclR2K0s0ZGFucmIzWnNiTUNqWU1OTi9wWDBIZlRGRXRNdy9L?=
- =?big5?B?R2FYZStYY1lONStXNkYrdXRkRGZBeldYVzBiNlVaWmgzdnd2OFFoV3NEMW9aSGx4?=
- =?big5?B?c3k2V1NXaWtqR2JmWWRuNHVoK0lCQWlLcFMxb3NRTW4rZDJvNFBXdkhVOXhyV2FO?=
- =?big5?B?aW44Ujd1REc1WEhPZkwwQXJyVmxwWkRMNW1MWGlSRmRxVWttYVdEQzNxODBVZEdH?=
- =?big5?B?blpURVBiZ0dpWU13cnU0QlhnOXhjcFhyejNwaWJyVlpCemw2dUtSeHFyamJwUnlx?=
- =?big5?B?SkJ2S2p5TjVoa0dsY0J1U0dEZnJFU0l4TVB2cGFiVVVBbTdZS1VEaDlQZXZjL1k5?=
- =?big5?B?dkoyVHRyVGFVMGdsQ0NJTjh6eWJPc2ZwTEFpcVBqQzdaUFllTm8vMnIwbnpkWlN6?=
- =?big5?B?dFhpYkhvdWoxamVwNXZDNkd5K3A1Qmwxd2JGUUsyTUxWclB6dlpZekFyNGw5dTBI?=
- =?big5?B?ZHBwSkp6dnRKZS9OZU5wS0tCcFNsSHZLRjgrMXNnOGV5aCtMVXduZVlhaS80eXRs?=
- =?big5?B?Y2N4UGdlTTRYdnY3K05lNEYraDRJUlJBcFVtcDgzUzdmVjFhcVhBYlBHZm5OWXR0?=
- =?big5?B?Qi9ZemxRTXovWTA0M25qWGRIMTNmUWJvdDZjOFJXZXF3ajhsTDZWaXV2dmIzcWYy?=
- =?big5?B?NzdFYi9SanBTSXM2d295S3dOVFd5SzJBK1FEOWczdEJzb1lOSzYrZHMxelhZbUxJ?=
- =?big5?B?ZmNxb2Vqa3FIYjVZeHIzY2w1QlMvN3lPM1AyREk3RG9UU2tlNHlFUkhPRzg2aTVT?=
- =?big5?B?dUdoRklYRktjUFFWOHdpY2hBZzFoY3hUL2ZwaVVvMzNuOXFrTTk1KzRYcmRZL0NQ?=
- =?big5?B?QzZxL0RZNkU4SnJtcEpEMGFqN2V4UnI0SHFvVk1BN1NvWVVEOTBneU03Vjg0SWE4?=
- =?big5?B?aE5IZ0llSTJlMTkxMDZoRW1NemhaOWpESzFuS1N6bzAxc1dHUEpjbG1jOVFSSWk2?=
- =?big5?B?SXlwWk9LRkhqS1c5dWFCZzJJSVpUR2dKNDFzdnlaNVZwMm5qZUpzdFg3MlVCN0JI?=
- =?big5?B?WEhnV0JPbW5nUVUwaUtzM3V4eFRUWVU2Wm5mTkk4bHZnNzhvcE5MNXQzdFNqS0dl?=
- =?big5?B?dHV4YXJ4MkhMRng0NlNHNXJwSFZzT3V3a0NWbEk3RDY0a2NKVmszM2tpcVZPeW1V?=
- =?big5?B?dXp6anNLMVczTzhMTVJhQm14OGlNSFlmTjluWGN5YTVNNkZYZXZiY3FCSkhTanRa?=
- =?big5?B?M0FjTlVoQkVpTnY2SnRrTnoyd0lZaDU4OXNxcTcxQ0psNlFITWdIeGh4S1JVYzBy?=
- =?big5?B?R0k5ZmhwdzJiWE11cWlVeU13NXdpOTFrVVhuWWFUWjdoTHZDa3FoZmFSR2pTaXNZ?=
- =?big5?B?UWlnWW45SkpFVkt0NUZ2c1lHdDdFU1JrTmNYVlk1Q0JqOXBJY29ScWdPbEhiYzlR?=
- =?big5?B?OXVBd1pzWE5ZTndmaGQxRXZYa2pySjNYdUFGNjlOekJoOTUvS0RaZ1JpeHhhU0VQ?=
- =?big5?B?a3FCamg5UERGdkt3VGZrekNLbTBPTG5wWFRpVkdUVHhCMy85NVU5MmNtSEZCOXR1?=
- =?big5?B?azFkMFpOeTlPS09Xdm9lam1LVWVmN2lqSmhsWitsSHo0VUxMSDR1YVFFaUxUeElK?=
- =?big5?B?TzZzMTRUSkZUZ3ZMNUh3dU1IZDFJZjlVWVdQN0dzWEYwT2FLOG5CZ1lOMFd0bjhu?=
- =?big5?B?OWNwYWNwakh4UDVocVJlQ2t0UU1qVEYxYjRKbnNtY1c4VmlsUjZsYUZBR3FkVlMv?=
- =?big5?B?MXdacitkZk1ZdDhXdzFuemFWcDdtZUtQcHlIeUw2SEFpZDN3U1FXQVQrZFQrc3ZT?=
- =?big5?B?ekp3Um1DQklTeWNsWmh3V1lVdkVFNVJFWkY0RjlMZUc0dEtHVncvWXgxcTFuVDZw?=
- =?big5?B?b0R5NGZqK3d1RFJtMUw0VTIwVVlXQVRYVUhtUmd1OWptSTNHamRreEFWeEhDeDVu?=
- =?big5?B?L3pncDc2YmFhbktKeWVQS0o3YlZWR2hMT0h1NTRuUExsNHVlKzBNU3RBUUZVbmhU?=
- =?big5?B?aTVHZkhTS0QwdXp5azJDT0VkMWJvcE1uaXAwMFpqcm44eDNrOVpuTTFrb0gydFVY?=
- =?big5?Q?IaEeMh/b4UB5Dsmi?=
+x-ms-exchange-antispam-messagedata-0:  =?big5?B?a3dRd1p2bktJNFh1eHZzaGFkN3ZuVHJDYm5sMXBUZlNPQVFKL2xHaEo2M2NBWEEx?=
+ =?big5?B?UG9BOUwyL28ramljVGhGNXBETXVmSThxaHUraFJyaXVDZTBPK1gzKzJ5YnFzdUFD?=
+ =?big5?B?RGxkeG5tZkRQT2xLUkkycnl4SWgzOFlqZS9zSTFmQ0VZZjJIT0d1bU5Ob256a3BF?=
+ =?big5?B?OC9wNmcwOVdPUGNOU1dFZU1qVlZCc1hwbWZmTUQzVVZYQzBRd0J5Q2xrUDFVVHU0?=
+ =?big5?B?SHhtZE1KWm0rajQ1RkF0SzZUSkhqczNORFVZeHU4MFQ5OXZlUS9RYWNKd29WTHln?=
+ =?big5?B?bytBNVdNckJIM1FFUFhvRmZBdG1IWSt6cnRsREpSb3lhaWlESi9kWkpPOEZxdkFL?=
+ =?big5?B?MGNqMlV4cm1QU1BCY1pRWHVERy82TW1QTFNUSHlkZGxBclU5YTdIL3JnbDFOR1hl?=
+ =?big5?B?SWZlMXRrcGlLNUpWbHFqanFKQmJKUWxkeDBmaDNFWXJnWnM2VWg4VUpTMisrSjVQ?=
+ =?big5?B?WFExdXY0ZWtCMDVBWWNiWC8wOFlZUjJVNmJzbkxFQ2hXRW41Ni9TSjBTS2d6ZUZK?=
+ =?big5?B?N3YzaXluK2dNcmMxUG85bVU3ODFoUU1jb2NZZEZULzNrVGMwbDNtLzBSOVdObTNE?=
+ =?big5?B?eXlUK1UzMjlCQktDSzNmOGVxYmEyWE85SThHSnI0NE83aE1RU2tKWEpCY0oxOW16?=
+ =?big5?B?VUxuOVc0cHFZU2ZMVlB2R0RpcVRFMDUwVE0weHBXRXR5Qy9QMlBnT1ptVXFZSTZn?=
+ =?big5?B?bnZ4OUx2RmtWa1hnVmp5R2tVK3lxbG5IWExiUmZxRFRSTlY3VTl2OWt0cFUzMEQz?=
+ =?big5?B?eU5CTy85cWRqVjZReTVnVEJHMDNYNFdvSzlnMDdXbms4N1ZyekZma1Zuei9UYXVQ?=
+ =?big5?B?M2Vscm1aY0RSRlNRNkxDMzR1cjNEbDZSMkxrME5pS0U4L1pXUSs2TVVaZWpzdGNY?=
+ =?big5?B?dWNUZDM2dCs5U3E0R0huZHhHVkJHTEUxUUVTMGtacjhZM0dXbXJmRENwakxOYkdW?=
+ =?big5?B?alE4U1lhWWFrbXF6MXV0am1pYnovMGt3a1dzZ0dYSGp3ZzY3THJGWDJkcVphUGJH?=
+ =?big5?B?M2hSTWgvVGU1Y1c4NnVzQmsvTVBvYjM3aTFXaFRrclJ4cWx1Nkx6bGZESU1UUmZK?=
+ =?big5?B?b1psT3dzYUFLUnB3Yk1VaGxiNjVJaVBoQnU0NDJ0bGUyR3AvVEJHbWRsb2M2WXAr?=
+ =?big5?B?VjR4SlNhYWpkbklrRllsb2R4akJ4WU1BakN3SktjSng0ektQUEF5V3UySmNhNEx6?=
+ =?big5?B?TllLM3czV3dDSW01NzBsc09ZMkF4RVUwT1dXbExwcEtqSzJZVU8vdGU1NU5EeEZ0?=
+ =?big5?B?cUl4QWNkTzRsS1BMWFU2WndBZ0tzVnNmZ1MvVUFoSjMzK0JrWld3blZtSjBnSHMv?=
+ =?big5?B?MGMxOHIwNGZPOWtTbUNvSmJXc2pOWVlOKyttWitaVHVySmNPb05LanRPWTNWMWhr?=
+ =?big5?B?ejNpZHVPek84cWovbnZZZjMwa0kvTGRpandPbGFxaFRVUEpUOFJhZkczZ1dKcGQz?=
+ =?big5?B?QU01THEvZEV5L1N5QVE4RUZrRWRKWWx4eWg4TFBCaTdOV0ZockFGRno1UU4wcC9U?=
+ =?big5?B?RU05TjM3SnB4K0lWRzlvakc3UEQ0L0tvVTlwakFVNWptSkdRbzVxRjlkMysxeXpS?=
+ =?big5?B?eW5hais5RHk5S0sxYnpQZVZESVVSQmJVZmMybG5CbVBBN3RWVlhtclNsajFkbGtM?=
+ =?big5?B?U0M0enhQNkx6ajRUdkRkTUxqTW5uNWZGWkpiRkpOQ1orVFM1Vm5oakRGMllaKzFL?=
+ =?big5?B?blJhSTNSNzVUSEhGNm0rSWdGN3VONXpPTDcrZVMrRjFNWEdERzhzMlZzNklCZjR0?=
+ =?big5?B?bkI4Zm9xMlBYUTA3dWg3UWQ2MGhLNFlXL3lCTC9neUpTWVBsdldxM2VRWDU4eVA3?=
+ =?big5?B?REdhd1RVTFpYTVdVVGRnWlpoSFFObTVKbGVRSExmU2pDRkFSajdNK2tRa3JWdzBh?=
+ =?big5?B?WXBCNnFDZ0daOCtsdFJYN24vU3hoQkNlclAvNVl1ZFZyei9WL1BHaWdRaEM2aWZu?=
+ =?big5?B?N2JoL3J1N1dZSmxuQi9WdFdzUjJHSzU2QlM1KzgwWGxSdTM2NVdxOEFNcVJUVzhN?=
+ =?big5?Q?uLpRkMWCeio7fzLJ?=
 Content-Type: multipart/alternative;
-	boundary="_000_PSAPR06MB4949967385040FAC98C809D789802PSAPR06MB4949apcp_"
+	boundary="_000_PSAPR06MB4949AE344C9386123AC2145F89802PSAPR06MB4949apcp_"
 MIME-Version: 1.0
 X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4949.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a320b15f-6f85-47d7-7740-08dcbcee3115
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 05:50:39.1225
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2698c49-0bf5-440f-0328-08dcbcee3293
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 05:50:41.6148
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: syszVaOUw/S/wCrlkCsTZN8VMbfREQcFPMwty+j8h1dBd+vVaz8dMXGeJxA0rtyUQAnXhjlnO5mTLfuSPqHiH8Jz/US11K7j4eUzgg9vecQ=
+X-MS-Exchange-CrossTenant-userprincipalname: DYfZhxJ4kHCrf+TMg2DxgZ17la+xAVtFpFO7LOX14CydhswW7/js8+EdlMgf4KrcEqm/sP//s/l6KaoxQkQ8G7Gv0jC2HeHwwQM+lrUyKR0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB7000
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -187,80 +187,140 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---_000_PSAPR06MB4949967385040FAC98C809D789802PSAPR06MB4949apcp_
+--_000_PSAPR06MB4949AE344C9386123AC2145F89802PSAPR06MB4949apcp_
 Content-Type: text/plain; charset="big5"
 Content-Transfer-Encoding: base64
 
-SGkgS3J6aywNCg0KPj4gLS0tDQo+PiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L2FybS9hc3BlZWQvYXNwZWVkLnlhbWwgfCA1ICsrKysrDQo+PiAgMSBmaWxlIGNoYW5nZWQsIDUg
-aW5zZXJ0aW9ucygrKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvYXJtL2FzcGVlZC9hc3BlZWQueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sDQo+PiBpbmRleCA3MWMzMWMwOGE4
-YWQuLmIyMTU1MTgxN2Y0NCAxMDA2NDQNCj4+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sDQo+PiArKysgYi9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2FzcGVlZC9hc3BlZWQueWFtbA0KPj4gQEAgLTk5LDQg
-Kzk5LDkgQEAgcHJvcGVydGllczoNCj4+ICAgICAgICAgICAgICAgIC0gdWZpc3BhY2UsbmNwbGl0
-ZS1ibWMNCj4+ICAgICAgICAgICAgLSBjb25zdDogYXNwZWVkLGFzdDI2MDANCj4+DQo+PiArICAg
-ICAgLSBkZXNjcmlwdGlvbjogQVNUMjcwMCBiYXNlZCBib2FyZHMNCj4+ICsgICAgICAgIGl0ZW1z
-Og0KPj4gKyAgICAgICAgICAtIGVudW06DQo+PiArICAgICAgICAgICAgICAtIGFzcGVlZCxhc3Qy
-NzAwLWV2Yg0KPg0KPk5BSywgdGhpcyBjYW5ub3QgYmUgYWxvbmUuIExvb2sgYXQgYWxsIG90aGVy
-IGV4YW1wbGVzLiBXaHkgYXJlIHlvdSBkb2luZw0KPnRoaW5ncyBkaWZmZXJlbnRseT8NCkRpc2Fn
-cmVlLCBhc3QyNzAwLWV2YiBpcyA3dGggZ2VuZXJhdGlvbiBJQyBpbiBBU1BFRUQuIEl0IG5vdCBp
-biB0aGUgc3ViLXNldCBvZiBBU1QyNDAwL0FTVDI1MDAvQVNUMjYwMCBiYXNlZCBib2FyZHMuDQoN
-Ci0tDQpCZXN0IFJlZ2FyZHMsDQpLZXZpbi4gQ2hlbg0KDQoNCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fDQqxSKXzqsw6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9y
-Zz4NCrFIpfOk6bTBOiAyMDI0pn43pOsyNqTpIKRVpMggMDc6MTUNCqaspfOqzDogS2V2aW4gQ2hl
-biA8a2V2aW5fY2hlbkBhc3BlZWR0ZWNoLmNvbT47IHJvYmhAa2VybmVsLm9yZyA8cm9iaEBrZXJu
-ZWwub3JnPjsga3J6aytkdEBrZXJuZWwub3JnIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBjb25vcitk
-dEBrZXJuZWwub3JnIDxjb25vcitkdEBrZXJuZWwub3JnPjsgam9lbEBqbXMuaWQuYXUgPGpvZWxA
-am1zLmlkLmF1PjsgYW5kcmV3QGNvZGVjb25zdHJ1Y3QuY29tLmF1IDxhbmRyZXdAY29kZWNvbnN0
-cnVjdC5jb20uYXU+OyBsZWVAa2VybmVsLm9yZyA8bGVlQGtlcm5lbC5vcmc+OyBjYXRhbGluLm1h
-cmluYXNAYXJtLmNvbSA8Y2F0YWxpbi5tYXJpbmFzQGFybS5jb20+OyB3aWxsQGtlcm5lbC5vcmcg
-PHdpbGxAa2VybmVsLm9yZz47IGFybmRAYXJuZGIuZGUgPGFybmRAYXJuZGIuZGU+OyBvbG9mQGxp
-eG9tLm5ldCA8b2xvZkBsaXhvbS5uZXQ+OyBzb2NAa2VybmVsLm9yZyA8c29jQGtlcm5lbC5vcmc+
-OyBtdHVycXVldHRlQGJheWxpYnJlLmNvbSA8bXR1cnF1ZXR0ZUBiYXlsaWJyZS5jb20+OyBzYm95
-ZEBrZXJuZWwub3JnIDxzYm95ZEBrZXJuZWwub3JnPjsgcC56YWJlbEBwZW5ndXRyb25peC5kZSA8
-cC56YWJlbEBwZW5ndXRyb25peC5kZT47IHF1aWNfYmpvcmFuZGVAcXVpY2luYy5jb20gPHF1aWNf
-YmpvcmFuZGVAcXVpY2luYy5jb20+OyBnZWVydCtyZW5lc2FzQGdsaWRlci5iZSA8Z2VlcnQrcmVu
-ZXNhc0BnbGlkZXIuYmU+OyBkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmcgPGRtaXRyeS5iYXJ5
-c2hrb3ZAbGluYXJvLm9yZz47IHNoYXduZ3VvQGtlcm5lbC5vcmcgPHNoYXduZ3VvQGtlcm5lbC5v
-cmc+OyBuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3Jn
-PjsgbS5zenlwcm93c2tpQHNhbXN1bmcuY29tIDxtLnN6eXByb3dza2lAc2Ftc3VuZy5jb20+OyBu
-ZnJhcHJhZG9AY29sbGFib3JhLmNvbSA8bmZyYXByYWRvQGNvbGxhYm9yYS5jb20+OyB1LWt1bWFy
-MUB0aS5jb20gPHUta3VtYXIxQHRpLmNvbT47IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnIDxk
-ZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZz47IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFk
-ZWFkLm9yZyA8bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsgbGludXgtYXNw
-ZWVkQGxpc3RzLm96bGFicy5vcmcgPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPjsgbGlu
-dXgta2VybmVsQHZnZXIua2VybmVsLm9yZyA8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz47
-IGxpbnV4LWNsa0B2Z2VyLmtlcm5lbC5vcmcgPGxpbnV4LWNsa0B2Z2VyLmtlcm5lbC5vcmc+DQql
-RKauOiBSZTogW1BBVENIIHYxIDA2LzEwXSBkdC1iaW5kaW5nczogYXJtOiBhc3BlZWQ6IEFkZCBh
-c3BlZWQsYXN0MjcwMC1ldmIgY29tcGF0aWJsZSBzdHJpbmcNCg0KT24gMjYvMDcvMjAyNCAxMzow
-MywgS2V2aW4gQ2hlbiB3cm90ZToNCj4gLS0tDQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvYXJtL2FzcGVlZC9hc3BlZWQueWFtbCB8IDUgKysrKysNCj4gIDEgZmlsZSBjaGFu
-Z2VkLCA1IGluc2VydGlvbnMoKykNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sIGIvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hc3BlZWQvYXNwZWVkLnlhbWwNCj4gaW5kZXggNzFjMzFj
-MDhhOGFkLi5iMjE1NTE4MTdmNDQgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sDQo+ICsrKyBiL0RvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sDQo+IEBAIC05OSw0
-ICs5OSw5IEBAIHByb3BlcnRpZXM6DQo+ICAgICAgICAgICAgICAgIC0gdWZpc3BhY2UsbmNwbGl0
-ZS1ibWMNCj4gICAgICAgICAgICAtIGNvbnN0OiBhc3BlZWQsYXN0MjYwMA0KPg0KPiArICAgICAg
-LSBkZXNjcmlwdGlvbjogQVNUMjcwMCBiYXNlZCBib2FyZHMNCj4gKyAgICAgICAgaXRlbXM6DQo+
-ICsgICAgICAgICAgLSBlbnVtOg0KPiArICAgICAgICAgICAgICAtIGFzcGVlZCxhc3QyNzAwLWV2
-Yg0KDQpOQUssIHRoaXMgY2Fubm90IGJlIGFsb25lLiBMb29rIGF0IGFsbCBvdGhlciBleGFtcGxl
-cy4gV2h5IGFyZSB5b3UgZG9pbmcNCnRoaW5ncyBkaWZmZXJlbnRseT8NCg0KQmVzdCByZWdhcmRz
-LA0KS3J6eXN6dG9mDQoNCioqKioqKioqKioqKiogRW1haWwgQ29uZmlkZW50aWFsaXR5IE5vdGlj
-ZSAqKioqKioqKioqKioqKioqKioqKg0Kp0uzZMFuqfo6DQqlu6tIpfMoqc6o5Kr+pfMppWmv4KVd
-p3S+97FLuOqwVKFBqMOo/Kprq9+rT8VAoUOmcCCleLrdq0Sr/Kl3pKemrKXzqsyhQb3QpUi5caRs
-tmyl87Nxqr6lu7lxpGy2bKXzpKe1b7BlqswsIKjDvdCl36dZp1Kwo6W7uXGkbLZspfOkzqjkqv6l
-86lNvlC3tKnSprO9xqZMpfOhQ8HCwcKxeqq6plinQCENCg0KRElTQ0xBSU1FUjoNClRoaXMgbWVz
-c2FnZSAoYW5kIGFueSBhdHRhY2htZW50cykgbWF5IGNvbnRhaW4gbGVnYWxseSBwcml2aWxlZ2Vk
-IGFuZC9vciBvdGhlciBjb25maWRlbnRpYWwgaW5mb3JtYXRpb24uIElmIHlvdSBoYXZlIHJlY2Vp
-dmVkIGl0IGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgYnkgcmVwbHkgZS1tYWls
-IGFuZCBpbW1lZGlhdGVseSBkZWxldGUgdGhlIGUtbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRzIHdp
-dGhvdXQgY29weWluZyBvciBkaXNjbG9zaW5nIHRoZSBjb250ZW50cy4gVGhhbmsgeW91Lg0K
+SGkgS3J6aywNCg0KPj4gLS0tDQo+PiAgYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvTWFrZWZp
+bGUgICAgICAgIHwgIDQgKysNCj4+ICBhcmNoL2FybTY0L2Jvb3QvZHRzL2FzcGVlZC9hc3QyNzAw
+LWV2Yi5kdHMgfCA1MCArKysrKysrKysrKysrKysrKysrKysrDQo+PiAgMiBmaWxlcyBjaGFuZ2Vk
+LCA1NCBpbnNlcnRpb25zKCspDQo+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGFyY2gvYXJtNjQvYm9v
+dC9kdHMvYXNwZWVkL01ha2VmaWxlDQo+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGFyY2gvYXJtNjQv
+Ym9vdC9kdHMvYXNwZWVkL2FzdDI3MDAtZXZiLmR0cw0KPj4NCj4+IGRpZmYgLS1naXQgYS9hcmNo
+L2FybTY0L2Jvb3QvZHRzL2FzcGVlZC9NYWtlZmlsZSBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYXNw
+ZWVkL01ha2VmaWxlDQo+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMDAwMDAwMDAw
+MDAwLi5mZmU3ZTE1MDE3Y2MNCj4+IC0tLSAvZGV2L251bGwNCj4+ICsrKyBiL2FyY2gvYXJtNjQv
+Ym9vdC9kdHMvYXNwZWVkL01ha2VmaWxlDQo+PiBAQCAtMCwwICsxLDQgQEANCj4+ICsjIFNQRFgt
+TGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+PiArDQo+PiArZHRiLSQoQ09ORklHX0FSQ0hf
+QVNQRUVEKSArPSBcDQo+PiArICAgICBhc3QyNzAwLWV2Yi5kdGINCj4+IGRpZmYgLS1naXQgYS9h
+cmNoL2FybTY0L2Jvb3QvZHRzL2FzcGVlZC9hc3QyNzAwLWV2Yi5kdHMgYi9hcmNoL2FybTY0L2Jv
+b3QvZHRzL2FzcGVlZC9hc3QyNzAwLWV2Yi5kdHMNCj4+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+
+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjE4N2M0NThlNTY2Yg0KPj4gLS0tIC9kZXYvbnVsbA0KPj4g
+KysrIGIvYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvYXN0MjcwMC1ldmIuZHRzDQo+PiBAQCAt
+MCwwICsxLDUwIEBADQo+PiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb3It
+bGF0ZXINCj4+ICsNCj4+ICsvZHRzLXYxLzsNCj4+ICsNCj4+ICsjaW5jbHVkZSAiYXNwZWVkLWc3
+LmR0c2kiDQo+PiArI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2dwaW8vYXNwZWVkLWdwaW8uaD4NCj4+
+ICsNCj4+ICsvIHsNCj4+ICsgICAgIG1vZGVsID0gIkFTVDI3MDBBMS1FVkIiOw0KPj4gKyAgICAg
+Y29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjcwMGExLWV2YiIsICJhc3BlZWQsYXN0MjcwMCI7DQo+
+DQo+WW91IGhhdmUgbmV2ZXIgdGVzdGVkIHRoaXMuDQo+DQo+U29ycnksIHRlc3QgeW91ciBEVFMg
+Zmlyc3QuDQpBZ3JlZS4gSSB3aWxsIHRlc3QgbXkgZHRzIGJ5IG1ha2UgZHRic19jaGVjayBXPTEN
+Cg0KPg0KPj4gKw0KPj4gKyAgICAgY2hvc2VuIHsNCj4+ICsgICAgICAgICAgICAgYm9vdGFyZ3Mg
+PSAiY29uc29sZT10dHlTMTIsMTE1MjAwbjgiOw0KPg0KPkRyb3AuDQpBZ3JlZS4NCg0KPg0KPj4g
+KyAgICAgICAgICAgICBzdGRvdXQtcGF0aCA9ICZ1YXJ0MTI7DQo+PiArICAgICB9Ow0KPj4gKw0K
+Pj4gKyAgICAgZmlybXdhcmUgew0KPj4gKyAgICAgICAgICAgICBvcHRlZTogb3B0ZWUgew0KPj4g
+KyAgICAgICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAibGluYXJvLG9wdGVlLXR6IjsNCj4+
+ICsgICAgICAgICAgICAgICAgICAgICBtZXRob2QgPSAic21jIjsNCj4+ICsgICAgICAgICAgICAg
+fTsNCj4+ICsgICAgIH07DQo+PiArDQo+PiArICAgICBtZW1vcnlANDAwMDAwMDAwIHsNCj4+ICsg
+ICAgICAgICAgICAgZGV2aWNlX3R5cGUgPSAibWVtb3J5IjsNCj4+ICsgICAgICAgICAgICAgcmVn
+ID0gPDB4NCAweDAwMDAwMDAwIDB4MCAweDQwMDAwMDAwPjsNCj4+ICsgICAgIH07DQo+PiArDQo+
+PiArICAgICByZXNlcnZlZC1tZW1vcnkgew0KPj4gKyAgICAgICAgICAgICAjYWRkcmVzcy1jZWxs
+cyA9IDwyPjsNCj4+ICsgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8Mj47DQo+PiArICAgICAg
+ICAgICAgIHJhbmdlczsNCj4+ICsNCj4+ICsgICAgICAgICAgICAgbWN1X2Z3OiBtY3UtZmlybXdh
+cmVANDJmZTAwMDAwIHsNCj4+ICsgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MHg0IDB4MmZl
+MDAwMDAgMHgwIDB4MjAwMDAwPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBuby1tYXA7DQo+
+PiArICAgICAgICAgICAgIH07DQo+PiArDQo+PiArICAgICAgICAgICAgIGF0ZjogdHJ1c3RlZC1m
+aXJtd2FyZS1hQDQzMDAwMDAwMCB7DQo+PiArICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDB4
+NCAweDMwMDAwMDAwIDB4MCAweDgwMDAwPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBuby1t
+YXA7DQo+PiArICAgICAgICAgICAgIH07DQo+PiArDQo+PiArICAgICAgICAgICAgIG9wdGVlX2Nv
+cmU6IG9wdGVlX2NvcmVANDMwMDgwMDAwIHsNCj4NCj5SZWFkIERUUyBjb2Rpbmcgc3R5bGUuDQpB
+Z3JlZS4gU2hvdWxkIEkgY2hhbmdlIHRvIG9wdGVlX2NvcmU6IG9wdGVlLWNvcmVANDMwMDgwMDAw
+IHsNCg0KPg0KPj4gKyAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwweDQgMHgzMDA4MDAwMCAw
+eDAgMHgxMDAwMDAwPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBuby1tYXA7DQo+PiArICAg
+ICAgICAgICAgIH07DQo+PiArICAgICB9Ow0KPj4gK307DQo+PiArDQo+DQo+UmVtb3ZlIHN0cmF5
+IGJsYW5rIGxpbmUuDQpBZ3JlZS4NCg0KLS0NCkJlc3QgUmVnYXJkcywNCktldmluLiBDaGVuDQoN
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQqxSKXzqsw6IEtyenlzenRvZiBLb3ps
+b3dza2kgPGtyemtAa2VybmVsLm9yZz4NCrFIpfOk6bTBOiAyMDI0pn43pOsyNqTpIKRVpMggMDc6
+MTYNCqaspfOqzDogS2V2aW4gQ2hlbiA8a2V2aW5fY2hlbkBhc3BlZWR0ZWNoLmNvbT47IHJvYmhA
+a2VybmVsLm9yZyA8cm9iaEBrZXJuZWwub3JnPjsga3J6aytkdEBrZXJuZWwub3JnIDxrcnprK2R0
+QGtlcm5lbC5vcmc+OyBjb25vcitkdEBrZXJuZWwub3JnIDxjb25vcitkdEBrZXJuZWwub3JnPjsg
+am9lbEBqbXMuaWQuYXUgPGpvZWxAam1zLmlkLmF1PjsgYW5kcmV3QGNvZGVjb25zdHJ1Y3QuY29t
+LmF1IDxhbmRyZXdAY29kZWNvbnN0cnVjdC5jb20uYXU+OyBsZWVAa2VybmVsLm9yZyA8bGVlQGtl
+cm5lbC5vcmc+OyBjYXRhbGluLm1hcmluYXNAYXJtLmNvbSA8Y2F0YWxpbi5tYXJpbmFzQGFybS5j
+b20+OyB3aWxsQGtlcm5lbC5vcmcgPHdpbGxAa2VybmVsLm9yZz47IGFybmRAYXJuZGIuZGUgPGFy
+bmRAYXJuZGIuZGU+OyBvbG9mQGxpeG9tLm5ldCA8b2xvZkBsaXhvbS5uZXQ+OyBzb2NAa2VybmVs
+Lm9yZyA8c29jQGtlcm5lbC5vcmc+OyBtdHVycXVldHRlQGJheWxpYnJlLmNvbSA8bXR1cnF1ZXR0
+ZUBiYXlsaWJyZS5jb20+OyBzYm95ZEBrZXJuZWwub3JnIDxzYm95ZEBrZXJuZWwub3JnPjsgcC56
+YWJlbEBwZW5ndXRyb25peC5kZSA8cC56YWJlbEBwZW5ndXRyb25peC5kZT47IHF1aWNfYmpvcmFu
+ZGVAcXVpY2luYy5jb20gPHF1aWNfYmpvcmFuZGVAcXVpY2luYy5jb20+OyBnZWVydCtyZW5lc2Fz
+QGdsaWRlci5iZSA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+OyBkbWl0cnkuYmFyeXNoa292QGxp
+bmFyby5vcmcgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZz47IHNoYXduZ3VvQGtlcm5lbC5v
+cmcgPHNoYXduZ3VvQGtlcm5lbC5vcmc+OyBuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnIDxuZWls
+LmFybXN0cm9uZ0BsaW5hcm8ub3JnPjsgbS5zenlwcm93c2tpQHNhbXN1bmcuY29tIDxtLnN6eXBy
+b3dza2lAc2Ftc3VuZy5jb20+OyBuZnJhcHJhZG9AY29sbGFib3JhLmNvbSA8bmZyYXByYWRvQGNv
+bGxhYm9yYS5jb20+OyB1LWt1bWFyMUB0aS5jb20gPHUta3VtYXIxQHRpLmNvbT47IGRldmljZXRy
+ZWVAdmdlci5rZXJuZWwub3JnIDxkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZz47IGxpbnV4LWFy
+bS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZyA8bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZy
+YWRlYWQub3JnPjsgbGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmcgPGxpbnV4LWFzcGVlZEBs
+aXN0cy5vemxhYnMub3JnPjsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZyA8bGludXgta2Vy
+bmVsQHZnZXIua2VybmVsLm9yZz47IGxpbnV4LWNsa0B2Z2VyLmtlcm5lbC5vcmcgPGxpbnV4LWNs
+a0B2Z2VyLmtlcm5lbC5vcmc+DQqlRKauOiBSZTogW1BBVENIIHYxIDA5LzEwXSBhcm02NDogZHRz
+OiBhc3BlZWQ6IEFkZCBpbml0aWFsIEFTVDI3MDAgRVZCIGRldmljZSB0cmVlDQoNCk9uIDI2LzA3
+LzIwMjQgMTM6MDMsIEtldmluIENoZW4gd3JvdGU6DQo+IC0tLQ0KPiAgYXJjaC9hcm02NC9ib290
+L2R0cy9hc3BlZWQvTWFrZWZpbGUgICAgICAgIHwgIDQgKysNCj4gIGFyY2gvYXJtNjQvYm9vdC9k
+dHMvYXNwZWVkL2FzdDI3MDAtZXZiLmR0cyB8IDUwICsrKysrKysrKysrKysrKysrKysrKysNCj4g
+IDIgZmlsZXMgY2hhbmdlZCwgNTQgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0
+IGFyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL01ha2VmaWxlDQo+ICBjcmVhdGUgbW9kZSAxMDA2
+NDQgYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvYXN0MjcwMC1ldmIuZHRzDQo+DQo+IGRpZmYg
+LS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2FzcGVlZC9NYWtlZmlsZSBiL2FyY2gvYXJtNjQv
+Ym9vdC9kdHMvYXNwZWVkL01ha2VmaWxlDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4
+IDAwMDAwMDAwMDAwMC4uZmZlN2UxNTAxN2NjDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvYXJj
+aC9hcm02NC9ib290L2R0cy9hc3BlZWQvTWFrZWZpbGUNCj4gQEAgLTAsMCArMSw0IEBADQo+ICsj
+IFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+ICsNCj4gK2R0Yi0kKENPTkZJR19B
+UkNIX0FTUEVFRCkgKz0gXA0KPiArICAgICBhc3QyNzAwLWV2Yi5kdGINCj4gZGlmZiAtLWdpdCBh
+L2FyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzdDI3MDAtZXZiLmR0cyBiL2FyY2gvYXJtNjQv
+Ym9vdC9kdHMvYXNwZWVkL2FzdDI3MDAtZXZiLmR0cw0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0K
+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjE4N2M0NThlNTY2Yg0KPiAtLS0gL2Rldi9udWxsDQo+ICsr
+KyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzdDI3MDAtZXZiLmR0cw0KPiBAQCAtMCww
+ICsxLDUwIEBADQo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRl
+cg0KPiArDQo+ICsvZHRzLXYxLzsNCj4gKw0KPiArI2luY2x1ZGUgImFzcGVlZC1nNy5kdHNpIg0K
+PiArI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2dwaW8vYXNwZWVkLWdwaW8uaD4NCj4gKw0KPiArLyB7
+DQo+ICsgICAgIG1vZGVsID0gIkFTVDI3MDBBMS1FVkIiOw0KPiArICAgICBjb21wYXRpYmxlID0g
+ImFzcGVlZCxhc3QyNzAwYTEtZXZiIiwgImFzcGVlZCxhc3QyNzAwIjsNCg0KWW91IGhhdmUgbmV2
+ZXIgdGVzdGVkIHRoaXMuDQoNClNvcnJ5LCB0ZXN0IHlvdXIgRFRTIGZpcnN0Lg0KDQo+ICsNCj4g
+KyAgICAgY2hvc2VuIHsNCj4gKyAgICAgICAgICAgICBib290YXJncyA9ICJjb25zb2xlPXR0eVMx
+MiwxMTUyMDBuOCI7DQoNCkRyb3AuDQoNCj4gKyAgICAgICAgICAgICBzdGRvdXQtcGF0aCA9ICZ1
+YXJ0MTI7DQo+ICsgICAgIH07DQo+ICsNCj4gKyAgICAgZmlybXdhcmUgew0KPiArICAgICAgICAg
+ICAgIG9wdGVlOiBvcHRlZSB7DQo+ICsgICAgICAgICAgICAgICAgICAgICBjb21wYXRpYmxlID0g
+ImxpbmFybyxvcHRlZS10eiI7DQo+ICsgICAgICAgICAgICAgICAgICAgICBtZXRob2QgPSAic21j
+IjsNCj4gKyAgICAgICAgICAgICB9Ow0KPiArICAgICB9Ow0KPiArDQo+ICsgICAgIG1lbW9yeUA0
+MDAwMDAwMDAgew0KPiArICAgICAgICAgICAgIGRldmljZV90eXBlID0gIm1lbW9yeSI7DQo+ICsg
+ICAgICAgICAgICAgcmVnID0gPDB4NCAweDAwMDAwMDAwIDB4MCAweDQwMDAwMDAwPjsNCj4gKyAg
+ICAgfTsNCj4gKw0KPiArICAgICByZXNlcnZlZC1tZW1vcnkgew0KPiArICAgICAgICAgICAgICNh
+ZGRyZXNzLWNlbGxzID0gPDI+Ow0KPiArICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDI+Ow0K
+PiArICAgICAgICAgICAgIHJhbmdlczsNCj4gKw0KPiArICAgICAgICAgICAgIG1jdV9mdzogbWN1
+LWZpcm13YXJlQDQyZmUwMDAwMCB7DQo+ICsgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MHg0
+IDB4MmZlMDAwMDAgMHgwIDB4MjAwMDAwPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIG5vLW1h
+cDsNCj4gKyAgICAgICAgICAgICB9Ow0KPiArDQo+ICsgICAgICAgICAgICAgYXRmOiB0cnVzdGVk
+LWZpcm13YXJlLWFANDMwMDAwMDAwIHsNCj4gKyAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDww
+eDQgMHgzMDAwMDAwMCAweDAgMHg4MDAwMD47DQo+ICsgICAgICAgICAgICAgICAgICAgICBuby1t
+YXA7DQo+ICsgICAgICAgICAgICAgfTsNCj4gKw0KPiArICAgICAgICAgICAgIG9wdGVlX2NvcmU6
+IG9wdGVlX2NvcmVANDMwMDgwMDAwIHsNCg0KUmVhZCBEVFMgY29kaW5nIHN0eWxlLg0KDQo+ICsg
+ICAgICAgICAgICAgICAgICAgICByZWcgPSA8MHg0IDB4MzAwODAwMDAgMHgwIDB4MTAwMDAwMD47
+DQo+ICsgICAgICAgICAgICAgICAgICAgICBuby1tYXA7DQo+ICsgICAgICAgICAgICAgfTsNCj4g
+KyAgICAgfTsNCj4gK307DQo+ICsNCg0KUmVtb3ZlIHN0cmF5IGJsYW5rIGxpbmUuDQoNCkJlc3Qg
+cmVnYXJkcywNCktyenlzenRvZg0KDQoqKioqKioqKioqKioqIEVtYWlsIENvbmZpZGVudGlhbGl0
+eSBOb3RpY2UgKioqKioqKioqKioqKioqKioqKioNCqdLs2TBbqn6Og0KpburSKXzKKnOqOSq/qXz
+KaVpr+ClXad0vvexS7jqsFShQajDqPyqa6vfq0/FQKFDpnAgpXi63atEq/ypd6Snpqyl86rMoUG9
+0KVIuXGkbLZspfOzcaq+pbu5caRstmyl86SntW+wZarMLCCow73Qpd+nWadSsKOlu7lxpGy2bKXz
+pM6o5Kr+pfOpTb5Qt7Sp0qazvcamTKXzoUPBwsHCsXqquqZYp0AhDQoNCkRJU0NMQUlNRVI6DQpU
+aGlzIG1lc3NhZ2UgKGFuZCBhbnkgYXR0YWNobWVudHMpIG1heSBjb250YWluIGxlZ2FsbHkgcHJp
+dmlsZWdlZCBhbmQvb3Igb3RoZXIgY29uZmlkZW50aWFsIGluZm9ybWF0aW9uLiBJZiB5b3UgaGF2
+ZSByZWNlaXZlZCBpdCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHJlcGx5
+IGUtbWFpbCBhbmQgaW1tZWRpYXRlbHkgZGVsZXRlIHRoZSBlLW1haWwgYW5kIGFueSBhdHRhY2ht
+ZW50cyB3aXRob3V0IGNvcHlpbmcgb3IgZGlzY2xvc2luZyB0aGUgY29udGVudHMuIFRoYW5rIHlv
+dS4NCg==
 
---_000_PSAPR06MB4949967385040FAC98C809D789802PSAPR06MB4949apcp_
+--_000_PSAPR06MB4949AE344C9386123AC2145F89802PSAPR06MB4949apcp_
 Content-Type: text/html; charset="big5"
 Content-Transfer-Encoding: quoted-printable
 
@@ -286,72 +346,319 @@ size: 11pt; color: rgb(0, 0, 0);">
 &gt;&gt; ---</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 5=
- +++++</div>
+&gt;&gt; &nbsp;arch/arm64/boot/dts/aspeed/Makefile &nbsp; &nbsp; &nbsp; &nb=
+sp;| &nbsp;4 ++</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;1 file changed, 5 insertions(+)</div>
+&gt;&gt; &nbsp;arch/arm64/boot/dts/aspeed/ast2700-evb.dts | 50 ++++++++++++=
+++++++++++</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt;</div>
+&gt;&gt; &nbsp;2 files changed, 54 insertions(+)</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.y=
-aml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml</div>
+&gt;&gt; &nbsp;create mode 100644 arch/arm64/boot/dts/aspeed/Makefile</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; index 71c31c08a8ad..b21551817f44 100644</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml</di=
-v>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml</di=
-v>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; @@ -99,4 +99,9 @@ properties:</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- ufispace,=
-ncplite-bmc</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- const: aspeed,ast2600</=
-div>
+&gt;&gt; &nbsp;create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dt=
+s</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 &gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp;- description: AST2700 based boards</div>
+&gt;&gt; diff --git a/arch/arm64/boot/dts/aspeed/Makefile b/arch/arm64/boot=
+/dts/aspeed/Makefile</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp;items:</div>
+&gt;&gt; new file mode 100644</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- enum:</div>
+&gt;&gt; index 000000000000..ffe7e15017cc</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- aspeed,ast2700=
--evb</div>
+&gt;&gt; --- /dev/null</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +++ b/arch/arm64/boot/dts/aspeed/Makefile</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; @@ -0,0 +1,4 @@</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +# SPDX-License-Identifier: GPL-2.0</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +dtb-$(CONFIG_ARCH_ASPEED) +=3D \</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; ast2700-evb.dtb</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; diff --git a/arch/arm64/boot/dts/aspeed/ast2700-evb.dts b/arch/arm=
+64/boot/dts/aspeed/ast2700-evb.dts</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; new file mode 100644</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; index 000000000000..187c458e566b</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; --- /dev/null</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +++ b/arch/arm64/boot/dts/aspeed/ast2700-evb.dts</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; @@ -0,0 +1,50 @@</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +// SPDX-License-Identifier: GPL-2.0-or-later</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +/dts-v1/;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +#include &quot;aspeed-g7.dtsi&quot;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +#include &lt;dt-bindings/gpio/aspeed-gpio.h&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +/ {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; model =3D &quot;AST2700A1-EVB&quot;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; compatible =3D &quot;aspeed,ast2700a1-evb&quot;, &=
+quot;aspeed,ast2700&quot;;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 &gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;NAK, this cannot be alone. Look at all other examples. Why are you doin=
-g</div>
+&gt;You have never tested this.</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
-&gt;things differently?</div>
+&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;Sorry, test your DTS first.</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
-Disagree, ast2700-evb is 7<sup>th</sup>&nbsp;generation IC in ASPEED. It no=
-t in the sub-set of AST2400/AST2500/AST2600 based boards.</div>
+Agree. I will test my dts by make dtbs_check W=3D1</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; chosen {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bootargs =3D &quot;con=
+sole=3DttyS12,115200n8&quot;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+&gt;Drop.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Agree.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; stdout-path =3D &amp;u=
+art12;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; };</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; firmware {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; optee: optee {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; compatible =3D &quot;linaro,optee-tz&quot;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; method =3D &quot;smc&quot;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; };</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; memory@400000000 {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; device_type =3D &quot;=
+memory&quot;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &lt;0x4 0x0000=
+0000 0x0 0x40000000&gt;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; };</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; reserved-memory {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #address-cells =3D &lt=
+;2&gt;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #size-cells =3D &lt;2&=
+gt;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ranges;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mcu_fw: mcu-firmware@4=
+2fe00000 {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; reg =3D &lt;0x4 0x2fe00000 0x0 0x200000&gt;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; no-map;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; atf: trusted-firmware-=
+a@430000000 {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; reg =3D &lt;0x4 0x30000000 0x0 0x80000&gt;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; no-map;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; optee_core: optee_core=
+@430080000 {</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+&gt;Read DTS coding style.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Agree. Should I change to optee_core: optee-core@430080000 {</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; reg =3D &lt;0x4 0x30080000 0x0 0x1000000&gt;;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; no-map;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; };</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +};</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+&gt;Remove stray blank line.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Agree.</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
@@ -369,11 +676,6 @@ Best Regards,</div>
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
 Kevin. Chen</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
 <div id=3D"appendonsend"></div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
@@ -384,7 +686,7 @@ Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 sans-serif; font-size: 11pt; color: rgb(0, 0, 0);"><b>=B1H=A5=F3=AA=CC:</b>=
 &nbsp;Krzysztof Kozlowski &lt;krzk@kernel.org&gt;<br>
 <b>=B1H=A5=F3=A4=E9=B4=C1:</b>&nbsp;2024=A6~7=A4=EB26=A4=E9 =A4U=A4=C8 07:1=
-5<br>
+6<br>
 <b>=A6=AC=A5=F3=AA=CC:</b>&nbsp;Kevin Chen &lt;kevin_chen@aspeedtech.com&gt=
 ;; robh@kernel.org &lt;robh@kernel.org&gt;; krzk+dt@kernel.org &lt;krzk+dt@=
 kernel.org&gt;; conor+dt@kernel.org &lt;conor+dt@kernel.org&gt;; joel@jms.i=
@@ -409,37 +711,131 @@ l.org&gt;;
 org&gt;; linux-aspeed@lists.ozlabs.org &lt;linux-aspeed@lists.ozlabs.org&gt=
 ;; linux-kernel@vger.kernel.org &lt;linux-kernel@vger.kernel.org&gt;; linux=
 -clk@vger.kernel.org &lt;linux-clk@vger.kernel.org&gt;<br>
-<b>=A5D=A6=AE:</b>&nbsp;Re: [PATCH v1 06/10] dt-bindings: arm: aspeed: Add =
-aspeed,ast2700-evb compatible string</span>
+<b>=A5D=A6=AE:</b>&nbsp;Re: [PATCH v1 09/10] arm64: dts: aspeed: Add initia=
+l AST2700 EVB device tree</span>
 <div>&nbsp;</div>
 </div>
 <div style=3D"font-size: 11pt;">On 26/07/2024 13:03, Kevin Chen wrote:<br>
 &gt; ---<br>
-&gt;&nbsp; Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 5 +++=
-++<br>
-&gt;&nbsp; 1 file changed, 5 insertions(+)<br>
+&gt;&nbsp; arch/arm64/boot/dts/aspeed/Makefile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; |&nbsp; 4 ++<br>
+&gt;&nbsp; arch/arm64/boot/dts/aspeed/ast2700-evb.dts | 50 ++++++++++++++++=
+++++++<br>
+&gt;&nbsp; 2 files changed, 54 insertions(+)<br>
+&gt;&nbsp; create mode 100644 arch/arm64/boot/dts/aspeed/Makefile<br>
+&gt;&nbsp; create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts<br=
+>
 &gt;<br>
-&gt; diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml =
-b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml<br>
-&gt; index 71c31c08a8ad..b21551817f44 100644<br>
-&gt; --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml<br>
-&gt; +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml<br>
-&gt; @@ -99,4 +99,9 @@ properties:<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp; - ufispace,ncplite-bmc<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - co=
-nst: aspeed,ast2600<br>
-&gt;&nbsp;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - description: AST2700 based boards<br=
->
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; items:<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - enum:<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp; - aspeed,ast2700-evb<br>
+&gt; diff --git a/arch/arm64/boot/dts/aspeed/Makefile b/arch/arm64/boot/dts=
+/aspeed/Makefile<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000000..ffe7e15017cc<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/arch/arm64/boot/dts/aspeed/Makefile<br>
+&gt; @@ -0,0 +1,4 @@<br>
+&gt; +# SPDX-License-Identifier: GPL-2.0<br>
+&gt; +<br>
+&gt; +dtb-$(CONFIG_ARCH_ASPEED) +=3D \<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; ast2700-evb.dtb<br>
+&gt; diff --git a/arch/arm64/boot/dts/aspeed/ast2700-evb.dts b/arch/arm64/b=
+oot/dts/aspeed/ast2700-evb.dts<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000000..187c458e566b<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/arch/arm64/boot/dts/aspeed/ast2700-evb.dts<br>
+&gt; @@ -0,0 +1,50 @@<br>
+&gt; +// SPDX-License-Identifier: GPL-2.0-or-later<br>
+&gt; +<br>
+&gt; +/dts-v1/;<br>
+&gt; +<br>
+&gt; +#include &quot;aspeed-g7.dtsi&quot;<br>
+&gt; +#include &lt;dt-bindings/gpio/aspeed-gpio.h&gt;<br>
+&gt; +<br>
+&gt; +/ {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; model =3D &quot;AST2700A1-EVB&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2700a1-evb&qu=
+ot;, &quot;aspeed,ast2700&quot;;<br>
 <br>
-NAK, this cannot be alone. Look at all other examples. Why are you doing<br=
->
-things differently?<br>
+You have never tested this.<br>
+<br>
+Sorry, test your DTS first.<br>
+<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; chosen {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; bootargs =3D &quot;console=3DttyS12,115200n8&quot;;<br>
+<br>
+Drop.<br>
+<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; stdout-path =3D &amp;uart12;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; firmware {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; optee: optee {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;li=
+naro,optee-tz&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; method =3D &quot;smc&qu=
+ot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; };<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; memory@400000000 {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; device_type =3D &quot;memory&quot;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; reg =3D &lt;0x4 0x00000000 0x0 0x40000000&gt;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; reserved-memory {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; #address-cells =3D &lt;2&gt;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; #size-cells =3D &lt;2&gt;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; ranges;<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; mcu_fw: mcu-firmware@42fe00000 {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x4 0x2fe00=
+000 0x0 0x200000&gt;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; no-map;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; };<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; atf: trusted-firmware-a@430000000 {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x4 0x30000=
+000 0x0 0x80000&gt;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; no-map;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; };<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; optee_core: optee_core@430080000 {<br>
+<br>
+Read DTS coding style.<br>
+<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x4 0x30080=
+000 0x0 0x1000000&gt;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; no-map;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; };<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
+&gt; +};<br>
+&gt; +<br>
+<br>
+Remove stray blank line.<br>
 <br>
 Best regards,<br>
 Krzysztof<br>
@@ -463,4 +859,4 @@ achments without copying or disclosing
 </body>
 </html>
 
---_000_PSAPR06MB4949967385040FAC98C809D789802PSAPR06MB4949apcp_--
+--_000_PSAPR06MB4949AE344C9386123AC2145F89802PSAPR06MB4949apcp_--
