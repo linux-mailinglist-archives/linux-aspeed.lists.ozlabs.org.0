@@ -2,102 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384FA951E46
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2024 17:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E669526E0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 02:26:15 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oumkvIra;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=OQIY11jm;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WkWy11F16z2yQG
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 01:14:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WkmBY4c39z2yZd
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2024 10:26:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=oumkvIra;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=OQIY11jm;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkWxw5Vhcz2yQG
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 01:14:28 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 35DF961A5C;
-	Wed, 14 Aug 2024 15:14:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEFD0C116B1;
-	Wed, 14 Aug 2024 15:14:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723648465;
-	bh=4Q00RGCTF5GDpOGhKM+Oj+is+jUI0FdH6CnteZN5WgA=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=oumkvIraSVSOtie2QwrPbtCKRCG6HGlv9frRe8f6h2YDpHJsLXHrUACwuZtRzQiJN
-	 lI1BFe/4g8k71w5DZeULgz6YHM+VudrvLdqWEJM5xxbrq3VDdq5bUvVgxgy3IGEBO9
-	 Sc3PHC2uCtmnrGk2JrhtqcIi3vLhthr2HXH9FoOVRtLTVK5YSBWVGn5wwpknX5cldA
-	 0q4e77ifWzp3CyCqln1S1d++t8pt04ayqALHoAGzvhN5jcJYjBGj7zrIPJFrrhLhUb
-	 V2m0LKu87dbxOh+X8kinJcZL0D7L8tb/eJ2IIONvjvG35nF0DdXKivblAcgEnVMxqU
-	 McPGudXmrFEnw==
-Message-ID: <1bf9edfe-5b32-4382-83d4-5be91e6c036e@kernel.org>
-Date: Wed, 14 Aug 2024 17:14:20 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkmBR63L2z2yDx
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 10:26:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1723681565;
+	bh=9cfgPGg8I/etk0AZvDqHhwew340zEVZFZ6XKpAktces=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=OQIY11jmCPRLT/TWEltTb9t6HLF3ctwQcmBdheBQlWI2J9SjagZz7uPrZ5JqRJh3m
+	 XXgST3yi8Ou3SXC3KYAO8TXtppF6f/T72hJAvc8nOq+E3tDK382r7Ezkj8SUr4b+iE
+	 noHjCRQ2befrKLciBO0l1ja52a4FjmJVO0Zkzvz+HfyOrdc2S/Sv0OwPJZctNpH/5y
+	 WWdJbJRzvR1vXr8nRxBEUyudoB8aInkND9mSTMWPYHLngQasqOprrCyovr+w2txVZH
+	 XXh88hcTbsoKrS82qNUbf9pV5o5is2pKjVkocIzl3bcCElcOpsRW+BboKKHmUvh2VW
+	 UpID4/pt/LWRA==
+Received: from [192.168.68.112] (ppp118-210-65-51.adl-adc-lon-bras32.tpg.internode.on.net [118.210.65.51])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 47F2B64C85;
+	Thu, 15 Aug 2024 08:26:03 +0800 (AWST)
+Message-ID: <7e1dc98e0f69a095a8f7725b742df3c8d8436a67.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for AST2700
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh@kernel.org>
+Date: Thu, 15 Aug 2024 09:56:02 +0930
+In-Reply-To: <OS8PR06MB7541BB03AEE90B090AB990B3F2872@OS8PR06MB7541.apcprd06.prod.outlook.com>
+References: <20240808075937.2756733-1-ryan_chen@aspeedtech.com>
+	 <20240808075937.2756733-2-ryan_chen@aspeedtech.com>
+	 <2f27285e-6aa5-4e42-b361-224d8d164113@kernel.org>
+	 <OS8PR06MB75416FAD2A1A16E7BE2D255DF2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+	 <10809e91-31be-4110-86c1-1e1ccb05b664@kernel.org>
+	 <OS8PR06MB7541F4F740FDB17F50EBCACBF2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+	 <20240813191454.GA1570645-robh@kernel.org>
+	 <OS8PR06MB7541BB03AEE90B090AB990B3F2872@OS8PR06MB7541.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] Add support for AST2700 INTC
-To: Kevin Chen <kevin_chen@aspeedtech.com>, tglx@linutronix.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
- andrew@codeconstruct.com.au, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org
-References: <20240814114106.2809876-1-kevin_chen@aspeedtech.com>
- <20240814114106.2809876-2-kevin_chen@aspeedtech.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240814114106.2809876-2-kevin_chen@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,40 +65,80 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Lee Jones <lee@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 14/08/2024 13:41, Kevin Chen wrote:
-> Support for the Aspeed Interrupt Controller found on Aspeed 7th Geration Silicon
-> SoCs.
-> 
-> ASPEED interrupt controller(INTC) maps the internal interrupt sources of
-> the AST27XX devices to an parent interrupt controller.
-> 
-> Changes since v2:
-> Combine the aspeed_intc_ic_of_init and aspeed_intc_ic_of_init_v2.
-> Switch raw_spin_lock_irqsave to scoped_guard and guard.
-> Fix the error of make dt_binding_check.
-> Refine the aspeed,ast2700-intc.yaml.
+On Wed, 2024-08-14 at 06:35 +0000, Ryan Chen wrote:
+> > Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for
+> > AST2700
+> >=20
+> > On Fri, Aug 09, 2024 at 06:10:22AM +0000, Ryan Chen wrote:
+> > > > Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support for
+> > > > AST2700
+> > > >=20
+> > > > On 09/08/2024 07:55, Ryan Chen wrote:
+> > > > > > Subject: Re: [PATCH 1/4] dt-bindings: mfd: aspeed: support
+> > > > > > for
+> > > > > > AST2700
+> > > > > >=20
+> > > > > > On 08/08/2024 09:59, Ryan Chen wrote:
+> > > > > > > Add compatible support for AST2700 clk, reset, pinctrl,
+> > > > > > > silicon-id and example for AST2700 scu.
+> > > > > > >=20
+> > > > > > > Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> > > > > > > ---
+> > > > > > > =C2=A0.../bindings/mfd/aspeed,ast2x00-scu.yaml      | 31
+> > > > > > +++++++++++++++++--
+> > > > > > > =C2=A01 file changed, 29 insertions(+), 2 deletions(-)
+> > > > > > >=20
+> > > > > > > diff --git
+> > > > > > > a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-
+> > > > > > > scu.yaml
+> > > > > > > b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-
+> > > > > > > scu.yaml
+> > > > > > > index 86ee69c0f45b..c0965f08ae8c 100644
+> > > > > > > ---
+> > > > > > > a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-
+> > > > > > > scu.yaml
+> > > > > > > +++
+> > > > > > > b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-
+> > > > > > > scu.y
+> > > > > > > +++ aml
+> > > > > > > @@ -21,6 +21,8 @@ properties:
+> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0- aspeed,ast2400-scu
+> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0- aspeed,ast2500-scu
+> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0- aspeed,ast2600-scu
+> > > > > > > +          - aspeed,ast2700-scu0
+> > > > > > > +          - aspeed,ast2700-scu1
+> > > > > >=20
+> > > > > > What are the differences between these two?
+> > > > >=20
+> > > > > The next [PATCH 4/4] is scu driver that include ast2700-scu0
+> > > > > and
+> > > > > ast2700-scu1 CLK_OF_DECLARE_DRIVER(ast2700_soc0,
+> > > > > "aspeed,ast2700-scu0", ast2700_soc0_clk_init);
+> > > > > CLK_OF_DECLARE_DRIVER(ast2700_soc1, "aspeed,ast2700-scu1",
+> > > > > ast2700_soc1_clk_init);
+> > > >=20
+> > > > What are hardware differences? Entirely different devices?
+> > >=20
+> > > AST2700 have two soc die connected each other.
+> > > Each soc die have it own scu, so the naming is ast2700-scu0 for
+> > > soc0,
+> > another is ast2700-scu1 for soc1.
+> >=20
+> > Didn't I see in another patch one die is cpu and one is io? Use
+> > those in the
+> > compatible rather than 0 and 1 if so.
+> >=20
+> Sorry, I want to align with our datasheet description.=20
+> It will but scu0 and scu1 register setting.=20
 
-It seems that entire Aspeed has troubles working with people in the
-community. You do not address feedback, you ignore it and asks us to
-re-review the same crap.
+Can we document that relationship in the binding? Rob's suggestion
+seems more descriptive.
 
-Before we proceed further:
-1. Answer, inline, without confidentiality notice (after asking you this
-5 times, I think you should fix it finally) that you:
- - agree (ack/ok/agree)
- - disagree with explanation why
-
-2. Then double check that your new version implements everything above.
-
-3. Then send new version (max once per 24h) with changelog and
-versioning (just use `b4`).
-
-If you keep ignoring step 1 and 2, you will annoy reviewers up to the
-point of automatic NAK or being ignored.
-
-Best regards,
-Krzysztof
-
+Andrew
