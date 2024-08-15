@@ -2,47 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1495B957A0F
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC41957A10
 	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqL5603Dz87wY
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqL616Vdz3vkv
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=ja6TvroQ;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=I3A96dBO;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::702; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20702.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::702])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkvPJ1cPXz2yQJ
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 15:51:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkvPN3yPmz2yQJ
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 15:51:04 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LQ7PPHycxc35XWWL7vET7TSrbJD9Lr6tHGfwcfJ13nvaAcOykwFEAZ6b6gY9AJjG7zjHIbdv2esg+V1InMwolXWPGT6Bd7FewILc+6JKqWOp1tUU/0FHVDlxx4agd3d1UCffP/a6x5YQaX/pOmLKBbevt7cq7Hr6fhl1jEnLdNiJbLhUQdCUW7KIMuT7w+OHrWvKCyTDtMOB+QQggltyx2YsHZinqLJrYzJNXBs22WLzDVXlDsT+5VZivGgioCLQ+ZXPUebBGJsXefpD8SHsUGB0bgxzLNE2A1GquJFhl7OXQVIW3Q7prl3N6oWsmxwBpTlM0HpuupEW1kFuir3ibg==
+ b=IS5ryUmp1h9x5txfkhtSn559JwUsj1xP74LqkT6rmSqCMUfbE1WjqKb3QcwCRtwgNQ9lsi0jAqj0AwoC77XnNIvE8v76mlK6EcL3mEI1GtqnUQuw6ABOhxdj9AW9ZwUFbcSR8n/G3dwlzvct9GCgNPxWbnBzcXL+Qlh3mbAHvU1+H4enKcT+sV5koB1yEWMS58qj6Jhb2r3QZ4zW8/mZ23MYMQIzLimiidwvghn58rsUCTCdy6Gq0bTPM7y2rd2DELNUCQOId9k8aqRn/nLmq2QUJqitwzpWvvGOHHfI9RHV4Mkld72mSNoDodx9z8ebLf6zpN+E2QxxjoJQHSOwrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wo8RgTIiAM6WdRDKyhBsH7AozJfgXJHAn2HNOxXYxqM=;
- b=q4T36+JEO/8NaHbtR86W6tE7J+D/NNMrgmI0wZoK31ovwLtKtiSha3Gy2bVpgz5hEugKPfVt7Ejux1NUDe+88LpdmOZ2f3icnX6zhj2KYPlKrydOcptq2a9b+YGotHOcnOj536+t1+ce2DXrcX6bObjA7GLFiRqUq9HBO6xnMVkpLtcSOSD1Y+EvueZe/npVLAZCOXC3WiCs0zSXXs4jj4l9kXYd4tfSXn7giWwhtGOR1GuDv9/rw+Qljzf0FwXO2FLGx7UKmHBNLIqkjELnUKwgLEG/bSVoOWd9incXe9nHo6DQdQMMZ9cy0wm7+8Owkms1WTc6Memo+kaHiwErCg==
+ bh=09G/w6tGfhhcVevLCPaunD3UfBWyMmtA9PW7fw5VQK8=;
+ b=nqh98NWijGsgI72nTAxAUak/pXnJ4OQEPGhiS89NaYmiPMlOkCvENE6TYn5Aexv84B4mor2DXGHaERLcyEyJo2x1WL6mJuT8yeW+js6z/+0+4JOWvfjiGv5rdZLgOuzC+axPEP4x0FSmRoVYGfVQ/q3J/+ir6Csz7bYzy5/i0ux+YzXLP59YoWAiR1z6ox7TP0kFQZlrlQ/sVHeIM+zxW9xePf773ylIc+anKqDOlSiI9PaN1gPpZqej5Y8BvRXv+9dt/yeUx1gNgQF7/CYLzK7HhcS8pTn6nm5MeZuoPW4aPwIDXcRDzqm3gZV9XsFWBX35Fb56R3UCzD4haWdIAg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
  header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wo8RgTIiAM6WdRDKyhBsH7AozJfgXJHAn2HNOxXYxqM=;
- b=ja6TvroQXZiNjoohPKs1RSj6NscG+4mHzp/pxNmRKL0uD1JUk+mKulHkAiuInzsCvCga5Nqw8hGBMtNqRvJT7EqF4V5UpPUaSCC9gyrd4+EZkfYajHtvs0prvLvDLYDOvb/SeidQ1Klsv3wijk+xH+iC30cPHqkr7nlHBkQvNe2HGPrLeRaMbhL9D6RcciqpsIS3tQZWVqG6Pso/aQAEqw7O5RtwxDIOSJhIuteZs9iqoQrA3iEIsrRrr+EhJz6JPaC4tcy0nvTHrft5zqWm6FnEgz88F+YQMDt3YdKnvrRKMZRj7LksvyHylSAd95SYlrT+k3W/+wig792jYIt87g==
+ bh=09G/w6tGfhhcVevLCPaunD3UfBWyMmtA9PW7fw5VQK8=;
+ b=I3A96dBO7qm/WnRHG5nCFvkZR/JTlP1SwQ/gj4gx/0jLAG1QZsW4H2+SUijkEUn85otqXWXg+fFJUXy1CmbMMDz9U8eARXIU4gB7/AxcEo7t8iS0HGbf04QB5WEtcXXuB7AGPp4gX1q03Ad/IXVkf/0pwLcZeTY5Y2ArI3BsvIec+PmOLLwA4vljE8tWcv802jBBsG3ftnc2y/c1Q6OPiJ8uDg1ZDCVDLSbU4Nk4gRjqsDwM7vCLLX2tj3awrosA1bYCau0/oPqLjEWR7HLItj3hILoE5wgkh9Y3Y7TGph3P+72mfAEwS0mwKIMOh2pMUXLZkF1VtAIJtseRFcbswA==
 Received: from PSAPR06MB4949.apcprd06.prod.outlook.com (2603:1096:301:ad::9)
  by SEYPR06MB7000.apcprd06.prod.outlook.com (2603:1096:101:1e3::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.16; Thu, 15 Aug
- 2024 05:50:34 +0000
+ 2024 05:50:39 +0000
 Received: from PSAPR06MB4949.apcprd06.prod.outlook.com
  ([fe80::7bdd:639a:6b94:37bf]) by PSAPR06MB4949.apcprd06.prod.outlook.com
  ([fe80::7bdd:639a:6b94:37bf%7]) with mapi id 15.20.7875.016; Thu, 15 Aug 2024
- 05:50:34 +0000
+ 05:50:39 +0000
 From: Kevin Chen <kevin_chen@aspeedtech.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>, "robh@kernel.org"
 	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
@@ -67,16 +67,17 @@ To: Krzysztof Kozlowski <krzk@kernel.org>, "robh@kernel.org"
 	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
 	<linux-kernel@vger.kernel.org>, "linux-clk@vger.kernel.org"
 	<linux-clk@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>
-Subject:  =?big5?B?pl7C0DogW1BBVENIIHYxIDA1LzEwXSBkdC1iaW5kaW5nczogYXJtOiBhc3BlZWQ6?=
- =?big5?Q?_Add_maintainer?=
-Thread-Topic: [PATCH v1 05/10] dt-bindings: arm: aspeed: Add maintainer
-Thread-Index: AQHa30uLS7p8iSeFD0em3skhlhDe/rII23QAgB7v8HY=
-Date: Thu, 15 Aug 2024 05:50:34 +0000
-Message-ID:  <PSAPR06MB4949A015CE90F8FA538B106A89802@PSAPR06MB4949.apcprd06.prod.outlook.com>
+Subject:  =?big5?B?pl7C0DogW1BBVENIIHYxIDA2LzEwXSBkdC1iaW5kaW5nczogYXJtOiBhc3BlZWQ6?=
+ =?big5?Q?_Add_aspeed,ast2700-evb_compatible_string?=
+Thread-Topic: [PATCH v1 06/10] dt-bindings: arm: aspeed: Add
+ aspeed,ast2700-evb compatible string
+Thread-Index: AQHa30uNq/e/f5bPiEuBrDgfXf+vPLII244AgB7wUUQ=
+Date: Thu, 15 Aug 2024 05:50:39 +0000
+Message-ID:  <PSAPR06MB4949967385040FAC98C809D789802@PSAPR06MB4949.apcprd06.prod.outlook.com>
 References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
- <20240726110355.2181563-6-kevin_chen@aspeedtech.com>
- <7f3f7255-e177-4689-a2f1-b5f3196ed1a5@kernel.org>
-In-Reply-To: <7f3f7255-e177-4689-a2f1-b5f3196ed1a5@kernel.org>
+ <20240726110355.2181563-7-kevin_chen@aspeedtech.com>
+ <371a7c7b-de32-4f97-b4c7-3c0ad0732e1a@kernel.org>
+In-Reply-To: <371a7c7b-de32-4f97-b4c7-3c0ad0732e1a@kernel.org>
 Accept-Language: zh-TW, en-US
 Content-Language: zh-TW
 X-MS-Has-Attach: 
@@ -86,90 +87,90 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=aspeedtech.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PSAPR06MB4949:EE_|SEYPR06MB7000:EE_
-x-ms-office365-filtering-correlation-id: 08789be7-c7db-4091-fe41-08dcbcee2e6d
+x-ms-office365-filtering-correlation-id: a320b15f-6f85-47d7-7740-08dcbcee3115
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:  BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020|38070700018;
-x-microsoft-antispam-message-info:  =?big5?B?d2Q2dkt5YU1teEFvWDdndmhXRzc0bWNXSDZ0OVlSODdmeGNXRlJsVEtKbjhya0dL?=
- =?big5?B?a1pqdVV1QkcyZXdzb1hyamtobm5mKytRNW1QamJuUWRVY0dtZUNrYVBDQU1sOWxP?=
- =?big5?B?OG51MkhYNXRLam5UeVA4T0pRdHQ1WDNCT1JyN2xkSXh1a21jMWdtNWtWWTV2QjI2?=
- =?big5?B?MmZVc3kxWU9IOUsvZmJqSTIyb2lHMUdhODhCSmhXWFh2U2N1UVVnTk1OR1ArN0NJ?=
- =?big5?B?WEFSZmh1Z0JRRFpQcURKYzRXdmNmME9jZVZkbXZ1Y05iQzRGZHc0ckRnU0M5cWtN?=
- =?big5?B?NEs1MkNDbGFlakY0eFY3MDE5NzZxL3VYVTZKTDQ3YVh2VDNoMmF0MzRweEdacG1D?=
- =?big5?B?emphdkdpbng1bkw0b0NSaEd3UVBvLzBlcmhQa3A0UlRoQ2JOL0JvYis3NWorb2ZX?=
- =?big5?B?dTNDSWUyREE3K2dUVS9qTkJGN3dIMXFUS1VWYkdLbitlQy95QURzc2h2cFEzVEdM?=
- =?big5?B?OU01NU04NXgzeGRDak1jbm90WEpzQm9Ma29zTWlhblVBQzUrTTU2MjM5c2lhVWFi?=
- =?big5?B?WFJwNFM2Zms2T2k4T3k0QVI0Yjc2cktEcVZKbi9QNUgySDlpb0hNN2NyU1NScXN1?=
- =?big5?B?MU9HL3dvVDlCRURyTG8yekF2YVFpL2FZTUsyS1hLb3k0SENCZTlEYThCYlhCQVdW?=
- =?big5?B?ZldRNHV1Wk1FZmdoRkZlL0VPNS9QVFhwWmZHem4vVjU2Zk1ZTG9HZlFIbFNPcFp1?=
- =?big5?B?NVpXM0UrdmFXUHlPQU82bE85eDR5RDVqT3Z5UnVNM0RmeXp2UGpHS2lWQ0JaT2dV?=
- =?big5?B?YllTTURNa25mNFBwUlFaZkdYekwrL0ZEQStuRFVYaGVSRVRydGFhb3RSOVA0a0dM?=
- =?big5?B?VUl6WC9DeFk1K3dJVEFUZlZ5UnhqSEJ3T25Mc0w4aG00cnBvS3ZSamhqaTlkSFR3?=
- =?big5?B?cSt5V0RJUEpCZ01yVjlseUtWSUg1RCt5Z3FnRzd3TnFiYWphbGIyeEJzZmZCRExQ?=
- =?big5?B?NXp0UHdIMEY1T1YyTEt5L3dISEFnemNvREg2S0pBc2k1N3NLU0pXRjRCRDhEamVj?=
- =?big5?B?cnRLN3RWMEQxWkJZNmk1b2traTYwcmJWbTg0ejUwYXk2ZTVMTWVCWDdWS1ZVdEI0?=
- =?big5?B?dEN6bDk5dGFrSThOOGtYUGMzVjhyQ2szWkFod2RkTFQyT2RwVDFnL2srbHVjQ0c2?=
- =?big5?B?WDZlTW1QR0FrNjMyNXhSN1MrTnhCelUzZGYyeExxMEdjWm01Wkw0NWgyZVFWNUtR?=
- =?big5?B?MjAxMG9HeFdpVFYrQW5nMm8rZGhoVzFqaUZtY0d0Q1VZVjltTStzNUhuS1duVExC?=
- =?big5?B?SzVZSHJORHgrdlU5RDhPdnkyVzg4L0pyZzlFR1hRUUczVmdLT1ROTnQ4ZFc0Z0VH?=
- =?big5?B?TlJ0UTB4VXVnYVlGT2c0YmZ2UGNSdGFoRmdxLzBLdWpJZWZ4cy9ZRGZTSUtjckdL?=
- =?big5?B?OWo2VGQ5cGFUUEhOMzV0VVdvT1dVSjgzMDk3STc0WDFDdnZNRG9lVUg5UTBubWkr?=
- =?big5?B?Yjh1MHVHOGlZZWErRFhnTDdDd0xnMW5pNyt6dTlMMWtaYUNocFA2bDgxNUR0QkJ0?=
- =?big5?B?bUMvemtxeDZGSnAxYy9ENmhIZnhoc09TK3lSeGlvYVBvVjRnUkpNekV0ZHJERnVY?=
- =?big5?B?TklKQnJyaEdxTWg4eThSNFJGT0puckFJOVFDaXJaNlVKZ2R5clBTaCtNMHMzNUZs?=
- =?big5?B?VFlvdGs4S1pOeHdSY0dmVzNPNVJBLzRPZGxtTlZYRDVWblNxcVJCMDhDallMaVdQ?=
- =?big5?B?dHJVK050cTA2WjN0Nm9rOEtIRUdWbUgxNHZ2b0VGT2lsc2NmaTFTSnlDb0lRdkJI?=
- =?big5?B?ZEEwd2tzSVFpSzZlcTFiK2xDZWFmQm9seldJQzZyTXM5Z0RLVWtCcXZDTzAzd1JC?=
- =?big5?Q?W8V2i6MEjFo=3D?=
+x-microsoft-antispam-message-info:  =?big5?B?am4xaE1kQjc3dXc4OU95YnUzMHZRRElNZ2NYSks0eWl5UzdKNHhKWll3SnJxUm54?=
+ =?big5?B?SS82KzBYak1ERDVaaXlXcThEbWpCV05iYkQyZTF6SXlmZUdETEJ4QjEzbXk0MC9T?=
+ =?big5?B?cjNyL2lMaEFOUkR5QS9FVCtSU1BkSjE4R2phaVJzNzl4bk9oKzMzVXFzRTNkbmNv?=
+ =?big5?B?V0lDQzZ1RU9nZVhWZFJmeTgxYUd2akR0L1oxVVB3dWN3SUNLUEUxbm43ejQzS3Rh?=
+ =?big5?B?NGJ1aENMeXlmQXpDRUlGa3lpcWl5RGwwT2RxOXlmUFdYMFBvaUh4aWFQdVR3ajZT?=
+ =?big5?B?SFhqOXR5REQwOWgweUU5QXpDNWFJSzZINDF5UGl1N3hMK29pSnl1SDdKWXJiYVAz?=
+ =?big5?B?L1NKamllQnNDcEpBZCsvYlJ6ano4WXJ1d3ByVGxjNVhRMWpma0J1cWpQd283NWxO?=
+ =?big5?B?UHpqb1g5U0ZVNGlYcCtGdlhVMVBUdjlFVkNEWDduZXMyL2pnTDBpUWN1WWNpRXBO?=
+ =?big5?B?blNaTUFjTXNnQ2pTeFp6WjFkdllORTdBZzdqdkhneWZLbWJvYW9PYmdNWm5pNzVW?=
+ =?big5?B?cmJ5YzNTRENyWjdtWkt5b2gvcnZxc0ZMbjhnb3M1QXZDNXJMSzZwMDJ1RnBoVm9V?=
+ =?big5?B?ajhDbEtiSC9PSm5sRjlEaTlnaTc4RVZ3TTVITWxPMXhWWDIxam9GOEhkZDZsMXZR?=
+ =?big5?B?d2Q1ejJhWmtnZW4yTk5ibWZBVjFjeUxCblFITFdad0xHZXArYWpoT1BCZXFZTUN5?=
+ =?big5?B?czJBY3RYMS9qWkE0WC9kTWVQcHV3SjZhbFdIcitCUTFBY1VZQXNGWGRXYjA3RXpU?=
+ =?big5?B?L1JOekVLeHYyeExjdmJtU005N09wT09ma0VXWkJCWkxUV0FodG5lZGgwVXQrcFNJ?=
+ =?big5?B?ZkpQYnQwNlNhOHE3Zm1kcFFSb3NVMjEydjNuU0VPeXVyVkNUeTR5MDBWUm9ZY0Jq?=
+ =?big5?B?cWIxVDlRd1pIQVVWOU5LalNrZmUyT2QwT2MrUDFKVUJDaUFTNVZjQTFJTE5DYTRL?=
+ =?big5?B?SGx2ajgzWHV5cTI0VGtHdzFNbS9EdE1Gd01yb3FzTlFlOThOVDdTemdHQmI5dXJt?=
+ =?big5?B?bTEwZnowalNSSmI4eU5IMDJwUW1rL0ViaEc5TTdkTE1UdDk0VjBqMGJQams3dW5T?=
+ =?big5?B?RnBCRjNBRFBKRkdtRktkL0xYQVYyYWZIR2pDMXQybHRFZGQvcXFDU0NUQnhyQXFy?=
+ =?big5?B?VnR0R1pkWC9NRUE3MGVaRjVIcmJqRDJtRVRmd3lqblBsc2lVaXBDbG9sZ001VE9m?=
+ =?big5?B?NWdBb29WWjBVQ0dKc2ozQUVNMlVJWGt0a1JObWRRcGY2WWpNeGxIOW41bnliazhw?=
+ =?big5?B?RDFIV0tnR3RtbVlsVjJxdU5PNjZBV1pQcW1GaUJBa0tNNnlFWWlWT09EblJpK0V1?=
+ =?big5?B?K3BNOVYrQnVmeFFMZmRPbG5DMlFqYUtyUHNSRnZRS3pFaDdMQzA0ZE1zbWZlS294?=
+ =?big5?B?Y04xRjBrZVZhWTYwTVo1ZXM0MGQzbWFaaXR4TURJZ1l4MEN6VnZyMUlRc01na1Fw?=
+ =?big5?B?UFhvekRnbVlFNTIwOU84VEgxbjRmRDlNYjN2VWw1RE52UzJ6dEwwRStYVkRINFF1?=
+ =?big5?B?Nlc1ZnRDQURhNDF0TlgvRGF0M1NEa0JaMHBJNFUraW1JTzVFU1lUN3Avc1FUZXd5?=
+ =?big5?B?bFZLWkNheFM0VWxrRk5FYnN6ZGJpTjNNR1gyVlhrT1NySTV0TG9QTkdremNWdjBL?=
+ =?big5?B?WUMzWnByMXo2ZlQ5NWRhaDJuSVhrLzRtaG50UVcrbUZUZVd2d3E1cEhRc0liWm9V?=
+ =?big5?B?RkNydW4ybTNUOG80S0hQR2YwRGE5eWdWdTFXN0hHTmpwNkJ0cTlXUXNKSWJmU0hp?=
+ =?big5?B?d3NXb1ZhYjZkdk9EK3JZdjJxc0FrVmluc3ZydTBvanQrOUdNd2k1cHdxcTdPUVBX?=
+ =?big5?Q?cUZHLvRnvYE=3D?=
 x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PSAPR06MB4949.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020)(38070700018);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?big5?B?MFpDcFljbEl4OHcyZ3NWNlBxY3hYeFAvQlJCTkYyVkFyeXVVbHdhWWJpRWh4aStT?=
- =?big5?B?ZEg3aHhiaGNhdE96QnNaU2ljTnhrSGtnaG0vN1BHTzhLNXE2VmorMVZ4cmhsR2Fz?=
- =?big5?B?dlRzdHFOajkzQWFHK2NiVUJqTlMwOVp6MGE2REYyL01EVDZWdk53Si9Oczd2djJv?=
- =?big5?B?RWhVTWhjMzNoRkQzOXlVbjZKZWxmby9CQVZhQWhVeTRJdEJyY0t1UDd4cTRzbHRk?=
- =?big5?B?djdqTWxaR3JPN1p3VitpWUI4VW5kck8vNW5EQ0tCbmltWG1WQSsvUEd6UE5qQlZ3?=
- =?big5?B?TGxYWm9JRWRMcFRvOVFOYWFOVE1Dc0xFb0hzY2NiOWNkK1VBNUt4d25BSTNmMnBJ?=
- =?big5?B?SElXdFNvakp6ako5cklMOEVVMmxNNVgrd08rZHBWS3RqQ3BKczhpOXBjdWszSFpj?=
- =?big5?B?aWlONDlDUnh2ZWNSQlNvcDY3MG8yUXUyMWQ1c1hVOTFzRUwrbWN4dVU1WE5xazVr?=
- =?big5?B?M2lwMGl6UDNFdHFSdVVKQnVrbnV1QzdZTCtEZXpseUExQVpkbTVVdThDV3FjSjdw?=
- =?big5?B?eU5PV1RLL1hNWXF1TWR0Qm5scEFtcHZPejNLRG0yV3JVVkpUYXd1UFVJS1VReUd6?=
- =?big5?B?T1liMHlYc1hSQkZscUtOdmJXV2trQ3dLeElCdjFnSjhpU1c5ZkpHdkxHUjM5ZHRW?=
- =?big5?B?bllhdHpicVM4RCtoaFZ2RWgyYVkzWTF1dGxNZzBHMGQyQ3F6ZmgxQ2VJNUdlYmIx?=
- =?big5?B?UnRDalg2L3g1NGNQbk5iOG5CdkJVVlNnaUdGK1l0b3I4aHFZYmVWR0E3WDhNcVVQ?=
- =?big5?B?KzNUbndRZUJkMzB0Ylo3dDd1RFVHNlVwSDNXQVludnV2NkVOeWE2TlFOSXJlcGJM?=
- =?big5?B?L1pRWjZtNlE5NmxXcU9ad0UyZUc2V2tvVnQ5UGJxbkZrd3AxR05vUklnbmZwaHNL?=
- =?big5?B?RUFEcUFLbmxTR3ErL3JVZHl1ZTF1M01ZUHZkWDhxd3ZwVStMNzJVZVNQdXcvd0Jo?=
- =?big5?B?WTJwcTVFRzlZV0J5c1dHc3hiZlBTOUd4MjNvdHM1K3lBbDRvcDVPMHNpVUkwa1p4?=
- =?big5?B?eVgxRFRrdWZHaUpUMU1QdDUvN2dob1gzMk5VS3IzbU5TcXBlZ2VtOURVdmpYVE41?=
- =?big5?B?STJmREZyeWxwaFZ4eTlOZDZCMEZqdUF5OG5zUjIvTmRGV281UjJ1ZVBRV1BPWDhj?=
- =?big5?B?SC83WjgyRi9SbVhWei8xY01VUHBteTNUelpTa2VDZDcrZkw5bTZZRW0zWkh1c3JM?=
- =?big5?B?ZDdtZEZJaWx6dHVOaExFWnN0ZzN3MngxN2MydWpDNjlsN05VdEFYcHMxaCtRSlcv?=
- =?big5?B?d2VYMGNwLzQ0RjVjYWY1TGo4KzNBcVk3VGhZQzBRNlg0YVRxU2hCY2JUVURMdGVh?=
- =?big5?B?Tm5wanBmMDQ5YUxLelh0TnRLckkrS09wcGpJRlE1RWVNaVFlNnpoVVdjQnByOVNi?=
- =?big5?B?ZDFMRFpNTmphczFiaVhJSzMwaUEyTmJkV2l3QXZrNyt1emgzZ2cwM3MvQk9oR3E4?=
- =?big5?B?Y1ZiYkxoUHQrQ01uTXMrUVcyVi9uZHRWMmo5cXZFUHNReEllblN6elhEMW5mMU5P?=
- =?big5?B?dDRZcGhZK3J6d1hNRVkyVkdlVS85dXozbWd1dTE3S3JpdVp1NytJeVFrY3hoRVBy?=
- =?big5?B?ajJDL3NUcDdJcklVdXV4RWF6cVBZQ0JUR1lScytpbkFNOHBLU25oL3pEdzN5N0Rh?=
- =?big5?B?L3dLeEpLcmwyQkNYall2NHF1V3pFMCtVUGV3WWNNOWE5T1VmMGFLMmloaGduM0Rh?=
- =?big5?B?dFZqWi9FSVVLK0o1ckdwbzlVTUZlYXRYMysxaUZRU0kyaVN6b1ZuU2plajFWTGRm?=
- =?big5?B?Ty83eGpiRDBFUmRaL3pWZTZibTBDb3JPcHhUK1F6N1Bza1poWkRpdnFMSHZNMzY3?=
- =?big5?B?OTFxQS9sOW5KcVpNcHZJUE1DN0ZiRDdHTy9HTWI5NFVWMUFrVWZCbGY0QVVucmlL?=
- =?big5?B?UFVHL1Q5UG9OV2Y1dUpaK3ZzSkdNdHNIMzg1eS9XVW92dEdldE5HcHZsTEFiVUFE?=
- =?big5?B?eTNFVFhuRlNSNUthRE0rbURPN1QvV2F2VkZ5b1lla2RybVQrNXl1dnk2NnE1NWgy?=
- =?big5?Q?kw1QKi/eDVFxpJHf?=
+x-ms-exchange-antispam-messagedata-0:  =?big5?B?cUx3MXVFNmZrRXlCclR2K0s0ZGFucmIzWnNiTUNqWU1OTi9wWDBIZlRGRXRNdy9L?=
+ =?big5?B?R2FYZStYY1lONStXNkYrdXRkRGZBeldYVzBiNlVaWmgzdnd2OFFoV3NEMW9aSGx4?=
+ =?big5?B?c3k2V1NXaWtqR2JmWWRuNHVoK0lCQWlLcFMxb3NRTW4rZDJvNFBXdkhVOXhyV2FO?=
+ =?big5?B?aW44Ujd1REc1WEhPZkwwQXJyVmxwWkRMNW1MWGlSRmRxVWttYVdEQzNxODBVZEdH?=
+ =?big5?B?blpURVBiZ0dpWU13cnU0QlhnOXhjcFhyejNwaWJyVlpCemw2dUtSeHFyamJwUnlx?=
+ =?big5?B?SkJ2S2p5TjVoa0dsY0J1U0dEZnJFU0l4TVB2cGFiVVVBbTdZS1VEaDlQZXZjL1k5?=
+ =?big5?B?dkoyVHRyVGFVMGdsQ0NJTjh6eWJPc2ZwTEFpcVBqQzdaUFllTm8vMnIwbnpkWlN6?=
+ =?big5?B?dFhpYkhvdWoxamVwNXZDNkd5K3A1Qmwxd2JGUUsyTUxWclB6dlpZekFyNGw5dTBI?=
+ =?big5?B?ZHBwSkp6dnRKZS9OZU5wS0tCcFNsSHZLRjgrMXNnOGV5aCtMVXduZVlhaS80eXRs?=
+ =?big5?B?Y2N4UGdlTTRYdnY3K05lNEYraDRJUlJBcFVtcDgzUzdmVjFhcVhBYlBHZm5OWXR0?=
+ =?big5?B?Qi9ZemxRTXovWTA0M25qWGRIMTNmUWJvdDZjOFJXZXF3ajhsTDZWaXV2dmIzcWYy?=
+ =?big5?B?NzdFYi9SanBTSXM2d295S3dOVFd5SzJBK1FEOWczdEJzb1lOSzYrZHMxelhZbUxJ?=
+ =?big5?B?ZmNxb2Vqa3FIYjVZeHIzY2w1QlMvN3lPM1AyREk3RG9UU2tlNHlFUkhPRzg2aTVT?=
+ =?big5?B?dUdoRklYRktjUFFWOHdpY2hBZzFoY3hUL2ZwaVVvMzNuOXFrTTk1KzRYcmRZL0NQ?=
+ =?big5?B?QzZxL0RZNkU4SnJtcEpEMGFqN2V4UnI0SHFvVk1BN1NvWVVEOTBneU03Vjg0SWE4?=
+ =?big5?B?aE5IZ0llSTJlMTkxMDZoRW1NemhaOWpESzFuS1N6bzAxc1dHUEpjbG1jOVFSSWk2?=
+ =?big5?B?SXlwWk9LRkhqS1c5dWFCZzJJSVpUR2dKNDFzdnlaNVZwMm5qZUpzdFg3MlVCN0JI?=
+ =?big5?B?WEhnV0JPbW5nUVUwaUtzM3V4eFRUWVU2Wm5mTkk4bHZnNzhvcE5MNXQzdFNqS0dl?=
+ =?big5?B?dHV4YXJ4MkhMRng0NlNHNXJwSFZzT3V3a0NWbEk3RDY0a2NKVmszM2tpcVZPeW1V?=
+ =?big5?B?dXp6anNLMVczTzhMTVJhQm14OGlNSFlmTjluWGN5YTVNNkZYZXZiY3FCSkhTanRa?=
+ =?big5?B?M0FjTlVoQkVpTnY2SnRrTnoyd0lZaDU4OXNxcTcxQ0psNlFITWdIeGh4S1JVYzBy?=
+ =?big5?B?R0k5ZmhwdzJiWE11cWlVeU13NXdpOTFrVVhuWWFUWjdoTHZDa3FoZmFSR2pTaXNZ?=
+ =?big5?B?UWlnWW45SkpFVkt0NUZ2c1lHdDdFU1JrTmNYVlk1Q0JqOXBJY29ScWdPbEhiYzlR?=
+ =?big5?B?OXVBd1pzWE5ZTndmaGQxRXZYa2pySjNYdUFGNjlOekJoOTUvS0RaZ1JpeHhhU0VQ?=
+ =?big5?B?a3FCamg5UERGdkt3VGZrekNLbTBPTG5wWFRpVkdUVHhCMy85NVU5MmNtSEZCOXR1?=
+ =?big5?B?azFkMFpOeTlPS09Xdm9lam1LVWVmN2lqSmhsWitsSHo0VUxMSDR1YVFFaUxUeElK?=
+ =?big5?B?TzZzMTRUSkZUZ3ZMNUh3dU1IZDFJZjlVWVdQN0dzWEYwT2FLOG5CZ1lOMFd0bjhu?=
+ =?big5?B?OWNwYWNwakh4UDVocVJlQ2t0UU1qVEYxYjRKbnNtY1c4VmlsUjZsYUZBR3FkVlMv?=
+ =?big5?B?MXdacitkZk1ZdDhXdzFuemFWcDdtZUtQcHlIeUw2SEFpZDN3U1FXQVQrZFQrc3ZT?=
+ =?big5?B?ekp3Um1DQklTeWNsWmh3V1lVdkVFNVJFWkY0RjlMZUc0dEtHVncvWXgxcTFuVDZw?=
+ =?big5?B?b0R5NGZqK3d1RFJtMUw0VTIwVVlXQVRYVUhtUmd1OWptSTNHamRreEFWeEhDeDVu?=
+ =?big5?B?L3pncDc2YmFhbktKeWVQS0o3YlZWR2hMT0h1NTRuUExsNHVlKzBNU3RBUUZVbmhU?=
+ =?big5?B?aTVHZkhTS0QwdXp5azJDT0VkMWJvcE1uaXAwMFpqcm44eDNrOVpuTTFrb0gydFVY?=
+ =?big5?Q?IaEeMh/b4UB5Dsmi?=
 Content-Type: multipart/alternative;
-	boundary="_000_PSAPR06MB4949A015CE90F8FA538B106A89802PSAPR06MB4949apcp_"
+	boundary="_000_PSAPR06MB4949967385040FAC98C809D789802PSAPR06MB4949apcp_"
 MIME-Version: 1.0
 X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4949.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08789be7-c7db-4091-fe41-08dcbcee2e6d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 05:50:34.6759
+X-MS-Exchange-CrossTenant-Network-Message-Id: a320b15f-6f85-47d7-7740-08dcbcee3115
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 05:50:39.1225
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yjqwetVeUx+EUB+CNyASv0DtVaFIfbzN4G9R6dYvhNUE86HpFj4i4pxasq/E8BrpWEt/CkXOFXB6U7mpdIO1pJDKO3hmtd4cDUvyJkQnXII=
+X-MS-Exchange-CrossTenant-userprincipalname: syszVaOUw/S/wCrlkCsTZN8VMbfREQcFPMwty+j8h1dBd+vVaz8dMXGeJxA0rtyUQAnXhjlnO5mTLfuSPqHiH8Jz/US11K7j4eUzgg9vecQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB7000
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -186,55 +187,80 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---_000_PSAPR06MB4949A015CE90F8FA538B106A89802PSAPR06MB4949apcp_
+--_000_PSAPR06MB4949967385040FAC98C809D789802PSAPR06MB4949apcp_
 Content-Type: text/plain; charset="big5"
 Content-Transfer-Encoding: base64
 
-SGkgS3J6aywNCg0KPldoeT8NCj4NCj4+IC0tLQ0KPj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sIHwgMSArDQo+PiAgMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspDQpBZ3JlZSwgSSB3aWxsIHJlbW92ZSBpdC4NCg0KLS0NCkJlc3Qg
-UmVnYXJkcywNCktldmluLiBDaGVuDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-DQqxSKXzqsw6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4NCrFIpfOk6bTB
-OiAyMDI0pn43pOsyNqTpIKRVpMggMDc6MTQNCqaspfOqzDogS2V2aW4gQ2hlbiA8a2V2aW5fY2hl
-bkBhc3BlZWR0ZWNoLmNvbT47IHJvYmhAa2VybmVsLm9yZyA8cm9iaEBrZXJuZWwub3JnPjsga3J6
-aytkdEBrZXJuZWwub3JnIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBjb25vcitkdEBrZXJuZWwub3Jn
-IDxjb25vcitkdEBrZXJuZWwub3JnPjsgam9lbEBqbXMuaWQuYXUgPGpvZWxAam1zLmlkLmF1Pjsg
-YW5kcmV3QGNvZGVjb25zdHJ1Y3QuY29tLmF1IDxhbmRyZXdAY29kZWNvbnN0cnVjdC5jb20uYXU+
-OyBsZWVAa2VybmVsLm9yZyA8bGVlQGtlcm5lbC5vcmc+OyBjYXRhbGluLm1hcmluYXNAYXJtLmNv
-bSA8Y2F0YWxpbi5tYXJpbmFzQGFybS5jb20+OyB3aWxsQGtlcm5lbC5vcmcgPHdpbGxAa2VybmVs
-Lm9yZz47IGFybmRAYXJuZGIuZGUgPGFybmRAYXJuZGIuZGU+OyBvbG9mQGxpeG9tLm5ldCA8b2xv
-ZkBsaXhvbS5uZXQ+OyBzb2NAa2VybmVsLm9yZyA8c29jQGtlcm5lbC5vcmc+OyBtdHVycXVldHRl
-QGJheWxpYnJlLmNvbSA8bXR1cnF1ZXR0ZUBiYXlsaWJyZS5jb20+OyBzYm95ZEBrZXJuZWwub3Jn
-IDxzYm95ZEBrZXJuZWwub3JnPjsgcC56YWJlbEBwZW5ndXRyb25peC5kZSA8cC56YWJlbEBwZW5n
-dXRyb25peC5kZT47IHF1aWNfYmpvcmFuZGVAcXVpY2luYy5jb20gPHF1aWNfYmpvcmFuZGVAcXVp
-Y2luYy5jb20+OyBnZWVydCtyZW5lc2FzQGdsaWRlci5iZSA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIu
-YmU+OyBkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmcgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJv
-Lm9yZz47IHNoYXduZ3VvQGtlcm5lbC5vcmcgPHNoYXduZ3VvQGtlcm5lbC5vcmc+OyBuZWlsLmFy
-bXN0cm9uZ0BsaW5hcm8ub3JnIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPjsgbS5zenlwcm93
-c2tpQHNhbXN1bmcuY29tIDxtLnN6eXByb3dza2lAc2Ftc3VuZy5jb20+OyBuZnJhcHJhZG9AY29s
-bGFib3JhLmNvbSA8bmZyYXByYWRvQGNvbGxhYm9yYS5jb20+OyB1LWt1bWFyMUB0aS5jb20gPHUt
-a3VtYXIxQHRpLmNvbT47IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnIDxkZXZpY2V0cmVlQHZn
-ZXIua2VybmVsLm9yZz47IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZyA8bGlu
-dXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsgbGludXgtYXNwZWVkQGxpc3RzLm96
-bGFicy5vcmcgPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPjsgbGludXgta2VybmVsQHZn
-ZXIua2VybmVsLm9yZyA8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz47IGxpbnV4LWNsa0B2
-Z2VyLmtlcm5lbC5vcmcgPGxpbnV4LWNsa0B2Z2VyLmtlcm5lbC5vcmc+DQqlRKauOiBSZTogW1BB
-VENIIHYxIDA1LzEwXSBkdC1iaW5kaW5nczogYXJtOiBhc3BlZWQ6IEFkZCBtYWludGFpbmVyDQoN
-Ck9uIDI2LzA3LzIwMjQgMTM6MDMsIEtldmluIENoZW4gd3JvdGU6DQoNCldoeT8NCg0KPiAtLS0N
-Cj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55
-YW1sIHwgMSArDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCkJlc3QgcmVnYXJk
-cywNCktyenlzenRvZg0KDQoqKioqKioqKioqKioqIEVtYWlsIENvbmZpZGVudGlhbGl0eSBOb3Rp
-Y2UgKioqKioqKioqKioqKioqKioqKioNCqdLs2TBbqn6Og0KpburSKXzKKnOqOSq/qXzKaVpr+Cl
-Xad0vvexS7jqsFShQajDqPyqa6vfq0/FQKFDpnAgpXi63atEq/ypd6Snpqyl86rMoUG90KVIuXGk
-bLZspfOzcaq+pbu5caRstmyl86SntW+wZarMLCCow73Qpd+nWadSsKOlu7lxpGy2bKXzpM6o5Kr+
-pfOpTb5Qt7Sp0qazvcamTKXzoUPBwsHCsXqquqZYp0AhDQoNCkRJU0NMQUlNRVI6DQpUaGlzIG1l
-c3NhZ2UgKGFuZCBhbnkgYXR0YWNobWVudHMpIG1heSBjb250YWluIGxlZ2FsbHkgcHJpdmlsZWdl
-ZCBhbmQvb3Igb3RoZXIgY29uZmlkZW50aWFsIGluZm9ybWF0aW9uLiBJZiB5b3UgaGF2ZSByZWNl
-aXZlZCBpdCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHJlcGx5IGUtbWFp
-bCBhbmQgaW1tZWRpYXRlbHkgZGVsZXRlIHRoZSBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyB3
-aXRob3V0IGNvcHlpbmcgb3IgZGlzY2xvc2luZyB0aGUgY29udGVudHMuIFRoYW5rIHlvdS4NCg==
+SGkgS3J6aywNCg0KPj4gLS0tDQo+PiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2FybS9hc3BlZWQvYXNwZWVkLnlhbWwgfCA1ICsrKysrDQo+PiAgMSBmaWxlIGNoYW5nZWQsIDUg
+aW5zZXJ0aW9ucygrKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvYXJtL2FzcGVlZC9hc3BlZWQueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sDQo+PiBpbmRleCA3MWMzMWMwOGE4
+YWQuLmIyMTU1MTgxN2Y0NCAxMDA2NDQNCj4+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sDQo+PiArKysgYi9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2FzcGVlZC9hc3BlZWQueWFtbA0KPj4gQEAgLTk5LDQg
+Kzk5LDkgQEAgcHJvcGVydGllczoNCj4+ICAgICAgICAgICAgICAgIC0gdWZpc3BhY2UsbmNwbGl0
+ZS1ibWMNCj4+ICAgICAgICAgICAgLSBjb25zdDogYXNwZWVkLGFzdDI2MDANCj4+DQo+PiArICAg
+ICAgLSBkZXNjcmlwdGlvbjogQVNUMjcwMCBiYXNlZCBib2FyZHMNCj4+ICsgICAgICAgIGl0ZW1z
+Og0KPj4gKyAgICAgICAgICAtIGVudW06DQo+PiArICAgICAgICAgICAgICAtIGFzcGVlZCxhc3Qy
+NzAwLWV2Yg0KPg0KPk5BSywgdGhpcyBjYW5ub3QgYmUgYWxvbmUuIExvb2sgYXQgYWxsIG90aGVy
+IGV4YW1wbGVzLiBXaHkgYXJlIHlvdSBkb2luZw0KPnRoaW5ncyBkaWZmZXJlbnRseT8NCkRpc2Fn
+cmVlLCBhc3QyNzAwLWV2YiBpcyA3dGggZ2VuZXJhdGlvbiBJQyBpbiBBU1BFRUQuIEl0IG5vdCBp
+biB0aGUgc3ViLXNldCBvZiBBU1QyNDAwL0FTVDI1MDAvQVNUMjYwMCBiYXNlZCBib2FyZHMuDQoN
+Ci0tDQpCZXN0IFJlZ2FyZHMsDQpLZXZpbi4gQ2hlbg0KDQoNCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fDQqxSKXzqsw6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9y
+Zz4NCrFIpfOk6bTBOiAyMDI0pn43pOsyNqTpIKRVpMggMDc6MTUNCqaspfOqzDogS2V2aW4gQ2hl
+biA8a2V2aW5fY2hlbkBhc3BlZWR0ZWNoLmNvbT47IHJvYmhAa2VybmVsLm9yZyA8cm9iaEBrZXJu
+ZWwub3JnPjsga3J6aytkdEBrZXJuZWwub3JnIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBjb25vcitk
+dEBrZXJuZWwub3JnIDxjb25vcitkdEBrZXJuZWwub3JnPjsgam9lbEBqbXMuaWQuYXUgPGpvZWxA
+am1zLmlkLmF1PjsgYW5kcmV3QGNvZGVjb25zdHJ1Y3QuY29tLmF1IDxhbmRyZXdAY29kZWNvbnN0
+cnVjdC5jb20uYXU+OyBsZWVAa2VybmVsLm9yZyA8bGVlQGtlcm5lbC5vcmc+OyBjYXRhbGluLm1h
+cmluYXNAYXJtLmNvbSA8Y2F0YWxpbi5tYXJpbmFzQGFybS5jb20+OyB3aWxsQGtlcm5lbC5vcmcg
+PHdpbGxAa2VybmVsLm9yZz47IGFybmRAYXJuZGIuZGUgPGFybmRAYXJuZGIuZGU+OyBvbG9mQGxp
+eG9tLm5ldCA8b2xvZkBsaXhvbS5uZXQ+OyBzb2NAa2VybmVsLm9yZyA8c29jQGtlcm5lbC5vcmc+
+OyBtdHVycXVldHRlQGJheWxpYnJlLmNvbSA8bXR1cnF1ZXR0ZUBiYXlsaWJyZS5jb20+OyBzYm95
+ZEBrZXJuZWwub3JnIDxzYm95ZEBrZXJuZWwub3JnPjsgcC56YWJlbEBwZW5ndXRyb25peC5kZSA8
+cC56YWJlbEBwZW5ndXRyb25peC5kZT47IHF1aWNfYmpvcmFuZGVAcXVpY2luYy5jb20gPHF1aWNf
+YmpvcmFuZGVAcXVpY2luYy5jb20+OyBnZWVydCtyZW5lc2FzQGdsaWRlci5iZSA8Z2VlcnQrcmVu
+ZXNhc0BnbGlkZXIuYmU+OyBkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmcgPGRtaXRyeS5iYXJ5
+c2hrb3ZAbGluYXJvLm9yZz47IHNoYXduZ3VvQGtlcm5lbC5vcmcgPHNoYXduZ3VvQGtlcm5lbC5v
+cmc+OyBuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3Jn
+PjsgbS5zenlwcm93c2tpQHNhbXN1bmcuY29tIDxtLnN6eXByb3dza2lAc2Ftc3VuZy5jb20+OyBu
+ZnJhcHJhZG9AY29sbGFib3JhLmNvbSA8bmZyYXByYWRvQGNvbGxhYm9yYS5jb20+OyB1LWt1bWFy
+MUB0aS5jb20gPHUta3VtYXIxQHRpLmNvbT47IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnIDxk
+ZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZz47IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFk
+ZWFkLm9yZyA8bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsgbGludXgtYXNw
+ZWVkQGxpc3RzLm96bGFicy5vcmcgPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPjsgbGlu
+dXgta2VybmVsQHZnZXIua2VybmVsLm9yZyA8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz47
+IGxpbnV4LWNsa0B2Z2VyLmtlcm5lbC5vcmcgPGxpbnV4LWNsa0B2Z2VyLmtlcm5lbC5vcmc+DQql
+RKauOiBSZTogW1BBVENIIHYxIDA2LzEwXSBkdC1iaW5kaW5nczogYXJtOiBhc3BlZWQ6IEFkZCBh
+c3BlZWQsYXN0MjcwMC1ldmIgY29tcGF0aWJsZSBzdHJpbmcNCg0KT24gMjYvMDcvMjAyNCAxMzow
+MywgS2V2aW4gQ2hlbiB3cm90ZToNCj4gLS0tDQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvYXJtL2FzcGVlZC9hc3BlZWQueWFtbCB8IDUgKysrKysNCj4gIDEgZmlsZSBjaGFu
+Z2VkLCA1IGluc2VydGlvbnMoKykNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sIGIvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hc3BlZWQvYXNwZWVkLnlhbWwNCj4gaW5kZXggNzFjMzFj
+MDhhOGFkLi5iMjE1NTE4MTdmNDQgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sDQo+ICsrKyBiL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYXNwZWVkL2FzcGVlZC55YW1sDQo+IEBAIC05OSw0
+ICs5OSw5IEBAIHByb3BlcnRpZXM6DQo+ICAgICAgICAgICAgICAgIC0gdWZpc3BhY2UsbmNwbGl0
+ZS1ibWMNCj4gICAgICAgICAgICAtIGNvbnN0OiBhc3BlZWQsYXN0MjYwMA0KPg0KPiArICAgICAg
+LSBkZXNjcmlwdGlvbjogQVNUMjcwMCBiYXNlZCBib2FyZHMNCj4gKyAgICAgICAgaXRlbXM6DQo+
+ICsgICAgICAgICAgLSBlbnVtOg0KPiArICAgICAgICAgICAgICAtIGFzcGVlZCxhc3QyNzAwLWV2
+Yg0KDQpOQUssIHRoaXMgY2Fubm90IGJlIGFsb25lLiBMb29rIGF0IGFsbCBvdGhlciBleGFtcGxl
+cy4gV2h5IGFyZSB5b3UgZG9pbmcNCnRoaW5ncyBkaWZmZXJlbnRseT8NCg0KQmVzdCByZWdhcmRz
+LA0KS3J6eXN6dG9mDQoNCioqKioqKioqKioqKiogRW1haWwgQ29uZmlkZW50aWFsaXR5IE5vdGlj
+ZSAqKioqKioqKioqKioqKioqKioqKg0Kp0uzZMFuqfo6DQqlu6tIpfMoqc6o5Kr+pfMppWmv4KVd
+p3S+97FLuOqwVKFBqMOo/Kprq9+rT8VAoUOmcCCleLrdq0Sr/Kl3pKemrKXzqsyhQb3QpUi5caRs
+tmyl87Nxqr6lu7lxpGy2bKXzpKe1b7BlqswsIKjDvdCl36dZp1Kwo6W7uXGkbLZspfOkzqjkqv6l
+86lNvlC3tKnSprO9xqZMpfOhQ8HCwcKxeqq6plinQCENCg0KRElTQ0xBSU1FUjoNClRoaXMgbWVz
+c2FnZSAoYW5kIGFueSBhdHRhY2htZW50cykgbWF5IGNvbnRhaW4gbGVnYWxseSBwcml2aWxlZ2Vk
+IGFuZC9vciBvdGhlciBjb25maWRlbnRpYWwgaW5mb3JtYXRpb24uIElmIHlvdSBoYXZlIHJlY2Vp
+dmVkIGl0IGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgYnkgcmVwbHkgZS1tYWls
+IGFuZCBpbW1lZGlhdGVseSBkZWxldGUgdGhlIGUtbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRzIHdp
+dGhvdXQgY29weWluZyBvciBkaXNjbG9zaW5nIHRoZSBjb250ZW50cy4gVGhhbmsgeW91Lg0K
 
---_000_PSAPR06MB4949A015CE90F8FA538B106A89802PSAPR06MB4949apcp_
+--_000_PSAPR06MB4949967385040FAC98C809D789802PSAPR06MB4949apcp_
 Content-Type: text/html; charset="big5"
 Content-Transfer-Encoding: quoted-printable
 
@@ -245,37 +271,87 @@ Content-Transfer-Encoding: quoted-printable
 ttom:0;} </style>
 </head>
 <body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
+<div class=3D"elementToProof" style=3D"margin: 0px; font-family: Aptos, Apt=
+os_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-=
+size: 11pt; color: rgb(0, 0, 0);">
 Hi Krzk,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
+<div style=3D"margin: 0px; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MS=
+FontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0,=
+ 0, 0);">
 <br>
 </div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-&gt;Why?</div>
+<div class=3D"elementToProof" style=3D"margin: 0px; font-family: Aptos, Apt=
+os_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-=
+size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; ---</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; &nbsp;Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 5=
+ +++++</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; &nbsp;1 file changed, 5 insertions(+)</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.y=
+aml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; index 71c31c08a8ad..b21551817f44 100644</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml</di=
+v>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml</di=
+v>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; @@ -99,4 +99,9 @@ properties:</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- ufispace,=
+ncplite-bmc</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- const: aspeed,ast2600</=
+div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp;- description: AST2700 based boards</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp;items:</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- enum:</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;- aspeed,ast2700=
+-evb</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 &gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; ---</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1=
- +</div>
+&gt;NAK, this cannot be alone. Look at all other examples. Why are you doin=
+g</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;1 file changed, 1 insertion(+)</div>
+&gt;things differently?</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
-Agree, I will remove it.</div>
+Disagree, ast2700-evb is 7<sup>th</sup>&nbsp;generation IC in ASPEED. It no=
+t in the sub-set of AST2400/AST2500/AST2600 based boards.</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
@@ -293,6 +369,11 @@ Best Regards,</div>
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
 Kevin. Chen</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
 <div id=3D"appendonsend"></div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
@@ -303,7 +384,7 @@ Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 sans-serif; font-size: 11pt; color: rgb(0, 0, 0);"><b>=B1H=A5=F3=AA=CC:</b>=
 &nbsp;Krzysztof Kozlowski &lt;krzk@kernel.org&gt;<br>
 <b>=B1H=A5=F3=A4=E9=B4=C1:</b>&nbsp;2024=A6~7=A4=EB26=A4=E9 =A4U=A4=C8 07:1=
-4<br>
+5<br>
 <b>=A6=AC=A5=F3=AA=CC:</b>&nbsp;Kevin Chen &lt;kevin_chen@aspeedtech.com&gt=
 ;; robh@kernel.org &lt;robh@kernel.org&gt;; krzk+dt@kernel.org &lt;krzk+dt@=
 kernel.org&gt;; conor+dt@kernel.org &lt;conor+dt@kernel.org&gt;; joel@jms.i=
@@ -328,18 +409,38 @@ l.org&gt;;
 org&gt;; linux-aspeed@lists.ozlabs.org &lt;linux-aspeed@lists.ozlabs.org&gt=
 ;; linux-kernel@vger.kernel.org &lt;linux-kernel@vger.kernel.org&gt;; linux=
 -clk@vger.kernel.org &lt;linux-clk@vger.kernel.org&gt;<br>
-<b>=A5D=A6=AE:</b>&nbsp;Re: [PATCH v1 05/10] dt-bindings: arm: aspeed: Add =
-maintainer</span>
+<b>=A5D=A6=AE:</b>&nbsp;Re: [PATCH v1 06/10] dt-bindings: arm: aspeed: Add =
+aspeed,ast2700-evb compatible string</span>
 <div>&nbsp;</div>
 </div>
 <div style=3D"font-size: 11pt;">On 26/07/2024 13:03, Kevin Chen wrote:<br>
-<br>
-Why?<br>
-<br>
 &gt; ---<br>
-&gt;&nbsp; Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +<b=
-r>
-&gt;&nbsp; 1 file changed, 1 insertion(+)<br>
+&gt;&nbsp; Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 5 +++=
+++<br>
+&gt;&nbsp; 1 file changed, 5 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml =
+b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml<br>
+&gt; index 71c31c08a8ad..b21551817f44 100644<br>
+&gt; --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml<br>
+&gt; +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml<br>
+&gt; @@ -99,4 +99,9 @@ properties:<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; - ufispace,ncplite-bmc<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - co=
+nst: aspeed,ast2600<br>
+&gt;&nbsp;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - description: AST2700 based boards<br=
+>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; items:<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - enum:<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; - aspeed,ast2700-evb<br>
+<br>
+NAK, this cannot be alone. Look at all other examples. Why are you doing<br=
+>
+things differently?<br>
+<br>
 Best regards,<br>
 Krzysztof<br>
 <br>
@@ -362,4 +463,4 @@ achments without copying or disclosing
 </body>
 </html>
 
---_000_PSAPR06MB4949A015CE90F8FA538B106A89802PSAPR06MB4949apcp_--
+--_000_PSAPR06MB4949967385040FAC98C809D789802PSAPR06MB4949apcp_--
