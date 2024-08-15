@@ -2,82 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A5B957A13
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2D6957A12
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 01:59:31 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqL72sCnz7BYR
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnqL66KQgz7BQW
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 09:58:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=GGZU7a3R;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=VTpZ/ow9;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:2011::700; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20700.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::700])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::702; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20702.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::702])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkvPP0x10z2yWr
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WkvPP1ZFDz2yXs
 	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2024 15:51:05 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=It71i06hSHiLl5PdZYGNhmH3Zwi2+O+o43gsWgPd6a91mOH1SK/p0hE5TpR1A/sydgbD9gjbZT6lNj0EJkJKiNdPIOiIU1RxB9MMKUbMpk0gYPAfVJqqrESS7jDEDNliDues75Ih98zDOFCsC30qmMsiDfzcz9NfD20w0//fkbv7i5N8swXjsaVPXXl1IrIQySLXEllWN93JvFytzu/xDPbvmLZoCehtOzinqeqR4+i2QdgWTmDQtLtklwD/HfErtn532STueyAP34+p8zpDT8+h5ZCrrSd9t4y+FJeIQtPzW418fh56b2S5+ybphTihkOYLo9YnL45W5+mcUuthrQ==
+ b=ioKpuX8M9UXnKgYaPk8AmOknFt+fCOBuDgw9aQaLFNV5jPEF81F7aLegCUGcKmjLG/g4VVIiEwkE97Hmf1CwaW+B2zSJtWloQ0FacD6mbzWNAqnJDRqmc1pAzVib+ZcrD1xtn53oIyZtDLMPxfs7po5/sQGaVuiSpqKKgQFSJ0mFsWJOvwcThMWCT3Fsn9Iq3OzPZ6eQ2kamq1dh3SeID5M5VOwYHHMLm5WT+xT3ybLdK4pEeTV5gqe5GSPbQhfgTWdVOPEujfekqMN/bsY6r/aYg/Etd3KelrF4+KP1rchtm96EIJQ06FBPOzpJa5u0652jWJ9OirmcN0pEuejvVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hWm3hrqQI7Ly5Yw5VwvfD6jRkaOWb631v+a7PeRHgTQ=;
- b=SQyeCzb51hm+2N8E6wtLFPWEZJWuuzSbunZntVSkMhEYkIgazoCiq6e6HSTwUC3dX9+bQLVZDxZ69mk29I6CqsxWuuGY09BReBuHAG05FaCmqy6qdcK0dcijQepNeY8Z5pRGVOmakBrXNXymhtDTKAI2KrsvQY6I+4k/ToYI3+nENdUqcG1J73A94UFd8dBeEOYOnlwAwsREkTzwEBnNbLC4AinSHufE4+k6uPPa1OlyD+8p0pAdU+PLFEYLV5VvsTfFpXO1Z8K6/9RgoxMsIOIJckRWmTKRYNVagxKC1/r2hW8KIWPy8Yxzluyg7RJw6XBIP2ApmVZUrEIRreTWAA==
+ bh=NgwYDLchgX8aCmA6+5cU3KxlOzhUIMUzZmHSorKYGjM=;
+ b=bv4sCyoUV4XJwmLc/r/bQkUTJXJ3fyxLbYfZ8wRHtVQZIU46WBduOv/eRwZ6AvR9cbbUSwVaRL0QgH8U10b3ke0bbJ3zGOFjT13EUT2xG8NmRsttHRA4e35q+XWo1nOk3tkr249SiGuftAnwZX9RByNMXoIKTjzUruOCJz+B98VW1VBAKTtLT38/6lXjTQzDEWNSxAyXxBc902Q+iD1oVOb7Bn+ADJQOZI08ZPTFh0OsZ6vb3yfRrQ44d42RLM/8X4d0ojp9saZwdwbSHFCwqNwCqEJBR4Enu0faItPjjtWOyJ36JIYn/9O5tO/mWwKBk3nFZQrXAV0tNQhncNnUfw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
  header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hWm3hrqQI7Ly5Yw5VwvfD6jRkaOWb631v+a7PeRHgTQ=;
- b=GGZU7a3RvMAWnEMD0klUqVUZsKAJ8f+PnIPgIHS0GqOW0kW4NuHX7nJpbuLTJk1iYQneaOd8MBN3Toe2f7ETq6TQzX0nH5gyiO//oC+JEKGyY5+QxruAMPOvMG8Uo0VaNb2qA/1weVTiVgV8DiPu3a4BhIH26feHMJbPdqABh1ePfw/ceeaWv1DLJ6AC9V6ZkvhlXt5iwdnhp/V1Yx639uUbtg/0WbJKx3j0jLLhFeJkxU7B/IH0OHr6FBUcz/HlMWnlOK1SGud32VKmOqKYPFkixclzHAI3vNkpkF7nKmN1i1SNpNVcDWWYNHSD1/cMPVgcRAOmHTSFR1T6tV4ptQ==
+ bh=NgwYDLchgX8aCmA6+5cU3KxlOzhUIMUzZmHSorKYGjM=;
+ b=VTpZ/ow97SJ6EpEjCqp+1dVtQnx16d8LLZ7CxA3dvhvCic+WOUiAynGYc95iMZRorQn6PCrWPX3cw4a1C5BJufI02CWwHPI5fDSwLnwV0a0NxwNfjtF/TSvCgx48wreL2SLshevCcLXL/J4S7xve/4vj76d86jBve0TRCEZBoAM+83PK9QXx6T1FeoNrowZV6JvO/Jjo9lfWsvNPQi5WF37TJMa4C+DMlq75LZZNdRT5yQUntvMVLmUL7TiTi3X4mWDsqlXAhJXMciuiUrHOATadO6RhRjfJyCC9BU2QtJ9m2dc3SAC1Bc25qvyod5Tq+CzZqluryPZSczjLuiYbcA==
 Received: from PSAPR06MB4949.apcprd06.prod.outlook.com (2603:1096:301:ad::9)
- by TYZPR06MB5782.apcprd06.prod.outlook.com (2603:1096:400:26a::12) with
+ by SEYPR06MB7000.apcprd06.prod.outlook.com (2603:1096:101:1e3::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.16; Thu, 15 Aug
- 2024 05:50:44 +0000
+ 2024 05:50:50 +0000
 Received: from PSAPR06MB4949.apcprd06.prod.outlook.com
  ([fe80::7bdd:639a:6b94:37bf]) by PSAPR06MB4949.apcprd06.prod.outlook.com
  ([fe80::7bdd:639a:6b94:37bf%7]) with mapi id 15.20.7875.016; Thu, 15 Aug 2024
- 05:50:44 +0000
+ 05:50:50 +0000
 From: Kevin Chen <kevin_chen@aspeedtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "robh@kernel.org"
-	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "joel@jms.id.au"
-	<joel@jms.id.au>, "andrew@codeconstruct.com.au"
-	<andrew@codeconstruct.com.au>, "lee@kernel.org" <lee@kernel.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
-	<will@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>, "olof@lixom.net"
-	<olof@lixom.net>, "soc@kernel.org" <soc@kernel.org>,
-	"mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
-	<sboyd@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-	"quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
-	"geert+renesas@glider.be" <geert+renesas@glider.be>,
-	"dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-	"shawnguo@kernel.org" <shawnguo@kernel.org>, "neil.armstrong@linaro.org"
-	<neil.armstrong@linaro.org>, "m.szyprowski@samsung.com"
-	<m.szyprowski@samsung.com>, "nfraprado@collabora.com"
-	<nfraprado@collabora.com>, "u-kumar1@ti.com" <u-kumar1@ti.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>
-Subject:  =?big5?B?pl7C0DogW1BBVENIIHYxIDA4LzEwXSBhcm02NDogZHRzOiBhc3BlZWQ6IEFkZCBp?=
- =?big5?Q?nitial_AST27XX_device_tree?=
-Thread-Topic: [PATCH v1 08/10] arm64: dts: aspeed: Add initial AST27XX device
- tree
-Thread-Index: AQHa30uP3XAu0OFrb0ehga5NxGtcErII3N4AgB70k2s=
-Date: Thu, 15 Aug 2024 05:50:44 +0000
-Message-ID:  <PSAPR06MB4949EC0D0E0DA16F50BBF40489802@PSAPR06MB4949.apcprd06.prod.outlook.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject:  =?big5?B?pl7C0DogW1BBVENIIHYxIDAwLzEwXSBJbnRyb2R1Y2UgQVNQRUVEIEFTVDI3WFgg?=
+ =?big5?Q?BMC_SoC?=
+Thread-Topic: [PATCH v1 00/10] Introduce ASPEED AST27XX BMC SoC
+Thread-Index: AQHa30uF0np0rPVCvEWxq1tD4p2I8LII+5GAgAAGyICAHtD9Rg==
+Date: Thu, 15 Aug 2024 05:50:50 +0000
+Message-ID:  <PSAPR06MB4949A360F5C5EFDF87DF741489802@PSAPR06MB4949.apcprd06.prod.outlook.com>
 References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
- <20240726110355.2181563-9-kevin_chen@aspeedtech.com>
- <b6be1531-d8e2-44d1-a81a-6db8f9ae4ad4@kernel.org>
-In-Reply-To: <b6be1531-d8e2-44d1-a81a-6db8f9ae4ad4@kernel.org>
+ <172199921352.1507193.4411331020670815695.robh@kernel.org>
+ <241ceb9b-b29f-41fd-8987-2feba2e5e08e@kernel.org>
+In-Reply-To: <241ceb9b-b29f-41fd-8987-2feba2e5e08e@kernel.org>
 Accept-Language: zh-TW, en-US
 Content-Language: zh-TW
 X-MS-Has-Attach: 
@@ -86,92 +63,91 @@ msip_labels:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=aspeedtech.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PSAPR06MB4949:EE_|TYZPR06MB5782:EE_
-x-ms-office365-filtering-correlation-id: 625dd33d-0a41-404b-050f-08dcbcee342d
+x-ms-traffictypediagnostic: PSAPR06MB4949:EE_|SEYPR06MB7000:EE_
+x-ms-office365-filtering-correlation-id: 52f60827-45e2-4b2f-7a75-08dcbcee37ad
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230040|1800799024|366016|7416014|376014|921020|38070700018;
-x-microsoft-antispam-message-info:  =?big5?B?TW9Ec1A5Mi92bUtoN2lZV29JMGVVNG5iam1ZTUFtTnhYTnFsQW5BOVAySDBwV2lK?=
- =?big5?B?NUkyMHJkbWZKVy82dWJYTEdlc1JhSHVNWFdVbDI2eUhlN1k2UzBDOWRKMnJLMEtG?=
- =?big5?B?Y3BKYTVFWmQ2REtxS09QZnhodTRlU1VOdTN1YjVpMDJlZUp6Rk9ZM1MvelRWT2Jk?=
- =?big5?B?NktTSGNaYUpXaENDYXBxSkp1dUloWTQvMWpqM0MvY1FRN3dZSDVjdVNUNzZxaUc2?=
- =?big5?B?TFBFdjRJaXVTQ0w3R3E2VUNSeUNXUU9hd3RJdXVncnozUVR5emorMC9xOTY1RlZs?=
- =?big5?B?Q0lkVWx6MnVrb1hWZC9oakQvakdveTZOZTJNMnN3N1NsekNxaCtxT0x3ai9zS3dO?=
- =?big5?B?eGU2MUhPakRrTDV2bnZBYnJ3YzN6ZWRGbnVhdkthTjMwZlNiOG5DaUFuV2ZTY2U1?=
- =?big5?B?Rm9FVTBXL2FUaXpvSmIzU3BMU1FFVVM3SGVuUTBuUE8rclhlSkg3VW1EZGsxYkRs?=
- =?big5?B?OGxSNUxFL1czY2hLL09Sb3IzdG8wVzAvcHBWUitPRGhZVnFEVFpWL3VUT1Jvb29q?=
- =?big5?B?TkhYYWlPdzZ2N1BPV2xraUhsZkI4a2xZM0RSY0NkSWNCbm9DdDN0SHRKWW5pc1FN?=
- =?big5?B?MHgxTHNHTnEwTjltZUl1UjdBQVh6bDVDdVBBZU1hQ1ZWb0UxZEtkOHp6TTZUOFAw?=
- =?big5?B?T2NxeFFIdmU1M3ZaYXdXcnRhSlpkZ2dYN3hyN3VBRis3dEdMYS9XNnFBRG1XSkY2?=
- =?big5?B?OE9GOVpISWxEVFd1Ni9EdDVOL0RTUGYzS1FsK3NUTGcybTIxZjdtVmxVMDIrbmVP?=
- =?big5?B?eVFSUEgvSXpTVXNZV20zL3kzUnhKOTVQWGlRQkNvZWVPWFEwY1ZGL2d5bnN4SzZC?=
- =?big5?B?SEVUUlh0Q2xVV2Rna2hzd0ppd2Q2dkdCVm1NRUhPNTJpNmhSTSsvVER3SENTQmRH?=
- =?big5?B?SmhPT1VQU3h3MjVtMFRQNHVHUlpwNy8yTXlVZE1xQlhWMVoyNkNCOVFnYTBFMzUw?=
- =?big5?B?b3FDNFBSc1N2QkxoVmRFTGNsN1Jkb3h2ZjhtaTN5OUZqMGU5V29OWmhJN0VGeC9W?=
- =?big5?B?VWtsdStRbXg0WHpzYlM2dEJ6OGZxeVdwL05oZjdUVlcydnlUeEgwTEVxeWlKOWVl?=
- =?big5?B?eEp2eUord2NJZjFJSzh4VDYyZWZrMG5ibjFGRzVqSGN5MWYxamNzTVB3ZC8vRmVZ?=
- =?big5?B?eDFERjRidit0ZjNqT1NRYVplZHhjbDh3bUJocW1TMzQ4ZEs5OUk0UXZyVW90MUlr?=
- =?big5?B?Qlh6NE5WUUJrdmlGREdlWW5tMXpIWjd1ZUxJZm5EL2dFTUo1L0lGcWhjZGJWZmpO?=
- =?big5?B?dFhrUmxDaG1GSk1xenBnZW51eG9FelZyb3lobE1EOWE3U09sMnNRL21hUE1PRzBu?=
- =?big5?B?QjRIVTY0TmlneFVka0JzVll5M3hKdFNVK0RwUFRKYnFCaXlUSk9Mc1lEalBBRTlp?=
- =?big5?B?eFc1K1poV1d6Yk53UU9ZRGZsNFdsZnRvbzVHQmp2N3lKdDFiYjF6elpzU0xOaEdk?=
- =?big5?B?VEVpcGZ5RlIvTUs0Vkw2VEZ3Q2JKVmNDOFJVMWt1TUUxbkpWQzhjR1BMNFp5YVVG?=
- =?big5?B?ckROR3pqUjd4TUwxZXlLTW1Zb1UyRU5KRnNGQ2ppUllEUUM4UXFkZTVHdzE2VWJW?=
- =?big5?B?TFk5Zi9DWDRUWTk1RDZpMGRpU09vSHU4TjZIbjNDaVd2WlN5Qm5rNlg3TDkyNVEx?=
- =?big5?B?Q09GQXdraFc2WExNMW55MzI0Q2xBUFFwYWZlTHN6QjZ4eG9yMSszeFNRUVNGZ1RH?=
- =?big5?B?dmg0NG9BR1dialpPQUpTeFR1UGY3Y2pITFFaZzhhZHRPbGgrQ1NLUXhOQ1NtWjRq?=
- =?big5?B?QXQ3dkROWm05SUJrZlRmcWQrbno3TmN2MUU4Mi9MZUFOaXdRVE42N1drTzlwZGtt?=
- =?big5?Q?XjRUe1U0pAA=3D?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PSAPR06MB4949.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020)(38070700018);DIR:OUT;SFP:1102;
+x-microsoft-antispam:  BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info:  =?big5?B?cUhOQ2hna3dvZ0RpdGpoN1pVRm5IR0lEYXV2eVdyMERCNHVQMXJCWmduai8xcGd3?=
+ =?big5?B?WHYzaTg4Z0dYN25ZTFlKQnBhSHA1aWlMZ25JQnc5bStyb0k5VEtWMDNtMHhrY3lB?=
+ =?big5?B?cEthR2ZhNDNKVzV1WnJjMHN0eFFBamc4cUVQcGVnRVlHNkY1S3RjTEVSeHBGM29W?=
+ =?big5?B?SGJ4bmgvU1RQWlJlUHhoalRIbHNhSFF2a2JrbnZVNDlsR2dMYm9MdllvY3NzeE1B?=
+ =?big5?B?NWtFbVcwMm52eER3dXU1Zk1rT0dZZUFwNFgwejdValk5dWwzYTBZNVhRcmJhZWRO?=
+ =?big5?B?NE0wUUtXQ0tLVStQMjV3NjRYRDRCMG5PZzV4cWdBZ1dNbjJrOXhjZEszNmRiM1h3?=
+ =?big5?B?bDBDUEJZZ0FLd0gvT1dITWpRNUNmUjNxWVZyU3JBOHdhT1pibkZwai9Ldmk0RlZi?=
+ =?big5?B?cWd6dEdXUzRCcXJrRlZzTjg5VXVXcEFrQkdJaHpnOVhqbjIyUzB2R1llbjVvV01k?=
+ =?big5?B?UWZQOUdqZGdQN3Zjck9IU1docWZlanlaMVArN0l1WjZvQ040bzZwRXJ2eDBmYlFl?=
+ =?big5?B?YTlhaVJVV3ZGdFYxNjRpUUQ0eXJtdzBCM1VNaVA3UzdpRFV1dERkRzRWL1hFMm8v?=
+ =?big5?B?MEFPV1VUQnNSNy9hRHFHODVTVTlwamtqUmg0ZFpyQk5yMnpia3lLZkUySWxaakd0?=
+ =?big5?B?aTgwYXpUZjZwVEhnTjZCblc1UVN1S1gvczZqWlMvU3JRU1hiamdsbW0yZDhSUERz?=
+ =?big5?B?L0x1OWhYL2RyUkxua0l3WmpSYW11Y2hsVTVvZXoyWXo1ZS9iOGNkYjc3cGYvbEZB?=
+ =?big5?B?NHdIL3pFQU9laTVyNXUvc2E3S1BOSDVkdzRjdGs0MVhweTRHMUwzUzVKeFczWm9Y?=
+ =?big5?B?ZHk1bkRSc3ArNDNQbWpLQkozeTUzNnBpYlBGU2pzdzE2VHFFL0R3SCszMzRXOTBU?=
+ =?big5?B?ZzZoaFI2NWs5c1hKNXdQSTVRSWkxTVpjeFhxYmUxYTNGQVJNb1o3cWdUMEtyRTBk?=
+ =?big5?B?M2pTWnZEc1kzNVlSZUtCeHoxWE1hUWJpam1RSmdUVW9Jaitnd2Nsa0JXcG1QWWRK?=
+ =?big5?B?TG90RGxHek5jamI3amowNmFGMW1tUUFOUHpPSVA4Z2F0cERicUZvOHRDcTF4bUhC?=
+ =?big5?B?c2dxUW03aTc2Wm5zblJqRXNTNmtTb016YU9vT1MzK2FCUERld3VwNFZVSUlLTTFx?=
+ =?big5?B?aHFJNEtML0k1enlOcnhHeGhLVk05aUEzaXF5MENwZUZkcXJONlVXTVRGNHBETzRG?=
+ =?big5?B?OXcvdEFUS3RyWUlqRHl5TGNSUmYwVnVidHl0Z2xTWVNIUEJ6cVUzRGlHR0hWbVFM?=
+ =?big5?B?Y2tDQzNhSXE3SEVIcy9xZW4wNTdoMWYzb1A3c1A2YzBVenB4Y0FsWDNOaFM5U1dO?=
+ =?big5?B?Nkh5cnZPdW4yeXBIWEREcjc0M3BtcFdKdjl6STZMRVoxbS8yOTQ0QmExNEFJYndY?=
+ =?big5?B?eW90cTB4RnJhSmxpVzdNZVFxbERiKytMZGdiS0x4YmdhUlpsZDhzVEpsYjRQb1FS?=
+ =?big5?B?REU1ZnQ1aE9wOWNFcFczdzk5NVRyQVM2Rk9uQnFCQm5xMXE1S3ErbStWYUZVTGdh?=
+ =?big5?B?VWlwUlpKRU05bzI3d1NKUXhyMFVDZGNkQUdzL0ozVjRCUkxSM3Q5a1NTSDlBUllv?=
+ =?big5?B?N0ZGWnRTNmpwc1g4S1RhMFJ3Smt2VHB2c3ZzUkk3V1gzc3NTT05pbzUybUNDR2lt?=
+ =?big5?B?cWFRY0hXNDJGMW1FTU5iQ2FYc2NUL1pzQUViTkRoL0FJaUJ5ZzhYUVBvaFFseUhi?=
+ =?big5?B?MUF6K1dpYXZHeWNSYUVoVVFtendkakF4b3pXMmZIaDV1Y1UxaTliVHl1N0FHUG1j?=
+ =?big5?B?Sm1xYThMTGVUQWZRL3lvQkg1RTc5UzdGZFlzYnd6dnZyOFRwc1E9PQ==?=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PSAPR06MB4949.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?big5?B?V3JDcDZKVHE2U3dkWmRkL3IxMFJIWXFRczUzd3M2ZkVhQ0JvRStRR2toUzBOUGl2?=
- =?big5?B?YUVycHNuSUV0b3dHdXFpYXBwTno3SmYvZWJudGVIYitLOEVQZGViNlBJMHlkOU5B?=
- =?big5?B?bEVYenRVWDh3ZmJ0MWhXZGtTQk5IMEdqOTc5Q2lqOVV4TW4wbW91Q3BSN3VvZThi?=
- =?big5?B?UW12bi9RaldjcTRnUXpueGoxZS94VzBadUxCWnp6L0tRSHBzL3ZSWnE5WFBCaDlm?=
- =?big5?B?U1lTM1J4bW9uVDhCdzJyQ0ZRNko5azJFbjQzSmR1ZElsWnV4OElmWW1BcHppa2p3?=
- =?big5?B?U09DSmp0a2hSNGhxRWg4UXBkSS9XQjkzUVc1VjZOb1Q2SUdIcFFWSExaaTBSMEgv?=
- =?big5?B?VFFENUQ4K3RsYnEzUGVTeTVIeTl6L0RKdG1lOG9KTnNMaWl5NDhhL3Znd0NtRi9t?=
- =?big5?B?blFpcmJmTDJneUpBaDhzaUY3MUh3S1dDNy93UGVNMFp5eFNPOWJPZmlGMkovbWV3?=
- =?big5?B?TFBZM0FWelpGak5rODhBVXphaGtuNHg0Nk11Q0xIZjFlTzlCQWF0bVh4YXcvQ29r?=
- =?big5?B?eTdOUll0V2FpOTI5anhnL0MwVjZuWHFLQ1VRQW81VTVTakV6WGYyQTJ0dng4VUZ2?=
- =?big5?B?MUlHV21SOHcxd2xMOGhDdkFDZmczMlYzM1dtYUswQWRXelgzZ0lSSktlbkViTXln?=
- =?big5?B?RStNeFRzMitVOEFDcGJlbi9iNm5DZlZlYTJ0MjJZQ0xNYjh2SVYwb2xVazRHS3lM?=
- =?big5?B?VDFFUnlsKzNURm5WOUVlRUxBVVJwUElKYnJaTUJsVDhBenpuRE1CWHhDbC95cjdx?=
- =?big5?B?UmJ6VWsrWHVnM3AxVkhBY2RxeDNEZi91eFhLYTkrelY3RGkzS0ZlL1BHUXhSSkpP?=
- =?big5?B?MEladFRreW5teVlaNHZZbXB6dG95bVBhbVhQWnhDbngwMW51TTB2NWhCOTVMWHg0?=
- =?big5?B?aXhBa0wxeC94amFzWnAvYXFYTnlrWkJpMW9GS2wrVjBVV0ZEM2FaNTZ4NlJhcFZo?=
- =?big5?B?aXdXOVArMnBlT1FLWHRqVUMzMk9mcjNoMDNzRVA5RVQ4a1MraXRoV2t4RjVCR3Q0?=
- =?big5?B?RlhvY1lnaDNiVHRTcmQ4UTNYWC85ZnFPNWxnZEtwSTU4Wm9OeFgvN3U2am1sRDBa?=
- =?big5?B?bHBEWEZCTHhhbjAxbVBhRmRkd2lldE1vRDA3ZTZjR09aVWVIaUhwZjh1OGxFTTR1?=
- =?big5?B?WkRQOE9kR0xoaFI0TFFoZngvcjVhMDZZclJhVUt6cjhxcG01Sm92aFlMcmM1Mis4?=
- =?big5?B?Q1pteGhSNExLN0lVOWtwMWpmWk8xVVgxN2hhSTFudGlyeVBrREkvYmNtZURQdkhC?=
- =?big5?B?OFVzeXVwS2YxUHdSV21tdHU0c2t0Sks5ZWkyK1A2VkxlalpZSzZpNkNrME44dU95?=
- =?big5?B?dnltcmhDRkxURG5sWkc2REZVV3FJLzhPcmhPRzZsOTZwUXdzUXlGWXBpRE9TcGVo?=
- =?big5?B?a043KzFFc2ZQMU9GSWRIYmZkcXJKWWtuRmkvRjkwdjJYeXJwTHg2OVhqZHUrZi9o?=
- =?big5?B?dGVrWFc2ckdEZEE1WmNvSHF4VkttRDc5cFVCWVN3Q1dtOGN0TTNUU3Y4VWFVZXM4?=
- =?big5?B?Wm1YYm5RNWdWZ0xkWm5WNGlkVXNZNXNoc21DSWtBVHAzdnozMyttYTk3NWdhby9V?=
- =?big5?B?MlFyaUZXeDR5STB0dGJkOGZ1cW5hb01QSTZjaFpBaGQzdTZzTkU1b2xHT3BFYW9G?=
- =?big5?B?TExZbE5zalk2TEVaQUtOL3I5eUdGMXllR3ppK1JWV1VSUlFtcmdsR0J2L0RVOHpN?=
- =?big5?B?MnlTLzB3RmN6SFNtOGtITWtmdTEzVk5aUlhIVWV2MzNLRG9qZy9YOXc0SjZmMDVJ?=
- =?big5?B?Z0ZGSmp3ZFlIN1VnSG1acGtFbXdZZGJCVWhmSlNSOU9pUVRZVFc2MU5ReEdHampD?=
- =?big5?B?R2JBSFc5QXBVb20vNFJmRlZoN1hCMFFuVlRNYzFlUTZNSjB2ZE14ejYyUU51MFZC?=
- =?big5?B?ZjA0MDQ3Q1ZjK3M0Rm13OXdYdjAvRXB0RVJoeTBNR0kxTW92VGpqbnljL3hNY1pF?=
- =?big5?B?Vm9SUW1MQUtqUDFUdzNkZHVPS2xXNU0vNExNRGJlaStqVmhpb0lmMXVRYk40YldT?=
- =?big5?Q?g0tNqhAYoVKx3SwV?=
+x-ms-exchange-antispam-messagedata-0:  =?big5?B?eS9pTXAvQ2k4bjhOSkZXbFhLMThMNEEvU1JLTk9nbUNZZGtxVXRNVW4yRGdZZVV3?=
+ =?big5?B?c2xGSTE3R05oc1dEbzFlMnBKU29OQ1NSRmxXaFl2L1FseHl5OWlMWFArVENpb0xk?=
+ =?big5?B?aHNVeEhpbm9lclZzalRydkIxU0pJR0d2enUxN1ZOTXZWSnplL2lQOXJUUWJFWFhh?=
+ =?big5?B?cnNSVnZIRzRzQ2M4c21VYUc5UDNTZXBLRnozMkpwQVB0NUtNU2JoZFNwOVFGLzFk?=
+ =?big5?B?emJPaVcya2lYQkZid0FqWDlDSXNjRmZ0b0c2Qk1pcUZhTVd0Yk5PaHRpNmRCSWww?=
+ =?big5?B?blVDdWEvRnVqYmd4Yk1FTmx1cWY4eU5aallLUC91N0RWU3NmR3ZaUTdsZTJjZVc1?=
+ =?big5?B?ZEFxd1lMMDBGbENpZWZ5VVJsdjJnR2l0MThvUnRTTkZnZi9FdDNWMTVKc0ZtU0NE?=
+ =?big5?B?aDlGenR1NnMrcHFKYkVka1YwYkhOMG9QbkYrYXpZaW9qN0hiS2IwNTcwS21CdmM3?=
+ =?big5?B?VHdrcE90TzBwYk43aVRNTFBpNUxnaVU2QlU0WGFHV2Z6V2JLd0doQlo0czNGL1dv?=
+ =?big5?B?OEJiZFVVOThQVXRFbFdkdnkybEhqSEZML1FXL3RMd1F2ek9jQ08xYTA3MUYzdDhR?=
+ =?big5?B?ODNqWERxMzJreGFiL1J1a0NXa1lDc2s1WVlIRllxbzZRZ2tsdW5WeEl6NHFRRkUz?=
+ =?big5?B?NnFad3dWUkN4akpSUUprczJlTE94c1pyWkpNa21laFZ2a01yQXIvbjY5Q3VZZ1lT?=
+ =?big5?B?YWxTVk84QzJHdFRiR281R3hvZUp0UlhGTVhUYW1iUXNUZDVLcGdkZGwycm8yODU3?=
+ =?big5?B?MllaSzJTUWhjQ25NN2RBanBKSmhkSGlPSFYzRC9mTzl1YXJydCtuL29pZjdKV1dN?=
+ =?big5?B?d1pDbFRJSmxveitMQXNydlJNOVBzU1NNNzZ2YjczRzNxS3NpcWtCZU05c29TQkdV?=
+ =?big5?B?S0RpeVcxTFVYaFVnQlZmVWFOK0dPbVJVNjhoV0FScklSMmcrdUZVUmNIaTZBQmhz?=
+ =?big5?B?aWZxRFdBTzJNbjgxK0pIMXA5UklHZXAxUTZIV1NzZjdxbkRXYjlHY0I4aklQVUR3?=
+ =?big5?B?S2xiVFNUbmpFZ0FIWTVCck16WlhFY1VUaUNxYWo4ZklXK3hrcHE0QzBJQUFudjc5?=
+ =?big5?B?eWF1OFpZY3ZzV08ya3FIOUp3QldZQVFHbEdEZUtaNHN6djZITVFabkxtanYwZmRp?=
+ =?big5?B?OVhnZlBWRGNOQndVeFY3RWRNS3B3RkRjR3BnTzRueXFxOTdiejZxN3lHUjkvZFVu?=
+ =?big5?B?TW1vQUh0cDA4ZzBQdTdVYUtrdHdhRW04WXJTcTcyWGRkL2J3QlRVRnV0N256Qy9p?=
+ =?big5?B?YXFVN0FMalRpZ0wxUW10WFRZTGdsRW9WV05Lc2diSnVjS2tQT2g5T25BK0hOT3Ns?=
+ =?big5?B?cFROZ1VKbDlkNkRkZktha3AvZ3BSNGVOOXZKSzRDSW9wUjZFc0ZoTlNWd1N6N0hy?=
+ =?big5?B?R3JlVm96V3hZNm1qSzhocjQ3QTBBZWNXbHBkZWx1VUZGUHNBY0RUVHhjZFR1ancz?=
+ =?big5?B?eDUyMzF0bTlJMlpVSit4cDhVNEROK0l4U29iZEFEb2VTb3lJNm1mRHpvbUJRT3kz?=
+ =?big5?B?dE9EaG1pTFMvWmlJZ3lOTW1oRmJVTGhEb1llL3FoQVYyU1l5V0J6eUxJTFV4TXVl?=
+ =?big5?B?VWRRSWgyOGxIeFVuQ0g5MUc5QXZab2ZmQ3Y0QlNLUVFwVWh4SUpkeWJGTGQ3SEor?=
+ =?big5?B?dkZjMXRpakp0b3FoS3FVZUlXSnFwc0dzTlRPRnY1dlI4QVkwQnJiM0ZlVkkvQXQ5?=
+ =?big5?B?MHhIMEcrYXo1MG8weHRpWjkzZDZxdGY2dVQ5eEdzWldXREVya0hzK3MrVzBib0tS?=
+ =?big5?B?Wjd6dXZzVEl2ckFnN3NRMmhja21DUzJLR3BIZ0wvRGR4RWtWT3BZYy9IZThVMHQx?=
+ =?big5?B?em9sejJuR1k5RkJoNGtJcmJUMnpjUitkUkRIMkFrL3Zoa0VjZSt2VkRsaTF5TDV2?=
+ =?big5?B?aFNUQzg2aUVwSkZjUW02OVJGamNFTWF6UDVjVUdrQkFPMHk0eTNHc0hGVzY2ZVZw?=
+ =?big5?B?YjdNNTVJeDNIeldWb1BJSXNWcElvUk5CWS8zSTlYdXNXbnZndlB4TGhLc0NRZ1VY?=
+ =?big5?Q?atTphZVyr5qNLFUk?=
 Content-Type: multipart/alternative;
-	boundary="_000_PSAPR06MB4949EC0D0E0DA16F50BBF40489802PSAPR06MB4949apcp_"
+	boundary="_000_PSAPR06MB4949A360F5C5EFDF87DF741489802PSAPR06MB4949apcp_"
 MIME-Version: 1.0
 X-OriginatorOrg: aspeedtech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4949.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 625dd33d-0a41-404b-050f-08dcbcee342d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 05:50:44.3326
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52f60827-45e2-4b2f-7a75-08dcbcee37ad
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2024 05:50:50.1838
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6fqckcb4qJ2pIM4kDe9mQc7uWHbJoMVhmHpj4whWolDiJ2Blnwp4jL33ggWn+PKjDEW0nwdTEB8N6tak6SuJydMlU9+tPRum3R7sbH2UnO8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5782
+X-MS-Exchange-CrossTenant-userprincipalname: sbEFojwyGaERMtC4T/jhnVCBTKWbhPys/Rr2hjWuJNj/LXqJnR0BXMDUta66DRV4NMOcaoovndo4FT1892Ge35KEhXGAt2fMh0qAweSBa0M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB7000
 X-Mailman-Approved-At: Tue, 20 Aug 2024 09:56:01 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -184,427 +160,176 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "mturquette@baylibre.com" <mturquette@baylibre.com>, "will@kernel.org" <will@kernel.org>, "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "Rob Herring \(Arm\)" <robh@kernel.org>, "quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>, "arnd@arndb.de" <arnd@arndb.de>, "u-kumar1@ti.com" <u-kumar1@ti.com>, "lee@kernel.org" <lee@kernel.org>, "geert+renesas@glider.be" <geert+renesas@glider.be>, "andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "nfraprado@collabora.com" <nfraprado@collabora.com>, BMC-SW <BMC-SW@aspeedtech.com>, "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>, "soc@kernel.org" <soc@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, "sboyd@kernel.org" <sboyd@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "olof@lixom.net" <olof@lixom.net>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "shawnguo@kernel.org" <shawnguo@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---_000_PSAPR06MB4949EC0D0E0DA16F50BBF40489802PSAPR06MB4949apcp_
+--_000_PSAPR06MB4949A360F5C5EFDF87DF741489802PSAPR06MB4949apcp_
 Content-Type: text/plain; charset="big5"
 Content-Transfer-Encoding: base64
 
-SGkgS3J6aywNCg0KPj4gLS0tDQo+PiAgYXJjaC9hcm02NC9ib290L2R0cy9NYWtlZmlsZSAgICAg
-ICAgICAgICAgfCAgIDEgKw0KPj4gIGFyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1n
-Ny5kdHNpIHwgMjE3ICsrKysrKysrKysrKysrKysrKysrKysNCj4+ICAyIGZpbGVzIGNoYW5nZWQs
-IDIxOCBpbnNlcnRpb25zKCspDQo+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGFyY2gvYXJtNjQvYm9v
-dC9kdHMvYXNwZWVkL2FzcGVlZC1nNy5kdHNpDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJt
-NjQvYm9vdC9kdHMvTWFrZWZpbGUgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL01ha2VmaWxlDQo+PiBp
-bmRleCAyMWNkM2E4N2YzODUuLmM5MDljMTlkYzVkZCAxMDA2NDQNCj4+IC0tLSBhL2FyY2gvYXJt
-NjQvYm9vdC9kdHMvTWFrZWZpbGUNCj4+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvTWFrZWZp
-bGUNCj4+IEBAIC0zNCwzICszNCw0IEBAIHN1YmRpci15ICs9IHRlc2xhDQo+PiAgc3ViZGlyLXkg
-Kz0gdGkNCj4+ICBzdWJkaXIteSArPSB0b3NoaWJhDQo+PiAgc3ViZGlyLXkgKz0geGlsaW54DQo+
-PiArc3ViZGlyLXkgKz0gYXNwZWVkDQo+PiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290L2R0
-cy9hc3BlZWQvYXNwZWVkLWc3LmR0c2kgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL2FzcGVlZC9hc3Bl
-ZWQtZzcuZHRzaQ0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4IDAwMDAwMDAwMDAw
-MC4uODU4YWI5NTI1MWU0DQo+PiAtLS0gL2Rldi9udWxsDQo+PiArKysgYi9hcmNoL2FybTY0L2Jv
-b3QvZHRzL2FzcGVlZC9hc3BlZWQtZzcuZHRzaQ0KPj4gQEAgLTAsMCArMSwyMTcgQEANCj4+ICsv
-LyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcg0KPj4gKyNpbmNsdWRl
-IDxkdC1iaW5kaW5ncy9jbG9jay9hc3BlZWQsYXN0MjcwMC1jbGsuaD4NCj4+ICsjaW5jbHVkZSA8
-ZHQtYmluZGluZ3MvcmVzZXQvYXNwZWVkLGFzdDI3MDAtcmVzZXQuaD4NCj4+ICsjaW5jbHVkZSA8
-ZHQtYmluZGluZ3MvaW50ZXJydXB0LWNvbnRyb2xsZXIvYXJtLWdpYy5oPg0KPj4gKyNpbmNsdWRl
-IDxkdC1iaW5kaW5ncy9pbnRlcnJ1cHQtY29udHJvbGxlci9hc3BlZWQtc2N1LWljLmg+DQo+PiAr
-DQo+PiArLyB7DQo+PiArICAgICBtb2RlbCA9ICJBc3BlZWQgQk1DIjsNCj4NCj5Nb2RlbCBvZiB3
-aGF0PyBObywgZHJvcC4NCkNhbiBJIGNoYW5nZSB0byAibW9kZWwgPSAiQVNUMjcwMCBFVkIiIg0K
-DQo+DQo+PiArICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNzAwIjsNCj4NCj5QbGVhc2Ug
-cnVuIHNjcmlwdHMvY2hlY2twYXRjaC5wbCBhbmQgZml4IHJlcG9ydGVkIHdhcm5pbmdzLiBUaGVu
-IHBsZWFzZQ0KPnJ1biBgc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tc3RyaWN0YCBhbmQgKHByb2Jh
-Ymx5KSBmaXggbW9yZSB3YXJuaW5ncy4NCj5Tb21lIHdhcm5pbmdzIGNhbiBiZSBpZ25vcmVkLCBl
-c3BlY2lhbGx5IGZyb20gLS1zdHJpY3QgcnVuLCBidXQgdGhlIGNvZGUNCj5oZXJlIGxvb2tzIGxp
-a2UgaXQgbmVlZHMgYSBmaXguIEZlZWwgZnJlZSB0byBnZXQgaW4gdG91Y2ggaWYgdGhlIHdhcm5p
-bmcNCj5pcyBub3QgY2xlYXIuDQo+DQo+DQo+PiArICAgICAjYWRkcmVzcy1jZWxscyA9IDwyPjsN
-Cj4+ICsgICAgICNzaXplLWNlbGxzID0gPDI+Ow0KPj4gKyAgICAgaW50ZXJydXB0LXBhcmVudCA9
-IDwmZ2ljPjsNCj4+ICsNCj4+ICsgICAgIGFsaWFzZXMgew0KPj4gKyAgICAgICAgICAgICBzZXJp
-YWwxMiA9ICZ1YXJ0MTI7DQo+DQo+Tm9wZS4gU3VjaCBhbGlhc2VzIGFyZSBib2FyZCBzcGVjaWZp
-Yy4NCkFncmVlLCBJIHdpbGwgbW92ZSB0byBhc3QyNzAwLWV2Yi5kdHMuDQo+DQo+PiArICAgICB9
-Ow0KPj4gKw0KPj4gKyAgICAgY3B1cyB7DQo+PiArICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxz
-ID0gPDE+Ow0KPj4gKyAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsNCj4+ICsNCj4+ICsg
-ICAgICAgICAgICAgY3B1QDAgew0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGNvbXBhdGlibGUg
-PSAiYXJtLGNvcnRleC1hMzUiOw0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGVuYWJsZS1tZXRo
-b2QgPSAicHNjaSI7DQo+PiArICAgICAgICAgICAgICAgICAgICAgZGV2aWNlX3R5cGUgPSAiY3B1
-IjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MD47DQo+PiArICAgICAgICAgICAg
-ICAgICAgICAgZC1jYWNoZS1zaXplID0gPDB4ODAwMD47DQo+PiArICAgICAgICAgICAgICAgICAg
-ICAgZC1jYWNoZS1saW5lLXNpemUgPSA8NjQ+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGQt
-Y2FjaGUtc2V0cyA9IDwxMjg+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGktY2FjaGUtc2l6
-ZSA9IDwweDgwMDA+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGktY2FjaGUtbGluZS1zaXpl
-ID0gPDY0PjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBpLWNhY2hlLXNldHMgPSA8MjU2PjsN
-Cj4+ICsgICAgICAgICAgICAgICAgICAgICBuZXh0LWxldmVsLWNhY2hlID0gPCZsMj47DQo+PiAr
-ICAgICAgICAgICAgIH07DQo+PiArDQo+PiArICAgICAgICAgICAgIGNwdUAxIHsNCj4+ICsgICAg
-ICAgICAgICAgICAgICAgICBjb21wYXRpYmxlID0gImFybSxjb3J0ZXgtYTM1IjsNCj4+ICsgICAg
-ICAgICAgICAgICAgICAgICBlbmFibGUtbWV0aG9kID0gInBzY2kiOw0KPj4gKyAgICAgICAgICAg
-ICAgICAgICAgIGRldmljZV90eXBlID0gImNwdSI7DQo+PiArICAgICAgICAgICAgICAgICAgICAg
-cmVnID0gPDE+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGQtY2FjaGUtc2l6ZSA9IDwweDgw
-MDA+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGQtY2FjaGUtbGluZS1zaXplID0gPDY0PjsN
-Cj4+ICsgICAgICAgICAgICAgICAgICAgICBkLWNhY2hlLXNldHMgPSA8MTI4PjsNCj4+ICsgICAg
-ICAgICAgICAgICAgICAgICBpLWNhY2hlLXNpemUgPSA8MHg4MDAwPjsNCj4+ICsgICAgICAgICAg
-ICAgICAgICAgICBpLWNhY2hlLWxpbmUtc2l6ZSA9IDw2ND47DQo+PiArICAgICAgICAgICAgICAg
-ICAgICAgaS1jYWNoZS1zZXRzID0gPDI1Nj47DQo+PiArICAgICAgICAgICAgICAgICAgICAgbmV4
-dC1sZXZlbC1jYWNoZSA9IDwmbDI+Ow0KPj4gKyAgICAgICAgICAgICB9Ow0KPj4gKw0KPj4gKyAg
-ICAgICAgICAgICBjcHVAMiB7DQo+PiArICAgICAgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9
-ICJhcm0sY29ydGV4LWEzNSI7DQo+PiArICAgICAgICAgICAgICAgICAgICAgZW5hYmxlLW1ldGhv
-ZCA9ICJwc2NpIjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBkZXZpY2VfdHlwZSA9ICJjcHUi
-Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwyPjsNCj4+ICsgICAgICAgICAgICAg
-ICAgICAgICBkLWNhY2hlLXNpemUgPSA8MHg4MDAwPjsNCj4+ICsgICAgICAgICAgICAgICAgICAg
-ICBkLWNhY2hlLWxpbmUtc2l6ZSA9IDw2ND47DQo+PiArICAgICAgICAgICAgICAgICAgICAgZC1j
-YWNoZS1zZXRzID0gPDEyOD47DQo+PiArICAgICAgICAgICAgICAgICAgICAgaS1jYWNoZS1zaXpl
-ID0gPDB4ODAwMD47DQo+PiArICAgICAgICAgICAgICAgICAgICAgaS1jYWNoZS1saW5lLXNpemUg
-PSA8NjQ+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGktY2FjaGUtc2V0cyA9IDwyNTY+Ow0K
-Pj4gKyAgICAgICAgICAgICAgICAgICAgIG5leHQtbGV2ZWwtY2FjaGUgPSA8JmwyPjsNCj4+ICsg
-ICAgICAgICAgICAgfTsNCj4+ICsNCj4+ICsgICAgICAgICAgICAgY3B1QDMgew0KPj4gKyAgICAg
-ICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAiYXJtLGNvcnRleC1hMzUiOw0KPj4gKyAgICAg
-ICAgICAgICAgICAgICAgIGVuYWJsZS1tZXRob2QgPSAicHNjaSI7DQo+PiArICAgICAgICAgICAg
-ICAgICAgICAgZGV2aWNlX3R5cGUgPSAiY3B1IjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBy
-ZWcgPSA8Mz47DQo+PiArICAgICAgICAgICAgICAgICAgICAgZC1jYWNoZS1zaXplID0gPDB4ODAw
-MD47DQo+PiArICAgICAgICAgICAgICAgICAgICAgZC1jYWNoZS1saW5lLXNpemUgPSA8NjQ+Ow0K
-Pj4gKyAgICAgICAgICAgICAgICAgICAgIGQtY2FjaGUtc2V0cyA9IDwxMjg+Ow0KPj4gKyAgICAg
-ICAgICAgICAgICAgICAgIGktY2FjaGUtc2l6ZSA9IDwweDgwMDA+Ow0KPj4gKyAgICAgICAgICAg
-ICAgICAgICAgIGktY2FjaGUtbGluZS1zaXplID0gPDY0PjsNCj4+ICsgICAgICAgICAgICAgICAg
-ICAgICBpLWNhY2hlLXNldHMgPSA8MjU2PjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBuZXh0
-LWxldmVsLWNhY2hlID0gPCZsMj47DQo+PiArICAgICAgICAgICAgIH07DQo+PiArDQo+PiArICAg
-ICAgICAgICAgIGwyOiBsMi1jYWNoZTAgew0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGNvbXBh
-dGlibGUgPSAiY2FjaGUiOw0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGNhY2hlLXNpemUgPSA8
-MHg4MDAwMD47DQo+PiArICAgICAgICAgICAgICAgICAgICAgY2FjaGUtbGluZS1zaXplID0gPDY0
-PjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBjYWNoZS1zZXRzID0gPDEwMjQ+Ow0KPj4gKyAg
-ICAgICAgICAgICAgICAgICAgIGNhY2hlLWxldmVsID0gPDI+Ow0KPj4gKyAgICAgICAgICAgICB9
-Ow0KPj4gKyAgICAgfTsNCj4+ICsNCj4+ICsgICAgIHBtdSB7DQo+PiArICAgICAgICAgICAgIGNv
-bXBhdGlibGUgPSAiYXJtLGNvcnRleC1hMzUtcG11IjsNCj4+ICsgICAgICAgICAgICAgaW50ZXJy
-dXB0LXBhcmVudCA9IDwmZ2ljPjsNCj4+ICsgICAgICAgICAgICAgaW50ZXJydXB0cyA9IDxHSUNf
-UFBJIDcgKEdJQ19DUFVfTUFTS19TSU1QTEUoMikgfCBJUlFfVFlQRV9MRVZFTF9ISUdIKT47DQo+
-PiArICAgICB9Ow0KPj4gKw0KPj4gKyAgICAgcHNjaSB7DQo+DQo+T3JkZXIgdGhlIG5vZGVzIGFj
-Y29yZGluZyB0byBEVFMgY29kaW5nIHN0eWxlLg0KPg0KPkZpeCBhbGwgeW91ciBwYXRjaGVzOg0K
-PjEuIFRvIHBhc3MgZmxhd2xlc3NseSBjaGVja3BhdGNoICh5b3UgZGlkIG5vdCBydW4gaXQpDQo+
-Mi4gVG8gcGFzcyBkdF9iaW5kaW5nX2NoZWNrIGFuZCBkdGJzX2NoZWNrICh5b3UgZGlkIG5vdCBy
-dW4gdGhlc2UpDQo+My4gVG8gYWRoZXJlIHRvIGtlcm5lbCBjb2Rpbmcgc3R5bGUNCj40LiBUbyBh
-ZGhlcmUgdG8gRFRTIGNvZGluZyBzdHlsZQ0KQWdyZWUuDQo+DQo+PiArICAgICAgICAgICAgIGNv
-bXBhdGlibGUgPSAiYXJtLHBzY2ktMS4wIjsNCj4+ICsgICAgICAgICAgICAgbWV0aG9kID0gInNt
-YyI7DQo+PiArICAgICB9Ow0KPj4gKw0KPj4gKyAgICAgZ2ljOiBpbnRlcnJ1cHQtY29udHJvbGxl
-ckAxMjIwMDAwMCB7DQo+DQo+Tm9wZSwgdGhpcyBjYW5ub3QgYmUgb3V0c2lkZSBvZiBTb0MuDQpB
-Z3JlZS4NCj4NCj4+ICsgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJhcm0sZ2ljLXYzIjsNCj4+
-ICsgICAgICAgICAgICAgaW50ZXJydXB0cyA9IDxHSUNfUFBJIDkgKEdJQ19DUFVfTUFTS19TSU1Q
-TEUoMikgfCBJUlFfVFlQRV9MRVZFTF9ISUdIKT47DQo+PiArICAgICAgICAgICAgICNpbnRlcnJ1
-cHQtY2VsbHMgPSA8Mz47DQo+PiArICAgICAgICAgICAgIGludGVycnVwdC1jb250cm9sbGVyOw0K
-Pj4gKyAgICAgICAgICAgICBpbnRlcnJ1cHQtcGFyZW50ID0gPCZnaWM+Ow0KPj4gKyAgICAgICAg
-ICAgICAjcmVkaXN0cmlidXRvci1yZWdpb25zID0gPDE+Ow0KPj4gKyAgICAgICAgICAgICByZWcg
-PSAgIDwwIDB4MTIyMDAwMDAgMCAweDEwMDAwPiwgICAgICAgICAgICAgICAvL0dJQ0QNCj4+ICsg
-ICAgICAgICAgICAgICAgICAgICA8MCAweDEyMjgwMDAwIDAgMHg4MDAwMD4sICAgICAgICAgICAg
-ICAgLy9HSUNSDQo+PiArICAgICAgICAgICAgICAgICAgICAgPDAgMHg0MDQ0MDAwMCAwIDB4MTAw
-MD47ICAgICAgICAgICAgICAgIC8vR0lDQw0KPg0KPlJlYWQgRFRTIGNvZGluZyBzdHlsZSBhbmQg
-b3JkZXIgdGhpcyBjb3JyZWN0bHkuDQpBZ3JlZS4NCj4NCj4+ICsgICAgIH07DQo+PiArDQo+PiAr
-ICAgICB0aW1lciB7DQo+PiArICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAiYXJtLGFybXY4LXRp
-bWVyIjsNCj4+ICsgICAgICAgICAgICAgaW50ZXJydXB0LXBhcmVudCA9IDwmZ2ljPjsNCj4+ICsg
-ICAgICAgICAgICAgaW50ZXJydXB0cyA9IDxHSUNfUFBJIDEzIChHSUNfQ1BVX01BU0tfU0lNUExF
-KDIpIHwgSVJRX1RZUEVfTEVWRUxfTE9XKT4sDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICA8R0lDX1BQSSAxNCAoR0lDX0NQVV9NQVNLX1NJTVBMRSgyKSB8IElSUV9UWVBFX0xFVkVM
-X0xPVyk+LA0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPEdJQ19QUEkgMTEgKEdJ
-Q19DUFVfTUFTS19TSU1QTEUoMikgfCBJUlFfVFlQRV9MRVZFTF9MT1cpPiwNCj4+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIDxHSUNfUFBJIDEwIChHSUNfQ1BVX01BU0tfU0lNUExFKDIp
-IHwgSVJRX1RZUEVfTEVWRUxfTE9XKT47DQo+PiArICAgICAgICAgICAgIGFybSxjcHUtcmVnaXN0
-ZXJzLW5vdC1mdy1jb25maWd1cmVkOw0KPj4gKyAgICAgICAgICAgICBhbHdheXMtb247DQo+PiAr
-ICAgICB9Ow0KPj4gKw0KPj4gKyAgICAgc29jMDogc29jQDEwMDAwMDAwIHsNCj4+ICsgICAgICAg
-ICAgICAgY29tcGF0aWJsZSA9ICJzaW1wbGUtYnVzIjsNCj4+ICsgICAgICAgICAgICAgI2FkZHJl
-c3MtY2VsbHMgPSA8Mj47DQo+PiArICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDI+Ow0KPj4g
-KyAgICAgICAgICAgICByYW5nZXM7DQo+PiArDQo+PiArICAgICAgICAgICAgIHNvYzBfc3JhbTog
-c3JhbUAxMDAwMDAwMCB7DQo+PiArICAgICAgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJt
-bWlvLXNyYW0iOw0KPj4gKyAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwweDAgMHgxMDAwMDAw
-MCAweDAgMHgyMDAwMD47ICAgICAvKiAxMjhLaUIgU1JBTSBvbiBzb2MwICovDQo+PiArICAgICAg
-ICAgICAgICAgICAgICAgcmFuZ2VzID0gPDB4MCAweDAgMHgwIDB4MTAwMDAwMDAgMHgwIDB4MjAw
-MDA+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDI+Ow0KPj4g
-KyAgICAgICAgICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDI+Ow0KPj4gKyAgICAgICAgICAg
-ICAgICAgICAgIG5vLW1lbW9yeS13YzsNCj4+ICsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBl
-eHBvcnRlZEAwIHsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwwIDB4
-MCAwIDB4MjAwMDA+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZXhwb3J0Ow0K
-Pj4gKyAgICAgICAgICAgICAgICAgICAgIH07DQo+PiArICAgICAgICAgICAgIH07DQo+PiArDQo+
-PiArICAgICAgICAgICAgIHN5c2NvbjA6IHN5c2NvbkAxMmMwMjAwMCB7DQo+PiArICAgICAgICAg
-ICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjcwMC1zY3UwIiwgInN5c2NvbiIs
-ICJzaW1wbGUtbWZkIjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MHgwIDB4MTJj
-MDIwMDAgMHgwIDB4MTAwMD47DQo+PiArICAgICAgICAgICAgICAgICAgICAgcmFuZ2VzID0gPDB4
-MCAweDAgMCAweDEyYzAyMDAwIDAgMHgxMDAwPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAj
-YWRkcmVzcy1jZWxscyA9IDwyPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAjc2l6ZS1jZWxs
-cyA9IDwyPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAjY2xvY2stY2VsbHMgPSA8MT47DQo+
-PiArICAgICAgICAgICAgICAgICAgICAgI3Jlc2V0LWNlbGxzID0gPDE+Ow0KPj4gKw0KPj4gKyAg
-ICAgICAgICAgICAgICAgICAgIHNpbGljb24taWRAMCB7DQo+PiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNzAwLXNpbGljb24taWQiLCAiYXNw
-ZWVkLHNpbGljb24taWQiOw0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0g
-PDAgMHgwIDAgMHg0PjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICB9Ow0KPj4gKw0KPj4gKyAg
-ICAgICAgICAgICAgICAgICAgIHNjdV9pYzA6IGludGVycnVwdC1jb250cm9sbGVyQDFEMCB7DQo+
-DQo+RFRTIGNvZGluZyBzdHlsZS4uLg0KQWdyZWUuIEkgd2lsbCBmaXggdG8gInNjdV9pYzA6IGlu
-dGVycnVwdC1jb250cm9sbGVyQDFkMCB7Ig0KDQo+DQo+PiArICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAjaW50ZXJydXB0LWNlbGxzID0gPDE+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjcwMC1zY3UtaWMwIjsNCj4+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwwIDB4MWQwIDAgMHhjPjsNCj4+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIGludGVycnVwdHMgPSA8R0lDX1NQSSA5NyBJUlFfVFlQ
-RV9MRVZFTF9ISUdIPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludGVycnVw
-dC1jb250cm9sbGVyOw0KPj4gKyAgICAgICAgICAgICAgICAgICAgIH07DQo+PiArDQo+PiArICAg
-ICAgICAgICAgICAgICAgICAgc2N1X2ljMTogaW50ZXJydXB0LWNvbnRyb2xsZXJAMUUwIHsNCj4+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICNpbnRlcnJ1cHQtY2VsbHMgPSA8MT47DQo+
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3Qy
-NzAwLXNjdS1pYzEiOw0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDAg
-MHgxZTAgMCAweGM+Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50ZXJydXB0
-cyA9IDxHSUNfU1BJIDk4IElSUV9UWVBFX0xFVkVMX0hJR0g+Ow0KPj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgaW50ZXJydXB0LWNvbnRyb2xsZXI7DQo+PiArICAgICAgICAgICAgICAg
-ICAgICAgfTsNCj4+ICsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBzb2MwX3JzdDogcmVzZXQt
-Y29udHJvbGxlckAyMDAgew0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0g
-PDAgMHgyMDAgMCAweDQwPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICB9Ow0KPj4gKw0KPj4g
-KyAgICAgICAgICAgICAgICAgICAgIHNvYzBfY2xrOiBjbG9jay1jb250cm9sbGVyQDI0MCB7DQo+
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MCAweDI0MCAwIDB4MWMwPjsN
-Cj4+ICsgICAgICAgICAgICAgICAgICAgICB9Ow0KPj4gKyAgICAgICAgICAgICB9Ow0KPj4gKw0K
-Pj4gKyAgICAgfTsNCj4+ICsNCj4+ICsgICAgIHNvYzE6IHNvY0AxNDAwMDAwMCB7DQo+DQo+V2Fp
-dCwgd2hhdCwgdG8gc29jcz8NClllcywgdHdvIHNvY3MgaW4gZGlmZmVyZW50IGRpZS4NCg0KPg0K
-Pj4gKyAgICAgICAgICAgICBjb21wYXRpYmxlID0gInNpbXBsZS1idXMiOw0KPj4gKyAgICAgICAg
-ICAgICAjYWRkcmVzcy1jZWxscyA9IDwyPjsNCj4+ICsgICAgICAgICAgICAgI3NpemUtY2VsbHMg
-PSA8Mj47DQo+PiArICAgICAgICAgICAgIHJhbmdlczsNCj4+ICsNCj4+ICsgICAgICAgICAgICAg
-c3lzY29uMTogc3lzY29uQDE0YzAyMDAwIHsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBjb21w
-YXRpYmxlID0gImFzcGVlZCxhc3QyNzAwLXNjdTEiLCAic3lzY29uIiwgInNpbXBsZS1tZmQiOw0K
-Pj4gKyAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwweDAgMHgxNGMwMjAwMCAweDAgMHgxMDAw
-PjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICByYW5nZXMgPSA8MHgwIDB4MCAweDAgMHgxNGMw
-MjAwMCAweDAgMHgxMDAwPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAjYWRkcmVzcy1jZWxs
-cyA9IDwyPjsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwyPjsNCj4+
-ICsgICAgICAgICAgICAgICAgICAgICAjY2xvY2stY2VsbHMgPSA8MT47DQo+PiArICAgICAgICAg
-ICAgICAgICAgICAgI3Jlc2V0LWNlbGxzID0gPDE+Ow0KPj4gKw0KPj4gKyAgICAgICAgICAgICAg
-ICAgICAgIHNvYzFfcnN0OiByZXNldC1jb250cm9sbGVyQDIwMCB7DQo+PiArICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAjcmVzZXQtY2VsbHMgPSA8MT47DQo+PiArICAgICAgICAgICAgICAg
-ICAgICAgfTsNCj4+ICsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBzb2MxX2NsazogY2xvY2st
-Y29udHJvbGxlckAyNDAgew0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0g
-PDAgMHgyNDAgMCAweDFjMD47DQo+PiArICAgICAgICAgICAgICAgICAgICAgfTsNCj4+ICsgICAg
-ICAgICAgICAgfTsNCj4+ICsNCj4+ICsgICAgICAgICAgICAgdWFydDEyOiBzZXJpYWxAMTRjMzNi
-MDAgew0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAibnMxNjU1MGEiOw0K
-Pj4gKyAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwweDAgMHgxNGMzM2IwMCAweDAgMHgxMDA+
-Ow0KPj4gKyAgICAgICAgICAgICAgICAgICAgIHJlZy1zaGlmdCA9IDwyPjsNCj4+ICsgICAgICAg
-ICAgICAgICAgICAgICByZWctaW8td2lkdGggPSA8ND47DQo+PiArICAgICAgICAgICAgICAgICAg
-ICAgY2xvY2tzID0gPCZzeXNjb24xIFNDVTFfQ0xLX0dBVEVfVUFSVDEyQ0xLPjsNCj4+ICsgICAg
-ICAgICAgICAgICAgICAgICBuby1sb29wYmFjay10ZXN0Ow0KPj4gKyAgICAgICAgICAgICAgICAg
-ICAgIHBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQo+DQo+V2hhdCBpcyB0aGlzPw0KQk1DIHVh
-cnQgdXNpbmcgaW4gdWFydDEyIGluIHNvYzEuDQoNCj4NCj4+ICsgICAgICAgICAgICAgfTsNCj4+
-ICsgICAgIH07DQo+PiArfTsNCj4+ICsNCg0KLS0NCkJlc3QgUmVnYXJkcywNCktldmluLiBDaGVu
-DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KsUil86rMOiBLcnp5c3p0b2YgS296
-bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+DQqxSKXzpOm0wTogMjAyNKZ+N6TrMjak6SCkVaTIIDA3
-OjE5DQqmrKXzqsw6IEtldmluIENoZW4gPGtldmluX2NoZW5AYXNwZWVkdGVjaC5jb20+OyByb2Jo
-QGtlcm5lbC5vcmcgPHJvYmhAa2VybmVsLm9yZz47IGtyemsrZHRAa2VybmVsLm9yZyA8a3J6aytk
-dEBrZXJuZWwub3JnPjsgY29ub3IrZHRAa2VybmVsLm9yZyA8Y29ub3IrZHRAa2VybmVsLm9yZz47
-IGpvZWxAam1zLmlkLmF1IDxqb2VsQGptcy5pZC5hdT47IGFuZHJld0Bjb2RlY29uc3RydWN0LmNv
-bS5hdSA8YW5kcmV3QGNvZGVjb25zdHJ1Y3QuY29tLmF1PjsgbGVlQGtlcm5lbC5vcmcgPGxlZUBr
-ZXJuZWwub3JnPjsgY2F0YWxpbi5tYXJpbmFzQGFybS5jb20gPGNhdGFsaW4ubWFyaW5hc0Bhcm0u
-Y29tPjsgd2lsbEBrZXJuZWwub3JnIDx3aWxsQGtlcm5lbC5vcmc+OyBhcm5kQGFybmRiLmRlIDxh
-cm5kQGFybmRiLmRlPjsgb2xvZkBsaXhvbS5uZXQgPG9sb2ZAbGl4b20ubmV0Pjsgc29jQGtlcm5l
-bC5vcmcgPHNvY0BrZXJuZWwub3JnPjsgbXR1cnF1ZXR0ZUBiYXlsaWJyZS5jb20gPG10dXJxdWV0
-dGVAYmF5bGlicmUuY29tPjsgc2JveWRAa2VybmVsLm9yZyA8c2JveWRAa2VybmVsLm9yZz47IHAu
-emFiZWxAcGVuZ3V0cm9uaXguZGUgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+OyBxdWljX2Jqb3Jh
-bmRlQHF1aWNpbmMuY29tIDxxdWljX2Jqb3JhbmRlQHF1aWNpbmMuY29tPjsgZ2VlcnQrcmVuZXNh
-c0BnbGlkZXIuYmUgPGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPjsgZG1pdHJ5LmJhcnlzaGtvdkBs
-aW5hcm8ub3JnIDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+OyBzaGF3bmd1b0BrZXJuZWwu
-b3JnIDxzaGF3bmd1b0BrZXJuZWwub3JnPjsgbmVpbC5hcm1zdHJvbmdAbGluYXJvLm9yZyA8bmVp
-bC5hcm1zdHJvbmdAbGluYXJvLm9yZz47IG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbSA8bS5zenlw
-cm93c2tpQHNhbXN1bmcuY29tPjsgbmZyYXByYWRvQGNvbGxhYm9yYS5jb20gPG5mcmFwcmFkb0Bj
-b2xsYWJvcmEuY29tPjsgdS1rdW1hcjFAdGkuY29tIDx1LWt1bWFyMUB0aS5jb20+OyBkZXZpY2V0
-cmVlQHZnZXIua2VybmVsLm9yZyA8ZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc+OyBsaW51eC1h
-cm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcgPGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5m
-cmFkZWFkLm9yZz47IGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnIDxsaW51eC1hc3BlZWRA
-bGlzdHMub3psYWJzLm9yZz47IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcgPGxpbnV4LWtl
-cm5lbEB2Z2VyLmtlcm5lbC5vcmc+OyBsaW51eC1jbGtAdmdlci5rZXJuZWwub3JnIDxsaW51eC1j
-bGtAdmdlci5rZXJuZWwub3JnPg0KpUSmrjogUmU6IFtQQVRDSCB2MSAwOC8xMF0gYXJtNjQ6IGR0
-czogYXNwZWVkOiBBZGQgaW5pdGlhbCBBU1QyN1hYIGRldmljZSB0cmVlDQoNCk9uIDI2LzA3LzIw
-MjQgMTM6MDMsIEtldmluIENoZW4gd3JvdGU6DQo+IC0tLQ0KPiAgYXJjaC9hcm02NC9ib290L2R0
-cy9NYWtlZmlsZSAgICAgICAgICAgICAgfCAgIDEgKw0KPiAgYXJjaC9hcm02NC9ib290L2R0cy9h
-c3BlZWQvYXNwZWVkLWc3LmR0c2kgfCAyMTcgKysrKysrKysrKysrKysrKysrKysrKw0KPiAgMiBm
-aWxlcyBjaGFuZ2VkLCAyMTggaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGFy
-Y2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1nNy5kdHNpDQo+DQo+IGRpZmYgLS1naXQg
-YS9hcmNoL2FybTY0L2Jvb3QvZHRzL01ha2VmaWxlIGIvYXJjaC9hcm02NC9ib290L2R0cy9NYWtl
-ZmlsZQ0KPiBpbmRleCAyMWNkM2E4N2YzODUuLmM5MDljMTlkYzVkZCAxMDA2NDQNCj4gLS0tIGEv
-YXJjaC9hcm02NC9ib290L2R0cy9NYWtlZmlsZQ0KPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRz
-L01ha2VmaWxlDQo+IEBAIC0zNCwzICszNCw0IEBAIHN1YmRpci15ICs9IHRlc2xhDQo+ICBzdWJk
-aXIteSArPSB0aQ0KPiAgc3ViZGlyLXkgKz0gdG9zaGliYQ0KPiAgc3ViZGlyLXkgKz0geGlsaW54
-DQo+ICtzdWJkaXIteSArPSBhc3BlZWQNCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9vdC9k
-dHMvYXNwZWVkL2FzcGVlZC1nNy5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvYXNw
-ZWVkLWc3LmR0c2kNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAw
-Li44NThhYjk1MjUxZTQNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9hcmNoL2FybTY0L2Jvb3Qv
-ZHRzL2FzcGVlZC9hc3BlZWQtZzcuZHRzaQ0KPiBAQCAtMCwwICsxLDIxNyBAQA0KPiArLy8gU1BE
-WC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb3ItbGF0ZXINCj4gKyNpbmNsdWRlIDxkdC1i
-aW5kaW5ncy9jbG9jay9hc3BlZWQsYXN0MjcwMC1jbGsuaD4NCj4gKyNpbmNsdWRlIDxkdC1iaW5k
-aW5ncy9yZXNldC9hc3BlZWQsYXN0MjcwMC1yZXNldC5oPg0KPiArI2luY2x1ZGUgPGR0LWJpbmRp
-bmdzL2ludGVycnVwdC1jb250cm9sbGVyL2FybS1naWMuaD4NCj4gKyNpbmNsdWRlIDxkdC1iaW5k
-aW5ncy9pbnRlcnJ1cHQtY29udHJvbGxlci9hc3BlZWQtc2N1LWljLmg+DQo+ICsNCj4gKy8gew0K
-PiArICAgICBtb2RlbCA9ICJBc3BlZWQgQk1DIjsNCg0KTW9kZWwgb2Ygd2hhdD8gTm8sIGRyb3Au
-DQoNCj4gKyAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjcwMCI7DQoNClBsZWFzZSBydW4g
-c2NyaXB0cy9jaGVja3BhdGNoLnBsIGFuZCBmaXggcmVwb3J0ZWQgd2FybmluZ3MuIFRoZW4gcGxl
-YXNlDQpydW4gYHNjcmlwdHMvY2hlY2twYXRjaC5wbCAtLXN0cmljdGAgYW5kIChwcm9iYWJseSkg
-Zml4IG1vcmUgd2FybmluZ3MuDQpTb21lIHdhcm5pbmdzIGNhbiBiZSBpZ25vcmVkLCBlc3BlY2lh
-bGx5IGZyb20gLS1zdHJpY3QgcnVuLCBidXQgdGhlIGNvZGUNCmhlcmUgbG9va3MgbGlrZSBpdCBu
-ZWVkcyBhIGZpeC4gRmVlbCBmcmVlIHRvIGdldCBpbiB0b3VjaCBpZiB0aGUgd2FybmluZw0KaXMg
-bm90IGNsZWFyLg0KDQoNCj4gKyAgICAgI2FkZHJlc3MtY2VsbHMgPSA8Mj47DQo+ICsgICAgICNz
-aXplLWNlbGxzID0gPDI+Ow0KPiArICAgICBpbnRlcnJ1cHQtcGFyZW50ID0gPCZnaWM+Ow0KPiAr
-DQo+ICsgICAgIGFsaWFzZXMgew0KPiArICAgICAgICAgICAgIHNlcmlhbDEyID0gJnVhcnQxMjsN
-Cg0KTm9wZS4gU3VjaCBhbGlhc2VzIGFyZSBib2FyZCBzcGVjaWZpYy4NCg0KPiArICAgICB9Ow0K
-PiArDQo+ICsgICAgIGNwdXMgew0KPiArICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+
-Ow0KPiArICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDA+Ow0KPiArDQo+ICsgICAgICAgICAg
-ICAgY3B1QDAgew0KPiArICAgICAgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJhcm0sY29y
-dGV4LWEzNSI7DQo+ICsgICAgICAgICAgICAgICAgICAgICBlbmFibGUtbWV0aG9kID0gInBzY2ki
-Ow0KPiArICAgICAgICAgICAgICAgICAgICAgZGV2aWNlX3R5cGUgPSAiY3B1IjsNCj4gKyAgICAg
-ICAgICAgICAgICAgICAgIHJlZyA9IDwwPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIGQtY2Fj
-aGUtc2l6ZSA9IDwweDgwMDA+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgZC1jYWNoZS1saW5l
-LXNpemUgPSA8NjQ+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgZC1jYWNoZS1zZXRzID0gPDEy
-OD47DQo+ICsgICAgICAgICAgICAgICAgICAgICBpLWNhY2hlLXNpemUgPSA8MHg4MDAwPjsNCj4g
-KyAgICAgICAgICAgICAgICAgICAgIGktY2FjaGUtbGluZS1zaXplID0gPDY0PjsNCj4gKyAgICAg
-ICAgICAgICAgICAgICAgIGktY2FjaGUtc2V0cyA9IDwyNTY+Ow0KPiArICAgICAgICAgICAgICAg
-ICAgICAgbmV4dC1sZXZlbC1jYWNoZSA9IDwmbDI+Ow0KPiArICAgICAgICAgICAgIH07DQo+ICsN
-Cj4gKyAgICAgICAgICAgICBjcHVAMSB7DQo+ICsgICAgICAgICAgICAgICAgICAgICBjb21wYXRp
-YmxlID0gImFybSxjb3J0ZXgtYTM1IjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIGVuYWJsZS1t
-ZXRob2QgPSAicHNjaSI7DQo+ICsgICAgICAgICAgICAgICAgICAgICBkZXZpY2VfdHlwZSA9ICJj
-cHUiOw0KPiArICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDE+Ow0KPiArICAgICAgICAgICAg
-ICAgICAgICAgZC1jYWNoZS1zaXplID0gPDB4ODAwMD47DQo+ICsgICAgICAgICAgICAgICAgICAg
-ICBkLWNhY2hlLWxpbmUtc2l6ZSA9IDw2ND47DQo+ICsgICAgICAgICAgICAgICAgICAgICBkLWNh
-Y2hlLXNldHMgPSA8MTI4PjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIGktY2FjaGUtc2l6ZSA9
-IDwweDgwMDA+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgaS1jYWNoZS1saW5lLXNpemUgPSA8
-NjQ+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgaS1jYWNoZS1zZXRzID0gPDI1Nj47DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICBuZXh0LWxldmVsLWNhY2hlID0gPCZsMj47DQo+ICsgICAgICAg
-ICAgICAgfTsNCj4gKw0KPiArICAgICAgICAgICAgIGNwdUAyIHsNCj4gKyAgICAgICAgICAgICAg
-ICAgICAgIGNvbXBhdGlibGUgPSAiYXJtLGNvcnRleC1hMzUiOw0KPiArICAgICAgICAgICAgICAg
-ICAgICAgZW5hYmxlLW1ldGhvZCA9ICJwc2NpIjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIGRl
-dmljZV90eXBlID0gImNwdSI7DQo+ICsgICAgICAgICAgICAgICAgICAgICByZWcgPSA8Mj47DQo+
-ICsgICAgICAgICAgICAgICAgICAgICBkLWNhY2hlLXNpemUgPSA8MHg4MDAwPjsNCj4gKyAgICAg
-ICAgICAgICAgICAgICAgIGQtY2FjaGUtbGluZS1zaXplID0gPDY0PjsNCj4gKyAgICAgICAgICAg
-ICAgICAgICAgIGQtY2FjaGUtc2V0cyA9IDwxMjg+Ow0KPiArICAgICAgICAgICAgICAgICAgICAg
-aS1jYWNoZS1zaXplID0gPDB4ODAwMD47DQo+ICsgICAgICAgICAgICAgICAgICAgICBpLWNhY2hl
-LWxpbmUtc2l6ZSA9IDw2ND47DQo+ICsgICAgICAgICAgICAgICAgICAgICBpLWNhY2hlLXNldHMg
-PSA8MjU2PjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIG5leHQtbGV2ZWwtY2FjaGUgPSA8Jmwy
-PjsNCj4gKyAgICAgICAgICAgICB9Ow0KPiArDQo+ICsgICAgICAgICAgICAgY3B1QDMgew0KPiAr
-ICAgICAgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJhcm0sY29ydGV4LWEzNSI7DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICBlbmFibGUtbWV0aG9kID0gInBzY2kiOw0KPiArICAgICAgICAg
-ICAgICAgICAgICAgZGV2aWNlX3R5cGUgPSAiY3B1IjsNCj4gKyAgICAgICAgICAgICAgICAgICAg
-IHJlZyA9IDwzPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIGQtY2FjaGUtc2l6ZSA9IDwweDgw
-MDA+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgZC1jYWNoZS1saW5lLXNpemUgPSA8NjQ+Ow0K
-PiArICAgICAgICAgICAgICAgICAgICAgZC1jYWNoZS1zZXRzID0gPDEyOD47DQo+ICsgICAgICAg
-ICAgICAgICAgICAgICBpLWNhY2hlLXNpemUgPSA8MHg4MDAwPjsNCj4gKyAgICAgICAgICAgICAg
-ICAgICAgIGktY2FjaGUtbGluZS1zaXplID0gPDY0PjsNCj4gKyAgICAgICAgICAgICAgICAgICAg
-IGktY2FjaGUtc2V0cyA9IDwyNTY+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgbmV4dC1sZXZl
-bC1jYWNoZSA9IDwmbDI+Ow0KPiArICAgICAgICAgICAgIH07DQo+ICsNCj4gKyAgICAgICAgICAg
-ICBsMjogbDItY2FjaGUwIHsNCj4gKyAgICAgICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAi
-Y2FjaGUiOw0KPiArICAgICAgICAgICAgICAgICAgICAgY2FjaGUtc2l6ZSA9IDwweDgwMDAwPjsN
-Cj4gKyAgICAgICAgICAgICAgICAgICAgIGNhY2hlLWxpbmUtc2l6ZSA9IDw2ND47DQo+ICsgICAg
-ICAgICAgICAgICAgICAgICBjYWNoZS1zZXRzID0gPDEwMjQ+Ow0KPiArICAgICAgICAgICAgICAg
-ICAgICAgY2FjaGUtbGV2ZWwgPSA8Mj47DQo+ICsgICAgICAgICAgICAgfTsNCj4gKyAgICAgfTsN
-Cj4gKw0KPiArICAgICBwbXUgew0KPiArICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAiYXJtLGNv
-cnRleC1hMzUtcG11IjsNCj4gKyAgICAgICAgICAgICBpbnRlcnJ1cHQtcGFyZW50ID0gPCZnaWM+
-Ow0KPiArICAgICAgICAgICAgIGludGVycnVwdHMgPSA8R0lDX1BQSSA3IChHSUNfQ1BVX01BU0tf
-U0lNUExFKDIpIHwgSVJRX1RZUEVfTEVWRUxfSElHSCk+Ow0KPiArICAgICB9Ow0KPiArDQo+ICsg
-ICAgIHBzY2kgew0KDQpPcmRlciB0aGUgbm9kZXMgYWNjb3JkaW5nIHRvIERUUyBjb2Rpbmcgc3R5
-bGUuDQoNCkZpeCBhbGwgeW91ciBwYXRjaGVzOg0KMS4gVG8gcGFzcyBmbGF3bGVzc2x5IGNoZWNr
-cGF0Y2ggKHlvdSBkaWQgbm90IHJ1biBpdCkNCjIuIFRvIHBhc3MgZHRfYmluZGluZ19jaGVjayBh
-bmQgZHRic19jaGVjayAoeW91IGRpZCBub3QgcnVuIHRoZXNlKQ0KMy4gVG8gYWRoZXJlIHRvIGtl
-cm5lbCBjb2Rpbmcgc3R5bGUNCjQuIFRvIGFkaGVyZSB0byBEVFMgY29kaW5nIHN0eWxlDQoNCj4g
-KyAgICAgICAgICAgICBjb21wYXRpYmxlID0gImFybSxwc2NpLTEuMCI7DQo+ICsgICAgICAgICAg
-ICAgbWV0aG9kID0gInNtYyI7DQo+ICsgICAgIH07DQo+ICsNCj4gKyAgICAgZ2ljOiBpbnRlcnJ1
-cHQtY29udHJvbGxlckAxMjIwMDAwMCB7DQoNCk5vcGUsIHRoaXMgY2Fubm90IGJlIG91dHNpZGUg
-b2YgU29DLg0KDQo+ICsgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJhcm0sZ2ljLXYzIjsNCj4g
-KyAgICAgICAgICAgICBpbnRlcnJ1cHRzID0gPEdJQ19QUEkgOSAoR0lDX0NQVV9NQVNLX1NJTVBM
-RSgyKSB8IElSUV9UWVBFX0xFVkVMX0hJR0gpPjsNCj4gKyAgICAgICAgICAgICAjaW50ZXJydXB0
-LWNlbGxzID0gPDM+Ow0KPiArICAgICAgICAgICAgIGludGVycnVwdC1jb250cm9sbGVyOw0KPiAr
-ICAgICAgICAgICAgIGludGVycnVwdC1wYXJlbnQgPSA8JmdpYz47DQo+ICsgICAgICAgICAgICAg
-I3JlZGlzdHJpYnV0b3ItcmVnaW9ucyA9IDwxPjsNCj4gKyAgICAgICAgICAgICByZWcgPSAgIDww
-IDB4MTIyMDAwMDAgMCAweDEwMDAwPiwgICAgICAgICAgICAgICAvL0dJQ0QNCj4gKyAgICAgICAg
-ICAgICAgICAgICAgIDwwIDB4MTIyODAwMDAgMCAweDgwMDAwPiwgICAgICAgICAgICAgICAvL0dJ
-Q1INCj4gKyAgICAgICAgICAgICAgICAgICAgIDwwIDB4NDA0NDAwMDAgMCAweDEwMDA+OyAgICAg
-ICAgICAgICAgICAvL0dJQ0MNCg0KUmVhZCBEVFMgY29kaW5nIHN0eWxlIGFuZCBvcmRlciB0aGlz
-IGNvcnJlY3RseS4NCg0KPiArICAgICB9Ow0KPiArDQo+ICsgICAgIHRpbWVyIHsNCj4gKyAgICAg
-ICAgICAgICBjb21wYXRpYmxlID0gImFybSxhcm12OC10aW1lciI7DQo+ICsgICAgICAgICAgICAg
-aW50ZXJydXB0LXBhcmVudCA9IDwmZ2ljPjsNCj4gKyAgICAgICAgICAgICBpbnRlcnJ1cHRzID0g
-PEdJQ19QUEkgMTMgKEdJQ19DUFVfTUFTS19TSU1QTEUoMikgfCBJUlFfVFlQRV9MRVZFTF9MT1cp
-PiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPEdJQ19QUEkgMTQgKEdJQ19DUFVf
-TUFTS19TSU1QTEUoMikgfCBJUlFfVFlQRV9MRVZFTF9MT1cpPiwNCj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgPEdJQ19QUEkgMTEgKEdJQ19DUFVfTUFTS19TSU1QTEUoMikgfCBJUlFf
-VFlQRV9MRVZFTF9MT1cpPiwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPEdJQ19Q
-UEkgMTAgKEdJQ19DUFVfTUFTS19TSU1QTEUoMikgfCBJUlFfVFlQRV9MRVZFTF9MT1cpPjsNCj4g
-KyAgICAgICAgICAgICBhcm0sY3B1LXJlZ2lzdGVycy1ub3QtZnctY29uZmlndXJlZDsNCj4gKyAg
-ICAgICAgICAgICBhbHdheXMtb247DQo+ICsgICAgIH07DQo+ICsNCj4gKyAgICAgc29jMDogc29j
-QDEwMDAwMDAwIHsNCj4gKyAgICAgICAgICAgICBjb21wYXRpYmxlID0gInNpbXBsZS1idXMiOw0K
-PiArICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDI+Ow0KPiArICAgICAgICAgICAgICNz
-aXplLWNlbGxzID0gPDI+Ow0KPiArICAgICAgICAgICAgIHJhbmdlczsNCj4gKw0KPiArICAgICAg
-ICAgICAgIHNvYzBfc3JhbTogc3JhbUAxMDAwMDAwMCB7DQo+ICsgICAgICAgICAgICAgICAgICAg
-ICBjb21wYXRpYmxlID0gIm1taW8tc3JhbSI7DQo+ICsgICAgICAgICAgICAgICAgICAgICByZWcg
-PSA8MHgwIDB4MTAwMDAwMDAgMHgwIDB4MjAwMDA+OyAgICAgLyogMTI4S2lCIFNSQU0gb24gc29j
-MCAqLw0KPiArICAgICAgICAgICAgICAgICAgICAgcmFuZ2VzID0gPDB4MCAweDAgMHgwIDB4MTAw
-MDAwMDAgMHgwIDB4MjAwMDA+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgI2FkZHJlc3MtY2Vs
-bHMgPSA8Mj47DQo+ICsgICAgICAgICAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwyPjsNCj4g
-KyAgICAgICAgICAgICAgICAgICAgIG5vLW1lbW9yeS13YzsNCj4gKw0KPiArICAgICAgICAgICAg
-ICAgICAgICAgZXhwb3J0ZWRAMCB7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJl
-ZyA9IDwwIDB4MCAwIDB4MjAwMDA+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBl
-eHBvcnQ7DQo+ICsgICAgICAgICAgICAgICAgICAgICB9Ow0KPiArICAgICAgICAgICAgIH07DQo+
-ICsNCj4gKyAgICAgICAgICAgICBzeXNjb24wOiBzeXNjb25AMTJjMDIwMDAgew0KPiArICAgICAg
-ICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjcwMC1zY3UwIiwgInN5c2Nv
-biIsICJzaW1wbGUtbWZkIjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwweDAgMHgx
-MmMwMjAwMCAweDAgMHgxMDAwPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIHJhbmdlcyA9IDww
-eDAgMHgwIDAgMHgxMmMwMjAwMCAwIDB4MTAwMD47DQo+ICsgICAgICAgICAgICAgICAgICAgICAj
-YWRkcmVzcy1jZWxscyA9IDwyPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgICNzaXplLWNlbGxz
-ID0gPDI+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgI2Nsb2NrLWNlbGxzID0gPDE+Ow0KPiAr
-ICAgICAgICAgICAgICAgICAgICAgI3Jlc2V0LWNlbGxzID0gPDE+Ow0KPiArDQo+ICsgICAgICAg
-ICAgICAgICAgICAgICBzaWxpY29uLWlkQDAgew0KPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNzAwLXNpbGljb24taWQiLCAiYXNwZWVkLHNp
-bGljb24taWQiOw0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MCAweDAg
-MCAweDQ+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgfTsNCj4gKw0KPiArICAgICAgICAgICAg
-ICAgICAgICAgc2N1X2ljMDogaW50ZXJydXB0LWNvbnRyb2xsZXJAMUQwIHsNCg0KRFRTIGNvZGlu
-ZyBzdHlsZS4uLg0KDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICNpbnRlcnJ1cHQt
-Y2VsbHMgPSA8MT47DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbXBhdGlibGUg
-PSAiYXNwZWVkLGFzdDI3MDAtc2N1LWljMCI7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHJlZyA9IDwwIDB4MWQwIDAgMHhjPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgaW50ZXJydXB0cyA9IDxHSUNfU1BJIDk3IElSUV9UWVBFX0xFVkVMX0hJR0g+Ow0KPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBpbnRlcnJ1cHQtY29udHJvbGxlcjsNCj4gKyAgICAg
-ICAgICAgICAgICAgICAgIH07DQo+ICsNCj4gKyAgICAgICAgICAgICAgICAgICAgIHNjdV9pYzE6
-IGludGVycnVwdC1jb250cm9sbGVyQDFFMCB7DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICNpbnRlcnJ1cHQtY2VsbHMgPSA8MT47DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIGNvbXBhdGlibGUgPSAiYXNwZWVkLGFzdDI3MDAtc2N1LWljMSI7DQo+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHJlZyA9IDwwIDB4MWUwIDAgMHhjPjsNCj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgaW50ZXJydXB0cyA9IDxHSUNfU1BJIDk4IElSUV9UWVBFX0xFVkVM
-X0hJR0g+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnRlcnJ1cHQtY29udHJv
-bGxlcjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIH07DQo+ICsNCj4gKyAgICAgICAgICAgICAg
-ICAgICAgIHNvYzBfcnN0OiByZXNldC1jb250cm9sbGVyQDIwMCB7DQo+ICsgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHJlZyA9IDwwIDB4MjAwIDAgMHg0MD47DQo+ICsgICAgICAgICAgICAg
-ICAgICAgICB9Ow0KPiArDQo+ICsgICAgICAgICAgICAgICAgICAgICBzb2MwX2NsazogY2xvY2st
-Y29udHJvbGxlckAyNDAgew0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZWcgPSA8
-MCAweDI0MCAwIDB4MWMwPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIH07DQo+ICsgICAgICAg
-ICAgICAgfTsNCj4gKw0KPiArICAgICB9Ow0KPiArDQo+ICsgICAgIHNvYzE6IHNvY0AxNDAwMDAw
-MCB7DQoNCldhaXQsIHdoYXQsIHRvIHNvY3M/DQoNCj4gKyAgICAgICAgICAgICBjb21wYXRpYmxl
-ID0gInNpbXBsZS1idXMiOw0KPiArICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDI+Ow0K
-PiArICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDI+Ow0KPiArICAgICAgICAgICAgIHJhbmdl
-czsNCj4gKw0KPiArICAgICAgICAgICAgIHN5c2NvbjE6IHN5c2NvbkAxNGMwMjAwMCB7DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNzAwLXNjdTEiLCAi
-c3lzY29uIiwgInNpbXBsZS1tZmQiOw0KPiArICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDB4
-MCAweDE0YzAyMDAwIDB4MCAweDEwMDA+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgcmFuZ2Vz
-ID0gPDB4MCAweDAgMHgwIDB4MTRjMDIwMDAgMHgwIDB4MTAwMD47DQo+ICsgICAgICAgICAgICAg
-ICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwyPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgICNz
-aXplLWNlbGxzID0gPDI+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgI2Nsb2NrLWNlbGxzID0g
-PDE+Ow0KPiArICAgICAgICAgICAgICAgICAgICAgI3Jlc2V0LWNlbGxzID0gPDE+Ow0KPiArDQo+
-ICsgICAgICAgICAgICAgICAgICAgICBzb2MxX3JzdDogcmVzZXQtY29udHJvbGxlckAyMDAgew0K
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjcmVzZXQtY2VsbHMgPSA8MT47DQo+ICsg
-ICAgICAgICAgICAgICAgICAgICB9Ow0KPiArDQo+ICsgICAgICAgICAgICAgICAgICAgICBzb2Mx
-X2NsazogY2xvY2stY29udHJvbGxlckAyNDAgew0KPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICByZWcgPSA8MCAweDI0MCAwIDB4MWMwPjsNCj4gKyAgICAgICAgICAgICAgICAgICAgIH07
-DQo+ICsgICAgICAgICAgICAgfTsNCj4gKw0KPiArICAgICAgICAgICAgIHVhcnQxMjogc2VyaWFs
-QDE0YzMzYjAwIHsNCj4gKyAgICAgICAgICAgICAgICAgICAgIGNvbXBhdGlibGUgPSAibnMxNjU1
-MGEiOw0KPiArICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDB4MCAweDE0YzMzYjAwIDB4MCAw
-eDEwMD47DQo+ICsgICAgICAgICAgICAgICAgICAgICByZWctc2hpZnQgPSA8Mj47DQo+ICsgICAg
-ICAgICAgICAgICAgICAgICByZWctaW8td2lkdGggPSA8ND47DQo+ICsgICAgICAgICAgICAgICAg
-ICAgICBjbG9ja3MgPSA8JnN5c2NvbjEgU0NVMV9DTEtfR0FURV9VQVJUMTJDTEs+Ow0KPiArICAg
-ICAgICAgICAgICAgICAgICAgbm8tbG9vcGJhY2stdGVzdDsNCj4gKyAgICAgICAgICAgICAgICAg
-ICAgIHBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQoNCldoYXQgaXMgdGhpcz8NCg0KPiArICAg
-ICAgICAgICAgIH07DQo+ICsgICAgIH07DQo+ICt9Ow0KPiArDQoNCkJlc3QgcmVnYXJkcywNCkty
-enlzenRvZg0KDQoqKioqKioqKioqKioqIEVtYWlsIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioq
-KioqKioqKioqKioqKioqKioNCqdLs2TBbqn6Og0KpburSKXzKKnOqOSq/qXzKaVpr+ClXad0vvex
-S7jqsFShQajDqPyqa6vfq0/FQKFDpnAgpXi63atEq/ypd6Snpqyl86rMoUG90KVIuXGkbLZspfOz
-caq+pbu5caRstmyl86SntW+wZarMLCCow73Qpd+nWadSsKOlu7lxpGy2bKXzpM6o5Kr+pfOpTb5Q
-t7Sp0qazvcamTKXzoUPBwsHCsXqquqZYp0AhDQoNCkRJU0NMQUlNRVI6DQpUaGlzIG1lc3NhZ2Ug
-KGFuZCBhbnkgYXR0YWNobWVudHMpIG1heSBjb250YWluIGxlZ2FsbHkgcHJpdmlsZWdlZCBhbmQv
-b3Igb3RoZXIgY29uZmlkZW50aWFsIGluZm9ybWF0aW9uLiBJZiB5b3UgaGF2ZSByZWNlaXZlZCBp
-dCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHJlcGx5IGUtbWFpbCBhbmQg
-aW1tZWRpYXRlbHkgZGVsZXRlIHRoZSBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyB3aXRob3V0
-IGNvcHlpbmcgb3IgZGlzY2xvc2luZyB0aGUgY29udGVudHMuIFRoYW5rIHlvdS4NCg==
+SGkgS3J6aywNCg0KSSB3aWxsIHNwZXBlcmF0ZSBjbG9jayBwYXJ0IGluIHRoZSB2MyBwYXRjaCBp
+bnRvIFJ5YW4ncyBjbG9jayBzZXJpZXMuDQoNCj4+DQo+PiBPbiBGcmksIDI2IEp1bCAyMDI0IDE5
+OjAzOjQ1ICswODAwLCBLZXZpbiBDaGVuIHdyb3RlOg0KPj4+IFRoaXMgcGF0Y2hzZXQgYWRkcyBp
+bml0aWFsIHN1cHBvcnQgZm9yIHRoZSBBU1BFRUQuDQo+Pj4gQVNUMjdYWCBCb2FyZCBNYW5hZ2Vt
+ZW50IGNvbnRyb2xsZXIgKEJNQykgU29DIGZhbWlseS4NCj4+Pg0KPj4+IEFTVDI3MDAgaXMgQVNQ
+RUVEJ3MgOHRoLWdlbmVyYXRpb24gc2VydmVyIG1hbmFnZW1lbnQgcHJvY2Vzc29yLg0KPj4+IEZl
+YXR1cmluZyBhIHF1YWQtY29yZSBBUk0gQ29ydGV4IEEzNSA2NC1iaXQgcHJvY2Vzc29yIGFuZCB0
+d28NCj4+PiBpbmRlcGVuZGVudCBBUk0gQ29ydGV4IE00IHByb2Nlc3NvcnMNCj4+Pg0KPj4+IFRo
+aXMgcGF0Y2hzZXQgYWRkcyBtaW5pbWFsIGFyY2hpdGVjdHVyZSBhbmQgZHJpdmVycyBzdWNoIGFz
+Og0KPj4+IENsb2Nrc291cmNlLCBDbG9jayBhbmQgUmVzZXQNCj4+Pg0KPj4+IFRoaXMgcGF0Y2hz
+ZXQgd2FzIHRlc3RlZCBvbiB0aGUgQVNQRUVEIEFTVDI3MDAgZXZhbHVhdGlvbiBib2FyZC4NCj4+
+Pg0KPj4+IEtldmluIENoZW4gKDEwKToNCj4+PiAgIGR0LWJpbmRpbmc6IG1mZDogYXNwZWVkLGFz
+dDJ4MDAtc2N1OiBBZGQgYmluZGluZyBmb3IgQVNQRUVEIEFTVDI3MDANCj4+PiAgICAgU0NVDQo+
+Pj4gICBkdC1iaW5kaW5nOiBjbGs6IGFzdDI3MDA6IEFkZCBiaW5kaW5nIGZvciBBc3BlZWQgQVNU
+Mjd4eCBDbG9jaw0KPj4+ICAgY2xrOiBhc3QyNzAwOiBhZGQgY2xvY2sgY29udHJvbGxlcg0KPj4+
+ICAgZHQtYmluZGluZ3M6IHJlc2V0OiBhc3QyNzAwOiBBZGQgYmluZGluZyBmb3IgQVNQRUVEIEFT
+VDI3MDAgUmVzZXQNCj4+PiAgIGR0LWJpbmRpbmdzOiBhcm06IGFzcGVlZDogQWRkIG1haW50YWlu
+ZXINCj4+PiAgIGR0LWJpbmRpbmdzOiBhcm06IGFzcGVlZDogQWRkIGFzcGVlZCxhc3QyNzAwLWV2
+YiBjb21wYXRpYmxlIHN0cmluZw0KPj4+ICAgYXJtNjQ6IGFzcGVlZDogQWRkIHN1cHBvcnQgZm9y
+IEFTUEVFRCBBU1QyNzAwIEJNQyBTb0MNCj4+PiAgIGFybTY0OiBkdHM6IGFzcGVlZDogQWRkIGlu
+aXRpYWwgQVNUMjdYWCBkZXZpY2UgdHJlZQ0KPj4+ICAgYXJtNjQ6IGR0czogYXNwZWVkOiBBZGQg
+aW5pdGlhbCBBU1QyNzAwIEVWQiBkZXZpY2UgdHJlZQ0KPj4+ICAgYXJtNjQ6IGRlZmNvbmZpZzog
+QWRkIEFTUEVFRCBBU1QyNzAwIGZhbWlseSBzdXBwb3J0DQo+Pj4NCj4+PiAgLi4uL2JpbmRpbmdz
+L2FybS9hc3BlZWQvYXNwZWVkLnlhbWwgICAgICAgICAgIHwgICAgNiArDQo+Pj4gIC4uLi9iaW5k
+aW5ncy9tZmQvYXNwZWVkLGFzdDJ4MDAtc2N1LnlhbWwgICAgICB8ICAgIDMgKw0KPj4+ICBNQUlO
+VEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAzICsNCj4+PiAg
+YXJjaC9hcm02NC9LY29uZmlnLnBsYXRmb3JtcyAgICAgICAgICAgICAgICAgIHwgICAxNCArDQo+
+Pj4gIGFyY2gvYXJtNjQvYm9vdC9kdHMvTWFrZWZpbGUgICAgICAgICAgICAgICAgICB8ICAgIDEg
+Kw0KPj4+ICBhcmNoL2FybTY0L2Jvb3QvZHRzL2FzcGVlZC9NYWtlZmlsZSAgICAgICAgICAgfCAg
+ICA0ICsNCj4+PiAgYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvYXNwZWVkLWc3LmR0c2kgICAg
+IHwgIDIxNyArKysNCj4+PiAgYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvYXN0MjcwMC1ldmIu
+ZHRzICAgIHwgICA1MCArDQo+Pj4gIGFyY2gvYXJtNjQvY29uZmlncy9kZWZjb25maWcgICAgICAg
+ICAgICAgICAgICB8ICAgIDEgKw0KPj4+ICBkcml2ZXJzL2Nsay9NYWtlZmlsZSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgfCAgICAxICsNCj4+PiAgZHJpdmVycy9jbGsvY2xrLWFzdDI3MDAuYyAg
+ICAgICAgICAgICAgICAgICAgIHwgMTE2NiArKysrKysrKysrKysrKysrKw0KPj4+ICAuLi4vZHQt
+YmluZGluZ3MvY2xvY2svYXNwZWVkLGFzdDI3MDAtY2xrLmggICAgfCAgMTgwICsrKw0KPj4+ICAu
+Li4vZHQtYmluZGluZ3MvcmVzZXQvYXNwZWVkLGFzdDI3MDAtcmVzZXQuaCAgfCAgMTI2ICsrDQo+
+Pj4gIDEzIGZpbGVzIGNoYW5nZWQsIDE3NzIgaW5zZXJ0aW9ucygrKQ0KPj4+ICBjcmVhdGUgbW9k
+ZSAxMDA2NDQgYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvTWFrZWZpbGUNCj4+PiAgY3JlYXRl
+IG1vZGUgMTAwNjQ0IGFyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1nNy5kdHNpDQo+
+Pj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBhcmNoL2FybTY0L2Jvb3QvZHRzL2FzcGVlZC9hc3QyNzAw
+LWV2Yi5kdHMNCj4+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvY2xrL2Nsay1hc3QyNzAw
+LmMNCj4+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvZHQtYmluZGluZ3MvY2xvY2svYXNw
+ZWVkLGFzdDI3MDAtY2xrLmgNCj4+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvZHQtYmlu
+ZGluZ3MvcmVzZXQvYXNwZWVkLGFzdDI3MDAtcmVzZXQuaA0KPj4+DQo+Pj4gLS0NCj4+PiAyLjM0
+LjENCj4+Pg0KPj4+DQo+Pj4NCj4+DQo+Pg0KPj4gTXkgYm90IGZvdW5kIG5ldyBEVEIgd2Fybmlu
+Z3Mgb24gdGhlIC5kdHMgZmlsZXMgYWRkZWQgb3IgY2hhbmdlZCBpbiB0aGlzDQo+PiBzZXJpZXMu
+DQo+Pg0KPj4gU29tZSB3YXJuaW5ncyBtYXkgYmUgZnJvbSBhbiBleGlzdGluZyBTb0MgLmR0c2ku
+IE9yIHBlcmhhcHMgdGhlIHdhcm5pbmdzDQo+PiBhcmUgZml4ZWQgYnkgYW5vdGhlciBzZXJpZXMu
+IFVsdGltYXRlbHksIGl0IGlzIHVwIHRvIHRoZSBwbGF0Zm9ybQ0KPj4gbWFpbnRhaW5lciB3aGV0
+aGVyIHRoZXNlIHdhcm5pbmdzIGFyZSBhY2NlcHRhYmxlIG9yIG5vdC4gTm8gbmVlZCB0byByZXBs
+eQ0KPj4gdW5sZXNzIHRoZSBwbGF0Zm9ybSBtYWludGFpbmVyIGhhcyBjb21tZW50cy4NCj4+DQo+
+PiBJZiB5b3UgYWxyZWFkeSByYW4gRFQgY2hlY2tzIGFuZCBkaWRuJ3Qgc2VlIHRoZXNlIGVycm9y
+KHMpLCB0aGVuDQo+PiBtYWtlIHN1cmUgZHQtc2NoZW1hIGlzIHVwIHRvIGRhdGU6DQo+Pg0KPj4g
+ICBwaXAzIGluc3RhbGwgZHRzY2hlbWEgLS11cGdyYWRlDQo+Pg0KPj4NCj4+IE5ldyB3YXJuaW5n
+cyBydW5uaW5nICdtYWtlIENIRUNLX0RUQlM9eSBhc3BlZWQvYXN0MjcwMC1ldmIuZHRiJyBmb3Ig
+MjAyNDA3MjYxMTAzNTUuMjE4MTU2My0xLWtldmluX2NoZW5AYXNwZWVkdGVjaC5jb206DQo+DQo+
+S2V2aW4sDQo+SnVzdCB0byBjbGFyaWZ5LiBMb29raW5nIGF0IHRoZSBwYXRjaGVzIGl0IHdhcyBx
+dWl0ZSBvYnZpb3VzIHlvdSBkaWQgbm90DQo+dGVzdCBpdCB3aXRoIGR0YnNfY2hlY2suIEZvciBh
+IG5ldyBhcm02NCBwbGF0Zm9ybSB3aXRob3V0IGFueSBsZWdhY3ksDQo+aGF2aW5nIDAgd2Fybmlu
+Z3MgaXMgYSBtdXN0Lg0KQWdyZWUuDQo+DQo+Q29uc2lkZXIgRG9jdW1lbnRhdGlvbi9wcm9jZXNz
+L21haW50YWluZXItc29jLWNsZWFuLWR0cy5yc3QgYmVpbmcNCj5pbXBsaWVkIGZvciB0aGlzIHBs
+YXRmb3JtLg0KDQotLQ0KQmVzdCBSZWdhcmRzLA0KS2V2aW4uIENoZW4NCg0KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18NCrFIpfOqzDogS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6a0Br
+ZXJuZWwub3JnPg0KsUil86TptME6IDIwMjSmfjek6zI2pOkgpFWkyCAwOTozMw0Kpqyl86rMOiBL
+ZXZpbiBDaGVuIDxrZXZpbl9jaGVuQGFzcGVlZHRlY2guY29tPg0KsMaluzogc29jQGtlcm5lbC5v
+cmcgPHNvY0BrZXJuZWwub3JnPjsgbS5zenlwcm93c2tpQHNhbXN1bmcuY29tIDxtLnN6eXByb3dz
+a2lAc2Ftc3VuZy5jb20+OyBuZnJhcHJhZG9AY29sbGFib3JhLmNvbSA8bmZyYXByYWRvQGNvbGxh
+Ym9yYS5jb20+OyBvbG9mQGxpeG9tLm5ldCA8b2xvZkBsaXhvbS5uZXQ+OyB3aWxsQGtlcm5lbC5v
+cmcgPHdpbGxAa2VybmVsLm9yZz47IG10dXJxdWV0dGVAYmF5bGlicmUuY29tIDxtdHVycXVldHRl
+QGJheWxpYnJlLmNvbT47IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcgPGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmc+OyBsaW51eC1jbGtAdmdlci5rZXJuZWwub3JnIDxsaW51eC1jbGtA
+dmdlci5rZXJuZWwub3JnPjsgY29ub3IrZHRAa2VybmVsLm9yZyA8Y29ub3IrZHRAa2VybmVsLm9y
+Zz47IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnIDxkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9y
+Zz47IGFuZHJld0Bjb2RlY29uc3RydWN0LmNvbS5hdSA8YW5kcmV3QGNvZGVjb25zdHJ1Y3QuY29t
+LmF1PjsgY2F0YWxpbi5tYXJpbmFzQGFybS5jb20gPGNhdGFsaW4ubWFyaW5hc0Bhcm0uY29tPjsg
+c2JveWRAa2VybmVsLm9yZyA8c2JveWRAa2VybmVsLm9yZz47IHAuemFiZWxAcGVuZ3V0cm9uaXgu
+ZGUgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+OyB1LWt1bWFyMUB0aS5jb20gPHUta3VtYXIxQHRp
+LmNvbT47IGFybmRAYXJuZGIuZGUgPGFybmRAYXJuZGIuZGU+OyBqb2VsQGptcy5pZC5hdSA8am9l
+bEBqbXMuaWQuYXU+OyBxdWljX2Jqb3JhbmRlQHF1aWNpbmMuY29tIDxxdWljX2Jqb3JhbmRlQHF1
+aWNpbmMuY29tPjsgbGVlQGtlcm5lbC5vcmcgPGxlZUBrZXJuZWwub3JnPjsga3J6aytkdEBrZXJu
+ZWwub3JnIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJh
+ZGVhZC5vcmcgPGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZz47IG5laWwuYXJt
+c3Ryb25nQGxpbmFyby5vcmcgPG5laWwuYXJtc3Ryb25nQGxpbmFyby5vcmc+OyBsaW51eC1hc3Bl
+ZWRAbGlzdHMub3psYWJzLm9yZyA8bGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmc+OyBkbWl0
+cnkuYmFyeXNoa292QGxpbmFyby5vcmcgPGRtaXRyeS5iYXJ5c2hrb3ZAbGluYXJvLm9yZz47IHNo
+YXduZ3VvQGtlcm5lbC5vcmcgPHNoYXduZ3VvQGtlcm5lbC5vcmc+OyBnZWVydCtyZW5lc2FzQGds
+aWRlci5iZSA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+OyBSb2IgSGVycmluZyAoQXJtKSA8cm9i
+aEBrZXJuZWwub3JnPg0KpUSmrjogUmU6IFtQQVRDSCB2MSAwMC8xMF0gSW50cm9kdWNlIEFTUEVF
+RCBBU1QyN1hYIEJNQyBTb0MNCg0KT24gMjYvMDcvMjAyNCAxNTowOSwgUm9iIEhlcnJpbmcgKEFy
+bSkgd3JvdGU6DQo+DQo+IE9uIEZyaSwgMjYgSnVsIDIwMjQgMTk6MDM6NDUgKzA4MDAsIEtldmlu
+IENoZW4gd3JvdGU6DQo+PiBUaGlzIHBhdGNoc2V0IGFkZHMgaW5pdGlhbCBzdXBwb3J0IGZvciB0
+aGUgQVNQRUVELg0KPj4gQVNUMjdYWCBCb2FyZCBNYW5hZ2VtZW50IGNvbnRyb2xsZXIgKEJNQykg
+U29DIGZhbWlseS4NCj4+DQo+PiBBU1QyNzAwIGlzIEFTUEVFRCdzIDh0aC1nZW5lcmF0aW9uIHNl
+cnZlciBtYW5hZ2VtZW50IHByb2Nlc3Nvci4NCj4+IEZlYXR1cmluZyBhIHF1YWQtY29yZSBBUk0g
+Q29ydGV4IEEzNSA2NC1iaXQgcHJvY2Vzc29yIGFuZCB0d28NCj4+IGluZGVwZW5kZW50IEFSTSBD
+b3J0ZXggTTQgcHJvY2Vzc29ycw0KPj4NCj4+IFRoaXMgcGF0Y2hzZXQgYWRkcyBtaW5pbWFsIGFy
+Y2hpdGVjdHVyZSBhbmQgZHJpdmVycyBzdWNoIGFzOg0KPj4gQ2xvY2tzb3VyY2UsIENsb2NrIGFu
+ZCBSZXNldA0KPj4NCj4+IFRoaXMgcGF0Y2hzZXQgd2FzIHRlc3RlZCBvbiB0aGUgQVNQRUVEIEFT
+VDI3MDAgZXZhbHVhdGlvbiBib2FyZC4NCj4+DQo+PiBLZXZpbiBDaGVuICgxMCk6DQo+PiAgIGR0
+LWJpbmRpbmc6IG1mZDogYXNwZWVkLGFzdDJ4MDAtc2N1OiBBZGQgYmluZGluZyBmb3IgQVNQRUVE
+IEFTVDI3MDANCj4+ICAgICBTQ1UNCj4+ICAgZHQtYmluZGluZzogY2xrOiBhc3QyNzAwOiBBZGQg
+YmluZGluZyBmb3IgQXNwZWVkIEFTVDI3eHggQ2xvY2sNCj4+ICAgY2xrOiBhc3QyNzAwOiBhZGQg
+Y2xvY2sgY29udHJvbGxlcg0KPj4gICBkdC1iaW5kaW5nczogcmVzZXQ6IGFzdDI3MDA6IEFkZCBi
+aW5kaW5nIGZvciBBU1BFRUQgQVNUMjcwMCBSZXNldA0KPj4gICBkdC1iaW5kaW5nczogYXJtOiBh
+c3BlZWQ6IEFkZCBtYWludGFpbmVyDQo+PiAgIGR0LWJpbmRpbmdzOiBhcm06IGFzcGVlZDogQWRk
+IGFzcGVlZCxhc3QyNzAwLWV2YiBjb21wYXRpYmxlIHN0cmluZw0KPj4gICBhcm02NDogYXNwZWVk
+OiBBZGQgc3VwcG9ydCBmb3IgQVNQRUVEIEFTVDI3MDAgQk1DIFNvQw0KPj4gICBhcm02NDogZHRz
+OiBhc3BlZWQ6IEFkZCBpbml0aWFsIEFTVDI3WFggZGV2aWNlIHRyZWUNCj4+ICAgYXJtNjQ6IGR0
+czogYXNwZWVkOiBBZGQgaW5pdGlhbCBBU1QyNzAwIEVWQiBkZXZpY2UgdHJlZQ0KPj4gICBhcm02
+NDogZGVmY29uZmlnOiBBZGQgQVNQRUVEIEFTVDI3MDAgZmFtaWx5IHN1cHBvcnQNCj4+DQo+PiAg
+Li4uL2JpbmRpbmdzL2FybS9hc3BlZWQvYXNwZWVkLnlhbWwgICAgICAgICAgIHwgICAgNiArDQo+
+PiAgLi4uL2JpbmRpbmdzL21mZC9hc3BlZWQsYXN0MngwMC1zY3UueWFtbCAgICAgIHwgICAgMyAr
+DQo+PiAgTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAg
+MyArDQo+PiAgYXJjaC9hcm02NC9LY29uZmlnLnBsYXRmb3JtcyAgICAgICAgICAgICAgICAgIHwg
+ICAxNCArDQo+PiAgYXJjaC9hcm02NC9ib290L2R0cy9NYWtlZmlsZSAgICAgICAgICAgICAgICAg
+IHwgICAgMSArDQo+PiAgYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvTWFrZWZpbGUgICAgICAg
+ICAgIHwgICAgNCArDQo+PiAgYXJjaC9hcm02NC9ib290L2R0cy9hc3BlZWQvYXNwZWVkLWc3LmR0
+c2kgICAgIHwgIDIxNyArKysNCj4+ICBhcmNoL2FybTY0L2Jvb3QvZHRzL2FzcGVlZC9hc3QyNzAw
+LWV2Yi5kdHMgICAgfCAgIDUwICsNCj4+ICBhcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29uZmlnICAg
+ICAgICAgICAgICAgICAgfCAgICAxICsNCj4+ICBkcml2ZXJzL2Nsay9NYWtlZmlsZSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgfCAgICAxICsNCj4+ICBkcml2ZXJzL2Nsay9jbGstYXN0MjcwMC5j
+ICAgICAgICAgICAgICAgICAgICAgfCAxMTY2ICsrKysrKysrKysrKysrKysrDQo+PiAgLi4uL2R0
+LWJpbmRpbmdzL2Nsb2NrL2FzcGVlZCxhc3QyNzAwLWNsay5oICAgIHwgIDE4MCArKysNCj4+ICAu
+Li4vZHQtYmluZGluZ3MvcmVzZXQvYXNwZWVkLGFzdDI3MDAtcmVzZXQuaCAgfCAgMTI2ICsrDQo+
+PiAgMTMgZmlsZXMgY2hhbmdlZCwgMTc3MiBpbnNlcnRpb25zKCspDQo+PiAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IGFyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL01ha2VmaWxlDQo+PiAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGFyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1nNy5kdHNpDQo+PiAg
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGFyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzdDI3MDAtZXZi
+LmR0cw0KPj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2Nsay9jbGstYXN0MjcwMC5jDQo+
+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvZHQtYmluZGluZ3MvY2xvY2svYXNwZWVkLGFz
+dDI3MDAtY2xrLmgNCj4+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9kdC1iaW5kaW5ncy9y
+ZXNldC9hc3BlZWQsYXN0MjcwMC1yZXNldC5oDQo+Pg0KPj4gLS0NCj4+IDIuMzQuMQ0KPj4NCj4+
+DQo+Pg0KPg0KPg0KPiBNeSBib3QgZm91bmQgbmV3IERUQiB3YXJuaW5ncyBvbiB0aGUgLmR0cyBm
+aWxlcyBhZGRlZCBvciBjaGFuZ2VkIGluIHRoaXMNCj4gc2VyaWVzLg0KPg0KPiBTb21lIHdhcm5p
+bmdzIG1heSBiZSBmcm9tIGFuIGV4aXN0aW5nIFNvQyAuZHRzaS4gT3IgcGVyaGFwcyB0aGUgd2Fy
+bmluZ3MNCj4gYXJlIGZpeGVkIGJ5IGFub3RoZXIgc2VyaWVzLiBVbHRpbWF0ZWx5LCBpdCBpcyB1
+cCB0byB0aGUgcGxhdGZvcm0NCj4gbWFpbnRhaW5lciB3aGV0aGVyIHRoZXNlIHdhcm5pbmdzIGFy
+ZSBhY2NlcHRhYmxlIG9yIG5vdC4gTm8gbmVlZCB0byByZXBseQ0KPiB1bmxlc3MgdGhlIHBsYXRm
+b3JtIG1haW50YWluZXIgaGFzIGNvbW1lbnRzLg0KPg0KPiBJZiB5b3UgYWxyZWFkeSByYW4gRFQg
+Y2hlY2tzIGFuZCBkaWRuJ3Qgc2VlIHRoZXNlIGVycm9yKHMpLCB0aGVuDQo+IG1ha2Ugc3VyZSBk
+dC1zY2hlbWEgaXMgdXAgdG8gZGF0ZToNCj4NCj4gICBwaXAzIGluc3RhbGwgZHRzY2hlbWEgLS11
+cGdyYWRlDQo+DQo+DQo+IE5ldyB3YXJuaW5ncyBydW5uaW5nICdtYWtlIENIRUNLX0RUQlM9eSBh
+c3BlZWQvYXN0MjcwMC1ldmIuZHRiJyBmb3IgMjAyNDA3MjYxMTAzNTUuMjE4MTU2My0xLWtldmlu
+X2NoZW5AYXNwZWVkdGVjaC5jb206DQoNCktldmluLA0KSnVzdCB0byBjbGFyaWZ5LiBMb29raW5n
+IGF0IHRoZSBwYXRjaGVzIGl0IHdhcyBxdWl0ZSBvYnZpb3VzIHlvdSBkaWQgbm90DQp0ZXN0IGl0
+IHdpdGggZHRic19jaGVjay4gRm9yIGEgbmV3IGFybTY0IHBsYXRmb3JtIHdpdGhvdXQgYW55IGxl
+Z2FjeSwNCmhhdmluZyAwIHdhcm5pbmdzIGlzIGEgbXVzdC4NCg0KQ29uc2lkZXIgRG9jdW1lbnRh
+dGlvbi9wcm9jZXNzL21haW50YWluZXItc29jLWNsZWFuLWR0cy5yc3QgYmVpbmcNCmltcGxpZWQg
+Zm9yIHRoaXMgcGxhdGZvcm0uDQoNCkJlc3QgcmVnYXJkcywNCktyenlzenRvZg0KDQoqKioqKioq
+KioqKioqIEVtYWlsIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioqKioqKioqKioqKioqKioqKioN
+CqdLs2TBbqn6Og0KpburSKXzKKnOqOSq/qXzKaVpr+ClXad0vvexS7jqsFShQajDqPyqa6vfq0/F
+QKFDpnAgpXi63atEq/ypd6Snpqyl86rMoUG90KVIuXGkbLZspfOzcaq+pbu5caRstmyl86SntW+w
+ZarMLCCow73Qpd+nWadSsKOlu7lxpGy2bKXzpM6o5Kr+pfOpTb5Qt7Sp0qazvcamTKXzoUPBwsHC
+sXqquqZYp0AhDQoNCkRJU0NMQUlNRVI6DQpUaGlzIG1lc3NhZ2UgKGFuZCBhbnkgYXR0YWNobWVu
+dHMpIG1heSBjb250YWluIGxlZ2FsbHkgcHJpdmlsZWdlZCBhbmQvb3Igb3RoZXIgY29uZmlkZW50
+aWFsIGluZm9ybWF0aW9uLiBJZiB5b3UgaGF2ZSByZWNlaXZlZCBpdCBpbiBlcnJvciwgcGxlYXNl
+IG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHJlcGx5IGUtbWFpbCBhbmQgaW1tZWRpYXRlbHkgZGVsZXRl
+IHRoZSBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyB3aXRob3V0IGNvcHlpbmcgb3IgZGlzY2xv
+c2luZyB0aGUgY29udGVudHMuIFRoYW5rIHlvdS4NCg==
 
---_000_PSAPR06MB4949EC0D0E0DA16F50BBF40489802PSAPR06MB4949apcp_
+--_000_PSAPR06MB4949A360F5C5EFDF87DF741489802PSAPR06MB4949apcp_
 Content-Type: text/html; charset="big5"
 Content-Transfer-Encoding: quoted-printable
 
@@ -624,1677 +349,468 @@ FontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0,=
  0, 0);">
 <br>
 </div>
+<div style=3D"margin: 0px; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MS=
+FontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0,=
+ 0, 0);">
+I will speperate clock part in the v3 patch into Ryan's clock series.</div>
 <div class=3D"elementToProof" style=3D"margin: 0px; font-family: Aptos, Apt=
 os_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-=
 size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; ---</div>
+<br>
+&gt;&gt;</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+&gt;&gt; On Fri, 26 Jul 2024 19:03:45 +0800, Kevin Chen wrote:</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;arch/arm64/boot/dts/Makefile &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp;| &nbsp; 1 +</div>
+&gt;&gt;&gt; This patchset adds initial support for the ASPEED.</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi | 217 ++++++++++++=
-++++++++++</div>
+&gt;&gt;&gt; AST27XX Board Management controller (BMC) SoC family.</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;2 files changed, 218 insertions(+)</div>
+&gt;&gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi=
+&gt;&gt;&gt; AST2700 is ASPEED's 8th-generation server management processor=
+.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; Featuring a quad-core ARM Cortex A35 64-bit processor and two<=
+/div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; independent ARM Cortex M4 processors</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; This patchset adds minimal architecture and drivers such as:</=
+div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; Clocksource, Clock and Reset</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; This patchset was tested on the ASPEED AST2700 evaluation boar=
+d.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; Kevin Chen (10):</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; dt-binding: mfd: aspeed,ast2x00-scu: Add binding for AS=
+PEED AST2700</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; &nbsp; SCU</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; dt-binding: clk: ast2700: Add binding for Aspeed AST27x=
+x Clock</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; clk: ast2700: add clock controller</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; dt-bindings: reset: ast2700: Add binding for ASPEED AST=
+2700 Reset</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; dt-bindings: arm: aspeed: Add maintainer</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; dt-bindings: arm: aspeed: Add aspeed,ast2700-evb compat=
+ible string</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; arm64: aspeed: Add support for ASPEED AST2700 BMC SoC</=
+div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; arm64: dts: aspeed: Add initial AST27XX device tree</di=
+v>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; arm64: dts: aspeed: Add initial AST2700 EVB device tree=
 </div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp; arm64: defconfig: Add ASPEED AST2700 family support</di=
+v>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;.../bindings/arm/aspeed/aspeed.yaml &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; | &nbsp; &nbsp;6 +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;.../bindings/mfd/aspeed,ast2x00-scu.yaml &nbsp; &nbsp; &=
+nbsp;| &nbsp; &nbsp;3 +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;MAINTAINERS &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+| &nbsp; &nbsp;3 +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;arch/arm64/Kconfig.platforms &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| &nbsp; 14 +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;arch/arm64/boot/dts/Makefile &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| &nbsp; &nbsp;1 +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;arch/arm64/boot/dts/aspeed/Makefile &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; | &nbsp; &nbsp;4 +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi &nbsp; &nbsp; =
+| &nbsp;217 +++</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;arch/arm64/boot/dts/aspeed/ast2700-evb.dts &nbsp; &nbsp;=
+| &nbsp; 50 +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;arch/arm64/configs/defconfig &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| &nbsp; &nbsp;1 +</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;drivers/clk/Makefile &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;| &nbsp; &nbsp;1 +</=
+div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;drivers/clk/clk-ast2700.c &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | 1166 +++++++++++++++++</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;.../dt-bindings/clock/aspeed,ast2700-clk.h &nbsp; &nbsp;=
+| &nbsp;180 +++</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;.../dt-bindings/reset/aspeed,ast2700-reset.h &nbsp;| &nb=
+sp;126 ++</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;13 files changed, 1772 insertions(+)</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;create mode 100644 arch/arm64/boot/dts/aspeed/Makefile</=
+div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.=
+dtsi</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-ev=
+b.dts</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;create mode 100644 drivers/clk/clk-ast2700.c</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;create mode 100644 include/dt-bindings/clock/aspeed,ast2=
+700-clk.h</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; &nbsp;create mode 100644 include/dt-bindings/reset/aspeed,ast2=
+700-reset.h</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; --</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt; 2.34.1</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt;</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+&gt;&gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 &gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; diff --git a/arch/arm64/boot/dts/Makefile b/arch/arm64/boot/dts/Ma=
-kefile</div>
+&gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; index 21cd3a87f385..c909c19dc5dd 100644</div>
+&gt;&gt; My bot found new DTB warnings on the .dts files added or changed i=
+n this</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; --- a/arch/arm64/boot/dts/Makefile</div>
+&gt;&gt; series.</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +++ b/arch/arm64/boot/dts/Makefile</div>
+&gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; @@ -34,3 +34,4 @@ subdir-y +=3D tesla</div>
+&gt;&gt; Some warnings may be from an existing SoC .dtsi. Or perhaps the wa=
+rnings</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;subdir-y +=3D ti</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;subdir-y +=3D toshiba</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;subdir-y +=3D xilinx</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +subdir-y +=3D aspeed</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; diff --git a/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi b/arch/arm6=
-4/boot/dts/aspeed/aspeed-g7.dtsi</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; new file mode 100644</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; index 000000000000..858ab95251e4</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; --- /dev/null</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +++ b/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; @@ -0,0 +1,217 @@</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +// SPDX-License-Identifier: GPL-2.0-or-later</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +#include &lt;dt-bindings/clock/aspeed,ast2700-clk.h&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +#include &lt;dt-bindings/reset/aspeed,ast2700-reset.h&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +#include &lt;dt-bindings/interrupt-controller/arm-gic.h&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +#include &lt;dt-bindings/interrupt-controller/aspeed-scu-ic.h&gt;=
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +/ {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; model =3D &quot;Aspeed BMC&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-&gt;Model of what? No, drop.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Can I change to &quot;model =3D &quot;AST2700 EVB&quot;&quot;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; compatible =3D &quot;aspeed,ast2700&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;Please run scripts/checkpatch.pl and fix reported warnings. Then please=
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.<=
+&gt;&gt; are fixed by another series. Ultimately, it is up to the platform<=
 /div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;Some warnings can be ignored, especially from --strict run, but the cod=
-e</div>
+&gt;&gt; maintainer whether these warnings are acceptable or not. No need t=
+o reply</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;here looks like it needs a fix. Feel free to get in touch if the warnin=
-g</div>
+&gt;&gt; unless the platform maintainer has comments.</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;is not clear.</div>
+&gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
+&gt;&gt; If you already ran DT checks and didn't see these error(s), then</=
+div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
+&gt;&gt; make sure dt-schema is up to date:</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; #address-cells =3D &lt;2&gt;;</div>
+&gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; #size-cells =3D &lt;2&gt;;</div>
+&gt;&gt; &nbsp; pip3 install dtschema --upgrade</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; interrupt-parent =3D &lt;&amp;gic&gt;;</div>
+&gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
+&gt;&gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; aliases {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; serial12 =3D &amp;uart=
-12;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-&gt;Nope. Such aliases are board specific.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Agree, I will move to ast2700-evb.dts.</div>
+&gt;&gt; New warnings running 'make CHECK_DTBS=3Dy aspeed/ast2700-evb.dtb' =
+for 20240726110355.2181563-1-kevin_chen@aspeedtech.com:</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 &gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; };</div>
+&gt;Kevin,</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
+&gt;Just to clarify. Looking at the patches it was quite obvious you did no=
+t</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; cpus {</div>
+&gt;test it with dtbs_check. For a new arm64 platform without any legacy,</=
+div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #address-cells =3D &lt=
-;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #size-cells =3D &lt;0&=
-gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cpu@0 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;arm,cortex-a35&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; enable-method =3D &quot;psci&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; device_type =3D &quot;cpu&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg =3D &lt;0&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-size =3D &lt;0x8000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-sets =3D &lt;128&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-size =3D &lt;0x8000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-sets =3D &lt;256&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; next-level-cache =3D &lt;&amp;l2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cpu@1 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;arm,cortex-a35&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; enable-method =3D &quot;psci&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; device_type =3D &quot;cpu&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-size =3D &lt;0x8000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-sets =3D &lt;128&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-size =3D &lt;0x8000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-sets =3D &lt;256&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; next-level-cache =3D &lt;&amp;l2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cpu@2 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;arm,cortex-a35&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; enable-method =3D &quot;psci&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; device_type =3D &quot;cpu&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-size =3D &lt;0x8000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-sets =3D &lt;128&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-size =3D &lt;0x8000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-sets =3D &lt;256&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; next-level-cache =3D &lt;&amp;l2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cpu@3 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;arm,cortex-a35&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; enable-method =3D &quot;psci&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; device_type =3D &quot;cpu&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg =3D &lt;3&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-size =3D &lt;0x8000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; d-cache-sets =3D &lt;128&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-size =3D &lt;0x8000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; i-cache-sets =3D &lt;256&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; next-level-cache =3D &lt;&amp;l2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; l2: l2-cache0 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;cache&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; cache-size =3D &lt;0x80000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; cache-line-size =3D &lt;64&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; cache-sets =3D &lt;1024&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; cache-level =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; pmu {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;a=
-rm,cortex-a35-pmu&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupt-parent =3D &=
-lt;&amp;gic&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupts =3D &lt;GIC=
-_PPI 7 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; psci {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;Order the nodes according to DTS coding style.</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;Fix all your patches:</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;1. To pass flawlessly checkpatch (you did not run it)</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;2. To pass dt_binding_check and dtbs_check (you did not run these)</div=
->
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;3. To adhere to kernel coding style</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-&gt;4. To adhere to DTS coding style</div>
+&gt;having 0 warnings is a must.</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
 Agree.</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;a=
-rm,psci-1.0&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; method =3D &quot;smc&q=
-uot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; gic: interrupt-controller@12200000 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
-&gt;Nope, this cannot be outside of SoC.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Agree.</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 &gt;</div>
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;a=
-rm,gic-v3&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupts =3D &lt;GIC=
-_PPI 9 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #interrupt-cells =3D &=
-lt;3&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupt-controller;<=
-/div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupt-parent =3D &=
-lt;&amp;gic&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #redistributor-regions=
- =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &nbsp; &lt;0 0=
-x12200000 0 0x10000&gt;, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; /=
-/GICD</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &lt;0 0x12280000 0 0x80000&gt;, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; //GICR</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &lt;0 0x40440000 0 0x1000&gt;; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp;//GICC</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
+&gt;Consider Documentation/process/maintainer-soc-clean-dts.rst being</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
-&gt;Read DTS coding style and order this correctly.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Agree.</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; timer {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;a=
-rm,armv8-timer&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupt-parent =3D &=
-lt;&amp;gic&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupts =3D &lt;GIC=
-_PPI 13 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)&gt;,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | =
-IRQ_TYPE_LEVEL_LOW)&gt;,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | =
-IRQ_TYPE_LEVEL_LOW)&gt;,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | =
-IRQ_TYPE_LEVEL_LOW)&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; arm,cpu-registers-not-=
-fw-configured;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; always-on;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; soc0: soc@10000000 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;s=
-imple-bus&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #address-cells =3D &lt=
-;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #size-cells =3D &lt;2&=
-gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ranges;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; soc0_sram: sram@100000=
-00 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;mmio-sram&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg =3D &lt;0x0 0x10000000 0x0 0x20000&gt;; &nbsp; &nbsp; /* 128KiB S=
-RAM on soc0 */</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; ranges =3D &lt;0x0 0x0 0x0 0x10000000 0x0 0x20000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #address-cells =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #size-cells =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; no-memory-wc;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; exported@0 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &lt;0 0x0 0 0x20000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; export;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; syscon0: syscon@12c020=
-00 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;aspeed,ast2700-scu0&quot;, &quot;syscon&quot;, &=
-quot;simple-mfd&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg =3D &lt;0x0 0x12c02000 0x0 0x1000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; ranges =3D &lt;0x0 0x0 0 0x12c02000 0 0x1000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #address-cells =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #size-cells =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #clock-cells =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #reset-cells =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; silicon-id@0 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;aspeed,ast2700-silic=
-on-id&quot;, &quot;aspeed,silicon-id&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &lt;0 0x0 0 0x4&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; scu_ic0: interrupt-controller@1D0 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-&gt;DTS coding style...</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Agree. I will fix to &quot;scu_ic0: interrupt-controller@1d0 {&quot;</div>
+&gt;implied for this platform.</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
 <br>
 </div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #interrupt-cells =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;aspeed,ast2700-scu-i=
-c0&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &lt;0 0x1d0 0 0xc&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupts =3D &lt;GIC_SPI 97 IRQ_TYPE_LE=
-VEL_HIGH&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupt-controller;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; scu_ic1: interrupt-controller@1E0 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #interrupt-cells =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;aspeed,ast2700-scu-i=
-c1&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &lt;0 0x1e0 0 0xc&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupts =3D &lt;GIC_SPI 98 IRQ_TYPE_LE=
-VEL_HIGH&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; interrupt-controller;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; soc0_rst: reset-controller@200 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &lt;0 0x200 0 0x40&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; soc0_clk: clock-controller@240 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &lt;0 0x240 0 0x1c0&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; soc1: soc@14000000 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
 olor: rgb(0, 0, 0);">
-&gt;Wait, what, to socs?</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Yes, two socs in different die.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compatible =3D &quot;s=
-imple-bus&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #address-cells =3D &lt=
-;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #size-cells =3D &lt;2&=
-gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ranges;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; syscon1: syscon@14c020=
-00 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;aspeed,ast2700-scu1&quot;, &quot;syscon&quot;, &=
-quot;simple-mfd&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg =3D &lt;0x0 0x14c02000 0x0 0x1000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; ranges =3D &lt;0x0 0x0 0x0 0x14c02000 0x0 0x1000&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #address-cells =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #size-cells =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #clock-cells =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; #reset-cells =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; soc1_rst: reset-controller@200 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; #reset-cells =3D &lt;1&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; soc1_clk: clock-controller@240 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; reg =3D &lt;0 0x240 0 0x1c0&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; uart12: serial@14c33b0=
-0 {</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; compatible =3D &quot;ns16550a&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg =3D &lt;0x0 0x14c33b00 0x0 0x100&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg-shift =3D &lt;2&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; reg-io-width =3D &lt;4&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; clocks =3D &lt;&amp;syscon1 SCU1_CLK_GATE_UART12CLK&gt;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; no-loopback-test;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; pinctrl-names =3D &quot;default&quot;;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-&gt;What is this?</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-BMC uart using in uart12 in soc1.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; + &nbsp; &nbsp; };</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-&gt;&gt; +};</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-&gt;&gt; +</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
-margin: 0px; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
-alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 --</div>
-<div style=3D"text-align: left; text-indent: 0px; margin: 0px; font-family:=
- Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-s=
-erif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
 Best Regards,</div>
-<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
-margin: 0px; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
-alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
 Kevin. Chen</div>
+<div id=3D"appendonsend"></div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
 <hr style=3D"display: inline-block; width: 98%;">
 <div id=3D"divRplyFwdMsg" dir=3D"ltr"><span style=3D"font-family: Calibri, =
 sans-serif; font-size: 11pt; color: rgb(0, 0, 0);"><b>=B1H=A5=F3=AA=CC:</b>=
 &nbsp;Krzysztof Kozlowski &lt;krzk@kernel.org&gt;<br>
-<b>=B1H=A5=F3=A4=E9=B4=C1:</b>&nbsp;2024=A6~7=A4=EB26=A4=E9 =A4U=A4=C8 07:1=
-9<br>
+<b>=B1H=A5=F3=A4=E9=B4=C1:</b>&nbsp;2024=A6~7=A4=EB26=A4=E9 =A4U=A4=C8 09:3=
+3<br>
 <b>=A6=AC=A5=F3=AA=CC:</b>&nbsp;Kevin Chen &lt;kevin_chen@aspeedtech.com&gt=
-;; robh@kernel.org &lt;robh@kernel.org&gt;; krzk+dt@kernel.org &lt;krzk+dt@=
-kernel.org&gt;; conor+dt@kernel.org &lt;conor+dt@kernel.org&gt;; joel@jms.i=
-d.au &lt;joel@jms.id.au&gt;; andrew@codeconstruct.com.au &lt;andrew@codecon=
-struct.com.au&gt;;
- lee@kernel.org &lt;lee@kernel.org&gt;; catalin.marinas@arm.com &lt;catalin=
-.marinas@arm.com&gt;; will@kernel.org &lt;will@kernel.org&gt;; arnd@arndb.d=
-e &lt;arnd@arndb.de&gt;; olof@lixom.net &lt;olof@lixom.net&gt;; soc@kernel.=
-org &lt;soc@kernel.org&gt;; mturquette@baylibre.com &lt;mturquette@baylibre=
-.com&gt;;
- sboyd@kernel.org &lt;sboyd@kernel.org&gt;; p.zabel@pengutronix.de &lt;p.za=
-bel@pengutronix.de&gt;; quic_bjorande@quicinc.com &lt;quic_bjorande@quicinc=
-.com&gt;; geert+renesas@glider.be &lt;geert+renesas@glider.be&gt;; dmitry.b=
-aryshkov@linaro.org &lt;dmitry.baryshkov@linaro.org&gt;; shawnguo@kernel.or=
-g
- &lt;shawnguo@kernel.org&gt;; neil.armstrong@linaro.org &lt;neil.armstrong@=
-linaro.org&gt;; m.szyprowski@samsung.com &lt;m.szyprowski@samsung.com&gt;; =
-nfraprado@collabora.com &lt;nfraprado@collabora.com&gt;; u-kumar1@ti.com &l=
-t;u-kumar1@ti.com&gt;; devicetree@vger.kernel.org &lt;devicetree@vger.kerne=
-l.org&gt;;
- linux-arm-kernel@lists.infradead.org &lt;linux-arm-kernel@lists.infradead.=
-org&gt;; linux-aspeed@lists.ozlabs.org &lt;linux-aspeed@lists.ozlabs.org&gt=
-;; linux-kernel@vger.kernel.org &lt;linux-kernel@vger.kernel.org&gt;; linux=
--clk@vger.kernel.org &lt;linux-clk@vger.kernel.org&gt;<br>
-<b>=A5D=A6=AE:</b>&nbsp;Re: [PATCH v1 08/10] arm64: dts: aspeed: Add initia=
-l AST27XX device tree</span>
+;<br>
+<b>=B0=C6=A5=BB:</b>&nbsp;soc@kernel.org &lt;soc@kernel.org&gt;; m.szyprows=
+ki@samsung.com &lt;m.szyprowski@samsung.com&gt;; nfraprado@collabora.com &l=
+t;nfraprado@collabora.com&gt;; olof@lixom.net &lt;olof@lixom.net&gt;; will@=
+kernel.org &lt;will@kernel.org&gt;; mturquette@baylibre.com &lt;mturquette@=
+baylibre.com&gt;;
+ linux-kernel@vger.kernel.org &lt;linux-kernel@vger.kernel.org&gt;; linux-c=
+lk@vger.kernel.org &lt;linux-clk@vger.kernel.org&gt;; conor+dt@kernel.org &=
+lt;conor+dt@kernel.org&gt;; devicetree@vger.kernel.org &lt;devicetree@vger.=
+kernel.org&gt;; andrew@codeconstruct.com.au &lt;andrew@codeconstruct.com.au=
+&gt;;
+ catalin.marinas@arm.com &lt;catalin.marinas@arm.com&gt;; sboyd@kernel.org =
+&lt;sboyd@kernel.org&gt;; p.zabel@pengutronix.de &lt;p.zabel@pengutronix.de=
+&gt;; u-kumar1@ti.com &lt;u-kumar1@ti.com&gt;; arnd@arndb.de &lt;arnd@arndb=
+.de&gt;; joel@jms.id.au &lt;joel@jms.id.au&gt;; quic_bjorande@quicinc.com
+ &lt;quic_bjorande@quicinc.com&gt;; lee@kernel.org &lt;lee@kernel.org&gt;; =
+krzk+dt@kernel.org &lt;krzk+dt@kernel.org&gt;; linux-arm-kernel@lists.infra=
+dead.org &lt;linux-arm-kernel@lists.infradead.org&gt;; neil.armstrong@linar=
+o.org &lt;neil.armstrong@linaro.org&gt;; linux-aspeed@lists.ozlabs.org
+ &lt;linux-aspeed@lists.ozlabs.org&gt;; dmitry.baryshkov@linaro.org &lt;dmi=
+try.baryshkov@linaro.org&gt;; shawnguo@kernel.org &lt;shawnguo@kernel.org&g=
+t;; geert+renesas@glider.be &lt;geert+renesas@glider.be&gt;; Rob Herring (A=
+rm) &lt;robh@kernel.org&gt;<br>
+<b>=A5D=A6=AE:</b>&nbsp;Re: [PATCH v1 00/10] Introduce ASPEED AST27XX BMC S=
+oC</span>
 <div>&nbsp;</div>
 </div>
-<div style=3D"font-size: 11pt;">On 26/07/2024 13:03, Kevin Chen wrote:<br>
-&gt; ---<br>
-&gt;&nbsp; arch/arm64/boot/dts/Makefile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 1 +<br>
-&gt;&nbsp; arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi | 217 ++++++++++++++++=
-++++++<br>
-&gt;&nbsp; 2 files changed, 218 insertions(+)<br>
-&gt;&nbsp; create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi<br>
+<div style=3D"font-size: 11pt;">On 26/07/2024 15:09, Rob Herring (Arm) wrot=
+e:<br>
 &gt;<br>
-&gt; diff --git a/arch/arm64/boot/dts/Makefile b/arch/arm64/boot/dts/Makefi=
-le<br>
-&gt; index 21cd3a87f385..c909c19dc5dd 100644<br>
-&gt; --- a/arch/arm64/boot/dts/Makefile<br>
-&gt; +++ b/arch/arm64/boot/dts/Makefile<br>
-&gt; @@ -34,3 +34,4 @@ subdir-y +=3D tesla<br>
-&gt;&nbsp; subdir-y +=3D ti<br>
-&gt;&nbsp; subdir-y +=3D toshiba<br>
-&gt;&nbsp; subdir-y +=3D xilinx<br>
-&gt; +subdir-y +=3D aspeed<br>
-&gt; diff --git a/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi b/arch/arm64/bo=
-ot/dts/aspeed/aspeed-g7.dtsi<br>
-&gt; new file mode 100644<br>
-&gt; index 000000000000..858ab95251e4<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi<br>
-&gt; @@ -0,0 +1,217 @@<br>
-&gt; +// SPDX-License-Identifier: GPL-2.0-or-later<br>
-&gt; +#include &lt;dt-bindings/clock/aspeed,ast2700-clk.h&gt;<br>
-&gt; +#include &lt;dt-bindings/reset/aspeed,ast2700-reset.h&gt;<br>
-&gt; +#include &lt;dt-bindings/interrupt-controller/arm-gic.h&gt;<br>
-&gt; +#include &lt;dt-bindings/interrupt-controller/aspeed-scu-ic.h&gt;<br>
-&gt; +<br>
-&gt; +/ {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; model =3D &quot;Aspeed BMC&quot;;<br>
-<br>
-Model of what? No, drop.<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2700&quot;;<b=
+&gt; On Fri, 26 Jul 2024 19:03:45 +0800, Kevin Chen wrote:<br>
+&gt;&gt; This patchset adds initial support for the ASPEED.<br>
+&gt;&gt; AST27XX Board Management controller (BMC) SoC family.<br>
+&gt;&gt;<br>
+&gt;&gt; AST2700 is ASPEED's 8th-generation server management processor.<br=
+>
+&gt;&gt; Featuring a quad-core ARM Cortex A35 64-bit processor and two<br>
+&gt;&gt; independent ARM Cortex M4 processors<br>
+&gt;&gt;<br>
+&gt;&gt; This patchset adds minimal architecture and drivers such as:<br>
+&gt;&gt; Clocksource, Clock and Reset<br>
+&gt;&gt;<br>
+&gt;&gt; This patchset was tested on the ASPEED AST2700 evaluation board.<b=
 r>
-<br>
-Please run scripts/checkpatch.pl and fix reported&nbsp;warnings. Then pleas=
+&gt;&gt;<br>
+&gt;&gt; Kevin Chen (10):<br>
+&gt;&gt;&nbsp;&nbsp; dt-binding: mfd: aspeed,ast2x00-scu: Add binding for A=
+SPEED AST2700<br>
+&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp; SCU<br>
+&gt;&gt;&nbsp;&nbsp; dt-binding: clk: ast2700: Add binding for Aspeed AST27=
+xx Clock<br>
+&gt;&gt;&nbsp;&nbsp; clk: ast2700: add clock controller<br>
+&gt;&gt;&nbsp;&nbsp; dt-bindings: reset: ast2700: Add binding for ASPEED AS=
+T2700 Reset<br>
+&gt;&gt;&nbsp;&nbsp; dt-bindings: arm: aspeed: Add maintainer<br>
+&gt;&gt;&nbsp;&nbsp; dt-bindings: arm: aspeed: Add aspeed,ast2700-evb compa=
+tible string<br>
+&gt;&gt;&nbsp;&nbsp; arm64: aspeed: Add support for ASPEED AST2700 BMC SoC<=
+br>
+&gt;&gt;&nbsp;&nbsp; arm64: dts: aspeed: Add initial AST27XX device tree<br=
+>
+&gt;&gt;&nbsp;&nbsp; arm64: dts: aspeed: Add initial AST2700 EVB device tre=
 e<br>
-run `scripts/checkpatch.pl --strict` and (probably) fix more warnings.<br>
-Some warnings can be ignored, especially from --strict run, but the code<br=
+&gt;&gt;&nbsp;&nbsp; arm64: defconfig: Add ASPEED AST2700 family support<br=
 >
-here looks like it needs a fix. Feel free to get in touch if the warning<br=
+&gt;&gt;<br>
+&gt;&gt;&nbsp; .../bindings/arm/aspeed/aspeed.yaml&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 6 +<br>
+&gt;&gt;&nbsp; .../bindings/mfd/aspeed,ast2x00-scu.yaml&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; |&nbsp;&nbsp;&nbsp; 3 +<br>
+&gt;&gt;&nbsp; MAINTAINERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; |&nbsp;&nbsp;&nbsp; 3 +<br>
+&gt;&gt;&nbsp; arch/arm64/Kconfig.platforms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nb=
+sp;&nbsp; 14 +<br>
+&gt;&gt;&nbsp; arch/arm64/boot/dts/Makefile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nb=
+sp;&nbsp;&nbsp; 1 +<br>
+&gt;&gt;&nbsp; arch/arm64/boot/dts/aspeed/Makefile&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 4 +<br>
+&gt;&gt;&nbsp; arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi&nbsp;&nbsp;&nbsp;&=
+nbsp; |&nbsp; 217 +++<br>
+&gt;&gt;&nbsp; arch/arm64/boot/dts/aspeed/ast2700-evb.dts&nbsp;&nbsp;&nbsp;=
+ |&nbsp;&nbsp; 50 +<br>
+&gt;&gt;&nbsp; arch/arm64/configs/defconfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nb=
+sp;&nbsp;&nbsp; 1 +<br>
+&gt;&gt;&nbsp; drivers/clk/Makefile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; 1 +<br>
+&gt;&gt;&nbsp; drivers/clk/clk-ast2700.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; | 1166 +++++++++++++++++<br>
+&gt;&gt;&nbsp; .../dt-bindings/clock/aspeed,ast2700-clk.h&nbsp;&nbsp;&nbsp;=
+ |&nbsp; 180 +++<br>
+&gt;&gt;&nbsp; .../dt-bindings/reset/aspeed,ast2700-reset.h&nbsp; |&nbsp; 1=
+26 ++<br>
+&gt;&gt;&nbsp; 13 files changed, 1772 insertions(+)<br>
+&gt;&gt;&nbsp; create mode 100644 arch/arm64/boot/dts/aspeed/Makefile<br>
+&gt;&gt;&nbsp; create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi=
+<br>
+&gt;&gt;&nbsp; create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dt=
+s<br>
+&gt;&gt;&nbsp; create mode 100644 drivers/clk/clk-ast2700.c<br>
+&gt;&gt;&nbsp; create mode 100644 include/dt-bindings/clock/aspeed,ast2700-=
+clk.h<br>
+&gt;&gt;&nbsp; create mode 100644 include/dt-bindings/reset/aspeed,ast2700-=
+reset.h<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.34.1<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; My bot found new DTB warnings on the .dts files added or changed in th=
+is<br>
+&gt; series.<br>
+&gt;<br>
+&gt; Some warnings may be from an existing SoC .dtsi. Or perhaps the warnin=
+gs<br>
+&gt; are fixed by another series. Ultimately, it is up to the platform<br>
+&gt; maintainer whether these warnings are acceptable or not. No need to re=
+ply<br>
+&gt; unless the platform maintainer has comments.<br>
+&gt;<br>
+&gt; If you already ran DT checks and didn't see these error(s), then<br>
+&gt; make sure dt-schema is up to date:<br>
+&gt;<br>
+&gt;&nbsp;&nbsp; pip3 install dtschema --upgrade<br>
+&gt;<br>
+&gt;<br>
+&gt; New warnings running 'make CHECK_DTBS=3Dy aspeed/ast2700-evb.dtb' for =
+20240726110355.2181563-1-kevin_chen@aspeedtech.com:<br>
+<br>
+Kevin,<br>
+Just to clarify. Looking at the patches it was quite obvious you did not<br=
 >
-is not clear.<br>
+test it with dtbs_check. For a new arm64 platform without any legacy,<br>
+having 0 warnings is a must.<br>
 <br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; interrupt-parent =3D &lt;&amp;gic&gt;;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; aliases {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; serial12 =3D &amp;uart12;<br>
-<br>
-Nope. Such aliases are board specific.<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; cpus {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; #address-cells =3D &lt;1&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; #size-cells =3D &lt;0&gt;;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; cpu@0 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;ar=
-m,cortex-a35&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enable-method =3D &quot=
-;psci&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; device_type =3D &quot;c=
-pu&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-size =3D &lt;0x=
-8000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-line-size =3D &=
-lt;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-sets =3D &lt;12=
-8&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-size =3D &lt;0x=
-8000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-line-size =3D &=
-lt;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-sets =3D &lt;25=
-6&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next-level-cache =3D &l=
-t;&amp;l2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; cpu@1 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;ar=
-m,cortex-a35&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enable-method =3D &quot=
-;psci&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; device_type =3D &quot;c=
-pu&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;1&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-size =3D &lt;0x=
-8000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-line-size =3D &=
-lt;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-sets =3D &lt;12=
-8&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-size =3D &lt;0x=
-8000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-line-size =3D &=
-lt;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-sets =3D &lt;25=
-6&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next-level-cache =3D &l=
-t;&amp;l2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; cpu@2 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;ar=
-m,cortex-a35&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enable-method =3D &quot=
-;psci&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; device_type =3D &quot;c=
-pu&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-size =3D &lt;0x=
-8000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-line-size =3D &=
-lt;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-sets =3D &lt;12=
-8&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-size =3D &lt;0x=
-8000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-line-size =3D &=
-lt;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-sets =3D &lt;25=
-6&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next-level-cache =3D &l=
-t;&amp;l2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; cpu@3 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;ar=
-m,cortex-a35&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enable-method =3D &quot=
-;psci&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; device_type =3D &quot;c=
-pu&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;3&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-size =3D &lt;0x=
-8000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-line-size =3D &=
-lt;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d-cache-sets =3D &lt;12=
-8&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-size =3D &lt;0x=
-8000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-line-size =3D &=
-lt;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i-cache-sets =3D &lt;25=
-6&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next-level-cache =3D &l=
-t;&amp;l2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; l2: l2-cache0 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;ca=
-che&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cache-size =3D &lt;0x80=
-000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cache-line-size =3D &lt=
-;64&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cache-sets =3D &lt;1024=
-&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cache-level =3D &lt;2&g=
-t;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; pmu {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; compatible =3D &quot;arm,cortex-a35-pmu&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; interrupt-parent =3D &lt;&amp;gic&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; interrupts =3D &lt;GIC_PPI 7 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_H=
-IGH)&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; psci {<br>
-<br>
-Order the nodes according to DTS coding style.<br>
-<br>
-Fix all your patches:<br>
-1. To pass flawlessly checkpatch (you did not run it)<br>
-2. To pass dt_binding_check and dtbs_check (you did not run these)<br>
-3. To adhere to kernel coding style<br>
-4. To adhere to DTS coding style<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; compatible =3D &quot;arm,psci-1.0&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; method =3D &quot;smc&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; gic: interrupt-controller@12200000 {<br>
-<br>
-Nope, this cannot be outside of SoC.<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; compatible =3D &quot;arm,gic-v3&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; interrupts =3D &lt;GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_H=
-IGH)&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; #interrupt-cells =3D &lt;3&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; interrupt-controller;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; interrupt-parent =3D &lt;&amp;gic&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; #redistributor-regions =3D &lt;1&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; reg =3D&nbsp;&nbsp; &lt;0 0x12200000 0 0x10000&gt;,&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //GICD<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;0 0x12280000 0 0x80=
-000&gt;,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; //GICR<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;0 0x40440000 0 0x10=
-00&gt;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; //GICC<br>
-<br>
-Read DTS coding style and order this correctly.<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; timer {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; compatible =3D &quot;arm,armv8-timer&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; interrupt-parent =3D &lt;&amp;gic&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; interrupts =3D &lt;GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_=
-LOW)&gt;,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; &lt;GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_=
-LEVEL_LOW)&gt;,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; &lt;GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_=
-LEVEL_LOW)&gt;,<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; &lt;GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_=
-LEVEL_LOW)&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; arm,cpu-registers-not-fw-configured;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; always-on;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; soc0: soc@10000000 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; compatible =3D &quot;simple-bus&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; #address-cells =3D &lt;2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; #size-cells =3D &lt;2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; ranges;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; soc0_sram: sram@10000000 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;mm=
-io-sram&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x0 0x10000=
-000 0x0 0x20000&gt;;&nbsp;&nbsp;&nbsp;&nbsp; /* 128KiB SRAM on soc0 */<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ranges =3D &lt;0x0 0x0 =
-0x0 0x10000000 0x0 0x20000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;=
-2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;2&g=
-t;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; no-memory-wc;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exported@0 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0 0x0 0 0x20000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; export;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; syscon0: syscon@12c02000 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;as=
-peed,ast2700-scu0&quot;, &quot;syscon&quot;, &quot;simple-mfd&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x0 0x12c02=
-000 0x0 0x1000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ranges =3D &lt;0x0 0x0 =
-0 0x12c02000 0 0x1000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;=
-2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;2&g=
-t;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #clock-cells =3D &lt;1&=
-gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #reset-cells =3D &lt;1&=
-gt;;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; silicon-id@0 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2700-silicon-id&quo=
-t;, &quot;aspeed,silicon-id&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0 0x0 0 0x4&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scu_ic0: interrupt-cont=
-roller@1D0 {<br>
-<br>
-DTS coding style...<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; #interrupt-cells =3D &lt;1&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2700-scu-ic0&quot;;=
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0 0x1d0 0 0xc&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; interrupts =3D &lt;GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH&=
-gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; interrupt-controller;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scu_ic1: interrupt-cont=
-roller@1E0 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; #interrupt-cells =3D &lt;1&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;aspeed,ast2700-scu-ic1&quot;;=
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0 0x1e0 0 0xc&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; interrupts =3D &lt;GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH&=
-gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; interrupt-controller;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; soc0_rst: reset-control=
-ler@200 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0 0x200 0 0x40&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; soc0_clk: clock-control=
-ler@240 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0 0x240 0 0x1c0&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; soc1: soc@14000000 {<br>
-<br>
-Wait, what, to socs?<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; compatible =3D &quot;simple-bus&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; #address-cells =3D &lt;2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; #size-cells =3D &lt;2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; ranges;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; syscon1: syscon@14c02000 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;as=
-peed,ast2700-scu1&quot;, &quot;syscon&quot;, &quot;simple-mfd&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x0 0x14c02=
-000 0x0 0x1000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ranges =3D &lt;0x0 0x0 =
-0x0 0x14c02000 0x0 0x1000&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #address-cells =3D &lt;=
-2&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #size-cells =3D &lt;2&g=
-t;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #clock-cells =3D &lt;1&=
-gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #reset-cells =3D &lt;1&=
-gt;;<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; soc1_rst: reset-control=
-ler@200 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; #reset-cells =3D &lt;1&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; soc1_clk: clock-control=
-ler@240 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0 0x240 0 0x1c0&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; uart12: serial@14c33b00 {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compatible =3D &quot;ns=
-16550a&quot;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg =3D &lt;0x0 0x14c33=
-b00 0x0 0x100&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg-shift =3D &lt;2&gt;=
-;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reg-io-width =3D &lt;4&=
-gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clocks =3D &lt;&amp;sys=
-con1 SCU1_CLK_GATE_UART12CLK&gt;;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; no-loopback-test;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pinctrl-names =3D &quot=
-;default&quot;;<br>
-<br>
-What is this?<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; };<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&gt; +};<br>
-&gt; +<br>
+Consider Documentation/process/maintainer-soc-clean-dts.rst being<br>
+implied for this platform.<br>
 <br>
 Best regards,<br>
 Krzysztof<br>
@@ -2318,4 +834,4 @@ achments without copying or disclosing
 </body>
 </html>
 
---_000_PSAPR06MB4949EC0D0E0DA16F50BBF40489802PSAPR06MB4949apcp_--
+--_000_PSAPR06MB4949A360F5C5EFDF87DF741489802PSAPR06MB4949apcp_--
