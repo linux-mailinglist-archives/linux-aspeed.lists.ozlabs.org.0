@@ -2,123 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17469954594
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Aug 2024 11:26:45 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="::1" arc.chain=microsoft.com
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD99954F44
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Aug 2024 18:47:32 +0200 (CEST)
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="::1"
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=XjeC2vHz;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KoohLSej;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wlc7l0jgQz3bTf
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Aug 2024 19:26:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WlnwK4ds2z2ywC
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Aug 2024 02:47:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feae::625" arc.chain=microsoft.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=XjeC2vHz;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KoohLSej;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feae::625; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20625.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::625])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wlc7h45jCz2xst
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Aug 2024 19:26:40 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CI33zvLIk+hkm28T7VfxMlRePR+L/zrkbH+uZ7/GEcc1f76qkcKay90zLlp9soRkypDGZyPuL4zdIhIP8uVnBrJvwsGmCc5bQWz8JURjfjp++NM3EpCIAmSr3Z3R2oVEQ5/m8W0mePfopLGhjGxFhImkpCVzRkdewo4ckV8ZRYMqFLAcHsIe6rPljTUeQwqhT8NO90iBlOszXQc97h8xC3a3DAjIJX2qx/ttH0QuC77Bv7MJ25+mdcke4js5kvuiJ2A8/oxrIRJm/k8qNABCqsBVWhleMoo3KubcvVwMMu9AVjrkyQVLjX1VlziP9b/8uMjlBC9cFfns2ic0nOjhXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o+24Kp4KzLO9I4Hcd3hiuundM/PhwavSUaxUKYjbqNc=;
- b=up30C88clK7THxyDpCehx+1VD2PjZB1Q0sp2irRW0t4FToub6jb5HF+RdEP6qSGyrp1qNa25c7UnYv4aL8ksVzVnvYir0bCty48/mkXmLC/4BcOA35Zl2kleOw5XKMXlPSzDwZvOgkm96iY09FSU/rG3xCFZgFo7nIfiESbKtp47sp7FMncJ1UKGNamcUcJCFy5uKNIJfgNyLZClGdEIjBz4wFJmsGElg2gWEZ7hU9crwhyDU+Iqc4pxXiS4WLa00nBjEkXGvJRrxfGwnxxuKnOTie3pF2z0Rx7z2KNFIuxhAJ/yksrLBQa9z6I5P33qm2pM4MeSk+9QTJ8XK4uzfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
- (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o+24Kp4KzLO9I4Hcd3hiuundM/PhwavSUaxUKYjbqNc=;
- b=XjeC2vHzbkg3kJs/lkr0u0ks/CPY/NXvuRwF1xkdAe95PepwmctPjIgRdgfGZNyv8i0qXLm2q8G1YPAV789DX7CMhMUbgN4qxpqsvyNqUewaEUpKVTZrM6XC79UNsOjyFoCPoBNp2k8t07PVWW9qhjTLdewh7HarkeRFjLxZQo+c3Bl5n4gz1iotT/WMXJcL7bo9azr04wPhJBVtQFIwqba/s9RjFy1NYQK8AYZpu6X1cd5eq4Ikv1Pyj7gqJt9JhUnHJUPXB7dO2k8dYR3hX7zNDjWZGbTGE3FgFfwfMiW+4QXC32VTMAVySwZ44XyQm8nADcCPU57eTZ5KLmHXEA==
-Received: from SG2PR06CA0242.apcprd06.prod.outlook.com (2603:1096:4:ac::26) by
- TY0PR04MB6175.apcprd04.prod.outlook.com (2603:1096:400:32c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19; Fri, 16 Aug
- 2024 09:26:33 +0000
-Received: from HK3PEPF0000021D.apcprd03.prod.outlook.com
- (2603:1096:4:ac:cafe::9) by SG2PR06CA0242.outlook.office365.com
- (2603:1096:4:ac::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19 via Frontend
- Transport; Fri, 16 Aug 2024 09:26:33 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
- smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
-Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
- designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.20.1.79; helo=localhost.localdomain;
-Received: from localhost.localdomain (211.20.1.79) by
- HK3PEPF0000021D.mail.protection.outlook.com (10.167.8.39) with Microsoft SMTP
- Server id 15.20.7849.8 via Frontend Transport; Fri, 16 Aug 2024 09:26:32
- +0000
-From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-To: patrick@stwcx.xyz,
-	Rob Herring <robh@kernel.org>,
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WlnwD1cTwz2ync;
+	Sat, 17 Aug 2024 02:47:24 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 6963A62259;
+	Fri, 16 Aug 2024 16:47:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0189EC32782;
+	Fri, 16 Aug 2024 16:47:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723826841;
+	bh=A6oWteJWQa5GtSXtODjFY7Q4z1r0QCJglaW5zy61s0o=;
+	h=From:List-Id:To:Cc:Subject:Date:From;
+	b=KoohLSej1xWd5axmAddF0CcCFedUQ4037oeZEkpn8Mw0x2JLW6JcqhFZerArLVRhH
+	 XXJLMh4gX0j2P1zpaFrYcEKu+gzmBXNUIvVWeKzqiEfAxAOCmWAnkclhGom4ap4RVu
+	 YMcQ285bja9rFlxBBKn3acVJgRxWZIF+920zWwiTfbS+JI66B3roV7ez1OQAOVMB14
+	 +MokmHn4OGzsMjv31YplPSUV/HMXL5pRMt0yoTyoh0uupMkYnRYbUdI1u3kJSqUxsK
+	 YUmvZ+D8v6vBpxw6OtiKJqvDA762HFWgJuugaaV4c9fy41Ihwk30dqqdk7wwLrWnFb
+	 GYQhGMeYBdgMQ==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: soc@kernel.org,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: [PATCH v12 28/28] ARM: dts: aspeed: yosemite4: fix GPIO linename typo
-Date: Fri, 16 Aug 2024 17:24:15 +0800
-Message-Id: <20240816092417.3651434-29-Delphine_CC_Chiu@wiwynn.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240816092417.3651434-1-Delphine_CC_Chiu@wiwynn.com>
-References: <20240816092417.3651434-1-Delphine_CC_Chiu@wiwynn.com>
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Mark Jackson <mpfj@newflow.co.uk>,
+	Tony Lindgren <tony@atomide.com>,
+	Michal Simek <michal.simek@amd.com>
+Subject: [PATCH v2] ARM: dts: Fix undocumented LM75 compatible nodes
+Date: Fri, 16 Aug 2024 10:47:14 -0600
+Message-ID: <20240816164717.1585629-1-robh@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK3PEPF0000021D:EE_|TY0PR04MB6175:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a7763086-d688-4a00-46e2-08dcbdd5847d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|7416014|376014;
-X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?vawKqUkIZl+qFICNLW5tyRtKvLuegeR/H82OnNFrgjtUGDRVdUUNNr2NL72W?=
- =?us-ascii?Q?ernRTqFWAkMjt8STGyZRYsAYne7Jr8EVfLfGoz14bS3RFpm24wj8m5dNvd4F?=
- =?us-ascii?Q?1b0wV4btVwEqgfpZ0cR8ajBXP/DOz70rcOb7tDUtwm+DKsoYj2hGq0hOJLkF?=
- =?us-ascii?Q?qKAbJMFZI9eKOK0HrzPD1RKUN9VRx+3hgLsZx2o96i8pYcex20HK76bG28J7?=
- =?us-ascii?Q?zbO6zjVs8sK8YI/Nrda6dp5QfxUty6hWAaRVaWX21hKl+nltSTyHLwqRaloi?=
- =?us-ascii?Q?np2KclFvuXYgeHQYVowij+X9xGbZEARet+HEQWKxlbxN7wIiFDMYHZmciZqH?=
- =?us-ascii?Q?AdE2YaBS9YvU88IJ5roiQKYlJ8KPVsUAalWh3GqzrYHuVKjEK1WzqYV0N8TX?=
- =?us-ascii?Q?4VpZ2P+V1qUQ10+HyL3q7TOXG0BhqXJwDAOAw33+l9e/s88Jod2hAQE9U9Rh?=
- =?us-ascii?Q?3FU1HSVOkiUYtdpvQ1kcrIpdDVtLGono8xe3S+W7HgmSdJslAL75WfuaiMNC?=
- =?us-ascii?Q?5mE+pxxMBmycYHVoQ5cxOrF5/QKb6m+g+e0iihpsi0segnq5asNfdZY/T9KL?=
- =?us-ascii?Q?NE04UVPbLtELKa5r+fZ1Go9P0RdN8MIOZDqXvCrIxPeRmvxvC+/8+kf2ECVs?=
- =?us-ascii?Q?wZcRsfzyFxB0HZrbmQxyVGKUin2EHNcs8im88eXan1Rcke0NMtyFJMcNd6JS?=
- =?us-ascii?Q?OPSPW9NAJVz5/XRfofuZrn77qyG0hJ2hmM3HxewBEs05kmazdrgzqu1hfzEp?=
- =?us-ascii?Q?0Qm1piM+xgNJb2i3QCkredzYKmASJVXdQdDcV51IKO/iH17fWs2BN6bbHd36?=
- =?us-ascii?Q?KlLWFbo4OaXOR/wUadoTAEZqZArKxyLmcek/+7vntwdc1lTWT/EJ4YVA//5c?=
- =?us-ascii?Q?yQxSxZzwUERzjCV70yFA8CYj6HABFJlhjrBLrWx8u01Lx7a94qY2kJFOOjYk?=
- =?us-ascii?Q?HJYk1kHTQ97TT36x/H2kWdqg0Pl27nBhu4yGNFc2m9N5709AGlDE3NFPWt/Z?=
- =?us-ascii?Q?D1vvWyAd9Uv8RhGp89r7greD67yUNcSWqzjnFQ+092nqPz4Jpx+j9k3Tn3Z7?=
- =?us-ascii?Q?km/OMMpjd/mEPz3dcCpSwGBzFmqZtYVGXVizf+PSvuboIE13rldO39LvkyUO?=
- =?us-ascii?Q?429wto4T78BWNGt3u0LIJhDQ9VitBwXZ9IEfh2D9TY+SKUyQdHCF4wE7/ULU?=
- =?us-ascii?Q?uE9EVipbSIFYPD5fsnHMXK05cQNMycX7D7U7IZUl9qH+s/dWyFGJ48zd4shH?=
- =?us-ascii?Q?WXK/KNuIS9wA9BhJjBLN6w2J+O1sar0q4LDVBThiaw+P76GMzPi6SW8Jj3c4?=
- =?us-ascii?Q?soj0sCmoz8/b56i6wJupdaFDH+TQaF2RxOImUFbYpwxv/x+WHhL5rGqWM3GR?=
- =?us-ascii?Q?VuoUBF8Nye9rB8smViqNSb+VOFsGM++0B2xtVkPDeabYPxIN49p6ZSgOKWV4?=
- =?us-ascii?Q?cL22ZuFT15OX+u8uUvRfg+HycEvDZHD/?=
-X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(7416014)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2024 09:26:32.5910
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7763086-d688-4a00-46e2-08dcbdd5847d
-X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource: 	HK3PEPF0000021D.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR04MB6175
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,931 +82,308 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, imx@lists.linux.dev, Kevin Hilman <khilman@baylibre.com>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Fix GPIO linename typo and add missing GPIO pin initial state.
+"lm75" without any vendor is undocumented. It works with the Linux
+kernel since the I2C subsystem will do matches of the compatible string
+without a vendor prefix to the i2c_device_id and/or driver name.
 
-Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Mostly replace "lm75" with "national,lm75" as that's the original part
+vendor and the compatible which matches what "lm75" matched with. In a
+couple of cases the node name or compatible gives a clue to the actual
+part and vendor and a more specific compatible can be used. In these
+cases, it does change the variant the kernel picks.
+
+"nct75" is an OnSemi part which is compatible with TI TMP75C based on
+a comparison of the OnSemi NCT75 datasheet and configuration the Linux
+driver uses. Adding an OnSemi compatible would be an ABI change.
+
+"nxp,lm75" is most likely an NXP part. Alexander Stein says the i.MX53
+boards are a NXP LM75A as well. NXP makes a LM75A and LM75B. Both are
+11-bit resolution and 100ms sample time. The "national,lm75a" is
+9-bit, so "national,lm75b" is the closest match for both NXP variants.
+
+While we're here, fix the node names to use the generic name
+"temperature-sensor".
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Kevin Hilman <khilman@baylibre.com> # am335x-nano.dts
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 554 ++++++++++++++----
- 1 file changed, 455 insertions(+), 99 deletions(-)
+SoC maintainers, Please take this directly for v6.12.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-index abd4a9173de4..4090725160f9 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-@@ -285,6 +285,8 @@ &mac2 {
- 	pinctrl-0 = <&pinctrl_rmii3_default>;
- 	use-ncsi;
- 	mellanox,multi-host;
-+	ncsi-ctrl,start-redo-probe;
-+	ncsi-ctrl,no-channel-monitor;
- };
- 
- &mac3 {
-@@ -293,6 +295,8 @@ &mac3 {
- 	pinctrl-0 = <&pinctrl_rmii4_default>;
- 	use-ncsi;
- 	mellanox,multi-host;
-+	ncsi-ctrl,start-redo-probe;
-+	ncsi-ctrl,no-channel-monitor;
- };
- 
- &fmc {
-@@ -327,6 +331,13 @@ mctp@10 {
- 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
- 	};
- 
-+	gpio@24 {
-+		compatible = "nxp,pca9506";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	gpio@21 {
- 		compatible = "nxp,pca9506";
- 		reg = <0x21>;
-@@ -348,13 +359,6 @@ gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- 
--	gpio@24 {
--		compatible = "nxp,pca9506";
--		reg = <0x24>;
--		gpio-controller;
--		#gpio-cells = <2>;
--	};
--
- 	power-sensor@40 {
- 		compatible = "adi,adm1281", "mps,mp5990";
- 		reg = <0x40>;
-@@ -373,6 +377,13 @@ mctp@10 {
- 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
- 	};
- 
-+	gpio@24 {
-+		compatible = "nxp,pca9506";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	gpio@21 {
- 		compatible = "nxp,pca9506";
- 		reg = <0x21>;
-@@ -394,13 +405,6 @@ gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- 
--	gpio@24 {
--		compatible = "nxp,pca9506";
--		reg = <0x24>;
--		gpio-controller;
--		#gpio-cells = <2>;
--	};
--
- 	power-sensor@40 {
- 		compatible = "adi,adm1281", "mps,mp5990";
- 		reg = <0x40>;
-@@ -419,6 +423,13 @@ mctp@10 {
- 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
- 	};
- 
-+	gpio@24 {
-+		compatible = "nxp,pca9506";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	gpio@21 {
- 		compatible = "nxp,pca9506";
- 		reg = <0x21>;
-@@ -440,13 +451,6 @@ gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- 
--	gpio@24 {
--		compatible = "nxp,pca9506";
--		reg = <0x24>;
--		gpio-controller;
--		#gpio-cells = <2>;
--	};
--
- 	power-sensor@40 {
- 		compatible = "adi,adm1281", "mps,mp5990";
- 		reg = <0x40>;
-@@ -465,6 +469,13 @@ mctp@10 {
- 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
- 	};
- 
-+	gpio@24 {
-+		compatible = "nxp,pca9506";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	gpio@21 {
- 		compatible = "nxp,pca9506";
- 		reg = <0x21>;
-@@ -486,13 +497,6 @@ gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- 
--	gpio@24 {
--		compatible = "nxp,pca9506";
--		reg = <0x24>;
--		gpio-controller;
--		#gpio-cells = <2>;
--	};
--
- 	power-sensor@40 {
- 		compatible = "adi,adm1281", "mps,mp5990";
- 		reg = <0x40>;
-@@ -511,6 +515,13 @@ mctp@10 {
- 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
- 	};
- 
-+	gpio@24 {
-+		compatible = "nxp,pca9506";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	gpio@21 {
- 		compatible = "nxp,pca9506";
- 		reg = <0x21>;
-@@ -532,13 +543,6 @@ gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- 
--	gpio@24 {
--		compatible = "nxp,pca9506";
--		reg = <0x24>;
--		gpio-controller;
--		#gpio-cells = <2>;
--	};
--
- 	power-sensor@40 {
- 		compatible = "adi,adm1281", "mps,mp5990";
- 		reg = <0x40>;
-@@ -557,6 +561,13 @@ mctp@10 {
- 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
- 	};
- 
-+	gpio@24 {
-+		compatible = "nxp,pca9506";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	gpio@21 {
- 		compatible = "nxp,pca9506";
- 		reg = <0x21>;
-@@ -578,13 +589,6 @@ gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- 
--	gpio@24 {
--		compatible = "nxp,pca9506";
--		reg = <0x24>;
--		gpio-controller;
--		#gpio-cells = <2>;
--	};
--
- 	power-sensor@40 {
- 		compatible = "adi,adm1281", "mps,mp5990";
- 		reg = <0x40>;
-@@ -603,6 +607,13 @@ mctp@10 {
- 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
- 	};
- 
-+	gpio@24 {
-+		compatible = "nxp,pca9506";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	gpio@21 {
- 		compatible = "nxp,pca9506";
- 		reg = <0x21>;
-@@ -624,13 +635,6 @@ gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- 
--	gpio@24 {
--		compatible = "nxp,pca9506";
--		reg = <0x24>;
--		gpio-controller;
--		#gpio-cells = <2>;
--	};
--
- 	power-sensor@40 {
- 		compatible = "adi,adm1281", "mps,mp5990";
- 		reg = <0x40>;
-@@ -649,6 +653,13 @@ mctp@10 {
- 		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
- 	};
- 
-+	gpio@24 {
-+		compatible = "nxp,pca9506";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
- 	gpio@21 {
- 		compatible = "nxp,pca9506";
- 		reg = <0x21>;
-@@ -670,13 +681,6 @@ gpio@23 {
- 		#gpio-cells = <2>;
- 	};
- 
--	gpio@24 {
--		compatible = "nxp,pca9506";
--		reg = <0x24>;
--		gpio-controller;
--		#gpio-cells = <2>;
--	};
--
- 	power-sensor@40 {
- 		compatible = "adi,adm1281", "mps,mp5990";
- 		reg = <0x40>;
-@@ -687,6 +691,7 @@ power-sensor@40 {
- &i2c8 {
+v2:
+ - Also use "national,lm75b" on i.MX53 boards.
+---
+ .../aspeed/aspeed-bmc-facebook-greatlakes.dts |  2 +-
+ .../socfpga/socfpga_cyclone5_vining_fpga.dts  |  4 +--
+ .../dts/marvell/armada-385-clearfog-gtr.dtsi  |  8 ++---
+ .../boot/dts/nuvoton/nuvoton-npcm730-kudo.dts | 32 +++++++++----------
+ .../boot/dts/nuvoton/nuvoton-npcm750-evb.dts  |  6 ++--
+ arch/arm/boot/dts/nxp/imx/imx53-mba53.dts     |  4 +--
+ arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi   |  4 +--
+ .../dts/nxp/lpc/lpc4357-ea4357-devkit.dts     |  4 +--
+ .../boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts  |  2 +-
+ arch/arm/boot/dts/ti/omap/am335x-nano.dts     |  2 +-
+ .../boot/dts/xilinx/zynq-zturn-common.dtsi    |  4 +--
+ 11 files changed, 36 insertions(+), 36 deletions(-)
+
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+index 998598c15fd0..49914a4a179f 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+@@ -201,7 +201,7 @@ eeprom@54 {
+ &i2c12 {
  	status = "okay";
- 	bus-frequency = <400000>;
-+	i2c-clk-high-min-percent = <40>;
- 	i2c-mux@70 {
- 		compatible = "nxp,pca9544";
- 		i2c-mux-idle-disconnect;
-@@ -798,6 +803,7 @@ eeprom@54 {
- &i2c9 {
+ 	temperature-sensor@4f {
+-		compatible = "lm75";
++		compatible = "national,lm75";
+ 		reg = <0x4f>;
+ 	};
+ };
+diff --git a/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dts b/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dts
+index 65f390bf8975..84f39dec3c42 100644
+--- a/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dts
++++ b/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dts
+@@ -130,8 +130,8 @@ gpio: pca9557@1f {
+ 		#gpio-cells = <2>;
+ 	};
+ 
+-	temp: lm75@48 {
+-		compatible = "lm75";
++	temp: temperature-sensor@48 {
++		compatible = "national,lm75";
+ 		reg = <0x48>;
+ 	};
+ 
+diff --git a/arch/arm/boot/dts/marvell/armada-385-clearfog-gtr.dtsi b/arch/arm/boot/dts/marvell/armada-385-clearfog-gtr.dtsi
+index f3a3cb6ac311..8208c6a9627a 100644
+--- a/arch/arm/boot/dts/marvell/armada-385-clearfog-gtr.dtsi
++++ b/arch/arm/boot/dts/marvell/armada-385-clearfog-gtr.dtsi
+@@ -423,14 +423,14 @@ &i2c0 {
  	status = "okay";
- 	bus-frequency = <400000>;
-+	i2c-clk-high-min-percent = <40>;
- 	i2c-mux@71 {
- 		compatible = "nxp,pca9544";
- 		i2c-mux-idle-disconnect;
-@@ -993,7 +999,7 @@ power-sensor@13 {
- 		reg = <0x13>;
+ 
+ 	/* U26 temperature sensor placed near SoC */
+-	temp1: nct75@4c {
+-		compatible = "lm75";
++	temp1: temperature-sensor@4c {
++		compatible = "ti,tmp75c";
+ 		reg = <0x4c>;
  	};
  
--	gpio@20 {
-+	gpio_ext1: pca9555@20 {
- 		compatible = "nxp,pca9555";
- 		pinctrl-names = "default";
+ 	/* U27 temperature sensor placed near RTC battery */
+-	temp2: nct75@4d {
+-		compatible = "lm75";
++	temp2: temperature-sensor@4d {
++		compatible = "ti,tmp75c";
+ 		reg = <0x4d>;
+ 	};
+ 
+diff --git a/arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dts b/arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dts
+index 1f07ba382910..886a87dfcd0d 100644
+--- a/arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dts
++++ b/arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dts
+@@ -531,8 +531,8 @@ i2c@4 {
+ 			reg = <4>;
+ 
+ 			// INLET1_T
+-			lm75@5c {
+-				compatible = "ti,lm75";
++			temperature-sensor@5c {
++				compatible = "national,lm75";
+ 				reg = <0x5c>;
+ 			};
+ 		};
+@@ -543,8 +543,8 @@ i2c@5 {
+ 			reg = <5>;
+ 
+ 			// OUTLET1_T
+-			lm75@5c {
+-				compatible = "ti,lm75";
++			temperature-sensor@5c {
++				compatible = "national,lm75";
+ 				reg = <0x5c>;
+ 			};
+ 		};
+@@ -555,8 +555,8 @@ i2c@6 {
+ 			reg = <6>;
+ 
+ 			// OUTLET2_T
+-			lm75@5c {
+-				compatible = "ti,lm75";
++			temperature-sensor@5c {
++				compatible = "national,lm75";
+ 				reg = <0x5c>;
+ 			};
+ 		};
+@@ -567,8 +567,8 @@ i2c@7 {
+ 			reg = <7>;
+ 
+ 			// OUTLET3_T
+-			lm75@5c {
+-				compatible = "ti,lm75";
++			temperature-sensor@5c {
++				compatible = "national,lm75";
+ 				reg = <0x5c>;
+ 			};
+ 		};
+@@ -697,8 +697,8 @@ i2c@3 {
+ 			reg = <3>;
+ 
+ 			// M2_ZONE_T
+-			lm75@28 {
+-				compatible = "ti,lm75";
++			temperature-sensor@28 {
++				compatible = "national,lm75";
+ 				reg = <0x28>;
+ 			};
+ 		};
+@@ -709,8 +709,8 @@ i2c@4 {
+ 			reg = <4>;
+ 
+ 			// BATT_ZONE_T
+-			lm75@29 {
+-				compatible = "ti,lm75";
++			temperature-sensor@29 {
++				compatible = "national,lm75";
+ 				reg = <0x29>;
+ 			};
+ 		};
+@@ -721,8 +721,8 @@ i2c@5 {
+ 			reg = <5>;
+ 
+ 			// NBM1_ZONE_T
+-			lm75@28 {
+-				compatible = "ti,lm75";
++			temperature-sensor@28 {
++				compatible = "national,lm75";
+ 				reg = <0x28>;
+ 			};
+ 		};
+@@ -732,8 +732,8 @@ i2c@6 {
+ 			reg = <6>;
+ 
+ 			// NBM2_ZONE_T
+-			lm75@29 {
+-				compatible = "ti,lm75";
++			temperature-sensor@29 {
++				compatible = "national,lm75";
+ 				reg = <0x29>;
+ 			};
+ 		};
+diff --git a/arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dts b/arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dts
+index f53d45fa1de8..bcdcb30c7bf6 100644
+--- a/arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dts
++++ b/arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dts
+@@ -198,7 +198,7 @@ &i2c0 {
+ 	clock-frequency = <100000>;
+ 	status = "okay";
+ 	lm75@48 {
+-		compatible = "lm75";
++		compatible = "national,lm75";
+ 		reg = <0x48>;
+ 		status = "okay";
+ 	};
+@@ -208,8 +208,8 @@ lm75@48 {
+ &i2c1 {
+ 	clock-frequency = <100000>;
+ 	status = "okay";
+-	lm75@48 {
+-		compatible = "lm75";
++	temperature-sensor@48 {
++		compatible = "national,lm75";
+ 		reg = <0x48>;
+ 		status = "okay";
+ 	};
+diff --git a/arch/arm/boot/dts/nxp/imx/imx53-mba53.dts b/arch/arm/boot/dts/nxp/imx/imx53-mba53.dts
+index 2117de872703..0d336cbdb451 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx53-mba53.dts
++++ b/arch/arm/boot/dts/nxp/imx/imx53-mba53.dts
+@@ -175,8 +175,8 @@ expander: pca9554@20 {
  		gpio-controller;
-@@ -1012,7 +1018,7 @@ gpio@20 {
- 		"","";
  	};
  
--	gpio@21 {
-+	gpio_ext2: pca9555@21 {
- 		compatible = "nxp,pca9555";
- 		pinctrl-names = "default";
- 		gpio-controller;
-@@ -1031,7 +1037,7 @@ gpio@21 {
- 		"","";
+-	sensor2: lm75@49 {
+-		compatible = "lm75";
++	sensor2: temperature-sensor@49 {
++		compatible = "national,lm75b";
+ 		reg = <0x49>;
+ 	};
+ };
+diff --git a/arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi b/arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi
+index b2d7271d1d24..c34ee84bd716 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi
+@@ -254,8 +254,8 @@ pmic: mc34708@8 {
+ 		interrupts = <6 4>; /* PATA_DATA6, active high */
  	};
  
--	gpio@22 {
-+	gpio_ext3: pca9555@22 {
- 		compatible = "nxp,pca9555";
- 		pinctrl-names = "default";
- 		gpio-controller;
-@@ -1050,7 +1056,7 @@ gpio@22 {
- 		"PWRGD_P12V_AUX_0","PWRGD_P12V_AUX_1";
+-	sensor1: lm75@48 {
+-		compatible = "lm75";
++	sensor1: temperature-sensor@48 {
++		compatible = "national,lm75b";
+ 		reg = <0x48>;
  	};
  
--	gpio@23 {
-+	gpio_ext4: pca9555@23 {
- 		compatible = "nxp,pca9555";
- 		pinctrl-names = "default";
- 		gpio-controller;
-@@ -1070,21 +1076,21 @@ gpio@23 {
+diff --git a/arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dts b/arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dts
+index 224f80a4a31d..4aefbc01dfc0 100644
+--- a/arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dts
++++ b/arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dts
+@@ -482,8 +482,8 @@ mma7455@1d {
+ 		reg = <0x1d>;
  	};
  
- 	power-sensor@40 {
--		compatible = "mps,mp5023";
--		reg = <0x40>;
-+			compatible = "mps,mp5023";
-+			reg = <0x40>;
+-	lm75@48 {
+-		compatible = "nxp,lm75";
++	temperature-sensor@48 {
++		compatible = "national,lm75b";
+ 		reg = <0x48>;
  	};
  
- 	power-sensor@41 {
--			compatible = "ti,ina233";
--			resistor-calibration = /bits/ 16 <0x0a00>;
--			current-lsb= /bits/ 16 <0x0001>;
--			reg = <0x41>;
-+		compatible = "ti,ina233";
-+		resistor-calibration = /bits/ 16 <0x0a00>;
-+		current-lsb= /bits/ 16 <0x0001>;
-+		reg = <0x41>;
+diff --git a/arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts b/arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts
+index 1f84654df50c..846afb8ccbf1 100644
+--- a/arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts
++++ b/arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts
+@@ -511,7 +511,7 @@ &i2c1 {
+ 	clock-frequency = <400000>;
+ 
+ 	sensor@49 {
+-		compatible = "lm75";
++		compatible = "national,lm75";
+ 		reg = <0x49>;
  	};
  
- 	power-sensor@44 {
--			compatible = "ti,ina238";
--			shunt-resistor = <1000>;
--			reg = <0x44>;
-+		compatible = "ti,ina238";
-+		shunt-resistor = <1000>;
-+		reg = <0x44>;
+diff --git a/arch/arm/boot/dts/ti/omap/am335x-nano.dts b/arch/arm/boot/dts/ti/omap/am335x-nano.dts
+index 26b5510cb3d1..56929059f5af 100644
+--- a/arch/arm/boot/dts/ti/omap/am335x-nano.dts
++++ b/arch/arm/boot/dts/ti/omap/am335x-nano.dts
+@@ -231,7 +231,7 @@ tps: tps@24 {
  	};
  
  	temperature-sensor@48 {
-@@ -1156,33 +1162,32 @@ rtc@6f {
- 				compatible = "nuvoton,nct3018y";
- 				reg = <0x6f>;
- 			};
--
- 			gpio@20 {
--				compatible = "nxp,pca9506";
--				reg = <0x20>;
--				gpio-controller;
--				#gpio-cells = <2>;
-+					compatible = "nxp,pca9506";
-+					reg = <0x20>;
-+					gpio-controller;
-+					#gpio-cells = <2>;
- 			};
- 
- 			gpio@21 {
--				compatible = "nxp,pca9506";
--				reg = <0x21>;
--				gpio-controller;
--				#gpio-cells = <2>;
-+					compatible = "nxp,pca9506";
-+					reg = <0x21>;
-+					gpio-controller;
-+					#gpio-cells = <2>;
- 			};
- 
- 			gpio@22 {
--				compatible = "nxp,pca9506";
--				reg = <0x22>;
--				gpio-controller;
--				#gpio-cells = <2>;
-+					compatible = "nxp,pca9506";
-+					reg = <0x22>;
-+					gpio-controller;
-+					#gpio-cells = <2>;
- 			};
- 
- 			gpio@23 {
--				compatible = "nxp,pca9506";
--				reg = <0x23>;
--				gpio-controller;
--				#gpio-cells = <2>;
-+					compatible = "nxp,pca9506";
-+					reg = <0x23>;
-+					gpio-controller;
-+					#gpio-cells = <2>;
- 			};
- 		};
- 
-@@ -1242,35 +1247,35 @@ adc@37 {
- 	power-sensor@40 {
- 		compatible = "ti,ina233", "richtek,rtq6056";
- 		reg = <0x40>;
--		resistor-calibration = /bits/ 16 <0x0a00>;
-+		resistor-calibration = /bits/ 16 <0x0400>;
- 		current-lsb= /bits/ 16 <0x0001>;
+-		compatible = "lm75";
++		compatible = "national,lm75";
+ 		reg = <0x48>;
  	};
  
- 	power-sensor@41 {
- 		compatible = "ti,ina233", "richtek,rtq6056";
- 		reg = <0x41>;
--		resistor-calibration = /bits/ 16 <0x0a00>;
-+		resistor-calibration = /bits/ 16 <0x0400>;
- 		current-lsb= /bits/ 16 <0x0001>;
- 	};
- 
- 	power-sensor@42 {
- 		compatible = "ti,ina233", "richtek,rtq6056";
- 		reg = <0x42>;
--		resistor-calibration = /bits/ 16 <0x0a00>;
-+		resistor-calibration = /bits/ 16 <0x0400>;
- 		current-lsb= /bits/ 16 <0x0001>;
- 	};
- 
- 	power-sensor@43 {
- 		compatible = "ti,ina233", "richtek,rtq6056";
- 		reg = <0x43>;
--		resistor-calibration = /bits/ 16 <0x0a00>;
-+		resistor-calibration = /bits/ 16 <0x0400>;
- 		current-lsb= /bits/ 16 <0x0001>;
- 	};
- 
- 	power-sensor@44 {
- 		compatible = "ti,ina233", "richtek,rtq6056";
- 		reg = <0x44>;
--		resistor-calibration = /bits/ 16 <0x0a00>;
-+		resistor-calibration = /bits/ 16 <0x0400>;
- 		current-lsb= /bits/ 16 <0x0001>;
- 	};
- 
-@@ -1323,6 +1328,42 @@ channel@5 {
- 				};
- 			};
- 
-+			hwmon0: hwmon@21 {
-+				compatible = "nuvoton,nct7363";
-+				reg = <0x21>;
-+				#pwm-cells = <2>;
-+
-+				fan-3 {
-+					pwms = <&hwmon0 2 20000>;
-+					tach-ch = /bits/ 8 <0x00>;
-+				};
-+
-+				fan-4 {
-+					pwms = <&hwmon0 5 20000>;
-+					tach-ch = /bits/ 8 <0x01>;
-+				};
-+
-+				fan-5 {
-+					pwms = <&hwmon0 5 20000>;
-+					tach-ch = /bits/ 8 <0x02>;
-+				};
-+
-+				fan-0 {
-+					pwms = <&hwmon0 0 20000>;
-+					tach-ch = /bits/ 8 <0x09>;
-+				};
-+
-+				fan-1 {
-+					pwms = <&hwmon0 0 20000>;
-+					tach-ch = /bits/ 8 <0x0c>;
-+				};
-+
-+				fan-2 {
-+					pwms = <&hwmon0 2 20000>;
-+					tach-ch = /bits/ 8 <0x0e>;
-+				};
-+			};
-+
- 			gpio@22{
- 				compatible = "ti,tca6424";
- 				reg = <0x22>;
-@@ -1330,6 +1371,42 @@ gpio@22{
- 				#gpio-cells = <2>;
- 			};
- 
-+			hwmon1: hwmon@23 {
-+				compatible = "nuvoton,nct7363";
-+				reg = <0x23>;
-+				#pwm-cells = <2>;
-+
-+				fan-3 {
-+					pwms = <&hwmon0 2 20000>;
-+					tach-ch = /bits/ 8 <0x00>;
-+				};
-+
-+				fan-4 {
-+					pwms = <&hwmon0 5 20000>;
-+					tach-ch = /bits/ 8 <0x01>;
-+				};
-+
-+				fan-5 {
-+					pwms = <&hwmon0 5 20000>;
-+					tach-ch = /bits/ 8 <0x02>;
-+				};
-+
-+				fan-0 {
-+					pwms = <&hwmon0 0 20000>;
-+					tach-ch = /bits/ 8 <0x09>;
-+				};
-+
-+				fan-1 {
-+					pwms = <&hwmon0 0 20000>;
-+					tach-ch = /bits/ 8 <0x0c>;
-+				};
-+
-+				fan-2 {
-+					pwms = <&hwmon0 2 20000>;
-+					tach-ch = /bits/ 8 <0x0e>;
-+				};
-+			};
-+
- 			pwm@2f{
- 				compatible = "maxim,max31790";
- 				#address-cells = <1>;
-@@ -1393,6 +1470,42 @@ channel@5 {
- 				};
- 			};
- 
-+			hwmon2: hwmon@21 {
-+				compatible = "nuvoton,nct7363";
-+				reg = <0x21>;
-+				#pwm-cells = <2>;
-+
-+				fan-3 {
-+					pwms = <&hwmon2 2 20000>;
-+					tach-ch = /bits/ 8 <0x00>;
-+				};
-+
-+				fan-4 {
-+					pwms = <&hwmon2 5 20000>;
-+					tach-ch = /bits/ 8 <0x01>;
-+				};
-+
-+				fan-5 {
-+					pwms = <&hwmon2 5 20000>;
-+					tach-ch = /bits/ 8 <0x02>;
-+				};
-+
-+				fan-0 {
-+					pwms = <&hwmon2 0 20000>;
-+					tach-ch = /bits/ 8 <0x09>;
-+				};
-+
-+				fan-1 {
-+					pwms = <&hwmon2 0 20000>;
-+					tach-ch = /bits/ 8 <0x0c>;
-+				};
-+
-+				fan-2 {
-+					pwms = <&hwmon2 2 20000>;
-+					tach-ch = /bits/ 8 <0x0e>;
-+				};
-+			};
-+
- 			gpio@22{
- 				compatible = "ti,tca6424";
- 				reg = <0x22>;
-@@ -1400,6 +1513,42 @@ gpio@22{
- 				#gpio-cells = <2>;
- 			};
- 
-+			hwmon3: hwmon@23 {
-+				compatible = "nuvoton,nct7363";
-+				reg = <0x23>;
-+				#pwm-cells = <2>;
-+
-+				fan-3 {
-+					pwms = <&hwmon3 2 20000>;
-+					tach-ch = /bits/ 8 <0x00>;
-+				};
-+
-+				fan-4 {
-+					pwms = <&hwmon3 5 20000>;
-+					tach-ch = /bits/ 8 <0x01>;
-+				};
-+
-+				fan-5 {
-+					pwms = <&hwmon3 5 20000>;
-+					tach-ch = /bits/ 8 <0x02>;
-+				};
-+
-+				fan-0 {
-+					pwms = <&hwmon3 0 20000>;
-+					tach-ch = /bits/ 8 <0x09>;
-+				};
-+
-+				fan-1 {
-+					pwms = <&hwmon3 0 20000>;
-+					tach-ch = /bits/ 8 <0x0c>;
-+				};
-+
-+				fan-2 {
-+					pwms = <&hwmon3 2 20000>;
-+					tach-ch = /bits/ 8 <0x0e>;
-+				};
-+			};
-+
- 			pwm@2f{
- 				compatible = "maxim,max31790";
- 				#address-cells = <1>;
-@@ -1493,7 +1642,7 @@ temperature-sensor@1f {
- 				reg = <0x1f>;
- 			};
- 
--			temperature-sensor@3c {
-+			emc1403@3c {
- 				compatible = "smsc,emc1403";
- 				reg = <0x3c>;
- 			};
-@@ -1514,7 +1663,7 @@ temperature-sensor@1f {
- 				reg = <0x1f>;
- 			};
- 
--			temperature-sensor@3c {
-+			emc1403@3c {
- 				compatible = "smsc,emc1403";
- 				reg = <0x3c>;
- 			};
-@@ -1535,7 +1684,7 @@ temperature-sensor@1f {
- 				reg = <0x1f>;
- 			};
- 
--			temperature-sensor@3c {
-+			emc1403@3c {
- 				compatible = "smsc,emc1403";
- 				reg = <0x3c>;
- 			};
-@@ -1556,7 +1705,7 @@ temperature-sensor@1f {
- 				reg = <0x1f>;
- 			};
- 
--			temperature-sensor@3c {
-+			emc1403@3c {
- 				compatible = "smsc,emc1403";
- 				reg = <0x3c>;
- 			};
-@@ -1569,6 +1718,92 @@ eeprom@50 {
- 	};
- };
- 
-+&i3c0 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i3c1_default>;
-+	i3c-pp-scl-hi-period-ns = <40>;
-+	i3c-pp-scl-lo-period-ns = <40>;
-+	i3c-od-scl-hi-period-ns = <380>;
-+	i3c-od-scl-lo-period-ns = <620>;
-+	sda-tx-hold-ns = <10>;
-+
-+	mctp-controller;
-+	hub@0x70 {
-+		reg = <0x70 0x3c0 0x00700000>;
-+		cp0-ldo-en = "enabled";
-+		cp1-ldo-en = "enabled";
-+		cp0-ldo-volt = "1.2V";
-+		cp1-ldo-volt = "1.2V";
-+		tp0145-ldo-en = "enabled";
-+		tp2367-ldo-en = "enabled";
-+		tp0145-ldo-volt = "1.2V";
-+		tp2367-ldo-volt = "1.2V";
-+		tp0145-pullup = "2k";
-+		tp2367-pullup = "2k";
-+
-+		target-port@0 {
-+			mode = "i3c";
-+			pullup = "enabled";
-+		};
-+		target-port@1 {
-+			mode = "i3c";
-+			pullup = "enabled";
-+		};
-+		target-port@2 {
-+			mode = "i3c";
-+			pullup = "enabled";
-+		};
-+		target-port@3 {
-+			mode = "i3c";
-+			pullup = "enabled";
-+		};
-+	};
-+};
-+
-+&i3c1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i3c2_default>;
-+	i3c-pp-scl-hi-period-ns = <40>;
-+	i3c-pp-scl-lo-period-ns = <40>;
-+	i3c-od-scl-hi-period-ns = <380>;
-+	i3c-od-scl-lo-period-ns = <620>;
-+	sda-tx-hold-ns = <10>;
-+
-+	mctp-controller;
-+	hub@0x70 {
-+		reg = <0x70 0x3c0 0x00700000>;
-+		cp0-ldo-en = "enabled";
-+		cp1-ldo-en = "enabled";
-+		cp0-ldo-volt = "1.2V";
-+		cp1-ldo-volt = "1.2V";
-+		tp0145-ldo-en = "enabled";
-+		tp2367-ldo-en = "enabled";
-+		tp0145-ldo-volt = "1.2V";
-+		tp2367-ldo-volt = "1.2V";
-+		tp0145-pullup = "2k";
-+		tp2367-pullup = "2k";
-+
-+		target-port@0 {
-+			mode = "i3c";
-+			pullup = "enabled";
-+		};
-+		target-port@1 {
-+			mode = "i3c";
-+			pullup = "enabled";
-+		};
-+		target-port@2 {
-+			mode = "i3c";
-+			pullup = "enabled";
-+		};
-+		target-port@3 {
-+			mode = "i3c";
-+			pullup = "enabled";
-+		};
-+	};
-+};
-+
- &adc0 {
+diff --git a/arch/arm/boot/dts/xilinx/zynq-zturn-common.dtsi b/arch/arm/boot/dts/xilinx/zynq-zturn-common.dtsi
+index dfb1fbafe3aa..33b02e05ce82 100644
+--- a/arch/arm/boot/dts/xilinx/zynq-zturn-common.dtsi
++++ b/arch/arm/boot/dts/xilinx/zynq-zturn-common.dtsi
+@@ -97,9 +97,9 @@ &i2c0 {
  	status = "okay";
- 	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-@@ -1579,8 +1814,8 @@ &pinctrl_adc4_default &pinctrl_adc5_default
+ 	clock-frequency = <400000>;
  
- &adc1 {
- 	status = "okay";
--	pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default>
--			&pinctrl_adc15_default>;
-+	pinctrl-0 = <&pinctrl_adc8_default &pinctrl_adc9_default
-+	    &pinctrl_adc15_default>;
- };
+-	stlm75@49 {
++	temperature-sensor@49 {
+ 		status = "okay";
+-		compatible = "lm75";
++		compatible = "st,stlm75";
+ 		reg = <0x49>;
+ 	};
  
- &ehci0 {
-@@ -1595,6 +1830,10 @@ &uhci {
- 	status = "okay";
- };
- 
-+&jtag1 {
-+      status = "okay";
-+};
-+
- &sgpiom0 {
- 	status = "okay";
- 	ngpios = <128>;
-@@ -1701,16 +1940,29 @@ &pinctrl_gpio3_unbiased &pinctrl_gpio4_unbiased
- 			"","PRSNT_NIC0_N","","",
- 	/*V0-V7*/       "FM_RESBTN_SLOT5_BMC_N","FM_RESBTN_SLOT6_BMC_N",
- 			"FM_RESBTN_SLOT7_BMC_N","FM_RESBTN_SLOT8_BMC_N",
--			"","","","",
-+			"ALT_SPIDER_INA233_R_N","ALT_SPIDER_TMP75_R_N",
-+			"INT_FANBOARD1_IOEXP_N","INT_FANBOARD0_IOEXP_N",
- 	/*W0-W7*/       "PRSNT_TPM_BMC_N","PRSNT_OCP_DEBUG_BMC_N","ALT_TEMP_BMC_N","ALT_RTC_BMC_N",
- 			"","","","",
--	/*X0-X7*/       "","LT_HSC_SERVER_SLOT6_N","FLT_HSC_SERVER_SLOT7_N","","","",
-+	/*X0-X7*/       "","FLT_HSC_SERVER_SLOT6_N","FLT_HSC_SERVER_SLOT7_N","","","",
- 			"PWRGD_SLOT5_STBY","PWRGD_SLOT6_STBY",
- 	/*Y0-Y7*/       "","","SPI_LOCK_REQ_BMC_N","PWRGD_SLOT7_STBY",
- 			"","","EN_NIC2_POWER_BMC_R","",
- 	/*Z0-Z7*/       "EN_P5V_USB_CPLD_R","FLT_HSC_SERVER_SLOT5_N",
- 			"PWRGD_SLOT8_STBY","","","","","";
- 
-+	pin_gpio_b0 {
-+		gpios = <ASPEED_GPIO(B, 0) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_b2 {
-+		gpios = <ASPEED_GPIO(B, 2) GPIO_ACTIVE_HIGH>;
-+		input;
-+	};
-+	pin_gpio_b3 {
-+		gpios = <ASPEED_GPIO(B, 3) GPIO_ACTIVE_HIGH>;
-+		input;
-+	};
- 	pin_gpio_b4 {
- 		gpios = <ASPEED_GPIO(B, 4) GPIO_ACTIVE_HIGH>;
- 		input;
-@@ -1719,6 +1971,14 @@ pin_gpio_b5 {
- 		gpios = <ASPEED_GPIO(B, 5) GPIO_ACTIVE_HIGH>;
- 		input;
- 	};
-+	pin_gpio_e0 {
-+		gpios = <ASPEED_GPIO(E, 0) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_e1 {
-+		gpios = <ASPEED_GPIO(E, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
- 	pin_gpio_f0 {
- 		gpios = <ASPEED_GPIO(F, 0) GPIO_ACTIVE_LOW>;
- 		input;
-@@ -1759,6 +2019,58 @@ pin_gpio_l7 {
- 		gpios = <ASPEED_GPIO(L, 7) GPIO_ACTIVE_LOW>;
- 		input;
- 	};
-+	pin_gpio_m3 {
-+		gpios = <ASPEED_GPIO(M, 3) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_m4 {
-+		gpios = <ASPEED_GPIO(M, 4) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_m5 {
-+		gpios = <ASPEED_GPIO(M, 5) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_n0 {
-+		gpios = <ASPEED_GPIO(N, 0) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_n1 {
-+		gpios = <ASPEED_GPIO(N, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_n2 {
-+		gpios = <ASPEED_GPIO(N, 2) GPIO_ACTIVE_LOW>;
-+		input;
-+		};
-+	pin_gpio_n3 {
-+		gpios = <ASPEED_GPIO(N, 3) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_p1 {
-+		gpios = <ASPEED_GPIO(P, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_q4 {
-+		gpios = <ASPEED_GPIO(Q, 4) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_q5 {
-+		gpios = <ASPEED_GPIO(Q, 5) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_q6 {
-+		gpios = <ASPEED_GPIO(Q, 6) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_q7 {
-+		gpios = <ASPEED_GPIO(Q, 7) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_r1 {
-+		gpios = <ASPEED_GPIO(R, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
- 	pin_gpio_s0 {
- 		gpios = <ASPEED_GPIO(S, 0) GPIO_ACTIVE_LOW>;
- 		input;
-@@ -1767,6 +2079,14 @@ pin_gpio_s1 {
- 		gpios = <ASPEED_GPIO(S, 1) GPIO_ACTIVE_LOW>;
- 		input;
- 	};
-+	pin_gpio_s5 {
-+		gpios = <ASPEED_GPIO(S, 5) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_u5 {
-+		gpios = <ASPEED_GPIO(U, 5) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
- 	pin_gpio_v0 {
- 		gpios = <ASPEED_GPIO(V, 0) GPIO_ACTIVE_LOW>;
- 		input;
-@@ -1783,6 +2103,14 @@ pin_gpio_v3 {
- 		gpios = <ASPEED_GPIO(V, 3) GPIO_ACTIVE_LOW>;
- 		input;
- 	};
-+	pin_gpio_v6 {
-+		gpios = <ASPEED_GPIO(V, 6) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_v7 {
-+		gpios = <ASPEED_GPIO(V, 7) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
- 	pin_gpio_w0 {
- 		gpios = <ASPEED_GPIO(W, 0) GPIO_ACTIVE_LOW>;
- 		input;
-@@ -1815,6 +2143,34 @@ pin_gpio_w7 {
- 		gpios = <ASPEED_GPIO(W, 7) GPIO_ACTIVE_LOW>;
- 		input;
- 	};
-+	pin_gpio_x1 {
-+		gpios = <ASPEED_GPIO(X, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_x2 {
-+		gpios = <ASPEED_GPIO(X, 2) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_x6 {
-+		gpios = <ASPEED_GPIO(X, 6) GPIO_ACTIVE_HIGH>;
-+		input;
-+	};
-+	pin_gpio_x7 {
-+		gpios = <ASPEED_GPIO(X, 7) GPIO_ACTIVE_HIGH>;
-+		input;
-+	};
-+	pin_gpio_y3 {
-+		gpios = <ASPEED_GPIO(Y, 3) GPIO_ACTIVE_HIGH>;
-+		input;
-+	};
-+	pin_gpio_z1 {
-+		gpios = <ASPEED_GPIO(Z, 1) GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+	pin_gpio_z2 {
-+		gpios = <ASPEED_GPIO(Z, 2) GPIO_ACTIVE_HIGH>;
-+		input;
-+	};
- 	pin_gpio_z3 {
- 		gpios = <ASPEED_GPIO(Z, 3) GPIO_ACTIVE_LOW>;
- 		input;
 -- 
-2.25.1
+2.43.0
 
