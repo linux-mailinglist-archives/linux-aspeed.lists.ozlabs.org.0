@@ -1,176 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8661A956703
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Aug 2024 11:31:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D367D95675B
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Aug 2024 11:44:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WnS6K3t58z2y7K
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Aug 2024 19:31:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WnSNd1NBHz2y89
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Aug 2024 19:44:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::701" arc.chain=microsoft.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:2011::701; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20701.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::701])
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=93.104.207.81
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.a=rsa-sha256 header.s=key1 header.b=HrmXMVyz;
+	dkim=fail reason="key not found in DNS" header.d=ew.tq-group.com header.i=@ew.tq-group.com header.a=rsa-sha256 header.s=dkim header.b=JkyTqpWh;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ew.tq-group.com (client-ip=93.104.207.81; helo=mx1.tq-group.com; envelope-from=alexander.stein@ew.tq-group.com; receiver=lists.ozlabs.org)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WnS696cnvz2xPb
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Aug 2024 19:31:45 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o1aKKWi0wgWipOL82viTJKmg+z72RkTifGQ5mEkLSFUsMhhMvmiUo/tAD1oE7F9BuUcy6Y1xBTP8DMNXZwv04JeKe8OVlE+P5HpmABww+O++ieN0O/v9MlxBOXg1UMZJn4TVthyriAvxSrK21LtEiPy/b85jfrGkodgu6bjAr0U6QOVy/ODMI5ADIK7UV0oYSS9CUISp4Sf0rtDtR++ynprIjy0PohrNlC+2h8Gpz+43sP0JwU4fqhL+64QyHCz47XVtfB6EhenLSpUErPHfSFDIr6fQ2M/sXKcEwxOSRPC/dmU4tNj2y72OPGjqOFQS1wQFHKYKHmA9Wk3doGAQtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4aB/DiiFQEn1L1sCzCJ8O1uEBSjkbd7Mln4VwuIIyrk=;
- b=rifKWPeRMkiwQ8/29ScBKi8+EtA9TSQvdSEBDBFzAcccacX13B1R89Ix/vHDVZTNvzEZ2k4Gvjv/pjG9Sn1ohx4VlW9HQKvibQhdFfLbqvU4oY66YCP0mVZ+2ULmPQ8rKYROS/No6StvhyX27paa6/QvSbjlwqTJabORJcmZLVLJ7yabjl5Rs9fNEONEgV2Jlf9S/4jk2r/pKh5GWav5yexqOPjetNnZ0gKWs7AwFPv9rJa+GlS2RxXZwNvyq/nJNW3tbgzkqA5Hj5yskKdYKCtddNtEMKyfdg630ZgJINQ2zMTD41V/T1Rm5ijdXANbUSeXRZQupvP6+4xfgdmHGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4aB/DiiFQEn1L1sCzCJ8O1uEBSjkbd7Mln4VwuIIyrk=;
- b=fBWCZMSsA1R/UHBdrqBDllq2kWSNovEhqcqUaV7TD4M0w88QxwbM4zTOcOCljXRL1y0edMYKMI8IP3lNqN6LCtPVwMNs+38/6zlFmgi1ukPpm1AjsvalILJzSACu+VdqQEXHgcxiK+gnsrkjv6xkC85H94+KdPnGcqlam6axEWBacoRv80i077ZXzQTUp4prsgkayOLvPUuJUFDOw2eh9Xa+F3LRoin8T9cz74gxFOwlvcslbOlhf6tXKsUu3Pf1v2UB7xswlTWikQiBMWDYOVn25f2sPNCGlq2IavaId3zogBXSRPvAuc3AB8dd9/9f0qRYvyH0Q3Pqdr6SfBoBAA==
-Received: from OS8PR06MB7541.apcprd06.prod.outlook.com (2603:1096:604:2b1::11)
- by JH0PR06MB7295.apcprd06.prod.outlook.com (2603:1096:990:a9::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Mon, 19 Aug
- 2024 09:31:21 +0000
-Received: from OS8PR06MB7541.apcprd06.prod.outlook.com
- ([fe80::9f51:f68d:b2db:da11]) by OS8PR06MB7541.apcprd06.prod.outlook.com
- ([fe80::9f51:f68d:b2db:da11%5]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
- 09:31:21 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Christophe JAILLET
-	<christophe.jaillet@wanadoo.fr>, Lee Jones <lee@kernel.org>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
-	<andrew@codeconstruct.com.au>, Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>
-Subject: RE: [PATCH 3/4] dt-bindings: clock: Add AST2700 clock bindings
-Thread-Topic: [PATCH 3/4] dt-bindings: clock: Add AST2700 clock bindings
-Thread-Index:  AQHa6WjvtGERsBjdbUe0s1M0hUJcKbIdCjAAgAFhFjCAAAaDgIAABO+QgATIDfCAAA4pgIAAAYwQgAACfgCAAASXwIAADl8ggAAEbQCAAQrHAIAARMOAgAlsyPCAAALngIAACqaQgAAjKwCAAAywQA==
-Date: Mon, 19 Aug 2024 09:31:21 +0000
-Message-ID:  <OS8PR06MB754132857973D2AEEE33DF9BF28C2@OS8PR06MB7541.apcprd06.prod.outlook.com>
-References: <20240808075937.2756733-1-ryan_chen@aspeedtech.com>
- <OS8PR06MB7541CA018C86E262F826B9E5F2BA2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <OS8PR06MB7541B0D9A43B989DC1738F68F2852@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <5081c41b-dfbd-49ad-a993-b983d4c339f0@kernel.org>
- <OS8PR06MB7541196D3058904998820CFFF2852@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <9465f8c0-5270-46df-af4b-e9ee78db63d1@kernel.org>
- <OS8PR06MB7541CC40B6B8877B2656182CF2852@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <OS8PR06MB75415EC7A912DBD4D21A0035F2852@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <e3733148-142c-40a1-b250-4502e8726f0c@kernel.org>
- <OS8PR06MB7541D5AB85D8E44E89389BC3F2862@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <26988bcd-4d58-4100-b89c-00e8ef879329@kernel.org>
- <OS8PR06MB7541A7E690A2D72BA671622EF28C2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <929c322e-7385-48da-b925-7f363cf5b6f7@kernel.org>
- <OS8PR06MB7541672B4F9BCAA37E0D4005F28C2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <a0398ebc-c85c-44b4-afda-5e99a4299b34@kernel.org>
-In-Reply-To: <a0398ebc-c85c-44b4-afda-5e99a4299b34@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS8PR06MB7541:EE_|JH0PR06MB7295:EE_
-x-ms-office365-filtering-correlation-id: 51c0fbf9-313e-445c-e1db-08dcc031afd7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230040|376014|7416014|366016|1800799024|921020|38070700018;
-x-microsoft-antispam-message-info:  =?utf-8?B?ZHJobWJvVjZXMytkcTFhaGE1d3RoVkVaZEMvaVFkeG10aC9ZNkVITFd0M0JC?=
- =?utf-8?B?NTB0bDZpemhUOW5MdU16TjZDN3hQQ3JaanJ3VU10M29ybEZGUysxb29JRzlC?=
- =?utf-8?B?Z201THVZZVZpdUFPL29kRHU0TkQ4M3NYVTFVN0pacHgvaGF3czVjaGE4anJ3?=
- =?utf-8?B?SC9YTWNNNW5aK0Q3cDdmNXVUZlNiVmQ1d3dUSXJnUWV6RjR6YUNGVFkvdWs0?=
- =?utf-8?B?TmZPcTZRa3E4Q1RhUlI1ZElaWC91SGhnWVlwcnpwaUEwSHFrR082Z0w2R0FJ?=
- =?utf-8?B?cmhiejRIVGRmVGxHeE9wVUg5Snk2cWpZTnlUOTVteUVVSXZmMmg5Wi8xYm1H?=
- =?utf-8?B?bFdSbkNZVG5VZFRHOE9lN3dZUGNwdm5XVGVEdlZUcDBZSjVxN2E2eGN2ZStD?=
- =?utf-8?B?aXdJdkoycmtvZ1VxZjUyek1DMzR2c0Q3cUwyaXcvbWxVdGFoRDJrMXJLeDl3?=
- =?utf-8?B?cmNBeGpDM3J6TmZicGVTQ1A1Sk5YcWM5SFhjV29ScC9KdkQ1ZjA2MVNiVnpn?=
- =?utf-8?B?QTRWaVpPODR0eXRqU3BmbGJKdTR4T0hQQjBEY3hkWkdXT3lad2VMZ1pjQXRW?=
- =?utf-8?B?THlpdVhib0sySEJTeW5vdDVtdkw2UFhHTHNWTEJaUlMxcExoSVNuZnRnOHYz?=
- =?utf-8?B?Y1hhRHoyTlNvWmsyY2lac1ZCRDhOL1BpZFRja3RON2cybm9BQUVMTDRMVFVt?=
- =?utf-8?B?dU56WVBJR21Sa3BZTnNweVd2a0tVejNGQkFYM3QxaEl5T2JLNUlIQ1pYL3JX?=
- =?utf-8?B?ZStkdGtPMmFNOU5pTU9YOHNNa1pKNGd6ZkM0K0M3TUtRQmh2VWVGUVcxUHEr?=
- =?utf-8?B?cHdKQTVUdmxkdFNrVWt1aUNpcndORUV6ajIybGxweWMwbkljR2VDdzAveTNJ?=
- =?utf-8?B?RGt3amxDdTFsbFF0ZHF1NHBIQW0wdVdEZ2UvZTZncS9Ja21LZ1hoOGFIdzIr?=
- =?utf-8?B?N0pCM2l1dldRU3YyVTJVaTA2VEZVSzdpK2NKM1Z3NHhCM0x5MGJ3MFUxYXNL?=
- =?utf-8?B?aGo4c1FVM1ZoK1B3Qk5QS1Z4a0VJVjhMQWZXZjJ0ckJFM2JGb015L3NJV0xr?=
- =?utf-8?B?UzZScnhZSTNwOTlGT1JMNWp1SUZjS2xlWjBUN1RPbHI4OFN6Y0FNVWZYbXZ4?=
- =?utf-8?B?S292Vm5FYVBIck1IbktrRERmSHZUZWVueGYydFNMZ2RGNml2bHBCZVRkV1ZE?=
- =?utf-8?B?bzMxOFFYNCtyc1ZKOHcyMElYMWh5cUVYaW9yNzFGd0NEMHFhM1lXekwyazRk?=
- =?utf-8?B?THYzRUVodGxIQ3VxbmRUcXYrQ2d3ZHZxMmhxSHdGY1A0cFpncGlrRjhnMHlR?=
- =?utf-8?B?dVdJOHF4MVJSZytGcm1FenBCbENTQ0o4SlkyRlBSazd1Z2VxejVUbGdLb1N6?=
- =?utf-8?B?a1dzakRHelptRFpkeXlBdVNoT2E0bVpERjAvRmVoNjhCTnp6am45ckZWem5C?=
- =?utf-8?B?Nm5sa09DL0dSM0l2TjJvelBrTUVTWUd0MTZaTVc2L0VTRXFTcWxpc0dRcWN0?=
- =?utf-8?B?cGhQaHVSMlpiKytBcmg3akNzL0V4amZqQ05ITk1MS0NVaGtReGFHSERiYW52?=
- =?utf-8?B?d0RCZnJyNGRSU2ZJOENCZ0pPdVdlUjlDNVZueDZjaURERnh5YzUyd0NBYzND?=
- =?utf-8?B?b3BTTHc5TFNGbXN2ekNreDNNQXlLNkdsY3hnSnZmZUNUS3lRdjhybE5vUGRs?=
- =?utf-8?B?WjNRSTJOVCt1ZVJsQXc0cGFvQTBQKzQ5TTRFNTJ3R2ZxQ0ZXcUlKQVArRnFK?=
- =?utf-8?B?MFh0YngwRVNERG1uY1pLVE9vUGYrRWxqL3N1QVNXdTAyeEZjNzdzOEpYNDdI?=
- =?utf-8?B?NVZVamNtL2UyL1o2THNiaVk4cVhzV2V5VE9nM0lJRnl1SS9Zb1hIWXBmeUFK?=
- =?utf-8?Q?NbYUX86OkP47F?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS8PR06MB7541.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?akNJa21pa2dXaThoL05GVkl0ZjMrUEw1b1oxL1k4ZTQzdm1JTjNtQTVxYmhx?=
- =?utf-8?B?VFI3SmM3bXRCaUgycHhVWFJNamNQOXVlbzk2SEZCdjhXQ3BudjFTUm4yMFdj?=
- =?utf-8?B?Zy9qSkJMNWNjMEhFbFdNam9nWFRtYWdKQVZLZkw1ay9ISmhvZG14T3loOTJT?=
- =?utf-8?B?aXBmN3RVMnY4cmoxZWRnK3dndlRPZ2VCd3hZam4rTkhxU0h6dnBFQ1dSZ1VB?=
- =?utf-8?B?RWV5anJSaVpKU2NDT2tXa3NMRlEza2U2NFpIY043bUZxOXlhT3FsY0YxdHBS?=
- =?utf-8?B?b2NlSG5ZblRCelArL2NLL3BLamlocE4xTzIxYU9rd1ZsWlJNWlMzQm9PcDh4?=
- =?utf-8?B?RUdZQVlZenVIVFJrNXdQWXo5a1hOZ2dYL3MwUG1QOExaSktqbTVXa09PMHQr?=
- =?utf-8?B?WnlXRG15M2RRZDBxdEFwRlp6RFR2Qmt4NXU0WlphUDVEeE9wVW8xT0xMUld4?=
- =?utf-8?B?LzFualBjS3JNV1QvUk9JYVJsOExGZ3lUMVFaUHZRSGZpVTdzTWttZmN5Y010?=
- =?utf-8?B?MWlieGoyRWJhUmY4bWVreVRURVlKcmZGWkZweWs1TkZncjIranB1OGhCRGkz?=
- =?utf-8?B?VUd6OTdMcEZVQTZLbnVrL05lcnU0YW5kU3Y1L0F5R0tmRWhHdlM5b2Q2aVBW?=
- =?utf-8?B?T3plNnI2aVZRME9zZVZJQlV6YnUzVjg1cUxaclhXRHIvVU9JNks5V2FuV0lm?=
- =?utf-8?B?S2dtT3owUnVpNVFPRThmMnhwUGMyR2FHbnE1aXhwSVBuWEZ1TGg3SUQyY2xO?=
- =?utf-8?B?SXpBajhHWlZMZG80TjVVT1Y0dkNVWVgrNEUxUHNaNEI3bzh6d0dZWmdXM0p5?=
- =?utf-8?B?bzBlV2V6S3NMN2hWdFlBQWovVHJ0Ky94QjExMkh1a0NWSG5LVDhPZm5vVFBt?=
- =?utf-8?B?RHBzMllGTlowQUU0SzlBK1FpZjd4WVc4bGhpVjRVSUhpLzBJRmd6dzNhMjV5?=
- =?utf-8?B?Qmt5SWJ1dTNhSlpxRWsyRHhQajNsNVV5QllEeEZ5cGJOb2VjWkdjYU1MUkpz?=
- =?utf-8?B?Y2JxOGgzYzNCeHZOUzl4czBOWmxZd0RPdUQxWE5adUd4c2xMNVJpUzlBU1hy?=
- =?utf-8?B?bmNLbldPMlgwWHFTRnBYZnZkMStUc2hDZnpmc2JuK2RlcFk1Y0JDaDJwa1dK?=
- =?utf-8?B?ZDZpRlRCN0Zidm95ZGZ2Q3c5Z3JNZ3Vwc3c1SnltKzMweThJd1R2OVgwL3gv?=
- =?utf-8?B?YkJ4N2IwcnU0Uk9YVTdlUTdiV0lqSVZDL0Q3dS83bFBNd1R4czB4UmFFbXQ4?=
- =?utf-8?B?bmhJdFc2dmdOelpHcVl6ekEyd0htUmhWRGM5SmozamxhYUh2WUpjWTV4SVpL?=
- =?utf-8?B?Zm1yVTRKeFRPMS8xcUp6SmVSSGVYMzU0aFQ3ZzZ2Q0hJZ3FxR2dLNGdabGJI?=
- =?utf-8?B?WkZIb1lzeVl2dEtMc0hjZXdCZEw1VVluMVB4Q3dudWxFbmROTGp0U0NTQ2Qr?=
- =?utf-8?B?bFVwVEJKeFBRTWdIczIycXFiUDdLU3NiOXovT3hRY1pUQ3hmUW1kQ1NCaGtC?=
- =?utf-8?B?emxqNlVpeWx3VWpHeUN1cXhLWXpaRHhhQ3J5Tm5YRENab0VpQXBXVmlFaWNM?=
- =?utf-8?B?d1FlQldVRkdUb1VUTmpXcDRvdEw4WkdxZjBLcXlkd0ZEUG9nSlY4U3NVSERt?=
- =?utf-8?B?Umk5cG80VHI2dlJqZC9rdjRKNGZpVWxtZjZSenBhdlhGZGJyalB1T3hBWUZn?=
- =?utf-8?B?cndsSTRtN0U1N1NpNkJ0eDNDWXd5TmdrVE42d0l4L0dVQndwMVVPTWtFSFZP?=
- =?utf-8?B?RWMyTGw4anpJYm9FT2FXY3dyRWNpZUMrR3gzZmt5V0pWSklHaHVUSnFWVG9p?=
- =?utf-8?B?V2pkdlJQVlY5VXJUc01KVllZcTNXMVd2R1g0NzllWXVXZ3U5eU16N25JK201?=
- =?utf-8?B?czRFcmQ2YmY0NWU2V3UwZEpiUkFmQ05EaTNuN0hmZnBETkRIMklFOHRQanZQ?=
- =?utf-8?B?NUVxUXBMUlVNY1NldmJvSlIwRFNvS1VtWFcxb3prNlFtYXQvaDlXUmRRQ0da?=
- =?utf-8?B?bTNuR0lwVmpqOUhLaVRSWDFxNEtOeEFlWmNEMVljRGJ5UFdQaytYajN6Z0s4?=
- =?utf-8?B?RE1PdGxRZUE2Y0hIQ1d6SjkxY2JCeXg5NGJya2lPM0hsd20yM1hsdWhUTXFw?=
- =?utf-8?Q?QhfPdo+iSjlv+//tSSG1qg2T9?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WnSNV0TKHz2xt7;
+	Mon, 19 Aug 2024 19:44:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1724060650; x=1755596650;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ngGTJT88bhTDzobjsAMP4AG2gDq4amUpHxaFrPSBc4k=;
+  b=HrmXMVyzWLkPmeF5yEqrFO7/h3PrKKWczHN/B6D2YPavvCDCHKTMzPK+
+   mfKl8f4bFpC0yEsI8rYPsEj8wv1DLHPQZqCCTpGgS8/RlBDR+3nQMk75i
+   DQoApunCkI4w1ekoRABNKFCLx9ApHlbqDlYU+wH/i3sD0HIjBdk47nYXb
+   g2ZWWZgRix2NOPA/KzS4GS16ufqWje3wWRjPHbiJOehCcJI0Iu7BtonpP
+   ujDtUUUFqqBLvl80qhOrwAgUFWaQ6ZYqsDUO0ztPWne7C2EsbyiLtVwr6
+   kAO5j7bYuq68T4oc5EwxaFRyD8yAqmkw6HGiIP9Q5G1tJMeejdT3+iTf8
+   w==;
+X-CSE-ConnectionGUID: yCgMkliYQv6PzqBi7yuoUA==
+X-CSE-MsgGUID: gxuYcJWEQbyRcMpE/DEJ4A==
+X-IronPort-AV: E=Sophos;i="6.10,158,1719871200"; 
+   d="scan'208";a="38463688"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 19 Aug 2024 11:44:00 +0200
+X-CheckPoint: {66C313E0-17-78509F09-E532FC2E}
+X-MAIL-CPID: 528803B12FE86B34AF661D7848C520CB_1
+X-Control-Analysis: str=0001.0A782F16.66C313E0.0162,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1956C166864;
+	Mon, 19 Aug 2024 11:43:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1724060635;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ngGTJT88bhTDzobjsAMP4AG2gDq4amUpHxaFrPSBc4k=;
+	b=JkyTqpWhXT9Lb8O2XYwT6AQvDQde8ZTKDVNPhZlmm3ttRrRCKEOSK9EPy7VCHHBTD7YhTI
+	aNy5zmKjh3iimOvA84m0X9FKXFKJJaTUErjzBahlHQB8B5AT/bMjOaLxjF/bIYUwRoe8fZ
+	oRCbB3LUd4vMV5jHlyfLh3/uBqXw2XEf90sDqkAKhKICWghjKA8RKKmKchzIGl9rx6S6zx
+	9uMJgtNhtk4j08YtANi84BxFboafG4oqwMIIC+BIS2CUlrfOTHGnSP2bg8pyZWCjpWbDo8
+	a/EpyFNDE5Snhyo6NKMWlKdWI2NR85ugo5boIRQBYvQKo4n0EgEC1/G8MMomsA==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: soc@kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Dinh Nguyen <dinguyen@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, Mark Jackson <mpfj@newflow.co.uk>, Tony Lindgren <tony@atomide.com>, Michal Simek <michal.simek@amd.com>, "Rob Herring (Arm)" <robh@kernel.org>
+Subject: Re: [PATCH v2] ARM: dts: Fix undocumented LM75 compatible nodes
+Date: Mon, 19 Aug 2024 11:43:51 +0200
+Message-ID: <4592015.LvFx2qVVIh@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240816164717.1585629-1-robh@kernel.org>
+References: <20240816164717.1585629-1-robh@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS8PR06MB7541.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51c0fbf9-313e-445c-e1db-08dcc031afd7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2024 09:31:21.5409
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aWHskpK3X0uBL0DH9hDhsYPjm2rZbD0Wmn7wq4+mxNaDzNwJ5dNfJZtzhjOr0AmjuRSdvRDxiRquZEC56xF1lKwzdbQZRWWA7QyL0WV6MbE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB7295
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,53 +78,335 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, imx@lists.linux.dev, Kevin Hilman <khilman@baylibre.com>, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiBTdWJqZWN0OiBSZTogW1BBVENIIDMvNF0gZHQtYmluZGluZ3M6IGNsb2NrOiBBZGQgQVNUMjcw
-MCBjbG9jayBiaW5kaW5ncw0KPiANCj4gT24gMTkvMDgvMjAyNCAwODo0MiwgUnlhbiBDaGVuIHdy
-b3RlOg0KPiA+PiBTdWJqZWN0OiBSZTogW1BBVENIIDMvNF0gZHQtYmluZGluZ3M6IGNsb2NrOiBB
-ZGQgQVNUMjcwMCBjbG9jaw0KPiA+PiBiaW5kaW5ncw0KPiA+Pg0KPiA+PiBPbiAxOS8wOC8yMDI0
-IDA3OjU1LCBSeWFuIENoZW4gd3JvdGU6DQo+ID4+Pj4gU3ViamVjdDogUmU6IFtQQVRDSCAzLzRd
-IGR0LWJpbmRpbmdzOiBjbG9jazogQWRkIEFTVDI3MDAgY2xvY2sNCj4gPj4+PiBiaW5kaW5ncw0K
-PiA+Pj4+DQo+ID4+Pj4gT24gMTMvMDgvMjAyNCAwMzo1MywgUnlhbiBDaGVuIHdyb3RlOg0KPiA+
-Pj4+Pj4gRHJvcCB0aGUgZGVmaW5lIGZvciBudW1iZXIgb2YgY2xvY2tzIGZyb20gdGhlIGhlYWRl
-ciwgYmVjYXVzZSBpdA0KPiA+Pj4+Pj4gaXMgbm90IGENCj4gPj4+Pg0KPiA+Pj4+ICpOVU1CRVIg
-T0YgQ0xPQ0tTKg0KPiA+Pj4+DQo+ID4+Pj4+PiBiaW5kaW5nLiBZb3UgY2FuIHB1dCBpdCBpbiB0
-aGUgZHJpdmVyIG9yIG5vdCwgSSBkb24ndCBjYXJlIGFuZCBkbw0KPiA+Pj4+Pj4gbm90IHByb3Zp
-ZGUgZ3VpZGFuY2Ugb24gdGhpcyBiZWNhdXNlIEkgZG9uJ3Qga25vdyBpZiBpdCBtYWtlcyBzZW5z
-ZSBhdA0KPiBhbGwuDQo+ID4+Pj4+PiBXaGF0IEkga25vdyBpcyB0aGF0IG51bWJlciBvZiBjbG9j
-a3MgaXMgbm90IHJlbGF0ZWQgdG8gYmluZGluZy4NCj4gPj4+Pj4+IEl0IGlzIG5vdCBuZWVkZWQN
-Cj4gPj4+Pg0KPiA+Pj4+ICpOVU1CRVIgT0YgQ0xPQ0tTKg0KPiA+Pj4+DQo+ID4+Pj4+PiBpbiB0
-aGUgYmluZGluZywgZWl0aGVyLg0KPiA+Pj4+Pg0KPiA+Pj4+PiBTb3JyeSwgSSBhbSBjb25mdXNl
-ZC4NCj4gPj4+Pj4gaWYgeW91IHRoaW5rIHRoYXQgbnVtYmVyIG9mIGNsb2NrcyBpcyBub3QgcmVs
-YXRlZCB0byBiaW5kaW5nLg0KPiA+Pj4+DQo+ID4+Pj4gKk5VTUJFUiBPRiBDTE9DS1MqDQo+ID4+
-Pj4NCj4gPj4+Pj4gSG93IGR0c2kgY2xhaW0gZm9yIGNsaz8NCj4gPj4+Pj4gRm9yIGV4YW1wbGUg
-aW4gZHRzaS4NCj4gPj4+Pj4gaW5jbHVkZSA8ZHQtYmluZGluZ3MvY2xvY2svYXNwZWVkLGFzdDI3
-MDAtY2xrLmg+DQo+ID4+Pj4+IHVzYjNiaHA6IHVzYjNiaHAgew0KPiA+Pj4+PiAuLi4uDQo+ID4+
-Pj4+IGNsb2NrcyA9IDwmc3lzY29uMCBTQ1UwX0NMS19HQVRFX1BPUlRBVVNCPjsNCj4gPj4+Pg0K
-PiA+Pj4+IEFuZCB3aGVyZSBpcyAqTlVNQkVSIE9GIENMT0NLUyogaGVyZT8gSSBkb24ndCBzZWUg
-YW55IHByb2JsZW0uIE5vDQo+ID4+Pj4gdXNlbGVzcyBTQ1UwX0NMS19HQVRFX05VTSBkZWZpbmUg
-aGVyZS4NCj4gPj4+Pg0KPiA+Pj4gVW5kZXJzdG9vZCBub3csIEkgd2lsbCByZW1vdmUgdGhvc2Ug
-Kk5VTUJFUiBPRiBDTE9DS1MqLg0KPiA+Pj4gQW5kIHdpbGwgcmVwbGFjZSB0bw0KPiA+Pj4gI2Rl
-ZmluZSBTQ1UwX0NMS19FTkQgIDM0DQo+ID4+DQo+ID4+IE5BSywgaXQncyBsaWtlIHlvdSBrZWVw
-IGlnbm9yaW5nIG15IGNvbW1lbnRzIGVudGlyZWx5LiBFdmVuIGlmIHlvdQ0KPiA+PiBjYWxsIGl0
-ICJTQ1UwX0NMS19OT1RfRU5EIiBpdCBkb2VzIG5vdCBjaGFuZ2UuIERvIHlvdSB1bmRlcnN0YW5k
-IHRoYXQNCj4gPj4gaXQgaXMgbm90IGFib3V0IG5hbWU/IFJlYWQgbXkgZmlyc3QgY29tbWVudC4N
-Cj4gPj4NCj4gPj4+DQo+ID4+PiBSZWZlcjoNCj4gPj4+IGh0dHBzOi8vZ2l0aHViLmNvbS90b3J2
-YWxkcy9saW51eC9ibG9iL21hc3Rlci9pbmNsdWRlL2R0LWJpbmRpbmdzL2NsDQo+ID4+PiBvYw0K
-PiA+Pj4gay9pbXg4LWNsb2NrLmgjTDg3DQo+ID4+DQo+ID4+IFNvIHlvdSBmb3VuZCBhIGJ1ZyBh
-bmQgdGhpcyBhbGxvd3MgeW91IHRvIGNyZWF0ZSB0aGUgc2FtZSBidWc/DQo+ID4+DQo+ID4gU29y
-cnksIEkgZG9uJ3Qgc2VlIHRoaXMgaXMgYSBidWcuDQo+IA0KPiBObywgaXQncyBub3QgYSBidWcs
-IGJ1dCBJIGRvIG5vdCBhZ3JlZSBmb3IgdXNpbmcgYXJndW1lbnRzIGxpa2UgInNvbWVvbmUgZGlk
-IGl0LA0KPiBzbyBJIGNhbiBkbyB0aGUgc2FtZSIuIFdoeSBkaWQgeW91IHBpY2sgdXAgZXhhY3Rs
-eSB0aGlzIGV4YW1wbGUgaW5zdGVhZCBvZg0KPiBvdGhlcnMgd2hvIHJlbW92ZWQgdGhlIGNsb2Nr
-IG51bWJlcj8NCj4gDQo+ID4gQnV0IEkgdHJ5IHRvIHVuZGVyc3RhbmQgeW91ciBwb2ludCwgeW91
-IHByZWZlciBmb2xsb3dpbmcgZm9yIGNsb2NrIG51bXMsIGFtIEkNCj4gY29ycmVjdD8NCj4gPiBo
-dHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgvYmxvYi9tYXN0ZXIvZHJpdmVycy9jbGsv
-bWVzb24vZzEyYS5jDQo+ID4gI0w1NTU4LUw1NTU5DQo+IA0KPiBJIHNhaWQgdGhhdCB0aGlzIGlz
-IG5vdCBhIGJpbmRpbmcuIERvbid0IGFkZCB0byB0aGUgYmluZGluZyB0aGluZ3Mgd2hpY2ggYXJl
-IG5vdCBhDQo+IGJpbmRpbmcuDQo+IA0KPiBJIGRvbid0IGNhcmUgaG93IGRvIHlvdSBpbXBsZW1l
-bnQgaW4gZHJpdmVycyAtIHRoZXJlIGFyZSBzZXZlcmFsIHdheXMgaG93IHRvDQo+IGFjaGlldmUg
-aXQuDQpVbmRlcnN0b29kLCBJIHdpbGwgcmVtb3ZlICpOVU1CRVIgT0YgQ0xPQ0tTKg0KPiANCj4g
-DQo+IEJlc3QgcmVnYXJkcywNCj4gS3J6eXN6dG9mDQoNCg==
+Hi Rob,
+
+thanks for the update.
+
+Am Freitag, 16. August 2024, 18:47:14 CEST schrieb Rob Herring (Arm):
+> "lm75" without any vendor is undocumented. It works with the Linux
+> kernel since the I2C subsystem will do matches of the compatible string
+> without a vendor prefix to the i2c_device_id and/or driver name.
+>=20
+> Mostly replace "lm75" with "national,lm75" as that's the original part
+> vendor and the compatible which matches what "lm75" matched with. In a
+> couple of cases the node name or compatible gives a clue to the actual
+> part and vendor and a more specific compatible can be used. In these
+> cases, it does change the variant the kernel picks.
+>=20
+> "nct75" is an OnSemi part which is compatible with TI TMP75C based on
+> a comparison of the OnSemi NCT75 datasheet and configuration the Linux
+> driver uses. Adding an OnSemi compatible would be an ABI change.
+>=20
+> "nxp,lm75" is most likely an NXP part. Alexander Stein says the i.MX53
+> boards are a NXP LM75A as well. NXP makes a LM75A and LM75B. Both are
+> 11-bit resolution and 100ms sample time. The "national,lm75a" is
+> 9-bit, so "national,lm75b" is the closest match for both NXP variants.
+>=20
+> While we're here, fix the node names to use the generic name
+> "temperature-sensor".
+>=20
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Kevin Hilman <khilman@baylibre.com> # am335x-nano.dts
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com> # imx53-mba5=
+3.dts, imx53-tqma53.dtsi
+
+> ---
+> SoC maintainers, Please take this directly for v6.12.
+>=20
+> v2:
+>  - Also use "national,lm75b" on i.MX53 boards.
+> ---
+>  .../aspeed/aspeed-bmc-facebook-greatlakes.dts |  2 +-
+>  .../socfpga/socfpga_cyclone5_vining_fpga.dts  |  4 +--
+>  .../dts/marvell/armada-385-clearfog-gtr.dtsi  |  8 ++---
+>  .../boot/dts/nuvoton/nuvoton-npcm730-kudo.dts | 32 +++++++++----------
+>  .../boot/dts/nuvoton/nuvoton-npcm750-evb.dts  |  6 ++--
+>  arch/arm/boot/dts/nxp/imx/imx53-mba53.dts     |  4 +--
+>  arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi   |  4 +--
+>  .../dts/nxp/lpc/lpc4357-ea4357-devkit.dts     |  4 +--
+>  .../boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts  |  2 +-
+>  arch/arm/boot/dts/ti/omap/am335x-nano.dts     |  2 +-
+>  .../boot/dts/xilinx/zynq-zturn-common.dtsi    |  4 +--
+>  11 files changed, 36 insertions(+), 36 deletions(-)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts =
+b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+> index 998598c15fd0..49914a4a179f 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-greatlakes.dts
+> @@ -201,7 +201,7 @@ eeprom@54 {
+>  &i2c12 {
+>  	status =3D "okay";
+>  	temperature-sensor@4f {
+> -		compatible =3D "lm75";
+> +		compatible =3D "national,lm75";
+>  		reg =3D <0x4f>;
+>  	};
+>  };
+> diff --git a/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga=
+=2Edts b/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dts
+> index 65f390bf8975..84f39dec3c42 100644
+> --- a/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dts
+> +++ b/arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_vining_fpga.dts
+> @@ -130,8 +130,8 @@ gpio: pca9557@1f {
+>  		#gpio-cells =3D <2>;
+>  	};
+> =20
+> -	temp: lm75@48 {
+> -		compatible =3D "lm75";
+> +	temp: temperature-sensor@48 {
+> +		compatible =3D "national,lm75";
+>  		reg =3D <0x48>;
+>  	};
+> =20
+> diff --git a/arch/arm/boot/dts/marvell/armada-385-clearfog-gtr.dtsi b/arc=
+h/arm/boot/dts/marvell/armada-385-clearfog-gtr.dtsi
+> index f3a3cb6ac311..8208c6a9627a 100644
+> --- a/arch/arm/boot/dts/marvell/armada-385-clearfog-gtr.dtsi
+> +++ b/arch/arm/boot/dts/marvell/armada-385-clearfog-gtr.dtsi
+> @@ -423,14 +423,14 @@ &i2c0 {
+>  	status =3D "okay";
+> =20
+>  	/* U26 temperature sensor placed near SoC */
+> -	temp1: nct75@4c {
+> -		compatible =3D "lm75";
+> +	temp1: temperature-sensor@4c {
+> +		compatible =3D "ti,tmp75c";
+>  		reg =3D <0x4c>;
+>  	};
+> =20
+>  	/* U27 temperature sensor placed near RTC battery */
+> -	temp2: nct75@4d {
+> -		compatible =3D "lm75";
+> +	temp2: temperature-sensor@4d {
+> +		compatible =3D "ti,tmp75c";
+>  		reg =3D <0x4d>;
+>  	};
+> =20
+> diff --git a/arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dts b/arch/ar=
+m/boot/dts/nuvoton/nuvoton-npcm730-kudo.dts
+> index 1f07ba382910..886a87dfcd0d 100644
+> --- a/arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dts
+> +++ b/arch/arm/boot/dts/nuvoton/nuvoton-npcm730-kudo.dts
+> @@ -531,8 +531,8 @@ i2c@4 {
+>  			reg =3D <4>;
+> =20
+>  			// INLET1_T
+> -			lm75@5c {
+> -				compatible =3D "ti,lm75";
+> +			temperature-sensor@5c {
+> +				compatible =3D "national,lm75";
+>  				reg =3D <0x5c>;
+>  			};
+>  		};
+> @@ -543,8 +543,8 @@ i2c@5 {
+>  			reg =3D <5>;
+> =20
+>  			// OUTLET1_T
+> -			lm75@5c {
+> -				compatible =3D "ti,lm75";
+> +			temperature-sensor@5c {
+> +				compatible =3D "national,lm75";
+>  				reg =3D <0x5c>;
+>  			};
+>  		};
+> @@ -555,8 +555,8 @@ i2c@6 {
+>  			reg =3D <6>;
+> =20
+>  			// OUTLET2_T
+> -			lm75@5c {
+> -				compatible =3D "ti,lm75";
+> +			temperature-sensor@5c {
+> +				compatible =3D "national,lm75";
+>  				reg =3D <0x5c>;
+>  			};
+>  		};
+> @@ -567,8 +567,8 @@ i2c@7 {
+>  			reg =3D <7>;
+> =20
+>  			// OUTLET3_T
+> -			lm75@5c {
+> -				compatible =3D "ti,lm75";
+> +			temperature-sensor@5c {
+> +				compatible =3D "national,lm75";
+>  				reg =3D <0x5c>;
+>  			};
+>  		};
+> @@ -697,8 +697,8 @@ i2c@3 {
+>  			reg =3D <3>;
+> =20
+>  			// M2_ZONE_T
+> -			lm75@28 {
+> -				compatible =3D "ti,lm75";
+> +			temperature-sensor@28 {
+> +				compatible =3D "national,lm75";
+>  				reg =3D <0x28>;
+>  			};
+>  		};
+> @@ -709,8 +709,8 @@ i2c@4 {
+>  			reg =3D <4>;
+> =20
+>  			// BATT_ZONE_T
+> -			lm75@29 {
+> -				compatible =3D "ti,lm75";
+> +			temperature-sensor@29 {
+> +				compatible =3D "national,lm75";
+>  				reg =3D <0x29>;
+>  			};
+>  		};
+> @@ -721,8 +721,8 @@ i2c@5 {
+>  			reg =3D <5>;
+> =20
+>  			// NBM1_ZONE_T
+> -			lm75@28 {
+> -				compatible =3D "ti,lm75";
+> +			temperature-sensor@28 {
+> +				compatible =3D "national,lm75";
+>  				reg =3D <0x28>;
+>  			};
+>  		};
+> @@ -732,8 +732,8 @@ i2c@6 {
+>  			reg =3D <6>;
+> =20
+>  			// NBM2_ZONE_T
+> -			lm75@29 {
+> -				compatible =3D "ti,lm75";
+> +			temperature-sensor@29 {
+> +				compatible =3D "national,lm75";
+>  				reg =3D <0x29>;
+>  			};
+>  		};
+> diff --git a/arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dts b/arch/arm=
+/boot/dts/nuvoton/nuvoton-npcm750-evb.dts
+> index f53d45fa1de8..bcdcb30c7bf6 100644
+> --- a/arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dts
+> +++ b/arch/arm/boot/dts/nuvoton/nuvoton-npcm750-evb.dts
+> @@ -198,7 +198,7 @@ &i2c0 {
+>  	clock-frequency =3D <100000>;
+>  	status =3D "okay";
+>  	lm75@48 {
+> -		compatible =3D "lm75";
+> +		compatible =3D "national,lm75";
+>  		reg =3D <0x48>;
+>  		status =3D "okay";
+>  	};
+> @@ -208,8 +208,8 @@ lm75@48 {
+>  &i2c1 {
+>  	clock-frequency =3D <100000>;
+>  	status =3D "okay";
+> -	lm75@48 {
+> -		compatible =3D "lm75";
+> +	temperature-sensor@48 {
+> +		compatible =3D "national,lm75";
+>  		reg =3D <0x48>;
+>  		status =3D "okay";
+>  	};
+> diff --git a/arch/arm/boot/dts/nxp/imx/imx53-mba53.dts b/arch/arm/boot/dt=
+s/nxp/imx/imx53-mba53.dts
+> index 2117de872703..0d336cbdb451 100644
+> --- a/arch/arm/boot/dts/nxp/imx/imx53-mba53.dts
+> +++ b/arch/arm/boot/dts/nxp/imx/imx53-mba53.dts
+> @@ -175,8 +175,8 @@ expander: pca9554@20 {
+>  		gpio-controller;
+>  	};
+> =20
+> -	sensor2: lm75@49 {
+> -		compatible =3D "lm75";
+> +	sensor2: temperature-sensor@49 {
+> +		compatible =3D "national,lm75b";
+>  		reg =3D <0x49>;
+>  	};
+>  };
+> diff --git a/arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi b/arch/arm/boot/=
+dts/nxp/imx/imx53-tqma53.dtsi
+> index b2d7271d1d24..c34ee84bd716 100644
+> --- a/arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi
+> +++ b/arch/arm/boot/dts/nxp/imx/imx53-tqma53.dtsi
+> @@ -254,8 +254,8 @@ pmic: mc34708@8 {
+>  		interrupts =3D <6 4>; /* PATA_DATA6, active high */
+>  	};
+> =20
+> -	sensor1: lm75@48 {
+> -		compatible =3D "lm75";
+> +	sensor1: temperature-sensor@48 {
+> +		compatible =3D "national,lm75b";
+>  		reg =3D <0x48>;
+>  	};
+> =20
+> diff --git a/arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dts b/arch/a=
+rm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dts
+> index 224f80a4a31d..4aefbc01dfc0 100644
+> --- a/arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dts
+> +++ b/arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dts
+> @@ -482,8 +482,8 @@ mma7455@1d {
+>  		reg =3D <0x1d>;
+>  	};
+> =20
+> -	lm75@48 {
+> -		compatible =3D "nxp,lm75";
+> +	temperature-sensor@48 {
+> +		compatible =3D "national,lm75b";
+>  		reg =3D <0x48>;
+>  	};
+> =20
+> diff --git a/arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts b/arch/arm=
+/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts
+> index 1f84654df50c..846afb8ccbf1 100644
+> --- a/arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts
+> +++ b/arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dts
+> @@ -511,7 +511,7 @@ &i2c1 {
+>  	clock-frequency =3D <400000>;
+> =20
+>  	sensor@49 {
+> -		compatible =3D "lm75";
+> +		compatible =3D "national,lm75";
+>  		reg =3D <0x49>;
+>  	};
+> =20
+> diff --git a/arch/arm/boot/dts/ti/omap/am335x-nano.dts b/arch/arm/boot/dt=
+s/ti/omap/am335x-nano.dts
+> index 26b5510cb3d1..56929059f5af 100644
+> --- a/arch/arm/boot/dts/ti/omap/am335x-nano.dts
+> +++ b/arch/arm/boot/dts/ti/omap/am335x-nano.dts
+> @@ -231,7 +231,7 @@ tps: tps@24 {
+>  	};
+> =20
+>  	temperature-sensor@48 {
+> -		compatible =3D "lm75";
+> +		compatible =3D "national,lm75";
+>  		reg =3D <0x48>;
+>  	};
+> =20
+> diff --git a/arch/arm/boot/dts/xilinx/zynq-zturn-common.dtsi b/arch/arm/b=
+oot/dts/xilinx/zynq-zturn-common.dtsi
+> index dfb1fbafe3aa..33b02e05ce82 100644
+> --- a/arch/arm/boot/dts/xilinx/zynq-zturn-common.dtsi
+> +++ b/arch/arm/boot/dts/xilinx/zynq-zturn-common.dtsi
+> @@ -97,9 +97,9 @@ &i2c0 {
+>  	status =3D "okay";
+>  	clock-frequency =3D <400000>;
+> =20
+> -	stlm75@49 {
+> +	temperature-sensor@49 {
+>  		status =3D "okay";
+> -		compatible =3D "lm75";
+> +		compatible =3D "st,stlm75";
+>  		reg =3D <0x49>;
+>  	};
+> =20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
