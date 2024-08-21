@@ -1,101 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EDD959766
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 11:52:39 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FAE959ACF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 13:54:22 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WphTK0G5zz2yLY
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 19:52:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wpl9g6Flpz2yn4
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 21:54:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.15
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=SuOe9Ws+;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lSfKbVv+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.15; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WphTF5T4kz2y1l
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2024 19:52:33 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 23C5060FC3;
-	Wed, 21 Aug 2024 09:52:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9B0C4AF0C;
-	Wed, 21 Aug 2024 09:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724233949;
-	bh=MDrfl3H9e1ODeZlqN50grJOC94gmFGIs9QCDQq2DFY4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SuOe9Ws+WzLcc1ATuLmvJu8U7V7a/I4s1hY3+58L34p3kA3/7wc9w5JrG1CNTw0Yn
-	 EGmrTa8jrs8DA/0D7xrjoga1ftNhsKvVlLPwHEoemecx+WXxKH21+hyYPSe75+XdNx
-	 5Gb6lVs29dmlfXd8CgLCvLzX4KZJgLeQvxJIPNA+9R9/kcxA6cGCdBVVfDOnJG2IAB
-	 fkI+NoXo+M+8wt9rmIZ+AmaCKwwqPePC8e0q15eovPA/xeALxSKyPEYm+ZqjC5mkuG
-	 JbmCU+UbO5DmCgq+BFNktCPsFU51AUMEFA0qVLJ3Lt0FR4iJSdqucy/QtEEHT/s/BS
-	 xxz4lnLj6qL3Q==
-Message-ID: <76a5ce0c-f9e0-43de-9fbd-786217dd4cbc@kernel.org>
-Date: Wed, 21 Aug 2024 11:52:22 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wpl9W3NtJz2yft;
+	Wed, 21 Aug 2024 21:54:05 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724241248; x=1755777248;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sjdPydC3mw3cQ0ag9TWeR/G//kheaveQbBW+JwadEik=;
+  b=lSfKbVv+e77Z/5tUu7OC3LJPV02zRFXzy7IJThZUZfCaoHtHbXJP1epm
+   v24kCvuUETXertGPbe43IPrP/k34Dr8Kx3isvJozTMbaWSJKLnrwUf/pQ
+   Vii9zukfJxK/BsCNaI21AEVEqOWU4lMiQz+UzY1WbOc+L0sTNhu81j0h0
+   9uFNSaCIlhoQNY4Tw/vyPWYw1j66Vx370+fcEqzCFvO10keBrpJyeiCBn
+   bMu3Rxw0/fDpUPMXELMuWuesJWEoppLtbt6EoDikc2WqYMZZw8oLQHi+v
+   fitrqnilsTXHROJ45SkqBEaUToDrjjJSZ3d/gIEIe+S3qLI6MQG5XR+qu
+   w==;
+X-CSE-ConnectionGUID: wMqbGiIaTi6IE9Z7IeBqxA==
+X-CSE-MsgGUID: nIip1LtiRyuZZTv1l6Ygxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22757631"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
+   d="scan'208";a="22757631"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 04:54:03 -0700
+X-CSE-ConnectionGUID: za5Q+RdERouf6WLiIWTu2w==
+X-CSE-MsgGUID: UG05ftq5TpqZ4AU0mZJdtA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
+   d="scan'208";a="61047373"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 04:53:59 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sgjuW-000000003L9-03HD;
+	Wed, 21 Aug 2024 14:53:56 +0300
+Date: Wed, 21 Aug 2024 14:53:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH v13 2/3] i2c: aspeed: support AST2600 i2c new register
+ mode driver
+Message-ID: <ZsXVU2qy0GIANFrc@smile.fi.intel.com>
+References: <20240819092850.1590758-1-ryan_chen@aspeedtech.com>
+ <20240819092850.1590758-3-ryan_chen@aspeedtech.com>
+ <ZsNT7LPZ7-szrgBJ@smile.fi.intel.com>
+ <OS8PR06MB7541EE5BA5B400445FE0295EF28E2@OS8PR06MB7541.apcprd06.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 08/29] ARM: dts: aspeed: yosemite4: Remove space for
- adm1272 compatible
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>
-References: <20240821094043.4126132-1-Delphine_CC_Chiu@wiwynn.com>
- <20240821094043.4126132-9-Delphine_CC_Chiu@wiwynn.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240821094043.4126132-9-Delphine_CC_Chiu@wiwynn.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS8PR06MB7541EE5BA5B400445FE0295EF28E2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,19 +77,170 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 21/08/2024 11:40, Delphine CC Chiu wrote:
-> Remove space for adm1272 compatible
+On Wed, Aug 21, 2024 at 06:43:01AM +0000, Ryan Chen wrote:
+> > On Mon, Aug 19, 2024 at 05:28:49PM +0800, Ryan Chen wrote:
+
+...
+
+> > > +	/* Check 0x14's SDA and SCL status */
+> > > +	state = readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF);
+> > > +	if (!(state & AST2600_I2CC_SDA_LINE_STS) && (state &
+> > AST2600_I2CC_SCL_LINE_STS)) {
+> > > +		writel(AST2600_I2CM_RECOVER_CMD_EN, i2c_bus->reg_base +
+> > AST2600_I2CM_CMD_STS);
+> > > +		r = wait_for_completion_timeout(&i2c_bus->cmd_complete,
+> > i2c_bus->adap.timeout);
+> > > +		if (r == 0) {
+> > > +			dev_dbg(i2c_bus->dev, "recovery timed out\n");
+> > > +			ret = -ETIMEDOUT;
+> > > +		} else {
+> > > +			if (i2c_bus->cmd_err) {
+> > > +				dev_dbg(i2c_bus->dev, "recovery error\n");
+> > > +				ret = -EPROTO;
+> > > +			}
+> > > +		}
+> > > +	}
+> > 
+> > ret is set but maybe overridden.
 > 
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> ---
+> If will modify by following.
+> 		if (r == 0) {
+> 			dev_dbg(i2c_bus->dev, "recovery timed out\n");
+> 			ret = -ETIMEDOUT;
+> 		} else if (i2c_bus->cmd_err) {
+> 			dev_dbg(i2c_bus->dev, "recovery error\n");
+> 			ret = -EPROTO;
+> 		}
+> If no error keep ret = 0;
 
-This should be marked with Fixes tag and sent at beginning of patchset
-or even separate.
+It doesn't change the behaviour. Still ret can be overridden below...
 
-Best regards,
-Krzysztof
+> > > +	/* Recovery done */
+> > 
+> > Even if it fails above?
+> 
+> This will keep check the bus status, if bus busy, will give ret = -EPROTO;
+> 
+> > > +	state = readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF);
+> > > +	if (state & AST2600_I2CC_BUS_BUSY_STS) {
+> > > +		dev_dbg(i2c_bus->dev, "Can't recover bus [%x]\n", state);
+> > > +		ret = -EPROTO;
+
+...here.
+
+> > > +	}
+> > > +
+> > > +	/* restore original master/slave setting */
+> > > +	writel(ctrl, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
+> > > +	return ret;
+
+...
+
+
+> > > +		i2c_bus->master_dma_addr =
+> > > +			dma_map_single(i2c_bus->dev, i2c_bus->master_safe_buf,
+> > > +				       msg->len, DMA_TO_DEVICE);
+> > 
+> > > +		if (dma_mapping_error(i2c_bus->dev, i2c_bus->master_dma_addr))
+> > {
+> > > +			i2c_put_dma_safe_msg_buf(i2c_bus->master_safe_buf, msg,
+> > false);
+> > > +			i2c_bus->master_safe_buf = NULL;
+> > 
+> > > +			return -ENOMEM;
+> > 
+> > Why is the dma_mapping_error() returned error code shadowed?
+> 
+> Sorry, please point me why you are think it is shadowed?
+> As I know dma_mapping_error() will return 0 or -ENOMEM. So I check if it is !=0.
+> Than return -ENOMEM. 
+
+First of all, it is a bad style to rely on the implementation details where
+it's not crucial. Second, today it may return only ENOMEM, tomorrow it can
+return a different code or codes. And in general, one should not shadow an
+error code without justification.
+
+> > > +		}
+
+...
+
+> > > +MODULE_DEVICE_TABLE(of, ast2600_i2c_bus_of_table);
+> > 
+> > Why do you need this table before _probe()? Isn't the only user is below?
+> 
+> It is for next generation table list. Do you suggest remove it?
+
+My question was regarding to the location of this table in the code, that's it,
+no other implications.
+
+...
+
+> > > +	if (i2c_bus->mode == BUFF_MODE) {
+> > > +		i2c_bus->buf_base =
+> > devm_platform_get_and_ioremap_resource(pdev, 1, &res);
+> > > +		if (!IS_ERR_OR_NULL(i2c_bus->buf_base))
+> > > +			i2c_bus->buf_size = resource_size(res) / 2;
+> > > +		else
+> > > +			i2c_bus->mode = BYTE_MODE;
+> > 
+> > What's wrong with positive conditional? And is it even possible to have NULL
+> > here?
+> > 
+> Yes, if dtsi fill not following yaml example have reg 1, that will failure at buffer mode.
+> And I can swith to byte mode. 
+> 
+> reg = <0x80 0x80>, <0xc00 0x20>;
+
+I was asking about if (!IS_ERR_OR_NULL(...)) line:
+1) Why 'if (!foo) {} else {}' instead of 'if (foo) {} else {}'?
+2) Why _NULL?
+
+> > > +	}
+
+...
+
+> > > +	strscpy(i2c_bus->adap.name, pdev->name, sizeof(i2c_bus->adap.name));
+> > 
+> > Use 2-argument strscpy().
+> Do you mean strscpy(i2c_bus->adap.name, pdev->name); is acceptable?
+
+Yes. And not only acceptable but robust for the copying to the [string] arrays.
+
+...
+
+> > > +	i2c_bus->alert_enable = device_property_read_bool(dev, "smbus-alert");
+> > > +	if (i2c_bus->alert_enable) {
+> > > +		i2c_bus->ara = i2c_new_smbus_alert_device(&i2c_bus->adap,
+> > &i2c_bus->alert_data);
+> > > +		if (!i2c_bus->ara)
+> > > +			dev_warn(dev, "Failed to register ARA client\n");
+> > > +
+> > > +		writel(AST2600_I2CM_PKT_DONE | AST2600_I2CM_BUS_RECOVER
+> > | AST2600_I2CM_SMBUS_ALT,
+> > > +		       i2c_bus->reg_base + AST2600_I2CM_IER);
+> > > +	} else {
+> > > +		i2c_bus->alert_enable = false;
+> > > +		/* Set interrupt generation of I2C master controller */
+> > > +		writel(AST2600_I2CM_PKT_DONE | AST2600_I2CM_BUS_RECOVER,
+> > > +		       i2c_bus->reg_base + AST2600_I2CM_IER);
+> > > +	}
+> > 
+> > I2C core calls i2c_setup_smbus_alert() when registering the adapter. Why do
+> > you need to have something special here?
+> The ast2600 i2c support smbus alert, and according my reference.
+> If enable alert, that will need i2c_new_smbus_alert_device for alert handler.
+> When interrupt coming driver can use this hander to up use i2c_handle_smbus_alert
+> And update layer will handle alert.
+> Does I mis-understand. If yes, I will remove this in next.
+
+Have you seen i2c_new_smbus_alert_device() ?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
