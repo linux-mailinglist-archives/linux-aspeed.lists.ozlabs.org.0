@@ -2,70 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FAE959ACF
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 13:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602E4959B51
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 14:11:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wpl9g6Flpz2yn4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 21:54:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WplY113mKz2ync
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 22:11:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::229"
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lSfKbVv+;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=XODvo3Cv;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.15; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::229; helo=mail-lj1-x229.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wpl9W3NtJz2yft;
-	Wed, 21 Aug 2024 21:54:05 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724241248; x=1755777248;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sjdPydC3mw3cQ0ag9TWeR/G//kheaveQbBW+JwadEik=;
-  b=lSfKbVv+e77Z/5tUu7OC3LJPV02zRFXzy7IJThZUZfCaoHtHbXJP1epm
-   v24kCvuUETXertGPbe43IPrP/k34Dr8Kx3isvJozTMbaWSJKLnrwUf/pQ
-   Vii9zukfJxK/BsCNaI21AEVEqOWU4lMiQz+UzY1WbOc+L0sTNhu81j0h0
-   9uFNSaCIlhoQNY4Tw/vyPWYw1j66Vx370+fcEqzCFvO10keBrpJyeiCBn
-   bMu3Rxw0/fDpUPMXELMuWuesJWEoppLtbt6EoDikc2WqYMZZw8oLQHi+v
-   fitrqnilsTXHROJ45SkqBEaUToDrjjJSZ3d/gIEIe+S3qLI6MQG5XR+qu
-   w==;
-X-CSE-ConnectionGUID: wMqbGiIaTi6IE9Z7IeBqxA==
-X-CSE-MsgGUID: nIip1LtiRyuZZTv1l6Ygxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22757631"
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="22757631"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 04:54:03 -0700
-X-CSE-ConnectionGUID: za5Q+RdERouf6WLiIWTu2w==
-X-CSE-MsgGUID: UG05ftq5TpqZ4AU0mZJdtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
-   d="scan'208";a="61047373"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 04:53:59 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sgjuW-000000003L9-03HD;
-	Wed, 21 Aug 2024 14:53:56 +0300
-Date: Wed, 21 Aug 2024 14:53:55 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v13 2/3] i2c: aspeed: support AST2600 i2c new register
- mode driver
-Message-ID: <ZsXVU2qy0GIANFrc@smile.fi.intel.com>
-References: <20240819092850.1590758-1-ryan_chen@aspeedtech.com>
- <20240819092850.1590758-3-ryan_chen@aspeedtech.com>
- <ZsNT7LPZ7-szrgBJ@smile.fi.intel.com>
- <OS8PR06MB7541EE5BA5B400445FE0295EF28E2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WplXx4YWwz2ygX
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2024 22:10:56 +1000 (AEST)
+Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2ef2c56da6cso72368561fa.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2024 05:10:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1724242252; x=1724847052; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8yHzWp1sOOLJBG2rpaye/UjJHu6nz813TXVunEn05r4=;
+        b=XODvo3CvsQ0ILL31WPJiSbEy1/0GsCTktWvz9+E4db2askPP93vFAfRRxyFnBfyept
+         5HSxELq5wLEzPLH7FzlE3LVwUGzQsmYH3uAFDhX/8lBNegeOhiDto3ZPRhYt6XfY5oB+
+         G/OGSvJAh3ec48qnBh1VOg/akI6/LnnBvaXrx9tGiWDQtHfEezWqdpTB95vMmvlX/39o
+         ojzqhijZDkq3ZAHXPww4KK6neFS+aEv89wMfRLCG9DLyljSP8HTNdbpjEub5L+XlJpVw
+         9lncoOAOGvbd5zE3IwJ09/iDUdelniZggAXjJHP4qtGrs43BdfixCQsNGvIwHw9UJSA5
+         r4Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724242252; x=1724847052;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8yHzWp1sOOLJBG2rpaye/UjJHu6nz813TXVunEn05r4=;
+        b=Y1QcJAOICLsqA8TlJlNBVvkcYfrSAoJHxNobowP1jWn+5Ok9r0o3kmNezx/yg8BkUk
+         ObTWiuAR3d1VLyD9XzPzedUp3kFJRbfsC9hrBj72h26iMxWyJvOUJ8NVEoQHSbX712MC
+         bSiw0zi2TetC0Q0O9ie2SuEcmQCpCmQtME/zrzeMLK+PviMH47H1LfBx4cRORvWAnC30
+         C/hmN7NkxsmoZZuALOp9/Mu2I8ndXrqhpLwAjivwu7Jx+dGSMBLdhZ+gh2p23asFrqsr
+         GQinWMN0NkeljyoSpw4vn/m10QovizxVVht7vwWAo2Rss2ZZ6lc8bdJjBcC+9UgB+BJZ
+         or2A==
+X-Forwarded-Encrypted: i=1; AJvYcCW4EXeSBfFC6h0sfZkzQHmGYU+By1576bfXN7Ndrk+507qYF+5oYaPpjEooSVf1Cbl5PSdUXP0IsGPQIMw=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YycMZLrUgDY54N4laVX0gfxMZUD2cqBeI67RY2YhuKNxz6R4h/a
+	72ExgFPmtLcq/W2vbeB7UBSdO7nGSHaoFwvj8driCRJeksc9Kf0tgu/uq4M0UBoo+qnEQSo7l7h
+	asDGBXnsiV7pM7YnDoCShIf+u4bIwpSPCuLz2zg==
+X-Google-Smtp-Source: AGHT+IFQd2kjruvhC3lctBFn4rvBzxjgmNWpIa5DvTIX53/WjJS0NjpL2jBqsl2pP8QHAGLT03BX4igUOcRtL0XGp3o=
+X-Received: by 2002:a05:651c:19ab:b0:2ef:2e6b:410e with SMTP id
+ 38308e7fff4ca-2f3f87e766bmr14423111fa.4.1724242251074; Wed, 21 Aug 2024
+ 05:10:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OS8PR06MB7541EE5BA5B400445FE0295EF28E2@OS8PR06MB7541.apcprd06.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240821070740.2378602-1-billy_tsai@aspeedtech.com> <20240821070740.2378602-3-billy_tsai@aspeedtech.com>
+In-Reply-To: <20240821070740.2378602-3-billy_tsai@aspeedtech.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 21 Aug 2024 14:10:38 +0200
+Message-ID: <CAMRc=McaNo5hxEwJJhZSE8PWno5r7+9XLn-1iZoJkRfNHN8U0Q@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] gpio: Add G7 Aspeed gpio controller driver
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,170 +76,376 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, linus.walleij@linaro.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, BMC-SW@aspeedtech.com, krzk+dt@kernel.org, andrew@codeconstruct.com.au, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Aug 21, 2024 at 06:43:01AM +0000, Ryan Chen wrote:
-> > On Mon, Aug 19, 2024 at 05:28:49PM +0800, Ryan Chen wrote:
+On Wed, Aug 21, 2024 at 9:07=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.c=
+om> wrote:
+>
+> In the 7th generation of the SoC from Aspeed, the control logic of the
+> GPIO controller has been updated to support per-pin control. Each pin now
+> has its own 32-bit register, allowing for individual control of the pin=
+=E2=80=99s
+> value, direction, interrupt type, and other settings.
+>
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  drivers/gpio/Kconfig          |   7 +
+>  drivers/gpio/Makefile         |   1 +
+>  drivers/gpio/gpio-aspeed-g7.c | 831 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 839 insertions(+)
+>  create mode 100644 drivers/gpio/gpio-aspeed-g7.c
+>
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index 58f43bcced7c..93f237429b92 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -172,6 +172,13 @@ config GPIO_ASPEED
+>         help
+>           Say Y here to support Aspeed AST2400 and AST2500 GPIO controlle=
+rs.
+>
+> +config GPIO_ASPEED_G7
+> +       tristate "Aspeed G7 GPIO support"
+> +       depends on (ARCH_ASPEED || COMPILE_TEST) && OF_GPIO
+> +       select GPIOLIB_IRQCHIP
+> +       help
+> +         Say Y here to support Aspeed AST2700 GPIO controllers.
+> +
+>  config GPIO_ASPEED_SGPIO
+>         bool "Aspeed SGPIO support"
+>         depends on (ARCH_ASPEED || COMPILE_TEST) && OF_GPIO
+> diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
+> index 64dd6d9d730d..e830291761ee 100644
+> --- a/drivers/gpio/Makefile
+> +++ b/drivers/gpio/Makefile
+> @@ -34,6 +34,7 @@ obj-$(CONFIG_GPIO_AMD_FCH)            +=3D gpio-amd-fch=
+.o
+>  obj-$(CONFIG_GPIO_AMDPT)               +=3D gpio-amdpt.o
+>  obj-$(CONFIG_GPIO_ARIZONA)             +=3D gpio-arizona.o
+>  obj-$(CONFIG_GPIO_ASPEED)              +=3D gpio-aspeed.o
+> +obj-$(CONFIG_GPIO_ASPEED_G7)           +=3D gpio-aspeed-g7.o
+>  obj-$(CONFIG_GPIO_ASPEED_SGPIO)                +=3D gpio-aspeed-sgpio.o
+>  obj-$(CONFIG_GPIO_ATH79)               +=3D gpio-ath79.o
+>  obj-$(CONFIG_GPIO_BCM_KONA)            +=3D gpio-bcm-kona.o
+> diff --git a/drivers/gpio/gpio-aspeed-g7.c b/drivers/gpio/gpio-aspeed-g7.=
+c
+> new file mode 100644
+> index 000000000000..dbca097de6ea
+> --- /dev/null
+> +++ b/drivers/gpio/gpio-aspeed-g7.c
+> @@ -0,0 +1,831 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright 2024 Aspeed Technology Inc.
+> + *
+> + * Billy Tsai <billy_tsai@aspeedtech.com>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/gpio/aspeed.h>
+> +#include <linux/gpio/driver.h>
+> +#include <linux/hashtable.h>
+> +#include <linux/init.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/pinctrl/consumer.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/seq_file.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/string.h>
+> +
+> +#include <asm/div64.h>
+> +
+> +#define GPIO_G7_IRQ_STS_BASE 0x100
+> +#define GPIO_G7_IRQ_STS_OFFSET(x) (GPIO_G7_IRQ_STS_BASE + (x) * 0x4)
+> +#define GPIO_G7_CTRL_REG_BASE 0x180
+> +#define GPIO_G7_CTRL_REG_OFFSET(x) (GPIO_G7_CTRL_REG_BASE + (x) * 0x4)
+> +#define GPIO_G7_OUT_DATA BIT(0)
+> +#define GPIO_G7_DIR BIT(1)
+> +#define GPIO_G7_IRQ_EN BIT(2)
+> +#define GPIO_G7_IRQ_TYPE0 BIT(3)
+> +#define GPIO_G7_IRQ_TYPE1 BIT(4)
+> +#define GPIO_G7_IRQ_TYPE2 BIT(5)
+> +#define GPIO_G7_RST_TOLERANCE BIT(6)
+> +#define GPIO_G7_DEBOUNCE_SEL GENMASK(8, 7)
+> +#define GPIO_G7_INPUT_MASK BIT(9)
+> +#define GPIO_G7_IRQ_STS BIT(12)
+> +#define GPIO_G7_IN_DATA BIT(13)
+> +/*
+> + * The configuration of the following registers should be determined
+> + * outside of the GPIO driver.
+> + */
+> +#define GPIO_G7_PRIVILEGE_W_REG_BASE 0x810
+> +#define GPIO_G7_PRIVILEGE_W_REG_OFFSET(x) (GPIO_G7_PRIVILEGE_W_REG_BASE =
++ ((x) >> 2) * 0x4)
+> +#define GPIO_G7_PRIVILEGE_R_REG_BASE 0x910
+> +#define GPIO_G7_PRIVILEGE_R_REG_OFFSET(x) (GPIO_G7_PRIVILEGE_R_REG_BASE =
++ ((x) >> 2) * 0x4)
+> +#define GPIO_G7_IRQ_TARGET_REG_BASE 0xA10
+> +#define GPIO_G7_IRQ_TARGET_REG_OFFSET(x) (GPIO_G7_IRQ_TARGET_REG_BASE + =
+((x) >> 2) * 0x4)
+> +#define GPIO_G7_IRQ_TO_INTC2_18 BIT(0)
+> +#define GPIO_G7_IRQ_TO_INTC2_19 BIT(1)
+> +#define GPIO_G7_IRQ_TO_INTC2_20 BIT(2)
+> +#define GPIO_G7_IRQ_TO_SIO BIT(3)
+> +#define GPIO_G7_IRQ_TARGET_RESET_TOLERANCE BIT(6)
+> +#define GPIO_G7_IRQ_TARGET_W_PROTECT BIT(7)
+> +
+> +static inline u32 field_get(u32 _mask, u32 _val)
+> +{
+> +       return (((_val) & (_mask)) >> (ffs(_mask) - 1));
+> +}
+> +
+> +static inline u32 field_prep(u32 _mask, u32 _val)
+> +{
+> +       return (((_val) << (ffs(_mask) - 1)) & (_mask));
+> +}
+> +
+> +static inline void ast_write_bits(void __iomem *addr, u32 mask, u32 val)
+> +{
+> +       iowrite32((ioread32(addr) & ~(mask)) | field_prep(mask, val), add=
+r);
+> +}
+> +
+> +static inline void ast_clr_bits(void __iomem *addr, u32 mask)
+> +{
+> +       iowrite32((ioread32(addr) & ~(mask)), addr);
+> +}
 
-...
+For all of the above and similar instances below - can you add the
+aspeed prefix to symbols?
 
-> > > +	/* Check 0x14's SDA and SCL status */
-> > > +	state = readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF);
-> > > +	if (!(state & AST2600_I2CC_SDA_LINE_STS) && (state &
-> > AST2600_I2CC_SCL_LINE_STS)) {
-> > > +		writel(AST2600_I2CM_RECOVER_CMD_EN, i2c_bus->reg_base +
-> > AST2600_I2CM_CMD_STS);
-> > > +		r = wait_for_completion_timeout(&i2c_bus->cmd_complete,
-> > i2c_bus->adap.timeout);
-> > > +		if (r == 0) {
-> > > +			dev_dbg(i2c_bus->dev, "recovery timed out\n");
-> > > +			ret = -ETIMEDOUT;
-> > > +		} else {
-> > > +			if (i2c_bus->cmd_err) {
-> > > +				dev_dbg(i2c_bus->dev, "recovery error\n");
-> > > +				ret = -EPROTO;
-> > > +			}
-> > > +		}
-> > > +	}
-> > 
-> > ret is set but maybe overridden.
-> 
-> If will modify by following.
-> 		if (r == 0) {
-> 			dev_dbg(i2c_bus->dev, "recovery timed out\n");
-> 			ret = -ETIMEDOUT;
-> 		} else if (i2c_bus->cmd_err) {
-> 			dev_dbg(i2c_bus->dev, "recovery error\n");
-> 			ret = -EPROTO;
-> 		}
-> If no error keep ret = 0;
+[snip]
 
-It doesn't change the behaviour. Still ret can be overridden below...
+> +
+> +/*
+> + * Note: The "value" register returns the input value sampled on the
+> + *       line even when the GPIO is configured as an output. Since
+> + *       that input goes through synchronizers, writing, then reading
 
-> > > +	/* Recovery done */
-> > 
-> > Even if it fails above?
-> 
-> This will keep check the bus status, if bus busy, will give ret = -EPROTO;
-> 
-> > > +	state = readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF);
-> > > +	if (state & AST2600_I2CC_BUS_BUSY_STS) {
-> > > +		dev_dbg(i2c_bus->dev, "Can't recover bus [%x]\n", state);
-> > > +		ret = -EPROTO;
+Drop the leading tabs indentations from the comment.
 
-...here.
+[snip]
 
-> > > +	}
-> > > +
-> > > +	/* restore original master/slave setting */
-> > > +	writel(ctrl, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-> > > +	return ret;
+> +
+> +       register_allocated_timer(gpio, offset, i);
+> +       configure_timer(gpio, offset, i);
+> +
+> +out:
+> +       raw_spin_unlock_irqrestore(&gpio->lock, flags);
+> +
 
-...
+How about using scoped guards across the driver? You'll avoid such labels.
 
+[snip]
 
-> > > +		i2c_bus->master_dma_addr =
-> > > +			dma_map_single(i2c_bus->dev, i2c_bus->master_safe_buf,
-> > > +				       msg->len, DMA_TO_DEVICE);
-> > 
-> > > +		if (dma_mapping_error(i2c_bus->dev, i2c_bus->master_dma_addr))
-> > {
-> > > +			i2c_put_dma_safe_msg_buf(i2c_bus->master_safe_buf, msg,
-> > false);
-> > > +			i2c_bus->master_safe_buf = NULL;
-> > 
-> > > +			return -ENOMEM;
-> > 
-> > Why is the dma_mapping_error() returned error code shadowed?
-> 
-> Sorry, please point me why you are think it is shadowed?
-> As I know dma_mapping_error() will return 0 or -ENOMEM. So I check if it is !=0.
-> Than return -ENOMEM. 
+> +
+> +static int aspeed_gpio_g7_set_config(struct gpio_chip *chip, unsigned in=
+t offset,
+> +                                    unsigned long config)
+> +{
+> +       unsigned long param =3D pinconf_to_config_param(config);
+> +       u32 arg =3D pinconf_to_config_argument(config);
+> +
+> +       if (param =3D=3D PIN_CONFIG_INPUT_DEBOUNCE)
+> +               return set_debounce(chip, offset, arg);
+> +       else if (param =3D=3D PIN_CONFIG_BIAS_DISABLE || param =3D=3D PIN=
+_CONFIG_BIAS_PULL_DOWN ||
+> +                param =3D=3D PIN_CONFIG_DRIVE_STRENGTH)
+> +               return pinctrl_gpio_set_config(offset, config);
+> +       else if (param =3D=3D PIN_CONFIG_DRIVE_OPEN_DRAIN || param =3D=3D=
+ PIN_CONFIG_DRIVE_OPEN_SOURCE)
+> +               /* Return -EOPNOTSUPP to trigger emulation, as per datash=
+eet */
+> +               return -EOPNOTSUPP;
+> +       else if (param =3D=3D PIN_CONFIG_PERSIST_STATE)
+> +               return aspeed_gpio_g7_reset_tolerance(chip, offset, arg);
+> +
 
-First of all, it is a bad style to rely on the implementation details where
-it's not crucial. Second, today it may return only ENOMEM, tomorrow it can
-return a different code or codes. And in general, one should not shadow an
-error code without justification.
+Please use a switch here like everyone else.
 
-> > > +		}
+> +       return -EOPNOTSUPP;
+> +}
+> +
+> +static void aspeed_gpio_g7_irq_print_chip(struct irq_data *d, struct seq=
+_file *p)
+> +{
+> +       struct aspeed_gpio_g7 *gpio;
+> +       int rc, offset;
+> +
+> +       rc =3D irqd_to_aspeed_gpio_g7_data(d, &gpio, &offset);
+> +       if (rc)
+> +               return;
+> +
+> +       seq_printf(p, dev_name(gpio->dev));
+> +}
+> +
+> +static const struct irq_chip aspeed_gpio_g7_irq_chip =3D {
+> +       .irq_ack =3D aspeed_gpio_g7_irq_ack,
+> +       .irq_mask =3D aspeed_gpio_g7_irq_mask,
+> +       .irq_unmask =3D aspeed_gpio_g7_irq_unmask,
+> +       .irq_set_type =3D aspeed_gpio_g7_set_type,
+> +       .irq_print_chip =3D aspeed_gpio_g7_irq_print_chip,
+> +       .flags =3D IRQCHIP_IMMUTABLE,
+> +       GPIOCHIP_IRQ_RESOURCE_HELPERS,
+> +};
+> +
+> +static const struct aspeed_bank_props ast2700_bank_props[] =3D {
+> +       /*     input      output   */
+> +       { 1, 0x0fffffff, 0x0fffffff }, /* E/F/G/H, 4-GPIO hole */
+> +       { 6, 0x00ffffff, 0x00ffffff }, /* Y/Z/AA */
+> +       {},
+> +};
+> +
+> +static const struct aspeed_gpio_g7_config ast2700_config =3D
+> +       /*
+> +        * ast2700 has two controllers one with 212 GPIOs and one with 16=
+ GPIOs.
+> +        * 216 for simplicity, actual number is 212 (4-GPIO hole in GPIOH=
+)
+> +        * We expect ngpio being set in the device tree and this is a fal=
+lback
+> +        * option.
+> +        */
+> +       {
+> +               .nr_gpios =3D 216,
+> +               .props =3D ast2700_bank_props,
+> +       };
+> +
+> +static const struct of_device_id aspeed_gpio_g7_of_table[] =3D {
+> +       {
+> +               .compatible =3D "aspeed,ast2700-gpio",
+> +               .data =3D &ast2700_config,
+> +       },
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(of, aspeed_gpio_g7_of_table);
+> +
+> +static int __init aspeed_gpio_g7_probe(struct platform_device *pdev)
+> +{
+> +       const struct of_device_id *gpio_id;
+> +       struct aspeed_gpio_g7 *gpio;
+> +       int rc, banks, err;
+> +       u32 ngpio;
+> +
+> +       gpio =3D devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
+> +       if (!gpio)
+> +               return -ENOMEM;
+> +
+> +       gpio->base =3D devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(gpio->base))
+> +               return PTR_ERR(gpio->base);
+> +
+> +       gpio->dev =3D &pdev->dev;
+> +
+> +       raw_spin_lock_init(&gpio->lock);
+> +
+> +       gpio_id =3D of_match_node(aspeed_gpio_g7_of_table, pdev->dev.of_n=
+ode);
 
-...
+Please use device_get_match_data() and elsewhere use generic device
+property getters instead of the specialized OF variants.
 
-> > > +MODULE_DEVICE_TABLE(of, ast2600_i2c_bus_of_table);
-> > 
-> > Why do you need this table before _probe()? Isn't the only user is below?
-> 
-> It is for next generation table list. Do you suggest remove it?
+> +       if (!gpio_id)
+> +               return -EINVAL;
+> +
+> +       gpio->clk =3D of_clk_get(pdev->dev.of_node, 0);
+> +       if (IS_ERR(gpio->clk)) {
+> +               dev_warn(&pdev->dev, "Failed to get clock from devicetree=
+, debouncing disabled\n");
+> +               gpio->clk =3D NULL;
+> +       }
+> +
+> +       gpio->config =3D gpio_id->data;
+> +
+> +       gpio->chip.parent =3D &pdev->dev;
+> +       err =3D of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpio)=
+;
+> +       gpio->chip.ngpio =3D (u16)ngpio;
+> +       if (err)
+> +               gpio->chip.ngpio =3D gpio->config->nr_gpios;
+> +       gpio->chip.direction_input =3D aspeed_gpio_g7_dir_in;
+> +       gpio->chip.direction_output =3D aspeed_gpio_g7_dir_out;
+> +       gpio->chip.get_direction =3D aspeed_gpio_g7_get_direction;
+> +       gpio->chip.request =3D aspeed_gpio_g7_request;
+> +       gpio->chip.free =3D aspeed_gpio_g7_free;
+> +       gpio->chip.get =3D aspeed_gpio_g7_get;
+> +       gpio->chip.set =3D aspeed_gpio_g7_set;
+> +       gpio->chip.set_config =3D aspeed_gpio_g7_set_config;
+> +       gpio->chip.label =3D dev_name(&pdev->dev);
+> +       gpio->chip.base =3D -1;
+> +
+> +       /* Allocate a cache of the output registers */
+> +       banks =3D DIV_ROUND_UP(gpio->chip.ngpio, 32);
+> +       gpio->dcache =3D devm_kcalloc(&pdev->dev, banks, sizeof(u32), GFP=
+_KERNEL);
+> +       if (!gpio->dcache)
+> +               return -ENOMEM;
+> +
+> +       /* Optionally set up an irqchip if there is an IRQ */
+> +       rc =3D platform_get_irq(pdev, 0);
+> +       if (rc > 0) {
+> +               struct gpio_irq_chip *girq;
+> +
+> +               gpio->irq =3D rc;
+> +               girq =3D &gpio->chip.irq;
+> +               gpio_irq_chip_set_chip(girq, &aspeed_gpio_g7_irq_chip);
+> +               girq->chip->name =3D dev_name(&pdev->dev);
+> +
+> +               girq->parent_handler =3D aspeed_gpio_g7_irq_handler;
+> +               girq->num_parents =3D 1;
+> +               girq->parents =3D devm_kcalloc(&pdev->dev, 1, sizeof(*gir=
+q->parents), GFP_KERNEL);
+> +               if (!girq->parents)
+> +                       return -ENOMEM;
+> +               girq->parents[0] =3D gpio->irq;
+> +               girq->default_type =3D IRQ_TYPE_NONE;
+> +               girq->handler =3D handle_bad_irq;
+> +               girq->init_valid_mask =3D aspeed_init_irq_valid_mask;
+> +       }
+> +
+> +       gpio->offset_timer =3D devm_kzalloc(&pdev->dev, gpio->chip.ngpio,=
+ GFP_KERNEL);
+> +       if (!gpio->offset_timer)
+> +               return -ENOMEM;
+> +
+> +       rc =3D devm_gpiochip_add_data(&pdev->dev, &gpio->chip, gpio);
 
-My question was regarding to the location of this table in the code, that's it,
-no other implications.
+Just return devm_gpiochip_add_data().
 
-...
+> +       if (rc < 0)
+> +               return rc;
+> +
+> +       return 0;
+> +}
+> +
+> +static struct platform_driver aspeed_gpio_g7_driver =3D {
+> +       .driver =3D {
+> +               .name =3D KBUILD_MODNAME,
+> +               .of_match_table =3D aspeed_gpio_g7_of_table,
+> +       },
+> +};
+> +
+> +module_platform_driver_probe(aspeed_gpio_g7_driver, aspeed_gpio_g7_probe=
+);
 
-> > > +	if (i2c_bus->mode == BUFF_MODE) {
-> > > +		i2c_bus->buf_base =
-> > devm_platform_get_and_ioremap_resource(pdev, 1, &res);
-> > > +		if (!IS_ERR_OR_NULL(i2c_bus->buf_base))
-> > > +			i2c_bus->buf_size = resource_size(res) / 2;
-> > > +		else
-> > > +			i2c_bus->mode = BYTE_MODE;
-> > 
-> > What's wrong with positive conditional? And is it even possible to have NULL
-> > here?
-> > 
-> Yes, if dtsi fill not following yaml example have reg 1, that will failure at buffer mode.
-> And I can swith to byte mode. 
-> 
-> reg = <0x80 0x80>, <0xc00 0x20>;
+I see that it was done like this in other aspeed drivers but I would
+need some explanation as to why you think it's needed here. You do get
+some resources in probe() that may defer the probing of this driver
+and this macro doesn't allow it. Unless you have a very good reason, I
+suspect you want to use module_platform_driver() here instead.
 
-I was asking about if (!IS_ERR_OR_NULL(...)) line:
-1) Why 'if (!foo) {} else {}' instead of 'if (foo) {} else {}'?
-2) Why _NULL?
+> +
+> +MODULE_DESCRIPTION("Aspeed G7 GPIO Driver");
+> +MODULE_LICENSE("GPL");
 
-> > > +	}
+MODULE_AUTHOR()?
 
-...
+Bart
 
-> > > +	strscpy(i2c_bus->adap.name, pdev->name, sizeof(i2c_bus->adap.name));
-> > 
-> > Use 2-argument strscpy().
-> Do you mean strscpy(i2c_bus->adap.name, pdev->name); is acceptable?
-
-Yes. And not only acceptable but robust for the copying to the [string] arrays.
-
-...
-
-> > > +	i2c_bus->alert_enable = device_property_read_bool(dev, "smbus-alert");
-> > > +	if (i2c_bus->alert_enable) {
-> > > +		i2c_bus->ara = i2c_new_smbus_alert_device(&i2c_bus->adap,
-> > &i2c_bus->alert_data);
-> > > +		if (!i2c_bus->ara)
-> > > +			dev_warn(dev, "Failed to register ARA client\n");
-> > > +
-> > > +		writel(AST2600_I2CM_PKT_DONE | AST2600_I2CM_BUS_RECOVER
-> > | AST2600_I2CM_SMBUS_ALT,
-> > > +		       i2c_bus->reg_base + AST2600_I2CM_IER);
-> > > +	} else {
-> > > +		i2c_bus->alert_enable = false;
-> > > +		/* Set interrupt generation of I2C master controller */
-> > > +		writel(AST2600_I2CM_PKT_DONE | AST2600_I2CM_BUS_RECOVER,
-> > > +		       i2c_bus->reg_base + AST2600_I2CM_IER);
-> > > +	}
-> > 
-> > I2C core calls i2c_setup_smbus_alert() when registering the adapter. Why do
-> > you need to have something special here?
-> The ast2600 i2c support smbus alert, and according my reference.
-> If enable alert, that will need i2c_new_smbus_alert_device for alert handler.
-> When interrupt coming driver can use this hander to up use i2c_handle_smbus_alert
-> And update layer will handle alert.
-> Does I mis-understand. If yes, I will remove this in next.
-
-Have you seen i2c_new_smbus_alert_device() ?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> --
+> 2.25.1
+>
