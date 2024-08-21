@@ -1,119 +1,101 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82132959753
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 11:44:00 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41EDD959766
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 11:52:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WphHL3lQVz2yN3
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 19:43:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WphTK0G5zz2yLY
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 19:52:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feab::600" arc.chain=microsoft.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=rvSIQGyN;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=SuOe9Ws+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feab::600; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20600.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::600])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WphHH5wBDz2y1l
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2024 19:43:55 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xdX4MCJ9v7VeEqDCLlQEDLrHfCFDmmp/K4Do9KmvnUqhxCqDqRAVnYVlDFBP7IlL1CI99N/Y/f8hRdH3Dz2PW249jvB1lb3FRA4Jh3dSdIfpmvtbm4enSQ7jeFjBC4nteNw9c5SokH5BDkBFiiibDFHmm08FIeVkEjJ41D297BzBv6UgHkNL0h/Nb6SUG/XBugADFgjarEDnTa8XZiTg/1nTOC7gu/6IUzr34NIqHHlj0gCgSs/hIIesvHeXi2S/2+/wAcLQv/+mh3Sw5aan4R2xLZlkvlh2MO99zxw28rMvz9rnhjcU5iN0RFm0V3lb5r6pVfE3ui6svHafEytleA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nJty/Sn8NpSzsj8QpXuqGnw99pNMtTMnmTt569eZCKk=;
- b=eRcLArPU2HWsrukfr9f3P9IsUFyFistlt9mhYfd2mvlw9fDZaF5Mgmuk59jSR2GPWe8dNf8wRqwVoyYYw4H4zpqIhsxa5RNQWkO+wX/IdaJMUO9GqZUKPSsgm/MBpuExKkYp4mtXhsPCligOwylorDaL7d2eaIWdG4TkjwcBhMLO8ZdttEkXGFRcx3JT2MzsFWaVyCSizlZmCRwJY4URKtCZV0F6pXm3OZMuGbmL9ZMppSVTWvVB5iwKJ8U50fgyZ/N/ajzgDkvZORFi55trfkRFCKQF8YM0bOzrXoqdd7z+3qT9ZW971GoLZnetXVHBO27Outg8E3AZWiujHCCL+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
- (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nJty/Sn8NpSzsj8QpXuqGnw99pNMtTMnmTt569eZCKk=;
- b=rvSIQGyNHLhHkmhn0JfHA4XtVOnv/9Sah1sbNgWQHpfSdVxJj4Twy5f0GTI+IJ3NV0+aJtP4S02TFfeMC4WWVtsn46CIZxvbdS5adH5ixQ10BNeBSR7BlyU+Gh/VAL7NLc5ws9F5bO3ID/dEWR4yzP7H8LOrtCv6dvEzDUB/BuW2C8aGBOnlHMM9EwWLR8+HLJglUHHGKKet9FUUiyOlzjGObb6mruH2c+Xo1R0Brz+FHDQ8fFQk2zPX8zKZzEyN/AC7IXRO8Q+JNDrMhiyiJzhEHKNCoyzfC+GNQXK3Hh7Ofrd9u/XWG7hByRmd+HCWTcQMHwsa66Jy02EkWgrNJg==
-Received: from SI2PR02CA0029.apcprd02.prod.outlook.com (2603:1096:4:195::6) by
- SEZPR04MB5900.apcprd04.prod.outlook.com (2603:1096:101:64::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7875.21; Wed, 21 Aug 2024 09:43:37 +0000
-Received: from SG2PEPF000B66CB.apcprd03.prod.outlook.com
- (2603:1096:4:195:cafe::92) by SI2PR02CA0029.outlook.office365.com
- (2603:1096:4:195::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.18 via Frontend
- Transport; Wed, 21 Aug 2024 09:43:36 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
- smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
-Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
- designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.20.1.79; helo=localhost.localdomain;
-Received: from localhost.localdomain (211.20.1.79) by
- SG2PEPF000B66CB.mail.protection.outlook.com (10.167.240.24) with Microsoft
- SMTP Server id 15.20.7897.11 via Frontend Transport; Wed, 21 Aug 2024
- 09:43:35 +0000
-From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-To: patrick@stwcx.xyz,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: [PATCH v13 29/29] ARM: dts: aspeed: yosemitet4: add RTQ6056 support on 11 (0x41).
-Date: Wed, 21 Aug 2024 17:40:40 +0800
-Message-Id: <20240821094043.4126132-30-Delphine_CC_Chiu@wiwynn.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240821094043.4126132-1-Delphine_CC_Chiu@wiwynn.com>
-References: <20240821094043.4126132-1-Delphine_CC_Chiu@wiwynn.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WphTF5T4kz2y1l
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2024 19:52:33 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 23C5060FC3;
+	Wed, 21 Aug 2024 09:52:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9B0C4AF0C;
+	Wed, 21 Aug 2024 09:52:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724233949;
+	bh=MDrfl3H9e1ODeZlqN50grJOC94gmFGIs9QCDQq2DFY4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SuOe9Ws+WzLcc1ATuLmvJu8U7V7a/I4s1hY3+58L34p3kA3/7wc9w5JrG1CNTw0Yn
+	 EGmrTa8jrs8DA/0D7xrjoga1ftNhsKvVlLPwHEoemecx+WXxKH21+hyYPSe75+XdNx
+	 5Gb6lVs29dmlfXd8CgLCvLzX4KZJgLeQvxJIPNA+9R9/kcxA6cGCdBVVfDOnJG2IAB
+	 fkI+NoXo+M+8wt9rmIZ+AmaCKwwqPePC8e0q15eovPA/xeALxSKyPEYm+ZqjC5mkuG
+	 JbmCU+UbO5DmCgq+BFNktCPsFU51AUMEFA0qVLJ3Lt0FR4iJSdqucy/QtEEHT/s/BS
+	 xxz4lnLj6qL3Q==
+Message-ID: <76a5ce0c-f9e0-43de-9fbd-786217dd4cbc@kernel.org>
+Date: Wed, 21 Aug 2024 11:52:22 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CB:EE_|SEZPR04MB5900:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 60d32d46-dfe2-475e-54d2-08dcc1c5baa5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 	BCL:0;ARA:13230040|1800799024|82310400026|7416014|376014|36860700013;
-X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?0NFAvM0HyoASkb3Wzz4WVPrHyi6iBA9iCQkRDaai8U1MHwCvAQo2HQq4Qz6Q?=
- =?us-ascii?Q?Dt9HduVP1EUXS4KA68LrM6ujUjMn9iv9KYXZkts5IBVEeCWfSFXHutYR0pyB?=
- =?us-ascii?Q?dWKsKHAbCjGv+tk8GHx3w/a7WRzRz2oTz3xHksfBUeHzhUIR4vWad+9+C4PO?=
- =?us-ascii?Q?t4NpipiL3p37W08vDgo3Q6xwzcbv3Bm0dL9zMFhLEARGWmX06VEPEOQQoMxc?=
- =?us-ascii?Q?KTryaGS+ICi3kLPKcDtT9JF7yE4GK1ndV9kc/jHbtVTH0rA5jQ4S7+4MLELL?=
- =?us-ascii?Q?vRpZbXtvNbn+lOp7HGvRotSVzrTYCAAX4FeixDVWKUuxxIZU/hki1PUe97ET?=
- =?us-ascii?Q?iSnw5pZmzLHcjWzdfqfpc4togr/vx6CDNmORmPcw+Y/da355nMOHNlMk+ucq?=
- =?us-ascii?Q?UpigGstQC9XL2kJ5youaYa+32+Ryuo9eryCUBP6aUeAW+z1DKdGQdj8fziJb?=
- =?us-ascii?Q?0St+sbGc8olA0iAQM52L9kJsx+ViZDg58I7BwCUZW2y6xAY1dJkjdM3/jqdh?=
- =?us-ascii?Q?ZKaK9N0kCkDU2NLaPVV99Y1D2sj2c18fb7MKG7prBPzH4/Oak9W3mab5eouk?=
- =?us-ascii?Q?8Wvb9y22yKtyhxZ6TWooJ2LSJKbEEbY7x1TXrPrlwef7z5P2g2slSmP7XU0V?=
- =?us-ascii?Q?aMjhExBqv5RNVMMBAwc8EfoQzfl8XlybiTNbxGYyT69zAu1v2YgNb3/bSvbp?=
- =?us-ascii?Q?lemgnd4BCFdLzemXqCeIGBK09LjUK5x/dK3KWUKbRQt8YXgUGV0egNTysMFF?=
- =?us-ascii?Q?ruCst721ea4KbeaaVEfXEprJFP/Z5Msa+tbZcJDxr6ivFU5/X/Od1s+XgeHP?=
- =?us-ascii?Q?Itxu8JX+j4ToOCV/eDRrwmDJbnmszDZ8Ado12OySFBQIGpZvp711YTDHkn+C?=
- =?us-ascii?Q?u6OItYSKdtBR1f5brM6poLbuDn2hhSpXP7VXSsQQQEh70kqmMRt9rozRLXQx?=
- =?us-ascii?Q?j3QigtO5iyeFbS3vlD50N6/ed7Omh6vfy/ttFGP5ByN5rokvpD9M9pPaiZr7?=
- =?us-ascii?Q?CIyqlJp/xTtDcKpiEqbd4JOtvmWMpS5jyY1KKoYsqVENlionrneLLbzl8r6Z?=
- =?us-ascii?Q?5TdDvOdJMc3XfVxorscVIgmjXTaeCuUwxk44n3SWetlliy4liw4YhpUlfLef?=
- =?us-ascii?Q?9gdoyuASVJm3o7nb7QJYxHVIl7M+JWrd/OIrVap3RxeRCqKkX/3Py0IO7lqc?=
- =?us-ascii?Q?tSSK+gXXcpkkRjSfJxJP1qtCjc1ZAKU9r8IC4p+5+p7xKzGzeSbVv7iM4v4e?=
- =?us-ascii?Q?MhYOj9J5Saj/NH5otIFtWyiZBbIKeYOF6RxQ8l+JJXKjxf1aEHJQg4R5P08H?=
- =?us-ascii?Q?jZQz0YuhASLzV6kUEJ74jrM2r+FDk/SOK2IL6RcLuTrgQmgmk8TyeUGGhrrj?=
- =?us-ascii?Q?mf1fYPeFS4QEjRK0hIuJFWdJ6ZbHMPwVgIxiACGas96GTV9h7xmxXi8cibt+?=
- =?us-ascii?Q?8CFtMeF/3UsCcPIpgk8bzsDgJ5xq/J/V?=
-X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(7416014)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 09:43:35.7633
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60d32d46-dfe2-475e-54d2-08dcc1c5baa5
-X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource: 	SG2PEPF000B66CB.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB5900
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 08/29] ARM: dts: aspeed: yosemite4: Remove space for
+ adm1272 compatible
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+References: <20240821094043.4126132-1-Delphine_CC_Chiu@wiwynn.com>
+ <20240821094043.4126132-9-Delphine_CC_Chiu@wiwynn.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240821094043.4126132-9-Delphine_CC_Chiu@wiwynn.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,29 +107,19 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Ian-I-Chien <Ian_Chien@wiwynn.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Ian-I-Chien <Ian_Chien@wiwynn.com>
+On 21/08/2024 11:40, Delphine CC Chiu wrote:
+> Remove space for adm1272 compatible
+> 
+> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+> ---
 
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This should be marked with Fixes tag and sent at beginning of patchset
+or even separate.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-index 4090725160f9..d056f6d5ff6e 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-@@ -1081,7 +1081,7 @@ power-sensor@40 {
- 	};
- 
- 	power-sensor@41 {
--		compatible = "ti,ina233";
-+		compatible = "ti,ina233", "richtek,rtq6056";
- 		resistor-calibration = /bits/ 16 <0x0a00>;
- 		current-lsb= /bits/ 16 <0x0001>;
- 		reg = <0x41>;
--- 
-2.25.1
+Best regards,
+Krzysztof
 
