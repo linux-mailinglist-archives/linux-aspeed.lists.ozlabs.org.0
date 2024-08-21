@@ -1,175 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57659592E9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 04:30:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B09DD959380
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 06:03:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WpVgR0xFGz2yK9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 12:30:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WpXkC3NH5z2yHL
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 14:03:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::723" arc.chain=microsoft.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=qYegXcv0;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=V8L90RsM;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:2011::723; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20723.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::723])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WpVfw5Ffzz2xWV;
-	Wed, 21 Aug 2024 12:30:15 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MnNXE4qZZ6LwKb2SHVcQR3ZqL5GKyCWE8AJFHJOmNO7e2qa4jTwc1FYGNm8nl02soGtM71WnYZREaq9Qnv3L0KAr3xFmIimWLzRgzW28vY/LFQykxYIsKX5lkpnyIBZnomCsRFMDNIynbvefH2xX3QFS7OnPd+dfjTcA4Ryw8pN6FVj9sn0bwOFrSH06nSVSpfLc5l9K04Gd+Rxe6geRCqGPcICObY7ZIhlVuIiPgnWbK890n5GxcpZ6/133UPf6tbYmQw9meq0WiU/e0D9nsifaXf0HCccuilLWSgXn8Ij8RsnTzl55o/zIRmJa4xvKYR8hIfS49Gd8+wwPSZ4/Kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OQLBGnZJpodGFC3hGyLoPVOJ1+j9/wKCe8sYuQ/2T7Q=;
- b=B+03hMNnQg8IhdkPJvpUnc2Doc0RtcyChQtuMjz4IfOvH0vViXCKJXqILr6UFL1efE1Frm+O4FMBzqB7TJKEO6OmXlNsS3v0kHrS6UUcqVzKNGibTSra59rjLbkG2zAFSjG82X5nRFmur6TwDnKY1knsY4/j07inVZQU+g6Xj2nI9AmBdVK3aUzXd/BNGQH4WS17vj5uukc6eprvtd4uaKzVPOjS3CIoJsHT4PrbzH6TmzdjDpN8X09PhVD7QXgYgJpHQC8G8NKKREWvVpq+ksCwoHfBOgU5ZG52rpWN4VOjgUeAl2h/huSs8kjMy2fT/zkERkrXzEQF15uRM2cKYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OQLBGnZJpodGFC3hGyLoPVOJ1+j9/wKCe8sYuQ/2T7Q=;
- b=qYegXcv0sdkqwobhVNuJ6Jv0JLgH5fL93O2zeK02I7yKeu/+aH+sSvyCfJ383zZ6y+6cJU16OTzXBSt+okqXrRz+YU57CRV4N7iGqs1NTznjcPcu46YgP7f09lnvVQoiIYWNVQvUYXecsyIAz2zsQIWMunRqwFUHmJpD5R0tnY8QVJTxEgneUHcx+oBqaQVgFGVW7MJt1txCPOnY8FhOq13zPBGHsZ8yPfb3vV/E6yJos7H/BkHfemM9mF6ufICyh1mP1aaE2tz9ld2/v/hOfUb86fwWtjIoFmqgZiBb7jpN2tFa/4Qamy6UdogkubF/PHQIn59Bwpaw0c03TJMRig==
-Received: from OS8PR06MB7541.apcprd06.prod.outlook.com (2603:1096:604:2b1::11)
- by PUZPR06MB5849.apcprd06.prod.outlook.com (2603:1096:301:fb::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.18; Wed, 21 Aug
- 2024 02:29:49 +0000
-Received: from OS8PR06MB7541.apcprd06.prod.outlook.com
- ([fe80::9f51:f68d:b2db:da11]) by OS8PR06MB7541.apcprd06.prod.outlook.com
- ([fe80::9f51:f68d:b2db:da11%5]) with mapi id 15.20.7875.019; Wed, 21 Aug 2024
- 02:29:49 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "brendan.higgins@linux.dev"
-	<brendan.higgins@linux.dev>, "benh@kernel.crashing.org"
-	<benh@kernel.crashing.org>, "joel@jms.id.au" <joel@jms.id.au>,
-	"andi.shyti@kernel.org" <andi.shyti@kernel.org>, "robh@kernel.org"
-	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "andrew@codeconstruct.com.au"
-	<andrew@codeconstruct.com.au>, "p.zabel@pengutronix.de"
-	<p.zabel@pengutronix.de>, "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>, "linux-i2c@vger.kernel.org"
-	<linux-i2c@vger.kernel.org>, "openbmc@lists.ozlabs.org"
-	<openbmc@lists.ozlabs.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v13 1/3] dt-bindings: i2c: aspeed: support for
- AST2600-i2cv2
-Thread-Topic: [PATCH v13 1/3] dt-bindings: i2c: aspeed: support for
- AST2600-i2cv2
-Thread-Index:  AQHa8ho549HAiRHYiEK49yrqFuaLn7IuYooAgAD5pxCAAFELAIAACBjQgAA2cICAARONwA==
-Date: Wed, 21 Aug 2024 02:29:49 +0000
-Message-ID:  <OS8PR06MB7541A425EF01573FCBE6735AF28E2@OS8PR06MB7541.apcprd06.prod.outlook.com>
-References: <20240819092850.1590758-1-ryan_chen@aspeedtech.com>
- <20240819092850.1590758-2-ryan_chen@aspeedtech.com>
- <7237aa34-9821-4ba7-a45b-3b1d598bc282@kernel.org>
- <OS8PR06MB75418A2ACA6693A8163F19E8F28D2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <46a9280d-f4ef-4cfb-83a3-3744e04721f3@kernel.org>
- <OS8PR06MB7541A25AC3A11C51DD57E1B4F28D2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <266f4b55-bddb-4c44-9eb5-3eef35757714@kernel.org>
-In-Reply-To: <266f4b55-bddb-4c44-9eb5-3eef35757714@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS8PR06MB7541:EE_|PUZPR06MB5849:EE_
-x-ms-office365-filtering-correlation-id: 118e9831-0091-409d-6324-08dcc189212e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018|921020;
-x-microsoft-antispam-message-info:  =?utf-8?B?eFFuUCtpSWdvd1FGcXBqUkxJTmZrOWlVUm5HaVU3U2xyVHAyeXRqWWt3TkF5?=
- =?utf-8?B?V3FkYUZQdzRaL1JnSHZXQ0hGa1hVTktHRGFiNW9BQU94RzYrZE8vNXRWWGN4?=
- =?utf-8?B?SHBjM1A3eTU2WG5uN1FSRUY4WTY1ZnlTZS9hUGJNbUdMcHVQd0lwbGhwL3pa?=
- =?utf-8?B?K0R1ZW5ZeEd0T1JUMGJEK0RGcUx3UUtCdXd5L254ajlVbG5HYnpEZ3V0aVNG?=
- =?utf-8?B?eks4cjduTnVkeE92bkVtc0xVRnFYQjc0QWVtcS9ab3FST2tHU2xKYXZ3L2J1?=
- =?utf-8?B?dEsvTlo2ZmxXR2RlYXFSeFQrS1FEZUFuVm1VSWt5aFM4YUtpaGhadGcvVHpH?=
- =?utf-8?B?MXpvbVFQbEZ0alI5aVRoZE8zYWFWYmc4U0YrSXVhQnlZMU9DYURnMUJVVHU1?=
- =?utf-8?B?T2FqVU5LU3dta3Fzak80MkszbmJQQTZGYitMNUJGazNjTEV3YW8xc2hkYUUw?=
- =?utf-8?B?UnpYOEo0dTNibzRpbDl1cFBySXl4RXhXM1BFQzY2RzVNNmRLVDQwVjQxQTJn?=
- =?utf-8?B?RFJRVGpPK01IOUk1MEJidWFmeElHdGNNeGo5STAya1dTK0hUMUt3SWM0bjh1?=
- =?utf-8?B?a1QvUnNic3l4MHMyc1I2VFVCSWd5S2RnNDRmTW05czVUa2VBZ0doOG1XQUc4?=
- =?utf-8?B?eVdsMU9PSDZTS3RxUHBsK01CelZ3Qk9VQjZDTEZPZStXSUZ5Y1RvRFlWUFZ4?=
- =?utf-8?B?d09FOFdSdlBZSVFvOThkRVJVUmFMbFViWUs5eUZCSnRHOWFUQ2ltVGNXNHJX?=
- =?utf-8?B?ZG1QNEFBdk1yWFA0bW0weXRyUEFKRHI4YmRNSk9QQUpnVGNrMkFhdEdYYXZV?=
- =?utf-8?B?VStvcXA2Y2xuY2tVNWJsU3RvNm5TbFY0QThXRE96VjBGbHpkSCt2d1gxUXA0?=
- =?utf-8?B?bE90Ky9RcVpYOHBXYlhyWXZZRzRYWVAxUkljeWNtTWhjaE1zN05mZFlVMk5o?=
- =?utf-8?B?TjAvU3hmUnYrSm1WZFdZZldPUG93NWpvWkVta0pJc0lqS2FCRHpWR280aVd3?=
- =?utf-8?B?bXMyVzM2UU80WDdIUEtYVFY3Q3dDNGpQaHRoQWN3YnBvcHdHRnVvVkt5b1ZN?=
- =?utf-8?B?NGFYUWxKaHkrMkhGTVppUVQwNTV5U3JjRCtMZkgzRlhNQ2M0bjNEaHVvYTRP?=
- =?utf-8?B?cTB1SVdSZjhDR093citSa2FwV2ZrUmlXWjNSQVhPeGoxdWh0RW5Rc1M2bDNp?=
- =?utf-8?B?UjRKR1JxZ0JBbG02Zy9JZDhBckU0LzlzeEZkQnIyZ3NJZFVLVHRpbE13aFVv?=
- =?utf-8?B?WVM2WCtVZ0dNR0FBKzFBN0JpcGRtS2VjVnJrUC9odWgrWlhXb0w4YldWOUVQ?=
- =?utf-8?B?NTJQSkJHTitxMVUzMWoycHBVaGNkSFltMTc1ak5yYTViWldPQ2IvWDRvOXVh?=
- =?utf-8?B?OE9jczE4cHIxb0p4bVl5Q0hkb1VuV0UramxqYkpMTnhEcUkxdSsra3Q0WnA3?=
- =?utf-8?B?MVoyNkhrRkozSWJ1UUdqSjV5NjV0SjdNM1FlblRoMk1TcHdHcUJ4dEFBK2dv?=
- =?utf-8?B?cjZKS1VILzhBZFdva1pha1JQVUNVMjRYNVZNSlorVkc4dXlGQmNmUU1obnRD?=
- =?utf-8?B?ZytGYUY1ZmlUZVJ3d1V2NnZyaHY3N216OGQybEpUOWl5eFNFSVpOSDdESnhI?=
- =?utf-8?B?RDhUc3RXelY0TU9zNytNay9ZVC9MNFptQzRMUzVsM09yK3J0WC9LRmRKUFdj?=
- =?utf-8?B?cE5CQ2dXYUx1S1p6SjJXcWZzenVDdW5uL3Rrdjl2VzVGaWozb1loUjUwTEw3?=
- =?utf-8?B?b1Z6TjlwbWMzNm9IeUc1Z2dnVysyVE9xZWE3K29jTlB1VjYvY2F2YXVpNHlw?=
- =?utf-8?Q?pqiVAoBeX4sLqx/72YtdikMcynZqKtdudMeco=3D?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS8PR06MB7541.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018)(921020);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?SUF2WFFsZ1BWUzdneEV6TktUOGFjQ25TV0UxYUNhYXowVTBCUUYyNEdzbEhx?=
- =?utf-8?B?VXVaaHRlR3lHVWhlR0hBc3VtbTQzNUFLRGYvdTArUWF6bXRIS2RzbGxPaVc4?=
- =?utf-8?B?RlZoaWNzUzBoNVA0ZmYvdFM3RjV0S1NsZTRiaGZ0eUZVTTJCcU4zaWs0ZGcy?=
- =?utf-8?B?WjRIZHBzYUhIM040VldaOVRkNVlsZTZnYUNvbWdNaDZWU2NJU1hGS2JzSmti?=
- =?utf-8?B?QjVzY2RRMnQ5ZmN2ZW9RbWplVUd2OC9UQnIvMEQ5YTdsajh4bUx5dTAzQStD?=
- =?utf-8?B?MHR5RnY2cHpQLzVDV2lxbUFrWjdpcjJjRS9aS25tb3pNMHpnM0hqbTZGNnlT?=
- =?utf-8?B?L05WTUlhZ0tzTU1uUERBVzUvMEYvcGpwalpPTlVheTkyV2E4eVMvMzNoOHh6?=
- =?utf-8?B?TVZlZ3Q0cWVTUVlFSU9kYXNMNzVRa1RtaG9SSEhnZ3dsOHgvZmozY2R6TnI3?=
- =?utf-8?B?RmkxaThNZUV3cDQzRE5VUGYxOW54ajNNUXgyVnhMdFhOeE5WT1d5Y2Z6UW54?=
- =?utf-8?B?WE1vSzI4bnk2Ky80WEEzTFViUEoxR0trRUZldVh5R2o1NmxTUEpOaTN1Q0VN?=
- =?utf-8?B?T1dHd2w3S1poUEJrMy82VGt0Z1dtYXI2NU93NlZldzdWdGhpdStSSncrcnRl?=
- =?utf-8?B?MXQyaG1wbjdDQnZqUTdhQzdCajg5aDVQVWR1QTdKU1pWYTI3bUNIaHFjNi9z?=
- =?utf-8?B?aXFKM0FVSHRhMjYydThQVWQ3UWJUODlKajA4ME5OWWJrU2tRbGFWelBEZFdz?=
- =?utf-8?B?R2ZPZU9UNlZ6cWswKzN5U1F4Z3FtZHRzZGtYcmRtNkExcG83dXVoeSs5UlVk?=
- =?utf-8?B?UDQ0em1kTnVnYTB3b2ZBZWk3MTNqQlpLc2NhdmNmb1VBcExpUVZqSGdoT3kv?=
- =?utf-8?B?N1ltSjV6QlRkaVlkUU84T2JjSUsxeEtCMnQzVHdENnB1QnpPLzdDRVB1UEJ0?=
- =?utf-8?B?cFlrOFhqUHUzc3B1M3pQUncwVEU4QXUrRWZTY1BES3kyS3oyS1R0TEtCY3U0?=
- =?utf-8?B?SjE1VE9uTldXdTlSOVJGOFkwSFBWMXYwVXRXUldZRXE1eTUweW1uSGlHTnFP?=
- =?utf-8?B?RzZqcUtKdFN2bFNPaGhQZnhVYk9iL2RXdk9PbFZxa1lJYlVTdURlMkh3SWdK?=
- =?utf-8?B?OVVhdHdTSGQ4Nkh1ckxSUlY0di9hRzRHdFUrcWMwTmNFSE9nbTIyc0pHbjh6?=
- =?utf-8?B?TjlBa1hjT3cwOThFdDdHbFlJemJlYnpQT2ErUXdqL3RxSTgzUUgwQVhuRk5u?=
- =?utf-8?B?ZEk4RG5UL2ZCSk5tUHB0eDZIZFNuOWJwaEo5blBCbGNNZE5YZWZrYkE4c05I?=
- =?utf-8?B?WUhoM2xCMW83NHlTTk1TVExlOHcwTVR5anJhZ1ZkZkMxeXE4SENaME1ZSHlZ?=
- =?utf-8?B?R3VkOXhvUlM3V2htZ3g5OW1TRTdwWVIxcWFhcTR1SWZFT1ZweGJWdlFBU2N6?=
- =?utf-8?B?R3FsZkNBaEp5TWxTT1FqNWZVM1F6dFBkQ1JpSTZhTUJlT2YvTVE0OG54cDNl?=
- =?utf-8?B?ZElOTW9wZFV0RjFuUmkyL2VpMFhxY2ZLV2NCYmZwZEJlQ09vQ1loWVAxY3Rh?=
- =?utf-8?B?aE00aVlmNnE0ZVByOFI1Z01KZDhZMnZiOUc3Y2lWaS9tRlM3YnF3bVFQN0d6?=
- =?utf-8?B?aUwzSlRIVHNMQ01TczlwKzAyRjIvdXEzVFdHN0dhOXQ4Wnd5cFg1cEthM1Vt?=
- =?utf-8?B?c2pvQzlwWExMWjdTZXZPY204R1lKNWxXWUhaaDVETXZJSkxtWnZXWVJiR0pn?=
- =?utf-8?B?R2FORkVtc3NpTUlGMHRWbGZGb0pUQzVZQzJ1R25sbkliRUIzeG5lR0ZnUC8z?=
- =?utf-8?B?MUhuOStjSy93UUN2NHdQN0tIQ05oTXhpOWEycG5pTjdiblNCK0xPYWpMOGpN?=
- =?utf-8?B?TDZKbjNsbEd0OFZseDhuNUtjYU91eFF3TFdhWWs4UGVRWXE0bW1PTWJXTjlh?=
- =?utf-8?B?a05EdURyOGdndWZvS3pkYmZJdHVMSjkxazl2NHUwQUJhR3Bkek9uL2VLSUJv?=
- =?utf-8?B?eGhJRDBsTUZrN1ptVHlnaDN1VStIZXQwY2YvVjIycUZQNVpacjR3c3c1Vktt?=
- =?utf-8?B?RnZlYUU1Q0ozL1pQOFhYVS95cVdIOGpzUUY0YTJxbzVPa2trbGgvNW9KemNn?=
- =?utf-8?Q?oprcCoPh0UjyPzVwqzPahySit?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WpXk910Qsz2xtQ
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2024 14:03:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1724212991;
+	bh=jv5hT38IlFRIQ1oXNaHWa5RXJNuNsH8ZImMaYXz6GdU=;
+	h=From:Date:Subject:To:Cc;
+	b=V8L90RsMAfDYv4HDQcyovOD0lyDyrckS8tyOPSpevcj9O4lCQrz/65J5ARm2VnW+z
+	 dOtTN5TEIsaDaGO+c+9EaWucYqPsuf92CKbDUowPcKXYe89hHs6rGoRS8RD32z5sgX
+	 dDMgOahaRv8GwGLUB85bROSX3h8+8gEZajazCijJHI8wTFIPNOXYifc+3c/o7WJD34
+	 gOtnXU4w7o/3J9c02G9rEIKz06/pmWWYgbYDwdGoNsYTr/YsC6l9OosT60ufJiZ65u
+	 PYGl2tlvAPlv5TqwvMOvJL4USH7aTmzhX6Ba0bv9G6cr/dKVx53FcJiVwFNXzsYkaO
+	 YuIlmARS5Qt+g==
+Received: from [127.0.1.1] (ppp118-210-185-99.adl-adc-lon-bras34.tpg.internode.on.net [118.210.185.99])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 86ECB65675;
+	Wed, 21 Aug 2024 12:03:08 +0800 (AWST)
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+Date: Wed, 21 Aug 2024 13:31:08 +0930
+Subject: [PATCH] ARM: dts: aspeed: Rework APB nodes
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS8PR06MB7541.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 118e9831-0091-409d-6324-08dcc189212e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Aug 2024 02:29:49.0675
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DTrcfhpDPxqKZYyJbi95T8474V9WGPb+Y4Y/J6cW1Isb6JAsm7AGzJgC4/fXt8DrUpj9c2lSpbcRu9I4uba8BaI4zy+cLOexDRl3v1v7WBQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5849
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240821-dt-warnings-apb-nodes-v1-1-c524923acca5@codeconstruct.com.au>
+X-B4-Tracking: v=1; b=H4sIAINmxWYC/x3MPQqAMAxA4atIZgO1ChavIg79iZolSiMqiHe3O
+ H7Dew8oZSaFoXog08nKmxQ0dQVx9bIQcioGa2xnnG0wHXj5LCyLot8DypZIsQ3JtcH20bgIpd0
+ zzXz/33F63w9Fw3jWZwAAAA==
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+X-Mailer: b4 0.14.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,48 +59,676 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Andrew Geissler <geissonator@yahoo.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiBTdWJqZWN0OiBSZTogW1BBVENIIHYxMyAxLzNdIGR0LWJpbmRpbmdzOiBpMmM6IGFzcGVlZDog
-c3VwcG9ydCBmb3INCj4gQVNUMjYwMC1pMmN2Mg0KPiANCj4gT24gMjAvMDgvMjAyNCAwODo1MCwg
-UnlhbiBDaGVuIHdyb3RlOg0KPiA+Pj4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEzIDEvM10gZHQt
-YmluZGluZ3M6IGkyYzogYXNwZWVkOiBzdXBwb3J0IGZvcg0KPiA+Pj4+IEFTVDI2MDAtaTJjdjIN
-Cj4gPj4+Pg0KPiA+Pj4+IE9uIDE5LzA4LzIwMjQgMTE6MjgsIFJ5YW4gQ2hlbiB3cm90ZToNCj4g
-Pj4+Pj4gQWRkIGFzdDI2MDAtaTJjdjIgY29tcGF0aWJsZSBhbmQgYXNwZWVkLGdsb2JhbC1yZWdz
-LA0KPiA+Pj4+PiBhc3BlZWQsZW5hYmxlLWRtYSBhbmQgZGVzY3JpcHRpb24gZm9yIGFzdDI2MDAt
-aTJjdjIuDQo+ID4+Pj4+DQo+ID4+Pj4+IFNpZ25lZC1vZmYtYnk6IFJ5YW4gQ2hlbiA8cnlhbl9j
-aGVuQGFzcGVlZHRlY2guY29tPg0KPiA+Pj4+PiBSZXZpZXdlZC1ieTogS3J6eXN6dG9mIEtvemxv
-d3NraSA8a3J6aytkdEBrZXJuZWwub3JnPg0KPiA+Pj4+DQo+ID4+Pj4gPyE/DQo+ID4+Pj4NCj4g
-Pj4+PiBXaGF0IGhhcHBlbmVkIGhlcmU/IFdoeSBhcmUgeW91IGFtZW5kaW5nIHRhZ3M/IT8gVGhh
-dCdzIG5vdA0KPiBhbGxvd2VkLg0KPiA+Pj4+IFlvdSBjYW5ub3QgY2hhbmdlIHJlY2VpdmVkIHRh
-Z3MsIGNoYW5nZSBwZW9wbGUgbmFtZXMgb3IgdGhlaXIgZGF0YSENCj4gPj4+PiBBbmQgaG93IGlz
-IGl0IGV2ZW4gcG9zc2libGUsIHNyc2x5LCBob3cgZG8geW91IGV2ZW4gd29yayB3aXRoIGdpdD8N
-Cj4gPj4+PiBHaXQgd291bGQgbmV2ZXIgZG8gaXQsIHNvIHlvdSBoYWQgdG8gZG8gaXQgb24gcHVy
-cG9zZSB2aWEgc29tZQ0KPiA+Pj4+IHdlaXJkDQo+ID4+IHdvcmtmbG93Lg0KPiA+Pj4+DQo+ID4+
-PiBTb3JyeSwgSSBkb24ndCBrbm93IEtyenlzenRvZiBLb3psb3dza2kNCj4gPj4+IDxrcnp5c3p0
-b2Yua296bG93c2tpQGxpbmFyby5vcmc+IGlzDQo+ID4+IHlvdSBvciBub3QuDQo+ID4+PiBPciBz
-aG91bGQgSSBzdGlsbCBrZWVwIEtyenlzenRvZiBLb3psb3dza2kgPGtyemsrZHRAa2VybmVsLm9y
-Zz4/DQo+ID4+Pg0KPiA+Pj4gaHR0cHM6Ly9wYXRjaGVzLmxpbmFyby5vcmcvcHJvamVjdC9saW51
-eC1pMmMvcGF0Y2gvMjAyMzA0MTUwMTI4NDguMTcNCj4gPj4+IDc3DQo+ID4+PiA3NjgtMi1yeWFu
-X2NoZW5AYXNwZWVkdGVjaC5jb20vDQo+ID4+DQo+ID4+IEhlcmUgaXMgdGhlIHRhZyB5b3UgcmVj
-ZWl2ZWQuIFlvdSBhZGRlZCBpdCBpbiB2MTIuDQo+ID4+DQo+ID4+IFdoeSBkaWQgeW91IGNoYW5n
-ZSB0aGUgdGFnIHN1ZGRlbmx5IHRvIHNvbWV0aGluZyBlbHNlPw0KPiA+Pg0KPiA+PiBEbyB5b3Ug
-dW5kZXJzdGFuZCB0aGF0IHlvdSBhcmUgbm90IGFsbG93ZWQgdG8gY2hhbmdlIHBlb3BsZSB0YWdz
-PyBJDQo+ID4+IGhhdmUgZG91YnRzIGlmIHlvdSBhc2sgYWJvdXQgcGVvcGxlJ3MgaWRlbnRpdGll
-cywgd2hpY2ggaXMgZW50aXJlbHkgaXJyZWxldmFudC4NCj4gPj4NCj4gPiBTb3JyeSwgSSBhbSBu
-b3QgdW5kZXJzdG9vZC4NCj4gDQo+IEkgZG9uJ3Qga25vdyBob3cgdG8gc2F5IHRoaXMgc2ltcGxl
-ciB0aGF0IHlvdSBhcmUgbm90IGFsbG93ZWQgdG8gY2hhbmdlIHRhZ3MuDQo+IA0KPiBZb3UgcmVj
-ZWl2ZSB0YWcsIHVzZSBiNCB0byBhcHBseSBpdCBvciBhZGQgaXQgbWFudWFsbHkuIERvIG5vdCBh
-bHRlciBpdC4NCj4gRG8gbm90IGNoYW5nZSBpdC4gRG8gbm90IGFkZCB0aGluZ3MgdGhlcmUuIERv
-IG5vdCByZW1vdmUgcGFydHMgb2YgaXQuDQo+IA0KPiBUYWcgaXMgYXMgaXMuIFlvdSBvbmx5IGNv
-cHkgYW5kIHBhc3RlLg0KPiANCj4gSXMgdGhpcyB1bmRlcnN0b29kIG5vdz8NCj4gDQo+IA0KPiAN
-Cj4gPiBodHRwczovL3BhdGNoZXMubGluYXJvLm9yZy9wcm9qZWN0L2xpbnV4LWkyYy9wYXRjaC8y
-MDIzMDQxNTAxMjg0OC4xNzc3DQo+ID4gNzY4LTItcnlhbl9jaGVuQGFzcGVlZHRlY2guY29tLw0K
-PiA+IFJldmlld2VkLWJ5OiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tp
-QGxpbmFyby5vcmc+IGF0DQo+ID4gdjEwIFNvLCB3aGF0IHNob3VsZCBJIGRvIG5vdyBhdCB2MTM/
-Pw0KPiANCj4gRml4IHlvdXIgd29ya2Zsb3cgYW5kIGdvIGJhY2sgdG8gcHJldmlvdXMgdmVyc2lv
-biB3aGljaCBoYWQgY29ycmVjdCB0YWcuDQo+IEFuZCBhbnN3ZXIgLSB3aHkgZGlkIHlvdSBkZWNp
-ZGUgdG8gY2hhbmdlIGl0Pw0KPiANClNvcnJ5LCBJIHVuZGVyc3RhbmQgdGhlIHRhZyBtZWFucyBu
-b3cuDQpJdCBzaG91bGQga2VlcCBvcmlnaW5hbCByZXZpZXctYnkgdGFnLiBBbmQgc2VuZCB2MTQu
-DQoNCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0b2YNCg0K
+The way the APB nodes are currently described causes excessive output
+from `make dtbs_check` as demonstrated below (approximately 30KB per
+devicetree). This stems from nesting the apb nodes under the top-level
+ahb nodes, while the simple-bus binding requires that the ahb subnode
+names contain a unit address[1].
+
+In the process of cleaning this up, it became apparent that both the
+APB descriptions in the devicetree and datasheet were pretty murky.
+I followed up with Troy Lee and Ryan Chen, and received the following
+from Ryan:
+
+> Sorry, I double confirm with designer.
+> AST2400/AST2500/AST2600: 1e6exxxx, 1e6fxxxx, 1e78xxxx, 1e79xxxx : APB,
+> others is AHB
+
+As a result, update the Aspeed DTSIs to describe one APB node per
+mapping listed in Ryan's response, and lift all controllers that are not
+in the described ranges out of the APB nodes to the AHB node.
+
+This change may impact OpenBMC userspace applications that use
+devicetree paths in sysfs to identify hardware components. However,
+these uses of sysfs were previously identified as incorrect[2][3][4].
+Its expected that any affected applications will reworked so they are
+not sensitive to node renames.
+
+The change squashes schema warnings such as:
+
+    arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-galaxy100.dtb: ahb: apb: {'compatible': ['simple-bus'], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': True, 'syscon@1e6e2000': {'compatible': ['aspeed,ast2400-scu', 'syscon', 'simple-mfd'], 'reg': [[510533632, 424]], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[0, 510533632, 4096]], '#clock-cells': [[1]], '#reset-cells': [[1]], 'phandle': [[2]], 'p2a-control@2c': {'reg': [[44, 4]], 'compatible': ['aspeed,ast2400-p2a-ctrl'], 'status': ['disabled']}, 'silicon-id@7c': {'compatible': ['aspeed,ast2400-silicon-id', 'aspeed,silicon-id'], 'reg': [[124, 4]]}, 'pinctrl@80': {'reg': [[128, 24], [160, 16]], 'compatible': ['aspeed,ast2400-pinctrl'], 'phandle': [[7]], 'acpi_default': {'function': ['ACPI'], 'groups': ['ACPI']}, 'adc0_default': {'function': ['ADC0'], 'groups': ['ADC0']}, 'adc1_default': {'function': ['ADC1'], 'groups': ['ADC1']}, 'adc10_default': {'function': ['ADC10'], 'groups': ['ADC10']}, 'adc11_default': {
+ 'function': ['ADC11'], 'groups': ['ADC11']}, 'adc12_default': {'function': ['ADC12'], 'groups': ['ADC12']}, 'adc13_default': {'function': ['ADC13'], 'groups': ['ADC13']}, 'adc14_default': {'function': ['ADC14'], 'groups': ['ADC14']}, 'adc15_default': {'function': ['ADC15'], 'groups': ['ADC15']}, 'adc2_default': {'function': ['ADC2'], 'groups': ['ADC2']}, 'adc3_default': {'function': ['ADC3'], 'groups': ['ADC3']}, 'adc4_default': {'function': ['ADC4'], 'groups': ['ADC4']}, 'adc5_default': {'function': ['ADC5'], 'groups': ['ADC5']}, 'adc6_default': {'function': ['ADC6'], 'groups': ['ADC6']}, 'adc7_default': {'function': ['ADC7'], 'groups': ['ADC7']}, 'adc8_default': {'function': ['ADC8'], 'groups': ['ADC8']}, 'adc9_default': {'function': ['ADC9'], 'groups': ['ADC9']}, 'bmcint_default': {'function': ['BMCINT'], 'groups': ['BMCINT']}, 'ddcclk_default': {'function': ['DDCCLK'], 'groups': ['DDCCLK']}, 'ddcdat_default': {'function': ['DDCDAT'], 'groups': ['DDCDAT']}, 'extrst_default': {'fu
+ nction': ['EXTRST'], 'groups': ['EXTRST']}, 'flack_default': {'function': ['FLACK'], 'groups': ['FLACK']}, 'flbusy_default': {'function': ['FLBUSY'], 'groups': ['FLBUSY']}, 'flwp_default': {'function': ['FLWP'], 'groups': ['FLWP']}, 'gpid_default': {'function': ['GPID'], 'groups': ['GPID']}, 'gpid0_default': {'function': ['GPID0'], 'groups': ['GPID0']}, 'gpid2_default': {'function': ['GPID2'], 'groups': ['GPID2']}, 'gpid4_default': {'function': ['GPID4'], 'groups': ['GPID4']}, 'gpid6_default': {'function': ['GPID6'], 'groups': ['GPID6']}, 'gpie0_default': {'function': ['GPIE0'], 'groups': ['GPIE0']}, 'gpie2_default': {'function': ['GPIE2'], 'groups': ['GPIE2']}, 'gpie4_default': {'function': ['GPIE4'], 'groups': ['GPIE4']}, 'gpie6_default': {'function': ['GPIE6'], 'groups': ['GPIE6']}, 'i2c10_default': {'function': ['I2C10'], 'groups': ['I2C10'], 'phandle': [[24]]}, 'i2c11_default': {'function': ['I2C11'], 'groups': ['I2C11'], 'phandle': [[25]]}, 'i2c12_default': {'function': ['I2C1
+ 2'], 'groups': ['I2C12'], 'phandle': [[26]]}, 'i2c13_default': {'function': ['I2C13'], 'groups': ['I2C13'], 'phandle': [[27]]}, 'i2c14_default': {'function': ['I2C14'], 'groups': ['I2C14'], 'phandle': [[28]]}, 'i2c3_default': {'function': ['I2C3'], 'groups': ['I2C3'], 'phandle': [[17]]}, 'i2c4_default': {'function': ['I2C4'], 'groups': ['I2C4'], 'phandle': [[18]]}, 'i2c5_default': {'function': ['I2C5'], 'groups': ['I2C5'], 'phandle': [[19]]}, 'i2c6_default': {'function': ['I2C6'], 'groups': ['I2C6'], 'phandle': [[20]]}, 'i2c7_default': {'function': ['I2C7'], 'groups': ['I2C7'], 'phandle': [[21]]}, 'i2c8_default': {'function': ['I2C8'], 'groups': ['I2C8'], 'phandle': [[22]]}, 'i2c9_default': {'function': ['I2C9'], 'groups': ['I2C9'], 'phandle': [[23]]}, 'lpcpd_default': {'function': ['LPCPD'], 'groups': ['LPCPD']}, 'lpcpme_default': {'function': ['LPCPME'], 'groups': ['LPCPME']}, 'lpcrst_default': {'function': ['LPCRST'], 'groups': ['LPCRST']}, 'lpcsmi_default': {'function': ['LPCSMI
+ '], 'groups': ['LPCSMI']}, 'mac1link_default': {'function': ['MAC1LINK'], 'groups': ['MAC1LINK']}, 'mac2link_default': {'function': ['MAC2LINK'], 'groups': ['MAC2LINK']}, 'mdio1_default': {'function': ['MDIO1'], 'groups': ['MDIO1']}, 'mdio2_default': {'function': ['MDIO2'], 'groups': ['MDIO2'], 'phandle': [[4]]}, 'ncts1_default': {'function': ['NCTS1'], 'groups': ['NCTS1']}, 'ncts2_default': {'function': ['NCTS2'], 'groups': ['NCTS2']}, 'ncts3_default': {'function': ['NCTS3'], 'groups': ['NCTS3']}, 'ncts4_default': {'function': ['NCTS4'], 'groups': ['NCTS4']}, 'ndcd1_default': {'function': ['NDCD1'], 'groups': ['NDCD1']}, 'ndcd2_default': {'function': ['NDCD2'], 'groups': ['NDCD2']}, 'ndcd3_default': {'function': ['NDCD3'], 'groups': ['NDCD3']}, 'ndcd4_default': {'function': ['NDCD4'], 'groups': ['NDCD4']}, 'ndsr1_default': {'function': ['NDSR1'], 'groups': ['NDSR1']}, 'ndsr2_default': {'function': ['NDSR2'], 'groups': ['NDSR2']}, 'ndsr3_default': {'function': ['NDSR3'], 'groups': [
+ 'NDSR3']}, 'ndsr4_default': {'function': ['NDSR4'], 'groups': ['NDSR4']}, 'ndtr1_default': {'function': ['NDTR1'], 'groups': ['NDTR1']}, 'ndtr2_default': {'function': ['NDTR2'], 'groups': ['NDTR2']}, 'ndtr3_default': {'function': ['NDTR3'], 'groups': ['NDTR3']}, 'ndtr4_default': {'function': ['NDTR4'], 'groups': ['NDTR4']}, 'ndts4_default': {'function': ['NDTS4'], 'groups': ['NDTS4'], 'phandle': [[15]]}, 'nri1_default': {'function': ['NRI1'], 'groups': ['NRI1']}, 'nri2_default': {'function': ['NRI2'], 'groups': ['NRI2']}, 'nri3_default': {'function': ['NRI3'], 'groups': ['NRI3']}, 'nri4_default': {'function': ['NRI4'], 'groups': ['NRI4']}, 'nrts1_default': {'function': ['NRTS1'], 'groups': ['NRTS1']}, 'nrts2_default': {'function': ['NRTS2'], 'groups': ['NRTS2']}, 'nrts3_default': {'function': ['NRTS3'], 'groups': ['NRTS3']}, 'oscclk_default': {'function': ['OSCCLK'], 'groups': ['OSCCLK']}, 'pwm0_default': {'function': ['PWM0'], 'groups': ['PWM0']}, 'pwm1_default': {'function': ['PWM
+ 1'], 'groups': ['PWM1']}, 'pwm2_default': {'function': ['PWM2'], 'groups': ['PWM2']}, 'pwm3_default': {'function': ['PWM3'], 'groups': ['PWM3']}, 'pwm4_default': {'function': ['PWM4'], 'groups': ['PWM4']}, 'pwm5_default': {'function': ['PWM5'], 'groups': ['PWM5']}, 'pwm6_default': {'function': ['PWM6'], 'groups': ['PWM6']}, 'pwm7_default': {'function': ['PWM7'], 'groups': ['PWM7']}, 'rgmii1_default': {'function': ['RGMII1'], 'groups': ['RGMII1']}, 'rgmii2_default': {'function': ['RGMII2'], 'groups': ['RGMII2'], 'phandle': [[3]]}, 'rmii1_default': {'function': ['RMII1'], 'groups': ['RMII1']}, 'rmii2_default': {'function': ['RMII2'], 'groups': ['RMII2']}, 'rom16_default': {'function': ['ROM16'], 'groups': ['ROM16']}, 'rom8_default': {'function': ['ROM8'], 'groups': ['ROM8']}, 'romcs1_default': {'function': ['ROMCS1'], 'groups': ['ROMCS1']}, 'romcs2_default': {'function': ['ROMCS2'], 'groups': ['ROMCS2']}, 'romcs3_default': {'function': ['ROMCS3'], 'groups': ['ROMCS3']}, 'romcs4_defaul
+ t': {'function': ['ROMCS4'], 'groups': ['ROMCS4']}, 'rxd1_default': {'function': ['RXD1'], 'groups': ['RXD1'], 'phandle': [[10]]}, 'rxd2_default': {'function': ['RXD2'], 'groups': ['RXD2']}, 'rxd3_default': {'function': ['RXD3'], 'groups': ['RXD3'], 'phandle': [[12]]}, 'rxd4_default': {'function': ['RXD4'], 'groups': ['RXD4'], 'phandle': [[14]]}, 'salt1_default': {'function': ['SALT1'], 'groups': ['SALT1']}, 'salt2_default': {'function': ['SALT2'], 'groups': ['SALT2']}, 'salt3_default': {'function': ['SALT3'], 'groups': ['SALT3']}, 'salt4_default': {'function': ['SALT4'], 'groups': ['SALT4']}, 'sd1_default': {'function': ['SD1'], 'groups': ['SD1']}, 'sd2_default': {'function': ['SD2'], 'groups': ['SD2']}, 'sgpmck_default': {'function': ['SGPMCK'], 'groups': ['SGPMCK']}, 'sgpmi_default': {'function': ['SGPMI'], 'groups': ['SGPMI']}, 'sgpmld_default': {'function': ['SGPMLD'], 'groups': ['SGPMLD']}, 'sgpmo_default': {'function': ['SGPMO'], 'groups': ['SGPMO']}, 'sgpsck_default': {'func
+ tion': ['SGPSCK'], 'groups': ['SGPSCK']}, 'sgpsi0_default': {'function': ['SGPSI0'], 'groups': ['SGPSI0']}, 'sgpsi1_default': {'function': ['SGPSI1'], 'groups': ['SGPSI1']}, 'sgpsld_default': {'function': ['SGPSLD'], 'groups': ['SGPSLD']}, 'sioonctrl_default': {'function': ['SIOONCTRL'], 'groups': ['SIOONCTRL']}, 'siopbi_default': {'function': ['SIOPBI'], 'groups': ['SIOPBI']}, 'siopbo_default': {'function': ['SIOPBO'], 'groups': ['SIOPBO']}, 'siopwreq_default': {'function': ['SIOPWREQ'], 'groups': ['SIOPWREQ']}, 'siopwrgd_default': {'function': ['SIOPWRGD'], 'groups': ['SIOPWRGD']}, 'sios3_default': {'function': ['SIOS3'], 'groups': ['SIOS3']}, 'sios5_default': {'function': ['SIOS5'], 'groups': ['SIOS5']}, 'siosci_default': {'function': ['SIOSCI'], 'groups': ['SIOSCI']}, 'spi1_default': {'function': ['SPI1'], 'groups': ['SPI1']}, 'spi1debug_default': {'function': ['SPI1DEBUG'], 'groups': ['SPI1DEBUG']}, 'spi1passthru_default': {'function': ['SPI1PASSTHRU'], 'groups': ['SPI1PASSTHRU
+ ']}, 'spics1_default': {'function': ['SPICS1'], 'groups': ['SPICS1']}, 'timer3_default': {'function': ['TIMER3'], 'groups': ['TIMER3']}, 'timer4_default': {'function': ['TIMER4'], 'groups': ['TIMER4']}, 'timer5_default': {'function': ['TIMER5'], 'groups': ['TIMER5']}, 'timer6_default': {'function': ['TIMER6'], 'groups': ['TIMER6']}, 'timer7_default': {'function': ['TIMER7'], 'groups': ['TIMER7']}, 'timer8_default': {'function': ['TIMER8'], 'groups': ['TIMER8']}, 'txd1_default': {'function': ['TXD1'], 'groups': ['TXD1'], 'phandle': [[9]]}, 'txd2_default': {'function': ['TXD2'], 'groups': ['TXD2']}, 'txd3_default': {'function': ['TXD3'], 'groups': ['TXD3'], 'phandle': [[11]]}, 'txd4_default': {'function': ['TXD4'], 'groups': ['TXD4'], 'phandle': [[13]]}, 'uart6_default': {'function': ['UART6'], 'groups': ['UART6']}, 'usbcki_default': {'function': ['USBCKI'], 'groups': ['USBCKI']}, 'usb2h_default': {'function': ['USB2H1'], 'groups': ['USB2H1'], 'phandle': [[5]]}, 'usb2d_default': {'fun
+ ction': ['USB2D1'], 'groups': ['USB2D1'], 'phandle': [[6]]}, 'vgabios_rom_default': {'function': ['VGABIOS_ROM'], 'groups': ['VGABIOS_ROM']}, 'vgahs_default': {'function': ['VGAHS'], 'groups': ['VGAHS']}, 'vgavs_default': {'function': ['VGAVS'], 'groups': ['VGAVS']}, 'vpi18_default': {'function': ['VPI18'], 'groups': ['VPI18']}, 'vpi24_default': {'function': ['VPI24'], 'groups': ['VPI24']}, 'vpi30_default': {'function': ['VPI30'], 'groups': ['VPI30']}, 'vpo12_default': {'function': ['VPO12'], 'groups': ['VPO12']}, 'vpo24_default': {'function': ['VPO24'], 'groups': ['VPO24']}, 'wdtrst1_default': {'function': ['WDTRST1'], 'groups': ['WDTRST1']}, 'wdtrst2_default': {'function': ['WDTRST2'], 'groups': ['WDTRST2']}}}, 'hwrng@1e6e2078': {'compatible': ['timeriomem_rng'], 'reg': [[510533752, 4]], 'period': [[1]], 'quality': [[100]]}, 'adc@1e6e9000': {'compatible': ['aspeed,ast2400-adc'], 'reg': [[510562304, 176]], 'clocks': [[2, 26]], 'resets': [[2, 2]], '#io-channel-cells': [[1]], 'status
+ ': ['okay'], 'phandle': [[29]]}, 'sram@1e720000': {'compatible': ['mmio-sram'], 'reg': [[510787584, 32768]]}, 'video@1e700000': {'compatible': ['aspeed,ast2400-video-engine'], 'reg': [[510656512, 4096]], 'clocks': [[2, 3], [2, 0]], 'clock-names': ['vclk', 'eclk'], 'interrupts': [[7]], 'status': ['disabled']}, 'sd-controller@1e740000': {'compatible': ['aspeed,ast2400-sd-controller'], 'reg': [[510918656, 256]], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[0, 510918656, 65536]], 'clocks': [[2, 22]], 'status': ['disabled'], 'sdhci@100': {'compatible': ['aspeed,ast2400-sdhci'], 'reg': [[256, 256]], 'interrupts': [[26]], 'sdhci,auto-cmd12': True, 'clocks': [[2, 28]], 'status': ['disabled']}, 'sdhci@200': {'compatible': ['aspeed,ast2400-sdhci'], 'reg': [[512, 256]], 'interrupts': [[26]], 'sdhci,auto-cmd12': True, 'clocks': [[2, 28]], 'status': ['disabled']}}, 'gpio@1e780000': {'#gpio-cells': [[2]], 'gpio-controller': True, 'compatible': ['aspeed,ast2400-gpio'], 'reg': [[51118
+ 0800, 4096]], 'interrupts': [[20]], 'gpio-ranges': [[7, 0, 0, 220]], 'clocks': [[2, 26]], 'interrupt-controller': True, '#interrupt-cells': [[2]]}, 'timer@1e782000': {'compatible': ['aspeed,ast2400-timer'], 'reg': [[511188992, 144]], 'interrupts': [[16], [17], [18], [35], [36], [37], [38], [39]], 'clocks': [[2, 26]], 'clock-names': ['PCLK']}, 'rtc@1e781000': {'compatible': ['aspeed,ast2400-rtc'], 'reg': [[511184896, 24]], 'status': ['disabled']}, 'serial@1e783000': {'compatible': ['ns16550a'], 'reg': [[511193088, 32]], 'reg-shift': [[2]], 'interrupts': [[9]], 'clocks': [[2, 13]], 'resets': [[8, 4]], 'no-loopback-test': True, 'status': ['okay'], 'pinctrl-names': ['default'], 'pinctrl-0': [[9, 10]]}, 'serial@1e784000': {'compatible': ['ns16550a'], 'reg': [[511197184, 32]], 'reg-shift': [[2]], 'interrupts': [[10]], 'clocks': [[2, 15]], 'no-loopback-test': True, 'status': ['okay']}, 'watchdog@1e785000': {'compatible': ['aspeed,ast2400-wdt'], 'reg': [[511201280, 28]], 'clocks': [[2, 26]]
+ , 'status': ['okay'], 'aspeed,reset-type': ['system']}, 'watchdog@1e785020': {'compatible': ['aspeed,ast2400-wdt'], 'reg': [[511201312, 28]], 'clocks': [[2, 26]], 'status': ['okay'], 'aspeed,reset-type': ['system']}, 'pwm-tacho-controller@1e786000': {'compatible': ['aspeed,ast2400-pwm-tacho'], '#address-cells': [[1]], '#size-cells': [[0]], 'reg': [[511205376, 4096]], 'clocks': [[2, 35]], 'resets': [[2, 5]], 'status': ['disabled']}, 'serial@1e787000': {'compatible': ['aspeed,ast2400-vuart'], 'reg': [[511209472, 64]], 'reg-shift': [[2]], 'interrupts': [[8]], 'clocks': [[2, 26]], 'no-loopback-test': True, 'status': ['disabled']}, 'lpc@1e789000': {'compatible': ['aspeed,ast2400-lpc-v2', 'simple-mfd', 'syscon'], 'reg': [[511217664, 4096]], 'reg-io-width': [[4]], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[0, 511217664, 4096]], 'lpc-ctrl@80': {'compatible': ['aspeed,ast2400-lpc-ctrl'], 'reg': [[128, 16]], 'clocks': [[2, 8]], 'status': ['disabled']}, 'lpc-snoop@90': {'compat
+ ible': ['aspeed,ast2400-lpc-snoop'], 'reg': [[144, 8]], 'interrupts': [[8]], 'clocks': [[2, 8]], 'status': ['disabled']}, 'lhc@a0': {'compatible': ['aspeed,ast2400-lhc'], 'reg': [[160, 36], [200, 8]]}, 'reset-controller@98': {'compatible': ['aspeed,ast2400-lpc-reset'], 'reg': [[152, 4]], '#reset-cells': [[1]], 'phandle': [[8]]}, 'ibt@140': {'compatible': ['aspeed,ast2400-ibt-bmc'], 'reg': [[320, 24]], 'interrupts': [[8]], 'clocks': [[2, 8]], 'status': ['disabled']}, 'uart-routing@9c': {'compatible': ['aspeed,ast2400-uart-routing'], 'reg': [[156, 4]], 'status': ['disabled']}}, 'peci-controller@1e78b000': {'compatible': ['aspeed,ast2400-peci'], 'reg': [[511225856, 96]], 'interrupts': [[15]], 'clocks': [[2, 6]], 'resets': [[2, 6]], 'cmd-timeout-ms': [[1000]], 'clock-frequency': [[1000000]], 'status': ['disabled']}, 'serial@1e78d000': {'compatible': ['ns16550a'], 'reg': [[511234048, 32]], 'reg-shift': [[2]], 'interrupts': [[32]], 'clocks': [[2, 14]], 'resets': [[8, 5]], 'no-loopback-tes
+ t': True, 'status': ['disabled']}, 'serial@1e78e000': {'compatible': ['ns16550a'], 'reg': [[511238144, 32]], 'reg-shift': [[2]], 'interrupts': [[33]], 'clocks': [[2, 20]], 'resets': [[8, 6]], 'no-loopback-test': True, 'status': ['okay'], 'pinctrl-names': ['default'], 'pinctrl-0': [[11, 12]]}, 'serial@1e78f000': {'compatible': ['ns16550a'], 'reg': [[511242240, 32]], 'reg-shift': [[2]], 'interrupts': [[34]], 'clocks': [[2, 21]], 'resets': [[8, 7]], 'no-loopback-test': True, 'status': ['okay'], 'pinctrl-names': ['default'], 'pinctrl-0': [[13, 14, 15]]}, 'bus@1e78a000': {'compatible': ['simple-bus'], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[0, 511221760, 4096]], 'interrupt-controller@0': {'#interrupt-cells': [[1]], 'compatible': ['aspeed,ast2400-i2c-ic'], 'reg': [[0, 64]], 'interrupts': [[12]], 'interrupt-controller': True, 'phandle': [[16]]}, 'i2c-bus@40': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[64, 64]], 'compatible': ['asp
+ eed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[0]], 'interrupt-parent': [[16]], 'status': ['okay']}, 'i2c-bus@80': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[128, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[1]], 'interrupt-parent': [[16]], 'status': ['okay']}, 'i2c-bus@c0': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[192, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[2]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[17]], 'status': ['okay']}, 'i2c-bus@100': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[256, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-fre
+ quency': [[100000]], 'interrupts': [[3]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[18]], 'status': ['okay']}, 'i2c-bus@140': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[320, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[4]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[19]], 'status': ['okay']}, 'i2c-bus@180': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[384, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[5]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[20]], 'status': ['okay']}, 'i2c-bus@1c0': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[448, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26
+ ]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[6]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[21]], 'status': ['okay']}, 'i2c-bus@300': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[768, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[7]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[22]], 'status': ['okay']}, 'i2c-bus@340': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[832, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[8]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[23]], 'status': ['okay']}, 'i2c-bus@380': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[896, 64]], 'compatible': ['aspeed,ast2
+ 400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[9]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[24]], 'status': ['okay']}, 'i2c-bus@3c0': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[960, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[10]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[25]], 'status': ['disabled']}, 'i2c-bus@400': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[1024, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[11]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[26]], 'status': ['okay']}, 'i2c-bus@440': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [
+ [1088, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[12]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[27]], 'status': ['okay']}, 'i2c-bus@480': {'#address-cells': [[1]], '#size-cells': [[0]], '#interrupt-cells': [[1]], 'reg': [[1152, 64]], 'compatible': ['aspeed,ast2400-i2c-bus'], 'clocks': [[2, 26]], 'resets': [[2, 7]], 'bus-frequency': [[100000]], 'interrupts': [[13]], 'interrupt-parent': [[16]], 'pinctrl-names': ['default'], 'pinctrl-0': [[28]], 'status': ['disabled']}}} should not be valid under {'type': 'object'}
+
+Cc: Andrew Geissler <geissonator@yahoo.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Rob Herring (Arm) <robh@kernel.org>
+Cc: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Troy Lee <troy_lee@aspeedtech.com>
+Link: https://github.com/devicetree-org/dt-schema/blob/c51125d571cac9596048e888a856d70650e400e0/dtschema/schemas/simple-bus.yaml#L35-L36 [1]
+Link: https://github.com/openbmc/phosphor-state-manager/issues/27 [2]
+Link: https://lore.kernel.org/all/20240531193115.3814887-1-robh@kernel.org/ [3]
+Link: https://lore.kernel.org/all/8dabf3d1-2d23-4adc-a804-2b7aa5fe16e9@kernel.org/ [4]
+Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+---
+If there are alternative approaches then I'm interested in hearing about
+them, but from what I can see we're going to have a bit of turbulence
+for some OpenBMC userspace no matter what.
+---
+ arch/arm/boot/dts/aspeed/aspeed-g4.dtsi |  93 +++++++-----
+ arch/arm/boot/dts/aspeed/aspeed-g5.dtsi | 109 ++++++++------
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 249 ++++++++++++++++++--------------
+ 3 files changed, 251 insertions(+), 200 deletions(-)
+
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
+index 78c967812492..7b1982c116f1 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
+@@ -179,8 +179,9 @@ vhub: usb-vhub@1e6a0000 {
+ 			status = "disabled";
+ 		};
+ 
+-		apb {
++		apb@1e6e0000 {
+ 			compatible = "simple-bus";
++			reg = <0x1e6e0000 0x00010000>;
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+ 			ranges;
+@@ -226,52 +227,62 @@ adc: adc@1e6e9000 {
+ 				#io-channel-cells = <1>;
+ 				status = "disabled";
+ 			};
++		};
+ 
+-			sram: sram@1e720000 {
+-				compatible = "mmio-sram";
+-				reg = <0x1e720000 0x8000>;	// 32K
+-				ranges;
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-			};
++		/* There's another APB mapping at 0x1e6f0000 for 0x00010000 */
++
++		sram: sram@1e720000 {
++			compatible = "mmio-sram";
++			reg = <0x1e720000 0x8000>;	// 32K
++			ranges;
++			#address-cells = <1>;
++			#size-cells = <1>;
++		};
++
++		video: video@1e700000 {
++			compatible = "aspeed,ast2400-video-engine";
++			reg = <0x1e700000 0x1000>;
++			clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
++				 <&syscon ASPEED_CLK_GATE_ECLK>;
++			clock-names = "vclk", "eclk";
++			interrupts = <7>;
++			status = "disabled";
++		};
++
++		sdmmc: sd-controller@1e740000 {
++			compatible = "aspeed,ast2400-sd-controller";
++			reg = <0x1e740000 0x100>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0x1e740000 0x10000>;
++			clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
++			status = "disabled";
+ 
+-			video: video@1e700000 {
+-				compatible = "aspeed,ast2400-video-engine";
+-				reg = <0x1e700000 0x1000>;
+-				clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
+-					 <&syscon ASPEED_CLK_GATE_ECLK>;
+-				clock-names = "vclk", "eclk";
+-				interrupts = <7>;
++			sdhci0: sdhci@100 {
++				compatible = "aspeed,ast2400-sdhci";
++				reg = <0x100 0x100>;
++				interrupts = <26>;
++				sdhci,auto-cmd12;
++				clocks = <&syscon ASPEED_CLK_SDIO>;
+ 				status = "disabled";
+ 			};
+ 
+-			sdmmc: sd-controller@1e740000 {
+-				compatible = "aspeed,ast2400-sd-controller";
+-				reg = <0x1e740000 0x100>;
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-				ranges = <0 0x1e740000 0x10000>;
+-				clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
++			sdhci1: sdhci@200 {
++				compatible = "aspeed,ast2400-sdhci";
++				reg = <0x200 0x100>;
++				interrupts = <26>;
++				sdhci,auto-cmd12;
++				clocks = <&syscon ASPEED_CLK_SDIO>;
+ 				status = "disabled";
+-
+-				sdhci0: sdhci@100 {
+-					compatible = "aspeed,ast2400-sdhci";
+-					reg = <0x100 0x100>;
+-					interrupts = <26>;
+-					sdhci,auto-cmd12;
+-					clocks = <&syscon ASPEED_CLK_SDIO>;
+-					status = "disabled";
+-				};
+-
+-				sdhci1: sdhci@200 {
+-					compatible = "aspeed,ast2400-sdhci";
+-					reg = <0x200 0x100>;
+-					interrupts = <26>;
+-					sdhci,auto-cmd12;
+-					clocks = <&syscon ASPEED_CLK_SDIO>;
+-					status = "disabled";
+-				};
+ 			};
++		};
++
++		apb@1e780000 {
++			compatible = "simple-bus";
++			reg = <0x1e780000 0x00010000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
+ 
+ 			gpio: gpio@1e780000 {
+ 				#gpio-cells = <2>;
+@@ -454,6 +465,8 @@ i2c: bus@1e78a000 {
+ 				ranges = <0 0x1e78a000 0x1000>;
+ 			};
+ 		};
++
++		/* There's another APB mapping at 0x1e790000 for 0x00010000 */
+ 	};
+ };
+ 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+index 57a699a7c149..c4d7986cd357 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+@@ -207,8 +207,9 @@ vhub: usb-vhub@1e6a0000 {
+ 			status = "disabled";
+ 		};
+ 
+-		apb {
++		apb@1e6e0000 {
+ 			compatible = "simple-bus";
++			reg = <0x1e6e0000 0x00010000>;
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+ 			ranges;
+@@ -289,53 +290,63 @@ adc: adc@1e6e9000 {
+ 				#io-channel-cells = <1>;
+ 				status = "disabled";
+ 			};
++		};
+ 
+-			video: video@1e700000 {
+-				compatible = "aspeed,ast2500-video-engine";
+-				reg = <0x1e700000 0x1000>;
+-				clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
+-					 <&syscon ASPEED_CLK_GATE_ECLK>;
+-				clock-names = "vclk", "eclk";
+-				interrupts = <7>;
+-				status = "disabled";
+-			};
++		/* There's another APB mapping at 0x1e6f0000 for 0x00010000 */
+ 
+-			sram: sram@1e720000 {
+-				compatible = "mmio-sram";
+-				reg = <0x1e720000 0x9000>;	// 36K
+-				ranges;
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-			};
++		video: video@1e700000 {
++			compatible = "aspeed,ast2500-video-engine";
++			reg = <0x1e700000 0x1000>;
++			clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
++				 <&syscon ASPEED_CLK_GATE_ECLK>;
++			clock-names = "vclk", "eclk";
++			interrupts = <7>;
++			status = "disabled";
++		};
+ 
+-			sdmmc: sd-controller@1e740000 {
+-				compatible = "aspeed,ast2500-sd-controller";
+-				reg = <0x1e740000 0x100>;
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-				ranges = <0 0x1e740000 0x10000>;
+-				clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
+-				status = "disabled";
++		sram: sram@1e720000 {
++			compatible = "mmio-sram";
++			reg = <0x1e720000 0x9000>;	// 36K
++			ranges;
++			#address-cells = <1>;
++			#size-cells = <1>;
++		};
+ 
+-				sdhci0: sdhci@100 {
+-					compatible = "aspeed,ast2500-sdhci";
+-					reg = <0x100 0x100>;
+-					interrupts = <26>;
+-					sdhci,auto-cmd12;
+-					clocks = <&syscon ASPEED_CLK_SDIO>;
+-					status = "disabled";
+-				};
++		sdmmc: sd-controller@1e740000 {
++			compatible = "aspeed,ast2500-sd-controller";
++			reg = <0x1e740000 0x100>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0x1e740000 0x10000>;
++			clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
++			status = "disabled";
+ 
+-				sdhci1: sdhci@200 {
+-					compatible = "aspeed,ast2500-sdhci";
+-					reg = <0x200 0x100>;
+-					interrupts = <26>;
+-					sdhci,auto-cmd12;
+-					clocks = <&syscon ASPEED_CLK_SDIO>;
+-					status = "disabled";
+-				};
++			sdhci0: sdhci@100 {
++				compatible = "aspeed,ast2500-sdhci";
++				reg = <0x100 0x100>;
++				interrupts = <26>;
++				sdhci,auto-cmd12;
++				clocks = <&syscon ASPEED_CLK_SDIO>;
++				status = "disabled";
+ 			};
+ 
++			sdhci1: sdhci@200 {
++				compatible = "aspeed,ast2500-sdhci";
++				reg = <0x200 0x100>;
++				interrupts = <26>;
++				sdhci,auto-cmd12;
++				clocks = <&syscon ASPEED_CLK_SDIO>;
++				status = "disabled";
++			};
++		};
++
++		apb@1e780000 {
++			compatible = "simple-bus";
++			reg = <0x1e780000 0x00010000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
++
+ 			gpio: gpio@1e780000 {
+ 				#gpio-cells = <2>;
+ 				gpio-controller;
+@@ -521,6 +532,13 @@ ibt: ibt@140 {
+ 				};
+ 			};
+ 
++			i2c: bus@1e78a000 {
++				compatible = "simple-bus";
++				#address-cells = <1>;
++				#size-cells = <1>;
++				ranges = <0 0x1e78a000 0x1000>;
++			};
++
+ 			peci0: peci-controller@1e78b000 {
+ 				compatible = "aspeed,ast2500-peci";
+ 				reg = <0x1e78b000 0x60>;
+@@ -564,14 +582,9 @@ uart4: serial@1e78f000 {
+ 				no-loopback-test;
+ 				status = "disabled";
+ 			};
+-
+-			i2c: bus@1e78a000 {
+-				compatible = "simple-bus";
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-				ranges = <0 0x1e78a000 0x1000>;
+-			};
+ 		};
++
++		/* There's another APB mapping at 0x1e790000 for 0x00010000 */
+ 	};
+ };
+ 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+index 8ed715bd53aa..88e719cc19bb 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+@@ -318,20 +318,21 @@ udc: usb@1e6a2000 {
+ 			status = "disabled";
+ 		};
+ 
+-		apb {
++		hace: crypto@1e6d0000 {
++			compatible = "aspeed,ast2600-hace";
++			reg = <0x1e6d0000 0x200>;
++			interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&syscon ASPEED_CLK_GATE_YCLK>;
++			resets = <&syscon ASPEED_RESET_HACE>;
++		};
++
++		apb@1e6e0000 {
+ 			compatible = "simple-bus";
++			reg = <0x1e6e0000 0x00010000>;
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+ 			ranges;
+ 
+-			hace: crypto@1e6d0000 {
+-				compatible = "aspeed,ast2600-hace";
+-				reg = <0x1e6d0000 0x200>;
+-				interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
+-				clocks = <&syscon ASPEED_CLK_GATE_YCLK>;
+-				resets = <&syscon ASPEED_RESET_HACE>;
+-			};
+-
+ 			syscon: syscon@1e6e2000 {
+ 				compatible = "aspeed,ast2600-scu", "syscon", "simple-mfd";
+ 				reg = <0x1e6e2000 0x1000>;
+@@ -409,6 +410,14 @@ adc1: adc@1e6e9100 {
+ 				#io-channel-cells = <1>;
+ 				status = "disabled";
+ 			};
++		};
++
++		apb@1e6f0000 {
++			compatible = "simple-bus";
++			reg = <0x1e6f0000 0x00010000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
+ 
+ 			sbc: secure-boot-controller@1e6f2000 {
+ 				compatible = "aspeed,ast2600-sbc";
+@@ -422,17 +431,73 @@ acry: crypto@1e6fa000 {
+ 				clocks = <&syscon ASPEED_CLK_GATE_RSACLK>;
+ 				aspeed,ahbc = <&ahbc>;
+ 			};
++		};
++
++		video: video@1e700000 {
++			compatible = "aspeed,ast2600-video-engine";
++			reg = <0x1e700000 0x1000>;
++			clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
++				 <&syscon ASPEED_CLK_GATE_ECLK>;
++			clock-names = "vclk", "eclk";
++			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++			status = "disabled";
++		};
++
++		sdc: sdc@1e740000 {
++			compatible = "aspeed,ast2600-sd-controller";
++			reg = <0x1e740000 0x100>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0x1e740000 0x10000>;
++			clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
++			status = "disabled";
+ 
+-			video: video@1e700000 {
+-				compatible = "aspeed,ast2600-video-engine";
+-				reg = <0x1e700000 0x1000>;
+-				clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
+-					 <&syscon ASPEED_CLK_GATE_ECLK>;
+-				clock-names = "vclk", "eclk";
+-				interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++			sdhci0: sdhci@1e740100 {
++				compatible = "aspeed,ast2600-sdhci", "sdhci";
++				reg = <0x100 0x100>;
++				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
++				sdhci,auto-cmd12;
++				clocks = <&syscon ASPEED_CLK_SDIO>;
+ 				status = "disabled";
+ 			};
+ 
++			sdhci1: sdhci@1e740200 {
++				compatible = "aspeed,ast2600-sdhci", "sdhci";
++				reg = <0x200 0x100>;
++				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
++				sdhci,auto-cmd12;
++				clocks = <&syscon ASPEED_CLK_SDIO>;
++				status = "disabled";
++			};
++		};
++
++		emmc_controller: sdc@1e750000 {
++			compatible = "aspeed,ast2600-sd-controller";
++			reg = <0x1e750000 0x100>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0x1e750000 0x10000>;
++			clocks = <&syscon ASPEED_CLK_GATE_EMMCCLK>;
++			status = "disabled";
++
++			emmc: sdhci@1e750100 {
++				compatible = "aspeed,ast2600-sdhci";
++				reg = <0x100 0x100>;
++				sdhci,auto-cmd12;
++				interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&syscon ASPEED_CLK_EMMC>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&pinctrl_emmc_default>;
++			};
++		};
++
++		apb@1e780000 {
++			compatible = "simple-bus";
++			reg = <0x1e780000 0x00010000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
++
+ 			gpio0: gpio@1e780000 {
+ 				#gpio-cells = <2>;
+ 				gpio-controller;
+@@ -558,14 +623,43 @@ wdt4: watchdog@1e7850c0 {
+ 				status = "disabled";
+ 			};
+ 
+-			peci0: peci-controller@1e78b000 {
+-				compatible = "aspeed,ast2600-peci";
+-				reg = <0x1e78b000 0x100>;
+-				interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
+-				clocks = <&syscon ASPEED_CLK_GATE_REF0CLK>;
+-				resets = <&syscon ASPEED_RESET_PECI>;
+-				cmd-timeout-ms = <1000>;
+-				clock-frequency = <1000000>;
++			vuart1: serial@1e787000 {
++				compatible = "aspeed,ast2500-vuart";
++				reg = <0x1e787000 0x40>;
++				reg-shift = <2>;
++				interrupts = <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&syscon ASPEED_CLK_APB1>;
++				no-loopback-test;
++				status = "disabled";
++			};
++
++			vuart3: serial@1e787800 {
++				compatible = "aspeed,ast2500-vuart";
++				reg = <0x1e787800 0x40>;
++				reg-shift = <2>;
++				interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&syscon ASPEED_CLK_APB2>;
++				no-loopback-test;
++				status = "disabled";
++			};
++
++			vuart2: serial@1e788000 {
++				compatible = "aspeed,ast2500-vuart";
++				reg = <0x1e788000 0x40>;
++				reg-shift = <2>;
++				interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&syscon ASPEED_CLK_APB1>;
++				no-loopback-test;
++				status = "disabled";
++			};
++
++			vuart4: serial@1e788800 {
++				compatible = "aspeed,ast2500-vuart";
++				reg = <0x1e788800 0x40>;
++				reg-shift = <2>;
++				interrupts = <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&syscon ASPEED_CLK_APB2>;
++				no-loopback-test;
+ 				status = "disabled";
+ 			};
+ 
+@@ -652,91 +746,21 @@ ibt: ibt@140 {
+ 				};
+ 			};
+ 
+-			sdc: sdc@1e740000 {
+-				compatible = "aspeed,ast2600-sd-controller";
+-				reg = <0x1e740000 0x100>;
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-				ranges = <0 0x1e740000 0x10000>;
+-				clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
+-				status = "disabled";
+-
+-				sdhci0: sdhci@1e740100 {
+-					compatible = "aspeed,ast2600-sdhci", "sdhci";
+-					reg = <0x100 0x100>;
+-					interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+-					sdhci,auto-cmd12;
+-					clocks = <&syscon ASPEED_CLK_SDIO>;
+-					status = "disabled";
+-				};
+-
+-				sdhci1: sdhci@1e740200 {
+-					compatible = "aspeed,ast2600-sdhci", "sdhci";
+-					reg = <0x200 0x100>;
+-					interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+-					sdhci,auto-cmd12;
+-					clocks = <&syscon ASPEED_CLK_SDIO>;
+-					status = "disabled";
+-				};
+-			};
+-
+-			emmc_controller: sdc@1e750000 {
+-				compatible = "aspeed,ast2600-sd-controller";
+-				reg = <0x1e750000 0x100>;
++			i2c: bus@1e78a000 {
++				compatible = "simple-bus";
+ 				#address-cells = <1>;
+ 				#size-cells = <1>;
+-				ranges = <0 0x1e750000 0x10000>;
+-				clocks = <&syscon ASPEED_CLK_GATE_EMMCCLK>;
+-				status = "disabled";
+-
+-				emmc: sdhci@1e750100 {
+-					compatible = "aspeed,ast2600-sdhci";
+-					reg = <0x100 0x100>;
+-					sdhci,auto-cmd12;
+-					interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
+-					clocks = <&syscon ASPEED_CLK_EMMC>;
+-					pinctrl-names = "default";
+-					pinctrl-0 = <&pinctrl_emmc_default>;
+-				};
+-			};
+-
+-			vuart1: serial@1e787000 {
+-				compatible = "aspeed,ast2500-vuart";
+-				reg = <0x1e787000 0x40>;
+-				reg-shift = <2>;
+-				interrupts = <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
+-				clocks = <&syscon ASPEED_CLK_APB1>;
+-				no-loopback-test;
+-				status = "disabled";
+-			};
+-
+-			vuart3: serial@1e787800 {
+-				compatible = "aspeed,ast2500-vuart";
+-				reg = <0x1e787800 0x40>;
+-				reg-shift = <2>;
+-				interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>;
+-				clocks = <&syscon ASPEED_CLK_APB2>;
+-				no-loopback-test;
+-				status = "disabled";
+-			};
+-
+-			vuart2: serial@1e788000 {
+-				compatible = "aspeed,ast2500-vuart";
+-				reg = <0x1e788000 0x40>;
+-				reg-shift = <2>;
+-				interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
+-				clocks = <&syscon ASPEED_CLK_APB1>;
+-				no-loopback-test;
+-				status = "disabled";
++				ranges = <0 0x1e78a000 0x1000>;
+ 			};
+ 
+-			vuart4: serial@1e788800 {
+-				compatible = "aspeed,ast2500-vuart";
+-				reg = <0x1e788800 0x40>;
+-				reg-shift = <2>;
+-				interrupts = <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>;
+-				clocks = <&syscon ASPEED_CLK_APB2>;
+-				no-loopback-test;
++			peci0: peci-controller@1e78b000 {
++				compatible = "aspeed,ast2600-peci";
++				reg = <0x1e78b000 0x100>;
++				interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&syscon ASPEED_CLK_GATE_REF0CLK>;
++				resets = <&syscon ASPEED_RESET_PECI>;
++				cmd-timeout-ms = <1000>;
++				clock-frequency = <1000000>;
+ 				status = "disabled";
+ 			};
+ 
+@@ -781,6 +805,14 @@ uart4: serial@1e78f000 {
+ 				pinctrl-0 = <&pinctrl_txd4_default &pinctrl_rxd4_default>;
+ 				status = "disabled";
+ 			};
++		};
++
++		apb@1e790000 {
++			compatible = "simple-bus";
++			reg = <0x1e790000 0x00010000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges;
+ 
+ 			uart6: serial@1e790000 {
+ 				compatible = "ns16550a";
+@@ -838,13 +870,6 @@ uart9: serial@1e790300 {
+ 				status = "disabled";
+ 			};
+ 
+-			i2c: bus@1e78a000 {
+-				compatible = "simple-bus";
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-				ranges = <0 0x1e78a000 0x1000>;
+-			};
+-
+ 			fsim0: fsi@1e79b000 {
+ 				#interrupt-cells = <1>;
+ 				compatible = "aspeed,ast2600-fsi-master", "fsi-master";
+
+---
+base-commit: 6152cce5900f9cc70e62dabafa9c8b74db2d2e38
+change-id: 20240821-dt-warnings-apb-nodes-3bd83b27c08c
+
+Best regards,
+-- 
+Andrew Jeffery <andrew@codeconstruct.com.au>
+
