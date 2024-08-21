@@ -2,79 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132F995848C
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 12:31:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2E095920E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 03:10:18 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wp5NN3QnYz2yVt
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2024 20:31:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WpStb5Cq0z2yGv
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 11:10:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::62d"
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=X5VLo7Sd;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Su3KwTWi;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wp5NL6qjGz2yDj
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Aug 2024 20:31:14 +1000 (AEST)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-201fbd0d7c2so33198865ad.0
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Aug 2024 03:31:14 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WpStX0JHXz2xfT
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2024 11:10:11 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724149873; x=1724754673; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rTyPLFrq0EUm/GtouTOsZKz2XgR6IlJiL/XQEMTvFnc=;
-        b=X5VLo7SdoFmQ6JXXxn4Wkk7UlrRw4CKZXeLYrB0SzC9jPkD59u8GNTO7bpwVaFmqDz
-         FzdbIFK0jk4sO7XeoQNYSI1Od5lXnmuwfs2klGJGt1BHQZ5+kmlE75GOq/xI0qXQtvDv
-         /3cAqjrrsxUVOzQ4x4SSYBL17M5Of9VSrdh2mCF+vh9+UjV7p1Q7kG1yzfqHb13uug1V
-         Ol0HP8kPwa8rDy2j3wRmbjOJMRfudG0FneDejNPo4JsI/8tIMHxeU5vosxfOpzeHOq+t
-         u7ktZ/d/2lvNLBqK4am8tnxNnviv0OHJDCIcB+5ArOm2038vxNIt7d/qUq4pfcsS9HZv
-         VUWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724149873; x=1724754673;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rTyPLFrq0EUm/GtouTOsZKz2XgR6IlJiL/XQEMTvFnc=;
-        b=wxjgjp/cSRiyyNIWyT0cs5XKm0EQF00hh3TtATRfuwlu6IKZIikLV0JJMfXq5jjK+E
-         +66+DyppSXHA/+2PhYK5XA6pl7/ZmoiWG2FoLxDW9Lbot/kEccy3Lm3H7bPMRu1SJyUX
-         9X1IosKEwJZ99MiU1z6/4QMDx+2r7y9P5wXDzQ16WRrdwvsSoYBp+ie3lkgyyvWYKMF6
-         dUevpDyHCJkzZMFP23vqoEVNbYEROgWRoyR8XQv2xGtHfnSQU5TdaGNRC0wQXeHk2sRR
-         FJY8jeBUojM5s5vYXjaJoYIfiTBpKfD/r/rFKmLxU/7D3xnYodJLdVwzmdW1Xc03Aw/N
-         o3qg==
-X-Forwarded-Encrypted: i=1; AJvYcCVELu4HPxmgKKe7J6O3bBYHQ9xVvmENywJ2DDXFKnmeBSaRZ/xsWiHCXdRR90YXYLtniUbSR+A6pFFQgATShJA+BvWdff+OGrGiMvet1A==
-X-Gm-Message-State: AOJu0YxQuXg8WTiUw/lFtk7TulufkTybP10xSAAFriXy/RKqUiLlOXNh
-	9j/J9qdPh55ES4ulc/hithHtjRUOZ7sEeF1tMHXtPSGOUjOm2iKJ
-X-Google-Smtp-Source: AGHT+IF28HPdbzKluxqfocEuK8zyLeXo+mM26BKkQHj+7PAhu+8wajGr/92NbNQoZbYgiqDyMz8AKg==
-X-Received: by 2002:a17:902:ea0a:b0:202:32cf:5dbe with SMTP id d9443c01a7336-20232cf5e3emr64763775ad.58.1724149873281;
-        Tue, 20 Aug 2024 03:31:13 -0700 (PDT)
-Received: from peter-bmc.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f02faa5dsm75444115ad.2.2024.08.20.03.31.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 03:31:12 -0700 (PDT)
-From: Peter Yin <peteryin.openbmc@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
+	d=codeconstruct.com.au; s=2022a; t=1724202609;
+	bh=k2UhMuq9AgfXwSrjsV/wSrCsHwkjK+ktJnm72iPp9Z0=;
+	h=Subject:From:To:Date:In-Reply-To:References;
+	b=Su3KwTWi9rBdTnvNA9jisdV652D3jy5sfW+7SNmyrK8jcvNPV8YpQoBreCgwp6dBC
+	 swJxgLOk3iYgsNoWJN5hjIKVtKxuj+Nv6/r5MsSGJDpplTVrzMJ0tu7NiSs+ABWQY+
+	 H0qmi7Q2wSrOxa9bIIQFeaoCiXr0DSm1Zg77OgZ1lQRMSLO3cqwiNGxRrDVswejPxx
+	 uZPhvjPK2fMOilxvfPc4KerkVGdU4HyhazgcgiELkGRUvrFMHmsyX5999q21RTxdbF
+	 E8QdrDStMFKCN/m4sZpipNOr99ICNltocyyuUGcQ/2uxRQDrkZPEwFe7lFuZuGzhEm
+	 kjXlamWEyY78Q==
+Received: from [192.168.68.112] (ppp118-210-185-99.adl-adc-lon-bras34.tpg.internode.on.net [118.210.185.99])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 2837864B84;
+	Wed, 21 Aug 2024 09:10:07 +0800 (AWST)
+Message-ID: <4e49f0c3a0ec4f1e508cae289f82ddbd02f9c0a6.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v1 2/2] ARM: dts: aspeed: Harma: update sgpio line name
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Peter Yin <peteryin.openbmc@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
+	 <joel@jms.id.au>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] ARM: dts: aspeed: Harma: update sgpio line name
-Date: Tue, 20 Aug 2024 18:29:03 +0800
-Message-Id: <20240820102904.1756785-3-peteryin.openbmc@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240820102904.1756785-1-peteryin.openbmc@gmail.com>
+Date: Wed, 21 Aug 2024 10:40:06 +0930
+In-Reply-To: <20240820102904.1756785-3-peteryin.openbmc@gmail.com>
 References: <20240820102904.1756785-1-peteryin.openbmc@gmail.com>
+	 <20240820102904.1756785-3-peteryin.openbmc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,73 +65,88 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Peter Yin <peter.yin@quantatw.com>
+Hi Peter,
 
-power-card-enable
-uart-switch-button
-power-fault-n
-asic0-card-type-detection0-n
-asic0-card-type-detection1-n
-asic0-card-type-detection2-n
-uart-switch-lsb
-uart-switch-msb
+On Tue, 2024-08-20 at 18:29 +0800, Peter Yin wrote:
+> From: Peter Yin <peter.yin@quantatw.com>
+>=20
+> power-card-enable
+> uart-switch-button
+> power-fault-n
+> asic0-card-type-detection0-n
+> asic0-card-type-detection1-n
+> asic0-card-type-detection2-n
+> uart-switch-lsb
+> uart-switch-msb
+>=20
+> Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
 
-Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
----
- .../dts/aspeed/aspeed-bmc-facebook-harma.dts   | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+Can you please your author email consistent with your Signed-off-by
+email? Currently this generates a checkpatch warning:
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-index 92068c65eae4..9db95a791128 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-@@ -566,7 +566,7 @@ &gpio0 {
- 	/*B0-B7*/	"","","","",
- 			"bmc-spi-mux-select-0","led-identify","","",
- 	/*C0-C7*/	"reset-cause-platrst","","","","",
--			"cpu0-err-alert","","",
-+			"cpu0-err-alert","power-card-enable","",
- 	/*D0-D7*/	"","","sol-uart-select","","","","","",
- 	/*E0-E7*/	"","","","","","","","",
- 	/*F0-F7*/	"","","","","","","","",
-@@ -585,7 +585,9 @@ &gpio0 {
- 	/*O0-O7*/	"","","","","","","","",
- 	/*P0-P7*/	"power-button","power-host-control",
- 			"reset-button","","led-power","","","",
--	/*Q0-Q7*/	"","","","","","power-chassis-control","","",
-+	/*Q0-Q7*/
-+			"","","","",
-+			"","power-chassis-control","","uart-switch-button",
- 	/*R0-R7*/	"","","","","","","","",
- 	/*S0-S7*/	"","","","","","","","",
- 	/*T0-T7*/	"","","","","","","","",
-@@ -685,7 +687,7 @@ &sgpiom0 {
- 	"FM_BOARD_REV_ID2","",
- 	"FM_BOARD_REV_ID1","",
- 	/*H0-H3 line 112-119*/
--	"FM_BOARD_REV_ID0","",
-+	"FM_BOARD_REV_ID0","reset-control-cmos-clear",
- 	"","","","","","",
- 	/*H4-H7 line 120-127*/
- 	"","",
-@@ -716,9 +718,15 @@ &sgpiom0 {
- 	"cpu0-thermtrip-alert","",
- 	"reset-cause-pcie","",
- 	/*L4-L7 line 184-191*/
--	"pvdd11-ocp-alert","","","","","","","",
-+	"pvdd11-ocp-alert","",
-+	"power-fault-n","",
-+	"asic0-card-type-detection0-n","",
-+	"asic0-card-type-detection1-n","",
- 	/*M0-M3 line 192-199*/
--	"","","","","","","","",
-+	"asic0-card-type-detection2-n","",
-+	"uart-switch-lsb","",
-+	"uart-switch-msb","",
-+	"","",
- 	/*M4-M7 line 200-207*/
- 	"","","","","","","","",
- 	/*N0-N3 line 208-215*/
--- 
-2.25.1
+   Executing: ./scripts/checkpatch.pl --strict -g HEAD
+   WARNING: From:/Signed-off-by: email address mismatch: 'From: Peter Yin <=
+peter.yin@quantatw.com>' !=3D 'Signed-off-by: Peter Yin <peteryin.openbmc@g=
+mail.com>'
+  =20
+Thanks,
+
+Andrew
+
+> ---
+>  .../dts/aspeed/aspeed-bmc-facebook-harma.dts   | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts b/arc=
+h/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
+> index 92068c65eae4..9db95a791128 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
+> @@ -566,7 +566,7 @@ &gpio0 {
+>  	/*B0-B7*/	"","","","",
+>  			"bmc-spi-mux-select-0","led-identify","","",
+>  	/*C0-C7*/	"reset-cause-platrst","","","","",
+> -			"cpu0-err-alert","","",
+> +			"cpu0-err-alert","power-card-enable","",
+>  	/*D0-D7*/	"","","sol-uart-select","","","","","",
+>  	/*E0-E7*/	"","","","","","","","",
+>  	/*F0-F7*/	"","","","","","","","",
+> @@ -585,7 +585,9 @@ &gpio0 {
+>  	/*O0-O7*/	"","","","","","","","",
+>  	/*P0-P7*/	"power-button","power-host-control",
+>  			"reset-button","","led-power","","","",
+> -	/*Q0-Q7*/	"","","","","","power-chassis-control","","",
+> +	/*Q0-Q7*/
+> +			"","","","",
+> +			"","power-chassis-control","","uart-switch-button",
+>  	/*R0-R7*/	"","","","","","","","",
+>  	/*S0-S7*/	"","","","","","","","",
+>  	/*T0-T7*/	"","","","","","","","",
+> @@ -685,7 +687,7 @@ &sgpiom0 {
+>  	"FM_BOARD_REV_ID2","",
+>  	"FM_BOARD_REV_ID1","",
+>  	/*H0-H3 line 112-119*/
+> -	"FM_BOARD_REV_ID0","",
+> +	"FM_BOARD_REV_ID0","reset-control-cmos-clear",
+>  	"","","","","","",
+>  	/*H4-H7 line 120-127*/
+>  	"","",
+> @@ -716,9 +718,15 @@ &sgpiom0 {
+>  	"cpu0-thermtrip-alert","",
+>  	"reset-cause-pcie","",
+>  	/*L4-L7 line 184-191*/
+> -	"pvdd11-ocp-alert","","","","","","","",
+> +	"pvdd11-ocp-alert","",
+> +	"power-fault-n","",
+> +	"asic0-card-type-detection0-n","",
+> +	"asic0-card-type-detection1-n","",
+>  	/*M0-M3 line 192-199*/
+> -	"","","","","","","","",
+> +	"asic0-card-type-detection2-n","",
+> +	"uart-switch-lsb","",
+> +	"uart-switch-msb","",
+> +	"","",
+>  	/*M4-M7 line 200-207*/
+>  	"","","","","","","","",
+>  	/*N0-N3 line 208-215*/
 
