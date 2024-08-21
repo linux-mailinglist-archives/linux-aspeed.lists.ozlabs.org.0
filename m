@@ -2,70 +2,149 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3EC95A624
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2024 22:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEE995A869
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2024 01:39:45 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wpz6M6yhjz2yZ1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2024 06:52:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wq2qc6xXlz2yYk
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2024 09:39:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feae::626" arc.chain=microsoft.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kAaZreDN;
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=pWKcRnPS;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.15; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=vivo.com (client-ip=2a01:111:f400:feae::626; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=liulei.rjpt@vivo.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20626.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::626])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wpz6H4lj2z2yKD
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2024 06:52:04 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724273528; x=1755809528;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L92fXwzpvfy6V5aVSsrMQYQc8poFWLPSnWtKPdphpC4=;
-  b=kAaZreDNBaL2rT3IlnacgB7PCfKmlYAfVYRf4lVs0CAWGpsmP716t9Bp
-   vbKWq4HtG3axKk4wkYvVHz2xzo++zQSWxAKVxxisVyb2yi4BwNAwnqCwH
-   i5ddyVzADY/idn9obRUfFu+3oDwlcNTdyq0fQC2yZFT5n/XaiCDI1BI0d
-   bMBxXI3PfmhaxcGIwRG1C8a5Faeb3u9VTVjCVRUDJmYbLChQD5rFRkRoq
-   x/imkF9mfg+EVtBSXWC4i0c1JxLRA6pUEqA52wLqklmkmdU0rw6DHhoAW
-   lCTAJ0KbOwTjDRzbDwfXmRhX55OInI7q0u2WRrD0FRdAuHzDsPNTZ8tae
-   w==;
-X-CSE-ConnectionGUID: FodHX5C3T7u4XPhSHJG8Sw==
-X-CSE-MsgGUID: Fhu1cXkVQR67QMqRgdpjIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="26410894"
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="26410894"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 13:52:02 -0700
-X-CSE-ConnectionGUID: U4dPVaJbT0qrJgLGR4NhPQ==
-X-CSE-MsgGUID: APZvwVe7QRWjfRcB7XVWVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="61209335"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Aug 2024 13:51:59 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgsJA-000Bwo-1b;
-	Wed, 21 Aug 2024 20:51:56 +0000
-Date: Thu, 22 Aug 2024 04:51:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
-	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com
-Subject: Re: [PATCH v1 2/2] gpio: Add G7 Aspeed gpio controller driver
-Message-ID: <202408220439.BUcaNSTv-lkp@intel.com>
-References: <20240821070740.2378602-3-billy_tsai@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WplYY32Bbz2yXf
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2024 22:11:27 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V+10a1hFml8nd0/0Mrv1JiT+gCyTEY3tY3iREkc49jofzvgkkcodJ6cyUGGgH+P45DdRWq1zVrOlIxviZP/eFOcdfT12Oz2Q44tsKC65SFxbRoHMgdpvJ1yssw6ShUgWi8HNIlF/X+lspWWHNtodmqGwwMMT2iC8NfG9lTs/zeC0HS0nIxT39uJXHfFfQ1ZinBPIjVemMWwq0KC9roeKG018N6WK3jH7kMSNYyJ5HtuLEC8xTHVaT+g78wa1A3eXao35r78nM7XInMmtpjscPiUu5ndHg3/h8eEetVIxpjRL39+xVX/unX0KjCXhwfePnmlzUrg19aiZfDHQlQdcyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3f8HS+mvtUMnxTmPYwwLk1Sfi9r2R8FY91CdfdmEm/g=;
+ b=R+yWzeEABG89bH1J7mk0o0LUhb0SiiyVjhNPU+Q6DdKcFNAzVqCcRWKriMiVQLU3CSXnW+d5MapG1Z28yaM96RZ5A8X7Am3imIAFvOcVoflLrTGp2PETKhWXKfQRsXP/stbnomchQ4KRiNmr7j9wonDywhptwi0B+zO0bJZMsg2otPDSi5sVGuHsU3sdPYNwTUoXg+iTEwriR+XYjE4DRd9H5wJueU22ELneT+ri+yisGNmL1GgwIB1cSWvkD2hmftMqFe0qHgUE4npENjsltkz+mUIKoUtSZVbWcdswzU4kmP44jbFPrA5T7zG/A0Q3YEyT5dJj1tFfs7a9LeeCYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3f8HS+mvtUMnxTmPYwwLk1Sfi9r2R8FY91CdfdmEm/g=;
+ b=pWKcRnPSxkWM1upj5nZaI64ZRxeFEYqHnI0kR73iFCSUkqDIxib7XGSk15KBVkCHfdyHX0a1vyFAdeAt5UTG6k4YYty/cmApSH1rpJJEUAngZYqsKRR5hV9LWrFxvsMSnzr5VGqDhrUloTJ2jgLt8veLdWd4pxQfXuEQNn+46g3x/2LfD9wiykl0QbAFqzQpou5T6gOEiaoVqJdtBZ6UhPI8ufWwkwiS6/n5BOVtJrUq3rSYfPhLiImcuOqROzNEl5AdDK6tS34Ovct5QkYH3nYXc/yrCGXqL7Y0Jqhu7H+HRrSMtOvOjMAziG8flgE3Ajf2kywDmbyuUADHxCXgLw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5624.apcprd06.prod.outlook.com (2603:1096:101:c8::14)
+ by JH0PR06MB7128.apcprd06.prod.outlook.com (2603:1096:990:8e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Wed, 21 Aug
+ 2024 12:11:03 +0000
+Received: from SEZPR06MB5624.apcprd06.prod.outlook.com
+ ([fe80::e837:10e3:818e:bdfd]) by SEZPR06MB5624.apcprd06.prod.outlook.com
+ ([fe80::e837:10e3:818e:bdfd%4]) with mapi id 15.20.7875.023; Wed, 21 Aug 2024
+ 12:11:03 +0000
+From: Lei Liu <liulei.rjpt@vivo.com>
+To: Neal Liu <neal_liu@aspeedtech.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Bin Liu <b-liu@ti.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Lei Liu <liulei.rjpt@vivo.com>,
+	linux-aspeed@lists.ozlabs.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH 0/5] usb drivers use devm_clk_get_enabled() helpers
+Date: Wed, 21 Aug 2024 20:10:38 +0800
+Message-Id: <20240821121048.31566-1-liulei.rjpt@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0069.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31a::17) To SEZPR06MB5624.apcprd06.prod.outlook.com
+ (2603:1096:101:c8::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240821070740.2378602-3-billy_tsai@aspeedtech.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5624:EE_|JH0PR06MB7128:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15a280f8-8c58-48a8-fd8a-08dcc1da534b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 	BCL:0;ARA:13230040|366016|1800799024|7416014|52116014|376014|921020|38350700014|41080700001;
+X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?4FkJamL3+5OJCJu5xm/gn93MWuhd3WD5BbnHNiVTcVECFaEdkOOlDb+prUrH?=
+ =?us-ascii?Q?H+TvSNAo7Eyndq/E/kh2M50shy/0oFxMq4muHiGrI1WHBA3dZhneNWfqLCN7?=
+ =?us-ascii?Q?NNdv67Q9Y36x5gPrpU0QObk2zyp9uw0iX4DCdUtHHPEZam+hbY7UlXWGTb5V?=
+ =?us-ascii?Q?HR+2rTIb16CmC0uEY8eSYaNHJ1Wcx1nUSnuTNaAP6PeAr9i9V2q/JvRnzChY?=
+ =?us-ascii?Q?S+5kTYAvLTn9AvOKALk0O9RcIvKjSO/+f7TqMLXOtowEGLXY3kg0i7XXHmA/?=
+ =?us-ascii?Q?1aB1uxXvAYDOpYxb8iRgbuJCqciCvb7NoFEXX45bT3V+ZNKpKr/MidYxURIf?=
+ =?us-ascii?Q?vmp9MVxcyR3hhPxPUV5bkVOezADaFaLO5MghDmUxh41yVLZ36ulzsJbWwaez?=
+ =?us-ascii?Q?sFvXcdYAfUVwlziYrNfJCpWaEd1pvxpJjC0z7Sti+/h+l0/Xbb+QeTcaErLM?=
+ =?us-ascii?Q?2a1yxAgxBK9a5Ghu15wi0ICNf5mbYLfQl0d3Afdk1q8tITOq8gG3wpT0tr+M?=
+ =?us-ascii?Q?ehLBa5h4rGpST1++uh55IYZG/Ywcoy73xID4uFFpM7JWPp8vf9EXNzM5Dkvn?=
+ =?us-ascii?Q?YXJm5gDAB5kVzVPqP2Gg+Mi7o/P9TW+NCbXri9KgLcSvEEVYCKWXfrbcJeVy?=
+ =?us-ascii?Q?z1NZt7jcY0uGMdnKSVaq5SS3xl3GIt9qh6fhpW/k3ILvibesETuG6eIQZaKp?=
+ =?us-ascii?Q?REE5fR4zLE8IXUAvBbc2BUFPa8iK9+9BS2rhenWUegPalpcw14Ko1+6a/pfX?=
+ =?us-ascii?Q?x7toU94C8T+E8wY85pyOrfej+9mgIDrHLQcYCPD3V1lWHJ1FxdZX9RoJMITR?=
+ =?us-ascii?Q?zr9acPm5eHNWlR+T85W6hV1XwlCua5CrZnEOaVNtkLmSI/OvlS6JHC9OKNS6?=
+ =?us-ascii?Q?1OL5N+thveNpKwjz+rcO0/SKW8EmL0HH2T5IqidIa9ZbMEfumJF6jFTDuBb0?=
+ =?us-ascii?Q?u42okymCz0UmqFF8rGlNqNjMY4lJSgi+nrjWQxWm2TlUrMjjMBZMZY+czRNf?=
+ =?us-ascii?Q?wRvM5kRstB9CzO0Ru+WF81eJv1RUn+b7+LCoXkY91a+YXbNz0RGCxHzLDmgJ?=
+ =?us-ascii?Q?BLtkekkvQGVqSGq2sGZO/biA52PsPDSb02LyY0QUc408CUR/xDHXEyZXs0qM?=
+ =?us-ascii?Q?NVGiMQA4iO+s6IoHB8u3Tl56H/N2is0RFkSLF1kaX0LoeYQaBpf62w6HDSl3?=
+ =?us-ascii?Q?NIRyF/gkiN0UAne5p9euguYDU1cA9lGVkTko40ZpDVjUN/OXtugyrkaasWMo?=
+ =?us-ascii?Q?LPEhvVKUCjctSjtQdRTzZgNMT5p3E3BDgeF/Bzuff9jlvqEKwZIeam+94gjW?=
+ =?us-ascii?Q?hMbOJz6mVx/cpziga1jeZYnw4kV+bxqocMp50TR/7MaRWR30wktgZ59BTj1v?=
+ =?us-ascii?Q?e330nZ1+JGRx7Dec2EqPQcRYHTgeSBQZ/Y4Os32BepOXjynRj+fbb6yQ/Urj?=
+ =?us-ascii?Q?v9jW+a2H97H4V7rDc416yElkpqPOmkn2?=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5624.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(52116014)(376014)(921020)(38350700014)(41080700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?2kHilz8LyKbRT+2fxMwbCm0AtYqQZOJLUxZ4QgWVSJ31FS/XmGB0yGEAfvJx?=
+ =?us-ascii?Q?4rs4OaYzb3Sbfkw4/uGjX4Q/rBSTzrm5RmBrss9aGXDM6/zsqZG1Y9Cz6pFI?=
+ =?us-ascii?Q?BIl4jdBMuwyGydJv+jOB4QqDD7rGclYsGyHxhGPsRkX320DYl/K8qT5IyzQQ?=
+ =?us-ascii?Q?HW1nYQF030lgHOQ2GWTSJMK7TTI9l1KZhzgN5G4Owm8udoS1jhnId4OL48Hv?=
+ =?us-ascii?Q?H666WFFYWlsSfZLgVxMdkskXJ3V9fQ0spi3VHSRgkH+R4/57u2t1d9KHSG6X?=
+ =?us-ascii?Q?virK6GDe/jpxofifx8H6gabhBbsboS53m9HVo47ssw0fOhg2oRNkKfcDKrIZ?=
+ =?us-ascii?Q?z3+Cr9SzkHtjRuEDUMLJ9ogo1wmQz8Xv2OovNXHIGcaTMnqvqFFWXVeKjMu2?=
+ =?us-ascii?Q?e6I84kD/AbTL37uKVUwb5uDKZWuB9o5sHHwWa69wBwCm6WqF6gXlrx0WrxLr?=
+ =?us-ascii?Q?Gi3ial7Zf5pC3k+iqMZ9Qc3Ry5uQFyf9LLgRkuaGd0hkJc2bNo3UJkoQcMqU?=
+ =?us-ascii?Q?/9lXIDbH+gwXKECUnUYw9+2kfdnam7fobNuMwp15pZQ70VDedlIjXsXfm3Ga?=
+ =?us-ascii?Q?GkD/8XdFH4+r4ndu6jvJJO/5fOnteL4Ot1VB0HglSqXGCbbag6UuVE0fG/hm?=
+ =?us-ascii?Q?kVHHZCM8CFWT8q9+fd8GJ8gKp8vU37tQZFBdr8DWge3K3lxULRrfFnRbsWx/?=
+ =?us-ascii?Q?HXUvXCGoFQOAOBWKUwBdtkt0rIQ3Nq2KX0XSs30zUXIAagH6h0BjDBhDns0P?=
+ =?us-ascii?Q?CTuvQifG0brJeVaXg9qoKwYMTAoBqP54C4mSDlcOSRgWG/iy8aJ7L6/hiKLY?=
+ =?us-ascii?Q?FLCEiTTvAWA1P+a48ghRvHgLHAcmrm09h8K0zLOFOgK+9qoEJiLYyKRbBYnR?=
+ =?us-ascii?Q?XGW4fmkWl54C+1mmeyBV1nG5WwyMAcM3gZbrBs0NCPsPli9caRJKhFnXZcfj?=
+ =?us-ascii?Q?YI46IAe1KSUKe0FCI92BEf8WgRDzIBES9IIM0ZEnDhbVDiUgvd0PkMV9eOtB?=
+ =?us-ascii?Q?fj02wJUvG+W6/foQepXUaEgYdStKnLDRqAg2AOnv6wkcFv/mpbUxVmjljoQw?=
+ =?us-ascii?Q?dFYD5NFBv1uYji4HmR9oX5A++GAfiy/MIouNuJb+V+xAmI6YZNDfQIKwPdX9?=
+ =?us-ascii?Q?+/IXnHy7YPaZfFZLR5netQtDYkWtfzrfRfOtqAqNhMCNrjW0Ca8oEZWKTUn8?=
+ =?us-ascii?Q?lsYl3gzPCbz22dMQHpSpICXnrLyiMuJIQbVBuWkQ+MtryrUSYtGLTftnDd6B?=
+ =?us-ascii?Q?6YPPRcP3ICOrIbJNjJ+CxKJVbhVN85olml7kHbo9b0x6aXhNVJ03IbYNh2Lh?=
+ =?us-ascii?Q?xAqSVoRGf+aQ0EHusBnw2iJ9WqbjhnkUac0uATRUBBGMD0LbISYMX2dsJiUJ?=
+ =?us-ascii?Q?pssDbunflyJmx7et9MEZvqH/Yc7nz7ljrujlfuKCRRsAFjiu4ml2ga7XsbQc?=
+ =?us-ascii?Q?2uLz2HGknbCNOk88io0UbwgkJknTU/XaZhTgNIkjwOmIFm+hbFW+/W2bUC1E?=
+ =?us-ascii?Q?hweVGukuPrPyqs8EkL7coLk4lnDKF2pbLsXnkSjlXV2NZNf8yhVbkInqBl8p?=
+ =?us-ascii?Q?gagSiJzW8d67DrZ/T+gIdlKKTOhAXF3ZKWe4qbGp?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15a280f8-8c58-48a8-fd8a-08dcc1da534b
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5624.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2024 12:11:03.1692
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IuOf5akIYo70LbSq1V116yL7QGIXTa25tk30d3yvtGBsIp/YGnDXD+NErQ8cHbj3NK9uWgD0FHSTkhlCyCqCYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB7128
+X-Mailman-Approved-At: Thu, 22 Aug 2024 09:39:39 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,104 +156,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: opensource.kernel@vivo.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Billy,
+The devm_clk_get_enabled() helpers:
+    - call devm_clk_get()
+    - call clk_prepare_enable() and register what is needed in order to
+     call clk_disable_unprepare() when needed, as a managed resource.
 
-kernel test robot noticed the following build warnings:
+This simplifies the code and avoids calls to clk_disable_unprepare().
 
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.11-rc4 next-20240821]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Lei Liu (5):
+  usb: aspeed_udc: Use devm_clk_get_enabled() helpers
+  usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
+  usb: r8a66597-udc: Use devm_clk_get_enabled() helpers
+  usb: mpfs: Use devm_clk_get_enabled() helpers
+  usb: ux500: Use devm_clk_get_enabled() helpers
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240821-150951
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20240821070740.2378602-3-billy_tsai%40aspeedtech.com
-patch subject: [PATCH v1 2/2] gpio: Add G7 Aspeed gpio controller driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240822/202408220439.BUcaNSTv-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408220439.BUcaNSTv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408220439.BUcaNSTv-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpio/gpio-aspeed-g7.c: In function 'aspeed_gpio_g7_request':
->> drivers/gpio/gpio-aspeed-g7.c:474:48: warning: passing argument 1 of 'pinctrl_gpio_request' makes pointer from integer without a cast [-Wint-conversion]
-     474 |         return pinctrl_gpio_request(chip->base + offset);
-         |                                     ~~~~~~~~~~~^~~~~~~~
-         |                                                |
-         |                                                unsigned int
-   In file included from drivers/gpio/gpio-aspeed-g7.c:16:
-   include/linux/pinctrl/consumer.h:30:44: note: expected 'struct gpio_chip *' but argument is of type 'unsigned int'
-      30 | int pinctrl_gpio_request(struct gpio_chip *gc, unsigned int offset);
-         |                          ~~~~~~~~~~~~~~~~~~^~
-   drivers/gpio/gpio-aspeed-g7.c:474:16: error: too few arguments to function 'pinctrl_gpio_request'
-     474 |         return pinctrl_gpio_request(chip->base + offset);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/pinctrl/consumer.h:30:5: note: declared here
-      30 | int pinctrl_gpio_request(struct gpio_chip *gc, unsigned int offset);
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-aspeed-g7.c: In function 'aspeed_gpio_g7_free':
->> drivers/gpio/gpio-aspeed-g7.c:479:38: warning: passing argument 1 of 'pinctrl_gpio_free' makes pointer from integer without a cast [-Wint-conversion]
-     479 |         pinctrl_gpio_free(chip->base + offset);
-         |                           ~~~~~~~~~~~^~~~~~~~
-         |                                      |
-         |                                      unsigned int
-   include/linux/pinctrl/consumer.h:31:42: note: expected 'struct gpio_chip *' but argument is of type 'unsigned int'
-      31 | void pinctrl_gpio_free(struct gpio_chip *gc, unsigned int offset);
-         |                        ~~~~~~~~~~~~~~~~~~^~
-   drivers/gpio/gpio-aspeed-g7.c:479:9: error: too few arguments to function 'pinctrl_gpio_free'
-     479 |         pinctrl_gpio_free(chip->base + offset);
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/pinctrl/consumer.h:31:6: note: declared here
-      31 | void pinctrl_gpio_free(struct gpio_chip *gc, unsigned int offset);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-aspeed-g7.c: In function 'aspeed_gpio_g7_set_config':
->> drivers/gpio/gpio-aspeed-g7.c:676:48: warning: passing argument 1 of 'pinctrl_gpio_set_config' makes pointer from integer without a cast [-Wint-conversion]
-     676 |                 return pinctrl_gpio_set_config(offset, config);
-         |                                                ^~~~~~
-         |                                                |
-         |                                                unsigned int
-   include/linux/pinctrl/consumer.h:36:47: note: expected 'struct gpio_chip *' but argument is of type 'unsigned int'
-      36 | int pinctrl_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
-         |                             ~~~~~~~~~~~~~~~~~~^~
-   drivers/gpio/gpio-aspeed-g7.c:676:24: error: too few arguments to function 'pinctrl_gpio_set_config'
-     676 |                 return pinctrl_gpio_set_config(offset, config);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pinctrl/consumer.h:36:5: note: declared here
-      36 | int pinctrl_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-aspeed-g7.c: In function 'aspeed_gpio_g7_request':
-   drivers/gpio/gpio-aspeed-g7.c:475:1: warning: control reaches end of non-void function [-Wreturn-type]
-     475 | }
-         | ^
-
-
-vim +/pinctrl_gpio_request +474 drivers/gpio/gpio-aspeed-g7.c
-
-   468	
-   469	static int aspeed_gpio_g7_request(struct gpio_chip *chip, unsigned int offset)
-   470	{
-   471		if (!have_gpio(gpiochip_get_data(chip), offset))
-   472			return -ENODEV;
-   473	
- > 474		return pinctrl_gpio_request(chip->base + offset);
-   475	}
-   476	
-   477	static void aspeed_gpio_g7_free(struct gpio_chip *chip, unsigned int offset)
-   478	{
- > 479		pinctrl_gpio_free(chip->base + offset);
-   480	}
-   481	
+ drivers/usb/gadget/udc/aspeed_udc.c   |  9 +--------
+ drivers/usb/gadget/udc/pxa27x_udc.c   |  6 +-----
+ drivers/usb/gadget/udc/r8a66597-udc.c | 16 ++++------------
+ drivers/usb/musb/mpfs.c               | 22 ++++++----------------
+ drivers/usb/musb/ux500.c              | 18 ++++--------------
+ 5 files changed, 16 insertions(+), 55 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
