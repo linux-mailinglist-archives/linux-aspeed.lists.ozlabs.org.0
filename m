@@ -1,57 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A0695AC4E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2024 05:56:40 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BB395AC73
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2024 06:16:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wq8X55D3pz2yPM
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2024 13:56:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wq8zD6Fd5z2yQG
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2024 14:16:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.13
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TfftRV2n;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BVej4FS1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.13; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.13; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wq8X11hwpz2xZj
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2024 13:56:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wq8z913kqz2y89
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2024 14:16:34 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724298993; x=1755834993;
+  t=1724300197; x=1755836197;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=67Bel21jv6hBWlgoQQSJs1O2C0veB/Hwe5bH9yClc8k=;
-  b=TfftRV2n82bf7kJudVDmFX/2XRlb3eDAV0XvNZ/92skZ8Kn1uuiwCpb/
-   jKVB9MAJmCMk1xNhuBthvNHzdH8pi3EDNVvC379rAPQ3wjsbzGLpdsU/R
-   S7kwyURYgyVNXNEG5WsSsys5l1JyOGw7CcTactj9b++hUXx03RTfLn7Iv
-   kINVJDKnt+9lHcFJrL8vIjFuTopONKMR03nlm8CGlUvkLxNTLU6Et96Lu
-   sogm5cToxur8CHP3tVVoSkHdzZmx9VM9fXMRsrsytjAB4pfdZmsH06Zi4
-   BI7yNJiAajqwC0x0MQN/MO4/D4T5bju32sNDAEYzphxkHqU+MIyvFl/aH
-   w==;
-X-CSE-ConnectionGUID: o0GvV5jMSkq3DTvAObYjtw==
-X-CSE-MsgGUID: NVJWe7DnTVmohqNe2ZMpxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="25586275"
+  bh=LcAYJElrUmw8cakNhbZlmrL27yzOntaJO0b9hxovysA=;
+  b=BVej4FS1jUJVu1cKNoQkD17uY9A6CokGJ54IMmg7MjbN8LDF4i9mCUmt
+   fG4wh22JFO4VPSR74IYL7DL17NurVhQZ64XZ4f2UiqxNSA9DSuXNcA6LH
+   B2EL8ARNR/dRxfHX04k8Z0yIIMIKG5lUAPePZ8Xq27LglH7Ew8VyBUKWR
+   LtAj8cWPkcshnGrgTxPi0mY9Ldzc+ZggQ+PnnqBrl37N9mq3hgu2HcwTj
+   22pT9+VwQlK1myiIrJsigxGaXAQ0IfNPDatRaWLDTA+tV6AaLG+olGoRO
+   Z82Zb6MVp7PbZMFR1zlr8CX0am5fb17FJzDcODaLFZff0cjXnbdolgy+N
+   Q==;
+X-CSE-ConnectionGUID: A5CJ4j2ZR3C6BbiQQtYzww==
+X-CSE-MsgGUID: SSKiRiMJQeGnTuPo5mAE5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="33846738"
 X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="25586275"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 20:56:25 -0700
-X-CSE-ConnectionGUID: 953bsQieS0uirvWSphoJ2w==
-X-CSE-MsgGUID: W5kDMKzfRiixYZMrvLsMHQ==
+   d="scan'208";a="33846738"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 21:16:31 -0700
+X-CSE-ConnectionGUID: CDxB2P9ARQ219xXZDtNGng==
+X-CSE-MsgGUID: G9OIF0lNQJqeSRsSmg9Wnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="60971752"
+   d="scan'208";a="92049605"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Aug 2024 20:56:21 -0700
+  by orviesa002.jf.intel.com with ESMTP; 21 Aug 2024 21:16:26 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgyvr-000CGW-0t;
-	Thu, 22 Aug 2024 03:56:19 +0000
-Date: Thu, 22 Aug 2024 11:55:51 +0800
+	id 1sgzFH-000CLg-2i;
+	Thu, 22 Aug 2024 04:16:23 +0000
+Date: Thu, 22 Aug 2024 12:16:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lei Liu <liulei.rjpt@vivo.com>, Neal Liu <neal_liu@aspeedtech.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -68,7 +68,7 @@ To: Lei Liu <liulei.rjpt@vivo.com>, Neal Liu <neal_liu@aspeedtech.com>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org
 Subject: Re: [PATCH 2/5] usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
-Message-ID: <202408221155.UveHbLu0-lkp@intel.com>
+Message-ID: <202408221126.F1eulsSr-lkp@intel.com>
 References: <20240821121048.31566-3-liulei.rjpt@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -103,30 +103,39 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Lei-Liu/usb-aspeed_udc-Us
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 patch link:    https://lore.kernel.org/r/20240821121048.31566-3-liulei.rjpt%40vivo.com
 patch subject: [PATCH 2/5] usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
-config: x86_64-randconfig-161-20240822 (https://download.01.org/0day-ci/archive/20240822/202408221155.UveHbLu0-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221155.UveHbLu0-lkp@intel.com/reproduce)
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240822/202408221126.F1eulsSr-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221126.F1eulsSr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408221155.UveHbLu0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408221126.F1eulsSr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/gadget/udc/pxa27x_udc.c:2401:44: error: too many arguments to function call, expected single argument 'clk', have 2 arguments
+   drivers/usb/gadget/udc/pxa27x_udc.c: In function 'pxa_udc_probe':
+   drivers/usb/gadget/udc/pxa27x_udc.c:2401:39: error: passing argument 1 of 'clk_prepare_enable' from incompatible pointer type [-Wincompatible-pointer-types]
     2401 |         udc->clk = clk_prepare_enable(&pdev->dev, NULL);
-         |                    ~~~~~~~~~~~~~~~~~~             ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   include/linux/clk.h:1107:19: note: 'clk_prepare_enable' declared here
+         |                                       ^~~~~~~~~~
+         |                                       |
+         |                                       struct device *
+   In file included from drivers/usb/gadget/udc/pxa27x_udc.c:18:
+   include/linux/clk.h:1107:50: note: expected 'struct clk *' but argument is of type 'struct device *'
     1107 | static inline int clk_prepare_enable(struct clk *clk)
-         |                   ^                  ~~~~~~~~~~~~~~~
-   1 error generated.
+         |                                      ~~~~~~~~~~~~^~~
+   drivers/usb/gadget/udc/pxa27x_udc.c:2401:20: error: too many arguments to function 'clk_prepare_enable'
+    2401 |         udc->clk = clk_prepare_enable(&pdev->dev, NULL);
+         |                    ^~~~~~~~~~~~~~~~~~
+   include/linux/clk.h:1107:19: note: declared here
+    1107 | static inline int clk_prepare_enable(struct clk *clk)
+         |                   ^~~~~~~~~~~~~~~~~~
+>> drivers/usb/gadget/udc/pxa27x_udc.c:2401:18: error: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2401 |         udc->clk = clk_prepare_enable(&pdev->dev, NULL);
+         |                  ^
 
 
-vim +/clk +2401 drivers/usb/gadget/udc/pxa27x_udc.c
+vim +2401 drivers/usb/gadget/udc/pxa27x_udc.c
 
   2345	
   2346	/**
