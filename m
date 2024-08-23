@@ -1,159 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A4C95E5E4
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2024 01:58:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD9395E5E5
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2024 01:58:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WsW382kqDz2yNH
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WsW384mLyz301w
 	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2024 09:58:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feae::61d" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724407386;
-	cv=pass; b=LHRqypssaUad/reVFC4DG4m/K0FRY7dJ+P1Gw+VtrcYGJqm1BpK1c2Fh6YVFXbSQdAu3H/Vu2i5UPDp+mPkA+Mj2wuYTBWz7lzwEhEWows3nmTGynjnP247C/p0Iyqx/LAEI7UNcNP3mvvwiaGH5MwlE5Huek7Zzmb4Fkalew1VPudJGzyV5f42wH0h0kgB3ZRlTQrXhAtAWX5OIQarikq3bAOqWxpqC+S58pcQcsP6Z/REGGugl6HdGJg75llshaP2r1ON4wXn4vXJ3OeW0waU5nH4PlCHYEPmaNsn/+kq4YwuaHc6+CjxE/cf8BUpGNMWRDBPEAax6aZNWkSYUfw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724407386; c=relaxed/relaxed;
-	bh=HyRMXxtRAusDDxAqwEfoylIRLh2FgMA0HoKYMuW3n+U=;
-	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
-	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=Hv/jKEvg; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f400:feae::61d; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=guochunhai@vivo.com; receiver=lists.ozlabs.org) smtp.mailfrom=vivo.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=217.70.178.240
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724428744;
+	cv=none; b=KkY6Qie4WzJg1fGhNtE/JmVLPQllzoilYgfLklX597Rs5p/KJB6Wr5xNJJ1jMq6lIPtXwDzof/8ld/usVdQjDXaCLN++0xhEZhj99ZqQ0SxP+DlSQ7QyNjMFKzj/BEy/eRh6uoUNtSfHkMwt/ZHuRckKvFDqu+aKZPFGTPXXoxNQfTnDOlUQgue87/bFmyr58QW2SH0ArBV+gHd7XNUnkHtEx88xfIAM1NHgiQx8B9WHdHJzaFTNdjbXF7p121L78huGSodibtfMt7AkdXDvodzhb+CYqgKmH8i5s6x0oTYU9Kgr/ojXhXsHLxxeMO7jThFOTgu6YmgrHhU4Y3vEcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1724428744; c=relaxed/relaxed;
+	bh=7CutgodhxN+FJr5V+VHWsJBhY68LFF7RKhgiCY4alWI=;
+	h=X-Greylist:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-GND-Sasl; b=cMdD+xAiBtm+cpmJY1aLOWM18fxjAKj9tGQhoFaElCy5Wk1AsJtAHFtJztVKQMY8jXez7x0z7zrdLOa0scRXZeV09KsmUUldHhiIFNtRt9dDH6KZzdZW4YR33BGVV8kvxh2rhiSD2C/3PNIcdEYMlYqKZUeub2K+MOhqSrK6tJvuG+VkPB8eSRkoBOIgL3qrIiOF+aGpqEqtZFI3vAinMnfVuHo5OA5pIdjOzPVLgWNyQPgvCK6p7DjJ3C4liKtbfHoOCOCCgBdO1cmh5TCloyF/CZTMpXuoiNHlSW8/Xdt1Y5cIG/t/m9yhWiIeFUJvYa9PWLO8aQVwjCZTim6hDg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=EQgdhHc1; dkim-atps=neutral; spf=pass (client-ip=217.70.178.240; helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=Hv/jKEvg;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=EQgdhHc1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=vivo.com (client-ip=2a01:111:f400:feae::61d; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=guochunhai@vivo.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2061d.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::61d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=217.70.178.240; helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 1240 seconds by postgrey-1.37 at boromir; Sat, 24 Aug 2024 01:59:01 AEST
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WqwcS2P2xz2yn1
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Aug 2024 20:03:03 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=STqf6POCfLAzy/P81SObHfTzL9TOTE8o/vAgt4FnXsxaLfCWaloRhm3phsYyTh3E0tnb8k78YW5JVSuxrR7rqlQ/qeo5xLBxWr1fvY9efzSpLAW6ZXQD7gRUDzn7nEd+T1kRriqh4G2I7TE1t1OEr799KKSsEMeKaoFv61rwr09wJjKSGlzyKSgvaY994Xk+B/bR/fnL5mYVcFyXdHLx8C1bzfendlfu7Fzz+7azADYTDfSE2JM9ZfYucsEqPxemQD+XVq/jv1umPKogVy6CrBS4EElFsiA2rnnNo+xoFAFUchsjAuc698WnRnfQBrBhSBCa+2lOdE1RbSuCaZBOZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HyRMXxtRAusDDxAqwEfoylIRLh2FgMA0HoKYMuW3n+U=;
- b=VW2Ms1Pkug5XkkfZmahX3lG71Z/8+qIbm/fwq2JozkIuRpcNxdJKmJEeL4INgwQj0pgCTq0ZFfu9PG5MNR4mRE3rGb0PfYW5jsKYjIRtFFNt/g5DcKFjo/S2vikzpPZIxcDmj9DFAECMDB916WUlcJONU0z3zulhnnhm4qdxOZ8jqvl2FfF6z59OV8YuRsRjO3VcxxMIQRoZ0oafBTe8iCsglrjQlGygWaGuQRnjHKyOxJfzUeCm7mpuHOGrh7Ltkkvj62IPHZdRsN9ICXQEUdNiSOrWF/MyrrMPKy3Nx8ShHjPq5qYvmI8QgmNdrzevB0Cg00qGJDwbgziyC2ftLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HyRMXxtRAusDDxAqwEfoylIRLh2FgMA0HoKYMuW3n+U=;
- b=Hv/jKEvgEhi0T6Vx4DeBZlJ5GQwghPgkWXrfzcSCpKbpIGHuNpXV6DMvsjPmlJUXcT4rzoaJOaXQOj4GzdblidyZEq0SeCJ7bXdTsMEvEadlTwllRS0fAKNhH226aiLstGOhSMGz6pxFJtpHCkXBO9Q8AW933rdEry39qx1lhjBG9GZJclUw1Fcx4oaWaqyaaAEgoPF3B2HavqglDKFEce0NRYTJQZ/HWDnTpvjet9Uwal2KCgz2PWu5AIiZyGeUbrf0xQ4T4qfTHyLPkqW5b7UuWG4VQXR2OzUVH+Fjpy3QyfFqAiPnrqhwP+wkVFYOji7fumiteH4/u3x8kS2dmw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TYZPR06MB7096.apcprd06.prod.outlook.com (2603:1096:405:b5::13)
- by TY0PR06MB5281.apcprd06.prod.outlook.com (2603:1096:400:206::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
- 2024 10:02:40 +0000
-Received: from TYZPR06MB7096.apcprd06.prod.outlook.com
- ([fe80::6c3a:9f76:c4a5:c2b]) by TYZPR06MB7096.apcprd06.prod.outlook.com
- ([fe80::6c3a:9f76:c4a5:c2b%5]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
- 10:02:39 +0000
-From: Chunhai Guo <guochunhai@vivo.com>
-To: joel@jms.id.au,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/aspeed: use devm_clk_get_enabled() helpers
-Date: Fri, 23 Aug 2024 04:17:32 -0600
-Message-Id: <20240823101732.2180381-1-guochunhai@vivo.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG3P274CA0019.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::31)
- To TYZPR06MB7096.apcprd06.prod.outlook.com (2603:1096:405:b5::13)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wr4W96rJ3z2yvj;
+	Sat, 24 Aug 2024 01:58:57 +1000 (AEST)
+Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C9B9FC66E7;
+	Fri, 23 Aug 2024 15:38:16 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DCDC41BF206;
+	Fri, 23 Aug 2024 15:37:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1724427477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7CutgodhxN+FJr5V+VHWsJBhY68LFF7RKhgiCY4alWI=;
+	b=EQgdhHc1vU0jHveAWULFKVBKA5K/Reu7E11e/ThNq9x2gK+seD0B13sWiulonMlwdOssZ+
+	k+eOdW0o2tv4Ud7+Sc+JOMrfETHvLbvlgyy+kMY6NXxlMbsUmLZ7/FAN5WXqj27n4bSlr+
+	dmDpxLQ/Z+1AQ01pr9Z1lBOL3BCycoIwydon6a7UJIbtuAqynLhzcVgS7Tyw1JXQgEmX0x
+	VOnCrmUGt8M8ZePqnH/ue6a4gvzyEDN1u3bA6Elhg+jRCgsbvMd5Mx/JhrjqIxq4e6ckw+
+	detDzZoFkx9y82FATvoOoDjp178jqdsLKA7rVAVuQiUuWcQl3YXaclc2dwkXfg==
+Date: Fri, 23 Aug 2024 17:37:48 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH 4/9] mtd: devices: add AT24 eeprom support
+Message-ID: <20240823173748.2b3a364a@xps-13>
+In-Reply-To: <20240718091753.apwsrvmekn2vvo4k@pengutronix.de>
+References: <07b701a9-7b52-45b7-8dba-1c25d77cbf15@linaro.org>
+	<mafs0ikxnykpr.fsf@kernel.org>
+	<20240702-congenial-vigilant-boar-aeae44@houat>
+	<mafs0ed8byj5z.fsf@kernel.org>
+	<20240702-mighty-brilliant-eel-b0d9fa@houat>
+	<20240708084440.70186564@xps-13>
+	<20240709092214.omr7ccphdzdk7z7j@pengutronix.de>
+	<20240709114302.3c604ef3@xps-13>
+	<20240709103841.7x7n4hdtqrunyoc3@pengutronix.de>
+	<20240717101948.2e99f472@xps-13>
+	<20240718091753.apwsrvmekn2vvo4k@pengutronix.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB7096:EE_|TY0PR06MB5281:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d718902-5a6c-4c3d-5231-08dcc35ab8f1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?F32v2N9HI8/APXpvz4Oh8Nq6g44SGFGA98waZd26YzfFce9S9Dc+IyRsII4o?=
- =?us-ascii?Q?16YMX+TP99pXRlKGWNxzCIuSXGzO2WYHxBjHS6/rE27wVzjI7g8T3qzF8pDG?=
- =?us-ascii?Q?EQeocV4Y3lE5PBWgkeMBL5wntwhQToesv/2D/Qy4lkHK9c221dDHu7DjWHSG?=
- =?us-ascii?Q?NBNOJJzsRWnOvY4edgDRInNEtTt6qn6WBT2GOJ6xmXyIEku32v/4E/a+UD+P?=
- =?us-ascii?Q?74UTZZhpJxtPVEPKbgciq0FVbWuGLPX7FsdRPGdXkX/rjYAs+8erQYjg+Cjf?=
- =?us-ascii?Q?c3LkCnstQtDrPPdT/yMJxRxDxbLtTza+QF09L34ekTz1n9Zl+n6YyKFrfA1v?=
- =?us-ascii?Q?vYtis9F3MHaNqm4PD0sJL3/pajERZwk3VVgthk+7TN/JmPHyQu37rqZmTQc2?=
- =?us-ascii?Q?V5F96a4+tlDm9vqQv8JZunhp9av8R5BS0cMtli+WVHRDuU5z434uSjbDvpPl?=
- =?us-ascii?Q?IAsXzowWILcRPJEaqMMyLYtZf3ReFNVdc6KJdrXrGQWNM8FG2EmKiSvu99XN?=
- =?us-ascii?Q?iXWI0zncjlrtIeiVY0d6TvYpq5fLDISD/aFDOPlCi8lG5BElTI/+mIl37bML?=
- =?us-ascii?Q?/aXKYqi7W8ua0l12iRv+ebcBb4Hzr4huglw5cPvUu1SZL6IndPjSeB15YDVJ?=
- =?us-ascii?Q?33Opt6xKysu8Hr++wDDbfTamcjgxXiL8O31uWkCrDTRdaTpU3j5w4VHiGuuR?=
- =?us-ascii?Q?JrzcxLH8+jqDzEwN8BvLu2sMOQt9Iibj0/C6wczNXaFtM39MXbqogpCyNsN4?=
- =?us-ascii?Q?xlFyY1kh6oiHYDBXWNjd59EQVayFOHlGmNjsliadE1gDlaYp0AAJczVERhaF?=
- =?us-ascii?Q?QIXsuGZETr+xmktHES63Nl79GzM/byHnV7J93aVK+SE96m4GiT3YHTJp/wst?=
- =?us-ascii?Q?S2s3oVpArc7Iy9yImLlCyxywJOEDcB8TWMbQ6iNMMtES8SP+dmxKHpUBelE3?=
- =?us-ascii?Q?/vJc9WXQEk9Rm63wCFQFwghZiZZEP12Mv30nydNXvmGReo9b4MV9cUpF9ZSs?=
- =?us-ascii?Q?p7O/8E68woC39c+bMzFVMlF9S/7zBi4L9uybEqiYRYC0bv9wtc4oJQvMmYTW?=
- =?us-ascii?Q?dFZGHGnp3nXlRaSieYXBzhiKml4t8oB7IiuslBDyIn2naXaAqZ3wqeIw8krg?=
- =?us-ascii?Q?YouXpOMvLIcqI4DCLYya+qgvRfH3+KrU/7yy84gU12HsdJpAU+JL8tzpa541?=
- =?us-ascii?Q?xBAc323EHkfk8JfujhZBX0QPO/bqriDXCfukMBWkErOt3EDXfeOAdYbfxJ5h?=
- =?us-ascii?Q?WAaHwXgV1D/eeqBNo0698camBaqT1lG408jK5oXwFsh/Pq9+MPe8nWRJsWfF?=
- =?us-ascii?Q?C6CReBvkZ+XErJPjHfbfa588l3DH8RrQd79Kk/7U71xDrg6wNV/aOlRzxAGk?=
- =?us-ascii?Q?weAko3JkdjIq0MtWGoCBMYUsumAS8MLH+AEW0yPrRqmlnE8PYw=3D=3D?=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB7096.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?BqZLowX8knXJzYRaaHjIcXr8VuGYLuwo8ti+fF7XrPdbI6dy8wS1V8QSsKk0?=
- =?us-ascii?Q?EhDdW4yDoQAKoFh9nMOpXamWNnBIjBm3eiJLVRMIFw9Y+amM3DDlDPFgIKVb?=
- =?us-ascii?Q?QDKP7Em5Op+vPQY/UkRUNc7lgjTIlpQ6H9+wSCw5KsylLFogvfA29clI0vUx?=
- =?us-ascii?Q?gjEl962MmuH8Z1r70Fn47GwyP0ZrMu5Y2m6e3OsBW/JJTSqSfUKaPwEm2CRf?=
- =?us-ascii?Q?wztGFTDYjrLJu0Zzr/W2j+1GN3RqgmFMx9yqhYQOxQhTtod6vfWtxaTvDYkL?=
- =?us-ascii?Q?4m9U/chHMLpAkq1SwbGW/aakB/ysekjY5SjFUUIPnPfNPB2JBkyfWoltA0WJ?=
- =?us-ascii?Q?USObEvMEEhvRNOUjlaff8IQIBL5XOVDiu9/83Ucn+yc8j3pq7Z/YpiiT3irP?=
- =?us-ascii?Q?lbEIM2BKFH1pQS+Q8BMRuYY1Q04ZcbzRLO3KOxdvHh0wmgJfb0HjKAZ5PI77?=
- =?us-ascii?Q?yCsBnW3uDHZAZEjyivU//Ptn9pKGDI/IZ72oDzS1SQalgzBhc8SuXlvLOreQ?=
- =?us-ascii?Q?Jty+FNmT7ZwDGioLSuZU+pIaYbTWIQBa0jDZdGA73BJXTuHRJWTzYc/rN6+8?=
- =?us-ascii?Q?IrswIXd+NL/I8U5MdPGQrEc9Xty4jL4z0VuRRdDcnATFn1Sswis+AyGoA6Fo?=
- =?us-ascii?Q?QIM0cDzTyB4DYLYfmf8ciB3HopfiSJQTenWWemMOxaENW3GS0RCMKCjhGRfJ?=
- =?us-ascii?Q?tejz0uNAK+fukpBT8vwuosegnpmSFg0HLBN+s/2iTB6VU0tf4wh4HBmrYwls?=
- =?us-ascii?Q?pQMTaf/YCid1bmM51EWB3lRR30xoTGiLOORrOte5QXPGz9zzhcXF/TQdVCi/?=
- =?us-ascii?Q?FQVLw9qhIYl2z1i5GOoEovdCHmYN/Nz/k28ibvDmT5Sx+M3WmWN1ZY4YyBj3?=
- =?us-ascii?Q?gQSdTyyjRTV9WGXKBQ1Sj+wEBGgVf6yiCIOxSEcHExhqm8ELEUZCUs0Iv3PX?=
- =?us-ascii?Q?uUWm0heXq/dswvzXS7esR6rsZsOI2lzHDQFTHtQfrn1GTRjTH9h0noXaMzGw?=
- =?us-ascii?Q?D2DswHh4KC/ed7kalUfWdgl1xBSQVJM9uMrLlbQruqBCnHjFXbnmlr/Pu+Cg?=
- =?us-ascii?Q?IbGdvzGS+fv5gYJCVyDqC653vkvZ1oHVU1ptyV2RzPHEFMnbWfg4lhtKfGUo?=
- =?us-ascii?Q?mkU7yNyBkCRAAijWkZuHjagg+AYbb/AKveabh+qa3C8EiaPS5ca0tc0hpB8t?=
- =?us-ascii?Q?M+VvQLAVXFAGINEChgaGWKsgBFjh5/2zsqd04EG8+5t9XhCmbche/N8lFx0k?=
- =?us-ascii?Q?ShdilheRJm7+xk66l1CDhRo0jHrgDLeTEchR7hXXQJq8yIjco6UMku3zNknm?=
- =?us-ascii?Q?uFy6L4boGMK+pdv4K+1vtna/9pNeI0j2zSMAofdRhn+RvHfRpj5pZD6U77g6?=
- =?us-ascii?Q?naGBNpp3jHYq699wnWpagxHMtAesX2vSpPljZgvLnZ9uJXNYMzK1hmnnljK4?=
- =?us-ascii?Q?19EPmClbsb+hchk4m1Mb5QJhGx+wJ5FVjNYhuze/Yla/XAwXOPxQ9gTxu9Tt?=
- =?us-ascii?Q?7yvipkC3UgqF6cttqAlCSMeeRyoHq++1pKtI8HDSFCvjs+Pk4zVHcKTd3Wgp?=
- =?us-ascii?Q?XT58B1BANUQDPTlQWHjJbTTqANzgBN7L3pCLdiSq?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d718902-5a6c-4c3d-5231-08dcc35ab8f1
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB7096.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 10:02:39.8982
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4GCm6LL5KZ+Yf4L45/ct1VlQ5qh8UQ5cOideCmJ8a1hk5rDPjIayB2xavosPVBBiWtUfSQjGNDcdkT6hlk6uNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5281
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-Mailman-Approved-At: Mon, 26 Aug 2024 09:58:11 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -166,37 +82,71 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Chunhai Guo <guochunhai@vivo.com>, dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, Geert Uytterhoeven <geert+renesas@glider.be>, imx@lists.linux.dev, Tony Lindgren <tony@atomide.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, WANG Xuerui <kernel@xen0n.name>, Fabio Estevam <festevam@gmail.com>, linux-aspeed@lists.ozlabs.org, Richard Weinberger <richard@nod.at>, Gregory Clement <gregory.clement@bootlin.com>, Huacai Chen <chenhuacai@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>, Christophe Leroy <christophe.leroy@csgroup.eu>, Jonathan Hunter <jonathanh@nvidia.com>, Tudor Ambarus <tudor.ambarus@linaro.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>, Maxime Ripard <mripard@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>, Nicholas Piggin <npiggin@gmail.com>, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>, Michael Walle <michael@walle.cc>, Pengutronix Kernel Team <kernel@pengutronix.de>, Michael Ellerman <mpe@ellerman.id.au>, Shawn Guo <shawnguo@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Pratyush Yadav <pratyush@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Simplify the code by replacing devm_clk_get() and clk_prepare_enable()
-with devm_clk_get_enabled().
+Hi Marco,
 
-Signed-off-by: Chunhai Guo <guochunhai@vivo.com>
----
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+m.felsch@pengutronix.de wrote on Thu, 18 Jul 2024 11:17:53 +0200:
 
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index a7a6b70220eb..7f4ef85a12a9 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -191,13 +191,12 @@ static int aspeed_gfx_load(struct drm_device *drm)
- 	}
- 	reset_control_deassert(priv->rst);
- 
--	priv->clk = devm_clk_get(drm->dev, NULL);
-+	priv->clk = devm_clk_get_enabled(drm->dev, NULL);
- 	if (IS_ERR(priv->clk)) {
- 		dev_err(&pdev->dev,
- 			"missing or invalid clk device tree entry");
- 		return PTR_ERR(priv->clk);
- 	}
--	clk_prepare_enable(priv->clk);
- 
- 	/* Sanitize control registers */
- 	writel(0, priv->base + CRT_CTRL1);
--- 
-2.25.1
+> Hi Miquel,
+>=20
+> On 24-07-17, Miquel Raynal wrote:
+> > Hi Marco,
+> >  =20
+> > > > > > Overall I think the idea of getting rid of these misc/ drivers =
+is goes
+> > > > > > into the right direction, but registering directly into NVMEM m=
+akes
+> > > > > > more sense IMO.     =20
+> > > > >=20
+> > > > > So you propose to have two places for the partition handling (one=
+ for
+> > > > > MTD and one for NVMEM) instead of one and moving the code into NV=
+MEM
+> > > > > directly?   =20
+> > > >=20
+> > > > Why two places for the partitions handling? Just one, in NVMEM. Als=
+o   =20
+> > >=20
+> > > Without checking the details I think that converting the MTD
+> > > partitioning code into NVMEM partitioning code is a bigger task. As y=
+ou
+> > > said below there are many legacy code paths you need to consider so t=
+hey
+> > > still work afterwards as well.
+> > >  =20
+> > > > usually EEPROMs don't require very advanced partitioning schemes,
+> > > > unlike flashes (which are the most common MTD devices today).   =20
+> > >=20
+> > > As said in my cover letter EEPROMs can become quite large and MTD
+> > > supports partitioning storage devices which is very handy for large
+> > > EEPROMs as well. =20
+> >=20
+> > Did you had a look at nvmem-layouts ? In particular the fixed-layout. =
+=20
+>=20
+> Yes I had a look at nvmem-layouts and we use them within a
+> mtd-partition. Using them instead of a mtd-partition is not sufficient
+> since they:
+>  1) don't support user-space write (I send a patch for it but it doesn't
+>     seem to be accepted soon).
 
+Yes, this needed improvements maybe but was not refused either.
+
+>  2) If write would be supported the user-space need to write the
+>     complete cell e.g. no partial writes.
+
+Maybe that can also be brought to nvmem. Again, nvmem was introduced
+for handling EEPROMs in the first place.
+
+Anyway, if other people in Cc: want to share some thoughts, they are
+also welcomed, I don't want to block this series for bad reasons. I'm
+also adding Michael Walle in Cc: who might have an opinion on that.
+
+Link: https://lore.kernel.org/linux-mtd/20240701-b4-v6-10-topic-usbc-tcpci-=
+v1-4-3fd5f4a193cc@pengutronix.de/
+
+Thanks,
+Miqu=C3=A8l
