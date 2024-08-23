@@ -1,86 +1,160 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A0E95CEBD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Aug 2024 16:04:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A4C95E5E4
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2024 01:58:18 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wr1zG00bsz301x
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Aug 2024 00:04:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WsW382kqDz2yNH
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2024 09:58:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.16
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724421878;
-	cv=none; b=Q5cPdrPld2Vk3zULCc/Efd2eSuI09b0fNRJOix5MNlGL7/MRCxLw4uWLZUpkIU0kVb6jDJc2UxHeBl6ktfObonxGSU+oqMGBZDHOR9CBN9S8BXoFD0ZDHPM4WoV21XwKak3klsMGuUCqMvgGwB+viyIsBA24U2EP7qwEIxMjcHaDe70Spqwjz4B2Q/dOVjNTNT9+qnPRioYsRIILZ6wq7cZ+Y/8tMPSyQRNt5aZg4YHtuKK+jdYZd9Xu7CJpPWNn96p8LBgJgdhq8MmQZSkPpIIyrkghd30Za2+W6ByOu8IAv3ySg67NvYq46LUgUgFbCuDv5tOoPYvbEMoWsfipbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724421878; c=relaxed/relaxed;
-	bh=LMqUEed/sXqW/W8xHRqkME37+Jf/EyyC1Z0y4foryX0=;
-	h=DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:X-IronPort-AV:
-	 X-IronPort-AV:Received:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization; b=CQFJSoCx+WHMvxDZevfMDA7wojDleGW0TgWd7F0mfACDtBhGYf8OyfmFUXOFwt70KhKKdAVEqxchMeb7mbRogOORg/+MMPm0NItmxHdXplJ2xl/Sm1zRE9nNDa8HUom86ZwdmWQGGkZCo4+gpqkvET9wrg+r/zwNyPXuaDKVXjQeM9Gki2MEVHi0Gzc4hwvpx55z7j30onVyjUWyPtnsNKQDe1Uk76FMjEAVnpKVzdUcP/XRMz2lAHjZ12ddR0R9lX0rL1F/+L3o/0E4Uqk5gXZo5S/YzFTVaijMG54M4+9wE7+FQpts93itsn/JcLumCGgTx6z37wFi5JVLl6RCMw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IZgH/eBw; dkim-atps=neutral; spf=none (client-ip=198.175.65.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feae::61d" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724407386;
+	cv=pass; b=LHRqypssaUad/reVFC4DG4m/K0FRY7dJ+P1Gw+VtrcYGJqm1BpK1c2Fh6YVFXbSQdAu3H/Vu2i5UPDp+mPkA+Mj2wuYTBWz7lzwEhEWows3nmTGynjnP247C/p0Iyqx/LAEI7UNcNP3mvvwiaGH5MwlE5Huek7Zzmb4Fkalew1VPudJGzyV5f42wH0h0kgB3ZRlTQrXhAtAWX5OIQarikq3bAOqWxpqC+S58pcQcsP6Z/REGGugl6HdGJg75llshaP2r1ON4wXn4vXJ3OeW0waU5nH4PlCHYEPmaNsn/+kq4YwuaHc6+CjxE/cf8BUpGNMWRDBPEAax6aZNWkSYUfw==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1724407386; c=relaxed/relaxed;
+	bh=HyRMXxtRAusDDxAqwEfoylIRLh2FgMA0HoKYMuW3n+U=;
+	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
+	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
+	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=Hv/jKEvg; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f400:feae::61d; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=guochunhai@vivo.com; receiver=lists.ozlabs.org) smtp.mailfrom=vivo.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IZgH/eBw;
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=Hv/jKEvg;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=198.175.65.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=vivo.com (client-ip=2a01:111:f400:feae::61d; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=guochunhai@vivo.com; receiver=lists.ozlabs.org)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2061d.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::61d])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wr1z80MxRz2ygY;
-	Sat, 24 Aug 2024 00:04:34 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724421876; x=1755957876;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RarjRljA012H8GjcXE0795+YxS0vJ/uKSKtUTKIt+3k=;
-  b=IZgH/eBwLNPigyJF/STffyJKueCbMLwPqqkImafrfdsD/I5F7w2oDdZo
-   IoxbXmp9kMhWOO/FOYimkXtymcC0iAadF2JgmKvBfcTpt5n1ai9kPm99c
-   gjn6cSH74afK2wbhJkC0O8dFpkbwv934XU/SZi2L9S5pZ28pic07DBiup
-   nV02LYBFzav4cJG0MyVSVvi+0xKIpd+1Wbyz6yDJ2nTTYQL1gEVqW44Ze
-   14lCPHUE9X5C/P/39PAhlRCN6MayOmN0ahOlvmQGIDX6H0WTZnpnBCtKg
-   KSJU1AVPCzlc85hARNAkm6oTkInZ8iEaWJTD54xdKLTzysEWMsrt19uvh
-   g==;
-X-CSE-ConnectionGUID: EQL1VrAPTD6E++0plPh/xw==
-X-CSE-MsgGUID: aTNWHhcnQH6p7b34vpQabg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="23016214"
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="23016214"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 07:03:59 -0700
-X-CSE-ConnectionGUID: 5SVtqCkpR1OhiuzSknEhTQ==
-X-CSE-MsgGUID: o2GSPqwpSdKx8bDzLi+utw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="66126708"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 07:03:54 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1shUsq-00000000oWR-0s0k;
-	Fri, 23 Aug 2024 17:03:20 +0300
-Date: Fri, 23 Aug 2024 17:03:19 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v13 2/3] i2c: aspeed: support AST2600 i2c new register
- mode driver
-Message-ID: <ZsiWp5ENQ0BeBjMn@smile.fi.intel.com>
-References: <20240819092850.1590758-1-ryan_chen@aspeedtech.com>
- <20240819092850.1590758-3-ryan_chen@aspeedtech.com>
- <ZsNT7LPZ7-szrgBJ@smile.fi.intel.com>
- <OS8PR06MB7541EE5BA5B400445FE0295EF28E2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <ZsXVU2qy0GIANFrc@smile.fi.intel.com>
- <OS8PR06MB7541945591A62B956DA28AD9F28F2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <Zsc9_UddBybdnM1Z@smile.fi.intel.com>
- <OS8PR06MB75419F3E3A222AE941DE3007F2882@OS8PR06MB7541.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WqwcS2P2xz2yn1
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Aug 2024 20:03:03 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=STqf6POCfLAzy/P81SObHfTzL9TOTE8o/vAgt4FnXsxaLfCWaloRhm3phsYyTh3E0tnb8k78YW5JVSuxrR7rqlQ/qeo5xLBxWr1fvY9efzSpLAW6ZXQD7gRUDzn7nEd+T1kRriqh4G2I7TE1t1OEr799KKSsEMeKaoFv61rwr09wJjKSGlzyKSgvaY994Xk+B/bR/fnL5mYVcFyXdHLx8C1bzfendlfu7Fzz+7azADYTDfSE2JM9ZfYucsEqPxemQD+XVq/jv1umPKogVy6CrBS4EElFsiA2rnnNo+xoFAFUchsjAuc698WnRnfQBrBhSBCa+2lOdE1RbSuCaZBOZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HyRMXxtRAusDDxAqwEfoylIRLh2FgMA0HoKYMuW3n+U=;
+ b=VW2Ms1Pkug5XkkfZmahX3lG71Z/8+qIbm/fwq2JozkIuRpcNxdJKmJEeL4INgwQj0pgCTq0ZFfu9PG5MNR4mRE3rGb0PfYW5jsKYjIRtFFNt/g5DcKFjo/S2vikzpPZIxcDmj9DFAECMDB916WUlcJONU0z3zulhnnhm4qdxOZ8jqvl2FfF6z59OV8YuRsRjO3VcxxMIQRoZ0oafBTe8iCsglrjQlGygWaGuQRnjHKyOxJfzUeCm7mpuHOGrh7Ltkkvj62IPHZdRsN9ICXQEUdNiSOrWF/MyrrMPKy3Nx8ShHjPq5qYvmI8QgmNdrzevB0Cg00qGJDwbgziyC2ftLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HyRMXxtRAusDDxAqwEfoylIRLh2FgMA0HoKYMuW3n+U=;
+ b=Hv/jKEvgEhi0T6Vx4DeBZlJ5GQwghPgkWXrfzcSCpKbpIGHuNpXV6DMvsjPmlJUXcT4rzoaJOaXQOj4GzdblidyZEq0SeCJ7bXdTsMEvEadlTwllRS0fAKNhH226aiLstGOhSMGz6pxFJtpHCkXBO9Q8AW933rdEry39qx1lhjBG9GZJclUw1Fcx4oaWaqyaaAEgoPF3B2HavqglDKFEce0NRYTJQZ/HWDnTpvjet9Uwal2KCgz2PWu5AIiZyGeUbrf0xQ4T4qfTHyLPkqW5b7UuWG4VQXR2OzUVH+Fjpy3QyfFqAiPnrqhwP+wkVFYOji7fumiteH4/u3x8kS2dmw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from TYZPR06MB7096.apcprd06.prod.outlook.com (2603:1096:405:b5::13)
+ by TY0PR06MB5281.apcprd06.prod.outlook.com (2603:1096:400:206::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
+ 2024 10:02:40 +0000
+Received: from TYZPR06MB7096.apcprd06.prod.outlook.com
+ ([fe80::6c3a:9f76:c4a5:c2b]) by TYZPR06MB7096.apcprd06.prod.outlook.com
+ ([fe80::6c3a:9f76:c4a5:c2b%5]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
+ 10:02:39 +0000
+From: Chunhai Guo <guochunhai@vivo.com>
+To: joel@jms.id.au,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/aspeed: use devm_clk_get_enabled() helpers
+Date: Fri, 23 Aug 2024 04:17:32 -0600
+Message-Id: <20240823101732.2180381-1-guochunhai@vivo.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG3P274CA0019.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::31)
+ To TYZPR06MB7096.apcprd06.prod.outlook.com (2603:1096:405:b5::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OS8PR06MB75419F3E3A222AE941DE3007F2882@OS8PR06MB7541.apcprd06.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB7096:EE_|TY0PR06MB5281:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d718902-5a6c-4c3d-5231-08dcc35ab8f1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?F32v2N9HI8/APXpvz4Oh8Nq6g44SGFGA98waZd26YzfFce9S9Dc+IyRsII4o?=
+ =?us-ascii?Q?16YMX+TP99pXRlKGWNxzCIuSXGzO2WYHxBjHS6/rE27wVzjI7g8T3qzF8pDG?=
+ =?us-ascii?Q?EQeocV4Y3lE5PBWgkeMBL5wntwhQToesv/2D/Qy4lkHK9c221dDHu7DjWHSG?=
+ =?us-ascii?Q?NBNOJJzsRWnOvY4edgDRInNEtTt6qn6WBT2GOJ6xmXyIEku32v/4E/a+UD+P?=
+ =?us-ascii?Q?74UTZZhpJxtPVEPKbgciq0FVbWuGLPX7FsdRPGdXkX/rjYAs+8erQYjg+Cjf?=
+ =?us-ascii?Q?c3LkCnstQtDrPPdT/yMJxRxDxbLtTza+QF09L34ekTz1n9Zl+n6YyKFrfA1v?=
+ =?us-ascii?Q?vYtis9F3MHaNqm4PD0sJL3/pajERZwk3VVgthk+7TN/JmPHyQu37rqZmTQc2?=
+ =?us-ascii?Q?V5F96a4+tlDm9vqQv8JZunhp9av8R5BS0cMtli+WVHRDuU5z434uSjbDvpPl?=
+ =?us-ascii?Q?IAsXzowWILcRPJEaqMMyLYtZf3ReFNVdc6KJdrXrGQWNM8FG2EmKiSvu99XN?=
+ =?us-ascii?Q?iXWI0zncjlrtIeiVY0d6TvYpq5fLDISD/aFDOPlCi8lG5BElTI/+mIl37bML?=
+ =?us-ascii?Q?/aXKYqi7W8ua0l12iRv+ebcBb4Hzr4huglw5cPvUu1SZL6IndPjSeB15YDVJ?=
+ =?us-ascii?Q?33Opt6xKysu8Hr++wDDbfTamcjgxXiL8O31uWkCrDTRdaTpU3j5w4VHiGuuR?=
+ =?us-ascii?Q?JrzcxLH8+jqDzEwN8BvLu2sMOQt9Iibj0/C6wczNXaFtM39MXbqogpCyNsN4?=
+ =?us-ascii?Q?xlFyY1kh6oiHYDBXWNjd59EQVayFOHlGmNjsliadE1gDlaYp0AAJczVERhaF?=
+ =?us-ascii?Q?QIXsuGZETr+xmktHES63Nl79GzM/byHnV7J93aVK+SE96m4GiT3YHTJp/wst?=
+ =?us-ascii?Q?S2s3oVpArc7Iy9yImLlCyxywJOEDcB8TWMbQ6iNMMtES8SP+dmxKHpUBelE3?=
+ =?us-ascii?Q?/vJc9WXQEk9Rm63wCFQFwghZiZZEP12Mv30nydNXvmGReo9b4MV9cUpF9ZSs?=
+ =?us-ascii?Q?p7O/8E68woC39c+bMzFVMlF9S/7zBi4L9uybEqiYRYC0bv9wtc4oJQvMmYTW?=
+ =?us-ascii?Q?dFZGHGnp3nXlRaSieYXBzhiKml4t8oB7IiuslBDyIn2naXaAqZ3wqeIw8krg?=
+ =?us-ascii?Q?YouXpOMvLIcqI4DCLYya+qgvRfH3+KrU/7yy84gU12HsdJpAU+JL8tzpa541?=
+ =?us-ascii?Q?xBAc323EHkfk8JfujhZBX0QPO/bqriDXCfukMBWkErOt3EDXfeOAdYbfxJ5h?=
+ =?us-ascii?Q?WAaHwXgV1D/eeqBNo0698camBaqT1lG408jK5oXwFsh/Pq9+MPe8nWRJsWfF?=
+ =?us-ascii?Q?C6CReBvkZ+XErJPjHfbfa588l3DH8RrQd79Kk/7U71xDrg6wNV/aOlRzxAGk?=
+ =?us-ascii?Q?weAko3JkdjIq0MtWGoCBMYUsumAS8MLH+AEW0yPrRqmlnE8PYw=3D=3D?=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB7096.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?BqZLowX8knXJzYRaaHjIcXr8VuGYLuwo8ti+fF7XrPdbI6dy8wS1V8QSsKk0?=
+ =?us-ascii?Q?EhDdW4yDoQAKoFh9nMOpXamWNnBIjBm3eiJLVRMIFw9Y+amM3DDlDPFgIKVb?=
+ =?us-ascii?Q?QDKP7Em5Op+vPQY/UkRUNc7lgjTIlpQ6H9+wSCw5KsylLFogvfA29clI0vUx?=
+ =?us-ascii?Q?gjEl962MmuH8Z1r70Fn47GwyP0ZrMu5Y2m6e3OsBW/JJTSqSfUKaPwEm2CRf?=
+ =?us-ascii?Q?wztGFTDYjrLJu0Zzr/W2j+1GN3RqgmFMx9yqhYQOxQhTtod6vfWtxaTvDYkL?=
+ =?us-ascii?Q?4m9U/chHMLpAkq1SwbGW/aakB/ysekjY5SjFUUIPnPfNPB2JBkyfWoltA0WJ?=
+ =?us-ascii?Q?USObEvMEEhvRNOUjlaff8IQIBL5XOVDiu9/83Ucn+yc8j3pq7Z/YpiiT3irP?=
+ =?us-ascii?Q?lbEIM2BKFH1pQS+Q8BMRuYY1Q04ZcbzRLO3KOxdvHh0wmgJfb0HjKAZ5PI77?=
+ =?us-ascii?Q?yCsBnW3uDHZAZEjyivU//Ptn9pKGDI/IZ72oDzS1SQalgzBhc8SuXlvLOreQ?=
+ =?us-ascii?Q?Jty+FNmT7ZwDGioLSuZU+pIaYbTWIQBa0jDZdGA73BJXTuHRJWTzYc/rN6+8?=
+ =?us-ascii?Q?IrswIXd+NL/I8U5MdPGQrEc9Xty4jL4z0VuRRdDcnATFn1Sswis+AyGoA6Fo?=
+ =?us-ascii?Q?QIM0cDzTyB4DYLYfmf8ciB3HopfiSJQTenWWemMOxaENW3GS0RCMKCjhGRfJ?=
+ =?us-ascii?Q?tejz0uNAK+fukpBT8vwuosegnpmSFg0HLBN+s/2iTB6VU0tf4wh4HBmrYwls?=
+ =?us-ascii?Q?pQMTaf/YCid1bmM51EWB3lRR30xoTGiLOORrOte5QXPGz9zzhcXF/TQdVCi/?=
+ =?us-ascii?Q?FQVLw9qhIYl2z1i5GOoEovdCHmYN/Nz/k28ibvDmT5Sx+M3WmWN1ZY4YyBj3?=
+ =?us-ascii?Q?gQSdTyyjRTV9WGXKBQ1Sj+wEBGgVf6yiCIOxSEcHExhqm8ELEUZCUs0Iv3PX?=
+ =?us-ascii?Q?uUWm0heXq/dswvzXS7esR6rsZsOI2lzHDQFTHtQfrn1GTRjTH9h0noXaMzGw?=
+ =?us-ascii?Q?D2DswHh4KC/ed7kalUfWdgl1xBSQVJM9uMrLlbQruqBCnHjFXbnmlr/Pu+Cg?=
+ =?us-ascii?Q?IbGdvzGS+fv5gYJCVyDqC653vkvZ1oHVU1ptyV2RzPHEFMnbWfg4lhtKfGUo?=
+ =?us-ascii?Q?mkU7yNyBkCRAAijWkZuHjagg+AYbb/AKveabh+qa3C8EiaPS5ca0tc0hpB8t?=
+ =?us-ascii?Q?M+VvQLAVXFAGINEChgaGWKsgBFjh5/2zsqd04EG8+5t9XhCmbche/N8lFx0k?=
+ =?us-ascii?Q?ShdilheRJm7+xk66l1CDhRo0jHrgDLeTEchR7hXXQJq8yIjco6UMku3zNknm?=
+ =?us-ascii?Q?uFy6L4boGMK+pdv4K+1vtna/9pNeI0j2zSMAofdRhn+RvHfRpj5pZD6U77g6?=
+ =?us-ascii?Q?naGBNpp3jHYq699wnWpagxHMtAesX2vSpPljZgvLnZ9uJXNYMzK1hmnnljK4?=
+ =?us-ascii?Q?19EPmClbsb+hchk4m1Mb5QJhGx+wJ5FVjNYhuze/Yla/XAwXOPxQ9gTxu9Tt?=
+ =?us-ascii?Q?7yvipkC3UgqF6cttqAlCSMeeRyoHq++1pKtI8HDSFCvjs+Pk4zVHcKTd3Wgp?=
+ =?us-ascii?Q?XT58B1BANUQDPTlQWHjJbTTqANzgBN7L3pCLdiSq?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d718902-5a6c-4c3d-5231-08dcc35ab8f1
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB7096.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2024 10:02:39.8982
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4GCm6LL5KZ+Yf4L45/ct1VlQ5qh8UQ5cOideCmJ8a1hk5rDPjIayB2xavosPVBBiWtUfSQjGNDcdkT6hlk6uNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5281
+X-Mailman-Approved-At: Mon, 26 Aug 2024 09:58:11 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,62 +166,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: Chunhai Guo <guochunhai@vivo.com>, dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Aug 23, 2024 at 06:23:54AM +0000, Ryan Chen wrote:
-> > On Thu, Aug 22, 2024 at 02:24:26AM +0000, Ryan Chen wrote:
-> > > > On Wed, Aug 21, 2024 at 06:43:01AM +0000, Ryan Chen wrote:
-> > > > > > On Mon, Aug 19, 2024 at 05:28:49PM +0800, Ryan Chen wrote:
+Simplify the code by replacing devm_clk_get() and clk_prepare_enable()
+with devm_clk_get_enabled().
 
-...
+Signed-off-by: Chunhai Guo <guochunhai@vivo.com>
+---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> > > > > > > +	if (i2c_bus->mode == BUFF_MODE) {
-> > > > > > > +		i2c_bus->buf_base =
-> > > > > > devm_platform_get_and_ioremap_resource(pdev, 1, &res);
-> > > > > > > +		if (!IS_ERR_OR_NULL(i2c_bus->buf_base))
-> > > > > > > +			i2c_bus->buf_size = resource_size(res) / 2;
-> > > > > > > +		else
-> > > > > > > +			i2c_bus->mode = BYTE_MODE;
-> > > > > >
-> > > > > > What's wrong with positive conditional? And is it even possible
-> > > > > > to have NULL here?
-> > > > > >
-> > > > > Yes, if dtsi fill not following yaml example have reg 1, that will
-> > > > > failure at buffer
-> > > > mode.
-> > > > > And I can swith to byte mode.
-> > > > >
-> > > > > reg = <0x80 0x80>, <0xc00 0x20>;
-> > > >
-> > > > I was asking about if (!IS_ERR_OR_NULL(...)) line:
-> > > > 1) Why 'if (!foo) {} else {}' instead of 'if (foo) {} else {}'?
-> > > I will update to following.
-> > > 		if (IS_ERR(i2c_bus->buf_base))
-> > > 			i2c_bus->mode = BYTE_MODE;
-> > > 		else
-> > > 			i2c_bus->buf_size = resource_size(res) / 2;
-> > >
-> > > > 2) Why _NULL?
-> > > 	If dtsi file is claim only 1 reg offset. reg = <0x80 0x80>; that will goto byte
-> > mode.
-> > > 	reg = <0x80 0x80>, <0xc00 0x20>; can support buffer mode.
-> > > 	due to 2nd is buffer register offset.
-> > 
-> > I have asked why IS_ERR_OR_NULL() and not IS_ERR().
-> > 
-> OH, I will doing by this.
-> 		if (IS_ERR_OR_NULL(i2c_bus->buf_base))
-
-The question about _NULL remains unanswered...
-
-> 			i2c_bus->mode = BYTE_MODE;
-> 		else
-> 			i2c_bus->buf_size = resource_size(res) / 2;
-
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index a7a6b70220eb..7f4ef85a12a9 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -191,13 +191,12 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ 	}
+ 	reset_control_deassert(priv->rst);
+ 
+-	priv->clk = devm_clk_get(drm->dev, NULL);
++	priv->clk = devm_clk_get_enabled(drm->dev, NULL);
+ 	if (IS_ERR(priv->clk)) {
+ 		dev_err(&pdev->dev,
+ 			"missing or invalid clk device tree entry");
+ 		return PTR_ERR(priv->clk);
+ 	}
+-	clk_prepare_enable(priv->clk);
+ 
+ 	/* Sanitize control registers */
+ 	writel(0, priv->base + CRT_CTRL1);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
