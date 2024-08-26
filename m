@@ -1,80 +1,56 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272B495FE13
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2024 02:49:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F2095FE14
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2024 02:49:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wt88F4TvWz30Vj
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wt88F6CR6z30XR
 	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2024 10:49:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.16
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724668404;
-	cv=none; b=Cvbxb6EyBZufgJdSAIE4lJiWlw8JZkO97TaA4cxV4d7LBuqyNfx3VRatIt4jHpjsf1oTXXJmy75iiccJKrNoyHIYEphE1rUM545bsnYjGhMdVA40m9s2LWTj9B6ZI8vlQFhSw4lL2tFtk9IGh6krQAiTmHZa6lPLcziwil9/ibMxzvCBDmZdqSZd+VCkm2v3elxw+7cXRQjcUzQBQLThlG9lJ5nkGZZ3ad0pWxRaygbUlZz6gc3J6iMK6ofK7bbkCN6dhZacqXWnjEdyE+bpqn9F4siOOrhOfkcMc8cHjeChlJy5h3Tmor5dFMUV1kSA9Zfkn3v1suzW2OnuetwhQA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=45.249.212.255
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724678120;
+	cv=none; b=U0tM+bTu6i1FKCxFAq0dMVuK6NqnuDjN+wpszcz20MsLi8GzyLI91B0fgwfpEBHOhuEM+TFyVOmeosmZP9SLejgl2/txCmyMgOF0sr+wUrzsCafDC8ifjZ5eOi1WRYY+yJNuUy4u3e4zlk7TVzigH+3R7jFw4ObxKOvhvA7zsAb6cVRg8QPZXZwU53TQbcRnEtQP2Z+7DlnjYO7jyrNbyeIVXzfvZx1vm9+rIbUCzeaLx00Ln0xqrRdCoxAmpr6c73MqsvjKSZ2XQ2Q789jPtxqf3sKETTRSMLj15ixIuYGFIS8b3TqCD7xWEPgSD6W3kZZ/kxlTV7GF3qjY0xhCfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724668404; c=relaxed/relaxed;
-	bh=okBsmIRRsjrgFRIKVjJuBx4Ep3cJGc18c8OQ+v6lf/E=;
-	h=DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:X-IronPort-AV:
-	 X-IronPort-AV:Received:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization; b=NNtkxm6QsC+Zkj1k8yLtbxD1w39xrpf0fKGwXGIYL2hYZLxZCWlUwuBesHLt4oqaeSgVv2frli5duHL2pjb1qrXVeKhtOXaHbvRXg4vNAiz5Qy/qhg6bjRmrkeWXTFS/TDaONYrvwG4+f9rJtHnr1WDHwyPv8zbwiCMEwYFXJ2ZDyt7H1YVxmKCPYEiK0sTpBEzJ7KZT892Na69cCvb7Ez/wer5QCrzEcPhEx0d0478xBcnzU6WydpXSI+xVMTkVNQL/65ymFxGkiaKkuYzaN754pSa1ItjN6bzb9qSB9+PJdaW3E2n6sIxQk1Tk74dj1GTnKpHmUa5PXmeQ3y1c2w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C2vGqVIr; dkim-atps=neutral; spf=pass (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C2vGqVIr;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	t=1724678120; c=relaxed/relaxed;
+	bh=Ihg09e/tJZgw5gOu2as+RrKzNtENaPWCgz54qdp5M2E=;
+	h=X-Greylist:Received:Received:Received:From:To:CC:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-Originating-IP:X-ClientProxiedBy; b=KJfKfHWv+mcJdJgi3nWIdbB+in8cpdMYR7uLxZ007gM04rN3Ai6rqW7hUT7vqtNXVkWo2Jplx/g7tEbTJ55kfsdKMqtcvQ0S20SMaqMTM+fNlWSz2HwyBRsx4ExwEx6zO6zvbWMLyTpUfGMfhTihRjAW9WKPXYqlC0fWZm3qFtm9fZX3cusclPv9fZkgNcAAOBSOBwaEmN/NOViZWbXQ13FmYYW0ohHCLLDJxcLjomYX9LNdGaFa5Kw22GYnlJqtAgsPpg/YDTN17wOZJZJyS+L0t6aEq/lG8eegggdlDuqh6769pctk8gIWqxqhO9irz5xGHMXV8r7o2FjY1zh/Hw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=liaochen4@huawei.com; receiver=lists.ozlabs.org) smtp.mailfrom=huawei.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.255; helo=szxga08-in.huawei.com; envelope-from=liaochen4@huawei.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 1084 seconds by postgrey-1.37 at boromir; Mon, 26 Aug 2024 23:15:20 AEST
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wsn816rY8z2yD8;
-	Mon, 26 Aug 2024 20:33:15 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724668403; x=1756204403;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8gNhFuofD5zWGUNIriljHUVsJipVG7nNNSIviq4tVXY=;
-  b=C2vGqVIr3qUGTi7scRllQjLu6UqkVHgajVUCvfnhCANX776pHmx/Op2e
-   ZhpcxBNQyobxElj4io+BsGYL9hZMQw6w13VtLywqudNZfYwnqGHVH9g7T
-   t077QJ+yG5AipEyeie81Ys3JDQuCHshb0/rB8as2lHWW5y1Yng+dqzCay
-   TNVV1mE5mlYXsVMuKNtlH/CWhON15M60NxhA5oUNGfoP3R/+xPn0sgE/u
-   TogzQ2hlkX8bwoKjEb5vZibhkMt2NMBx75ikkVXJA/jDJlOkPT9XpKczc
-   lnJ6xvpb+4PNj/6AbTA0dg012fn7S/V9jSGFj/z8yEHYKslSNldXjrLW/
-   A==;
-X-CSE-ConnectionGUID: os0fng5dSDuQ42z2eOrc5Q==
-X-CSE-MsgGUID: Lmv+mgKmRUiGv14ZVo6paA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="13208724"
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="13208724"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 03:33:13 -0700
-X-CSE-ConnectionGUID: i7pAAaNJSrSUyr5xtjco/A==
-X-CSE-MsgGUID: cTuMYcAhT2+25aitr3/fAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
-   d="scan'208";a="62517541"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 03:33:01 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1siX1d-00000001pi8-1NQC;
-	Mon, 26 Aug 2024 13:32:41 +0300
-Date: Mon, 26 Aug 2024 13:32:26 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH 0/9] AT24 EEPROM MTD Support
-Message-ID: <ZsxZuvY9MLyjog-y@smile.fi.intel.com>
-References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
- <Zsi3s9XithGEROwX@smile.fi.intel.com>
- <20240826075110.u3cxc6dootou72eq@pengutronix.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wsrkw0yj1z2y8t;
+	Mon, 26 Aug 2024 23:15:15 +1000 (AEST)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4WsrJx2GScz146qY;
+	Mon, 26 Aug 2024 20:56:17 +0800 (CST)
+Received: from dggpemm500020.china.huawei.com (unknown [7.185.36.49])
+	by mail.maildlp.com (Postfix) with ESMTPS id F069818006C;
+	Mon, 26 Aug 2024 20:57:02 +0800 (CST)
+Received: from huawei.com (10.67.174.77) by dggpemm500020.china.huawei.com
+ (7.185.36.49) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 26 Aug
+ 2024 20:57:02 +0800
+From: Liao Chen <liaochen4@huawei.com>
+To: <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+	<linux-mmc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] mmc: sdhci-of-aspeed: fix module autoloading
+Date: Mon, 26 Aug 2024 12:48:51 +0000
+Message-ID: <20240826124851.379759-1-liaochen4@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240826075110.u3cxc6dootou72eq@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.77]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500020.china.huawei.com (7.185.36.49)
 X-Mailman-Approved-At: Tue, 27 Aug 2024 10:49:46 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -87,63 +63,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, Geert Uytterhoeven <geert+renesas@glider.be>, imx@lists.linux.dev, Tony Lindgren <tony@atomide.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>, WANG Xuerui <kernel@xen0n.name>, Fabio Estevam <festevam@gmail.com>, linux-aspeed@lists.ozlabs.org, Richard Weinberger <richard@nod.at>, Gregory Clement <gregory.clement@bootlin.com>, Huacai Chen <chenhuacai@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>, Christophe Leroy <christophe.leroy@csgroup.eu>, Jonathan Hunter <jonathanh@nvidia.com>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>, Nicholas Piggin <npiggin@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org, Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Michael Ellerman <mpe@ellerman.id.au>, Shawn Guo <shawnguo@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: ulf.hansson@linaro.org, adrian.hunter@intel.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Aug 26, 2024 at 09:51:10AM +0200, Marco Felsch wrote:
-> On 24-08-23, Andy Shevchenko wrote:
-> > On Mon, Jul 01, 2024 at 03:53:39PM +0200, Marco Felsch wrote:
-> > > This series adds the intial support to handle EEPROMs via the MTD layer
-> > > as well. This allow the user-space to have separate paritions since
-> > > EEPROMs can become quite large nowadays.
-> > > 
-> > > With this patchset applied EEPROMs can be accessed via:
-> > >   - legacy 'eeprom' device
-> > >   - nvmem device
-> > >   - mtd device(s)
-> > > 
-> > > The patchset targets only the AT24 (I2C) EEPROMs since I have no access
-> > > to AT25 (SPI) EEPROMs nor to one of the other misc/eeprom/* devices.
-> > > 
-> > > Note: I'm not familiar with Kconfig symbol migration so I don't know if
-> > > the last patch is required at the moment. Please be notified that the
-> > > list of recipients is quite large due to the defconfig changes.
-> > 
-> > FWIW, I think that MTD is *not* the place for EEPROMs.
-> > 
-> > Yeah, we have the driver spread over the kernel for EEPROMs (mostly due to
-> > historical reasons and absence an umbrella subsystem for them), but it's not
-> > the reason to hack them into something which is not quite suitable.
-> 
-> Thank you for you input. There are two things to mention:
->  1st) I send a RFC patch and asked for feedback and all I got was: looks
->       okay, please send a proper patch [1] which I did.
+Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
+based on the alias from of_device_id table.
 
-I was on a long vacation, I haven't had time or even wishes to look at the
-patches or patch series. Sorry for that.
+Signed-off-by: Liao Chen <liaochen4@huawei.com>
+---
+ drivers/mmc/host/sdhci-of-aspeed.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Second point, RFC means "request for comments", here is mine. It's up to the
-maintainers and you on how to proceed it.
-
->  2nd) I don't see the hacky part in this patchset.
-
-I haven't talked about patchset, I have talked about architectural / design
-point of view. I read the discussion and to me it seems like it solves the
-issue with a quite big hammer. If you can prove that on embedded systems with
-limited resources it is not a problem, just mention that in the cover letter.
-
-> Anyway the customer doesn't need the nvmem-partitions anymore and
-> therefore this patchset can be seen as obsolote.
-> 
-> [1] https://lore.kernel.org/lkml/20231201144441.imk7rrjnv2dugo7p@pengutronix.de/T/#m1e0e5778448971b50a883f62bd95622f6422b9a2
-> 
-> > If NVMEM needs to be updated and may cover these cases after all (and do not
-> > forget about *small* size EEPROMs that most likely appear on the devices with
-> > limited amount of resources!) in a reasonable size and performance, why not?
-
+diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+index 430c1f90037b..37240895ffaa 100644
+--- a/drivers/mmc/host/sdhci-of-aspeed.c
++++ b/drivers/mmc/host/sdhci-of-aspeed.c
+@@ -510,6 +510,7 @@ static const struct of_device_id aspeed_sdhci_of_match[] = {
+ 	{ .compatible = "aspeed,ast2600-sdhci", .data = &ast2600_sdhci_pdata, },
+ 	{ }
+ };
++MODULE_DEVICE_TABLE(of, aspeed_sdhci_of_match);
+ 
+ static struct platform_driver aspeed_sdhci_driver = {
+ 	.driver		= {
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
