@@ -2,163 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BE295FE12
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2024 02:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272B495FE13
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2024 02:49:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wt88F2Gxsz30TH
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wt88F4TvWz30Vj
 	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2024 10:49:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feae::60f" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724660537;
-	cv=pass; b=ggDIHV5rNWDv8t8M83N6Pc0iLM0chz3TU1RNLZNiao+112MVNw+KFamna2vXH4/Poe60/Zw2/BKlUTg7bn39bBgPR065Zn5oY8dgRpQjbNDa5m/hMUdr/u38eg3Bt80Thvfc7+qw/jWhWGo4VMUL32Z3LPbYQOF+AK55FCtjKhl+Az35cyfU+HQ8Dd0d/NaHTt3II+hqG6s5/JQuZlKfoVgClZtYlynHDbzoVQneE4hzwpl9B0fXDV2vNR42ma23JgBO5smUpzd5a3QTmK7feWeBCi5IPoMPbSWUfDw6igHu8UTvgh4oCNjZxtySfVbyLGFUvgKD1Dh/XoJQzSZsGw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724660537; c=relaxed/relaxed;
-	bh=BgIF22dr9N5cHfSHqoggAe1n8qmCyyRhjhPVgM+gwNc=;
-	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
-	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossT
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=U4MONYjr; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f400:feae::60f; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=liulei.rjpt@vivo.com; receiver=lists.ozlabs.org) smtp.mailfrom=vivo.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.16
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724668404;
+	cv=none; b=Cvbxb6EyBZufgJdSAIE4lJiWlw8JZkO97TaA4cxV4d7LBuqyNfx3VRatIt4jHpjsf1oTXXJmy75iiccJKrNoyHIYEphE1rUM545bsnYjGhMdVA40m9s2LWTj9B6ZI8vlQFhSw4lL2tFtk9IGh6krQAiTmHZa6lPLcziwil9/ibMxzvCBDmZdqSZd+VCkm2v3elxw+7cXRQjcUzQBQLThlG9lJ5nkGZZ3ad0pWxRaygbUlZz6gc3J6iMK6ofK7bbkCN6dhZacqXWnjEdyE+bpqn9F4siOOrhOfkcMc8cHjeChlJy5h3Tmor5dFMUV1kSA9Zfkn3v1suzW2OnuetwhQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1724668404; c=relaxed/relaxed;
+	bh=okBsmIRRsjrgFRIKVjJuBx4Ep3cJGc18c8OQ+v6lf/E=;
+	h=DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:X-IronPort-AV:
+	 X-IronPort-AV:Received:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization; b=NNtkxm6QsC+Zkj1k8yLtbxD1w39xrpf0fKGwXGIYL2hYZLxZCWlUwuBesHLt4oqaeSgVv2frli5duHL2pjb1qrXVeKhtOXaHbvRXg4vNAiz5Qy/qhg6bjRmrkeWXTFS/TDaONYrvwG4+f9rJtHnr1WDHwyPv8zbwiCMEwYFXJ2ZDyt7H1YVxmKCPYEiK0sTpBEzJ7KZT892Na69cCvb7Ez/wer5QCrzEcPhEx0d0478xBcnzU6WydpXSI+xVMTkVNQL/65ymFxGkiaKkuYzaN754pSa1ItjN6bzb9qSB9+PJdaW3E2n6sIxQk1Tk74dj1GTnKpHmUa5PXmeQ3y1c2w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C2vGqVIr; dkim-atps=neutral; spf=pass (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=U4MONYjr;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C2vGqVIr;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=vivo.com (client-ip=2a01:111:f400:feae::60f; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=liulei.rjpt@vivo.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2060f.outbound.protection.outlook.com [IPv6:2a01:111:f400:feae::60f])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WskDm6Q0Cz2y69
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Aug 2024 18:22:16 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=il42Wti7pc+SLjeudZNcnGM4zsjLpixqCQe9SMpvqqp3CmN6IYvPjqoJN7Anh9Sk+O0VTfY7f0+5cS6waWWDeodQUngvuXwnmYcgm72c6vo2X0qaG4LMN50cTb22yZc/58M9yNm2zbszc2mdwStyLZZX5rpWSmEgyVFLIZszPHepVmDCYCd0hdbdoqCBdwHaDQhIJ/EChZEnCdPRycDPop7Y/meAe9hCPv6Lrdu2Qt+Wd78h3KEqgoIbCwUQeGzGGqdqcBpwIxJSOUJYE8FwMlnDYpSyya0f+oujyOtuJpUmEEKI60Lh3L38ElsVHQeFPG/M0gNE+bmuL+K0G/4eEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BgIF22dr9N5cHfSHqoggAe1n8qmCyyRhjhPVgM+gwNc=;
- b=hLl93hDFGUoZ67t0B7KNazVwNLrOF0fuU+Qc9NI2msWrXxneqK83yWwXyTwpaAHZbQ6RFtOTzALdqDb1mof9P5ZVll/w0sc8r7/SXRcknqTDZkmhg8fFtvL7anth6ldCPzkWZnrWkB49siZwxkR8eXW2tNYR0QImzE9kRl0FLkmICCxppjXmSw4iVFPTgkwN2BQfv62RYqeZuvfpp1ELcHjiNNDAaSGSH5ao7zQRYa0rub3qmmsYjsoTEyxAcla66psu8zhjpOnaJqhlVKcubpeH0E56UnE0ASgEsIqB1yZP1bJxiPvsFdBhKhg+lnUC2SxNGKDK1jKwNFW/GIy2oQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BgIF22dr9N5cHfSHqoggAe1n8qmCyyRhjhPVgM+gwNc=;
- b=U4MONYjrpAe+zlrt9YMAwMpJu8L505A5gg6ku9eHpK30rIGyRoXSjEdVCJrwuE/sQO3+tecxuKkXP1KKjrTvd1R2UlJPiQ81m9554gpoakrUT/M3B6YqTY49dF8KhmNgYzAGoIT+t6GISYGjabsmPeRNI1uiK2A38QUF+OplCKwAWkz2T2YrKiZxEDrcGXRuhc2n4ZrDMA/2d+L0RKCf4BmVZmdd/56mKNAmUg7LMR7SK6fe+rAkT4JIUYN43apPvv1mtAxQdjvgOwIkmC0QZwP0My3NC/023PzIbU2RfiaLg8wG1Jl07KmjyfIvZWdKxzdkOx2nJZbSDFPKtsLdPg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5624.apcprd06.prod.outlook.com (2603:1096:101:c8::14)
- by PUZPR06MB6054.apcprd06.prod.outlook.com (2603:1096:301:104::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.24; Mon, 26 Aug
- 2024 08:21:57 +0000
-Received: from SEZPR06MB5624.apcprd06.prod.outlook.com
- ([fe80::e837:10e3:818e:bdfd]) by SEZPR06MB5624.apcprd06.prod.outlook.com
- ([fe80::e837:10e3:818e:bdfd%5]) with mapi id 15.20.7897.021; Mon, 26 Aug 2024
- 08:21:57 +0000
-From: Lei Liu <liulei.rjpt@vivo.com>
-To: Neal Liu <neal_liu@aspeedtech.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-aspeed@lists.ozlabs.org,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/5] usb: aspeed_udc: Use devm_clk_get_enabled() helpers
-Date: Mon, 26 Aug 2024 16:21:39 +0800
-Message-Id: <20240826082140.2311-1-liulei.rjpt@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240826081900.2284-1-liulei.rjpt@vivo.com>
-References: <20240826081900.2284-1-liulei.rjpt@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0056.jpnprd01.prod.outlook.com
- (2603:1096:405:2::20) To SEZPR06MB5624.apcprd06.prod.outlook.com
- (2603:1096:101:c8::14)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wsn816rY8z2yD8;
+	Mon, 26 Aug 2024 20:33:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724668403; x=1756204403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8gNhFuofD5zWGUNIriljHUVsJipVG7nNNSIviq4tVXY=;
+  b=C2vGqVIr3qUGTi7scRllQjLu6UqkVHgajVUCvfnhCANX776pHmx/Op2e
+   ZhpcxBNQyobxElj4io+BsGYL9hZMQw6w13VtLywqudNZfYwnqGHVH9g7T
+   t077QJ+yG5AipEyeie81Ys3JDQuCHshb0/rB8as2lHWW5y1Yng+dqzCay
+   TNVV1mE5mlYXsVMuKNtlH/CWhON15M60NxhA5oUNGfoP3R/+xPn0sgE/u
+   TogzQ2hlkX8bwoKjEb5vZibhkMt2NMBx75ikkVXJA/jDJlOkPT9XpKczc
+   lnJ6xvpb+4PNj/6AbTA0dg012fn7S/V9jSGFj/z8yEHYKslSNldXjrLW/
+   A==;
+X-CSE-ConnectionGUID: os0fng5dSDuQ42z2eOrc5Q==
+X-CSE-MsgGUID: Lmv+mgKmRUiGv14ZVo6paA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11175"; a="13208724"
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="13208724"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 03:33:13 -0700
+X-CSE-ConnectionGUID: i7pAAaNJSrSUyr5xtjco/A==
+X-CSE-MsgGUID: cTuMYcAhT2+25aitr3/fAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,177,1719903600"; 
+   d="scan'208";a="62517541"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 03:33:01 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1siX1d-00000001pi8-1NQC;
+	Mon, 26 Aug 2024 13:32:41 +0300
+Date: Mon, 26 Aug 2024 13:32:26 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH 0/9] AT24 EEPROM MTD Support
+Message-ID: <ZsxZuvY9MLyjog-y@smile.fi.intel.com>
+References: <20240701-b4-v6-10-topic-usbc-tcpci-v1-0-3fd5f4a193cc@pengutronix.de>
+ <Zsi3s9XithGEROwX@smile.fi.intel.com>
+ <20240826075110.u3cxc6dootou72eq@pengutronix.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5624:EE_|PUZPR06MB6054:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef32a74d-2fb8-4b0a-7a2a-08dcc5a826a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?0OJhIANrkzCUIBM6oruxMGZ7JUJjIrl36Vw7Xd7VQpJWQE2DFlqzQGYFfSYh?=
- =?us-ascii?Q?pXTi3CL8AV8We8TmM+aQSVq138BLv/tdqFZMY/uO3BVFSWme3P11OL5DhYp5?=
- =?us-ascii?Q?4LtyNKWZwltHSseBfI7R7KDbbyL/29SMjOqek1DF4IC6AgedYZiucolbM4HL?=
- =?us-ascii?Q?phBAWSfldbVYzhuUVchg8cq/N+5WTJH2a0bAKUn73CBHQvkV47Q2T8OPVGVt?=
- =?us-ascii?Q?emi2sdV/q24GsyYFwygKCRVFnbzkfkoVCVrTRbvcUzdfFGRrol3gRgQaaDLC?=
- =?us-ascii?Q?zBO3ndPqbjCHoVUHvU3JZ62fo6C4e6LK4Jn5I0z7tlKtxuYFuKSFufZd3hPR?=
- =?us-ascii?Q?KAylP2jLJUqj2BuRmQC95X8g8XcLgBw/psr0iAhRu4brYhyYBm/nmpn8hSZo?=
- =?us-ascii?Q?AeBA+FB1spn4cgDVFxGT9rpNJ4v+wCEAk2GQjWgVTZz9n7Ccw3/rl15t62nZ?=
- =?us-ascii?Q?D0TuRvLfHGzy52YKM3s8zYHMAerQbeCqo5fjGlQ3BK6jBk3rNHJfFCNG6uaH?=
- =?us-ascii?Q?udjubDo8ynYImaPfMoXjM7kto2ImloWj6OGNFkcg0HflV1xhXE7Iekfl7mpF?=
- =?us-ascii?Q?R1kEstyosmRKrOJ8e8RWZJQZ4HGAy07C1bJ9Pj4eNFtc+4K2CEjiexMX78io?=
- =?us-ascii?Q?ZE7a46lHTOEkK2EWBpA8oZwrsX2r7POcxxTxrOpLYxQmLjHMMJ1+081WnbmG?=
- =?us-ascii?Q?fNcJNgwKYcW+01IOgDrcr+Axc6MCExSuOJFXgr9VTCNa9Vf4vUSpyl8yGJRV?=
- =?us-ascii?Q?6Wzlpo4Oo+K4gVD14y5MbMt7kUU4KeWyZZTCayMGfApB9eOVt/TiVx8NfCfA?=
- =?us-ascii?Q?KyeseLVfOFlHY++O6apQNj5WZN01EnbuVi5lGSn3pGoEwQX38usp5GMeax3c?=
- =?us-ascii?Q?4J91weXU7u6tTQunKQFX9FFCnyMdXjWTdwJZdfbb+MimshmIChrhkw0WvxDw?=
- =?us-ascii?Q?5bQUSrSWZLzdllEhMohBIgf7v/JzNtHnh1NZ31wW75uCGhVZxkd2W+8+O6Z/?=
- =?us-ascii?Q?5OwDtVE5L60yLSOCPl5AfFB3zvdMmawvDNDt04gQ203RHc4JN+w0SoCiBEWz?=
- =?us-ascii?Q?q7uC/V2OmfE0J1emfWKlqbE42aweWuhMMgpONVcF96JzV/ytmA0SI4ml9cc7?=
- =?us-ascii?Q?kwjK4u8MKvG9Sx4CX2eS1ooQqR/TS/QRuj1ewG3+rn3Z7njNNHHHox49ATg2?=
- =?us-ascii?Q?a+yy0HKWHneYu/1zMvaFPbP63G39HlY/n6/+OZbfqn9uVqZrF2OGlo2Ri2g3?=
- =?us-ascii?Q?eQLJ7q5piviPce3xBOYYawubRRo9AOy6vk8f6X9fw7iFRTYZrl6UuP2RHF4B?=
- =?us-ascii?Q?7Q+7Llf6uPOIEhE0za65U4fCTbRLGiED1nJLtZGmhkyTCSM7rci38it9t4Ko?=
- =?us-ascii?Q?I2oWAqDna+d/VzMbUnxA2qk1a6YNLBpxJVn3COU5HPw9SEJoFQ=3D=3D?=
-X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5624.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?erfj9mjTpfMyMLoVEfkRiNDcr3bxAAMsFrbZRahyxhn2l+zn+FQQOz95D0Lf?=
- =?us-ascii?Q?z5O87DDtZYmn6WPywRuBfUPkl1R/CeL/vmBbbfw8X/BJSm15Ab3JwX9W9Zem?=
- =?us-ascii?Q?QYNstDwLcE2zZZ84H5ujRbMN9H+Elw8uUMrtWPnCzsk1x10Fi16XzMpMqxKs?=
- =?us-ascii?Q?+EyvGONeLH71v0aAwXfI5InLmnmwVFPDExGq3FiaJPHWKUM8/5v6hkl3IL2y?=
- =?us-ascii?Q?WWXca2Pe+rlys3XwwHZOnVPI3f3lHEj6tP7ZC42PQ2VzRcPwHyVp6dBaKTG9?=
- =?us-ascii?Q?7/1OlX1frF++/IXqfwJki9xDmFXrRRXnR9q5p9wIJvZt9fsPcYLLSftN+znH?=
- =?us-ascii?Q?5tJd6U/tG8tU1x5Q21bKvOOeLpAU2rVUos9oKR6lbqaA30EVkB6/fZowBUic?=
- =?us-ascii?Q?1vL62V32OaLK9Ln9rHY6gAOrWnr1Vq0O6sKMJgcnuR/Ek0gJX0OF9q10lvEv?=
- =?us-ascii?Q?uv6ZGKXrfhk4nPNVOvXHQsc8Us2yXRds9NcYPEQ+lFKvSmp1ezHeDegFeZH/?=
- =?us-ascii?Q?lOivwt6B6T4Nwlfac8wA30QZGldeZNgK05hbYqZkHdp73UNclaPPF2BGajHv?=
- =?us-ascii?Q?CSyOiZHMqQcv2FDkCbyA7n5Aq4ruuxsJwvycc3rBYzjM1YB3NJoOw2x4oF7r?=
- =?us-ascii?Q?SbKHJh2Uv8pZ7xmGAXjq4v4Fg+qK6r7f+q6L/9mWR+zlLL0+yJXjZ+hCL51E?=
- =?us-ascii?Q?PA1zBY7RK9J6Y4L7yop2hLdg0fyYggDn71bSU7RNput9Slk4XHiwtJ4qxG+r?=
- =?us-ascii?Q?Alj2y0lOG4N40CBY+ZGfB/tNRC+Wy5jPbmU+IcVCebYIqRrXIUZEKcqJfm1+?=
- =?us-ascii?Q?7Ua94jze3y2DzKyqRY2MJyFKeDZOkfzgQGUZqwIWjBUx8td4AJZTTfF7sqxg?=
- =?us-ascii?Q?4dqr5LWrFCStYNZ23A6ixWYx36nL7tFJ/+WVRs1we4zW18Bjk28DLuom4AE0?=
- =?us-ascii?Q?OCoPVIXJs+ltzo6CiVQBB9Fpoz9FTv3KYrZsIf9yICrzw+5fiXduRzisOpgM?=
- =?us-ascii?Q?lvqetdBOnxAz9UNa7Cb7DdB2WaJ3JsgJEuZ2WaL0NiZeeBmixGnf/xVCW4cs?=
- =?us-ascii?Q?fKbSZaqzFEs9AEDARSJ23wjEN7S108tpMDTTIIgnmowECrfCJ/+Np0QsdcYU?=
- =?us-ascii?Q?7agrUsJByAm4HXSweKfzR4KCNGpbNauXFyo6isRoUYiZEewHKp33UtxZK1a4?=
- =?us-ascii?Q?eKc9ELLeIzcFn5XMVTZiX6a+5F2L22eIY59ugTA7nxQm9wDlMgzlrNHjqWOa?=
- =?us-ascii?Q?6MVDv1q51SdWFpe1mhXS5YZq8E/twkRYdfKf2lnnjzfZI/RJhZw52o43cApf?=
- =?us-ascii?Q?oRzfcFtoIwGQEy+AztVcjMScKWkfewpMbY99xxJsmx79kJsxah8PQyUZG2gx?=
- =?us-ascii?Q?WscUGJieDfwciU0Vt7dziHjvV2zerigj+wDCCONmNj8jaihwqJLMgGrqpJRl?=
- =?us-ascii?Q?Z5amiYo+qGxGu+Ng3gbRDPql7WCHBeDiTJBQdzgIvaujg27hh8+SXuFtT+cZ?=
- =?us-ascii?Q?ovdFzwIjgQAqwVDKz8EIOcNngXLlkevCdgS92ng/1jtxcDf+Qr4PioZvx99i?=
- =?us-ascii?Q?pyLYrJD2gwgSgZA1bPyhVQbj0lP+eHchagqJDFIk?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef32a74d-2fb8-4b0a-7a2a-08dcc5a826a7
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5624.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2024 08:21:57.5967
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fp1d+PeSB7l4oKi/hEi3KU9E7WVLgQ9cdTiTXtFKkvJsRrRFOOxe+zAzATkHkLBmHPalGjMftN+mav+Ym+s4vw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB6054
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240826075110.u3cxc6dootou72eq@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Tue, 27 Aug 2024 10:49:46 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -171,53 +87,63 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Lei Liu <liulei.rjpt@vivo.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, Geert Uytterhoeven <geert+renesas@glider.be>, imx@lists.linux.dev, Tony Lindgren <tony@atomide.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Thierry Reding <thierry.reding@gmail.com>, linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>, WANG Xuerui <kernel@xen0n.name>, Fabio Estevam <festevam@gmail.com>, linux-aspeed@lists.ozlabs.org, Richard Weinberger <richard@nod.at>, Gregory Clement <gregory.clement@bootlin.com>, Huacai Chen <chenhuacai@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>, Christophe Leroy <christophe.leroy@csgroup.eu>, Jonathan Hunter <jonathanh@nvidia.com>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>, Nicholas Piggin <npiggin@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, loongarch@lists.linux.dev, linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org, Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, Michael Ellerman <mpe@ellerman.id.au>, Shawn Guo <shawnguo@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The devm_clk_get_enabled() helpers:
-    - call devm_clk_get()
-    - call clk_prepare_enable() and register what is needed in order to
-     call clk_disable_unprepare() when needed, as a managed resource.
+On Mon, Aug 26, 2024 at 09:51:10AM +0200, Marco Felsch wrote:
+> On 24-08-23, Andy Shevchenko wrote:
+> > On Mon, Jul 01, 2024 at 03:53:39PM +0200, Marco Felsch wrote:
+> > > This series adds the intial support to handle EEPROMs via the MTD layer
+> > > as well. This allow the user-space to have separate paritions since
+> > > EEPROMs can become quite large nowadays.
+> > > 
+> > > With this patchset applied EEPROMs can be accessed via:
+> > >   - legacy 'eeprom' device
+> > >   - nvmem device
+> > >   - mtd device(s)
+> > > 
+> > > The patchset targets only the AT24 (I2C) EEPROMs since I have no access
+> > > to AT25 (SPI) EEPROMs nor to one of the other misc/eeprom/* devices.
+> > > 
+> > > Note: I'm not familiar with Kconfig symbol migration so I don't know if
+> > > the last patch is required at the moment. Please be notified that the
+> > > list of recipients is quite large due to the defconfig changes.
+> > 
+> > FWIW, I think that MTD is *not* the place for EEPROMs.
+> > 
+> > Yeah, we have the driver spread over the kernel for EEPROMs (mostly due to
+> > historical reasons and absence an umbrella subsystem for them), but it's not
+> > the reason to hack them into something which is not quite suitable.
+> 
+> Thank you for you input. There are two things to mention:
+>  1st) I send a RFC patch and asked for feedback and all I got was: looks
+>       okay, please send a proper patch [1] which I did.
 
-This simplifies the code and avoids calls to clk_disable_unprepare().
+I was on a long vacation, I haven't had time or even wishes to look at the
+patches or patch series. Sorry for that.
 
-Signed-off-by: Lei Liu <liulei.rjpt@vivo.com>
----
- drivers/usb/gadget/udc/aspeed_udc.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+Second point, RFC means "request for comments", here is mine. It's up to the
+maintainers and you on how to proceed it.
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index f4781e611aaa..a362e31f7550 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1459,8 +1459,6 @@ static void ast_udc_remove(struct platform_device *pdev)
- 	ctrl = ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
- 	ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
- 
--	clk_disable_unprepare(udc->clk);
--
- 	spin_unlock_irqrestore(&udc->lock, flags);
- 
- 	if (udc->ep0_buf)
-@@ -1500,16 +1498,11 @@ static int ast_udc_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, udc);
- 
--	udc->clk = devm_clk_get(&pdev->dev, NULL);
-+	udc->clk = devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(udc->clk)) {
- 		rc = PTR_ERR(udc->clk);
- 		goto err;
- 	}
--	rc = clk_prepare_enable(udc->clk);
--	if (rc) {
--		dev_err(&pdev->dev, "Failed to enable clock (0x%x)\n", rc);
--		goto err;
--	}
- 
- 	/* Check if we need to limit the HW to USB1 */
- 	max_speed = usb_get_maximum_speed(&pdev->dev);
+>  2nd) I don't see the hacky part in this patchset.
+
+I haven't talked about patchset, I have talked about architectural / design
+point of view. I read the discussion and to me it seems like it solves the
+issue with a quite big hammer. If you can prove that on embedded systems with
+limited resources it is not a problem, just mention that in the cover letter.
+
+> Anyway the customer doesn't need the nvmem-partitions anymore and
+> therefore this patchset can be seen as obsolote.
+> 
+> [1] https://lore.kernel.org/lkml/20231201144441.imk7rrjnv2dugo7p@pengutronix.de/T/#m1e0e5778448971b50a883f62bd95622f6422b9a2
+> 
+> > If NVMEM needs to be updated and may cover these cases after all (and do not
+> > forget about *small* size EEPROMs that most likely appear on the devices with
+> > limited amount of resources!) in a reasonable size and performance, why not?
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
