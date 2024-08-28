@@ -1,110 +1,88 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8F09624E2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 12:27:33 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BCA962973
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 15:56:38 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wv0wM753sz2yw7
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 20:27:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wv5YK4bZ4z2ywR
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 23:56:21 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724840846;
-	cv=none; b=jkIvbiag8UBHTfyWdnQ/58PZBjmeWQJx915WrL1VhKJlqch2mD33CFgCRCFe9C2iHlb+J6hhaoCZ9uQAjCcUHboCqEs5LkJ/AAJXrc7gwVod61gHyU0ew9rwL2Wr03uOy7z+zonorLgLVNXMdvvvykfHd4BcsfcobRGKei6PKL1lMmSdwXDgvRxukXIgiNHe5xPLcFwBwoHhnKie9Yi18+Bd1m84KjeDR6ADrGeKU2rVBxhK44BPp6Z2/2FRZVBjewcOoVFanCewaQVo/nE7hhkH1j5Fy6TQnRAG+GvmJOAQMm75F5+rraBRqVsffbqPIQX+6yXj1qDXm1xP/aLZnA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.9
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724853367;
+	cv=none; b=jAUOIJ2QhIhbnomNCS2drlu3K2q/lYdKolliMdQEiMo9YdOj3saqLT0GAkNEw4kXcwU/rthYzSGf80TdVrG5FH84F5vG7ueYfEiHMqz4bqkjwBUxKIsfXEcdcmjl5RlAbd9S6obZxu0/iojDmsaR6mUXxhzwB3W8ystUOk0QxpT+HJvq3/l8P2YZmAdGsbYake+JujF43Ooj0svn4hbw8lI2dtscZ7Y3fBzPA9Q5l/VYB3EGdwdEyMjAlGW5fRVu3VzCWHbvP4dkFTgBO9FfWamyZg3minqqDTjccGIJA6janDEmgvu95UFwxzMrg3lixtLapsQuMdR7/AoEmDLBZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724840846; c=relaxed/relaxed;
-	bh=9olwBJDt0RqDFwYls01bbi85T6s6g+I7LbBSH4MlAjo=;
-	h=Received:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:
-	 Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding; b=frr3h6GNg2FOYMwLLgA/1mLjy3DtVkQW/NP9ItPnsiXSd045Lu8CVDXHiEhLqth5hXRZ/tBR4Lm/qZFK8Xf2pInPdRbJYL8UDBBWo7SozJeGzzvPUeECWro2/IhCDO4lHmd1WaK2uMVLjr9TdcWBJj3umWsHSxKMnTTvUH91QbDAIuHnKdho1WFLWag3QXLbBtSpdmeHYUwpDqU5QXvKSTyf78zcxk7Sw2qaew0KZDwSQHjAYvGkT43/NRgplLQRtPa0t1rnUTrmCsa2ke4xPZLQlzBjleX1xOZkrieEyUtgMb+g79/JHi7m79EDE5ojOh+rABXEr6Yi1ny3U1vuSQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dAGLj+IR; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1724853367; c=relaxed/relaxed;
+	bh=n+Xcd1aQmMXHIqrIOpw5Igr0OUJGUdufbIbWAk0nJe0=;
+	h=DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:X-IronPort-AV:
+	 X-IronPort-AV:Received:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization; b=V/jFo84eHxhKiqocTJ/w5IM8gACJCHKD9PNd8mTLdf/p8eXdUqUKCY0w6cNC0cRC++SHQPJU+7hQw2j8gZVkQQMZO9eNbxE2tsCMmv3drq6tz7c8i6f1O5CUwleDmcCBtN8DpalunleOIUIajpqmlqg8oHB3xzgc9/u87lJtYG5omLJD8RAdVTD9DDzg8r36d6w5XBuxYrJl0lf2kY6fMQ9smyDf1HyInyjU3fxT83/P14p9wuG8eddxbUdli9KnpG/+7FTn5NQl3VggNy+KugehivJH+rsV0DoYOw5nX5Sgpe8TSc2AGjZti9L9YQsGb/5GjdiDXHNXj4ybTPz7mQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WTDgAFAD; dkim-atps=neutral; spf=none (client-ip=192.198.163.9; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dAGLj+IR;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WTDgAFAD;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.9; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wv0wG0zqHz2ygZ;
-	Wed, 28 Aug 2024 20:27:26 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 90544A434C4;
-	Wed, 28 Aug 2024 10:27:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59685C515A3;
-	Wed, 28 Aug 2024 09:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724836258;
-	bh=4wjsCstqQZZ/e4H4a4DtBSqr+93zTZjzDFUyeOtQ3Ac=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dAGLj+IR7aLFNJhsGX3eoFhoosVgIUZyVEoWteFasKTgp0e+ZwXSSb43FFYAeFMP/
-	 5MhW+Z5/pImqftHjK+DTTly4Cb6k1AHg+0LaCXNC0DRYMecxfALg+FEfN/xEOV54BH
-	 baDqbZPA/LxJraY5PIeSLrl2VALs0zLZ1HQ6caDBPRaWZGTBRUx7tuMKhmU4PRxsuV
-	 HztmIlx9un/9NVq13F/5mBH1D+39Dlui9znn78rCLth8PYXdr0KGZEYBOesi2qW1n9
-	 akMlK0pv38zuihRWnV4a1TR44jZ6B++0uuGhhr2xmeyNkE1XbO1Z5qtbZPyWYVVZo5
-	 qtOAocZIeXcfA==
-Message-ID: <8908eee4-d3a4-4d15-a68e-d0937bbca9f0@kernel.org>
-Date: Wed, 28 Aug 2024 11:10:52 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wv5Y04wQ8z2yVv;
+	Wed, 28 Aug 2024 23:56:02 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724853365; x=1756389365;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0VzRvvBmgVfm22p7yRHWjS2uaHYDwDvXSohq3OgN8+4=;
+  b=WTDgAFAD4QAuB02LMGhWNehQji14QyKhcgzzxQcZRUuOZ5Z1ekM2ZB50
+   xhtCu5AOLAnWYwSutCDNZKPLYwjaPfohXVwA8nKIelChbk1GFhzUEOoYC
+   7s4PdNQLlX783aDIxFzYfmKb+paEG/wbMooeINyZFrq7GTAAQM1AESLBg
+   dH9pIhqhinZ9fkWIO8xptOP9ebwYAWmVs17q0opOZZPCuQZlf065Sb9LN
+   d1f6q4aGttqwTN/hedTx2L2xL+1bv6SOphpmqjZYvLEGjEEqt/fTs5R5q
+   gB+hbAtRsByg6yZxUfHCttUSgYVrISe1IDV//nrapLKH0UVW9gwBw116l
+   w==;
+X-CSE-ConnectionGUID: NkjmJFrVSq+NpaMStPTbmQ==
+X-CSE-MsgGUID: iAuRTvPJQmOYhWs4sJoD3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="34043162"
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
+   d="scan'208";a="34043162"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 06:55:59 -0700
+X-CSE-ConnectionGUID: 7KbLavxjTum9E1alb/+xbQ==
+X-CSE-MsgGUID: JxeN9lHhRK+ocKrrC6ERxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
+   d="scan'208";a="67899095"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 06:55:55 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sjJ9M-00000002fDD-1iIN;
+	Wed, 28 Aug 2024 16:55:52 +0300
+Date: Wed, 28 Aug 2024 16:55:52 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH v13 2/3] i2c: aspeed: support AST2600 i2c new register
+ mode driver
+Message-ID: <Zs8saJYtCp6bO-3k@smile.fi.intel.com>
+References: <ZsNT7LPZ7-szrgBJ@smile.fi.intel.com>
+ <OS8PR06MB7541EE5BA5B400445FE0295EF28E2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <ZsXVU2qy0GIANFrc@smile.fi.intel.com>
+ <OS8PR06MB7541945591A62B956DA28AD9F28F2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <Zsc9_UddBybdnM1Z@smile.fi.intel.com>
+ <OS8PR06MB75419F3E3A222AE941DE3007F2882@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <ZsiWp5ENQ0BeBjMn@smile.fi.intel.com>
+ <OS8PR06MB7541A23130F469357B7FE5F4F28B2@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <ZsxbDK25mJ0sjcQy@smile.fi.intel.com>
+ <OS8PR06MB75416ED990B2A32F98266A1DF2952@OS8PR06MB7541.apcprd06.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] dt-bindings: arm: aspeed: Add aspeed,video binding
-To: Jammy Huang <jammy_huang@aspeedtech.com>
-References: <20240819080859.1304671-1-jammy_huang@aspeedtech.com>
- <20240819080859.1304671-2-jammy_huang@aspeedtech.com>
- <nnjcjt2kuplsy5bbxujuubkn2xdtpifjeiqt5qfvktdmaorzuz@x444p5ezcoch>
- <TYZPR06MB6568AB9E260263DBB1ED474DF1882@TYZPR06MB6568.apcprd06.prod.outlook.com>
- <a17f963e-0e6d-4132-817f-2e663268ee2d@kernel.org>
- <TYZPR06MB6568A38AD08F72EC637EFA7BF1952@TYZPR06MB6568.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <TYZPR06MB6568A38AD08F72EC637EFA7BF1952@TYZPR06MB6568.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OS8PR06MB75416ED990B2A32F98266A1DF2952@OS8PR06MB7541.apcprd06.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,41 +94,84 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>, "andrew@aj.id.au" <andrew@aj.id.au>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 28/08/2024 08:05, Jammy Huang wrote:
-> Hi Krzysztof,
+On Wed, Aug 28, 2024 at 02:34:43AM +0000, Ryan Chen wrote:
+> > On Mon, Aug 26, 2024 at 07:50:24AM +0000, Ryan Chen wrote:
+> > > > On Fri, Aug 23, 2024 at 06:23:54AM +0000, Ryan Chen wrote:
+> > > > > > On Thu, Aug 22, 2024 at 02:24:26AM +0000, Ryan Chen wrote:
+> > > > > > > > On Wed, Aug 21, 2024 at 06:43:01AM +0000, Ryan Chen wrote:
+> > > > > > > > > > On Mon, Aug 19, 2024 at 05:28:49PM +0800, Ryan Chen wrote:
+
+...
+
+> > > > > > > > > > > +	if (i2c_bus->mode == BUFF_MODE) {
+> > > > > > > > > > > +		i2c_bus->buf_base =
+> > > > > > > > > > devm_platform_get_and_ioremap_resource(pdev, 1, &res);
+> > > > > > > > > > > +		if (!IS_ERR_OR_NULL(i2c_bus->buf_base))
+> > > > > > > > > > > +			i2c_bus->buf_size = resource_size(res) / 2;
+> > > > > > > > > > > +		else
+> > > > > > > > > > > +			i2c_bus->mode = BYTE_MODE;
+> > > > > > > > > >
+> > > > > > > > > > What's wrong with positive conditional? And is it even
+> > > > > > > > > > possible to have NULL here?
+> > > > > > > > > >
+> > > > > > > > > Yes, if dtsi fill not following yaml example have reg 1,
+> > > > > > > > > that will failure at buffer
+> > > > > > > > mode.
+> > > > > > > > > And I can swith to byte mode.
+> > > > > > > > >
+> > > > > > > > > reg = <0x80 0x80>, <0xc00 0x20>;
+> > > > > > > >
+> > > > > > > > I was asking about if (!IS_ERR_OR_NULL(...)) line:
+> > > > > > > > 1) Why 'if (!foo) {} else {}' instead of 'if (foo) {} else {}'?
+> > > > > > > I will update to following.
+> > > > > > > 		if (IS_ERR(i2c_bus->buf_base))
+> > > > > > > 			i2c_bus->mode = BYTE_MODE;
+> > > > > > > 		else
+> > > > > > > 			i2c_bus->buf_size = resource_size(res) / 2;
+> > > > > > >
+> > > > > > > > 2) Why _NULL?
+> > > > > > > 	If dtsi file is claim only 1 reg offset. reg = <0x80 0x80>;
+> > > > > > > that will goto byte
+> > > > > > mode.
+> > > > > > > 	reg = <0x80 0x80>, <0xc00 0x20>; can support buffer mode.
+> > > > > > > 	due to 2nd is buffer register offset.
+> > > > > >
+> > > > > > I have asked why IS_ERR_OR_NULL() and not IS_ERR().
+> > > > > >
+> > > > > OH, I will doing by this.
+> > > > > 		if (IS_ERR_OR_NULL(i2c_bus->buf_base))
+> > > >
+> > > > The question about _NULL remains unanswered...
+> > > Sorry, I may not catch your point.
+> > > So, Do you mean I should passive coding by following?
+> > 
+> > No. I already mentioned that in one of the previous mails.
+> > Why do you use IS_ERR_OR_NULL() and not IS_ERR()?
+> > 
+> > You should understand your code better than me :-)
+> Understood, I will change to 
+
+OK!
+
+> 	if (IS_ERR(i2c_bus->buf_base))
+> 		i2c_bus->mode = BYTE_MODE;
+> 	else
+> 		i2c_bus->buf_size = resource_size(res) / 2;
 > 
-> Sorry for the troublesome e-mail notice. We have informed IT to remove it.
-> 
-> On 2024/8/23 下午 02:13, Krzysztof Kozlowski wrote:
->> On 23/08/2024 03:11, Jammy Huang wrote:
->>
->>>
->>>>
->>>>> @@ -0,0 +1,81 @@
->>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/arm/aspeed/aspeed,video.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title: ASPEED Video Engine
->>>>
->>>> ASPEED or Aspeed?
->>> I prefer ASPEED.
->>
->> What is the name of the company? How is it called in all bindings? Is it an
->> acronym?
-> It's ASPEED Technology Inc. You can find brief introduction here, https://www.aspeedtech.com/about_vision/.
-> I did check it in bindings, but both ASPEED and Aspeed can be found.
-> If you have suggestion, please let me know.
+> > > If (i2c_bus->buf_base > 0)
+> > > 	i2c_bus->buf_size = resource_size(res) / 2; else
+> > >     i2c_bus->mode = BYTE_MODE;
+> > >
+> > > > > 			i2c_bus->mode = BYTE_MODE;
+> > > > > 		else
+> > > > > 			i2c_bus->buf_size = resource_size(res) / 2;
 
-Keep official name, so ASPEED.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-
-
-Best regards,
-Krzysztof
 
