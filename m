@@ -2,54 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30C6962108
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 09:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F96296211A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 09:30:26 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WtwxV6c40z305b
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 17:28:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wtx002KqCz3050
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 17:30:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724830093;
-	cv=none; b=TcL8tSkvxdi7RS4x9+4tweWrNoi5M77cJtguAyqYFMAOODQaBRq6zTlQpO3rS+VO6C4uY9BZTGtwiCtD6DI6vIpKd37YMbkZLGFB32DVR+fvg55rf9eRlCux31yD8Y+uOKn6SifcR5dLH8JjNmlctzgKfyT4M8/Jh0WPlrd4TsECMm6WraZWzn7oTZumiAjKTUUB63kt3KKlTaRVdCOdhpK1tD/7RrDtSONMDfZ3FIqDLuECNhLNmRp2vJyOKLJ+ynDc+qpmJwlaBndVlX5bEnXoOZA7ZY29IbxxxeWF8fpROs/MEcXeRzmCeW5HDTYnu9ee+md2tNz2xDKICzs0xg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:45d1:ec00::3"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724830221;
+	cv=none; b=UoWN1+DylYxQA9NfFVRtyBL81DM9i4xsD0TqgzYVG+vJVvpj+ghGZCzrXUxCnbVd7FdrY7iHAYciE+OCmbVElF2OJZiO3YWRVm0laD1XkZv3sd31krc51mW/I67wKrIQxVtdpFIBOTWTyXk79RF454Lhju/DnsivpHHx8NvJ7zcY55pv4+yeH5RWqLGFsvFHnW1sasm4m8bSHC16S7YlK2IyGcR2Hmq7P0aO1+n9aT6+c58G8KgVzQpjkf2kdVDNLtK+lqZ5CS3l0eOc54FXfhsOWwCPhr0d2bxw0+HipvyhQiRjqXZYPqVBq2FlElM9Fb5FT+EXE+a72LRJvy2Ixw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724830093; c=relaxed/relaxed;
-	bh=IOTp6HIJ6ssr4IpE9vNPbZ5wt+mPx92xpbFNOJso0Zg=;
+	t=1724830221; c=relaxed/relaxed;
+	bh=Kom/xM8gAMVyOIAIkuwfQ9OkojF+GPphT20fKYA4GOw=;
 	h=Received:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:References:From:Content-Language:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=W9/4ts2zwlAvaseSbMFlEFaWDrLRobtkKZKohwNrjwhNmAj+DqVWZ/33mwDV0xIa5+v1xtJ3ZHgVCcmdfsegpMw1hYoKA096OVpQLE4/cyRIfWXsABq+rgfXNkrrEpbM5n4A3vSMvhnOqRIUR3i7vDZFtKpknyOHEFQOKLkGvLjPJMfXDrCIESm+E6s+agvrepx3yxaS6uHD7fo2oJB61CR1RefNL4rRAye3rZJkUV/w11PIYVHGSswO16D7/2e7VNOGczlnABqI0Pi9Y5hU+XDuyceBOkerZec9/9dJ3394q+mAoVgLyzTg1QyPBB0VXYG3FC9DX3TEtIFlVSqQ4w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=K8vzKdfS; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=P7tVBnFNi5CcLX/KMtrCLpUGfLJpj7GqrsvwHZTayg1mctdka2/0PDkqirz0BOVMuTwtm+2FdmbF9pgQLEDJ0LC5s5NrLj3DCp3Zphz9mr6Lhb39BItj5O79XsvWNzx207UP5NhWEgvCfYqpNdPj6kpMK/xPd3sqamr1FdwG4ksMXyXUu+qyhPnaQ4pUuU6xrMhli/Hxx0AwMLOtsuBfd36OrILXJMzphlsp7EAKo3rA7FzBWyW1T3eYZYP/5j9iQ0XEwb4Ra7NgcOClzrKHslB7n5smgQ2ti3Rjz3RjtoIe/RYnWx3qZ0QbuOxBpeNH2TOmdirJANoYfJKLd9QN4A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pV9w0aQI; dkim-atps=neutral; spf=pass (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=K8vzKdfS;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pV9w0aQI;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WtwxS5f0dz2yZS
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2024 17:28:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wtwzx3PgQz2ydR
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2024 17:30:21 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id B4367A433A6;
-	Wed, 28 Aug 2024 07:28:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A578CC4AF13;
-	Wed, 28 Aug 2024 07:28:05 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 64481A433A6;
+	Wed, 28 Aug 2024 07:30:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FAD5C32782;
+	Wed, 28 Aug 2024 07:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724830090;
-	bh=a5RAmZCzrVdd1l4J56GdrSCEnAtCBdBpWFXq+lAHG64=;
+	s=k20201202; t=1724830217;
+	bh=/z3VeXTgWiZKkv3eEQiZwXSeodSe/h48hfFiTK/eoYU=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=K8vzKdfSyzSU/wrVBsSh8lZUSHiT+KcTQvuhU0FhcPlLDxpf5WYN1go5g+NtVthNL
-	 D/J6DhoX4q/Ro6aL3DXPIJ1quYTNzOPgn2zRlSxzSACJdHDUBecvPBByhPXD+Ezh9I
-	 j3xo4iJoNZRO/y3gGfzOSwAG6v8/moWB4poiOVdOqGF8JhX2uxxcqePZzLPrFvrFXw
-	 7LdBGpUdzGFfbFZ3nysv+1njHFtXH6hftl4MiQAWg4MuI3+27yGp/aA3P7lwAOfOPo
-	 7HwRDboV5sG4g2nIsaO2M0VaIkBGiIA0RnEKl8TDWoxyzeaKx2OTtq8uSwItDYgqD+
-	 LkQo2ubhxmI3g==
-Message-ID: <ce19bfd5-9ae6-4781-9b00-da123bd079d0@kernel.org>
-Date: Wed, 28 Aug 2024 09:28:03 +0200
+	b=pV9w0aQInucNXCTKxgfAkY3x64ZGK4/2MXbZeT1asQcyxDtA+jb9RkkM4B/bTWYpx
+	 WbXzzcx5augDreovWmvFFHZlXYsbs5zdJd1k169ZsjtwqQjdImWjDlj6g8T0q3SZ6S
+	 T2/O94uQgi9wyuCwqaYeLNO0u09GkQ97Nxpy2ODuKX/0Jx53v2zITk2k1WBNW9QpMt
+	 1+vhyNdBmpIRJjPaOLEMOC/QpAcqvLMkrl23ko19VlDexXqLknvvaDUS03H7+Qrmi+
+	 wBVpeFewgN3522doY84fwAf6mCOgFKDpJwlotIyEzq1PlS4kIcLWuqquLLK5E4z/ll
+	 uX9AEzDVAdTKg==
+Message-ID: <231a159e-7596-46d2-a44f-bd61b2908f38@kernel.org>
+Date: Wed, 28 Aug 2024 09:30:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] dt-bindings: clock: Add AST2700 clock bindings
+Subject: Re: [PATCH v2 3/3] clk: aspeed: add AST2700 clk driver
 To: Ryan Chen <ryan_chen@aspeedtech.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  joel@jms.id.au, andrew@codeconstruct.com.au, p.zabel@pengutronix.de,
@@ -57,7 +57,7 @@ To: Ryan Chen <ryan_chen@aspeedtech.com>, mturquette@baylibre.com,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org
 References: <20240828062740.1614744-1-ryan_chen@aspeedtech.com>
- <20240828062740.1614744-3-ryan_chen@aspeedtech.com>
+ <20240828062740.1614744-4-ryan_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,7 +103,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240828062740.1614744-3-ryan_chen@aspeedtech.com>
+In-Reply-To: <20240828062740.1614744-4-ryan_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -121,12 +121,34 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 28/08/2024 08:27, Ryan Chen wrote:
-> Add dt bindings for AST2700 clock controller
+> Add AST2700 clock controller driver. This driver also selects MFD_SYSCON,
+> which provides access to system controller registers, and register the
+> reset controller.
 > 
 > Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> ---
 
-Read previous comments. This is not a separate patch.
+
+> +	clks[SCU0_CLK_GATE_EMMCCLK] =
+> +		ast2700_clk_hw_register_gate(NULL, "emmcclk-gate", "emmcclk",
+> +					     0, clk_base + SCU0_CLK_STOP,
+> +					     27, 0, &ast2700_clk_lock);
+> +
+> +	clks[SCU0_CLK_GATE_RVAS1CLK] =
+> +		ast2700_clk_hw_register_gate(NULL, "rvas2clk", NULL,
+> +					     0, clk_base + SCU0_CLK_STOP,
+> +					     28, 0, &ast2700_clk_lock);
+> +
+> +	of_clk_add_hw_provider(soc0_node, of_clk_hw_onecell_get, clk_data);
+> +
+> +	return 0;
+> +};
+> +
+> +CLK_OF_DECLARE_DRIVER(ast2700_soc0, "aspeed,ast2700-scu0", ast2700_soc0_clk_init);
+> +CLK_OF_DECLARE_DRIVER(ast2700_soc1, "aspeed,ast2700-scu1", ast2700_soc1_clk_init);
+
+Nope, this is not documented.
+
+You cannot add new compatibles without bindings.
 
 Best regards,
 Krzysztof
