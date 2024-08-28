@@ -2,53 +2,110 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F3D961FC1
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 08:28:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F17C962103
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 09:27:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wtvc01kxlz304B
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 16:28:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wtwx64NCzz305c
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 17:27:54 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724826478;
-	cv=none; b=UQ5tgN1YwMQIvRC7yWYet3KWcWQRItxdpdc5EwzegJ5sT1/nyEFZLxL3Hsad9m7SHt5ifGbhuOQDl1FwZBDLdn5eA73ecr3ckftxLhXgpOsjNw1fidI3wTXRet8Ok8h92VNRDDDEhnqJQ4EJxuDqDtojt7MfcCB1igBQf9PiS7lJxtVJUVnsbW7Fy1T2fNQsAHEawOYmV5cW2LgzKken4BsG8Be0cxOpqD9TYlbSVrKDw4CNTWGTRD0dnLUdmmrp0tS2DRdjf00wYpNGiWU/3okntxXvrWKNyTwzELlgK+oHwma8pfXTe8FIbAVR+gnCyJkp9eyOhiVaidfSfWUnmg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724830071;
+	cv=none; b=eqtrv7OVsBYbCCKUxSIE5EeLxUzVw/yjk3a07yLVJWDO3je7+b5nDXEd/6RjChf/HbUOP1gkw1I3km6hbsdf7mjRZ+HNp8ydyo/fPAKDwKa2Wgq3tvzmxWmejbGopuV1gx28i3y3r6iusrybJWIr6A7PeE/ctJxpUbsrwT45/aq6609mBriRtJil5bkDQg32PIY+/HuZj1PFIe8VSRhkacVQzi+j0oQOoYcnSJgDxwVvQfHI++z3R59wy9n4y+G0n9DNdLOnDNxNGPtkRh6aQGroDkhjP9fuhw3bdjAbG6NKl/00h14ry+hNm+ZTaGj1hITEg/dd1noYkBJKPyPKzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724826478; c=relaxed/relaxed;
-	bh=hmJ0sZrSWaDgOb/QPKwvOjcpLXl84e5qCJGpFcArhVo=;
-	h=Received:Received:From:To:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 Content-Type; b=aNSubgQCmOSsFEa9D0BorqbynLtP+EphHixmLmHEKyQmljg3Q8A2uOiMV6dGFQcFV1H1ZpSpC4hMKBOq/dZAE1sq9WglQxdyCJcB0kFpFj78/2SF5ql7SWXB8JMuSyxp9B2UnpKAKiAOC7rzsXa1opMLQV8qyGyD2ZNT07YdG424IDcZyBHH6UGVLVmLe4QAieQna3DHR+9HYRu3KKs02xDrb2vAz794oUM8muUhjVN+x/MbmQZdI/Td6hkBVE1uApHZB+R1yHZKPwbKXMDrLzE2C69XEF2nKXSnmiCEnFwxPcqeBh58063LlyJ2VQlsEZrLQ1JKrMK2JomOM8kbog==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1724830071; c=relaxed/relaxed;
+	bh=sFMwPUdZac6z/olfT5LrvfBwsfKCTQqe6+4fdw1TQPs=;
+	h=Received:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:References:From:Content-Language:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=iTfkJRxRiKRb6C53sTFV1jpdJi59jDuEiA5Mq6+WZ5lv6mXdN1wZO1vQVii3UxdLuJ5+5Ibzy9KhCCKGQveKDxg4oXv1mhbRfr/Q3vAwBilc2RG03Erh67Z1bk347HFIV+EhTh7Yr2cqSWUr5wwH88cv8DJs1xLl10H5TwI/4j5xCZNHEJDY/z0EuUtd4Y1kGzk9t9SAJFarQDUIPp24VQeH3Nv4UbBhNBxTgkVJRtJ8khWs4qIgab/m91ZFCzmvPhSHeLl0CEbgq5Yu+J8gPKplugL1558SJGi4v1EilQ7li15izEyDVZzc1ifpRgImnmJwTII8Q8HMjZoBbI7Exw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cRvD+1Tf; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cRvD+1Tf;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wtvby1VBDz2yZ6
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2024 16:27:58 +1000 (AEST)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 28 Aug
- 2024 14:27:40 +0800
-Received: from twmbx02.aspeed.com (192.168.10.152) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Wed, 28 Aug 2024 14:27:40 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: <ryan_chen@aspeedtech.com>, <mturquette@baylibre.com>, <sboyd@kernel.org>,
-	<robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-	<joel@jms.id.au>, <andrew@codeconstruct.com.au>, <p.zabel@pengutronix.de>,
-	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v2 2/3] dt-bindings: clock: Add AST2700 clock bindings
-Date: Wed, 28 Aug 2024 14:27:39 +0800
-Message-ID: <20240828062740.1614744-3-ryan_chen@aspeedtech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240828062740.1614744-1-ryan_chen@aspeedtech.com>
-References: <20240828062740.1614744-1-ryan_chen@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wtwx30S85z2yk6
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2024 17:27:51 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 5135AA41802;
+	Wed, 28 Aug 2024 07:27:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92225C32782;
+	Wed, 28 Aug 2024 07:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724830066;
+	bh=q3eh3/hA0IbMQ5lNw5cCRd6QGSHTrtf8zGve79ND3cU=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=cRvD+1TfAMwJGIEAHzG3gtZQLRfI++sjFsSVVJeahCVF8t276+4UKRR6ha45q8+ba
+	 kiWd64gp7ZXe6JNTiqP28awy56rlrWbQYuRjVPQQCMtpeYw/Qd4VzL7rq3BPMFOrS3
+	 PLJb7JNY6/2vZGLoyZyURNuoysPFDo6reArfxiU+fqEeKpXpg1nklZ8eE5r6UPI4/L
+	 PlZiupe2kw5UubAMyfvcyhdr50vfsOrM4/vpo1PLX6gVPp3cABu1wAxSEXLk2j0+Rp
+	 61koZRzidLI0d4ajiQfAv6PS6vlTxMeEZMa9jMmNK8li02NchlD7EZsY1Jwmg2sf3L
+	 3m4ccaW5Gmypw==
+Message-ID: <465c04fe-4455-4eee-9d65-43f66434b784@kernel.org>
+Date: Wed, 28 Aug 2024 09:27:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: reset Add AST2700 reset bindings
+To: Ryan Chen <ryan_chen@aspeedtech.com>, mturquette@baylibre.com,
+ sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ joel@jms.id.au, andrew@codeconstruct.com.au, p.zabel@pengutronix.de,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org
+References: <20240828062740.1614744-1-ryan_chen@aspeedtech.com>
+ <20240828062740.1614744-2-ryan_chen@aspeedtech.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240828062740.1614744-2-ryan_chen@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,185 +120,24 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add dt bindings for AST2700 clock controller
+On 28/08/2024 08:27, Ryan Chen wrote:
+> Add dt bindings for AST2700 reset driver.
+> 
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> ---
+>  .../dt-bindings/reset/aspeed,ast2700-reset.h  | 125 ++++++++++++++++++
+>  1 file changed, 125 insertions(+)
+>  create mode 100644 include/dt-bindings/reset/aspeed,ast2700-reset.h
 
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
----
- .../dt-bindings/clock/aspeed,ast2700-clk.h    | 165 ++++++++++++++++++
- 1 file changed, 165 insertions(+)
- create mode 100644 include/dt-bindings/clock/aspeed,ast2700-clk.h
+NAK.
 
-diff --git a/include/dt-bindings/clock/aspeed,ast2700-clk.h b/include/dt-bindings/clock/aspeed,ast2700-clk.h
-new file mode 100644
-index 000000000000..d5cefb455b4e
---- /dev/null
-+++ b/include/dt-bindings/clock/aspeed,ast2700-clk.h
-@@ -0,0 +1,165 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-+/*
-+ * Device Tree binding constants for AST2700 clock controller.
-+ *
-+ * Copyright (c) 2024 Aspeed Technology Inc.
-+ */
-+
-+#ifndef __DT_BINDINGS_CLOCK_AST2700_H
-+#define __DT_BINDINGS_CLOCK_AST2700_H
-+
-+/* SOC0 clk */
-+#define SCU0_CLKIN		0
-+#define SCU0_CLK_24M		1
-+#define SCU0_CLK_192M		2
-+#define SCU0_CLK_UART		3
-+#define SCU0_CLK_PSP		4
-+#define SCU0_CLK_HPLL		5
-+#define SCU0_CLK_HPLL_DIV2	6
-+#define SCU0_CLK_HPLL_DIV4	7
-+#define SCU0_CLK_DPLL		8
-+#define SCU0_CLK_MPLL		9
-+#define SCU0_CLK_MPLL_DIV2	10
-+#define SCU0_CLK_MPLL_DIV4	11
-+#define SCU0_CLK_MPLL_DIV8	12
-+#define SCU0_CLK_D0		13
-+#define SCU0_CLK_D1		14
-+#define SCU0_CLK_CRT0		15
-+#define SCU0_CLK_CRT1		16
-+#define SCU0_CLK_MPHY		17
-+#define SCU0_CLK_AXI0		18
-+#define SCU0_CLK_AXI1		19
-+#define SCU0_CLK_AHB		20
-+#define SCU0_CLK_APB		21
-+#define SCU0_CLK_MCLK		22
-+#define SCU0_CLK_ECLK		23
-+#define SCU0_CLK_VCLK		24
-+#define SCU0_CLK_BCLK		25
-+#define SCU0_CLK_REF		26
-+#define SCU0_CLK_UART4		27
-+#define SCU0_CLK_SLI		28
-+#define SCU0_CLK_UFS		29
-+#define SCU0_CLK_EMMCMUX	30
-+#define SCU0_CLK_EMMC		31
-+#define SCU0_CLK_U2PHY_CLK12M	32
-+#define SCU0_CLK_U2PHY_REFCLK	33
-+
-+/* SOC0 clk-gate */
-+#define SCU0_CLK_GATE_MCLK	34
-+#define SCU0_CLK_GATE_ECLK	35
-+#define SCU0_CLK_GATE_2DCLK	36
-+#define SCU0_CLK_GATE_VCLK	37
-+#define SCU0_CLK_GATE_BCLK	38
-+#define SCU0_CLK_GATE_VGA0CLK	39
-+#define SCU0_CLK_GATE_REFCLK	40
-+#define SCU0_CLK_GATE_PORTBUSB2CLK	41
-+#define SCU0_CLK_GATE_UHCICLK	42
-+#define SCU0_CLK_GATE_VGA1CLK	43
-+#define SCU0_CLK_GATE_DDRPHYCLK	44
-+#define SCU0_CLK_GATE_E2M0CLK	45
-+#define SCU0_CLK_GATE_HACCLK	46
-+#define SCU0_CLK_GATE_PORTAUSB2CLK	47
-+#define SCU0_CLK_GATE_UART4CLK	48
-+#define SCU0_CLK_GATE_SLICLK	49
-+#define SCU0_CLK_GATE_DACCLK	50
-+#define SCU0_CLK_GATE_DP	51
-+#define SCU0_CLK_GATE_E2M1CLK	52
-+#define SCU0_CLK_GATE_CRT0CLK	53
-+#define SCU0_CLK_GATE_CRT1CLK	54
-+#define SCU0_CLK_GATE_VLCLK	55
-+#define SCU0_CLK_GATE_ECDSACLK	56
-+#define SCU0_CLK_GATE_RSACLK	57
-+#define SCU0_CLK_GATE_RVAS0CLK	58
-+#define SCU0_CLK_GATE_UFSCLK	59
-+#define SCU0_CLK_GATE_EMMCCLK	60
-+#define SCU0_CLK_GATE_RVAS1CLK	61
-+
-+/* SOC1 clk */
-+#define SCU1_CLKIN		0
-+#define SCU1_CLK_HPLL		1
-+#define SCU1_CLK_APLL		2
-+#define SCU1_CLK_APLL_DIV2	3
-+#define SCU1_CLK_APLL_DIV4	4
-+#define SCU1_CLK_DPLL		5
-+#define SCU1_CLK_UXCLK		6
-+#define SCU1_CLK_HUXCLK		7
-+#define SCU1_CLK_UARTX		8
-+#define SCU1_CLK_HUARTX		9
-+#define SCU1_CLK_AHB		10
-+#define SCU1_CLK_APB		11
-+#define SCU1_CLK_UART0		12
-+#define SCU1_CLK_UART1		13
-+#define SCU1_CLK_UART2		14
-+#define SCU1_CLK_UART3		15
-+#define SCU1_CLK_UART5		16
-+#define SCU1_CLK_UART6		17
-+#define SCU1_CLK_UART7		18
-+#define SCU1_CLK_UART8		19
-+#define SCU1_CLK_UART9		20
-+#define SCU1_CLK_UART10		21
-+#define SCU1_CLK_UART11		22
-+#define SCU1_CLK_UART12		23
-+#define SCU1_CLK_APLL_DIVN	24
-+#define SCU1_CLK_SDMUX		25
-+#define SCU1_CLK_SDCLK		26
-+#define SCU1_CLK_RMII		27
-+#define SCU1_CLK_RGMII		28
-+#define SCU1_CLK_MACHCLK	29
-+#define SCU1_CLK_MAC0RCLK	30
-+#define SCU1_CLK_MAC1RCLK	31
-+
-+/* SOC1 clk gate */
-+#define SCU1_CLK_GATE_LCLK0		32
-+#define SCU1_CLK_GATE_LCLK1		33
-+#define SCU1_CLK_GATE_ESPI0CLK		34
-+#define SCU1_CLK_GATE_ESPI1CLK		35
-+#define SCU1_CLK_GATE_SDCLK		36
-+#define SCU1_CLK_GATE_IPEREFCLK		37
-+#define SCU1_CLK_GATE_RSV5CLK		38
-+#define SCU1_CLK_GATE_LPCHCLK		39
-+#define SCU1_CLK_GATE_MAC0CLK		40
-+#define SCU1_CLK_GATE_MAC1CLK		41
-+#define SCU1_CLK_GATE_MAC2CLK		42
-+#define SCU1_CLK_GATE_UART0CLK		43
-+#define SCU1_CLK_GATE_UART1CLK		44
-+#define SCU1_CLK_GATE_UART2CLK		45
-+#define SCU1_CLK_GATE_UART3CLK		46
-+#define SCU1_CLK_GATE_I2CCLK		47
-+#define SCU1_CLK_GATE_I3C0CLK		48
-+#define SCU1_CLK_GATE_I3C1CLK		49
-+#define SCU1_CLK_GATE_I3C2CLK		50
-+#define SCU1_CLK_GATE_I3C3CLK		51
-+#define SCU1_CLK_GATE_I3C4CLK		52
-+#define SCU1_CLK_GATE_I3C5CLK		53
-+#define SCU1_CLK_GATE_I3C6CLK		54
-+#define SCU1_CLK_GATE_I3C7CLK		55
-+#define SCU1_CLK_GATE_I3C8CLK		56
-+#define SCU1_CLK_GATE_I3C9CLK		57
-+#define SCU1_CLK_GATE_I3C10CLK		58
-+#define SCU1_CLK_GATE_I3C11CLK		59
-+#define SCU1_CLK_GATE_I3C12CLK		60
-+#define SCU1_CLK_GATE_I3C13CLK		61
-+#define SCU1_CLK_GATE_I3C14CLK		62
-+#define SCU1_CLK_GATE_I3C15CLK		63
-+#define SCU1_CLK_GATE_UART5CLK		64
-+#define SCU1_CLK_GATE_UART6CLK		65
-+#define SCU1_CLK_GATE_UART7CLK		66
-+#define SCU1_CLK_GATE_UART8CLK		67
-+#define SCU1_CLK_GATE_UART9CLK		68
-+#define SCU1_CLK_GATE_UART10CLK		69
-+#define SCU1_CLK_GATE_UART11CLK		70
-+#define SCU1_CLK_GATE_UART12CLK		71
-+#define SCU1_CLK_GATE_FSICLK		72
-+#define SCU1_CLK_GATE_LTPIPHYCLK	73
-+#define SCU1_CLK_GATE_LTPICLK		74
-+#define SCU1_CLK_GATE_VGALCLK		75
-+#define SCU1_CLK_GATE_USBUARTCLK	76
-+#define SCU1_CLK_GATE_CANCLK		77
-+#define SCU1_CLK_GATE_PCICLK		78
-+#define SCU1_CLK_GATE_SLICLK		79
-+#define SCU1_CLK_GATE_E2MCLK		80
-+#define SCU1_CLK_GATE_PORTCUSB2CLK	81
-+#define SCU1_CLK_GATE_PORTDUSB2CLK	82
-+#define SCU1_CLK_GATE_LTPI1TXCLK	83
-+
-+#endif
--- 
-2.34.1
+You still did not respond to my previous comments and did not implement
+them.
+
+Month ago I told you this is not a separate patch.
+
+https://lore.kernel.org/all/e13c16db-e1a7-4ee0-867b-b184d421de7f@kernel.org/
+
+Best regards,
+Krzysztof
 
