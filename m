@@ -2,54 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F96296211A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 09:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE4C96211C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 09:30:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wtx002KqCz3050
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 17:30:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wtx0J43ZVz3050
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 17:30:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:45d1:ec00::3"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724830221;
-	cv=none; b=UoWN1+DylYxQA9NfFVRtyBL81DM9i4xsD0TqgzYVG+vJVvpj+ghGZCzrXUxCnbVd7FdrY7iHAYciE+OCmbVElF2OJZiO3YWRVm0laD1XkZv3sd31krc51mW/I67wKrIQxVtdpFIBOTWTyXk79RF454Lhju/DnsivpHHx8NvJ7zcY55pv4+yeH5RWqLGFsvFHnW1sasm4m8bSHC16S7YlK2IyGcR2Hmq7P0aO1+n9aT6+c58G8KgVzQpjkf2kdVDNLtK+lqZ5CS3l0eOc54FXfhsOWwCPhr0d2bxw0+HipvyhQiRjqXZYPqVBq2FlElM9Fb5FT+EXE+a72LRJvy2Ixw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724830238;
+	cv=none; b=Ld4WCmGNIvfCgNDB+iFGh48naEYrpbcWKv0dfNvy6NZvhjtEHbwWL0EliANlX4gEJsJ4zngK/l6x4DGHU1hOca3Ln13MCTSl58czGXah7P7CDB+dNZgH41EQ9A01OpftuaYbF6VGySVmTLWYqTsrdGQyUzfSEHphlBXKoYvNaAh0u+fh6pJxgXTAHof+OnWZVoAjZQ+sGMUrajotRIE7w/c6+jxCv8zSlIN+xpfV89SyUdlMQtdWELxQcawdEHB1pk7OSMdOp7pXnRcIKapm5sggIcYv/xIlVxFkJT2wjhlCqTnmOHgU6vMoZz8qlaWOU5+jdk8vg6HpG1Gt+bJYEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724830221; c=relaxed/relaxed;
-	bh=Kom/xM8gAMVyOIAIkuwfQ9OkojF+GPphT20fKYA4GOw=;
+	t=1724830238; c=relaxed/relaxed;
+	bh=+qS1jZatQSZBT+lK7pGz23y257zoF2+cvrca6XfNh0I=;
 	h=Received:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:References:From:Content-Language:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=P7tVBnFNi5CcLX/KMtrCLpUGfLJpj7GqrsvwHZTayg1mctdka2/0PDkqirz0BOVMuTwtm+2FdmbF9pgQLEDJ0LC5s5NrLj3DCp3Zphz9mr6Lhb39BItj5O79XsvWNzx207UP5NhWEgvCfYqpNdPj6kpMK/xPd3sqamr1FdwG4ksMXyXUu+qyhPnaQ4pUuU6xrMhli/Hxx0AwMLOtsuBfd36OrILXJMzphlsp7EAKo3rA7FzBWyW1T3eYZYP/5j9iQ0XEwb4Ra7NgcOClzrKHslB7n5smgQ2ti3Rjz3RjtoIe/RYnWx3qZ0QbuOxBpeNH2TOmdirJANoYfJKLd9QN4A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pV9w0aQI; dkim-atps=neutral; spf=pass (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=cAOghqzy5AS8ThbhkaycSvZZMmojgMgZGe7KZyBXfLPSEgM26JYcyyWq3AJIJ8g9fjCr4jF0hR3PsgnAq9zdoh7VPyxyevr/+es7mIdBGGVNZbKB/EfEw5Q4Qgo9NxGj8Pv1mw8Y5aL9ZvwluOFqZyN86VghqZQUQPaCm0DpGsclG6fTHwTO2Wrx37uzWcTtwWfunNePRbk3nRPGlLfnEYkALZWz9x7gwuvoYheRRSSdqNBY1Kus5GL4PrZ0yoQovY2KQ2bKX1zqOId9t4A7sSXBgY3yQzEgrV7UwKAt2emNFV3o0pvPijCbtgDhS/yU4BlS0l+bTWNGlZXNWOAGwQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XJx+zllx; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pV9w0aQI;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XJx+zllx;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wtwzx3PgQz2ydR
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2024 17:30:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wtx0G0rQsz2ydR
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2024 17:30:38 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 64481A433A6;
-	Wed, 28 Aug 2024 07:30:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FAD5C32782;
-	Wed, 28 Aug 2024 07:30:11 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 1A5A3A433A6;
+	Wed, 28 Aug 2024 07:30:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A57B7C32782;
+	Wed, 28 Aug 2024 07:30:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724830217;
-	bh=/z3VeXTgWiZKkv3eEQiZwXSeodSe/h48hfFiTK/eoYU=;
+	s=k20201202; t=1724830235;
+	bh=mj9I9fBzX6s8jrWfQm4upFCq8fdJWKzdo86ChRZDBn8=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=pV9w0aQInucNXCTKxgfAkY3x64ZGK4/2MXbZeT1asQcyxDtA+jb9RkkM4B/bTWYpx
-	 WbXzzcx5augDreovWmvFFHZlXYsbs5zdJd1k169ZsjtwqQjdImWjDlj6g8T0q3SZ6S
-	 T2/O94uQgi9wyuCwqaYeLNO0u09GkQ97Nxpy2ODuKX/0Jx53v2zITk2k1WBNW9QpMt
-	 1+vhyNdBmpIRJjPaOLEMOC/QpAcqvLMkrl23ko19VlDexXqLknvvaDUS03H7+Qrmi+
-	 wBVpeFewgN3522doY84fwAf6mCOgFKDpJwlotIyEzq1PlS4kIcLWuqquLLK5E4z/ll
-	 uX9AEzDVAdTKg==
-Message-ID: <231a159e-7596-46d2-a44f-bd61b2908f38@kernel.org>
-Date: Wed, 28 Aug 2024 09:30:08 +0200
+	b=XJx+zllxRtbIFcPw10+GB9U3KW5jZfJQkJy7Isv0on6gfCA69klLJDFtiNxJsmGm+
+	 D0rZzbbJ8RoJmK+Et2hE4W9g9HtfS+OX6mL1Po95rDWXG3yQ4zc1CP7HM5XYQHpTLr
+	 HiwlqVhx0M7K+pydVmJ8dendJ0h9kPw0hS3dchqTBEjvx17b9kdl/FgL9DwCbbiXcY
+	 wl1vyQxy6m6064jFersWuWUo3tpiHE6y3W6147hoRIYFzoKM1Mq8s2sNefi7JeAzyx
+	 oO15gH4SOF+qa5o28T/hrNblCJBDRe+a85SqWpQhH0Wy3H7ArRd8geF/FF6lKz5DSo
+	 sDUmeblQs0yqA==
+Message-ID: <12486d33-e70f-49df-b16e-85c99b5027ca@kernel.org>
+Date: Wed, 28 Aug 2024 09:30:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] clk: aspeed: add AST2700 clk driver
+Subject: Re: [PATCH v2 0/3] Add support for AST2700 clk driver
 To: Ryan Chen <ryan_chen@aspeedtech.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  joel@jms.id.au, andrew@codeconstruct.com.au, p.zabel@pengutronix.de,
@@ -57,7 +57,6 @@ To: Ryan Chen <ryan_chen@aspeedtech.com>, mturquette@baylibre.com,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org
 References: <20240828062740.1614744-1-ryan_chen@aspeedtech.com>
- <20240828062740.1614744-4-ryan_chen@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,7 +102,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240828062740.1614744-4-ryan_chen@aspeedtech.com>
+In-Reply-To: <20240828062740.1614744-1-ryan_chen@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -121,34 +120,20 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 28/08/2024 08:27, Ryan Chen wrote:
-> Add AST2700 clock controller driver. This driver also selects MFD_SYSCON,
-> which provides access to system controller registers, and register the
-> reset controller.
+> This patch series is add clk driver for AST2700.
 > 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> AST2700 is the 8th generation of Integrated Remote Management Processor
+> introduced by ASPEED Technology Inc. Which is Board Management controller
+> (BMC) SoC family. AST2700 have two SoC connected, one is SoC0, another
+> is SoC1, it has it's own scu, this driver inlcude SCU0 and SCU1 driver.
+> 
+> v2:
+> -yaml: drop 64bits address example.
+> -yaml: add discription about soc0 and soc1
 
+Where?
 
-> +	clks[SCU0_CLK_GATE_EMMCCLK] =
-> +		ast2700_clk_hw_register_gate(NULL, "emmcclk-gate", "emmcclk",
-> +					     0, clk_base + SCU0_CLK_STOP,
-> +					     27, 0, &ast2700_clk_lock);
-> +
-> +	clks[SCU0_CLK_GATE_RVAS1CLK] =
-> +		ast2700_clk_hw_register_gate(NULL, "rvas2clk", NULL,
-> +					     0, clk_base + SCU0_CLK_STOP,
-> +					     28, 0, &ast2700_clk_lock);
-> +
-> +	of_clk_add_hw_provider(soc0_node, of_clk_hw_onecell_get, clk_data);
-> +
-> +	return 0;
-> +};
-> +
-> +CLK_OF_DECLARE_DRIVER(ast2700_soc0, "aspeed,ast2700-scu0", ast2700_soc0_clk_init);
-> +CLK_OF_DECLARE_DRIVER(ast2700_soc1, "aspeed,ast2700-scu1", ast2700_soc1_clk_init);
-
-Nope, this is not documented.
-
-You cannot add new compatibles without bindings.
+Proof read your patches before sending.
 
 Best regards,
 Krzysztof
