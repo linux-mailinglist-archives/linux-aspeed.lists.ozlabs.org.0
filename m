@@ -1,88 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BCA962973
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 15:56:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3866962C1F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 17:24:24 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wv5YK4bZ4z2ywR
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2024 23:56:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wv7Vc36KQz3bhD
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Aug 2024 01:24:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.9
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724853367;
-	cv=none; b=jAUOIJ2QhIhbnomNCS2drlu3K2q/lYdKolliMdQEiMo9YdOj3saqLT0GAkNEw4kXcwU/rthYzSGf80TdVrG5FH84F5vG7ueYfEiHMqz4bqkjwBUxKIsfXEcdcmjl5RlAbd9S6obZxu0/iojDmsaR6mUXxhzwB3W8ystUOk0QxpT+HJvq3/l8P2YZmAdGsbYake+JujF43Ooj0svn4hbw8lI2dtscZ7Y3fBzPA9Q5l/VYB3EGdwdEyMjAlGW5fRVu3VzCWHbvP4dkFTgBO9FfWamyZg3minqqDTjccGIJA6janDEmgvu95UFwxzMrg3lixtLapsQuMdR7/AoEmDLBZA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::b34"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724858643;
+	cv=none; b=c2o7PSqXTOCDreyzo2u1+YY32LbRzQPxUEJCoZIGb7LfG8ugRzsBL+kNt4U4F6hHo3UT+lHh3ZsLsIZG3CLeocxC/OGjrrBjp7cNbcuWrHpO17T2BBLRBvN14SaRBYB3Vp+OsgGli9UmutG2z+uSqIvPi+rsE1wuNQUWRppjd24+FRsApOSHykcbGfcbh5OEBo6/u+M841gwG0aAgZUt9Ggtp7OOkn9581r0MvNcUKryb0Hn/BjvO6EN/1HsmNE4ntKNk2y41czt2pCtzscjflv4ec7TxNzGCBo0OWvsgauasD+vF+bAL5zs4hmdC2kOD9dsfjoSCV/ZvT2LL+1b+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724853367; c=relaxed/relaxed;
-	bh=n+Xcd1aQmMXHIqrIOpw5Igr0OUJGUdufbIbWAk0nJe0=;
-	h=DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:X-IronPort-AV:
-	 X-IronPort-AV:Received:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization; b=V/jFo84eHxhKiqocTJ/w5IM8gACJCHKD9PNd8mTLdf/p8eXdUqUKCY0w6cNC0cRC++SHQPJU+7hQw2j8gZVkQQMZO9eNbxE2tsCMmv3drq6tz7c8i6f1O5CUwleDmcCBtN8DpalunleOIUIajpqmlqg8oHB3xzgc9/u87lJtYG5omLJD8RAdVTD9DDzg8r36d6w5XBuxYrJl0lf2kY6fMQ9smyDf1HyInyjU3fxT83/P14p9wuG8eddxbUdli9KnpG/+7FTn5NQl3VggNy+KugehivJH+rsV0DoYOw5nX5Sgpe8TSc2AGjZti9L9YQsGb/5GjdiDXHNXj4ybTPz7mQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WTDgAFAD; dkim-atps=neutral; spf=none (client-ip=192.198.163.9; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+	t=1724858643; c=relaxed/relaxed;
+	bh=CG4oTPD0zwywYFWX0Kb6mWWmoLCq85f/1yiRy7yIqc8=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
+	 Content-Type; b=lGU/ixBxV20nDqnVMRi0S1lA07y+eEMqSiiQf7VrQwO7tbaxJ6skKdEXhI/edPTflY168gxp43PU2BxhdhEg1/KpFpVcy2ZQiM0tpAHP7WF31kZ7oOZZuRWyt63g2YCIT3Fxi0dCd+sD+DU/mC5LlJuCQbPlbMBwSCdVGcZLIeiy3psKlTG1KFd/aoasunmyzbvbJ9O5QuMd9fsKPBvfsOSvzswR0CMGu3LWcI6877Wv6UggnbI0xeOCU1qJj8TP7qqdJ3orcO3Ixmp2wvBi8q/FP/XtZFc7M6oikQL3BVvhTFYrEUFVEcKaOdTdqpaTDDQEXl+ncXNGNlxwVp6eyw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nrUNkWaj; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::b34; helo=mail-yb1-xb34.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WTDgAFAD;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nrUNkWaj;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.9; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::b34; helo=mail-yb1-xb34.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wv5Y04wQ8z2yVv;
-	Wed, 28 Aug 2024 23:56:02 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724853365; x=1756389365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0VzRvvBmgVfm22p7yRHWjS2uaHYDwDvXSohq3OgN8+4=;
-  b=WTDgAFAD4QAuB02LMGhWNehQji14QyKhcgzzxQcZRUuOZ5Z1ekM2ZB50
-   xhtCu5AOLAnWYwSutCDNZKPLYwjaPfohXVwA8nKIelChbk1GFhzUEOoYC
-   7s4PdNQLlX783aDIxFzYfmKb+paEG/wbMooeINyZFrq7GTAAQM1AESLBg
-   dH9pIhqhinZ9fkWIO8xptOP9ebwYAWmVs17q0opOZZPCuQZlf065Sb9LN
-   d1f6q4aGttqwTN/hedTx2L2xL+1bv6SOphpmqjZYvLEGjEEqt/fTs5R5q
-   gB+hbAtRsByg6yZxUfHCttUSgYVrISe1IDV//nrapLKH0UVW9gwBw116l
-   w==;
-X-CSE-ConnectionGUID: NkjmJFrVSq+NpaMStPTbmQ==
-X-CSE-MsgGUID: iAuRTvPJQmOYhWs4sJoD3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11178"; a="34043162"
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="34043162"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 06:55:59 -0700
-X-CSE-ConnectionGUID: 7KbLavxjTum9E1alb/+xbQ==
-X-CSE-MsgGUID: JxeN9lHhRK+ocKrrC6ERxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,182,1719903600"; 
-   d="scan'208";a="67899095"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2024 06:55:55 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sjJ9M-00000002fDD-1iIN;
-	Wed, 28 Aug 2024 16:55:52 +0300
-Date: Wed, 28 Aug 2024 16:55:52 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v13 2/3] i2c: aspeed: support AST2600 i2c new register
- mode driver
-Message-ID: <Zs8saJYtCp6bO-3k@smile.fi.intel.com>
-References: <ZsNT7LPZ7-szrgBJ@smile.fi.intel.com>
- <OS8PR06MB7541EE5BA5B400445FE0295EF28E2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <ZsXVU2qy0GIANFrc@smile.fi.intel.com>
- <OS8PR06MB7541945591A62B956DA28AD9F28F2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <Zsc9_UddBybdnM1Z@smile.fi.intel.com>
- <OS8PR06MB75419F3E3A222AE941DE3007F2882@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <ZsiWp5ENQ0BeBjMn@smile.fi.intel.com>
- <OS8PR06MB7541A23130F469357B7FE5F4F28B2@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <ZsxbDK25mJ0sjcQy@smile.fi.intel.com>
- <OS8PR06MB75416ED990B2A32F98266A1DF2952@OS8PR06MB7541.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wv7VW1ZDsz2xYw
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 29 Aug 2024 01:24:01 +1000 (AEST)
+Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-e1161ee54f7so7445997276.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2024 08:24:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724858637; x=1725463437; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CG4oTPD0zwywYFWX0Kb6mWWmoLCq85f/1yiRy7yIqc8=;
+        b=nrUNkWajzw25cmZ3erw+oD1ow5MIG87DUXLbxgUjEw/Eset/dv9DMBK05gfCX+to9M
+         vAPCEUH0pbVDgmLw0KbwL0XuUbbdo1nHXIbp8Q8Szv4UQGYCiwZ7/UAhreRTl/H7qote
+         idXEqUagHlGIOVeE5bzCEBwhwLTn+mkvcKR1gvu9UMoP3Qs62KLym/TnSf8qio33hP6r
+         oOn3ePtd7h1M26/IWEhgFFa50+4/omRDHTSnf+ZxcDUr6JHbxVb4jJryeTyogdedYX2U
+         qkm1Jwb8+SCT5s5q/ca87lETV9WFwbA4FAY61AHXm8AaN5osmshcXJJm9JuhskkRo7Iu
+         cwVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724858637; x=1725463437;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CG4oTPD0zwywYFWX0Kb6mWWmoLCq85f/1yiRy7yIqc8=;
+        b=Bu93mUMLNy1G7rqTWnMYbaZAhMSlVHAz/D4iAsZ9McGVlGSbZuTlI99I+TugWK0E0T
+         CUxADoKjtayfGc1hMr9MQBFl0opUzJiMIcUZgloEx7PlrqYC/LXu7JIgr/OIbVi9/MzC
+         busun+RcSwn/jPBz6gckpQdZN6jmRNsC7qiKyXiHV06gGBnLoaBsWRyq/pMCq+3x9iat
+         D3dz3XHxU1r78qmtnWJuOnTnk3lXdVKCLOQUWpfumYIa0VEW3hqrJo/0Lu79XKAtTaL0
+         +L0C8fEK2phPKAUrQvMVecLliLq7qZOXHxtAK2V5ROptpsUws1elXd/Ir3SKo65OKTDY
+         GYGQ==
+X-Gm-Message-State: AOJu0YxN3hXcAvLegFEimS1avr7O56VFS7sSAll1iNqeNpKelih3bgwt
+	qnnWbKnXZKEGQHZBChgz0lBHKpF9N1AuHil6QHteXn4k3IrB5rnAaaX6RF5ls9/ZStkDMhKJHgP
+	RKhofgy38HQ05wEDiEpkNNIN4QPMaZ/jKvpA1qw==
+X-Google-Smtp-Source: AGHT+IGrQ8fIZASydEMTPgJtn6QAWdCuqrWbDh+r3EcwsMgb2mqXieOzplvqVupD9INUYmMzBF4NNL8ZwfYeKBgNa8Y=
+X-Received: by 2002:a05:6902:2847:b0:e1a:43fb:12e6 with SMTP id
+ 3f1490d57ef6-e1a43fb14c7mr3278001276.35.1724858637220; Wed, 28 Aug 2024
+ 08:23:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OS8PR06MB75416ED990B2A32F98266A1DF2952@OS8PR06MB7541.apcprd06.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240826124851.379759-1-liaochen4@huawei.com>
+In-Reply-To: <20240826124851.379759-1-liaochen4@huawei.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 28 Aug 2024 17:23:20 +0200
+Message-ID: <CAPDyKFoFH+=Q+h8zuiuopi+f4p63QUoj_qEn83YVBinh8PnKBA@mail.gmail.com>
+Subject: Re: [PATCH -next] mmc: sdhci-of-aspeed: fix module autoloading
+To: Liao Chen <liaochen4@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,84 +83,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, adrian.hunter@intel.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Aug 28, 2024 at 02:34:43AM +0000, Ryan Chen wrote:
-> > On Mon, Aug 26, 2024 at 07:50:24AM +0000, Ryan Chen wrote:
-> > > > On Fri, Aug 23, 2024 at 06:23:54AM +0000, Ryan Chen wrote:
-> > > > > > On Thu, Aug 22, 2024 at 02:24:26AM +0000, Ryan Chen wrote:
-> > > > > > > > On Wed, Aug 21, 2024 at 06:43:01AM +0000, Ryan Chen wrote:
-> > > > > > > > > > On Mon, Aug 19, 2024 at 05:28:49PM +0800, Ryan Chen wrote:
+On Mon, 26 Aug 2024 at 14:57, Liao Chen <liaochen4@huawei.com> wrote:
+>
+> Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded
+> based on the alias from of_device_id table.
+>
+> Signed-off-by: Liao Chen <liaochen4@huawei.com>
 
-...
+Applied for fixes, by adding fixes/stable tag, thanks!
 
-> > > > > > > > > > > +	if (i2c_bus->mode == BUFF_MODE) {
-> > > > > > > > > > > +		i2c_bus->buf_base =
-> > > > > > > > > > devm_platform_get_and_ioremap_resource(pdev, 1, &res);
-> > > > > > > > > > > +		if (!IS_ERR_OR_NULL(i2c_bus->buf_base))
-> > > > > > > > > > > +			i2c_bus->buf_size = resource_size(res) / 2;
-> > > > > > > > > > > +		else
-> > > > > > > > > > > +			i2c_bus->mode = BYTE_MODE;
-> > > > > > > > > >
-> > > > > > > > > > What's wrong with positive conditional? And is it even
-> > > > > > > > > > possible to have NULL here?
-> > > > > > > > > >
-> > > > > > > > > Yes, if dtsi fill not following yaml example have reg 1,
-> > > > > > > > > that will failure at buffer
-> > > > > > > > mode.
-> > > > > > > > > And I can swith to byte mode.
-> > > > > > > > >
-> > > > > > > > > reg = <0x80 0x80>, <0xc00 0x20>;
-> > > > > > > >
-> > > > > > > > I was asking about if (!IS_ERR_OR_NULL(...)) line:
-> > > > > > > > 1) Why 'if (!foo) {} else {}' instead of 'if (foo) {} else {}'?
-> > > > > > > I will update to following.
-> > > > > > > 		if (IS_ERR(i2c_bus->buf_base))
-> > > > > > > 			i2c_bus->mode = BYTE_MODE;
-> > > > > > > 		else
-> > > > > > > 			i2c_bus->buf_size = resource_size(res) / 2;
-> > > > > > >
-> > > > > > > > 2) Why _NULL?
-> > > > > > > 	If dtsi file is claim only 1 reg offset. reg = <0x80 0x80>;
-> > > > > > > that will goto byte
-> > > > > > mode.
-> > > > > > > 	reg = <0x80 0x80>, <0xc00 0x20>; can support buffer mode.
-> > > > > > > 	due to 2nd is buffer register offset.
-> > > > > >
-> > > > > > I have asked why IS_ERR_OR_NULL() and not IS_ERR().
-> > > > > >
-> > > > > OH, I will doing by this.
-> > > > > 		if (IS_ERR_OR_NULL(i2c_bus->buf_base))
-> > > >
-> > > > The question about _NULL remains unanswered...
-> > > Sorry, I may not catch your point.
-> > > So, Do you mean I should passive coding by following?
-> > 
-> > No. I already mentioned that in one of the previous mails.
-> > Why do you use IS_ERR_OR_NULL() and not IS_ERR()?
-> > 
-> > You should understand your code better than me :-)
-> Understood, I will change to 
-
-OK!
-
-> 	if (IS_ERR(i2c_bus->buf_base))
-> 		i2c_bus->mode = BYTE_MODE;
-> 	else
-> 		i2c_bus->buf_size = resource_size(res) / 2;
-> 
-> > > If (i2c_bus->buf_base > 0)
-> > > 	i2c_bus->buf_size = resource_size(res) / 2; else
-> > >     i2c_bus->mode = BYTE_MODE;
-> > >
-> > > > > 			i2c_bus->mode = BYTE_MODE;
-> > > > > 		else
-> > > > > 			i2c_bus->buf_size = resource_size(res) / 2;
-
--- 
-With Best Regards,
-Andy Shevchenko
+Kind regards
+Uffe
 
 
+> ---
+>  drivers/mmc/host/sdhci-of-aspeed.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+> index 430c1f90037b..37240895ffaa 100644
+> --- a/drivers/mmc/host/sdhci-of-aspeed.c
+> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
+> @@ -510,6 +510,7 @@ static const struct of_device_id aspeed_sdhci_of_match[] = {
+>         { .compatible = "aspeed,ast2600-sdhci", .data = &ast2600_sdhci_pdata, },
+>         { }
+>  };
+> +MODULE_DEVICE_TABLE(of, aspeed_sdhci_of_match);
+>
+>  static struct platform_driver aspeed_sdhci_driver = {
+>         .driver         = {
+> --
+> 2.34.1
+>
