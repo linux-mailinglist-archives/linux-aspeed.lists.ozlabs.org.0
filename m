@@ -2,109 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE5F963DD0
-	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Aug 2024 09:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA65963E7C
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Aug 2024 10:30:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WvYWk5GsMz2ywq
-	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Aug 2024 17:56:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WvZHH44Gbz2yxN
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Aug 2024 18:30:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:45d1:ec00::3"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724918190;
-	cv=none; b=a19mUrTXOgiBSvHl2A9HVyzEuB3PBcY4o0JHoGLuLcLzJpGiAG7AaYYF3iI30QGeyQspCUCue/mmnWpsScBbGo/2pm4EXoSZNhRuBOIrbtWIKYWklFicKzVXLH/N0fC96eSAH7VJ453TkI25/an4JTY3kGe0or7r/IDbpuyKNEjNEui5uDGsRmzq7NBJuyRqA2iyRgpuDf0PfTtNuJaBKXu09B5vBE+VA+YcIUSQu8Hkv5LuiP6CutW71QUamFPDNO3NRHSiGqUQ0GXrD46O/BprJPkPbwXRQpaVpXcmcWzetDlSj82Ty/5Bpyj84NfgFOp1HwF0e/hq5UhXrMq1RA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4601:e00::1"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724920249;
+	cv=none; b=A2iGba0k5FNJAutw9Tj8VYT2wQdBJadU9AO1SkbT8NA+iqUyql/CYjclj6ruf5O3Q7sRdml43ZBCFzBFSigSQI3lhWjOC64XWQ6+HjdwDI3xZj52zFx/O24J3HbSE/YofX7a8Q1ChOp4xXqB+ug3rHWNHXIv2vtOYLbBWe2HuIanZZ5FJLLQqtaUIXSR3GPPPxoLwQLl/iNCzpnQhhA10uXOsf6rztaoLhf8+I8wo+XH+MSSpj2pM13g10Azu8oY6W8KrZKTrf2gKsZlxB75PKsQuRURCkZazikSuajAKx0j6ho8vI3mcs/5JBt7u3BdeCK4PUb3lahMIgNSlYLA4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724918190; c=relaxed/relaxed;
-	bh=BZE4NSxoDViCo/lDaIDH4sQ+VWeufMF1o1CDTXuWKmM=;
-	h=Received:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:
-	 Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding; b=IPLCDrL//spuxxA5l6lWU+fLjxzhDzvnF0xzgaLHktCAPfJAW8EcWyuJ57VjlT5tnNFALaRPqohTwy7Dp5mazrXt3Owv7uxqqdcXMXyMcYnorcuzpynuhty0mgEWNGxO8DPiu3TYrwc5IqA9rrdTBLw9pR6AGnrYmdEI1UZl5A9Fx6lWAxUaVo+t1HmVI/ZJADpB1PwADc1xMBDbmcFVTpdBOhbVYW5eCXo+zUzvywODk1t2nNUfL/viN/ePatiiJtBwkywW5sRYrNZlVzNSh1CyozCMIdarZY4CUrWOLUJ5nG78edlHT6Qch9LZlPm9Lq4T3TDXqlto+n//YjfFmA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O5rzzodc; dkim-atps=neutral; spf=pass (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	t=1724920249; c=relaxed/relaxed;
+	bh=99cVmOk/+Jri0kFJbZroSwJmUMnZSsWLvoFot9saxLM=;
+	h=X-Greylist:Received:Received:DKIM-Signature:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From:To:Cc:In-Reply-To:
+	 References:Message-Id:Subject; b=XAKfucHH3nI+ljjdBgoO4d9+B+YOfIGSuA1LYM58j1Ob0WmHplrzQ/h9dR2F7HOW0NoVQLhy9Twd05vyNwYzt51CsQ8G/SNazYBuH67OGw8u4t9JrimqcNFMCJMAo/NOEpoMLzBlREzCTJf7N14AWymVL2vk0ZorIc9EBcgCS3gTah1LEcUREWZyCc3b+5MkM5zzwW7j6i7H7ErRBB0QtVRGAekwWgCwXQ+ygT7bpRc8d9NqMh6Y/BIDL7EpmDCaTaP7axNahy9RC0zBIwMkbifY+KuD+aBKtWYHC5BawZVcpllpVbgD+SANcQccWxwmrAbQQpvl7GYYZPWjT3oEhw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LfxGg7nx; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O5rzzodc;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LfxGg7nx;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1; helo=ams.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+X-Greylist: delayed 421 seconds by postgrey-1.37 at boromir; Thu, 29 Aug 2024 18:30:48 AEST
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WvYWf3yt1z2yn1;
-	Thu, 29 Aug 2024 17:56:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WvZHD69s1z2ypD;
+	Thu, 29 Aug 2024 18:30:48 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 9B43CA43C50;
-	Thu, 29 Aug 2024 07:56:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D10C4CEC1;
-	Thu, 29 Aug 2024 07:56:21 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTP id A756CAE4D9F;
+	Thu, 29 Aug 2024 08:23:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 678AAC4CEC1;
+	Thu, 29 Aug 2024 08:23:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724918187;
-	bh=L35tVttQDP3DiTHl/7msj81N0HAs96f+ggKxIEB/ncg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=O5rzzodcYeVSU6L0YNdobG69J6rctkyh45HAsOuZLJHWVpm9V0nN0aU2duPJeIIii
-	 SyhvG0xRa9BBAs1LJGyC5wYL1HlPQD/0KI8caPz+ZSwJlpiRJd9Oz5YPx6nQLuM0HU
-	 yya/rLje/ZYu6jkKancbO9NQWcWHR5EzAu3Dmr9YVDdpvK+SCD+DLQt5xfXQZen4FU
-	 sUULdtMvbW+dKQfNU8HJyju16ppFc7ck3rLikhwqITPOVpRJohGfg8ZRIk7v305hcR
-	 6E3XNTEK60DW9qW7ZBZlKUdBowLX6QDIQanCO2MkAAtjMx0ZoqC5k0vfIWOBu6Tnf1
-	 4s1BuPhfVI98g==
-Message-ID: <51d48faf-9f62-431f-b1bf-b78f0a30ae14@kernel.org>
-Date: Thu, 29 Aug 2024 09:56:18 +0200
+	s=k20201202; t=1724919823;
+	bh=ZYaSGp+fnpZ/q2d742FCiD1B5Vwp233d4XIjEq3SxmI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=LfxGg7nxC/5pTw/pl4SPD3eMgN3WOG2lJTTMvpwQujpq7RUcrhezJRMpG6N/oVe11
+	 oG44QXMWpDJ4pzQlAFFUn3uPYjMXTNErlElOrv2xbum2lE3syzFYUuQY92OZf4hMHe
+	 kZUzsstPPpndi65VdFlfenzrkGUS2hhFH7B9kyUpkZNEUyLRTrYCfT55CDKfFnxKob
+	 d0iaO3mzp/3DguWkbICbwsuR6GYGZcg3oixLlC+jA0QXCdf0oxtOqLYLJ2uvxA3P4y
+	 74liAa0d+SclnZHStNHPjWN1/kjOh2dS3Gw4vm7qJLe0AECKs8kKo2Dmjjz35xleYf
+	 INrXQOo4/NVXw==
+Date: Thu, 29 Aug 2024 03:23:41 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] media: aspeed: Allow to capture from SoC display
- (GFX)
-To: Jammy Huang <jammy_huang@aspeedtech.com>, robh@kernel.org,
- conor+dt@kernel.org, eajames@linux.ibm.com, mchehab@kernel.org,
- joel@jms.id.au, andrew@aj.id.au, hverkuil@xs4all.nl, pmenzel@molgen.mpg.de,
- krzk+dt@kernel.org
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
 References: <20240829064508.3706672-1-jammy_huang@aspeedtech.com>
- <20240829064508.3706672-3-jammy_huang@aspeedtech.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240829064508.3706672-3-jammy_huang@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
+Message-Id: <172491982164.2766568.9027879446207472741.robh@kernel.org>
+Subject: Re: [PATCH v6 1/2] dt-bindings: media: convert aspeed-video.txt to
+ dt-schema
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,45 +69,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: pmenzel@molgen.mpg.de, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, andrew@aj.id.au, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, hverkuil@xs4all.nl, krzk+dt@kernel.org, mchehab@kernel.org, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 29/08/2024 08:45, Jammy Huang wrote:
-> ASPEED BMC IC has 2 different display engines. Please find AST2600's
-> datasheet to get detailed information.
+
+On Thu, 29 Aug 2024 14:45:07 +0800, Jammy Huang wrote:
+> Convert the ASPEED SoCs video txt bindings to dt-schema.
+> 
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+>  .../bindings/media/aspeed,video-engine.yaml   | 78 +++++++++++++++++++
+>  .../bindings/media/aspeed-video.txt           | 33 --------
+>  2 files changed, 78 insertions(+), 33 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/aspeed-video.txt
 > 
 
-...
+My bot found errors running 'make dt_binding_check' on your patch:
 
->  
-> +/*
-> + * Get regmap without checking res, such as clk/reset, that could lead to
-> + * conflict.
-> + */
-> +static struct regmap *aspeed_regmap_lookup(struct device_node *np, const char *property)
-> +{
-> +	struct device_node *syscon_np __free(device_node) = of_parse_phandle(np, property, 0);
-> +
-> +	if (!syscon_np)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	return device_node_to_regmap(syscon_np);
-> +}
-> +
->  static int aspeed_video_init(struct aspeed_video *video)
->  {
->  	int irq;
->  	int rc;
->  	struct device *dev = video->dev;
->  
-> +	video->scu = aspeed_regmap_lookup(dev->of_node, "aspeed,scu");
-> +	video->gfx = aspeed_regmap_lookup(dev->of_node, "aspeed,gfx");
+yamllint warnings/errors:
 
-So that's a new property? Not related to conversion? Then split the
-patches. Conversion is one logical change. Adding properties for new
-hardware is completely different.
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/media/aspeed,video-engine.example.dts:27.29-30 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.lib:442: Documentation/devicetree/bindings/media/aspeed,video-engine.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1432: dt_binding_check] Error 2
+make: *** [Makefile:224: __sub-make] Error 2
 
-Best regards,
-Krzysztof
+doc reference errors (make refcheckdocs):
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/aspeed-video.txt
+MAINTAINERS: Documentation/devicetree/bindings/media/aspeed-video.txt
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240829064508.3706672-2-jammy_huang@aspeedtech.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
