@@ -2,89 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE462965CAA
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2024 11:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2309C96639D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2024 16:04:22 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WwCQC52Lqz30V7
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2024 19:24:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WwKdT5sKZz30ML
+	for <lists+linux-aspeed@lfdr.de>; Sat, 31 Aug 2024 00:04:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::229"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725009840;
-	cv=none; b=TBQPUpJ5gnRnV80GVlxqi42bNnBJaTWgcIcMpK3u5URZrk3uWfsqzTGrscQArO6YLqIFBg+DaatRuWRXAj1vg4XMtzemy08nQbTcPMpIXprPeNFIMgpJAD49RG9gYpe5pphp8HapnYzmjN6yYH37QoD15KSFMHoTHL6vxtFb0bM6l/Eavf/NjZKl0LaDJoM/2N07XxGpuY+tfY71wbLH+10SlkkXxV/LFNwUOyqVVfzhnSa2MvHjUNmNqtOWsKDQKhKBttM2XBpiEYgGrTxxU362OqoV2DgdZw2DqQhtAIP5GKeTAcXYE2X6kMQjmlDj3s8Kqjolz0y6Ntkfsx9mPA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=145.40.73.55
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725026652;
+	cv=none; b=AKaRHchk6XpE6M8HIUryR+zU2deKblTIcL773IososvLvFSNF5SphJnwVl9OfI3Drpyhfp2yY+9HKYYQ/t26erOkH6nraIV8PFgJVKNLZFzslFSuvPHOY3drN5M31DMiLf+TuiRklt1uNKoHYe2FYmJy5Jy9Lh/m4+pvkpJyF8fgWSmAkmDDipUwe8r/fM4suuRdp4bjHLFQuTN8yK0y0iJ0Z6DHeDacnyNEzp5PVTQuAdI05tNXMpHwLwYWEkV/Yl7yhP262JPRnJJhKbxRq56NMXpnuUesgrylSFWIB1+i22o62MIn6maQdDgmPuFgUn9OvelI615q4xSCpOLFXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725009840; c=relaxed/relaxed;
-	bh=2qJ5H4TeLGmSdfoWP7b3jAie759gREUlRrWmjjXFdQw=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Google-Smtp-Source:
-	 X-Received:Received:From:To:Subject:Date:Message-Id:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding; b=fU+ZxxuJ64NdAofitz4SXngNUzVoBjzY7OL3PkMZaY1n02XC/JWx+ZAKbI1jYm2Lw3KnAyUwIGP1pnNVbDg9M63TDWbBlC+j9ShJbTGtrxYGA8axtBSAnmZfdZsT54HOnKg0tv6uUFkKEPSBWM2N+S3ZF+KcVUUpsHqi792+Boo8PphwhLiTJ3QpYeczDp/i85Wc0FWHVaB5zPdS+KO0cnkIOB0pA6G2nC5A/OkxfSm6444i33z51PWDx068zcfJ+LIo2TKW9CH40cmCr1CDklyvDZZ5cl8cAOcQ4OQNGJRIcNhmWmEaTLBW/ImFKyKRsQIXGTMWARzOX3ki5mOq+Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OT+5sQbH; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::229; helo=mail-oi1-x229.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1725026652; c=relaxed/relaxed;
+	bh=m5/zpJrYsVD/HODcZt4itNwcD8Vn10Bg80heSIvUWuA=;
+	h=Received:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=EEJKK/+aZtiBBn6pHVB9qARJ1UgdXJhe3HdQVXKXsfipUMqTySocK1ZPrhQ0BoK925xCrH5sqapXxECapKHHzpse8S3muzQmj6m6DnaBVG/QaSXk/9phvI2mpD6A79uPSWlKkC0NAso4lK6Nr55m4945+8bHBjCyN1GrlrbQjWyh62NUxGY3LCCiQnTy708PANSSLZP/THuwx07WT3FBO2JAWPp/SskBGhVM+5WDRL+CkADE8+ox4og6LTSBzTWDyGFJCSnDqYrl1gYe23UqDtaOlvlTaxKBRdyYJcq9EHgAcuSnRqRfnoDYp8pTRpzQpow6tYP+cSNGDnVsoT5ENw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dwVr6Fhb; dkim-atps=neutral; spf=pass (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OT+5sQbH;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dwVr6Fhb;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::229; helo=mail-oi1-x229.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WwCQ82blyz307f
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 30 Aug 2024 19:24:00 +1000 (AEST)
-Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-3df121f7088so365452b6e.2
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 30 Aug 2024 02:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725009837; x=1725614637; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2qJ5H4TeLGmSdfoWP7b3jAie759gREUlRrWmjjXFdQw=;
-        b=OT+5sQbHdnUUU3twB7b+eyxejw3Ig5hMBdiuqc3JHRgEQiExpRcMoCHc8uxFmYwyPa
-         sqUIIlAciNFvVqbunAeVA0GopGTlKJT43pqzK7W+hw67bBVvhES+b8YF2TqvfOk12AKl
-         8J1V1Jic8NU3By/j9ZVubg8umIyWF9PVesx+sCOrQIRSXW0mVMCgNgIGRqURoHAOjmvr
-         x87GX4/g6WxW6ZbCfy5wqWaymSXINIQddsxn0SszHuS9I3aMVLa5nyba3rVtnXN72U5g
-         JC33yvDfqaEWqS0hjscMlVjJ7yyA0fOemCvJTeNvNNlP05EMoI1oeIuKDBvQIKlxs1Q4
-         a74g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725009837; x=1725614637;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2qJ5H4TeLGmSdfoWP7b3jAie759gREUlRrWmjjXFdQw=;
-        b=pJ4hKXqG3TAPYzcACe66o2ubU6N0FQanQlGsMBgaqwrKgjgpaML6bHLl3noL6mZbHl
-         hBaTz4wkASu05X10dFAhY1STlpTD6lmMGBpWPYPlxNpv36xqQYCpFIm93QUFI3L5QaZ3
-         JL5myWcbpfXq2XnH0n9OvM3HLZ56QMgNTZwOjy4G5QsFyb7rGDk5EteGO4hynRR/FeA2
-         ial45mH60eNJy4p1RArX6kiF/3A51OHB0ATw2bJCNbfyIekkU1BKaX4FbQ78daEnuVrB
-         U3l3P693ssLrGWISGGXDBBqCXxQgjTIwrHYuVFQJ9+z61Skg5o4CVEqX01x0EG/DV9Ej
-         COnw==
-X-Forwarded-Encrypted: i=1; AJvYcCUjKrG4v7Sii0rDsnmcsfFuqZJjLzfLTQdFxlEsN8sgPQf9DnHjDGjA4YL8Fz8VWTYS9GK4QyIBTAYj4Jw=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyN7/X6LBZal9GHdUzTT3fCSFiqVmjNhBqtEjKvH5i73AIbp5ft
-	Fpn/WSE5TYMTjH8EyjfcDvaEM/iVzO/nfImj/4cSAz1Ld31121qU
-X-Google-Smtp-Source: AGHT+IFM1tLoimDRFy3xRY0N39UW6MPxB6ovxXNeLIg6sw1fC7i7BPyaqG7A6GRFXJb8TCfCa6tCXQ==
-X-Received: by 2002:a05:6808:178c:b0:3db:2070:909d with SMTP id 5614622812f47-3df05d7b3bdmr6260766b6e.19.1725009837322;
-        Fri, 30 Aug 2024 02:23:57 -0700 (PDT)
-Received: from peter-bmc.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7d22e66d8f4sm2566744a12.0.2024.08.30.02.23.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 02:23:56 -0700 (PDT)
-From: Peter Yin <peteryin.openbmc@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ARM: dts: aspeed: Harma: update sgpio line name
-Date: Fri, 30 Aug 2024 17:21:47 +0800
-Message-Id: <20240830092148.1574520-3-peteryin.openbmc@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240830092148.1574520-1-peteryin.openbmc@gmail.com>
-References: <20240830092148.1574520-1-peteryin.openbmc@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WwKdS042Yz3094
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 31 Aug 2024 00:04:11 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id B5D20CE1E53;
+	Fri, 30 Aug 2024 14:04:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DDD6C4CEC7;
+	Fri, 30 Aug 2024 14:04:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725026648;
+	bh=cUtegsdQGft/33fvng7kM3QvVXPpZ8tTkRiGBNE+zUg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dwVr6Fhbu0HJyBQUEE/PYUHtHEHAjHlzPqeEJWv3PgtxGBbXmxsEmJ7CtWrUw32af
+	 T8X4E9xmQpZKVaPU3/FqHPn8BcXq6DsLqISWOun0l/O6Tn0TQISkWDOsla3pC4MnBj
+	 9nOtPFr3/vCtszYttV5ejjUY7Rni77fXf/3URqlpCcZ+RyLq08NUR+kDipQjpkpHtL
+	 55vHfDNPhOuCrB9aADukxJWh43pLgB0+RsQ3Qz/Gs9Oc79X3NYaYlzbLPYo5Al2Nji
+	 D79RoCmeElWQFw9D7KPiVWQOjiRINESDCm0xoX+qpBESDVErOfIwq2jsvuOp1jTSUZ
+	 eBX+RRhdMbkJw==
+Date: Fri, 30 Aug 2024 15:04:04 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: gpio: aspeed,ast2400-gpio: Support
+ ast2700
+Message-ID: <20240830-untangled-charting-48503e510ea7@spud>
+References: <20240830034047.2251482-1-billy_tsai@aspeedtech.com>
+ <20240830034047.2251482-2-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gPClO003GyM59AhI"
+Content-Disposition: inline
+In-Reply-To: <20240830034047.2251482-2-billy_tsai@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,110 +69,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, linus.walleij@linaro.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, BMC-SW@aspeedtech.com, krzk+dt@kernel.org, brgl@bgdev.pl, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-power-card-enable
-uart-switch-button
-power-fault-n
-asic0-card-type-detection0-n
-asic0-card-type-detection1-n
-asic0-card-type-detection2-n
-uart-switch-lsb
-uart-switch-msb
-presence-cmm
 
-Signed-off-by: Peter Yin <peteryin.openbmc@gmail.com>
----
- .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 32 ++++++++-----------
- 1 file changed, 14 insertions(+), 18 deletions(-)
+--gPClO003GyM59AhI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-index 92068c65eae4..5440181730f6 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-@@ -393,12 +393,6 @@ gpio@31 {
- 		reg = <0x31>;
- 		gpio-controller;
- 		#gpio-cells = <2>;
--
--		gpio-line-names =
--		"","","","",
--		"","","presence-cmm","",
--		"","","","",
--		"","","","";
- 	};
- 
- 	// PTTV FRU
-@@ -422,12 +416,6 @@ gpio@31 {
- 		reg = <0x31>;
- 		gpio-controller;
- 		#gpio-cells = <2>;
--
--		gpio-line-names =
--		"","","","",
--		"","","presence-cmm","",
--		"","","","",
--		"","","","";
- 	};
- 
- 	// Aegis FRU
-@@ -566,7 +554,7 @@ &gpio0 {
- 	/*B0-B7*/	"","","","",
- 			"bmc-spi-mux-select-0","led-identify","","",
- 	/*C0-C7*/	"reset-cause-platrst","","","","",
--			"cpu0-err-alert","","",
-+			"cpu0-err-alert","power-card-enable","",
- 	/*D0-D7*/	"","","sol-uart-select","","","","","",
- 	/*E0-E7*/	"","","","","","","","",
- 	/*F0-F7*/	"","","","","","","","",
-@@ -585,7 +573,9 @@ &gpio0 {
- 	/*O0-O7*/	"","","","","","","","",
- 	/*P0-P7*/	"power-button","power-host-control",
- 			"reset-button","","led-power","","","",
--	/*Q0-Q7*/	"","","","","","power-chassis-control","","",
-+	/*Q0-Q7*/
-+			"","","","",
-+			"","power-chassis-control","","uart-switch-button",
- 	/*R0-R7*/	"","","","","","","","",
- 	/*S0-S7*/	"","","","","","","","",
- 	/*T0-T7*/	"","","","","","","","",
-@@ -673,7 +663,7 @@ &sgpiom0 {
- 	"presence-asic-modules-0","rt-cpu0-p1-force-enable",
- 	"presence-asic-modules-1","bios-debug-msg-disable",
- 	"","uart-control-buffer-select",
--	"","ac-control-n",
-+	"presence-cmm","ac-control-n",
- 	/*G0-G3 line 96-103*/
- 	"FM_CPU_CORETYPE2","",
- 	"FM_CPU_CORETYPE1","",
-@@ -685,7 +675,7 @@ &sgpiom0 {
- 	"FM_BOARD_REV_ID2","",
- 	"FM_BOARD_REV_ID1","",
- 	/*H0-H3 line 112-119*/
--	"FM_BOARD_REV_ID0","",
-+	"FM_BOARD_REV_ID0","reset-control-cmos-clear",
- 	"","","","","","",
- 	/*H4-H7 line 120-127*/
- 	"","",
-@@ -716,9 +706,15 @@ &sgpiom0 {
- 	"cpu0-thermtrip-alert","",
- 	"reset-cause-pcie","",
- 	/*L4-L7 line 184-191*/
--	"pvdd11-ocp-alert","","","","","","","",
-+	"pvdd11-ocp-alert","",
-+	"power-fault-n","",
-+	"asic0-card-type-detection0-n","",
-+	"asic0-card-type-detection1-n","",
- 	/*M0-M3 line 192-199*/
--	"","","","","","","","",
-+	"asic0-card-type-detection2-n","",
-+	"uart-switch-lsb","",
-+	"uart-switch-msb","",
-+	"","",
- 	/*M4-M7 line 200-207*/
- 	"","","","","","","","",
- 	/*N0-N3 line 208-215*/
--- 
-2.25.1
+On Fri, Aug 30, 2024 at 11:40:44AM +0800, Billy Tsai wrote:
+> The AST2700 is the 7th generation SoC from Aspeed, featuring two GPIO
+> controllers: one with 12 GPIO pins and another with 216 GPIO pins.
+>=20
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  .../bindings/gpio/aspeed,ast2400-gpio.yaml    | 46 ++++++++++++++++++-
+>  1 file changed, 45 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.y=
+aml b/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
+> index cf11aa7ec8c7..4d439972c14b 100644
+> --- a/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
+> @@ -15,6 +15,7 @@ properties:
+>        - aspeed,ast2400-gpio
+>        - aspeed,ast2500-gpio
+>        - aspeed,ast2600-gpio
+> +      - aspeed,ast2700-gpio
+> =20
+>    reg:
+>      maxItems: 1
+> @@ -42,7 +43,7 @@ properties:
+>      const: 2
+> =20
+>    ngpios:
+> -    minimum: 36
+> +    minimum: 12
+>      maximum: 232
 
+Aren't you missing a corresponding update to gpio-line-names, which has
+a minimum of 36?
+
+--gPClO003GyM59AhI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZtHRUwAKCRB4tDGHoIJi
+0qUNAPkB52NMtklicYstcjTeGcpQkkGuzLTEMofpB2ZohjYAaQD/TjytJlaCvEJi
+pT2l9A8yH2bXdPPSVl+JQxnmZmrnJAc=
+=Q1AY
+-----END PGP SIGNATURE-----
+
+--gPClO003GyM59AhI--
