@@ -1,61 +1,81 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C282F964D3A
-	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Aug 2024 19:50:48 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EB29653F7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2024 02:22:02 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WvpjL2HbNz302T
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2024 03:50:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WvzNj4JsSz304N
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2024 10:21:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724953843;
-	cv=none; b=LCQm9MxcCH0ef0ug9t1oyNdM+DDnsBlCamN++OkoqMixA8b7jy52PDxgC3RBzPCBc+t94V0GSpj3GtxBcf0DQBEJj5nVqV58aCv1H0kj00MNm+ZMIhMSp1Dl9uxSuXf2cPPu4acqL7ax85Prji7hr/9TKaXxWNVXy7JdNiYNqQLCWHJBN9syb892b0EKS+U28Q30yOpNorVslv/uxVwhSK06EMud8QN92QHL38AT7WHsqt4DwmHLUoBu2TB+B+j9PWA3JWUlMJxm2mpZlH/M2Btql5EHQBpr6dnUfmr2rMBcwgC3NF6vhC0hEWsxqmRr3beqNUMrac7Xa0Lr14/X2Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.20
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1724977315;
+	cv=none; b=Pns8rL0s7crD9/E/yuHyQg9kR6Bw7NbVas8g4him9EVsvnJX8MktXzTN4XjvlDqMRx6+/t+NSPqYjC+prBVj8Jq/0vOyetlx9D6kh5PdMh7M9IyfQZMwxMHJYCFy4DwzOrOwL7Xp4xAkY9aUqzDvjnCnq1qnHkGjtNMWiRQy4sY+bJVkJudjzNz589X7GkPZSMbRSeI3EQdzlw3Dvrpiy9SzYA/8mKMJs+d/w656EYLBZl08sStKXkRwR5XO4WcsUFcJWCoBasUo9Rx/Tf0SedAjo2vs6F8gfVfBHkFE7SwjEZH2RnIyoya0r19GvDZXEviUsNRwjzeOegKL8NeBnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1724953843; c=relaxed/relaxed;
-	bh=UAl+mop00EQbepJoYevRJuK7En4/MOvUK941qxMIEMM=;
-	h=Received:Received:DKIM-Signature:Message-ID:Content-Type:
-	 MIME-Version:Content-Transfer-Encoding:In-Reply-To:References:
-	 Subject:From:To:Date:User-Agent; b=imnLhDLCvYAm6SKpUn79+aYnKM5JHVbtbxOlEX+ghfd1N4W9i411YbNUqlcCqMX8uAzz30104m0T2l3noW2r/HqlvigIFUJ+9/wrs5XwY+Mt8jsIjM6tPydFLn+bbykZ2+FvTOaI8ZFoZB+dFSoEg0VZeQXCvd2Tu7b1GbKrY+JS7WQY2sIJ3cjsP3zoc4fGYXBH6qreSzitTmQBQa8jqUhfzyVM5Allo0RbtpklUUaQSAsbQU7AgbVD4qDEvOkinrLPwJxD3zvzb5JnEmM6qRYPUyW/2lSugn7XA+FXKFyqtDEHmBa8UDkoB2DcpSjsdIvRKHI7Ml7JE/Vz5MtznA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gY/8sdlE; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=sboyd@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1724977315; c=relaxed/relaxed;
+	bh=CoXsL3XMFJ9Hns9Kwy7qG+mrv8vJjFK1ZvXOI8G9Gj8=;
+	h=DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:X-IronPort-AV:
+	 X-IronPort-AV:Received:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=RRmvPlLLHIn1318z/ZGJAaHbtgjqiztNWWsnlo1l6rmlHv7jIuIVS2hSC4QnjFOPraXV4J+MSTI3geNVD52Xa/O8BYTeHE/zl3n8OJbR4LJi6H3PHEqO+xe1Vo9sj0VFBbnBU/Ewh9wocZBdqTw2gW43+O/vlNNFjNzGQkJXByVPeCFLPcODez1bYB7Fc57vsy6dqycVo5ct9hFa+Me4S3rGRdHkXHUVcCpWNgwnsolz8WxYtbO4/AnBYhalAb/CNxIC3vOFSAEErfBTGXxQLRPAUIN2nu6qroyamySYmDRVqtn8ufkXFZ1nLY0HK2uh+x29iuRFkc8ZRZpdludOTQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TJUNgubO; dkim-atps=neutral; spf=pass (client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gY/8sdlE;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TJUNgubO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=sboyd@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WvpjG5mCVz2yxL
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 30 Aug 2024 03:50:42 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id A45EEA416DA;
-	Thu, 29 Aug 2024 17:50:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D0A1C4CEC1;
-	Thu, 29 Aug 2024 17:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724953839;
-	bh=Xy3NW4pFyHQqbMAZ00aMDkY+SK+roG6AjV6zLmJQKB4=;
-	h=In-Reply-To:References:Subject:From:To:Date:From;
-	b=gY/8sdlER4kFUWz2FBBAW3hOJ0idxFM12wivu7B21nS+1jiGPY5bWo0FGYDNGmzJZ
-	 QpbxFv9OROwSSfuX2jqB4WHkP7hpR2IIzyq9irjlluazTmX3aQzquyWy9HxEeQFB1G
-	 lP82I8WJRsORObFpaojziBrCrs91ZzWGBO6ig1+m9YM8l3vkHprJlb0Gam5bAz8HdI
-	 a+OdbQ26HGCdmJU05TVbSLk+q0deArTeWRGBGWoSWR20yGnnLAr4SuCN0RQ86g5opS
-	 oMBonC02+nhTT+FjSbUfmDWYOHvLN4+FjKsoNJ+xUuvHKaf32/++qC4b0TTq27MHsT
-	 PfFglx6fbbggA==
-Message-ID: <3569ef6d81adc41330c4002752ba3aa9.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WvzNd229Tz2yvk;
+	Fri, 30 Aug 2024 10:21:49 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724977315; x=1756513315;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w+yKiDpRWvKzQEAGuCGuIqf/9HVfNpoSKRtblk0n09A=;
+  b=TJUNgubOd5f/DdanvCbgjo8bcCARirMmuEgvXjeFCNPzTVeT0H6olJeb
+   ar9x3KRpzqh+xbzJHsYIpNeal026NP12h30fNPKoj94JtktUJni+Om/rC
+   0wcPGOAv33lkWd9ucbOM5R9ZxvEb67UiphPV44OVHrWhI6LnedFY6pgKQ
+   FKxOmDIA2EvWE9CTUoYr00KAf/icK/VxNdQw+ugxGz6LSN4VGYvl4SQDk
+   HUKn7DHw2Kj2PxwdFoGSeKKdm/p3NZ1MzglWAVKunCJ5TeTyt6zS0t801
+   rRBTd77gY6vyNU33BwciVzBIHa7kmSByO0aI3zPO39AimFRRw2oWOr1mZ
+   g==;
+X-CSE-ConnectionGUID: uBmDDY6YRdyXkpTlFytMdw==
+X-CSE-MsgGUID: lkQTvWa1R3qzs7P5ZIQ1Vg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23407084"
+X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
+   d="scan'208";a="23407084"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 17:21:46 -0700
+X-CSE-ConnectionGUID: JuAvQF4QREifpbm53DR3bQ==
+X-CSE-MsgGUID: 3gWQbgCWSwGNsijAXnO5OA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
+   d="scan'208";a="94559556"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 29 Aug 2024 17:21:42 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sjpOW-0000pS-0E;
+	Fri, 30 Aug 2024 00:21:40 +0000
+Date: Fri, 30 Aug 2024 08:21:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jammy Huang <jammy_huang@aspeedtech.com>, robh@kernel.org,
+	conor+dt@kernel.org, eajames@linux.ibm.com, mchehab@kernel.org,
+	joel@jms.id.au, andrew@aj.id.au, hverkuil@xs4all.nl,
+	pmenzel@molgen.mpg.de, krzk+dt@kernel.org
+Subject: Re: [PATCH v6 1/2] dt-bindings: media: convert aspeed-video.txt to
+ dt-schema
+Message-ID: <202408300813.2RN73Kn4-lkp@intel.com>
+References: <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <OS8PR06MB7541F12972412AE565A93287F2962@OS8PR06MB7541.apcprd06.prod.outlook.com>
-References: <20240828062740.1614744-1-ryan_chen@aspeedtech.com> <20240828062740.1614744-4-ryan_chen@aspeedtech.com> <61c8234139fcd2b27610ef18e9d9fbf7.sboyd@kernel.org> <OS8PR06MB7541F12972412AE565A93287F2962@OS8PR06MB7541.apcprd06.prod.outlook.com>
-Subject: RE: [PATCH v2 3/3] clk: aspeed: add AST2700 clk driver
-From: Stephen Boyd <sboyd@kernel.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>, andrew@codeconstruct.com.au, conor+dt@kernel.org, devicetree@vger.kernel.org, joel@jms.id.au, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, mturquette@baylibre.com, p.zabel@pengutronix.de, robh@kernel.org
-Date: Thu, 29 Aug 2024 10:50:37 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240829064508.3706672-2-jammy_huang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,70 +87,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Quoting Ryan Chen (2024-08-29 00:09:12)
-> > Subject: Re: [PATCH v2 3/3] clk: aspeed: add AST2700 clk driver
-> >=20
-> > Quoting Ryan Chen (2024-08-27 23:27:40)
-> > > a/drivers/clk/clk-ast2700.c b/drivers/clk/clk-ast2700.c new file mode
-> > > 100644 index 000000000000..7e0466e73980
-> > > --- /dev/null
-> > > +++ b/drivers/clk/clk-ast2700.c
-> > > @@ -0,0 +1,1198 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * Copyright (c) 2024 ASPEED Technology Inc.
-> > > + * Author: Ryan Chen <ryan_chen@aspeedtech.com>  */
-> > > +
-> > > +#include <linux/bits.h>
-> > > +#include <linux/clk-provider.h>
-> > [...]
-> > > +
-> > > +struct ast2700_reset {
-> > > +       void __iomem *base;
-> > > +       struct ast2700_reset_signal const *signal;
-> > > +       struct reset_controller_dev rcdev; };
-> >=20
-> > Please move the reset controller to the drivers/reset directory by mean=
-s of
-> > using an auxiliary device. There are some existing examples in there if=
- you
-> > grep for auxiliary_device in drivers/reset to help guide.
->=20
-> Do you mean to have another reset controller driver?
-> If yes, I may need syscon for remap two drivers.
+Hi Jammy,
 
-Yes. A syscon is not necessary to do that.
+kernel test robot noticed the following build warnings:
 
-> >=20
-> > > +
-> > > +#define to_rc_data(p) container_of(p, struct ast2700_reset, rcdev)
-> > > +
-> > [...]
-> > > +
-> > > +static int ast2700_soc0_clk_init(struct device_node *soc0_node) {
-> > > +       struct clk_hw_onecell_data *clk_data;
-> > > +       void __iomem *clk_base;
-> > [...]
-> > > +                                            0, clk_base +
-> > SCU0_CLK_STOP,
-> > > +                                            28, 0,
-> > > + &ast2700_clk_lock);
-> > > +
-> > > +       of_clk_add_hw_provider(soc0_node, of_clk_hw_onecell_get,
-> > > + clk_data);
-> > > +
-> > > +       return 0;
-> > > +};
-> > > +
-> > > +CLK_OF_DECLARE_DRIVER(ast2700_soc0, "aspeed,ast2700-scu0",
-> > > +ast2700_soc0_clk_init); CLK_OF_DECLARE_DRIVER(ast2700_soc1,
-> > > +"aspeed,ast2700-scu1", ast2700_soc1_clk_init);
-> >=20
-> > Why can't this be a platform driver?
-> Due to clk and reset will be the first driver in core.
-> Do you think all drivers should be platform driver?
+[auto build test WARNING on 47ac09b91befbb6a235ab620c32af719f8208399]
 
-Yes all drivers should be a platform driver.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jammy-Huang/dt-bindings-media-convert-aspeed-video-txt-to-dt-schema/20240829-144721
+base:   47ac09b91befbb6a235ab620c32af719f8208399
+patch link:    https://lore.kernel.org/r/20240829064508.3706672-2-jammy_huang%40aspeedtech.com
+patch subject: [PATCH v6 1/2] dt-bindings: media: convert aspeed-video.txt to dt-schema
+reproduce: (https://download.01.org/0day-ci/archive/20240830/202408300813.2RN73Kn4-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408300813.2RN73Kn4-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/aspeed-video.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
