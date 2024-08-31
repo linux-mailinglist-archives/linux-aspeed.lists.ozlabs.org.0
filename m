@@ -1,112 +1,87 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8688966F7F
-	for <lists+linux-aspeed@lfdr.de>; Sat, 31 Aug 2024 07:50:02 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD73967297
+	for <lists+linux-aspeed@lfdr.de>; Sat, 31 Aug 2024 18:05:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Wwkcm0mRCz30V2
-	for <lists+linux-aspeed@lfdr.de>; Sat, 31 Aug 2024 15:50:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Wx0HJ0sSpz2yVd
+	for <lists+linux-aspeed@lfdr.de>; Sun,  1 Sep 2024 02:05:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725083398;
-	cv=none; b=mm3D6xa0bLOJAP0a/y6qWNrwXSHQ3XYyMvTAEPIPeWonTGGo5fCcTo9lEulw1K1z+C1r+Jes/EXKui4JiiOmrEx0awxy6adGuwug1yb2BNfbUlbQKdglWTdz+nRY13ht44kuUnDrOSU+FE4D/dFHIzMvLYauxlyKA9OdM/hBgObZC+KIG71EGMFJV26KkaeOy+d4fUrKnGOH7x+VTjhagKtgI5utFAZ+OImYu+CA6WyUoWfbOV2jglOJW+xCXxOUGdunJAPiblKFPfMgTHwr0d0l9wIkpTAl7JqW4oelra0SBWiFQ529pQHr95N/IlZIlLJEl152x1/A0dqSOXQPfQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::32b"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725120344;
+	cv=none; b=CC/6uZJvVsFETTHXNR3ODx0E+pyATiFfIC0yrFNo0TY5ltFGYUfcCSEvpsegEod5DHTdBsXyzs1j0sYWEB48xkn5CoToHXXbjfObczODGAhsS+9QOxQLxxfteQ6UuA88zk4vKdJPDrqGmtarTQPCEiH1xtYvSkkgFYBOsQNdQxw9kiYdUASIW1jJ934YUWpCBsc7Bw0fwzM2Ts3ffBQfCJGarcWNDlRuRXvi3F9kL/WPgUr9eNHuloYj8CS73f8KxGBKe9bu6/1KR2mc1AZOHmMB958VHWEgUsYinWt9ZBQ/Rnj9MRcTv9qjHh7ormHJrvT6jSLjfKm0jrADcNqE7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725083398; c=relaxed/relaxed;
-	bh=Dl0ugB6g9Vf9hb3ogs5QIe7ZKxUaPpsJCy/NdIrnx6o=;
-	h=Received:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:References:From:Content-Language:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=XEgq86QOSGz78U+93mlrsIVPufMZRkASUMxORGm6tgCe0b96bo5z7uHdRl2hCcNdb9kQpvoCX8xoQzx5NoQ8gY9zgQr5UdwqYtA63wmmQruvMr8E48IdfhtxHK7U8H86csALrMGllpHDUdlKC9hVedTXztsEAoVSQKWiShpGoU7L8ZCx3PHaHpjELt7hDOkcUfiFahKG3b566oHKHpIj77LmSHM455/AScgDiiwwOOpM//hCj2XSIIgOdw1mmUUlFoEDc3OV11X+hfRSiluHHa26M5MHopavHfRHxZZJYiUFI3E2bDAsYmLQCO6e2AEEyY2JVQU3Rs3omUyvi2XO/Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mTbRkehX; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1725120344; c=relaxed/relaxed;
+	bh=uRYZ1Clj8bSc5EVRMrTevTBI4DXI4o3me3WtcIgUDlI=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Google-Smtp-Source:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To; b=HpfGo/MeSjPhgpQS613FDAQhvj0cGdfQ5a1nJyp2YJNUNM8ZN3ZhvYDKaYDgCIwpm4AltTShGtvfX3lgTlpC4d+63b7KVwfvkv0RGFy6Agv/1ZIsciZ6clwDKZi9gZ1+hYECfia9kS9ekP7F/FHPnitZvu4B+anhR0sNiORBqppfkZPeT7QfurcU1KMuN/tuGEAbTdCa1m6CjC16dt+5H/oAe+TRkXxt0lWyKlWKtZnJRGqotRFfa6fZ6ET2Z4nDgYJf6TiBw/Jy2dwxaneDhvONthd72TBBvwfQXZS4+jA0oGF7DK+sIFStlgaMNE8yBGYPn705efJIlMgOSrfjkA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nVtixj0U; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=dan.carpenter@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mTbRkehX;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nVtixj0U;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=dan.carpenter@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wwkcj5wRKz301J
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 31 Aug 2024 15:49:57 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 8996FA400B5;
-	Sat, 31 Aug 2024 05:49:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67E2C4CEC0;
-	Sat, 31 Aug 2024 05:49:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725083394;
-	bh=qxfIMSk+CG/XJddTHxQfdwpdqzdadrG6fYvmeJJ7Zg4=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=mTbRkehXGIhDRPsFEN1l3gabpMyIzPsEWFvhtst4Z/pxOw1QnjMr3wfeOdHruoS05
-	 qgMF7AIvt6VqZF9646MVVyUp4Sgi/e+06paEVnJp782fcgykj2toJ7ewNJZ/Kc/Hqk
-	 h6w8NmnLydeaAVC5mMfeEhHMuMnfN6jO6oWa76jqInnnRBwRFWD5/70iAhOCmeltHE
-	 DrCIk7yoO9qmZOaiLVhxayWJoDubJCDUnNkFJ3qYZCoS0iti/timnuqrgRLsNanVOh
-	 iZropZeUz35y8FrlVoYfjOuDuWClaYf+ObGu/IIeMTHosjiSuo2GVwPdiAgf+DeT3a
-	 +bgu7umBxtJkQ==
-Message-ID: <216a9d60-3485-444a-ab22-1b17882e873e@kernel.org>
-Date: Sat, 31 Aug 2024 07:49:46 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Wx0HC4LMwz2xsH
+	for <linux-aspeed@lists.ozlabs.org>; Sun,  1 Sep 2024 02:05:41 +1000 (AEST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-42bbd16fcf2so13561515e9.2
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 31 Aug 2024 09:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725120334; x=1725725134; darn=lists.ozlabs.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uRYZ1Clj8bSc5EVRMrTevTBI4DXI4o3me3WtcIgUDlI=;
+        b=nVtixj0UozB33IbL4GFQrtHtH3gQXnm7WDuk4w/+47t/kL2Q5nvqYqTNRlVv4UKO71
+         LiPh062TW+q//BwubhdWJHwjsbPqcYCdj52ckJ4f0OHLX6vCFfjLni7IQhSFthYtML+L
+         S3srCKZaBToNgUWWZ+K11whB9/i6zne3NS//6WM/eem1k4QcOY0va25ZSiFX7ekUMH7z
+         QydzngKb/HkwHfKUAIBgjns274szh5NftPKL0mIdroSvqakZocu1hrjD7FZ3NA4c3tGQ
+         WWvBcWu/CdYgeoSGbjD7Ndy9IwBc4LZN6mtJO3MvoCJyC8u/+noerKVMTty1dwAGn6Bv
+         Q0NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725120334; x=1725725134;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uRYZ1Clj8bSc5EVRMrTevTBI4DXI4o3me3WtcIgUDlI=;
+        b=mXk4sYxxeSSIc/zYwTwI+fyN2dsTft2dKW6DbVvoHiU1BU+ju53zfzXS1sdA/VzrqO
+         6GsEisJ6VXz8odREGUYzRGO121mBbkNKEy0KGMDnFgwMKLUqsr+GWV5mDBCqQ1trMklu
+         HtLv1smVmltVykOtNXJn78d3qQqRk6XkX0LZeCwQzncIEMV26pDvBGzeQz5gu/pHeuJh
+         tPB4QMHAx0BOn6M/sXCYAkG3DKQvzYhyawzjY+8IBlp/Ij46qL2EDGKH+XM2XTsM9J66
+         EJGZP1f/ivyJhFtsvCeKKqZgOARXdyt2iPxU/+wZWTLrNOIN6ZdHIaW2ZDgn9eYEK4TF
+         OsRw==
+X-Forwarded-Encrypted: i=1; AJvYcCWbMRGuQ/z+oD0f0DT9fMvaPrk9WhCGDmkENx1tzEv+CmcuHY688rQF9+UnuS3ZHWO94ZmbLNL82vSibag=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzH6mRhIJu0zGNddd4OYkGTozHhdXn0WBSz+BmwsvGwSmUMFP4o
+	SX8cwMoDRDPZPLfOat1yTn4AME2X1DDQLtvSX1U7aT9IgLcgIcIXRZo+31Pvn+g=
+X-Google-Smtp-Source: AGHT+IHUSjMb5RuC0+VSxpdufeI4iE6ieLzMX2B6pOFhIZGPfaSr5tdYaNAGfMGB7ROmlJZqGyqKug==
+X-Received: by 2002:adf:e88b:0:b0:374:ba3f:ad08 with SMTP id ffacd0b85a97d-374ba3faf72mr2060074f8f.55.1725120334341;
+        Sat, 31 Aug 2024 09:05:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6deb27fsm80143365e9.10.2024.08.31.09.05.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Aug 2024 09:05:33 -0700 (PDT)
+Date: Sat, 31 Aug 2024 19:05:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Billy Tsai <billy_tsai@aspeedtech.com>,
+	linus.walleij@linaro.org, brgl@bgdev.pl, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+	andrew@codeconstruct.com.au, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	BMC-SW@aspeedtech.com
+Subject: Re: [PATCH v2 3/4] gpio: aspeed: Create llops to handle hardware
+ access
+Message-ID: <50920eea-7fff-4905-839e-7acd88f437cb@stanley.mountain>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: gpio: aspeed,ast2400-gpio: Support
- ast2700
-To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
- brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- joel@jms.id.au, andrew@codeconstruct.com.au, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- BMC-SW@aspeedtech.com
-References: <20240830034047.2251482-1-billy_tsai@aspeedtech.com>
- <20240830034047.2251482-2-billy_tsai@aspeedtech.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240830034047.2251482-2-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240830034047.2251482-4-billy_tsai@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,33 +93,265 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 30/08/2024 05:40, Billy Tsai wrote:
-> The AST2700 is the 7th generation SoC from Aspeed, featuring two GPIO
-> controllers: one with 12 GPIO pins and another with 216 GPIO pins.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  .../bindings/gpio/aspeed,ast2400-gpio.yaml    | 46 ++++++++++++++++++-
->  1 file changed, 45 insertions(+), 1 deletion(-)
-> 
+Hi Billy,
 
-One more Aspeed patch where you ignore review feedback. I think almost
-all (except one) Aspeed submissions were doing this: ignoring reviewers.
+kernel test robot noticed the following build warnings:
 
-<form letter>
-This is a friendly reminder during the review process.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240830-114325
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20240830034047.2251482-4-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v2 3/4] gpio: aspeed: Create llops to handle hardware access
+config: parisc-randconfig-r071-20240831 (https://download.01.org/0day-ci/archive/20240831/202408312313.HTx2vwvy-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
 
-Thank you.
-</form letter>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408312313.HTx2vwvy-lkp@intel.com/
 
-Best regards,
-Krzysztof
+smatch warnings:
+drivers/gpio/gpio-aspeed.c:399 aspeed_gpio_set() error: uninitialized symbol 'copro'.
+drivers/gpio/gpio-aspeed.c:418 aspeed_gpio_dir_in() error: uninitialized symbol 'copro'.
+drivers/gpio/gpio-aspeed.c:443 aspeed_gpio_dir_out() error: uninitialized symbol 'copro'.
+drivers/gpio/gpio-aspeed.c:507 aspeed_gpio_irq_ack() error: uninitialized symbol 'copro'.
+drivers/gpio/gpio-aspeed.c:533 aspeed_gpio_irq_set_mask() error: uninitialized symbol 'copro'.
+drivers/gpio/gpio-aspeed.c:596 aspeed_gpio_set_type() error: uninitialized symbol 'copro'.
+drivers/gpio/gpio-aspeed.c:664 aspeed_gpio_reset_tolerance() error: uninitialized symbol 'copro'.
+
+vim +/copro +399 drivers/gpio/gpio-aspeed.c
+
+361b79119a4b7f Joel Stanley           2016-08-30  386  static void aspeed_gpio_set(struct gpio_chip *gc, unsigned int offset,
+361b79119a4b7f Joel Stanley           2016-08-30  387  			    int val)
+361b79119a4b7f Joel Stanley           2016-08-30  388  {
+361b79119a4b7f Joel Stanley           2016-08-30  389  	struct aspeed_gpio *gpio = gpiochip_get_data(gc);
+361b79119a4b7f Joel Stanley           2016-08-30  390  	unsigned long flags;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  391  	bool copro;
+361b79119a4b7f Joel Stanley           2016-08-30  392  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  393  	raw_spin_lock_irqsave(&gpio->lock, flags);
+0e6ca482ec6e28 Billy Tsai             2024-08-30  394  	if (gpio->llops->copro_request)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  395  		copro = gpio->llops->copro_request(gpio, offset);
+
+Uninitialized on else  path
+
+361b79119a4b7f Joel Stanley           2016-08-30  396  
+361b79119a4b7f Joel Stanley           2016-08-30  397  	__aspeed_gpio_set(gc, offset, val);
+361b79119a4b7f Joel Stanley           2016-08-30  398  
+0e6ca482ec6e28 Billy Tsai             2024-08-30 @399  	if (copro && gpio->llops->copro_release)
+                                                            ^^^^^
+
+0e6ca482ec6e28 Billy Tsai             2024-08-30  400  		gpio->llops->copro_release(gpio, offset);
+61a7904b6ace99 Iwona Winiarska        2021-12-04  401  	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  402  }
+361b79119a4b7f Joel Stanley           2016-08-30  403  
+361b79119a4b7f Joel Stanley           2016-08-30  404  static int aspeed_gpio_dir_in(struct gpio_chip *gc, unsigned int offset)
+361b79119a4b7f Joel Stanley           2016-08-30  405  {
+361b79119a4b7f Joel Stanley           2016-08-30  406  	struct aspeed_gpio *gpio = gpiochip_get_data(gc);
+361b79119a4b7f Joel Stanley           2016-08-30  407  	unsigned long flags;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  408  	bool copro;
+361b79119a4b7f Joel Stanley           2016-08-30  409  
+1736f75d35e474 Andrew Jeffery         2017-01-24  410  	if (!have_input(gpio, offset))
+1736f75d35e474 Andrew Jeffery         2017-01-24  411  		return -ENOTSUPP;
+1736f75d35e474 Andrew Jeffery         2017-01-24  412  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  413  	raw_spin_lock_irqsave(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  414  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  415  	if (gpio->llops->copro_request)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  416  		copro = gpio->llops->copro_request(gpio, offset);
+0e6ca482ec6e28 Billy Tsai             2024-08-30  417  	gpio->llops->reg_bits_set(gpio, offset, reg_dir, 0);
+0e6ca482ec6e28 Billy Tsai             2024-08-30 @418  	if (copro && gpio->llops->copro_release)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  419  		gpio->llops->copro_release(gpio, offset);
+361b79119a4b7f Joel Stanley           2016-08-30  420  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  421  	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  422  
+361b79119a4b7f Joel Stanley           2016-08-30  423  	return 0;
+361b79119a4b7f Joel Stanley           2016-08-30  424  }
+361b79119a4b7f Joel Stanley           2016-08-30  425  
+361b79119a4b7f Joel Stanley           2016-08-30  426  static int aspeed_gpio_dir_out(struct gpio_chip *gc,
+361b79119a4b7f Joel Stanley           2016-08-30  427  			       unsigned int offset, int val)
+361b79119a4b7f Joel Stanley           2016-08-30  428  {
+361b79119a4b7f Joel Stanley           2016-08-30  429  	struct aspeed_gpio *gpio = gpiochip_get_data(gc);
+361b79119a4b7f Joel Stanley           2016-08-30  430  	unsigned long flags;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  431  	bool copro;
+361b79119a4b7f Joel Stanley           2016-08-30  432  
+1736f75d35e474 Andrew Jeffery         2017-01-24  433  	if (!have_output(gpio, offset))
+1736f75d35e474 Andrew Jeffery         2017-01-24  434  		return -ENOTSUPP;
+1736f75d35e474 Andrew Jeffery         2017-01-24  435  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  436  	raw_spin_lock_irqsave(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  437  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  438  	if (gpio->llops->copro_request)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  439  		copro = gpio->llops->copro_request(gpio, offset);
+af7949284910a1 Benjamin Herrenschmidt 2018-05-17  440  	__aspeed_gpio_set(gc, offset, val);
+0e6ca482ec6e28 Billy Tsai             2024-08-30  441  	gpio->llops->reg_bits_set(gpio, offset, reg_dir, 1);
+361b79119a4b7f Joel Stanley           2016-08-30  442  
+0e6ca482ec6e28 Billy Tsai             2024-08-30 @443  	if (copro && gpio->llops->copro_release)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  444  		gpio->llops->copro_release(gpio, offset);
+61a7904b6ace99 Iwona Winiarska        2021-12-04  445  	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  446  
+361b79119a4b7f Joel Stanley           2016-08-30  447  	return 0;
+361b79119a4b7f Joel Stanley           2016-08-30  448  }
+361b79119a4b7f Joel Stanley           2016-08-30  449  
+361b79119a4b7f Joel Stanley           2016-08-30  450  static int aspeed_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
+361b79119a4b7f Joel Stanley           2016-08-30  451  {
+361b79119a4b7f Joel Stanley           2016-08-30  452  	struct aspeed_gpio *gpio = gpiochip_get_data(gc);
+361b79119a4b7f Joel Stanley           2016-08-30  453  	unsigned long flags;
+361b79119a4b7f Joel Stanley           2016-08-30  454  	u32 val;
+361b79119a4b7f Joel Stanley           2016-08-30  455  
+1736f75d35e474 Andrew Jeffery         2017-01-24  456  	if (!have_input(gpio, offset))
+e42615ec233b30 Matti Vaittinen        2019-11-06  457  		return GPIO_LINE_DIRECTION_OUT;
+1736f75d35e474 Andrew Jeffery         2017-01-24  458  
+1736f75d35e474 Andrew Jeffery         2017-01-24  459  	if (!have_output(gpio, offset))
+e42615ec233b30 Matti Vaittinen        2019-11-06  460  		return GPIO_LINE_DIRECTION_IN;
+1736f75d35e474 Andrew Jeffery         2017-01-24  461  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  462  	raw_spin_lock_irqsave(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  463  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  464  	val = gpio->llops->reg_bits_read(gpio, offset, reg_dir);
+361b79119a4b7f Joel Stanley           2016-08-30  465  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  466  	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  467  
+e42615ec233b30 Matti Vaittinen        2019-11-06  468  	return val ? GPIO_LINE_DIRECTION_OUT : GPIO_LINE_DIRECTION_IN;
+361b79119a4b7f Joel Stanley           2016-08-30  469  }
+361b79119a4b7f Joel Stanley           2016-08-30  470  
+361b79119a4b7f Joel Stanley           2016-08-30  471  static inline int irqd_to_aspeed_gpio_data(struct irq_data *d,
+361b79119a4b7f Joel Stanley           2016-08-30  472  					   struct aspeed_gpio **gpio,
+0e6ca482ec6e28 Billy Tsai             2024-08-30  473  					   int *offset)
+361b79119a4b7f Joel Stanley           2016-08-30  474  {
+1736f75d35e474 Andrew Jeffery         2017-01-24  475  	struct aspeed_gpio *internal;
+361b79119a4b7f Joel Stanley           2016-08-30  476  
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  477  	*offset = irqd_to_hwirq(d);
+361b79119a4b7f Joel Stanley           2016-08-30  478  
+1736f75d35e474 Andrew Jeffery         2017-01-24  479  	internal = irq_data_get_irq_chip_data(d);
+1736f75d35e474 Andrew Jeffery         2017-01-24  480  
+1736f75d35e474 Andrew Jeffery         2017-01-24  481  	/* This might be a bit of a questionable place to check */
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  482  	if (!have_irq(internal, *offset))
+1736f75d35e474 Andrew Jeffery         2017-01-24  483  		return -ENOTSUPP;
+1736f75d35e474 Andrew Jeffery         2017-01-24  484  
+1736f75d35e474 Andrew Jeffery         2017-01-24  485  	*gpio = internal;
+361b79119a4b7f Joel Stanley           2016-08-30  486  
+361b79119a4b7f Joel Stanley           2016-08-30  487  	return 0;
+361b79119a4b7f Joel Stanley           2016-08-30  488  }
+361b79119a4b7f Joel Stanley           2016-08-30  489  
+361b79119a4b7f Joel Stanley           2016-08-30  490  static void aspeed_gpio_irq_ack(struct irq_data *d)
+361b79119a4b7f Joel Stanley           2016-08-30  491  {
+361b79119a4b7f Joel Stanley           2016-08-30  492  	struct aspeed_gpio *gpio;
+361b79119a4b7f Joel Stanley           2016-08-30  493  	unsigned long flags;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  494  	int rc, offset;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  495  	bool copro;
+361b79119a4b7f Joel Stanley           2016-08-30  496  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  497  	rc = irqd_to_aspeed_gpio_data(d, &gpio, &offset);
+361b79119a4b7f Joel Stanley           2016-08-30  498  	if (rc)
+361b79119a4b7f Joel Stanley           2016-08-30  499  		return;
+361b79119a4b7f Joel Stanley           2016-08-30  500  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  501  	raw_spin_lock_irqsave(&gpio->lock, flags);
+0e6ca482ec6e28 Billy Tsai             2024-08-30  502  	if (gpio->llops->copro_request)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  503  		copro = gpio->llops->copro_request(gpio, offset);
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  504  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  505  	gpio->llops->reg_bits_set(gpio, offset, reg_irq_status, 1);
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  506  
+0e6ca482ec6e28 Billy Tsai             2024-08-30 @507  	if (copro && gpio->llops->copro_release)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  508  		gpio->llops->copro_release(gpio, offset);
+61a7904b6ace99 Iwona Winiarska        2021-12-04  509  	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  510  }
+361b79119a4b7f Joel Stanley           2016-08-30  511  
+361b79119a4b7f Joel Stanley           2016-08-30  512  static void aspeed_gpio_irq_set_mask(struct irq_data *d, bool set)
+361b79119a4b7f Joel Stanley           2016-08-30  513  {
+361b79119a4b7f Joel Stanley           2016-08-30  514  	struct aspeed_gpio *gpio;
+361b79119a4b7f Joel Stanley           2016-08-30  515  	unsigned long flags;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  516  	int rc, offset;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  517  	bool copro;
+361b79119a4b7f Joel Stanley           2016-08-30  518  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  519  	rc = irqd_to_aspeed_gpio_data(d, &gpio, &offset);
+361b79119a4b7f Joel Stanley           2016-08-30  520  	if (rc)
+361b79119a4b7f Joel Stanley           2016-08-30  521  		return;
+361b79119a4b7f Joel Stanley           2016-08-30  522  
+061df08f063a97 Linus Walleij          2023-03-09  523  	/* Unmasking the IRQ */
+061df08f063a97 Linus Walleij          2023-03-09  524  	if (set)
+061df08f063a97 Linus Walleij          2023-03-09  525  		gpiochip_enable_irq(&gpio->chip, irqd_to_hwirq(d));
+061df08f063a97 Linus Walleij          2023-03-09  526  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  527  	raw_spin_lock_irqsave(&gpio->lock, flags);
+0e6ca482ec6e28 Billy Tsai             2024-08-30  528  	if (gpio->llops->copro_request)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  529  		copro = gpio->llops->copro_request(gpio, offset);
+361b79119a4b7f Joel Stanley           2016-08-30  530  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  531  	gpio->llops->reg_bits_set(gpio, offset, reg_irq_enable, set);
+361b79119a4b7f Joel Stanley           2016-08-30  532  
+0e6ca482ec6e28 Billy Tsai             2024-08-30 @533  	if (copro && gpio->llops->copro_release)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  534  		gpio->llops->copro_release(gpio, offset);
+61a7904b6ace99 Iwona Winiarska        2021-12-04  535  	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+061df08f063a97 Linus Walleij          2023-03-09  536  
+061df08f063a97 Linus Walleij          2023-03-09  537  	/* Masking the IRQ */
+061df08f063a97 Linus Walleij          2023-03-09  538  	if (!set)
+061df08f063a97 Linus Walleij          2023-03-09  539  		gpiochip_disable_irq(&gpio->chip, irqd_to_hwirq(d));
+361b79119a4b7f Joel Stanley           2016-08-30  540  }
+361b79119a4b7f Joel Stanley           2016-08-30  541  
+361b79119a4b7f Joel Stanley           2016-08-30  542  static void aspeed_gpio_irq_mask(struct irq_data *d)
+361b79119a4b7f Joel Stanley           2016-08-30  543  {
+361b79119a4b7f Joel Stanley           2016-08-30  544  	aspeed_gpio_irq_set_mask(d, false);
+361b79119a4b7f Joel Stanley           2016-08-30  545  }
+361b79119a4b7f Joel Stanley           2016-08-30  546  
+361b79119a4b7f Joel Stanley           2016-08-30  547  static void aspeed_gpio_irq_unmask(struct irq_data *d)
+361b79119a4b7f Joel Stanley           2016-08-30  548  {
+361b79119a4b7f Joel Stanley           2016-08-30  549  	aspeed_gpio_irq_set_mask(d, true);
+361b79119a4b7f Joel Stanley           2016-08-30  550  }
+361b79119a4b7f Joel Stanley           2016-08-30  551  
+361b79119a4b7f Joel Stanley           2016-08-30  552  static int aspeed_gpio_set_type(struct irq_data *d, unsigned int type)
+361b79119a4b7f Joel Stanley           2016-08-30  553  {
+361b79119a4b7f Joel Stanley           2016-08-30  554  	u32 type0 = 0;
+361b79119a4b7f Joel Stanley           2016-08-30  555  	u32 type1 = 0;
+361b79119a4b7f Joel Stanley           2016-08-30  556  	u32 type2 = 0;
+361b79119a4b7f Joel Stanley           2016-08-30  557  	irq_flow_handler_t handler;
+361b79119a4b7f Joel Stanley           2016-08-30  558  	struct aspeed_gpio *gpio;
+361b79119a4b7f Joel Stanley           2016-08-30  559  	unsigned long flags;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  560  	int rc, offset;
+a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  561  	bool copro;
+361b79119a4b7f Joel Stanley           2016-08-30  562  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  563  	rc = irqd_to_aspeed_gpio_data(d, &gpio, &offset);
+361b79119a4b7f Joel Stanley           2016-08-30  564  	if (rc)
+361b79119a4b7f Joel Stanley           2016-08-30  565  		return -EINVAL;
+361b79119a4b7f Joel Stanley           2016-08-30  566  
+361b79119a4b7f Joel Stanley           2016-08-30  567  	switch (type & IRQ_TYPE_SENSE_MASK) {
+361b79119a4b7f Joel Stanley           2016-08-30  568  	case IRQ_TYPE_EDGE_BOTH:
+0e6ca482ec6e28 Billy Tsai             2024-08-30  569  		type2 = 1;
+df561f6688fef7 Gustavo A. R. Silva    2020-08-23  570  		fallthrough;
+361b79119a4b7f Joel Stanley           2016-08-30  571  	case IRQ_TYPE_EDGE_RISING:
+0e6ca482ec6e28 Billy Tsai             2024-08-30  572  		type0 = 1;
+df561f6688fef7 Gustavo A. R. Silva    2020-08-23  573  		fallthrough;
+361b79119a4b7f Joel Stanley           2016-08-30  574  	case IRQ_TYPE_EDGE_FALLING:
+361b79119a4b7f Joel Stanley           2016-08-30  575  		handler = handle_edge_irq;
+361b79119a4b7f Joel Stanley           2016-08-30  576  		break;
+361b79119a4b7f Joel Stanley           2016-08-30  577  	case IRQ_TYPE_LEVEL_HIGH:
+0e6ca482ec6e28 Billy Tsai             2024-08-30  578  		type0 = 1;
+df561f6688fef7 Gustavo A. R. Silva    2020-08-23  579  		fallthrough;
+361b79119a4b7f Joel Stanley           2016-08-30  580  	case IRQ_TYPE_LEVEL_LOW:
+0e6ca482ec6e28 Billy Tsai             2024-08-30  581  		type1 = 1;
+361b79119a4b7f Joel Stanley           2016-08-30  582  		handler = handle_level_irq;
+361b79119a4b7f Joel Stanley           2016-08-30  583  		break;
+361b79119a4b7f Joel Stanley           2016-08-30  584  	default:
+361b79119a4b7f Joel Stanley           2016-08-30  585  		return -EINVAL;
+361b79119a4b7f Joel Stanley           2016-08-30  586  	}
+361b79119a4b7f Joel Stanley           2016-08-30  587  
+61a7904b6ace99 Iwona Winiarska        2021-12-04  588  	raw_spin_lock_irqsave(&gpio->lock, flags);
+0e6ca482ec6e28 Billy Tsai             2024-08-30  589  	if (gpio->llops->copro_request)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  590  		copro = gpio->llops->copro_request(gpio, offset);
+361b79119a4b7f Joel Stanley           2016-08-30  591  
+0e6ca482ec6e28 Billy Tsai             2024-08-30  592  	gpio->llops->reg_bits_set(gpio, offset, reg_irq_type0, type0);
+0e6ca482ec6e28 Billy Tsai             2024-08-30  593  	gpio->llops->reg_bits_set(gpio, offset, reg_irq_type1, type1);
+0e6ca482ec6e28 Billy Tsai             2024-08-30  594  	gpio->llops->reg_bits_set(gpio, offset, reg_irq_type2, type2);
+361b79119a4b7f Joel Stanley           2016-08-30  595  
+0e6ca482ec6e28 Billy Tsai             2024-08-30 @596  	if (copro && gpio->llops->copro_release)
+0e6ca482ec6e28 Billy Tsai             2024-08-30  597  		gpio->llops->copro_release(gpio, offset);
+61a7904b6ace99 Iwona Winiarska        2021-12-04  598  	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+361b79119a4b7f Joel Stanley           2016-08-30  599  
+361b79119a4b7f Joel Stanley           2016-08-30  600  	irq_set_handler_locked(d, handler);
+361b79119a4b7f Joel Stanley           2016-08-30  601  
+361b79119a4b7f Joel Stanley           2016-08-30  602  	return 0;
+361b79119a4b7f Joel Stanley           2016-08-30  603  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
