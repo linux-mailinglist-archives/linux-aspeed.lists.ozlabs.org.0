@@ -2,77 +2,152 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DA496A415
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2024 18:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640CF96CF67
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2024 08:36:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WyrRY559Mz2yQJ
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2024 02:19:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WzqQ56L9Kz2yyx
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2024 16:36:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.16
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725380359;
-	cv=none; b=VeKut1tY3ASzTaB7n28jcr6sBqY0G/DqXyJMhVuXf/LAwL8USkjQZNBWYBCt7d47a/FuAiCzDBcZbNb6M793LOWDS7lPBTO5hvB/7ArKjzwV06z9tXwEoGNjG39QGwm4tjlCIzmohHxAGy83GAdd8DEYrAkAJd/Dgk171BTXwxiXCAXdw32pNLQ2rkpJN2cDg7EaqgkHx8evYenD7PhldrcH4t78x42EXcXeEHi8sz9784ZfNhhK4eerAcTmpkOAX1pw+phZJDbf5vjrK6PMSLXSXL/F/lHhv+vViFXD9eE0FYrzw8JkUKD78nY1OB3E2ZS8aD7hiieJPKEMU28exA==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725380359; c=relaxed/relaxed;
-	bh=j7XUYA/UJAajX40zzsZ4uk8BCoABIzB1srP33RuZ8ss=;
-	h=DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To; b=gXqQthOWgPPLa7CNQkssMikyy7PlpvCqtGm6gIV8bBdCWxoNuBObgZNQ9L/jEzG74ukkU8wZaXc5beKj8EEt0HVUa5UeZOsWlktjW4mBvAdiPXrtrwtCIVe9RDhuX96IeN4Ea0+J5E36HMzvUY9w1M3ezIjLzGNwouBlffIpaI+CmLrGWxZ8fxN2ISifjhOUD6LgWA/oB/ZdhzMa7AQaZ4f2KjRj8UJ4H2PxRmv4NNyPnBnKjx5RLkdubNxq1yRfNeJTYoE/DSy1b7P1g8g/HGUzp+xZvTucrv+5u1pPaLV0d8bDeXUgvwP7SWJdQRzjijKpnzD+2IEM6QQGvElhmg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZZwjX2dc; dkim-atps=neutral; spf=none (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c110::" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725518180;
+	cv=pass; b=o0rZcVPIUyHwpSW2eB3UIT+p8zNE7W1q4GWdksTfq8w4A1q+GApeDB4dci9CciRAmlCNet0EDmEDd/y3M1ok3r/JT97yMBrnwIxxQUz8zYAQWoeZDIIirjGFQDdOS01ExtJYal6i0rEgEgFfiYX2zh0cYcOk6UxugTUY+9ckqruCq6fFCKbrrPt2thWcIQliZGt/yw6sMRVUbYlYIFnpdjGEvRsLGHieGRsb2UoQxOxuLFXYVhfB7gpEaWY1okVqK/FIUE5yIGHyvFdjc1lUz1fb24lNK2rl0dRZGgmulOEOrc2x9GSmUULKb8666TyJmpNMa8MK9TjiUTNInEDHig==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1725518180; c=relaxed/relaxed;
+	bh=w/d5mPlv//L8PZP4sUaoW+OaqJ2wvF2I6zMTiuLDHMQ=;
+	h=ARC-Authentication-Results:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:Content-Type:MIME-Version; b=BHtQek2WC1b3bGmG0XMkKB+Ct7roj92Vt2rn82SjkjbLcaGwp/ju/C/P/Gv1Nsdrlm+BqJwvTnfte5JMZvs79LiRXsgshR+HBtkDN6jyYK7uneEFYcvdKv0eHILHvfxFDZlnkwxg0BY6L+iaZ59ApQceSdjzVh/FKM0NacfnHXCrC1SDxRFwmmby7kCEmH3GIj6D01e4tIEKTM9FGj0Dul/k31xRD14OBJOehkMw8e8axrtWc7Ovokp88IIdSHsttmXPnZn6RL3kkczgJKg8s44sH7JsLeDZzeuv86ZclBiPzaWJKWKg4Tj03yKtQ2upFbmiNOGEQfDtWKQRze36Og==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=oNPVfvmR; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c110::; helo=bn1pr04cu002.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=lists.ozlabs.org) smtp.mailfrom=os.amperecomputing.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZZwjX2dc;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=oNPVfvmR;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f403:c110::; helo=bn1pr04cu002.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=lists.ozlabs.org)
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azlp170100000.outbound.protection.outlook.com [IPv6:2a01:111:f403:c110::])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WyrRS38Fsz2xyG
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  4 Sep 2024 02:19:14 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725380356; x=1756916356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=7PP+0mnwl58stNlb1VVDx5bSn5dAYK88Hlv7Mydk/j0=;
-  b=ZZwjX2dcH15b1yccBUdX4LYBp7npDKE753VmuQBMXzKIQhxuW84Z3mUA
-   cUJ/le34Sv1ydBk6HoPkvHGHYh0Eaj8c3FGXrCyZH5qJUiJ75A993haUu
-   ywWs4DCPdpQcqSniN3c58b9hx5UbXWxvkFCOKUYhf2NDuzO3shjGJy2bZ
-   FKTBAyZHAA096f7ymyFZFX0bF+cR45aGqHmiRl/Kwd0P/ISzs4LmYOoTC
-   c8XrgG7EQdWXT1gRkxpCm8P/oYEScd0xskCmgciSP8OdUp3dZJJvvpViV
-   Mpwuh5/vDj7BBatYc6fPO5rXQUGzY/cpa/j/dV3H+Ugkvaw9eTSAdoZbc
-   Q==;
-X-CSE-ConnectionGUID: NA0OYZQLRYio4ALkAuKVPQ==
-X-CSE-MsgGUID: OB3p2wVmR/WJIkMxD9McWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11184"; a="13350174"
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="13350174"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 09:19:11 -0700
-X-CSE-ConnectionGUID: MuLc0WaHS0CsYw5dJZPt8A==
-X-CSE-MsgGUID: cudFreshTlCFr9WA3XMQaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,199,1719903600"; 
-   d="scan'208";a="95700617"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 09:19:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1slWFF-00000004laX-0mjJ;
-	Tue, 03 Sep 2024 19:19:05 +0300
-Date: Tue, 3 Sep 2024 19:19:04 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH -next] serial: 8250_aspeed_vuart: Enable module
- autoloading
-Message-ID: <Ztc2-OuaL2IJI6QW@smile.fi.intel.com>
-References: <20240903131503.961178-1-liaochen4@huawei.com>
- <4nyenalsjnerwjwcuk5zwm52rptnc5jhjhz3yhsmo7qt3gffhs@qadnsjic7p24>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WzqPt6PbFz2yRZ;
+	Thu,  5 Sep 2024 16:36:17 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kdoAx2Sw9MMDj6vusOb1NCxqa5XBc0qTYsG4pBct/mS6sbkXyGwGJGF4EzC/7vr81ktqBbAghlGAReQQo3zWEjZJ+lsSm0N2JyofUzJMAF5fZqeHqtV6t+8UGb3nM4WyIdHGJeZWgBidpjk1fbK39XgvNuvw4gKCmk/v/f9u/36ky16R9ytmPvedLhUHdJHAWXQXWUsYbldsfRRnHbYTeHYqW8pcysbNeZM/PATr3yVsUAHzDGQYilq/G+pCFx+FBTszeHGMg8K+glvAm/Sddh2qNNh5C4HpVvxRWUJC2a1abQ/rhLwcR0VjfHBnKUOjhLSnh+VKJv/9BCRMepsaOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w/d5mPlv//L8PZP4sUaoW+OaqJ2wvF2I6zMTiuLDHMQ=;
+ b=Yx8co2D2nKM7DBNul5yQmT7UQ8YqWXNLvaYWrNA7IhrmNPWoy2G3HPwE2Of4RpDhs/bvVEsR5VQIbLMDXiAV8V0uaaeayCixrQ+JtRjzs6liDm+I/WRQ4RdE3AWGEm6kggOvf1qH4aQ2qfSF/xOKHCqGB4nTYYDAfabEA8Eag/Q6Styy+lMRszwS7UgA91UF5b9KBEI1nyseZLsw4X5d7ZSPM/2nITELw4u3VQ2gt4ifAMDeMyEfMlPIiaZbdk6MQSlyJHC84/kcF8l1ZWAEcXjL31JxlY8SQWfNzDCWsgTLyVAbj40XvPlLhRPrOrWUmIs6Ge+NZouZzWe3r7+okA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w/d5mPlv//L8PZP4sUaoW+OaqJ2wvF2I6zMTiuLDHMQ=;
+ b=oNPVfvmREjCSoHypawkteue0TV0L4rsBOF8X1Jh5o5qrmm9GLtTNQQFNC5MGQtjcAeDIkiGPQUET45L+fnjWJj4JiNDR5UJBfhP5GtwJDmFoh9PK4bbGN+8eHMkKCJOaCoH7+Ezt+UrHwZ1tNC38o2wSk9fXBrsHuDdIMKRyr9s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from BL3PR01MB7057.prod.exchangelabs.com (2603:10b6:208:35c::16) by
+ BY3PR01MB6754.prod.exchangelabs.com (2603:10b6:a03:365::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7918.28; Thu, 5 Sep 2024 06:35:53 +0000
+Received: from BL3PR01MB7057.prod.exchangelabs.com
+ ([fe80::b69e:5684:ed7c:4d09]) by BL3PR01MB7057.prod.exchangelabs.com
+ ([fe80::b69e:5684:ed7c:4d09%4]) with mapi id 15.20.7918.024; Thu, 5 Sep 2024
+ 06:35:53 +0000
+From: Chanh Nguyen <chanh@os.amperecomputing.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+	Open Source Submission <patches@amperecomputing.com>
+Subject: [PATCH 0/2] Update the device tree for Mt.Mitchell's BMC platform
+Date: Thu,  5 Sep 2024 06:35:19 +0000
+Message-ID: <20240905063521.319416-1-chanh@os.amperecomputing.com>
+X-Mailer: git-send-email 2.43.0
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4nyenalsjnerwjwcuk5zwm52rptnc5jhjhz3yhsmo7qt3gffhs@qadnsjic7p24>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR01CA0129.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::33) To BL3PR01MB7057.prod.exchangelabs.com
+ (2603:10b6:208:35c::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR01MB7057:EE_|BY3PR01MB6754:EE_
+X-MS-Office365-Filtering-Correlation-Id: 608d78c8-cd86-49f3-2c82-08dccd74fcd6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 	BCL:0;ARA:13230040|1800799024|376014|7416014|52116014|366016|921020|38350700014;
+X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?/fCQ8XFxJLHBk22NEsGhUjMYW+iqvST6xybqKcF9UWecJfkw30zmRKvsfhGr?=
+ =?us-ascii?Q?FJQWWRctvy7i5IJQIOO625ljNd492QORfA6trXiLfIJ85n9BAV4HNb1HNZzI?=
+ =?us-ascii?Q?UQmA05UgO3FfHkdWUCHmic9rZbKW4K3kUfwIU/pZ01LWgNtIYhWoubBF4vG9?=
+ =?us-ascii?Q?EFZ/SWPT6DSP9DDlYg4fluXqxk49KDOELJlpPsUWRJ+NlsU38jf4IdS0JAN6?=
+ =?us-ascii?Q?XG1hOoAUchn1JFea1r+8vrSDL8e4HSx9Jv2kLv2NBl2tlZ3IXM3B8q25C2ob?=
+ =?us-ascii?Q?CbTnFezPciAsjyOUCXRlSWWaohmNmXqrQ/Tx0FwqPEAkDM2ZtCRjLsDQeTi+?=
+ =?us-ascii?Q?eb2g/voaAicjft94RoIcVUka0GomR5nwTATFyD1Byw43lby37kopUDV+Wk+M?=
+ =?us-ascii?Q?zT+z0qYB8hNCWwFvbirf+Oy7P3vZi6LGBFSsjaligvRzWOesYHUevcOYnXbi?=
+ =?us-ascii?Q?1Hofak2AxraEMBX0yQct4wS1APiIxf+yxeDF4OHK6xZb7z3uSWJ4kY02P6gs?=
+ =?us-ascii?Q?xkQL5tWKs231eNMkWWeiaTTZ0745S1qvm6Wj2PAXEMq2s9EY5JzqbHQN7pVC?=
+ =?us-ascii?Q?DWco1ygwZsr2BJjwEm31ab2Pf2LWfHXoOqKv1yJPRrTazF9aRNr1t25xfiLc?=
+ =?us-ascii?Q?416g4kKlLHJmj9Ulo9l36VU4uLv9++OkC3cAqdIYW3ZAqtzQNS3eWGYLgqea?=
+ =?us-ascii?Q?JMEw+4I18EoTmjAMheBbt5Gj7HwqG1Mry4PfzYewhIHZGJQMkHseecI85rPr?=
+ =?us-ascii?Q?cCD69BS3ZAQTVq74gKbQIlvmxgRxtPfCTo6dvEfSspEn58GDnluz2EBqaQ+R?=
+ =?us-ascii?Q?pBf+EfN/RL5m7GCKarOZEj6sbrKQ9mFEEQwr+yxL0kU0Dzk2GkKV9hMxEQt7?=
+ =?us-ascii?Q?NuDjS0/DaBI2EuSzYq3R7WCf3wvVdHIg9lI7eIM/rcjEWiFgk7h+bktJKLwN?=
+ =?us-ascii?Q?JHthHNZrTtWTdKSk9wAST9vTeKFnwxxu0vg3w3z7U1z/9BCgj/BrTDDEK8qy?=
+ =?us-ascii?Q?o9gZnaaktqWJsJyPSiHTOWjPPp2lbRJMDtBYUl6XQKrt5kLrxpzY0fgbnAKC?=
+ =?us-ascii?Q?2PbzVNWCa2V9NN/dkRt6gQdTLe/ryN37TVnFIFQE74Kh31pbSZb7HXVTAd0J?=
+ =?us-ascii?Q?N2Re9DEAgW9VVV+xPzBC73SuuuUXS33osCwMKT9nYujHVJxyyHsWByRi6LAt?=
+ =?us-ascii?Q?QlKkUOqwA7P/CN7kJCDZUrIOFDw3XRti/WDwXDo45OD8WhzsIk2DySzNuX9R?=
+ =?us-ascii?Q?iijJijJJzpAUPg5Vo5+1fIAymMJS19sHhNxR4V7pC0YD6mcnjzcD6AJQsgYU?=
+ =?us-ascii?Q?1IZzownh3gCV7+P2bg5IqNDTJRLjEf5gX1wCEFe0RluFHuXd9GC3CweQj6pK?=
+ =?us-ascii?Q?IJGQxyghOD/7xMW4oyLZVau4GCTdDk054paWJYY2AMRrHvyZOEDWKZxSe6Bw?=
+ =?us-ascii?Q?l7kImfM0sF8=3D?=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR01MB7057.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(921020)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?VdA00dgjRbn6L/v8hvZK3xsBl7rYAK3HMtdPpVuolodPufw/Bdo8U6tZXRK9?=
+ =?us-ascii?Q?lsjmO0Ihg4fZYD/VMzpcArWX4+q90iGni2LnXK4ePfybBGAYW7sM4qvShRFb?=
+ =?us-ascii?Q?zfBa63clm0VxJqN9qJjMvH49i8DcFWWGhwPjnPer05Cmen5Bztu4GgXxqCfd?=
+ =?us-ascii?Q?Aw1hCBAVEKrppqn/H2ufrF9sRlniEbGlrdpvEGgcLBAr3RziHeFFBXdI1NIO?=
+ =?us-ascii?Q?KRvVQ1JlCo46iFGLNIV1uLri6Ck7F42JtmHQes9dlE5nvlJvdQKLH0ZZVhfr?=
+ =?us-ascii?Q?pHLba5xmrL6piBavs5ZitIt3UMckmG8bP4QTphOGOmWP6FzYJjYYlZNouXeo?=
+ =?us-ascii?Q?z1jjnFhTx4VJwp3zXTJ8ckrViHH3WbRPqifzeFRq8YY5LtUTE62rA+g6cRG6?=
+ =?us-ascii?Q?ILpDGC+5bbqoqGYJwY/yAzi8X5eAgnsajIfY4z4brC6XQrO0ZnFZCpXPSwj7?=
+ =?us-ascii?Q?gfavcTixuiQ+KhBYPCFyeb7tf2sPt4YcQ0+bG/JBxTnikopw+w2ZpYzM81re?=
+ =?us-ascii?Q?vh/mzoeb0VktiuJF+hr7jam29Ut0tpLIkzyjbJ4xvrgZhlIBqC6zGKmDD+US?=
+ =?us-ascii?Q?vRijggAkHmJXr8pmiKiySrntmQ52/PV/ncS6TcSq8B8Q7Ry2Zu295e49LUoc?=
+ =?us-ascii?Q?eV1ygVj1QdqH5LGwn5HJns0Puz4htVEdteI5knGoO3pj9pkWqG85NBwdllr5?=
+ =?us-ascii?Q?yCXPw+QM/HtAthiZqgH4j04PZaal1XeNblEI30QE+9zUOzj8jlVvKcD97X+2?=
+ =?us-ascii?Q?MnwmYjcy/WyZRu3RzB3eOVU72OdiffKYtVQWDwlNhNHEDdHlf5HeflOxKWgI?=
+ =?us-ascii?Q?c021oLG+EO7XirN7FrF6eHa2GbMl+FDdkaw+m1CW54V5xkv+x2f8XKmxzVDk?=
+ =?us-ascii?Q?hZmj28kJRvAEI5Ghpy7GZDkvZChEfmyirwAUiTVk6UE0zfDvXbJ26KBWy7ca?=
+ =?us-ascii?Q?a+MgYTzDQpEKc6RsrZEfORfNAAtKgPalKDsvWVbXa0421FR6z7BGRjzlMSRp?=
+ =?us-ascii?Q?pAt1hnhdswJ+KwWDQUn+mdEbscubFReigtwH4CqqmuJ31sFBe9rKJmsWBA1g?=
+ =?us-ascii?Q?i1s1FpXLcq2j5DgRRLzutjNyJkbalmx6lO3PDPGcmx0R2GMIr9yE/XbB61GD?=
+ =?us-ascii?Q?fyI9codl525yLeqMGEicG600o57L+J7nC9s60rP0kVQeOeZaCUQ8l9tH8nGR?=
+ =?us-ascii?Q?GXtzKiVwUJcsHDGsNqGdpqHYjWG+QpwK7Noe9H/KJctI2+LMSD9I87wrxLmQ?=
+ =?us-ascii?Q?JecmSeZNjIi9Z9NgD8i6L3r2iCdYxnuP8TwHjLV3r+U9r1xY0CND6AoMO4uN?=
+ =?us-ascii?Q?diMzJMN38H47ubGEuqIwjAuq0xO6weiPY6czsWnlEJft6Y5pKTqr477rvg1v?=
+ =?us-ascii?Q?KT6onvh6pPB6CxuXTokjJkwyBSBQCD3alTVczr8GeBqojBRWv8xMA1zCr7eN?=
+ =?us-ascii?Q?AdSXNRBLQnYp+v/auX6MkL4awWolCJGY3pzvlKUksQy7FS0qPt4z+lxGPZDi?=
+ =?us-ascii?Q?KevI8igyY7o2I4KYa5Tw6OoiNL9d/PQ7l/TGkPO42ZXUpYmfoGPX9fybHjAO?=
+ =?us-ascii?Q?tGIeb7yXuz+/x2+GY0SbijOiCd06EufxzlqnEIt5JXiLaqBhzHFNOyQcOG9K?=
+ =?us-ascii?Q?gAx7Qg/MMzEiGXFSZJII6WM=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 608d78c8-cd86-49f3-2c82-08dccd74fcd6
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR01MB7057.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2024 06:35:52.9584
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 70Dq82+jiBHx/KCv+fDUWG4Ohw24Ecuv7HuF5mJMxtimtl/SbKJEbsoSIpQCwobYmUYJbz+D/rFBD/7oLczlPx9V8huoYifPF0kbmgT86AvG87COlHr5ayqlsmg9ij8E
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR01MB6754
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,28 +159,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: andi.shyti@linux.intel.com, linux-aspeed@lists.ozlabs.org, florian.fainelli@broadcom.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, Liao Chen <liaochen4@huawei.com>, tglx@linutronix.de, jirislaby@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Chanh Nguyen <chanh@os.amperecomputing.com>, Thang Nguyen <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>, Khanh Pham <khpham@amperecomputing.com>, Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Sep 03, 2024 at 05:49:54PM +0200, Uwe Kleine-König wrote:
-> On Tue, Sep 03, 2024 at 01:15:03PM +0000, Liao Chen wrote:
+Updates the device tree to support some features on Ampere's
+Mt.Mitchell BMC.
 
-...
+Chanh Nguyen (2):
+  ARM: dts: aspeed: mtmitchell: Add I2C FAN controllers
+  ARM: dts: aspeed: mtmitchell: Add gpio line names for io expanders
 
-> I wonder if you found this entry missing by code review, or if you have
-> a machine with that UART and so you actually benefit.
-
-Using arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts in QEMU
-I never experienced an issue. Seems due to defconfig having it =y.
-(used arch/arm/configs/aspeed_g5_defconfig)
-
-> Otherwise looks right to me.
-> 
-> Acked-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+ .../aspeed/aspeed-bmc-ampere-mtmitchell.dts    | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
