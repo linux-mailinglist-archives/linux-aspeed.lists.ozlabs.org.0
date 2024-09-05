@@ -2,54 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFB996D786
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2024 13:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205E096D78B
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2024 13:50:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4WzyN469Rbz300Y
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2024 21:50:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4WzyNs0zC5z2yy9
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2024 21:50:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725537011;
-	cv=none; b=Go9C/XalGUdCQTlWr+G7nY27h6kgfpyYQ5R1Dqu3sT559Klmc4hjSEHlNV1086W4JxvquetkN1d2/D0s9+K/PJJmiPDh1ERSgj8S8pdqlNmK189SHX0kqzqw2cypqcsQnXfwvmHoJlxV1TiKZHMWGXE/sMbjDARAUiHPaDeUngJpdEGJhDavM7XOdd0MYTjC3WFY/OVTR3QwqmqUgIjQe2uMqOFX0gqLbTDhfx8qpsoz9zmIfGuRe22/TePcq39IIATH0CiKyZ0RVljV3RvLlJzAoAf0nR9XXXi7LQQtthQQI11IAwwIDEfhLkKRReEw0EhyZrFu1b4fLCluyXJWeA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4641:c500::1"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725537050;
+	cv=none; b=fyBNz7Ynl0fYJ/oAp7l27rDmGPJKOm2gSEiRe0ORHRLffppupbL+lqYnxftPhfqVmHBjaWXgU72mHf6rqais1g8BPXVYjGmT4ctZxllALQzSR1dS3mNR6t5PQJCGRsh6D/RsjbnbsblcQCIstc6zyx8xlXaeJ4mN5oR6lu4HQFjMtqTa2dWrsGUGXksrCF/U+bZo1Hghs4D2o3UsnvlCbZ54SK22oFGXlAKEeZpZCJKeiByTG4Mx1H28Jb1W8mAkZ+V40ziRk4l1Tznqw6b9VdUB6md9DGzr+3nPZLC9wC3RUf6tRFRArrk3syTBE2fNCy4ICE4zMS9u7eQELcHO3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725537011; c=relaxed/relaxed;
-	bh=nxOW+ZsMK3oa9mdXCjsRv8vsRGbkWgUn3LYf2hl0Wrk=;
+	t=1725537050; c=relaxed/relaxed;
+	bh=KuYauVtLw8Os+VUh0hrIQOIInAAwxA58yOoOpjA+Z6U=;
 	h=DKIM-Signature:Message-ID:Date:MIME-Version:Subject:To:References:
-	 From:In-Reply-To:Content-Type; b=QtYttPQR839Z6Sj65lkXTXTcZHTAFwzLuN6k+xBqc6P055YZ+QLTJz+7/580f3VmvqyNbXoRbPbbvI4Ups6hSowpLC/8lxe5iOgNAlypSszWg7XBJgavaACBF9bz43YMhw+nwPh3T000EFZ+h23tULAbCymUitQ3jHblatWeOYeSA5QREQJUYoqBS2SrMwUHg+358CX8UqjVPVkoDQp96tooZDpVtuZ684NeEuQ++aNofjocRmetLMn5J7uf+jlsm3+yoLQwwrbWn/Pxd/i7pa0zOuoRglcgdvKPB6LJfC65cLkZdwjJSIZesI3JXE+1zNGUnMINJeNQeIJBU775rw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HZcttmyo; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 From:In-Reply-To:Content-Type; b=UVDe54iHO38jufCtxYk7wAcKaXEbNrqMeS/xU5SJkXPOWv2E4PI8fqTzKjpAvWMYVdHhQ5RlUe7WtH6ONXAHvkWtHg5Aln9uaCC2czu27+SX7kiSMceSui1bH3F1IcqqhAWPRMPfMtO0gqSaPYtpnbdLFY540koaqanG/Vc49ux124bPFNNRF6qyzawkUyEM4wqlutYur2JFXOLJ42csk2LgSZs+9jGM1VrOWltzvAGJDggyiZlCur6ZdpF9KmtU0ZKRmPkxf0e3HPip/MRkhbmv+4E8f4YtoYrZBrdzLEReSUSf6xMt1Z5lXP5RiIeql1tXNk9gKnSR+7msHDMLJA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=q6/yz8Af; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HZcttmyo;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=q6/yz8Af;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4WzyN23K8bz2ytT
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Sep 2024 21:50:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4WzyNp2RMVz2ytV
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Sep 2024 21:50:50 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 13EF8A4452F;
-	Thu,  5 Sep 2024 11:50:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 433F2C4CEC3;
-	Thu,  5 Sep 2024 11:49:59 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4F80E5C4C3F;
+	Thu,  5 Sep 2024 11:50:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09F3C4CEC4;
+	Thu,  5 Sep 2024 11:50:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725537007;
-	bh=j+E59ehvKxXo4I4jO12qrppSXMcfVff2poOB3lSPhBE=;
+	s=k20201202; t=1725537044;
+	bh=/UF8ih1Lnzmep2djELoXhzw+uWWqswmeaDLipume9TM=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=HZcttmyoH7TkT40fRuoTOmJmMFsO7zsW8RRIo5atqIN+vJEujeQHumFb0n1iiA8MY
-	 RMxdQMuXRpCGmN7cyC8PLnB08FWr4TK5Jl7eST/CWSSeNP1S4VZfD+3W6jMHktKfsu
-	 I3gb96CHZDLhrNWR8CetzLzAP8Txj/MewRddfgQLFI/ZKEh8HPL977T4WOfKiJdnw2
-	 dXS9wFi2dX+GyJvH11dtnzcW0qWTwvGXk5vdZkRN85grOZ1ybki1MUskX/Wz2VT7FE
-	 /HDsKWpMhKzEsoZHU4pLb6B9SO2FthOzucogMsqAFMQK4u6yjid9wr6DjE0EShkim2
-	 ytYBKtEAPi0+w==
-Message-ID: <f4883736-7c85-44b8-976f-f98b2d270973@kernel.org>
-Date: Thu, 5 Sep 2024 13:49:57 +0200
+	b=q6/yz8Af5jX0ydBRYPdFvDdy4d8Tff1HXRl/PS+4r0kn4L5T8sAPBjCFyadZh8zOG
+	 ePQRRADcIffcHAxYCUCpaL1k5YWRnNS5BeAAWvuT8gKCSiE+pLpz2fBhvgdw7HXo7x
+	 9nuSoHmVYewoDFlYGLiXIyYomss6xFVPXheAtX0rijQaymKnY+0gfCHbfssq+uhFEO
+	 srI/jOwtFS/M7+JPrkPIoNin1E02jpQIA6gLyCP00QBlJK4k1b44Y0hRM31cHYZuhB
+	 0b/cl6jBzWocVg5Kuxgg1JDC+mBhMDyzD14BRhbUfyEjnd2PY9p1YjUf+qzQC13tqw
+	 IJ+FN8gPpRM0g==
+Message-ID: <ce910c90-0655-42d2-8b1b-d912698d4556@kernel.org>
+Date: Thu, 5 Sep 2024 13:50:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: net: aspeed: Add binding for ASPEED
- AST2700 MDIO
+Subject: Re: [PATCH 2/2] net: mdio: aspeed: Add AST2700 support
 To: Jacky Chou <jacky_chou@aspeedtech.com>, davem@davemloft.net,
  edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
@@ -58,7 +57,7 @@ To: Jacky Chou <jacky_chou@aspeedtech.com>, davem@davemloft.net,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, andrew@lunn.ch,
  hkallweit1@gmail.com, linux@armlinux.org.uk
 References: <20240905114754.519609-1-jacky_chou@aspeedtech.com>
- <20240905114754.519609-2-jacky_chou@aspeedtech.com>
+ <20240905114754.519609-3-jacky_chou@aspeedtech.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,7 +103,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240905114754.519609-2-jacky_chou@aspeedtech.com>
+In-Reply-To: <20240905114754.519609-3-jacky_chou@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -122,31 +121,25 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 05/09/2024 13:47, Jacky Chou wrote:
-> Add a new compatible for ASPEED AST2700 MDIO.
-
-You have entire commit msg to explain the differences of the hardware,
-including whether they are or are not compatible.
-
+> Add AST2700 compatible for Aspeed MDIO driver.
 > 
 > Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
 > ---
->  .../devicetree/bindings/net/aspeed,ast2600-mdio.yaml          | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/net/mdio/mdio-aspeed.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-> index d6ef468495c5..6dadca099875 100644
-> --- a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-> +++ b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-> @@ -19,7 +19,9 @@ allOf:
+> diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-aspeed.c
+> index c2170650415c..607e5c56434f 100644
+> --- a/drivers/net/mdio/mdio-aspeed.c
+> +++ b/drivers/net/mdio/mdio-aspeed.c
+> @@ -188,6 +188,7 @@ static void aspeed_mdio_remove(struct platform_device *pdev)
 >  
->  properties:
->    compatible:
-> -    const: aspeed,ast2600-mdio
-> +    enum:
-> +      - aspeed,ast2600-mdio
-> +      - aspeed,ast2700-mdio
+>  static const struct of_device_id aspeed_mdio_of_match[] = {
+>  	{ .compatible = "aspeed,ast2600-mdio", },
+> +	{ .compatible = "aspeed,ast2700-mdio", },
 
-Your driver says something else...
+Why? They are compatible, aren't they? Write useful commit msgs so you
+won't get simple questions on each review.
 
 Best regards,
 Krzysztof
