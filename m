@@ -1,61 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F5E96EF25
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 11:27:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D608396EF2B
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 11:28:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X0W8h45TYz3c58
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 19:27:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X0W9p6D2Hz3c64
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 19:28:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725614834;
-	cv=none; b=gkZzDxfQCpf/e2/zrRsZJM0NOIoYE70S6utmJ4+paNrYSvNxb7hfP1I6OeZ6JgzGPgvRO6tCoMFaW0o0hjc6Xc3bb+iVwfZjrt5k2KmXfwp/79pQwPcymf9O7PWJJwSP6uEZujmOMBn3TyDRPEy2brWfLNUM58utEXpBkMZQ4ycxfI1xQ4QHLX8bBR4fsQrvOzuNAGvVJZh6RMTm8lhr0kwz/+A3EhkSRPKMt5W7CI8McH/UC+mjWGpjJbzo7Vd/V8YlkfCXezpZewc4EbIY54gvn+E21nNopez9uJ/DPvXvKo8TRfsb+JKRROxGhb+SnnUWy3qMs+Qm5weRrKrDAA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:45d1:ec00::3"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725614893;
+	cv=none; b=I+K/sLAIc/g3lBif/hMvNOhrSoTWeWLodxDgZoYh29EgRD03G7p64NJ/APot5cW4zYn9soGLweDV93Qn+m9+ExMBPl3LmTJKfAxws9/tcWNzH4gtdl1GpFHjqNAnBD/Rnsq/51rWcHZBIakvrNWnPXbZWgibnD1eqA+ifJ+LetHiv5dA/wmpZBvpx9dp8NkryvkEPwD+ZXCWVfka9z36jZvhCiIgWrnPdaeYmzU/p2NtKRzBHMlwLfb/MTs/h5oe2a3l+6q0+N43uo/5AQFsLM2DczqC0H94mIiBjj530D6420DO5YP58NlWdpG9YMPgn+vtJYVKXhjK/lmKW3+VaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725614834; c=relaxed/relaxed;
-	bh=kglwDQsg0Y5JoUE9s6SMHDx8AKyIFSW7hrsRagM5odY=;
+	t=1725614893; c=relaxed/relaxed;
+	bh=u35ukUiZrJlbIXo8RNdc6XYZFhakfeTbdmh+Dtm2o7Q=;
 	h=DKIM-Signature:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type; b=adoZMthAm1mH/w4aJFPSc8GkHxJZTTWbP+QDTPL3oZdyS+r2KeU6vjp394zN3onMD72dWbUEQclAah5gbnRa5TT+Bk91hLVXio48y2OHNBvty1EuzQgT0D0LaI25xa81G+V5JfuGJh0Rdc2YoEFCRfRkXj5WqSwoknWeM41xJ/9RZ+kBh3j4XmVf8ibvTrEqIlKqgiDhK4ak4LGqta7oB4IQUf93QWt0QqKkWS7GZtaZaN0GpuSgSgjgaVT4iXn47o3cVApdiXlaj4jFC+SUgZaWcW1cswb7BVFwYo/+0/Lby/mZPrWWGzKJGNsKeOcIuz42QUca3wavDDpsZX41/A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eWR9pXJY; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 References:From:In-Reply-To:Content-Type; b=OXIJp+d/8NlcDTJs9XZfSTA66gLyzNjH6W2nCMHvtquLmaJbmmeCPhfuViSjzdgZ8m0AFmrdYHuYXevLYTtAHaScK4gErfN6piC5qZ1uh44OEu8BAi2kdabICLbVdA6hStcY3B+0WmZkkSdaV4oaj4FdnmDOOUGuCBGGy6NwC48KQeKJnLK0z5eOWLwbfB0sni0FNkeGC928l5J44dNd2KDsbHiO/+u1bWVumWI9qqZoW7CqfFfWZMtwHevijucsYK9JkhX/8JGLwlULQx1C16R/MYj5oLw6DX2wiqlC1yFhmQfk9cf2kDjFaA647cT5alGDlAZ8QL9LjH7SmVD3WQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LlBqLUGv; dkim-atps=neutral; spf=pass (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eWR9pXJY;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LlBqLUGv;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0W8f2HVdz304l
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2024 19:27:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0W9m6X1Zz304l
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2024 19:28:12 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id EF2565C5B64;
-	Fri,  6 Sep 2024 09:27:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 298FFC4CEC4;
-	Fri,  6 Sep 2024 09:27:06 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 9073AA44D1F;
+	Fri,  6 Sep 2024 09:28:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B1BC4CEC9;
+	Fri,  6 Sep 2024 09:28:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725614832;
-	bh=OIA8HXSM5TnHNn0iNSRymE5aF9pj/H5jQBZHRfGOuIM=;
+	s=k20201202; t=1725614889;
+	bh=1mTFU2MDeh2XVtDbWEwd+yqv/HaalI9lBMwhDCVhxe4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eWR9pXJYsL3Ww3mdoCDtpBWKNJ0q+Vyy1tolhUmdlWwhGkEst6BBnCFFb57P1Tagz
-	 0vGf2Xcg386CvVnPqEJgMR/zgDWsobAf/z/XLSHaZ/Rr6AJ5Fe83Bqh7aMEekyyS+Q
-	 jgTFcc2IqvUFsnJx5/jjYI2xlUvOiR7KlqiwQzymDs3YkoFa28cFzdSPgqnZzlq+zO
-	 K30MIw1MJOmu0eDLws+NL35wvXxm08VBVRW2R5iSYNH+xY7KE+KeeoSr22jUyJrWeX
-	 C1L+EeoqbRFSA65+LbEU8JlF3hcYaqJzxNtntQicEByqtsXobDn26Rdys1xQGJvKO1
-	 iaYb/uiKev7rQ==
-Message-ID: <6ce7bb37-833f-4164-8247-2ea80321993e@kernel.org>
-Date: Fri, 6 Sep 2024 11:27:04 +0200
+	b=LlBqLUGvPExFphnLjfyMdB39G2jGRZbmhgijMKFT9pmnGxU/h+w2CKhox/c5S1OJz
+	 hQJUCVMSNuNtmjyBizM5mkjPW4eSLj+c/P1QfbdvUaXxXGRVt7Ds5xKK8qAdQ/WXpv
+	 NlMCPl7CE2eADrNuaX5RPoM6SLF4rzdmgBXsgJl/u5sh5aLnYaULxTZmu6GgSCYpd7
+	 iFJ5v+l5UL2pGvkeSluCVRsxBY+h47DbKyfVfDe+ckLSNwkbFxcFkyV2K3/vdXqp4l
+	 J8vrF5Vh5OnqpeBUcd/ypzAS6OubAMh4SUND4rKOQA1ceo6RLb1lal6+uRuvFGToVN
+	 5wxcMPm8BLOsw==
+Message-ID: <c3f5a23e-591f-44e8-b197-6bc8e63c6e45@kernel.org>
+Date: Fri, 6 Sep 2024 11:28:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 28/32] ARM: dts: aspeed: yosemite4: fix GPIO linename
- typo
+Subject: Re: [PATCH v15 29/32] ARM: dts: aspeed: yosemitet4: add RTQ6056
+ support on 11 (0x41).
 To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
  Andrew Jeffery <andrew@codeconstruct.com.au>
 References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
- <20240906062701.37088-29-Delphine_CC_Chiu@wiwynn.com>
+ <20240906062701.37088-30-Delphine_CC_Chiu@wiwynn.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -101,7 +101,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240906062701.37088-29-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240906062701.37088-30-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -115,59 +115,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, linux-aspeed@lists.ozlabs.org, Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, linux-aspeed@lists.ozlabs.org, Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Ian-I-Chien <Ian_Chien@wiwynn.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 06/09/2024 08:26, Delphine CC Chiu wrote:
-> Fix GPIO linename typo and add missing GPIO pin initial state.
+> From: Ian-I-Chien <Ian_Chien@wiwynn.com>
 > 
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+
+This is ridiculous... No commit msg, no explanation, subject inaccurate,
+no SoB from anyone.
+
+For obvious reasons this cannot be accepted.
+
+
 > ---
->  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 554 ++++++++++++++----
->  1 file changed, 455 insertions(+), 99 deletions(-)
+>  arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index abd4a9173de4..4090725160f9 100644
+> index 4090725160f9..d056f6d5ff6e 100644
 > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
 > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -285,6 +285,8 @@ &mac2 {
->  	pinctrl-0 = <&pinctrl_rmii3_default>;
->  	use-ncsi;
->  	mellanox,multi-host;
-> +	ncsi-ctrl,start-redo-probe;
-> +	ncsi-ctrl,no-channel-monitor;
+> @@ -1081,7 +1081,7 @@ power-sensor@40 {
+>  	};
+>  
+>  	power-sensor@41 {
+> -		compatible = "ti,ina233";
+> +		compatible = "ti,ina233", "richtek,rtq6056";
 
-NAK.
-
-Stop sending downstream junk to us.
-
-...
-
-> +	pin_gpio_m3 {
-
-You were already told multiple times to fix youro naming.
-
-Underscores are not allowed in node names.
-
-Finally, fix all your patches, not just one.
-
-> +		gpios = <ASPEED_GPIO(M, 3) GPIO_ACTIVE_LOW>;
-> +		input;
-> +	};
-> +	pin_gpio_m4 {
-> +		gpios = <ASPEED_GPIO(M, 4) GPIO_ACTIVE_LOW>;
-> +		input;
-> +	};
-> +	pin_gpio_m5 {
-> +		gpios = <ASPEED_GPIO(M, 5) GPIO_ACTIVE_LOW>;
-> +		input;
-> +	};
-> +	pin_gpio_n0 {
-> +		gpios = <ASPEED_GPIO(N, 0) GPIO_ACTIVE_LOW>;
-> +		input;
-> +	};
-> +	pin_gpio_n1 {
+NAK, not correct. Read bindings.
 
 Best regards,
 Krzysztof
