@@ -1,62 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7419B96EF37
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 11:29:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC6696EF3E
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 11:29:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X0WBv3RJ3z3c88
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 19:29:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X0WCj5NkMz3c95
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 19:29:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725614949;
-	cv=none; b=J9AZS6VCldP+p5AdP0VNP2vGFlzXzHN3c7ISVEEX0FdJLuKszQGVl7Fuhx/34KuwPXgHhaVV6KcdoLW2oWzHmVBdicEhZx4b7WzrvVam8aMdkGn+fsFu+LrydAeauKNvFPzNT9yR/4O5Ml5tfo7/cW72lPD/7i2c1FfPPvldYzYUHTOtKEwY9SyklcpMjaQY7SUeLDmVr4AAdPNwIzODV1+dbIefhiVQ7FFtjziyHdxE3CMiHO3JIlz6gMDzUJC2MhsNMoGSpJgismHr0NPNMmTAp+hQUB2tOv/WVszk6gHqr62jR6JYrPztuDiPHsn9yrJvcKQpFT17CkbIai63YA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725614992;
+	cv=none; b=F4QJHATkIYRU60mspNDx/8au578NILSG72mTTWuhr44LQEp4HXHgrLys7KDyZDs++S1K2ZguYjcuLF0dVquXwq7gIBio+3Nt8ExWHtSgLgDZYZAVvrA+QdnFE6x9lYh8sDcJo1Mm/P1tXQBDwG1Nqzf9z7RrTCA5N9IgRHSZ8WInRgX7ZfDKwQf9K+v1FQZa1hbnYIikuOL0lByClNC12DwonvV0MFpAcdNHrd94PBOXCUC32x59Jz/FwviMtAJ4p8DEEI5Bp92qD6YMYe4zl7bD2MOD7b0UQC9GVHN+DAs/OBxA9aHjgXL8szr3V2dWglXGPUtGV5KOs8yIFyGwDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725614949; c=relaxed/relaxed;
-	bh=iYuuqdtYM4rPgilxY57MSuK6DaIzRieOSy1/Aq/JuXM=;
+	t=1725614992; c=relaxed/relaxed;
+	bh=cjgy9MPL51nkP1FEQxHwhFwCrKBsTYbpLfh68FG2uU0=;
 	h=DKIM-Signature:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type; b=JC9bWiE3MKzu4110MPLSlyYNiTNityUhmbUxUCg3bfOl9OHIhtrxFvoTVxAUhX3skIVgxN0FNegBBKSsk0tI4Aiz3UFx29KoAmmLOvyJeoXpBBVHSFC81DAWewjkfpkUn+Q1AOcWvnaosSkF3kGlvfCWWkpdlZmli6qhRY8I5fAVZJKJVVneZHFEcZyNXLtPKWgXaiuYpOKFpKiyQ3rGh5MiwlAkgEVRkotzE3HJeoTH8eE5NSnS6/LyXqerhWvgGl3pnwrh7mddLr9v3I5NTlHeB6kPzyGXvUrvCRUYSQGAtKdR52X4nhE0/AOFDT/9r1NG7AlpkqDjaLMPDrU4+Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PSWIYCZL; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 References:From:In-Reply-To:Content-Type; b=oExAKpHp1Fhden6qnVuCdZ5OWUnv10QoHbGshMzJ6WvM9C9lHI/AzuvLDITFsXPxpPuzey7GSrNeTFeQKbIvMww3a7O28EKIfXUzr8Lnu6QxzI1ajbd3nhQDuz12Ucn3bEA/HF1pHGp2zQFpUsx4RqGtbAJIZhdOeyWUmh1NiEf5/gvTbhxFRKtbPinyyIYqobIU6QFI3JIDprVZUSB2VHlmqvUF0LpZDUhY+wB6E2fC4metWbOMYxUBZOxnXzq+ocFn6QlimdCnao54535IJB8/q4pGTRWj1rM+iTY/jfDSxVEMAiNWCeXMWGKeWHgFa4slxtopKKkw3AP3nl+FTw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KwA2e7r/; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PSWIYCZL;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KwA2e7r/;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0WBs0J1dz304l
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2024 19:29:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0WCg6kR5z304l
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2024 19:29:51 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id C92FF5C5AE4;
-	Fri,  6 Sep 2024 09:29:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B986C4CEC4;
-	Fri,  6 Sep 2024 09:29:02 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id B1BCB5C5A77;
+	Fri,  6 Sep 2024 09:29:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BBC2C4CEC4;
+	Fri,  6 Sep 2024 09:29:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725614947;
-	bh=NjqAwVHDMS7V2RtfjHmyV25UmlkkPz0wm6TRK+DCkHc=;
+	s=k20201202; t=1725614989;
+	bh=TW+sfK0QESeLup+/MpeHqBTD49CYUMLg6b1422hKDY4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PSWIYCZLrXnX9vFlohCsl2UmsVhtS1ofSRGMP5RI7Zko6GG40kzEQlLKhwfUk/WfV
-	 Bj5OKV4VsdVr97g/73YCGWqqwXiQDq9lMpFzciMMrYFaCSa/EWWbNsxL/63PFdCacA
-	 JNv0VVXEn62WoxUwQgn+wrxqi5YPWLKYD5Oq/DBwgSAL0MhL1enP7gOxVST7Ho6vmo
-	 w7nd2foj6NErsiu+SnF7DNyFjA4/3wvOXETlHCGhIy81KHPBEryIt1jOIOuxE4d5m4
-	 Ba93ryA0WaVO+Rp/08wWQpcC6zpG9Fdnvf3eYLuf1xXoEGAwf3hOyiyWHeubF7u8mx
-	 PxQ2oPGJISW4A==
-Message-ID: <474467d1-aa80-4ffb-a993-6f15d46bb4b7@kernel.org>
-Date: Fri, 6 Sep 2024 11:29:02 +0200
+	b=KwA2e7r/soPJkobm4p1YzdLMQX+wzwX1hSbM/+BL73NV/uyiexTtqeigSzzY1kAig
+	 MLElFoo297FXbH46agBEiET1ZjygyTc2xoAw18KYxlosMeSXSlGxDQsBijS3ZUtA90
+	 0hezzyY7C8dwiy6qFiDOmN8I6DmKaNbBoqDYFRwoXb+FLiHhFSQ1E1gGe8uaWKM9PR
+	 4Ysi9urvApgp2sQMrJcsHepgrpIpxjcBcBDq3Nk8iwB88O5kMvaJf8wStKogFjMJ17
+	 wIux36MuiORdG2Cbnop6+rFcG/EF+XOeWAf4EQGur98gHBxSHpyXQLYIXPywAMF8kL
+	 sbowdU4nwXZuA==
+Message-ID: <b0f7c007-b9e8-4914-b3fe-d6d17b61661e@kernel.org>
+Date: Fri, 6 Sep 2024 11:29:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 31/32] ARM: dts: aspeed: yosemite4: add GPIO I6
+Subject: Re: [PATCH v15 32/32] ARM: dts: aspeed: yosemite4: add ISL28022
+ support on 11
 To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>
 References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
- <20240906062701.37088-32-Delphine_CC_Chiu@wiwynn.com>
-Content-Language: en-US
+ <20240906062701.37088-33-Delphine_CC_Chiu@wiwynn.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -100,7 +103,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240906062701.37088-32-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240906062701.37088-33-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -114,29 +117,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, linux-aspeed@lists.ozlabs.org, Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 06/09/2024 08:26, Delphine CC Chiu wrote:
-> Add BMC GPIO I6 for ALT_SMB_BMC_CPLD2_N.
-> 
 > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+
+You didn't run checkpatch, did you?
+
 > ---
->  arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts | 4 ++++
->  1 file changed, 4 insertions(+)
+>  arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index 04aa428f94b7..0341b61aa1f1 100644
+> index 0341b61aa1f1..e0cdda701c24 100644
 > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
 > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -2011,6 +2011,10 @@ pin_gpio_f7 {
->  		gpios = <ASPEED_GPIO(F, 7) GPIO_ACTIVE_LOW>;
->  		input;
+> @@ -1088,7 +1088,7 @@ power-sensor@41 {
 >  	};
-> +	pin_gpio_i6 {
+>  
+>  	power-sensor@44 {
+> -		compatible = "ti,ina238";
+> +		compatible = "ti,ina238", "renesas,isl28022";
 
-Follow DTS coding style.
+No. Read bindings.
 
 Best regards,
 Krzysztof
