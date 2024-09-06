@@ -2,69 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D52C96EC25
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 09:38:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAF096EC3A
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 09:42:22 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X0Slh0pkKz309k
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 17:38:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X0Sqc48Wsz306l
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 17:42:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.219.172
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725608333;
-	cv=none; b=JOrpKUlDas56636e9Hxnnvlc/+Cf0qICxmfgCum+xTbq+/pZl2WLS+JSvAuyTW68aov7ZnOmKiHT22SJrMzCytkfXoFV3cUl0lk+tU/wfVQETAC0a0VN4qWRGfRSd9p4EdT5m/ImlzZMWW947mHuL7bIYETGR7SVztwpy1EhD6HxBMrvnEyy+yGjmhuCra3o3JYiEJDRlSSrx3F1rG9ZGXpBWrkvzV5QVwUYLSqDCfeAhPwiP/bdY5S8C3gKCgrcIIsDFeTsuiVKV+JqTfamj6iLA3Q1+ifjUR7+jeqKnvT6l+jGCLva6QTGOuADI3y+cJha3KiwLGgJn+/kSWcj6w==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.219.171
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725608537;
+	cv=none; b=L1eT9l97zjXXOVKLXNHs5G+pmJuGzpXVO9it92iZ0xngamDB/8imelH5D2OicB6qwAmniMIgIBjOfNeOk8BHUSpD//PHvA9UDmhKg9Wb3JvSUv0lxdwqEXv2Op2AYDthpxnsrixrNj+OxNDl2Q95XHf3aZDzoBpSOrFXNvYyE1QXUlme6UN54lhaW8S7grr9i/m5vYd5mwZ4rbPeKrgzaWqeJXElKPXRwE6UupvNFIRv40Sthy2sK+Spw8PuHHuwWCp2dDUAXHeOLUFAMh7LLPNAHSniY0/dwn0GbOu9f5oPSjBfptT/xHf4MLeF7QNmQvAGIc1lIaUxz5MohJBDQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725608333; c=relaxed/relaxed;
-	bh=d/xQhV42ZUI1fcy9JagOpFtn+8aZjojJQpKnD2zOZrA=;
+	t=1725608537; c=relaxed/relaxed;
+	bh=HOu0qyAEJ6R+fXCEatl02fSOu2FCjiv0QYlkkw1DK6Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h9m1tYuHFUzrehAaxHMr2W1EPs7f9BMZJ027krmmxLScwgsxSvCyBcRqsZopE3b7GUMkzuN6/eJ8Pve5D07jEug1Hb99mS7u5e0u5yQOQpUSDppUbpISsRouKB62FpE43yp6edB7Yce58t4Ri6CoD56YV0nXJJOKvvsfduwxjulhYHSw8trbBFDvQpCspB/ju329AyZb2LMWn1flzlgNfKKGugm9e3Rvx38bbC4buVp3GuLyPuaNcmTNfl9eNP+n5H7/dpzV87srxetIsXUXZApEEv5X2JOfOyuNYXubVBApnVCdR6olL2RENMmRmRAAL7Rlkns80wyM9nUTJBahIA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass (client-ip=209.85.219.172; helo=mail-yb1-f172.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Fa/2QXI1yTgyv+KiP7fdU0eg5+iMaKhOgJ5BgRX/h6HcJVNcIQq/TARaHPkE7S216jmFbNR2wJto21R1hAooGmXuq3EaRkxSTpIuC7FP3ISMDWKHWlJfnijmxjRMMw7COPCSHHD4roVOBWa+pukVW47QTvV9XSRFOioPL5ZLYEPOTwbvLn4bUFyGZKqSJV2HzN74ApGY2Ieqiq9VicJ2P5tCg+nfuZBaiRgq+fuc7OuqIzPIMg0S5CNhHDOOgDSHSLax0+8R/dNV8bbWAGoi/0TSVq0LupbjxZ4YGeqYoIefHHw4FJswtv1ZZqPsdes4S4CTC9lnCQfgUQluUdrLPA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass (client-ip=209.85.219.171; helo=mail-yb1-f171.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.219.172; helo=mail-yb1-f172.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.219.171; helo=mail-yb1-f171.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0Sld1QdBz304C
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2024 17:38:52 +1000 (AEST)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e1a80979028so1853250276.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 06 Sep 2024 00:38:52 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0SqY2VSRz2xZT
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2024 17:42:16 +1000 (AEST)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e1a90780f6dso1833833276.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 06 Sep 2024 00:42:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725608329; x=1726213129;
+        d=1e100.net; s=20230601; t=1725608534; x=1726213334;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=d/xQhV42ZUI1fcy9JagOpFtn+8aZjojJQpKnD2zOZrA=;
-        b=tQruUS+8Kc1Nk4TOCrbYyg8DHtKFiAkY5MeMYYg0BQb+8SsB/1IiZjgOleB5K3F6bi
-         Dc6HY4pTmUnNiiXGfylMc4LVYA236+LhKlKJsI5Bp1lxwBcBhD/PP6ZV6KqlhMxwNegF
-         B9XTOb24RDsx5Ata/Et4EGHItIQ8NIGVF3o1XYVvqidbySKVWvVLNBTh1YaM1p0WxDZR
-         xfEFpl+2+xjgfsz0KnoWitUBYz8jZRQJ133af5x/YqxZ6pkm4BZWW+pws0oweZEcdcmO
-         13cBAjfIgA2WxR768zJW9UUTdI6MPUKTh+J6cX3joTWZVQJB3Uyeixsp9WZyj4cStkxY
-         yYaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXGvwAEqgHycZlkAxhbPIWbSy4BVNn4KF0h6/YwQnEgGrE3c3ro2mHChWen32Fan2lMGLf7KDbMhtjQzRI=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxslEzMlCUd44/jWy0RURhUwMRZxtENr3nz1Lew4mYnTOnQMmYW
-	xCCrRlAeHab8oagMxH6yNfDC8DOkhlrLvMq9AAbUOcoR2RVU4y7gXIErG2tU
-X-Google-Smtp-Source: AGHT+IHc2F9F5yDaSIosBhdvt+FwruCcOJxZM/ZlNH5RNTgxTfPRn7ioXFExSVMlDCeSRxk+2y4vWA==
-X-Received: by 2002:a05:690c:660e:b0:6d3:82d0:fe4f with SMTP id 00721157ae682-6db44d6871bmr19716297b3.6.1725608328827;
-        Fri, 06 Sep 2024 00:38:48 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6d2d3ea2fa6sm31477557b3.45.2024.09.06.00.38.48
+        bh=HOu0qyAEJ6R+fXCEatl02fSOu2FCjiv0QYlkkw1DK6Y=;
+        b=PMoM/3nZWcAA52JU/8tXlzV77NMmB1hR94V79ahvo/VzDrypuBrSOkOg5Cxx34AKdb
+         wqx0bedMV/CzLK04ehoQwdObgcyyUB+o4/ImQWAD9c5qhvtVgfpFsJ23KciFPVw9QgLa
+         8qqZTehuSe9h567fcW5yREQpCwo5S6ofAEWZsDxzitMVnz9Om/HID+WCuo5m37EP28Ia
+         mosa81EnEepPQ10O1yUYepIWah2VVRicP4iTW3BlBaLR9n//eqFS2ZFnVUR1JfxfHY56
+         f61XIlQ7W83H/qy8VPvjcrWyfXtf7pYcxEb0zy6d8hy+dekLk94IR6urig7JMd0rQZBQ
+         KXUw==
+X-Forwarded-Encrypted: i=1; AJvYcCXft0pQIRCLjXYpqhQ9l3rFJ+Z4YW0i3ppHuQe9JExh20+gbN8ZdPmHzk9lVMwzqHmVY1bQil5kfUjz3ys=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yz8bG0nR85kYSIPG6psY3M6SzB7vZoVzBQ4jzTv/rpW+br0Q/am
+	0K7Fj/p7QuXOuMg9Ne/L5AKWvPA+mrx8xG6Na7OdBRn7NCMw460jImyhwGHX
+X-Google-Smtp-Source: AGHT+IFR+2bEfvezZlYugEFjyfxOU9etM0YUtUFC7AQ2NRg0g+WcMoJi5BB0QZm6jUUCbSlYbpuabw==
+X-Received: by 2002:a05:6902:158e:b0:e03:61d4:ab35 with SMTP id 3f1490d57ef6-e1d34a2cabcmr2099679276.53.1725608534123;
+        Fri, 06 Sep 2024 00:42:14 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1cefe6afefsm1709285276.62.2024.09.06.00.42.13
         for <linux-aspeed@lists.ozlabs.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2024 00:38:48 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6d3f4218081so17434337b3.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 06 Sep 2024 00:38:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVKQzbjjni8WWoIZlSdChLrTpCGOHPS+SKQkPWDUeb5Kollp8/3L7Ja6utSmfJqLOOzrm8pBGp2Ska3QWM=@lists.ozlabs.org
-X-Received: by 2002:a05:690c:3384:b0:6db:34ef:95cc with SMTP id
- 00721157ae682-6db451649ecmr18327937b3.43.1725608327988; Fri, 06 Sep 2024
- 00:38:47 -0700 (PDT)
+        Fri, 06 Sep 2024 00:42:13 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6d9f0cf5ae3so20519607b3.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 06 Sep 2024 00:42:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW3ef0B7EqnV3cCB55eH1GPtZuB/2e8MHfh26HoD82+JxJx276DT+hSkVHkhiHO5fT+HcQiFjTaKyhyqR8=@lists.ozlabs.org
+X-Received: by 2002:a05:690c:d1a:b0:6db:2753:cd9c with SMTP id
+ 00721157ae682-6db45273f36mr19818387b3.44.1725608533743; Fri, 06 Sep 2024
+ 00:42:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com> <20240906062701.37088-31-Delphine_CC_Chiu@wiwynn.com>
-In-Reply-To: <20240906062701.37088-31-Delphine_CC_Chiu@wiwynn.com>
+References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com> <20240906062701.37088-23-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240906062701.37088-23-Delphine_CC_Chiu@wiwynn.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 6 Sep 2024 09:38:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV80pF+rVhRWeeZy3tyZCr5y=qRWYm1Z655t3ULZJO=yA@mail.gmail.com>
-Message-ID: <CAMuHMdV80pF+rVhRWeeZy3tyZCr5y=qRWYm1Z655t3ULZJO=yA@mail.gmail.com>
-Subject: Re: [PATCH v15 30/32] ARM: dts: aspeed: yosemite4: add SQ52205 support
+Date: Fri, 6 Sep 2024 09:42:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXFC-TMNdJryq4MBh+QQOntxdHYJrfP2kLqxJk7LKgb9Q@mail.gmail.com>
+Message-ID: <CAMuHMdXFC-TMNdJryq4MBh+QQOntxdHYJrfP2kLqxJk7LKgb9Q@mail.gmail.com>
+Subject: Re: [PATCH v15 22/32] ARM: dts: aspeed: yosemite4: Revise i2c duty-cycle
 To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -85,42 +85,37 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 
 Hi Delphine,
 
-Thanks for your patch!
-
-On Fri, Sep 6, 2024 at 8:35=E2=80=AFAM Delphine CC Chiu
+On Fri, Sep 6, 2024 at 8:28=E2=80=AFAM Delphine CC Chiu
 <Delphine_CC_Chiu@wiwynn.com> wrote:
-> Add SQ52205 in yosemite4 DTS.
-
-Please explain.
-
+> Revise duty cycle SMB11 and SMB16 to high: 40%, low: 60%,
+> to meet 400kHz-i2c clock low time spec (> 1.3 us) from EE request
+>
 > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
 
+Thanks for your patch!
 
 > --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
 > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -1245,35 +1245,35 @@ adc@37 {
->         };
->
->         power-sensor@40 {
-> -               compatible =3D "ti,ina233", "richtek,rtq6056";
-> +               compatible =3D "ti,ina233", "richtek,rtq6056", "silergy,s=
-q52205";
+> @@ -761,6 +761,7 @@ eeprom@54 {
+>  &i2c10 {
+>         status =3D "okay";
+>         bus-frequency =3D <400000>;
+> +       i2c-clk-high-min-percent =3D <40>;
 
-At first sight, this looks wrong.
-However, these three all seem to be functionally equivalent power monitors.
-Are they software compatible too?
-There are also no DT bindings to guide us, except for the rtq6056 part.
+This property is documented nowhere, except for a not-yet-accepted
+patch submission in 2022. It looks like you've been told before, multiple
+times...
 
->                 reg =3D <0x40>;
->                 resistor-calibration =3D /bits/ 16 <0x0400>;
->                 current-lsb=3D /bits/ 16 <0x0001>;
->         };
+>         i2c-mux@74 {
+>                 compatible =3D "nxp,pca9544";
+>                 i2c-mux-idle-disconnect;
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
