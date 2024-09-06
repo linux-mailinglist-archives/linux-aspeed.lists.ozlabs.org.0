@@ -1,63 +1,59 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E944496EF43
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 11:30:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FB996EF5B
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 11:34:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X0WDT0FSqz3c9k
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 19:30:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X0WJm4L3kz30CD
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 19:34:16 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725615030;
-	cv=none; b=FpxsdeyjPXk7F9YCkYfC0Dn/MYMpgr7hKqfu4f3xdQrXMwy/PY/aCd96o5XINidTLYvNEfSFb2+/xcrJVqf0W+xEyi54WMNANvZ1MMuq6nfk0Cyo6B/UTdpFfQxOZ6vt5YWNMX8TJXXbO5UxWjmS+AtLTUITlv+rfVEchX5V28E6x4kAalBuz1zHGe3XsOxnorle1rYNI7WCZPrUbhcFAPVNyDOKUR+1BdM7kLCFQ8fJ4I4368HG39AaMTMd3N6fZFHRjwbsMaE4LPaWMdZPeuEJnXsFcDyzwiIuyd65BO+ZWqigRQNRzDXayLLSPJEP1578LacsW/yFq1lttcu+3w==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725615254;
+	cv=none; b=oCzYsQ5WycvS6LhWBKsE5XIybD5X9cD52j9u2vcLk3oUQ8z6Y5rfNoXkjeSGC0KYtjfAcBFp+ucY/iZ2AP89r/hUOPpx06q6xdMIcaKRK2jxDWPDjqWEafhxtNPfthUy+6VJ2Rn9DgWRoWTccRwZDtAbIiEtxKE+KOx9HsuYOr59yE3wczTN1CZzUSBSqtAyPXTnWR3he3HR4TdEAjx0lm/927FK+oMRLEki/hx0mAHXl6zBwhpf//BmQivlH9zFV+wbzq5H+DvHa9lefCpjMznDg9B6knVX95A1UIwn2b8bFUn6JL1HjS/HBV0BCz+0220X8zcEJEY9+I5hqxOFOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725615030; c=relaxed/relaxed;
-	bh=uhEsmvSGYZPC3/rs5B9WgCpMLJTbcvgwfV0nFxlVlKw=;
+	t=1725615254; c=relaxed/relaxed;
+	bh=Nunm85A7QPzkm1YU3LwMKcsQkLbt2GOWLc9ZtBJ40SE=;
 	h=DKIM-Signature:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type; b=P+lSjwTrNSH30lgYWEJkj1JBDg+qEihj9uHZIqNZyKdRQt7E8L+/p3akw1tFNl++u0Yij7SPkjsij0qpyzMoeJmyXeIzXhIdUlxbopyWFriRZ+FfmAeSyaAT1yjYzf3EUi5ZS3S3uOfMkfme/HyOobjr/OEmhzXEQxwQ8ettW6gi+Hc1gaixMTy6qSVYyusLweH1Q2oh8DxVMnETv3lBK1Dx1CNQJwLT+v9okm4BfPiVwg2x/G7eVCDVPl3/hbSXS2SaYjwsJp4tVFbIHhjOZnpzMX2wyHjDSpzzyA1+sjV0O77xBevuLzd751Y1RFD111fr17raFhf2euN5cE/l9w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mIpA7qsS; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 References:From:In-Reply-To:Content-Type; b=NALNagFSa9hm5Qopaxo22c6Q1eY4loRKKCf7Moaax7+X3SVOetfcWdEOneO1x+6pAwyK7j7DeA6vv5g8UtGCC7PcbkxL1AeBp3OaSiOGvaabi7mlV0H8vtxJVrd2k7TiD848k88BjjuXvkP0krQpTyYsPI659EWkpg6v9jxjFWKDONK8NDidKdJwVUnDarVgO8TiO1Uqa+dv7YVT2rWurJBMzDirKfAThtrkyIWz8Te9S2dHxH21TK24yb1E8lRe2lNdB22vzLuY5QeV+ZaV1CYbERnkSHfwjthOl5yTxztx+45yUD3IISsK/1hTeHWixGgYSTBvoy3hFYgVzjF0Hg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dfAnpXm0; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mIpA7qsS;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dfAnpXm0;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0WDQ0pY1z304l
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2024 19:30:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0WJj6Tyvz2yF4
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2024 19:34:13 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B5A445C5B5F;
-	Fri,  6 Sep 2024 09:30:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2416C4CEC4;
-	Fri,  6 Sep 2024 09:30:22 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 71A465C5B6B;
+	Fri,  6 Sep 2024 09:34:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B34BC4CEC4;
+	Fri,  6 Sep 2024 09:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725615027;
-	bh=4K9johHuYDHQAcK64WSihyOACMgPFudhnNUyspxHx6A=;
+	s=k20201202; t=1725615251;
+	bh=D8ggnlkQGEfDw4NUOjX1ed1YGldTkwA8qf2F/QYa+xc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mIpA7qsS4GMZktHe8ZSBgZ3ywaK+ShqAWxo94GYtBKs2fZSKXshz1spzbFD2ZGEqG
-	 vqJ0IsBK4YXTG57mWk/PUnNMwav0+FA6U6v/slfIxRpXVXhKv+BrWI4FMSvQ8fYX+F
-	 /gy7rYqBjPnl3Db/yGCdTIKzLg4y5ezvPUbcmPfVUB5bKDKJPknbamCTViiMvWGOua
-	 Mnc39ID9GlBZ/hY0OAVZe6l+hJ8BL01XY43CGT2CuvjikJC61BciEuKsJFr+m7O873
-	 zPQFRjCDc5mXRi+QbXxTRGAqycild9aHDolX6jYGZiepI63qt3fi3CK2AM6a4GVVg6
-	 tTnL/8YCngNog==
-Message-ID: <4065ec96-5f8b-4e89-9db6-6b1203958af9@kernel.org>
-Date: Fri, 6 Sep 2024 11:30:20 +0200
+	b=dfAnpXm0AKs2pTRwrYXexY5INC48MY3bonznPG0K0MD9ltKgDNxVi20q9plpWMZ89
+	 ZpTqtISnW7I1/j2Ky++tB4wc5VAOzP2OE+8kBHRJdjRMyGwMmy37GZpQCx1egPKEvW
+	 EPRVFUSZpXZ7sWzk6RPk7ZOhqgZzu7COGxAN68AUYgD81t/Uv4LfeAKfzzuRgGPWPa
+	 hx8ekYpBtPNSr/wDF0F714cya11xVJyk+MII6oFpfQuPnldfczIc0AfoxjAk8Y4XAj
+	 QY9uvRmVsAIfwoFPUcwqzBumKd1+U95Sh2l0vosEIX640RrvRPmU5hgImTreb8jxB0
+	 kTZs2CICcMQCA==
+Message-ID: <cc1920e9-8d9d-48b6-b593-e6c70f3f672a@kernel.org>
+Date: Fri, 6 Sep 2024 11:34:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 09/32] ARM: dts: aspeed: yosemite4: Enable interrupt
- setting for pca9555
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: Re: [PATCH v15 00/32] Add i2c-mux and eeprom devices for Meta
+ Yosemite 4
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz
 References: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
- <20240906062701.37088-10-Delphine_CC_Chiu@wiwynn.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -101,7 +97,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240906062701.37088-10-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240906062701.37088-1-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -115,44 +111,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, linux-aspeed@lists.ozlabs.org, Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Geert Uytterhoeven <geert+renesas@glider.be>, devicetree@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 06/09/2024 08:26, Delphine CC Chiu wrote:
-> Enable interrupt setting for pca9555
-> 
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> ---
->  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 56 +++++++++++++++++--
->  1 file changed, 52 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> index b11951c2f71e..09bbbcb192f5 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-> @@ -832,30 +832,78 @@ power-sensor@12 {
->  
->  	gpio@20 {
->  		compatible = "nxp,pca9555";
-> -		reg = <0x20>;
+> Changelog:
+>   - v15
+>     - Add ISL28022 support
+>   - v14
+>     - Add SQ52205 support
+>     - Add GPIO I6 pin
+>   - v13
+>     - Add RTQ6056-support-on-bus-11 
 
-NAK.
+Stop this nonsense. Your patchset should improve, not grow with multiple
+revisions with new stuff but with more and more errors.
 
-You are making the code worse. Read DTS coding style.
+Prepare final work, not v13 with something but without rest, thus v14
+with another missing piece but still incomplete, then v15 with one more
+patch but obviously not complete.
 
-> +		pinctrl-names = "default";
->  		gpio-controller;
->  		#gpio-cells = <2>;
-> +		reg = <0x20>;
-> +		interrupt-parent = <&gpio0>;
-> +		interrupts = <98 IRQ_TYPE_LEVEL_LOW>;
-> +		gpio-line-names =
-> +		"P48V_OCP_GPIO1","P48V_OCP_GPIO2",
+Then BEFORE you post new version fix all the oddities you have here. You
+did not run checkpatch, you did not write proper commit msgs, you did
+not test your DTS.
 
-Broken alignment.
-
-
+The quality of this patchset is unacceptably low.
 
 Best regards,
 Krzysztof
