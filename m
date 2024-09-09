@@ -1,47 +1,47 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317AE97260E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Sep 2024 02:09:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B71D972612
+	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Sep 2024 02:09:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X2kbM1wSXz2yRG
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X2kbM5sr1z3cBN
 	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Sep 2024 10:09:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=45.249.212.190
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725886841;
-	cv=none; b=lXbghIq7YIIDsXn8sn+nTJU8K0RBILruiQcHqzFl2WbE10c58CvdeEqBFoO6USxiYrrHc6H6niuo618rS0tonSdncn2PQb2Hp63iI01MAwil+Ppto0oxaWoSH9SWRGXD9Y80da7JpcwI8XGJiUX2IV99B/9o4rWtyyySuiL9FAtof7OqdYeW52lIf6MFnelQfQ5ZE3jy0OrqHweluIhcZL2HFj2Cm009pd2fb2BUf1RPHnutps5MF9WdrUhl1DW6go+uwS0whzmOVbZHCKZlXrSY4bTd0tKF0Gbm3TdWvouPUq7lLB7wn1linoAo1OqfiUhjzFTcOJYAtI7aoamuJg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=45.249.212.32
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725886971;
+	cv=none; b=OFzJSKAbI9bJXH3ZU8FT/EQ/YamPhEXKvZGr6+3AhbuAAITuix7QRGgDSn0S8vR3MyXtm5VISvK4F8BALjeQDcFinHPzwDZwW96JRkIQm9h+FlP5M/4B12xbx+xDP7UDGGH2R12G1uMxVLObJzKHrcTbpJWlcSq4pNNnTBmkgATvTCM94mp5iXbniVgfoB/4PnHBwVJ5TEEC7Vs0bjhUA+BjPA1eD14O4wcS2pHX0A4qEmVSBr5cU7fHB23pSTdY+HPtcnlCJnVhUI1HkN5Q+ixbwrEPwx7cmIzEO+D1ElEnXWIxptAA8JOIba2KopyZQTzsZfQq6yhC1HyCzN5E5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725886841; c=relaxed/relaxed;
-	bh=oDMcc+ePYu+Gd2Aw7L9v9GBfEArAdgLSr3atBFR4474=;
+	t=1725886971; c=relaxed/relaxed;
+	bh=f++ofakngXpFniWSDLqyDWCVVC4987jRgS0MYHJFaDU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D4D6RLl1L3zdDz6a2XnJFjXqBL3IHXuLobHSPSMFQsOHPmNZ87303TCzdlpHuuwdHpxCiD+8+AfUTa3hwHlofkWZM7vyu5bU8gFBmpPb0Fgj9P97UL0iUw3gKKeJfgpOFx/ytO3e+V1XrG1MJ3RQYdS8Qvvy8bez3aG9dEU3jaXnpNmyE/uOSH3xYFGRrd7TArwg+p2HwdO6T+iMMucQ/oRI9ifqgYpc17KQ8YHv7PriAnZEeeQsuiErVGxm7nPDqG54C3QOMP5hDJxWkMJB9a9sR8+mQXr0uTHrTAki6DaqhHVyAVZKjz0AtvGl5xe2RLMJLJzQ5wHOShksa9wn5Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass (client-ip=45.249.212.190; helo=szxga04-in.huawei.com; envelope-from=zhangzekun11@huawei.com; receiver=lists.ozlabs.org) smtp.mailfrom=huawei.com
+	 MIME-Version:Content-Type; b=AzGDFGcW0+FaIYsFQ+u+5L61wZ0MUNXC78AmlAYq9B5p6kd/hB6C+z7b1QXpQ+iPcBT02ZSRhUiDLSwe9SobkyIn2lAhNDQAR4DTyzxvFEF8WIKvRUNDtcsGLgHmLOIOVG6f6zlfPtTtqPTULnSxQPGwAOU4bgZxs3ynkqJHf2uuLFefpMnwepgEpIV4RZSd8wUo5+m51Q/LQxqoBwB0J+oF74MxC2788uL056dKsmLQHgdnzmZeR5ECGgjcvoWtlTxMD42LzzicCWGTj9U88Ou89ZViNB9u8cOa/b9u7GOAGmOw6R/lOegYkS8P32obou09eMUKmtW/m+PoIrZ9/Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass (client-ip=45.249.212.32; helo=szxga06-in.huawei.com; envelope-from=zhangzekun11@huawei.com; receiver=lists.ozlabs.org) smtp.mailfrom=huawei.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.190; helo=szxga04-in.huawei.com; envelope-from=zhangzekun11@huawei.com; receiver=lists.ozlabs.org)
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=huawei.com (client-ip=45.249.212.32; helo=szxga06-in.huawei.com; envelope-from=zhangzekun11@huawei.com; receiver=lists.ozlabs.org)
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X2RlX6r3Tz2yNJ
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  9 Sep 2024 23:00:40 +1000 (AEST)
-Received: from mail.maildlp.com (unknown [172.19.163.17])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4X2RLl3lbjz2Dblt;
-	Mon,  9 Sep 2024 20:42:39 +0800 (CST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X2Rp208FZz2xSM
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  9 Sep 2024 23:02:49 +1000 (AEST)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4X2RMF3bP2z1xx4Z;
+	Mon,  9 Sep 2024 20:43:05 +0800 (CST)
 Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
-	by mail.maildlp.com (Postfix) with ESMTPS id 622F21A0188;
-	Mon,  9 Sep 2024 20:43:06 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 1F47414022D;
+	Mon,  9 Sep 2024 20:43:07 +0800 (CST)
 Received: from huawei.com (10.175.112.208) by kwepemf500003.china.huawei.com
  (7.202.181.241) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 9 Sep
- 2024 20:43:05 +0800
+ 2024 20:43:06 +0800
 From: Zhang Zekun <zhangzekun11@huawei.com>
 To: <andersson@kernel.org>, <konradybcio@kernel.org>,
 	<linux-arm-msm@vger.kernel.org>, <joel@jms.id.au>,
 	<andrew@codeconstruct.com.au>, <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH 1/4] soc: qcom: rpmh-rsc: Simplify code with dev_err_probe()
-Date: Mon, 9 Sep 2024 20:29:18 +0800
-Message-ID: <20240909122921.12627-2-zhangzekun11@huawei.com>
+Subject: [PATCH 2/4] soc: aspeed: Simplify code with dev_err_probe()
+Date: Mon, 9 Sep 2024 20:29:19 +0800
+Message-ID: <20240909122921.12627-3-zhangzekun11@huawei.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240909122921.12627-1-zhangzekun11@huawei.com>
 References: <20240909122921.12627-1-zhangzekun11@huawei.com>
@@ -72,29 +72,30 @@ This can simplify the code a bit.
 
 Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
 ---
- drivers/soc/qcom/rpmh-rsc.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/soc/aspeed/aspeed-lpc-snoop.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/soc/qcom/rpmh-rsc.c b/drivers/soc/qcom/rpmh-rsc.c
-index de86009ecd91..cb82e887b51d 100644
---- a/drivers/soc/qcom/rpmh-rsc.c
-+++ b/drivers/soc/qcom/rpmh-rsc.c
-@@ -1045,12 +1045,9 @@ static int rpmh_rsc_probe(struct platform_device *pdev)
- 	 * do. To avoid adding this check to our children we'll do it now.
- 	 */
- 	ret = cmd_db_ready();
--	if (ret) {
--		if (ret != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "Command DB not available (%d)\n",
--									ret);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "Command DB not available\n");
+diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+index 888b5840c015..33d9f8f2e662 100644
+--- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
++++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+@@ -293,12 +293,10 @@ static int aspeed_lpc_snoop_probe(struct platform_device *pdev)
+ 	}
  
- 	drv = devm_kzalloc(&pdev->dev, sizeof(*drv), GFP_KERNEL);
- 	if (!drv)
+ 	lpc_snoop->clk = devm_clk_get(dev, NULL);
+-	if (IS_ERR(lpc_snoop->clk)) {
+-		rc = PTR_ERR(lpc_snoop->clk);
+-		if (rc != -EPROBE_DEFER)
+-			dev_err(dev, "couldn't get clock\n");
+-		return rc;
+-	}
++	if (IS_ERR(lpc_snoop->clk))
++		return dev_err_probe(dev, PTR_ERR(lpc_snoop->clk),
++				     "couldn't get clock\n");
++
+ 	rc = clk_prepare_enable(lpc_snoop->clk);
+ 	if (rc) {
+ 		dev_err(dev, "couldn't enable clock\n");
 -- 
 2.17.1
 
