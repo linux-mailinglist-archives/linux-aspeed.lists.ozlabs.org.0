@@ -1,60 +1,171 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94ADE96FC37
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2024 21:37:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DBF6970B47
+	for <lists+linux-aspeed@lfdr.de>; Mon,  9 Sep 2024 03:34:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X0mjF14wGz30Ds
-	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Sep 2024 05:37:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X28X72k95z2yLV
+	for <lists+linux-aspeed@lfdr.de>; Mon,  9 Sep 2024 11:34:47 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725651467;
-	cv=none; b=gdbT3/VAB3gGO8Xt/2wSOW7ke1HDi+4NyWvf9E+c01pdoH2rxRQRaKdOZU+W3ksdLiK47qEnxbmAWktJjUeiMcnwainjt/mYa3ZEHqfyeLj56TbBmoOdORKHoDV1vaTxCPuilbOgSc8usWqEqcuHVqnq0VxnjVLf5PELtu8tgnm0AQL3ITGwq5mh0swVhGLPjiMr2avxPLoU3NIsh0Wa0Wp0MC+n8KNVwb7QRu8N2EVYxpDi+lnITLEuYxBBDgMlXN6xkiDxyiAvn4WaGZb76Yg+a+WAJKHspd34pA6WpsD54IUj19cVz9wwCo5WRqnPZjloXNTP9c7jAgOC2KIgLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1725651467; c=relaxed/relaxed;
-	bh=75Xgl+lkVAyX1/SE6/qpwejrfutWGNhlgbES1YAcvxY=;
-	h=DKIM-Signature:Date:Content-Type:MIME-Version:From:To:Cc:
-	 In-Reply-To:References:Message-Id:Subject; b=Ii5zVWpCQd1P+EgP6NJAcN9SIKV8X6Ng3d41Vqx3RGjvUp8SVBcqB4abEscur7Ul5syFrWKpx3MPPrRgUdwPzq46i+IZ8DN3e47FMrO51tMzLyBfEmbvF2MnZSvMH4CbhvlWgrbxqqBRF4hVYv9AhVnl8baAYFa48xH08z2CmhMK6zd3ji+tjuKIS84JuXxYyGMej8xun5wkn8vud1gYjxvUuD9BQtMd2ho1yuNhXDAaVxAbE+DmDXHGP2gmVM+nVAIA10qcsCkpO/NhL1skdh5RAO/UOSsS4urP46+vXpanfAfy5WHZMxvqegfZ1snvXtJA7iQgnmWWlMCI0hpw9w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lkMZ422a; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::60d" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1725845685;
+	cv=pass; b=K9ZOoHYqufpo5p3rjgD6oDtR/PrXvCUYK5TVyiRv8NOQO4eUBQSX624JEBplW3RN4/0JFO+3jG32hpc6yMl5+j5LNTuplVW33cncQSG8ARGoAEdhkBxokqwSlVhci8cx5FgK7+EWVNs+TlAlJvuc6BCyyg90UWresidjHZ3EFRnUz2NVFNBtFNEfM5jGrMg6kX+KuPlL768C9JQ5Lz4cLJuB5IGkcxXjxEbY8qOrxeJtulDoUXIv3e9J7d5cy3iy0/pssc69W1usc4tmKiUDrIXZ31IIGH7T8eeA2nkWsEQgz7dPFiI7fIMfjv/qYrjtvR0QIZWV+GIrOGEEgds1mw==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1725845685; c=relaxed/relaxed;
+	bh=izGOhggFgKKwR9sktfo8THbtNnCpVv1Rfc7KrjVSplM=;
+	h=DKIM-Signature:From:To:CC:Subject:Date:Message-ID:References:
+	 In-Reply-To:Content-Type:MIME-Version; b=halhUzCT/9Zgnwep6+brh27TsPAiAdtesr4BN86tfb8Cb0PUCB8S7shgZfitn5hpShVcrbGg27h0+CNgNkkJQiiEwFxNAqn5H8BBH4JnuIt4lh302clYM/Rx10E/lHUpU+x8HQycl66Pmpl23YnuKONN8ttYithkMzETyFrP/6sEBxDbG0GaojzqeRa3NBkjEaEaPZfWBm0ni9BvjzVckU4BVSFttxPjqkB/gG7QRfz5kZGph+xCxcq89KlVHsipzU5Fg4GxXu11uT88a5HiuLb5kWYlsedGFhtEdgkNtmLvKJXrNvWTnUrplpi6W7uC3UY4HxrpGsRFycVOcQ7Hiw==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=glez4UNh; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:2011::60d; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org) smtp.mailfrom=wiwynn.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lkMZ422a;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=glez4UNh;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:2011::60d; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2060d.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::60d])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X0mj71BkYz2ym2
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  7 Sep 2024 05:37:47 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 2B7135C5B72;
-	Fri,  6 Sep 2024 19:37:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 532BFC4CEC7;
-	Fri,  6 Sep 2024 19:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725651463;
-	bh=JOzcCz7eQkiMxz7Rpe+7eT+9/VRYAeuQzq1pPtkFPmU=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=lkMZ422aWndWiERmyhGW1qnUfnTsDhmhmEkw38OzoZ4h3pKBXUa6hoF4pv1h4CUXL
-	 G+StC+p0tQn2SuU8Fuf0iWXBB7VAa5m0g9fWVGAp06kO1ghlwoW5kNBaxbKbfKpc4+
-	 UxXU+BJdtPb3uV3A4G/KYlIsI9mGjw9NBSCrmN0kIp7YN7XsiLrcSMpr9fkxtvwpzj
-	 5tUexHz/7bDwdZZtQQbfVymCJtDtBpiSjGxZbPUJ2Q2zMB2TB8XxkWn3NWXrhb0Bz1
-	 mt8ryK0cF6ma0/90HEmp4Wd1deGdfl2wT1eDutLgFN1lcMfe/oDVfu1AQoC+vi5ptn
-	 /G4oRqTpCG51Q==
-Date: Fri, 06 Sep 2024 14:37:42 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-In-Reply-To: <20240906092438.1047225-1-Delphine_CC_Chiu@wiwynn.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X28X4671Vz2xf2
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  9 Sep 2024 11:34:44 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SlIYE9t08+Ewe6rBshhFdwgNARB/TQbm+i2siTQAJl1S3KXAl4wOIAqKuf6WT8acS7iovd6qxK6ZhrRy+eIBb7/tZpBuux+yOvIr0apzG3pvcJ+ExtWmQjgTD3WN4Eehap/yEZS1WIRPwz+9JiicIwX4IncksC1N9YWkODdv3KAVA9VRHHE71sDAHkFkwmkFKiMsdadxckTTajBpeUUNAOXDiLEDyP2Ejaupp9NebnztwVqtYozmcK0xOL/v8lclaWlUbUPtDtvud3Ox8IwEeAhnKSd7NY7ZjS32q3D0c65+zJ9wWhR3jPXV62/b9w5wbg1ap6Age6KNHPFEElfE7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=izGOhggFgKKwR9sktfo8THbtNnCpVv1Rfc7KrjVSplM=;
+ b=ZSK0hF0iCDQiZltEAC9af8mQlTUvO37lXwE6DSPd3Nsff67m/wvW02RYLDfcWfr6JcJ+YuAijVPymhGk7Y2k8aRAPI1KtMBS/plFrMVlG4SUEzWakr4ZypxfrJKqXwrqEXUpvBYbYFWgFkFEpOAqe+v173FZXhPq1xzE8XvsXOmSJk8crn3EI3G4Cj5OUfgi2xlG9P8BAvwGXZr+9o8w/9qWPSXpLk/4sDF/5KQtMgQQ6fsbZ+6soz7pYUq/RouJzi1oNvzhleimcwX37E7nkLGMHsFBNPp57ysla2UMnqh3wD92idz1T2NQJJbDHtdKOFPNqUYKNXp1ikkCTdfelA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wiwynn.com; dmarc=pass action=none header.from=wiwynn.com;
+ dkim=pass header.d=wiwynn.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=izGOhggFgKKwR9sktfo8THbtNnCpVv1Rfc7KrjVSplM=;
+ b=glez4UNhhJZ/P7kZU3hTsBauNUy460sNqoCO6P1++xphaGGAdttBHe4wuCRDqVdsDv/+jVdZuJ2/9k5E9Sd9uiRwJZGilH/VKQIKE5yZc6e/UEn8HLChIUnhswiL5rh7Gh+COyeg95ZFqPfZuPwsUThF0N3e3ow6b4ibx0oWV0Yu93uc2l0HAweQFUMqnFG0S9NDB/ZaQA2Sd/A6NPAHhQHZ03cInsM2VJiQ/G+AAZkZRz7B6mVEehWsuCWvN7oBscWOZezLL4//X6to/FQ9gYOSkVWsSHSGEbO0y31IomMu43AUood7N7nyxGqRPUh/G9IU9xrLv36EGO0x8UM++g==
+Received: from TYZPR04MB5853.apcprd04.prod.outlook.com (2603:1096:400:1f3::5)
+ by TYZPR04MB5854.apcprd04.prod.outlook.com (2603:1096:400:1f2::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.20; Mon, 9 Sep
+ 2024 01:34:25 +0000
+Received: from TYZPR04MB5853.apcprd04.prod.outlook.com
+ ([fe80::ae7d:7486:9319:8d96]) by TYZPR04MB5853.apcprd04.prod.outlook.com
+ ([fe80::ae7d:7486:9319:8d96%6]) with mapi id 15.20.7939.022; Mon, 9 Sep 2024
+ 01:34:24 +0000
+From: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Delphine_CC_Chiu/WYHQ/Wiwynn
+	<Delphine_CC_Chiu@wiwynn.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@codeconstruct.com.au>
+Subject: RE: [PATCH v16 1/3] ARM: dts: aspeed: yosemite4: Revise i2c-mux
+ devices
+Thread-Topic: [PATCH v16 1/3] ARM: dts: aspeed: yosemite4: Revise i2c-mux
+ devices
+Thread-Index: AQHbAFNZUdZFaIsylUCg3g3GXtkl9rJOrxwQ
+Date: Mon, 9 Sep 2024 01:34:24 +0000
+Message-ID:  <TYZPR04MB5853405445CB5CC1B7E95A09D6992@TYZPR04MB5853.apcprd04.prod.outlook.com>
 References: <20240906092438.1047225-1-Delphine_CC_Chiu@wiwynn.com>
-Message-Id: <172565139933.2035193.3894583401733279611.robh@kernel.org>
-Subject: Re: [PATCH v16 0/3] Add i2c-mux and eeprom devices for Meta
- Yosemite4
+ <20240906092438.1047225-2-Delphine_CC_Chiu@wiwynn.com>
+ <e89bf774-12e3-4360-919e-f93148ce3456@kernel.org>
+In-Reply-To: <e89bf774-12e3-4360-919e-f93148ce3456@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wiwynn.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR04MB5853:EE_|TYZPR04MB5854:EE_
+x-ms-office365-filtering-correlation-id: eca13c43-7f8f-4e0b-3ff0-08dcd06f8996
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:  BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info:  =?utf-8?B?Z2EzQzd1MzdacmdoUGhta1pKbnMwK2dmNmoxRkJEczV5V1JCRGk2cFFCUVkr?=
+ =?utf-8?B?bDhsaVZzdTR0dXAvcDdDbGpxbTJzMXpwRHdsTDZReFRuNEp4WHRCaURybWg0?=
+ =?utf-8?B?UXRRaGZId2pqMEtRV0JESXZhbUE5TVNpTjdGQzRtaUwyM2JPT3hQVkxJWkpi?=
+ =?utf-8?B?ZlE2b3F5Q09NbjlDeGpwaURGWXJWK2xyOEdVbmNlcUJoYkF3UVV4elhFWFpp?=
+ =?utf-8?B?clh5dDJPNFdHK3pEYmp4dDlReXpSYUtwbkNwM1QzdlVKaHZHZ00yeFBTY3JM?=
+ =?utf-8?B?c25TNTZYYTBRc3krMzNzaUJzMGl4RGJBVzNtUFVxa2xTZzYwQUFQc1FKd1NT?=
+ =?utf-8?B?cERCbGE0WVFxOU5wOGJiRkVEZWRMekpRYlZGUmNGZkVnN3d5Z1cvNjB4aGhP?=
+ =?utf-8?B?UDBld1BFTi92YUFUMHc4ZDFhdzlndVA2OEc0aGpRZUN1c3FDUGczSnhJMi9n?=
+ =?utf-8?B?TzlWajFVTTNsZ3FlTXEwOTBkVGNhVmJlWkVNUzI4R3V3Qy95WmgrUFFQT1d3?=
+ =?utf-8?B?MktMMzh1T1k4ZTJtcVNyVnFXTzB5a05CV0JpUXRwcEtzRVFtVVV4TTEzT0xy?=
+ =?utf-8?B?Q0E2VTNVZGIvQnZ3NDJ5SEYybFU3a0U2QndtQ3NjT2N6alBXaTA3dDVpOE9k?=
+ =?utf-8?B?Y0RNTzRwVjlFSHZsRmJyM05OVkNqVEJObVBqUENxUWJ0YlNFekNoTDMxVUVx?=
+ =?utf-8?B?U0RFazZTZ1BHTWNlRFhsNEJLQkF0TzBqa3ZSTGliaG5hWFdmNXdYR0tvN3Nv?=
+ =?utf-8?B?WkowUTlZcGFwNHZFbDN0a3FkQWxRSnVpbkZkODZxUlJ4bkY4RTF5akxpNm5T?=
+ =?utf-8?B?UC8xdDNiOGdacGIrZVRUNENhcVdRbWdVVVFFVUVRbW5Ib2taaXpYMzUrdHY5?=
+ =?utf-8?B?MVM4amxLb3JYYlpDTFpzSStSUXRoMHJzWlc4aW9DQmtISEE5cWg1ZWhVNW1h?=
+ =?utf-8?B?VFNjUVdoM0E5eVdnY3JWWG0vV0RHejRxNGVTSXRVa2ZwYVpLYlhIQlRtWExq?=
+ =?utf-8?B?a2NTVUZEMHM5THphM2ExZjdpbGJZVnd6bWRMcnRmWFdTT05GTzUxVmtGbDdV?=
+ =?utf-8?B?Sm5nRnM0S2RNMzV6SkJoNWw3TmVlWW50QXBDNDRHby9FcHFQZHJIY0o1cU1O?=
+ =?utf-8?B?ckxCL3VzcGF4NlBEUElhWFYvdnl1YU16cm5YOEQ2R3FoaVVwVTNLUVJDZ2JX?=
+ =?utf-8?B?SVRrUDVHUUQ3NXZONWk2ZUp3ZWdsOG81VE0rUWRQSHF5WHVFNExaT0VnbDVU?=
+ =?utf-8?B?SDB2R0RVOWJzaW1zUXlRN0k5bHM2Vzh2S1cyWTYxQWRlNzdHRGFHMkFYZk1I?=
+ =?utf-8?B?KzgvcERoQ3BxWnJ2OW1RV0JvQnVsR2trSGFDaWlidm1EL1VOQ1RnbmdWWEl5?=
+ =?utf-8?B?aG1tNDI5Nm9vVDVOWER1V0NzUWhsNUtNdXN5ZmxiR1pMQTRpdWhEd1BVTzdv?=
+ =?utf-8?B?dklsMmszbUV0STc0aU9KRGRucGE5NVVZQ1BmaUh3WGNuWnVjOUZCOXNVaVJw?=
+ =?utf-8?B?WkNYL2x5c3A5Qm52MVFQQ2lyOVBIKzVPTnlzZXcxMkpDNzNUTEpOMXFmbzAw?=
+ =?utf-8?B?L0NmVmtkaWNKZDU1dG85b242WGgwYzhVNW5CaTFpN2Y2MlV0cmFSdXFCVk9E?=
+ =?utf-8?B?TzlFbFQ3WHhmaDNuaFUrZTAwWEFuRmQ1RTN6NmtmR2xpQXBKYUV2M1gxRklW?=
+ =?utf-8?B?MDRya2tYOGJaN2gyNktJU3d6KzhYUk9ZUkNoTHZKcllHQnFmdFlJOE5KSDRU?=
+ =?utf-8?B?V0dFRW5nRWRJdGx0OFdPdmxVTXJ1QzZLc1VKWVplRTdhdExRS01ZNm0yWGFt?=
+ =?utf-8?B?Uk0ybHVsdWZOSG45YUFBOVB4MXkyTDlZY3UvQ0l6REZ0RTRNZlNsZXdjSHAz?=
+ =?utf-8?B?eGZmWURtb1pvVno5Q25zK1EwSE41Ui9tdy9oa0FBZVNoSXc9PQ==?=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR04MB5853.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?UklNNTdNcllpS2RJK3hMZGdlL2cra3FuaG9MbTZqQmZwajBuclBydzRMKzln?=
+ =?utf-8?B?bmh4U2RHcGZpNHVNNUVaZjEwVXVLakFPdEs1ZElWbCs2aFJ0ZkdIZHNZa01m?=
+ =?utf-8?B?SWU1TWRGbkNpRE9wUy9LTS84UXlLcmtjY3dtUWx2YWo5Vi9VQ3M1YlBJM3Vv?=
+ =?utf-8?B?OW1BMkV5MytCVUxDVkhldVN4WS9ZMmhqVmVic0Zha3dOUWxrK1hNTk1KWGlP?=
+ =?utf-8?B?d015b2NWOVdkTXovcmRPa0FQTmZyK2dTQ2Q2RlYzS09CZG11cmYrOWtkbnNr?=
+ =?utf-8?B?UHN6cFNGVzBCaEt5bGdCaDB6dXF2WlY1em4vQnVZRlU1SWJNR3d5KzlWTmxp?=
+ =?utf-8?B?elExZDN2UTN5L1diOEFndkd6T3prelRUNStzRkZodmo5cStRYmlERlE3T09u?=
+ =?utf-8?B?cU5mcWNlTDFrUE9zMEk2SEtXekdXU3pWclFacUpYMEVvd1R1aVhiSjUwU29C?=
+ =?utf-8?B?WkJ6bGxXVndCMW92YzNHOUZkOWxiSElGNG5mZEFTWExLQUh6blREU0RyUlBU?=
+ =?utf-8?B?M0NZaGhwVVdONXhpc08xcjNFVTNFTUhJTTlPYzhXc2NQWnR5L282TEZqU2R1?=
+ =?utf-8?B?Tzk2T3BxTHBpYkl0VU0xMWtIa29nU282Q1dSdFBScHFGTFk0UDNWNFh1cEZT?=
+ =?utf-8?B?R2kzODYvT2dlUGtnVnNlbkR2VVVyMVg3cUZ5aU0wTFNhYmEvUWtMa1phczZC?=
+ =?utf-8?B?Y3dIejczNEhQR01FbG13NGxuWTJTUHlIbmdzd1BSQjJkZFpvMVE3ZnZhRkNs?=
+ =?utf-8?B?WUxWL1J2eFBVbjY3K0RaUzltcnlsVWtha0x0aVJZcGhGdHVvd29sQ1VqL1pz?=
+ =?utf-8?B?UnY0bVJManZwSjQ0eUVGQ1Zud1YxWFU2RjVLODZIVGZFRGNYQ2lWS011U25S?=
+ =?utf-8?B?cGk4Q1N3R3M1dlZCdzJjdjJ4bm5EbHI0elZ4TnNOSkJlWWFOSjljMnZoUE42?=
+ =?utf-8?B?QlBSVWRZdzJMbitadWJjQkdhVFgwK2JzUGkxV0hlTkFWdnhuUTR0UFhCVmlG?=
+ =?utf-8?B?SWE5TlBnU2FjOVV6NDhDNHVEa29IYmxhZXh2azZPME0vb2pDNWoxclpUMVNR?=
+ =?utf-8?B?aGx2NHljTThudHpiVG5XaVpkb0tYUHlvRWxOZngyVlZtSE9PWUJ0UHprQTNQ?=
+ =?utf-8?B?UFBrOG9naW0wdmFrTzlIMUFBT0JjQWlRMWhjbDdTcmM4MmxwN0JCc2E4aGc3?=
+ =?utf-8?B?bTcwVXNuOUkyb3lVdVdPQTc5VVNwMENCeXpxcG5EZFVXdllYWlZwY3lBbVBn?=
+ =?utf-8?B?SkpORGhCNFRlamFoK040YmdEMWsrWG5WVEU5TVEzMTJ5M01IbUtjczY3NTRp?=
+ =?utf-8?B?SVQ2a0gvSGpUOWhGWkIzVTRDcUxab2Nva2lmZ0NpRFFMNEpVVmlCLzF2Rm0w?=
+ =?utf-8?B?ekduZWM1RDZFNnJwSUJOUlVxNVdkMjEwNU1HbFNmb1JoS0JWMGpXZDFray9E?=
+ =?utf-8?B?UlVrNWxtRjZreS9Wd1U4ak9BRFBFZnFmWkJLS2paUTdBOUVJa3NqbUxXYjBL?=
+ =?utf-8?B?d240MFA1dzB3R21aMGN2Z0xZTHVNUWttV3BKNjg5bUYxUHpzY1IrdlF1bUNY?=
+ =?utf-8?B?VUZEYk9sRVlzVTR6M1RUdzJVK0xONlFIc2Z0NlZYelZKVXhVUGxON2txK1Y2?=
+ =?utf-8?B?R0tCeXF1WUduNThxdWdhRzh6alZGd01oQWsxcVhDWGFxYjFiZ0N4SzVuTmxD?=
+ =?utf-8?B?YmlkdHFSRTZiM2UwSkZTd2JRcWJhMnFYNnBaU1lGcW1DU0RsVENWUHFxV3Vi?=
+ =?utf-8?B?NU9oT3E4cnUwT0ZJS2ZWNnBsVW1vaXpiV1VPZmVmNEhtbFpCSSs5eGlZanVZ?=
+ =?utf-8?B?VHZpbnczMDk0UTcyVXM1SjhxZGlqZHJxZ010cFdTVko1YUpMeEQwMDgyaDBO?=
+ =?utf-8?B?dm9vbUpITmpZQnRkU0EybGpDR2pQbUdCcis0c3ExMkI2TTk1M1VXK1FPbEJx?=
+ =?utf-8?B?WG82M1QwbXNBdjlPemx0bGlsU3dqcDMyWENrWTdLZWh6cWJHMndmQ25OMmYw?=
+ =?utf-8?B?ZXFESFFYWVhmYy9kOXltQ2orbGRwbUtCWFNjYkxoMk4rNmYvWlM4Q2tMdSsy?=
+ =?utf-8?B?MHdwNm0wWS8rclZOcXN1ZWVJWHZGcUc2R1liNmQ4NExLaU4vWEVwZHMvM1B0?=
+ =?utf-8?Q?y64a+3Qy8Fj5jig+yIoH/oBpA?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR04MB5853.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eca13c43-7f8f-4e0b-3ff0-08dcd06f8996
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2024 01:34:24.7534
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QMM9rbtjE/55B+0sjk6i0NKlqXZ52QFEKNzB2p37i+XcAjqt5K4aWYu/pGsPhXt/yFu+z/6qYdQCaG1ZP1JDxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR04MB5854
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,186 +177,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-On Fri, 06 Sep 2024 17:24:34 +0800, Delphine CC Chiu wrote:
-> From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
-> 
-> Changelog:
->   - v16
->     - Reorganized the patches.
->     - Add i2c-mux and resolve the dt-validate errors.
->     - Revise Yosemite 4 devicetree for devices behind i2c-mux.
->     - Add mctp config and sensors for NIC after i2c-mux on bus 15.
->     - Add fan led config for BMC to control according the status of fan.
->   - v15
->     - Add ISL28022 support
->   - v14
->     - Add SQ52205 support
->     - Add GPIO I6 pin
->   - v13
->     - Add RTQ6056-support-on-bus-11
->   - v12
->     - Fix GPIO linename typo and add missing GPIO pin initial state.
->   - v11
->     - Revise all GPIO line name with bottom line
->   - v10
->     - adjust mgm cpld ioexp bus
->     - add GPIOO7 name
->     - remove mctp driver
->   - v9
->     - add XDP710 support
->     - add RTQ6056 support
->     - add MP5990 support
->   - v8
->     - add fan led config
->   - v7
->     - Revise pca9506 i2c address
->   - v6
->     - Revise i2c duty-cycle for meeting 400khz spec
->   - v5
->     - Support medusa board adc sensors
->     - support NIC eeprom
->   - v4
->     - Re-format gpio linename
->     - Revise i2c device node names
->     - Split patches by logic changes
->   - v3
->     - Correct patch for revising gpio name
->   - v2
->     - Revise mx31790 fan tach config
->     - Add mctp config for NIC
->     - Support mux to cpld
->     - Revise gpio name
->   - v1
->     - Add gpio and eeprom behind i2c-mux
->     - Remove redundant idle-state setting for i2c-mux
->     - Enable adc 15, wdt2,spi gpio for yosemite4 use
->     - Revise quad mode to dual mode to avoid WP pin influnece the SPI
->     - Revise power sensor adm1281 for yosemite4 schematic change
->     - Add gpio pca9506 I/O expander for yosemite4 use
->     - remove space for adm1272 compatible
->     - enable interrupt setting for pca9555
->     - add eeprom for yosemite4 medusa board/BSM use
->     - remove temperature sensor for yosemite4 schematic change
->     - add power sensor for power module reading
->     - Revise adc128d818 adc mode for yosemite4 schematic change
->     - Revise ina233 for yosemite4 schematic change
->     - Remove idle state setting for yosemite4 NIC connection
->     - Initialize bmc gpio state
->     - Revise mx31790 fan tach config
->     - Add mctp config for NIC
->     - Support mux to cpld
->     - Revise gpio name
-> 
-> Ricky CX Wu (3):
->   ARM: dts: aspeed: yosemite4: Revise i2c-mux devices
->   ARM: dts: aspeed: yosemite4: add mctp config and sensors for NIC
->   ARM: dts: aspeed: yosemite4: add fan led config
-> 
->  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 650 ++++++++++++++++--
->  1 file changed, 609 insertions(+), 41 deletions(-)
-> 
-> --
-> 2.25.1
-> 
-> 
-> 
-
-
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y aspeed/aspeed-bmc-facebook-yosemite4.dtb' for 20240906092438.1047225-1-Delphine_CC_Chiu@wiwynn.com:
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:464.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:492.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:519.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@2:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:546.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@3:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:583.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:610.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:637.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@2:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:664.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@3:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:702.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@580/i2c-mux@74/i2c@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:750.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@580/i2c-mux@74/i2c@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:833.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:859.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:865.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@2:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:871.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@3:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1110.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1132.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1154.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@2:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1176.4-14: Warning (reg_format): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@3:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:461.17-487.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@0: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:461.17-487.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@0: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:489.17-514.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@1: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:489.17-514.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@1: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:516.17-541.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@2: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:516.17-541.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@2: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:543.17-568.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@3: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:543.17-568.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@480/i2c-mux@70/i2c@3: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:580.17-605.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@0: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:580.17-605.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@0: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:607.17-632.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@1: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:607.17-632.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@1: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:634.17-659.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@2: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:634.17-659.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@2: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:661.17-687.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@3: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:661.17-687.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@500/i2c-mux@71/i2c@3: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:699.17-745.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@580/i2c-mux@74/i2c@0: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:699.17-745.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@580/i2c-mux@74/i2c@0: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:747.17-751.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@580/i2c-mux@74/i2c@1: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:747.17-751.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@580/i2c-mux@74/i2c@1: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:830.17-854.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@0: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:830.17-854.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@0: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:856.17-860.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@1: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:856.17-860.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@1: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:862.17-866.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@2: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:862.17-866.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@2: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:868.17-872.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@3: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:868.17-872.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@680/i2c-mux@70/i2c@3: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1107.17-1127.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@0: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1107.17-1127.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@0: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1129.17-1149.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@1: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1129.17-1149.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@1: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1151.17-1171.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@2: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1151.17-1171.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@2: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1173.17-1193.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@3: Relying on default #address-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts:1173.17-1193.5: Warning (avoid_default_addr_size): /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@3: Relying on default #size-cells value
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: pwm@20: '#address-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: pwm@2f: '#address-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c@780/i2c-mux@74/i2c@0/gpio@61: failed to match any schema with compatible: ['nxp,pca9552']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: pwm@20: '#address-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: pwm@2f: '#address-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$', 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c@780/i2c-mux@74/i2c@1/gpio@61: failed to match any schema with compatible: ['nxp,pca9552']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@0/temperature-sensor@3c: failed to match any schema with compatible: ['smsc,emc1403']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@1/temperature-sensor@3c: failed to match any schema with compatible: ['smsc,emc1403']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@2/temperature-sensor@3c: failed to match any schema with compatible: ['smsc,emc1403']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c@800/i2c-mux@72/i2c@3/temperature-sensor@3c: failed to match any schema with compatible: ['smsc,emc1403']
-
-
-
-
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS3J6eXN6dG9mIEtvemxv
+d3NraSA8a3J6a0BrZXJuZWwub3JnPg0KPiBTZW50OiBGcmlkYXksIFNlcHRlbWJlciA2LCAyMDI0
+IDY6MDQgUE0NCj4gVG86IERlbHBoaW5lX0NDX0NoaXUvV1lIUS9XaXd5bm4gPERlbHBoaW5lX0ND
+X0NoaXVAd2l3eW5uLmNvbT47DQo+IHBhdHJpY2tAc3R3Y3gueHl6OyBSb2IgSGVycmluZyA8cm9i
+aEBrZXJuZWwub3JnPjsgS3J6eXN6dG9mIEtvemxvd3NraQ0KPiA8a3J6aytkdEBrZXJuZWwub3Jn
+PjsgQ29ub3IgRG9vbGV5IDxjb25vcitkdEBrZXJuZWwub3JnPjsgSm9lbCBTdGFubGV5DQo+IDxq
+b2VsQGptcy5pZC5hdT47IEFuZHJldyBKZWZmZXJ5IDxhbmRyZXdAY29kZWNvbnN0cnVjdC5jb20u
+YXU+DQo+IENjOiBSaWNreSBDWCBXdSA8cmlja3kuY3gud3Uud2l3eW5uQGdtYWlsLmNvbT47DQo+
+IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJh
+ZGVhZC5vcmc7DQo+IGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnOyBsaW51eC1rZXJuZWxA
+dmdlci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjE2IDEvM10gQVJNOiBkdHM6
+IGFzcGVlZDogeW9zZW1pdGU0OiBSZXZpc2UgaTJjLW11eA0KPiBkZXZpY2VzDQo+IA0KPiAgW0V4
+dGVybmFsIFNlbmRlcl0NCj4gDQo+ICBbRXh0ZXJuYWwgU2VuZGVyXQ0KPiANCj4gT24gMDYvMDkv
+MjAyNCAxMToyNCwgRGVscGhpbmUgQ0MgQ2hpdSB3cm90ZToNCj4gPiBGcm9tOiBSaWNreSBDWCBX
+dSA8cmlja3kuY3gud3Uud2l3eW5uQGdtYWlsLmNvbT4NCj4gPg0KPiA+IFJldmlzZSBZb3NlbWl0
+ZSA0IGRldmljZXRyZWUgZm9yIGRldmljZXMgYmVoaW5kIGkyYy1tdXgNCj4gPiAtIEFkZCBncGlv
+IGFuZCBlZXByb20gYmVoaW5kIGkyYy1tdXgNCj4gPiAtIFJlbW92ZSByZWR1bmRhbnQgaWRsZS1z
+dGF0ZSBzZXR0aW5nIGZvciBpMmMtbXV4DQo+ID4gLSBSZXZpc2UgYWRkcmVzcyBvZiBtYXgzMTc5
+MCBkZXZpY2VzIGFmdGVyIGkyYy1tdXguDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBSaWNreSBD
+WCBXdSA8cmlja3kuY3gud3Uud2l3eW5uQGdtYWlsLmNvbT4NCj4gDQo+IE1pc3NpbmcgU29CLiBP
+biBhbGwgeW91ciBwYXRjaHNldHMuDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IEtyenlzenRvZg0K
+SGkgS3J6eXN6dG9mLA0KU29ycnkgdG8gYm90aGVyIHlvdSB3aXRoIHRoZSBwcmV2aW91cyB2ZXJz
+aW9uIG9mIHRoZSBwYXRjaGVzLg0KV2UgYXJlIHJlb3JnYW5pemluZyB0aGUgcGF0Y2hlcyBhbmQg
+d2lsbCBydW4gZHRzIGNoZWNrIGJlZm9yZSBzZW5kaW5nDQp0aGUgcGF0Y2hlcyB0byBrZXJuZWwg
+b3JnLg0KDQpJIHdpbGwgdXBkYXRlIHRoZSBTb0IgaW4gdGhlIGNvbW1pdHMgaW4gdjE3IHBhdGNo
+ZXMuIFRoYW5rcy4NCg==
