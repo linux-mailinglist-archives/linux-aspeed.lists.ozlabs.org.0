@@ -1,55 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A1A975050
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Sep 2024 12:57:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC2B9757B8
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Sep 2024 17:57:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X3cwr3Wrjz2ytN
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Sep 2024 20:57:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X3lZK4KPKz2ytN
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 01:57:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726052266;
-	cv=none; b=aVinnCEEcxTvNFQtBCXMm0s9uEo1p27dKDk1df7KBgvHQcd+UDnTnsQ36p3/eyPG/FMa5nbY+Kz65pe0bv/dJVFHcpr2EIbz9J3BZmNsYs52IB24xCEpwffNMHlw8E3ZRhkmLYj6Mh6xnkUnB+5CUGyvDSBF3dMbEKby5fsq5rfqcS+cVXtREmWOZ3wUTLuIMZam0cgFYVd31OBr5yoFohMLvqrPDjyDZprJ+fczlyihjqDBmDVAuj74OIuyGdyxR//U5qN9sz3AgqlJaJDWlpcqLjDKkeJwBaD0TyGsbit1Oc+Dx3RaqARg1WFzlHMc7ahI/TQm5Bdr8sNtMXya5g==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726070231;
+	cv=none; b=IleY36xl4TgVdytsnluIyzLbdtTBK8S6Y6R7lf5Z43N9ZTAnssx5N5oXwBToK35jdGq3HKZf+pyxaQkSl7wKle9xnS2V9iRYA/UCXoIASSzffl4bhgY4PadmRaTv8NuZLMqr7EbE1ZCmJOY93vspK5fLUhFR+5QVHi9c2NXx5hoVE2IRAjCY+SHsvYG4ONFbxRMNiFkQchaKiDPsjzAZLsr2xKjNywEseXdAM9gX1K2TNJEzYTUCIe2oYYSWpD15JItmaLv+sIsxBa+0S5EXC6+DQRy5cbpsJA4jL8Ol4jQFNLdAlfHTwA8K3AFXX13ISMzr32hyuY5ydNnrBxyO1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726052266; c=relaxed/relaxed;
-	bh=QprU0wwe+oeAtw2pEvVwFrDiPH9jFMBKugiIBkKH/00=;
+	t=1726070231; c=relaxed/relaxed;
+	bh=im55rZeYR3uTzwd5kIXnF92QXRY7fBeMSdYH/M7t628=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V4VT1qf47OFztUmyoosR6Gys474rPwFdADtfHmk5QnF+vuEn12BLn9CNTgmJpqKM5cKdFiakTNYgEu1BfYHdzU9e2l5MuNUpEqbgVrRzY4HXpbHIqkjheyqdgfEChWj6GKJBkfGUsyMQxmhL77f78vrMQDpHLzyesl9Eu0GP4x79w8a789ggBQMSn5KgZluB6iYBYmYPXpXw5Cf9wlJ3pPAKXSisNkAzQRdz3ZKiI0VDRd8FfHUFSV4nJPlAKNZakdkhoRnDWR/CbqUqEYUwpwrOYe4rmyvxSkzYJNGSHUYHoFmNe6UYQkNmet5cVHdfUhC4rZRGqUeLWGMxG3K+YQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PmNE7nNr; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=I6ty7ebegCZruXM6cW63Gq9D5EcqOf/MYnGNRcrTIU78k5xvIqgLmitZCtT30D4gAxvQwB8fVeWuYL0U77rY6nb4PyYK+LiWZ8Dcs5/8Ibijfx5K/o9VjZ9lyP2AtlvQkPV0rZIYqQ6Oa+JWOxxX/KKyNphrmdRV6cM/tjTw9/aUkhn1vUqHR2UoqMIODB424GOEXHGOHtzJwVlMTIZrmzdniuFrereXQED0FiqfRQHvcxcxU242srL6FgaE0EIpxsI5z5/809jSUjUfzjOHnBcM+0eYN8WikQyOFVoUpcDNlhpWzHDF71sry7oRMRmFDd1+vdFSrlwg0gJIW/sLUA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=MSbZqsXQ; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PmNE7nNr;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=MSbZqsXQ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X3cwn4kRXz2y8n;
-	Wed, 11 Sep 2024 20:57:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X3lZH35Grz2xYq;
+	Thu, 12 Sep 2024 01:57:11 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 4AFA55C0524;
-	Wed, 11 Sep 2024 10:57:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBF7C4CEC5;
-	Wed, 11 Sep 2024 10:57:42 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 16291A4523C;
+	Wed, 11 Sep 2024 15:57:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E1C2C4CEC0;
+	Wed, 11 Sep 2024 15:57:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726052263;
-	bh=KNrTDepDPuGxtTmBbgCKo0Gtxg+JrP7T4JGklJVrrOk=;
+	s=k20201202; t=1726070228;
+	bh=nF/c18D09Y46sCdwrFKtfmx8kDiDbxV17SDMLV7V/L8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PmNE7nNrQZr1i8uI6cLz5m+pKTG2pNQh1ygtOLlaWJxKqBhz0ii0bv6RLnD1uC/FP
-	 gqE3zUJUWqpwn1Mf1L6w8Gk3pfd5kzNdxyF7XudoPiIhlWrJ1jNlJvRBKgTLPd1c0H
-	 TCuSiXDuhePum7noQxWMzK/FPzR1jfFy44q45bxsRM+MUl5t+tBlxk+RUXV7uuwUgL
-	 p1Gfm+MtA9ihcuDxSVQsZC6R+F/2puuN5sPxPnLKEkwdqv7ewxUg8+SRLUvgVaEvaQ
-	 /FAoaA6yHtoH+OOOC/gn6CQ0VVFLlxcn+ax/Sj1TSLv7tjxSJCrbq+d90swYMrT37s
-	 efMijMQK3C/3A==
-Date: Wed, 11 Sep 2024 12:57:39 +0200
+	b=MSbZqsXQZvxGgXr7EMhs3k8GTYGyywHC84W9sj1TjYH8RMZGFoqM6+plv6qYKV3HZ
+	 pS6kfpCHlmoV4B+sjBZ4uwr9LaHRu5Mt/kD+ZwONUHx3KGyyrpf8Xa8WDuCoGTSXrS
+	 8qZLfV9R21YSnNKTlzsisFjw+a6taz1fqVMP2kjEUOILsMNhu6X7qr+1RuuX1eFryg
+	 yghG2INw1jKbRRHHcQn+vnmlBVAlqYZftGFjBxSFcRlthZyVc2BG1zZMcq/SMLP12P
+	 rb7U7vopaKPOe0vDpzyrDhbp8IaXAOAx+j7vhxf6Jd/MYZ8K3lX3nnsjoRwbYojnfs
+	 yHpsnfl1fLMaw==
+Date: Wed, 11 Sep 2024 17:57:04 +0200
 From: Andi Shyti <andi.shyti@kernel.org>
 To: Tommy Huang <tommy_huang@aspeedtech.com>
 Subject: Re: [PATCH v3] i2c: aspeed: Update the stop sw state when the bus
  recovery occurs
-Message-ID: <yoqhvha64bir33hcq6tlcehkusxu2b45w3ut4pzmvrot6bl63a@y3xn2xdespcu>
+Message-ID: <ljwz3zv7sakhqoeuceewmnk34igo2srfhtmbhhxqel3tgvqvou@wpvqldtoq6st>
 References: <20240911093951.1674824-1-tommy_huang@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -70,7 +70,7 @@ Cc: BMC-SW@aspeedtech.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.o
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi,
+Hi Tommy,
 
 On Wed, Sep 11, 2024 at 05:39:51PM GMT, Tommy Huang wrote:
 > When the i2c bus recovery occurs, driver will send i2c stop command
@@ -81,64 +81,10 @@ On Wed, Sep 11, 2024 at 05:39:51PM GMT, Tommy Huang wrote:
 > 
 > Fixes: f327c686d3ba ("i2c: aspeed: added driver for Aspeed I2C")
 > 
+> Cc: <stable@vger.kernel.org> # v4.13+
+> Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
 
-the blank line in between tags (Fixes and the rest) needs to be
-removed.
-
-No worries, I will take care of it before merging.
-
-Meantime, Brendan, Benjamin, Joel, any comment on this change?
+merged to i2c/i2c-host-fixes.
 
 Thanks,
 Andi
-
-> Cc: <stable@vger.kernel.org> # v4.13+
-> Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
-> ---
->  drivers/i2c/busses/i2c-aspeed.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-> index ce8c4846b7fa..2a03a221e2dd 100644
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -170,6 +170,13 @@ struct aspeed_i2c_bus {
->  
->  static int aspeed_i2c_reset(struct aspeed_i2c_bus *bus);
->  
-> +/* precondition: bus.lock has been acquired. */
-> +static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus)
-> +{
-> +	bus->master_state = ASPEED_I2C_MASTER_STOP;
-> +	writel(ASPEED_I2CD_M_STOP_CMD, bus->base + ASPEED_I2C_CMD_REG);
-> +}
-> +
->  static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
->  {
->  	unsigned long time_left, flags;
-> @@ -187,7 +194,7 @@ static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
->  			command);
->  
->  		reinit_completion(&bus->cmd_complete);
-> -		writel(ASPEED_I2CD_M_STOP_CMD, bus->base + ASPEED_I2C_CMD_REG);
-> +		aspeed_i2c_do_stop(bus);
->  		spin_unlock_irqrestore(&bus->lock, flags);
->  
->  		time_left = wait_for_completion_timeout(
-> @@ -390,13 +397,6 @@ static void aspeed_i2c_do_start(struct aspeed_i2c_bus *bus)
->  	writel(command, bus->base + ASPEED_I2C_CMD_REG);
->  }
->  
-> -/* precondition: bus.lock has been acquired. */
-> -static void aspeed_i2c_do_stop(struct aspeed_i2c_bus *bus)
-> -{
-> -	bus->master_state = ASPEED_I2C_MASTER_STOP;
-> -	writel(ASPEED_I2CD_M_STOP_CMD, bus->base + ASPEED_I2C_CMD_REG);
-> -}
-> -
->  /* precondition: bus.lock has been acquired. */
->  static void aspeed_i2c_next_msg_or_stop(struct aspeed_i2c_bus *bus)
->  {
-> -- 
-> 2.25.1
-> 
