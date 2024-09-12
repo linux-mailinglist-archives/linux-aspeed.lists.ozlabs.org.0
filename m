@@ -2,56 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651C4975F8B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 05:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1E6976002
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 06:35:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X42RS2Jvjz2yV8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 13:07:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X44NP6GcDz3cTv
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 14:34:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726110434;
-	cv=none; b=oyVGwiFZuCFbnTut57GUmx/v/O86hCNovQgOD5SAyVva1/5872fGlKwZ673ui4n5Jqlut5feyxzKYqD5KvdZetqR/oaFQQ0R2Li7emthqDju/r5d3jX+RckyLCclAZKUfyoLKEoxLVpNGFsVATxiMaWV8fB8uJkhwcguCXFGowDSo6d7YEzwUuUEA39dVgVdNrXnorYIIGl0lf/NtFExWmGCZPbY4OFwLWlK+xpcb4Mkfn5BkKZ+zPpFaldIcbPG1ArkWkjuhud+5O53XJICjHNlTbvyBgS4TEQDhVJ6A/0snhlglVbQUQJ58X4FRVTZsqU2gDraCsy0irUuOvWmtg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726115681;
+	cv=none; b=W/INZbECCQ6KFmTg0knvw1OzaTrjgKjv3koLXkp8dg7Ojt9eKGERHCVBmJSeIu6QZW7Ymd1ox1cm3UugYMx5CiBi/GqxPSIeu80m9Ozz09M0WVTOvv8/BZCVjO+fv1Xs1nOjU9+n+Ol5wXNviI6TrErUkZNciC+2v7Acpr1Y+oKWIFmKlXLnvaGtVy+6kTA56FTPrCaLh7RSpRmmbfnREeSU7ML1KaQy/W0DtoOQKCQqWRwEXZKt0asxuWfUvok+cflaC4EdTDxaT8IcdWhUY6kfCEq54OFTxVqADCG4GvB3xxsEMoIFQ7xLEagmr8mPIdlyY2fGDxJlWbSTXixwBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726110434; c=relaxed/relaxed;
-	bh=S4ecD8RIBfWL9S4Sp6s2IFF7W8ILz/17QwDN3NU8wmw=;
+	t=1726115681; c=relaxed/relaxed;
+	bh=qaPDBs60GYvv9drlrAghEXB5v3hfoGAd/AfA0tP8YIM=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kVYewyON4dPj6wObtCUuAkBB+n0EcaE3Y8j6cSttWtWL3zb3q9T7+6v3E7JR8t2TLO5g66WiDcj1mVyJlCr7YvuEEWX72KT4678TjbQPFG2+PAZrfPRVVeFMn3oihzW5Xn37osptQiTXcA+0NTpCZR2icG6hskeBUzHv2a3EhsR6WT+TO64zP5gQNE6/sqv6FvUYwuO0fj/SttDgxwcwmYUFKs+qE2xgPsYqw6n/qqv/AgvefpeKn/H8E/Fc/1HC6P8J2XTduiQQLopTDJjmuQKameXTHsJTCFaBFKwXPxPddLh/toVSGx7JJdGh8F0kMk+EQfyWIKdHVXBvdDiF1g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=gfoHxatK; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	 Content-Type:MIME-Version; b=gqDlXABLKlipZL5kXHlLPM81U7AuwsxH9SRwKRigU/K6/UItAjdqVlBpm0QzLQwo2jyZC8NJ+lzi/h59Y5WkxUDq9mr4bVB8dV74vEE7Z1gy/m8xIKYk5Z1crtJ0n5cztLQdQAXzcNpHLTMGcQvYxrhdEg6kyBcu03ZI9ugOvZDIDSZwlSPTAauj9FlPl+ECUvcy+4yBsHyjHQDV9STbPoe1oRVGG+idwS6vVMqdkPYiO3C4ZtFcBPRlGlFBPbraqNcb6VZNF/dez+xfn6Z5u9qUk8dbe418LuV1vMR3gHK5gOmOYIFye2/PPPbvppbUFAWrPv/sDWZkEV+YTuPG2w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=CYOpulRW; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=gfoHxatK;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=CYOpulRW;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X42RQ4NxCz2y8F
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Sep 2024 13:07:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X44NK4bqXz2xjw;
+	Thu, 12 Sep 2024 14:34:41 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1726110433;
-	bh=S4ecD8RIBfWL9S4Sp6s2IFF7W8ILz/17QwDN3NU8wmw=;
+	d=codeconstruct.com.au; s=2022a; t=1726115681;
+	bh=qaPDBs60GYvv9drlrAghEXB5v3hfoGAd/AfA0tP8YIM=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=gfoHxatKP87BUArUp2ptHZ5GZpN6lZiW7GpYxpM0Lh1ejtUTP9JzrH8oB+Now2Css
-	 IqVuIAhg0wKo+QBAftZLGxHMKoa2J+ZYdf5jf7Gc65R4cB15c/3NltCXRLIaLvFIVG
-	 RzU+xvIwIAar1ufRW/Gh+N0IKZBVb3DchdMc4ggycoxnVVmXNcU++tR/ZJzPu22ZHg
-	 0lxN7lQDxeWKD1OAt3Kyya0ypcs5QK25+/gWMJrP+PHuENuc4uHnROeXfwemaQzh2H
-	 jLhtHBIV3SU4GhQpj3RawTdK9+oLvmENtKuUvfKwRgWdGkAYAnH+rJbQhPvLK23k7a
-	 dKVW3UOj87oNA==
+	b=CYOpulRWGFuI+h8s9pPoqXUJAIWgXxPKdw1zPUUUTZ64tybehBDYGbE9/yUyQszDA
+	 2xbNwmBjzOVdeD8GxcsyY1dsStnWWFQnX4Nl61PsHTvbxGF8CD8/jwS4Byi4EUyZf5
+	 1Jp5tWLSiPaMVXz0tBSx90bXNJbRrnP851ptO7sn/gJWEPFjQ/Astu4hLAeUPvYl4b
+	 LG2l8B2by2JU00n67VZTFOQaeiVMpblDyfGeiITmsBdRFwEsI8EzqZ0H7VHciMEuv9
+	 8nrUVOY4IL/tN0ZRJM3xjdZn9naV+C+X+cf7vXDh9G3QtlVnsJb+BtwDYXrQ/9P8Ao
+	 nrbTolkhOgILw==
 Received: from [192.168.68.112] (ppp118-210-89-8.adl-adc-lon-bras32.tpg.internode.on.net [118.210.89.8])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 6F44B650D6;
-	Thu, 12 Sep 2024 11:07:11 +0800 (AWST)
-Message-ID: <3a5fb92a32cd1d23029dce8a87297175858bf0c0.camel@codeconstruct.com.au>
-Subject: Re: [PATCH -next] serial: 8250_aspeed_vuart: Enable module
- autoloading
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 7656964FDD;
+	Thu, 12 Sep 2024 12:34:38 +0800 (AWST)
+Message-ID: <24ab22b5403adb379f942b3dadb8f49b54f28bb0.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/2] ARM: dts: aspeed: mtmitchell: Add I2C FAN
+ controllers
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Liao Chen <liaochen4@huawei.com>, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org
-Date: Thu, 12 Sep 2024 12:37:10 +0930
-In-Reply-To: <20240903131503.961178-1-liaochen4@huawei.com>
-References: <20240903131503.961178-1-liaochen4@huawei.com>
+To: Chanh Nguyen <chanh@os.amperecomputing.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,  Conor Dooley <conor+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, OpenBMC
+ Maillist <openbmc@lists.ozlabs.org>, Open Source Submission
+ <patches@amperecomputing.com>
+Date: Thu, 12 Sep 2024 14:04:37 +0930
+In-Reply-To: <20240905063521.319416-2-chanh@os.amperecomputing.com>
+References: <20240905063521.319416-1-chanh@os.amperecomputing.com>
+	 <20240905063521.319416-2-chanh@os.amperecomputing.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -67,15 +73,77 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: florian.fainelli@broadcom.com, gregkh@linuxfoundation.org, andi.shyti@linux.intel.com, u.kleine-koenig@pengutronix.de, tglx@linutronix.de, andriy.shevchenko@linux.intel.com, jirislaby@kernel.org
+Cc: Thang Nguyen <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>, Khanh Pham <khpham@amperecomputing.com>, Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 2024-09-03 at 13:15 +0000, Liao Chen wrote:
-> Add MODULE_DEVICE_TABLE(), so modules could be properly autoloaded based
-> on the alias from of_device_id table.
+On Thu, 2024-09-05 at 06:35 +0000, Chanh Nguyen wrote:
+> Add the MAX31790 nodes as i2c fan controllers.
 >=20
-> Signed-off-by: Liao Chen <liaochen4@huawei.com>
+> Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
+> ---
+>  .../boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts   | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts b/=
+arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
+> index 0295f5adcfbc..da181f9ae820 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts
+> @@ -684,6 +684,16 @@ bmc-ocp0-en-hog {
+>  			line-name =3D "bmc-ocp0-en-n";
+>  		};
+>  	};
+> +
+> +	fan-controller0@20 {
+> +		compatible =3D "maxim,max31790";
+> +		reg =3D <0x20>;
+> +	};
+> +
+> +	fan-controller1@2f {
+> +		compatible =3D "maxim,max31790";
+> +		reg =3D <0x2f>;
+> +	};
+>  };
 
-Acked-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+This generates some warnings based on v6.11-rc1:
 
+Executing: ./scripts/checkpatch.pl --strict -g HEAD                        =
+                                                                           =
+        =20
+WARNING: DT compatible string "maxim,max31790" appears un-documented -- che=
+ck ./Documentation/devicetree/bindings/                                    =
+        =20
+#25: FILE: arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts:689:  =
+                                                                           =
+        =20
++               compatible =3D "maxim,max31790";                           =
+                                                                           =
+          =20
+                                                                           =
+                                                                           =
+        =20
+WARNING: DT compatible string "maxim,max31790" appears un-documented -- che=
+ck ./Documentation/devicetree/bindings/                                    =
+        =20
+#30: FILE: arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtmitchell.dts:694:  =
+                                                                           =
+        =20
++               compatible =3D "maxim,max31790";                           =
+                                                                           =
+          =20
+                                                                           =
+                                                                           =
+        =20
+total: 0 errors, 2 warnings, 0 checks, 16 lines checked
+
+However, Guenter's applied the binding here:
+
+https://lore.kernel.org/all/3382f952-daae-43ff-bb85-fa4820ecbc5f@roeck-us.n=
+et/
+
+`make CHECK_DTBS=3Dy aspeed/aspeed-bmc-ampere-mtmitchell.dtb` didn't turn
+up anything interesting after merging in hwmon-next, so I've applied
+these to be integrated via the BMC tree.
+
+Andrew
