@@ -1,61 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239A1975EE2
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 04:27:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5967C975EEE
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 04:34:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X41Y23V0Zz2yRM
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 12:27:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X41j916xZz2yS0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 12:34:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726108020;
-	cv=none; b=fTQxs5oQYxBpkkrCkWj8Zk9tcq4mIxf2lj5nrDo+WUKqTn8O51hD2TuSkw2QDWAb7nLW1cqjgyU68wBV5wVvN6pifLOq+bmjexmz4ynsTEDqy5JFrTUF5C909zDFrfYhxPqiRH3PfXElKcMCG/s9YbxPYIUQxnjYDGqiMQTtlfBJEXFU+9mHhHEYzsVhfVBCv75EkO1zYC7Lb936hE/5o9xUzcj+tHBOF8BYnsK/ieX5qm2DFEbhvLLxMRvJS4+8QX9YMmDvWAb0qI2dqzXrV4rUSlrNmOgYpDG0rh1cYP0BxNFjp3C93mtCR2U2L6JKzWfefxOJLHUFeeWnNVRMtQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726108443;
+	cv=none; b=WeFZphP2H56gFtx2ME2LVkoy1xiKCsvYiiFotcGCeCEanq+9G9DzErxCM4jDbrapcvfHUuO/HSbEVRotyv+RVfUQ6yqR67gvdaUof3HYy9fe24V9VrdQmtZiDHYiPEhi6lzNbBr672TTA5GVeDzLLZ5xYb1woTnfrmNKQ0Ku+/vg8XdSSsQlASzyDFa724Kzg8t7awJwHdivA1+IprG7qJaIEaQqkAsA3zufYs4A2FIUdqc32gGF8QrWRz3e+I7DxG+QlHE636/9rHv2JAzlFjiA9QrH1CjjI71uLQeLiKOzbBaApuEvEXozlxkwuq+Lznc4+/U49g22c/x1mEyYFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726108020; c=relaxed/relaxed;
-	bh=4T+rDZ0xJ2wcnLPEZ14zB7/g2o2IjvlNz0qDcwZKU/o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DSzQMgUeJ9u+eRbIRZPS11V/zI1JVtKYEWPOcKqLfRmb/1GIHLO0X7AFq1U3CdgGcMhIzsyvJahp9umCLG71F+F/wUAKqBOHTI08NeDP9yRCyLC4rCK1vkKKpB+IbJ5Eh3wtfK4tW9xML00YGqPGlK1g1cXY9oj5tUceBulf02gaztYJhB5slrBx5NsetZXlWcA4hULfOr96Ae1RQL5ZOIFupjuk6Eg49blj1/7DSU+iPYrKRCoJnaKfgd+y2OLKibHUIw/ZfoBjDhdiPCseSQLqdjI3CAWkPqjyJtEBwrkBYf0nMtdKid9SP3t0kxuSO6f9SoPQHhjlQ+M2DyBsog==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=M0lMF+m5; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	t=1726108443; c=relaxed/relaxed;
+	bh=7YUclhj44Kyj9d/lxkh3kctrbYaslwM23zCN0mCChZM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kno3Qz0wa4ej1BX62WH0LqdGkbGonqcGwQcNnjIac0gYvNwOFAA3d1Ld7ebR7C+P/z6KIfaMUuH5Kv80dItmrc2GtmWfHb7XhZu++RrpfqlmchzomL7HaZDtafnpOHdkjCXQ/y/IKunGlyJIy2wa8FekNRED5+g8mCuBwYWYWbiaPl5vmbaIzoUgxNhFTVj9Tgv9koAppGBAgGz4siVTNpth70KO0tgtvvm24yRsajW681F5zPqBSeytEwcWTt+R5NSM7KjYMNmsmAZvc6u9LKgPWjJcMPv1LsVQJuJ6HIDsa3DusE6Zf5W31NRvDNrl5z1x8oSOgzDSnSBX4SSn2A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=G1c8nAHP; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=M0lMF+m5;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=G1c8nAHP;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X41Y02Vvcz2xmh
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Sep 2024 12:27:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X41j72m26z2xy7
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Sep 2024 12:34:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1726108019;
-	bh=4T+rDZ0xJ2wcnLPEZ14zB7/g2o2IjvlNz0qDcwZKU/o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=M0lMF+m5rm6jq08qEg42+8u0hQV2kXypF2aBpBQs6gO8f1qcAEKHWuwD6zUseVOah
-	 oE6YLdG/BwvAQu3nuBIPjNhsvSzHxgMiYtiuI9c8iGjlQVwoaDfddfClpj3JEJi4bG
-	 LrxU6d3FLkP7ppDGdf8BNZbvnLf7oVX0ICXDVaBs0qE7LEeE7fHpUBTOFdZ8EKNurC
-	 e0FB8+H4ZKWBRUl8E9dUFHiTVwjB+a08QpZoCnSDSaimkOf4dlEpP7Fm0jzOLEXCXs
-	 xyZM6OPdFVagMaLEfgD720gpdosvfbg8RlUdPGx6QgoXN4DUE8w7uQtFziFaXPuHU/
-	 S4eV5aabqvBAw==
-Received: from [127.0.1.1] (ppp118-210-89-8.adl-adc-lon-bras32.tpg.internode.on.net [118.210.89.8])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id F1A34650D6;
-	Thu, 12 Sep 2024 10:26:58 +0800 (AWST)
+	d=codeconstruct.com.au; s=2022a; t=1726108442;
+	bh=7YUclhj44Kyj9d/lxkh3kctrbYaslwM23zCN0mCChZM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=G1c8nAHP2+fWZgBrge/Lwz4XFo2Gch36lC54YlL0QKvRBbPfHBnG683b6H+gdN/5f
+	 jL8OaGge60Bt9Bns2329yAR2KG2IwmvYNKVqD8CF6m9R0QOk2f+GIaNb6QvvHIyYs8
+	 0KhJ4fSoKajZX8HISAuoncmrDA7xh+XjxNA24T+nZsPq8Th//cV450FS5QT8lr/fM4
+	 MrdemVOky131UXBHUA1KID5dRASIAvnCHGSZATdqcNXAAWw0f4kacX9bsp1coLSJ24
+	 ZwjX3UaSKqp0wEkchahAGOoklBKRF27+NCKh2GmKiITFxAQzXZkD379L4zUMFG1dfo
+	 N1XhNR6Yid/VQ==
+Received: from [192.168.68.112] (ppp118-210-89-8.adl-adc-lon-bras32.tpg.internode.on.net [118.210.89.8])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 177FB650D6;
+	Thu, 12 Sep 2024 10:34:02 +0800 (AWST)
+Message-ID: <39630cb9cf923eec6d8e229aea4e6fc5980aa73e.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v18 0/3] Add i2c-mux and eeprom devices for Meta
+ Yosemite4
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: patrick@stwcx.xyz, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-In-Reply-To: <20240910022236.1564291-1-Delphine_CC_Chiu@wiwynn.com>
-References: <20240910022236.1564291-1-Delphine_CC_Chiu@wiwynn.com>
-Subject: Re: [PATCH v1] ARM: dts: aspeed: yosemite4: Enable adc15
-Message-Id: <172610801889.712033.6359452612409373701.b4-ty@codeconstruct.com.au>
-Date: Thu, 12 Sep 2024 11:56:58 +0930
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, Ricky CX Wu
+	 <ricky.cx.wu.wiwynn@gmail.com>
+Date: Thu, 12 Sep 2024 12:04:01 +0930
+In-Reply-To: <172589661042.199175.14634437656639420015.robh@kernel.org>
+References: <20240909105420.441607-1-Delphine_CC_Chiu@wiwynn.com>
+	 <172589661042.199175.14634437656639420015.robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,20 +67,93 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, linux-kernel@vger.kernel.org
+Cc: "Rob Herring \(Arm\)" <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, patrick@stwcx.xyz, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 10 Sep 2024 10:22:36 +0800, Delphine CC Chiu wrote:
-> Enable Yosemite4 adc15 config for monitoring P3V_BAT_SCALED.
-> 
-> 
+Hi Ricky,
 
-Thanks, I've applied this to be picked up through the BMC tree.
+On Mon, 2024-09-09 at 10:45 -0500, Rob Herring (Arm) wrote:
+> On Mon, 09 Sep 2024 18:54:15 +0800, Delphine CC Chiu wrote:
+> > From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
+> >=20
+...
+> >=20
+> > Ricky CX Wu (3):
+> >   ARM: dts: aspeed: yosemite4: Revise i2c-mux devices
+> >   ARM: dts: aspeed: yosemite4: add mctp config and sensors for NIC
+> >   ARM: dts: aspeed: yosemite4: add fan led config
+> >=20
+> >  .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 706 ++++++++++++++++--
+> >  1 file changed, 660 insertions(+), 46 deletions(-)
+> >=20
+> > --
+> > 2.25.1
+>=20
+>=20
+> My bot found new DTB warnings on the .dts files added or changed in this
+> series.
+>=20
+> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+> are fixed by another series. Ultimately, it is up to the platform
+> maintainer whether these warnings are acceptable or not. No need to reply
+> unless the platform maintainer has comments.
+>=20
+> If you already ran DT checks and didn't see these error(s), then
+> make sure dt-schema is up to date:
+>=20
+>   pip3 install dtschema --upgrade
+>=20
+>=20
+> New warnings running 'make CHECK_DTBS=3Dy aspeed/aspeed-bmc-facebook-yose=
+mite4.dtb' for 20240909105420.441607-1-Delphine_CC_Chiu@wiwynn.com:
+>=20
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: pwm@20: '#add=
+ress-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$',=
+ 'pinctrl-[0-9]+'
+> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: pwm@2f: '#add=
+ress-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$',=
+ 'pinctrl-[0-9]+'
+> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@=
+1e78a000/i2c@780/i2c-mux@74/i2c@0/gpio@61: failed to match any schema with =
+compatible: ['nxp,pca9552']
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: pwm@20: '#add=
+ress-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$',=
+ 'pinctrl-[0-9]+'
+> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: pwm@2f: '#add=
+ress-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$',=
+ 'pinctrl-[0-9]+'
+> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@=
+1e78a000/i2c@780/i2c-mux@74/i2c@1/gpio@61: failed to match any schema with =
+compatible: ['nxp,pca9552']
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@=
+1e78a000/i2c@800/i2c-mux@72/i2c@0/temperature-sensor@3c: failed to match an=
+y schema with compatible: ['smsc,emc1403']
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@=
+1e78a000/i2c@800/i2c-mux@72/i2c@1/temperature-sensor@3c: failed to match an=
+y schema with compatible: ['smsc,emc1403']
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@=
+1e78a000/i2c@800/i2c-mux@72/i2c@2/temperature-sensor@3c: failed to match an=
+y schema with compatible: ['smsc,emc1403']
+> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@=
+1e78a000/i2c@800/i2c-mux@72/i2c@3/temperature-sensor@3c: failed to match an=
+y schema with compatible: ['smsc,emc1403']
+>=20
 
-[1/1] ARM: dts: aspeed: yosemite4: Enable adc15
-      commit: e3b9afda18a6dc7975197a061c698142deeccc1b
+Please either:
 
---
-Andrew Jeffery <andrew@codeconstruct.com.au>
+1. Remove the offending nodes from your series so we don't add yet more
+warnings, or
+2. Write appropriate bindings and send them as part of the series
 
+Regarding 1, you can always update the devicetree to add the nodes
+after someone else has got the bindings merged. However, if you must
+have the nodes, then you need to do 2.
+
+Thanks,
+
+Andrew
