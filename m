@@ -2,59 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC2B9757B8
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Sep 2024 17:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BF5975E16
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 02:46:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X3lZK4KPKz2ytN
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 01:57:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X3zK72Gljz2yR9
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2024 10:46:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726070231;
-	cv=none; b=IleY36xl4TgVdytsnluIyzLbdtTBK8S6Y6R7lf5Z43N9ZTAnssx5N5oXwBToK35jdGq3HKZf+pyxaQkSl7wKle9xnS2V9iRYA/UCXoIASSzffl4bhgY4PadmRaTv8NuZLMqr7EbE1ZCmJOY93vspK5fLUhFR+5QVHi9c2NXx5hoVE2IRAjCY+SHsvYG4ONFbxRMNiFkQchaKiDPsjzAZLsr2xKjNywEseXdAM9gX1K2TNJEzYTUCIe2oYYSWpD15JItmaLv+sIsxBa+0S5EXC6+DQRy5cbpsJA4jL8Ol4jQFNLdAlfHTwA8K3AFXX13ISMzr32hyuY5ydNnrBxyO1Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726101989;
+	cv=none; b=BjkHvipJXmYLkHzWxxufdfvhbBWRlQz/eqnU5K73O/tamcQ07tAszrTuBnQ3wN3JNd6ED+TJZF0UMwKd3d64cHniUDKopfo6m2me94/Emx1jVyMngiIqeZOHmozfPDHDw0m+TZRcCRlIslgqvdFdJnsICsnT/DKdFN/WPFNwzIgcF+RS5mrm8jgO85hVlKwE2jKK4+S7ycjNQefWiO3XBnXjzJxDNeSWKtjVbPlgxSM/wju1BXWDyyPFQY8ZY18Ppo9wG5owQRntLvKOG3sI3oTnLUkKfGBR7YEBfC3uwR6JXLwcwJ1IouHn23zp1HxNzkturxQH2m/6jwOCkEQyfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726070231; c=relaxed/relaxed;
-	bh=im55rZeYR3uTzwd5kIXnF92QXRY7fBeMSdYH/M7t628=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I6ty7ebegCZruXM6cW63Gq9D5EcqOf/MYnGNRcrTIU78k5xvIqgLmitZCtT30D4gAxvQwB8fVeWuYL0U77rY6nb4PyYK+LiWZ8Dcs5/8Ibijfx5K/o9VjZ9lyP2AtlvQkPV0rZIYqQ6Oa+JWOxxX/KKyNphrmdRV6cM/tjTw9/aUkhn1vUqHR2UoqMIODB424GOEXHGOHtzJwVlMTIZrmzdniuFrereXQED0FiqfRQHvcxcxU242srL6FgaE0EIpxsI5z5/809jSUjUfzjOHnBcM+0eYN8WikQyOFVoUpcDNlhpWzHDF71sry7oRMRmFDd1+vdFSrlwg0gJIW/sLUA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=MSbZqsXQ; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1726101989; c=relaxed/relaxed;
+	bh=2VQngztHRnEp+3r2CybqohuxIQlCmejfmOOnUHXAJkE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FCq9tZiF8+mM+nM6hpZmqDCI6RpPmJeYLAyD9H4JItN3ewJ6XtD9Sm2aIyXH2yBjTlvTYYJGIhIZDBcOSVtf/IkBldlECmByjXLAXFGCWqJNC5ne741RhnEgS0O5WDy2T4c2sUnPGsuKLEq7xCON0DxP++kdMHupsgRpZnyHbTx0i/ag/T8uLaRbr+KaMu982k6dPAKtMUiPWn235/O034inX9Z3F2vS5YVYlAois7lY9Lfv41E7RuA2fvTbtfE2QAP9ik+uvQ0c1IfgNBo4mM1UDUz8ZRmoiGV6gF3/z5AwY1iZym/4MRRp2Tys5XT1yDmai+bpuRtilSjYaXp60w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=PW33KAQW; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=MSbZqsXQ;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=PW33KAQW;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X3lZH35Grz2xYq;
-	Thu, 12 Sep 2024 01:57:11 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 16291A4523C;
-	Wed, 11 Sep 2024 15:57:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E1C2C4CEC0;
-	Wed, 11 Sep 2024 15:57:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726070228;
-	bh=nF/c18D09Y46sCdwrFKtfmx8kDiDbxV17SDMLV7V/L8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MSbZqsXQZvxGgXr7EMhs3k8GTYGyywHC84W9sj1TjYH8RMZGFoqM6+plv6qYKV3HZ
-	 pS6kfpCHlmoV4B+sjBZ4uwr9LaHRu5Mt/kD+ZwONUHx3KGyyrpf8Xa8WDuCoGTSXrS
-	 8qZLfV9R21YSnNKTlzsisFjw+a6taz1fqVMP2kjEUOILsMNhu6X7qr+1RuuX1eFryg
-	 yghG2INw1jKbRRHHcQn+vnmlBVAlqYZftGFjBxSFcRlthZyVc2BG1zZMcq/SMLP12P
-	 rb7U7vopaKPOe0vDpzyrDhbp8IaXAOAx+j7vhxf6Jd/MYZ8K3lX3nnsjoRwbYojnfs
-	 yHpsnfl1fLMaw==
-Date: Wed, 11 Sep 2024 17:57:04 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Tommy Huang <tommy_huang@aspeedtech.com>
-Subject: Re: [PATCH v3] i2c: aspeed: Update the stop sw state when the bus
- recovery occurs
-Message-ID: <ljwz3zv7sakhqoeuceewmnk34igo2srfhtmbhhxqel3tgvqvou@wpvqldtoq6st>
-References: <20240911093951.1674824-1-tommy_huang@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X3zK11nddz2xJV
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Sep 2024 10:46:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1726101986;
+	bh=2VQngztHRnEp+3r2CybqohuxIQlCmejfmOOnUHXAJkE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=PW33KAQW7ezqXTkUJELheZI99O6C5LbwAW3+2CvLfMDQM7kuDWNsuBK42JvjEo0At
+	 AMFs2orEnMf58pl3Z2S8BeQh5Svk7zvXHCpjMUKN+rZ6LA+XWXiBorbe17BwMtLDxl
+	 IS4SEwVwmIb65LmAkM/ZySu1BPmlAEQAUv3dU1x2oDYxNPRjb69a19XjIsV07AE8I6
+	 leKBCjVdj7zl9qDGbTwmJidNNE2eewIFZvUCBZvPrG+LevXoVRQx2qamgltpbXIVEA
+	 IkV8kU4LIaGELgylbCN2ygVXvb+Q39816H7O47OwKatGxkxF0O8780GsDlpLvJwTu4
+	 GHI3Mv2tU90OQ==
+Received: from [192.168.68.112] (ppp118-210-89-8.adl-adc-lon-bras32.tpg.internode.on.net [118.210.89.8])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 1EC5D650AD;
+	Thu, 12 Sep 2024 08:46:23 +0800 (AWST)
+Message-ID: <082cea8c7ca1aa15001b7c48b1c3ef1f209cc40a.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] ARM: dts: aspeed: Fix at24 EEPROM node names
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: "Rob Herring (Arm)" <robh@kernel.org>, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
+	 <joel@jms.id.au>
+Date: Thu, 12 Sep 2024 10:16:23 +0930
+In-Reply-To: <20240910215929.823913-1-robh@kernel.org>
+References: <20240910215929.823913-1-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240911093951.1674824-1-tommy_huang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,25 +66,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, wsa@kernel.org, brendan.higgins@linux.dev, linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Tommy,
+On Tue, 2024-09-10 at 16:59 -0500, Rob Herring (Arm) wrote:
+> at24.yaml defines the node name for at24 EEPROMs as 'eeprom'.
+>=20
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-On Wed, Sep 11, 2024 at 05:39:51PM GMT, Tommy Huang wrote:
-> When the i2c bus recovery occurs, driver will send i2c stop command
-> in the scl low condition. In this case the sw state will still keep
-> original situation. Under multi-master usage, i2c bus recovery will
-> be called when i2c transfer timeout occurs. Update the stop command
-> calling with aspeed_i2c_do_stop function to update master_state.
-> 
-> Fixes: f327c686d3ba ("i2c: aspeed: added driver for Aspeed I2C")
-> 
-> Cc: <stable@vger.kernel.org> # v4.13+
-> Signed-off-by: Tommy Huang <tommy_huang@aspeedtech.com>
+Thanks, I've applied this to be picked up through the BMC tree.
 
-merged to i2c/i2c-host-fixes.
-
-Thanks,
-Andi
+Andrew
