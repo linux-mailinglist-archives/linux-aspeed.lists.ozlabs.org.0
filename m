@@ -1,30 +1,30 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBAE9779FD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2024 09:44:08 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CEED9779FF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2024 09:44:09 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X4mXQ4K9Xz2yvk
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2024 17:44:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X4mXR0KgFz30MZ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2024 17:44:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726213443;
-	cv=none; b=Gzvzo3oFMUGgqDpZVqgrxlR70bKjVJCnFUau28TEVF7CADApz8JXT1AwPYkpRmjQituhPo9WbgWvh4O1cXYP4yEv6jbOeQdMxREszyWlfijQFaaKNLBYzR/StW6hBJKK8CkDvgIZ3noIbdwto2Ixo+2IOv3TyKAyboaR3vuJT0+HnkB0oHriUugRBYuf5VQj72oh5peQHtpF0J+LOJi/3G/dcKq8WcU4l5ImQiRI7VBtvpXu3zdcwPjeDXtqkNkyXoRQiUcXLx1UFhHeOnxuh8zJqi+tFdySkbKYZ2yAZmYcDxFq2flDSkIhhZqi5EFe2D/TaDik5qLSzz2TamvX1A==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726213444;
+	cv=none; b=ZjQX1AHlEuZzfrS8Tkg/AfEYOKoFf1Y1/oiPxbO8eGVviKtVy7xqgDe2Ezr/89+wYgNRVBib7C/r3rYvN4QuBma7hUT0mNw3pCo/TktMnFaNOSgnYUUkeml1HF/FoNHAU3rzo9VzVZTcGL8EI4xCeDMB57ZfRCoR0TgBhQpebu186RVx6DVteVIRqYfkaQMPd+9Ny9a3gRQWi1jLZkzwunTE+mCaRFjay9/seqP/SoolD3pcrFbsJ7tsEtQJIztJA4oIT3bVa247fKy5JhLk10zrwUgWFJi82ibj5huANb0aARlbaIH6At35DLmTCdxQ+OspeVka5jBEr9DBQdVtjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726213443; c=relaxed/relaxed;
-	bh=jRPaWBlyvMZu7h+ZOV7XbVROrb0IssdifmGSieT7Xac=;
+	t=1726213444; c=relaxed/relaxed;
+	bh=bcgjFOBb8fkPMzHA0Gqe0vvC8btu3rJDPjw0Qpdr0U0=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cnHjxOjJ6Vk1hWK4oGoYN2jAY6KlLgnvQCb6zaM/AUdMg4ewPru8mCqTlhipNXQWCjv4TdTzZZBzbSuLknrapJeIbA+Y97CF0ssVdjpvG+dZC0TssGpEZj9QGFlL/Se4neqeC/GJjo3X5JnCZWTjFYscZWvfjsEZsLl5rtgpISp+K0/aYNi5Kn18Nvxbxap3arAlcly5RqBXbcVyQ77YqEjPOHaKQYmrftFHFx5zZc746SREtNOE+tLe38wWkgXszCa5dw0V+6sME7ljNLT49nnY0CkQu+Qw/535y8A69hKnN1lwCF23vQpnlwx1TCwig7in+Ze5134Tqje7/yPcMg==
+	 MIME-Version:Content-Type; b=QRk67rBcCNemzKumMNeWpeD0Ua7Bz+bBzaUDtKkBDwuJ3Aei/bOGc7CBrKXpqG3sdYy1Q36roFDWN06I2PwXktiUpkVv+u0pBLmLaNjHeWuiMaJo4lgFe/VfMXDAryO5EBrtXDMZq1i3ieLS+zNrncPIF92+GNXQxjGzikzWeXwT7Vy3Le/tFXeQTMBIqhqlaA/q2miRS43UlXSA7QZIByH/MfInG1TEsPiwR7pQHalXb+hZqobVAY4g2QEYnnL7y8V+mpWj28FxqEB8DD9mM0yVVTDjvogZXKL5UiX5wshfekYtfGQPhnX7yHAPxWkaLoCqsiHcmYuBmOirle/lPQ==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+Received: from TWMBX01.aspeed.com (unknown [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X4mXM2TL0z2ygX
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Sep 2024 17:44:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X4mXN0Prlz2yVD
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Sep 2024 17:44:04 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 13 Sep
@@ -39,9 +39,9 @@ To: <linus.walleij@linaro.org>, <brgl@bgdev.pl>, <robh@kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
 	<BMC-SW@aspeedtech.com>, <Peter.Yin@quantatw.com>
-Subject: [PATCH v3 1/6] dt-bindings: gpio: aspeed,ast2400-gpio: Support ast2700
-Date: Fri, 13 Sep 2024 15:43:20 +0800
-Message-ID: <20240913074325.239390-2-billy_tsai@aspeedtech.com>
+Subject: [PATCH v3 2/6] gpio: aspeed: Remove the name for bank array
+Date: Fri, 13 Sep 2024 15:43:21 +0800
+Message-ID: <20240913074325.239390-3-billy_tsai@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240913074325.239390-1-billy_tsai@aspeedtech.com>
 References: <20240913074325.239390-1-billy_tsai@aspeedtech.com>
@@ -62,65 +62,107 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The AST2700 is the 7th generation SoC from Aspeed, featuring two GPIO
-controllers: one with 12 GPIO pins and another with 216 GPIO pins.
+The bank array name is only used to determine if the GPIO offset is valid,
+and this condition can be replaced by checking if the offset exceeds the
+ngpio property.
 
 Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
- .../bindings/gpio/aspeed,ast2400-gpio.yaml    | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ drivers/gpio/gpio-aspeed.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml b/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
-index cf11aa7ec8c7..b9afd07a9d24 100644
---- a/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
-@@ -15,6 +15,7 @@ properties:
-       - aspeed,ast2400-gpio
-       - aspeed,ast2500-gpio
-       - aspeed,ast2600-gpio
-+      - aspeed,ast2700-gpio
+diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
+index 04c03402db6d..d20e15b2079d 100644
+--- a/drivers/gpio/gpio-aspeed.c
++++ b/drivers/gpio/gpio-aspeed.c
+@@ -77,7 +77,6 @@ struct aspeed_gpio_bank {
+ 	uint16_t	debounce_regs;
+ 	uint16_t	tolerance_regs;
+ 	uint16_t	cmdsrc_regs;
+-	const char	names[4][3];
+ };
  
-   reg:
-     maxItems: 1
-@@ -25,7 +26,7 @@ properties:
+ /*
+@@ -104,7 +103,6 @@ static const struct aspeed_gpio_bank aspeed_gpio_banks[] = {
+ 		.debounce_regs = 0x0040,
+ 		.tolerance_regs = 0x001c,
+ 		.cmdsrc_regs = 0x0060,
+-		.names = { "A", "B", "C", "D" },
+ 	},
+ 	{
+ 		.val_regs = 0x0020,
+@@ -113,7 +111,6 @@ static const struct aspeed_gpio_bank aspeed_gpio_banks[] = {
+ 		.debounce_regs = 0x0048,
+ 		.tolerance_regs = 0x003c,
+ 		.cmdsrc_regs = 0x0068,
+-		.names = { "E", "F", "G", "H" },
+ 	},
+ 	{
+ 		.val_regs = 0x0070,
+@@ -122,7 +119,6 @@ static const struct aspeed_gpio_bank aspeed_gpio_banks[] = {
+ 		.debounce_regs = 0x00b0,
+ 		.tolerance_regs = 0x00ac,
+ 		.cmdsrc_regs = 0x0090,
+-		.names = { "I", "J", "K", "L" },
+ 	},
+ 	{
+ 		.val_regs = 0x0078,
+@@ -131,7 +127,6 @@ static const struct aspeed_gpio_bank aspeed_gpio_banks[] = {
+ 		.debounce_regs = 0x0100,
+ 		.tolerance_regs = 0x00fc,
+ 		.cmdsrc_regs = 0x00e0,
+-		.names = { "M", "N", "O", "P" },
+ 	},
+ 	{
+ 		.val_regs = 0x0080,
+@@ -140,7 +135,6 @@ static const struct aspeed_gpio_bank aspeed_gpio_banks[] = {
+ 		.debounce_regs = 0x0130,
+ 		.tolerance_regs = 0x012c,
+ 		.cmdsrc_regs = 0x0110,
+-		.names = { "Q", "R", "S", "T" },
+ 	},
+ 	{
+ 		.val_regs = 0x0088,
+@@ -149,7 +143,6 @@ static const struct aspeed_gpio_bank aspeed_gpio_banks[] = {
+ 		.debounce_regs = 0x0160,
+ 		.tolerance_regs = 0x015c,
+ 		.cmdsrc_regs = 0x0140,
+-		.names = { "U", "V", "W", "X" },
+ 	},
+ 	{
+ 		.val_regs = 0x01E0,
+@@ -158,7 +151,6 @@ static const struct aspeed_gpio_bank aspeed_gpio_banks[] = {
+ 		.debounce_regs = 0x0190,
+ 		.tolerance_regs = 0x018c,
+ 		.cmdsrc_regs = 0x0170,
+-		.names = { "Y", "Z", "AA", "AB" },
+ 	},
+ 	{
+ 		.val_regs = 0x01e8,
+@@ -167,7 +159,6 @@ static const struct aspeed_gpio_bank aspeed_gpio_banks[] = {
+ 		.debounce_regs = 0x01c0,
+ 		.tolerance_regs = 0x01bc,
+ 		.cmdsrc_regs = 0x01a0,
+-		.names = { "AC", "", "", "" },
+ 	},
+ };
  
-   gpio-controller: true
-   gpio-line-names:
--    minItems: 36
-+    minItems: 12
-     maxItems: 232
+@@ -280,11 +271,11 @@ static inline const struct aspeed_bank_props *find_bank_props(
+ static inline bool have_gpio(struct aspeed_gpio *gpio, unsigned int offset)
+ {
+ 	const struct aspeed_bank_props *props = find_bank_props(gpio, offset);
+-	const struct aspeed_gpio_bank *bank = to_bank(offset);
+-	unsigned int group = GPIO_OFFSET(offset) / 8;
  
-   gpio-ranges: true
-@@ -42,7 +43,7 @@ properties:
-     const: 2
+-	return bank->names[group][0] != '\0' &&
+-		(!props || ((props->input | props->output) & GPIO_BIT(offset)));
++	if (offset >= gpio->chip.ngpio)
++		return false;
++
++	return (!props || ((props->input | props->output) & GPIO_BIT(offset)));
+ }
  
-   ngpios:
--    minimum: 36
-+    minimum: 12
-     maximum: 232
- 
- required:
-@@ -93,6 +94,20 @@ allOf:
-           enum: [ 36, 208 ]
-       required:
-         - ngpios
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: aspeed,ast2700-gpio
-+    then:
-+      properties:
-+        gpio-line-names:
-+          minItems: 12
-+          maxItems: 216
-+        ngpios:
-+          enum: [ 12, 216 ]
-+      required:
-+        - ngpios
- 
- additionalProperties: false
- 
+ static inline bool have_input(struct aspeed_gpio *gpio, unsigned int offset)
 -- 
 2.25.1
 
