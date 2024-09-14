@@ -2,61 +2,80 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E20F9787BA
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2024 20:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C4C978F34
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Sep 2024 10:45:10 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X52jX6n8Fz2ywh
-	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Sep 2024 04:22:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X5PrN2gRjz303K
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Sep 2024 18:45:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726251771;
-	cv=none; b=UcDf/5oqpn/fxwtwurMS9R3Nq2FVvdAmnow91o1O+jZ9LXsPSDxOjDNO7DdoRZ1j6gM0ZcBVCJJcLhDJmCr2I+xhfm9UAOpLf6NVpxNaBvErNec5vAsxEGfc7Bpm0YOKozbqZOmBd4CYE48wovw63UAEHubUe/KHUHA7qF2appCwHnwMuIFl8dEkXCfkswe9movVKOBdIe8l8n3JnFM8j/+gAfrlD5Z7GHO8AwQ76+jtIHhmWqKLzw/Mvx/VfEnVOwLmVKhwishT7+B4Ihe9VPgHd6vLUjvxaon+X2hSzgr15qcGpjabcWqOYeTtBa7aStiH6Bv3cNOJHtuT9xFzLw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.17
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726303501;
+	cv=none; b=FIILHJKSvQJCC1EJam0Nn6txLgPCs5ykrD++U+w3KqOionIs0rUsg6cWkYM3ACaZX2ahJL56wFBkg3xDu4Geos/8pQ02VhDbNnuUY+3LGvZVRE1zmpmJD3xGVW5cSQpbXxyzvmRY00f+u5VbyMWx7tYY1dVDyVkeBfHMi69w7KC+zMNRT5fQtHxJ0ikBD1nPLyP5JShtK7cIQV2w3hKKHd0vWDf3D6Pse4K+k+NnXGz1vFyHptB67zsmxErNJ1jF9Atuvt4IkOiTtVBUZQkkKDSsknqlKeoLEw7A0OKfUO/nk3avxT47oh4eaKidt/dr9lR2k7xpVPoqtoLS6HW3eg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726251771; c=relaxed/relaxed;
-	bh=jE+LkE/GlxxxXS2sFFMatGgGcsp8+WN8tBPvxibbjNc=;
+	t=1726303501; c=relaxed/relaxed;
+	bh=koB3GGv6GVDcyw4RX2uNUV3acyZ/bozEUKF+SZIwpJ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a2ohd/q3zz9xAtnodhjJRzeC7rdw9SA2sxo+2e78E9J13mbUkgoLXrcQ93RlZfYLqwkF3Vau9zdAVjZ31d7s0iKMQCsVuNI3fNsVcIhZLaDlw5P7TT1lgAYBDtLK+AenRY0+kgjmr1tsORQCMi7evqbkw5pxDwyEJLqurX71LR8CvoRuOtmXhVy6/ZUD4JC5282NuPg13w02+PEZ/Ho+ZXJXoiD1du8kTarbnSJ/IgO+Km9KdUJpDCLa0w4cnkYjq1jt4DP5en9SXM1S1nJl0kUw7Z0KCSF2BRa22icbCfhyAH6jeI0aRVsG9rOYZ2IwkglNRbDnH6MPK62cmSRZ0Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=U2L3trD9; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yv0tPs9KES3JQKUS9AKoyeO9DFlYYVyqN4CFqwKiwAOFyHr/b9bAcDsv04NJ5F0VrPohlLWGYTnanjIFCJjuoo+8CF9+Xvf5Uu0zJ4xmbramc8xay+HU7of3rVK6Wv4SubLPduR71DP0x0spbh/Gp9SI7Bmeu5zRUfEszWbsudpZBSVYIpYp+X9bceEaTQMVPAwPwWAmj9tIIC7vwV3yNb3vIrLHIteekuSKncNrSQ9dcuMdS3Mrv+gUD39QkBvXhpmtFzbfKEaO2qxtQQlXgcNoHeBF1A4VB4msvK6Ut0pHT+T+F6hfOeSiya44V0+zT10jTURcOBr3b3UC9jgxhQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vnih7J7v; dkim-atps=neutral; spf=pass (client-ip=192.198.163.17; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=U2L3trD9;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vnih7J7v;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.17; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X52jR13NTz2yFD
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 14 Sep 2024 04:22:51 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id DC751A44401;
-	Fri, 13 Sep 2024 18:22:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 614D7C4CEC0;
-	Fri, 13 Sep 2024 18:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726251768;
-	bh=jE+LkE/GlxxxXS2sFFMatGgGcsp8+WN8tBPvxibbjNc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U2L3trD9OLdQuIgpQE3ohbntUQa/rm0t7Ual0AgT9rA85tRGnYbfnseRsuChBN3w/
-	 yJo/5pF860m+j+0aVsqtW9Cf9bxOF0co6XaL4AcWzzahD/poPSp/cjATKAW8hcdmA5
-	 yNVrxkdWcsNOvJEpW/eyeOc8GkextREBehBX8qYbOaWxNykH5CJ6RLWy0uYfrYrASP
-	 msu12cR53WXFawLkKc73hkXCw05HVrRgurfOiIfRewiEZ33D+gMQyIjHvzLbrFIHW7
-	 i5SyDhaiJTyvUMu/hkz9FB+dfl5uKlgncImR5GDkWztxWpJTcn17Tc0ByvxOT2ZtHD
-	 wh8AOH1mV6WHA==
-Date: Fri, 13 Sep 2024 19:22:43 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: gpio: aspeed,ast2400-gpio: Support
- ast2700
-Message-ID: <20240913-swipe-crummiest-0d449f2e3314@spud>
-References: <20240913074325.239390-1-billy_tsai@aspeedtech.com>
- <20240913074325.239390-2-billy_tsai@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X5PrC1xR6z2yDw
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 14 Sep 2024 18:44:56 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726303499; x=1757839499;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Yo2t08wq6mqrLt2v9Yb6EbR8Hv+2oN77BrDNhVFJZzk=;
+  b=Vnih7J7vlMBs3qIx/zLxpxNQYlfUPdcljhVVMhEbpUpaSyPpBmoM24y/
+   p7FoRG6hx9oc9CAP/JUuubENSFTxnASEgpMUiS4vVD4Jk4PxkvxE7EYFX
+   tIG2VoxU0pCNe4U94tBCdowtCh2rD4QitIz2Y5FcSS/Eto2fL2bdR8iZv
+   9y5Wr+3mWDsxn7ilkLKFueAkiHjOlu+GLa7z2uiH8eGPqGmYK5vc7wYOw
+   21diGbhgDpaT4YtnnDTrChn0ERLyt92+cVW/S/UZBRGKWJ7Je5e+3//gw
+   Xl/1k5SospUsIkr8OU/h5qLQuV6bCkfNrtvSAsotU6NSgCRIik8wLhBGw
+   Q==;
+X-CSE-ConnectionGUID: 7m6HJDRTQKiZrmnJiNyxAQ==
+X-CSE-MsgGUID: bMBtrzFvS/6ddJx4qCRZTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11194"; a="25092066"
+X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
+   d="scan'208";a="25092066"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 01:44:54 -0700
+X-CSE-ConnectionGUID: xmrBwu1NS0qQAciLVisk0w==
+X-CSE-MsgGUID: E9tgl2zaSju+Bp7vrddTKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,228,1719903600"; 
+   d="scan'208";a="105796452"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 14 Sep 2024 01:44:50 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1spOOe-0007Xw-0K;
+	Sat, 14 Sep 2024 08:44:48 +0000
+Date: Sat, 14 Sep 2024 16:44:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
+	brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
+	Peter.Yin@quantatw.com
+Subject: Re: [PATCH v3 5/6] gpio: aspeed: Change the macro to support
+ deferred probe
+Message-ID: <202409141654.wHuMQLLU-lkp@intel.com>
+References: <20240913074325.239390-6-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="yr6ZZcr6IEzTYaC7"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240913074325.239390-2-billy_tsai@aspeedtech.com>
+In-Reply-To: <20240913074325.239390-6-billy_tsai@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,33 +87,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Peter.Yin@quantatw.com, linus.walleij@linaro.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, BMC-SW@aspeedtech.com, krzk+dt@kernel.org, brgl@bgdev.pl, linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Billy,
 
---yr6ZZcr6IEzTYaC7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Fri, Sep 13, 2024 at 03:43:20PM +0800, Billy Tsai wrote:
-> The AST2700 is the 7th generation SoC from Aspeed, featuring two GPIO
-> controllers: one with 12 GPIO pins and another with 216 GPIO pins.
->=20
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+[auto build test WARNING on brgl/gpio/for-next]
+[also build test WARNING on linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240913-154911
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20240913074325.239390-6-billy_tsai%40aspeedtech.com
+patch subject: [PATCH v3 5/6] gpio: aspeed: Change the macro to support deferred probe
+config: arc-randconfig-001-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141654.wHuMQLLU-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240914/202409141654.wHuMQLLU-lkp@intel.com/reproduce)
 
---yr6ZZcr6IEzTYaC7
-Content-Type: application/pgp-signature; name="signature.asc"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409141654.wHuMQLLU-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuSC8wAKCRB4tDGHoIJi
-0q3PAQC+/acGGSL2QPDUEaNfdNP0E6QO4gxyHGWHPni0w3cXZwEA90qz6xLtwZmg
-8iPP+K7iuHz0tAtAnMP7TYFSWOkA4QU=
-=2i7K
------END PGP SIGNATURE-----
+>> WARNING: modpost: vmlinux: section mismatch in reference: aspeed_gpio_driver+0x0 (section: .data) -> aspeed_gpio_probe (section: .init.text)
 
---yr6ZZcr6IEzTYaC7--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
