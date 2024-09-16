@@ -1,110 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FF5979EF2
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Sep 2024 12:09:08 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 226EC97A9E9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Sep 2024 02:19:23 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X6gcL2fwJz2ysB
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Sep 2024 20:09:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X72TP1SJJz2yTy
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Sep 2024 10:19:21 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726481342;
-	cv=none; b=gqFujLGwxh5weZ99e97uQS8T0fgYHajpQbQD2W/hWW09/1Obramf15ujAfkVd96cVhdRAR0NY2BM2dDKsS+d3ObTu5g9hWumZca238nTT/zPjXIBSBua3sq5Qf/DlQxJnBR+2FVpEz5y73+DVmq1NyBl+1agK6rjChV9aBjZ4hmaNgBZ7RJd2cJzTJHieFGrIBxiEWpxtz/WgHuQgW5Zkf/dVC4l/qF9PWOflUcGOj0m0SrE8MH33fj7h9yT5o3L4rRLhbVZTVETbC1L3QcST28Yxy+MMZ86ssZqN71twMbSLnXmvLvaNJvCfs23NQBWs/PqBMxU97No8ZxlpNtmdQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=80.12.242.14
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726532358;
+	cv=none; b=HH8L0ZbqBtqLWNwVK00DlEFrzRGpxABN9/z09959tZS/Uu2FKIoEFG15BeAV1YyegdnNcioRMgrwEF8+Sg82xHyxM4kFEAo+CguDd8J5bJFm236b9Iq7wGjm33jdD3+JVCYeNywdlk7rZMfYzeeAkdexvMz/hfCBVkGkodnyfLZymIWasUP/Rj1wki8jIbXJs0QuzwEkFcAKOsxDUtfC5ioeotWBVVgXFOQQQ82IBC9oS+aFlkeTfp75FsmYok1x06S+jtmKNGKTKECzNbd6tkue5mN3lXdmlcV+OwTepDhpfQSJoLV8SO98LBnXdwAPRp/ElXGALK9dwLhkZ+HIfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726481342; c=relaxed/relaxed;
-	bh=NicVSKto3CNl4cWFWCOaagNw0+dyANQp+qjYo3OQGeg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=XsT+VO+Lgy5r9Q6SCFbhDcLVR/osBf7OBg5gOfsQxuM7+RQ7AaKd4LsrldgPZ3JwglpA9ayoYfx3pTEIVryS8XFBTYrdkK5lo637vxhhEzPUV7MjWnAOcdxxJWqDhquBb469lzvUI5cJf1RGjb7l8nQBJBi+ZoKHte2yheCLytaWAU7pXTDBvvtoBbAp8nykuKiDwVFF6U3x2X5ZsfTyT1rgQGN7a4OkG6E/MXuFDLu2h4GjJIYzPhxki8xX7P55F2J6hTqlEF5netvPvsyf/Ixn+0ryteMybYv/kVxQmTeUEwIbLv5Y5MmQzF4DznVMblFmYbQLnNmSbzgFj0uNqw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=OKCVaXHp; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1726532358; c=relaxed/relaxed;
+	bh=4xZynbdl8X5dZpBdrXoCTH9SQCCxnA23WyVw+eu7ov4=;
+	h=Message-ID:Date:MIME-Version:Subject:References:From:Cc:To:
+	 In-Reply-To:Content-Type; b=AW9pIx2/7tluY4nftwlNce+EGJm1kcd3f32cVpAylZCMukEtvvNeflI6vRTfwYUmXrrf3uf8EWxZ9utQqYDxR0PKzQ5Tn/iUOVD0IZOlPZKqP/acX0YZ8mXeGYawIXj7knjGHtQEcjVQ9JZQJiGnGQDpc8cqOnwo9cs3SfbgXxUQSRwA1cjt+aW1u4UJoAONBFPIPHTZHUVA911Lp1ETM9x95ghWfgmfMRbp8qErle1BtixkZEQ5AMiDPibHzEi0sVyKYR9X8e8XCq44DRAnWuJm3Yyw6axM7lEcsktWMLwM2tDqCQQ+yRfucFj0iTff0VQ/4TckF9TjQf2IGqNagw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=Umuy9vmo; dkim-atps=neutral; spf=pass (client-ip=80.12.242.14; helo=smtp.smtpout.orange.fr; envelope-from=christophe.jaillet@wanadoo.fr; receiver=lists.ozlabs.org) smtp.mailfrom=wanadoo.fr
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=OKCVaXHp;
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=Umuy9vmo;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wanadoo.fr (client-ip=80.12.242.14; helo=smtp.smtpout.orange.fr; envelope-from=christophe.jaillet@wanadoo.fr; receiver=lists.ozlabs.org)
+X-Greylist: delayed 20218 seconds by postgrey-1.37 at boromir; Tue, 17 Sep 2024 10:19:16 AEST
+Received: from smtp.smtpout.orange.fr (smtp-14.smtpout.orange.fr [80.12.242.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X6gcF50phz2yTy
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Sep 2024 20:09:01 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 74610A41C8B;
-	Mon, 16 Sep 2024 10:08:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91D7CC4CEC7;
-	Mon, 16 Sep 2024 10:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726481338;
-	bh=T8PPk/YjtiwccMrPvJSUH0/CkXxHzepMK8YfYya0uIY=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=OKCVaXHpyuFTiSIHNJfFNzkEYZ61+i5SfGrDGnyySHLsCQYclH0uge3MRD1nczVug
-	 hUje13rPUBrxTGSiV2p0sCQYgw5JmGqp1qMRUFQroQK7E3IVXBCMGTFOsY5gIq43DE
-	 BY91V4O+kcwF0V0eB08/GAGjrFYwyPFSIVjvDENrSX2F0XD3ST/vo7GKLwGcbQ1BA2
-	 L3gErmdmvVhKYPaDQVBbwaVrzicGH0z6dCghSduxJCHfN36Q7s61HUferH5G/Gsi7+
-	 9wCxRUkINNPACPB0dC7Bn5cz0Moh3FHvYjdagkyctsS84q/UQRHZrU8ZumRR9G2i0Y
-	 FT36aGYd/t+Dg==
-Message-ID: <9b356379-907c-4112-8e24-1810cfa40ef6@kernel.org>
-Date: Mon, 16 Sep 2024 12:08:50 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X72TJ1QDSz2xrC
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Sep 2024 10:19:13 +1000 (AEST)
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id qGejs0tbUMDtnqGejs6ORx; Mon, 16 Sep 2024 20:41:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1726512068;
+	bh=4xZynbdl8X5dZpBdrXoCTH9SQCCxnA23WyVw+eu7ov4=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To;
+	b=Umuy9vmoqB8++ffA9IDEPiXyccpaqSGlZJ+hM6PzPz0YG+9NXI7rywiELOlaYJkn5
+	 wmPHmP8tqV4sAg6yeGpgfTZOab4052OPPDujeZJfoGnAj15+6c7agfSql08BCQy2/t
+	 Q+d284VcBFUGlTAlMD3XVVAjDNNa3AJF6z/wIBBtPzciUesU2DPdhsCN/fudipS7pF
+	 C2i8EMzoSHLLi3fhx3946s4eo60JTpiBpIOx0/AHDfs29sInV3gj/lSXhWdbgvJv+U
+	 KDafN/BsJyRSex913RgAE8CD+jUKxU7xZ1ibxseOMls2gA3FVsgXiOugrq0t+oCBJ5
+	 I5Suw0wfVpd0g==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Mon, 16 Sep 2024 20:41:08 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <8412982c-17c0-4596-a9eb-cd28ad747048@wanadoo.fr>
+Date: Mon, 16 Sep 2024 20:41:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt-bindings: mfd: aspeed: support for AST2700
-To: Ryan Chen <ryan_chen@aspeedtech.com>, mturquette@baylibre.com,
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- joel@jms.id.au, andrew@codeconstruct.com.au, p.zabel@pengutronix.de,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v3 3/4] reset: aspeed: register AST2700 reset auxiliary
+ bus device
 References: <20240916091039.3584505-1-ryan_chen@aspeedtech.com>
- <20240916091039.3584505-2-ryan_chen@aspeedtech.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240916091039.3584505-2-ryan_chen@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20240916091039.3584505-4-ryan_chen@aspeedtech.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+In-Reply-To: <20240916091039.3584505-4-ryan_chen@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,89 +71,176 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, sboyd@kernel.org, mturquette@baylibre.com, linux-kernel@vger.kernel.org, p.zabel@pengutronix.de, krzk+dt@kernel.org, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 16/09/2024 11:10, Ryan Chen wrote:
-> Add compatible support for AST2700 clk, reset, pinctrl, silicon-id for AST2700 scu.
-
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
+Le 16/09/2024 à 11:10, Ryan Chen a écrit :
+> The AST2700 reset driver is registered as an auxiliary device
+> due to reset and clock controller share the same register region.
 > 
 > Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> ---
->  .../devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-> index 86ee69c0f45b..127a357051cd 100644
-> --- a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-> @@ -9,6 +9,8 @@ title: Aspeed System Control Unit
->  description:
->    The Aspeed System Control Unit manages the global behaviour of the SoC,
->    configuring elements such as clocks, pinmux, and reset.
-> +  In AST2700 SOC which has two soc connection, each soc have its own scu
-> +  register control, ast2700-scu0 for soc0, ast2700-scu1 for soc1.
->  
->  maintainers:
->    - Joel Stanley <joel@jms.id.au>
-> @@ -21,6 +23,8 @@ properties:
->            - aspeed,ast2400-scu
->            - aspeed,ast2500-scu
->            - aspeed,ast2600-scu
-> +          - aspeed,ast2700-scu0
-> +          - aspeed,ast2700-scu1
->        - const: syscon
->        - const: simple-mfd
->  
-> @@ -30,10 +34,12 @@ properties:
->    ranges: true
->  
->    '#address-cells':
-> -    const: 1
-> +    minimum: 1
-> +    maximum: 2
->  
->    '#size-cells':
-> -    const: 1
-> +    minimum: 1
-> +    maximum: 2
 
-Why do the children have 64 bit addressing?
+Hi,
 
->  
->    '#clock-cells':
->      const: 1
-> @@ -56,6 +62,8 @@ patternProperties:
->              - aspeed,ast2400-pinctrl
->              - aspeed,ast2500-pinctrl
->              - aspeed,ast2600-pinctrl
-> +            - aspeed,ast2700-soc0-pinctrl
-> +            - aspeed,ast2700-soc1-pinctrl
+...
 
-Are these devices different?
+> +static const struct ast2700_reset_signal ast2700_reset0_signals[] = {
+> +	[SCU0_RESET_SDRAM] = { true, SCU0_RESET_CTRL1, BIT(0) },
+> +	[SCU0_RESET_DDRPHY] = { true, SCU0_RESET_CTRL1, BIT(1) },
+> +	[SCU0_RESET_RSA]     = { true, SCU0_RESET_CTRL1, BIT(2) },
+> +	[SCU0_RESET_SHA3]	= { true, SCU0_RESET_CTRL1, BIT(3) },
+> +	[SCU0_RESET_HACE]	= { true, SCU0_RESET_CTRL1, BIT(4) },
+> +	[SCU0_RESET_SOC]	= { true, SCU0_RESET_CTRL1, BIT(5) },
+> +	[SCU0_RESET_VIDEO]	= { true, SCU0_RESET_CTRL1, BIT(6) },
+> +	[SCU0_RESET_2D]	= { true, SCU0_RESET_CTRL1, BIT(7) },
+> +	[SCU0_RESET_PCIS]	= { true, SCU0_RESET_CTRL1, BIT(8) },
+> +	[SCU0_RESET_RVAS0]		= { true, SCU0_RESET_CTRL1, BIT(9) },
+> +	[SCU0_RESET_RVAS1]		= { true, SCU0_RESET_CTRL1, BIT(10) },
+> +	[SCU0_RESET_SM3]		= { true, SCU0_RESET_CTRL1, BIT(11) },
+> +	[SCU0_RESET_SM4]		= { true, SCU0_RESET_CTRL1, BIT(12) },
+> +	[SCU0_RESET_CRT0]	= { true, SCU0_RESET_CTRL1, BIT(13) },
+> +	[SCU0_RESET_ECC]	= { true, SCU0_RESET_CTRL1, BIT(14) },
+> +	[SCU0_RESET_DP_PCI]	= { true, SCU0_RESET_CTRL1, BIT(15) },
+> +	[SCU0_RESET_UFS]	= { true, SCU0_RESET_CTRL1, BIT(16) },
+> +	[SCU0_RESET_EMMC]	= { true, SCU0_RESET_CTRL1, BIT(17) },
+> +	[SCU0_RESET_PCIE1RST]	= { true, SCU0_RESET_CTRL1, BIT(18) },
+> +	[SCU0_RESET_PCIE1RSTOE]	= { true, SCU0_RESET_CTRL1, BIT(19) },
+> +	[SCU0_RESET_PCIE0RST]		= { true, SCU0_RESET_CTRL1, BIT(20) },
+> +	[SCU0_RESET_PCIE0RSTOE]	= { true, SCU0_RESET_CTRL1, BIT(21) },
+> +	[SCU0_RESET_JTAG]	= { true, SCU0_RESET_CTRL1, BIT(22) },
+> +	[SCU0_RESET_MCTP0] = { true, SCU0_RESET_CTRL1, BIT(23) },
+> +	[SCU0_RESET_MCTP1]		= { true, SCU0_RESET_CTRL1, BIT(24) },
+> +	[SCU0_RESET_XDMA0]	= { true, SCU0_RESET_CTRL1, BIT(25) },
+> +	[SCU0_RESET_XDMA1]	= { true, SCU0_RESET_CTRL1, BIT(26) },
+> +	[SCU0_RESET_H2X1]	= { true, SCU0_RESET_CTRL1, BIT(27) },
+> +	[SCU0_RESET_DP]	= { true, SCU0_RESET_CTRL1, BIT(28) },
+> +	[SCU0_RESET_DP_MCU]	= { true, SCU0_RESET_CTRL1, BIT(29) },
+> +	[SCU0_RESET_SSP]	= { true, SCU0_RESET_CTRL1, BIT(30) },
+> +	[SCU0_RESET_H2X0]	= { true, SCU0_RESET_CTRL1, BIT(31) },
+> +	[SCU0_RESET_PORTA_VHUB]	= { true, SCU0_RESET_CTRL2, BIT(0) },
+> +	[SCU0_RESET_PORTA_PHY3]	= { true, SCU0_RESET_CTRL2, BIT(1) },
+> +	[SCU0_RESET_PORTA_XHCI]	= { true, SCU0_RESET_CTRL2, BIT(2) },
+> +	[SCU0_RESET_PORTB_VHUB]	= { true, SCU0_RESET_CTRL2, BIT(3) },
+> +	[SCU0_RESET_PORTB_PHY3]	= { true, SCU0_RESET_CTRL2, BIT(4) },
+> +	[SCU0_RESET_PORTB_XHCI]	= { true, SCU0_RESET_CTRL2, BIT(5) },
+> +	[SCU0_RESET_PORTA_VHUB_EHCI]	= { true, SCU0_RESET_CTRL2, BIT(6) },
+> +	[SCU0_RESET_PORTB_VHUB_EHCI]	= { true, SCU0_RESET_CTRL2, BIT(7) },
+> +	[SCU0_RESET_UHCI]	= { true, SCU0_RESET_CTRL2, BIT(8) },
+> +	[SCU0_RESET_TSP]	= { true, SCU0_RESET_CTRL2, BIT(9) },
+> +	[SCU0_RESET_E2M0]	= { true, SCU0_RESET_CTRL2, BIT(10) },
+> +	[SCU0_RESET_E2M1]	= { true, SCU0_RESET_CTRL2, BIT(11) },
+> +	[SCU0_RESET_VLINK]	= { true, SCU0_RESET_CTRL2, BIT(12) },
+> +};
 
-Where is this binding documented (fully)? Provide link to lore patch in
-the changelog.
+The sapces and tabs in both tables look not consistent.
 
->  
->      required:
->        - compatible
-> @@ -76,6 +84,7 @@ patternProperties:
->                - aspeed,ast2400-silicon-id
->                - aspeed,ast2500-silicon-id
->                - aspeed,ast2600-silicon-id
-> +              - aspeed,ast2700-silicon-id
+> +
+> +static const struct ast2700_reset_signal ast2700_reset1_signals[] = {
+> +	[SCU1_RESET_LPC0] = { true, SCU1_RESET_CTRL1, BIT(0) },
+> +	[SCU1_RESET_LPC1] = { true, SCU1_RESET_CTRL1, BIT(1) },
+> +	[SCU1_RESET_MII]     = { true, SCU1_RESET_CTRL1, BIT(2) },
+> +	[SCU1_RESET_PECI]	= { true, SCU1_RESET_CTRL1, BIT(3) },
+> +	[SCU1_RESET_PWM]	= { true, SCU1_RESET_CTRL1, BIT(4) },
+> +	[SCU1_RESET_MAC0]	= { true, SCU1_RESET_CTRL1, BIT(5) },
+> +	[SCU1_RESET_MAC1]	= { true, SCU1_RESET_CTRL1, BIT(6) },
+> +	[SCU1_RESET_MAC2]	= { true, SCU1_RESET_CTRL1, BIT(7) },
+> +	[SCU1_RESET_ADC]	= { true, SCU1_RESET_CTRL1, BIT(8) },
+> +	[SCU1_RESET_SD]		= { true, SCU1_RESET_CTRL1, BIT(9) },
+> +	[SCU1_RESET_ESPI0]		= { true, SCU1_RESET_CTRL1, BIT(10) },
+> +	[SCU1_RESET_ESPI1]		= { true, SCU1_RESET_CTRL1, BIT(11) },
+> +	[SCU1_RESET_JTAG1]		= { true, SCU1_RESET_CTRL1, BIT(12) },
+> +	[SCU1_RESET_SPI0]	= { true, SCU1_RESET_CTRL1, BIT(13) },
+> +	[SCU1_RESET_SPI1]	= { true, SCU1_RESET_CTRL1, BIT(14) },
+> +	[SCU1_RESET_SPI2]	= { true, SCU1_RESET_CTRL1, BIT(15) },
+> +	[SCU1_RESET_I3C0]	= { true, SCU1_RESET_CTRL1, BIT(16) },
+> +	[SCU1_RESET_I3C1]	= { true, SCU1_RESET_CTRL1, BIT(17) },
+> +	[SCU1_RESET_I3C2]	= { true, SCU1_RESET_CTRL1, BIT(18) },
+> +	[SCU1_RESET_I3C3]	= { true, SCU1_RESET_CTRL1, BIT(19) },
+> +	[SCU1_RESET_I3C4]		= { true, SCU1_RESET_CTRL1, BIT(20) },
+> +	[SCU1_RESET_I3C5]	= { true, SCU1_RESET_CTRL1, BIT(21) },
+> +	[SCU1_RESET_I3C6]	= { true, SCU1_RESET_CTRL1, BIT(22) },
+> +	[SCU1_RESET_I3C7] = { true, SCU1_RESET_CTRL1, BIT(23) },
+> +	[SCU1_RESET_I3C8]		= { true, SCU1_RESET_CTRL1, BIT(24) },
+> +	[SCU1_RESET_I3C9]	= { true, SCU1_RESET_CTRL1, BIT(25) },
+> +	[SCU1_RESET_I3C10]	= { true, SCU1_RESET_CTRL1, BIT(26) },
+> +	[SCU1_RESET_I3C11]	= { true, SCU1_RESET_CTRL1, BIT(27) },
+> +	[SCU1_RESET_I3C12]	= { true, SCU1_RESET_CTRL1, BIT(28) },
+> +	[SCU1_RESET_I3C13]	= { true, SCU1_RESET_CTRL1, BIT(29) },
+> +	[SCU1_RESET_I3C14]	= { true, SCU1_RESET_CTRL1, BIT(30) },
+> +	[SCU1_RESET_I3C15]	= { true, SCU1_RESET_CTRL1, BIT(31) },
+> +	[SCU1_RESET_MCU0]	= { true, SCU1_RESET_CTRL2, BIT(0) },
+> +	[SCU1_RESET_MCU1]	= { true, SCU1_RESET_CTRL2, BIT(1) },
+> +	[SCU1_RESET_H2A_SPI1]	= { true, SCU1_RESET_CTRL2, BIT(2) },
+> +	[SCU1_RESET_H2A_SPI2]	= { true, SCU1_RESET_CTRL2, BIT(3) },
+> +	[SCU1_RESET_UART0]	= { true, SCU1_RESET_CTRL2, BIT(4) },
+> +	[SCU1_RESET_UART1]	= { true, SCU1_RESET_CTRL2, BIT(5) },
+> +	[SCU1_RESET_UART2]	= { true, SCU1_RESET_CTRL2, BIT(6) },
+> +	[SCU1_RESET_UART3]	= { true, SCU1_RESET_CTRL2, BIT(7) },
+> +	[SCU1_RESET_I2C_FILTER]	= { true, SCU1_RESET_CTRL2, BIT(8) },
+> +	[SCU1_RESET_CALIPTRA]	= { true, SCU1_RESET_CTRL2, BIT(9) },
+> +	[SCU1_RESET_XDMA]	= { true, SCU1_RESET_CTRL2, BIT(10) },
+> +	[SCU1_RESET_FSI]	= { true, SCU1_RESET_CTRL2, BIT(12) },
+> +	[SCU1_RESET_CAN]	= { true, SCU1_RESET_CTRL2, BIT(13) },
+> +	[SCU1_RESET_MCTP]	= { true, SCU1_RESET_CTRL2, BIT(14) },
+> +	[SCU1_RESET_I2C]	= { true, SCU1_RESET_CTRL2, BIT(15) },
+> +	[SCU1_RESET_UART6]	= { true, SCU1_RESET_CTRL2, BIT(16) },
+> +	[SCU1_RESET_UART7]	= { true, SCU1_RESET_CTRL2, BIT(17) },
+> +	[SCU1_RESET_UART8]	= { true, SCU1_RESET_CTRL2, BIT(18) },
+> +	[SCU1_RESET_UART9]	= { true, SCU1_RESET_CTRL2, BIT(19) },
+> +	[SCU1_RESET_LTPI0]	= { true, SCU1_RESET_CTRL2, BIT(20) },
+> +	[SCU1_RESET_VGAL]	= { true, SCU1_RESET_CTRL2, BIT(21) },
+> +	[SCU1_RESET_LTPI1]	= { true, SCU1_RESET_CTRL2, BIT(22) },
+> +	[SCU1_RESET_ACE]	= { true, SCU1_RESET_CTRL2, BIT(23) },
+> +	[SCU1_RESET_E2M]	= { true, SCU1_RESET_CTRL2, BIT(24) },
+> +	[SCU1_RESET_UHCI]	= { true, SCU1_RESET_CTRL2, BIT(25) },
+> +	[SCU1_RESET_PORTC_USB2UART]	= { true, SCU1_RESET_CTRL2, BIT(26) },
+> +	[SCU1_RESET_PORTC_VHUB_EHCI]	= { true, SCU1_RESET_CTRL2, BIT(27) },
+> +	[SCU1_RESET_PORTD_USB2UART]	= { true, SCU1_RESET_CTRL2, BIT(28) },
+> +	[SCU1_RESET_PORTD_VHUB_EHCI]	= { true, SCU1_RESET_CTRL2, BIT(29) },
+> +	[SCU1_RESET_H2X]	= { true, SCU1_RESET_CTRL2, BIT(30) },
+> +	[SCU1_RESET_I3CDMA]	= { true, SCU1_RESET_CTRL2, BIT(31) },
+> +	[SCU1_RESET_PCIE2RST]	= { false, SCU1_PCIE3_CTRL, BIT(0) },
+> +};
 
-This one is fine.
+...
 
->            - const: aspeed,silicon-id
->  
->        reg:
+> +static int aspeed_reset_probe(struct auxiliary_device *adev,
+> +			      const struct auxiliary_device_id *id)
+> +{
+> +	struct aspeed_reset *reset;
+> +	struct device *dev = &adev->dev;
+> +
+> +	reset = devm_kzalloc(dev, sizeof(*reset), GFP_KERNEL);
+> +	if (!reset)
+> +		return -ENOMEM;
+> +
+> +	spin_lock_init(&reset->lock);
+> +
+> +	reset->info	= (struct aspeed_reset_info *)(id->driver_data);
+> +	reset->rcdev.owner     = THIS_MODULE;
+> +	reset->rcdev.nr_resets = reset->info->nr_resets;
+> +	reset->rcdev.ops       = &aspeed_reset_ops;
+> +	reset->rcdev.of_node   = dev->parent->of_node;
+> +	reset->rcdev.dev	      = dev;
+> +	reset->rcdev.of_reset_n_cells = 1;
+> +	reset->base            = (void __iomem *)adev->dev.platform_data;
 
-Best regards,
-Krzysztof
+The spaces and tabs look broken for 'info' and 'rcdev.dev'.
 
+> +
+> +	if (!reset->base)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(dev, reset);
+
+Is it needed?
+(there is no dev_get_drvdata())
+
+> +
+> +	return devm_reset_controller_register(dev, &reset->rcdev);
+> +}
+
+...
+
+CJ
