@@ -1,59 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42BC97BCAF
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Sep 2024 15:01:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC3E97BCB7
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Sep 2024 15:03:18 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X7zLm4llsz2yJ9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Sep 2024 23:01:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X7zNM0hW9z2yGh
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Sep 2024 23:03:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726664507;
-	cv=none; b=XPRVUroZ/tpkIy+8DFVD5FX0AQ2CTYhO4Kamby72G+yMXA0W5w8hWJfJ0HFLg71nTSUBVCh636ve+C5pEP6qhkV+kshOn9+yQ0dWN54xvufFw0TUuMLT4w/DUVoOTB3bJhjqjZMM87qcPR1MrtC2MRZVA1ubWgT57fe10BCU+oOQF8iGnQVNHJD7HGZ7V4fK+t0/ukH6+tHFov68bD4dM1zzNq6Nhe32PuqAZvLLMu4B/rLSlepUAvPP+eY+VZP+No1RhbJc5+LG83esjlar0ctFIKSfBwr4zyWpLulIp4DlD8C7cvJYwoM3id6LJsPHni6IFtJH8ivjUQFFUbo9rg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4641:c500::1"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726664593;
+	cv=none; b=NaV2z92xVDuuvfwKVZvUp9onz3OqEOoGSP0T8HlBPPOY+MQhDYJIM9erWV7y6tRmU7bIIdWSrrozz/9wBM8Gv42wOh9IRPto20ck/74ZxWbIZQT16W/8jV0PFJl1ST5Ibiy3a31Lx7OJV4FyH2QHNQeAjd51Ser6C/w4eTkgehakgiQq49DLTIVvFWDShtC6CbPbQcwZXgBpnTzVqfadk5FuaoikR0NlL3FxcJ0h5JSOTLFKPLc9eKK1UqjFJQCQ8url4XGgmi874k9I2CUF+VUa/KwGnqYG5jlyS4wCcdd42rUXAlYqP8E+ezw+b1ppNuDhMmqo42qJqQKDcL1NSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726664507; c=relaxed/relaxed;
-	bh=J/1zxVhpxic8fVnRkALgadeWEHZbIx3mO9+qRiHO7UA=;
+	t=1726664593; c=relaxed/relaxed;
+	bh=sGt2A0XA0LXjB5vR3t/4lhAA6tdKqbmOB9xVpOUains=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kx9lRJ6jaLioBvgUX/A5XPbeREdhc7RkQstey1Agd3O6UNKLu9NqvReFQ9whUOmvszOzuVSwplqu8mhYtC3jt0dI/tLJp/Cy0j69WfUvdu1BTsOHsc2ATHdfQ04vsLMkAp7yQyCRMaxMHNHELV8KQqNLrwXdHY174al/uXRwJ5k+Mg4SFzBsJa6p4D5IEoO/sOYL81c/JfZ1o6Pv2IKLdnN5quPSUjJ4uoMrIPMnjGJxvEHvuZIq74qwOUtK0GTn8T/kz24ye4w2jVzFQ7d1nJT0vBxSzr3ZxCIPP7EFyA/aYJ2jNq0/UK8UEd2dHSvJyxsb/zvmpNVQSPgJBK1oHA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RSns5O8m; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 In-Reply-To:Content-Type; b=BYNjWtWpFaSZSY/iqD+j87OhA2t6q30qcYEcz+l0RAhbyQ8I4w0HjtoCJ1IhfArzcGpRWNinSdk+A1iOgXcxgSoYRaKzATSx1FzuTTvmj1NFa/07jflP2yMGbWreaUpiw/kAERHFinP8rzvmWA8SPFMSAi0pCQgfrI5Wk52SOhcSwCSo9mmKOsbTrTlyGQssu/aHTXB7F97etyCIDFlx83PLcuNH203Jd99EoEf6SVadxvFKmKaG1MeqORb0fdUnP/19Nt2EPOU+k2lsTy/IdblDAQVGAkG9BgeO2MJEwpFN65DQXxhFZCARi14hBqWuL5q7oHXSjpqQvnIUvilaUA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XbZjq2QJ; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RSns5O8m;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XbZjq2QJ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X7zLf6xTlz2xWT
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Sep 2024 23:01:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X7zNJ6ggnz2xCp
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Sep 2024 23:03:12 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 8DDA85C5C87;
-	Wed, 18 Sep 2024 13:01:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F83C4CEC3;
-	Wed, 18 Sep 2024 13:01:37 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 8A1595C5C62;
+	Wed, 18 Sep 2024 13:03:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05BABC4CEC3;
+	Wed, 18 Sep 2024 13:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726664503;
-	bh=vgloteRtKHCFk58GBxwki21fuDxtLf/Q+rzpXZCu11M=;
+	s=k20201202; t=1726664589;
+	bh=ZolYjb2XOGecKlj3tLtBWn1nCvSR9TIeo7yAuMdp4js=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RSns5O8mi7Pg5uVnQjy3B0x6TeluReRAtLX22dTZlFB9q81qiCa8EJcMTZNbZPsgC
-	 ViHdBfUtkB941l4jLrFUKfMybFegL7XGWhtdSVbun1PVPEJbix9JGk3Gi6EusN6Ppi
-	 jm/xv2ictP4RNxmsVQx97Hb0zroetztznEa0HoGlWqdsbydKpKQCLEvCLDWUMZy9ZZ
-	 0Ob7WhmVl57P/rHXJP0o5ejVIvkTOAUOdfDrKxlvvq/1r7GMmME9iQZol00EDB4C6p
-	 KsQTVx4eEOKxIfU2r9DDKJXP1iMMZM4p5fwbzenJXwxnNxlUqahylyr/qbBZAdrIMe
-	 4jiAj5onJXmrw==
-Message-ID: <d5d41bc2-f67e-492b-a12a-6671ebeab68f@kernel.org>
-Date: Wed, 18 Sep 2024 15:01:35 +0200
+	b=XbZjq2QJWgbwbpndJRvMai+zFGaZuyN19FCOIHLXgIl1g+u0lLKIeQJKHgoorg309
+	 mKkteFO/wiRjm+1aT8wlk8KuQPPpnqMSFjakHUeFzMbDjP7pMGknJf2eorUkNuungv
+	 Df5oZUL3+9yZmD5eGuLl4cSzLNFKEVuWSPnscs9GUO3PCmRbLaZFIF1Jha9bGr+DnZ
+	 W5h3FhVgnCT1DhYabNu+KXPUI4MVMdjIS1dACRTTPZySqVO6Y+B1yRnZ1DuR8MBc8Q
+	 DIPBO+DGZ95/tCfRvBCY2ZuB1F5PEsqbQBCmLhCS94v4yS6L5J2ITgRCdQJmYNQPAi
+	 s2mMZYCJTgAZA==
+Message-ID: <e94f03a9-92e1-47d5-aa36-fc51216436c9@kernel.org>
+Date: Wed, 18 Sep 2024 15:03:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] dt-bindings: trivial-devices: support MPS MP5023
+Subject: Re: [PATCH v2 1/3] dt-bindings: trivial-devices: support pmbus
+ compatible string
 To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
 References: <20240918095438.1345886-1-Delphine_CC_Chiu@wiwynn.com>
- <20240918095438.1345886-3-Delphine_CC_Chiu@wiwynn.com>
+ <20240918095438.1345886-2-Delphine_CC_Chiu@wiwynn.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +100,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240918095438.1345886-3-Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240918095438.1345886-2-Delphine_CC_Chiu@wiwynn.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -120,15 +121,15 @@ Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.oz
 On 18/09/2024 11:54, Delphine CC Chiu wrote:
 > From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
 > 
-> Add support for hot-swap controller MPS MP5023.
+> Add pmbus compatibale string for the Generic PMbus devices that could
+> be monitor by pmbus driver.
 > 
-> Signed-off-by: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
-> Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> ---
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
 
+You need to explain more, provide background why we would like to accept
+a generic compatible. And why a specific compatible cannot or should not
+be used...
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In general this is a no, you cannot have such compatibles for real hardware.
 
 Best regards,
 Krzysztof
