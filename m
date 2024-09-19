@@ -1,63 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2E497C26B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 03:24:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA79097C276
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 03:35:47 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X8HqV3rdrz2yK9
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 11:24:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X8J4d4ST9z2yFJ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 11:35:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726709060;
-	cv=none; b=IqCoSpN6JtsAf8+uSAqgY/yavQNvcJKt5Yl9R0sSjh6F5pQjoQYx1Y4Qv553Bn3TPGS15Uc14AAY/qREolmgfPiy9wXzBDLQtKIRPKUoYiYZ9h4Bn9nIBpMjMbXyVu81PsKVS5k+VI/7mvu30b8ahrflx+/hcwAIyhojWefNVtNQ22NTyQHUc7kqcxX3OOkq6eZHN5BhTn7HBpdB500648LFUh3J8W1YgpZeIzLqZam9E+a6v9XRuaymihSftrCTN5Z+6F9QMUw6SuWSyEK+v7F4LN8AKp0CGTjmN3Ajg+LNpzUPkzmbXm3cYo42LngsTKd4qszwQq9L62sr+oGysg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726709744;
+	cv=none; b=FVqhxBek4/Vr7YL7lLCciGsZGA4n9qqV73BvQYmLK8wP9T8jeB1tsoxQalqcs9JJQz9g3xBA43/OfcIhbEOaH6wGwNZNydi2JAywfcQvItgr7e+b0MxEIODxlzL6QwHz40m4FlurjFA6t5SCf/XcamhC/mwbh+4GrGNjb5IEyApqo8omf+k/hNXynwYdOktkW6zB46ZX3ipgROh6Jh1xw68BS7UyQP8/tkPeIE0Xoc22y6Hed+/yCrxJBpd2OowAtRC9J87QcAbmV/Ux0EY15iZDJoxYe+E9YCv7vLcvwCQH2yF6wDcs+cpe8WhuPg2xBNM1g/8uwep2dF34Vgz/CQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726709060; c=relaxed/relaxed;
-	bh=60FNn73+paJ1b9qXIeVpPKtcaqNLNwtGCQXM+znPqJc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CWVyxGtUA8YhpsqoC0SypgvlLfDPA+Yr/Mg4t7o1JA8Iu8ZtvbAHdUX4P3XwTV0DrV/9X5flKS8RH8Lm9XoJmeoG+QexYDF0EuPw+L3qdEa9l8MEbT7k0JDSXH/ISOntXLZrTyln3H5AOywoXUdidx324GDYOAN7vQ0bn5irWCFGPzkI2JAEFBHLwY3dAdau8CdnohY9tJKQkn71XRhNSEbOutkF2tF0BRQjuafsKlfoho79X+oiBPRwpkjRxKhvHWklsGVqE26AjUj+tOnQWQ1uuV/sd3nU+1MOJZMfAAqUVuudQrm0TIlbH0b0sr0MYP/Xm6VwIhzwNkimvceE5A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=nMlFYnoL; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	t=1726709744; c=relaxed/relaxed;
+	bh=IExdDbZ/GMKRz8cAAHlrjM+Fc2bsSlmO4LT61IojNqU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=li6rM6zLTQ93nhXsQfQ73ZGiLr0AzNb6sD4MdbRsKjYroJ40LSgpAe9IoKFI+TwieZ8S1ujJ/QvrvIebGHgkYRTtI1oTwD5nYHFowdBkkX6OSesZUYX1mTzrC2V1C7o+/LqehfZlXad7qnlecB5JL7/c2rfJ/Z1RKo9DEpCNpXijFu3NISsUiRKwqu94jc45zHO/cftO4ikDv5g7lHUd88Mi0wPGbWVsApDmkXqIGDl/UImdALUUH8pqZHC7ZvouBVVQVgrV5y1g7w9Onu0nFkI+7EWw66AqamjhgVMjBzQ34kl+cTeYEh5IoQkqkF/e4183bP/96dsq8v7hWZyYjg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Tc7JR9sz; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=nMlFYnoL;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Tc7JR9sz;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8HqS1vWyz2xHb
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Sep 2024 11:24:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8J4c0bvrz2xJ6
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Sep 2024 11:35:44 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1726709059;
-	bh=60FNn73+paJ1b9qXIeVpPKtcaqNLNwtGCQXM+znPqJc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=nMlFYnoLPSMfQPySBhM8kfBVbpy4KnB2jzMUy/l6dkNpkQ/NtD8U9lFfMx7BIX4V7
-	 WAst1w04ZfSRN3XGN53Gyj3TFq9pvcBTYrlLQK06lXJiHCLApt0vD1K4d53jy/jRon
-	 r338KJJdyVSRZ3RnJVCjsaKUlP2idSRxPvfNkXFJbz9A8Cztv2FM5XkUkNMGGjI4vf
-	 oR4KaJBplJ6VMAXx9h6JtzxzO1jZtrog00Ztyg2kHKiNjKf3iktT5MRgltf6AbEd4d
-	 aVZAvj6r1nsnSTjzblr4Bq0d1Q8MXZZgTh4wFfpzhCvPi0r0FkBz6sxm04kSJz9rFu
-	 URs12JW9SFM4g==
-Received: from [192.168.238.88] (ppp118-210-188-185.adl-adc-lon-bras34.tpg.internode.on.net [118.210.188.185])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 5BC0065712;
-	Thu, 19 Sep 2024 09:24:18 +0800 (AWST)
-Message-ID: <355b19a62e54aa979451d796c3ebe1e294a0cf45.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v2 2/3] dt-bindings: trivial-devices: support MPS MP5023
+	d=codeconstruct.com.au; s=2022a; t=1726709743;
+	bh=IExdDbZ/GMKRz8cAAHlrjM+Fc2bsSlmO4LT61IojNqU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Tc7JR9szReZ8ec5ByN9zY+qACCyQZRK8bB60hnp3PLNPwg7kwrb3feyUjgRhE9ll+
+	 EVOsOV+OcL0wkH8r/H3+TBkfWZLEacLTCC3NC9JYsnYbaXIwSPilzhA72cqpiVlNRG
+	 G3d7VX9EO3uZA1frkyQiOZBCZOeQapUcnblkNN0ETla8E5UzC54KSqH96BjZqAoEL6
+	 qmDH9ET6o+SW5a23hsG1G9CKsU6td6iFRwUoygVwcIlWPwCwM8vIbEXWX6GlzpMc2N
+	 TCpCBfxmLx5l+eVrpJVUo0PDBvJiaUPZVcKGcO16QjRdrQqlDIZ7tixiEzCM1uVdvR
+	 EZK1F1R+Jl4/A==
+Received: from [127.0.1.1] (ppp118-210-188-185.adl-adc-lon-bras34.tpg.internode.on.net [118.210.188.185])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 94CD065027;
+	Thu, 19 Sep 2024 09:35:42 +0800 (AWST)
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Guenter Roeck <linux@roeck-us.net>, Delphine CC Chiu
- <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz, Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>
-Date: Thu, 19 Sep 2024 10:54:17 +0930
-In-Reply-To: <bf5258b8-a5a1-4cf3-9bd0-1fa44696c3b0@roeck-us.net>
-References: <20240918095438.1345886-1-Delphine_CC_Chiu@wiwynn.com>
-	 <20240918095438.1345886-3-Delphine_CC_Chiu@wiwynn.com>
-	 <bf5258b8-a5a1-4cf3-9bd0-1fa44696c3b0@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+To: patrick@stwcx.xyz, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240918101742.1346788-1-Delphine_CC_Chiu@wiwynn.com>
+References: <20240918101742.1346788-1-Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH v2] ARM: dts: aspeed: yosemite4: Enable interrupt
+ setting for pca9555
+Message-Id: <172670974249.626583.5344001337825691927.b4-ty@codeconstruct.com.au>
+Date: Thu, 19 Sep 2024 11:05:42 +0930
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,27 +68,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Peter Yin <peteryin.openbmc@gmail.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, linux-kernel@vger.kernel.org, Noah Wang <noahwang.wang@outlook.com>, Lukas Wunner <lukas@wunner.de>, Fabio Estevam <festevam@gmail.com>, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2024-09-18 at 10:00 -0700, Guenter Roeck wrote:
-> On 9/18/24 02:54, Delphine CC Chiu wrote:
-> > From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
-> >=20
-> > Add support for hot-swap controller MPS MP5023.
-> >=20
-> > Signed-off-by: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
-> > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-> > --
->=20
-> The hardware monitoring mailing list was not copied, so I assume that
-> the expectation is that it will be applied through some other tree.
+On Wed, 18 Sep 2024 18:17:41 +0800, Delphine CC Chiu wrote:
+> Enable interrupt setting and add GPIO line name for pca9555 for the I/O
+> expanders on Medusa board.
+> 
+> 
 
-We can take it through the BMC tree, but I'd prefer that the hardware
-monitoring list were copied regardless.
+Thanks, I've applied this to be picked up through the BMC tree.
 
-Ricky: Please do so for v3 onwards.
+[1/1] ARM: dts: aspeed: yosemite4: Enable interrupt setting for pca9555
+      commit: f2c5e6d55ee4f0a634d2ed0427f55b81cfca8f2f
 
-Andrew
+--
+Andrew Jeffery <andrew@codeconstruct.com.au>
 
