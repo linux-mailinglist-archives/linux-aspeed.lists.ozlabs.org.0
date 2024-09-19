@@ -1,29 +1,29 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0E397C746
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 11:44:07 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5161397C747
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 11:44:08 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X8Vw430cgz307q
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X8Vw45GNxz30K6
 	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 19:44:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726739039;
-	cv=none; b=E1oMm0brbgQ8YOj2Gh3KpJXuaX3jzL7WEEChXHHZbP8qV+Ks2bHPrH4Ebm8HMvt0hV9NZ2mAwRbgkgsWqKTjZrMXGJ+g6d/ZBpuxJFz0rUwu0L00IzbQTGBGAoUk2283r5wudziJ7ZbwC2QoXq8kdMZwqGDUpU52EUANCun1hlIfTbumODJR4+4JXx8JzfDOZGEetCfN8Y/so2hECMgKETlAwPtH+ml8U4N7qnUecHjLSwSLviKkuznBoUEdZ1s1niTzc9cz2KGiwR7uydhz+RSS5XdxBp7Eqj2wdHl2R38mVOKhbkMbr4V+xvpLwClyMKJMwrF9WY+u67rDhT1dPg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726739040;
+	cv=none; b=AhTsMs9b7X07OfSyKtD2wu2cxV8W7f6zHv4fQVa47fIrlu/XWJ7rodPjpyjXi+3rWpHtcJbOVBtJPWp8jmIiFQfFzZjLRYgXYf7vgwrIt6bWneX1CSPprGItcuY0ceS4Dbqml6Bqe7gl4Tv9J9WR5BfkE77e/P67iTlp6T8u60QoX6PyZMcne0N103wFoD3fmHyP+Lwjn9E287LxNFESQFgGAbIDt/4j3j0suoGmwsVBRIda5+vtqSjIyywegx+DbMGrAXPvtbfp/+iNvM6qrwEGaf/iFf0dj8869dEqUlRO5HGautBtZV/Flouk5LLDQXpCODtZwBnynLKHEcGOAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726739039; c=relaxed/relaxed;
-	bh=N7TCzgHnVlgwU7aX0Oange3brSL5K7dV5/1UKUzlNew=;
+	t=1726739040; c=relaxed/relaxed;
+	bh=ptLA2Bm2xURri7nUM8CD93Pc7nPnoHTJbzmmkxEzu9o=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P0nrZuD3+o1j+19N07F7CHGuKcPj1BUARYEcpvslGs66xq7CX7+GvGTW8OPHnre5Z7r6QfkL+Qo60PCNUMVfmwhhdDUeAQ55LJqiaYQDPCEpVbRNakCG4Cuf+la9yQ+ThNT4XEzXa2h/gDRH/B+eHH314vK84gSHddjyS3MWnqgVjjkha9SfTxL4vmvw3ttK73lOEZQLgnzsQEZe71Ho3MCTjfAZYtAPI0zua//RGCOMFRhOeq8EMbq7348y+kuyz6zdzpWpIk9D+/TY+h6NkL9W0GR9rGkCMb7TB2aKmOaoIW+3tUfNJJnHLm7EQ/bB1ZP+UcYJS6b510jUaH++iA==
+	 MIME-Version:Content-Type; b=hifB/r8mO1D31n5B1RppaTAtXCrd4jB98/M1w8ZY/bBScMOTpGIikuqp/gp3nq6J4XHt7E/wsaY9S9/dtiNIHU5B+3M5nq0LDGL/iz7CTRdWIVvwIWmkWgUzSwPHmPaYSalUalr8k4f3j3oMF9UAlJQmY9a3FhkNdOLXdTRfdQ8BOwai3bdYlXHratMsemOI46s+FhWRsV+P+v0ycblkzyCPjijERsJyefsPOZ0JYTllXgaNYHCWdIwoMT2PI9/rgkuSsUh5wJvkXkz75e9fK0lAaHti7WaBheINNPFPBcOjvgAEQAcIbc5DOcJTyi22RaHKEE/gF9qqi8Y4g4hs8Q==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8Vvz3V20z2y66
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8Vvz6Sk2z2y66
 	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Sep 2024 19:43:59 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
@@ -39,15 +39,15 @@ To: <linus.walleij@linaro.org>, <brgl@bgdev.pl>, <robh@kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
 	<BMC-SW@aspeedtech.com>, <Peter.Yin@quantatw.com>, <Jay_Zhang@wiwynn.com>
-Subject: [PATCH v4 4/6] gpio: aspeed: Support G7 Aspeed gpio controller
-Date: Thu, 19 Sep 2024 17:43:37 +0800
-Message-ID: <20240919094339.2407641-5-billy_tsai@aspeedtech.com>
+Subject: [PATCH v4 5/6] gpio: aspeed: Change the macro to support deferred probe
+Date: Thu, 19 Sep 2024 17:43:38 +0800
+Message-ID: <20240919094339.2407641-6-billy_tsai@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240919094339.2407641-1-billy_tsai@aspeedtech.com>
 References: <20240919094339.2407641-1-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,173 +62,48 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-In the 7th generation of the SoC from Aspeed, the control logic of the
-GPIO controller has been updated to support per-pin control. Each pin now
-has its own 32-bit register, allowing for individual control of the pin’s
-value, direction, interrupt type, and other settings. The permission for
-coprocessor access is supported by the hardware but hasn’t been
-implemented in the current patch.
+Use module_platform_driver() to replace module_platform_driver_probe().
+The former utilizes platform_driver_register(), which allows the driver to
+defer probing when it doesn't acquire the necessary resources due to probe
+order. In contrast, the latter uses __platform_driver_probe(), which
+includes the comment "Note that this is incompatible with deferred
+probing." Since our GPIO driver requires access to the clock resource, the
+former is more suitable.
 
 Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
- drivers/gpio/gpio-aspeed.c | 112 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
+ drivers/gpio/gpio-aspeed.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
-index 8b334ce7b60a..060c0225cb99 100644
+index 060c0225cb99..c811e84db0b9 100644
 --- a/drivers/gpio/gpio-aspeed.c
 +++ b/drivers/gpio/gpio-aspeed.c
-@@ -30,6 +30,23 @@
- #include <linux/gpio/consumer.h>
- #include "gpiolib.h"
- 
-+#define GPIO_G7_IRQ_STS_BASE 0x100
-+#define GPIO_G7_IRQ_STS_OFFSET(x) (GPIO_G7_IRQ_STS_BASE + (x) * 0x4)
-+#define GPIO_G7_CTRL_REG_BASE 0x180
-+#define GPIO_G7_CTRL_REG_OFFSET(x) (GPIO_G7_CTRL_REG_BASE + (x) * 0x4)
-+#define GPIO_G7_CTRL_OUT_DATA BIT(0)
-+#define GPIO_G7_CTRL_DIR BIT(1)
-+#define GPIO_G7_CTRL_IRQ_EN BIT(2)
-+#define GPIO_G7_CTRL_IRQ_TYPE0 BIT(3)
-+#define GPIO_G7_CTRL_IRQ_TYPE1 BIT(4)
-+#define GPIO_G7_CTRL_IRQ_TYPE2 BIT(5)
-+#define GPIO_G7_CTRL_RST_TOLERANCE BIT(6)
-+#define GPIO_G7_CTRL_DEBOUNCE_SEL2 BIT(7)
-+#define GPIO_G7_CTRL_DEBOUNCE_SEL1 BIT(8)
-+#define GPIO_G7_CTRL_INPUT_MASK BIT(9)
-+#define GPIO_G7_CTRL_IRQ_STS BIT(12)
-+#define GPIO_G7_CTRL_IN_DATA BIT(13)
-+
- struct aspeed_bank_props {
- 	unsigned int bank;
- 	u32 input;
-@@ -95,6 +112,7 @@ struct aspeed_gpio_bank {
-  */
- 
- static const int debounce_timers[4] = { 0x00, 0x50, 0x54, 0x58 };
-+static const int g7_debounce_timers[4] = { 0x00, 0x04, 0x00, 0x08 };
- 
- static const struct aspeed_gpio_copro_ops *copro_ops;
- static void *copro_data;
-@@ -248,6 +266,39 @@ static inline void __iomem *bank_reg(struct aspeed_gpio *gpio,
- 	BUG();
- }
- 
-+static inline u32 reg_mask(const enum aspeed_gpio_reg reg)
-+{
-+	switch (reg) {
-+	case reg_val:
-+		return GPIO_G7_CTRL_OUT_DATA;
-+	case reg_dir:
-+		return GPIO_G7_CTRL_DIR;
-+	case reg_irq_enable:
-+		return GPIO_G7_CTRL_IRQ_EN;
-+	case reg_irq_type0:
-+		return GPIO_G7_CTRL_IRQ_TYPE0;
-+	case reg_irq_type1:
-+		return GPIO_G7_CTRL_IRQ_TYPE1;
-+	case reg_irq_type2:
-+		return GPIO_G7_CTRL_IRQ_TYPE2;
-+	case reg_tolerance:
-+		return GPIO_G7_CTRL_RST_TOLERANCE;
-+	case reg_debounce_sel1:
-+		return GPIO_G7_CTRL_DEBOUNCE_SEL1;
-+	case reg_debounce_sel2:
-+		return GPIO_G7_CTRL_DEBOUNCE_SEL2;
-+	case reg_rdata:
-+		return GPIO_G7_CTRL_OUT_DATA;
-+	case reg_irq_status:
-+		return GPIO_G7_CTRL_IRQ_STS;
-+	case reg_cmdsrc0:
-+	case reg_cmdsrc1:
-+	default:
-+		WARN_ON_ONCE(1);
-+		return 0;
-+	}
-+}
-+
- #define GPIO_BANK(x)	((x) >> 5)
- #define GPIO_OFFSET(x)	((x) & 0x1f)
- #define GPIO_BIT(x)	BIT(GPIO_OFFSET(x))
-@@ -1095,6 +1146,43 @@ static const struct aspeed_gpio_llops aspeed_g4_llops = {
- 	.privilege_ctrl = aspeed_g4_privilege_ctrl,
- 	.privilege_init = aspeed_g4_privilege_init,
- };
-+
-+static void aspeed_g7_reg_bit_set(struct aspeed_gpio *gpio, unsigned int offset,
-+				  const enum aspeed_gpio_reg reg, bool val)
-+{
-+	u32 mask = reg_mask(reg);
-+	void __iomem *addr = gpio->base + GPIO_G7_CTRL_REG_OFFSET(offset);
-+	u32 write_val = (ioread32(addr) & ~(mask)) | (((val) << (ffs(mask) - 1)) & (mask));
-+
-+	iowrite32(write_val, addr);
-+}
-+
-+static u32 aspeed_g7_reg_bits_get(struct aspeed_gpio *gpio, unsigned int offset,
-+				  const enum aspeed_gpio_reg reg)
-+{
-+	u32 mask = reg_mask(reg);
-+	void __iomem *addr;
-+
-+	if (reg == reg_irq_status) {
-+		addr = gpio->base + GPIO_G7_IRQ_STS_OFFSET(offset >> 5);
-+		return ioread32(addr);
-+	}
-+	addr = gpio->base + GPIO_G7_CTRL_REG_OFFSET(offset);
-+	if (reg == reg_val)
-+		mask = GPIO_G7_CTRL_IN_DATA;
-+
-+	return (((ioread32(addr)) & (mask)) >> (ffs(mask) - 1));
-+}
-+
-+static const struct aspeed_gpio_llops aspeed_g7_llops = {
-+	.copro_request = NULL,
-+	.copro_release = NULL,
-+	.reg_bit_set = aspeed_g7_reg_bit_set,
-+	.reg_bits_get = aspeed_g7_reg_bits_get,
-+	.privilege_ctrl = NULL,
-+	.privilege_init = NULL,
-+};
-+
- /*
-  * Any banks not specified in a struct aspeed_bank_props array are assumed to
-  * have the properties:
-@@ -1162,10 +1250,34 @@ static const struct aspeed_gpio_config ast2600_config =
- 		.dcache_require = true,
- 	};
- 
-+static const struct aspeed_bank_props ast2700_bank_props[] = {
-+	/*     input	  output   */
-+	{ 1, 0x0fffffff, 0x0fffffff }, /* E/F/G/H, 4-GPIO hole */
-+	{ 6, 0x00ffffff, 0x00ff0000 }, /* Y/Z/AA */
-+	{},
-+};
-+
-+static const struct aspeed_gpio_config ast2700_config =
-+	/*
-+	 * ast2700 has two controllers one with 212 GPIOs and one with 16 GPIOs.
-+	 * 216 for simplicity, actual number is 212 (4-GPIO hole in GPIOH)
-+	 * We expect ngpio being set in the device tree and this is a fallback
-+	 * option.
-+	 */
-+	{
-+		.nr_gpios = 216,
-+		.props = ast2700_bank_props,
-+		.llops = &aspeed_g7_llops,
-+		.debounce_timers_array = g7_debounce_timers,
-+		.debounce_timers_num = ARRAY_SIZE(g7_debounce_timers),
-+		.dcache_require = false,
-+	};
-+
- static const struct of_device_id aspeed_gpio_of_table[] = {
- 	{ .compatible = "aspeed,ast2400-gpio", .data = &ast2400_config, },
- 	{ .compatible = "aspeed,ast2500-gpio", .data = &ast2500_config, },
- 	{ .compatible = "aspeed,ast2600-gpio", .data = &ast2600_config, },
-+	{ .compatible = "aspeed,ast2700-gpio", .data = &ast2700_config, },
- 	{}
+@@ -1282,7 +1282,7 @@ static const struct of_device_id aspeed_gpio_of_table[] = {
  };
  MODULE_DEVICE_TABLE(of, aspeed_gpio_of_table);
+ 
+-static int __init aspeed_gpio_probe(struct platform_device *pdev)
++static int aspeed_gpio_probe(struct platform_device *pdev)
+ {
+ 	const struct of_device_id *gpio_id;
+ 	struct gpio_irq_chip *girq;
+@@ -1382,13 +1382,14 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
+ }
+ 
+ static struct platform_driver aspeed_gpio_driver = {
++	.probe = aspeed_gpio_probe,
+ 	.driver = {
+ 		.name = KBUILD_MODNAME,
+ 		.of_match_table = aspeed_gpio_of_table,
+ 	},
+ };
+ 
+-module_platform_driver_probe(aspeed_gpio_driver, aspeed_gpio_probe);
++module_platform_driver(aspeed_gpio_driver);
+ 
+ MODULE_DESCRIPTION("Aspeed GPIO Driver");
+ MODULE_LICENSE("GPL");
 -- 
 2.25.1
 
