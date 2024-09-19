@@ -2,57 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A6497C2AD
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 03:45:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7146C97C2BC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 03:59:58 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X8JJB4LSqz2yFP
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 11:45:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X8JcX2LGBz2yFL
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 11:59:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726710344;
-	cv=none; b=DmC3gGz8J1fQENEsJOxo4PMmh5J496Y9s53VqYzoF3aaQMdO8+SpTqKV96ftKn4aeElHlJ1A8WvtOd3jF/UnoOmivmOQ2rCQzScLcEVoQieI286F0VENiYJcAnTeZzzgA1xYgMWemRAG/98jHBzi6ZNJJY/Mdts7dzcEtwOSYoeyXVwTg7k5Yznx3/8WM+JDkiZ6FK3wjalieSpGb1Z8top7aBP9JquDmrQtzePCNbn7DnrzkTFflEl7B+6+DKPj73YdzQ8Tf8GKVRgl9JN3pUUoWGDV5p4SfdMo8lFPV+4rNyy/3qYjThnBBXeqQHDapXrLa2B3AFQ6DFg+CFmcZA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726711194;
+	cv=none; b=nVIAyAPI9NalPLIoxruwlq+7qbimCjwUmXUEGUjLMegyC0zgLJrxxl7ueQ7uewY2ITJXbMhmjw9VtgdD4Qxp3SK3zRNTugZNcBtX9sh/9Guse1Ql/vNmODSnTCSsGe+MTXjm3WEsAjuAz6PE6zECHrLDqH4QVw2WePkvYe4A2sgieZ/9YEHWlJyiHTn9eGysYdj4tj0AoanDw2O9ZgMPgSaO+mlBSsqtZDPa4asCluEidZ1ZqpYWRt5mzmk+mkR1jotr5rkckX6LFUmCLbJ4c1L5Rj69//tWcJemhnAEsSlg1hbsVfgOq+CB+qkrCrp0F+6iq4UXTlyu5zrI+oNs6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726710344; c=relaxed/relaxed;
-	bh=VgnCtdAk6lb3Sr23RFqM8ound6zyQIntpDJ821pp0Ik=;
+	t=1726711194; c=relaxed/relaxed;
+	bh=xf/mEOumj8cpcGVjlVEJWxcLHn9GgqGfR5C96mEP2rA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cMxqEYDBPG4LoJgn5NSwg5umveTJ/4Khmj4CFnwnQJu9Cl5dRttx7SrrQpdr70hrHsvRIoKT8P21mofX9lxq4YzQgCAQ7x5OhXr0/HL7YatxH3mlxCdnZ5RJ/DndOAn2wsl5p52nt0qpnHUDleCMMTCgh5jCAW/rooXJ/tqD1zbiDGTlx0xl6x4TA2p4snEbAKaENqGermJ7jUyBZsh5SiD9LtQ+izcZ8DYZek5hbUiWNyccWoJcCnm0muLODFFCFYeM7NAB6cgtvxusI5tbtO/l2Hqcnnixm4dGSmBGi9vzBat0DXOoBvdUwReGpE/8GLPBbTOGOUPLzfW7bJeAEQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=fIso8GI5; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	 MIME-Version:Content-Type; b=ZBglxPrEw1hJXPl97wdgPj3bykXENg4IcU2VSh6HfYhoi2B3QuqO+20BVky4XwQRhG6cxac4kXdqjJQlzY6kokfl1snosF3sFFER9zOr/r4+6pLQf9o39b0AoyVpQT3iwDg/sCA/tis2O/PVa6D9DWRmHEPSB0CuCqJ1D4pOZ0s/OAU+m3jAbisJOB/Vj2AImu0n9nk3T0kHFG5CNEuXRgtn138fUS+FoYuFYqfMS9aZdHu/8EBOV2y4SLW93s09nDTBMI6O6McM8dxW/0z0SaqcgnpHYmP7al8EIK+KIC4YehpmKZtHi9vzcWvMZLHTs3KJ+6gf8uTvIDIpJju1rA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=aFjCTQzF; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=fIso8GI5;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=aFjCTQzF;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8JJ81bHNz2xfP;
-	Thu, 19 Sep 2024 11:45:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8JcV13s2z2xcq
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Sep 2024 11:59:54 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1726710343;
-	bh=VgnCtdAk6lb3Sr23RFqM8ound6zyQIntpDJ821pp0Ik=;
+	d=codeconstruct.com.au; s=2022a; t=1726711193;
+	bh=xf/mEOumj8cpcGVjlVEJWxcLHn9GgqGfR5C96mEP2rA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=fIso8GI5Kxzw5p6Ywze2nDiMEA6sKcqWcXj0K9RKKJBV17F+Jlem1Lk59iQB3qqWE
-	 UmDXMmzZAub8vSxdAfk5jqhSJUcKss9EmdlsYfXXbt89ec8aKNSN4PvgUSLDDK0kg2
-	 rgnulKyemqvH1/gezXbK1fabzsQQHQK1cWbYgMp/LHP/ijtifMERticdf9Ao4stnFh
-	 MpBIYcRJq7SW4YA+6EAs5aOhfpSX6wO3ovsiYCu1ijVPmYGvg42iwRhIxpjWzqdcQb
-	 aagV3GQjHae/OAg21C3nw7KyGpC+e59VKYAXJj4Gmvd3EpQ856cdME186jrEf65YMv
-	 qdVaHADV4CcgQ==
+	b=aFjCTQzFIekzTuYw7VbNuDar0cAssOmRJigdJCAOtgRn/9RPVMxjBnqwfTWx0iwBg
+	 hfrTFIbV2Q/RWP6iEigFAQ1vLdSVrd9bvh/EBksd56JmeXNFS4Ih6ctmYgCiaTw7mU
+	 5lWSy72sySrU/nsIBywD8VfTvJ44ZM+OAPK5mG0Y49VJZiyRsC/DLBtzoNKnZblSyN
+	 nexqn7PAbBKPpn/l0lCv6ecVupnQJY1z7l0FSSnlqvfDQY3hidqnHXDh0L0gBfdNdh
+	 SUBgVR1kykw3g9KuJ4MM4wEBrHSlMgY9lRsqf/jkkfmO8us8i/4jCC7L/jkDqMjR4h
+	 dlm2gsiJzwH5Q==
 Received: from [127.0.1.1] (ppp118-210-188-185.adl-adc-lon-bras34.tpg.internode.on.net [118.210.188.185])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 90F2465027;
-	Thu, 19 Sep 2024 09:45:42 +0800 (AWST)
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 2583C65027;
+	Thu, 19 Sep 2024 09:59:52 +0800 (AWST)
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Manojkiran Eda <manojkiran.eda@gmail.com>
-In-Reply-To: <20240918-dts-aspeed-system1-peci-snoop-v2-1-2d4d17403670@gmail.com>
-References: <20240918-dts-aspeed-system1-peci-snoop-v2-1-2d4d17403670@gmail.com>
-Subject: Re: [PATCH v2] ARM: dts: aspeed: Enable PECI and LPC snoop for IBM
- System1
-Message-Id: <172671034240.638277.4020741280785958625.b4-ty@codeconstruct.com.au>
-Date: Thu, 19 Sep 2024 11:15:42 +0930
+To: patrick@stwcx.xyz, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240910054751.2943217-1-Delphine_CC_Chiu@wiwynn.com>
+References: <20240910054751.2943217-1-Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH v1 0/2] Yosemite4: Add devices on I2C buses to server
+ boards
+Message-Id: <172671119203.649222.5621392370744640415.b4-ty@codeconstruct.com.au>
+Date: Thu, 19 Sep 2024 11:29:52 +0930
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -68,20 +65,28 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 18 Sep 2024 14:50:03 +0530, Manojkiran Eda wrote:
-> This patch enables the PECI interface and configures the LPC Snoop for
-> ports 0x80 and 0x81 in the ASPEED BMC for IBM System1.
+On Tue, 10 Sep 2024 13:47:49 +0800, Delphine CC Chiu wrote:
+> Changelog:
+>   - v1
+>     - Revise to use adm1281 on Medusa board.
+>     - Add gpio pca9506 for CPLD I/O expander.
 > 
+> Ricky CX Wu (2):
+>   ARM: dts: aspeed: yosemite4: Revise to use adm1281 on Medusa board
+>   ARM: dts: aspeed: yosemite4: Add gpio pca9506 for CPLD IOE
 > 
+> [...]
 
 Thanks, I've applied this to be picked up through the BMC tree.
 
-[1/1] ARM: dts: aspeed: Enable PECI and LPC snoop for IBM System1
-      commit: abfafb7269c3c1d73a2a7136f9d3f7e417c83a4c
+[1/2] ARM: dts: aspeed: yosemite4: Revise to use adm1281 on Medusa board
+      commit: 4c417a6b31471da78b87f9e542f285e2225744e0
+[2/2] ARM: dts: aspeed: yosemite4: Add gpio pca9506 for CPLD IOE
+      commit: 00f897797acf562bcbda20d8ca93f279a0c6bb5b
 
 --
 Andrew Jeffery <andrew@codeconstruct.com.au>
