@@ -1,54 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32FF97C7F7
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 12:30:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE20297C7FC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 12:32:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X8Wy951TSz2yMt
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 20:30:57 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X8X070WM1z2yN1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2024 20:32:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4641:c500::1"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726741856;
-	cv=none; b=Hj56gtpaW9X65+Ie3t124fiXYGVNSM8H12TUSaM2NMTDBZNwawmtv1H+wIDpDpaH2/HBrEbgzS/LEJ89eg2JLHWerVl9tMIQHb8zqHXK7jjiVBouS0jWWbIj/DBq35Odz2L+f/qkDMCSrHoocjPJdDFDBz48x6on+MBGEFnu2AED+XB8xFIrx7bmVxqzHaRq9wI9RkAaHjpt3+doRoCLAByfLqjchwF5Bxm9NFhxWjdec4W4BCtKoNc+moAqLKtH1L6eS+wz9c8gGz+5v+h9WO1RsuL0ATJRU8NWZ0BvV8CUhgdagqJSjX8MLaBzFzApjPBJVvwEuEPgHUKMdOnELA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726741957;
+	cv=none; b=Cu4MpNbjXR8IbTFRaP1N9jlr4gcV+CrxIsqZpsI3XIm+QbrusbyiRPO5ngv9gkdYQ1Qsn2qmjc9sIvyK0WtE9mui//maAIqEhZcyPLmJr5AD1gPRM8nI4XmXmLQT5deeSagSCOKp/4JDG00JYDeP48Dur0YgnH4RmLWRftQ9daqStMk0IGq+s52L5UALu7m2of2KJWJQTmZXNH+CoH13AL40fru+IrQbIIcZDcK9OeKTxo8CZFGAapTu9sjaX2wLqnTtmbd+wNCGRFjo3Q+rd1sQDOGVZtzd+4oEfGy/2rb4JRrl7roPqB0/0yfRsP48tKgCRWYZCjGxd8AclIy6pQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726741856; c=relaxed/relaxed;
-	bh=4gdPNveAmM/VgWFuurGTu2lYZN3jhL0tKvrT4FGdWn0=;
+	t=1726741957; c=relaxed/relaxed;
+	bh=/DRaVSaONllFF2fAV7rb8vTe2h+Ac1wSx8o2FAC9XTc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=fY5gtJ2VMVobLfAiY8eQyDLmUH4mT7V3HRP3XIIE53tR8bG1hv2YVLhuXoKnej1Dz3ecvlMHU8m7ESRysZZR42lVNrud1E1RUbi1atZhDZ1zlZWPZjCVriuZJ/RYNT24YVArSCQNXFyBLx2gxjDuun4KGXnDTYJeijNuIuGpnav2P+3s/Md663NSOvGR+mh3yYh7GMnJPcyKDk3iXCUGSmi+x+Lo7HHIXy9LGtXbO8pd4zpTD+9CvtZ30zosD1vwfaPfOC/UZ2Iv84uuIR6Gf0h1bk20dyNt98/R53w0l9235pOVlmHQInsurhRwdv7CUEM8zNnbEMAcC5Hc2+JR+A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Q6SjzyQl; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 In-Reply-To:Content-Type; b=Bt8mznTQESymlLNo86+mVebqGNQpyM5B4WJxrVl59heI4YPewQJHr6rRsQZrDB//HygMp9qe5eEMrdbHSJqRKT6LzjtcESYndZPF37CdSjgS5T1CKzu6Hok+l8r2Y80zgQXECQHQUN8eSRxcxeqOM0Lx08ilSBzTRUDFCvJq1URNca8kwymhFfGI+D0DsQODc2FFIGd3rSjgRn1Qv6vfMUy0lGn3g8fEp13/HJuPunyzTDkAZd9q4YBjhL2jAXhi89ZzCHzWuUffASu+RhRKND5VaCDpFNzw19VAi3gt+yHhh2xHxwOmD+l84yYfIOXETmZ/MKpISg8V/MGWmPhJXg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=q6F8MEm7; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Q6SjzyQl;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=q6F8MEm7;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8Wy74N9Kz2xtp
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Sep 2024 20:30:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8X0458Bxz2xtp
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Sep 2024 20:32:36 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id E1F7E5C57EE;
-	Thu, 19 Sep 2024 10:30:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B88AC4CEC4;
-	Thu, 19 Sep 2024 10:30:46 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2B50D5C57EF;
+	Thu, 19 Sep 2024 10:32:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC45FC4CEC4;
+	Thu, 19 Sep 2024 10:32:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726741851;
-	bh=btPx1qd3LQ+mxnt4YoJ740rHG/uxqVHdIte2Ap/57bI=;
+	s=k20201202; t=1726741954;
+	bh=Sm9wKOBIOkVaiqfIzSIBtet45x+GxQkkZYHds2rEJIw=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=Q6SjzyQlbVDBe0HipqxZZi5WTeZnoTMWKGo4D6Y2WCrVitvKtmMoI7zlDsuI8gJh1
-	 ecj7TnIguz6QDx3VjJAFs7oOQZ5wDtSknXtuHfLF/bUvpgvvJ/Z0CCI4zZUFMgTlVh
-	 ePSOspMmEh1oOjp9Tq7KvLw2fw2Vw5fYVc7xBpuO8Lg6aO3hhzwOmJ7fvRdFldA6rf
-	 EFyr+lo3mmlr77BLHmz1yRa2uofyO8has8jWCQyAJkuFGM5YDYEJimq4rWpn+NmnOC
-	 WUEDJD/9S8jqPHwNSWa/1jOBO/prEVflVmCWNZEsJL2+AaEhZRXdXfqLGjF5A7tWkb
-	 lbTCJ9BGO6TKw==
-Message-ID: <d076275a-ff71-43e2-8a30-969a7d062acd@kernel.org>
-Date: Thu, 19 Sep 2024 12:30:44 +0200
+	b=q6F8MEm7FqfgPQTHbF1utKOaDnJQoAvXHnOGVSa0VzYoLkPgX893RJq2DJSq77as6
+	 haZak+z1PU1XFMDF1GnVNzjRplOzB9+GAQDY3nP1K8owWwZvTU/ub6oLR9yB71q3cy
+	 WXKeukLrfVDeBXwiu6yrmusH2dmMlWM7QZrZGbLMmlzR2uzIm5T3ldK3RHaRIYCdfq
+	 Nuw9nAVZn6mHlCNED39KwdcUaWVc7yOpc4oRGvKtkCBh4iXznuQ3qUOR3IB1L8OrUt
+	 dTdGyKiuCQt16yaPnlcxLF0sXxamfWV7SxNXu7borO/YPFcgYzgNLoVCnjvpIQt1gC
+	 jqPiRHV/NnymA==
+Message-ID: <3185f620-28be-49b8-85f4-7ff8dd5ffce0@kernel.org>
+Date: Thu, 19 Sep 2024 12:32:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: Add AST2700 bindings
+Subject: Re: [PATCH v3 1/4] dt-bindings: mfd: aspeed: support for AST2700
 To: Ryan Chen <ryan_chen@aspeedtech.com>,
  "mturquette@baylibre.com" <mturquette@baylibre.com>,
  "sboyd@kernel.org" <sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
@@ -64,11 +64,11 @@ To: Ryan Chen <ryan_chen@aspeedtech.com>,
  <linux-arm-kernel@lists.infradead.org>,
  "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
 References: <20240916091039.3584505-1-ryan_chen@aspeedtech.com>
- <20240916091039.3584505-3-ryan_chen@aspeedtech.com>
- <b9bf19af-0c3c-4622-9124-a66d9df649b2@kernel.org>
- <OS8PR06MB754148AD165538D3D6B6C3DDF2632@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <195a8bfe-e4d7-4140-9635-b86a6ce3c663@kernel.org>
- <OS8PR06MB7541F08D97EC0CF83F8B36ACF2632@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <20240916091039.3584505-2-ryan_chen@aspeedtech.com>
+ <9b356379-907c-4112-8e24-1810cfa40ef6@kernel.org>
+ <OS8PR06MB75416C23247B7AC64260C0AFF2632@OS8PR06MB7541.apcprd06.prod.outlook.com>
+ <f79a48e6-e0ff-453f-98c1-1c5acbe6467d@kernel.org>
+ <OS8PR06MB7541FDB6A74119A160B1A57CF2632@OS8PR06MB7541.apcprd06.prod.outlook.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -114,7 +114,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <OS8PR06MB7541F08D97EC0CF83F8B36ACF2632@OS8PR06MB7541.apcprd06.prod.outlook.com>
+In-Reply-To: <OS8PR06MB7541FDB6A74119A160B1A57CF2632@OS8PR06MB7541.apcprd06.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -131,31 +131,70 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 19/09/2024 09:15, Ryan Chen wrote:
->>>>
->>>>>  create mode 100644 include/dt-bindings/clock/aspeed,ast2700-clk.h
->>>>>  create mode 100644 include/dt-bindings/reset/aspeed,ast2700-reset.h
+On 19/09/2024 09:13, Ryan Chen wrote:
+>> Subject: Re: [PATCH v3 1/4] dt-bindings: mfd: aspeed: support for AST2700
+>>
+>> On 19/09/2024 08:05, Ryan Chen wrote:
+>>>>> diff --git
+>>>>> a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+>>>>> b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+>>>>> index 86ee69c0f45b..127a357051cd 100644
+>>>>> --- a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+>>>>> @@ -9,6 +9,8 @@ title: Aspeed System Control Unit
+>>>>>  description:
+>>>>>    The Aspeed System Control Unit manages the global behaviour of
+>>>>> the
+>>>> SoC,
+>>>>>    configuring elements such as clocks, pinmux, and reset.
+>>>>> +  In AST2700 SOC which has two soc connection, each soc have its
+>>>>> + own scu  register control, ast2700-scu0 for soc0, ast2700-scu1 for
+>> soc1.
 >>>>>
->>>>> diff --git a/include/dt-bindings/clock/aspeed,ast2700-clk.h
->>>>> b/include/dt-bindings/clock/aspeed,ast2700-clk.h
->>>>> new file mode 100644
->>>>> index 000000000000..63021af3caf5
->>>>> --- /dev/null
->>>>> +++ b/include/dt-bindings/clock/aspeed,ast2700-clk.h
+>>>>>  maintainers:
+>>>>>    - Joel Stanley <joel@jms.id.au>
+>>>>> @@ -21,6 +23,8 @@ properties:
+>>>>>            - aspeed,ast2400-scu
+>>>>>            - aspeed,ast2500-scu
+>>>>>            - aspeed,ast2600-scu
+>>>>> +          - aspeed,ast2700-scu0
+>>>>> +          - aspeed,ast2700-scu1
+>>>>>        - const: syscon
+>>>>>        - const: simple-mfd
+>>>>>
+>>>>> @@ -30,10 +34,12 @@ properties:
+>>>>>    ranges: true
+>>>>>
+>>>>>    '#address-cells':
+>>>>> -    const: 1
+>>>>> +    minimum: 1
+>>>>> +    maximum: 2
+>>>>>
+>>>>>    '#size-cells':
+>>>>> -    const: 1
+>>>>> +    minimum: 1
+>>>>> +    maximum: 2
 >>>>
->>>> Use compatible as filename.
->>> Modify from aspeed,ast2700-clk.h to aspeed, clk-ast2700.h, is it ok?
->>> How about the aspeed,ast2700-reset.h file name is ok ?
+>>>> Why do the children have 64 bit addressing?
+>>>
+>>> AST2700 is 64bit address, so it also.
 >>
->> No. For both use the same filename, so the full compatible. FULL.
-> 
-> Do you mean remove aspeed,ast2700-reset.h?
-> And move reset information into "aspeed, clk-ast2700.h"
+>> But why do they need it?
 >>
+> Sorry, I may not understand your point.
 
-I did not say that. "For both" means for both files, so you can keep
-both files.
+I asked why do you think children require 64-bit addressing, instead of
+working with existing 32-bit address.
 
+> Since address-cell = <2>, Do you mean size-cell still 1?
+
+No... although that's another point, how bug address size is there? For
+the children?
+
+> If yes. I do the dts check it need size-cells=<2>, when I do address-cells = <2>
+
+Well, I talk about bus and children addressing. It's kind of obvious
+that changing one property means using different reg...
 
 Best regards,
 Krzysztof
