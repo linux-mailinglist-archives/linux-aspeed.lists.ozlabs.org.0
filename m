@@ -2,168 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A46B97CFCD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Sep 2024 03:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FEC97CFFE
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Sep 2024 04:56:51 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4X8wSg1FgLz2yTy
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Sep 2024 11:55:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4X8xqj0Q9Lz2yV8
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Sep 2024 12:56:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feab::61a" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726797313;
-	cv=pass; b=Rhb2gxAQpVoTRE5N4azbE5eYMue1eajZb/2KLnMqSOsP5em4RxRk2XpLSLq1TU2rWGnvG5LNr4Axs6FFzqWmVC02cQHzlLWwN0AwK0OeNnYAlCVuUN7xSkesPsEpj1IMpd4CS4HVTZYVNbzDDaGOapRiGXobzIlz1X0SGjVCTigauZNEZZGJC2bibCTJttznrmW508wt6WO4LxTGhvHYEEaga+ejIm3aFFkS6eTzbQ4KzaaTBY+WSi3iL+4u6ZYQisEL1l25pKakqv2Yg+1LeXOv5DOlYwOwc4lLZjKZ5crun2nSeT79wTnJS5aQ4OGd6lYVP8AnJbw+UTzCDujj1Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1726797313; c=relaxed/relaxed;
-	bh=DFeXkhwT2m6kwJsCzBHbOM+RqVxrS/jFRNh8q+oOVL8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ny7PZdsZlG8saUVQHtCMcqNdMnqweyZJPIzstIa5Wb6rW/32NouVaw6uwOdmJfi287PIQeIw/cxe/gCgojEqQtkdqmDQmnOTlARBJ8tUzOijgZfLAoqQZA0aCCjjGtFUiFkLCMNlTM5GD4RZUPTHJ4+chJi4ALPC0Bdb9FApud3wb5fI4x3fXs9NhVUx93RzQp4Fq9SHZvS27ZoX3mPy0D4xNte+cD8F7xM55PtYWY8wDbxeS3BlJZiNzOuQ/3R6pB58T4VO3GoBrrZAKrr7XCxDdjP5xN6l2W7CbLXJfv2JqKbqO314CtShiHDxKPzUxBCnWF2wdaEPVJ7hENBJ9Q==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=1ALewKX9; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f400:feab::61a; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org) smtp.mailfrom=wiwynn.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1726801006;
+	cv=none; b=iI7iHyH18pJD9/V8Exp22G7mT9ZtDODepb94KLHcEaCg6IjkacGa3SwQFEP8E493nH+yB11xK+DBNIxk2lMPRQvnIG5wGJYz/BX+Dq7Ln7gtu9qmLlWC5A6YoAmtj93hBBLufPXNjInWJUrbBop32P49kcPlzV5QdWGfpxlo3JB2MeZpwmjoCTTgAo3AL/Z7c4FS3D/efT2IhAodECri/cWAO+WZEZ/yC1s9wqgGz7TD6k0nbpOjvJ6dds1pWCbV+571x2Aery5tYW+Jo7k6ODjwGwChQjYFMgDdADkbhBmxDAaMT0/Q8rE3n0a7K+Ij8ro8voTIyrQICfzqvTY96g==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1726801006; c=relaxed/relaxed;
+	bh=9zq+alk87NveKNSZoqa4mGW5binU0Cse8JboP4bIcE8=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gmQW+yZ80dx6di1EghmYIeTnx3jFMYbpfXy1M3C+BPyzZ+qs2xZJIEjf4JNbZxmSUt6mKA1+uWFK97iVjIWDdLFmnAk4D5vV+x0rnVWc8963C6Gj66uYXnE32nyRvWPv1kxvnyMjKX5c03n/VR1pB32boSrDWkQO7/BNwz72sbgzxECCCcsHSyvm3CmnU1APLoy7K8uMovFkXgMnWCnB1YuhAVr4STgNpj4l3/417Sl+uKl0F6tseIm5eM8qnaIFFBfUg4e0hg3TDo/TAHMjIYrRtNjGEyVDyioq5vvulcDwGzP13pDPesExlt0/3fHHIRLHsJPN3Bq6fLmQe5Hcjg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Ww3Xnubk; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=1ALewKX9;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Ww3Xnubk;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f400:feab::61a; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2061a.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::61a])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8wSd1fxpz2xpp
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Sep 2024 11:55:12 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L/oI0dJytAw4wNRxXacaKahahFNmV9fPeUpvqSmAXnKPLp0KbEieiMyG6uC4Q6ZmuSuc8QFQnL92y1qLuQvfFNVlNuh01s8RPpvTPGvBIK6+nMBtRQFJa8lODuWOp2P3P+jzCrRlDJ26WKwoHWx2lqtIIsFiqLYIe4w0bPEpBDEvbtxlThrqdGbuXdokUUfeccBXI4bykmQf7W7/d/i8RLIuXatSCsBal4JD8gHdQ9UUm06hIFpSkBm4xgGrUsKouJHQwO/2X2s8Z5LnqFzbiSvbu0tbjODMDqV71PtnOCTyoryHzw389R1OIN4PPyZpUgl2wmTi6FaRT/Wv19Y0vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DFeXkhwT2m6kwJsCzBHbOM+RqVxrS/jFRNh8q+oOVL8=;
- b=Y4LzeQN9jgcqSmpYlUIb6Bh1EMoyxbIbkfT097+blaC47H6wEeRfKhrgeS5kTspVDRstQa8VpSl2DrtX63ZqkCFOYi1vREYC0+0THaETCTExt7KoiKefEEukHHxAbLnNVuTpM9VjTEPnw/rzJhz6Y49f3X9swIHvZ1vNpAvvupCWkI1LH/ArVcc+FW1h3rH+R9/FpajJa8MoYVafgnUrvUrTSm1NBComluZqNRZYHUkNElN09Y/g8ZEWupY+TPtdyjYs8gcW2xC184RhQPLne3yQ5utLjJz1rS/MzLEb6+h+jOMSqujH9/Kh/twTNtO5Bx6K05CLFjK7JKEf+DeyLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wiwynn.com; dmarc=pass action=none header.from=wiwynn.com;
- dkim=pass header.d=wiwynn.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DFeXkhwT2m6kwJsCzBHbOM+RqVxrS/jFRNh8q+oOVL8=;
- b=1ALewKX9xjL/lSqmIMIYoxhHWnZzWJI1QREwjvXsHsUwqWnUBdKWo2aHKv9eQ1GsHRlto2frFFdvHWmdDZHtcs6wL8dVSc1c39jvU4KpdfcXYlLVf7wPB329myJzPVIU7YcKwBMFSxLIlIC0C5krS8tYZ+j4OTiIpjCakjbec4yoznd49nUpQ9uBQFOsb8ocXuOsHCBh//mt7+kRJreIWE2AO/vNm2xWX97lS5UOybYzQHCEUNt+sm2ALODUMFKPKK1AD5SM4/tADrGj7ZbdGF12cn8Nx3zh8T0RWBehGLHEa9myZkJz+w5RfGlRpyb7QSMR9nf/6sILdSdhIt6suQ==
-Received: from TYZPR04MB5853.apcprd04.prod.outlook.com (2603:1096:400:1f3::5)
- by TYSPR04MB7567.apcprd04.prod.outlook.com (2603:1096:405:35::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.21; Fri, 20 Sep
- 2024 01:54:51 +0000
-Received: from TYZPR04MB5853.apcprd04.prod.outlook.com
- ([fe80::ae7d:7486:9319:8d96]) by TYZPR04MB5853.apcprd04.prod.outlook.com
- ([fe80::ae7d:7486:9319:8d96%6]) with mapi id 15.20.7982.018; Fri, 20 Sep 2024
- 01:54:51 +0000
-From: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>, Guenter Roeck
-	<linux@roeck-us.net>, Delphine_CC_Chiu/WYHQ/Wiwynn
-	<Delphine_CC_Chiu@wiwynn.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>
-Subject: RE: [PATCH v2 2/3] dt-bindings: trivial-devices: support MPS MP5023
-Thread-Topic: [PATCH v2 2/3] dt-bindings: trivial-devices: support MPS MP5023
-Thread-Index: AQHbCbDSbgtqjaM7UU6HpgGBaLCKtLJdxQwAgACM3ICAAZk/AA==
-Date: Fri, 20 Sep 2024 01:54:51 +0000
-Message-ID:  <TYZPR04MB5853BD9CD0774B40BAEF7BDFD66C2@TYZPR04MB5853.apcprd04.prod.outlook.com>
-References: <20240918095438.1345886-1-Delphine_CC_Chiu@wiwynn.com>
-	 <20240918095438.1345886-3-Delphine_CC_Chiu@wiwynn.com>
-	 <bf5258b8-a5a1-4cf3-9bd0-1fa44696c3b0@roeck-us.net>
- <355b19a62e54aa979451d796c3ebe1e294a0cf45.camel@codeconstruct.com.au>
-In-Reply-To:  <355b19a62e54aa979451d796c3ebe1e294a0cf45.camel@codeconstruct.com.au>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wiwynn.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR04MB5853:EE_|TYSPR04MB7567:EE_
-x-ms-office365-filtering-correlation-id: a596c260-5189-4be3-1afe-08dcd9173711
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
-x-microsoft-antispam-message-info:  =?utf-8?B?ZHhybkZqcDJnSUhkQ3NnZkZSQ3FFdnZTejljZHpBelN0SlpvRGJoVWY5REc3?=
- =?utf-8?B?OWJ4UHNRZ0ZuRDBpVm94VVdKUWtBVFE2SSs3UWFaQURKNnFJVnVESzlVbmlN?=
- =?utf-8?B?a1llc0ErcEF6M21haHF6dGlybnhCRndZV0o5R3Z2QTI2akptcWI1by90NFJ5?=
- =?utf-8?B?WXRhNnRJK2lldWNFVXdsOTRhZjRVNUVKbkcxVStnT0ltRFFiQWZETUg3cEJI?=
- =?utf-8?B?ckJxQWNFaFNJSWFJeXJTWUhJMTk3UWZ1SUVLWXBPR01nQmxtdlVrNEdIVnVx?=
- =?utf-8?B?dWVlRjNnTnhBUHh5bklaLzMzUVVHMHlJeFNFUVdPbktKaXpBYThOc2FacXc3?=
- =?utf-8?B?WUN5N0s1VlJkMzlVZW82cXF1RjIra3dQY1MwR0Y2ejl0R282SnVYRWFtRzQz?=
- =?utf-8?B?QkVvbGJNcTFaaFdMVU41UDl3MEhhRlE5N0d2T2JTajVYOTlRakZGZ3pHMWFm?=
- =?utf-8?B?dGZJTDZuMUJuaFNPd2ZzbUljUEM4aFVzVjdNeHJmcWZvZ0RWLzJhYURpaFFv?=
- =?utf-8?B?UExmdDRSL0tJeEs0WlZ2MnpyOEFHUCtCWG1lQ2xGL3NBbGNyNWluRGlxQVda?=
- =?utf-8?B?SW9nRkFMWGt4SlU3S1hOYkNnL2VFSHNORXNOY0JLSTF5VlQ5Q2kxc2NyKys3?=
- =?utf-8?B?enVEYUI1L3BmUWw3NklkZkl2NTQwaTFhN09qN1h4b3ZyV21uUlpFTTN3d3k2?=
- =?utf-8?B?bTZiU1JweGZZQjhwMU1ZVnRmZWNtbE84bEhKQlg4ajFzUmx4Nk1heW5nV3JU?=
- =?utf-8?B?eldOeEpOVTNLYnFINnZTUk1TVFN1bU1oU0Y1VmUxc1hBRzBkNHNsN3FTTXpC?=
- =?utf-8?B?Q2RyZG5mN1lDVk9MTUkwa04vaXBKZnQvbVJHNk1lRXY5RFFkWkh2VVF6RGRO?=
- =?utf-8?B?eHhHR3N4Y1hjNXd3SG4xeWtXeUgwSk9zaFhQYjF3TlUvMU1TUjBoR2ozaWNP?=
- =?utf-8?B?NGIzMkdMWXFQdGxRVUh1dit1cEU5T0RzM1NScE1ma1dhTE1BbkJ5V3d0TkNY?=
- =?utf-8?B?Slg4Y1hJRFVCUUkyUzJJUHQybmsrQS9UN1pPVlVJNXB3VDUrYk1rMDY1YkZi?=
- =?utf-8?B?bS9lZkl4UGFHTnd4NFl0bXV5bHpuYXUvTVdsMzg4VmJ5a0x4VlJxSHFGVWxa?=
- =?utf-8?B?Z3NlZ3FaNmVsUzdxMS9ocmdmUzlWTE5zUDZsL3lZQ3hPSzl6V3M3YUZBNzMr?=
- =?utf-8?B?TWxaRlJIYlhyM2gxUVlkaGNLTldpbzJ1WVRzNEJoRk04ZzQ1YlJ3bmR4Qnhz?=
- =?utf-8?B?TWgzR3ArN1hFR0Y5eFpTVzVQcUtkdlBuL2t5ak9rbjJ3N2tyMkExQzErWm56?=
- =?utf-8?B?azFrUy9BSlBjengvVldrTGhDN3hURTlzdmVCS1kyMU5IMzUwblRYVEE0RXRP?=
- =?utf-8?B?STFwV1ZBMzBQb1FucFprdWQreWcxaGkvOGx0Z2J6VGtmMG1DdTdlem41MVhJ?=
- =?utf-8?B?RHd3TFJVZkszYzBOQ2daNU1NRlNYaWU4NTZWWHNpczB0SDdmQlZZajFsZktO?=
- =?utf-8?B?ZkM3aHdmemdKdFE3OXkvTHBiZUM0MzAxS1lzS1psTy8zZHFac1pKZ3YwOVBi?=
- =?utf-8?B?S1lXTVBWMmYrNzk4akNwcTFZbDVFYWhVV1RsZ0xXVno4ZWJLTDJPVFBweGoz?=
- =?utf-8?B?Q1dXSVVTTUQrUEpXNkU1RnE5dU8wMDRadHlCTHNtMXBRY2FJTHA1aTUyNHRO?=
- =?utf-8?B?aWNTbTkwL1Nxcm5HT0F4eXpBUm9OR0srVzBGVktJaXE3bnR1UHhlcHoreGwr?=
- =?utf-8?B?bzBPQ25KWUs2ZitOOHB1eTNxaXVNNUhUMnZvZUVTUGhkR2FtcFgwYktTOUc3?=
- =?utf-8?B?eVNmQmEydVZpZjFwTnh1UT09?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR04MB5853.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?M0NCV2l5SUR2UkpsWFZvTWEzVW5oamJ2eHA0QXkyc0JiaXlFSmJjOHRDNWJh?=
- =?utf-8?B?Y1JENHNaTXdmQnBDQzRVNDlseG1JTlpoQTc2UUJxTDBTbXhQaWZ4UjNXY0xl?=
- =?utf-8?B?UHhqZWREWlB3VVJtdUNoeFJFTExNYVVJN0RVa2VTL2p1aExJUE9pbmwzNktV?=
- =?utf-8?B?dnFYa3ZXYnRrL2VHS3F1SnNLdFpkbFQ1aEdsUU5XY1lVYlNsRHhGcyt1NWlH?=
- =?utf-8?B?TmpDejk4dXJtRUlxRHdPU29YRVZtYlFzQzlpSUlUUGVnZzNUUGpUZVV2aWx6?=
- =?utf-8?B?YWdzam5FdUgzck5CcVlhcTdFOTZ4Ry9jNDQxaHVFSy9ITmg0eTZhTlhnaHFQ?=
- =?utf-8?B?VCtxWVpPNjNvZG9kMzV4akJXb3hMb2FDcEVZdlhMTFJkZ1ZvVkRob0xsWi9o?=
- =?utf-8?B?S2dSN3ZVaXpVSjRnVnhTTjN2LzNBM1lFd0s2eGZnSCtRNGViNndaeVpraTJ5?=
- =?utf-8?B?eDZsQmoyRFd1THRJL3N3MnVpZGM0TFdzQytVWloxU3R2b2JrcEYvUDBVTm9K?=
- =?utf-8?B?NHVjUzRVLy93WnQ2d3JyeU1NRG1YbVdXRzJ6NDhTSFFWS2NiN1RtSkMzK0pQ?=
- =?utf-8?B?UTBOcXBBbWFoa2k4LzdNcTg0Uk9CRW1hYzU0RmN5NDNpMnAyOFB3dVNpVlhF?=
- =?utf-8?B?a3Vtd0ZCS0RpSTZHbkMxeFpXNGg2a2RyMjU4elNEdlcvQjJqVEFGd2JTWjk3?=
- =?utf-8?B?elgvbWQ2REZLaXBFNURlRG1tZGtqb0QxZnBrQmNlZTFUYlV2ajhkKzk3Vjgr?=
- =?utf-8?B?NThNWkNmbXdtVXJ6M0djTHpWK0UwdzNuRkFOUHpBRzF1bVJXR2hOSEsrcTFZ?=
- =?utf-8?B?SytQNjg1ZlVFRGJYUmxKR3B1RFhuRXFnMWNtNGNqRDFlNng5a0ZCd09MWGR1?=
- =?utf-8?B?dnU2ZktaZUNnTVlKWHg4KzkvSWdIUzJ4WDZHNUp2OGRyR1lyWllBc3FOOENG?=
- =?utf-8?B?TjVza3k1QitLSTZQblpBMHMzK2NxdHVKUjdIVktzNFd2UDJWMmJqZFdWY2JH?=
- =?utf-8?B?eTVudXNZM2xSTGZuQlhuV0ZtUXFhQkxSeUlLSUhLZm1OM3ZBOTZ6cW5uTkR6?=
- =?utf-8?B?dm43ZGg4R25oaHFOQzZrdnFIWGp0QTRSWHhUbS9KbHNlaTdXeU9MaFFObE9O?=
- =?utf-8?B?a2ZuQ2huZytSRlFRaUVDUG5uMVVicEpUaUxUdWF4Y3V1Qlp1Y0lESkRIWHJX?=
- =?utf-8?B?NUd6djB1Zld3WUpCYkNDR2UzR2JrOHc1OGtOdXNRSXZJaDlSSm01Wm51NXlD?=
- =?utf-8?B?b1NKVXRMQ0FZUDZHWFEwa2xHRW5uQ2M0dTRmblprU1BiV2ErT01DanNhUkVN?=
- =?utf-8?B?SEMxNG0zNUNEZGQvdm9Ec3FpbDNiNmFaUTd5SnVmUCtEWWlYTHZWMndTWlQ5?=
- =?utf-8?B?MU5mMkExRWpwOFNhN1ZpQU5UR1ZmWVVPeXU4bHdiNGMzRVQ5eFh1a3NyRTlt?=
- =?utf-8?B?YXVUNVNlVkIrQ1BXK3dDWERhajVMRWdFS2ZiQi9wVFowUjlpdXl6SzlCYUlT?=
- =?utf-8?B?Z1BZVzZ5U0M5aFh3UUtnRTBuemk2UWZRWVMydThQcE5pZFVwdnJhSXR2czVp?=
- =?utf-8?B?MFUrd2Z1ZG1UV3NiczJWUTZMQmNQV0gxL05nSlV4NWQ2TnNjcGw4L1pLbFI4?=
- =?utf-8?B?Y2R5QmpWSVZtRFpvVk5QVWtiK3BwOStPL0RWa3dhZk5zMTkxVzBNMFYrL2lL?=
- =?utf-8?B?VFIzaGMvNXpOYno0dVhnZThhQmx0Yit6cnhUdmVZMW9qTzNXK0NtSlZxWTgw?=
- =?utf-8?B?WVdWQ2h5eGR5QUQvdElIOWJzYmVQOUpJT1NQOHNmT0p5dzlmWEhNRTVHKzNZ?=
- =?utf-8?B?WFoxSDE1bUd6UDZaZWM3bDRkemk0cUp1UjBEMm5EdkVZM1VWaDFiWGJPRkFH?=
- =?utf-8?B?TkwzUG1BSWF1ZEl6b2FtZkNmdzBhQnBGWHluSXdIN08vVkVZZEl2R1ZKU0E1?=
- =?utf-8?B?Q2orbmg5QlFxM1lHR1RYNER3N1l3aDlPZ29uTnNVcUdOUGYzbU9uRktsbDFK?=
- =?utf-8?B?bGpseVQzY0dlS0NPRVNEbXZDMjlwTWhPUWVkTUhxMnNEcVNrQ3oxbUJObnJv?=
- =?utf-8?B?NDNmMEtXSDl3ZUNGdVFvNGM5RzM1MmR6NWZrUnlUZVBzclpOZENiMXoxZVNo?=
- =?utf-8?Q?LQYQVAqeyDwyLqWmIB3+2hWsU?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4X8xqf1zkqz2xjH
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Sep 2024 12:56:45 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1726801003;
+	bh=9zq+alk87NveKNSZoqa4mGW5binU0Cse8JboP4bIcE8=;
+	h=Subject:From:To:Date:In-Reply-To:References;
+	b=Ww3Xnubkc9IWScpaCo4g4eMR1oJIS7aCihQreu4ojNIepiOKrPh57FXKGiHwjWfJ4
+	 eCg0764Rez6KOA9XHv+1LMLYo1iZLxhPgcBsIa2hrO2BIu++IP03kxZ5KcrNy2eWAD
+	 vfN0Jehhg78Dk/Nkdb/P65eRng885zvxSftZRJogwqSzxjj3BjZvvqCdq2raidAxZr
+	 8U75fK39G+QpwKYqEY1GvEVyNZWI7xaagWB9lJpe8UoCUj9kd14iDGmcoCqqrgG6v7
+	 FVipWBEIp5fWDOdgIeRPBuBBrmWPOdS4NhKybiIz5xbHfALOeugvQv1I6wBHutphZY
+	 XQ2Wtl1bJejGQ==
+Received: from [192.168.68.112] (ppp118-210-188-185.adl-adc-lon-bras34.tpg.internode.on.net [118.210.188.185])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id A795165027;
+	Fri, 20 Sep 2024 10:56:40 +0800 (AWST)
+Message-ID: <7aaed8cf171b67300aa5b7e861628278de948a27.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v4 3/6] gpio: aspeed: Create llops to handle hardware
+ access
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org, 
+ brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ joel@jms.id.au, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
+ Peter.Yin@quantatw.com,  Jay_Zhang@wiwynn.com
+Date: Fri, 20 Sep 2024 12:26:38 +0930
+In-Reply-To: <20240919094339.2407641-4-billy_tsai@aspeedtech.com>
+References: <20240919094339.2407641-1-billy_tsai@aspeedtech.com>
+	 <20240919094339.2407641-4-billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR04MB5853.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a596c260-5189-4be3-1afe-08dcd9173711
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2024 01:54:51.1067
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DxxUBx7gG81TKc1K6KvOVpGU1TpmKK+3dxCIoRSXKzkh6e0nRRyYB5noXlmIr7mD8alFqCf14ekm/tz0wsIsDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB7567
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,41 +71,309 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Peter Yin <peteryin.openbmc@gmail.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Noah Wang <noahwang.wang@outlook.com>, Lukas Wunner <lukas@wunner.de>, Fabio Estevam <festevam@gmail.com>, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcmV3IEplZmZlcnkg
-PGFuZHJld0Bjb2RlY29uc3RydWN0LmNvbS5hdT4NCj4gU2VudDogVGh1cnNkYXksIFNlcHRlbWJl
-ciAxOSwgMjAyNCA5OjI0IEFNDQo+IFRvOiBHdWVudGVyIFJvZWNrIDxsaW51eEByb2Vjay11cy5u
-ZXQ+OyBEZWxwaGluZV9DQ19DaGl1L1dZSFEvV2l3eW5uDQo+IDxEZWxwaGluZV9DQ19DaGl1QHdp
-d3lubi5jb20+OyBwYXRyaWNrQHN0d2N4Lnh5ejsgUm9iIEhlcnJpbmcNCj4gPHJvYmhAa2VybmVs
-Lm9yZz47IEtyenlzenRvZiBLb3psb3dza2kgPGtyemsrZHRAa2VybmVsLm9yZz47IENvbm9yIERv
-b2xleQ0KPiA8Y29ub3IrZHRAa2VybmVsLm9yZz4NCj4gQ2M6IFJpY2t5IENYIFd1IDxyaWNreS5j
-eC53dS53aXd5bm5AZ21haWwuY29tPjsgSm9lbCBTdGFubGV5DQo+IDxqb2VsQGptcy5pZC5hdT47
-IFBldGVyIFlpbiA8cGV0ZXJ5aW4ub3BlbmJtY0BnbWFpbC5jb20+OyBOb2FoIFdhbmcNCj4gPG5v
-YWh3YW5nLndhbmdAb3V0bG9vay5jb20+OyBKYXZpZXIgQ2FycmFzY28NCj4gPGphdmllci5jYXJy
-YXNjby5jcnV6QGdtYWlsLmNvbT47IEZhYmlvIEVzdGV2YW0gPGZlc3RldmFtQGdtYWlsLmNvbT47
-DQo+IEx1a2FzIFd1bm5lciA8bHVrYXNAd3VubmVyLmRlPjsgTGF1cmVudCBQaW5jaGFydA0KPiA8
-bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPjsgZGV2aWNldHJlZUB2Z2VyLmtlcm5l
-bC5vcmc7DQo+IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWFybS1rZXJuZWxA
-bGlzdHMuaW5mcmFkZWFkLm9yZzsNCj4gbGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmcNCj4g
-U3ViamVjdDogUmU6IFtQQVRDSCB2MiAyLzNdIGR0LWJpbmRpbmdzOiB0cml2aWFsLWRldmljZXM6
-IHN1cHBvcnQgTVBTIE1QNTAyMw0KPiANCj4gIFtFeHRlcm5hbCBTZW5kZXJdDQo+IA0KPiAgW0V4
-dGVybmFsIFNlbmRlcl0NCj4gDQo+IE9uIFdlZCwgMjAyNC0wOS0xOCBhdCAxMDowMCAtMDcwMCwg
-R3VlbnRlciBSb2VjayB3cm90ZToNCj4gPiBPbiA5LzE4LzI0IDAyOjU0LCBEZWxwaGluZSBDQyBD
-aGl1IHdyb3RlOg0KPiA+ID4gRnJvbTogUmlja3kgQ1ggV3UgPHJpY2t5LmN4Lnd1Lndpd3lubkBn
-bWFpbC5jb20+DQo+ID4gPg0KPiA+ID4gQWRkIHN1cHBvcnQgZm9yIGhvdC1zd2FwIGNvbnRyb2xs
-ZXIgTVBTIE1QNTAyMy4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBSaWNreSBDWCBXdSA8
-cmlja3kuY3gud3Uud2l3eW5uQGdtYWlsLmNvbT4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IERlbHBo
-aW5lIENDIENoaXUgPERlbHBoaW5lX0NDX0NoaXVAd2l3eW5uLmNvbT4NCj4gPiA+IC0tDQo+ID4N
-Cj4gPiBUaGUgaGFyZHdhcmUgbW9uaXRvcmluZyBtYWlsaW5nIGxpc3Qgd2FzIG5vdCBjb3BpZWQs
-IHNvIEkgYXNzdW1lIHRoYXQNCj4gPiB0aGUgZXhwZWN0YXRpb24gaXMgdGhhdCBpdCB3aWxsIGJl
-IGFwcGxpZWQgdGhyb3VnaCBzb21lIG90aGVyIHRyZWUuDQo+IA0KPiBXZSBjYW4gdGFrZSBpdCB0
-aHJvdWdoIHRoZSBCTUMgdHJlZSwgYnV0IEknZCBwcmVmZXIgdGhhdCB0aGUgaGFyZHdhcmUNCj4g
-bW9uaXRvcmluZyBsaXN0IHdlcmUgY29waWVkIHJlZ2FyZGxlc3MuDQo+IA0KPiBSaWNreTogUGxl
-YXNlIGRvIHNvIGZvciB2MyBvbndhcmRzLg0KPiANCj4gQW5kcmV3DQpIaSBHdWVudGVyICYgQW5k
-cmV3LA0KDQpXb3VsZCBsaWtlIHRvIGFzayBob3cgdG8gY29weSB0aGUgaGFyZHdhcmUgbW9uaXRv
-cmluZyBtYWlsaW5nIGxpc3Q/DQpTaG91bGQgSSBqdXN0IHNlbmQgdGhlIHYzIHBhdGNoIHdpdGgg
-b25seSB0aGlzIGR0LWJpbmRpbmdzIHBhdGNoIGZvciBNUDUwMjMNCmFuZCBpdCB3aWxsIGJlIGFk
-ZGVkIGluIHRoZSBtYWlsIGF1dG9tYXRpY2FsbHk/DQoNClJlZ2FyZHMuDQo=
+Hi Billy
+
+On Thu, 2024-09-19 at 17:43 +0800, Billy Tsai wrote:
+> Add low-level operations (llops) to abstract the register access for GPIO
+> registers and the coprocessor request/release. With this abstraction
+> layer, the driver can separate the hardware and software logic, making it
+> easier to extend the driver to support different hardware register
+> layouts.
+>=20
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  drivers/gpio/gpio-aspeed.c | 429 +++++++++++++++++++------------------
+>  1 file changed, 220 insertions(+), 209 deletions(-)
+>=20
+> diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
+> index d20e15b2079d..8b334ce7b60a 100644
+> --- a/drivers/gpio/gpio-aspeed.c
+> +++ b/drivers/gpio/gpio-aspeed.c
+> @@ -39,6 +39,10 @@ struct aspeed_bank_props {
+>  struct aspeed_gpio_config {
+>  	unsigned int nr_gpios;
+>  	const struct aspeed_bank_props *props;
+> +	const struct aspeed_gpio_llops *llops;
+> +	const int *debounce_timers_array;
+> +	int debounce_timers_num;
+> +	bool dcache_require;
+
+Bit of a nitpick, but if we must have it I'd prefer we call this
+`require_dcache`.
+
+> =20
+> +static void aspeed_g4_reg_bit_set(struct aspeed_gpio *gpio, unsigned int=
+ offset,
+> +				  const enum aspeed_gpio_reg reg, bool val)
+> +{
+> +	const struct aspeed_gpio_bank *bank =3D to_bank(offset);
+> +	void __iomem *addr =3D bank_reg(gpio, bank, reg);
+> +	u32 temp;
+> +
+> +	if (reg =3D=3D reg_val && gpio->config->dcache_require)
+
+We know gpio->config->dcache_require will be true, because this is the
+g4 handler, right?
+
+> +		temp =3D gpio->dcache[GPIO_BANK(offset)];
+> +	else
+> +		temp =3D ioread32(addr);
+> +
+> +	if (val)
+> +		temp |=3D GPIO_BIT(offset);
+> +	else
+> +		temp &=3D ~GPIO_BIT(offset);
+> +
+> +	if (reg =3D=3D reg_val && gpio->config->dcache_require)
+> +		gpio->dcache[GPIO_BANK(offset)] =3D temp;
+> +	iowrite32(temp, addr);
+> +}
+> +
+> +static u32 aspeed_g4_reg_bits_get(struct aspeed_gpio *gpio, unsigned int=
+ offset,
+> +				  const enum aspeed_gpio_reg reg)
+> +{
+> +	const struct aspeed_gpio_bank *bank =3D to_bank(offset);
+> +	void __iomem *addr =3D bank_reg(gpio, bank, reg);
+> +
+> +	if (reg =3D=3D reg_rdata || reg =3D=3D reg_irq_status)
+> +		return ioread32(addr);
+> +	return !!(ioread32(addr) & GPIO_BIT(offset));
+
+Okay, the semantics here feel a bit concerning. I think we need one
+behaviour or the other, not both.
+
+Perhaps we have two callbacks:
+
+1. get_bit()
+2. get_bank()
+
+where get_bank() is only defined for reg_rdata and reg_irq_status, and
+get_bit() for all registers.
+
+> +}
+> +
+> +static bool aspeed_g4_copro_request(struct aspeed_gpio *gpio, unsigned i=
+nt offset)
+> +{
+> +	if (!copro_ops || !gpio->cf_copro_bankmap)
+> +		return false;
+> +	if (!gpio->cf_copro_bankmap[offset >> 3])
+> +		return false;
+> +	if (!copro_ops->request_access)
+> +		return false;
+> +
+> +	/* Pause the coprocessor */
+> +	copro_ops->request_access(copro_data);
+> +
+> +	/* Change command source back to ARM */
+> +	aspeed_gpio_change_cmd_source(gpio, offset, GPIO_CMDSRC_ARM);
+
+I don't think we need the indirection here, this is already a g4-
+specific callback implementation, we can directly call
+aspeed_g4_privilege_ctrl().
+
+> +
+> +	if (gpio->config->dcache_require)
+> +		/* Update cache */
+> +		gpio->dcache[GPIO_BANK(offset)] =3D
+> +			gpio->config->llops->reg_bits_get(gpio, offset, reg_rdata);
+> +
+> +	return true;
+> +}
+> +
+> +static void aspeed_g4_copro_release(struct aspeed_gpio *gpio, unsigned i=
+nt offset)
+> +{
+> +	if (!copro_ops || !gpio->cf_copro_bankmap)
+> +		return;
+> +	if (!gpio->cf_copro_bankmap[offset >> 3])
+> +		return;
+> +	if (!copro_ops->release_access)
+> +		return;
+> +
+> +	/* Change command source back to ColdFire */
+> +	aspeed_gpio_change_cmd_source(gpio, offset, GPIO_CMDSRC_COLDFIRE);
+
+As above for the request implementation, we can call
+aspeed_g4_privilege_ctrl() directly here.
+
+> +
+> +	/* Restart the coprocessor */
+> +	copro_ops->release_access(copro_data);
+> +}
+> +
+> +static void aspeed_g4_privilege_ctrl(struct aspeed_gpio *gpio, unsigned =
+int offset, int cmdsrc)
+> +{
+> +	/*
+> +	 * The command source register is only valid in bits 0, 8, 16, and 24, =
+so we use
+> +	 * (offset & ~(0x7)) to ensure that reg_bits_set always targets a valid=
+ bit.
+> +	 */
+> +	/* Source 1 first to avoid illegal 11 combination */
+> +	gpio->config->llops->reg_bit_set(gpio, offset & ~(0x7), reg_cmdsrc1, !!=
+(cmdsrc & BIT(1)));
+> +	/* Then Source 0 */
+> +	gpio->config->llops->reg_bit_set(gpio, offset & ~(0x7), reg_cmdsrc0, !!=
+(cmdsrc & BIT(0)));
+
+Both of these can be direct calls to aspeed_g4_reg_bit_set().
+
+> +}
+> +
+> +static void aspeed_g4_privilege_init(struct aspeed_gpio *gpio)
+> +{
+> +	u32 i;
+> +
+> +	/* Switch all command sources to the ARM by default */
+> +	for (i =3D 0; i < DIV_ROUND_UP(gpio->chip.ngpio, 32); i++) {
+> +		aspeed_gpio_change_cmd_source(gpio, (i << 5) + 0, GPIO_CMDSRC_ARM);
+> +		aspeed_gpio_change_cmd_source(gpio, (i << 5) + 8, GPIO_CMDSRC_ARM);
+> +		aspeed_gpio_change_cmd_source(gpio, (i << 5) + 16, GPIO_CMDSRC_ARM);
+> +		aspeed_gpio_change_cmd_source(gpio, (i << 5) + 24, GPIO_CMDSRC_ARM);
+
+Again as this is a g4-specific callback we can directly call
+aspeed_g4_privilege_ctrl().
+
+> +	}
+> +}
+> +
+> +static const struct aspeed_gpio_llops aspeed_g4_llops =3D {
+> +	.copro_request =3D aspeed_g4_copro_request,
+> +	.copro_release =3D aspeed_g4_copro_release,
+> +	.reg_bit_set =3D aspeed_g4_reg_bit_set,
+> +	.reg_bits_get =3D aspeed_g4_reg_bits_get,
+> +	.privilege_ctrl =3D aspeed_g4_privilege_ctrl,
+> +	.privilege_init =3D aspeed_g4_privilege_init,
+> +};
+>  /*
+>   * Any banks not specified in a struct aspeed_bank_props array are assum=
+ed to
+>   * have the properties:
+> @@ -1120,7 +1111,14 @@ static const struct aspeed_bank_props ast2400_bank=
+_props[] =3D {
+> =20
+>  static const struct aspeed_gpio_config ast2400_config =3D
+>  	/* 220 for simplicity, really 216 with two 4-GPIO holes, four at end */
+> -	{ .nr_gpios =3D 220, .props =3D ast2400_bank_props, };
+> +	{
+> +		.nr_gpios =3D 220,
+> +		.props =3D ast2400_bank_props,
+> +		.llops =3D &aspeed_g4_llops,
+> +		.debounce_timers_array =3D debounce_timers,
+> +		.debounce_timers_num =3D ARRAY_SIZE(debounce_timers),
+> +		.dcache_require =3D true,
+> +	};
+> =20
+>  static const struct aspeed_bank_props ast2500_bank_props[] =3D {
+>  	/*     input	  output   */
+> @@ -1132,7 +1130,14 @@ static const struct aspeed_bank_props ast2500_bank=
+_props[] =3D {
+> =20
+>  static const struct aspeed_gpio_config ast2500_config =3D
+>  	/* 232 for simplicity, actual number is 228 (4-GPIO hole in GPIOAB) */
+> -	{ .nr_gpios =3D 232, .props =3D ast2500_bank_props, };
+> +	{
+> +		.nr_gpios =3D 232,
+> +		.props =3D ast2500_bank_props,
+> +		.llops =3D &aspeed_g4_llops,
+> +		.debounce_timers_array =3D debounce_timers,
+> +		.debounce_timers_num =3D ARRAY_SIZE(debounce_timers),
+> +		.dcache_require =3D true,
+> +	};
+> =20
+>  static const struct aspeed_bank_props ast2600_bank_props[] =3D {
+>  	/*     input	  output   */
+> @@ -1148,7 +1153,14 @@ static const struct aspeed_gpio_config ast2600_con=
+fig =3D
+>  	 * We expect ngpio being set in the device tree and this is a fallback
+>  	 * option.
+>  	 */
+> -	{ .nr_gpios =3D 208, .props =3D ast2600_bank_props, };
+> +	{
+> +		.nr_gpios =3D 208,
+> +		.props =3D ast2600_bank_props,
+> +		.llops =3D &aspeed_g4_llops,
+> +		.debounce_timers_array =3D debounce_timers,
+> +		.debounce_timers_num =3D ARRAY_SIZE(debounce_timers),
+> +		.dcache_require =3D true,
+> +	};
+> =20
+>  static const struct of_device_id aspeed_gpio_of_table[] =3D {
+>  	{ .compatible =3D "aspeed,ast2400-gpio", .data =3D &ast2400_config, },
+> @@ -1191,6 +1203,9 @@ static int __init aspeed_gpio_probe(struct platform=
+_device *pdev)
+> =20
+>  	gpio->config =3D gpio_id->data;
+> =20
+> +	if (!gpio->config->llops->reg_bit_set || !gpio->config->llops->reg_bits=
+_get)
+> +		return -EINVAL;
+> +
+
+This will need to clean up gpio->clk. Perhaps you could move it above
+the of_clk_get() call instead?
+
+However, looking through the rest it seems we have a few issues with
+this leak :/
+
+>  	gpio->chip.parent =3D &pdev->dev;
+>  	err =3D of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpio);
+>  	gpio->chip.ngpio =3D (u16) ngpio;
+> @@ -1207,27 +1222,23 @@ static int __init aspeed_gpio_probe(struct platfo=
+rm_device *pdev)
+>  	gpio->chip.label =3D dev_name(&pdev->dev);
+>  	gpio->chip.base =3D -1;
+> =20
+> -	/* Allocate a cache of the output registers */
+> -	banks =3D DIV_ROUND_UP(gpio->chip.ngpio, 32);
+> -	gpio->dcache =3D devm_kcalloc(&pdev->dev,
+> -				    banks, sizeof(u32), GFP_KERNEL);
+> -	if (!gpio->dcache)
+> -		return -ENOMEM;
+> -
+> -	/*
+> -	 * Populate it with initial values read from the HW and switch
+> -	 * all command sources to the ARM by default
+> -	 */
+> -	for (i =3D 0; i < banks; i++) {
+> -		const struct aspeed_gpio_bank *bank =3D &aspeed_gpio_banks[i];
+> -		void __iomem *addr =3D bank_reg(gpio, bank, reg_rdata);
+> -		gpio->dcache[i] =3D ioread32(addr);
+> -		aspeed_gpio_change_cmd_source(gpio, bank, 0, GPIO_CMDSRC_ARM);
+> -		aspeed_gpio_change_cmd_source(gpio, bank, 1, GPIO_CMDSRC_ARM);
+> -		aspeed_gpio_change_cmd_source(gpio, bank, 2, GPIO_CMDSRC_ARM);
+> -		aspeed_gpio_change_cmd_source(gpio, bank, 3, GPIO_CMDSRC_ARM);
+> +	if (gpio->config->dcache_require) {
+> +		/* Allocate a cache of the output registers */
+> +		banks =3D DIV_ROUND_UP(gpio->chip.ngpio, 32);
+> +		gpio->dcache =3D devm_kcalloc(&pdev->dev, banks, sizeof(u32), GFP_KERN=
+EL);
+> +		if (!gpio->dcache)
+> +			return -ENOMEM;
+
+This should also clean up gpio->clk. I don't think you can move it to
+avoid that.
+
+Andrew
+
+> +		/*
+> +		 * Populate it with initial values read from the HW
+> +		 */
+> +		for (i =3D 0; i < banks; i++)
+> +			gpio->dcache[i] =3D
+> +				gpio->config->llops->reg_bits_get(gpio, (i << 5), reg_rdata);
+>  	}
+> =20
+> +	if (gpio->config->llops->privilege_init)
+> +		gpio->config->llops->privilege_init(gpio);
+> +
+>  	/* Set up an irqchip */
+>  	irq =3D platform_get_irq(pdev, 0);
+>  	if (irq < 0)
+
