@@ -1,58 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5101797E478
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Sep 2024 03:02:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E584197E47E
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Sep 2024 03:09:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XBl8X2y8Gz2yRd
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Sep 2024 11:02:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XBlJ70y3cz2yS0
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Sep 2024 11:09:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727053354;
-	cv=none; b=bk2cSLN4d7KBkgiAZjZio/L9+qOks+5YxSTA6fegfLcJ/75QiOq57aNIWNs/1fF9yszF0AYFL9Rbdm/m1FfK16b01zlXn/8fZZhdTps1TZC0By2eN7/Ly42baK61snaPsjvT3nFg0f1EpQBVA0tME0Fu10nQXze/NGc7bM/Bkav4L+uRbB60lVBb7TaTB5UaZ12lnCFn7nwkU0vKuigdhhNrQP1cOcLK8CWsq4JoSkK7K64BRw6F7kCwYM/o5hq6NHBAVyC6+K6rvEr+E31WTKh4D/TenYOsMKgFwbUVMWN3kl5fW14MfKaecN4W7RQy0hyZhyCqT/ozJvXavSBw1g==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727053749;
+	cv=none; b=HNPYj7GmVDd2V0O/8WEjwdDjZvVsgGC0F1by6FIpXXUxYDCCORrabmQuefPaI2/p2ZKpm7+GUhY/3Rp/ewMMe04cMJXSGUuEOYPYoHjY4yC+JRG65adL6KelNInd0LyVzID3lFk4dHaOj3lQ84NA8REZ7CaKsMTlOMK2GxVwAVi7OTlJh27GzPd0F31GV7nf8VIA9hKPAuM2R8kC4B002ysT/RXoZKlPzNJHhPmvG/2Z8N/l1RAbwPEkNEqX1ibCC4x8LSdfv9CsTDX7zQ9WIcLSdazbsxnqHekZUOVdsREBFLJXzNOwqWUh6h4ao750le6YlCV/hThw95voBuchUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727053354; c=relaxed/relaxed;
-	bh=l7Den0zj/MD0EHCURTk8V5blKj2DqStv6HhlLuj4F1I=;
+	t=1727053749; c=relaxed/relaxed;
+	bh=+G0XJf/d/VA4rBfpqhj2Iciipn6AYGuPI900BalqIjA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mtdXvxgCYvygqAhuqf9PnkIe/EK8Ta/XputaiK22d/hkzVvKAnlmUR5ayQDt1ny/cxeZMeWFG9uRc+7g/6UjouxliiErqCMvMW+QnDChUVebjUYf6IASmGLsJrfMpdn5co3uOKLGIC0eNtNTrY3Dko7Ip0/4VHov986GoOCLdKCmQX/pRX9O6n9To7/O01Pmi+QLKj+lVMcAxDe5tiraDlK29m5y0f12EIU5VaCLo7QAMgJp40pRxSXeAa8OTAo/KlnKitKD+fOfz1Er0e0pKYvAmBkoFG2lWmkfoGVEo8kcHyTvFoC+gzRMZKyV51Hgw+/ZqyGwCuYSwmQZ9rHNUQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RnbKRmh+; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	 Content-Type:MIME-Version; b=WAgpnn89Ym0gBbumwcu7bWm+/wbrHXWKkGB6UHLf13aAmbMQAHXgPnrLiMhXlqnjYjceupaklL+0L9/0LkncGv5l8aSZ2acuMVPIl4PtnaDmVg69SXVzbWjgKve26dPYr3/tJKwaGFemezNemqccjjEdxiLqnAXfPvdtItX+M0ig9BW5IS4VKWBCP09ssfzPH20VSY1pc+67a55KoRH9FuL6S2zUoqL9VsFBpu1FfmgCcRati0yfdbaPQZJxQsbj+H4GgNIDWGpQlH/RlerOnaksfuwwTNlVQ2uwilbOsq7tKSWd+hAS4fULd9GZiTr5G95jx4pKFVAazZspCdN1/Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=VPnfWP/C; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RnbKRmh+;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=VPnfWP/C;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XBl8V4Ndnz2xHx
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Sep 2024 11:02:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XBlJ545m6z2xgv
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Sep 2024 11:09:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1727053354;
-	bh=l7Den0zj/MD0EHCURTk8V5blKj2DqStv6HhlLuj4F1I=;
+	d=codeconstruct.com.au; s=2022a; t=1727053748;
+	bh=+G0XJf/d/VA4rBfpqhj2Iciipn6AYGuPI900BalqIjA=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=RnbKRmh+RYTAHI/I/0kjl5TQ2kbz1D9aM0cdCK0xAwZ9v1IcO8ropbeLn0kxNTz/b
-	 y9mpFDXibIreFEPZi1Y35eewnZM9rKIj1EICi9WsHNc8+CO2g+fUqOmkJiz2NUCXh9
-	 sjFo/WrL3gZobrnnH3Y2aLvDiQLXjbN/yn7PqsJ3+yquo9SAP/rteBdvYupj65+KD+
-	 eF/9iaA05JSqRy+TpnmbWkyE+PtfCVwhGGucpqMPowQ+smhi76AlwKB/rmRPcUPDa9
-	 B64ww/IIy7XKqIJEuU6v/ZVxg4Hxs4Yb+/tOAWDTEmp1+r5VoZ5/B+zRxNaSYpSyCp
-	 JrCqwJZPoPAzA==
+	b=VPnfWP/CS4BJC3Ym9/6/A95bxGfS166HiF09LDabbS3pKJuQyzlUMlAk/VdBpium4
+	 f8rw9uQVUCKGYrxWXQUOjafLr74zaRd1B+Ya+Qy+LIY4FKFACd2TC5+41AcNYMXBgN
+	 58sNuwy9X7AwrmGKVnIYGoS31qyd9Susx10NmNhiwOlBAwsv0wMv018U+kOy/Bnvlm
+	 u5nGHmKypLjwb8kynHTxDBuWMmNXQdeFDtjueQ0V0j1ast8Hr0e/FcB9C4uzCBZNA7
+	 XfE5o0ogJ1ex2QO9hipuVSw7pyw+iGpYNu7onj02iPTStQ00gqQ/2UclPpPFSN6v9W
+	 KhAQnLM0ysIdA==
 Received: from [192.168.68.112] (ppp118-210-177-92.adl-adc-lon-bras34.tpg.internode.on.net [118.210.177.92])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 6E25B640E8;
-	Mon, 23 Sep 2024 09:02:33 +0800 (AWST)
-Message-ID: <a93f32cba7721cc6874d0baf0b29e1cc9bfe15c1.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v19 2/2] ARM: dts: aspeed: yosemite4: add mctp config
- and sensors for NIC
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id CBEF1640E8;
+	Mon, 23 Sep 2024 09:09:06 +0800 (AWST)
+Message-ID: <516706cb77ac88ff1b9d94a69b0e1ed54e184ec9.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v2 2/3] dt-bindings: trivial-devices: support MPS MP5023
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz, Rob
+To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>, Guenter
+ Roeck <linux@roeck-us.net>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Rob
  Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-Date: Mon, 23 Sep 2024 10:32:32 +0930
-In-Reply-To: <20240920070449.3871705-3-Delphine_CC_Chiu@wiwynn.com>
-References: <20240920070449.3871705-1-Delphine_CC_Chiu@wiwynn.com>
-	 <20240920070449.3871705-3-Delphine_CC_Chiu@wiwynn.com>
+ Dooley <conor+dt@kernel.org>
+Date: Mon, 23 Sep 2024 10:39:06 +0930
+In-Reply-To: <TYZPR04MB5853BD9CD0774B40BAEF7BDFD66C2@TYZPR04MB5853.apcprd04.prod.outlook.com>
+References: <20240918095438.1345886-1-Delphine_CC_Chiu@wiwynn.com>
+	 <20240918095438.1345886-3-Delphine_CC_Chiu@wiwynn.com>
+	 <bf5258b8-a5a1-4cf3-9bd0-1fa44696c3b0@roeck-us.net>
+	 <355b19a62e54aa979451d796c3ebe1e294a0cf45.camel@codeconstruct.com.au>
+	 <TYZPR04MB5853BD9CD0774B40BAEF7BDFD66C2@TYZPR04MB5853.apcprd04.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -68,18 +71,74 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, linux-kernel@vger.kernel.org
+Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Peter Yin <peteryin.openbmc@gmail.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Noah Wang <noahwang.wang@outlook.com>, Lukas Wunner <lukas@wunner.de>, Fabio Estevam <festevam@gmail.com>, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 2024-09-20 at 15:04 +0800, Delphine CC Chiu wrote:
-> From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
+On Fri, 2024-09-20 at 01:54 +0000, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
 >=20
-> - Add MCTP config for NIC and remove the unnecessary MCTP config on bus
-> 15.
-> - Add eeprom for NIC.
+> > -----Original Message-----
+> > From: Andrew Jeffery <andrew@codeconstruct.com.au>
+> > Sent: Thursday, September 19, 2024 9:24 AM
+> > To: Guenter Roeck <linux@roeck-us.net>; Delphine_CC_Chiu/WYHQ/Wiwynn
+> > <Delphine_CC_Chiu@wiwynn.com>; patrick@stwcx.xyz; Rob Herring
+> > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dool=
+ey
+> > <conor+dt@kernel.org>
+> > Cc: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>; Joel Stanley
+> > <joel@jms.id.au>; Peter Yin <peteryin.openbmc@gmail.com>; Noah Wang
+> > <noahwang.wang@outlook.com>; Javier Carrasco
+> > <javier.carrasco.cruz@gmail.com>; Fabio Estevam <festevam@gmail.com>;
+> > Lukas Wunner <lukas@wunner.de>; Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com>; devicetree@vger.kernel.org;
+> > linux-kernel@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
+> > linux-aspeed@lists.ozlabs.org
+> > Subject: Re: [PATCH v2 2/3] dt-bindings: trivial-devices: support MPS M=
+P5023
+> >=20
+> >  [External Sender]
+> >=20
+> >  [External Sender]
+> >=20
+> > On Wed, 2024-09-18 at 10:00 -0700, Guenter Roeck wrote:
+> > > On 9/18/24 02:54, Delphine CC Chiu wrote:
+> > > > From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
+> > > >=20
+> > > > Add support for hot-swap controller MPS MP5023.
+> > > >=20
+> > > > Signed-off-by: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
+> > > > Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+> > > > --
+> > >=20
+> > > The hardware monitoring mailing list was not copied, so I assume that
+> > > the expectation is that it will be applied through some other tree.
+> >=20
+> > We can take it through the BMC tree, but I'd prefer that the hardware
+> > monitoring list were copied regardless.
+> >=20
+> > Ricky: Please do so for v3 onwards.
+> >=20
+> > Andrew
+> Hi Guenter & Andrew,
+>=20
+> Would like to ask how to copy the hardware monitoring mailing list?
 
-There's no suggestion that these are related. Why are they done in the
-same commit?
+Not sure how best to answer this, but add it in the To: line for your
+patches?=20
+
+> Should I just send the v3 patch with only this dt-bindings patch for MP50=
+23
+> and it will be added in the mail automatically?
+
+Well, if whatever process you're already using isn't adding it
+automatically, I doubt it's going to start doing so now.
+
+You can add it using the `--to` option to `b4 send` or `git send-
+email`, for instance.
+
+The details for the hwmon list are here:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/MAI=
+NTAINERS?h=3Dv6.11#n9836
 
 Andrew
