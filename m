@@ -2,28 +2,28 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD38197E965
+	by mail.lfdr.de (Postfix) with ESMTPS id D755B97E964
 	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Sep 2024 12:06:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XBzDD5jv2z2yZ1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Sep 2024 20:06:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XBzDF0TBPz3c6q
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Sep 2024 20:06:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727085992;
-	cv=none; b=VeAmufXwpcXEatUxtrwwAA02XSmnmKXYKbJoPwMjcnMAF13u70oeOkeryLvqISFTiofR7MahyNhO0v92fmQ2p2TDDjrqu+ptqfIZoJcXCJAfo9Eo6b+6Ku4Go6CgqWE3sUX9F8Tv9IDcryRLUvdwjwAe8yeiZvP2VPxa++ClpwPJ0oKEHPrUNdxmx6fN4DcY+/CpOeAdd9HOvpzlVtTro74dZnK7LGpPLdavFeIK0ghBuXxSQ0wh56CEO6zHXpT3n8HaH9fvG3CuLU6QQ53+8tupyWPxIuPT1GtYjwWwhWIMpHpiklzZthgE+hlXoWePo043GX+HlTP9j6wJc1C6jQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727085993;
+	cv=none; b=Icsz/DPLIfXXARjBcy64X0ssSCquUgL9yE5ixd+N4Ryp29nKTSRtmkw2xFtaioC2z+AKQwgSGG9AO4kKMpqQDSU3NoHufTMCr7b0cEMelP+lxpaxv8WUteIGJBG+6AgGBNITbNT32+SAfrLpfrG0PFZg1M6J81VRzowbRpnuEtOtQJOH0qh/YBQwK32kPPhLShAf9bmwGx5M3nc/gsHifS671IyZqz0bf25A8gbtcOcMp5l4uTZXXMPv7tyKHSlSm9FpZMST/9iVhb1A/yzOx29c2HlDfBmtnPhbddF77IWgTZdrRU2Pyzru7np5mPQOqwhB2rT5mYeQD2pEFuu44w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727085992; c=relaxed/relaxed;
-	bh=RQhS+JFbGdMxEr052DmffRrakVsskYqwBNtV88rj1kc=;
+	t=1727085993; c=relaxed/relaxed;
+	bh=h74t+0dkWF74sy82G+FzhqDM2sz+ZOL1/s76GaYoYp8=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TWEVFuPyDTVc8SO2yvgvH8UrEENnxeky0YOEp0bHItoi3aVISKr7rxmbdXWwDDnT48Mrsl50ZXcKREiNgil1i9xJilMqRIZS2gpQIUjs6fCqZfIO5Bkq/FVab7DDZbfGhqisQxgz5xrjqnqlrrD2bgC+wcjsKmvhxARuVsczrNYTwCqZ6FNC7BdwDL9huEaMsEOmOm/mSeT+rt6A/DlA3CxryxrFnUZd0qjCILWFRWbJfwbOFyXaKodGg1WcIvSaQ83FUb4HtEm6xHjQVQ6NG3T7Vs5kQUu9F7aAZFzk8MtEgILZXPByODHT5oAaYwJsWlPqGG3U1psjtyXs49bySg==
+	 MIME-Version:Content-Type; b=eTsIxfytDHVifq8EUVT0fYPfvUBiF470+12gwcLjDCw2mGdvbClEZYhh8FUl8UztyvYFKju+s6sbAebfp4iwXRCdW1tq2wL1XMb1zdaAmL+vDfQrKYOfdIRpvpYIxGF7TiNkurbzTgFJuc/Y8x+C+PyQ5VJ2RI0R6X91aYkx/7cFerBp0miqofevzWC40kHp7SMpB1wCW/Jpx+y5RcSWmv3jfr7K0EZJ4B3kW1GyBwF/7f4uTaWVSY5DwMksn+OtwqXe3ej1VZ3UNhdeVi1pFKWErkr6/FSeqm0sQmz2ppKyWUzv30Sds0AqLEO7zNYeJPJQ79xclggTQVzW1aTdHw==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XBzD83qqfz2yN4
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XBzD86q9sz2yNj
 	for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Sep 2024 20:06:32 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
@@ -39,9 +39,9 @@ To: <linus.walleij@linaro.org>, <brgl@bgdev.pl>, <robh@kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
 	<BMC-SW@aspeedtech.com>, <Peter.Yin@quantatw.com>, <Jay_Zhang@wiwynn.com>
-Subject: [PATCH v5 5/6] gpio: aspeed: Change the macro to support deferred probe
-Date: Mon, 23 Sep 2024 18:06:10 +0800
-Message-ID: <20240923100611.1597113-6-billy_tsai@aspeedtech.com>
+Subject: [PATCH v5 6/6] gpio: aspeed: Add the flush write to ensure the write complete.
+Date: Mon, 23 Sep 2024 18:06:11 +0800
+Message-ID: <20240923100611.1597113-7-billy_tsai@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240923100611.1597113-1-billy_tsai@aspeedtech.com>
 References: <20240923100611.1597113-1-billy_tsai@aspeedtech.com>
@@ -62,48 +62,33 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Use module_platform_driver() to replace module_platform_driver_probe().
-The former utilizes platform_driver_register(), which allows the driver to
-defer probing when it doesn't acquire the necessary resources due to probe
-order. In contrast, the latter uses __platform_driver_probe(), which
-includes the comment "Note that this is incompatible with deferred
-probing." Since our GPIO driver requires access to the clock resource, the
-former is more suitable.
+Performing a dummy read ensures that the register write operation is fully
+completed, mitigating any potential bus delays that could otherwise impact
+the frequency of bitbang usage. E.g., if the JTAG application uses GPIO to
+control the JTAG pins (TCK, TMS, TDI, TDO, and TRST), and the application
+sets the TCK clock to 1 MHz, the GPIO's high/low transitions will rely on
+a delay function to ensure the clock frequency does not exceed 1 MHz.
+However, this can lead to rapid toggling of the GPIO because the write
+operation is POSTed and does not wait for a bus acknowledgment.
 
 Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
- drivers/gpio/gpio-aspeed.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpio/gpio-aspeed.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
-index 7418d65be721..230af90aa966 100644
+index 230af90aa966..e7dcc37e40f9 100644
 --- a/drivers/gpio/gpio-aspeed.c
 +++ b/drivers/gpio/gpio-aspeed.c
-@@ -1303,7 +1303,7 @@ static const struct of_device_id aspeed_gpio_of_table[] = {
- };
- MODULE_DEVICE_TABLE(of, aspeed_gpio_of_table);
+@@ -402,6 +402,8 @@ static void __aspeed_gpio_set(struct gpio_chip *gc, unsigned int offset,
+ 	struct aspeed_gpio *gpio = gpiochip_get_data(gc);
  
--static int __init aspeed_gpio_probe(struct platform_device *pdev)
-+static int aspeed_gpio_probe(struct platform_device *pdev)
- {
- 	const struct of_device_id *gpio_id;
- 	struct gpio_irq_chip *girq;
-@@ -1404,13 +1404,14 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
+ 	gpio->config->llops->reg_bit_set(gpio, offset, reg_val, val);
++	// flush write
++	gpio->config->llops->reg_bit_get(gpio, offset, reg_val);
  }
  
- static struct platform_driver aspeed_gpio_driver = {
-+	.probe = aspeed_gpio_probe,
- 	.driver = {
- 		.name = KBUILD_MODNAME,
- 		.of_match_table = aspeed_gpio_of_table,
- 	},
- };
- 
--module_platform_driver_probe(aspeed_gpio_driver, aspeed_gpio_probe);
-+module_platform_driver(aspeed_gpio_driver);
- 
- MODULE_DESCRIPTION("Aspeed GPIO Driver");
- MODULE_LICENSE("GPL");
+ static void aspeed_gpio_set(struct gpio_chip *gc, unsigned int offset,
 -- 
 2.25.1
 
