@@ -2,75 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C088B985FA4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Sep 2024 16:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6D098694B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 00:58:26 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XDJMW6Rjcz2yVt
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 00:02:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XDXFg6411z2yTs
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 08:58:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1135"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727272945;
-	cv=none; b=D/LQthE1bXC9FlUAQxaR2R60QKKLRM8sp19YgDgCEZDzULnDTnoF7oBQ30xOn1BIFfGnVRf5cykBzhnYezdPeUhjtUNIi+KEOtOpFZ0gMIi+4DegoZtA+Iw2V/ince7r1odHavnOi86MTZ1vHK36EudUF7pLulccCueFDR34QRK/UCemtaRzyPS9qv17yUbUljkoz+bNTNISBwlV+MV+4G8LYdW8VlYJQTFLvVdrSRLiMb2SQyxyWzN+gWCob0qC+k+RFdRG5w+Ps/5EX55M96pjPMRQ2EGnd0fq1xNNXH8+pFQIBIUhcbLlbvu3Luf/MhGLvmT6cuny7nw4LOFz9Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::32b"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727276861;
+	cv=none; b=HDVsuqPuJBIKMvXmoszC9Ai8aD0C1sJmhPnuhula9IsNvuvuTJ/e6KnJX1oWFeEDx4srNal+v/hQHhRSg+5kdogqBq7yIf9wQAeGMPuWMTGxVPal3xJS/pUg0SUVcJfKraGUVXUWi2RNdYn/sVqZSqnKMoR2wPLl8T+zrmpSr5kE8h1GuOMnjmJ+rrwxLl/vVYIxeWhj+cU2Gj0pJHb60TLICPWH9XBT+TXr6y0vHyWsEeFPgGILmhzC+pL+EitdpWmWdzDxWofjdQzHz4gYEPH6NCKzP+mkSpqLfeyJdqh5ihFmaZBR3gWK2j3jPCbmZzt3JYVdPr3jKSSMh8KNfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727272945; c=relaxed/relaxed;
-	bh=ToUKIzEuriYR9o6QD0qmgl4Fmelj6t2JR4wuG3YJ1Ec=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HbMgQlVyJWgPcIfeeteR1I72vzuWaC9/1A5r3oS9+moai1JE0geVvt0Obgm+rkmiU7/NvpzCKq6UIFd/YUM+s9FhbbAiV5dA8BU9WxGuxLvYp1px6+lxbqNNdCN+PJGykq5eKFYs3OhjkrUJDcHzNUh6gYZa+o11xqZBGIMWELLeXNyN17aFqX73TrtZ7Du/SU8GORwkBf4Zq2XFXtynwzKumK2o/QdJK0T5/cvggBL9paO1Nq79G0HQZ93qcuSGKPN+L33ZNx8C1fudMTfFYAeeZD0X5jbgq9XWgyaDUgOLdVqdC7z3HVuck/hD2P65SnrzbNSi6mkiV/2fC6FMkg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GYrl3EKn; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1135; helo=mail-yw1-x1135.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+	t=1727276861; c=relaxed/relaxed;
+	bh=DWF83HMoN2Ea7DGvk+6V2CllZTFpJS9ca4WBd4vItNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=muTI/5Q7PtqfowEE4Bcuf7UHT8bW3AFCJedbU0ocbvArgAvpAlMBsaX18DxARDueozZw3pAwn1sDsZoYoJax3aYbWYwU77UbkIy0hp1OgEmigi1LUBs4fA2fiQ/gd4SxO7Ih4eq5cMWauF+LLQzmBoI0pdeN+Vmptq+WuNjsBO6xyINf07nRniAaBx0xghDsWC4Ih5iUVwC+ratS254h8hVPSFZByCBnm4RpNePtvlB9vXomxNUysjTh1zq+jRnn1FQwswY5ELOVH/hIQhQibXYCjD/v5/pDlPwOQCXP2T18cL23rrq7jQHJmSRlq/LmGCPbzcroR6UM878k3Ikuyg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=baylibre.com; dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=INRtn2Cy; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=ukleinek@baylibre.com; receiver=lists.ozlabs.org) smtp.mailfrom=baylibre.com
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GYrl3EKn;
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=INRtn2Cy;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::1135; helo=mail-yw1-x1135.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=ukleinek@baylibre.com; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XDJMN6CRWz2xjK
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Sep 2024 00:02:22 +1000 (AEST)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-6db4b602e38so55041487b3.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2024 07:02:22 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XDKph3knkz2x9T
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Sep 2024 01:07:37 +1000 (AEST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-42cb1758e41so56458395e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2024 08:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727272939; x=1727877739; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ToUKIzEuriYR9o6QD0qmgl4Fmelj6t2JR4wuG3YJ1Ec=;
-        b=GYrl3EKnbQqLmh6k6x1fCHdXivlUfuPFDThF7MIuQlyRg0VwJOEec+2dKMxcNbgpWY
-         XFXSo+Rgl+tyR/gLuFJUxD2szjd7qAhTUu+geJ0ZbDQX4r8ENpJSv32zmlRTyc3jAhqf
-         9CqWH9zZDhJbKXKdF20Or/RhsISJjwxc8Aj8ThJRb6MaQZi4zszSg1pWi33taqDhOvrO
-         q57t6CTcsW4TXwhU8+VshJpG0BN330xcnIosrZnko+dSp7/zBg7aJJfv2kKLavN2PqoF
-         g1CwQFDAVA7CJdvO/XHmhgFQ8XfDrbBmnY08Fsa2sTJ3D+L++lz3VdqrYO9M9faAfeC5
-         nAug==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727276854; x=1727881654; darn=lists.ozlabs.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DWF83HMoN2Ea7DGvk+6V2CllZTFpJS9ca4WBd4vItNM=;
+        b=INRtn2CyCmRDA5GgQXN27MLQfq/+bAH8ALHYcbea0avL+lx6oSyaAjemfRAxSZC9hN
+         8eyECYdgMJIFKQAuYRUZa9flGu88qYTcYnV6F7r5tIvUnPOeB8L5uJQIjBSCrFIF8CN/
+         s8Gmqg6zgW5srqpbBF/UkWvLEkekHFMM3yDQ9yIzwjr1UvbHP2uZzxYRt9UhVEo4gqTl
+         dDez9xBuK6le7xheHLRehpoo/WrZ/1mHaC2czJZs74m2ycS9lxl6BQRYng9wjfFib7vY
+         ito3TgkTDBY+YSIcM4jt8Qq3YcGaamp/uC8fo8Xf5zVZwHHaW+KCku2ceeGCBUxXUh9X
+         RiKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727272939; x=1727877739;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ToUKIzEuriYR9o6QD0qmgl4Fmelj6t2JR4wuG3YJ1Ec=;
-        b=K0sOXFOr1YLj5PsyFlbgrMIHcdgqZ4L1AKfXA/TjIriv1D0XTmcW8UznCcNmPqCS/9
-         L/0YpMCJA93ehhPAD/6t+O3NUOCGf1YdeMB49Dn6KusBpk80Lb4UTh1ReMIw0pbceBMs
-         X57zyFxCn3ImRfx6XHsOeDRrF0AOb3Yi1N8dA6Ynxu+toK6UsS5GOpUzXYpe85tPV1aG
-         eETT82TT6mydLlkhnDgytKf/LrOQRNucNkfvTwoY7+4e4R8I8Jt53DUzZBdolXjAApIv
-         aYkiSqv/Kes4Nyt8/WDapGOU5JYSubGW0IK9Ok7/uvIMRzv/Z9Ke3l/LBJKjqVumk5LU
-         B/tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUKoKwoT+vRI5FeIhiQ/8Dc2lBUUmWg82J23vRdLDjjvDOzkp/ezHOS4k2Hzkcnz3gpjL3b9sI7c+4rug=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yx7F6MMKokgxS9ah9XKDwd91H5P63Je9TDip6B7Xr2OeJ/79a9F
-	5N3jHN0FbEoal8ZEG4rkjSw78tsrnVrJAIAQf623MNedWvaBPFSp49ZrjgEW9L+VbFNwk4D6VXz
-	s0nuA+pcbK9gVHfMt3N+gxSJD5IMpgBZpnRmwLg==
-X-Google-Smtp-Source: AGHT+IE841pjxIKVha/+JpcEn2ee0Lx4ty464a7C8jVO8vOObnE+8Yr/dOWMzAzJZ++Do5wiVDiWTFPS1iajgW2vevE=
-X-Received: by 2002:a05:690c:67c7:b0:6dd:bcfd:f168 with SMTP id
- 00721157ae682-6e21d833475mr25994197b3.18.1727272938607; Wed, 25 Sep 2024
- 07:02:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240826081900.2284-1-liulei.rjpt@vivo.com>
-In-Reply-To: <20240826081900.2284-1-liulei.rjpt@vivo.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 25 Sep 2024 16:01:41 +0200
-Message-ID: <CAPDyKFqJAwr7S9nMywnEica77+UeT9pbbcZ05g7+xmT_1Xtd7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] usb drivers use devm_clk_get_enabled() helpers
+        d=1e100.net; s=20230601; t=1727276854; x=1727881654;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DWF83HMoN2Ea7DGvk+6V2CllZTFpJS9ca4WBd4vItNM=;
+        b=XqQY7dzg3E1BAH6upX+jvgHiBzJMfMq9GMDSwxy9pLkW9mTEZ75ZW3FKgnESmYXh1A
+         8/hU8WAcVaEVy/YeSILl1XPdmVfh2TbZTP9EWhZA78t9UxtNbnko90QPtiYdpmuBhNdI
+         1ISCuIArINhVtt1YaHfd5rWgl72zMUCTkPPBX75CYCUzHGcJsIvVthDCieMdIdCKLWtz
+         hAdHhKUMtakwOnUZNVZX1+n+tSzMSYAIlbmOofMtXQt8eptCldTJJPm5qVz08Uh/A+qX
+         i9YC6yp1VxhRdfxO5j1XkTaWWUF1RngkOcmnJgneJ8EBtZzpexTViSHsQQ6J1lVW6CSl
+         IXUg==
+X-Forwarded-Encrypted: i=1; AJvYcCUaOB+N7qNa4qfcflKl4UIT19a1zMPrsQYj/jc8vLMaNjnZNemTV815k6RvKa5YOFmq9DTmCKCvIyLcG0o=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YwTBMyi3CEXqm44CTyJY/+Q6rO3LcOIXJLYXxjAOPujpGTUpE91
+	fXeV3JmN9N5nB9p58SAusF0tLhzb23yI6mWZXu+Muo0zajTzeE8N+gRcEXfXFWE=
+X-Google-Smtp-Source: AGHT+IGip3sOgl+bQOmdyqaao7YVehMer8d8+AYC1VqOmcY2i0t8OPHuGhScpGVwZxC3FqSYI+aIsw==
+X-Received: by 2002:a05:600c:470e:b0:42b:a7c7:5667 with SMTP id 5b1f17b1804b1-42e96144a7cmr19014655e9.25.1727276853820;
+        Wed, 25 Sep 2024 08:07:33 -0700 (PDT)
+Received: from localhost (amontpellier-556-1-151-252.w109-210.abo.wanadoo.fr. [109.210.7.252])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a52308sm21474945e9.43.2024.09.25.08.07.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 08:07:33 -0700 (PDT)
+Date: Wed, 25 Sep 2024 17:07:32 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Lei Liu <liulei.rjpt@vivo.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 1/5] usb: aspeed_udc: Use devm_clk_get_enabled()
+ helpers
+Message-ID: <zi5lq44bc4vd33y42zkmn7hr7rw64wfxe2rvuvkekola6ctckc@buv7ybvq5skt>
+References: <20240826081900.2284-1-liulei.rjpt@vivo.com>
+ <20240826082140.2311-1-liulei.rjpt@vivo.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6dsn6gbwes7baogl"
+Content-Disposition: inline
+In-Reply-To: <20240826082140.2311-1-liulei.rjpt@vivo.com>
+X-Mailman-Approved-At: Thu, 26 Sep 2024 08:58:14 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,65 +89,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, opensource.kernel@vivo.com, linux-usb@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Daire McNamara <daire.mcnamara@microchip.com>, Neal Liu <neal_liu@aspeedtech.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org, Haojian Zhuang <haojian.zhuang@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-riscv@lists.infradead.org, Robert Jarzmik <robert.jarzmik@free.fr>, Bin Liu <b-liu@ti.com>, Daniel Mack <daniel@zonque.org>
+Cc: opensource.kernel@vivo.com, linux-aspeed@lists.ozlabs.org, Neal Liu <neal_liu@aspeedtech.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 26 Aug 2024 at 10:19, Lei Liu <liulei.rjpt@vivo.com> wrote:
->
-> The devm_clk_get_enabled() helpers:
->     - call devm_clk_get()
->     - call clk_prepare_enable() and register what is needed in order to
->      call clk_disable_unprepare() when needed, as a managed resource.
->
-> This simplifies the code and avoids calls to clk_disable_unprepare().
 
-As I stated on another thread too [1], using devm_clk_get_enabled()
-isn't solely a nice cleanup of the code. It may actually introduce a
-change in behaviour. Therefore, I would not recommend applying that
-kind of changes, unless some of the maintainers acks it or it gets
-tested on real HW.
+--6dsn6gbwes7baogl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kind regards
-Uffe
+Hello,
 
-[1]
-https://lore.kernel.org/all/20240827074857.2671808-1-xirui.zhang@vivo.com/
+On Mon, Aug 26, 2024 at 04:21:39PM +0800, Lei Liu wrote:
+> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc=
+/aspeed_udc.c
+> index f4781e611aaa..a362e31f7550 100644
+> --- a/drivers/usb/gadget/udc/aspeed_udc.c
+> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
+> @@ -1459,8 +1459,6 @@ static void ast_udc_remove(struct platform_device *=
+pdev)
+>  	ctrl =3D ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
+>  	ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
+> =20
+> -	clk_disable_unprepare(udc->clk);
+> -
+>  	spin_unlock_irqrestore(&udc->lock, flags);
 
->
-> ---
-> version 3 changes
-> Fix the email thread.
->
-> ---
-> version 2 changes
->
-> The files ux500.c, mpfs.c, and pxa27x_udc.c have incorrect usage of
-> certain interfaces due to the lack of synchronization during the
-> commit updates. These issues have been corrected in the v1 version.
->
-> 1.ux500: Incorrect usage of clk_prepare_enable() should be corrected to
->   devm_clk_get_enabled().
-> 2.mpfs: Incorrect usage of devm_clk_get_enable() should be corrected to
->   devm_clk_get_enabled().
-> 3.pxa27x_udc: Incorrect usage of clk_prepare_enable() should be
->   corrected to devm_clk_get_enabled().
->
-> Lei Liu (5):
->   usb: aspeed_udc: Use devm_clk_get_enabled() helpers
->   usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
->   usb: r8a66597-udc: Use devm_clk_get_enabled() helpers
->   usb: mpfs: Use devm_clk_get_enabled() helpers
->   sb: ux500: Use devm_clk_get_enabled() helpers
->
->  drivers/usb/gadget/udc/aspeed_udc.c   |  9 +--------
->  drivers/usb/gadget/udc/pxa27x_udc.c   |  6 +-----
->  drivers/usb/gadget/udc/r8a66597-udc.c | 16 ++++------------
->  drivers/usb/musb/mpfs.c               | 22 ++++++----------------
->  drivers/usb/musb/ux500.c              | 18 ++++--------------
->  5 files changed, 16 insertions(+), 55 deletions(-)
->
-> --
-> 2.34.1
->
->
+Isn't it broken to call clk_disable_unprepare() while holding a
+spinlock?
+
+I guess that means that the remove path is untested in practise and this
+patches fixes a sleep-in-atomic. IMHO this invalidates Ulf's concern in
+his reply to the cover letter for this patch at least.
+ =20
+>  	if (udc->ep0_buf)
+> @@ -1500,16 +1498,11 @@ static int ast_udc_probe(struct platform_device *=
+pdev)
+> =20
+>  	platform_set_drvdata(pdev, udc);
+> =20
+> -	udc->clk =3D devm_clk_get(&pdev->dev, NULL);
+> +	udc->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
+>  	if (IS_ERR(udc->clk)) {
+>  		rc =3D PTR_ERR(udc->clk);
+
+An error message here would be nice. Something like
+
+	rc =3D dev_err_probe(&pdev->dev, PTR_ERR(udc->clk), "Failed to get clock\n=
+");
+
+should work.
+
+>  		goto err;
+>  	}
+> -	rc =3D clk_prepare_enable(udc->clk);
+> -	if (rc) {
+> -		dev_err(&pdev->dev, "Failed to enable clock (0x%x)\n", rc);
+> -		goto err;
+> -	}
+> =20
+>  	/* Check if we need to limit the HW to USB1 */
+>  	max_speed =3D usb_get_maximum_speed(&pdev->dev);
+
+Best regards
+Uwe
+
+--6dsn6gbwes7baogl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb0JzEACgkQj4D7WH0S
+/k7BAggAkHqZteCrETJY7VyuZN1rZlaLtOcZtOwWhGS/VU77rZ3XggeRv3m4vC47
+hPTn3yyiJND47OJu6fIC9tSLUrY8K1HNI1kZ03J3SiDOrPevc0wzDlNITQCENVL4
+Nc4lAtMYR1ZfCzNJ7+MK0PXCHZGkREp7DF8RLnvp2EOqdSadL6ZOexvONaOp0z2w
+fI+4yzo1++k7+EBuSnnL7xVwk+T55OezIBpcy0cLeQRgcjOrbhPd7Evo8VtyGLAe
+ZkZW3RhxSAIMpu1Kux0lFaFV+0Zp+piZSwYUIet5L87cJhdOy5gKFnSDTQp1U+tk
+RwwyaG8WrFuECHX+T+NlpPRYc0btYw==
+=rUO+
+-----END PGP SIGNATURE-----
+
+--6dsn6gbwes7baogl--
