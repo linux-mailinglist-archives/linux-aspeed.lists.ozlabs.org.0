@@ -2,66 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4BB985FB2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Sep 2024 16:03:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C088B985FA4
+	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Sep 2024 16:02:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XDJP627fvz2yYf
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 00:03:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XDJMW6Rjcz2yVt
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 00:02:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a0a:edc0:2:b01:1d::104"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727273030;
-	cv=none; b=Y6U0Y7Dz5Gdxrl+yqHae8YckT+3QQ0+C3MQZm313S2Haf82m2XLZ6Hfi7De1LyPycyHcpfU5XKS+sf3PKCshSNuDPC/u/sGxlOUMb7b3BfYaPnbWL3OKBGiyXLbl+Ceb2cO1r3SanfVlQQoeF8rJLtv5aM3SZkCY5tx/9Ynrlm8CHXSgGq8XBSqJFChTH5Z/avoH16WxxD9wTCk6PwPUnkANgQCKhU8pe8N6/aQRQgABs894QbtEn68pAAjnU21jOprxeHREu1HeJgzj74sV3bUOIhC7Od+PkwFKCMHns5zHCETLg8RaLm1esEiKSOnkz5T96kHT9UX2wGmKX138dg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1135"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727272945;
+	cv=none; b=D/LQthE1bXC9FlUAQxaR2R60QKKLRM8sp19YgDgCEZDzULnDTnoF7oBQ30xOn1BIFfGnVRf5cykBzhnYezdPeUhjtUNIi+KEOtOpFZ0gMIi+4DegoZtA+Iw2V/ince7r1odHavnOi86MTZ1vHK36EudUF7pLulccCueFDR34QRK/UCemtaRzyPS9qv17yUbUljkoz+bNTNISBwlV+MV+4G8LYdW8VlYJQTFLvVdrSRLiMb2SQyxyWzN+gWCob0qC+k+RFdRG5w+Ps/5EX55M96pjPMRQ2EGnd0fq1xNNXH8+pFQIBIUhcbLlbvu3Luf/MhGLvmT6cuny7nw4LOFz9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727273030; c=relaxed/relaxed;
-	bh=Y/RjCSso5a2QQIoVD+zNNWeALRJC5xzj+PtJm8r3ymk=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Nfw9xTdOFPU39wJIy9rdSA2yOLQCkuVqKoiXIubNmgZaZxTbygtYzzxdJlUzljUdVtLFyugI6plHsG16h2pDF6RM0K47oX8i0osNTptBbZMViCK/cU3icY/2pG2U1uFAb6bkXLcV5rs0Ns1O+53Q1arjXd4UX9o18jeqclRXX+lJEO5H6ISiexT/+1GDCg2akwmMDxhP2o0PJUjb5lsDyNRuJ2+LFHueDwhLX+WZb4ooDaWZLtU4Ao0vX2yim9k9dVxBAKCTzhrlaHt6+beycUXVaAF/QtZZL+WTxlOpFqroloWTvvCTSvUiGiX4qWpobaVrQLYba6tHj7xMBF5GYQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=p.zabel@pengutronix.de; receiver=lists.ozlabs.org) smtp.mailfrom=pengutronix.de
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=pengutronix.de (client-ip=2a0a:edc0:2:b01:1d::104; helo=metis.whiteo.stw.pengutronix.de; envelope-from=p.zabel@pengutronix.de; receiver=lists.ozlabs.org)
-X-Greylist: delayed 1059 seconds by postgrey-1.37 at boromir; Thu, 26 Sep 2024 00:03:49 AEST
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	t=1727272945; c=relaxed/relaxed;
+	bh=ToUKIzEuriYR9o6QD0qmgl4Fmelj6t2JR4wuG3YJ1Ec=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HbMgQlVyJWgPcIfeeteR1I72vzuWaC9/1A5r3oS9+moai1JE0geVvt0Obgm+rkmiU7/NvpzCKq6UIFd/YUM+s9FhbbAiV5dA8BU9WxGuxLvYp1px6+lxbqNNdCN+PJGykq5eKFYs3OhjkrUJDcHzNUh6gYZa+o11xqZBGIMWELLeXNyN17aFqX73TrtZ7Du/SU8GORwkBf4Zq2XFXtynwzKumK2o/QdJK0T5/cvggBL9paO1Nq79G0HQZ93qcuSGKPN+L33ZNx8C1fudMTfFYAeeZD0X5jbgq9XWgyaDUgOLdVqdC7z3HVuck/hD2P65SnrzbNSi6mkiV/2fC6FMkg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GYrl3EKn; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1135; helo=mail-yw1-x1135.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=GYrl3EKn;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::1135; helo=mail-yw1-x1135.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XDJP1544Wz2yMv
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Sep 2024 00:03:49 +1000 (AEST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stSKZ-0007pI-SU; Wed, 25 Sep 2024 15:45:23 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stSKW-001SeW-M8; Wed, 25 Sep 2024 15:45:20 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1stSKW-000K5C-1x;
-	Wed, 25 Sep 2024 15:45:20 +0200
-Message-ID: <d2289e43e0ede95eb125562dbe889e658ee3a522.camel@pengutronix.de>
-Subject: Re: [PATCH v4 2/3] reset: aspeed: register AST2700 reset auxiliary
- bus device
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Ryan Chen <ryan_chen@aspeedtech.com>, mturquette@baylibre.com, 
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-  joel@jms.id.au, andrew@codeconstruct.com.au, linux-kernel@vger.kernel.org,
-  linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Date: Wed, 25 Sep 2024 15:45:20 +0200
-In-Reply-To: <20240923075012.2264573-3-ryan_chen@aspeedtech.com>
-References: <20240923075012.2264573-1-ryan_chen@aspeedtech.com>
-	 <20240923075012.2264573-3-ryan_chen@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XDJMN6CRWz2xjK
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Sep 2024 00:02:22 +1000 (AEST)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-6db4b602e38so55041487b3.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2024 07:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727272939; x=1727877739; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ToUKIzEuriYR9o6QD0qmgl4Fmelj6t2JR4wuG3YJ1Ec=;
+        b=GYrl3EKnbQqLmh6k6x1fCHdXivlUfuPFDThF7MIuQlyRg0VwJOEec+2dKMxcNbgpWY
+         XFXSo+Rgl+tyR/gLuFJUxD2szjd7qAhTUu+geJ0ZbDQX4r8ENpJSv32zmlRTyc3jAhqf
+         9CqWH9zZDhJbKXKdF20Or/RhsISJjwxc8Aj8ThJRb6MaQZi4zszSg1pWi33taqDhOvrO
+         q57t6CTcsW4TXwhU8+VshJpG0BN330xcnIosrZnko+dSp7/zBg7aJJfv2kKLavN2PqoF
+         g1CwQFDAVA7CJdvO/XHmhgFQ8XfDrbBmnY08Fsa2sTJ3D+L++lz3VdqrYO9M9faAfeC5
+         nAug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727272939; x=1727877739;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ToUKIzEuriYR9o6QD0qmgl4Fmelj6t2JR4wuG3YJ1Ec=;
+        b=K0sOXFOr1YLj5PsyFlbgrMIHcdgqZ4L1AKfXA/TjIriv1D0XTmcW8UznCcNmPqCS/9
+         L/0YpMCJA93ehhPAD/6t+O3NUOCGf1YdeMB49Dn6KusBpk80Lb4UTh1ReMIw0pbceBMs
+         X57zyFxCn3ImRfx6XHsOeDRrF0AOb3Yi1N8dA6Ynxu+toK6UsS5GOpUzXYpe85tPV1aG
+         eETT82TT6mydLlkhnDgytKf/LrOQRNucNkfvTwoY7+4e4R8I8Jt53DUzZBdolXjAApIv
+         aYkiSqv/Kes4Nyt8/WDapGOU5JYSubGW0IK9Ok7/uvIMRzv/Z9Ke3l/LBJKjqVumk5LU
+         B/tQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUKoKwoT+vRI5FeIhiQ/8Dc2lBUUmWg82J23vRdLDjjvDOzkp/ezHOS4k2Hzkcnz3gpjL3b9sI7c+4rug=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yx7F6MMKokgxS9ah9XKDwd91H5P63Je9TDip6B7Xr2OeJ/79a9F
+	5N3jHN0FbEoal8ZEG4rkjSw78tsrnVrJAIAQf623MNedWvaBPFSp49ZrjgEW9L+VbFNwk4D6VXz
+	s0nuA+pcbK9gVHfMt3N+gxSJD5IMpgBZpnRmwLg==
+X-Google-Smtp-Source: AGHT+IE841pjxIKVha/+JpcEn2ee0Lx4ty464a7C8jVO8vOObnE+8Yr/dOWMzAzJZ++Do5wiVDiWTFPS1iajgW2vevE=
+X-Received: by 2002:a05:690c:67c7:b0:6dd:bcfd:f168 with SMTP id
+ 00721157ae682-6e21d833475mr25994197b3.18.1727272938607; Wed, 25 Sep 2024
+ 07:02:18 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+References: <20240826081900.2284-1-liulei.rjpt@vivo.com>
+In-Reply-To: <20240826081900.2284-1-liulei.rjpt@vivo.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 25 Sep 2024 16:01:41 +0200
+Message-ID: <CAPDyKFqJAwr7S9nMywnEica77+UeT9pbbcZ05g7+xmT_1Xtd7Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] usb drivers use devm_clk_get_enabled() helpers
+To: Lei Liu <liulei.rjpt@vivo.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,333 +82,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, opensource.kernel@vivo.com, linux-usb@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Daire McNamara <daire.mcnamara@microchip.com>, Neal Liu <neal_liu@aspeedtech.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, linux-kernel@vger.kernel.org, Haojian Zhuang <haojian.zhuang@gmail.com>, Conor Dooley <conor.dooley@microchip.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-riscv@lists.infradead.org, Robert Jarzmik <robert.jarzmik@free.fr>, Bin Liu <b-liu@ti.com>, Daniel Mack <daniel@zonque.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi,
+On Mon, 26 Aug 2024 at 10:19, Lei Liu <liulei.rjpt@vivo.com> wrote:
+>
+> The devm_clk_get_enabled() helpers:
+>     - call devm_clk_get()
+>     - call clk_prepare_enable() and register what is needed in order to
+>      call clk_disable_unprepare() when needed, as a managed resource.
+>
+> This simplifies the code and avoids calls to clk_disable_unprepare().
 
-On Mo, 2024-09-23 at 15:50 +0800, Ryan Chen wrote:
-> The AST2700 reset driver is registered as an auxiliary device
-> due to reset and clock controller share the same register region.
->=20
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+As I stated on another thread too [1], using devm_clk_get_enabled()
+isn't solely a nice cleanup of the code. It may actually introduce a
+change in behaviour. Therefore, I would not recommend applying that
+kind of changes, unless some of the maintainers acks it or it gets
+tested on real HW.
+
+Kind regards
+Uffe
+
+[1]
+https://lore.kernel.org/all/20240827074857.2671808-1-xirui.zhang@vivo.com/
+
+>
 > ---
->  drivers/reset/Kconfig        |   6 +
->  drivers/reset/Makefile       |   1 +
->  drivers/reset/reset-aspeed.c | 257 +++++++++++++++++++++++++++++++++++
->  3 files changed, 264 insertions(+)
->  create mode 100644 drivers/reset/reset-aspeed.c
->=20
-> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-> index 67bce340a87e..612f22e1180d 100644
-> --- a/drivers/reset/Kconfig
-> +++ b/drivers/reset/Kconfig
-> @@ -22,6 +22,12 @@ config RESET_A10SR
->  	  This option enables support for the external reset functions for
->  	  peripheral PHYs on the Altera Arria10 System Resource Chip.
-> =20
-> +config RESET_ASPEED
-> +	tristate "ASPEED Reset Driver"
-> +	depends on ARCH_ASPEED || COMPILE_TEST
-
-This is missing:
-
-	select AUXILIARY_BUS
-
-> +	help
-> +	  This enables the reset controller driver for AST2700.
-> +
->  config RESET_ATH79
->  	bool "AR71xx Reset Driver" if COMPILE_TEST
->  	default ATH79
-> diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
-> index 27b0bbdfcc04..97482bb56416 100644
-> --- a/drivers/reset/Makefile
-> +++ b/drivers/reset/Makefile
-> @@ -5,6 +5,7 @@ obj-y +=3D starfive/
->  obj-y +=3D sti/
->  obj-y +=3D tegra/
->  obj-$(CONFIG_RESET_A10SR) +=3D reset-a10sr.o
-> +obj-$(CONFIG_RESET_ASPEED) +=3D reset-aspeed.o
->  obj-$(CONFIG_RESET_ATH79) +=3D reset-ath79.o
->  obj-$(CONFIG_RESET_AXS10X) +=3D reset-axs10x.o
->  obj-$(CONFIG_RESET_BCM6345) +=3D reset-bcm6345.o
-> diff --git a/drivers/reset/reset-aspeed.c b/drivers/reset/reset-aspeed.c
-> new file mode 100644
-> index 000000000000..40cc6e76df70
-> --- /dev/null
-> +++ b/drivers/reset/reset-aspeed.c
-> @@ -0,0 +1,257 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (c) 2024 ASPEED Technology Inc.
-> + */
-> +
-> +#include <linux/auxiliary_bus.h>
-> +#include <linux/device.h>
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_address.h>
-> +#include <linux/reset-controller.h>
-> +
-> +#include <dt-bindings/reset/aspeed,ast2700-scu.h>
-> +
-> +#define SCU0_RESET_CTRL1 0x200
-> +#define SCU0_RESET_CTRL2 0x220
-> +#define SCU1_RESET_CTRL1 0x200
-> +#define SCU1_RESET_CTRL2 0x220
-> +#define SCU1_PCIE3_CTRL 0x908
-> +
-> +struct ast2700_reset_signal {
-> +	bool dedicated_clr; /* dedicated reset clr offset */
-> +	u32 offset, bit;
-> +};
-> +
-> +struct aspeed_reset_info {
-> +	unsigned int nr_resets;
-> +	const struct ast2700_reset_signal *signal;
-> +};
-> +
-> +struct aspeed_reset {
-> +	struct reset_controller_dev rcdev;
-> +	struct aspeed_reset_info *info;
-> +	spinlock_t lock; /* Protect read-modify-write cycle */
-> +	void __iomem *base;
-> +};
-> +
-> +static const struct ast2700_reset_signal ast2700_reset0_signals[] =3D {
-> +	[SCU0_RESET_SDRAM] =3D { true, SCU0_RESET_CTRL1, BIT(0) },
-> +	[SCU0_RESET_DDRPHY] =3D { true, SCU0_RESET_CTRL1, BIT(1) },
-> +	[SCU0_RESET_RSA] =3D { true, SCU0_RESET_CTRL1, BIT(2) },
-> +	[SCU0_RESET_SHA3] =3D { true, SCU0_RESET_CTRL1, BIT(3) },
-> +	[SCU0_RESET_HACE] =3D { true, SCU0_RESET_CTRL1, BIT(4) },
-> +	[SCU0_RESET_SOC] =3D { true, SCU0_RESET_CTRL1, BIT(5) },
-> +	[SCU0_RESET_VIDEO] =3D { true, SCU0_RESET_CTRL1, BIT(6) },
-> +	[SCU0_RESET_2D] =3D { true, SCU0_RESET_CTRL1, BIT(7) },
-> +	[SCU0_RESET_PCIS] =3D { true, SCU0_RESET_CTRL1, BIT(8) },
-> +	[SCU0_RESET_RVAS0] =3D { true, SCU0_RESET_CTRL1, BIT(9) },
-> +	[SCU0_RESET_RVAS1] =3D { true, SCU0_RESET_CTRL1, BIT(10) },
-> +	[SCU0_RESET_SM3] =3D { true, SCU0_RESET_CTRL1, BIT(11) },
-> +	[SCU0_RESET_SM4] =3D { true, SCU0_RESET_CTRL1, BIT(12) },
-> +	[SCU0_RESET_CRT0] =3D { true, SCU0_RESET_CTRL1, BIT(13) },
-> +	[SCU0_RESET_ECC] =3D { true, SCU0_RESET_CTRL1, BIT(14) },
-> +	[SCU0_RESET_DP_PCI] =3D { true, SCU0_RESET_CTRL1, BIT(15) },
-> +	[SCU0_RESET_UFS] =3D { true, SCU0_RESET_CTRL1, BIT(16) },
-> +	[SCU0_RESET_EMMC] =3D { true, SCU0_RESET_CTRL1, BIT(17) },
-> +	[SCU0_RESET_PCIE1RST] =3D { true, SCU0_RESET_CTRL1, BIT(18) },
-> +	[SCU0_RESET_PCIE1RSTOE] =3D { true, SCU0_RESET_CTRL1, BIT(19) },
-> +	[SCU0_RESET_PCIE0RST] =3D { true, SCU0_RESET_CTRL1, BIT(20) },
-> +	[SCU0_RESET_PCIE0RSTOE] =3D { true, SCU0_RESET_CTRL1, BIT(21) },
-> +	[SCU0_RESET_JTAG] =3D { true, SCU0_RESET_CTRL1, BIT(22) },
-> +	[SCU0_RESET_MCTP0] =3D { true, SCU0_RESET_CTRL1, BIT(23) },
-> +	[SCU0_RESET_MCTP1] =3D { true, SCU0_RESET_CTRL1, BIT(24) },
-> +	[SCU0_RESET_XDMA0] =3D { true, SCU0_RESET_CTRL1, BIT(25) },
-> +	[SCU0_RESET_XDMA1] =3D { true, SCU0_RESET_CTRL1, BIT(26) },
-> +	[SCU0_RESET_H2X1] =3D { true, SCU0_RESET_CTRL1, BIT(27) },
-> +	[SCU0_RESET_DP] =3D { true, SCU0_RESET_CTRL1, BIT(28) },
-> +	[SCU0_RESET_DP_MCU] =3D { true, SCU0_RESET_CTRL1, BIT(29) },
-> +	[SCU0_RESET_SSP] =3D { true, SCU0_RESET_CTRL1, BIT(30) },
-> +	[SCU0_RESET_H2X0] =3D { true, SCU0_RESET_CTRL1, BIT(31) },
-> +	[SCU0_RESET_PORTA_VHUB] =3D { true, SCU0_RESET_CTRL2, BIT(0) },
-> +	[SCU0_RESET_PORTA_PHY3] =3D { true, SCU0_RESET_CTRL2, BIT(1) },
-> +	[SCU0_RESET_PORTA_XHCI] =3D { true, SCU0_RESET_CTRL2, BIT(2) },
-> +	[SCU0_RESET_PORTB_VHUB] =3D { true, SCU0_RESET_CTRL2, BIT(3) },
-> +	[SCU0_RESET_PORTB_PHY3] =3D { true, SCU0_RESET_CTRL2, BIT(4) },
-> +	[SCU0_RESET_PORTB_XHCI] =3D { true, SCU0_RESET_CTRL2, BIT(5) },
-> +	[SCU0_RESET_PORTA_VHUB_EHCI] =3D { true, SCU0_RESET_CTRL2, BIT(6) },
-> +	[SCU0_RESET_PORTB_VHUB_EHCI] =3D { true, SCU0_RESET_CTRL2, BIT(7) },
-> +	[SCU0_RESET_UHCI] =3D { true, SCU0_RESET_CTRL2, BIT(8) },
-> +	[SCU0_RESET_TSP] =3D { true, SCU0_RESET_CTRL2, BIT(9) },
-> +	[SCU0_RESET_E2M0] =3D { true, SCU0_RESET_CTRL2, BIT(10) },
-> +	[SCU0_RESET_E2M1] =3D { true, SCU0_RESET_CTRL2, BIT(11) },
-> +	[SCU0_RESET_VLINK] =3D { true, SCU0_RESET_CTRL2, BIT(12) },
-> +};
-> +
-> +static const struct ast2700_reset_signal ast2700_reset1_signals[] =3D {
-> +	[SCU1_RESET_LPC0] =3D { true, SCU1_RESET_CTRL1, BIT(0) },
-> +	[SCU1_RESET_LPC1] =3D { true, SCU1_RESET_CTRL1, BIT(1) },
-> +	[SCU1_RESET_MII] =3D { true, SCU1_RESET_CTRL1, BIT(2) },
-> +	[SCU1_RESET_PECI] =3D { true, SCU1_RESET_CTRL1, BIT(3) },
-> +	[SCU1_RESET_PWM] =3D { true, SCU1_RESET_CTRL1, BIT(4) },
-> +	[SCU1_RESET_MAC0] =3D { true, SCU1_RESET_CTRL1, BIT(5) },
-> +	[SCU1_RESET_MAC1] =3D { true, SCU1_RESET_CTRL1, BIT(6) },
-> +	[SCU1_RESET_MAC2] =3D { true, SCU1_RESET_CTRL1, BIT(7) },
-> +	[SCU1_RESET_ADC] =3D { true, SCU1_RESET_CTRL1, BIT(8) },
-> +	[SCU1_RESET_SD] =3D { true, SCU1_RESET_CTRL1, BIT(9) },
-> +	[SCU1_RESET_ESPI0] =3D { true, SCU1_RESET_CTRL1, BIT(10) },
-> +	[SCU1_RESET_ESPI1] =3D { true, SCU1_RESET_CTRL1, BIT(11) },
-> +	[SCU1_RESET_JTAG1] =3D { true, SCU1_RESET_CTRL1, BIT(12) },
-> +	[SCU1_RESET_SPI0] =3D { true, SCU1_RESET_CTRL1, BIT(13) },
-> +	[SCU1_RESET_SPI1] =3D { true, SCU1_RESET_CTRL1, BIT(14) },
-> +	[SCU1_RESET_SPI2] =3D { true, SCU1_RESET_CTRL1, BIT(15) },
-> +	[SCU1_RESET_I3C0] =3D { true, SCU1_RESET_CTRL1, BIT(16) },
-> +	[SCU1_RESET_I3C1] =3D { true, SCU1_RESET_CTRL1, BIT(17) },
-> +	[SCU1_RESET_I3C2] =3D { true, SCU1_RESET_CTRL1, BIT(18) },
-> +	[SCU1_RESET_I3C3] =3D { true, SCU1_RESET_CTRL1, BIT(19) },
-> +	[SCU1_RESET_I3C4] =3D { true, SCU1_RESET_CTRL1, BIT(20) },
-> +	[SCU1_RESET_I3C5] =3D { true, SCU1_RESET_CTRL1, BIT(21) },
-> +	[SCU1_RESET_I3C6] =3D { true, SCU1_RESET_CTRL1, BIT(22) },
-> +	[SCU1_RESET_I3C7] =3D { true, SCU1_RESET_CTRL1, BIT(23) },
-> +	[SCU1_RESET_I3C8] =3D { true, SCU1_RESET_CTRL1, BIT(24) },
-> +	[SCU1_RESET_I3C9] =3D { true, SCU1_RESET_CTRL1, BIT(25) },
-> +	[SCU1_RESET_I3C10] =3D { true, SCU1_RESET_CTRL1, BIT(26) },
-> +	[SCU1_RESET_I3C11] =3D { true, SCU1_RESET_CTRL1, BIT(27) },
-> +	[SCU1_RESET_I3C12] =3D { true, SCU1_RESET_CTRL1, BIT(28) },
-> +	[SCU1_RESET_I3C13] =3D { true, SCU1_RESET_CTRL1, BIT(29) },
-> +	[SCU1_RESET_I3C14] =3D { true, SCU1_RESET_CTRL1, BIT(30) },
-> +	[SCU1_RESET_I3C15] =3D { true, SCU1_RESET_CTRL1, BIT(31) },
-> +	[SCU1_RESET_MCU0] =3D { true, SCU1_RESET_CTRL2, BIT(0) },
-> +	[SCU1_RESET_MCU1] =3D { true, SCU1_RESET_CTRL2, BIT(1) },
-> +	[SCU1_RESET_H2A_SPI1] =3D { true, SCU1_RESET_CTRL2, BIT(2) },
-> +	[SCU1_RESET_H2A_SPI2] =3D { true, SCU1_RESET_CTRL2, BIT(3) },
-> +	[SCU1_RESET_UART0] =3D { true, SCU1_RESET_CTRL2, BIT(4) },
-> +	[SCU1_RESET_UART1] =3D { true, SCU1_RESET_CTRL2, BIT(5) },
-> +	[SCU1_RESET_UART2] =3D { true, SCU1_RESET_CTRL2, BIT(6) },
-> +	[SCU1_RESET_UART3] =3D { true, SCU1_RESET_CTRL2, BIT(7) },
-> +	[SCU1_RESET_I2C_FILTER] =3D { true, SCU1_RESET_CTRL2, BIT(8) },
-> +	[SCU1_RESET_CALIPTRA] =3D { true, SCU1_RESET_CTRL2, BIT(9) },
-> +	[SCU1_RESET_XDMA] =3D { true, SCU1_RESET_CTRL2, BIT(10) },
-> +	[SCU1_RESET_FSI] =3D { true, SCU1_RESET_CTRL2, BIT(12) },
-> +	[SCU1_RESET_CAN] =3D { true, SCU1_RESET_CTRL2, BIT(13) },
-> +	[SCU1_RESET_MCTP] =3D { true, SCU1_RESET_CTRL2, BIT(14) },
-> +	[SCU1_RESET_I2C] =3D { true, SCU1_RESET_CTRL2, BIT(15) },
-> +	[SCU1_RESET_UART6] =3D { true, SCU1_RESET_CTRL2, BIT(16) },
-> +	[SCU1_RESET_UART7] =3D { true, SCU1_RESET_CTRL2, BIT(17) },
-> +	[SCU1_RESET_UART8] =3D { true, SCU1_RESET_CTRL2, BIT(18) },
-> +	[SCU1_RESET_UART9] =3D { true, SCU1_RESET_CTRL2, BIT(19) },
-> +	[SCU1_RESET_LTPI0] =3D { true, SCU1_RESET_CTRL2, BIT(20) },
-> +	[SCU1_RESET_VGAL] =3D { true, SCU1_RESET_CTRL2, BIT(21) },
-> +	[SCU1_RESET_LTPI1] =3D { true, SCU1_RESET_CTRL2, BIT(22) },
-> +	[SCU1_RESET_ACE] =3D { true, SCU1_RESET_CTRL2, BIT(23) },
-> +	[SCU1_RESET_E2M] =3D { true, SCU1_RESET_CTRL2, BIT(24) },
-> +	[SCU1_RESET_UHCI] =3D { true, SCU1_RESET_CTRL2, BIT(25) },
-> +	[SCU1_RESET_PORTC_USB2UART] =3D { true, SCU1_RESET_CTRL2, BIT(26) },
-> +	[SCU1_RESET_PORTC_VHUB_EHCI] =3D { true, SCU1_RESET_CTRL2, BIT(27) },
-> +	[SCU1_RESET_PORTD_USB2UART] =3D { true, SCU1_RESET_CTRL2, BIT(28) },
-> +	[SCU1_RESET_PORTD_VHUB_EHCI] =3D { true, SCU1_RESET_CTRL2, BIT(29) },
-> +	[SCU1_RESET_H2X] =3D { true, SCU1_RESET_CTRL2, BIT(30) },
-> +	[SCU1_RESET_I3CDMA] =3D { true, SCU1_RESET_CTRL2, BIT(31) },
-> +	[SCU1_RESET_PCIE2RST] =3D { false, SCU1_PCIE3_CTRL, BIT(0) },
-> +};
-> +
-> +#define to_aspeed_reset(p) container_of(p, struct aspeed_reset, rcdev)
-
-Please turn this into a static inline function.
-
-> +static int aspeed_reset_assert(struct reset_controller_dev *rcdev, unsig=
-ned long id)
-> +{
-> +	struct aspeed_reset *rc =3D to_aspeed_reset(rcdev);
-> +	void __iomem *reg_offset =3D rc->base + rc->info->signal[id].offset;
-> +	unsigned long flags;
-> +
-> +	if (rc->info->signal[id].dedicated_clr) {
-> +		writel(rc->info->signal[id].bit, reg_offset);
-> +	} else {
-> +		spin_lock_irqsave(&rc->lock, flags);
-
-You could use guard(spinlock_irqsave)(&rc->lock) to save a few lines.
-
-> +		writel(readl(reg_offset) & ~rc->info->signal[id].bit, reg_offset);
-> +		spin_unlock_irqrestore(&rc->lock, flags);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int aspeed_reset_deassert(struct reset_controller_dev *rcdev, uns=
-igned long id)
-> +{
-> +	struct aspeed_reset *rc =3D to_aspeed_reset(rcdev);
-> +	void __iomem *reg_offset =3D rc->base + rc->info->signal[id].offset;
-> +	unsigned long flags;
-> +
-> +	if (rc->info->signal[id].dedicated_clr) {
-> +		writel(rc->info->signal[id].bit, reg_offset + 0x04);
-> +	} else {
-> +		spin_lock_irqsave(&rc->lock, flags);
-> +		writel(readl(reg_offset) | rc->info->signal[id].bit, reg_offset);
-> +		spin_unlock_irqrestore(&rc->lock, flags);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int aspeed_reset_status(struct reset_controller_dev *rcdev, unsig=
-ned long id)
-> +{
-> +	struct aspeed_reset *rc =3D to_aspeed_reset(rcdev);
-> +	void __iomem *reg_offset =3D rc->base + rc->info->signal[id].offset;
-> +
-> +	return (readl(reg_offset) & rc->info->signal[id].bit) ? 1 : 0;
-> +}
-> +
-> +static const struct reset_control_ops aspeed_reset_ops =3D {
-> +	.assert =3D aspeed_reset_assert,
-> +	.deassert =3D aspeed_reset_deassert,
-> +	.status =3D aspeed_reset_status,
-> +};
-> +
-> +static int aspeed_reset_probe(struct auxiliary_device *adev,
-> +			      const struct auxiliary_device_id *id)
-> +{
-> +	struct aspeed_reset *reset;
-> +	struct device *dev =3D &adev->dev;
-> +
-> +	reset =3D devm_kzalloc(dev, sizeof(*reset), GFP_KERNEL);
-> +	if (!reset)
-> +		return -ENOMEM;
-> +
-> +	spin_lock_init(&reset->lock);
-> +
-> +	reset->info =3D (struct aspeed_reset_info *)(id->driver_data);
-
-Unnecessary parentheses.
-
-> +	reset->rcdev.owner =3D THIS_MODULE;
-> +	reset->rcdev.nr_resets =3D reset->info->nr_resets;
-> +	reset->rcdev.ops =3D &aspeed_reset_ops;
-> +	reset->rcdev.of_node =3D dev->parent->of_node;
-> +	reset->rcdev.dev =3D dev;
-> +	reset->rcdev.of_reset_n_cells =3D 1;
-> +	reset->base =3D (void __iomem *)adev->dev.platform_data;
-> +
-> +	if (!reset->base)
-> +		return -ENOMEM;
-> +
-> +	return devm_reset_controller_register(dev, &reset->rcdev);
-> +}
-> +
-> +static const struct aspeed_reset_info ast2700_reset0_info =3D {
-> +	.nr_resets =3D ARRAY_SIZE(ast2700_reset0_signals),
-> +	.signal =3D ast2700_reset0_signals,
-> +};
-> +
-> +static const struct aspeed_reset_info ast2700_reset1_info =3D {
-> +	.nr_resets =3D ARRAY_SIZE(ast2700_reset1_signals),
-> +	.signal =3D ast2700_reset1_signals,
-> +};
-> +
-> +static const struct auxiliary_device_id aspeed_reset_ids[] =3D {
-> +	{ .name =3D "clk_ast2700.reset0", .driver_data =3D (kernel_ulong_t)&ast=
-2700_reset0_info },
-> +	{ .name =3D "clk_ast2700.reset1", .driver_data =3D (kernel_ulong_t)&ast=
-2700_reset1_info },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(auxiliary, aspeed_reset_ids);
-> +
-> +static struct auxiliary_driver aspeed_reset_driver =3D {
-> +	.probe		=3D aspeed_reset_probe,
-> +	.id_table	=3D aspeed_reset_ids,
-> +};
-> +
-> +module_auxiliary_driver(aspeed_reset_driver);
-> +
-> +MODULE_AUTHOR("Ryan Chen <ryan_chen@aspeedtech.com>");
-> +MODULE_DESCRIPTION("ASPEED SoC Reset Controller Driver");
-> +MODULE_LICENSE("GPL");
-
-regards
-Philipp
+> version 3 changes
+> Fix the email thread.
+>
+> ---
+> version 2 changes
+>
+> The files ux500.c, mpfs.c, and pxa27x_udc.c have incorrect usage of
+> certain interfaces due to the lack of synchronization during the
+> commit updates. These issues have been corrected in the v1 version.
+>
+> 1.ux500: Incorrect usage of clk_prepare_enable() should be corrected to
+>   devm_clk_get_enabled().
+> 2.mpfs: Incorrect usage of devm_clk_get_enable() should be corrected to
+>   devm_clk_get_enabled().
+> 3.pxa27x_udc: Incorrect usage of clk_prepare_enable() should be
+>   corrected to devm_clk_get_enabled().
+>
+> Lei Liu (5):
+>   usb: aspeed_udc: Use devm_clk_get_enabled() helpers
+>   usb: pxa27x_udc: Use devm_clk_get_enabled() helpers
+>   usb: r8a66597-udc: Use devm_clk_get_enabled() helpers
+>   usb: mpfs: Use devm_clk_get_enabled() helpers
+>   sb: ux500: Use devm_clk_get_enabled() helpers
+>
+>  drivers/usb/gadget/udc/aspeed_udc.c   |  9 +--------
+>  drivers/usb/gadget/udc/pxa27x_udc.c   |  6 +-----
+>  drivers/usb/gadget/udc/r8a66597-udc.c | 16 ++++------------
+>  drivers/usb/musb/mpfs.c               | 22 ++++++----------------
+>  drivers/usb/musb/ux500.c              | 18 ++++--------------
+>  5 files changed, 16 insertions(+), 55 deletions(-)
+>
+> --
+> 2.34.1
+>
+>
