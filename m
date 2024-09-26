@@ -1,83 +1,124 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6D098694B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 00:58:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8AC986A6E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 03:34:52 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XDXFg6411z2yTs
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 08:58:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XDbkL1ryKz2yYJ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 11:34:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::32b"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727276861;
-	cv=none; b=HDVsuqPuJBIKMvXmoszC9Ai8aD0C1sJmhPnuhula9IsNvuvuTJ/e6KnJX1oWFeEDx4srNal+v/hQHhRSg+5kdogqBq7yIf9wQAeGMPuWMTGxVPal3xJS/pUg0SUVcJfKraGUVXUWi2RNdYn/sVqZSqnKMoR2wPLl8T+zrmpSr5kE8h1GuOMnjmJ+rrwxLl/vVYIxeWhj+cU2Gj0pJHb60TLICPWH9XBT+TXr6y0vHyWsEeFPgGILmhzC+pL+EitdpWmWdzDxWofjdQzHz4gYEPH6NCKzP+mkSpqLfeyJdqh5ihFmaZBR3gWK2j3jPCbmZzt3JYVdPr3jKSSMh8KNfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727276861; c=relaxed/relaxed;
-	bh=DWF83HMoN2Ea7DGvk+6V2CllZTFpJS9ca4WBd4vItNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=muTI/5Q7PtqfowEE4Bcuf7UHT8bW3AFCJedbU0ocbvArgAvpAlMBsaX18DxARDueozZw3pAwn1sDsZoYoJax3aYbWYwU77UbkIy0hp1OgEmigi1LUBs4fA2fiQ/gd4SxO7Ih4eq5cMWauF+LLQzmBoI0pdeN+Vmptq+WuNjsBO6xyINf07nRniAaBx0xghDsWC4Ih5iUVwC+ratS254h8hVPSFZByCBnm4RpNePtvlB9vXomxNUysjTh1zq+jRnn1FQwswY5ELOVH/hIQhQibXYCjD/v5/pDlPwOQCXP2T18cL23rrq7jQHJmSRlq/LmGCPbzcroR6UM878k3Ikuyg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=baylibre.com; dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=INRtn2Cy; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=ukleinek@baylibre.com; receiver=lists.ozlabs.org) smtp.mailfrom=baylibre.com
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c400::2" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727314487;
+	cv=pass; b=fvm5leLMerMyejS7G/YHYzUdxRMT5jeQCDu+EjhN1sWuhP6+JUc1vS8oBEAM2qqB0blZJfyuh4ueLOAsUzWXxvVhvGUFoFLZpMKsiXAbP9bo1RtZqMsZZ3oQR/4JioMsx1uDLWPuKZ3/PqFpoS2cKQP0SzElKQPruDZtU8Ps6eh49hGkzGt7mIGTS3YnSEIkZ+Os3XyDDFrykOegmCJEhEmzgwHP8I6MA1vw0bPaXoLEDPOPiQYN9Qgxhv8A+Y2B0H8eMIo3l8RxSssPJWrMw5/izmOG9fJwic8EEuBVnzcXqO2Jp4lmx3Q5Ik/2iNVQa3ZJ2wArcoY6ikrjArMWjQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1727314487; c=relaxed/relaxed;
+	bh=p2TDy7iOdR/wUjJFHM2RR1HQM9QvSX9Swk7w0/MPqEA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=n1VJsz+iEChpvHIn4ET+jG0eMph0bcbULt/cF74aqFnvgJFoTNa5ynHCVrJCwh9b3nYF5J6lBocmG1FwYbC9J06tCEDKLEX1S6ZAaKAnrUUui9qvbGn/8g4gy4ZxUFZS1/GkIC5hvQC/Wk3+aV9yJle/N8DlCqZpXykoLup56Sga/+iv/e/2vIE8kPM2ybohVfzLEoDzu6OLcONobC0/IPNQMcYlUmlNGzsBYwYmlTUZ9QWnKSDsTBOu6zBieEKHvMla2MrqfoT/ijNASQtN8ppcDAxgySrhhEKh1Lzx3uTqgYTbKiHYkCIsxjr6rR985ilOeZLGrDDmSUPIbnxziw==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=j//TLb/a; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c400::2; helo=hk3pr03cu002.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org) smtp.mailfrom=wiwynn.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=INRtn2Cy;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=j//TLb/a;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baylibre.com (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=ukleinek@baylibre.com; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:c400::2; helo=hk3pr03cu002.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from HK3PR03CU002.outbound.protection.outlook.com (mail-eastasiaazlp170110002.outbound.protection.outlook.com [IPv6:2a01:111:f403:c400::2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XDKph3knkz2x9T
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Sep 2024 01:07:37 +1000 (AEST)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-42cb1758e41so56458395e9.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2024 08:07:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727276854; x=1727881654; darn=lists.ozlabs.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DWF83HMoN2Ea7DGvk+6V2CllZTFpJS9ca4WBd4vItNM=;
-        b=INRtn2CyCmRDA5GgQXN27MLQfq/+bAH8ALHYcbea0avL+lx6oSyaAjemfRAxSZC9hN
-         8eyECYdgMJIFKQAuYRUZa9flGu88qYTcYnV6F7r5tIvUnPOeB8L5uJQIjBSCrFIF8CN/
-         s8Gmqg6zgW5srqpbBF/UkWvLEkekHFMM3yDQ9yIzwjr1UvbHP2uZzxYRt9UhVEo4gqTl
-         dDez9xBuK6le7xheHLRehpoo/WrZ/1mHaC2czJZs74m2ycS9lxl6BQRYng9wjfFib7vY
-         ito3TgkTDBY+YSIcM4jt8Qq3YcGaamp/uC8fo8Xf5zVZwHHaW+KCku2ceeGCBUxXUh9X
-         RiKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727276854; x=1727881654;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DWF83HMoN2Ea7DGvk+6V2CllZTFpJS9ca4WBd4vItNM=;
-        b=XqQY7dzg3E1BAH6upX+jvgHiBzJMfMq9GMDSwxy9pLkW9mTEZ75ZW3FKgnESmYXh1A
-         8/hU8WAcVaEVy/YeSILl1XPdmVfh2TbZTP9EWhZA78t9UxtNbnko90QPtiYdpmuBhNdI
-         1ISCuIArINhVtt1YaHfd5rWgl72zMUCTkPPBX75CYCUzHGcJsIvVthDCieMdIdCKLWtz
-         hAdHhKUMtakwOnUZNVZX1+n+tSzMSYAIlbmOofMtXQt8eptCldTJJPm5qVz08Uh/A+qX
-         i9YC6yp1VxhRdfxO5j1XkTaWWUF1RngkOcmnJgneJ8EBtZzpexTViSHsQQ6J1lVW6CSl
-         IXUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUaOB+N7qNa4qfcflKl4UIT19a1zMPrsQYj/jc8vLMaNjnZNemTV815k6RvKa5YOFmq9DTmCKCvIyLcG0o=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwTBMyi3CEXqm44CTyJY/+Q6rO3LcOIXJLYXxjAOPujpGTUpE91
-	fXeV3JmN9N5nB9p58SAusF0tLhzb23yI6mWZXu+Muo0zajTzeE8N+gRcEXfXFWE=
-X-Google-Smtp-Source: AGHT+IGip3sOgl+bQOmdyqaao7YVehMer8d8+AYC1VqOmcY2i0t8OPHuGhScpGVwZxC3FqSYI+aIsw==
-X-Received: by 2002:a05:600c:470e:b0:42b:a7c7:5667 with SMTP id 5b1f17b1804b1-42e96144a7cmr19014655e9.25.1727276853820;
-        Wed, 25 Sep 2024 08:07:33 -0700 (PDT)
-Received: from localhost (amontpellier-556-1-151-252.w109-210.abo.wanadoo.fr. [109.210.7.252])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a52308sm21474945e9.43.2024.09.25.08.07.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 08:07:33 -0700 (PDT)
-Date: Wed, 25 Sep 2024 17:07:32 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Lei Liu <liulei.rjpt@vivo.com>
-Subject: Re: [PATCH v3 1/5] usb: aspeed_udc: Use devm_clk_get_enabled()
- helpers
-Message-ID: <zi5lq44bc4vd33y42zkmn7hr7rw64wfxe2rvuvkekola6ctckc@buv7ybvq5skt>
-References: <20240826081900.2284-1-liulei.rjpt@vivo.com>
- <20240826082140.2311-1-liulei.rjpt@vivo.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XDbkH0kdcz2xsG
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Sep 2024 11:34:46 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uwPsNL07I1E82fRP2XXpDhFF6qMCWu/R6oeA8rmNrdvwc4loHR+H2nr/OkiI0991emovJpdWfgHFoxTIhI1lqTSnQA8vgXA7m8iEI8+q/NbD6n8xFn+vHdIGFw59TMQNrkNvc6Uaq+nnRJ2LvhRPSCWYZMJZ5hvi2/hWkJultc2EWLbBQH3dZDw0Z3MbkhJUK13dYH+nu7NvtNMYbyc8HvA6/nlMIJ2IPYPCr7vfXWXni3gfV+S2RiJPWe3J+cCdwmmNaRpF4zSLNhpN8yKtLVOCQ2Q3Aw8HGZlIzP0PROCKxfz2kx7SWjQLjZ+1NZhGwObHrhPNcgja8uNOzPHQyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p2TDy7iOdR/wUjJFHM2RR1HQM9QvSX9Swk7w0/MPqEA=;
+ b=xS+Q2ZWvcCVeIIHr5P+Vp7jBeBSBpHHrcc1NDKimUDegPJtoeUaylo03gA1t3KG0Q4FlvlJvsjWtXd1iRhpaz2nr74qCxyKkVYP3SejWtMRAA0Sf+novtbNiO7eMTf4f+uiqhQkuqLoyPRRvKsT8MKCw2vMFYALzOtwz4biJbt3gv9FabvvwL8xOZ8unPu86GJfgGbSrWnsgm9CJvt9Z3UqeHrQn91ZKFU9rikZOd0e6y4wjW+FchzCLIY+Ts16IZhixaDoOFV4D6VgxrtXj57sSPh18C65CtQW3wZy2Rd28DFckX34FoDCojtaKdm7Pj5dfXiatiA7/0Tsb+zqHSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p2TDy7iOdR/wUjJFHM2RR1HQM9QvSX9Swk7w0/MPqEA=;
+ b=j//TLb/aHiEgsH9NZB2sEU1hyhVhDnJUHBO3PznM9kmDvh+v0vGwhfdmOpUX2NNZoREBZUOszOCfv1ofK9gnFRJ1ccmTC6eA21Xo6x8cyrQkkm2fcu8Fv/FTFz+Hcj0hoeAJmSxTpjTJiOQh78PAcfYpvHGjEXF+2LCESq1wUawpiktrJzsXAUiDRrm1sgUvK/q9PpaeuQVKpRp2i357lYMEYEhtdZeshv5WIu+6Bq1t0/sO9FR34YNEKZT7FfU9e7dhGJi3UwUeM//Hn0wS3+1QVTgkmkhRReLQ1yeRLR+9hSOfVoDXmkG6ZBP2L0GqIxoiOGsP6doMGKybSOn6Uw==
+Received: from SGBP274CA0013.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::25) by
+ SEYPR04MB6555.apcprd04.prod.outlook.com (2603:1096:101:b9::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8005.20; Thu, 26 Sep 2024 01:34:16 +0000
+Received: from SG2PEPF000B66C9.apcprd03.prod.outlook.com
+ (2603:1096:4:b0:cafe::15) by SGBP274CA0013.outlook.office365.com
+ (2603:1096:4:b0::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.20 via Frontend
+ Transport; Thu, 26 Sep 2024 01:34:16 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ SG2PEPF000B66C9.mail.protection.outlook.com (10.167.240.20) with Microsoft
+ SMTP Server id 15.20.8005.15 via Frontend Transport; Thu, 26 Sep 2024
+ 01:34:14 +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: [PATCH v1] ARM: dts: aspeed: yosemite4: correct the compatible string of adm1272
+Date: Thu, 26 Sep 2024 09:34:10 +0800
+Message-Id: <20240926013411.3701546-1-Delphine_CC_Chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6dsn6gbwes7baogl"
-Content-Disposition: inline
-In-Reply-To: <20240826082140.2311-1-liulei.rjpt@vivo.com>
-X-Mailman-Approved-At: Thu, 26 Sep 2024 08:58:14 +1000
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66C9:EE_|SEYPR04MB6555:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 2322b598-5295-41fc-c3a6-08dcddcb54fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 	BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?TaqZl/pwXb21WWsmNY5xtxuvmp/CGumbrjLh1+j77Z1pJbjbYItFu+/cwY6K?=
+ =?us-ascii?Q?jU0pFtBBK1AZz/E0dOtRPgmc5XHjSW1L1pr4fie4PG/6aI60etq9q++VQ94m?=
+ =?us-ascii?Q?e9rrEO7jgaygDddsruYI2ZtblcVEv0CVsNSdUhO1RaS8VcUi3GcrECe3X5R8?=
+ =?us-ascii?Q?ryp4Ur1k1UmN9wfQSIuLR2RSGV3jouAk+goDKupkr/5kBmk7ymZPW+kaliwz?=
+ =?us-ascii?Q?35hExpqj/xUfT86KYq+S7CyvbjAGgLy1TJAPxpfsCW6NTvIYtrwWovCzQHAs?=
+ =?us-ascii?Q?hYp8iey91EuP+srui70Dv9zQdUI8QpNe/xDba1fDMZcp8RRqWgWGZecakhy1?=
+ =?us-ascii?Q?cgm7/ULnVgVJCBdGXV5rQqoZ1AIr9B8XQkrhCSuZqB8hDu2fld+Gf4myY8Ki?=
+ =?us-ascii?Q?n7lbMO52AmOn+GSe74jOlTwtzkzl/wlW96wOJqaHAQyZ8Kftb64rNeKycVf3?=
+ =?us-ascii?Q?sF7V+DzPs9VhDp2NmErkvl/25BdaLgmaeY1pivNMX1nPubtjz+UXumGw0eh/?=
+ =?us-ascii?Q?5ihrZU6qzIkhtrlBFI1VwMdX0yiztVxuj9Xd+5ZrbexCCyuHKAn6eQLdIWpz?=
+ =?us-ascii?Q?dCPB/jUrtPgeS8K+114qghUOhld7jQRyHso1PB0zq6j+ZA/F7fs8cu6SHgH3?=
+ =?us-ascii?Q?bN3R/AGIVZCIPltft1FwS7+B1ijv/qdlGjUiI+2mKeJtkYJK50X8jtsAFxjn?=
+ =?us-ascii?Q?sm85TVKK7rDR5jwI9zFAfZMzZXDfiHaOxn4yqtXFjFWbniXOD45jKo1mBDdz?=
+ =?us-ascii?Q?ng3Rgt5PXIqkvwejNCw7l2JVbM82bzObdI/nlU28vArxla1DwortAGqHt4T7?=
+ =?us-ascii?Q?XEsTwHDSvkdjVXgY0abpu9BlxhNXgDlnpcprvgrAU1XVi+OcOlI9Bmh1WCrA?=
+ =?us-ascii?Q?shAmcxpGaAyK0CBmFVhsM+DuDLRhsqlnuDwcbdwi0U79hSFItGvFSGoAnd14?=
+ =?us-ascii?Q?L89Qil1vGpjCY3a9M7C9lP4mEaVLYo/Izbp1UGU2i45hjdq29z8AdCMCNkxh?=
+ =?us-ascii?Q?z9+0ywsmZY6w3dOJz7SaihAcewM8S61B1WNWTQgLaCuBINoT2B7JZgDNhs6K?=
+ =?us-ascii?Q?g/eyqOBqRoC49Hfa1toPhnX0T2mZhySuksXtozzJEtxGiqlCChofpVfAeHSq?=
+ =?us-ascii?Q?XL7ljzgfGzA2VMqI7gZYHB9dVgEEUJJhQ1KpsEl5cnlRO9bHPz8cutneH0JG?=
+ =?us-ascii?Q?6EiMq63ov2YES43gpnOdWfYz0mSrIDVDxPnvGOcWZWfR5xCNgB06e2mNXifp?=
+ =?us-ascii?Q?8pR18n4d+P5VQ2I9QNASx1HnfzHcAb9Bcc28+kpTc5bvZhdplCB5u4gJMvG2?=
+ =?us-ascii?Q?7cctu9Os+G/6NPlARgfJtLomWzEcDUEi1sh7stzKXm2j+g9aAiT+ohmV9foN?=
+ =?us-ascii?Q?WE/8ObvA/oBl038ytIvQp+KvBoCJ/F3PzsYpBfqVHDPJ52El39FKZan3+ia1?=
+ =?us-ascii?Q?y5Iwro7cStO3PmSWPRx0Niu1CVO3f8iJ?=
+X-Forefront-Antispam-Report: 	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 01:34:14.5996
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2322b598-5295-41fc-c3a6-08dcddcb54fb
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource: 	SG2PEPF000B66C9.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR04MB6555
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,85 +130,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, linux-aspeed@lists.ozlabs.org, Neal Liu <neal_liu@aspeedtech.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
 
---6dsn6gbwes7baogl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Remove the redundant space in the compatible string of adm1272.
 
-Hello,
+Signed-off-by: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
+Signed-off-by: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+---
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Mon, Aug 26, 2024 at 04:21:39PM +0800, Lei Liu wrote:
-> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc=
-/aspeed_udc.c
-> index f4781e611aaa..a362e31f7550 100644
-> --- a/drivers/usb/gadget/udc/aspeed_udc.c
-> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
-> @@ -1459,8 +1459,6 @@ static void ast_udc_remove(struct platform_device *=
-pdev)
->  	ctrl =3D ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
->  	ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
-> =20
-> -	clk_disable_unprepare(udc->clk);
-> -
->  	spin_unlock_irqrestore(&udc->lock, flags);
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+index 98477792aa00..7ed76cd4fd2d 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+@@ -284,12 +284,12 @@ &i2c10 {
+ &i2c11 {
+ 	status = "okay";
+ 	power-sensor@10 {
+-		compatible = "adi, adm1272";
++		compatible = "adi,adm1272";
+ 		reg = <0x10>;
+ 	};
+ 
+ 	power-sensor@12 {
+-		compatible = "adi, adm1272";
++		compatible = "adi,adm1272";
+ 		reg = <0x12>;
+ 	};
+ 
+-- 
+2.25.1
 
-Isn't it broken to call clk_disable_unprepare() while holding a
-spinlock?
-
-I guess that means that the remove path is untested in practise and this
-patches fixes a sleep-in-atomic. IMHO this invalidates Ulf's concern in
-his reply to the cover letter for this patch at least.
- =20
->  	if (udc->ep0_buf)
-> @@ -1500,16 +1498,11 @@ static int ast_udc_probe(struct platform_device *=
-pdev)
-> =20
->  	platform_set_drvdata(pdev, udc);
-> =20
-> -	udc->clk =3D devm_clk_get(&pdev->dev, NULL);
-> +	udc->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
->  	if (IS_ERR(udc->clk)) {
->  		rc =3D PTR_ERR(udc->clk);
-
-An error message here would be nice. Something like
-
-	rc =3D dev_err_probe(&pdev->dev, PTR_ERR(udc->clk), "Failed to get clock\n=
-");
-
-should work.
-
->  		goto err;
->  	}
-> -	rc =3D clk_prepare_enable(udc->clk);
-> -	if (rc) {
-> -		dev_err(&pdev->dev, "Failed to enable clock (0x%x)\n", rc);
-> -		goto err;
-> -	}
-> =20
->  	/* Check if we need to limit the HW to USB1 */
->  	max_speed =3D usb_get_maximum_speed(&pdev->dev);
-
-Best regards
-Uwe
-
---6dsn6gbwes7baogl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb0JzEACgkQj4D7WH0S
-/k7BAggAkHqZteCrETJY7VyuZN1rZlaLtOcZtOwWhGS/VU77rZ3XggeRv3m4vC47
-hPTn3yyiJND47OJu6fIC9tSLUrY8K1HNI1kZ03J3SiDOrPevc0wzDlNITQCENVL4
-Nc4lAtMYR1ZfCzNJ7+MK0PXCHZGkREp7DF8RLnvp2EOqdSadL6ZOexvONaOp0z2w
-fI+4yzo1++k7+EBuSnnL7xVwk+T55OezIBpcy0cLeQRgcjOrbhPd7Evo8VtyGLAe
-ZkZW3RhxSAIMpu1Kux0lFaFV+0Zp+piZSwYUIet5L87cJhdOy5gKFnSDTQp1U+tk
-RwwyaG8WrFuECHX+T+NlpPRYc0btYw==
-=rUO+
------END PGP SIGNATURE-----
-
---6dsn6gbwes7baogl--
