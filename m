@@ -2,77 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083BC986D13
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 08:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9FB986D14
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 08:58:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XDkvM0wKXz303B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 16:58:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XDkvP3lwbz305b
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Sep 2024 16:58:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::334"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727333884;
-	cv=none; b=XgBBn0ath25eP06+8NuhJvDuDXNCV1FCWMKP9GcN2miLgfNr0zd9PYj443pDa0SMDjIjgHRGORgokxXsy59eY8DXB/NM3UP2Ee7tRNYCWzG466BmFLLoEqcj52fq3QFqm0j/oGb6BldTfJPVwtH/yu/i/dnBh4+xiGjGpJqvXa+VZxoXePjL/uyDCd94grEbvaOmygGlfroTszbs9ed37/K+H1xKBDvU6MKMuz84CkKn0xG5NtXASWENgojUZ3eSuRJDvlGwPznyjGhd8OfmqwTNU7FWVojRms6xrAOO+exHRknPzX9HRQxLnlugL4HUBjPmYchrsIBjeU7VeElVWw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::233"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727333887;
+	cv=none; b=SHfim74aw/HrovbG1rA3m2cUi6RDL4b5YFFMiKsQ/0hnBcuaPd2ccu7JZCQAMRGirXyj6UVKrTrZcCCLt4MHl3nCWIAIC7q1h55x2UW6RjxfFgsEtVXmxeLJaJn6FVVtJY3Py5PS7jOQDth38nxrNeXODaLP/mA0oVeYU1sgGepB967XSn843tVZ3mZBwZ0Z/RecI+TbbVQdjGNGSeeo5ryml/F+qvil5gEBld8kT56nXrrrIJ/UYd8s/kioZ+phBLVzmJZNPFLoSV1nGWXzLkT4O7aKaFrY0/JnGla4SKVHjJxA0gH6/hrMn5IpAEBav0Fe10bOE0wLVYzcZClVyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727333884; c=relaxed/relaxed;
-	bh=tOJeAQBgJ2clDphyw+PZwbFI1eIa6mgTGdFOxyjksqw=;
+	t=1727333887; c=relaxed/relaxed;
+	bh=7wqNgLmR1bM1/a/0TAZ5xKqQL+eMXK/MrnC0321nbcw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=L8jdFY7BjfXJoIIN/4AhL9mlBbL2cxgQREPrKNpoQFTaMjgz4WtJb2KQWNva+/tsbG3QTuRJ+PY/fzT+6Z81FdoS+zCBD3bLGHmfWB0sG/VgCa2+bqovLFkQUavulKnJk885Mc80BjebTOEQ+2K2Z4loE6l4NABi2mPXLK6+OV7WGZkuJEJtqtV+Xc3eegRAp8UAXXWreWnP7vzKfvxoEp0kkpTBFr+m3uVoDVoPfbJ64ezDhSqlwhhWmpX0zWLlCe5eUwfrP+yjUw42erW7LUydCXioo5DLc1VPvE6dU6rGO3vvEQ9cq3aj5e93Go89OXc01hmnLKl3+zIqW9enyg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XM6+PAvs; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::334; helo=mail-ot1-x334.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	 In-Reply-To:To:Cc; b=PhUOy2IAnfIjh55x1MgdEtk/NR45xxzdTtAkGRYUkbrbL0SIVrMePvltIzdUV0Do4vMIwoom6Qg6B0h++sBGpJxZm5dOq8xLfs73lN+Ik+txqQB0h9qHns1unG7qS1zvtBnuBg9zeD5hmTtGyCqdeOPmgh2tWaA4nMJ4QLpfIe0VtqAON2Sk2tShVXOKuJ2JV/73KQn+0TFby6dj0eKHKqU5L/TfuP1X4TqSivVC6zmmAhZTbYNte2usxnrfSlqN3RcRoGWYLXIRpPqrIgvAEy1Y3q2P/QpyLncaHZ0gTPk3eK+U3SmwVjJUwRE3F7Z/qtLksnNLnHeZA+c8yNllEw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XIriDs1J; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::233; helo=mail-oi1-x233.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XM6+PAvs;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XIriDs1J;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::334; helo=mail-ot1-x334.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::233; helo=mail-oi1-x233.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XDkvJ3YDjz2yFJ
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Sep 2024 16:58:04 +1000 (AEST)
-Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-709346604a7so329817a34.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2024 23:58:04 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XDkvL4XlKz2yft
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Sep 2024 16:58:06 +1000 (AEST)
+Received: by mail-oi1-x233.google.com with SMTP id 5614622812f47-3e03d17365bso445410b6e.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2024 23:58:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727333880; x=1727938680; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1727333883; x=1727938683; darn=lists.ozlabs.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tOJeAQBgJ2clDphyw+PZwbFI1eIa6mgTGdFOxyjksqw=;
-        b=XM6+PAvsShkvlxfv1UI/ulMcxwzTEK+Cb5P+OwRA94K/oOqAPN7GW0dGbQwONyO1f/
-         Qsv+segVmMQIUUqhPMcxyAjKPsyk50ExC6OX7XHTdbMtlZL9YlMcuxhX05hA5NZw2JmQ
-         7KoVlV/n+COF3SikTULeKI0/WhcO6jySw/7zxq95W7UIv++zk5ZRsavKp7idTTr3izut
-         jh9Xr1f38OCeqCNg6Rv9xFvbphtvwfnETl8ev3H9MbytM6mVD26t8kVEYlRQt0ztZt6z
-         aZD6Cp4e7JuW5w7jFEOcAQzoT0OD3/BaCyl0NPbo5G90ERCc9a1FWHQTQcSWZozjcalV
-         XGsA==
+        bh=7wqNgLmR1bM1/a/0TAZ5xKqQL+eMXK/MrnC0321nbcw=;
+        b=XIriDs1JQDb+amWmQKxcKV6pdOOcZZmHZfdZiub4Xy+yeHi9mvSTyy2BjDXU7IHraW
+         FkdDVJHcQMrGkAna7racLwTGGf0gAMr/dUr0clM1D5xcxd8iG84CqpafcAlwOxA1++H2
+         9G3Xz8ILQcXf65Y9fGtev6z1irnNZvpcp5jIes/psLDggc+mg2kLDA/Hn2C2oeo5aK7w
+         CV4K2hJCTmQzMdBZoXn1BR9Y7aXb7TJ/J/6+Bujd4hL/niMN6jMxug60EaJwt0+azAqL
+         ICJP6YH/+IPO+rpKwM7WsYgd16KlX6Q76WqZk1zp6XFL5f5EXPfBReUAU8hIySKrDjnl
+         61bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727333880; x=1727938680;
+        d=1e100.net; s=20230601; t=1727333883; x=1727938683;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tOJeAQBgJ2clDphyw+PZwbFI1eIa6mgTGdFOxyjksqw=;
-        b=qWo3t/P9DwtTox3MsYZej/xwtlRPMGYyJgK6gzQv3d1+w3VaeUEb8TKIaooLsje02q
-         xnIhdJhJMOaGhA+lFA1DKs/TJwLFIdo7H789d1Si7HtWDmcZzbRTJT1ozhIuCSb8UonF
-         a2sZqjNtbCjbeSPxEjsicYonNCXfa1zEBlK/PpLC0QYawLFA305Kj9vijfuz3wWhyee7
-         cTy2MBAUIgJNyH6I0S7O+Wlr37EEa7cDNRZCv0whUEAFDGow8QRUzbOAheHk45ZBA/CK
-         YACkE6tffSD3hEtuoQMiL6QTTmS9GiJlD1SivzArYeAOF9SVWfm1kPwbqgQ2ob6g6mrU
-         RJQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXNixgw0xYrVTAMdYY3JcSgUzq/8rm+4n1wBQFX69a6SC9jJx1kZcuq9oIAtmzBhXSS+dd9rkXSYQB4qaI=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxVY8uyhX+jYX8Uz1ahED5e3BVQewDAYNEdBLeNu52gCTtkFQpm
-	jOxPnsYZUUfP6EOhv4FIFInq/QZ0qe5rYByKENj4DT1ZTwLU4tBI9p6D/Q==
-X-Google-Smtp-Source: AGHT+IExWK+57Nv4bnkY6Z4Z3F5Ia4gqBkNVZyx9LkGlgz4UdeGz9WEEAh9zY+ip9cLnrr+1vzswXQ==
-X-Received: by 2002:a05:6359:5fa6:b0:1b8:32b5:4e90 with SMTP id e5c5f4694b2df-1bea86a70f4mr220637455d.27.1727333880448;
-        Wed, 25 Sep 2024 23:58:00 -0700 (PDT)
+        bh=7wqNgLmR1bM1/a/0TAZ5xKqQL+eMXK/MrnC0321nbcw=;
+        b=GRtgwLtyW5oUas75n/MXNIZdlbh4gLWIfheDfb7C30BGswK9fmvKw0KbE/xOPJskf9
+         bPQOYKYdY4SNmwGyQhD06yVl0F8IjVyxxQjAGy458EMoAnjztOZ/ZbtRPOg/zegfUrF9
+         JUvp6ZjRXA0S6XhZCx3jt9cU+zYLj8tlVxSl67WTzxBfxeyzeP/uZoOn7aGDrLA6Y4BJ
+         mNOhC4y+MskeJSVp4f27iaJK75jT7rfj+jMOYUzlhpg0tcQyYG/G29OdrsrmcK8k3OQb
+         DeCMRa5aNTzoakoEkqFwpr6LNmapNSQWD03mqmOV6oq0sJaMuK2uZsON6Gss3Ol7fO/0
+         n2jA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbRnsFQ43gst9CIW3PQbJO2exF/LXHuuTI/LKFq293qWVu9obfB3E392qMvUrCOx+4LH5WkwWodEqLfW0=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Ywjwl0XK1mVMrbK7mt49wC+dSV5YDV+tt7zc5Q0sZnuYkTP0xfs
+	EafrtrLUrwQGakfUjRqteJVmr94EasgAidi6NgUQ54tjJxBBc6UIbsJErA==
+X-Google-Smtp-Source: AGHT+IExtwRMKap/ki+jTEt1XhAoqr5vFbhXHJHkwUvFGy3JawIk4nM3xDeUv7NErMswLHooOsOyJQ==
+X-Received: by 2002:a05:6808:3a07:b0:3e2:9e2b:fef9 with SMTP id 5614622812f47-3e29e2c3ebamr3133374b6e.36.1727333882943;
+        Wed, 25 Sep 2024 23:58:02 -0700 (PDT)
 Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7e6b7c51112sm3656709a12.42.2024.09.25.23.57.58
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7e6b7c51112sm3656709a12.42.2024.09.25.23.58.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 23:58:00 -0700 (PDT)
+        Wed, 25 Sep 2024 23:58:02 -0700 (PDT)
 From: Potin Lai <potin.lai.pt@gmail.com>
-Date: Thu, 26 Sep 2024 14:55:31 +0800
-Subject: [PATCH 1/2] ARM: dts: aspeed: catalina: move hdd board i2c mux bus
- to i2c5
+Date: Thu, 26 Sep 2024 14:55:32 +0800
+Subject: [PATCH 2/2] ARM: dts: aspeed: catalina: enable mac2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240926-catalina-evt-dvt-system-modify-v1-1-84a27b47040b@gmail.com>
+Message-Id: <20240926-catalina-evt-dvt-system-modify-v1-2-84a27b47040b@gmail.com>
 References: <20240926-catalina-evt-dvt-system-modify-v1-0-84a27b47040b@gmail.com>
 In-Reply-To: <20240926-catalina-evt-dvt-system-modify-v1-0-84a27b47040b@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -80,11 +79,11 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Andrew Jeffery <andrew@codeconstruct.com.au>, 
  Patrick Williams <patrick@stwcx.xyz>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1727333875; l=4559;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727333875; l=915;
  i=potin.lai.pt@gmail.com; s=20240724; h=from:subject:message-id;
- bh=bVHCPsMjz6la14pOQHSDdWP8VOORoHkUheYAAgbPX2g=;
- b=FbMAYYDOp4IUOZBWRvqxzcluqfEkK3cvoWaLbUyyAfYkdWaLSpyoH9naFSdYvHzf267hQ/ODN
- x7ArvoNb9IjA4UYMRfxxklZG8nU5hR9CtEpfEF29lKp+7dzbysU8416
+ bh=qaMH6FaJbXf8/AYkvzmXmlQFjLNDwqytNJsNdQ+mCJU=;
+ b=kjsqTRVWOKnSyltW1Rdtux/0g6qedqZ2QR9TRaEN8qReI9izCabFeXpEG2aisGkdnbmAlXZKJ
+ qDtXN5TTrZQCLNDgJuliAyApV4dtVpJOofdCN1wrbaIXuph23xYpf2B
 X-Developer-Key: i=potin.lai.pt@gmail.com; a=ed25519;
  pk=6Z4H4V4fJwLteH/WzIXSsx6TkuY5FOcBBP+4OflJ5gM=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -102,205 +101,39 @@ Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Potin Lai <potin.
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Potin Lai <potin.lai@quantatw.com>
+Enable mac2 in advance for DVT HW schematic.
 
-Due to EVT hardware changes, move HDD board i2c mux bus from i2c30 to i2c5.
+- EVT system:
+  - eth0 (mac2): no NCSI
+  - eth1 (mac3): with NCSI
 
-Signed-off-by: Potin Lai <potin.lai@quantatw.com>
+- DVT system:
+  - eth0 (mac2): with NCSI
+  - eth1 (mac3): with NCSI
+
+Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
 ---
- .../dts/aspeed/aspeed-bmc-facebook-catalina.dts    | 165 +++++++++++----------
- 1 file changed, 83 insertions(+), 82 deletions(-)
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts
-index fa0921a4afe2..eac6e33e98f4 100644
+index eac6e33e98f4..9502d483e738 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts
-@@ -50,14 +50,14 @@ aliases {
- 		i2c45 = &i2c0mux5ch1;
- 		i2c46 = &i2c0mux5ch2;
- 		i2c47 = &i2c0mux5ch3;
--		i2c48 = &i2c30mux0ch0;
--		i2c49 = &i2c30mux0ch1;
--		i2c50 = &i2c30mux0ch2;
--		i2c51 = &i2c30mux0ch3;
--		i2c52 = &i2c30mux0ch4;
--		i2c53 = &i2c30mux0ch5;
--		i2c54 = &i2c30mux0ch6;
--		i2c55 = &i2c30mux0ch7;
-+		i2c48 = &i2c5mux0ch0;
-+		i2c49 = &i2c5mux0ch1;
-+		i2c50 = &i2c5mux0ch2;
-+		i2c51 = &i2c5mux0ch3;
-+		i2c52 = &i2c5mux0ch4;
-+		i2c53 = &i2c5mux0ch5;
-+		i2c54 = &i2c5mux0ch6;
-+		i2c55 = &i2c5mux0ch7;
- 	};
- 
- 	chosen {
-@@ -244,80 +244,6 @@ i2c0mux1ch2: i2c@2 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			reg = <2>;
--			i2c-mux@70 {
--				compatible = "nxp,pca9548";
--				reg = <0x70>;
--				#address-cells = <1>;
--				#size-cells = <0>;
--				i2c-mux-idle-disconnect;
--
--				i2c30mux0ch0: i2c@0 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <0>;
--				};
--				i2c30mux0ch1: i2c@1 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <1>;
--				};
--				i2c30mux0ch2: i2c@2 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <2>;
--				};
--				i2c30mux0ch3: i2c@3 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <3>;
--				};
--				i2c30mux0ch4: i2c@4 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <4>;
--				};
--				i2c30mux0ch5: i2c@5 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <5>;
--				};
--				i2c30mux0ch6: i2c@6 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <6>;
--					// HDD FRU EEPROM
--					eeprom@52 {
--						compatible = "atmel,24c64";
--						reg = <0x52>;
--					};
--				};
--				i2c30mux0ch7: i2c@7 {
--					#address-cells = <1>;
--					#size-cells = <0>;
--					reg = <7>;
--
--					power-sensor@40 {
--						compatible = "ti,ina230";
--						reg = <0x40>;
--						shunt-resistor = <2000>;
--					};
--					power-sensor@41 {
--						compatible = "ti,ina230";
--						reg = <0x41>;
--						shunt-resistor = <2000>;
--					};
--					power-sensor@44 {
--						compatible = "ti,ina230";
--						reg = <0x44>;
--						shunt-resistor = <2000>;
--					};
--					power-sensor@45 {
--						compatible = "ti,ina230";
--						reg = <0x45>;
--						shunt-resistor = <2000>;
--					};
--				};
--			};
- 		};
- 		i2c0mux1ch3: i2c@3 {
- 			#address-cells = <1>;
-@@ -647,6 +573,81 @@ &i2c4 {
- 
- &i2c5 {
+@@ -153,6 +153,13 @@ &uart5 {
  	status = "okay";
-+
-+	i2c-mux@70 {
-+		compatible = "nxp,pca9548";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c-mux-idle-disconnect;
-+
-+		i2c5mux0ch0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+		};
-+		i2c5mux0ch1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+		};
-+		i2c5mux0ch2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+		};
-+		i2c5mux0ch3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+		};
-+		i2c5mux0ch4: i2c@4 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <4>;
-+		};
-+		i2c5mux0ch5: i2c@5 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <5>;
-+		};
-+		i2c5mux0ch6: i2c@6 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <6>;
-+			// HDD FRU EEPROM
-+			eeprom@52 {
-+				compatible = "atmel,24c64";
-+				reg = <0x52>;
-+			};
-+		};
-+		i2c5mux0ch7: i2c@7 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <7>;
-+
-+			power-sensor@40 {
-+				compatible = "ti,ina230";
-+				reg = <0x40>;
-+				shunt-resistor = <2000>;
-+			};
-+			power-sensor@41 {
-+				compatible = "ti,ina230";
-+				reg = <0x41>;
-+				shunt-resistor = <2000>;
-+			};
-+			power-sensor@44 {
-+				compatible = "ti,ina230";
-+				reg = <0x44>;
-+				shunt-resistor = <2000>;
-+			};
-+			power-sensor@45 {
-+				compatible = "ti,ina230";
-+				reg = <0x45>;
-+				shunt-resistor = <2000>;
-+			};
-+		};
-+	};
  };
  
- &i2c6 {
++&mac2 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_ncsi3_default>;
++	use-ncsi;
++};
++
+ &mac3 {
+ 	status = "okay";
+ 	pinctrl-names = "default";
 
 -- 
 2.31.1
