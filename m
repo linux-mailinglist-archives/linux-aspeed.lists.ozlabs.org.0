@@ -2,73 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3EB98B053
+	by mail.lfdr.de (Postfix) with ESMTPS id DC47398B054
 	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 00:45:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XHbkl2FClz3gBV
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XHbkl4N2hz3gCF
 	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 08:45:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::f36"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727697916;
-	cv=none; b=baDx+DaDYu3jb3EHtbJNi+DZag259JD/n1Dv6yXAdQnJwOaVwuLJ/NVHOK2WikuBwBs37Yy6N+MARsQcuM/ARK+n/sEIFr77c2zgQQZBqmBvbsccSq5cVwHRFEcIPpxMcYv45fyHaITpW/LxY1oT4D2iOXGVdkYu4xt3EeRKHAg7EM2F3wxiTzXz/Fnd0s/L6gDqHD/x5wXsDQzNyHUIl9Wd4c7OMK51E6ObjSYKgY+UGj8X6ig1GS5bgwrrwnOYGcs/dnmqPxEpCx22wCDmVP/Y1sGsd84gPt3Ujg9irpny8+T8xepz0jPTgrREwZZB4rLlEmHOZdVuy2hLw1Ju9Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::f34"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727697918;
+	cv=none; b=MTlXaq5qAk0JizJdYj8GVLIq2PV788qbeDZXexBh6Lvc8kpru6dEQOODfE399XRdjO8ZCfh7GIaKOmxkZIm0KTCRqnuJH5/2yIWT3ExjY+kLRrJrpjTLAxd2/UoYvJO8E/xahV5LYLAGaAMchF/q7Ofqputt2rrPqe20sMSxbUXifpoRUPhGGFZe3qREO1IeL3jomWxNW+jZElNAWOKgeLslgskCAuWeulU1Zynflp7nxJZlJW8XoZKPwTCguDhZ6quILb58aJsx6VSM+IOClTZXYSlhhxEAcxXUrRP0YFyxyqUsF9tlAGSf7/QuVJe2ENg2QavtwkQB5dVlctCqWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727697916; c=relaxed/relaxed;
-	bh=27WoLnk5gPTNJ0m2rtIWHwrzMjQJ4zxEXFjS8vXg2Uk=;
+	t=1727697918; c=relaxed/relaxed;
+	bh=Y1nqJxv+kHTFXHSCWxO1NaLDK6vY0ti6KAFzNxfjGjU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TTJHdXp4rtvuOXw0AF3ISO3Thv4SEbl7G9XaDOCncmSTbUGqT4FFgIPreBpQr7bcIkJLl3Aarq0BBThVr075VB+ersN92M5S5QOdmaMPrwbmZfCBYg6Vit86fB79OLIddu53UQw3aw0rD9rpjCHiol9KxQ78UL0mFFC4y+TERxr+tcdHsRGPceShgi4OaFviTAodWUOpmCkfFPceMPbq5k/0WFuoYW7v/gUPx86JZah/OQhqGyL+4o21BFylNKIpv5VWgzi0VK482m9iHHzI5Myqe/UsvKCT5NOWUSTyb2PixLaOjHf4xCuxpJmnTl21Q1/opCsJIpUw6JcGu/XauQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=CSV3ngKO; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::f36; helo=mail-qv1-xf36.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
+	 In-Reply-To:To:Cc; b=HZELh7rq5zYoh1nOLAIxKmyyoRo5VmNNwlD+L6R5EYryofN2Jr8MmJQiYALobdZ2Z7jqMkZbuzy6hIejrgjWhWIkzf6pqBRVxyhU+eoPODFNmZ0/PQPh7Dhet9H5dJIU0NRBtJceqHrHrfKDU9+rCdTqFGP2AVxTZK4Ib4/w0rsGNFgfjkhL6K2aE1Vta+4KKGhg7R49vLCQXPGn5isAYPUI2Z5oRf8gvfXKJzaP48fdlYDepo4npago4WMpl7pm2rqlTd+gQJQw/O0u5sypbCbYlKqjPMIHIRUTHlTcT4+oSwMjJ+qruJrVDJ0H911ngRM9js6jyvdv1sje1DQYEw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=hl6dGu0Q; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::f34; helo=mail-qv1-xf34.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=CSV3ngKO;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=hl6dGu0Q;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::f36; helo=mail-qv1-xf36.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org)
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::f34; helo=mail-qv1-xf34.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org)
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHKWw0XPdz2yl1
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 22:05:16 +1000 (AEST)
-Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-6cb27e974ceso26205886d6.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 05:05:15 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHKWx5XNVz2ymr
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 22:05:17 +1000 (AEST)
+Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-6cb2dffcdbbso37874876d6.1
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 05:05:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697914; x=1728302714; darn=lists.ozlabs.org;
+        d=chromium.org; s=google; t=1727697916; x=1728302716; darn=lists.ozlabs.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=27WoLnk5gPTNJ0m2rtIWHwrzMjQJ4zxEXFjS8vXg2Uk=;
-        b=CSV3ngKO5UNjAYmdciY3JZ3QLaINiMY3BTL0j16fiUeA5btszigZnVd0U21S9pulLL
-         uNo6mLVdxlKpU9MmKrNB9EQikNTxBbOaHRwlj+Rf8LE0JUZZ3kVgNZGuoskpr3y9h19R
-         DzRvpgGE7vXpbp3uLCz4LZxOBeBNifiCZkpgY=
+        bh=Y1nqJxv+kHTFXHSCWxO1NaLDK6vY0ti6KAFzNxfjGjU=;
+        b=hl6dGu0QGTbP7c7mbVZV6z5vPz//C9q3iZVkTatuYA1cARC/0ndtoS16LU4OtCrI5T
+         Yka1J8jZSrC84FCGorUKCN45H6ZtB1pMLNDn7WIp7cRsKmxdRNu8vgiE4jPJyC1w7nSU
+         DWTQuuX07nY4aH0b39D52rEfEc24X6PIH52EY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697914; x=1728302714;
+        d=1e100.net; s=20230601; t=1727697916; x=1728302716;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=27WoLnk5gPTNJ0m2rtIWHwrzMjQJ4zxEXFjS8vXg2Uk=;
-        b=QTIJ6g8hOeL5kAEpSd2Mzlvn8hBIq1SuJdZGLqVXjCPpWqjSTk/TuapUU27qiCiejh
-         yzFK0XdPGUi8iJOJcpWqzuAj5T9vBBL0aoui8NSd6mv1Vjp/Jn3DtdAtJIEMZn+N9PEs
-         5A8Ed/IiQN20G6Q+kGPcBKdqkNaBWFrL6tDST0SxdlCb5/oDuge/bnp/oqQq4Sur2y0J
-         p+6K3sfJs1cw4K0DR+kfcYoFcte9WDsJrwr2fc8oYBO5UCICg9ggsaM9mq+HYxgv97hi
-         Nz8L6pRP0f3tblQiQNh2hfQaAAq/efWv/F7o5SmDsCmTdoSutnRvx15mJ4b5Pxzal6JS
-         HYSA==
-X-Forwarded-Encrypted: i=1; AJvYcCUTqg3o3/nhSdFadNzbbR6aA7DsdRVWSVZZ7bASJ508/RY/K6wp06aOWghqAnIeMHFc7SUngTtW0eEJCGw=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyyI5Sk7d9Wszo5myafg4U7ImY6FlIjjxog0mn8MYmJhAWf73Zx
-	2BXmsi/jiQwApjsGiBi++txW/J0uGcHEQBtlmWpANqfT4KuPQwKacJes7zEUIw==
-X-Google-Smtp-Source: AGHT+IEmtR/kCt9kuVkbj7/r3Fqa0DixhR1uM5cl6xJKRSOoPA3YSLhx2F2SjU4khmzc/KfhSVtoIQ==
-X-Received: by 2002:a05:6214:4a87:b0:6cb:6059:92a with SMTP id 6a1803df08f44-6cb60590d50mr62400906d6.10.1727697913781;
-        Mon, 30 Sep 2024 05:05:13 -0700 (PDT)
+        bh=Y1nqJxv+kHTFXHSCWxO1NaLDK6vY0ti6KAFzNxfjGjU=;
+        b=PzbDFSr6HuWyo2ZhUqBv0Ts/FmkHiE5spscxRuDXrzB9w3fO9HyGAH/cr3/2ZEP9Hd
+         IECz4KVG1hzszbCBTR88u1dQsKgl3Prta29jrXo/UlyaMV/RzOjdNu/ySawAmXrPBv1t
+         leD3eg6isrP44UR+1NTEsTuV9B8Sm2qanRflBbpNJikIwnyi+8Of49IvZMNSZXcHuQm5
+         rGVVLKEDJ7pvHOgfJ7EpvoBdATi49Bc9MedcRIsjHxRox+QRWT8xjS9Id6HuYZVAQGmO
+         RitteFHFI3Y/Y67IBtV3he4KqEo2S+yq749k3K/ie+ETAt7HANM+OoAgFRS25UsNF1Ww
+         dW6A==
+X-Forwarded-Encrypted: i=1; AJvYcCWcbNQLWjTyheu0sege1FRtiz+eJFK/YRLLjOmgLWO4rRerV5yELAXOIJj0a3qBswzj9xgnunCKtuG2lVg=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzMCf3CViTbd+WRdhcGW8qxuAn81bi07NvdvWD1V10NTrztHShE
+	kTeszqTTgLGvRRagwXJ3CqNM1hs1UoElkLOdXW0PJHN3M/URN4FWhnu5x5BJrw==
+X-Google-Smtp-Source: AGHT+IFHqIZOoSZ0SNoSJp6T9EpjigAIsbvAUF0oGwPlw/LLEGHSlB7PElYqfizjzUxKI+v34TuK6Q==
+X-Received: by 2002:a05:6214:3c9a:b0:6c3:55f3:ed92 with SMTP id 6a1803df08f44-6cb3b5e7233mr204180416d6.2.1727697915550;
+        Mon, 30 Sep 2024 05:05:15 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.12
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.05.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:05:12 -0700 (PDT)
+        Mon, 30 Sep 2024 05:05:15 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:30 +0000
-Subject: [PATCH 35/45] media: i2c: tc358743: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:31 +0000
+Subject: [PATCH 36/45] media: i2c: st-mipid02: Use string_choices helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-35-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-36-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -122,130 +122,27 @@ Cc: imx@lists.linux.dev, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The following cocci warnings are fixed:
-drivers/media/i2c/tc358743.c:370:46-52: opportunity for str_enable_disable(enable)
-drivers/media/i2c/tc358743.c:1325:32-63: opportunity for str_on_off(hdmi_sys_status & MASK_S_AVMUTE)
-drivers/media/i2c/tc358743.c:1264:35-54: opportunity for str_on_off(sysctl & MASK_SLEEP)
-drivers/media/i2c/tc358743.c:1187:14-19: opportunity for str_yes_no(tx_5v)
-drivers/media/i2c/tc358743.c:1266:3-33: opportunity for str_yes_no(hdmi_sys_status & MASK_S_DDC5V)
-drivers/media/i2c/tc358743.c:1319:3-32: opportunity for str_yes_no(hdmi_sys_status & MASK_S_HDCP)
-drivers/media/i2c/tc358743.c:1281:3-35: opportunity for str_yes_no(hdmi_sys_status & MASK_S_PHY_PLL)
-drivers/media/i2c/tc358743.c:1283:3-36: opportunity for str_yes_no(hdmi_sys_status & MASK_S_PHY_SCDT)
-drivers/media/i2c/tc358743.c:1279:3-32: opportunity for str_yes_no(hdmi_sys_status & MASK_S_SYNC)
-drivers/media/i2c/tc358743.c:1277:3-32: opportunity for str_yes_no(hdmi_sys_status & MASK_S_TMDS)
-drivers/media/i2c/tc358743.c:1274:3-37: opportunity for str_yes_no(( i2c_rd16 ( sd , CECEN ) & MASK_CECEN ))
-drivers/media/i2c/tc358743.c:1309:3-42: opportunity for str_yes_no(( i2c_rd16 ( sd , CSI_STATUS ) & MASK_S_HLT ))
-drivers/media/i2c/tc358743.c:1306:3-44: opportunity for str_yes_no(( i2c_rd16 ( sd , CSI_STATUS ) & MASK_S_RXACT ))
-drivers/media/i2c/tc358743.c:1303:3-44: opportunity for str_yes_no(( i2c_rd16 ( sd , CSI_STATUS ) & MASK_S_TXACT ))
-drivers/media/i2c/tc358743.c:1300:3-44: opportunity for str_yes_no(( i2c_rd16 ( sd , CSI_STATUS ) & MASK_S_WSYNC ))
-drivers/media/i2c/tc358743.c:1268:3-50: opportunity for str_yes_no(( i2c_rd8 ( sd , EDID_MODE ) & MASK_EDID_MODE_E_DDC ))
-drivers/media/i2c/tc358743.c:1271:3-41: opportunity for str_yes_no(( i2c_rd8 ( sd , HPD_CTL ) & MASK_HPD_OUT0 ))
+The following cocci warning is fixed:
+drivers/media/i2c/st-mipid02.c:552:3-9: opportunity for str_enable_disable(enable)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/tc358743.c | 44 +++++++++++++++++++-------------------------
- 1 file changed, 19 insertions(+), 25 deletions(-)
+ drivers/media/i2c/st-mipid02.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index 65d58ddf0287..f2e1e55ae190 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -367,8 +367,8 @@ static void tc358743_delayed_work_enable_hotplug(struct work_struct *work)
+diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+index b947a55281f0..70a691504eed 100644
+--- a/drivers/media/i2c/st-mipid02.c
++++ b/drivers/media/i2c/st-mipid02.c
+@@ -549,7 +549,7 @@ static int mipid02_s_stream(struct v4l2_subdev *sd, int enable)
+ 		       mipid02_stream_disable(bridge);
+ 	if (ret)
+ 		dev_err(&client->dev, "failed to stream %s (%d)\n",
+-			enable ? "enable" : "disable", ret);
++			str_enable_disable(enable), ret);
  
- static void tc358743_set_hdmi_hdcp(struct v4l2_subdev *sd, bool enable)
- {
--	v4l2_dbg(2, debug, sd, "%s: %s\n", __func__, enable ?
--				"enable" : "disable");
-+	v4l2_dbg(2, debug, sd, "%s: %s\n", __func__,
-+		 str_enable_disable(enable));
- 
- 	if (enable) {
- 		i2c_wr8_and_or(sd, HDCP_REG3, ~KEY_RD_CMD, KEY_RD_CMD);
-@@ -1184,7 +1184,7 @@ static void tc358743_hdmi_sys_int_handler(struct v4l2_subdev *sd, bool *handled)
- 		bool tx_5v = tx_5v_power_present(sd);
- 
- 		v4l2_dbg(1, debug, sd, "%s: Tx 5V power present: %s\n",
--				__func__, tx_5v ?  "yes" : "no");
-+				__func__, str_yes_no(tx_5v));
- 
- 		if (tx_5v) {
- 			tc358743_enable_edid(sd);
-@@ -1261,26 +1261,24 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
- 			!!(sysctl & MASK_CECRST),
- 			!!(sysctl & MASK_CTXRST),
- 			!!(sysctl & MASK_HDMIRST));
--	v4l2_info(sd, "Sleep mode: %s\n", sysctl & MASK_SLEEP ? "on" : "off");
-+	v4l2_info(sd, "Sleep mode: %s\n", str_on_off(sysctl & MASK_SLEEP));
- 	v4l2_info(sd, "Cable detected (+5V power): %s\n",
--			hdmi_sys_status & MASK_S_DDC5V ? "yes" : "no");
-+			str_yes_no(hdmi_sys_status & MASK_S_DDC5V));
- 	v4l2_info(sd, "DDC lines enabled: %s\n",
--			(i2c_rd8(sd, EDID_MODE) & MASK_EDID_MODE_E_DDC) ?
--			"yes" : "no");
-+			str_yes_no(i2c_rd8(sd, EDID_MODE) & MASK_EDID_MODE_E_DDC));
- 	v4l2_info(sd, "Hotplug enabled: %s\n",
--			(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0) ?
--			"yes" : "no");
-+			str_yes_no(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0));
- 	v4l2_info(sd, "CEC enabled: %s\n",
--			(i2c_rd16(sd, CECEN) & MASK_CECEN) ?  "yes" : "no");
-+			str_yes_no(i2c_rd16(sd, CECEN) & MASK_CECEN));
- 	v4l2_info(sd, "-----Signal status-----\n");
- 	v4l2_info(sd, "TMDS signal detected: %s\n",
--			hdmi_sys_status & MASK_S_TMDS ? "yes" : "no");
-+			str_yes_no(hdmi_sys_status & MASK_S_TMDS));
- 	v4l2_info(sd, "Stable sync signal: %s\n",
--			hdmi_sys_status & MASK_S_SYNC ? "yes" : "no");
-+			str_yes_no(hdmi_sys_status & MASK_S_SYNC));
- 	v4l2_info(sd, "PHY PLL locked: %s\n",
--			hdmi_sys_status & MASK_S_PHY_PLL ? "yes" : "no");
-+			str_yes_no(hdmi_sys_status & MASK_S_PHY_PLL));
- 	v4l2_info(sd, "PHY DE detected: %s\n",
--			hdmi_sys_status & MASK_S_PHY_SCDT ? "yes" : "no");
-+			str_yes_no(hdmi_sys_status & MASK_S_PHY_SCDT));
- 
- 	if (tc358743_get_detected_timings(sd, &timings)) {
- 		v4l2_info(sd, "No video detected\n");
-@@ -1297,17 +1295,13 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "Lanes in use: %d\n",
- 			state->csi_lanes_in_use);
- 	v4l2_info(sd, "Waiting for particular sync signal: %s\n",
--			(i2c_rd16(sd, CSI_STATUS) & MASK_S_WSYNC) ?
--			"yes" : "no");
-+			str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_WSYNC));
- 	v4l2_info(sd, "Transmit mode: %s\n",
--			(i2c_rd16(sd, CSI_STATUS) & MASK_S_TXACT) ?
--			"yes" : "no");
-+			str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_TXACT));
- 	v4l2_info(sd, "Receive mode: %s\n",
--			(i2c_rd16(sd, CSI_STATUS) & MASK_S_RXACT) ?
--			"yes" : "no");
-+			str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_RXACT));
- 	v4l2_info(sd, "Stopped: %s\n",
--			(i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT) ?
--			"yes" : "no");
-+			str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT));
- 	v4l2_info(sd, "Color space: %s\n",
- 			state->mbus_fmt_code == MEDIA_BUS_FMT_UYVY8_1X16 ?
- 			"YCbCr 422 16-bit" :
-@@ -1316,14 +1310,14 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
- 
- 	v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : "DVI-D");
- 	v4l2_info(sd, "HDCP encrypted content: %s\n",
--			hdmi_sys_status & MASK_S_HDCP ? "yes" : "no");
-+			str_yes_no(hdmi_sys_status & MASK_S_HDCP));
- 	v4l2_info(sd, "Input color space: %s %s range\n",
- 			input_color_space[(vi_status3 & MASK_S_V_COLOR) >> 1],
- 			(vi_status3 & MASK_LIMITED) ? "limited" : "full");
- 	if (!is_hdmi(sd))
- 		return 0;
--	v4l2_info(sd, "AV Mute: %s\n", hdmi_sys_status & MASK_S_AVMUTE ? "on" :
--			"off");
-+	v4l2_info(sd, "AV Mute: %s\n",
-+		  str_on_off(hdmi_sys_status & MASK_S_AVMUTE));
- 	v4l2_info(sd, "Deep color mode: %d-bits per channel\n",
- 			deep_color_mode[(i2c_rd8(sd, VI_STATUS1) &
- 				MASK_S_DEEPCOLOR) >> 2]);
+ 	return ret;
+ }
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
