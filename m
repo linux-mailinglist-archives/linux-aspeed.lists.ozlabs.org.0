@@ -2,64 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4916C9899CD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 06:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B459899E3
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 06:48:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XH7hk1RVzz2yQL
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 14:42:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XH7r72lYGz2yNs
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 14:48:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727671332;
-	cv=none; b=KumwSanCwYZM+4+hI+fdsc8D51VTI6E4sIxhYXCijTLf2nS08F0ryxsxCJeQ9OfcssqWxWWs68BUMbOIZjQa7atnG3Gqaq0A9lQ9G6TPoosLdE0WxIscmeQ6Jwtwp80bddwwEzaOmC3H3LADsb11pwNed9hzRPROsYTAFiEPmMiGqAyIJ8PmqiQdL3ElGBAxsWw8s0wrkI66riTN9/55TQT2N222KODH2C8+w6JDW9vR4xrfFW2NhKfilsIsKB3WMenRLeAgna5n42Uh8jtd44i5gMQ/vZtenWuA7thqBiMGPc8qCy/W1DfKdqMLyNFplj4ckLpVzdJ68IzkRuz30w==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727671717;
+	cv=none; b=QdGMthHLr/ssm5VYgLn2RuReSE5Tmb7mXRw9CecU/z+8pvz4G2s2ASQXNcFEJ6PFYHHXNsWbT9b6e/EUrs7V4OZrzeZWfvwFRBhW8Z2HG78bjTzixFsznZjrgNaMop6mFCAvjBychGpJciB4Rw9cElX5SX4NBmly8yNU2+bm8FjZ06mkKTA0n5Zzz17d8FNCfaMIdv2kcskZSBWrIrhDac3Rqgqbg0ZxMltbjcJMK42EZVBoOnpTUMNQ2IhX++eUOweyQLm57XvkPEpcLeu/PDwclRAFG5qszUOT13VFMFDSk39pFQm4MmoFj0D7pI46SOKpHCu+pZneEPsczGrqvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727671332; c=relaxed/relaxed;
-	bh=joHW7jrOhmrAROOCAZBufariLP1pqxOlWm9X0knNZss=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bjglKcVj55pE8vNo7yMZklrInkfGkidmqH0pIvhMoocm+uzhMaZ2Yg++j9lQj24V9zwaY0OkS4AxD/QPHwmmr6zSbWr8P1N4K3eIu8tKc//PY329Hb1RxUI7BCxs56pVcherAyFgdjLbkaa+zxTMmEoLK4FlwUKYIRMQ3fWurlLcGPm7On6PCauUVsxe5XY1bfQG3GeQ83LfhrwLhGxizbq58tVFfc3Y5oPI5LEghCIsKASi3ViqD5LiUxEJVaHI0Sp9nBlW8adWE9jVPqmvwwLbRYDUpyu98WpqQNpOBmkFcHtYygnjMHgN5ZrL0sxfVbx/iK9z2sLKKthPz4ELQA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=j6/8F3el; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	t=1727671717; c=relaxed/relaxed;
+	bh=1hzglF2sqA+Bf7TzXRh37r8UD0uQOdiDbSySAkxl8o0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NGfvJbBt3hasBGw/0J/6tHlKlseLuirsEkVoWUh7gAWOCZsIJHTdburKnFg01dvYl8heExhIkA2t2ZHTAjygzRXcLsn8dyjmRoIZ7H77XBUMqyT9P/tg6x1kju4y9Pdf9lTECAvWH1kGcSZp61egd7f4fsL5inPZ5koMqIwBjLrMEUoVLDAzC/N3uxlqEc+kZfiE5jnCNmsyJG+Pw3jHbybAgKbNKFIdpjXr/Z45+9su9yRqY34sKgD+LqkwrX7dosiwcLdMYuNw/FhIU/Z3+IkhcccW22xGE9FCkqAQcuGSPSohF3KQZlWh9w66MUy5eWyJQF4/s3BI/XDnXTh/rg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=CF7CARC8; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=j6/8F3el;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=CF7CARC8;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XH7hg6mqJz2yK7
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 14:42:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XH7r50p1Yz2xHG
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 14:48:37 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1727671331;
-	bh=joHW7jrOhmrAROOCAZBufariLP1pqxOlWm9X0knNZss=;
-	h=Subject:From:To:Date:In-Reply-To:References;
-	b=j6/8F3elrorW0Rsh6GSADnXcfAcn/PrJnerLVa7YgrLFMw3AHRkh15Ut87bjSSOqG
-	 C/CpDp7c1+jTIpuGtR2V4TD2WIdefE9XYbRd8tg+2CxIzCngaVVhRajntB3mTOFjfg
-	 gZhQ/jErMDOvbgUo8HhdE7qDn+FanapxT/BAy4dmUGfq8xXIldj08IK2CvKt/UP6e8
-	 pcL/XzUsm8UHuf870ow9BGkg2nX3pOpBXuNScNGNT0rgnCJhSLAIPdTFS6AvH3FZxP
-	 +yFxaZCXqoT4d9qHfp8cNMD+r3j9VM2gztOxyv4A4bw3EPlINi3py87ASdyvzMUuaY
-	 5gT7EikL7LaHA==
-Received: from [192.168.68.112] (ppp118-210-73-17.adl-adc-lon-bras32.tpg.internode.on.net [118.210.73.17])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 5E0456511E;
-	Mon, 30 Sep 2024 12:42:10 +0800 (AWST)
-Message-ID: <3a484923ec6fce4a3562b4bedaf846b2ae2ffee7.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v6 7/7] gpio: aspeed: Use devm_clk api to manage clock
- source
+	d=codeconstruct.com.au; s=2022a; t=1727671716;
+	bh=1hzglF2sqA+Bf7TzXRh37r8UD0uQOdiDbSySAkxl8o0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=CF7CARC8xxgxLWEntkZJqNgC96GzIHWenfdOqy4HdExI40YCAOO+AcBKXtsCtY0sX
+	 XoAcDEojl8Llca/MD9XtoQD8fKAmKg6cVwsUQZU7uk7pJEbrq+GPqB1eqJVWKAQo91
+	 6XMXdcUeSUg7Lz/t1jL+N1L0ZcDfgKe/F2ja7iidiFhy1mGpbHcd16MnOhvXKYz+Le
+	 C1cJLqXdlTgajJEOe72bVPoGiL9Bm1Y+J9b7gs4GXFaE6sZ6aOlvtF+Lsts53X3q8o
+	 F+9jSRzU/byffMsfytWvkzovjeR+i3jhif9p7H6arNqWeaWOWKN3t7zbKdlP+mi0Vs
+	 1Fo/3xBQuzifw==
+Received: from [127.0.1.1] (ppp118-210-73-17.adl-adc-lon-bras32.tpg.internode.on.net [118.210.73.17])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 1E7EE6511E;
+	Mon, 30 Sep 2024 12:48:35 +0800 (AWST)
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org, 
- brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- joel@jms.id.au, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
- Peter.Yin@quantatw.com,  Jay_Zhang@wiwynn.com
-Date: Mon, 30 Sep 2024 14:12:09 +0930
-In-Reply-To: <20240927111744.3511373-8-billy_tsai@aspeedtech.com>
-References: <20240927111744.3511373-1-billy_tsai@aspeedtech.com>
-	 <20240927111744.3511373-8-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+To: patrick@stwcx.xyz, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20240927085213.331127-1-Delphine_CC_Chiu@wiwynn.com>
+References: <20240927085213.331127-1-Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH v2] ARM: dts: aspeed: yosemite4: correct the compatible
+ string of adm1272
+Message-Id: <172767171502.99875.5222579659376110174.b4-ty@codeconstruct.com.au>
+Date: Mon, 30 Sep 2024 14:18:35 +0930
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.1
 X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
 	SPF_PASS autolearn=disabled version=4.0.0
@@ -75,16 +72,18 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 2024-09-27 at 19:17 +0800, Billy Tsai wrote:
-> Replace of_clk_get with devm_clk_get_enabled to manage the clock source.
->=20
-> Fixes: 5ae4cb94b313 ("gpio: aspeed: Add debounce support")
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+On Fri, 27 Sep 2024 16:52:13 +0800, Delphine CC Chiu wrote:
+> Remove the space in the compatible string of adm1272 to match the
+> pattern of compatible.
+> 
+> 
 
-Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Thanks, I've applied this to be picked up through the BMC tree.
 
-Though as noted in patch 3/7, 7/7 (this patch) and 5/7 should probably
-be ordered before 3/7.
+--
+Andrew Jeffery <andrew@codeconstruct.com.au>
+
