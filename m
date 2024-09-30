@@ -1,74 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F274A98B037
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 00:45:47 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F4798B039
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 00:45:48 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XHbkY40S1z3fnn
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XHbkY6GtHz3fpY
 	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 08:45:25 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::32a"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727697863;
-	cv=none; b=T9N5IThmSvdtCUcNG6ioRc8Xi4ycQqcGJKhTuR13mt29f2kQNgt4VJ7fhQFcK3TJ0PSLgOtKIExXNN4Ybk2MeAlXu81EFF9s9SsZ1wK5fry9lbyiWI8FCE4nqlUuYVvqBGdlwmvezdMSxk/goVOmRDlSrcqa2ilatzAok4pw6ojjVt59TAt89CSXaxsfZmRlaDWwR81XkjcFNyx24TFo+f3cCMmiTjY8JsB9Grs5Wbf81agOGO8PFIby/Q98LGd79+Qqw9qZhYysfXcKQ86cgM7REt+fg7i0XNuFuSAw3XZpn17VVAkv3p5fAKJTi1nx+xGDKVK47ssmB8Xvc1b3GQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::f33"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727697864;
+	cv=none; b=HcFtYTUDLibgQ6sLbhgPmLqu+1xXoNaj2bW0xuOOhFNS097sDCtKeSVeKCYswpRaGg9rOfr3xuo3tt3Ji6hnrg5ZIblcDS83ucwLTAO+OWYZcwETk7FdyttkpQIZ+RSEHfWRbUnzKpzhtYql/z/V7pUoTDlxu1+QUEfWZ9iLG22Yw+vjTc8UbD0mPaZAk6dPrNw39EBoMS4Z8VR2Wjf38fR+2LIMCWsRrGOK8OOKApX1TudIL/Xrfx3J9dIDbaMwZpCzGq6Kj2OTK9GCKyOxhW0hPa1eZo/QHRpAcfX7XK5/HzHhiuG1ZhYd0lyh1dr7TFh8IGCuN3rraD4257zbZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727697863; c=relaxed/relaxed;
-	bh=oyq88t8pWb3nvRMsH4SWW8lN0+v/o8BALR3Lyr5Ymdo=;
+	t=1727697864; c=relaxed/relaxed;
+	bh=o0DduMWqX0LlLrfJFzeOwfQDx0mBLtEZV9WrRhA8PwA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=b2d6l/iiEzpRb428ltHEVZzMQ3uVFn2tADiurqGYfGVGKn56GyT7868xJNeqVd2hsl+WDvhqNLnSIjfzPMSt9GZ6VOgJSiur7WpORj/rG7K32kvdCR/m76xN3eJ/fwbMRKUd4h+z1TZunjIVSz1/0ceF8odK5LRXu+lSJQS9tEZqEau6BoL9cLlOlKgzhzqoXFr0sRUC7m0S6OmRzXafexqUW32SCjsQLZ6NEB5teHJ+iL7occjORjxRvUjgglarnWY0ZWI8K4HXdf1gweIGrhfTDDMiLz9BqM2eXlYBCZjgzkCfDdmI8Bqcm7eosqFLJ//jcDK9f7544irWqhd67g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=kFLOwk4u; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::32a; helo=mail-ot1-x32a.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
+	 In-Reply-To:To:Cc; b=jHU7+espb3j16eS12GcCiRH3xwdOp5PeU1F6N50+m5u+Ub7WqanPmKiuIhM/7PU2007JRuk5CGyWOH49/+gUsfY3CybFALIHCddfhb6PKT2ooDA226AxctEt68vwjUo7l+OB/D14hB1QCrswWcYGYg+Llat1H1eZ3O8VRrim9EfcDOfhO0IhxQVBd2St4JVQpV1R/56mHssJZ/wLUcUb6ni1IA3rmahwfyVcueOJ/xY4PP82O9bniF4gK0a5IyL55VwW3OsrAQGJ1w4cZcrkzEk7YaAS6e5lsfcgKv4dzhbB6/N6KVubP3KaTRQnOU0rUq8qsUuztOea8XEm81E9HA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=jWT8/rXL; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::f33; helo=mail-qv1-xf33.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=kFLOwk4u;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=jWT8/rXL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::32a; helo=mail-ot1-x32a.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org)
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::f33; helo=mail-qv1-xf33.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org)
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHKVt5RqPz2yPq
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 22:04:22 +1000 (AEST)
-Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-709346604a7so2209599a34.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 05:04:22 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHKVw3yg1z2yNf
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 22:04:24 +1000 (AEST)
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-6c3f12d3930so37215106d6.3
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 05:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697860; x=1728302660; darn=lists.ozlabs.org;
+        d=chromium.org; s=google; t=1727697861; x=1728302661; darn=lists.ozlabs.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oyq88t8pWb3nvRMsH4SWW8lN0+v/o8BALR3Lyr5Ymdo=;
-        b=kFLOwk4uco2wTKV7Qw+NxLXIqshv3etsVNPwcSZCjTHyDQBaEcGKEoOYl3hldWcHEV
-         yT/vgPU/TsugxWxTYuyWcLQB3KYgZf0uWOu/60NgV7Nv9onTulTM4LTw628QLSmJyqsZ
-         bBpLyNcID+n1Y4+wBo+/F3SIMoRNfKS1KVoL0=
+        bh=o0DduMWqX0LlLrfJFzeOwfQDx0mBLtEZV9WrRhA8PwA=;
+        b=jWT8/rXLvi6Yih7dL42c9zk+8KhX9S/a0i7iQL1NByMPmFE1DO57K5Wtnt5awSqr/R
+         dRoXMnsO8ZRPtVn5ZFPLXaaZhFtl39VLO5EFN3YyQQuw1+8kLC6pkVc+5zmQ62UmhG5z
+         NxFhgG8vxsLx7iMsMUemK9y7H+z52Jvfc7nLg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697860; x=1728302660;
+        d=1e100.net; s=20230601; t=1727697861; x=1728302661;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oyq88t8pWb3nvRMsH4SWW8lN0+v/o8BALR3Lyr5Ymdo=;
-        b=nDLVQeeSkO810eDzfLQBwNHoWxCaLifKF0agv1/N5syKZi5NkESK1LrZsWY4ihm2gG
-         fV3M1HKKI/V/G8MA9GaffBZtlEyKsoaZ8XXCe3jBO4LXT4unvc8gdgyVGA/jRXUYyKqJ
-         v7gwQrGYyV1Qy3SYOM6suoPZDZWhw2mHH8Cw7HuKEHv0Rc354Xmv+8T4dkm8DN98qxPa
-         4ep1dGLF5ihcX3Uzd51p76Oi/pucUmEHBibsLsqxsE+mRgj9lBN8ByLzSI1gRhhlXHJC
-         FRfnMV6mfxLp9r04GHgyOEvoSis+Ong1a6rhDbsAz8X9qhoWJLHyk69uQyambYa7uacy
-         iipA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3zn4anR2PJo0c0HS2jQiwMdSEjoOnv5z8Tx61VigwJdxOupAs+Ch/k/00LZCu+8wi5tGLyn21uoS4MtM=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzEflHysk/ZDp++C+IN4bysOAqN3dAPAzft/Ffx/L4rcX70Olpk
-	U5rlr5Rw8dzmKurpKrDzsgJh1Mt+/N9eIiPlSTYbRJt4iRFgwdAbV87ANwv5pQ==
-X-Google-Smtp-Source: AGHT+IGlFIIrabSCXdg/bJ9e3MVgi6gfLFZpzZGyv3CgenARKjE0A4bquSvob8woJ1CdObZm4BjrEg==
-X-Received: by 2002:a05:6359:8488:b0:1bc:d1ba:225 with SMTP id e5c5f4694b2df-1becbb8fbe2mr306353155d.10.1727697859596;
-        Mon, 30 Sep 2024 05:04:19 -0700 (PDT)
+        bh=o0DduMWqX0LlLrfJFzeOwfQDx0mBLtEZV9WrRhA8PwA=;
+        b=l60P7ZzFJcuAozgQeJLs5R27CLzJuTCoKS1/gpWb2N9ZUtFp49mp+3/67igA14P/1t
+         u1cQDcklliuBQO2rw87oxbGg1gF57ErWbktbyrU4zZduhjRIlOSQ6f4RY40oY3CbtrKu
+         GReQtQpeysWYMkKQlhixBbroaUCrMAQMwdkEtgDxcWomBH7c0swKaghBND82LAIvSelE
+         4vNaSETQGmd6iyZxd5FEbC9zo00NL0EbxXJlPIcFbLPA5DChMWBBeYlSL1yb0gfwcAFF
+         wYOO99ka8nPfojxq5U5KRYB/ywxq8Y6EmeoSrQv/qjxrh9ILCS3qjcLx3Y/HlhDjHkhe
+         9szw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNx3FXwG4oPD0ayt9qjw9U2Q1Dchsh9J0EdwlZ5AfRUWeCVfeuLuQI7n5+wSkm+YlnRwXydMBW6F+W3LA=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Ywvv1QoMTziHhz6ofmNFSG6wv30srxyWu5JnAPqH/42Mfkaxx+/
+	Bi+mcnf4qPKukhBmO/lZ9Rc0OtJAke48srdAMNl5jbNJplAAkFNYBduyyvkNPQ==
+X-Google-Smtp-Source: AGHT+IFW5o76WLto1m5OIr01yojLQTVPsUEplusVOtBKeM+zgF4Mr8Jjm4ekkrZvP/8oEpp3jj7xuA==
+X-Received: by 2002:a05:6214:3a88:b0:6cb:35ea:a343 with SMTP id 6a1803df08f44-6cb3b5b60c5mr157899696d6.5.1727697861311;
+        Mon, 30 Sep 2024 05:04:21 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.17
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:18 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:20 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:03 +0000
-Subject: [PATCH 08/45] media: dvb-usb-v2: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:04 +0000
+Subject: [PATCH 09/45] media: cx231xx: Use string_choices helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-8-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-9-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -123,61 +123,51 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 The following cocci warnings are fixed:
-drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:250:3-22: opportunity for str_yes_no(adap -> pid_filtering)
-drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:337:3-22: opportunity for str_yes_no(adap -> pid_filtering)
-drivers/media/usb/dvb-usb-v2/az6007.c:82:32-38: opportunity for str_enable_disable(enable)
-drivers/media/usb/dvb-usb-v2/az6007.c:192:32-37: opportunity for str_enable_disable(onoff)
+drivers/media/usb/cx231xx/cx231xx-video.c:144:4-9: opportunity for str_enabled_disabled(flags)
+drivers/media/usb/cx231xx/cx231xx-i2c.c:373:4-30: opportunity for str_read_write(( msgs [ i ] . flags & I2C_M_RD ))
+drivers/media/usb/cx231xx/cx231xx-i2c.c:402:4-32: opportunity for str_read_write(( msgs [ i + 1 ] . flags & I2C_M_RD ))
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/dvb-usb-v2/az6007.c       | 4 ++--
- drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/usb/cx231xx/cx231xx-i2c.c   | 4 ++--
+ drivers/media/usb/cx231xx/cx231xx-video.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-index 2410054ddb2c..1e9f946193a6 100644
---- a/drivers/media/usb/dvb-usb-v2/az6007.c
-+++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-@@ -79,7 +79,7 @@ static int drxk_gate_ctrl(struct dvb_frontend *fe, int enable)
- 	struct dvb_usb_adapter *adap = fe->sec_priv;
- 	int status = 0;
+diff --git a/drivers/media/usb/cx231xx/cx231xx-i2c.c b/drivers/media/usb/cx231xx/cx231xx-i2c.c
+index 6da8e7943d94..6d8b70562f6d 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-i2c.c
++++ b/drivers/media/usb/cx231xx/cx231xx-i2c.c
+@@ -370,7 +370,7 @@ static int cx231xx_i2c_xfer(struct i2c_adapter *i2c_adap,
+ 		addr = msgs[i].addr;
  
--	pr_debug("%s: %s\n", __func__, enable ? "enable" : "disable");
-+	pr_debug("%s: %s\n", __func__, str_enable_disable(enable));
- 
- 	if (!adap || !st)
- 		return -EINVAL;
-@@ -189,7 +189,7 @@ static int az6007_streaming_ctrl(struct dvb_frontend *fe, int onoff)
- {
- 	struct dvb_usb_device *d = fe_to_d(fe);
- 
--	pr_debug("%s: %s\n", __func__, onoff ? "enable" : "disable");
-+	pr_debug("%s: %s\n", __func__, str_enable_disable(onoff));
- 
- 	return az6007_write(d, 0xbc, onoff, 0, NULL, 0);
- }
-diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-index f1c79f351ec8..c0a40112d043 100644
---- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-+++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-@@ -247,7 +247,7 @@ static int dvb_usb_start_feed(struct dvb_demux_feed *dvbdmxfeed)
- 	dev_dbg(&d->udev->dev,
- 			"%s: adap=%d active_fe=%d feed_type=%d setting pid [%s]: %04x (%04d) at index %d\n",
- 			__func__, adap->id, adap->active_fe, dvbdmxfeed->type,
--			adap->pid_filtering ? "yes" : "no", dvbdmxfeed->pid,
-+			str_yes_no(adap->pid_filtering), dvbdmxfeed->pid,
- 			dvbdmxfeed->pid, dvbdmxfeed->index);
- 
- 	/* wait init is done */
-@@ -334,7 +334,7 @@ static int dvb_usb_stop_feed(struct dvb_demux_feed *dvbdmxfeed)
- 	dev_dbg(&d->udev->dev,
- 			"%s: adap=%d active_fe=%d feed_type=%d setting pid [%s]: %04x (%04d) at index %d\n",
- 			__func__, adap->id, adap->active_fe, dvbdmxfeed->type,
--			adap->pid_filtering ? "yes" : "no", dvbdmxfeed->pid,
-+			str_yes_no(adap->pid_filtering), dvbdmxfeed->pid,
- 			dvbdmxfeed->pid, dvbdmxfeed->index);
- 
- 	if (adap->active_fe == -1)
+ 		dprintk2(2, "%s %s addr=0x%x len=%d:",
+-			 (msgs[i].flags & I2C_M_RD) ? "read" : "write",
++			 str_read_write(msgs[i].flags & I2C_M_RD),
+ 			 i == num - 1 ? "stop" : "nonstop", addr, msgs[i].len);
+ 		if (!msgs[i].len) {
+ 			/* no len: check only for device presence */
+@@ -399,7 +399,7 @@ static int cx231xx_i2c_xfer(struct i2c_adapter *i2c_adap,
+ 			}
+ 			/* read bytes */
+ 			dprintk2(2, "plus %s %s addr=0x%x len=%d:",
+-				(msgs[i+1].flags & I2C_M_RD) ? "read" : "write",
++				str_read_write(msgs[i + 1].flags & I2C_M_RD),
+ 				i+1 == num - 1 ? "stop" : "nonstop", addr, msgs[i+1].len);
+ 			rc = cx231xx_i2c_recv_bytes_with_saddr(i2c_adap,
+ 							       &msgs[i],
+diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
+index 435eb0b32cb1..4cdcfe635ad7 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-video.c
++++ b/drivers/media/usb/cx231xx/cx231xx-video.c
+@@ -141,7 +141,7 @@ static int cx231xx_enable_analog_tuner(struct cx231xx *dev)
+ 			dev_err(dev->dev,
+ 				"Couldn't change link %s->%s to %s. Error %d\n",
+ 				source->name, sink->name,
+-				flags ? "enabled" : "disabled",
++				str_enabled_disabled(flags),
+ 				ret);
+ 			return ret;
+ 		} else
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
