@@ -1,63 +1,153 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D87A98986D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 01:44:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FEC989904
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 03:48:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XH1541jRTz2yNc
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 09:44:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XH3r73yNlz2yMt
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 11:48:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727653461;
-	cv=none; b=LjKr97zV9LOGAPU/be65jBAcm2yiHln6X6BnHxTmw5pqu17iu18nrcT6TqEDnC3u5G4LHvuSEvxsYMSdXIeR0aQtA9A0gGNDtakdWA3C3b3VMxcy4CHLQGkBkITez5Dgy0k7/aAaogt3Vwb+Ju/ULARuhLQlh9uWsBYu+flTKXk47ilgc4mHGHIqDUdmTH5NBgyEB4X8jTSxAXuTtQEpIe4ttlGR43PC3PGlvJMr/rebL+iNEM7wwFsiNTwnToK01mr2YRzKpELKHXrNtJt3vIewOGbas5UQ5Mz0hoVNTpe3rKsC2fqbqNpR+q4wmpp8/Uu9w+yKRij9VuyTbxZV/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727653461; c=relaxed/relaxed;
-	bh=JwDoGKRxS+YXAWQHk5KGk+HoFswK8C94/IS1YdzMkug=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nu4iLpRWB6ZMoZlR4iiY/NMYVPxBOC6gMVGewCjBbMbJhbFekqNyBoGegXYyTZOUs4jZ0lGo1iZxBD3PEyrU4vyT3k+RPS4ckEusn4mHGjNgXbjZszzXR8I/3Wn00jJ501jtBcZMQgr0LweqEZjF7omak4lXB0pqhrDK6PHo5Tm9a7uToymUhg3yjZCO7RjTvGNvu1xhBbqxVChWvOx2qAWv84P/fICSyaUB8wVoPyAYCNVTxQHKxSui7niiRKtrkiwXNppcSWmZbpk9CxUK9V5S7Wpv5oBGJMkfI2jMm8I+CiRkYxqeLDLXaU3Dks6Y2rRFw7WeRgJCQOdOgL7EoA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZdMRbD+a; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::62c" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727660901;
+	cv=pass; b=dMH+qJDqrqh8sDlth+Gq9oskll/FWxHZK28MH+KMO0tIc3yfBFamxSY8r0FpShIMt49q3puXQtMXiH4NU8/I7EqDYEUou1gp+fF4Usd6hODs8JfR7IBbJMw4VRu0cFNNoQ02VG6mEs8xd1a9+NhNir2BLsHjCOexsFKnD/sXprZ8WL4SOAPvcaEUCSmP+d3n6lXmhZco7kR3vuYsDwMG5vFtbkeEd4YnREOwOQj5HAzBo+gC7Lnr8XAVLP6STPRJmCAjByt6arUMnFjC8FA+f9egTbZkqJjORz2liY+F7kV7kkEOwKvjqFg9+hX8xLuyft4sgZ4RHN5+TNhTOp9KcQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1727660901; c=relaxed/relaxed;
+	bh=zRqDcvoK/NlrS9UqVSUaoWLDhf6jPrFpUmrvNMSrSNw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=nUIQmYINZkvj78lKvPGmtIZd+T6vU0WWOBWn50mU7ZGblAsDsiR/xHLJ3MHlymAQzp4fciDd/IKIJ0/3HI7wqluWqHdg/4EJWF7UJyvnBzIig1IzSx6ejaK3OLKr/FyMhCcF1Q6+iUitxoexSmgvwIke0cXHITZFVf+vVFLe0Ft+19SIGOiKDoIIEyFVtkNiNWGANKOE4dMSH1MDLmHCye6mfgWP/fuYAewpKc03Bqk4U5osIDN4xHOFJwJIbS+Q6Ic7gIInAD67AaAWW1ZGgxJuiXLIR4DNCNhnpZrTgNxebc9Jy6eFhRrKTOod9tXQNOeJTv95SnIEp8+W/M5nFQ==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=uz+u4/U2; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:2011::62c; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org) smtp.mailfrom=wiwynn.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZdMRbD+a;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=uz+u4/U2;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:2011::62c; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2062c.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::62c])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XH1510ftWz2xY6
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 09:44:21 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1727653460;
-	bh=JwDoGKRxS+YXAWQHk5KGk+HoFswK8C94/IS1YdzMkug=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ZdMRbD+aBX0vD0MMmOVvIhJ45cVbGYHTPtdoqZoiAopSOUIOd7Uywyj6nYWafm6Bh
-	 OEQz5fh95u5j/n8evDnrJfXc1mN38YJO+lf8Ag8Oqd/KYkSzruTEUzRgxkbhyepB5s
-	 25ShunBzKpjCZFbXoFUSYa3JsbKzr0WYhWA4fz88UCKMRyAZEM0GsOzws+F3rclQIs
-	 dAVKEn3NCLuVjCEUcMZWRhrNY4vazqRrUcKa0CiwClHMCX8Rsow5DJIyonWCm4g78F
-	 u8bqJO17C55rGlE/O6mwVqN8DuQcBLyNNAlkpDuZ7FCJ96j3FqZ6S4ubIH/z8xHRO5
-	 XjAKRHjiaamGw==
-Received: from [192.168.68.112] (ppp118-210-187-56.adl-adc-lon-bras34.tpg.internode.on.net [118.210.187.56])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 8B57765866;
-	Mon, 30 Sep 2024 07:44:18 +0800 (AWST)
-Message-ID: <16c89a7b9b85d21f1f23aa0d67742c6bde94a295.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v1] ARM: dts: aspeed: yosemite4: Add i2c-mux for CPLD
- IOE on Spider Board
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Patrick Williams <patrick@stwcx.xyz>, Delphine_CC_Chiu/WYHQ/Wiwynn
-	 <Delphine_CC_Chiu@wiwynn.com>
-Date: Mon, 30 Sep 2024 09:14:17 +0930
-In-Reply-To: <Zvdq7o6NFXRVCJqX@heinlein.vulture-banana.ts.net>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XH3r522Glz2x99
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 11:48:20 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s7ve4EcVLGEJ/6fK6+3iuZkFoXOxmCNNB8qLY3+fCsbked9hkmIS8+aXkkLNyrewhAlO1elkV5suIZT6DEQ6XjZGMlsMX4vr388HNbMj9rzvFEJdCsWiyZ6QHLzCGh1FKJf1d8ZCxdllS4xAUM7LErhcozxfNoG353HuiL2d9ZZ0t85HbegY4DcotRZvedb7NuV38oDKbetAvxXmHeUFVLHbBYNaT8QN1WRZL7kfeH+ko/U33UlR7lTmq0cJ97ygVAsyUX+g5K5Lqbvg6xzCwQPvFkUg+QnA1yS3NrjP9V7duVwi1e9/VfkX0olnV9DesVlKSsPxMdNtuwOScMq1Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zRqDcvoK/NlrS9UqVSUaoWLDhf6jPrFpUmrvNMSrSNw=;
+ b=MiYSatxJwb1Q7eBVjM6Qs90DkdTsuS1yzBBrpHBwzjD/ye2yP7SSC19EhtwG33KOFGtDp6tQKeCi7EFxs2iVyi3icyTtmCA4oAy4cwP9GJ2TmpUsadFbaOb+S79hLsyBiPoL/Cdpd5EZlLrQM7PunlEL76d5r2IPLspXuo7YeIgjD+RfBrEdR+8m16kn4Hgz2/6Kk0RH5LH3oJyD8jU6Oo9Yqp4pEkYMjezd4UuQyeGOoxpQqnyWiCtZvEpRknJpPB9HAyAyDY+5zRxBLfgX4iMz/ynkJXMRsKUz9LszWFEdbgwNV6ecYJR2FRraz6DdZ269+1MA1hLdyhXgp+YZ5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wiwynn.com; dmarc=pass action=none header.from=wiwynn.com;
+ dkim=pass header.d=wiwynn.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zRqDcvoK/NlrS9UqVSUaoWLDhf6jPrFpUmrvNMSrSNw=;
+ b=uz+u4/U2Pa5GoWWgG5Z4bKt6LPRPoHYafzzwSTef/4rNO15rrKZ14qbSEHY2atl317qGPDCnO5u64F7K/joBEjqH1lIFen+8wyUxEskmRyMVUfBl1kShSD7Kgk1obiW6iMNKyXmvbUTdAEislY8o4qVS7yMOh6SjMsFMrCHJgbHogHn5KBSzpG9AzbqezeOmPSo7/wm2rYg0Yly6M1x/QM8+dMirwVP1LsnIXfixIiO3Qh2UACP38yhbegHlecs8UIl/AqAP8F7fGRuij80vWv0mEta/qIiwkEN/MDwJH+tYwAAvl3jJvMflqf0vziIDL10QMkmQgx5219Zldzm/Tg==
+Received: from TYZPR04MB5853.apcprd04.prod.outlook.com (2603:1096:400:1f3::5)
+ by PUZPR04MB6607.apcprd04.prod.outlook.com (2603:1096:301:fd::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.24; Mon, 30 Sep
+ 2024 01:47:52 +0000
+Received: from TYZPR04MB5853.apcprd04.prod.outlook.com
+ ([fe80::ae7d:7486:9319:8d96]) by TYZPR04MB5853.apcprd04.prod.outlook.com
+ ([fe80::ae7d:7486:9319:8d96%6]) with mapi id 15.20.8005.024; Mon, 30 Sep 2024
+ 01:47:52 +0000
+From: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>, Patrick Williams
+	<patrick@stwcx.xyz>, Delphine_CC_Chiu/WYHQ/Wiwynn
+	<Delphine_CC_Chiu@wiwynn.com>
+Subject: RE: [PATCH v1] ARM: dts: aspeed: yosemite4: Add i2c-mux for CPLD IOE
+ on Spider Board
+Thread-Topic: [PATCH v1] ARM: dts: aspeed: yosemite4: Add i2c-mux for CPLD IOE
+ on Spider Board
+Thread-Index: AQHbD72dvqgTMAKzWkuYvi4zIhwj+rJrJMWAgAAxixCAASfCAIAC9XGAgAAdDXA=
+Date: Mon, 30 Sep 2024 01:47:52 +0000
+Message-ID:  <TYZPR04MB5853A70A99CEDE8EB64A317DD6762@TYZPR04MB5853.apcprd04.prod.outlook.com>
 References: <20240926024133.3786712-1-Delphine_CC_Chiu@wiwynn.com>
 	 <fbdc9efe87a1bed9fea7d0abaf955aa1a3dc24ac.camel@codeconstruct.com.au>
 	 <TYZPR04MB5853B51141F3D0610D970265D66B2@TYZPR04MB5853.apcprd04.prod.outlook.com>
 	 <Zvdq7o6NFXRVCJqX@heinlein.vulture-banana.ts.net>
-Content-Type: text/plain; charset="UTF-8"
+ <16c89a7b9b85d21f1f23aa0d67742c6bde94a295.camel@codeconstruct.com.au>
+In-Reply-To:  <16c89a7b9b85d21f1f23aa0d67742c6bde94a295.camel@codeconstruct.com.au>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wiwynn.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR04MB5853:EE_|PUZPR04MB6607:EE_
+x-ms-office365-filtering-correlation-id: 74f8f06c-b640-4e6e-2c53-08dce0f1e5ad
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:  BCL:0;ARA:13230040|366016|7416014|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info:  =?us-ascii?Q?Nev4Gr3P4039pDHGmIzQl/t9hB6VV/4jeXUTam0wRtRFAAee0kXaIe5Tsvsy?=
+ =?us-ascii?Q?6h4223tCFqyuQEakwRBcK3ci8e0LvvZhQNlS4s/sEr7o+ciZhMvZGshzn19i?=
+ =?us-ascii?Q?trWdrhFLlOfv7qW704ajKxiWJCOeDyaeftKk+cHBMjoINCF3UWnVzs4rLlop?=
+ =?us-ascii?Q?GxcpNh90ENq5IHdsRzMpMpNnxCgAlAn6AjbmN61i2geNW6sjnl93oXXSzLqh?=
+ =?us-ascii?Q?xj0XkLnJeEJFjDqkKwPr6Fzht3fiV6Y5s03CvA6QPeyocGc/Em5NeBKsu4W5?=
+ =?us-ascii?Q?kCN5VxsTZ3Y2LEk4FruLJ4/wFjh11BV9xQskUMk5451BHo8Q7JgIVvHgPgHG?=
+ =?us-ascii?Q?ng60hPdYIA4hB4/ImtOpEDLvQYRnHHcZRcPg7arAekbwhASB/Dt0U82C1qOw?=
+ =?us-ascii?Q?Hk3KYw5lpMbT3YXAQtRkh4pflq49BsglHHU83nfe+6Zb3nDt7na4dedxar8s?=
+ =?us-ascii?Q?SDMS/x9ssgGyPXN61S1yGbvt49HoYPQRW/8Je3BgNh90SC+SQSHGXPWC/MyO?=
+ =?us-ascii?Q?HtqmDWXzw72EYV6yZMVJIhK4jbwGTyQwh3pDwc2kMP6498wO0bBTduWTCpF6?=
+ =?us-ascii?Q?ZXo08bGfMFzNZigwqsV3Aqx3iHJOXRHPcN3x+aERqV/YQPrm277TGt6zOk+D?=
+ =?us-ascii?Q?YLrak2JnttJjj+WGdH1nUyKcbl42bH57oH1ryuW2r8wpd/OAWRZ+2yDo6bpC?=
+ =?us-ascii?Q?HbnLfvPrx2Qd3eyLnDnJNjD5vgm0h0b5vhgcNe5juoQ+zLCll22zU7ols/dE?=
+ =?us-ascii?Q?BUTT4abvWFXzgFH9ClVz3TBR9PPKAX8EKlDCGQRqnqHCqvgtd8nSeawq0EqX?=
+ =?us-ascii?Q?yworiLo/VR9v+KN7njI+ZUI7JVGamfSZes4/MkMzV+wh6KmDtyS2l54Lqzud?=
+ =?us-ascii?Q?FQJllG0qPYQgO3MPM2b0d0W4rBnBjPpXTV5de54rvvfDY3HKbDpDzHBxdwR2?=
+ =?us-ascii?Q?f5pd5PocFBfiucb9ToX0RiMeRfrCOjxw0ulajHkQF/p6hTbR+4d+k+YP/4c2?=
+ =?us-ascii?Q?wNiKYhIFMT0EBKKKIkH0U5J7wMwoPEDAOVyn32lgWuAt/stXLgVcr2UYWo3c?=
+ =?us-ascii?Q?UoonZ5tKw1FfF028x6TacqWmDKKPtCZi4ypFLelcLxyYUw/4UceRIwlLLf8r?=
+ =?us-ascii?Q?eg/FSFxU47VSgKsa5U2G+kY8ZWvB2iqkvUd9nmmH55ZEkF3P5AjMo1qfNF0c?=
+ =?us-ascii?Q?va3ObPS6wSrVEHNoaDgzjkxz1Y7IrVmeLzHYNKwnoSYI7f8fJ1zI8BlFsfRO?=
+ =?us-ascii?Q?YqbKoUGaSH6lFJ5iRQBzDMga2+HObxAAZT15WPAwKtUgvx2NVe0/yxevd5po?=
+ =?us-ascii?Q?sOKVfCsnEVZA/px17UebxluJ3lQ0CrwLbtFz/2KGpy+KXA=3D=3D?=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR04MB5853.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?zMho9Q2vCWWkopXeO0HrOCBZSS1y/GlzeVcUNl041OvVcF8rleABy1so+eTX?=
+ =?us-ascii?Q?qQZmFHY8LNrISPexE09E77XZHG5QFnwgeEor2pXy4ybR+IWvHkMXEvFPR89o?=
+ =?us-ascii?Q?sX7Az9qF6tJXJWhJdHZJHa44jBoSw/zNflGzZDG1uKbvrQPI3mXwTbDtENdM?=
+ =?us-ascii?Q?3ig+nQ2BfOcyDJH1HOshcpNlRKtHvtV6ZtaiRh6rvSwWzAotIvY54hojRpKv?=
+ =?us-ascii?Q?VnZQ9w8bgT2K9axL+YBQAVr8dcXCMjIMDlXEeLKeVWFtb/EZHBGgTne77bLc?=
+ =?us-ascii?Q?bkQNX8Ns/vEnwho1kDw/bgAjiMp1SAWbzKb5vRQDtEHU00m9KfPx0tG5Bz84?=
+ =?us-ascii?Q?fMvMDiBY2aj7Q+zzZLseaSVXim5hrat69JN86GfBSUWle53PX7CKN2vRFpfG?=
+ =?us-ascii?Q?32rxqnmyBRKbenc6RXOxVmqI4pLL8d0wPQ+hc55ZhbPKhaGa/EkvM4jDIE1e?=
+ =?us-ascii?Q?WTIFdWXlBSQI7pOVzc88Z0cN9gROd0Rtbz7rf9VmpvQOf5zz6xTaMnBoC/qP?=
+ =?us-ascii?Q?HR95oEkk2Hhx3NpifQYEcMqwSZZgApW+2AdIYkpPh++XQDDRt7eHbE7asMmA?=
+ =?us-ascii?Q?3/SW+fDDFwWDA2XJ4QyKNIRAMu61per+kMAGPhjGPF1KVceB91UzNGFpr1tw?=
+ =?us-ascii?Q?KpZk5IbGvKikBlGa1NQ7+ucgBHH5sXEsK1vwrIiCdzz6WCxcABtGJCS9UI+1?=
+ =?us-ascii?Q?1HLJ5kWclGQdvQ1e5mFg/Rq1ZWfFG3V28uRWATwrKgEb014nCYQUcLHy/C5o?=
+ =?us-ascii?Q?9qfLVkcyPEKST3AIH31fGsTTlCOXuDpya5hmgT58IofObarCkkjupnsXPJ87?=
+ =?us-ascii?Q?U0rHLpdH5tJ4UP64UZlLdyNuCLsfea5tBJ9pkSWnGCENWBh/zBqWJTomon8O?=
+ =?us-ascii?Q?KMYYoEjqCKn6EORQitZSMv+BttIPniSspPNCGQy+CosA0wvvyDoyEjmQnQOK?=
+ =?us-ascii?Q?9FoUKOU0Ac9HMdYr3yVnfnyaxHU+h3EtT3btFDWmVdbLYcE7GksiYmxN5vsV?=
+ =?us-ascii?Q?O5+1BGz6XskYWI2bnWryA3fcYPuvxYK/3F9kHUIGb6+o/cNlRaF09FBuOpQG?=
+ =?us-ascii?Q?wb1bmJdcrbtEkVoJxwO+QNzK32EsFfALcMueRG81HFJO+K07tKdbwc7IQ9fa?=
+ =?us-ascii?Q?sen13OyKo82AmqTjUGpNXnW63VPEB5jBzsyjN+RDk4nHXy9UrCBUuwC9pqFk?=
+ =?us-ascii?Q?O+4lIZ3sJlRd3GUQybybxXFAVWsl86QIJ+fnoe1RgOngWc2Ml9RopP8IUKkt?=
+ =?us-ascii?Q?OfN45mIeEGwReoHLHrbil/2xO0fL7yjozYDu13diUG8eW0xejj5Wz3n0Eyk0?=
+ =?us-ascii?Q?dixNUXALT8bnArbbMbZCN503eaA3qIp4T4BmCYlDTwuB9c+Hz/xsCkZHiXU/?=
+ =?us-ascii?Q?jSYFyyrpH+AD2Hh421JtgnpEvubhJ/dAPmoiZHUy6xbwKms8Ks+LnjFeePJz?=
+ =?us-ascii?Q?0k4vCyKCVBZwh68ldb04L9t/NGDwClaikEb+Orxb7+e000tMhdZKOfpnQo0b?=
+ =?us-ascii?Q?qZNb22dUjQZ8OVZYqLILqhTQMIMDYxJmM6jp/8QwCojACCrobvclsevabE9W?=
+ =?us-ascii?Q?f29KVT/4IEvPqn87XSP5RQKQXUWs3h9MfNt0CBbP?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR04MB5853.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74f8f06c-b640-4e6e-2c53-08dce0f1e5ad
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2024 01:47:52.4747
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Dy+V7wNv+mY8G0KTjENle4aJgK6ywL4V7J+qTHfO1ATfGouiS/MIFQuqVGiXXP7D+RjISUCJZMZq0FmyD7LNtg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR04MB6607
 X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
 	SPF_PASS autolearn=disabled version=4.0.0
@@ -77,49 +167,91 @@ Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Ricky, Patrick,
 
-On Fri, 2024-09-27 at 22:33 -0400, Patrick Williams wrote:
-> On Fri, Sep 27, 2024 at 09:24:11AM +0000, Delphine_CC_Chiu/WYHQ/Wiwynn wr=
-ote:
+
+> -----Original Message-----
+> From: Andrew Jeffery <andrew@codeconstruct.com.au>
+> Sent: Monday, September 30, 2024 7:44 AM
+> To: Patrick Williams <patrick@stwcx.xyz>; Delphine_CC_Chiu/WYHQ/Wiwynn
+> <Delphine_CC_Chiu@wiwynn.com>
+> Cc: Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.or=
+g>;
+> Conor Dooley <conor+dt@kernel.org>; Joel Stanley <joel@jms.id.au>; Ricky =
+CX
+> Wu <ricky.cx.wu.wiwynn@gmail.com>; devicetree@vger.kernel.org;
+> linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org;
+> linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH v1] ARM: dts: aspeed: yosemite4: Add i2c-mux for CPLD
+> IOE on Spider Board
 >=20
-> > Would like to ask should I base on the openbmc/linux repo to create the
-> > remaining patches that have context dependencies and add the lore link
-> > of the those patches that I've sent in the cover letter?
+>  [External Sender]
 >=20
-> I believe you're trying to get the patches applied onto the upstream
-> tree, so no you should not base on the openbmc/linux repo.  That repo is
-> a 6.6 branch.  You need to base the commits on torvalds/linux.
+>  [External Sender]
 >=20
-
-In my previous email[1] I requested:
-
-> Please assess the remaining yosemite4 devicetree patches (those you
-> haven't received a thank-you email for) and send an appropriately
-> constructed series so they can all be applied together, based on the
-> tree here:
+> Hi Ricky, Patrick,
 >=20
-> https://github.com/amboar/linux/tree/for/bmc/dt
+> On Fri, 2024-09-27 at 22:33 -0400, Patrick Williams wrote:
+> > On Fri, Sep 27, 2024 at 09:24:11AM +0000,
+> Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
+> >
+> > > Would like to ask should I base on the openbmc/linux repo to create
+> > > the remaining patches that have context dependencies and add the
+> > > lore link of the those patches that I've sent in the cover letter?
+> >
+> > I believe you're trying to get the patches applied onto the upstream
+> > tree, so no you should not base on the openbmc/linux repo.  That repo
+> > is a 6.6 branch.  You need to base the commits on torvalds/linux.
+> >
+>=20
+> In my previous email[1] I requested:
+>=20
+> > Please assess the remaining yosemite4 devicetree patches (those you
+> > haven't received a thank-you email for) and send an appropriately
+> > constructed series so they can all be applied together, based on the
+> > tree here:
+> >
+> > https://urldefense.com/v3/__https://github.com/amboar/linux/tree/for/b
+> >
+> mc/dt__;!!J63qqgXj!N56Dq0KcUR0NerePsoY0JUBCDvFG_F3KyRF0D4qNdu_Ozc
+> SGVPC
+> > SBOJk6u28AWPfgDRWsLE1B__-_ZNVKYv-zhc_6PY$
+>=20
+> So I'm not sure why there's confusion and speculation as to which tree sh=
+ould
+> be used :( Note that the for/bmc/dt branch above is currently based on
+> v6.12-rc1.
+>=20
+> [1]:
+> https://urldefense.com/v3/__https://lore.kernel.org/all/fbdc9efe87a1bed9f=
+ea7
+> d0abaf955aa1a3dc24ac.camel@codeconstruct.com.au/__;!!J63qqgXj!N56Dq0
+> KcUR0NerePsoY0JUBCDvFG_F3KyRF0D4qNdu_OzcSGVPCSBOJk6u28AWPfgDRW
+> sLE1B__-_ZNVKYv-uNCc7qE$
+>=20
+> Anyway, I asked that because I have already applied one of the
+> Yosemite4 patches there, and developing the remaining patches against any
+> other tree will again cause conflicts (due to the lack of that patch).
+>=20
+> More broadly though, Patrick is right: If you're sending your patches ups=
+tream,
+> it is required that you develop and test your patches against an appropri=
+ate
+> upstream tree. Usually this is the most recent -rc1 tag, unless there are=
+ reasons
+> otherwise (such as conflicts). The OpenBMC kernel fork is not an appropri=
+ate
+> tree on which to base work you intend to send upstream.
+>=20
+> Thanks,
+>=20
+> Andrew
 
-So I'm not sure why there's confusion and speculation as to which tree
-should be used :( Note that the for/bmc/dt branch above is currently
-based on v6.12-rc1.
+Hi Andrew,
 
-[1]: https://lore.kernel.org/all/fbdc9efe87a1bed9fea7d0abaf955aa1a3dc24ac.c=
-amel@codeconstruct.com.au/
-
-Anyway, I asked that because I have already applied one of the
-Yosemite4 patches there, and developing the remaining patches against
-any other tree will again cause conflicts (due to the lack of that
-patch).
-
-More broadly though, Patrick is right: If you're sending your patches
-upstream, it is required that you develop and test your patches against
-an appropriate upstream tree. Usually this is the most recent -rc1 tag,
-unless there are reasons otherwise (such as conflicts). The OpenBMC
-kernel fork is not an appropriate tree on which to base work you intend
-to send upstream.
-
-Thanks,
-
-Andrew
+Sorry for my misunderstanding.
+So I should combine the remaining yosemite4 device tree patches as a single=
+ serial based on torvalds/linux and test on openbmc/linux then send the ser=
+ial patches to torvalds/linux.
+And you will help to fix the conflicts when you apply the serial patches to=
+ openbmc/linux.
+Do I understand it correctly?
