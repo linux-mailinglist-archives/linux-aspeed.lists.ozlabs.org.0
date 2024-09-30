@@ -2,73 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CDE98B041
+	by mail.lfdr.de (Postfix) with ESMTPS id B565998B042
 	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 00:45:52 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XHbkc5QM5z3cC6
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 08:45:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XHbkd0rgfz3fww
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 08:45:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::f33"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727697882;
-	cv=none; b=SLUxRzIl0mvxH2kveRp7SPR/P3g8oLYqnPQSJhHD2raUCHARXrNbwjFnys4/E+tUY7A9ZCWeW5aKHvEn4MkEa2LyTC1SDh1vsltwezHnwtBB/2x31yUsOXILWKUNVO5bBEOtLmAp5vxKLNMWsFThUzq543NA62k45J+o/RW9Q9G6zFF9tVrYA/GEoxq2RsfmgCOY0Fp1K6yx0B8LiBFhivm7F2H5TozBUfSEgedvvlYOTpbNzvAZruiMQSPq2k5bXkUO5qVq+90ikvNhSntf6jyMFy7Yhawi+7GIPvxMoTUfpdntcfsDbD+cu4WXhpSOsgUoHZpVXYQXwRIEX7Q1hw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::c35"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727697885;
+	cv=none; b=cZtRDjnBSmRGO1HK7m7x0GEhfeF7jzc50dsTW2oyebIDK4cYuDuqSB5BNoHVvBLrhRr4rt1sqksssx6ajbVoyXTjiA0uc2t/36G1ci5gf0M92dT4POgpMgZn379162QGxs1T2p9Am4s/3swnAI0UcM9Nn2cpspFu+bZpROZtOKvDJZrwyqXkZ/QhSrfls9znR/5BwZy7tlfUjz7x194sHzo7L1TqK0NkVZwG780+HV+gavwJuQm61TjFv6cstmE1p5njrLct59RygRLJUKunVOMshuEEiePB4sUNF+ziicWjUCrqK74c7AbVqRovgbsqv9wc1+AsUumuCwJgNKL8oA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727697882; c=relaxed/relaxed;
-	bh=qO3qqbTfvsnj8f4B9o9/p9r5ocz9pMXhz3VcGEq7myc=;
+	t=1727697885; c=relaxed/relaxed;
+	bh=+JjigCj7wmiDgTIVi8lxvvE6Xnwp6vOIIL7mEoeKjLo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cEWnnh4/Ea1kSq8JvZzOre4MYKdkVLKWCXljnFcoy8S1HPYhL7TivGDoB9Ktfy2JAPEchbHl83+fSSiT7i2bCIdWJCe+oaUl6SmqmE6Cv63DKfEpSvhBVr1+dzYYjOtts4utyCov9BzL15AtptASCNEzAChgl4MiuIN4hk1IxeADPmsaaNis+BmIL9TzDpyBYI9A0ED6dfQ/0+ilcxdQ91n2QnaMM6ZuCFBmvHw5NQ/RFLOTPreQivClT9kcgzVZvOvsvyiEzxq2KtTnTCTqR/qD+hSyfUhj1Z5ggm8LDjTeKvDTWcUDvUKS/8dtY6Z/7uI2rSgAvamcR5QbSmDAtA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=XbgREm59; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::f33; helo=mail-qv1-xf33.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
+	 In-Reply-To:To:Cc; b=koygcX5nWBkasujS6eFp5m/Jvxg7Rnovxyi1UZA7Vc0UWAKw67afNtFnYplky/qQmpjXJORChLdBRsDjINf8LtaoUBaXymLPI0NhbSue4FRfiX1es9FiRJHW2C9wJZAXR/2FIRGVOgLJ45A6/tIGHCLiUVQpLCVCuYhubqpTJ1DCyUqR0aSM40qyardtfYl4aISYTdVK0ctspppcX11wqTAI8gIDl8AH96669LdiURH6TdWeOyWitZ4UVfH6+nV+b2Bm+ND1k4ZidhfVdOdgvmSL4bQe4ux+O1PWtjlnmO1BxCFBz+djGt8oMuyZZpkXt2LL2svUILZXMjN/04Qy2A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=gjV4Bk+z; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::c35; helo=mail-oo1-xc35.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=XbgREm59;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=gjV4Bk+z;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::f33; helo=mail-qv1-xf33.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org)
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::c35; helo=mail-oo1-xc35.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org)
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHKWG28cbz2yWr
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 22:04:42 +1000 (AEST)
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-6cb4f1137a8so13029286d6.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 05:04:42 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHKWJ6ZGzz2yY1
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 22:04:44 +1000 (AEST)
+Received: by mail-oo1-xc35.google.com with SMTP id 006d021491bc7-5e1baf0f764so1288412eaf.1
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 05:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697880; x=1728302680; darn=lists.ozlabs.org;
+        d=chromium.org; s=google; t=1727697882; x=1728302682; darn=lists.ozlabs.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qO3qqbTfvsnj8f4B9o9/p9r5ocz9pMXhz3VcGEq7myc=;
-        b=XbgREm59VcH/X+LqNq01x3oiS3M7ui5SslTAy2q/b2e9PRrvHpUzscdd4FXmPviLGN
-         qCnavPV0ZadQeGeU09ZJz2LkZmisLuHzmHC9hqlKeKkB6YmqPXV8s2uRWyFlMW+eYusA
-         D1RmugkxYpp7H7wqOPxpCMvZyVARIoOg15xNM=
+        bh=+JjigCj7wmiDgTIVi8lxvvE6Xnwp6vOIIL7mEoeKjLo=;
+        b=gjV4Bk+zd+feHgFPMMsBIH35hd7da2QYZeAbMUzy9znNkxHg7Hz5FlA/INd66SV6sG
+         YuY6U3UGVOHMJDz4npdXv6c5I7MdpzbEgb4oV4iQCxq1ID+t8VGYlCecsXYQZTBeTNYu
+         yO4EnobTX2nK1Ha3c6iw7SfSWO0dKWBMU8YJA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697880; x=1728302680;
+        d=1e100.net; s=20230601; t=1727697882; x=1728302682;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qO3qqbTfvsnj8f4B9o9/p9r5ocz9pMXhz3VcGEq7myc=;
-        b=vWnC4kQvmdudX/rBXeJr96Mxfa+GhkvazlHNHE3f+2C0cYL3lkTGic7zvw1cb8hbZM
-         lzoJZtl7PTM5m90rKOUAQgwLunV39NGyKnhdX6DYKlayLxBFbXr1mLUyrJWaoLegvPNG
-         JZb8y+AgsSU3BvMr3wCLWMP0InEGnctvl2EzY78IKmB8x3KDlL2HWwoWBjG0qXJjyILh
-         xd/R9WZO+mBlCVuobbPe/x0tbeeyPIlrgrZ/T5Gaq4TB7PvXcOWBLAs8oDVKCht0vPRH
-         360pSqaQdIdeIWDo/T/v/Q2jcfC3awXQz+EN+LUjELIaEw90yBGuN5rQTZlBWB2NTzg3
-         +xnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMm9llr/YyS+5BS1iaXd2g55273+zCFzHxW+scKW0qn/CxSfsZaQipiUZMzcxM7YKI7arZm2Uv90BcXrA=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyP0hqql/aqseeWKciO38YQCHE89B5Tr8ZaitJzsmJGqDjYuoHA
-	pjbQ6GL/eQ7VNMTQbMNchhDhpeoNRLypR3RcL81K/n8hc7FnZlOqZXbOe1oZcA==
-X-Google-Smtp-Source: AGHT+IF/X+sGDFBK/b7MOemtir5qM4qeQwBGu/ooPVVD2yNCkIbVJsvPbz9WJQ+49WCJsrC1J8x5UQ==
-X-Received: by 2002:a05:6214:4901:b0:6cb:4b47:e4a9 with SMTP id 6a1803df08f44-6cb4b47e5ffmr151055736d6.2.1727697880010;
-        Mon, 30 Sep 2024 05:04:40 -0700 (PDT)
+        bh=+JjigCj7wmiDgTIVi8lxvvE6Xnwp6vOIIL7mEoeKjLo=;
+        b=EJfcNapGkG/5WK8m68nQwVV7nxhr27eYMQ2xp0rVJdAc7awQnLdyZlBpVbQDC2h8PI
+         8JB6VKBZSBI7AutT/noW/AdCsXh9GGOZh6TtTzrCZQL9sqwRmCAQWfdTdBVBW8mfo+uJ
+         ELhIUruwcTdaXjg6JYkM2PKFQJHoGuhRA0qp5O2WmJaRz6BAiNWaiWEMnj14uvohFJ6C
+         ReLW5eK3L8sSEgFswQqvIQqrGqcfTdqazego7zA9VCn97tyVq2fuJwW/TZdpUpcnAqVG
+         xzHhM93ZymK/e++g9SjlaEZw8umHGZ7a1GMU1mVYOHk1Vic/btqVw4+rfsBHf/pmSdU9
+         gxag==
+X-Forwarded-Encrypted: i=1; AJvYcCW1gq7ye66AmSftGjvKzp6kQPZ7j4nX36mQoFVAGGvWZHU8y85L5/8maz2JcKH8IDoHVhOjY8iegwqxGHo=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxUeR/YfCPCknjygMU2erCaLOqHow3G4dARDEw0Pf9La0gpcv7T
+	SGP18JPw3YbLpbhUDJk4dqidbE5UNS6S5AcHqqynVjhhtKLrrOh2ZwrA27Hwug==
+X-Google-Smtp-Source: AGHT+IHorNkcL7CG7P94wqWnm5CxVPJz+Rc1wLbNEDwAbC1i2AVoPfjS6B+31QnhNxiGPZOH/d/JVQ==
+X-Received: by 2002:a05:6359:4c9a:b0:1ad:10ff:341e with SMTP id e5c5f4694b2df-1becbb397e3mr239386155d.4.1727697882114;
+        Mon, 30 Sep 2024 05:04:42 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.38
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:38 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:40 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:12 +0000
-Subject: [PATCH 17/45] media: bttv: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:13 +0000
+Subject: [PATCH 18/45] media: xilinx: Use string_choices helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-17-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-18-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -123,84 +123,72 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 The following cocci warnings are fixed:
-drivers/media/pci/bt8xx/bttv-driver.c:2988:5-31: opportunity for str_yes_no(dstat & BT848_DSTATUS_HLOC)
-drivers/media/pci/bt8xx/bttv-driver.c:2992:5-31: opportunity for str_yes_no(dstat & BT848_DSTATUS_PRES)
-drivers/media/pci/bt8xx/bttv-cards.c:3039:13-22: opportunity for str_yes_no(has_radio)
-drivers/media/pci/bt8xx/bttv-cards.c:3040:2-12: opportunity for str_yes_no(has_remote)
-drivers/media/pci/bt8xx/bttv-cards.c:3043:2-21: opportunity for str_yes_no(has_tda9820_tda9821)
-drivers/media/pci/bt8xx/bttv-cards.c:3044:2-17: opportunity for str_yes_no(is_capture_only)
-drivers/media/pci/bt8xx/bttv-cards.c:3042:13-20: opportunity for str_yes_no(is_lr90)
-drivers/media/pci/bt8xx/bttv-cards.c:4080:8-19: opportunity for str_yes_no(tuner_tv_fm)
-drivers/media/pci/bt8xx/bttv-cards.c:3140:24-38: opportunity for str_yes_no(btv -> has_radio)
-drivers/media/pci/bt8xx/bttv-cards.c:4081:8-23: opportunity for str_yes_no(btv -> has_remote)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:415:3-27: opportunity for str_true_false(data & XCSI_CLKINFR_STOP)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:409:3-24: opportunity for str_true_false(data & XCSI_CSR_RIPCD)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:407:3-23: opportunity for str_true_false(data & XCSI_CSR_SLBF)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:403:3-29: opportunity for str_true_false(data & XCSI_CSR_SPFIFOFULL)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:405:3-27: opportunity for str_true_false(data & XCSI_CSR_SPFIFONE)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:424:4-30: opportunity for str_true_false(data & XCSI_DLXINFR_SOTERR)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:425:4-34: opportunity for str_true_false(data & XCSI_DLXINFR_SOTSYNCERR)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:426:4-28: opportunity for str_true_false(data & XCSI_DLXINFR_STOP)
+drivers/media/platform/xilinx/xilinx-csi2rxss.c:892:2-19: opportunity for str_enabled_disabled(xcsi2rxss -> en_vcx)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/bt8xx/bttv-cards.c  | 16 ++++++++--------
- drivers/media/pci/bt8xx/bttv-driver.c |  6 ++----
- 2 files changed, 10 insertions(+), 12 deletions(-)
+ drivers/media/platform/xilinx/xilinx-csi2rxss.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/pci/bt8xx/bttv-cards.c b/drivers/media/pci/bt8xx/bttv-cards.c
-index 867c1308de23..f989b5ed28fd 100644
---- a/drivers/media/pci/bt8xx/bttv-cards.c
-+++ b/drivers/media/pci/bt8xx/bttv-cards.c
-@@ -3036,12 +3036,12 @@ static void flyvideo_gpio(struct bttv *btv)
- 		tuner_type = TUNER_ABSENT; /* No tuner present */
+diff --git a/drivers/media/platform/xilinx/xilinx-csi2rxss.c b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
+index f953d5474ae0..7ddd9b265162 100644
+--- a/drivers/media/platform/xilinx/xilinx-csi2rxss.c
++++ b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
+@@ -400,19 +400,19 @@ static int xcsi2rxss_log_status(struct v4l2_subdev *sd)
+ 	dev_info(dev, "***** Core Status *****\n");
+ 	data = xcsi2rxss_read(xcsi2rxss, XCSI_CSR_OFFSET);
+ 	dev_info(dev, "Short Packet FIFO Full = %s\n",
+-		 data & XCSI_CSR_SPFIFOFULL ? "true" : "false");
++		 str_true_false(data & XCSI_CSR_SPFIFOFULL));
+ 	dev_info(dev, "Short Packet FIFO Not Empty = %s\n",
+-		 data & XCSI_CSR_SPFIFONE ? "true" : "false");
++		 str_true_false(data & XCSI_CSR_SPFIFONE));
+ 	dev_info(dev, "Stream line buffer full = %s\n",
+-		 data & XCSI_CSR_SLBF ? "true" : "false");
++		 str_true_false(data & XCSI_CSR_SLBF));
+ 	dev_info(dev, "Soft reset/Core disable in progress = %s\n",
+-		 data & XCSI_CSR_RIPCD ? "true" : "false");
++		 str_true_false(data & XCSI_CSR_RIPCD));
  
- 	pr_info("%d: FlyVideo Radio=%s RemoteControl=%s Tuner=%d gpio=0x%06x\n",
--		btv->c.nr, has_radio ? "yes" : "no",
--		has_remote ? "yes" : "no", tuner_type, gpio);
-+		btv->c.nr, str_yes_no(has_radio),
-+		str_yes_no(has_remote), tuner_type, gpio);
- 	pr_info("%d: FlyVideo  LR90=%s tda9821/tda9820=%s capture_only=%s\n",
--		btv->c.nr, is_lr90 ? "yes" : "no",
--		has_tda9820_tda9821 ? "yes" : "no",
--		is_capture_only ? "yes" : "no");
-+		btv->c.nr, str_yes_no(is_lr90),
-+		str_yes_no(has_tda9820_tda9821),
-+		str_yes_no(is_capture_only));
+ 	/* Clk & Lane Info  */
+ 	dev_info(dev, "******** Clock Lane Info *********\n");
+ 	data = xcsi2rxss_read(xcsi2rxss, XCSI_CLKINFR_OFFSET);
+ 	dev_info(dev, "Clock Lane in Stop State = %s\n",
+-		 data & XCSI_CLKINFR_STOP ? "true" : "false");
++		 str_true_false(data & XCSI_CLKINFR_STOP));
  
- 	if (tuner_type != UNSET) /* only set if known tuner autodetected, else let insmod option through */
- 		btv->tuner_type = tuner_type;
-@@ -3137,7 +3137,7 @@ static void miro_pinnacle_gpio(struct bttv *btv)
- 		if (-1 != msp)
- 			btv->c.type = BTTV_BOARD_PINNACLEPRO;
- 		pr_info("%d: pinnacle/mt: id=%d info=\"%s\" radio=%s\n",
--			btv->c.nr, id, info, btv->has_radio ? "yes" : "no");
-+			btv->c.nr, id, info, str_yes_no(btv->has_radio));
- 		btv->tuner_type = TUNER_MT2032;
+ 	dev_info(dev, "******** Data Lane Info *********\n");
+ 	dev_info(dev, "Lane\tSoT Error\tSoT Sync Error\tStop State\n");
+@@ -421,9 +421,9 @@ static int xcsi2rxss_log_status(struct v4l2_subdev *sd)
+ 		data = xcsi2rxss_read(xcsi2rxss, reg);
+ 
+ 		dev_info(dev, "%d\t%s\t\t%s\t\t%s\n", i,
+-			 data & XCSI_DLXINFR_SOTERR ? "true" : "false",
+-			 data & XCSI_DLXINFR_SOTSYNCERR ? "true" : "false",
+-			 data & XCSI_DLXINFR_STOP ? "true" : "false");
++			 str_true_false(data & XCSI_DLXINFR_SOTERR),
++			 str_true_false(data & XCSI_DLXINFR_SOTSYNCERR),
++			 str_true_false(data & XCSI_DLXINFR_STOP));
+ 
+ 		reg += XCSI_NEXTREG_OFFSET;
  	}
- }
-@@ -4077,8 +4077,8 @@ static void avermedia_eeprom(struct bttv *btv)
- 	} else
- 		pr_cont("Unknown type");
- 	pr_cont(" radio:%s remote control:%s\n",
--	       tuner_tv_fm     ? "yes" : "no",
--	       btv->has_remote ? "yes" : "no");
-+	       str_yes_no(tuner_tv_fm),
-+	       str_yes_no(btv->has_remote));
- }
+@@ -889,7 +889,7 @@ static int xcsi2rxss_parse_of(struct xcsi2rxss_state *xcsi2rxss)
+ 	fwnode_handle_put(ep);
  
- /*
-diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-index 511f013cc338..fdad666d3d0f 100644
---- a/drivers/media/pci/bt8xx/bttv-driver.c
-+++ b/drivers/media/pci/bt8xx/bttv-driver.c
-@@ -2985,12 +2985,10 @@ static irqreturn_t bttv_irq(int irq, void *dev_id)
- 			bttv_print_irqbits(stat,astat);
- 			if (stat & BT848_INT_HLOCK)
- 				pr_cont("   HLOC => %s",
--					dstat & BT848_DSTATUS_HLOC
--					? "yes" : "no");
-+					str_yes_no(dstat & BT848_DSTATUS_HLOC));
- 			if (stat & BT848_INT_VPRES)
- 				pr_cont("   PRES => %s",
--					dstat & BT848_DSTATUS_PRES
--					? "yes" : "no");
-+					str_yes_no(dstat & BT848_DSTATUS_PRES));
- 			if (stat & BT848_INT_FMTCHG)
- 				pr_cont("   NUML => %s",
- 					dstat & BT848_DSTATUS_NUML
+ 	dev_dbg(dev, "vcx %s, %u data lanes (%s), data type 0x%02x\n",
+-		xcsi2rxss->en_vcx ? "enabled" : "disabled",
++		str_enabled_disabled(xcsi2rxss->en_vcx),
+ 		xcsi2rxss->max_num_lanes,
+ 		xcsi2rxss->enable_active_lanes ? "dynamic" : "static",
+ 		xcsi2rxss->datatype);
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
