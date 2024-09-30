@@ -2,49 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8BB9899C4
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 06:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E059899C8
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 06:38:24 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XH7bY2n63z2yQj
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 14:37:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XH7cG59Yfz2yNs
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 14:38:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727671061;
-	cv=none; b=ny8DsfnMLfQKcnyrt7SVW8XA5bqs6AIV+QsbR9LT1AbGdlJOZZck0aZMJlC5Liz0AoKn2NLOikVFZiUMOcJJaDq/ULBV/kYArK/8jknQKQ84ZqW+ST90RscLKukTq9IC1gEkg70l3+ZHCzFYrBsNJK54US8oh5CRELcOtYHExtaFHV9fBi0uGx205EZuMKdrJKLIzPLOCwC5Oc/eIfhrYfzELgK7dfl81AVCfT2SqdKYMOPxcz9tTvMHdyAq4zkoR67VhfVsTxkXu9NQ4JbVC+Qd87UimbYk4PPZCV30VOQ+aA4ML8eGXml9lRJwjcjlfEvrX4nKVVopxtjmh6WVcw==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727671100;
+	cv=none; b=jp9ohN51XA2yAT5lEISwixBSbD0eY/+mS6NrPTEbZuvCfvCc8bCXFapqMwYp5s+66eN5KeDqAkYFYvIdAh/0PonyFwc0n1aalRKgsYOwyM6zl5LVZ50j0QiSMMSDgbZAvspF6LDVUoBS++4JXIg4I9Hvr6gS563wIt+qCuDV/oSvXHK1IrseOBCGWIGI7gf+zZDZiCHC5oT9xRQw8+rCWPfv5dlcMzhRXS/kx0NDQQxuWRg1rlBiekKAaNFq6f/dPkksJ5cNfjlkcifKRWD+DIiLfL8YnlwMPGTo6TnQPtiwx1FDU1ROyKVLnaO//5v6YX8dp0FD+VCnnfL5elLzJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727671061; c=relaxed/relaxed;
-	bh=bvNCgG5pDPCrJ9FPzlk4/5b/7wAGKiINpTHJvUlbEt4=;
+	t=1727671100; c=relaxed/relaxed;
+	bh=URG6eboprcEIgY7CaSGCDE/rTne4uZU4fMz0sjWKlIE=;
 	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Zp0nsW1n7/z3ZmNdHU6A4ztw7zAAjGJLxGartf0rureFLJUwzJXH2gE3EOJ1dv1ul+A7DihePZA/3WwnnEAzirqCNsSd1bjEzZmZGVWUX3QbSBz47qkQxd0wyCnh8aG+TtuEGn6qa96T6kbAEQ/e5GXgwdvCm752mEBjdlL2MRKMYo3MgFWNSJSesqzuTGaPxHuyGglv89UN1SzuMuuv97CgcSq3h5TI9DmayKAYnD71qSQnigInYZ/FKxv8mlBa9q5YQvZZ9gwjV9U7raM3XptPHBoUdvf4I+AEyOrcTf2FSP7CsMgj9r6X5oFf/+exbxCgL5dCr/YSQIpqO5mJVA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=a7K/pn8o; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	 Content-Type:MIME-Version; b=OFQWNndYXKUAAVn8KckeVqe8shHJbNCZ7xWxFk5F6q20Xs4hE3dM32+IY5Ln2whZIMGMUs4ukt337t4KF1VDFc91OKh0trHxTKuj8im2pLOLEhhMNsvGR8Sg1vYiPVN6ZlWVExF+BeQc/RtJmCenOI3BISPIB7B6Llw+xdovcw6qm30GcpcPYz4zFVKdpVvJ7mFDuPHfWi9BSkXUGx6M5a1hQA5mFXHpov1YEcwD6BFAtVpbqn3AXwxWQW/iOSH/1+0dCLaRL0ujpxTVnS9OUVScy09CJcRCViV/L6eYgNbLnDGj1P3uEmrt00Nu7Z/3mq6Gr2U1efiFVaoQNxqj0g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=O9tPJYQZ; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=a7K/pn8o;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=O9tPJYQZ;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XH7bT5xnVz2xpk
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 14:37:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XH7cD4F8dz2xYl
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 14:38:20 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1727671061;
-	bh=bvNCgG5pDPCrJ9FPzlk4/5b/7wAGKiINpTHJvUlbEt4=;
+	d=codeconstruct.com.au; s=2022a; t=1727671099;
+	bh=URG6eboprcEIgY7CaSGCDE/rTne4uZU4fMz0sjWKlIE=;
 	h=Subject:From:To:Date:In-Reply-To:References;
-	b=a7K/pn8oOX1LfnnGFls8ZPATsQ2330fK1bPIn7KFcvQLQ2WtatKDuTcwpk8QMtgHz
-	 8PKUv+2ppcDQJlAo6y4XGeg4+ICHUxi4LPZDhZ0axFtRZ6rsztaE/e30ZRQg2Jz8v6
-	 oi6vUtgGZQyRQKZG0QqOhhqDenXJMIHV+NWwQpjR6aeAwUo7ZMXgogvli0YIhiHjio
-	 kaqctOE4bh+o0y9ukxAiMMXP0p8bhyfYBxaZI6LRyFj13RvZW4ISO3jaEbfpoZu/Ii
-	 a3ltVqUXjWU4mlIs6aiwo0bQmtjCr7XJKkwbM26PIt5xCq7k8kGHuMV92DyRKhGpwx
-	 fpDsrsXTwjrwg==
+	b=O9tPJYQZXX6v1lvPJe58M3PJkTSW2Zr9Z/2oUAfOLHIohUWxFyR+xJp6/FBryhWcb
+	 c5nrWXh531GidqIlFPcrapJkD5T1MXJTFFkxHZCQtIXR2rMqhtam3tjbDsSJdUOeAs
+	 IMuo2jwNuWHIGDH7oGy7kYpQdB7mNZpWRR/D2D9zhHTYwLrxyj/Wq56pH+XNclixX1
+	 vPyUOD33mUzFWEcxrmuT+SpASrj2TFl1OcUMDT2DKi5zFQsZZQJWyrgQteYM+PZUl5
+	 C9wsK4Va5h5eSeQOo/TDXbgGQiJsNI9gfw0hlh8y/LR+rQyBNyJWRhjRKq4ulg74MQ
+	 1WEkCJkmshE3w==
 Received: from [192.168.68.112] (ppp118-210-73-17.adl-adc-lon-bras32.tpg.internode.on.net [118.210.73.17])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 0C30A6511E;
-	Mon, 30 Sep 2024 12:37:39 +0800 (AWST)
-Message-ID: <506c41f97dc0243ed156f1775006ef30fe4a3f54.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v6 5/7] gpio: aspeed: Change the macro to support
- deferred probe
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id F1F0E6511E;
+	Mon, 30 Sep 2024 12:38:18 +0800 (AWST)
+Message-ID: <97163102cad92e9bf6cc3609295a27af60c8df7e.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v6 6/7] gpio: aspeed: Add the flush write to ensure the
+ write complete.
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
 To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org, 
  brgl@bgdev.pl, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
@@ -52,10 +52,10 @@ To: Billy Tsai <billy_tsai@aspeedtech.com>, linus.walleij@linaro.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
  linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com,
  Peter.Yin@quantatw.com,  Jay_Zhang@wiwynn.com
-Date: Mon, 30 Sep 2024 14:07:39 +0930
-In-Reply-To: <20240927111744.3511373-6-billy_tsai@aspeedtech.com>
+Date: Mon, 30 Sep 2024 14:08:18 +0930
+In-Reply-To: <20240927111744.3511373-7-billy_tsai@aspeedtech.com>
 References: <20240927111744.3511373-1-billy_tsai@aspeedtech.com>
-	 <20240927111744.3511373-6-billy_tsai@aspeedtech.com>
+	 <20240927111744.3511373-7-billy_tsai@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -79,22 +79,18 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On Fri, 2024-09-27 at 19:17 +0800, Billy Tsai wrote:
-> Use module_platform_driver() to replace module_platform_driver_probe().
-> The former utilizes platform_driver_register(), which allows the driver t=
+> Performing a dummy read ensures that the register write operation is full=
+y
+> completed, mitigating any potential bus delays that could otherwise impac=
+t
+> the frequency of bitbang usage. E.g., if the JTAG application uses GPIO t=
 o
-> defer probing when it doesn't acquire the necessary resources due to prob=
-e
-> order. In contrast, the latter uses __platform_driver_probe(), which
-> includes the comment "Note that this is incompatible with deferred
-> probing." Since our GPIO driver requires access to the clock resource, th=
-e
-> former is more suitable.
+> control the JTAG pins (TCK, TMS, TDI, TDO, and TRST), and the application
+> sets the TCK clock to 1 MHz, the GPIO's high/low transitions will rely on
+> a delay function to ensure the clock frequency does not exceed 1 MHz.
+> However, this can lead to rapid toggling of the GPIO because the write
+> operation is POSTed and does not wait for a bus acknowledgment.
 >=20
 > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 
-Seems okay to make it less of a deviant, though maybe we should fix the
-sgpio drive as well? Anyway:
-
 Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-
-Andrew
