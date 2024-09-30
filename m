@@ -2,166 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4E8989911
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 03:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC33989942
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 04:36:45 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XH42L3cbZz2yRZ
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 11:57:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XH4vt5kmMz2yQG
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Sep 2024 12:36:42 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::624" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727661432;
-	cv=pass; b=HtPSyWhmNfKvwqPuQgAvSSxKZGdTUaBX8uOKfmcddyIGV9Pfen8MCgAaqDJhtJLOi2ucrc4mEEm4uTwmX0BvFiZ7tSQQLY4pjfFkj4SD1wxTxUG9KD0UIiEyyEWUmM2caa4vhWCxlEshb97lv42S7BFi5RSImWA1ar+ILIaXXN/6QElCmp8oZwIVtrx75qap7aBvEgJp2tQLiyKqg24G0eZLQ+SOr5KS5h4ljLEAbDew7nvad14LKsehs7VBl4hHE/wkAHkNlOry+Dr4oFW/u0x4VEkhpoUzqqKui6QJlw0iyNfbt43g8I5Rrpb048ndgW4LrfX3/XwWyZyBzewbOw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727661432; c=relaxed/relaxed;
-	bh=aEa0t0/ubY6jGpNsz/pu20p//MhXcpLRuJS/hUkOs7A=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mCJugXGwSkd340mQz9n+pn8MSfkiLXPbwccgFuekQMtYYOSrWaZLI4OJ/kfODaXJt9joMLU/I3lXSrv2gdLeP5Nbnj4fkyiDBwxtu083UpSTUwgnk8bDqlwAQGmHZhp5PIuDWlhC3EDII9ggSc/boe+zGJTr1M7KZnNosZ0DRVOQmFj/+Ct/nlIK+cn81Qaw0Wh4nKXRDBwdLgiP0N/g77LdS/pVHC+T1ceT7Ock/ekJpziCGO+sZp24yw8ohueNW3a/9czjQWrBtLyjMLSItUE/BjFTI+y+TcwVzZuXhkMjF6SHY/vMBCAYiaGBq8N45M40J/4KpxpQmjS023+Pcg==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=ZNeMvvdJ; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:2011::624; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org) smtp.mailfrom=wiwynn.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727663799;
+	cv=none; b=NNgNglRKGMvtbqMaZ4QAEICMpWWPVGag8i7JoRktqplgM4fbi+VgGR9CmZaD3lBTTAWpc3Kt39wHjdtzliJBiKaVZIWAsrOKrddRQT/uI9+FMPt5fzhRlqXkmH+UldqAqaU3g473KNY0APn2OtmjheYwXORBecsIolFnOrpXRz3TypWMGHzrR2h0INPme/gtnNJmE4gGn4eKPoX6H1luO5Zx+EgFQB+7v+zdEHAVrLHZPUweErXoeE4s1eluzqfMGEcB2o2xXQrUzqH5YK+qYtQ2fNRqYN9isGjSrllzD0xUbymSGUIC/lleepnCzkzQ6lvQcCdK8MnFV8Ykim+NCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1727663799; c=relaxed/relaxed;
+	bh=6poyunsspmaVm43bgUWJe5BKtQ8nrMQqrGb7DxulcwM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ac65WYmSE++VypA1Wckoepyiq8CJw+KNzBQvaYjFsDYE21JmI8rk0npee/MtOmWDbM7YHTwb0WS6NBmtQ7NQGTGAV1vOuhjcX9Hbml49q6uHHxIOSc4jjkuDiqQWQjs2CMfTlkoUzAsk9Jnpf4ylNckd3i9GtDtLUEV2z31Ayj0vioB0grhBWzslGB55XY6VMyWjgS5t14wVKTXuEZaXAjIHeJ4864/r3x+oM0hYFeF88+tBGmv53b3hCO1iJVgC7HnTLyKrfYfuA7vOXAo54XdQnvSqDUy4abiGxO/DD/exlX+4kO7tGu9q2K8/Pr9zb1NTRbamixSD/IKARmT2Ww==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=T0R8omgC; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=ZNeMvvdJ;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=T0R8omgC;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:2011::624; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20624.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::624])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XH42H5sfMz2y69
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 11:57:11 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RCQisCnueIIUmDyKyJ2WSIJCwSdY+DrYYOw5ADUbB7M8+sWEvWvvF+9nLwbvt0NxYnJemkCLYL4fLPwEtDjnnpIA7GAtIsOyIElt1qb/s00ZlePf4VW+MAnAmaahZKzn7lSm8VzijPa8fdrbPTefC6kNTqXW2P9239g0ZGevk6MWVjQOyefkz7u5P6uLzlMXZoBzZVsErUvXWeUD8e/zdETLFZRQjOgCYyiNagm47voebrGHXvfHDZxk+ScL9LgP2T9JQI3xHcPP7RB5FCVxKWzpZdKUjpQJquZarQi8brbiJo6GRJ6HdhnYsfTTCHDFo4VZSuAyyKCEew6M7Xy/mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aEa0t0/ubY6jGpNsz/pu20p//MhXcpLRuJS/hUkOs7A=;
- b=MO6+SqmgyjKIaEh4fabbWj4u8WlfTPWi4V121hTuBMtKFcA5PMbo8p8AdnJzXZZFvEy+Tz7VkHJTJRT91K974makAAiZqSBoh6qZaaGHNbLPwxaYEsrgR4fdf3GYuGxBd18wKSUNiQkNM9jL/XoAmp/Y5TrTcx6jaeZeSStCtIwdoYEfnvReYsvQ9hHVKmSM+gaDcig/iJ+5OltoAaTe35K5KNOapgbWEvMhfcb3HP4QcmeSzsj2/Sf/VdSH6X1IUfrQzBHuLlN30eag59j/s4t5EJkZ0faTyO2zHanY6WokV3yQ+uH0HIQwEYLlxp0unYBN9n3m0dM9zKANxpcN7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wiwynn.com; dmarc=pass action=none header.from=wiwynn.com;
- dkim=pass header.d=wiwynn.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aEa0t0/ubY6jGpNsz/pu20p//MhXcpLRuJS/hUkOs7A=;
- b=ZNeMvvdJVSRZcJhFmnh8iXE2Z8ldqvrlBn1WJa4ERGfL0iHWd0W5rGGXsySacMNIm6A/fFJlTEDRPDveR2qEsGkMwvmCW5vFHZgokRjGW0mFdPHxkanVEKBYpaM1/Hm0JOnVvvWUeSVUhQKU+3nFT+sGguoRBifoXTx0BU7H04kCANXg2jrbyzMd93MRWWr8fziiDA89a/M/rhdbMA0nPGkYX4tyGn4NV2Sw1j5DHy+8MzJvYazDzqacuaF7FmVRQLS06n8H5NGK286WC75Xyyr6UvAeCuetrnIyzkp4kCmt6MA6x7xMfuWa10lGPYwJhFvspcUzbycs40XWrD3NKA==
-Received: from TYZPR04MB5853.apcprd04.prod.outlook.com (2603:1096:400:1f3::5)
- by KL1PR04MB6949.apcprd04.prod.outlook.com (2603:1096:820:df::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.26; Mon, 30 Sep
- 2024 01:56:51 +0000
-Received: from TYZPR04MB5853.apcprd04.prod.outlook.com
- ([fe80::ae7d:7486:9319:8d96]) by TYZPR04MB5853.apcprd04.prod.outlook.com
- ([fe80::ae7d:7486:9319:8d96%6]) with mapi id 15.20.8005.024; Mon, 30 Sep 2024
- 01:56:51 +0000
-From: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>, Delphine_CC_Chiu/WYHQ/Wiwynn
-	<Delphine_CC_Chiu@wiwynn.com>, "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-Subject: RE: [PATCH v1 2/5] ARM: dts: aspeed: yosemite4: remove led gpio
- pca9552 on fan boards
-Thread-Topic: [PATCH v1 2/5] ARM: dts: aspeed: yosemite4: remove led gpio
- pca9552 on fan boards
-Thread-Index: AQHbD8QqQJuGMpPsqkiQ5QruptEkkrJrINAAgAR201A=
-Date: Mon, 30 Sep 2024 01:56:51 +0000
-Message-ID:  <TYZPR04MB585383DB1DD37DF3776BE945D6762@TYZPR04MB5853.apcprd04.prod.outlook.com>
-References: <20240926032821.4171466-1-Delphine_CC_Chiu@wiwynn.com>
-	 <20240926032821.4171466-3-Delphine_CC_Chiu@wiwynn.com>
- <0e9483a19f916982ba6996b81c2f1254da3801f3.camel@codeconstruct.com.au>
-In-Reply-To:  <0e9483a19f916982ba6996b81c2f1254da3801f3.camel@codeconstruct.com.au>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wiwynn.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR04MB5853:EE_|KL1PR04MB6949:EE_
-x-ms-office365-filtering-correlation-id: 2f02a2c8-dae5-4962-e31b-08dce0f326cd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info:  =?utf-8?B?SFdnSmd2bkI5ZmIzYkxqSVZsendQdVNFRlI1aEtneUpjMzFmeldBdnJIM1gv?=
- =?utf-8?B?WXd3aSsveGRoNmczS2NST2luR0hEdXBsNWhkQk45R0VjdUQ0Z3lYVTZIb2Fm?=
- =?utf-8?B?N0xIVU95aVl2dXcxR2JKa016MWErSTFwT2JZejBDSmxPQ0JLWGkrWnQwUXBv?=
- =?utf-8?B?SjJQY2NucndaYUoxOWw3Q2JqeG8yZjhhMVRQNy9VYTk3VGN0djFVVG9FNXA3?=
- =?utf-8?B?KzRDb3IyQzMyQm1nYjFtNUNxM1c5N2RWZlpOT2VKaVRCSjlrbm5vaCswMDBw?=
- =?utf-8?B?T1FjUytFQmNsZDFWM1ZtKzA4UjZLcTgvRVpDQU9xZVIxUmdkMnhNWXh1cjRP?=
- =?utf-8?B?TlZSRU1jQm9tM0R5eXVXd0FiNTMxbDVyaXprVHJyOTdtaVR5Y0dZcEhPYlpt?=
- =?utf-8?B?bW4vN2J6ZWc5Z0ZpcjllTzhCNjJMajMyRFBCd0tZOGZkTmYzbzRLL3ZabjRz?=
- =?utf-8?B?b1B4NWlubGdBQ2RlbElqTjhscDBGOGdQekZYVDdQOVN6ZFVxMlhNYWFvbkhv?=
- =?utf-8?B?em9hb2FuMHJCN2lSL0RSc3duYTlnRHJGeCt1Rlc4encxNlNXRDRZSWw3OWQ1?=
- =?utf-8?B?d2s2cU1DVWU5Tmk5RUFHVHhSK1BpSnBwMU9XcDFpQWRtOUFnMHA4NjNscyt3?=
- =?utf-8?B?dlpxS0JrQUpIMjlxUDJVSnBsS0R5Q0ZzUmlLajdPUC9uSXVsZUpOanhISTY4?=
- =?utf-8?B?NnZDcEFVNHptZ0JWOTE2RUpTWUdHUkVIOGxQTmF6cUd3em1NU0NhNE0rRnFQ?=
- =?utf-8?B?aTkyN2lkNlRYZHp3TWRpZ0FmQ3owZjJVK3R6bmJpSVRvSG1PUFpaRU9iTnpC?=
- =?utf-8?B?ekF5MUl3bkltcDY1T0hKT2VXbEY1VExFY0FTVzg1T3FrQlRYOVV6MFhlcXdX?=
- =?utf-8?B?WTBGM2VOcU4wRG1kaHlsVHorSTBhb2h6SGNHNktNcUp5Q3BpUW5COUdwdTNY?=
- =?utf-8?B?N0ROMEVEL2VhRi9XMlNaSytkdEFhYTV3d3VsRXBVcmptR2piY2hVRWcyL0tD?=
- =?utf-8?B?Vm5MRVFiZk53L0FWZjdBYzhiZktnRGhJNy9lUzd1TkhrOVhaWlFFRDJaWUF0?=
- =?utf-8?B?RkdYOTNzTFY1clVUVlp6ZU1USXZWZTFvay9MN3c2UlhYNVF6dFczOVhYQXIx?=
- =?utf-8?B?czlRV0tnYzZ0MmYwSytKcDg5c2JRakFOZ0QrYS9CTVdtazM5Q0w3NEQ0MnJa?=
- =?utf-8?B?ZWV0Z2drOEczZ0ZoaVJQNUJ5dkRBWFYvWkUzVi82R2NiMmdhL2owa1hLdUsr?=
- =?utf-8?B?dDZ2RnhxdG1md1ZSK2FnRFQ1Njd4QytNVUZzYXQ4N21ibFhid2ovUWsvRUkz?=
- =?utf-8?B?VmhqdXgwRVl1bkxjVXRBNUhOQmdsMzh4NkxxdmxnbmZobVBRdXRHVkFLbkQ1?=
- =?utf-8?B?ZEp1c1pDZjI0YjFCeG00ald5ejVDdmJsSUdsajVxZzZvZWIrd3ZuOHVIQkcx?=
- =?utf-8?B?Q3NJYXRLRjJIUjBsemMyMk9jcGFraTNqMW1ZRzdYeHRuL3pOalNUSzFidHBS?=
- =?utf-8?B?SFA4R3p4b0dER01TME1OT2p4VVRXRThkUFRWdHk4dDB3M3JRVTQ1TUhaL244?=
- =?utf-8?B?MkxwZzQwVEwrSlovWTZncXU2Q2hPenA4bmNzV1ZCS0NxYkg2UTk3bTVnelp6?=
- =?utf-8?B?eG1EVDAweUJEaHVORkVIWVA1Z29UNCtaQURyRWRQY3FMSGk0dWR0TEhxb0pJ?=
- =?utf-8?B?Yk9yYTlBMUk2M0ZLVXRPZzJaZkFidVZvL2svbFo1bk9iS0g4aXBJU2F3PT0=?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR04MB5853.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?cHVZMWg4SEJWVGI1dkJuVDVPcjNzNWpqc3ZBaXZBMmtRUFZEbVAzM0RGL1N6?=
- =?utf-8?B?SjF1UU40VlQ4TG0xV3pDM1FJWC9ZbDVmY2pwTmF5WHFzUnFDTDVRemFzOHBP?=
- =?utf-8?B?YkhQK2tTMEVBU3FNMEYxaW9sMHJDa054WFB5K1duWWpwSU9TZmlmSHo2K1N0?=
- =?utf-8?B?dGswTXc4Unc1dDBkMFhjMlNaQS8zQlVWR0pYZWJMMWtYOGttM2xWc3EwYXlT?=
- =?utf-8?B?RVFnOXhUUGZIcjNVOWF6TEhxeDdiUzkybW41di9FOWp5ZDRrbUFwMGRNeUU5?=
- =?utf-8?B?UEJBa2ZGMDRnQk9DZ3Q2OXozR0ZhVzQ4Z2t1OXNIMURERkpYbE82ZDU0b1Y4?=
- =?utf-8?B?UVJUOFlKSnNkZm1lS3JGZGVlK0t4QmtGa1oyVW8zVWNTRHdNWVFjSHQwbHFq?=
- =?utf-8?B?SW56bncxaXNHbDBQZ3JJN0VMWENyOVZQUE5jdTI5aXh2ak1qQU91S3BHb3lw?=
- =?utf-8?B?QklKQVBsRDl4Y3c4cENCSDg3ckowQ2FHT2JYQXFDUzhQWlRRMnVxYnlRUnY2?=
- =?utf-8?B?YU5TWXJZYzNmTndhc05TVGNsMkpCWTFHQWZJUVdRb1loZjJBVXBCUFgvNm1Z?=
- =?utf-8?B?MWcwSkpSSm5aaHhKVVJzZzhqOWhocUQxSVZWaDBHNkx5c1JJMkFSdTA4bmx4?=
- =?utf-8?B?YVdTSTRVa1VYcU9IejRrQklLUVlxQm5KejB1SFdXUGM5ekdEUTJVVm9meGw1?=
- =?utf-8?B?S29GRkxHWlhZTXZCLzR5aloyamtWOHZvL1QyZlliakVYR1RBR25tT25aM1Vk?=
- =?utf-8?B?MGxrbDJOaVg3RUxtdXpxOThzd3l4WGdHYi95anJ4Y25LeU9kdm5xUDE1Z2lm?=
- =?utf-8?B?aHJMMWtMYnB2U2ZXVFhxRms1ZTM0Q2R2dEUzdTlzNWkxWVZ6ckQ3dS9oWFox?=
- =?utf-8?B?Mm84STkyNHd3UVBRNEJDK2dROE1wbGhGUzdiRVBBb2xvYVhkSVJhcENuS3Mz?=
- =?utf-8?B?ZE5LNnJ5UnpYSEhPdktrMXo2cDNIWGxaY3EvWERWbjV5d3g4Z040c01mTXBF?=
- =?utf-8?B?L1hpUHJ0Z1JjVFZEc3pGNzJWUGl2djFSeHNrMGNCQUdvckk2YnNEeW9XTlJo?=
- =?utf-8?B?NVp3KzFBYXlNZ1lucGMzY1A4bW56Qk1mbVdpNVdTNmpEVTFuUDVKeFJTU0Z5?=
- =?utf-8?B?WUN6aGdmWUh0THdBZDdjSFZqVnA4U2toeGNIaVVzMUV1WkxRbmhEMFdDdFQy?=
- =?utf-8?B?dUd6cE9FcWFqbmdtdkNvT2JVcHNxL2dBWktkTjhZWHp0cEU1OVkzblVPODVU?=
- =?utf-8?B?bVp4dUdicXNvQldPTkZEMGJxaGR2Tk1DMGpMRHhpNk9EUk1XMHlWSFUrSWpB?=
- =?utf-8?B?NVZkYW45TE9jeGQwdDV1cVpVNDhsWGdGZVBmb1B6ajh5dS9WRWYvcFlFb0JH?=
- =?utf-8?B?MEF0bHFvei8zUjFpQ3htTDFhc2d6MVp2YjdRME1XbmdyL3VMQU5tbWpqd3or?=
- =?utf-8?B?S1RwVVMwY2tqeE03ZzF1ZGtZWEExalBKRlU3WXJXTWxiSndiOXduOFRQRGVr?=
- =?utf-8?B?Qk5hMDJoTEg5TFVpUlB3S1o3UkdqbjNDcVhoWVVoN2cySDFhM00waTZQZXdm?=
- =?utf-8?B?c0FwN1UrajdOLytheU02dDFjWmR1bXhZN29kSGxyZGY0K2h4ZzR5WDd3cVdC?=
- =?utf-8?B?aG93azFiQWc2azYxZU9HOTJ0bmNxQkFkL212ZG9LdVpsUjRVNEk1K2JRTjdD?=
- =?utf-8?B?MnFHRXlNTUxCaXRlQ1dTOHRrZlRRVGhNVlljYzY0NDhRQ3FORnF4WmJOVHFk?=
- =?utf-8?B?blJ1NVBwbDc5N0Y0TEM1SXd6T2phLzVkS1kxNjVtdWhXTnFOenNSVGdIN25U?=
- =?utf-8?B?akpnZFpHVXhwdkJYa3puc1d6dDZMMmhqNG45aFFiQU9JdyszVzhqckFQZnU4?=
- =?utf-8?B?K1VHU0t3Tk5qMzRGVnlPNVczTmxKR2FQYnlVa2s2a0djTjEvQVZqU0ZRblEr?=
- =?utf-8?B?WlhxNWxjRWxLdFJRb2J6STkzdnR3YlAxTEI3TkRIV0psK3I2YkM0ZDBMM1Vu?=
- =?utf-8?B?L0FVNkJMZW5BWEdZa1hSM29hN0JIYnJlR21jNUFUeTRaRVB2TXVMUGtSWWpr?=
- =?utf-8?B?dTRMdmdsamNGZnJMSVNqd1VHaFN1NUt5TlRjcytTT293K0NLUnZzM0tzNVVs?=
- =?utf-8?Q?Shv8xkGcC5oI0Ua6x9TU1611x?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XH4vq67Gyz2xYl
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 12:36:39 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1727663798;
+	bh=6poyunsspmaVm43bgUWJe5BKtQ8nrMQqrGb7DxulcwM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=T0R8omgCdo6X05+Z5/ziiLtzO6hzYL4anPHmGoTtQqB+KNRbkoEFBN3mORtaiBezr
+	 2xcFE+5WY2gHiK4/IwZGXokX0+7WfXHBW8kjNwzE0lEPYl5TvHre02z922JDlUxtH5
+	 Y9qicWUqrLHIO7UlQqOQar1bFGeI6LmjIsF1fVp7XfcunirvMMafAZi9tpnX6ARGZ2
+	 8By4rwiAPzHbLS50JMtvSuWrWJOB4mWooFJ7G4GTD/zzwCSSkAhF42k3JsI1aR7JGw
+	 YTzjcS8mCmokTPdDca1AXMVIkfl4lBzXV/tSERWWrOtESdxL4ZFWDhQZYtdygGJ6+x
+	 t2PNFmDzSdssQ==
+Received: from [192.168.105.88] (unknown [120.20.51.218])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 56B7365013;
+	Mon, 30 Sep 2024 10:36:35 +0800 (AWST)
+Message-ID: <ef0e0be6cbdcf410ca7854884f32da0e3cf6b295.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v1] ARM: dts: aspeed: yosemite4: Add i2c-mux for CPLD
+ IOE on Spider Board
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Delphine_CC_Chiu/WYHQ/Wiwynn <Delphine_CC_Chiu@wiwynn.com>, Patrick
+	Williams <patrick@stwcx.xyz>
+Date: Mon, 30 Sep 2024 12:06:34 +0930
+In-Reply-To: <TYZPR04MB5853A70A99CEDE8EB64A317DD6762@TYZPR04MB5853.apcprd04.prod.outlook.com>
+References: <20240926024133.3786712-1-Delphine_CC_Chiu@wiwynn.com>
+	 <fbdc9efe87a1bed9fea7d0abaf955aa1a3dc24ac.camel@codeconstruct.com.au>
+	 <TYZPR04MB5853B51141F3D0610D970265D66B2@TYZPR04MB5853.apcprd04.prod.outlook.com>
+	 <Zvdq7o6NFXRVCJqX@heinlein.vulture-banana.ts.net>
+	 <16c89a7b9b85d21f1f23aa0d67742c6bde94a295.camel@codeconstruct.com.au>
+	 <TYZPR04MB5853A70A99CEDE8EB64A317DD6762@TYZPR04MB5853.apcprd04.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR04MB5853.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f02a2c8-dae5-4962-e31b-08dce0f326cd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2024 01:56:51.1936
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JHJwp5PBXLsB1zWVIRUI6z2vfxAVkS8JoPeAY9JqVnEuE4dQxk8BdEuR/0h76Yo3AFho/j8GmWBGI5mtLCfU+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR04MB6949
 X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
 	SPF_PASS autolearn=disabled version=4.0.0
@@ -177,35 +75,169 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, Rob Herring <robh@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcmV3IEplZmZlcnkg
-PGFuZHJld0Bjb2RlY29uc3RydWN0LmNvbS5hdT4NCj4gU2VudDogRnJpZGF5LCBTZXB0ZW1iZXIg
-MjcsIDIwMjQgMTo0MyBQTQ0KPiBUbzogRGVscGhpbmVfQ0NfQ2hpdS9XWUhRL1dpd3lubiA8RGVs
-cGhpbmVfQ0NfQ2hpdUB3aXd5bm4uY29tPjsNCj4gcGF0cmlja0BzdHdjeC54eXo7IFJvYiBIZXJy
-aW5nIDxyb2JoQGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpDQo+IDxrcnprK2R0QGtl
-cm5lbC5vcmc+OyBDb25vciBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBKb2VsIFN0YW5s
-ZXkNCj4gPGpvZWxAam1zLmlkLmF1Pg0KPiBDYzogUmlja3kgQ1ggV3UgPHJpY2t5LmN4Lnd1Lndp
-d3lubkBnbWFpbC5jb20+Ow0KPiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGludXgtYXJt
-LWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnOw0KPiBsaW51eC1hc3BlZWRAbGlzdHMub3psYWJz
-Lm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENI
-IHYxIDIvNV0gQVJNOiBkdHM6IGFzcGVlZDogeW9zZW1pdGU0OiByZW1vdmUgbGVkIGdwaW8NCj4g
-cGNhOTU1MiBvbiBmYW4gYm9hcmRzDQo+IA0KPiAgW0V4dGVybmFsIFNlbmRlcl0NCj4gDQo+ICBb
-RXh0ZXJuYWwgU2VuZGVyXQ0KPiANCj4gT24gVGh1LCAyMDI0LTA5LTI2IGF0IDExOjI4ICswODAw
-LCBEZWxwaGluZSBDQyBDaGl1IHdyb3RlOg0KPiA+IEZyb206IFJpY2t5IENYIFd1IDxyaWNreS5j
-eC53dS53aXd5bm5AZ21haWwuY29tPg0KPiA+DQo+ID4gUmVtb3ZlIGxlZCBncGlvIGNvbnRvcmxs
-ZXI6IHBjYTk1NTIgb24gZmFuIGJvYXJkcyBzaW5jZSB0aGVyZSBpcyBubw0KPiA+IGJpbmRpbmcg
-ZG9jdW1lbnQgZm9yIHBjYTk1NTIgY3VycmVudGx5Lg0KPiANCj4gVGhhdCdzIG5vdCB0cnVlLCB0
-aGVyZSBpcywganVzdCBpdCdzIG5vdCBjb252ZXJ0ZWQgdG8gZHQtc2NoZW1hOg0KPiANCj4gaHR0
-cHM6Ly91cmxkZWZlbnNlLmNvbS92My9fX2h0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9s
-aW51eC9rZXJuZWwvZ2l0L3QNCj4gb3J2YWxkcy9saW51eC5naXQvdHJlZS9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvbGVkcy9sZWRzLXBjYTk1NXgudA0KPiB4dD9oPXY2LjExX187
-ISFKNjNxcWdYaiFLSmxaWGdfR25wZ1lFc2ZMd3J4a1VFcXdmc0hrdF80MWpUbkMwOXlkNVZQQXFU
-DQo+IHJhcWt0WTVwLUt3VU5RM3hQRWJkb2NrU0Qta256VGVPclE4aWpydXEzLVE0YyQNCj4gDQo+
-IFNvIHRoZSBub2RlcyBjYW4gc3RheSwgdGhvdWdoIHRoZXkgcHJvYmFibHkgZ2VuZXJhdGUgd2Fy
-bmluZ3MuIFRoZSByaWdodCB3YXkNCj4gdG8gZml4IHRoaXMgaXMgdG8gY29udmVydCB0aGUgYmlu
-ZGluZyBkb2N1bWVudC4NCj4gDQo+IEFuZHJldw0KPiANCkhpIEFuZHJldywNClRoYW5rcyBmb3Ig
-eW91ciBzdWdnZXN0aW9ucy4NCkknbGwgcmVtYWluIHRoZSBub2RlcyBhbmQgcHJvdmlkZSB0aGUg
-YmluZGluZyBkb2N1bWVudCBpbiBhbm90aGVyIHBhdGNoLg0KDQpSZWdhcmRzLA0KUmlja3kNCg==
+On Mon, 2024-09-30 at 01:47 +0000, Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
+>=20
+> > -----Original Message-----
+> > From: Andrew Jeffery <andrew@codeconstruct.com.au>
+> > Sent: Monday, September 30, 2024 7:44 AM
+> > To: Patrick Williams <patrick@stwcx.xyz>; Delphine_CC_Chiu/WYHQ/Wiwynn
+> > <Delphine_CC_Chiu@wiwynn.com>
+> > Cc: Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.=
+org>;
+> > Conor Dooley <conor+dt@kernel.org>; Joel Stanley <joel@jms.id.au>; Rick=
+y CX
+> > Wu <ricky.cx.wu.wiwynn@gmail.com>; devicetree@vger.kernel.org;
+> > linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org;
+> > linux-kernel@vger.kernel.org
+> > Subject: Re: [PATCH v1] ARM: dts: aspeed: yosemite4: Add i2c-mux for CP=
+LD
+> > IOE on Spider Board
+> >=20
+> >  [External Sender]
+> >=20
+> >  [External Sender]
+> >=20
+> > Hi Ricky, Patrick,
+> >=20
+> > On Fri, 2024-09-27 at 22:33 -0400, Patrick Williams wrote:
+> > > On Fri, Sep 27, 2024 at 09:24:11AM +0000,
+> > Delphine_CC_Chiu/WYHQ/Wiwynn wrote:
+> > >=20
+> > > > Would like to ask should I base on the openbmc/linux repo to create
+> > > > the remaining patches that have context dependencies and add the
+> > > > lore link of the those patches that I've sent in the cover letter?
+> > >=20
+> > > I believe you're trying to get the patches applied onto the upstream
+> > > tree, so no you should not base on the openbmc/linux repo.  That repo
+> > > is a 6.6 branch.  You need to base the commits on torvalds/linux.
+> > >=20
+> >=20
+> > In my previous email[1] I requested:
+> >=20
+> > > Please assess the remaining yosemite4 devicetree patches (those you
+> > > haven't received a thank-you email for) and send an appropriately
+> > > constructed series so they can all be applied together, based on the
+> > > tree here:
+> > >=20
+> > > https://urldefense.com/v3/__https://github.com/amboar/linux/tree/for/=
+b
+> > >=20
+> > mc/dt__;!!J63qqgXj!N56Dq0KcUR0NerePsoY0JUBCDvFG_F3KyRF0D4qNdu_Ozc
+> > SGVPC
+> > > SBOJk6u28AWPfgDRWsLE1B__-_ZNVKYv-zhc_6PY$
+> >=20
+> > So I'm not sure why there's confusion and speculation as to which tree =
+should
+> > be used :( Note that the for/bmc/dt branch above is currently based on
+> > v6.12-rc1.
+> >=20
+> > [1]:
+> > https://urldefense.com/v3/__https://lore.kernel.org/all/fbdc9efe87a1bed=
+9fea7
+> > d0abaf955aa1a3dc24ac.camel@codeconstruct.com.au/__;!!J63qqgXj!N56Dq0
+> > KcUR0NerePsoY0JUBCDvFG_F3KyRF0D4qNdu_OzcSGVPCSBOJk6u28AWPfgDRW
+> > sLE1B__-_ZNVKYv-uNCc7qE$
+> >=20
+> > Anyway, I asked that because I have already applied one of the
+> > Yosemite4 patches there, and developing the remaining patches against a=
+ny
+> > other tree will again cause conflicts (due to the lack of that patch).
+> >=20
+> > More broadly though, Patrick is right: If you're sending your patches u=
+pstream,
+> > it is required that you develop and test your patches against an approp=
+riate
+> > upstream tree. Usually this is the most recent -rc1 tag, unless there a=
+re reasons
+> > otherwise (such as conflicts). The OpenBMC kernel fork is not an approp=
+riate
+> > tree on which to base work you intend to send upstream.
+> >=20
+> > Thanks,
+> >=20
+> > Andrew
+>=20
+> Hi Andrew,
+>=20
+> Sorry for my misunderstanding.
+
+No worries, hopefully we can get it sorted out. I realise the sentiment
+of my responses below is quite direct, but I'm trying to cut through
+the confusion. Please bear with me.
+
+> So I should combine the remaining yosemite4 device tree patches as a sing=
+le serial
+>=20
+
+Specifically, any patches that have dependencies on each other. In this
+case, patches that share diff context need to be in a single series so
+they don't generate conflicts when I try to apply them.
+
+>  based on torvalds/linux
+>=20
+
+No. In _this specific instance_, please base the series on
+
+https://github.com/amboar/linux/tree/for/bmc/dt
+
+If you look, you will find this is itself already based on v6.12-rc1,
+and contains ASPEED devicetree patches both yourself and others have
+sent that are intended to appear in v6.13.
+
+I need you to do this because I've _already_ applied one yosemite4
+patch there which is generating conflicts with your other yosemite4
+patches.
+
+_However_, in almost all other cases, you should base your series on
+the latest -rc1.
+
+>  and test on openbmc/linux
+>=20
+
+No. If you're sending the patches upstream you must test them as
+applied to the relevant upstream tree. In _this_ case, it's the
+for/bmc/dt branch I've linked above.
+
+>  then send the serial patches to torvalds/linux.
+
+You send them to the lists as you have done here, yes.
+
+> And you will help to fix the conflicts
+>=20
+
+No. I'm asking you to fix the conflicts that your patches are
+generating. I don't want to be in the business of resolving other
+people's conflicts and risking incorrect results. The conflict
+resolutions should be tested to the usual expectations.
+
+>  when you apply the serial patches to openbmc/linux.
+
+I'm doing two separate-but-related roles:
+
+1. Upstream patch collector for BMC-related devicetrees
+2. OpenBMC kernel janitor
+
+The first role is how I'm interacting with you in this thread. At the
+moment I'm helping Joel out: recently he's been taking the patches I've
+collected in the for/bmc/dt branch I linked above and has sent a PR to
+Arnd for integration into torvalds/linux via the SoC tree.
+
+However, in the process of collecting your patches in role 1 I also
+happen to switch to role 2, where I backport your upstream patches to
+OpenBMC's v6.6-based (LTS) tree _if_ applying the patch/series directly
+to that tree does not cause conflicts. If there are conflicts, then I
+expect you to also send a backport patch that accounts for the
+conflicts to _only_ the openbmc list (and not the upstream lists and
+maintainers also on Cc here).
+
+So in neither case should you expect me to be resolving conflicts for
+you. The resolution still needs testing as noted above, and I'm rarely
+in a position to do that myself.
+
+I hope that helps.
+
+Andrew
