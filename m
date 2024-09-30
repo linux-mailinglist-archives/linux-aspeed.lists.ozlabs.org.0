@@ -1,74 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D28E98B048
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8047398B049
 	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 00:45:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XHbkg2whcz3g2K
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XHbkg5QKKz3fy9
 	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 08:45:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::f2b"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727697896;
-	cv=none; b=ZRMRJE1/p8lkLDtM9iujkfg9hR8datvANPFF1sVrW6Jkp7aaxNSaw64kBPtpLc+J0S8VM7/oI8902UP4hs22Yg0FJiSLUVwprkbIoZFM4LT5ukD/7ZqCDjz5cXbboG6hB2TZjJHY5nTdj42SGCRRbPWbdTiytPmE0/KM1RPTh/SOirrvJARGgXNFywuZIgurEFGIT7LoXyAQZMZrGy2yGGsaFP/hGhd0rSeRuKW3uzZWxXhoKeU9fX7Bk92/OmIrgMNfMN85KNEdbIcQnY89HgAP+BJKSromX80mHitQwBo2P57Fai5yWzdvtvQiw6y5Zab/WfIKqckB/jGCPSv3eg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::72d"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727697898;
+	cv=none; b=nu1q8+WQMpgr1lmpm+DdpVyfuHt7h8WXo70KHb9FLNQTWjalnyH74nBhiDelunOV8X3AAvMbanyAhxMF6dPgwGRUTEV2yENEzUyZiRRbdgZghPBqkUpO+5ih9iYGXavWdQThX34NdRxVGcY0n4Q7AN96OM54yB6fxHWAvp4un0eUK4mYmkRw+dbdzOVQMD79eAo6YoVzc0SKvRPC9+NO7YDsxbOqIpa0EoygLONRnNXXMnM4fv4r/jZ2vCRWxu/S11Kxbma5J7P178T4AWsr6nEsanfkiSWICeC5AF0QkSIrS5BvWYJ8FE+X41HsZWgJmmn16rG78tyJoRReEgJs4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727697896; c=relaxed/relaxed;
-	bh=kc6yac9SyLlHs7WRhmQW1+HPAOFx8yEw2UfT0f5Qnn8=;
+	t=1727697898; c=relaxed/relaxed;
+	bh=4IxOY0fJQbV1pYrixFE+l++vJW3v3+bYS5tnnmoYTEc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J6WnjxHMQyZz3Kuu9sWSciIK+y5wdxnWrcyoW44eKaxvQohvxl1pDm75cCX2hd5nsqKylEQjRVKHB3uUqPJITRq8FfqkQlnjpCH9vp0+JAmAU9mlwwMhO7akIEkQipTff8chIxzezCwkY4L5eAbS8fwcZ5ffP2nZbW3w89gUFwsluQ2/t9KjFVDAG41/87nVWrlT7j/HrObXffwOZ/xX1dhbzKXpGcI8THvPjFRXbPxRU6jncxX0cB9dQPa4YZVp+i8JHRaYN46sBFdQ7T2h8KnAw+f86JIjaFxZweWz9UDML/JLKFIfI/2PztO4ftLFAfQbcyLNGaE/SjaezTvN+A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=EbyA33jq; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::f2b; helo=mail-qv1-xf2b.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
+	 In-Reply-To:To:Cc; b=EyutSBE7wrXvkhLh+G2PlInL/WoyEBWtWZjomBkyb4lMiA6ZUtM+BPwHJPh3Wt9VhqJdroT63L/sg/BtMZvSxoxXr7abPdljbn0prDTXZBoSfb5NoaNkKOcq1hpZ+abJiY4edpjHKeygcs3Qk1cucUPMRlXYyEl1JrFdl0J3X5QcoyRm0ou/l1SJLelPi3p4evTZ1TWvrk0xbLL3xgJRfN6SGryqgiSVWD2Pw5Ia3sI44J/jN1Soa9kwDcVLWmX8CnMAohHQmPug+MUVXXUySN7CTbl9ociqYeV5dvLiP9SPrjOsj6hqxybG7f6jrJ7Gm+zm8YQrdD9KSR5lu34VQA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Rrpd44Ra; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::72d; helo=mail-qk1-x72d.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=EbyA33jq;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Rrpd44Ra;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::f2b; helo=mail-qv1-xf2b.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org)
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::72d; helo=mail-qk1-x72d.google.com; envelope-from=ribalda@chromium.org; receiver=lists.ozlabs.org)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHKWX0f9yz2yPq
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 22:04:56 +1000 (AEST)
-Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-6cb2aac40faso38500526d6.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 05:04:55 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHKWZ1s1sz2yZ6
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 22:04:58 +1000 (AEST)
+Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-7a99eee4a5bso385247285a.0
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Sep 2024 05:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1727697894; x=1728302694; darn=lists.ozlabs.org;
+        d=chromium.org; s=google; t=1727697895; x=1728302695; darn=lists.ozlabs.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kc6yac9SyLlHs7WRhmQW1+HPAOFx8yEw2UfT0f5Qnn8=;
-        b=EbyA33jq0zou69xT2KQntGuegTsgjAhqs/VtOZc7EyWLnhrRf168niXjU+vfR+OoqB
-         pHj1abARc23yP+qHgd/sT/HxMzZ5iQQBbbvwU5Ts7/sAzFMpI9jv8OTY37eK3dcx2Hhc
-         xmx4KcZiYhVfsG2jL91Prz3r39eVGmW3HIujw=
+        bh=4IxOY0fJQbV1pYrixFE+l++vJW3v3+bYS5tnnmoYTEc=;
+        b=Rrpd44Ra5C5Xe2tjDC8apdKalhziNtC0Do8hacs3534qne4T1ii/8XDJPiBb2Nyw3f
+         FClO5WF5mLapDoKy0lbjoS4rmq1lKDA+d/CrjR2vp1pXht2HR7dcs1M/fp8vx+og4kjS
+         hEmASuOIaRQM63eHzYJM0E61z5UKRnKmiA7e4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727697894; x=1728302694;
+        d=1e100.net; s=20230601; t=1727697895; x=1728302695;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kc6yac9SyLlHs7WRhmQW1+HPAOFx8yEw2UfT0f5Qnn8=;
-        b=Bb6cHe5Fgz91z08N1QZ8wbPvEuUJ5+l8HyNfaiPaqJoTX42qA5OHO/AcFWxMDZrB7T
-         yhfrjQReUiqtWpQay9+RBvY6CQJeBeX4iLAdwnNNCiNELJkpD0J+5N1GAgASfZSBtJif
-         3d52CyR0EVVXET8MMJQA4DsM2MtSwL8U4kvGtEam7wk7zlKw6Ix/zqGj/DNI3Ia8ozNX
-         SCrhR8gdZidrgUhQSjfgOcpOxY2UKrZe/1WuDjliqF9HM8IenOCkbdDbXU3fDkkNli9j
-         2e1kqBzrGGQTE87KaHoH8Xp4P/8GhCuhxPaLjDIFjaMhBln/c4xSw14fHa3usSC1kABS
-         IUjw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgQLpBJDK/MoH7ei5KEB1HzF2Rqcz+jlL2WXNkv5KTY8yApUF9lZAE18gd1Ba0vYFuYwGzJLVWFEdOafc=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwbChZZ4pg9De08F5VEhnd4bLq9x9Sgr6G0m0iFVbJGNDvVH9I5
-	7wIcbJ/6v/6Hhg1zYGksuBK54FTA2MNOW23/aVBDvalmTOMv9xMTuKMe2NmihA==
-X-Google-Smtp-Source: AGHT+IHvTtSCRFSBPeJou8A8lJWRExB8EwT4CA/+ss3rMSh3j0C8PX4s4DLpZYrCskrdUJWUEmVJfQ==
-X-Received: by 2002:a05:6214:489:b0:6cb:2de5:d7a1 with SMTP id 6a1803df08f44-6cb2f270becmr284661826d6.8.1727697893842;
-        Mon, 30 Sep 2024 05:04:53 -0700 (PDT)
+        bh=4IxOY0fJQbV1pYrixFE+l++vJW3v3+bYS5tnnmoYTEc=;
+        b=frEjB1DWm/a6WUJvfIgTsV8e65d2F1iufDeWhx5Zutf2dH5RM0MzMV66UcMNCKVgLL
+         2SyH2EZAPPSTksfSX41Rw1oMHVTqeLsrkeYw3XchEfx9asb7AzFtfYFR2RDBYDr2YfwM
+         plczyiDGNOEVp1evfY4K50HfaC2KkSeYe9g8pf1qMImi/ObnUTxXCvo9R8UdzaPQGqAK
+         08AFgoB8h0r0es+6tJIUKhTbL08hiEzZVTOdzFuqXSbrBWDoML5GWxCmecWBMtDFOvYl
+         9m3Lhl98DzrY52HMhpY46KqkDDXAMhqu8oHt1U3hHYWpx5nsIukemMuzdQlma2/pahzc
+         XsXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8TXY2K88NdYE9nn94H1usNhdNMEpWYMU9Sscke/PUbzWyg7KfNDIoghxGMxZrlGD41I5+lS2FXSTaIQQ=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YznbTtDNmxZkdEeRa0mS7Hhb/wgm6bRjeJM+T6lKj+avqeVddSc
+	vO61RBlQR/Zsx18fLsaFDey04mMEIh0YkirdaRVQf0V4DhAIoZJKwdhKf4SKgg==
+X-Google-Smtp-Source: AGHT+IH66496SEOv3j8ygYtL4JJVB2nn5gkUmde7+6fS5LT2xRJFvFwOVG+MRgiMM8u5XXNXcxJVyg==
+X-Received: by 2002:a05:6214:5b07:b0:6cb:5dd3:a3ce with SMTP id 6a1803df08f44-6cb5dd3a78emr68541006d6.14.1727697895340;
+        Mon, 30 Sep 2024 05:04:55 -0700 (PDT)
 Received: from denia.c.googlers.com (76.224.245.35.bc.googleusercontent.com. [35.245.224.76])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.52
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b694369sm38822536d6.144.2024.09.30.05.04.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 05:04:52 -0700 (PDT)
+        Mon, 30 Sep 2024 05:04:54 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 30 Sep 2024 12:04:19 +0000
-Subject: [PATCH 24/45] media: cx18: Use string_choices helpers
+Date: Mon, 30 Sep 2024 12:04:20 +0000
+Subject: [PATCH 25/45] media: cobalt: Use string_choices helpers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-cocci-opportunity-v1-24-81e137456ce0@chromium.org>
+Message-Id: <20240930-cocci-opportunity-v1-25-81e137456ce0@chromium.org>
 References: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 In-Reply-To: <20240930-cocci-opportunity-v1-0-81e137456ce0@chromium.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -122,37 +122,27 @@ Cc: imx@lists.linux.dev, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The following cocci warnings are fixed:
-drivers/media/pci/cx18/cx18-av-core.c:1013:40-46: opportunity for str_enable_disable(enable)
-drivers/media/pci/cx18/cx18-av-core.c:1118:8-24: opportunity for str_yes_no(( mute_ctl & 0x2 ))
+The following cocci warning is fixed:
+drivers/media/pci/cobalt/cobalt-driver.c:263:25-33: opportunity for str_enable_disable(ctrl & 1)
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/pci/cx18/cx18-av-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/pci/cobalt/cobalt-driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/cx18/cx18-av-core.c b/drivers/media/pci/cx18/cx18-av-core.c
-index ee6e71157786..5701abdf9427 100644
---- a/drivers/media/pci/cx18/cx18-av-core.c
-+++ b/drivers/media/pci/cx18/cx18-av-core.c
-@@ -1010,7 +1010,7 @@ static int cx18_av_s_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct cx18 *cx = v4l2_get_subdevdata(sd);
+diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
+index 6e1a0614e6d0..cff2d29410d4 100644
+--- a/drivers/media/pci/cobalt/cobalt-driver.c
++++ b/drivers/media/pci/cobalt/cobalt-driver.c
+@@ -260,7 +260,7 @@ static void msi_config_show(struct cobalt *cobalt, struct pci_dev *pci_dev)
+ 	u32 adrs_l, adrs_h;
  
--	CX18_DEBUG_INFO_DEV(sd, "%s output\n", enable ? "enable" : "disable");
-+	CX18_DEBUG_INFO_DEV(sd, "%s output\n", str_enable_disable(enable));
- 	if (enable) {
- 		cx18_av_write(cx, 0x115, 0x8c);
- 		cx18_av_write(cx, 0x116, 0x07);
-@@ -1115,7 +1115,7 @@ static void log_audio_status(struct cx18 *cx)
- 	}
- 	CX18_INFO_DEV(sd, "Detected audio standard:   %s\n", p);
- 	CX18_INFO_DEV(sd, "Audio muted:               %s\n",
--		      (mute_ctl & 0x2) ? "yes" : "no");
-+		      str_yes_no(mute_ctl & 0x2));
- 	CX18_INFO_DEV(sd, "Audio microcontroller:     %s\n",
- 		      (download_ctl & 0x10) ? "running" : "stopped");
- 
+ 	pci_read_config_word(pci_dev, 0x52, &ctrl);
+-	cobalt_info("MSI %s\n", ctrl & 1 ? "enable" : "disable");
++	cobalt_info("MSI %s\n", str_enable_disable(ctrl & 1));
+ 	cobalt_info("MSI multiple message: Capable %u. Enable %u\n",
+ 		    (1 << ((ctrl >> 1) & 7)), (1 << ((ctrl >> 4) & 7)));
+ 	if (ctrl & 0x80)
 
 -- 
 2.46.1.824.gd892dcdcdd-goog
