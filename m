@@ -2,56 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E52F98C997
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 01:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2735E98C994
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 01:45:23 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XJF196Nl8z2yQL
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 09:45:17 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XJF1B1Dmdz2yYn
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 09:45:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727763420;
-	cv=none; b=bi5OzLv0kEehGXGDO3R1b+yAspnyxjwmUMt0TcVXsu0vzvLkFRM6exstpmfF7EVc6eQSnwLHOaRiw0sLosQkvDNj4WgmZ3CPYbyO0bHqw8tPmaVCpcg5GOYoBrcZPNsSAHLjCOhcwZk8w+uLjZpV2RZ0kHzsPLsRV3JbyNup2qCVXJHtU+GMhmKPm+XUqPBQVNdtBJHqZ4wCoh6cLcJmsbekokO3HjQZmvDHoUvYX/9w0Lg0nmV2VJXzqsc1GTQSYld9SmLNhZAkrTapi9uyX791mzKkMipEQ+IVKX2gID1lt8N63Szo43bhDv0FrFce0rL2qnY3OwfmquPjlBPw3w==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4641:c500::1"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727763498;
+	cv=none; b=DvG0gjgAxzx3zdFV1MzwkfeTirk7p6XWDpBMP7rShR15ZUFRoEbUog1AezHVzS7ql3IjniXKHLg9YYC9O8ydoBewxuXAr8hjLxm6608+RqcZG8dZPUb5Jx89F1V18KJ8QTzqr5ryc1OSecG7smgCyTlnQXb7GU2GHtSK/OEq7G04+b205jvSmTf5kxcJkhClsg5o+1aVjdPlRyFnLxE9oAcrNbsNpGhmdrHi1V1XWYOShYn7LAroF01fOLcr2DRt7ikLhgOTAmxcwEmk5U6f0ogrYAVKgTtSVsYo1lciv9yOR7oMTnQiQumGrSPx+qI3VQJixW0MmGYx1LpAB4LEsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727763420; c=relaxed/relaxed;
-	bh=bn+p/ZFh0V1X+LQo0/OnSrPMIuEaADlb19UWcf1RG/Y=;
+	t=1727763498; c=relaxed/relaxed;
+	bh=aFp3SriOPWs0xVXrnZzTQWGqrUjwlRHRfGp7sGKX3sc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g1mr++LwqHdlg9pHzSFckJ8ixVVCatV737AGCOXjzoGNX1mUWj8anLaWgNAS8/yXQG5+VX3Ng4Anr+YjwBafIaEux5P3cSTocMVQ898DaaXJbQEnZ8U4qIptERZRVVw48yn/SllFMVzZuYtCUQMYYZGC8AMAHwVpHMuWnr3j1ciba9ou3crWbYovhk5prJi18qV+3ulFgWmnM7D7mV+cLtI82taBk1dqGTkoSS3IoHNnYst0SyIMUovXCZBfERqkqV6eZLGwouNtlz5Fqi9I6FszpyXmraYvUTF2RGKJFB655835Bvnb/ZfHfRz+qm4+VRxkH9w5np26SINHhVvBHA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BarxashM; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 In-Reply-To:Content-Type; b=dyVSinqx4Aa5MQ9oCm3GPxzqHHyQ6C47O0Pov+O192nc4tq0+B2/bLSUPD5S0+FWxsTN6HUZXym2FrEgHf23gtskgOqVZ+o+W6rAv+UgqDah70bLKyIzn5/becECdBlIWT98++HyNZQTsWTpem3t826spDOQJCbxCeWb9SlrlcH5XrfaThHJX9MtQ/ktT3R/mXdeIPFnKniFrgu82dbHuURwOT+EZEvfuNmpoLNf7kbng0Gj9tIbfBKvuKOVEZncWM5cLO7byrE09YRfv7WsUOQHG5Kvn6izVz1t3kzKiW8o3OT/YjUUfU0AH+JtiQKsvRr9o8qyBCpi3hwqU1JfYQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bCGpghBS; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BarxashM;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bCGpghBS;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHnlb2b82z2xYw;
-	Tue,  1 Oct 2024 16:16:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHnn60Tpjz2xFn;
+	Tue,  1 Oct 2024 16:18:18 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 30C53A428D3;
-	Tue,  1 Oct 2024 06:16:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DDCC4CEC6;
-	Tue,  1 Oct 2024 06:16:40 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 5BF2D5C5415;
+	Tue,  1 Oct 2024 06:18:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3E86C4CEC6;
+	Tue,  1 Oct 2024 06:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727763415;
-	bh=Hg4IVEOTj4JriXTMF/0hLXqKoldcay2hkZN5Fq1Yakc=;
+	s=k20201202; t=1727763491;
+	bh=aFp3SriOPWs0xVXrnZzTQWGqrUjwlRHRfGp7sGKX3sc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BarxashMr3+CY5FBEM2U/PJW5q6wPC6dVt+mzB8egTBhcrlaVcQFYdktWYgO+j7Yv
-	 st50W7cT6gVEA1/dqDGaNjGnQ9AA7gJD8n39MO3BV+QS8PYRyKkFgRwCwRf2uXp2Y8
-	 dp0MSy8wQU32Rg+er7QSDMBsvPmxO8FtjjNjWdI+RBSy9Pkiff17xYddZcuy1U7MmD
-	 8G2j28TOkFm0vYpz5O+m6VrxQgVrUbADYqKtkm4v+kH0x6BE0wOgLNe9/byQAyhzAt
-	 oANVnz/YuEyuHy0rS3qUYr1qmkfNjzY7Or6LCFfrX8R+CDPDSbqK8TRB8tpythzZkI
-	 KC1d+v2a8Gx6A==
-Message-ID: <2915d4aa-a01d-4d00-ada9-43bbc227f9eb@kernel.org>
-Date: Tue, 1 Oct 2024 08:16:38 +0200
+	b=bCGpghBSrw70nVQy4SZ+l3iTCF/jeyzhjMl8snn+Ad8CAr5veY5sqYrWH8ye1Jds/
+	 d2bTkG2L1t98Fhw6tIb1RQ5MdHcKgtQ+dmbSO3AnflysQi/g2nkwD5pgS8QDMlKAf0
+	 C2layRfhxwO50GLHe2mSrEUbU0qRnl5EHApVYFmqdAQDmxTxABlb2FWFVd93eEIWTw
+	 vxD0cgHSqb97BdSLSYnmMJaISH055Gmp8VmDUXxLZP75L0x0r+fNpt7yd4pOQOSpH2
+	 aqN7thfnjUQXtqU9l++pRCzxs1Ge0mhIg8B4e0frFI2hfiPtxcwaz8wpRJIVtG59/T
+	 f2k/dmCILB+xg==
+Message-ID: <62220abe-196a-4434-a200-5e39af1d184d@kernel.org>
+Date: Tue, 1 Oct 2024 08:17:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ARM: dts: replace gpio = with gpios =
+Subject: Re: [PATCH 2/2] ARM: dts: assign reg to memory nodes
 To: Rosen Penev <rosenp@gmail.com>, linux-arm-kernel@lists.infradead.org
 References: <20240930223550.353882-1-rosenp@gmail.com>
- <20240930223550.353882-2-rosenp@gmail.com>
+ <20240930223550.353882-3-rosenp@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,7 +97,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240930223550.353882-2-rosenp@gmail.com>
+In-Reply-To: <20240930223550.353882-3-rosenp@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-0.3 required=5.0 tests=ARC_SIGNED,ARC_VALID,
@@ -121,21 +121,15 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On 01/10/2024 00:35, Rosen Penev wrote:
-> Found with dtc:
-> 
-> Warning (deprecated_gpio_property): '[*-]gpio' is deprecated, use
-> '[*-]gpios' instead
-> 
-> Transformation performed with
-> 
-> find -name "*.dts" -exec sed -i 's/\tgpio = </\tgpios = </g' '{}' \
-> find -name "*.dtsi" -exec sed -i 's/\tgpio = </\tgpios = </g' '{}' \
+> Fixes dtc warnings:
 
-Uh, no, please check if each is correct and already handled by bindings.
+What warnings?
 
-> 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+Anyway, please list platforms where you tested this. This patch might
+break several of them.
 
+Such one huge patch, not split per subach, is another problem. There is
+no reason to make it one huge chunk.
 
 
 Best regards,
