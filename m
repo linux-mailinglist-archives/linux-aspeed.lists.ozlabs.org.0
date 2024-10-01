@@ -1,60 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F0898B856
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 11:29:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F6F98BF96
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 16:18:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XHt254sDxz2yMF
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 19:29:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XJ0R75FDXz2yNt
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 00:18:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=83.223.95.100
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727774986;
-	cv=none; b=EY73jVZ1gasPIi/mCojjw7nCHY7ehH8X+4d0vdv2MZyOwqpADV8envPoi9NO8BbAUQiJWE9fOeaUhGpk98yITejfRHxUni7MKhg+OCNA3xparIvOWM7Qp7MdSuzQUNpCNtoXxmkISDYibsroy6HbZzHyiVGcUnE4yFo37veDxL0C3zDBs+Bswf2y+yt2QMfT+4d5Nck7dpiCb7J48MT6mA6eHTUBMwlLtOkn0OnoziUf1QXMKmp6M4CY0KryIC12q0bzJMuwb8aUDhrrcmahmGav66ZOUl73ed5KiAMowNqEoIwb6xlYmNITQnMSeLm4Qik6i3uvR6g3TH4g5uaTCg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::12c"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727792304;
+	cv=none; b=cmMhTbYcLdtJYztxJZ1f3nfij4/nypgMfHWJSZFQX4dCujqB7ebO84iBxAMLVj8dK4bsoBjKEKkZGb67uqS+Wn6RQ3o+KTxynyIwzm/neCR41T+8FBv4c/A6YCwtRrGNqyrHqPxwzKJsF61vrKTHuMNNdVqRsl6eZCzGZJT4MA/Kal+i/7DGsgE+WjcK+pHiIo4ikcfJLuYB5/gpcSTYXjjocw6GVLLGnaxnH7wsx+AJZxFSFySvZcfPnKt8s8IDqLJzVqYnPTdoJPbsrq8bRT6p9zKn4nxeqqBFCoyFBGOoBJsYC2UiXRkOuquDiD64GOq2wVHjsx0uWF05biyCaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727774986; c=relaxed/relaxed;
-	bh=rw1k8Bxgz1nx+72kq44BAQqm5kyGv9qQwzqB500+C4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WAOZCKwTf/iTTKzLWVUDbQqJ9FlhxHdkNST8GzI7dVzivQnUgDGG4yirmA4NhyHK3QlsUF1DU9UxhRz1grYwZpciCUPSjORdc7AAaEd3m3c3/WUNMiuT6NL4q2xzTaitZ+Unr8EAoAv87ZjMvfpcba87VfkPw9/VLV5ZlllKoaAeAy6k00S2V2U0MARHH/UVQxFv2ARfzgyA29R3lq5Mt+jIjiGhguYMUl32WFh8xRl8hP4xmQbi2ukucFqv2f+nHm7zS5EUqjUZegkDLXZGP/6qhABy/Cz01j6i54ZI38oDOzlTumqRNEj4WYqYS9tuoCJvj528NkyxlPNPH5ARHw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass (client-ip=83.223.95.100; helo=bmailout1.hostsharing.net; envelope-from=foo00@h08.hostsharing.net; receiver=lists.ozlabs.org) smtp.helo=bmailout1.hostsharing.net
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.helo=bmailout1.hostsharing.net (client-ip=83.223.95.100; helo=bmailout1.hostsharing.net; envelope-from=foo00@h08.hostsharing.net; receiver=lists.ozlabs.org)
-X-Greylist: delayed 735 seconds by postgrey-1.37 at boromir; Tue, 01 Oct 2024 19:29:45 AEST
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
+	t=1727792304; c=relaxed/relaxed;
+	bh=XsFwKLOGlPvFEBxHyR86cL5eojW2dIOejDjQT5SGeFI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WcGjS+rLBmUqH08HrHEVvRJy0lidBDJd6OAr+8sIZyI5fNIKcyc5WCb608szpsd3GJYzLqZZpgovQ9S+0kbBOfJeKSV222NVOKuaD/BP+zts89QIzXaMOZGE/WGcuz7yRLRPyUqy41jG48L4ZiUfaq+upTYqxcR5d01ny1nfgaKtk9hq6chx+vH9lp7nNE3aAUoQXopK2VvNJ1qHQ20eRVQ6MOrNRZ5U2ZQ+ktvOJBpzJcSDLouLYV9vqPSZX9qdb/d89ERPApWYFDlq7IQWFvXZrXCev315AKbjtoh7xgnS53zBbvOumQs/DEfxPrXCCFJbHZiZSsPreSdPUXl1TQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SUQT6o7T; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::12c; helo=mail-lf1-x12c.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SUQT6o7T;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12c; helo=mail-lf1-x12c.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XHt213DF3z2xy6
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  1 Oct 2024 19:29:45 +1000 (AEST)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout1.hostsharing.net (Postfix) with ESMTPS id A75BC30008F12;
-	Tue,  1 Oct 2024 11:17:13 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 89069230E25; Tue,  1 Oct 2024 11:17:13 +0200 (CEST)
-Date: Tue, 1 Oct 2024 11:17:13 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Biggers <ebiggers@google.com>,
-	Stefan Berger <stefanb@linux.ibm.com>,
-	Vitaly Chikunov <vt@altlinux.org>,
-	Tadeusz Struk <tstruk@gigaio.com>,
-	Dimitri John Ledkov <dimitri.ledkov@canonical.com>
-Subject: Re: [PATCH v2 00/19] Migrate to sig_alg and templatize ecdsa
-Message-ID: <Zvu-GV-vtDJHKf51@wunner.de>
-References: <cover.1725972333.git.lukas@wunner.de>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XJ0R31hCPz2xBK
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Oct 2024 00:18:21 +1000 (AEST)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-539983beb19so2379743e87.3
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 01 Oct 2024 07:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727792296; x=1728397096; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XsFwKLOGlPvFEBxHyR86cL5eojW2dIOejDjQT5SGeFI=;
+        b=SUQT6o7TDrT5P8OupR51YeW4+s0FArOfVcOo6csXA2p/pV8XC7yV6vlqBAZsXxYsfa
+         KBbOgnaDt2byJrESwcz3gltYKL8PNmGvCEpGaFL7YXY4wat0Qfa/OlvyKuRv08kHrbrt
+         JSRzAZncanyQECGVEL+XENGbyjtzt4EpbLqYMN1Fovu3O2WHPG0eRusi+p2qkk+lvowL
+         FCuhckMYg775ARXlh3p+aluzSshMPvQV6rw9lzAP7nWvCl0uomYC4luxvY90z5oyzuX1
+         5nUXJKcWJ8NQAyykdFaXGhSfa/JLJsAmT/MCPcRc0edQQJjhXQD40+FgdTbh1cY7JasG
+         ooOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727792296; x=1728397096;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XsFwKLOGlPvFEBxHyR86cL5eojW2dIOejDjQT5SGeFI=;
+        b=EGwT8fpCD9XMt1EgfjoqXYp0LwSOHTWA9aA3cGadEcpQDuGKXZiqKy6W/x5SbUl1l2
+         QDIweDJDK4NbkH+qDNP43KWNlvl8oN5l/GLnIk6OSxpY5YyaLAg/GwKlHbWgEGJ+eFcv
+         cAqWeczLQI50A3QKxe3OAMpXhysa0VfjA6gFrdoquPQpy4Cf6hMtsScsqHyTHl94O7iX
+         QMw4hEgDCuUMV3cdf0b9mcWhVn7E16+wAESQRscoFijfVWGoW8J0wF1W8XFuhu8WQuWO
+         WIJnlaceJfOBkbgAlrXSWKXCrzp+DmzVGH5EX4aNjdppxNYWzeqtWTCmNQdJZRnYWjZ6
+         WdBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXstzhIY++UaLiMb0Z46sT3lHKIbPmX+7KlTSzz0nQmw8Patl5iInfCrx6J2Q1EymP+q25hQrQsAatyCAw=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YwnfobzEc0uAT3GCUcSz2NsvvOyF8iWv/sCwnusRc2ZYlmPyG1p
+	Rt4aHU2o9c9SfOu526f/BbYBNP0iaBfzCZ2keo+CyHts3Oi9P4bolVZV55V45c68A96kGeSUKsj
+	8LzvYwgxaoZ1KETK+S2hMrqYDfQ+ICaxONx6O9A==
+X-Google-Smtp-Source: AGHT+IEfMH8uk4RIxkOdO5Hy2blq4o4vWNOnpucH3GZ2DnMbaYnX3CqykKYsypLP7wl0QcmQrA0dM4xIL26aFEV1xAs=
+X-Received: by 2002:a05:6512:1155:b0:536:568f:c5ed with SMTP id
+ 2adb3069b0e04-5389fc32b18mr7413043e87.1.1727792295331; Tue, 01 Oct 2024
+ 07:18:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1725972333.git.lukas@wunner.de>
-X-Spam-Status: No, score=0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_NONE
-	autolearn=disabled version=4.0.0
+References: <20240919094339.2407641-1-billy_tsai@aspeedtech.com> <20240919094339.2407641-7-billy_tsai@aspeedtech.com>
+In-Reply-To: <20240919094339.2407641-7-billy_tsai@aspeedtech.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 1 Oct 2024 16:18:04 +0200
+Message-ID: <CACRpkdbFD9CiqVwQ5xxZ9SfQtVvDJGCr=8spxBG4u-JQ0PKJ3w@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] gpio: aspeed: Add the flush write to ensure the
+ write complete.
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -67,40 +89,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Zhiqi Song <songzhiqi1@huawei.com>, linux-aspeed@lists.ozlabs.org, "Michael S. Tsirkin" <mst@redhat.com>, Stephan Mueller <smueller@chronox.de>, Jason Wang <jasowang@redhat.com>, William Qiu <william.qiu@starfivetech.com>, Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org, Ignat Korchagin <ignat@cloudflare.com>, Longfang Liu <liulongfang@huawei.com>, Marek Behun <kabel@kernel.org>, Eric Snowberg <eric.snowberg@oracle.com>, Jia Jie Ho <jiajie.ho@starfivetech.com>, lei he <helei.sig11@bytedance.com>, Eugenio Perez <eperezma@redhat.com>, zhenwei pi <pizhenwei@bytedance.com>, Saulo Alessandre <saulo.alessandre@tse.jus.br>, Varad Gautam <varadgautam@google.com>, Gonglei <arei.gonglei@huawei.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, virtualization@lists.linux.dev, Andrew Zaborowski <andrew.zaborowski@intel.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Roberto Sassu <roberto.sassu@huawei.com>, linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org, Neal Liu <neal_liu@aspeedtech.com>, Denis Kenzior <denkenz@gmail.com>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Peter.Yin@quantatw.com, brgl@bgdev.pl, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Jay_Zhang@wiwynn.com, BMC-SW@aspeedtech.com, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Herbert,
+On Thu, Sep 19, 2024 at 11:43=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.=
+com> wrote:
 
-On Tue, Sep 10, 2024 at 04:30:10PM +0200, Lukas Wunner wrote:
-> The original impetus of this series is to introduce P1363 signature
-> decoding for ecdsa (patch [18/19]), which is needed by the upcoming
-> SPDM library (Security Protocol and Data Model) for PCI device
-> authentication.
-> 
-> To facilitate that, move X9.62 signature decoding out of ecdsa.c and
-> into a template (patch [15/19]).
-> 
-> New in v2:  Move the maximum signature size calculations for ecdsa
-> out of software_key_query() and into the X9.62 template so that
-> corresponding calculations can be added for P1363 without further
-> cluttering up software_key_query() (patch [16/19] - [17/19]).
-> 
-> New in v2:  Avoid inefficient copying from kernel buffers to sglists
-> in the new templates by introducing a sig_alg backend and migrating
-> all algorithms to it, per Herbert's advice (patch [02/19] - [12/19]).
-> 
-> Clean up various smaller issues that caught my eye in ecdsa
-> (patch [01/19] and [14/19]), ecrdsa (patch [19/19]) and
-> ASN.1 headers (patch [13/19]).
+> Performing a dummy read ensures that the register write operation is full=
+y
+> completed, mitigating any potential bus delays that could otherwise impac=
+t
+> the frequency of bitbang usage. E.g., if the JTAG application uses GPIO t=
+o
+> control the JTAG pins (TCK, TMS, TDI, TDO, and TRST), and the application
+> sets the TCK clock to 1 MHz, the GPIO=E2=80=99s high/low transitions will=
+ rely on
+> a delay function to ensure the clock frequency does not exceed 1 MHz.
+> However, this can lead to rapid toggling of the GPIO because the write
+> operation is POSTed and does not wait for a bus acknowledgment.
+>
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 
-This series was submitted at the tail end of the v6.11 cycle.
-It still applies cleanly to v6.12-rc1 though, so I'm not sure
-whether to resubmit.
+If this applies cleanly on mainline I think it should go into fixes as-is.
 
-Is there anything you want me to change?
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Thanks!
-
-Lukas
+Yours,
+Linus Walleij
