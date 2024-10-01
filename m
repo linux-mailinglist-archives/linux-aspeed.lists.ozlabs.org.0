@@ -2,81 +2,90 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F6F98BF96
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 16:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A97D98C5E7
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Oct 2024 21:18:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XJ0R75FDXz2yNt
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 00:18:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XJ75L3ppSz2yR5
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 05:18:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::12c"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727792304;
-	cv=none; b=cmMhTbYcLdtJYztxJZ1f3nfij4/nypgMfHWJSZFQX4dCujqB7ebO84iBxAMLVj8dK4bsoBjKEKkZGb67uqS+Wn6RQ3o+KTxynyIwzm/neCR41T+8FBv4c/A6YCwtRrGNqyrHqPxwzKJsF61vrKTHuMNNdVqRsl6eZCzGZJT4MA/Kal+i/7DGsgE+WjcK+pHiIo4ikcfJLuYB5/gpcSTYXjjocw6GVLLGnaxnH7wsx+AJZxFSFySvZcfPnKt8s8IDqLJzVqYnPTdoJPbsrq8bRT6p9zKn4nxeqqBFCoyFBGOoBJsYC2UiXRkOuquDiD64GOq2wVHjsx0uWF05biyCaA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727810307;
+	cv=none; b=Dm0TXMqtXg1pd9riZg5lJoo8SosMOdyJJ+3klvoHC/07/ZRepd7Cqh9Z2FWzBOGEdaXBpmkkzPHT0uUT5A3MJVTGcPIvdYTO4YlEhbF/y16Qk7rsuhzYvXcg/oBImrHEB3DxEXTUiLJT+8WB4mKz/rxAV9C1NPW6/qXPb7j8eD85dwjz0V0/zchtmGdk30ASrTLU1tU1us2+SOnwU3ngiO6OX/JrGAFc6CZnvpqigA2kY18DygsiMKRXDhtYJFnfJK5qMvE6c8iXRk1llijOjYA8YFXpAoJ/PPq5b6PT3LsipdzG5QjhsH73tXsPLZ84NGTmJzPwlp5zhHMMZ8QGdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727792304; c=relaxed/relaxed;
-	bh=XsFwKLOGlPvFEBxHyR86cL5eojW2dIOejDjQT5SGeFI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WcGjS+rLBmUqH08HrHEVvRJy0lidBDJd6OAr+8sIZyI5fNIKcyc5WCb608szpsd3GJYzLqZZpgovQ9S+0kbBOfJeKSV222NVOKuaD/BP+zts89QIzXaMOZGE/WGcuz7yRLRPyUqy41jG48L4ZiUfaq+upTYqxcR5d01ny1nfgaKtk9hq6chx+vH9lp7nNE3aAUoQXopK2VvNJ1qHQ20eRVQ6MOrNRZ5U2ZQ+ktvOJBpzJcSDLouLYV9vqPSZX9qdb/d89ERPApWYFDlq7IQWFvXZrXCev315AKbjtoh7xgnS53zBbvOumQs/DEfxPrXCCFJbHZiZSsPreSdPUXl1TQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SUQT6o7T; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::12c; helo=mail-lf1-x12c.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+	t=1727810307; c=relaxed/relaxed;
+	bh=IDSkA+pHDjhKZYqv6kAJMgRE2rn2M7Iu0eSnkvjhH68=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XXtde8VrPataavjZO1yiWkVdHdI6PpShX+6e+cIicQvcWWChZ9ImlzluKa0AX05nJKr0VhlKpoPTHNkV/8A7unADDxBLY5uNeTwFT19lnZJs6Vm0WsLu6thJK1Ep6bVop06Umx7UiKmDQTu5N3CUNIVMwgl0XQx7dPblwJ/OcIigyvlPbE43NZVe1fiiXl8GLgtsExktI/1jLo1y2EGOIGts+u1YLMGB3NbFbcWlyvhCt2hZM4xM6BVryBbgpvYzlKZ9LqW3emkOmOuhAeV+xrjS5V9PcGFcDoGRX2V8QIzUNJG3kgvN3CdXEda6aaZVCu/3JdVf7r0a1DgpBftlBA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=P6XpS73E; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=SUQT6o7T;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=P6XpS73E;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12c; helo=mail-lf1-x12c.google.com; envelope-from=linus.walleij@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XJ0R31hCPz2xBK
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Oct 2024 00:18:21 +1000 (AEST)
-Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-539983beb19so2379743e87.3
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 01 Oct 2024 07:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727792296; x=1728397096; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XsFwKLOGlPvFEBxHyR86cL5eojW2dIOejDjQT5SGeFI=;
-        b=SUQT6o7TDrT5P8OupR51YeW4+s0FArOfVcOo6csXA2p/pV8XC7yV6vlqBAZsXxYsfa
-         KBbOgnaDt2byJrESwcz3gltYKL8PNmGvCEpGaFL7YXY4wat0Qfa/OlvyKuRv08kHrbrt
-         JSRzAZncanyQECGVEL+XENGbyjtzt4EpbLqYMN1Fovu3O2WHPG0eRusi+p2qkk+lvowL
-         FCuhckMYg775ARXlh3p+aluzSshMPvQV6rw9lzAP7nWvCl0uomYC4luxvY90z5oyzuX1
-         5nUXJKcWJ8NQAyykdFaXGhSfa/JLJsAmT/MCPcRc0edQQJjhXQD40+FgdTbh1cY7JasG
-         ooOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727792296; x=1728397096;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XsFwKLOGlPvFEBxHyR86cL5eojW2dIOejDjQT5SGeFI=;
-        b=EGwT8fpCD9XMt1EgfjoqXYp0LwSOHTWA9aA3cGadEcpQDuGKXZiqKy6W/x5SbUl1l2
-         QDIweDJDK4NbkH+qDNP43KWNlvl8oN5l/GLnIk6OSxpY5YyaLAg/GwKlHbWgEGJ+eFcv
-         cAqWeczLQI50A3QKxe3OAMpXhysa0VfjA6gFrdoquPQpy4Cf6hMtsScsqHyTHl94O7iX
-         QMw4hEgDCuUMV3cdf0b9mcWhVn7E16+wAESQRscoFijfVWGoW8J0wF1W8XFuhu8WQuWO
-         WIJnlaceJfOBkbgAlrXSWKXCrzp+DmzVGH5EX4aNjdppxNYWzeqtWTCmNQdJZRnYWjZ6
-         WdBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXstzhIY++UaLiMb0Z46sT3lHKIbPmX+7KlTSzz0nQmw8Patl5iInfCrx6J2Q1EymP+q25hQrQsAatyCAw=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwnfobzEc0uAT3GCUcSz2NsvvOyF8iWv/sCwnusRc2ZYlmPyG1p
-	Rt4aHU2o9c9SfOu526f/BbYBNP0iaBfzCZ2keo+CyHts3Oi9P4bolVZV55V45c68A96kGeSUKsj
-	8LzvYwgxaoZ1KETK+S2hMrqYDfQ+ICaxONx6O9A==
-X-Google-Smtp-Source: AGHT+IEfMH8uk4RIxkOdO5Hy2blq4o4vWNOnpucH3GZ2DnMbaYnX3CqykKYsypLP7wl0QcmQrA0dM4xIL26aFEV1xAs=
-X-Received: by 2002:a05:6512:1155:b0:536:568f:c5ed with SMTP id
- 2adb3069b0e04-5389fc32b18mr7413043e87.1.1727792295331; Tue, 01 Oct 2024
- 07:18:15 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XJ75H2gZjz2xKg
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Oct 2024 05:18:26 +1000 (AEST)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 491JH63M011616;
+	Tue, 1 Oct 2024 19:18:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+	:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=pp1; bh=IDSkA+pHDjhKZYqv6kAJMgRE2r
+	n2M7Iu0eSnkvjhH68=; b=P6XpS73EmgKW/7etdhE5Dxmc6rmFLx+pxT6rbZMVpn
+	Ck8hRF8z4pKOqRO1sXZkWgZBMftXV2JR4oe8LlRu1my6EpwzST+H49rIFZ5SV8Zn
+	Be7S4O0tNcbTNAG2cc5OC9qB+J1N/Jvg8Zm8DEx0qEu2N5xHjjcnEd2nJE9VPbg5
+	KbpkCpqsy2rPBF8Ke17fO+rXfb8tKqFjIW7OqWZBM/JRTC6d9Z9dPYa3MoGyzXLK
+	WhEoPMtiGFjRRIA0GOwfjqeR6xmbjix7kxzwGnVRP9U/nlG2fRils6kOumsjxasn
+	wsc408m3qsxhrHvavqSWdUjPKD9i25LrlGFuT8jSv7wQ==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 420q3p0046-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Oct 2024 19:18:10 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 491I8dGO017866;
+	Tue, 1 Oct 2024 19:18:09 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41xw4mx9xn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Oct 2024 19:18:09 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 491JI8RY40829550
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 1 Oct 2024 19:18:08 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 859725804E;
+	Tue,  1 Oct 2024 19:18:08 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DEA2B5803F;
+	Tue,  1 Oct 2024 19:18:07 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  1 Oct 2024 19:18:07 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+        andrew@codeconstruct.com.au, eajames@linux.ibm.com
+Subject: [PATCH v1 0/3] Device tree changes for system1 BMC
+Date: Tue,  1 Oct 2024 14:17:47 -0500
+Message-ID: <20241001191756.234096-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240919094339.2407641-1-billy_tsai@aspeedtech.com> <20240919094339.2407641-7-billy_tsai@aspeedtech.com>
-In-Reply-To: <20240919094339.2407641-7-billy_tsai@aspeedtech.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 1 Oct 2024 16:18:04 +0200
-Message-ID: <CACRpkdbFD9CiqVwQ5xxZ9SfQtVvDJGCr=8spxBG4u-JQ0PKJ3w@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] gpio: aspeed: Add the flush write to ensure the
- write complete.
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: thyCX61fjYp6ldqtjQhvbnSdr5eFTeX-
+X-Proofpoint-ORIG-GUID: thyCX61fjYp6ldqtjQhvbnSdr5eFTeX-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-01_15,2024-09-30_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ adultscore=0 clxscore=1011 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 suspectscore=0 spamscore=0
+ mlxlogscore=661 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2410010125
+X-Spam-Status: No, score=0.0 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_SIGNED,DKIM_VALID,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -89,31 +98,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Peter.Yin@quantatw.com, brgl@bgdev.pl, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Jay_Zhang@wiwynn.com, BMC-SW@aspeedtech.com, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Sep 19, 2024 at 11:43=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.=
-com> wrote:
+Hello,
 
-> Performing a dummy read ensures that the register write operation is full=
-y
-> completed, mitigating any potential bus delays that could otherwise impac=
-t
-> the frequency of bitbang usage. E.g., if the JTAG application uses GPIO t=
-o
-> control the JTAG pins (TCK, TMS, TDI, TDO, and TRST), and the application
-> sets the TCK clock to 1 MHz, the GPIO=E2=80=99s high/low transitions will=
- rely on
-> a delay function to ensure the clock frequency does not exceed 1 MHz.
-> However, this can lead to rapid toggling of the GPIO because the write
-> operation is POSTed and does not wait for a bus acknowledgment.
->
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+Please review the device tree changes for BMC for system1 machine.
 
-If this applies cleanly on mainline I think it should go into fixes as-is.
+Ninad Palsule (3):
+  ARM: dts: aspeed: system1: Bump up i2c busses freq
+  ARM: dts: aspeed: system1: Enable serial gpio0
+  ARM: dts: aspeed: system1: Add GPIO line names
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+ .../arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-Yours,
-Linus Walleij
+-- 
+2.43.0
+
