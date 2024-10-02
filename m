@@ -1,87 +1,83 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E1798CF06
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 10:41:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A59E98D12E
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 12:27:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XJSvw4qVDz2yVZ
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 18:41:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XJWGN1vMtz2yWK
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2024 20:27:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::434"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727858490;
-	cv=none; b=SkHLjGkmWrcOUxQbYABE4tTZA8ap3lmS+hjf+i2VPrfog1UANfRqOQ8SODv4QVH8/k0vVsvSIY5Mb8Bjakl/haDRcq1XftcmW1ukMlN0Jqrln/lIjIwJNBJl9Sq29lNMAc1Z/aZ23z/ScWrt0Dxz05dI8eQoXzo0OqF4ksXiC9qHI5zC31UMCq55usL+V4ajD3WG0gNP+8/n9t3SGxeEE3rF8oP4tXkfK6pBeJUzbwJgn2ojyl3y3p2X8O4CF/wLG1lg5XyScxaNGnB4AT0Kh50anK9ZWhGXSrnvwDH0wEllVe5cwtSoYTreDDVbutD9gjXkUufGCWns/UClZAD1QQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1034"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727864857;
+	cv=none; b=DsxaSO4dY8qBNz0JFeF5bpHFL938FqdvcccJAkt/tiRo1W8dIpNyE0zKd52dQKX49PCV7/jp5WDdCIVlNsmQ4seK/hRiEK8a3EmeuCPZpio+0N8gyiqfXVAw6qJdlw5Rbas+wsrbywkHyQz+CCMZHdUhR5SnQHvles6HPnRI7b/IF1j5JNyzKUd1JMeznnBigYc/pRw5MbAvBdFHUtAnkPgKcF+oHtswa7TgpWNM5d85j2kIRPxGhXD4ukJQDa8PszACPIr7O4AzgcxxaT6HuxzBvrdpytYVVO540ZZaq3gLTaJEBqHUiIBedjDH4fOt7PNvfQtWhUt1Y/IfM8y4Rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727858490; c=relaxed/relaxed;
-	bh=ZkdLBGm1XB365GQZ5F1KffCkGtsoV8P41FFkFvqweKw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uwo6mhdZbBvD4LxXEt7teZLR6URGXGey0wRANO2D/w/2uocEpeEo5vHAqzICNjoEThpNPPFJMkbnvrNAS0DdcaptRpR2hLm+Y/zLOgYP7moBmRIz+ZyKSsDatPsbUgvX6BCuL93pyeJ6Pd/Hm2ETbS671FPhT0+1Xk1TUFF6tILULKYIQZ6jLIxsnlSA5SJ8PBNFtwuwOCSUyJsNPxDFYC9DDbuoQU3WDZ4afcZapU0utOINBk1NFMi9B4+vSZ6FjK49LaQDstQI+JNyCKkxOQ3sggpPCLZ6UJNRjwAvyWJkRPZ+THuG9279AOkphIS+5OScnKCbOK+hVFg5YCBxdw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=BEAriutW; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=naresh.solanki@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
+	t=1727864857; c=relaxed/relaxed;
+	bh=QhP8dAfjWNSaYUmoZ4flnUlLOBgW5BBKq7Dys4CJcPU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bL1U8WlYI3znqqDfTi4crbZOWhV0CE9YY+8z0M3yv3iDB9A7sr3ad2lTX3Au158reIGonGAjE3vVbaQOshrbrYQS/W5s2QRI3MzjFAN+7m3ScGGM/NEVYE3X9PI6eLeTc9Y1yli/Ey+Rq1jilJIZTfiOFeOAsW14f373yfgEK36686yy42ApPW1psjZ6Xa2x+oush6Qa5Eiz/Aq7TySP337jpwpnHzWc3+sEmz32vdWyNI3r2ISOdyDUGmwTM8FfiGEaAPuCFxWAyEpmoLo6kE/87aPiIvD097GXyd4KfpJJEn0fsRqfMhW/JN5KnCRz+zxtX1ACqOJqyHTQQXrz5w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=I4kq7sC6; dkim-atps=neutral; spf=none (client-ip=2607:f8b0:4864:20::1034; helo=mail-pj1-x1034.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org) smtp.mailfrom=bgdev.pl
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=BEAriutW;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=I4kq7sC6;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=9elements.com (client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=naresh.solanki@9elements.com; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2607:f8b0:4864:20::1034; helo=mail-pj1-x1034.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XJSvs2y7fz2xZj
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Oct 2024 18:41:28 +1000 (AEST)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-37ce8458ae3so2783975f8f.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Oct 2024 01:41:28 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XJWGJ4Pqjz2xl5
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Oct 2024 20:27:35 +1000 (AEST)
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-2e09ff2d890so5493166a91.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Oct 2024 03:27:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1727858484; x=1728463284; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZkdLBGm1XB365GQZ5F1KffCkGtsoV8P41FFkFvqweKw=;
-        b=BEAriutWjd/VSETbiUurRFnaSwBfyFEPqJn7Dz6iKZVjX+uSPWUWFbHBsCnVQVGGLe
-         CO12hbpzqgmNC1JZMVR+ro/0NHV0KiuTURdQaRbDEo42wxY8cIwjYWHPAB7NlX6+hjpu
-         /OEzEWiqDgOKueQ1Wca5pSIJURGR69HysDDrBLb1Ffy3rIbRYyvOHOsbn/U7Ls74N7Dp
-         fWvO7mABMntRXKSIgOB8fJvrbkvJWa+OErVR95Kc1SXEuHGjSvwNkhWRT4jqiQnM/D6e
-         r+dlk5/+G8E5m1PuylUgvfAz1ZnfHN2FurqFdER/OL/6Y3iyfB7wCQXkEhe/y9gKYRMy
-         gjqQ==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1727864852; x=1728469652; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QhP8dAfjWNSaYUmoZ4flnUlLOBgW5BBKq7Dys4CJcPU=;
+        b=I4kq7sC65xAxd0FNstLQNoLQFyStAFVijwvYhsNGRmWIfRawoWOblbvRaLhnknQGck
+         aj4kZyXHjDgkYpmtoFifuohFTtSLaSMWI9Xe4jgbYMRAhCR5d5h8uOqh1+VUyz/aoQNa
+         l4w+TEYwzQ05DdnZmi9C7sZcPgE3jZIyh9VaBTAR9A1apMWn7Oxtef4o6sOrexDgZOU4
+         5nOgp7TQRsx8paNHLtoxWcVYkqN7bc/1cCCm2HY3DbqSuexUmQwamVD/p6TE3CajvXOI
+         uK4wKyfbPWZBGAekRkR+mNS54DxmM609+5YkFUUHnOb0DUN4w1qTm3oRPkRbd8KudMDR
+         RzOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727858484; x=1728463284;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZkdLBGm1XB365GQZ5F1KffCkGtsoV8P41FFkFvqweKw=;
-        b=kYyw6gjKXPA/m9YLy6+dyGxnQaKlhUucd+zAQFAWMIyLhHwNP7+vtyGq5tGVBHPwvw
-         0ZjJOY0a65+TWnE4dmri+GMsLJWlDSwu7P0nyb+QcEq/pIVcD+3M9FNKNnVWmJpdTWGi
-         t1R0unwcbBsG5nagkD2j5sR7NXlDiz2G5nVF7lz9VjMTN7yor3Hr2lWX/kczWtdRN9ir
-         ptMXK1CPtgQLqqjEYnjzQuE7BmqewpozNF0k7KSTsgrsh/Ch0/RCumV70MJPbPAW3Sw/
-         8MbERhM5KoO0q2ya+M0LkaxahSZopw+28cFWhv70yaEP+ZK2OkmoiYLcymy9OaWiO/xv
-         viwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUaAdJXpUWtaGIN6o8WW1H51L9aC5zyszLArH9z0MH+ailgTSYc6mj6W0QyTKVsDKqZ+R5ej1p4Y1FW7WQ=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwnFqziHkVlB6pkF8EJbsvetJl0VJnNiwkz0a/HDNWSvcyTuNoN
-	ERDS0Q8NHHmMPbLEK/O1VnuqEiC/pkFRrABc2w/t2anhNgaVRDx9SSiJZ7vI4Z8=
-X-Google-Smtp-Source: AGHT+IHHxXmbuR4b6X50HxVTK9A11o7DnmYPeKR05fGwinleKUdREqTk7ARPSItbcf2SaeVHMsEhLw==
-X-Received: by 2002:adf:f04b:0:b0:374:c616:54b2 with SMTP id ffacd0b85a97d-37cfb8cf2d8mr2169854f8f.19.1727858484028;
-        Wed, 02 Oct 2024 01:41:24 -0700 (PDT)
-Received: from stroh80.lab.9e.network (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f79ead833sm12332645e9.13.2024.10.02.01.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 01:41:23 -0700 (PDT)
-From: Naresh Solanki <naresh.solanki@9elements.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] dt-bindings: arm: aspeed: add IBM SBP1 board
-Date: Wed,  2 Oct 2024 14:10:17 +0530
-Message-ID: <20241002084023.467383-1-naresh.solanki@9elements.com>
-X-Mailer: git-send-email 2.42.0
+        d=1e100.net; s=20230601; t=1727864852; x=1728469652;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QhP8dAfjWNSaYUmoZ4flnUlLOBgW5BBKq7Dys4CJcPU=;
+        b=gsXkQCz0hPPMVBYGoNYbjYlctVdfCG0tEjIVNRDP7k8hAfvoiM4AthD/nFnt46159c
+         ftc5yWqUiWaHEvfypMkLyaZc7R63x70XopbWBXqQSQR4OQH1zPNNqayYg3EQJvA8Wbbz
+         OeO7SyqxZJwZfr6LyGJsGXjLqsClKFJko9/ZjlCsBE0GFMwd0xMzAoWT5OnSnZpb9/Sy
+         ltkOFkOZ5lX1CX6YnRGYXxU9QGkdwxQA+NvHgCq6VZBeIz1tuoAIVI+ypNHuBY3+9JQC
+         BUV36ZsYsQeZrxp85ZHYexITNQ7ownQBd8o+6QaiU0sMfnWHkatBR9KHMiwGKWznhTKG
+         p+Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXJBreVgxqOyNQBYl8qZIAoMJPeOGfy9YFfkU4bZbDU9u0xhveK1O9t6kZqIwilFTv2EM8Wh9gcm4vOhIY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzJTj3ChpOxlqByKg3uGpKgdpKse9YJxoevNYk6TjpgWujFzOm4
+	3kpvuXqACHUPe1hSPOdPHpPIHfA++cX9u9532XYgxxH98f2uIpJJtPMRpbQ5+1yJaT5XlTWf5eZ
+	VNDXNDJoZSjzFbqwdnFxCOKRyR2Y8RYzfVfX+4w==
+X-Google-Smtp-Source: AGHT+IGiI611bF0LSNL9d1Wo5FWjadPESUy6tI49+wZGoCskFJasqOAr97AM7LwOhTLXYHQPCWHSierz4rQt1kIywXA=
+X-Received: by 2002:a17:90a:ce84:b0:2e0:788f:6253 with SMTP id
+ 98e67ed59e1d1-2e18455899fmr3665606a91.10.1727864852193; Wed, 02 Oct 2024
+ 03:27:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.0
+References: <20240919094339.2407641-1-billy_tsai@aspeedtech.com>
+ <20240919094339.2407641-7-billy_tsai@aspeedtech.com> <CACRpkdbFD9CiqVwQ5xxZ9SfQtVvDJGCr=8spxBG4u-JQ0PKJ3w@mail.gmail.com>
+In-Reply-To: <CACRpkdbFD9CiqVwQ5xxZ9SfQtVvDJGCr=8spxBG4u-JQ0PKJ3w@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 2 Oct 2024 12:27:19 +0200
+Message-ID: <CAMRc=MdvV7Z2yPpoR9mXLH6UCF5uA=TbkC_qUSj=akP_09M0WQ@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] gpio: aspeed: Add the flush write to ensure the
+ write complete.
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.0 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_SIGNED,DKIM_VALID,SPF_HELO_NONE,SPF_NONE autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -94,29 +90,42 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Naresh Solanki <naresh.solanki@9elements.com>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Peter.Yin@quantatw.com, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Jay_Zhang@wiwynn.com, BMC-SW@aspeedtech.com, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Document the new compatibles used on IBM SBP1.
+On Tue, Oct 1, 2024 at 4:18=E2=80=AFPM Linus Walleij <linus.walleij@linaro.=
+org> wrote:
+>
+> On Thu, Sep 19, 2024 at 11:43=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtec=
+h.com> wrote:
+>
+> > Performing a dummy read ensures that the register write operation is fu=
+lly
+> > completed, mitigating any potential bus delays that could otherwise imp=
+act
+> > the frequency of bitbang usage. E.g., if the JTAG application uses GPIO=
+ to
+> > control the JTAG pins (TCK, TMS, TDI, TDO, and TRST), and the applicati=
+on
+> > sets the TCK clock to 1 MHz, the GPIO=E2=80=99s high/low transitions wi=
+ll rely on
+> > a delay function to ensure the clock frequency does not exceed 1 MHz.
+> > However, this can lead to rapid toggling of the GPIO because the write
+> > operation is POSTed and does not wait for a bus acknowledgment.
+> >
+> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+>
+> If this applies cleanly on mainline I think it should go into fixes as-is=
+.
+>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+>
+> Yours,
+> Linus Walleij
 
-Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
----
- Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
- 1 file changed, 1 insertion(+)
+I agree but it doesn't. :(
 
-diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-index 95113df178cc..8c04d6eaec08 100644
---- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-+++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-@@ -89,6 +89,7 @@ properties:
-               - ibm,everest-bmc
-               - ibm,rainier-bmc
-               - ibm,system1-bmc
-+              - ibm,sbp1-bmc
-               - ibm,tacoma-bmc
-               - inventec,starscream-bmc
-               - inventec,transformer-bmc
--- 
-2.42.0
+Billy: please send it separately and - while at it - use a C-style comment.
 
+Bart
