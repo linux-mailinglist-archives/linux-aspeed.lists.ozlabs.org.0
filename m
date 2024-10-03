@@ -2,56 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA44598EB4A
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 10:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A2198EB4D
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 10:17:13 +0200 (CEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lZp1dHfe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dxNA0pgO;
 	dkim-atps=neutral
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XK4Jw3gddz2yZS
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 18:16:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XK4KM5c51z2yZS
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 18:17:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727943406;
-	cv=none; b=fFIu1bSzK2++z9yk4fGSp3ES6zrqzNW8FEy+f30kENndyn9e/IDGGk+TTn+ORT5n3YdnYTJpVQb7UFD9EUGPvYcEOZc1YMeJt/Em2h5R88rypoWZUR0D2ABX/HBTb4j0nfvEmqP39wimmISwp83BOB3psSFfbVq3n+8AF+HX/Hckc3n9p4+xKMBcPZ/Xg64dKNJjAJbRPadb+EbODBX0/5+g0fypNSVL+kY/Jllsv/jNPHkPQay/M/lGq+GfUNCGY5Tya1neblTM2tnaINuo5hHF7sIeskuu2w4TJacLttE1aao4hO9Pwmp7VvUPkBQryOPWOrvJosb0yqHghZrKNw==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727943429;
+	cv=none; b=mC5VAHXkWka29r4eVGopXlSGxrRM7FnVoLIFESRkQ/C/cFB3wk6beKoTYb2A13kVwL5riK/CvU3Oeqm5paimtLnZ3ij4GLgyBm89hxJHwNvjqGov56EYwiefd7/USUpBYCBo6F6iDgn92SZ85lp5yabTKcz+MJsrzt5pDPaBXcQPuWKplhZpX7FMcp7H9DregCn5wmjME9ocS11N6LA3JUeElPF5Wb4SmbdIvwBzHQXL7QMlMY/lZf1ABV114EnRGD6AOg4a1xg8gmoWiwu8gC7b0PC6J0rUevJik/8BtXPwVQWdULjrCO5vaCspc1uFS0Md6TvYLYgU3C6GRcfNGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727943406; c=relaxed/relaxed;
-	bh=kudw76ITehfexr3uNSsq2i2/EXgd7aXpbQkQYrNJbMY=;
+	t=1727943429; c=relaxed/relaxed;
+	bh=5T/J9y/ePBQvv+Tk/VMq9MmZO5pzMEDU1cDHiid/QA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GzIjcI6blrYYM9pLujCVDRoajV+j6WCNLV6lOVwBw1D2UmDqTbG7sCNS/bthhEAkUbCzxveAcl3lsL0mJzEuAzTAwrvH4jC1PZvvKKmfpo28jBDMOFHdadYLBuy0fyS/ATK0/tMNK75NzX8j9r7jXLF3iS7kWL3XhE5NnfDh4RZEjapXiibvRx0gVBtKraGN3mP05QAbo+AvTJcqARLikWAs3koa1edfHLNZmG2SnnmsV1gBFknotUUTkJMwuCXP03g+7CGjZNpZWOzYmRIk9d2bS4xCez4EEJ/k2KnkVtTmshjRJ8+TRdLPy5uAv1CPJaS1xqkwvcDymJ0ONU4tOA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lZp1dHfe; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ezXjt8+twe2lkPWET4Ka8sfXoA+ffx1Dtmq49CrdYH6jSP4t7BcRBw+fZzQqvRXvaebk055C/3bfPTQMhrD+sGR4kuvZZ41WQzfpEmuOjd27Y4q8Fn9zpNa5VGLUfzbJpMBhMIhOEiYYHFk/STGkMpusW7UMC4oW3yuIPbRtNjyfWLCqirswKmw2Cui0zfmVl2g2xVzsyvqHAeu/eGU6zbPiFEzoFvRxsKgFikYuXrvkF+uwG7tBEczrUJMI2ZTZhcwV6tdcw4jfgJ+/lLqETPJ+KsCOCkChT7yIpGBCMUiUqTNagZIph4gIVLOfBBm4BC4J1avg/QWpDcthlRjlzw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dxNA0pgO; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lZp1dHfe;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dxNA0pgO;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XK4Jr5g8Jz2yTy
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Oct 2024 18:16:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XK4KJ6bncz2yT0
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Oct 2024 18:17:08 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 9FF35A43467;
-	Thu,  3 Oct 2024 08:16:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B26D8C4CECC;
-	Thu,  3 Oct 2024 08:16:40 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 87D1CA4342A;
+	Thu,  3 Oct 2024 08:16:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9366C4CEC7;
+	Thu,  3 Oct 2024 08:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727943401;
-	bh=ZTEWdM9EQnqfcAqKF0YW4sdRl+S6oYuc7nTQKkdVdR0=;
+	s=k20201202; t=1727943426;
+	bh=OuqlnscLjuWAlMQHupr3CnALdnTmuNagISzh0YOHOpY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lZp1dHfeqxSSgekthOLOTBdngCa28+ZrfaepNDYBU0gKp8+j/geKT9bDPz8lNXSlm
-	 lVC/F8oPScp1vFdAEcKB2K7e+T4LqLJTRLsw7JuxOUP1oCwroNkJBHB3ichvosytM0
-	 2Vo/y5YvtbJ2AcZAgAePh2QY50fciQ4oSHZVgPot3bqegsAM+U1KLzb4VE3C0GRCLf
-	 PRD8+BcU1eeWeFdQCS5KDTCTakZGmcYOuCv2sXKRwwaAmkynqY0i5It1kRyoMTYWQU
-	 NjBxP4mizsmSJXDIS9/UWw55Q022jVZK6I+wL+bbZGwW+NxM2j2Yyw/X75Zn8qnv3n
-	 EiDJ8sBb4FZgA==
-Date: Thu, 3 Oct 2024 10:16:38 +0200
+	b=dxNA0pgOKjYSQN+blz559cd2HYR9DmGaugCOmGrgtvVKc+Dyxt8WKCVhj51Sk4ioL
+	 LL/PJw0hjNXmEgIep1eUn1kcmQBx0s4qnOFYTr2uDJhfm37Pn8Vo8mqLmy70SI1ZZC
+	 uLtkWgNf8B2CWfWK1+TnOK4/LEDO3hhEz5MF24yrsRBsF9whXvYuKHCIj7hiLIUrl2
+	 wOt7WG+adZkaT+aIvrYm9RQNnDhjhV0VNEAq/MPh+cvjCuuLsRe3WAn01medH8TBID
+	 5ANcMVqgy1MtYMaNueUCNb1BX+HlaIT1ib4VHUFpJx4W/UUi7HWuCfTsozIK8A4JR/
+	 OQhnuFyx+FSzg==
+Date: Thu, 3 Oct 2024 10:17:02 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Naresh Solanki <naresh.solanki@9elements.com>
 Subject: Re: [PATCH v3 1/2] dt-bindings: arm: aspeed: add IBM SBP1 board
-Message-ID: <vikiazbwxih7l4qcpoc5lhm6q5xwaitqnytt24nmr3prsos3jc@773uozmdlj6e>
+Message-ID: <xuczpa6nrxjwo7hjn62ehblnzc5twupghbg4uuwp5vfczw3gmg@x23yhbxjccpy>
 References: <20241002084023.467383-1-naresh.solanki@9elements.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -81,27 +81,20 @@ On Wed, Oct 02, 2024 at 02:10:17PM +0530, Naresh Solanki wrote:
 > 
 > Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
 > ---
+>  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> index 95113df178cc..8c04d6eaec08 100644
+> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> @@ -89,6 +89,7 @@ properties:
+>                - ibm,everest-bmc
+>                - ibm,rainier-bmc
+>                - ibm,system1-bmc
+> +              - ibm,sbp1-bmc
 
-Provide changelog explaining what happened here, including what changed
-that tag is invalid/skipped.
-
-<form letter>
-This is a friendly reminder during the review process.
-
-It looks like you received a tag and forgot to add it.
-
-If you do not know the process, here is a short explanation: Please add
-Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
-or above your Signed-off-by tag. Tag is "received", when provided
-in a message replied to you on the mailing list. Tools like b4 can help
-here. However, there's no need to repost patches *only* to add the tags.
-The upstream maintainer will do that for tags received on the version
-they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
+Keep alphabetical order.
 
 Best regards,
 Krzysztof
