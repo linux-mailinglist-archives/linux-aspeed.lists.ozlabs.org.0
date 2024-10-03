@@ -2,61 +2,144 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B47C98E73A
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 01:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD4198E8E6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 05:43:24 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XJrx80fbVz2yY0
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 09:43:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XJyFL6cR4z2yY1
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 13:43:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727912634;
-	cv=none; b=inWZI2w0glsa6fViYtZ4ioexVM0vtEmCZG5QxDYcqMHv9BZhRKrW7ONxSkFqfaYcZwxtGvmKTsJ3X7R6HgqoMdx8nADkANV6ymcMjk7kddtuxqTfZoyUmhkg6ylZsLLkpZPIgdAgCkRPi3SnHH5JzqTFyIpvAuiyAvlRnTdiVpkNjXLE5LpU6I/Kb1tHAv3mVQ9+WFJsf7swU3ONSst0wno1TvmcdvNfD3cGB6xNEURVav3iCWLBVOjI29lZbowVdvwOVLs4IXXHFqyHGrs1hbdusifreIj2sAdZIDVickNGTwUr4TTFVCXzYxfWFypGYdTX2lNmxro4MaBIrUq+nA==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727912634; c=relaxed/relaxed;
-	bh=rgD4cAwDrVI3FRgj3OYN0L9QDMGV/rqHFoOMCb4lQXE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MZk56IuCjLr2Kchl9t5ww193jgwW6PnCvrpPs2C/0bH43WWz7u/gfnpBwgUZCtxK5n8tVEuqVj2eZOgHgi+II+G23U79CL7heeGvcnSQi6uzRww0VZ7rUx7PGaG2os67MkqaWuGgGPr9RBoujoqhMxz7b+Ko9DO6hjqN8psyTtjA7oBWUSxuqd/sUr9WtvOPiiEfRM78i5+VILcZa2qIYdZ2tr2KmMkYTVoDcIeyg9cl1dd186Aq/PvLojCvMlhkJeyx0o+lGDcvOFF7lXBDQKjaYHybOc4I+1HPgVSw7o6iqsI11CS7ZAj99bZfmox0TXeVz5RvjJm+7A4y7Lvz8w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=NmiGzJVX; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=NmiGzJVX;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::705" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727926997;
+	cv=pass; b=glY24oZ1c/LY399Mvpt4OV0CBRAIp0BFcAmOfnVPrFF3NaZEyE6n1OF/TvN/jJuUGYv/uhn8N+Acdwaye995QrnMfrzerJNzj6M5MNZRCyd5gF1gscR6z14G6EeVDVvrcIDKH9u8y8fjhTZuxCAqzp6cneiYf1lP5vTvdrwtO/So5jaAI48T8ueC42ggQRLpgJ0zEWfL0sRTajgHis3DFx7U/TRgQKZGmQ8MPyHDAtud5l0YpIl8gr/HP+BuEZLanI6w9bLdtU0/XWknw1dcFTF3B/6qOdw+y+zExSY7Io+i4P6P02LFmkh8tf8BDuLSBMoTMmxvXtdUtUusnkkrvw==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1727926997; c=relaxed/relaxed;
+	bh=jJlHKWpgbSRX29KlwAhXBhD08vLp8ykt6I2TKDE4oMQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Aq4pwhE6cCkWkGHxYbt9Z/dgFg+65YFN5oKR63QE6roS1cIxj6GgrhBPZei1o09bNmwLB3UCOJW5NHPLbaYf7RK+9fOx4ZHYIF0o/BZCWmu1zk6v8CLhV7k/SRgy7YoYBuI2Gkjh8gbFBo7XAC77UBkcVDoBC/H2Itn9IzAf5+lvpMTuff+o/L5Z3EECeyom4xtUyBwbFB8MtdJvqun41swZdCXpOVGs/h5KQDdRGIrFxN3Tr5V62fVUuy3J5MyD3AHhENtZJFZabzIGpBL6oR9zxjyYbc8aEWR2tMrSUuRXL6hZJ5NpRcdjPbCipzR/9zxTgl87ARkAs7kdPH1HQw==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=2a01:111:f403:2011::705; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:2011::705; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20705.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::705])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XJrx53sPTz2xqc
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Oct 2024 09:43:53 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1727912630;
-	bh=rgD4cAwDrVI3FRgj3OYN0L9QDMGV/rqHFoOMCb4lQXE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=NmiGzJVXBgg9Sx0mkNOPddinsBePu0VR96xpZtAy65tlNbLSbHIGTWFaoFAfCJcAN
-	 Wq0FftekOs8B/FY/M6xaKCKjqhtChbuk1JHEzB+FAGY5Ru0Br+CK7xn4G995ziCvbJ
-	 cTMv+vHY+EDHoWFcur2Ab2rU42pHEZP/dN7jhCHw7WedsYBPeaWouDFE/YX4Qd/QVH
-	 YJSiCXy4HHwzGuMqij+XhtGU26/V2VfZ5kAqEAHUIkKYYKvTK8ICdiVt3nFc294q0D
-	 TS7NCxWtOx4+6SfZSiCIga68+7pn6vqZ5ZM0jby6uLIl3bge3vjM2wqaFkvwGCdb/O
-	 GGSrSorJsAaPA==
-Received: from [192.168.68.112] (ppp118-210-88-173.adl-adc-lon-bras32.tpg.internode.on.net [118.210.88.173])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 686B165013;
-	Thu,  3 Oct 2024 07:43:49 +0800 (AWST)
-Message-ID: <be2630fe0abf590866c306880395659b33128111.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v3 1/2] dt-bindings: arm: aspeed: add IBM SBP1 board
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Naresh Solanki <naresh.solanki@9elements.com>
-Date: Thu, 03 Oct 2024 09:13:48 +0930
-In-Reply-To: <172790540060.1353939.8456815650107227718.robh@kernel.org>
-References: <20241002084023.467383-1-naresh.solanki@9elements.com>
-	 <172790540060.1353939.8456815650107227718.robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XJyF41m0Hz2xtp
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Oct 2024 13:42:25 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TGoP7eWpQTkp5TIV17U9weC0eUsEXrcjSCWQwWFLVICMFHyESOWUwckx/9pSNXVVak5zB1bD6B7lcI1wb0+khsbeiLxcrnMvAacVgAMq9/LsGpMQazeP8U3nTl82crwknJK2Z93Zh7VCgkI7x/zx7Yv2k0HpGxFwJNDGzrK1y4hmkRPSioIJNamQd5XznDi/PC5iyE9LVax6GanMVf/7u+TrtoTuG6PqU5G4oQItP1OhfjUaKhb/xcK6Dfd9tD5k+t1mpQILoODFJOe1993RsOCJpmApxJ98e4cdZVE54gVveHoo+rQgawfj1pP4L5Vq5yvqGMcd/0ntoyYQBn810g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jJlHKWpgbSRX29KlwAhXBhD08vLp8ykt6I2TKDE4oMQ=;
+ b=bo0NQAihRAF7Kyw0AFTkHMgrM7qhBiZSFVogJhKeDD9Pz8/Ce87T3LkBUYqr1GjHh8zHYTFJhAcIz9pRE7hGD2m6ydKZKk2JlTrs41jN7aZPK+J25zthSScmXjtC+PFIpnHK6dgVadBbcBtFIkNmaZt7//BfEUS40tuPXjkJn6joFxBRbeBovCF+9q3GeCZqNc9FOgA+9GrTvis2Mw6qNdapLD9OLzVwgfZPXbTvXw7pHTuPGnVpFG7PhJgqnkFyFwxR7vta4Mh2sSOEHnMPBJ1f9uEOJSAY1AD4TXuNX43S4Nb35TV1U2uAL3F439TCQHOo9NftIRawemB09G76zg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jJlHKWpgbSRX29KlwAhXBhD08vLp8ykt6I2TKDE4oMQ=;
+ b=MIX57z2VR1AnWx9urLRtFyQHBHIPZio4lXwEAf/pD1aV7GYEejGySEjkahArzgtaHYINGNVIFcKbUfNw9E0BTVA+3d7Q4ZrR/qpC2AX8cr/h7tdH2keFGiJqswRvyqKLKlF5bTxs0bfmR3f15p3gjSW3Cwn3Md3ym3u9x8XIc7KXZXiekqezuQPSAEW5ZqqylDsprMvLHLzCsxuMSj/la4dkzy507wMeVXv5QuDkoJynEPO8xfVXN5ItoVqeXKXjtpXvNc6KKwoSjyV9oceHXZ5Xr8QiHt5TKHHTGcN1W6t92Y7ChcURj4/JpF4b4uK+tp3ANw/f9ZoHWr/2oBktTA==
+Received: from SI6PR06MB7535.apcprd06.prod.outlook.com (2603:1096:4:235::12)
+ by SEZPR06MB7080.apcprd06.prod.outlook.com (2603:1096:101:1f3::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Thu, 3 Oct
+ 2024 03:41:57 +0000
+Received: from SI6PR06MB7535.apcprd06.prod.outlook.com
+ ([fe80::8af2:b731:a5e5:169f]) by SI6PR06MB7535.apcprd06.prod.outlook.com
+ ([fe80::8af2:b731:a5e5:169f%4]) with mapi id 15.20.8026.016; Thu, 3 Oct 2024
+ 03:41:57 +0000
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: RE: [PATCH v14 0/3] Add ASPEED AST2600 I2Cv2 controller driver
+Thread-Topic: [PATCH v14 0/3] Add ASPEED AST2600 I2Cv2 controller driver
+Thread-Index: AQHbFJkFQwNKPZEeEUm4WxILxLvNH7Jzh3+AgADa1uA=
+Date: Thu, 3 Oct 2024 03:41:57 +0000
+Message-ID:  <SI6PR06MB75359904E108D7D0CC89A329F2712@SI6PR06MB7535.apcprd06.prod.outlook.com>
+References: <20241002070213.1165263-1-ryan_chen@aspeedtech.com>
+ <Zv1aOedi9xl2mg9b@smile.fi.intel.com>
+In-Reply-To: <Zv1aOedi9xl2mg9b@smile.fi.intel.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SI6PR06MB7535:EE_|SEZPR06MB7080:EE_
+x-ms-office365-filtering-correlation-id: 9ac76ddb-6936-4b93-0a88-08dce35d54aa
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:  BCL:0;ARA:13230040|376014|366016|7416014|1800799024|38070700018;
+x-microsoft-antispam-message-info:  =?us-ascii?Q?m4Re7qiN+gRKQqN/iYvIuHapJysKSh2KTQD3NK2TBMZ1PTFDtzojKv8KIxyV?=
+ =?us-ascii?Q?5q8ETGjB3h1VFXJZQWOQMOkJBzX36Kp4YlaKqnFtAq2As62ehI90Mv4ryeq/?=
+ =?us-ascii?Q?0pBghbYzNiPtqG5QRz6eOXQp3lLAzlCr/TQmZF2LQfCoeNR9n1k7oS+fySZ/?=
+ =?us-ascii?Q?Xl/a8oyx6PrMgorbqIzSV5gZjGEj31BrGUHOCCiM8ncSiw0UOdWkZY9vMwL+?=
+ =?us-ascii?Q?h0DNjKB83T5MPwQHw3IqQGNsA3I5cv0v51UAIMlVxAlw48VQB0NuMWB7rW85?=
+ =?us-ascii?Q?0M4bsvnx7xYcStGjB2V/mbb/LOh3TAfiuxyIxbY5jr24ElLo6aSlGEZk8kjq?=
+ =?us-ascii?Q?tYDTOi3sXJXKKQzw1JlLNfFdSgS3CDacxjIxUMIbfzYrVtAttg/bv7V4x1L6?=
+ =?us-ascii?Q?JNbXu6n6iofScEqqcdjpQWlooJXizISiae4NMz1edEAK8bhAkRi/andhflv2?=
+ =?us-ascii?Q?OalTY+vHiMhEIBK4Y9X9qjGjzR1b3AZjpDY/+MXCETuTRMI9/xtZdR2dGPfr?=
+ =?us-ascii?Q?bCfdurZ95LTy7i1akGShrxStTHhkTaC1dVYYFjwcxy+7coE7Ra27pgkTsxSm?=
+ =?us-ascii?Q?hq0OAhCGk75KVaem+oz4HT+YbXS788gLzBSthpboMnhA0CIrXcYA+VGNpjCf?=
+ =?us-ascii?Q?UgLh+1tdMXWjiixhQnJ8Nr1Dg1cf7Hg3J6ppGxiSwJ4rkKCEg/jAgy7AEPEU?=
+ =?us-ascii?Q?ewmeMlOAtStFJ4/hjQ8+a1PJSLSx9rGpByHIwwBHjS1dZ55Q1aiIbsx7NeDM?=
+ =?us-ascii?Q?RRqFkuLZYUJoOc/qg0Gmxaw2a4d2hj1YfohWI/eFUQSIvhtEeyly35HeOY8t?=
+ =?us-ascii?Q?1HtCJ0lYVO3kdy/BxFQ5GaMxoWsr14ygN7gWYxELRwQ9i6Va0h1uYAQlJLAU?=
+ =?us-ascii?Q?MWDmicilqUouPVrWDUv3KZLvtATMo3bJFDcIEPJQ6/ZaqZ3RnC+UG2GlY9Ud?=
+ =?us-ascii?Q?JbRaNDbctWiKC4UWP2HwZavaQ34ybC0HsiMxwYOWLdg64vJ/+9XeYkB2Fn5v?=
+ =?us-ascii?Q?VcBueFBvNxb6jpN+y8X6BrzV98HkEX7FF0a5FckVV01QtbIGGbECgBQWjLmx?=
+ =?us-ascii?Q?c3kkw/ADhKQOGKOADqXeF8Km51yD0YpiAW6SxxEg0oyJWSzg7UqlT/j5nVO3?=
+ =?us-ascii?Q?z3hNXQsAg49XU/qt5vjF1p1Dc3F521iqNxywVlx/kMEJLqurNbYXzMOxDzUr?=
+ =?us-ascii?Q?+xauUi1EEBs7BZKD/kQ90LJQb72VLoTLGR/lm7h/APqShWr0IOffvu3Mayz3?=
+ =?us-ascii?Q?VydH2i4WLCqh9zBp3M5G9T33N+orPnyru34KPoqetprh3QgmqNdh86P4lG/l?=
+ =?us-ascii?Q?/UtFL9ZTvSqWLYeDMs1N0hvuR8rrMsiZkg3/xVb9TVGvPA=3D=3D?=
+x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI6PR06MB7535.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?J2O1qOoFJ3MyXIJQwmHWhQVl/e+f4wmIjNhI8Gxf8a2x3L0MpA3YxEhE0ns8?=
+ =?us-ascii?Q?pLqGXwK5xl+O6AtxX5LXr46XBvPVfRIZgRlsMmfacvjJ6jB6Wx85trnodPAf?=
+ =?us-ascii?Q?dvXRLDqtugVWcZ+YuOlRdJNHOCH0KLk3TfVNoM6spjAV9hodqgt9UlTmgdCc?=
+ =?us-ascii?Q?K1Cq5pe5Us/4UC2vEFMK+8BIb2qNjfD+flOcvVOVDycNW2nYwWA+iyDGHw8Y?=
+ =?us-ascii?Q?buYgBLVHFyaLcFXpTAJblcDJgRTFPE8pr3Xy0FWgjN40mvItp0eByHykH/7Y?=
+ =?us-ascii?Q?WGVKLy2qIX/Mw82uLWDRtJhzex9MEDiJ+NSLcQuJvuVvC/osjG+ZgnW1N9Uu?=
+ =?us-ascii?Q?7NMOqz+TcvAOPoB6spk4ATqyExRQK6Ox+fUGiRYnxTTPdxLZ9a9cnEpWtyc4?=
+ =?us-ascii?Q?HybFnHvT7gso6x2ua2+rikMu7Rp6GlRI7uJCiPBwIqZtCHg5HQAogteB+Tk/?=
+ =?us-ascii?Q?bTIx5j+QO8JepTdFBtRy2OxoYvFFppxQGCyA9G3iT/UmmQfQ4ggrxegvz/t1?=
+ =?us-ascii?Q?6hZ59Wr4XS5SsKQ4eI6+Qxwqxr3VzYTBAyGSNy9Ao25kqay/om7skDbY3F/q?=
+ =?us-ascii?Q?FKW1wXpp7HhiCFLrr790IKP5uSXx/5X1Hl6Ts9jCKwhJ0PhrBuwCjRgGrf0F?=
+ =?us-ascii?Q?pFzVVXuMLLqKoGCe2E6kxbW1n20tTG04bsgKU6OQalMZJ9OnOzI4PJ8OdALZ?=
+ =?us-ascii?Q?6JttcBe4ohRrithS1ts714rCXkkdTm7LrxS4xHhWWXQvwRXE9ZYf1J2EGhcv?=
+ =?us-ascii?Q?0+AyNg123l8CdrXqSgulw7rVbL42D+y5sfWDABvpM14tR4GfbunRKZwxL72t?=
+ =?us-ascii?Q?lECWdfNNEhpUs6fsxPBhGbbGg8R16Z3nARS2t0Pil1CAuH6h7JUDr882EVQI?=
+ =?us-ascii?Q?WwApKKMJgFMzlwN7m7ldggl9j61zUAkPr7damMDmKYu5JigWJTN8nB9IruV7?=
+ =?us-ascii?Q?dsJbsRhLKPnDDIpICGAhkSTYzkSqaREASJG036tN7EoLRf3lZWu05aUkRMtB?=
+ =?us-ascii?Q?eD/Eu9raysRz1cSxSpBID567YhIGI0ab4lGCRdGQSLVKKY0By5Xw+AYJtkOJ?=
+ =?us-ascii?Q?zD5XgrIvjMxSwtC7nJOWbdWMnta8XcRWo/mosLMV/H1VtxJFLbV96jek/h6N?=
+ =?us-ascii?Q?IY0iajrNwq3F/bxguN+S/2CEGW0dANA7POUrKec1NCnBUpwn3tkE/LDXp4BQ?=
+ =?us-ascii?Q?QSBi3uW20+x2YcZ/uPVAOhhv2i9YXFjaKHFj3G7Z4trdmo5EqHsdClBNNeTP?=
+ =?us-ascii?Q?OkVz8cHRTOCRcb5OwsPHdprucZG9N8v9+SPH+nkkJUDXOENufFPMblhxq7zv?=
+ =?us-ascii?Q?C6ft75RbWS30fLt7YeyTi/35l728Ayfw8CzTmZ/gyfXH1ixjaxBE3XwpstLJ?=
+ =?us-ascii?Q?S/fT/vGCRIC7zr/Ui4HfBT5XUEfNQ1uZH8BVbeafzkftGZdrvBeBEGNkYPT/?=
+ =?us-ascii?Q?z1dROc+32Fxy+Iek8Szz205Qa7bieCq1axQlW3Ikikhs7FB51oifvlpjDoyR?=
+ =?us-ascii?Q?6yMbpQEh7qW37kj2I1BA+QdsfJUE44HwjmscM3bflPp7dBv9LtG1ATEKo63z?=
+ =?us-ascii?Q?FIdCE8dn2WLzF3qRYiI8HmTbBEMp35MaL8jfDH4y?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-	SPF_PASS autolearn=disabled version=4.0.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SI6PR06MB7535.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ac76ddb-6936-4b93-0a88-08dce35d54aa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2024 03:41:57.1638
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: soVA/5tN2MVckh2cyOzODQKMGz7iBIftSi+CGRp8qu2eyQLjl3gVhj1iLmcKZ5glwGEdDDhUrmqvrMPVuoqrYB6A14CgzDLoU5v+zAEJIM8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB7080
+X-Spam-Status: No, score=0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_INVALID,DKIM_SIGNED,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -69,266 +152,124 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, "Rob Herring \(Arm\)" <robh@kernel.org>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Naresh,
-
-On Wed, 2024-10-02 at 16:45 -0500, Rob Herring (Arm) wrote:
-> On Wed, 02 Oct 2024 14:10:17 +0530, Naresh Solanki wrote:
-> > Document the new compatibles used on IBM SBP1.
-> >=20
-> > Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
-> > ---
-> >  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
+> Subject: Re: [PATCH v14 0/3] Add ASPEED AST2600 I2Cv2 controller driver
 >=20
+> On Wed, Oct 02, 2024 at 03:02:10PM +0800, Ryan Chen wrote:
+> > This series add AST2600 i2cv2 new register set driver. The i2cv2
+> > driver is new register set that have new clock divider option for more
+> > flexiable generation. And also have separate i2c master and slave
+> > register set for control, patch #2 is i2c master driver only, patch #3
+> > is add i2c slave mode driver.
+> >
+> > The legacy register layout is mix master/slave register control togethe=
+r.
+> > The following is add more detail description about new register layout.
+> > And new feature set add for register.
+> >
+> > -Add new clock divider option for more flexible and accurate clock
+> > rate generation -Add tCKHighMin timing to guarantee SCL high pulse widt=
+h.
+> > -Add support dual pool buffer mode, split 32 bytes pool buffer of each
+> > device into 2 x 16 bytes for Tx and Rx individually.
+> > -Increase DMA buffer size to 4096 bytes and support byte alignment.
+> > -Re-define the base address of BUS1 ~ BUS16 and Pool buffer.
+> > -Re-define registers for separating master and slave mode control.
+> > -Support 4 individual DMA buffers for master Tx and Rx, slave Tx and Rx=
+.
+> >
+> > And following is new register set for package transfer sequence.
+> > -New Master operation mode:
+> >  S -> Aw -> P
+> >  S -> Aw -> TxD -> P
+> >  S -> Ar -> RxD -> P
+> >  S -> Aw -> RxD -> Sr -> Ar -> TxD -> P -Bus SDA lock auto-release
+> > capability for new master DMA command mode.
+> > -Bus auto timeout for new master/slave DMA mode.
+> >
+> > The following is two versus register layout.
+> > Old:
+> > {I2CD00}: Function Control Register
+> > {I2CD04}: Clock and AC Timing Control Register
+> > {I2CD08}: Clock and AC Timing Control Register
+> > {I2CD0C}: Interrupt Control Register
+> > {I2CD10}: Interrupt Status Register
+> > {I2CD14}: Command/Status Register
+> > {I2CD18}: Slave Device Address Register
+> > {I2CD1C}: Pool Buffer Control Register
+> > {I2CD20}: Transmit/Receive Byte Buffer Register
+> > {I2CD24}: DMA Mode Buffer Address Register
+> > {I2CD28}: DMA Transfer Length Register
+> > {I2CD2C}: Original DMA Mode Buffer Address Setting
+> > {I2CD30}: Original DMA Transfer Length Setting and Final Status
+> >
+> > New Register mode
+> > {I2CC00}: Master/Slave Function Control Register
+> > {I2CC04}: Master/Slave Clock and AC Timing Control Register
+> > {I2CC08}: Master/Slave Transmit/Receive Byte Buffer Register
+> > {I2CC0C}: Master/Slave Pool Buffer Control Register
+> > {I2CM10}: Master Interrupt Control Register
+> > {I2CM14}: Master Interrupt Status Register
+> > {I2CM18}: Master Command/Status Register
+> > {I2CM1C}: Master DMA Buffer Length Register
+> > {I2CS20}: Slave~ Interrupt Control Register
+> > {I2CS24}: Slave~ Interrupt Status Register
+> > {I2CS28}: Slave~ Command/Status Register
+> > {I2CS2C}: Slave~ DMA Buffer Length Register
+> > {I2CM30}: Master DMA Mode Tx Buffer Base Address
+> > {I2CM34}: Master DMA Mode Rx Buffer Base Address
+> > {I2CS38}: Slave~ DMA Mode Tx Buffer Base Address
+> > {I2CS3C}: Slave~ DMA Mode Rx Buffer Base Address
+> > {I2CS40}: Slave Device Address Register
+> > {I2CM48}: Master DMA Length Status Register
+> > {I2CS4C}: Slave  DMA Length Status Register
+> > {I2CC50}: Current DMA Operating Address Status
+> > {I2CC54}: Current DMA Operating Length  Status
+> >
+> > aspeed,global-regs:
+> > This global register is needed, global register is setting for new
+> > clock divide control, and new register set control.
+> >
+> > ASPEED SOC chip is server product, i2c bus may have fingerprint
+> > connect to another board. And also support hotplug.
+> > The following is board-specific design example.
+> > Board A                                         Board B
+> > -------------------------                       -----------------------=
+-
+> > |i2c bus#1(master/slave)  <=3D=3D=3Dfingerprint =3D=3D=3D> i2c bus#x (m=
+aster/slave)|
+> > |i2c bus#2(master)-> tmp i2c device |          |
+> |
+> > |i2c bus#3(master)-> adc i2c device |          |
+> |
+> > -------------------------                       -----------------------=
+-
+> >
+> > i2c-scl-clk-low-timeout-us:
+> > For example I2C controller as slave mode, and suddenly disconnected.
+> > Slave state machine will keep waiting for master clock in for rx/tx
+> > transmit. So it need timeout setting to enable timeout unlock
+> > controller state. And in another side. In Master side also need avoid
+> > suddenly slave miss(un-plug), Master will timeout and release the SDA/S=
+CL.
+> >
+> > aspeed,enable-dma:
+> > For example The bus#1 have trunk data needed for transfer, it can
+> > enable bus dma mode transfer, it can reduce cpu utilized.
+> > Others bus bus#2/3 use defautl buffer mode.
 >=20
-> My bot found new DTB warnings on the .dts files added or changed in this
-> series.
+> Is it possible to switch to new terminology wherever it's possible?
+> I.e. master --> controller, slave --> target. See, for example, f872d2850=
+0bd
+> ("i2c: uniphier-f: reword according to newest specification").
 >=20
-> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-> are fixed by another series. Ultimately, it is up to the platform
-> maintainer whether these warnings are acceptable or not. No need to reply
-> unless the platform maintainer has comments.
->=20
-> If you already ran DT checks and didn't see these error(s), then
-> make sure dt-schema is up to date:
->=20
->   pip3 install dtschema --upgrade
->=20
->=20
-> New warnings running 'make CHECK_DTBS=3Dy aspeed/aspeed-bmc-ibm-sbp1.dtb'=
- for 20241002084023.467383-1-naresh.solanki@9elements.com:
-
-A bunch of what follows are issues caused by the lack of dt-schema
-bindings for the ASPEED SoC peripherals. You can ignore those errors
-for now.
-
-However, some of those below are specific to your devicetree. Can you
-please address them?
-
->=20
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: timer: 'clocks' does no=
-t match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml=
-#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /sdram@1e6e0000: failed=
- to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon=
-']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: bus@1e600000: compatibl=
-e: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-> 	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.y=
-aml#
-
-For instance, ignore the above for now.
-
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mdio@1e650010: Unevalua=
-ted properties are not allowed ('reset-assert-us', 'reset-deassert-us' were=
- unexpected)
-> 	from schema $id: http://devicetree.org/schemas/net/aspeed,ast2600-mdio.y=
-aml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mdio@1e650018: Unevalua=
-ted properties are not allowed ('reset-assert-us', 'reset-deassert-us' were=
- unexpected)
-> 	from schema $id: http://devicetree.org/schemas/net/aspeed,ast2600-mdio.y=
-aml#
-
-Check the bindings regarding these - it seems they should go in a phy
-subnode of the MDIO controller.
-
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: syscon@1e6e2000: 'smp-m=
-emram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-=
-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^silicon-id@[0=
--9a-f]+$', 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.ya=
-ml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/syscon@1e6e200=
-0/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2=
-600-smpmem']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/syscon@1e6e200=
-0/interrupt-controller@560: failed to match any schema with compatible: ['a=
-speed,ast2600-scu-ic0']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/syscon@1e6e200=
-0/interrupt-controller@570: failed to match any schema with compatible: ['a=
-speed,ast2600-scu-ic1']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/display@1e6e60=
-00: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'sys=
-con']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: adc@1e6e9000: 'interrup=
-ts' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-ad=
-c.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: adc@1e6e9100: 'interrup=
-ts' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-ad=
-c.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: crypto@1e6fa000: 'aspee=
-d,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acr=
-y.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/video@1e700000=
-: failed to match any schema with compatible: ['aspeed,ast2600-video-engine=
-']
-
-Ignore the above for now.
-
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: gpio@1e780000: 'gpio-re=
-served-ranges' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio.=
-yaml#
-
-I'm not sure why this one is flagged, though it is one you should
-resolve. You might need some input from the devicetree maintainers.
-
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/timer@1e782000=
-: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: lpc@1e789000: lpc-snoop=
-@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: lpc@1e789000: reg-io-wi=
-dth: 4 is not of type 'object'
-> 	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: kcs@24: 'clocks' does n=
-ot match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-b=
-mc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: kcs@28: 'clocks' does n=
-ot match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-b=
-mc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: kcs@2c: 'clocks' does n=
-ot match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-b=
-mc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: kcs@114: 'clocks' does =
-not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-b=
-mc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/lpc@1e789000/l=
-hc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/lpc@1e789000/i=
-bt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bm=
-c']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: sdc@1e740000: sdhci@1e7=
-40100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-> 	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: sdc@1e740000: sdhci@1e7=
-40200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-> 	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/sdc@1e740000/s=
-dhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600=
--sdhci', 'sdhci']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/sdc@1e740000/s=
-dhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600=
--sdhci', 'sdhci']
-
-Ignore the above for now.
-
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-pvcore-nic2@40:=
- Unevaluated properties are not allowed ('regulators' was unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-pvcore-nic1@40:=
- Unevaluated properties are not allowed ('regulators' was unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p3v3-nic@40: Un=
-evaluated properties are not allowed ('regulators' was unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p1v2-nic@40: Un=
-evaluated properties are not allowed ('regulators' was unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p1v8-nic@40: Un=
-evaluated properties are not allowed ('regulators' was unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/bus@1e78a000/i=
-2c@280/bmc-slave@10: failed to match any schema with compatible: ['ipmb-dev=
-']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: r38263-p1v05-pch-aux@40=
-: Unevaluated properties are not allowed ('interrupt-parent', 'interrupts',=
- 'regulators' were unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38060-p1v8-pch-aux@40=
-: Unevaluated properties are not allowed ('interrupt-parent', 'interrupts',=
- 'regulators' were unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mux@77: interrupts: Fal=
-se schema does not allow [[44, 4]]
-> 	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: pvccinfaon-pvccfa-cpu2@=
-58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mp2973-pvccin-pvccfa-cp=
-u2@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: pvccinfaon-pvccfa-cpu1@=
-58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mp2973-pvccin-pvccfa-cp=
-u1@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: pvccinfaon-pvccfa-cpu3@=
-58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mp2973-pvccin-pvccfa-cp=
-u3@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p5v-aux@40: Une=
-valuated properties are not allowed ('regulators' was unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p3v3-aux@40: Un=
-evaluated properties are not allowed ('regulators' was unexpected)
-> 	from schema $id: http://devicetree.org/schemas/regulator/infineon,ir3806=
-0.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: regulator@5f: 'regulato=
-rs' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: regulator@5f: 'regulato=
-rs' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: regulator@5f: 'regulato=
-rs' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: regulator@5f: 'regulato=
-rs' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: pvccinfaon-pvccfa-cpu0@=
-58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mp2973-pvccin-pvccfa-cp=
-u0@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
-> 	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-
-These all look like they need to be addressed.
-
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: fsi@1e79b000: compatibl=
-e: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-> 	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-ma=
-ster.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/fsi@1e79b000: =
-failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', '=
-fsi-master']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: fsi@1e79b100: compatibl=
-e: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-> 	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-ma=
-ster.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/fsi@1e79b100: =
-failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', '=
-fsi-master']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/dma-controller=
-@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udm=
-a']
+Just for cover latter? Or I should modify for each patches commit message?
+Or entire i2c driver statement need switch to target?
+> --
+> With Best Regards,
+> Andy Shevchenko
 >=20
 
-Ignore these for now.
-
-Andrew
