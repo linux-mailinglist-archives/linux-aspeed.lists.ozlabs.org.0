@@ -1,65 +1,79 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A2198EB4D
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 10:17:13 +0200 (CEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dxNA0pgO;
-	dkim-atps=neutral
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3076D98ECC3
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 12:16:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XK4KM5c51z2yZS
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 18:17:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XK6yf4StQz2yZS
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 20:16:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727943429;
-	cv=none; b=mC5VAHXkWka29r4eVGopXlSGxrRM7FnVoLIFESRkQ/C/cFB3wk6beKoTYb2A13kVwL5riK/CvU3Oeqm5paimtLnZ3ij4GLgyBm89hxJHwNvjqGov56EYwiefd7/USUpBYCBo6F6iDgn92SZ85lp5yabTKcz+MJsrzt5pDPaBXcQPuWKplhZpX7FMcp7H9DregCn5wmjME9ocS11N6LA3JUeElPF5Wb4SmbdIvwBzHQXL7QMlMY/lZf1ABV114EnRGD6AOg4a1xg8gmoWiwu8gC7b0PC6J0rUevJik/8BtXPwVQWdULjrCO5vaCspc1uFS0Md6TvYLYgU3C6GRcfNGw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.14
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727950569;
+	cv=none; b=lMWwbLq8oX6RZko+6cDHje9QokEKvaynayRTJ0nTQt13KXoNV6v7Ez8RLUTzF6Mu630MJ+uQfaHd2tWBpSn3G46El347PwLjnCKhH/G5NUzOKwDn66ulau92S5lNe87bt2puO/L1gyti1fThtOhdzi3hZq88eQAVrIDGprKZANc83ld38I3aR96y+OYCNJ3M/RYTGpFHA3G40jgwwxIGhZRfWNCi8hcIZZSYTi+2fNy+Mwb4DPgc6rtEwKk1tn8MncNshhU0HUc6EMYj3/VtR09Sj5oviF6A5nXraX0JDx6P0HUNEgxzHyxi2GWnDQmB9YaDfAvQyOWocGkCTmpTBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727943429; c=relaxed/relaxed;
-	bh=5T/J9y/ePBQvv+Tk/VMq9MmZO5pzMEDU1cDHiid/QA8=;
+	t=1727950569; c=relaxed/relaxed;
+	bh=IBGEciqXLkAYuBJB5LbxAvEZS2jVMJ0HxbsSlaCaiq4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ezXjt8+twe2lkPWET4Ka8sfXoA+ffx1Dtmq49CrdYH6jSP4t7BcRBw+fZzQqvRXvaebk055C/3bfPTQMhrD+sGR4kuvZZ41WQzfpEmuOjd27Y4q8Fn9zpNa5VGLUfzbJpMBhMIhOEiYYHFk/STGkMpusW7UMC4oW3yuIPbRtNjyfWLCqirswKmw2Cui0zfmVl2g2xVzsyvqHAeu/eGU6zbPiFEzoFvRxsKgFikYuXrvkF+uwG7tBEczrUJMI2ZTZhcwV6tdcw4jfgJ+/lLqETPJ+KsCOCkChT7yIpGBCMUiUqTNagZIph4gIVLOfBBm4BC4J1avg/QWpDcthlRjlzw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dxNA0pgO; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=AdnJ6dHJ1r7F50Txc/IN6ww7fREUw5ZMCQIkxiy9tK94xLYva2mfec6OK1/4AHFBD9ozwhM7cSAE2vqwq7tUKsm51uSyr+2rVWsWWFJfu2Ev7FZT+++SEoNmgh3bR0XVtq3yPSXfsFzmN62J2Ok5JP4aRwEEnN8X8L58C8dadBgEjR6cn8iI6YNemV3dmlY9EVlCREQBdT8bnfqMgGS5xKBQMEMjro7is3f0YIfm6AQDyYU1QRSk5e1ewKpg9GR7KHfNuD3gCR5FWaAtcJRZe6BmhltL9b8aUCkE91JGzzP3BiSUMEKEl5qb2UvL7UmsnyseSkftr6fGKkjZ5NQWBA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cCe4Wxdw; dkim-atps=neutral; spf=none (client-ip=192.198.163.14; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dxNA0pgO;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cCe4Wxdw;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.14; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XK4KJ6bncz2yT0
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Oct 2024 18:17:08 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 87D1CA4342A;
-	Thu,  3 Oct 2024 08:16:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9366C4CEC7;
-	Thu,  3 Oct 2024 08:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727943426;
-	bh=OuqlnscLjuWAlMQHupr3CnALdnTmuNagISzh0YOHOpY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dxNA0pgOKjYSQN+blz559cd2HYR9DmGaugCOmGrgtvVKc+Dyxt8WKCVhj51Sk4ioL
-	 LL/PJw0hjNXmEgIep1eUn1kcmQBx0s4qnOFYTr2uDJhfm37Pn8Vo8mqLmy70SI1ZZC
-	 uLtkWgNf8B2CWfWK1+TnOK4/LEDO3hhEz5MF24yrsRBsF9whXvYuKHCIj7hiLIUrl2
-	 wOt7WG+adZkaT+aIvrYm9RQNnDhjhV0VNEAq/MPh+cvjCuuLsRe3WAn01medH8TBID
-	 5ANcMVqgy1MtYMaNueUCNb1BX+HlaIT1ib4VHUFpJx4W/UUi7HWuCfTsozIK8A4JR/
-	 OQhnuFyx+FSzg==
-Date: Thu, 3 Oct 2024 10:17:02 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Naresh Solanki <naresh.solanki@9elements.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: arm: aspeed: add IBM SBP1 board
-Message-ID: <xuczpa6nrxjwo7hjn62ehblnzc5twupghbg4uuwp5vfczw3gmg@x23yhbxjccpy>
-References: <20241002084023.467383-1-naresh.solanki@9elements.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XK6yX1tb0z2yVT;
+	Thu,  3 Oct 2024 20:16:02 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727950565; x=1759486565;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qqEr/d7JEF3M3078b1QH5LAWJO35b+cVIAnjF94+Bxg=;
+  b=cCe4Wxdw5mkOKz3puHMJK7dB61uI8GdAzUGW2S/Zyy5Em4KokXH7gTTc
+   C2736ESblc0IgIanaFFy/tsTsqN7xfaGsrJWps68sRZJfYkUVgQT+TbN4
+   11Qe8XigL0g5L4GcGlbYw2q3aZG8so+fj5ySxfQAj/58QYmFkqCo/kPYq
+   UhQKibOj4rPbo6OShPoqKnz0+3LG5kBdpSnfrwQ2QmCta+ZFs6xrN3n7W
+   zLgABpODG2gH1Nl4i2veHbNim7UDqM4Ybp7j5ndHkrWbGBVLtU2ktwzJr
+   2A/QZkG4ckSwE6n0ju3gsb4QzF5VhTu1Buq9JEGeXiOTZzlOLSS/I8eCM
+   A==;
+X-CSE-ConnectionGUID: vq/Wt7KjQMaogzgHpGeqng==
+X-CSE-MsgGUID: DPX4c7OkSbGOtM7WSB4Hvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27316567"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="27316567"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 03:15:58 -0700
+X-CSE-ConnectionGUID: scu9vYm7Q3m+jU3LjkymsQ==
+X-CSE-MsgGUID: DmjSEk4eQZq8E6Eebv1+Hg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="111764920"
+Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 03:15:54 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1swIsB-0000000G5Fu-02QF;
+	Thu, 03 Oct 2024 13:15:51 +0300
+Date: Thu, 3 Oct 2024 13:15:50 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH v14 0/3] Add ASPEED AST2600 I2Cv2 controller driver
+Message-ID: <Zv5u1gTK9yug7rbK@smile.fi.intel.com>
+References: <20241002070213.1165263-1-ryan_chen@aspeedtech.com>
+ <Zv1aOedi9xl2mg9b@smile.fi.intel.com>
+ <SI6PR06MB75359904E108D7D0CC89A329F2712@SI6PR06MB7535.apcprd06.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241002084023.467383-1-naresh.solanki@9elements.com>
-X-Spam-Status: No, score=-0.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+In-Reply-To: <SI6PR06MB75359904E108D7D0CC89A329F2712@SI6PR06MB7535.apcprd06.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,SPF_HELO_NONE,SPF_NONE autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -72,30 +86,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "andi.shyti@kernel.org" <andi.shyti@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Oct 02, 2024 at 02:10:17PM +0530, Naresh Solanki wrote:
-> Document the new compatibles used on IBM SBP1.
-> 
-> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
-> ---
->  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> index 95113df178cc..8c04d6eaec08 100644
-> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> @@ -89,6 +89,7 @@ properties:
->                - ibm,everest-bmc
->                - ibm,rainier-bmc
->                - ibm,system1-bmc
-> +              - ibm,sbp1-bmc
+On Thu, Oct 03, 2024 at 03:41:57AM +0000, Ryan Chen wrote:
+> > On Wed, Oct 02, 2024 at 03:02:10PM +0800, Ryan Chen wrote:
 
-Keep alphabetical order.
+...
 
-Best regards,
-Krzysztof
+> > Is it possible to switch to new terminology wherever it's possible?
+> > I.e. master --> controller, slave --> target. See, for example, f872d28500bd
+> > ("i2c: uniphier-f: reword according to newest specification").
+> > 
+> Just for cover latter? Or I should modify for each patches commit message?
+> Or entire i2c driver statement need switch to target?
+
+I believe everywhere, where it applies: driver code, comments, documentation,
+commit messages...
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
