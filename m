@@ -2,80 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2E298EF5D
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 14:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA4598FBA2
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Oct 2024 02:39:47 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XKB8B2wZDz3cSY
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2024 22:39:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XKV752X6dz3bdX
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Oct 2024 10:39:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.16
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1727959173;
-	cv=none; b=mEtewm+e1bKdwhJyyNnOIPa33gc0osz/ZM/aDe4lOQMxxf+U6kdTKbjzUw738RZ16tg7JYYKmar2X08U8T3MJn0HM5GfXAQm1mEKfaYbG4jM7O4QG7Et4lSVdK4hARBwmxLdJEW5AKrX62MN6DMV5hBDpdULpjTFO7HIynu0sHLm+pTbPEZ3hn5l+Y4Mep7aWL5Dq1NUA5wrBpMpS6OXfXewk7Pe8nzbOf6i+IrGCMFq7aLQTEasCLvwT5K3sYt3nZ+HRgULLJZZM/OKVf+ZQnDEW1p+kfRsyFlOoxUapJioRKIX+jqQb3JbjFeClcxP32IG66WVVOtrBEwvRadOvQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728002383;
+	cv=none; b=kPRilGgO6u0vtaxMsBx0FTesGicwhP520eHBvGvPc7wWP44sr/F1peexMRvK2Ho32S79XXTJIze0uMDRw2TV6vmMjJaVcNWUQOi4OVe2pkJjktCHhFVjQlQ3H4ToYGzvjbu4ucLhC+BaSRY8r601rjiZSLMj46Pmwnx4IzOlPL7Xhcor0smOPXkP5JlbbEY9TzXb5jsMqiLgNDT+gvOoBvdfX8XsbtoNAuZvhQRIQpFCyZDDIrz+l1hd/bFc6BSVR2U28EzqC4qdXi18PE3mgxpAQxbtlwbtlOCvO57iq1VWyu5/QwCrrCG2SJ3wTryGhPMQzcEmAY3ZI+z1Ds0xhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1727959173; c=relaxed/relaxed;
-	bh=bqoVeqJgqT0M1flxfT93zxVXlDysL5pQlp7hNngjZ0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T62YqaaTf/924nkgIicQnUVoXlEjrzsr8dTLutm9+17ma/NAcLnlxesC99cFTH76np1+ncab/i90YAOjeRKVCxrGsG6l4pTBmLeEyL4BdV7MTqvpDgrQV6/NqSUMCX2gy4/iGhiBaHfOYWPgXEPUycUNp6iwFHoC3cP6V+zZJes57SJmqikna+iHDoBe4zzVItkreJ0rNObPbUPyjZ5NPIppXxks7ODJVLhNSgaROWn9/dO40ZpMZss+WKmTX3EpClKCrGk7cBC69Sx5Xjoa1sTVt/N4CMIUqTSERaIjuElACwA7gVoVnV8FfFJBFZwlu4dGPO2bYvhw8h93IwrwmQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iSKhYUoB; dkim-atps=neutral; spf=none (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+	t=1728002383; c=relaxed/relaxed;
+	bh=fgqfWcf//PfvrUPXmMD6/c14iNKvBJ71j3hHyMRQopY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=R1syREs1b9YyQOpo6RR3X/q3/ELSylHLVJz3NpUyH5sxJVbaYuFPuwlizJnDbZtkRPswm0A3gXL3eLZRfbVjy7jzzdG8cvnMGmSfEYifgQeivSXEN3ysglPQG9r/0VW3SHRfWvzwpO6Px+WKPcIDOltsQZr/IyhFzTAP9vLP46E/BiMiZcoDUlsAd1DDrccaPxMeOQXrfE+i3gHT/EBa8qjmHGZdDrcIJLNMDi3fzGosUwECzg/Rl3oR4BiLtdu7+9GzpRSofsp6H/8XUEcBu9TuouxxZItIJB0/9y/MTrDCns0NFCL/1Txx/YUJ90uGoKAZfXZHRXhMWjgz4C7NgQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=fUV/0nbq; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iSKhYUoB;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=fUV/0nbq;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XKB814Nklz2yR3;
-	Thu,  3 Oct 2024 22:39:27 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727959170; x=1759495170;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jJqZlWZyRRWoe9bZ1pTGj+NsxagcVSsJs5dIspW8QMY=;
-  b=iSKhYUoBLVw9mB80jX53I/XjRaetvMDbPP3WT7j5+5RdUoexaG3sH4jw
-   GGL3bjQCWQnV0gWANCPG+2KiQvdZbB6fiBKrhJvEZU6ZB4wvA5gPutOQw
-   MAJDvKwv08GNaHpgxhH2BIEWAlqwgJnO9YhOqo84fN8mJNuAHf35kevLC
-   /1Y0SXcYmHRK65XYCmwp/T8eoYXP1gLf7lNkbJUGEmti0a96KB3HKJmmb
-   Pzp7dr9fQmIqUQDzBCC6FEbrFwqaU7XJfWtfuk/TafU+w73LeSo7Unob6
-   8zffxnmLK9es/W3JAPbYsXUcPYLw7kceXXI/IuOX0NjBQ7lR6jnwtjS/i
-   w==;
-X-CSE-ConnectionGUID: o0b/XQ4xTFqwIStH3HbzsA==
-X-CSE-MsgGUID: bdQA9fGIQvKPXcEzMSj8kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="14766781"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="14766781"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 05:39:25 -0700
-X-CSE-ConnectionGUID: VZ4FQ9ZJTiukwSGcRxIw8w==
-X-CSE-MsgGUID: Q+m6TP+eSkKye7Bb4NxYAQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="74188410"
-Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 05:39:22 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1swL70-0000000G8x5-0KUx;
-	Thu, 03 Oct 2024 15:39:18 +0300
-Date: Thu, 3 Oct 2024 15:39:17 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v14 0/3] Add ASPEED AST2600 I2Cv2 controller driver
-Message-ID: <Zv6QdUuiUFvXjcd4@smile.fi.intel.com>
-References: <20241002070213.1165263-1-ryan_chen@aspeedtech.com>
- <Zv1aOedi9xl2mg9b@smile.fi.intel.com>
- <SI6PR06MB75359904E108D7D0CC89A329F2712@SI6PR06MB7535.apcprd06.prod.outlook.com>
- <Zv5u1gTK9yug7rbK@smile.fi.intel.com>
- <dun5dterlkikft4p2yuuebb2e4nyzed7xeofmeivzldeardhmf@kzv3iokk6cxn>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XKV712XGNz2xZj
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Oct 2024 10:39:41 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1728002379;
+	bh=fgqfWcf//PfvrUPXmMD6/c14iNKvBJ71j3hHyMRQopY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=fUV/0nbqcYaX1gZ6wxy3i9O+e43vTx7HlT4Hi8QHQPB1sEHom2b/md0AJKJwfF0tB
+	 8rikvHjTDlljkhvxsSVN+1ap4YG9JnRBjkeUMfiZSpRASy+IuHGVYQH7iPNyA7lt5Q
+	 1yHIEPwkPCNg4k2qwdUN+TYEcdPCneiQi4buAof8hEi+/ZLeZYPJ6n7exTXym/kkZT
+	 Z2T/3DK6FmVvfCkZTp64cxxR2od6kcsIgNq/E15il/LQcDC3mZf1NXeuuIIfuCoto3
+	 6mfqEW1K7G98mICOtNxxRnLvr59RW5TRBl3GpWler8UiibJDobbf/10szvkhoB6Sb0
+	 c8XXvQCh3zOIw==
+Received: from [127.0.1.1] (ppp118-210-174-36.adl-adc-lon-bras34.tpg.internode.on.net [118.210.174.36])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id B33CE64BDC;
+	Fri,  4 Oct 2024 08:39:36 +0800 (AWST)
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: patrick@stwcx.xyz, Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+In-Reply-To: <20241003074251.3818101-1-Delphine_CC_Chiu@wiwynn.com>
+References: <20241003074251.3818101-1-Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH v3 0/9] Add I2C mux devices for yosemite4
+Message-Id: <172800237675.81323.9277417561111727144.b4-ty@codeconstruct.com.au>
+Date: Fri, 04 Oct 2024 10:09:36 +0930
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dun5dterlkikft4p2yuuebb2e4nyzed7xeofmeivzldeardhmf@kzv3iokk6cxn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,SPF_HELO_NONE,SPF_NONE autolearn=disabled version=4.0.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -88,36 +68,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Oct 03, 2024 at 02:20:54PM +0200, Andi Shyti wrote:
-> On Thu, Oct 03, 2024 at 01:15:50PM GMT, Andy Shevchenko wrote:
-> > On Thu, Oct 03, 2024 at 03:41:57AM +0000, Ryan Chen wrote:
-> > > > On Wed, Oct 02, 2024 at 03:02:10PM +0800, Ryan Chen wrote:
-
-...
-
-> > > > Is it possible to switch to new terminology wherever it's possible?
-> > > > I.e. master --> controller, slave --> target. See, for example, f872d28500bd
-> > > > ("i2c: uniphier-f: reword according to newest specification").
-> > > > 
-> > > Just for cover latter? Or I should modify for each patches commit message?
-> > > Or entire i2c driver statement need switch to target?
-> > 
-> > I believe everywhere, where it applies: driver code, comments, documentation,
-> > commit messages...
+On Thu, 03 Oct 2024 15:42:41 +0800, Delphine CC Chiu wrote:
+> From: Ricky CX Wu <ricky.cx.wu.wiwynn@gmail.com>
 > 
-> If the datasheet refers to a register, state, or any other
-> hardware property as master/slave, we should retain the
-> master/slave terminology. Otherwise, we should follow the i2c and
-> smbus specifications and use controller/target.
+> - v3
+>  - Merge the remove mctp property patch to patch 02.
+>  - Order the patch to correct compatible string of max31790 before patch
+>    06.
+> - v2
+>  - Remove mctp property on I2C Bus 15.
+>  - Add required properties for IOE on fan boards.
+> 
+> [...]
 
-Indeed, makes sense. Thank you, Andi, for the corrections!
+Thanks, I've applied this to be picked up through the BMC tree.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+--
+Andrew Jeffery <andrew@codeconstruct.com.au>
 
