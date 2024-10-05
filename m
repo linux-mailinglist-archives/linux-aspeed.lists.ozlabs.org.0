@@ -2,152 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB56098FD9F
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Oct 2024 08:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294769914D1
+	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Oct 2024 08:11:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XKfYg4gNSz3bdq
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Oct 2024 16:59:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XLFRG5g9pz3bgQ
+	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Oct 2024 16:11:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::70e" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728025188;
-	cv=pass; b=BuQxkv5huE2pRwvwTiAGyPBUjWSz7m3de8A47sixLHOBhaVGmbIFBi2CMT6I5FW7DiCNmGUzBa3A9VIePIE18TSNEQPOI1503W/vOP0G6jv2RkE6VfB0iBOh7ZVgZkTuJpxstOXwEv+MrXHiSznLhVPJTfezODS3Lz6JGmOWUQG7vdImyUQZkBxjQFlQBN8ocOTbXowON2iiswMYu9Fo+5IEW/SfsovJTPpglKiGC9ioJZdnBzH/Toz4nrF/jCOy9RQOrGqybEMFeL2xjqv6x54q56/qAVkOVpDvPeJYEBwk9YvLsH1yOusQfUDsPftoAEJgmkBdr0GFovboYL171w==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728025188; c=relaxed/relaxed;
-	bh=7JOBVYl5FlOg/TBSAQ0TD4ovo4pNiv6Cqa/HMUT3DhI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aXYsZ24z8d3ILWANNY6yzLPrsv2AkolnUCwjXWY9yZcXe+VXwuKuhWTz7aQbVjLApKo7tWB6KAu5ppzVKa/PolidQsUoCh3FufYIimoW1dQKK2jA6xFhBWr4d7sEE/iwrZ751opahi8fqS04KJgHFkhzJQptdZNxJQQgBn9U1Un4acnZ2vhre1N/YYEqukBl1cI+whMM6cbJNI534TC7FDoyM2OmSUBGBPfsmcWMRF2Na7LjX9jh9iOdRFtfjvtsum4zwHqQ3nd0ml9ZDxHCDTKz6l2JgsSHPLLVzwhweYn+myekFyDQ/8z88Ljeze43z7c0jK0fmKidL3fIlaqrdA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=Y1eUiT6J; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:2011::70e; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=144.6.53.87
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728108681;
+	cv=none; b=Mmsw2nWqmuI/q0oon6MSoZDNNnfI6gpGyw2DXTVc3BpUBODZhWf2NV3DwRqchQuqtxhYsSAEHRnAzIQG5DsyrObF0o9aIa2kbE0D8QzULZbHPurJ+0j2M2Fld6fGxHSFcTMUTzoNTqhTAFrOzzyED+odL/ZKxzzSHgy5I7CXZ61MdskO35ip0AvulDWKcNMX3Go69LxSCoJO8HFxbfIydlzCMQ+qlen1TjXG4sLkyXNZXyDzC7lvzsTOKwJxf03EHO4BqDBcEUuc8yqSDt+c+9UPRRUKNczHL3NDSwszIywez62mraf5CYEq6Gs2gWH4F4gO/haloUqsKXd3TZjXGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1728108681; c=relaxed/relaxed;
+	bh=FmDrERpeXqDIAqQ+D2TzT1nK31RfU5C95/VpOEG/MvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MP/cbIJ6NJ3BpxMX9SESOj5LByJmwOInMWvTPGp8YrPPLO8q5buTtcZO2YdJz2VSYYhEn9/1S07G/2sQKRRCsdkfTIzQUwBjbOY7GPjCsf08BLfp4V/S30M6YibE88KXCTxASt97e46E0LIu2ooBq/dG3cwbv+dvz8tP3htLZzfJfU+jNvaIxaHbfmsQEfUUpB+sp3goMHlPf+97AN79weEq6oZgEjSVClDySFJ1IJEqfdHH4eN4vthgw+0yw+fcif9Lkim0SMvYve2BlJ8OVVL9DFji+aZ5+RfzxoD4YvK994TQoEgR0EYUDvDCtywNezYBAZBSlIgdt5PZaoKRgw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=MsaDtPNn; dkim-atps=neutral; spf=pass (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org) smtp.mailfrom=gondor.apana.org.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=Y1eUiT6J;
+	dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=MsaDtPNn;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:2011::70e; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2070e.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::70e])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org)
+X-Greylist: delayed 2523 seconds by postgrey-1.37 at boromir; Sat, 05 Oct 2024 16:11:20 AEST
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XKfYY2Vg0z2yR3
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Oct 2024 16:58:51 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S0gCyn4HzcStdSwaupAE9ViKr0UZK/dLU/AS4/vQC81MGYWKXtd46htMndhmrEjiVpINMbOW6pvbAfUYp/17e/9IlA2iKcTWwoptfyFiJP50eolCltJMw/k7lguDBOTPRKDtx1DXR8Qm6FPBG8Cv/eIzuQUCfuM7gqsOY0FETdMltpKKCTVqgVrPz7m3K+lWW6bHhOK26wEln9XvrABm58Bvu9EuvwSvq7EVUt8fF0z0sZwDuXy+2i5DR8M+cxCFbf7OfDQxyHlAEbxLCwanELQnvqMZlEgoRsdyy3AtejkgNvB7cSy1cNQQUe6D2Hws3nX3+ae0JvSQwWQEzSXpmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7JOBVYl5FlOg/TBSAQ0TD4ovo4pNiv6Cqa/HMUT3DhI=;
- b=BuOyMNWw6uwEc1tfLsZDHDXvQmK/VygPVBZ4SGcmej7oA03Xg50wwLPArJMoUKnb8LZa4WD4o7fdwQ6DwBkL7NJ1eyrInTiEm1zQyc0P7J+ACqAeOfQkigBvRwOO/r1y6EZcXJOAflsX6r+LDgx2s8cDizD/tRbpZoFgPeyWbOrcy5EDI50DG7Cp72plQ+q+pz/9En4xAgrcwsRtbvFVaQS2EposLXRUtW0WrlYa+k++Sd+xuCU5Op4aPeYSLQPHxZDNtNGZGI+YF3O1S+6K1rvdAsNdv3FJQi6CrCkaOHAcfij9dcvk9PsxIt6mhsS/QjAawaelu1UnF3PnBqD3DQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7JOBVYl5FlOg/TBSAQ0TD4ovo4pNiv6Cqa/HMUT3DhI=;
- b=Y1eUiT6JFY+3I4mnTV6qgU9Xl0WipcB5+ndV/ekt8AwF49UBelEJPmKjbBdWXEABYgDh65NOI7nhdoojdhUoUflgvs9O/52qbe91G6RIkMY0lefV0kOtlDq80BAQH+KmsHq/LORZoD0yrdMaW9rMF7PtYPu02/uN9aZow9uTogruDF54cSrCcUot7s0cJHObfKeIl0GdehgGBZl7uefekefGD4vHS8TIuBk1AL2VL0DqTJXxeCPz6XeGqmavwfZiYkrMX32BvFuhirb6YY3pFEW0DvaZ3BzuCbBCZ1UqgokboxzC/6d5NKt/1RnEXFBCtq5c+pR/cZcIX1PnKgyWOg==
-Received: from OS8PR06MB7541.apcprd06.prod.outlook.com (2603:1096:604:2b1::11)
- by KL1PR06MB6396.apcprd06.prod.outlook.com (2603:1096:820:e1::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Fri, 4 Oct
- 2024 06:58:27 +0000
-Received: from OS8PR06MB7541.apcprd06.prod.outlook.com
- ([fe80::9f51:f68d:b2db:da11]) by OS8PR06MB7541.apcprd06.prod.outlook.com
- ([fe80::9f51:f68d:b2db:da11%4]) with mapi id 15.20.8048.007; Fri, 4 Oct 2024
- 06:58:27 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andi Shyti
-	<andi.shyti@kernel.org>
-Subject: RE: [PATCH v14 0/3] Add ASPEED AST2600 I2Cv2 controller driver
-Thread-Topic: [PATCH v14 0/3] Add ASPEED AST2600 I2Cv2 controller driver
-Thread-Index:  AQHbFJkFQwNKPZEeEUm4WxILxLvNH7Jzh3+AgADa1uCAAG7pAIAAIvIAgAAFI4CAATK9MA==
-Date: Fri, 4 Oct 2024 06:58:27 +0000
-Message-ID:  <OS8PR06MB75411555216E89213DA0933EF2722@OS8PR06MB7541.apcprd06.prod.outlook.com>
-References: <20241002070213.1165263-1-ryan_chen@aspeedtech.com>
- <Zv1aOedi9xl2mg9b@smile.fi.intel.com>
- <SI6PR06MB75359904E108D7D0CC89A329F2712@SI6PR06MB7535.apcprd06.prod.outlook.com>
- <Zv5u1gTK9yug7rbK@smile.fi.intel.com>
- <dun5dterlkikft4p2yuuebb2e4nyzed7xeofmeivzldeardhmf@kzv3iokk6cxn>
- <Zv6QdUuiUFvXjcd4@smile.fi.intel.com>
-In-Reply-To: <Zv6QdUuiUFvXjcd4@smile.fi.intel.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS8PR06MB7541:EE_|KL1PR06MB6396:EE_
-x-ms-office365-filtering-correlation-id: 55206563-baaa-4b9a-395a-08dce441f2d9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230040|376014|1800799024|7416014|366016|38070700018;
-x-microsoft-antispam-message-info:  =?us-ascii?Q?2Q4a3TnBNwl+U+hFCVAHLe8ZtmA4t5RPug/hlbNhVIOcTzrhOJxPYQH0Uixi?=
- =?us-ascii?Q?Sa6kFxWleD4/6PZaVfTqbHpWSsJbQrDeCxwMXCDwrxfzWEoXHWDhJf4QsZkT?=
- =?us-ascii?Q?VKmG+LBCT1JfLpd6NuxD48VHmiaQlGwn+Xjfn68wVxyj9zy2FlL4f/6a9Xeg?=
- =?us-ascii?Q?Xz4bBRtfXvnhOF70OfYsdWLF5zgeTMoATMah1qlHVOxXjPA/PQJK/g2Pk9Vh?=
- =?us-ascii?Q?Ydb7iJdZ8oYc/wxf2To7j9IPtGFgo3yVFxBStbsEl40XS4lwGvAW3Es8Lmjr?=
- =?us-ascii?Q?5jYFVSPqrI/IMLkJ2zhGCUZ5Aa7T8j5xDu/TbEsD34TPTX2rYTj2HZbb82k5?=
- =?us-ascii?Q?KOW7Gi4WzPXxduccLwy5+qxANdG65ZyZM1jxsLYKj+APhInCLb1nm3THP6yR?=
- =?us-ascii?Q?kQQ2DZ5c8jvIqz/ZQpVRjWZ6lTs0as8KtrMrcTzY14EM8CD+oKP4wKC9eK7p?=
- =?us-ascii?Q?Bfu31AdhWDibeLz+jLMi7ad1PBPlz0NJPbRFBLhdSObpv9jny3TpQoL+yMdh?=
- =?us-ascii?Q?fheJpC1BldZX3ctLDTQP8cxZnWqZmN+yAvmMZyzdD3Ndrex+EqML2HcNa9Te?=
- =?us-ascii?Q?HjN7N5TspA6EhZNsE4dtmrmB2xlhdbxSXs4SKIzemBnoCKQKTOWD/bUsApBn?=
- =?us-ascii?Q?8yNX0sbbzyvdxdMmCSfsWKjboBp6igPSyEHxMpbWz8DO78EnohwGcSSlbEQp?=
- =?us-ascii?Q?3ANacXDSZITFRj41/p0JMdz44zQ2qGWoaFkq3ptVRLiW0XH5xX4tafILc50Z?=
- =?us-ascii?Q?idhy6XPw1onJ8C+vwiBuTWlIDqIH95SgdKe18hKSj3275x0HNqzO+Mx7YVw3?=
- =?us-ascii?Q?gFalkg/atkcb8bmQ3kr/deYMRgsgtUe+33sqe9RX6P8QHoUdnROi91oUGCVj?=
- =?us-ascii?Q?6ZpZCQCxWumnTvvGxFQPuOBo4B/BAtDaI8zIHYsOc5S2vyjrozwaI9m0FogH?=
- =?us-ascii?Q?KMDl9HEQ0pV6gnA+B0iItSrGE9FWaJNr8LFOwF3q69cj5/B64yosizTnVo94?=
- =?us-ascii?Q?64BdgvI3RqHuZoMNaebY8c1iay8OT7eJWQ2VXJe7w7bPQpqAaSohoAZwbtZf?=
- =?us-ascii?Q?hBXjSI1kYlYxhUXMIxTryMZsoESml9OFmhDvxq1GTVHosflrCqp53p0gW8cj?=
- =?us-ascii?Q?tSn/UxzQ8q9urGgeC3UaOzPO92c6DP16nHL7ejB5sIVTEF+UCMrwShw1tjEC?=
- =?us-ascii?Q?kl4mGKwzzIcBH1cXRFUQhOkmyju32C64mOz0fQviETtAyLEIXKo4Zb8UlNNl?=
- =?us-ascii?Q?D2SwC4TCtZZvPfG8b4dfvBxsSHgLsUUrWQyUdE4AyDb11hf1SqiawPIwFQe/?=
- =?us-ascii?Q?cEvk+Aq9RGshvvxjWg715q+5kRLaSbRehJlN3k3kRqXGsw=3D=3D?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS8PR06MB7541.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?us-ascii?Q?SGDpGdc9+jQeZ5wklaR++p2wkKVkK8LfnQ2CKpKNBbFC+aEmCmopWJRtlPmk?=
- =?us-ascii?Q?jlJZ9qzGDZM58jihSXw688S/RVW9/5C5G5n9wp8hLbtKO1T128CSWln+dv35?=
- =?us-ascii?Q?tzJ69DlAlIT3V6KkCxuF1qhikBsRWiKAFZx4q6QWupkTj7wRrc4+V6SEe03n?=
- =?us-ascii?Q?avKdkT/L4XLNswtVgiJYzHdqDeZm9jrzI8E31Tz+B0XdC+2qwasOdFO7K5Fs?=
- =?us-ascii?Q?q3xHHzsWTEpZpjwPbsiR3OAagn9NXn0hUaJQSesnRfRoJRF/aBG6o+rY5y7e?=
- =?us-ascii?Q?ryn0lwqa0ge/0VKXDUrH1Si1n566sNpH1L/JvCUDdGnv6SymURa5Y9ch4ZIK?=
- =?us-ascii?Q?dPiciDckoG9np+/Gs3myfyue9LcAagXXm7q5Iw3WhsoKh1T+4pZJwkA4RPGM?=
- =?us-ascii?Q?vKl474rNIc+zRuimhqTySvBdaSphBcSewxEkaX+utO5qFsmCYE/tzkJ0Cbog?=
- =?us-ascii?Q?BK7d9edpoTZJ78FDpcza2sQAWLRu2bLishHgEiNKEz5gFioBwDmUauRvWynb?=
- =?us-ascii?Q?YtgsnD+iEqoT0qVUjhOBXPEFQkPJnrKeM/2n3fngRxfdR31cleq03c7Y96gE?=
- =?us-ascii?Q?kd5l6MID/b1lZJSaJ0/tx/n0gwDSsUy4Fp2xjztrM8DLWBqARHlY3m9Q7pIr?=
- =?us-ascii?Q?7NRn1IXL421SKBck834efwdS0rvACQLgEn16o9W4fdsyEe2hq5zwIANi05M7?=
- =?us-ascii?Q?nlnwTmm1y10ed3HKNlmcjgcLZtUb0ork+CXWhfn4X2VfACLHrJAHCX0NCquE?=
- =?us-ascii?Q?0xzKIOmuP2GreyDB12WrQDnqcwU3Csmo0AohbBwtreoKmZ+gTt8N4uvWlJXH?=
- =?us-ascii?Q?SguFjjzvvzlqcbKcO83lNkv5JN0ApywRF61CMvzR/SsHNxRJNguF/x6MQZAI?=
- =?us-ascii?Q?b7bKVtyy21p42RY9fFitMhlWwl/i/llpVihmnqMIUinS8K5YLANbsH2HIX5B?=
- =?us-ascii?Q?8C0GKwcTkxxeLeW3yjNbJQPbXYsdVu87TIJZP45YbNM45LVKw+1sANk/K+sO?=
- =?us-ascii?Q?mfBMkpi62YORpGqe54oxWUbzJt8oLAGzKuKuiXUGvV3s3l8iVwKNuUBZbNLq?=
- =?us-ascii?Q?7feixRwnU54GSoas9Rzx7Ne3BcgrUZjUYNgFxZTjJPxotUWvEnq8KPEWJVkg?=
- =?us-ascii?Q?gn8Qs5AL27ukX6cq61YnN9JHAEe32/VqneaIzUNkpAsoDDtHd9+HHUwDP48H?=
- =?us-ascii?Q?nZY25p92bRfpeGDafLqqX1l03MQ7kd8Vo4e0U9HpWcdnLpdOmrWsO/G5bsSp?=
- =?us-ascii?Q?dIKvRP5rjCrT0z/8Z28fNbtu+5JoL3VTcCWHr4V57EkTNXaWLEpXspgdjroo?=
- =?us-ascii?Q?dmf1sW9Ri/WAxqmAgdYL+aSRhZLRAsxnO75l9U9IAAYzCQzWg1HTJ5wMxif+?=
- =?us-ascii?Q?pXQEVW8Q8kHsaWMcJIToDt7Lk2gnUG6vMdBlAJja4L8C4ZYu25kAkORCbSjH?=
- =?us-ascii?Q?NaYh3WrXWBGvCK1/j9ghLLskpH+47zdzAPkxkXDLVFh//fniyy0mDG/t7t9Z?=
- =?us-ascii?Q?0nuyJl0ltrnCQM7KJ1Y78lOByO6Mu+cXL5pS401Yx0tMYYRTFdXKmNlKRJ30?=
- =?us-ascii?Q?erie9V7OOTbiaW7fCT0aGZxhOmNWtTb8oiwUSvRI?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XLFRD3ZySz2xmh
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  5 Oct 2024 16:11:20 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=FmDrERpeXqDIAqQ+D2TzT1nK31RfU5C95/VpOEG/MvU=; b=MsaDtPNnV6e7iHZj7T4/TqgZNP
+	HKb6uydoPZIqxinyigHsVKzChFG2gkzZp7UxBVtr/F2JTf9bufZAr+vNNdPoFfq1xMbu1VCzr0OAL
+	xzpM/Pu3hlzZt+pVNFuLpB1gHix+6USYir6DLBXZNWOJDPQoTESvkhQGSW7AfrUkCiHQY4TTmaK2q
+	AxSjQSGLYv+SfLVh/bSZAulR4L6HoyWiW5MDheDY4aUt1S/IuIeRGxWv4+w0CDMyvf51Y1epO9nfV
+	DksEF/GqaZEGOMO7q0t92UO4wbYEJf9HiyKMl9aS4qusghl0JLrQ9xsRrNQv6737S4KxQEpJNs2fB
+	B8N56wVQ==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1swxAl-0071S6-08;
+	Sat, 05 Oct 2024 13:27:57 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Sat, 05 Oct 2024 13:27:56 +0800
+Date: Sat, 5 Oct 2024 13:27:56 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v2 00/19] Migrate to sig_alg and templatize ecdsa
+Message-ID: <ZwDOXKZ8QrOvpGAW@gondor.apana.org.au>
+References: <cover.1725972333.git.lukas@wunner.de>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS8PR06MB7541.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55206563-baaa-4b9a-395a-08dce441f2d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2024 06:58:27.7484
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ayUOovFX6oCFQ506JOUIrdTYtTX4HRhm/3YHwB/KF2E73U9NpN9gtcHceKhO5ZlJEmT/x7ySeCVuNaDLk7xwLNNukkkMQndv79k7Tevfm9M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6396
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-	SPF_PASS autolearn=disabled version=4.0.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1725972333.git.lukas@wunner.de>
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -160,43 +71,130 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "robh@kernel.org" <robh@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: Zhiqi Song <songzhiqi1@huawei.com>, linux-aspeed@lists.ozlabs.org, Eric Biggers <ebiggers@google.com>, Stephan Mueller <smueller@chronox.de>, Jason Wang <jasowang@redhat.com>, Tadeusz Struk <tstruk@gigaio.com>, Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org, Ignat Korchagin <ignat@cloudflare.com>, Longfang Liu <liulongfang@huawei.com>, Marek Behun <kabel@kernel.org>, Eric Snowberg <eric.snowberg@oracle.com>, Jia Jie Ho <jiajie.ho@starfivetech.com>, lei he <helei.sig11@bytedance.com>, Eugenio Perez <eperezma@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, zhenwei pi <pizhenwei@bytedance.com>, Saulo Alessandre <saulo.alessandre@tse.jus.br>, Varad Gautam <varadgautam@google.com>, Gonglei <arei.gonglei@huawei.com>, William Qiu <william.qiu@starfivetech.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, virtualization@lists.linux.dev, Andrew Zaborowski <andrew.zaborowski@intel.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Vitaly Chikunov <vt@altlinux.org>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Roberto Sassu <roberto.sassu@huawei.com>, linux-security-module@vger.kernel.org, linux-crypto@vger.kernel.org, Neal Liu <neal_liu@aspeedtech.com>, Stefan Berger <stefanb@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, Dimitri John Ledkov <dimitri.ledkov@canonical.com>, Denis Kenzior <denkenz@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> Subject: Re: [PATCH v14 0/3] Add ASPEED AST2600 I2Cv2 controller driver
->=20
-> On Thu, Oct 03, 2024 at 02:20:54PM +0200, Andi Shyti wrote:
-> > On Thu, Oct 03, 2024 at 01:15:50PM GMT, Andy Shevchenko wrote:
-> > > On Thu, Oct 03, 2024 at 03:41:57AM +0000, Ryan Chen wrote:
-> > > > > On Wed, Oct 02, 2024 at 03:02:10PM +0800, Ryan Chen wrote:
->=20
-> ...
->=20
-> > > > > Is it possible to switch to new terminology wherever it's possibl=
-e?
-> > > > > I.e. master --> controller, slave --> target. See, for example,
-> > > > > f872d28500bd
-> > > > > ("i2c: uniphier-f: reword according to newest specification").
-> > > > >
-> > > > Just for cover latter? Or I should modify for each patches commit
-> message?
-> > > > Or entire i2c driver statement need switch to target?
-> > >
-> > > I believe everywhere, where it applies: driver code, comments,
-> > > documentation, commit messages...
-> >
-> > If the datasheet refers to a register, state, or any other hardware
-> > property as master/slave, we should retain the master/slave
-> > terminology. Otherwise, we should follow the i2c and smbus
-> > specifications and use controller/target.
->=20
-> Indeed, makes sense. Thank you, Andi, for the corrections!
->=20
-Thanks, I will modify with controller/target in sw driver parts. Keep the h=
-w datasheet statement.=20
-> --
-> With Best Regards,
-> Andy Shevchenko
->=20
+On Tue, Sep 10, 2024 at 04:30:10PM +0200, Lukas Wunner wrote:
+> The original impetus of this series is to introduce P1363 signature
+> decoding for ecdsa (patch [18/19]), which is needed by the upcoming
+> SPDM library (Security Protocol and Data Model) for PCI device
+> authentication.
+> 
+> To facilitate that, move X9.62 signature decoding out of ecdsa.c and
+> into a template (patch [15/19]).
+> 
+> New in v2:  Move the maximum signature size calculations for ecdsa
+> out of software_key_query() and into the X9.62 template so that
+> corresponding calculations can be added for P1363 without further
+> cluttering up software_key_query() (patch [16/19] - [17/19]).
+> 
+> New in v2:  Avoid inefficient copying from kernel buffers to sglists
+> in the new templates by introducing a sig_alg backend and migrating
+> all algorithms to it, per Herbert's advice (patch [02/19] - [12/19]).
+> 
+> Clean up various smaller issues that caught my eye in ecdsa
+> (patch [01/19] and [14/19]), ecrdsa (patch [19/19]) and
+> ASN.1 headers (patch [13/19]).
+> 
+> I've also accumulated various cleanups for crypto virtio on my
+> development branch but will leave them for another day as this
+> series is already nearing the "too big to review" threshold. ;)
+> 
+> I've run selftests on every single commit, but further testing
+> would be appreciated to raise the confidence.
+> 
+> 
+> Link to v1:
+> 
+> https://lore.kernel.org/all/cover.1722260176.git.lukas@wunner.de/
+> 
+> Changes v1 -> v2:
+> 
+> * [PATCH 13/19] ASN.1: Clean up include statements in public headers
+>   * Drop "#include <linux/bug.h>" from <linux/asn1_encoder.h> (Jonathan)
+> 
+> * [PATCH 14/19] crypto: ecdsa - Avoid signed integer overflow on signature
+>   decoding
+>   * Add code comment explaining why vlen may be larger than bufsize (Stefan)
+> 
+> * [PATCH 15/19] crypto: ecdsa - Move X9.62 signature decoding into template
+>   * Drop unnecessary "params", "param_len" and "algo" definitions from
+>     ecdsa_nist_p{192,256,384,521}_tv_template[].
+>   * Introduce and use struct ecdsa_raw_sig in <crypto/internal/ecc.h>.
+> 
+> * [PATCH 18/19] crypto: ecdsa - Support P1363 signature decoding
+>   * Drop unnecessary "params", "param_len" and "algo" definitions from
+>     p1363_ecdsa_nist_p256_tv_template[].
+> 
+> 
+> Lukas Wunner (19):
+>   crypto: ecdsa - Drop unused test vector elements
+>   crypto: sig - Introduce sig_alg backend
+>   crypto: ecdsa - Migrate to sig_alg backend
+>   crypto: ecrdsa - Migrate to sig_alg backend
+>   crypto: rsa-pkcs1pad - Deduplicate set_{pub,priv}_key callbacks
+>   crypto: rsassa-pkcs1 - Migrate to sig_alg backend
+>   crypto: rsassa-pkcs1 - Harden digest length verification
+>   crypto: rsassa-pkcs1 - Avoid copying hash prefix
+>   crypto: virtio - Drop sign/verify operations
+>   crypto: drivers - Drop sign/verify operations
+>   crypto: akcipher - Drop sign/verify operations
+>   crypto: sig - Move crypto_sig_*() API calls to include file
+>   ASN.1: Clean up include statements in public headers
+>   crypto: ecdsa - Avoid signed integer overflow on signature decoding
+>   crypto: ecdsa - Move X9.62 signature decoding into template
+>   crypto: sig - Rename crypto_sig_maxsize() to crypto_sig_keysize()
+>   crypto: ecdsa - Move X9.62 signature size calculation into template
+>   crypto: ecdsa - Support P1363 signature decoding
+>   crypto: ecrdsa - Fix signature size calculation
+> 
+>  Documentation/crypto/api-akcipher.rst         |   2 +-
+>  Documentation/crypto/api-sig.rst              |  15 +
+>  Documentation/crypto/api.rst                  |   1 +
+>  Documentation/crypto/architecture.rst         |   2 +
+>  crypto/Kconfig                                |   5 +-
+>  crypto/Makefile                               |   5 +-
+>  crypto/akcipher.c                             |  64 +-
+>  crypto/asymmetric_keys/public_key.c           |  58 +-
+>  crypto/ecdsa-p1363.c                          | 159 ++++
+>  crypto/ecdsa-x962.c                           | 237 +++++
+>  crypto/ecdsa.c                                | 209 ++---
+>  crypto/ecrdsa.c                               |  64 +-
+>  crypto/internal.h                             |  19 -
+>  crypto/rsa-pkcs1pad.c                         | 371 +-------
+>  crypto/rsa.c                                  |  17 +-
+>  crypto/rsassa-pkcs1.c                         | 442 +++++++++
+>  crypto/sig.c                                  | 143 +--
+>  crypto/testmgr.c                              | 320 +++++--
+>  crypto/testmgr.h                              | 884 +++++++++++++++---
+>  drivers/crypto/aspeed/aspeed-acry.c           |   2 -
+>  drivers/crypto/hisilicon/hpre/hpre_crypto.c   |   2 -
+>  drivers/crypto/starfive/jh7110-rsa.c          |   2 -
+>  .../virtio/virtio_crypto_akcipher_algs.c      |  65 +-
+>  include/crypto/akcipher.h                     |  69 +-
+>  include/crypto/internal/akcipher.h            |   4 +-
+>  include/crypto/internal/ecc.h                 |  14 +
+>  include/crypto/internal/rsa.h                 |  29 +
+>  include/crypto/internal/sig.h                 |  80 ++
+>  include/crypto/sig.h                          | 152 ++-
+>  include/linux/asn1_decoder.h                  |   1 +
+>  include/linux/asn1_encoder.h                  |   1 -
+>  include/linux/slab.h                          |   1 +
+>  include/uapi/linux/cryptouser.h               |   5 +
+>  include/uapi/linux/virtio_crypto.h            |   1 +
+>  security/integrity/ima/ima_main.c             |   6 +-
+>  35 files changed, 2398 insertions(+), 1053 deletions(-)
+>  create mode 100644 Documentation/crypto/api-sig.rst
+>  create mode 100644 crypto/ecdsa-p1363.c
+>  create mode 100644 crypto/ecdsa-x962.c
+>  create mode 100644 crypto/rsassa-pkcs1.c
+> 
+> -- 
+> 2.43.0
 
+All applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
