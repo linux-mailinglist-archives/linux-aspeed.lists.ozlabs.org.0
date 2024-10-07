@@ -1,29 +1,30 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CDA99250A
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 08:40:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F73D9924F0
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 08:35:58 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XMV0B2nwKz30NN
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 17:40:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XMTth1Kj3z3bfR
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 17:35:56 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728283241;
-	cv=none; b=k50/MYS1UJgz+Msy32E0b4ITVU6yUCGBINqQNxuMSQ4cDX0cdk5HfDU2Jk6MEBuQ2eeg/DMDFQ+rqd2DbvsJkw4bbZ7zPC9bfpO4K8s3UaDcvSyXMsuLX3wz0YOOP9dgpGSLqhHhKWWMJpYviaydMftEt/aGwwEWNeY+8nKburNrykiqTNr1khhbS0XO5AjSVmToOygDM3l0Gc4N1mkifT2zikFWHCELncZdPATtrxwWPT5eF7sg5Rq5efV7lYJYy4G7n0Aq1eYxVBXAx9km/NHR2QBTaoLF1ENE01uX/ErKGC8k5XONCP3f1yM+DsZRZOMICOCtXeUMU3fr5/DXGA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728282955;
+	cv=none; b=e2RR6Rp5V0ysJV87tN8uU8fxRTuBcRNKpxAdoRz9nuuEtfbTI6U9S2i+87CG9oTp4FPEyDriy6vBoj2AdMB1P/tOfR5O3K+YAzrAKQkwGJWPsBLmcKB9X5dwg2+Hf9fuDXkjPhnAddd+1ypcBbu0awRSVrwsyJ29Zkqh8wloklSNxtVFUwyYdJbCLobIK4zjNX/R85A1WRNqh8VzMx9MomJAhjj5kkrnJC6uLO3nLD8ixdXdyj4H+I73mArbSTMCNqxpnX0jdEEtrfEzUFPXBXJ5nwr3eNczWolsth/zyXCFYqJDuBY2VRJmMosDHNG/UF0fpCVIU45maShbUo+7Ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728283241; c=relaxed/relaxed;
-	bh=ojalM83DjphcLdNrnYSnK4SosjeiN3Ofq00L9IA3ke4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=V6TL5/oZBPGSpgVP3ZgOpDUGKo5CREu0e/+9mkhXrS6iBkzIpP6auXl5Kl2GowIlIx25CM+kK3j4OLufB7s9HK7wjRFVUbLBD53+wBiyQFyY6JaLPjURGgyvPQJ+5vz5qhx+fiAnAn4rqgk2XYwHVXtwpjilhr/82L1SNUmwELUicfbKfL8Ie9d+GYU2Cb6u5JsinpUqrlurd4XUpql3v2mBzHpqrdc/N4ve6Wwiv1CZcC2YTL1pW38cM24+Kt7yCoaVvRDKJjF5TEGeGzLoZDLdhbnsGHaFGGHGI3ytfYToSHoQb9vYa5O9kxGCJ+X94tR7dBGBeNh2z39FyxaWKw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
+	t=1728282955; c=relaxed/relaxed;
+	bh=fK4tmmE5iX6BbPkv8M2hlRbKcbCo7FxDo/o3xJKC/Mo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AuytaEUVoH7IxDPlANEQBZRAPY++UGnY2O6u/eVh9ByyVTiBheURKvHrXZcXP9uUmLVzVeaOLE3R4BFkWUpubdlu+OdTksoBGkVH+Olb2VH3iyWGtbOY15q3whRu7tp16SMFyDbS2Dj81dhBAOX+1g4GKkeqrhIiidDeraPIsv72YLPJN2MLJ6xB0tz/XIpc62XM2NMwy9maGMD9ghf/jODxLJUNWi0IZTBwchFX4k4K6V4Eoh2OcJSUSvk/KiPwqDO8suJHPfG7WlM25eNTRORqEFPapnwf3hirznn0hVlEsSJyaWMpGf5P73y6eFtQuBhqlSJa08rsk4iNYQg9YQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=fail (p=quarantine dis=none) header.from=aspeedtech.com; spf=temperror (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=fail (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=temperror (SPF Temporary Error: DNS Timeout) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XMV080y49z2yY0
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Oct 2024 17:40:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XMTtN6J4Zz2yY1
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Oct 2024 17:35:20 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Mon, 7 Oct
@@ -38,10 +39,12 @@ To: <patrick@stwcx.xyz>, <wim@linux-watchdog.org>, <linux@roeck-us.net>,
 	<linux-watchdog@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>
-Subject: [PATCH 0/4] [PATCH 0/4] Update ASPEED WDT bootstatus
-Date: Mon, 7 Oct 2024 14:34:04 +0800
-Message-ID: <20241007063408.2360874-1-chin-ting_kuo@aspeedtech.com>
+Subject: [PATCH 1/4] dt-bindings: watchdog: aspeed: Add property for WDT SW reset
+Date: Mon, 7 Oct 2024 14:34:05 +0800
+Message-ID: <20241007063408.2360874-2-chin-ting_kuo@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241007063408.2360874-1-chin-ting_kuo@aspeedtech.com>
+References: <20241007063408.2360874-1-chin-ting_kuo@aspeedtech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -63,27 +66,36 @@ Cc: BMC-SW@aspeedtech.com, Bonnie_Lo@wiwynn.com, Patrick_NC_Lin@wiwynn.com, DELP
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch series inherits the patch submitted by Peter.
-https://patchwork.kernel.org/project/linux-watchdog/patch/20240430143114.1323686-2-peteryin.openbmc@gmail.com/
-Besides, the boot status modififed in the WDT driver
-obeys the rules proposed in the OpenBMC.
-https://github.com/openbmc/docs/blob/master/designs/bmc-reboot-cause-update.md#proposed-design
-Moreover, WDT SW reset is supported since AST2600 platform
-and is also included in this patch series.
+Add "aspeed,restart-sw" property to distinguish normal WDT
+reset from system restart triggered by SW consciously.
 
-Chin-Ting Kuo (4):
-  dt-bindings: watchdog: aspeed: Add property for WDT SW reset
-  ARM: dts: aspeed: Add WDT controller into alias field
-  watchdog: aspeed: Update bootstatus handling
-  watchdog: aspeed: Add support for SW restart
+Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+---
+ .../bindings/watchdog/aspeed,ast2400-wdt.yaml         | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
- .../bindings/watchdog/aspeed,ast2400-wdt.yaml |  11 ++
- arch/arm/boot/dts/aspeed/aspeed-g4.dtsi       |   2 +
- arch/arm/boot/dts/aspeed/aspeed-g5.dtsi       |   3 +
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |   4 +
- drivers/watchdog/aspeed_wdt.c                 | 149 ++++++++++++++++--
- 5 files changed, 160 insertions(+), 9 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
+index be78a9865584..6cc3604c295a 100644
+--- a/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
+@@ -95,6 +95,17 @@ properties:
+       array with the first word defined using the AST2600_WDT_RESET1_* macros,
+       and the second word defined using the AST2600_WDT_RESET2_* macros.
+ 
++  aspeed,restart-sw:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description: >
++      Normally, ASPEED WDT reset may occur when system hangs or reboot
++      triggered by SW consciously. However, system doesn't know whether the
++      restart is triggered by SW consciously since the reset event flag is
++      the same as normal WDT timeout reset. With this property, SW can
++      restart the system immediately and directly without wait for WDT
++      timeout occurs. The reset event flag is also different from the normal
++      WDT reset. This property is only supported since AST2600 platform.
++
+ required:
+   - compatible
+   - reg
 -- 
 2.34.1
 
