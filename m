@@ -2,190 +2,78 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BA0992810
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 11:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E8C99293E
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 12:31:12 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XMYhp0WGLz2yxj
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 20:27:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XMb654R9Pz2ysv
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 21:31:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feab::701" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728293256;
-	cv=pass; b=MgHKr1tdliZBW/U+mruFURJbP0MbmKuFiRknX1/2CbbIGr2EwnyuZDUgwYucAcX/akKdct2pvcIrxHSBCUL8mD2ZBeynYsAkCxkQrhfxTCZKL+dLmzQY1cVeMdP/a1gaEMfsPIXsydOkiOFltIVVpM+YN7s/CWHyT5cVaLGQAs7RhCczvQKhbbCermFOHe5LQhv078CSU3tISYqdF8Vb8QM/KMSK63j6icY1ok4olAmiEF2Vl2tRkdiWU5E0QlvlOZDBLvrhzEvTjMzCc+i0JEpeonAwKYAlCEitiH6EEHed87mXp0Kv0J5uFq1bkoN0RA9uefbJIQu9j2BLrTj3+w==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728293256; c=relaxed/relaxed;
-	bh=fkRdu7T9rq5Se+1Rrfwvn5wVT8w8S0+uIERK5H7sX7k=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JCaGntlEtNoAgtmLumrGpOVrGNvW0j6I7Z43jTtFsv+wiwy88R2OvDfP3ObJhuHoZKZ9gdti7koukUvDq4TR50hwEzBEgbNPH5FHR0uHDSuPwtHLGNnmfTk6X7D5eWC0s8mEhMxGyWesiAD1G9gMtHgEP2BsoyCe83Ylj2ZFu6wN2phDH3i3IVFZstSvv+HNHOK8g30Njrtio/spBGtd6q7AXTc+tbb3OBll73Ho1G/dS3NzV4SC30/cmNLfnsHiVPsw74Yb6WNfqgX5k/5gPnqyg6p84SosdPE/xBz59qfEgKwHUIzwFmZTYJLGqXxnnMQjzW+KcImwF2UUiRXIMg==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=HXv81T6z; dkim-atps=neutral; spf=temperror (client-ip=2a01:111:f400:feab::701; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::52e"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728297065;
+	cv=none; b=DSKQIPYJ+q1iZMdz+M+06SN219Fxd9TJqJKomkV1i2SEy9/UscYKtEL8VUDtV5o3m2rC4/oMW84LD0Y1o3HnaKqAG++XeJR1tnq/JEZMJ1e6Y5ynhfih9LJboUGjFV0zXyEmgzuaQXT4+d8D5QIAg6gO0GvBSYOM6b/n/DMqekfhjiHwSqkTB2Ga1SGE+ZYw65RnJraa30rhkcizJwaUn1nsjapnKzXQTRLZ63npWK7am75z1LQsFlVsLl5klgtRE8iS6z1iuzym7HUkPCdxJlcGS6ETvBsAM9HvQa8x3L3X9x9aIClow7TpeBLpQd19XcrZN84y2EG2GloepUG78A==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1728297065; c=relaxed/relaxed;
+	bh=0A/0XsNN2HZS+Fvt8eFHQQqkpucDr5BFsebIII79Oac=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NkDGpbjLaDRmeU1eBB6XWPSuODcSwhe6dLr+jFvOgfnWdZ7nELLLpVjBhxR2VCu2GGn4ojfBj8e0yraLmT+5Au6ZbxATIvYhjPArNvbyzZF4v9r0KDxZatpQDJt7tT0LTZxkidaPt++lpiSsr1HBE+BNcPK4PKPtZdGcNqKdKWF0Rnmf1Z/srnr6jQKlSycFeMuWxqS4TvfPud5lxuMo/FhArFyunKl1HvtBkAO8fIUttT3NsOnMVhsw7vYZOfrvRPKL0nyfVUhA4OVuRSPmx6WAy1ewm0AbOuiFMTSNSMSf4/38Xuzlmj05JKekFkxLVU8ozfa8J43LCP05anqf3g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=DdM8oG+s; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::52e; helo=mail-pg1-x52e.google.com; envelope-from=naresh.solanki@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=HXv81T6z;
+	dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=DdM8oG+s;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=temperror (SPF Temporary Error: DNS Timeout) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::701; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on20701.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::701])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=9elements.com (client-ip=2607:f8b0:4864:20::52e; helo=mail-pg1-x52e.google.com; envelope-from=naresh.solanki@9elements.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XMYhh5LFpz2xdR
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Oct 2024 20:27:09 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JiO53K86YXNwSkzX4fqMXuBXo5fMFWYUlhuTXRxSg2LNzRBziKuWoseBvbe2fZuqkfNj1GbFjqGrlazs50DRzm0ZHVI6a1ArrXUi+MiaEjC3GdqzjH0CqQMWYqQ26HDA7iLSnQkr1xEJwc9VtawPytl/T8avCmC6aYyzJqG2ampAseMqmh7pdOS5osbBpMANg4ic+/p7z0JwZ7InncmQ4nhkJcH6iAz8I0gSB0seiDeCR+TkoJoXlmXFNoc4WWNr05WxPVgqL123E1CwXfeQGAV47YH7NWlnZUI9cVHoC1E6Z7P4yVUanPj2z0llSSMA+5e0jgVVHKmyRFv+qwOLTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fkRdu7T9rq5Se+1Rrfwvn5wVT8w8S0+uIERK5H7sX7k=;
- b=fBUgj08RcSKUvQJaND6GwjITYRu8PC+fMzRCXPHEwKJNBtYoSh+H8882ho8qjxKIkSaIj+JtgwCTlb/2mGIA7Mg769WfA5Y4P9P4GGm28IJ9tl0T11HXvVYzr61jDvaPFiGU2eJHpwLEQaePxlIydanSUrqgONa6K55OJHndIbtUj9XwG9AAY2qHrCqiThfZ9zGnO79Lz/5LStlfRkKoLRikkBo//MZFB9Db26d8UhXt5wGs038+6SOKF8aHQZao1e4rdayfoFAvF2c/vy7bmzBWNh+Mwn+MZywYXXOUzAmaMLXmLVucIFOasjJvPJxgp3G/0/cmDmlQd67RT6tMQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fkRdu7T9rq5Se+1Rrfwvn5wVT8w8S0+uIERK5H7sX7k=;
- b=HXv81T6zIW6Qa8pVgdPYpJ6wLvPCKfrq6uJUnNfegeW/gU14S/MDFStq1okY6+ZEgOgxnyoXs/Psolvkg2DzWrMHFmlaRUxag9ugjENYOucqHPaBINKKCHZ+vUEhDAhR0s/9uT5ISqz0hyV6wM0N19GcvvO0fO4s1sSyYKtOB+MsTEYKRy4UYx7lsVhKt4GAIgvgAKQtIQWH4BmFcXjDgIUJ30J8FWYp72Pt6HhNEai1fmWHkCH8aE8KwBgmdD0+9msEBjim2qMxrDtgLq07Z25LB6AZBMmz5BNOGFXkpkCwBfsQwOe1exVQXkywm9aC0D8U9GddRlQESFYQkin8ow==
-Received: from PSAPR06MB4949.apcprd06.prod.outlook.com (2603:1096:301:ad::9)
- by SEYPR06MB6984.apcprd06.prod.outlook.com (2603:1096:101:1de::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.13; Mon, 7 Oct
- 2024 09:26:20 +0000
-Received: from PSAPR06MB4949.apcprd06.prod.outlook.com
- ([fe80::7bdd:639a:6b94:37bf]) by PSAPR06MB4949.apcprd06.prod.outlook.com
- ([fe80::7bdd:639a:6b94:37bf%5]) with mapi id 15.20.8048.013; Mon, 7 Oct 2024
- 09:26:20 +0000
-From: Kevin Chen <kevin_chen@aspeedtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "robh@kernel.org"
-	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "joel@jms.id.au"
-	<joel@jms.id.au>, "andrew@codeconstruct.com.au"
-	<andrew@codeconstruct.com.au>, "lee@kernel.org" <lee@kernel.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
-	<will@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>, "olof@lixom.net"
-	<olof@lixom.net>, "soc@kernel.org" <soc@kernel.org>,
-	"mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
-	<sboyd@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-	"quic_bjorande@quicinc.com" <quic_bjorande@quicinc.com>,
-	"geert+renesas@glider.be" <geert+renesas@glider.be>,
-	"dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-	"shawnguo@kernel.org" <shawnguo@kernel.org>, "neil.armstrong@linaro.org"
-	<neil.armstrong@linaro.org>, "m.szyprowski@samsung.com"
-	<m.szyprowski@samsung.com>, "nfraprado@collabora.com"
-	<nfraprado@collabora.com>, "u-kumar1@ti.com" <u-kumar1@ti.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>
-Subject:  =?utf-8?B?UkU6IOWbnuimhjogW1BBVENIIHYxIDA4LzEwXSBhcm02NDogZHRzOiBhc3Bl?=
- =?utf-8?Q?ed:_Add_initial_AST27XX_device_tree?=
-Thread-Topic:  =?utf-8?B?5Zue6KaGOiBbUEFUQ0ggdjEgMDgvMTBdIGFybTY0OiBkdHM6IGFzcGVlZDog?=
- =?utf-8?Q?Add_initial_AST27XX_device_tree?=
-Thread-Index: AQHa30uP3XAu0OFrb0ehga5NxGtcErII3N4AgB70k2uAAaSBAIBR561A
-Date: Mon, 7 Oct 2024 09:26:20 +0000
-Message-ID:  <PSAPR06MB4949B860119DCC42C9BC0E42897D2@PSAPR06MB4949.apcprd06.prod.outlook.com>
-References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
- <20240726110355.2181563-9-kevin_chen@aspeedtech.com>
- <b6be1531-d8e2-44d1-a81a-6db8f9ae4ad4@kernel.org>
- <PSAPR06MB4949EC0D0E0DA16F50BBF40489802@PSAPR06MB4949.apcprd06.prod.outlook.com>
- <aa3a1835-19e0-43a5-b6a4-4a7e531f3b2e@kernel.org>
-In-Reply-To: <aa3a1835-19e0-43a5-b6a4-4a7e531f3b2e@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PSAPR06MB4949:EE_|SEYPR06MB6984:EE_
-x-ms-office365-filtering-correlation-id: f2a0986b-1520-425f-64ca-08dce6b21a98
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230040|7416014|366016|1800799024|376014|38070700018|921020;
-x-microsoft-antispam-message-info:  =?utf-8?B?Y3J3bnlPdmkreHBIRjhOK2wvTno0Vkh1UG13MUpBdnJ2Tlh5WXQ5amVKZkNW?=
- =?utf-8?B?RVBZRVM5RzV0TEs0WFU0a0ZmUVBrT2h2c1E1anRqeUowZWlOWUt3M29yTXdK?=
- =?utf-8?B?NzQwWFlwU3RUY3pKSmxKVEp0NHVXMXhsa2Rkbm5zY1FrZ2NoSVl1U0ZVM2Vs?=
- =?utf-8?B?cW9mTnlIYS9HVHRpM1N4QmVCRDJSaDhwbkJvNWxjRERnSnZ5YnAwSjJQMCt2?=
- =?utf-8?B?TWpEYXNDUkozUEZQb0MzUzhFUHFyNStGOHV5Y3c1RlNHckptWXhsbFdJT3Q2?=
- =?utf-8?B?S0JkbmFFRFZqdWJGNU8yUkxicEh5RTI0SjMrMnArZk5SVUZBYmtsWTdBNHhN?=
- =?utf-8?B?b1N4MEJMcW1rclYxTzYwbzUxd0RJS2x4VURWUDBwQzNsd1FaN1FjdGNUemZN?=
- =?utf-8?B?aTdFcENtaVZITEMvdmllWEZDWVFyR1VHUy9QWVFHTXA4aFhGMlB0Q0E1WUtI?=
- =?utf-8?B?RHI1elF5U3l4OVpmY0psVHhjdlM0R0owaVAzUERHbk5va002aTRpejVuTmda?=
- =?utf-8?B?Szc0TFpxRk1UTko2TDJLYVJZZGFYN0NYeEhXUHgzT0svbGdOZHlSZVpaa2JD?=
- =?utf-8?B?OXdPWjllM0pxdmZIMlBRd0RpQXVxUkJDTXRoWmlWNmVtd05JY3dtNFk0V3JE?=
- =?utf-8?B?L2k2ZHB3RldRQURoazRGMWp1aDZKK2c3WThNZktWN0VaWTFacUxDM3NVWjdJ?=
- =?utf-8?B?ZmpOM1hyK0JaTFgzQUNsbWEwNFRabW9QQnR4a056QURXRkc4MlQxTFlmWVdi?=
- =?utf-8?B?VmFmbml2ODkvUXJyS2pEMW5FSjVNalJzZjI0OUtkU2swaHoybTV0dXpRTTZR?=
- =?utf-8?B?aUd1dHZiUXg3U2lPSC9jallNRmtUZUI4UkwvOFc4ZUEybkt2WEhUdk1PZFRP?=
- =?utf-8?B?NUVna1VYVVE5QVd2Z0tvZE5BclU4cDFaNGtLSUx4Uk9uZVhJcWs3M0MwZ2hs?=
- =?utf-8?B?alJkUFBMYkdmQTQ5Q21LSllTS1VMMVNRSlRCaDRTTlQzRmVEM3AvekdkalFa?=
- =?utf-8?B?Rm13a2V1VXFWY0hTaGV0V1FaWWZpOTlzanNlc3ZFaldtVGh1RG5qaGxvTHYz?=
- =?utf-8?B?c2lXVENDeHRyaFhLaXVSYStidHB3Q1JreEpSTTJoS0c2US9GTFFwRGxFdGh6?=
- =?utf-8?B?NVJxSEl1R3FtdHBEcEdjbjFwblRza2xyM1FudkI1UllPLzNzTXhUQWtZaUha?=
- =?utf-8?B?QVhCL1YvRDgvcys2Qk5vVVdNMXpoTXN6RjNoUzJ5THBxNGZSNEJTVGJZTHZu?=
- =?utf-8?B?Zzl3U0o5alB4b0MwZytEaGhJZG9LZnhjNTYwR2VPSnNxL2tUS1BOYytqTXlj?=
- =?utf-8?B?RVJWeE9TUkdFZEJidXpjTllUR3hKRjl6aHo3ZXdwc2hUdjBicG9CaXQxMVQ1?=
- =?utf-8?B?Y0w1MllOWmxxbUVpOEhwc0M4amI3ZEUrZ3NwVXF2UUE0TlUydUpNSWl2eTFE?=
- =?utf-8?B?NHh4V3FFenVoVDJqWHh0UHJTN1dMTnhqVDcwTFF1WlJjeUZCRHRlQTVhTTE3?=
- =?utf-8?B?YkZWd21tZHM2ZXlkT1hJd3RXcnpjcWh4WjFaRC9TK24vRk1scExOeDlXMStC?=
- =?utf-8?B?blZPVHFRUUZkL2VERklTZDZUUVRMRFhNWEpUeXZKaFlQNEhTb056ODJKVTF5?=
- =?utf-8?B?c0JKZ3ZVOG9Jdk8rUEZvUGtSbng5TW9aNDRyRk5XT1ZmVGZCQVgrTGpuaytP?=
- =?utf-8?B?NWx3UU5nYWFwK1lFZ0ZONkozK2kxcE12dFhEbzR1UmpnZEE2Q1h1aGExaGIr?=
- =?utf-8?Q?d1zhdpArUs39775P0g=3D?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PSAPR06MB4949.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(38070700018)(921020);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?MFUvYVovbW9mUjJPdVZqZFJqcHpIMVBDUE1SRno3SHdKZVJ5bXBhSnR6SnFH?=
- =?utf-8?B?UW1pdDg4aFM1aUtWWFNWdjFKMmNrbUNwcDJQeGw3UFRNTDFrQm8wSzBPVW5T?=
- =?utf-8?B?YytkbHJjWlNObmE5WG5mODk0RG1nYlcxSTVFSXVJYkNPUkRkS0pzNmVZeXFu?=
- =?utf-8?B?bTBqb3g2R0NPT3JkcEVJN1lnRWRHTm1VQXBLZ1pJbHdKc0tiaUJRdllOR3Bn?=
- =?utf-8?B?ckJmS3JuN1ZCc0dpOFlURVNJeC8rYUJqZTFlV0NGZjRmcm9IMXh0azU1Y1Mw?=
- =?utf-8?B?UVQveUFObkxPeWl5MzhQL0QzNTZpZGdQMzJESzRwbjcyMGFYekFyU2tqeDFX?=
- =?utf-8?B?bGZPTWF1Q3RBVUhUalBTQnBOVzkyelZNU3pDMGllTmtoUW1QRGIyN2twVGJm?=
- =?utf-8?B?VGNoT0tWVTRSRUtFTWR5Y0xUNWtFalZxUnRwSkkrUnJENkZ1S0prVE8rQ0tj?=
- =?utf-8?B?TTVSYWVKcGtlVC84V1hRck1oUFJhdFRMdE1XbnBObTdiazVIN1hWUFNoT0Zk?=
- =?utf-8?B?WVFrTzUvN1Y4VzBqWnlIYzNsZi9GZnVhRkhIVGhBUUV1OGhMQXJOcElOenJq?=
- =?utf-8?B?TGlodFdRVjEvdHBlVkF2VldUWGpYYndhbGxnSDZyQTdGT1NMOGlkMUxpb3Ry?=
- =?utf-8?B?VmlOSXliMjZyYm5WUkIycDdxa2djZkY0OTY3bEhlWGFkSDUzMmxJVU00RzJE?=
- =?utf-8?B?cE05NEpYaHFaREM5bldIOFVrUVZLRElBM285VC9zNmhqSEFDQU5wczh5a1pn?=
- =?utf-8?B?RDN4YVNGUkk4Y2w3L1dRVk43VkloMXlUNFFPVmZrV1BiVU94V2JaOGtFRkxi?=
- =?utf-8?B?REE3YjJPZlU1SWJSMEFHTk82WWhRdGJHQnN5NGJ1TS90TFlZbnlBTFd4SEho?=
- =?utf-8?B?N2E3cEVCK2lBMVU5bFllWHc4VXFRczFwUnQ3RmRsOE1oT0xyUWJmbFBJL2Qr?=
- =?utf-8?B?QlZ3MGZEclBoUENMdEFMRjRzSmNkWDJ2SU1oU0IybWpEMU83Wm5vYVo2dUJN?=
- =?utf-8?B?ZTk3ZVBKQ0twVU9MajBNMHVqV1I4aVpQWkJpZDh0K2pxbGtVRUVqTVNNaTg1?=
- =?utf-8?B?d3JRNlhsUnpHMzBQTTZzOVFTTlN1d1hJblp0Yjc3VnNoa2lYVTA3dERYWXg0?=
- =?utf-8?B?TE8zeDJHYUxDOFkvVGhWVjk3TUpjQ05uRkk0dk0ySmVROCt0VjJlaCtPcmJL?=
- =?utf-8?B?VUFyL3dkWUZIK1QxM01wSDZuSUFaQjhrdm95TWJsVDV6Rml0SHBRcmF4Y05J?=
- =?utf-8?B?YXZHTjZJSGMwZWZLc2lqMW8vazJYSllGQ0o5YmFoc0RFMUh6SkNVeTl5L1A0?=
- =?utf-8?B?UGlsWms3OVJqQm5JRGxlVk1mN3NPUW5ic2Nabnk3SFUvbktXci9sNkh6SExx?=
- =?utf-8?B?b1laVW5wbkR3OXIrS0ZhWHBldjBZWkY4Z1o3emM4UHVMVTFib1pORTFYZllv?=
- =?utf-8?B?YlJqYjNXdTNuQXA2cWVDOFZqc0tHVVBQRDFqVWJHOWVGeUVMNGZYQWVUenVR?=
- =?utf-8?B?VlBYRkNSZlB2UzQyZW5Cdzg2N3huTXh3dWpwK3ZBYUw4dlAzdGh1QVpQclUz?=
- =?utf-8?B?ampLY080T2JNREdRMWdhYWdTdTdvSUZidEtSWkRqRzNEZ3h1UlVtc3FOV0xo?=
- =?utf-8?B?NVBZNEhUbDNXeURwZy9CN1hjdk1FTEVkZ1dkOGdEK1J4U2pIbGxsKzZMRzZF?=
- =?utf-8?B?WlJUQzFaMnkzTlVJQ2JleWNYcmgvV1U4WU1Pb3RxZTRVak5yNnFLOHp4Rk8y?=
- =?utf-8?B?WGVWRU5rc043QklOOEZHeFRLN0VQd1VMWlBIbFZUUzk0QURySVJsRHlMdWtt?=
- =?utf-8?B?d3Jha1FCL1lNeWszcU5YTnZGR0FEODBQcy9STytQTi9nN2NJMjNsSzRIWWNa?=
- =?utf-8?B?Rzhta3U3TThOM1I3eERQWnBQU0hqYitpdTlOV3haUUhJNWszQ0IvZFJVNzdM?=
- =?utf-8?B?OTNUMU90VkdEVUthU3N5bkFKMWxpUzlTb3FyNzNSdE8xTjNKbWFpUk9MQlo1?=
- =?utf-8?B?QjlFT3E1VDVGRWZhQzZVeS9ES2FPSWFuYSs3bzAvUUNRQU96bk9ZeEY2WXNS?=
- =?utf-8?B?aG9uWmR5d2RHMEcwemwxRGJjSElHNjdNZGZaVzVDQ1NmNkdBNjBZU1lQdVNH?=
- =?utf-8?Q?GIIAXJwYGzg7Mn1FX+RcroJmo?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XMb5x0TStz2yNJ
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Oct 2024 21:31:00 +1100 (AEDT)
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-7db238d07b3so3580629a12.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 07 Oct 2024 03:31:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1728297056; x=1728901856; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0A/0XsNN2HZS+Fvt8eFHQQqkpucDr5BFsebIII79Oac=;
+        b=DdM8oG+skQjAZcGRGpBORgqMPHP9ceYZHr5o6KNlOjlSxfUib1Og0adpM+zFqppJsb
+         MFAc/7PAbW37GSSyV5TGPEfU203ZTNu6tvOnphFzgI/pz/AWWN7KTz0xApp/NBfoEZK3
+         pcBllzCDhOMroI6SipVH7LECawW9GDyE3j6o0xiCwSJV+oTKQIpRDvVMDqwuxxhwV6aK
+         G//BMmghalItxP+1VaxGXRGY3IBB3l4DRtbeY/TPBkXcKvXCrL83hsA/rKUlin3WSx80
+         lt4phWtdRPVel0l/jLUIrczulx7MxLyWbkJW9eh6be1tqPLcPhN7IHYvCOaXFc46eFqw
+         kaGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728297056; x=1728901856;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0A/0XsNN2HZS+Fvt8eFHQQqkpucDr5BFsebIII79Oac=;
+        b=My0aOsAyp+JmALueSpz4S+5z0jAyjnaNy7k0b+OWXWJnrvWkMqKpMvF2pYXIoqisaY
+         7GhQebiKo3U62pp1qN6NLZ0x2zUSH9Isco0GXJQHmbNqPWDeCtvbGJajDZt1zED09ucJ
+         70N9hKlKcSCk73CsYnZOW4AAWHwrUwgC4/5ELbueHZx+0PgOS+jyUq7ZFhRBTDjG52NW
+         KzNf4j8ENMK6sTzzXoCjl0LVvdH9+YjTJLOdEWZnaWemuALEnAZC0zMYQqhsMhMCtViB
+         ZIIlYMI59S0dMYQgzE94C+8/b504ULUwlxV48ipWrBb0ycs7GBuVSMydcaL9f5F+iVVO
+         DyWg==
+X-Gm-Message-State: AOJu0Yw7poIK1A5nVpM5lwM+QmUQwV02T+ZunfCGIGQxGI+03VXt7bdW
+	uc3o0DChvfa+Iutj9Dt3xQd6byOAZQpdnzNhNTAczEotx79jJKb2Y/7Lz5tGmHwdko5CKtOZiPj
+	mL+5TctklugN4FXQOZrmRRPh0whWN6+eTD9/m/w==
+X-Google-Smtp-Source: AGHT+IH9pjWkzFiga6itF0xXR3zeR1/82MeOJw5EQPSDLMjKpKVt0b6Fo5VpT8YL11c7+1oyKejSgpfsmKtfS+PsB4I=
+X-Received: by 2002:a17:90b:4ac4:b0:2d8:ca33:42a5 with SMTP id
+ 98e67ed59e1d1-2e1e6367493mr11752833a91.40.1728297055783; Mon, 07 Oct 2024
+ 03:30:55 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4949.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2a0986b-1520-425f-64ca-08dce6b21a98
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2024 09:26:20.4124
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: axC4m0PJHv7FWlTgDGitMhKPnQE8MJ8YkWRAD4d/tpsupJyYo2sXVOJYuznt7eW6HkPZPtDOQZ3hDU10tLstfr0QuvS39HBnLSkcyJLh/+M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6984
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.0
+References: <20241002084023.467383-1-naresh.solanki@9elements.com>
+ <172790540060.1353939.8456815650107227718.robh@kernel.org> <be2630fe0abf590866c306880395659b33128111.camel@codeconstruct.com.au>
+In-Reply-To: <be2630fe0abf590866c306880395659b33128111.camel@codeconstruct.com.au>
+From: Naresh Solanki <naresh.solanki@9elements.com>
+Date: Mon, 7 Oct 2024 16:00:44 +0530
+Message-ID: <CABqG17jxwBNT9dijNkYZtG2UJ-9L4XJP-zXO9LdQkaUqsNdo8A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: arm: aspeed: add IBM SBP1 board
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -198,66 +86,184 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, "Rob Herring \(Arm\)" <robh@kernel.org>, Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiA+Pj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1nNy5k
-dHNpDQo+ID4+PiBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1nNy5kdHNpDQo+
-ID4+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+Pj4gaW5kZXggMDAwMDAwMDAwMDAwLi44NThh
-Yjk1MjUxZTQNCj4gPj4+IC0tLSAvZGV2L251bGwNCj4gPj4+ICsrKyBiL2FyY2gvYXJtNjQvYm9v
-dC9kdHMvYXNwZWVkL2FzcGVlZC1nNy5kdHNpDQo+ID4+PiBAQCAtMCwwICsxLDIxNyBAQA0KPiA+
-Pj4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxhdGVyICNpbmNsdWRl
-DQo+ID4+PiArPGR0LWJpbmRpbmdzL2Nsb2NrL2FzcGVlZCxhc3QyNzAwLWNsay5oPg0KPiA+Pj4g
-KyNpbmNsdWRlIDxkdC1iaW5kaW5ncy9yZXNldC9hc3BlZWQsYXN0MjcwMC1yZXNldC5oPg0KPiA+
-Pj4gKyNpbmNsdWRlIDxkdC1iaW5kaW5ncy9pbnRlcnJ1cHQtY29udHJvbGxlci9hcm0tZ2ljLmg+
-DQo+ID4+PiArI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2ludGVycnVwdC1jb250cm9sbGVyL2FzcGVl
-ZC1zY3UtaWMuaD4NCj4gPj4+ICsNCj4gPj4+ICsvIHsNCj4gPj4+ICsgICAgIG1vZGVsID0gIkFz
-cGVlZCBCTUMiOw0KPiA+Pg0KPiA+PiBNb2RlbCBvZiB3aGF0PyBObywgZHJvcC4NCj4gPiBDYW4g
-SSBjaGFuZ2UgdG8gIm1vZGVsID0gIkFTVDI3MDAgRVZCIiINCj4gDQo+IE1vZGVsIG9mIHdoYXQ/
-IE5vLCBpdCBkb2VzIG5vdCBtYWtlIHNlbnNlIGhlcmUuDQpTaG91bGQgSSBjaGFuZ2UgdG8gbW9k
-ZWwgPSAiQXNwZWVkIEJNQyBTb0MiOw0KDQo+IA0KPiANCj4gLi4NCj4gDQo+IA0KPiA+Pj4gKw0K
-PiA+Pj4gKyAgICAgICAgICAgICB1YXJ0MTI6IHNlcmlhbEAxNGMzM2IwMCB7DQo+ID4+PiArICAg
-ICAgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJuczE2NTUwYSI7DQo+ID4+PiArICAgICAg
-ICAgICAgICAgICAgICAgcmVnID0gPDB4MCAweDE0YzMzYjAwIDB4MCAweDEwMD47DQo+ID4+PiAr
-ICAgICAgICAgICAgICAgICAgICAgcmVnLXNoaWZ0ID0gPDI+Ow0KPiA+Pj4gKyAgICAgICAgICAg
-ICAgICAgICAgIHJlZy1pby13aWR0aCA9IDw0PjsNCj4gPj4+ICsgICAgICAgICAgICAgICAgICAg
-ICBjbG9ja3MgPSA8JnN5c2NvbjENCj4gU0NVMV9DTEtfR0FURV9VQVJUMTJDTEs+Ow0KPiA+Pj4g
-KyAgICAgICAgICAgICAgICAgICAgIG5vLWxvb3BiYWNrLXRlc3Q7DQo+ID4+PiArICAgICAgICAg
-ICAgICAgICAgICAgcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IjsNCj4gPj4NCj4gPj4gV2hhdCBp
-cyB0aGlzPw0KPiA+IEJNQyB1YXJ0IHVzaW5nIGluIHVhcnQxMiBpbiBzb2MxLg0KPiANCj4gTm8s
-IHRoYXQgbGluZS4gcGluY3RybC1uYW1lcyBkbyBub3QgbWFrZSBzZW5zZSBoZXJlIHdpdGhvdXQg
-dmFsdWVzLg0KQWdyZWUsIEkgd2lsbCByZW1vdmUgdGhlIGxpbmUgb2YgcGluY3RybC1uYW1lcyBp
-biBuZXh0IHBhdGNoLg0KUGluY3RybCBwcm9wZXJ0eSBuZWVkZWQgdG8gYmUgZGVmaW5lZCBpbiB0
-aGUgZnV0dXJlIHBhdGNoZXMuDQoNCj4gDQo+ID4NCj4gPj4NCj4gPj4+ICsgICAgICAgICAgICAg
-fTsNCj4gPj4+ICsgICAgIH07DQo+ID4+PiArfTsNCj4gPj4+ICsNCj4gPg0KPiA+IC0tDQo+ID4g
-QmVzdCBSZWdhcmRzLA0KPiA+IEtldmluLiBDaGVuDQo+ID4NCj4gDQo+IFdoeSBkbyB5b3UgcXVv
-dGUgbXkgZW1haWwgdHdpY2U/DQo+IA0KPiANCj4gLi4uDQo+IA0KPiA+PiArICAgICAgICAgICAg
-IHVhcnQxMjogc2VyaWFsQDE0YzMzYjAwIHsNCj4gPj4gKyAgICAgICAgICAgICAgICAgICAgIGNv
-bXBhdGlibGUgPSAibnMxNjU1MGEiOw0KPiA+PiArICAgICAgICAgICAgICAgICAgICAgcmVnID0g
-PDB4MCAweDE0YzMzYjAwIDB4MCAweDEwMD47DQo+ID4+ICsgICAgICAgICAgICAgICAgICAgICBy
-ZWctc2hpZnQgPSA8Mj47DQo+ID4+ICsgICAgICAgICAgICAgICAgICAgICByZWctaW8td2lkdGgg
-PSA8ND47DQo+ID4+ICsgICAgICAgICAgICAgICAgICAgICBjbG9ja3MgPSA8JnN5c2NvbjENCj4g
-U0NVMV9DTEtfR0FURV9VQVJUMTJDTEs+Ow0KPiA+PiArICAgICAgICAgICAgICAgICAgICAgbm8t
-bG9vcGJhY2stdGVzdDsNCj4gPj4gKyAgICAgICAgICAgICAgICAgICAgIHBpbmN0cmwtbmFtZXMg
-PSAiZGVmYXVsdCI7DQo+ID4NCj4gPiBXaGF0IGlzIHRoaXM/DQo+ID4NCj4gPj4gKyAgICAgICAg
-ICAgICB9Ow0KPiA+PiArICAgICB9Ow0KPiA+PiArfTsNCj4gPj4gKw0KPiA+DQo+ID4gQmVzdCBy
-ZWdhcmRzLA0KPiA+IEtyenlzenRvZg0KPiA+DQo+IG90aGVyIGNvbmZpZGVudGlhbCBpbmZvcm1h
-dGlvbi4gSWYgeW91IGhhdmUgcmVjZWl2ZWQgaXQgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhl
-DQo+IHNlbmRlciBieSByZXBseSBlLW1haWwgYW5kIGltbWVkaWF0ZWx5IGRlbGV0ZSB0aGUgZS1t
-YWlsIGFuZCBhbnkNCj4gYXR0YWNobWVudHMgd2l0aG91dCBjb3B5aW5nIG9yIGRpc2Nsb3Npbmcg
-dGhlIGNvbnRlbnRzLiBUaGFuayB5b3UuDQo+IA0KPiBNYXliZSBJIGFtIHRoZSBpbnRlbmRlZCBy
-ZWNpcGllbnQgb2YgeW91ciBtZXNzYWdlLCBtYXliZSBub3QuIEkgZG9uJ3Qgd2FudCB0bw0KPiBo
-YXZlIGFueSBsZWdhbCBxdWVzdGlvbnMgcmVnYXJkaW5nIHVwc3RyZWFtLCBwdWJsaWMgY29sbGFi
-b3JhdGlvbiwgdGh1cw0KPiBwcm9iYWJseSBJIHNob3VsZCBqdXN0IHJlbW92ZSB5b3VyIG1lc3Nh
-Z2VzLg0KPiANCj4gUGxlYXNlIHRhbGsgd2l0aCB5b3VyIElUIHRoYXQgc3VjaCBkaXNjbGFpbWVy
-cyBpbiBvcGVuLXNvdXJjZSBhcmUgbm90IGRlc2lyZWQNCj4gKGFuZCBtYXliZSBldmVuIGhhcm1m
-dWwpLg0KPiBJZiB5b3UgZG8gbm90IHVuZGVyc3RhbmQgd2h5LCBwbGVhc2UgYWxzbyBzZWU6DQo+
-IGh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL2xpdmUvZk1lSDd3cU93WEE/c2k9R1k3aWdmYmRhNnZu
-alhsSiZ0PTgzNQ0KPiANCj4gSWYgeW91IG5lZWQgdG8gZ28gYXJvdW5kIGNvbXBhbnkgU01UUCBz
-ZXJ2ZXIsIHRoZW4gY29uc2lkZXIgdXNpbmcgYjQNCj4gd2ViLXJlbGF5OiBodHRwczovL2I0LmRv
-Y3Mua2VybmVsLm9yZy9lbi9sYXRlc3QvY29udHJpYnV0b3Ivc2VuZC5odG1sDQo+IA0KPiBQbGVh
-c2UgYmUgaW5mb3JtZWQgdGhhdCBieSByZXNwb25kaW5nIHRvIHRoaXMgZW1haWwgeW91IGFncmVl
-IHRoYXQgYWxsDQo+IGNvbW11bmljYXRpb25zIGZyb20geW91IGFuZC9vciB5b3VyIGNvbXBhbnkg
-aXMgbWFkZSBwdWJsaWMuIEluIG90aGVyIHdvcmRzLA0KPiBhbGwgbWVzc2FnZXMgb3JpZ2luYXRp
-bmcgZnJvbSB5b3UgYW5kL29yIHlvdXIgY29tcGFueSB3aWxsIGJlIG1hZGUgcHVibGljLg0KPiAN
-Cj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0b2YNCg0K
+Hi Andrew,
+
++Guenter Roeck
+
+On Thu, 3 Oct 2024 at 05:13, Andrew Jeffery <andrew@codeconstruct.com.au> wrote:
+>
+> Hi Naresh,
+>
+> On Wed, 2024-10-02 at 16:45 -0500, Rob Herring (Arm) wrote:
+> > On Wed, 02 Oct 2024 14:10:17 +0530, Naresh Solanki wrote:
+> > > Document the new compatibles used on IBM SBP1.
+> > >
+> > > Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> >
+> >
+> > My bot found new DTB warnings on the .dts files added or changed in this
+> > series.
+> >
+> > Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+> > are fixed by another series. Ultimately, it is up to the platform
+> > maintainer whether these warnings are acceptable or not. No need to reply
+> > unless the platform maintainer has comments.
+> >
+> > If you already ran DT checks and didn't see these error(s), then
+> > make sure dt-schema is up to date:
+> >
+> >   pip3 install dtschema --upgrade
+> >
+> >
+> > New warnings running 'make CHECK_DTBS=y aspeed/aspeed-bmc-ibm-sbp1.dtb' for 20241002084023.467383-1-naresh.solanki@9elements.com:
+>
+> A bunch of what follows are issues caused by the lack of dt-schema
+> bindings for the ASPEED SoC peripherals. You can ignore those errors
+> for now.
+>
+> However, some of those below are specific to your devicetree. Can you
+> please address them?
+Sure
+>
+> >
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: timer: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: bus@1e600000: compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+> >       from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+>
+> For instance, ignore the above for now.
+ok
+>
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mdio@1e650010: Unevaluated properties are not allowed ('reset-assert-us', 'reset-deassert-us' were unexpected)
+> >       from schema $id: http://devicetree.org/schemas/net/aspeed,ast2600-mdio.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mdio@1e650018: Unevaluated properties are not allowed ('reset-assert-us', 'reset-deassert-us' were unexpected)
+> >       from schema $id: http://devicetree.org/schemas/net/aspeed,ast2600-mdio.yaml#
+>
+> Check the bindings regarding these - it seems they should go in a phy
+> subnode of the MDIO controller.
+Yes. You're absolutely right. These should be under the phy node. Will
+update in the next patchset.
+>
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: syscon@1e6e2000: 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^silicon-id@[0-9a-f]+$', 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@560: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic0']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/syscon@1e6e2000/interrupt-controller@570: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic1']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: adc@1e6e9000: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: adc@1e6e9100: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: crypto@1e6fa000: 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/video@1e700000: failed to match any schema with compatible: ['aspeed,ast2600-video-engine']
+>
+> Ignore the above for now.
+ok
+>
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: gpio@1e780000: 'gpio-reserved-ranges' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio.yaml#
+>
+> I'm not sure why this one is flagged, though it is one you should
+> resolve. You might need some input from the devicetree maintainers.
+ok.
+>
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: lpc@1e789000: lpc-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: lpc@1e789000: reg-io-width: 4 is not of type 'object'
+> >       from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: kcs@24: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: sdc@1e740000: sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+> >       from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: sdc@1e740000: sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+> >       from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+>
+> Ignore the above for now.
+ok
+>
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-pvcore-nic2@40: Unevaluated properties are not allowed ('regulators' was unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-pvcore-nic1@40: Unevaluated properties are not allowed ('regulators' was unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p3v3-nic@40: Unevaluated properties are not allowed ('regulators' was unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p1v2-nic@40: Unevaluated properties are not allowed ('regulators' was unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p1v8-nic@40: Unevaluated properties are not allowed ('regulators' was unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/bus@1e78a000/i2c@280/bmc-slave@10: failed to match any schema with compatible: ['ipmb-dev']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: r38263-p1v05-pch-aux@40: Unevaluated properties are not allowed ('interrupt-parent', 'interrupts', 'regulators' were unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38060-p1v8-pch-aux@40: Unevaluated properties are not allowed ('interrupt-parent', 'interrupts', 'regulators' were unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mux@77: interrupts: False schema does not allow [[44, 4]]
+> >       from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: pvccinfaon-pvccfa-cpu2@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mp2973-pvccin-pvccfa-cpu2@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: pvccinfaon-pvccfa-cpu1@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mp2973-pvccin-pvccfa-cpu1@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: pvccinfaon-pvccfa-cpu3@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mp2973-pvccin-pvccfa-cpu3@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p5v-aux@40: Unevaluated properties are not allowed ('regulators' was unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: ir38263-p3v3-aux@40: Unevaluated properties are not allowed ('regulators' was unexpected)
+> >       from schema $id: http://devicetree.org/schemas/regulator/infineon,ir38060.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: regulator@5f: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: regulator@5f: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: regulator@5f: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: regulator@5f: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: pvccinfaon-pvccfa-cpu0@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: mp2973-pvccin-pvccfa-cpu0@58: 'regulators' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+>
+> These all look like they need to be addressed.
+These seem to be applicable for all trivial devices.
+I'm not sure what should be the fix.
+
+Regards,
+Naresh
+>
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: fsi@1e79b000: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+> >       from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: fsi@1e79b100: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+> >       from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+> > arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+> >
+>
+> Ignore these for now.
+>
+> Andrew
