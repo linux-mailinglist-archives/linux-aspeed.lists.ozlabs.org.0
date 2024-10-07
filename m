@@ -1,56 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E099929E4
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 13:04:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A809929EF
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 13:05:26 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XMbrJ0jMkz3028
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 22:04:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XMbsc3WFGz302T
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Oct 2024 22:05:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728299053;
-	cv=none; b=IOL0GQihgd1GaRRWOYbl4wDHFcOItSufVteohXGpog/3WjyUSW6QtPxsJZXMGvMhEE6dM+aTosoVjdVQLgJMVpG5PhqgyrqOqbdRtSZj/sSYM/8UpZzJVwE6YMDhV2EuQtr6D+LLpvPPOhowZtTw7jkA7kFWGGIKUipkv5inFrwYZutByWlyQs+JREgPV7eLS5KxSG7Vd9LS9glTAvQlVMOJRtjSzg3ELe8JcHAxUEq7yyEHrnXKA0GA4ilM4HNTdJkrhqtBqPeMZxL4DgAV6icNKNWiWg1/JF5SWfmFUwxmuGsSzgyxBF45/QUBwKGNgvD79pXVZ1MWMQEdmr3Ycg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728299122;
+	cv=none; b=VYD5U+4hUEniq9bcrv5MLvv+cI87o5esWlAeMybRnuUfiif9mgG3FoNSu+bDYLiwi4cBdTimVyqmdqfrsCmlZ34pJv83DZ3mQyaDvqAmeA7bCPqhuTpli+x+iShLRilDs/S2qDasTdAsosPjQBO/Rpx0gToHRxkT+mrOpOiqDegd2uC9N+OEC8O3MPOeLepgx77uX0hMS/nrLElcjP8wiKDNWkZZDPKdHo6aEicrDWlNR3q4zftMfDR69DuUf/ClxbRk7DuzmpXUwrkF/jeIwcI9SwxldmncGFIE00tMMSZ73qhnnsDlskgFsZQ6n+FnEVxQ6Ce096aNGdX33YIOfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728299053; c=relaxed/relaxed;
-	bh=lfVQV0ybZGJqHev8E1XyASjhZ41AeR8ypRgXwxjOpRg=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=cNJzzADZNKBQYD3Jm++Py6gEWrfqK9tw/wXwyU+DRTJlkkS6dV7yB5QJvTXEEcy1PSvkcaUHd20BtYgBVhs++vCiVRqN7iH5w5T/I2sxXRdWgXDQLffm83CigjSxmxM5SxYMeLSHblPpuU1eBiBNcGEvIfIMpn7pN5eBsZiqgPXhQI357J73tF63Odrtbax+1lYkp3dD9atShxzQhGlWadvPvskHF43YJxs7aYjQJmkBABIegitSqv1JHHu8F/5Wx4PznN5rTP/Qs/Jp9P3i5lgb/KY+nzwqsadGZ5QHijo+xSssMuXtH0u1bILLC9t2WuhJQsHParjbNDt/Ew0QXA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=h2qJJhDO; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	t=1728299122; c=relaxed/relaxed;
+	bh=pA5ZkQtE0f+TH4L1lHoU0zvRjifFATqNGZzDr/vU7C4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=OYc9xmvDIBaUl615K+ftGugdyluVSxlHidf+rCSasA0T29kNETMBvJ02WWQ7akUCLPEDbi4oUhCa53rNEp7An1K11m+nSITquzLMZ624Il3jwmCMwIuQmpqzHFJjJHLis14nuVIE7llgyz97/jE1EuYaE/nq1HksBKR4vT2wK5qBk111r/stwkoiBlIv3fhFBcZvKxjpsQVCF2K5+n9fNcVG4j6URJuOqtkZSRc2MG43FjfmgGPGTElKkvJnLJVLRgC4Omz/U1GXeAlCern736/5XC6sF3PiUgthOosQitif+vJ5TQs0yVGcJwe8/p/QLPn5D63vimX7dbYOdTkoNg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=sbt96yeZ; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=h2qJJhDO;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=sbt96yeZ;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XMbrD5psjz2xHr
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Oct 2024 22:04:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XMbsY4bblz2xHr
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Oct 2024 22:05:21 +1100 (AEDT)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 5C777A41AFE;
-	Mon,  7 Oct 2024 11:04:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFDBAC4CEC6;
-	Mon,  7 Oct 2024 11:04:00 +0000 (UTC)
+	by nyc.source.kernel.org (Postfix) with ESMTP id C3EC8A41AE9;
+	Mon,  7 Oct 2024 11:05:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FEB5C4CEC6;
+	Mon,  7 Oct 2024 11:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728299049;
-	bh=ujW0TeRwS+eeSWMWIG8idJke6McWZ08+eTH56YXvu4I=;
-	h=Date:Subject:From:To:References:In-Reply-To:From;
-	b=h2qJJhDOgF7h7+MbFX2RKhB/8tstZUNs59ts1Sq8wHDsQNSiLDhufVJJN06qoWvjc
-	 d2BC35+W+Z8wolgBeIVwEQMfndcZGQizj/y0ZEEs6HsRpmSz4OqARQjW/Gi2f3wOrB
-	 Mpm/Dx+Y8qgKMy0nwdXnSmg8QvKzbHJ6IbvzLl7yYZXHN930m9y8TvaXw9zBLp1N5y
-	 uDvjjUzpTKkcNN3YYgBwabQB6dOToPah9RDwpRVIhHwQwbopVyGdC65V4MneAdTCQL
-	 O+KmzsPBGdfynw3FO9C8sSMsd5wBXwzmEcx6dGpBKS/0xuHOH7x53fEtTml4UFcbZ+
-	 wBZQhyy2Df+bg==
-Message-ID: <5dfa5989-563d-43f2-8391-5b6b03c5ae29@kernel.org>
-Date: Mon, 7 Oct 2024 13:03:58 +0200
+	s=k20201202; t=1728299119;
+	bh=ynHPyZt7Bh1deUnCBdlmOBSkEPy2aO4JzW0/DjScqj0=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=sbt96yeZB8a1dbL1F7AhC0SNl1Ae3x5zxhvoHotgCzhXEMer4ZPBChb9y409ilzu0
+	 1feKdqVo7NpDy3i8gYA7QUo3IRYsXX5eRX4e0BL8E1zgQ022T8ctsN4KE9sfRKYBxO
+	 biQDXfI/bQnkam242Sabj2ITrYNXeTi3p3qqKhDV6Md8OTFrcrWzY5atSf2wE9inqC
+	 zMVSYGwrjG9Ivb02Fl2IBUSpzc8esYBbgpoLF51MnLE3cSk4sfjftaqDjihR9bt2WT
+	 f3bX0++reTBeXMENiAtg3Ze6rnFLIkCh7eDFISCoZWxQ8dgq22qIzfPGR3AY1yi+3J
+	 CXhu2UkLfxC9Q==
+Message-ID: <843b411f-8a71-4766-a657-70d326676f9c@kernel.org>
+Date: Mon, 7 Oct 2024 13:05:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuimhjogW1BBVENIIHYxIDAxLzEwXSBkdC1iaW5kaW5nOiBt?=
- =?UTF-8?Q?fd=3A_aspeed=2Cast2x00-scu=3A_Add_binding_for_ASPEED_AST2700_SCU?=
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: =?UTF-8?B?UmU6IOWbnuimhjogW1BBVENIIHYxIDA4LzEwXSBhcm02NDogZHRzOiBh?=
+ =?UTF-8?Q?speed=3A_Add_initial_AST27XX_device_tree?=
 To: Kevin Chen <kevin_chen@aspeedtech.com>, "robh@kernel.org"
  <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
  "conor+dt@kernel.org" <conor+dt@kernel.org>, "joel@jms.id.au"
@@ -78,10 +77,12 @@ To: Kevin Chen <kevin_chen@aspeedtech.com>, "robh@kernel.org"
  "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
  BMC-SW <BMC-SW@aspeedtech.com>
 References: <20240726110355.2181563-1-kevin_chen@aspeedtech.com>
- <20240726110355.2181563-2-kevin_chen@aspeedtech.com>
- <e6cb6f26-fef2-49bc-ab25-fdc9a659f593@kernel.org>
- <PSAPR06MB494964BEE33B160EE5E2159289802@PSAPR06MB4949.apcprd06.prod.outlook.com>
- <8b3b81eb-a0d2-4beb-a2e1-3064ae985f04@kernel.org>
+ <20240726110355.2181563-9-kevin_chen@aspeedtech.com>
+ <b6be1531-d8e2-44d1-a81a-6db8f9ae4ad4@kernel.org>
+ <PSAPR06MB4949EC0D0E0DA16F50BBF40489802@PSAPR06MB4949.apcprd06.prod.outlook.com>
+ <aa3a1835-19e0-43a5-b6a4-4a7e531f3b2e@kernel.org>
+ <PSAPR06MB4949B860119DCC42C9BC0E42897D2@PSAPR06MB4949.apcprd06.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -126,7 +127,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <8b3b81eb-a0d2-4beb-a2e1-3064ae985f04@kernel.org>
+In-Reply-To: <PSAPR06MB4949B860119DCC42C9BC0E42897D2@PSAPR06MB4949.apcprd06.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-0.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
@@ -147,31 +148,30 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 07/10/2024 13:03, Krzysztof Kozlowski wrote:
-> On 15/08/2024 07:50, Kevin Chen wrote:
->> Hi Krzk,
+On 07/10/2024 11:26, Kevin Chen wrote:
+>>>>> diff --git a/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
+>>>>> b/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
+>>>>> new file mode 100644
+>>>>> index 000000000000..858ab95251e4
+>>>>> --- /dev/null
+>>>>> +++ b/arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
+>>>>> @@ -0,0 +1,217 @@
+>>>>> +// SPDX-License-Identifier: GPL-2.0-or-later #include
+>>>>> +<dt-bindings/clock/aspeed,ast2700-clk.h>
+>>>>> +#include <dt-bindings/reset/aspeed,ast2700-reset.h>
+>>>>> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+>>>>> +#include <dt-bindings/interrupt-controller/aspeed-scu-ic.h>
+>>>>> +
+>>>>> +/ {
+>>>>> +     model = "Aspeed BMC";
+>>>>
+>>>> Model of what? No, drop.
+>>> Can I change to "model = "AST2700 EVB""
 >>
->> I will speperate clock part in the v3 patch into Ryan's clock series.
->>
->>> Missing commit msg.
->>>
->>> Please use subject prefixes matching the subsystem. You can get them for
->>> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
->>> your patch is touching. For bindings, the preferred subjects are
->>> explained here:
->>> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
->>>
->>> A nit, subject: drop second/last, redundant "bindings for". The
->>> "dt-bindings" prefix is already stating that these are bindings.
->>> See also:
->>> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
->> Agree, already fixed in another commit in Ryan's series.
->> [1/4] dt-bindings: mfd: aspeed: support fo
-> 
-> Just to make it clear: you responded after 2.5 months. This patchset is
-> neither in my mailbox nor in my brain.
+>> Model of what? No, it does not make sense here.
+> Should I change to model = "Aspeed BMC SoC";
 
-Uh, this was supposed to be replied to your recent emails.
+SoCs do not have models. Please take a look how *every* other SoC is doing.
 
 Best regards,
 Krzysztof
