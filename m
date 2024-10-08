@@ -2,95 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4A39950EF
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Oct 2024 16:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FA19950FD
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Oct 2024 16:05:18 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XNHmC5kRKz3bcP
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 01:03:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XNHph2B7hz3bfB
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 01:05:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::32c"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728396186;
-	cv=none; b=AR+uFHgg4WE2mjj1BtVuLQgiwB72cwkg3WA7iUDjsYYTRVlpv6/C2K3ekh5Z+HCYOLb0f43YCKaJaBc1TGqJ38FQGR7tDRqrfdezD+09Kilfe3b7S6804/4HFCNBA8FEkF43Ss0g1N7jknV4YmXWPR3wrGhYPkgv1QDNq5BRT0yhoSCnA/KReGK8QdhCMgyY9A4XHL05GrMaJS0lccXvQj5fxrixRID4wxYusArqHWI9qdrmAC+tuidkx5prs9BcqwsXa6vV9OC9D5/jujBmZ2JwL8cQjhRq2apmdgeln2L6MWukOJ5Ux5d/eilxnMxX8qPAvlzGBqRhno19Uqn5yw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::12a"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728396315;
+	cv=none; b=JjqUA0W+dPJ+uI7mUf160E9bhgxaiSm/KgGOtg7CT0B6/yz8B4th8+86ISFPtuYKAfe718QkAoooLeTLdopjVlGT7cOK8vA018U6OGP3U/Gr7KjehLyminN8MQMf68ARmkFx4wi14JE+d5K8L8Is/uTRcgPTwHWrCGw/M3giOGsefmblPmVPPSVWCqCxl41UFTlE/z7FIW9swXup2YRR3Gr6sWMNnhByafpm1DvoyqT9gRydnJ3X+Kxbe4vApAlHiHPBv0rMf9f2yADbjJserm3YlmH7GOFQl1xm/jXn1TZRAQhX0eEUJo51A/33Ykij+lrhfD6zJO4xlwVcTn3CTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728396186; c=relaxed/relaxed;
-	bh=wrB8SyBEggX7gkCJYrDAfUW+IVD/j7Ve4yJ4nlFfibo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XgAcFS9VDP3i1f0Ouec3NuQ5/Z5dxtdWsoDgWTODsfyzZE4N2uKb/oyxOP7nsaPBQ/GVjPk77Q0R2EKxGkLXODs3z0BLnCvojn25ecJ6oxeagOXFEiQ4T+LmepaELwu6AFC7BXQ5r9ArXfnHJTNIl1d31L69CS3nkug8ESVvdxyU7PGeBpwRvGPhm8z0qPf0PzJR7tJlxCQh21okFKL+cJ7Wndx29SgtDt7X+8L3WKJUkxwNL1mVDIrKuYamqjlX+OmFD4Hg3rlVTDfdJkrqKCqZOvKBo9K7PvKkZEGG0unGzgtgtRDOXBv+lycEpMHIZGHJB779g+6qKMpE3wadUw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=GE11qg9T; dkim-atps=neutral; spf=none (client-ip=2a00:1450:4864:20::32c; helo=mail-wm1-x32c.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org) smtp.mailfrom=bgdev.pl
+	t=1728396315; c=relaxed/relaxed;
+	bh=F/zAtiWZQI7SQwrRf3j8mFudmNdtJgba/frtTc8eoX8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G0hzihX4jGgcGeZOsQQ0YgHj8pt+FJjvG0yst07kTePjag33VUyOEjFd4F19G4KzdeZmwC4hanDpLtLhy9J99dmc95i7L7IgPMNUj/Q2PpgRbcX7NgmTZl6vOjuPP5Kq+GZVR1BvUxOfffvX5dHMqPN05tvfw9Ws7eE4IKvcdBB70FRZcdtqPlmBhhxnX+vqkCPck9aTz81XQykSyR6hpeMTMkG0HUy6l6tprvJx/UGEatx8pFOLPIXq3ddjDMY9AYzmtsVGzlKbzK1gW+aetS3ky45JAwkJtBDk3pDgaWHWwR8tMeQKusIKLRFkWT2+6dqx+L3TYXTjsihjvRdGGQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=FFB1Y42G; dkim-atps=neutral; spf=none (client-ip=2a00:1450:4864:20::12a; helo=mail-lf1-x12a.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org) smtp.mailfrom=bgdev.pl
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=GE11qg9T;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=FFB1Y42G;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::32c; helo=mail-wm1-x32c.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::12a; helo=mail-lf1-x12a.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XNHm864r6z2yvy
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Oct 2024 01:03:03 +1100 (AEDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-43055b43604so4890625e9.3
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 08 Oct 2024 07:03:03 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XNHpf48NBz2xy0
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Oct 2024 01:05:14 +1100 (AEDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-5389e24a4d1so6945819e87.3
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 08 Oct 2024 07:05:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728396176; x=1729000976; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728396311; x=1729001111; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wrB8SyBEggX7gkCJYrDAfUW+IVD/j7Ve4yJ4nlFfibo=;
-        b=GE11qg9TRzoMHM1R08xEAT0Wo/VIcAtD6LeDAHlf5Of1Qy8qMvCSGua1zY+ACPi18c
-         OazxcezvYfhBaYk/93eXhGnTmFMdqYJGaV4gs7lOYOiA4EEW5tdD3yTUkYiHQzXGSdi5
-         AHT0EtsgGe+azViQf7hBsn4vleeKOlur++a9OOO9H70FV7vMI2M3BS9a3lXFAgO1oFzS
-         uRImAfdJA/2S2WLWQq9/hHmKcrpYRkJuk4r+MjSCgMddUXv5DZB5/29tJR3cOTwUHY2W
-         ThSVbCJWY9rCC2JmBxbxdwUXpVgjjNNIIVEw4X2lLQED7JUGduyDrXPZr/r0wWt+S+tD
-         YRSA==
+        bh=F/zAtiWZQI7SQwrRf3j8mFudmNdtJgba/frtTc8eoX8=;
+        b=FFB1Y42GiwxfAbTzZ6RoP26/txS5RQkHsLUNlnkWpqran8xl/WtthdUAStcfmgqI9E
+         Pqd/aU0FgYPzJ2IeXt9AVslFJ5ODgJ3gOWpjC3gGeuT72pq3uu/dsFxYSxwEnK+fkOzA
+         gRJWmRHxKJARncDlEwgJiPA45uNXuLfM+lgrQhTNtk43m2YJzgJlTjaq/vA7lc6rBp4f
+         OBqAy4x2HJbQTBvy+mNvyGpKev6eCtBCvbhWiJ6EGTMMqDigiBL0bOnjZxionw/mS2yA
+         NqnlPWmnMmmOiqQMmbfWY0RMtusP8qzZXLHr45vg3HOanh1qM3w4071a8hmClHoE+mj8
+         yrQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728396176; x=1729000976;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1728396311; x=1729001111;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wrB8SyBEggX7gkCJYrDAfUW+IVD/j7Ve4yJ4nlFfibo=;
-        b=od8UR210NNu1dgIQ5hy4NPhOj0wonLjGW8GtWO+9MVLDftinXOAwQmYEVb97uCgnek
-         0xGW+iwc/RrRkiEeqYP4/9k2ABq0AyiiLJWAlybIhHB+60tXYGfS23+YSnK9Wdh9vHLi
-         tjdbjbLtTXZd7kwh5pH4KROneQ85zZlmtzq60qClXnWNf0TuKzuHewlW6rnUHKV2B/Ca
-         WGP9MwTahv/B94QLMhCSmf+NYXcs5OTaL0rlvwWj4zh31YVfC6ReoR7sL8IMSFU/jmHS
-         yRZUW6KzJUjzKr7e8eYhatDWcCICfjIw4Rp3aGJzARuwHklHy2AdbDvL5zmmA2vDLTlA
-         1VcA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8Wroya8LH5oYJycOGd9ydT1BbmxGpprsOCwT8yx6j1hJwmfunAO5LNE/O6deIwkF3+xrsC17egvo/SzM=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yww5h5KiqbQVinc85jzJ853tPSy181bFYdovJO8AuIpquyt3KPC
-	J7m3a+cj4NzqgG1J6dt02DGGBv71tDUmZAWCeUI9M3VvZBsqlxuDNQT/6IXEUwo=
-X-Google-Smtp-Source: AGHT+IEV/6cDSkCaLspx7rOPlHS533C+1XbFqrGunzht3iptdfLNh8w9eozrda6COlsrBspViWACGg==
-X-Received: by 2002:a05:600c:1d0e:b0:42c:b995:2100 with SMTP id 5b1f17b1804b1-42f85a6d722mr101173635e9.6.1728396175387;
-        Tue, 08 Oct 2024 07:02:55 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:738a:20da:f541:94ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d16920be2sm8205953f8f.60.2024.10.08.07.02.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 07:02:53 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: linus.walleij@linaro.org,
-	brgl@bgdev.pl,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	joel@jms.id.au,
-	andrew@codeconstruct.com.au,
-	linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	BMC-SW@aspeedtech.com,
-	Peter.Yin@quantatw.com,
-	Jay_Zhang@wiwynn.com,
-	Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: (subset) [PATCH v7 0/7] Add Aspeed G7 gpio support
-Date: Tue,  8 Oct 2024 16:02:52 +0200
-Message-ID: <172839616610.55104.2573120540182552334.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241008081450.1490955-1-billy_tsai@aspeedtech.com>
-References: <20241008081450.1490955-1-billy_tsai@aspeedtech.com>
+        bh=F/zAtiWZQI7SQwrRf3j8mFudmNdtJgba/frtTc8eoX8=;
+        b=Lqx9/WD5toaZU8Yo26eFOYOpS7N6INa4/5mi/d53Cs4p8wDczInv+SwBXFO7qtFqb4
+         vmUWpkacoWTQL8dUewKgWAhVgdtgUK9KpgUvVkpXgBPWLU98cN7jf9cvzKVu+iE70tZv
+         MVczULB+QrjrtN3Allap8/0sa7Q4YWwtcPmNmKsesJ0hqOtVYzGqiG1pEU07VankMXRo
+         hxg5yBiEw8JNKt3KYdtoFig3A0zG6/bC5O+8CkM78X29rlSt9bFFdgXVE625rkZJpwAP
+         +rCHn+xzTnKJZfGXpTXdHJFRJc3FGPE6MwLFfJdg3qSBmmrAA+EuSNRYaUSxyTFwc143
+         pn1w==
+X-Forwarded-Encrypted: i=1; AJvYcCUFdINTohxaFyOylnFmf4DntT795jdbzycp4c2Gy1VmsNdjIPkauxd+kcIEu5i0YV+ZxrvR77PSCSiwrOM=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyTBzG7ScCajXkIVhn0vLD16F7u8vBF3yPXBboWt8lCkN86cQ+m
+	+os8DaxJWqoM1kThNx7KxbB0F91gRQO/ANwWC5xHdMnKxuutXaFC6S/pcFmTLCm2J4WCWrDtEsH
+	rhNr7qhfOvhQY/n7BVbH1kzSyC47yLddsnkdU8w==
+X-Google-Smtp-Source: AGHT+IH1k+VS7+QOkdRfKiZ/ppDlZVYCrXPrQ0PrBFHAOvGlq7s9Ltc5V63YkuZv1c4KqrPzzDwk1k5PEzavj/a9qU8=
+X-Received: by 2002:a05:6512:12d3:b0:535:69ee:9717 with SMTP id
+ 2adb3069b0e04-539ab84a7cfmr8460693e87.3.1728396310565; Tue, 08 Oct 2024
+ 07:05:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20241008081450.1490955-1-billy_tsai@aspeedtech.com>
+In-Reply-To: <20241008081450.1490955-1-billy_tsai@aspeedtech.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 8 Oct 2024 16:04:59 +0200
+Message-ID: <CAMRc=Md4BOsdv=w+ju00X_R1Z_RAXz2vidVMrb7riaE2HoS9kw@mail.gmail.com>
+Subject: Re: [PATCH v7 0/7] Add Aspeed G7 gpio support
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=disabled
 	version=4.0.0
@@ -106,14 +88,13 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, Peter.Yin@quantatw.com, linus.walleij@linaro.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, Jay_Zhang@wiwynn.com, BMC-SW@aspeedtech.com, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
-
-On Tue, 08 Oct 2024 16:14:43 +0800, Billy Tsai wrote:
+On Tue, Oct 8, 2024 at 10:14=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.c=
+om> wrote:
+>
 > The Aspeed 7th generation SoC features two GPIO controllers: one with 12
 > GPIO pins and another with 216 GPIO pins. The main difference from the
 > previous generation is that the control logic has been updated to support
@@ -123,16 +104,11 @@ On Tue, 08 Oct 2024 16:14:43 +0800, Billy Tsai wrote:
 > register access for GPIO registers and the coprocessor request/release in
 > gpio-aspeed.c making it easier to extend the driver to support different
 > hardware register layouts.
-> 
-> [...]
+>
 
-Applied, thanks!
+I picked up the first two patches for v6.12. The rest conflicts with
+my v6.13 branch so I'll send the fixes to Torvalds, wait for rc3 and
+then apply the rest.
 
-[1/7] gpio: aspeed: Add the flush write to ensure the write complete.
-      commit: 1bb5a99e1f3fd27accb804aa0443a789161f843c
-[2/7] gpio: aspeed: Use devm_clk api to manage clock source
-      commit: a6191a3d18119184237f4ee600039081ad992320
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Thanks,
+Bart
