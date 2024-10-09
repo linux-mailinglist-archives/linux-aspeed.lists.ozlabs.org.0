@@ -1,53 +1,89 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A518E996966
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 13:59:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C09996A34
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 14:38:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XNryW1R74z3bqx
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 22:58:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XNsrZ2f0Fz3bgQ
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 23:38:54 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728475138;
-	cv=none; b=hGNhwa/m3+So1tMzWOFxow5EJyb5TrrlS39JMvEmDc41dflwEUC4SXImzS1LA95Cuu9OaZU4Jq6OuzB2Aq3M+G3zt4CXLzVZ74E5jtppRzHTlu6DffXj61hQNhfpHr0ibkR1tN80AUp3VkHhxtc8DCbrrF2ZKI5Wev2taxa2+mF8uCqTOGey4gvITXeE2CjsZbvVbBJgWiog+oPJxK+bmdeKTEmzghauF9bu4ztTfqHCKs0OIUfk9GiVxBgeDZbNjglIEzvgFaiGCfArndbq1XKB/2jpG9ikXI4ih9SoqYGWGTXs9zei3kRQtBPKn3nScIgyMqAPiYFCT5wjbPclww==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=212.227.15.3
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728477532;
+	cv=none; b=jCyCE3zLfxwloOY9peMp5D5jqxNkzxeO1fe7azii4eQoIKSVo9yxXfSzSy36qFUKcga+K2Ff2BtdS6CDNK/6lYaKPncM9/i7HqvLVyGwH/Iftt5OiRrxsI3ZsM4O0dkOR+uecEgxSCFRH6CTFC4FN09dxLGOtCwB0VateGCevhTY3NWSoI6QeW1DfM0UjRBQhhfLbHJ2bkvZAJBiJ1AObOQgu2QiPJKows+DGHg75/IX4pCHsrv/ntE7ERzlf8wNX0QAIVPouLQ/Nh72k7fw9xDl1xMX+J6/4Lj5mIo1w2ZuUfHbMaYShCGK+UIBPHBtdksZsqLUxJ8DsbRG9p0bXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728475138; c=relaxed/relaxed;
-	bh=dcGctEdfnav3lzXlhx7hUUiqGg9lXoB2XS+dXa6vD4g=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k4IvY3mME5veD0yAodfc0M7z4IBrCM0a8KtkLAjLzwatRCJAwrvnMo8N8/Iq6hm3MQKQA3Cxvs8hLVgnGaSOzN9gobDbndZDj9S2novNkA9YYc9bt49e18Neyeaf8BUW13I3lCaZ7BV+2TcsCwIQLs9IglzpeLKGwZeMRUigWviSqyXqPbRXNsmTG0B60nxRQfHXChj516l8CXtiUNogSO2khCetOq6ZSR2BNWRgsW53+3kieuwOTV+bcfqaWJ1J1Z8OltAx7nxjHRISDcO/TylZLoa95zmvr4KMS7kinLiEOanFP+MGZS70Ug85EeapD9G8APK+2eVUFM3s+EYFrg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1728477532; c=relaxed/relaxed;
+	bh=fTLC63/37zNTLhxxSZfbfT1jlj/UPeR+t+SxAKcPCzw=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Xj7AmmawTKTsW5OrcqyNfM2TRxzLpT8cOF6lL09b3CaOIQR3Lh30Uv/a0Kv8ttWxPi4ZNoaOpq3FDX2+4rKC33b9IbRY98StT1cGkuAypdGNb+RODi9iUIsqK14wqbuxNo5OfMqK7nTBAgXEvibrFz2A10Mk32igPm6tEwZDbBfDped+i4tcWzhrIGk5dr79whzUT4D5gtZO7zt+JEFc2bAdzVYHhPhtKnZrP9gMQTJZEDa2YpSpmhUDfLNBnfCDdSr86jDYFMX2IyzuF/QzrZCGdnwsaY+fDLBtT9iJgMPwkckDFnkJpUWMkDsqV0TPiCe0H0Y0CNYiNxvAv+lL0w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=PcBjIwdk; dkim-atps=neutral; spf=pass (client-ip=212.227.15.3; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org) smtp.mailfrom=web.de
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=PcBjIwdk;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=212.227.15.3; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
+X-Greylist: delayed 339 seconds by postgrey-1.37 at boromir; Wed, 09 Oct 2024 23:38:48 AEDT
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XNryT3Pqwz2x9N
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Oct 2024 22:58:57 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 9 Oct
- 2024 19:58:18 +0800
-Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Wed, 9 Oct 2024 19:58:18 +0800
-From: Kevin Chen <kevin_chen@aspeedtech.com>
-To: <tglx@linutronix.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>, <joel@jms.id.au>, <andrew@codeconstruct.com.au>,
-	<kevin_chen@aspeedtech.com>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v3 2/2] irqchip/aspeed-intc: Add support for AST27XX INTC
-Date: Wed, 9 Oct 2024 19:58:13 +0800
-Message-ID: <20241009115813.2908803-3-kevin_chen@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241009115813.2908803-1-kevin_chen@aspeedtech.com>
-References: <20241009115813.2908803-1-kevin_chen@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XNsrS6XnZz3bbp
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Oct 2024 23:38:48 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1728477516; x=1729082316; i=markus.elfring@web.de;
+	bh=fTLC63/37zNTLhxxSZfbfT1jlj/UPeR+t+SxAKcPCzw=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=PcBjIwdk3tMn8PLlKjkBftZJaEmmqBSh/QKpD7P+c4Nm78OXdqOrfxG4ou49XHiV
+	 u210qX+YH6PVR0P+0+zcEKN/ZgJhDQqESAGNxNM6zRLdGlTe+MTCKDWO+fBk3YZ2W
+	 Mesg85H7SFsGfROTT6lEFcpIe6ataXkK2SGBFSnpBw6nWC4X4DwTf11XwqZqDBKn5
+	 LcIXu61x2o1JoClfrD4V8LK0JYMO3+3QRbrr9jgQ0g/lIo3QrvNoRTmpW1i5Eifg6
+	 Ni4kxzxmH7ddLULx+tnqUBGfXfH4pD9JN6e30IREz8181n2NY4FnFhZPR9RqXxwoh
+	 swS3gMCNBweyJdW2XA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MYLig-1tSde13LgA-00Vu41; Wed, 09
+ Oct 2024 14:32:15 +0200
+Message-ID: <f65dd139-1021-47d6-93a1-1477d6b4ca1d@web.de>
+Date: Wed, 9 Oct 2024 14:32:10 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+User-Agent: Mozilla Thunderbird
+To: Kevin Chen <kevin_chen@aspeedtech.com>, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>
+References: <20241009115813.2908803-3-kevin_chen@aspeedtech.com>
+Subject: Re: [PATCH v3 2/2] irqchip/aspeed-intc: Add support for AST27XX INTC
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241009115813.2908803-3-kevin_chen@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:PCpmLz+Zi0O7z1Jgav1HZtP81S2dqF8GZsxRQVqHNWM4Mor8A4k
+ /EEuB9727FeHAmnW7fxJoJePoxEYlN9j9IYWCGumLgQOwzkHTXiTWxdI3xHyO36MQFrr+ax
+ pqY0vQPOReTPPYQcsQqIbZLzEmqB7p5WbvOh/MrlpSwh7VfFyUIthzeK0HTOZzFeQ1I1bxX
+ nnK5zBJYtsUNLnhNRNUOQ==
+UI-OutboundReport: notjunk:1;M01:P0:wsqpkoe0vmI=;+jvXbhIEXMKNQWK6usRU7BVI8Cl
+ pZXXRqJ893U4uqFiMCFMh7Jx1EmwkuuDWZTwsYO4yDOXAPie3Y7Eq17FiW2TEyvw6voEoOgHQ
+ X6P2tp0nUYRnKBva7LfcSJawMuIqIjU5QTJ9dQ6YabVxTYL8GRFTrqUMhNBUqul6dVjfeng6r
+ JLvSNzYevl0iFODxu/kNtsa9kOhCXTd2qG/aWb1EqxZwuipPsz7YejQFrafGEO7tr0rfcGn0X
+ k4AJgSttDRmBDr6eg6Ey7ebIPcIjGlEhpP5pB5rAzw8VZNYNOY/aOWHv3HR2V0/E3QdsTvI8I
+ PgoksQwAOgAZi+7ODzbxCKPKEQL7Z7SYqRPR+MAAG9lsJ+2W1FqnoAljpdI/MWflOTQZt6xnf
+ V+JQ6IDVrtnrJufJoZlZPblTANQa99xmVcwYBJCYKOV42qQ5jTA5mrsgSisF3HXQZLqWjqLF8
+ GIp0lbzc5f0C5+QUY3mZ/OKniWSMy2IcvmynxJ+YUfwda743f6n6+aS9LjhhP/CXT3pc61CEf
+ LYOA40+uawzKvcTL6/6T6O8RVYwJ98jT3efpODkCGRPxtRZn52MtyBVNL9K7u+zq0KQ1QxmZp
+ MT86f5twCHKDfm8K5MHfgkclA9ClaJA8XoGJpOylUduP9V3qE/DXw7hu9CKNWwtjhtyg/LRNZ
+ 3hgAnjUtdnKUZxOqtrwIVIrrdEdB/C3lGDX1vSbhyZWbpaL9gjANbRr46zT4/ji0KQinjV9qK
+ qw/oexg2eB5JT3P5BoS7aI2QHDzIVfi6+iyxCouNxg5ovCEp7V8Xo/38CDKFiCwDOEFMWkIW0
+ 6hZcjVQeJJxksVfrbboVBq/A==
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -61,177 +97,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Support for the Aspeed Interrupt Controller found on Aspeed Silicon SoCs,
-such as the AST2700, which is arm64 architecture.
+=E2=80=A6
+> To support ASPEED interrupt controller(INTC) maps the internal interrupt
+> sources of the AST27XX device to an parent interrupt controller.
+> ---
 
-To support ASPEED interrupt controller(INTC) maps the internal interrupt
-sources of the AST27XX device to an parent interrupt controller.
----
- drivers/irqchip/Makefile          |   1 +
- drivers/irqchip/irq-aspeed-intc.c | 139 ++++++++++++++++++++++++++++++
- 2 files changed, 140 insertions(+)
- create mode 100644 drivers/irqchip/irq-aspeed-intc.c
+* I miss your tag =E2=80=9CSigned-off-by=E2=80=9D.
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv6.12-rc2#n396
 
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index e3679ec2b9f7..086911bf4db6 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -84,6 +84,7 @@ obj-$(CONFIG_MVEBU_SEI)			+= irq-mvebu-sei.o
- obj-$(CONFIG_LS_EXTIRQ)			+= irq-ls-extirq.o
- obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
- obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o irq-aspeed-scu-ic.o
-+obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-intc.o
- obj-$(CONFIG_STM32MP_EXTI)		+= irq-stm32mp-exti.o
- obj-$(CONFIG_STM32_EXTI) 		+= irq-stm32-exti.o
- obj-$(CONFIG_QCOM_IRQ_COMBINER)		+= qcom-irq-combiner.o
-diff --git a/drivers/irqchip/irq-aspeed-intc.c b/drivers/irqchip/irq-aspeed-intc.c
-new file mode 100644
-index 000000000000..ef1c095ad09e
---- /dev/null
-+++ b/drivers/irqchip/irq-aspeed-intc.c
-@@ -0,0 +1,139 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ *  Aspeed Interrupt Controller.
-+ *
-+ *  Copyright (C) 2023 ASPEED Technology Inc.
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/irq.h>
-+#include <linux/irqchip.h>
-+#include <linux/irqchip/chained_irq.h>
-+#include <linux/irqdomain.h>
-+#include <linux/of_address.h>
-+#include <linux/of_irq.h>
-+#include <linux/io.h>
-+#include <linux/spinlock.h>
-+
-+#define INTC_INT_ENABLE_REG	0x00
-+#define INTC_INT_STATUS_REG	0x04
-+#define IRQS_PER_WORD 32
-+
-+struct aspeed_intc_ic {
-+	void __iomem		*base;
-+	raw_spinlock_t		gic_lock;
-+	raw_spinlock_t		intc_lock;
-+	struct irq_domain	*irq_domain;
-+};
-+
-+static void aspeed_intc_ic_irq_handler(struct irq_desc *desc)
-+{
-+	struct aspeed_intc_ic *intc_ic = irq_desc_get_handler_data(desc);
-+	struct irq_chip *chip = irq_desc_get_chip(desc);
-+	unsigned long bit, status;
-+
-+	chained_irq_enter(chip, desc);
-+
-+	scoped_guard(raw_spinlock, &intc_ic->gic_lock) {
-+		status = readl(intc_ic->base + INTC_INT_STATUS_REG);
-+		for_each_set_bit(bit, &status, IRQS_PER_WORD) {
-+			generic_handle_domain_irq(intc_ic->irq_domain, bit);
-+			writel(BIT(bit), intc_ic->base + INTC_INT_STATUS_REG);
-+		}
-+	}
-+
-+	chained_irq_exit(chip, desc);
-+}
-+
-+static void aspeed_intc_irq_mask(struct irq_data *data)
-+{
-+	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
-+	unsigned int mask = readl(intc_ic->base + INTC_INT_ENABLE_REG) & ~BIT(data->hwirq);
-+
-+	guard(raw_spinlock)(&intc_ic->intc_lock);
-+	writel(mask, intc_ic->base + INTC_INT_ENABLE_REG);
-+}
-+
-+static void aspeed_intc_irq_unmask(struct irq_data *data)
-+{
-+	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
-+	unsigned int unmask = readl(intc_ic->base + INTC_INT_ENABLE_REG) | BIT(data->hwirq);
-+
-+	guard(raw_spinlock)(&intc_ic->intc_lock);
-+	writel(unmask, intc_ic->base + INTC_INT_ENABLE_REG);
-+}
-+
-+static struct irq_chip aspeed_intc_chip = {
-+	.name			= "ASPEED INTC",
-+	.irq_mask		= aspeed_intc_irq_mask,
-+	.irq_unmask		= aspeed_intc_irq_unmask,
-+};
-+
-+static int aspeed_intc_ic_map_irq_domain(struct irq_domain *domain, unsigned int irq,
-+					 irq_hw_number_t hwirq)
-+{
-+	irq_set_chip_and_handler(irq, &aspeed_intc_chip, handle_level_irq);
-+	irq_set_chip_data(irq, domain->host_data);
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops aspeed_intc_ic_irq_domain_ops = {
-+	.map = aspeed_intc_ic_map_irq_domain,
-+};
-+
-+static int __init aspeed_intc_ic_of_init(struct device_node *node,
-+					 struct device_node *parent)
-+{
-+	struct aspeed_intc_ic *intc_ic;
-+	int ret = 0;
-+	int irq, i;
-+
-+	intc_ic = kzalloc(sizeof(*intc_ic), GFP_KERNEL);
-+	if (!intc_ic)
-+		return -ENOMEM;
-+
-+	intc_ic->base = of_iomap(node, 0);
-+	if (!intc_ic->base) {
-+		pr_err("Failed to iomap intc_ic base\n");
-+		ret = -ENOMEM;
-+		goto err_free_ic;
-+	}
-+	writel(0xffffffff, intc_ic->base + INTC_INT_STATUS_REG);
-+	writel(0x0, intc_ic->base + INTC_INT_ENABLE_REG);
-+
-+	intc_ic->irq_domain = irq_domain_add_linear(node, 32,
-+						    &aspeed_intc_ic_irq_domain_ops, intc_ic);
-+	if (!intc_ic->irq_domain) {
-+		ret = -ENOMEM;
-+		goto err_iounmap;
-+	}
-+
-+	raw_spin_lock_init(&intc_ic->gic_lock);
-+	raw_spin_lock_init(&intc_ic->intc_lock);
-+
-+	/* Check all the irq numbers valid. If not, unmaps all the base and frees the data. */
-+	for (i = 0; i < of_irq_count(node); i++) {
-+		irq = irq_of_parse_and_map(node, i);
-+		if (!irq) {
-+			pr_err("Failed to get irq number\n");
-+			ret = -EINVAL;
-+			goto err_iounmap;
-+		}
-+	}
-+
-+	for (i = 0; i < of_irq_count(node); i++) {
-+		irq = irq_of_parse_and_map(node, i);
-+			irq_set_chained_handler_and_data(irq, aspeed_intc_ic_irq_handler, intc_ic);
-+	}
-+
-+	return 0;
-+
-+err_iounmap:
-+	iounmap(intc_ic->base);
-+err_free_ic:
-+	kfree(intc_ic);
-+	return ret;
-+}
-+
-+IRQCHIP_DECLARE(ast2700_intc_ic, "aspeed,ast2700-intc-ic", aspeed_intc_ic_of_init);
--- 
-2.34.1
+* How do you think about to choose an additional imperative wording
+  for an improved change description?
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv6.12-rc2#n94
 
+
+=E2=80=A6
+> +++ b/drivers/irqchip/irq-aspeed-intc.c
+> @@ -0,0 +1,139 @@
+=E2=80=A6
+> +static void aspeed_intc_ic_irq_handler(struct irq_desc *desc)
++{
+> +	struct aspeed_intc_ic *intc_ic =3D irq_desc_get_handler_data(desc);
+> +	struct irq_chip *chip =3D irq_desc_get_chip(desc);
+> +	unsigned long bit, status;
+
+I suggest to reduce the scopes for three local variables.
+
+
+> +
+> +	chained_irq_enter(chip, desc);
+
+Would you become interested to collaborate with another scoped guard
+for this programming interface?
+https://elixir.bootlin.com/linux/v6.12-rc2/source/include/linux/irqchip/ch=
+ained_irq.h#L13
+
+
+> +
+> +	scoped_guard(raw_spinlock, &intc_ic->gic_lock) {
+> +		status =3D readl(intc_ic->base + INTC_INT_STATUS_REG);
+> +		for_each_set_bit(bit, &status, IRQS_PER_WORD) {
+> +			generic_handle_domain_irq(intc_ic->irq_domain, bit);
+> +			writel(BIT(bit), intc_ic->base + INTC_INT_STATUS_REG);
+> +		}
+> +	}
+> +
+> +	chained_irq_exit(chip, desc);
+> +}
+
+
+Regards,
+Markus
