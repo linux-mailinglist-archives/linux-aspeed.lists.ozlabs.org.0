@@ -2,88 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF49996AF3
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 14:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEEB997743
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 23:11:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XNtG06gwQz3bhD
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2024 23:57:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XP5Cv2syMz3bkc
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2024 08:11:23 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=212.227.15.4
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728478647;
-	cv=none; b=QKl+P4CX1FZwwOcyzECdC4h7xAv1cTkTTHqEONDb/zfOI4nCC+0T5+Wh+UoZD6M3zygrDAumcxBL9xClYxYZlHi1NXoEzxdcT6qQ6z+brtcvqJriVgB5zbFSAUn3abJX1H2gXRv/8oak1lYxh/iYTl1FXx2XfNo3LjOrqYxcXH8O+gJ3FbA7ZzG/czp3E2qEl2hkwm3cDbcavyIFHrrDv3TI0spimj+PMSLr4Rl5MQNV2vEktW06Hzdw3ZpEAV/EeIRdwgtcwJWAJ7Dnj9NV0/f2R9dkbwlRcyEZxPO3WGeogjEs0r7qipA9aolmHivwQXO7lnOsXSaVAhlwLnc+7Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728508282;
+	cv=none; b=ZTQQL8+wLiibyPWUNqe/Jn9STDmzzvNljYf5gY3XyC9uMtLM/YpgU4rFu2NLQ96wrIFXLmVLu01fd6MzOrPcj/6t92XZojf1F7kyJRKQfazwOwFzwRly/CYxjgE/FzOTnhoX+QjH9PORUuQ6FPKMF2QOXfWbcXW2ZC7PciAfQEbt30qSNxurp7Aq4+2ToxQC2mYpw8uqU91zi9XhHAuAexmIX7qAoatzN8qB9C2Pg0MxJNBeObPKqt3jzBYaGojkhPr4aTqgC/97Jmw2ELC+3jDHQzSHDTog5fmk4Aqddo6uhObnJ8WXKQFRj3lMlubjtBJl9tXReijFDNOghO8kig==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728478647; c=relaxed/relaxed;
-	bh=12KnPFDUcHIAcww2+I8DcbudLGNI7zh4KnfAgouCgWo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=YlmabclX5z7DLvTa6nzCO4rRxkfd1kQ/RHK5agSP/SJqBg6sgJdFQNh4ZJ7BiHiMKD/DR/RmRyLArYgzJkdJrHU+yoJKVD//nb7ux3/L4/lAIapwOMz2+XYwpDnYPunGjahIeFuooFcD8uknDiI41JB6NtCXen1OVGnK6ZKx7isVgA7Wnr9Ck/mbm1C99zOpK+u5RF8upmoKGdxmaZOZNsCYlEoQU4VPflgXAPXYS9AS+OfLX6BiOUHGps1SWZVP3lPI/itrwVFPIKoJQFwGxNEYMmfSBfxmNZ7Yn9vRCU5H9Wza9AGlYqRu6ZXzo5tfNbW9rt/6bUFNQ3BVb+qAcQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=lEaGy5bf; dkim-atps=neutral; spf=pass (client-ip=212.227.15.4; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org) smtp.mailfrom=web.de
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+	t=1728508282; c=relaxed/relaxed;
+	bh=HtmrrjWLt/XYMKSHKXvShEhTnkV/YFhRLlOyxU6uA74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XO3CwFC96r82FZgq8+z1dz5+6MWBXwwDpzy8ZhjBttFr07Gfit9MHsxXlxwP+UE8GQtGnOUG+NjebsQONVgVCUrDj/zlruWiWcyVi7vfyawOFJHyRNSzhISFAtJqXnInlJe+sYnFGnyEAM9OGWxfAL4Qq+Ul+O4mrgotuH+aFz+lR+rf26Riq/CiahV22YHIG3cpvfLYzbNWD3SYjEix1fp1qkkB2Tiz1uGG1klhVH3URzekHggsmgACabXmqsWSkGMUNupREIYWhqPJfzFIliuKgKRdqxOz74A9VGT0qLL9jLq8qUqZ1nFauNeOfokzVtc0ciZniDkVkCDL0oChFw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AGgRIQKN; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=lEaGy5bf;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=AGgRIQKN;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=212.227.15.4; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XNtFx4rnhz3bbS
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Oct 2024 23:57:24 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1728478589; x=1729083389; i=markus.elfring@web.de;
-	bh=12KnPFDUcHIAcww2+I8DcbudLGNI7zh4KnfAgouCgWo=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=lEaGy5bfWxQswVAdhsDpDFkkTIqJmEzFyphANNLMR99hGQtrGL/+rEGlQd/7Qbzw
-	 fNEilCw/jJrohMNMY/HHRNDoObod6goOPC8iCuQpEWv0cSOYAKPU5UHI1GWNLReOb
-	 O9PfaeRWKbDMVK+rHpmXexd6QSVkbe/qazG46GBpFfI+OPhsAZQJJf4pyxQrVELV+
-	 pGgLriBBvn7lyAewdfkYl7pkVCVJdwRzMfJ0j5PvrwZCd0oQbjsWJ9vf/mhWvQhB5
-	 BzQ+1fjT2wJJGPsoldWR5xZwCEjz8Qj45kOOZy9+LyposQn+ZiIO1uHaFLTjGJlVE
-	 C+rY2F5q4bdoMT77ZA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N2jWK-1tzEjB1B3E-012VnT; Wed, 09
- Oct 2024 14:56:29 +0200
-Message-ID: <f972f6bf-fd76-45c7-9812-3adfb49264a0@web.de>
-Date: Wed, 9 Oct 2024 14:56:28 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XP5Cr6qccz2xs7
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2024 08:11:20 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id DC49BA445A1;
+	Wed,  9 Oct 2024 21:11:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B49C4CEC3;
+	Wed,  9 Oct 2024 21:11:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728508278;
+	bh=2qQdeHWaX+qTxGR0KQZi4qkIcfoXEQWS9Egj0Q4nlf4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AGgRIQKNVPuCm/Ouid8MPqRKI3K90ejJcdcKpPB8YxRDkqFsG64eUWGa0uYxlxayn
+	 RYHOso+H6e9C0KlL6R1BFsrZrlFp3dFPkB5vhaHIP0VLr3K6IsTxzHwqOPbM5sLTcE
+	 b/Ak83oCC9ep8LThG1oxTmU3ai+ewYmbl7biY9noBbyiWXVtwV10kQeZNyD68oqSA1
+	 pHDyLzQu6dqBXY5K9ir2ySoTRPwfS7ArseORsVHhGLh079BfQY3AAsf4zu/vC7fHzR
+	 FY8xZ2aXkhG7p4yMWUH1QyMHqcgUmPHmlqEdax0MwsK8ZsW0KQB5pWyZzPyTDy/oj7
+	 v1Ef5s59J/75A==
+Date: Wed, 9 Oct 2024 16:11:16 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kevin Chen <kevin_chen@aspeedtech.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: interrupt-controller: Add support
+ for ASPEED AST27XX INTC
+Message-ID: <20241009211116.GA676770-robh@kernel.org>
+References: <20241009115813.2908803-1-kevin_chen@aspeedtech.com>
+ <20241009115813.2908803-2-kevin_chen@aspeedtech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Kevin Chen <kevin_chen@aspeedtech.com>, linux-aspeed@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>
-References: <20241009115813.2908803-2-kevin_chen@aspeedtech.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: interrupt-controller: Add support for
- ASPEED AST27XX INTC
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20241009115813.2908803-2-kevin_chen@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QPSId2FJjr8d/zGGwvi81dsHFZUVZrokECT2AEGipMXrJZRxCIP
- bh3fhkQnkfTo042vGl7scsgu4wmtzSpeMZTTvFZhdT2a3fY4Z0LXQILqu+YjcZ+vyhEwB4E
- NyZvcpSOs4PrkbI+7V7jHrmCKsEQc4AIPB+vld+JUCtC3m8u25GlaNbeiI+B6vH6UmnroGw
- qjP3A2mTy4yHv/i/8XmJw==
-UI-OutboundReport: notjunk:1;M01:P0:MlHg9LH74c4=;p7TF+U+OKTfvFWA5a7gk23ZDyeR
- 2+1U3vUasDEAR3q/+qpuNYUbHl5LhBayl3vU/15fV6c7ysSWWOxOyN9vlqcB/4Ojw/W+ccf9O
- 0RecdolgzKkbpmJgCWl8OyStzBkWV5MAIS901CIHgIYQzeTnonVXxVJjrVzb2vQysqW1TIy9a
- q7pO4lOxW5JJ0FiihNrfWPTECEPbLQdTlCuKAv6281QxJxsC82X06sJ1ABWEncBujjF9pRIxw
- LR4tQcGMdV72pQKluwc1MJ0jselMonPN+7+G/z3l5gw4q4wdRcFsN3ZRldGWwOvKu90ciPuvN
- WTAMY6sXIZTHz3FLFBDoSG34xrzj08xP/ft9WpHyKcm88FL1HStldSyPUSOuntbC2kMEkcMkt
- P+xYkKX470kVJJUpLwcwzVRULuBQy/e5JFYWLKC3GBZmWWVHYS3IOcYWy1Be40Qsnq7sDPkfU
- 48jzvfeScAd88Hyb11t6h16Dtm8B39tkKs51M/SrGbQnOWgL7JR+ZKJ3NoZ283tLLuE6uj9+u
- cojdxFYEgdSDYO/taVjovqF3nhqNSmf5Jz7uZtGp/Dw1zitm+JjQ1dag+8URqKr3nXSLmKTac
- sLq20YRbaJsdo7nKiAVox27kwG1/0C8EM2PMlP/a3+B6Be4/60yO2G7mgqZyjALSd4EurARbh
- bCqt7VM0vI/4//uCfyhhrK4vm3xOpj3p/vATYkey320ZprrV8u89zSCxWbZvI+rlIPRdyVOwE
- NFUUDyx7HLejwMEA460uT5BC1GIo4lUQnJndHSyJpRC7pRoWf/GcPHGf5KDcFdWmnFeYO4vwk
- OxFXE12YxJWviBvqijPEf4iw==
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-0.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -97,19 +71,128 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, tglx@linutronix.de, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, Oct 09, 2024 at 07:58:12PM +0800, Kevin Chen wrote:
 > The ASPEED AST27XX interrupt controller(INTC) contain second level and
-=E2=80=A6
-                                                contains?
+> third level interrupt controller.
+> 
+> INTC0:
+> The second level INTC, which used to assert GIC(#192~#197) if interrupt
+> in INTC1 asserted. There are 6 GIC interrupt number(#192~#197) used in
+> one INTC0.
+> 
+> INTC1_x:
+> The third level INTC, which used to assert GIC(#192~#197) if interrupt in
+> INTC1 asserted. There are 6 GIC interrupt number(#192~#197) used in one INTC0.
+> 
+> Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
+> ---
+>  .../aspeed,ast2700-intc.yaml                  | 87 +++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
+> new file mode 100644
+> index 000000000000..650a1f6e1177
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
+> @@ -0,0 +1,87 @@
+> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Aspeed AST2700 Interrupt Controller
+> +
+> +description:
+> +  This interrupt controller hardware is second level interrupt controller that
+> +  is hooked to a parent interrupt controller. It's useful to combine multiple
+> +  interrupt sources into 1 interrupt to parent interrupt controller.
+> +
+> +maintainers:
+> +  - Kevin Chen <kevin_chen@aspeedtech.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aspeed,ast2700-intc-ic
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 2
 
-=E2=80=A6
-in INTC1 asserted. There are 6 GIC interrupt number(#192~#197) used in
-=E2=80=A6
-                                             numbers?
+Describe the meaning of the cells here.
 
+> +
+> +  interrupts:
+> +    maxItems: 10
+> +    description:
 
-Regards,
-Markus
+You need '|' to preserve formatting.
+
+> +      Depend to which INTC0 or INTC1 used.
+> +      INTC0 and INTC1 are two kinds of interrupt controller with enable and raw
+> +      status registers for use.
+> +      INTC0 is used to assert GIC if interrupt in INTC1 asserted.
+> +      INTC1 is used to assert INTC0 if interrupt of modules asserted.
+> +      +-----+   +-------+     +---------+---module0
+> +      | GIC |---| INTC0 |--+--| INTC1_0 |---module2
+> +      |     |   |       |  |  |         |---...
+> +      +-----+   +-------+  |  +---------+---module31
+> +                           |
+> +                           |   +---------+---module0
+> +                           +---| INTC1_1 |---module2
+> +                           |   |         |---...
+> +                           |   +---------+---module31
+> +                          ...
+> +                           |   +---------+---module0
+> +                           +---| INTC1_5 |---module2
+> +                               |         |---...
+> +                               +---------+---module31
+> +
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    bus {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        interrupt-controller@12101b00 {
+> +            compatible = "aspeed,ast2700-intc-ic";
+> +            reg = <0 0x12101b00 0 0x10>;
+> +            #interrupt-cells = <2>;
+> +            interrupt-controller;
+> +            interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 193 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 194 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 195 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 198 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 199 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH>;
+> +        };
+> +    };
+> -- 
+> 2.34.1
+> 
