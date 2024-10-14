@@ -1,182 +1,153 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD2099C6F5
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Oct 2024 12:15:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7D199C780
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Oct 2024 12:51:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XRtQr4Rrhz3brv
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Oct 2024 21:15:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XRvDQ6YzTz3blN
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Oct 2024 21:51:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f400:feab::72b" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728900931;
-	cv=pass; b=hpHy+L0F78jsu/k8zCAEggfFxuVgBHXsqFhURtn549xSQFSMNnCSr0Dm1r17r/MGuqtdt6IGoKzwRPaY3K1rU9jIgdU+uVIsbI/26R3FuusyBUGsGDgnLLQei3IWx9B6FPi3BAD+lghDcw1v9QosVjqcOVMynY5e5WHKpTY+3MzWXpZ2S4nd1tcj45ZhlHm7wcyQHzuVsiu5vooPMuCcoG/KjNaEfXATtNEWTgN4tb80fcaOz+clyYhSEDc+sggJFcJfuUrxtBCe4McrGrfaeNYePpt+iKtlll58hxAWjYxQdayWmngS2gr1ok8HbDWUZ3yGYQP4p7pBmZwkkq9j3g==
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c111::5" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728903093;
+	cv=pass; b=H1SU8TawRLneYJOQ4qdtcWfcyFAJhEB1PlfxM0W7SfNuhKo4Sg+d+K6P6kkKnnn89R+DLKoYEPE1cX1kPj97DV/1MyVNe+AyKVRSN31KEo+qMcUx910D1mVmLlDSIc4rbVihEiX7To802+o9M0H1q7aOicIdk+fBlGz0MiiX9sL0TrFJgPC6FHNpgtBKi6vDJO7YncbCO6Gne5Q+3GtC/ednLYYaFm448Mv53ASkpo7dS8vvFPQNvbYkevxpxgEgDuuOYSBI2FznFyoKwS5SrgqH6CwOpnN8w4g1LDk0mNu3PFzlOlttbsxtk2sIShfV8x2/u5ni5gSE+scBDQTTeA==
 ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728900931; c=relaxed/relaxed;
-	bh=DgYCRy/Se5vcMAXjTPul/kFvfVX7euoMrHsx5kAwaCg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=i72xtT2BS7lhw/4/VpaYrXM+1OFsiwxlm1emiqCrcnliFLXnzYqcu3VdvOz5Efr1ex9zoeq/ynw45OvaAZswLU1CK2Q39EbTyzUlp0Sb529JvZBm2eH0zXHiW2wXSscWCkmR+Hs1FRr5emQpiticWLHMniY1tg4mzWKM4OAO2KSHP4pLPQOWd9+4OvycOTGZD+ZHYzZuQYEgsJLfnlus+A1I+0LoHhfhkqFWMeEFc1kaZ/9DLp1Mz6H2+WpfxkxPIi87RN8PHExOkBQ5RnQ7rAeBaiSkC+DChOkY0Yx2VLzjcVL4X8KyMTWp5fpAV7gWDiJwBzgu8lPycuBGsiHreg==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=SN2DZ4Um; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f400:feab::72b; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+	t=1728903093; c=relaxed/relaxed;
+	bh=HinHxHotdiGULVOLe7BS6hh6xf1Ebz9EgyyDEKVh0WM=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ShzHURYVku4wr6nf8f9AqSTensBzF/fFUP9DlVxo9U/FueoaJ2SChFPEHOCrw6THUppJBHuiwvbHTfnLuKx7CDY5K2ubAScbsFjjuhi76CwUwAbukW04r+/terP5RSVlAdkYsDUIQuUaV8fW6cDuY9dObwzn/PLhslBj+8tVZGKF8dS5DslaIDxDfCUrlBbG8o+Qqs42t96lDLIwN8WA35AHa6OoF2egxV1ke+3yqTGx0QqaE/HgzBYpLpRCnQWs4M9AqI0jZ5Uy0r9bf0BSBC3MQBYhexFq/y4fat38UqUkZeSjrXDFbOPcWim3Qn5fA2W00XatticGxDkcAdNWNw==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=i9ThdZLb; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c111::5; helo=dm1pr04cu001.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=lists.ozlabs.org) smtp.mailfrom=os.amperecomputing.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=SN2DZ4Um;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=i9ThdZLb;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::72b; helo=apc01-sg2-obe.outbound.protection.outlook.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2072b.outbound.protection.outlook.com [IPv6:2a01:111:f400:feab::72b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f403:c111::5; helo=dm1pr04cu001.outbound.protection.outlook.com; envelope-from=chanh@os.amperecomputing.com; receiver=lists.ozlabs.org)
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazlp170100005.outbound.protection.outlook.com [IPv6:2a01:111:f403:c111::5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XRtQl1qPJz30MR
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Oct 2024 21:15:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XRvDL4kMnz3bmf;
+	Mon, 14 Oct 2024 21:51:29 +1100 (AEDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gID6buWhFRFyID3ZTQZNzhWtlITkKJAFTusSEb2nGVlblWSjgvMfg9KznotdjASIAD0IO0aC6VNAJfimUtyhv1ro+MtTUGXwYdBI0G8T9X8o7OFpcBThISaO5q9rXG1+zRmOF4Zy9ASMgtA8hYOJD30cknBg3Ad9INcINAzLUi3qxdz70rgxDOZftG2qz8l24Dqmhzj7TIfUvbLH5VxasO0uOG47LjvEuD3mwAydA2CATKLMZ3je3OZOfQsOe3mjDzbmCmJJkavq1Jf2gUFfpSCQ0oMT2aAt9URU+WRL40/cCfuhDtZpiAWavv/hZL+JhCWcKxXYo3YRAGHEa9VrFA==
+ b=HUEk9dvKoreks8LaHxMWhn2pc0KeV2xsFZr3c01BwcyMYdwQFBW7BWSGk+Wnn1forX8lpxNybtBWiY4Yb50qsnyD/PyFGTPwfKsDuatAB6Etv8ZLUr3fkEl15lRtTMpxl3amYxKJ0ECzex1O7cS6Kut2oSs7jdkQTOvz2WBDdJrra+R6s5Eu4PZ0B3sKoOHLoE97wC+Y413DEgM/L+uoC7P70OlteljObFrn+XhfhWZAwMoGRSyMAnLJHNj64cx0tOZvTCvGLVqI5OPKWfa1zezt/OBmWVEKeJK8mSnPApD2W5HfhHCfxOCVa3bxcd/BqfclQgmBpu6YqDi1nXhOmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DgYCRy/Se5vcMAXjTPul/kFvfVX7euoMrHsx5kAwaCg=;
- b=RsaQefWNVc5oXeXX0pRSgV0pxInGkfLyMJhteiX4vnX43p8MLLIWfTU7JfIiQLwEsEtaXMG9vgMJZKLPDX6kZEtiol9KGuXurkC5aKT7P+MXTug6cFfw45OcNEII7IcV6IyU8SDuD8+CXY7Lxq3K1AeouixDEHz9SLlovnPKJkSPpYuPBiJj8GlPPnZrUetBCq5rqbEs4Wy5Dcj1ZwTklvaw9/jP4mlwfmz13clgXQ9uPZj3LX9Kdg8Y0PLJb19Hoy7QZclAm6rIAZ6dD/5WKj+jNtWoYQ2oU9kJV1a0/pNCqCIoXEyjPmOMFQY+t+VlV41cnNRlEcAh3+Hh094zDQ==
+ bh=HinHxHotdiGULVOLe7BS6hh6xf1Ebz9EgyyDEKVh0WM=;
+ b=Lmhgb2Y2SaCfWOSzGnJbx7UouS2BJewggbUinubKECik5VrwIvpOVbUL+/q0H09nTQA2EsetwsS2cERx9KRXNnE8MQE1Kx2XRCh+n4St5Qj1o00TedBD1EmLAstP88R8Me8eDJg3XMWm8x4TfE5NAhXUdCGLSoZlwJVhLTkLDkVe0c7/zvtYEAh7i2W1u/9pxQXLWqeco0LFwBBi/4PQy0inzhgrqj4PnoIeZ8izhkVJ6hbkmh9m/cdeL4t+V2hnDTm0vcgSfz64mNDD5/6YHk8ZAs+7oZCQN5Q5ikkVxt+LZZOWwdHVezKnaNFpUah/HQpU24+cyM+gGcUMGsM6xw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DgYCRy/Se5vcMAXjTPul/kFvfVX7euoMrHsx5kAwaCg=;
- b=SN2DZ4UmrfmxMvifDk/rP343JENVwRT0TOJKQbM0SUPRuAQNGCcgAjp135Jd2r092+aFREyU90/fyHxfuMx2sXVeYu9CwYptxI6du7WVfm6aHJ+wx+K8CAmT1Gd8XJ1hK7OdNlqeYOeCmZYylJu15p73Ed1RHM2f3wvyW/uJZId2JD0VbdXQx0ptxi28fy4clJorFgi9OZoklKKSWlV6G/2MK6kUcExuGymL7/5YTefoUw5Y9U8d/3UMep+wp+wDQpo9v2VE5yRhbkOanBtk4iczIKcAF7MOd/i2UgB0b061V2Av8RuEKN4HvTkWeWgCQEuz7NgQKFTNEqNWVw6+HQ==
-Received: from TYZPR06MB5203.apcprd06.prod.outlook.com (2603:1096:400:1f9::9)
- by TYSPR06MB6504.apcprd06.prod.outlook.com (2603:1096:400:477::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.15; Mon, 14 Oct
- 2024 09:58:53 +0000
-Received: from TYZPR06MB5203.apcprd06.prod.outlook.com
- ([fe80::b7e4:5d25:213:ef9b]) by TYZPR06MB5203.apcprd06.prod.outlook.com
- ([fe80::b7e4:5d25:213:ef9b%3]) with mapi id 15.20.8069.009; Mon, 14 Oct 2024
- 09:58:52 +0000
-From: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "patrick@stwcx.xyz"
-	<patrick@stwcx.xyz>, "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
-	"linux@roeck-us.net" <linux@roeck-us.net>, "robh@kernel.org"
-	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "joel@jms.id.au"
-	<joel@jms.id.au>, "andrew@codeconstruct.com.au"
-	<andrew@codeconstruct.com.au>, "linux-watchdog@vger.kernel.org"
-	<linux-watchdog@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 1/4] dt-bindings: watchdog: aspeed: Add property for WDT
- SW reset
-Thread-Topic: [PATCH 1/4] dt-bindings: watchdog: aspeed: Add property for WDT
- SW reset
-Thread-Index: AQHbGILwQgrDNDHU9U+K+QITBzViybJ625kAgAqiwiCAAFwqAIAAMhFA
-Date: Mon, 14 Oct 2024 09:58:52 +0000
-Message-ID:  <TYZPR06MB5203836945655EBFF667417BB2442@TYZPR06MB5203.apcprd06.prod.outlook.com>
-References: <20241007063408.2360874-1-chin-ting_kuo@aspeedtech.com>
- <20241007063408.2360874-2-chin-ting_kuo@aspeedtech.com>
- <6bb599b4-141c-43a5-8b9f-4cf6ca6c3384@kernel.org>
- <TYZPR06MB5203B274C68C34FD478EA162B2442@TYZPR06MB5203.apcprd06.prod.outlook.com>
- <e53369a9-c205-4297-b151-7a1e61d8459f@kernel.org>
-In-Reply-To: <e53369a9-c205-4297-b151-7a1e61d8459f@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB5203:EE_|TYSPR06MB6504:EE_
-x-ms-office365-filtering-correlation-id: 204d07f9-443e-4a33-00ab-08dcec36cf0d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:  BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020|38070700018;
-x-microsoft-antispam-message-info:  =?utf-8?B?bzVrVmR5WnBQVVdKamdnbEl5WHZlRDJUbUhKRFdLVC9RZVp0WlIzLzNlMnhm?=
- =?utf-8?B?UnFhd1g1b3ZYY1gwQVJ2WW4zalU4SHJEbTBGYWRud05TQkxaekdYazRQeVh0?=
- =?utf-8?B?Ykg3cllZRkxqckpwdVQyaUVBSUQvWGs0KzZST01ZOHNHZU1iUzM3N29JNElX?=
- =?utf-8?B?V1VMNGs2dFdkTHZsbXErUnByZTNHeVFWQXZJVy9FWlFiYkYvclBDOXlHT0ZX?=
- =?utf-8?B?a0cwaFdJNlFzeE9SbGFSeHNIRnNaeDQrWm1rTXAwNVlLRlk3SWJLeEFoN1VG?=
- =?utf-8?B?MlA3ajF2cW54TDRzMHBPVzg1WnpaZnNybFp5SEwrbVQrK25BVFFETlRxWjdP?=
- =?utf-8?B?RVNIaVhFZ1VKOWl5L2x1a2VraEVKVW9Oa25TZ3lhcmRYZmhyeGdPbk1SSHdr?=
- =?utf-8?B?NWgreGlKaFF3Zi9BVXFXQ2ptaVV2ejFGS3V1c0xZd1hSOURjc0NzcTE0clVN?=
- =?utf-8?B?MHBwNFJTT3ZPTE9xMzRWRlFYd3J5TWFiUHFBTWJ1QlR4N2JHeitqblcrcUl1?=
- =?utf-8?B?eWNpdlZFVHZJMVVLYVBxZUFrcUpUQThQN21qV2J2OHVRT3pmdXUrSUdjckRI?=
- =?utf-8?B?MEdwakZMeU11S3FoL1hZbEtaV0t3aTFRc2J4WWFCN1MwWHRuSkJER1pnR2gw?=
- =?utf-8?B?MHA0OHdzNEJTWDlFb0VEd3doeDUrTENlNGZPT1d2dGRFOW5Fa3IwSU92NE1m?=
- =?utf-8?B?bzlMTGN1YkZWWU9uakVuSWtwNy9jallyZEZzRFhRN2pTcmRoWXgyQkVYUmUx?=
- =?utf-8?B?WEhybytDQjJ6QjdxQWUydGhnUHJTcU9pbXpHUnkxbzBDbVlwRXR3VjF5anhq?=
- =?utf-8?B?S2w5eFk2VlM3Sjd0RFlsTGdqMkhNeWZxY3dGdk9IYXlvVC94bnF5amlkbVZh?=
- =?utf-8?B?TCs2Sm9JeVpSa1FTMkhaY3ZrTHF1THRqeThjL2xRTHRpYTFFK1FJU2hJZ0ho?=
- =?utf-8?B?bXlSMGlBWFB4azl6NVA3ZDdhcllDaWhJc3ZjeEhtNDdRUWFmdmtPNDBzd3Ux?=
- =?utf-8?B?clBOSSt3cC91bG5FSzNYN0U5VGFjSnBkMnBlSmtNekdPRnhqdW9vMlc1Rk0v?=
- =?utf-8?B?T3BHbTNROWFsWG5kbWZuemd2bVRRR0U2cG5GRUJybWpxRG1ESml1ZkNCQ1ZP?=
- =?utf-8?B?REw3UUlNMWRXVlV0THRWZmZPY3U1citGRU4wSWExc3c4TytZZUR6ZndkZm9Q?=
- =?utf-8?B?VGIyYllsV3VaeDJEMGpqSGw1Mjhxb3Npd1FiaTdrZlV2aGc5NSt6N2paU0VM?=
- =?utf-8?B?ZHRFYmhydGN4QndZaGxxTkZSbWFpMmxDNC9lSGhGbWhFSURDQXlBd3BIUGNn?=
- =?utf-8?B?UkxsWjgwN1FTOW9yUEM4ak55N1A1WktPZEdsMzhLdmxRZzFIYmhGRzA0L1la?=
- =?utf-8?B?RWRKOWdVZ00vUkx5dTZXWHRwZThVVnZuTHYvOUhhVW1aWG9kSEhOL1JHZWVW?=
- =?utf-8?B?N3ZGVUdkWGlpMXhtTGVVWWY3L1I4RnRteDRxbTlkakdsaFFqbnQzb0tPUTN5?=
- =?utf-8?B?aG9RKzF1SHRZQmFQaDZKVjNPb002UFh5SVdFVUV3SVNpdE1LQjVOQkxPd0ll?=
- =?utf-8?B?cmVaYkh1ZndZYnNCVXpvRkxXTG83TzVGcXl1dE1iUE43YkxoMU1GNkRmTFFI?=
- =?utf-8?B?YUY1UVIrN2tGQXJrQVBpaHpxa3cwZHkyZE8xZUVHZHg4Z2V6L2syaGVacVRh?=
- =?utf-8?B?czZRK1lnK3lLcGxTNzFqb2ZiWUU3MERpcGxNZkRTVlFWOXJDTkJJMWpoOHZX?=
- =?utf-8?B?aEs2RXBDcWxkdWZZZXUxbG9LLzVWdllNbGtqSmRpVXdGc1JXc2d5VDl0dEtX?=
- =?utf-8?Q?k5u4blVna5KISQkbKaQVrpoOMfHUd3Na0rK8A=3D?=
-x-forefront-antispam-report:  CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB5203.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:  =?utf-8?B?WlFPa2F0N2VtbWo0aFFoN1loS0lWaDZFNDRRaG5kdU56ZFl3VGIyaHFQakxi?=
- =?utf-8?B?elZYZ0ExVkE1U0Vkb0xaV09Ma1V2bmE5eDNxMytHM0lTU0IyTnN0OVVnalFI?=
- =?utf-8?B?QkMzTWVMSjl2TXE0U0hEeVpucG8vdjc2d2xrYkEwSkJZRll5OUFCaGVhUDVU?=
- =?utf-8?B?aDBFQTE4WTlTazNXcWc3SEtqOGtIWUZTSnpXcXdyb2ZocXBkeHZwMytxbEpT?=
- =?utf-8?B?bG9rWFNsem1ZSFNuQ3J1Z04zZG1zeExra3FuY1BwVFdBWFhGT2hnOWVxTFc3?=
- =?utf-8?B?YXVnVGJZRzF4andwNE0zVHZqZXBiclBjOXNRREM2VE5XN3l6YmFzeVRJNE1a?=
- =?utf-8?B?V2Z4OFBOeXpMVEZXeVN5T0hLWHd4cWcrMWhsK3JjcldxSUc0WE1DWWZFRFJk?=
- =?utf-8?B?Q1hVb1ZzUUdhTVRMRFBZbVhBakxVU3U4ZlVuYzJTNUQxNFg3Y0p1eTF4bGFE?=
- =?utf-8?B?TmNQZFNFeEQxLzJZalF2OWNYZm1Pcm9nOHUrMWNFeWFUWXFaWWlBRHlRVk5F?=
- =?utf-8?B?WlFRZ1Q0Z0FBVHNXTzQ1UEFBVlZVcXA4TUhlQTFxN1VuVTNKdDBITi91WmJq?=
- =?utf-8?B?dkdSYkxKRERuaGZIK00wWWQ5djdSL2ZLZGhWVTVmY0Mrd0R5cGdwQXllN01Z?=
- =?utf-8?B?RlNqL09mS1NRTmRJTTdXSFVobHJxNFlqRkhNbmZLQ041d0hXVE9Da25YQWcv?=
- =?utf-8?B?ZzA2M0ZFZ3VBN2RhM09Oai9OREgzcjVTcEt5WEhvUkVqN09RWG85RSt1Qnpa?=
- =?utf-8?B?Vkx0S1c0L1Z4aUZKMXhpVnZjNUZMVjB4dHl3VzNqaTFmQ0ZpMm14V0dLeDNT?=
- =?utf-8?B?dk13YkcwaVpTZC9oek8rd1QvVlAyaDZzcG1XNlpTbnBqYURtU2RtdmU0a3Y2?=
- =?utf-8?B?TzBRckczNmR1K0UxdHpvZWx1REtFUVMybldxUFpKR3Q4UGVGaXhnNzBIdTVr?=
- =?utf-8?B?UktJREtQOU5iamdlaXZ5blg3Q2lSenM3SldNcThmTGhiUDJJVElRVHZMME5x?=
- =?utf-8?B?MVd1dTR2Y2lnblN6cHp4Z1BtU2htWksxcXgrRzR2L2M2eHc0WW1pU3EyVENV?=
- =?utf-8?B?T0xvbkxweGJ4dTRDT0g2enM3STR2bTBtN3oyd0lISW9Ta2I1aG5ZbkE5eUFj?=
- =?utf-8?B?UUV5eGQ3SHIyNkRqbnVUY3A1ZU9nQ0QvMGUxbU9QQkZKNzhzM2k0dEFlcDJW?=
- =?utf-8?B?L0pLb3lMMlFzcXJxb3JycHp0RWd6OHJkbzJjdFVrcGJYdytCQjdpUU5ERjJm?=
- =?utf-8?B?YjBoWkQwUllMSVRBVjBnOXhQaTZmMGoyR0g0aHNLQ284Yit0NUZJTkl4bk1h?=
- =?utf-8?B?WS8xMi9OaHNoLytyTEJpbUhjb1RsMDM5cDcvbWRyUmF3YjF3dVdlRklRK3Bo?=
- =?utf-8?B?RU91UXFUdDkvNkpIeXMwR05MdkE1Wjl2dERsVkd1TS8vRVprU28zZDRSN0Nn?=
- =?utf-8?B?MmVDYmt4eXFqM3dXaWZBWi9SMFVqQWZBdWJ5Qk5BMTJwUGtCQVorclpLN1Ex?=
- =?utf-8?B?VWVRdlZOVWZ5Y012SFVGYzRZQ3Q4MXNRa1c4aWdqOXRVckJmdm1DMUkvcnRm?=
- =?utf-8?B?TzJ2cjg0NHhsSi96SVNtVWJ6anN5UXd6UVJYMTVFdnhBSU56aVp3aXRKMStj?=
- =?utf-8?B?Z3I1TGpxNnBJTmdHWWxJc0RySFlBUytXOFNaNHlmbkhIS1hZZlRFT28rZHVG?=
- =?utf-8?B?aFNQQUVNSzlPbU16YXdLRDZldk1nemxtK2JyamZwcDhnYTRSMXVYL3cwSzJQ?=
- =?utf-8?B?NjRGN3pQRDJTVENXTnQ0RzdnOXBZQ2MwQktkbmZoZ1R0anRKYVNIbFlhN1h5?=
- =?utf-8?B?OEorYUdRbS9FN0dXUmxTU3UwV2tFNzJITGFGcmhJcGd1Y2VvbEo1NGNqNE45?=
- =?utf-8?B?Sjc2d09QdnZTdzVoS1dRTE1aeDQ4RkhhQVdjNEtWc29PSTdjZ0tzQlovQVBr?=
- =?utf-8?B?RVlBSGRGcS9mL1I5ckVhN1pXZkdpRXo5NndDTWNrTGZOdHgxK05lWVdzU1pH?=
- =?utf-8?B?QzVGeTl4YVNkaHQzQ3FnaDVCb24xUXFMR2lwR2NmVVExeUxYMDZnMEFGTnh4?=
- =?utf-8?B?RllLSjZodExSRnk2cjdIUmF6QkRtYzBsK1BoaWY5Zi93ZStUWVd6czlRdFBX?=
- =?utf-8?B?bTI1WklwOFFNbzBIMkEzM3plNVlWQ0ttTWlSVzZOekRIbmtZWDdBUDZsWUlu?=
- =?utf-8?B?UlE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ bh=HinHxHotdiGULVOLe7BS6hh6xf1Ebz9EgyyDEKVh0WM=;
+ b=i9ThdZLbbFWqJcKu1aDA4zOWcudzc/D6RGhPwsYJ8hyRVv1dHEdEufqZMgim59J8kZytqHWVE1lToJ3XC6qBGbh/a8u1Uq8lB2QWsUmte7OTa3hJ5hPtSDPtppWaToaljUOkUuCBWghxPIRGn/pm0sampTLgnrQnYvCtGOMZUSM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from BL3PR01MB7057.prod.exchangelabs.com (2603:10b6:208:35c::16) by
+ PH7PR01MB7752.prod.exchangelabs.com (2603:10b6:510:1db::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7982.34; Mon, 14 Oct 2024 10:51:02 +0000
+Received: from BL3PR01MB7057.prod.exchangelabs.com
+ ([fe80::b69e:5684:ed7c:4d09]) by BL3PR01MB7057.prod.exchangelabs.com
+ ([fe80::b69e:5684:ed7c:4d09%4]) with mapi id 15.20.7982.033; Mon, 14 Oct 2024
+ 10:50:59 +0000
+From: Chanh Nguyen <chanh@os.amperecomputing.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+	Open Source Submission <patches@amperecomputing.com>
+Subject: [PATCH] ARM: dts: aspeed: Add device tree for Ampere's Mt. Jefferson BMC
+Date: Mon, 14 Oct 2024 10:50:31 +0000
+Message-ID: <20241014105031.1963079-1-chanh@os.amperecomputing.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR02CA0053.apcprd02.prod.outlook.com
+ (2603:1096:4:54::17) To BL3PR01MB7057.prod.exchangelabs.com
+ (2603:10b6:208:35c::16)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR01MB7057:EE_|PH7PR01MB7752:EE_
+X-MS-Office365-Filtering-Correlation-Id: 431e88d1-10bf-4c7d-c519-08dcec3e1679
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 	BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info: 	=?us-ascii?Q?FdWmK0Tmk/xoOwFh84NtgOoGIlZkmoIi6oDrQNhNtLilMV7X0/3XDKduEPW6?=
+ =?us-ascii?Q?or0fRdiNP0JJRXSKNcQmNm9ydIdIN5ZonqUX09ZdH6J1uNNcZANj9rBo8tQU?=
+ =?us-ascii?Q?WhRUL0RoYtOIWNEbWv7C4lmj2cXSYn1HW+edEa/od1CLSFCR1HS40ayrmNO8?=
+ =?us-ascii?Q?1qaqfniC86b+JJACr8qiG/2R97QLJuDuzTPZ4Y0A0fATc8ZpVQiPfVboXStJ?=
+ =?us-ascii?Q?Lkz8yoR6DLceHA5V2H8NDQKaQKh1e4eJC0NAkSbfIiJH+5lnOIPqTDhQsg4G?=
+ =?us-ascii?Q?Lgm22jXG91teqSIu/G0Slk/jpfEsFzCVU1LkUXxFSsbUGCUbHhUzOjqykcPB?=
+ =?us-ascii?Q?/7CkMA+JEFP/S056byDWD453mhPPGV65h8fvJ4jaz4jtOiuZMajbQnCZp/ve?=
+ =?us-ascii?Q?2gu08tI4dW55K/1Le0XO5FFRbxP42t2XEXgv1DrlI6ZolD06qD1Pu3F5QMFf?=
+ =?us-ascii?Q?bqNe9rC8i7CVpzakOmNoFyyqVSOwe1Jaan+UOuZFvXqAeQMvoeyKwW5xofNC?=
+ =?us-ascii?Q?ZhEDNBo32yJ3sHrG/hcGN25lsSwAzeW3oteUVvGHFHlzIavpYaRJih0n3ETD?=
+ =?us-ascii?Q?BjyW9z9XRYcw2Ex2VAtK1WytoVC/Nv8DNBPQqAFvrs1JO957/5Uz7Ml/yvO+?=
+ =?us-ascii?Q?cizfn9W0zAyR3nt3zmhn9ZoxunW+7hvRDdt6NOFCEMMYL98fs13bhGndlC6L?=
+ =?us-ascii?Q?tl9De/nIpxNxKJvYfdL0pDzXjam7hcVZRhlcgORtFjl8XV1LUrMB1ov0eIkN?=
+ =?us-ascii?Q?EL/Q4B8Q9fK2MiG65n4SQ+Hl5LMDSKPIwmVb/4SMmiCmAJT79op6yoi00Zg9?=
+ =?us-ascii?Q?ZZD70ohMMRXzimSNy+igG4TrBIPqiFFCA6InFaMDZ9SL1HPBXjJ7TnSsFUB+?=
+ =?us-ascii?Q?fz7zDDsItNT4vCidtp9TSYqCNKPR+1wqhPVxQ2csnOeTuyPvMyvx9BBZOl91?=
+ =?us-ascii?Q?H7thsSqc7+nP2LV+zDgEvKzKgBxp7eDHIsvBL/yOpNaLqFQTEKQFHTzzB7sg?=
+ =?us-ascii?Q?MF42frxKuw9807PcGXsi2osBKbYl7eFk0comEbV8rKmHFIxKceyM4PS01T/J?=
+ =?us-ascii?Q?IWX6y8RXCAkjkio9wUI+wo0DY1hXlc8tKQySB1MYpY13wzDOAK1scvSYImxG?=
+ =?us-ascii?Q?FUT8Ap5ki/osJsqq1EGVbFFacMXsRLMkL5Ic7bXtw3I5pkb50axw0FTWjf3g?=
+ =?us-ascii?Q?12CN1pvHhH/Tmgr4G769EXadnqCu+B3wt9sKGV6aU1ZaM9YPgCy8ACtjmTEj?=
+ =?us-ascii?Q?Bj0gNmsQw2rKyT7npm6Le2hPTfeswEGrmCJmK9MBs6dI+6nhokb3hfzxNWxc?=
+ =?us-ascii?Q?vF0R8WypaJqQiGsr4p+2B4BM7s5nzmQhHWuzHQLBUdne1g=3D=3D?=
+X-Forefront-Antispam-Report: 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR01MB7057.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(38350700014)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 	=?us-ascii?Q?9oAgAV3dQeBbNhT4x/KUbOCL7FQPI1pTg/9dhcl30wJI5HUPLuEgSUOfn3Nu?=
+ =?us-ascii?Q?N4V6oDjBFsBk2gFRywLE6uRinlLR4xX4oh8RI/Sg3kqksUhKkEJmW/d8kg2D?=
+ =?us-ascii?Q?tYEPX5FNpbB2SIK9DzgWjkUsEt2f7/929hZMBGZ2u9qIV8pB28K0YOJOamSb?=
+ =?us-ascii?Q?4Sgnqv4lKRjxET4xBB+lf4pGFIY0Mmvk/XgSktAc1iPn11KTlifDnbWpwEVv?=
+ =?us-ascii?Q?EKX3Fr7vl9ln8rETy0kFMpITvITthwIgcsb0bNtfn8Ofxw9r/gRbnFhFuUmV?=
+ =?us-ascii?Q?H/QHLc6iOwRs/3ri0LOxa8Os1xPsyFj+Lvm5cJtXrxnE2KRGUsonx7eWo/WZ?=
+ =?us-ascii?Q?Gjh/2WO61pjYNnztjSsR9ymVzVi6AqikTnzQRck0OkYhjDhZnF3fbNRcEznv?=
+ =?us-ascii?Q?DMy9tJWfR39TC4blqdpazIPQ8Ab4TzHYILBTPbgOZtOlLlGNVmzjgW0s/ExV?=
+ =?us-ascii?Q?rqi/pqy9BF0eZya33FoGe6gW+3ZyUrQBy0AoUsY9T+cD6R+KCkyfvQNQPnza?=
+ =?us-ascii?Q?tQcaF5Rv2tPkUK5MGW6AzYpt73aeKYtdJuUjdfjvCkmuXqGK17wZI4UEOS1j?=
+ =?us-ascii?Q?aByPACXbocB7EcWbDHGqXHMcx4dW17TI3mFqEk1EcqxModiNzJVm3POtxU3o?=
+ =?us-ascii?Q?LyMZMzA5y8RbrdecOf3dISl4jWld0JMbohCMV8qSN8PuIwnDr+TP3ICLlqXS?=
+ =?us-ascii?Q?FpJItMryPBw9kSCvUEUGSXCXTWMoPLirxdX+FN8+gcfmTbu91Go2pVFxaNgT?=
+ =?us-ascii?Q?l0mjW6mt+R5bdJ10EeGtxNWigEHKTgfY2xRUvVBh3XAeBZdEil/+4ido/8ne?=
+ =?us-ascii?Q?4NdXwHF1zzkIhDpMjzo9U3PFypkA5BrikGGcH/b+2SU0UyOt55FkPMec3oRR?=
+ =?us-ascii?Q?Ig/eGoy34ZdsutMRJN+2BjUzQhRB8SOsnSwG255Hfwm6pocZPzYjWxUcZOfH?=
+ =?us-ascii?Q?wemnKbSSQah37XbZCG1SSdLLoTJu+LX1wg9FAiLp96omkbpixk95r4aMH0N8?=
+ =?us-ascii?Q?95F3zz5Ui4w3B9dwCO5JweoU3UppqJJYbN5Mvmr43JzUKjgYuJB7mcGmfVbs?=
+ =?us-ascii?Q?WbxwqZtWBUktxu49n0SPBwyaaSOAficswKxr9rtk59l7x2g04SqmIpngQIKX?=
+ =?us-ascii?Q?Yi8rSfonDR9YuNGQvlincIR8W70X8q0ll88GTgODXSLmjc1xg02ZIit5LDAe?=
+ =?us-ascii?Q?7qi627u9fylYFjoRIivtIVKSCd+NCGeVPXJefXhidPITSBXV53zT8BtDD32k?=
+ =?us-ascii?Q?HBxck0CM+BlwysX9Ez5dzfMwG+oDBxMflpUcNcyCfE4ctIm44CLMkqOt+KAo?=
+ =?us-ascii?Q?YsEgu+h8aNDJr+0RJ52f7XpdmhYGSH9fCkbaL8XszeqNoVsx0w0FiFoT7B9n?=
+ =?us-ascii?Q?IMwdth10iJx9m8euc48Thc8TQdgAfQPhynwBuVhOxumt1ZHCwRz9ZUhFt6O1?=
+ =?us-ascii?Q?lZwSavEMjutUJKgQiJd+VfB18UnxlKaecra1kuHXygiUnAPf8H9VkaZ4YTuI?=
+ =?us-ascii?Q?U0JTOI1wFXHnqNf2fynOCSOK/z5SNW4rIvTcm6eu9+OXAPtsgJae4gmOcCX1?=
+ =?us-ascii?Q?3PK7Mzdprsr1yKXQCKLMqymVlJqEV5Z1m1FdQZlBHW2U6aVqfOvwWPLmIxpe?=
+ =?us-ascii?Q?RIumVVhxjDOxdlEHyWwwhsQ=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 431e88d1-10bf-4c7d-c519-08dcec3e1679
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR01MB7057.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5203.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 204d07f9-443e-4a33-00ab-08dcec36cf0d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2024 09:58:52.5282
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2024 10:50:59.3971
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FtdWRD6PEACKLysWiZ/ks5y6+1x4i7qnQYncN7wrHi0GdZzBtlpiT58czhVCmCMJN4Fbb0QqHOz+EeS2XL+wLr1y0zvn5npja//MLfqLiHk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR06MB6504
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B5md4ziiM2jG//rbhd3YdSKhhoVascLJ4Q06U09JE2C7AdFXm+imktbxtVKmBaU58Hq6dZTL+dZRzIwZ8e1+19saW2F/7dfWGwpOy/ybcrMXQE6+0/xvdbNktPlKs0tE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR01MB7752
 X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-	SPF_PASS autolearn=disabled version=4.0.0
+	SPF_PASS,WEIRD_QUOTING autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -189,79 +160,684 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>, "Patrick_NC_Lin@wiwynn.com" <Patrick_NC_Lin@wiwynn.com>, "Bonnie_Lo@wiwynn.com" <Bonnie_Lo@wiwynn.com>, "DELPHINE_CHIU@wiwynn.com" <DELPHINE_CHIU@wiwynn.com>, Aaron Lee <aaron_lee@aspeedtech.com>, "Peter.Yin@quantatw.com" <Peter.Yin@quantatw.com>
+Cc: Thang Nguyen <thang@os.amperecomputing.com>, Phong Vo <phong@os.amperecomputing.com>, Khanh Pham <khpham@amperecomputing.com>, Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgS3J6eXN6dG9mLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEty
-enlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4NCj4gU2VudDogTW9uZGF5LCBPY3Rv
-YmVyIDE0LCAyMDI0IDI6NTMgUE0NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAxLzRdIGR0LWJpbmRp
-bmdzOiB3YXRjaGRvZzogYXNwZWVkOiBBZGQgcHJvcGVydHkgZm9yIFdEVA0KPiBTVyByZXNldA0K
-PiANCj4gT24gMTQvMTAvMjAyNCAwNDowNywgQ2hpbi1UaW5nIEt1byB3cm90ZToNCj4gPiBIaSBL
-cnp5c3p0b2YsDQo+ID4NCj4gPiBUaGFua3MgZm9yIHRoZSByZXZpZXcuDQo+ID4NCj4gPj4gLS0t
-LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogS3J6eXN6dG9mIEtvemxvd3NraSA8
-a3J6a0BrZXJuZWwub3JnPg0KPiA+PiBTZW50OiBNb25kYXksIE9jdG9iZXIgNywgMjAyNCAyOjU4
-IFBNDQo+ID4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMS80XSBkdC1iaW5kaW5nczogd2F0Y2hkb2c6
-IGFzcGVlZDogQWRkIHByb3BlcnR5DQo+ID4+IGZvciBXRFQgU1cgcmVzZXQNCj4gPj4NCj4gPj4g
-T24gMDcvMTAvMjAyNCAwODozNCwgQ2hpbi1UaW5nIEt1byB3cm90ZToNCj4gPj4+IEFkZCAiYXNw
-ZWVkLHJlc3RhcnQtc3ciIHByb3BlcnR5IHRvIGRpc3Rpbmd1aXNoIG5vcm1hbCBXRFQgcmVzZXQN
-Cj4gPj4+IGZyb20gc3lzdGVtIHJlc3RhcnQgdHJpZ2dlcmVkIGJ5IFNXIGNvbnNjaW91c2x5Lg0K
-PiA+Pj4NCj4gPj4+IFNpZ25lZC1vZmYtYnk6IENoaW4tVGluZyBLdW8gPGNoaW4tdGluZ19rdW9A
-YXNwZWVkdGVjaC5jb20+DQo+ID4+PiAtLS0NCj4gPj4+ICAuLi4vYmluZGluZ3Mvd2F0Y2hkb2cv
-YXNwZWVkLGFzdDI0MDAtd2R0LnlhbWwgICAgICAgICB8IDExDQo+ID4+ICsrKysrKysrKysrDQo+
-ID4+PiAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKykNCj4gPj4+DQo+ID4+PiBkaWZm
-IC0tZ2l0DQo+ID4+Pg0KPiBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy93YXRj
-aGRvZy9hc3BlZWQsYXN0MjQwMC13ZHQueWFtbA0KPiA+Pj4NCj4gYi9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3Mvd2F0Y2hkb2cvYXNwZWVkLGFzdDI0MDAtd2R0LnlhbWwNCj4gPj4+
-IGluZGV4IGJlNzhhOTg2NTU4NC4uNmNjMzYwNGMyOTVhIDEwMDY0NA0KPiA+Pj4gLS0tDQo+ID4+
-Pg0KPiBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy93YXRjaGRvZy9hc3BlZWQs
-YXN0MjQwMC13ZHQueWFtbA0KPiA+Pj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL3dhdGNoZG9nL2FzcGVlZCxhc3QyNDAwLXdkdC4NCj4gPj4+ICsrKyB5YQ0KPiA+Pj4g
-KysrIG1sDQo+ID4+PiBAQCAtOTUsNiArOTUsMTcgQEAgcHJvcGVydGllczoNCj4gPj4+ICAgICAg
-ICBhcnJheSB3aXRoIHRoZSBmaXJzdCB3b3JkIGRlZmluZWQgdXNpbmcgdGhlDQo+ID4+PiBBU1Qy
-NjAwX1dEVF9SRVNFVDFfKg0KPiA+PiBtYWNyb3MsDQo+ID4+PiAgICAgICAgYW5kIHRoZSBzZWNv
-bmQgd29yZCBkZWZpbmVkIHVzaW5nIHRoZSBBU1QyNjAwX1dEVF9SRVNFVDJfKg0KPiA+PiBtYWNy
-b3MuDQo+ID4+Pg0KPiA+Pj4gKyAgYXNwZWVkLHJlc3RhcnQtc3c6DQo+ID4+PiArICAgICRyZWY6
-IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL2ZsYWcNCj4gPj4+ICsgICAgZGVzY3Jp
-cHRpb246ID4NCj4gPj4NCj4gPj4gV2h5ID4/DQo+ID4+DQo+ID4NCj4gPiAiPiIgd2lsbCBiZSBy
-ZW1vdmVkIGluIHRoZSBuZXh0IHBhdGNoIHNlcmllcyBhbmQgdGhlIGRlc2NyaXB0aW9uDQo+ID4g
-Y29udGVudCB3aWxsIGJlIGNvbmNhdGVuYXRlZCBhZnRlciB0aGUgY29sb24sICI6Ii4NCj4gPg0K
-PiA+Pj4gKyAgICAgIE5vcm1hbGx5LCBBU1BFRUQgV0RUIHJlc2V0IG1heSBvY2N1ciB3aGVuIHN5
-c3RlbSBoYW5ncyBvcg0KPiA+PiByZWJvb3QNCj4gPj4+ICsgICAgICB0cmlnZ2VyZWQgYnkgU1cg
-Y29uc2Npb3VzbHkuIEhvd2V2ZXIsIHN5c3RlbSBkb2Vzbid0IGtub3cNCj4gPj4+ICsgd2hldGhl
-cg0KPiA+PiB0aGUNCj4gPj4+ICsgICAgICByZXN0YXJ0IGlzIHRyaWdnZXJlZCBieSBTVyBjb25z
-Y2lvdXNseSBzaW5jZSB0aGUgcmVzZXQgZXZlbnQgZmxhZyBpcw0KPiA+Pj4gKyAgICAgIHRoZSBz
-YW1lIGFzIG5vcm1hbCBXRFQgdGltZW91dCByZXNldC4gV2l0aCB0aGlzIHByb3BlcnR5LCBTVw0K
-PiA+Pj4gKyBjYW4NCj4gPj4NCj4gPj4gU28gRFRTIGhhcyB0aGlzIHByb3BlcnR5IGFuZCB3YXRj
-aGRvZyBiaXRlcyAodGltZW91dCkgYnV0IHlvdSB3aWxsDQo+ID4+IGlnbm9yZSBpdCBhbmQgY2xh
-aW0gdGhhdCBpdCB3YXMgc29mdHdhcmUgY2hvaWNlPw0KPiA+Pg0KPiA+DQo+ID4gTm8uIE5vcm1h
-bGx5LCB3aGVuIFdEVCBpcyBlbmFibGVkLCBhIGNvdW50ZXIgaXMgYWxzbyBiZSBlbmFibGVkLiBX
-aGVuDQo+ID4gdGhlIGNvdW50ZXIgaXMgZXF1YWwgdG8gYW4gZXhwZWN0ZWQgdmFsdWUsIHRpbWVv
-dXQgZXZlbnQgb2NjdXJzLg0KPiA+IEFTVDI2MDAgaGFyZHdhcmUgc3VwcG9ydHMgYSBTVyBtb2Rl
-LCB3aGVuIGEgbWFnaWMgbnVtYmVyIGlzIGZpbGxlZA0KPiA+IGludG8gYSBzcGVjaWZpYyByZWdp
-c3RlciwgV0RUIHJlc2V0IGlzIHRyaWdnZXJlZCBpbW1lZGlhdGVseSB3aXRob3V0DQo+IGNvbnRy
-b2xsaW5nIHRoZSBjb3VudGVyIGFuZCB0aGUgY291bnRlciBpcyBub3QgY291bnRlZC4NCj4gPiBU
-aHVzLCBXRFQgdGltZW91dCBkb2Vzbid0IG9jY3VyLg0KPiANCj4gSG93IGlzIHRoaXMgYSBubz8N
-Cj4gDQoNCkl0IGlzIHVzZWQgdG8gZW1waGFzaXplIHRoYXQgdGhlIGRyaXZlciBkb2VzbuKAmXQg
-aWdub3JlIHRoZSB0aW1lb3V0IGV2ZW50DQpiZWNhdXNlIHRoZSBjb3VudGVyIGlzIG5vdCBjb3Vu
-dGVkIHdoZW4gU1cgbW9kZSBpcyB1c2VkIGFuZCB0aHVzLCBubw0KdGltZW91dCBvY2N1cnMuDQoN
-Cj4gPg0KPiA+PiBUaGlzIGRvZXMgbm90IG1ha2UgbXVjaCBzZW5zZSB0byBtZSwgYXQgbGVhc3Qg
-YmFzZWQgb24gdGhpcw0KPiA+PiBleHBsYW5hdGlvbg0KPiA+Pg0KPiA+Pj4gKyAgICAgIHJlc3Rh
-cnQgdGhlIHN5c3RlbSBpbW1lZGlhdGVseSBhbmQgZGlyZWN0bHkgd2l0aG91dCB3YWl0IGZvciBX
-RFQNCj4gPj4+ICsgICAgICB0aW1lb3V0IG9jY3Vycy4gVGhlIHJlc2V0IGV2ZW50IGZsYWcgaXMg
-YWxzbyBkaWZmZXJlbnQgZnJvbQ0KPiA+Pj4gKyB0aGUNCj4gPj4gbm9ybWFsDQo+ID4+PiArICAg
-ICAgV0RUIHJlc2V0LiBUaGlzIHByb3BlcnR5IGlzIG9ubHkgc3VwcG9ydGVkIHNpbmNlIEFTVDI2
-MDANCj4gcGxhdGZvcm0uDQo+ID4+DQo+ID4+IFN1cHBvcnRlZCBhcyBkcml2ZXJzPyBIb3cgaXMg
-dGhpcyByZWxhdGVkPyBPciB5b3UgbWVhbiBoYXJkd2FyZT8gVGhlbg0KPiA+PiBwcm9wZXJ0eSBz
-aG91bGQgYmUgcmVzdHJpY3RlZCB0aGVyZS4NCj4gPj4NCj4gPg0KPiA+IEl0IGlzIGEgaGFyZHdh
-cmUgc3VwcG9ydGVkIGZ1bmN0aW9uIG9uIEFTVDI2MDAuIEZvciBwbGF0Zm9ybQ0KPiA+IGNvbXBh
-dGliaWxpdHksIHdpdGhvdXQgdGhpcyBwcm9wZXJ0eSwgYWxsIGJlaGF2aW9ycyBhcmUgdGhlIHNh
-bWUgYXMgdGhlDQo+IHByZXZpb3VzIGdlbmVyYXRpb24gcGxhdGZvcm0sIEFTVDI1MDAuDQo+ID4N
-Cj4gPiBUaGlzIHByb3BlcnR5IG1heSBiZSByZW1vdmVkIGluIHRoZSBuZXh0IHBhdGNoIHNlcmll
-cyB3aXRoIHJlZmVycmluZw0KPiA+IHRvIFJvYiBzdWdnZXN0aW9uDQo+IA0KPiBzL21heS93aWxs
-Lw0KPiANCg0KVGhpcyBwcm9wZXJ0eSB3aWxsIGJlIHJlbW92ZWQgaW4gdGhlIG5leHQgcGF0Y2gg
-c2VyaWVzLg0KDQo+ID4gaW4gdGhlIG90aGVyIHJlcGx5LiBBZnRlciBjaGVja2luZyB3aXRoIHRo
-ZSBtYWpvciB1c2VycywgaXQgaXMNCj4gPiBmZWFzaWJsZSB0byByZW1vdmUgdGhpcyBwcm9wZXJ0
-eSBhbmQgdXNpbmcgU1cgcmVzZXQgYnkgZGVmYXVsdCB3aGVuDQo+ID4gdGhlIHJlc3RhcnQgb3Bl
-cmF0aW9uIGlzIHRyaWdnZXJlZCBieSBTVyBkZWxpYmVyYXRlbHkgb24gQVNUMjYwMCBwbGF0Zm9y
-bS4NCj4gPg0KPiANCj4gDQoNCkJlc3QgV2lzaGVzLA0KQ2hpbi1UaW5nDQo=
+The Mt. Jefferson BMC is an ASPEED AST2600-based BMC for the Mt. Jefferson
+hardware reference platform with AmpereOne(TM)M processor.
+
+Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
+---
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../aspeed/aspeed-bmc-ampere-mtjefferson.dts  | 646 ++++++++++++++++++
+ 2 files changed, 647 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dts
+
+diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
+index c4f064e4b073..b1fb0853a789 100644
+--- a/arch/arm/boot/dts/aspeed/Makefile
++++ b/arch/arm/boot/dts/aspeed/Makefile
+@@ -6,6 +6,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-amd-daytonax.dtb \
+ 	aspeed-bmc-amd-ethanolx.dtb \
+ 	aspeed-bmc-ampere-mtjade.dtb \
++	aspeed-bmc-ampere-mtjefferson.dtb \
+ 	aspeed-bmc-ampere-mtmitchell.dtb \
+ 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
+ 	aspeed-bmc-asrock-e3c246d4i.dtb \
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dts
+new file mode 100644
+index 000000000000..f24111ab9e65
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dts
+@@ -0,0 +1,646 @@
++// SPDX-License-Identifier: GPL-2.0-only
++// Copyright 2024 Ampere Computing LLC.
++
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/i2c/i2c.h>
++#include <dt-bindings/gpio/aspeed-gpio.h>
++
++/ {
++	model = "Ampere Mt. Jefferson BMC";
++	compatible = "ampere,mtjefferson-bmc", "aspeed,ast2600";
++
++	aliases {
++		i2c20 = &i2c4_bus70_chn0;
++		i2c22 = &i2c4_bus70_chn2;
++		i2c24 = &i2c2_bus70_chn0;
++
++		/*
++		 *  I2C OCP alias port
++		 */
++		i2c30 = &ocpslot;
++
++		/*
++		 *  I2C NVMe alias port
++		 */
++		i2c48 = &nvmeslot_0;
++		i2c49 = &nvmeslot_1;
++		i2c50 = &nvmeslot_2;
++		i2c51 = &nvmeslot_3;
++		i2c52 = &nvmeslot_4;
++		i2c53 = &nvmeslot_5;
++		i2c54 = &nvmeslot_6;
++		i2c55 = &nvmeslot_7;
++		i2c56 = &nvmeslot_8;
++		i2c57 = &nvmeslot_9;
++		i2c58 = &nvmeslot_10;
++		i2c59 = &nvmeslot_11;
++	};
++
++	chosen {
++		stdout-path = &uart5;
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x80000000>;
++	};
++
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		gfx_memory: framebuffer {
++			size = <0x01000000>;
++			alignment = <0x01000000>;
++			compatible = "shared-dma-pool";
++			reusable;
++		};
++
++		video_engine_memory: video {
++			size = <0x04000000>;
++			alignment = <0x01000000>;
++			compatible = "shared-dma-pool";
++			reusable;
++		};
++
++		vga_memory: region@bf000000 {
++			no-map;
++			compatible = "shared-dma-pool";
++			reg = <0xbf000000 0x01000000>;  /* 16M */
++		};
++	};
++
++	voltage_mon_reg: voltage-mon-regulator {
++		compatible = "regulator-fixed";
++		regulator-name = "ltc2497_reg";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-always-on;
++	};
++
++	leds {
++		compatible = "gpio-leds";
++		led-bmc-ready {
++			gpios = <&gpio0 ASPEED_GPIO(W, 5) (GPIO_ACTIVE_HIGH | GPIO_TRANSITORY)>;
++		};
++
++		led-sw-heartbeat {
++			gpios = <&gpio0 ASPEED_GPIO(N, 3) GPIO_ACTIVE_HIGH>;
++		};
++
++		led-identify {
++			gpios = <&gpio0 ASPEED_GPIO(S, 3) GPIO_ACTIVE_HIGH>;
++		};
++
++		led-fault {
++			gpios = <&gpio0 ASPEED_GPIO(P, 4) GPIO_ACTIVE_HIGH>;
++		};
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels =   <&adc0 0>, <&adc0 1>, <&adc0 2>,
++				<&adc_i2c_2 0>, <&adc_i2c_2 1>,
++				<&adc_i2c_2 2>, <&adc_i2c_2 3>,
++				<&adc_i2c_2 4>, <&adc_i2c_2 5>,
++				<&adc_i2c_2 6>, <&adc_i2c_2 7>,
++				<&adc_i2c_2 8>, <&adc_i2c_2 9>,
++				<&adc_i2c_2 10>, <&adc_i2c_2 11>,
++				<&adc_i2c_2 12>, <&adc_i2c_2 13>,
++				<&adc_i2c_2 14>, <&adc_i2c_2 15>,
++				<&adc_i2c_0 0>, <&adc_i2c_0 1>,
++				<&adc_i2c_0 2>, <&adc_i2c_0 3>,
++				<&adc_i2c_0 4>, <&adc_i2c_0 5>,
++				<&adc_i2c_0 6>, <&adc_i2c_0 7>,
++				<&adc_i2c_0 8>, <&adc_i2c_0 9>,
++				<&adc_i2c_0 10>, <&adc_i2c_0 11>,
++				<&adc_i2c_0 12>;
++	};
++};
++
++&mdio0 {
++	status = "okay";
++
++	ethphy0: ethernet-phy@0 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <0>;
++	};
++};
++
++&mac0 {
++	status = "okay";
++
++	phy-mode = "rgmii";
++	phy-handle = <&ethphy0>;
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rgmii1_default>;
++};
++
++&mac3 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii4_default>;
++	clock-names = "MACCLK", "RCLK";
++	use-ncsi;
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout-64.dtsi"
++	};
++
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "alt-bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout-64-alt.dtsi"
++	};
++};
++
++&spi1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi1_default>;
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "pnor";
++		spi-max-frequency = <20000000>;
++	};
++};
++
++&uart1 {
++	status = "okay";
++};
++
++&uart2 {
++	status = "okay";
++};
++
++&i2c0 {
++	status = "okay";
++};
++
++&i2c1 {
++	status = "okay";
++};
++
++&i2c2 {
++	status = "okay";
++	i2c-mux@70 {
++		compatible = "nxp,pca9548";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <0x70>;
++		i2c-mux-idle-disconnect;
++
++		i2c2_bus70_chn0: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x0>;
++			psu@58 {
++				compatible = "pmbus";
++				reg = <0x58>;
++			};
++
++			psu@59 {
++				compatible = "pmbus";
++				reg = <0x59>;
++			};
++		};
++	};
++};
++
++&i2c3 {
++	status = "okay";
++	bus-frequency = <1000000>;
++	multi-master;
++	mctp-controller;
++
++	mctp@10 {
++		compatible = "mctp-i2c-controller";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++	};
++};
++
++&i2c4 {
++	status = "okay";
++	eeprom@50 {
++		compatible = "atmel,24c64";
++		reg = <0x50>;
++		pagesize = <32>;
++	};
++
++	i2c-mux@70 {
++		compatible = "nxp,pca9545";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <0x70>;
++		i2c-mux-idle-disconnect;
++
++		i2c4_bus70_chn0: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x0>;
++
++			eeprom@52 {
++				compatible = "atmel,24c256";
++				reg = <0x52>;
++				pagesize = <32>;
++			};
++			temperature-sensor@48 {
++				compatible = "ti,tmp75";
++				reg = <0x48>;
++			};
++			temperature-sensor@49 {
++				compatible = "ti,tmp75";
++				reg = <0x49>;
++			};
++			temperature-sensor@4a{
++				compatible = "ti,tmp75";
++				reg = <0x4a>;
++			};
++			temperature-sensor@4b {
++				compatible = "ti,tmp464";
++				reg = <0x4b>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				channel@0 {
++					reg = <0x0>;
++					status = "disabled";
++				};
++				channel@1 {
++					reg = <0x1>;
++					status = "disabled";
++				};
++				channel@2 {
++					reg = <0x2>;
++					status = "disabled";
++				};
++				channel@3 {
++					reg = <0x3>;
++					status = "disabled";
++				};
++				channel@4 {
++					reg = <0x4>;
++				};
++			};
++			temperature-sensor@4d {
++				compatible = "ti,tmp75";
++				reg = <0x4d>;
++			};
++			temperature-sensor@4e {
++				compatible = "ti,tmp75";
++				reg = <0x4e>;
++			};
++			temperature-sensor@4f {
++				compatible = "ti,tmp75";
++				reg = <0x4f>;
++			};
++			temperature-sensor@28 {
++				compatible = "nuvoton,nct7802";
++				reg = <0x28>;
++
++				#address-cells = <1>;
++				#size-cells = <0>;
++				channel@1 { /* RTD1 */
++					reg = <1>;
++					sensor-type = "temperature";
++					temperature-mode = "thermistor";
++				};
++			};
++			adc_i2c_0: adc@14 {
++				compatible = "lltc,ltc2497";
++				reg = <0x14>;
++				vref-supply = <&voltage_mon_reg>;
++				#io-channel-cells = <1>;
++			};
++		};
++
++		i2c4_bus70_chn2: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x2>;
++
++			adc_i2c_2: adc@14 {
++				compatible = "lltc,ltc2497";
++				reg = <0x14>;
++				vref-supply = <&voltage_mon_reg>;
++				#io-channel-cells = <1>;
++			};
++		};
++	};
++};
++
++&i2c5 {
++	status = "okay";
++	i2c-mux@70 {
++		compatible = "nxp,pca9548";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <0x70>;
++		i2c-mux-idle-disconnect;
++
++		i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0x0>;
++
++			i2c-mux@71 {
++				compatible = "nxp,pca9548";
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <0x71>;
++				i2c-mux-idle-disconnect;
++
++				nvmeslot_8: i2c@0 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x0>;
++				};
++				nvmeslot_9: i2c@1 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x1>;
++				};
++				nvmeslot_10: i2c@2 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x2>;
++				};
++				nvmeslot_11: i2c@3 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x3>;
++				};
++			};
++
++			i2c-mux@72 {
++				compatible = "nxp,pca9548";
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <0x72>;
++				i2c-mux-idle-disconnect;
++
++				nvmeslot_4: i2c@4 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x4>;
++				};
++				nvmeslot_5: i2c@5 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x5>;
++				};
++				nvmeslot_6: i2c@6 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x6>;
++				};
++				nvmeslot_7: i2c@7 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x7>;
++				};
++			};
++
++			i2c-mux@74 {
++				compatible = "nxp,pca9548";
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <0x74>;
++				i2c-mux-idle-disconnect;
++
++				ocpslot: i2c@0 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x0>;
++
++					ocpslot_temp: temperature-sensor@1f {
++						compatible = "ti,tmp421";
++						reg = <0x1f>;
++						#address-cells = <1>;
++						#size-cells = <0>;
++
++						channel@0 {
++							reg = <0x0>;
++							status = "disabled";
++						};
++						channel@1 {
++							reg = <0x1>;
++						};
++					};
++				};
++
++				nvmeslot_0: i2c@4 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x4>;
++				};
++				nvmeslot_1: i2c@5 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x5>;
++				};
++				nvmeslot_2: i2c@6 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x6>;
++				};
++				nvmeslot_3: i2c@7 {
++					#address-cells = <1>;
++					#size-cells = <0>;
++					reg = <0x7>;
++				};
++			};
++		};
++	};
++};
++
++&i2c6 {
++	status = "okay";
++
++	rtc@51 {
++		compatible = "nxp,pcf8563";
++		reg = <0x51>;
++	};
++};
++
++&i2c7 {
++	status = "okay";
++
++	temperature-sensor@4f {
++		compatible = "ti,tmp75";
++		reg = <0x4f>;
++	};
++};
++
++&i2c8 {
++	status = "okay";
++
++	fan-controller@5c {
++		compatible = "onnn,adt7462";
++		reg = <0x5c>;
++	};
++};
++
++&i2c9 {
++	status = "okay";
++
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	eeprom@50 {
++		compatible = "atmel,24c02";
++		reg = <0x50>;
++	};
++
++	eeprom@52 {
++		compatible = "atmel,24c02";
++		reg = <0x52>;
++	};
++
++	temperature-sensor@18 {
++		compatible = "jedec,jc-42.4-temp";
++		reg = <0x18>;
++	};
++
++	temperature-sensor@1a {
++		compatible = "jedec,jc-42.4-temp";
++		reg = <0x1a>;
++	};
++};
++
++&i2c10 {
++	status = "okay";
++};
++
++&i2c11 {
++	status = "okay";
++	ssif-bmc@10 {
++		compatible = "ssif-bmc";
++		reg = <0x10>;
++	};
++};
++
++&i2c14 {
++	status = "okay";
++	eeprom@50 {
++		compatible = "atmel,24c64";
++		reg = <0x50>;
++		pagesize = <32>;
++	};
++
++	bmc_ast2600_cpu: temperature-sensor@48 {
++		compatible = "ti,tmp75";
++		reg = <0x48>;
++	};
++};
++
++&i2c15 {
++	status = "okay";
++	gpio_expander1: gpio-expander@22 {
++		compatible = "nxp,pca9535";
++		reg = <0x22>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		gpio-line-names =
++			"presence-ocp1","presence-ocp2",
++			"","",
++			"","",
++			"","",
++			"","",
++			"","",
++			"","",
++			"","";
++	};
++};
++
++&adc0 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
++		&pinctrl_adc2_default>;
++};
++
++&vhub {
++	status = "okay";
++};
++
++&video {
++	status = "okay";
++	memory-region = <&video_engine_memory>;
++};
++
++&gpio0 {
++	gpio-line-names =
++	/*A0-A7*/	"","","","","cpu-type-detect","i2c2-reset-n","i2c6-reset-n","i2c5-reset-n",
++	/*B0-B7*/	"","","","","host0-sysreset-n","host0-pmin-n","fru-rd-complete",
++			"chassis-id-sel",
++	/*C0-C7*/	"s0-vrd-fault-n","","bmc-debug-mode","","cpld-3v3-irq-n","","vrd-sel",
++			"spd-sel",
++	/*D0-D7*/	"presence-ps0","presence-ps1","hsc-12vmain-alt2-n","ext-high-temp-n",
++			"","","","",
++	/*E0-E7*/	"eth-phy-rst-n","eth-phy-int-n","","","","","","",
++	/*F0-F7*/	"s0-pcp-oc-warn-n","","power-chassis-control",
++			"cpu-bios-recover","s0-heartbeat","hs-scout-proc-hot","s0-vr-hot-n","",
++	/*G0-G7*/	"","","hsc-12vmain-alt1-n","","","bp-cpld-program-en","led-fp-sta-gr",
++			"led-fp-sta-amb",
++	/*H0-H7*/	"jtag-program-sel","jtag-cmpl2","wd-disable-n","power-chassis-good","","",
++			"","",
++	/*I0-I7*/	"","","","","","","power-button","rtc-battery-voltage-read-enable",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","reset-button","","","",
++	/*M0-M7*/	"nmi-n","s0-ddr-save","soc-spi-nor-access","presence-cpu0","s0-rtc-lock",
++			"","","",
++	/*N0-N7*/	"hpm-fw-recovery","hpm-stby-rst-n","jtag-sel-s0","led-sw-hb",
++			"jtag-dbgr-prsnt-n","","","",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"ps0-ac-loss-n","ps1-ac-loss-n","","","led-fault","user-mode","jtag-srst-n",
++			"led-bmc-hb",
++	/*Q0-Q7*/	"","","","","","","","",
++	/*R0-R7*/	"","","","","","","","",
++	/*S0-S7*/	"","","identify-button","led-identify","","spi-nor-access","host0-ready","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"s0-hightemp-n","s0-fault-alert","s0-sys-auth-failure-n",
++			"host0-reboot-ack-n","s0-fw-boot-ok","host0-shd-req-n",
++			"host0-shd-ack-n","s0-overtemp-n",
++	/*W0-W7*/	"ocp-aux-pwren","ocp-main-pwren","ocp-pgood","",
++			"bmc-ok","bmc-ready","spi0-program-sel","spi0-backup-sel",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","vrd-prg-en-n","","","","host0-special-boot",
++	/*Z0-Z7*/	"","ps0-pgood","ps1-pgood","","","","","";
++
++	ocp-aux-pwren-hog {
++		gpio-hog;
++		gpios = <ASPEED_GPIO(W, 0) GPIO_ACTIVE_HIGH>;
++		output-high;
++		line-name = "ocp-aux-pwren";
++	};
++
++};
++
++&gpio1 {
++	gpio-line-names =
++	/*18A0-18A7*/	"","","","","","","","",
++	/*18B0-18B7*/	"","","","","s0-soc-pgood","vga-ft-press-n","emmc-rst-n","s01-uart1-sel",
++	/*18C0-18C7*/	"uart1-mode0","uart1-mode1","uart2-mode0","uart2-mode1",
++			"","","","",
++	/*18D0-18D7*/	"","","","","","","","",
++	/*18E0-18E3*/	"","","","";
++};
+-- 
+2.43.0
+
