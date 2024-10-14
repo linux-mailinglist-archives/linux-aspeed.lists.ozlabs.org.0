@@ -1,124 +1,99 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA8D99C071
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Oct 2024 08:53:48 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E53C899C0A6
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Oct 2024 09:04:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XRny15bb2z3bps
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Oct 2024 17:53:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XRpBV5S8Qz3bqC
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Oct 2024 18:04:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:45d1:ec00::3"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728888823;
-	cv=none; b=L53sdPvJBpbtQc2rLS7W2wkpVl19DjXRqyHx6k0kKih7m0CbVsZq/d3SMff1HoTFTEXfJ7k9F777M2OkPQdLxyMieDH7Xq7BrfN95UHlwxHrmsYvrDA0mOLNQZkJ3Vbxz4fqCu25OnERRAWLb6Rqwa4SX/yO3Qhg3V0sQ9CdZlRIPtnK6iRBb9oAq1hdOh72Xf13IGhr6H3VXpiacxqTE3RP7n6KpWDG14O2KNN01bzeBDnP+L52DX/5Uth+AUDGyIPcPAsXfW0yUDNu/zpmG20KVopI0h20eOOJJ7BOG9TMT3MjD+MpgbrcC9yBgcEcXZz/Zn7j8bZ68/kUpNU4jQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::32e"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1728889472;
+	cv=none; b=HjOECD/JqyBVGVZfK9DdM3auxiX/t4556kg8exdrC44gsiyndNBcH187pZ5WTOrPtFpNebFprLdURqjdai6m7ilGSavHhl14DTNBvaSNrfwau6e/aFBALD9OD5JULUO/DdWt6U2Txg1NmiUN251gN29GOlwVzSpcnb4gD5ufLtf3QXqXTJ9YnSwP8oSnnA9fHrJ1bZvPPOyssqqFDuQkSOOY2n8CtEmLtCOHWJUTsscSP3BRG72NbGaB4n0U690VXeivcTRibiyQxoKaq35Y8HcpBwxPs4mgJ5X/dtlt13HmaSnP7ChEg0LjwSN0rPLxAo823Rw82JSIkRjY3yBiVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1728888823; c=relaxed/relaxed;
-	bh=OO54i7ZvJL52/1hdVWM//vREM34Lz1yukDGkG7sZLuE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ba0xyahTgF2woYTDt5A0iUh0PinchepxUQ7V71BdsS+2RPfU6NxTmAVUGL1weiF3PV5E9MrcMZ59X7aGKho8Jw/z+QqGo/aEIyMZPghQbGwwfFsRlMo5j9bjOx3y6DlGvgvIO5WCbz//uvo+frd50lbg+PZQQqnNVbQcOax/JWpay/RUOBdADZdLNVCjMui5OBBJKZ+YTwE6ylHs1r8myaRmYkGk1igXo9BrsRis2dtHitfR2qyP/ZAMiUHqxnIV3tIBGLFCxAYHLNqVlQZgCusaUle7g3Re2zxRBTxHUx54Atk0a9Wo0NBzoVMV8yxCgoXO98B5ZIZMUV1MTnlNRg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rGDiJthX; dkim-atps=neutral; spf=pass (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1728889472; c=relaxed/relaxed;
+	bh=FZPk1p46Il+cHBCE9t0JeMt9zPjBTrGoxmAeiUZmgWE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RpIGC+2On4bUVoj95ndfDgz7VwjR7aK3Wdx7/+iHvS0KUwWgEcFLR6gjxVNzxKOacsRNhgzS8AE6WDYJhnbHpKFRqb9P25boRjBj8QRZupDsGjdKfJuXR2251btpMol5yw8QHiDxRBv93TbCWL06jqDPs5fbp+W7QkFof8wGXZJWhXErDUzAAwAdlURiDDu9boolk1UsNXoD100aBsmA2B4o8flkZ2yfutmTbxvDFKnO0itPL9Y6rGCW+Rq1TPFdT0HiRophKIWStbELxsIYe+URXVGTsTAYf5SSkqVrEb9DT8oDKkzeZBoifYqnkCwetcSlUPBv3H8ZTfqRsT23mw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=X0EKIIb4; dkim-atps=neutral; spf=none (client-ip=2a00:1450:4864:20::32e; helo=mail-wm1-x32e.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org) smtp.mailfrom=bgdev.pl
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rGDiJthX;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=X0EKIIb4;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::32e; helo=mail-wm1-x32e.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XRnxy3dgHz2yVG
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Oct 2024 17:53:42 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 0AA2BA41437;
-	Mon, 14 Oct 2024 06:53:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A95EC4CEC3;
-	Mon, 14 Oct 2024 06:53:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728888817;
-	bh=vhoTT8s1JGb/9tyN4DGENWhCfB9gXwEeAO5oMOAb7aM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rGDiJthXelGmaTwGij9O2HN8zT8+ZII5jxPMQcX4j96XzkMorm3BM3AFpTfjsUbCw
-	 qyVcCGJ33cm0bjqR0M+qCCnKo7QKysWkkTwrvEueGkM93vUeGMS6pv1gq/D3BlS/kv
-	 P/hRVkr/rW9jzOclqpBMsMNuuAgsA89tV0RQrjblGYZziiGeR3vqJGRXQW+5bM9tKY
-	 1aFWhgqQE4OQM2Xn0mXAUw7lLsEnK4/q1vZGwqVfpQ57gFHEtDzVQXRVdBNDBVL3M3
-	 pgSeX1FhTCTZQVzEvDuk/D7GZhci1AhM1Y4N6izk7kHopaUZyQc4Mk+4GwuFlDTrVJ
-	 HYgaAU89gA54g==
-Message-ID: <e53369a9-c205-4297-b151-7a1e61d8459f@kernel.org>
-Date: Mon, 14 Oct 2024 08:53:28 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XRpBQ3Jcwz2y1W
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Oct 2024 18:04:29 +1100 (AEDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4305724c12eso29383145e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Oct 2024 00:04:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728889466; x=1729494266; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FZPk1p46Il+cHBCE9t0JeMt9zPjBTrGoxmAeiUZmgWE=;
+        b=X0EKIIb47+j0clD2JHKfJwzUZSWhucfbU5p0J0t/4+b9tWFv+80Wt8C+FYpWVdKU2x
+         gNLAAwVL/exyE6/VpRG2aGCK4/gQyNcdoSVFW6axuQWMJzN5p0q+xYwmr8/obrXFkftu
+         d4+pUuc+gu//II5LDgj6W2kW8ukP+V7AbrkGp9pGPbgkdFVF9kaggahStKrHz1CzNLN7
+         +YwcbdpxksBJMVaDyveF/Co1sq23Bl/kdIrrc7pz9Arm0IKIQ3QLZ2to+Gofy9tRR7UJ
+         wQyi5Yn1gy6nTLGcp1jwScU4Qw7X/qkmoDyEmAYCsNwj83HVlXXGsbjOO1itQcX5pGKU
+         Hv8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728889466; x=1729494266;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FZPk1p46Il+cHBCE9t0JeMt9zPjBTrGoxmAeiUZmgWE=;
+        b=ehjRSk2eOOVu1FbxwdD+AmBlsBSQbLaTVVT1VowRtaJKN4UkHNCV1QMrzmDHRmUmhF
+         ISQBOJosgjr8mlSL3GKWNxUeyAIdPo5CRZ94i0piB5eltbu+wyX7G08ZlNoZnMyCc2mC
+         J7CJB8e3rt4XEfatnvi6qeQfy/0/2hUfyvQ3vbuvO/LTVaH6SdTl2dEGQw7fovD8wvON
+         2VGr+9ZILBtFUh5ff1ju0n/ghG1o4/ZjcUtMQTPgAQ0kppCEdeVYWCh/RDEkKZEHA+f2
+         /zd0fAXT398c+Gh+Dg8zUI0jF5l5oUgQgtLskiDTZkJ47Xx9AFp1rZJnL8wg7QdJgOQe
+         SHGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVsiY7eLyiH1YHNF2K49JjzSVqpvZhhLT8z6PeKMbvDEfyzgWRbw/0dfGG5XOvLBFi1A/HWEbBpXF7+msc=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YwH3gMVclQWBObVlzUGrwdg+zF5htZJeYvKAVQp39weEQ+aY9SD
+	GIInGSTtDCrIr1is9I3UhlF9O/iecCG2dhyjf19igqTUz5NHBpH1EKookeauhY4=
+X-Google-Smtp-Source: AGHT+IFXZQD/K1TLeG6NfOcqX47mkpjTTLPrGn0buq1ncVnep+McVxEHfHC0HAl+62igUxMhH42q8A==
+X-Received: by 2002:a05:600c:1c9d:b0:430:57f1:d6d with SMTP id 5b1f17b1804b1-431255d5099mr63896535e9.1.1728889465611;
+        Mon, 14 Oct 2024 00:04:25 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:de54:ebb2:31be:53a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430d7487c4csm143659185e9.32.2024.10.14.00.04.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 00:04:24 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: linus.walleij@linaro.org,
+	brgl@bgdev.pl,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	joel@jms.id.au,
+	andrew@codeconstruct.com.au,
+	linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	BMC-SW@aspeedtech.com,
+	Peter.Yin@quantatw.com,
+	Jay_Zhang@wiwynn.com,
+	Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: (subset) [PATCH v7 0/7] Add Aspeed G7 gpio support
+Date: Mon, 14 Oct 2024 09:04:23 +0200
+Message-ID: <172888945458.6232.12570065156992505241.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241008081450.1490955-1-billy_tsai@aspeedtech.com>
+References: <20241008081450.1490955-1-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: watchdog: aspeed: Add property for WDT
- SW reset
-To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
- "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
- "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
- "linux@roeck-us.net" <linux@roeck-us.net>, "robh@kernel.org"
- <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, "joel@jms.id.au"
- <joel@jms.id.au>, "andrew@codeconstruct.com.au"
- <andrew@codeconstruct.com.au>,
- "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20241007063408.2360874-1-chin-ting_kuo@aspeedtech.com>
- <20241007063408.2360874-2-chin-ting_kuo@aspeedtech.com>
- <6bb599b4-141c-43a5-8b9f-4cf6ca6c3384@kernel.org>
- <TYZPR06MB5203B274C68C34FD478EA162B2442@TYZPR06MB5203.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <TYZPR06MB5203B274C68C34FD478EA162B2442@TYZPR06MB5203.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -131,100 +106,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>, "Patrick_NC_Lin@wiwynn.com" <Patrick_NC_Lin@wiwynn.com>, "Bonnie_Lo@wiwynn.com" <Bonnie_Lo@wiwynn.com>, "DELPHINE_CHIU@wiwynn.com" <DELPHINE_CHIU@wiwynn.com>, Aaron Lee <aaron_lee@aspeedtech.com>, "Peter.Yin@quantatw.com" <Peter.Yin@quantatw.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 14/10/2024 04:07, Chin-Ting Kuo wrote:
-> Hi Krzysztof,
-> 
-> Thanks for the review.
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: Monday, October 7, 2024 2:58 PM
->> Subject: Re: [PATCH 1/4] dt-bindings: watchdog: aspeed: Add property for WDT
->> SW reset
->>
->> On 07/10/2024 08:34, Chin-Ting Kuo wrote:
->>> Add "aspeed,restart-sw" property to distinguish normal WDT reset from
->>> system restart triggered by SW consciously.
->>>
->>> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
->>> ---
->>>  .../bindings/watchdog/aspeed,ast2400-wdt.yaml         | 11
->> +++++++++++
->>>  1 file changed, 11 insertions(+)
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
->>> b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
->>> index be78a9865584..6cc3604c295a 100644
->>> ---
->>> a/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
->>> +++ b/Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.ya
->>> +++ ml
->>> @@ -95,6 +95,17 @@ properties:
->>>        array with the first word defined using the AST2600_WDT_RESET1_*
->> macros,
->>>        and the second word defined using the AST2600_WDT_RESET2_*
->> macros.
->>>
->>> +  aspeed,restart-sw:
->>> +    $ref: /schemas/types.yaml#/definitions/flag
->>> +    description: >
->>
->> Why >?
->>
-> 
-> ">" will be removed in the next patch series and the description content will be
-> concatenated after the colon, ":".
-> 
->>> +      Normally, ASPEED WDT reset may occur when system hangs or
->> reboot
->>> +      triggered by SW consciously. However, system doesn't know whether
->> the
->>> +      restart is triggered by SW consciously since the reset event flag is
->>> +      the same as normal WDT timeout reset. With this property, SW
->>> + can
->>
->> So DTS has this property and watchdog bites (timeout) but you will ignore it
->> and claim that it was software choice?
->>
-> 
-> No. Normally, when WDT is enabled, a counter is also be enabled. When the counter
-> is equal to an expected value, timeout event occurs. AST2600 hardware supports a SW
-> mode, when a magic number is filled into a specific register, WDT reset is triggered
-> immediately without controlling the counter and the counter is not counted.
-> Thus, WDT timeout doesn't occur.
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-How is this a no?
 
+On Tue, 08 Oct 2024 16:14:43 +0800, Billy Tsai wrote:
+> The Aspeed 7th generation SoC features two GPIO controllers: one with 12
+> GPIO pins and another with 216 GPIO pins. The main difference from the
+> previous generation is that the control logic has been updated to support
+> per-pin control, allowing each pin to have its own 32-bit register for
+> configuring value, direction, interrupt type, and more.
+> This patch serial also add low-level operations (llops) to abstract the
+> register access for GPIO registers and the coprocessor request/release in
+> gpio-aspeed.c making it easier to extend the driver to support different
+> hardware register layouts.
 > 
->> This does not make much sense to me, at least based on this explanation
->>
->>> +      restart the system immediately and directly without wait for WDT
->>> +      timeout occurs. The reset event flag is also different from the
->> normal
->>> +      WDT reset. This property is only supported since AST2600 platform.
->>
->> Supported as drivers? How is this related? Or you mean hardware? Then
->> property should be restricted there.
->>
-> 
-> It is a hardware supported function on AST2600. For platform compatibility, without
-> this property, all behaviors are the same as the previous generation platform, AST2500.
-> 
-> This property may be removed in the next patch series with referring to Rob suggestion
+> [...]
 
-s/may/will/
+Applied, thanks!
 
-> in the other reply. After checking with the major users, it is feasible to remove this
-> property and using SW reset by default when the restart operation is triggered by SW
-> deliberately on AST2600 platform.
-> 
-
+[3/7] gpio: aspeed: Change the macro to support deferred probe
+      commit: f1bc03e7e9bbbb18ad60ad6c6908b16fb7f40545
+[4/7] gpio: aspeed: Remove the name for bank array
+      commit: d787289589202cd449cabed3d7fde84e18fb6dd6
+[5/7] gpio: aspeed: Create llops to handle hardware access
+      commit: 79fc9a2fcc457f4375118fbcdb6767163870b5ff
+[6/7] dt-bindings: gpio: aspeed,ast2400-gpio: Support ast2700
+      commit: bef6959a3746fc8207a0ca75e239c95d7409fd90
+[7/7] gpio: aspeed: Support G7 Aspeed gpio controller
+      commit: b2e861bd1eaf4c5f75139df9b75dade3334a5b6c
 
 Best regards,
-Krzysztof
-
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
